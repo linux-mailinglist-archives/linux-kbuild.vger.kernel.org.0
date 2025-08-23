@@ -1,283 +1,266 @@
-Return-Path: <linux-kbuild+bounces-8565-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8566-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33812B3109A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Aug 2025 09:37:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FB1B32B66
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Aug 2025 19:55:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5E041CE4DD4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Aug 2025 07:38:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3405C1BC6E96
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Aug 2025 17:55:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9327C2E8B88;
-	Fri, 22 Aug 2025 07:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 163FC225A59;
+	Sat, 23 Aug 2025 17:55:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VscEH+NL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QxeoWd6/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7FA2E7BB1;
-	Fri, 22 Aug 2025 07:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755848261; cv=fail; b=gv1yYMt1hL+Iq7VLPdpLGcf1wjAOxjHsNoBytjW6nU6aQCOpCAmrHvFeHrxPfTKxi7Lxp+1PunOo7Wcfnq5fni/SWgGgt7Qqg7yezzZseqhmizmUkjCkPLMw33U1s99XVQP72f42Jjv25zgkiUgVXrHk9ZBd46O847Gij2YQ/MA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755848261; c=relaxed/simple;
-	bh=VBZL8iw1bUGbARUiIj8InOPAbBfoL3zRxkL4uldaWQ4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=WoqYVj1C+RHyfWv0kkS3AHIizhc1dCGTYHhfoq7JgkehFu93JCL6WN/szT7E0N+MrIfCrLYYDN22EWm6D30QR0LA+LpXSbZl12kTYXqr0V3LsKPTCys1QmjOeu3L5gqb9tZpu3zQz/xHwXcw3LbIyfdnAwQKthnq2It8ky2XfEM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VscEH+NL; arc=fail smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475B3213E89;
+	Sat, 23 Aug 2025 17:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755971724; cv=none; b=ua4A65nErU8qGOqN/yB/riBMVq9so3Rpu+EAyKqqIOtbNYwHeTxTO66nkA8BRcgqfW4sxtu0y4BAMiLG0gTE4OpsyEPY3mHVhacShWTMEYQiDy1z6gfiwkf4YdpUrBa3irgZu4/X9qHeYmcCzv4VnXZjs1myC2+iHfviC27ksSU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755971724; c=relaxed/simple;
+	bh=fBJPHujQaTfeJ/QhlahQ1Q7Dchv0xfwiZ8tXvM4XPX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2ovaL2+bTpBFBwIlg8D1YORN+E6GZdHkLy+mRqMVdAGU80llnBUKtEhHIS4iln3KN7XMOoCPt+noDRY7s62X4onmCfvt7LJQjTMJfWemC6brlbKmlFzfLyle/eCeH6ZCjxpcKjCf3g1YD/c72bmVmqfyJ7KfNp2DY1eSFWkMR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QxeoWd6/; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755848258; x=1787384258;
+  t=1755971722; x=1787507722;
   h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=VBZL8iw1bUGbARUiIj8InOPAbBfoL3zRxkL4uldaWQ4=;
-  b=VscEH+NLIgN47ONzKAUYqb5G5TLLjtR1lC0u7BCaYwVnifVD/02pb2d1
-   a6aDr+n9BXMA77NhEl1+NUVSpXhh5NiplEcOlD5+qjYzsC5hvlyb68m9J
-   9uTAVyzsjYvF5McYvs0kA80DKKmBit3xTo/6Wtx+umh6J/1m8NL/7zlew
-   jRE5icPQ3EOUxeAOhpj66WdSpw9SKgUefAnwmqCVpItlA44JL6nkCPiZ+
-   6kyO6Q614I5hV5H3NELg15JXDJ/bJO3DEiUMbsoRiu5eg+5U0iG1KI2J4
-   GIfsj0IUsQ7kXql7AS+sLw9U1Ki6jU21Ca6Vf/8Z/zTN8lZoyTCi0cw1l
-   Q==;
-X-CSE-ConnectionGUID: IspQEmezQdGYld63TN3Ufg==
-X-CSE-MsgGUID: WydHh5qjS3y/skTcNzuosA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="68754000"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="68754000"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 00:37:37 -0700
-X-CSE-ConnectionGUID: y7Afnbg/TQyEwbE5aEULWw==
-X-CSE-MsgGUID: 29lKMSLrQ+29tgpcM90nAQ==
+   mime-version:in-reply-to;
+  bh=fBJPHujQaTfeJ/QhlahQ1Q7Dchv0xfwiZ8tXvM4XPX0=;
+  b=QxeoWd6/3MHXFG4x8t/RwE2HhgGuDNUvIH5Hg7neBdYyYeuJy8AuDJ+K
+   n2Adq7APdT3vKqQtslwE9Hc34B9hIceq4iQyU8pFS3sAWGH8riGMGsWbT
+   U4323NG+TUW0KxM1Ergsx7yLBkRmzDWn5slHC4QANCtsaLRZNGPZzpVk2
+   7QQDmnXzvjaFUNuuH9a4kN2tHk6RWujgnOoogpOx5HRc7NV0vX1gRvCfJ
+   g9GE1DSig9zS5leA08NEAK575Zf6MmsxXVwbNMKoqCHiF9eObouHSnvgv
+   x0XNDjhC6uChfzL7bo7PaNZOTE3++wOdsB/RHpDc5NLrcxCRr5tiPRauM
+   w==;
+X-CSE-ConnectionGUID: TAotLZoLSse9abtFWkBieg==
+X-CSE-MsgGUID: QM4k7DnHSMuKbzVoC/cORw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="75699940"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="75699940"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2025 10:55:21 -0700
+X-CSE-ConnectionGUID: aWklkkZATGyZegBWr3QXJg==
+X-CSE-MsgGUID: 4XPQOh4hSRmImI3tNEsAzw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; 
-   d="scan'208";a="199601040"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2025 00:37:30 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 22 Aug 2025 00:37:30 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Fri, 22 Aug 2025 00:37:30 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.83)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 22 Aug 2025 00:37:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KzTFYJ9ulWv2lAT5WnpefIgayPn9LzcXRpn8iLDhwoAwdsMBwCIKTJpQJ7E/NSCGspmwwbEofiefu3T8YyKOLxBvWDnmYZeeoFIUtYHurst/ZfA9xXgrbNmoFMvCZlPjL7pWek7rsW1AgiR4NDkEfzrpeGqHW/nGsYodURTx0cZlXoyC9Z8XD3sN+UU4NRFMd6oxRCQm0Vo1wWR4zLYm4+DV9+0ERAKKv/N4LV5BXIv9STiqMsEG36aFeIcnV0X5ROh2xEjhdtsFNv6+5K9wht6AUMp1RH96hgz2Y4g9WUZ+XyecOhZj5mkQw2vZTb6Bq0Kw/MvTNOMBJ1x7nvgn1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6bJoOdvjf1XG//lsQT7QvvRu+gIxqRz97YA9T9vz4eg=;
- b=rsrkjkXXr/ifKn+aKa6039N05ThiSg0HFv9KWUC3BD6U9dr/jOd96bPsSTyJEPty5O/xtXfgqrGJsvQ41u3cWyYOElwqun28C/OnkEcT2iWM8LJ/DZ5a0XUebyccrgXB+ARQKrtjoMOdMRJKS8ALF3erpHkNYbnsY0eYGCRmwgpDucbFVwCUrIeZDwEjk/HSjp6soslhejNnA4cHLqIYfimd5eOQWCD69VSFBEflSjrorsUDfKyo/jARmxMR1kfwlgcl08j1nmlTUKgIE7A9M0Q/9dpLNUgaLQhy3ojqbPa4pBw6QB02ei+x8mIl7sni0FQJaZdklhoZELuPHjJsgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN2PR11MB3934.namprd11.prod.outlook.com (2603:10b6:208:152::20)
- by IA0PR11MB7883.namprd11.prod.outlook.com (2603:10b6:208:3de::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Fri, 22 Aug
- 2025 07:37:22 +0000
-Received: from MN2PR11MB3934.namprd11.prod.outlook.com
- ([fe80::45fd:d835:38c1:f5c2]) by MN2PR11MB3934.namprd11.prod.outlook.com
- ([fe80::45fd:d835:38c1:f5c2%6]) with mapi id 15.20.9052.014; Fri, 22 Aug 2025
- 07:37:22 +0000
-Date: Fri, 22 Aug 2025 09:36:40 +0200
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-CC: <nathan@kernel.org>, <arnd@arndb.de>, <broonie@kernel.org>,
-	<Liam.Howlett@oracle.com>, <urezki@gmail.com>, <will@kernel.org>,
-	<kaleshsingh@google.com>, <rppt@kernel.org>, <leitao@debian.org>,
-	<coxu@redhat.com>, <surenb@google.com>, <akpm@linux-foundation.org>,
-	<luto@kernel.org>, <jpoimboe@kernel.org>, <changyuanl@google.com>,
-	<hpa@zytor.com>, <dvyukov@google.com>, <kas@kernel.org>, <corbet@lwn.net>,
-	<vincenzo.frascino@arm.com>, <smostafa@google.com>,
-	<nick.desaulniers+lkml@gmail.com>, <morbo@google.com>,
-	<andreyknvl@gmail.com>, <alexander.shishkin@linux.intel.com>,
-	<thiago.bauermann@linaro.org>, <catalin.marinas@arm.com>,
-	<ryabinin.a.a@gmail.com>, <jan.kiszka@siemens.com>, <jbohac@suse.cz>,
-	<dan.j.williams@intel.com>, <joel.granados@kernel.org>, <baohua@kernel.org>,
-	<kevin.brodsky@arm.com>, <nicolas.schier@linux.dev>, <pcc@google.com>,
-	<andriy.shevchenko@linux.intel.com>, <wei.liu@kernel.org>, <bp@alien8.de>,
-	<xin@zytor.com>, <pankaj.gupta@amd.com>, <vbabka@suse.cz>,
-	<glider@google.com>, <jgross@suse.com>, <kees@kernel.org>,
-	<jhubbard@nvidia.com>, <joey.gouly@arm.com>, <ardb@kernel.org>,
-	<thuth@redhat.com>, <pasha.tatashin@soleen.com>,
-	<kristina.martsenko@arm.com>, <bigeasy@linutronix.de>,
-	<lorenzo.stoakes@oracle.com>, <jason.andryuk@amd.com>, <david@redhat.com>,
-	<graf@amazon.com>, <wangkefeng.wang@huawei.com>, <ziy@nvidia.com>,
-	<mark.rutland@arm.com>, <dave.hansen@linux.intel.com>,
-	<samuel.holland@sifive.com>, <kbingham@kernel.org>,
-	<trintaeoitogc@gmail.com>, <scott@os.amperecomputing.com>,
-	<justinstitt@google.com>, <kuan-ying.lee@canonical.com>, <maz@kernel.org>,
-	<tglx@linutronix.de>, <samitolvanen@google.com>, <mhocko@suse.com>,
-	<nunodasneves@linux.microsoft.com>, <brgerst@gmail.com>,
-	<willy@infradead.org>, <ubizjak@gmail.com>, <peterz@infradead.org>,
-	<mingo@redhat.com>, <sohil.mehta@intel.com>, <linux-mm@kvack.org>,
-	<linux-kbuild@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<x86@kernel.org>, <llvm@lists.linux.dev>, <kasan-dev@googlegroups.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 00/18] kasan: x86: arm64: KASAN tag-based mode for x86
-Message-ID: <rbppxnzk5qcb3xn3gexennv3erveqdndxljytqe7bsbnfa4hd4@6zvjav6iuzhi>
-References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
- <9eb211ee-94bf-431b-981c-e305c8ea5e0b@arm.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9eb211ee-94bf-431b-981c-e305c8ea5e0b@arm.com>
-X-ClientProxiedBy: DU2PR04CA0332.eurprd04.prod.outlook.com
- (2603:10a6:10:2b4::20) To MN2PR11MB3934.namprd11.prod.outlook.com
- (2603:10b6:208:152::20)
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="174247581"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 23 Aug 2025 10:55:17 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1upsSQ-000MUB-0W;
+	Sat, 23 Aug 2025 17:55:14 +0000
+Date: Sun, 24 Aug 2025 01:54:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v6 2/3] tracing: Add a tracepoint verification check at
+ build time
+Message-ID: <202508240152.kQo4DBMl-lkp@intel.com>
+References: <20250820174828.080947631@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR11MB3934:EE_|IA0PR11MB7883:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f3ab166-5da9-416a-3fbb-08dde14ebb1a
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?Ay17XSIT2h83PR4a8XDzyBjVuKYBkP59XBJuMpZ5VRGBpBjF2H+NvItLNY?=
- =?iso-8859-1?Q?q/ABt0r2YK3ZERa9qVnmU1sdiq7Ra7Pc/faQQkvLwMY9sMrmd9rB2n2tRa?=
- =?iso-8859-1?Q?oFqbs4P91fweqU0LuVyeJjTr9abFRKWib8fIGf6z6K2ExAQVfVGEHAvMui?=
- =?iso-8859-1?Q?6BemfFKqGUJtkRwU0yHLnOjH3hnVE7I6SA4pCJaCDJa2xpjzUvBmyJGyem?=
- =?iso-8859-1?Q?cTYZpI46+mzCYiLrVSFD8cY95vCUXES/CySkKO1XHJHcH2YLsYKz+6fZoP?=
- =?iso-8859-1?Q?rs6ROVRIHf8PY18alrkLu6H2TkcGLPe70ksUiSimOyTvzqEqG3d9nngaWQ?=
- =?iso-8859-1?Q?kpqbbRI20+QEnh5gT3RySVntYn+O4cAbL72xcJ8KqwfzISVRFH5GEruT/U?=
- =?iso-8859-1?Q?QLMd3VKEqIJeqMAAf9tsi1UkvCw7ItNpRWC453ERX7q4KafRVl/6UFPtvN?=
- =?iso-8859-1?Q?6cPvx5nbsE7Y5pf7saYZnlHxybqM4bU8mD11oGXKXJe44YOIZxfXOktwY7?=
- =?iso-8859-1?Q?36BzdV46KPzicVZKJ39BP5DNNz8QRgVxa1NfdFJSg+POsVqiy8AcmdNHoL?=
- =?iso-8859-1?Q?rd9JsvdboN0oF+0CO61Z5UqAPgyhmkoCrX/r0LJje+JFFqbf701/RaSKYK?=
- =?iso-8859-1?Q?9x7CGug+TZO+nLkAuJgtgB+HxcgQW02ElXaVTRbbAAAP99rWOPlSDzb7ke?=
- =?iso-8859-1?Q?wPZqADRR+7v/DjPZ0OA/kqOE3xHAw29oyBF1v0TNBmTrh7rmXhdcRjtI2+?=
- =?iso-8859-1?Q?sSMMONiGEYt+OCPs/8/id2Sc3X7ZcKvUwlCn0jsYXL7oQmGa5UPxV7q7Ui?=
- =?iso-8859-1?Q?Vq7xK1bLWNQXX9wEOW/l7W1yjlHR8oWI0xwe2Z+4s/Pj9QLb/BRTRNYaP3?=
- =?iso-8859-1?Q?vB0VMiqnpJ0ERzLUN9AzasfdTK4n/ZRY+xuMmfPPDbaBSbMIIiFfAKgjvn?=
- =?iso-8859-1?Q?F31kOF3ljaDfiTiwjoBt5BUDFjxFQltJJJ/rw0Dn/G/EpMXNPc+UxQ3q3M?=
- =?iso-8859-1?Q?895WK/FB8SuGyLxebKvt68URx29tE02x3gEAhZ9O03zxGEJml7sT+YHoCF?=
- =?iso-8859-1?Q?EulLSyO2Ot9cRWmzGT//VrOicgDS/Ia1nwuxAG2B/OTo2qbQAIj1ZkhwJy?=
- =?iso-8859-1?Q?W9+byXpy7VOtzmFKtfOVvCM7m255Wfvp3SJNa2g2mXMhtKHrEwP78RuszG?=
- =?iso-8859-1?Q?p689zoXC/ySzelI4iVIUd+eXrQHwO/6bJ2iepsRvDL6udv1/tOPy1oubUG?=
- =?iso-8859-1?Q?XC+o+Pg/Ig2ETBbKP10A8CEe32MMEGc93YK1E3AMxZJCw2mYYAIvFhIM8N?=
- =?iso-8859-1?Q?SRTQt1KQHC2vSKTG9CRPX70IKj6g3iNnWVNBH3IZFP29M3daYuoszbmF3Q?=
- =?iso-8859-1?Q?WXNYDlPUqlUimX76qhnEVgIdW9MDQwdkWV90N5wjVilohnrxXkzPsT8GBy?=
- =?iso-8859-1?Q?QWMfTb5LS8f/nXj4AJpiqOo9b7EHDLjCAOROmBZR06jj0MSvNhDm6VBCH8?=
- =?iso-8859-1?Q?8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3934.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?aadM5Hr6K4uVjoaXZVYwNdBeUZQUtyOtgtGco8l9OOS+6vVg8/q5w4YaRQ?=
- =?iso-8859-1?Q?JAHaPjHEUlHzlIi+N5xxOIkpD5cAbIFz7MxadxzWtaOpcg2yLOifDplSgt?=
- =?iso-8859-1?Q?R3UMhw2s4hQPlag0gNrMz2GU957AaEjjJityNnv7coYWDf5fboWbXP73C0?=
- =?iso-8859-1?Q?PXy4quV+V10k70LQXXLVR9RgVILgJg5Y/VedzjNLwFtcvOzSVN5sRzR/y2?=
- =?iso-8859-1?Q?KSi7b7aks3F4TYOgmduX4P2S/1S6/1kFwnIB1YZ9u/WpuWEVUxkhQ2Egn2?=
- =?iso-8859-1?Q?JyMk+ZpVCOCL2fJ4Q99sB31z0g4RMRCQ8fnyTPx+syEAEWFHxgW6f6r/X6?=
- =?iso-8859-1?Q?PyXPP3sttDzS4aaCy9TNuP8UJPRw66KLQucxDmwGuM92Ez0RTplFnI8/DK?=
- =?iso-8859-1?Q?z+UfzKA9wl1ZMhfqwTgGvK3Va7JOjRnfEfeMUMQr6CwWxgLNbIGGPBUO2M?=
- =?iso-8859-1?Q?xnvbJeudtiGN5jjvVjUvCzU43EfHF46ax3xUkegDu7Dp3TAOvr6F42S3HO?=
- =?iso-8859-1?Q?LiOOUwOKp+YK42OXbIRhEKJD4UO4y565Ku+yC+14WtSoFk5iBUNizmzOSs?=
- =?iso-8859-1?Q?QMhjChh4KtmFeUjKqPgWd3DEclZXGUxN1ynZCMJGfHlb84sr0R8XteadYA?=
- =?iso-8859-1?Q?8ChqiHCi4CCkfrfTeHR8CzrdS7KwUX68T9oA0aLFcoyNwOhFrbM6q96Siv?=
- =?iso-8859-1?Q?Pu0spuEJ0Lgax5Cn5oolLwsZd/C3N2KErHLQjsqQOIl2JnrDsY7LCnX553?=
- =?iso-8859-1?Q?q3LEJe/IDfaDIwa/L7CCvdoTLt7byO598Mcv7q+u8vr145eK6O6oRHgrBU?=
- =?iso-8859-1?Q?BWZlGQoh91vTwQmf61q9hx2PG1+8aVOZ8aXywNApJupr4EAf378w631mqK?=
- =?iso-8859-1?Q?xnSlzrRI4NZQRC/5ZJdLyIrDf9EK/W/eLIFdiBa5CxHUwYmjHWSIA380q/?=
- =?iso-8859-1?Q?6PvcrOrntEPBjsfU1UivwSbjl+bHYiBb7Sb0dnw0jNQwkLvQCTN6oqPr0m?=
- =?iso-8859-1?Q?pTwA/sTW10CM8lzPchde4PyRskt57qYmadFKiAn64S1HZPJLA3miU0aRdH?=
- =?iso-8859-1?Q?Qt8oJWiSGlZG6HccQHGDNgJrGrcbJni741zGjMgqw3AsR5c/3ZEX6HlVyO?=
- =?iso-8859-1?Q?nQ7f/OC0zCy1Znv4OjxKe9/z+v3HPK+XsR7DDfdu/DT3Yt/OvisixQClc0?=
- =?iso-8859-1?Q?kbksQnCn6O6oFYIgBotAQuQvKoz+nycXBRQQtbdzBbfknsXhJUVPfQq+F+?=
- =?iso-8859-1?Q?pdCJVYmHNinK35g3SqHmiubGDO+QWT+oGubwqXNJTPQJFXkJjKaXfIU3kK?=
- =?iso-8859-1?Q?nXjokRtJDg6WFH3luzZMvMkvsmBOAWiWbZpU+4zFAP8BA8kLbafvDIe7If?=
- =?iso-8859-1?Q?+fZE0Ox72rbYic9gvUkL1ePCvRc8p3IbyMD8HIF6r9B/ZgBH6AdzEfs+nD?=
- =?iso-8859-1?Q?DjbvgvH7/HcclI4OR1G56JYxv3t4v6wb+K9LDBo77zGdzD9qqnDjPcM3Ke?=
- =?iso-8859-1?Q?5cdz/4VZB/J7CXpTCyN2tZ+r3Y+QiozRP+w6Fgez7K+vkNpNXuSo7Rvdnz?=
- =?iso-8859-1?Q?wqQ1bqdn8FmbqbI3g7p9WCLN22NvHWxmoOOHeMvFjHzMhjC+fvPbUt//im?=
- =?iso-8859-1?Q?kJ7fScgkGIPHccqFz/KhUdMInDynLbXlVTtAEbkyoSKlzpRUV99q9ajGPj?=
- =?iso-8859-1?Q?4oRLhgYptuS9cRRU4z8=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f3ab166-5da9-416a-3fbb-08dde14ebb1a
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3934.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 07:37:22.1873
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A2PHruk0+sGWnrT8wj8Bk+0LUtAsKyYCW98VXBw/B90hGbhe0vfgPNE/nADSA4GO3/tLX75QmMfWCEJUXy8lNojlRr3G4IGi6+x9DnuVwGc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7883
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820174828.080947631@kernel.org>
 
-Hello, and thanks for testing the series!
+Hi Steven,
 
-On 2025-08-21 at 13:30:28 +0100, Ada Couprie Diaz wrote:
->Hi,
->
->On 12/08/2025 14:23, Maciej Wieczor-Retman wrote:
->> [...]
->> ======= Testing
->> Checked all the kunits for both software tags and generic KASAN after
->> making changes.
->> 
->> In generic mode the results were:
->> 
->> kasan: pass:59 fail:0 skip:13 total:72
->> Totals: pass:59 fail:0 skip:13 total:72
->> ok 1 kasan
->> 
->> and for software tags:
->> 
->> kasan: pass:63 fail:0 skip:9 total:72
->> Totals: pass:63 fail:0 skip:9 total:72
->> ok 1 kasan
->I tested the series on arm64 and after fixing the build issues mentioned
->I was able to boot without issues and did not observe any regressions
->in the KASAN KUnit tests with either generic or software tags.
->
->So this is Tested-by: Ada Couprie Diaz <ada.coupriediaz@arm.com> (For arm64)
+kernel test robot noticed the following build warnings:
 
-Thank you! I'll try to send the fixed series on monday/tuesday.
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on akpm-mm/mm-everything linus/master v6.17-rc2 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->I will note that the tests `kmalloc_memmove_negative_size` and
->`kmalloc_memmove_invalid_size` seem to be able to corrupt memory
->and lead to kernel crashes if `memmove()` is not properly instrumented,
->which I discovered while investigating [0].
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/sorttable-Move-ELF-parsing-into-scripts-elf-parse-ch/20250821-015048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20250820174828.080947631%40kernel.org
+patch subject: [PATCH v6 2/3] tracing: Add a tracepoint verification check at build time
+config: x86_64-randconfig-003-20250823 (https://download.01.org/0day-ci/archive/20250824/202508240152.kQo4DBMl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508240152.kQo4DBMl-lkp@intel.com/reproduce)
 
-What do you mean by 'properly instrumented'? Is it the intrinsic prefix thing
-for gcc that you mentioned?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508240152.kQo4DBMl-lkp@intel.com/
 
->> [...]
->> ======= Compilation
->> Clang was used to compile the series (make LLVM=1) since gcc doesn't
->> seem to have support for KASAN tag-based compiler instrumentation on
->> x86.
->
->Interestingly, while investigating [0], this comment slipped by me and
->I managed to compile your series for x86 with software tags using GCC,
->though it is a bit hacky.
->You need to update the CC_HAS_KASAN_SW_TAGS to pass `-mlam=u48`
->or `-mlam=u57`, as it is disabled by default, and pass `-march=arrowlake`
->for compilation (the support for software tags depends on the arch).
->You could then test with GCC (though the issue in [0] also applies to x86).
+All warnings (new ones prefixed by >>):
 
-Thanks! I'll try it out :)
-
->
->Best,
->Ada
+   warning: tracepoint 'nfsd_cb_setup_err' is unused.
+   warning: tracepoint 'nfsd_cb_setup' is unused.
+   warning: tracepoint 'nfsd_cb_rpc_release' is unused.
+   warning: tracepoint 'nfsd_cb_rpc_done' is unused.
+   warning: tracepoint 'nfsd_cb_rpc_prepare' is unused.
+   warning: tracepoint 'nfsd_cb_shutdown' is unused.
+   warning: tracepoint 'nfsd_cb_lost' is unused.
+   warning: tracepoint 'nfsd_cb_probe' is unused.
+   warning: tracepoint 'nfsd_cb_new_state' is unused.
+   warning: tracepoint 'nfsd_cb_start' is unused.
+   warning: tracepoint 'nfsd_cb_nodelegs' is unused.
+   warning: tracepoint 'nfsd_cb_args' is unused.
+   warning: tracepoint 'nfsd_clid_confirmed_r' is unused.
+   warning: tracepoint 'nfsd_clid_fresh' is unused.
+   warning: tracepoint 'nfsd_clid_verf_mismatch' is unused.
+   warning: tracepoint 'nfsd_clid_cred_mismatch' is unused.
+   warning: tracepoint 'nfsd_grace_complete' is unused.
+   warning: tracepoint 'nfsd_grace_start' is unused.
+   warning: tracepoint 'nfsd_mark_client_expired' is unused.
+   warning: tracepoint 'nfsd_clid_stale' is unused.
+   warning: tracepoint 'nfsd_clid_renew' is unused.
+   warning: tracepoint 'nfsd_clid_purged' is unused.
+   warning: tracepoint 'nfsd_clid_replaced' is unused.
+   warning: tracepoint 'nfsd_clid_admin_expired' is unused.
+   warning: tracepoint 'nfsd_clid_destroyed' is unused.
+   warning: tracepoint 'nfsd_clid_confirmed' is unused.
+   warning: tracepoint 'nfsd_clid_reclaim_complete' is unused.
+   warning: tracepoint 'nfsd_clid_expire_unconf' is unused.
+   warning: tracepoint 'nfsd_slot_seqid_sequence' is unused.
+   warning: tracepoint 'nfsd_slot_seqid_unconf' is unused.
+   warning: tracepoint 'nfsd_slot_seqid_conf' is unused.
+   warning: tracepoint 'nfsd_seq4_status' is unused.
+   warning: tracepoint 'nfsd_stateowner_replay' is unused.
+   warning: tracepoint 'nfsd_stid_revoke' is unused.
+   warning: tracepoint 'nfsd_open_confirm' is unused.
+   warning: tracepoint 'nfsd_preprocess' is unused.
+   warning: tracepoint 'nfsd_deleg_return' is unused.
+   warning: tracepoint 'nfsd_deleg_write' is unused.
+   warning: tracepoint 'nfsd_deleg_read' is unused.
+   warning: tracepoint 'nfsd_open' is unused.
+   warning: tracepoint 'nfsd_layout_recall_release' is unused.
+   warning: tracepoint 'nfsd_layout_recall_fail' is unused.
+   warning: tracepoint 'nfsd_layout_recall_done' is unused.
+   warning: tracepoint 'nfsd_layout_recall' is unused.
+   warning: tracepoint 'nfsd_layout_return_lookup_fail' is unused.
+   warning: tracepoint 'nfsd_layout_commit_lookup_fail' is unused.
+   warning: tracepoint 'nfsd_layout_get_lookup_fail' is unused.
+   warning: tracepoint 'nfsd_layoutstate_free' is unused.
+   warning: tracepoint 'nfsd_layoutstate_unhash' is unused.
+   warning: tracepoint 'nfsd_layoutstate_alloc' is unused.
+   warning: tracepoint 'nfsd_delegret_wakeup' is unused.
+   warning: tracepoint 'nfsd_clone_file_range_err' is unused.
+   warning: tracepoint 'nfsd_compound_encode_err' is unused.
+   warning: tracepoint 'nfsd_compound_op_err' is unused.
+   warning: tracepoint 'nfsd_compound_decode_err' is unused.
+   warning: tracepoint 'nfsd_compound_status' is unused.
+   warning: tracepoint 'nfsd_compound' is unused.
+   warning: tracepoint 'xfs_metadir_link' is unused.
+   warning: tracepoint 'xfs_metadir_start_link' is unused.
+   warning: tracepoint 'xfs_file_dax_write' is unused.
+   warning: tracepoint 'xfs_file_dax_read' is unused.
+   warning: tracepoint 'xrep_done' is unused.
+   warning: tracepoint 'xrep_attempt' is unused.
+   warning: tracepoint 'cachefiles_ondemand_fd_release' is unused.
+   warning: tracepoint 'cachefiles_ondemand_fd_write' is unused.
+   warning: tracepoint 'cachefiles_ondemand_cread' is unused.
+   warning: tracepoint 'cachefiles_ondemand_read' is unused.
+   warning: tracepoint 'cachefiles_ondemand_close' is unused.
+   warning: tracepoint 'cachefiles_ondemand_copen' is unused.
+   warning: tracepoint 'cachefiles_ondemand_open' is unused.
+   warning: tracepoint 'ocfs2_encode_fh_begin' is unused.
+   warning: tracepoint 'ocfs2_duplicate_clusters_by_jbd' is unused.
+   warning: tracepoint 'zonefs_file_dio_append' is unused.
+   warning: tracepoint 'edma_readb' is unused.
+   warning: tracepoint 'edma_readw' is unused.
+   warning: tracepoint 'xe_exec_queue_supress_resume' is unused.
+   warning: tracepoint 'xe_vm_restart' is unused.
+   warning: tracepoint 'xe_vma_userptr_rebind_exec' is unused.
+   warning: tracepoint 'xe_vma_userptr_rebind_worker' is unused.
+   warning: tracepoint 'xe_vma_flush' is unused.
+   warning: tracepoint 'dma_fence_emit' is unused.
+   warning: tracepoint 'scsi_zone_wp_update' is unused.
+   warning: tracepoint 'scsi_prepare_zone_append' is unused.
+   warning: tracepoint 'ata_sff_flush_pio_task' is unused.
+   warning: tracepoint 'atapi_send_cdb' is unused.
+   warning: tracepoint 'atapi_pio_transfer_data' is unused.
+   warning: tracepoint 'ata_sff_pio_transfer_data' is unused.
+   warning: tracepoint 'ata_sff_port_intr' is unused.
+   warning: tracepoint 'ata_sff_hsm_command_complete' is unused.
+   warning: tracepoint 'ata_sff_hsm_state' is unused.
+   warning: tracepoint 'ata_bmdma_status' is unused.
+   warning: tracepoint 'ata_bmdma_stop' is unused.
+   warning: tracepoint 'ata_bmdma_start' is unused.
+   warning: tracepoint 'ata_bmdma_setup' is unused.
+   warning: tracepoint 'ata_exec_command' is unused.
+   warning: tracepoint 'ata_tf_load' is unused.
+   warning: tracepoint 'ice_tx_tstamp_complete' is unused.
+   warning: tracepoint 'ice_tx_tstamp_fw_done' is unused.
+   warning: tracepoint 'ice_tx_tstamp_fw_req' is unused.
+   warning: tracepoint 'ice_tx_tstamp_request' is unused.
+>> warning: tracepoint 'mlx5e_rep_neigh_update' is unused.
+   warning: tracepoint 'xhci_dbc_giveback_request' is unused.
+   warning: tracepoint 'xhci_dbc_queue_request' is unused.
+   warning: tracepoint 'xhci_dbc_free_request' is unused.
+   warning: tracepoint 'xhci_dbc_alloc_request' is unused.
+   warning: tracepoint 'xhci_dbc_gadget_ep_queue' is unused.
+   warning: tracepoint 'xhci_dbc_handle_transfer' is unused.
+   warning: tracepoint 'xhci_dbc_handle_event' is unused.
+   warning: tracepoint 'musb_req_deq' is unused.
+   warning: tracepoint 'musb_req_enq' is unused.
+   warning: tracepoint 'musb_req_start' is unused.
+   warning: tracepoint 'musb_req_free' is unused.
+   warning: tracepoint 'musb_req_alloc' is unused.
+   warning: tracepoint 'musb_req_rx' is unused.
+   warning: tracepoint 'musb_req_tx' is unused.
+   warning: tracepoint 'musb_req_gb' is unused.
+   warning: tracepoint 'ufshcd_wl_resume' is unused.
+   warning: tracepoint 'ufshcd_wl_suspend' is unused.
+   warning: tracepoint 'ufshcd_system_resume' is unused.
+   warning: tracepoint 'ufshcd_system_suspend' is unused.
+   warning: tracepoint 'br_mdb_full' is unused.
+   warning: tracepoint 'tcp_hash_md5_mismatch' is unused.
+   warning: tracepoint 'tcp_hash_md5_unexpected' is unused.
+   warning: tracepoint 'devlink_hwerr' is unused.
+   warning: tracepoint 'rpc_socket_reset_connection' is unused.
+   warning: tracepoint 'rxrpc_rxgk_rekey' is unused.
+   warning: tracepoint 'rxrpc_drop_ack' is unused.
+   warning: tracepoint 'rxrpc_rx_response' is unused.
+   warning: tracepoint 'rxrpc_rx_challenge' is unused.
+   warning: tracepoint 'rxrpc_tx_challenge' is unused.
+   warning: tracepoint 'cfg80211_return_u32' is unused.
+   warning: tracepoint 'cfg80211_return_uint' is unused.
+   warning: tracepoint 'cfg80211_chandef_dfs_required' is unused.
+   warning: tracepoint 'cfg80211_send_rx_auth' is unused.
+   warning: tracepoint 'rdev_return_void_tx_rx' is unused.
+   warning: tracepoint 'rdev_resume' is unused.
+   warning: tracepoint 'rdev_suspend' is unused.
+   warning: tracepoint 'tipc_node_dump' is unused.
+   warning: tracepoint '802154_rdev_resume' is unused.
+   warning: tracepoint '802154_rdev_suspend' is unused.
+   warning: tracepoint '802154_new_scan_event' is unused.
+   warning: tracepoint '802154_drv_set_pan_coord' is unused.
+>> warning: tracepoint 'batadv_dbg' is unused.
 
 -- 
-Kind regards
-Maciej Wieczór-Retman
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
