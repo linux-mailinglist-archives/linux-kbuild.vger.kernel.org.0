@@ -1,126 +1,140 @@
-Return-Path: <linux-kbuild+bounces-8582-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8583-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1894B3482A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 19:02:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 675A6B34AF9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 21:37:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 34D457B04AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 16:59:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 746491B23407
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 19:37:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49CE92620FC;
-	Mon, 25 Aug 2025 17:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C16E283C9F;
+	Mon, 25 Aug 2025 19:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rgv0WLyi"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=outflux.net header.i=@outflux.net header.b="dmm7Uk1r"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.outflux.net (smtp.outflux.net [198.145.64.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53991C84DE;
-	Mon, 25 Aug 2025 17:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC011169AE6;
+	Mon, 25 Aug 2025 19:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.145.64.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756141242; cv=none; b=KCSNq8BP71Uoc81psFthXAPGXHfLBYa2u7QKM5qEksuHEUhKNG0xngMVfkdlpF+RYAvDus+z6lqrrSU+3pH22buESE0fJ/fmfnDTyBvJBh2wfnsS4AC0J6sqr5zaNef9BLpBWd1gGrmo7QyMzSH6d9bh8WPa9u4E66ORxH5lbfc=
+	t=1756150622; cv=none; b=Lj/zMjllBqeAPYQ29SoGRDrKvyLoMp2e0JE1BM7wiftT1MGBmBC8cQUADpOFdsohzLCPcihiDNTJ1BAI4EioCtntUxop4F9B/3XALB6AUQcdkl/eWYyCw3oLTd5Ncl70Y1d1zNw9i/pKm+0151DC6R9wX+32ZDsX4WFt4XGODkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756141242; c=relaxed/simple;
-	bh=rzQMACObvWiM9uVvHkabX7dVPQNESJ2VQB0+KavI+nA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l9YPRiaobAYhWfmMhVkSgKTcMjIOkdtUyOBAH22UfQL9sJmblnSz9jhe+RE8YYhUIWo1+U7YTC87ENlo5H76IzjgUpa8VhzkaWsfMLD37uJ6V2cP0+aCYo9hJR14hr0kxt6LiC7XkH6Qa142A6VYu7srchO/1r+9kJvAkQE6eQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rgv0WLyi; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-24602f6d8b6so8435915ad.1;
-        Mon, 25 Aug 2025 10:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756141240; x=1756746040; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f0oEN90SLYgvRgTxYwIkfotkQK1LJND5IDEHVs53sDg=;
-        b=Rgv0WLyiaRIrRMsdST9g0LOHUTiba9Jj/D+j8Hme7dqfxS6oE4NWCOrsDQT6+vHUib
-         bw4gRYkw2l9QPfS1XVTXMa7E7kBBiZOLkSYkhWm83Z75zgybBbHW1No2jScyYouWBFzr
-         7eTmK3bSLPdH6juWVPUXHJ0Ban0amB4hP3q4wTZMWFhALTiI/nXkvd/r0/rKih849Vw9
-         wPtTqVMnLzGMOluNsp74GBItRp5EafrCtXcKIBTP6a1TYm8zE1SBK6/pG8uG1p7RqktH
-         BtWcunSa34r4uB0ik4+HGviosTAx8TJQB+gmM3Bm6NjOHI48A+J9YlokOA5YZ/5K5ZoZ
-         8Xeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756141240; x=1756746040;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f0oEN90SLYgvRgTxYwIkfotkQK1LJND5IDEHVs53sDg=;
-        b=OGf0metRSwecahlmdtjtFBOxAy9fzphPvVoBiWgWeYCeRIvM736ouMmjK+ZadvCZoa
-         wnsHHrAe6S+VeSCqZHrPTYbcxxCJ4+NizkDGQG4bnyiWMnw0fs4Q6Frj/xICejwEdECW
-         ex2vHFM+ua6IOui7tRNMPUDlrkpPyGJx8FnzvOHUaQerkBDzOzNR2pVvwD1nctwTZoIi
-         Q0D0+T/+AAhwMpzOQTp1wYO82D6j+3vtOBzouVNks0e1LVP8uSCozidNqTdoe5muEncO
-         IthB1z0aoMeTLrJgVgwIdr3RQkgM5NiFJoMVmWM5uBteXGbSVsCfvFDa3K++yhAY4nYR
-         4h8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVN1BoMoUX4HiQtLZK1ETvUHWZdD759Ci4hfWpIFsq3budIQ3L+qyEzDR2jbkA9ys827iQOHjjlQ5HEWjbApMrY@vger.kernel.org, AJvYcCXL+3OgLzYLNqo+nmHbNhG2OzS+sWeF4mXtE0C14bgoz+zkX9SZdcsZZFkYbizOPAG43fqmV0F7PWEVqN7Z@vger.kernel.org, AJvYcCXU2fLue14t+n7Z62eQXgrNuEl2j/lt/Z59Ewcj04cjJf2+PmhA2qeXFiCphf4ugprc88XJAxNP1o0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwywNn9vzncob4jgw/XsHlJL+bq+GrUiARtBk96zjPixQq3fWa6
-	yS2arKbUgxibkNHy16K0cpK4+EUb5hI3yx1tFFKHTCarZK1p1TVlovePrilQ/9TzcQoq/GPR2dU
-	aB2w5gjDIkLLT227gOsTzmtQBUjwuSBc=
-X-Gm-Gg: ASbGnctx3JuLP0Mc/xMjmcV+nqtt5QO1H8n36aDHx8sKyCjBo8AQe4p0nx/tK2IWWHt
-	NMachSIgPwAF6PgfT9epYrteaV00SbzsC0uVlYBLmqWP2NJ6+/v/Q/9Z56ERw615CXJNpvI4TZV
-	vybdfYD+LCfmt8T8HFwkWiVBvLIlz+k7auDIpZ1XjJDT6wXzYkEjWSqgb4B9TjFtJMNIryWtFYu
-	zGdTfjj/nu4dJwqWsxbacPknpIAjI3WJSOHnsaVOq3wID2DhoS9f7JEU+Z8B46IEpoTf6zD5YJ9
-	wXxbb9AKPhveOoJpyQ5S5BMxjw==
-X-Google-Smtp-Source: AGHT+IHKT4JJBJ9rgR6CsJmxUiw1K8DlbFWihB3KfiTBy1l9WKV/JStW65ETOGMdOn/RgdA5Ko6AVAJXlO2Hf7k2FPY=
-X-Received: by 2002:a17:902:cf09:b0:240:729c:a022 with SMTP id
- d9443c01a7336-24630427edbmr91627825ad.11.1756141239755; Mon, 25 Aug 2025
- 10:00:39 -0700 (PDT)
+	s=arc-20240116; t=1756150622; c=relaxed/simple;
+	bh=Cc0A7KST88BbLESFvBNiNEgFzJEi7Yi2EVmfXhRgL6M=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=CHhUWVnPZVFNLan+Nka92dJUgT4BQL0Y0Lx+/48EhPgWG/Le5QY4hQN458pTmHGTwXViDZtTEkNDxMGro20ngdSCQJIUFJs5iiGEp0QvIMFFRzVQAWjauQpsJ+nLeBF1a3Vccofif0rLye4H0DBYT5GTRnOPY9fPTl35CGR1QGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=outflux.net; spf=pass smtp.mailfrom=outflux.net; dkim=fail (1024-bit key) header.d=outflux.net header.i=@outflux.net header.b=dmm7Uk1r reason="signature verification failed"; arc=none smtp.client-ip=198.145.64.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=outflux.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outflux.net
+Received: from auth (localhost [127.0.0.1]) (authenticated bits=0)
+	by vinyl.outflux.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id 57PJVcXW012364
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 25 Aug 2025 12:31:39 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=outflux.net;
+	s=2016010; t=1756150300;
+	bh=Cc0A7KST88BbLESFvBNiNEgFzJEi7Yi2EVmfXhRgL6M=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=dmm7Uk1rljY/b4/3j8njDIEy+Scks4cnfZAOL8qtbXCH9h9jV621co70Fuer5Vf17
+	 2vNGEXeFRnmarqqQKCQXq3nlyBV+sTTzdmwDNFgEktyxTZkW7g83isIllAWQ5Jvik2
+	 /8fn12aBvHvvu5EXYWBmhf7ySJSjrTUnGPHeNjnY=
+Date: Mon, 25 Aug 2025 15:31:34 -0400
+From: Kees Cook <kees@outflux.net>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Kees Cook <kees@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Puranjay Mohan <puranjay@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org> <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com> <202508250834.E2456B9@keescook> <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+Message-ID: <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250825141316.work.967-kees@kernel.org> <20250825142603.1907143-5-kees@kernel.org>
- <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com> <202508250834.E2456B9@keescook>
-In-Reply-To: <202508250834.E2456B9@keescook>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 25 Aug 2025 19:00:22 +0200
-X-Gm-Features: Ac12FXyYN3VEhnMM3td2GuBBEWm8dOLy6K6qZL3tvq3QOv-O5HJfG5pSFZcSTv8
-Message-ID: <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
-Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-To: Kees Cook <kees@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Kees Cook <kees@outflux.net>, 
-	Sami Tolvanen <samitolvanen@google.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-MIMEDefang-Filter: outflux$Revision: 1.316 $
+X-HELO: [IPv6:::1]
+Envelope-To: linux-hardening@vger.kernel.org
+Envelope-To: llvm@lists.linux.dev
+Envelope-To: linux-riscv@lists.infradead.org
+Envelope-To: linux-arm-kernel@lists.infradead.org
+Envelope-To: linux-kbuild@vger.kernel.org
+Envelope-To: linux-doc@vger.kernel.org
+Envelope-To: x86@kernel.org
+Envelope-To: nathan@kernel.org
+Envelope-To: corbet@lwn.net
+Envelope-To: dwmw2@infradead.org
+Envelope-To: puranjay@kernel.org
+Envelope-To: mark.rutland@arm.com
+Envelope-To: linus.walleij@linaro.org
+Envelope-To: samitolvanen@google.com
+Envelope-To: peterz@infradead.org
+Envelope-To: kees@kernel.org
+Envelope-To: miguel.ojeda.sandonis@gmail.com
+X-Scanned-By: MIMEDefang 2.83
 
-On Mon, Aug 25, 2025 at 5:35=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+
+
+On August 25, 2025 1:00:22 PM EDT, Miguel Ojeda <miguel=2Eojeda=2Esandonis=
+@gmail=2Ecom> wrote:
+>On Mon, Aug 25, 2025 at 5:35=E2=80=AFPM Kees Cook <kees@kernel=2Eorg> wro=
+te:
+>>
+>> Yeah, that's a good idea=2E What the right way to do that?
+>>
+>> config CFI_CLANG
+>>         bool "Use Clang's Control Flow Integrity (CFI)"
+>>         depends on ARCH_SUPPORTS_CFI
+>>         select CFI
+>>
+>> ?
 >
-> Yeah, that's a good idea. What the right way to do that?
+>I don't recall what is the idiomatic solution for renames, but I
+>remember Linus talking about this topic and about avoiding losing old
+>values if possible (perhaps getting a new question in `oldconfig` is
+>OK as long as the `olddefconfig` respects the old value)=2E
 >
-> config CFI_CLANG
->         bool "Use Clang's Control Flow Integrity (CFI)"
->         depends on ARCH_SUPPORTS_CFI
->         select CFI
+>I think your suggestion above will still make it appear twice in
+>`menuconfig` -- there may be a way to play with visibility to make it
+>better=2E
 >
-> ?
+>A simple possibility I can think of (assuming it works) is having the
+>CFI symbol for the time being introduced just as a `def_bool
+>CFI_CLANG` for a few releases so that people get the new one in their
+>configs=2E
 
-I don't recall what is the idiomatic solution for renames, but I
-remember Linus talking about this topic and about avoiding losing old
-values if possible (perhaps getting a new question in `oldconfig` is
-OK as long as the `olddefconfig` respects the old value).
+Ah, I think this works:
 
-I think your suggestion above will still make it appear twice in
-`menuconfig` -- there may be a way to play with visibility to make it
-better.
+config CFI_CLANG
+    bool
 
-A simple possibility I can think of (assuming it works) is having the
-CFI symbol for the time being introduced just as a `def_bool
-CFI_CLANG` for a few releases so that people get the new one in their
-configs.
+config CFI
+    bool "=2E=2E=2E=2E"
+    default CFI_CLANG
 
-Cheers,
-Miguel
+I will add that for v2=2E
+
+-Kees
+
+--=20
+Kees Cook
 
