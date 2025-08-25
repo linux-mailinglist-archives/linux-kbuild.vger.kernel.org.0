@@ -1,190 +1,134 @@
-Return-Path: <linux-kbuild+bounces-8608-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8609-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5905B34E22
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 23:36:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF51B34F96
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Aug 2025 01:13:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B64111A8670A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 21:37:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5F1F1B26714
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 23:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620F123ABA7;
-	Mon, 25 Aug 2025 21:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6B52BDC3B;
+	Mon, 25 Aug 2025 23:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+ICMpvC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cyh5Bsl6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB5513C695;
-	Mon, 25 Aug 2025 21:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E2D1E32DB;
+	Mon, 25 Aug 2025 23:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756157801; cv=none; b=eRbY/679MtrXHazMI9S7cm4PiqVYPjJ0qETlVel5GYqXyxaiygJBKeEvBv29mgbZUd75FO9o5wJJ4+J3h9QOY9iA7Njvgxe5NWia2aTJCLx5HNN8a/XUWhyJpMvWTZlypB5hLD8Tq1QltloXt9DZhTrPiBY51UuiKktltYxngUo=
+	t=1756163621; cv=none; b=lpyz2LpmCFCUF3pbOr8AKcrX3T8HhOwCIx0qL62pB6Or/LQ0rxLGzL9WptL5gHAIz17k3V+V9xUnY94wFRrRtnWtn06ioG69GzS7qG6g3oRng00z4AjiFn26OCUxVUwQA5P4i4giysqEgmyZgdxMGsJkIyQUmiDB0tQv7LnRblo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756157801; c=relaxed/simple;
-	bh=ENwpBGMnKJzD+vNESnlh2d9HHAvolBxZL2qadPLLmJI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A/zs0GtZFNll7VvDn5L0ca5nNnPOsQiBv4+fR4oqNvL7xFMuYRixo+bVUqZvrJZI1BU3cdK8T1tqZ7cz8yhPx6CmPv+w/ttqIOb+Gq/FZpQqDfqS9tYZfaXCFc5mlysS47Q2FivTBGkbpKy2Crk75ic0MhBlgJP3cuAs0toNtYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+ICMpvC; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756157800; x=1787693800;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ENwpBGMnKJzD+vNESnlh2d9HHAvolBxZL2qadPLLmJI=;
-  b=k+ICMpvCX5sNkB0bdIAtjcMzxbJZZm36rPPqQ5taWPa3MIQ0bhtwWKpZ
-   XoYwcE38QNj8Ed5IABgbLbD0d21JEbJACY6o/50BG0iNVvHaviPGvb69A
-   U/p0myUmmRbxAwELNiE91z7jrfJsK2s3vjfDzMtqJFtBMElXIYL+6cL2o
-   1dP+6SxHizG6SesUtIJRZ1qCdQF7RAbC55Zy3t/wpCieAR1GjBtPosLe8
-   l00Lxm8tzaTkIeGgLjujnHTyReb9s/pl0hZlOQ4Migq5Ha3+LQmabBGx1
-   UaY+B4MPs6ciKzdCXF0W23c9SYuQBoHpr16hmNGU9cbPfHLyiOtBKmFHv
-   w==;
-X-CSE-ConnectionGUID: kbK+pNnHQaifD0cVNejygw==
-X-CSE-MsgGUID: ovs2v+PxSaa4yOtY2PLIZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69754704"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="69754704"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 14:36:37 -0700
-X-CSE-ConnectionGUID: /uyCc6NjR9KW4BMqoy2VlQ==
-X-CSE-MsgGUID: 9k1EwDU6QcGQHDVezqm8Xg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="173575364"
-Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.108.229]) ([10.125.108.229])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 14:36:35 -0700
-Message-ID: <c68330de-c076-45be-beac-147286f2b628@intel.com>
-Date: Mon, 25 Aug 2025 14:36:35 -0700
+	s=arc-20240116; t=1756163621; c=relaxed/simple;
+	bh=9c9LXEjWXPYqkxhiHiDfT2diHN1UOnXZ4bqHvP5tpW8=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=g7obqdDNaRczVfCFKyi2mEGwJRWO5wpJxW3CFV+/+MpCLEOVQ3AOmnP3oDhMHdZhdJgc7f2SwAGPqw2eQKg7zjplalfOGyHBnM2jVg+9ixCuR9M/OEAQF963nxQyOxugst6HHuHrUb83IMLyXLMB6asIXef6AR8Z+qlPMjur5kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cyh5Bsl6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15527C4CEED;
+	Mon, 25 Aug 2025 23:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756163621;
+	bh=9c9LXEjWXPYqkxhiHiDfT2diHN1UOnXZ4bqHvP5tpW8=;
+	h=Date:From:To:Cc:Subject:From;
+	b=cyh5Bsl6S5dfeQR4+Y19G4yKBVJ4WhvbNDepdX34MMGXwoEPuHiV9epxiP4gWhI5q
+	 u2BdJ+4fo3egaIR+m9jR2jwkBWEV4o9v45FyG24duwTVnUTrWi2Y/i3/KSRfP2J45m
+	 faJXSWSLEyEJkDJpBC8HCuXhsEprsJIK4sKsPekzVUQIZHhKerAxUxawVFEtG0JMKB
+	 VLDzyuoNNIBh9NaC6j2bC+gOzbaYQfwwlO70hhQSNcICYmR43IFLmaixKLowpgRx/9
+	 8bEffBuw/1+fA7ApVBWZR+IAeQK7y369+6EweDlcXNQSXJwVqFMEw7CbjPtbzgI1D9
+	 +o8nTdHWwQeIg==
+Received: from rostedt by gandalf with local (Exim 4.98.2)
+	(envelope-from <rostedt@kernel.org>)
+	id 1uqgNv-00000002tFE-2Nvf;
+	Mon, 25 Aug 2025 19:13:55 -0400
+Message-ID: <20250825231301.433412523@kernel.org>
+User-Agent: quilt/0.68
+Date: Mon, 25 Aug 2025 19:13:01 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v7 0/3] tracepoints: Add warnings for unused tracepoints and trace events
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/19] x86: LAM compatible non-canonical definition
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
- kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
- alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
- trintaeoitogc@gmail.com, axelrasmussen@google.com, yuanchu@google.com,
- joey.gouly@arm.com, samitolvanen@google.com, joel.granados@kernel.org,
- graf@amazon.com, vincenzo.frascino@arm.com, kees@kernel.org,
- ardb@kernel.org, thiago.bauermann@linaro.org, glider@google.com,
- thuth@redhat.com, kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
- nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com,
- justinstitt@google.com, catalin.marinas@arm.com,
- alexander.shishkin@linux.intel.com, samuel.holland@sifive.com,
- dave.hansen@linux.intel.com, corbet@lwn.net, xin@zytor.com,
- dvyukov@google.com, tglx@linutronix.de, scott@os.amperecomputing.com,
- jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
- lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
- kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
- jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com, mhocko@suse.com,
- ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org,
- peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com,
- ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com,
- ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org,
- akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org,
- pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev,
- will@kernel.org, andreyknvl@gmail.com, jhubbard@nvidia.com, bp@alien8.de
-Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 8/25/25 13:24, Maciej Wieczor-Retman wrote:
-> +/*
-> + * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks.
-> + */
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
-> +{
-> +	return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
-> +}
-> +#else
->  static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->  {
->  	return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
->  }
-> +#endif
+Every trace event can take up to 5K of memory in text and metadata regardless
+if they are used or not. Trace events should not be created if they are not
+used.  Currently there's several events in the kernel that are defined
+but unused, either because their callers were removed without removing the
+trace event with it, or a config hides the trace event caller but not the
+trace event itself. And in some cases, trace events were simply added but were
+never called for whatever reason. The number of unused trace events continues
+to grow.
 
-This is the kind of thing that's bound to break. Could we distill it
-down to something simpler, perhaps?
+This patch series aims to fix this.
 
-In the end, the canonical enforcement mask is the thing that's changing.
-So perhaps it should be all common code except for the mask definition:
+The first patch moves the elf parsing out of sorttable.c so that it can be
+used by other tooling.
 
-#ifdef CONFIG_KASAN_SW_TAGS
-#define CANONICAL_MASK(vaddr_bits) (BIT_ULL(63) | BIT_ULL(vaddr_bits-1))
-#else
-#define CANONICAL_MASK(vaddr_bits) GENMASK_UL(63, vaddr_bits)
-#endif
+The second patch creates a new program to run during build called
+tracepoint-update (note this may be extended to do other tracepoint
+modifications in the future). It also creates a new section called
+__tracepoint_check, where all callers of a tracepoint creates a variable
+that is placed in this section with the name of the tracepoint they use.
+The scripts/tracepoint-update.c is used to find tracepoints that are defined
+but not used which would mean they would not be in the __tracepoint_check
+section. It sorts the names from that section, and then reads the
+__tracepoint_strings section that has all compiled in tracepoint names. It
+makes sure that every tracepoint is found in the check section and if not, it
+prints a warning message about it.  This lists the missing tracepoints at
+build time.
 
-(modulo off-by-one bugs ;)
+The third patch adds EXPORT_TRACEPOINT() to the __tracepoint_check section as
+well. There was several locations that adds tracepoints in the kernel proper
+that are only used in modules. It was getting quite complex trying to move
+things around that I just decided to make any tracepoint in a
+EXPORT_TRACEPOINT "used". I'm using the analogy of static and global
+functions. An unused static function gets a warning but an unused global one
+does not.
 
-Then the canonical check itself becomes something like:
+Changes since v6:
 
-	unsigned long cmask = CANONICAL_MASK(vaddr_bits);
-	return (vaddr & mask) == mask;
+- Fixed cut and paste error of elf_map_long_size() using wrong field
 
-That, to me, is the most straightforward way to do it.
+- Fix typo on comment (Randy Dunlap)
 
-I don't see it addressed in the cover letter, but what happens when a
-CONFIG_KASAN_SW_TAGS=y kernel is booted on non-LAM hardware?
+Steven Rostedt (3):
+      sorttable: Move ELF parsing into scripts/elf-parse.[ch]
+      tracing: Add a tracepoint verification check at build time
+      tracepoint: Do not warn for unused event that is exported
+
+----
+ include/asm-generic/vmlinux.lds.h |   1 +
+ include/linux/tracepoint.h        |  12 +
+ kernel/trace/Kconfig              |  10 +
+ scripts/Makefile                  |   6 +
+ scripts/Makefile.vmlinux          |   2 +
+ scripts/elf-parse.c               | 198 ++++++++++++++++
+ scripts/elf-parse.h               | 305 ++++++++++++++++++++++++
+ scripts/link-vmlinux.sh           |   4 +
+ scripts/sorttable.c               | 477 +++-----------------------------------
+ scripts/tracepoint-update.c       | 232 ++++++++++++++++++
+ 10 files changed, 804 insertions(+), 443 deletions(-)
+ create mode 100644 scripts/elf-parse.c
+ create mode 100644 scripts/elf-parse.h
+ create mode 100644 scripts/tracepoint-update.c
 
