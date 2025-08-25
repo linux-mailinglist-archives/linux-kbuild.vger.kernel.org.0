@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-8596-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8597-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895D1B34BE0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 22:29:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7763AB34BE3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 22:29:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70AA11B229B4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 20:29:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C35A243A10
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 20:29:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4195288511;
-	Mon, 25 Aug 2025 20:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E13228A73A;
+	Mon, 25 Aug 2025 20:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0+tyzln"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMNcrVXW"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F382882DE;
-	Mon, 25 Aug 2025 20:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8A62248A8;
+	Mon, 25 Aug 2025 20:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756153744; cv=none; b=aD3B4Bblrf5eC8+axGl9PvEJSS1WblWiVgSRUykq8+fnEZXbTqA/SQDwgtHhj0bF9nm0tcvoXpLS7lDb5+XJ5V2/+txzEsG7dM6bB6a8X596hJjfjmMCi72581lsEzM9+NVDH0eUsxLGo90YqMwDrfvWaQj2IxqwfXhsBKunl9Q=
+	t=1756153765; cv=none; b=UGW/55HFfwSi+w5FOecrp0Ns8dMbiBzRNzbLrxRb408Nv4G8kp6mRZh3pi3Hs3jaZwBRe1o7nVSAqgEaUDhVOBTSb1qbGxFcLVzZaZJ6eBeubZvZONbawLAwQTOhh4mp89G+lvq6rwEWDl6W0a1twBGKKEVZaVbH+0TOYEJYjwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756153744; c=relaxed/simple;
-	bh=/h/qS5k+guufmpe0QiUnjnkdA3RIS+RF1dHh88nhkcM=;
+	s=arc-20240116; t=1756153765; c=relaxed/simple;
+	bh=UlbhFGz226HIxGPpl32TNHWjf4s+OegZMHU4Z5wVVAQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NIvaOgSR7ZgPyzH4TPrTQL+dNWIRhxj/src1OKx8/bAi3pB/NW9Uj6bOaVtLUVopEaTsF6Ktv4ip057Ht5vpMazXLjvQXYuIOacAAzM3JOZPjhmdL7lsSzucPyXkibmc1ouhOtbqUTkLlTXxhBIrhgX4wI4xj3baqaIZ+secq9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0+tyzln; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=P4MFEAcrISnYXjqvp1+LKpcq6mI9HMhf0Wf+jO584RCOyayLDbofGgKlMYtGnAkamGowRIEwvlHssJfq06MQNjjTV1w5nTapKwIx8xY97eGBV2NJqBkLQLoOna9rjBel8Z8KzOWGgIhYakITHHoSItzgWod04faZDFtI5APAftI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMNcrVXW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756153743; x=1787689743;
+  t=1756153764; x=1787689764;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/h/qS5k+guufmpe0QiUnjnkdA3RIS+RF1dHh88nhkcM=;
-  b=R0+tyzlnURCKzVOH/YG3kG49QFxq2Y4bOq+w7PPo3XB5TY/4kinlKdaE
-   btSLNDGxYsreS2vFj2xmqZEqeUlYu82mvrH1vOkPgQx6zIdY/zrXdduBs
-   X5kwYP90cntW/nNrQ/ycMNqbtb9Pc3D7wLyTw/FaNS7uvUMdZNvRq6ZdA
-   7FvAGFYJliMiWAdn6K105Ys09W4BsdIFtHdxDFAgovFO1CDZrq4sM2t/t
-   5/Qdbaf/YNM4UcPmHr3iw/sh/wUK+G4vxB7OUeVo0ctZAQr7ek6pSRZkP
-   o3yJgAK3KoMGOkUyN6kTQKJamsAmnrwXNdRz25ENHGyeAlZZYKMnk6XBn
-   g==;
-X-CSE-ConnectionGUID: AzjvU4CeTNOYEStVQSOeYQ==
-X-CSE-MsgGUID: 862WwDapRz6Wofz44UnUSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="68970693"
+  bh=UlbhFGz226HIxGPpl32TNHWjf4s+OegZMHU4Z5wVVAQ=;
+  b=dMNcrVXW2dqdFKO6K2QFPU+qRTx7jq/G1YGWVNuiHBmgkb8OmUvT3Xbu
+   z8ahOiGiwnzbd4zsrS9W9bXMCiYdzIOy5njTcX/3Dt6mLzSxxE+WsvI3L
+   pqWbRU77SQxO67weVtQy/rqpYgiMZL8eHtTN3Il+rMjcfIIhL4Ge2yIqE
+   SzFllKAIfyZsS/Ky6F4GlXRpnaxurCzq14U6j5kJTj1nbp6DNkHs2anYJ
+   Q/UH1PMoBj0dVZV+ZdrTWSciJW6Xe8qZYF/FenwOykZrjX2UrwjNzeaKa
+   EYwihvBROPo9T19rgmUEKHPS9hRL9LzveOTSZnDZ4WZCGSdGBdP+3MD4q
+   A==;
+X-CSE-ConnectionGUID: S/+rfpyQQ9WcUMRZ57CdSA==
+X-CSE-MsgGUID: hF2oMWLMSUmlLzjuOPyH1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="68970761"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="68970693"
+   d="scan'208";a="68970761"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:29:02 -0700
-X-CSE-ConnectionGUID: w+rKNHaARBe+f4eoM8vVOQ==
-X-CSE-MsgGUID: /Hw/gZN7R822ANQdWoGk6A==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:29:23 -0700
+X-CSE-ConnectionGUID: 2iU/MAdEQzuCmnajWPCpwA==
+X-CSE-MsgGUID: Li6ndXn4Q1+50YJZ69xiow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169780519"
+   d="scan'208";a="169780561"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.6])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:28:39 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:29:02 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: sohil.mehta@intel.com,
 	baohua@kernel.org,
@@ -140,9 +140,9 @@ Cc: x86@kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v5 10/19] x86: LAM compatible non-canonical definition
-Date: Mon, 25 Aug 2025 22:24:35 +0200
-Message-ID: <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v5 11/19] x86: LAM initialization
+Date: Mon, 25 Aug 2025 22:24:36 +0200
+Message-ID: <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
 References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
@@ -154,54 +154,49 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For an address to be canonical it has to have its top bits equal to each
-other. The number of bits depends on the paging level and whether
-they're supposed to be ones or zeroes depends on whether the address
-points to kernel or user space.
+To make use of KASAN's tag based mode on x86, Linear Address Masking
+(LAM) needs to be enabled. To do that the 28th bit in CR4 has to be set.
 
-With Linear Address Masking (LAM) enabled, the definition of linear
-address canonicality is modified. Not all of the previously required
-bits need to be equal, only the first and last from the previously equal
-bitmask. So for example a 5-level paging kernel address needs to have
-bits [63] and [56] set.
+Set the bit in early memory initialization.
 
-Add separate __canonical_address() implementation for
-CONFIG_KASAN_SW_TAGS since it's the only thing right now that enables
-LAM for kernel addresses (LAM_SUP bit in CR4).
+When launching secondary CPUs the LAM bit gets lost. To avoid this add
+it in a mask in head_64.S. The bitmask permits some bits of CR4 to pass
+from the primary CPU to the secondary CPUs without being cleared.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
-Changelog v4:
-- Add patch to the series.
+ arch/x86/kernel/head_64.S | 3 +++
+ arch/x86/mm/init.c        | 3 +++
+ 2 files changed, 6 insertions(+)
 
- arch/x86/include/asm/page.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
-index bcf5cad3da36..a83f23a71f35 100644
---- a/arch/x86/include/asm/page.h
-+++ b/arch/x86/include/asm/page.h
-@@ -82,10 +82,20 @@ static __always_inline void *pfn_to_kaddr(unsigned long pfn)
- 	return __va(pfn << PAGE_SHIFT);
- }
- 
-+/*
-+ * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks.
-+ */
-+#ifdef CONFIG_KASAN_SW_TAGS
-+static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
-+{
-+	return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
-+}
-+#else
- static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
- {
- 	return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
- }
+diff --git a/arch/x86/kernel/head_64.S b/arch/x86/kernel/head_64.S
+index 3e9b3a3bd039..18ca77daa481 100644
+--- a/arch/x86/kernel/head_64.S
++++ b/arch/x86/kernel/head_64.S
+@@ -209,6 +209,9 @@ SYM_INNER_LABEL(common_startup_64, SYM_L_LOCAL)
+ 	 *  there will be no global TLB entries after the execution."
+ 	 */
+ 	movl	$(X86_CR4_PAE | X86_CR4_LA57), %edx
++#ifdef CONFIG_ADDRESS_MASKING
++	orl	$X86_CR4_LAM_SUP, %edx
 +#endif
+ #ifdef CONFIG_X86_MCE
+ 	/*
+ 	 * Preserve CR4.MCE if the kernel will enable #MC support.
+diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
+index bb57e93b4caf..756bd96c3b8b 100644
+--- a/arch/x86/mm/init.c
++++ b/arch/x86/mm/init.c
+@@ -763,6 +763,9 @@ void __init init_mem_mapping(void)
+ 	probe_page_size_mask();
+ 	setup_pcid();
  
- static __always_inline u64 __is_canonical_address(u64 vaddr, u8 vaddr_bits)
- {
++	if (boot_cpu_has(X86_FEATURE_LAM) && IS_ENABLED(CONFIG_KASAN_SW_TAGS))
++		cr4_set_bits_and_update_boot(X86_CR4_LAM_SUP);
++
+ #ifdef CONFIG_X86_64
+ 	end = max_pfn << PAGE_SHIFT;
+ #else
 -- 
 2.50.1
 
