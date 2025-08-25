@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-8603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8604-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDEFB34C09
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 22:32:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A1CB34C06
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 22:32:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D6637B151E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 20:30:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A6A1B22C8F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 20:32:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B6A813BC0C;
-	Mon, 25 Aug 2025 20:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215DF1EE019;
+	Mon, 25 Aug 2025 20:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdaeRrQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDtkLOyt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619FA179BD;
-	Mon, 25 Aug 2025 20:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84518211A35;
+	Mon, 25 Aug 2025 20:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756153893; cv=none; b=ZUPYEwG9/IZaxoj7nT9nMRZOZ+4HtNOw81sMOFZHJTovUNEKS3k++P9nCnz7yWopYirQY+AK+TKLoRpZ0fDea31LEsaLKOmA2gJs8izduZNq3NHp4fRUEoIT0qVMLlcL0+fJ8nwMevR4bH/bMHKdxu7QwIDqydbuCOtEIGMinJI=
+	t=1756153915; cv=none; b=gDgBfUl9mU5MoyJ0gzXd5msNuNaKFLGIPq/e+GO2a5Dz6vFoX1MbUkk32B00+Bj4FVOW/Vx2kNPr4MXVaUkPG8YzbmYdzrUXANmwR+/Lp/bN9OFZax7kx/6PXWOubjU4MaWuFnDJIgKrKWQBewcCZPvHHzsb0TDOQHOTk95scRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756153893; c=relaxed/simple;
-	bh=JSgqcace1ZHH5nH7cPzoLy1AXwxiMzBjeR3CdVvlZ7Q=;
+	s=arc-20240116; t=1756153915; c=relaxed/simple;
+	bh=okYAGWwGwYjZD7NZd1rejvGMvVZcH4Qcm5xKkCEr0jA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fnFd3AvQifLfIREPa3Mf0G1YKbIsTQIyEKUT7jGRiW8y04tdniiLYVNTvZjM/0dWNVZXl/N6bDq0TpdBDDaOppe7miq/AKvIh+pckGlZJ9zJGU/KV6TYqSkNUXHMh7SMjrN63806c++TyjbouYuX6AuerBCVuEk/uxA8uNnM6q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdaeRrQy; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=eSu/oAB1yf642bC+j1YfLtgXx2OChPN0HHglsTYxn5RGyzmYZwI/pCyjtG1ShnULML30d/QS/8KT3O6ersBD/2l4ToeT0nKK1toBKQN23pM6oDYVadKEItekboWL7IudkAOBa7w7Lp6/bkSCGa+EKe2lR/6Iz0NGFGeH2vLRn3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDtkLOyt; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756153891; x=1787689891;
+  t=1756153913; x=1787689913;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=JSgqcace1ZHH5nH7cPzoLy1AXwxiMzBjeR3CdVvlZ7Q=;
-  b=UdaeRrQyLnKKMBgQFJRjXIAqOYwSF2bxCUVCmj/kATSFIdHU6KiVxWmI
-   nmEU5aGNIrYMVQ+IL/xB5/k5C5Y2Khzv4k7OYQvCqOmRw7GWfkNOK+3dz
-   hHghg7Ye/7YilwVPFbtjk8vfRx4E6E8QIQdZe/4aeuVNCK+QH9u/KRn7a
-   BCuwl461b78K7jVSEtQISK+28Nr/gdl1NnZHc3KvPQRmoD2R4M8VFbXcb
-   WCDw5f2cNmF4ebx9KolyBr+bvE9r1vtWALGAW9+yS/VY/eftbFdqErSc/
-   j5t4yDxMfVrNdtf6ec6HSnqNpuWy/69I88JfLwRZgvYUM3pJlRJwXcxmb
+  bh=okYAGWwGwYjZD7NZd1rejvGMvVZcH4Qcm5xKkCEr0jA=;
+  b=kDtkLOytQ35WsxbKNPfg10H+h0WNOtcHEqfhlwPBy39m0ngjzTso102e
+   tZnUsyNGPCCU/2EwduErFuE9z1iPR8XYdR5drHP8J4wu5r++0fWiAIGuA
+   8+1H0UlDqm4xPnK7924cjW5/csaQEbCZKYLlBwoaru4Q/l7Rv0+z4DNev
+   OMUE5RHIuJRy9/dwalGckVMYTlYTHLGn259d6BeiINt1kzqD2ziqhEI/c
+   d+CUdPrIHrkCpDQ23EhTBVYrTgB7OTUqBJCJ429Vecx8nUVUpWlXxyPsq
+   9wEDCnbl7IPQIMm/b/exqpPlvzX5eBprPiB/oMxnG/nOOqYnfc+jKTsjp
    w==;
-X-CSE-ConnectionGUID: iQfxBrPoRYm+1JohU9N2ew==
-X-CSE-MsgGUID: fICe+YxKRce1t0G+fGIa4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="68971148"
+X-CSE-ConnectionGUID: kDjXDv5WTIWisN0jDOvBTg==
+X-CSE-MsgGUID: qziRgjGzReauoN8bNXhr5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="68971194"
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="68971148"
+   d="scan'208";a="68971194"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:31:30 -0700
-X-CSE-ConnectionGUID: BoQjm7KIRB+2p+yFhmf/bw==
-X-CSE-MsgGUID: iY6qVZe4QbiO9mWsK80olA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:31:52 -0700
+X-CSE-ConnectionGUID: Z6d3VSXbRamxE0DAKuvOBg==
+X-CSE-MsgGUID: HqbNGGRlQTeuW6G+Ue7lgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="169780999"
+   d="scan'208";a="169781025"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.6])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:31:11 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 13:31:30 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: sohil.mehta@intel.com,
 	baohua@kernel.org,
@@ -140,9 +140,9 @@ Cc: x86@kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v5 17/19] mm: Unpoison pcpu chunks with base address tag
-Date: Mon, 25 Aug 2025 22:24:42 +0200
-Message-ID: <bcf18f220ef3b40e02f489fdb90fc7a5a153a383.1756151769.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v5 18/19] mm: Unpoison vms[area] addresses with a common tag
+Date: Mon, 25 Aug 2025 22:24:43 +0200
+Message-ID: <3339d11e69c9127108fe8ef80a069b7b3bb07175.1756151769.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
 References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
@@ -166,113 +166,46 @@ KASAN mode. It can be explained in the following points:
 	5. Thus, the subsequent chunks need to have their tag set to
 	   match that of the first chunk.
 
-Refactor code by moving it into a helper in preparation for the actual
-fix.
+Unpoison all vms[]->addr memory and pointers with the same tag to
+resolve the mismatch.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
 Changelog v4:
-- Redo the patch message numbered list.
-- Do the refactoring in this patch and move additions to the next new
-  one.
+- Move tagging the vms[]->addr to this new patch and leave refactoring
+  there.
+- Comment the fix to provide some context.
 
-Changelog v3:
-- Remove last version of this patch that just resets the tag on
-  base_addr and add this patch that unpoisons all areas with the same
-  tag instead.
+ mm/kasan/shadow.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
- include/linux/kasan.h | 10 ++++++++++
- mm/kasan/hw_tags.c    | 11 +++++++++++
- mm/kasan/shadow.c     | 10 ++++++++++
- mm/vmalloc.c          |  4 +---
- 4 files changed, 32 insertions(+), 3 deletions(-)
-
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 7a2527794549..3ec432d7df9a 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -613,6 +613,13 @@ static __always_inline void kasan_poison_vmalloc(const void *start,
- 		__kasan_poison_vmalloc(start, size);
- }
- 
-+void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms);
-+static __always_inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
-+{
-+	if (kasan_enabled())
-+		__kasan_unpoison_vmap_areas(vms, nr_vms);
-+}
-+
- #else /* CONFIG_KASAN_VMALLOC */
- 
- static inline void kasan_populate_early_vm_area_shadow(void *start,
-@@ -637,6 +644,9 @@ static inline void *kasan_unpoison_vmalloc(const void *start,
- static inline void kasan_poison_vmalloc(const void *start, unsigned long size)
- { }
- 
-+static inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
-+{ }
-+
- #endif /* CONFIG_KASAN_VMALLOC */
- 
- #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
-diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
-index 9a6927394b54..1f569df313c3 100644
---- a/mm/kasan/hw_tags.c
-+++ b/mm/kasan/hw_tags.c
-@@ -382,6 +382,17 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
- 	 */
- }
- 
-+void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
-+{
-+	int area;
-+
-+	for (area = 0 ; area < nr_vms ; area++) {
-+		vms[area]->addr = __kasan_unpoison_vmalloc(
-+			vms[area]->addr, vms[area]->size,
-+			KASAN_VMALLOC_PROT_NORMAL);
-+	}
-+}
-+
- #endif
- 
- void kasan_enable_hw_tags(void)
 diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index d2c70cd2afb1..b41f74d68916 100644
+index b41f74d68916..ee2488371784 100644
 --- a/mm/kasan/shadow.c
 +++ b/mm/kasan/shadow.c
-@@ -646,6 +646,16 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
+@@ -646,13 +646,21 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
  	kasan_poison(start, size, KASAN_VMALLOC_INVALID, false);
  }
  
-+void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
-+{
-+	int area;
-+
-+	for (area = 0 ; area < nr_vms ; area++) {
-+		kasan_poison(vms[area]->addr, vms[area]->size,
-+			     arch_kasan_get_tag(vms[area]->addr), false);
-+	}
-+}
-+
- #else /* CONFIG_KASAN_VMALLOC */
++/*
++ * A tag mismatch happens when calculating per-cpu chunk addresses, because
++ * they all inherit the tag from vms[0]->addr, even when nr_vms is bigger
++ * than 1. This is a problem because all the vms[]->addr come from separate
++ * allocations and have different tags so while the calculated address is
++ * correct the tag isn't.
++ */
+ void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+ {
+ 	int area;
  
- int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index c93893fb8dd4..00be0abcaf60 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -4847,9 +4847,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
- 	 * With hardware tag-based KASAN, marking is skipped for
- 	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
- 	 */
--	for (area = 0; area < nr_vms; area++)
--		vms[area]->addr = kasan_unpoison_vmalloc(vms[area]->addr,
--				vms[area]->size, KASAN_VMALLOC_PROT_NORMAL);
-+	kasan_unpoison_vmap_areas(vms, nr_vms);
+ 	for (area = 0 ; area < nr_vms ; area++) {
+ 		kasan_poison(vms[area]->addr, vms[area]->size,
+-			     arch_kasan_get_tag(vms[area]->addr), false);
++			     arch_kasan_get_tag(vms[0]->addr), false);
++		arch_kasan_set_tag(vms[area]->addr, arch_kasan_get_tag(vms[0]->addr));
+ 	}
+ }
  
- 	kfree(vas);
- 	return vms;
 -- 
 2.50.1
 
