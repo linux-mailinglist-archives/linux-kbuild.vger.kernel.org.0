@@ -1,133 +1,127 @@
-Return-Path: <linux-kbuild+bounces-8584-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8585-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553A7B34B9A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 22:18:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D3EB34BA1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 22:20:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB6467AB70F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 20:17:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80B981B20B51
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 20:21:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F21D28135B;
-	Mon, 25 Aug 2025 20:18:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2659D285069;
+	Mon, 25 Aug 2025 20:20:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="flvbDJmG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CzFUEJLx"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F46E275AF0;
-	Mon, 25 Aug 2025 20:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22DE2367B3;
+	Mon, 25 Aug 2025 20:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756153124; cv=none; b=nQPTN4xT5EMqjaFtlOA4cwb6zKgxKAqSWEMrcT/T0UnDJOgxnEi5Nh7fIJxxkxE1Dw7DjM2m5ZjaVaarL7qqTtF0FwiZMOzqa+Ej1pcDKt11qCBsI46LGPu4dHqy6vp64u7uylYPKnZ5rqmSURGdq0aNboQ0p2GwGuHT0UJU/c0=
+	t=1756153242; cv=none; b=i53dJ7kS9W7vVP8LeYHyyuH8Eg5e0RrsOu8oWOrZ6PwaUKm3w2w9qQRSnNt0muf2moo8I9R4id8h+M/Q5HHVVd8H40UWhEO9NSdXI0CkuLpusxrijXyAQBbRzHRxhkdmJwHsHWG5tzgmUfH8pNTa2BRdmKbrHFHmeUJ+m1pUzpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756153124; c=relaxed/simple;
-	bh=/8eEwcYuuUBWAykVuxqNjnB77io3NFVcBt5ElBMUoWU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWIeHXjdyvjpF/IPMcgwtFUSIlUhhTYImG+/+sj2A+KtmaXMKeL9cxZG4nmUWUjc3x038g/vMe6zgioX3ftef2NjHwp1bbl2Dl2aZYHIiMQYQK7XFiYAD+mS2yZ0MJ3edYZ+WFLeNu9PWTGemgwwcu3rp+PBxdMOj3eOgDDJDBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=flvbDJmG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB98C4CEED;
-	Mon, 25 Aug 2025 20:18:41 +0000 (UTC)
+	s=arc-20240116; t=1756153242; c=relaxed/simple;
+	bh=pLzmSkU2N6kdiHTKVy/LxO6tuao1DyXVwvxK6YJeMss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rhZ0B5U+Taz8q+U4G9JZynxsMpntX4Yd3CPC9xen/e0FkxdJAzQGbr+LbdAzrj5UeVEta/BEWETxa3v2sRl3F6D9fmbnugRXcTkUzv1yNiROpD9ZBHb6PcWd/YgrWX8N4SgjYvRr4FtZAvqk2smqBCLu7f9WSK6CXAvht60ACZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CzFUEJLx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20130C4CEED;
+	Mon, 25 Aug 2025 20:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756153121;
-	bh=/8eEwcYuuUBWAykVuxqNjnB77io3NFVcBt5ElBMUoWU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=flvbDJmGj7VN4ZZsgJd7DA8JVv9QMoTlo/KW786fJM2cvOkRErJm2WU5hPaz1wkSL
-	 neRYj31KaSDK15TdDOBsVqUOxLmxMx2yb+Ov5FlXPrekm6Rv404qYMXnhWLFnW/zyG
-	 cHAPyVI1bn+/3w05UXOBOiSD87WQaFo2F+sdo7vUpXh2fCbdZ0hzgY2naAUDrgErCp
-	 sueWrQ9ZZNL7Hy2KUIjF/HyctshW5ueWL2O+QljePGOKqNkgCxSzZtPRNsvOXgY+HX
-	 DbBzwuwJz2RE8dvtz09m4WbE3MprgwwmLYB6H5hsxRXvWUq9C7L4v4RFXop5Znf3l1
-	 +wVI3EYnet6eA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	dhowells@redhat.com,
-	kees@kernel.org,
-	gustavoars@kernel.org,
-	aleksander.lobakin@intel.com,
-	tstruk@gigaio.com
-Subject: [PATCH net-next v2] uapi: wrap compiler_types.h in an ifdef instead of the implicit strip
-Date: Mon, 25 Aug 2025 13:18:28 -0700
-Message-ID: <20250825201828.2370083-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	s=k20201202; t=1756153241;
+	bh=pLzmSkU2N6kdiHTKVy/LxO6tuao1DyXVwvxK6YJeMss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CzFUEJLxAHutIHQHziiEdc74+VYd2asXBGezzAm4VOZyAg6KRpdnB+tpCkMXNtxp6
+	 xW0wRMWA4/vcsauGC+V7VZpzeunCSFcX+ubh9u4QDe36bI9VCsl86OY3n6yH/HHr/c
+	 PwYD/4PACUnQ5ERfou7BknIhhN29QVLXF7iZ9uhiTDY9RSokyL6YcA1F3vlY4C9oEL
+	 UENmBu7qIJJk2Lun07ZlwtYBCFAWOUmULJMRNr0DjzZboJkynO5INTsuaoLXGbuuvF
+	 0vvWORTYNjdeSGTbUL4AEOaDY9NnX1Zyxi1m9qGhohmPeG3SYRH4sUoXFzb1MBtVjd
+	 29MSOvEy7MgCw==
+Date: Mon, 25 Aug 2025 22:20:13 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] scripts/misc-check: update export checks for
+ EXPORT_SYMBOL_FOR_MODULES()
+Message-ID: <aKzFfToXptoHnrxI@levanger>
+References: <20250825-export_modules_fix-v1-1-5c331e949538@suse.cz>
+ <20250825170710.GC2719297@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CHypDR+6IYo16V8/"
+Content-Disposition: inline
+In-Reply-To: <20250825170710.GC2719297@ax162>
 
-The uAPI stddef header includes compiler_types.h, a kernel-only
-header, to make sure that kernel definitions of annotations
-like __counted_by() take precedence.
 
-There is a hack in scripts/headers_install.sh which strips includes
-of compiler.h and compiler_types.h when installing uAPI headers.
-While explicit handling makes sense for compiler.h, which is included
-all over the uAPI, compiler_types.h is only included by stddef.h
-(within the uAPI, obviously it's included in kernel code a lot).
+--CHypDR+6IYo16V8/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Remove the stripping from scripts/headers_install.sh and wrap
-the include of compiler_types.h in #ifdef __KERNEL__ instead.
-This should be equivalent functionally, but is easier to understand
-to a casual reader of the code. It also makes it easier to work
-with kernel headers directly from under tools/
+On Mon, Aug 25, 2025 at 10:07:10AM -0700, Nathan Chancellor wrote:
+> On Mon, Aug 25, 2025 at 05:00:37PM +0200, Vlastimil Babka wrote:
+> > The module export checks are looking for EXPORT_SYMBOL_GPL_FOR_MODULES()
+> > which was renamed to EXPORT_SYMBOL_FOR_MODULES(). Update the checks.
+> >=20
+> > Fixes: 6d3c3ca4c77e ("module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to E=
+XPORT_SYMBOL_FOR_MODULES")
+> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> > ---
+> > I've missed these new checks when renaming the export macro due to my
+> > git grep being too narrow. My commit went through Christian's vfs tree
+> > but seems the script is part of kbuild (which is currently Odd fixes).
+>=20
+> If this needs to reach Linus's tree to avoid warnings, it could go via
+> another vfs fixes pull request with our ack or we could ask him to pick
+> it up directly (as I am not sure we will have a fixes pull request this
+> cycle). If it is not urgent, I can pick it up via kbuild-next for 6.18.
+> I have no strong preference.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-v2:
- - remove the hack from scripts/headers_install.sh
- - wrap in __KERNEL__ instead of removing
-v1: https://lore.kernel.org/20250818181848.799566-1-kuba@kernel.org
+Hm, you're right, the check will issue false warnings (and misses to
+warn when it should) without this update.  Therefore I think it would be
+good to get the patch merged soon - even though the warnings are only
+issued with W=3D2.
 
-CC: dhowells@redhat.com
-CC: kees@kernel.org
-CC: gustavoars@kernel.org
-CC: aleksander.lobakin@intel.com
-CC: tstruk@gigaio.com
----
- scripts/headers_install.sh  | 2 +-
- include/uapi/linux/stddef.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+So, I second asking for the patch to go via vfs fixes or directly via
+Linus.  If it helps:
 
-diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-index 6bbccb43f7e7..4c20c62c4faf 100755
---- a/scripts/headers_install.sh
-+++ b/scripts/headers_install.sh
-@@ -32,7 +32,7 @@ fi
- sed -E -e '
- 	s/([[:space:](])(__user|__force|__iomem)[[:space:]]/\1/g
- 	s/__attribute_const__([[:space:]]|$)/\1/g
--	s@^#include <linux/compiler(|_types).h>@@
-+	s@^#include <linux/compiler.h>@@
- 	s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\2/g
- 	s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g
- 	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
-diff --git a/include/uapi/linux/stddef.h b/include/uapi/linux/stddef.h
-index b87df1b485c2..9a28f7d9a334 100644
---- a/include/uapi/linux/stddef.h
-+++ b/include/uapi/linux/stddef.h
-@@ -2,7 +2,9 @@
- #ifndef _UAPI_LINUX_STDDEF_H
- #define _UAPI_LINUX_STDDEF_H
- 
-+#ifdef __KERNEL__
- #include <linux/compiler_types.h>
-+#endif
- 
- #ifndef __always_inline
- #define __always_inline inline
--- 
-2.51.0
+Acked-by: Nicolas Schier <nsc@kernel.org>
 
+Kind regards,
+Nicolas
+
+--CHypDR+6IYo16V8/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmisxXEACgkQB1IKcBYm
+Emme/hAAjCm0NHBPa3ayDeqMNqmqVzxut7huter/Q5H42PaTpZXPB2FxTaMOlcUM
+c2/mthQR8SEKhH4w8/+Gwm2tyoWi12Ezx0C0FVCVS5DvVk7v5JRPnlxIml0eQL/n
+ZtyVUeF6kMeiE3PSe4Hd1MhJnePim5qXTw+0+jDZk2hMdPBQRKArEnaMO3OzMPSn
+7Iyg1fUtpAB//iVA0VGGsdAf9gj5oEdQUmo52GONsTWTGvAbQt7ZQ1bKzBRD08Dq
+Y2vf5Nfg2/72eOv9VztyOX//cYTjqx+lFt0nd0Ll+cdt/od3c8B/tA/oD6CylAII
+AS1z6PupU0JD64WEgflkQLU341mwCr54r1SXQPCFTLehQyzZU8JeeR+J8/tNyFbO
+d4M3eGmDKPI3qoF8GPp6jzL2HExGUoxo0rty5aQsBqAsEs3JT88JQYLLZjyvKBmy
+EE58SttIVGPvAm1kxUqHU8K0NzaZn19nc2YmPb9+M7F9Yk7ZoyNJCPdfeM903Ibc
+guQbldPqE2RIEIbXHOT8ammKKbOnBKguUzOR8xDa2/0nvOvbMZbBAIStO9bnipMD
+XcuX2B5LhzF7DGcdQTKBqU/Fa8PrEuuVsjBdJaCGnS47KosGefn9mtioIMJpkXDf
+LhrRDQCkALNGRoXUddLN+vCLW8IIudIDODD7pZ799T7ocdO3Y5I=
+=hgNE
+-----END PGP SIGNATURE-----
+
+--CHypDR+6IYo16V8/--
 
