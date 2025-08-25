@@ -1,80 +1,95 @@
-Return-Path: <linux-kbuild+bounces-8606-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8607-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5115B34D28
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 23:00:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FF7B34E1F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 23:35:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C9D1C1A8485B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 21:00:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DEAA7A392A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Aug 2025 21:34:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FDFB1E89C;
-	Mon, 25 Aug 2025 20:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AFC8F9CB;
+	Mon, 25 Aug 2025 21:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="bJGokT29"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AnFj76gL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kMXkMdIv";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AnFj76gL";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="kMXkMdIv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E630422128B
-	for <linux-kbuild@vger.kernel.org>; Mon, 25 Aug 2025 20:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753F5279788
+	for <linux-kbuild@vger.kernel.org>; Mon, 25 Aug 2025 21:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756155596; cv=none; b=S6/HpaF3kwsOL2GW4P1JnYoVYxQDxmfP0/Y1uJpexyLRaGIPR1GX63Gg71b0B7D9Z8V/u19mzaPsX6208m1jfIvDBm/Yt8XPnl9attOtr/Zk+mGWGKQlyuuNm1g/bLiUHwpaMKOsZNfKG3vGazx+NU7ZAZ3MDifrzxOUEaj/AeY=
+	t=1756157732; cv=none; b=hKD/EIZGC8ZI8kBynPFLGrm7FlGPL+BQA1VV3/cDImMTHdCKRX4iqDIX/H5edkGXM5q2/i0lFl5VMR8h51d8eo/uWfzcJBuo4npjs5MqQV4c2uV5lVKrHmhun1R7NU5oPos0AGW/RXVFyUMcL/5sUjhDzAV2Ck7mrqQELoHn+Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756155596; c=relaxed/simple;
-	bh=YBVOrpCcsqXAW5sCYr3wMwOJTycBQN3ZspPZEFbfxg8=;
+	s=arc-20240116; t=1756157732; c=relaxed/simple;
+	bh=zZdXENOKMlNRYc1Y0AYVcQ2MmKeVsWVR/hQsWiR/d+U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fgo3IPoPGyrYpiYJZ/svPO6yO6B41h94vpj16k7ASbQG0ZtAzSu+e5xiyBsiUjSxzcHduB17tL7Ytaa/I7t7Io7qRaf8bDWR2VS0xmVTWcXKhv18OaAjvE4QfeksHXIYTk3PYODXR3Zo2iQZHbIBHRtzsgkYtuXcmqzqQgMDHpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=bJGokT29; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3ea8b3a64a7so13259005ab.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Aug 2025 13:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1756155594; x=1756760394; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcPPbu+aYl9Xu1jLxey4/WhZ40S4z542awI5r/G6Sno=;
-        b=bJGokT29qpsdlwr4E1Wfj7G8lf2T2DysfjWNN9Ywqm8/zxLfDQB3FUpANVmwO4q01J
-         j7MuZKvZxCzeVzfLFFxI8pibOchKxVwMTq2Mp+tcbZrCbRbE3yxKepqrIKlXNlr4BfnP
-         fPzCEjAOCy0k54k5KFDRPtzxo/C7PzdK8QOKnvqN3YMcqS5Ckxc6qhSpwl5IOr4QTK5U
-         YxDW0Dap1liX+0TnkwS6THbTvt0dk1OxgujHn4mn4NvS7tDX/8ye3/S+NSQMXbIr5Qnn
-         ZP6LVdaPLcP/mOIiOeqi/ZV5wDqOfQnyLqmS8gB2GaLo5VPLD6KNg0eqziLbDPlJTHQc
-         cMQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756155594; x=1756760394;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcPPbu+aYl9Xu1jLxey4/WhZ40S4z542awI5r/G6Sno=;
-        b=TmM86U6vQY/9jpWxHnGd8M7Y0NVh+x3U1knFEtFq8DDkGWphPJsVw6qnHse+whl2Fo
-         kXg95jPuVix0doihUpC3xzSFneYS0ipLbXUOECJvNXvvrIZqC1VyYNFEVl4g0Mlnb2i5
-         KSoGYBxkkEIcvrz0AQC8saNIEgCJ/8cDfhbcNIGMORZkFbdyHWg2lXf8SSS8oyAaKtiu
-         rwi1VLEN21QkXXijb1Nxy0TJtq5s67UlFqLdMHPS75N1T0AFWUrj9gKvKOUaXxki2Qz6
-         +/JlvpvnKNKq0CiZ8/Mx7HnBnXXxqDII2e56quefH0oxVJAGfRPI7iwQRzmDHgw3kueN
-         U/eA==
-X-Forwarded-Encrypted: i=1; AJvYcCXrvXTu9peFMf61jRxbg2QXMTh1gXJ/57gWEvNrYg9HnVwqsNmvRx0GJQnMrsMnL80+kHTzU3kt+Khz4zk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl/lm/bK9e9BJysO9xXz1sfV0zH34izkGsRPt/0z9TH0jQD3X5
-	Zsf6/He5M551HCAFpaY7biVycFhoC/rxZEI4/VPeeGRO5mLxVuQJtIV5a/dyI9MZM2I=
-X-Gm-Gg: ASbGncvI7pUhAdC3dTBEp44XYya+6cUkGjMyvWPjUh3lywxkIVgNuZk1goK/GJ0GVP3
-	vQLtHvVPw9KqZXs5Hk2DNtJt0yKBqfRr/ClnFYiAQDW+V6o/3OoSniylAU1qWc9CxnZZpZglb/8
-	y+dSUTL6YYXnjTDfQc2AwQ1Snx/PLOEKgKjdtx4+iEwl1O+5TRIn8eNP5FuHWMo0KaCEkFgMX6E
-	rakuSO36f6cM4pJ896rKwod4YGkic3GD3cu9B9u1BMSCOIp4hKsXdyaGKlLGzSbAZhqBE0z9P04
-	5MHisxOyWXuQWdi8ThBVt+RG9UAZ4RESy487LSvaqKJ5kGPj4y19IKP57DLtabp8eMpmJ4NkbgJ
-	KCmwynkFxDghtxjLiQguaGY7U5WYu29FyF0senhTsVTo=
-X-Google-Smtp-Source: AGHT+IGl5YyJO5cNchW3hMpUrsJFnsYaH0jFB/UnFZkvzedPO9loSjPBh1OzNXyW8MzaaJOPsbW11Q==
-X-Received: by 2002:a92:cdad:0:b0:3e9:eec4:9b5a with SMTP id e9e14a558f8ab-3e9eec49d85mr152368845ab.25.1756155593789;
-        Mon, 25 Aug 2025 13:59:53 -0700 (PDT)
-Received: from [100.64.0.1] ([136.226.102.202])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ea4ec1fa3dsm54724275ab.45.2025.08.25.13.59.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 13:59:53 -0700 (PDT)
-Message-ID: <9ae927d3-0a66-4354-910f-155ff9ba3e0f@sifive.com>
-Date: Mon, 25 Aug 2025 15:59:46 -0500
+	 In-Reply-To:Content-Type; b=kE5VSyvXSkXOxuK1o9jKKqRW1i33omK9iTR4Vgi8lPeGxwAtf/y7lkCYY+ZQ2d11O/bmJ/b2XA+LJjk+5Zojy2nHapgoqMjKgCjUcM3+j591EGrQglwB1CVQ+bloq5uiFHQjLhLJ+3BRA1wAHRPKlBp3CMjdJNQKJD9hO5GT3GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AnFj76gL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kMXkMdIv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AnFj76gL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=kMXkMdIv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8EB8A1F787;
+	Mon, 25 Aug 2025 21:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1756157728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WFqqdIGOHypxuBaV2I78OHESsO0HZPez/Xzs/qc1oIE=;
+	b=AnFj76gL4LyRVK/vjISvhCWBrYotQkhF+1EY79/ZVxJp5psbbtgVa+jM1PaccaccV7dEXH
+	cMuz4fkf2/P2IQPS9ESAmQ4AJCInuEs+nd4uEnyMQ++s9zjjo7AfBVBpDYhzgPM+ZUH+1j
+	KGJvK0Q7h/sm7jzIqaIqzJ8KgwHsdt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1756157728;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WFqqdIGOHypxuBaV2I78OHESsO0HZPez/Xzs/qc1oIE=;
+	b=kMXkMdIvww0qs6PXXH6PBAI5hs7TziwICZP414mAEXstOi+ZcQazsjuhLAOWLwyfPkHyz6
+	RpuMOa8gfaVcgFBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1756157728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WFqqdIGOHypxuBaV2I78OHESsO0HZPez/Xzs/qc1oIE=;
+	b=AnFj76gL4LyRVK/vjISvhCWBrYotQkhF+1EY79/ZVxJp5psbbtgVa+jM1PaccaccV7dEXH
+	cMuz4fkf2/P2IQPS9ESAmQ4AJCInuEs+nd4uEnyMQ++s9zjjo7AfBVBpDYhzgPM+ZUH+1j
+	KGJvK0Q7h/sm7jzIqaIqzJ8KgwHsdt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1756157728;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WFqqdIGOHypxuBaV2I78OHESsO0HZPez/Xzs/qc1oIE=;
+	b=kMXkMdIvww0qs6PXXH6PBAI5hs7TziwICZP414mAEXstOi+ZcQazsjuhLAOWLwyfPkHyz6
+	RpuMOa8gfaVcgFBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C9911368F;
+	Mon, 25 Aug 2025 21:35:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jM8LHiDXrGhQLQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 25 Aug 2025 21:35:28 +0000
+Message-ID: <c42a5ef3-a3da-47d3-affd-24796c4dfa21@suse.cz>
+Date: Mon, 25 Aug 2025 23:35:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -82,102 +97,128 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/19] x86: LAM compatible non-canonical definition
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, sohil.mehta@intel.com,
- baohua@kernel.org, david@redhat.com, kbingham@kernel.org,
- weixugc@google.com, Liam.Howlett@oracle.com, alexandre.chartre@oracle.com,
- kas@kernel.org, mark.rutland@arm.com, trintaeoitogc@gmail.com,
- axelrasmussen@google.com, yuanchu@google.com, joey.gouly@arm.com,
- samitolvanen@google.com, joel.granados@kernel.org, graf@amazon.com,
- vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
- thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
- kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
- nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com,
- justinstitt@google.com, catalin.marinas@arm.com,
- alexander.shishkin@linux.intel.com, dave.hansen@linux.intel.com,
- corbet@lwn.net, xin@zytor.com, dvyukov@google.com, tglx@linutronix.de,
- scott@os.amperecomputing.com, jason.andryuk@amd.com, morbo@google.com,
- nathan@kernel.org, lorenzo.stoakes@oracle.com, mingo@redhat.com,
- brgerst@gmail.com, kristina.martsenko@arm.com, bigeasy@linutronix.de,
- luto@kernel.org, jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
- mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org,
- peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com,
- ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com,
- ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org,
- akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org,
- pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev,
- will@kernel.org, andreyknvl@gmail.com, jhubbard@nvidia.com, bp@alien8.de
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
-From: Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH] scripts/misc-check: update export checks for
+ EXPORT_SYMBOL_FOR_MODULES()
 Content-Language: en-US
-In-Reply-To: <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
+To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Daniel Gomez
+ <da.gomez@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20250825-export_modules_fix-v1-1-5c331e949538@suse.cz>
+ <20250825170710.GC2719297@ax162> <aKzFfToXptoHnrxI@levanger>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <aKzFfToXptoHnrxI@levanger>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-Hi Maciej,
+On 8/25/25 22:20, Nicolas Schier wrote:
+> On Mon, Aug 25, 2025 at 10:07:10AM -0700, Nathan Chancellor wrote:
+>> On Mon, Aug 25, 2025 at 05:00:37PM +0200, Vlastimil Babka wrote:
+>> > The module export checks are looking for EXPORT_SYMBOL_GPL_FOR_MODULES()
+>> > which was renamed to EXPORT_SYMBOL_FOR_MODULES(). Update the checks.
+>> > 
+>> > Fixes: 6d3c3ca4c77e ("module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to EXPORT_SYMBOL_FOR_MODULES")
+>> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>> > ---
+>> > I've missed these new checks when renaming the export macro due to my
+>> > git grep being too narrow. My commit went through Christian's vfs tree
+>> > but seems the script is part of kbuild (which is currently Odd fixes).
+>> 
+>> If this needs to reach Linus's tree to avoid warnings, it could go via
+>> another vfs fixes pull request with our ack or we could ask him to pick
+>> it up directly (as I am not sure we will have a fixes pull request this
+>> cycle). If it is not urgent, I can pick it up via kbuild-next for 6.18.
+>> I have no strong preference.
+> 
+> Hm, you're right, the check will issue false warnings (and misses to
+> warn when it should) without this update.  Therefore I think it would be
+> good to get the patch merged soon - even though the warnings are only
+> issued with W=2.
 
-On 2025-08-25 3:24 PM, Maciej Wieczor-Retman wrote:
-> For an address to be canonical it has to have its top bits equal to each
-> other. The number of bits depends on the paging level and whether
-> they're supposed to be ones or zeroes depends on whether the address
-> points to kernel or user space.
-> 
-> With Linear Address Masking (LAM) enabled, the definition of linear
-> address canonicality is modified. Not all of the previously required
-> bits need to be equal, only the first and last from the previously equal
-> bitmask. So for example a 5-level paging kernel address needs to have
-> bits [63] and [56] set.
-> 
-> Add separate __canonical_address() implementation for
-> CONFIG_KASAN_SW_TAGS since it's the only thing right now that enables
-> LAM for kernel addresses (LAM_SUP bit in CR4).
-> 
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v4:
-> - Add patch to the series.
-> 
->  arch/x86/include/asm/page.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
-> index bcf5cad3da36..a83f23a71f35 100644
-> --- a/arch/x86/include/asm/page.h
-> +++ b/arch/x86/include/asm/page.h
-> @@ -82,10 +82,20 @@ static __always_inline void *pfn_to_kaddr(unsigned long pfn)
->  	return __va(pfn << PAGE_SHIFT);
->  }
->  
-> +/*
-> + * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks.
-> + */
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
-> +{
-> +	return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
-> +}
-> +#else
->  static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->  {
->  	return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
->  }
-> +#endif
+Note only two files use EXPORT_SYMBOL_FOR_MODULES() in mainline:
 
-These two implementations have different semantics. The new function works only
-on kernel addresses, whereas the existing one works on user addresses as well.
-It looks like at least KVM's use of __is_canonical_address() expects the
-function to work with user addresses.
+fs/anon_inodes.c - contains also EXPORT_SYMBOL_GPL() so the checks will
+cover it anyway (and IIUC since it includes module.h and not export.h it
+should be causing a warning already?)
 
-Regards,
-Samuel
+drivers/tty/serial/8250/8250_rsa.c: has no other variants of EXPORT, doesn't
+include export.h (includes module.h) so this will not trigger unnecessary
+export.h warning. It should be triggering missing export.h include warning,
+but will not without this patch.
 
->  
->  static __always_inline u64 __is_canonical_address(u64 vaddr, u8 vaddr_bits)
->  {
+So IIUC missing this fix results in missing warnings, not adding spurious
+ones. And there seem to be many existing warnings already. So it doesn't
+seem that urgent fwiw.
+
+> So, I second asking for the patch to go via vfs fixes or directly via
+> Linus.  If it helps:
+
+Let's see what Christian thinks then.
+
+> Acked-by: Nicolas Schier <nsc@kernel.org>
+> 
+> Kind regards,
+> Nicolas
 
 
