@@ -1,172 +1,181 @@
-Return-Path: <linux-kbuild+bounces-8623-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8624-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734E4B37635
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Aug 2025 02:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4720B376FB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Aug 2025 03:34:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63BCD3BE0E9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Aug 2025 00:46:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51FF43A3BC2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Aug 2025 01:34:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FCFB1C5499;
-	Wed, 27 Aug 2025 00:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8184E190692;
+	Wed, 27 Aug 2025 01:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="c+ONQrpC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iNIp4MzC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3BB1AE877
-	for <linux-kbuild@vger.kernel.org>; Wed, 27 Aug 2025 00:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2B14A33;
+	Wed, 27 Aug 2025 01:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756255583; cv=none; b=lIHRiHfbTAfGOeMhBv/gCkhLckDAbxvWgRG7Oa/vGqXS9ejHK6KNakIybD0tttBoBiuZhP9jo+2NiE+r9k2m4ZupMDutQC5PeQZ9HOYjZELxyPLkgcDulDpdpvAhHQTQUU7CEQh4OXjKEZGmctxzoTv64Ib9WD1NABN5WSoOBVU=
+	t=1756258490; cv=none; b=EECLdGyNgIk3udQHT6PaWy7sCtc+9wEQs6w6/YR1Iz51JgFWRrjOtC94/BnAewfydoiLlnEv9Ri7rBwmsuklCS1Hr6qwLtDWAUnI5zGgW7HeNRTUTqgwthsz6AdtQ6drfFfulCSk06LdgxZpIcPG75GP5/qaxs94ODz3t5yWwCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756255583; c=relaxed/simple;
-	bh=H+kkfzVW4fOfE6BunEcIw/4uno8zsE2Jauu4d0HhpAo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L1t4obXXkNBvXJMMIfUVPxuwHO8/aptLqtaBUGZtHF0zQ1x+nWo4egjkt8RsW60ZytX43x5FupBMP0s7LMA4RCdnU6gushY1GFR1TdkKwXFvcJpW7xjIqkkUkfPeiSsr8pP5vmOYficluRL4VtzXQOWf65+7QOlZ0Df53b2wZe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=c+ONQrpC; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-88432e362bfso85636539f.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Aug 2025 17:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1756255581; x=1756860381; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zclw1iBD4zpqjkUTKL/tBf6jKpfLRB4Ld2/pw8/YSMc=;
-        b=c+ONQrpC/gFcMpFrWP6VtrlBKlcf6RfnQxWmrEr8ckXSDyYBJK+GrnN3wCCgIHhGAB
-         SzTW4SKnr1jq/6J5fjdlj+48sJYThTL3F1sVT2LGjwyZMlBI36kdtMgciYoz/6iOXXAF
-         ucunwLN1tUTq/IwcBu63HPH5v+97JeehyqaME29rMsIk0iZ6hTSA23POTVOyvfpAmXwZ
-         B97FaBEzwDfwW2Th7uhD0XJcKlk/Pvd1NHRNEtbpCzJPYLq/nekY+gOFw/Qf6iG2d57A
-         qd+vsnj8NZqXhqgu1ZPaQybpuyPHoUmG1kJ+gFb/RgG7XEUytrQ8hREZw2PYf75KFT/v
-         tozg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756255581; x=1756860381;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zclw1iBD4zpqjkUTKL/tBf6jKpfLRB4Ld2/pw8/YSMc=;
-        b=vM0h0JVWeUqzx83tk4IVIhLf52TQWZdeF5hRHu1ppNEgbPJnj1mW4VxWeDK/4os7RI
-         to9XS6ApuWnbQv986iuejupLoNUpXBiy3uR2rUydklNbny07ifc0DdnIbDsQ4HoG/rY9
-         3NSQvaos1MedCLOaRDlEbdEbO5Y88dzuv+XV4uMBYzp9NIthiaEGcbn/0AjLcShE11Uc
-         uwC04uLQbUSYe/lOYFRuFVghNYutOD6gQDv/MzNomNOxItOSe5RnTe4ywmLx/z0QSnNK
-         VzIK+//klpQ06f+GTbe+iuJP5BjsVp5wwRIVHOIFLz/AWPji3MNC/bXClVfD8HarAvUe
-         t1tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWi2/nUd8KJ4ztlxi7GkEmpmMIGZ3/fX8M3CQzLAAZs6JDQkQPoaHKPxpVE/b6yPigSV34t55VtXScFQbk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyND5HPD1BkOyK1FVNep4WGpQqHBe4e4w7qzq3TQaVmEr96ELLQ
-	ZfX9KMdEP7UZ/BGLJR/nUzsg31R7Z1YsKsST7E9XEfzeqg/5iNC5oGMD7NvZ6T3n06A=
-X-Gm-Gg: ASbGncsRIlCBbjA0Quwx1+3/2XRqE2/bsIFX4HVnJWtRS+nNm4o+vsrW5UVIuIua+QE
-	xdqn839sr8Bwfyl2XAy0J/x6RRsrhX7eLNS88f4xVYDfzYPE1PlPY9O66mMF49ERM0/USfmQe0K
-	nd6D6zisLSgk7XlPXFJ4csIpIsfdFHkXbVYIhl/ZcfKI29XdqOez845qQVXMw62H5E5P6RhZFcJ
-	1cql+lfOKys3oLTd/8c6o4v3rO9C4I6iPQ6ZXzzURtVGXc+YVEEOVCnodOjPmnxAwXkUfadvl5P
-	lwYbH6AYiHAqoJxfu/a6B4fvWgoBKIzjjAnzGXurs1ej3UkGJXjuCpXw6Wz2RFonv6tpmfYjeSN
-	N8dg4HEBkxfmiEbETgVXUwEWaVn1qq8ZP7dD8Wg==
-X-Google-Smtp-Source: AGHT+IGfh2W97xdVpFCgiQyq3Pb9/ifBsTlwqyh1OAHr3R34PnfYQnj+aQ8bMShNsAl8EpMrNrhaMQ==
-X-Received: by 2002:a05:6e02:1b0c:b0:3ef:1b56:c8ea with SMTP id e9e14a558f8ab-3ef1b56c9f9mr43866025ab.11.1756255580619;
-        Tue, 26 Aug 2025 17:46:20 -0700 (PDT)
-Received: from [100.64.0.1] ([170.85.11.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ef2ff2dd60sm14606295ab.9.2025.08.26.17.46.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Aug 2025 17:46:20 -0700 (PDT)
-Message-ID: <2e9ee035-9a1d-4a7b-b380-6ea1985eb7be@sifive.com>
-Date: Tue, 26 Aug 2025 19:46:19 -0500
+	s=arc-20240116; t=1756258490; c=relaxed/simple;
+	bh=4eiZvo+hL550WY6CZyKaK4fRP2VeqMte3/ZsoSFK2Bs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEfbsOs1FS8yj/xlGm4jnruqTWDGKnep6QKoqOJKz1MQqRYCI8pPRbewK+YA/z/G7CYjEBq5C/nzu9RWPI3X565+qd3UGebZ/Uua8HL/5aj32uWU7k+IabHYYabyjLe3ytmDf7PwBWea7RjbFhLwqyifzC6T3bSy3/HHDZiLLOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iNIp4MzC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78EAC4CEF1;
+	Wed, 27 Aug 2025 01:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756258489;
+	bh=4eiZvo+hL550WY6CZyKaK4fRP2VeqMte3/ZsoSFK2Bs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iNIp4MzCAz/2Su6Q9ie6SJSrrgadQvUrBTeD8Iqgom97Azq/yiTX5YT/3bytvQl+R
+	 c77dFs4j5ymA0p96r2A9q2eclhACDC0BeMXTZP3LnGFleYKgQ9mzTP+GLP+5gY/9Ld
+	 t7KLAwBt93khS7Q2I4taw+eQH0o+6z/5mLHT/GtxiSd8i5gwIHOrQUTdUKOkadkKml
+	 BoJhCES05WcIZSHiAvdbLB6rQmXqn6pV9HA0YzCMKsq74yPYyioPU2x3Lxud9h9HZh
+	 77zbyyS0CGOO7salab+iMazbkewswWMxdSjGCMEwRVQAwc5Bm5GbuGBYLRhm1vqbze
+	 /uP+OMYTMYmNg==
+Date: Tue, 26 Aug 2025 18:34:44 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <kees@outflux.net>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+Message-ID: <20250827013444.GA2859318@ax162>
+References: <20250825141316.work.967-kees@kernel.org>
+ <20250825142603.1907143-5-kees@kernel.org>
+ <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
+ <202508250834.E2456B9@keescook>
+ <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
+ <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/19] x86: LAM compatible non-canonical definition
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- Dave Hansen <dave.hansen@intel.com>
-Cc: x86@kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <c1902b7c161632681dac51bc04ab748853e616d0.1756151769.git.maciej.wieczor-retman@intel.com>
- <c68330de-c076-45be-beac-147286f2b628@intel.com>
- <4rkxgsa5zfrvjqtii7cxocdk6g2qel3hif4hcpeboos2exndoe@hp7bok5o2inx>
-From: Samuel Holland <samuel.holland@sifive.com>
-Content-Language: en-US
-In-Reply-To: <4rkxgsa5zfrvjqtii7cxocdk6g2qel3hif4hcpeboos2exndoe@hp7bok5o2inx>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
 
-Hi Maciej,
-
-On 2025-08-26 3:08 AM, Maciej Wieczor-Retman wrote:
-> On 2025-08-25 at 14:36:35 -0700, Dave Hansen wrote:
->> On 8/25/25 13:24, Maciej Wieczor-Retman wrote:
->>> +/*
->>> + * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks.
->>> + */
->>> +#ifdef CONFIG_KASAN_SW_TAGS
->>> +static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->>> +{
->>> +	return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
->>> +}
->>> +#else
->>>  static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
->>>  {
->>>  	return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
->>>  }
->>> +#endif
->>
->> This is the kind of thing that's bound to break. Could we distill it
->> down to something simpler, perhaps?
->>
->> In the end, the canonical enforcement mask is the thing that's changing.
->> So perhaps it should be all common code except for the mask definition:
->>
->> #ifdef CONFIG_KASAN_SW_TAGS
->> #define CANONICAL_MASK(vaddr_bits) (BIT_ULL(63) | BIT_ULL(vaddr_bits-1))
->> #else
->> #define CANONICAL_MASK(vaddr_bits) GENMASK_UL(63, vaddr_bits)
->> #endif
->>
->> (modulo off-by-one bugs ;)
->>
->> Then the canonical check itself becomes something like:
->>
->> 	unsigned long cmask = CANONICAL_MASK(vaddr_bits);
->> 	return (vaddr & mask) == mask;
->>
->> That, to me, is the most straightforward way to do it.
+On Mon, Aug 25, 2025 at 03:31:34PM -0400, Kees Cook wrote:
+> On August 25, 2025 1:00:22 PM EDT, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> >On Mon, Aug 25, 2025 at 5:35 PM Kees Cook <kees@kernel.org> wrote:
+> >>
+> >> Yeah, that's a good idea. What the right way to do that?
+> >>
+> >> config CFI_CLANG
+> >>         bool "Use Clang's Control Flow Integrity (CFI)"
+> >>         depends on ARCH_SUPPORTS_CFI
+> >>         select CFI
+> >>
+> >> ?
+> >
+> >I don't recall what is the idiomatic solution for renames, but I
+> >remember Linus talking about this topic and about avoiding losing old
+> >values if possible (perhaps getting a new question in `oldconfig` is
+> >OK as long as the `olddefconfig` respects the old value).
+> >
+> >I think your suggestion above will still make it appear twice in
+> >`menuconfig` -- there may be a way to play with visibility to make it
+> >better.
+> >
+> >A simple possibility I can think of (assuming it works) is having the
+> >CFI symbol for the time being introduced just as a `def_bool
+> >CFI_CLANG` for a few releases so that people get the new one in their
+> >configs.
 > 
-> Thanks, I'll try something like this. I will also have to investigate what
-> Samuel brought up that KVM possibly wants to pass user addresses to this
-> function as well.
+> Ah, I think this works:
 > 
->>
->> I don't see it addressed in the cover letter, but what happens when a
->> CONFIG_KASAN_SW_TAGS=y kernel is booted on non-LAM hardware?
+> config CFI_CLANG
+>     bool
 > 
-> That's a good point, I need to add it to the cover letter. On non-LAM hardware
-> the kernel just doesn't boot. Disabling KASAN in runtime on unsupported hardware
-> isn't that difficult in outline mode, but I'm not sure it can work in inline
-> mode (where checks into shadow memory are just pasted into code by the
-> compiler).
-
-On RISC-V at least, I was able to run inline mode with missing hardware support.
-The shadow memory is still allocated, so the inline tag checks do not fault. And
-with a patch to make kasan_enabled() return false[1], all pointers remain
-canonical (they match the MatchAllTag), so the inline tag checks all succeed.
-
-[1]:
-https://lore.kernel.org/linux-riscv/20241022015913.3524425-3-samuel.holland@sifive.com/
-
-Regards,
-Samuel
-
-> Since for now there is no compiler support for the inline mode anyway, I'll try to
-> disable KASAN on non-LAM hardware in runtime.
+> config CFI
+>     bool "...."
+>     default CFI_CLANG
 > 
+> I will add that for v2.
 
+That does not appear to work for me. I applied
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index c25a45d9aa96..0d3ed03c76c2 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -876,8 +876,12 @@ config ARCH_SUPPORTS_CFI
+ config ARCH_USES_CFI_TRAPS
+        bool
+
++config CFI_CLANG
++       bool
++
+ config CFI
+        bool "Use Kernel Control Flow Integrity (kCFI)"
++       default CFI_CLANG
+        depends on ARCH_SUPPORTS_CFI
+        depends on $(cc-option,-fsanitize=kcfi)
+        help
+
+on top of this series and
+
+  CONFIG_CFI_CLANG=y
+  # CONFIG_CFI_ICALL_NORMALIZE_INTEGERS is not set
+  # CONFIG_CFI_PERMISSIVE is not set
+
+gets turned into
+
+  # CONFIG_CFI is not set
+
+after olddefconfig. CONFIG_CFI_CLANG has to be user selectable with a
+prompt but the only solution I can think of at the moment results in a
+duplicate prompt for Clang.
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index c25a45d9aa96..93bf9b41a9de 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -876,8 +876,17 @@ config ARCH_SUPPORTS_CFI
+ config ARCH_USES_CFI_TRAPS
+        bool
+
++config CFI_CLANG
++       bool "Use Kernel Control Flow Integrity (kCFI) - Transitional" if CC_IS_CLANG
++       select CFI
++       depends on ARCH_SUPPORTS_CFI
++       depends on $(cc-option,-fsanitize=kcfi)
++       help
++         This is a transitional symbol to CONFIG_CFI, see its help text
++         for more information.
++
+ config CFI
+-       bool "Use Kernel Control Flow Integrity (kCFI)"
++       bool "Use Kernel Control Flow Integrity (kCFI)" if CC_IS_GCC
+        depends on ARCH_SUPPORTS_CFI
+        depends on $(cc-option,-fsanitize=kcfi)
+        help
+
+Maybe that does not matter for the sake of keeping things working?
+Otherwise, we could just keep things as they are with the patch set and
+expect people to actually use oldconfig or diff the results of
+olddefconfig (which I think is good practice anyways).
+
+Cheers,
+Nathan
 
