@@ -1,61 +1,58 @@
-Return-Path: <linux-kbuild+bounces-8643-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8636-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04061B3AA0B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 20:29:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD236B38EB4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 00:49:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2DFE7C0B84
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 18:29:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E6F21887D56
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Aug 2025 22:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56B73272E74;
-	Thu, 28 Aug 2025 18:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9793305E19;
+	Wed, 27 Aug 2025 22:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyZu9Q8e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocX7D9UB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2776818E377;
-	Thu, 28 Aug 2025 18:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918DF30CD9C;
+	Wed, 27 Aug 2025 22:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756405761; cv=none; b=YS/Lp2YBLDMcAeBeA0GLfwJ2ds7rvCNSp+cON3SQCMcVykwi3vFosdjEm/KHnJD3xOnBgCBNRh+OW5hzlhuQTM6yUYx7Ohp3ezdM55i46PQzRZzSZw0u7YFp+ykgJTut2uwPkqrUTyzZ2LClg5AQCp7zcHW7ebmwPPCBD1g+CzE=
+	t=1756334979; cv=none; b=VtXyUUvosC1oIZeKGVgjx+ON+SiimDPdpC0d6F2Eru/BibTJ7BQxpY/Ydg2caqnSMamo6n+MXKRguQmuzA0Gzw7O0rIAXnOqowln7AT2WD087Ihon1dovwIq0q8yAgzFkNXE3chWX4bvoKy5HBVd3/U6NI3u/YnOrGAhNExaLLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756405761; c=relaxed/simple;
-	bh=lWIn7MeegvcPezZrCADC1Y2EJqB+kL6yCJU0iU5fPM0=;
+	s=arc-20240116; t=1756334979; c=relaxed/simple;
+	bh=ybnfv5G/UHvJ1FV2+oMrm4MyyGYbL0FpiszOiePMzGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LqzQ9fTmaXxdXX0Wb0wHKa1OrqlddzirPFTVgo75h8YftODENrUBQQb4n3PsJe1h9+n1qLcj1zfbX+zJlyWOjspe+of5I+Ds75em3p12PntuD9dEcusbVMjB7P+9nCnNf8+5ozSsrBj3ocLi3IFilOuHI5Pxkyeo+bpafO2CvHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyZu9Q8e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4822AC4CEEB;
-	Thu, 28 Aug 2025 18:29:20 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FyC2NPgyFUbwJseEzec7SN1x1guGVSdeFGHgq75LHBJUMVB2rx1658g3sCVvsJbTQCJX9Um1LKkC5ru4aD0o0HhhWAYrH/WjsldtO2rKGUqX8D0wiZaA/pofbX1NV5H0Noj3RcV+/IrnsImh2DpDA12HzxFezDFUuAiLklQ+Qf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocX7D9UB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC68C4CEEB;
+	Wed, 27 Aug 2025 22:49:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756405760;
-	bh=lWIn7MeegvcPezZrCADC1Y2EJqB+kL6yCJU0iU5fPM0=;
+	s=k20201202; t=1756334979;
+	bh=ybnfv5G/UHvJ1FV2+oMrm4MyyGYbL0FpiszOiePMzGI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DyZu9Q8eE6Mau49LSxcffyy5WRlQQzBfQ4Fb9x6jiCHFvQ21PEhfLvh+wqeD4y5vS
-	 5eZGcU7Yva2GrTP1rqGWuG69UvDFd7IwsQqjBS9ieeJEsxxkDJi9vJxVN9q96Jh7xv
-	 BX+L47/WGzvYYiSN1S7qKpfklaA3fYDgFwv3XnTdVbBiSeyHe9S/YAbEJvESdDdY7M
-	 gQXLnGRW9wQ6HBGFT/fk7rjRp7ZMe2srom8Qj8W2Dd9cn/aFluFUumQfZR2r8WpYhr
-	 OWC9pCoxrGNX1HWyt92nwNMIfRxZolWTaNTYpcR7lXU4PHTKHY5bnXyvmkbzgI097D
-	 MO077FS3lrGpQ==
-Date: Thu, 28 Aug 2025 00:04:08 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] docs: add support to build manpages from
- kerneldoc output
-Message-ID: <aK-A2DmxhGDQGVEf@levanger>
-References: <cover.1756282370.git.mchehab+huawei@kernel.org>
- <d880eb9c915a08c25102b7c1b17a01a8ab7e32c3.1756282370.git.mchehab+huawei@kernel.org>
+	b=ocX7D9UBVYze+yjlww4QFREVgkeu1y0cTcIewEiMl481Vq1waDGRmAToN0KNJi37C
+	 g3H3fK/lloeGSxSlw6ON+Tou4PvOzGt32XX5obxB7pwxAQpz9sEwMlT1mZ4RYo38bj
+	 KrYlDESV+p9lh5WmRZlkPgEj8Ik5mmG00nodJ8VqOlas4dbSzDlz9xPo84Pgjx/XLV
+	 QSQB8+i9Zdatsi21s7iEAdJiNo1oSEpR9Y9xwqTlG6q24lBSkS9ikSdoTnxv9PK9jf
+	 NDXx1oc5iEIIL+hilfI0ooGhHoFsdC9qHxOSrlkZG/+Mt8NjBTU8Z7tjm19L3WrjQi
+	 DZKqiDWDS73zQ==
+Date: Wed, 27 Aug 2025 15:49:35 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] kbuild: userprogs: also inherit byte order and ABI
+ from kernel
+Message-ID: <20250827224935.GB414199@ax162>
+References: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
+ <20250813-kbuild-userprogs-bits-v1-2-2d9f7f411083@linutronix.de>
+ <20250827075334-3332c08d-66f3-427d-b0b2-4460e779f261@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,86 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d880eb9c915a08c25102b7c1b17a01a8ab7e32c3.1756282370.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20250827075334-3332c08d-66f3-427d-b0b2-4460e779f261@linutronix.de>
 
-Please check your mail tooling: something strange happened to all
-@kernel.org adresses:
+Hi Thomas,
 
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
->         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
->         Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>,
->         Alice Ryhl <aliceryhl@google.com>,
->         Masahiro Yamada <mchehab+huawei@kernel.org>,
->         Miguel Ojeda <mchehab+huawei@kernel.org>,
->         Nathan Chancellor <mchehab+huawei@kernel.org>,
->         Nicolas Schier <nicolas.schier@linux.dev>,
->         Randy Dunlap <rdunlap@infradead.org>,
->         Tamir Duberstein <tamird@gmail.com>,
->         linux-kbuild@vger.kernel.org,
->         linux-kernel@vger.kernel.org
-
-On Wed, Aug 27, 2025 at 10:26:37AM +0200, Mauro Carvalho Chehab wrote:
-> Generating man files currently requires running a separate
-> script. The target also doesn't appear at the docs Makefile.
+On Wed, Aug 27, 2025 at 08:31:00AM +0200, Thomas Weiﬂschuh wrote:
+> On Wed, Aug 13, 2025 at 07:43:41AM +0200, Thomas Weiﬂschuh wrote:
+...
+> > diff --git a/Makefile b/Makefile
+> > index d0f5262a9c0f3b4aa79a91c20cc149d034ffa0b7..7d40f84d5efde18ed3a2f4d8cf7a9b1ec3610ed4 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1137,8 +1137,8 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
+> >  LDFLAGS_vmlinux	+= --emit-relocs --discard-none
+> >  endif
+> >  
+> > -# Align the bit size of userspace programs with the kernel
+> > -USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
+> > +# Align the bit size, byte order and architecture of userspace programs with the kernel
+> > +USERFLAGS_FROM_KERNEL := -m32 -m64 -mlittle-endian -mbig-endian -EL -EB --target=% -march=% -mabi=%
+> >  KBUILD_USERCFLAGS  += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+> >  KBUILD_USERLDFLAGS += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
 > 
-> Add support for mandocs at the Makefile, adding the build
-> logic inside sphinx-build-wrapper, updating documentation
-> and dropping the ancillary script.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/Makefile                 |  3 +-
->  Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
->  Makefile                               |  2 +-
->  scripts/split-man.pl                   | 28 ---------
->  tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
->  5 files changed, 95 insertions(+), 48 deletions(-)
->  delete mode 100755 scripts/split-man.pl
-> 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 3e1cb44a5fbb..22e39e5ed07d 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
->  else # HAVE_SPHINX
->  
->  # Common documentation targets
-> -infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-> +mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
->  	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
->  	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
->  		--sphinxdirs="$(SPHINXDIRS)" --conf=$(SPHINX_CONF) \
-> @@ -104,6 +104,7 @@ dochelp:
->  	@echo  '  htmldocs        - HTML'
->  	@echo  '  texinfodocs     - Texinfo'
->  	@echo  '  infodocs        - Info'
-> +	@echo  '  mandocs         - Man pages'
->  	@echo  '  latexdocs       - LaTeX'
->  	@echo  '  pdfdocs         - PDF'
->  	@echo  '  epubdocs        - EPUB'
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index af9697e60165..4370cc8fbcf5 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -579,20 +579,23 @@ source.
->  How to use kernel-doc to generate man pages
->  -------------------------------------------
->  
-> -If you just want to use kernel-doc to generate man pages you can do this
-> -from the kernel git tree::
-> +To generate man pages for all files that contain kernel-doc markups, run::
->  
-> -  $ scripts/kernel-doc -man \
-> -    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-> -    | scripts/split-man.pl /tmp/man
-> +  $ make mandocs
->  
-> -Some older versions of git do not support some of the variants of syntax for
-> -path exclusion.  One of the following commands may work for those versions::
-> +Or calling ``script-build-wrapper`` directly::
+> I looked some more at the breakage reported from -next [0].
 
-                ^^^^^^ sphinx-build-wrapper ?
+Thanks for looking into this.
 
-Kind regards
-Nicolas
+> For architectures with multiple possible byte orders or ABIs the toolchain
+> might be able to build the kernel for all combinations but might not have a
+> matching libc for them. Currently userprogs uses the default byteorder and
+> ABI from the compiler, which will match the included libcs if there is any.
+> However the resulting binary might not run on the built kernel.
+> CC_CAN_LINK can be extended to generically handle different byte orders, as
+> for those we have standard kconfig symbols. But handling ABIs would need to
+> be architecture specific and a bit more complex.
+> 
+> We can't use KBUILD_*FLAGS for CC_CAN_LINK, as they are not yet set during
+> the configuration stage.
+
+Right, this was the biggest thing that I noticed, which would really
+help us out...
+
+> I see the following options:
+> 
+> * Add byte order and architecture-specific ABI handling to CC_CAN_LINK
+
+How do you envision this? Different default lines for each combination?
+Feels like that could get complicated quickly but this would probably be
+the objectively most robust and "hands off" option.
+
+> * Accept that userprogs might not be runnable on the built kernel
+
+I do wonder how common running the userprogs are. Obviously you hit this
+in testing but I am curious if others have reported this.
+
+> * Let the user manually set CC_CAN_LINK to override the autodetection
+
+I am not sure I like this one but maybe we could have a hidden
+CC_MAY_LINK with something like the current CC_CAN_LINK then CC_CAN_LINK
+could be turned into something like
+
+    config CC_CAN_LINK
+        bool "Toolchain can link userspace executables" if !COMPILE_TEST
+        default CC_MAY_LINK
+
+I am not surethat would actually help us here plus I still do not like
+the idea of throwing this back to the user.
+
+> * Add separate handling for runnable userprogs
+
+What do you mean by this?
+
+> * Use tools/include/nolibc/ for userprogs instead of the toolchain libc
+>   (unlikely, but I wanted do mention the option)
+
+This could be interesting to explore but I assume using a cross libc
+could be desirable for some people depending on the testing?
+
+Cheers,
+Nathan
 
