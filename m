@@ -1,197 +1,178 @@
-Return-Path: <linux-kbuild+bounces-8637-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8638-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E62B393B1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 08:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89755B398C2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 11:50:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A1A216D3AB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 06:14:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AA5F560960
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Aug 2025 09:50:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C662773D6;
-	Thu, 28 Aug 2025 06:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 237652ED15F;
+	Thu, 28 Aug 2025 09:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bkxGi3Q6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtsLfDMM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4E8277C84;
-	Thu, 28 Aug 2025 06:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42D725E44D;
+	Thu, 28 Aug 2025 09:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756361686; cv=none; b=lfhNrGCfzlSej4Joo+yS5gnCXD16p8uhcAlHVm9+HxUoh68MxOjmOpHfyTkvyg437k1XjSIGiqm/0QJnkZ4xiQhgTMl/oz3OZy5rIxTOqdHliZZCjCnSlSBZrxBYXBMe4V5Ts7bphDtkhNGt4mGcWQ/s7rqdcmhxA5ZEhr4nu2c=
+	t=1756374647; cv=none; b=TcZ5ZLuVdLO4eRM1DDr3ONnJOB71mdw0F6PM4F/FV038kuKx+KbaLnMGY7xsbXkjXrt0YJN8PwnthL1Utt2YPVRipH89hqNpAVETxcFQ3AGs0+WSDMlQ+UoNUpXMy1L9yXC2T2SJ2rt3uXVqCOzfXkAD6QQ+0zEN3ARih7AWUcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756361686; c=relaxed/simple;
-	bh=24RtXmBs8sDbV+FKZY3m2RQfjwKVsmeGc/ycJ8DwMBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ks0sc6XGzELAOPcuOZzwHqUfbIte4X2nyiLJDr1FuH9EAEzNKACheMD6j8LVHUL8V71BQG+rLcN43YDAMMtcWezgHk6t15lY2s3nRxyfQjAjE9GpveYAVmKB8ZkbHVRKQ0OZxj9fzk3nZNtm6gkwcJgukmvlt1XXqaptdLOCV3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bkxGi3Q6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=mLP5bwfx5JUrcHsz6CyZc7tgsZnbyjt3ON1W+9DUhmE=; b=bkxGi3Q6m6lm+Igj/KqLC35diy
-	D+8C+V1d7b7P294LP3kloHaUZQsS5V2wNmdrRa9BnpUsrNdGc9sjnIFq5AVDEdvpfr2CRtTaXXt6/
-	ZTCf7PVZigQcjx7zulNTvhErrYr+n50RnGuPZBTN+x/vD9kAZFGU983GYe6EkyK8JE7zP0NreezE8
-	dsJezbWOu2t9JxU8z/Gtny6N+IrqdZm3jVq7jSIaiNtr2M0vMWF8rbRYtFLyJX4HQQOhJ98tIZQc2
-	jwoD23j7ZEdtvosv6JKqa4SoOnqZ9GR/bHA5PxbpW0DcZWbKDISZecRVQVLixsAWZGKU8JYJAXrfm
-	WpmdxvJQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urVuA-00000000Phx-1KCr;
-	Thu, 28 Aug 2025 06:14:38 +0000
-Message-ID: <61cd6dac-14e1-474e-9aa3-4fe782e81ba9@infradead.org>
-Date: Wed, 27 Aug 2025 23:14:36 -0700
+	s=arc-20240116; t=1756374647; c=relaxed/simple;
+	bh=nsd/srhjb2GA1BGIBjZu6MLWkDZmOCy2pcy5zHmDL74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZVKgl0PvZuXD4tAhn7tkkYDKi00pQkeXJx9S2jVFzf2T/7CqFuvQJB9DsJAdHJxCrkr7xMKup4nsJjHi5zZPuksJggTeWuSA84+PdfqNfM4bs8LfVvSxuw72HFflfmucOaceB52SrLwp9fCzDg7K7SKP5nze5YteENkie5skcXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtsLfDMM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2032C4CEEB;
+	Thu, 28 Aug 2025 09:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756374646;
+	bh=nsd/srhjb2GA1BGIBjZu6MLWkDZmOCy2pcy5zHmDL74=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VtsLfDMMLPSn8X7FB1qyNCklBXX9jl5VJY1SBRcbhOVICoFXA67QPx/qy7W6dd3vD
+	 yfVYCeZ9qxnPjnysPEtIFtXsq9TpqQ7ht02VkXWKJSH5mhi7sLsK8f6czjwjLvDknI
+	 EM7JLLbBT14GmJfNk3pIinT5sdlwUfUTxOOuJcXPVeVRMUQIKLsvsdrWX0j4LVT7gq
+	 SCz62qpwpxFqTRTlUURPRhZQBzchubGPagz85CseSPu0lif/72BG8k0aV+YX0q1VLD
+	 e4NAgp3YEZ2oeqsVUxXVdVb/8ObVWHiurodKtnBRh0zfOBY24G5vDUPm3Vou9eV7r2
+	 4uhT7unkY+MBg==
+Date: Thu, 28 Aug 2025 12:50:19 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
+	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
+	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
+	trintaeoitogc@gmail.com, axelrasmussen@google.com,
+	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
+	joel.granados@kernel.org, graf@amazon.com,
+	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
+	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
+	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
+	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
+	kaleshsingh@google.com, justinstitt@google.com,
+	catalin.marinas@arm.com, alexander.shishkin@linux.intel.com,
+	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
+	corbet@lwn.net, xin@zytor.com, dvyukov@google.com,
+	tglx@linutronix.de, scott@os.amperecomputing.com,
+	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
+	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
+	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
+	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
+	mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com,
+	leitao@debian.org, peterz@infradead.org, wangkefeng.wang@huawei.com,
+	surenb@google.com, ziy@nvidia.com, smostafa@google.com,
+	ryabinin.a.a@gmail.com, ubizjak@gmail.com, jbohac@suse.cz,
+	broonie@kernel.org, akpm@linux-foundation.org,
+	guoweikang.kernel@gmail.com, pcc@google.com, jan.kiszka@siemens.com,
+	nicolas.schier@linux.dev, will@kernel.org, andreyknvl@gmail.com,
+	jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 07/19] mm: x86: Untag addresses in EXECMEM_ROX related
+ pointer arithmetic
+Message-ID: <aLAmW-UV6hv9k1LT@kernel.org>
+References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
+ <c773559ea60801f3a5ca01171ea2ac0f9b0da56a.1756151769.git.maciej.wieczor-retman@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Kees Cook <kees@outflux.net>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Sami Tolvanen <samitolvanen@google.com>,
- Linus Walleij <linus.walleij@linaro.org>, Mark Rutland
- <mark.rutland@arm.com>, Puranjay Mohan <puranjay@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- x86@kernel.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20250825141316.work.967-kees@kernel.org>
- <20250825142603.1907143-5-kees@kernel.org>
- <CANiq72kc7Ky6+7Ny7jR04s8vU-g23qBQC0rQrOZDxDzXT+m1TQ@mail.gmail.com>
- <202508250834.E2456B9@keescook>
- <CANiq72mQsLqhpX29NP3Zm8HZ5m429tSXjgFcRYJM3e=Zac1G1w@mail.gmail.com>
- <9CCDBE93-7DBD-41D0-B9B6-05900F2AB1EE@outflux.net>
- <20250827013444.GA2859318@ax162>
- <56c2b1ce-00a4-403c-9927-79bfd9a23574@infradead.org>
- <20250827193815.GA2293657@ax162>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250827193815.GA2293657@ax162>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c773559ea60801f3a5ca01171ea2ac0f9b0da56a.1756151769.git.maciej.wieczor-retman@intel.com>
 
-
-
-On 8/27/25 12:38 PM, Nathan Chancellor wrote:
-> On Wed, Aug 27, 2025 at 12:35:12AM -0700, Randy Dunlap wrote:
->> On 8/26/25 6:34 PM, Nathan Chancellor wrote:
->>> On Mon, Aug 25, 2025 at 03:31:34PM -0400, Kees Cook wrote:
->>>> On August 25, 2025 1:00:22 PM EDT, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
->>>>> On Mon, Aug 25, 2025 at 5:35 PM Kees Cook <kees@kernel.org> wrote:
->>>>>>
->>>>>> Yeah, that's a good idea. What the right way to do that?
->>>>>>
->>>>>> config CFI_CLANG
->>>>>>         bool "Use Clang's Control Flow Integrity (CFI)"
->>>>>>         depends on ARCH_SUPPORTS_CFI
->>>>>>         select CFI
->>>>>>
->>>>>> ?
->>>>>
->>>>> I don't recall what is the idiomatic solution for renames, but I
->>>>> remember Linus talking about this topic and about avoiding losing old
->>>>> values if possible (perhaps getting a new question in `oldconfig` is
->>>>> OK as long as the `olddefconfig` respects the old value).
->>>>>
->>>>> I think your suggestion above will still make it appear twice in
->>>>> `menuconfig` -- there may be a way to play with visibility to make it
->>>>> better.
->>>>>
->>>>> A simple possibility I can think of (assuming it works) is having the
->>>>> CFI symbol for the time being introduced just as a `def_bool
->>>>> CFI_CLANG` for a few releases so that people get the new one in their
->>>>> configs.
->>>>
->>>> Ah, I think this works:
->>>>
->>>> config CFI_CLANG
->>>>     bool
->>>>
->>>> config CFI
->>>>     bool "...."
->>>>     default CFI_CLANG
->>>>
->>>> I will add that for v2.
->>>
->>> That does not appear to work for me. I applied
->>>
->>> diff --git a/arch/Kconfig b/arch/Kconfig
->>> index c25a45d9aa96..0d3ed03c76c2 100644
->>> --- a/arch/Kconfig
->>> +++ b/arch/Kconfig
->>> @@ -876,8 +876,12 @@ config ARCH_SUPPORTS_CFI
->>>  config ARCH_USES_CFI_TRAPS
->>>         bool
->>>
->>> +config CFI_CLANG
->>> +       bool
->>> +
->>>  config CFI
->>>         bool "Use Kernel Control Flow Integrity (kCFI)"
->>> +       default CFI_CLANG
->>>         depends on ARCH_SUPPORTS_CFI
->>>         depends on $(cc-option,-fsanitize=kcfi)
->>>         help
->>>
->>> on top of this series and
->>>
->>>   CONFIG_CFI_CLANG=y
->>>   # CONFIG_CFI_ICALL_NORMALIZE_INTEGERS is not set
->>>   # CONFIG_CFI_PERMISSIVE is not set
->>>
->>> gets turned into
->>>
->>>   # CONFIG_CFI is not set
->>>
->>> after olddefconfig. CONFIG_CFI_CLANG has to be user selectable with a
->>
->> Could/did you test with 'oldconfig' instead?
->>
->> olddefconfig is going to use the default value from the Kconfig file,
->> which if CFI_CLANG which is undefined/No/Not set.
->>
->> oldconfig will use the old value from the .config file.
+On Mon, Aug 25, 2025 at 10:24:32PM +0200, Maciej Wieczor-Retman wrote:
+> ARCH_HAS_EXECMEM_ROX was re-enabled in x86 at Linux 6.14 release.
+> Related code has multiple spots where page virtual addresses end up used
+> as arguments in arithmetic operations. Combined with enabled tag-based
+> KASAN it can result in pointers that don't point where they should or
+> logical operations not giving expected results.
 > 
-> I am not sure I understand what you mean here. With the series as it is
-> or Kees's suggested fix, oldconfig still prompts the user to enable
-
-OK, I don't know the state of the CFI_CLANG / CLANG patch(es).
-
-I just mean the difference in 'make oldconfig' and 'make olddefconfig'
-(at least AIUI).
-
-
-> CONFIG_CFI with CONFIG_CFI_CLANG=y in the old configuration. Both Miguel
-> and I allude to that being fine but it would be really nice if users
-> with CONFIG_CFI_CLANG=y were automatically transitioned to CONFIG_CFI=y
-> without any action on their part. That seems to be in line with how
-
-Yes, I agree.
-
-> Linus feels even as recently as this past merge window:
+> vm_reset_perms() calculates range's start and end addresses using min()
+> and max() functions. To do that it compares pointers but some are not
+> tagged - addr variable is, start and end variables aren't.
 > 
-> https://lore.kernel.org/CAHk-=wgO0Rx2LcYT4f75Xs46orbJ4JxO2jbAFQnVKDYAjV5HeQ@mail.gmail.com/
+> within() and within_range() can receive tagged addresses which get
+> compared to untagged start and end variables.
 > 
-> Another idea I had to avoid this is introducing CONFIG_CFI_GCC as a user
-> selectable symbol and making CONFIG_CFI the hidden symbol that both
-> compiler symbols select. After a couple of releases (or maybe the next
-> LTS), both CONFIG_CFI_CLANG and CONFIG_CFI_GCC could be eliminated with
-> CONFIG_CFI becoming user selectable, which would keep things working
-> since CONFIG_CFI=y will be present in the previous configuration.
+> Reset tags in addresses used as function arguments in min(), max(),
+> within().
+> 
+> execmem_cache_add() adds tagged pointers to a maple tree structure,
+> which then are incorrectly compared when walking the tree. That results
+> in different pointers being returned later and page permission violation
+> errors panicking the kernel.
+> 
+> Reset tag of the address range inserted into the maple tree inside
+> execmem_cache_add().
+> 
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> ---
+> Changelog v5:
+> - Remove the within_range() change.
+> - arch_kasan_reset_tag -> kasan_reset_tag.
+> 
+> Changelog v4:
+> - Add patch to the series.
+> 
+>  mm/execmem.c | 2 +-
+>  mm/vmalloc.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/execmem.c b/mm/execmem.c
+> index 0822305413ec..f7b7bdacaec5 100644
+> --- a/mm/execmem.c
+> +++ b/mm/execmem.c
+> @@ -186,7 +186,7 @@ static DECLARE_WORK(execmem_cache_clean_work, execmem_cache_clean);
+>  static int execmem_cache_add_locked(void *ptr, size_t size, gfp_t gfp_mask)
+>  {
+>  	struct maple_tree *free_areas = &execmem_cache.free_areas;
+> -	unsigned long addr = (unsigned long)ptr;
+> +	unsigned long addr = (unsigned long)kasan_reset_tag(ptr);
 
+Thinking more about it, we anyway reset tag in execmem_alloc() and return
+untagged pointer to the caller. Let's just move kasan_reset_tag() to
+execmem_vmalloc() so that we always use untagged pointers. Seems more
+robust to me.
+
+>  	MA_STATE(mas, free_areas, addr - 1, addr + 1);
+>  	unsigned long lower, upper;
+>  	void *area = NULL;
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 6dbcdceecae1..c93893fb8dd4 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -3322,7 +3322,7 @@ static void vm_reset_perms(struct vm_struct *area)
+>  	 * the vm_unmap_aliases() flush includes the direct map.
+>  	 */
+>  	for (i = 0; i < area->nr_pages; i += 1U << page_order) {
+> -		unsigned long addr = (unsigned long)page_address(area->pages[i]);
+> +		unsigned long addr = (unsigned long)kasan_reset_tag(page_address(area->pages[i]));
+
+This is not strictly related to execemem, there may other users of
+VM_FLUSH_RESET_PERMS.
+
+Regardless, I wonder how this works on arm64 with tags enabled?
+
+Also, it's not the only place in the kernel that does (unsigned
+long)page_address(page). Do other sites need to reset the tag as well?
+
+>  
+>  		if (addr) {
+>  			unsigned long page_size;
+> -- 
+> 2.50.1
+> 
 
 -- 
-~Randy
-
+Sincerely yours,
+Mike.
 
