@@ -1,165 +1,121 @@
-Return-Path: <linux-kbuild+bounces-8666-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A29AB3C23F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Aug 2025 20:10:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AADDCB3C4EB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Aug 2025 00:34:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85A51A080C4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Aug 2025 18:10:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 018527A4BD0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Aug 2025 22:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6B93431ED;
-	Fri, 29 Aug 2025 18:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380742773D3;
+	Fri, 29 Aug 2025 22:33:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooi7zA7T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CeI1Uyyw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338A521019E;
-	Fri, 29 Aug 2025 18:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0222B2A1AA;
+	Fri, 29 Aug 2025 22:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756491020; cv=none; b=PW1RbyFm6pAlb8a+rD/IY1krM6TRHsBDRHPtN9L2g6fvl2XqOhE0K2ajXc66q4BwrBrW0zqqmwqw8GoxhTaqfD6YXbeF1pqAMS1jdN0Ayy4s5tcAo186lp5n6bcVptFkbsg7k0J3XhtZPAHrRYNIJdiVp8ZauRyAbpxvwUXX9YE=
+	t=1756506832; cv=none; b=vCSXcb3tONzlxX8lGWE4RfH9MzadJKSKN8KpuOzRbxRM4xyGxCWkBAMMYD8xWpkpBmMqSRZL9ZhsUysqOaKMArGu8gFK5AhEcZDdOitMjjhT4LB86ZCX9wu29wVzR3XdMR2zdi/4AfwvgMJjzKfFpCks03mrdUmUedM0Sq9Ic/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756491020; c=relaxed/simple;
-	bh=SXu3T17dYbp/ukZ8uJydGVdZ6zcCuFcjGzpDGMwa+Nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HKD1whapY09keBQKdviaQHsUdOtbcq2/nWQqUIfA+MBiClFxxigbachQOj6jlJA9Y7y4TZJ1fO9zlV5VDRkw3rfSFRk9i8jfFppsHaktJMqikvI6HRUqUDcy4VMbFdbyi/BmdApYw/Ho51oJK/GxkkaCav/QL+HCp1DPTuowxVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooi7zA7T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C02C4CEF0;
-	Fri, 29 Aug 2025 18:10:09 +0000 (UTC)
+	s=arc-20240116; t=1756506832; c=relaxed/simple;
+	bh=gW3UREhITNbhZNhXVhy/1JzS54isi8alO3SClI/0N4U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OR0jCuckKwC+/om4uA/xqjZIFiQDrlbyj1/B/fyWYk66So9zIi3gPnpxjGBQ5q9F9OZ1dggmD+qSIwnQt+CvaqDHdc6a0WjvqigEHzNyxR4RyfnYRyVXdRgGw/7AM0x5fYkwtzbEinlCHb8s/I4LZ2Lu3AylE0Mz2ZRAfKgc6qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CeI1Uyyw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5459DC4CEF0;
+	Fri, 29 Aug 2025 22:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756491018;
-	bh=SXu3T17dYbp/ukZ8uJydGVdZ6zcCuFcjGzpDGMwa+Nc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ooi7zA7T9NmpAVf2EhalPYoUyuzdraHp5C4oj/l4tumul2weopj5FJ1utOM+alOHE
-	 kKgusS+zU63i44OmypyAXKPtErTb3bB1GndFYFN2okuf9dT8hCaNdpoFVkJ5p8agh+
-	 KkkEsMX5T3gC8JIm2Ov+5zT8s4L7tpEw7w/6ThgCsQL1Xlg6GXrAAbC6OLHWNTeh0w
-	 FXzd4JTSiV52V1QufIh9KkzXjYT+hvbp3zSg4ylf/XGvXabRt4g7AwLZFCUhy7Zrgf
-	 S8hNoGjWZuOpsjDmYOt//9aCCpoZgyxV/RwMeINevxHuMv5KmXpH/JQL39xFf9C15W
-	 UspQvwHff7f7A==
-Date: Fri, 29 Aug 2025 11:10:07 -0700
+	s=k20201202; t=1756506831;
+	bh=gW3UREhITNbhZNhXVhy/1JzS54isi8alO3SClI/0N4U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=CeI1UyywLphq6rbxihW3K12s6RgLJ57FMTz4eKtrVBaIOZQlRF5Mw5MGN9VZqsyUF
+	 ws1VVPK2A9Aphpeu08IZ+PBsvH/hZxYQZ/E8LlLJ2UoQZh6ZiWU7Ee+Bxfnwgu4wDN
+	 qm+ussMtaWLdi83SF8aT0+Btb7yjNB9Ygip41cIO0PmgxXzADx6IHAKLQjnLPLfqj2
+	 5eqSmq9NNuwF0+wjF3Nc60azb8fAUFVptz94yF9f9Xn6OeJKPvhEVPRSVPcQIiH9ig
+	 389Jr83bSdXVSFqVbGJ4RM5keAw6x2twpNgOifIA2xME7cb4HiY+r6PWu/R5+ICtHu
+	 LsNzjw1Q4Twaw==
 From: Nathan Chancellor <nathan@kernel.org>
-To: Jinghao Jia <jinghao7@illinois.edu>,
-	Wentao Zhang <wentaoz5@illinois.edu>,
-	Sasha Levin <sashal@kernel.org>
-Cc: Matt.Kelly2@boeing.com, akpm@linux-foundation.org,
-	andrew.j.oppelt@boeing.com, anton.ivanov@cambridgegreys.com,
-	ardb@kernel.org, arnd@arndb.de, bhelgaas@google.com, bp@alien8.de,
-	chuck.wolber@boeing.com, dave.hansen@linux.intel.com,
-	dvyukov@google.com, hpa@zytor.com, johannes@sipsolutions.net,
-	jpoimboe@kernel.org, justinstitt@google.com, kees@kernel.org,
-	kent.overstreet@linux.dev, linux-arch@vger.kernel.org,
-	linux-efi@vger.kernel.org, Wentao Zhang <wentaoz5@illinois.edu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	llvm@lists.linux.dev, luto@kernel.org, marinov@illinois.edu,
-	masahiroy@kernel.org, maskray@google.com,
-	mathieu.desnoyers@efficios.com, matthew.l.weber3@boeing.com,
-	mhiramat@kernel.org, mingo@redhat.com, morbo@google.com,
-	ndesaulniers@google.com, oberpar@linux.ibm.com, paulmck@kernel.org,
-	peterz@infradead.org, richard@nod.at, rostedt@goodmis.org,
-	samitolvanen@google.com, samuel.sarkisian@boeing.com,
-	steven.h.vanderleest@boeing.com, tglx@linutronix.de,
-	tingxur@illinois.edu, tyxu@illinois.edu, x86@kernel.org
-Subject: Re: [PATCH v2 0/4] Enable measuring the kernel's Source-based Code
- Coverage and MC/DC with Clang
-Message-ID: <20250829181007.GA468030@ax162>
-References: <20241002045347.GE555609@thelio-3990X>
- <20241002064252.41999-1-wentaoz5@illinois.edu>
- <20241003232938.GA1663252@thelio-3990X>
- <284fe8fa-c094-49b7-8e16-3318676d38e3@illinois.edu>
+To: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Kees Cook <kees@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ llvm@lists.linux.dev, patches@lists.linux.dev, 
+ Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, Russell King <linux@armlinux.org.uk>, 
+ Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ Will Deacon <will@kernel.org>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linuxppc-dev@lists.ozlabs.org, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
+ Marco Elver <elver@google.com>, 
+ "Peter Zijlstra (Intel)" <peterz@infraded.org>, kasan-dev@googlegroups.com
+In-Reply-To: <20250821-bump-min-llvm-ver-15-v2-0-635f3294e5f0@kernel.org>
+References: <20250821-bump-min-llvm-ver-15-v2-0-635f3294e5f0@kernel.org>
+Subject: Re: [PATCH v2 00/12] Bump minimum supported version of LLVM for
+ building the kernel to 15.0.0
+Message-Id: <175650682606.3003527.17329504429724755241.b4-ty@kernel.org>
+Date: Fri, 29 Aug 2025 15:33:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <284fe8fa-c094-49b7-8e16-3318676d38e3@illinois.edu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev
 
-Hi Jinghao and Wentao,
 
-On Thu, Nov 21, 2024 at 11:05:14PM -0600, Jinghao Jia wrote:
-...
-> On 10/3/24 6:29 PM, Nathan Chancellor wrote:
-> > I seem to have narrowed down it to a few different configurations on top
-> > of x86_64_defconfig but I will include the full bad configuration as an
-> > attachment just in case anything else is relevant.
-...
-> > $ qemu-system-x86_64 \
-> >     -display none \
-> >     -nodefaults \
-> >     -M q35 \
-> >     -d unimp,guest_errors \
-> >     -append 'console=ttyS0 earlycon=uart8250,io,0x3f8' \
-> >     -kernel arch/x86/boot/bzImage
-> >     -initrd rootfs.cpio \
-> >     -cpu host \
-> >     -enable-kvm \
-> >     -m 8G \
-> >     -smp 8 \
-> >     -serial mon:stdio
-> > <hangs with no output>
+On Thu, 21 Aug 2025 14:15:37 -0700, Nathan Chancellor wrote:
+> s390 and x86 have required LLVM 15 since
 > 
-> This hang is caused by an early boot exception -- gdb shows the execution
-> reaches the halt loop in early_fixup_exception().  Dumping regs->ip associated
-> with this exception points us to the following instruction:
+>   30d17fac6aae ("scripts/min-tool-version.sh: raise minimum clang version to 15.0.0 for s390")
+>   7861640aac52 ("x86/build: Raise the minimum LLVM version to 15.0.0")
 > 
-> ffffffff89b58074:       48 ff 05 85 7f 4a 76    incq   0x764a7f85(%rip)        # 0 <fixed_percpu_data>
+> respectively. This series bumps the rest of the kernel to 15.0.0 to
+> match, which allows for a decent number of clean ups.
 > 
-> This is apparently an incorrect access to the per-cpu variable (the cpu offset
-> in %gs is needed) and triggers a null-ptr-deref. Without CONFIG_AMD_MEM_ENCRYPT
-> (one of the bad configs), it turns out the instruction is actually accessing
-> the llvm prof-counter of strscpy():
-> 
-> ffffffff89b85a04:       48 ff 05 6d 94 7d fa    incq   -0x5826b93(%rip)        # ffffffff8435ee78 <__profc__Z13sized_strscpyPcU25pass_dynamic_object_size1PKcU25pass_dynamic_object_size1m>
-> 
-> This symbol is left undefined in the bad vmlinux, which explains why the
-> faulting instruction is accessing address 0.  Tracing through the kernel
-> linking process shows that the symbol is still defined (as a weak symbol) in
-> vmlinux.a and vmlinux.o, but becomes undefined after the first round of linking
-> of the kernel image (.tmp_vmlinux1).
-> 
-> After playing with it a little bit, we found the creation of vmlinux.o to be
-> the problem. Specifically, if we use mold[1] instead of lld to create the
-> object and pass it to the later stages of kernel linking, the symbol will be
-> properly defined as a data symbol (and the kernel can boot).
-> 
-> It seems that the issue does not reproduce with LLVM-20. Nevertheless we have
-> reported[2] this to upstream llvm.
-> 
-> [1]: https://github.com/rui314/mold
-> [2]: https://github.com/llvm/llvm-project/issues/116575
+> [...]
 
-Sasha pinged me on IRC earlier this week about this series and this
-issue, noting that he was unable to reproduce it with a similar
-toolchain version and the instructions above. I was able to confirm that
-at 6.17-rc1 with this patch set applied (after fixing a couple of minor
-conflicts), I no longer see this boot issue but it is still reproducible
-on 6.12.
+Applied, thanks!
 
-In attempting to narrow my bisect window to find what patch fixes this
-issue, I noticed that this configuration actually fails to build with
+[01/12] kbuild: Bump minimum version of LLVM for building the kernel to 15.0.0
+        https://git.kernel.org/kbuild/c/20c0989283564
+[02/12] arch/Kconfig: Drop always true condition from RANDOMIZE_KSTACK_OFFSET
+        https://git.kernel.org/kbuild/c/65aebf6f5880e
+[03/12] ARM: Clean up definition of ARM_HAS_GROUP_RELOCS
+        https://git.kernel.org/kbuild/c/02aba266e391f
+[04/12] arm64: Remove tautological LLVM Kconfig conditions
+        https://git.kernel.org/kbuild/c/23cb0514208da
+[05/12] mips: Unconditionally select ARCH_HAS_CURRENT_STACK_POINTER
+        https://git.kernel.org/kbuild/c/e633c2e78fd1c
+[06/12] powerpc: Drop unnecessary initializations in __copy_inst_from_kernel_nofault()
+        https://git.kernel.org/kbuild/c/488954ca195d0
+[07/12] riscv: Remove version check for LTO_CLANG selects
+        https://git.kernel.org/kbuild/c/6578a1ff6aa49
+[08/12] riscv: Unconditionally use linker relaxation
+        https://git.kernel.org/kbuild/c/7ccbe91796d7b
+[09/12] riscv: Remove ld.lld version checks from many TOOLCHAIN_HAS configs
+        https://git.kernel.org/kbuild/c/87b28d71396bf
+[10/12] lib/Kconfig.debug: Drop CLANG_VERSION check from DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+        https://git.kernel.org/kbuild/c/a817de20091c3
+[11/12] objtool: Drop noinstr hack for KCSAN_WEAK_MEMORY
+        https://git.kernel.org/kbuild/c/573ad421cc551
+[12/12] KMSAN: Remove tautological checks
+        https://git.kernel.org/kbuild/c/5ff8c11775c74
 
-  Absolute reference to symbol '__llvm_prf_cnts' not permitted in .head.text
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
-in 6.15 and 6.14 as a result of Ard's commit faf0ed487415 ("x86/boot:
-Reject absolute references in .head.text"). Bisecting between 6.15 and
-6.16 reveals Ard's commit a3cbbb4717e1 ("x86/boot: Move SEV startup code
-into startup/") resolves the build error and that kernel boots, which
-seems to make sense to me given what code was involved here. It is
-possible that arch/x86/boot/startup will want 'LLVM_COV_PROFILE := n'
-since all other instrumentation is disabled.
-
-I built v6.17-rc1 + this series with a fuller distribution configuration
-and CONFIG_LLVM_COV_PROFILE_ALL=y. That kernel boots fine in QEMU but I
-have done no further evaluation.
-
-Cheers,
-Nathan
 
