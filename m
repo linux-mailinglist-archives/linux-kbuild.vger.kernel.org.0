@@ -1,121 +1,144 @@
-Return-Path: <linux-kbuild+bounces-8667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8668-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADDCB3C4EB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Aug 2025 00:34:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A680B3C5A3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Aug 2025 01:38:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 018527A4BD0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Aug 2025 22:32:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D6521C80FEC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Aug 2025 23:38:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380742773D3;
-	Fri, 29 Aug 2025 22:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A9A2609D9;
+	Fri, 29 Aug 2025 23:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CeI1Uyyw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYj29Dlr"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0222B2A1AA;
-	Fri, 29 Aug 2025 22:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC79273F9;
+	Fri, 29 Aug 2025 23:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756506832; cv=none; b=vCSXcb3tONzlxX8lGWE4RfH9MzadJKSKN8KpuOzRbxRM4xyGxCWkBAMMYD8xWpkpBmMqSRZL9ZhsUysqOaKMArGu8gFK5AhEcZDdOitMjjhT4LB86ZCX9wu29wVzR3XdMR2zdi/4AfwvgMJjzKfFpCks03mrdUmUedM0Sq9Ic/c=
+	t=1756510709; cv=none; b=qYn2JIbi8u9Pe6VWTiZkimdbtIOiQvEuk0ItCQJzFDW91acsT5/rAaNVIXBpjPxrgmZZRP1k/CLENgehH6Z24ULWJTJ0TlrLg88xBZrxQ47r0Iwd1pJs3ozniulfFZZLebKuQ9UZ+l9Usk+sKh50ZNwELkPXcEgQOm84OOc/Hzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756506832; c=relaxed/simple;
-	bh=gW3UREhITNbhZNhXVhy/1JzS54isi8alO3SClI/0N4U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OR0jCuckKwC+/om4uA/xqjZIFiQDrlbyj1/B/fyWYk66So9zIi3gPnpxjGBQ5q9F9OZ1dggmD+qSIwnQt+CvaqDHdc6a0WjvqigEHzNyxR4RyfnYRyVXdRgGw/7AM0x5fYkwtzbEinlCHb8s/I4LZ2Lu3AylE0Mz2ZRAfKgc6qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CeI1Uyyw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5459DC4CEF0;
-	Fri, 29 Aug 2025 22:33:46 +0000 (UTC)
+	s=arc-20240116; t=1756510709; c=relaxed/simple;
+	bh=WkvTp6f06aBzz6mMxgJlv68d8gusZL5MpxOSsdmeb2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G6Z+fQu7avLjOhXB2hrevxc6cl11ZhjfiFmHGTIqqt3XCnRZfhtc/wVHLH1rcX7nQe+He00onDXzG/6JIeoOn9QGhcbJJ0dqdLcGrozQPITreoPdsOcy3aACrjFTWvZtinZAvt7HRKSJccQs2NhXaACSJqmifBd1y3x5pjHrl2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYj29Dlr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D40C4CEF0;
+	Fri, 29 Aug 2025 23:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756506831;
-	bh=gW3UREhITNbhZNhXVhy/1JzS54isi8alO3SClI/0N4U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CeI1UyywLphq6rbxihW3K12s6RgLJ57FMTz4eKtrVBaIOZQlRF5Mw5MGN9VZqsyUF
-	 ws1VVPK2A9Aphpeu08IZ+PBsvH/hZxYQZ/E8LlLJ2UoQZh6ZiWU7Ee+Bxfnwgu4wDN
-	 qm+ussMtaWLdi83SF8aT0+Btb7yjNB9Ygip41cIO0PmgxXzADx6IHAKLQjnLPLfqj2
-	 5eqSmq9NNuwF0+wjF3Nc60azb8fAUFVptz94yF9f9Xn6OeJKPvhEVPRSVPcQIiH9ig
-	 389Jr83bSdXVSFqVbGJ4RM5keAw6x2twpNgOifIA2xME7cb4HiY+r6PWu/R5+ICtHu
-	 LsNzjw1Q4Twaw==
+	s=k20201202; t=1756510709;
+	bh=WkvTp6f06aBzz6mMxgJlv68d8gusZL5MpxOSsdmeb2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DYj29DlrQwydXqOF86OiP1MmfJvNkS7E672zE1FZ9NugTUm51xr/S/EkmnxMI+iVC
+	 gD5iPIyL/+kdJXinqVci+0QOI4vJdt2UsTnzQjCSdVxSLoaizmQh3U3wqTs+sIQxdZ
+	 yYXv02A3fWGJht2eWGvNTkH4JifGAlEJWm9KcxXHgB+9Oq2KSMhfDAGDvvL7T92MNW
+	 v+ZD6PW4H3T4blxL+Z9cWQgjq7qO+KmO8x78DZOcQoHyn/EUzkrg3Llhw7mLP0W3gq
+	 Np4++1FWEbAnrdsLuIDxaBP82sKwHqlVUC+JR1k1Cy1+7uMqhnPXcBq+3QT/Dmj+CD
+	 ILwjLMuxTH0Zw==
+Date: Fri, 29 Aug 2025 16:38:24 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Kees Cook <kees@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- llvm@lists.linux.dev, patches@lists.linux.dev, 
- Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
- linux-hardening@vger.kernel.org, Russell King <linux@armlinux.org.uk>, 
- Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- Will Deacon <will@kernel.org>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- linuxppc-dev@lists.ozlabs.org, Palmer Dabbelt <palmer@dabbelt.com>, 
- Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
- Marco Elver <elver@google.com>, 
- "Peter Zijlstra (Intel)" <peterz@infraded.org>, kasan-dev@googlegroups.com
-In-Reply-To: <20250821-bump-min-llvm-ver-15-v2-0-635f3294e5f0@kernel.org>
-References: <20250821-bump-min-llvm-ver-15-v2-0-635f3294e5f0@kernel.org>
-Subject: Re: [PATCH v2 00/12] Bump minimum supported version of LLVM for
- building the kernel to 15.0.0
-Message-Id: <175650682606.3003527.17329504429724755241.b4-ty@kernel.org>
-Date: Fri, 29 Aug 2025 15:33:46 -0700
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>, linux-kernel@vger.kernel.org,
+	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, Nicolas Schier <nsc@kernel.org>
+Subject: Re: [PATCH] .gitignore: ignore temporary files from 'bear'
+Message-ID: <20250829233824.GB1983886@ax162>
+References: <20250827-master-v1-1-19f9f367219c@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827-master-v1-1-19f9f367219c@google.com>
 
+Hi Brendan,
 
-On Thu, 21 Aug 2025 14:15:37 -0700, Nathan Chancellor wrote:
-> s390 and x86 have required LLVM 15 since
+On Wed, Aug 27, 2025 at 08:59:43AM +0000, Brendan Jackman wrote:
+> Bear [0] is a tool for generating compile_commands.json. For Kbuild,
+> Bear is not useful, since Kbuild already generates the necessary info
+> and that can be converted to compile_commands.json by
+> gen_compile_commads.py.
 > 
->   30d17fac6aae ("scripts/min-tool-version.sh: raise minimum clang version to 15.0.0 for s390")
->   7861640aac52 ("x86/build: Raise the minimum LLVM version to 15.0.0")
+> However, for code in tools/, it's handy. For example, this command
+> updates compile_commands.json so that clangd code navigation will also
+> work for the VMA unit tests:
 > 
-> respectively. This series bumps the rest of the kernel to 15.0.0 to
-> match, which allows for a decent number of clean ups.
+> 	bear --append -- make -C tools/testing/vma -j
 > 
-> [...]
+> Bear generates some temporary files. These are usually deleted again
+> but having them show up ephemerally confuses tools that trigger
+> recompilation on source code changes. Ignore them in Git so that these
+> tools can tell they aren't source code.
+> 
+> [0]: https://github.com/rizsotto/Bear
+> 
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-Applied, thanks!
+We can likely take this via the Kbuild tree. I do wonder if this would
+be better in a tools/.gitignore file since bear is really only of use
+there but I am not sure it matters much.
 
-[01/12] kbuild: Bump minimum version of LLVM for building the kernel to 15.0.0
-        https://git.kernel.org/kbuild/c/20c0989283564
-[02/12] arch/Kconfig: Drop always true condition from RANDOMIZE_KSTACK_OFFSET
-        https://git.kernel.org/kbuild/c/65aebf6f5880e
-[03/12] ARM: Clean up definition of ARM_HAS_GROUP_RELOCS
-        https://git.kernel.org/kbuild/c/02aba266e391f
-[04/12] arm64: Remove tautological LLVM Kconfig conditions
-        https://git.kernel.org/kbuild/c/23cb0514208da
-[05/12] mips: Unconditionally select ARCH_HAS_CURRENT_STACK_POINTER
-        https://git.kernel.org/kbuild/c/e633c2e78fd1c
-[06/12] powerpc: Drop unnecessary initializations in __copy_inst_from_kernel_nofault()
-        https://git.kernel.org/kbuild/c/488954ca195d0
-[07/12] riscv: Remove version check for LTO_CLANG selects
-        https://git.kernel.org/kbuild/c/6578a1ff6aa49
-[08/12] riscv: Unconditionally use linker relaxation
-        https://git.kernel.org/kbuild/c/7ccbe91796d7b
-[09/12] riscv: Remove ld.lld version checks from many TOOLCHAIN_HAS configs
-        https://git.kernel.org/kbuild/c/87b28d71396bf
-[10/12] lib/Kconfig.debug: Drop CLANG_VERSION check from DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
-        https://git.kernel.org/kbuild/c/a817de20091c3
-[11/12] objtool: Drop noinstr hack for KCSAN_WEAK_MEMORY
-        https://git.kernel.org/kbuild/c/573ad421cc551
-[12/12] KMSAN: Remove tautological checks
-        https://git.kernel.org/kbuild/c/5ff8c11775c74
+> ---
+>  .gitignore | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index 929054df5212d68a32a1f5ee2b267389fcd1c8db..b07c8c8383bd791e903ce985c14c231cb6928411 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -53,6 +53,7 @@
+>  *.tar
+>  *.xz
+>  *.zst
+> +*.tmp
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+Please keep the globs alphabetized.
 
+>  Module.symvers
+>  dtbs-list
+>  modules.order
+> @@ -177,6 +178,9 @@ x509.genkey
+>  
+>  # Clang's compilation database file
+>  /compile_commands.json
+> +# Temporary files created by 'bear', a tool used for generating
+> +# compile_commands.json for non-Kbuild code.
+> +*.events.json
+
+Please rebase this on kbuild-next, as '/' is no longer present in the
+compile_commands.json line:
+
+https://git.kernel.org/kbuild/l/kbuild-next
+
+The comment feels a little lengthy compared to the rest of the file but
+I am not sure it can really be slimmed down...
+
+I am guessing the pattern cannot be made more specific, as I do wonder
+if anyone would introduce files with this pattern but that is why we
+have the check in scripts/misc-check, so it is probably not that big of
+a deal.
+
+>  
+>  # Documentation toolchain
+>  sphinx_*/
+> 
+> ---
+> base-commit: fab1beda7597fac1cecc01707d55eadb6bbe773c
+> change-id: 20250827-master-23458abb102d
+> 
+> Best regards,
+> -- 
+> Brendan Jackman <jackmanb@google.com>
+> 
+> 
 
