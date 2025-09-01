@@ -1,91 +1,99 @@
-Return-Path: <linux-kbuild+bounces-8682-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8683-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E82B3ECA0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 18:49:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7028EB3ECBD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 18:54:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82701481579
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 16:48:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 810CD7A282A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 16:52:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE50306489;
-	Mon,  1 Sep 2025 16:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AFC43064A1;
+	Mon,  1 Sep 2025 16:54:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DOiP5G9m"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C6foWfSR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D203F2EF66A;
-	Mon,  1 Sep 2025 16:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46E12DF13C;
+	Mon,  1 Sep 2025 16:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756745334; cv=none; b=N1gPaP7SYjNvON4uf3IvPIhoByCtnlGujsxipVVuCSbYw0f/xifEr8d6sRCdqIHMo2WfKwmW/J4Bku2Gkc4NfavZr0ri+nRaMFzkbl8TBbw5VD7i/cDGNgJ8YFJF0yJCr+vJbvlX9lkqA/Q2HNak1TgOKGhtmijHXawc+X/oo1g=
+	t=1756745669; cv=none; b=Mc7Lva5iJbsT0+PgDhtz2dKvj0pLroU4tvC14Oh7CrLvgqVlHn/HDldLiA5PmnN+efU/L3bdnag2+Y4vkeQDCZ3QzSPRyJ44JKeWoUxvjzgvwGTaOmBVekrKVCSw2swBawdzn4jOyZDGJd0k/N9JcWXWcnSk0oODrDObRs01yVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756745334; c=relaxed/simple;
-	bh=npiCjXJvWwrONV5808iUFIV/5RdHhnOxIdCK+bUrDhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VL6Cn5LCzFVVGosufkYjixRQf5Dl24ahOd59SaxTGpwA8W4ERte8No9XJmYgm0eZWcZbRKcedN7kqe9bImikVgmss/m+bMGEdxUsDwotZ9kCAhnbOfZZhHcEfRo584TkPytoZpVu7dpegGNNmhlB8ZMa15kjtEqFstnG+6OYEAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DOiP5G9m; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB79C4CEF1;
-	Mon,  1 Sep 2025 16:48:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756745334;
-	bh=npiCjXJvWwrONV5808iUFIV/5RdHhnOxIdCK+bUrDhM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DOiP5G9mcW5YrbNZW9hAkVVXRXYQ6JzkWmPyZOMvn89GSNQifGyPW04tmZ83dhfW/
-	 iJkGyvcm+QyM2Q5XNe+OHDhXC2ugNaG3uUdP68Ru/WtugN3X4vdphCOA2AhE6jdUA/
-	 +I6cH6UdMU+K+upzsk+2SOKSh0uSqDQcbFX4YtA5Zj29Zw2ZRy2jS2NftYpSlYqY1r
-	 XZ0uYPwxEOe27gUdREZDkZYjOgc0LBGKxN63okG6CoE2WFgojR0/5X0rdxWOFTxhUM
-	 fF2Txfxe3/YgPfQWOQwkng0x75qeWpgARJlFBiiRm5eLAFlR2ZPr4OrJhDS3NEpak9
-	 yF8OlxTYFJAoQ==
-Date: Mon, 1 Sep 2025 09:48:54 -0700
-From: Kees Cook <kees@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
- migration support
-Message-ID: <202509010945.D266C0E6@keescook>
-References: <20250830020109.it.598-kees@kernel.org>
- <7bca36d46dab04667aa595623fd0966385ee4658@intel.com>
+	s=arc-20240116; t=1756745669; c=relaxed/simple;
+	bh=or+QEmvqQthxP5KlB7QuHcOFpktvyMnamOGevaOE/Mc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I28hWJmkFk5iepk6g5/T34RcrIxeSuJ2cIDLkT8fMfwlIyWASu75Qdffl068VB6JCX69SAVtGNFFgJ4e1vsE5g+9tj/y3PrnT6sc+kaXieSQXyVWo48oKyBOVJOuvp7KOAtSLYqNq5CZ35xwqiJb71uXY42O6SSbkKpM+IYMkwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C6foWfSR; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ilow6EIc5y22pIG9yaRN/E/TA3c+bEpyyK/DUWu+DLk=; b=C6foWfSRR0vcQWldgezvYK13dt
+	mIkKkVVPIW2K423ZF02lazMoUpTIKUbhAph/0SGAsuwCZHzDtQIKL6Jr3h0y0FMxncabtZmjc0WkK
+	W1c9G1sy8h8rz3blQcodRvvPwDPG1QRvi/UQRHvnE69FFVEMmf8dWFAEgxMxAyWOaqVVcKgfKpX5t
+	bhMuGhSiv+1oaZYp2GkqfCWw0FXwrEXYZsTRo7aiSS4X0aG2aFVmivER0hCWnLbFYKcQIOe5pGs84
+	bKHgTOPd9t4GTgKKs093Dj+PDUoigByA3vEMVQ9hJCwj5P0LL+PvadP1WeQ47no6+wQojkcDPgjEl
+	jXS0z6eA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ut7nW-0000000DMYs-1Hqd;
+	Mon, 01 Sep 2025 16:54:26 +0000
+Message-ID: <4c75e5b0-48fe-4778-8ec5-d8d43009ddd4@infradead.org>
+Date: Mon, 1 Sep 2025 09:54:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7bca36d46dab04667aa595623fd0966385ee4658@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
+ migration support
+To: Kees Cook <kees@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250830020109.it.598-kees@kernel.org>
+ <a123ab8b-a335-48a1-9ac3-e3b348d78cd1@infradead.org>
+ <202509010944.CAAFB2ED22@keescook>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202509010944.CAAFB2ED22@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 01, 2025 at 12:09:14PM +0300, Jani Nikula wrote:
-> On Fri, 29 Aug 2025, Kees Cook <kees@kernel.org> wrote:
-> > The transitional syntax requires a type argument and prevents type
-> > redefinition:
-> >
-> >     config OLD_OPTION
-> >         transitional bool
-> >         help
-> >           Transitional config for OLD_OPTION migration.
+
+
+On 9/1/25 9:45 AM, Kees Cook wrote:
+> On Mon, Sep 01, 2025 at 09:39:46AM -0700, Randy Dunlap wrote:
+>> Are you (implicitly?) saying that all previous attempts at transitional
+>> kconfig symbols have failed?  If so, I just wasn't aware of that.
 > 
-> How long do you think we'll need to keep the transitional config options
-> around? Forever?
+> I haven't found any way to do a "proper" CONFIG transition. I looked
+> through past transitions and they all left stuff visible. Is there a way
+> to actually do this with existing kconfig?
+> 
 
-As with the "manual" transitions, it'd probably be until the next LTS is
-released.
+I don't know. I haven't looked as hard at it as you have.
+I just didn't realize that there had been significant failures
+that required kconfig code changes.
+
+I'm just trying to understand. Carry on.
 
 -- 
-Kees Cook
+~Randy
+
 
