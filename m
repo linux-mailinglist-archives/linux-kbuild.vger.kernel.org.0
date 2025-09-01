@@ -1,181 +1,359 @@
-Return-Path: <linux-kbuild+bounces-8677-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8678-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819E4B3E2E7
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 14:31:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE6FB3E785
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 16:42:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7040E1A82B67
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 12:31:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6DEC1A81BDB
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Sep 2025 14:43:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8C1732BF4D;
-	Mon,  1 Sep 2025 12:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D88A3431F1;
+	Mon,  1 Sep 2025 14:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DvN7JTzn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ubZ3qbo5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AD132779E
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Sep 2025 12:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D99A341AD6;
+	Mon,  1 Sep 2025 14:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756729627; cv=none; b=gCv2+ADPIJd5SqajGkHo5PNmamo7iZAnhH9bv3e3vmS6eu8E9wVm4OdaOwWNqwkVjBggJ7Y/I1aFJsXfRhB6Zq5B1qMnZZpbKUEmCAvghnpcLrs4oQq8rzTK4y485EtRaPKYzJv/oL39Spb7q6dCmCSE2DwRD7N6aZkT5EEY8sg=
+	t=1756737758; cv=none; b=FLyLtpwkT+8KjV+ZokDtFhjA81kb1JCuZ9kSUeJgtscoqV1SP53TLukWU9mSYPQ+D2Vhc7BlUxnWQsxuTw5z6G2AuNNdk7jwXAy24/eFDZxMua+25VPvAnrH+cj02WW3GA7zHvHqRYL20POUVgVr78+i/ihpFeHWusmubOAMY9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756729627; c=relaxed/simple;
-	bh=NI3j//K+uv280Ub1AAwzmSKy0oNo3n7zmmHOVS4hqJw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EQC3Cc7fFOHWvHxLQP5/gVmkE3fHNTxGjD+58B6yxYqzzAvlEa3wpYJSQnc/OGGf8L/OCFIiMpZasNwRb1gnwBJJJL4CULAppUxNqig7vMmcFeUH8bLlqYe4O7voInFmc+I1X6jfzU0fsu4GjII9u439mVCq8TrViQ8cYlUOW2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DvN7JTzn; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3cbb3ff70a0so2639389f8f.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Sep 2025 05:27:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1756729624; x=1757334424; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CvXFM2+EDhInaja9QZo9cQmXYbU073wpqmRBXkRFUBM=;
-        b=DvN7JTznmTgh9C5aWlllMdoPjvzuLsP2rqj0D1Rp6pMS1HNU+9dHfXvc3l7BLcnUQx
-         y8NnaUXXZlO8FQ9BUqCFPLJCGZ8RWM00pfuFH0WzyCW7oR1tBGVCTa0jOCupyiMxp/0Y
-         W0arLHgpl728aSFjv8Hqd3b7IOYygQ2zmdYzv4Htd2iodz99XlNZQeQmbrDGjMvFXc8u
-         FKcWwqwsbpH+ZjZacq/PU7sksS6QMv15u94T9D9EXqr60KEPW/yZf5B7toQk2ldCxSoP
-         pR37goby4lon67/Xo5BZzuHYJRpEzEEgsZNrpRGSOYuz20iDVNkknDg7zohLcCiKJLaF
-         ZGJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756729624; x=1757334424;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CvXFM2+EDhInaja9QZo9cQmXYbU073wpqmRBXkRFUBM=;
-        b=uHBveFx5sEQfYCpg3BgYABBru1rz1T/oDuOV7XCaSKyON0Oou0szGbkHNjxDrv2JVQ
-         oajxd/SxjaBtAmZ8VRAYxKllN2BMe7X8ejUZN5wC+DJghYEPKCDB1rTf9pT0NPzCHGd3
-         +xSFFaq9pgqtovpkBgxgcfpCNJibGzl6mxTdetS05yfdBjZegSO2Waqhd9nE7h0n7XTy
-         HPzHRGt1o6XvYjAxPMvhT2R/q1cIf1l8/9IG3SdjfFVAlpOmISkauen0e5WWVdTRHtoh
-         mFyyyrmNsKGGju7i1IQeWqxOgShieU+pdb7ACjPKwzrNKlQk8S+PqlLjzykebS1E+1JY
-         rLZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPcLuDnVmyiEIDJtZCchqVPXrrTxytvyxmKVGJ8n59sFU6AuUaGlNx/zIQBGFW+YjZLxkUIsdITsVKgk4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ8gpgS/I8To0c5svUbrAiyFWqP03gAbj42TZNUoAJXzWe0oKG
-	jQfd10qS1PKcrLJB0nlVNeWpDjhZs9rA/ED31+vm6MqaK0Z2Cj0KQxR2BTzSknO3g9g=
-X-Gm-Gg: ASbGncuE3SWATVH5Q/Foond4qOGdirlBY7NKvfkHolOJeleCXBXQ3SudlAZVAfl37tw
-	UH7wSGDFO20y8oG0vqEGBWLhKAjXUjhCxyDdJHjGRX5dHQSLU2nAcBv5LMLe0NL9vL17LWvyirI
-	r3qp9X/sl2OQ+Bvwp6XYmuiN+cO2kin9hgEaCPRVUDHC3wMtMegibMklhVhM+bIfmSdbl8ZrCJU
-	tKlc8zo2xpSHg0rT6iRO8j+xGVWmRVPdzYw9WE440WauU1ODy69XGy1c8KZz9h+H+gXkcl0l1E3
-	6CGfcr1Tf2Zl3G0MW1GyEykFxYlfixpKIBKH/5XGu5O+Nx2VJOroSjXXvm8DAIjAeeXiPUZ+xGs
-	zgYQyyzI+Ytwh+3Gomy/TeiYjyNiEto2ujIKo8FB49+AvWI0H8+hCsw==
-X-Google-Smtp-Source: AGHT+IGMZj0MUqoNS8l03J940dxpE/Oa7+eZtp6hkgsi4bqmdFUhhinsYeDmT1bsO+4zfR2NPsVVzA==
-X-Received: by 2002:a05:6000:240d:b0:3d7:c86:800f with SMTP id ffacd0b85a97d-3d70c868524mr2579250f8f.60.1756729623615;
-        Mon, 01 Sep 2025 05:27:03 -0700 (PDT)
-Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d7330e4bc9sm3325617f8f.10.2025.09.01.05.27.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Sep 2025 05:27:03 -0700 (PDT)
-Message-ID: <4e215854-59df-489b-b92d-8d2fb2edf522@suse.com>
-Date: Mon, 1 Sep 2025 14:27:02 +0200
+	s=arc-20240116; t=1756737758; c=relaxed/simple;
+	bh=ns7DJA82/e6Ob35Yqd44aeEBJ4lyhEECsaqn+k5IhSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=J1gZKTAkApKLimveudrvux6TaOkgnQ0BOc5YZ4DFuPW+PQO3TOxb8ThQqE42WYzFDe8eGo61JDcGkTTPBn0cPHcDSNg3cqaZAPWlngcR7Zt6b3/vFR15e0DhYHsmA515P3RZ5i4JbVWRRNNNvgMdtkppqWvt+sPYOFDrYvPhLhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ubZ3qbo5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E87C113D0;
+	Mon,  1 Sep 2025 14:42:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756737757;
+	bh=ns7DJA82/e6Ob35Yqd44aeEBJ4lyhEECsaqn+k5IhSQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ubZ3qbo5z5SP2vyUF9TCH9Q7+9EQOWnWjhsKFOX6T4PFczT2HOuFHIMAox3brRnlN
+	 gkFzi//l063OrM5v/M02Q1kaHXz8Pd5eDY0vA+H+k2d9PtpCPZ3+jOpIa41ueZtYBw
+	 YJSHoqoTXQVqqG/K4WRsbGBqH7hhDjMyhcD9SDooM0LBTER+66xED5fJzKCbYUeOLx
+	 NZLN6d6R8pZdhZvmjigL3/LBOvHrXu+avhcej7Si4LbMwBnjbHNHYtnV7bfFwzqPxq
+	 7J6Qz2FT6t5RwcdnrbZ6prH+6tP/Dx4/MOXuhjmpfFf+ZbmSl4a9JzY0+5zdsrYDyI
+	 0qRvUPQ2uU73g==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1ut5jv-00000003G40-3c5y;
+	Mon, 01 Sep 2025 16:42:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Masahiro Yamada <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Miguel Ojeda <mchehab+huawei@kernel.org>,
+	Nathan Chancellor <mchehab+huawei@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 14/15] docs: add support to build manpages from kerneldoc
+  output
+Date: Mon,  1 Sep 2025 16:42:30 +0200
+Message-ID: <ac7d1293de2ae907abdfbe30f10e974c2321503a.1756737440.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <cover.1756737440.git.mchehab+huawei@kernel.org>
+References: <cover.1756737440.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/10] scalable symbol flags with __kflagstab
-To: Siddharth Nayyar <sidnayyar@google.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Nicolas Schier <nicolas.schier@linux.dev>,
- Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250829105418.3053274-1-sidnayyar@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20250829105418.3053274-1-sidnayyar@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On 8/29/25 12:54 PM, Siddharth Nayyar wrote:
-> Hi everyone,
-> 
-> This patch series proposes a new, scalable mechanism to represent
-> boolean flags for exported kernel symbols.
-> 
-> Problem Statement:
-> 
-> The core architectural issue with kernel symbol flags is our reliance on
-> splitting the main symbol table, ksymtab. To handle a single boolean
-> property, such as GPL-only, all exported symbols are split across two
-> separate tables: __ksymtab and __ksymtab_gpl.
-> 
-> This design forces the module loader to perform a separate search on
-> each of these tables for every symbol it needs, for vmlinux and for all
-> previously loaded modules.
-> 
-> This approach is fundamentally not scalable. If we were to introduce a
-> second flag, we would need four distinct symbol tables. For n boolean
-> flags, this model requires an exponential growth to 2^n tables,
-> dramatically increasing complexity.
-> 
-> Another consequence of this fragmentation is degraded performance. For
-> example, a binary search on the symbol table of vmlinux, that would take
-> only 14 comparison steps (assuming ~2^14 or 16K symbols) in a unified
-> table, can require up to 26 steps when spread across two tables
-> (assuming both tables have ~2^13 symbols). This performance penalty
-> worsens as more flags are added.
-> 
-> Proposed Solution:
-> 
-> This series introduces a __kflagstab section to store symbol flags in a
-> dedicated data structure, similar to how CRCs are handled in the
-> __kcrctab.
-> 
-> The flags for a given symbol in __kflagstab will be located at the same
-> index as the symbol's entry in __ksymtab and its CRC in __kcrctab. This
-> design decouples the flags from the symbol table itself, allowing us to
-> maintain a single, sorted __ksymtab. As a result, the symbol search
-> remains an efficient, single lookup, regardless of the number of flags
-> we add in the future.
-
-Merging __ksymtab and __ksymtab_gpl into a single section looks ok to
-me, and similarly for __kcrctab and __kcrtab_gpl. The __ksymtab_gpl
-support originally comes from commit 3344ea3ad4 ("[PATCH] MODULE_LICENSE
-and EXPORT_SYMBOL_GPL support") [1], where it was named __gpl_ksymtab.
-The commit doesn't mention why the implementation opts for using
-a separate section, but I suspect it was designed this way to reduce
-memory/disk usage.
-
-A question is whether the symbol flags should be stored in a new
-__kflagstab section, instead of adding a flag member to the existing
-__ksymtab. As far as I'm aware, no userspace tool (particularly kmod)
-uses the __ksymtab data, so we are free to update its format.
-
-Note that I believe that __kcrctab/__kcrtab_gpl is a separate section
-because the CRC data is available only if CONFIG_MODVERSIONS=y.
-
-Including the flags as part of __ksymtab would be obviously a simpler
-schema. On the other hand, an entry in __ksymtab has in the worst case
-a size of 24 bytes with an 8-byte alignment requirement. This means that
-adding a flag to it would require additional 8 bytes per symbol.
-
-> 
-> The motivation for this change comes from the Android kernel, which uses
-> an additional symbol flag to restrict the use of certain exported
-> symbols by unsigned modules, thereby enhancing kernel security. This
-> __kflagstab can be implemented as a bitmap to efficiently manage which
-> symbols are available for general use versus those restricted to signed
-> modules only.
-
-I think it would be useful to explain in more detail how this protected
-schema is used in practice and what problem it solves. Who is allowed to
-provide these limited unsigned modules and if the concern is kernel
-security, can't you enforce the use of only signed modules?
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git/commit/?id=3344ea3ad4b7c302c846a680dbaeedf96ed45c02
-
--- 
-Thanks,
-Petr
+Generating man files currently requires running a separate=0D
+script. The target also doesn't appear at the docs Makefile.=0D
+=0D
+Add support for mandocs at the Makefile, adding the build=0D
+logic inside sphinx-build-wrapper, updating documentation=0D
+and dropping the ancillary script.=0D
+=0D
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>=0D
+---=0D
+ Documentation/Makefile                 |  3 +-=0D
+ Documentation/doc-guide/kernel-doc.rst | 29 ++++-----=0D
+ Makefile                               |  2 +-=0D
+ scripts/split-man.pl                   | 28 ---------=0D
+ tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--=0D
+ 5 files changed, 95 insertions(+), 48 deletions(-)=0D
+ delete mode 100755 scripts/split-man.pl=0D
+=0D
+diff --git a/Documentation/Makefile b/Documentation/Makefile=0D
+index 3e1cb44a5fbb..22e39e5ed07d 100644=0D
+--- a/Documentation/Makefile=0D
++++ b/Documentation/Makefile=0D
+@@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)=0D
+ else # HAVE_SPHINX=0D
+ =0D
+ # Common documentation targets=0D
+-infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:=0D
++mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckd=
+ocs:=0D
+ 	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check=0D
+ 	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \=0D
+ 		--sphinxdirs=3D"$(SPHINXDIRS)" --conf=3D$(SPHINX_CONF) \=0D
+@@ -104,6 +104,7 @@ dochelp:=0D
+ 	@echo  '  htmldocs        - HTML'=0D
+ 	@echo  '  texinfodocs     - Texinfo'=0D
+ 	@echo  '  infodocs        - Info'=0D
++	@echo  '  mandocs         - Man pages'=0D
+ 	@echo  '  latexdocs       - LaTeX'=0D
+ 	@echo  '  pdfdocs         - PDF'=0D
+ 	@echo  '  epubdocs        - EPUB'=0D
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-gui=
+de/kernel-doc.rst=0D
+index af9697e60165..4370cc8fbcf5 100644=0D
+--- a/Documentation/doc-guide/kernel-doc.rst=0D
++++ b/Documentation/doc-guide/kernel-doc.rst=0D
+@@ -579,20 +579,23 @@ source.=0D
+ How to use kernel-doc to generate man pages=0D
+ -------------------------------------------=0D
+ =0D
+-If you just want to use kernel-doc to generate man pages you can do this=0D
+-from the kernel git tree::=0D
++To generate man pages for all files that contain kernel-doc markups, run::=
+=0D
+ =0D
+-  $ scripts/kernel-doc -man \=0D
+-    $(git grep -l '/\*\*' -- :^Documentation :^tools) \=0D
+-    | scripts/split-man.pl /tmp/man=0D
++  $ make mandocs=0D
+ =0D
+-Some older versions of git do not support some of the variants of syntax f=
+or=0D
+-path exclusion.  One of the following commands may work for those versions=
+::=0D
++Or calling ``script-build-wrapper`` directly::=0D
+ =0D
+-  $ scripts/kernel-doc -man \=0D
+-    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \=0D
+-    | scripts/split-man.pl /tmp/man=0D
++  $ ./tools/docs/sphinx-build-wrapper mandocs=0D
+ =0D
+-  $ scripts/kernel-doc -man \=0D
+-    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools"=
+) \=0D
+-    | scripts/split-man.pl /tmp/man=0D
++The output will be at ``/man`` directory inside the output directory=0D
++(by default: ``Documentation/output``).=0D
++=0D
++Optionally, it is possible to generate a partial set of man pages by=0D
++using SPHINXDIRS:=0D
++=0D
++  $ make SPHINXDIRS=3Ddriver-api/media mandocs=0D
++=0D
++.. note::=0D
++=0D
++   When SPHINXDIRS=3D{subdir} is used, it will only generate man pages for=
+=0D
++   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file=
+.=0D
+diff --git a/Makefile b/Makefile=0D
+index 6bfe776bf3c5..9bd44afeda26 100644=0D
+--- a/Makefile=0D
++++ b/Makefile=0D
+@@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:=0D
+ # Documentation targets=0D
+ # ------------------------------------------------------------------------=
+---=0D
+ DOC_TARGETS :=3D xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \=0D
+-	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs=0D
++	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs=0D
+ PHONY +=3D $(DOC_TARGETS)=0D
+ $(DOC_TARGETS):=0D
+ 	$(Q)$(MAKE) $(build)=3DDocumentation $@=0D
+diff --git a/scripts/split-man.pl b/scripts/split-man.pl=0D
+deleted file mode 100755=0D
+index 96bd99dc977a..000000000000=0D
+--- a/scripts/split-man.pl=0D
++++ /dev/null=0D
+@@ -1,28 +0,0 @@=0D
+-#!/usr/bin/env perl=0D
+-# SPDX-License-Identifier: GPL-2.0=0D
+-#=0D
+-# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>=0D
+-#=0D
+-# Produce manpages from kernel-doc.=0D
+-# See Documentation/doc-guide/kernel-doc.rst for instructions=0D
+-=0D
+-if ($#ARGV < 0) {=0D
+-   die "where do I put the results?\n";=0D
+-}=0D
+-=0D
+-mkdir $ARGV[0],0777;=0D
+-$state =3D 0;=0D
+-while (<STDIN>) {=0D
+-    if (/^\.TH \"[^\"]*\" 9 \"([^\"]*)\"/) {=0D
+-	if ($state =3D=3D 1) { close OUT }=0D
+-	$state =3D 1;=0D
+-	$fn =3D "$ARGV[0]/$1.9";=0D
+-	print STDERR "Creating $fn\n";=0D
+-	open OUT, ">$fn" or die "can't open $fn: $!\n";=0D
+-	print OUT $_;=0D
+-    } elsif ($state !=3D 0) {=0D
+-	print OUT $_;=0D
+-    }=0D
+-}=0D
+-=0D
+-close OUT;=0D
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrap=
+per=0D
+index c884022ad733..932b1b675274 100755=0D
+--- a/tools/docs/sphinx-build-wrapper=0D
++++ b/tools/docs/sphinx-build-wrapper=0D
+@@ -47,6 +47,7 @@ the newer version.=0D
+ import argparse=0D
+ import locale=0D
+ import os=0D
++import re=0D
+ import shlex=0D
+ import shutil=0D
+ import subprocess=0D
+@@ -55,6 +56,7 @@ import sys=0D
+ from concurrent import futures=0D
+ =0D
+ from lib.python_version import PythonVersion=0D
++from glob import glob=0D
+ =0D
+ LIB_DIR =3D "../../scripts/lib"=0D
+ SRC_DIR =3D os.path.dirname(os.path.realpath(__file__))=0D
+@@ -77,6 +79,7 @@ TARGETS =3D {=0D
+     "epubdocs":      { "builder": "epub",    "out_dir": "epub" },=0D
+     "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },=0D
+     "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },=0D
++    "mandocs":       { "builder": "man",     "out_dir": "man" },=0D
+     "latexdocs":     { "builder": "latex",   "out_dir": "latex" },=0D
+     "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },=0D
+     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },=0D
+@@ -455,6 +458,71 @@ class SphinxBuilder:=0D
+             except subprocess.CalledProcessError as e:=0D
+                 sys.exit(f"Error generating info docs: {e}")=0D
+ =0D
++    def handle_man(self, kerneldoc, docs_dir, src_dir, output_dir):=0D
++        """=0D
++        Create man pages from kernel-doc output=0D
++        """=0D
++=0D
++        re_kernel_doc =3D re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")=0D
++        re_man =3D re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')=0D
++=0D
++        if docs_dir =3D=3D src_dir:=0D
++            #=0D
++            # Pick the entire set of kernel-doc markups from the entire tr=
+ee=0D
++            #=0D
++            kdoc_files =3D set([self.srctree])=0D
++        else:=0D
++            kdoc_files =3D set()=0D
++=0D
++            for fname in glob(os.path.join(src_dir, "**"), recursive=3DTru=
+e):=0D
++                if os.path.isfile(fname) and fname.endswith(".rst"):=0D
++                    with open(fname, "r", encoding=3D"utf-8") as in_fp:=0D
++                        data =3D in_fp.read()=0D
++=0D
++                    for line in data.split("\n"):=0D
++                        match =3D re_kernel_doc.match(line)=0D
++                        if match:=0D
++                            if os.path.isfile(match.group(1)):=0D
++                                kdoc_files.add(match.group(1))=0D
++=0D
++        if not kdoc_files:=0D
++                sys.exit(f"Directory {src_dir} doesn't contain kernel-doc =
+tags")=0D
++=0D
++        cmd =3D [ kerneldoc, "-m" ] + sorted(kdoc_files)=0D
++        try:=0D
++            if self.verbose:=0D
++                print(" ".join(cmd))=0D
++=0D
++            result =3D subprocess.run(cmd, stdout=3Dsubprocess.PIPE, text=
+=3D True)=0D
++=0D
++            if result.returncode:=0D
++                print(f"Warning: kernel-doc returned {result.returncode} w=
+arnings")=0D
++=0D
++        except (OSError, ValueError, subprocess.SubprocessError) as e:=0D
++            sys.exit(f"Failed to create man pages for {src_dir}: {repr(e)}=
+")=0D
++=0D
++        fp =3D None=0D
++        try:=0D
++            for line in result.stdout.split("\n"):=0D
++                match =3D re_man.match(line)=0D
++                if not match:=0D
++                    if fp:=0D
++                        fp.write(line + '\n')=0D
++                    continue=0D
++=0D
++                if fp:=0D
++                    fp.close()=0D
++=0D
++                fname =3D f"{output_dir}/{match.group(2)}.{match.group(1)}=
+"=0D
++=0D
++                if self.verbose:=0D
++                    print(f"Creating {fname}")=0D
++                fp =3D open(fname, "w", encoding=3D"utf-8")=0D
++                fp.write(line + '\n')=0D
++        finally:=0D
++            if fp:=0D
++                fp.close()=0D
++=0D
+     def cleandocs(self, builder):           # pylint: disable=3DW0613=0D
+         """Remove documentation output directory"""=0D
+         shutil.rmtree(self.builddir, ignore_errors=3DTrue)=0D
+@@ -483,7 +551,7 @@ class SphinxBuilder:=0D
+         # Other targets require sphinx-build, so check if it exists=0D
+         #=0D
+         sphinxbuild =3D shutil.which(self.sphinxbuild, path=3Dself.env["PA=
+TH"])=0D
+-        if not sphinxbuild:=0D
++        if not sphinxbuild and target !=3D "mandocs":=0D
+             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")=0D
+ =0D
+         if builder =3D=3D "latex":=0D
+@@ -572,10 +640,13 @@ class SphinxBuilder:=0D
+                 output_dir,=0D
+             ]=0D
+ =0D
+-            try:=0D
+-                self.run_sphinx(sphinxbuild, build_args, env=3Dself.env)=0D
+-            except (OSError, ValueError, subprocess.SubprocessError) as e:=
+=0D
+-                sys.exit(f"Build failed: {repr(e)}")=0D
++            if target =3D=3D "mandocs":=0D
++                self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)=
+=0D
++            else:=0D
++                try:=0D
++                    self.run_sphinx(sphinxbuild, build_args, env=3Dself.en=
+v)=0D
++                except (OSError, ValueError, subprocess.SubprocessError) a=
+s e:=0D
++                    sys.exit(f"Build failed: {repr(e)}")=0D
+ =0D
+             #=0D
+             # Ensure that each html/epub output will have needed static fi=
+les=0D
+-- =0D
+2.51.0=0D
+=0D
 
