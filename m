@@ -1,120 +1,131 @@
-Return-Path: <linux-kbuild+bounces-8719-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8720-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF2B442E0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Sep 2025 18:34:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FD5B442F6
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Sep 2025 18:37:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00754A62319
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Sep 2025 16:34:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3B541CC07BD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Sep 2025 16:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4BA7286885;
-	Thu,  4 Sep 2025 16:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F662F3627;
+	Thu,  4 Sep 2025 16:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Yd28Riq";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gyQgnZDP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkRDPCwc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4003227B95;
-	Thu,  4 Sep 2025 16:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4A6260580;
+	Thu,  4 Sep 2025 16:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757003649; cv=none; b=KCpWWuJxgjpmwWhj+5+CmSDv2BbgQiQufm90nPGmNi+/1F85XKZ26GiqN30OylLKqeKlrspq+uGEy17YwpcPADEcaofKZc+MZFXxGhOA02gkecUbNGTY3QlZsHJ5Tbq6bFwbKgozF1WHbRB4rKTf5uW1t15Gg/sNShGIhHQ2QsQ=
+	t=1757003837; cv=none; b=PFQPSnLwKuxSms5ZKmP5KAw/QVnCMAV58mlBVh6QOGCkNIeGEMcmjUbL2C+BgT0LtCCGbb9YWWtUS5WKZTdsyVRKGqDd2PP05f5uWzUC6C2BaJCVENQJrjsfjZo9vbb/yMPjU1OeW4EPFook5mIMPCpZ3LE+Y1J29gQPwWMXErc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757003649; c=relaxed/simple;
-	bh=R0pVTuR8XFFiwekf2xW7l1I3HsrVSJeQPTqpqy9L/ZA=;
+	s=arc-20240116; t=1757003837; c=relaxed/simple;
+	bh=ktaFNYGOy663BwK6rfV/ONBV11uoyQrRziv09fSFQ1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XHJ8VfSa3OAKdgyBKuVunuAN40crM+gEb9sSnmh4rfvnkY+4RAfzVfTaTWN44lWZB6mForS+Sgo6Ohp8TKV0OPfZP9nAP7Kt07XAZSLdIicDiATrcyqFkBAclgcNs3dtY6wVk7AQY0sZD1e2ZSE9sc03mBJxkzzusrVZiehIjmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Yd28Riq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gyQgnZDP; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Thu, 4 Sep 2025 18:34:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1757003645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DW7QyjKsD9gIIEK+oSA7dQswnR3XHOcfWwnzN8KOPYk=;
-	b=2Yd28RiqUIFzCyYc6w5y4Pym9ms4H9Y9d3vObwIJIajcLz/DH+fHqqeRplaLhmg5CzPLlt
-	6oZfmi7jCELcB8yfINLOVhOWQSYTSIXnW+MDNeoCSx25Fb8KFnGj0sgXMwwcI0zmsDq3Zz
-	sOG3UXsjrqi8y5cNxKelQ9GsSNkEOMT3HSqnWYaBezmCzOdEJVzaCChnrXCe368i+l1Lph
-	Vr5/C35slS5vrsCIpWPmJZMtlLSSfz/IL6956u1p+2xsn+N8nrnpncTnZLB12aj6Z5nwNU
-	V/WoC7IiIiwM9pv0B0XkfPsVkH9yN5pnaE9J+vqWer3vsxhNGZPzTQqdnr9E6A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1757003645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DW7QyjKsD9gIIEK+oSA7dQswnR3XHOcfWwnzN8KOPYk=;
-	b=gyQgnZDPrf3XGflAFShZR/O2EF8Ty4cZR7lJVnmV8T7BXm5czpXo0+TerGDssTh9Wgljqr
-	mNC9cgOoVEYI4YAA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Matthias Klose <doko@debian.org>
-Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nathan Chancellor <nathan@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=siu2oTl+s7ROMotrWVaIRSYrmztMJPQUXKHDa5tQ3GamggDGHTcTncaaCKbBuh+M5BIC0tW/6manYJcdR5gtutI9wDJjUOFPgTTGPtXeIBSl22EPj/KiM+YtQJ7GFN0cOf0A/19BTBsb6OeJs6HtisUWAx4LAwVvaSezO8/lSoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hkRDPCwc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87D8C4CEF0;
+	Thu,  4 Sep 2025 16:37:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757003834;
+	bh=ktaFNYGOy663BwK6rfV/ONBV11uoyQrRziv09fSFQ1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hkRDPCwcgpV8W/82FQ58Hd5lN+OM+10trpdtVo186jo1w+T6Sew0RKJ/4TY/RX2Ip
+	 r200ZrHL354DiFKrwms7xBmVqu08JXVvLuE4NErIdKRHDGruat+xbl3SHNKLxHP+Hz
+	 2/WSWuM5/y1bZJZUAm39JvLJzGixYRvMVE6a8VVY+F5r9Hi65LJpnWGBwz1ehPZwj6
+	 B8r2LYhfLODBKHBqtiyERC74r87xZITyQ8hJ0JE7fK8OpjHuW+RUNRMV3BKI9ySJcD
+	 CToGmN2fu60jEhJ6XbgicYPHuEjgzHP2Ww9lFQhmlX4HgTFwgMQkOh4COZI1fTKdBI
+	 6xyRidT+lU2Sw==
+Date: Thu, 4 Sep 2025 09:37:14 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Ramon de C Valle <rcvalle@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Binutils <binutils@sourceware.org>
-Subject: Re: [RFC] Don't create sframes during build
-Message-ID: <20250904163404.QMU7nfbA@linutronix.de>
-References: <20250904131835.sfcG19NV@linutronix.de>
- <b3db475e-e84d-4056-9420-bc0acc8b9fe5@debian.org>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] kcfi: Prepare for GCC support
+Message-ID: <202509040933.06AF02E714@keescook>
+References: <20250904033217.it.414-kees@kernel.org>
+ <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b3db475e-e84d-4056-9420-bc0acc8b9fe5@debian.org>
+In-Reply-To: <20250904070410.GX4067720@noisy.programming.kicks-ass.net>
 
-On 2025-09-04 16:02:42 [+0200], Matthias Klose wrote:
-> [ CCing binutils@sourceware.org ]
->=20
-> On 9/4/25 15:18, Sebastian Andrzej Siewior wrote:
-> > Hi,
-> >=20
-> > gcc in Debian, starting with 15.2.0-2, 14.3.0-6 enables sframe
-> > generation. Unless options like -ffreestanding are passed. Since this
-> > isn't done, there are a few warnings during compile
->=20
-> If there are other options when sframe shouldn't be enabled, please tell.
+On Thu, Sep 04, 2025 at 09:04:10AM +0200, Peter Zijlstra wrote:
+> On Wed, Sep 03, 2025 at 08:46:39PM -0700, Kees Cook wrote:
+> 
+> > Kees Cook (9):
+> >   compiler_types.h: Move __nocfi out of compiler-specific header
+> >   x86/traps: Clarify KCFI instruction layout
+> >   x86/cfi: Document the "cfi=" bootparam options
+> >   x86/cfi: Standardize on common "CFI:" prefix for CFI reports
+> >   x86/cfi: Add "debug" option to "cfi=" bootparam
+> >   x86/cfi: Remove __noinitretpoline and __noretpoline
+> 
+> So I can take these first 6 patches (and edit that debug patch to
+> un-annoy myself ;-), but I'm thinking this Kconfig stuff:
 
-No, I think this is okay.
+Sure, yeah. Do you want a v3 for the debug stuff that uses your proposed
+helper?
 
-=E2=80=A6
-> > We could drop the sframe during the final link but this does not get rid
-> > of the objtool warnings so we would have to ignore them. But we don't
-> > need it. So what about the following:
-> >=20
-> > diff --git a/Makefile b/Makefile
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -886,6 +886,8 @@ ifdef CONFIG_CC_IS_GCC
-> >   KBUILD_CFLAGS	+=3D $(call cc-option,--param=3Dallow-store-data-races=
-=3D0)
-> >   KBUILD_CFLAGS	+=3D $(call cc-option,-fno-allow-store-data-races)
-> >   endif
-> > +# No sframe generation for kernel if enabled by default
-> > +KBUILD_CFLAGS	+=3D $(call cc-option,-Xassembler --gsframe=3Dno)
-> >   ifdef CONFIG_READABLE_ASM
-> >   # Disable optimizations that make assembler listings hard to read.
-> This is what I chose for package builds that need disablement of sframe.
+> >   kconfig: Add transitional symbol attribute for migration support
+> >   kcfi: Rename CONFIG_CFI_CLANG to CONFIG_CFI
+> 
+> Should perhaps go through the kbuild tree? A
 
-I think this would work for now. Longterm we would have to allow sframe
-creation and keep section if an architecture decides to use it for its
-backtracing. While orc seems fine on x86, there are arm64 patches to use
-for as a stack unwinder.
+I had chatted offline with Nathan about this series, and he'd suggested
+the kconfig change could go with it's first user (the rename). So if you
+don't want to put it in -tip, I can take it in the hardening tree.
+(There's no dependencies between these 2 and the first 6.)
 
-Sebastian
+> Leaving this:
+> 
+> >   ARM: traps: Implement KCFI trap handler for ARM32
+> 
+> Can that go independently through the arm tree, or are there
+> dependencies?
+
+I can take this too, assuming ARM folks don't want to snag it. I may,
+however, wait on it, just to avoid implementing the kernel support
+before the GCC folks are happy with the arm32 KCFI backend and its UDF
+encoding, etc.
+
+Thanks for looking at these! :)
+
+-Kees
+
+-- 
+Kees Cook
 
