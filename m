@@ -1,127 +1,121 @@
-Return-Path: <linux-kbuild+bounces-8742-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8743-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9E4B45C94
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 17:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585A2B45D50
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 17:59:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53B45562D20
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 15:28:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28967179B8D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 15:59:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53802F7AA6;
-	Fri,  5 Sep 2025 15:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2637A31D74E;
+	Fri,  5 Sep 2025 15:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfuKzJoB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3BLjbQ+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BAA225408;
-	Fri,  5 Sep 2025 15:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACD931D72E;
+	Fri,  5 Sep 2025 15:59:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757086133; cv=none; b=ErJwssJvDkeffWpK5bcFVku9DXAwxZITJOe0BPN4hLXJ3gASTf6Y6+2pU8jlRMxDsOQPaBRisJQul1WcKfqBGyjJSjxdDS8l46scz7fuwb3gaTZIEuJlaGuiaXT8HsFCriVaC78gsYrOAeedIJyNZY+KUNA2mzutdoOJMM5r4Y4=
+	t=1757087956; cv=none; b=S3bs/iDDQOhvrJwqepBCZmo4EL2OaBmkH1YapROYpRtrvYHqumQDdfDvzPH4hP3rGzAUmGYCGTMCNxmteFcem2c9VaGyvled9VJbsDmrnFDLo+WtQwQF9jTILfIhrzQpJXDSoxBJXRLWXNnZ2iMJ3XXBhodnFJyaujgDcHIzZqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757086133; c=relaxed/simple;
-	bh=sPEEy5vULDAfl0FqPxMJIccT/9QzwSSYVorKW+7DqOw=;
+	s=arc-20240116; t=1757087956; c=relaxed/simple;
+	bh=eSR4TUXkvx/9lqvlUc87GuT3m88dAjDqGBb9KS2uelY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lD3DCjnqSllmu9NpufXuE13MoWK8C7xxTIhYdUfK7SjjOMYVeCbiwlU20Gzj05YNhNVsfiA49setVke1eytRi1eiSz648HYLkNA6aTC9zBM8Zt5l6h2OB3XO7415v2MDMM/4/SHP9kEiLSQDm/37RntBosiQVotqwyEi9nsc59g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfuKzJoB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F727C4CEF1;
-	Fri,  5 Sep 2025 15:28:45 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=WESsFAxkMMrQwX67TSccUWTz7vQ9GbXt5raqzYoJCGw0OJBzInMSiNvzsP7fSboYAqWjjKnkdoxLXmw0Yx/rSXm7UMF6RFpEc+5y2Blp5DawJRlEX5hgSz2LSsV20FmqGgo7WDVqmaNoqJ9dCvtkcTMpoLOEClSsljg54pqDtQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q3BLjbQ+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77101C4CEF4;
+	Fri,  5 Sep 2025 15:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757086133;
-	bh=sPEEy5vULDAfl0FqPxMJIccT/9QzwSSYVorKW+7DqOw=;
+	s=k20201202; t=1757087955;
+	bh=eSR4TUXkvx/9lqvlUc87GuT3m88dAjDqGBb9KS2uelY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kfuKzJoB7YDS6ZdqbW1seO4OuIsImFFTGR/bXgnGmFJpT8WbxoE0kxe+/AkT2++HE
-	 aM2+HP3yidLqlM3C+RLjI7Z5r8mzwoxE4wfa2ikahg+1BswcHiQsmrt5orqitio4Ea
-	 Qas/HwsGqrfN7eF5HmmhXZFQfIN7s0XA/8Rk4kwnC3vgtWWQo+sOJlC6GgRHRTukOh
-	 GciBrU64ZYTKgOP2Bqx1S4J+G3efY9zyq4RFVewODDTRq5TghYcbO/XOMJiJ6Z/wWt
-	 eB9VWDk6YF1Dork/u60T77O+xEjdWSGPRaBYnwNzwHVccac84mr6BwXDrUCjTAHOkF
-	 LPXsaZS7k04ow==
-Date: Fri, 5 Sep 2025 16:28:43 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Asuna <spriteovo@gmail.com>
-Cc: Jason Montleon <jmontleo@redhat.com>, Han Gao <rabenda.cn@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	b=Q3BLjbQ+8OkT8qvpn4s3NSjeQidQ2M7anZICert5+EGY0zu8wPr2u7XU4+cBjW5Wu
+	 fPY7IePrZr1wkXMOCb/t0Uz0Fg1tca/5mDSGiL1TRE/W0hfBy3W0E1a95UwZpYIMGX
+	 8qgOrhFeWJwLSMl+4KH8IAHcWVt9K2k4JraCMY6qo9VdtBNHhO/4NulSKIIgMElOOJ
+	 TuA8jWLgtBUs63qB4o4HWd0USFli9kZY6eBz+qDgWUK3rZ1dB7xPd7XO5hNDIYVasy
+	 QvK0lGpOdbnNHOL8bE9ZRiCrQ6KPzE+i4MuKwNear/aScZbMezE4aKLronoh52A4fp
+	 PPiqX70ygaAag==
+Date: Fri, 5 Sep 2025 08:59:15 -0700
+From: Kees Cook <kees@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kbuild@vger.kernel.org,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Tejun Heo <tj@kernel.org>,
-	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	Matthew Maurer <mmaurer@google.com>, Jeff Xu <jeffxu@chromium.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Brian Gerst <brgerst@gmail.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 2/2] RISC-V: re-enable gcc + rust builds
-Message-ID: <20250905-swipe-unstuck-dd7ad6e5466a@spud>
-References: <20250830-cheesy-prone-ee5fae406c22@spud>
- <20250903190806.2604757-1-SpriteOvO@gmail.com>
- <20250903190806.2604757-2-SpriteOvO@gmail.com>
- <20250904-sterilize-swagger-c7999b124e83@spud>
- <f7434b76-49d0-4ef3-8c77-c1642dc211cd@gmail.com>
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: Re-enable -Wunterminated-string-initialization
+Message-ID: <202509050856.E5D810BC@keescook>
+References: <20250802184328.it.438-kees@kernel.org>
+ <20250803173235.GA716998@ax162>
+ <e4d801e3-3004-484b-897d-ed43c25e1576@intel.com>
+ <20250805214823.GB200407@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cr2zhJdWyNpNS/E7"
-Content-Disposition: inline
-In-Reply-To: <f7434b76-49d0-4ef3-8c77-c1642dc211cd@gmail.com>
-
-
---cr2zhJdWyNpNS/E7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250805214823.GB200407@ax162>
 
-On Fri, Sep 05, 2025 at 06:56:35AM +0800, Asuna wrote:
-> > One thing - please don't send new versions
-> > of patchsets in response to earlier versions or other threads. It
-> > doesn't do you any favours with mailbox visibility.
->=20
-> I apologize for this, I'm pretty much new to mailing lists, so I had
-> followed the step "Explicit In-Reply-To headers" [1] in doc. For future
-> patches I'll send them alone instead of replying to existing threads.
->=20
-> [1]: https://www.kernel.org/doc/html/v6.9/process/submitting-patches.html=
-#explicit-in-reply-to-headers
+On Tue, Aug 05, 2025 at 02:48:23PM -0700, Nathan Chancellor wrote:
+> On Tue, Aug 05, 2025 at 04:50:28PM +0200, Alexander Lobakin wrote:
+> > From: Nathan Chancellor <nathan@kernel.org>
+> > Date: Sun, 3 Aug 2025 10:32:35 -0700
+> > 
+> > > On Sat, Aug 02, 2025 at 11:43:32AM -0700, Kees Cook wrote:
+> > >> With the few remaining fixes now landed, we can re-enable the option
+> > >> -Wunterminated-string-initialization (via -Wextra). Both GCC and Clang
+> > >> have the required multi-dimensional nonstring attribute support.
+> > 
+> > [...]
+> > 
+> > > diff --git a/drivers/net/ethernet/ti/netcp_ethss.c b/drivers/net/ethernet/ti/netcp_ethss.c
+> > > index 55a1a96cd834..05d4323c6a13 100644
+> > > --- a/drivers/net/ethernet/ti/netcp_ethss.c
+> > > +++ b/drivers/net/ethernet/ti/netcp_ethss.c
+> > > @@ -771,7 +771,7 @@ static struct netcp_module xgbe_module;
+> > >  
+> > >  /* Statistic management */
+> > >  struct netcp_ethtool_stat {
+> > > -	char desc[ETH_GSTRING_LEN];
+> > > +	char desc[ETH_GSTRING_LEN] __nonstring;
+> > 
+> > 
+> > Hmmm, ETH_GSTRING_LEN is the maximum length of the driver's statistics
+> > name to be reported to Ethtool and this *includes* \0 at the end.
 
-Ye I think this is mostly just misleading. You're better off providing a
-lore link in the body of the mail than replying to some old thread. I
-find that explicit in-reply-to stuff only really helpful to send a
-single patch as part of a conversation where it's effectively an RFC.
+This is not true. ethtool uses non-C-String logic to report these values
+in userspace. These are _not_ C-Strings -- they're NUL padded to
+ETH_GSTRING_LEN, so some drivers _happen_ to use C-String APIs, but
+they're "wasting" a byte.
 
---cr2zhJdWyNpNS/E7
-Content-Type: application/pgp-signature; name="signature.asc"
+> > If this compilation flag triggers a warning here, the driver devs need
+> > to fix their code. There should always be \0 at the end, `desc` is a
+> > "proper" C 0-terminated string.
+> 
+> Ack, I had misunderstood a previous fix that Kees did for a similar but
+> different instance of the warning in another Ethernet driver and I
+> did not look much further than the driver copying these values around
+> with memcpy(). This does trigger a warning, from the original message:
 
------BEGIN PGP SIGNATURE-----
+These don't need to be renamed -- they just need to use memcpy instead
+of C String helpers.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLsBqwAKCRB4tDGHoIJi
-0o8oAQDiIK6HL6oaYXWxQpproLYlTxZVq7be/QUm0+0M9Fhj4gEAyoX5K7PDnHGS
-NVoLGxCGdehDtQmXjvmrQUSeQfwA8Ao=
-=fC2y
------END PGP SIGNATURE-----
+ETH_GSTRING stuff is not NUL terminated.
 
---cr2zhJdWyNpNS/E7--
+-Kees
+
+-- 
+Kees Cook
 
