@@ -1,122 +1,148 @@
-Return-Path: <linux-kbuild+bounces-8745-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8746-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E35B45E11
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 18:25:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F6FB45E40
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 18:35:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F27A2188C6A0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 16:25:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D9A13A2AC6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Sep 2025 16:35:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C647D306B1C;
-	Fri,  5 Sep 2025 16:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C3A52F7ACC;
+	Fri,  5 Sep 2025 16:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AjyvTC4r"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ua0hAfp4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9283B1F61C;
-	Fri,  5 Sep 2025 16:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5006E2D47E9
+	for <linux-kbuild@vger.kernel.org>; Fri,  5 Sep 2025 16:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757089483; cv=none; b=ibZHLA0FuF945CyODAN0LQOwASB1/3Tpok3w23Wt9OKDIipCej2GiFKVTIjydyT6l+QWPIoQ0CYPGGjeQ5J2vODt+LtfH2ElbzDjNzkqwKE4n5u/wRpyycXO7zgqVgoDa1U3Yr1IdpzFzTX+krdRkgGNXH4LN48umGruPz00tp8=
+	t=1757090103; cv=none; b=PsmbpDGs+HpVUB32rCe94Quhswjt9ueXAkwhH3ZrVGMqq7I5O0WwFQyTgs8XdlTYFluvmxpzk8inFI4vOSNF65/5/4XzgWB4IccSKymJRroE4VfqRc4n3qskPqxJb7GWwJH424zHg9P+Me3hEXvuDqUMPsNYO9/x880yAU82uAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757089483; c=relaxed/simple;
-	bh=RC1Pffwa1OxcNnbVPqhWoqVwAryGyPeS0l0/vSql3J4=;
+	s=arc-20240116; t=1757090103; c=relaxed/simple;
+	bh=s7SrPYl52WuWozmbo5gIbiNPa5h8Fo7Zn10BfZuwANY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zde5P8VA3gYhCEUNf81q2vGy1Km9+Epft5Ot8fAkOCBWCaymfK7a/kWJgbGxyDDbPBSEV0n1wVbFAfNti/2WwkEaZSgcNxFflKLz/updc7ArTeReoxHCfxwcL+PtC6fUB3I/qGLW70qBhdtk8tfcksXMREevKiVAfHhm2VOhOog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AjyvTC4r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D174C4CEF1;
-	Fri,  5 Sep 2025 16:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757089483;
-	bh=RC1Pffwa1OxcNnbVPqhWoqVwAryGyPeS0l0/vSql3J4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AjyvTC4rktQ2MyRDuB5bI1wPYHRjy+Zk7cDDH410eEhoty1YHOBZIRffC3/uwcLZd
-	 BdVbLWaOF3Ngz7msISwbLii/tZRUhMO2DdV3NffMmu3fhmxDA3HaGQOdgX1s22Cc3C
-	 ptTjIM/A1/Ij4hcduLvREjvpCNgCRnyz8FiVNcCKgLNiVUyhr/EN0cnDVFMZEeSSl3
-	 8rMGtHhUZrIB2SZSRMqGVpyPeCVmE5HziD8BTPh7wPY+lqPbyMRc7avON3E3+/Ol7t
-	 oSk30wAvtcZ/8VUsNvZ4wFVtpp2eAwEDWm9hFy8eW5O5RaZq+enQgxZ7y8niy1OWQ8
-	 RE2f3ae5N3dRw==
-Date: Fri, 5 Sep 2025 09:24:42 -0700
-From: Kees Cook <kees@kernel.org>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Stephen Brennan <stephen.s.brennan@oracle.com>,
-	Marco Bonelli <marco@mebeim.net>, Petr Vorel <pvorel@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] kconfig: Add transitional symbol attribute for
- migration support
-Message-ID: <202509050923.28C878FFA1@keescook>
-References: <20250830020109.it.598-kees@kernel.org>
- <59c4f103-7f1b-4829-bd82-0d392047fea4@oracle.com>
- <202509010949.9A61A98@keescook>
- <d25b2c63-32e2-4a41-b982-da5131cffd2f@oracle.com>
- <202509011125.5879901C@keescook>
- <0d9ef42f-57c7-472b-89c1-4534f40991f7@oracle.com>
- <202509031949.375138FB13@keescook>
- <4cbc348d-02ca-4743-b8d4-21db2ebf4460@oracle.com>
- <18c2c59e-edae-4281-ac7c-8524d9cde1c5@oracle.com>
- <2bf12be7-7fd5-41e2-a0a2-da82903d0ccd@oracle.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=nMpeET948yDaoWvZbbij6SNM4zHYrTgBatHlzkwyhikof6fyO4gx/gT3HvdjGA2HxvvKW0GAl9zt5xbI2Dr8NMgN+2kbm8ERJM+BNP3hLog3gf5cFMl9WIIuP0HDAOmjpexh3PC8a2pxJwgqrxEZo8+0ysyo5vsT8OuwH5EQy1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ua0hAfp4; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3f93a6771f1so6438795ab.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 05 Sep 2025 09:35:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1757090101; x=1757694901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pNJVMZejeJ0dWtaoJq/BzsUu7eg4eLar9GAHcQR+XNw=;
+        b=ua0hAfp4+SIXjbLvQlXPY9K/wCoWcEOM1SaH+NuhyiMhirz59S/mwijGwsxp+6y8kI
+         zGGuXFSyWLfYYA+T4uhWp/Hz8V6qDO3p+wF3uEKRdKO6RRC4QCeLbBGbflqeH7gscqCV
+         5jgXLB06hIEaEQ4ePoOdcyC0tHQ6bMmRKjFMQgfcjXKykYjvkht/nd2qAM5hFS+Rf0Si
+         X2NuJuDk66VkgVWfTwbB4Yf8F1npwtBl0VDVJFBVjiFAZ6/SKdQ7GJxAEH9/yhNJhJod
+         dC4SsMdzHPKwLzn0FJmJ544cGS767tOSBkOrtg2x+qttDq8NiihpLnoIN53WVLYX0LQP
+         8yxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757090101; x=1757694901;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pNJVMZejeJ0dWtaoJq/BzsUu7eg4eLar9GAHcQR+XNw=;
+        b=Lf/tRvKTqi2YBZ6WSD8mpr27glzS5QHaCpTJBkKycvmOkIsHW7d+Aw95h3+67nEAFk
+         11qeZSGlq1GCgCfhEJhjFowrR23Ycrl3xJQJuL2aWslTfC6TD+MNBEWvHOvEZjl6sFNz
+         E8cN8d0xydklsiENDFUnGvV3epFDa/1R0lhnozrXEKsiSSJYOkhZaBpWMiG08MK/0jco
+         mJ5kkuTIEDHve1UlRnvT2wq/msHyUxsK9PT5ruoA9RjHCo4MklCi+jD1TMJGh0qxanv+
+         vWT2Ah4Cto56VV4HOdaytdXbFdgQz0MA5+Qdr5lNwK8vD534t2GeADN5d91crk64AP09
+         QKPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWWBogU5ZU1TTz033tTdNnjVy9VvrPk+/vrUSXLcmQMZIcdYfWiTsV7yLktYJWzfE3+K+MbiqgzTsaBzKQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTU2d1qGBJUb5muUwNQA5Wl1JwJB9LksIcVkxBUpYZG3n+/08A
+	MlH3FMgxGO6GWq5lzWkeVllOmLBBRwP6Q1KnlE1LFnjIqm4KvuRGXdUYimXhl5VKM6e3St2xkSZ
+	aybJ2ig==
+X-Gm-Gg: ASbGncsDLkH01kwn3aqN6e8zRlGhGWZ9N76HEmxZWvRDnxYD+xs85I4D0ZUKQUNhliO
+	rqhV/7caUss8N/RSEyH4tc9i9oBmm6hPZK3h0iuM9vYt7VS0ImQ49zTvpO5vIIUlAGBb++uE2iq
+	KPrpWObPAGjOOtrrJ0B/X5kbW376MAaYpB1aLaziMXWeURJuN/oXR+Miz95yLolQpkUmx54+pcl
+	n2Tz0/ZfC+vVjCvY1HXRgEwwSkWRRB4irjsX/1igDyUdLL+XvNcvKRHFqCvw4ehtdeBXnNj6Kpk
+	sCRG0ZwuOnQWG7XeijTutmSGqylBE4DQQKIzgtWTRFHMzbcn6uVP0tf58teRSRloSpR/jumkxwC
+	NH1ykVw9KykuCIEF5wW99eYRksJ19aylNlkVtR3+T2kmkAQKRlfUP5Bs9pZAvtPlWqoVmnXPTKQ
+	==
+X-Google-Smtp-Source: AGHT+IFFNvKFGEmjvy9xgKPnnOq+Go0iiWzE8ixq+1GtVP43Q8XMv1fd8zP0NU6M6xvxRKA9GPLB4g==
+X-Received: by 2002:a05:6e02:3e06:b0:3f8:b464:6d1c with SMTP id e9e14a558f8ab-3f8b4646df5mr45284865ab.14.1757090101071;
+        Fri, 05 Sep 2025 09:35:01 -0700 (PDT)
+Received: from google.com (2.82.29.34.bc.googleusercontent.com. [34.29.82.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50ec9c752a1sm5721324173.26.2025.09.05.09.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Sep 2025 09:35:00 -0700 (PDT)
+Date: Fri, 5 Sep 2025 09:34:56 -0700
+From: Justin Stitt <justinstitt@google.com>
+To: Paul Barker <paul@pbarker.dev>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gen_compile_commands: Look in KBUILD_OUTPUT if set
+Message-ID: <3fya5rij6amcwt36jthyezkzov44m6rdvlacymqfpbkcmzrnw4@fymsxhcqq6tj>
+References: <20250905-gen_compile_commands-v1-1-9f5194542d4d@pbarker.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2bf12be7-7fd5-41e2-a0a2-da82903d0ccd@oracle.com>
+In-Reply-To: <20250905-gen_compile_commands-v1-1-9f5194542d4d@pbarker.dev>
 
-On Fri, Sep 05, 2025 at 11:41:18AM +0200, Vegard Nossum wrote:
+Hi,
+
+On Fri, Sep 05, 2025 at 11:17:43AM +0100, Paul Barker wrote:
+> If someone is already using the KBUILD_OUTPUT environment variable to
+> specify the directory where object files are placed, they shouldn't need
+> to repeat the same information to gen_compile_commands.py.
 > 
-> On 04/09/2025 19:10, Vegard Nossum wrote:
-> > On 04/09/2025 19:03, Vegard Nossum wrote:
-> > > @@ -214,6 +214,11 @@ static void sym_calc_visibility(struct symbol *sym)
-> > >          struct property *prop;
-> > >          tristate tri;
-> > > 
-> > > +       if (sym->flags & SYMBOL_HIDDEN) {
-> > > +               sym->visible = yes;
-> > 
-> > ...I just saw the irony here after having already pressed "Send".
-> > 
-> > Let me explain:
-> > 
-> > SYMBOL_HIDDEN is your new flag that indicates that somebody used
-> > "transitional" on the config entry.
-> > 
-> > sym->visible is tristate value that gives you the condition for whether
-> > a symbol can take on a value -- y/m means the option is visible to the
-> > user (hence the name) and thus eligible to have a value assigned to it.
+> Signed-off-by: Paul Barker <paul@pbarker.dev>
+> ---
+>  scripts/clang-tools/gen_compile_commands.py | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> Another small clarification: Replace "is visible to the user" by "can be
-> set by .config".
+> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> index 96e6e46ad1a702cb0fad5d524a9a02d222b236ec..7b94a2ffba0b4d5f1290b51bd602fb3f33acce6a 100755
+> --- a/scripts/clang-tools/gen_compile_commands.py
+> +++ b/scripts/clang-tools/gen_compile_commands.py
+> @@ -39,8 +39,9 @@ def parse_arguments():
+>      parser = argparse.ArgumentParser(description=usage)
+>  
+>      directory_help = ('specify the output directory used for the kernel build '
+> -                      '(defaults to the working directory)')
+> -    parser.add_argument('-d', '--directory', type=str, default='.',
+> +                      '(defaults to $KBUILD_OUTPUT (if set) or the working directory)')
+> +    parser.add_argument('-d', '--directory', type=str,
+> +                        default=os.environ.get('KBUILD_OUTPUT', '.'),
+>                          help=directory_help)
+>  
+>      output_help = ('path to the output command database (defaults to ' +
 > 
-> Actual user visibility is controlled by menu_is_visible(), not
-> sym->visible, so my patch still doesn't show transitional symbols to the
-> user in menuconfig. AFAICT, menu_is_visible() is completely independent
-> of sym->visible.
 
-Yeah, and I think this is another very good reason to rename stuff.
+Thinking out loud: It might make sense to also change the default output
+path in some cases but not in all cases. For my clangd setup in vim, it
+does some discovery for a compile_commands.json and I have some
+different ones in various build-* directories -- I guess it'd be cool if
+they were automatically placed in their appropriate spot. With all that
+being said probably YAGNI.
 
-> I tested menuconfig/mconf and oldconfig/conf --oldconfig with scripts/
-> kconfig/tests/transitional/Kconfig and my patch and it looks correct
-> (only the new options are displayed).
+Tested-by: Justin Stitt <justinstitt@google.com>
 
-Great! Thank you for looking at this. :)
+> ---
+> base-commit: d69eb204c255c35abd9e8cb621484e8074c75eaa
+> change-id: 20250905-gen_compile_commands-b03d9c923fe5
+> 
+> Best regards,
+> -- 
+> Paul Barker
+> 
+>
 
--- 
-Kees Cook
+Thanks
+Justin
 
