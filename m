@@ -1,144 +1,101 @@
-Return-Path: <linux-kbuild+bounces-8757-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8758-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24001B477FE
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Sep 2025 00:26:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 145A6B47C20
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Sep 2025 17:40:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E21331C23A78
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Sep 2025 22:26:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F0E318979BC
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Sep 2025 15:40:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD192D7DE9;
-	Sat,  6 Sep 2025 22:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07F8277017;
+	Sun,  7 Sep 2025 15:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WD3MTiEV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWSDIbRd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DF323BF9B;
-	Sat,  6 Sep 2025 22:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A663921018A;
+	Sun,  7 Sep 2025 15:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757197564; cv=none; b=BTkvBzo6MS0eUS6HTPEaLz8/0WCNSxuvUZ3lqHOmoNu2vkh+ObHD/rr67mIiu3L9xFps3kq9iYABy5dvIOe6SDtX2Co71PRHSPsKdhAMlywbXs7mUuR8vX+0rx8K/xh+Abftr/vWxDDus8leQgK5cbRMDzLmJv3xLx7qke4/tBc=
+	t=1757259621; cv=none; b=O6XJi8XkJCKvAPmoVIbG7jfXtJecphY7GBYzH2QQ5oRAolcZxfMn01H7QuXYpkBnVo+5K6nQEiNuAhfVUwwgaHOumNgKcVtb3L7AK4pAbjT45WtXwo/uE4tOkgXIIIgm3QoYc2ql8u1Gs8+LS/1V0HfHMHx2To/5cOHjvSu1ce4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757197564; c=relaxed/simple;
-	bh=JqldWRPERw4IKoFvl0pMtg74CW2Zzkauedrn/ZTVcd8=;
+	s=arc-20240116; t=1757259621; c=relaxed/simple;
+	bh=W83tEYug+zv0fXq+lOMdR31cDiPDBp2hZELVyc+e4rY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rFb0/aG4Rnzw6vFp9t4CJFu4PqYjDidWypnPHgjI2B6xOW1yzIjOdn6blPBFn1VBt5G+2or09dp5DsXlz4jQacOl+CCoQC6Y3PiYoTQ89wEPEw1+Qxtlkom/88+f4BbbM6GpaZ5TKkZMu7IWa6zMUC3Jw13Rc9QJ96AlXREqNJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WD3MTiEV; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 731A340E0173;
-	Sat,  6 Sep 2025 22:25:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Czw7wzyQ6SdZ; Sat,  6 Sep 2025 22:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1757197550; bh=+xt7zC4IHQ+iWsE/ZnrUTR3tvhZamW/XzIhStal409Q=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=gS3w0Wmpo6HkLeC6GGiyhu9ZRuivyU3NpM8HjoKclOXUpqBSTuaTmi4YeWZ520g3UMJbvI3jsNLV9zTTjtNPbvSnI0fXGZIKl8tfJ0lnxQPYUki2ZeDYpiQZEHFwOG1MU+OXesrkiTH9exT8wlXvItIb/NGOm0xSUD7M69z3Nsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWSDIbRd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7474C4CEF0;
+	Sun,  7 Sep 2025 15:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757259621;
+	bh=W83tEYug+zv0fXq+lOMdR31cDiPDBp2hZELVyc+e4rY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WD3MTiEV8OF4augBQVbQgNGLghdqY3TGMGBKaP04329b5L0DfzUVoj6QisowlNw4q
-	 /IMj/MOBJpym9nNPw614ZhpVoMP5w1yuQF5kPartCXJqMa8Y8XYxvSfck0Q/01W3B3
-	 nn8KSHr9Gl9zpWcYyX9FfXtO6rv8Acj0x8J7cOCKSj7mneCH1pBnU4tALMr//aSRiV
-	 JsarJg70bFFzngYonXdqFYcd12mk/nnjOgMSn6aBM+bE/OriCnRs6R4Hulgb2qz6O/
-	 VW7Lr/J5fCtr7CVUTwUERpePji+KXecc2VZ6m6Qvyhs18CQK1KPjx4x8gXZ046Pk5J
-	 3ue3KUJaHHsifVJ3uZy3f1QgGhX0OBZHyL7GvLXsHTTNOuD9O4weesISUfuLDcM5K1
-	 OqlaKTYRVzaGe4EITMImM1OnWIUj6FuCaK98tfb5WxnD2Z7ieoNWkgThfI0dvol3Vq
-	 YlxqNXWxHfq2LA3HPkRSY65mcoR7Eh6E0HB4bJWEmt5xWen+K9E4umS1F/OD92hhGH
-	 x/tsRl/3VkdOQ6cX5+jIkYx3cXzNLyCOeR/mpL4kDIhRgHxR4HfeXCIvAIa8Hi2rTU
-	 w+8vl+o4wHFs8OKdpAX5CGtYq90mFZUnHa2qU7Zed/GPtfOzClrq8bmmTPkBK70yan
-	 XdV58lIASbpHeb2xhWiQxkN8=
-Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id AA3B540E00DD;
-	Sat,  6 Sep 2025 22:24:29 +0000 (UTC)
-Date: Sun, 7 Sep 2025 00:24:20 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
-	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com,
-	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com,
-	trintaeoitogc@gmail.com, axelrasmussen@google.com,
-	yuanchu@google.com, joey.gouly@arm.com, samitolvanen@google.com,
-	joel.granados@kernel.org, graf@amazon.com,
-	vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org,
-	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com,
-	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com,
-	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz,
-	kaleshsingh@google.com, justinstitt@google.com,
-	catalin.marinas@arm.com, alexander.shishkin@linux.intel.com,
-	samuel.holland@sifive.com, dave.hansen@linux.intel.com,
-	corbet@lwn.net, xin@zytor.com, dvyukov@google.com,
-	tglx@linutronix.de, scott@os.amperecomputing.com,
-	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org,
-	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com,
-	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org,
-	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com,
-	mhocko@suse.com, ada.coupriediaz@arm.com, hpa@zytor.com,
-	leitao@debian.org, peterz@infradead.org, wangkefeng.wang@huawei.com,
-	surenb@google.com, ziy@nvidia.com, smostafa@google.com,
-	ryabinin.a.a@gmail.com, ubizjak@gmail.com, jbohac@suse.cz,
-	broonie@kernel.org, akpm@linux-foundation.org,
-	guoweikang.kernel@gmail.com, rppt@kernel.org, pcc@google.com,
-	jan.kiszka@siemens.com, nicolas.schier@linux.dev, will@kernel.org,
-	andreyknvl@gmail.com, jhubbard@nvidia.com, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 11/19] x86: LAM initialization
-Message-ID: <20250906222420.GBaLy0lL5lHcVlYU0C@fat_crate.local>
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
+	b=pWSDIbRdZ7fBY46KzibixD4k/DK+H7WYqneUfAsUqj5F1oCGWqqcMXQOZhUHoyrpE
+	 UwDm754wW9SKavR4NdTaWFUwPsWYZtjUO0QDutzvfXMAS68OtbyJQyCwGaUVDUnmUl
+	 1V9PMu4NVf7JaAhOT1aDTx55lBqgxVYhRHLON3BgfpRdaUsZ0Oo326mZlKL4q4uXOp
+	 rZY3s/VOarOJWW6p1IdXbqyCtOUp61LkrqOvb+/Fy4WyuFR+/8Tj+6mGgoMAlwINf+
+	 A4QXbdVc2QnfclhNLI+5+DveKcYqXB6a7ibNByrGLqGpYN7Qc5JS5fmAgMWgiuE0j3
+	 /Y6I0gciRF85A==
+Date: Sun, 7 Sep 2025 07:24:07 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] kbuild: userprogs: also inherit byte order and ABI
+ from kernel
+Message-ID: <aL0W9xvpktaLE9m2@levanger>
+References: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
+ <20250813-kbuild-userprogs-bits-v1-2-2d9f7f411083@linutronix.de>
+ <20250827075334-3332c08d-66f3-427d-b0b2-4460e779f261@linutronix.de>
+ <20250827224935.GB414199@ax162>
+ <20250828083747-e819430a-986f-4f71-bbc8-e402e339c9a2@linutronix.de>
+ <20250903223131.GA2264021@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ffd8c5ee9bfc5acbf068a01ef45d3bf506c191a3.1756151769.git.maciej.wieczor-retman@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250903223131.GA2264021@ax162>
 
-On Mon, Aug 25, 2025 at 10:24:36PM +0200, Maciej Wieczor-Retman wrote:
-> diff --git a/arch/x86/mm/init.c b/arch/x86/mm/init.c
-> index bb57e93b4caf..756bd96c3b8b 100644
-> --- a/arch/x86/mm/init.c
-> +++ b/arch/x86/mm/init.c
-> @@ -763,6 +763,9 @@ void __init init_mem_mapping(void)
->  	probe_page_size_mask();
->  	setup_pcid();
->  
-> +	if (boot_cpu_has(X86_FEATURE_LAM) && IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+On Wed, Sep 03, 2025 at 03:31:31PM -0700, Nathan Chancellor wrote:
+> On Mon, Sep 01, 2025 at 11:51:03AM +0200, Thomas Weißschuh wrote:
+> > Exactly. The normal cases can be handled generically. For example the kconfig
+> > below works for architectures which only differ in byte order and 32bit/64bit,
+> > which are most of them. MIPS should require more logic.
+> > Also I'm ignoring x32, as it is never the kernel's native ABI.
+> > 
+> >  config CC_CAN_LINK
+> >         bool
+> > +       default $(cc_can_link_user,$(m64-flag) -mlittle-endian) if 64BIT && CPU_LITTLE_ENDIAN
+> > +       default $(cc_can_link_user,$(m64-flag) -mbig-endian) if 64BIT && CPU_BIG_ENDIAN
+> >         default $(cc_can_link_user,$(m64-flag)) if 64BIT
+> > +       default $(cc_can_link_user,$(m32-flag) -mlittle-endian) if CPU_LITTLE_ENDIAN
+> > +       default $(cc_can_link_user,$(m32-flag) -mbig-endian) if CPU_BIG_ENDIAN
+> >         default $(cc_can_link_user,$(m32-flag))
+> > 
+> > 
+> > > Feels like that could get complicated quickly but this would probably be
+> > > the objectively most robust and "hands off" option.
+> > 
+> > Agreed.
+> 
+> Nicolas might feel differently but this does not seem terrible to me,
+> especially with a macro to wrap the common logic, which is where I felt
+> like things could get unwieldy. Feel free to send an RFC if it is not
+> too much work.
 
-cpu_feature_enabled()
+yes, at a first glance this looks ok to me, too.
 
-> +		cr4_set_bits_and_update_boot(X86_CR4_LAM_SUP);
-> +
->  #ifdef CONFIG_X86_64
->  	end = max_pfn << PAGE_SHIFT;
->  #else
-> -- 
-
-Also, for all your patches' subjects and text:
-
-Pls read
-
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#patch-subject
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
-
-and fixup.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+Nicolas
 
