@@ -1,74 +1,74 @@
-Return-Path: <linux-kbuild+bounces-8772-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8773-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63615B49AF0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 22:21:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 633BEB49AEE
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 22:21:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D491BC607D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 20:20:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F379C208824
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 20:20:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADF52DC342;
-	Mon,  8 Sep 2025 20:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D98082D9EFA;
+	Mon,  8 Sep 2025 20:19:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYxnvFh+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5aQeMCI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BD72D9EFA;
-	Mon,  8 Sep 2025 20:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2735A2E0B71;
+	Mon,  8 Sep 2025 20:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757362760; cv=none; b=alkdFYsJi732ZT5e/RIXbdjkcWeapzmqmumX5wnle32ysvqthC69c0AfNBor2HxdleBZS3Zv255f5hP5PrznLKyrtfRzorhrKRB3iBp5C53o2lBVdxo5Gp6PLExMIzpggozwqS2dlDZ/IHDyThrcCOzzVsTH2ag/4GnBi8sRHV4=
+	t=1757362765; cv=none; b=Q4PZAOquPAaESJmxx1ZHq/VJK8xF57v3gaRI0qCNPciPvdjmNRxiGUKyscytJ0iSa5duBnVnVeqlZGb1VgBP5+bReskiCVPF5bGafLXIjaIRjwkrqYKpKQqD2H7WQJqk4ebhEbs2dpC4Ndm1osdtoVneZhI/47hBqZjzOLIEPyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757362760; c=relaxed/simple;
-	bh=vT09vTia8SgQBO+FiegSxuy3xNGmzzHUSLwcepL1OEI=;
+	s=arc-20240116; t=1757362765; c=relaxed/simple;
+	bh=tQubbYkSPmW787uMDk/VjL70hBJ1by4E32yNlzWShJw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jPZPpr2oaicrmDuZPrVQNaIzp8yptb3EKDvWE/UjmKRcb+btCylDVyEMN+TodC/3xSVO6W50rpUxv3h4whLkdk7gXevsRdELv3cGuV/kVuGW43pX9rC5PZWBdevOspG0erRb6L5ed7L8/qx6QXXz6owgBB4/dSzJzdctFNdHNP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYxnvFh+; arc=none smtp.client-ip=209.85.221.53
+	 To:Cc:Content-Type; b=AibYr3T8CrjgXw3tiGTjvndwL6nk5upPXcIslszeHgL/r5y7ZS8gyXmYjTq4Txx5i0VwSDebvURkwQ4XkebUgtydowao8mYV481rpVG7Y/xcpePBdAhSbAx+zkjNSxPm1Vvb0zRNAOMhG8QyJWuRQ0eXKpxF9lHLPhCxrXfrwX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5aQeMCI; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3da9ad0c1f4so3377758f8f.3;
-        Mon, 08 Sep 2025 13:19:18 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45de1f2cdeeso11344305e9.0;
+        Mon, 08 Sep 2025 13:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757362757; x=1757967557; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757362762; x=1757967562; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vT09vTia8SgQBO+FiegSxuy3xNGmzzHUSLwcepL1OEI=;
-        b=lYxnvFh+lgX6kjFJblJbboRDYB85v+Bbxu0D7wL4zCD2Rxwq5u181sJN/C/qeGWEPZ
-         489kqVPhKCbrXQjv17k/K0jPdGvSVRRVKyUlZEIx7f+YHAWpA9N1g36xpRNxUleKYgjv
-         98X2SNDXWbJEJEbmjoyDNXFNiqxKrcGuYSVzJ2+eWt1mswEfGE3Y6RYOA+/X0z9Tfl4I
-         sB8somHVG5VdhkYJ95THTWNoxq14vP/tIbQHshZDTKP1crzwQEkh7IWi0Jy8iyN/G/0O
-         WgnyKngTLaHyCj5sK/fsZ5cuPduvNS1iCnIKWJ1r8toQdxjOi49gLSrA5N3zd/FJIH0d
-         72XQ==
+        bh=wK9/DwHmthANAPoxGvgtMIu4IcfAIwwBdfEzyf7aCYc=;
+        b=O5aQeMCIa4Tx2g0LgQ6uxeAkunux9V1BgZbj8GYoJmP3GKIL3Fbqru4/pKIcBWq0kO
+         xTYXja+XgVgnmc3p7kUxlGGCxAKfy2PDzuIrOdmpQtJ6mr1cX7xqYlnFv7Dz/CHqHaPI
+         K9e8UDq1f7LIkWbQC6jj3lHr1K/MOh2zKOfwtChnmL/npKjvFcds4uYt2vhXS6JxHR/v
+         z9aKHcZmb8qPvYLTLsS5c9ZtDkG6wMq2mdS5vXxw1sXfYqCIvOWyKW658fONMPOMxjvM
+         BIeZ4F5oubHdRveYvA5wW/TiRtCx9y40mdMpipLcEJ8+MOcvyU2BQudKe16JCti5mdfb
+         iQmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757362757; x=1757967557;
+        d=1e100.net; s=20230601; t=1757362762; x=1757967562;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vT09vTia8SgQBO+FiegSxuy3xNGmzzHUSLwcepL1OEI=;
-        b=U6zBUfeRmlyLMCeTGpy6lNYdWw/gtgChR3r2Kd/z3lHDThblr/GQIXo4hpq6XS7rEc
-         9S2Z22MMB8DqwqmD1gpqgETllrRlpsYvQsi3cLHos/Jxd8lxosDOtHjPVb7VAAQMjPYV
-         zhsQLi4qqYVHAWfpdWd1oxjNhCYp6ExVlntRDZWXtNDK54DzGSY1FI0EY+hPPL2cZ4qK
-         gIwVh1aZm120SO8g4s7TzWUloXUaj9/LJEzWWGqwCLvAjZGfgzTlKRuOXqAvXRiBwP/5
-         fpAO0NTvYqyx723/IXL/c4h0fyc+/gKNrQI8F6m9Kt+M720h3jG6pgaD/yYETF8YxN/0
-         vNRA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWKI6yOFCKuZtNZRHV/eNazmja716sVHz/ogB/a0Gc7tbARUG9dRwAQ1jjH7+4UvzSIi2s6JL+oanv/YHN@vger.kernel.org, AJvYcCVDXJc5gzWqkhETKDk8rnpsKNLEC5PwFP1/2ZL6wQo7pxf+OVEGo5YN4/CqJTErZLAac3MYA9bB8b0=@vger.kernel.org, AJvYcCWD3N0tZ57CG1YqOAL8q33mKKRSPDK62SsR7VJxC+gatfc6rS0in1f1VDvc6xLSCDWAsSPPPNzNejG6EJWl@vger.kernel.org
-X-Gm-Message-State: AOJu0YylzJr9yd6agm4aa+q0zVt9hMkId++7R4Bjbn9mDhkmXkB7kKHz
-	ynfaJlhContWJx2LukLlU2X+/rN0cVKmQv7UEnfLa3gePC8hrkvsbggJMHtpFvZwU5o5EQAUb18
-	0lgiki1AiYod/1YudfbBNfcfwa7OL18o=
-X-Gm-Gg: ASbGncsgpOsMammc4LG1P+6Tvm4w7k9SmcYSNk+uljpuENxhIKsIJtHZcdM9Qdrdzo5
-	+gX27bKypY5ayouJtrqBTr60oG8uDCi2ekhxUsgItX53SxITvXpWWEsLLfk6OH5HRVlc6BODXtq
-	yTTeTJxPbO0l2ajcLwhvebGYeOJ4TOb1HAJ9li+vfEmmPS8zfnpz2p2ZMjO4Bxz+DhX3Jwk3yt6
-	IouM2ge
-X-Google-Smtp-Source: AGHT+IGh6YqUFpx+JIdu/8YkqL5G1rRgnTznoIse4KvphEDHD6OBcCQt7Euav83er+DtfxdiEo+7p+GtKQrhaaETdWA=
-X-Received: by 2002:a05:6000:2f86:b0:3d2:6129:5505 with SMTP id
- ffacd0b85a97d-3e64bde66c0mr9404161f8f.36.1757362756927; Mon, 08 Sep 2025
- 13:19:16 -0700 (PDT)
+        bh=wK9/DwHmthANAPoxGvgtMIu4IcfAIwwBdfEzyf7aCYc=;
+        b=XJWSL3Y3XXDVFq2hf+nwiRWjSG/SVP1ttPvuAm4cY/DYOy481uzWgINBaS+odUalPo
+         fWgDQMxtvvgfMc2sEB8D8wwEPl7rvoHGC7bTGzvyhQWlp1Q2NpMy/E7rGHHZxp/a9Ppu
+         M5KJt1WVYmdeTjdDwTYmJbjzKnGcEvnD/uR+Se1kHjUc856+zcTpKREteQgNbNMzoQAb
+         QKB22Y0CRLYPOcZHPA12QpNZVxs4OxZmvckaCJEQI6MQwQ/ldzm73VBOgOjDTWJovEIt
+         C8u3AhH7zyRuA6XNSpdeUH1xqzu8IJLOQXZ6O1YXR/U7SNYrbxP86tivLPyxhDFi5L27
+         KjJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUDd67KKXRijj7uvR/B4z5usbkicWWdfydr5hGBp28Q5gYFsQ0vjcD5U2AOlMHVssxmC59h5a+UAxZbyg3U@vger.kernel.org, AJvYcCURXWMuvstP6sXnUAG7uCp1mDqVG5DjXxk8d5CZefqBTNLxMeBW9jfTSDEAxxlO4qcL7Zttj0NJRURmhMP7@vger.kernel.org, AJvYcCUy2BtJhuaZUdAi1xPuxk2ucezm9e/pGvRNZ9sMa/+6tjDnNl+plPf4oh3a/FmRvM4x8fgV7JvKlpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqHTB2gNucg9+huuiy4bRcWsG5qziD1cb41R7vTJSt7vKEgKOH
+	GN9rrrTdvtLL2i3W9fyZNhLG0FeRPqzZpK1s9blsXk3rnoldHiz4OACzuVJTiWrH9Hyyuh9vr+K
+	UThQex2CDg8nj4QO3fXbhMndPkGN6bZI=
+X-Gm-Gg: ASbGncuJjlsDLHE4Ml3MH+eojgnfnok9p3xEa+l0NsK1Bxq9pqO2aUfeiMrYokm7VIQ
+	qtBqJlFBAcBzCA2rHeZu1WlwBDE0dS0uF+sXROaC4FkZxwSwk/Vh+sBtnOl9w2lkHYwEwLtiP32
+	oe55LEfzYQk51h2y0CG7rGXlkrMZibJppDAxA7xaFQao+CNjavrBTig6/bHM+FZX7Zico+pzPx5
+	GF9WcivpWrLjHfSyY1wtTo74+qQQw==
+X-Google-Smtp-Source: AGHT+IGZZE8d/HSpoC7P4Nb+5HTeJindRu57Gsc+Nhd8qWOwEu57WmXSWCXboRHxBoCyR49CB3xV2W8zqJ5HdS1yk+8=
+X-Received: by 2002:a05:600c:1c97:b0:45d:e54b:fa0c with SMTP id
+ 5b1f17b1804b1-45de54bfc44mr65122055e9.17.1757362762024; Mon, 08 Sep 2025
+ 13:19:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -76,16 +76,14 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <36c0e5e9d875addc42a73168b8090144c327ec9f.1756151769.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZcMV0BOJyvx2nciCK2jvht-Hx0HnFtRzcc=zu+pQSOdVw@mail.gmail.com>
- <couuy2aawztipvnlmaloadkbceewcekur5qbtzktr7ovneduvf@l47rxycy65aa>
- <hw7xa2ooqeyjo5ypc5jluuyjlgyzimxtylj5sh6igyffsxtyaf@qajqp37h6v2n> <epbqhjyfdt3daudp2wx54jsw6d7jf6ifbr3yknlfuqptz7b4uq@73n5k6b2jrrl>
-In-Reply-To: <epbqhjyfdt3daudp2wx54jsw6d7jf6ifbr3yknlfuqptz7b4uq@73n5k6b2jrrl>
+ <2f8115faaca5f79062542f930320cbfc6981863d.1756151769.git.maciej.wieczor-retman@intel.com>
+ <CA+fCnZf1YeWzf38XjkXPjTH3dqSCeZ2_XaK0AGUeG05UuXPAbw@mail.gmail.com> <cfz7zprwfird7gf5fl36zdpmv3lmht2ibcfwkeulqocw3kokpl@u6snlpuqcc5k>
+In-Reply-To: <cfz7zprwfird7gf5fl36zdpmv3lmht2ibcfwkeulqocw3kokpl@u6snlpuqcc5k>
 From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 8 Sep 2025 22:19:05 +0200
-X-Gm-Features: AS18NWBlgrNec5HQDqXuFdTg0l1auT_Opy5K148gspXva4oeYyeCVxabENuTdwg
-Message-ID: <CA+fCnZdJckDC4AKYxLS1MLBXir4wWqNddrD0o+mY4MXt0CYhcQ@mail.gmail.com>
-Subject: Re: [PATCH v5 13/19] kasan: x86: Handle int3 for inline KASAN reports
+Date: Mon, 8 Sep 2025 22:19:11 +0200
+X-Gm-Features: AS18NWCIvLKT4zY1Ax7hHZz8nFS_pHxT1rFM_aQWd_F5XVIT_8vgGZz-WQhHzM8
+Message-ID: <CA+fCnZe52tKCuGUP0LzbAsxqiukOXyLFT4Zc6_c0K1mFCXJ=dQ@mail.gmail.com>
+Subject: Re: [PATCH v5 15/19] kasan: x86: Apply multishot to the inline report handler
 To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com, 
 	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com, 
@@ -117,54 +115,24 @@ Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 8, 2025 at 3:09=E2=80=AFPM Maciej Wieczor-Retman
+On Mon, Sep 8, 2025 at 3:04=E2=80=AFPM Maciej Wieczor-Retman
 <maciej.wieczor-retman@intel.com> wrote:
 >
-> >>I recall there were some corner cases where this code path got called i=
-n outline
-> >>mode, didn't have a mismatch but still died due to the die() below. But=
- I'll
-> >>recheck and either apply what you wrote above or get add a better expla=
-nation
-> >>to the patch message.
+> >> +       if (kasan_multi_shot_enabled())
+> >> +               return true;
 > >
-> >Okay, so the int3_selftest_ip() is causing a problem in outline mode.
+> >It's odd this this is required on x86 but not on arm64, see my comment
+> >on the patch that adds kasan_inline_handler().
 > >
-> >I tried disabling kasan with kasan_disable_current() but thinking of it =
-now it
-> >won't work because int3 handler will still be called and die() will happ=
-en.
 >
-> Sorry, I meant to write that kasan_disable_current() works together with
-> if(!kasan_report()). Because without checking kasan_report()' return
-> value, if kasan is disabled through kasan_disable_current() it will have =
-no
-> effect in both inline mode, and if int3 is called in outline mode - the
-> kasan_inline_handler will lead to die().
+> I think this is needed if we want to keep the kasan_inline_recover below.
+> Because without this patch, kasan_report() will report a mismatch, an the=
+n die()
+> will be called. So the multishot gets ignored.
 
-So do I understand correctly, that we have no way to distinguish
-whether the int3 was inserted by the KASAN instrumentation or natively
-called (like in int3_selftest_ip())?
+But die() should be called only when recovery is disabled. And
+recovery should always be enabled.
 
-If so, I think that we need to fix/change the compiler first so that
-we can distinguish these cases. And only then introduce
-kasan_inline_handler(). (Without kasan_inline_handler(), the outline
-instrumentation would then just work, right?)
-
-If we can distinguish them, then we should only call
-kasan_inline_handler() for the KASAN-inserted int3's. This is what we
-do on arm64 (via brk and KASAN_BRK_IMM). And then int3_selftest_ip()
-should not be affected.
-
-> >
-> >What did you mean by "return the same value regardless of kasan_report()=
-"? Then
-> >it will never reach the kasan_inline_recover() which I assume is needed =
-for
-> >inline mode (once recover will work).
-
-I meant that with the recovery always enabled, it should not matter
-whether the report is suppressed (kasan_report() returns false) or
-printed (returns true). We should always skip over the int3
-instruction and continue the execution.
+But maybe this is the problem with when kasan_inline_handler(), see my
+comment on the the patch #13.
 
