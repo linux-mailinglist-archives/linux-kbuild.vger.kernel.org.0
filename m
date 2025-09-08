@@ -1,101 +1,133 @@
-Return-Path: <linux-kbuild+bounces-8758-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8759-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145A6B47C20
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Sep 2025 17:40:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A80B482FF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 05:49:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F0E318979BC
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Sep 2025 15:40:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4A8D3BABD3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 03:49:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07F8277017;
-	Sun,  7 Sep 2025 15:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0939520299B;
+	Mon,  8 Sep 2025 03:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWSDIbRd"
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="gKZ/c9x4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A663921018A;
-	Sun,  7 Sep 2025 15:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2D453A7;
+	Mon,  8 Sep 2025 03:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757259621; cv=none; b=O6XJi8XkJCKvAPmoVIbG7jfXtJecphY7GBYzH2QQ5oRAolcZxfMn01H7QuXYpkBnVo+5K6nQEiNuAhfVUwwgaHOumNgKcVtb3L7AK4pAbjT45WtXwo/uE4tOkgXIIIgm3QoYc2ql8u1Gs8+LS/1V0HfHMHx2To/5cOHjvSu1ce4=
+	t=1757303361; cv=none; b=Q0JUjw5urgdUU9KFqy7sUgUvZkhSwenRvpwaOjpt9cDcq0hRtQeZvrfEDA1SxViOzJ+uGudVEL4FvV+3CW1qsRxGle8Jjxegq6NK/sN8IMwgWv2PRU2iakpkjOVpTTBxfBn9TWm2qx0lxMP642Av+irHT8/h7UXwqMsL2uwlsfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757259621; c=relaxed/simple;
-	bh=W83tEYug+zv0fXq+lOMdR31cDiPDBp2hZELVyc+e4rY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gS3w0Wmpo6HkLeC6GGiyhu9ZRuivyU3NpM8HjoKclOXUpqBSTuaTmi4YeWZ520g3UMJbvI3jsNLV9zTTjtNPbvSnI0fXGZIKl8tfJ0lnxQPYUki2ZeDYpiQZEHFwOG1MU+OXesrkiTH9exT8wlXvItIb/NGOm0xSUD7M69z3Nsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWSDIbRd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7474C4CEF0;
-	Sun,  7 Sep 2025 15:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757259621;
-	bh=W83tEYug+zv0fXq+lOMdR31cDiPDBp2hZELVyc+e4rY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pWSDIbRdZ7fBY46KzibixD4k/DK+H7WYqneUfAsUqj5F1oCGWqqcMXQOZhUHoyrpE
-	 UwDm754wW9SKavR4NdTaWFUwPsWYZtjUO0QDutzvfXMAS68OtbyJQyCwGaUVDUnmUl
-	 1V9PMu4NVf7JaAhOT1aDTx55lBqgxVYhRHLON3BgfpRdaUsZ0Oo326mZlKL4q4uXOp
-	 rZY3s/VOarOJWW6p1IdXbqyCtOUp61LkrqOvb+/Fy4WyuFR+/8Tj+6mGgoMAlwINf+
-	 A4QXbdVc2QnfclhNLI+5+DveKcYqXB6a7ibNByrGLqGpYN7Qc5JS5fmAgMWgiuE0j3
-	 /Y6I0gciRF85A==
-Date: Sun, 7 Sep 2025 07:24:07 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 2/2] kbuild: userprogs: also inherit byte order and ABI
- from kernel
-Message-ID: <aL0W9xvpktaLE9m2@levanger>
-References: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
- <20250813-kbuild-userprogs-bits-v1-2-2d9f7f411083@linutronix.de>
- <20250827075334-3332c08d-66f3-427d-b0b2-4460e779f261@linutronix.de>
- <20250827224935.GB414199@ax162>
- <20250828083747-e819430a-986f-4f71-bbc8-e402e339c9a2@linutronix.de>
- <20250903223131.GA2264021@ax162>
+	s=arc-20240116; t=1757303361; c=relaxed/simple;
+	bh=o6yubI9o8aQSb1ZmwwN/UUkGxPQtv1/ashNFOWuq/wQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iigvkmRORr3YxJuvfPnnBZneL7STcO5vPtTs95180itmD56wC96f7mcPc3/1/KgEac8ak64Gt4jp6IjdLLCrDUj1ZatHg2cqRgsATNiuN17L9Txwf6Y3CiXA/+/DC1uQ/sEAkP7b+yHjeNFtO75ULm/0MyAhONBkPBlUzEJuAeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=gKZ/c9x4; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+	s=202503; t=1757303354;
+	bh=vaew1mC3B+NoBNmlS8eQeiWBtsJew4atsMEh6lHY5JA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=gKZ/c9x4RFtwQoXDXT3GkMCBwHvR9Sy61za2HokSiKhGdX+DsEeY7yJyhlOIkNjhv
+	 67r1NJEM68CneGugnlHroi6ZFIzmM+MuXpYhhHb7mEk/zqhsV9Wb3d4FrABtnq7lHu
+	 s/vR63LKnch01509miPacp2LHnI22vWSAyCIxnV281tKjTYIk8UECwJeNIr4TeI2it
+	 tlV1WjEMEjEHmKX9z0z7hs+2V6nxz3lXAKh4LWhSd7YP/ZmiFBDhC42FybxhvonaTg
+	 4vExAjHnyk5wfJSRIw6gsx1u2z9JeS7xLp85/O7CJ5E3iluduQ0tFCFL8KJwdTXf5G
+	 m/uTEoip3gGFQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4cKtHG5lHrz4w9v;
+	Mon,  8 Sep 2025 13:49:14 +1000 (AEST)
+Date: Mon, 8 Sep 2025 13:49:13 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ KBuild Mailing List <linux-kbuild@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Paul Walmsley <pjw@kernel.org>
+Subject: linux-next: manual merge of the kbuild tree with Lnus' tree
+Message-ID: <20250908134913.68778b7b@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250903223131.GA2264021@ax162>
+Content-Type: multipart/signed; boundary="Sig_/Fw2=JFUgtBQWYDmbqI7ullH";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Wed, Sep 03, 2025 at 03:31:31PM -0700, Nathan Chancellor wrote:
-> On Mon, Sep 01, 2025 at 11:51:03AM +0200, Thomas Weißschuh wrote:
-> > Exactly. The normal cases can be handled generically. For example the kconfig
-> > below works for architectures which only differ in byte order and 32bit/64bit,
-> > which are most of them. MIPS should require more logic.
-> > Also I'm ignoring x32, as it is never the kernel's native ABI.
-> > 
-> >  config CC_CAN_LINK
-> >         bool
-> > +       default $(cc_can_link_user,$(m64-flag) -mlittle-endian) if 64BIT && CPU_LITTLE_ENDIAN
-> > +       default $(cc_can_link_user,$(m64-flag) -mbig-endian) if 64BIT && CPU_BIG_ENDIAN
-> >         default $(cc_can_link_user,$(m64-flag)) if 64BIT
-> > +       default $(cc_can_link_user,$(m32-flag) -mlittle-endian) if CPU_LITTLE_ENDIAN
-> > +       default $(cc_can_link_user,$(m32-flag) -mbig-endian) if CPU_BIG_ENDIAN
-> >         default $(cc_can_link_user,$(m32-flag))
-> > 
-> > 
-> > > Feels like that could get complicated quickly but this would probably be
-> > > the objectively most robust and "hands off" option.
-> > 
-> > Agreed.
-> 
-> Nicolas might feel differently but this does not seem terrible to me,
-> especially with a macro to wrap the common logic, which is where I felt
-> like things could get unwieldy. Feel free to send an RFC if it is not
-> too much work.
+--Sig_/Fw2=JFUgtBQWYDmbqI7ullH
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-yes, at a first glance this looks ok to me, too.
+Hi all,
 
-Thanks,
-Nicolas
+Today's linux-next merge of the kbuild tree got a conflict in:
+
+  arch/riscv/Kconfig
+
+between commit:
+
+  41f9049cff32 ("riscv: Only allow LTO with CMODEL_MEDANY")
+
+from Lnus' tree and commit:
+
+  6578a1ff6aa4 ("riscv: Remove version check for LTO_CLANG selects")
+
+from the kbuild tree.
+
+I fixed it up (I think - see below) and can carry the fix as necessary.
+This is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc arch/riscv/Kconfig
+index 51dcd8eaa243,850ba4b4b534..000000000000
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@@ -64,9 -64,8 +64,8 @@@ config RISC
+  	select ARCH_SUPPORTS_DEBUG_PAGEALLOC if MMU
+  	select ARCH_SUPPORTS_HUGE_PFNMAP if TRANSPARENT_HUGEPAGE
+  	select ARCH_SUPPORTS_HUGETLBFS if MMU
+- 	# LLD >=3D 14: https://github.com/llvm/llvm-project/issues/50505
+- 	select ARCH_SUPPORTS_LTO_CLANG if LLD_VERSION >=3D 140000 && CMODEL_MEDA=
+NY
+- 	select ARCH_SUPPORTS_LTO_CLANG_THIN if LLD_VERSION >=3D 140000
+ -	select ARCH_SUPPORTS_LTO_CLANG
+++	select ARCH_SUPPORTS_LTO_CLANG if CMODEL_MEDANY
++ 	select ARCH_SUPPORTS_LTO_CLANG_THIN
+  	select ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS if 64BIT && MMU
+  	select ARCH_SUPPORTS_PAGE_TABLE_CHECK if MMU
+  	select ARCH_SUPPORTS_PER_VMA_LOCK if MMU
+
+--Sig_/Fw2=JFUgtBQWYDmbqI7ullH
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmi+UjkACgkQAVBC80lX
+0Gyh6wf/W4PirpeQLG/DIUC+aO9J8jIOEEBHrxmvVIEaHw60/JkhBD3cr4G2TPf2
+ee2Gcc12keswNPkDmBdByS1RU4GfpiCKkdBgucg+OedQ4/nsuL+MjQWT/e9b/bCh
+1sFq8aWqOVg8jqlKVfb2+1tOr8jSeaiBiYjgt6Zx9Pg9/uwfCCK4i/GgjSD/Yf5Z
+cq0B29lUDKJAHu8yGZEkhhmRPtNt7w37OiOInjJzG0ORLhlmuicIT4nc+JVi1qWL
++gomb1C34oRZDd1pLUc30wRiwf80md2qmJ2OsChho+WFuiiv+bvBjWSo+WaPaDe0
+mNFul8+eav84U0JXKVUdMCopb7YEAg==
+=w1EF
+-----END PGP SIGNATURE-----
+
+--Sig_/Fw2=JFUgtBQWYDmbqI7ullH--
 
