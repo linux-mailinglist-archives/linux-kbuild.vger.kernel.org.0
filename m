@@ -1,133 +1,116 @@
-Return-Path: <linux-kbuild+bounces-8774-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8775-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A7FB49AF4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 22:21:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C73DB4A195
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Sep 2025 07:50:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F3E84E06F0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Sep 2025 20:21:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C74A5442811
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Sep 2025 05:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1E312E0B71;
-	Mon,  8 Sep 2025 20:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC252F0689;
+	Tue,  9 Sep 2025 05:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Me17E9qJ"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k1hZ9Gb4";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c13Tzwde"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E35C2E1726;
-	Mon,  8 Sep 2025 20:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CB41E7C12;
+	Tue,  9 Sep 2025 05:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757362769; cv=none; b=ooM0sTIwCgVQSAW6EHJLuBWnO1VNvrr7Zqnt2RxKvvhgdkwI1Kl7oBwb+n9NqnCFfaP0dim69AVB3LLNGfCOdI3wJ9+NjhEfo/pomAlyvkg/2BwsluraQo1XNwFIsBuuOfnYyD5crtuebUdfVd7CySlsADAsw1737mnvjnZbFXc=
+	t=1757397047; cv=none; b=jc11l0Q8lwrMGyEqMFLtSZbdRvvM17DAZ8tIevZhwp2oi0BYU7O4XPZiL5Xdo3H95u5ZYD3/VCJG+4dwh8p1uGog+FSiQC3NxpQWavKA2pr4epoNOaMwIXoZboOgCQbrLX7uptlqyVMOjw7tb9OFvVqe97GWM2lMLYPcFjcrtPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757362769; c=relaxed/simple;
-	bh=bEKhAzri7BBrxNHU6CjKqcmbERBZnrPEV1ur7Br4EzE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U8+MO5PFTJSCvwgZmQZpoFTlUl1fXoaoHJOfiwAMUlzIls8aNxK6pqnc9hUyp9GVb8hm3EoZv2Lpn5OEDxRODSK5KA75sn89ol71lspihBug0LrtD+cxhYK8TDdpFcyoqgC1Z8kPn3EDT4/mTlI/qTjpszhOg93xRssyxQiM0A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Me17E9qJ; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45decc9e83dso1583125e9.0;
-        Mon, 08 Sep 2025 13:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757362766; x=1757967566; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bEKhAzri7BBrxNHU6CjKqcmbERBZnrPEV1ur7Br4EzE=;
-        b=Me17E9qJwuQhED6UIZbHs1IKI06FKOrht9doak1IOzAiutUHfnFVmYoDNAkIqvFadg
-         WxbjU3uNwU2Xt+h75WnoVHqtbNk5qZZzdHkdymBSTqDMxr+1xnGf71wVDVueBJY5efKX
-         OSQfR/3d3sPXZory8KIbvZTtxDapVgTf9BJaQmXp7wB3BUv6FbNiZkLOuwoylewhToBA
-         vu/54cNTdLNvKH+m4uPTNTw43bwqiz3IP4TpD21jU4LPQ52KN1hH7SNOtsxfKKG+R6hl
-         5YmZ7YY3edcYCfZVcco/o/m8pBxMG/exdGLRqGR2TLXSO60uloQPprHE5VqWY2EBDKKD
-         gSxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757362766; x=1757967566;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bEKhAzri7BBrxNHU6CjKqcmbERBZnrPEV1ur7Br4EzE=;
-        b=wbfy49lCY/ZgZHt8VfpUIfaE2zCNcXAP4jTXyYSGg7ym8FalH2bu29otC1Qv05OA72
-         JYAp8Kfvrr75TGXSgJcTOHJdZ7wlPV5Ek9bpEo5vQG+7K4jaVSut+JlclBVCYvG7WCBV
-         QjTDsie0110PdwlxvthSHjlkCzXReFkohGLC4wMk7eTrXtc05tTdi59q58JQFwf6+pN5
-         P5QZtsAPxJ1Y/tgPLF5PBTF5AjKWxhnkd27ROv0KnxSiXHjy23hc8OcQm5dus/BQbSZ0
-         9eLy/3MHhgWpnrVM9xucmR9nmy8kc4r9TgK7kdzll0fRJNNIji44onjM1lJDsiUDD2r3
-         XrMg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7lyywpxYdDd8zigbjQ4hbESoIuYaEGrvUeL4AHZQWxCxqsiOtBKMTOgUhiXzgF4ndDG23yH5w4A8mn/wX@vger.kernel.org, AJvYcCWFv+bhuNchDxGS/+1ItU9ssH3m9MOAe7bJbanIjglD7DmNZgmVU6nuIae+urcFQF0Zi7/47VIGzfI=@vger.kernel.org, AJvYcCWKT6K7xdLc3u0gUwAITMXUuwo32xO2BgpGCGyjQvTFCHNBbEq+1RQO04sUADYWsVxHwSssjXjghrH/lBmm@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUO8dszxKLIpW+3xOQrih8x6UTLpzd4FOGwAmZ58w1abL9BJWQ
-	JDV0pau+JQZLs1iqWfkCe3ClcyOEhEFW+DmTmkh+kDJ/gHrqpQzos/1BFTPtbkhNvidHy3kQROE
-	hJNna13yMkY843dlq/agqCvmdCjYPcyA=
-X-Gm-Gg: ASbGnct1Dcqe5clme/m3qVRkadVTBbXeJNoDQgW0CSF4zBevIhxbQSjmgIqCfKKYcqh
-	irQ05E2XyazgGK5+GuL9rEfxs6kHlFCXftHY/MGM6U5AfcZxGxcR5LPN5oBKEnnYrUiGnJ9PdL5
-	2ePncPJjSKszSwOkk7u6Knn5pyWU0bHY03A01hkltPBKX6mOX5Pi/SVixe0XA6OKnafOo5QmuE3
-	tL62SxZ2JnD3rV568g=
-X-Google-Smtp-Source: AGHT+IETXcCyuhskt8NfiuIvMZk4HNrRqt02JjM5fpQLtTPCEi8+CDkXKLs0cMppBKfL27M9u+6qWLgrHDP5cvo0P64=
-X-Received: by 2002:a05:600c:35d3:b0:45d:98be:ee8e with SMTP id
- 5b1f17b1804b1-45ded05bcd0mr4878465e9.1.1757362766098; Mon, 08 Sep 2025
- 13:19:26 -0700 (PDT)
+	s=arc-20240116; t=1757397047; c=relaxed/simple;
+	bh=jPKmrBEAzWx3yEFQSPIXDJ5SIx1GI4BCpMAnMsYaMLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WqBPPrZwMWeAzFSYns1tPmogF5BdIJQhlzvyXohUJvt+Q74+2uqc0ayf7rWanRuaGZqs+ufwuJAfzlR8TAWwCMRmqow4aITH4hitEMaHP58DRBPRGFZ227yNG5CqLcHqCafKcwBJSXBm/TjDeY1fYQA+TwCfk6dQeVANYhebJBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=k1hZ9Gb4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=c13Tzwde; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 9 Sep 2025 07:50:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1757397043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sdoYceIEVIRq3JbUcPPGyO0ETu/LZJ0mlmTiG+3Ebjs=;
+	b=k1hZ9Gb4fhxvBSc7F1OH+RhH3T80kB9JpmLg8RS1B3jE5c0f0f46SuGMvABIr5xYqWGQlF
+	lSuWDWfsHl2mN+2uPJDML3brhr60wRmvPv7r4UcSLpyXlp2pS69uMjPes7mFt/NdGU+jGw
+	0shxbFSCQUm/iIp8FWHEliPfb0qKv6AUrXUZCcvyc1zbjLNajSjmXx2SMCr5WA4c0xCGbm
+	RBPb8ZIEVs5IUHUMiNAtSK6kvJVjgYP9om7XXFnJeJEj3VpSWYuoOX7FxtcTKnl37XYwTF
+	cot3Cw4PyxMxNNQbfYAMH6s8vTmGJIgefl6DbXVAQg+zyf5XUm/837dhoT2ufQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1757397043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sdoYceIEVIRq3JbUcPPGyO0ETu/LZJ0mlmTiG+3Ebjs=;
+	b=c13TzwdeSZF7BCmeD9V5BKPtL4MI+HHKJYiYLQpo85GEMsCaH1XVamxsMMTcPQwnt+21tj
+	Chb3VuuhsWghD4CA==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] kbuild: userprogs: also inherit byte order and ABI
+ from kernel
+Message-ID: <20250909074959-97a9ef88-ab55-4446-b107-e48cd9d4d268@linutronix.de>
+References: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
+ <20250813-kbuild-userprogs-bits-v1-2-2d9f7f411083@linutronix.de>
+ <20250827075334-3332c08d-66f3-427d-b0b2-4460e779f261@linutronix.de>
+ <20250827224935.GB414199@ax162>
+ <20250828083747-e819430a-986f-4f71-bbc8-e402e339c9a2@linutronix.de>
+ <20250903223131.GA2264021@ax162>
+ <aL0W9xvpktaLE9m2@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1756151769.git.maciej.wieczor-retman@intel.com>
- <3339d11e69c9127108fe8ef80a069b7b3bb07175.1756151769.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZedGwtMThKjFLcXqJuc6+RD_EskQGvqKhV9Ew4dKdM_Og@mail.gmail.com> <2xfriqqibrl7pwvcn6f2zwfjromyuvlxas744vpqrn2jthbzu6@nrhlxafjpfnr>
-In-Reply-To: <2xfriqqibrl7pwvcn6f2zwfjromyuvlxas744vpqrn2jthbzu6@nrhlxafjpfnr>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 8 Sep 2025 22:19:15 +0200
-X-Gm-Features: AS18NWDjLBMTDDx-3GcgskVrIFrWTkldm4ARgshAhph95s8X05Rv1arvNW2pjfU
-Message-ID: <CA+fCnZeem3pBPfhQyPiSAUfp5K0YdHFuRs0FZykF03YXVS-f1g@mail.gmail.com>
-Subject: Re: [PATCH v5 18/19] mm: Unpoison vms[area] addresses with a common tag
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: sohil.mehta@intel.com, baohua@kernel.org, david@redhat.com, 
-	kbingham@kernel.org, weixugc@google.com, Liam.Howlett@oracle.com, 
-	alexandre.chartre@oracle.com, kas@kernel.org, mark.rutland@arm.com, 
-	trintaeoitogc@gmail.com, axelrasmussen@google.com, yuanchu@google.com, 
-	joey.gouly@arm.com, samitolvanen@google.com, joel.granados@kernel.org, 
-	graf@amazon.com, vincenzo.frascino@arm.com, kees@kernel.org, ardb@kernel.org, 
-	thiago.bauermann@linaro.org, glider@google.com, thuth@redhat.com, 
-	kuan-ying.lee@canonical.com, pasha.tatashin@soleen.com, 
-	nick.desaulniers+lkml@gmail.com, vbabka@suse.cz, kaleshsingh@google.com, 
-	justinstitt@google.com, catalin.marinas@arm.com, 
-	alexander.shishkin@linux.intel.com, samuel.holland@sifive.com, 
-	dave.hansen@linux.intel.com, corbet@lwn.net, xin@zytor.com, 
-	dvyukov@google.com, tglx@linutronix.de, scott@os.amperecomputing.com, 
-	jason.andryuk@amd.com, morbo@google.com, nathan@kernel.org, 
-	lorenzo.stoakes@oracle.com, mingo@redhat.com, brgerst@gmail.com, 
-	kristina.martsenko@arm.com, bigeasy@linutronix.de, luto@kernel.org, 
-	jgross@suse.com, jpoimboe@kernel.org, urezki@gmail.com, mhocko@suse.com, 
-	ada.coupriediaz@arm.com, hpa@zytor.com, leitao@debian.org, 
-	peterz@infradead.org, wangkefeng.wang@huawei.com, surenb@google.com, 
-	ziy@nvidia.com, smostafa@google.com, ryabinin.a.a@gmail.com, 
-	ubizjak@gmail.com, jbohac@suse.cz, broonie@kernel.org, 
-	akpm@linux-foundation.org, guoweikang.kernel@gmail.com, rppt@kernel.org, 
-	pcc@google.com, jan.kiszka@siemens.com, nicolas.schier@linux.dev, 
-	will@kernel.org, jhubbard@nvidia.com, bp@alien8.de, x86@kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aL0W9xvpktaLE9m2@levanger>
 
-On Mon, Sep 8, 2025 at 3:12=E2=80=AFPM Maciej Wieczor-Retman
-<maciej.wieczor-retman@intel.com> wrote:
->
-> >Do we need this fix for the HW_TAGS mode too?
->
-> Oh, I suppose it could also affect the hardware mode since this is relate=
-d to
-> tagged pointers and NUMA nodes. I'll try to also make it work for HW_TAGS=
-.
+On Sun, Sep 07, 2025 at 07:24:07AM +0200, Nicolas Schier wrote:
+> On Wed, Sep 03, 2025 at 03:31:31PM -0700, Nathan Chancellor wrote:
+> > On Mon, Sep 01, 2025 at 11:51:03AM +0200, Thomas Weißschuh wrote:
+> > > Exactly. The normal cases can be handled generically. For example the kconfig
+> > > below works for architectures which only differ in byte order and 32bit/64bit,
+> > > which are most of them. MIPS should require more logic.
+> > > Also I'm ignoring x32, as it is never the kernel's native ABI.
+> > > 
+> > >  config CC_CAN_LINK
+> > >         bool
+> > > +       default $(cc_can_link_user,$(m64-flag) -mlittle-endian) if 64BIT && CPU_LITTLE_ENDIAN
+> > > +       default $(cc_can_link_user,$(m64-flag) -mbig-endian) if 64BIT && CPU_BIG_ENDIAN
+> > >         default $(cc_can_link_user,$(m64-flag)) if 64BIT
+> > > +       default $(cc_can_link_user,$(m32-flag) -mlittle-endian) if CPU_LITTLE_ENDIAN
+> > > +       default $(cc_can_link_user,$(m32-flag) -mbig-endian) if CPU_BIG_ENDIAN
+> > >         default $(cc_can_link_user,$(m32-flag))
+> > > 
+> > > 
+> > > > Feels like that could get complicated quickly but this would probably be
+> > > > the objectively most robust and "hands off" option.
+> > > 
+> > > Agreed.
+> > 
+> > Nicolas might feel differently but this does not seem terrible to me,
+> > especially with a macro to wrap the common logic, which is where I felt
+> > like things could get unwieldy. Feel free to send an RFC if it is not
+> > too much work.
+> 
+> yes, at a first glance this looks ok to me, too.
 
-Ack. I suspect you won't need to provide two separate implementations
-for this then.
+Ack. I'll take a shot at this, but it I might only get around to it next cycle.
 
-Also, could you split out this fix into a separate patch with the
-Fixes and CC stable tags (or put the fix first in the series)?
+
+Thomas
 
