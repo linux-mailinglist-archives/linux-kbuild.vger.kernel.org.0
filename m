@@ -1,253 +1,189 @@
-Return-Path: <linux-kbuild+bounces-8806-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDF1B5111A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Sep 2025 10:24:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD01BB51950
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Sep 2025 16:28:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29E0F464326
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Sep 2025 08:24:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A00D7BA52E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Sep 2025 14:26:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20D11306B33;
-	Wed, 10 Sep 2025 08:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C791932A821;
+	Wed, 10 Sep 2025 14:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7u26O0m"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VgVuC69I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728682773C0;
-	Wed, 10 Sep 2025 08:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757492638; cv=fail; b=dC/uQQcbxf/3sumRkqAhbHBxzDNoaV/vn6Me5lRIh/7sYZX2Sr+RbVZEwNkgLHDWr3ocxGAUpJMYGlXUkQpNxoHlgfqR+/4bmtMIAW0mMwROjCShXnlA3cQWl04PjCMLJiktXdCSI6V0U7JAQ+YtLTz/2KjhDXsgsco9RRcAV/g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757492638; c=relaxed/simple;
-	bh=9ATc3NID8XJREDHOudA71wbs04FGbw5KOvS4dpl+r/U=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=M7TAnksjq7h06MOK3fchL3Dz1A+Tib7kP3r4rXTyoWTpHz3fVDG6wRPf4SDEJsTEDa6cB9ZntI249WVavY6eiRrBjgQ15Tw578v9xCaI1dCEvziARATzdCBg9601HxBCHArnEjYjSg9oGtwLOrlKEaHp7r1QTn+4V83Kg6wzf6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7u26O0m; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757492636; x=1789028636;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=9ATc3NID8XJREDHOudA71wbs04FGbw5KOvS4dpl+r/U=;
-  b=n7u26O0mJAr43/cd9jYJv+MZkAkoh6NOJgjyVXPIs4iaE5h1EZFIMFva
-   ZYkLHeQK/yNdmH1w3NadV/NaZ4GG1gjC2McCbK1xuoOhl8aEGBacYob/j
-   9ubJVCjUkB7wq4b6z8Iox3iKBbIgoYKRFvLlMKMYo7/PN2UYkghrmqCEC
-   Bzof4ucQgnRzsniEJfes0AZorpUmb8oXBkn8p45C3TPu8w2eOq74tvKqo
-   K4Q7Q7bS+5q8oJeSlhrWiMLdu2F8NZA3m18JkQBJcvzBvpWOyV53HpFCU
-   Zlq8A8e2buyaA6Diw9eoGxXdTPAJuzaRbV+eZfxm3WpkNivfFFMxJ3fYy
-   A==;
-X-CSE-ConnectionGUID: B3Uwjxo9TEyFPFntVN+VcQ==
-X-CSE-MsgGUID: +RKxHy9eSUq+8RXWBiEktw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="70414710"
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="70414710"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 01:23:55 -0700
-X-CSE-ConnectionGUID: vZKvSrNVT0i/+SwV9gVb4g==
-X-CSE-MsgGUID: JEagR3QMQEa8FrBcKPaoeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="172894434"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 01:23:55 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Sep 2025 01:23:54 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Wed, 10 Sep 2025 01:23:54 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.81)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Sep 2025 01:23:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OTmeLwTPPmcosKjgbXg7DYO2xCMJ7iyYHsUYH+5fVqfxDFuE8Ji5R4LiTr2XMrWXUb8uCnSwDlgJbMK7FRxJGLZ4Uoa5Yz4+fVnsJFPUaum8XdB3ezj5GdTiDGj5SZXv+SbrjNvb0VYpNOhXNS46N/XIXnWqmqYKYC2lQh8ljggoS1PSIi3kN1VBkZIR3NtORaOJHJDxjsro5UTsWLU9fSyxbiAxIOEng0IU5uGu9unadO9mxxJsh4HiMj47mHgRomFV1bivyiGjOkImDkiEkkar2pE31NAodHud9ZCpXEzrhJMHHRRoYLxVXn5mbRiZN8f1VSE6cgSYD3FeqQnFoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WAaXSaIVoADjoz6HPGtQzawTt9gV+5J32gfTC4nKTbs=;
- b=ijgKlGmSoN2KW/ZFNMkFbNxf5KSGWSBYZ8GY2ft9IOoj30RF3DVl2JvhROUakaBbUNE9xaXCY3unV17/lN9pBRgixJqbUZg7aRllzlTCkTBvsx8bUaYYhKpqwpwg/UfLC0hdP9J87aNv9vO5748L+q9Hl7CYwVDCmKDZexG1eo/pkpnReEhlq0vzVodH6khhp55BOf41Wvo66rEiNUj+mKT73FUvGMUpNz4pCyEhtn7L6UdiV5XjyNRmScjtMJg+14a6weY9v2p68oDNYqijz8Fz/txg/ckJJMwipVZ2Ix+fS6j41byS96ybEf0xojzNUkGoBrn/GwmTR819rcMy+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN2PR11MB3934.namprd11.prod.outlook.com (2603:10b6:208:152::20)
- by SJ2PR11MB7519.namprd11.prod.outlook.com (2603:10b6:a03:4c0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 08:23:51 +0000
-Received: from MN2PR11MB3934.namprd11.prod.outlook.com
- ([fe80::45fd:d835:38c1:f5c2]) by MN2PR11MB3934.namprd11.prod.outlook.com
- ([fe80::45fd:d835:38c1:f5c2%3]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 08:23:51 +0000
-Date: Wed, 10 Sep 2025 10:23:37 +0200
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-CC: Andrey Konovalov <andreyknvl@gmail.com>, <sohil.mehta@intel.com>,
-	<baohua@kernel.org>, <david@redhat.com>, <kbingham@kernel.org>,
-	<weixugc@google.com>, <Liam.Howlett@oracle.com>,
-	<alexandre.chartre@oracle.com>, <kas@kernel.org>, <mark.rutland@arm.com>,
-	<trintaeoitogc@gmail.com>, <axelrasmussen@google.com>, <yuanchu@google.com>,
-	<joey.gouly@arm.com>, <samitolvanen@google.com>, <joel.granados@kernel.org>,
-	<graf@amazon.com>, <vincenzo.frascino@arm.com>, <kees@kernel.org>,
-	<ardb@kernel.org>, <thiago.bauermann@linaro.org>, <glider@google.com>,
-	<thuth@redhat.com>, <kuan-ying.lee@canonical.com>,
-	<pasha.tatashin@soleen.com>, <nick.desaulniers+lkml@gmail.com>,
-	<vbabka@suse.cz>, <kaleshsingh@google.com>, <justinstitt@google.com>,
-	<catalin.marinas@arm.com>, <alexander.shishkin@linux.intel.com>,
-	<samuel.holland@sifive.com>, <dave.hansen@linux.intel.com>, <corbet@lwn.net>,
-	<xin@zytor.com>, <dvyukov@google.com>, <tglx@linutronix.de>,
-	<scott@os.amperecomputing.com>, <jason.andryuk@amd.com>, <morbo@google.com>,
-	<nathan@kernel.org>, <lorenzo.stoakes@oracle.com>, <mingo@redhat.com>,
-	<brgerst@gmail.com>, <kristina.martsenko@arm.com>, <bigeasy@linutronix.de>,
-	<luto@kernel.org>, <jgross@suse.com>, <jpoimboe@kernel.org>,
-	<urezki@gmail.com>, <mhocko@suse.com>, <ada.coupriediaz@arm.com>,
-	<hpa@zytor.com>, <leitao@debian.org>, <wangkefeng.wang@huawei.com>,
-	<surenb@google.com>, <ziy@nvidia.com>, <smostafa@google.com>,
-	<ryabinin.a.a@gmail.com>, <ubizjak@gmail.com>, <jbohac@suse.cz>,
-	<broonie@kernel.org>, <akpm@linux-foundation.org>,
-	<guoweikang.kernel@gmail.com>, <rppt@kernel.org>, <pcc@google.com>,
-	<jan.kiszka@siemens.com>, <nicolas.schier@linux.dev>, <will@kernel.org>,
-	<jhubbard@nvidia.com>, <bp@alien8.de>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-mm@kvack.org>, <llvm@lists.linux.dev>,
-	<linux-kbuild@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v5 13/19] kasan: x86: Handle int3 for inline KASAN reports
-Message-ID: <63ocq6aadqn74e7g57a6p3cqkr3sf4hmejfp6hxmuju2b42iny@2du24bomvk4n>
-References: <CA+fCnZcMV0BOJyvx2nciCK2jvht-Hx0HnFtRzcc=zu+pQSOdVw@mail.gmail.com>
- <couuy2aawztipvnlmaloadkbceewcekur5qbtzktr7ovneduvf@l47rxycy65aa>
- <hw7xa2ooqeyjo5ypc5jluuyjlgyzimxtylj5sh6igyffsxtyaf@qajqp37h6v2n>
- <epbqhjyfdt3daudp2wx54jsw6d7jf6ifbr3yknlfuqptz7b4uq@73n5k6b2jrrl>
- <CA+fCnZdJckDC4AKYxLS1MLBXir4wWqNddrD0o+mY4MXt0CYhcQ@mail.gmail.com>
- <ra5s3u5ha6mveijzwkoe2437ged5k5kacs5nqvkf4o7c2lcfzd@fishogqlatjb>
- <20250909083425.GH4067720@noisy.programming.kicks-ass.net>
- <20250909084029.GI4067720@noisy.programming.kicks-ass.net>
- <xeedvhlav5rwra4pirinqcgqynth2zrixv7aknlsh2rz7lkppq@kubknviwhpfp>
- <20250909090357.GJ4067720@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250909090357.GJ4067720@noisy.programming.kicks-ass.net>
-X-ClientProxiedBy: DB9PR06CA0016.eurprd06.prod.outlook.com
- (2603:10a6:10:1db::21) To MN2PR11MB3934.namprd11.prod.outlook.com
- (2603:10b6:208:152::20)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A23324B33;
+	Wed, 10 Sep 2025 14:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757514447; cv=none; b=PHbNeRMfe6ZEte50Sg9YkgAiP1kJrrJAN/je0Ps4SQhylOq92KQfghh6ak4yX4ogRrhTYIHaRce1mPLAEM0jNGMeKH79+Y1b5Ki7jG3h2QPtHDkorBQQdEnWbVYXv2F1Obr2qg4HWoytJk34+ECj5/GkTC5LlkEw4vMPp6jg1h8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757514447; c=relaxed/simple;
+	bh=5g5RBXhPqG8J7yMsN/VQOQGJMxPjWBvVy7aoWO0AUds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=brBrs2Q17O1PDqFUu9PVmTpXIROO7S5NwWT/uFEyeRGjsH89Hoh25blibtwd2cnYsiEurHB6ICOjHhlywS1wlaeeLpK5cxwBlW32HxWyNPaFbfSc86yLmi2dGeic2vn5ZNIfNOE0PZTCSCjUVTT3racjq6BUcv0Z4qYWD+zVVVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VgVuC69I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53A3DC4CEEB;
+	Wed, 10 Sep 2025 14:27:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757514447;
+	bh=5g5RBXhPqG8J7yMsN/VQOQGJMxPjWBvVy7aoWO0AUds=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VgVuC69I2qrVBPMfqkgTTLxAyUIuw76pJEbQ38ySGUovDRmI8lPGgl9VOtjd0N5ef
+	 ijzr+reZCZmyXh7jK3TI9w4LOjsS70ahUFH/iBSe6PJP3ZV14vJZy5OGTn2wdxqYgY
+	 JWJeQGDYoyH2qG2JTGXF5R7IYQXN/PC7+0AbzzqLmgxIvN/YzpsxHWzo+4zhGXAt5r
+	 riklA7PCu75l3QKjY2ueNesmDrZRW76jCTBEXlAFmyqVW1DWdi+Dv5cA3FFMgvg8Ps
+	 I7IhPyT7ZSQpELg1/N13ETsNErDw67UnFcc5RPVjsxCAHEMp/hh7teC8KDfrpj5FOR
+	 m8Lmz6j7BcKkA==
+Date: Wed, 10 Sep 2025 15:27:19 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Asuna Yang <spriteovo@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Han Gao <rabenda.cn@gmail.com>, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2] RISC-V: re-enable gcc + rust builds
+Message-ID: <20250910-harmless-bamboo-ebc94758fdad@spud>
+References: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR11MB3934:EE_|SJ2PR11MB7519:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d615ce0-7877-4c1f-6a3f-08ddf0435f8b
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?O1j00+Ekys610nz9REzx+VXDlQGjEkDQkGiIRP5HYqYOTbTsyDS5q7jIez?=
- =?iso-8859-1?Q?jRfl7ulWLJgldc9EczPIQTxKQAJYM9bZNPTHT/STZJ85BPvfCoYHqXNi3j?=
- =?iso-8859-1?Q?cKTt0E6iLfJkR11xj0LeTohE2EfWyPkqMZZXQxDuTzR60Y+xJfVYVGs9Da?=
- =?iso-8859-1?Q?Ewx4jWs8scC7TpOkCz4QYh4YR238G9/MLqv7DS2zsnaU102ccnMcjIH841?=
- =?iso-8859-1?Q?vE8dfRZ6rgUvu7/auypVTkymorbBJIsbdq80GmFIUxu/ALRmqVmC4cPcVG?=
- =?iso-8859-1?Q?hty8+CiDaniDUDbFqLeLNjDVv3I7lR1F2otPp2UhoosEgCK4v6W4n57PSp?=
- =?iso-8859-1?Q?8OEdBFJTlqGUvolVD/AfUcEFdGQbvJTqDaQLGrivb/ELik8h5jVXXoiKp2?=
- =?iso-8859-1?Q?U+dchHEahE1HORDx1t7WnaFpq/zfAEy1jrKuJeZJd0GUr3Y1BvKyP3tIfY?=
- =?iso-8859-1?Q?PGdphGOYUoIVR957d3RMYFU8fn8gQxTRWI/GYZbfFc8lgYJP/lOwCVVIz8?=
- =?iso-8859-1?Q?uW3+MJIaABb6m2dWRf1ZIqNKoVdfgtQsXnmnu3kiLPlC66btKvyVLGCiNl?=
- =?iso-8859-1?Q?5vRQB/J+lOhvoww0ZDUfRBm90YERc9ZYVpenK72WGPXQJlwWXrZBmk316i?=
- =?iso-8859-1?Q?Lm2bVo2oytiG0YJ3XZU6sCgNCKBw++b8JWF3WoiC+1fxVZdpxLpk5omik4?=
- =?iso-8859-1?Q?aaEyy4wXUYa2QAYaNX9XJqiiTeQwmh6rbz1FeY7S/6edI0JC6BnQMS+ue+?=
- =?iso-8859-1?Q?jQdWkll+vEdA2r9lVglKDoF/6bHASuF4l7akCc81h9h2RnPk0I3KCukAbW?=
- =?iso-8859-1?Q?fChbpgaMSOQS5aKLE285IU4U183jRj4MGKokDXuSX3b+vlpDf+f+wFdkMv?=
- =?iso-8859-1?Q?AEZRvKIGZxAoWRUbE+ihYm8hg9DVP63r5Gf9CGP3lsnKyUD2R8209aT+x2?=
- =?iso-8859-1?Q?ucROp0pQEJxcG01dQBhtjhl+DiJAvpFmYGVAbR4P6dbrupu5yPYQ1LIMbh?=
- =?iso-8859-1?Q?l7jH+fvBFz8CJ8kb9Ws2RA9HlMU7msKU/GomCYvNwGTh35kZHt25kHCBWd?=
- =?iso-8859-1?Q?6avYhAZtJQpjv7+eqOQgdzr+ZiLLyBvvn1Gixh8deR3jnWqZNY6RXiyKYu?=
- =?iso-8859-1?Q?Frg+rbwapGNACM4WwOOH082XB8LwvuNSqNySxmmoAaEjV3lyTQCN9P8meC?=
- =?iso-8859-1?Q?uMIXGLvy3ZMEMuhzccDNm4xdYogWt7nIpd0x9yUwqmecPwWnw1tW8KHNg1?=
- =?iso-8859-1?Q?XcOpXX1w8sgS8AvqJmxHERQTFJToYieoSlyl2LfjiI2Wbm7qF40BHwBkE7?=
- =?iso-8859-1?Q?H/jQjwmrhdRr2/gCdhRvkvWKF4zJDVrs7v+8sPHKuHpTzR52ho4wxTA8ab?=
- =?iso-8859-1?Q?TXHlsZoarITgH2rn51VF+lP8D7zPbj4YAEFVHCEHGtfJhIXprPwX1fbQE1?=
- =?iso-8859-1?Q?LToKZCIhzA/26DcHVoffptrCAipesoEnzyVR8s3noA6JRbQ9/AUc9i5rOD?=
- =?iso-8859-1?Q?M=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3934.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?e++uzuqBO2cjbBlUfDsfx5XzXUmH+faLilMr+EIYnrqrfbPmZiOZOPJ+7W?=
- =?iso-8859-1?Q?kQ3/D/H/aHK43WDEFBb3DUhhb545HToI1jyZG3Fm1GjkaU8XnYBpCKyjwU?=
- =?iso-8859-1?Q?kkD/oeO9uNTEWDi7n2IKKaxeYOFcGiKhOrapItCrNtisJ1dkRPsviKECK5?=
- =?iso-8859-1?Q?8AAvKQhJOcgvMhUhnQR6F8KudLDQCLNliWs90/GiPTQ2ytiJk0/blj9RoB?=
- =?iso-8859-1?Q?AZYBBNQbX5z7E7J07s66P52/M5yXlYBdqEonHCCwvly2vPb9X8sNpNrbL/?=
- =?iso-8859-1?Q?u1fYcNEt1qEWUk9shV2CAimTIDHMgRqGzapo1IuFjq57I3Ep68q52Ma3+D?=
- =?iso-8859-1?Q?xkLyoB3EuFATsAASYTdfrSZPydcAPP83mdhcHFYoPzf+7jsHv83XBhhdjg?=
- =?iso-8859-1?Q?14kbL2eCfkSaGS4w4OTUVui37heeZsIZjCgk+Gsh6B0Fv3g5GfM/IQ8fuN?=
- =?iso-8859-1?Q?NSjiEM8bFH4q6WaBuucnm0oN24+oQTt94RuAG0dVm8A3YXFP+zGfH8/RFg?=
- =?iso-8859-1?Q?jrrp4W9DJSs6YsqAYFT2e5ZOIktvDOpSgJLFI6E+1QBsWfE7bmgS9gwS/d?=
- =?iso-8859-1?Q?C+doNSddKOiCNvdfuWPuPzz+hy4qWkBW4bsuA3Mprh+HE9WCIOAyHFyBRs?=
- =?iso-8859-1?Q?18Ava7Gw/hvflMYbK4LGD+y8CQqsuomOmm9ljLHgVRPLxEfOs1KOf0m4mr?=
- =?iso-8859-1?Q?uyChuLsDu8HE5enztKCmgN8JNTXqVZeB7txpSGiSHka1MurFywrPULnRdV?=
- =?iso-8859-1?Q?ZUGZo4mGPzINld3oruplBL5uodz/OFEVzvnbWvGIwDKT6vtuWlxlIC8cN5?=
- =?iso-8859-1?Q?k+HuiOCQ+uR8qu7/scYURmMXtxf9osMOG3QSQKRaJvmHTgRu4Nn+lRyRBE?=
- =?iso-8859-1?Q?S/oj+sk6oaVEtRZljX/4AVoxyA9hMR32Yl+mkmsiLYi5/2gGIMIe03wyK/?=
- =?iso-8859-1?Q?OY0tRJjbzBMoLFL695/02akQYk1TXPD/KyPQvo7ITtpowTX64JNjJ42VAD?=
- =?iso-8859-1?Q?Dmc9+405fmYXTORjJBNQZwWIulJXBfEaMhkg/PTmCrDWVxOK8I9xnOmPyk?=
- =?iso-8859-1?Q?BgCtXHSPlWpm9ixvFdZ5z3cDb0JPjZ3RzcKkaCqwvkPWZmOnbVx0dnyUBx?=
- =?iso-8859-1?Q?CRAQ0Zzr6e3lDxgCMDVOLem4tbWOatn23oFu3/+SU7Yr0rcr542+ylQS8l?=
- =?iso-8859-1?Q?oXwe2G/dclXYaO0hZAJAkA2g/FRdUuUQJ0zQXxifG7p5umfD5/NBFCCqWQ?=
- =?iso-8859-1?Q?3st1iX++AHaz9TuwpAAqoRG/jwHnMyUUfe3xwFPSIMvuPUNX2I21TuVjMF?=
- =?iso-8859-1?Q?bg0j9zJma25eJykcCplO2xMfBYjmVHSdPHfL077VRxsCDRwWdvC5K0S8MK?=
- =?iso-8859-1?Q?9Q5k2i0yAQsua40EENs7SQz5SlpDIbCEaLOgicjKruKLlLAdEfRpTKvWV8?=
- =?iso-8859-1?Q?0zbKRcuQDauxo4LnfajhBqcf5Vqfc8YxN8TXzLKrhvhalOsbDZBFjHRrl7?=
- =?iso-8859-1?Q?08gvXqtwNEMOyJu9qGK1I7H7xoEAMV1Sf7CfLu+rayWI6PRA4x/VDGuQmR?=
- =?iso-8859-1?Q?fwuX034WzVVS4I5pQ/ICKpydxzLj3Lk7S1lUdvyk+DDwNtqkUdoagdlQBn?=
- =?iso-8859-1?Q?+v5ROGw3Yx+f7/Rab3MmJbUBKcZAEFUgXkn0ltrbVXxBWk1vDzXq+0Rs31?=
- =?iso-8859-1?Q?wbWAtWFi0zzIyG16Fwk=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d615ce0-7877-4c1f-6a3f-08ddf0435f8b
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3934.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 08:23:51.5114
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SWUa+B/zhAfZlX9LY1imQIDvmNagix3F3GeEUAbXvvB7+dXBkkEMWlLRhLfgK6BuEAlxVeB+lxhbflBZCW7IbwIAC1Z3mfGjQE/3W1hRNp0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7519
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9LQSzFz/Ck3gJsLT"
+Content-Disposition: inline
+In-Reply-To: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
 
-On 2025-09-09 at 11:03:57 +0200, Peter Zijlstra wrote:
->On Tue, Sep 09, 2025 at 10:49:53AM +0200, Maciej Wieczor-Retman wrote:
->
->> >Specifically, look at arch/x86/kernel/traps.h:decode_bug(), UBSan uses
->> >UD1 /0, I would suggest KASAN to use UD1 /1.
->> 
->> Okay, that sounds great, I'll change it in this patchset and write the LLVM
->> patch later.
->
->Thanks! Also note how UBSAN encodes an immediate in the UD1 instruction.
->You can use that same to pass through your meta-data thing.
->
->MOD=1 gives you a single byte immediate, and MOD=2 gives you 4 bytes,
->eg:
->
->  0f b9 49 xx -- ud1 xx(%rcx), %rcx
->
->When poking at LLVM, try and convince the thing to not emit that
->'operand address size prefix' byte like UBSAN does, that's just a waste
->of bytes.
 
-Thanks, that's good tip :)
+--9LQSzFz/Ck3gJsLT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Kind regards
-Maciej Wieczór-Retman
+On Tue, Sep 09, 2025 at 06:53:11PM +0200, Asuna Yang wrote:
+> Commit 33549fcf37ec ("RISC-V: disallow gcc + rust builds") disabled GCC
+> + Rust builds for RISC-V due to differences in extension handling
+> compared to LLVM.
+>=20
+> Add a Kconfig symbol to indicate the version of libclang used by Rust
+> bindgen and add conditions for the availability of libclang to the
+> RISC-V extension Kconfig symbols that depend on the cc-option function.
+>=20
+> For Zicsr/Zifencei special handling, since LLVM/Clang always enables
+> these two extensions, either don't pass them to -march, or pass them
+> explicitly and Rust bindgen libclang must recognize them.
+>=20
+> Clang does not support -mno-riscv-attribute flag, filter it out to
+> resolve error: unknown argument: '-mno-riscv-attribute'.
+>=20
+> Define BINDGEN_TARGET_riscv to pass the target triplet to Rust bindgen
+> libclang for RISC-V to resolve error: unsupported argument 'medany' to
+> option '-mcmodel=3D' for target 'unknown'. Improve to output a clearer
+> error message if the target triplet is undefined for Rust bindgen
+> libclang.
+>=20
+> Update the documentation, GCC + Rust builds are now supported.
+>=20
+> ---
+
+FWIW, this --- breaks git, and anything after this line (including your
+signoff) is lost when the patch is applied.
+
+> Discussion:
+> https://lore.kernel.org/linux-riscv/68496eed-b5a4-4739-8d84-dcc428a08e20@=
+gmail.com/
+> Patch v1:
+> https://lore.kernel.org/linux-riscv/20250903190806.2604757-1-SpriteOvO@gm=
+ail.com/
+>=20
+> GCC + Rust builds for RISC-V are disabled about a year ago due to differe=
+nces in
+> extension handling compared to LLVM, as discussed in
+> https://lore.kernel.org/all/20240917000848.720765-1-jmontleo@redhat.com/
+>=20
+> This patch re-enables GCC + Rust builds. Compared to v1, v2 reverts the
+> separation of get-rust-bindgen-libclang script and improves Kconfig condi=
+tions
+> based on Conor's review.
+>=20
+> The separation of get-rust-bindgen-libclang script is reverted based on t=
+he
+> concerns raised by Miguel. However, it's worth noting that we now have 3
+> different places rust/Makefile scripts/{Kconfig.include,rust_is_avilable.=
+sh}
+> where manually calling bindgen rust_is_available_bindgen_libclang.h + sed=
+ to get
+> the version of libclang, and in particular, for our newly added Kconfig s=
+ymbol,
+> we now use awk to canonicalize the version to an integer. I would still l=
+ike to
+> do the script separation later for better maintainability and readability=
+ if
+> possible, which can be discussed further later when Miguel has time.
+>=20
+> Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
+
+> diff --git a/init/Kconfig b/init/Kconfig
+> index e3eb63eadc8757a10b091c74bbee8008278c0521..0859d308a48591df769c7dbae=
+f6f035324892bd3 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -82,6 +82,12 @@ config RUSTC_LLVM_VERSION
+>  	int
+>  	default $(rustc-llvm-version)
+> =20
+> +config RUST_BINDGEN_LIBCLANG_VERSION
+> +	int
+> +	default $(rustc-bindgen-libclang-version)
+> +	help
+> +	  This is the version of `libclang` used by the Rust bindings generator.
+
+The riscv patchwork CI stuff is really unhappy with this change:
+init/Kconfig:87: syntax error
+init/Kconfig:87: invalid statement
+init/Kconfig:88: invalid statement
+init/Kconfig:89:warning: ignoring unsupported character '`'
+init/Kconfig:89:warning: ignoring unsupported character '`'
+init/Kconfig:89:warning: ignoring unsupported character '.'
+init/Kconfig:89: unknown statement "This"
+
+Is this bogus, or can rustc-bindgen-libclang-version return nothing
+under some conditions where rust is not available?
+Should this have 2 default lines like some other options in the file?
+
+--9LQSzFz/Ck3gJsLT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaMGKxwAKCRB4tDGHoIJi
+0i95AQCss36HRy+RsBlpl62gIPI85+hygKJh0GXl428sU0nQ8AEA2u/2TAxBFT7L
+YIW9Fn96HjUF3TjlXvi7128E1IzngQg=
+=mZl4
+-----END PGP SIGNATURE-----
+
+--9LQSzFz/Ck3gJsLT--
 
