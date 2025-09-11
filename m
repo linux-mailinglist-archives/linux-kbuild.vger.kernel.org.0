@@ -1,189 +1,144 @@
-Return-Path: <linux-kbuild+bounces-8807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8808-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD01BB51950
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Sep 2025 16:28:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B85B3B527CE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Sep 2025 06:46:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6A00D7BA52E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Sep 2025 14:26:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68F4168691F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Sep 2025 04:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C791932A821;
-	Wed, 10 Sep 2025 14:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC091DF97D;
+	Thu, 11 Sep 2025 04:46:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VgVuC69I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QVUvX8H9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A23324B33;
-	Wed, 10 Sep 2025 14:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE91329F31
+	for <linux-kbuild@vger.kernel.org>; Thu, 11 Sep 2025 04:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757514447; cv=none; b=PHbNeRMfe6ZEte50Sg9YkgAiP1kJrrJAN/je0Ps4SQhylOq92KQfghh6ak4yX4ogRrhTYIHaRce1mPLAEM0jNGMeKH79+Y1b5Ki7jG3h2QPtHDkorBQQdEnWbVYXv2F1Obr2qg4HWoytJk34+ECj5/GkTC5LlkEw4vMPp6jg1h8=
+	t=1757565973; cv=none; b=De0A+/etb3CY74ZMiXopg2Yv2qJodE4DtM/vit4JJdWipGvjusjEFplah8hgfrjVwVyzcAekMy/f+woeWAhea/ZyuzlTKF7hbTn/bHVrk8mCJB2scHlxdQa1vtkKC9N0QJY72WYOQLPOeWOhT3R8/sQUvZcGsOnL4M52ADW71jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757514447; c=relaxed/simple;
-	bh=5g5RBXhPqG8J7yMsN/VQOQGJMxPjWBvVy7aoWO0AUds=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brBrs2Q17O1PDqFUu9PVmTpXIROO7S5NwWT/uFEyeRGjsH89Hoh25blibtwd2cnYsiEurHB6ICOjHhlywS1wlaeeLpK5cxwBlW32HxWyNPaFbfSc86yLmi2dGeic2vn5ZNIfNOE0PZTCSCjUVTT3racjq6BUcv0Z4qYWD+zVVVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VgVuC69I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53A3DC4CEEB;
-	Wed, 10 Sep 2025 14:27:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757514447;
-	bh=5g5RBXhPqG8J7yMsN/VQOQGJMxPjWBvVy7aoWO0AUds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VgVuC69I2qrVBPMfqkgTTLxAyUIuw76pJEbQ38ySGUovDRmI8lPGgl9VOtjd0N5ef
-	 ijzr+reZCZmyXh7jK3TI9w4LOjsS70ahUFH/iBSe6PJP3ZV14vJZy5OGTn2wdxqYgY
-	 JWJeQGDYoyH2qG2JTGXF5R7IYQXN/PC7+0AbzzqLmgxIvN/YzpsxHWzo+4zhGXAt5r
-	 riklA7PCu75l3QKjY2ueNesmDrZRW76jCTBEXlAFmyqVW1DWdi+Dv5cA3FFMgvg8Ps
-	 I7IhPyT7ZSQpELg1/N13ETsNErDw67UnFcc5RPVjsxCAHEMp/hh7teC8KDfrpj5FOR
-	 m8Lmz6j7BcKkA==
-Date: Wed, 10 Sep 2025 15:27:19 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Asuna Yang <spriteovo@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Han Gao <rabenda.cn@gmail.com>, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2] RISC-V: re-enable gcc + rust builds
-Message-ID: <20250910-harmless-bamboo-ebc94758fdad@spud>
-References: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
+	s=arc-20240116; t=1757565973; c=relaxed/simple;
+	bh=ZYQmQVPBF8zKRLNJ+D4bhiIq4DL1k5MFPT2Ve8g115I=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=RfFpn6h0p3WAN0YmOj0J9tZ/jvbeU0n5LywjG8fB5mbulDXSlGRMtxA+Pt2jd+8VcLVD1Q0wdiytYG5r3yJKOX2BivMH+W2HGeOpZKH4piy2Nf7gVXLGdoWAEQaDxZA3uW6CDkapW4E0YeqWuf6UiEiFIZ3Hde4aa3xOf9DLbsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QVUvX8H9; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-71d605c6501so2231637b3.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Sep 2025 21:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757565971; x=1758170771; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1OFQORNmMyhF8NqnLlI7wxOYnlK/yXDebbJxZdkpHcc=;
+        b=QVUvX8H99YU7pKHdlG0uydz/0HeW8qJ53/5dxsUs7PeTDkdQi08HUM3DSol7FAMrc1
+         QjvuOZ6McvDLrVzHOPstBnf2dM352XnRuaM+Oya5mh/EV3Dk1/YZtXvGgYXwV8N02Ptk
+         mZ+cNc/0dGHSXwQHYM2lJEzl+2IN+h1eZWaQ+jMWNhkFrIaGbtI0msA0m8G9lG+MI/os
+         nFSXEZFBWMwik4LSj2G2gh9/t/T4eSZwGZrr4LtyFCPJIuPvsC3rMo0Qq3CQXrvHD+QM
+         ZJ+BBPZLAw+BWzNaBAR437h889AHD/XGanoQ7YJ197Ld1WVYEF+foVEuv+qK1jj3wiXp
+         gp+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757565971; x=1758170771;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1OFQORNmMyhF8NqnLlI7wxOYnlK/yXDebbJxZdkpHcc=;
+        b=YfRnsMbisL35BosQzL6N4K7+vDClxQ4fiaHlckg7CJjhhFKMYHUuZ+jScSRXA0ulqN
+         Vts/GcERLDTFm/NoNXtY/Vv03/qPf5tU6hMvmL45Jr5yVWnCZCx5YeCaiBlPLFr4/7Jm
+         YcjAk4vs2vVyK1piqiO6Mc68qkQ396iLyLPup7ds6teTkoLXxiUDJfetv4f0TgaCHlmg
+         /1qw4bSe5mY7TDUnyMnTizavQe+5qzyHH5lNZsNa2DrJrv+7hrGe+SeLth5dP2GV6F0y
+         6tqZ4zW5CvUNS2PUzIrKikiEUO4e4f8SjBJEoEQqBlX6nGap9hiBV17eta43x7f0JqBz
+         k0yQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsvrjUDYE6/f1t6zvURIpbvjRqDxEv777TypkqV/AqSbXwCF6EYBWQgKFTnuPZqIhiQT5I7boFKtvLeYc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNMPGVctlIctvF5WEV5/oXLtAaXgopSsHGTRM/cnHQT2dnMghM
+	UsVhgutQGzz77WqUK82hCjg9CizAdMjrIcL3iKt2okDl/zxcnPRv5zsh
+X-Gm-Gg: ASbGncuTyS/PdOvdPzP3XOUevgZF3wWTnyqSiy2YRTKAUtyKhvE3v4GFvHkprxTakTN
+	WvzI5b/hjzqEcUZohmGAaTnq1tAM8KADLFzt4L1a8zFPBFGIxxH6CA2e5oXZbEKiPYZmCeyGrDE
+	l7KHGei+XC6FTMwkFZtOgFddqcqazgwUWVfweMfirfJyfetqEY+HN+i/ghC0lVeVQntykZyONg/
+	KE0zgVfPgzhnEiV6FFyeyAklPbwAe9Pv388p1fCGqhka1aW97b3N0YqVCtN05u4C3B7fmoYaT4H
+	VRG9jGnlfBgMxuQVCp2V73/dOwJwCkc94Fpw1LI8Ii1UZStOHjMlNfxL1aUh1lYJCHgHExxarYm
+	XWGmLmy2PTGNb7a65joqIVLTvcGroawplH8Le9AUYm4EgiRVC47vuVjuisb+c3zZF2Ta4bSKZ3w
+	==
+X-Google-Smtp-Source: AGHT+IE09XmvpU67NiXH7rk2LbrDMhUi3e2OWnnlWTn7trnF2NMGewy0hktXoxQgahi3Y4iKLHRnRg==
+X-Received: by 2002:a05:690c:6309:b0:722:7a7f:5358 with SMTP id 00721157ae682-727f28e7503mr153782967b3.4.1757565970388;
+        Wed, 10 Sep 2025 21:46:10 -0700 (PDT)
+Received: from [192.168.1.209] (74.211.99.176.16clouds.com. [74.211.99.176])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-72f76c28400sm1130767b3.30.2025.09.10.21.46.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Sep 2025 21:46:09 -0700 (PDT)
+From: Asuna <spriteovo@gmail.com>
+X-Google-Original-From: Asuna <SpriteOvO@gmail.com>
+Message-ID: <6bceca9d-44cd-4373-a456-7c2129b418e3@gmail.com>
+Date: Thu, 11 Sep 2025 12:46:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9LQSzFz/Ck3gJsLT"
-Content-Disposition: inline
-In-Reply-To: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] RISC-V: re-enable gcc + rust builds
+To: Conor Dooley <conor@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Han Gao <rabenda.cn@gmail.com>, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20250909-gcc-rust-v2-v2-1-35e086b1b255@gmail.com>
+ <20250910-harmless-bamboo-ebc94758fdad@spud>
+Content-Language: en-US
+In-Reply-To: <20250910-harmless-bamboo-ebc94758fdad@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 9/10/25 10:27 PM, Conor Dooley wrote:
+> FWIW, this --- breaks git, and anything after this line (including your
+> signoff) is lost when the patch is applied.
 
---9LQSzFz/Ck3gJsLT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I used b4 command to prepare and send the cover letter and patch for v2, 
+not sure what happened.
 
-On Tue, Sep 09, 2025 at 06:53:11PM +0200, Asuna Yang wrote:
-> Commit 33549fcf37ec ("RISC-V: disallow gcc + rust builds") disabled GCC
-> + Rust builds for RISC-V due to differences in extension handling
-> compared to LLVM.
->=20
-> Add a Kconfig symbol to indicate the version of libclang used by Rust
-> bindgen and add conditions for the availability of libclang to the
-> RISC-V extension Kconfig symbols that depend on the cc-option function.
->=20
-> For Zicsr/Zifencei special handling, since LLVM/Clang always enables
-> these two extensions, either don't pass them to -march, or pass them
-> explicitly and Rust bindgen libclang must recognize them.
->=20
-> Clang does not support -mno-riscv-attribute flag, filter it out to
-> resolve error: unknown argument: '-mno-riscv-attribute'.
->=20
-> Define BINDGEN_TARGET_riscv to pass the target triplet to Rust bindgen
-> libclang for RISC-V to resolve error: unsupported argument 'medany' to
-> option '-mcmodel=3D' for target 'unknown'. Improve to output a clearer
-> error message if the target triplet is undefined for Rust bindgen
-> libclang.
->=20
-> Update the documentation, GCC + Rust builds are now supported.
->=20
-> ---
+I see that other people's patches have a [PATCH 0/n] email as a start 
+that describes their patch series, this is called a cover-letter in b4 
+and git-send-email right?
 
-FWIW, this --- breaks git, and anything after this line (including your
-signoff) is lost when the patch is applied.
+> The riscv patchwork CI stuff is really unhappy with this change:
+> init/Kconfig:87: syntax error
+> init/Kconfig:87: invalid statement
+> init/Kconfig:88: invalid statement
+> init/Kconfig:89:warning: ignoring unsupported character '`'
+> init/Kconfig:89:warning: ignoring unsupported character '`'
+> init/Kconfig:89:warning: ignoring unsupported character '.'
+> init/Kconfig:89: unknown statement "This"
+>
+> Is this bogus, or can rustc-bindgen-libclang-version return nothing
+> under some conditions where rust is not available?
+> Should this have 2 default lines like some other options in the file?
 
-> Discussion:
-> https://lore.kernel.org/linux-riscv/68496eed-b5a4-4739-8d84-dcc428a08e20@=
-gmail.com/
-> Patch v1:
-> https://lore.kernel.org/linux-riscv/20250903190806.2604757-1-SpriteOvO@gm=
-ail.com/
->=20
-> GCC + Rust builds for RISC-V are disabled about a year ago due to differe=
-nces in
-> extension handling compared to LLVM, as discussed in
-> https://lore.kernel.org/all/20240917000848.720765-1-jmontleo@redhat.com/
->=20
-> This patch re-enables GCC + Rust builds. Compared to v1, v2 reverts the
-> separation of get-rust-bindgen-libclang script and improves Kconfig condi=
-tions
-> based on Conor's review.
->=20
-> The separation of get-rust-bindgen-libclang script is reverted based on t=
-he
-> concerns raised by Miguel. However, it's worth noting that we now have 3
-> different places rust/Makefile scripts/{Kconfig.include,rust_is_avilable.=
-sh}
-> where manually calling bindgen rust_is_available_bindgen_libclang.h + sed=
- to get
-> the version of libclang, and in particular, for our newly added Kconfig s=
-ymbol,
-> we now use awk to canonicalize the version to an integer. I would still l=
-ike to
-> do the script separation later for better maintainability and readability=
- if
-> possible, which can be discussed further later when Miguel has time.
->=20
-> Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
+This is because rustc-bindgen-libclang-version can't find the bindgen 
+and returns nothing. Sorry I forgot to mention this, it's another reason 
+why I wanted to separate the script, in a separate script we can easily 
+fallback to return 0 when an error is encountered.
 
-> diff --git a/init/Kconfig b/init/Kconfig
-> index e3eb63eadc8757a10b091c74bbee8008278c0521..0859d308a48591df769c7dbae=
-f6f035324892bd3 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -82,6 +82,12 @@ config RUSTC_LLVM_VERSION
->  	int
->  	default $(rustc-llvm-version)
-> =20
-> +config RUST_BINDGEN_LIBCLANG_VERSION
-> +	int
-> +	default $(rustc-bindgen-libclang-version)
-> +	help
-> +	  This is the version of `libclang` used by the Rust bindings generator.
-
-The riscv patchwork CI stuff is really unhappy with this change:
-init/Kconfig:87: syntax error
-init/Kconfig:87: invalid statement
-init/Kconfig:88: invalid statement
-init/Kconfig:89:warning: ignoring unsupported character '`'
-init/Kconfig:89:warning: ignoring unsupported character '`'
-init/Kconfig:89:warning: ignoring unsupported character '.'
-init/Kconfig:89: unknown statement "This"
-
-Is this bogus, or can rustc-bindgen-libclang-version return nothing
-under some conditions where rust is not available?
-Should this have 2 default lines like some other options in the file?
-
---9LQSzFz/Ck3gJsLT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaMGKxwAKCRB4tDGHoIJi
-0i95AQCss36HRy+RsBlpl62gIPI85+hygKJh0GXl428sU0nQ8AEA2u/2TAxBFT7L
-YIW9Fn96HjUF3TjlXvi7128E1IzngQg=
-=mZl4
------END PGP SIGNATURE-----
-
---9LQSzFz/Ck3gJsLT--
+Adding a second line `default 0` doesn't work, I'll try to fix it. BTW, 
+when I fix it, if the diff isn't too large, do I need to open a v3 
+patch, or simply replying to the thread just fine?
 
