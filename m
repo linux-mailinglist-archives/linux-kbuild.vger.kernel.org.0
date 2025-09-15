@@ -1,215 +1,200 @@
-Return-Path: <linux-kbuild+bounces-8823-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B78BB57967
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Sep 2025 13:54:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 832D8B58150
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Sep 2025 17:54:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDB65202106
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Sep 2025 11:54:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7617E4801AA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Sep 2025 15:53:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480B7302756;
-	Mon, 15 Sep 2025 11:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8456E23ABB9;
+	Mon, 15 Sep 2025 15:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="kqirxFrl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VQHdawWU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from forward100a.mail.yandex.net (forward100a.mail.yandex.net [178.154.239.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C753C1E515;
-	Mon, 15 Sep 2025 11:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86999230BD9
+	for <linux-kbuild@vger.kernel.org>; Mon, 15 Sep 2025 15:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757937214; cv=none; b=ZSnWb6YjJmI8rHTquWyTpt7jB/s93sq4Vr2+CozGj2pGyW+xpMvfgttHkxDqo6ze6NDzZ7+mGAuYj0aj3AstzK00BDXqwfrZNOBEw29EDkjN5DeM4Y76INWJw4460iEwJRCwqbJ0rU0WIEO67AAyCW2j8456kUgcylo7elsd1YU=
+	t=1757951599; cv=none; b=lykx9hM5KrNUIbaimiN15oErZut0jbHv6lvNNKF7gIwRdwlPZAVzFfsnTxe8FDNDTskM0V3zlOfYOUBKIK38iAnZxaKe1bUZEbLM36EyuO8Zgs7P0K7IBjkKP0npk535rKsYod45DGb6bs6h1nfrHVMk2z/ZQgPS56S9HdEHuD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757937214; c=relaxed/simple;
-	bh=INR0gKKwfACJO986I6vNpgz9ymZl5uN+u2Vu5okD6e8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QS5EK/1ceT4H1KgSggQh6ZwTC24WfYiksPYd15XDDPgzLJxqm26u35BoPj+x+GMESi/jh+NPqdllIjDzO6VkicaV8oy3AhXaK9WLWvGbpDrDw/rPygmaLqtXbrXKWNsOxbBFpCqtASFQGgRj6hZIWVk1e8khmKIvvot64HSySpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=kqirxFrl; arc=none smtp.client-ip=178.154.239.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
-Received: from mail-nwsmtp-smtp-production-main-91.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:b002:0:640:910e:0])
-	by forward100a.mail.yandex.net (Yandex) with ESMTPS id 423C4C02F7;
-	Mon, 15 Sep 2025 14:53:24 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-91.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id CrNrXmiMGa60-tz9LPaL6;
-	Mon, 15 Sep 2025 14:53:23 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=mail; t=1757937203;
-	bh=aMw30NSXQpEeokpSwIEdrXINNAVHyNRWHjg7QYbqax0=;
-	h=Cc:Message-ID:References:Date:In-Reply-To:Subject:To:From;
-	b=kqirxFrlQMzP2PUk8B0wNoQeQV8SlLMZ5VoKlUTdszGC2qOXbmpFMMmIBSNVB1lKw
-	 9Qqi0zEoHDLUO1t2ZFsQEtKJ6kYxQ02Nhyd+U01+aGVk2U+H+CDxCCSbjr5GyKePqd
-	 bwsP6222w12RQ0JiCFdo9EM8zOOutHkmVm6/SDcE=
-Authentication-Results: mail-nwsmtp-smtp-production-main-91.iva.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: rust-for-linux@vger.kernel.org
-Cc: ojeda@kernel.org,
-	nathan@kernel.org,
-	nicolas.schier@linux.dev,
-	masahiroy@kernel.org,
-	aliceryhl@google.com,
-	thomas.weissschuh@linutronix.de,
-	tamird@gmail.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alex.gaynor@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Subject: [PATCH v2 1/1] rust: add `rustcheck` make target for check-only builds
-Date: Mon, 15 Sep 2025 14:53:11 +0300
-Message-ID: <20250915115311.3025-2-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250915115311.3025-1-work@onurozkan.dev>
-References: <20250915115311.3025-1-work@onurozkan.dev>
+	s=arc-20240116; t=1757951599; c=relaxed/simple;
+	bh=F6DTZWr2PPXJc9MSABBtybg5z0j9nOtTokHsabCL6Ig=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oj+BfHxe7rRtIfQekXFuXP4aQZldmt6+vQHIYBNva07ZwMehyRffoEKSmlkKpHJdlpLKPGzsL1CdREEoclptY8EAZyL/muj2+N+p/nHR4Q5M3y5/KwcS1UdZ+tOfluEGl3IqhYWkwWw4n7d1Oeoj8CHxpoemWelaWt5JRqYWzuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VQHdawWU; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-71d603b60cbso39158117b3.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Sep 2025 08:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1757951596; x=1758556396; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/0XiNoYxd5ucucDApZFb2O43+1fOasgyAKcEaecxkgQ=;
+        b=VQHdawWUwxtUDsnf2OzYeoOPiUSRylGj41rMeufU3tH1ig5U4ms5rukuBjhMB3iO6G
+         ku2ekowbU1bNKB3OJi3STK7m7v4swUXxXOBEPYmJvYdnMPvvBaRY4g59PXBAdXyfAv4f
+         iYaSGjp1rOTuHfPwt0axVvLoNSY50WMMxqh6+KBhO0eHkg6XDEnnCn6Stntg+wNC4Ygl
+         zSLW6ZeMP/Qbmc5ome+hs7m2MoCF2GDCgIj2hcaBCm3jQ8P6e5nKJmktksCaa+v2T04c
+         otewqvBv7sfCDz49Ar0kCx1+UPix/PGUsTWJZfxcK0DTVgr47egaYRoUl/t9FV7xmOaa
+         5FPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757951596; x=1758556396;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/0XiNoYxd5ucucDApZFb2O43+1fOasgyAKcEaecxkgQ=;
+        b=CethsQ47BSzMEG8KZovGhl24tBUAjJgoqSutinZzbqSpKwmuApAjkFrVmyblhPtOSG
+         BTREosM3FuPYyLNsM0wAT33OB4xFqeVorlUCAXArooEbirfToXdg6Wuks5J3t2OWczr4
+         4iwmbsc0dPdvsgCV9K/Y5CLpi8mB9ci/1FZ9syDyru7dFw1VU8zeEQnYsDxar0tKBdI+
+         OG181PToufqRtMa+0G3/Pa8X4+EjLvqoqx6N91TwcCkwSyfkKMXPvGgty5Wm9rYvGOn2
+         u/4gB0kHJscqmo+Yk201MGztHsUH6mtQPfFAIQ1LIHS5uXVL3+yuXkV1s5P6JQdIW8t4
+         PRWg==
+X-Forwarded-Encrypted: i=1; AJvYcCV59qBWQDLyp1Gx7zL1thP47KRf1pwR2D8Fhjq7INEpH3slVnqPzCIDXmMl/RoC66VL2z8jm80ccafXydg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu2nMn5YbvsCzcSmYfaRy9ImQOqL2CdbB3ki6d82hZNjxOucOl
+	mqWVjRJsTU/T7jvpqt8QU3dzdHOHYoTF1jmm8K1FIzsylbUY7xJ0zniP/i31gAK8CGIN4csaqmz
+	IF67PItsSqUSlffK5GMhrOODMEIbFZA3+aQp3EDQW
+X-Gm-Gg: ASbGncvVlL6fM5NEdA18/X0W7HGpPX6whkwJgpjBU2zt/CxsGQorOdBav+lNYSrIYV1
+	J7JpelB4Urw7728xbdOXuF/aozz4MatiB6xDCalmBLkCdD8z6Ad7GoOXaMP67PYqVI4ZMKgFGOQ
+	FrVmMUCkYPXtUvfkkvMdn/KMnlwPogneI9UKXcXhw9DSFA5jziyaGeflcXLzTj4JjtMDDIjNocs
+	qDjhBt6+tak26URITOooSD6ZANWX0n1pUNTFz44vRg=
+X-Google-Smtp-Source: AGHT+IE83V2dgjtVWnGJmHoDlRMTL2myBzrkKJXkq0h5ZUezl7kZ6j4oqJ7P5qXzlNuzOLFywsL004XyX2O24GgrcM4=
+X-Received: by 2002:a05:690e:251a:20b0:62a:e5e3:b1f with SMTP id
+ 956f58d0204a3-62ae5e30d34mr6904794d50.18.1757951595803; Mon, 15 Sep 2025
+ 08:53:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250829105418.3053274-1-sidnayyar@google.com>
+ <4e215854-59df-489b-b92d-8d2fb2edf522@suse.com> <CA+OvW8ZY1D3ECy2vw_Nojm1Kc8NzJHCpqNJUF0n8z3MhLAQd8A@mail.gmail.com>
+ <409ddefc-24f8-465c-8872-17dc585626a6@suse.com>
+In-Reply-To: <409ddefc-24f8-465c-8872-17dc585626a6@suse.com>
+From: Sid Nayyar <sidnayyar@google.com>
+Date: Mon, 15 Sep 2025 16:53:04 +0100
+X-Gm-Features: AS18NWDFM6GFUPdftWx-folpVmUzea-hrwoyneDC89H80_fy-yjv_PiWu2wlc2k
+Message-ID: <CA+OvW8bhWK7prmyQMMJ_VYBeGMbn_mNiamHhUgYuCsnht+LFtA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/10] scalable symbol flags with __kflagstab
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Giuliano Procida <gprocida@google.com>, =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adds a new `rustcheck` make target to run a check-only build
-similar to `cargo check`. This allows us to verify that the Rust
-sources can build without building/linking final artifacts,
-which speeds up the iteration (a lot) during development.
+On Mon, Sep 8, 2025 at 11:09=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
+> This sounds reasonable to me. Do you have any numbers on hand that would
+> show the impact of extending __ksymtab?
 
-The target also supports the CLIPPY flag (e.g., `make LLVM=1
-rustcheck CLIPPY=1) to run Clippy in a faster way.
+I did performance analysis for module loading. The kflagstab
+optimizes symbol search, which accounts for less than 2% of the
+average module load time. Therefore, this change does not translate
+into any meaningful gains (or losses) in module loading performance.
 
-Also, unlike `make LLVM=1`, it doesn't compile large amounts of C
-code (on a fresh checkout) when the goal is only to check that
-Rust builds are not broken after some changes.
+On the binary size side, the on-disk size for vmlinux is somewhat
+inflated due to extra entries in .symtab and .strtab. Since these
+sections are not part of the final Image, the only increase in the
+in-memory size of the kernel is for the kflagstab itself. This new
+table occupies 1 byte for each symbol in the ksymtab.
 
-Suggested-by: Benno Losin <lossin@kernel.org>
-Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089/topic/x/near/539103602
-Signed-off-by: Onur Özkan <work@onurozkan.dev>
----
- Makefile      |  7 +++++
- rust/Makefile | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 80 insertions(+)
+> > The Android Common Kernel source is compiled into what we call
+> > GKI (Generic Kernel Image), which consists of a kernel and a
+> > number of modules. We maintain a stable interface (based on CRCs and
+> > types) between the GKI components and vendor-specific modules
+> > (compiled by device manufacturers, e.g., for hardware-specific
+> > drivers) for the lifetime of a given GKI version.
+> >
+> > This interface is intentionally restricted to the minimal set of
+> > symbols required by the union of all vendor modules; our partners
+> > declare their requirements in symbol lists. Any additions to these
+> > lists are reviewed to ensure kernel internals are not overly exposed.
+> > For example, we restrict drivers from having the ability to open and
+> > read arbitrary files. This ABI boundary also allows us to evolve
+> > internal kernel types that are not exposed to vendor modules, for
+> > example, when a security fix requires a type to change.
+> >
+> > The mechanism we use for this is CONFIG_TRIM_UNUSED_KSYMS and
+> > CONFIG_UNUSED_KSYMS_WHITELIST. This results in a ksymtab
+> > containing two kinds of exported symbols: those explicitly required
+> > by vendors ("vendor-listed") and those only required by GKI modules
+> > ("GKI use only").
+> >
+> > On top of this, we have implemented symbol import protection
+> > (covered in patches 9/10 and 10/10). This feature prevents vendor
+> > modules from using symbols that are not on the vendor-listed
+> > whitelist. It is built on top of CONFIG_MODULE_SIG. GKI modules are
+> > signed with a specific key, while vendor modules are unsigned and thus
+> > treated as untrusted. This distinction allows signed GKI modules to
+> > use any symbol in the ksymtab, while unsigned vendor modules can only
+> > access the declared subset. This provides a significant layer of
+> > defense and security against potentially exploitable vendor module
+> > code.
+>
+> If I understand correctly, this is similar to the recently introduced
+> EXPORT_SYMBOL_FOR_MODULES() macro, but with a coarser boundary.
+>
+> I think that if the goal is to control the kABI scope and limit the use
+> of certain symbols only to GKI modules, then having the protection
+> depend on whether the module is signed is somewhat odd. It doesn't give
+> me much confidence if vendor modules are unsigned in the Android
+> ecosystem. I would expect that you want to improve this in the long
+> term.
 
-diff --git a/Makefile b/Makefile
-index cf37b9407821..7812cdc72938 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1716,6 +1716,8 @@ help:
- 	@echo  '		    is formatted, printing a diff otherwise.'
- 	@echo  '  rustdoc	  - Generate Rust documentation'
- 	@echo  '		    (requires kernel .config)'
-+	@echo  '  rustcheck       - Check that the Rust code builds'
-+	@echo  '                    (requires kernel .config)'
- 	@echo  '  rusttest        - Runs the Rust tests'
- 	@echo  '                    (requires kernel .config; downloads external repos)'
- 	@echo  '  rust-analyzer	  - Generate rust-project.json rust-analyzer support file'
-@@ -1821,6 +1823,11 @@ PHONY += rustdoc
- rustdoc: prepare
- 	$(Q)$(MAKE) $(build)=rust $@
- 
-+# Checking Rust sources.
-+PHONY += rustcheck
-+rustcheck: prepare0
-+	$(Q)$(MAKE) $(build)=rust $@
-+
- # Testing target
- PHONY += rusttest
- rusttest: prepare
-diff --git a/rust/Makefile b/rust/Makefile
-index bfa915b0e588..b45878870207 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -265,6 +265,79 @@ rusttest-kernel: $(src)/kernel/lib.rs rusttestlib-ffi rusttestlib-kernel \
-     rusttestlib-uapi rusttestlib-pin_init FORCE
- 	+$(call if_changed,rustc_test)
- 
-+## Check-only compilation (similar to `cargo check`)
-+quiet_cmd_rustc_check_library = $(RUSTC_OR_CLIPPY_QUIET) CHECK $<
-+      cmd_rustc_check_library = \
-+        OBJTREE=$(abspath $(objtree)) \
-+        $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
-+                @$(objtree)/include/generated/rustc_cfg $(rustc_target_flags) \
-+                --crate-type $(if $(rustc_check_library_proc),proc-macro,rlib) \
-+                $(if $(rustc_check_library_proc),,--emit=metadata) \
-+                --out-dir $(objtree)/$(obj)/check -L$(objtree)/$(obj)/check \
-+                --crate-name $(if $(rustc_check_crate_name),$(rustc_check_crate_name), \
-+				$(subst rustcheck-,,$(subst rustchecklib-,,$@))) $<
-+
-+rustcheck: rustchecklib-build_error rustchecklib-ffi rustchecklib-macros \
-+	rustchecklib-compiler_builtins rustchecklib-pin_init_internal \
-+	rustchecklib-pin_init rustchecklib-bindings rustchecklib-uapi \
-+	rustchecklib-kernel
-+
-+rustchecklib-build_error: $(src)/build_error.rs FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-ffi: $(src)/ffi.rs FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-macros: private rustc_target_flags = --extern proc_macro
-+rustchecklib-macros: private rustc_check_library_proc = yes
-+rustchecklib-macros: $(src)/macros/lib.rs FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-compiler_builtins: private rustc_check_crate_name = compiler_builtins_kernel
-+rustchecklib-compiler_builtins: $(src)/compiler_builtins.rs FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-pin_init_internal: private rustc_target_flags = --cfg kernel \
-+	--extern proc_macro
-+rustchecklib-pin_init_internal: private rustc_check_library_proc = yes
-+rustchecklib-pin_init_internal: $(src)/pin-init/internal/src/lib.rs FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-pin_init: private rustc_target_flags = --extern pin_init_internal \
-+	--extern macros --cfg kernel
-+rustchecklib-pin_init: $(src)/pin-init/src/lib.rs rustchecklib-macros \
-+	rustchecklib-pin_init_internal FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-bindings: private rustc_target_flags = --extern ffi
-+rustchecklib-bindings: $(src)/bindings/lib.rs \
-+	$(obj)/bindings/bindings_generated.rs \
-+	$(obj)/bindings/bindings_helpers_generated.rs \
-+	rustchecklib-ffi FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+rustchecklib-uapi: private rustc_target_flags = --extern ffi
-+rustchecklib-uapi: $(src)/uapi/lib.rs $(obj)/uapi/uapi_generated.rs \
-+	rustchecklib-ffi FORCE
-+	+$(call if_changed,rustc_check_library)
-+
-+ifdef CONFIG_JUMP_LABEL
-+rustchecklib-kernel: $(obj)/kernel/generated_arch_static_branch_asm.rs FORCE
-+endif
-+ifndef CONFIG_UML
-+ifdef CONFIG_BUG
-+rustchecklib-kernel: $(obj)/kernel/generated_arch_warn_asm.rs \
-+	$(obj)/kernel/generated_arch_reachable_asm.rs FORCE
-+endif
-+endif
-+
-+rustchecklib-kernel: private rustc_target_flags = --extern ffi --extern pin_init \
-+	--extern build_error --extern macros --extern bindings --extern uapi
-+rustchecklib-kernel: $(src)/kernel/lib.rs rustchecklib-ffi rustchecklib-pin_init \
-+	rustchecklib-build_error rustchecklib-macros rustchecklib-bindings \
-+	rustchecklib-uapi FORCE
-+	+$(call if_changed,rustc_check_library)
-+
- ifdef CONFIG_CC_IS_CLANG
- bindgen_c_flags = $(c_flags)
- else
--- 
-2.51.0
+GKI modules are the only modules built in the same Kbuild as the
+kernel image, which Google builds and provides to partners. In
+contrast, vendor modules are built and packaged entirely by partners.
 
+Google signs GKI modules with ephemeral keys. Since partners do
+not have these keys, vendor modules are treated as unsigned by
+the kernel.
+
+To ensure the authenticity of these unsigned modules, partners
+package them into a separate image that becomes one of the boot
+partitions. This entire image is signed, and its signature is
+verified by the bootloader at boot time.
+
+> It would then make more sense to me if the protection was determined by
+> whether the module is in-tree (the "intree" flag in modinfo) or,
+> alternatively, if it is signed by a built-in trusted key. I feel this
+> way the feature could be potentially useful for other distributions that
+> care about the kABI scope and have ecosystems where vendor modules are
+> properly signed with some key. However, I'm not sure if this would still
+> work in your case.
+
+Partners can produce both in-tree and out-of-tree modules. We do not
+trust either type regarding symbol exposure, as there is no way to know
+exactly what sources were used. Furthermore, symbols exported via
+EXPORT_SYMBOL_FOR_MODULES can be accessed by any vendor module that
+mimics the GKI module name.
+
+Therefore, neither the in-tree flag nor the EXPORT_SYMBOL_FOR_MODULES
+mechanism provides a strong enough guarantee for the Android kernel to
+identify GKI modules.
+
+Only module signatures are sufficient to allow a module to access the
+full set of exported symbols.  Unsigned vendor modules may only access
+the symbol subset declared ahead of time by partners.
+
+In case such symbol protection is not useful for the Linux community, I
+am happy to keep this as an Android-specific feature.  However, I would
+urge you to at least accept the kflagstab, as it allows us (and
+potentially other Linux distributions) to easily introduce additional
+flags for symbols. It is also a simplification/clean-up of the module
+loader code.
+
+--
+Thanks,
+Siddharth Nayyar
 
