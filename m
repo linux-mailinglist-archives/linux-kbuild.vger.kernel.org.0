@@ -1,200 +1,172 @@
-Return-Path: <linux-kbuild+bounces-8824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8827-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832D8B58150
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Sep 2025 17:54:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 831CEB58EDE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Sep 2025 09:12:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7617E4801AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Sep 2025 15:53:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DAF9320122
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Sep 2025 07:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8456E23ABB9;
-	Mon, 15 Sep 2025 15:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924162E3B12;
+	Tue, 16 Sep 2025 07:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VQHdawWU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="psp5bO/F"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86999230BD9
-	for <linux-kbuild@vger.kernel.org>; Mon, 15 Sep 2025 15:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651B12DEA6F;
+	Tue, 16 Sep 2025 07:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757951599; cv=none; b=lykx9hM5KrNUIbaimiN15oErZut0jbHv6lvNNKF7gIwRdwlPZAVzFfsnTxe8FDNDTskM0V3zlOfYOUBKIK38iAnZxaKe1bUZEbLM36EyuO8Zgs7P0K7IBjkKP0npk535rKsYod45DGb6bs6h1nfrHVMk2z/ZQgPS56S9HdEHuD0=
+	t=1758006748; cv=none; b=u7WNEiPPq4+hP+YThu8iJ0hDfRKuQJEy1tR9zlBZdCalihZK7q2fFbk2yK0kY2JyvYvB8bcFeES9bzAajJYEk5PoxvJB6UwnM7o9GMcMPiqxgNcy0nojNDOlbx5Ov1S/0xi1RMJPVybEsR3X1e4JttREsdgix7MDbaPT8+Upr10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757951599; c=relaxed/simple;
-	bh=F6DTZWr2PPXJc9MSABBtybg5z0j9nOtTokHsabCL6Ig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Oj+BfHxe7rRtIfQekXFuXP4aQZldmt6+vQHIYBNva07ZwMehyRffoEKSmlkKpHJdlpLKPGzsL1CdREEoclptY8EAZyL/muj2+N+p/nHR4Q5M3y5/KwcS1UdZ+tOfluEGl3IqhYWkwWw4n7d1Oeoj8CHxpoemWelaWt5JRqYWzuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VQHdawWU; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-71d603b60cbso39158117b3.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 15 Sep 2025 08:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757951596; x=1758556396; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/0XiNoYxd5ucucDApZFb2O43+1fOasgyAKcEaecxkgQ=;
-        b=VQHdawWUwxtUDsnf2OzYeoOPiUSRylGj41rMeufU3tH1ig5U4ms5rukuBjhMB3iO6G
-         ku2ekowbU1bNKB3OJi3STK7m7v4swUXxXOBEPYmJvYdnMPvvBaRY4g59PXBAdXyfAv4f
-         iYaSGjp1rOTuHfPwt0axVvLoNSY50WMMxqh6+KBhO0eHkg6XDEnnCn6Stntg+wNC4Ygl
-         zSLW6ZeMP/Qbmc5ome+hs7m2MoCF2GDCgIj2hcaBCm3jQ8P6e5nKJmktksCaa+v2T04c
-         otewqvBv7sfCDz49Ar0kCx1+UPix/PGUsTWJZfxcK0DTVgr47egaYRoUl/t9FV7xmOaa
-         5FPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757951596; x=1758556396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/0XiNoYxd5ucucDApZFb2O43+1fOasgyAKcEaecxkgQ=;
-        b=CethsQ47BSzMEG8KZovGhl24tBUAjJgoqSutinZzbqSpKwmuApAjkFrVmyblhPtOSG
-         BTREosM3FuPYyLNsM0wAT33OB4xFqeVorlUCAXArooEbirfToXdg6Wuks5J3t2OWczr4
-         4iwmbsc0dPdvsgCV9K/Y5CLpi8mB9ci/1FZ9syDyru7dFw1VU8zeEQnYsDxar0tKBdI+
-         OG181PToufqRtMa+0G3/Pa8X4+EjLvqoqx6N91TwcCkwSyfkKMXPvGgty5Wm9rYvGOn2
-         u/4gB0kHJscqmo+Yk201MGztHsUH6mtQPfFAIQ1LIHS5uXVL3+yuXkV1s5P6JQdIW8t4
-         PRWg==
-X-Forwarded-Encrypted: i=1; AJvYcCV59qBWQDLyp1Gx7zL1thP47KRf1pwR2D8Fhjq7INEpH3slVnqPzCIDXmMl/RoC66VL2z8jm80ccafXydg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu2nMn5YbvsCzcSmYfaRy9ImQOqL2CdbB3ki6d82hZNjxOucOl
-	mqWVjRJsTU/T7jvpqt8QU3dzdHOHYoTF1jmm8K1FIzsylbUY7xJ0zniP/i31gAK8CGIN4csaqmz
-	IF67PItsSqUSlffK5GMhrOODMEIbFZA3+aQp3EDQW
-X-Gm-Gg: ASbGncvVlL6fM5NEdA18/X0W7HGpPX6whkwJgpjBU2zt/CxsGQorOdBav+lNYSrIYV1
-	J7JpelB4Urw7728xbdOXuF/aozz4MatiB6xDCalmBLkCdD8z6Ad7GoOXaMP67PYqVI4ZMKgFGOQ
-	FrVmMUCkYPXtUvfkkvMdn/KMnlwPogneI9UKXcXhw9DSFA5jziyaGeflcXLzTj4JjtMDDIjNocs
-	qDjhBt6+tak26URITOooSD6ZANWX0n1pUNTFz44vRg=
-X-Google-Smtp-Source: AGHT+IE83V2dgjtVWnGJmHoDlRMTL2myBzrkKJXkq0h5ZUezl7kZ6j4oqJ7P5qXzlNuzOLFywsL004XyX2O24GgrcM4=
-X-Received: by 2002:a05:690e:251a:20b0:62a:e5e3:b1f with SMTP id
- 956f58d0204a3-62ae5e30d34mr6904794d50.18.1757951595803; Mon, 15 Sep 2025
- 08:53:15 -0700 (PDT)
+	s=arc-20240116; t=1758006748; c=relaxed/simple;
+	bh=oU7VvkqktkVNm/KzNrVro7cjiuBKEqIXf9EnmXfNqrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kQQ+Wqp9G6k9XU4icvK0yrgavZSurICZ1U/NbNpxLa8k167iUjwi4BDDZJNZ85qWIu+EmD2cHL7zpIek4rBlkHSaFMeXzTRFIT0RdIcGOdf1ir+jIkc5cxCfKIEI/g5tVs7uW9kBjyt4ylbHy8fh8/KqnjOasQI32TUII61I6+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=psp5bO/F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B238DC4CEEB;
+	Tue, 16 Sep 2025 07:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758006747;
+	bh=oU7VvkqktkVNm/KzNrVro7cjiuBKEqIXf9EnmXfNqrg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=psp5bO/FZW/iyXU/LKpkMlICcpyAt3VX7ZKbABuO9tVK15McJy+5OJowkicZksuln
+	 yZFBMkmAkhKrtl2cS4yanL4usmxSc8kddAt7daP9GOlusbHJ8kj5YOQPpWGDcu4gBp
+	 XsnyHOw0ZtmQm55Jan1g4GUNvVHbNb+EqkTmAY5rqxtKQm3drNnGsBzCiutRQ7YAm8
+	 Sk/wQQmeLWb08x4FLcR3zz9E/hDGexpTCiPLD2gIyccS9ecgi6A/akq/KLblK4abj8
+	 AzBJgf6Q2TFrauF0/mt/GZDsJ+UCVVW4jslTuEhSRybzoSqgf7ZIt4OSf1OzUGMlr+
+	 7u0hKreUOi1FQ==
+Date: Tue, 16 Sep 2025 09:12:22 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v7 3/8] kbuild: keep .modinfo section in
+ vmlinux.unstripped
+Message-ID: <aMkN1m55vejTii_H@example.org>
+References: <cover.1755535876.git.legion@kernel.org>
+ <4d53c72293d88b663257a0d723ebf3473a08b374.1755535876.git.legion@kernel.org>
+ <aMeqgPVfJcjBLhl8@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250829105418.3053274-1-sidnayyar@google.com>
- <4e215854-59df-489b-b92d-8d2fb2edf522@suse.com> <CA+OvW8ZY1D3ECy2vw_Nojm1Kc8NzJHCpqNJUF0n8z3MhLAQd8A@mail.gmail.com>
- <409ddefc-24f8-465c-8872-17dc585626a6@suse.com>
-In-Reply-To: <409ddefc-24f8-465c-8872-17dc585626a6@suse.com>
-From: Sid Nayyar <sidnayyar@google.com>
-Date: Mon, 15 Sep 2025 16:53:04 +0100
-X-Gm-Features: AS18NWDFM6GFUPdftWx-folpVmUzea-hrwoyneDC89H80_fy-yjv_PiWu2wlc2k
-Message-ID: <CA+OvW8bhWK7prmyQMMJ_VYBeGMbn_mNiamHhUgYuCsnht+LFtA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/10] scalable symbol flags with __kflagstab
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Giuliano Procida <gprocida@google.com>, =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aMeqgPVfJcjBLhl8@levanger>
 
-On Mon, Sep 8, 2025 at 11:09=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
-> This sounds reasonable to me. Do you have any numbers on hand that would
-> show the impact of extending __ksymtab?
+On Mon, Sep 15, 2025 at 07:56:16AM +0200, Nicolas Schier wrote:
+> On Mon, Aug 18, 2025 at 06:54:57PM +0200, Alexey Gladkov wrote:
+> > From: Masahiro Yamada <masahiroy@kernel.org>
+> > 
+> > Keep the .modinfo section during linking, but strip it from the final
+> > vmlinux.
+> > 
+> > Adjust scripts/mksysmap to exclude modinfo symbols from kallsyms.
+> > 
+> > This change will allow the next commit to extract the .modinfo section
+> > from the vmlinux.unstripped intermediate.
+> > 
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >  include/asm-generic/vmlinux.lds.h | 2 +-
+> >  scripts/Makefile.vmlinux          | 2 +-
+> >  scripts/mksysmap                  | 3 +++
+> >  3 files changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> > index ae2d2359b79e9..cfa63860dfd4c 100644
+> > --- a/include/asm-generic/vmlinux.lds.h
+> > +++ b/include/asm-generic/vmlinux.lds.h
+> > @@ -831,6 +831,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
+> >  
+> >  /* Required sections not related to debugging. */
+> >  #define ELF_DETAILS							\
+> > +		.modinfo : { *(.modinfo) }				\
+> >  		.comment 0 : { *(.comment) }				\
+> >  		.symtab 0 : { *(.symtab) }				\
+> >  		.strtab 0 : { *(.strtab) }				\
+> > @@ -1044,7 +1045,6 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
+> >  	*(.discard.*)							\
+> >  	*(.export_symbol)						\
+> >  	*(.no_trim_symbol)						\
+> > -	*(.modinfo)							\
+> >  	/* ld.bfd warns about .gnu.version* even when not emitted */	\
+> >  	*(.gnu.version*)						\
+> >  
+> > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> > index 4f2d4c3fb7372..e2ceeb9e168d4 100644
+> > --- a/scripts/Makefile.vmlinux
+> > +++ b/scripts/Makefile.vmlinux
+> > @@ -86,7 +86,7 @@ endif
+> >  # vmlinux
+> >  # ---------------------------------------------------------------------------
+> >  
+> > -remove-section-y                                   :=
+> > +remove-section-y                                   := .modinfo
+> >  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+> >  
+> >  quiet_cmd_strip_relocs = OBJCOPY $@
+> > diff --git a/scripts/mksysmap b/scripts/mksysmap
+> > index 3accbdb269ac7..a607a0059d119 100755
+> > --- a/scripts/mksysmap
+> > +++ b/scripts/mksysmap
+> > @@ -79,6 +79,9 @@
+> >  / _SDA_BASE_$/d
+> >  / _SDA2_BASE_$/d
+> >  
+> > +# MODULE_INFO()
+> > +/ __UNIQUE_ID_modinfo[0-9]*$/d
+> > +
+> >  # ---------------------------------------------------------------------------
+> >  # Ignored patterns
+> >  #  (symbols that contain the pattern are ignored)
+> > -- 
+> > 2.50.1
+> > 
+> 
+> Hi Alexey,
+> 
+> with this patch applied, I still get a warning from objcpy as Masahiro
+> and Stephen wrote [1,2]
+> 
+>   SORTTAB vmlinux.unstripped
+> + sorttable vmlinux.unstripped
+> + nm -S vmlinux.unstripped
+> + ./scripts/sorttable -s .tmp_vmlinux.nm-sort vmlinux.unstripped
+> + is_enabled CONFIG_KALLSYMS
+> + grep -q ^CONFIG_KALLSYMS=y include/config/auto.conf
+> + cmp -s System.map .tmp_vmlinux2.syms
+> + echo vmlinux.unstripped: ../scripts/link-vmlinux.sh
+> # OBJCOPY vmlinux
+>   objcopy --remove-section=.modinfo vmlinux.unstripped vmlinux
+> objcopy: vmlinux.unstripped: warning: empty loadable segment detected at vaddr=0xffff8000807a0000, is this intentional?
+> 
+> (arm64, allnoconfig)
+> 
+> Kind regards,
+> Nicolas
+> 
+> 
+> [1]: https://lore.kernel.org/linux-kbuild/CAK7LNAR-gD2H6Kk-rZjo0R3weTHCGTm0a=u2tRH1WWW6Sx6=RQ@mail.gmail.com/
+> [2]: https://lore.kernel.org/lkml/20250730164047.7c4a731a@canb.auug.org.au/
+> 
 
-I did performance analysis for module loading. The kflagstab
-optimizes symbol search, which accounts for less than 2% of the
-average module load time. Therefore, this change does not translate
-into any meaningful gains (or losses) in module loading performance.
+Hm. I missed that. I need to investigate how to fix this. Nothing comes
+to mind right now.
 
-On the binary size side, the on-disk size for vmlinux is somewhat
-inflated due to extra entries in .symtab and .strtab. Since these
-sections are not part of the final Image, the only increase in the
-in-memory size of the kernel is for the kflagstab itself. This new
-table occupies 1 byte for each symbol in the ksymtab.
+-- 
+Rgrds, legion
 
-> > The Android Common Kernel source is compiled into what we call
-> > GKI (Generic Kernel Image), which consists of a kernel and a
-> > number of modules. We maintain a stable interface (based on CRCs and
-> > types) between the GKI components and vendor-specific modules
-> > (compiled by device manufacturers, e.g., for hardware-specific
-> > drivers) for the lifetime of a given GKI version.
-> >
-> > This interface is intentionally restricted to the minimal set of
-> > symbols required by the union of all vendor modules; our partners
-> > declare their requirements in symbol lists. Any additions to these
-> > lists are reviewed to ensure kernel internals are not overly exposed.
-> > For example, we restrict drivers from having the ability to open and
-> > read arbitrary files. This ABI boundary also allows us to evolve
-> > internal kernel types that are not exposed to vendor modules, for
-> > example, when a security fix requires a type to change.
-> >
-> > The mechanism we use for this is CONFIG_TRIM_UNUSED_KSYMS and
-> > CONFIG_UNUSED_KSYMS_WHITELIST. This results in a ksymtab
-> > containing two kinds of exported symbols: those explicitly required
-> > by vendors ("vendor-listed") and those only required by GKI modules
-> > ("GKI use only").
-> >
-> > On top of this, we have implemented symbol import protection
-> > (covered in patches 9/10 and 10/10). This feature prevents vendor
-> > modules from using symbols that are not on the vendor-listed
-> > whitelist. It is built on top of CONFIG_MODULE_SIG. GKI modules are
-> > signed with a specific key, while vendor modules are unsigned and thus
-> > treated as untrusted. This distinction allows signed GKI modules to
-> > use any symbol in the ksymtab, while unsigned vendor modules can only
-> > access the declared subset. This provides a significant layer of
-> > defense and security against potentially exploitable vendor module
-> > code.
->
-> If I understand correctly, this is similar to the recently introduced
-> EXPORT_SYMBOL_FOR_MODULES() macro, but with a coarser boundary.
->
-> I think that if the goal is to control the kABI scope and limit the use
-> of certain symbols only to GKI modules, then having the protection
-> depend on whether the module is signed is somewhat odd. It doesn't give
-> me much confidence if vendor modules are unsigned in the Android
-> ecosystem. I would expect that you want to improve this in the long
-> term.
-
-GKI modules are the only modules built in the same Kbuild as the
-kernel image, which Google builds and provides to partners. In
-contrast, vendor modules are built and packaged entirely by partners.
-
-Google signs GKI modules with ephemeral keys. Since partners do
-not have these keys, vendor modules are treated as unsigned by
-the kernel.
-
-To ensure the authenticity of these unsigned modules, partners
-package them into a separate image that becomes one of the boot
-partitions. This entire image is signed, and its signature is
-verified by the bootloader at boot time.
-
-> It would then make more sense to me if the protection was determined by
-> whether the module is in-tree (the "intree" flag in modinfo) or,
-> alternatively, if it is signed by a built-in trusted key. I feel this
-> way the feature could be potentially useful for other distributions that
-> care about the kABI scope and have ecosystems where vendor modules are
-> properly signed with some key. However, I'm not sure if this would still
-> work in your case.
-
-Partners can produce both in-tree and out-of-tree modules. We do not
-trust either type regarding symbol exposure, as there is no way to know
-exactly what sources were used. Furthermore, symbols exported via
-EXPORT_SYMBOL_FOR_MODULES can be accessed by any vendor module that
-mimics the GKI module name.
-
-Therefore, neither the in-tree flag nor the EXPORT_SYMBOL_FOR_MODULES
-mechanism provides a strong enough guarantee for the Android kernel to
-identify GKI modules.
-
-Only module signatures are sufficient to allow a module to access the
-full set of exported symbols.  Unsigned vendor modules may only access
-the symbol subset declared ahead of time by partners.
-
-In case such symbol protection is not useful for the Linux community, I
-am happy to keep this as an Android-specific feature.  However, I would
-urge you to at least accept the kflagstab, as it allows us (and
-potentially other Linux distributions) to easily introduce additional
-flags for symbols. It is also a simplification/clean-up of the module
-loader code.
-
---
-Thanks,
-Siddharth Nayyar
 
