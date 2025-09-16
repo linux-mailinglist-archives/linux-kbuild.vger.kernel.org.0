@@ -1,172 +1,120 @@
-Return-Path: <linux-kbuild+bounces-8834-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8835-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C36B597C5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Sep 2025 15:36:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC9DB59F2A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Sep 2025 19:21:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACD30460D79
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Sep 2025 13:36:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FFED4E4B24
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Sep 2025 17:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F98D30BBB6;
-	Tue, 16 Sep 2025 13:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36DE5258CE9;
+	Tue, 16 Sep 2025 17:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opmALYIO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nK69Sf8A"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38282D949A;
-	Tue, 16 Sep 2025 13:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DE424E00F;
+	Tue, 16 Sep 2025 17:21:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758029757; cv=none; b=jMTdbZYFbJGWW20K8gSp8GHWl98CPeGACCAI5BbPF9RjEIw2QnJKMFlhC5vMJzP5FMbCe/lEPqwzST+le0oTZpfsatdxi1SZFcxySntMrgKtgGp5SZ73Blz56RJrJIvLIlCOD7CFX2Y8CdG156dkA5bmjyD94qP9UFSBmQQY6O4=
+	t=1758043303; cv=none; b=jkOe8MkuB5ed0JXOGPE0sKXD4wwQrxaTi7lpfrnomlNUz+7CRJ2f72lgMApFLEXoEI4aqTw8sd494a5XJpuImec9CPAd3QQ4iY0hEXw9lw1oRS5C2p8zY6ba5y9U8u4pgk9knGYxwRg75SDMIy9vYCKL0NiXRxy0XygEsmxWo4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758029757; c=relaxed/simple;
-	bh=rTIf/MtovWp08QtcwAXtxQE4sn7DYFAtPPui+rgyT68=;
+	s=arc-20240116; t=1758043303; c=relaxed/simple;
+	bh=DJ5Z50X5vQEdBklBEnK9nMQ+7I1JuqRFkk4wtkg6jd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AVssb+9UFeZRkncd8uG658ABa8YlOqidsucsPyxzG01Zy+1khxkB+CRBcerDAsBkN4+OCEB0rAk2DLGgoFP0sHv3kRCgVFjpuqTkC73ip5+atJVkY985z0xOAQrfbY4lDy6gs2LqHJ/NdNhoeucYU40kPD3ez3hQge6qpDZHZBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opmALYIO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 303BAC4CEEB;
-	Tue, 16 Sep 2025 13:35:56 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvm3td+Kog3wWJpqDgXtdf6jZjICDyVzURPuTRAYMwU6ifDqULzTNDwZIfNiQm1ZPpk7o4uB7bZbvC+eZsSQss6epQadn/5We39yhV6OY3r4LzZgDZEILs4Nvt++eDtWvEZ/o1cJiRLMpirjcaYVR3Zp/0CNdiEcS/VhxWtwiic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nK69Sf8A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DFCC4CEEB;
+	Tue, 16 Sep 2025 17:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758029756;
-	bh=rTIf/MtovWp08QtcwAXtxQE4sn7DYFAtPPui+rgyT68=;
+	s=k20201202; t=1758043302;
+	bh=DJ5Z50X5vQEdBklBEnK9nMQ+7I1JuqRFkk4wtkg6jd8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=opmALYIOTGquTTpyU9Zv1RIgrv6kVHyx71VOlnhl4dDx77Ov0DpgS1ZbSi+65yawE
-	 b7DaPsIYnxg4h1HSkn09uv3txs9c3+kbk2Qh1w3K4lhwfrjIYazqQq3jaURjP4+azR
-	 h0EATQWG4Vxh+Wm8mWtdzXrYjso/0kGOk7gyhw4R2bqhh0mnYIiJut/yfACo8AFOAH
-	 Ry/BQH2RtiJXWraQ5o8Vku+JlsUnffWce9xOISmXT25ZWaVkiooiLffEkrqEunHLrR
-	 eWebWl+C5sfyV7CsjV91XoKDn4Kq3hypEBqfxyXvrmGZhJ8owdinMVzNtwQOgxqNXj
-	 Ie0yyA3nvNypg==
-Date: Tue, 16 Sep 2025 15:28:09 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Alexey Gladkov <legion@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH v7 3/8] kbuild: keep .modinfo section in
- vmlinux.unstripped
-Message-ID: <aMll6cHPhIY2yswz@levanger>
-References: <cover.1755535876.git.legion@kernel.org>
- <4d53c72293d88b663257a0d723ebf3473a08b374.1755535876.git.legion@kernel.org>
- <aMeqgPVfJcjBLhl8@levanger>
- <aMkN1m55vejTii_H@example.org>
- <aMkvtg55F1gJ5feM@levanger>
- <aMlKTPpNXrRW6v_7@example.org>
- <aMlbSEnwGOPM39Op@levanger>
- <aMlgMkB2nL31K2OB@example.org>
+	b=nK69Sf8A1+xQNLJPVP5BMJ34gDV+ob4401QWkOJn2E0veRXaRdI6Ugl/7gQMNL9YY
+	 anIZ70kGc1KRSKOY7lYBBFLIc3oVLaEQG5u+XQsGg6UkFhzdHFZhV87Lyw1zyt7AlA
+	 7gDO+7SbCDSrk37n8XlySD3fJoNGfvj4br40D3f0NLU1JzZ/omxvw+vMXLrCyaxvt3
+	 ofyTDfzZnSMOzU+VJV8DuOetScgLJ4QskNO31s515siQCddQoY/EwZQGf8yc6zkwfK
+	 Msnm+vTz0q53ELGYhldIzo9lkjCsWqdWScOrKmVo8727WeaPkUBZyl/ZaoMF0Qayrj
+	 fODObCWXRQNHQ==
+Date: Tue, 16 Sep 2025 18:21:35 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Asuna Yang <spriteovo@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Han Gao <rabenda.cn@gmail.com>,
+	Jason Montleon <jmontleo@redhat.com>,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3] RISC-V: re-enable gcc + rust builds
+Message-ID: <20250916-getaway-grew-46e4fb956a78@spud>
+References: <20250914-gcc-rust-v3-v3-1-34d4d5864144@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ovMXMPQdHm2Jci7/"
+Content-Disposition: inline
+In-Reply-To: <20250914-gcc-rust-v3-v3-1-34d4d5864144@gmail.com>
+
+
+--ovMXMPQdHm2Jci7/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aMlgMkB2nL31K2OB@example.org>
 
-On Tue, Sep 16, 2025 at 03:03:46PM +0200, Alexey Gladkov wrote:
-> On Tue, Sep 16, 2025 at 02:42:48PM +0200, Nicolas Schier wrote:
-> > > > > > Hi Alexey,
-> > > > > > 
-> > > > > > with this patch applied, I still get a warning from objcpy as Masahiro
-> > > > > > and Stephen wrote [1,2]
-> > > > > > 
-> > > > > >   SORTTAB vmlinux.unstripped
-> > > > > > + sorttable vmlinux.unstripped
-> > > > > > + nm -S vmlinux.unstripped
-> > > > > > + ./scripts/sorttable -s .tmp_vmlinux.nm-sort vmlinux.unstripped
-> > > > > > + is_enabled CONFIG_KALLSYMS
-> > > > > > + grep -q ^CONFIG_KALLSYMS=y include/config/auto.conf
-> > > > > > + cmp -s System.map .tmp_vmlinux2.syms
-> > > > > > + echo vmlinux.unstripped: ../scripts/link-vmlinux.sh
-> > > > > > # OBJCOPY vmlinux
-> > > > > >   objcopy --remove-section=.modinfo vmlinux.unstripped vmlinux
-> > > > > > objcopy: vmlinux.unstripped: warning: empty loadable segment detected at vaddr=0xffff8000807a0000, is this intentional?
-> > > > > > 
-> > > > > > (arm64, allnoconfig)
-> > > > > > 
-> > > > > > Kind regards,
-> > > > > > Nicolas
-> > > > > > 
-> > > > > > 
-> > > > > > [1]: https://lore.kernel.org/linux-kbuild/CAK7LNAR-gD2H6Kk-rZjo0R3weTHCGTm0a=u2tRH1WWW6Sx6=RQ@mail.gmail.com/
-> > > > > > [2]: https://lore.kernel.org/lkml/20250730164047.7c4a731a@canb.auug.org.au/
-> > > > > > 
-> > > > > 
-> > > > > Hm. I missed that. I need to investigate how to fix this. Nothing comes
-> > > > > to mind right now.
-> > > > 
-> > > > Same here.  Only thing I could find until now is
-> > > > 
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/diff/scripts/link-vmlinux.sh?id=90ceddcb495008ac8ba7a3dce297841efcd7d584
-> > > > 
-> > > > where '2>/dev/null' is appended exactly to prevent this very warning.
-> > > > But for me, it doesn't feel good doing that when stripping to vmlinux.
-> > > 
-> > > Yes, that's not a very good approach. It will hide other errors that will
-> > > definitely need to be seen. I think the commit you mentioned is actually
-> > > incorrect. I think there should be a different solution.
-> > > 
-> > > I think in the case of .modinfo, we can change the flag in the section
-> > > since we are going to delete it anyway.
-> > > 
-> > > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-> > > index dbbe3bf0cf23..9a118b31d0dc 100644
-> > > --- a/scripts/Makefile.vmlinux
-> > > +++ b/scripts/Makefile.vmlinux
-> > > @@ -87,7 +87,8 @@ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
-> > >  remove-symbols := -w --strip-symbol='__mod_device_table__*'
-> > >  
-> > >  quiet_cmd_strip_relocs = OBJCOPY $@
-> > > -      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
-> > > +      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< && \
-> > > +                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
-> > >                           $(remove-symbols) $< $@
-> > >  
-> > >  targets += vmlinux
-> > 
-> > Ah, great!  I thought we had to fiddle around with linker scripts et al.
-> > I needed to use an intermediate file:
-> > 
-> > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-> > index e2ceeb9e168d..516d51ca634b 100644
-> > --- a/scripts/Makefile.vmlinux
-> > +++ b/scripts/Makefile.vmlinux
-> > @@ -90,6 +90,9 @@ remove-section-y                                   := .modinfo
-> >  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
-> >  
-> >  quiet_cmd_strip_relocs = OBJCOPY $@
-> > -      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
-> > +      cmd_strip_relocs = set -e; \
-> > +                        trap 'rm $<.noload' EXIT HUP INT; \
-> > +                        $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $<.noload && \
-> > +                        $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $<.noload $@
-> >  
-> >  targets += vmlinux
-> 
-> according to man-page:
-> 
->   If you do not specify outfile, objcopy creates a temporary file and
->   destructively renames the result with the name of infile.
-> 
-> That is true even in freebsd:
-> 
-> https://man.freebsd.org/cgi/man.cgi?query=objcopy
-> 
-> Do you want to support any other objcopy implementations ?
+On Sun, Sep 14, 2025 at 03:16:40PM +0800, Asuna Yang wrote:
+> +config TOOLCHAIN_MATCHES_ZICSR_ZIFENCEI
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/22e199e6afb1263c943c0c0d4498694e15bf8a16
+> +	depends on TOOLCHAIN_NEEDS_OLD_ISA_SPEC || !TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI || RUST_BINDGEN_LIBCLANG_VERSION >= 170000
+> +	help
+> +	  LLVM/Clang >= 17.0.0 starts recognizing Zicsr/Zifencei in -march, passing
+> +	  them to -march doesn't generate an error anymore, and passing them or not
+> +	  doesn't have any real difference, it still follows ISA before version
+> +	  20190608 - Zicsr/Zifencei are included in base ISA.
+> +
+> +	  The current latest version of LLVM/Clang still does not require explicit
+> +	  Zicsr/Zifencei to enable these two extensions, Clang just accepts them in
+> +	  -march and then silently ignores them.
 
-yeah, it's actually because I dislike modifying vmlinux.unstripped in
-the vmlinux rule.
+I still don't really like the name of this option, but I don't really
+have any good suggestions for what to call this.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-But it may be that Nathan does not see it this way.
+Cheers,
+Conor.
 
--- 
-Nicolas
+--ovMXMPQdHm2Jci7/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaMmcigAKCRB4tDGHoIJi
+0rfDAP9q+R3zLBj2lwiOj46Ay1jJrWFrzRnaLIF9CVcqW7Tq6gEAhYmZWcMRrz3+
+1MPkLLx2PkcE4kEft2ZLozNAEw1LCww=
+=UxeS
+-----END PGP SIGNATURE-----
+
+--ovMXMPQdHm2Jci7/--
 
