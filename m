@@ -1,334 +1,161 @@
-Return-Path: <linux-kbuild+bounces-8843-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8844-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2F2B7D151
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Sep 2025 14:17:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF71AB7DFD0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Sep 2025 14:39:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1228E5849E3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Sep 2025 12:17:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B13352A4161
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Sep 2025 12:39:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A81393DCB;
-	Wed, 17 Sep 2025 12:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61C992F361A;
+	Wed, 17 Sep 2025 12:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aSauP6aJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MF8oaL0u"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0AA37C116;
-	Wed, 17 Sep 2025 12:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36960238140;
+	Wed, 17 Sep 2025 12:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758111357; cv=none; b=pF92yc4wHN81Ui46Ye/LyOHz/oDGyl3Wj9Km6nWXaJfDBLOSjqiU8khgtDo/QzdHisDP2SXSx11dBPw30x2TWvGy7JLio0LveNYY0BvnuFa+vIyR4UCPp2Okdw14zBD8Ua/rWalBDjHzEzil9RCD7H2Rck76soaAwoGeLOz6AVo=
+	t=1758112692; cv=none; b=Poai1bf7LBkB8mXiDpZTc1Ygls7ITxqRuYC78vvU16fXLLTSslywt+9AZN9QDtPKtspxMn/0KIeWvzmrj9jT0zBQ+FXBJHTuUlg8Id36KAfNItSOhAoLDHuO/Dt1TlUBrUo4V+H6OJTbSNOCxBax8ciVHuoBmyCsiQ6gkEu0kuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758111357; c=relaxed/simple;
-	bh=KDZQ/WnN5vw7Bl6a4chb+TcehefEfRpozxecUjS1tVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NCNIKTQHwWhPfS2wBIKzcuRKUWPLhI19BH/3viRuO1MdovV11UpRhsP9TbPOEigBJ8BkSwN3+ifsMEQFDVK+61+MQEwFU1udCS+0p34sDHQ+w+NnYhOhOv9RERFJpFx764n84dfxceRIG2BqnO4c4fgLtElIX1WgLfM+liFoQ4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aSauP6aJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26724C4CEF7;
-	Wed, 17 Sep 2025 12:15:57 +0000 (UTC)
+	s=arc-20240116; t=1758112692; c=relaxed/simple;
+	bh=njQagFFNmXLDsU0106/ybuoQRu4ry9/hROx7T9egjxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GogadFq9YaGk46JR+01vTSYFxrnCOSY6CdiC4+OBbDlYtb2FiAReRzY5p1FC4Oqo7wF9h76vKI5aYDEr/59jc//wUoNwqvfml1cCvUxlCOGFDOP6pPSEIgJqzs82oRGBDKL429jg2fcTg4vwWUdqMj610P5FBG1vTycuSmEq1J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MF8oaL0u; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA0E4C4CEF7;
+	Wed, 17 Sep 2025 12:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758111357;
-	bh=KDZQ/WnN5vw7Bl6a4chb+TcehefEfRpozxecUjS1tVU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aSauP6aJcU9M95c1AYqWV0JLEGZhuDsNcSVaPznUJ79TcJbKvkmv4fX+JoXSR1p4/
-	 xRXl/3cSWXhu4Lt5tKk2YAvMZhZ8eax/HDx6tNVjISKTkQp9HGPOkqM246SU56CGx2
-	 pYkTPK65EulCmBvT2GB0LY/GSDDscgFY5GZPfXj+1hdglwT+ixxlwu4MDZdBOr9c+p
-	 7z9rawYAnO43cbG11l9DJk+37IXHQYRDfCnO+PT/lRo4Otrr5LU7B5s1mZcy5h7lZX
-	 xk43b0K/W1L0s1VzS4Ocr9kWRkWPBFWfoSeK0LMn0iTXVAKqxN/q8GjkWfvPUWuTXH
-	 hWKi5jo+A8fRg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1uyr4h-0000000CGeO-2J2F;
-	Wed, 17 Sep 2025 14:15:51 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Akira Yokosawa" <akiyks@gmail.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Masahiro Yamada <mchehab+huawei@kernel.org>,
-	Miguel Ojeda <mchehab+huawei@kernel.org>,
-	Nathan Chancellor <mchehab+huawei@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 19/24] docs: add support to build manpages from kerneldoc output
-Date: Wed, 17 Sep 2025 14:15:13 +0200
-Message-ID: <25a6f9a1c1d746c9e6b3a5eba181d01fe98976ea.1758111077.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1758111077.git.mchehab+huawei@kernel.org>
-References: <cover.1758111077.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1758112691;
+	bh=njQagFFNmXLDsU0106/ybuoQRu4ry9/hROx7T9egjxo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MF8oaL0uphBz+qhs3WC3BNMbMAOKI3ee9eEd/ZshuvwwEgPEjzDPSfnEC09lVhfQL
+	 FQK7c9HzvmaoTpE/8ZxQRRlcWSJ7cUEevMH7JJZGA6pHlawQOLK7aJrnBHVWYahnu/
+	 df2z1DtH/sfueiZ3KLcNWHqWZnKB5e17sRjwY4JnxGNIX578u4ApLMqaemI2qA1EL6
+	 HVzUoeYeaJewBmvnkL0yy1h7+1jjuUdWN4OiGnWTm/YwcEtFk0bkMDf5W4I43ReV1X
+	 +opOw/8u2BHWillMaGWO9FHKhyaA+KnQvwl6VG3DNWXVBPGnrvymDbCj+poyvWSJYv
+	 qm1jgNPdJnx4w==
+Date: Wed, 17 Sep 2025 14:38:06 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v7 3/8] kbuild: keep .modinfo section in
+ vmlinux.unstripped
+Message-ID: <aMqrrjXZxYXN0zdY@example.org>
+References: <cover.1755535876.git.legion@kernel.org>
+ <4d53c72293d88b663257a0d723ebf3473a08b374.1755535876.git.legion@kernel.org>
+ <aMeqgPVfJcjBLhl8@levanger>
+ <aMkN1m55vejTii_H@example.org>
+ <aMkvtg55F1gJ5feM@levanger>
+ <aMlKTPpNXrRW6v_7@example.org>
+ <aMlbSEnwGOPM39Op@levanger>
+ <aMqhuFQGAGtYFbRV@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <aMqhuFQGAGtYFbRV@levanger>
 
-Generating man files currently requires running a separate
-script. The target also doesn't appear at the docs Makefile.
+On Wed, Sep 17, 2025 at 01:55:36PM +0200, Nicolas Schier wrote:
+> On Tue, Sep 16, 2025 at 02:42:48PM +0200, Nicolas Schier wrote:
+> > On Tue, Sep 16, 2025 at 01:30:20PM +0200, Alexey Gladkov wrote:
+> ...
+> > > I think in the case of .modinfo, we can change the flag in the section
+> > > since we are going to delete it anyway.
+> > > 
+> > > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> > > index dbbe3bf0cf23..9a118b31d0dc 100644
+> > > --- a/scripts/Makefile.vmlinux
+> > > +++ b/scripts/Makefile.vmlinux
+> > > @@ -87,7 +87,8 @@ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+> > >  remove-symbols := -w --strip-symbol='__mod_device_table__*'
+> > >  
+> > >  quiet_cmd_strip_relocs = OBJCOPY $@
+> > > -      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
+> > > +      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< && \
+> > > +                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
+> > >                           $(remove-symbols) $< $@
+> > >  
+> > >  targets += vmlinux
+> > 
+> > Ah, great!  I thought we had to fiddle around with linker scripts et al.
+> > I needed to use an intermediate file:
+> > 
+> > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> > index e2ceeb9e168d..516d51ca634b 100644
+> > --- a/scripts/Makefile.vmlinux
+> > +++ b/scripts/Makefile.vmlinux
+> > @@ -90,6 +90,9 @@ remove-section-y                                   := .modinfo
+> >  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+> >  
+> >  quiet_cmd_strip_relocs = OBJCOPY $@
+> > -      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
+> > +      cmd_strip_relocs = set -e; \
+> > +                        trap 'rm $<.noload' EXIT HUP INT; \
+> > +                        $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $<.noload && \
+> > +                        $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $<.noload $@
+> >  
+> >  targets += vmlinux
+> 
+> I'd like to suggest another version closer to yours, as mine has several flaws:
+> 
+> diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> index dbbe3bf0cf23..9a118b31d0dc 100644
+> --- a/scripts/Makefile.vmlinux
+> +++ b/scripts/Makefile.vmlinux
+> @@ -87,7 +87,8 @@ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+>  remove-symbols := -w --strip-symbol='__mod_device_table__*'
+>  
+>  quiet_cmd_strip_relocs = OBJCOPY $@
+> -      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
+> +      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
+> +                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
+>                           $(remove-symbols) $@
+>  
+>  targets += vmlinux
+> 
+> 
+> 
+> Rationale (mainly for myself to not walk into that trap too often again):
+> 
+>   * Use ';' instead of '&&' as 'cmd_' is evaluated in a 'set -e'
+>     environment ('cmd') and thus '&&' may hide a possible error exit
+>     code.
 
-Add support for mandocs at the Makefile, adding the build
-logic inside sphinx-build-wrapper, updating documentation
-and dropping the ancillary script.
+No, it can't hide exit code. The exit code will be correct even if
+‘set -e’ is not used.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/Makefile                 |  3 +-
- Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
- Makefile                               |  2 +-
- scripts/split-man.pl                   | 28 ---------
- tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
- 5 files changed, 95 insertions(+), 48 deletions(-)
- delete mode 100755 scripts/split-man.pl
+$ (exit 0) && (exit 2) && (exit 3); echo $?
+2
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 05397b9d844d..aa42b2cb7030 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
- else # HAVE_SPHINX
- 
- # Common documentation targets
--infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
-+mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
- 	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
- 	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
- 		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
-@@ -104,6 +104,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  texinfodocs     - Texinfo'
- 	@echo  '  infodocs        - Info'
-+	@echo  '  mandocs         - Man pages'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
- 	@echo  '  epubdocs        - EPUB'
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index af9697e60165..4370cc8fbcf5 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -579,20 +579,23 @@ source.
- How to use kernel-doc to generate man pages
- -------------------------------------------
- 
--If you just want to use kernel-doc to generate man pages you can do this
--from the kernel git tree::
-+To generate man pages for all files that contain kernel-doc markups, run::
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
--    | scripts/split-man.pl /tmp/man
-+  $ make mandocs
- 
--Some older versions of git do not support some of the variants of syntax for
--path exclusion.  One of the following commands may work for those versions::
-+Or calling ``script-build-wrapper`` directly::
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
--    | scripts/split-man.pl /tmp/man
-+  $ ./tools/docs/sphinx-build-wrapper mandocs
- 
--  $ scripts/kernel-doc -man \
--    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
--    | scripts/split-man.pl /tmp/man
-+The output will be at ``/man`` directory inside the output directory
-+(by default: ``Documentation/output``).
-+
-+Optionally, it is possible to generate a partial set of man pages by
-+using SPHINXDIRS:
-+
-+  $ make SPHINXDIRS=driver-api/media mandocs
-+
-+.. note::
-+
-+   When SPHINXDIRS={subdir} is used, it will only generate man pages for
-+   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
-diff --git a/Makefile b/Makefile
-index 6bfe776bf3c5..9bd44afeda26 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
- # Documentation targets
- # ---------------------------------------------------------------------------
- DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
--	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
-+	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
- 	$(Q)$(MAKE) $(build)=Documentation $@
-diff --git a/scripts/split-man.pl b/scripts/split-man.pl
-deleted file mode 100755
-index 96bd99dc977a..000000000000
---- a/scripts/split-man.pl
-+++ /dev/null
-@@ -1,28 +0,0 @@
--#!/usr/bin/env perl
--# SPDX-License-Identifier: GPL-2.0
--#
--# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
--#
--# Produce manpages from kernel-doc.
--# See Documentation/doc-guide/kernel-doc.rst for instructions
--
--if ($#ARGV < 0) {
--   die "where do I put the results?\n";
--}
--
--mkdir $ARGV[0],0777;
--$state = 0;
--while (<STDIN>) {
--    if (/^\.TH \"[^\"]*\" 9 \"([^\"]*)\"/) {
--	if ($state == 1) { close OUT }
--	$state = 1;
--	$fn = "$ARGV[0]/$1.9";
--	print STDERR "Creating $fn\n";
--	open OUT, ">$fn" or die "can't open $fn: $!\n";
--	print OUT $_;
--    } elsif ($state != 0) {
--	print OUT $_;
--    }
--}
--
--close OUT;
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 8d1f77c4a880..7a6eb41837e6 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -47,12 +47,14 @@ the newer version.
- import argparse
- import locale
- import os
-+import re
- import shlex
- import shutil
- import subprocess
- import sys
- 
- from concurrent import futures
-+from glob import glob
- 
- from lib.python_version import PythonVersion
- from lib.latex_fonts import LatexFontChecker
-@@ -77,6 +79,7 @@ TARGETS = {
-     "epubdocs":      { "builder": "epub",    "out_dir": "epub" },
-     "texinfodocs":   { "builder": "texinfo", "out_dir": "texinfo" },
-     "infodocs":      { "builder": "texinfo", "out_dir": "texinfo" },
-+    "mandocs":       { "builder": "man",     "out_dir": "man" },
-     "latexdocs":     { "builder": "latex",   "out_dir": "latex" },
-     "pdfdocs":       { "builder": "latex",   "out_dir": "latex" },
-     "xmldocs":       { "builder": "xml",     "out_dir": "xml" },
-@@ -503,6 +506,71 @@ class SphinxBuilder:
-             except subprocess.CalledProcessError as e:
-                 sys.exit(f"Error generating info docs: {e}")
- 
-+    def handle_man(self, kerneldoc, docs_dir, src_dir, output_dir):
-+        """
-+        Create man pages from kernel-doc output
-+        """
-+
-+        re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
-+        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
-+
-+        if docs_dir == src_dir:
-+            #
-+            # Pick the entire set of kernel-doc markups from the entire tree
-+            #
-+            kdoc_files = set([self.srctree])
-+        else:
-+            kdoc_files = set()
-+
-+            for fname in glob(os.path.join(src_dir, "**"), recursive=True):
-+                if os.path.isfile(fname) and fname.endswith(".rst"):
-+                    with open(fname, "r", encoding="utf-8") as in_fp:
-+                        data = in_fp.read()
-+
-+                    for line in data.split("\n"):
-+                        match = re_kernel_doc.match(line)
-+                        if match:
-+                            if os.path.isfile(match.group(1)):
-+                                kdoc_files.add(match.group(1))
-+
-+        if not kdoc_files:
-+                sys.exit(f"Directory {src_dir} doesn't contain kernel-doc tags")
-+
-+        cmd = [ kerneldoc, "-m" ] + sorted(kdoc_files)
-+        try:
-+            if self.verbose:
-+                print(" ".join(cmd))
-+
-+            result = subprocess.run(cmd, stdout=subprocess.PIPE, text= True)
-+
-+            if result.returncode:
-+                print(f"Warning: kernel-doc returned {result.returncode} warnings")
-+
-+        except (OSError, ValueError, subprocess.SubprocessError) as e:
-+            sys.exit(f"Failed to create man pages for {src_dir}: {repr(e)}")
-+
-+        fp = None
-+        try:
-+            for line in result.stdout.split("\n"):
-+                match = re_man.match(line)
-+                if not match:
-+                    if fp:
-+                        fp.write(line + '\n')
-+                    continue
-+
-+                if fp:
-+                    fp.close()
-+
-+                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
-+
-+                if self.verbose:
-+                    print(f"Creating {fname}")
-+                fp = open(fname, "w", encoding="utf-8")
-+                fp.write(line + '\n')
-+        finally:
-+            if fp:
-+                fp.close()
-+
-     def cleandocs(self, builder):           # pylint: disable=W0613
-         """Remove documentation output directory"""
-         shutil.rmtree(self.builddir, ignore_errors=True)
-@@ -531,7 +599,7 @@ class SphinxBuilder:
-         # Other targets require sphinx-build, so check if it exists
-         #
-         sphinxbuild = shutil.which(self.sphinxbuild, path=self.env["PATH"])
--        if not sphinxbuild:
-+        if not sphinxbuild and target != "mandocs":
-             sys.exit(f"Error: {self.sphinxbuild} not found in PATH.\n")
- 
-         if builder == "latex":
-@@ -619,10 +687,13 @@ class SphinxBuilder:
-                 output_dir,
-             ]
- 
--            try:
--                self.run_sphinx(sphinxbuild, build_args, env=self.env)
--            except (OSError, ValueError, subprocess.SubprocessError) as e:
--                sys.exit(f"Build failed: {repr(e)}")
-+            if target == "mandocs":
-+                self.handle_man(kerneldoc, docs_dir, src_dir, output_dir)
-+            else:
-+                try:
-+                    self.run_sphinx(sphinxbuild, build_args, env=self.env)
-+                except (OSError, ValueError, subprocess.SubprocessError) as e:
-+                    sys.exit(f"Build failed: {repr(e)}")
- 
-             #
-             # Ensure that each html/epub output will have needed static files
+Actually ‘&&’ is protection against the absence of ‘set -e’.
+
+>   * Create 'vmlinux' already with the first objcopy and let the second
+>     one modify it in order to not need a temporary file; iff one or the
+>     other objcopy exists with an error exit code, the 'set -e + trap'
+>     ('delete-on-interrupt') shell will remove a possibly existing
+>     vmlinux file.
+
+That makes totally sense. This will avoid a temporary file. I will use it
+in the new version.
+
 -- 
-2.51.0
+Rgrds, legion
 
 
