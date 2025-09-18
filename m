@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-8850-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8851-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F9DB83739
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 10:09:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7A6B83757
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 10:09:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45D291C820EA
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2A925426AE
 	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 08:09:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D03352F7AD5;
-	Thu, 18 Sep 2025 08:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1FA82F9D8E;
+	Thu, 18 Sep 2025 08:07:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRFYP+la"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tv3QIub6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47932F7AC3;
-	Thu, 18 Sep 2025 08:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822072F9C29;
+	Thu, 18 Sep 2025 08:07:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758182825; cv=none; b=LWcs6SDynvuuC5rskqcHy9O6a+HAQPmQHOzvavr+Mr7gcxkN+09fsi0EeYBuqq6fuaNZC+yKgqKQTN8zspASnc6XWvzgkzIebURUQeHtMY5llv2DGwx1goHAv/aqrGcRGh7CXU1mT3JZI6GFHqc/3ORfHsHkKBGHOhpCCvUuSCs=
+	t=1758182828; cv=none; b=amu0YmcmMhmF4o0Mgghr7bMV8ms2rdJGARb0mvmQGRDbuy1CFURnmgAxcj8aNYsSaPfGxet8NAvTTXl+he2/nPnQbKOUsrbceZTB3CtGNuzlHPoa+VhVLvO/H83Bppb3qrZm1gMMNXDPOxe/StkO1oC3AiStck+tCoAPFJaV1tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758182825; c=relaxed/simple;
-	bh=iQ5SvAco/8JTZzvo/2fbFxIJ4aopT9Kas690js7coTE=;
+	s=arc-20240116; t=1758182828; c=relaxed/simple;
+	bh=zMV7paovTklqA34lQ9CJzq3IRF7CgMDZ2aa/9ZrTKEk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H0XdPJlKXhHZ8Jw+r4O7XKaBmzemJTFtjncs1Nzm2rhyGvYGb9wj/3eD0AsfopZRytG8LceFAi9ssmXZTxGYwoNR8FDnkJ1dUlAnAghWfubdhKfAgUk/YnJFEFBh07a31EBOeoLRMyMBJTfWJWNFrMlWwtQjT2+ObKul280Q+QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRFYP+la; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115E6C4CEF1;
-	Thu, 18 Sep 2025 08:07:02 +0000 (UTC)
+	 MIME-Version; b=jC4M4LPLIIFSoPDQr7VzKvVdhDHYS6X3XTYCnppkmGoXL5Hc2vaiFpbfgTIwSwUHT505TaAQEA6X1NKk4VlUFBTf9ZBJKmSe0lgLxFS0PR8wAGek1KYs9/a48pOOUbwBi2sX3YAdpmzr8dtGSCJGuIsQbVn9mPdJRgn1v1C9EWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tv3QIub6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF622C4CEE7;
+	Thu, 18 Sep 2025 08:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758182825;
-	bh=iQ5SvAco/8JTZzvo/2fbFxIJ4aopT9Kas690js7coTE=;
+	s=k20201202; t=1758182828;
+	bh=zMV7paovTklqA34lQ9CJzq3IRF7CgMDZ2aa/9ZrTKEk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CRFYP+laXm+hRkqcwWYAZBg5bBQb+830CDoZz3SQBddinCX60j431EXo97WegxZ6+
-	 9Rr/PhiIT0TxzL0qqH2hHpPqNJIvjyZs1BUdISxsq6BJolaPxjhQRQOLBj9nBr4Po5
-	 ZvEjNk/azg9CBX3oZ31CHYwgWEvQjLZwFcpygJ5mk9Wwmm5Tj0z/eSbKGmBcTPQFBl
-	 a75RHIYpbEo6PeIudqwF/FuV8whW3bGniLa9ShTFmLiiKDjABZE8TJuSxWWPsed4RD
-	 qudn6G9sSgvqTUJ6TGj0R2/aPFD7B1NZd1LFded7BXo/8TyhXmZumeQHL8hmFw/5AZ
-	 T4prlZ+8J2dfA==
+	b=tv3QIub6SuL0CIIMCfOajcP0mCJjvu+105WzjuR0CllwGtW0wgYmE+vMHIf3jmWU8
+	 NiyJSWKJ+iIQw4qvWm0f3aMuKs4uXc/akGhFiwkOxeUzq49+IS5VTHTXsqcSaWpuGR
+	 vVG0Bb/GhNgVKDI1Hoi6+m9wrtd8dXLGVG+QC13ksphntCYV35Ysw9jx+Ss3kp2Qyr
+	 9w3WHGPzSf1Mx9tQAoUXRE1djm5p/etZyoQsQn8suYc1n9PfedutamLyelGZvTx+jH
+	 K3frBCtfEPm+CcgBDsY+3HCv5G/XoOZ7LawXG+6j7R7w2dampEkmKR3kmJ669+xre9
+	 wtPawQ4Y0YwMA==
 From: Alexey Gladkov <legion@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
@@ -52,10 +52,11 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v8 3/8] kbuild: keep .modinfo section in vmlinux.unstripped
-Date: Thu, 18 Sep 2025 10:05:47 +0200
-Message-ID: <aaf67c07447215463300fccaa758904bac42f992.1758182101.git.legion@kernel.org>
+	Alexey Gladkov <legion@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Subject: [PATCH v8 4/8] kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
+Date: Thu, 18 Sep 2025 10:05:48 +0200
+Message-ID: <cdb3e5b9a739666b755cd0097dc34ab69c350e51.1758182101.git.legion@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758182101.git.legion@kernel.org>
 References: <cover.1758182101.git.legion@kernel.org>
@@ -69,77 +70,103 @@ Content-Transfer-Encoding: 8bit
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-Keep the .modinfo section during linking, but strip it from the final
-vmlinux.
+Currently, we assume all the data for modules.builtin.modinfo are
+available in vmlinux.o.
 
-Adjust scripts/mksysmap to exclude modinfo symbols from kallsyms.
+This makes it impossible for modpost, which is invoked after vmlinux.o,
+to add additional module info.
 
-This change will allow the next commit to extract the .modinfo section
-from the vmlinux.unstripped intermediate.
+This commit moves the modules.builtin.modinfo rule after modpost.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 ---
- include/asm-generic/vmlinux.lds.h | 2 +-
- scripts/Makefile.vmlinux          | 7 +++++--
- scripts/mksysmap                  | 3 +++
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ scripts/Makefile.vmlinux   | 26 ++++++++++++++++++++++++++
+ scripts/Makefile.vmlinux_o | 26 +-------------------------
+ 2 files changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index ae2d2359b79e9..cfa63860dfd4c 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -831,6 +831,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- 
- /* Required sections not related to debugging. */
- #define ELF_DETAILS							\
-+		.modinfo : { *(.modinfo) }				\
- 		.comment 0 : { *(.comment) }				\
- 		.symtab 0 : { *(.symtab) }				\
- 		.strtab 0 : { *(.strtab) }				\
-@@ -1044,7 +1045,6 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- 	*(.discard.*)							\
- 	*(.export_symbol)						\
- 	*(.no_trim_symbol)						\
--	*(.modinfo)							\
- 	/* ld.bfd warns about .gnu.version* even when not emitted */	\
- 	*(.gnu.version*)						\
- 
 diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 4f2d4c3fb7372..70856dab0f541 100644
+index 70856dab0f541..ce79461714979 100644
 --- a/scripts/Makefile.vmlinux
 +++ b/scripts/Makefile.vmlinux
-@@ -86,11 +86,14 @@ endif
- # vmlinux
- # ---------------------------------------------------------------------------
- 
--remove-section-y                                   :=
-+remove-section-y                                   := .modinfo
- remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
- 
-+# To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
-+# it is necessary to remove the PT_LOAD flag from the segment.
- quiet_cmd_strip_relocs = OBJCOPY $@
--      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
-+      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
-+                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $@
- 
- targets += vmlinux
+@@ -99,6 +99,32 @@ targets += vmlinux
  vmlinux: vmlinux.unstripped FORCE
-diff --git a/scripts/mksysmap b/scripts/mksysmap
-index 3accbdb269ac7..a607a0059d119 100755
---- a/scripts/mksysmap
-+++ b/scripts/mksysmap
-@@ -79,6 +79,9 @@
- / _SDA_BASE_$/d
- / _SDA2_BASE_$/d
+ 	$(call if_changed,strip_relocs)
  
-+# MODULE_INFO()
-+/ __UNIQUE_ID_modinfo[0-9]*$/d
++# modules.builtin.modinfo
++# ---------------------------------------------------------------------------
 +
++OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
++
++targets += modules.builtin.modinfo
++modules.builtin.modinfo: vmlinux.unstripped FORCE
++	$(call if_changed,objcopy)
++
++# modules.builtin
++# ---------------------------------------------------------------------------
++
++__default: modules.builtin
++
++# The second line aids cases where multiple modules share the same object.
++
++quiet_cmd_modules_builtin = GEN     $@
++      cmd_modules_builtin = \
++	tr '\0' '\n' < $< | \
++	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
++	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
++
++targets += modules.builtin
++modules.builtin: modules.builtin.modinfo FORCE
++	$(call if_changed,modules_builtin)
++
+ # modules.builtin.ranges
  # ---------------------------------------------------------------------------
- # Ignored patterns
- #  (symbols that contain the pattern are ignored)
+ ifdef CONFIG_BUILTIN_MODULE_RANGES
+diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
+index b024ffb3e2018..23c8751285d79 100644
+--- a/scripts/Makefile.vmlinux_o
++++ b/scripts/Makefile.vmlinux_o
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+ PHONY := __default
+-__default: vmlinux.o modules.builtin.modinfo modules.builtin
++__default: vmlinux.o
+ 
+ include include/config/auto.conf
+ include $(srctree)/scripts/Kbuild.include
+@@ -73,30 +73,6 @@ vmlinux.o: $(initcalls-lds) vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
+ 
+ targets += vmlinux.o
+ 
+-# modules.builtin.modinfo
+-# ---------------------------------------------------------------------------
+-
+-OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
+-
+-targets += modules.builtin.modinfo
+-modules.builtin.modinfo: vmlinux.o FORCE
+-	$(call if_changed,objcopy)
+-
+-# modules.builtin
+-# ---------------------------------------------------------------------------
+-
+-# The second line aids cases where multiple modules share the same object.
+-
+-quiet_cmd_modules_builtin = GEN     $@
+-      cmd_modules_builtin = \
+-	tr '\0' '\n' < $< | \
+-	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
+-	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
+-
+-targets += modules.builtin
+-modules.builtin: modules.builtin.modinfo FORCE
+-	$(call if_changed,modules_builtin)
+-
+ # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
+ # ---------------------------------------------------------------------------
+ 
 -- 
 2.51.0
 
