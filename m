@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-8848-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8849-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424A9B83727
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 10:08:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD58CB83730
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 10:08:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDDA72A67FA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 08:07:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B16CA625494
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 08:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64CF92F4A00;
-	Thu, 18 Sep 2025 08:07:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45B5F2F6599;
+	Thu, 18 Sep 2025 08:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f6OYvoxL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p8Sfdiut"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7482F3C3D;
-	Thu, 18 Sep 2025 08:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1871D2F2613;
+	Thu, 18 Sep 2025 08:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758182820; cv=none; b=G5JHmFaZFLDZRPw+eyXeg0EUy87eXUUBKU9zPLR+t+IQ3Lua1Xpx+PxfEHsVI2BgzFuPLzc0dQGO3fOrENnS/6Z8wnZmvdkQ+on0iYuT18shy99r3/GJgQWSMvqtSadju7TefEdgUUHw5alRYtTy3sEC1G4b8+Pw9rzr+IGLaZo=
+	t=1758182823; cv=none; b=d+49aus5poH7VLFv7IbCsQftBBFD2Obk+d4cOCvPVCVCLr/KEjD1ZGZ9vzUEJtWWCSS/UJj8EiFDB04jPLnV7c8PLrXGWmW6ZYkHrQv2mkFRuNOu6R7Cvx4OqYyYzFxk/xXjMyaXavIOYv/PtccE1asJb2a8W4i92QOKg5ruzAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758182820; c=relaxed/simple;
-	bh=d4f0cPYdTF+9RjWHiMGJtE229ZsE/AIhHwl1ldYrtbA=;
+	s=arc-20240116; t=1758182823; c=relaxed/simple;
+	bh=bb5ubgK/wnhVsZbyUpoKbh+1vpm6J0XlrHxcoyqPAfY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K7rKRoxgWRgpI4loPy5fxw/0IB1+klIBn3G5s24GUM8NV08488YOKPR1a/tLa1jafE/NyNE9u5IEbM/2Bd9f4zXOvNfVMI8JxVep8tAAMsXlrIKQIonFBD8VAHTGp3oEFGGwljx6WAdwKv2LWNvH3jhFc39+lcOGtDI7gt576tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f6OYvoxL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8C7AC4CEF7;
-	Thu, 18 Sep 2025 08:06:56 +0000 (UTC)
+	 MIME-Version; b=Yl7pg4UVK0j16QkhNWx1EDq6W/LeeamzsMQY6RD84g7ji4JzMhXcXxaeVbQRdFbMiY69AxNMENgHPLItT9O0PgXa1WU7UydQHxR9KWySotZG3zgehQaYcURtgAhGBa1UAR4QJCE/kLnX9twTaezWQVueiOfpeEV6dpAkjgzY0RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p8Sfdiut; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47107C4CEFE;
+	Thu, 18 Sep 2025 08:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758182819;
-	bh=d4f0cPYdTF+9RjWHiMGJtE229ZsE/AIhHwl1ldYrtbA=;
+	s=k20201202; t=1758182822;
+	bh=bb5ubgK/wnhVsZbyUpoKbh+1vpm6J0XlrHxcoyqPAfY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f6OYvoxLO7Um33DAN3cK3Lg6PPqS6u035GYnbXK+QX6032X+G2+3DpKC+cWNSiE7T
-	 fNbl4ZBV+enhynfuxxMVCGcO4O4Nt4NPiQwzA0MnXrNTfETc4i+8cbba0eZwxvR58e
-	 ZHOJtOSGJbASyyPgpOK3MwEGaU6B0i2nPOoqjD8BVAYVnn3Bk2Xm9qgnaYOGFKxV5b
-	 qcaVoAA+VOyjugwcAOmgE8EyCq8p24Be2f2qNAbalixwzv57XHM0BRW4qMcJyeQewp
-	 tES4jY/ztS2uStk96Ys8YmMUfzP0yba2KFjpk8sDIxqhLAfYW1TQdwHUFklp0VzrjS
-	 EQdQ8hXVBRo7A==
+	b=p8SfdiutRi1dNuJaSQDjHvZp2AvAuH3VejsqkAPNU18abPlavYQHq3zelfSQsE1VP
+	 sCEYQ7eKxiF/VUtXSIF6qvPXcQtNVFD2HFugj3oK0uF8tBnpBtnNPmjdu02klchked
+	 li2tJNnsNygtsQ4XupA23BdbOnHsFgsPozubJW8VwT6qUbWcpLElOomcwuJLGi4d4k
+	 tyNg6NYoU/+0oTPODJVsM1Vaa72fGKmYE5OnkhldzO2wx9StOhMFw8hSLIfccNnHyU
+	 5lvKcf9Fac9ArnJEjMGMoHfQ5ExZVjig5XjvIwFLkc8u0IbZw6wAQ0PAmceoZGtyxM
+	 oaOrCXrqtt5JQ==
 From: Alexey Gladkov <legion@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
@@ -51,15 +51,11 @@ To: Nathan Chancellor <nathan@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	Alexey Gladkov <legion@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	linux-s390@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v8 1/8] s390: vmlinux.lds.S: Reorder sections
-Date: Thu, 18 Sep 2025 10:05:45 +0200
-Message-ID: <20d40a7a3a053ba06a54155e777dcde7fdada1db.1758182101.git.legion@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Subject: [PATCH v8 2/8] kbuild: always create intermediate vmlinux.unstripped
+Date: Thu, 18 Sep 2025 10:05:46 +0200
+Message-ID: <a48ca543fa2305bd17324f41606dcaed9b19f2d4.1758182101.git.legion@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1758182101.git.legion@kernel.org>
 References: <cover.1758182101.git.legion@kernel.org>
@@ -71,59 +67,116 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the upcoming changes, the ELF_DETAILS macro will be extended with
-the ".modinfo" section, which will cause an error:
+From: Masahiro Yamada <masahiroy@kernel.org>
 
->> s390x-linux-ld: .tmp_vmlinux1: warning: allocated section `.modinfo' not in segment
->> s390x-linux-ld: .tmp_vmlinux2: warning: allocated section `.modinfo' not in segment
->> s390x-linux-ld: vmlinux.unstripped: warning: allocated section `.modinfo' not in segment
+Generate the intermediate vmlinux.unstripped regardless of
+CONFIG_ARCH_VMLINUX_NEEDS_RELOCS.
 
-This happens because the .vmlinux.info use :NONE to override the default
-segment and tell the linker to not put the section in any segment at all.
+If CONFIG_ARCH_VMLINUX_NEEDS_RELOCS is unset, vmlinux.unstripped and
+vmlinux are identiacal.
 
-To avoid this, we need to change the sections order that will be placed
-in the default segment.
+This simplifies the build rule, and allows to strip more sections
+by adding them to remove-section-y.
 
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: linux-s390@vger.kernel.org
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506062053.zbkFBEnJ-lkp@intel.com/
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 ---
- arch/s390/kernel/vmlinux.lds.S | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ scripts/Makefile.vmlinux | 45 ++++++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 23 deletions(-)
 
-diff --git a/arch/s390/kernel/vmlinux.lds.S b/arch/s390/kernel/vmlinux.lds.S
-index 1c606dfa595d8..feecf1a6ddb44 100644
---- a/arch/s390/kernel/vmlinux.lds.S
-+++ b/arch/s390/kernel/vmlinux.lds.S
-@@ -209,6 +209,11 @@ SECTIONS
- 	. = ALIGN(PAGE_SIZE);
- 	_end = . ;
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index b64862dc6f08d..4f2d4c3fb7372 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -9,20 +9,6 @@ include $(srctree)/scripts/Makefile.lib
  
-+	/* Debugging sections.	*/
-+	STABS_DEBUG
-+	DWARF_DEBUG
-+	ELF_DETAILS
-+
- 	/*
- 	 * uncompressed image info used by the decompressor
- 	 * it should match struct vmlinux_info
-@@ -239,11 +244,6 @@ SECTIONS
- #endif
- 	} :NONE
+ targets :=
  
--	/* Debugging sections.	*/
--	STABS_DEBUG
--	DWARF_DEBUG
--	ELF_DETAILS
+-ifdef CONFIG_ARCH_VMLINUX_NEEDS_RELOCS
+-vmlinux-final := vmlinux.unstripped
 -
- 	/*
- 	 * Make sure that the .got.plt is either completely empty or it
- 	 * contains only the three reserved double words.
+-quiet_cmd_strip_relocs = RSTRIP  $@
+-      cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' --remove-section=!'.rel*.dyn' $< $@
+-
+-vmlinux: $(vmlinux-final) FORCE
+-	$(call if_changed,strip_relocs)
+-
+-targets += vmlinux
+-else
+-vmlinux-final := vmlinux
+-endif
+-
+ %.o: %.c FORCE
+ 	$(call if_changed_rule,cc_o_c)
+ 
+@@ -61,19 +47,19 @@ targets += .builtin-dtbs-list
+ 
+ ifdef CONFIG_GENERIC_BUILTIN_DTB
+ targets += .builtin-dtbs.S .builtin-dtbs.o
+-$(vmlinux-final): .builtin-dtbs.o
++vmlinux.unstripped: .builtin-dtbs.o
+ endif
+ 
+-# vmlinux
++# vmlinux.unstripped
+ # ---------------------------------------------------------------------------
+ 
+ ifdef CONFIG_MODULES
+ targets += .vmlinux.export.o
+-$(vmlinux-final): .vmlinux.export.o
++vmlinux.unstripped: .vmlinux.export.o
+ endif
+ 
+ ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
+-$(vmlinux-final): arch/$(SRCARCH)/tools/vmlinux.arch.o
++vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
+ 
+ arch/$(SRCARCH)/tools/vmlinux.arch.o: vmlinux.o FORCE
+ 	$(Q)$(MAKE) $(build)=arch/$(SRCARCH)/tools $@
+@@ -86,17 +72,30 @@ cmd_link_vmlinux =							\
+ 	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
+ 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+ 
+-targets += $(vmlinux-final)
+-$(vmlinux-final): scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
++targets += vmlinux.unstripped
++vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
+ 	+$(call if_changed_dep,link_vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF
+-$(vmlinux-final): $(RESOLVE_BTFIDS)
++vmlinux.unstripped: $(RESOLVE_BTFIDS)
+ endif
+ 
+ ifdef CONFIG_BUILDTIME_TABLE_SORT
+-$(vmlinux-final): scripts/sorttable
++vmlinux.unstripped: scripts/sorttable
+ endif
+ 
++# vmlinux
++# ---------------------------------------------------------------------------
++
++remove-section-y                                   :=
++remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
++
++quiet_cmd_strip_relocs = OBJCOPY $@
++      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
++
++targets += vmlinux
++vmlinux: vmlinux.unstripped FORCE
++	$(call if_changed,strip_relocs)
++
+ # modules.builtin.ranges
+ # ---------------------------------------------------------------------------
+ ifdef CONFIG_BUILTIN_MODULE_RANGES
+@@ -110,7 +109,7 @@ modules.builtin.ranges: $(srctree)/scripts/generate_builtin_ranges.awk \
+ 			modules.builtin vmlinux.map vmlinux.o.map FORCE
+ 	$(call if_changed,modules_builtin_ranges)
+ 
+-vmlinux.map: $(vmlinux-final)
++vmlinux.map: vmlinux.unstripped
+ 	@:
+ 
+ endif
 -- 
 2.51.0
 
