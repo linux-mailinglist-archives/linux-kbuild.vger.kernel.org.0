@@ -1,172 +1,195 @@
-Return-Path: <linux-kbuild+bounces-8909-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8910-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE9EB872FB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 23:54:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8121B87E9B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Sep 2025 07:21:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BAB07E408A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Sep 2025 21:54:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96D2A1726AC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Sep 2025 05:21:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CED362FD7A5;
-	Thu, 18 Sep 2025 21:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JbdVj/f0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CD521FF7BC;
+	Fri, 19 Sep 2025 05:21:49 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D29E2EFD81
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Sep 2025 21:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A4C34BA4C;
+	Fri, 19 Sep 2025 05:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758232487; cv=none; b=Gf1p/StsXIaakDFcmOOGlCucJZ6qU5B8VyZ6X8OY9jZ+KeH7m/ZoT+SW1bkOMXb2HmKJi2bnu3Cz+vQKAXMDR8TZfXSMlwD8lDC7XRXsz9kTRS1dRjZTta9RK8VLYBJ+qkDinh1IOatiIFT0UIczq5hMdV/WAXoJ0NHufgMphrk=
+	t=1758259309; cv=none; b=cvJsZKWAMBte6+YuU3ePFmxel1BoI6wU6glYVu8DfudzEUhCh71sRO8qFYrtyGiUfTsYgZxNBFvaPq/mP6jjOZaKVjcaj9kkWRF4cM4XObdoyFCGBTXBHBmgl3y/LcI8AK1KkwTASkCYY0yIFCA02RAft2ChVtBxk7b5bPh0Wks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758232487; c=relaxed/simple;
-	bh=OBdCMGeWv7G/tkOmZiDbcUQKLH/CnWF06gVEbnVu89c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kd8XU1HAixNvMs27JB8wErr4IWMsmuCwx8MPlNpwcnF95EPxlPcxBYxe5xu9cjk/V8lwlt4H5pkRUBb3NzEk4pbBOEkkTJatDjLByysF8TEluuoQgpqTiRo303atqYQz7jp7oE9w6AtGdfZHiHOkMNmZmRN3Lm8VwsxlzBtJT7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JbdVj/f0; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-34fed7add35so10243121fa.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Sep 2025 14:54:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1758232483; x=1758837283; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mLiszfQw8YctXWgw7Rv1CzeIAYsEhv/enJDimwborHo=;
-        b=JbdVj/f0Nd5bsU5JGQiH+GXwQhtWmWfxPzEkCHeWYyDhE6al2UhJt4nVtAe9PIvRDW
-         Hr188Ou+hsja7j5RMEPbIDvzUrYiLNbKgytjKLPU4HMPJwpYDs135KiEHoyzsBp2eNIA
-         6Ig3YVM6eFJ231jGUMtK7ntuWX0XKfkTdypkE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758232483; x=1758837283;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mLiszfQw8YctXWgw7Rv1CzeIAYsEhv/enJDimwborHo=;
-        b=Npmz1+QjwmU1WVkqhV5luCw+tZtETC/DW8rK7zsr6rs/IjGBQwqao9CMzrX94Lih8f
-         FszxYgH9+2SzKhyI4H9eDGP+WE+20ExP6zjNc1ZnSHw8d1KRfpM2d1jrNxp9plNjEkf3
-         kSuQDsEjoYH8lKJze1MqIIt5BlexiBhOUBCn3dTT/KeWjMUaLt/w3b5N59k7EVu9dp6M
-         B0Ls/mZUWPneXB4hnjK2uIAKzsifwy3/AY784C5r6KGQGq9aRvu1i/KfSpmT3dNMd9M2
-         s5MddsK40EO6q6C6tt04SdpO2OTmVqBi1jmDtlQKzrjebNL9JB1VTJoQx/TS+rNxJj77
-         uf1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW9Wp3SUhBrwX9i6pn95MwFOUL41lvLkweh9deSwyPt168VxmIZpGYEDubpanrDdqv8lpGdno5EeSIXn8c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdRBtouukQN+nHTqygyd3tXz9eS6LK8tGfFu8N5W2qNtgb1C35
-	b4Go4047IJg2FB89ZSHm9k0odtCMujsgA22dgF9LdCyJydMrq7wArcqq/Sb1zaR+qCaWwIrkNFg
-	WSVCMLpnqxw==
-X-Gm-Gg: ASbGncsBz+XjtyH5xR/mLooczwi0C0/t0BSkXYcGk5+XQcwqWj0Ch/U2JZ6LmpkSL8C
-	50sxVKELAad2CayciwjCQgQPS9uVTbxxf8DMa1vWTwW/hMVkWYC8oxvLZ82ZcFfSigJcbMMpr1J
-	KiJ1ln+T10hSIgvhqga+5MRPfglR5qoy6g82z1jHsyi2pgKrHegmgrFFFGEZqfvpVZc/tn2a6cN
-	bClm/vOebsyUUPGdBRzqSAV+kkS7gNmCE/j8sT9tmhfEZH+yUn3icPE7Kx1qSgNnkk/9YGNK6ue
-	MCIT4rT6MzMhoTIX1ezmbtudLTWHaL/mniG5LxswQPTufPxR0EGtCnMJI9+Ka057FhkjrwS8RdO
-	HfRn8RMZAybii0x4+EhEFDbnQRqFYCA/PXxHpKtp9IoaPcjOE8cTsOxOdp5VO4uMGWu5IPrg0Wn
-	pR4l6zFHx1n9cOGuLgFqk=
-X-Google-Smtp-Source: AGHT+IEhWQg7CrwRRhvwb8Pq+ctD6JMlCsgQOgrAi4ZwDWm/MKK4IZrSxpfHEFFelvLx6TlRK8DTxA==
-X-Received: by 2002:a05:651c:20cb:10b0:345:fcf9:821a with SMTP id 38308e7fff4ca-3641abd2ab4mr2446691fa.29.1758232483432;
-        Thu, 18 Sep 2025 14:54:43 -0700 (PDT)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-361a27c028bsm8896411fa.20.2025.09.18.14.54.42
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 14:54:43 -0700 (PDT)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3635bd94dadso7240031fa.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Sep 2025 14:54:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX9P1hODzdllfwkLoffb3b0flLpJ9gscHp7+2jc1XtMxxSVBID4Z6PKsPfBHNm8iJv8p+b9gg0RZK3jdb0=@vger.kernel.org
-X-Received: by 2002:a17:906:dc89:b0:b0f:a22a:4c30 with SMTP id
- a640c23a62f3a-b24f5685fdemr62738866b.47.1758232077501; Thu, 18 Sep 2025
- 14:47:57 -0700 (PDT)
+	s=arc-20240116; t=1758259309; c=relaxed/simple;
+	bh=NIEFN5ti59NZXaWdxVHaNkvbX1qbjNiPcPMm0U9FATw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rJ+SUuKx3e0XSXLDpiALikmaDT6QSpKZs8kEKewO2lH323NAxrCl3C84cEcDn9LyIUNUDwnuI7kX2kGKAZATAXJKi0sbu3ZOezFtz+vPdZjZrEVmvmoeyXxQ+G4t0pYSQmEV6lej+FhwHI3AlIx903CkR+zhbTKTroa6oiP9m3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [192.168.3.11] (unknown [124.16.136.212])
+	by APP-03 (Coremail) with SMTP id rQCowABnuIIa6MxoI9OnAw--.50765S2;
+	Fri, 19 Sep 2025 13:20:32 +0800 (CST)
+Message-ID: <73d55231-d1e5-400d-9446-1914a78c0db8@iscas.ac.cn>
+Date: Fri, 19 Sep 2025 13:20:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918140451.1289454-1-elver@google.com> <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
- <aMx4-B_WAtX2aiKx@elver.google.com>
-In-Reply-To: <aMx4-B_WAtX2aiKx@elver.google.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 18 Sep 2025 14:47:41 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
-X-Gm-Features: AS18NWBxHuMwwtU-EoNbPFA3uJ1YRJkAKqdurj12n-PWNJgH6ecKwZ8QZrX3P28
-Message-ID: <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] RISC-V: re-enable gcc + rust builds
+To: Asuna Yang <spriteovo@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Han Gao <rabenda.cn@gmail.com>, Jason Montleon <jmontleo@redhat.com>,
+ Conor Dooley <conor@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <20250914-gcc-rust-v3-v3-1-34d4d5864144@gmail.com>
+Content-Language: en-US
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <20250914-gcc-rust-v3-v3-1-34d4d5864144@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:rQCowABnuIIa6MxoI9OnAw--.50765S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrW8GrW3Kry8Zr1ktr1kKrg_yoWrCw47pF
+	Z7ua4kKa17Jr95Ar4UC348Xa1093Z8J3y3GFy8Gw15G3yqyryDuFZ2kr17W34Uur1qv3yY
+	vr18u3Wq9FWUCa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvvb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+	8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
+	c7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+	IFyTuYvjxU3byCDUUUU
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 
-On Thu, 18 Sept 2025 at 14:26, Marco Elver <elver@google.com> wrote:
+
+On 9/14/25 15:16, Asuna Yang wrote:
+> [...]
 >
-> Fair points. "Context Analysis" makes sense, but it makes the thing
-> (e.g. lock) used to establish that context a little awkward to refer to
-> -- see half-baked attempt at reworking the documentation below.
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 51dcd8eaa24356d947ebe0f1c4a701a3cfc6b757..3e892864f930778218073e8ee5980eb8f4e1594a 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -191,7 +191,7 @@ config RISCV
+>  	select HAVE_REGS_AND_STACK_ACCESS_API
+>  	select HAVE_RETHOOK if !XIP_KERNEL
+>  	select HAVE_RSEQ
+> -	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && CC_IS_CLANG
+> +	select HAVE_RUST if RUSTC_SUPPORTS_RISCV && TOOLCHAIN_MATCHES_ZICSR_ZIFENCEI
+>  	select HAVE_SAMPLE_FTRACE_DIRECT
+>  	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI
+>  	select HAVE_STACKPROTECTOR
+> @@ -629,6 +629,8 @@ config TOOLCHAIN_HAS_V
+>  	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32imv)
+>  	depends on LLD_VERSION >= 140000 || LD_VERSION >= 23800
+>  	depends on AS_HAS_OPTION_ARCH
+> +	# https://github.com/llvm/llvm-project/commit/e6de53b4de4aecca4ac892500a0907805896ed27
+> +	depends on !RUST || RUST_BINDGEN_LIBCLANG_VERSION >= 140000
+>  
 
-Yeah, I agree that some of that reads more than a bit oddly.
+I think instead of testing libclang version, it would make more sense to
+feature test if bindgen the binary supports these flags, like what we
+already do with $(cc-option,...).
 
-I wonder if we could talk about "context analysis", but then when
-discussing what is *held* for a particular context, call that a
-"context token" or something like that?
+Same for all the other version tests.
 
-But I don't mind your "Context guard" notion either. I'm not loving
-it, but it's not offensive to me either.
+> [...]
+>  
+> +config TOOLCHAIN_MATCHES_ZICSR_ZIFENCEI
 
-Then the language would be feel fairly straightforward,
+TOOLCHAIN_ACCEPTS_ZICSR_ZIFENCEI?
 
-Eg:
+> +	def_bool y
+> +	# https://github.com/llvm/llvm-project/commit/22e199e6afb1263c943c0c0d4498694e15bf8a16
+> +	depends on TOOLCHAIN_NEEDS_OLD_ISA_SPEC || !TOOLCHAIN_NEEDS_EXPLICIT_ZICSR_ZIFENCEI || RUST_BINDGEN_LIBCLANG_VERSION >= 170000
+> +	help
+> +	  LLVM/Clang >= 17.0.0 starts recognizing Zicsr/Zifencei in -march, passing
+> +	  them to -march doesn't generate an error anymore, and passing them or not
+> +	  doesn't have any real difference, it still follows ISA before version
+> +	  20190608 - Zicsr/Zifencei are included in base ISA.
+> +
+> +	  The current latest version of LLVM/Clang still does not require explicit
+> +	  Zicsr/Zifencei to enable these two extensions, Clang just accepts them in
+> +	  -march and then silently ignores them.
+> +
+>  config FPU
+>  	bool "FPU support"
+>  	default y
+> diff --git a/init/Kconfig b/init/Kconfig
+> index e3eb63eadc8757a10b091c74bbee8008278c0521..0859d308a48591df769c7dbaef6f035324892bd3 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -82,6 +82,12 @@ config RUSTC_LLVM_VERSION
+>  	int
+>  	default $(rustc-llvm-version)
+>  
+> +config RUST_BINDGEN_LIBCLANG_VERSION
+> +	int
+> +	default $(rustc-bindgen-libclang-version)
+> +	help
+> +	  This is the version of `libclang` used by the Rust bindings generator.
+> +
 
-> +Context analysis is a way to specify permissibility of operations to depend on
-> +contexts being held (or not held).
+This can go away if we don't test the version anymore.
 
-That "contexts being held" sounds odd, but talking about "context
-markers", or "context tokens" would seem natural.
+>  config CC_CAN_LINK
+>  	bool
+>  	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+> diff --git a/rust/Makefile b/rust/Makefile
+> index bfa915b0e58854045b367557342727fee4fe2808..8c6f84487c41880816d1e55ba4c0df0e5af4e8fd 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -290,20 +290,25 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
+>  	-fno-inline-functions-called-once -fsanitize=bounds-strict \
+>  	-fstrict-flex-arrays=% -fmin-function-alignment=% \
+>  	-fzero-init-padding-bits=% -mno-fdpic \
+> -	--param=% --param asan-%
+> +	--param=% --param asan-% -mno-riscv-attribute
+>  
+>  # Derived from `scripts/Makefile.clang`.
+>  BINDGEN_TARGET_x86	:= x86_64-linux-gnu
+>  BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
+>  BINDGEN_TARGET_arm	:= arm-linux-gnueabi
+>  BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
+> +BINDGEN_TARGET_riscv	:= riscv64-linux-gnu
 
-An alternative would be to not talk about markers / tokens / guards at
-all, but simply about a context being *active*.
+Do you know if this works for riscv32? Makefile.clang uses "-m32" for
+32BIT, AFAICT, but i don't know if this is a good idea.
 
-IOW, instead of wording it like this:
+Maybe riscv32 Rust for Linux is broken anyway...
 
-> +The set of contexts that are actually held by a given thread at a given point
-> +in program execution is a run-time concept.
+>  BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
+>  BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
+>  
+> +ifeq ($(BINDGEN_TARGET),)
+> +$(error add '--target=' option to rust/Makefile)
+> +else
 
-that talks about "being held", you could just state it in the sense of
-the "set of contexts being active", and that immediately reads fairly
-naturally, doesn't it?
+Is this necessary? Maybe this can go in a separate patch, or even
+submitted separately entirely - it's unrelated to "RISC-V: re-enable gcc
++ rust builds" and would be weird to see in git blame.
 
-Because a context is a *state* you are in, it's not something you hold on to.
+Vivian "dramforever" Wang
 
-The tokens - or whatever - would be only some internal implementation
-detail of how the compiler keeps track of which state is active, not
-the conceptual idea itself.
-
-So you name states, and you have functions to mark those context
-states as being entered or exited, but you don't really even have to
-talk about "holding" anything.
-
-No?
-
-               Linus
 
