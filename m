@@ -1,282 +1,115 @@
-Return-Path: <linux-kbuild+bounces-8926-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8927-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF6FB90760
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Sep 2025 13:42:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DA0B925BB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Sep 2025 19:12:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5F8A174DEB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Sep 2025 11:41:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECFEA3A9A5F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Sep 2025 17:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A07C30504A;
-	Mon, 22 Sep 2025 11:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OcXzLsdJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A886D313298;
+	Mon, 22 Sep 2025 17:11:48 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8EC2FC01B
-	for <linux-kbuild@vger.kernel.org>; Mon, 22 Sep 2025 11:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBC931329B;
+	Mon, 22 Sep 2025 17:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758541311; cv=none; b=cwzbYhVXt2NAFHRAksHD3u5BJoQfDhMNsmjMkDh8w1svaWKquSg1CCTyYhJRig4+DmammMt1PgVefbNGoToFn0AYsH9vsgE2XrRih0cmDsysoqIhaunVpgzs+HW9otw1EKRcca+GJw4vdc9GFILVZqD+d5Bi3vlyCHGBz86xoRg=
+	t=1758561108; cv=none; b=twFB3jIehBJALsA6EwPBl5OKqG3DoJD8+K5H2bwT5WAvPwMIZqTRSgmEWUYb05uRDZL4KCvseMz58ZYIrcVXTUyrLKOlmHWyERDncnk9zY+AMqn74j4YCPQewC9H98q43M9DLVbaCdI2FttKKS7vCpjPLF6NHAizSq3xB8hEfIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758541311; c=relaxed/simple;
-	bh=SkmDfKo+eEdjnW9uMKMhb4tyiSGYMXbg6bDpRiMZguo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GPnXnJmJ1yzC8cd9lzQC/rEV8RRGjtN59kxmcnlNeBNlzeE81JoWDCHPFyl5GEfomEOBqbivSbeOr4gRwoWaoQsnoGyKUnNl0dLFkoRXc+8Xw494Zb4GdBAYDjpUCP6k95eLcjjYZkMMbjuAbWjalNZ1EJJ71E4O8+UXB6K6MWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OcXzLsdJ; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-45dcfecdc0fso37929145e9.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Sep 2025 04:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1758541307; x=1759146107; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nZhfkZrmmENpriZJPsLNFxh8UI4vzLjIXEUlO8v8wBA=;
-        b=OcXzLsdJ1YZyIxwgUJRGukEW6/uWhEpkcFwgaL2XZ5cqc0tB5LrVGRpeMHNwW0kZ3O
-         tqFibgowQiMpdckc2oHMbXSvCSukp+iT7qj9Ig8uq746SuhkymQle7CzBa8JgaO6wxt1
-         XAUngZMd7hvjPdHfKyT7DG5bQXJphzTnBbMgrOqN+L/j3OrDfAK7x9eKICa7q679BD96
-         cdqnwL6yJRdr/IXbLIqf6M+EMLbWvIxX7RxnyiXqml/gqoUMnjte/LXsy9gxu9HcDYDw
-         bN0d8nk8vD/g54TGEPR6itrIthwXA/2Z4l9wjDZjWuhKOrJvTOGY+rqyeO4ErM4FFTuw
-         8aFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758541307; x=1759146107;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nZhfkZrmmENpriZJPsLNFxh8UI4vzLjIXEUlO8v8wBA=;
-        b=UBDyYsGU0E/JGVQU9LFfhAY8T8xyQBl8hc4gnx3ZRfIYEDj7QPO1NM8WPBSbnOCTUp
-         WLrT5FyKjKPNIN+PuYe/FTqDdXs0KtGqW9dG3Q9/IXhqZFSiNdMlprL/MNf+V+nlkfFL
-         w36D98pB1FJyG/L9Tn7qN/FIkax+yHcuz4kHmwq47D/m8UbIOdC1rr+Hf5RhidifI4Bq
-         Yvf/f+EbcSrRuyZnRFPAmzigVk+fKrsyYnMc2/3vPxSjW876dQYqysLoWNDp3b5GFxAP
-         hmc8/AJHQpMHr09Mba8copI7HrBgJUEwDzm5+Z/AmlG/7QidI653cBChApjXlREpEnoM
-         TuVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFmsijKwhRb/wxJVL2kTyL64yD2CtXjb8eZzIjgoaz9HEZYNGL2eQuxEqEvTqreeEhCC2kwira1sXQcYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8JsduFBVEv4eC6tCZffDrB7MwEb77DFm1/7iXWg9KxH8jdvk/
-	Bzj+6RrHShJInkEoYYdjh4ZhaMUhRr4TH5pmp2LVRC2qrT8EL4tfOEWHkG8Qh/Q4vXM=
-X-Gm-Gg: ASbGncuuoUsS5qglQHRFcTetgN7jjClv47NcSNoL7PmlCDqHsxw4PYNzm1r+9+U72I5
-	nzmHEyWjDYnAsiraPELu8gahM15g21R8HpL5hYAkL2UvrIgnNyJsfwR0RYuYu7Co8wBGRCxlBNX
-	D7aGWkL8w+mqdRgHayPu9fQ38HrMoKBCo/HBxx/zRJyZFKsQEFa4GMvNHQs21BrOc1gSQIWz1tR
-	pCZQgFbVwk55D9TsD/vmdFTBnAOQlhuaz4/e+eRbZ3OSTPdMGPbRLrWgVDleGsIY/8J9qAkl9xF
-	T64jlw5WF8NkePc8zn481unzhHBOnTWaex6HpDrbCc1erV311mk1gm4ay2u7rBoF0aiPqThV2os
-	hE0S23FfctXjxzoUogWbNpd2J1ZDE73ru9FogrX6Fs5E=
-X-Google-Smtp-Source: AGHT+IFSgf0/67bknpjpjI1D9ssQyqK0+H61LFm4GaoxDPRZUS53Mc3VlNw/HYi2tcLYwMO2NCcHbg==
-X-Received: by 2002:a05:6000:238a:b0:3fe:34ec:2f8f with SMTP id ffacd0b85a97d-3fe34ec3351mr2639110f8f.40.1758541306596;
-        Mon, 22 Sep 2025 04:41:46 -0700 (PDT)
-Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f325cec0fsm141095505e9.4.2025.09.22.04.41.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Sep 2025 04:41:46 -0700 (PDT)
-Message-ID: <2bf54830-ea9c-4962-a7ef-653fbed8f8c0@suse.com>
-Date: Mon, 22 Sep 2025 13:41:45 +0200
+	s=arc-20240116; t=1758561108; c=relaxed/simple;
+	bh=Bj75Vx85XbPqZ/5PV/l+4NF+GOXzs9jU1MZVBigLThQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lqq+sE8Vf7Ji/nZiiTy/YK5AwSmKxusX9yo1gUc5P9RXaRmXYWzZySispIBv/q1nvfB7tRaKUAFpKcnAQWmLyhpnY9cbXNSsDnqwDIwsSRPwRlAdGOlDrR8ar8YWfHcxqQVX9WNUukmXdVqtfHK5nViGV9s4bFall77zuVlMTCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 11211227AAF; Mon, 22 Sep 2025 19:11:37 +0200 (CEST)
+Date: Mon, 22 Sep 2025 19:11:36 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Marco Elver <elver@google.com>
+Cc: Christoph Hellwig <hch@lst.de>, Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Bill Wendling <morbo@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
+	rcu@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and
+ Locking-Analysis
+Message-ID: <20250922171136.GA12668@lst.de>
+References: <20250918140451.1289454-1-elver@google.com> <20250918141511.GA30263@lst.de> <20250918174555.GA3366400@ax162> <20250919140803.GA23745@lst.de> <20250919140954.GA24160@lst.de> <aNEX46WJh2IWhVUc@elver.google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/10] scalable symbol flags with __kflagstab
-To: Sid Nayyar <sidnayyar@google.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Nicolas Schier <nicolas.schier@linux.dev>,
- Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, Giuliano Procida <gprocida@google.com>,
- =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
-References: <20250829105418.3053274-1-sidnayyar@google.com>
- <4e215854-59df-489b-b92d-8d2fb2edf522@suse.com>
- <CA+OvW8ZY1D3ECy2vw_Nojm1Kc8NzJHCpqNJUF0n8z3MhLAQd8A@mail.gmail.com>
- <409ddefc-24f8-465c-8872-17dc585626a6@suse.com>
- <CA+OvW8bhWK7prmyQMMJ_VYBeGMbn_mNiamHhUgYuCsnht+LFtA@mail.gmail.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <CA+OvW8bhWK7prmyQMMJ_VYBeGMbn_mNiamHhUgYuCsnht+LFtA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aNEX46WJh2IWhVUc@elver.google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 9/15/25 5:53 PM, Sid Nayyar wrote:
-> On Mon, Sep 8, 2025 at 11:09 AM Petr Pavlu <petr.pavlu@suse.com> wrote:
->> This sounds reasonable to me. Do you have any numbers on hand that would
->> show the impact of extending __ksymtab?
-> 
-> I did performance analysis for module loading. The kflagstab
-> optimizes symbol search, which accounts for less than 2% of the
-> average module load time. Therefore, this change does not translate
-> into any meaningful gains (or losses) in module loading performance.
-> 
-> On the binary size side, the on-disk size for vmlinux is somewhat
-> inflated due to extra entries in .symtab and .strtab. Since these
-> sections are not part of the final Image, the only increase in the
-> in-memory size of the kernel is for the kflagstab itself. This new
-> table occupies 1 byte for each symbol in the ksymtab.
+On Mon, Sep 22, 2025 at 11:33:23AM +0200, Marco Elver wrote:
+> I gave this a try, and with the below patch and the Clang fix [1],
+> fs/xfs compiles cleanly. I think the fundamental limitation are the
+> conditional locking wrappers. I suspect it's possible to do better than
+> disabling the analysis here, by overapproximating the lock set taken
+> (like you did elsewhere), so that at least the callers are checked, but
+> when I tried it showed lots of callers need annotating as well, so I
+> gave up at that point. Still, it might be better than no checking at
+> all.
 
-This is useful information. However, I was specifically interested in
-the impact of having the new flags field present as part of __ksymtab
-(kernel_symbol), compared to keeping it in a separate section. Sorry for
-not being clear.
+I guess this at least allows us to work with the analysis, even if it 
+drops coverage for one of the most important locks.  I guess you also
+have CONFIG_XFS_QUOTA disabled as that would lead to similar warnings,
+and also currently has the lock the object on return if it's not a
+NULL return case?  I now have a local series to remove that instance,
+but I've seen that pattern elsewhere in the kernel code.
 
-I ran a small test to get a better understanding of the different sizes.
-I used v6.17-rc6 together with the openSUSE x86_64 config [1], which is
-fairly large. The resulting vmlinux.bin (no debuginfo) had an on-disk
-size of 58 MiB, and included 5937 + 6589 (GPL-only) exported symbols.
+Besides the conditional locking these two also do another thing that
+is nasty to the analysis, the locked state can be attached to a
+transaction and unlocked at transaction commit.  Not sure how to best
+model that.
 
-The following table summarizes my measurements and calculations
-regarding the sizes of all sections related to exported symbols:
+> [1] https://github.com/llvm/llvm-project/pull/159921
 
-                      |  HAVE_ARCH_PREL32_RELOCATIONS  | !HAVE_ARCH_PREL32_RELOCATIONS
- Section              | Base [B] | Ext. [B] | Sep. [B] | Base [B] | Ext. [B] | Sep. [B]
-----------------------------------------------------------------------------------------
- __ksymtab            |    71244 |   200416 |   150312 |   142488 |   400832 |   300624
- __ksymtab_gpl        |    79068 |       NA |       NA |   158136 |       NA |       NA
- __kcrctab            |    23748 |    50104 |    50104 |    23748 |    50104 |    50104
- __kcrctab_gpl        |    26356 |       NA |       NA |    26356 |       NA |       NA
- __ksymtab_strings    |   253628 |   253628 |   253628 |   253628 |   253628 |   253628
- __kflagstab          |       NA |       NA |    12526 |       NA |       NA |    12526
-----------------------------------------------------------------------------------------
- Total                |   454044 |   504148 |   466570 |   604356 |   704564 |   616882
- Increase to base [%] |       NA |     11.0 |      2.8 |       NA |     16.6 |      2.1
+Thanks for all the work!
 
-The column "HAVE_ARCH_PREL32_RELOCATIONS -> Base" contains the numbers
-that I measured. The rest of the values are calculated. The "Ext."
-column represents the variant of extending __ksymtab, and the "Sep."
-column represents the variant of having a separate __kflagstab. With
-HAVE_ARCH_PREL32_RELOCATIONS, each kernel_symbol is 12 B in size and is
-extended to 16 B. With !HAVE_ARCH_PREL32_RELOCATIONS, it is 24 B,
-extended to 32 B. Note that this does not include the metadata needed to
-relocate __ksymtab*, which is freed after the initial processing.
-
-The base export data in this case totals 0.43 MiB. About 50% is used for
-storing the names of exported symbols.
-
-Adding __kflagstab as a separate section has a negligible impact, as
-expected. When extending __ksymtab (kernel_symbol) instead, the worst
-case with !HAVE_ARCH_PREL32_RELOCATIONS increases the export data size
-by 16.6%.
-
-Based on the above, I think introducing __kflagstab makes senses, as the
-added complexity is minimal, although I feel we could probably also get
-away with extending kernel_symbol.
-
-> 
->>> The Android Common Kernel source is compiled into what we call
->>> GKI (Generic Kernel Image), which consists of a kernel and a
->>> number of modules. We maintain a stable interface (based on CRCs and
->>> types) between the GKI components and vendor-specific modules
->>> (compiled by device manufacturers, e.g., for hardware-specific
->>> drivers) for the lifetime of a given GKI version.
->>>
->>> This interface is intentionally restricted to the minimal set of
->>> symbols required by the union of all vendor modules; our partners
->>> declare their requirements in symbol lists. Any additions to these
->>> lists are reviewed to ensure kernel internals are not overly exposed.
->>> For example, we restrict drivers from having the ability to open and
->>> read arbitrary files. This ABI boundary also allows us to evolve
->>> internal kernel types that are not exposed to vendor modules, for
->>> example, when a security fix requires a type to change.
->>>
->>> The mechanism we use for this is CONFIG_TRIM_UNUSED_KSYMS and
->>> CONFIG_UNUSED_KSYMS_WHITELIST. This results in a ksymtab
->>> containing two kinds of exported symbols: those explicitly required
->>> by vendors ("vendor-listed") and those only required by GKI modules
->>> ("GKI use only").
->>>
->>> On top of this, we have implemented symbol import protection
->>> (covered in patches 9/10 and 10/10). This feature prevents vendor
->>> modules from using symbols that are not on the vendor-listed
->>> whitelist. It is built on top of CONFIG_MODULE_SIG. GKI modules are
->>> signed with a specific key, while vendor modules are unsigned and thus
->>> treated as untrusted. This distinction allows signed GKI modules to
->>> use any symbol in the ksymtab, while unsigned vendor modules can only
->>> access the declared subset. This provides a significant layer of
->>> defense and security against potentially exploitable vendor module
->>> code.
->>
->> If I understand correctly, this is similar to the recently introduced
->> EXPORT_SYMBOL_FOR_MODULES() macro, but with a coarser boundary.
->>
->> I think that if the goal is to control the kABI scope and limit the use
->> of certain symbols only to GKI modules, then having the protection
->> depend on whether the module is signed is somewhat odd. It doesn't give
->> me much confidence if vendor modules are unsigned in the Android
->> ecosystem. I would expect that you want to improve this in the long
->> term.
-> 
-> GKI modules are the only modules built in the same Kbuild as the
-> kernel image, which Google builds and provides to partners. In
-> contrast, vendor modules are built and packaged entirely by partners.
-> 
-> Google signs GKI modules with ephemeral keys. Since partners do
-> not have these keys, vendor modules are treated as unsigned by
-> the kernel.
-> 
-> To ensure the authenticity of these unsigned modules, partners
-> package them into a separate image that becomes one of the boot
-> partitions. This entire image is signed, and its signature is
-> verified by the bootloader at boot time.
-> 
->> It would then make more sense to me if the protection was determined by
->> whether the module is in-tree (the "intree" flag in modinfo) or,
->> alternatively, if it is signed by a built-in trusted key. I feel this
->> way the feature could be potentially useful for other distributions that
->> care about the kABI scope and have ecosystems where vendor modules are
->> properly signed with some key. However, I'm not sure if this would still
->> work in your case.
-> 
-> Partners can produce both in-tree and out-of-tree modules. We do not
-> trust either type regarding symbol exposure, as there is no way to know
-> exactly what sources were used. Furthermore, symbols exported via
-> EXPORT_SYMBOL_FOR_MODULES can be accessed by any vendor module that
-> mimics the GKI module name.
-> 
-> Therefore, neither the in-tree flag nor the EXPORT_SYMBOL_FOR_MODULES
-> mechanism provides a strong enough guarantee for the Android kernel to
-> identify GKI modules.
-> 
-> Only module signatures are sufficient to allow a module to access the
-> full set of exported symbols.  Unsigned vendor modules may only access
-> the symbol subset declared ahead of time by partners.
-
-This seems to answer why the in-tree flag is not sufficient for you.
-However, I also suggested an alternative that the symbol protection
-could be determined by whether the module is signed by a key from the
-.builtin_trusted_keys keyring, as opposed to being signed by another key
-reachable from the .secondary_trusted_keys keyring or being completely
-unsigned.
-
-Distributions can require that external modules be signed and allow
-additional keys to be added as Machine Owner Keys, which can be made
-reachable from .secondary_trusted_keys. Nonetheless, such distributions
-might be still interested in limiting the number of symbols that such
-external modules can use.
-
-I think this option is worth considering, as it could potentially make
-this symbol protection useful for other distributions as well.
-
-> 
-> In case such symbol protection is not useful for the Linux community, I
-> am happy to keep this as an Android-specific feature.  However, I would
-> urge you to at least accept the kflagstab, as it allows us (and
-> potentially other Linux distributions) to easily introduce additional
-> flags for symbols. It is also a simplification/clean-up of the module
-> loader code.
-
-I'm personally ok with adding the kflagstab support. I think it
-introduces minimal complexity and, as you point out, simplifies certain
-aspects. Additionally, if we add it, I believe that adding the proposed
-symbol protection is simple enough to be included as well, at least from
-my perspective.
-
-[1] https://github.com/openSUSE/kernel-source/blob/307f149d9100a0e229eb94cbb997ae61187995c3/config/x86_64/default
-
--- 
-Thanks,
-Petr
 
