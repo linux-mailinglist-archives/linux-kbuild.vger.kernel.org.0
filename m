@@ -1,103 +1,137 @@
-Return-Path: <linux-kbuild+bounces-8952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8953-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D074B9AD61
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 18:17:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D63AFB9AE00
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 18:25:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E01919C364C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 16:17:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC26A7B1880
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 16:23:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BFF631283E;
-	Wed, 24 Sep 2025 16:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32E86313287;
+	Wed, 24 Sep 2025 16:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nh5uPide"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p9b/0eOD"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EF8191F89;
-	Wed, 24 Sep 2025 16:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0278C230D35;
+	Wed, 24 Sep 2025 16:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758730650; cv=none; b=rFIHDC07S33EbAtgUbV8m4ljkGZLnDPsi9MU1UpNz4nU+GWQ8WWFeCAh/U4K1oPG9Rt/6+13a3frsoeqH/63CXWuoO4d86qsq1P1l6NqPSoUkifk8haBBWHYBuVESfwcNWiD5Gu11dXmF/kCgtMWH5VXb4qGpOmPhaNB0LZtZwM=
+	t=1758731126; cv=none; b=b0U9/a3obgVih2qASbbiciHLKr/1oRBhXN5NPXKFZPyD3pdf1oxRBTSZFcYmC3BAmju2su43BzdMFOWz/5fPc5pPvOMO/ZErS7YgRXXB5RFFaYdr25MjpS03UbValvi3LkwaH2GskP9OfNDdtiDdG++imBE2OVYfWg5Yzpn+FH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758730650; c=relaxed/simple;
-	bh=lFc7WZFyHZ2kDXSBgI5uw7/ckDVjfHIb98JLcLwjT3o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZwHc3rhm0thG6Zk5B6idK8kd3WOBJkzQVYYjTKUzVGjuEVT7q3bQlGPRoqClu9dtOfCQcp/vT9Z7ZeEeoNmB1jNMOofHAI6dI0KjaxwxGF6VwZewnzQ3GZCAZ5oWtzLdBk+XKX7ZNkF360VlH4BM/CJBKRSxNe1AMJJYruvZXys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nh5uPide; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BD76C4CEF7;
-	Wed, 24 Sep 2025 16:17:27 +0000 (UTC)
+	s=arc-20240116; t=1758731126; c=relaxed/simple;
+	bh=fgpXWT75ZxeTBuFCW1gI/2m0CSg/b3re3eUKkgx1ud4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kG0LaflEa1X3wKPAUMKV2rtRjEBCdSizNpc8uBE7S71J0BzKgYbXmp3dYRrf3gxpKPTw/LoOXDDPYGujbhyu7DBvL9p+SJeWxP6c42ZU0F5igKy65EqsYOoIh9uu/i7ZF594x9oCf4A3yqfPsjB/n4vgbgcChN9lh9/oSlN5/fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p9b/0eOD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9D26C4CEF0;
+	Wed, 24 Sep 2025 16:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758730649;
-	bh=lFc7WZFyHZ2kDXSBgI5uw7/ckDVjfHIb98JLcLwjT3o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nh5uPideomEd4WhMMbS/FPthFE5xriXjfbSEbr7Bw2siJxaYPOGfmLCaXDrEAK7dM
-	 SvKTevswIzlOIRsOsvFahj9FeJL5RQjo2B7ZxuEVO1Zd7fvOmDEGoVhxPGzJeCZ0ec
-	 GgYyFXScleamUok6oRNY1qgox0EF3eRWd0RMq3kOSqZwKxpQ9d2TyQfVbVmjSvMTD2
-	 9KKij0M6jI83SjrNKEW91yym43bmOUJFfE0JgaXIxiQEn/5JEc1XHLRDfvMmSXOV1Y
-	 8NQlZING9z6NBkLA5iNYmZtz5r+/ggrmUdUTZ0fk/kx5iINQGLC5S0ozfWhYwSkO+4
-	 PDG4vL5OyKP6Q==
+	s=k20201202; t=1758731125;
+	bh=fgpXWT75ZxeTBuFCW1gI/2m0CSg/b3re3eUKkgx1ud4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p9b/0eODI+0WiHkzdGKZpTPfe9jKNRfE1aDozQegoNWcsnAjYRLESrDU0dFHVLYRX
+	 wst6KBI3EiPsSa6+URpsXzkix7xah3HyncBIb9FU5M2eZMRGx34ayYO0cTeTEN5NEl
+	 Od/uH6K8LFTNFI0KeKeCOhHN/enttFrm65mpFaK7iLRlMmmAF/jX37kOxtBaO0pFDB
+	 EbxRv/8ZtqsemrNMovBaJGVsa/8ZhUVYwkYLKrJlxZc3akIa/FlWmK1hjKEdfdMbtp
+	 rCeWYIxPo5ytf28pcaFy/n5VfHKjfGIp5MXRdvVRgt9vLnTN8amf2TbsTVmVvrjCvI
+	 gUw7ocemPX/Ew==
+Date: Wed, 24 Sep 2025 09:25:18 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, Petr Pavlu <petr.pavlu@suse.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>, 
- Daniel Gomez <da.gomez@samsung.com>, Alexey Gladkov <legion@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-kbuild@vger.kernel.org
-In-Reply-To: <cover.1758182101.git.legion@kernel.org>
-References: <cover.1758182101.git.legion@kernel.org>
-Subject: Re: [PATCH v8 0/8] Add generated modalias to
- modules.builtin.modinfo
-Message-Id: <175873064730.2295881.4958403315180215995.b4-ty@kernel.org>
-Date: Wed, 24 Sep 2025 09:17:27 -0700
+To: Kees Cook <kees@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Puranjay Mohan <puranjay@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] kconfig: Fix BrokenPipeError warnings in selftests
+Message-ID: <20250924162518.GA2827867@ax162>
+References: <20250923213120.make.332-kees@kernel.org>
+ <20250923213422.1105654-1-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923213422.1105654-1-kees@kernel.org>
 
-
-On Thu, 18 Sep 2025 10:05:44 +0200, Alexey Gladkov wrote:
-> The modules.builtin.modinfo file is used by userspace (kmod to be specific) to
-> get information about builtin modules. Among other information about the module,
-> information about module aliases is stored. This is very important to determine
-> that a particular modalias will be handled by a module that is inside the
-> kernel.
+On Tue, Sep 23, 2025 at 02:34:17PM -0700, Kees Cook wrote:
+> The kconfig test harness ("make testconfig") was generating BrokenPipeError
+> warnings when running interactive tests like oldaskconfig and oldconfig:
 > 
-> There are several mechanisms for creating modalias for modules:
+>   /usr/lib/python3/dist-packages/_pytest/unraisableexception.py:85: PytestUnraisableExceptionWarning: Exception ignored in: <_io.BufferedWriter name=12>
 > 
-> [...]
+>   Traceback (most recent call last):
+>     File "/srv/code/scripts/kconfig/tests/conftest.py", line 127, in oldaskconfig
+>       return self._run_conf('--oldaskconfig', dot_config=dot_config,
+>              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>                             interactive=True, in_keys=in_keys)
+>                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   BrokenPipeError: [Errno 32] Broken pipe
+> 
+> The issue occurred when the test framework attempted to write to stdin
+> after the conf subprocess had already exited.
+> 
+> Wrap stdin write operations in try/except to catch BrokenPipeError and
+> stop sending more input. Add explicit flush() after writes so we can see
+> delivery errors immediately. Ignore BrokenPipeError when closing stdin.
+> Explicitly call wait() to validate subprocess termination.
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
 
-Applied, thanks!
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-[1/8] s390: vmlinux.lds.S: Reorder sections
-      https://git.kernel.org/kbuild/c/8d18ef04f940a
-[2/8] kbuild: always create intermediate vmlinux.unstripped
-      https://git.kernel.org/kbuild/c/0ce5139fd96e9
-[3/8] kbuild: keep .modinfo section in vmlinux.unstripped
-      https://git.kernel.org/kbuild/c/3e86e4d74c049
-[4/8] kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
-      https://git.kernel.org/kbuild/c/39cfd5b12160b
-[5/8] scsi: Always define blogic_pci_tbl structure
-      https://git.kernel.org/kbuild/c/b88f88c26705a
-[6/8] modpost: Add modname to mod_device_table alias
-      https://git.kernel.org/kbuild/c/83fb49389bbe0
-[7/8] modpost: Create modalias for builtin modules
-      https://git.kernel.org/kbuild/c/5ab23c7923a1d
-[8/8] kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
-      https://git.kernel.org/kbuild/c/3328d39a8dca2
-
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
-
+> ---
+>  scripts/kconfig/tests/conftest.py | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kconfig/tests/conftest.py b/scripts/kconfig/tests/conftest.py
+> index 2a2a7e2da060..d94b79e012c0 100644
+> --- a/scripts/kconfig/tests/conftest.py
+> +++ b/scripts/kconfig/tests/conftest.py
+> @@ -81,7 +81,22 @@ class Conf:
+>                  # For interactive modes such as oldaskconfig, oldconfig,
+>                  # send 'Enter' key until the program finishes.
+>                  if interactive:
+> -                    ps.stdin.write(b'\n')
+> +                    try:
+> +                        ps.stdin.write(b'\n')
+> +                        ps.stdin.flush()
+> +                    except (BrokenPipeError, OSError):
+> +                        # Process has exited, stop sending input
+> +                        break
+> +
+> +            # Close stdin gracefully
+> +            try:
+> +                ps.stdin.close()
+> +            except (BrokenPipeError, OSError):
+> +                # Ignore broken pipe on close
+> +                pass
+> +
+> +            # Wait for process to complete
+> +            ps.wait()
+>  
+>              self.retcode = ps.returncode
+>              self.stdout = ps.stdout.read().decode()
+> -- 
+> 2.34.1
+> 
 
