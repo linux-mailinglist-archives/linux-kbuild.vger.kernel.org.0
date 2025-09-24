@@ -1,115 +1,116 @@
-Return-Path: <linux-kbuild+bounces-8956-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8957-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82962B9AED5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 18:55:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B4DB9BC05
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 21:48:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43BE54C724D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 16:55:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7B3F326677
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 19:48:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 534F5314A65;
-	Wed, 24 Sep 2025 16:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 300BB1DF755;
+	Wed, 24 Sep 2025 19:48:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXNRVo90"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rrt8DW7c"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3C73148CD;
-	Wed, 24 Sep 2025 16:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B881DDDD;
+	Wed, 24 Sep 2025 19:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758732902; cv=none; b=EeK/Eu8F4k4Kf8ilRdn0YbsWOzIIm9wuwFiVzxXXjR9oMbL2pQo2dv7+pOxzlWPC1MAWMYTQgCQhGUm7Fv0DIvEP9ikgBVuRk33u+zBr/U4+CyH4YVL5IHGyycJGDxi4R89MgHjr1F5MqpOimrISOzHmFZF7i51OfiSPsXeoifM=
+	t=1758743288; cv=none; b=B3qjIG18CH0AP+P5sxsHnabIatIXkQD5/xrm8AZbhj9gbL4Zie41gpfI6Sq3mnBOqHurvydS2RwC+4eHX6YXU3vZyGG6qV5OkEB2aLsYL85sx5q4qZFmAm9AaXr3gi8vCFjLQO7Clgr+g39khSCLSivdOVeR2m008Bm9ZXccC3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758732902; c=relaxed/simple;
-	bh=ZSuvPKo4zP1BolcgaK42uPifYCuhAjff2p5QUMlhvj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iyF2/Avs8UCp7h1amSfLjS9cqNBQe5JZAaq5n7g9WpUM2SmOOsHe5YLVFS3WutzWm3yse0X25zDwQRFj3IelEMFWoIHgpmhA6uwSQXi9U4Ag5SrHDLs7L0xGesWPFbST5UnpSexLxJZUeWYIOrHTc7AwZObw+wWt6H+rli8h/JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXNRVo90; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CA2BC4CEE7;
-	Wed, 24 Sep 2025 16:54:58 +0000 (UTC)
+	s=arc-20240116; t=1758743288; c=relaxed/simple;
+	bh=5pfqoAv3+D7vRUeoIo/VfzuXoXjMCi4EDG4XCp0s5lo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hrmdtRXucl17ASv4444/PnBIfLD9RkvE6ghhVr/x4uFxdsCjtlft91+XLU0pTaJXg7nC5Wp8kkt2ubkxydx/hMk4uXYhWAAbxV05uRLj52+vxewJg1tpekjcBppjHaVmD1ya58AkYppXEZqvcD9+l9yTmpYq2AbbFjOcViluxdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rrt8DW7c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 848B6C4CEF8;
+	Wed, 24 Sep 2025 19:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758732901;
-	bh=ZSuvPKo4zP1BolcgaK42uPifYCuhAjff2p5QUMlhvj4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uXNRVo90ZhjkmSGghzeTg1AwA9xcxiXQgqZpgm5694xcVDh65DWhbtAbUuhvC4kW2
-	 S9G9l6hbYLvXkhR22gbdk2HIL56L42VvBvOoDLKFBJsSSHik/yXb5ga0Hdc85cVbfp
-	 9jyZRYcEt70BjMBoUv8akRa2oY1lI8k56rOqHlCCb21jS2T2sxXBfflXO/31EzPRbf
-	 /3DgBIfF8p8LJG0whLwQzeyC/17xUvzlLw8l5G/UO3K5Et7wSie3pYZBhCm0pXCBxd
-	 Nr3u4c2rFgOBlW1liOJDY8TUbC5O2PDnYRB8S64t97UTzCvygkoORljvPSPHAS9Trp
-	 hqFj+McS5Oc6g==
-Date: Wed, 24 Sep 2025 09:54:55 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	J =?iso-8859-1?Q?=2E_Neusch=E4fer?= <j.ne@posteo.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Chen-Yu Tsai <wenst@chromium.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Han Shen <shenhan@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>, Rong Xu <xur@google.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] kbuild: Allow adding modules into the FIT ramdisk
-Message-ID: <20250924165455.GA1445061@ax162>
-References: <20250922224835.1918759-1-sjg@chromium.org>
- <20250922224835.1918759-5-sjg@chromium.org>
+	s=k20201202; t=1758743287;
+	bh=5pfqoAv3+D7vRUeoIo/VfzuXoXjMCi4EDG4XCp0s5lo=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Rrt8DW7cWd3LwnReiGSAU01NRcAYqOt+0OYrXuJfVrqia4pz5GN6RvVH5cAj5JzzK
+	 sSFaWaluEKCeHqDgLHcDe2a1TaALAxgu6yjS+rGmnY01ivnp6999kGUT4Y85AXATzr
+	 VIgK5YItFGB/IXbwl9XviK/QbiczHwGShBcd5OJRiLUiDTctkiF8fF3yVFkek9b03s
+	 8OENasztYI55YJHNYyrd07ZjbxobnbVhdvq05ZIrH5Wh/C2o+IlZDo8YFnaaMB8J/r
+	 SeLAisysbUcwCCNmJu2VLxg3W22XG6RHzdjAdCC4WgOpmvSSp/EfT0TbP8CSgcvv3L
+	 EVuePkFdHbJOQ==
+From: Nicolas Schier <nsc@kernel.org>
+Date: Wed, 24 Sep 2025 21:47:58 +0200
+Subject: [PATCH v2] Documentation: kbuild: note CONFIG_DEBUG_EFI in
+ reproducible builds
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250922224835.1918759-5-sjg@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250924-kbuild-doc-config-debug-efi-in-reproducible-builds-v2-1-d2d6b9dcdb7d@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAO1K1GgC/yWOwQ6CMBBEf4X07BJaKYIn/8NwKHSBDdiSrRAJ4
+ d+teHyTybzZRUAmDOKe7IJxpUDeRVCXRLSDcT0C2chCZUpnlcphbBaaLFjfQutdRz1YbJYesCM
+ gB4wze7u01EwIZzUANre8rExpZalFHJ45lj+n9FlHHii8PW/nh1X+0r+uUFoqXWZVGiGviitIe
+ JlgBmK/PUZkh1PquRf1cRxf6XwtQsoAAAA=
+X-Change-ID: 20250924-kbuild-doc-config-debug-efi-in-reproducible-builds-eb7489a8d185
+To: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Ard Biesheuvel <ardb@kernel.org>, Ben Hutchings <ben@decadent.org.uk>, 
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758743285; l=1347;
+ i=nsc@kernel.org; s=20250924; h=from:subject:message-id;
+ bh=WrCEiwhTJ6NTcbC79DuT72IvGk096pO3ljwmap6tib0=;
+ b=xot5rA2LwXMdxklW8rby+ZKjbInYkFumHiXZR1CfKm2wY4feOrauw+nMxZSWK7WWVSMCdldkw
+ 6UFgMUcy8LWDCXjsgQX0qBYlOSJHs7qZotzT0SCFOmaJCF/QO+YW83I
+X-Developer-Key: i=nsc@kernel.org; a=ed25519;
+ pk=+0ar7sBdSzOoVoXxW8B+48yZbV4azT4joSEm8UyP7z4=
 
-On Mon, Sep 22, 2025 at 04:48:32PM -0600, Simon Glass wrote:
-> Support 'make image.fit FIT_MODULES=1' to put all the modules into a
-> ramdisk image within the FIT.
-> 
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> Suggested-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-Acked-by: Nathan Chancellor <nathan@kernel.org>
+CONFIG_EFI_DEBUG embeds absolute file paths into object files, which
+makes the resulting vmlinux specific to the build environment.
 
->  scripts/Makefile.lib | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1d581ba5df66..2e880d9b4706 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -398,9 +398,15 @@ MAKE_FIT := $(srctree)/scripts/make_fit.py
->  # Use this to override the compression algorithm
->  FIT_COMPRESSION ?= gzip
->  
-> +# Set this to 1 to include an initrd with all the kernel modules
-> +FIT_MODULES ?= 0
-> +ifeq ($(FIT_MODULES),1)
-> +EXTRA := -B $(objtree) -m
+Add a note about this in reproducible-builds.rst
 
-Not that I can imagine it being a big issue, it would be nice to
-potentially namespace this variable, like MAKE_FIT_EXTRA or
-MAKE_FIT_FLAGS?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Nicolas Schier <nsc@kernel.org>
+---
+Changes in v2:
+  * Fixed a grammar typo (Randy)
+  * v1: https://lore.kernel.org/linux-kbuild/20250625125809.2504963-1-masahiroy@kernel.org
+---
+ Documentation/kbuild/reproducible-builds.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> +endif
-> +
->  quiet_cmd_fit = FIT     $@
->        cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-> -		--name '$(UIMAGE_NAME)' \
-> +		--name '$(UIMAGE_NAME)' $(EXTRA) \
->  		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
->  		$(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
->  		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
-> -- 
-> 2.43.0
-> 
-> base-commit: 846bd2225ec3cfa8be046655e02b9457ed41973e
-> branch: fita3
+diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+index f2dcc39044e66ddd165646e0b51ccb0209aca7dd..96d208e578cd53d3f0c4a24ec983a9179260345d 100644
+--- a/Documentation/kbuild/reproducible-builds.rst
++++ b/Documentation/kbuild/reproducible-builds.rst
+@@ -61,6 +61,9 @@ supported.
+ The Reproducible Builds web site has more information about these
+ `prefix-map options`_.
+ 
++Some CONFIG options such as `CONFIG_DEBUG_EFI` embed absolute paths in
++object files. Such options should be disabled.
++
+ Generated files in source packages
+ ----------------------------------
+ 
+
+---
+base-commit: cec1e6e5d1ab33403b809f79cd20d6aff124ccfe
+change-id: 20250924-kbuild-doc-config-debug-efi-in-reproducible-builds-eb7489a8d185
+
+Best regards,
+-- 
+Nicolas
+
 
