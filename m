@@ -1,60 +1,59 @@
-Return-Path: <linux-kbuild+bounces-8942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8943-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01406B9868E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 08:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E1EB98697
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 08:40:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03F1A19C7272
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 06:40:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA95D19C71D2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 06:41:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC10A257844;
-	Wed, 24 Sep 2025 06:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447FC258CE7;
+	Wed, 24 Sep 2025 06:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZbPcjCw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VK8mc7bX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B094B257820;
-	Wed, 24 Sep 2025 06:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186B42586CE;
+	Wed, 24 Sep 2025 06:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758696014; cv=none; b=PnCmYnQbI+BmwihFwfSE5RNMiu0Qn7lHBkwXP7TSBKcYV+jI8Xva05urmdbbpj85Rjp/XuSdi/vTPyM9e172yoltsbkiwM0J+HhND3GhlfDVgt+CE+pGKEBaaAhRZ6YHv/gBZ9mBa/Hk/pn0w7/XHC29dl76W0GPhTvZ49sihx8=
+	t=1758696017; cv=none; b=TY7RAqILjOcHpQeGc3V5gs1DK93h+tkXW9KkRUvnL8nR2EQbVa9l8sna0B68ReP80hDrEDxEivz492/cpr8JPsgDMre6WfOLe43kTeUSsUDnSE5kM7Foanpwf1bznvXP1M+X4rXNH7IP/FWXBDSEHb4Ai4ozsnpmadwxLOGpyZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758696014; c=relaxed/simple;
-	bh=SujJ08ONnBdw92E/vP0ZQBaMGCJIL8c+zzAzd0/vqkA=;
+	s=arc-20240116; t=1758696017; c=relaxed/simple;
+	bh=TQaHoI4626NTyTWE4tbqLFumMdOdo16YJuaUptOKYG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sy7gvbxHQr+io7wJR7PMW4k5mIb9pNYa9oXAtwrQLvs/SgeSR97X9yldbuc2PBknOHDf7/VzfyHT6gRCYUsd3SG0oSUKoyeid7pvZf9stdv9IOavKpES/rm1hhlXF3IQBaxF9iiuCso0oeOGFi8/ulFjILk82F8N18uXcpn7FIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZbPcjCw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E318BC113CF;
-	Wed, 24 Sep 2025 06:40:13 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0b9HRzblrUgxQ6QryX0JoKKnNMTqctrZpJvh4WAA4T249HFLC/1GJ29bnwdG/OX1EPGeyF+mnYiD+UQlQ+/G3YblWYSv2ZbWuNqlwWNRHfrZ3QPzdsvB69dZs1p8np7NnNSjAkeARMR1wACoo9KcI54C5HDvpfXNDq+YQTBnd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VK8mc7bX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59275C113CF;
+	Wed, 24 Sep 2025 06:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758696014;
-	bh=SujJ08ONnBdw92E/vP0ZQBaMGCJIL8c+zzAzd0/vqkA=;
+	s=k20201202; t=1758696016;
+	bh=TQaHoI4626NTyTWE4tbqLFumMdOdo16YJuaUptOKYG8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oZbPcjCwBNizAhUxtuNrFqQ7R0R1COP3ChuINZ0mp9+DR59K6bT+HXVFg5XcQbpGh
-	 DlxKbFQ3dTltzlq5xliR44hZtGvRk7trwneAjF9e12ro1Dvn7duiFz7eUfRxfBajl/
-	 PhQFCKSvwdSGtT5Z1K5TPuKlnwguuF8ynDOtjaMhB60x+Mfm6BzQ0aJnQgpR0O+HP8
-	 MQtFPR0sdWSikDGJi9VaYLWaJdFDbV+Jpy27A1hOISdixglYF8x0EzvntlDHupcqGi
-	 l96XtzTLFv8e8LFsAVTeuG5eP1JWpI/8v7URCJQoGGSk/4W55cZU/LuA59pMxNK9JU
-	 dS6DVLduC7dAw==
-Date: Wed, 24 Sep 2025 08:38:43 +0200
+	b=VK8mc7bXsZjGta5PyK2DbHUfUgPd17n4+VoUjWNDFVnNTpSK/5HudMeOhUp/OsBfc
+	 E6d/+BwDjth3XrZEqUOJQ4veXQdbBxuc4d4GPc0pfVXoEZDTvutXYulAv3glM/Yc1T
+	 kjmRzu/nu6V49OmgLULWzXzjNDt5XczfTR/3gtZJ6e7Pnd6F3EGiFPS/Am2FKSUlFl
+	 4p5jIYWo6JHwZEdG2U6KDhvWWkGA7N1OxquHxVKPVdrscSlmQ1QWGDXF9dExE/svEa
+	 Cr6DCjme0NCtDXM1JgWD41JgR5vFN2abXdaqJO5LUisg2a5nOWsMi0azr3oe0ammA5
+	 ha7Pa1tGw2X0Q==
+Date: Wed, 24 Sep 2025 08:39:44 +0200
 From: Nicolas Schier <nsc@kernel.org>
 To: Alexey Gladkov <legion@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v8 7/8] modpost: Create modalias for builtin modules
-Message-ID: <aNOR8wCFXLGaXr7n@levanger>
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v8 8/8] kbuild: vmlinux.unstripped should always depend
+ on .vmlinux.export.o
+Message-ID: <aNOSMAzPIC5xu5Zb@levanger>
 References: <cover.1758182101.git.legion@kernel.org>
- <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
+ <0e63a9c7741fe8217e4fd7c60afcf057ffa2ef5a.1758182101.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -63,47 +62,19 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
+In-Reply-To: <0e63a9c7741fe8217e4fd7c60afcf057ffa2ef5a.1758182101.git.legion@kernel.org>
 
-On Thu, Sep 18, 2025 at 10:05:51AM +0200, Alexey Gladkov wrote:
-> For some modules, modalias is generated using the modpost utility and
-> the section is added to the module file.
+On Thu, Sep 18, 2025 at 10:05:52AM +0200, Alexey Gladkov wrote:
+> Since .vmlinux.export.c is used to add generated by modpost modaliases
+> for builtin modules the .vmlinux.export.o is no longer optional and
+> should always be created. The generation of this file is not dependent
+> on CONFIG_MODULES.
 > 
-> When a module is added inside vmlinux, modpost does not generate
-> modalias for such modules and the information is lost.
-> 
-> As a result kmod (which uses modules.builtin.modinfo in userspace)
-> cannot determine that modalias is handled by a builtin kernel module.
-> 
-> $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
-> pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
-> 
-> $ modinfo xhci_pci
-> name:           xhci_pci
-> filename:       (builtin)
-> license:        GPL
-> file:           drivers/usb/host/xhci-pci
-> description:    xHCI PCI Host Controller Driver
-> 
-> Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
-> modpost if the module is built separately.
-> 
-> To fix this it is necessary to generate the same modalias for vmlinux as
-> for the individual modules. Fortunately '.vmlinux.export.o' is already
-> generated from which '.modinfo' can be extracted in the same way as for
-> vmlinux.o.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
 > ---
->  include/linux/module.h   |  4 ----
->  scripts/Makefile.vmlinux |  4 +++-
->  scripts/mksysmap         |  3 +++
->  scripts/mod/file2alias.c | 19 ++++++++++++++++++-
->  scripts/mod/modpost.c    | 15 +++++++++++++++
->  scripts/mod/modpost.h    |  2 ++
->  6 files changed, 41 insertions(+), 6 deletions(-)
+>  scripts/Makefile.vmlinux | 9 ++-------
+>  scripts/link-vmlinux.sh  | 5 +----
+>  2 files changed, 3 insertions(+), 11 deletions(-)
 > 
 
 Reviewed-by: Nicolas Schier <nsc@kernel.org>
