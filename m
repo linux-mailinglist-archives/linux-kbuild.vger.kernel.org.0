@@ -1,47 +1,47 @@
-Return-Path: <linux-kbuild+bounces-8941-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DFDB9867D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 08:40:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01406B9868E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 08:40:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED0E217AC6C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 06:40:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03F1A19C7272
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Sep 2025 06:40:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A56424DCEF;
-	Wed, 24 Sep 2025 06:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC10A257844;
+	Wed, 24 Sep 2025 06:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIqiLlKB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZbPcjCw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEA424A066;
-	Wed, 24 Sep 2025 06:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B094B257820;
+	Wed, 24 Sep 2025 06:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758696011; cv=none; b=IkQ4mfqLXHKN5LMM1d+BEZK+0+Pd0/v6x2XXkVfhOukeqv1mh0M2EzLFj4NMFLyPRoWVGilqoGWzdY0qDr374gqbhyuFA3+a2xYQAk14WZl1OKfh8V7RtYSsYlwR83QSDpeudm+V+eMAKoSN1CKLD7AgOX+mzIcqboV22qYCCcs=
+	t=1758696014; cv=none; b=PnCmYnQbI+BmwihFwfSE5RNMiu0Qn7lHBkwXP7TSBKcYV+jI8Xva05urmdbbpj85Rjp/XuSdi/vTPyM9e172yoltsbkiwM0J+HhND3GhlfDVgt+CE+pGKEBaaAhRZ6YHv/gBZ9mBa/Hk/pn0w7/XHC29dl76W0GPhTvZ49sihx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758696011; c=relaxed/simple;
-	bh=EEtssODGjPjyupMHIEJAZ+hnB3jH2E3r+gr6xVyDzRc=;
+	s=arc-20240116; t=1758696014; c=relaxed/simple;
+	bh=SujJ08ONnBdw92E/vP0ZQBaMGCJIL8c+zzAzd0/vqkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHqVFLXawLpZqcZEdzC0uskLdlkalCZ/HHJJG67iCZG7Kiglbh4Z3QZuej6hZcbKssH89s8kUBHgtp2ut3qGz2r6sFthZJ7NDmNFaF94yqaIDdZdL2ActYSwDm/WhJ+YSig3VCO8q74AnasMOg4WIOBDoPmZ18Xiod4JaWejPKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIqiLlKB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FAFBC113CF;
-	Wed, 24 Sep 2025 06:40:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=sy7gvbxHQr+io7wJR7PMW4k5mIb9pNYa9oXAtwrQLvs/SgeSR97X9yldbuc2PBknOHDf7/VzfyHT6gRCYUsd3SG0oSUKoyeid7pvZf9stdv9IOavKpES/rm1hhlXF3IQBaxF9iiuCso0oeOGFi8/ulFjILk82F8N18uXcpn7FIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZbPcjCw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E318BC113CF;
+	Wed, 24 Sep 2025 06:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758696011;
-	bh=EEtssODGjPjyupMHIEJAZ+hnB3jH2E3r+gr6xVyDzRc=;
+	s=k20201202; t=1758696014;
+	bh=SujJ08ONnBdw92E/vP0ZQBaMGCJIL8c+zzAzd0/vqkA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gIqiLlKBoKXxbr9orthP05oGn2hz3GN/Ky/b5vgrBhOvU3WhSsDrYLWI1mb0FQdRl
-	 hQ6v4Yso/RAi6rwNZwTBV5uLRhUPvR+58sT4k9R79Z+bKNXd+5TR3X8DfWZUkv+L86
-	 Cy+hBVMr6nX6fgFihr6vrzPil0RyYDisGFb9WBAzSdCe1w4iA4TUabpH6azDECrX0B
-	 ALiK+62itF5FzSglh5ccWlZPLxEXdi68xyXCkxpSywxfDlC7qfETiYJBghy0WINXTP
-	 wwtrgGO629vfX3jhf1Qz5tNIBKQXoqMxYe9eF8R/l6KCJhUI4+/zWKfqdcwtFDAVFI
-	 rY7urqaoNchPA==
-Date: Wed, 24 Sep 2025 08:31:00 +0200
+	b=oZbPcjCwBNizAhUxtuNrFqQ7R0R1COP3ChuINZ0mp9+DR59K6bT+HXVFg5XcQbpGh
+	 DlxKbFQ3dTltzlq5xliR44hZtGvRk7trwneAjF9e12ro1Dvn7duiFz7eUfRxfBajl/
+	 PhQFCKSvwdSGtT5Z1K5TPuKlnwguuF8ynDOtjaMhB60x+Mfm6BzQ0aJnQgpR0O+HP8
+	 MQtFPR0sdWSikDGJi9VaYLWaJdFDbV+Jpy27A1hOISdixglYF8x0EzvntlDHupcqGi
+	 l96XtzTLFv8e8LFsAVTeuG5eP1JWpI/8v7URCJQoGGSk/4W55cZU/LuA59pMxNK9JU
+	 dS6DVLduC7dAw==
+Date: Wed, 24 Sep 2025 08:38:43 +0200
 From: Nicolas Schier <nsc@kernel.org>
 To: Alexey Gladkov <legion@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
@@ -49,14 +49,12 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v8 6/8] modpost: Add modname to mod_device_table alias
-Message-ID: <aNOQJH8kDW3lFHf-@levanger>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v8 7/8] modpost: Create modalias for builtin modules
+Message-ID: <aNOR8wCFXLGaXr7n@levanger>
 References: <cover.1758182101.git.legion@kernel.org>
- <1a0d0bd87a4981d465b9ed21e14f4e78eaa03ded.1758182101.git.legion@kernel.org>
+ <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,30 +63,50 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1a0d0bd87a4981d465b9ed21e14f4e78eaa03ded.1758182101.git.legion@kernel.org>
+In-Reply-To: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
 
-On Thu, Sep 18, 2025 at 10:05:50AM +0200, Alexey Gladkov wrote:
-> At this point, if a symbol is compiled as part of the kernel,
-> information about which module the symbol belongs to is lost.
+On Thu, Sep 18, 2025 at 10:05:51AM +0200, Alexey Gladkov wrote:
+> For some modules, modalias is generated using the modpost utility and
+> the section is added to the module file.
 > 
-> To save this it is possible to add the module name to the alias name.
-> It's not very pretty, but it's possible for now.
+> When a module is added inside vmlinux, modpost does not generate
+> modalias for such modules and the information is lost.
 > 
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Andreas Hindborg <a.hindborg@kernel.org>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Alex Gaynor <alex.gaynor@gmail.com>
-> Cc: rust-for-linux@vger.kernel.org
+> As a result kmod (which uses modules.builtin.modinfo in userspace)
+> cannot determine that modalias is handled by a builtin kernel module.
+> 
+> $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+> pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> 
+> $ modinfo xhci_pci
+> name:           xhci_pci
+> filename:       (builtin)
+> license:        GPL
+> file:           drivers/usb/host/xhci-pci
+> description:    xHCI PCI Host Controller Driver
+> 
+> Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+> modpost if the module is built separately.
+> 
+> To fix this it is necessary to generate the same modalias for vmlinux as
+> for the individual modules. Fortunately '.vmlinux.export.o' is already
+> generated from which '.modinfo' can be extracted in the same way as for
+> vmlinux.o.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
 > ---
->  include/linux/module.h   | 14 +++++++++++++-
->  rust/kernel/device_id.rs |  8 ++++----
->  scripts/mod/file2alias.c | 15 ++++++++++++---
->  3 files changed, 29 insertions(+), 8 deletions(-)
+>  include/linux/module.h   |  4 ----
+>  scripts/Makefile.vmlinux |  4 +++-
+>  scripts/mksysmap         |  3 +++
+>  scripts/mod/file2alias.c | 19 ++++++++++++++++++-
+>  scripts/mod/modpost.c    | 15 +++++++++++++++
+>  scripts/mod/modpost.h    |  2 ++
+>  6 files changed, 41 insertions(+), 6 deletions(-)
 > 
 
-Acked-by: Nicolas Schier <nsc@kernel.org>
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
 -- 
 Nicolas
