@@ -1,172 +1,184 @@
-Return-Path: <linux-kbuild+bounces-8959-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8960-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6E1B9D390
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Sep 2025 04:44:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 483BBB9D8DE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Sep 2025 08:16:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B96F1B24999
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Sep 2025 02:44:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 595E41895454
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Sep 2025 06:16:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05FD92E54D1;
-	Thu, 25 Sep 2025 02:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FD4D2EA725;
+	Thu, 25 Sep 2025 06:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J58/SCUf"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="q6nYUkKc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Zyr+Mhub"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49C415624D
-	for <linux-kbuild@vger.kernel.org>; Thu, 25 Sep 2025 02:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD72E9759;
+	Thu, 25 Sep 2025 06:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758768240; cv=none; b=LSMhdZDQJcM84Hc/86gke6q27u1xanhYND1gTB/GyA7h4tLYeHIdP+0Ul8s+WArBXGdXZXM2nGRYxqYGxQLtqj6eV6t/Pa73HS1quzZqidHQ+1t/vCFhXoVlTROoWTMiRsnSFoBeZWmDBc0K9ZmOs95BRQtANTk5tgw4ltHqH8E=
+	t=1758780903; cv=none; b=DRYN2JGh2R+v9P1ZV7pCIsE8hSllDX3KcbzNYnt++a99h22IYSdl+Zmrk9zaYrBohqFcoiIzzwVi7QtQScyr6gzC6y6tRpwluHcP7upcqoazUeVi0tB9TklsxXHQgGJogJI/2ovB7C0aKB55crlrQP9VDKm8NH0hqIArz0fYCw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758768240; c=relaxed/simple;
-	bh=S7vb/zf3V2GaassUXCT9UJV1Et/9TJiqD8ubx2PkhwE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XmXbci2yKoIDzCqQND0TG1aiCN9M9fQrRMkEo7GtXY7HHtCjnUVL4ASYex6595rm2ozjCelWq9Y7Gui+8pTAJyedRyu6tkVY2Y3yhbAUp/s0qWSmq3TKUFZujpaac7+XT2hPrz9/DS1ddL5HW34ZinBsEzFStTVSN9DOgWNcMWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J58/SCUf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84265C4CEF0
-	for <linux-kbuild@vger.kernel.org>; Thu, 25 Sep 2025 02:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758768240;
-	bh=S7vb/zf3V2GaassUXCT9UJV1Et/9TJiqD8ubx2PkhwE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=J58/SCUfWipwZ1MVIpQEBYOUxqgqodgM0cUqxO+6oYTnwX30OAYYFnF0WKJxi5SU3
-	 1YOU1P/IZqOtiBNDhKnXN1z4ovoCMhsotskp189F0RKKNay05fweIgyzg2e3gFkOa+
-	 mrEzWgOqJIw9XZ1B1L1AdSJy3OwrymPL9j/QShB/+lcZEezrx+noPCD585qWFJNKzN
-	 6E6HdZZvyCsVBaO63lJCmSambbsyS5Xwl45MRs1Bl9W47XafA1DEa4nLWflPswoZ74
-	 CUlx92J4FcsuHOfMtemFUEOhpKfKnlSdBytdl9IRLQmzaeKqeOP4mbfyhOZCLS3Mji
-	 uaOs9TbYVJNTg==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b30f8d14b9cso68606866b.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Sep 2025 19:44:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVs8tGxQQhwAp3GKTQd95Xla3/V/UlmEOJiJ3hHsXVdSWsQCbC95yHlyIhIE13JFHEvh0OjCqpZWWJ4PNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylcJuEvIFA22vCJDvYHj9HURwUGDGIIfZsYjUhKoCzwWWj4t8t
-	xmaHesujWceXI3UFAjYrkzThIbCXdAJrxpUQ7dDVhYGHvllV36mVEB/UhceoQg6wFQPh4PisOGs
-	nb/ouyyoTHndSas2Qg5oZq3Dy8K+Sv20=
-X-Google-Smtp-Source: AGHT+IFAKAis+f8CsaeB/ZYEn6Mbsm0qvkYWWb/1JIaJw+bN7o9FCGRKh+44tCSaadZ6c4rMcagZJ6G9mHVPClZ1tck=
-X-Received: by 2002:a17:907:3f1e:b0:b11:c9df:7a73 with SMTP id
- a640c23a62f3a-b34bd34a2b0mr217761266b.57.1758768239043; Wed, 24 Sep 2025
- 19:43:59 -0700 (PDT)
+	s=arc-20240116; t=1758780903; c=relaxed/simple;
+	bh=IJ+re8/aN2ZpswtgEhY7S86+CaZnj3sd8sp3Ecm1uhc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=oezKUkhvhfk30vshNo7L+bG2QHx33UgVcc1ixQ/nw0/R7QBC6prYFQny8vlzsR2RIHQIH0UxWnnDUY/kBOwoF5xDqRbxXBGVrjeC1PNH/LFvaYbYvu6k4WNoNrlXdregx9wZswiYY0+2a3J68xySIX0pSbdwFF47JXX89a/gsyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=q6nYUkKc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Zyr+Mhub; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 73CDC1D000CF;
+	Thu, 25 Sep 2025 02:14:56 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Thu, 25 Sep 2025 02:14:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1758780896;
+	 x=1758867296; bh=daMBAWHHIBRnjmTgLv5h4+WBfo0EIvTll1secxh8FC0=; b=
+	q6nYUkKcdPWO9hpgxW/8lUBH3Hafmtdu0v/jTW8FergvcW3aL1TkCBlD9WjOYCgv
+	wZ+thVZrEesOjUmAKy24oLZbkjEiOt+7ei+wQ2gmNXK1n/7h1FYSswj/9C/PBt/U
+	rfRo8U8mv2O3oMviJtZ0y4iSnYSn7khO/2smEi4C+W+zz5ss2ehYfI6ECwUWk5+l
+	xlBCqJmktEGwj/euxB6e/qldIl9UxEmvNGetaAMCyzUaukWye371H6sPl8Ha5dvY
+	sISqajHAhrqrq46Szq+qL0Rq9QNTzTj7I/nYIdLhzgs0AThrWTadk6e3NNHw0a6t
+	mekSCF9uN7QD96cWFWM4xA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758780896; x=
+	1758867296; bh=daMBAWHHIBRnjmTgLv5h4+WBfo0EIvTll1secxh8FC0=; b=Z
+	yr+MhubZWoLYdgYRuNped4IodL/ItnQ5qvAMibk1i0m4PxpqimsMLm7P9KaGO1Hp
+	mMwJeRbptS00eXEHriBlv9ogS78q1dVHI1xCT1C0V9CofVS2QbwXeEZPn1AlNfmj
+	GnvhdOZcnmBkAzpQzVLttov6YR+KAGSIQk6jAZcby6e2svJjRxvNjvsgRRGB3eOt
+	BEb0TcnGoz9Tae8aY+Br/dQ634XlLZ4g8YnfNlkxjdCKD7s7YSEJVztkWRn3qGrF
+	A3tJOqWi2szyCte1fCsffZP4HKMBaTApBLI19rQYLFzsSuD1wKmNqlIFCR1HjZO+
+	YtXYE3vsrwaPzGuefDEpw==
+X-ME-Sender: <xms:393UaPfhxLBZWArsaRMFrCNOEDy4hM-EmYNyDMlwlifiInVBGfSv-g>
+    <xme:393UaAD0GoTFj5RnjbQga6nhko8IxYWOaEld_OENIn6hME91hEF51Y-AgSx58qmQ2
+    sJ16SxRbjPVAffGyZXni0W9ztavwP_Ez0Q-4WZ-TUWUVd73z2UgtvmY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeiheejgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrdgvuhdprhgtphhtthhopegvug
+    humhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepsghosghordhshhgrohgs
+    ohifrghngheshhhurgifvghirdgtohhmpdhrtghpthhtohepgihivgigihhuqhhisehhuh
+    grfigvihdrtghomhdprhgtphhtthhopeigihhqihdvsehhuhgrfigvihdrtghomhdprhgt
+    phhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrshgrhhhirh
+    hohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorh
+    hg
+X-ME-Proxy: <xmx:393UaPZNl1EggM-bmsGyfW0juLf_ed8i8y1Oe4CKrVJ2xhd10Mn7mQ>
+    <xmx:393UaEy0qTIXAk1j5zbq-pUSyx06fiKGNBKpKmUwOs41HUhNtmrpGw>
+    <xmx:393UaOMtPqWAWBpWyCU8T57a3ip-52dBMlA3PqS3OhzbOIWVjjrKug>
+    <xmx:393UaDcbZcWx38pBijJfHI-fRmPepC-_iNPl2NeTltel2UpRrNyt9Q>
+    <xmx:4N3UaAUeXWogU4XrThEBmbaFq7FPoDH3xgy2mF52clNwkVa0g6d0Gnyk>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 706BE700069; Thu, 25 Sep 2025 02:14:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250919093615.30235-1-yangtiezhu@loongson.cn> <20250919093615.30235-2-yangtiezhu@loongson.cn>
-In-Reply-To: <20250919093615.30235-2-yangtiezhu@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 25 Sep 2025 10:43:44 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4fdfB3fH0DnfgxNimPBsjiOGQZV-w0g63d7TVDOK5-zw@mail.gmail.com>
-X-Gm-Features: AS18NWDZZeQr-H2-K3eeVtlqTGrlSQzrQ7P8GUhNaKX_KK-BVvdywIo1Js7nnoc
-Message-ID: <CAAhV-H4fdfB3fH0DnfgxNimPBsjiOGQZV-w0g63d7TVDOK5-zw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] LoongArch: Only link libstub to final vmlinux
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, loongarch@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AA0nVRjimp4N
+Date: Thu, 25 Sep 2025 08:14:35 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Qi Xi" <xiqi2@huawei.com>, bobo.shaobowang@huawei.com,
+ xiexiuqi@huawei.com
+Cc: linux-kernel@vger.kernel.org, "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Eric Dumazet" <edumazet@google.com>,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-kbuild@vger.kernel.org,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Andrew Morton" <akpm@linux-foundation.org>
+Message-Id: <3de848cc-0f01-4999-a4fc-1ff3cc11daa4@app.fastmail.com>
+In-Reply-To: <20250909112911.66023-1-xiqi2@huawei.com>
+References: <20250909112911.66023-1-xiqi2@huawei.com>
+Subject: Re: [PATCH v3] once: fix race by moving DO_ONCE to separate section
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi, Tiezhu,
-
-On Fri, Sep 19, 2025 at 5:36=E2=80=AFPM Tiezhu Yang <yangtiezhu@loongson.cn=
-> wrote:
+On Tue, Sep 9, 2025, at 13:29, Qi Xi wrote:
+> The commit c2c60ea37e5b ("once: use __section(".data.once")") moved
+> DO_ONCE's ___done variable to .data.once section, which conflicts with
+> DO_ONCE_LITE() that also uses the same section.
 >
-> When compiling with LLVM and CONFIG_LTO_CLANG is set, there exists
-> the following objtool warning:
+> This creates a race condition when clear_warn_once is used:
 >
->   vmlinux.o: warning: objtool: __efistub_efi_boot_kernel()
->   falls through to next function __efistub_exit_boot_func()
+> Thread 1 (DO_ONCE)             Thread 2 (DO_ONCE)
+> __do_once_start
+>     read ___done (false)
+>     acquire once_lock
+> execute func
+> __do_once_done
+>     write ___done (true)      __do_once_start
+>     release once_lock             // Thread 3 clear_warn_once reset ___done
+>                                   read ___done (false)
+>                                   acquire once_lock
+>                               execute func
+> schedule once_work            __do_once_done
+> once_deferred: OK             write ___done (true)
+> static_branch_disable         release once_lock
+>                               schedule once_work
+>                               once_deferred:
+>                                   BUG_ON(!static_key_enabled)
 >
-> This is because efi_boot_kernel() doesn't end with a return instruction
-> or an unconditional jump, then objtool has determined that the function
-> can fall through into the next function.
+> DO_ONCE_LITE() in once_lite.h is used by WARN_ON_ONCE() and other warning
+> macros. Keep its ___done flag in the .data..once section and allow resetting
+> by clear_warn_once, as originally intended.
 >
-> At the beginning, try to do something to make efi_boot_kernel() ends with
-> an unconditional jump instruction, but this modification seems not proper=
-.
+> In contrast, DO_ONCE() is used for functions like get_random_once() and
+> relies on its ___done flag for internal synchronization. We should not reset
+> DO_ONCE() by clear_warn_once.
 >
-> Since the efistub functions are useless for stack unwinder, they can be
-> ignored by objtool. After many discussions, no need to link libstub to
-> the vmlinux.o, only link libstub to the final vmlinux.
+> Fix it by isolating DO_ONCE's ___done into a separate .data..do_once section,
+> shielding it from clear_warn_once.
 >
-> Link: https://lore.kernel.org/lkml/pq4h7jgndnt6p45lj4kgubxjd5gidfetugcuf5=
-rcxzxxanzetd@6rrlpjnjsmuy/
-> Suggested-by: Josh Poimboeuf <jpoimboe@kernel.org>
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> Fixes: c2c60ea37e5b ("once: use __section(".data.once")")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Qi Xi <xiqi2@huawei.com>
 > ---
->  Makefile                | 1 +
->  arch/loongarch/Makefile | 5 ++++-
->  scripts/link-vmlinux.sh | 5 ++---
->  3 files changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 9771619ac596..b8e7c63ae3d1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1201,6 +1201,7 @@ KBUILD_VMLINUX_OBJS :=3D built-in.a $(patsubst %/, =
-%/lib.a, $(filter %/, $(libs-y)
->  KBUILD_VMLINUX_LIBS :=3D $(filter-out %/, $(libs-y))
->
->  export KBUILD_VMLINUX_LIBS
-> +export KBUILD_VMLINUX_LIBS_PRELINK
->  export KBUILD_LDS          :=3D arch/$(SRCARCH)/kernel/vmlinux.lds
->
->  ifdef CONFIG_TRIM_UNUSED_KSYMS
-Why does the LoongArch patch modify the common parts? Since the whole
-series is small enough, I suggest modifying everything in a single
-patch. And the single patch can be merged via the efi tree.
+> v3 -> v2: apply the same section change to DO_ONCE_SLEEPABLE().
+> v2 -> v1: add comments for DO_ONCE_LITE() and DO_ONCE().
+> ---
+>  include/asm-generic/vmlinux.lds.h | 1 +
+>  include/linux/once.h              | 4 ++--
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 
-Huacai
+Hi,
 
-> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-> index a3a9759414f4..e9c61f76a045 100644
-> --- a/arch/loongarch/Makefile
-> +++ b/arch/loongarch/Makefile
-> @@ -164,7 +164,10 @@ CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CPPFLAGS) $(K=
-BUILD_CFLAGS) -dM -E -x c /dev
->  endif
->
->  libs-y +=3D arch/loongarch/lib/
-> -libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/firmware/efi/libstub/lib=
-.a
-> +
-> +ifdef CONFIG_EFI_STUB
-> +KBUILD_VMLINUX_LIBS_PRELINK +=3D $(objtree)/drivers/firmware/efi/libstub=
-/lib.a
-> +endif
->
->  drivers-y              +=3D arch/loongarch/crypto/
->
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 51367c2bfc21..b3cbff31d8a9 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -61,12 +61,11 @@ vmlinux_link()
->         shift
->
->         if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IB=
-T; then
-> -               # Use vmlinux.o instead of performing the slow LTO link a=
-gain.
->                 objs=3Dvmlinux.o
-> -               libs=3D
-> +               libs=3D"${KBUILD_VMLINUX_LIBS_PRELINK}"
->         else
->                 objs=3Dvmlinux.a
-> -               libs=3D"${KBUILD_VMLINUX_LIBS}"
-> +               libs=3D"${KBUILD_VMLINUX_LIBS} ${KBUILD_VMLINUX_LIBS_PREL=
-INK}"
->         fi
->
->         if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
-> --
-> 2.42.0
->
+I hadn't seen this until your ping and had a look since it
+touches asm-generic. The patch looks correct to me, thanks for
+addressing this and for the detailed patch description.
+
+I think what happened is that nobody felt responsible for
+applying it, between the networking (which originally
+added the infrastructure) and kbuild maintainers (Masahiro
+did the last changes to this bit, but recently handed
+over maintenance to Nathan).
+
+I've applied the fix to the asm-generic tree for 6.18 now
+to be sure that it makes it in and gets linux-next testing,
+but it's not my area either really.
+
+It would be best to have another review though. If Nathan
+or Andrew want to instead pick it up through one of their
+trees, please add
+
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
