@@ -1,202 +1,184 @@
-Return-Path: <linux-kbuild+bounces-8965-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8967-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790CABA6324
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Sep 2025 22:20:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CB2BA684B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Sep 2025 07:24:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DAE8179D6A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Sep 2025 20:20:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D7383BE80F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Sep 2025 05:24:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3856D1D63F7;
-	Sat, 27 Sep 2025 20:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A13920C01C;
+	Sun, 28 Sep 2025 05:24:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHdtofk7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V//9x7o/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1224813B58B
-	for <linux-kbuild@vger.kernel.org>; Sat, 27 Sep 2025 20:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F4F1A9FBE;
+	Sun, 28 Sep 2025 05:24:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759004404; cv=none; b=WfTjOSWR43oGOPoUsjB6oL0EflpdUMAQXiR5wfmD7aT8uYP7tjTPZbWy6sA9Mh8xzsfoPLqRXwHCtVVyUSift/dXW9xaLseYor6woddUOxNEKBm05DBBXw+AT3ptJgESu6Jdm/JNP219+ytZBvyMq3gYdTi3mNXS2f8BkOHZDoc=
+	t=1759037073; cv=none; b=CCQ6IPAT1s4LqjR3uO3AQ3pMoUy0ngdBOaHgBtx5mBGfnPSUWb0IPchr5Qs02YC/J/TNr+FqDEM/7/C3Di7rTAHuynOxTmoSRY9l17Ldz9NQnKTdksk5dSi2nXPAc6wGaftIMJrlSWjLtbV+ABtaq0fzFbqkKXX9K5BGzZlKIAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759004404; c=relaxed/simple;
-	bh=elBQlQ0lRBRyBHUGvss+kQFqw5050kVF34p620qcKFs=;
+	s=arc-20240116; t=1759037073; c=relaxed/simple;
+	bh=L+EkAKSmc3OTz36a3wD0ZqaH7YXUNCh7rEnXSOrQhcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fs6GUeHHS30QL5VXMSDLjqFUSUkgtmQge2i+ntSqtu+Z1zgd1aUBym4iushJ/L6Hbu/+YpHXcMHVYs5w1jE36OBJ7QuajEplvTYSXdlWwT7KMnynM+FVS3glqIIkA6WTHzQsS9zdN61m/gShuKioMpii8z6wOAaYnvSrPCSdZCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHdtofk7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ECFC4CEE7;
-	Sat, 27 Sep 2025 20:20:03 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=V8Wcq4sg5Gl/4ev+OZhwPzYQ9bmL35ugvHylEdL4Xsppzf67rrR3L3Wr7D1HD561jJkto5AFZxjNAeN5Qeun7+aXDqvGtGmPDHPWp/7IzCXFGwdDtDCo05AP5IjUiQKi3Goa7N1HwLCggwjaQ37bvNsYx06TMkFE7UtONtK5o2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V//9x7o/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1856C4CEF0;
+	Sun, 28 Sep 2025 05:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759004403;
-	bh=elBQlQ0lRBRyBHUGvss+kQFqw5050kVF34p620qcKFs=;
+	s=k20201202; t=1759037073;
+	bh=L+EkAKSmc3OTz36a3wD0ZqaH7YXUNCh7rEnXSOrQhcs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KHdtofk7f2Jt8wTG/39mRhRUDk/iXNLH9RnmF7dv5N3/+Q/SC6W1fjptLzE8J9H5j
-	 q6iHZucHdpQaR8S9XQMCbPiN3MzjOfNIRyfCnVWjcR0BtI7IZ6qDIED42tsL7DO47/
-	 KmjGhSntscKe7Tt9uR/xtAjHlma+ySkNBLbDk1AHbjoiViVhDn89z+JZOMROfk4//O
-	 vED2UWqOMlKmrWb8zv35FpBs+k3PH6RKu1jGHdi0bTreB7tpdfWme5SZyBDTuVu7cM
-	 u/ZGNXASgu2QWSPVDwSdewEn/JxWF8rIPdCgbifIYS65HvNgh7FMpcG98ZT/ptANFh
-	 co9+/vGMJoe/A==
-Date: Sat, 27 Sep 2025 22:18:47 +0200
+	b=V//9x7o/J9oZqkmeKIwSySCF19pNgZhCLfXztsQEL6wKCsqagB9YL7A25fXIweQsu
+	 AYQaEoOqHH4SDDWLwgI0xZYxnlsfnvhQJ37whCo+xRnY1TUYRnpoeG6xYzl+TnZ5Ae
+	 nXxyr0346bzMx+LJ73v2k4zgNnkf+a31UyrhEco3QntPoZxyuFtnyoPOsgFMkb0A2o
+	 chHMgdlMHscUtwKzy7Q4o1Y1hjRTzz1NrXCPzqCNJMB7/BGpYIw/o9n1kZPIwgyhL+
+	 7huv7cfQl4zprLtomc3BX86amhXbZj+wyr5CdCEZgWZcY9RxH/fAoEuCSSbazpyomL
+	 i9dCfp9XopLBg==
+Date: Sat, 27 Sep 2025 22:35:00 +0200
 From: Nicolas Schier <nsc@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: Tool directory build problem..
-Message-ID: <aNhGp7NDCCrtwJqm@levanger>
-References: <CAHk-=wgYcmBXuE8OMoDF6vGwk9n_2XdwWbuh-5b0w0g7w-NK=g@mail.gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 19/24] docs: add support to build manpages from
+ kerneldoc output
+Message-ID: <aNhKdCrSM29uwvpn@levanger>
+References: <cover.1758196090.git.mchehab+huawei@kernel.org>
+ <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="++043sky81sjvUI9"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgYcmBXuE8OMoDF6vGwk9n_2XdwWbuh-5b0w0g7w-NK=g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
+
+Please note that @kernel.org receipients are still not addressed
+correctly:
+
+> Date: Thu, 18 Sep 2025 13:54:53 +0200
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>,
+>     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>,
+>     Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <mchehab+huawei@kernel.org>,
+>     Miguel Ojeda <mchehab+huawei@kernel.org>, Nathan Chancellor <mchehab+huawei@kernel.org>,
+>     Nicolas Schier <nicolas.schier@linux.dev>, Randy Dunlap <rdunlap@infradead.org>,
+>     Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
+>     linux-kernel@vger.kernel.org
 
 
---++043sky81sjvUI9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 18, 2025 at 01:54:53PM +0200, Mauro Carvalho Chehab wrote:
+> Generating man files currently requires running a separate
+> script. The target also doesn't appear at the docs Makefile.
+> 
+> Add support for mandocs at the Makefile, adding the build
+> logic inside sphinx-build-wrapper, updating documentation
+> and dropping the ancillary script.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/Makefile                 |  3 +-
+>  Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
+>  Makefile                               |  2 +-
+>  scripts/split-man.pl                   | 28 ---------
+>  tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
+>  5 files changed, 95 insertions(+), 48 deletions(-)
+>  delete mode 100755 scripts/split-man.pl
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 05397b9d844d..aa42b2cb7030 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
+>  else # HAVE_SPHINX
+>  
+>  # Common documentation targets
+> -infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+> +mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+>  	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+>  	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+>  		--sphinxdirs="$(SPHINXDIRS)" --conf="$(SPHINX_CONF)" \
+> @@ -104,6 +104,7 @@ dochelp:
+>  	@echo  '  htmldocs        - HTML'
+>  	@echo  '  texinfodocs     - Texinfo'
+>  	@echo  '  infodocs        - Info'
+> +	@echo  '  mandocs         - Man pages'
+>  	@echo  '  latexdocs       - LaTeX'
+>  	@echo  '  pdfdocs         - PDF'
+>  	@echo  '  epubdocs        - EPUB'
+> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> index af9697e60165..4370cc8fbcf5 100644
+> --- a/Documentation/doc-guide/kernel-doc.rst
+> +++ b/Documentation/doc-guide/kernel-doc.rst
+> @@ -579,20 +579,23 @@ source.
+>  How to use kernel-doc to generate man pages
+>  -------------------------------------------
+>  
+> -If you just want to use kernel-doc to generate man pages you can do this
+> -from the kernel git tree::
+> +To generate man pages for all files that contain kernel-doc markups, run::
+>  
+> -  $ scripts/kernel-doc -man \
+> -    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+> -    | scripts/split-man.pl /tmp/man
+> +  $ make mandocs
+>  
+> -Some older versions of git do not support some of the variants of syntax for
+> -path exclusion.  One of the following commands may work for those versions::
+> +Or calling ``script-build-wrapper`` directly::
 
-Hi Linus,
+For this very patch, there is no 'scripts-build-wrapper' but
+'sphinx-build-wrapper'.  Or am I missing something?
 
-On Sat, Sep 27, 2025 at 11:23:22AM -0700, Linus Torvalds wrote:
-> This isn't new, but I hit the problem once again because I decided
-> that I should make sure to build-test the tools before the 6.17
-> release since I got another tool pull fairly late in the game..
->=20
-> And it fails annoyingly and immediately, with
->=20
->     make tools/all
->=20
-> failing quickly for the ACPI pfrut tool with
->=20
->     undefined reference to `uuid_unparse'
->=20
-> errors.
->=20
-> Those errors do *not* happen if you build it inside the tools/
-> directory itself. So doing
->=20
->     make -C tools all
->=20
-> works just fine, but we literally have a "tools/%" target that is
-> designed for this, and it doesn't work.
->=20
-> It doesn't work for that pfrut tool because the top-level Makefile
-> rule does this:
->=20
->     $(Q)$(MAKE) LDFLAGS=3D O=3D$(abspath $(objtree)) subdir=3Dtools -C
-> $(srctree)/tools/ $*
->=20
-> and that "LDFLAGS=3D" is an overriding variable assignment, so the use of
->=20
->     LDFLAGS +=3D -luuid
->=20
-> in tools/power/acpi/tools/pfrut/Makefile end sup not working.
->=20
-> But it works in all other situations, just not when build this way
-> from the top. Annoying.
->=20
-> I'm not sure *why* the top-level Makefile does that "LDFLAGS=3D"
-> override thing. It doesn't do it for anything else. Just that LDFLAGS
-> variable.
->=20
-> Yes, yes, the ACPI tool makefile could then use
->=20
->     override LDFLAGS +=3D -luuid
->=20
-> but why would it do something as crazy as that?
->=20
-> That "LDFLAGS=3D" override goes back many many years,  In fact, it goes
-> back to the very initial addition of those rules in commit
-> ea01fa9f63ae ("tools: Connect to the kernel build system").
+>  
+> -  $ scripts/kernel-doc -man \
+> -    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+> -    | scripts/split-man.pl /tmp/man
+> +  $ ./tools/docs/sphinx-build-wrapper mandocs
+>  
+> -  $ scripts/kernel-doc -man \
+> -    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
+> -    | scripts/split-man.pl /tmp/man
+> +The output will be at ``/man`` directory inside the output directory
+> +(by default: ``Documentation/output``).
+> +
+> +Optionally, it is possible to generate a partial set of man pages by
+> +using SPHINXDIRS:
+> +
+> +  $ make SPHINXDIRS=driver-api/media mandocs
+> +
+> +.. note::
+> +
+> +   When SPHINXDIRS={subdir} is used, it will only generate man pages for
+> +   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
+> diff --git a/Makefile b/Makefile
+> index 6bfe776bf3c5..9bd44afeda26 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
+>  # Documentation targets
+>  # ---------------------------------------------------------------------------
+>  DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+> -	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
+> +	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
+>  PHONY += $(DOC_TARGETS)
+>  $(DOC_TARGETS):
+>  	$(Q)$(MAKE) $(build)=Documentation $@
 
-I have never really dived into the tools/ tree, thus I am not able to give
-helpful comment about build problems of any tools/% target,
-spontaneously.
-
-
-But I know that there has been a long-term strained relationship between
-kbuild and tools.  Masahiro put it this way in June 2024, when asked
-about his concerns about the tools/ integration in top-level Makefile:
-
-Masahiro put this
-
-    # The tools build system is not a part of Kbuild and tends to introduce
-    # its own unique issues. If you need to integrate a new tool into Kbuil=
-d,
-    # please consider locating that tool outside the tools/ tree and using =
-the
-    # standard Kbuild "hostprogs" syntax instead of adding a new tools/* en=
-try
-    # here. See Documentation/kbuild/makefiles.rst for details.
-
-into top-level Makefile after yet another troublesome patch discussion
-(referenced in commit 6e6ef2da3a28f3e02).
-
-
-Further, he mentioned worries about the (current) situation:
-
-    The tool build is integrated as a pattern rule in the top Makefile.
-    (tools/%)
-
-    So, you can build other tools from the top Makefile.
-
-    See commit ea01fa9f63aef, which did not get Ack from any Kbuild
-    maintainer, and caused subsequent troubles, and the benefit
-    of which I still do not understand.
-   =20
-    Supporting "make tools/perf" in addition to "make -C tools perf"
-    only saved a few characters to type.
-   =20
-    So, the problem remains, unless I revert ea01fa9f63aef.
-   =20
-    I decided to not care about it too much, as long as
-    such tools are not used during the kernel build.
-   =20
-    I am really worried about objtool and resolve_btfids,
-    as these two are used for building the kernel.
-
-    https://lore.kernel.org/linux-kbuild/CAK7LNASZi3A_BzFACOvZhwByHaVon-Cd5=
-H++uygsv4m_fhDOyQ@mail.gmail.com/
-
-So, to be honest, I doubt we have someone at hand right now who is able
-to fix the tools/ tree.
-
-Personally, I'd favor if we could work towards removal of the 'tools/%'
-rule in top-level Makefile, as long as tools/ is not kbuild-compliant.
-
-Kind regards,
-Nicolas
-
---++043sky81sjvUI9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmjYRpgACgkQB1IKcBYm
-Emn6MhAA3LWKRKLounvgcD8jWkWKgG6Jl+8wM/oh/T6MfzjOiUTR/TEjFLUm20VM
-YZZJonC2mOMX/A8cYqhMKwkfP2XxDcuaWc1c3DGPqGL3QiLIrvphD4gMdk6o93HL
-dEKQkKsc9FZ5CTJjRTuNSCIWY7C2/skdei+51FW08ByKA+bdG3aIC2GO7DgsT/p+
-XnkKBsZ4d1fVPeHnoGk/j2ld0SDJ7EywJJMIf7POQwjokrAYksmFteYGKVi0oEt1
-+RksCLmRDF4NFsTU9drCEjAwva8I71TehciVpMvc1RsTMCOwYwFkOEpKrplWmDnv
-xowm+LXeQHCT75vp72VmhIgEMiBfsOFS/mWrMfuH+d+d7BoMSTI/F35xrdiDNXuy
-qWPjOGhaYScSM1PFnPVXwdtNRF+BRF3m8JOTsySKEGu6hfaM8llTqeUcyVo96RWQ
-s9F9pYzalUTo0v1OoLKl4+U/pHLzHMfDtuF+OJPraabpgnx17t9S5kJd25OyOfvx
-KFhpntkJvvK2D7c+6HUz8XvI81yQ8yg16FaYHT/f4++wT+tK5e6A2FxolYujV9Ak
-T+ZntMlwuGqYQyvHQaMa9xenmK3b0k0akFVCEIvYVeKOFhlnuBUBDgKoU2rdJrIb
-x2KKx7RDOM74TLG1j1iTBuNeQFC1SgAHegf9mFYhB1qFeg40Lzc=
-=lgzM
------END PGP SIGNATURE-----
-
---++043sky81sjvUI9--
+Acked-by: Nicolas Schier <nsc@kernel.org>
 
