@@ -1,158 +1,202 @@
-Return-Path: <linux-kbuild+bounces-8964-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8965-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E38BA6286
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Sep 2025 20:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790CABA6324
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Sep 2025 22:20:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B69417E6C4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Sep 2025 18:23:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DAE8179D6A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Sep 2025 20:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0F922E3F0;
-	Sat, 27 Sep 2025 18:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3856D1D63F7;
+	Sat, 27 Sep 2025 20:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CafC/Zj1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHdtofk7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A73224AED
-	for <linux-kbuild@vger.kernel.org>; Sat, 27 Sep 2025 18:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1224813B58B
+	for <linux-kbuild@vger.kernel.org>; Sat, 27 Sep 2025 20:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758997424; cv=none; b=ncQN5zZRj/GFvCANoy+3M9zvIWi/cIT75XargMz7dsMc3qPOBfqdJWpTZhw+MrXqOBsWITrlMfYPqpz6SQpdar9aXlo4iOSZOickNUMDEe/gQnanZ+Jqod8JK0m4V4Ny4CqrRiuJjZL5+o+BL8izw7uaN4f4O878wiAhva6nRAo=
+	t=1759004404; cv=none; b=WfTjOSWR43oGOPoUsjB6oL0EflpdUMAQXiR5wfmD7aT8uYP7tjTPZbWy6sA9Mh8xzsfoPLqRXwHCtVVyUSift/dXW9xaLseYor6woddUOxNEKBm05DBBXw+AT3ptJgESu6Jdm/JNP219+ytZBvyMq3gYdTi3mNXS2f8BkOHZDoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758997424; c=relaxed/simple;
-	bh=a32sQJVfPZXqmEzs8zv4pkQ+9dUbnvyic13n8J/n5Rk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=otw9G7J72SCYKtsxYRRBdKipYJeWzMiTl6ZDmyhj76UT2tjsq6pb81372u/A/k7wWAmH4JZ5OXX4Rtuj5CkIbGdsUKM01FdLLjQUMx1xuOi5YZAFPumY+R5GBbSSpZ5LHRPW0CkYRp6siI4UI2W1vjaEk7JSKTn+o2Rss5ZZPaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=CafC/Zj1; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b2b4096539fso571094766b.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 27 Sep 2025 11:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1758997420; x=1759602220; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=K0e0fOwUe69F30vUK1tqSUGtJFIwsjPuEn1/9ZYJ/eM=;
-        b=CafC/Zj1cn2YE8fWvhjslUxDJEKJTjdPcJvyOSkVCwFPNDQ5dPPEbJwKfMDEAEotsM
-         zOlY1O/vMIrxex2227cxujuJ996Eb0aXZ3/7s5ZbwFU4mpkGMKRLYTXqCkgXutwCInj5
-         PFYUSEzJQfjHBYOFOpQQXpesc1ZyrjvB2MT70=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758997420; x=1759602220;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K0e0fOwUe69F30vUK1tqSUGtJFIwsjPuEn1/9ZYJ/eM=;
-        b=WHv4/Zb05fRc4jSRFMF0FHgyuxfIWxLlsM4cOeMI6p6bM+rvJnI30e8ymL5eJdeXwj
-         uwpjVYToHqHqEj/YRrGO3iSFaBPYv0Ci9JYrElmWAGaoYyYBrjjS1ZAwDGKJ3aQ772y4
-         6phgkEPgp2LIQha8VkCclI8QmXHyLnec7Otjqz8bIMkj8WmzIt70wfd0POleDD3U4A2V
-         RQiWPkBQ6ZivsUJwBYVbBnTn83Trj/HRUVjR3ffUCZO524fbSWJf662iVTAuWPsfgW7h
-         2zdOfhNO/fQ7iE7/QqxjqBdlYOYkqplG14VAWNslZZ6Zcxku9FsDUwKkPpZGbOZglzJ9
-         vlgQ==
-X-Gm-Message-State: AOJu0YwCyiRDSr1OnPb1dCcc7FUzwuOi0mb8G+ujobsPcKsA+qmolNng
-	AdlAk6AZ1K1qY1eLL0TqHZawatcLLoovSflfRJOnZMF4mEXQkFi/9F7X9p1G2U8wULsdwPYIGW1
-	iZr0iYhA=
-X-Gm-Gg: ASbGnctjY3S+RDW1rTdw4eTOL2kBgH65NPeZRhomPRnRO1L+uYYYoqadxIoimaMg/d8
-	34TgSzkOQTzlaW3IE6B6kGTKH38ed6LdM8WY6zFHQHIOfpbXFp/42le6dngSaVpveXsCzB6tRWV
-	aZaXKsCK8fi1ean5Ta3h+J9RW6sAkE5ObwzbzBrm7uMfH7nzpkFqr32oV1FOmWpXzhq39bE6XLg
-	YPwvf4AFO6/HJOtZEXqRLsnokaMXTRnMzbhO+dXu6thyAvpsmRnk0+NC6H6DwGcBQASqOKmM/KA
-	kxMN7AAQHx5PwD35XEp3dzMleWPc9eBAs1tKWLEF1WDYYtSooBvdmY+AKDi/5us8InV/thr/vyM
-	BLDMM9y0SJrlviKmhxxZAiU3ZmEAekkBHMXNcJQGBCGS/5fffZ8wO75ovmiVKcQVA8/z18ubRv4
-	4FmuhN9e0=
-X-Google-Smtp-Source: AGHT+IFtGyNeYCipVnTKGInldiK8ZnF8C5aWH/lhAgTmQVhXLzk5nppXnGOGtZibNdL/gi4SepXfUQ==
-X-Received: by 2002:a17:907:7f9f:b0:b2f:65e5:a5dc with SMTP id a640c23a62f3a-b3a0da338edmr386121466b.6.1758997420168;
-        Sat, 27 Sep 2025 11:23:40 -0700 (PDT)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com. [209.85.208.43])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634a3629878sm4851452a12.5.2025.09.27.11.23.38
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Sep 2025 11:23:38 -0700 (PDT)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-63486ff378cso6426306a12.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 27 Sep 2025 11:23:38 -0700 (PDT)
-X-Received: by 2002:a17:907:1c16:b0:b35:3073:28ac with SMTP id
- a640c23a62f3a-b3544101c80mr1362489566b.0.1758997418530; Sat, 27 Sep 2025
- 11:23:38 -0700 (PDT)
+	s=arc-20240116; t=1759004404; c=relaxed/simple;
+	bh=elBQlQ0lRBRyBHUGvss+kQFqw5050kVF34p620qcKFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fs6GUeHHS30QL5VXMSDLjqFUSUkgtmQge2i+ntSqtu+Z1zgd1aUBym4iushJ/L6Hbu/+YpHXcMHVYs5w1jE36OBJ7QuajEplvTYSXdlWwT7KMnynM+FVS3glqIIkA6WTHzQsS9zdN61m/gShuKioMpii8z6wOAaYnvSrPCSdZCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHdtofk7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ECFC4CEE7;
+	Sat, 27 Sep 2025 20:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759004403;
+	bh=elBQlQ0lRBRyBHUGvss+kQFqw5050kVF34p620qcKFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KHdtofk7f2Jt8wTG/39mRhRUDk/iXNLH9RnmF7dv5N3/+Q/SC6W1fjptLzE8J9H5j
+	 q6iHZucHdpQaR8S9XQMCbPiN3MzjOfNIRyfCnVWjcR0BtI7IZ6qDIED42tsL7DO47/
+	 KmjGhSntscKe7Tt9uR/xtAjHlma+ySkNBLbDk1AHbjoiViVhDn89z+JZOMROfk4//O
+	 vED2UWqOMlKmrWb8zv35FpBs+k3PH6RKu1jGHdi0bTreB7tpdfWme5SZyBDTuVu7cM
+	 u/ZGNXASgu2QWSPVDwSdewEn/JxWF8rIPdCgbifIYS65HvNgh7FMpcG98ZT/ptANFh
+	 co9+/vGMJoe/A==
+Date: Sat, 27 Sep 2025 22:18:47 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: Tool directory build problem..
+Message-ID: <aNhGp7NDCCrtwJqm@levanger>
+References: <CAHk-=wgYcmBXuE8OMoDF6vGwk9n_2XdwWbuh-5b0w0g7w-NK=g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 27 Sep 2025 11:23:22 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgYcmBXuE8OMoDF6vGwk9n_2XdwWbuh-5b0w0g7w-NK=g@mail.gmail.com>
-X-Gm-Features: AS18NWCBIyVn3FMlYgKPyW7puGkHBHBOJdbS27ePUJAAXwcYirKONFW-7Pwc8Bg
-Message-ID: <CAHk-=wgYcmBXuE8OMoDF6vGwk9n_2XdwWbuh-5b0w0g7w-NK=g@mail.gmail.com>
-Subject: Tool directory build problem..
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Borislav Petkov <bp@alien8.de>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="++043sky81sjvUI9"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgYcmBXuE8OMoDF6vGwk9n_2XdwWbuh-5b0w0g7w-NK=g@mail.gmail.com>
 
-This isn't new, but I hit the problem once again because I decided
-that I should make sure to build-test the tools before the 6.17
-release since I got another tool pull fairly late in the game..
 
-And it fails annoyingly and immediately, with
+--++043sky81sjvUI9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    make tools/all
+Hi Linus,
 
-failing quickly for the ACPI pfrut tool with
+On Sat, Sep 27, 2025 at 11:23:22AM -0700, Linus Torvalds wrote:
+> This isn't new, but I hit the problem once again because I decided
+> that I should make sure to build-test the tools before the 6.17
+> release since I got another tool pull fairly late in the game..
+>=20
+> And it fails annoyingly and immediately, with
+>=20
+>     make tools/all
+>=20
+> failing quickly for the ACPI pfrut tool with
+>=20
+>     undefined reference to `uuid_unparse'
+>=20
+> errors.
+>=20
+> Those errors do *not* happen if you build it inside the tools/
+> directory itself. So doing
+>=20
+>     make -C tools all
+>=20
+> works just fine, but we literally have a "tools/%" target that is
+> designed for this, and it doesn't work.
+>=20
+> It doesn't work for that pfrut tool because the top-level Makefile
+> rule does this:
+>=20
+>     $(Q)$(MAKE) LDFLAGS=3D O=3D$(abspath $(objtree)) subdir=3Dtools -C
+> $(srctree)/tools/ $*
+>=20
+> and that "LDFLAGS=3D" is an overriding variable assignment, so the use of
+>=20
+>     LDFLAGS +=3D -luuid
+>=20
+> in tools/power/acpi/tools/pfrut/Makefile end sup not working.
+>=20
+> But it works in all other situations, just not when build this way
+> from the top. Annoying.
+>=20
+> I'm not sure *why* the top-level Makefile does that "LDFLAGS=3D"
+> override thing. It doesn't do it for anything else. Just that LDFLAGS
+> variable.
+>=20
+> Yes, yes, the ACPI tool makefile could then use
+>=20
+>     override LDFLAGS +=3D -luuid
+>=20
+> but why would it do something as crazy as that?
+>=20
+> That "LDFLAGS=3D" override goes back many many years,  In fact, it goes
+> back to the very initial addition of those rules in commit
+> ea01fa9f63ae ("tools: Connect to the kernel build system").
 
-    undefined reference to `uuid_unparse'
+I have never really dived into the tools/ tree, thus I am not able to give
+helpful comment about build problems of any tools/% target,
+spontaneously.
 
-errors.
 
-Those errors do *not* happen if you build it inside the tools/
-directory itself. So doing
+But I know that there has been a long-term strained relationship between
+kbuild and tools.  Masahiro put it this way in June 2024, when asked
+about his concerns about the tools/ integration in top-level Makefile:
 
-    make -C tools all
+Masahiro put this
 
-works just fine, but we literally have a "tools/%" target that is
-designed for this, and it doesn't work.
+    # The tools build system is not a part of Kbuild and tends to introduce
+    # its own unique issues. If you need to integrate a new tool into Kbuil=
+d,
+    # please consider locating that tool outside the tools/ tree and using =
+the
+    # standard Kbuild "hostprogs" syntax instead of adding a new tools/* en=
+try
+    # here. See Documentation/kbuild/makefiles.rst for details.
 
-It doesn't work for that pfrut tool because the top-level Makefile
-rule does this:
+into top-level Makefile after yet another troublesome patch discussion
+(referenced in commit 6e6ef2da3a28f3e02).
 
-    $(Q)$(MAKE) LDFLAGS= O=$(abspath $(objtree)) subdir=tools -C
-$(srctree)/tools/ $*
 
-and that "LDFLAGS=" is an overriding variable assignment, so the use of
+Further, he mentioned worries about the (current) situation:
 
-    LDFLAGS += -luuid
+    The tool build is integrated as a pattern rule in the top Makefile.
+    (tools/%)
 
-in tools/power/acpi/tools/pfrut/Makefile end sup not working.
+    So, you can build other tools from the top Makefile.
 
-But it works in all other situations, just not when build this way
-from the top. Annoying.
+    See commit ea01fa9f63aef, which did not get Ack from any Kbuild
+    maintainer, and caused subsequent troubles, and the benefit
+    of which I still do not understand.
+   =20
+    Supporting "make tools/perf" in addition to "make -C tools perf"
+    only saved a few characters to type.
+   =20
+    So, the problem remains, unless I revert ea01fa9f63aef.
+   =20
+    I decided to not care about it too much, as long as
+    such tools are not used during the kernel build.
+   =20
+    I am really worried about objtool and resolve_btfids,
+    as these two are used for building the kernel.
 
-I'm not sure *why* the top-level Makefile does that "LDFLAGS="
-override thing. It doesn't do it for anything else. Just that LDFLAGS
-variable.
+    https://lore.kernel.org/linux-kbuild/CAK7LNASZi3A_BzFACOvZhwByHaVon-Cd5=
+H++uygsv4m_fhDOyQ@mail.gmail.com/
 
-Yes, yes, the ACPI tool makefile could then use
+So, to be honest, I doubt we have someone at hand right now who is able
+to fix the tools/ tree.
 
-    override LDFLAGS += -luuid
+Personally, I'd favor if we could work towards removal of the 'tools/%'
+rule in top-level Makefile, as long as tools/ is not kbuild-compliant.
 
-but why would it do something as crazy as that?
+Kind regards,
+Nicolas
 
-That "LDFLAGS=" override goes back many many years,  In fact, it goes
-back to the very initial addition of those rules in commit
-ea01fa9f63ae ("tools: Connect to the kernel build system").
+--++043sky81sjvUI9
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So I have no idea why it exists. Just removing the "LDFLAGS=" override
-seems to fix everything for me, but I must be missing something.
+-----BEGIN PGP SIGNATURE-----
 
-And when I say "fix everything", I lie. It fixes this issue, and most
-things build find, but it eventually ends up hitting a few build
-errors in the tests and then fatally for virtio_test.
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmjYRpgACgkQB1IKcBYm
+Emn6MhAA3LWKRKLounvgcD8jWkWKgG6Jl+8wM/oh/T6MfzjOiUTR/TEjFLUm20VM
+YZZJonC2mOMX/A8cYqhMKwkfP2XxDcuaWc1c3DGPqGL3QiLIrvphD4gMdk6o93HL
+dEKQkKsc9FZ5CTJjRTuNSCIWY7C2/skdei+51FW08ByKA+bdG3aIC2GO7DgsT/p+
+XnkKBsZ4d1fVPeHnoGk/j2ld0SDJ7EywJJMIf7POQwjokrAYksmFteYGKVi0oEt1
++RksCLmRDF4NFsTU9drCEjAwva8I71TehciVpMvc1RsTMCOwYwFkOEpKrplWmDnv
+xowm+LXeQHCT75vp72VmhIgEMiBfsOFS/mWrMfuH+d+d7BoMSTI/F35xrdiDNXuy
+qWPjOGhaYScSM1PFnPVXwdtNRF+BRF3m8JOTsySKEGu6hfaM8llTqeUcyVo96RWQ
+s9F9pYzalUTo0v1OoLKl4+U/pHLzHMfDtuF+OJPraabpgnx17t9S5kJd25OyOfvx
+KFhpntkJvvK2D7c+6HUz8XvI81yQ8yg16FaYHT/f4++wT+tK5e6A2FxolYujV9Ak
+T+ZntMlwuGqYQyvHQaMa9xenmK3b0k0akFVCEIvYVeKOFhlnuBUBDgKoU2rdJrIb
+x2KKx7RDOM74TLG1j1iTBuNeQFC1SgAHegf9mFYhB1qFeg40Lzc=
+=lgzM
+-----END PGP SIGNATURE-----
 
-That seems to be entirely unrelated, and an actual real build problem
-(possibly me not having some library or other, my motivation to look
-into it ran out).
-
-Comments?
-
-              Linus
+--++043sky81sjvUI9--
 
