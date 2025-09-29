@@ -1,130 +1,213 @@
-Return-Path: <linux-kbuild+bounces-8974-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFC2BA71BD
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Sep 2025 16:41:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B35BA7A24
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Sep 2025 02:44:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 451CA18998BE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Sep 2025 14:41:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C08783B62F5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Sep 2025 00:44:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D8BC20C038;
-	Sun, 28 Sep 2025 14:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 537881A2C0B;
+	Mon, 29 Sep 2025 00:44:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KQHRjPwL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tr3hqD49"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0973A20101D
-	for <linux-kbuild@vger.kernel.org>; Sun, 28 Sep 2025 14:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EA11A239A;
+	Mon, 29 Sep 2025 00:44:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759070486; cv=none; b=BU5kxwAWbAllHzLUM68Ua7k8rGbdT0cwR03sZL2hWVRV7TwyNCVpnETwRmqMMwk1jg1ucnwkKSTuf4V+w9OORZj5XgOu5mO975Jzlipf0PMjyjJwiKwHkrUx4BmOIzmVKQFoUuWHITHiRBOZYCyiEbkyZw7B8Q35mdBRA3jUVYc=
+	t=1759106695; cv=none; b=Qqq2PJPR3BIvKwP+CJ+ghUPVhrb1UNQvxl7ilWQ/hmjTSnYKr6ClULlVqVh9cCxdumyyvEJoMo5Ao1n5ek22x1WQs08Fs4dlna+/PeehF2ET8unP4KBiDB/f0+wJ87y49nsbrXaJAKnOSz+01SXcSWreZw/R6MeBypVP0xSXvSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759070486; c=relaxed/simple;
-	bh=zEl3HK9Huv3wAo8Gz3obptdVAl3BiTe7KlwyVun45hk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cC1HIOI9KHlLO83XtcYYabDdEqto9OWFu4ZCDy/G/0QocwonhdonxYck+paLZkhwm0k5cqMlX9ER9gIwENkthxuIy5eFlGxw2+57TZgUAV44rvQ8MD/hvXxT7Uy1k2SYDpoWQgsaCYI84HtOJjJgYQ5fq6vZs2c+M18R1Vp1CBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KQHRjPwL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED90C4CEF5
-	for <linux-kbuild@vger.kernel.org>; Sun, 28 Sep 2025 14:41:25 +0000 (UTC)
+	s=arc-20240116; t=1759106695; c=relaxed/simple;
+	bh=ezlBS1msfavapR0wlpEBcCZo/WqIgfbxLQ2zqXf5QCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZFZhV8qidVSzes9kd1HSHmo8a4dLVtQSU4CQInQcIWDqH8TSro3P21KafmmIfvHKWUUbu9Ft0xdXocZ4B1FEApI4yEbgZPkYbX9PhxNG8L69+L/HASghV1ywQSX5IlSkR52vMbuPNVapA/Bd6d7PBJEqOCr+XTE6PE32VNUhbg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tr3hqD49; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BECC4CEF0;
+	Mon, 29 Sep 2025 00:44:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759070485;
-	bh=zEl3HK9Huv3wAo8Gz3obptdVAl3BiTe7KlwyVun45hk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=KQHRjPwLC5G8brFRuLi7o+fpS7n5vnimwAp70vgaHEgFmGnQ+8/JXmEMwOpYluWwc
-	 gPh8y3NdWf05BAJsL1h89OUxuFiv9K0M0HAyMqKJAYGCpmKa3ACFswAt33tdsAo0Uw
-	 WdTCh+3Jn7TMW4j+oJj7r1EF6IJOs7ve0Px1LcHX9VnhjdE0r+UEpc5Xm6wBzwl3Yu
-	 a8fnF/rbiGqU15Qg4uTENsF6mjnkIPDm1zebsaCCre5mcLnUqjqOoCMEqJWnK6oHig
-	 l3Ae2UGbCke7CAP4d0CH4r2FibiszgEoGSh6Cq/uBnrxy4QLsw0AP9aujqJ9E7H1Ur
-	 kFjd+rIM8OAoQ==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5818de29d15so5076461e87.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 Sep 2025 07:41:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWaraoknU4G437PTz4suVcfg2Bdy5Se6L6V42j8LBFFf/5sGXNHzEDwk1Y4Yh2n8NURQycHBMPmCoz92IM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSrW1ypXTN1H16hsv6SbdXdDMmz5fG1Q2+JZ8fLk9BVI5y0aZt
-	/hxgO773ZfXh4s03CB7gLc1Ws2IFvW2fhYa4Vht5+d97/Z3L2si8CkSVx3NcUwzJtHDY11YMb5u
-	gtraMEDu5uQUBSvAMrvRzhADuAFD6SKw=
-X-Google-Smtp-Source: AGHT+IFWQQN6QdQWgcfYnmBFENB0KuvC1Z/xcGcpQuzj5V+hESZTuEgEU7p0gTVxJK5oi7ZFD+wA09OxaRIm8jBNjGM=
-X-Received: by 2002:ac2:4f07:0:b0:55b:8afb:e638 with SMTP id
- 2adb3069b0e04-582d295ce23mr4091918e87.28.1759070484041; Sun, 28 Sep 2025
- 07:41:24 -0700 (PDT)
+	s=k20201202; t=1759106694;
+	bh=ezlBS1msfavapR0wlpEBcCZo/WqIgfbxLQ2zqXf5QCU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Tr3hqD49p+UF/DPcCFcRo+8yJkMfQvcSWfHnzDYE19y8mEWTL7jLfGVjNWbjWOfJr
+	 Xjy5YzI8Tdixx0MbjJhenA5TueG3ZinReTGa1ltomYRU3tElzmNZYoQp/kNARn/2JJ
+	 Hq/61k9EZDVDlYEM0/l76BE8lko0/lnOPzly4j+431pnowKxTrDK605+2CiWpWf0pb
+	 DDnOW2qEQ3HCM80953UM0SysKRJbkhRnuvKakKGZseuywfuGZozNSRnXSK3TB4/LFF
+	 mvFDR87RsIzQC7JAtoXqXg8zA9r0HkzkddzC/RWeKlVW2+KTvRqhvueoogAVRL/s/+
+	 hSVqC4gVJTamg==
+Date: Mon, 29 Sep 2025 02:44:49 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>, Thomas
+ =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>, Alice Ryhl
+ <aliceryhl@google.com>, Randy Dunlap <rdunlap@infradead.org>, Tamir
+ Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 19/24] docs: add support to build manpages from
+ kerneldoc output
+Message-ID: <20250929024449.69e6b79b@foz.lan>
+In-Reply-To: <aNhKdCrSM29uwvpn@levanger>
+References: <cover.1758196090.git.mchehab+huawei@kernel.org>
+	<3d248d724e7f3154f6e3a227e5923d7360201de9.1758196090.git.mchehab+huawei@kernel.org>
+	<aNhKdCrSM29uwvpn@levanger>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250928085506.4471-1-yangtiezhu@loongson.cn> <CAMj1kXG8Wi+THa2SeLxiDT=+t_TKx0AL4H-azZO4DNJvyyv96g@mail.gmail.com>
- <CAAhV-H7xOf8DEwOrNh+GQGHktOT4Ljp+7SqutGvvDZp6GLXJrA@mail.gmail.com> <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
-In-Reply-To: <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Sun, 28 Sep 2025 16:41:12 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHWe2uGY3S1NJ6mckqD4n116rPmaOzw3_Qbvxyjh7ECMw@mail.gmail.com>
-X-Gm-Features: AS18NWDKeRljEYzTakhM3NRe_gYKBPPHlUPXn-bSPODAX07vV2YYljZFZWHKAg0
-Message-ID: <CAMj1kXHWe2uGY3S1NJ6mckqD4n116rPmaOzw3_Qbvxyjh7ECMw@mail.gmail.com>
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 28 Sept 2025 at 16:39, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Sun, 28 Sept 2025 at 15:52, Huacai Chen <chenhuacai@kernel.org> wrote:
-> >
-> > Hi, Ard,
-> >
-> > On Sun, Sep 28, 2025 at 9:42=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org=
-> wrote:
-> > >
-> > > On Sun, 28 Sept 2025 at 10:55, Tiezhu Yang <yangtiezhu@loongson.cn> w=
-rote:
-> > > >
-> > > > When compiling with LLVM and CONFIG_LTO_CLANG is set, there exists
-> > > > the following objtool warning on LoongArch:
-> > > >
-> > > >   vmlinux.o: warning: objtool: __efistub_efi_boot_kernel()
-> > > >   falls through to next function __efistub_exit_boot_func()
-> > > >
-> > > > This is because efi_boot_kernel() doesn't end with a return instruc=
-tion
-> > > > or an unconditional jump, then objtool has determined that the func=
-tion
-> > > > can fall through into the next function.
-> > > >
-> > > > At the beginning, try to do something to make efi_boot_kernel() end=
-s with
-> > > > an unconditional jump instruction, but this modification seems not =
-proper.
-> > > >
-> > > > Since the efistub functions are useless for stack unwinder, they ca=
-n be
-> > > > ignored by objtool. After many discussions, no need to link libstub=
- to
-> > > > the vmlinux.o, only link libstub to the final vmlinux.
-> > > >
-> > >
-> > > Please try keeping these changes confined to arch/loongarch. This
-> > > problem does not exist on other architectures, and changing the way
-> > > vmlinux is constructed might create other issues down the road.
-> > ARM, RISC-V and LoongArch do things exactly in the same way. Now
-> > LoongArch is the first of the three to enable objtool, so we meet the
-> > problem first.
-> >
-> > But yes, I also don't want to change the way of constructing vmlinux.
-> > So I prefer the earliest way to fix this problem.
-> > https://lore.kernel.org/loongarch/CAAhV-H7fRHGFVKV8HitRgmuoDPt5ODt--iSu=
-V0EmeeUb9d5FNw@mail.gmail.com/T/#meef7411abd14f4c28c85e686614aa9211fccdca0
-> >
->
-> Can we just drop the __noreturn annotation from kernel_entry_t, and
-> return EFI_SUCCESS from efi_boot_kernel()?
+Em Sat, 27 Sep 2025 22:35:00 +0200
+Nicolas Schier <nsc@kernel.org> escreveu:
 
-... or add efi_boot_kernel() to ./tools/objtool/noreturns.h?
+> Please note that @kernel.org receipients are still not addressed
+> correctly:
+>=20
+> > Date: Thu, 18 Sep 2025 13:54:53 +0200
+> > From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet=
+ <corbet@lwn.net>
+> > Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa <=
+akiyks@gmail.com>,
+> >     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Thomas Wei=C3=9F=
+schuh <thomas.weissschuh@linutronix.de>,
+> >     Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <mchehab+huawei@=
+kernel.org>,
+> >     Miguel Ojeda <mchehab+huawei@kernel.org>, Nathan Chancellor <mcheha=
+b+huawei@kernel.org>,
+> >     Nicolas Schier <nicolas.schier@linux.dev>, Randy Dunlap <rdunlap@in=
+fradead.org>,
+> >     Tamir Duberstein <tamird@gmail.com>, linux-kbuild@vger.kernel.org,
+> >     linux-kernel@vger.kernel.org =20
+
+Just Found the issue: the problem were on a rewrite rule
+on my emailer which I added ages ago. Dropped it. It should
+be ok next time.
+
+> On Thu, Sep 18, 2025 at 01:54:53PM +0200, Mauro Carvalho Chehab wrote:
+> > Generating man files currently requires running a separate
+> > script. The target also doesn't appear at the docs Makefile.
+> >=20
+> > Add support for mandocs at the Makefile, adding the build
+> > logic inside sphinx-build-wrapper, updating documentation
+> > and dropping the ancillary script.
+> >=20
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  Documentation/Makefile                 |  3 +-
+> >  Documentation/doc-guide/kernel-doc.rst | 29 ++++-----
+> >  Makefile                               |  2 +-
+> >  scripts/split-man.pl                   | 28 ---------
+> >  tools/docs/sphinx-build-wrapper        | 81 ++++++++++++++++++++++++--
+> >  5 files changed, 95 insertions(+), 48 deletions(-)
+> >  delete mode 100755 scripts/split-man.pl
+> >=20
+> > diff --git a/Documentation/Makefile b/Documentation/Makefile
+> > index 05397b9d844d..aa42b2cb7030 100644
+> > --- a/Documentation/Makefile
+> > +++ b/Documentation/Makefile
+> > @@ -53,7 +53,7 @@ ifeq ($(HAVE_SPHINX),0)
+> >  else # HAVE_SPHINX
+> > =20
+> >  # Common documentation targets
+> > -infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkcheckdocs:
+> > +mandocs infodocs texinfodocs latexdocs epubdocs xmldocs pdfdocs linkch=
+eckdocs:
+> >  	$(Q)@$(srctree)/tools/docs/sphinx-pre-install --version-check
+> >  	+$(Q)$(PYTHON3) $(BUILD_WRAPPER) $@ \
+> >  		--sphinxdirs=3D"$(SPHINXDIRS)" --conf=3D"$(SPHINX_CONF)" \
+> > @@ -104,6 +104,7 @@ dochelp:
+> >  	@echo  '  htmldocs        - HTML'
+> >  	@echo  '  texinfodocs     - Texinfo'
+> >  	@echo  '  infodocs        - Info'
+> > +	@echo  '  mandocs         - Man pages'
+> >  	@echo  '  latexdocs       - LaTeX'
+> >  	@echo  '  pdfdocs         - PDF'
+> >  	@echo  '  epubdocs        - EPUB'
+> > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc=
+-guide/kernel-doc.rst
+> > index af9697e60165..4370cc8fbcf5 100644
+> > --- a/Documentation/doc-guide/kernel-doc.rst
+> > +++ b/Documentation/doc-guide/kernel-doc.rst
+> > @@ -579,20 +579,23 @@ source.
+> >  How to use kernel-doc to generate man pages
+> >  -------------------------------------------
+> > =20
+> > -If you just want to use kernel-doc to generate man pages you can do th=
+is
+> > -from the kernel git tree::
+> > +To generate man pages for all files that contain kernel-doc markups, r=
+un::
+> > =20
+> > -  $ scripts/kernel-doc -man \
+> > -    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+> > -    | scripts/split-man.pl /tmp/man
+> > +  $ make mandocs
+> > =20
+> > -Some older versions of git do not support some of the variants of synt=
+ax for
+> > -path exclusion.  One of the following commands may work for those vers=
+ions::
+> > +Or calling ``script-build-wrapper`` directly:: =20
+>=20
+> For this very patch, there is no 'scripts-build-wrapper' but
+> 'sphinx-build-wrapper'.  Or am I missing something?
+
+Sorry! yes, sphinx-build-wrapper is the right name.
+
+>=20
+> > =20
+> > -  $ scripts/kernel-doc -man \
+> > -    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+> > -    | scripts/split-man.pl /tmp/man
+> > +  $ ./tools/docs/sphinx-build-wrapper mandocs
+> > =20
+> > -  $ scripts/kernel-doc -man \
+> > -    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)to=
+ols") \
+> > -    | scripts/split-man.pl /tmp/man
+> > +The output will be at ``/man`` directory inside the output directory
+> > +(by default: ``Documentation/output``).
+> > +
+> > +Optionally, it is possible to generate a partial set of man pages by
+> > +using SPHINXDIRS:
+> > +
+> > +  $ make SPHINXDIRS=3Ddriver-api/media mandocs
+> > +
+> > +.. note::
+> > +
+> > +   When SPHINXDIRS=3D{subdir} is used, it will only generate man pages=
+ for
+> > +   the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` =
+file.
+> > diff --git a/Makefile b/Makefile
+> > index 6bfe776bf3c5..9bd44afeda26 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1800,7 +1800,7 @@ $(help-board-dirs): help-%:
+> >  # Documentation targets
+> >  # --------------------------------------------------------------------=
+-------
+> >  DOC_TARGETS :=3D xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs=
+ \
+> > -	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs
+> > +	       linkcheckdocs dochelp refcheckdocs texinfodocs infodocs mandocs
+> >  PHONY +=3D $(DOC_TARGETS)
+> >  $(DOC_TARGETS):
+> >  	$(Q)$(MAKE) $(build)=3DDocumentation $@ =20
+>=20
+> Acked-by: Nicolas Schier <nsc@kernel.org>
+Thanks!
+
+Mauro
 
