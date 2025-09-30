@@ -1,134 +1,251 @@
-Return-Path: <linux-kbuild+bounces-8984-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8985-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4A6BAB186
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Sep 2025 04:53:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF3DBAB48D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Sep 2025 06:11:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23A173C6BA7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Sep 2025 02:53:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6319B3C0875
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Sep 2025 04:11:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4728B1A239A;
-	Tue, 30 Sep 2025 02:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78271247284;
+	Tue, 30 Sep 2025 04:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQEQ98G3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P84j0X3q"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C42721B9C1
-	for <linux-kbuild@vger.kernel.org>; Tue, 30 Sep 2025 02:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FF8158DAC;
+	Tue, 30 Sep 2025 04:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759200793; cv=none; b=l85IvHKGQCKc72soNto1u7m5DWHedlRHB4f6WF/EFE1WyKt65cGxUMZBXZHg3V966E6I84GxuTbYPsvf8B0YpyHTrrYyyWd5MEVuU+vvuYPJuWr99RKKCdAHCqBgkhZM+5d37rlGMTx5HxbX8EO6NmyCGc+HU43AuYAsLwABbg4=
+	t=1759205484; cv=none; b=W35OVVyL4c9LRpAj6P71MV9r3CcXCOaSV0hIhc1myPPu/PoIXA5N/e+rERwf/DaaVYafcUDvqRWS94nkiz2afvX98h1pbNTSI5EVKdrqYIphOsaMmRGfz6jq52bmY+xAuuPBBA3uda7j3mwyU3qO4VkLnmjKLV8d60B/3uI+7Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759200793; c=relaxed/simple;
-	bh=ym6h+Qei6CJdmJJVbagIpDYKjBeMBZx8FHWAejUB0wE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W+MfF+2IyXv2GSBCNzhjfxPKFd1S3csllLs9REkqgTYO9BDAUn/vnsqjw3PPnN2onYBs2T+DRGPc9geUbPkUUkxlWK41KlV7P9b/Oav4x/jznOt7PQRu1rKgcDKtG2x8w3OHBgWEQku6n1ilXToHzuAea/dQPS+kUNRnj7tGRMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQEQ98G3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9163FC19422
-	for <linux-kbuild@vger.kernel.org>; Tue, 30 Sep 2025 02:53:12 +0000 (UTC)
+	s=arc-20240116; t=1759205484; c=relaxed/simple;
+	bh=tEA9RAVe902bczUpATC5xzP8yIKDSnkt/x8+xZUqgrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RhhGIfxmeFOfMYKtjPdK32+xxhrRglzh5eTDq06FyUKWNjKVOtI0UkLnnJVyerdBaYZjUxZ7hbOqtvHtl6CpO/Ecyf4ks70vTzY+Yf7SGs8z6LmEtU9Q7mn86DO4ZsWrBmt8y3dgBDoj1RIQtHHCr49sbHoZK1eZ+aqhX2m7QTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P84j0X3q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E59E5C4CEF0;
+	Tue, 30 Sep 2025 04:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759200792;
-	bh=ym6h+Qei6CJdmJJVbagIpDYKjBeMBZx8FHWAejUB0wE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZQEQ98G3bc+RXLkAjVNzcVi/lvBuHyora3y6Zw3XprKqYOMPaiGuYjUK/G31JHpHr
-	 O/OuKZm9HxOCnEpUNddpaLPt8AEcacqAeWwfafojoodFqESXk1zkEJdNPhyMg0aCTq
-	 u9t2U/bkf6E2Ki2+tyhc3LF4SVgdenJkZpg5gxVO8OiTLyAuSdwIQIn6hyFegsIt+o
-	 czyltKdO8Mhzmuk9ok02kbwhybem3tvpxnlWZKLjd1DoG/jUDb+8I5/pMNXO+ow6wc
-	 9R56Mc3eNQU+YHPldkahVJa9yh0GzHiPaLclpp3q1D+rONvmophr3SCnxBPTIcVQ4F
-	 ilqJGzWWnxTQA==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b00a9989633so988767566b.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Sep 2025 19:53:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXnxUA8TTBu9Ab+HRC+oNhOwLkuuXEf3PVWHp/eblcxESetDhf68IsrOxgNQ6am2un/XovF4M5CND8Rhao=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzs6JZCr6gxDXmSQO2/Iycf3RXp4lQdu7V1n8dAA4LmCB4xoGg5
-	1rZC08suFp9iC8oRBb/l1UfmxgYrxV8NXheJ8TA2o9J0gnYBgawqk0FukwubICMPPmu14+p9Y7r
-	0GUuvSGLSUt97xim2+NEpcU/Xj8ia0Jg=
-X-Google-Smtp-Source: AGHT+IEfvCuZAVXXWVTEo167aebO6qUsrh2w2UDinUqmaNHItIXCoAnwHta702NRz1ENszkgUaXlenJfqCGyw7SV6Wc=
-X-Received: by 2002:a17:907:daa:b0:b2d:4e57:58d8 with SMTP id
- a640c23a62f3a-b413600acc6mr256609966b.10.1759200791107; Mon, 29 Sep 2025
- 19:53:11 -0700 (PDT)
+	s=k20201202; t=1759205484;
+	bh=tEA9RAVe902bczUpATC5xzP8yIKDSnkt/x8+xZUqgrk=;
+	h=Date:From:To:Cc:Subject:From;
+	b=P84j0X3qDCeotY/jwXbqpDkgtRPD+bGl1EcZOI4xWZ2cl5pTmHyz1pFkOfrbIbwAR
+	 MYi/k7Gj0kAgSezlCV5zeEZZeVy1yRHnAY2wQAH9/qroo1rzdCEHcjR1VzUhoqOluE
+	 0Ff2pomvofgwOL2SpTolqTAw5qyWhZs3/2LYf4IncWXEwBvJQMUOycQ2U3DLnOflX+
+	 yBAoGKxYcDK0KLXd3H5Nvy3Hx1pBL2stUHb1O0W/PZz19GZsqa6F61EzAjv4jX+5V0
+	 M2nrxWb7Pz1PzyvEn+iu4+W9GaXkwzrlYFGOLUYGYXvpyaw+ICfBn/zmAtDnOY4oVv
+	 9v0TjotiBlqDg==
+Date: Mon, 29 Sep 2025 21:11:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Kbuild updates for 6.18
+Message-ID: <20250930041119.GA1936516@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250928085506.4471-1-yangtiezhu@loongson.cn> <CAMj1kXG8Wi+THa2SeLxiDT=+t_TKx0AL4H-azZO4DNJvyyv96g@mail.gmail.com>
- <CAAhV-H7xOf8DEwOrNh+GQGHktOT4Ljp+7SqutGvvDZp6GLXJrA@mail.gmail.com> <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
-In-Reply-To: <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 30 Sep 2025 10:52:59 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6PNcyTNXEhzdovt3an7e9V+B+Z-px=_HPiQ5vv7qaDMg@mail.gmail.com>
-X-Gm-Features: AS18NWDktm4BaCz5O-7O3VzGm9rq1tPjPU1iKF2Ar1jh6n3dOQanb3Px7roMXtU
-Message-ID: <CAAhV-H6PNcyTNXEhzdovt3an7e9V+B+Z-px=_HPiQ5vv7qaDMg@mail.gmail.com>
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 28, 2025 at 10:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> w=
-rote:
->
-> On Sun, 28 Sept 2025 at 15:52, Huacai Chen <chenhuacai@kernel.org> wrote:
-> >
-> > Hi, Ard,
-> >
-> > On Sun, Sep 28, 2025 at 9:42=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org=
-> wrote:
-> > >
-> > > On Sun, 28 Sept 2025 at 10:55, Tiezhu Yang <yangtiezhu@loongson.cn> w=
-rote:
-> > > >
-> > > > When compiling with LLVM and CONFIG_LTO_CLANG is set, there exists
-> > > > the following objtool warning on LoongArch:
-> > > >
-> > > >   vmlinux.o: warning: objtool: __efistub_efi_boot_kernel()
-> > > >   falls through to next function __efistub_exit_boot_func()
-> > > >
-> > > > This is because efi_boot_kernel() doesn't end with a return instruc=
-tion
-> > > > or an unconditional jump, then objtool has determined that the func=
-tion
-> > > > can fall through into the next function.
-> > > >
-> > > > At the beginning, try to do something to make efi_boot_kernel() end=
-s with
-> > > > an unconditional jump instruction, but this modification seems not =
-proper.
-> > > >
-> > > > Since the efistub functions are useless for stack unwinder, they ca=
-n be
-> > > > ignored by objtool. After many discussions, no need to link libstub=
- to
-> > > > the vmlinux.o, only link libstub to the final vmlinux.
-> > > >
-> > >
-> > > Please try keeping these changes confined to arch/loongarch. This
-> > > problem does not exist on other architectures, and changing the way
-> > > vmlinux is constructed might create other issues down the road.
-> > ARM, RISC-V and LoongArch do things exactly in the same way. Now
-> > LoongArch is the first of the three to enable objtool, so we meet the
-> > problem first.
-> >
-> > But yes, I also don't want to change the way of constructing vmlinux.
-> > So I prefer the earliest way to fix this problem.
-> > https://lore.kernel.org/loongarch/CAAhV-H7fRHGFVKV8HitRgmuoDPt5ODt--iSu=
-V0EmeeUb9d5FNw@mail.gmail.com/T/#meef7411abd14f4c28c85e686614aa9211fccdca0
-> >
->
-> Can we just drop the __noreturn annotation from kernel_entry_t, and
-> return EFI_SUCCESS from efi_boot_kernel()?
-Not good, because kernel_entry_t is really "noreturn", and at present
-no architecture returns EFI_SUCCESS at the end of efi_boot_kernel().
+Hi Linus,
 
+Please pull these updates to Kbuild for 6.18. This is my first pull
+request, so if I have done something incorrect or unsatisfactory to
+your standards, please let me know so I (and Nicolas) can avoid
+repeating mistakes in the future.
 
-Huacai
+The majority of these changes have been in -next for several cycles
+with no reported problems. I am only aware of one conflict with the
+arm64 tree around CONFIG_CPU_BIG_ENDIAN, Mark's resolution looks
+correct to me.
+
+  https://lore.kernel.org/aNU-sG84vqPj7p7G@sirena.org.uk/
+
+There are several changes from other areas (mostly architectures) that
+should have their appropriate acks and such.
+
+There is a back merge of 6.17-rc6, which should have sufficient
+justification but I know back merges can be contentious so I figured
+I would be open with it up front anyways. Looking back on it, I probably
+should have only merged up to 6.17-rc4 for commit bd7c2312128e ("pinctrl:
+meson: Fix typo in device table macro") but I went with -rc6 to try and
+head off a simple conflict from commit 41f9049cff32 ("riscv: Only allow
+LTO with CMODEL_MEDANY") in -rc5. In the end, it didn't matter because
+of the arm64 conflict so I will be more careful in the future.
+
+Cheers,
+Nathan
+
+----------------------------------------------------------------
+
+The following changes since commit f83ec76bf285bea5727f478a68b894f5543ca76e:
+
+  Linux 6.17-rc6 (2025-09-14 14:21:14 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-6.18-1
+
+for you to fetch changes up to 2ea77fca84f07849aa995271271340d262d0c2e9:
+
+  modpost: Initialize builtin_modname to stop SIGSEGVs (2025-09-28 07:54:07 -0400)
+
+----------------------------------------------------------------
+Kbuild updates for 6.18
+
+- Extend modules.builtin.modinfo to include module aliases from
+  MODULE_DEVICE_TABLE for builtin modules so that userspace tools (such
+  as kmod) can verify that a particular module alias will be handled by
+  a builtin module.
+
+- Bump the minimum version of LLVM for building the kernel to 15.0.0.
+
+- Upgrade several userspace API checks in headers_check.pl to errors.
+
+- Unify and consolidate CONFIG_WERROR / W=e handling.
+
+- Turn assembler and linker warnings into errors with CONFIG_WERROR /
+  W=e.
+
+- Respect CONFIG_WERROR / W=e when building userspace programs
+  (userprogs).
+
+- Enable -Werror unconditionally when building host programs
+  (hostprogs).
+
+- Support copy_file_range() and data segment alignment in gen_init_cpio
+  to improve performance on filesystems that support reflinks such as
+  btrfs and XFS.
+
+- Miscellaneous small changes to scripts and configuration files.
+
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+
+----------------------------------------------------------------
+Alexey Gladkov (5):
+      s390: vmlinux.lds.S: Reorder sections
+      scsi: Always define blogic_pci_tbl structure
+      modpost: Add modname to mod_device_table alias
+      modpost: Create modalias for builtin modules
+      kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
+
+Andrii Nakryiko (1):
+      .gitignore: ignore compile_commands.json globally
+
+David Disseldorp (8):
+      gen_init_cpio: write to fd instead of stdout stream
+      gen_init_cpio: support -o <output_file> parameter
+      gen_init_cpio: attempt copy_file_range for file data
+      gen_init_cpio: avoid duplicate strlen calls
+      gen_initramfs.sh: use gen_init_cpio -o parameter
+      docs: initramfs: file data alignment via name padding
+      gen_init_cpio: add -a <data_align> as reflink optimization
+      initramfs_test: add filename padding test case
+
+Hugh Dickins (1):
+      modpost: Initialize builtin_modname to stop SIGSEGVs
+
+Masahiro Yamada (4):
+      kbuild: always create intermediate vmlinux.unstripped
+      kbuild: keep .modinfo section in vmlinux.unstripped
+      kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
+      Documentation: kbuild: note CONFIG_DEBUG_EFI in reproducible builds
+
+Maxime Thiebaut (1):
+      extract-vmlinux: Output used decompression method
+
+Miguel Ojeda (1):
+      kbuild: rust: move `-Dwarnings` handling to `Makefile.extrawarn`
+
+Nathan Chancellor (15):
+      kbuild: Bump minimum version of LLVM for building the kernel to 15.0.0
+      arch/Kconfig: Drop always true condition from RANDOMIZE_KSTACK_OFFSET
+      ARM: Clean up definition of ARM_HAS_GROUP_RELOCS
+      arm64: Remove tautological LLVM Kconfig conditions
+      mips: Unconditionally select ARCH_HAS_CURRENT_STACK_POINTER
+      powerpc: Drop unnecessary initializations in __copy_inst_from_kernel_nofault()
+      riscv: Remove version check for LTO_CLANG selects
+      riscv: Unconditionally use linker relaxation
+      riscv: Remove ld.lld version checks from many TOOLCHAIN_HAS configs
+      lib/Kconfig.debug: Drop CLANG_VERSION check from DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+      objtool: Drop noinstr hack for KCSAN_WEAK_MEMORY
+      KMSAN: Remove tautological checks
+      Merge patch series "Bump minimum supported version of LLVM for building the kernel to 15.0.0"
+      Merge 6.17-rc6 into kbuild-next
+      Merge patch series "Add generated modalias to modules.builtin.modinfo"
+
+Randy Dunlap (1):
+      kconfig: qconf/xconfig: show the OptionsMode radio button setting at startup
+
+Thomas Weiﬂschuh (11):
+      kbuild: uapi: rerun header tests when headers_check.pl changes
+      kbuild: uapi: fail header test on compiler warnings
+      kbuild: uapi: upgrade warning on asm/types.h inclusion to error
+      kbuild: uapi: upgrade check_sizetypes() warning to error
+      kbuild: uapi: upgrade check_declarations() warning to error
+      kbuild: align W=e with CONFIG_WERROR
+      kbuild: unify W=e and CONFIG_WERROR
+      kbuild: respect CONFIG_WERROR for linker and assembler
+      kbuild: respect CONFIG_WERROR for userprogs
+      kbuild: enable -Werror for hostprogs
+      kbuild: userprogs: avoid duplication of flags inherited from kernel
+
+Thorsten Blum (1):
+      kconfig: nconf: Format and print 'line' without a temporary copy
+
+Vlastimil Babka (1):
+      scripts/misc-check: update export checks for EXPORT_SYMBOL_FOR_MODULES()
+
+ .gitignore                                         |   2 +-
+ .../driver-api/early-userspace/buffer-format.rst   |   5 +
+ Documentation/kbuild/reproducible-builds.rst       |   3 +
+ Documentation/process/changes.rst                  |   2 +-
+ Makefile                                           |   8 +-
+ arch/Kconfig                                       |   1 -
+ arch/arm/Kconfig                                   |  11 +-
+ arch/arm64/Kconfig                                 |   5 +-
+ arch/mips/Kconfig                                  |   2 +-
+ arch/powerpc/include/asm/inst.h                    |   4 -
+ arch/riscv/Kconfig                                 |  21 +-
+ arch/riscv/Makefile                                |   9 +-
+ arch/s390/kernel/vmlinux.lds.S                     |  10 +-
+ drivers/scsi/BusLogic.c                            |   4 +-
+ include/asm-generic/vmlinux.lds.h                  |   2 +-
+ include/linux/module.h                             |  18 +-
+ init/initramfs_test.c                              |  67 +++++-
+ lib/Kconfig.debug                                  |   2 +-
+ lib/Kconfig.kcsan                                  |   6 -
+ lib/Kconfig.kmsan                                  |  11 +-
+ rust/kernel/device_id.rs                           |   8 +-
+ scripts/Makefile.extrawarn                         |  18 +-
+ scripts/Makefile.vmlinux                           |  79 ++++---
+ scripts/Makefile.vmlinux_o                         |  26 +--
+ scripts/extract-vmlinux                            |   8 +-
+ scripts/kconfig/nconf.gui.c                        |   8 +-
+ scripts/kconfig/qconf.cc                           |  13 ++
+ scripts/link-vmlinux.sh                            |   5 +-
+ scripts/min-tool-version.sh                        |   6 +-
+ scripts/misc-check                                 |   4 +-
+ scripts/mksysmap                                   |   6 +
+ scripts/mod/file2alias.c                           |  35 +++-
+ scripts/mod/modpost.c                              |  15 ++
+ scripts/mod/modpost.h                              |   2 +
+ tools/objtool/check.c                              |  10 -
+ tools/power/cpupower/.gitignore                    |   3 -
+ usr/gen_init_cpio.c                                | 233 ++++++++++++++-------
+ usr/gen_initramfs.sh                               |   7 +-
+ usr/include/Makefile                               |   4 +-
+ usr/include/headers_check.pl                       |   9 +-
+ 40 files changed, 432 insertions(+), 260 deletions(-)
 
