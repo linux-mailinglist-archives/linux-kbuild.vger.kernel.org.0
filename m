@@ -1,229 +1,163 @@
-Return-Path: <linux-kbuild+bounces-8994-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8995-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEA6BB45A3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Oct 2025 17:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B50ABB48BF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Oct 2025 18:33:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 208CE3C3917
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Oct 2025 15:31:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E397F3A3DCD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Oct 2025 16:33:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11894221F03;
-	Thu,  2 Oct 2025 15:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6733225D1E6;
+	Thu,  2 Oct 2025 16:33:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYqJYnzZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PO1gW2/Q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D777B1F19A;
-	Thu,  2 Oct 2025 15:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CBE187332
+	for <linux-kbuild@vger.kernel.org>; Thu,  2 Oct 2025 16:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759419056; cv=none; b=N3uhE5Ua9Ekk6vFmCS1ED5hgggzxo7UNKv9VUlw6/DKx1h593uTMOHanmzNybe8s7aIR3QWtIYu6la+rxzd71txiZKezILr0mKHbNythI9h+1MiKbdihfiWlyUKJsMOFgaKbpVC68N+46C7C3kOvu4M20a3zMU7ZwbOJtCml/rU=
+	t=1759422781; cv=none; b=ZSAtbkjHbhnhk3i6NkOcr7V4DWwh63ic37jnNtL1f3NGwo2EIuoJqoN32IZEcMBSvyqlZq8uJbxP3eRRyMIKluPuFZ9tz9wNozbTA03ADfr7Lu08mIxJa7VabclqL/BiQ/SAkKA2jmM5szbcteoM2Flkazj9nRjZygViZJzLi2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759419056; c=relaxed/simple;
-	bh=vh0VVOO9+/7GWA6NXZ2Gf0cH0YvjpZ87GMq2P86zrH0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EkH7Cr0gM9sDY9OcHTYALi/Sr0Lntjm5mPAb74gDOsUbIZ+/iKuan8/4yGzxlA3ZCFPUXZoGQtA0pJQwI9fKun//DamRmeiNUFnf1nVyJmh4qQWjJMlgoO7LgBqjp36NeWFLF3T2dAFv6t/mwNds7ohELM7NToxpvU9FjkgQC6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYqJYnzZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F305DC4CEFB;
-	Thu,  2 Oct 2025 15:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759419054;
-	bh=vh0VVOO9+/7GWA6NXZ2Gf0cH0YvjpZ87GMq2P86zrH0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZYqJYnzZ1w8DBAyona7bNafm4BWc3nYied2BuWTMMSmdekcl6ywbls5N8SnKajB+z
-	 B7qM+cJsPeewJOMXQV3x3od1Ll+5FO9juWsOIZLMKmVWJhETjDmgW2cVKJD7fSWhPH
-	 WuuKKfu1WCuRdh6gUenRDsRo9uBVtBrp2Tn5XAfaKayuaN0pYqFFK9TJEhoyzDwc5z
-	 maKfJnYayM8ekCD3G7zlaaY1rXQtp5604wiMpUlN9dIZ1vioQQizrp/a/HuCE5/ubF
-	 FNmpsWVKPQkngoqmzlb9xDtmqPg14z5wDMx8CTBzmlY3+doZ1KhdwFFzOBskdQRrJp
-	 rwX+QkfqUrzxQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Borislav Petkov <bp@alien8.de>,
-	Sasha Levin <sashal@kernel.org>,
-	yamada.masahiro@socionext.com,
-	michal.lkml@markovi.net,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	linux-kbuild@vger.kernel.org,
-	netdev@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-6.6] Unbreak 'make tools/*' for user-space targets
-Date: Thu,  2 Oct 2025 11:30:08 -0400
-Message-ID: <20251002153025.2209281-21-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251002153025.2209281-1-sashal@kernel.org>
-References: <20251002153025.2209281-1-sashal@kernel.org>
+	s=arc-20240116; t=1759422781; c=relaxed/simple;
+	bh=OIoBlJxedue7cFPlUKgJeYCeNnkdgr5da1l3r1pk0X4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gArazA39JDUsGxgIQHDdanOuLnZQ9hmgIYhh6xYCsM4vLYGqotKado24hZjySlZdBDeWTI1BYVmWExsYQC6mQRn6fjd+jg00ld3dtMdl++axU4uplYuIAYEZdmOcT+xF2kM9MvllZXepOuwnVSNCfaCILMZYYWt7f8hOCIfV7mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PO1gW2/Q; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-330a4d4359bso1156456a91.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Oct 2025 09:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759422779; x=1760027579; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ez0M0Aj20Z7dwYg47mICpmFbEQoKpvWZN0OyB0vWYIM=;
+        b=PO1gW2/QcNJqwjmmpREOuE1Fs2PFiUc4xFqTylCB689RaXpp2m7ZOAWnsFg/u4eD8a
+         85MAc02dw35SIe4qcCz04F9WAl/hVpJz32xqabB/0vqP6mvhZHo5JUsnC3bRUu0aYjYC
+         SdB+agy5dYSvhXs2vVgSspC6UnBUJjWqc64YKDKJQ8wtuQaT+EWAavOvhRzugFHBDq2p
+         zcQFWjkTaPfyRJ8xA+fOltL0+WYkqkAv6K5JQ4SMD63JVZvVcmozYIHO6ON0czf4ZVWR
+         p34AeScaJHXl/yJVlKjzM4EicVjkdPxY98LmMY41y9jL4xMj0eGJD8HaoZ08IYiEEqKC
+         uDbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759422779; x=1760027579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ez0M0Aj20Z7dwYg47mICpmFbEQoKpvWZN0OyB0vWYIM=;
+        b=hmJ/Eae29nZwqvLob9ye23yqx8O1+scAUWnFXbZbleHb8a2Sq7ndo6iospEOsjQKIe
+         YbNknoGhhZASHOErUjLJfa/vVLbH735BBOHXEX4TdSiXoUAs6+ElKepqBbA1T0lULrBv
+         wmdOL2e1R/ZYup0/bzUnjCqbUKTUt1F+Ijd2OOwXY937rP78n1LDB3+44fDPMG8yxjAn
+         TJ+5Tdv5TH6co5FBanjWe45auzMtcDKDbiYnmJtvlQkUa8iUNutjhzIfFAPciFSZKdW/
+         O6YwdWlWFhwVXwt2dMIBHZftORIkG9STwV2lp52lsegafbHOekePmLQNcllNfOzyKf5C
+         5VQA==
+X-Forwarded-Encrypted: i=1; AJvYcCWxqg1vkjjQB6hqoDYoaNi84I5Z6DgsGonUF3+05lOPxKJpmANzqiZzHLtrotSXdGQm+GZzLZ+hYDE3WPo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxI2eImTtuemaM8U7W9Li15bXva/wCCc9PuedoXtraj/WiaN1z6
+	Z84wF8ESNWxojOGE8AAQuwoAuufNN7flETFw0KdM6krZXHcIzqjeTh+4E/8CKWfzHUoJspwuHJG
+	c5PGsNmYX5RW2lMuipoBEwIJdcJHAtdc=
+X-Gm-Gg: ASbGncs6cbug06/4zFc74w0gRg1Dz46kIqCbyjXzgYdD3N6T2yYuYZHyv5lD89tv9Yq
+	0kcdZXGu/qJx52ZXTa4N5kRfTcA23SN7D3e4t6mmzz4FESCLSytICPbcfU+ErZyqZkRFUAgvCH/
+	Z2fdflC5cYwSewmqqUg3MlB8tTw+4E/FZSzi9VR+C1wfGivrqGPXYBsYczlhSYzc1/nCd665Mc9
+	kTkZphB6zopxdf/jEY5Agk4SeenwL4=
+X-Google-Smtp-Source: AGHT+IFVsf/3b43N6f3rUJuCPERQjlfs8pncdypMufpmJyxOVCyX+x3BzNvd8mkPszvC3qfUZz/q6xzLBY+xfR/Fp+k=
+X-Received: by 2002:a17:90b:4d84:b0:330:4a1d:223c with SMTP id
+ 98e67ed59e1d1-339a6e955e2mr9907319a91.15.1759422779326; Thu, 02 Oct 2025
+ 09:32:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1755535876.git.legion@kernel.org> <b2d50fde039a0a7e2d1a9db6bae8b83cd4ec4856.1755535876.git.legion@kernel.org>
+In-Reply-To: <b2d50fde039a0a7e2d1a9db6bae8b83cd4ec4856.1755535876.git.legion@kernel.org>
+From: ChaosEsque Team <chaosesqueteam@gmail.com>
+Date: Thu, 2 Oct 2025 12:37:54 -0400
+X-Gm-Features: AS18NWADnzGOdqIhXZpmfGAb3A3etsheN66_8WKH_yIi4ZMCgXiLE7dTSzZXFFQ
+Message-ID: <CALC8CXeYuUEQBdwNirQ28P6ociMGatgKiO4hBdaahp9T_Qfgdg@mail.gmail.com>
+Subject: Re: [PATCH v7 8/8] kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Linus Torvalds <torvalds@linux-foundation.org>
+Alexey Gladkov.
+RUSSSSKKIIEEEEEEE
+(Rus)
 
-[ Upstream commit ee916dccd4df6e2fd19c3606c4735282b72f1473 ]
-
-This pattern isn't very documented, and apparently not used much outside
-of 'make tools/help', but it has existed for over a decade (since commit
-ea01fa9f63ae: "tools: Connect to the kernel build system").
-
-However, it doesn't work very well for most cases, particularly the
-useful "tools/all" target, because it overrides the LDFLAGS value with
-an empty one.
-
-And once overridden, 'make' will then not honor the tooling makefiles
-trying to change it - which then makes any LDFLAGS use in the tooling
-directory break, typically causing odd link errors.
-
-Remove that LDFLAGS override, since it seems to be entirely historical.
-The core kernel makefiles no longer modify LDFLAGS as part of the build,
-and use kernel-specific link flags instead (eg 'KBUILD_LDFLAGS' and
-friends).
-
-This allows more of the 'make tools/*' cases to work.  I say 'more',
-because some of the tooling build rules make various other assumptions
-or have other issues, so it's still a bit hit-or-miss.  But those issues
-tend to show up with the 'make -C tools xyz' pattern too, so now it's no
-longer an issue of this particular 'tools/*' build rule being special.
-
-Acked-by: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: Borislav Petkov <bp@alien8.de>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Based on my comprehensive analysis of this commit, here is my
-determination:
-
-## **Backport Status: YES**
-
-### Detailed Analysis
-
-#### Historical Context
-The `LDFLAGS=` override was added in commit ea01fa9f63ae (2012) by
-Borislav Petkov with the comment "Clear a bunch of variables before
-executing the submake." This was done when the tools build system was
-first connected to the kernel build system. However, this override is
-now obsolete since modern kernel builds use `KBUILD_LDFLAGS` instead of
-`LDFLAGS` (Makefile:1447-1448).
-
-#### What the Commit Fixes
-
-**Build Errors**: The commit fixes link errors when using `make
-tools/all` or `make tools/<toolname>` from the top-level kernel
-directory. By overriding `LDFLAGS=` (setting it to empty), the top-level
-Makefile prevents tools' makefiles from setting their own linker flags,
-causing link failures.
-
-**Security Issue**: More critically, this prevents distribution-provided
-security flags from being applied. As demonstrated by commit
-0e0b27dbede5e ("tools/rv: Keep user LDFLAGS in build"), not honoring
-`LDFLAGS` causes tools to be built without PIE (Position Independent
-Executable), which prevents ASLR (Address Space Layout Randomization) -
-a critical security mitigation against ROP attacks.
-
-#### Evidence from Related Commits
-
-Multiple tools have had to work around LDFLAGS issues:
-- `d81bab116b485`: tools/bootconfig - explicitly specify LDFLAGS
-- `0e0b27dbede5e`: tools/rv - Keep user LDFLAGS (security: PIE not
-  enabled)
-- `9adc4dc96722b`: tools/runqslower - Fix LDFLAGS usage (caused link
-  failures)
-
-#### Alignment with Stable Kernel Rules
-
-From Documentation/process/stable-kernel-rules.rst:
-
-✅ **Line 18-20**: "It fixes a problem like... **a build error** (but not
-for things marked CONFIG_BROKEN)"
-
-✅ **Line 18**: "a real **security issue**" - Tools not being built with
-PIE/ASLR
-
-✅ **Line 10**: "obviously correct and tested" - Simple 2-line change,
-Acked-by Nathan Chancellor
-
-✅ **Line 11**: "cannot be bigger than 100 lines" - Only 4 lines changed
-total
-
-#### Risk Assessment
-
-**Risk: VERY LOW**
-- Removes obsolete override (kernel hasn't used LDFLAGS since switching
-  to KBUILD_LDFLAGS)
-- Only affects `make tools/*` pattern from top-level Makefile
-- Tools already work correctly with `make -C tools` pattern
-- Change makes behavior consistent between both invocation methods
-
-#### Code Analysis
-
-The change at Makefile:1447-1448:
-```diff
--$(Q)$(MAKE) LDFLAGS= O=$(abspath $(objtree)) subdir=tools -C
-$(srctree)/tools/
-+$(Q)$(MAKE) O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
-```
-
-This allows tools makefiles like tools/perf/Makefile.perf:528 and
-tools/bpf/bpftool/Makefile:186 to properly use `LDFLAGS` during linking,
-including distribution-provided flags for hardening (PIE, RELRO, etc.).
-
-### Conclusion
-
-This commit **should be backported** because it:
-1. Fixes documented build errors (meets stable rule line 19-20)
-2. Addresses a security issue where tools aren't built with hardening
-   flags (meets stable rule line 18)
-3. Is minimal, safe, and obviously correct
-4. Has been Acked by a kernel maintainer
-5. Removes technical debt that has caused repeated issues across
-   multiple tools
-
-The commit already appears to have been selected for backport via
-AUTOSEL (evidenced by `Signed-off-by: Sasha Levin`), which is
-appropriate given it fixes both build failures and a security concern.
-
- Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 82bb9cdf73a32..76dddefde0540 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1444,11 +1444,11 @@ endif
- 
- tools/: FORCE
- 	$(Q)mkdir -p $(objtree)/tools
--	$(Q)$(MAKE) LDFLAGS= O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
-+	$(Q)$(MAKE) O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
- 
- tools/%: FORCE
- 	$(Q)mkdir -p $(objtree)/tools
--	$(Q)$(MAKE) LDFLAGS= O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/ $*
-+	$(Q)$(MAKE) O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/ $*
- 
- # ---------------------------------------------------------------------------
- # Kernel selftest
--- 
-2.51.0
-
+On Mon, Aug 18, 2025 at 1:00=E2=80=AFPM Alexey Gladkov <legion@kernel.org> =
+wrote:
+>
+> Since .vmlinux.export.c is used to add generated by modpost modaliases
+> for builtin modules the .vmlinux.export.o is no longer optional and
+> should always be created. The generation of this file is not dependent
+> on CONFIG_MODULES.
+>
+> Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> ---
+>  scripts/Makefile.vmlinux | 9 ++-------
+>  scripts/link-vmlinux.sh  | 5 +----
+>  2 files changed, 3 insertions(+), 11 deletions(-)
+>
+> diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> index fcc188d26ead1..dbbe3bf0cf234 100644
+> --- a/scripts/Makefile.vmlinux
+> +++ b/scripts/Makefile.vmlinux
+> @@ -53,11 +53,6 @@ endif
+>  # vmlinux.unstripped
+>  # ----------------------------------------------------------------------=
+-----
+>
+> -ifdef CONFIG_MODULES
+> -targets +=3D .vmlinux.export.o
+> -vmlinux.unstripped: .vmlinux.export.o
+> -endif
+> -
+>  ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
+>  vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
+>
+> @@ -72,8 +67,8 @@ cmd_link_vmlinux =3D                                   =
+                 \
+>         $< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";       \
+>         $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+>
+> -targets +=3D vmlinux.unstripped
+> -vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORC=
+E
+> +targets +=3D vmlinux.unstripped .vmlinux.export.o
+> +vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o .vmlinux.export.o =
+$(KBUILD_LDS) FORCE
+>         +$(call if_changed_dep,link_vmlinux)
+>  ifdef CONFIG_DEBUG_INFO_BTF
+>  vmlinux.unstripped: $(RESOLVE_BTFIDS)
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 51367c2bfc21e..433849ff7529e 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -73,10 +73,7 @@ vmlinux_link()
+>                 objs=3D"${objs} .builtin-dtbs.o"
+>         fi
+>
+> -       if is_enabled CONFIG_MODULES; then
+> -               objs=3D"${objs} .vmlinux.export.o"
+> -       fi
+> -
+> +       objs=3D"${objs} .vmlinux.export.o"
+>         objs=3D"${objs} init/version-timestamp.o"
+>
+>         if [ "${SRCARCH}" =3D "um" ]; then
+> --
+> 2.50.1
+>
+>
 
