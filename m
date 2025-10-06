@@ -1,163 +1,111 @@
-Return-Path: <linux-kbuild+bounces-9006-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9007-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCBBBBDDA5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Oct 2025 13:22:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D7DBBDDBD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Oct 2025 13:27:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1DAB64E8C90
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Oct 2025 11:22:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81C293B305A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Oct 2025 11:27:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62634233155;
-	Mon,  6 Oct 2025 11:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7433426B0B3;
+	Mon,  6 Oct 2025 11:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ii9hZK/A"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D8C26A1B5
-	for <linux-kbuild@vger.kernel.org>; Mon,  6 Oct 2025 11:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065EB1E1A3D
+	for <linux-kbuild@vger.kernel.org>; Mon,  6 Oct 2025 11:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759749737; cv=none; b=Db+44dJyEHPjFV5ev1A5BkzNVl/YRZJC2JHgUGSUM3bUVfO24LiY8VBGzeZUtwyqOIwTt5dYDpnV+0ZMRrAihKi0OEEfHkIOiBPhtMsV4rcTXp+v37NLjZrQQyJtTeZYXS2JLiwF8sZmVU6qcL9cq5PJihqZTAbqCm8ekDWrA4E=
+	t=1759750068; cv=none; b=nc25xBruqvIYGlWEw+K/RklBz63OmaAUYHLu9ZkmdTV3Vqh8f8D1U1kOfNZH9afYhURzfnjsZx3tMMqpJzRZXCBwz5ilwXJSzwkZ3vqAhBMCkFM4gsyZSB7qsZQrlOjGxC4QpfUla9V5ZtSHP5xgjBgoLcM9IAbA8bSnENQe5+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759749737; c=relaxed/simple;
-	bh=Y3Atn65xFGH/0e1A2PaPhs3F2p+GKPI48e94fdpGas4=;
+	s=arc-20240116; t=1759750068; c=relaxed/simple;
+	bh=E/FPw0fY1WNiYy4hyNh9nlCHleoKAmsLZkg3ptd5JBE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rkEdFkH1WFmYycH5itEk48HJqD7Y1PAjcErD+4uvQ1RYzhajMOywFhZVpZ/saBM2yKM6Qp8YQp7keoOf+VwakwXczWoa146mOb9RIzOQ2+N3rIeK55I9QrUfq+mSo4joGE5OddWMWkdInsjfPKgYQB+H4Fwg1SwjeRLSBszlLBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=cgrBVia5G2JVem2DeCs+tvB+K0i5wk16W6/Np4JJaIBfPgYNloe+kWQmVRdNVaXPUeLxdxzoAMoiuG63xQqu0EFWC878z6GE4ouFUqL8ZlnFp8BjLhHAxQe1vacBbXCbFAIKZkyEYs1R/qp5/WmpUz428WauAAkno5tTByTLiEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ii9hZK/A; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-90f6d66e96dso1359593241.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Oct 2025 04:22:15 -0700 (PDT)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-32f3fa6412dso811594a91.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Oct 2025 04:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759750066; x=1760354866; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E/FPw0fY1WNiYy4hyNh9nlCHleoKAmsLZkg3ptd5JBE=;
+        b=ii9hZK/AUgJGOk0I8YPiYshKZ9iCAW29phYwM1KVj+qUqT4tNScpOcq+plPVv2MtiA
+         AVkf0ZYudHlZmjk2ao32OTnXqTtRh+kMfppatE0M7R3BSkG4z0kT/bp/9AsqlxJzEC0p
+         hzlVJQbNvI14fp/PhMdcdJDDwNrHtpuUHD0wOv6KSlAbK5mSUBFg5msXnnRfiqhom/CA
+         abpJ7XO6yhXN0d9EaQJWN8UXLJokutMHpbvTDWFYL9hvKH5ieZrTGDt8nhGZZ99psIeV
+         dqNbmtEvySGD9tueSk5zgMFkZiQyaLzTFGCqGP+IX4bxVOzJZxQpAgRCYevYmVFFy+Me
+         Sh3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759749734; x=1760354534;
+        d=1e100.net; s=20230601; t=1759750066; x=1760354866;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=L5v6YXX9bgIrUD9M85TqnlXajae/PoAZkbY3xvYAmEY=;
-        b=ZvbGdwfgJI0YHmyGMwjfsr8i9YcExWhmlF1Ozh3CsQ3n0v7P4qsr/Vp1htgYScEKgN
-         cZ920xD9WlpCXkNYRGfot7Gfpif6o9AxpN5AufqqyZHsQftxtz/+J7r+qSruFphPyodq
-         HN+AH+BJ5+jFTime1Uj4k6VyTCh2KmIdy5Durgxu+WYirnitb8JCV9l51cmvll7Hk9BZ
-         hOK3oBlYbtzep0pNDg5y9ldI2eKh+YBwvClvB38mfEXyxVrS/aMeChAWhchPMjm7uea3
-         9ZcLt7JQNIW0HqirTK3fY1QGVTXu8kYqB1BQeCZJQSG6Vg22iwnI0JaEPnhhwDsP5hC7
-         L68w==
-X-Forwarded-Encrypted: i=1; AJvYcCX/HxGUF4402nAkh8yt/pxHqsOaSKDATgmFDtvuydNj8Vpa72SIjIUdGEOG8ciGuwbgO5F7NWANIW1z1TA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC/UbJCkP1xv9RFsM6EXmOWY1olAxHWeUIUI/kUU6aHSw/Hj5d
-	hIp7H49p8h5I/eAE38C2LaNzOFCozhL+3vpocezIarFLfqvOy2IUlJ0pKCVm9b8+
-X-Gm-Gg: ASbGncst+IKVPZRj/a5pKyLJIE2nkpzjyUoLv4kVZuLulxqutchzNYGC6p+Ofw+oskv
-	cV3CGXr6Z5vkMrjqjTxaTzdoRiwXxAz9mscj5xru1b1bH9kgmk7dy+YEOl+zSTgoBTcK79bIB0W
-	FZgk4Typ+dCxmoiMK72NymU1+calixHqBOWUwkm/DogvdbYEbnZGZ+LCnmtlZnZc6NVHrz5WZx7
-	Kpq2fz5rlwW63pCaTO8ATCE/pjO86q7ajPlZqQMU/JVLhdSsC9WgOj9fzMTNUd0/HaGe4HGWF5I
-	fWyvMXPFO2dHzD9y36feT3maabM61ZZuItzKa1Xtjq7yxGNliY+vQYEufFlTSHX5NQCIi8Gav3Q
-	TEFnwCBG57vTSGCsxVy+UH2B395mXQ1dajMJzjCLvm5nKqll9YOPig3ChjOqMECtak7QTX7w94W
-	xdavy1lM3BWBC06KZYdM4=
-X-Google-Smtp-Source: AGHT+IFHi10RA5DIS27Gs5cVqf5ueaH+/mkkkH0kOCLdcHCs747InpHFhMyMebPZy5ta2j8S1QWKnA==
-X-Received: by 2002:a05:6102:2922:b0:537:f1db:7695 with SMTP id ada2fe7eead31-5d41d10c1f2mr3972910137.26.1759749734053;
-        Mon, 06 Oct 2025 04:22:14 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5523ce64af0sm2881129e0c.8.2025.10.06.04.22.13
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Oct 2025 04:22:13 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-5d128733742so2055025137.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Oct 2025 04:22:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUXV5XfB96YGimHT0+sXpAOZpnEaIRoZuhXSA8bp2Tsc68gYyV5UyHg7YNyuTgF0hG0jDddNKPX52q/Fgs=@vger.kernel.org
-X-Received: by 2002:a05:6102:5086:b0:51f:66fc:53b8 with SMTP id
- ada2fe7eead31-5d41d10c1e6mr3769193137.25.1759749732995; Mon, 06 Oct 2025
- 04:22:12 -0700 (PDT)
+        bh=E/FPw0fY1WNiYy4hyNh9nlCHleoKAmsLZkg3ptd5JBE=;
+        b=hODrf3XQqgFHLkqs0+yhsZc/aNwOCKo1mV4he/5Ci4CdVJa2BEM8DdCvaoO+QKnY0y
+         8ezzK/6is5LDAmV/H6hrNP+bRb3zlVmYceIElH7P0YeawWrVn5I650tGeurPukETxtzj
+         CJLlHkrM63Pd9pt0/8jopePwE7csDQ5v+DsSyDXBm+oLXlQR8R7djhpyAnVu1t0JsOWw
+         3G9k+KICrCmEhzlliruhzv4bWNvn7Z3Og+vlaVC2SkqxHKBbv+3Je882DZMMvojuB5wf
+         USBPomeo0Gs1BiGmuxa/wpiY5ga7zlzkcqS00bNzdD6lTdh8Pr8DOm1SbwMy0Hukbf1I
+         H69g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGwoYXOhdYTeQGuxL26ITFTzOEW9n1PzN6f1g5e/BSh4wTZqKZy6R/s+r7ne87SM8ZU+JCu9q8Z3XdmE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTaIhfUgJ/aeIX5ddz0vlcaABvy7ItcfDRiX2Y/tgUdpDqCLBs
+	obJq5Y/iwz1iWkdInxmpvnDih+MM+A2TLm2WHNm9EH9Ko+xo+T1M4Wgid0ZaRgIPfPjkJiaa0Nc
+	pKrrUlKuxNzqCGAOQ8VSwd2w6IVvqYLw=
+X-Gm-Gg: ASbGncsdA116kXMaRmP16UDCiikPFSxT8O+M/R9BS7jlvn8jDxwFjknX45Vx/3HMpvm
+	PxguhKLXI11pKL7qWitI4XT9kZn6gBB++la+U5o0U4ZHuHqqYf0NleWkGugUQcjEt9zLDFT9XTk
+	B3A8Q2TCuV8GLsWFJjPBwlX3lRfZIFV554er9waz9ZRpxEPFazZBj/RgKvYBiq/1k1jiEp+MSqU
+	l6f5M0iisT0bem4zk/q9S+qIzpelM+eC1AmKbPgHvCX2I3lvaGPsgzDMxnnF/iDr1DWeYDiXgnS
+	UeexJl2Dj33vHe8M4HyN5k2YK/6QLpXnIW2X93s4Q1g0PyGouBdwYLKGrs0RE0sWGV4wPAU=
+X-Google-Smtp-Source: AGHT+IGU552WBlNxXYsiZP3k+YaYGnd0eztZK4BBARL/9cAMbZoEa5fIfV4DQMF8tLrK1/G2rwbinID+IDLRpUaG874=
+X-Received: by 2002:a17:903:18b:b0:257:3283:b859 with SMTP id
+ d9443c01a7336-28e9a6ce25fmr71533365ad.9.1759750066264; Mon, 06 Oct 2025
+ 04:27:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6e68ab921a728caea4f3f37bfae9b1896edfa97a.1759740354.git.geert@linux-m68k.org>
- <20251006122254-b3b3f96f-67e5-4223-a040-79c845097f6d@linutronix.de>
-In-Reply-To: <20251006122254-b3b3f96f-67e5-4223-a040-79c845097f6d@linutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 6 Oct 2025 13:22:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWydvUtYUiT23HcgRA3+6di0sZmVqrAPMGM_v5B208=zw@mail.gmail.com>
-X-Gm-Features: AS18NWCyOXitXU3rGEXUiPmnEZfW-xN2u5xkzC9-zt4O_5XgyELmHdg8FqqTPME
-Message-ID: <CAMuHMdWydvUtYUiT23HcgRA3+6di0sZmVqrAPMGM_v5B208=zw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: uapi: Strip comments before size type check
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-m68k@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20250814-kbuild-werror-v2-6-c01e596309d2@linutronix.de>
+ <20251005011100.1035272-1-safinaskar@gmail.com> <20251005205335.GA2561157@ax162>
+In-Reply-To: <20251005205335.GA2561157@ax162>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 6 Oct 2025 13:27:33 +0200
+X-Gm-Features: AS18NWADaxVflRFqTezzJZlF2JybUbasQ-cTILinYfyS9GRIdfm3RSh3CWudziU
+Message-ID: <CANiq72kDT_uDpmvMyMEXodSXP3rsevjzW7G134H9A7Pmx6_7nA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] kbuild: enable -Werror for hostprogs
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Askar Safin <safinaskar@gmail.com>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Nicolas Schier <nsc@kernel.org>, a.hindborg@kernel.org, alex.gaynor@gmail.com, 
+	aliceryhl@google.com, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, 
+	dakr@kernel.org, gary@garyguo.net, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, lossin@kernel.org, ojeda@kernel.org, 
+	rust-for-linux@vger.kernel.org, tmgross@umich.edu, sam@gentoo.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Thomas,
-
-On Mon, 6 Oct 2025 at 12:31, Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
-> On Mon, Oct 06, 2025 at 10:49:28AM +0200, Geert Uytterhoeven wrote:
-> > On m68k, check_sizetypes in headers_check reports:
-> >
-> >     ./usr/include/asm/bootinfo-amiga.h:17: found __[us]{8,16,32,64} typ=
-e without #include <linux/types.h>
-> >
-> > This header file does not use any of the Linux-specific integer types,
-> > but merely refers to them from comments, so this is a false positive.
-> > As of commit c3a9d74ee413bdb3 ("kbuild: uapi: upgrade check_sizetypes()
-> > warning to error"), this check was promoted to an error, breaking m68k
-> > all{mod,yes}config builds.
+On Sun, Oct 5, 2025 at 10:53=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
 >
-> This commit has been in -next for some time. Any idea why the issue did
-> not show up there?
+> Thomas and Nicolas, thoughts?
 
-No idea. Looks like the build bots that are still running don't exercise m6=
-8k
-builds on linux-next?
-Perhaps this is just collateral damage of the loss of the kisskb build serv=
-ice?
+I think it would be good to eventually split the hostprog flags into 2
+sets: the ones that are used for bootstrapping, and the ones that go
+after that.
 
-> > Fix this by stripping simple comments before looking for Linux-specific
-> > integer types.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->
-> Reviewed-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+That way, we can get the best of both worlds, if I understand correctly.
 
-Thanks!
-
->
-> > ---
-> >  usr/include/headers_check.pl | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.p=
-l
-> > index 21c2fb9520e6af2d..75dfdce39e7f4610 100755
-> > --- a/usr/include/headers_check.pl
-> > +++ b/usr/include/headers_check.pl
-> > @@ -155,6 +155,9 @@ sub check_sizetypes
-> >       if (my $included =3D ($line =3D~ /^\s*#\s*include\s+[<"](\S+)[>"]=
-/)[0]) {
-> >               check_include_typesh($included);
-> >       }
-> > +     # strip comments (single-line and C99 only)
-> > +     $line =3D~ s@\/\*.*?\*\/@@;
-> > +     $line =3D~ s@\/\/.*$@@;
->
-> C99/C++ comments are rejected in UAPI headers, so this line can be droppe=
-d.
-
-'git grep "//" -- "*uapi*.h"' disagrees...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Miguel
 
