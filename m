@@ -1,91 +1,89 @@
-Return-Path: <linux-kbuild+bounces-9009-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9010-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB51BBE09B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Oct 2025 14:33:52 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA55BBE160
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Oct 2025 14:48:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7730E3B9C9F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Oct 2025 12:33:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 051174E33F9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Oct 2025 12:48:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A20A27F19B;
-	Mon,  6 Oct 2025 12:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7698B278E5D;
+	Mon,  6 Oct 2025 12:48:20 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786EB35898;
-	Mon,  6 Oct 2025 12:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DE01F8755;
+	Mon,  6 Oct 2025 12:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759754029; cv=none; b=fLRLLUoMB+/Nxvt/kYBCi5BJ2cPCGQwU87gtRlfMpFZhXKZQ74MWSQ8rkmV/qy5540gfRK+95zz51LwbWZX5g1d7yf9fwwmGUyBFX+wILyHs8tzssVOh2+Yz3vsomfIb7rPG159EZxIgQl3xTVxAS6Td/vxRc+Ny02U/i7Dqh38=
+	t=1759754900; cv=none; b=e2Y49cJqMtY1qF7ICCrBNU+IT3aFQK6W1bX6/i4wi3Ym1YyIfDOFTp5xJvpdJcXN5am/N8V0qfvvez/E/XlHqgpil7AQF36GjeN5BfUNcSyPbtfqKC+dzhnrXwcuq1wA50m5hZK/WmpmKyscMdHJhgC/Or/9aXWg23PesMiI5SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759754029; c=relaxed/simple;
-	bh=nI44LgrbD2JrAwsczLJrzBMIgQX/oR138L1JHXuUMe4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DhRtpQAlmGLsYTIGobwebdHC3nIDYRsy6MX6eDIHb26ewijJl4sAiAfXfMEjt3OJ9ysqUQl7N+7Peaab9pWUokN5rsYd1FmebnexB4Ap4Wqlj6OMT1+vxrbop9wWZivHYLHuwYXhVl/8qQxG4rfiR1FEQDqsJ2swY19SxlAyT18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84658C4CEF5;
-	Mon,  6 Oct 2025 12:33:45 +0000 (UTC)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: linux-kbuild@vger.kernel.org,
-	linux-m68k@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v2] kbuild: uapi: Strip comments before size type check
-Date: Mon,  6 Oct 2025 14:33:42 +0200
-Message-ID: <949f096337e28d50510e970ae3ba3ec9c1342ec0.1759753998.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1759754900; c=relaxed/simple;
+	bh=yIv+Y6LFJ/1OHcFWks74RoSN8VfD9jS30sS4ckZ/d8Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AgeO8S7CnpRoboHMAIGlsfJJ78pJFG2IRPRamAWpX0IYKR/zm0W/IbDFSsWUy9j0RdV+2lc+acawd2bRkGHa9PWU/o7m1c0y3COd1+aeSl4EIFkg8v2LQCjgk2PZlIleXS7xAqtLPqbFe53moWqbqApiYHeJClQGbLJHRXSi6UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=212.18.0.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4cgJln5gHVz1sBqm;
+	Mon,  6 Oct 2025 14:40:53 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 4cgJln4ljQz1qqlg;
+	Mon,  6 Oct 2025 14:40:53 +0200 (CEST)
+X-Virus-Scanned: amavis at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavis, port 10024)
+ with ESMTP id Lo6ufq-sBmXT; Mon,  6 Oct 2025 14:40:44 +0200 (CEST)
+X-Auth-Info: fjqPRUDZ+D6alIMK+BgANJlB5OxNLA/TAqqPneisA9BfcE8wksM6zHXxzf/cqM2e
+Received: from hawking (unknown [81.95.8.245])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon,  6 Oct 2025 14:40:44 +0200 (CEST)
+From: Andreas Schwab <schwab@linux-m68k.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,  Nicolas Schier
+ <nicolas.schier@linux.dev>,  Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
+ <thomas.weissschuh@linutronix.de>,  linux-kbuild@vger.kernel.org,
+  linux-m68k@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: uapi: Strip comments before size type check
+In-Reply-To: <949f096337e28d50510e970ae3ba3ec9c1342ec0.1759753998.git.geert@linux-m68k.org>
+	(Geert Uytterhoeven's message of "Mon, 6 Oct 2025 14:33:42 +0200")
+References: <949f096337e28d50510e970ae3ba3ec9c1342ec0.1759753998.git.geert@linux-m68k.org>
+Date: Mon, 06 Oct 2025 14:40:43 +0200
+Message-ID: <mvm347wjj90.fsf@linux-m68k.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On m68k, check_sizetypes in headers_check reports:
+On Okt 06 2025, Geert Uytterhoeven wrote:
 
-    ./usr/include/asm/bootinfo-amiga.h:17: found __[us]{8,16,32,64} type without #include <linux/types.h>
+> diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.pl
+> index 21c2fb9520e6af2d..16c238aadfebb061 100755
+> --- a/usr/include/headers_check.pl
+> +++ b/usr/include/headers_check.pl
+> @@ -155,6 +155,8 @@ sub check_sizetypes
+>  	if (my $included = ($line =~ /^\s*#\s*include\s+[<"](\S+)[>"]/)[0]) {
+>  		check_include_typesh($included);
+>  	}
+> +	# strip comments (single-line only)
+> +	$line =~ s@\/\*.*?\*\/@@;
 
-This header file does not use any of the Linux-specific integer types,
-but merely refers to them from comments, so this is a false positive.
-As of commit c3a9d74ee413bdb3 ("kbuild: uapi: upgrade check_sizetypes()
-warning to error"), this check was promoted to an error, breaking m68k
-all{mod,yes}config builds.
+I don't think you need to quote the forward slashes in the regexp.
 
-Fix this by stripping simple comments before looking for Linux-specific
-integer types.
-
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reviewed-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
-v2:
-  - Add Reviewed-by,
-  - Drop support for C99 comments.
----
- usr/include/headers_check.pl | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.pl
-index 21c2fb9520e6af2d..16c238aadfebb061 100755
---- a/usr/include/headers_check.pl
-+++ b/usr/include/headers_check.pl
-@@ -155,6 +155,8 @@ sub check_sizetypes
- 	if (my $included = ($line =~ /^\s*#\s*include\s+[<"](\S+)[>"]/)[0]) {
- 		check_include_typesh($included);
- 	}
-+	# strip comments (single-line only)
-+	$line =~ s@\/\*.*?\*\/@@;
- 	if ($line =~ m/__[us](8|16|32|64)\b/) {
- 		printf STDERR "$filename:$lineno: " .
- 		              "found __[us]{8,16,32,64} type " .
 -- 
-2.43.0
-
+Andreas Schwab, schwab@linux-m68k.org
+GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
+"And now for something completely different."
 
