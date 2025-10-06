@@ -1,100 +1,121 @@
-Return-Path: <linux-kbuild+bounces-9004-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9005-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5233BBDAB0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Oct 2025 12:20:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92929BBDB15
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Oct 2025 12:31:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 984CF1896D87
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Oct 2025 10:21:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43C8D3B4AE9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Oct 2025 10:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A26EB2264B9;
-	Mon,  6 Oct 2025 10:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C427823C503;
+	Mon,  6 Oct 2025 10:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iBtFvHCr";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BI3bW8fZ"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UI/4M3nl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NtpGNc3M"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD9B223DF6;
-	Mon,  6 Oct 2025 10:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E7B1B0F11;
+	Mon,  6 Oct 2025 10:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759746039; cv=none; b=HKIzbpGOJ7QSUY8NsR3XRBoh+LMMESiN0Ci4TSrrv/RdRsE1JyQ6QgSmXwpKEbdI9u/3G840aNWcU+99j5Em7/AnbvutkrqWKd7ep+T4c0OvU3hIsX4g1IHhw0Hdr63Egz/tpVOkq4bpHClBCZjgcDIE1PP49mbvdZ6Su954268=
+	t=1759746685; cv=none; b=ipBdWE1dpf31JQPsEsxcNxH1TeC0UTSavlP3S/wvmOonLKoUgB/j4u92JhxbByHz7C/mq9ag6bLosNKfvB5fHxuI336KwxSdGmKcKXrwqO8ZjeG34dRtgS45bKjtuOUOUBRR7NdIvKGAp8g84yKWnWR8pU2OsmwvTaMjSSwmuic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759746039; c=relaxed/simple;
-	bh=7tUIVOnBx2u/uu7Z13kNQw14prnwiGlGx7B9Lxz4QB8=;
+	s=arc-20240116; t=1759746685; c=relaxed/simple;
+	bh=b+CNaA3oh8r6e/OAlITi9nu9rHrLqnEFHAYZxcvagNg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6/c90QDC+C4X5V4Cfns0ymI+C7//8H2iDBQW/QwYeyQjKO2OYk/st4LibAI9v5ZU2VyEe/DtMxr82J5Cen+QqIhBSdll+2npnGIJAzOose4fo84mRs1rdkVwV6ErW8r0ocSEVR6S3FqlgWu3xbmGr6zm1K714Yzxx2gGv+6tFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iBtFvHCr; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BI3bW8fZ; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=N21kCTZ5mdCpiOU2CR3B8EZ84WxoArA91iCidEneo9H8JhwgHPAjvmhaU/Owsy7IJtyiAezAzrraoV0fEPpigN9LA5UyHNkpTL4sj1a8z+ZSLkNq13xGIhon6gInnvN7vwsBALxnEe+lJslprfp3HTfQiYfUgdZhAchBDRcWUoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UI/4M3nl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NtpGNc3M; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Mon, 6 Oct 2025 12:20:35 +0200
+Date: Mon, 6 Oct 2025 12:31:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1759746035;
+	s=2020; t=1759746682;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7pwVoSdv1X5HI3eQKvSi2SkXzIB5AnrHLTDBFpfnXxs=;
-	b=iBtFvHCr+HAlrc15Bs6fFMlAo9ESmAfL/Ty/LFZZWke/WgqQTbsc5MTIxW6rfqX9b7pK0S
-	Ezq+i5UzVx3Cd10aci7LOV/eJzcJIBR14WRMYCXE9F8fBmjOms7Sz/cmhXyquYXtREvMin
-	UlAYAv9+sGoWy7ecqoeinRleLzOJVx8FcUFZJyzzHh+Gaw8P/zOICCd7qiMxJSNsKLH0HH
-	UAy0glOl7BQjFdgVdeS+78EIBgXenZ/ceT22ApyuSLcYFYQvtCC0fNyBXARRNLfn45nxgv
-	NRERiDQsd2+R7BnwCiXBkn916ZJaZCVStNrcmT6NuRlDEjXd+lr91xc86IELxw==
+	bh=F9Vm+6SJzGBd5zjp+yPXjTWbX+rAQXleybVGXQfhq7o=;
+	b=UI/4M3nlqJnAYlqpT17Mseq7S2zJU8z1njhf96Gz7gEYUYXML597UuNBUEbJ6EM+DCIyEw
+	sFS2Z/dbJrkqtrs8DXwSv9eeeMjO/w0aZ+zPwpoMzQfiLdTPMVdZpQKtNwxIaTzSUFRU7w
+	AWa652iFBakQ6IHxGySS9Kei3DOTrUUuTowp6bF8n2HzVlHVwIidCb8pMTFmMdjHjoMwft
+	o6cIGM3Im05QeOcWv7kYmnw7zqv74fNX+0p6Y4DkEeWmJ4pv5p5pDmr+sXmbkBkjKFdZRt
+	fkcRooj+2vXghK3Br2p71oIUj1NKNlSPCViHT4ObCaZA615rn7nku8p8I7itIA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1759746035;
+	s=2020e; t=1759746682;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7pwVoSdv1X5HI3eQKvSi2SkXzIB5AnrHLTDBFpfnXxs=;
-	b=BI3bW8fZsx40S1pOx7Kc7phTjbm5TW9S1wOL3g2UUn9Wzifj4/EMnVgBwf449rsw/OdrUq
-	T2PXqUFnHjayWhAg==
+	bh=F9Vm+6SJzGBd5zjp+yPXjTWbX+rAQXleybVGXQfhq7o=;
+	b=NtpGNc3MOmhSzinQtDWvHhLii8O9bWFP0LRgQ0Q/2w77f7fPY0q7BmX4iHGfaRsHHkT5us
+	rh4qI44lVzvruvDg==
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Askar Safin <safinaskar@gmail.com>, Nicolas Schier <nsc@kernel.org>, 
-	a.hindborg@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com, 
-	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, gary@garyguo.net, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, lossin@kernel.org, 
-	ojeda@kernel.org, rust-for-linux@vger.kernel.org, tmgross@umich.edu, 
-	sam@gentoo.org
-Subject: Re: [PATCH v2 6/6] kbuild: enable -Werror for hostprogs
-Message-ID: <20251006121330-1ca87091-ad31-4691-b3e8-a08ec02cd15b@linutronix.de>
-References: <20250814-kbuild-werror-v2-6-c01e596309d2@linutronix.de>
- <20251005011100.1035272-1-safinaskar@gmail.com>
- <20251005205335.GA2561157@ax162>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org, linux-m68k@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: uapi: Strip comments before size type check
+Message-ID: <20251006122254-b3b3f96f-67e5-4223-a040-79c845097f6d@linutronix.de>
+References: <6e68ab921a728caea4f3f37bfae9b1896edfa97a.1759740354.git.geert@linux-m68k.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251005205335.GA2561157@ax162>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6e68ab921a728caea4f3f37bfae9b1896edfa97a.1759740354.git.geert@linux-m68k.org>
 
-On Sun, Oct 05, 2025 at 01:53:35PM -0700, Nathan Chancellor wrote:
-
-(...)
-
-> In looking further into this, I noticed that in its current state,
-> -Werror is not getting applied to scripts/basic/fixup or
-> scripts/kconfig/*.o files (seems $(include-y) happens to late?), which
-> was one of the reasons to avoid making it depend on CONFIG_WERROR or
-> W=e. If that's the case, we could probably make it opt in like the rest
-> of the warnings for the kernel, which should be a fair compromise
-> between wanting to make potential issues more obvious while not
-> impacting people who build old sources with new compilers.
+On Mon, Oct 06, 2025 at 10:49:28AM +0200, Geert Uytterhoeven wrote:
+> On m68k, check_sizetypes in headers_check reports:
 > 
-> Thomas and Nicolas, thoughts?
+>     ./usr/include/asm/bootinfo-amiga.h:17: found __[us]{8,16,32,64} type without #include <linux/types.h>
+> 
+> This header file does not use any of the Linux-specific integer types,
+> but merely refers to them from comments, so this is a false positive.
+> As of commit c3a9d74ee413bdb3 ("kbuild: uapi: upgrade check_sizetypes()
+> warning to error"), this check was promoted to an error, breaking m68k
+> all{mod,yes}config builds.
 
-Yeah, fixdep and script/kconfig seem to be specifically handled in the
-'ifdef config-build' block in Makefile. And this happens explicitly
-before 'include .../auto.conf'. So your diff below looks like the
-correct solution. Thanks for taking a look!
+This commit has been in -next for some time. Any idea why the issue did
+not show up there?
 
+> Fix this by stripping simple comments before looking for Linux-specific
+> integer types.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Thomas
+Reviewed-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+
+> ---
+>  usr/include/headers_check.pl | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.pl
+> index 21c2fb9520e6af2d..75dfdce39e7f4610 100755
+> --- a/usr/include/headers_check.pl
+> +++ b/usr/include/headers_check.pl
+> @@ -155,6 +155,9 @@ sub check_sizetypes
+>  	if (my $included = ($line =~ /^\s*#\s*include\s+[<"](\S+)[>"]/)[0]) {
+>  		check_include_typesh($included);
+>  	}
+> +	# strip comments (single-line and C99 only)
+> +	$line =~ s@\/\*.*?\*\/@@;
+> +	$line =~ s@\/\/.*$@@;
+
+C99/C++ comments are rejected in UAPI headers, so this line can be dropped.
+
+>  	if ($line =~ m/__[us](8|16|32|64)\b/) {
+>  		printf STDERR "$filename:$lineno: " .
+>  		              "found __[us]{8,16,32,64} type " .
+> -- 
+> 2.43.0
+> 
 
