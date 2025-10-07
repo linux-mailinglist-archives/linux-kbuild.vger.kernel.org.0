@@ -1,312 +1,227 @@
-Return-Path: <linux-kbuild+bounces-9022-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9023-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3737ABBFEBF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 03:18:41 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8792BBFEC8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 03:18:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02546189D48E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 01:19:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 76B864EFEFF
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 01:18:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E4FD20E032;
-	Tue,  7 Oct 2025 01:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4574B1F0E58;
+	Tue,  7 Oct 2025 01:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JX7ESfr9"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OKadV1Rz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7ccEZXhc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l3O591YD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KGeikOmQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1F31DE3B7
-	for <linux-kbuild@vger.kernel.org>; Tue,  7 Oct 2025 01:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5A418C011
+	for <linux-kbuild@vger.kernel.org>; Tue,  7 Oct 2025 01:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759799836; cv=none; b=ZOLdxACJTAD/gsX3Bg6bmzxpL6Hce5NpA+A4EXNOiZ8NVCZmdFBnrophn54IvaqUP1dPx66lziMYW57pLBgF6Qw8nTZz/2YX5MlwhEixTrM8jom1hRzXkxR4OXRCZDhzGDpt+pB8ak5z2uwUmtZJ/RqfdZ0aXoZVo+rgPDm8lMI=
+	t=1759799861; cv=none; b=k8w/R4G6R9pryUXXpAvZlMi9sKK99+HPIdgRSDLr3b8nEvPTf2CJxsoyBemviRA3hAe5jnzlyEC9nr/ureiSK3Ti4W7ir08Fg5wwtb9iqvgHq8PmyyC5nk4Ql21/ApkGsPFHSrcXWLrV+zXqWZGzRoGzuKK6ePk9BkGLndY5d60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759799836; c=relaxed/simple;
-	bh=ZoCuQIGKECVz2Og4x5nmupKDmXLNha8Nv8LewmenEmc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OtamUr58Q2cNpwuxz2pG+YmObG/9KjgLrRWJRFQb9aBt0rWFne83f0CtDaEg92KrsmDLXCHjw1IRL+iTqqGWZQyBrGAlz9mBK18qeAeyB+G8c4hDGqUjTVkGCOfi2BboMY39xNGl+Chc8UHUsvwuBqrjALStGHfm9xNRIzObNew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JX7ESfr9; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759799829;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	s=arc-20240116; t=1759799861; c=relaxed/simple;
+	bh=OvSe3sT9R5NXhiQy4ZqwKuPlshnhEUGx+x0o+GY0cqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mhk4dhX60Yz3ouZFdurNedhyKGHUMww4SxbjqhZTf0aPXchhgmIyU9ko7l1SCoRd4ydsWe/NzpQhmCgNdbVWGrK3DOF5ts7M9Dte+dljfg/3Ha7ovYoznMqxHy8jOCnlzD59l0NU1yiwka6kf/zQoKmtqyAXFk/u1oWbLUXMEA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OKadV1Rz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7ccEZXhc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l3O591YD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KGeikOmQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D49B63369B;
+	Tue,  7 Oct 2025 01:17:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759799851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EpRMfKm9o1/F18kIBfBg6L03Iz4uKtsAej9zDsxfaLk=;
-	b=JX7ESfr9uPMAEVYDwsbN0+lI9juMm4yxR2xUSUziGpczLAcLelh2bidfkKu/Hr7VL+SkJ/
-	vwrRVUSAoxsgJA2URV4YohpXm0ppvsnlL1R1jvcU+iyj2A7jUMfe2bnyKtnF7Hc23uyXsa
-	167LVu7/I73qXLlHjFGJWJe5+Ra+/Yo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-635-6M4nBPQVP42ztCl4msuiYw-1; Mon,
- 06 Oct 2025 21:17:05 -0400
-X-MC-Unique: 6M4nBPQVP42ztCl4msuiYw-1
-X-Mimecast-MFC-AGG-ID: 6M4nBPQVP42ztCl4msuiYw_1759799823
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	bh=q5vcFiWJUr9hzuPL9RMNSONf1mEYtCaF3D1fRVUljQw=;
+	b=OKadV1RzszIDl5tkRvcodF4r7+EB7nClPjsbgqBnLuFbdr02S3lAnluqhD+maXF21aZQLA
+	GBrpheaTlkTW9Aq6cYLTZ95YjU3JMGFXwcHS/XG4oR+FyQGSxBWc+LZ+pvOmdFjWWzyJU/
+	wieaIbXrA9YnUFM7cmB48YWNyQLMN1U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759799851;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q5vcFiWJUr9hzuPL9RMNSONf1mEYtCaF3D1fRVUljQw=;
+	b=7ccEZXhcl8oT4/VOEQmPJll5fgI1h1njKk0A4KNnOlnRCjAWYFkujek8pUxPLVsfM8/VsN
+	ohymQgASYHQzfTCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=l3O591YD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KGeikOmQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759799850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q5vcFiWJUr9hzuPL9RMNSONf1mEYtCaF3D1fRVUljQw=;
+	b=l3O591YDQBLJ5+UIwg7ZS1inGjHocaXry3Q6fk85xU+JDA1ddr9m+4wLyd3jk9awiEfbsm
+	i88FTManR1dDBGfyBdNIP/KYrOaGOyOVYMXeKmzA9XXHQKHubp4faoCsK5HertJXoM4KsF
+	VlpJPq6OBTWAiNpBvNdsBkaXsKFklkc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759799850;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q5vcFiWJUr9hzuPL9RMNSONf1mEYtCaF3D1fRVUljQw=;
+	b=KGeikOmQm6FCP7OCeB/adZ6p2mL1kaVq/gxxoThatxx8QoLil+tociWbMjC9MXaXQYhFjg
+	TZo4JU5Nts0To/Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 04ED4180034F;
-	Tue,  7 Oct 2025 01:17:03 +0000 (UTC)
-Received: from cmirabil.lan (unknown [10.22.64.13])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EB5E41800452;
-	Tue,  7 Oct 2025 01:16:59 +0000 (UTC)
-From: Charles Mirabile <cmirabil@redhat.com>
-To: legion@kernel.org
-Cc: da.gomez@samsung.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	masahiroy@kernel.org,
-	mcgrof@kernel.org,
-	nathan@kernel.org,
-	nicolas.schier@linux.dev,
-	petr.pavlu@suse.com,
-	samitolvanen@google.com,
-	sfr@canb.auug.org.au
-Subject: Re: [PATCH v8 7/8] modpost: Create modalias for builtin modules
-Date: Mon,  6 Oct 2025 21:16:37 -0400
-Message-ID: <20251007011637.2512413-1-cmirabil@redhat.com>
-In-Reply-To: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
-References: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BD2113693;
+	Tue,  7 Oct 2025 01:17:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YbnsOCdq5GiYSQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Tue, 07 Oct 2025 01:17:27 +0000
+Date: Tue, 7 Oct 2025 12:17:19 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Dmitry Safonov via B4 Relay <devnull+dima.arista.com@kernel.org>
+Cc: dima@arista.com, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+ <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>
+Subject: Re: [PATCH RFC] gen_init_cpio: Do fsync() only on regular files
+Message-ID: <20251007121719.45090b21.ddiss@suse.de>
+In-Reply-To: <20251007-gen_init_cpio-pipe-v1-1-d782674d4926@arista.com>
+References: <20251007-gen_init_cpio-pipe-v1-1-d782674d4926@arista.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: D49B63369B
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email,arista.com:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dima.arista.com];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email]
+X-Spam-Score: -2.01
 
-On Thu, Sep 18, 2025 at 10:05:51AM +0200, Alexey Gladkov wrote:
-> For some modules, modalias is generated using the modpost utility and
-> the section is added to the module file.
+Thanks for reporting this regression, Dmitry...
+
+On Tue, 07 Oct 2025 00:55:03 +0100, Dmitry Safonov via B4 Relay wrote:
+
+> From: Dmitry Safonov <dima@arista.com>
 > 
-> When a module is added inside vmlinux, modpost does not generate
-> modalias for such modules and the information is lost.
+> Here at Arista gen_init_cpio is used in testing in order to create
+> an initramfs for specific tests. Most notably, there is a test that does
+> essentially a fork-bomb in kdump/panic kernel, replacing build-time
+> generated init script: instead of doing makedumpfile, it does call
+> shell tests.
 > 
-> As a result kmod (which uses modules.builtin.modinfo in userspace)
-> cannot determine that modalias is handled by a builtin kernel module.
+> In comparison to usr/Makefile, which creates an intermediate .cpio file,
+> the Makefile that generates initrd for tests is a one-liner:
+> > file lib/kdump ${src_dir}/oom-crashkernel 0644 0 0 | usr/gen_init_cpio /dev/stdin | xz -z -c -e -Ccrc32 > ${target_dir}/oom-crashkernel.initrd  
 > 
-> $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
-> pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> As fsync() on a pipe fd returns -EINVAL, that stopped working.
+> Check that outfd is a regular file descriptor before calling fsync().
 > 
-> $ modinfo xhci_pci
-> name:           xhci_pci
-> filename:       (builtin)
-> license:        GPL
-> file:           drivers/usb/host/xhci-pci
-> description:    xHCI PCI Host Controller Driver
-> 
-> Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
-> modpost if the module is built separately.
-> 
-> To fix this it is necessary to generate the same modalias for vmlinux as
-> for the individual modules. Fortunately '.vmlinux.export.o' is already
-> generated from which '.modinfo' can be extracted in the same way as for
-> vmlinux.o.
+> Sending this as RFC as these are local tests, rather than upstream ones,
+> unfortunately. Yet, the fix is trivial and increases correctness of
+> gen_init_cpio (and maybe saves some time for another person debugging
+> it). A workaround to use temporary cpio file is also trivial, so not
+> insisting on merging.
 
-Hi -
+The code change looks fine, but the commit message is a bit verbose IMO.
+Please drop the first and last paragraphs. The reproducer could also be
+simplified to e.g.
+echo | usr/gen_init_cpio /dev/stdin > /dev/null
 
-This patch broke RISC-V builds for me. During the final objcopy where the new
-symbols are supposed to be stripped, an error occurs producing lots of error
-messages similar to this one:
+With that:
+Reviewed-by: David Disseldorp <ddiss@suse.de>
 
-riscv64-linux-gnu-objcopy: not stripping symbol `__mod_device_table__...'
-because it is named in a relocation
-
-It does not occur using defconfig, but I was able to bisect my way to this
-commit and then reduce my config delta w.r.t defconfig until I landed on:
-
-cat > .config <<'EOF'
-CONFIG_RELOCATABLE=y
-CONFIG_KASAN=y
-EOF
-ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- make olddefconfig
-ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- make -j $(nproc)
-...
-  LD      vmlinux.unstripped
-  NM      System.map
-  SORTTAB vmlinux.unstripped
-  CHKREL  vmlinux.unstripped
-  OBJCOPY vmlinux
-  OBJCOPY modules.builtin.modinfo
-  GEN     modules.builtin
-riscv64-linux-gnu-objcopy: not stripping symbol `<long symbol name>'
-because it is named in a relocation
-<repeats with different symbol names about a dozen times>
-make[3]: *** [scripts/Makefile.vmlinux:97: vmlinux] Error 1
-make[3]: *** Deleting file 'vmlinux'
-make[2]: *** [Makefile:1242: vmlinux] Error 2
-make[1]: *** [/tmp/linux/Makefile:369: __build_one_by_one] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-I confirmed that reverting this commit fixes the issue.
-
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Fixes: ae18b94099b0 ("gen_init_cpio: support -o <output_file> parameter")
+> Cc: David Disseldorp <ddiss@suse.de>
+> Cc: Nicolas Schier <nsc@kernel.org>
+> Signed-off-by: Dmitry Safonov <dima@arista.com>
 > ---
->  include/linux/module.h   |  4 ----
->  scripts/Makefile.vmlinux |  4 +++-
->  scripts/mksysmap         |  3 +++
->  scripts/mod/file2alias.c | 19 ++++++++++++++++++-
->  scripts/mod/modpost.c    | 15 +++++++++++++++
->  scripts/mod/modpost.h    |  2 ++
->  6 files changed, 41 insertions(+), 6 deletions(-)
+>  usr/gen_init_cpio.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index e31ee29fac6b7..e135cc79aceea 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -256,14 +256,10 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
->  	__PASTE(type,			\
->  	__PASTE(__, name)))))
+> diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+> index 75e9561ba31392e12536e76a918245a8ea07f9b8..845e2d92f0e56b02ba5fc12ecd243ce99c53f552 100644
+> --- a/usr/gen_init_cpio.c
+> +++ b/usr/gen_init_cpio.c
+> @@ -6,6 +6,7 @@
+>  #include <stdbool.h>
+>  #include <sys/types.h>
+>  #include <sys/stat.h>
+> +#include <sys/socket.h>
+>  #include <string.h>
+>  #include <unistd.h>
+>  #include <time.h>
+> @@ -112,6 +113,9 @@ static int cpio_trailer(void)
+>  	    push_pad(padlen(offset, 512)) < 0)
+>  		return -1;
 >  
-> -#ifdef MODULE
->  /* Creates an alias so file2alias.c can find device table. */
->  #define MODULE_DEVICE_TABLE(type, name)					\
->  static typeof(name) __mod_device_table(type, name)			\
->    __attribute__ ((used, alias(__stringify(name))))
-> -#else  /* !MODULE */
-> -#define MODULE_DEVICE_TABLE(type, name)
-> -#endif
->  
->  /* Version of form [<epoch>:]<version>[-<extra-version>].
->   * Or for CVS/RCS ID version, everything but the number is stripped.
-> diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-> index ce79461714979..1e5e37aadcd05 100644
-> --- a/scripts/Makefile.vmlinux
-> +++ b/scripts/Makefile.vmlinux
-> @@ -89,11 +89,13 @@ endif
->  remove-section-y                                   := .modinfo
->  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
->  
-> +remove-symbols := -w --strip-symbol='__mod_device_table__*'
+> +	if (!isfdtype(outfd, S_IFREG))
+> +		return 0;
 > +
->  # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
->  # it is necessary to remove the PT_LOAD flag from the segment.
->  quiet_cmd_strip_relocs = OBJCOPY $@
->        cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
-> -                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $@
-> +                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $(remove-symbols) $@
->  
->  targets += vmlinux
->  vmlinux: vmlinux.unstripped FORCE
-> diff --git a/scripts/mksysmap b/scripts/mksysmap
-> index a607a0059d119..c4531eacde202 100755
-> --- a/scripts/mksysmap
-> +++ b/scripts/mksysmap
-> @@ -59,6 +59,9 @@
->  # EXPORT_SYMBOL (namespace)
->  / __kstrtabns_/d
->  
-> +# MODULE_DEVICE_TABLE (symbol name)
-> +/ __mod_device_table__/d
-> +
->  # ---------------------------------------------------------------------------
->  # Ignored suffixes
->  #  (do not forget '$' after each pattern)
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 1260bc2287fba..7da9735e7ab3e 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -1477,7 +1477,7 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
->  	void *symval;
->  	char *zeros = NULL;
->  	const char *type, *name, *modname;
-> -	size_t typelen;
-> +	size_t typelen, modnamelen;
->  	static const char *prefix = "__mod_device_table__";
->  
->  	/* We're looking for a section relative symbol */
-> @@ -1500,6 +1500,7 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
->  	type = strstr(modname, "__");
->  	if (!type)
->  		return;
-> +	modnamelen = type - modname;
->  	type += strlen("__");
->  
->  	name = strstr(type, "__");
-> @@ -1526,5 +1527,21 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
->  		}
->  	}
->  
-> +	if (mod->is_vmlinux) {
-> +		struct module_alias *alias;
-> +
-> +		/*
-> +		 * If this is vmlinux, record the name of the builtin module.
-> +		 * Traverse the linked list in the reverse order, and set the
-> +		 * builtin_modname unless it has already been set in the
-> +		 * previous call.
-> +		 */
-> +		list_for_each_entry_reverse(alias, &mod->aliases, node) {
-> +			if (alias->builtin_modname)
-> +				break;
-> +			alias->builtin_modname = xstrndup(modname, modnamelen);
-> +		}
-> +	}
-> +
->  	free(zeros);
+>  	return fsync(outfd);
 >  }
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 5ca7c268294eb..47c8aa2a69392 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2067,11 +2067,26 @@ static void write_if_changed(struct buffer *b, const char *fname)
->  static void write_vmlinux_export_c_file(struct module *mod)
->  {
->  	struct buffer buf = { };
-> +	struct module_alias *alias, *next;
->  
->  	buf_printf(&buf,
->  		   "#include <linux/export-internal.h>\n");
->  
->  	add_exported_symbols(&buf, mod);
-> +
-> +	buf_printf(&buf,
-> +		   "#include <linux/module.h>\n"
-> +		   "#undef __MODULE_INFO_PREFIX\n"
-> +		   "#define __MODULE_INFO_PREFIX\n");
-> +
-> +	list_for_each_entry_safe(alias, next, &mod->aliases, node) {
-> +		buf_printf(&buf, "MODULE_INFO(%s.alias, \"%s\");\n",
-> +			   alias->builtin_modname, alias->str);
-> +		list_del(&alias->node);
-> +		free(alias->builtin_modname);
-> +		free(alias);
-> +	}
-> +
->  	write_if_changed(&buf, ".vmlinux.export.c");
->  	free(buf.p);
->  }
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 9133e4c3803f0..2aecb8f25c87e 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -99,10 +99,12 @@ buf_write(struct buffer *buf, const char *s, int len);
->   * struct module_alias - auto-generated MODULE_ALIAS()
->   *
->   * @node: linked to module::aliases
-> + * @modname: name of the builtin module (only for vmlinux)
->   * @str: a string for MODULE_ALIAS()
->   */
->  struct module_alias {
->  	struct list_head node;
-> +	char *builtin_modname;
->  	char str[];
->  };
->  
-> -- 
-> 2.51.0
-> 
 
+Another option would be to catch the EINVAL error, e.g.
+
+--- a/usr/gen_init_cpio.c
++++ b/usr/gen_init_cpio.c
+@@ -112,7 +112,10 @@ static int cpio_trailer(void)
+            push_pad(padlen(offset, 512)) < 0)
+                return -1;
+ 
+-       return fsync(outfd);
++       if (fsync(outfd) < 0 && errno != EINVAL)
++               return -1;
++
++       return 0;
+ }
+
+It may be a little portable than isfdtype(), but I don't feel strongly
+either way.
+
+Thanks, David
 
