@@ -1,161 +1,143 @@
-Return-Path: <linux-kbuild+bounces-9031-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9030-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D391FBC0536
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 08:27:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BDDBC0533
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 08:27:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 913F24E93CC
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 06:27:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 604513BF3AA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 06:27:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79C1B220F29;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7155C21FF5F;
 	Tue,  7 Oct 2025 06:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="smR4dAGf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="60g1EBQl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P4sTyD9y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dsCJRQGX"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cuuQ3wrW";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="93Vuw/zn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF43C1E1E1B
-	for <linux-kbuild@vger.kernel.org>; Tue,  7 Oct 2025 06:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A240D1D554;
+	Tue,  7 Oct 2025 06:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759818431; cv=none; b=LLvXtN1zk13R4CAO6MoTNQml4x8AjEnTus1qFz5aPsqMBSj1VfDCAoEuQkh3SA+k1O4gz4HQLc2nlve+dzPov1HZifYOttwC+SdjXl4EVA4dOne2WW0WsZNb9yc7YGozKmFSIrCD9TXRZiI8HKhtnn8hCBoK9Z2/M/gJliSjFVY=
+	t=1759818431; cv=none; b=Dd4Fyp5rRTSf64DG5pMrk71hnGNSyL53pN2itKmQnH0vuy8qX+OXyv4rOArWhXo0jurR7Y9tCZ/u2gcR8SPGTC2gSlZZDLb9AAPpvDaLv00g2+s/dR2POTyXfXFTD0ytxcWbC88V/lpMJhPVEBDjx5nI+uLJqEohFgQu2UC9YkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759818431; c=relaxed/simple;
-	bh=mLtgu1121hWMoWk2CeoHxVbBZEGu9LesxuoK9aIfCsI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QDE6BHL0NypP7TjwiNyEmUqwS/1raGAg0veLW0R2t8Ybezq5HpXUMjEuid0NIpjnwBQCg3MHCOKozQrMPK+qXrhw2PZ6+i9suUEWW/YIt2OZsuXus6pMB6WXLee6dtsHhxwAr+8Ozkp/96XH4xv+e+Cn3szhUtGnLMsqHXB0dJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=smR4dAGf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=60g1EBQl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P4sTyD9y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dsCJRQGX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CE1891F78B;
-	Tue,  7 Oct 2025 06:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759818427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	bh=XL1Cs4AAE/HmT27dr4RXgC0rElpDYULkiJoTnWWa8/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kfeKjXQlESDC03Y/22x6mmkgSpbLYhOyFDFV+5Ixjj8ERpUtJVR8XTr9toxKq+koUU06jocWh5YwetbcgUlPsRj597/RneS+2lAvISEK0CKHoU3ATdywCyqYGDTyYP8Q68vV4UXN7MBcxcv8VdNExN8BWRtOkQvJuNq3X+VuHZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cuuQ3wrW; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=93Vuw/zn; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 7 Oct 2025 08:27:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1759818424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
-	b=smR4dAGf/+M5YYkwef2mql8YbqzxoxQc1JGCmuOIybd54gZtdqc3j2PMqCEh8cuvMFMbxC
-	3JijA79Ix2ydKZPH/jpg7ev8BhG89KbZjnLJ7cIWiOBE84SGO3kQZEDsE43ISalrPKIxgF
-	DVIfB9oWM0AdifIXONBgYbpR6ZmYnJ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759818427;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	bh=vbR8Lfe3xUkiLuOoon0tPiQgDnxi9ZrKiQVBz2GlyjA=;
+	b=cuuQ3wrWAr1WsWEb1ZWdR4plpO/Dn2RL+Xbro5KbVxIDz7CjXOiV5r6R6IZEmdNKdg+dqs
+	F5m8XxPlONaG11oEYGJX5ytQn25xNDSjGOg6+5yurrP+M7a8R4MbKX1sEWrJ/c6Bx2hqo6
+	F2lWxf2+hBVU/vdR+X3wdsAnMQTxYZGaWNi9gaF3qaQTOHmqoF0seC5j4Uex1PNpOqZ60R
+	+dX5alqB16vszW4rxdV/A87oaIpPVQWQt+PZUcOTP5JdtIuSoGuIyKsrcp0pcmxUxfZDGy
+	/VGbf8HDZGeKYPv5U9xjuGzAdvn4B2RDwIywARd3LATjfPH5auWy7c015zwmlQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1759818424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
-	b=60g1EBQl4g2aAa4aLzGryEPTlYBbs+FN8zK2HS5lPL29ke/ymWueTY4K+HTht/HwOcppMP
-	U2lJeMl2pOY7MkDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=P4sTyD9y;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dsCJRQGX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759818426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
-	b=P4sTyD9y5OjsGh+lmv92XKASdLcsZ2WL29jCqCVC1S3bC09uiu7VbP9t346BIzP9LGA9YK
-	UEKQbYht9guw1v30fnReQSY+jh9snVJ0iYLaNL8ITLlSjRmFjBD3dwXwQfzJSH+Bctm2MI
-	kZ3/YMc9CAzskh9jiQchohkk3nd1yhU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759818426;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
-	b=dsCJRQGXpz7OcOkvECs1+/ntizn0MmeUZ0OmzxIlZAcHWSqWgiOxiwwsWboERkD+O5GVZk
-	0RHqWzDenuhWU9CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4932B13AAC;
-	Tue,  7 Oct 2025 06:27:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KFjbALiy5Gi+FQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Tue, 07 Oct 2025 06:27:04 +0000
-Date: Tue, 7 Oct 2025 17:25:56 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: dima@arista.com, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>
-Subject: Re: [PATCH RFC] gen_init_cpio: Do fsync() only on regular files
-Message-ID: <20251007172556.3e57b0c8.ddiss@suse.de>
-In-Reply-To: <aOStTfvOR-C7l1se@infradead.org>
-References: <20251007-gen_init_cpio-pipe-v1-1-d782674d4926@arista.com>
-	<aOSZo8h6l2XNin3C@infradead.org>
-	<20251007165732.66949558.ddiss@suse.de>
-	<aOStTfvOR-C7l1se@infradead.org>
+	bh=vbR8Lfe3xUkiLuOoon0tPiQgDnxi9ZrKiQVBz2GlyjA=;
+	b=93Vuw/znRzh0QA6dxFClgvl5Lvy3U73zxVEt+kOBfwm4nFxhk4FSlYqbYT2xbvTfM46yf2
+	uoQU9WrIhf3Mf4Bg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>, 
+	Askar Safin <safinaskar@gmail.com>, Sam James <sam@gentoo.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts/Makefile.extrawarn: Respect CONFIG_WERROR / W=e
+ for hostprogs
+Message-ID: <20251007082506-3379be47-af3b-44bb-a1f3-4026d2a282a6@linutronix.de>
+References: <20251006-kbuild-hostprogs-werror-fix-v1-1-23cf1ffced5c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: CE1891F78B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.51
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251006-kbuild-hostprogs-werror-fix-v1-1-23cf1ffced5c@kernel.org>
 
-On Mon, 6 Oct 2025 23:03:57 -0700, Christoph Hellwig wrote:
-
-> On Tue, Oct 07, 2025 at 04:57:32PM +1100, David Disseldorp wrote:
-> > I should have explained why in the commit, sorry. The intention was to
-> > catch any FS I/O errors during output archive writeback. fsync() is
-> > called only once as the final I/O.  
+On Mon, Oct 06, 2025 at 02:39:56PM -0700, Nathan Chancellor wrote:
+> Commit 27758d8c2583 ("kbuild: enable -Werror for hostprogs")
+> unconditionally enabled -Werror for the compiler, assembler, and linker
+> when building the host programs, as the build footprint of the host
+> programs is small (thus risk of build failures from warnings are low)
+> and that stage of the build may not have Kconfig values (thus
+> CONFIG_WERROR could not be used as a precondition).
 > 
-> I don't parse this.  What does 'as the final I/O' mean?
+> While turning warnings into errors unconditionally happens in a few
+> places within the kernel, it can be disruptive to people who may be
+> building with newer compilers, such as while doing a bisect. While it is
+> possible to avoid this behavior by passing HOSTCFLAGS=-w or
+> HOSTCFLAGS=-Wno-error, it may not be the most intuitive for regular
+> users not intimately familiar with Kbuild.
+> 
+> Avoid being disruptive to the entire build by depending on the explicit
+> opt-in of CONFIG_WERROR or W=e to enable -Werror and the like while
+> building the host programs. While this means there is a small portion of
+> the build that does not have -Werror enabled (namely scripts/kconfig/*
+> and scripts/basic/fixdep), it is better than not having it altogether.
+> 
+> Fixes: 27758d8c2583 ("kbuild: enable -Werror for hostprogs")
+> Link: https://lore.kernel.org/20251005011100.1035272-1-safinaskar@gmail.com/
 
-fsync() is called once after all buffered writes and copy_file_range()
-calls for the initramfs archive have completed.
+Reported-by: Askar Safin <safinaskar@gmail.com>
+Closes: https://lore.kernel.org/20251005011100.1035272-1-safinaskar@gmail.com/
 
-> If you want
-> to catch writeback errors, a single syncfs should be enough.
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-gen_init_cpio should only be concerned that the output archive file is
-flushed to storage, rather than the entire filesystem. Why would syncfs
-be more suitable?
+Reviewed-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+
+
+Thanks and sorry for the trouble!
+
+> ---
+>  scripts/Makefile.extrawarn | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 1434cb6208cb..6af392f9cd02 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -223,9 +223,11 @@ KBUILD_USERCFLAGS	+= -Werror
+>  KBUILD_USERLDFLAGS	+= -Wl,--fatal-warnings
+>  KBUILD_RUSTFLAGS	+= -Dwarnings
+>  
+> -endif
+> -
+> -# Hostprog flags are used during build bootstrapping and can not rely on CONFIG_ symbols.
+> +# While hostprog flags are used during build bootstrapping (thus should not
+> +# depend on CONFIG_ symbols), -Werror is disruptive and should be opted into.
+> +# Only apply -Werror to hostprogs built after the initial Kconfig stage.
+>  KBUILD_HOSTCFLAGS	+= -Werror
+>  KBUILD_HOSTLDFLAGS	+= -Wl,--fatal-warnings
+>  KBUILD_HOSTRUSTFLAGS	+= -Dwarnings
+> +
+> +endif
+> 
+> ---
+> base-commit: 2ea77fca84f07849aa995271271340d262d0c2e9
+> change-id: 20251006-kbuild-hostprogs-werror-fix-be6a3e123dfc
+> 
+> Best regards,
+> --  
+> Nathan Chancellor <nathan@kernel.org>
+> 
 
