@@ -1,134 +1,312 @@
-Return-Path: <linux-kbuild+bounces-9033-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9034-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7950BC0818
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 09:43:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2BCBC0FC4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 12:15:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C9991898859
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 07:43:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18AA51899CCA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 10:15:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856B0255E34;
-	Tue,  7 Oct 2025 07:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450CF25A324;
+	Tue,  7 Oct 2025 10:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a+Yre29R"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD2221D3CA
-	for <linux-kbuild@vger.kernel.org>; Tue,  7 Oct 2025 07:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189E2192D68;
+	Tue,  7 Oct 2025 10:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759822993; cv=none; b=g0giyE5AxsGCcH++kyzTP3KTTBmOVaxYn46j2zNT2co92XgXou14NawjTVhbxSWUProaPMhSvbqf1YEUfjmjA8Sl1zOiRYrOdfyJuJoLe9uOpybGvmOJIYpnD/IWn/PBX/9OAud2ugQdzvp7wDvLv9CkyLtOslv5lymja9cGa8c=
+	t=1759832128; cv=none; b=iSOzE90cgmitK4HVlLl6rv0TTtTGs8EiqL2kyK2rqcX9I3d+9js7i9hdhGYuAouEeyxFxk2b4LItWodPZeO6f5EkyH2bw7HeSIQ0Ejk8MXd7wXaLLYtrTWioCxoruKxT+fmZbvQzRCc08k+qkra9uo9ySS8p4Cqqmm2burccqYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759822993; c=relaxed/simple;
-	bh=yD3QIkLWD6CmpQEwsafFM6XowJaBglaGuKWBSqHUs7o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qU8ja9aV4qHJIoZlJKabqWiA2LU/rY4WZvpb2TTPoqB9oDUEpYKC8dSzEBbIROhSd7aH22wp88AFHjRHXc7vSUcz4+u4P8YuNC4Krl8B3eaIbQbLd8H/6pamzNktf8veevGblzpJ0XhoJMN8/TNhppJO/n7pQhWbeIMR+micog0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-8fb58f2b820so3695911241.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Oct 2025 00:43:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759822990; x=1760427790;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U7xFWmE6FERg0BV2hLFsu2RpZYyTvYQhUdrHdelRqPs=;
-        b=LXEiNFjLWZYyW8lltLPRIZpYsTN32wOMlbRsruZaQknwfmP1O/I0qxWS/yYPFKaYom
-         uNtFXm2XEk1BBcKsyCTKZzkCerVqdIsIbFjE0qrrZS33a8QppnqvIGfSMzgk5qIUmE2L
-         6I5bHP3EKQpSq+dtjA8LMewqMACMkupMg8JbPAKAX/yFMbUR/ro90xaIzyqAMoG5bdr9
-         AsfQ464KL1eQ52LXtb/WX1kPj31X83vRZ+BZksxAXmMJyytrwoGU8eO46ngNEm1qUXLs
-         EoiDOkBwz+cH9SmyNuVR0OHLiGt/QKxT8y1K/vuD+bjm6v5cs3D51Jgn2BPwRpF4o1bU
-         qiiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPvUmxEhKiAS2ueI5lW1H1+6clatTAIMCBo+l6heSpPu8KmNZACYRWDyRgQm8C76nFzu6KXjLf74eIG9k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf7Nz9ClGk6m+H68qFvJh/SZ0nwQ4gJO4F42JP2EztRzqvkw/I
-	PXbBpkYerruCQEybAxKflr1i0E2CexmsXxW2kBLEr9DL9MhHV/Joj+JFwvmLExMA
-X-Gm-Gg: ASbGncsmWwHQ6dOb0cpyVK1T+j6qjzGqEwbmosY5kZYV3g6EcQoQqhuHE3Dnq/6woei
-	JuAmdoIFcKnIZQn4anshehhC1rHAgUWn4pUSXkILC3c9d6u3suRyf5yDFIxWbQ/qtoEKH/YPpXV
-	KuwXu28C6jq9iMk2bLBCOlm0dCSagJ9c4gQ6A9L4USAvyL3t0FMmKilRTUlzJpS4KzQDCHQ7CG/
-	5jC5z5VqVXwNJONnf1z4vgRBC3ujK0Yp548rrZe9h1iBMxRZJeQG0DP9OVD3/0/nALLF0u9EMEW
-	RaMlNeWL8L+yPnhFPdRsKKONu6XPSlOh+DuzQaJPhT61aQFdcGVB7bXChMTq95ScNkBTXPNWiNb
-	I8gaX6c84jV7to8AfbEkg8o4/+3pFas/ke3A+DSjcSz7hN1VpnPbMAtq35KJhBa3atKUl45CIOs
-	kfFgS4Ta8J
-X-Google-Smtp-Source: AGHT+IEBIG+2bsol7PNaUZ/8QU2jl7SIwOB9Tv0nPkf1QL40HWtrt84kosHlMvAasallC/4BEZHLXQ==
-X-Received: by 2002:a05:6102:80a9:b0:59d:ad3:e1e4 with SMTP id ada2fe7eead31-5d41d01e26fmr5894763137.5.1759822990222;
-        Tue, 07 Oct 2025 00:43:10 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-92eb4c5d697sm3532552241.0.2025.10.07.00.43.09
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 00:43:09 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-8e2e9192a0aso3017839241.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Oct 2025 00:43:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVAlp9neiY9t532L7s8Xb9ZhE1rfLozf9mrM5xz1FKF0kTkSboZFyNT92ClxY3ZotlS/LZULgWwb2pa2PU=@vger.kernel.org
-X-Received: by 2002:a05:6102:2acb:b0:5ca:a978:8a with SMTP id
- ada2fe7eead31-5d41d1728f1mr5458809137.33.1759822989670; Tue, 07 Oct 2025
- 00:43:09 -0700 (PDT)
+	s=arc-20240116; t=1759832128; c=relaxed/simple;
+	bh=9Yjtn8JfsbCjw77cR+hBU+JzC4/lFWaRHwDiPA/St4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DXz18qd8Z6NFd4gySsa3O5S5TbAfDW554kxiFXPNWsYKyRpgYS9eNL3MvO/cJ1sZOtlP/FLQ2T6eNNrdJBgETlC+3Gl00RoXGulBvUuTf3a0GpsOvPR8m81Czp/nwWFVgGBpBIr2UJWAx/Zzoi6SY907NEznQY/FjSnXvuvaX90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a+Yre29R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A1EC4CEF9;
+	Tue,  7 Oct 2025 10:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759832127;
+	bh=9Yjtn8JfsbCjw77cR+hBU+JzC4/lFWaRHwDiPA/St4c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a+Yre29RL7+d+0Vb6/1hn/zF2swItcSins9WHEY2lpw/XTOPPoUAwl6vf7fQKTkV4
+	 fEo1l5GZvv3nfthnsXmjONUSbJQLM/9ID2PwjSwznHlOCw1pR2tAWA4okHEsZPACUX
+	 q2Tfkj3G/YaAc/4VkWbtBwxUC5DGxaJtZUP3RWlv9RfRnjOmEWneYm9+R9ee6nq10F
+	 lEidSWK8Wkp46F0/5rNhASgtmd4clpjTAZLLHmhYdvQZqak0FjlPT4yZ9tqg79o7Qz
+	 aWa4faXywKGfvBXx2f1g5jiEMAUi73JbXK0cFSrfC7d2Kzc9NOenqfHO6WDpb8oXCe
+	 Y0txQBCa/t+4w==
+Date: Tue, 7 Oct 2025 12:15:21 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Charles Mirabile <cmirabil@redhat.com>
+Cc: da.gomez@samsung.com, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	masahiroy@kernel.org, mcgrof@kernel.org, nathan@kernel.org,
+	nicolas.schier@linux.dev, petr.pavlu@suse.com,
+	samitolvanen@google.com, sfr@canb.auug.org.au
+Subject: Re: [PATCH v8 7/8] modpost: Create modalias for builtin modules
+Message-ID: <aOToOeNGiaFVM0Ds@example.org>
+References: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
+ <20251007011637.2512413-1-cmirabil@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <949f096337e28d50510e970ae3ba3ec9c1342ec0.1759753998.git.geert@linux-m68k.org>
- <mvm347wjj90.fsf@linux-m68k.org> <CAMuHMdXdeJ6Bq=zA7QcN82YNaZW3R8ebeXpGzqHus-KPkSj5XA@mail.gmail.com>
- <20251006180201.GA429708@ax162>
-In-Reply-To: <20251006180201.GA429708@ax162>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 7 Oct 2025 09:42:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUi09MEU+AUE7C5OtJzO1ZiQ-1OVVi9EWNxt7vHA3ZvVw@mail.gmail.com>
-X-Gm-Features: AS18NWD5V9LmBNtT9znIAEdUf0-LOhM5TAhAk1S7CGHt0o8L8arsWU6hMHw8j3s
-Message-ID: <CAMuHMdUi09MEU+AUE7C5OtJzO1ZiQ-1OVVi9EWNxt7vHA3ZvVw@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: uapi: Strip comments before size type check
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Andreas Schwab <schwab@linux-m68k.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	linux-kbuild@vger.kernel.org, linux-m68k@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251007011637.2512413-1-cmirabil@redhat.com>
 
-Hi Nathan,
+On Mon, Oct 06, 2025 at 09:16:37PM -0400, Charles Mirabile wrote:
+> On Thu, Sep 18, 2025 at 10:05:51AM +0200, Alexey Gladkov wrote:
+> > For some modules, modalias is generated using the modpost utility and
+> > the section is added to the module file.
+> > 
+> > When a module is added inside vmlinux, modpost does not generate
+> > modalias for such modules and the information is lost.
+> > 
+> > As a result kmod (which uses modules.builtin.modinfo in userspace)
+> > cannot determine that modalias is handled by a builtin kernel module.
+> > 
+> > $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+> > pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> > 
+> > $ modinfo xhci_pci
+> > name:           xhci_pci
+> > filename:       (builtin)
+> > license:        GPL
+> > file:           drivers/usb/host/xhci-pci
+> > description:    xHCI PCI Host Controller Driver
+> > 
+> > Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+> > modpost if the module is built separately.
+> > 
+> > To fix this it is necessary to generate the same modalias for vmlinux as
+> > for the individual modules. Fortunately '.vmlinux.export.o' is already
+> > generated from which '.modinfo' can be extracted in the same way as for
+> > vmlinux.o.
+> 
+> Hi -
+> 
+> This patch broke RISC-V builds for me. During the final objcopy where the new
+> symbols are supposed to be stripped, an error occurs producing lots of error
+> messages similar to this one:
+> 
+> riscv64-linux-gnu-objcopy: not stripping symbol `__mod_device_table__...'
+> because it is named in a relocation
+> 
+> It does not occur using defconfig, but I was able to bisect my way to this
+> commit and then reduce my config delta w.r.t defconfig until I landed on:
+> 
+> cat > .config <<'EOF'
+> CONFIG_RELOCATABLE=y
+> CONFIG_KASAN=y
+> EOF
+> ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- make olddefconfig
+> ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- make -j $(nproc)
+> ...
+>   LD      vmlinux.unstripped
+>   NM      System.map
+>   SORTTAB vmlinux.unstripped
+>   CHKREL  vmlinux.unstripped
+>   OBJCOPY vmlinux
+>   OBJCOPY modules.builtin.modinfo
+>   GEN     modules.builtin
+> riscv64-linux-gnu-objcopy: not stripping symbol `<long symbol name>'
+> because it is named in a relocation
+> <repeats with different symbol names about a dozen times>
+> make[3]: *** [scripts/Makefile.vmlinux:97: vmlinux] Error 1
+> make[3]: *** Deleting file 'vmlinux'
+> make[2]: *** [Makefile:1242: vmlinux] Error 2
+> make[1]: *** [/tmp/linux/Makefile:369: __build_one_by_one] Error 2
+> make: *** [Makefile:248: __sub-make] Error 2
+> 
+> I confirmed that reverting this commit fixes the issue.
 
-On Mon, 6 Oct 2025 at 20:02, Nathan Chancellor <nathan@kernel.org> wrote:
-> On Mon, Oct 06, 2025 at 03:20:52PM +0200, Geert Uytterhoeven wrote:
-> > On Mon, 6 Oct 2025 at 14:40, Andreas Schwab <schwab@linux-m68k.org> wrote:
-> > > On Okt 06 2025, Geert Uytterhoeven wrote:
-> > > > --- a/usr/include/headers_check.pl
-> > > > +++ b/usr/include/headers_check.pl
-> > > > @@ -155,6 +155,8 @@ sub check_sizetypes
-> > > >       if (my $included = ($line =~ /^\s*#\s*include\s+[<"](\S+)[>"]/)[0]) {
-> > > >               check_include_typesh($included);
-> > > >       }
-> > > > +     # strip comments (single-line only)
-> > > > +     $line =~ s@\/\*.*?\*\/@@;
-> > >
-> > > I don't think you need to quote the forward slashes in the regexp.
-> >
-> > Thanks, you are right!
-> >
-> > So far for not just following my instinct, but looking for similar functionality
-> > in other scripts like scripts/kernel-doc.pl...
->
-> I will fix this up when applying. I think I am going to adjust the
-> comment to
->
->   # strip single-line comments, as types may be referenced within them
->
-> just to be a little more verbose about why it is being done.
+Hm. Indeed. I haven't found a good solution yet, but you can use the
+following patch to unlock compilation. It won't solve the problem, it will
+only hide it.
 
-OK, thanks!
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -84,7 +84,7 @@ endif
+ remove-section-y                                   := .modinfo
+ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
 
-Gr{oetje,eeting}s,
+-remove-symbols := -w --strip-symbol='__mod_device_table__*'
++remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
 
-                        Geert
+ # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
+ # it is necessary to remove the PT_LOAD flag from the segment.
+
+> > 
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > ---
+> >  include/linux/module.h   |  4 ----
+> >  scripts/Makefile.vmlinux |  4 +++-
+> >  scripts/mksysmap         |  3 +++
+> >  scripts/mod/file2alias.c | 19 ++++++++++++++++++-
+> >  scripts/mod/modpost.c    | 15 +++++++++++++++
+> >  scripts/mod/modpost.h    |  2 ++
+> >  6 files changed, 41 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index e31ee29fac6b7..e135cc79aceea 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -256,14 +256,10 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
+> >  	__PASTE(type,			\
+> >  	__PASTE(__, name)))))
+> >  
+> > -#ifdef MODULE
+> >  /* Creates an alias so file2alias.c can find device table. */
+> >  #define MODULE_DEVICE_TABLE(type, name)					\
+> >  static typeof(name) __mod_device_table(type, name)			\
+> >    __attribute__ ((used, alias(__stringify(name))))
+> > -#else  /* !MODULE */
+> > -#define MODULE_DEVICE_TABLE(type, name)
+> > -#endif
+> >  
+> >  /* Version of form [<epoch>:]<version>[-<extra-version>].
+> >   * Or for CVS/RCS ID version, everything but the number is stripped.
+> > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> > index ce79461714979..1e5e37aadcd05 100644
+> > --- a/scripts/Makefile.vmlinux
+> > +++ b/scripts/Makefile.vmlinux
+> > @@ -89,11 +89,13 @@ endif
+> >  remove-section-y                                   := .modinfo
+> >  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+> >  
+> > +remove-symbols := -w --strip-symbol='__mod_device_table__*'
+> > +
+> >  # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
+> >  # it is necessary to remove the PT_LOAD flag from the segment.
+> >  quiet_cmd_strip_relocs = OBJCOPY $@
+> >        cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
+> > -                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $@
+> > +                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $(remove-symbols) $@
+> >  
+> >  targets += vmlinux
+> >  vmlinux: vmlinux.unstripped FORCE
+> > diff --git a/scripts/mksysmap b/scripts/mksysmap
+> > index a607a0059d119..c4531eacde202 100755
+> > --- a/scripts/mksysmap
+> > +++ b/scripts/mksysmap
+> > @@ -59,6 +59,9 @@
+> >  # EXPORT_SYMBOL (namespace)
+> >  / __kstrtabns_/d
+> >  
+> > +# MODULE_DEVICE_TABLE (symbol name)
+> > +/ __mod_device_table__/d
+> > +
+> >  # ---------------------------------------------------------------------------
+> >  # Ignored suffixes
+> >  #  (do not forget '$' after each pattern)
+> > diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> > index 1260bc2287fba..7da9735e7ab3e 100644
+> > --- a/scripts/mod/file2alias.c
+> > +++ b/scripts/mod/file2alias.c
+> > @@ -1477,7 +1477,7 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+> >  	void *symval;
+> >  	char *zeros = NULL;
+> >  	const char *type, *name, *modname;
+> > -	size_t typelen;
+> > +	size_t typelen, modnamelen;
+> >  	static const char *prefix = "__mod_device_table__";
+> >  
+> >  	/* We're looking for a section relative symbol */
+> > @@ -1500,6 +1500,7 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+> >  	type = strstr(modname, "__");
+> >  	if (!type)
+> >  		return;
+> > +	modnamelen = type - modname;
+> >  	type += strlen("__");
+> >  
+> >  	name = strstr(type, "__");
+> > @@ -1526,5 +1527,21 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+> >  		}
+> >  	}
+> >  
+> > +	if (mod->is_vmlinux) {
+> > +		struct module_alias *alias;
+> > +
+> > +		/*
+> > +		 * If this is vmlinux, record the name of the builtin module.
+> > +		 * Traverse the linked list in the reverse order, and set the
+> > +		 * builtin_modname unless it has already been set in the
+> > +		 * previous call.
+> > +		 */
+> > +		list_for_each_entry_reverse(alias, &mod->aliases, node) {
+> > +			if (alias->builtin_modname)
+> > +				break;
+> > +			alias->builtin_modname = xstrndup(modname, modnamelen);
+> > +		}
+> > +	}
+> > +
+> >  	free(zeros);
+> >  }
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 5ca7c268294eb..47c8aa2a69392 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -2067,11 +2067,26 @@ static void write_if_changed(struct buffer *b, const char *fname)
+> >  static void write_vmlinux_export_c_file(struct module *mod)
+> >  {
+> >  	struct buffer buf = { };
+> > +	struct module_alias *alias, *next;
+> >  
+> >  	buf_printf(&buf,
+> >  		   "#include <linux/export-internal.h>\n");
+> >  
+> >  	add_exported_symbols(&buf, mod);
+> > +
+> > +	buf_printf(&buf,
+> > +		   "#include <linux/module.h>\n"
+> > +		   "#undef __MODULE_INFO_PREFIX\n"
+> > +		   "#define __MODULE_INFO_PREFIX\n");
+> > +
+> > +	list_for_each_entry_safe(alias, next, &mod->aliases, node) {
+> > +		buf_printf(&buf, "MODULE_INFO(%s.alias, \"%s\");\n",
+> > +			   alias->builtin_modname, alias->str);
+> > +		list_del(&alias->node);
+> > +		free(alias->builtin_modname);
+> > +		free(alias);
+> > +	}
+> > +
+> >  	write_if_changed(&buf, ".vmlinux.export.c");
+> >  	free(buf.p);
+> >  }
+> > diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> > index 9133e4c3803f0..2aecb8f25c87e 100644
+> > --- a/scripts/mod/modpost.h
+> > +++ b/scripts/mod/modpost.h
+> > @@ -99,10 +99,12 @@ buf_write(struct buffer *buf, const char *s, int len);
+> >   * struct module_alias - auto-generated MODULE_ALIAS()
+> >   *
+> >   * @node: linked to module::aliases
+> > + * @modname: name of the builtin module (only for vmlinux)
+> >   * @str: a string for MODULE_ALIAS()
+> >   */
+> >  struct module_alias {
+> >  	struct list_head node;
+> > +	char *builtin_modname;
+> >  	char str[];
+> >  };
+> >  
+> > -- 
+> > 2.51.0
+> > 
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Rgrds, legion
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
