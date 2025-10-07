@@ -1,79 +1,161 @@
-Return-Path: <linux-kbuild+bounces-9029-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9031-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57997BC04BD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 08:04:04 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id D391FBC0536
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Oct 2025 08:27:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 047F634C68B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 06:04:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 913F24E93CC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Oct 2025 06:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E79A155389;
-	Tue,  7 Oct 2025 06:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79C1B220F29;
+	Tue,  7 Oct 2025 06:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4JsO/LeV"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="smR4dAGf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="60g1EBQl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P4sTyD9y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dsCJRQGX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CEE84039;
-	Tue,  7 Oct 2025 06:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF43C1E1E1B
+	for <linux-kbuild@vger.kernel.org>; Tue,  7 Oct 2025 06:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759817040; cv=none; b=Y9j4sgx6ZYPwqAuDD+0dlN0L8bBA4+18GQOVTC0ZTPQnIk5lmsXY1ZP/w522pKuVsg0S1IzWgMVnhdQTfZfQgIzrkNUSZR3b89SEFA1DOxay4fZLA8lULj/QoQsYR0gav/IRNrP0VTBNfLLxq6Ypu4aUXoO52pHzmJhcbiH+39Y=
+	t=1759818431; cv=none; b=LLvXtN1zk13R4CAO6MoTNQml4x8AjEnTus1qFz5aPsqMBSj1VfDCAoEuQkh3SA+k1O4gz4HQLc2nlve+dzPov1HZifYOttwC+SdjXl4EVA4dOne2WW0WsZNb9yc7YGozKmFSIrCD9TXRZiI8HKhtnn8hCBoK9Z2/M/gJliSjFVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759817040; c=relaxed/simple;
-	bh=3Go3X2PFSQ6ilStTXsRSqcis0ZnmWnOyNXEGd6+LFm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LbTIEnG9G/4tlnrREb6o9piRrOPIuvOMhyDjw4CsSpVdOFkaZHWjR2eqZGocmMirzt/EO4uOl/xjgggdCLpsnEBHlHOU3Fl2haX+6Y6MUBJFJU3IU9WuJkOZPArwlFpdgXOslv6XNwZwIXTMJ2juTTh6Y3zSU2jQpldstoNw46k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4JsO/LeV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=kuE2KyXftgWpU4iOunLu6ck8fdLEEJEj0YxHJD9XdHM=; b=4JsO/LeVqOM5QWqD5INpvZO2rn
-	dPrH9pQDq03L6IEepWwyg/75IKyRWAL3yGdwwD3S8J0xgvF+TNs/+O08SyAHVXvVnH5OftC64n2T9
-	2GVGDJhgwCcKa7r2JZW/cWRauA41hYzyTRSxIRCS+1yIVI7eGt/xd+K4rgi8CXdai+cCaq/AnbP9A
-	Mrbmol0QnqN4BzEIwaGYrS14dRLKFhNJbFH7qVoBWEDVzyfOrbkSYFrT9tvZRUVRZfGKnsGqwfo14
-	7Xj0e8VFy9o8JZ+xmFM6jjYAB+3DnZtrV3ErculQxvTaJ8T2i+lnbqFD3ttuYpkYOwlFEFdituve2
-	6gP6byfg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v60nl-00000001Ks7-11cA;
-	Tue, 07 Oct 2025 06:03:57 +0000
-Date: Mon, 6 Oct 2025 23:03:57 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: David Disseldorp <ddiss@suse.de>
-Cc: Christoph Hellwig <hch@infradead.org>, dima@arista.com,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nsc@kernel.org>
+	s=arc-20240116; t=1759818431; c=relaxed/simple;
+	bh=mLtgu1121hWMoWk2CeoHxVbBZEGu9LesxuoK9aIfCsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QDE6BHL0NypP7TjwiNyEmUqwS/1raGAg0veLW0R2t8Ybezq5HpXUMjEuid0NIpjnwBQCg3MHCOKozQrMPK+qXrhw2PZ6+i9suUEWW/YIt2OZsuXus6pMB6WXLee6dtsHhxwAr+8Ozkp/96XH4xv+e+Cn3szhUtGnLMsqHXB0dJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=smR4dAGf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=60g1EBQl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P4sTyD9y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dsCJRQGX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CE1891F78B;
+	Tue,  7 Oct 2025 06:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759818427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
+	b=smR4dAGf/+M5YYkwef2mql8YbqzxoxQc1JGCmuOIybd54gZtdqc3j2PMqCEh8cuvMFMbxC
+	3JijA79Ix2ydKZPH/jpg7ev8BhG89KbZjnLJ7cIWiOBE84SGO3kQZEDsE43ISalrPKIxgF
+	DVIfB9oWM0AdifIXONBgYbpR6ZmYnJ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759818427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
+	b=60g1EBQl4g2aAa4aLzGryEPTlYBbs+FN8zK2HS5lPL29ke/ymWueTY4K+HTht/HwOcppMP
+	U2lJeMl2pOY7MkDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=P4sTyD9y;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dsCJRQGX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759818426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
+	b=P4sTyD9y5OjsGh+lmv92XKASdLcsZ2WL29jCqCVC1S3bC09uiu7VbP9t346BIzP9LGA9YK
+	UEKQbYht9guw1v30fnReQSY+jh9snVJ0iYLaNL8ITLlSjRmFjBD3dwXwQfzJSH+Bctm2MI
+	kZ3/YMc9CAzskh9jiQchohkk3nd1yhU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759818426;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jortXDB7JK6GmIdf4P86Bkb//IghcT6jdZQ5sTZwfsg=;
+	b=dsCJRQGXpz7OcOkvECs1+/ntizn0MmeUZ0OmzxIlZAcHWSqWgiOxiwwsWboERkD+O5GVZk
+	0RHqWzDenuhWU9CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4932B13AAC;
+	Tue,  7 Oct 2025 06:27:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KFjbALiy5Gi+FQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Tue, 07 Oct 2025 06:27:04 +0000
+Date: Tue, 7 Oct 2025 17:25:56 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: dima@arista.com, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+ <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>
 Subject: Re: [PATCH RFC] gen_init_cpio: Do fsync() only on regular files
-Message-ID: <aOStTfvOR-C7l1se@infradead.org>
+Message-ID: <20251007172556.3e57b0c8.ddiss@suse.de>
+In-Reply-To: <aOStTfvOR-C7l1se@infradead.org>
 References: <20251007-gen_init_cpio-pipe-v1-1-d782674d4926@arista.com>
- <aOSZo8h6l2XNin3C@infradead.org>
- <20251007165732.66949558.ddiss@suse.de>
+	<aOSZo8h6l2XNin3C@infradead.org>
+	<20251007165732.66949558.ddiss@suse.de>
+	<aOStTfvOR-C7l1se@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251007165732.66949558.ddiss@suse.de>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: CE1891F78B
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.51
 
-On Tue, Oct 07, 2025 at 04:57:32PM +1100, David Disseldorp wrote:
-> I should have explained why in the commit, sorry. The intention was to
-> catch any FS I/O errors during output archive writeback. fsync() is
-> called only once as the final I/O.
+On Mon, 6 Oct 2025 23:03:57 -0700, Christoph Hellwig wrote:
 
-I don't parse this.  What does 'as the final I/O' mean?  If you want
-to catch writeback errors, a single syncfs should be enough.
+> On Tue, Oct 07, 2025 at 04:57:32PM +1100, David Disseldorp wrote:
+> > I should have explained why in the commit, sorry. The intention was to
+> > catch any FS I/O errors during output archive writeback. fsync() is
+> > called only once as the final I/O.  
+> 
+> I don't parse this.  What does 'as the final I/O' mean?
 
+fsync() is called once after all buffered writes and copy_file_range()
+calls for the initramfs archive have completed.
+
+> If you want
+> to catch writeback errors, a single syncfs should be enough.
+
+gen_init_cpio should only be concerned that the output archive file is
+flushed to storage, rather than the entire filesystem. Why would syncfs
+be more suitable?
 
