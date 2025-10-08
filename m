@@ -1,71 +1,71 @@
-Return-Path: <linux-kbuild+bounces-9044-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9045-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B607BC3140
-	for <lists+linux-kbuild@lfdr.de>; Wed, 08 Oct 2025 02:42:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EF1BC314F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 08 Oct 2025 02:46:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5469C34E478
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Oct 2025 00:42:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3A7719E0A36
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Oct 2025 00:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320E028640C;
-	Wed,  8 Oct 2025 00:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31CE1287275;
+	Wed,  8 Oct 2025 00:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b="b/4YEH+k";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TAHBYeDN"
+	dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b="VvosSrjl";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iq9mT3MQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4852B285CBD
-	for <linux-kbuild@vger.kernel.org>; Wed,  8 Oct 2025 00:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FD128726C
+	for <linux-kbuild@vger.kernel.org>; Wed,  8 Oct 2025 00:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759884119; cv=none; b=KlLmBUW0CYU4yVSzAh5KpZ7/vbeedvMTrc9HOqZ7q4H+N081te2HTz6oyQrYcvUb/LRjLyiP4Y3OP1AlyhANin2JqnsHhfq4u2j6h4ml8C0zJ8f+js+v6I7z25AGpf+LpaZ5DFsME6UcvUmeKUMIBlsnFHAn5aqG5YiPRQAHkPg=
+	t=1759884392; cv=none; b=RZBzfb/fM/98SYKRCRcd+j+VHq/o55q5QVlrW9cEqGcIb1iFs1QUEKyE22lc/jg/QtOeChJdQIt9zCAa4gH2CrYPdKDd1J58apMhy1YkPgdKIVWBKR+QOYU67QhvgzUPS05tlQf7yEkBqO5M6qQHpGCXZkX+wEcj+UdDX/j4/7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759884119; c=relaxed/simple;
+	s=arc-20240116; t=1759884392; c=relaxed/simple;
 	bh=BrO/2eeIxcuY3cgbrqwU9SGvdL2LJII9mdphlavXyAI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sBTUToNbGS3KC1VEOKCFt6fXa2+hN9KFM9H64QFxzDjdOyhgIUp0/EBupW/+3LJhc+R0/M5MnFUjQnlugMyjg1GRywxdXsLJ+lrKlsR21EEQgp0x/3Jmc5ISJ81P62iGSZ71VyaWgjVHZ5QkJFvT8GwVhUCZQCgi4VBgJCTpGN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io; spf=pass smtp.mailfrom=likewhatevs.io; dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b=b/4YEH+k; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TAHBYeDN; arc=none smtp.client-ip=103.168.172.148
+	 MIME-Version; b=EM9vGRulFiGRZcqBZov5z1Vy6cyYiqQSWhDy2bbasQdOHyY3p4/NlJTJa3PqjikC8SEDGKNEO6Blt7t4ZK+vEIzEB+OGkLrxxN1j6J3PNaBjaPtDkM12AHxCkGf+LoYWMxnEe3XIxSLYxUcOFHGcH2a3MgPeko2qxkxTKemu7ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io; spf=pass smtp.mailfrom=likewhatevs.io; dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b=VvosSrjl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iq9mT3MQ; arc=none smtp.client-ip=103.168.172.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=likewhatevs.io
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 78E4DEC01B4;
-	Tue,  7 Oct 2025 20:41:55 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 07 Oct 2025 20:41:55 -0400
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 40AA5140057A;
+	Tue,  7 Oct 2025 20:46:28 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Tue, 07 Oct 2025 20:46:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=likewhatevs.io;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1759884115; x=
-	1759970515; bh=yo5MnYTjyoI0LhUTsp9996+aBpE/9GefqL1dql3Xwmw=; b=b
-	/4YEH+kEV3JKrYU0YSv/i4QMMW+NVbhqTqAVvkHq8OljhMdPppcnZ7EklTLyBfZd
-	If8WhKtO9uuyxb4S73xdGY/6BuS+tC5FrrY3ADG/J+Kk31FWiGkQy5CyE9xWHLB0
-	SP3C/sdTRfTvxiPISd2apVttJO2vkaRKEvM6v5eu77bt2RUr6dJ5QqWxYYaP4/8a
-	E8BX53dQvuuVJ9Mq+DOQb4a0VNFYCM8HyZBGs4IUeMRiI3Han35rf4ncyGr01XZI
-	gukCozhm2iQwvuiyZeLa8134Z47Rjfpasz/yVO8cjSfhPdOuJlYOncTzdHf4mr4c
-	dfCxHfzLvkt17E5kwIA/g==
+	:reply-to:subject:subject:to:to; s=fm1; t=1759884388; x=
+	1759970788; bh=yo5MnYTjyoI0LhUTsp9996+aBpE/9GefqL1dql3Xwmw=; b=V
+	vosSrjlkFkTDC+x4xDmWVKVd+3FXAJky1Udu8oXRSNDmAazPvWGQliUWWuql9xTE
+	J2cJFbxDt/V4fElz/flvnpuBCRsGtSUDLnQp4Rj/IItC42YjKeffsgoNCPlYeydX
+	Ku5/NA8IckDy7eE5A3XzFscF/FYN/og96wfof2cn9x2I1I1Bwgtmcf8wqgpLwG4M
+	746rZtBMXyJ8j6XnWLeRHZ8e8zwwxP3EpDjX3Ffrfb3BztXakMhXLWVDYT1N22rs
+	rWWAFoh+IKHZxweSyOYkk+429DkVtP06sa1LTxgC3Xi+UL5n4WiAUmHu4KFQNwCf
+	PZP/R+4w9VIhP3cjs6Mxg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1759884115; x=1759970515; bh=y
-	o5MnYTjyoI0LhUTsp9996+aBpE/9GefqL1dql3Xwmw=; b=TAHBYeDNjEezfbWZt
-	iSdBadykT4GbneVywOXKXiQyhuBJ1fhAagUJstxlG+vzKNjurSUKsSGtyPiscylI
-	QObdBlnW27XWnvh3V67DUTf7XxRukeqdBAJxB5/6LtRuVVdYQyLt1/4KWM8aKKk0
-	+dFW2+A95aXkTpM7Y9Z9VdJq9r2nKJyFEeDAOzAtiid/rllbiD6XXLM8dRszFrQ5
-	3zYnxn9dlIlwrbNOKcIy7sRICTIDxn1RB6GnvdPsPxWCavr6kAtlFfFoObo41r4E
-	kaVmPJArNRYV+fkXpaQK60kU/knjbduYcDHRi+7AXNH9QerVexeF8MvoXs7AndKg
-	Md4VA==
-X-ME-Sender: <xms:UrPlaAj9qVprSOB-i6Guddyzw_JhcuwJkxVaV-hi61zCz3Eu6zEYSQ>
-    <xme:UrPlaDAK__v5JQPMIuK2wlff5TgpR6FiLXtAKgP9eqPD84-UDIVl_S3P7tkd0Ghyd
-    QlxgMp0s4JtE0m08kzvHZYf0EjHLT4enTwmzt9Hu0uASj_Q2VGS7oQ>
-X-ME-Received: <xmr:UrPlaOsEPZusENQzKMKH6-TCWwzHA0OjVto12UdYBcpmuhdk2zD7t3Lt_J6tFniEm4nwYHyiCvaKmyce>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutddukeekucetufdoteggodetrf
+	:x-me-sender:x-sasl-enc; s=fm2; t=1759884388; x=1759970788; bh=y
+	o5MnYTjyoI0LhUTsp9996+aBpE/9GefqL1dql3Xwmw=; b=Iq9mT3MQxv/WihMPJ
+	8qQ8vjDlTjYqUcPR732X244utOabyyJRh98E0BzxWPjq28dIYHjS2JvyFPNGFoAG
+	b67LMFKOlo8PaKFt/wFou0BRUtIqfPM8pz0AUMgqIgOvu0FZVJKGhv6150+G3WTj
+	66jwvr6Rx+AO68mQOuRvBQz5bsAdjcHA0Kk0Xwkd9LZBJQtKF0KDQuP8oYfWMz4j
+	OnCGv55q0ER7HhZEo53ImtQsiX2jVNcAHRcIomhtJIZ8dO4kv8kWBUgs2npe6hRq
+	nGvDU9ZREL8owMpmpmiUeajXZFt67KCyMUAaeqBHEHWgFHjwNmEzuBsqTqw2UP0J
+	BHtUg==
+X-ME-Sender: <xms:Y7TlaHqOOJ1nSN-BJRtgt3tZx-toSXg1d4DCtgcpIMbNpGkaApsZ-w>
+    <xme:Y7TlaLpjd1rDZoIhJ0lZe96hre4LG7v-GzyK82HP6B1lVF4D6a_WG98uhwMZLTzzk
+    nG3pRWhJs7EBjCeRme2ecjDKCyBeZ9-Dqhkstlarzk8yeDBJzPrbL0>
+X-ME-Received: <xmr:Y7TlaK0gJSw18RlZ6M-9dgTyi4gMM8K24IVnFtXK-okvIsgEI_PS5qjFFnu713E-_skH2cHwlago8gXU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutdduledtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucgoteeftdduqddtudculdduhedmnecujfgurhephffvve
     fufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgrthcuufhomhgrrhhuuceo
@@ -80,14 +80,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddutddukeekucetufdote
     ohhglhgvrdgtohhmpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprh
     gtphhtthhopehnihgtkhdruggvshgruhhlnhhivghrshdolhhkmhhlsehgmhgrihhlrdgt
     ohhmpdhrtghpthhtohepnhhstgeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:UrPlaPc3wh7CxAPbDn60nOQza60jAH8U6oEfyLYoa-ZYE7N66N7WAQ>
-    <xmx:U7PlaL8OcePI20yCbo2XvFHMNiMvdoMRH2i33N61ZaMctSvxIkmLvg>
-    <xmx:U7PlaKTBKtenq4PDCF5ZbzbVS5sNlVmDe6F-zIfwt7bhNK4UXM9nTA>
-    <xmx:U7PlaMqfe0mF7rBxubvD1s0dYmaIqhIhXwM-Jpvgtd68TW33O3YrHw>
-    <xmx:U7PlaCero-Kykf-42CVYC4rJ2Q5ADZFmG8j5SHkFBN7XCSMlw5Yr1bgo>
+X-ME-Proxy: <xmx:Y7TlaJFVXi0FoDtq1HgtCY0rtrivcmEsEPzaiPvFV9rXf8O_yCX6tw>
+    <xmx:Y7TlaFEFejQtD1yIknuHW7-MuZMnbqQpxM_RCtjzqueXi2qsh2_42w>
+    <xmx:Y7TlaM7pGlDxcmDeWfblg-tw4z50duYKeSrNfhJ8jwpoYe2qSiJHyQ>
+    <xmx:Y7TlaKx1iv4v3J_hOkK2EMtQq-_jpFIjQC-rTNctaAg-fV2OW-kpjQ>
+    <xmx:ZLTlaElG3r6YVHc4U99nTkw2Xc39X8Sib7EMSxsfrKCqnSj-Xt6XN2dM>
 Feedback-ID: i7f194913:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Oct 2025 20:41:54 -0400 (EDT)
+ 7 Oct 2025 20:46:27 -0400 (EDT)
 From: Pat Somaru <patso@likewhatevs.io>
 To: patso@likewhatevs.io
 Cc: justinstitt@google.com,
@@ -97,12 +97,12 @@ Cc: justinstitt@google.com,
 	nathan@kernel.org,
 	nick.desaulniers+lkml@gmail.com,
 	nsc@kernel.org
-Subject: [PATCH] scripts/clang-tools: Handle included .c files in gen_compile_commands
-Date: Tue,  7 Oct 2025 20:37:38 -0400
-Message-ID: <20251008003739.2659141-1-patso@likewhatevs.io>
+Subject: [PATCH v2] scripts/clang-tools: Handle included .c files in gen_compile_commands
+Date: Tue,  7 Oct 2025 20:45:28 -0400
+Message-ID: <20251008004615.2690081-1-patso@likewhatevs.io>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <DDCI68JLD5RP.1WAN6YKP7WWNU@likewhatevs.io>
-References: <DDCI68JLD5RP.1WAN6YKP7WWNU@likewhatevs.io>
+In-Reply-To: <20251008003739.2659141-1-patso@likewhatevs.io>
+References: <20251008003739.2659141-1-patso@likewhatevs.io>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
