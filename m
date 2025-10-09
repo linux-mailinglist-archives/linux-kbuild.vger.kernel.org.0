@@ -1,57 +1,55 @@
-Return-Path: <linux-kbuild+bounces-9061-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9062-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C577EBC81EA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Oct 2025 10:49:03 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8174CBC83FD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Oct 2025 11:16:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB8BA18861F1
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Oct 2025 08:49:26 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2E1C035339D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Oct 2025 09:16:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6426A2D1F44;
-	Thu,  9 Oct 2025 08:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CC0728CF42;
+	Thu,  9 Oct 2025 09:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2/7XxzM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAmjNd4p"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34196241CB7;
-	Thu,  9 Oct 2025 08:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6174527B342;
+	Thu,  9 Oct 2025 09:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759999739; cv=none; b=ZsDiRFJJ1CbVwUphlhMfN37ynbavjJqhvkmmF8WiFLokBtqjy/uo3WnExD54fOn5n/v0NAT6H8NhBEawDsWyDSMMd+PdVIjNDIZCTep7GaZxeyfWz4QXIdZsPQhU/KCM6ffHayqikz5Nz2lk9T5S6CQ07Hq9GoWZ6Bn8HH4n46k=
+	t=1760001398; cv=none; b=jw1v8vsAUCr4A4qg+k3v0F1BhM6sc9T1y8gmxdp7Fv+a46WJ1pk+9xbJBYLEV1kcQrIRyhgPvbQd3Re+VsNpaWYteTnftGO2yCq5gz2LVbBQhmcoM767aCKxsthMLvOSqRlQ+vMqxdQwj2lu1ThmlQcSfPUWX5PmpgaNYat37ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759999739; c=relaxed/simple;
-	bh=XcVzGEG7wl6bThfY5lOeGukSt2PGXHScZ9EbqkTi7js=;
+	s=arc-20240116; t=1760001398; c=relaxed/simple;
+	bh=3bbSTaA6jx0Vh3WaS6Gw5mXl4+WFYO4/FoQ/kCiHfkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UJ1pVYi6ZupmW6+RlWn0ehP14rtLeFD+gKNoKmG9VqG0rGzAbz/gybmFb/tagGvN8QF0mPpnVD8xbk+Bk8qZ/qP87XcwcLUvsjPjlDhGiPSy0gn/QGTcodwACNeOcBO1x5BGtzUleNCP7w/CMv5nh5NGBtoKhId1sOIEmxyWiwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2/7XxzM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41EAFC4CEE7;
-	Thu,  9 Oct 2025 08:48:58 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIPQwi7NOIKTFRzYt2Aq8CO05uVacB9J6yCamz3pqkxZze8m6kv2Q6VRat1zudLXMbf37zAnL7vmRGSIICHX4MFjpqe8ybyRZebipbU/P4jfTaZzgT0rEjfy7HAsizUCc1sLUT+b51sCyAbOL2JGxUZz2aRrcwnmEoUjgFPSemM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vAmjNd4p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DBC6C4CEE7;
+	Thu,  9 Oct 2025 09:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759999738;
-	bh=XcVzGEG7wl6bThfY5lOeGukSt2PGXHScZ9EbqkTi7js=;
+	s=k20201202; t=1760001397;
+	bh=3bbSTaA6jx0Vh3WaS6Gw5mXl4+WFYO4/FoQ/kCiHfkU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e2/7XxzM1HLb+pyFzIpz+xZ0yy4SzrCmR7PDLo6q1mnriFsw1HUFajJmocPwXS5ZZ
-	 ZwbNoMLUWfNRG6i76FGSUpdGIsEllwR3JB/la68MYg2F3B6TAoqbwu90oMDLgNwJvb
-	 n5CJpL4FIqyV27qYqN/QYDPDYIexuMVMjaZxSJ5k7QbOJykcjKT1NA5hklrmFTASwP
-	 5FIN6F0iWwPE9g7p+jffU+4BEKaoh+eEcFXGMpuwYMRE1rlIObNag63WaFsxK10IdX
-	 7sMkSAm5BVR4Z4+JiswasTUIe7DmJT4spXt8LRlO+Kgx3ZsFEMPVuFVQZiM6SzRlp9
-	 muaHoPZlQEiKA==
-Date: Thu, 9 Oct 2025 10:48:45 +0200
+	b=vAmjNd4pnf+M+PxkFm/3dI0CFKy++he7RbM6M/bkI5JvZwwoEquy9sbhWEUUZ490r
+	 hglyjsstvFfM7lBf+KFAZU9uwuLR4Q+5KPuEHHhtUl8cXybzmsok8CNifGMqTUhn3J
+	 YlMYd9Q9+YUfXU3Hbc5kewJjY2KgKgDrDB5WlEOhVJCO1zjQVNLwA0jFzZGgBDOsIT
+	 kYuIjj5J3DpKNsqPrXmNLS3OBzfYfvB3bXvQaGnQIX4VCq3i11Aqy19aRV0EUxrbDe
+	 IiPphsnP36xlnmudvTL+yQGDwaImhU3zSu/kv3367B3IvJGTYA2HSvzGMlCX2QApsW
+	 ZCSWN01UT9/TA==
+Date: Thu, 9 Oct 2025 11:02:59 +0200
 From: Nicolas Schier <nsc@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-	regressions@lists.linux.dev, nathan@kernel.org,
-	linux-kernel@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
-	ojeda@kernel.org, sam@gentoo.org, thomas.weissschuh@linutronix.de,
-	Daniel Xu <dxu@dxuuu.xyz>
-Subject: Re: [REGRESSION][BISECTED] kbuild: CFLAGS=-w no longer works
-Message-ID: <aOd27ViaWbsdwNDR@levanger>
-References: <20251009075149.1083040-1-safinaskar@gmail.com>
+To: HONG Yifan <elsk@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>, kernel-team@android.com,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: use $(obj)/ instead of $(src)/ for COPY
+Message-ID: <aOd6QzKQKcYoxMf0@levanger>
+References: <20251006193839.1350626-1-elsk@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,96 +58,85 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251009075149.1083040-1-safinaskar@gmail.com>
+In-Reply-To: <20251006193839.1350626-1-elsk@google.com>
 
-On Thu, Oct 09, 2025 at 10:51:49AM +0300, Askar Safin wrote:
-> #regzbot introduced: d1d0963121769d8d16150b913fe886e48efefa51
+On Mon, Oct 06, 2025 at 07:38:38PM +0000, HONG Yifan wrote:
+> Similar to
+> commit 9a0ebe5011f4 ("kbuild: use $(obj)/ instead of $(src)/ for common pattern rules")
 > 
-> As well as I understand, if you want to disable warnings, you
-> should pass "CFLAGS=-w" to "make". Starting with d1d096312176,
-> this no longer works.
+> This change updates the COPY rule to use $(obj) instead of $(src). This
+> makes Kbuild rules like
 > 
-> Steps to reproduce:
+>     always-y += libfoo/.foo.o.cmd
+
+This is a strange example.  Why should we ship any prebuilt .*.o.cmd file?
+
 > 
-> $ cd linux
-> $ git clean -f -q -d -x  # To clean everything not controlled by git
-> $ echo 'CONFIG_64BIT=y' > /tmp/minimini
-> $ make allnoconfig KCONFIG_ALLCONFIG=/tmp/minimini
-> $ make -j32 CFLAGS=-w
+> work when the user provides libfoo/.foo.o.cmd_shipped, even when obj and
+> src is different and src is an absolute path. This is useful when foo.o
+> and .foo.o.cmd are checked-in as prebuilts.
+> 
+> (Admittedly, `always-y += libfoo/.foo.o.cmd` is not recommended in
+> kbuild/modules.rst, "Several Subdirectories".)
+> 
+> For example, if
+> 
+>     obj=.
+>     src=/some/path
+> 
+> then the original rule
+> 
+>     $(obj)/%: $(src)/%_shipped
+> 
+> expands to
+> 
+>     ./%: /some/path/%_shipped
+> 
+> And when matching against the above example, the stem is just `bar.o`
+> [^1] so the following is looked up:
+> 
+>     libfoo/.foo.o.cmd: libfoo//some/path/.foo.o.cmd_shipped
+> 
+> ... and it cannot be matched.
+> 
+> With this change, the rule expands to
+> 
+>     ./%: ./%_shipped
+> 
+> ... and it should work, at least for files that does not have a more
+> specific pattern rule.
+> 
+> NOTE: that after this change, code like
+> 
+>     bar-y += libfoo/foo.o
+> 
+> ... with libfoo/foo.o_shipped provided still DOES NOT work, because
+> the pattern rule $(obj)/%.o takes priority. For .o_shipped files,
+> the user still needs an explicit `$(obj)/%.o: $(obj)/%.o_shipped` rule
+> in its own Kbuild file.
+> 
+> [^1]: https://www.gnu.org/software/make/manual/html_node/Pattern-Match.html
+> 
+> Signed-off-by: HONG Yifan <elsk@google.com>
+> ---
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 1d581ba5df66..e066b7b00bcc 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -272,7 +272,7 @@ endef
+>  quiet_cmd_copy = COPY    $@
+>        cmd_copy = cat $< > $@
+>  
+> -$(obj)/%: $(src)/%_shipped
+> +$(obj)/%: $(obj)/%_shipped
+>  	$(call cmd,copy)
 
-If you want to hand-over additional CFLAGS to kbuild you need to use
-KCFLAGS or other variations, see Documentation/kbuild/kbuild.rst.
-When I intentionally introduce a warning in e.g. init/main.c, I can
-suppress the compiler warning by calling
-
-    make KCFLAGS=-w
-
-Your log output below does not contain any warning, so I assume that you
-actually want to point to something different.
-
-
-[...]
->   CC      /rbt/linux/tools/objtool/libsubcmd/exec-cmd.o
->   CC      /rbt/linux/tools/objtool/libsubcmd/help.o
->   CC      /rbt/linux/tools/objtool/libsubcmd/pager.o
->   CC      /rbt/linux/tools/objtool/libsubcmd/parse-options.o
->   CC      /rbt/linux/tools/objtool/libsubcmd/run-command.o
->   CC      /rbt/linux/tools/objtool/libsubcmd/sigchain.o
->   CC      /rbt/linux/tools/objtool/libsubcmd/subcmd-config.o
-> exec-cmd.c:2:10: fatal error: linux/compiler.h: No such file or directory
->     2 | #include <linux/compiler.h>
->       |          ^~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[5]: *** [/rbt/linux/tools/build/Makefile.build:86: /rbt/linux/tools/objtool/libsubcmd/exec-cmd.o] Error 1
-> make[5]: *** Waiting for unfinished jobs....
-> parse-options.c:2:10: fatal error: linux/compiler.h: No such file or directory
->     2 | #include <linux/compiler.h>
->       |          ^~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[5]: *** [/rbt/linux/tools/build/Makefile.build:86: /rbt/linux/tools/objtool/libsubcmd/parse-options.o] Error 1
-> In file included from sigchain.c:3:
-> subcmd-util.h:8:10: fatal error: linux/compiler.h: No such file or directory
->     8 | #include <linux/compiler.h>
->       |          ^~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[5]: *** [/rbt/linux/tools/build/Makefile.build:86: /rbt/linux/tools/objtool/libsubcmd/sigchain.o] Error 1
->   MKELF   scripts/mod/elfconfig.h
-> In file included from help.c:12:
-> subcmd-util.h:8:10: fatal error: linux/compiler.h: No such file or directory
->     8 | #include <linux/compiler.h>
->       |          ^~~~~~~~~~~~~~~~~~
-> compilation terminated.
->   HOSTCC  scripts/mod/modpost.o
-> make[5]: *** [/rbt/linux/tools/build/Makefile.build:85: /rbt/linux/tools/objtool/libsubcmd/help.o] Error 1
->   HOSTCC  scripts/mod/sumversion.o
-> In file included from run-command.c:11:
-> subcmd-util.h:8:10: fatal error: linux/compiler.h: No such file or directory
->     8 | #include <linux/compiler.h>
->       |          ^~~~~~~~~~~~~~~~~~
-> compilation terminated.
->   HOSTCC  scripts/mod/symsearch.o
-> make[5]: *** [/rbt/linux/tools/build/Makefile.build:85: /rbt/linux/tools/objtool/libsubcmd/run-command.o] Error 1
->   UPD     scripts/mod/devicetable-offsets.h
->   HOSTCC  scripts/mod/file2alias.o
-> make[4]: *** [Makefile:78: /rbt/linux/tools/objtool/libsubcmd/libsubcmd-in.o] Error 2
-> make[3]: *** [Makefile:83: /rbt/linux/tools/objtool/libsubcmd/libsubcmd.a] Error 2
-> make[2]: *** [Makefile:73: objtool] Error 2
-> make[1]: *** [/rbt/linux/Makefile:1430: tools/objtool] Error 2
-> make[1]: *** Waiting for unfinished jobs....
-
-This is reproducible on my machine:
-
-    make -C tools objtool CFLAGS=-w
-
-But is doesn't matter which CFLAGS you add here, as they overwrite
-objtool's include paths.
-
-According to tools/build/Documentation/Build.txt you should use
-different variables for everything below tools/, e.g.:
-
-    make -C tools objtool CFLAGS_objtool=-w
-
-Does this help for your specific issue?
+No, I don't see a reason to support *_shipped files from the build tree.
+The purpose of *_shipped is to deliver prebuilt files with the source
+tree to allow or simplify building the corresponding output files.
 
 Kind regards,
 Nicolas
