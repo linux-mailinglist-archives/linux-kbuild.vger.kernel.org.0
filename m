@@ -1,57 +1,64 @@
-Return-Path: <linux-kbuild+bounces-9066-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9067-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4E0BCA67F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Oct 2025 19:41:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F358DBCAD2C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Oct 2025 22:44:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC068189BB95
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Oct 2025 17:41:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8DA93B1E1D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Oct 2025 20:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F078E2459DC;
-	Thu,  9 Oct 2025 17:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E601B271450;
+	Thu,  9 Oct 2025 20:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ilPXDzl9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o8ZnwI4F"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29F3EEC0;
-	Thu,  9 Oct 2025 17:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69E51632DD;
+	Thu,  9 Oct 2025 20:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760031686; cv=none; b=a0daEExQ5uVBqdLeU/WLUWX3IqIqBRX3I0wpWHaH56S5hozVmk7CZfliS297w84IddD5M9ScAjnWdOIsyTXrWuxb83+Vvh0af+YbsoCSytilcm+A4X6hmkJsTJo/jHYJgEl68KQAPuUszXqAo+CoqChnaw72FkLCNJ5dQx7whKw=
+	t=1760042643; cv=none; b=hS3VfURmQo2YaNHLMaeO+UxHrzG3DQnYWkngTyrUYz041skvooqVku/GdRl1wmmXKXKJUYz2Jto6b1SfAkuBnhrVgeIywSso/b53+JtB9b+7YYvJwYAtNdQlqpQrp6WqssyqQ+3lnEDKqZPPlM3DjCZ6mzWVYKZhvkgNkOofjNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760031686; c=relaxed/simple;
-	bh=K23L2usRO9cloxuukdxyKgJDZionsYzMB3U1+Yzhy30=;
+	s=arc-20240116; t=1760042643; c=relaxed/simple;
+	bh=7/U1V566gKFb1vf2ntgi11mlitYm6aRNje2qf/ILaG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGJlLnOXYw3yuOTCum9q4Z/2/ugL21l/zbwcEElnvmH8wrei8ZbmpjcSbT5JFL96rVgFRFN45I1eSvHGKMgztDt4IsJY0r3/dajPPGLjlx5U4IZPkE75AawHmyQvr9qGyCEIj3CsY6srgzUWfzYpwemWFL7q5c08S5e0GaIZLc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ilPXDzl9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1576BC4CEE7;
-	Thu,  9 Oct 2025 17:41:22 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=oB/xWnmvlqOYvd6PZfhtKjjFwzuoF34G76yWaBnY9KTpnQs6s20+XIfw1GOkeJas/2N11lVqtvfiKTtcUy6WQLquWtWPx/JPIILVhkMZR2engqXM0O2glKW/Cno9QkFb/nKYMGk+TT0Ayg5ChXQOeg0nnwwSuAfltLd+QVAhpcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o8ZnwI4F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9E5C4CEE7;
+	Thu,  9 Oct 2025 20:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760031685;
-	bh=K23L2usRO9cloxuukdxyKgJDZionsYzMB3U1+Yzhy30=;
+	s=k20201202; t=1760042643;
+	bh=7/U1V566gKFb1vf2ntgi11mlitYm6aRNje2qf/ILaG8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ilPXDzl9inaHuOpMWGvhmY+g5lALkpQvwcS3EjjxZ8qbRtZjibA2BuwnUYE4GTGWa
-	 ROSh9/863YI2HCxPdSb52bI7mFhiDEPjJETfUukumlDjwYHLTOvHaDRC/9UV30ltBr
-	 llNtSakZhlnZEChmqSyZYQYBL22Ce8AOvYL9D2rOFi4ZhGv7T2VwGF7b0XozMGPvpY
-	 Uq4Ovdr2/AfpKVCHPsb5qTsmWtOLBBKozxI7iWFqvbXq5C3urjWJM6H+5HnW8QcAaT
-	 mR42c7qiIOy3JEZZ8PwfTTGuSZXa8l3WzI6gsaZ1vnd5p5WKcEyTWLHLJ9C7E6mOCG
-	 PzP5eylm3STIA==
-Date: Thu, 9 Oct 2025 10:41:20 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-	regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
-	miguel.ojeda.sandonis@gmail.com, nsc@kernel.org, ojeda@kernel.org,
-	sam@gentoo.org, thomas.weissschuh@linutronix.de,
-	Daniel Xu <dxu@dxuuu.xyz>
-Subject: Re: [REGRESSION][BISECTED] kbuild: CFLAGS=-w no longer works
-Message-ID: <20251009174120.GA442207@ax162>
-References: <20251009075149.1083040-1-safinaskar@gmail.com>
+	b=o8ZnwI4FcSI82oYE36no4cgXvY3zMYCJTz1pXXyMZmPwrpHFNn3WInBfZY2qRGAdj
+	 O/ZZm8OzBuDG4GN7dIUzk5Wc/fBr+2wiCLKv55znlbIOMKtnKZ+40FrUNd2zq7NvMl
+	 3lmL2pY+r+f5o4OTICmeKJ5IPsateFBSUxyh86WBPmKVDx4CJO2BhTXIYkEQG2MAv+
+	 xcaqGsNoZjWivGHGOJ09w3r93lDjh6HDNztXqoSvMBgoI/Y8ajrLOwDIQyf91AciX5
+	 vx+nDa78L67xtjJsS0lOxKco+yxTk6OUYM2v/U+wHTyqDwK8FI5undZtswitfNG0Ct
+	 HUsjXszmSQB+w==
+Date: Thu, 9 Oct 2025 21:44:26 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Alexey Gladkov <legion@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Linux Kernel Functional Testing <lkft@linaro.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Subject: Re: [PATCH 0/3] kbuild: Fixes for fallout from recent
+ modules.builtin.modinfo series
+Message-ID: <aOgQmiPwkbkFTWZr@levanger>
+References: <20251008-kbuild-fix-modinfo-regressions-v1-0-9fc776c5887c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,36 +67,35 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251009075149.1083040-1-safinaskar@gmail.com>
+In-Reply-To: <20251008-kbuild-fix-modinfo-regressions-v1-0-9fc776c5887c@kernel.org>
 
-Hi Askar,
-
-On Thu, Oct 09, 2025 at 10:51:49AM +0300, Askar Safin wrote:
-> #regzbot introduced: d1d0963121769d8d16150b913fe886e48efefa51
+On Wed, Oct 08, 2025 at 03:46:43PM -0700, Nathan Chancellor wrote:
+> Hi all,
 > 
-> As well as I understand, if you want to disable warnings, you
-> should pass "CFLAGS=-w" to "make". Starting with d1d096312176,
-> this no longer works.
+> This is a series to address some problems that were exposed by the
+> recent modules.builtin.modinfo series that landed in commit c7d3dd9163e6
+> ("Merge patch series "Add generated modalias to
+> modules.builtin.modinfo"").
 > 
-> Steps to reproduce:
+> The third patch is not directly related to the aforementioned series, as
+> the warning it fixes happens prior to the series but commit 8d18ef04f940
+> ("s390: vmlinux.lds.S: Reorder sections") from the series creates
+> conflicts in this area, so I included it here.
 > 
-> $ cd linux
-> $ git clean -f -q -d -x  # To clean everything not controlled by git
-> $ echo 'CONFIG_64BIT=y' > /tmp/minimini
-> $ make allnoconfig KCONFIG_ALLCONFIG=/tmp/minimini
-> $ make -j32 CFLAGS=-w
+> I plan to send at least the first two patches to Linus by Saturday for
+> -rc1 but I will take the third with an Ack.
+> 
+> ---
+> Nathan Chancellor (3):
+>       kbuild: Restore pattern to avoid stripping .rela.dyn from vmlinux
+>       kbuild: Add '.rel.*' strip pattern for vmlinux
+>       s390/vmlinux.lds.S: Move .vmlinux.info to end of allocatable sections
+> 
+>  arch/s390/kernel/vmlinux.lds.S | 44 +++++++++++++++++++++---------------------
+>  scripts/Makefile.vmlinux       |  5 ++++-
+>  2 files changed, 26 insertions(+), 23 deletions(-)
 
-As Nicolas pointed out, CFLAGS has not be hooked into Kbuild for a long
-time, see commit 69ee0b352242 ("kbuild: do not pick up CFLAGS from the
-environment"). You would need to use KCFLAGS=-w to accomplish the same
-thing. KCFLAGS is only for the kernel build though, you would need
-HOSTCFLAGS=-w as well to ignore warnings when building the host
-programs such as objtool.
+Thanks!
 
-It does seem like the objtool Makefile should be hardened against CFLAGS
-being passed in from the command line so that the build does not break
-like this though.
-
-Cheers,
-Nathan
+Acked-by: Nicolas Schier <nsc@kernel.org>
 
