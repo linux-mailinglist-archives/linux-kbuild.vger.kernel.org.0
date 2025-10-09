@@ -1,264 +1,298 @@
-Return-Path: <linux-kbuild+bounces-9058-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9059-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE08BC7B33
-	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Oct 2025 09:28:03 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F11ABC7C9C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Oct 2025 09:52:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E09019E462F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Oct 2025 07:28:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1B8AD4E71C5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Oct 2025 07:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141372D0C6C;
-	Thu,  9 Oct 2025 07:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 735BF2D0618;
+	Thu,  9 Oct 2025 07:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XCvzlzXY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159D72BE7AF;
-	Thu,  9 Oct 2025 07:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8FA2BE648
+	for <linux-kbuild@vger.kernel.org>; Thu,  9 Oct 2025 07:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759994880; cv=none; b=e9kw3zw8AaxOTW9B6tXoLSbXIf38eTKXNUkOZzsYMRel3XYAl7NAtR6ixGF+oXjzuPl120BdLWD7UF6Dlsi7uKnbNbOIdgRZWzCK3dH6eo6gI9BMbx+qEQDC8NNJ1I1lRRYkZ14ptN+mK0bV/3v+ky+x5uFzm9U0Oh6lc+JGA14=
+	t=1759996324; cv=none; b=ahesmUDyIs/KVCPsXR14XRE0Hl7IhWM5l7StECOI5toXZTD5kSLEdAOQMZbv+AnGiwPzZv5AWRax8Kujx9nPs3ho2BwuHxmkmQkGWORrL1Qpx8Dc6aUB8Eu1+uLiGRryJyYQWXdVlrS43vDJKAZeXR/+FztPsWxq6sgHVHE8qL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759994880; c=relaxed/simple;
-	bh=XfqDBfd6iAezjZ4Zyx6Aa3kJN4a1sI8LfvLWt/i2PWw=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=psr+lKC+ufIEETyV9UGwdXkFy7MboC7QOqG4DOBAZRv058GGrvvO6GsqHL7VKRqNqkMoVXemcLs0LncbRfdW4DfJ5Khhl2Ef4XP19/CVdoyiG1YrwPDanF0ycwOvg4EwYbmpvPCoBKuDxxZmjpr42DQO1Ug16MTUioQC0l78gaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8Cx77_1Y+doGzAUAA--.41427S3;
-	Thu, 09 Oct 2025 15:27:49 +0800 (CST)
-Received: from [10.130.10.66] (unknown [113.200.148.30])
-	by front1 (Coremail) with SMTP id qMiowJCxocLrY+doN1fWAA--.11175S3;
-	Thu, 09 Oct 2025 15:27:39 +0800 (CST)
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-To: Ard Biesheuvel <ardb@kernel.org>, Huacai Chen <chenhuacai@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250928085506.4471-1-yangtiezhu@loongson.cn>
- <CAMj1kXG8Wi+THa2SeLxiDT=+t_TKx0AL4H-azZO4DNJvyyv96g@mail.gmail.com>
- <CAAhV-H7xOf8DEwOrNh+GQGHktOT4Ljp+7SqutGvvDZp6GLXJrA@mail.gmail.com>
- <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
- <CAMj1kXHWe2uGY3S1NJ6mckqD4n116rPmaOzw3_Qbvxyjh7ECMw@mail.gmail.com>
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <fec0c03d-9d8c-89a3-886a-1adc22e59b66@loongson.cn>
-Date: Thu, 9 Oct 2025 15:27:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1759996324; c=relaxed/simple;
+	bh=i9Z80guMca+sPD/TMXl+vTjZYLstDVRXzHS+lM+wG3Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TyHx/RNnZFt7DaxsJbATAvL5C+DOSS7LaPFs+Bt/oiZZUfKhzO0cmO/chGzUg6uMGsgUpDO5VQRK47S7+WkaCuX7UDl9p+ANarLmLxNBlNAb2ZyKuL9hj2WLCP7QXuV2uYFurmSPCYQgp7JpyZb8si8iSiPoo3Mwh4xP3bm26J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XCvzlzXY; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3f0308469a4so413608f8f.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 09 Oct 2025 00:52:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759996320; x=1760601120; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dq0wjjBNXf0WK9D3ya79rVciEE/qzZqTtznAwxjgERM=;
+        b=XCvzlzXYu3nnP3q+TaySbt2kkcQXRZufaYSmLok5gn6i0ehXKj+uGZ3ToQIfq3vJUo
+         VfF8pGLcAYIDHd8qqyGG4yz6VzP1Yqgne/YghKSYPlUjkLLXjuF6ybEa9UgYfOWPVSDF
+         eIGq/L72XudQ8/Xv2qyiZX2hnzNGoMOl70IS8fBsHDKsoi6OW8FTLkjsrvAYQ8njkNsO
+         QAM6PwPqAh+ATp38/RUTt+ZHCASJZiZtPuN8fyyamtdX7xTs215bgPXRHoBcO+4XRoHM
+         oCYlEhf0xMBrDFlzHxIo8ERjITGJ2jJfCE1RvfWBRsQFkGu1LzG1/mNriGNPbNOJyRgd
+         Tddw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759996320; x=1760601120;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dq0wjjBNXf0WK9D3ya79rVciEE/qzZqTtznAwxjgERM=;
+        b=pCoO89cOEo3q+bfUrfaJUFH2h2b2qeGJi6WJOwSZ8gBF2qU8NFPaU3Q0/4eM6DZ7rT
+         ps3OI4RU3ydvrRUeL8VuOFekR2bTSfYxdcSToj45Oo8366guGyNhmCg9NPai1oQthYes
+         3gOtTwZOOuSk9GC2m2IbYmPZZKPsiIhH2qF5UT04nlJmJwQbrBj2vEJWe4Ljcq3wkgkS
+         hxTkguLfk7EQjyoasSqx6q798LiBLUIvFI0BOpDxrZEwAMG4H+fNxwuAd63cgvpC7Z58
+         zPzGoHmTInWMpFklLe7DxejjzN79t0ebr3lTJ0mTKeWUoJ1JfGOK8eunyema5tH0oEQ9
+         MKTg==
+X-Gm-Message-State: AOJu0YzppRfTUHX/4wL94yfEOF98huYdDleMy+kny198HYiY64N0TkHH
+	9tIOupYAl3iHOIc7rb678T3xU+GOfqtzuEeFlhJftGMFwkyCJpIPgAYOpvUq1ShC
+X-Gm-Gg: ASbGnctnERt+cfCVaJbUQ+x+JCX0zAz5EbzpNPss49a37qyYWnXBES/Rvw2QKPdwJwJ
+	4pWce0CCCoa47CjkDzJ5AsL5vqQ+Qxp3w7mPYGhkTFrP18r0RCZ2kEKDNpZx6OTLPYtwinZzKwB
+	dpOipvylQ5TM3I+cf2eNq5Yi+QIEz4X5uFUDZ5TOf47ydaRulXRAV2WmL+Ix7+U8hzGKbFK6rsT
+	CXE8j6Sx7u50neGOQyPz6fIlDvKvLX/uY7+8YnTy1SCF5HnwBz1qHCWqiO2jRjBVfiZbxKuwS0q
+	X7iHFP6XF78LF3fQPpqm1Jr318Fle4nOfRkUa54MAVHj+ZCT/VHvQr/q8EA8PmQSbAgXJlEwsC6
+	SbNz2/lWnogClVW2J6oWnEiRgcInSUX9G/JJHETcd09mhoNCmJAR26A==
+X-Google-Smtp-Source: AGHT+IEF2QgSVmoekGeeDdR+attcsPoP4ux+ZobTKCXEPtqIEA2gTGTVY1Xfifkg2IiD0GzYxV+OEw==
+X-Received: by 2002:a5d:5f82:0:b0:3fd:eb15:772 with SMTP id ffacd0b85a97d-42666ac39d7mr3287299f8f.9.1759996320291;
+        Thu, 09 Oct 2025 00:52:00 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8a6bbesm33252549f8f.12.2025.10.09.00.51.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Oct 2025 00:51:59 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	regressions@lists.linux.dev
+Cc: nathan@kernel.org,
+	linux-kernel@vger.kernel.org,
+	miguel.ojeda.sandonis@gmail.com,
+	nsc@kernel.org,
+	ojeda@kernel.org,
+	sam@gentoo.org,
+	thomas.weissschuh@linutronix.de,
+	Daniel Xu <dxu@dxuuu.xyz>
+Subject: [REGRESSION][BISECTED] kbuild: CFLAGS=-w no longer works
+Date: Thu,  9 Oct 2025 10:51:49 +0300
+Message-ID: <20251009075149.1083040-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXHWe2uGY3S1NJ6mckqD4n116rPmaOzw3_Qbvxyjh7ECMw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxocLrY+doN1fWAA--.11175S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxuFyDZr45uF48uFyxuF4DAwc_yoWxWw1kpa
-	yjkFWjyr4kJr4kXas7t3yY9r1YqanIqrWaga4DuryrZa1qqr40vrWUZr4DuF9rXw4DC3WI
-	qF1fJr9Ik3WUJ3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	GcCE3s1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
-	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17
-	McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
-	I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF
-	x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r
-	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
-	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
-	0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j7189UUUUU=
+Content-Transfer-Encoding: quoted-printable
 
-On 2025/9/28 下午10:41, Ard Biesheuvel wrote:
-> On Sun, 28 Sept 2025 at 16:39, Ard Biesheuvel <ardb@kernel.org> wrote:
->>
->> On Sun, 28 Sept 2025 at 15:52, Huacai Chen <chenhuacai@kernel.org> wrote:
->>>
->>> Hi, Ard,
->>>
->>> On Sun, Sep 28, 2025 at 9:42 PM Ard Biesheuvel <ardb@kernel.org> wrote:
->>>>
->>>> On Sun, 28 Sept 2025 at 10:55, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
->>>>>
->>>>> When compiling with LLVM and CONFIG_LTO_CLANG is set, there exists
->>>>> the following objtool warning on LoongArch:
->>>>>
->>>>>    vmlinux.o: warning: objtool: __efistub_efi_boot_kernel()
->>>>>    falls through to next function __efistub_exit_boot_func()
->>>>>
->>>>> This is because efi_boot_kernel() doesn't end with a return instruction
->>>>> or an unconditional jump, then objtool has determined that the function
->>>>> can fall through into the next function.
->>>>>
->>>>> At the beginning, try to do something to make efi_boot_kernel() ends with
->>>>> an unconditional jump instruction, but this modification seems not proper.
->>>>>
->>>>> Since the efistub functions are useless for stack unwinder, they can be
->>>>> ignored by objtool. After many discussions, no need to link libstub to
->>>>> the vmlinux.o, only link libstub to the final vmlinux.
->>>>>
->>>>
->>>> Please try keeping these changes confined to arch/loongarch. This
->>>> problem does not exist on other architectures, and changing the way
->>>> vmlinux is constructed might create other issues down the road.
+#regzbot introduced: d1d0963121769d8d16150b913fe886e48efefa51
 
-This was discussed and tested in the v3 patch, it only touches the code
-of LoongArch and works well like this:
+As well as I understand, if you want to disable warnings, you
+should pass "CFLAGS=3D-w" to "make". Starting with d1d096312176,
+this no longer works.
 
-diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-index dc5bd3f1b8d2..f34b416f5ca2 100644
---- a/arch/loongarch/Makefile
-+++ b/arch/loongarch/Makefile
-@@ -169,7 +169,6 @@ CHECKFLAGS += $(shell $(CC) $(KBUILD_CPPFLAGS) 
-$(KBUILD_CFLAGS) -dM -E -x c /dev
-  endif
+Steps to reproduce:
 
-  libs-y += arch/loongarch/lib/
--libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
+$ cd linux
+$ git clean -f -q -d -x  # To clean everything not controlled by git
+$ echo 'CONFIG_64BIT=3Dy' > /tmp/minimini
+$ make allnoconfig KCONFIG_ALLCONFIG=3D/tmp/minimini
+$ make -j32 CFLAGS=3D-w
 
-  drivers-y              += arch/loongarch/crypto/
+My system info:
 
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 433849ff7529..ed94871c3606 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -69,6 +69,12 @@ vmlinux_link()
-                 libs="${KBUILD_VMLINUX_LIBS}"
-         fi
+d-user@comp:~$ gcc -v
+Using built-in specs.
+COLLECT_GCC=3Dgcc
+COLLECT_LTO_WRAPPER=3D/usr/libexec/gcc/x86_64-linux-gnu/14/lto-wrapper
+OFFLOAD_TARGET_NAMES=3Dnvptx-none:amdgcn-amdhsa
+OFFLOAD_TARGET_DEFAULT=3D1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion=3D'Debian 14.2.0-19'=
+ --with-bugurl=3Dfile:///usr/share/doc/gcc-14/README.Bugs --enable-language=
+s=3Dc,ada,c++,go,d,fortran,objc,obj-c++,m2,rust --prefix=3D/usr --with-gcc-=
+major-version-only --program-suffix=3D-14 --program-prefix=3Dx86_64-linux-g=
+nu- --enable-shared --enable-linker-build-id --libexecdir=3D/usr/libexec --=
+without-included-gettext --enable-threads=3Dposix --libdir=3D/usr/lib --ena=
+ble-nls --enable-bootstrap --enable-clocale=3Dgnu --enable-libstdcxx-debug =
+--enable-libstdcxx-time=3Dyes --with-default-libstdcxx-abi=3Dnew --enable-l=
+ibstdcxx-backtrace --enable-gnu-unique-object --disable-vtable-verify --ena=
+ble-plugin --enable-default-pie --with-system-zlib --enable-libphobos-check=
+ing=3Drelease --with-target-system-zlib=3Dauto --enable-objc-gc=3Dauto --en=
+able-multiarch --disable-werror --enable-cet --with-arch-32=3Di686 --with-a=
+bi=3Dm64 --with-multilib-list=3Dm32,m64,mx32 --enable-multilib --with-tune=
+=3Dgeneric --enable-offload-targets=3Dnvptx-none=3D/build/reproducible-path=
+/gcc-14-14.2.0/debian/tmp-nvptx/usr,amdgcn-amdhsa=3D/build/reproducible-pat=
+h/gcc-14-14.2.0/debian/tmp-gcn/usr --enable-offload-defaulted --without-cud=
+a-driver --enable-checking=3Drelease --build=3Dx86_64-linux-gnu --host=3Dx8=
+6_64-linux-gnu --target=3Dx86_64-linux-gnu --with-build-config=3Dbootstrap-=
+lto-lean --enable-link-serialization=3D3
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 14.2.0 (Debian 14.2.0-19)=20
+d-user@comp:~$ cat /etc/os-release=20
+PRETTY_NAME=3D"Debian GNU/Linux 13 (trixie)"
+NAME=3D"Debian GNU/Linux"
+VERSION_ID=3D"13"
+VERSION=3D"13 (trixie)"
+VERSION_CODENAME=3Dtrixie
+DEBIAN_VERSION_FULL=3D13.1
+ID=3Ddebian
+HOME_URL=3D"https://www.debian.org/"
+SUPPORT_URL=3D"https://www.debian.org/support"
+BUG_REPORT_URL=3D"https://bugs.debian.org/"
 
-+       if [ "${SRCARCH}" = "loongarch" ]; then
-+               if is_enabled CONFIG_EFI_STUB; then
-+                       libs="${libs} drivers/firmware/efi/libstub/lib.a"
-+               fi
-+       fi
-+
-         if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
-                 objs="${objs} .builtin-dtbs.o"
-         fi
+Culpit commit (d1d096312176) produces this output:
 
-https://lore.kernel.org/loongarch/pq4h7jgndnt6p45lj4kgubxjd5gidfetugcuf5rcxzxxanzetd@6rrlpjnjsmuy/
+d-user@comp:/rbt$ cd linux
+d-user@comp:/rbt/linux$ git clean -f -q -d -x
+d-user@comp:/rbt/linux$ echo 'CONFIG_64BIT=3Dy' > /tmp/minimini
+d-user@comp:/rbt/linux$ make allnoconfig KCONFIG_ALLCONFIG=3D/tmp/minimini
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.[ch]
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  HOSTCC  scripts/kconfig/menu.o
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTCC  scripts/kconfig/util.o
+  HOSTLD  scripts/kconfig/conf
+#
+# configuration written to .config
+#
+d-user@comp:/rbt/linux$ make -j32 CFLAGS=3D-w
+  GEN     arch/x86/include/generated/asm/orc_hash.h
+  WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
+  WRAP    arch/x86/include/generated/uapi/asm/errno.h
+  WRAP    arch/x86/include/generated/uapi/asm/fcntl.h
+  UPD     include/generated/uapi/linux/version.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+  WRAP    arch/x86/include/generated/uapi/asm/ioctl.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
+  WRAP    arch/x86/include/generated/uapi/asm/ioctls.h
+  WRAP    arch/x86/include/generated/uapi/asm/ipcbuf.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
+  SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
+  WRAP    arch/x86/include/generated/uapi/asm/param.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
+  WRAP    arch/x86/include/generated/uapi/asm/poll.h
+  WRAP    arch/x86/include/generated/uapi/asm/resource.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
+  WRAP    arch/x86/include/generated/uapi/asm/socket.h
+  SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
+  WRAP    arch/x86/include/generated/uapi/asm/sockios.h
+  WRAP    arch/x86/include/generated/uapi/asm/termbits.h
+  WRAP    arch/x86/include/generated/uapi/asm/termios.h
+  WRAP    arch/x86/include/generated/uapi/asm/types.h
+  HOSTCC  arch/x86/tools/relocs_32.o
+  HOSTCC  arch/x86/tools/relocs_64.o
+  HOSTCC  arch/x86/tools/relocs_common.o
+  UPD     include/generated/compile.h
+  WRAP    arch/x86/include/generated/asm/early_ioremap.h
+  WRAP    arch/x86/include/generated/asm/fprobe.h
+  HOSTCC  scripts/kallsyms
+  WRAP    arch/x86/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/x86/include/generated/asm/mmzone.h
+  HOSTCC  scripts/sorttable
+  WRAP    arch/x86/include/generated/asm/irq_regs.h
+  WRAP    arch/x86/include/generated/asm/kmap_size.h
+  WRAP    arch/x86/include/generated/asm/local64.h
+  WRAP    arch/x86/include/generated/asm/mmiowb.h
+  WRAP    arch/x86/include/generated/asm/module.lds.h
+  UPD     include/config/kernel.release
+  WRAP    arch/x86/include/generated/asm/rwonce.h
+  DESCEND objtool
+  UPD     include/generated/utsrelease.h
+  INSTALL /rbt/linux/tools/objtool/libsubcmd/include/subcmd/exec-cmd.h
+  INSTALL /rbt/linux/tools/objtool/libsubcmd/include/subcmd/help.h
+  INSTALL /rbt/linux/tools/objtool/libsubcmd/include/subcmd/pager.h
+  INSTALL /rbt/linux/tools/objtool/libsubcmd/include/subcmd/parse-options.h
+  INSTALL /rbt/linux/tools/objtool/libsubcmd/include/subcmd/run-command.h
+  INSTALL libsubcmd_headers
+  HOSTLD  arch/x86/tools/relocs
+  CC      scripts/mod/empty.o
+  HOSTCC  scripts/mod/mk_elfconfig
+  CC      scripts/mod/devicetable-offsets.s
+  CC      /rbt/linux/tools/objtool/libsubcmd/exec-cmd.o
+  CC      /rbt/linux/tools/objtool/libsubcmd/help.o
+  CC      /rbt/linux/tools/objtool/libsubcmd/pager.o
+  CC      /rbt/linux/tools/objtool/libsubcmd/parse-options.o
+  CC      /rbt/linux/tools/objtool/libsubcmd/run-command.o
+  CC      /rbt/linux/tools/objtool/libsubcmd/sigchain.o
+  CC      /rbt/linux/tools/objtool/libsubcmd/subcmd-config.o
+exec-cmd.c:2:10: fatal error: linux/compiler.h: No such file or directory
+    2 | #include <linux/compiler.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[5]: *** [/rbt/linux/tools/build/Makefile.build:86: /rbt/linux/tools/ob=
+jtool/libsubcmd/exec-cmd.o] Error 1
+make[5]: *** Waiting for unfinished jobs....
+parse-options.c:2:10: fatal error: linux/compiler.h: No such file or direct=
+ory
+    2 | #include <linux/compiler.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[5]: *** [/rbt/linux/tools/build/Makefile.build:86: /rbt/linux/tools/ob=
+jtool/libsubcmd/parse-options.o] Error 1
+In file included from sigchain.c:3:
+subcmd-util.h:8:10: fatal error: linux/compiler.h: No such file or directory
+    8 | #include <linux/compiler.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[5]: *** [/rbt/linux/tools/build/Makefile.build:86: /rbt/linux/tools/ob=
+jtool/libsubcmd/sigchain.o] Error 1
+  MKELF   scripts/mod/elfconfig.h
+In file included from help.c:12:
+subcmd-util.h:8:10: fatal error: linux/compiler.h: No such file or directory
+    8 | #include <linux/compiler.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+  HOSTCC  scripts/mod/modpost.o
+make[5]: *** [/rbt/linux/tools/build/Makefile.build:85: /rbt/linux/tools/ob=
+jtool/libsubcmd/help.o] Error 1
+  HOSTCC  scripts/mod/sumversion.o
+In file included from run-command.c:11:
+subcmd-util.h:8:10: fatal error: linux/compiler.h: No such file or directory
+    8 | #include <linux/compiler.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+  HOSTCC  scripts/mod/symsearch.o
+make[5]: *** [/rbt/linux/tools/build/Makefile.build:85: /rbt/linux/tools/ob=
+jtool/libsubcmd/run-command.o] Error 1
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/file2alias.o
+make[4]: *** [Makefile:78: /rbt/linux/tools/objtool/libsubcmd/libsubcmd-in.=
+o] Error 2
+make[3]: *** [Makefile:83: /rbt/linux/tools/objtool/libsubcmd/libsubcmd.a] =
+Error 2
+make[2]: *** [Makefile:73: objtool] Error 2
+make[1]: *** [/rbt/linux/Makefile:1430: tools/objtool] Error 2
+make[1]: *** Waiting for unfinished jobs....
+  HOSTLD  scripts/mod/modpost
+  CC      kernel/bounds.s
+  CHKSHA1 include/linux/atomic/atomic-arch-fallback.h
+  CHKSHA1 include/linux/atomic/atomic-instrumented.h
+  CHKSHA1 include/linux/atomic/atomic-long.h
+  UPD     include/generated/timeconst.h
+  UPD     include/generated/bounds.h
+  CC      arch/x86/kernel/asm-offsets.s
+  UPD     include/generated/asm-offsets.h
+  CALL    scripts/checksyscalls.sh
+make: *** [Makefile:251: __sub-make] Error 2
 
->>> ARM, RISC-V and LoongArch do things exactly in the same way. Now
->>> LoongArch is the first of the three to enable objtool, so we meet the
->>> problem first.
->>>
->>> But yes, I also don't want to change the way of constructing vmlinux.
->>> So I prefer the earliest way to fix this problem.
->>> https://lore.kernel.org/loongarch/CAAhV-H7fRHGFVKV8HitRgmuoDPt5ODt--iSuV0EmeeUb9d5FNw@mail.gmail.com/T/#meef7411abd14f4c28c85e686614aa9211fccdca0
->>>
->>
->> Can we just drop the __noreturn annotation from kernel_entry_t, and
->> return EFI_SUCCESS from efi_boot_kernel()?
-
-This was done in the early RFC patch, it works well like this:
-
-diff --git a/drivers/firmware/efi/libstub/loongarch.c 
-b/drivers/firmware/efi/libstub/loongarch.c
-index 3782d0a187d1..e309fd78fca7 100644
---- a/drivers/firmware/efi/libstub/loongarch.c
-+++ b/drivers/firmware/efi/libstub/loongarch.c
-@@ -10,7 +10,7 @@
-  #include "efistub.h"
-  #include "loongarch-stub.h"
-
--typedef void __noreturn (*kernel_entry_t)(bool efi, unsigned long cmdline,
-+typedef void (*kernel_entry_t)(bool efi, unsigned long cmdline,
-  					  unsigned long systab);
-
-  efi_status_t check_platform_features(void)
-@@ -81,4 +81,7 @@ efi_status_t efi_boot_kernel(void *handle, 
-efi_loaded_image_t *image,
-
-  	real_kernel_entry(true, (unsigned long)cmdline_ptr,
-  			  (unsigned long)efi_system_table);
-+
-+	/* We should never get here */
-+	while (1);
-  }
-
-https://lore.kernel.org/loongarch/20250826064631.9617-2-yangtiezhu@loongson.cn/
-
-> ... or add efi_boot_kernel() to ./tools/objtool/noreturns.h?
-
-It can not fix the objtool warning.
-
-Are you OK with the following changes?
-
-(1) libstub doesn't link to vmlinux.o, only link libstub with vmlinux.o 
-during the final vmlinux link, keep the changes confined to LoongArch, 
-no need to be something more generic.
-
-diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-index dc5bd3f1b8d2..f34b416f5ca2 100644
---- a/arch/loongarch/Makefile
-+++ b/arch/loongarch/Makefile
-@@ -169,7 +169,6 @@ CHECKFLAGS += $(shell $(CC) $(KBUILD_CPPFLAGS) 
-$(KBUILD_CFLAGS) -dM -E -x c /dev
-  endif
-
-  libs-y += arch/loongarch/lib/
--libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
-
-  drivers-y              += arch/loongarch/crypto/
-
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 433849ff7529..ed94871c3606 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -69,6 +69,12 @@ vmlinux_link()
-                 libs="${KBUILD_VMLINUX_LIBS}"
-         fi
-
-+       if [ "${SRCARCH}" = "loongarch" ]; then
-+               if is_enabled CONFIG_EFI_STUB; then
-+                       libs="${libs} drivers/firmware/efi/libstub/lib.a"
-+               fi
-+       fi
-+
-         if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
-                 objs="${objs} .builtin-dtbs.o"
-         fi
-
-(2) remove the attribute __noreturn for real_kernel_entry() and add
-"while (1);" at the end of efi_boot_kernel().
-
-diff --git a/drivers/firmware/efi/libstub/loongarch.c 
-b/drivers/firmware/efi/libstub/loongarch.c
-index 3782d0a187d1..e309fd78fca7 100644
---- a/drivers/firmware/efi/libstub/loongarch.c
-+++ b/drivers/firmware/efi/libstub/loongarch.c
-@@ -10,7 +10,7 @@
-  #include "efistub.h"
-  #include "loongarch-stub.h"
-
--typedef void __noreturn (*kernel_entry_t)(bool efi, unsigned long cmdline,
-+typedef void (*kernel_entry_t)(bool efi, unsigned long cmdline,
-  					  unsigned long systab);
-
-  efi_status_t check_platform_features(void)
-@@ -81,4 +81,7 @@ efi_status_t efi_boot_kernel(void *handle, 
-efi_loaded_image_t *image,
-
-  	real_kernel_entry(true, (unsigned long)cmdline_ptr,
-  			  (unsigned long)efi_system_table);
-+
-+	/* We should never get here */
-+	while (1);
-  }
-
-Taking all of the considerations in balance, what should to do?
-
-Thanks,
-Tiezhu
-
+--=20
+Askar Safin
 
