@@ -1,189 +1,113 @@
-Return-Path: <linux-kbuild+bounces-9075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9076-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411F0BCDF4D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 18:26:19 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AAC9BCE0D9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 19:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E40E3422A40
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 16:26:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 353A94E4244
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 17:14:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7397E2FC019;
-	Fri, 10 Oct 2025 16:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9708E1FFC7B;
+	Fri, 10 Oct 2025 17:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Edzm6Syy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A+/dEAFq"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5D92FC016
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 16:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721CA3FB31
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 17:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760113571; cv=none; b=ovQnWniK6YkLIVGRyP/fc6SOrgfSduYOlL+gvUzkyqHPNI2kw7hQaJBzETJ8Mb98o+XiWBuT5lZRuxt8UMeUn2PrVzhrzokkXoNAa0HGtH5RrB+AiDaskPDx3u0LwNr23umgzcfPPp6YnwvAXSG1c3zR/fKch49JQruKjUe00jU=
+	t=1760116440; cv=none; b=OV0AdUb00Ti/3ywpQEhmZuRyUMyxEIwMTShnmlHfM/o869fk/LP2nR+uaDjEUcdPoorkeSXbl5aXce4MC7JKAMY/M5uis5wTvDawR878M6E3HSSJUMH2aIjeSAzOSVLmZhZyNZGFzI6olwjaPe5+wpURGUcODbAjTx372iMvNgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760113571; c=relaxed/simple;
-	bh=utKCZjeHw3iqnFfYB1ZfxGnO3UrPmvILiol4TqfBHR4=;
+	s=arc-20240116; t=1760116440; c=relaxed/simple;
+	bh=BVuzJFqwtOPzcxjeFAHcjyaMakH52Y6oh5hO9zloV3Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MUw1+k1Xy8geR7KUrZgdXEdA+qoHSl/iuiFkb5zwa2pfWcemIUZuq4aUq/UMwdXVleMyKnjdtNKfUd9fmOPe68ISuQguRvuwDXIMQoZHJHEA9X8uA6UXOFM6ct0BFUnAdTOi0r05fv8KKcLZICABUSDoL6tZRNYLSU/4Pp939Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Edzm6Syy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5921C4CEFE
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 16:26:10 +0000 (UTC)
+	 To:Cc:Content-Type; b=ARPfqRbeV07r6S/tqAlsWaiOITDYBJr31ULtzOGLosPJaDIN2qMpwSxnFlK9ct3Ncbc+ILpKAl8afq63HZo+F+rJMrjrYhuEI6KIEjt6/jKX18yo8omkJl9y3uk6YiyMkjLDrJC+WLxmeBPVJarJ2zKod0xvDtjtUVoJR/aapmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A+/dEAFq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0776FC4CEFE
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 17:14:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760113570;
-	bh=utKCZjeHw3iqnFfYB1ZfxGnO3UrPmvILiol4TqfBHR4=;
+	s=k20201202; t=1760116440;
+	bh=BVuzJFqwtOPzcxjeFAHcjyaMakH52Y6oh5hO9zloV3Q=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Edzm6SyycKKkFWiTk3912LPCjJ42xcjg9u99+ZCWUuoxk24NyxIEoUV0xYtQ1hUhS
-	 ZusMQJfHtM2t/nyvK+d3GH5aIGZgyQMn4OfO9/mKwlFqZQ0BGVVR8/K61WyGw1Gnfx
-	 hCR7R6B0dRDHMtGQAjYSQjR0oJR/xhkoXFo+ZeIAl5w8rQWa1PkKYdMaE+FlyXYU27
-	 QSIioFAwgaRXm3nXRFlpzxgYTy194pXYy1LgUWUVcXFadZGIW8i9ZlapyZYIRg/5Mh
-	 rxA3StEnbj9gQGcrOzzgEgWNXP8PcnpnB16a1kGiOhggvJ4zKo4zGppCUZdhrF7luz
-	 r771GJdkNs/2w==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-58b025fce96so1987642e87.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 09:26:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXsYJRFL6xyhxMEZnFmVyM55KIRKNsrOJz5kfGGCbzCD6QHc9rHwrD2D7D58XZxZEQPFD2Zm++r1+rgRqs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSRWrbGQXFFgRwZ5f8ChE2kd97hV/7e1nXoftK6j8rG4nGTuMT
-	I9a8jgJvXF3ooNv48Fju/pBItcIAk2+/afFr4Ni8wqbYuCu/neRK5pl6pXSjJr4xd+Vo+MDQhJx
-	7oi7OmNdz9w1WGOx25aAnLoW5jZUgPnA=
-X-Google-Smtp-Source: AGHT+IFlrMsUvrC/ZHyp7C1tmfy80lEWySBj/07SSrfUI6v7Q7I01eOrR8aE8CO2xnNLYI6LpFea10RRzC+bIaZdgH8=
-X-Received: by 2002:a05:6512:1152:b0:57b:5794:ccd9 with SMTP id
- 2adb3069b0e04-5906d77e26bmr3537150e87.9.1760113569266; Fri, 10 Oct 2025
- 09:26:09 -0700 (PDT)
+	b=A+/dEAFq1jnEb3c9wwTzHqBoJjyPZhEb19eoDB/YLLvbxxs8uan9DpB2bI9qKqy+F
+	 eMCVIDPvT1kMkHHf7Ebdf6tHI3n36S86Ej+NSZoA2N/jYWbVXq6u9HfxjvDVM04LFe
+	 G9IZWSIwAt9GgFRlAhPcYbubPvGWDNBrFI6KlEZqclFZKiYc6GC92txDc1OYZUYxPc
+	 r58Q6Q+kspSMtHdKq5QYeFDahSgNTTKShiW5SvjbMohOVBdBejwBVOiz3pP9dW31QD
+	 1Np0G8bKykeV7eEd+wLz+QgVM253wX6RG7kkUyK4WVM91CtPCFfR5mppVjfz2pQPUE
+	 reuVoipPuCewA==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59054fc6a45so2930641e87.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 10:13:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVrRzXZl8KXO47xAZR/XAPPPhmq01hTz1lhWgKNd2FKO3teZ83z14sefS7M2wCGJhelXlXuYmTF+3GRXS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO2nwwURYKaHqRviBaL7ICyxVscOOnTW9IWQrRKibjTRnSLqw2
+	MjGEdoi/LAoklfiK86pksDAv52xZB1O6+4wgu7Mm6NSGQTpm8o59RQ4hN19d3rXjsarctfohQYe
+	5OelfJnbhDmMmMznWRqkpkSb6kEIlqRs=
+X-Google-Smtp-Source: AGHT+IF48QMD2Xf3mP1/lsdIWQz+UNSdyB6QsqDi1r1lkHk53intQKDGJf4/+fDmlmCbdvRGLYZ+7KqHf5aG68P6Wq4=
+X-Received: by 2002:a05:6512:1329:b0:57c:2474:3722 with SMTP id
+ 2adb3069b0e04-5906dd6bd22mr3149055e87.40.1760116438394; Fri, 10 Oct 2025
+ 10:13:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250928085506.4471-1-yangtiezhu@loongson.cn> <CAMj1kXG8Wi+THa2SeLxiDT=+t_TKx0AL4H-azZO4DNJvyyv96g@mail.gmail.com>
- <CAAhV-H7xOf8DEwOrNh+GQGHktOT4Ljp+7SqutGvvDZp6GLXJrA@mail.gmail.com>
- <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
- <CAMj1kXHWe2uGY3S1NJ6mckqD4n116rPmaOzw3_Qbvxyjh7ECMw@mail.gmail.com> <fec0c03d-9d8c-89a3-886a-1adc22e59b66@loongson.cn>
-In-Reply-To: <fec0c03d-9d8c-89a3-886a-1adc22e59b66@loongson.cn>
+References: <20251008-kbuild-fix-modinfo-regressions-v1-0-9fc776c5887c@kernel.org>
+ <20251008-kbuild-fix-modinfo-regressions-v1-1-9fc776c5887c@kernel.org>
+In-Reply-To: <20251008-kbuild-fix-modinfo-regressions-v1-1-9fc776c5887c@kernel.org>
 From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 10 Oct 2025 09:25:57 -0700
-X-Gmail-Original-Message-ID: <CAMj1kXFLyBbRL+pAAQ6be6dxqFPiyw_Ug8qNQWaicZQ235HE=A@mail.gmail.com>
-X-Gm-Features: AS18NWAp30BvVY9ZXh0_0XY6OhGFXDo-CTjUdGdhBNHw2LQ_EFhIlBfBfuAUJuI
-Message-ID: <CAMj1kXFLyBbRL+pAAQ6be6dxqFPiyw_Ug8qNQWaicZQ235HE=A@mail.gmail.com>
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 10 Oct 2025 10:13:46 -0700
+X-Gmail-Original-Message-ID: <CAMj1kXFiUHPSK4DsmmZEqYG67YmdqFgZZ_JhDGiW-wFOPtfa4A@mail.gmail.com>
+X-Gm-Features: AS18NWBt5fz5v9M9D3bKu5NE0GH31nMMrdd8pi3JqE8jOGi3ty_2AYVzlNmEYtY
+Message-ID: <CAMj1kXFiUHPSK4DsmmZEqYG67YmdqFgZZ_JhDGiW-wFOPtfa4A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kbuild: Restore pattern to avoid stripping .rela.dyn
+ from vmlinux
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alexandre Ghiti <alexghiti@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 9 Oct 2025 at 00:27, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+On Wed, 8 Oct 2025 at 15:47, Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> On 2025/9/28 =E4=B8=8B=E5=8D=8810:41, Ard Biesheuvel wrote:
-> > On Sun, 28 Sept 2025 at 16:39, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >>
-> >> On Sun, 28 Sept 2025 at 15:52, Huacai Chen <chenhuacai@kernel.org> wro=
-te:
-> >>>
-> >>> Hi, Ard,
-> >>>
-> >>> On Sun, Sep 28, 2025 at 9:42=E2=80=AFPM Ard Biesheuvel <ardb@kernel.o=
-rg> wrote:
-> >>>>
-> >>>> On Sun, 28 Sept 2025 at 10:55, Tiezhu Yang <yangtiezhu@loongson.cn> =
-wrote:
-> >>>>>
-> >>>>> When compiling with LLVM and CONFIG_LTO_CLANG is set, there exists
-> >>>>> the following objtool warning on LoongArch:
-> >>>>>
-> >>>>>    vmlinux.o: warning: objtool: __efistub_efi_boot_kernel()
-> >>>>>    falls through to next function __efistub_exit_boot_func()
-> >>>>>
-> >>>>> This is because efi_boot_kernel() doesn't end with a return instruc=
-tion
-> >>>>> or an unconditional jump, then objtool has determined that the func=
-tion
-> >>>>> can fall through into the next function.
-> >>>>>
-> >>>>> At the beginning, try to do something to make efi_boot_kernel() end=
-s with
-> >>>>> an unconditional jump instruction, but this modification seems not =
-proper.
-> >>>>>
-> >>>>> Since the efistub functions are useless for stack unwinder, they ca=
-n be
-> >>>>> ignored by objtool. After many discussions, no need to link libstub=
- to
-> >>>>> the vmlinux.o, only link libstub to the final vmlinux.
-> >>>>>
-> >>>>
-...
-> Are you OK with the following changes?
+> Commit 0ce5139fd96e ("kbuild: always create intermediate
+> vmlinux.unstripped") removed the pattern to avoid stripping .rela.dyn
+> sections added by commit e9d86b8e17e7 ("scripts: Do not strip .rela.dyn
+> section"). Restore it so that .rela.dyn sections remain in the final
+> vmlinux.
 >
-> (1) libstub doesn't link to vmlinux.o, only link libstub with vmlinux.o
-> during the final vmlinux link, keep the changes confined to LoongArch,
-> no need to be something more generic.
->
-> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-> index dc5bd3f1b8d2..f34b416f5ca2 100644
-> --- a/arch/loongarch/Makefile
-> +++ b/arch/loongarch/Makefile
-> @@ -169,7 +169,6 @@ CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CPPFLAGS)
-> $(KBUILD_CFLAGS) -dM -E -x c /dev
->   endif
->
->   libs-y +=3D arch/loongarch/lib/
-> -libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/firmware/efi/libstub/lib=
-.a
->
->   drivers-y              +=3D arch/loongarch/crypto/
->
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 433849ff7529..ed94871c3606 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -69,6 +69,12 @@ vmlinux_link()
->                  libs=3D"${KBUILD_VMLINUX_LIBS}"
->          fi
->
-> +       if [ "${SRCARCH}" =3D "loongarch" ]; then
-> +               if is_enabled CONFIG_EFI_STUB; then
-> +                       libs=3D"${libs} drivers/firmware/efi/libstub/lib.=
-a"
-> +               fi
-> +       fi
-> +
->          if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
->                  objs=3D"${objs} .builtin-dtbs.o"
->          fi
->
-> (2) remove the attribute __noreturn for real_kernel_entry() and add
-> "while (1);" at the end of efi_boot_kernel().
->
-> diff --git a/drivers/firmware/efi/libstub/loongarch.c
-> b/drivers/firmware/efi/libstub/loongarch.c
-> index 3782d0a187d1..e309fd78fca7 100644
-> --- a/drivers/firmware/efi/libstub/loongarch.c
-> +++ b/drivers/firmware/efi/libstub/loongarch.c
-> @@ -10,7 +10,7 @@
->   #include "efistub.h"
->   #include "loongarch-stub.h"
->
-> -typedef void __noreturn (*kernel_entry_t)(bool efi, unsigned long cmdlin=
-e,
-> +typedef void (*kernel_entry_t)(bool efi, unsigned long cmdline,
->                                           unsigned long systab);
->
->   efi_status_t check_platform_features(void)
-> @@ -81,4 +81,7 @@ efi_status_t efi_boot_kernel(void *handle,
-> efi_loaded_image_t *image,
->
->         real_kernel_entry(true, (unsigned long)cmdline_ptr,
->                           (unsigned long)efi_system_table);
-> +
-> +       /* We should never get here */
-> +       while (1);
->   }
->
+> Fixes: 0ce5139fd96e ("kbuild: always create intermediate vmlinux.unstripped")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Why do we need both (1) and (2)?
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+
+> ---
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+> ---
+>  scripts/Makefile.vmlinux | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> index 7c6ae9886f8f..a62639982be5 100644
+> --- a/scripts/Makefile.vmlinux
+> +++ b/scripts/Makefile.vmlinux
+> @@ -82,7 +82,7 @@ endif
+>  # ---------------------------------------------------------------------------
+>
+>  remove-section-y                                   := .modinfo
+> -remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+> +remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*' '!.rel*.dyn'
+>
+>  remove-symbols := -w --strip-symbol='__mod_device_table__*'
+>
+>
+> --
+> 2.51.0
+>
 
