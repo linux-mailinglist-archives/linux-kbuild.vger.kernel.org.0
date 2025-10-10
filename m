@@ -1,175 +1,189 @@
-Return-Path: <linux-kbuild+bounces-9074-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C08CBCD440
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 15:27:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 411F0BCDF4D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 18:26:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FE0E189CDE8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 13:25:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E40E3422A40
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 16:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D1392F0688;
-	Fri, 10 Oct 2025 13:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7397E2FC019;
+	Fri, 10 Oct 2025 16:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EXbhgxEt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Edzm6Syy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3E12882AC
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 13:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5D92FC016
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 16:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760102710; cv=none; b=S3x2TDPYaMyoW+TTccvmNtymNQVdUoiD6mkHosU6tOGQ8JowK+rU++AbpS6FI7ON2xyOkYxds2mRy+tYtixV51E54Bpnm5F1gSU19UqQR+y7YlfESe3hHdd4GgjmzfzCnkCr2k+z7F1GHzh3SJhk+rxvWpKeBouKe+xnDlxkK3w=
+	t=1760113571; cv=none; b=ovQnWniK6YkLIVGRyP/fc6SOrgfSduYOlL+gvUzkyqHPNI2kw7hQaJBzETJ8Mb98o+XiWBuT5lZRuxt8UMeUn2PrVzhrzokkXoNAa0HGtH5RrB+AiDaskPDx3u0LwNr23umgzcfPPp6YnwvAXSG1c3zR/fKch49JQruKjUe00jU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760102710; c=relaxed/simple;
-	bh=O8RrubSJRJZ2eKPZ0ANfpKCQVkOdvA+RtzJWOt2fdes=;
+	s=arc-20240116; t=1760113571; c=relaxed/simple;
+	bh=utKCZjeHw3iqnFfYB1ZfxGnO3UrPmvILiol4TqfBHR4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MEyTDjtPcPPsTDtYQFRFsxUJdcmFtGqYutk8lIQKKHIB+HLNb3ftjqZVNWhEVimywLxpvslK7dzeWL4gVvG9VV4eAYox6JzJu7jdwZTS/w4jvwPDgdaugznTxKB0/D3vhxeTTE25HLPkWZdjvFsarekWgzD70EY6WCiJ1R6eyB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EXbhgxEt; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1760102707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wzWKSf9mpTG2YCjUAY9uF/GRv8q15gJjhT+Ik15Q3YU=;
-	b=EXbhgxEtoMx1wFfemrRqjNI30R77VW1w54renI372rsE9JrGSqulDcM2UVzi4XzYG8Jt95
-	Ct6F7UaMkeuIMMzIZP8+E85rDzBIAqkMIJczMaWsPZRbDCMRlW2M3UDgv6yYQS5fr0eYW+
-	f7rMnWLQCEzSPusskDEeNNHf6MLOBTo=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-380-eh_FNn2oN0mRBFXgmRIw4w-1; Fri, 10 Oct 2025 09:25:06 -0400
-X-MC-Unique: eh_FNn2oN0mRBFXgmRIw4w-1
-X-Mimecast-MFC-AGG-ID: eh_FNn2oN0mRBFXgmRIw4w_1760102705
-Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-54a9f198468so1156840e0c.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 06:25:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760102705; x=1760707505;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wzWKSf9mpTG2YCjUAY9uF/GRv8q15gJjhT+Ik15Q3YU=;
-        b=eFG573Ehp/jH1f5zD1y0y0ZH9QLCNP8VWH7yMwexilz0JEO+2tHVqa+RX/0o1HMG2O
-         XqQSkSSRk1cP6kl394vFoHZlcW54VjHlK0kySfi5XIBSvEoSv24fUz3xvGr657jYHFSA
-         97vAQ9YZBk/i85ECqG4DGDApY7efUk/HXO460Kj97La8HPBEtWZlIzXdpPk8Ce4gP+VS
-         5JQZ2/Y+2FUJaW6Y653stOFbcKgXxEzXjWtzvucoftZjw5RDVmaC5XOvDDHc3AMwMTXG
-         9vSHyX0xwr3x0St0pvoL8tudydSrFuAnf4CNHKTVWCO+P7CQnxqfvv52D/ayKiScIrg9
-         4yMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVkmsvd+KoGRkneNRSShIpWlsEqGcaMiXP0ShtO7Vm/0WKAOcFNqUPTrW0NYD/7Zd4z+OlPoxFnbQba7b8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyekaWxIc4wE9+5Q+a08LoVWPBjzM3qUNjsPeKo3GSxjQRKj448
-	Z+/GnZUUUFWMs92o3jABnDtG3oUu81dgCexxZdRVyv1Q0eDJRmWyL/6gX6RGupZytjOqMnjQCgO
-	tSxzn7n3pWMu4ygnK2DbI/bG7NPjAzTwcCdgCR+p3/veXm9okuRMXxJqngCoXc6ILJEFAQH8nqH
-	sV6PSzYPh5BEZ0t1JonDe8ab+pVfY2FlKQi/DXmlcC
-X-Gm-Gg: ASbGncslii5OYWeQWQ3f2eU8yCuVePSVA3wZGWdZoxnbY2INz8HKsnKRnjyEl9aQ03R
-	qPv7AlXCSSqLbrbnQkCXeL+ERuK3lep+Aec/NaTozM6i6af7kZTMDqeZeXmnfLYtll11xrYSLqx
-	xw6tHvrgPWhR5rO3QhO0OOcFf19bD38g==
-X-Received: by 2002:a05:6122:2228:b0:544:75d1:15ba with SMTP id 71dfb90a1353d-554b8b972b9mr4105600e0c.8.1760102705441;
-        Fri, 10 Oct 2025 06:25:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE9OXHOt0tVCCgO6nU5AlWF0F3DLGcppKFsGZNXFWqEcGcaDnZmPBYeJMuUsD+NzvpJu1hAFAcw2aXzLqvRxr4=
-X-Received: by 2002:a05:6122:2228:b0:544:75d1:15ba with SMTP id
- 71dfb90a1353d-554b8b972b9mr4105589e0c.8.1760102705084; Fri, 10 Oct 2025
- 06:25:05 -0700 (PDT)
+	 To:Cc:Content-Type; b=MUw1+k1Xy8geR7KUrZgdXEdA+qoHSl/iuiFkb5zwa2pfWcemIUZuq4aUq/UMwdXVleMyKnjdtNKfUd9fmOPe68ISuQguRvuwDXIMQoZHJHEA9X8uA6UXOFM6ct0BFUnAdTOi0r05fv8KKcLZICABUSDoL6tZRNYLSU/4Pp939Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Edzm6Syy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5921C4CEFE
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 16:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760113570;
+	bh=utKCZjeHw3iqnFfYB1ZfxGnO3UrPmvILiol4TqfBHR4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Edzm6SyycKKkFWiTk3912LPCjJ42xcjg9u99+ZCWUuoxk24NyxIEoUV0xYtQ1hUhS
+	 ZusMQJfHtM2t/nyvK+d3GH5aIGZgyQMn4OfO9/mKwlFqZQ0BGVVR8/K61WyGw1Gnfx
+	 hCR7R6B0dRDHMtGQAjYSQjR0oJR/xhkoXFo+ZeIAl5w8rQWa1PkKYdMaE+FlyXYU27
+	 QSIioFAwgaRXm3nXRFlpzxgYTy194pXYy1LgUWUVcXFadZGIW8i9ZlapyZYIRg/5Mh
+	 rxA3StEnbj9gQGcrOzzgEgWNXP8PcnpnB16a1kGiOhggvJ4zKo4zGppCUZdhrF7luz
+	 r771GJdkNs/2w==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-58b025fce96so1987642e87.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 09:26:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXsYJRFL6xyhxMEZnFmVyM55KIRKNsrOJz5kfGGCbzCD6QHc9rHwrD2D7D58XZxZEQPFD2Zm++r1+rgRqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSRWrbGQXFFgRwZ5f8ChE2kd97hV/7e1nXoftK6j8rG4nGTuMT
+	I9a8jgJvXF3ooNv48Fju/pBItcIAk2+/afFr4Ni8wqbYuCu/neRK5pl6pXSjJr4xd+Vo+MDQhJx
+	7oi7OmNdz9w1WGOx25aAnLoW5jZUgPnA=
+X-Google-Smtp-Source: AGHT+IFlrMsUvrC/ZHyp7C1tmfy80lEWySBj/07SSrfUI6v7Q7I01eOrR8aE8CO2xnNLYI6LpFea10RRzC+bIaZdgH8=
+X-Received: by 2002:a05:6512:1152:b0:57b:5794:ccd9 with SMTP id
+ 2adb3069b0e04-5906d77e26bmr3537150e87.9.1760113569266; Fri, 10 Oct 2025
+ 09:26:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
- <20251007011637.2512413-1-cmirabil@redhat.com> <aOToOeNGiaFVM0Ds@example.org>
- <aOgSaNejdcBWKXx8@levanger> <20251010053736.GA447238@ax162>
-In-Reply-To: <20251010053736.GA447238@ax162>
-From: Charles Mirabile <cmirabil@redhat.com>
-Date: Fri, 10 Oct 2025 09:24:54 -0400
-X-Gm-Features: AS18NWDAsD56v33pycRJmWk_jcLYYml8a8mta30luj8tpr3fHieg4TWwum9tzMM
-Message-ID: <CABe3_aE+A7JtEp-8p6A8yM9ONGU4-c36AUFrtW4tGhpnXbvSuQ@mail.gmail.com>
-Subject: Re: [PATCH v8 7/8] modpost: Create modalias for builtin modules
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Alexey Gladkov <legion@kernel.org>, da.gomez@samsung.com, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, masahiroy@kernel.org, mcgrof@kernel.org, 
-	petr.pavlu@suse.com, samitolvanen@google.com, sfr@canb.auug.org.au
+References: <20250928085506.4471-1-yangtiezhu@loongson.cn> <CAMj1kXG8Wi+THa2SeLxiDT=+t_TKx0AL4H-azZO4DNJvyyv96g@mail.gmail.com>
+ <CAAhV-H7xOf8DEwOrNh+GQGHktOT4Ljp+7SqutGvvDZp6GLXJrA@mail.gmail.com>
+ <CAMj1kXG=EFkRAMkvKMSjPixoGqU-tZXVoRkJJ6Wcnzs3x52X6Q@mail.gmail.com>
+ <CAMj1kXHWe2uGY3S1NJ6mckqD4n116rPmaOzw3_Qbvxyjh7ECMw@mail.gmail.com> <fec0c03d-9d8c-89a3-886a-1adc22e59b66@loongson.cn>
+In-Reply-To: <fec0c03d-9d8c-89a3-886a-1adc22e59b66@loongson.cn>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 10 Oct 2025 09:25:57 -0700
+X-Gmail-Original-Message-ID: <CAMj1kXFLyBbRL+pAAQ6be6dxqFPiyw_Ug8qNQWaicZQ235HE=A@mail.gmail.com>
+X-Gm-Features: AS18NWAp30BvVY9ZXh0_0XY6OhGFXDo-CTjUdGdhBNHw2LQ_EFhIlBfBfuAUJuI
+Message-ID: <CAMj1kXFLyBbRL+pAAQ6be6dxqFPiyw_Ug8qNQWaicZQ235HE=A@mail.gmail.com>
+Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Huacai Chen <chenhuacai@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 10, 2025 at 1:37=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+On Thu, 9 Oct 2025 at 00:27, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 >
-> On Thu, Oct 09, 2025 at 09:52:08PM +0200, Nicolas Schier wrote:
-> > On Tue, Oct 07, 2025 at 12:15:21PM +0200, Alexey Gladkov wrote:
-> > > Hm. Indeed. I haven't found a good solution yet, but you can use the
-> > > following patch to unlock compilation. It won't solve the problem, it=
- will
-> > > only hide it.
-> > >
-> > > --- a/scripts/Makefile.vmlinux
-> > > +++ b/scripts/Makefile.vmlinux
-> > > @@ -84,7 +84,7 @@ endif
-> > >  remove-section-y                                   :=3D .modinfo
-> > >  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) +=3D '.rel*'
-> > >
-> > > -remove-symbols :=3D -w --strip-symbol=3D'__mod_device_table__*'
-> > > +remove-symbols :=3D -w --strip-unneeded-symbol=3D'__mod_device_table=
-__*'
-> > >
-> > >  # To avoid warnings: "empty loadable segment detected at ..." from G=
-NU objcopy,
-> > >  # it is necessary to remove the PT_LOAD flag from the segment.
-> > >
-> >
-> > Is it problematic to hide that?  Otherwise we'd have to revert the
-> > patch, right?
+> On 2025/9/28 =E4=B8=8B=E5=8D=8810:41, Ard Biesheuvel wrote:
+> > On Sun, 28 Sept 2025 at 16:39, Ard Biesheuvel <ardb@kernel.org> wrote:
+> >>
+> >> On Sun, 28 Sept 2025 at 15:52, Huacai Chen <chenhuacai@kernel.org> wro=
+te:
+> >>>
+> >>> Hi, Ard,
+> >>>
+> >>> On Sun, Sep 28, 2025 at 9:42=E2=80=AFPM Ard Biesheuvel <ardb@kernel.o=
+rg> wrote:
+> >>>>
+> >>>> On Sun, 28 Sept 2025 at 10:55, Tiezhu Yang <yangtiezhu@loongson.cn> =
+wrote:
+> >>>>>
+> >>>>> When compiling with LLVM and CONFIG_LTO_CLANG is set, there exists
+> >>>>> the following objtool warning on LoongArch:
+> >>>>>
+> >>>>>    vmlinux.o: warning: objtool: __efistub_efi_boot_kernel()
+> >>>>>    falls through to next function __efistub_exit_boot_func()
+> >>>>>
+> >>>>> This is because efi_boot_kernel() doesn't end with a return instruc=
+tion
+> >>>>> or an unconditional jump, then objtool has determined that the func=
+tion
+> >>>>> can fall through into the next function.
+> >>>>>
+> >>>>> At the beginning, try to do something to make efi_boot_kernel() end=
+s with
+> >>>>> an unconditional jump instruction, but this modification seems not =
+proper.
+> >>>>>
+> >>>>> Since the efistub functions are useless for stack unwinder, they ca=
+n be
+> >>>>> ignored by objtool. After many discussions, no need to link libstub=
+ to
+> >>>>> the vmlinux.o, only link libstub to the final vmlinux.
+> >>>>>
+> >>>>
+...
+> Are you OK with the following changes?
 >
-> Yeah, I would much prefer to ending up with pointless
-> __mod_device_table__ symbols in the final binary than erroring out
-> during the build... Does this happen with other architectures? I have
-> not seen any reports yet but I have not tested anything yet. Why is
-> RISC-V special here?
+> (1) libstub doesn't link to vmlinux.o, only link libstub with vmlinux.o
+> during the final vmlinux link, keep the changes confined to LoongArch,
+> no need to be something more generic.
 >
-> It seems like the relocation comes from the .LASANLOC4 symbol in
-> .data.rel.local?
+> diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+> index dc5bd3f1b8d2..f34b416f5ca2 100644
+> --- a/arch/loongarch/Makefile
+> +++ b/arch/loongarch/Makefile
+> @@ -169,7 +169,6 @@ CHECKFLAGS +=3D $(shell $(CC) $(KBUILD_CPPFLAGS)
+> $(KBUILD_CFLAGS) -dM -E -x c /dev
+>   endif
 >
->   $ llvm-objdump -Dr drivers/irqchip/irq-riscv-aplic-main.o
->   ...
->   Disassembly of section .data.rel.local:
->   ...
->   0000000000000130 <.LASANLOC4>:
->   ...
->        1c0: 0000          unimp
->           00000000000001c0:  R_RISCV_64   __mod_device_table__kmod_irq_ri=
-scv_aplic_main__acpi__aplic_acpi_match
->   ...
+>   libs-y +=3D arch/loongarch/lib/
+> -libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/firmware/efi/libstub/lib=
+.a
 >
-> I cannot find much information about this ASANLOC outside of its
-> location within the GCC sources, do we even need it? I don't see a way
-> to opt out of this section altogether or on a per-variable basis, I
-> wonder if there is some way to strip it out...
+>   drivers-y              +=3D arch/loongarch/crypto/
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 433849ff7529..ed94871c3606 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -69,6 +69,12 @@ vmlinux_link()
+>                  libs=3D"${KBUILD_VMLINUX_LIBS}"
+>          fi
+>
+> +       if [ "${SRCARCH}" =3D "loongarch" ]; then
+> +               if is_enabled CONFIG_EFI_STUB; then
+> +                       libs=3D"${libs} drivers/firmware/efi/libstub/lib.=
+a"
+> +               fi
+> +       fi
+> +
+>          if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
+>                  objs=3D"${objs} .builtin-dtbs.o"
+>          fi
+>
+> (2) remove the attribute __noreturn for real_kernel_entry() and add
+> "while (1);" at the end of efi_boot_kernel().
+>
+> diff --git a/drivers/firmware/efi/libstub/loongarch.c
+> b/drivers/firmware/efi/libstub/loongarch.c
+> index 3782d0a187d1..e309fd78fca7 100644
+> --- a/drivers/firmware/efi/libstub/loongarch.c
+> +++ b/drivers/firmware/efi/libstub/loongarch.c
+> @@ -10,7 +10,7 @@
+>   #include "efistub.h"
+>   #include "loongarch-stub.h"
+>
+> -typedef void __noreturn (*kernel_entry_t)(bool efi, unsigned long cmdlin=
+e,
+> +typedef void (*kernel_entry_t)(bool efi, unsigned long cmdline,
+>                                           unsigned long systab);
+>
+>   efi_status_t check_platform_features(void)
+> @@ -81,4 +81,7 @@ efi_status_t efi_boot_kernel(void *handle,
+> efi_loaded_image_t *image,
+>
+>         real_kernel_entry(true, (unsigned long)cmdline_ptr,
+>                           (unsigned long)efi_system_table);
+> +
+> +       /* We should never get here */
+> +       while (1);
+>   }
+>
 
-It seems from reading the gcc source that these are emitted to contain
-information about where global declarations came from, presumably to
-allow nicer ASAN error messages. (i.e. memory corruption affected this
-symbol defined here). I don't think that KASAN uses these, but I am
-not sure. I also don't know how they could be removed. I found a hit
-using grep.app https://grep.app/search?case=3Dtrue&q=3DASANLOC in the
-apache/nuttx repository where they seem to be doing something with
-these symbols in a linker script, but I am not familiar enough with
-linker scripts, or that project to fully understand what is going on.
-
-
->
-> I plan to send the initial 6.18 Kbuild fixes pull request on Saturday.
-> If we cannot figure out a real solution before then, maybe we can just
-> switch to '--strip-unneeded-symbol' with a comment to upgrade that to
-> '--strip-symbol' when possible?
->
-> Cheers,
-> Nathan
->
-
+Why do we need both (1) and (2)?
 
