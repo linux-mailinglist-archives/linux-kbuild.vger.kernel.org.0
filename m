@@ -1,61 +1,63 @@
-Return-Path: <linux-kbuild+bounces-9070-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A7CBCBBA8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 07:37:49 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD1FBCBE51
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 09:19:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 409B219E3E93
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 05:38:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9B9164EC557
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 07:19:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48B3F1F91D6;
-	Fri, 10 Oct 2025 05:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15638239E9E;
+	Fri, 10 Oct 2025 07:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mE/NCL8B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FK2FjZwU"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A0C1E5B88;
-	Fri, 10 Oct 2025 05:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FE81D6193;
+	Fri, 10 Oct 2025 07:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760074662; cv=none; b=Jgy5EAaR4WwAx0CmPgC/BhgsMelcFCAeWmSAqLKRVEgeQ3WogtQZwf0KeyWbP3PZfaecYskQY9i3hM8/RW05Q38TPTY66eNZGjXJSQ3/aaj5mrAayYlEIaM023WfB7ZZtp2oumHx56y3aPf4Je4HNoZN22XM5PA1QN+FYEqx1yk=
+	t=1760080751; cv=none; b=KP9TdzGtJNcZlyeDqVl9rdHYlPYju2MvTg9AUAZ2xCZZm2x7Am3PCW2VZpFJOqcbvfb+LbTJEuAc4GB1TyHxuGZ4I0WD+vNRi+Xp2GnJv2NRK+QgcaI+LSKpUH2Fkj1XeYvf1dm0ZeBicLsWmZ99mQcbgqH83uOuUM8h1Xgp4NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760074662; c=relaxed/simple;
-	bh=eSG/Q37AL9myTBhDnUGwpJwl96ThmygUixnMjqfFA7w=;
+	s=arc-20240116; t=1760080751; c=relaxed/simple;
+	bh=w3vHy6Avbo99VMJhAgCj54/k6LJnsXN5d71As9vJDDU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CaS2zUxDtZJUHHUgdgHDwxGuO/VVh/Hdugj/r85xfDoYL9HS+U+TfOm7kBl9/8LdpwwfICtW6ViZXnBMX1rdGsADhRmljMpP6XBlopn9LB11mKHJiXOxsygc7HrVFIVYPUkU7pXaExXBkhePP0LyowAzp8WSnmNLZZF54/IDyrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mE/NCL8B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37497C4CEF1;
-	Fri, 10 Oct 2025 05:37:38 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=m1AXDPJOSRX2iQIVdLlOtXR+Rz1xZm4fxbvvYn9mWjTVFAAnqPSBocPN36nVz3e69FRCiusGUm9qFWw/WKY+tSbQdfSfPRzbyASCeGbxEUr7ZuIqTZM+DCGa23hXoFOX//htTmpe+XpHXVGjqrWSEdf8ofcCG4e+5Sy7F7P3F0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FK2FjZwU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 206F9C4CEF1;
+	Fri, 10 Oct 2025 07:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760074661;
-	bh=eSG/Q37AL9myTBhDnUGwpJwl96ThmygUixnMjqfFA7w=;
+	s=k20201202; t=1760080748;
+	bh=w3vHy6Avbo99VMJhAgCj54/k6LJnsXN5d71As9vJDDU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mE/NCL8BB4pxQmbWQWld9vmyEKkzDTVph4kFYLT8D6CxOIunbO3lsKyifa7pUV+7l
-	 C1OyCfMr1shXqOSaGvN1HIE3Xa+WQluhv3hWTL0BDu7MRrKoFRjvfxMP/evN1bKDm9
-	 L5OsI03zPx3hHjXSCGDG2cTPG3JO/uUPO6ED5dXjkRvbG3gdpwWu6g7M5CaHHyS9Ck
-	 qWTLqHRg97t1kBkuRYTwUEft6UBGWSHf5DEQpPmHO8Twr4HuYo/jJSFnGh5fEzSwsi
-	 RfTCFRXZhINgXySpPI1hlTOp49aHh1zHl6B0X7dSvvVMAXhxzPJbMNw5EN719EvWhn
-	 1QFsHhGMJ3Syw==
-Date: Thu, 9 Oct 2025 22:37:36 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Alexey Gladkov <legion@kernel.org>,
-	Charles Mirabile <cmirabil@redhat.com>, da.gomez@samsung.com,
+	b=FK2FjZwUUOiHzXe5q/OBThaV+TpuMZkhaigQwQXhV0xUJGaUKWLeybTOZStC5r3Fq
+	 yI0iLW+nM1ExkqeA8RYnlRiUU7s2Y01TXFGqMFMqZdtWb04PADnXcTgOju2yVkszfk
+	 kH1iJY5d5eCKXwNeLCR3rp/7lp7mfe03GQBnHc6zXh9JTzhHiAFG/MiOLxaEleTwgM
+	 Ao/AYezyDNfrUVVSqiBptnJ2hMzZsZbb123eTiO7q32f+7NoO0/wo3kFHI23w7qhVq
+	 Qk0xDWV5St0s4ioje9eZuDxGC8cohyu3tT1avXhqJOwVbNARYNgbDOFdJlQjaKXs9l
+	 UhsaTTFMhhsVw==
+Date: Fri, 10 Oct 2025 09:19:01 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, masahiroy@kernel.org,
-	mcgrof@kernel.org, petr.pavlu@suse.com, samitolvanen@google.com,
-	sfr@canb.auug.org.au
-Subject: Re: [PATCH v8 7/8] modpost: Create modalias for builtin modules
-Message-ID: <20251010053736.GA447238@ax162>
-References: <28d4da3b0e3fc8474142746bcf469e03752c3208.1758182101.git.legion@kernel.org>
- <20251007011637.2512413-1-cmirabil@redhat.com>
- <aOToOeNGiaFVM0Ds@example.org>
- <aOgSaNejdcBWKXx8@levanger>
+	Ard Biesheuvel <ardb@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Linux Kernel Functional Testing <lkft@linaro.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Subject: Re: [PATCH 0/3] kbuild: Fixes for fallout from recent
+ modules.builtin.modinfo series
+Message-ID: <aOizZcGLEH9edZQ0@example.org>
+References: <20251008-kbuild-fix-modinfo-regressions-v1-0-9fc776c5887c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -64,59 +66,45 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aOgSaNejdcBWKXx8@levanger>
+In-Reply-To: <20251008-kbuild-fix-modinfo-regressions-v1-0-9fc776c5887c@kernel.org>
 
-On Thu, Oct 09, 2025 at 09:52:08PM +0200, Nicolas Schier wrote:
-> On Tue, Oct 07, 2025 at 12:15:21PM +0200, Alexey Gladkov wrote:
-> > Hm. Indeed. I haven't found a good solution yet, but you can use the
-> > following patch to unlock compilation. It won't solve the problem, it will
-> > only hide it.
-> > 
-> > --- a/scripts/Makefile.vmlinux
-> > +++ b/scripts/Makefile.vmlinux
-> > @@ -84,7 +84,7 @@ endif
-> >  remove-section-y                                   := .modinfo
-> >  remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
-> > 
-> > -remove-symbols := -w --strip-symbol='__mod_device_table__*'
-> > +remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
-> > 
-> >  # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
-> >  # it is necessary to remove the PT_LOAD flag from the segment.
-> > 
+On Wed, Oct 08, 2025 at 03:46:43PM -0700, Nathan Chancellor wrote:
+> Hi all,
 > 
-> Is it problematic to hide that?  Otherwise we'd have to revert the
-> patch, right?
+> This is a series to address some problems that were exposed by the
+> recent modules.builtin.modinfo series that landed in commit c7d3dd9163e6
+> ("Merge patch series "Add generated modalias to
+> modules.builtin.modinfo"").
+> 
+> The third patch is not directly related to the aforementioned series, as
+> the warning it fixes happens prior to the series but commit 8d18ef04f940
+> ("s390: vmlinux.lds.S: Reorder sections") from the series creates
+> conflicts in this area, so I included it here.
+> 
+> I plan to send at least the first two patches to Linus by Saturday for
+> -rc1 but I will take the third with an Ack.
+> 
+> ---
+> Nathan Chancellor (3):
+>       kbuild: Restore pattern to avoid stripping .rela.dyn from vmlinux
+>       kbuild: Add '.rel.*' strip pattern for vmlinux
+>       s390/vmlinux.lds.S: Move .vmlinux.info to end of allocatable sections
+> 
+>  arch/s390/kernel/vmlinux.lds.S | 44 +++++++++++++++++++++---------------------
+>  scripts/Makefile.vmlinux       |  5 ++++-
+>  2 files changed, 26 insertions(+), 23 deletions(-)
+> ---
+> base-commit: 38492c5743f8b7213ca86f0cd72ea625af35d5ef
+> change-id: 20251008-kbuild-fix-modinfo-regressions-95e3fd151dec
+> 
+> Best regards,
+> --  
+> Nathan Chancellor <nathan@kernel.org>
+> 
 
-Yeah, I would much prefer to ending up with pointless
-__mod_device_table__ symbols in the final binary than erroring out
-during the build... Does this happen with other architectures? I have
-not seen any reports yet but I have not tested anything yet. Why is
-RISC-V special here?
+Acked-by: Alexey Gladkov <legion@kernel.org>
 
-It seems like the relocation comes from the .LASANLOC4 symbol in
-.data.rel.local?
+-- 
+Rgrds, legion
 
-  $ llvm-objdump -Dr drivers/irqchip/irq-riscv-aplic-main.o
-  ...
-  Disassembly of section .data.rel.local:
-  ...
-  0000000000000130 <.LASANLOC4>:
-  ...
-       1c0: 0000          unimp
-          00000000000001c0:  R_RISCV_64   __mod_device_table__kmod_irq_riscv_aplic_main__acpi__aplic_acpi_match
-  ...
-
-I cannot find much information about this ASANLOC outside of its
-location within the GCC sources, do we even need it? I don't see a way
-to opt out of this section altogether or on a per-variable basis, I
-wonder if there is some way to strip it out...
-
-I plan to send the initial 6.18 Kbuild fixes pull request on Saturday.
-If we cannot figure out a real solution before then, maybe we can just
-switch to '--strip-unneeded-symbol' with a comment to upgrade that to
-'--strip-symbol' when possible?
-
-Cheers,
-Nathan
 
