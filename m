@@ -1,145 +1,148 @@
-Return-Path: <linux-kbuild+bounces-9084-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9085-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB8ABCE941
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 23:02:36 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF3EBCEA45
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 23:49:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 149B8189E534
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 21:02:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E93EC4E3ADB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 21:49:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFC1B2F25EC;
-	Fri, 10 Oct 2025 21:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8D0E302758;
+	Fri, 10 Oct 2025 21:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oCHTud3U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvBAVpKx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76440302758
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 21:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2FA263F5F;
+	Fri, 10 Oct 2025 21:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760130110; cv=none; b=E+8TS7VEZEzfmB8F20+2uoCI8D8PAxx74sqhrSIdl4irtWd8wK4SyFGayaaECl6IQ2rh1sUY9+s+2ouwNk71qt9R0iBJTdfJtUx0BupJxWLtVK0BAu2GtqfQzWVuTWjp14FNE/qxv+yBmzYbk7fDXtRXKBN1Lyyfgm0Fu5ldzUU=
+	t=1760132981; cv=none; b=ftIyBYgARlbLGFRsxosEAtprvKZM7zeVmSETHMfXThQim8Ug2rbHuhWAHb3XpEqbSuPtDdcbZZsAhE2lc/+86mfon3JPjLCZ/qQbWjQwiJg0cdOPSJ61w8Cv4yXU7cHoEdLxkww54OJOSiLZ9SIWqpcZSiqF1TW2rke70HkpzRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760130110; c=relaxed/simple;
-	bh=A36UU5cjawCFn9zg3EVWTgnlfdvC+WA6eTuKIyjz598=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=IZd5go9Rjld/TPB7jjT0K3K6owGhdlZW0dGRl+9XvbOej2YfNPlitXAEu7H7Vene3DvdJD3AdYXIl7wHprxyPh/AS9NjYZDVxRt8g4gGZkR5zHUhPM5htbC8pujfgsZe/TYHtxZJdHjKLMfbicFouvsqvzI0ibCY78CGQgL/C+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oCHTud3U; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-77f64c5cf62so3463599b3a.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 14:01:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760130108; x=1760734908; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F4/DIS19FEQXbD2as28eCi3gphWED48d1Ubr/xwVaHs=;
-        b=oCHTud3UJC9JdHSZOUUF5YHg9yq5j75dtPM7OB4SQmSpF8RLy11H+GOCCxMVU9I1hM
-         pNECqfxrq4UeMv3MljkefS5azAtUiv5CXpfeDkw5gIFjT9oCiFwdMJK4VykApFV2uN+X
-         kiGpGeon0y2O7uNh/ALiYZ8KprUts5of0Mz/zA5QPpt9kJhIBA1H1g/PlmRAnL+X6lDw
-         i70FPcAJZE5LLG/tMKI9Tik4Lr+BbDvCV5k4crifRPeBhN3tI2pO3iUye12dDWM95Qn8
-         kqr5qSKNdZajUxfaj5jNT1lK1mf9//9J8GsAd4c51+vMcL9lTlb701qMSDqTg4TT7f3x
-         p4wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760130108; x=1760734908;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F4/DIS19FEQXbD2as28eCi3gphWED48d1Ubr/xwVaHs=;
-        b=VTaabMARfg4I3nP+tOnK9dq0Jdv3xlO0XmouwhoUMh+fB/GXdvnQjhAG+V4bc9+Tdp
-         Ay8hOJzVxRZVDaNs21dqW1yk1czk8Qbk/lJAH3GV5RxvJmSGaQGbUlqrPcP80zwWzPGH
-         gex6pO1VO2iV3ogyGqOxPoQ++ayofdF5WAh3UNMHltXI/mGavFma9qrLs4/rQFbuNJrz
-         78NbthtdcHKKFf4qFf9bQJjDVGkzhGURK7bi34KrdWJqg9AKp2W0LG48Cd/KfC6mcfwb
-         heo8g7ZF5RwfOxYDPKDLFCB+bG8LSvCcqep2yqOPSVDfUQhc1O4jfHvlRMjW1YkIIy5P
-         eDCQ==
-X-Gm-Message-State: AOJu0YyDtG0y1SCk8WO7+PnDKJxcwEjEfcgezEJkh3xRqNKWIsZ5H/Pn
-	yRFAYdPCKyn8lOxu8RgFs/m/D5AfkjTO8sK2bbg+bJ+Dx2w1q9JcRr0ICoV4E/VzPB7GuA==
-X-Google-Smtp-Source: AGHT+IEtMBLg0Ov+r6OYaa4ihcCMD48GJCeyOSHqGaacD/e1SfaXFjuFV7CxscQBzB2FYKZBslyQNH4=
-X-Received: from pge21.prod.google.com ([2002:a05:6a02:2d15:b0:b55:a4b:fe47])
- (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3386:b0:251:43f5:cad4
- with SMTP id adf61e73a8af0-32da80bb8f5mr17111428637.10.1760130107536; Fri, 10
- Oct 2025 14:01:47 -0700 (PDT)
-Date: Fri, 10 Oct 2025 21:01:34 +0000
-In-Reply-To: <20251010210134.2066321-1-xur@google.com>
+	s=arc-20240116; t=1760132981; c=relaxed/simple;
+	bh=WhUTgOUQwZz/mKwCSbgdhMyMfQoSYK7seDZUD2CkcCU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QCYqV8sSYbaZZ3w/tw3jgurOW7rzkz1MQ4MlOuHCYwwlhZVe1LEmSWtJ4m8OiW0xFvnsgTpbM8mscFyjOZxsDLNxrl6KrqC5jJWORGz42FVf/aPUD6fa2yV3KwSYo45Vr3ovWyP/UiOCGh+2ZFQ4dt0RXAKkdW3Ga47u7mwswdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvBAVpKx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2153C4CEF1;
+	Fri, 10 Oct 2025 21:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760132981;
+	bh=WhUTgOUQwZz/mKwCSbgdhMyMfQoSYK7seDZUD2CkcCU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=hvBAVpKxg+Ah/i30F3SfptTMIKf+JfKWqHASH38i0lZSXkWwtfh7AN5nqsu7WHP/G
+	 e8iIF5jyqMrhW3CN8b9RhcoYCG86lU1lfHh2ZTL0RxuRkFsWJ40DnC+IS4/KHWvOpJ
+	 GHtVL4bcFITAXHhof363ON4Csu10gcVJxKG5hSvtzc6iyGfYSP/zkhkSr3UBL93HcL
+	 aHPxZYNA+DwSKiNkKcumk8qiydxL3A3A8rKmAre0srInul7kf/Rt6xNwNBHi0AcTda
+	 2yFIE4bISo6lwnK8gwzQ5mOPV6fjNy0kk/so+yE1nI/4+mKw8wWUVAx76GoZk8U1+f
+	 Cl8Chp/ltIAIw==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Fri, 10 Oct 2025 14:49:27 -0700
+Subject: [PATCH] kbuild: Use '--strip-unneeded-symbol' for removing module
+ device table symbols
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251010210134.2066321-1-xur@google.com>
-X-Mailer: git-send-email 2.51.0.740.g6adb054d12-goog
-Message-ID: <20251010210134.2066321-4-xur@google.com>
-Subject: [PATCH 4/4] kbuild: Add config to assert profile accuracy for
- aggressive optimization
-From: xur@google.com
-To: Alexey Gladkov <legion@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Bill Wendling <morbo@google.com>, Han Shen <shenhan@google.com>, 
-	Ingo Molnar <mingo@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Peter Zijlstra <peterz@infradead.org>, Tamir Duberstein <tamird@gmail.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, 
-	"=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?=" <thomas.weissschuh@linutronix.de>, Yabin Cui <yabinc@google.com>, 
-	Sriraman Tallam <tmsriram@google.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Rong Xu <xur@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251010-kbuild-fix-mod-device-syms-reloc-err-v1-1-6dc88143af25@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAGZ/6WgC/x2NywrCQAwAf6XkbGC3Ggr+iniwm2hDHysJLUrpv
+ xs8zmFmdnAxFYdrs4PJpq51CcinBsrwWF6CysHQppZyygnHftWJ8akfnCsjh1ME/Ts7mky1oJg
+ hnamjTvhSmCBSb5MQ/pvb/Th+W0+vD3YAAAA=
+X-Change-ID: 20251010-kbuild-fix-mod-device-syms-reloc-err-535757ed4cd5
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Alexey Gladkov <legion@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+ Alexander Potapenko <glider@google.com>, 
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+ kasan-dev@googlegroups.com, Charles Mirabile <cmirabil@redhat.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3205; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=WhUTgOUQwZz/mKwCSbgdhMyMfQoSYK7seDZUD2CkcCU=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBkv64vuftv+/x4bb8O50Pxtn7ZMb9qS+un6CuUbNyWeb
+ BPTUHM71FHKwiDGxSArpshS/Vj1uKHhnLOMN05NgpnDygQyhIGLUwAmUjWVkWHNk3fzFJ+tye3+
+ X2qU5a1y1Xth79mzTTY3xGYw1Z/4VO/B8D+XI+Sn2Isr5zme2tsuYpv9oqumYdLtY2mNoaU9V51
+ 2hTMBAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-From: Rong Xu <xur@google.com>
+After commit 5ab23c7923a1 ("modpost: Create modalias for builtin
+modules"), relocatable RISC-V kernels with CONFIG_KASAN=y start failing
+when attempting to strip the module device table symbols:
 
-Adds a build config to AutoFDO to assert that the generated profile
-accurately represents the intended workload. This enables Clang to
-perform more aggressive optimizations.
+  riscv64-linux-objcopy: not stripping symbol `__mod_device_table__kmod_irq_starfive_jh8100_intc__of__starfive_intc_irqchip_match_table' because it is named in a relocation
+  make[4]: *** [scripts/Makefile.vmlinux:97: vmlinux] Error 1
 
-Signed-off-by: Rong Xu <xur@google.com>
+The relocation appears to come from .LASANLOC5 in .data.rel.local:
+
+  $ llvm-objdump --disassemble-symbols=.LASANLOC5 --disassemble-all -r drivers/irqchip/irq-starfive-jh8100-intc.o
+
+  drivers/irqchip/irq-starfive-jh8100-intc.o:   file format elf64-littleriscv
+
+  Disassembly of section .data.rel.local:
+
+  0000000000000180 <.LASANLOC5>:
+  ...
+       1d0: 0000          unimp
+                  00000000000001d0:  R_RISCV_64   __mod_device_table__kmod_irq_starfive_jh8100_intc__of__starfive_intc_irqchip_match_table
+  ...
+
+This section appears to come from GCC for including additional
+information about global variables that may be protected by KASAN.
+
+There appears to be no way to opt out of the generation of these symbols
+through either a flag or attribute. Attempting to remove '.LASANLOC*'
+with '--strip-symbol' results in the same error as above because these
+symbols may refer to (thus have relocation between) each other.
+
+Avoid this build breakage by switching to '--strip-unneeded-symbol' for
+removing __mod_device_table__ symbols, as it will only remove the symbol
+when there is no relocation pointing to it. While this may result in a
+little more bloat in the symbol table in certain configurations, it is
+not as bad as outright build failures.
+
+Fixes: 5ab23c7923a1 ("modpost: Create modalias for builtin modules")
+Reported-by: Charles Mirabile <cmirabil@redhat.com>
+Closes: https://lore.kernel.org/20251007011637.2512413-1-cmirabil@redhat.com/
+Suggested-by: Alexey Gladkov <legion@kernel.org>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- arch/Kconfig             | 11 +++++++++++
- scripts/Makefile.autofdo |  3 +++
- 2 files changed, 14 insertions(+)
+I am Cc'ing KASAN folks in case they have any additional knowledge
+around .LASANLOC symbols or how to remove/avoid them.
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index ebe08b9186adc..6fdc676cb0fe4 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -886,6 +886,17 @@ config AUTOFDO_CLANG
+I plan to send this to Linus tomorrow.
+---
+ scripts/Makefile.vmlinux | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index c02f85c2e241..ced4379550d7 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -87,7 +87,7 @@ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*' '!.rel*.dyn'
+ # https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=c12d9fa2afe7abcbe407a00e15719e1a1350c2a7
+ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel.*'
  
- 	  If unsure, say N.
+-remove-symbols := -w --strip-symbol='__mod_device_table__*'
++remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
  
-+config AUTOFDO_PROFILE_ACCURATE
-+	bool "Assert AutoFDO profile is accurate (EXPERIMENTAL)"
-+	depends on AUTOFDO_CLANG
-+	help
-+	  This option asserts that the AutoFDO profile (specified
-+	  in CLANG_AUTOFDO_PROFILE) is collected from a representative
-+	  workload, allowing the Clang compiler to perform more
-+	  aggressive optimizations.
-+
-+	  If unsure, say N.
-+
- config ARCH_SUPPORTS_PROPELLER_CLANG
- 	bool
- 
-diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
-index 5bcfcef273745..36abeae2accdc 100644
---- a/scripts/Makefile.autofdo
-+++ b/scripts/Makefile.autofdo
-@@ -11,6 +11,9 @@ endif
- ifdef CLANG_AUTOFDO_PROFILE
-   CFLAGS_AUTOFDO_CLANG += -fprofile-sample-use=$(CLANG_AUTOFDO_PROFILE) -ffunction-sections
-   CFLAGS_AUTOFDO_CLANG += -fsplit-machine-functions
-+ifdef CONFIG_AUTOFDO_PROFILE_ACCURATE
-+  CFLAGS_AUTOFDO_CLANG += -fprofile-sample-accurate
-+endif
- endif
- 
- ifdef CONFIG_LTO_CLANG_THIN
--- 
-2.51.0.740.g6adb054d12-goog
+ # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
+ # it is necessary to remove the PT_LOAD flag from the segment.
+
+---
+base-commit: cfc584537150484874e10ec4e59ad2ecbae46bfe
+change-id: 20251010-kbuild-fix-mod-device-syms-reloc-err-535757ed4cd5
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
 
 
