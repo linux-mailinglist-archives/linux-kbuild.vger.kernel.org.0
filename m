@@ -1,162 +1,260 @@
-Return-Path: <linux-kbuild+bounces-9079-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FAFBCE50C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 20:57:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0774DBCE539
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 21:02:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7559B4F9106
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 18:57:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A22004260BF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Oct 2025 19:02:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83CFA301492;
-	Fri, 10 Oct 2025 18:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2059F34BA53;
+	Fri, 10 Oct 2025 19:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQTBFOq4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c/dW9lIO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550AC30148E;
-	Fri, 10 Oct 2025 18:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4535421771C
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 19:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760122637; cv=none; b=jT/G/JxHeKJXsrLkjE7xufI0GxcTuwxIgRHpMy4hfB/1iOAppQiKqHtelc755/++qK5BtNWdW5icBfvVUbfNgag4MqmdsfTv6eEPcRxvO6oLU/TobHS5/pMc2RMND52w14UtiuFp904Oo0Yv04SzXuhiZKJlJBnIgTIuVtjKwJs=
+	t=1760122969; cv=none; b=FlUUKYBClljwBvXfZ38Y3zVCIBS0NexQJE042CdrxxaEo4C3MwRDBqk925BQcaxGaDLANVJGQ6ZodGmb+xUZs3t25ttCvzxxWRFJrZpAYGDuTpob9rzSqPNAM9D/Hw1dGQ/Lqu7adK+/C7NgKT6utC9Ki5WbvS4NP7AEn3fRyTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760122637; c=relaxed/simple;
-	bh=+MExs7bA7bO+eT+6/H1zG9nDTxVIAMDn8sQnB8ynYxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qRr2/gALHL2UsXs0oF1VIfMfP4/zHJdNAEH8ixSiPXKHeHuQNLIgsDDhYo3Ih25oC8NROGYwEq9d2Ve9+YU9RLKl+waUMRgsnNbrrgaLU8yC1aIAnohBES1Ol2Rw6jBOOJ3YqHdG57ChxRn9qIA0nksYPj8HCp8rNIGKsBazeMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQTBFOq4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84736C4CEFE;
-	Fri, 10 Oct 2025 18:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760122636;
-	bh=+MExs7bA7bO+eT+6/H1zG9nDTxVIAMDn8sQnB8ynYxU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hQTBFOq4vAwDmDZRWxSS1ZLWG50EsuKofUCKDSct8YjptAE7V+OEfE9K53Tlyomej
-	 BllZ27hbICD4Tq1nSvXWkh3Y33jzcWVZu7IYCx58ZBfGrK5S1HEnxTW/J9FusBdBIA
-	 zxV6dMRF2SQOYiRrz8ZmnZ7li6yFsUGRYlLfILHaEpYqD9aVUODe2Q8TPCF1QlpfWh
-	 JpI6Fwd3zB3YxU2Mv+RN9o+8OfzIMafZd8ull+tSxkSEA61oBMNFc5oUnIMciMBlL6
-	 AM/IdZn2MibmFu2hAgJRAGhxuqfgnGp3wVf3zfD3Hu0MVNDdTIeYq5Z/uBpLr27l3c
-	 zbnAcEfDMuCaA==
-Date: Fri, 10 Oct 2025 20:56:29 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
-Cc: rust-for-linux@vger.kernel.org, ojeda@kernel.org, nathan@kernel.org,
-	masahiroy@kernel.org, aliceryhl@google.com,
-	thomas.weissschuh@linutronix.de, tamird@gmail.com,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
-	tmgross@umich.edu, dakr@kernel.org
-Subject: Re: [PATCH v2 1/1] rust: add `rustcheck` make target for check-only
- builds
-Message-ID: <aOlW3RFO9sm6IsIB@levanger>
-References: <20250915115311.3025-1-work@onurozkan.dev>
- <20250915115311.3025-2-work@onurozkan.dev>
- <20250922-demonic-raccoon-of-will-1adb52@bergen>
- <20250923064720.0b2ea467@nimda>
+	s=arc-20240116; t=1760122969; c=relaxed/simple;
+	bh=ONGm+/fW5tWvXic+jldb8HPXfNQq4JzKLLhXOYU1d8I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WVmHEEYJZbkgpoLZ35qv2ioe2XEX/0fJLtoK4iD7s0YmII0ZUkkPCyedoRYTmZjlPyyw7ULCvfMLLBVGkwk9rhl3FqZ0Xl7aSCfCXgsM9naznj2BE/aYr1dWOBtxjkkJopKHtsSA5uLTvbZFK7Wi4WqW9MrgbLt9s8xZkeqQ+xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c/dW9lIO; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-78ed682e9d3so22187226d6.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Oct 2025 12:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1760122966; x=1760727766; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l95sezWNH+Q9ncNOnvjdLwTjn0UUlfu+q2zDGxDlEZA=;
+        b=c/dW9lIOnHw6iNkfh5F64azlQ6L0ZMjNgSznJaQI/FSyqRZ2tIr5p7VPpiSlPSOuen
+         2a+DX3sANkPn+VnkO6hEiXRpJtyZeIkPioNCk2H8X4RsmJ8RyhR3+N71oNkebZRmV5+w
+         Bh/DB/r8mAxQEk1GAe1MfNJzoZSmpVF44NwuhE17ijipeUc1uVdOIoIDoQIbsbyC7uZ4
+         uDttXBTsy1EAMORDCJgASnB2PI05y1NaEs0CTeOBXFARQqVlDrCXJQrXE9GjOCD76FlU
+         2V0zzKsKK0+IOooFbHLCIse4gSNtYDUc3QOTO7dFmR4hswjY2YoYluq7hYh8Fdt25s6W
+         IXIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760122966; x=1760727766;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l95sezWNH+Q9ncNOnvjdLwTjn0UUlfu+q2zDGxDlEZA=;
+        b=Z6vfW1/ve7HNbwy8OcW+wHm5IfCv/MNZyiKMalcf09k+4TsdByDNxzPkgKsOX8xS9P
+         ptvvDb5630bbh7KNNHaZBSPr7sdSCgCraVJzmQ/Z0nYeBauFMaD+cdXF+SK4JN8T6+qV
+         /NgDccqJ/y3Yqp6W2QUthd84ocsfgVv+CJll+3qCcmHaSX7WeJQuk6k6vlPxyemrsKIh
+         wJaLZIwYvyhZNc6AZ/13PgW4gCi4r2rdnir09zJQUq9Cnb7/vLdy7iu3NEebgrl/+fvU
+         Ry3X020unrpFuiwx13pjTfzFHQwlPuDB5XvQXuC5rilHQt5WuLFOY5YIv04qIwQqZocD
+         F/Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCVwpUo2sh+J1lnJIldd0ErY4XBnOZQ9MYPO76edhq0b2YlWXJuHsD6wS2c7lRNTkO3StdMN1wBcjgYifUk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4b38RX8q3lxCeixoVNYWgqEr74wWZfZQsAFd8ANe6BOthXr+F
+	4sqsew2ONZC2vNxjSC5COXCSr/+8Kg9WGp5IsRDhjLTMQjeNC0ZguOwuL06EFii+gw+4oGNWGJl
+	u8FwPcB7+vnNJHSB7Rh/exnfKHt0QS5VBPqF3OObN
+X-Gm-Gg: ASbGncu906KDvf6EMSvRj2r9RsZt98w9Wnlyu702Fh7+UHlTAOujDywvQTEX1I4Gz5l
+	Av1J264lTm2T+NDgCcwYDPzBmm9+K4ueXlWz3AQLj6OdefRVfVid3iWWkOmp83fpqG3glTrSo1k
+	9iyz4xsKm+Flv5/6OQo5HGP02Du6wdIXWRbHod60yzoDBfr7QKEJlKTCLmZy1Leyyk1TgEz4Ebt
+	fRTvO9Qcm0WH+apDpBAYYdbEhTJ/OYabSCgd34WfjW90HP85FhwTt9OeHBbyn8vQzLFA5GCdhWN
+X-Google-Smtp-Source: AGHT+IEpA5EbdioaPf3qKcG8P0ENMXWxtvPYfa7xFgKk/+u0TeiDaVlv//85nDiCUfDvrpoSotwckmQ3+uGHWatx/5o=
+X-Received: by 2002:a05:6214:224d:b0:804:9cab:926e with SMTP id
+ 6a1803df08f44-87b2ef64949mr172438546d6.38.1760122965415; Fri, 10 Oct 2025
+ 12:02:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250923064720.0b2ea467@nimda>
+References: <20251006193839.1350626-1-elsk@google.com> <aOd6QzKQKcYoxMf0@levanger>
+ <CAABy=s0yZ3BOOUHpEf1DXatYkSyk1hUwHVBmBAke7Tdvzn3AVA@mail.gmail.com> <aOlVYtE-aPpptqh5@levanger>
+In-Reply-To: <aOlVYtE-aPpptqh5@levanger>
+From: "Hong, Yifan" <elsk@google.com>
+Date: Fri, 10 Oct 2025 12:02:09 -0700
+X-Gm-Features: AS18NWAieVD9ozu5C9f_mxQ9ta11a-5mST_87LvwguzUKv7eM7lOPuLr7n_E47M
+Message-ID: <CAABy=s2TBj4FD+D_VR9JiEuVgZo_KbZ5Z5U4CUD-69SLw-q=3w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: use $(obj)/ instead of $(src)/ for COPY
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, kernel-team@android.com, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 23, 2025 at 06:47:20AM +0300, Onur Özkan wrote:
-> On Mon, 22 Sep 2025 08:02:36 +0200
-> Nicolas Schier <nicolas.schier@linux.dev> wrote:
-> 
-> > On Mon, Sep 15, 2025 at 02:53:11PM +0300, Onur Özkan wrote:
-> > > Adds a new `rustcheck` make target to run a check-only build
-> > > similar to `cargo check`. This allows us to verify that the Rust
-> > > sources can build without building/linking final artifacts,
-> > > which speeds up the iteration (a lot) during development.
-> > > 
-> > > The target also supports the CLIPPY flag (e.g., `make LLVM=1
-> > > rustcheck CLIPPY=1) to run Clippy in a faster way.
-> > > 
-> > > Also, unlike `make LLVM=1`, it doesn't compile large amounts of C
-> > > code (on a fresh checkout) when the goal is only to check that
-> > > Rust builds are not broken after some changes.
-> > > 
-> > > Suggested-by: Benno Losin <lossin@kernel.org>
-> > > Link:
-> > > https://rust-for-linux.zulipchat.com/#narrow/channel/288089/topic/x/near/539103602
-> > > Signed-off-by: Onur Özkan <work@onurozkan.dev> ---
-> > >  Makefile      |  7 +++++
-> > >  rust/Makefile | 73
-> > > +++++++++++++++++++++++++++++++++++++++++++++++++++ 2 files
-> > > changed, 80 insertions(+)
-> > > 
-> > > diff --git a/Makefile b/Makefile
-> > > index cf37b9407821..7812cdc72938 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -1716,6 +1716,8 @@ help:
-> > >  	@echo  '		    is formatted, printing a diff
-> > > otherwise.' @echo  '  rustdoc	  - Generate Rust
-> > > documentation' @echo  '		    (requires kernel
-> > > .config)'
-> > > +	@echo  '  rustcheck       - Check that the Rust code
-> > > builds'
-> > > +	@echo  '                    (requires kernel .config)'
-> > >  	@echo  '  rusttest        - Runs the Rust tests'
-> > >  	@echo  '                    (requires kernel .config;
-> > > downloads external repos)' @echo  '  rust-analyzer	  -
-> > > Generate rust-project.json rust-analyzer support file' @@ -1821,6
-> > > +1823,11 @@ PHONY += rustdoc rustdoc: prepare
-> > >  	$(Q)$(MAKE) $(build)=rust $@
-> > >  
-> > > +# Checking Rust sources.
-> > > +PHONY += rustcheck
-> > > +rustcheck: prepare0
-> > 
-> > Why do you let rustcheck depend on prepare0 instead of prepare?
-> > 
-> 
-> Because "prepare" does more job which isn't necessary (therefore waste
-> of time) for "rustcheck".
-> 
-> > > +	$(Q)$(MAKE) $(build)=rust $@
-> > > +
-> > >  # Testing target
-> > >  PHONY += rusttest
-> > >  rusttest: prepare
-> > > diff --git a/rust/Makefile b/rust/Makefile
-> > > index bfa915b0e588..b45878870207 100644
-> > > --- a/rust/Makefile
-> > > +++ b/rust/Makefile
-> > > @@ -265,6 +265,79 @@ rusttest-kernel: $(src)/kernel/lib.rs
-> > > rusttestlib-ffi rusttestlib-kernel \ rusttestlib-uapi
-> > > rusttestlib-pin_init FORCE +$(call if_changed,rustc_test)
-> > >  
-> > > +## Check-only compilation (similar to `cargo check`)
-> > > +quiet_cmd_rustc_check_library = $(RUSTC_OR_CLIPPY_QUIET) CHECK $<
-> > > +      cmd_rustc_check_library = \
-> > > +        OBJTREE=$(abspath $(objtree)) \
-> > 
-> > Have you tried this?
-> > 
-> >         OBJTREE=$(CURDIR) \
-> > 
-> > or
-> > 
-> >         OBJTREE=$(abs_output) \
-> > 
-> > I'd favor using one of these instead.
-> > 
-> 
-> I don't have a strong opinion on any of them. I followed the existing
-> approach from the other use cases used in the same file.
+On Fri, Oct 10, 2025 at 11:57=E2=80=AFAM Nicolas Schier <nsc@kernel.org> wr=
+ote:
+>
+> On Thu, Oct 09, 2025 at 02:16:20PM -0700, Hong, Yifan wrote:
+> > On Thu, Oct 9, 2025 at 2:16=E2=80=AFAM Nicolas Schier <nsc@kernel.org> =
+wrote:
+> > >
+> > > On Mon, Oct 06, 2025 at 07:38:38PM +0000, HONG Yifan wrote:
+> > > > Similar to
+> > > > commit 9a0ebe5011f4 ("kbuild: use $(obj)/ instead of $(src)/ for co=
+mmon pattern rules")
+> > > >
+> > > > This change updates the COPY rule to use $(obj) instead of $(src). =
+This
+> > > > makes Kbuild rules like
+> > > >
+> > > >     always-y +=3D libfoo/.foo.o.cmd
+> > >
+> > > This is a strange example.  Why should we ship any prebuilt .*.o.cmd =
+file?
+> >
+> > When one ships the .o file, it might be beneficial to also ship the
+> > accompanying .o.cmd file
+> > so that compdb may work, I guess. Though, I just get this example from =
+one
+> > of the SoC manufacturers, so I actually don't know the true reasoning
+> > behind it. I agree that it
+> > isn't a good example.
+> >
+> > Still, this applies to any file that does NOT match any existing
+> > pattern rules in Kbuild. It might be more
+> > generic if I had said instead
+> >
+> >     always-y +=3D libfoo/foo.xyz
+> >
+> > ... and we were providing a libfoo/foo.xyz_shipped in the source tree.
+> >
+> > >
+> > > >
+> > > > work when the user provides libfoo/.foo.o.cmd_shipped, even when ob=
+j and
+> > > > src is different and src is an absolute path. This is useful when f=
+oo.o
+> > > > and .foo.o.cmd are checked-in as prebuilts.
+> > > >
+> > > > (Admittedly, `always-y +=3D libfoo/.foo.o.cmd` is not recommended i=
+n
+> > > > kbuild/modules.rst, "Several Subdirectories".)
+> > > >
+> > > > For example, if
+> > > >
+> > > >     obj=3D.
+> > > >     src=3D/some/path
+> > > >
+> > > > then the original rule
+> > > >
+> > > >     $(obj)/%: $(src)/%_shipped
+> > > >
+> > > > expands to
+> > > >
+> > > >     ./%: /some/path/%_shipped
+> > > >
+> > > > And when matching against the above example, the stem is just `bar.=
+o`
+> > > > [^1] so the following is looked up:
+> > > >
+> > > >     libfoo/.foo.o.cmd: libfoo//some/path/.foo.o.cmd_shipped
+> > > >
+> > > > ... and it cannot be matched.
+> > > >
+> > > > With this change, the rule expands to
+> > > >
+> > > >     ./%: ./%_shipped
+> > > >
+> > > > ... and it should work, at least for files that does not have a mor=
+e
+> > > > specific pattern rule.
+> > > >
+> > > > NOTE: that after this change, code like
+> > > >
+> > > >     bar-y +=3D libfoo/foo.o
+> > > >
+> > > > ... with libfoo/foo.o_shipped provided still DOES NOT work, because
+> > > > the pattern rule $(obj)/%.o takes priority. For .o_shipped files,
+> > > > the user still needs an explicit `$(obj)/%.o: $(obj)/%.o_shipped` r=
+ule
+> > > > in its own Kbuild file.
+> > > >
+> > > > [^1]: https://www.gnu.org/software/make/manual/html_node/Pattern-Ma=
+tch.html
+> > > >
+> > > > Signed-off-by: HONG Yifan <elsk@google.com>
+> > > > ---
+> > > >  scripts/Makefile.lib | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > > index 1d581ba5df66..e066b7b00bcc 100644
+> > > > --- a/scripts/Makefile.lib
+> > > > +++ b/scripts/Makefile.lib
+> > > > @@ -272,7 +272,7 @@ endef
+> > > >  quiet_cmd_copy =3D COPY    $@
+> > > >        cmd_copy =3D cat $< > $@
+> > > >
+> > > > -$(obj)/%: $(src)/%_shipped
+> > > > +$(obj)/%: $(obj)/%_shipped
+> > > >       $(call cmd,copy)
+> > >
+> > > No, I don't see a reason to support *_shipped files from the build tr=
+ee.
+> > > The purpose of *_shipped is to deliver prebuilt files with the source
+> > > tree to allow or simplify building the corresponding output files.
+> >
+> > The goal is not to support .o_shipped files from the build tree,
+> > though it is indeed one
+> > side effect of the patch. My goal is that we support .o_shipped files
+> > from the source tree when all
+> > of the following is true:
+> >
+> > - We are building with O=3D / MO=3D, so $(obj) and $(src) are different=
+,
+> > and in this case $(obj) is `.` and
+> >   $(src) is an absolute path);
+> > - We have a `xxx-y +=3D libfoo/bar.o` line; in other words, the
+> > bar.o_shipped file is in a **subdirectory**
+> >   libfoo below the directory of the Kbuild file. As I said in the
+> > commit message, this is NOT recommended
+> >   (kbuild/modules.rst, "Several Subdirectories"), but it is a
+> > documented way to include a .o file from
+> >   elsewhere.
+> >
+> > And as I said in the commit message at the end, unfortunately this
+> > patch still can't achieve this goal for .o files,
+> > only for files that don't match any existing pattern rules, like .cmd
+> > files for example.
+> >
+> > Would you please suggest how we can support .o_shipped files in a
+> > subdirectory when building with
+> > $(obj) =3D . and $(src) =3D <some absolute path>? Thank you!
+>
+> Thanks for the clarifications.  Please note that shipping .o_shipped
+> files with upstream Linux will not happen out of obvious reasons, and I
+> am not willing to invest time into supporting any closed-source
+> approach.
 
-well, you're right, it's not really consistent right now.
+Thanks for your reply. This is primarily for out-of-tree modules which
+are not yet ready to be upstreamed. I agree that shipping prebuilt .o
+files does not make sense in upstream Linux.
 
-Acked-by: Nicolas Schier <nsc@kernel.org>
+>
+> You might want to try to add the missing rules to your local modules'
+> Kbuild file, e.g. something like
+>
+> $(obj)/%.o: $(obj)/%.o.cmd
+>
+> $(obj)/%: $(src)/%_shipped | $(obj)/%.o.cmd
+>         $(call cmd,copy)
+
+Thanks. This is my current workaround now. I'll treat this as an
+acceptable solution for now.
+
+Please kindly disregard this patch.
+
+>
+> (not tested, no support).
+>
+> Good luck and kind regards,
+> Nicolas
 
