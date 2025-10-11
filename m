@@ -1,119 +1,79 @@
-Return-Path: <linux-kbuild+bounces-9096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48BA6BCFC44
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Oct 2025 21:46:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8464FBCFD72
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Oct 2025 01:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 04C5A4EA4BD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Oct 2025 19:46:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 378C73BD6E7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Oct 2025 23:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CE8B284B42;
-	Sat, 11 Oct 2025 19:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03627238C1B;
+	Sat, 11 Oct 2025 23:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upoTlwYD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MaYveqMQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5284E20296C;
-	Sat, 11 Oct 2025 19:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2E14A32;
+	Sat, 11 Oct 2025 23:10:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760211810; cv=none; b=mhDXv9jlcECq1LAGp7/oQ00ocLRfjSFryeCZAMHNIU36BkTbVs3U5B5hMP/J5f+XHZ2zPJoTGVCSV0l82UtIfayD8DjAFq3wOZmHgMDXxpgDh/Wp4Kng3sASXvqVdMDFVqqkPsPGkMKyLi7onf2XiMaVssXP32tUJsdjwyZslVg=
+	t=1760224246; cv=none; b=UupO7petfclduG+YXGt1jiLkLCOVR6ABQLuD39skDTl53a6ah0TauyX1rEz6Crtj0II0c99wDvchVVVlqYRNVb8wwK9wj+ZSDvk/YJVp39XeJrfNJD3MBddTXJTPoIv8Xe+Sef5W7bt0zfR59289HY54nPrfIU/bKZbwyotkLGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760211810; c=relaxed/simple;
-	bh=nUg2lj2FDA74GnWLIi3HhN5FD/fRKPsazJJBetmYtkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NZNDPtjzpkaT5pgGY/GQiI0R6oyGX9mN9+PLUek76jHe9Ko/fFmIXaFnV4XiVM1mh/pXlNNHRT16hxVSTad8wxvATGqKLgQZWOHhSKKgEbPW0sru6nkA+39DlT9nVigBxvz8UkKaiQ9I53yzFBj6eH95pmcRUHlvSRSi7jX9px0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upoTlwYD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2813C4CEF4;
-	Sat, 11 Oct 2025 19:43:28 +0000 (UTC)
+	s=arc-20240116; t=1760224246; c=relaxed/simple;
+	bh=4c+UeOcVpF1rrcR6a082TMGt4ZmCz7nACYwI2Fzt5Rc=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=kduihO71Cp9AER5h78dKAumVcP0B5VHRGEPbGHmQcbd9lObYpE+vlVS7hqF/ICQzn46L15sScsUPSIDfw2ALfiFc+zR31JO/ODao9k1H+CA5sq7jFwHdqmTXoAZ4f6QdRT2EZgeZ/iqS1dXfW3eW+hRsdf27jEB7F2V/rCNxXAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MaYveqMQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9C9EC4CEF4;
+	Sat, 11 Oct 2025 23:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760211809;
-	bh=nUg2lj2FDA74GnWLIi3HhN5FD/fRKPsazJJBetmYtkU=;
-	h=Date:From:To:Cc:Subject:From;
-	b=upoTlwYDl/xVDZb33Xpu+6RPmX+ZTXPtNWZttoDmL1HOYL55s7bZ+F67w4d9E1vJy
-	 bRUTzow3ACykzMTIrd9bK+DDYl524PqLggVs9o0swdUjkCcdt6fEU+t7CfSAe56L2s
-	 lTsqDeA+XEk9cOc8DgqawZBA9lGKHYnd4KHYNRXAJnlFfiQ4EmCYO8PrjRzCM5z9Rm
-	 Z39sIgOcf2YlKwLyTocxY1wZKfObjGtXrOyU+KVvtk6TMIFlTZakuP3CImLApRkNU1
-	 FslYjabWhazUQTtbFdnKg7a3ekhisfz8j8pqI/CFSV75SVkEmhCyrBWXoILPYudltZ
-	 CAJWTqyYcLsig==
-Date: Sat, 11 Oct 2025 12:43:25 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [GIT PULL] Kbuild fixes for 6.18 #1
-Message-ID: <20251011194325.GA1123518@ax162>
+	s=k20201202; t=1760224246;
+	bh=4c+UeOcVpF1rrcR6a082TMGt4ZmCz7nACYwI2Fzt5Rc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=MaYveqMQpKUuoXXAc8bUxV6jaF3F+6ZSbs/zOYIYbkQUOGdMkfMxWLlBfNJGaDCvC
+	 yOjiSBltuLg8SwB/SeTxpuneHLP0v0/oTdyMYzNs+jmECzS97GDZe1iSHHljAOfEvf
+	 0CW6WRiiPrtWU/PZ+uf5m5Yjixu15Y62IdhcyAEGENRfDxeiJNdqb3aFR7YFSE1xzQ
+	 ZhAlD4+NXnMFd2oF1P7A1R39UcFXCPzNIfQNsPa3fx6GkhQ63Bnp9sM/8nOUybtdcV
+	 e2sQQIKghVqQDPBoOJP5LzsRkiDhKjsvZ8VB/zDyxqIBluqH+lBoSTKEfbcXwBIAQq
+	 ppHufiwp1UixQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE0493809A18;
+	Sat, 11 Oct 2025 23:10:34 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for 6.18 #1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20251011194325.GA1123518@ax162>
+References: <20251011194325.GA1123518@ax162>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20251011194325.GA1123518@ax162>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-6.18-1
+X-PR-Tracked-Commit-Id: b0f2942a16017f88395d768afedd7373860968ce
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c04022dccb2f9cf2b1cfe65807149500d1fc080a
+Message-Id: <176022423332.1477897.9232413880238519025.pr-tracker-bot@kernel.org>
+Date: Sat, 11 Oct 2025 23:10:33 +0000
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Linus,
+The pull request you sent on Sat, 11 Oct 2025 12:43:25 -0700:
 
-Please pull the initial round of fixes for Kbuild for 6.18. Everything
-but the final change has been in -next for a couple of cycles but I
-wanted to record some last minute tags so it is recently rebased.
+> git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-6.18-1
 
-If there are any issues, please let me know.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c04022dccb2f9cf2b1cfe65807149500d1fc080a
 
-Cheers,
-Nathan
+Thank you!
 
-----------------------------------------------------------------
-
-The following changes since commit 2ea77fca84f07849aa995271271340d262d0c2e9:
-
-  modpost: Initialize builtin_modname to stop SIGSEGVs (2025-09-28 07:54:07 -0400)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-6.18-1
-
-for you to fetch changes up to b0f2942a16017f88395d768afedd7373860968ce:
-
-  kbuild: Use '--strip-unneeded-symbol' for removing module device table symbols (2025-10-10 14:50:35 -0700)
-
-----------------------------------------------------------------
-Kbuild fixes for 6.18 #1
-
-- Fix UAPI types check in headers_check.pl
-
-- Only enable -Werror for hostprogs with CONFIG_WERROR / W=e
-
-- Ignore fsync() error when output of gen_init_cpio is a pipe
-
-- Several little build fixes for recent modules.builtin.modinfo series
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-----------------------------------------------------------------
-Dmitry Safonov (1):
-      gen_init_cpio: Ignore fsync() returning EINVAL on pipes
-
-Geert Uytterhoeven (1):
-      kbuild: uapi: Strip comments before size type check
-
-Nathan Chancellor (6):
-      scripts/Makefile.extrawarn: Respect CONFIG_WERROR / W=e for hostprogs
-      kbuild: Restore pattern to avoid stripping .rela.dyn from vmlinux
-      kbuild: Add '.rel.*' strip pattern for vmlinux
-      s390/vmlinux.lds.S: Move .vmlinux.info to end of allocatable sections
-      Merge patch series "kbuild: Fixes for fallout from recent modules.builtin.modinfo series"
-      kbuild: Use '--strip-unneeded-symbol' for removing module device table symbols
-
- arch/s390/kernel/vmlinux.lds.S | 44 +++++++++++++++++++++---------------------
- scripts/Makefile.extrawarn     |  8 +++++---
- scripts/Makefile.vmlinux       |  7 +++++--
- usr/gen_init_cpio.c            |  5 ++++-
- usr/include/headers_check.pl   |  2 ++
- 5 files changed, 38 insertions(+), 28 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
