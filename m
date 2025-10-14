@@ -1,138 +1,148 @@
-Return-Path: <linux-kbuild+bounces-9121-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADAABD928B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 13:58:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E98BD994C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 15:12:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C6B5D4F92FB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 11:58:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32DB41885985
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 13:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1CE3101CE;
-	Tue, 14 Oct 2025 11:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7CCF314A8F;
+	Tue, 14 Oct 2025 13:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7dsIAIt"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="18Vfa1VR";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s9uz1WXb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4709C3101C8
-	for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 11:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A8821D59B;
+	Tue, 14 Oct 2025 13:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760443105; cv=none; b=LHfKLEBKtMK6HGExRqsi1nPetbP2kriLCCd8m0BiDMYQ2MhAlRzA2uHUxKZxKLa+VxmN4PQ5Z0sndzzgTCkhLaGn/vNpL5CkMeLm4zXE6lVAOtQf6yctDGY2DRgFkgK/nHAjZWNcygJnCL4uA/WuEFp6CJ6K2EUePBrtTj6mcq8=
+	t=1760447153; cv=none; b=tUhI3VxzTlHhHYa56xL79rKfYaWewx99a/eEEpTys/Kfy9lhqPOm+XCWz6kjVD1s93Aeenj2CfDyecuKls60saOZWAkc7gK/icRoLBdSq2/O3cStVU36yhaFWTxQ+q5Lfmucy6oJCBY+EZZrntFoprwkcc5F1CTDc6bTCJKZdbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760443105; c=relaxed/simple;
-	bh=DQcppO9zbJMHem9XFygkT9zl07JxR8H/tW98+lITK5Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WMCjpUMnaKRtVySBTYOKKeOGtgz5438jkhJPAjIXAm0/EIA7yiBABEAOD6k8KarKHjxvpAx+seU2vvOHcgmEImXzG537WNMdDED5QGVASQ8FtkSYpmpCBj5FAcZ4zItNBqkN+1Kl2RmPgW+1pNQDktu/kl0aw3wqSL5i2RiejqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7dsIAIt; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-26816246a0aso10888135ad.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 04:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760443103; x=1761047903; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RTrmlwTskkr/kKbtRF4NeJMF7KiXf++loWOpKi8ycAY=;
-        b=b7dsIAItY4gKDfQg67Efq1AldwSQI6NZEMB19v0zbJ6gjd/+JDeIyheiwqHyHaypue
-         SntzSrEaStlXrHpSNK5v6vsMNDyeULq3Fl3jv7Z4cUX3cbjUzduXwk03BoZYnMAoGVLD
-         F0kAPlQGDX4eudmUiXWFnKIVhvG7S7ZDy7MEvJcSgZFp8lDprVg1dXOrw/0Ix6d+URnh
-         +saOq3L7/resApOtTNGMJkS1liYfPxL7LBO4o1LN0AWNhfL9wAArXtpq55xDS/2blP7D
-         QuNanCKm4BHNktSkj9hplv5lEkg20WO0ezK7n1sDVjUkIxh+tBtkWC5VYqm3KiDRGheQ
-         /cnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760443103; x=1761047903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RTrmlwTskkr/kKbtRF4NeJMF7KiXf++loWOpKi8ycAY=;
-        b=EXOC/Zh323MDzubUS8QCsAIq9VbXg2o0BbJw5YWbC7aGlXcciq+/LS+3d88AK1UYPY
-         yO5RseSD4XsR5RiVRSipDuYdzWuyD6o1foZRY0SohRE7cqE1OUZA6DOWAvRrMzN3kMfi
-         FYAXGPZGqEg1oortIettVXTiIsNyQ8hqzXuTXTYtvqv6MjvSEttetUbqiug0VF5EVgWX
-         v4EcPUsk8XsWcm2Y6MrTFvORWb/AAztkgmaROa2CvMa+j9JEVTPw22yS689S43XyfFPb
-         w0bxU09ZC/mKzdTy7E1riLVeIh++5hbNNmO2V1Fuj24v4eKUJZCsLlnT5NKFOwPHH8gR
-         pqKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVafyBCvv3rkj8PNyQyHOrZnp1/WBk/amuieaW8fRSdcIqE4mzlVSjfOvt69t6vEd679TwI2YWG6IphveY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjYwgwN+pnaE2V1Fytl+DVj3ibjxyIH7RBvWkNzrmu0WMtm8QU
-	I7awLVxQOS4yAWp1tgc8WI86pUL7vKuPBH2UoK3Gn0udvR9ibfUykJplAOGcukCDGL2GTIQTX5/
-	fXYSiTcI06pLW06fLaxvVad4MUHzkXqU=
-X-Gm-Gg: ASbGncsnofIwPaHhIAYgrlAYhUNq+Jw4IakUaB6Qi+HoBSXnMkH2+WnWiaWJKlFbEnp
-	rBMbJIgd2z26kKjOND0JEauveNLlwsmb5sxD+HPcQRRiVhHCNn65DpDxiScuDods1LDfEkuqpcJ
-	5qjsJnObBwQjb2DzGg2tXhd6vFJnJ0hsgnKCBQWdByQvhRGk5vu5zarDZ55mMwqGZgd7tM+r91i
-	T4OgiS2ccZ+PJYZiOx6QZAF+SHAsTrqYkxiwBc6Ub2ZRB5bW+m8T2tz1GEnerdTD+8EVtBQS7oU
-	2lf/AbUKChMz/2bYsS5O0ubxmK3Rnpf2gAf6vV7hH3DZmJptbIlMozk=
-X-Google-Smtp-Source: AGHT+IE5mD/OqZwnZKBsKCjL4XqIp9LWIF2r4C8a99CzvazlBr1ZWoDhjbQJXYRKSAmFGV4Ksc8hZ5kDX58X7OqE8yE=
-X-Received: by 2002:a17:902:e849:b0:27e:e96a:4bf with SMTP id
- d9443c01a7336-290273c6246mr201519995ad.2.1760443103387; Tue, 14 Oct 2025
- 04:58:23 -0700 (PDT)
+	s=arc-20240116; t=1760447153; c=relaxed/simple;
+	bh=nwdxilI0gCDF3hCKssRA5tQbRafKabX/iqdQVkTDYQU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eMcY6XZnDrNH/aqvf7waos7whM0mE3Z7V5Iu/TEXsyPUFZoVlwGbhzqH9EN+6OvY3e2pToV3kBUzzDs9h0we5SVqQaA+uEA/Ri/FejfedJQNRkF9h7hac8N9IfjiczkXZQjaDeSKfXsrgccV6KXXolzbt5fXNohn4Jtfey+Dh3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=18Vfa1VR; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s9uz1WXb; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1760447150;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v6Z/SGyLOROhq9izjO/zGrkzO8eVf9t7/VpyDBR8sek=;
+	b=18Vfa1VRutbhgbwNI48uwRFrpTeK2iXMNNTzbDO0N7x5xONQbK5szxonq4ynVgVeOR87f9
+	/+dAtUgG+zz8okIOlqkYHW9vY7SNupVCUbTCAqxN7EwLA1hzMKiXwWbVBQ9DVEN/ssMks+
+	RqDArBFm87CsFc2oSx+Dv4YpO/+fKtgNsszjib2frMB4kascP6vDibG2NAlRKZT943QWaa
+	4mfweieMQ011LjiIYvfP1TGplFbYSC7aCT7dAqz00Wny5AkFg4vyB285fS0T5qFYa6MVxE
+	sGWYCA/M2PuyV8MB8h7ezU3qRTZ9gJtE3qJTK2ZBsEgJP5Cg22uDTnqXzKBEIw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1760447150;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=v6Z/SGyLOROhq9izjO/zGrkzO8eVf9t7/VpyDBR8sek=;
+	b=s9uz1WXbQUnSkz0696jxjnrvflf58GlYGmSwbNzRqndYmmv20g7+eUgK1BDUYWwmkhWTAe
+	JKbsLnaYtHUjhaAg==
+Subject: [PATCH v2 00/10] kbuild: userprogs: introduce
+ architecture-specific CC_CAN_LINK and userprog flags
+Date: Tue, 14 Oct 2025 15:05:15 +0200
+Message-Id: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014094511.627258-1-gtucker@gtucker.io> <20251014094511.627258-2-gtucker@gtucker.io>
-In-Reply-To: <20251014094511.627258-2-gtucker@gtucker.io>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 14 Oct 2025 13:58:10 +0200
-X-Gm-Features: AS18NWDBj5affi_lUiES-5b_WCz6GVsApMNcuTw9-KEiFct1NPsDYKVQGOwC3Bg
-Message-ID: <CANiq72nVxPY8xB9xEnkZ=zNFh0EfQvaMAPH4ygRr-yEwpK=OWg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] kbuild: add Makefile.container with CONTAINER option
-To: Guillaume Tucker <gtucker@gtucker.io>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Miguel Ojeda <ojeda@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	automated-testing@lists.yoctoproject.org, Arnd Bergmann <arnd@arndb.de>, 
-	workflows@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAItK7mgC/4WNQQqDMBBFryKz7pRMVLRdeY/iQk3UoZJIYoJFv
+ HtTL9Dl+/DeP8Brx9rDMzvA6cierUkgbxkMc2cmjawSgxSyFDXl+O4DLwpD8lZnJ489bx5FPhB
+ VqitUKSC5q9Mj71f31Sae2W/Wfa6bSL/1XzESCpTqMVZjQSTqvFnYhM1Zw/tdaWjP8/wCCbSiJ
+ L4AAAA=
+X-Change-ID: 20250813-kbuild-userprogs-bits-03c117da4d50
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Nicolas Schier <nsc@kernel.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Masahiro Yamada <masahiroy@kernel.org>, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-mips@vger.kernel.org, sparclinux@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760447149; l=1841;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=nwdxilI0gCDF3hCKssRA5tQbRafKabX/iqdQVkTDYQU=;
+ b=MxoQo1TizE+S8bqU4JcnOVpUGYj4wmq5FSvunih7gRn6DU94kLSoa3uxPTVhQdnPvJtR0bw14
+ Kuj7ZjOyybgA7859XltD841WYT6mM+WPK2cYwKR5+PQFZK7588LnrSg
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Tue, Oct 14, 2025 at 11:45=E2=80=AFAM Guillaume Tucker <gtucker@gtucker.=
-io> wrote:
->
-> Add scripts/Makefile.container to wrap the make command in a container
-> using the CONTAINER=3D variable to specify the image name.  For example:
->
->     make -f scripts/Makefile.container CONTAINER=3Dkorg-gcc defconfig
->
-> The container image name is entirely arbitrary and the container tool
-> may be Docker, Podman or any other compatible alternative specified by
-> the CONTAINER_COMMAND variable.  The default is set to docker for now.
+The current logic to inherit -m32/-m64 from the kernel build only works
+for a few architectures. It does not handle byte order differences,
+architectures using different compiler flags or different kinds of ABIs.
 
-IIUC, this wraps reruns `make` inside the container, but it means
-hardcoding a particular tool and path, right? (unless one sets even
-more variables)
+Introduce a per-architecture override mechanism to set CC_CAN_LINK and
+the flags used for userprogs.
 
-The cover letter says one can create an alias for this, but one could
-also do that for the underlying call anyway, unless I am missing
-something. And if we do this, then I would prefer one doesn't need to
-type `-f ...`.
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v2:
+- Rebase and drop already applied patch
+- Disable CC_CAN_LINK if the test program generates warnings
+- Move to architecture-specific logic
+- Link to v1: https://lore.kernel.org/r/20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de
 
-Put another way, for a user, what is the benefit of having this extra
-way of running in a container? For instance, I could see the benefit
-if different tools had different flags or it was a complicated
-procedure, but I think at least `podman` shares the flags used here.
+---
+Thomas Weißschuh (10):
+      kbuild: don't enable CC_CAN_LINK if the dummy program generates warnings
+      init: deduplicate cc-can-link.sh invocations
+      kbuild: allow architectures to override CC_CAN_LINK
+      riscv: Implement custom CC_CAN_LINK
+      s390: Implement custom CC_CAN_LINK
+      powerpc: Implement custom CC_CAN_LINK
+      MIPS: Implement custom CC_CAN_LINK
+      x86/Kconfig: Implement custom CC_CAN_LINK
+      sparc: Implement custom CC_CAN_LINK
+      kbuild: simplify CC_CAN_LINK
 
-Should this instead be a document inside `Documentation/` somewhere
-that explains how to do this, pitfalls, advanced options, etc. and
-give example command lines for different tools?
+ Makefile                |  8 ++++++--
+ arch/mips/Kconfig       | 15 +++++++++++++++
+ arch/powerpc/Kconfig    | 15 +++++++++++++++
+ arch/riscv/Kconfig      | 11 +++++++++++
+ arch/s390/Kconfig       | 11 +++++++++++
+ arch/sparc/Kconfig      | 11 +++++++++++
+ arch/x86/Kconfig        | 11 +++++++++++
+ init/Kconfig            |  7 +++++--
+ scripts/Kconfig.include |  3 +++
+ scripts/cc-can-link.sh  |  2 +-
+ 10 files changed, 89 insertions(+), 5 deletions(-)
+---
+base-commit: 10f8210c7a7098897fcee5ca70236167b39eb797
+change-id: 20250813-kbuild-userprogs-bits-03c117da4d50
 
-If we do end up with `CONTAINER=3D`, then I think it should make it work
-without having to pass `-f ...`, to make it easier. Or, even better,
-like the KUnit script, we could have a script that does the right
-thing and reads a config from the user, so that one can just type
-something like, picking whatever tooling the user configured (e.g.
-Docker vs. Podman, default image, etc.):
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
-    scripts/container.py defconfig
-
-Thanks!
-
-Cheers,
-Miguel
 
