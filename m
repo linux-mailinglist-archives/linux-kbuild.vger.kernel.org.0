@@ -1,90 +1,78 @@
-Return-Path: <linux-kbuild+bounces-9141-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4FABDAFD5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 21:04:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC9FBDB023
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 21:12:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9D79D4E79AA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 19:04:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1116219A0741
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 19:12:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D88B255F28;
-	Tue, 14 Oct 2025 19:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7C32C0278;
+	Tue, 14 Oct 2025 19:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ppx2mzVn"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Aoxq1xEO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCE9238C1B
-	for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 19:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F1C2BE7B0
+	for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 19:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760468644; cv=none; b=Y49s/pNl2MnaiiwvVOqGEbf28hAn0pc2QWefH+Kx23gQhUUKlRtl2WRsvdeVKkcMPPL9xLor84vH1Y3lzIBZkGoXsuIZctfkJbOLQ+rVCI0OC2MxusDH+E5J0PQDbUGRA3urGvu9DS24Ag154lJ/1cLzDQT7eepHM0oRInVxGBM=
+	t=1760469122; cv=none; b=iZ7tZWzjycv6N/T2IW7ae4BYX0C57sP3elN9PLAzBd78Ja4URBJHnXeRmMgbcPe4nCIpc8ydOcmgibPU0+PjjqxCcCYiwk6xhfqExvOJ9y6pwdcQ7DkAi6TGwUxkwm50zND2kTMcsRrCfqAHQDvncEUBPlOCRsIKhOWNFYvDXzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760468644; c=relaxed/simple;
-	bh=5y68QruZPAM2nXoI+E7P7xRzvuupmLhKZeN/D7gAGiM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SWCwHM8+0UO/hZco1vvUOShQRmP0GadUt/Eyzl1fpWAIVx9mwp87cr0lUHYURIOp/6NhB+n0tximAv86CMnj4/Q48VTqj5Wk0+Gbnqara2qqsWAoiN2jB7fyjGxTfvByB8IKCfrU5eHAyKYp0ltExjR82I1M8NB9XBEXG0eQ+og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ppx2mzVn; arc=none smtp.client-ip=209.85.166.171
+	s=arc-20240116; t=1760469122; c=relaxed/simple;
+	bh=UQnXFdfx5dWAH9sx3W0jjTCJ0moJLOzBU+mWcv09QMo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=NyHBFn67CHBW/S94m5V/U0irBJEgj03AOtlV0t2a1t0aruH4SqhhMhUMvfOW6pvtEuyVOwh4s21xaeZTg6d9gZXeW+dV2x3HwycjqilYtBXXV0kspmLnJrUrkp8VK8ZlRZunbdnkS7rWcSryoWq11uwGqRIaMTRUt5G3LA+Zmwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Aoxq1xEO; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-42f8e736ecaso122505ab.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 12:04:02 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7900f597d08so8134616b3a.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 12:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760468642; x=1761073442; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K3xKBu+Miamd+V4YG8p75v/z/lqDKmiLl9I4U7VNKAE=;
-        b=Ppx2mzVnPLeu4TFcFXZxN0nE6DjB8K/K1QQE12e5N8lVuAsSTQ6mdCuaEldl/dS2tb
-         CQbvILd4J+uHmy/Iv3R7CcOMcuuo8n+F4SQDrWBGY2DjfrDilmhSN+GsxFK19t+035yz
-         PfeufSIrozS9/LTirFbmBG69l6B9/czimJMaLa5BKowMnFoTCRcowSlzYC9DSV+xKcAr
-         CDzg7o1/QxvJF2QGrgd+8nw+KtEsQK4srGPjDfQDCkM94rKEcfT4fXCPY/h48hbk06ha
-         6t1To4syX0lDPFid+GdE4ImzbftCTRm5Pr1IFh7DAq0Y4u+sQE78VWMPPDPIDAh/zVdB
-         OTVQ==
+        d=google.com; s=20230601; t=1760469120; x=1761073920; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HetZVCC/q2AyiLAEyoUW1UONBOG5swbtHLMRVYpsp5s=;
+        b=Aoxq1xEOLGm2VYmciCKJwYwNfqNvXgneohYRCkhTSdhCKPpmySlAaDUUGbREvGHtWz
+         MSKkt6/mT/gcFsub3cfM+csZ3aTmEMjpGsOKbbijthw9/WF1DQaPjs2x4XRWUIyMzFdQ
+         Yjz6PxBNS+oAK1idc2kQ9F6XFt9CYJ15PWs9wpk5Nt7w5v/FP5HqB1UsZVZn26wZrDFl
+         mwdEDLjBRL42YM9zIj4nn4Wo6Ns9TovHA2GrWrM8hZZmrpfWbLCDfCzVoVeMo8oAo7yg
+         LPgRJjnJbxR8yTrp+zFC0fvdLFEQbuRVkcEPRyFXDcPrQOHVkwiKmTcKqwQx4LDB5e/b
+         4Qdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760468642; x=1761073442;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K3xKBu+Miamd+V4YG8p75v/z/lqDKmiLl9I4U7VNKAE=;
-        b=RkTicikcRX+BltNKjLcBgwVAy82U3Ag9sgPzKpO4vmzhXJvnJ2zcRsa6GDz0PDnkf7
-         9CZQz6lTdjqXDln3wZv3yGFdfQ22MuN2s/81W6ScwoXHSwpkoNSj7qHIfq3HMVYfIcJc
-         aYqik1aDdN8tM0FDZpTRB6viayIed2mqQDCDlJ4iCvCm6e9t53/MiX0bNY9WsdStL1kz
-         11QEKthp+S6Ex8sOk1E7gsdxLj4GPiobBk3YE9FLAP8bXRZ8WE3SRFysGZ5nSuuRrCVD
-         aGE4e66j91140UL2WCY3Vmv2Y2TeEOq1AKiG9IQOoo2M5s9aBT8p2YVb7pAAsdqiZ79x
-         u7mg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYYAxQ87BLU18uVKdkswTgIFSW+pnadheS/hB+utEXHPIUg7yZUFQB+xONS9HWSircppWfum51giihk2M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgUDpL+ASNBVSDXGnH8TxeAASMN2JbAR5a9JWe4FIxrdf8Qbi2
-	CbhM5eP0N0nT3efpxMkP8R7EXLPC6NsrYXax2Kl8XDdIu9Z77T4ZCOaHDw6HClQp79dMud3Jj6a
-	cGy4qW7Vp9gzcn+YH3ori2gC7tZ5r/YEH4S8+ctdE
-X-Gm-Gg: ASbGncv7ZsslF2v3W9o3n8RFdC0g254382+dPpfSjvn3x/I2b7fi2djlmA49APHgZBH
-	N7iUDudgATDKQlHCmPndQw2/xON/t2GWUJfOVoNwLkhxM53aZJRnFE+C6ho9kqPvqHMypgSOaGY
-	Xr4KbiLj0ASR9BzdUTJk4usriJbRo2+zbo0AQ3Ju9w3kpUVZgtBw63KF6hg/6wQSRD/It1/Pi7Q
-	cVF0DxJbbvndyz/JjYgQ1x011WMjvkeBB+QocERxVBCzeol26COyOs3kizp8Xs=
-X-Google-Smtp-Source: AGHT+IGFq8+m5EUm1S0rfkHGcGMkfEEEniNyZUS3jih3A0xj2nWF9JKKfX2BM83QEzN490MbMoUDvrGaR7EKS8gi/HA=
-X-Received: by 2002:a05:622a:6081:b0:4b7:9e3a:3804 with SMTP id
- d75a77b69052e-4e882f377e0mr272151cf.16.1760468641464; Tue, 14 Oct 2025
- 12:04:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760469120; x=1761073920;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HetZVCC/q2AyiLAEyoUW1UONBOG5swbtHLMRVYpsp5s=;
+        b=uoDXMXxnz9SOw4tHDW+S95lKU4c/SoN8Oalu4SB4hlhpwEPF6C1YNguN/gRVuyJKBZ
+         xT25yB6emH8eKPoV3j4TWX2yW6peTQ8ZRxSu0hch39KFMLe35aNvaLVmeTg3ZcfsE00p
+         j7e40JAG3CCZD0by7BC6vVsEXBek+6fhzBHWB5gUaJv8yh0I8BZx2EHabcjg4M/VxhBA
+         yxGb6sUN/aE0WzlPh4fOCXzIXSJdluAq6A2t4LbhEJpYBgcJDqOtlxHCMG0tJ7FAEmAG
+         GFJzvmYH2cJ3E/Y+f9PT3jx1hME2TbLm5yul8BqsB+8KlEd0r0ljZEMgNf/unCQdKzPC
+         ZlhA==
+X-Gm-Message-State: AOJu0YyQeL7YzebD2CbdQi6pksRBNEMCjojxjSoKk5DPT/Y+dI7Tb5YR
+	wD0+YHcey+C7N+b0gYCkH2ym7J0r1Kly2kTCKNcAUzPH9/1uGNNjCfmEv4mTZl1LDcD6mQ==
+X-Google-Smtp-Source: AGHT+IGqxn8ztfvetOUDjhKisKtCGCDVJ4GZc/Y5aNTZgsAPMD/o+pkKchgR04YWi9BC/7CxTDwJF9c=
+X-Received: from pga19.prod.google.com ([2002:a05:6a02:4f93:b0:b55:1aa:d75c])
+ (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6300:218d:b0:32a:ce3e:fb9b
+ with SMTP id adf61e73a8af0-32da84649eemr35608986637.59.1760469119535; Tue, 14
+ Oct 2025 12:11:59 -0700 (PDT)
+Date: Tue, 14 Oct 2025 19:11:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251010210134.2066321-2-xur@google.com> <aOsO5gO+5/OkZXVn@rli9-mobl>
-In-Reply-To: <aOsO5gO+5/OkZXVn@rli9-mobl>
-From: Rong Xu <xur@google.com>
-Date: Tue, 14 Oct 2025 12:03:49 -0700
-X-Gm-Features: AS18NWAPmte4S6P8LMDWE8am8OtuITHNTNfP7cWAg9SzB0qhAN67sAjUYloyCJA
-Message-ID: <CAF1bQ=QQQLp=m677dYGDwor=cbHR1JDeQuL92+MrZkQ-OQ_J3A@mail.gmail.com>
-Subject: Re: [PATCH 2/4] kbuild: Disable AutoFDO and Propeller flags for
- kernel modules
-To: kernel test robot <lkp@intel.com>
-Cc: Alexey Gladkov <legion@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.788.g6d19910ace-goog
+Message-ID: <20251014191156.3836703-1-xur@google.com>
+Subject: [PATCH v2 0/4] kbuild: Fixes for AutoFDO and Propeller builds
+From: xur@google.com
+To: Alexey Gladkov <legion@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
 	Ard Biesheuvel <ardb@kernel.org>, Bill Wendling <morbo@google.com>, Han Shen <shenhan@google.com>, 
 	Ingo Molnar <mingo@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
 	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
@@ -92,63 +80,38 @@ Cc: Alexey Gladkov <legion@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
 	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
 	Peter Zijlstra <peterz@infradead.org>, Tamir Duberstein <tamird@gmail.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Yabin Cui <yabinc@google.com>, Sriraman Tallam <tmsriram@google.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	Thomas Gleixner <tglx@linutronix.de>, 
+	"=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?=" <thomas.weissschuh@linutronix.de>, Yabin Cui <yabinc@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Rong Xu <xur@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-I'll filter -pie from vmlinux_o build (which produces a relocatable
-object) in the new patch.
+From: Rong Xu <xur@google.com>
 
-Thanks,
+ChangeLog:
+  V2: filter-out -pie in scripts/Makefile.vmlinux_o
+      This fixed the failure reported by kernel test robot.
+      https://lore.kernel.org/r/202510120709.Wx3q4Ppg-lkp@intel.com/
 
--Rong
+Rong Xu (4):
+  kbuild: Fix Propeller flags
+  kbuild: Disable AutoFDO and Propeller flags for kernel modules
+  kbuild: Remove MFS flags from Propeller profile generate builds
+  kbuild: Add config to assert profile accuracy for aggressive
+    optimization
 
-On Sat, Oct 11, 2025 at 7:14=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on kees/for-next/kspp]
-> [also build test ERROR on linus/master kees/for-next/pstore v6.17 next-20=
-251010]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kbu=
-ild-Disable-AutoFDO-and-Propeller-flags-for-kernel-modules/20251011-050345
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git fo=
-r-next/kspp
-> patch link:    https://lore.kernel.org/r/20251010210134.2066321-2-xur%40g=
-oogle.com
-> patch subject: [PATCH 2/4] kbuild: Disable AutoFDO and Propeller flags fo=
-r kernel modules
-> :::::: branch date: 26 hours ago
-> :::::: commit date: 26 hours ago
-> config: loongarch-defconfig (https://download.01.org/0day-ci/archive/2025=
-1012/202510120709.Wx3q4Ppg-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd70=
-8029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251012/202510120709.Wx3q4Ppg-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202510120709.Wx3q4Ppg-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: -r and -pie may not be used together
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+ Makefile                   |  9 +++++----
+ arch/Kconfig               | 11 +++++++++++
+ scripts/Makefile.autofdo   | 12 +++++++++---
+ scripts/Makefile.lib       |  9 ++++++---
+ scripts/Makefile.propeller | 20 ++++++++++++++++----
+ scripts/Makefile.vmlinux_o |  3 ++-
+ 6 files changed, 49 insertions(+), 15 deletions(-)
+
+
+base-commit: 9b332cece987ee1790b2ed4c989e28162fa47860
+-- 
+2.51.0.788.g6d19910ace-goog
+
 
