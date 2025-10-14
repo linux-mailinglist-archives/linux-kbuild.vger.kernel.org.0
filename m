@@ -1,189 +1,82 @@
-Return-Path: <linux-kbuild+bounces-9117-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9118-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F78CBD7F47
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 09:36:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7A3BD8092
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 09:56:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C5C118A3A7E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 07:36:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43D1F3B2BD5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Oct 2025 07:56:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2195A2ECE89;
-	Tue, 14 Oct 2025 07:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319E030EF6F;
+	Tue, 14 Oct 2025 07:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NeETP5mB"
+	dkim=pass (2048-bit key) header.d=commetrax.com header.i=@commetrax.com header.b="kVN1SbHC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mail.commetrax.com (mail.commetrax.com [141.95.18.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7672BF00A;
-	Tue, 14 Oct 2025 07:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89D230EF76
+	for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 07:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.95.18.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760427364; cv=none; b=F016hsHEAQe12eSvtvTbL2TTKiaodVenJ7lAPglAtelxBwIgfFH1lQnBXiNzeO00DCOEeu9dgQFY2tifs/NYGPIjkwnFoCYoId2i8FhN/T+0+kg3j2HW/eBQtbwtuNqF68KEtgVJ4XvjGH/D5pQ+6+xYBcgvVMfeLffnAe6hCg8=
+	t=1760428577; cv=none; b=B3qdRPUc32VY9KoyS5P3JLFKVkeaMBr5NYujlBK6ke7ItiyvEJF8BReB3NxEF6j+7chzmaM1jle1lZcFOuimG1lr9huNLOjniYwplFW0ayYwVMmruNs/u4+MdTKrE8eiCh8egSrXOk/gZlifgYL/X7XMquZvTsSKebWCI1VMki0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760427364; c=relaxed/simple;
-	bh=2284CvY5KmX5EI9TFoaFTarD8eR3jMtTJMBg6GQjNRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XJGJQABz+Td97f456XwXr2PrN4snGeNRJEpF5kiXWiX7Py4qTtEEqvBRBVPLpI3dJZq/CCq3yI3w/yWvnVZtzApyqhGw0DSjzl25nY01+m5U5oSbXKDgSCGj+nNcKaz1bIvumVkt6/bIyPFe848iwSssq3zR5M2FGxTMwsPi14k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NeETP5mB; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760427362; x=1791963362;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2284CvY5KmX5EI9TFoaFTarD8eR3jMtTJMBg6GQjNRU=;
-  b=NeETP5mBo5TBVX8A2D1tqSu8bWV8LrJXJLMLl7rZ6tx563C2NLy6rObi
-   8MEorqkaUXb/y1VdbyEDwZPkDDl2bC10hXfqwcPPgD4tQlLbzHx8nZ1Er
-   mtwNC6IExHoAumaQIYe/XHUrPp9rp63bhbPikqpuBSea971Dzh11/F3dG
-   bCxuSiTEF0NaD1kr4Ot8dygByRmtZAjt97wrjrbW05fObZiGZuy6VxMaC
-   nrmjXqEIQCBb+GARrTQCFWdPnC7aoSSnjs2vX69SaWNvJ5b/kWqWJAQ2y
-   0x+eZXu7CcRpno+xK+MPrmVuPswaMuQoQp1ckQxALP6itU228qn+X0B76
-   A==;
-X-CSE-ConnectionGUID: CqGbbvIHQ2ik6kFTQ94w+A==
-X-CSE-MsgGUID: 5Q0DaljVRxCmMznHi+4lAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11581"; a="62676435"
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="62676435"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 00:36:01 -0700
-X-CSE-ConnectionGUID: gTATWPGlTfSS0LfoG70TaA==
-X-CSE-MsgGUID: mhAv5gGKRSmK6SgdH2mMkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,227,1754982000"; 
-   d="scan'208";a="205508506"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2025 00:35:58 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v8ZZT-0002Vz-2H;
-	Tue, 14 Oct 2025 07:35:49 +0000
-Date: Tue, 14 Oct 2025 15:34:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
-	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
-	gprocida@google.com
-Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
-Message-ID: <202510141538.VZqnRzHh-lkp@intel.com>
-References: <20251013153918.2206045-11-sidnayyar@google.com>
+	s=arc-20240116; t=1760428577; c=relaxed/simple;
+	bh=M2z+nFeXqIRcbI6rcgrOtIQjqLLid9ZQ1XheJsIeFLM=;
+	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=LLQ8WiwdKkQhCU7zlLf8o58SeEgmGLyNJgHQwOAqCXqDovAHr8Xc+zJg7ydJfE6bMYlsLTAdjUEsM4Fie8Phh/p6Nsn+pP6zYwkq3MxRIPDLRfXVYcwSTqbEzFBmBNc3pCbtAw/o5+d5oWwjQ4ernlmDLxhxCXFloRS/pyJO0go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=commetrax.com; spf=pass smtp.mailfrom=commetrax.com; dkim=pass (2048-bit key) header.d=commetrax.com header.i=@commetrax.com header.b=kVN1SbHC; arc=none smtp.client-ip=141.95.18.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=commetrax.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=commetrax.com
+Received: by mail.commetrax.com (Postfix, from userid 1002)
+	id 6EE4C24174; Tue, 14 Oct 2025 09:56:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=commetrax.com;
+	s=mail; t=1760428572;
+	bh=M2z+nFeXqIRcbI6rcgrOtIQjqLLid9ZQ1XheJsIeFLM=;
+	h=Date:From:To:Subject:From;
+	b=kVN1SbHCgWBuj+jLAKNIvXFOjNOb5Uaivv+qREI1laDydCA3CDbE5ABELh9IoQfOB
+	 5Ua/yyFisIbn6ymYEAAc10aDdsYm7zcNPhO+GrBEkYRIEZbbJPL4h257yMyRqDhVva
+	 2cPR2ZHMlnw3sZzn2Y7ULM+h3a27jZkMJ5nSOjy2DJ3deFpYIJcLbP7OKq1CJzbAvM
+	 HxKvvy2J1xwwnocYfeHSJTScIUdcbkGnoghZOzAAFe+LPhMLl5woV9GQ17iAUJLHEo
+	 zw4vVPlwYzBLKj9F12YbtInPwgBQjjtyjezckB0zjLb+tM4jscN+wKKxOT6RXMluxF
+	 IhTX9cLWFwfNg==
+Received: by mail.commetrax.com for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 07:55:46 GMT
+Message-ID: <20251014084500-0.1.c9.16n8w.0.uw3hhyg38x@commetrax.com>
+Date: Tue, 14 Oct 2025 07:55:46 GMT
+From: "Luke Walsh" <luke.walsh@commetrax.com>
+To: <linux-kbuild@vger.kernel.org>
+Subject: Welders ready to work
+X-Mailer: mail.commetrax.com
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Siddharth,
+Hello,
 
-kernel test robot noticed the following build errors:
+we support companies in carrying out industrial projects by providing wel=
+ding and assembly of steel structures =E2=80=93 both on-site and in-house=
+=2E
 
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on soc/for-next linus/master v6.18-rc1 next-20251013]
-[cannot apply to mcgrof/modules-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In practice, this means we enter with a ready team of welders and fitters=
+, take responsibility for preparing the components, their installation an=
+d quality control.=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251014-005305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
-patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251014/202510141538.VZqnRzHh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251014/202510141538.VZqnRzHh-lkp@intel.com/reproduce)
+The client receives a complete, safe and timely delivered structure.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510141538.VZqnRzHh-lkp@intel.com/
+If you have projects that require steel solutions, we would be happy to t=
+alk about how we can take over this part of the work and relieve your tea=
+m.
 
-All errors (new ones prefixed by >>):
-
->> kernel/module/main.c:1271:32: error: no member named 'sig_ok' in 'struct module'
-    1271 |         if (fsa.is_protected && !mod->sig_ok) {
-         |                                  ~~~  ^
-   1 error generated.
+Would you be open to a short conversation?
 
 
-vim +1271 kernel/module/main.c
-
-  1228	
-  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
-  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
-  1231							  const struct load_info *info,
-  1232							  const char *name,
-  1233							  char ownername[])
-  1234	{
-  1235		struct find_symbol_arg fsa = {
-  1236			.name	= name,
-  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
-  1238			.warn	= true,
-  1239		};
-  1240		int err;
-  1241	
-  1242		/*
-  1243		 * The module_mutex should not be a heavily contended lock;
-  1244		 * if we get the occasional sleep here, we'll go an extra iteration
-  1245		 * in the wait_event_interruptible(), which is harmless.
-  1246		 */
-  1247		sched_annotate_sleep();
-  1248		mutex_lock(&module_mutex);
-  1249		if (!find_symbol(&fsa))
-  1250			goto unlock;
-  1251	
-  1252		if (fsa.license == GPL_ONLY)
-  1253			mod->using_gplonly_symbols = true;
-  1254	
-  1255		if (!inherit_taint(mod, fsa.owner, name)) {
-  1256			fsa.sym = NULL;
-  1257			goto getname;
-  1258		}
-  1259	
-  1260		if (!check_version(info, name, mod, fsa.crc)) {
-  1261			fsa.sym = ERR_PTR(-EINVAL);
-  1262			goto getname;
-  1263		}
-  1264	
-  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
-  1266		if (err) {
-  1267			fsa.sym = ERR_PTR(err);
-  1268			goto getname;
-  1269		}
-  1270	
-> 1271		if (fsa.is_protected && !mod->sig_ok) {
-  1272			pr_warn("%s: Cannot use protected symbol %s\n",
-  1273				mod->name, name);
-  1274			fsa.sym = ERR_PTR(-EACCES);
-  1275			goto getname;
-  1276		}
-  1277	
-  1278		err = ref_module(mod, fsa.owner);
-  1279		if (err) {
-  1280			fsa.sym = ERR_PTR(err);
-  1281			goto getname;
-  1282		}
-  1283	
-  1284	getname:
-  1285		/* We must make copy under the lock if we failed to get ref. */
-  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
-  1287	unlock:
-  1288		mutex_unlock(&module_mutex);
-  1289		return fsa.sym;
-  1290	}
-  1291	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+Luke Walsh
 
