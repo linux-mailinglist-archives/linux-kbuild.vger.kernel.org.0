@@ -1,56 +1,55 @@
-Return-Path: <linux-kbuild+bounces-9176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BE0BDFCE6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 19:05:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD0CBDFDC3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 19:30:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EAFBC3ACA72
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 17:05:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B5711A229CA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 17:30:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20FC027E076;
-	Wed, 15 Oct 2025 17:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84B5C33CEBF;
+	Wed, 15 Oct 2025 17:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgGcDNdX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jI4v02vF"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79BD1B532F;
-	Wed, 15 Oct 2025 17:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFDC33CEB9;
+	Wed, 15 Oct 2025 17:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760547953; cv=none; b=jku42gcWli5/moHiyFvCUHGWcjOSiyrUbv9DyXx3tJVp5i2yZBTMlRCRag40o18NO3eVinvoxHSKA0kZ5WB8/ppmhZMOdWbm5uXtGq2avKB4iOAawX1YvgRlhclNBJgMsp8hQi2IGYMsAAhav8oVeAhEHkT1mKR270qctmK74WI=
+	t=1760549351; cv=none; b=cOVaqIlD0Joq75N4fwzoBxVk20W/HMrQW4rBqhjNESoVUBnWAmYZGADkwryCoWsf0U1uU0uV/RQkobh2bwZRAMuqFdbc2Jvys/4+2aCROfWnRjxrffshSfdK2kZCZnjy1bQghWICIkos/f9MgfspbWcozvnQ6jxKmJVjkLuw498=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760547953; c=relaxed/simple;
-	bh=byrDP4KW/mDr13JuOP6Ir4nB0N+mfEkhXYkP2pV0vRc=;
+	s=arc-20240116; t=1760549351; c=relaxed/simple;
+	bh=SpeBYhbxHCk163KaUkm/ZEz17U9C1brxzNHZXCH8osY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OUC3PS9G9tpkFn8iruFAzOdSAfFTo75nrzP3Kov8ElJJy3V5LZwKdjNfz+yvlh6uUmtUoHk2VxgoTMtxqxvyGLkjLAsqwDKLP8eS56jhT0wau7/gT/2C/ypijwe40xW55Xvf0L7aKrN3lgLt8Hi2H9SRr0tQvEoLChOEMEUMLyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgGcDNdX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D13DCC4CEF8;
-	Wed, 15 Oct 2025 17:05:48 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mUXrDq5CXON1UTFX9xDdgzIazJ7vk00lI1gpX7HMpD78EuBZzn8X7JWRzP4cA185EgTascE/CslEvW7gJGwQuAh4Q1L0sC5FRiXhxUKSsxM3y6rNSfsVw8y2q94cReMiWrEGOR3dbxKejAP5ZprLn23UGL4+5izRGlSY3CDvGL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jI4v02vF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A98BC4CEF8;
+	Wed, 15 Oct 2025 17:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760547952;
-	bh=byrDP4KW/mDr13JuOP6Ir4nB0N+mfEkhXYkP2pV0vRc=;
+	s=k20201202; t=1760549351;
+	bh=SpeBYhbxHCk163KaUkm/ZEz17U9C1brxzNHZXCH8osY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mgGcDNdXj+ee10Y0Qv9A9yUmdDn+R03T7rhD7//BQucSy4vwL1k7kJP10N3H85ZFp
-	 Oeu2HFFrc742az2CuBKScmN/b4lubQxEystZ0GFEc0fLpUoYiuruF3D8/G2PheW8Yf
-	 xYyHXmtpYG8TvwvJPMPne99mqKjfSzrZbHR/foPGvu9nOrB1m/Yo61iEkHkWKhl2Vd
-	 S9gjx+vwVoFkLmsRnY+rpoWn91yOZJsHOwwfU6eqUYSOUzHK2Bk48z6c8M5VDARTAt
-	 Pvj911o3HEGoG7nAZxKasUmXc+n4j1RVaTe614nWalgy2AyRBLebduwOgjcmSljEvN
-	 /MjPGb/4Ysoew==
-Date: Wed, 15 Oct 2025 19:05:43 +0200
-From: Alexey Gladkov <legion@kernel.org>
+	b=jI4v02vFvJPi/v5kjOhzuQBLbsh4KfUZHKpZEI7YBssQyPQVsyGZ/spxjdEs/74QC
+	 4fLCeOleRYhOrB4EqK9LYDrpf0lOjvMZsuipLGIL3Nu79DeUHY2Tut/zQrPc1UlCvS
+	 ktj7vOvARIq0rBfyfHNUwBfJl6d9GwNEP4qr7Y5gXNn6q+cvxnRr7bx6gxPXOt3PnW
+	 nPv6gRT97SIA+YNC3h6W3+wXPRM8ARhb48YPvlCKJ+XkkCBE2fLIusZIOW/GVg6kJ2
+	 u8cnuJYhLFWPdB9vVAKG75/rIzmKpq7pul3NIOQW66wfAXMtdnTMxJN49HglBcAkYh
+	 sXg/94uj1Pxxw==
+Date: Wed, 15 Oct 2025 10:29:06 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Daniel Golle <daniel@makrotopia.org>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, John Crispin <john@phrozen.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	Alexey Gladkov <legion@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [BUG] kbuild: modules.builtin is empty on architectures without
  CONFIG_ARCH_VMLINUX_NEEDS_RELOCS
-Message-ID: <aO_UZ6M_J9YMVuMI@example.org>
+Message-ID: <20251015172906.GA1630960@ax162>
 References: <aO-kDdBybaHSn62G@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -62,9 +61,11 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <aO-kDdBybaHSn62G@makrotopia.org>
 
+Hi Daniel,
+
+Thanks for the report!
+
 On Wed, Oct 15, 2025 at 02:39:25PM +0100, Daniel Golle wrote:
-> Hi,
-> 
 > While build todays net-next tree on a Lantiq-based board I use for
 > testing I run into a weird problem which gave me some headaches. It
 > turns there is a regression introduced in commit 39cfd5b12160 ("kbuild:
@@ -93,68 +94,7 @@ On Wed, Oct 15, 2025 at 02:39:25PM +0100, Daniel Golle wrote:
 >   - vmlinux.o: contains .modinfo section (verified with readelf)
 >   - vmlinux.unstripped: .modinfo section is MISSING (verified with
 >     readelf)
-> 
-> This breaks any build tooling that depends on modules.builtin to
-> determine which drivers are built into the kernel image, such as
-> OpenWrt's build system.
-> 
-> ROOT CAUSE ANALYSIS:
-> ====================
-> Commit 39cfd5b12160 moved the extraction of modules.builtin.modinfo from
-> vmlinux.o to vmlinux.unstripped. The commit message states:
-> 
->   "Currently, we assume all the data for modules.builtin.modinfo are
->    available in vmlinux.o."
-> 
-> However, this change makes a NEW assumption that was not explicitly
-> documented or validated: it assumes that the .modinfo section will be
-> present in vmlinux.unstripped.
-> 
-> The problem occurs during the linking phase
-> (vmlinux.o -> vmlinux.unstripped):
-> 
-> 1. The .modinfo section is defined in include/asm-generic/vmlinux.lds.h
->    as part of ELF_DETAILS:
-> 
-> 	.modinfo : { *(.modinfo) }
-> 
->    This places it at address 0 (non-allocatable, similar to .comment,
->    .symtab, etc.)
-> 
-> 2. When CONFIG_ARCH_VMLINUX_NEEDS_RELOCS is NOT set, the Makefile does NOT
->    add "--discard-none" to LDFLAGS_vmlinux (see Makefile line 1133-1135):
-> 
-> 	ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
-> 	LDFLAGS_vmlinux += --emit-relocs --discard-none
-> 	endif
-> 
-> 3. Without "--discard-none", the GNU linker (ld) applies its default
->    behavior: it discards unreferenced sections with address 0 that are
->    not marked as allocatable.
-> 
-> 4. The .modinfo section is unreferenced from the linker's perspective
->    (no code/data references it directly), so it gets discarded.
-> 
-> 5. In scripts/Makefile.vmlinux line 107, objcopy attempts to extract
->    .modinfo from vmlinux.unstripped:
-> 
-> 	modules.builtin.modinfo: vmlinux.unstripped FORCE
-> 	    $(call if_changed,objcopy)
-> 
->    But since .modinfo was discarded, objcopy produces an empty file.
-> 
-> 6. Subsequently, modules.builtin (which depends on
->    modules.builtin.modinfo) is also empty.
-> 
-> WHY THE PREVIOUS CODE WORKED:
-> ==============================
-> Before commit 39cfd5b12160, modules.builtin.modinfo was extracted from
-> vmlinux.o (in scripts/Makefile.vmlinux_o). The .modinfo section was
-> reliably present in vmlinux.o because:
->   - vmlinux.o is the direct output of object file linking
->   - No section stripping occurs at this stage
->   - The section contains actual data (module metadata from __MODULE_INFO)
-> 
+...
 > REPRODUCTION:
 > =============
 > 1. Configure a kernel for MIPS (or any other architecture without
@@ -164,50 +104,38 @@ On Wed, Oct 15, 2025 at 02:39:25PM +0100, Daniel Golle wrote:
 > 4. Observe: ls -lh modules.builtin modules.builtin.modinfo
 >    Both files will be 0 bytes
 
-Hm. At least on arm64, it doesn't reproduce with these parameters.
+I cannot reproduce this with a simple defconfig build for either mips or
+arm64 using GCC 15.2.0 / binutils 2.45 from kernel.org [1]:
 
-$ grep -w -e CONFIG_MODULES -e CONFIG_ARCH_VMLINUX_NEEDS_RELOCS .config
-CONFIG_MODULES=y
+  $ git show -s --pretty=kernel
+  5a6f65d15025 ("Merge tag 'bitmap-for-v6.18-rc2' of https://github.com/norov/linux")
 
-$ ARCH=arm64 CROSS_COMPILE=aarch64-unknown-linux-gnu- make
-/tmp/linux/Makefile:1133: CONFIG_ARCH_VMLINUX_NEEDS_RELOCS=""
-  CALL    scripts/checksyscalls.sh
-  OBJCOPY modules.builtin.modinfo
-  GEN     modules.builtin
+  $ make -skj"$(nproc)" ARCH=mips CROSS_COMPILE=mips-linux- clean defconfig all
+  ...
 
-$ ls -lh modules.builtin modules.builtin.modinfo 
--rw-r--r-- 1 legion legion 1.1K Oct 15 18:59 modules.builtin
--rw-r--r-- 1 legion legion  14K Oct 15 18:59 modules.builtin.modinfo
+  $ scripts/config -s MODULES -s ARCH_VMLINUX_NEEDS_RELOCS
+  y
+  undef
 
-I'll try to reproduce it on mips.
+  $ ls -hl modules.builtin{,.modinfo}
+  -rw-r--r-- 1 nathan nathan 8.7K Oct 15 10:19 modules.builtin
+  -rwxr-xr-x 1 nathan nathan 146K Oct 15 10:19 modules.builtin.modinfo
 
-> VERIFICATION:
-> =============
-> You can verify the .modinfo section presence:
-> 
->   $ readelf -S vmlinux.o | grep modinfo
->   [51265] .modinfo          PROGBITS        00000000 919448 00803e 00   A  0   0  1
-> 
->   $ readelf -S vmlinux.unstripped | grep modinfo
->   (no output - section is missing)
-> 
-> IMPACT:
-> =======
-> This is a build system regression that breaks kernel builds for downstream 
-> projects (like OpenWrt) that rely on modules.builtin. Since the file is 
-> silently empty rather than causing a build failure, it can lead to incorrect 
-> packaging and deployment decisions.
-> 
-> The regression is present in v6.18-rc1 and later kernels.
-> 
-> I'm happy to test any proposed patches. Please let me know if you need 
-> additional information or testing.
-> 
-> Best regards,
-> Daniel Golle
-> 
+  $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- clean virtconfig all
 
--- 
-Rgrds, legion
+  $ scripts/config -s MODULES -s ARCH_VMLINUX_NEEDS_RELOCS
+  y
+  undef
 
+  $ ls -hl modules.builtin{,.modinfo}
+  -rw-r--r-- 1 nathan nathan  18K Oct 15 10:23 modules.builtin
+  -rw-r--r-- 1 nathan nathan 284K Oct 15 10:23 modules.builtin.modinfo
+
+What version of GCC and binutils are you using? Your configuration may
+be helpful for reproducing as well.
+
+[1]: https://kernel.org/pub/tools/crosstool/
+
+Cheers,
+Nathan
 
