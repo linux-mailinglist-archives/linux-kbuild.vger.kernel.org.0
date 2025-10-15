@@ -1,182 +1,138 @@
-Return-Path: <linux-kbuild+bounces-9174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF03BDEDD1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 15:56:13 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1322DBDFAE2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 18:35:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76C3F3AC9E4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 13:56:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E41784E987F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 16:35:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C831121323C;
-	Wed, 15 Oct 2025 13:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337D32D593B;
+	Wed, 15 Oct 2025 16:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZqwX5w3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B5D1DFDE;
-	Wed, 15 Oct 2025 13:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0F933769D
+	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 16:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760536570; cv=none; b=avpP8ZXLZ9l03YuGoLs/3Y+DeDdiFrumGZipQ8oxSlohXRhYhjei+2yJ9Gktw251+g8qef3TTbPRK8RLGGF4mjX/hvfgz21M2qtj5plOxWg+d34HWsENO5ipkfLRsuRjlb/EU6lPEVch4tszl+m4MAb0vjdcoTQ8TVr3g+ej8IE=
+	t=1760546118; cv=none; b=t7ImUH8XBSaRxSBCUuAz1yAV8Fa6rXJG5Zd4TsKefCQEM1a0OdrWD1T3sKgRBPrfEP6CMQ/6jg6PWu9ekFoJHur6/9EEXA6fEe1zuDtariKI2OM9psGOQjxvlsE5a5aBxFOrL/JtqeYG28yxbwKMwZXp2SBCTrh2PEy+GoAfI+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760536570; c=relaxed/simple;
-	bh=6i31HR1v/IWR6Cv6X6HmC/6c67PGJzoIiH70ew790aY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QmRbhgF4wi+TmdP12OislzeOFro4xUdltM7VbZzR4uRHtMmdM2n8vEdFxDTOi6OiKTXLIsmCkQE8kEZFeZKrZ9TagzoB7ZK4fF4XiLUqDicFE2kk4W+hQIuTgzQH5wSYeSd3L6etvqqi+l8JP1/vxTNSc6RhhtivODFbiR6dmt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	 (Exim 4.98.2)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1v91j2-000000003yq-08aR;
-	Wed, 15 Oct 2025 13:39:32 +0000
-Date: Wed, 15 Oct 2025 14:39:25 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: John Crispin <john@phrozen.org>, Alexey Gladkov <legion@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [BUG] kbuild: modules.builtin is empty on architectures without
- CONFIG_ARCH_VMLINUX_NEEDS_RELOCS
-Message-ID: <aO-kDdBybaHSn62G@makrotopia.org>
+	s=arc-20240116; t=1760546118; c=relaxed/simple;
+	bh=+F9lX8BxrHM09zh4THFUGQfBA0gUrRnxZiBHFNJDoZs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aVs3yiPFOZaPp85PsDxEQBOnylam4j0d8ejhLcyAVv/5R+ku+VKcs96LmFMVGqpn0gqpoOvjnUQkW1gr3PL8jrU/Ked6OQ5VFZpanfrrgB3r7QXM7wEUVX02C/UiybXFiLJ1K74opszB3lrNKWRdk2N4JjVXCS2KRzaoZMiLSbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZqwX5w3; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-62fc89cd68bso9010523a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 09:35:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760546114; x=1761150914; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bndtYUqfGIZpaVzkFCgkIe4QUYyWwzarc5JiifW+vfI=;
+        b=CZqwX5w3uHcdGp6eJBbp0z+TB7KEAEkH0+W7OO+c7NO0ZjF5/gvUsf+IG5kyL95CzU
+         wPeZaIeOc8k/DPXXReThu8sYqWUMQgnw6V9Vbg/IzkkIl1+NjcDNmz+apXDiL+fkSnHX
+         0bk97tYHhJqNjS3zzW9eOv00gEc/zqOOOOyE9UqqsP3TlsPk4FXJyH/TqLwIVeYR93KZ
+         kTWlGoqInXBUcy/lgvEQDczJPi6JM4PLq6IHVWvIAlfrurKPlpMWr4iQZ/hKy5Osd9SK
+         uSuPot/oDTWNfPHlBo007kLFtsRkUSvucC7AAdeaUYbAxStCDNh8vtdSjrNSm5UXe0B2
+         b3EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760546114; x=1761150914;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bndtYUqfGIZpaVzkFCgkIe4QUYyWwzarc5JiifW+vfI=;
+        b=wJC0FuleBON98010azATRFbCm67Zb9wvO1fGZv9buVg2kAlzGnz+yIICyotZteVlIZ
+         Bdi2bqTSULztQvY9rMYC5a9s5eenQP8qrPydbBKxhTN210KqwIBFQTnctmBhTJIozzm2
+         9EnJpTftbGCH8lHyTSt/YqCLAqVmHaXs1+sL4nDJq+6VNziQRaQSD13rlhqWvGxf5hm7
+         5pOPV80ySPU36i0QgRC8ppCbARnFAFpTux0pw9pr9Eyq/EFRduwS1l8OQiiTMr0/N294
+         gEofbf4H7DTnyiy7mKiim20ezdW4bGwFN5dAmV+/GJzpQ8nWPEj8cRYspqK6gPEhXfiQ
+         ouoA==
+X-Gm-Message-State: AOJu0Yz5XcjrKSAkNlQXK7Fn33mmS4jT+ku9DSKrwmCGRg6mslPGwDyY
+	8THQeTH9hBSkzZCSKpeLR/lXxjeC717u7z+7YXpVJj93kiTZvFMKLwMt
+X-Gm-Gg: ASbGnct57DKqS5w1gMZqC0xz6r/mnZOX40p3n5w7l4JHpaAa++D0iASvYRl9bUHhZLN
+	qyLiIXu7hJFGUN9JlLlLeDMMF3wFrhNAtAvSeBMeChUqwpqPDAqVarhD3Fw3kEReg4vUV5V/T9W
+	/PXPY0Vu/G47mc+onzkctBvYrhOBdkfecJG53RyF/EpvR/57ht54Fpf+m3uo3Zv/O4k5ivTjeyU
+	RdUwlVYD0eZMLIK4ned2jjMozP5mOSNnQ7wx403Tsw6QDIUBeAjPvS7D5NSQ5lDFHJTwEkKTIIF
+	CybYqAYckBAJ/g8PXkTZ1U29AQgYPgNzQVyIGmHrvDwPan/NIdjo8yjYSFza61qJRCQ/IWvvFJZ
+	5oxH08xF/qabbtcgqV6w8vGnh+uOgwzGlvtwlTsMnRaPVQn2Vr5ULKktMWw==
+X-Google-Smtp-Source: AGHT+IHLZWkUlyawqyiGfLz/qEWiPSOIz5Y4RNXz5EPwgCvjjbkARO4juP6RcyZkWDgaTU50o9F0PA==
+X-Received: by 2002:a17:906:c105:b0:b3e:907c:9e26 with SMTP id a640c23a62f3a-b50ac5cfaf7mr3098522666b.59.1760546113373;
+        Wed, 15 Oct 2025 09:35:13 -0700 (PDT)
+Received: from build-server.. ([62.96.37.222])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b5cba06c187sm263576266b.31.2025.10.15.09.35.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 09:35:12 -0700 (PDT)
+From: mike.malyshev@gmail.com
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mikhail Malyshev <mike.malyshev@gmail.com>
+Subject: [PATCH] kbuild: Use objtree for module signing key path
+Date: Wed, 15 Oct 2025 16:34:52 +0000
+Message-ID: <20251015163452.3754286-1-mike.malyshev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Mikhail Malyshev <mike.malyshev@gmail.com>
 
-While build todays net-next tree on a Lantiq-based board I use for
-testing I run into a weird problem which gave me some headaches. It
-turns there is a regression introduced in commit 39cfd5b12160 ("kbuild:
-extract modules.builtin.modinfo from vmlinux.unstripped") which causes
-both modules.builtin and modules.builtin.modinfo to be empty files on
-certain architectures.
+When building out-of-tree modules with CONFIG_MODULE_SIG_FORCE=y,
+module signing fails because the private key path uses $(srctree)
+while the public key path uses $(objtree). Since signing keys are
+generated in the build directory during kernel compilation, both
+paths should use $(objtree) for consistency.
 
-AFFECTED SCOPE:
-===============
-This bug affects all architectures where:
-  1. CONFIG_ARCH_VMLINUX_NEEDS_RELOCS is NOT set, AND
-  2. The architecture uses the standard ELF_DETAILS macro in its linker
-     script (which places .modinfo at address 0 as a non-allocatable
-     section)
+This causes SSL errors like:
+  SSL error:02001002:system library:fopen:No such file or directory
+  sign-file: /kernel-src/certs/signing_key.pem
 
-This includes at least MIPS (32-bit and 64-bit) and likely several other
-architectures. The issue does NOT affect architectures with
-CONFIG_ARCH_VMLINUX_NEEDS_RELOCS=y (e.g., x86 with certain
-configurations, parisc, s390).
+The issue occurs because:
+- sig-key uses: $(srctree)/certs/signing_key.pem (source tree)
+- cmd_sign uses: $(objtree)/certs/signing_key.x509 (build tree)
 
-OBSERVED BEHAVIOR:
-==================
-After a successful kernel build with the affected configuration:
-  - modules.builtin: 0 bytes (empty)
-  - modules.builtin.modinfo: 0 bytes (empty)
-  - vmlinux.o: contains .modinfo section (verified with readelf)
-  - vmlinux.unstripped: .modinfo section is MISSING (verified with
-    readelf)
+But both keys are generated in $(objtree) during the build.
 
-This breaks any build tooling that depends on modules.builtin to
-determine which drivers are built into the kernel image, such as
-OpenWrt's build system.
+This complements commit 25ff08aa43e37 ("kbuild: Fix signing issue for
+external modules") which fixed the scripts path and public key path,
+but missed the private key path inconsistency.
 
-ROOT CAUSE ANALYSIS:
-====================
-Commit 39cfd5b12160 moved the extraction of modules.builtin.modinfo from
-vmlinux.o to vmlinux.unstripped. The commit message states:
+Fixes out-of-tree module signing for configurations with separate
+source and build directories (e.g., O=/kernel-out).
 
-  "Currently, we assume all the data for modules.builtin.modinfo are
-   available in vmlinux.o."
+Signed-off-by: Mikhail Malyshev <mike.malyshev@gmail.com>
+---
+ scripts/Makefile.modinst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-However, this change makes a NEW assumption that was not explicitly
-documented or validated: it assumes that the .modinfo section will be
-present in vmlinux.unstripped.
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index 1628198f3e830..9ba45e5b32b18 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -100,7 +100,7 @@ endif
+ # Don't stop modules_install even if we can't sign external modules.
+ #
+ ifeq ($(filter pkcs11:%, $(CONFIG_MODULE_SIG_KEY)),)
+-sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CONFIG_MODULE_SIG_KEY)
++sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)$(CONFIG_MODULE_SIG_KEY)
+ else
+ sig-key := $(CONFIG_MODULE_SIG_KEY)
+ endif
+-- 
+2.43.0
 
-The problem occurs during the linking phase
-(vmlinux.o -> vmlinux.unstripped):
-
-1. The .modinfo section is defined in include/asm-generic/vmlinux.lds.h
-   as part of ELF_DETAILS:
-
-	.modinfo : { *(.modinfo) }
-
-   This places it at address 0 (non-allocatable, similar to .comment,
-   .symtab, etc.)
-
-2. When CONFIG_ARCH_VMLINUX_NEEDS_RELOCS is NOT set, the Makefile does NOT
-   add "--discard-none" to LDFLAGS_vmlinux (see Makefile line 1133-1135):
-
-	ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
-	LDFLAGS_vmlinux += --emit-relocs --discard-none
-	endif
-
-3. Without "--discard-none", the GNU linker (ld) applies its default
-   behavior: it discards unreferenced sections with address 0 that are
-   not marked as allocatable.
-
-4. The .modinfo section is unreferenced from the linker's perspective
-   (no code/data references it directly), so it gets discarded.
-
-5. In scripts/Makefile.vmlinux line 107, objcopy attempts to extract
-   .modinfo from vmlinux.unstripped:
-
-	modules.builtin.modinfo: vmlinux.unstripped FORCE
-	    $(call if_changed,objcopy)
-
-   But since .modinfo was discarded, objcopy produces an empty file.
-
-6. Subsequently, modules.builtin (which depends on
-   modules.builtin.modinfo) is also empty.
-
-WHY THE PREVIOUS CODE WORKED:
-==============================
-Before commit 39cfd5b12160, modules.builtin.modinfo was extracted from
-vmlinux.o (in scripts/Makefile.vmlinux_o). The .modinfo section was
-reliably present in vmlinux.o because:
-  - vmlinux.o is the direct output of object file linking
-  - No section stripping occurs at this stage
-  - The section contains actual data (module metadata from __MODULE_INFO)
-
-REPRODUCTION:
-=============
-1. Configure a kernel for MIPS (or any other architecture without
-   CONFIG_ARCH_VMLINUX_NEEDS_RELOCS)
-2. Ensure CONFIG_MODULES=y is set
-3. Build the kernel: make
-4. Observe: ls -lh modules.builtin modules.builtin.modinfo
-   Both files will be 0 bytes
-
-VERIFICATION:
-=============
-You can verify the .modinfo section presence:
-
-  $ readelf -S vmlinux.o | grep modinfo
-  [51265] .modinfo          PROGBITS        00000000 919448 00803e 00   A  0   0  1
-
-  $ readelf -S vmlinux.unstripped | grep modinfo
-  (no output - section is missing)
-
-IMPACT:
-=======
-This is a build system regression that breaks kernel builds for downstream 
-projects (like OpenWrt) that rely on modules.builtin. Since the file is 
-silently empty rather than causing a build failure, it can lead to incorrect 
-packaging and deployment decisions.
-
-The regression is present in v6.18-rc1 and later kernels.
-
-I'm happy to test any proposed patches. Please let me know if you need 
-additional information or testing.
-
-Best regards,
-Daniel Golle
 
