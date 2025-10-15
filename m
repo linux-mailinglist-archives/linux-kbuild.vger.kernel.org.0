@@ -1,159 +1,229 @@
-Return-Path: <linux-kbuild+bounces-9156-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9157-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674F9BDCA07
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 07:42:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFEFBDCAD7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 08:18:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA68919A3B93
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 05:43:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 677383C89F0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 06:18:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8698B303A18;
-	Wed, 15 Oct 2025 05:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zwqSTQ7V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vq/uPXeR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tzHnOkzR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QB1gX0xP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A94823ABA8;
+	Wed, 15 Oct 2025 06:18:32 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C922FDC5D
-	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 05:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768CA2F5A33;
+	Wed, 15 Oct 2025 06:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760506964; cv=none; b=iRNbsymtCj9E1NaNpcUwHveXn5xwGJYVUw1C9R073EECg/RBl+qwlW2/JH7muIn9gtaM5lY3T09TbEZfsbJCf8RMxzBwh1WZrGhp6s8nG1YE0kR8l2DCX840lbrEE7s6X18rmSH5HmUxGDLFjS5TLNbHVbMzkIiETn/ad87TGkA=
+	t=1760509111; cv=none; b=XMevrThKdAA48sYThFbH9XkdSGCEBKJDevgYpYMcACVsCARakNAtC6n4tWwRdBolXsUVkt5FivpnZ60d+hYnXkdq330Laf433w8yk61Q9r8sOsecHFg/SkMd1H7cHgsrS9dsDNJxG5VfeDoamRQKNimgSNCai6mDBs/M8Mx1vT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760506964; c=relaxed/simple;
-	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kZ/IGwdXBoPR5hSzxkyDsFNUA2g3VG/83MlSHlzoX9+/849hdOK4LuipgCv5pNQWqLghKGIOsAQAkUYkla1gftWJ1xA/MV0r+3UyNhtStX4KoWnMXf4Or4vRJ9zNtdrb/K40xDXvCEUAkrvWl5xhKlO1KRSpuJxP11Ysqf02gFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zwqSTQ7V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vq/uPXeR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tzHnOkzR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QB1gX0xP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4F90F336A1;
-	Wed, 15 Oct 2025 05:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760506960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
-	b=zwqSTQ7Vr3ZVnZBNj2zQnhqBlDFStHOvpBpfQJzypF5MvhUD+a4pTmsgE8fIPUbEI9aWY2
-	4dt4D2WzRy9siKHz2gyX0BVhiJ6anq4ErJFs7D/5dfOLNn/sDaQxPxBSnMvYfUmg/ph/WE
-	2V9MGtCiMc7yILDi/nR6nKqoAFfjKoc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760506960;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
-	b=vq/uPXeRjMVUKlSNSGkrCa/RatjFZ2OVjKr/hfuVNZtL2AWTTsfbr4tLDZs4mOxTTq7PE6
-	N7aWJnUkRsOAZCBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tzHnOkzR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QB1gX0xP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760506959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
-	b=tzHnOkzRYJK9kD36uYx/jxJ88kuodFtO1vztNtFHfC3vQOhYV5nEgL7cHqqhknVcOyLvvS
-	WhFx/qcoI0jJ/lEWfsQHI9KJOP2VrlmNLT3uuYBVcJCUxL7+3tamEn49NdcptAUA7coQGg
-	jEIMMrZ0GT/ZHwxY/AFD3MXEEm5o8Z8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760506959;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
-	b=QB1gX0xPaUxBbbP4c5sXU0jNXp3pHy5HuTSUTtYoTa5davXiqp9DPfWdzHEsIKja+CNkkL
-	gcIOWSXcNjLeEaBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E898136F7;
-	Wed, 15 Oct 2025 05:42:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MUsdEk0072ifUwAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Wed, 15 Oct 2025 05:42:37 +0000
-Date: Wed, 15 Oct 2025 16:42:23 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Gang Yan <yangang@kylinos.cn>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] gen_initramfs.sh: add the positive check for timestamp
-Message-ID: <20251015164223.2190a747.ddiss@suse.de>
-In-Reply-To: <20251015021831.355966-1-yangang@kylinos.cn>
-References: <20251015021831.355966-1-yangang@kylinos.cn>
+	s=arc-20240116; t=1760509111; c=relaxed/simple;
+	bh=WKHvqzjQjt2OzlVb1dHZO/h9kfa3q8fZOo3Xqch/Ni0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oB52hNAM6zI07j7My8pc45MpQ4DFiasReHcY5CAiKBNoDjmxjYBMN0gPiYICfOp/GWV1ycma7OevQI8bMz0ri5pD8ldvJQn2AIYxCeZZIaWH27MKQ9rKmpaO14TlQ97mi4WOiQGU+2yZO/k1bJ7pAnyK0zp4m5M83YzHjxV/15Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tinylab.org; spf=pass smtp.mailfrom=tinylab.org; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tinylab.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tinylab.org
+X-QQ-mid: esmtpgz14t1760509018t31c70c8a
+X-QQ-Originating-IP: 5rtYHnf1uX5lbvBQHVP2jDB76L3yTJsTwI5l+8A9+B8=
+Received: from GPU-Server-A6000.. ( [202.201.1.132])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 15 Oct 2025 14:16:55 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 16965900830134084454
+EX-QQ-RecipientCnt: 14
+From: Yuan Tan <tanyuan@tinylab.org>
+To: arnd@arndb.de,
+	masahiroy@kernel.org,
+	nathan@kernel.org,
+	palmer@dabbelt.com,
+	linux-kbuild@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Cc: linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	i@maskray.me,
+	tanyuan@tinylab.org,
+	falcon@tinylab.org,
+	ronbogo@outlook.com,
+	z1652074432@gmail.com,
+	lx24@stu.ynu.edu.cn
+Subject: [PATCH v2 0/8] dce, riscv: Unused syscall trimming with PUSHSECTION and conditional KEEP()
+Date: Wed, 15 Oct 2025 14:16:20 +0800
+Message-ID: <30C972B6393DBAC5+cover.1760463245.git.tanyuan@tinylab.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 4F90F336A1
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.35 / 50.00];
-	BAYES_HAM(-2.84)[99.31%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,gen_initramfs.sh:url]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.35
-X-Spam-Level: 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:tinylab.org:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: NU4e3V92LJuQK+58d7zdnx+tC3YVWAsO11Ash/i24k2vnGGaxRNn3ZJC
+	a9irhslc00STGTcTP+lb9f/1JLNY7f6LwBhvL2+8j1384bZjrr/T+yja+7dnMTeKbwuPRoK
+	z9jlk87f41EfT1P5+PkTZ5Mk97iBglou0GJaNCktgjReaZvs5aItpPqMPVTmWhIwN6ai95A
+	eL5GD8PyoxkJGcCmsEul36yNh8CvmE23M2DRmWMiQyr8biPK3sPt0fvN3QAWI3auHr8l16E
+	v3GPzmM1C7tgQmLvL/3gLkebgWCViXr02KG/zq4/OaBG0eezEPSJcYmvaub1qFHEJ5L4kHE
+	tt0DFV/GICL3lDnC+QR8ysPPRJG/tDmABX1dx5+hlE0ZeR3Dy5lHYyOiEfmoqFwvY9eDI2u
+	/wZVWul+vcCFxoPClhF6ASLFioa9pspL9E/60fww8ihxj3B2r0egkvAbkkPlo6zlE/8Sd3j
+	xRpsKGqhLy6XJxRO0aEZtSpJip+gbgOCuSfBVsreCGucaDr+S6XG/L5WZVvBP8s6Qfa//Rv
+	8IOYuMvaDphhXK2PZh97X3AuxzIwIJEgApvuRhH6/oqMOTU+9F8/M4RSpNJ38py8UvXlmp+
+	g5wrf14uVNMsBdLa9A8k7rBs4cX9IzsSJrtvXrVq/KXgngoh9xXAWhtpuZCY7tF0FFVrHJj
+	Om2j8Sriy7c0gQFe6NQuXsXEbNyXXpIORO02kG3L3mv8NWMR/diaTEZtml7tsm2L2uXCuSC
+	3Ay341SjzaUIZdC6vkppPD+KbBelRmHzl71gUkd1e1GJm7JANTB+n5knXnwQMOvR8bGb+3j
+	FsdYwVPb+R6gmhMo9HHje91+uC1XhxGrcWmYCs7mCow1paBj45a4Ak+CXh9KH0CxdlQFL3T
+	CGLC3eujfX0zyFcx7NEqz7zJ/ukAHRwc4oSmtfkEMXznGllYFUctwk929q25nQHzGTMsIy9
+	CxANy1xfG0ApRnTm/fNCMhsW/3S2f4G+HPUoJ0d6qmNr/zEhtrVBhRAAEHrmPE1RrtWOHyi
+	tN2Vj2Bg==
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
-Hi,
+Hi all,
 
-On Wed, 15 Oct 2025 10:18:31 +0800, Gang Yan wrote:
+This series aims to introduce syscall trimming support based on dead code
+and data elimination (DCE). This can reduce the final image size, which is
+particularly useful for embedded devices, while also reducing the attack
+surface. It might further benefit specialized scenarios such as unikernels
+or LTO builds, and could potentially help shrink the instruction cache
+footprint.
 
-> The gen_initramfs.sh script has already checked that 'date' returned
-> somthing, but it did not verify the content of the return. This patch
-> adds a check to ensure the correctness of the timestamp obtained via the
-> 'date -d'.
+Besides that, this series also introduces a new PUSHSECTION macro. This
+wrapper allows sections created by .pushsection to have a proper reference
+relationship with their callers, so that --gc-sections can safely work
+without requiring unconditional KEEP() entries in linker scripts.
 
-This change doesn't seem unreasonable, but I think failing when an
-unsupported date is explicitly provided is an improvement over silent
-fallback to time() based initramfs mtimes.
-A change to the kbuild.rst KBUILD_BUILD_TIMESTAMP documentation would be
-worthwhile. Could you add a note regarding initramfs and pre-epoch times
-there?
+Since the new syscalltbl.sh infrastructure has been merged, I think it’s a
+good time to push this patchsetTODO? forward.
 
-Thanks, David
+Patch 1–3 introduce the infrastructure for TRIM_UNUSED_SYSCALLS, mainly
+allowing syscalltbl.sh to decide which syscalls to keep according to
+USED_SYSCALLS.
+Patch 4 enables TRIM_UNUSED_SYSCALLS for the RISC-V architecture. With
+syscalltbl.sh now available, this feature should be applicable to all
+architectures that support LD_DEAD_CODE_DATA_ELIMINATION and use
+syscalltbl.sh, but let’s focus on RISC-V first.
+Patch 5–8 address the dependency inversion problem caused by sections
+created with .pushsection that are forcibly retained by KEEP() in linker
+scripts.
+
+Here is an example to illustrate the problem:
+
+void fun2(void);
+
+void fun1(void) {
+	asm volatile (
+		".pushsection .text.pushed,\"ax\"\n\t" "call fun2\n\t"
+		".popsection\n\t"
+	);
+}
+
+If fun1() is used, .text.fun1 is kept alive, but .text.pushed has no
+reference to .text.fun1, so --gc-sections may incorrectly discard
+.text.pushed. To avoid this, the kernel traditionally wraps such sections
+with KEEP() in the linker script. However, KEEP() introduces a dependency
+inversion: if fun1() and fun2() are unused, .text.fun1, .text.fun2 and
+.text.pushed should be removed, but KEEP() forces .text.pushed to stay,
+which even keeps .text.fun2. As a result, sections that should be
+eliminated are retained unnecessarily.
+
+In Linux, sections such as ex_table, jump_table, bug_table, and alternative
+are created by .pushsection and suffer from this issue. They prevent some
+syscalls from being trimmed.
+
+Ideally, .text.fun1 and .text.pushed should share the same fate: if fun1()
+is not referenced, .text.pushed should be discarded as well. To achieve
+this, we can establish a relocation with a directive between the caller and
+the section created by .pushsection:
+
+.section .text.fun1,"ax"
+.reloc ., BFD_RELOC_NONE, pushedlabel
+.pushsection .text.pushed,"ax" pushedlabel:
+	call fun2
+.popsection
+
+Based on this idea, we introduce the PUSHSECTION macro. This macro emits a
+relocation directive and a new label automatically, while remaining fully
+compatible with all existing .pushsection parameters. With this macro, all
+current uses of .pushsection (and even .section) in the kernel can be
+replaced, significantly reducing the number of KEEP() in linker scripts and
+enabling --gc-sections to work more effectively.
+
+Without PUSHSECTION, there are 56 syscalls that cannot be trimmed in
+defconfig and TRIM_UNUSED_SYSCALLS enabled. With PUSHSECTION, all syscalls
+can now be properly trimmed.
+
+We have tested enabling TRIM_UNUSED_SYSCALLS while keeping all syscalls
+listed in USED_SYSCALLS and successfully booted Ubuntu on a configuration
+based on v6.18-rc1 defconfig. The detailed configuration is provided in
+[1]. This confirms that the trimming mechanism functions correctly under a
+standard kernel setup.
+
+The vmlinux size with tinyconfig is as follows:
+
+|                                 | syscall remain | vmlinux size   | vmlinux after strip |
+| ------------------------------- | -------------- | -------------- | ------------------- |
+| enable DCE                      | 188            | 1437008        | 915160              |
+| enable DCE and syscall trimming | 3              | 1263528 (-12%) | 800472 (-13%)       |
+
+
+Changes in v2:
+- Rebased on the unified syscalltbl.sh infrastructure for syscall trimming.
+USED_SYSCALLS now accepts only syscall names to avoid confusion, whereas v1
+also allowed entry point symbols.
+- Uses the .reloc directive to establish dependencies.
+Compared with previous proposals using SHF_LINK_ORDER or SHF_GROUP, this
+approach provides a generic, parameter-compatible macro for all
+.pushsection usages without side effects.
+
+
+Previous versions:
+- RFC: https://lore.kernel.org/lkml/cover.1676594211.git.falcon@tinylab.org/
+- v1 part 1: https://lore.kernel.org/lkml/cover.1695679700.git.falcon@tinylab.org/
+- v1 part 2: https://lore.kernel.org/lkml/cover.1699025537.git.tanyuan@tinylab.org/
+
+Links:
+[1] https://pastebin.com/St51bk2K
+
+
+Yuan Tan (4):
+  kconfig: add CONFIG_PUSHSECTION_WITH_RELOC for relocation support
+  compiler.h: introduce PUSHSECTION macro to establish proper references
+  vmlinux.lds.h: support conditional KEEP() in linker script
+  riscv: use PUSHSECTION in ex_table, jump_table, bug_table and
+    alternatives
+
+Yuhang Zheng (4):
+  init/Kconfig: add CONFIG_TRIM_UNUSED_SYSCALLS and related options
+  scripts/syscalltbl.sh: add optional --used-syscalls argument for
+    syscall trimming
+  scripts/Makefile.asm-headers: pass USED_SYSCALLS to syscalltbl.sh
+  riscv: enable HAVE_TRIM_UNUSED_SYSCALLS when toolchain supports DCE
+
+ arch/riscv/Kconfig                          |  1 +
+ arch/riscv/include/asm/alternative-macros.h |  8 ++--
+ arch/riscv/include/asm/asm-extable.h        | 10 +++--
+ arch/riscv/include/asm/bug.h                |  2 +-
+ arch/riscv/include/asm/jump_label.h         |  3 +-
+ arch/riscv/kernel/vmlinux.lds.S             |  9 +++-
+ include/asm-generic/vmlinux.lds.h           | 12 ++++-
+ include/linux/compiler.h                    | 43 +++++++++++++++++-
+ include/linux/compiler_types.h              |  8 ++--
+ init/Kconfig                                | 49 +++++++++++++++++++++
+ scripts/Makefile.asm-headers                |  4 ++
+ scripts/syscalltbl.sh                       | 19 +++++++-
+ 12 files changed, 150 insertions(+), 18 deletions(-)
+
+
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+prerequisite-patch-id: 7af3175326df94637f04a050dee7356416eb1edd
+-- 
+2.43.0
+
 
