@@ -1,174 +1,159 @@
-Return-Path: <linux-kbuild+bounces-9155-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9156-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19D3BDC5C8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 05:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 674F9BDCA07
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 07:42:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3816B19A068C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 03:39:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA68919A3B93
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 05:43:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83F8A2BDC05;
-	Wed, 15 Oct 2025 03:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8698B303A18;
+	Wed, 15 Oct 2025 05:42:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TKXT4ETs"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zwqSTQ7V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vq/uPXeR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tzHnOkzR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QB1gX0xP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A701A251793
-	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 03:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C922FDC5D
+	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 05:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760499531; cv=none; b=LAr9D+j/PU34heH2DWAmHxuaVyfz9u0B4sGqDGYZfBzxxFlbyae5t1LoqN6a851zVmz5fr6vjX0cSOwqUYSoYy9HFZYe8PVPqRZqWBcDoFjgHWGFsOfKqIWuvxY7F7xNYTTnYWzXUlTf1qlcI0yXkEw02EvF/XLDKfJ5Fom9eh4=
+	t=1760506964; cv=none; b=iRNbsymtCj9E1NaNpcUwHveXn5xwGJYVUw1C9R073EECg/RBl+qwlW2/JH7muIn9gtaM5lY3T09TbEZfsbJCf8RMxzBwh1WZrGhp6s8nG1YE0kR8l2DCX840lbrEE7s6X18rmSH5HmUxGDLFjS5TLNbHVbMzkIiETn/ad87TGkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760499531; c=relaxed/simple;
-	bh=4wJt+gpoa406fX3ntwa3yiMH3j+kDH0t4mBuoWTLNIw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hOXOSK64/CN3hzCOFK1vK0XXZKU8Qk1uwkRLJntVtEOv4c3va7iUESsKorDwnWWuL1+LIcpM8hQJHWbMY4Noe/wcY/t63yRS9wwjL9jiiYUdKq+7GTOZQyIibCIG5IN/5ijTC2C8rTJR8DDvEhdzmJFQ4UoiyV7ndFmlWIYEsPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TKXT4ETs; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3f99ac9acc4so4957892f8f.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 Oct 2025 20:38:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760499528; x=1761104328; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qCkYlbRToLYdFFXJcENf2IQzzKVCQ6jcGYcB48CaRYU=;
-        b=TKXT4ETsVo/AnWDGN4gTHQoOmppjqK6jJd4IbaqB3jQzKkng1GPFVuKYPjsEzs3izu
-         f0g5GIRJRP09dg6PR2fH3SNPT2DpHHy5Oe+nQoqOE8FAQskbp7pxyyv2EHA6UaQkb9ca
-         spBheRW0BDBunLF0LE020VRKogvx1KHqZBfAG00///Ne4f082Pn63JAiRqc0eeRjZbix
-         Um3noxtz2cqwbUFZSJtB6XuYstLt3dLPznqBFGSQJeMhNflbnb5e1uCYQqoZU4h5ueNQ
-         gq3daAy0kg4VLyj/wqeOCoITTleNisoliE8ZnsQ09tMFPMJIsN13fvSWQfAii3BwgVYt
-         gWLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760499528; x=1761104328;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qCkYlbRToLYdFFXJcENf2IQzzKVCQ6jcGYcB48CaRYU=;
-        b=HEV1Qyf3aAvHQ9O7c1ZPKmruwLIsjAw24l5MC5EcHp2heoYJm1TOGV8XII/aTGs+pp
-         TXTSO8U3EBfvLyDsS7sEErQlrWJksBYFhLfVNE+FnobPJCvbiRNIaEhp/tvGznY+37w9
-         jkD+iUJsiZsGG6GPCN9bT8u6snTlTJ83NKfMZTWQgs5FN/0s3Cvp9Ajo5FALjB7czn/7
-         MXziuwMKm6Mo18R7W1OW/6ramo88JnOUDweXUdHAxKoKB6to4sl3ywCU5i7Nsc8UPb5/
-         67LcvV3o7OKZVVhIwwz7E5qgguX9uZnWwezal4mg6bVUjUznl++GRyIJUuxJGRo/rCaH
-         gOjw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdrdxyyAxYnsRFhIdO/62Wk2j9Iq0d5rIy87Nfw8oKufVslFIRk0RhCFItxgbzkzL3SQNWaWmHm0FV1rc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz23RiaB2EszNLN0VzKTfNAc6O4DUEpn/ECobHYWZgujnnpl79m
-	vqgwmpJ/9UZATyLcCbrv/OCkAyDMXjr5Ty5kPlCa/TR4k4Ucv3yWuNmqpM8h2gDSBZ9gOtchRAW
-	w3PtcRBNcFloDKFA2WfEiA0gkcOCkLn0yaYj6xTtA
-X-Gm-Gg: ASbGncvppo8dm4gdlnxGl1ERFFyJbQejw5CNEs5enmmuSF7BIY097//tBNy/RVn+L26
-	TZec5mWuOugAb4a6gJ+6sB3rf5ipbhUIJo8MEdNxiB9FuYJy4eoywERCORmM3j3f3N6bhTDs0kj
-	kBr1ojDr5hCR2zzkBmfE3oEXXB/2+gcNE/G/zKLpHPKfd6pURvP++vnLTbDYZKto7+MOyzjrgz8
-	4SBKKibR2LBm0/0Be5iG2YM9oC4gysgiERwcfiSjRE=
-X-Google-Smtp-Source: AGHT+IEXqrUaXr8DHCM+aI/npfJJzTlagvjXjvafVzIGuFHFtOvaU6LGphM/lgPuvpr67IHJYligctKwRWzsmwrMOL8=
-X-Received: by 2002:a05:6000:3111:b0:425:825d:15d1 with SMTP id
- ffacd0b85a97d-4266e8db601mr19071351f8f.44.1760499527730; Tue, 14 Oct 2025
- 20:38:47 -0700 (PDT)
+	s=arc-20240116; t=1760506964; c=relaxed/simple;
+	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kZ/IGwdXBoPR5hSzxkyDsFNUA2g3VG/83MlSHlzoX9+/849hdOK4LuipgCv5pNQWqLghKGIOsAQAkUYkla1gftWJ1xA/MV0r+3UyNhtStX4KoWnMXf4Or4vRJ9zNtdrb/K40xDXvCEUAkrvWl5xhKlO1KRSpuJxP11Ysqf02gFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zwqSTQ7V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vq/uPXeR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tzHnOkzR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QB1gX0xP; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4F90F336A1;
+	Wed, 15 Oct 2025 05:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760506960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
+	b=zwqSTQ7Vr3ZVnZBNj2zQnhqBlDFStHOvpBpfQJzypF5MvhUD+a4pTmsgE8fIPUbEI9aWY2
+	4dt4D2WzRy9siKHz2gyX0BVhiJ6anq4ErJFs7D/5dfOLNn/sDaQxPxBSnMvYfUmg/ph/WE
+	2V9MGtCiMc7yILDi/nR6nKqoAFfjKoc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760506960;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
+	b=vq/uPXeRjMVUKlSNSGkrCa/RatjFZ2OVjKr/hfuVNZtL2AWTTsfbr4tLDZs4mOxTTq7PE6
+	N7aWJnUkRsOAZCBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tzHnOkzR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QB1gX0xP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760506959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
+	b=tzHnOkzRYJK9kD36uYx/jxJ88kuodFtO1vztNtFHfC3vQOhYV5nEgL7cHqqhknVcOyLvvS
+	WhFx/qcoI0jJ/lEWfsQHI9KJOP2VrlmNLT3uuYBVcJCUxL7+3tamEn49NdcptAUA7coQGg
+	jEIMMrZ0GT/ZHwxY/AFD3MXEEm5o8Z8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760506959;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YFXgGseaBRthawggZBq6q7MkEZK3LhFVDJbbo/s/Gk=;
+	b=QB1gX0xPaUxBbbP4c5sXU0jNXp3pHy5HuTSUTtYoTa5davXiqp9DPfWdzHEsIKja+CNkkL
+	gcIOWSXcNjLeEaBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E898136F7;
+	Wed, 15 Oct 2025 05:42:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MUsdEk0072ifUwAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Wed, 15 Oct 2025 05:42:37 +0000
+Date: Wed, 15 Oct 2025 16:42:23 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Gang Yan <yangang@kylinos.cn>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+ <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] gen_initramfs.sh: add the positive check for timestamp
+Message-ID: <20251015164223.2190a747.ddiss@suse.de>
+In-Reply-To: <20251015021831.355966-1-yangang@kylinos.cn>
+References: <20251015021831.355966-1-yangang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014191156.3836703-1-xur@google.com> <20251014191156.3836703-5-xur@google.com>
-In-Reply-To: <20251014191156.3836703-5-xur@google.com>
-From: Han Shen <shenhan@google.com>
-Date: Tue, 14 Oct 2025 20:38:34 -0700
-X-Gm-Features: AS18NWAAoTZwilsHeALUNIPooAM-rlbEq_tGr0S8vEjTAZ0hT02nDM65-kCnNvQ
-Message-ID: <CACkGtrgWRJw2+KX_=Xww773ovYkjq-Bf4Sygo=Hgn86TM7VjLA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] kbuild: Add config to assert profile accuracy for
- aggressive optimization
-To: xur@google.com
-Cc: Alexey Gladkov <legion@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Bill Wendling <morbo@google.com>, Ingo Molnar <mingo@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Justin Stitt <justinstitt@google.com>, 
-	Kees Cook <kees@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Peter Zijlstra <peterz@infradead.org>, 
-	Tamir Duberstein <tamird@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Yabin Cui <yabinc@google.com>, Sriraman Tallam <tmsriram@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4F90F336A1
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.35 / 50.00];
+	BAYES_HAM(-2.84)[99.31%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,gen_initramfs.sh:url]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.35
+X-Spam-Level: 
 
-I've verified patches 1-4, with the following configuration on X86_64 syste=
-ms:
+Hi,
 
-1. autofdo without profile (nothinlto)
-2. autofdo with profile (nothinlto)
-3. propeller only (noautofdo no thinlto) annotated
-4. propeller only optimized (noautofdo nothinlto)
+On Wed, 15 Oct 2025 10:18:31 +0800, Gang Yan wrote:
 
-All the kernels boot up successfully.
+> The gen_initramfs.sh script has already checked that 'date' returned
+> somthing, but it did not verify the content of the return. This patch
+> adds a check to ensure the correctness of the timestamp obtained via the
+> 'date -d'.
 
-Thanks,
-Han
+This change doesn't seem unreasonable, but I think failing when an
+unsupported date is explicitly provided is an improvement over silent
+fallback to time() based initramfs mtimes.
+A change to the kbuild.rst KBUILD_BUILD_TIMESTAMP documentation would be
+worthwhile. Could you add a note regarding initramfs and pre-epoch times
+there?
 
-
-
-On Tue, Oct 14, 2025 at 12:12=E2=80=AFPM <xur@google.com> wrote:
->
-> From: Rong Xu <xur@google.com>
->
-> Adds a build config to AutoFDO to assert that the generated profile
-> accurately represents the intended workload. This enables Clang to
-> perform more aggressive optimizations.
->
-> Signed-off-by: Rong Xu <xur@google.com>
-> ---
->  arch/Kconfig             | 11 +++++++++++
->  scripts/Makefile.autofdo |  3 +++
->  2 files changed, 14 insertions(+)
->
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index ebe08b9186adc..6fdc676cb0fe4 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -886,6 +886,17 @@ config AUTOFDO_CLANG
->
->           If unsure, say N.
->
-> +config AUTOFDO_PROFILE_ACCURATE
-> +       bool "Assert AutoFDO profile is accurate (EXPERIMENTAL)"
-> +       depends on AUTOFDO_CLANG
-> +       help
-> +         This option asserts that the AutoFDO profile (specified
-> +         in CLANG_AUTOFDO_PROFILE) is collected from a representative
-> +         workload, allowing the Clang compiler to perform more
-> +         aggressive optimizations.
-> +
-> +         If unsure, say N.
-> +
->  config ARCH_SUPPORTS_PROPELLER_CLANG
->         bool
->
-> diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
-> index 5bcfcef273745..36abeae2accdc 100644
-> --- a/scripts/Makefile.autofdo
-> +++ b/scripts/Makefile.autofdo
-> @@ -11,6 +11,9 @@ endif
->  ifdef CLANG_AUTOFDO_PROFILE
->    CFLAGS_AUTOFDO_CLANG +=3D -fprofile-sample-use=3D$(CLANG_AUTOFDO_PROFI=
-LE) -ffunction-sections
->    CFLAGS_AUTOFDO_CLANG +=3D -fsplit-machine-functions
-> +ifdef CONFIG_AUTOFDO_PROFILE_ACCURATE
-> +  CFLAGS_AUTOFDO_CLANG +=3D -fprofile-sample-accurate
-> +endif
->  endif
->
->  ifdef CONFIG_LTO_CLANG_THIN
-> --
-> 2.51.0.788.g6d19910ace-goog
->
-
-
---
-Han Shen |  Software Engineer |  shenhan@google.com |  Sunnyvale California
+Thanks, David
 
