@@ -1,129 +1,82 @@
-Return-Path: <linux-kbuild+bounces-9170-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9171-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7480EBDDBF6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 11:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651F7BDDF0D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 12:18:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5CD919A62D7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 09:22:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C07D1924FFD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 10:19:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE69B31A061;
-	Wed, 15 Oct 2025 09:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88618316917;
+	Wed, 15 Oct 2025 10:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gQ7f+QQE"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hy9oruxp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA5C318125;
-	Wed, 15 Oct 2025 09:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2641A5BA2
+	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 10:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760520147; cv=none; b=H6Avf8kD59oiZXs+O/HehHyTof1GlGChixFH3hrSborJT73Ug0ucFtXKZ2MbrloqA8+I4xa6IZl86zyMkzvWnAnOskHqKuLrX7jNZaj8n2vp7L7zcl9kB+ZYBvFZxp77aAYRYcrbHBExfzJ2zSaB8XKQj5jFNJC6yWrq0OagMfM=
+	t=1760523525; cv=none; b=m7O7I1W3uhE8mdc37CeN4K/lAMoRrlp/JPnqqdzWBStlntw3fXqAhUcstOhtcJ3y+GELstehpF488agAbE+qcrT2+IZG/moWgGcd/9Kr4svbhygeHmm1apfzS5a0NBR80e9UUMDOrQMdpxIQfqwzIrG0rAFQIVNfZxVbR4Cfr9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760520147; c=relaxed/simple;
-	bh=T+NkUjHjrIC/rIL+g0Kbk7elL0crIb8dQBvDa7nxczM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J1B/Pq/4tek5Krmqa7gzDmLITvjoBq+ST88hL+ALde32paQc1gJGwhKMG8qLdAXlLeSvY9cOu4nulxQogNKqzOwAPQt9mx04LXYp0VY1QGSGQj1CGvUB27BrKdG2uLvV1YPlNItCdFntGiNI+My+/bRHOPmyTeTikbfsMcb18ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gQ7f+QQE; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=RzAJqImAFXPtQRa+izbRdXNFcNgNneDg6snhyJLARfw=; b=gQ7f+QQEXR9jwM/d7euARKANnR
-	Pl7HGvQ+PjKR+DKxcXVQ8jytXdadLRhoUnRTlgSN4/K9dxCX62Fl3/NMSRhDRQk/HYzo40c/lMxEj
-	KqqakksiWddbk34tYahH07XUwoHNm/HXghjo9pRqTiU+VCM7TvkHN1bwreXXHyfFKSmnrPMeAIISD
-	EggtC7w4olWcIPtbJoUGx7ov9ZeuIHu1yT8PioDggiYxXQox92oHXzIdYGA9mG5OMppjdwSS7QPPk
-	x3DROZahohXxPYEnFK2U3AvTMmRGI5jUE9Ratv+s1inESd9fj7C7lM7Darvvzl8HHL0Mr6gAn6pOw
-	pG3rie1A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8xha-00000005py6-3tkW;
-	Wed, 15 Oct 2025 09:21:47 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DFB4630023C; Wed, 15 Oct 2025 11:21:45 +0200 (CEST)
-Date: Wed, 15 Oct 2025 11:21:45 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Chuck Wolber <chuck@wolber.net>
-Cc: Sasha Levin <sashal@kernel.org>, nathan@kernel.org,
-	Matt.Kelly2@boeing.com, akpm@linux-foundation.org,
-	andrew.j.oppelt@boeing.com, anton.ivanov@cambridgegreys.com,
-	ardb@kernel.org, arnd@arndb.de, bhelgaas@google.com, bp@alien8.de,
-	chuck.wolber@boeing.com, dave.hansen@linux.intel.com,
-	dvyukov@google.com, hpa@zytor.com, jinghao7@illinois.edu,
-	johannes@sipsolutions.net, jpoimboe@kernel.org,
-	justinstitt@google.com, kees@kernel.org, kent.overstreet@linux.dev,
-	linux-arch@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	llvm@lists.linux.dev, luto@kernel.org, marinov@illinois.edu,
-	masahiroy@kernel.org, maskray@google.com,
-	mathieu.desnoyers@efficios.com, matthew.l.weber3@boeing.com,
-	mhiramat@kernel.org, mingo@redhat.com, morbo@google.com,
-	ndesaulniers@google.com, oberpar@linux.ibm.com, paulmck@kernel.org,
-	richard@nod.at, rostedt@goodmis.org, samitolvanen@google.com,
-	samuel.sarkisian@boeing.com, steven.h.vanderleest@boeing.com,
-	tglx@linutronix.de, tingxur@illinois.edu, tyxu@illinois.edu,
-	wentaoz5@illinois.edu, x86@kernel.org
-Subject: Re: [RFC PATCH 0/4] Enable Clang's Source-based Code Coverage and
- MC/DC for x86-64
-Message-ID: <20251015092145.GB3419281@noisy.programming.kicks-ass.net>
-References: <20250829181007.GA468030@ax162>
- <20251014232639.673260-1-sashal@kernel.org>
- <20251015073701.GZ3419281@noisy.programming.kicks-ass.net>
- <DDIR4HE5C74G.1U5TA0KDN9O5J@wolber.net>
+	s=arc-20240116; t=1760523525; c=relaxed/simple;
+	bh=AKRVTpEaCryjzqVobxcXLuc2KAuU8jHd/1sf3EF0MtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=U67HI0ZqVectjgWhb17GMolH/cgHpdSzE4vYs/L8wBmHkNnGT/3zRpZjaDRjlUwtNUAowUMq2MbP/voJzrAff8f19GVuenKlWMPq4RJeQpFkWp0KxTnn8N2wIbVaqYcPxKn18M+M/YrIjQm7Jwy8g8IwuAD3wz96K9a6GZRXLuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hy9oruxp; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 15 Oct 2025 18:18:23 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760523519;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=AKRVTpEaCryjzqVobxcXLuc2KAuU8jHd/1sf3EF0MtU=;
+	b=hy9oruxpwDLVAMbDF7laAlXetP/79cocsl0OI1oTfZw+FeE2dEC1gzhmb/KcwAYsAfnDsF
+	RQL8IOe1El6r764tacnCkWUxTTr4dE6uABsEEYedPSVBIeC5bRECwTlXMrk6JtJTRxURph
+	Is1iz0mq+9EAhyWJyLuyK8zQjbvf6NU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: GangYan <gang.yan@linux.dev>
+To: David Disseldorp <ddiss@suse.de>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] gen_initramfs.sh: add the positive check for timestamp
+Message-ID: <aO907xsN6VV5IxM7@yangang-ThinkPad-T14-Gen-1>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <DDIR4HE5C74G.1U5TA0KDN9O5J@wolber.net>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Oct 15, 2025 at 08:26:50AM +0000, Chuck Wolber wrote:
+> Hi,
 
-> > I'm thinking I'm going to NAK this based on the fact that I'm not
-> > interested in playing file based games. As long as this thing doesn't
-> > honour noinstr I don't want this near x86.
-> 
-> I am working on a noinstr patchset that will precede this pachset. As it turns
-> out there are several areas of the kernel (128 that I have found so far) that
-> are missing the noinstr attribute macro.
-> 
-> Example:
-> 
-> kernel/locking/lockdep.c:
-> 	void noinstr lockdep_hardirqs_off(unsigned long ip)
-> include/linux/irqflags.h:
-> 	static inline void lockdep_hardirqs_off(unsigned long ip) { }
-> 
-> The latter version is intended to be optimized out if the kernel is not
-> configured to use this feature. However when the kernel is instrumented for
-> profiling, the stub is not optimized out and ends up in the .text section
-> rather than the .noinstr.text section.
+> On Wed, 15 Oct 2025 10:18:31 +0800, Gang Yan wrote:
 
-Typically we switch to __always_inline when this happens. Ideally
-though, compilers should strive to not be stupid and instrument dead
-code to the point where DCE will fail.
+> The gen_initramfs.sh script has already checked that 'date' returned
+> somthing, but it did not verify the content of the return. This patch
+> adds a check to ensure the correctness of the timestamp obtained via the
+> 'date -d'.
 
-> > And we have kcov support, and gcov and now llvm-cov, surely 3 coverage
-> > solutions is like 2 too many?
-> 
-> Optimization makes it nearly impossible to correlate GCov results back to
-> actual lines of source. llvm-cov instruments at the AST level which enables
-> precise mapping back to source code regardless of optimization level.
-> 
-> 
-> A detailed rundown on this issue can be found here[1], with the most relevant
-> excerpt reproduced here:
+> This change doesn't seem unreasonable, but I think failing when an
+> unsupported date is explicitly provided is an improvement over silent
+> fallback to time() based initramfs mtimes.
+> A change to the kbuild.rst KBUILD_BUILD_TIMESTAMP documentation would be
+> worthwhile. Could you add a note regarding initramfs and pre-epoch times
+> there?
+Sure, I will send a new one. Would you mind add your "Suggested-by"
+tag in the new patch?
 
-Yes read and understand this, but that doesn't mean you have to have 3
-different kernel interfaces for all of this, right?
+Thanks,
+Gang
+> Thanks, David
 
