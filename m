@@ -1,160 +1,138 @@
-Return-Path: <linux-kbuild+bounces-9172-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9173-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8EDBDE012
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 12:31:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DDDBDED26
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 15:47:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C166406310
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 10:31:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 538CA3B071B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 13:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58936320CCD;
-	Wed, 15 Oct 2025 10:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9CA23D7C5;
+	Wed, 15 Oct 2025 13:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G7SMLg1e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y0n9vlEs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G7SMLg1e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y0n9vlEs"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="M5bHJV8d"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EACB320A22
-	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 10:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC2D257AC6
+	for <linux-kbuild@vger.kernel.org>; Wed, 15 Oct 2025 13:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760524081; cv=none; b=EBvTRyFv8x9oed3hzKu76cow6XCHIp9ID09VdkvpO2dYYkdISWneN0OTT8rZNCKMDX/bIZEnhbYLGx4EcWWWSxgveTaLb5PJwh1DaO+Lx43RVYUm87gsXfRJPWQ6QpFb5JBcIE9eXZkj+um4fcEiBBG80NXQ+qHgczxAFxtX+FQ=
+	t=1760535919; cv=none; b=FK3sb98uZMSBE7lwtZwV68TyTOsa5RFjMVaL+577NtXtY4awSdjgLUm+ykx12+fE+RXVXRufGwwpy36aCI1jLkrYF+Id49nqH0l479AjGFGKVu84tNgyuPzBG3kcJVWcs0n/6t/NekgS51hUuKeUCn123W1zqWWcrAKo8G044MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760524081; c=relaxed/simple;
-	bh=4Y+rK3waD27Ns/3SjnQLtyZCHG943vrF/owGFlPAOkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XdkXQaCLMMLjtM9oZQ5KvutE2hQE8YNUt7tlimFtDi+nLWb/r8apCRs/MyuB/nmpVhIF/k+rjoYrt9sqORaVfsj45SAGWmoIriQk4J520jgwAYX5NEdtk3dgiox1O6S8Pz38dvSoKo8Xm+kcNUlV0nG0/ZP8HJ8RhxRBwl50TmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G7SMLg1e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y0n9vlEs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G7SMLg1e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y0n9vlEs; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 170811F449;
-	Wed, 15 Oct 2025 10:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760524077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5lLXud9Ow60qGQKFtTUwjUe29Qztpjypau4gyNgsBc=;
-	b=G7SMLg1enDEGZbp3wFyHZHWbVvlVwJmd3rdmqqhL0wtxfKxSTgA+qseHFNlb5auYvOqSzE
-	GIzV8QkSXB9zOtQxrqDKidWTlRExj5Fkee7gHJmaz2JSaGuQbRBwgYVDqOlb3Es65j4HSk
-	siO05raRHpqzwyQ3XoXyui+eH5XGlq8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760524077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5lLXud9Ow60qGQKFtTUwjUe29Qztpjypau4gyNgsBc=;
-	b=y0n9vlEsnh9j0ie2dIx8Sjkekrx6q9VcfG7W9syiqsXH+sCT/VfjHpTAZOcufFCMiyE/+U
-	YXhBXa83s29FmVDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=G7SMLg1e;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y0n9vlEs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760524077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5lLXud9Ow60qGQKFtTUwjUe29Qztpjypau4gyNgsBc=;
-	b=G7SMLg1enDEGZbp3wFyHZHWbVvlVwJmd3rdmqqhL0wtxfKxSTgA+qseHFNlb5auYvOqSzE
-	GIzV8QkSXB9zOtQxrqDKidWTlRExj5Fkee7gHJmaz2JSaGuQbRBwgYVDqOlb3Es65j4HSk
-	siO05raRHpqzwyQ3XoXyui+eH5XGlq8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760524077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5lLXud9Ow60qGQKFtTUwjUe29Qztpjypau4gyNgsBc=;
-	b=y0n9vlEsnh9j0ie2dIx8Sjkekrx6q9VcfG7W9syiqsXH+sCT/VfjHpTAZOcufFCMiyE/+U
-	YXhBXa83s29FmVDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4893213A29;
-	Wed, 15 Oct 2025 10:27:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8+d1ACt372gPFgAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Wed, 15 Oct 2025 10:27:55 +0000
-Date: Wed, 15 Oct 2025 21:27:42 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: GangYan <gang.yan@linux.dev>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org
+	s=arc-20240116; t=1760535919; c=relaxed/simple;
+	bh=gQj02BMbFg5G31HypWTEQU/2pt+L/bKycjy/zU6MHoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RbYCkLIJooKi5Kx4azcT/zAI9mqt85sw2loPt643CLj+d5LI4SAIVbCREKcgQrdYE5HuHX92Er55KWEqRMucnoh+8Hk9Wx+qOdGDUJaPJpphN8Eu5ts+iT8vcUpMIL2gzHlhgWda/AuWDmIPKy1CUb29I9xusTbeLT31D2sU89M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=M5bHJV8d; arc=none smtp.client-ip=212.42.244.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1760535551; bh=gQj02BMbFg5G31HypWTEQU/2pt+L/bKycjy/zU6MHoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M5bHJV8dlxNYo0I7y/CDOTFWgS2TLXKcSmYrSwkeixtebHhp5YkpiTB1UY8TAY0dA
+	 PVJuKCrL4S4w/X4mvfSqpPA4MMiqUYeXQGUID6qZ2neNkSZ148hMENvl3ow216qa1I
+	 asmc62hPyCrEq3eW39SRzn3m+MNbTQvBvijhb5Ps=
+Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
+	(envelope-from <n.schier@avm.de>)
+	id 68efa3ff-5261-7f0000032729-7f000001c46c-1
+	for <multiple-recipients>; Wed, 15 Oct 2025 15:39:11 +0200
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Wed, 15 Oct 2025 15:39:11 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id F0351802C5;
+	Wed, 15 Oct 2025 15:39:10 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id E1B41184433; Wed, 15 Oct 2025 15:39:10 +0200 (CEST)
+Date: Wed, 15 Oct 2025 15:39:10 +0200
+From: Nicolas Schier <n.schier@avm.de>
+To: Gang Yan <yangang@kylinos.cn>
+Cc: Nathan Chancellor <nathan@kernel.org>, David Disseldorp <ddiss@suse.de>,
+	linux-kbuild@vger.kernel.org
 Subject: Re: [PATCH] gen_initramfs.sh: add the positive check for timestamp
-Message-ID: <20251015212742.366d14a1.ddiss@suse.de>
-In-Reply-To: <aO907xsN6VV5IxM7@yangang-ThinkPad-T14-Gen-1>
-References: <aO907xsN6VV5IxM7@yangang-ThinkPad-T14-Gen-1>
+Message-ID: <20251015-whimsical-uptight-tortoise-610aa3@l-nschier-aarch64>
+References: <20251015021831.355966-1-yangang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 170811F449
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251015021831.355966-1-yangang@kylinos.cn>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1760535551-98EEAFD0-59B1E9D6/0/0
+X-purgate-type: clean
+X-purgate-size: 2125
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
 
-On Wed, 15 Oct 2025 18:18:23 +0800, GangYan wrote:
+On Wed, Oct 15, 2025 at 10:18:31AM +0800, Gang Yan wrote:
+> The gen_initramfs.sh script has already checked that 'date' returned
+> somthing, but it did not verify the content of the return. This patch
+> adds a check to ensure the correctness of the timestamp obtained via the
+> 'date -d'.
+>=20
+> Signed-off-by: Gang Yan <yangang@kylinos.cn>
+> ---
+> Notes:
+>=20
+> This issue is reported in mptcp-upstream-virtme-docker. A issue in RUST
+> CoreUils [1] causes a compilation error:
+> '''
+> 	ERROR: Timestamp out of range for cpio format
+> 	make[4]: *** [<KERNEL_SRC>/usr/Makefile:76:
+> '''
+>=20
+> The root cause of this error is the the output of 'date -d0' is 'Sat Jan=
+=20
+> 1 00:00:00 UTC 0000'. We started a discussion on [2], and want your
+> suggestion about 'Is the compilation error too strict when failing to=20
+> retrieve the date? Maybe an extra check could be added to make sure the
+> timestamp is positive?'
+>=20
+> Thanks,
+> Gang
+>=20
+> [1]https://github.com/uutils/coreutils/issues/8898
+> [2]https://patchwork.kernel.org/project/mptcp/patch/20251013101946.248420=
+-1-yangang@kylinos.cn/
+> ---
+>  usr/gen_initramfs.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+> index 7eba2fddf0ef..a076719e4d9f 100755
+> --- a/usr/gen_initramfs.sh
+> +++ b/usr/gen_initramfs.sh
+> @@ -223,7 +223,7 @@ while [ $# -gt 0 ]; do
+>  			;;
+>  		"-d")	# date for file mtimes
+>  			timestamp=3D"$(date -d"$1" +%s || :)"
+> -			if test -n "$timestamp"; then
+> +			if test -n "$timestamp" && test "$timestamp" -ge 0; then
 
-> > This change doesn't seem unreasonable, but I think failing when an
-> > unsupported date is explicitly provided is an improvement over silent
-> > fallback to time() based initramfs mtimes.
-> > A change to the kbuild.rst KBUILD_BUILD_TIMESTAMP documentation would be
-> > worthwhile. Could you add a note regarding initramfs and pre-epoch times
-> > there?  
-> Sure, I will send a new one.
+This will hide invalid timestamps w/o notice.  As KBUILD_BUILD_TIMESTAMP=20
+is documented in Documentation/kbuild/reproducible-builds.rst, I think=20
+it's a good thing to fail if it will not be considered while generating=20
+the cpio archive.
 
-Thanks.
+Is there a good reason do support pre-epoch timestamps?
 
-> Would you mind add your "Suggested-by" tag in the new patch?
+If you explicitly want to keep feeding KBUILD_BUILD_TIMESTAMP=3D"@0" (for=
+=20
+reproducibility), you might also want to set TZ=3DUTC (also for=20
+reproducibility)?
 
-Sure, I don't mind.
-
-Cheers, David
+Kind regards,
+Nicolas
 
