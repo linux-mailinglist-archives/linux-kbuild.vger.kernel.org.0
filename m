@@ -1,55 +1,68 @@
-Return-Path: <linux-kbuild+bounces-9184-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9185-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D681BE0FF1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Oct 2025 01:07:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 301F2BE1009
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Oct 2025 01:12:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B929E548654
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 23:07:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D7A619C5C15
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Oct 2025 23:13:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5AD7316194;
-	Wed, 15 Oct 2025 23:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42BD631690A;
+	Wed, 15 Oct 2025 23:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YsWeRbEW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r742GAJH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7443115B5;
-	Wed, 15 Oct 2025 23:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CC531579B;
+	Wed, 15 Oct 2025 23:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760569637; cv=none; b=P5a+ofXcVB+oc9ca6uLvzy/gyf4gVjpU8NauCC7+L9YkHnXmknCtFd2KOnfXYjvipP6rSrXeLIp6fpeQHlxOHOw92UnTCYvavxN2rlSdir3maPaeudr4irZlzjS7wI/3UrVqGmyfSnBqO3LxxMGnZ97hqZlV8kt65+JObVyK65A=
+	t=1760569945; cv=none; b=bGFhxzP4CAgsbcPQ3RyGJuyOzZIC07FStncfZzG/0o2z061hM6WBhY75vYUnYmcHVl0x7sflAwNO0jbMBj0sLqNCQZvjSNwm+Y6ii8PnsuhpOHq7OWGQT8/S7Dz7B3PFrlqnadwuCld6seUat3HkzeRV26LdHic9ddkfElgZwVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760569637; c=relaxed/simple;
-	bh=JAnOLWTWDq62vK406Qv1mw07MklzrcXhxgqE2FkO1Ag=;
+	s=arc-20240116; t=1760569945; c=relaxed/simple;
+	bh=S2Ya2yQzemibr6HZsTuRgiLf/45RF5wC6HtSHNrxObo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LqjESVkOY7bh7RLIpE+We0Z7NAm5TWfBhOYRbrie/VkTVFf3G3ssKTiZrsNkbV1WuFMf9FLFrJ4xLxO4BjJfw/jRSj/xWeTFgSKp0sJG8qf7+oBFtOWwvY7iWVPDI9J3G6YiAKCMUWff0IDmsVVPuUDu5Ap8IqwVOKMtPhcS+jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YsWeRbEW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBBCEC4CEF8;
-	Wed, 15 Oct 2025 23:07:15 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=U3ep5p3HnIq4u7PG1bphYKHpnLyGDaYK22QZshWxLzqd4ufZBskBgjQKnR9hgWFOALre0pWPuSxTZuVAWJqv3vkJTi2Ogi1UGHf987CLh0IUU2kX8AVDZ09LEqk8kmtOOSVC1agXPD5bGf165GVlHV2HRIspkze3npDLHtw1TBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r742GAJH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C785CC4CEFB;
+	Wed, 15 Oct 2025 23:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760569637;
-	bh=JAnOLWTWDq62vK406Qv1mw07MklzrcXhxgqE2FkO1Ag=;
+	s=k20201202; t=1760569944;
+	bh=S2Ya2yQzemibr6HZsTuRgiLf/45RF5wC6HtSHNrxObo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YsWeRbEW5qJZjdaMYpi0ew87rdt5TmprwpnkWblwFgtacPB/90JTnPsF3DAHe994i
-	 0MuBoiOgWCJvozny66IKrfNSM3kHdB+Ql4IALT5OVKodWJL9xz1h0EuJTaU+p/E9EO
-	 KsERr0RHm/WPZ6RcluGgE5K48+qeJ58+mSB/Y4HMiCJ6sciE1EZIoaX0hOS+FEdE8J
-	 OCQhB8X77riHlcA+c71auEacJy9QPQPsIaagU364ve+10r6AsoH+w+ouO9eWz3CvkV
-	 ik/mCBAw2P/VnEno7ZOUpYvw5nTwXhm8jrlLtB6kypv5EFpd3bs9oYjIiz8gwBvuJn
-	 kR3qW+Wcxt47w==
-Date: Wed, 15 Oct 2025 16:07:12 -0700
+	b=r742GAJH0x3PFoSz2u60+EnecSdHVlG5+/hwlpXx6Z5BQ44im3nIWt9VTEQ9RrHwn
+	 7puv4r1qnWrVlFuodBmLjK7eiT2TqkUQW3lmD3p6aQ5+vlKgDXNAcurVfgXZttBqot
+	 SMPtuvJM1yHec/D+6oBfEjcFo0KzDxWf8Jl754O2vQ2ESnK5yvpe/5ZMa5dLbkh+Pw
+	 Q2om1jkn6R57ieEeI7B6xFcbvuTkaVn1Rddm8i/i9m/VAy9UK9mIIRPVR0MUaBygFZ
+	 qg5zLYHCtNMZ35FDOXTBPChiN8Vd4unTG3AdOox09mbGoqEYlWairA0RXfG+i8syQb
+	 qtAUB5O3trU/Q==
+Date: Wed, 15 Oct 2025 16:12:19 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: mike.malyshev@gmail.com
-Cc: Nicolas Schier <nicolas.schier@linux.dev>,
+To: Steven Rostedt <rostedt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Use objtree for module signing key path
-Message-ID: <20251015230712.GA3943617@ax162>
-References: <20251015163452.3754286-1-mike.malyshev@gmail.com>
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v9 2/4] tracing: Add a tracepoint verification check at
+ build time
+Message-ID: <20251015231219.GB3943617@ax162>
+References: <20251015203842.618059565@kernel.org>
+ <20251015203924.391455037@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -58,58 +71,27 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251015163452.3754286-1-mike.malyshev@gmail.com>
+In-Reply-To: <20251015203924.391455037@kernel.org>
 
-On Wed, Oct 15, 2025 at 04:34:52PM +0000, mike.malyshev@gmail.com wrote:
-> From: Mikhail Malyshev <mike.malyshev@gmail.com>
-> 
-> When building out-of-tree modules with CONFIG_MODULE_SIG_FORCE=y,
-> module signing fails because the private key path uses $(srctree)
-> while the public key path uses $(objtree). Since signing keys are
-> generated in the build directory during kernel compilation, both
-> paths should use $(objtree) for consistency.
-> 
-> This causes SSL errors like:
->   SSL error:02001002:system library:fopen:No such file or directory
->   sign-file: /kernel-src/certs/signing_key.pem
-> 
-> The issue occurs because:
-> - sig-key uses: $(srctree)/certs/signing_key.pem (source tree)
-> - cmd_sign uses: $(objtree)/certs/signing_key.x509 (build tree)
-> 
-> But both keys are generated in $(objtree) during the build.
-> 
-> This complements commit 25ff08aa43e37 ("kbuild: Fix signing issue for
-> external modules") which fixed the scripts path and public key path,
-> but missed the private key path inconsistency.
-> 
-> Fixes out-of-tree module signing for configurations with separate
-> source and build directories (e.g., O=/kernel-out).
-> 
-> Signed-off-by: Mikhail Malyshev <mike.malyshev@gmail.com>
+Hi Steve,
 
-Seems reasonable to me but I have not tested to verify.
+The kbuild portions of this seem fine, as they mirror existing patterns.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+On Wed, Oct 15, 2025 at 04:38:44PM -0400, Steven Rostedt wrote:
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index 8a9a2e732a65..08ca759fb992 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -1048,6 +1048,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
+>  	*(.no_trim_symbol)						\
+>  	/* ld.bfd warns about .gnu.version* even when not emitted */	\
+>  	*(.gnu.version*)						\
+> +	*(__tracepoint_check)
 
-> ---
->  scripts/Makefile.modinst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index 1628198f3e830..9ba45e5b32b18 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -100,7 +100,7 @@ endif
->  # Don't stop modules_install even if we can't sign external modules.
->  #
->  ifeq ($(filter pkcs11:%, $(CONFIG_MODULE_SIG_KEY)),)
-> -sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CONFIG_MODULE_SIG_KEY)
-> +sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)$(CONFIG_MODULE_SIG_KEY)
->  else
->  sig-key := $(CONFIG_MODULE_SIG_KEY)
->  endif
-> -- 
-> 2.43.0
-> 
+Please add a trailing slash like the other lines so that one does not
+need to be added when someone else needs to grow this macro (also helps
+with 'git blame').
+
+Cheers,
+Nathan
 
