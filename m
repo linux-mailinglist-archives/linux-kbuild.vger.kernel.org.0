@@ -1,100 +1,107 @@
-Return-Path: <linux-kbuild+bounces-9200-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9201-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D25FBE457C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Oct 2025 17:49:51 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008A5BE6160
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Oct 2025 04:12:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3857F34562F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Oct 2025 15:49:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8070E4ECBA0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Oct 2025 02:12:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC32534F49A;
-	Thu, 16 Oct 2025 15:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38FC423E330;
+	Fri, 17 Oct 2025 02:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYon15nT"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="J36Y1G7f"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB92634F478;
-	Thu, 16 Oct 2025 15:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5B916A395
+	for <linux-kbuild@vger.kernel.org>; Fri, 17 Oct 2025 02:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760629763; cv=none; b=aixM50ZuDZ/9OGp8V4VohXY40suvrhT7VQCWhM50CoxJyUNg2yQTUCP/Xu3tM2HvDIxqdWqX9JJTbA4Q0NlMFgLaUHdDGWdoJpQFTFOFAeu/QuylGZXRw5wfEm7WhcPBmzKwc97fGjmrhEgAq494E+m2knkyyj1wuxa+ig10JAU=
+	t=1760667161; cv=none; b=S43o0Q4sy7byExZvYA7+RPkIN8LcpNNDaLG/sALnAa7yX0/FJlPfOJSg1R2fiVUNLq0DRarTVwRBMbZhQnf4ohuOuEChHqu3ZgMmxGdLZ5KzJThd5CqDXu/wG5m+tS1ArY9luTCZ96Em69CC89nSL+/eU1DRGc+RNBLbeTjYcw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760629763; c=relaxed/simple;
-	bh=SA4GVw/nGNJf/qOm9uwEhfvgtPwILVcT7iMh4Nomboc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EgWxe+ziWqNYRcJV5i/G3zb4ydNYA5V2v/yt/8htRRK7svNlWH9dYKapHGk322y0mD0YOKsV6y3I5R0RCtvv9i35sRUh5s+C0RwWQAc2h00PCGIZoKY7GjcWApMxpNUcxzA2GxxWmMg4frzhxpZ7r6kEqr0WflPqkUw1/fiYxwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYon15nT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5BDC4CEF1;
-	Thu, 16 Oct 2025 15:49:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760629763;
-	bh=SA4GVw/nGNJf/qOm9uwEhfvgtPwILVcT7iMh4Nomboc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EYon15nTC1mf/Qvey0ODWWWDCuKPTr+/B27xSXjLWRwifGlrhDcQOgJhEMNqsjziR
-	 eDOiocYrPuTcMiBDfhqjwhqH9hA4sSLXWykN43T5M+Ix8ShIiM79qj+AJGvyo089PX
-	 stOi4BAdKthV2JSsl7fMI1yYGo8J8o5uuKi2kihDTXySBmt0eIJajJLrWVbK7+0jGA
-	 qzWWj00vhlfquMHu8Cdg4TiwBuaginpMBQHcctPHlbwBi42bVHU/M//wtdNHb3AEXf
-	 ReNHOGVbu4I8xxDFWQXcYZtcer8mhUYow8CFKTXY+Y181eNS51IOOuYu5LidalJ0HF
-	 AIpnRMtBHrx4w==
-Date: Thu, 16 Oct 2025 08:49:20 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>, 
-	Tiezhu Yang <yangtiezhu@loongson.cn>, loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-Message-ID: <lgyzruqczm7uti2lfbhfhr5hyzpnm7wtvgffa2o7nigx76g6i3@wlffltvmhhez>
-References: <CAMj1kXH-rK0bRyHXdJ-crAyMyvJHApH0WR7_8Qd8vrSPBLK+yg@mail.gmail.com>
- <0c9b8e6a-96a6-91d4-946f-2109f48a529b@loongson.cn>
- <CAAhV-H41m96fvEWG5NqAE=tykPjyzt=50CseJDeCqdG-c_WMrQ@mail.gmail.com>
- <CAMj1kXEs5=VRi_rJwgHUrQWos-27PBbr3c4fYnmkV8Ahi8HZgw@mail.gmail.com>
- <CAAhV-H7HN128du-b1Rk_9qbYBq7gMSwo0s31909N4pTou6wzew@mail.gmail.com>
- <CAMj1kXGvSnCMRVCW7eAxgLRWMEV3QRj3Dqg3PmZchZJNpnLK9w@mail.gmail.com>
- <CAAhV-H4UKdso0BokAqvjYeBLr-jbjFAaQX4z=1ztpBamqrOEEg@mail.gmail.com>
- <CAMj1kXEXDC_oq4aWbkR5dqYBix2d1xJEdaj-v747e1nOA0Q_Yg@mail.gmail.com>
- <rhnei6wovxmoqs36wdysomfsul3faxtmgde73wrrqdt3qo3b2j@akd7vzne76rq>
- <CAMj1kXF+hDJy0vRWNgwoijHxvA-scvhGODMj9A3dv19v3jf2yw@mail.gmail.com>
+	s=arc-20240116; t=1760667161; c=relaxed/simple;
+	bh=CvB/ozrXronodBtnVZwA7Ot8plxTzg+bT0cwIAORQk4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ESmcfx1QJAenjOAP2TRlCfy1T/+Gc+zRMUvSnef20+kDZ6rY6xlUfR2uHdkOYJr4/TWYJpsmLdw3pD2FjknAWyQ6OWM9CyJ4/Jxor2H1UX3Ac/i1PO9ptFnaRXYrufi5Ct1jesgBNBYTOSagqryJhRnbj2NignHT+W1bC3Gjf5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=J36Y1G7f; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760667154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g9y2ZrbEQrOVND0R37NORb2lDqH3fVHhnUWgvop3Ytk=;
+	b=J36Y1G7fHZKVFUdtxaxBzAek2T+47QVs7bkf1pgCi5EcS1IcVe5E9hnAT7cEA8nLylLxXN
+	jpHebjfn7BWools8C0KORcC8OAlAk2Yg4TBFw0pX+pq4Lv5H1sRzjHV+jNtiVePa1E2RAc
+	pwLMNTrZgGI+7D4jzV8M7E6ABc42YUM=
+From: Gang Yan <gang.yan@linux.dev>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Disseldorp <ddiss@suse.de>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Gang Yan <yangang@kylinos.cn>
+Subject: [PATCH, v2] kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation
+Date: Fri, 17 Oct 2025 10:12:09 +0800
+Message-ID: <20251017021209.6586-1-gang.yan@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXF+hDJy0vRWNgwoijHxvA-scvhGODMj9A3dv19v3jf2yw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Oct 16, 2025 at 04:52:20PM +0200, Ard Biesheuvel wrote:
-> On Tue, 14 Oct 2025 at 18:47, Josh Poimboeuf <jpoimboe@kernel.org> wrote:
-> > The idea is that libstub code doesn't belong in vmlinux.o because it's
-> > not a part of the kernel proper, and doesn't need to be validated or
-> > modified by objtool for any reason.
-> >
-> 
-> I don't see a reason to change this on architectures that a) do not
-> use objtool and b) link the EFI stub into vmlinux. If LoongArch wants
-> to change this, that is fine, but that still does not mean it needs to
-> change on other architectures too.
-> 
-> EFI related boot errors are a nightmare to debug, and I will be the
-> one getting the reports when this regresses arm64 on hardware that 2
-> people on the planet have access to.
+From: Gang Yan <yangang@kylinos.cn>
 
-The idea was to have more consistency, so vmlinux.o never has libstub,
-regardless of arch, but that's your call.
+This patch adds an example of how to set KBUILD_BUILD_TIMESTAMP to a
+specific date. Also, note that the provided timestamp is used for
+initramfs mtime fields, which are 32-bit and thus limited to dates
+between the Unix epoch and 2106-02-07 06:28:15 UTC. Dates outside this
+range will cause errors.
 
-I'd still propose we keep the KBUILD_VMLINUX_LIBS_PRELINK mechanism to
-allow other arches to opt in as needed.
+Suggested-by: David Disseldorp <ddiss@suse.de>
+Signed-off-by: Gang Yan <yangang@kylinos.cn>
+Reviewed-by: David Disseldorp <ddiss@suse.de>
+---
+Changelog:
+ v2:
+  - Replace the invalid example with a valid one.
+  - Apply David's suggestions.
+---
+ Documentation/kbuild/kbuild.rst | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-And that variable might even be useful for other cases (x86 startup
-code?)
-
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 3388a10f2dcc..881189ecd0ca 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -328,8 +328,14 @@ KBUILD_BUILD_TIMESTAMP
+ ----------------------
+ Setting this to a date string overrides the timestamp used in the
+ UTS_VERSION definition (uname -v in the running kernel). The value has to
+-be a string that can be passed to date -d. The default value
+-is the output of the date command at one point during build.
++be a string that can be passed to date -d. E.g.::
++
++$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
++
++The default value is the output of the date command at one point during
++build. If provided, this timestamp will also be used for mtime fields
++within any initramfs archive. Initramfs mtimes are 32-bit, so dates before
++the 1970 Unix epoch, or after 2106-02-07 06:28:15 UTC will fail.
+ 
+ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+ ------------------------------------
 -- 
-Josh
+2.43.0
+
 
