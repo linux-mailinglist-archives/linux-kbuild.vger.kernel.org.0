@@ -1,76 +1,76 @@
-Return-Path: <linux-kbuild+bounces-9218-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9219-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2707BF1D11
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Oct 2025 16:23:10 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73DBBF1D1D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Oct 2025 16:23:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F281D1881625
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Oct 2025 14:23:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 89A314F63AA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Oct 2025 14:22:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00BE2322A1C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45F0A322C8A;
 	Mon, 20 Oct 2025 14:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="Ka38wHVp"
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="A3hzCIp6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F493148B5
-	for <linux-kbuild@vger.kernel.org>; Mon, 20 Oct 2025 14:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594F3320A14
+	for <linux-kbuild@vger.kernel.org>; Mon, 20 Oct 2025 14:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760970157; cv=none; b=rNgKeUaMnfWyYFhDKR98Ir8IFZzRISrshYgyxpJqQFPnyRixpOgTSTPUGVM4G8FjMJdp+pzxBLlkNGpfkwoD4Z67t1LnsQWTPWsAVWscGcdh0lVeedT3kA3YKiIg4onXE2RxC+f2jkKJdqWNfkroImArHDIglU9MuxrbQTj2IKU=
+	t=1760970158; cv=none; b=fY4+8mlbeX/XcCy97IE6Z6ytoJnzxCOlW4Y0l4v7CAOE06NBynuaODm9plj5iplT5i5ctXSl9GxpxQIUS9VYSrB0OTBEVq93xqPOyQKX2eReeDkbYrVAoBqHlW5GTHNa1FufiQveCu4RKrMAjQr7nUX3WctIpjFQz/HkNmR45V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760970157; c=relaxed/simple;
-	bh=JXxQAYlMzHf7CapetiWBiehB9Jp+AeiDGB7Scbh1Zy8=;
+	s=arc-20240116; t=1760970158; c=relaxed/simple;
+	bh=zVDPi2NmZxQInX/GIfLgtCtgKG78R8OLu0rkid/eYv4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ot56tb5Q3tCkENZ1IwlZQnbXK12O2ebd1uCBRsC5O5YINNnmbSmpG7PXK4VruqyFvIFKeAbTMbeQUq+jUJ7146pM8N02r2y1IN8wUkIJBbRqR7aF6TTuCadmd7mS1mTmD5S9bozoWPDHvgrh5oboV8Z2B8q8vxHEWCIx4GcUXLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=Ka38wHVp; arc=none smtp.client-ip=209.85.208.170
+	 MIME-Version; b=Zn+j6JPEYKlqb1Xrw1JzmpSAZpa3+XqAt99Vl69ndB8BU9t6Rlb6IiUY6r4Xl38LSIUjXmrb/2fMw1pyIwsnE8Qmj7orT8IXJTN/wF/iREw2s8xfNcMepJ+h3ZIj44WdzKhgLv8Pv+gFSRMwsiQCEwnjKpZ7vre3VZ0Hz3K1JlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=A3hzCIp6; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3717780ea70so48539731fa.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Oct 2025 07:22:35 -0700 (PDT)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-363f137bbf8so39829551fa.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Oct 2025 07:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=rasmusvillemoes.dk; s=google; t=1760970154; x=1761574954; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l53u/lFYy4UkryOGZpDbVu9TvyPGaOFSDZbxWRdpUJ4=;
-        b=Ka38wHVpKtQH0cxPgUGb0imzmq+FIMV1xOn06VDnoS0JlEcWJG9e3yXzuWlRh+5QPf
-         05AD2sOIKQ0ha1oLqJOqhQGAtyA3cAvNbe9jlZ496pdYC49DBxER7VdP72K76AwxrY63
-         tmTxFfQp7u0D9eo9hwMcpgaUfZmvIeFMOmxcg=
+        bh=oxGnzL84bOBveKtOjo7P4XxhPFp2ZO6oIYqNAjS+rn0=;
+        b=A3hzCIp6o83N/f1BHNdDEheVfppO+VUPyiwv2q/uJpXLKzkvhPYPRFaRaqayvGrVUU
+         eCUrMWZN3frZ/C2vT0uh1T38MYyNcElVnvJlP6LazEWDcXD5Q8okypDsgrpquN6uQG45
+         VyoPyAi4o7NLQOPUjeemgqhpJeNW+HtLKBmog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1760970154; x=1761574954;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=l53u/lFYy4UkryOGZpDbVu9TvyPGaOFSDZbxWRdpUJ4=;
-        b=UcCHi4itc9q2kUXPGnnZPbfWn55hK1zdbvwDA+qbQNm1R7mx+hEZevyjqrz53Vk8HG
-         sCX6z6fXYXcuy9/sCwpIgEoUwKfytp5SI0oXfCFa+fU3fa8OHnkBhC9U6IP8mnBex1cd
-         +qjT4qZd7I0Vb5+o+oLEAfEW2WayDp4zlUVe83vlrvDzPnSrNPx+9vDhrybgv1RFKW5R
-         ReLcfLomvGg1+fhac3crDOlzt5g5Lg0NtmL2ubKJmcDnBmbZFT3820HzzlivynFiwL8P
-         PsM210SLjaYtXZ421H0wQ3ee5EEBJu/q1syvO+TQ2PvlJ5gdy2mfD9b4QRuf/n4IJHP9
-         Cr5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXx67JfEZ1FD39tWdEiiEHwlgxbak5ab2f5g0fHNRS6bEhqymLL0lFCycalPvVSUiKJv08Z5uimHvHExNM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhxaH4Y4UEqEEVClct3QIQd8/gXL+mdkOjWT5rKLWnRRtDpNX0
-	BG6Q6VXLO3KFWr4RdonxAb39Zmww7Ztrj1ak62q9bRF/kMO1M4+secnrDEy48Y9kEJA=
-X-Gm-Gg: ASbGncsiVxCVXaD1ThsXZW4ygIONNDTHGhUynCv5cwCjCt55w5fvy1bIXcvXdZS+j0+
-	NugXmPmUd9tp4j18LODudC7SvZ4/a6MCJSjKPQw4vahe0uBhIwpMNR0Ro0aIy/f13xSbcRcdP7W
-	W6CrvWxOIGojkdIUuBFtplZg2frFYv0HF4t0rdRrXErOxL/aqmKvaSRZPeOzJ5qJTkgVPs6JK/B
-	CFEqgVXLSZmPsnxxRYb62oc60dIZMKjOfGLNFaekv4tOHWxfkD1kRxKoeYOGj62eIzlFZrfEEbe
-	/m1r4HEDgjn21bYSy0EP3i6qKvwFQYT9d3egXxjPhXfqRe/ky3TxRjSVzzYN7r6AAd3jeZcbPx5
-	szAvfPIPN7+OlrekEz9TFdGzxl2dD/zKwPCjZol/ZpuU3Zq+dfT9xfHEWf1Ey3jMMpM+eCC1aV0
-	kAqH2sPLb9JPBBJg==
-X-Google-Smtp-Source: AGHT+IFTE/qW1dtgMqVJs7zGeEeHleNHdYWfYhUz3cdcHeE5+GjvJKt7zg605bf5VDdT5d0tjB/QKw==
-X-Received: by 2002:a05:651c:3617:b0:375:ffc2:1b38 with SMTP id 38308e7fff4ca-37797864f2fmr43425001fa.11.1760970153412;
-        Mon, 20 Oct 2025 07:22:33 -0700 (PDT)
+        bh=oxGnzL84bOBveKtOjo7P4XxhPFp2ZO6oIYqNAjS+rn0=;
+        b=L0id4u00YcOUgRJMfGoWV4tJdVoM1l6jLGifB71WHAP3dV3wl7Aeizb6YwP996Qka1
+         Fh8+cNQVQKBlo3X/lu1MH7uDxD2zxgMQrV4/8+CPKipbEPDQmYj9Kpvet6LWda2fj0jk
+         IorXAUVgM24evUIXNonHvMOOuPjbNCvrDkoPGTnhMCuC8rUV+S3fL8GYoSTY1Davsnv9
+         3FRo9OmDqMVBiIH0ZGt5JwRgkH4ZNcsCaz+1nLacdbchcaNl0Gb1eTqRxVOzh5RAe0+7
+         7hvt44OISVoXT/QD4PujOF+heDqyKFZwJY9GIuaWB2Qy8tbcgB57WdZiMURssd2tffS4
+         Lr7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWiOTHBZltKOPFaJ/1dQZwbQhUKHfGRlmQ5Fl4dDD+sUY209j5VgT/UmOEq8mbLPWPyPVt0dKAOY9B7ksc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRx88AJ3aCIJljWrfIx7trWkOfT6f9zIyDTN48XWOn9aovjH+o
+	jfzaTy8pkeOXZ/Tty8LtH/3y3/INnMqro0dEW8i/GFWUzf9f/tjhG8p3JOPgN+eRwIE=
+X-Gm-Gg: ASbGncthsslOixYihIEsxrDG5BhoIl88S1BfxkFrKWgM85SfhVS07A9XyTY2y5z8OrV
+	XkUj23bYll2GcEbkOEWWBrTPS711oM/Jfe1hmCVHrpHYc4Rsv9uKL1dzK9sZ2hQx85kLX31p1cM
+	hlj0JoWbnHHMiBrhVPW3348Wqlp8T1H5STU++h/gHfqPJ3Kj1C51m1NTIh5RHpiTfSojaSB12k8
+	ONcpkOKHZwqH5CQEgoNvRG0XKv/l3mB0/p5w/ZX71SeC20mWE+pghKC7KFzkIgJFq8jT/mmwIK4
+	FhQiVPNAFYTzpcXLblSBDV/yWHkK1CsUtc8hAdvDE9pMIEsYgS6FbTPats390jvxLe2LvBFXsMO
+	ZJ1wj+QZYlGiA/qvojrutTf/rAsnqwbf5VrFVOaER4r9Uc4o4jdp616obY4xtJAWtKVlW2IXWN9
+	X3Qe18vBr0yURiWg==
+X-Google-Smtp-Source: AGHT+IGb7T77vI29R8Q/U3A3JcdQs8FTAE7qJEZ47X10i86VYJPY3TK8jaZUwjb647q8hByJNP2BBQ==
+X-Received: by 2002:a2e:bd86:0:b0:372:88fa:b680 with SMTP id 38308e7fff4ca-37797a3b322mr39705961fa.29.1760970154270;
+        Mon, 20 Oct 2025 07:22:34 -0700 (PDT)
 Received: from localhost ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a9666274sm21216501fa.52.2025.10.20.07.22.33
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a950cb1dsm20951171fa.35.2025.10.20.07.22.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 07:22:33 -0700 (PDT)
+        Mon, 20 Oct 2025 07:22:34 -0700 (PDT)
 From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	David Sterba <dsterba@suse.com>
@@ -79,9 +79,9 @@ Cc: linux-btrfs@vger.kernel.org,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	linux-kbuild@vger.kernel.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: [PATCH 1/2] Kbuild: enable -fms-extensions
-Date: Mon, 20 Oct 2025 16:22:27 +0200
-Message-ID: <20251020142228.1819871-2-linux@rasmusvillemoes.dk>
+Subject: [PATCH 2/2] btrfs: send: make use of -fms-extensions for defining struct fs_path
+Date: Mon, 20 Oct 2025 16:22:28 +0200
+Message-ID: <20251020142228.1819871-3-linux@rasmusvillemoes.dk>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251020142228.1819871-1-linux@rasmusvillemoes.dk>
 References: <20251020142228.1819871-1-linux@rasmusvillemoes.dk>
@@ -93,54 +93,81 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Once in a while, it turns out that enabling -fms-extensions could
-allow some slightly prettier code. But every time it has come up, the
-code that had to be used instead has been deemed "not too awful" and
-not worth introducing another compiler flag for.
+The newly introduced -fms-extensions compiler flag allows defining
+struct fs_path in such a way that inline_buf becomes a proper array
+with a size known to the compiler.
 
-That's probably true for each individual case, but then it's somewhat
-of a chicken/egg situation.
-
-If we just "bite the bullet" as Linus says and enable it once and for
-all, it is available whenever a use case turns up, and no individual
-case has to justify it.
-
-A lore.kernel.org search provides these examples:
-
-- https://lore.kernel.org/lkml/200706301813.58435.agruen@suse.de/
-- https://lore.kernel.org/lkml/20180419152817.GD25406@bombadil.infradead.org/
-- https://lore.kernel.org/lkml/170622208395.21664.2510213291504081000@noble.neil.brown.name/
-- https://lore.kernel.org/lkml/87h6475w9q.fsf@prevas.dk/
-- https://lore.kernel.org/lkml/CAHk-=wjeZwww6Zswn6F_iZTpUihTSNKYppLqj36iQDDhfntuEw@mail.gmail.com/
-
-Undoubtedly, there are more places in the code where this could also
-be used but where -fms-extensions just didn't come up in any
-discussion.
+This also makes the problem fixed by 8aec9dbf2db2 ("btrfs: send: fix
+-Wflex-array-member-not-at-end warning in struct send_ctx") go
+away. Whether cur_inode_path should be put back to its original place
+in struct send_ctx I don't know, but at least the comment no longer
+applies.
 
 Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 ---
- Makefile | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ fs/btrfs/send.c | 39 ++++++++++++++++++++-------------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index d14824792227..ef6f23ee8e7f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1061,6 +1061,15 @@ NOSTDINC_FLAGS += -nostdinc
- # perform bounds checking.
- KBUILD_CFLAGS += $(call cc-option, -fstrict-flex-arrays=3)
+diff --git a/fs/btrfs/send.c b/fs/btrfs/send.c
+index 6144e66661f5..1fe4a06e6850 100644
+--- a/fs/btrfs/send.c
++++ b/fs/btrfs/send.c
+@@ -47,28 +47,30 @@
+  * It allows fast adding of path elements on the right side (normal path) and
+  * fast adding to the left side (reversed path). A reversed path can also be
+  * unreversed if needed.
++ *
++ * The definition of struct fs_path relies on -fms-extensions to allow
++ * including a tagged struct as an anonymous member.
+  */
++struct __fs_path {
++	char *start;
++	char *end;
++
++	char *buf;
++	unsigned short buf_len:15;
++	unsigned short reversed:1;
++};
++static_assert(sizeof(struct __fs_path) < 256);
+ struct fs_path {
+-	union {
+-		struct {
+-			char *start;
+-			char *end;
+-
+-			char *buf;
+-			unsigned short buf_len:15;
+-			unsigned short reversed:1;
+-			char inline_buf[];
+-		};
+-		/*
+-		 * Average path length does not exceed 200 bytes, we'll have
+-		 * better packing in the slab and higher chance to satisfy
+-		 * an allocation later during send.
+-		 */
+-		char pad[256];
+-	};
++	struct __fs_path;
++	/*
++	 * Average path length does not exceed 200 bytes, we'll have
++	 * better packing in the slab and higher chance to satisfy
++	 * an allocation later during send.
++	 */
++	char inline_buf[256 - sizeof(struct __fs_path)];
+ };
+ #define FS_PATH_INLINE_SIZE \
+-	(sizeof(struct fs_path) - offsetof(struct fs_path, inline_buf))
++	sizeof_field(struct fs_path, inline_buf)
  
-+# Allow including a tagged struct or union anonymously in another struct/union.
-+KBUILD_CFLAGS += -fms-extensions
-+
-+# For clang, the -fms-extensions flag is apparently not enough to
-+# express one's intention to make use of those extensions.
-+ifdef CONFIG_CC_IS_CLANG
-+KBUILD_CFLAGS += -Wno-microsoft-anon-tag
-+endif
-+
- # disable invalid "can't wrap" optimizations for signed / pointers
- KBUILD_CFLAGS	+= -fno-strict-overflow
+ 
+ /* reused for each extent */
+@@ -305,7 +307,6 @@ struct send_ctx {
+ 	struct btrfs_lru_cache dir_created_cache;
+ 	struct btrfs_lru_cache dir_utimes_cache;
+ 
+-	/* Must be last as it ends in a flexible-array member. */
+ 	struct fs_path cur_inode_path;
+ };
  
 -- 
 2.51.0
