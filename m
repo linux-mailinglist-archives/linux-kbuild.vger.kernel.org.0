@@ -1,220 +1,185 @@
-Return-Path: <linux-kbuild+bounces-9229-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9230-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304BBBF422D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Oct 2025 02:20:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDD9BF547E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Oct 2025 10:36:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A552B3506C7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Oct 2025 00:20:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E929D18C63CF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Oct 2025 08:36:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8378A1AC88A;
-	Tue, 21 Oct 2025 00:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B7F30498F;
+	Tue, 21 Oct 2025 08:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFRu75AO"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Rk3c94xz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8FD1A317D;
-	Tue, 21 Oct 2025 00:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761006039; cv=fail; b=GHQA8viRH0P0858bKEAHTA7+RgBEgb259resRfFue/gQQolMDr4OYttJmXp/CzZKHthsGOYW6mYCd1Gtzoo5H0xOzlUKGa1SiinUkn5DeySTvAybcxu+I8rACO6I9HwhDqZFbMblylSkkcWmI4Rul3LcRXaX/SuNCv1BdUFSHEQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761006039; c=relaxed/simple;
-	bh=Ss9Hhf12o+RadTEk+IS3/XHf0ZthImRoVgINvKGtpsI=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=iTXmcwUQZFUBVDfKeHcp01uAG4uz6qjrXpY54e4ESD8aja/gWvwUlhki/LA8QAi6KQ3aG4Ewoq3T01XeHpLp1Jbo1tshYu6gK+ClmtUYJy2kHzHLeeIOBZ/wcv1Kd9xYDuig3D4awcJ7e9tJuTfPlHHlsIF+2/tyrSw/w03Tlh0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFRu75AO; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761006037; x=1792542037;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=Ss9Hhf12o+RadTEk+IS3/XHf0ZthImRoVgINvKGtpsI=;
-  b=OFRu75AON6Ec4tTZ1zPxr9GGbvslNZwatefwJ27z1iULqPLmQQc/jQnW
-   0XtFqqG41ig/rWZJWw64NhNeq2I45UZ6227ZvQgQzLOP901s9nsyO44L2
-   TUsUJOFCdFZNinHfnY7v9NVKrv7djauo7B3FlTMSk+0WAYrF/AexDTJFf
-   2k6dl9F0EgVxCBqstZF1ZVfx0W2T/96ut+c0vcFInP6Hdw18qr1yon7Si
-   ymym1SKDn8VjKCM1DIUTCLrDSPmMOyTwVEVB9VYY3TMeRlRJEpmjpg1jo
-   LPnC5b/tzH1cqIdEeI1ngnm4IIcjgXooZmscly7/Ti7iaYKNYj4RPoJEi
-   w==;
-X-CSE-ConnectionGUID: 6mXphIDOQbaVd7NooO8r1Q==
-X-CSE-MsgGUID: utGIxOBjSYiieWqOZdEHcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63027246"
-X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="63027246"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 17:20:37 -0700
-X-CSE-ConnectionGUID: 8CmFbZtnSeaEOR0Tm6jkyQ==
-X-CSE-MsgGUID: hbc8d48KSaSZBfSrThSRbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="183865617"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 17:20:36 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 20 Oct 2025 17:20:35 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 20 Oct 2025 17:20:35 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.43) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 20 Oct 2025 17:20:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oz/7BV9zVxuBxKAi/LTgRHW5Gpaq7JbDWM6V8tXSTz5k+N/MnSfoxFDYtvRzxYDOKVuBQjFRU1VMElIoXLVqWemgOhtOf8l60HjUqhOT7i33IgqTfNJGNOguRxmym8yAQ8DVcDcc3UOTujJxsY3UmeZRUmlfx5fv7US67jhOOUjauxVL25buVvcD9xPOi5OAXCLKmXOXcejZFiiS1+OalX2cbAyOQ/7zPpdwaT+3zqE1AbKX1JiX0pXZZra0opAzbkOyK93VmXkCvRIFxsrsJMwZ+EVTdbj7RTV1lr0JUYU8JBfK8iVZ1cTVGpsetsPBAMJ/aVRKqA1b6DslPQ9zFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MvQ/DP+stG20uJeiW1KVXDXDwAQr0LNiecAtnRGWTpo=;
- b=RcbqBULtvBHUC/VSO5ynAuNfNVVBAcoD9AittHRK4eb1Mva9P6AKK2ReVUne4XzO34d2Hr+uSHVESYorIL9IkUIU0NZmV4G97SBxy3dczJR8u6CKhv3m5XIMReiudzpj+M+n7LbehzZI40TudguH/cH80E+NXNy+pHOdTsamVunjIxkNgmI56THLFpvL8HyvUqFtstKQUP5QfA98epa4Uc+2RCQxUM+lyObEZSFid6C5wWIaLj5U3ZxPvnwq2ly4cIV9E/37HbSTtfgU8DGXXsriU8H8OWIbvx2Hn9cPwI8K5gMtE++/A8QfJIil23XGsoRF6BgJYjfaoQHobwgeFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by DS0PR11MB8231.namprd11.prod.outlook.com (2603:10b6:8:15c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Tue, 21 Oct
- 2025 00:20:32 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9228.016; Tue, 21 Oct 2025
- 00:20:31 +0000
-Date: Tue, 21 Oct 2025 08:20:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Johan Hovold <johan@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>
-CC: <oe-kbuild-all@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, <linux-kbuild@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH] modpost: drop '*_probe' from section check whitelist
-Message-ID: <aPbRxnyo1FDFBx8h@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251020091613.22562-1-johan@kernel.org>
-X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60ADE30217D
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Oct 2025 08:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761035708; cv=none; b=bCfmxwQ4hJJbT4Qr9tyxh9k8uVvXSviV6mElmumgAApIIFPJLCm1MeWpSDydqu2Jmv0vAYoyokbph/iN3aTBctnrrQRFLs2o6l++/tFqbTtOkoM+9DK+/rMed+zGL3DKtPk3l2eBZFkX12x5rFGfZUIQwglwjSdCwVMKou+zemE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761035708; c=relaxed/simple;
+	bh=YaSBAbdAjpIG34xK5rBs7dOb6NfAJ+QEOT4p38B32Nc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mvi0IBCJ8nolsyYjgjfsCJ+Nfv7W01VzZbxuZAe8usQhcqlsACwqrex442BrOLTAT2IfvQUTKAb5NzTWSUKg6S0pJmb8/7EouEP+kVIW/DY44kPWhMKzHAwcuCIKcPRltPstavFiFiC0MkK01yzgIytImMM46n+t7RulJ28sKT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Rk3c94xz; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-474975af41dso3875365e9.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Oct 2025 01:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1761035705; x=1761640505; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+WElwxfDhwAQUTUU6M8FcHqJx7EeTmN3/ZrtK46jRLY=;
+        b=Rk3c94xzzE0PN+RoGuou8xmw60tdtJ74A+P801lG5T219t+6Uyrw4ql05seXnyG/sa
+         sqTeUwbErdOik9QKSGOIvpAj66MJbLhlBbKsK+hKn38sJewgPA/j5lUU28kPB0mis9NQ
+         TTCoO/pWRX/bthYXQvgjCN/Nkipa/Gp73jwOFHWHBbOsrdya0eTUCETlPh9Y1pfXfE4w
+         4TjV94xtu0DpaBT1sm0M9Fti4+tkUuTwTpDOpdXtQOWzh2p8SkuBaqnyoA2TdzF6vKV5
+         eDooE409MyRlLDfjxstpvor9y2+tEtghOUVW45qnVIroxuF8f/Cox/9PwaxxtrY0UvAI
+         bVmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761035705; x=1761640505;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WElwxfDhwAQUTUU6M8FcHqJx7EeTmN3/ZrtK46jRLY=;
+        b=EHe7bbGuvwvfCjdYONYmv9Ohyi0s5AE+vEVO8BVy5uwUrtlqKL4x9WCicSYvZe5Alo
+         6EYqYurLE5ZudcjSJ14AzIV9R8DOSXkSnp2KFE3uyEK9jQWh3hUk3taBe+EanfUUYg+T
+         PpF6RqA1xOri8O2y7D8hDm4cyKcs567uzgKXAwnQ/0OFj1joiWFsWIseWQupVL7pA6Bu
+         DI7INbYTouSsqHRVXOyOQ7FjNXGYKQScWCg1AW3/BCWRP89CaM01i+Ul5s2O8Dv0MhRZ
+         t30hwefNm0ZvtcADT5bJypl2KKmvC1SDPAoEHHEjgpGvvYDax6/I30+cERmPC0Tqztui
+         WJ+A==
+X-Forwarded-Encrypted: i=1; AJvYcCX98H+xFSjHHSVYz0hg6aMAiJtm+rEHKv0v7uBW5hcPEy3pb7bu4cDP6u6I/NuRTHx7W0AI+Z2QR3ll/Kk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGt1heIX/wouD7IgLlwnjj5lR2UO7wsoEN+s5C7VZjcwDzlZW/
+	bPr+8Qy6qjkF84MXd0fr7zdxluUVoRHUKpjdqwYqvvqaTkdB3rjLiUKKPP18NzV5d/w=
+X-Gm-Gg: ASbGncuyJoy7BlVTGyp6ANi8Qg5M4OELVMRpkfeauGFkbXSfZ9Gpaf4KI4F5JT2kwDK
+	6gTokYBoSL2lSiDig6TqOV6ysjegiJvXl4dCU/kCuD4vaZvzGFof54S/gEdaWsrGx4jK54RyZdv
+	bW3yvFXSqh6NeRosaGlWt/c1NIQ32677KvBSQDOmoKTN0HkIF5G3lA7c9D47lsIVnCAdsAq/5yO
+	h3WSsENjRawezlT3Xjy0TPwcPgN04lHyWKumsy0TyWTSU8JsJdB9NC14PTv4TVX016b4bBsXRmS
+	WLN0BT4fxUu81Rq/3aVs5DJhWApgfVfVSJLKeLcDeT5tkdmA1gyHXU8uKjUBdDcQGUHzkG9r2o9
+	b7y45s0mMxjjReKDI1Otj9cDrDdM/oLIbVTnMF4M8yEzKGq1HOpPl1e5gv0NownIV31yZekHFF2
+	25WftjgrKLKhfxsKwHpvlB00kF9KTOwrk=
+X-Google-Smtp-Source: AGHT+IHyHD3i9/mFT3HJ78GMd7f/qo1UWDeznE2MAfRacbhe0fu1pqUuTs5oe6SC2j+nOkpKxqDXfw==
+X-Received: by 2002:a05:600c:8284:b0:46f:b43a:aedf with SMTP id 5b1f17b1804b1-47117925da1mr94027305e9.38.1761035704645;
+        Tue, 21 Oct 2025 01:35:04 -0700 (PDT)
+Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f009a7dasm21065529f8f.25.2025.10.21.01.35.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Oct 2025 01:35:04 -0700 (PDT)
+Message-ID: <cac5ed5e-3320-4db0-99d8-ea5e97e56bfb@suse.com>
+Date: Tue, 21 Oct 2025 10:35:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|DS0PR11MB8231:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9964b7d-07cf-4896-e66b-08de1037a4e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ozcHSJwSygbalwoluxQ+tOaKc86TY9KUZHVEcE5IQjZ+kUP/7Kp7uvEYCKGI?=
- =?us-ascii?Q?HBMIUCNHMYk6zRR8ze8buds7F1kov0uEAcJybU9yuWPXla1QbPVk/jbBr+1x?=
- =?us-ascii?Q?70nxLRE59yr/+4xk/c3IdZd3YSRd0uPALMhCGEj7j13uS1yUrUhIPfat2wYM?=
- =?us-ascii?Q?w34oF4oJMNTaeRLniS3+oRf+3AEAZVkAvvTQbF8jWVW0n7GFLOvJgwe+Ku2o?=
- =?us-ascii?Q?J38Jn4ljR/HE2WucQTXGfWiCmtweFFgY3EV1bkBAnkm3E8JEYOfgOX4uGalm?=
- =?us-ascii?Q?JB/w80u/5ci3kAqt66Ow5C3y+9DT7smDTz6NU5s1CAWqa9trPhSIFpo7HW9u?=
- =?us-ascii?Q?is9A4D/CzQkH5cVoqxPxJHqcLhEDMOMpNXa/7qAj/xIU1+O16CsIqhlOL4WR?=
- =?us-ascii?Q?NeBmpXrRUgvDCHjt+pdSk8dFRSNkX7Gaez22lIccz8pjBwJKbqcH0hlE52qr?=
- =?us-ascii?Q?yWLf3HH3gP5DUIUsmyuCSIcNVBS445pQxkaHbU1nbKjBdGUurD5urYmMlK2w?=
- =?us-ascii?Q?TaKSnKAgmgAZc0apFiOtMHld7O9oJkYW7fGrVsRA1Vn5rQ0SbNf1NBC3DR18?=
- =?us-ascii?Q?kXNzhl1TXheZuMt5MV5sOGCQHWfvUY1Niz+SBjiXobJ83pWPIFswJV4OVmc7?=
- =?us-ascii?Q?oigS7jJ99b8zQGA6CjR1/d+vKZu2rgIRht7mxWI3Dp0PXhksTJeMT1npWYWl?=
- =?us-ascii?Q?KZlkCv22nYPhJVNrTXGXFoRXEiDC8TZdR1PzbCGxOpF5QWQH2DZrkFTzjD0V?=
- =?us-ascii?Q?B/IaPKWvAWjNwYaPQSXCNO4WDAHOEOndrJFsR0JxTkBqzcCbG1MlpBO6TNm/?=
- =?us-ascii?Q?dIpBsd3rO+cftIK5zTX+Q4/Bb+RchSMD7bKceAGcCMFr7uVtIA7fhpmob4O1?=
- =?us-ascii?Q?U0O2PMDt46Y3J7nl/G66rjfo1plmEngJ/BWUV8t7BXgK1CVMYOR1vDQgFQsS?=
- =?us-ascii?Q?S7XPuEtafGmfiluciTzauhPUB4iM5isr5YoRBfJ8lGfGQUKbm+4mPt24f+a5?=
- =?us-ascii?Q?OSih+Z6Rijs5LUc+JwWM7Gl2XupARTNX3i18OGQ9gIUMkqZb24FNGJESp1KR?=
- =?us-ascii?Q?qM2+JHLoZODkkR6pdacvSLPkPoZUuldouTcT/7UcASIMZqN+JOiScK2B/son?=
- =?us-ascii?Q?IG5V5yFWSHl/idFdYHJpmXOkmnC0DKTyUr8B/B0XuBGwa/0ov/GEUMrzWa+9?=
- =?us-ascii?Q?VOEASK73CbziGi+Lh8D6o4Zm5sSC99uFwcboG0y52ihuhbsUrg3W9GHG5ZYE?=
- =?us-ascii?Q?OU9jv9dAc+SSk7SG2P/MFi92F1itXksW8us7QgTwzpFt/vU257t6lfc+cCU6?=
- =?us-ascii?Q?z/ZDvIh3Kxuxqxlp4nWcb4F61oRdVlBDQwwX4C1htEFnBhF5BDuIvQFsuVd+?=
- =?us-ascii?Q?4t8mwsoEPbj0GMRpHkQr600l4lSoQ63+HlXkBqQj8yS0sQuW/s1VnIEUQfKC?=
- =?us-ascii?Q?AxxGZeJ9DmNZzBkpMTr77fWH2FNifTI0WrOZfJoOSV7QVad1wEYWgw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WI7LYyqGAcZ7+7TTErZI0n0hrYIE272p6HI4kkCRXi48rKVcJni7Z77XGDLP?=
- =?us-ascii?Q?mB1vjT0nLi61JvRM3HeibbI4HOjNUTc1KPac8GpfhIopubXwex0bA9hw4Afm?=
- =?us-ascii?Q?xI/gksgVXimmR7Qrnz/yDcuiPV8NiUbDs70umB2hNDthtgQ16SwQBCOOTBq8?=
- =?us-ascii?Q?Qs4n6MDNJnSwTfq0fzUkr+bnxkaqmVCEwsvkQJpGDEU8Cy7X46IDjfcUDfOm?=
- =?us-ascii?Q?kyNC9G4yd7FFeoMdc6m3VMIoq+44zEs0UWjprH8y4NOQE6uMiyCwiuaVEnoB?=
- =?us-ascii?Q?IZKWB6Fyb17xcJqiniMQ26dddoZXw9irvujvkVMwl23MNFk/HiRAToyreHFz?=
- =?us-ascii?Q?kKtVsD+IcRa2r+nLTCLMyHFd+6P+GS7aZ3Dj1/ZdS+hl4lKi2WrrqHD5TjLB?=
- =?us-ascii?Q?aIFs50j5nvdRfTO9cturKXHr8TyU6MNRaj2brb8OD9a8tDTgyJwlrrDHCzr1?=
- =?us-ascii?Q?Zm6ioJYzA+8cbva2gfj59wARE4vSkSdbvvPn5KHzku+NSNzsd6E0FWBawtg4?=
- =?us-ascii?Q?Q/vr5KGEJsHWAe7Y26uawbnlIe9dC3+SHLNGM+PK1FWISs+FAIqFc7osqi3Z?=
- =?us-ascii?Q?f2E0Gi0Yb+WLG+ibgdCa+swZhXfaDdd5wtwlxnb3ShEBSTGY0w2BY+7wOnTz?=
- =?us-ascii?Q?2nuYK74ioOcxGq1aZDu2V2Q5NyVwi1M0UjK2HXAKqi+ZF9La5Ax7TGCSyQd4?=
- =?us-ascii?Q?HhNrhQXxLxvpMGuBl29Cf3uFFyi8tGnvPtwS8cuPxIa0d8yOZUFq3Pz2nkpV?=
- =?us-ascii?Q?lfpC44VKycyIeKxsgQ8HEyP3txW5fp+qLT7T55O7QuuW+DCQ7TS7Okey6kSd?=
- =?us-ascii?Q?3QjPmQyM01n2mSkEEOqgkBh4a/Ci5KVeT3R+cOQ9Rybijfh3LMuKkc1T1NJv?=
- =?us-ascii?Q?KozrneFaiWZoos8SRgRzeI8uEv0XThwnk3HSpws2l6Lp2w5eE4Qawz3yHCMh?=
- =?us-ascii?Q?OJfMDkm7LTAu9F3KiVZ+rpok4+zZ4pAtKSmUhsBNPi8UGGxzH1sPFyFMan0a?=
- =?us-ascii?Q?+OU1khydH/PMcXzA4Dz+avJgPaRz0PADMZwujC0v3C2J6MVKKIcm9ve5FRIl?=
- =?us-ascii?Q?2Zu3aNasi1L8DYa2LX8xON8t/h2nf9Xkgq5Da+Zyqd2Jk0VIfhgV7sirG/UA?=
- =?us-ascii?Q?uCysGDGGbNIjqW7IdLzPl6EVCxhPw2nDsVADyUd2FcqTHH/pJtVh++RlOp/I?=
- =?us-ascii?Q?RWQqxpDLNzJPI3oJwMGPY9yvuKvEjBvxYng/FpDbbu2SSLAlhpRX0khaOvPQ?=
- =?us-ascii?Q?I6gmMMlRI4OFhJG9OCVaOa8xqMPl6QJ/R3KQbeCZsMkZ9HddGdEIzUclEllQ?=
- =?us-ascii?Q?pqs2ZvbX/Uasrn+UA8G+rVIvpnPLRBYqstdxe4OVIFHzwDg0U4XjSgfCutZM?=
- =?us-ascii?Q?M7Qh6nWSvTkWaoBZskgfZbxepvHnXtJMxxn6Q/sYYtIxptjtE4iJwxfjD0jA?=
- =?us-ascii?Q?lCWVmX6S9ySAmXXVkZmRayJkeFtjP2x6lHXTw+3fLp70Tp5zGAcbK9tDvvv1?=
- =?us-ascii?Q?kA+R5MxEqgX44aIf/8VJ0Mxx+S4/5JI5KylAeMqha+kFLAeXeKPKHZJlCGH6?=
- =?us-ascii?Q?rIm6KD3+Y+rh/YvMxR8gTXhVjuv2lTy1kw+JWd5+?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9964b7d-07cf-4896-e66b-08de1037a4e8
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 00:20:31.8934
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OZw9sf15Lqq0DM7hdxwERPjzC2NMIAG23OiyrmVu+2+QR5mcacUCOplHUnDTrJgWIdbjQAkAKi9hcl87u/M7xw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8231
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/10] scalable symbol flags with __kflagstab
+To: Siddharth Nayyar <sidnayyar@google.com>, corbet@lwn.net
+Cc: arnd@arndb.de, gprocida@google.com, linux-arch@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, maennich@google.com, mcgrof@kernel.org,
+ nathan@kernel.org, nicolas.schier@linux.dev, samitolvanen@google.com
+References: <87ikgieiar.fsf@trenco.lwn.net>
+ <20251020224317.723069-1-sidnayyar@google.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20251020224317.723069-1-sidnayyar@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Johan,
+On 10/21/25 12:43 AM, Siddharth Nayyar wrote:
+> On Mon, Oct 13, 2025 at 8:02PM Jonathan Corbet <corbet@lwn.net> wrote:
+>> I ask "how it will be used" since you don't provide any way to actually
+>> mark exports with this new flag. What is the intended usage here?
+> 
+> Patch 09/10 (last hunk) provides a mechanism to enable import protection
+> for all symbols exported by vmlinux. To summarise, modpost enables
+> import protection when CONFIG_UNUSED_KSYMS_WHITELIST is set. This
+> results in all symbols except for the ones mentioned in the whitelist to
+> be protected from being imported by out-of-tree modules. In other words,
+> out-of-tree modules can only use symbols mentioned in
+> CONFIG_UNUSED_KSYMS_WHITELIST, when the config option is set.
+> 
+> I realise I should have documented this behaviour, both in the cover
+> letter as well as in kernel documentation. I will do so in the following
+> version of the patch series.
+> 
+> Please share any feedback on the mechnism to enable the mechanism. In my
+> opinion, CONFIG_UNUSED_KSYMS_WHITELIST has a complementary goal to
+> import protection and therefore I felt like using the option to enable
+> import protection. In case this seems to convoluted, I am okay with
+> introducing an explicit option to enable import protection.
 
-kernel test robot noticed the following build warnings:
+CONFIG_UNUSED_KSYMS_WHITELIST was originally added in commit
+1518c633df78 ("kbuild: allow symbol whitelisting with
+TRIM_UNUSED_KSYMS"), specifically for Android. Looking at configs of
+several distributions [1], it appears that it has only been used by
+Android so far. This means it is likely acceptable to protect the
+whitelist symbols in this manner.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.18-rc2 next-20251020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On the other hand, I think what is protected (all exported symbols or
+CONFIG_UNUSED_KSYMS_WHITELIST) and how it is protected
+(KSYM_FLAG_PROTECTED) are two different things, so it might be cleaner
+to keep them separate.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/modpost-drop-_probe-from-section-check-whitelist/20251020-171732
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251020091613.22562-1-johan%40kernel.org
-patch subject: [PATCH] modpost: drop '*_probe' from section check whitelist
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: i386-buildonly-randconfig-001-20251020 (https://download.01.org/0day-ci/archive/20251020/202510202339.CiYSDt6j-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510202339.CiYSDt6j-lkp@intel.com/reproduce)
+> 
+>> If I understand things correctly, applying this series will immediately
+>> result in the inability to load any previously built modules, right?
+>> That will create a sort of flag day for anybody with out-of-tree modules
+>> that some may well see as a regression. Is that really the intent?
+> 
+> Unfortunately this series will break all modules which export symbols
+> since older versions of such modules will not have the kflagstab
+> section.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202510202339.CiYSDt6j-lkp@intel.com/
+I would add that out-of-tree modules are typically leaves that don't
+export any symbols. This means it should still be possible to load such
+modules on an updated kernel.
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+A problem occurs when out-of-tree support is split into multiple
+modules, where one module exports data for another. Some drivers can be
+split in such a way. For example, a NIC driver might be divided into
+core, Ethernet and InfiniBand modules, where the core provides exports
+for the latter modules.
 
->> WARNING: modpost: vmlinux: section mismatch in reference: nxp_stm_probe+0x0 (section: .data) -> nxp_stm_timer_probe (section: .init.text)
+In such a case, the kernel will ignore the __ksymtab_gpl section in the
+first module and issue a warning about it (patch #6). Eventually, when
+the second module is attempted to be inserted, the load operation will
+result in an error due to an unresolved import.
+
+In practice, I believe this series should have limited impact. Stable
+trees and distributions that care about kABI stability should not
+backport it. In contrast, people who follow master releases typically
+don't use out-of-tree modules, or they know how to deal with updating
+them. In this case, only recompilation is needed, which is less
+impactful than when an API changes and the actual module code needs to
+be updated.
+
+In the past, there were already breaking changes to the format of the
+exported data, notably in commit 7290d5809571 ("module: use relative
+references for __ksymtab entries") and 8651ec01daed ("module: add
+support for symbol namespaces."). As far as I'm aware, these changes
+didn't cause significant trouble, even though they actually resulted in
+silent breakages of old modules with exports.
+
+> 
+> Out-of-tree modules which do not export symbols of their own will only
+> fail to load in case the CONFIG_UNUSED_KSYMS_WHITELIST is set and the
+> symbols which these modules consume are not present in the whitelist.
+
+[1] https://oracle.github.io/kconfigs/?config=UTS_RELEASE&config=UNUSED_KSYMS_WHITELIST
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Thanks,
+Petr
 
