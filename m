@@ -1,56 +1,59 @@
-Return-Path: <linux-kbuild+bounces-9256-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9252-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D7EBFE4C4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 23:22:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 946D0BFE428
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 23:11:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E24034E5FB2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 21:22:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F3933A8204
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 21:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43FD13019C1;
-	Wed, 22 Oct 2025 21:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C43301705;
+	Wed, 22 Oct 2025 21:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGDyutDh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJmitPwV"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F45430147E
-	for <linux-kbuild@vger.kernel.org>; Wed, 22 Oct 2025 21:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D81F301489;
+	Wed, 22 Oct 2025 21:11:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761168144; cv=none; b=jECBWuMA23I35av6T+3TaOYm22HfybvRQ5Ya+2eHNZYOcF+XVMZh4u7cNsyN5/VVi3GO1mVMs8jwTKR/i7R0NoN0exR3OZIXqOL6/VJks8TAeP1JPlavIUn7eVDP8fGWDRTNe9gCvQe3d2MiOij11HKN4D0n0y8pvO+I+H5M9k4=
+	t=1761167498; cv=none; b=T2SqpqRIBlmFHoHykuOMmo2pVna48Sb07BsDPWBQcyJHzqjHvl5P03xapcKmow+I4R7SC8yLPHhuI9rOOD13SWHWEIIKi8jDxLf8jqlx4PUADTvRHtzy6VRi1MeKI/QAoVWcBCJ3vJR/9g2MY55GmC+q8zj55waAJcYS1+619gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761168144; c=relaxed/simple;
-	bh=wqIOzERtPFwQCr8wm9Br9AuomkrkgQs8SpouizTtC4I=;
+	s=arc-20240116; t=1761167498; c=relaxed/simple;
+	bh=fuasEY/k35VNWMkadGPOeA6z1Miu6p/9NnKbua0vPQA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r6AERLT+OYKF2iD1HhTamYeTnVEO5G996UgKNikb0DTm6E70Ob81QvWGXLBktGwDWhutikV3+/6XJyo9M778wCba0ieV50XV9BoatkpiXYmnXpX/teH6n55hV6zmKTcHCnSy3ued2NgEBkZmMo4bbgxUDOEJ0IKNjSIrL9JLfqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGDyutDh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41E51C4CEE7;
-	Wed, 22 Oct 2025 21:22:23 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Skfq3QmcKdcm1Zv9UXQiqqVbLA4+p89bX+ewBmZJcQ0tVvhCXoG6jw765HN1T/gVMs/sPokHthBUcqsPkCCqPtApiRhAtXwleI0SHTv0eSXSIZUVORkP4MKuBLvTUQxM29DmDQs9rnztmywZiyD4OhAZcYFys2UTimVMe+S/CMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJmitPwV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA73C4CEFF;
+	Wed, 22 Oct 2025 21:11:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761168143;
-	bh=wqIOzERtPFwQCr8wm9Br9AuomkrkgQs8SpouizTtC4I=;
+	s=k20201202; t=1761167498;
+	bh=fuasEY/k35VNWMkadGPOeA6z1Miu6p/9NnKbua0vPQA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AGDyutDh4I3Peo/mBijSf7P/0PqrM0m+BDcJ+h4Wa7LumPhq1OYTnVDmXxrvg1hcZ
-	 1NtJpJqS9flLlXwQTyuEsqBKcPumEe95yMGWaP3yUL3jZBUhgDkYp8k3rO83VrZMFI
-	 NNoCzEGim7r14stv3Bq2Tjpp2XAaQBmsylQg4ut42kR8wb5tydxgvobNqR27aN51ZA
-	 bVl1HryBCjlxasldjndr6OEyu1ABBqmfuzL/r7PRVbEdY+eg2MAFFzEAiFFOiUmw3n
-	 J4BNmHOm++YC0kUEYJES2wzYrLNaRKNUWC4Dn+2csOtAS6E+9qGrsu1vkPlsht2XTj
-	 JvBvtTSZQWjdg==
-Date: Wed, 22 Oct 2025 22:48:28 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: James Le Cuirot <chewi@gentoo.org>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Inochi Amaoto <inochiama@gmail.com>
-Subject: Re: [PATCH] kbuild: install-extmod-build: Fix when given dir outside
- the build dir
-Message-ID: <aPlDHJUJZaRxupeI@levanger>
-References: <20251016091417.9985-1-chewi@gentoo.org>
+	b=DJmitPwVwcHfnUendGCJUzxCHm3rEnlhpzqo+Iu9vjWHMYcuJqrSpuHjlxTNCRCOr
+	 4rr4UO3iWDsN6N8zJJIwdRo2ALUomWFxZEVFoxMIQ+MrhasmPP5rHrh7o52FrZQdEo
+	 NR94v/s7MbInPDjKHCcezIy/Hh3ecd6rdbSviKE4RkCFwCd5BKt8Rd209UqWEr5hr6
+	 wpT420V6tFcsshF6x2iHf6L5862LF2t5tgYm7VmVkxaB9ku9S8s3p7oCRGBlgu3D08
+	 bcehbjOX1zZmVJVqwVdq3lbja/QZFgiIOFB4V+wKJXUIqZocpikk2gmvTv2YpxhxOC
+	 4d7F58qFcvTyA==
+Date: Wed, 22 Oct 2025 23:11:33 +0200
+From: Nathan Chancellor <nathan@kernel.org>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/2] Kbuild: enable -fms-extensions
+Message-ID: <20251022211133.GA2063489@ax162>
+References: <20251020142228.1819871-1-linux@rasmusvillemoes.dk>
+ <20251020142228.1819871-2-linux@rasmusvillemoes.dk>
+ <20251022161505.GA1226098@ax162>
+ <CAKwiHFiMAm-DX3aERH_F1UooiM1YUiMaax51exhRg2=1ND2VCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -59,22 +62,50 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016091417.9985-1-chewi@gentoo.org>
+In-Reply-To: <CAKwiHFiMAm-DX3aERH_F1UooiM1YUiMaax51exhRg2=1ND2VCw@mail.gmail.com>
 
-On Thu, Oct 16, 2025 at 10:14:17AM +0100, James Le Cuirot wrote:
-> Commit b5e395653546 ("kbuild: install-extmod-build: Fix build when
-> specifying KBUILD_OUTPUT") tried to address the "build" variable
-> expecting a relative path by using `realpath --relative-base=.`, but
-> this only works when the given directory is below the current directory.
-> `realpath --relative-to=.` will return a relative path in all cases.
+On Wed, Oct 22, 2025 at 10:35:33PM +0200, Rasmus Villemoes wrote:
+> On Wed, 22 Oct 2025 at 18:15, Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On Mon, Oct 20, 2025 at 04:22:27PM +0200, Rasmus Villemoes wrote:
 > 
-> Fixes: b5e395653546 ("kbuild: install-extmod-build: Fix build when specifying KBUILD_OUTPUT")
-> Signed-off-by: James Le Cuirot <chewi@gentoo.org>
-> ---
->  scripts/package/install-extmod-build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > +# Allow including a tagged struct or union anonymously in another struct/union.
+> > > +KBUILD_CFLAGS += -fms-extensions
+> > > +
+> > > +# For clang, the -fms-extensions flag is apparently not enough to
+> > > +# express one's intention to make use of those extensions.
+> > > +ifdef CONFIG_CC_IS_CLANG
+> > > +KBUILD_CFLAGS += -Wno-microsoft-anon-tag
+> > > +endif
+> >
+> > I think this should go in the first 'ifdef CONFIG_CC_IS_CLANG' block in
+> > scripts/Makefile.extrawarn below '-Wno-gnu' with a comment that is
+> > similar in nature, which could even be combined like
+> >
+> >   # The kernel builds with '-std-gnu11' and '-fms-extensions' so the use
+> >   # of GNU and Microsoft extensions is acceptable.
+> >
+> > Other than that, this seems fine to me.
+> 
+> I honestly had no idea where it was best to put these, and your
+> suggestion sounds quite reasonable. I didn't think to look in that
+> Makefile.extrawarn as the name suggested that was only about what
+> happens with W=1 and higher.
 
-Thanks!
+Yeah, we may want to rename that to just Makefile.warn since it
+encompasses all warnings since commit e88ca24319e4 ("kbuild: consolidate
+warning flags in scripts/Makefile.extrawarn"), which is actually
+feedback I gave on the original change:
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+https://lore.kernel.org/20230811141943.GB3948268@dev-arch.thelio-3990X/
+
+I'll send a patch for that soon.
+
+> Feel free to tweak when applying.
+
+I have tentatively applied this to kbuild-next so that it can spend most
+of the cycle in -next to try and catch all potential problems.
+
+Cheers,
+Nathan
 
