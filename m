@@ -1,132 +1,200 @@
-Return-Path: <linux-kbuild+bounces-9244-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9245-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917AFBF97FF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 02:44:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 537FDBFA0C8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 07:25:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C72A14E7E9A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 00:44:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3DBD918C1831
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 05:25:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06DA91ACEDF;
-	Wed, 22 Oct 2025 00:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F01C2E92D9;
+	Wed, 22 Oct 2025 05:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LWUmSLEM"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uw2Ojw5p";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GsL2ya5v";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pRs7Rg5f";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HHVz5gqR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF451DEFE7;
-	Wed, 22 Oct 2025 00:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16662E973D
+	for <linux-kbuild@vger.kernel.org>; Wed, 22 Oct 2025 05:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761093870; cv=none; b=Gxe9zHQ3pxsQEaX1snY9OnKIdv+stNBDA96LfOR5uRLQUpTl0MGV28nf0RlsIpgDKqLgPqjcoso1NNY+WAdIBU7AnGx4EH7Lmpxd9YiGTGMsGVv6ZUsrtT3jlpWXMAOtJ1AVw93xcSCSibp8cbpiEYndt2oVPaPnOnV47VRHt3A=
+	t=1761110700; cv=none; b=aoMcwKEx8QN+DX+HnimO+y6jTfD0cE3WEp8FyRdfkmdgZFcjtw7UiBhcrn3uzCC3FtJ0AxcW+AjYLRtTJXKNUkBsy+7LgLZs4IAsZPqPPRlVA+9n13VNkrc+JzmJkLigOdmnKVbuXzvgZQ2/OD333n5fwsavuJbJRD15Uejfbg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761093870; c=relaxed/simple;
-	bh=MHe/CvUsaKyxRjUn5u7Tr6Y1XXg3++LMa8dD37XpM6I=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=JWJRwq5KaS1zzCIcg3tGprF+9kHIrWiC0pYlBUFRQB/nkxXb2KTSvfDBFdsyyv01L2B2tZnW/PnCNDrnf9h+Q1VgaqPA2QkCIu93NjngAvdQKFNB8jwuMXiEeZi+k0D5362igDjkCjTfXRESGdmSAgJmU6Vzm0rKpzGa1S3piJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LWUmSLEM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AEC1C4CEF1;
-	Wed, 22 Oct 2025 00:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761093870;
-	bh=MHe/CvUsaKyxRjUn5u7Tr6Y1XXg3++LMa8dD37XpM6I=;
-	h=Date:From:To:Cc:Subject:References:From;
-	b=LWUmSLEMHXWpDoveSyjdr4hA1ttXlVHCi4EtJBahYg382ojG1jSCUBzBDOb6OJkQo
-	 DuKue6qf++WYe4nJbCbZXhiI1fLDL8lUIyekCs+9lgEBHqe3yqScNRLpE2yOYyQmrn
-	 ATl8chslCDXJ0zS3R6h5seKh09UAr/xoXKgIMQmfH/Mxu8KQtU6mTIf0hNmiOkBJfT
-	 eQnr7/YPobK87w92+iVC2stFiph6k0LRn7H3EeRE9y28iLWZPpddTxPY1SUNMYe7xp
-	 aBR9YPeqGHHE5UKn8UdImLmht4Esc1XydL3QQjHFJ4Rol2xpaFQijhnDHn2Wj2J5MC
-	 ti20jXyKkahYw==
-Received: from rostedt by gandalf with local (Exim 4.98.2)
-	(envelope-from <rostedt@kernel.org>)
-	id 1vBMyD-00000002MA8-2NRx;
-	Tue, 21 Oct 2025 20:44:53 -0400
-Message-ID: <20251022004453.422000794@kernel.org>
-User-Agent: quilt/0.68
-Date: Tue, 21 Oct 2025 20:43:43 -0400
-From: Steven Rostedt <rostedt@kernel.org>
-To: linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v10 5/5] tracing: Add warnings for unused tracepoints for modules
-References: <20251022004338.731044739@kernel.org>
+	s=arc-20240116; t=1761110700; c=relaxed/simple;
+	bh=ogyz9Quitfe/Qnky6S1niFjc95na3lJJFIeQmGHj5CU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o7KA1bBbTd6B36rbOgZEFJbbmL6RZk6/aGNN+1rLPgd8zuvppicxbdqps1OxsPcjBiScZ+Jt3n8jIgzoZj/pgqjYr67qCYy7cjfXf+MidEHYLT529cbKDioP4JJBEnR5U1CEjpfjCn2mgThQp/Jm/zugmVu0SCQcOtzm4/ev+OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uw2Ojw5p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GsL2ya5v; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pRs7Rg5f; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HHVz5gqR; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DADA121161;
+	Wed, 22 Oct 2025 05:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1761110693;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5WqKzm90qH6arIZUiYgz9ReY/fhffrKxdJVF2nUTd6Q=;
+	b=uw2Ojw5pB7x7/iPW2+oiCj8RD9WFs0vYpth5Qqm81rU/WTIZoP5UsyNQ3+GGBzP2cWc3vg
+	O3sgZR1xrR1zSlgySsHyoBg9UryT62McMu/qNQWVwb3cWjwI3UyTRRSbSM9AAv/f2nX5DL
+	QxgYm45iXGDgVF7yXQaYLAWomHEKkm0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1761110693;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5WqKzm90qH6arIZUiYgz9ReY/fhffrKxdJVF2nUTd6Q=;
+	b=GsL2ya5vtI/S5JtkRU5w1fN3Mce+XyYiSIcs33rfRR3dD7kI9TQoOf90TICTF6UNRHElfE
+	KrVkePBaJm59giAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=pRs7Rg5f;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=HHVz5gqR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1761110688;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5WqKzm90qH6arIZUiYgz9ReY/fhffrKxdJVF2nUTd6Q=;
+	b=pRs7Rg5fGs1zBuKuvQ3kK0eYubciRWMj3t4+QYdtdjCn4bmqUvPbLmJbayOVZCf0AeLELS
+	ocG8Ilx86akx8GI97/Z+yd3+Un7WJ+eLplIvq0kAg9WNsanPYWtRoyBRekvJg5upm2N/wq
+	L/K35brore3cuOd2eCGUmLd8vbjqnc4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1761110688;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5WqKzm90qH6arIZUiYgz9ReY/fhffrKxdJVF2nUTd6Q=;
+	b=HHVz5gqRz9XfAVFsx6/v2hjsA7+BniYyrp2XOkVBkZsuYCrWXQE7GAIr+R39OGRnazrO5f
+	q8l+mZa8bV81HeAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB39B13995;
+	Wed, 22 Oct 2025 05:24:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RzWILaBq+GjVIgAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Wed, 22 Oct 2025 05:24:48 +0000
+Date: Wed, 22 Oct 2025 07:24:43 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 2/2] btrfs: send: make use of -fms-extensions for
+ defining struct fs_path
+Message-ID: <20251022052443.GP13776@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <20251020142228.1819871-1-linux@rasmusvillemoes.dk>
+ <20251020142228.1819871-3-linux@rasmusvillemoes.dk>
+ <CAHk-=wgHLkpQAEDpA9pwXp_oteWkdcs-56m7rnQD=Th0N2sW9g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgHLkpQAEDpA9pwXp_oteWkdcs-56m7rnQD=Th0N2sW9g@mail.gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Rspamd-Queue-Id: DADA121161
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.71 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[rasmusvillemoes.dk,suse.com,vger.kernel.org,kernel.org,gmail.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[lkml];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:replyto]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -2.71
+X-Spam-Level: 
 
-From: Steven Rostedt <rostedt@goodmis.org>
+On Mon, Oct 20, 2025 at 09:48:25AM -1000, Linus Torvalds wrote:
+> On Mon, 20 Oct 2025 at 04:22, Rasmus Villemoes <linux@rasmusvillemoes.dk> wrote:
+> >
+> > +struct __fs_path {
+> > +       char *start;
+> > +       char *end;
+> > +
+> > +       char *buf;
+> > +       unsigned short buf_len:15;
+> > +       unsigned short reversed:1;
+> > +};
+> > +static_assert(sizeof(struct __fs_path) < 256);
+> >  struct fs_path {
+> > +       struct __fs_path;
+> > +       /*
+> > +        * Average path length does not exceed 200 bytes, we'll have
+> > +        * better packing in the slab and higher chance to satisfy
+> > +        * an allocation later during send.
+> > +        */
+> > +       char inline_buf[256 - sizeof(struct __fs_path)];
+> >  };
+> 
+> It strikes me that this won't pack as well as it used to before the change.
+> 
+> On 64-bit architectrures, 'struct __fs_path' will be 8-byte aligned
+> due to the pointers in it, and that means that the size of it will
+> also be aligned: it will be 32 bytes in size.
+> 
+> So you'll get 256-32 bytes of inline_buf.
+> 
+> And it *used* to be that 'inline_buf[]' was packed righ after the
+> 16-bit buf_len / reversed bits, so it used to get an extra six bytes.
+> 
+> I think it could be fixed with a "__packed" thing on that inner
+> struct, but that also worries me a bit because we'd certainly never
+> want the compiler to generate the code for unaligned accesses (on the
+> broken architectures that would do that). You'd then have to mark the
+> containing structure as being aligned to make compilers generate good
+> code.
+> 
+> So either you lose some inline buffer space, or you end up having to
+> add extra packing stuff. Either way is a bit of a bother.
 
-If a modules has TRACE_EVENT() but does not use it, add a warning about it
-at build time.
-
-Currently, the build must be made by adding "UT=1" to the make command
-line in order for this to trigger.
-
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
-Changes since v9: https://lore.kernel.org/20251015203924.731213165@kernel.org
-
-- Remove use of "" in Makefile script (Nathan Chancellor)
-
-- Use $(objtree) instead of ${obtree} (Nathan Chancellor)
-
-- Move the update to tracepoint-update.c to a separate patch
-  (Nathan Chancellor)
-
-- Remove unneeded "else" block for cmd_check_tracepoint define
-  (Nicolas Schier)
-
-- Added use of "--module" parameter.
-
- scripts/Makefile.modfinal | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 542ba462ed3e..149e12ff5700 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -28,6 +28,10 @@ ccflags-remove-y := $(CC_FLAGS_CFI)
- .module-common.o: $(srctree)/scripts/module-common.c FORCE
- 	$(call if_changed_rule,cc_o_c)
- 
-+ifneq ($(WARN_ON_UNUSED_TRACEPOINTS),)
-+cmd_check_tracepoint = $(objtree)/scripts/tracepoint-update --module $<;
-+endif
-+
- quiet_cmd_ld_ko_o = LD [M]  $@
-       cmd_ld_ko_o =							\
- 	$(LD) -r $(KBUILD_LDFLAGS)					\
-@@ -57,6 +61,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
-+	+$(call cmd,check_tracepoint)
- 
- targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) .module-common.o
- 
--- 
-2.51.0
-
-
+For the inline path buffer losing 6 bytes is acceptable, I did some
+stats on my system and full paths under /.snapshots from snapper are all
+uner 200 bytes, lengths on another random data partition goes up to 380.
+Users can of course have path of any length but there's a fallback and
+the allocations are done in the steps of slab bucket sizes so it's
+reasonably effective.
 
