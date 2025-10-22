@@ -1,111 +1,93 @@
-Return-Path: <linux-kbuild+bounces-9252-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9253-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946D0BFE428
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 23:11:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2668BFE4B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 23:21:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F3933A8204
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 21:11:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 836183A8192
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Oct 2025 21:20:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C43301705;
-	Wed, 22 Oct 2025 21:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 360B32FF15F;
+	Wed, 22 Oct 2025 21:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJmitPwV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RXCCvxeS"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D81F301489;
-	Wed, 22 Oct 2025 21:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D14C277C9A;
+	Wed, 22 Oct 2025 21:20:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761167498; cv=none; b=T2SqpqRIBlmFHoHykuOMmo2pVna48Sb07BsDPWBQcyJHzqjHvl5P03xapcKmow+I4R7SC8yLPHhuI9rOOD13SWHWEIIKi8jDxLf8jqlx4PUADTvRHtzy6VRi1MeKI/QAoVWcBCJ3vJR/9g2MY55GmC+q8zj55waAJcYS1+619gY=
+	t=1761168018; cv=none; b=CfFQc3hv97NXeO1B8yc+u9U6TiJJzcf0nMNyD4ydlElC5Upj76X9zGckoxGdgkSIoS97RNLdW47ixKqCQRgBaQ+8qs2VQdfItsxL5h5CVvcnDPx3DYHp+HwTt9oAD+xZ1jFYBjjCBgS1/giiAL3ualR5GV6aStVMY+gSVPImq1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761167498; c=relaxed/simple;
-	bh=fuasEY/k35VNWMkadGPOeA6z1Miu6p/9NnKbua0vPQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Skfq3QmcKdcm1Zv9UXQiqqVbLA4+p89bX+ewBmZJcQ0tVvhCXoG6jw765HN1T/gVMs/sPokHthBUcqsPkCCqPtApiRhAtXwleI0SHTv0eSXSIZUVORkP4MKuBLvTUQxM29DmDQs9rnztmywZiyD4OhAZcYFys2UTimVMe+S/CMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJmitPwV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA73C4CEFF;
-	Wed, 22 Oct 2025 21:11:36 +0000 (UTC)
+	s=arc-20240116; t=1761168018; c=relaxed/simple;
+	bh=Qex05TyDFGpumFQWkjJ8T6qWdmTsk4cOplsz9GD77Ho=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kLUTCrJLTnGPF8S3OSz60Ae3IvzBolftjOUzTPThf+BlFJGyBEn+MYsT4YsxiHumr8jw2xP38mKeWkRK+Hk5mOLB5IWIEFs68U2IQjsyTLMRpkdeaI5z0qoMCouBzzJ3B+LzZscDxTgXj0mpP6YQVI6zRuajOQO2VMUHuW1HloA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RXCCvxeS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EF8FC4CEE7;
+	Wed, 22 Oct 2025 21:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761167498;
-	bh=fuasEY/k35VNWMkadGPOeA6z1Miu6p/9NnKbua0vPQA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DJmitPwVwcHfnUendGCJUzxCHm3rEnlhpzqo+Iu9vjWHMYcuJqrSpuHjlxTNCRCOr
-	 4rr4UO3iWDsN6N8zJJIwdRo2ALUomWFxZEVFoxMIQ+MrhasmPP5rHrh7o52FrZQdEo
-	 NR94v/s7MbInPDjKHCcezIy/Hh3ecd6rdbSviKE4RkCFwCd5BKt8Rd209UqWEr5hr6
-	 wpT420V6tFcsshF6x2iHf6L5862LF2t5tgYm7VmVkxaB9ku9S8s3p7oCRGBlgu3D08
-	 bcehbjOX1zZmVJVqwVdq3lbja/QZFgiIOFB4V+wKJXUIqZocpikk2gmvTv2YpxhxOC
-	 4d7F58qFcvTyA==
-Date: Wed, 22 Oct 2025 23:11:33 +0200
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] Kbuild: enable -fms-extensions
-Message-ID: <20251022211133.GA2063489@ax162>
-References: <20251020142228.1819871-1-linux@rasmusvillemoes.dk>
- <20251020142228.1819871-2-linux@rasmusvillemoes.dk>
- <20251022161505.GA1226098@ax162>
- <CAKwiHFiMAm-DX3aERH_F1UooiM1YUiMaax51exhRg2=1ND2VCw@mail.gmail.com>
+	s=k20201202; t=1761168017;
+	bh=Qex05TyDFGpumFQWkjJ8T6qWdmTsk4cOplsz9GD77Ho=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RXCCvxeSmdPzOGSZV/M82L7MXS8Hk+QQEor1smPYZ2k4Izy41aLvRuNHDepoUHUTU
+	 UyXyWpMCP1dYeWQiP7d9ztO9iSsHR/mfYsoBTaPq34aYbq/Hpaa3UK0F34N0Rl/JXS
+	 HnDCf/IRjgggyO0aXmRbnIzAWIbuKCIqe7EMqq5P0q5mBQFhD7T4AT0w6T/y4Bf9WU
+	 nIehxCfkeCeRjj2g7G8LmrVYIfjGril4oUXNerp5Rcl+xjRqoSh4mgrblQJDBKVLRA
+	 j3lX3Pi6eTCR0lLlBQlXYzJvjI2NAyxb6NHLkx82EBOoRrLANyjYUXus5FfAWcOgWg
+	 NT3FDMs6Qa/sw==
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Disseldorp <ddiss@suse.de>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Gang Yan <gang.yan@linux.dev>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Gang Yan <yangang@kylinos.cn>
+Subject: Re: [PATCH, v2] kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation
+Date: Wed, 22 Oct 2025 23:20:07 +0200
+Message-ID: <176116758392.2674526.14546491430146575647.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251017021209.6586-1-gang.yan@linux.dev>
+References: <20251017021209.6586-1-gang.yan@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwiHFiMAm-DX3aERH_F1UooiM1YUiMaax51exhRg2=1ND2VCw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 22, 2025 at 10:35:33PM +0200, Rasmus Villemoes wrote:
-> On Wed, 22 Oct 2025 at 18:15, Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Mon, Oct 20, 2025 at 04:22:27PM +0200, Rasmus Villemoes wrote:
+
+On Fri, 17 Oct 2025 10:12:09 +0800, Gang Yan wrote:
+> This patch adds an example of how to set KBUILD_BUILD_TIMESTAMP to a
+> specific date. Also, note that the provided timestamp is used for
+> initramfs mtime fields, which are 32-bit and thus limited to dates
+> between the Unix epoch and 2106-02-07 06:28:15 UTC. Dates outside this
+> range will cause errors.
 > 
-> > > +# Allow including a tagged struct or union anonymously in another struct/union.
-> > > +KBUILD_CFLAGS += -fms-extensions
-> > > +
-> > > +# For clang, the -fms-extensions flag is apparently not enough to
-> > > +# express one's intention to make use of those extensions.
-> > > +ifdef CONFIG_CC_IS_CLANG
-> > > +KBUILD_CFLAGS += -Wno-microsoft-anon-tag
-> > > +endif
-> >
-> > I think this should go in the first 'ifdef CONFIG_CC_IS_CLANG' block in
-> > scripts/Makefile.extrawarn below '-Wno-gnu' with a comment that is
-> > similar in nature, which could even be combined like
-> >
-> >   # The kernel builds with '-std-gnu11' and '-fms-extensions' so the use
-> >   # of GNU and Microsoft extensions is acceptable.
-> >
-> > Other than that, this seems fine to me.
 > 
-> I honestly had no idea where it was best to put these, and your
-> suggestion sounds quite reasonable. I didn't think to look in that
-> Makefile.extrawarn as the name suggested that was only about what
-> happens with W=1 and higher.
+> [...]
 
-Yeah, we may want to rename that to just Makefile.warn since it
-encompasses all warnings since commit e88ca24319e4 ("kbuild: consolidate
-warning flags in scripts/Makefile.extrawarn"), which is actually
-feedback I gave on the original change:
+Applied to kbuild-next, thanks!
 
-https://lore.kernel.org/20230811141943.GB3948268@dev-arch.thelio-3990X/
+[1/1] kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation
+      (indentation of code example adjusted)
+      commit: 5cbfb4da7e063cb82b1ab044465aeff4542a436d
 
-I'll send a patch for that soon.
+Please note that commit hashes might change in case of issues with
+kbuild-next branch.
 
-> Feel free to tweak when applying.
+Best regards,
+-- 
+Nicolas
 
-I have tentatively applied this to kbuild-next so that it can spend most
-of the cycle in -next to try and catch all potential problems.
-
-Cheers,
-Nathan
 
