@@ -1,149 +1,189 @@
-Return-Path: <linux-kbuild+bounces-9263-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9264-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6DDBFFE25
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 10:23:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6DFC005E3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 11:59:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 752DE3A5F99
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 08:23:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A52D19C7D3D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 09:59:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAE0F2F744D;
-	Thu, 23 Oct 2025 08:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1375E30B501;
+	Thu, 23 Oct 2025 09:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="HXPa/5G4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APGEPIK+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87172F3C26
-	for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 08:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E1730ACF3;
+	Thu, 23 Oct 2025 09:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761207711; cv=none; b=PvFI6B/jX8xb6LLBkO4WI5QZ2qSYEx3IO6E1qw63YNdkjq9jvp0unJ3HhpKyJB+1586t/6x6+9k78ypQVxrTPpNfa0U+Gp3VWC/dRwUg8gX/ufapEjhO/haWf1zGQyAC9oVwvin4EUpQCMIVCQxTW3/sar7MBUaA9EWU0bh5UYI=
+	t=1761213552; cv=none; b=AF9YOfAOh6ecpKZk/5tlWWyDqSXF6Qh/W8baNu64kb/uAGE3nAT12IkbUxhP0ZZxMNUmAbFloIt/wGE3HuPO/mHhwrWq6LPZP3lCyxMZVmou/LQGZ0slAANQv2GGXBOh9tVptonvFNeWTjRy1JGQjbkS8X875ueng/MgcCcDEDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761207711; c=relaxed/simple;
-	bh=pgRaKIs6od0eFwYqqrJU6RY3VmvIaH4v1rOFEhr8j0U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tphwuAka47TcoUherGJLK2lhAWJSaVnyUxjt+Gl33RVUZ7in4Leq1citnU8GpC25hsZpwTI4b9zKHq2h7SYrIH/zMefTTjGFBV5hyGbDkLY/eibFJ/+JYIchwTlzznenMDaK/1gGlrDWjoK445miRLnSzWFKYjxgTyhfBtw7kPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=HXPa/5G4; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-378de7d3057so1435441fa.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 01:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1761207707; x=1761812507; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TByexTGBy5Gp/RFWC94cXxG9Os7YYgZ+RwohhIq2r5M=;
-        b=HXPa/5G45sACGko3ijOusMNI2kznEwecri4PKOyPqiaTL0ftCfrVcPzDI5N3jfQB3h
-         r6YzGSDui88JzjVV/9k8kJOUsGXvl6E/eF3UGrcxlz9+3rjuRLkTiIj5duii4QYV8aL+
-         4iuvKeQGU2v3Q+8dlj14TeuoSyWktW8cN/3Ag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761207707; x=1761812507;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TByexTGBy5Gp/RFWC94cXxG9Os7YYgZ+RwohhIq2r5M=;
-        b=Pu5c5Jo+PwnZ0kP5BN/nmmbhJsGaLvwvRytYapHFG6xwvzigdS54nvuG9Js0Inhyca
-         KgXcFhTT7QwHkSY6I6hSSuAWYbJXI2Vd4k3wDkoNo1wEOwKOrEVlHKFZ8a30pWZH3377
-         /jxu0VmgDu8ifu0MMFDGW//FvHLBwFO0rtwfPSl/r1v+/XGSeDb7U6KIYTC76SbwG20a
-         r1qrfoJvbqT4ZyyhWO/FomkqMKyxNv9bhL8t+oaipMFVlwDjvjf7CrZQRNofPQErVZL8
-         7RdvJ3ydTjCMP5q6g0UmIceB++PYv8ufRPQbMr/pChBfivvq52qEOs6TQUWlE0dd+Cog
-         iFcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJB9y4xn8rQ9Hm+wSIvBTTEhFzPGPCxh5Nm4g7hdxyxE0aeai1+6PAeUTLk0kAipObNPmUJwCIz7+EOgQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx0GiWhIJvuv/3n0nCgTM8yInSoJt1XxO004HNmLiSu6Kh5jW1
-	gOe8CUcSoyPboPah8Ts3RNsAS+OsONpskdloDVeb2bv2SktPlLWEVENDCzyLUPKtztI=
-X-Gm-Gg: ASbGncue9VAHPjZfDpYqNzOoz2oF3RHGYAuedMzl8TpMQaiWZZ/Hktvl9CUT/yOTJyk
-	nw1MLmIA5hwCMAacciGpsvtSk1nIk1NryAP0DMCweaJvY0xZeQXUI3yKngZORjM9lEaxCkhMziZ
-	BTlnVK4/6dBXqG6wDzEmBuyG0/CMdeC2GXVl3vk2y+f3jlJ+yfkr4Bs3WcQT9cP+ptxeMso3jwO
-	ZwXh16ToCBsCLLNdP4VddXuF/m/Lc1lzwzgOehrUJuYAGH+puf0/ezJ358Rm7bMdy5zYnxEOSt4
-	eVZx6XelRMPlx/BCmkQcFldiBhZyY3GgGy4dbgDylATEUfsvGM+rRwTV9SrvsaiuLSEXwTzU0ez
-	YYIjwWibl6X3A1v6yccWXXYP+8C4EAiWkjfqfqw3j2ngf+e71Nqu1lrnr9hVpvjSF7GKdi1Dz+0
-	KOOXOmUuPbqbbEDw==
-X-Google-Smtp-Source: AGHT+IF5PkyzpJwpjSOJHc7K9JLi3coycHYDHHhCZspJ09bDYqz9X5m4UzYaiIOgYvkJOFHvN40npQ==
-X-Received: by 2002:a2e:bd83:0:b0:36d:4996:1c4d with SMTP id 38308e7fff4ca-37797831b7cmr67162081fa.9.1761207706694;
-        Thu, 23 Oct 2025 01:21:46 -0700 (PDT)
-Received: from localhost ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-592f4d168d4sm534702e87.56.2025.10.23.01.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 01:21:46 -0700 (PDT)
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	David Sterba <dsterba@suse.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: [PATCH] fs/pipe: stop duplicating union pipe_index declaration
-Date: Thu, 23 Oct 2025 10:21:42 +0200
-Message-ID: <20251023082142.2104456-1-linux@rasmusvillemoes.dk>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1761213552; c=relaxed/simple;
+	bh=hLHspmGDv35B6GcYo8xeUzrN+VASjexvom1/JYJa8H4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pRiDAmp7mKFud5mxYL4xWKwkpM7yGONL1/lCVrw1wZ3rO43FL48dVjSF9jK1bsia3i5D3J+q1BVfWITduZ2NOPS6D/1YxvKwbwZI/XIeYvc0xXr51kgMqTeGTIGTNTfW05SQhSmCOZmjlHoR7bH8im+HsSZi8WAmSPxdQqWCOWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APGEPIK+; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761213550; x=1792749550;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hLHspmGDv35B6GcYo8xeUzrN+VASjexvom1/JYJa8H4=;
+  b=APGEPIK+54dei5tu5mCfFcw/4LtVXMWtWLPPM9Hztwhx82DgJlhIp1fh
+   KVinWMeSjVyOKuVpup06AGB5WwsQDXTUW17uZu1TuA9fyaH9xk1STokzC
+   erPY/RB5AzQFavap3kDjKgbOq5TN1doyGeNtW40GjVbSD9ztbrbEsRSVc
+   N0/OmGw18JOGYB2jex/0JX0WNSCjJRwlAyTRHbGySanfReyKYohCzRB9g
+   zMByTmXNeYYVviG+H5Yt2i9lBfBhT5og2pOJrml5e4ZSYFzUabwMUyg82
+   +DjkXKZBK98uTQQjrr9Vr8u1Jks6mMar1+nAjfs7Mfy/v7xzOod+o4pao
+   Q==;
+X-CSE-ConnectionGUID: BpFhDXkPRCKxxr83zyJRbw==
+X-CSE-MsgGUID: C6b9NV/4QOOxneU0/T6bQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67245165"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="67245165"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 02:59:10 -0700
+X-CSE-ConnectionGUID: A+LTjFrbTlOcjq+81WMNtw==
+X-CSE-MsgGUID: wc3Epmm/TVugzuppfp0p6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="184510118"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Oct 2025 02:59:06 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBs5z-000DKl-1q;
+	Thu, 23 Oct 2025 09:59:01 +0000
+Date: Thu, 23 Oct 2025 17:58:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
+	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
+	gprocida@google.com
+Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
+Message-ID: <202510231707.zbQhQZmN-lkp@intel.com>
+References: <20251013153918.2206045-11-sidnayyar@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
 
-Now that we build with -fms-extensions, union pipe_index can be
-included as an anonymous member in struct pipe_inode_info, avoiding
-the duplication.
+Hi Siddharth,
 
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
----
-Do we want to do this as well? At the very least it would give some
-more test coverage if this could be in -next for most of a cycle.
+kernel test robot noticed the following build errors:
 
-Context for new people:
+[auto build test ERROR on arnd-asm-generic/master]
+[also build test ERROR on soc/for-next linus/master v6.18-rc2 next-20251023]
+[cannot apply to mcgrof/modules-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-https://lore.kernel.org/lkml/CAHk-=wjeZwww6Zswn6F_iZTpUihTSNKYppLqj36iQDDhfntuEw@mail.gmail.com/
-https://lore.kernel.org/linux-kbuild/20251020142228.1819871-1-linux@rasmusvillemoes.dk/
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251021-104658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
+patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251023/202510231707.zbQhQZmN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231707.zbQhQZmN-lkp@intel.com/reproduce)
 
- include/linux/pipe_fs_i.h | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231707.zbQhQZmN-lkp@intel.com/
 
-diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
-index 9d42d473d201..80539972e569 100644
---- a/include/linux/pipe_fs_i.h
-+++ b/include/linux/pipe_fs_i.h
-@@ -44,12 +44,6 @@ typedef unsigned int pipe_index_t;
- typedef unsigned short pipe_index_t;
- #endif
- 
--/*
-- * We have to declare this outside 'struct pipe_inode_info',
-- * but then we can't use 'union pipe_index' for an anonymous
-- * union, so we end up having to duplicate this declaration
-- * below. Annoying.
-- */
- union pipe_index {
- 	unsigned long head_tail;
- 	struct {
-@@ -87,14 +81,7 @@ struct pipe_inode_info {
- 	struct mutex mutex;
- 	wait_queue_head_t rd_wait, wr_wait;
- 
--	/* This has to match the 'union pipe_index' above */
--	union {
--		unsigned long head_tail;
--		struct {
--			pipe_index_t head;
--			pipe_index_t tail;
--		};
--	};
-+	union pipe_index;
- 
- 	unsigned int max_usage;
- 	unsigned int ring_size;
+All errors (new ones prefixed by >>):
 
-base-commit: 778740ee2d00e5c04d0c8ffd9c3beea89b1ec554
+>> kernel/module/main.c:1271:32: error: no member named 'sig_ok' in 'struct module'
+    1271 |         if (fsa.is_protected && !mod->sig_ok) {
+         |                                  ~~~  ^
+   1 error generated.
+
+
+vim +1271 kernel/module/main.c
+
+  1228	
+  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
+  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
+  1231							  const struct load_info *info,
+  1232							  const char *name,
+  1233							  char ownername[])
+  1234	{
+  1235		struct find_symbol_arg fsa = {
+  1236			.name	= name,
+  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
+  1238			.warn	= true,
+  1239		};
+  1240		int err;
+  1241	
+  1242		/*
+  1243		 * The module_mutex should not be a heavily contended lock;
+  1244		 * if we get the occasional sleep here, we'll go an extra iteration
+  1245		 * in the wait_event_interruptible(), which is harmless.
+  1246		 */
+  1247		sched_annotate_sleep();
+  1248		mutex_lock(&module_mutex);
+  1249		if (!find_symbol(&fsa))
+  1250			goto unlock;
+  1251	
+  1252		if (fsa.license == GPL_ONLY)
+  1253			mod->using_gplonly_symbols = true;
+  1254	
+  1255		if (!inherit_taint(mod, fsa.owner, name)) {
+  1256			fsa.sym = NULL;
+  1257			goto getname;
+  1258		}
+  1259	
+  1260		if (!check_version(info, name, mod, fsa.crc)) {
+  1261			fsa.sym = ERR_PTR(-EINVAL);
+  1262			goto getname;
+  1263		}
+  1264	
+  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
+  1266		if (err) {
+  1267			fsa.sym = ERR_PTR(err);
+  1268			goto getname;
+  1269		}
+  1270	
+> 1271		if (fsa.is_protected && !mod->sig_ok) {
+  1272			pr_warn("%s: Cannot use protected symbol %s\n",
+  1273				mod->name, name);
+  1274			fsa.sym = ERR_PTR(-EACCES);
+  1275			goto getname;
+  1276		}
+  1277	
+  1278		err = ref_module(mod, fsa.owner);
+  1279		if (err) {
+  1280			fsa.sym = ERR_PTR(err);
+  1281			goto getname;
+  1282		}
+  1283	
+  1284	getname:
+  1285		/* We must make copy under the lock if we failed to get ref. */
+  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
+  1287	unlock:
+  1288		mutex_unlock(&module_mutex);
+  1289		return fsa.sym;
+  1290	}
+  1291	
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
