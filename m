@@ -1,116 +1,122 @@
-Return-Path: <linux-kbuild+bounces-9270-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9271-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1B0C027E3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 18:48:47 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD029C032C1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 21:25:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 051101AA21A6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 16:49:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AEA3B4E93A5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 19:25:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14CF5314D1E;
-	Thu, 23 Oct 2025 16:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C21734B673;
+	Thu, 23 Oct 2025 19:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="hEDceyO/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZunOBhgW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27B630CD85
-	for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 16:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D7A26FDB2;
+	Thu, 23 Oct 2025 19:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761238114; cv=none; b=GCriIPgk8Slrf3uGIcN+DNiow4RCj2Uty08KHlgRzKEQcmAAxErMEraeXxxUOHBytKnPLxlquK3gy+w6c3xaKR6ZoLB1FS+wdfd/22nBNAtRuxuw6al04OZmtV726VSBdafdQZdAk/DfhjAENAptIV5/WbRbxm0MZUJx2OyCqzU=
+	t=1761247529; cv=none; b=O6KelR8EH7MxgEacXv8kXJsO5bU/gRcRDVr7gJCvSDwqjvoreip37miXHCBYN8JVvhTX8QWFBRSQ29Jltp6ORf4RNVYiFbcCnrvSL+h+vcgK8g3zwlMQz7GjByP9sEWMmoVmLXckwS5mJZiKpbhtcs2octr34C01InLaIUB8efY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761238114; c=relaxed/simple;
-	bh=FYNuNzJQUfALIIo2OS88M9jsE9SMndEp7YsFIxmAfnE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NW+wepBNmBvBiHWbg7DU/mksGdYDeMRrFrjm5D1uj3UDQnWASwY+CnNlTuZmfIw5mI/08I3NLT5XuDrC1ntXIdYE67KjqXOurPqqAIOCPT/oe9RHQVoRbNwkrPs0hGp99Rfaz9BUjEenMBFFM/EkJtJ6FiWNh4q51ShnxuVfnmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=hEDceyO/; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b5a8184144dso172972866b.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 09:48:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1761238111; x=1761842911; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1hwlgH/Jwm1lgsle2AVf57DwDHh4FIJzLxRgZAsCOEE=;
-        b=hEDceyO/wybL7E3lnNPr8mA9Lfjz0sfyP0mYgncLuA2vRlaH99DjR5NTgOltqQrImj
-         EPwVZthxBn2NSi9VjSL5x/QI5Me7wOvSBNWlHHFvr187Ec4B+Zx58IzRZgFjvKkg135h
-         23sTZSo2aTBYfYmxXKNHlmswfLJAHGVIH+46U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761238111; x=1761842911;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1hwlgH/Jwm1lgsle2AVf57DwDHh4FIJzLxRgZAsCOEE=;
-        b=fIg2NuM3pvgIOmRvrtknK9+ucfLKUPSOlmKoLgjQ/KpzDWxg83Ifj/uxWBntjiVTHc
-         roT85gF47fUwFtQbFWakl9PFURjeCbOobad7YBeBeQ+Zq3kxrZmhXrbqK0HLZDGXDFnj
-         nVYi/YQ/KMbgRo2N+E/p9BFcf35Saoz6oEHAq5BFuCUpyy4W5S1ubjsJfQ0QuGwxHRkS
-         Sz7D668ur9R4qZVgw5ZDWkI0hM8cs7gCBciSWpPPOfeZud8EyCFpn7gMg+ovNgjtDOkc
-         sIoh/ux5jkH5+F7hy4JleLy1bVEVy7qn5DQPijrQEyFGXb2Mgz4sHSu77X//5AaRHeTC
-         /4lA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6v3zAS3Q76KgjDSQolXSOHXVOr24vIh94Grc/Csy7izgN3oOzYiLGZoqRtABiP4AnIOSauy8RIwNyG8Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+Nb5t42iiym6kEQ3JGvxzGmXTH7aZT2K0f2YZnttPi0DQPA8l
-	9KDqgDn083Y8WYWYwhF13PYFgKYAOJBw6uylSlSJU0Tywrr4E9YkkFd6gDRbs7GMsyvy3FqkcUb
-	A66LbJxgReA==
-X-Gm-Gg: ASbGnctJL0CAY4v3awn1sOWy6jpwChyk28BSKz5ehbuHGZDr+GQgYWD1LQAQj8znVij
-	6OyXfmRuJDqCXVOxQlOiklCdvDFwlYz9GM5geXB1niOfrmEOhTuyVckbE/in2QkQOaYVoaN35ZQ
-	Ej/SnPih0fMvPXOUQT5kixEev4peeNK6shsspGkZU3y+sLbMq9SyD5p1xlLLFnhJGToXygdOs0t
-	h0yB4ZOGXzFbvR4qgA1Gtj085E7olIh2M+X+eqnSOZE+5yhqPbBqm2JX2Tabhxye4gS6SJ71Vd6
-	jQjfumAg998JpcQEhS2v94kSlqgzoAcUle7cnDsr8EWzLyAVaOw0irIqyV9e3XRwrXVtsWzlBAZ
-	5H+wAr54jZHnPVNWEXqaSnbHhfsEv81J1KSnHrTehlH0V8gDgWNLT9QbPNRaMN+AgwZp9EYpSbl
-	1Dq5fo61quTeYDJQbtR6NmWNM3x4mlT7osTpH2q4OXD4oWYLGLbO6UUY5j7zN5
-X-Google-Smtp-Source: AGHT+IFKzOgwW/TWP23x9Bqj1WEGSoA2vdRHExniUKC+oNX6p1f2o+NvT+szq2C2tOh91zH1bkSPtA==
-X-Received: by 2002:a17:907:948f:b0:b2c:dc13:89e3 with SMTP id a640c23a62f3a-b64768d530dmr1838239666b.59.1761238110897;
-        Thu, 23 Oct 2025 09:48:30 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d50dd0dd4sm255379166b.0.2025.10.23.09.48.29
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Oct 2025 09:48:30 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so219767866b.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 09:48:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWEIxukx9uSSbOboWsxuraPnu8nTK5zIAhWYiW7ZJn0Fv/N+TwZSDmlmEx8MWS+hPaABYvtRslch2mUqio=@vger.kernel.org
-X-Received: by 2002:a17:907:2d06:b0:b40:cfe9:ed2c with SMTP id
- a640c23a62f3a-b64769cd245mr2845599166b.64.1761238109574; Thu, 23 Oct 2025
- 09:48:29 -0700 (PDT)
+	s=arc-20240116; t=1761247529; c=relaxed/simple;
+	bh=SxeCPtVXN96k6/3jzE911HEut+z3rMSWiGO603OzLjA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=l/4Aymj5PDq/znkKlIuwirEjECP6iDEYLjjjhY3UFgticDqxCd2IgEh0Q4b4ah2odCDbRuN/JGWWfvdEKhqO/Tzj17nq+U0ofwVpW32lkK7W29FFHqFs2gpEavT6smN8UIM0bzAko2E2Jc7NHA7btfJZUXc+EVsoPVqf7nUoGXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZunOBhgW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D10CFC4CEE7;
+	Thu, 23 Oct 2025 19:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761247528;
+	bh=SxeCPtVXN96k6/3jzE911HEut+z3rMSWiGO603OzLjA=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ZunOBhgWZ0/bddAkC1/4GNqm3ECAnmtss60tAWR96YTikMyGs0dM6M5ZS52Y6xnKS
+	 4uP+vSRxeSIfC6DzfcQ3OgcKMl+Ox2QnajJ9NaBUgh2WZHY5pNRwtOUKloYZsT0edA
+	 7ZRf0YdokMqpf/CMI5s0ZQW/NdlC/eHdjRlYhVSGtB4tW3w+Y8Vh94aTM0LsfsUJ7i
+	 HRhwCoMVCnODyEtlL7QTN+8ZyTkkU6fA0R1DN9n8SMVMrBPpNVHpWlLWJNQd+whXkx
+	 wtTWlut84+wDzxCQdRzrPUqxBetf4VXre1YUg6wR6boWS2EojTjp8HEQjD/Hb5oudb
+	 Z988pDo6QPXIw==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Thu, 23 Oct 2025 21:25:20 +0200
+Subject: [PATCH] MAINTAINERS: Update Kconfig section
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251023082142.2104456-1-linux@rasmusvillemoes.dk> <20251023164408.GB2090923@ax162>
-In-Reply-To: <20251023164408.GB2090923@ax162>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 23 Oct 2025 06:48:13 -1000
-X-Gmail-Original-Message-ID: <CAHk-=wg6mxof1=egFUDTNEj3__tCWLTbKjYLzxipVCn6ndXr+g@mail.gmail.com>
-X-Gm-Features: AWmQ_bnVmNdsK74q7n823FaHLDwrv3TDkm2pnoZHMOtAws8D_7gQ2A_MzQsBWg8
-Message-ID: <CAHk-=wg6mxof1=egFUDTNEj3__tCWLTbKjYLzxipVCn6ndXr+g@mail.gmail.com>
-Subject: Re: [PATCH] fs/pipe: stop duplicating union pipe_index declaration
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	David Sterba <dsterba@suse.com>, Nicolas Schier <nsc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251023-update-kconfig-maintainers-v1-1-0ebd5b4ecced@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAB+B+mgC/x3MTQqAIBBA4avIrBsopYKuEi38GWuILLQikO6et
+ HiLb/MyJIpMCQaRIdLNifdQ0FQC7KLDTMiuGGQt26aWCq/D6ZNwtXvwPOOmOZwligldp3rqtTH
+ SOyiDI5Ln55+P0/t+FCIS1GwAAAA=
+X-Change-ID: 20251023-update-kconfig-maintainers-d637e7abb2fd
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1794; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=SxeCPtVXN96k6/3jzE911HEut+z3rMSWiGO603OzLjA=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBm/GtWdLJ+9klv9fZ/wy5KiyBzGOd+cGHL8p4gVzN6+j
+ YGlMTSmo5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAEwk4SXDPyXJyL+sK94uSHdh
+ ++U05+RRz/cCC8WZfjBM2ar/YdGUubcZGV61rb9TNee3WUbrKrYl4XoPrbOFb8c+23W77fny1Bn
+ bVnAAAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Thu, 23 Oct 2025 at 06:44, Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Yeah, this would also be a good conversion example so we could include
-> it in kbuild-next with the appropriate Acks. We probably do not want to
-> take too many other conversions in the initial pull. If people really
-> want to use this in other places for 6.19, we should probably do a
-> shared branch for these changes that maintainers could pull into their
-> own trees.
+Masahiro Yamada stepped down as Kbuild and Kconfig maintainer in
+commit 8d6841d5cb20 ("MAINTAINERS: hand over Kbuild maintenance"),
+leaving Kconfig officially orphaned and handing Kbuild over to Nicolas
+and myself. Since then, there have been a few simple patches to Kconfig
+that have ended up on the linux-kbuild mailing list without clear
+direction on who will take them, as they are not really sent to anybody
+officially, although the list is obviously watched by the Kbuild
+maintainers.
 
-Yes. This is a good example of what the use case is and why we're
-doing this extension. So Ack both on including it as such, and on the
-whole "let's not go overboard with other conversions" thing.
+Make Nicolas and I official maintainers of Kconfig in "Odd Fixes"
+status, similiar to Kbuild, so that the subsystem has clear points of
+contact for contributors, even if significant contributions may not be
+accepted.
 
-             Linus
+Additionally, add the Kbuild tree to this section.
+
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+We are going to de facto maintain this so we might as well make it
+official :) I will take this via kbuild-fixes at some point.
+---
+ MAINTAINERS | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 545a4776795e..1471e1bf1510 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13415,9 +13415,12 @@ F:	mm/kasan/
+ F:	scripts/Makefile.kasan
+ 
+ KCONFIG
++M:	Nathan Chancellor <nathan@kernel.org>
++M:	Nicolas Schier <nicolas@fjasle.eu>
+ L:	linux-kbuild@vger.kernel.org
+-S:	Orphan
++S:	Odd Fixes
+ Q:	https://patchwork.kernel.org/project/linux-kbuild/list/
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git
+ F:	Documentation/kbuild/kconfig*
+ F:	scripts/Kconfig.include
+ F:	scripts/kconfig/
+
+---
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+change-id: 20251023-update-kconfig-maintainers-d637e7abb2fd
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
+
 
