@@ -1,133 +1,137 @@
-Return-Path: <linux-kbuild+bounces-9265-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF0AC012DE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 14:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52E4C01837
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 15:45:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9087C3A6544
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 12:40:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4F8A3A36E1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 13:45:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718032FD7B9;
-	Thu, 23 Oct 2025 12:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB4E31355B;
+	Thu, 23 Oct 2025 13:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eCn7pzAX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqry/oZO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F862F7AAD;
-	Thu, 23 Oct 2025 12:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5A2274B44;
+	Thu, 23 Oct 2025 13:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761223246; cv=none; b=ARBLRSrzNwFwV+U0bq4Thkawn24zKG1KMsOL2BXX1778icsY/NB+OjYLMOswNIHV6Cb55ShqxwQnzetOZWweIZqtttx1JmrgYubWOHBTFQtCEO762jbCgzsSBV+iueiVB1otvtABkp9FXqEtXadJeoSJb0AzVC13aH2a8sHqNj4=
+	t=1761227134; cv=none; b=Cgp5gVp2i5SsHhJIficR8qHZgI1QS82yHlTZPqmBUzOLY3/BeRyLZP3Ql/YQfbKtCjzgXjOuVbNZRjAtyzOz9YTnw7yUcmxi/BX4zqcDav/muiov0bbOmcRPXSg1Gdr0XrsMeUXTNGad1LBO3coubvdEaaSRPqTOELjZS4T3dcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761223246; c=relaxed/simple;
-	bh=OwgX4A4nUsjXLvlUNNji3awVIq48IsYKIpns6jEsaF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qAp3lknwKiYgiMbiBRiMNuhASdnusopuKUO6RnBeWRjoAlTllMvFT89nhCEXT6ZtjxLKwykQ+kM6bVuHVicQ0wyb+6t7DSid4A1moPgv0LVHDJ/QYqXEfLcX95bVYrOohQS6Xu7lwaV+jWN2NSVcuZj0DxFEamt4AUrlbfHkvno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eCn7pzAX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14AEAC4CEE7;
-	Thu, 23 Oct 2025 12:40:43 +0000 (UTC)
+	s=arc-20240116; t=1761227134; c=relaxed/simple;
+	bh=Qt0yuLtw66ZCq3MNXemX3SqZ1fs/KSoTjGU3m7F/lGU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Nz1Nds7wH4uRAkB/Y2qvCCLnAgsRAXfbcKAVjQh04crOcGSsUHK+66DVjwNd5ugGBVu8VOmQcOeu4exVLc0jBjEO2S8XwPLdzZ6d49yHVmU3I1jNgM6pzv3Ci6CcTPPSi5lhq9HaVHa1aTYgHOfQnRf78o26nttrSQzOGc6pcGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqry/oZO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AAE1C4CEE7;
+	Thu, 23 Oct 2025 13:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761223245;
-	bh=OwgX4A4nUsjXLvlUNNji3awVIq48IsYKIpns6jEsaF0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eCn7pzAXwHtLrzaa/YhuJfPNCVP6Pnu/nAAMiKfwQSsv06J6Jd2HXehsvFVS0r76s
-	 n6zNsF/60LjlqGkwHg8F/NO27HDRdVEzaH11spxxsB37a1jSubPqFVvvvbfxweF6v8
-	 ngSlwg3RzgdGV4HpUc19eq0cbF5y7EClQHeDC/bX9ORGYQ8lP6Z7J1+KgaSt0I5y6k
-	 Lgc6mbCOQTBAfdpl1jwJNKX47OQF6MaRwszTh9uUw8aJsQiOH2g+G51qMIsxCnOUw6
-	 pssOa5jT4DoTQJFtTNSuk9D4EExRi1ZOKqNFAId7rDtgSzF7YUZUsbBO8QiyirLKRw
-	 a3fly7zNWieag==
-Date: Thu, 23 Oct 2025 14:40:41 +0200
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Dave Kleikamp <shaggy@kernel.org>
-Cc: David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	linux-kbuild@vger.kernel.org, jfs-discussion@lists.sourceforge.net
-Subject: Re: [PATCH 1/2] Kbuild: enable -fms-extensions
-Message-ID: <20251023124041.GA739226@ax162>
-References: <20251020142228.1819871-1-linux@rasmusvillemoes.dk>
- <20251020142228.1819871-2-linux@rasmusvillemoes.dk>
- <20251022161505.GA1226098@ax162>
- <CAKwiHFiMAm-DX3aERH_F1UooiM1YUiMaax51exhRg2=1ND2VCw@mail.gmail.com>
- <20251022211133.GA2063489@ax162>
+	s=k20201202; t=1761227133;
+	bh=Qt0yuLtw66ZCq3MNXemX3SqZ1fs/KSoTjGU3m7F/lGU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=aqry/oZOTZd9CJW0T1mbAjhDHMQymTpNckh+GWm7OhJL7taGKQO86I6R/hOMTvSLY
+	 SLQwYmdq9UC6n9K9AkFm+Nvyzxi5b8e+9+osbpQX5BShUU9QdcQ+v8F6pSpG9PniuG
+	 oUZk0Y+fHvu/ZNQFQ7nocyD6QlSowiSBs9S9N1g3hRNqx8RojGuIxfVNmm+geOuAr4
+	 2O+c9VqjUcEZ7HLlt0a2npyasTsyO0GEn9wPHaJtwJXzedJENFwyp2ryhKgSO04KCY
+	 OA+CjmtFBeClA+d+2GHP2VgmjDM0CFOQCgp2oFwtauWtxYiGPFgRl+dtL6VRkp9oMW
+	 UZyY2aff/AhLg==
+Date: Thu, 23 Oct 2025 06:45:31 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+CC: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Marco Elver <elver@google.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Johannes Weiner <hannes@cmpxchg.org>, llvm@lists.linux.dev,
+ Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Shuah Khan <shuah@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ =?ISO-8859-1?Q?Thomas_Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+ Tamir Duberstein <tamird@gmail.com>, Michael Kelley <mhklinux@outlook.com>,
+ kernel test robot <lkp@intel.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Uros Bizjak <ubizjak@gmail.com>, Jan Hendrik Farr <kernel@jfarr.cc>,
+ Yafang Shao <laoar.shao@gmail.com>,
+ Marc Herbert <Marc.Herbert@linux.intel.com>,
+ Christopher Ferris <cferris@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Paolo Abeni <pabeni@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Jeff Xu <jeffxu@chromium.org>,
+ =?ISO-8859-1?Q?Michal_Koutn=FD?= <mkoutny@suse.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Randy Dunlap <rdunlap@infradead.org>,
+ Brian Gerst <brgerst@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 1/3] compiler_types: Introduce __counted_by_ptr()
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20251023080123.GU3245006@noisy.programming.kicks-ass.net>
+References: <20251020220005.work.095-kees@kernel.org> <20251020220118.1226740-1-kees@kernel.org> <20251021095447.GL3245006@noisy.programming.kicks-ass.net> <202510211210.84D670D1C@keescook> <202510221746.7C09BBE@keescook> <20251023080123.GU3245006@noisy.programming.kicks-ass.net>
+Message-ID: <1D53887A-B277-4813-A3E6-9367CCFC8759@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022211133.GA2063489@ax162>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 22, 2025 at 11:11:38PM +0200, Nathan Chancellor wrote:
-...
-> > > > +# Allow including a tagged struct or union anonymously in another struct/union.
-> > > > +KBUILD_CFLAGS += -fms-extensions
-...
-> I have tentatively applied this to kbuild-next so that it can spend most
-> of the cycle in -next to try and catch all potential problems.
 
-One side effect that has been found in my testing so far is clang's
-'-fms-extensions' turns '_inline' into a keyword, which breaks fs/jfs:
 
-  In file included from fs/jfs/jfs_unicode.c:8:
-  fs/jfs/jfs_incore.h:86:13: error: type name does not allow function specifier to be specified
-     86 |                                         unchar _inline[128];
-        |                                                ^
-  fs/jfs/jfs_incore.h:86:20: error: expected member name or ';' after declaration specifiers
-     86 |                                         unchar _inline[128];
-        |                                         ~~~~~~~~~~~~~~^
+On October 23, 2025 1:01:23 AM PDT, Peter Zijlstra <peterz@infradead=2Eorg=
+> wrote:
+>On Wed, Oct 22, 2025 at 05:47:43PM -0700, Kees Cook wrote:
+>> On Tue, Oct 21, 2025 at 12:24:05PM -0700, Kees Cook wrote:
+>> > On Tue, Oct 21, 2025 at 11:54:47AM +0200, Peter Zijlstra wrote:
+>> > > > [=2E=2E=2E]
+>> > > > Unfortunately, this annotation cannot be used for "void *" member=
+s
+>> > > > (since such a member is considered a pointer to an incomplete typ=
+e,
+>> > > > and neither Clang nor GCC developers could be convinced otherwise=
+[1],
+>> > > > even in the face of the GNU extension that "void *" has size "1 b=
+yte"
+>> > > > for pointer arithmetic)=2E For "void *" members, we must use the =
+coming
+>> > > > "sized_by" attribute=2E
+>> > >=20
+>> > > So why do we need both __counted_by_ptr() and this __sized_by(), wo=
+n't
+>> > > one be good enough?
+>> > [=2E=2E=2E]
+>> > Let me take another stab at it=2E=2E=2E
+>>=20
+>> It seems this will be acceptable as long as it is gated by GNU
+>> extensions=2E
+>
+>Excellent!
+>
+>> GCC patch in progress=2E Clang PR here:
+>> https://github=2Ecom/llvm/llvm-project/pull/163698
+>
+>I think you've got your link mixed up, this appears to be arm-kcfi (also
+>good ofc)=2E Either that, or I need copy/paste lessons=2E
+>
+>This one?
+>
+>  https://github=2Ecom/llvm/llvm-project/pull/164737
 
-There appear to be other similar keywords (ones with KEYMS in the linke
-below) but my personal distribution configuration does not show any
-instances in the build where they matter (I did not test allmodconfig
-yet).
+Whoops, yes, that's the one! Seems I'm the one needing those lessons=2E ;)
 
-  https://github.com/llvm/llvm-project/blob/249883d0c5883996bed038cd82a8999f342994c9/clang/include/clang/Basic/TokenKinds.def#L744-L794
 
-Something like this is all it takes to resolve the issue, so I will send
-a patch for formal review/acking but I wanted to bring it up ahead of
-time in case this is unpalpable and we should throw these changes out of
--next instead of forward fixing.
-
-Cheers,
-Nathan
-
-diff --git a/fs/jfs/jfs_incore.h b/fs/jfs/jfs_incore.h
-index 10934f9a11be..5aaafedb8fbc 100644
---- a/fs/jfs/jfs_incore.h
-+++ b/fs/jfs/jfs_incore.h
-@@ -76,14 +76,14 @@ struct jfs_inode_info {
- 		struct {
- 			unchar _unused[16];	/* 16: */
- 			dxd_t _dxd;		/* 16: */
--			/* _inline may overflow into _inline_ea when needed */
-+			/* _inline_sym may overflow into _inline_ea when needed */
- 			/* _inline_ea may overlay the last part of
- 			 * file._xtroot if maxentry = XTROOTINITSLOT
- 			 */
- 			union {
- 				struct {
- 					/* 128: inline symlink */
--					unchar _inline[128];
-+					unchar _inline_sym[128];
- 					/* 128: inline extended attr */
- 					unchar _inline_ea[128];
- 				};
-@@ -101,7 +101,7 @@ struct jfs_inode_info {
- #define i_imap u.file._imap
- #define i_dirtable u.dir._table
- #define i_dtroot u.dir._dtroot
--#define i_inline u.link._inline
-+#define i_inline u.link._inline_sym
- #define i_inline_ea u.link._inline_ea
- #define i_inline_all u.link._inline_all
- 
+--=20
+Kees Cook
 
