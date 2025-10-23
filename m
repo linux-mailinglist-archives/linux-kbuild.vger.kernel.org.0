@@ -1,189 +1,121 @@
-Return-Path: <linux-kbuild+bounces-9258-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9259-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EEEBFEF22
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 04:37:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 381E4BFF6C1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 08:56:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C600D19C2509
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 02:38:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 722F919C0609
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 06:56:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D9D1E832A;
-	Thu, 23 Oct 2025 02:37:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8mjLTBe"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950C327603A;
+	Thu, 23 Oct 2025 06:56:24 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9264E1DF25C;
-	Thu, 23 Oct 2025 02:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA21529DB61;
+	Thu, 23 Oct 2025 06:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761187057; cv=none; b=CzAsxH7CwuyuyHJFultIpPCyTo5OHGpiQbkqeP8DdL6V/T06KJdypWBV/Z1fh34ZT/d5yJPvLXWa8/GR54v1MrJvquhKLvC0vM/NScFpmNsh2YOZ1VbDCZ9A6CNwY49gUW88zTxt8WxoKeqNfbrWNnZQ9SzAwxVw9Y45o7kBQ5I=
+	t=1761202584; cv=none; b=Wv8fiM/ckuMVpqqP+kyEEsEgQKMD3BHxB7OLIjmRqWHPOouwmhatfO92KgtUUTuYwDsouQY28TiX/nthha03X0piha3HI07/sgFcJ1lAH9GyshwiLaTkLxCVFwDkPJU+Kw7XiS83KFWqd442VMkJA0tGzLJnd6sSByKIbL7Kyk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761187057; c=relaxed/simple;
-	bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JP2fRtZi1wd2RkRL8MZVrRsix22b2+958iaVQ8lrx+xaFOjmdmDBtxLeYwt63FNgbzI/uf3YTrrN6qdePoKJ1BxTbdXOmzWAhGV1/6SNwIaDZ+gRCRx6jW5clg6ZvhpL5C3KrWdSHYvUYbrG2F+SBuDekPj+0l5XxzgMeNsqZkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8mjLTBe; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761187056; x=1792723056;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
-  b=C8mjLTBeKffgML39QhcrQZYiz7Fh6Fxy3CHfwfLkn7iseP93/npJs3Lv
-   nI0sS7vNqcZ0ugu6Xkn3urJJlF4L06A9Es5qL3uuyQlKv84leXarjNbgM
-   1fG7K15hr2CvmVZFmG0MNthrBBgzG08uQkLpeBXmYBfTKGBe9Pqs+sf1A
-   UsDxSbPKotJ2yjJQLGPe/oOqyoRZX++QhzFRLxuE9FUDO43dygij3UOJQ
-   713vShLlFLiMtwy2P8sjxHUGDc3toc/PN92cVBnZNrMPAkIT8I9u3nRWL
-   euovsYAcERtXFZ1xjnlhEBna4yjp+PE8G6CfLeNLJI7d+YfqU9mK+htMw
-   Q==;
-X-CSE-ConnectionGUID: Af07XFECR7KYmIl+xsXs4w==
-X-CSE-MsgGUID: udtlu95GQKiHsoxTIFv1ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73636505"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="73636505"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:37:35 -0700
-X-CSE-ConnectionGUID: w8GzWDQITKWBdVZbpWT5Dg==
-X-CSE-MsgGUID: bZ+I8jKrSOyESyQvDRZh5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="183966486"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Oct 2025 19:37:32 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBlCg-000Cwb-0H;
-	Thu, 23 Oct 2025 02:37:27 +0000
-Date: Thu, 23 Oct 2025 10:36:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
-	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
-	gprocida@google.com
-Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
-Message-ID: <202510231021.yaURwkIz-lkp@intel.com>
-References: <20251013153918.2206045-11-sidnayyar@google.com>
+	s=arc-20240116; t=1761202584; c=relaxed/simple;
+	bh=L1LbpLlpx3xAoZWTRjWjg2D8AAr3z41hbSaSSnzUD+c=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=oDXoSOtyhqHfbwypEQPOt1y0UPzlQZ8mkS9uONwk2WNcAjpz03H7wh6W0DsGdyPVoiVmOUDNE2DSwNTodEU2U9rJNaqlXKFwUEuzKfavEckXatBJcqh4IeivH9Wlmk3JHG94pQ6lfvXMO/b23KvAXK9Wh+hjOX9k/ZuZBEE2JWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8AxSNFN0floV6QZAA--.55885S3;
+	Thu, 23 Oct 2025 14:55:09 +0800 (CST)
+Received: from [10.130.10.66] (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowJAxusBK0flovcYCAQ--.20792S3;
+	Thu, 23 Oct 2025 14:55:07 +0800 (CST)
+Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CAAhV-H7HN128du-b1Rk_9qbYBq7gMSwo0s31909N4pTou6wzew@mail.gmail.com>
+ <CAMj1kXGvSnCMRVCW7eAxgLRWMEV3QRj3Dqg3PmZchZJNpnLK9w@mail.gmail.com>
+ <CAAhV-H4UKdso0BokAqvjYeBLr-jbjFAaQX4z=1ztpBamqrOEEg@mail.gmail.com>
+ <CAMj1kXEXDC_oq4aWbkR5dqYBix2d1xJEdaj-v747e1nOA0Q_Yg@mail.gmail.com>
+ <rhnei6wovxmoqs36wdysomfsul3faxtmgde73wrrqdt3qo3b2j@akd7vzne76rq>
+ <CAMj1kXF+hDJy0vRWNgwoijHxvA-scvhGODMj9A3dv19v3jf2yw@mail.gmail.com>
+ <lgyzruqczm7uti2lfbhfhr5hyzpnm7wtvgffa2o7nigx76g6i3@wlffltvmhhez>
+ <CAMj1kXFDquPxCYSBWgjikS=209pSJ_kth67M0RDeuetV9CPYAw@mail.gmail.com>
+ <wlx6pt5crtfdwtop4w5vjznjfarrwitq44wdbufncjdvtsx647@tgobruak66yb>
+ <CAMj1kXFfEBkcc-aiwGrRR-pKg4LBbS7weK0pEpZJsKOk5pbkuA@mail.gmail.com>
+ <jxfb5a2c2qber623l2gwewirwod54bbgfnvt7t7f3jah2ea33g@2uyhy3auzmpx>
+ <d9f3352a-1c1f-464a-a8fd-741cd96b5f8e@loongson.cn>
+ <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn>
+Date: Thu, 23 Oct 2025 14:55:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
+In-Reply-To: <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJAxusBK0flovcYCAQ--.20792S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7XF4xZF48Kw18Gw1DJFy8Xrc_yoWfArX_ur
+	Wxuwn7Cr4kGFyaya1DKwn8XFsxXw4UCFW5A3yjqryj93sxtrW7Cr48urn7ZF1DGF4kZrZx
+	tFWv93y3Cr1v9osvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbx8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0
+	oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F4
+	0EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_
+	Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbI
+	xvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
+	xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
+	kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
+	6r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
+	CI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU
+	=
 
-Hi Siddharth,
+Hi Josh and Ard,
 
-kernel test robot noticed the following build errors:
+On 2025/10/20 下午2:55, Huacai Chen wrote:
+> On Mon, Oct 20, 2025 at 9:24 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>>
+>> Hi Josh, Ard and Huacai,
+>>
+>> On 2025/10/18 上午1:05, Josh Poimboeuf wrote:
+>>
+>> ...
+>>
+>>> But IIUC, the libstub code runs *very* early, and wouldn't show up in a
+>>> stack trace anyway, because there are no traces of it on the stack once
+>>> it branches to head.S code (which doesn't save the link register).
+>>
+>> Thanks for your discussions.
+>>
+>> Are you OK with this current patch?
+> For me the current patch is just OK.
 
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on soc/for-next linus/master v6.18-rc2 next-20251022]
-[cannot apply to mcgrof/modules-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+We have discussed this a few times but there is almost no consensus
+of what should happen next and nothing changes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251021-104658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
-patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
-config: x86_64-randconfig-122-20251022 (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/reproduce)
+Could you please give me a clear reply? Then I can make progress for
+the following series:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231021.yaURwkIz-lkp@intel.com/
+https://lore.kernel.org/loongarch/20250917112716.24415-1-yangtiezhu@loongson.cn/
 
-All errors (new ones prefixed by >>):
+Thanks,
+Tiezhu
 
-   kernel/module/main.c: In function 'resolve_symbol':
->> kernel/module/main.c:1271:37: error: 'struct module' has no member named 'sig_ok'
-    1271 |         if (fsa.is_protected && !mod->sig_ok) {
-         |                                     ^~
-
-
-vim +1271 kernel/module/main.c
-
-  1228	
-  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
-  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
-  1231							  const struct load_info *info,
-  1232							  const char *name,
-  1233							  char ownername[])
-  1234	{
-  1235		struct find_symbol_arg fsa = {
-  1236			.name	= name,
-  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
-  1238			.warn	= true,
-  1239		};
-  1240		int err;
-  1241	
-  1242		/*
-  1243		 * The module_mutex should not be a heavily contended lock;
-  1244		 * if we get the occasional sleep here, we'll go an extra iteration
-  1245		 * in the wait_event_interruptible(), which is harmless.
-  1246		 */
-  1247		sched_annotate_sleep();
-  1248		mutex_lock(&module_mutex);
-  1249		if (!find_symbol(&fsa))
-  1250			goto unlock;
-  1251	
-  1252		if (fsa.license == GPL_ONLY)
-  1253			mod->using_gplonly_symbols = true;
-  1254	
-  1255		if (!inherit_taint(mod, fsa.owner, name)) {
-  1256			fsa.sym = NULL;
-  1257			goto getname;
-  1258		}
-  1259	
-  1260		if (!check_version(info, name, mod, fsa.crc)) {
-  1261			fsa.sym = ERR_PTR(-EINVAL);
-  1262			goto getname;
-  1263		}
-  1264	
-  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
-  1266		if (err) {
-  1267			fsa.sym = ERR_PTR(err);
-  1268			goto getname;
-  1269		}
-  1270	
-> 1271		if (fsa.is_protected && !mod->sig_ok) {
-  1272			pr_warn("%s: Cannot use protected symbol %s\n",
-  1273				mod->name, name);
-  1274			fsa.sym = ERR_PTR(-EACCES);
-  1275			goto getname;
-  1276		}
-  1277	
-  1278		err = ref_module(mod, fsa.owner);
-  1279		if (err) {
-  1280			fsa.sym = ERR_PTR(err);
-  1281			goto getname;
-  1282		}
-  1283	
-  1284	getname:
-  1285		/* We must make copy under the lock if we failed to get ref. */
-  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
-  1287	unlock:
-  1288		mutex_unlock(&module_mutex);
-  1289		return fsa.sym;
-  1290	}
-  1291	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
