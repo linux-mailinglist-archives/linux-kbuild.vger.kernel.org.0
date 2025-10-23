@@ -1,135 +1,137 @@
-Return-Path: <linux-kbuild+bounces-9261-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9260-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0FFBFFC3D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 10:02:34 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BEABFFC31
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 10:02:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 14BD519A068E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 08:02:44 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 014B83527ED
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 08:02:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC192EACFE;
-	Thu, 23 Oct 2025 08:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33AC2EA727;
+	Thu, 23 Oct 2025 08:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ib8RfyPK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RA7j75QV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604A92EA171;
-	Thu, 23 Oct 2025 08:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B662EA14E
+	for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 08:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761206518; cv=none; b=V8Lnxd42LPMGVDRutC2InuvdOTjRfKYxGhLBSxhK40KVpMDl7HUo3DMuo+0ODBM9DfWRBJBae7e+hHVe+4SkiP5Y3Yo4+EUjFtMvcr9qOUCQd9LTXy3TfBY5vVm0EUR/51pXY5rFxmdvzPP9AZdtPV654Uc4oRvAsZrWY2NHiJ0=
+	t=1761206515; cv=none; b=bP7sfZsbJ6df+PDxRkkPfmsjmcE+infw1rlTbM5rZ9nfdlrrCo2DgjjApKF5pQOnLM9emRLjPFpITWyxn65UJPDckTjK0vogTXF9sORuds3kbl4p2u5Hq5gfjMH9luDgCpV+04zGC70DnKqB7YCJztYj04JWNHsjzsVwBk5OmfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761206518; c=relaxed/simple;
-	bh=qm3FpmvOJC8J7ygv+lQ1G0UYsoWDYZ6/QPeqvcPbSrg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pHjSEBhmZN4TeZehmDaHauUDPMT/OFMl7o90w4jP5RLscpLm3L8hiSsNIttcqs9O5k/iZiG2PeB507cKR/dRN+i9jZZQEFkv/sRcGZXyhHD05kQNumrz++4snxpFsbNCadKedqbjzgtf7Vdsblr8QisceJgWfENEcdmcKMwOizM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ib8RfyPK; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0uRiRtjMBnl1I4Kw6RJyHI9dY+m7wLvqR6UCI8qoXds=; b=Ib8RfyPK0mNhsg+2sEx18TjMxr
-	Z5xkFrIUzX9WrYQGh6/N3AIejfS0QZrHM4sznBb2Uhsic1CGl/Hc2lmGE4PPt5Ih1ZWcaAE8ffZOz
-	m0cYOG6RjcIr4LCNtWIH1oDC1g8DM84ey/VhvQ1MIl7blZszOzzefbJE7Ip/1K46FRLmFZN1dbIQu
-	ueLUJm4VG1Et/KbDILe3KKoXuzewC+wrJy877fjb2wyIxGtMDuvY0k8oMDXdNaDOFB/NKPTATKYqy
-	X6KQueQWZHHsfv84ELzqqY/VQoMuwjI/75Eo8MFEii6dBgiSHTaa0KWyUyLGYGWgrIJv7lSCOrCi8
-	pI1uprTA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBpOX-00000001Aev-1twR;
-	Thu, 23 Oct 2025 07:05:57 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 39D66300220; Thu, 23 Oct 2025 10:01:23 +0200 (CEST)
-Date: Thu, 23 Oct 2025 10:01:23 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Marco Elver <elver@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Johannes Weiner <hannes@cmpxchg.org>, llvm@lists.linux.dev,
-	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	kernel test robot <lkp@intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Uros Bizjak <ubizjak@gmail.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Marc Herbert <Marc.Herbert@linux.intel.com>,
-	Christopher Ferris <cferris@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Paolo Abeni <pabeni@redhat.com>, Tejun Heo <tj@kernel.org>,
-	Jeff Xu <jeffxu@chromium.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Brian Gerst <brgerst@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 1/3] compiler_types: Introduce __counted_by_ptr()
-Message-ID: <20251023080123.GU3245006@noisy.programming.kicks-ass.net>
-References: <20251020220005.work.095-kees@kernel.org>
- <20251020220118.1226740-1-kees@kernel.org>
- <20251021095447.GL3245006@noisy.programming.kicks-ass.net>
- <202510211210.84D670D1C@keescook>
- <202510221746.7C09BBE@keescook>
+	s=arc-20240116; t=1761206515; c=relaxed/simple;
+	bh=m7tbJmNH1DXNfTU+Xp3xL+FoPO8IvUCQ4iTCgB6ek3o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j0WFOOpEwNvAgJ7zgPIulOyKSiy+vRdcj4pnibnwk97FWKfbBZOid5C/DTQMzfB/B3XGi+1+9IIM8G7mlAaONNi7W6HzH2d1r+zPwC4Dq1Fzs84KpZ8p+uV166McWnlEvcXdQCY687UAYheiVHL1r+2keNXaSF0/4p/NP6+aU9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RA7j75QV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49530C4CEFB
+	for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 08:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761206515;
+	bh=m7tbJmNH1DXNfTU+Xp3xL+FoPO8IvUCQ4iTCgB6ek3o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RA7j75QVc5ILMBKj/72NMEFdIwS9ZPlfJ+fJQRtKqD0/4aaYhy4lPNds6GfmVwrWu
+	 UtqfHK9gl7XEDWTigFsMA54w2QInEqrGnLNBO8Aoy4v0NL7WQgdFnFs6NjZ/b1UaFn
+	 sj6UOzmRYkylU87ieA6GjjFup20n57aQmQlUE95CA4nZlsGZcyaBLpdcrrRelcysdk
+	 Em77VyHtM7uo7W3ghXZdiwRzsLEmGVrZdCt2U+zEx39jChNcRsO27jUp4vDgH2uXkR
+	 YOFNQtkGMCvaNrU7GcXZnQkojb4cm+kctXgFic+peHScM083oEo4zScim4Er6s6jvg
+	 nfpXjd6z7zk7Q==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-63c31c20b64so897562a12.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 Oct 2025 01:01:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWJdxpo4UBKlH6TFNTc82KUppUYJsKfxpcjCvbOZrSUXT7Q/qktFiE84QbBpiV2yGGOo7hzFgx/KhnJXYw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8t23g/9UUFDYHWKH+iEbcscXz1snu60+RAFoVNNF+1mnxC3Av
+	AV4oWdOP6OqRIS12LbSNQkK4rwdeWeJw5jwNQwp68yf/vGD5pfOJBugegE3/UrQbA5ll5DJuMU3
+	35gMJnHJErC5Bgf3txU5KvH29kYzK0Xo=
+X-Google-Smtp-Source: AGHT+IHfBLH/GBfgXrqchxfxu9l1VaoEMJ8tUkoEMadPUjtpN04Dne7DQiXnlqVZI5khk1s5nO6HkYPeLlaWwbhf/8k=
+X-Received: by 2002:a05:6402:1e8f:b0:636:9129:882f with SMTP id
+ 4fb4d7f45d1cf-63c1f6e1e4dmr22674073a12.30.1761206513683; Thu, 23 Oct 2025
+ 01:01:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202510221746.7C09BBE@keescook>
+References: <CAAhV-H7HN128du-b1Rk_9qbYBq7gMSwo0s31909N4pTou6wzew@mail.gmail.com>
+ <CAMj1kXGvSnCMRVCW7eAxgLRWMEV3QRj3Dqg3PmZchZJNpnLK9w@mail.gmail.com>
+ <CAAhV-H4UKdso0BokAqvjYeBLr-jbjFAaQX4z=1ztpBamqrOEEg@mail.gmail.com>
+ <CAMj1kXEXDC_oq4aWbkR5dqYBix2d1xJEdaj-v747e1nOA0Q_Yg@mail.gmail.com>
+ <rhnei6wovxmoqs36wdysomfsul3faxtmgde73wrrqdt3qo3b2j@akd7vzne76rq>
+ <CAMj1kXF+hDJy0vRWNgwoijHxvA-scvhGODMj9A3dv19v3jf2yw@mail.gmail.com>
+ <lgyzruqczm7uti2lfbhfhr5hyzpnm7wtvgffa2o7nigx76g6i3@wlffltvmhhez>
+ <CAMj1kXFDquPxCYSBWgjikS=209pSJ_kth67M0RDeuetV9CPYAw@mail.gmail.com>
+ <wlx6pt5crtfdwtop4w5vjznjfarrwitq44wdbufncjdvtsx647@tgobruak66yb>
+ <CAMj1kXFfEBkcc-aiwGrRR-pKg4LBbS7weK0pEpZJsKOk5pbkuA@mail.gmail.com>
+ <jxfb5a2c2qber623l2gwewirwod54bbgfnvt7t7f3jah2ea33g@2uyhy3auzmpx>
+ <d9f3352a-1c1f-464a-a8fd-741cd96b5f8e@loongson.cn> <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
+ <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn>
+In-Reply-To: <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 23 Oct 2025 16:01:43 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5ZSTFDxvm-W1CrgEoQ5d_jw5yVsfetQ_J_qL5pqLtzgg@mail.gmail.com>
+X-Gm-Features: AS18NWATDqwQc-mvgyc-6ppP82QmD732g4zxHKYB9A2rEPJ5_4tzPE-f0_vNffE
+Message-ID: <CAAhV-H5ZSTFDxvm-W1CrgEoQ5d_jw5yVsfetQ_J_qL5pqLtzgg@mail.gmail.com>
+Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, loongarch@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 22, 2025 at 05:47:43PM -0700, Kees Cook wrote:
-> On Tue, Oct 21, 2025 at 12:24:05PM -0700, Kees Cook wrote:
-> > On Tue, Oct 21, 2025 at 11:54:47AM +0200, Peter Zijlstra wrote:
-> > > > [...]
-> > > > Unfortunately, this annotation cannot be used for "void *" members
-> > > > (since such a member is considered a pointer to an incomplete type,
-> > > > and neither Clang nor GCC developers could be convinced otherwise[1],
-> > > > even in the face of the GNU extension that "void *" has size "1 byte"
-> > > > for pointer arithmetic). For "void *" members, we must use the coming
-> > > > "sized_by" attribute.
-> > > 
-> > > So why do we need both __counted_by_ptr() and this __sized_by(), won't
-> > > one be good enough?
-> > [...]
-> > Let me take another stab at it...
-> 
-> It seems this will be acceptable as long as it is gated by GNU
-> extensions.
+On Thu, Oct 23, 2025 at 2:55=E2=80=AFPM Tiezhu Yang <yangtiezhu@loongson.cn=
+> wrote:
+>
+> Hi Josh and Ard,
+>
+> On 2025/10/20 =E4=B8=8B=E5=8D=882:55, Huacai Chen wrote:
+> > On Mon, Oct 20, 2025 at 9:24=E2=80=AFAM Tiezhu Yang <yangtiezhu@loongso=
+n.cn> wrote:
+> >>
+> >> Hi Josh, Ard and Huacai,
+> >>
+> >> On 2025/10/18 =E4=B8=8A=E5=8D=881:05, Josh Poimboeuf wrote:
+> >>
+> >> ...
+> >>
+> >>> But IIUC, the libstub code runs *very* early, and wouldn't show up in=
+ a
+> >>> stack trace anyway, because there are no traces of it on the stack on=
+ce
+> >>> it branches to head.S code (which doesn't save the link register).
+> >>
+> >> Thanks for your discussions.
+> >>
+> >> Are you OK with this current patch?
+> > For me the current patch is just OK.
+>
+> We have discussed this a few times but there is almost no consensus
+> of what should happen next and nothing changes.
+>
+> Could you please give me a clear reply? Then I can make progress for
+> the following series:
+>
+> https://lore.kernel.org/loongarch/20250917112716.24415-1-yangtiezhu@loong=
+son.cn/
+For me, this patch is OK, ignore __efistub_ prefix in objtool is also
+OK [1]. But I cannot accept the way that modifying the efistub part
+only for LoongArch.
 
-Excellent!
+Clear enough?
 
-> GCC patch in progress. Clang PR here:
-> https://github.com/llvm/llvm-project/pull/163698
+[1] https://lore.kernel.org/loongarch/20250917112716.24415-1-yangtiezhu@loo=
+ngson.cn/T/#meef7411abd14f4c28c85e686614aa9211fccdca0
 
-I think you've got your link mixed up, this appears to be arm-kcfi (also
-good ofc). Either that, or I need copy/paste lessons.
+Huacai
 
-This one?
-
-  https://github.com/llvm/llvm-project/pull/164737
+>
+> Thanks,
+> Tiezhu
+>
 
