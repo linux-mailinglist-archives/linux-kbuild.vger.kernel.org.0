@@ -1,90 +1,79 @@
-Return-Path: <linux-kbuild+bounces-9257-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9258-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D17BFEC1B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 02:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EEEBFEF22
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 04:37:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9700918C4D08
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 00:48:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C600D19C2509
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Oct 2025 02:38:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DECB47261E;
-	Thu, 23 Oct 2025 00:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D9D1E832A;
+	Thu, 23 Oct 2025 02:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8kpsJdF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8mjLTBe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB7535971;
-	Thu, 23 Oct 2025 00:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9264E1DF25C;
+	Thu, 23 Oct 2025 02:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761180464; cv=none; b=sXP+DUQmNf6poApR+Ui5V4w5gNlGyyBK1L8mynlDSiCx+giZDJ4U8wm+vecXf/M3tLH+HKzx39B04U3vUFZklhfPVRfokRVwd0NHzGAlx7ginMmFMLtfPPQ08G2+6tnrNpsUMtPcTe+zthnaPcT9+dUQOVlMJjqpsPP0ZI+Y/7M=
+	t=1761187057; cv=none; b=CzAsxH7CwuyuyHJFultIpPCyTo5OHGpiQbkqeP8DdL6V/T06KJdypWBV/Z1fh34ZT/d5yJPvLXWa8/GR54v1MrJvquhKLvC0vM/NScFpmNsh2YOZ1VbDCZ9A6CNwY49gUW88zTxt8WxoKeqNfbrWNnZQ9SzAwxVw9Y45o7kBQ5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761180464; c=relaxed/simple;
-	bh=x9rSFwmVcc1dqviTA6H/hsJMHWMdaIFdGDx7xFW94uM=;
+	s=arc-20240116; t=1761187057; c=relaxed/simple;
+	bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFmXG/uZfg2RvoZznKZHqLUMsmQHX8ENqd+PHVUrJ/A6Wj2g3407zEbePuMQmZ+Jie4XAvGog5AJ2SF/xF6m+Q4Oz4bQ71pgWtiZ1IRCZ+OZReenVFg7K/C8tNrfSueXiU2eP3N7LM1nJfk3yXz0O2UscMJfjcppTINmU/tMmh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8kpsJdF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09DA9C4CEE7;
-	Thu, 23 Oct 2025 00:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761180464;
-	bh=x9rSFwmVcc1dqviTA6H/hsJMHWMdaIFdGDx7xFW94uM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m8kpsJdF4vUC1ysDarElbHTVBNPhQ4Os5dHN8IFNM36jK6EYrm0/27DnzrFm6FqBw
-	 ICkkcf2X0ed/Ch5CddqCNMblqtvRvRvRJd0vNiz7aNjcGZroYxm0qt2vFydOLoL14c
-	 oztNEWWSPZLJYjhMG6SAepWYWAnBGXgX9BXpuFikHw1lF5HpFLXgB3Pc0fnpyjQPH5
-	 OacjHZ1jODozGTrtkFMPjlTE1WfmdfqtrTpjEwst8ncCRH2KClWMwCQ+pE3Pj4V7zb
-	 /f6kL8pWuUcYyvSkDIYiQo48r2CY2oQOlgg7dqLuoU2IWC7k1mH28oxtPkrVR746ME
-	 F7hdchGd36MgA==
-Date: Wed, 22 Oct 2025 17:47:43 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Marco Elver <elver@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Johannes Weiner <hannes@cmpxchg.org>, llvm@lists.linux.dev,
-	Al Viro <viro@zeniv.linux.org.uk>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	kernel test robot <lkp@intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Uros Bizjak <ubizjak@gmail.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Marc Herbert <Marc.Herbert@linux.intel.com>,
-	Christopher Ferris <cferris@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Paolo Abeni <pabeni@redhat.com>, Tejun Heo <tj@kernel.org>,
-	Jeff Xu <jeffxu@chromium.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Brian Gerst <brgerst@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 1/3] compiler_types: Introduce __counted_by_ptr()
-Message-ID: <202510221746.7C09BBE@keescook>
-References: <20251020220005.work.095-kees@kernel.org>
- <20251020220118.1226740-1-kees@kernel.org>
- <20251021095447.GL3245006@noisy.programming.kicks-ass.net>
- <202510211210.84D670D1C@keescook>
+	 Content-Type:Content-Disposition:In-Reply-To; b=JP2fRtZi1wd2RkRL8MZVrRsix22b2+958iaVQ8lrx+xaFOjmdmDBtxLeYwt63FNgbzI/uf3YTrrN6qdePoKJ1BxTbdXOmzWAhGV1/6SNwIaDZ+gRCRx6jW5clg6ZvhpL5C3KrWdSHYvUYbrG2F+SBuDekPj+0l5XxzgMeNsqZkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8mjLTBe; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761187056; x=1792723056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
+  b=C8mjLTBeKffgML39QhcrQZYiz7Fh6Fxy3CHfwfLkn7iseP93/npJs3Lv
+   nI0sS7vNqcZ0ugu6Xkn3urJJlF4L06A9Es5qL3uuyQlKv84leXarjNbgM
+   1fG7K15hr2CvmVZFmG0MNthrBBgzG08uQkLpeBXmYBfTKGBe9Pqs+sf1A
+   UsDxSbPKotJ2yjJQLGPe/oOqyoRZX++QhzFRLxuE9FUDO43dygij3UOJQ
+   713vShLlFLiMtwy2P8sjxHUGDc3toc/PN92cVBnZNrMPAkIT8I9u3nRWL
+   euovsYAcERtXFZ1xjnlhEBna4yjp+PE8G6CfLeNLJI7d+YfqU9mK+htMw
+   Q==;
+X-CSE-ConnectionGUID: Af07XFECR7KYmIl+xsXs4w==
+X-CSE-MsgGUID: udtlu95GQKiHsoxTIFv1ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73636505"
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
+   d="scan'208";a="73636505"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:37:35 -0700
+X-CSE-ConnectionGUID: w8GzWDQITKWBdVZbpWT5Dg==
+X-CSE-MsgGUID: bZ+I8jKrSOyESyQvDRZh5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
+   d="scan'208";a="183966486"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Oct 2025 19:37:32 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBlCg-000Cwb-0H;
+	Thu, 23 Oct 2025 02:37:27 +0000
+Date: Thu, 23 Oct 2025 10:36:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
+	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
+	gprocida@google.com
+Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
+Message-ID: <202510231021.yaURwkIz-lkp@intel.com>
+References: <20251013153918.2206045-11-sidnayyar@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -93,27 +82,108 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202510211210.84D670D1C@keescook>
+In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
 
-On Tue, Oct 21, 2025 at 12:24:05PM -0700, Kees Cook wrote:
-> On Tue, Oct 21, 2025 at 11:54:47AM +0200, Peter Zijlstra wrote:
-> > > [...]
-> > > Unfortunately, this annotation cannot be used for "void *" members
-> > > (since such a member is considered a pointer to an incomplete type,
-> > > and neither Clang nor GCC developers could be convinced otherwise[1],
-> > > even in the face of the GNU extension that "void *" has size "1 byte"
-> > > for pointer arithmetic). For "void *" members, we must use the coming
-> > > "sized_by" attribute.
-> > 
-> > So why do we need both __counted_by_ptr() and this __sized_by(), won't
-> > one be good enough?
-> [...]
-> Let me take another stab at it...
+Hi Siddharth,
 
-It seems this will be acceptable as long as it is gated by GNU
-extensions. GCC patch in progress. Clang PR here:
-https://github.com/llvm/llvm-project/pull/163698
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arnd-asm-generic/master]
+[also build test ERROR on soc/for-next linus/master v6.18-rc2 next-20251022]
+[cannot apply to mcgrof/modules-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251021-104658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
+patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
+config: x86_64-randconfig-122-20251022 (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231021.yaURwkIz-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   kernel/module/main.c: In function 'resolve_symbol':
+>> kernel/module/main.c:1271:37: error: 'struct module' has no member named 'sig_ok'
+    1271 |         if (fsa.is_protected && !mod->sig_ok) {
+         |                                     ^~
+
+
+vim +1271 kernel/module/main.c
+
+  1228	
+  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
+  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
+  1231							  const struct load_info *info,
+  1232							  const char *name,
+  1233							  char ownername[])
+  1234	{
+  1235		struct find_symbol_arg fsa = {
+  1236			.name	= name,
+  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
+  1238			.warn	= true,
+  1239		};
+  1240		int err;
+  1241	
+  1242		/*
+  1243		 * The module_mutex should not be a heavily contended lock;
+  1244		 * if we get the occasional sleep here, we'll go an extra iteration
+  1245		 * in the wait_event_interruptible(), which is harmless.
+  1246		 */
+  1247		sched_annotate_sleep();
+  1248		mutex_lock(&module_mutex);
+  1249		if (!find_symbol(&fsa))
+  1250			goto unlock;
+  1251	
+  1252		if (fsa.license == GPL_ONLY)
+  1253			mod->using_gplonly_symbols = true;
+  1254	
+  1255		if (!inherit_taint(mod, fsa.owner, name)) {
+  1256			fsa.sym = NULL;
+  1257			goto getname;
+  1258		}
+  1259	
+  1260		if (!check_version(info, name, mod, fsa.crc)) {
+  1261			fsa.sym = ERR_PTR(-EINVAL);
+  1262			goto getname;
+  1263		}
+  1264	
+  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
+  1266		if (err) {
+  1267			fsa.sym = ERR_PTR(err);
+  1268			goto getname;
+  1269		}
+  1270	
+> 1271		if (fsa.is_protected && !mod->sig_ok) {
+  1272			pr_warn("%s: Cannot use protected symbol %s\n",
+  1273				mod->name, name);
+  1274			fsa.sym = ERR_PTR(-EACCES);
+  1275			goto getname;
+  1276		}
+  1277	
+  1278		err = ref_module(mod, fsa.owner);
+  1279		if (err) {
+  1280			fsa.sym = ERR_PTR(err);
+  1281			goto getname;
+  1282		}
+  1283	
+  1284	getname:
+  1285		/* We must make copy under the lock if we failed to get ref. */
+  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
+  1287	unlock:
+  1288		mutex_unlock(&module_mutex);
+  1289		return fsa.sym;
+  1290	}
+  1291	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
