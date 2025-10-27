@@ -1,221 +1,109 @@
-Return-Path: <linux-kbuild+bounces-9284-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9285-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222EEC0B6B9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 00:06:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D05F4C11354
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 20:42:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0C803B7B75
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Oct 2025 23:06:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC050585A43
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 19:36:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC57F2FE057;
-	Sun, 26 Oct 2025 23:05:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04AFD2D6E59;
+	Mon, 27 Oct 2025 19:35:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=surgut.co.uk header.i=@surgut.co.uk header.b="hsRGQOKt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M8VS+K1+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EC82FFFA6
-	for <linux-kbuild@vger.kernel.org>; Sun, 26 Oct 2025 23:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676D124E4A8
+	for <linux-kbuild@vger.kernel.org>; Mon, 27 Oct 2025 19:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761519958; cv=none; b=n2OPMZN0979c8babK0so17omlO46bDIyJDmJtRONbWIheXhtgLGrW5W/NFxEbsPgTrPj2z3GbAX+NhyVC+ll0gPLmXeC/kMSdMetnK68gIlUS0XHa9bsgEVbDq+kds10A3BQvVHPmFWvHHIbOfmU6+423FiNEdD16AaGUcQqov4=
+	t=1761593749; cv=none; b=hO1RGAKvgO8QQFAE3iQT9GtDxtHaMQCszzwNSIUgXkwClPdg1fJMA7O+MW2yVNgOngiXnkPl8NVPgtV/HVg91NlndYk7Uf7787QtL4gBB/ixsUN3R0/uuPchdlv9DBX5UZfSHNRPKEhsXj+m0JhuOtJBPaR5D+oXxr/qfdXpVLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761519958; c=relaxed/simple;
-	bh=PPxjfgh0ouB1LEh9FfKbHQ8cr7KijaRuWZO7sOvIlmQ=;
+	s=arc-20240116; t=1761593749; c=relaxed/simple;
+	bh=Xoj023B/V6X3Ah2oWRRk1SrS+L09yWMEB3QsC2dKGgg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=khYVUhCfgJXtbmsr7RBe/dM1D9PMKf6c2VhuijqKVTUlz41feuqK+XWT0tY6jadZKf9WEWHUW8uSqcWM9f9WshQgXWYXuGekhSi++3E+X9ijAOJTyKIs25WeSCzTkIv1v1VaJhywFQoOt+ZFd/x+rrYfEhMALuuSuINA7Jg5XJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surgut.co.uk; spf=pass smtp.mailfrom=surgut.co.uk; dkim=pass (1024-bit key) header.d=surgut.co.uk header.i=@surgut.co.uk header.b=hsRGQOKt; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surgut.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surgut.co.uk
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b626a4cd9d6so830320266b.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 26 Oct 2025 16:05:55 -0700 (PDT)
+	 To:Cc:Content-Type; b=VZrEEF6aTfL+JXBKnjU5ybSCZxC5N6ycywpYoACBRgYP8F2vgRiF7+YiESWPa6E3N/PeOoLTzRG+PmyfYar15fbwxu+6+IbiOGIZJGEbQXeTZQAqBOqxJDM2FXD8iJ7tGgLgP6BfFb9NQ8ULcoQNaRFvXzpK/ASZJdO1lo3i7rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M8VS+K1+; arc=none smtp.client-ip=209.85.166.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-430ccd45f19so54779595ab.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Oct 2025 12:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=surgut.co.uk; s=google; t=1761519953; x=1762124753; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761593747; x=1762198547; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=is27natm4q82ZfjRueAlfHtVSyQtOlMyTtv22WIryvc=;
-        b=hsRGQOKtsSEjTRu6s5t/zHvqNcX0sCsq8Kf6xuP6PWBeV6RPobjEeCz9bADYTOTxAP
-         5BNfJSOYYxalwx1oyMUxc66d2ru+sIM32G566vggWn1MbG+SAc5ioifeGBsSrwUQ4PF5
-         MdF3ZTZloo4VJYIh/Sr8EuCqX84rpJqjQ3iOM=
+        bh=MIt2U1EDF+lEVbThYG7zsgziArCGEJgNGIfSIGlv++o=;
+        b=M8VS+K1+FfviTxSMTU5jgYSKIL/6Hd5+QG9XJ/XJ1OHzcPXRYTSnkrLA5iVXdUm7Iu
+         t0UmpEjMrm6vOm60+U4E98JWV/f66zwAgIQfGo0bHtk12s1LRbUXaa1GAz/42wtUFZs7
+         CwtKvpfoBrDZYP+Q+rZD5Oqzv7BQx+AbXhvFlAkJ0Oe/DGqdDTJG4Z5AeSa9kR7QoNf4
+         vv8K9Xae9urUn3/21gX6GFclOcU06W7XAR/g7qroBGavR4MN8EDxFbuw357RvHHol28s
+         bUIfD+y2wqRcjVBst6FJAgwwgJUgbUpo9sRofPYHfS1vswwTLqdolFCcjhMVd379TU2e
+         oFPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761519953; x=1762124753;
+        d=1e100.net; s=20230601; t=1761593747; x=1762198547;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=is27natm4q82ZfjRueAlfHtVSyQtOlMyTtv22WIryvc=;
-        b=QUknzU98kTKIfoMNYhdQy1VrD/80aoGlTUenUJ4uOTEYUPryv0JGUeGJnxH36pofSo
-         awzXiON0V92/tu2PEhTyszHbFyEz6kmiY7Ur4dEfDH17NWX5VmO/h0Hiodf5TgI+gEXb
-         KNNdzNBE8ny0ubOAdKm//u79eO9TzAq3P6JxrbUPqy//hsv7QJChbdfCB/34qZiI8/Wh
-         VsfQJqHNbCJ9NxZcwLxTaFHpAZ+zo8LFcUu+h2J0mJUYQfCXtq7dILrSBbJpafd5h34/
-         K+emYMaGF9zsJ8X026ehave7vmFPKw0Ms9/R6zZkyPR4V74kYRCDF7lR7kkMAgYbVRaA
-         8bEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGcheS2hgG5YA79uqMp0mMjUOIYUp+tyu4SoIZUHbj1h1krFW6aGZ5woD9v61k7Ba+bprVju8DyX8S5OA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9qk4vGWFOsoHK0b/+hgt/ZjI9dTNEmCDnnhxNveKcPJNwD3CT
-	23p3n5fIfnF/p2CW+ypYiwyLlrHfEQbURxVwr9ykqEEdz5vyGJ53h8Qas54GqMTzpVsqE0oCHlQ
-	MOk6frMVxSDk7m2tuhZ0GxPOFCJsq05fduyrY6JMJyQ==
-X-Gm-Gg: ASbGncsUjDcLzyFzx3c3z+a1C6csUi7tszCGv9Ao2ym3MA9afl8VMVm8a/LSlCz29cP
-	EYQiJ7dh6TMP3ePV7DIaRoBUpaeD33u4zOG/Qdk2EQOkidJnUz7cttSFRZYngEuMqC+1AM41djz
-	Q2myudOaTsNSOI56n6KSkWM+ODenvetRgtDpcNy+v2udO96bynRE+O8K6y6dQPE5XlCoT1zUQ9W
-	FhhLEcMHZUpXcRF0Rn6cWGKliBn3j2ICiLsuiYvzVq4I4ssT/WkPlN1Jpd/W/PfwurgHxaX0RAE
-	srhvlSXfeB1GNDRRdnc=
-X-Google-Smtp-Source: AGHT+IE2qeiv6wtEHcxfHTxcz3+g4CqNYkc3SG8aYvr97lhf/t3X5J9M5LV1kA1IPHQlfzD1kGLF4Bc3T0T6p5XwUH0=
-X-Received: by 2002:a17:907:1b18:b0:b6d:4080:fdf0 with SMTP id
- a640c23a62f3a-b6d6ff6e411mr962713966b.50.1761519952882; Sun, 26 Oct 2025
- 16:05:52 -0700 (PDT)
+        bh=MIt2U1EDF+lEVbThYG7zsgziArCGEJgNGIfSIGlv++o=;
+        b=BKQdqCdyPC259s/ViJOVBxPEiUiwD2yVM2mmiknAHDynXMdt69hGXYMnGtxi2WrjOa
+         Vdz6dZF5N8KJZKrh4RerFWllk94C2nOsLcb1YEE4w1b9UjwsrYJHVTUth/1I5fMAbMj9
+         KXvtDJ/q8342pu9oobb8vnb0U0StvRpXFz2UcUuc6e2k8QZqV4W5yQspOgSQWaABISi2
+         AntAWIQkePrW4vybK8vp3fY84Har+61Cfe/lrXR0fiRSxTNv62+TPpErbZ3FcYOIJU7R
+         Lak4yAvYIGUaANQC6eLKrM9UAWLWm4W/6F+8sAQVcIAi6xAvPLFp5Bvic3HzojR1Yt4k
+         6pjg==
+X-Forwarded-Encrypted: i=1; AJvYcCXN9zruS50owJBShE8M9Yk52QvRYdHeRLouxctmwdJGILrB+VwuFP0x5MWMowD0G53k+Bte0zoWckyyags=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSSz8/Z/4t4C+y6/xJdWpary5DIP8tg0675qokjlugQjgovyOV
+	4TR7bMjPr9ZtEUqV6IsKoN7tZu+bxXDS5hUt01kT1Y376F1MeveFvpHEN5c4uUlYVr2oDQqdAVa
+	w4vZ57xKkf22HG51mtC7kN9pMNcCKvYI=
+X-Gm-Gg: ASbGncvGu/lA8bbC8aLEYHZwZpfcZg9CM2Eu/9rMi2xgS9BMFuz7xx3mzW5q+TyBiKE
+	KAOUsfWuZCjdycwnhAdM6Sb6jtdVnQj1qj6KO4DrG2kWSh3yQtw9aKJnzxS4/mQqyJnCmv+cY/G
+	aGNkrSSlxlSFNP93FGhZVgjmuCDgnwGzgJsD4ycnqe50JaWP9enAD9FFbnpGnEUnDE3stp8Oe5X
+	X9imz/bGBTFcaMro2voQOu7tycQM36V97N6b8WadnGPrgC8GQ+w7CHGGRmiWhpL0aPqiAXOMcbv
+	mgrI5v25VZDBqf8OiA==
+X-Google-Smtp-Source: AGHT+IEXCxIX5QqEWGoiy5/PF709NAtwqem4s7iWflESBuFsW3Fz+Uw56nse2/NMToWTe2OlYWWxOvazLhwZp8NAP6I=
+X-Received: by 2002:a05:6e02:178a:b0:42f:8b0f:bad2 with SMTP id
+ e9e14a558f8ab-4320f6ca803mr19882585ab.10.1761593747402; Mon, 27 Oct 2025
+ 12:35:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251026202100.679989-1-dimitri.ledkov@surgut.co.uk> <20251026215635.GA2368369@ax162>
-In-Reply-To: <20251026215635.GA2368369@ax162>
-From: Dimitri John Ledkov <dimitri.ledkov@surgut.co.uk>
-Date: Sun, 26 Oct 2025 23:05:41 +0000
-X-Gm-Features: AWmQ_bk-C6yqRcXuQFysCvIdDTFpFqbzjo0WJC8EN1TlWFS6dNkNgds3DoFI9WM
-Message-ID: <CANBHLUikrwQS2UcMa1Ryde3r8mPSTCL1WrObF1qKa+o-=MjN=A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: align modinfo section for Secureboot Authenticode
- EDK2 compat
+References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
+ <20251026211334.GA1659905@ax162>
+In-Reply-To: <20251026211334.GA1659905@ax162>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Mon, 27 Oct 2025 20:35:36 +0100
+X-Gm-Features: AWmQ_blDqxQeU_Ky-v3nv9n-HPXGPvs6mQRSBYNlLKNci8X16CNqY4IhZSxzUBU
+Message-ID: <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
+Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
 To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	masahiroy@kernel.org, arnd@arndb.de, linux-kbuild@vger.kernel.org, 
-	legion@kernel.org, nsc@kernel.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 26 Oct 2025 at 21:56, Nathan Chancellor <nathan@kernel.org> wrote:
+Hi Nathan,
+
+On Sun, 26 Oct 2025 at 22:13, Nathan Chancellor <nathan@kernel.org> wrote:
+> Does applying
 >
-> Hi Dimitri,
+>   https://lore.kernel.org/all/20251026202100.679989-1-dimitri.ledkov@surgut.co.uk/
 >
-> On Sun, Oct 26, 2025 at 08:21:00PM +0000, Dimitri John Ledkov wrote:
-> > Previously linker scripts would always generate vmlinuz that has sections
-> > aligned. And thus padded (correct Authenticode calculation) and unpadded
->
-> Was this something that was guaranteed to happen or did it just always
-> happen by coincidence? Is there a way to enforce this?
+> help with this issue? Also, does 6.18-rc2 (or -rc3 if it is out by the
+> time you see this) have the same issue?
 
-I don't believe this was ever guaranteed, but out of convenience /
-performance / compatibility various sections are aligned and padded
-already. Thus it is possible that it was an unwritten contract that
-all kernels' sections so far have been padded/aligned on many if not
-all UEFI platforms.
+Thanks for looking into this!
 
-From time to time, roughly every 3-5 years since 2012, I experience
-this class of bugs in various EFI tooling and/or projects. In all
-cases projects agree to produce aligned&padded binaries.
-Because it is almost no cost to do so, and it prevents head-scratching
-debugging.
+Neither the patch nor 6.18-rc3 work. I'm going to try to revert
+5b5cdb1fe434e8adc97d5037e6d05dd386c4c4c6 together with anything that
+is needed to apply the reversing patch.
 
-I don't know of a good way to enforce this, the pesign tool is a good
-way to check this -> as it implements the known padded/nopadding
-options to calculate the hashes. Maybe some pefile walk script can be
-written to validate/test sections at the end of the kernel build. If
-such a tool exists, it would be useful for gnu-efi, grub,
-systemd-boot, fwupd, and all kernels.
-
->
-> > calculation would be same. As in https://github.com/rhboot/pesign userspace
-> > tool would produce the same authenticode digest for both of the following
-> > commands:
-> >
-> >     pesign --padding --hash --in ./arch/x86_64/boot/bzImage
-> >     pesign --nopadding --hash --in ./arch/x86_64/boot/bzImage
-> >
-> > The commit 3e86e4d74c04 ("kbuild: keep .modinfo section in
-> > vmlinux.unstripped") added .modinfo section of variable length. Depending
-> > on kernel configuration it may or may not be aligned.
-> >
-> > All userspace signing tooling correctly pads such section to calculation
-> > spec compliant authenticode digest.
->
-> I might be missing something here but .modinfo should not be in the
-> final vmlinux since it gets stripped out via the strip_relocs rule in
-> scripts/Makefile.vmlinux. Does this matter because an unaligned .modinfo
-> section could potentially leave sections after it in the linker scripts
-> unaligned as well?
-
-I am out of my depth here as well, but yes I too am surprised how the
-change in question affected the binary.
-Note that .modinfo doesn't declare 0 VMA address, and if one sets it
-as .modinfo 0 => linking fails due to overlap.
-Thus yes, my naive understanding is that presence of this unaligned
-section pushed something else to start on an unaligned address, and
-that itself was not padded.
-Or maybe strip doesn't recalculate things..... but then is it really
-strip at this point if we want it to move sections about and
-align/padd them, sounds more like linker script at this point.
-
-When I look with objdump at two vmlinux the working and non-working
-one, they look almost identical with nothing standing out. But of
-course I only see the top level pefile
-
-Possibly a better way to do this is to indeed have dedicated linker
-scripts for uncompressed image with extra metadata and debug info;
-uncompressed image without extra metadata/debug; compressed image with
-debug info; compressed image without debug info => as direct link
-targets, rather than link - then - strip.
-
->
-> > However, if bzImage is not further processed and is attempted to be loaded
-> > directly by EDK2 firmware, it calculates unpadded Authenticode digest and
->
-> Could this affect other bootloaders as well?
-
-Yes. It can affect lots of tooling that works with EFI binaries such
-as signing tools, efivars creation tooling, parsing/wrapper tools,
-bootloaders, and boot firmware. Given how niche all of this is, and
-because the majority of EFI binaries are padded & aligned, it is
-highly unusual when an unagling and/or unpadded one is encountered.
-
-> I noticed this report about
-> rEFInd and pointed them here in case it was related:
->
-> https://lore.kernel.org/CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com/
->
-> > fails to correct accept/reject such kernel builds even when propoer
-> > Authenticode values are enrolled in db/dbx. One can say EDK2 requires
-> > aligned/padded kernels in Secureboot.
-> >
-> > Thus add ALIGN(8) to the .modinfo section, to esure kernels irrespective of
-> > modinfo contents can be loaded by all existing EDK2 firmware builds.
-> >
-> > Fixes: 3e86e4d74c04 ("kbuild: keep .modinfo section in vmlinux.unstripped")
->
-> I took this change via the Kbuild tree for 6.18-rc1 so I can pick this
-> up for kbuild-fixes or Arnd can take this if he has anything pending for
-> fixes in the asm-generic tree.
->
-
-This would be very appreciated. Thank you.
-
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Dimitri John Ledkov <dimitri.ledkov@surgut.co.uk>
-> > ---
-> >  include/asm-generic/vmlinux.lds.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> > index 8a9a2e732a65b..e04d56a5332e6 100644
-> > --- a/include/asm-generic/vmlinux.lds.h
-> > +++ b/include/asm-generic/vmlinux.lds.h
-> > @@ -832,7 +832,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
-> >
-> >  /* Required sections not related to debugging. */
-> >  #define ELF_DETAILS                                                  \
-> > -             .modinfo : { *(.modinfo) }                              \
-> > +             .modinfo : { *(.modinfo) . = ALIGN(8); }                \
-> >               .comment 0 : { *(.comment) }                            \
-> >               .symtab 0 : { *(.symtab) }                              \
-> >               .strtab 0 : { *(.strtab) }                              \
-> > --
-> > 2.51.0
-> >
-
--- 
-Regards,
-
-Dimitri.
+Cheers,
+Eguene
 
