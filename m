@@ -1,103 +1,94 @@
-Return-Path: <linux-kbuild+bounces-9286-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9288-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43ECAC116C4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 21:41:41 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37546C119D6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 23:06:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EEAD84E18C6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 20:41:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A51B14F52F7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Oct 2025 22:06:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C414F3164B6;
-	Mon, 27 Oct 2025 20:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 543F5328B73;
+	Mon, 27 Oct 2025 22:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="adPyGM1X"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dfTJ+Z7I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5537F2C11EB
-	for <linux-kbuild@vger.kernel.org>; Mon, 27 Oct 2025 20:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA9F328627;
+	Mon, 27 Oct 2025 22:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761597697; cv=none; b=W8Y3bEBEbueoctAUB0tN7h5PX4Nj4AX6//xBfPm3arKcnGAxVRTGcOYubEqVBxGkeJgGRD/hN/2xFW5O+RW6Xq9wBme40wbOBPZlhfF66xjP+5WuFyPNEPRw2mPUV2oLx2coUCMXHNELxS1uV3Zo6MNql9rUVNt1r8H12WUy3gc=
+	t=1761602760; cv=none; b=H9Y/E+4jDLvBcRcuxwRj68voYKAhOgzbGXaj3HN8DQTiklSs6aC2kVdKnvwV8IAWWxom/BP+HbMJSTLCByT19GWk51Xysj4hf9c8cCBO0ZzoVRLSHViKsaxPrmb4ArxbEdB346fnZaMPFULwsaSootHvdJSaMirRWfjeLDNloDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761597697; c=relaxed/simple;
-	bh=Bl32hd8+nZYs/Ek7MiWS9IBWG7+TZXS4JVZHy9gRrcE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nhoJ6UzC4blU1BlAW6ueIueBQsPgPOY4K/wpMsO+FwHy9hs2CJlqiHMA/v+25hR4optG6BfGl53FUp3Fmjn5nX0ZvkOV581F4Ik0z229GbzkHcr27hz6KEwJIynrs9mU3L8/t7laREgr0RuT6JAhixCSrK9JuAOO9SuvtMeEhdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=adPyGM1X; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-945a51050b2so81989939f.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Oct 2025 13:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761597695; x=1762202495; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V33D0O4zi9GNuJTw8vBA+/b7xPb0jr7CJbcC2/UPqBU=;
-        b=adPyGM1Xx0Nj8+txk+x51KcgGxn06jsv3kG++ASxjvenokGtNRroEPOrlMW1jDlMCA
-         Nf70uJ8hBCqNnS5GuKeWy5PFp704bF5Rqp9u7e4eI6qK4QP9RrFlFshBp6bR0D8w0jLu
-         n+gl012JLgflqqtZ/fWqsxCSSWAmOSlb+u/Ytzu6ptZynBF4TsKCddLNsEcgbGBqGrbu
-         9zpmk4BpGBp/vTF7l0QGHXWSiSTRBVouu1l/1vRdQGydr5bQzuDmd+RZHOSxHmBAEQ2N
-         8zw8o7vdOZuE5CL+ykSWUXQ+fqZWy2mmWOPweFcJftQI7Ku0QbZXyGSi7JBy00xPnjU8
-         thRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761597695; x=1762202495;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V33D0O4zi9GNuJTw8vBA+/b7xPb0jr7CJbcC2/UPqBU=;
-        b=S5zjM7BgmEBZYXmQc/TgFfTfr2IGt26/0+6QYeK6gBYxhS0nRIoQgLSMmSpE0VD5pq
-         ichxpVATCYJwrD88Qg1Cnx2AtObrWeVRnPYoPwBPxiO2nkDIj5cv9H7gJp/HwBGjpGLw
-         +7yeFT14fCWD/6t3BjHeJY+ZyfrENXcDHX2b7dDPdVWJuVW/DrZEidndPKh8QIXpZXwL
-         yxd3VzNIQfXbCsnC4548Tz/Pce9cBHFs7xuQ5/FMojYmpdwTIgdgg0l0bjHF55Ud73GU
-         TNiH3xHw7/x0uOH8Nnef2j+rsl7Kn611MGylKYO8OfAl6ZlvYtd1RmAKvI1V9RpcX+Ed
-         z85Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVYNKGDyYY0U0Xk0OAln+RGBtTNHu2EdNEqGGLelWWLCVKlzTi2EcGGP8uA/9SMdEiX3HPef64pmFHOPOY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywyj05dlcq1/+d+oCnsxQO6w/UT3yv/azayt4r+binM0nT4edEp
-	7nX2eitNGie3fWHcGPxuIuLOYWoA6u27+L7UPpXYDO7iStuGiX00+8GBBzRMabJj2fCkU2Rx3G0
-	CvpmIGRORGrvPg5xwb6G8y50hIaCzuJw=
-X-Gm-Gg: ASbGncsB6Re0e3EF2ItGRYbU42XY8GxDsuPZR48Li6MVSIbNRYJI8xqGDejI0FF5VOw
-	kZVEM/u5A2v0cO6U/eAAp2m8htFmwvNT1XKmFOiECa5FcwF5QYnItwjnYUzAwRRntRi9y6b62zQ
-	IR4Fx58zQ15ukbfsMCwnIbCx5uCsX+wlB5ZblKwKNwiEWUUWDsF3jQ90yzqPFBYup6NZUy/7q+w
-	jwc7CdvjPwyzKgP0RnRW+IfQ/PDBPZktO9ptstVi6OyfHmJU0KqacCP3uKH8D0h8i3gK8vSvGEy
-	nJk9WiKAtwRwqTQTXw==
-X-Google-Smtp-Source: AGHT+IEZ+DZIZJ1CWo7CsrWyrGXK9IS7GuBDjbaYE1wEOR4WP9a33jOKRpIRTU18adKB6jZVbBnCpfWYdpXo5X0p0xo=
-X-Received: by 2002:a05:6602:3fc7:b0:945:aa01:bab7 with SMTP id
- ca18e2360f4ac-945bb350edemr148478139f.5.1761597695479; Mon, 27 Oct 2025
- 13:41:35 -0700 (PDT)
+	s=arc-20240116; t=1761602760; c=relaxed/simple;
+	bh=NWOobQrN/SWWEQbE94p5Q3NBEbr+1fRps0CEyyIa9NQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OheoOFv9Vo2ekfYXoXg0ps9p7zLQfvLBdy7VYpPaCDKD8oMEusORpK39AHpheqgh3vYB/+v2wriaiO0dPV13P4ZJWOnr9uY1F39zEM3nngcWhaG5SPYXG052n3U9inydUhzy1xRXy0r8FgXfsJu5ECGYWdGemlU2Nh6GDI5YK2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dfTJ+Z7I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CCCAC4CEF1;
+	Mon, 27 Oct 2025 22:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761602759;
+	bh=NWOobQrN/SWWEQbE94p5Q3NBEbr+1fRps0CEyyIa9NQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dfTJ+Z7IrEERjK25NOFLlX+5bmFNEVpgyk/Y1ELBp2lVjckr4WtHD43rFkM29Druj
+	 LszesxKwjXaqjJiC0b3JRlwDM3VpMd7rUMUCn4cHhX9TLGkMGyJCt84+upytUP4Zfi
+	 q8gUAX4p7uXZz6AvZQyiR+xd2kPt7evbSM8xBdJhGKajU0w01BMpHPH440ZK7M3gPu
+	 zAQC31bcU5373YhXF7M9gBRK0t0mPnvGW202nra8mht0ymFLMGvWQ6eCP33vtj5C4N
+	 sZLCqkoYswiul3mHNkd8P8E8WtTpawI4QUq59lyN6JY1I2e0l0+OGeVD/ZPa2rKLZm
+	 0cjxqcJ/QzW3A==
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] kbuild: Rename Makefile.extrawarn to Makefile.warn
+Date: Mon, 27 Oct 2025 22:59:28 +0100
+Message-ID: <176160225481.2834943.9284627955715309233.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251023-rename-scripts-makefile-extrawarn-v1-1-8f7531542169@kernel.org>
+References: <20251023-rename-scripts-makefile-extrawarn-v1-1-8f7531542169@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
- <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
-In-Reply-To: <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-Date: Mon, 27 Oct 2025 21:41:25 +0100
-X-Gm-Features: AWmQ_bkzaHhB9CkmlReafi23CmCyQOI92OWB-Z9nDZJfXxx_hcQyxHwdSOVafLc
-Message-ID: <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
-Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Nathan,
+On Thu, 23 Oct 2025 22:01:36 +0200, Nathan Chancellor wrote:
+> Since commit e88ca24319e4 ("kbuild: consolidate warning flags in
+> scripts/Makefile.extrawarn"), scripts/Makefile.extrawarn contains all
+> warnings for the main kernel build, not just warnings enabled by the
+> values for W=. Rename it to scripts/Makefile.warn to make it clearer
+> that this Makefile is where all Kbuild warning handling should exist.
+> 
+> 
+> [...]
 
-On Mon, 27 Oct 2025 at 20:35, Eugene Shalygin <eugene.shalygin@gmail.com> wrote:
-> Neither the patch nor 6.18-rc3 work. I'm going to try to revert
-> 5b5cdb1fe434e8adc97d5037e6d05dd386c4c4c6 together with anything that
-> is needed to apply the reversing patch.
+Applied to kbuild-next, thanks!
 
-Replacing CONFIG_KERNEL_ZSTD with  CONFIG_KERNEL_GZIP made the kernel
-bootable. What does that mean?
+[1/1] kbuild: Rename Makefile.extrawarn to Makefile.warn
+      https://git.kernel.org/kbuild/c/24722b62
 
-Cheers,
-Eugene
+Please note that commit hashes might change in case of issues with
+kbuild-next.
+
+Best regards,
+-- 
+Nicolas
+
 
