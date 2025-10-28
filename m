@@ -1,87 +1,122 @@
-Return-Path: <linux-kbuild+bounces-9297-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9298-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9669FC164BD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 18:50:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39A0C167CE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 19:30:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 840E23BD7A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 17:46:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE1803B3E49
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 18:28:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0012F34D91E;
-	Tue, 28 Oct 2025 17:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE0B34DB59;
+	Tue, 28 Oct 2025 18:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ou17VRgY"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QVqNRb2t"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f74.google.com (mail-yx1-f74.google.com [74.125.224.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E1934D4EE;
-	Tue, 28 Oct 2025 17:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34002D0611
+	for <linux-kbuild@vger.kernel.org>; Tue, 28 Oct 2025 18:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761673545; cv=none; b=FWlP+x6BeOVNZHy3NXsClD8QRDPkYyG3CZK1/XmH2FYn24E2YLSP7A/SWxMqTOpsBOjBbzPBHDgraSs36jxpVT6p9ZLZNdh4KjTA1VLLjSmrn2Tag3Aql09Bwq6AsNq0I0nutAVviDbLDKHwOy0VRDAidxYVrZgbISU531JZmRo=
+	t=1761676110; cv=none; b=SA8TUgKYUHDB+1zQVimZSlgx+i3HDzrLak7QwEwNV2jnVPhSes2NW0bsgFkD3zcjnoRr7xNJWIap1tyi5Nog6SG8KjC56RCIuIqzaE48PPHsGt/pARNCqP2tK5hLILX/AzIAUwBsBfe6ngMtuQiKWvodhAtdx6I/atDVrR81SSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761673545; c=relaxed/simple;
-	bh=+dLtF98APFzqQMWkNMDsXupA4N5Dose6NnX1dZolbVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dh7luU1xdIEjJ4aF5IByorb9ujvga1CZdt9GO+afPkZK6rdsd34tHEYtdKdpkJuFhyX4bT2du/J8mv0F7bm9MpqtabwXFlv37ll/3JToOYiz83wt7u7Ia4XtPMV9Bt0QSqetc+55bAiCQPpeek2rGbbp4sx+pcKyYLLEo5PpXyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ou17VRgY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38512C4CEFF;
-	Tue, 28 Oct 2025 17:45:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761673545;
-	bh=+dLtF98APFzqQMWkNMDsXupA4N5Dose6NnX1dZolbVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ou17VRgYRWyf7GYttLPtnHUL+7krmFU9uA8ITFxYKSyNOUC8xGU6Qe6bONJCeuhDe
-	 vm/wRRRo6LRCDrzCocybRsHQdrkYl4DuGUq+AwjWdVdURI1dbPJt2sdALRKazMZiTj
-	 K3Lr4veYfZPEaGPEMYwFNXlOLTxo1T/CHWaPqBnVHmF62FcjVO9TFpjhtPmh1a5XR5
-	 UZQg0nofH38apj895X+qVyxyXVzo3QomLqIW5aBbVaDbfFP8c4M2xgEilECICxAsb/
-	 fxUMJ0rz2DDGwOuxk2jagSLl63Xki/UxNTaJ235oASLPSmvvBw/Q86TchAfwV1LmsS
-	 0aHfqsAIUyMrg==
-Date: Tue, 28 Oct 2025 10:45:41 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
-Message-ID: <20251028174541.GA1548965@ax162>
-References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
- <20251026211334.GA1659905@ax162>
- <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
- <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
+	s=arc-20240116; t=1761676110; c=relaxed/simple;
+	bh=fX7XbLSp971rMTg0UpwRdyUHxI4708ybuHhCpWAllo8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=bFBhsUrl0y55VYYU3fEdAhPAUi8ouTUiJ8Nxp1EKLibz9xwldm/VGQG+k/kSDJVQP8jo4TidguA5rqAcxKWDEuRxveVIpH5wPahct+LK2vjMRPQ4xRhRfumF9ZhzlqmiVyMlDoxHIEuOOl71GlaHAj4KIJEoFa0Sb7REiT8sOaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QVqNRb2t; arc=none smtp.client-ip=74.125.224.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
+Received: by mail-yx1-f74.google.com with SMTP id 956f58d0204a3-63d34257de6so7405536d50.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Oct 2025 11:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761676108; x=1762280908; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J/B5eNcHD/N3E3+kFhoRC2kLmuGEBa6rnxq3ZrWjw6Q=;
+        b=QVqNRb2tffJLZ+8SRCvfiosa5+FYEvqOtdhvAuwhMFCJUlAwRbuvce3nxWfSMyyMqA
+         fvoMtY/U4/VqtlilhD5F0++IWbxXddnrQIa2n3M9xI31fHtZ81iH9sq9OUDwkDz+4m9a
+         mVHveltL8nbGnn4pj8BIt0O8/wCbkl0bhc7uo6RLuEvq796kfPmzbYTEfcAGRCnUS+2Y
+         VDEvFmKFoS9rcEbQLGVABsj4JL/ZV2RQ14We7YjQcb67KOFq4macUpvohNcZbT54m5DC
+         3+h65ACSNoRH5YfYRJiusrQgr3Gn1W3hH1W/Oxyy0ObjcaTa359IA66APB5H/7/IilE8
+         rULw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761676108; x=1762280908;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J/B5eNcHD/N3E3+kFhoRC2kLmuGEBa6rnxq3ZrWjw6Q=;
+        b=rQ2MoJ17JtMd7DP/+UP7ivuK7700AV7OLbodLauGoc1daJd5a5OeqRjOqLRjEvudPf
+         J0l1nkx3tQPweTVKTYAOtOsVwhUSkyGPeSZVkm/zu7xBqctI2inRS3wLsZRl9hMdXclR
+         fZ8KqjUbjw9CEKUX7G8+refyrioisDSWpGwHuHqOnoCZp5fkGmt6AKzMdNRMwECibpGr
+         9lCdSVTQIH7yao1xGn73ckclHUj89GayxS3N8TOK4Ohvd47U1qN3sVNExTlGfrrCWFDh
+         8DhShKEIdqvI6T3Vvzcv4VPGTD/pQPq6nKxfrnf6f68tj8GN/0nOKgqLz/SkTpSN2ZTp
+         Yp3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWjsRLbqRCJNfxFMJ7jAZI4owj3CCXepHclkty0fu+tU3bem4nwCEglixTSiHa25mqr3bAjYVZA6FleWRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyRGmB+ltWxK6nYpFZI5fYEA5CO4gWkiAuadqx1Av3Vhkx4XDw
+	ICr5OQHz1iug2/o2QO0zIy1sUrGuoO1jQS8hmAQliQU8Uh3WL8HChqMjBMHErATUZhQ5dQ==
+X-Google-Smtp-Source: AGHT+IHKgweEeaLJqEq+LQTEeKUy21GxhN+HXb+lwE/+WPniFQggWEwGckSmcOi3srPPaBPmXdnrZsY=
+X-Received: from ybsa8.prod.google.com ([2002:a5b:ec8:0:b0:eb6:c177:51d8])
+ (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:690c:9985:b0:784:a119:e71b
+ with SMTP id 00721157ae682-78628f87d9cmr2297817b3.42.1761676107702; Tue, 28
+ Oct 2025 11:28:27 -0700 (PDT)
+Date: Tue, 28 Oct 2025 18:28:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.1.851.g4ebd6896fd-goog
+Message-ID: <20251028182822.3210436-1-xur@google.com>
+Subject: [PATCH v5 0/2] kbuild: distributed build support for Clang ThinLTO
+From: xur@google.com
+To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Piotr Gorski <piotrgorski@cachyos.org>, Rong Xu <xur@google.com>, 
+	Teresa Johnson <tejohnson@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 27, 2025 at 09:41:25PM +0100, Eugene Shalygin wrote:
-> Hi Nathan,
-> 
-> On Mon, 27 Oct 2025 at 20:35, Eugene Shalygin <eugene.shalygin@gmail.com> wrote:
-> > Neither the patch nor 6.18-rc3 work. I'm going to try to revert
-> > 5b5cdb1fe434e8adc97d5037e6d05dd386c4c4c6 together with anything that
-> > is needed to apply the reversing patch.
-> 
-> Replacing CONFIG_KERNEL_ZSTD with  CONFIG_KERNEL_GZIP made the kernel
-> bootable. What does that mean?
+From: Rong Xu <xur@google.com>
 
-Hmmmm, I am not sure... That seems rather odd within the context of the
-flagged change.
+ChangeLog:
 
-Could you post the output of 'readelf -S vmlinux vmlinux.unstripped'
-from the broken and good builds? Does rEFInd have any sort of additional
-debugging to see why/what it is complaining about not being able to
-find?
+V5: Handle single quote escaping in echo _c_flags to fix
+    Piotr Gorski's reported error.
 
-Cheers,
-Nathan
+V4: This is based on the reimplementation provided by Masahiro Yamada
+on May 26. The difference is that this version now saves the compiler
+flags (_c_flags) from the Front-End (FE) compilation and re-uses them
+for the subsequent Back-End (BE) compilation.
+ 
+Rong Xu (2):
+  kbuild: move vmlinux.a build rule to scripts/Makefile.vmlinux_a
+  kbuild: distributed build support for Clang ThinLTO
+
+ .gitignore                 |  2 +
+ Makefile                   | 25 +++++-------
+ arch/Kconfig               | 19 +++++++++
+ scripts/Makefile.lib       |  7 ++++
+ scripts/Makefile.thinlto   | 40 ++++++++++++++++++
+ scripts/Makefile.vmlinux_a | 83 ++++++++++++++++++++++++++++++++++++++
+ scripts/mod/modpost.c      | 15 +++++--
+ 7 files changed, 174 insertions(+), 17 deletions(-)
+ create mode 100644 scripts/Makefile.thinlto
+ create mode 100644 scripts/Makefile.vmlinux_a
+
+
+base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+-- 
+2.51.1.851.g4ebd6896fd-goog
+
 
