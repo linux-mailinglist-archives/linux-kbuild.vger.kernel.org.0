@@ -1,167 +1,210 @@
-Return-Path: <linux-kbuild+bounces-9292-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9293-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A65DC142FD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 11:50:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47D3C14843
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 13:05:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0B1419C84EC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 10:47:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78B781A266F5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Oct 2025 12:05:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E553B30B527;
-	Tue, 28 Oct 2025 10:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 316113195F0;
+	Tue, 28 Oct 2025 12:05:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="Sgh5FnTR"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EGndNpF6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K9i1TOKG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EGndNpF6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K9i1TOKG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826DF30DD39;
-	Tue, 28 Oct 2025 10:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F26302178
+	for <linux-kbuild@vger.kernel.org>; Tue, 28 Oct 2025 12:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761648204; cv=none; b=K23HGKIxDQ1cSrYgZCxSTeVuEYt2kx6hB2wcKvQImOD0vG2YA1nmD0pqSerBzb63qUEgS/Usli88JdP1QxFu/pMck/gtP8jgfwZN8xScVzx5ijs6TkaBiY2H5z7wI2WIX4ZSn6tqMMiHPXhtRsHfazyKp+SzH5FkYQu3DBucAzI=
+	t=1761653130; cv=none; b=kaPlpGfeRfMoRl0wxI3++7Oz7Uh7hcU7pzZ5ftBcP6jmUbSP/ZRXTwwWnweBcEm8G/zTCh83YxJpnDw2JEbnecw/i3awYXjyTgZx8d8asNikft69dQMPY2OcJVmRWZ5M7HUMk/MXNgbQf6TUwv5xNn6vWNA/7+ZYwubMkuWPKeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761648204; c=relaxed/simple;
-	bh=mvz4HjuDEpODuwd+rRUJvdj4E0chSyIlcalkMDx80Q0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q9dui6u7MN75reOXlAgl89e2ZT5pYb7xTZt5A13wmsVxdwq8f/9hd82Zo+slnFEHWuLZvlH48u32RWeR1Gs0l4aZZXuzyjq+Vsp6UORD7PL0ntDyfXGyqyz470CvZbSEXm+/Lk11ITg5FIYriGz0AX9oLZHDsKw7YLPJwBhTqDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=Sgh5FnTR; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D999A284CB9;
-	Tue, 28 Oct 2025 11:43:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1761648198; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=KubPbES/ckVE0akiSyPlNILoL2AL04yp4rZ55Ho1l5o=;
-	b=Sgh5FnTRSplJ2R7kvkLgTquZzY1+6UJHKjGmjXnx6byHCfHNkpgEol5nm3sDgKZ1yz2RH6
-	tGLvqpPJey4X/FbWGaXKFzpNhYSbjeZwtLfVTobAapCesZZ4xxM6DDS8SpnXdUkr0FJkiJ
-	LPo8IwcqMHLsHJk8wW2olevWZqVQcQRHFbtdrAGmacEmsHd3IBA54FqpmTiTUaMfPYvfG9
-	QYTjcJeQuPVx4f01mn2TyRHR4+rXcKd15EhZ94vW/QJcXo1iFqXXu4jark7kXOcPo0Q9Kc
-	3OXywmlhbMnGtzQ7i8t5A7qyyh0INrjOvrcTQzNCFwFv1+e4kXonOMVIbBcnzA==
-Message-ID: <b1e13b0b-19fa-4177-8ae1-0fcbf6d076c6@cachyos.org>
-Date: Tue, 28 Oct 2025 11:43:15 +0100
+	s=arc-20240116; t=1761653130; c=relaxed/simple;
+	bh=lJDSPp4+E0iPsstdsnOP+L8N+oiz3Qh4wSlirOnczAw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bZuxSvPnSoRcm/ry4kbBD68EywZ1V1bDETgmBP3qDdNWfw3tDvFcvRWiUnhAJVUMRYWhVeBw+pPFiOOfK2w4xp6PvQwasn/nDOzKQmLUS6RbpAKoghf+AF50JiWVqTubEhQrcWUUULN1wOnu8p+jdlo+V1u9t0LEGC+J9vCrTkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EGndNpF6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K9i1TOKG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EGndNpF6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K9i1TOKG; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A024B1F38A;
+	Tue, 28 Oct 2025 12:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1761653120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MI2FW2EH0JQzcOm1YdnS6qv7tLtMp6rBzNYN5b9JFi4=;
+	b=EGndNpF6Bn/IDtaEnuANntWPoRHgnUJ6fRPHpSNiV5In2/OHwwarluG5fVOSEEGw1ztGn/
+	TlQEPu5x4gyXF9Qitt7Yy8KSIwEY00oEhhgUbvGSJGJSizcYi8ljXGXIONOOYCO7570TA4
+	BzQSLG5EQd3yKU+pZIIIYrCnk/9DrPk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1761653120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MI2FW2EH0JQzcOm1YdnS6qv7tLtMp6rBzNYN5b9JFi4=;
+	b=K9i1TOKG4itpyVcbVwC2TREDXoSCPee7qUfpDmTmrRT79ghYuaKWxR/gJyqpo2dDocEjdL
+	M3tQk5aIrWOImcBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1761653120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MI2FW2EH0JQzcOm1YdnS6qv7tLtMp6rBzNYN5b9JFi4=;
+	b=EGndNpF6Bn/IDtaEnuANntWPoRHgnUJ6fRPHpSNiV5In2/OHwwarluG5fVOSEEGw1ztGn/
+	TlQEPu5x4gyXF9Qitt7Yy8KSIwEY00oEhhgUbvGSJGJSizcYi8ljXGXIONOOYCO7570TA4
+	BzQSLG5EQd3yKU+pZIIIYrCnk/9DrPk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1761653120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MI2FW2EH0JQzcOm1YdnS6qv7tLtMp6rBzNYN5b9JFi4=;
+	b=K9i1TOKG4itpyVcbVwC2TREDXoSCPee7qUfpDmTmrRT79ghYuaKWxR/gJyqpo2dDocEjdL
+	M3tQk5aIrWOImcBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECF3413A7D;
+	Tue, 28 Oct 2025 12:05:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id J1kbOH+xAGkmCwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 28 Oct 2025 12:05:19 +0000
+Date: Tue, 28 Oct 2025 13:05:19 +0100
+Message-ID: <878qgvgrk0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Dell.Client.Kernel@dell.com,	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
+ <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
+ <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
+ <dxu@dxuuu.xyz>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <87bjm78978.wl-tiwai@suse.de>
+References: <87o6q8l68r.wl-tiwai@suse.de>
+	<20251015145749.2572-1-safinaskar@gmail.com>
+	<878qhckxc5.wl-tiwai@suse.de>
+	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+	<875xcgkvnw.wl-tiwai@suse.de>
+	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+	<87bjm78978.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
-Subject: Re: [PATCH v4 0/2] kbuild: distributed build support for Clang
- ThinLTO
-To: xur@google.com, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Alice Ryhl <aliceryhl@google.com>, Sami Tolvanen <samitolvanen@google.com>,
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Stafford Horne <shorne@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Teresa Johnson <tejohnson@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20251027220914.2665978-1-xur@google.com>
-Content-Language: pl
-From: Piotr Gorski <piotrgorski@cachyos.org>
-In-Reply-To: <20251027220914.2665978-1-xur@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
 
-I tried using this on kernel 6.17.5, but unfortunately I get this error. 
-I previously tested the version in CachyOS: 
-https://github.com/CachyOS/linux/commit/68984063b5e27854272241549e47cb2930ef9710 
-and https://github.com/CachyOS/linux/ 
-commit/00a3ff73a566b7e27b4ced46af4ce27177d9fc37 and everything works fine.
+On Thu, 16 Oct 2025 11:52:43 +0200,
+Takashi Iwai wrote:
+> 
+> On Thu, 16 Oct 2025 08:03:08 +0200,
+> Askar Safin wrote:
+> > 
+> > I did another experiment.
+> > This time with v6.18-rc1.
+> > And I collected more info.
+> > - Here is Debian config for 6.17.2: [attachment config-6.17.2-amd64]
+> > - I downloaded vanilla Linux v6.18-rc1 from kernel.org
+> > - I copied that Debian config (see above) as .config to Linux sources
+> > - I did "LOCALVERSION=-first make --silent -j32 < /dev/null" ("< /dev/null",
+> > because I don't want to answer any questions)
+> > - This is output: [attachment first-out]
+> > - Then I booted into it
+> > - Audio works
+> > - Here is config of this kernel: [attachment config-6.18.0-rc1-first]
+> > - Here is "find /lib/modules/6.18.0-rc1-first": [attachment
+> > find-6.18.0-rc1-first]
+> > - Here is alsa-info: [attachment alsa-info-first]
+> > - Here is lsmod: [attachment first-lsmod]
+> > - Then I "cd" into kernel source (note that ".config" remained since last time)
+> > - I typed "make localmodconfig < /dev/null"
+> > - Here is output: [attachment localmodconfig-out]
+> > - I did "LOCALVERSION=-second make --silent -j32"
+> > - This command didn't produce any output and didn't ask any questions
+> > - Then I booted into new kernel
+> > - Audio doesn't work
+> > - Here is config of this kernel: [attachment config-6.18.0-rc1-second]
+> > - Here is "find /lib/modules/6.18.0-rc1-second": [attachment
+> > find-6.18.0-rc1-second]
+> > - Here is alsa-info: [attachment alsa-info-second]
+> > - Here is lsmod: [attachment second-lsmod]
+> > 
+> > (Please, say me, if there are any missing files.)
+> > 
+> > If you need more experiments, ask me.
+> 
+> Thanks for detailed logs!  Now the situation became clearer.
+> 
+> Could you try to just enable CONFIG_SND_SOC_SOF_ALDERLAKE=m on top of
+> the broken config?  If my guess is right, this should make the audio
+> working again.
 
-/bin/sh: -c: line 1: syntax error near unexpected token `('
-/bin/sh: -c: line 1: `set -e;    trap 'rm -f 
-drivers/net/wireguard/main.o; trap - HUP; kill -s HUP $$' HUP; trap 'rm 
--f drivers/net/wireguard/main.o; trap - INT; kill -s INT $$' INT;  trap 
-'rm -f drivers/net/wireguard/main.o
-; trap - QUIT; kill -s QUIT $$' QUIT;  trap 'rm -f 
-drivers/net/wireguard/main.o; trap - TERM; kill -s TERM $$' TERM; trap 
-'rm -f drivers/net/wireguard/main.o; trap - PIPE; kill -s PIPE $$' PIPE; 
-printf '\n%s\n' 'saved_c_flag
-s_drivers/net/wireguard/main.o := -D__KERNEL__ --target=x86_64-linux-gnu 
--fintegrated-as -Werror=ignored-optimization-argument 
--Werror=option-ignored -std=gnu11 -fshort-wchar -funsigned-char 
--fno-common -fno-PIE -fno-strict-a
-liasing -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx 
--fcf-protection=branch -fno-jump-tables -m64 -falign-loops=1 -mno-80387 
--mno-fp-ret-in-387 -mstack-alignment=8 -mskip-rax-setup -march=znver4 
--mno-red-zone -mcmodel=kern
-el -mstack-protector-guard-reg=gs 
--mstack-protector-guard-symbol=__ref_stack_chk_guard -Wno-sign-compare 
--fno-asynchronous-unwind-tables -mretpoline-external-thunk 
--mindirect-branch-cs-prefix -mfunction-return=thunk-extern -m
-harden-sls=all -fpatchable-function-entry=16,16 
--fno-delete-null-pointer-checks -O3 -fstack-protector-strong 
--ftrivial-auto-var-init=zero -fno-stack-clash-protection -pg -mfentry 
--DCC_USING_NOP_MCOUNT -DCC_USING_FENTRY -fno-l
-to -flto=thin -fsplit-lto-unit -fvisibility=hidden -falign-functions=16 
--fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check 
--fno-builtin-wcslen -Wall -Wextra -Wundef 
--Werror=implicit-function-declaration -Werror=impl
-icit-int -Werror=return-type -Wno-format-security -Wno-trigraphs 
--Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations 
--Wmissing-prototypes -Wframe-larger-than=2048 -Wno-gnu 
--Wno-format-overflow-non-kprintf
--Wno-format-truncation-non-kprintf -Wno-default-const-init-unsafe 
--Wno-pointer-sign -Wcast-function-type 
--Wno-unterminated-string-initialization -Wimplicit-fallthrough 
--Werror=date-time -Wenum-conversion -Wunused -Wno-unused-
-but-set-variable -Wno-unused-const-variable -Wno-format-overflow 
--Wno-override-init -Wno-pointer-to-enum-cast 
--Wno-tautological-constant-out-of-range-compare -Wno-unaligned-access 
--Wno-enum-compare-conditional -Wno-missing-fi
-eld-initializers -Wno-type-limits -Wno-shift-negative-value 
--Wno-enum-enum-conversion -Wno-sign-compare -Wno-unused-parameter -g 
--gdwarf-5 -D'pr_fmt(fmt)=KBUILD_MODNAME ": " fmt'' >> 
-drivers/net/wireguard/.main.o.cmd'
-make[5]: *** [scripts/Makefile.build:287: drivers/net/wireguard/main.o] 
-Error 2
-make[5]: *** Deleting file 'drivers/net/wireguard/main.o'
-make[4]: *** [scripts/Makefile.build:556: drivers/net/wireguard] Error 2
+Askar, have you tried the above?  I was off in the last week, so
+wondering whether I missed your follow up.
 
-LLVM/CLANG: 21.1.4
 
-If necessary, I can send more logs.
+thanks,
 
-Best regards,
+Takashi
 
-Piotr
-
-W dniu 27.10.2025 o 23:09, xur@google.com pisze:
-> From: Rong Xu <xur@google.com>
->
-> This V4 is based on the reimplementation provided by Masahiro Yamada
-> on May 26. The difference is that this version now saves the compiler
-> flags (_c_flags) from the Front-End (FE) compilation and re-uses them
-> for the subsequent Back-End (BE) compilation.
->
-> Rong Xu (2):
->    kbuild: move vmlinux.a build rule to scripts/Makefile.vmlinux_a
->    kbuild: distributed build support for Clang ThinLTO
->
->   .gitignore                 |  2 +
->   Makefile                   | 25 +++++-------
->   arch/Kconfig               | 19 +++++++++
->   scripts/Makefile.lib       |  7 ++++
->   scripts/Makefile.thinlto   | 40 ++++++++++++++++++
->   scripts/Makefile.vmlinux_a | 83 ++++++++++++++++++++++++++++++++++++++
->   scripts/mod/modpost.c      | 15 +++++--
->   7 files changed, 174 insertions(+), 17 deletions(-)
->   create mode 100644 scripts/Makefile.thinlto
->   create mode 100644 scripts/Makefile.vmlinux_a
->
->
-> base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+> If yes, it's a problem of a kernel tristate config that doesn't have
+> the own module but referred only for constructing a probe table in
+> snd-intel-dspcfg.  This is not really a fault of localmodconfig, but a
+> long-standing design problem.  (I'm not sure why this surfaced
+> suddenly, though.)  There are a few options to address it, and we have
+> to evaluate / decide what to do.
+> 
+> 
+> Takashi
 
