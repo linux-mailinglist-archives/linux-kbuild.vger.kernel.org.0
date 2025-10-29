@@ -1,97 +1,92 @@
-Return-Path: <linux-kbuild+bounces-9329-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9330-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C65AC1DA5E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Oct 2025 00:13:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5404C1DA67
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Oct 2025 00:13:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8367B4E2C3B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 23:13:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D9251898AA9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 23:13:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91AF02F1FD2;
-	Wed, 29 Oct 2025 23:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4DA2F6917;
+	Wed, 29 Oct 2025 23:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="im3LP7Wh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uiY+ByUP"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCF22E0B59;
-	Wed, 29 Oct 2025 23:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF842F619F;
+	Wed, 29 Oct 2025 23:13:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761779593; cv=none; b=hmrDkmTLKOrR7Y/X4SxTuh/C88wJItpUmqFr+Jii49rIgWMHkX9HmFqqasaVOFiqHglVg9GddiOUPtA2LPF7iokPNcR3Z8J8lAasc9JiBT1jmyor3uQW9JBkWfuit+IEe4nJd+/Cr5aQKmzb6FWI2ZXLfaGJubD5ANNUEILHeU0=
+	t=1761779596; cv=none; b=Gs0xbpkmuEBK6QTyEI/uJoAG6IwXF+4LsHCAr85MyyrIxIHsSXAJaZudfZmHWR4fWld12DLfoBbZFwvRiMzUKq83b5RAs/7gPSYcNfvBZpmI83YzxfretoSNgkbhAAid/yzfmLcqTqsRfYPWEcYUyVvbY3Uo1qInV34tNmTGffM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761779593; c=relaxed/simple;
-	bh=z4SnXRipUzz35y/BzThyGakaFJrTo847VpmitD4DBYQ=;
-	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=DtYgxJnNtLEm9P+YoPUQJGLQJziQaAuaQe+0GeiZFBKfal1QOydZ41IyJdcJKZBKPsJ/KLqT2LFrrxq+kBRpC9Jr/lgCHgYD0Kz8+pUJgQhngUFzsE5FOBhH9Vl0WcKyyvz47NNZTA1/aQeySH7sto8TW4K6+t5dGmQFukVebyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=im3LP7Wh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A30C4CEF7;
-	Wed, 29 Oct 2025 23:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1761779592;
-	bh=z4SnXRipUzz35y/BzThyGakaFJrTo847VpmitD4DBYQ=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=im3LP7Wh6PwlT0Uu4EFypO7HRZK3HCj/cZx1dZQ6EVD75bjhnAw2+T3Ml0qTTPVH4
-	 2VAAAUaPpjfKb+je7NI4Wfo1AhVCe3/XyQOFVeK15Lu/uNgRGGyHbqQUpPLiCw+piC
-	 qVOPw5OaKjEApJmT/RyYG0NdSjlS7qVmJofNHRn8=
-Date: Wed, 29 Oct 2025 16:13:10 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>, xin@zytor.com,
- peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org,
- nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com,
- bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com,
- kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com,
- wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com,
- fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com,
- ubizjak@gmail.com, ada.coupriediaz@arm.com,
- nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com,
- elver@google.com, pankaj.gupta@amd.com, glider@google.com,
- mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org,
- thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com,
- jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com,
- mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com,
- vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
- ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev,
- ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com,
- broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com,
- maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org,
- rppt@kernel.org, will@kernel.org, luto@kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, x86@kernel.org,
- linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/18] kasan: x86: arm64: KASAN tag-based mode for
- x86
-Message-Id: <20251029161310.61308a6b61b1423feb655d2a@linux-foundation.org>
-In-Reply-To: <20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
-References: <cover.1761763681.git.m.wieczorretman@pm.me>
-	<20251029150806.e001a669d9dad6ff9167c1f0@linux-foundation.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1761779596; c=relaxed/simple;
+	bh=i8sPeculRlHzZXFfvtQA6o9c6EpAjxIY7l+PSiETcnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EODTUL9gULOy6Uuq06icJIOtNvkbDXrTSuycA4SrP9y2OYB6kIxr0+krLUuBLuFg97pZkQFvE1sqJs+mYet65BejAwHCLSdb32ssvuPd+KLzjICDFlUBI19HtGehiKVBLBn903n1a+3x6IqUIfeCnuETsyhjUFzCJ1ZsAYfMD1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uiY+ByUP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4BA9C4CEF7;
+	Wed, 29 Oct 2025 23:13:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761779595;
+	bh=i8sPeculRlHzZXFfvtQA6o9c6EpAjxIY7l+PSiETcnc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uiY+ByUPi5Gw0keXarfyDh0x4sGc21DhKNN2G4NYxpm+bNksuOWVltQHkHN86LIYi
+	 RaAMLOubXG2tgMevlImlz98kcfhpJV0pnjabg/Pgz8r1jpBkgiz/zVws4+d9VU7Qrp
+	 0ArzjJA+vp+nPmkFJ9Pqxw4MOOsXyZRHupam3MreHjkf2esJdnfmadADPulvdABl2C
+	 A75p2KahDnpfHJfHIxnQKEZLYmb24wcfl22k8H5WYz8fsApXRHydO2j+4VKynOZwnr
+	 mznk1cw/WoVPi1vl9C69VJsPeFSu01EMvYCVd1HygiSgPSNBQEiXarilWN91Dawgnn
+	 FJTJTg/CUVdFw==
+Date: Thu, 30 Oct 2025 00:13:11 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	David Sterba <dsterba@suse.com>
+Subject: Re: [PATCH] fs/pipe: stop duplicating union pipe_index declaration
+Message-ID: <20251030-zuruf-linken-d20795719609@brauner>
+References: <20251023082142.2104456-1-linux@rasmusvillemoes.dk>
+ <20251029-redezeit-reitz-1fa3f3b4e171@brauner>
+ <20251029173828.GA1669504@ax162>
+ <20251029-wobei-rezept-bd53e76bb05b@brauner>
+ <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
 
-On Wed, 29 Oct 2025 15:08:06 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
-
-> However patches 1&2 are fixes that have cc:stable.  It's best to
-> separate these out from the overall add-a-feature series please - their
-> path-to-mainline will be quite different.
+On Wed, Oct 29, 2025 at 03:53:37PM -0700, Linus Torvalds wrote:
+> On Wed, 29 Oct 2025 at 15:25, Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > Meh, I thought it was already enabled.
+> > Are you pushing this as a new feature for v6.19 or is Linus ok with
+> > enabling this still during v6.18?
 > 
-> I grabbed just those two patches for some testing,
+> I wasn't planning on doing any conversions for 6.18, but if it makes
+> things easier for people to start doing this, I could certainly take
+> just the "add new compiler flags" at any time.
 
-x86_64 allmodconfig:
+Oh nice!
 
-/opt/crosstool/gcc-13.2.0-nolibc/x86_64-linux/bin/x86_64-linux-ld: vmlinux.o: in function `pcpu_get_vm_areas':
-(.text+0x101cc0f): undefined reference to `__kasan_unpoison_vmap_areas'
+> 
+> Alternatively, maybe Rasmus/Nathan could just expose that commit
+> 778740ee2d00 ("Kbuild: enable -fms-extensions") as a shared stable
+> branch.
+> 
+> That commit seems to be directly on top of 6.18-rc2, so people who
+> want it could just pull that commit instead.
 
-
+I'm fine either way. @Nathan, if you just want to give Linus the patch
+if it's small enough or just want to give me a stable branch I can pull
+I'll be content. Thanks!
 
