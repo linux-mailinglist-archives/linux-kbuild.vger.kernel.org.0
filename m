@@ -1,135 +1,165 @@
-Return-Path: <linux-kbuild+bounces-9316-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5122FC1D24C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 21:08:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA03C1D234
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 21:07:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 19A354E41A9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 20:07:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08523189E68F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 20:08:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AA7435A151;
-	Wed, 29 Oct 2025 20:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80DFB3559CA;
+	Wed, 29 Oct 2025 20:07:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Q8fbvGeL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PI2woHjh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CBD314A80;
-	Wed, 29 Oct 2025 20:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E292A309DCB
+	for <linux-kbuild@vger.kernel.org>; Wed, 29 Oct 2025 20:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761768435; cv=none; b=ZgRfA7xAAYt/HShkTmhrCEDwa/oK8BsO0Ba7Fw3DmlgiVgJ05lBIZlM9sptfBeYWQ+Qifr4zP2WJIM1BM8Ah/GZ82EV2Vtpmg7ohR61k4ALRSxp1l9EYajOwzJtl46K5Bmb2cp8zlBXP/cwg1hFaHTMNz3iH/IOvS34o0HOinig=
+	t=1761768457; cv=none; b=hcnfv179rsZVDHM3AjnAZ+3xU2WEm77v9VUrcLzLQ/EUJNotIZLvPNgNXndIZ1LGUOV0K8FNrNy007yOeNUoXBEt/joztIyhnzcv5pwgE4wqIS6DeSPmEUrwmr0r5k0MRCqyeL5buo2ECyWRdNAdgImEWBnT4X4njcJINNfoREg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761768435; c=relaxed/simple;
-	bh=+cA2njdiqaGsLKzMeaYLJnV2PWefw9DHpnKbgEVAOp8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ttKHM82N3Do8VRNI+8rRx5ifJN6zhPmU8txt2xxnNJvw4kPg1dRByK1C7YCwVD+SXWlm48E1qIjzC6USoE9gVlnx9L9hjNl5HQxu3Ln7DHJ2zkF2seMZtYw5uM/MKWE7Hr7gRLA4Au02qvxJsxc4fqYmBMm1XGF7x2TrbfQU0tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=Q8fbvGeL; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1761768428; x=1762027628;
-	bh=ORgS5h+xBvFClF5iXcyTXC092gY8CGZFTCYy/D6hFpU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Q8fbvGeL2ExKLfg1F1thHnRQ92jM0SfvidRW/4ypa4lolos8RCX0lLu+i2H6kTK6S
-	 MaA1nBDNDQPyyfdcKvl+1OcEfLMV2Viqk9a+x2KT3lXIr9hXFR4fmSs0XylD1sTGie
-	 tsO96krT1yWQpKu1JBZ1xoqT/Am1AJerQd1O8H4fUA92e+JgBxhZqZgpSkBFj0QbBY
-	 kK5jeFm7SA2QiUwxKEOqXSEioeBK0pAcc9z8/Bx7JbdabNmBwQBKWD9VAd4AMK2nqH
-	 tn//iBIEYCz7O+2enlz2b7WX/VCaIyvT/kkUpw3q6WdAghPk/Ks4hSNUdaZmzn+OT9
-	 2SUvjbSgsrkKQ==
-Date: Wed, 29 Oct 2025 20:07:02 +0000
-To: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
-	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, m.wieczorretman@pm.me
-Subject: [PATCH v6 10/18] x86/mm: Physical address comparisons in fill_p*d/pte
-Message-ID: <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1761763681.git.m.wieczorretman@pm.me>
-References: <cover.1761763681.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 931b8bb7920f3633ea9d19d797d43379e99d4838
+	s=arc-20240116; t=1761768457; c=relaxed/simple;
+	bh=pZaHWLnpTm4rrytEkoh5yTEdNRCEeH0blnuDC4rLf2g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lCoSDucdMC4eEIj//rpV1+fKpi8sy/t+tMOGPU3sqeQJY1xgN3PhMoBw378YkTuYzYISg6U0Li/sL7x9AFjdXB2vWjexPYZZTU/dJVLLwC5ChU1Tk/7KOXbilGZLQ3NOgLnF1e7aYW+6nkJIzCe3ZRj6z9tQqSZxi3F2RixswHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PI2woHjh; arc=none smtp.client-ip=209.85.166.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-430ab5ee3e7so737375ab.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Oct 2025 13:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761768455; x=1762373255; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jTJUS/pVwI0IDkcIInux/dRF79F8L7jw3CBAkxp6Zu0=;
+        b=PI2woHjh9RwD97sICcToeJJ7XtuNPZgtWODX7Y78iR3DOGIvjcBwpQapTC45kKK9hS
+         819bx28VLYg/LwIx7H6Son3wxZ3GDeAuqL5+mGHPFDYuG7bimK93UHSHXz2N/lsST5BR
+         Q++bJf6O+Bgyh+ca0rSeQWZrDN97qrliIayrerGw4yxAvMelwwgt/oR46tlo2T/8K2lB
+         AhRZTCOqNn0eK58r/PDlspt/EjZGO0tTYQQW6DPl0zTwn5PMGnFm37foLG9N4jXyTtDp
+         GeMdfRcz55ulwMWhaVd7L3GcgttowlyFS4Ck+PDzlgbIOWlxdxm03RQoD2QRZhwjfiJU
+         HPzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761768455; x=1762373255;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jTJUS/pVwI0IDkcIInux/dRF79F8L7jw3CBAkxp6Zu0=;
+        b=cXtt9p3hMT7r2bvamkz+d7KpJzSt9tLhHn/bvqm+FkHXdvUR8fzEFNrmfdDUpLCtJq
+         +FGwv6ay2nnF8+7iP573e8sZK/nxt7Ka0k/spMEWkXkJukcRJSNVQqb4VFFeH7ebqnNf
+         gzSiiWhjomIx3omEysn9slty8/FRKAUDqYcKZBouI6FlAfqux0cZcWSuKZFhT7l+O6qe
+         w+SpkwpTMAHj0cC4yhjmHdiE9lZrOybmmkLDqGeM4l2w5TnNPmyrwu7Y1onE8xI9ulSS
+         rv8y61aViDEWPRU5YS4ga3mvFk+ZH8Dkxl/v6wuBzMIEbjgAPcZgLZafTRqwwmGOBGel
+         Qc2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVj+vwGbqkcEI4+h7oaJaQikC3Oo6HIol1C/6kV9l8AKTZG7IkC4YjRcMG8bUk4gIGyGespUPq5/TOaUQ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvddkjnNuPKlH/EXTx7S2ec/45N6c7+YJhD7CR7PVyu1TVUA2l
+	kYCWg+PXinzz/WGVI03XY86Oq0WeIGe1XiICBGpq+Fe8aKnenJHNz/29nSs+m3ggDjq0ucBELZr
+	ftyr9WiC/87o6If/ps8Npkd7zDARjo8k=
+X-Gm-Gg: ASbGnctmw3ZL9QuDMRVq8wQmrFqit5EgXjjYHG/dqRzYbtjU3BDtSsyddSpr6BMQv1k
+	RmYMFKJgC3o1sSTx+Bv2P7+/DsNWLptsrODpg6iwQupYoVvKCOibUXwxBhc0XWMEAm2avAkEVv/
+	0JqfpYUVwedXr1rLicL/HMn2CO9tf0Ecys4YewqVBWmZ4RkrKYypMq2bAK+AFpMgKWutGLLxnZC
+	btj38ZtRi6WpFGYSazkzb9HdqjC1VH3G9P+c9jDuIPkhmJMWRrlFbBvx9Vc+qySbEOCGpVd1YwE
+	mpB3i8kKZ4MtAIzZQQ==
+X-Google-Smtp-Source: AGHT+IGtjrYZer4FI1YJLLUryJr2u12Oxxi68IekbTqa0gKaxK2t+cR0qj0KuA/ltTWIdAl92YuboktMW4NGvazDdkM=
+X-Received: by 2002:a05:6e02:3c04:b0:430:d5b8:6160 with SMTP id
+ e9e14a558f8ab-432f907430dmr56490765ab.29.1761768453044; Wed, 29 Oct 2025
+ 13:07:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
+ <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
+ <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com> <20251028174541.GA1548965@ax162>
+In-Reply-To: <20251028174541.GA1548965@ax162>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Wed, 29 Oct 2025 21:07:20 +0100
+X-Gm-Features: AWmQ_bnFTLtd5rghWRzz34YmOoNt-X_vsjjNzVFZIKDYvVQjofq9CQTlIFqsHUE
+Message-ID: <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
+Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000d21d05064251aee5"
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+--000000000000d21d05064251aee5
+Content-Type: text/plain; charset="UTF-8"
 
-Calculating page offset returns a pointer without a tag. When comparing
-the calculated offset to a tagged page pointer an error is raised
-because they are not equal.
+Hi Nathan,
 
-Change pointer comparisons to physical address comparisons as to avoid
-issues with tagged pointers that pointer arithmetic would create. Open
-code pte_offset_kernel(), pmd_offset(), pud_offset() and p4d_offset().
-Because one parameter is always zero and the rest of the function
-insides are enclosed inside __va(), removing that layer lowers the
-complexity of final assembly.
+On Tue, 28 Oct 2025 at 18:45, Nathan Chancellor <nathan@kernel.org> wrote:
+> > Replacing CONFIG_KERNEL_ZSTD with  CONFIG_KERNEL_GZIP made the kernel
+> > bootable. What does that mean?
+>
+> Hmmmm, I am not sure... That seems rather odd within the context of the
+> flagged change.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-Changelog v2:
-- Open code *_offset() to avoid it's internal __va().
+Huh! The fourth of my machines with the similar config (also fully
+updated ~amd64 Gentoo) with rEFind boots kernel 6.17.5 with
+CONFIG_KERNEL_ZSTD enabled.
 
- arch/x86/mm/init_64.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> Could you post the output of 'readelf -S vmlinux vmlinux.unstripped'
+> from the broken and good builds?
 
-diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
-index 0e4270e20fad..2d79fc0cf391 100644
---- a/arch/x86/mm/init_64.c
-+++ b/arch/x86/mm/init_64.c
-@@ -269,7 +269,10 @@ static p4d_t *fill_p4d(pgd_t *pgd, unsigned long vaddr=
-)
- =09if (pgd_none(*pgd)) {
- =09=09p4d_t *p4d =3D (p4d_t *)spp_getpage();
- =09=09pgd_populate(&init_mm, pgd, p4d);
--=09=09if (p4d !=3D p4d_offset(pgd, 0))
-+
-+=09=09if (__pa(p4d) !=3D (pgtable_l5_enabled() ?
-+=09=09=09=09  __pa(pgd) :
-+=09=09=09=09  (unsigned long)pgd_val(*pgd) & PTE_PFN_MASK))
- =09=09=09printk(KERN_ERR "PAGETABLE BUG #00! %p <-> %p\n",
- =09=09=09       p4d, p4d_offset(pgd, 0));
- =09}
-@@ -281,7 +284,7 @@ static pud_t *fill_pud(p4d_t *p4d, unsigned long vaddr)
- =09if (p4d_none(*p4d)) {
- =09=09pud_t *pud =3D (pud_t *)spp_getpage();
- =09=09p4d_populate(&init_mm, p4d, pud);
--=09=09if (pud !=3D pud_offset(p4d, 0))
-+=09=09if (__pa(pud) !=3D (p4d_val(*p4d) & p4d_pfn_mask(*p4d)))
- =09=09=09printk(KERN_ERR "PAGETABLE BUG #01! %p <-> %p\n",
- =09=09=09       pud, pud_offset(p4d, 0));
- =09}
-@@ -293,7 +296,7 @@ static pmd_t *fill_pmd(pud_t *pud, unsigned long vaddr)
- =09if (pud_none(*pud)) {
- =09=09pmd_t *pmd =3D (pmd_t *) spp_getpage();
- =09=09pud_populate(&init_mm, pud, pmd);
--=09=09if (pmd !=3D pmd_offset(pud, 0))
-+=09=09if (__pa(pmd) !=3D (pud_val(*pud) & pud_pfn_mask(*pud)))
- =09=09=09printk(KERN_ERR "PAGETABLE BUG #02! %p <-> %p\n",
- =09=09=09       pmd, pmd_offset(pud, 0));
- =09}
-@@ -305,7 +308,7 @@ static pte_t *fill_pte(pmd_t *pmd, unsigned long vaddr)
- =09if (pmd_none(*pmd)) {
- =09=09pte_t *pte =3D (pte_t *) spp_getpage();
- =09=09pmd_populate_kernel(&init_mm, pmd, pte);
--=09=09if (pte !=3D pte_offset_kernel(pmd, 0))
-+=09=09if (__pa(pte) !=3D (pmd_val(*pmd) & pmd_pfn_mask(*pmd)))
- =09=09=09printk(KERN_ERR "PAGETABLE BUG #03!\n");
- =09}
- =09return pte_offset_kernel(pmd, vaddr);
---=20
-2.51.0
+Attached.
 
+> Does rEFInd have any sort of additional
+> debugging to see why/what it is complaining about not being able to
+> find?
 
+No, unfortunately. However, I was unable to find the first part of the
+error message ("Not Found") in the rEFInd sources.
+
+Cheers,
+Eugene
+
+--000000000000d21d05064251aee5
+Content-Type: application/zstd; name="readelf-vmlinux.tar.zst"
+Content-Disposition: attachment; filename="readelf-vmlinux.tar.zst"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mhcf682j0>
+X-Attachment-Id: f_mhcf682j0
+
+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
+--000000000000d21d05064251aee5--
 
