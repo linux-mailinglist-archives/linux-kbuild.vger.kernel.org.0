@@ -1,59 +1,59 @@
-Return-Path: <linux-kbuild+bounces-9318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9319-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFFDC1D23A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 21:08:08 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9727FC1D27F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 21:09:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 570E63435C6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 20:08:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3A5E64E2029
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 20:08:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127A5350A09;
-	Wed, 29 Oct 2025 20:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7AAD3590D8;
+	Wed, 29 Oct 2025 20:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="bjmx3g8O"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="f1ahGvJ8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161EE32862C
-	for <linux-kbuild@vger.kernel.org>; Wed, 29 Oct 2025 20:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002672DE200;
+	Wed, 29 Oct 2025 20:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761768471; cv=none; b=DKEOsE11E1k4rVzogVo0kHiM5XHtOm32UMMzqBSNWNHpcKfYYRWOsEuAp4nqW+Uagz1eqDGL8QZ6btsaamNYTar59RLIRYCgdcN9r+FV0AKovkJXxW/N/mXAvWbED96njXmWXthY2U0Cidx/Rf1AJGdwxgZ28X6bAxs1qjPEI4s=
+	t=1761768510; cv=none; b=UnF595ze7gK0D4C29Pu8FgA2E7Z+Jq4+IugtBdQX2L5yABysCu8mmQo3XEMeiqmz3XiwCcU144U/WBTluB5VltsI2GjP9bEfj0pMLp446Ey9gBlzLW2gRsKY6v4Bcgxib2Tz3mCZJR9JlGQ5xdVCr+Fl5uHSrcLtQgXws4j60mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761768471; c=relaxed/simple;
-	bh=pG6PmCayk69IIjMpN+E9J4X5ppcFU9gBb5y0rPTdVEE=;
+	s=arc-20240116; t=1761768510; c=relaxed/simple;
+	bh=bVzjv4HTOC1vQrn+XBZNIMKDdCF53/G6D7SEjdZ3RUs=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AOBUnlzRPXrEGDvebATNExmmHmqHhfHbVPJ/zDBcCGqabRYF1YUSgTZXCQ3B7esjdcCAOyvPn5oLNP8GGwmwAfcRlRDEwIULuUsMxXVAm65PHQEDAv3jyNobZgFy1e2JGYftOrXzID/5FeWQ/DAbFEC7Et9jfVokpl+h7v2a4wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=bjmx3g8O; arc=none smtp.client-ip=109.224.244.18
+	 MIME-Version:Content-Type; b=hcit+rYC99+bE8NiHAzuv7OEVhs4XYGCmtwpOIqjgXfYvIgsBPD9mfScUaCnT+3tyaWFUgfbVHIC/6lD8NAk4v4Q4ZGZgJr32ksf8N1nsMLJ8pqEUgiNqOZQA3xYFEfB22A01fLtMMOB8ABY6Ex72oBof9cY3tVE492o+6SRFQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=f1ahGvJ8; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1761768465; x=1762027665;
-	bh=h7bOmcRxuqO6z3MZPe9zBvs6V2vz8fOGqA1RpHhG/FE=;
+	s=protonmail3; t=1761768504; x=1762027704;
+	bh=Ye8tYnzEiAyAJOizOqIrcZYSk2K1DbVUwkfvl955amo=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=bjmx3g8OlacQX7FEB7CB4gFpPcUTD0I5Kc1p43/y9uXqIMVnKJWIWOuru2SF/QQfu
-	 6AiAPDukFzXStuxWTR5WDI0wUwQ3jAjKxjVKN/rW5W4cFnmYpLhh/SnXC+CNzfiPNN
-	 yCU0Y0WKKnfImz6JKMr3Dj0qQjo+Mp/U3OEVrV6kaX0VUG3dIxPsjjzPd48CTfn+MD
-	 HpUu7+z+rhYq8apG5mFFr/w3+YtjPLc59AwJlIe7QmemdTNU+aT/cA3JtTnT2ge0If
-	 nWKsUZ1l87vhw5I/ZZHp5y2xOcPYMO6CexFWC9kS9HmKpnu1vWPf8OvbB4AV2iSubm
-	 Hlcw1buJNqcCg==
-Date: Wed, 29 Oct 2025 20:07:38 +0000
+	b=f1ahGvJ8GYmWSAN4yQvaJJ8AMmaQXPPMzcKSaz6Xrvq0aoFjM/UK6qEVGIKRCoLqb
+	 5LIptGgTqr85HdCtdsCnnkULneMU0vlAU6dQciyV6UUzUvyMy/kCVMmX+/4xr6YHW/
+	 +oMozIC9BWSxBmEgcmmyjZZG3vnN+B3w2jxVYTdAYKkzhqe2taxX2Pl6kthj9hres/
+	 YBb4kjMyUMhTGxyvSz8vda/30rOZZimxFRxQD0jyouhiV9xwy9nfBkUN6uEXRd/Z/X
+	 euFq5/cNqoY3dnXuBokf29Dwc8D5+0mx1I6WMSm4ouiysMLrt2mGdvalln0qeq9P+o
+	 sDufRjOTA1fvw==
+Date: Wed, 29 Oct 2025 20:08:18 +0000
 To: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
 	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org
 From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, m.wieczorretman@pm.me
-Subject: [PATCH v6 11/18] x86/kasan: KASAN raw shadow memory PTE init
-Message-ID: <f533bb094a566242ec196afbde222796c6d6c084.1761763681.git.m.wieczorretman@pm.me>
+Subject: [PATCH v6 12/18] x86/mm: LAM compatible non-canonical definition
+Message-ID: <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
 In-Reply-To: <cover.1761763681.git.m.wieczorretman@pm.me>
 References: <cover.1761763681.git.m.wieczorretman@pm.me>
 Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 388931058df330f6e092950b7ef3ba7585e70752
+X-Pm-Message-ID: 015c7fdaea374a790951b755b565538ef4bdd04b
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,75 +65,78 @@ Content-Transfer-Encoding: quoted-printable
 
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 
-In KASAN's generic mode the default value in shadow memory is zero.
-During initialization of shadow memory pages they are allocated and
-zeroed.
+For an address to be canonical it has to have its top bits equal to each
+other. The number of bits depends on the paging level and whether
+they're supposed to be ones or zeroes depends on whether the address
+points to kernel or user space.
 
-In KASAN's tag-based mode the default tag for the arm64 architecture is
-0xFE which corresponds to any memory that should not be accessed. On x86
-(where tags are 4-bit wide instead of 8-bit wide) that tag is 0xE so
-during the initializations all the bytes in shadow memory pages should
-be filled with it.
+With Linear Address Masking (LAM) enabled, the definition of linear
+address canonicality is modified. Not all of the previously required
+bits need to be equal, only the first and last from the previously equal
+bitmask. So for example a 5-level paging kernel address needs to have
+bits [63] and [56] set.
 
-Use memblock_alloc_try_nid_raw() instead of memblock_alloc_try_nid() to
-avoid zeroing out the memory so it can be set with the KASAN invalid
-tag.
+Change the canonical checking function to use bit masks instead of bit
+shifts.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
-Changelog v2:
-- Remove dense mode references, use memset() instead of kasan_poison().
+Changelog v6:
+- Use bitmasks to check both kernel and userspace addresses (Dave Hansen
+  and Samuel Holland).
 
- arch/x86/mm/kasan_init_64.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+Changelog v4:
+- Add patch to the series.
 
-diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-index 998b6010d6d3..e69b7210aaae 100644
---- a/arch/x86/mm/kasan_init_64.c
-+++ b/arch/x86/mm/kasan_init_64.c
-@@ -34,6 +34,18 @@ static __init void *early_alloc(size_t size, int nid, bo=
-ol should_panic)
- =09return ptr;
+ arch/x86/include/asm/page.h | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
+index bcf5cad3da36..df2c93b90a6b 100644
+--- a/arch/x86/include/asm/page.h
++++ b/arch/x86/include/asm/page.h
+@@ -82,14 +82,37 @@ static __always_inline void *pfn_to_kaddr(unsigned long=
+ pfn)
+ =09return __va(pfn << PAGE_SHIFT);
  }
 =20
-+static __init void *early_raw_alloc(size_t size, int nid, bool should_pani=
-c)
++/*
++ * CONFIG_KASAN_SW_TAGS requires LAM which changes the canonicality checks=
+.
++ */
++#ifdef CONFIG_KASAN_SW_TAGS
++static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
 +{
-+=09void *ptr =3D memblock_alloc_try_nid_raw(size, size,
-+=09=09=09__pa(MAX_DMA_ADDRESS), MEMBLOCK_ALLOC_ACCESSIBLE, nid);
-+
-+=09if (!ptr && should_panic)
-+=09=09panic("%pS: Failed to allocate page, nid=3D%d from=3D%lx\n",
-+=09=09      (void *)_RET_IP_, nid, __pa(MAX_DMA_ADDRESS));
-+
-+=09return ptr;
++=09return (vaddr | BIT_ULL(63) | BIT_ULL(vaddr_bits - 1));
 +}
-+
- static void __init kasan_populate_pmd(pmd_t *pmd, unsigned long addr,
- =09=09=09=09      unsigned long end, int nid)
++#else
+ static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
  {
-@@ -63,8 +75,9 @@ static void __init kasan_populate_pmd(pmd_t *pmd, unsigne=
-d long addr,
- =09=09if (!pte_none(*pte))
- =09=09=09continue;
-=20
--=09=09p =3D early_alloc(PAGE_SIZE, nid, true);
--=09=09entry =3D pfn_pte(PFN_DOWN(__pa(p)), PAGE_KERNEL);
-+=09=09p =3D early_raw_alloc(PAGE_SIZE, nid, true);
-+=09=09memset(p, PAGE_SIZE, KASAN_SHADOW_INIT);
-+=09=09entry =3D pfn_pte(PFN_DOWN(__pa_nodebug(p)), PAGE_KERNEL);
- =09=09set_pte_at(&init_mm, addr, pte, entry);
- =09} while (pte++, addr +=3D PAGE_SIZE, addr !=3D end);
+ =09return ((s64)vaddr << (64 - vaddr_bits)) >> (64 - vaddr_bits);
  }
-@@ -436,7 +449,7 @@ void __init kasan_init(void)
- =09 * it may contain some garbage. Now we can clear and write protect it,
- =09 * since after the TLB flush no one should write to it.
- =09 */
--=09memset(kasan_early_shadow_page, 0, PAGE_SIZE);
-+=09memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
- =09for (i =3D 0; i < PTRS_PER_PTE; i++) {
- =09=09pte_t pte;
- =09=09pgprot_t prot;
++#endif
++
++#ifdef CONFIG_KASAN_SW_TAGS
++#define CANONICAL_MASK(vaddr_bits) (BIT_ULL(63) | BIT_ULL(vaddr_bits - 1))
++#else
++#define CANONICAL_MASK(vaddr_bits) GENMASK_ULL(63, vaddr_bits)
++#endif
+=20
+ static __always_inline u64 __is_canonical_address(u64 vaddr, u8 vaddr_bits=
+)
+ {
+-=09return __canonical_address(vaddr, vaddr_bits) =3D=3D vaddr;
++=09unsigned long cmask =3D CANONICAL_MASK(vaddr_bits);
++
++=09/*
++=09 * Kernel canonical address & cmask will evaluate to cmask while
++=09 * userspace canonical address & cmask will evaluate to zero.
++=09 */
++=09u64 result =3D (vaddr & cmask) =3D=3D cmask || !(vaddr & cmask);
++=09return result;
+ }
+=20
+ #endif=09/* __ASSEMBLER__ */
 --=20
 2.51.0
 
