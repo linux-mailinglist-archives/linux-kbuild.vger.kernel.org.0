@@ -1,95 +1,83 @@
-Return-Path: <linux-kbuild+bounces-9303-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9304-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C914C1B170
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 15:08:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CF3C1B0D1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 15:02:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B449F5A6E3B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 13:50:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B661E1A67DD9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 13:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E687350D48;
-	Wed, 29 Oct 2025 13:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 324FC35504B;
+	Wed, 29 Oct 2025 13:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fvv0r33w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UlX3/Neg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A39350A34;
-	Wed, 29 Oct 2025 13:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D275B35503B;
+	Wed, 29 Oct 2025 13:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761745273; cv=none; b=EeOWfIjjB+83FmXeNITvGXoiKJI17qKlSokrZ3lLhtwzPI7+OpsYLM2WW77X1Gcv4mIO8SqZizG+NwSHd3rZG0V6cWaGEsnAdSL5+hCg/SaRElkfooHSdGCOcWXTB0Mg1xLafN4ol72CLv+2AjjK8bZjfVKo0s7XDbM97aTzZec=
+	t=1761745346; cv=none; b=o80XkQFgXdV8HZdJ5OgIVsZ/ek8jm3WtB87yNTWi+D7W3TRjnlBZhPLILjVYYkio/kdXKIF0DYLE+CX2xPLB8P9Y/N8un6If9EyGFyGtphHORb5Ayf9GCRIvLOmlvUXk73iPnZ5JCsvaJZnhO/nBjS1qggzcePJA4hqorTeeU7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761745273; c=relaxed/simple;
-	bh=tovzWB7nFqgmLeScDZvmPqsvNB+Fj3C3M7MNwv8PzaE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K45XM6Hc2u/s3iRHJiYncrZtPOKzwwdveCfLHh4UzKILPVElT/jd+qGHoGVl2mD19Oa+c6aP8H7fJnGzxLZ+4OaNsuBqEBoy7nw9oukQxWKhINzqDtX/C0L+5xMYKBI15+lS3gaq2hZanxWPSz+2utol9V5XMWi0ZwDcei9btT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fvv0r33w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85460C4CEF7;
-	Wed, 29 Oct 2025 13:41:10 +0000 (UTC)
+	s=arc-20240116; t=1761745346; c=relaxed/simple;
+	bh=76AtYLNQ1Gb/fR9DQRDYv8CtcVfoHaZgTGBfqdc1qGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RdbP/SHm63YXuju/hHrP2ATKWAL7CSZljZqJIn/modOyw+JIWF3qwOH9XyeT0SG3O3A4Zy5uQYJ2eB9YJ8G7thKx/h1qtSxEhswzVuFA1rPycjvGiKI7lnClVYJrposa6ek7/A4D4dz3u+BL91oTz5GE4FtdKKUDQOA4e5o0bz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UlX3/Neg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BEC9C4CEFF;
+	Wed, 29 Oct 2025 13:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761745272;
-	bh=tovzWB7nFqgmLeScDZvmPqsvNB+Fj3C3M7MNwv8PzaE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fvv0r33wyc7i/3jjjiVPhHGvbxi+sjdK/7TbW8C3Z/3ACpnJavm7U3aeQl9ji9BZz
-	 RP6KE9LBMKbfMArVv+6v3PWf3yw5AfQuAK4Y0Jlpb+9yerExHK5sC51iGcU43vvJII
-	 e1chZldZW6OvO6+CZ+98MB/8kz2av6HH5T5sLpxdjIAQRep03eBWeY6UB/grFrOBzp
-	 ZV550JozoBlDDXzgbNxCfuffuaTNk9oD6rlW+Og6iBC9dCopXwPZP8c9YH1dktXS7z
-	 tP+8NUc+tHiDG8UayhkREFFUUb7ffT9AKes+Bk0I9rpAaFGPxaQfswwh3IwD+wzwRj
-	 ehOT6glsr3DNQ==
+	s=k20201202; t=1761745346;
+	bh=76AtYLNQ1Gb/fR9DQRDYv8CtcVfoHaZgTGBfqdc1qGM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UlX3/NegS26E/3MnqJgLqCAkl3WXfP4RWIqGvoECJ5SwaTs1Iwl1R+84g1dVM0GfM
+	 dKWq6fF3WXaXe0nM2rQ7vCTIPyYm54d6uncrmi1JcdT8YgdQ9pxEJK7YBmbqHYnghy
+	 hmPJVIijHF2QcB5dmAxwghVevg5jfgN+Igkshvtd6E8+F/Xwv3HpKQH3wwTvReCbv6
+	 TPaWvzCzYw5YEo15zrfMSh3opGmtIyer9oSnj1r0SGuInYNPaLxj/qgV01yl8aRJTl
+	 nQ8Zl3bDOlOW92FgzTXrbQx2EsmXDtc2Uk5CbHQdtWemLc8Qn1y9PD25Xt1/igO5uu
+	 FZnRLXzXOJ7bw==
+Date: Wed, 29 Oct 2025 14:42:21 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	David Sterba <dsterba@suse.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	David Sterba <dsterba@suse.com>, Nicolas Schier <nsc@kernel.org>
 Subject: Re: [PATCH] fs/pipe: stop duplicating union pipe_index declaration
-Date: Wed, 29 Oct 2025 14:41:06 +0100
-Message-ID: <20251029-redezeit-reitz-1fa3f3b4e171@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251023082142.2104456-1-linux@rasmusvillemoes.dk>
+Message-ID: <20251029-mailen-neueinstellung-3e0d445134c2@brauner>
 References: <20251023082142.2104456-1-linux@rasmusvillemoes.dk>
+ <20251023164408.GB2090923@ax162>
+ <CAHk-=wg6mxof1=egFUDTNEj3__tCWLTbKjYLzxipVCn6ndXr+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1008; i=brauner@kernel.org; h=from:subject:message-id; bh=tovzWB7nFqgmLeScDZvmPqsvNB+Fj3C3M7MNwv8PzaE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQySRbP9vwlcGNbz0IuBvHPkxc43qlcFbDo2643NtcLd vuxfy6y6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZgIWwLDPyXv+dJnRFK41256 radga708f8rL/bMrWE6ws/isCpM8qcjI0MNS9/DPvTkX5rFOufv4pYCJTviPx1+edFSZtTM832u axQAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wg6mxof1=egFUDTNEj3__tCWLTbKjYLzxipVCn6ndXr+g@mail.gmail.com>
 
-On Thu, 23 Oct 2025 10:21:42 +0200, Rasmus Villemoes wrote:
-> Now that we build with -fms-extensions, union pipe_index can be
-> included as an anonymous member in struct pipe_inode_info, avoiding
-> the duplication.
+On Thu, Oct 23, 2025 at 06:48:13AM -1000, Linus Torvalds wrote:
+> On Thu, 23 Oct 2025 at 06:44, Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > Yeah, this would also be a good conversion example so we could include
+> > it in kbuild-next with the appropriate Acks. We probably do not want to
+> > take too many other conversions in the initial pull. If people really
+> > want to use this in other places for 6.19, we should probably do a
+> > shared branch for these changes that maintainers could pull into their
+> > own trees.
 > 
-> 
+> Yes. This is a good example of what the use case is and why we're
+> doing this extension. So Ack both on including it as such, and on the
+> whole "let's not go overboard with other conversions" thing.
 
-Applied to the vfs-6.19.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-6.19.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-6.19.misc
-
-[1/1] fs/pipe: stop duplicating union pipe_index declaration
-      https://git.kernel.org/vfs/vfs/c/ade24f8214fe
+WHAT??? We're actually doing that? This is fscking lovely! I thought
+this would never fly and so I actually never proposed it. Who do I have
+to hug for doing this? I'm a very happy boy right now.
 
