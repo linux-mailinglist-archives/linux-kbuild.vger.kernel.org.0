@@ -1,165 +1,141 @@
-Return-Path: <linux-kbuild+bounces-9317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA03C1D234
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 21:07:51 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFFDC1D23A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 21:08:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08523189E68F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 20:08:16 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 570E63435C6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Oct 2025 20:08:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80DFB3559CA;
-	Wed, 29 Oct 2025 20:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127A5350A09;
+	Wed, 29 Oct 2025 20:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PI2woHjh"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="bjmx3g8O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E292A309DCB
-	for <linux-kbuild@vger.kernel.org>; Wed, 29 Oct 2025 20:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161EE32862C
+	for <linux-kbuild@vger.kernel.org>; Wed, 29 Oct 2025 20:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761768457; cv=none; b=hcnfv179rsZVDHM3AjnAZ+3xU2WEm77v9VUrcLzLQ/EUJNotIZLvPNgNXndIZ1LGUOV0K8FNrNy007yOeNUoXBEt/joztIyhnzcv5pwgE4wqIS6DeSPmEUrwmr0r5k0MRCqyeL5buo2ECyWRdNAdgImEWBnT4X4njcJINNfoREg=
+	t=1761768471; cv=none; b=DKEOsE11E1k4rVzogVo0kHiM5XHtOm32UMMzqBSNWNHpcKfYYRWOsEuAp4nqW+Uagz1eqDGL8QZ6btsaamNYTar59RLIRYCgdcN9r+FV0AKovkJXxW/N/mXAvWbED96njXmWXthY2U0Cidx/Rf1AJGdwxgZ28X6bAxs1qjPEI4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761768457; c=relaxed/simple;
-	bh=pZaHWLnpTm4rrytEkoh5yTEdNRCEeH0blnuDC4rLf2g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lCoSDucdMC4eEIj//rpV1+fKpi8sy/t+tMOGPU3sqeQJY1xgN3PhMoBw378YkTuYzYISg6U0Li/sL7x9AFjdXB2vWjexPYZZTU/dJVLLwC5ChU1Tk/7KOXbilGZLQ3NOgLnF1e7aYW+6nkJIzCe3ZRj6z9tQqSZxi3F2RixswHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PI2woHjh; arc=none smtp.client-ip=209.85.166.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-430ab5ee3e7so737375ab.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 29 Oct 2025 13:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761768455; x=1762373255; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jTJUS/pVwI0IDkcIInux/dRF79F8L7jw3CBAkxp6Zu0=;
-        b=PI2woHjh9RwD97sICcToeJJ7XtuNPZgtWODX7Y78iR3DOGIvjcBwpQapTC45kKK9hS
-         819bx28VLYg/LwIx7H6Son3wxZ3GDeAuqL5+mGHPFDYuG7bimK93UHSHXz2N/lsST5BR
-         Q++bJf6O+Bgyh+ca0rSeQWZrDN97qrliIayrerGw4yxAvMelwwgt/oR46tlo2T/8K2lB
-         AhRZTCOqNn0eK58r/PDlspt/EjZGO0tTYQQW6DPl0zTwn5PMGnFm37foLG9N4jXyTtDp
-         GeMdfRcz55ulwMWhaVd7L3GcgttowlyFS4Ck+PDzlgbIOWlxdxm03RQoD2QRZhwjfiJU
-         HPzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761768455; x=1762373255;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jTJUS/pVwI0IDkcIInux/dRF79F8L7jw3CBAkxp6Zu0=;
-        b=cXtt9p3hMT7r2bvamkz+d7KpJzSt9tLhHn/bvqm+FkHXdvUR8fzEFNrmfdDUpLCtJq
-         +FGwv6ay2nnF8+7iP573e8sZK/nxt7Ka0k/spMEWkXkJukcRJSNVQqb4VFFeH7ebqnNf
-         gzSiiWhjomIx3omEysn9slty8/FRKAUDqYcKZBouI6FlAfqux0cZcWSuKZFhT7l+O6qe
-         w+SpkwpTMAHj0cC4yhjmHdiE9lZrOybmmkLDqGeM4l2w5TnNPmyrwu7Y1onE8xI9ulSS
-         rv8y61aViDEWPRU5YS4ga3mvFk+ZH8Dkxl/v6wuBzMIEbjgAPcZgLZafTRqwwmGOBGel
-         Qc2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVj+vwGbqkcEI4+h7oaJaQikC3Oo6HIol1C/6kV9l8AKTZG7IkC4YjRcMG8bUk4gIGyGespUPq5/TOaUQ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvddkjnNuPKlH/EXTx7S2ec/45N6c7+YJhD7CR7PVyu1TVUA2l
-	kYCWg+PXinzz/WGVI03XY86Oq0WeIGe1XiICBGpq+Fe8aKnenJHNz/29nSs+m3ggDjq0ucBELZr
-	ftyr9WiC/87o6If/ps8Npkd7zDARjo8k=
-X-Gm-Gg: ASbGnctmw3ZL9QuDMRVq8wQmrFqit5EgXjjYHG/dqRzYbtjU3BDtSsyddSpr6BMQv1k
-	RmYMFKJgC3o1sSTx+Bv2P7+/DsNWLptsrODpg6iwQupYoVvKCOibUXwxBhc0XWMEAm2avAkEVv/
-	0JqfpYUVwedXr1rLicL/HMn2CO9tf0Ecys4YewqVBWmZ4RkrKYypMq2bAK+AFpMgKWutGLLxnZC
-	btj38ZtRi6WpFGYSazkzb9HdqjC1VH3G9P+c9jDuIPkhmJMWRrlFbBvx9Vc+qySbEOCGpVd1YwE
-	mpB3i8kKZ4MtAIzZQQ==
-X-Google-Smtp-Source: AGHT+IGtjrYZer4FI1YJLLUryJr2u12Oxxi68IekbTqa0gKaxK2t+cR0qj0KuA/ltTWIdAl92YuboktMW4NGvazDdkM=
-X-Received: by 2002:a05:6e02:3c04:b0:430:d5b8:6160 with SMTP id
- e9e14a558f8ab-432f907430dmr56490765ab.29.1761768453044; Wed, 29 Oct 2025
- 13:07:33 -0700 (PDT)
+	s=arc-20240116; t=1761768471; c=relaxed/simple;
+	bh=pG6PmCayk69IIjMpN+E9J4X5ppcFU9gBb5y0rPTdVEE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AOBUnlzRPXrEGDvebATNExmmHmqHhfHbVPJ/zDBcCGqabRYF1YUSgTZXCQ3B7esjdcCAOyvPn5oLNP8GGwmwAfcRlRDEwIULuUsMxXVAm65PHQEDAv3jyNobZgFy1e2JGYftOrXzID/5FeWQ/DAbFEC7Et9jfVokpl+h7v2a4wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=bjmx3g8O; arc=none smtp.client-ip=109.224.244.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1761768465; x=1762027665;
+	bh=h7bOmcRxuqO6z3MZPe9zBvs6V2vz8fOGqA1RpHhG/FE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=bjmx3g8OlacQX7FEB7CB4gFpPcUTD0I5Kc1p43/y9uXqIMVnKJWIWOuru2SF/QQfu
+	 6AiAPDukFzXStuxWTR5WDI0wUwQ3jAjKxjVKN/rW5W4cFnmYpLhh/SnXC+CNzfiPNN
+	 yCU0Y0WKKnfImz6JKMr3Dj0qQjo+Mp/U3OEVrV6kaX0VUG3dIxPsjjzPd48CTfn+MD
+	 HpUu7+z+rhYq8apG5mFFr/w3+YtjPLc59AwJlIe7QmemdTNU+aT/cA3JtTnT2ge0If
+	 nWKsUZ1l87vhw5I/ZZHp5y2xOcPYMO6CexFWC9kS9HmKpnu1vWPf8OvbB4AV2iSubm
+	 Hlcw1buJNqcCg==
+Date: Wed, 29 Oct 2025 20:07:38 +0000
+To: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com,
+	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, m.wieczorretman@pm.me
+Subject: [PATCH v6 11/18] x86/kasan: KASAN raw shadow memory PTE init
+Message-ID: <f533bb094a566242ec196afbde222796c6d6c084.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <cover.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 388931058df330f6e092950b7ef3ba7585e70752
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
- <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
- <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com> <20251028174541.GA1548965@ax162>
-In-Reply-To: <20251028174541.GA1548965@ax162>
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-Date: Wed, 29 Oct 2025 21:07:20 +0100
-X-Gm-Features: AWmQ_bnFTLtd5rghWRzz34YmOoNt-X_vsjjNzVFZIKDYvVQjofq9CQTlIFqsHUE
-Message-ID: <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
-Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000d21d05064251aee5"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
---000000000000d21d05064251aee5
-Content-Type: text/plain; charset="UTF-8"
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 
-Hi Nathan,
+In KASAN's generic mode the default value in shadow memory is zero.
+During initialization of shadow memory pages they are allocated and
+zeroed.
 
-On Tue, 28 Oct 2025 at 18:45, Nathan Chancellor <nathan@kernel.org> wrote:
-> > Replacing CONFIG_KERNEL_ZSTD with  CONFIG_KERNEL_GZIP made the kernel
-> > bootable. What does that mean?
->
-> Hmmmm, I am not sure... That seems rather odd within the context of the
-> flagged change.
+In KASAN's tag-based mode the default tag for the arm64 architecture is
+0xFE which corresponds to any memory that should not be accessed. On x86
+(where tags are 4-bit wide instead of 8-bit wide) that tag is 0xE so
+during the initializations all the bytes in shadow memory pages should
+be filled with it.
 
-Huh! The fourth of my machines with the similar config (also fully
-updated ~amd64 Gentoo) with rEFind boots kernel 6.17.5 with
-CONFIG_KERNEL_ZSTD enabled.
+Use memblock_alloc_try_nid_raw() instead of memblock_alloc_try_nid() to
+avoid zeroing out the memory so it can be set with the KASAN invalid
+tag.
 
-> Could you post the output of 'readelf -S vmlinux vmlinux.unstripped'
-> from the broken and good builds?
+Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+---
+Changelog v2:
+- Remove dense mode references, use memset() instead of kasan_poison().
 
-Attached.
+ arch/x86/mm/kasan_init_64.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-> Does rEFInd have any sort of additional
-> debugging to see why/what it is complaining about not being able to
-> find?
+diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+index 998b6010d6d3..e69b7210aaae 100644
+--- a/arch/x86/mm/kasan_init_64.c
++++ b/arch/x86/mm/kasan_init_64.c
+@@ -34,6 +34,18 @@ static __init void *early_alloc(size_t size, int nid, bo=
+ol should_panic)
+ =09return ptr;
+ }
+=20
++static __init void *early_raw_alloc(size_t size, int nid, bool should_pani=
+c)
++{
++=09void *ptr =3D memblock_alloc_try_nid_raw(size, size,
++=09=09=09__pa(MAX_DMA_ADDRESS), MEMBLOCK_ALLOC_ACCESSIBLE, nid);
++
++=09if (!ptr && should_panic)
++=09=09panic("%pS: Failed to allocate page, nid=3D%d from=3D%lx\n",
++=09=09      (void *)_RET_IP_, nid, __pa(MAX_DMA_ADDRESS));
++
++=09return ptr;
++}
++
+ static void __init kasan_populate_pmd(pmd_t *pmd, unsigned long addr,
+ =09=09=09=09      unsigned long end, int nid)
+ {
+@@ -63,8 +75,9 @@ static void __init kasan_populate_pmd(pmd_t *pmd, unsigne=
+d long addr,
+ =09=09if (!pte_none(*pte))
+ =09=09=09continue;
+=20
+-=09=09p =3D early_alloc(PAGE_SIZE, nid, true);
+-=09=09entry =3D pfn_pte(PFN_DOWN(__pa(p)), PAGE_KERNEL);
++=09=09p =3D early_raw_alloc(PAGE_SIZE, nid, true);
++=09=09memset(p, PAGE_SIZE, KASAN_SHADOW_INIT);
++=09=09entry =3D pfn_pte(PFN_DOWN(__pa_nodebug(p)), PAGE_KERNEL);
+ =09=09set_pte_at(&init_mm, addr, pte, entry);
+ =09} while (pte++, addr +=3D PAGE_SIZE, addr !=3D end);
+ }
+@@ -436,7 +449,7 @@ void __init kasan_init(void)
+ =09 * it may contain some garbage. Now we can clear and write protect it,
+ =09 * since after the TLB flush no one should write to it.
+ =09 */
+-=09memset(kasan_early_shadow_page, 0, PAGE_SIZE);
++=09memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+ =09for (i =3D 0; i < PTRS_PER_PTE; i++) {
+ =09=09pte_t pte;
+ =09=09pgprot_t prot;
+--=20
+2.51.0
 
-No, unfortunately. However, I was unable to find the first part of the
-error message ("Not Found") in the rEFInd sources.
 
-Cheers,
-Eugene
-
---000000000000d21d05064251aee5
-Content-Type: application/zstd; name="readelf-vmlinux.tar.zst"
-Content-Disposition: attachment; filename="readelf-vmlinux.tar.zst"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mhcf682j0>
-X-Attachment-Id: f_mhcf682j0
-
-KLUv/QRYVTsAelY0DynwjIgeAuvbVW2hzIrNbjaqXUb5+QvsbeA/5iakCCHjx/6tJvAM5LVyFvEA
-4ADpAIxpEQniwPZee/RHUhIJU4TjcPNiIzqjkfmagBxbqUitnoUb1+CWDGP+mGO+pGpSIadOaeGm
-NRyeY46xZn5JSRrdhRvmTtlT+RALN+sx3R40GAjnao+Q45FAwIGGBgyoyVMLN97NCwsOGJrmB2aF
-hdRIgzmCbALmCFsXmCeIjBigbAGeUB2Khmn6S2lDkvDgl0gGbi7DA7MiAAKHQhEgQs64tSbN1E8Q
-FDElGWIrdSU1MWO6T+VDsI0qNX/i1viv5L8P8VB4+5DquxWupKZKoVmhLci8mUEIX+t258xca94O
-ercCt/a6W2ECBMCksjUikQjO2xqJJOrvws2L3T3dpcRTp5Km8+Jk4cYtCS3ZsGGL7bF+/HnMpJLO
-pSZbqYhcuGHrYRB0jzczs6hq68LNcqDO+s3lL335xwaGiCiK+HJH14oNKXteL//IoM84o1QdauuE
-rZjGzbsbejfnzBst3ER3hyYduoNUD2Q8OrzV1sLNc93NzZa+CjwaGPipyC7cOG/wWf39TOSRlDP5
-5hHy7v6nDN+XoJGEuc9FKUvklZLjcLP8gVmxWLPuluthHKra6u6OBQ32B+Njsr0JYuulJqd9Qtdu
-QY6B0DWVjJt3Rgc7BgmYsVDYwYzFQ+5LFF5QzZ+8wg+YsZhRJCIVbjBj8VS9Ewo7MCsCRBRLeAXO
-V3dPCkW3FsS0cMOad7dm8ll0PgM1eDiYLzUt3Kz2mLcz82rRZ2wWmYDGYwEEB/PCjTdmX6y77Usk
-0Vy46RZXz4j7LNww7DkzGfks3EQHd8xLyCmyDmRNPvGJmFHEkSTTws2ba8UYo3MuJTXm02WEKsTk
-vKRStrrcMObQntUTcrKS5n1pWRZzz3fPRqmTk1+4ceYwF6VOTvcl6qWzSs0k8zX9aZZlefjrME/s
-yVwVl/9DNv1xaW8FHXqMsU4BzZq9yTgIYYyx3WKutXZKTROYxhifLT6L7il10+f0uaDHp68Y2TuD
-zcD4EORPMujRRdegc+zZOxpj7OeWW82bF+yG1DTh2ZyrW2NPm+3xNV+s31usp2tnj/1ajz2v736f
-lUaS/9XNrfbnzW51w/UefUmql5pstShupLAkIwpHmLGgtj4ShQk8rSJz8goXYMZiVqjOlyZ2NCgc
-MWNhJyIbYSuFJ9P0V5JEU+EBjoWHwg9mLKQquhCFDzBjQf/WKsJfhtg6TT+jK7GjgeWlJq9wAzMW
-9+mNOMLWiMILzArGIoJsVTiBx6jxMMmYEhERkSQpSjoRBkQRISMidhIAQUkMoyCIgRAEQSgOxBgh
-hBBCCCHEEBGSoUCEROn9Q3E5PCJnw7w4NamxXBAGrgNc+5vP3AiB7bpm2m2YvaIKcM6YQI2+q7Em
-GY5KOYAzQwBC1WyqoLSNhQnLKuIREnd9y6zj48PNVfMwgBUhAVf5SusG3tmiu8bMDcoA9md6bGEC
-stBqnQF8xryoeX3Kn6GIe7iEEtFulqds5q8kdnoBQt986kYIbMctmmA/gI9Rwrf+psQAK/4Jy13N
-NvuoU1BISKEGcCqv5ZiNlAG2UfYpcmDO3fWhghLLK5XlMjROhQljzOKSItg811Zemtt9DcOWwAEG
-aTQpozcTOqDwBf3FjXgC0PRPQry0tFYzkqbX3qPijq7ELWumIssXA6VBhqyDkMQpL7Lxkh4gyfVh
-sgAvmKihE8TsjwonKLkG722hfLqS/ymiiULrpkRb1YIrpRPmSHI1BWSId9P4OETpPVwRI3PLY1NS
-IH6mQILaCR0RXZpCewnuEKTyDYJ7TX0s3X/oycFQMv1RkQkujsTsbav5HbQ+x1YYHqDpv3vjc7e3
-DpA2Iv5t0K5JdrqaYIs32JLbA/puvQvSJBtSQ2/MGE6jU88vbHUjkmwKSyQ7buweKtzuvtHBgucp
-PFGNqTsoX8Y0hiPAa70XT5WTd5TILorHEMUfZPLBMigIJFTJFMoULpqiyBWenymqGByaYovayTqr
-lYA63X5mgbP5A+HLqIGIda8lzjSeBdWGnjQ4bDl1h4YZIhqFpmsXlDGoYcpuB8n6IKhR+JDjqYMZ
-lTPlkQNkb9MncAWi+rBENqaIv/cCPB6QkkIxCSjK/ArH3XV0nIuIJ7BEfYSejZGaYs/a29qT6csZ
-aYZUPGRt4eYDRDV0XLkUUT+XPiUmHardmEJbuC2lk/uSVyiw31B1K3hp7O0JpIEW36k/TC4iZm1w
-8+DAHguZ8LqheH2qWxouYsaXIezXLdai/zKwDxZYoEBUJ7oNUdRtr96g71fnEX8S7fZoTcWxmJCN
-RhhA8RWsr333Pl3hzcEuv7oHu6+ofDbO5RK/Ffvfe9/iW38UYQEGnEBAbYuHNDBmNAWQGu/Xtqxn
-ksQ2hGaIsANhJcMg746ewlNZ7X5B1X0LXM2VFqSv2pIutwaA1kCDSrxDpmI4XRl3nZGAusOC7eY0
-n6QyGO2C8azBtJ9P8SHzolDA6kx3BL1xDD7saM21
---000000000000d21d05064251aee5--
 
