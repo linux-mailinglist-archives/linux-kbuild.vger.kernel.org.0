@@ -1,169 +1,154 @@
-Return-Path: <linux-kbuild+bounces-9333-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9334-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0DFC20379
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Oct 2025 14:24:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7DEC204B4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Oct 2025 14:43:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9AE9402356
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Oct 2025 13:23:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69156460D67
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Oct 2025 13:39:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 333062F6927;
-	Thu, 30 Oct 2025 13:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B925258EE0;
+	Thu, 30 Oct 2025 13:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGGLPi0y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nb9hYRce"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054E82DE71A;
-	Thu, 30 Oct 2025 13:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664C1247DE1
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 Oct 2025 13:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761830587; cv=none; b=gw3LwRvoR+G2qsb1xRr3YhqQuV/7IP1A5saxCdy8K0nkPWzxy9iGdY3H2+1oZdfRHTnjsi6wJZvfMGutOA0tS5NWDTZK2u+DSIHgAFou+Gm3J2oHBZAXjK63+ccaKH7NK4b4oeRv4W8/r5eM0Hya8rAQBw9hYTEAP+x2hyobIWc=
+	t=1761831543; cv=none; b=bMNlfJidUhBV7jb0dgSpUkoNiJRCXCfNnUy7h4s55hoTx2c+BfZycVofEYQ+znebAeQ0dWfLFrnnMpjw9HXA3lTkUKzEzHqO0Xfv1JJdl1hT3fD3D3eAijkQEcwBBtBze59LbfolD7t0ltvK1FDnk+dtMrUY+pOXiJazilKA5Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761830587; c=relaxed/simple;
-	bh=Gwj/eP0Azj/+Fhb2IdX59uBZbrbTocsS6hJCH0RirAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dOlqoj6tPrKEBFUTSrnkj5dx3OWVf41swy6z3FGSQSEMUtdiGG9Alj8739ntIEXz736WDwhZ4KBjnBIhA5ip5pmW2g8reVCrAV+jUQzo4r6i1oxeSFZfypgqQ+PO2fiHF7lY1S0p7q0BccxFiPWkjtLqdJDUkwl4YvjsqmdHVm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGGLPi0y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32136C4CEFF;
-	Thu, 30 Oct 2025 13:23:03 +0000 (UTC)
+	s=arc-20240116; t=1761831543; c=relaxed/simple;
+	bh=RZeQGMHFOH8IQEd+QAFU2HEJjBeOnS7QbhpbX49cPFc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kAkM85c+PhPlfelBD29juGksuYGtCDVemud+jTBN8kriFi72mFFz31wORRu1u7OVo6zQWnz6D7XXWjL/lg8Cu3CBiJtZGSrjgPujKiPHThU4B6Ft0LFgbSZFaxd7C/5cTbuMsSP7y5gBmYANDvjdjAjaRf9P5xpM7zJ2SvNjcfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nb9hYRce; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14DDEC4AF09
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 Oct 2025 13:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761830586;
-	bh=Gwj/eP0Azj/+Fhb2IdX59uBZbrbTocsS6hJCH0RirAs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eGGLPi0yM5LWkgN61LGvqflN1Mt1ZMc6YtT+w7e+khB4MrY2AtjBA7AiuJQem6s5K
-	 c2ZCeC9XKlGWNV4HHx8T9/yYoRQDUS65erYeky9iASxJWenGJmsyrSN33+S+0UQnUU
-	 0mnN4VC2Q0EJ2LMJ2rHLEPu9CKJ3xXgALhiF/qJ8iKl75XLsmdNjaKunSFdm1P3o7q
-	 R7pSnaEMdnaCplNGSyho1BDAfEPI3+sJCLXutitnKYpZUkj03I/SWjF27yexBZd0sg
-	 TKvDoBoc509Ko20+Ry59YzgrXQjRosKg5IPKaPuPOWirG7s/yJ6UAd9Lcq1ejQxm3n
-	 e0xp5Ep3V2X1w==
-Date: Thu, 30 Oct 2025 14:23:01 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	David Sterba <dsterba@suse.com>
-Subject: fms extension (Was: [PATCH] fs/pipe: stop duplicating union
- pipe_index declaration)
-Message-ID: <20251030-meerjungfrau-getrocknet-7b46eacc215d@brauner>
-References: <20251023082142.2104456-1-linux@rasmusvillemoes.dk>
- <20251029-redezeit-reitz-1fa3f3b4e171@brauner>
- <20251029173828.GA1669504@ax162>
- <20251029-wobei-rezept-bd53e76bb05b@brauner>
- <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
- <20251030-zuruf-linken-d20795719609@brauner>
- <20251029233057.GA3441561@ax162>
+	s=k20201202; t=1761831543;
+	bh=RZeQGMHFOH8IQEd+QAFU2HEJjBeOnS7QbhpbX49cPFc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nb9hYRceUk4W4O5p6nhZrodzLSDCg8SsMQbXPWNYvvDYZnusWNRjM6KboL8KOM2IG
+	 q5/GtAicLgoXVOhY/NZTW0rfpNwuHHMrf4bi1BNZJHl5dHgxNHZd24K/hPItkEloyA
+	 XDm1NwYVPHwsUESuIIcoF2JEtrW3lOLC0laqsDCcCjOOg23+Yb4EOsQP1c5IVf9TiX
+	 swb0AfldRuGM4uJ3UIIX784TrHoHYSV2cTEVEfKK8ykC+DRKJt2+zKEhMfsd+Egnng
+	 wyz4BvU0uA4wZB6bF22hafMDQLnG67sVe7ALTrreMyurTzTY/nzQLkhViIasmHhOPQ
+	 en/rM3RnlpQJA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-591c98ebe90so1049529e87.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Oct 2025 06:39:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXlo5za38Cekwx0zDDkmjho/3h/tOIXAzO3fjyoXWajprMlxZsIfpvMFQOJmsnVvhyVTyFiyBnqEgjC3Nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcUM4dddLL94wS2WlaeB/z+fNaWBp68/7nyGjMmqRTebA0q3Sd
+	IvWw8nsNEykshiJci3l//yCFupG37OKwpYh65wsFy6d1RlHT4eei5Trt2knl9v9GlIWOnbtYF5M
+	hC0IbJrQMFFLvtSQ2Be/Qvg4vZkXRHj4=
+X-Google-Smtp-Source: AGHT+IHJDdIvykMw+qJaXdyYIgiRY+DnHc+mIPN9yuvhEb417CvySaFKQBQhUVYBR40vSqzm7Jpnk2FtJN3WqXDoG3k=
+X-Received: by 2002:a05:6512:3d27:b0:592:eea5:fa43 with SMTP id
+ 2adb3069b0e04-5941286ace8mr2039646e87.22.1761831541434; Thu, 30 Oct 2025
+ 06:39:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251029233057.GA3441561@ax162>
+References: <20251023082142.2104456-1-linux@rasmusvillemoes.dk>
+ <20251029-redezeit-reitz-1fa3f3b4e171@brauner> <20251029173828.GA1669504@ax162>
+ <20251029-wobei-rezept-bd53e76bb05b@brauner> <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
+ <20251030-zuruf-linken-d20795719609@brauner> <20251029233057.GA3441561@ax162> <20251030-meerjungfrau-getrocknet-7b46eacc215d@brauner>
+In-Reply-To: <20251030-meerjungfrau-getrocknet-7b46eacc215d@brauner>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 30 Oct 2025 14:38:50 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXHP14_F1xUYHfUzvtoNJjPEQM9yLaoKQX=v4j3-YyAn=A@mail.gmail.com>
+X-Gm-Features: AWmQ_bliKhnn90c2eiWfm-ZlkCUlsnCwA4TiK8TvhwYvM10GpQouQ-ssEgWtCxg
+Message-ID: <CAMj1kXHP14_F1xUYHfUzvtoNJjPEQM9yLaoKQX=v4j3-YyAn=A@mail.gmail.com>
+Subject: Re: fms extension (Was: [PATCH] fs/pipe: stop duplicating union
+ pipe_index declaration)
+To: Christian Brauner <brauner@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-efi@vger.kernel.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	David Sterba <dsterba@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 29, 2025 at 04:30:57PM -0700, Nathan Chancellor wrote:
-> On Thu, Oct 30, 2025 at 12:13:11AM +0100, Christian Brauner wrote:
-> > I'm fine either way. @Nathan, if you just want to give Linus the patch
-> > if it's small enough or just want to give me a stable branch I can pull
-> > I'll be content. Thanks!
-> 
-> I do not care either way but I created a shared branch/tag since it was
-> easy enough to do. If Linus wants to take these directly for -rc4, I am
-> fine with that as well.
-> 
-> Cheers,
-> Nathan
-> 
-> The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
-> 
->   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-ms-extensions-6.19
+On Thu, 30 Oct 2025 at 14:23, Christian Brauner <brauner@kernel.org> wrote:
+>
+> On Wed, Oct 29, 2025 at 04:30:57PM -0700, Nathan Chancellor wrote:
+> > On Thu, Oct 30, 2025 at 12:13:11AM +0100, Christian Brauner wrote:
+> > > I'm fine either way. @Nathan, if you just want to give Linus the patch
+> > > if it's small enough or just want to give me a stable branch I can pull
+> > > I'll be content. Thanks!
+> >
+> > I do not care either way but I created a shared branch/tag since it was
+> > easy enough to do. If Linus wants to take these directly for -rc4, I am
+> > fine with that as well.
+> >
+> > Cheers,
+> > Nathan
+> >
+> > The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
+> >
+> >   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-ms-extensions-6.19
+>
+> Thanks, I pulled this and placed it into a branch that I can base other
+> branches on.
+>
+> _But_, I'm already running into problems. :)
+>
+...
+>
+> Because struct cgroup_namespace embeddds struct ns_common and it
+> proliferates via mm stuff into the efi code.
+>
+> So the EFI cod has it's own KBUILD_CFLAGS. It does:
+>
+> # non-x86 reuses KBUILD_CFLAGS, x86 does not
+> cflags-y                        := $(KBUILD_CFLAGS)
+>
+> <snip>
+>
+> KBUILD_CFLAGS                   := $(subst $(CC_FLAGS_FTRACE),,$(cflags-y)) \
+>                                    -Os -DDISABLE_BRANCH_PROFILING \
+>                                    -include $(srctree)/include/linux/hidden.h \
+>                                    -D__NO_FORTIFY \
+>                                    -ffreestanding \
+>                                    -fno-stack-protector \
+>                                    $(call cc-option,-fno-addrsig) \
+>                                    -D__DISABLE_EXPORTS
+>
+> which means x86 doesn't get -fms-extension breaking the build. If I
+> manually insert:
+>
+> diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
+> index 94b05e4451dd..4ad2f8f42134 100644
+> --- a/drivers/firmware/efi/libstub/Makefile
+> +++ b/drivers/firmware/efi/libstub/Makefile
+> @@ -42,6 +42,8 @@ KBUILD_CFLAGS                 := $(subst $(CC_FLAGS_FTRACE),,$(cflags-y)) \
+>                                    -ffreestanding \
+>                                    -fno-stack-protector \
+>                                    $(call cc-option,-fno-addrsig) \
+> +                                  -fms-extensions \
+> +                                  -Wno-microsoft-anon-tag \
+>                                    -D__DISABLE_EXPORTS
+>
+> The build works...
+>
+> I think we need to decide how to fix this now because as soon as someone
+> makes use of the extension that is indirectly included by that libstub
+> thing we're fscked.
 
-Thanks, I pulled this and placed it into a branch that I can base other
-branches on.
-
-_But_, I'm already running into problems. :)
-
-I'm changing a struct ns_common in ns_common.h (struct ns_common) and
-wanted to make use of the fms extensions. ns_common.h is heavily
-included by virtue of the namespace stuff. So we get an include chain
-like the following:
-
-In file included from ./include/linux/cgroup.h:23,
-                 from ./include/linux/memcontrol.h:13,
-                 from ./include/linux/swap.h:9,
-                 from ./include/asm-generic/tlb.h:15,
-                 from ./arch/x86/include/asm/tlb.h:8,
-                 from ./arch/x86/include/asm/efi.h:7,
-                 from drivers/firmware/efi/libstub/x86-stub.c:13:
-./include/linux/ns_common.h:132:31: error: declaration does not declare anything [-Werror]
-  132 |                 struct ns_tree;
-      |                               ^
-./include/linux/ns_common.h: In function '__ns_ref_active_read':
-./include/linux/ns_common.h:228:31: error: 'const struct ns_common' has no member named '__ns_ref_active'
-  228 |         return atomic_read(&ns->__ns_ref_active);
-      |                               ^~
-In file included from ./arch/x86/include/asm/bug.h:108,
-                 from ./arch/x86/include/asm/alternative.h:9,
-                 from ./arch/x86/include/asm/segment.h:6,
-                 from ./arch/x86/include/asm/ptrace.h:5,
-                 from ./arch/x86/include/asm/math_emu.h:5,
-                 from ./arch/x86/include/asm/processor.h:13,
-                 from ./arch/x86/include/asm/timex.h:5,
-                 from ./include/linux/timex.h:67,
-                 from ./include/linux/time32.h:13,
-                 from ./include/linux/time.h:60,
-                 from ./include/linux/efi.h:17,
-                 from drivers/firmware/efi/libstub/x86-stub.c:9:
-
-Because struct cgroup_namespace embeddds struct ns_common and it
-proliferates via mm stuff into the efi code.
-
-So the EFI cod has it's own KBUILD_CFLAGS. It does:
-
-# non-x86 reuses KBUILD_CFLAGS, x86 does not
-cflags-y			:= $(KBUILD_CFLAGS)
-
-<snip>
-
-KBUILD_CFLAGS			:= $(subst $(CC_FLAGS_FTRACE),,$(cflags-y)) \
-				   -Os -DDISABLE_BRANCH_PROFILING \
-				   -include $(srctree)/include/linux/hidden.h \
-				   -D__NO_FORTIFY \
-				   -ffreestanding \
-				   -fno-stack-protector \
-				   $(call cc-option,-fno-addrsig) \
-				   -D__DISABLE_EXPORTS
-
-which means x86 doesn't get -fms-extension breaking the build. If I
-manually insert:
-
-diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
-index 94b05e4451dd..4ad2f8f42134 100644
---- a/drivers/firmware/efi/libstub/Makefile
-+++ b/drivers/firmware/efi/libstub/Makefile
-@@ -42,6 +42,8 @@ KBUILD_CFLAGS                 := $(subst $(CC_FLAGS_FTRACE),,$(cflags-y)) \
-                                   -ffreestanding \
-                                   -fno-stack-protector \
-                                   $(call cc-option,-fno-addrsig) \
-+                                  -fms-extensions \
-+                                  -Wno-microsoft-anon-tag \
-                                   -D__DISABLE_EXPORTS
-
-The build works...
-
-I think we need to decide how to fix this now because as soon as someone
-makes use of the extension that is indirectly included by that libstub
-thing we're fscked.
+Unless anyone is feeling brave and wants to untangle the x86 command
+line delta between the stub and core kernel, I suggest we just add
+these flags just like you proposed (assuming all supported compilers
+tolerate their presence)
 
