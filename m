@@ -1,122 +1,111 @@
-Return-Path: <linux-kbuild+bounces-9345-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9346-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACCAC2786F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 01 Nov 2025 06:14:55 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 491F9C27ACE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 01 Nov 2025 10:29:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 34AAB4E3AE4
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Nov 2025 05:14:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4108E4E068B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Nov 2025 09:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F1C7255F5E;
-	Sat,  1 Nov 2025 05:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 834842C028A;
+	Sat,  1 Nov 2025 09:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWMMSKsP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqewDYZh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157CF1E231E;
-	Sat,  1 Nov 2025 05:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0697C24A047
+	for <linux-kbuild@vger.kernel.org>; Sat,  1 Nov 2025 09:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761974089; cv=none; b=NTEU/LaFvogxNzSyqOf87NJa3XXNCgLzHmyQW3WjLJgG6XhOuS5iVhP1J2lpdm2qPkVDotLb8LKa5aMpR30LLleqVYsTIsOExpV9rhwTSMhViWDk5fwSxJBdCuZI2fXyRN+cDoAYSMA1uen8x7sKddy0qM0QCAZmH9t26/Xy7Kg=
+	t=1761989336; cv=none; b=nl002VLK16rz8DOMudCo6NHUDldKzKd+OsfiycPuiRO04hxaq6Y1KYvuiTOArWMLl5/6iQIzUMPtrJDYL3oAU8OgxOt6WXJsavnQN1leF1lBot7O3aKnq/ELIt/yENmmRmD6om8YwBvgZj16PwpKw2dSo/noD8ZIzp6+k/xfZco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761974089; c=relaxed/simple;
-	bh=RXwe6S488IbxW1neMJAmvFf+Z0nWy+JzUQNS9oD7Olw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jqinoxWaimVwlhunc7oSG9iUC7uuMPJpHN1kr4h/6K530ky1VHrkEeDyvWXqV5CaqCyvqhcCL/AfYEB0tzjWFurQybi7RkBAxN/t67YneIpRTOybxDPtCvSzs7VemVuOim/fbiM9Lh8DcF/ri64BNY24M86DHQ0SdJ1TX2772eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWMMSKsP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69003C4CEF1;
-	Sat,  1 Nov 2025 05:14:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761974087;
-	bh=RXwe6S488IbxW1neMJAmvFf+Z0nWy+JzUQNS9oD7Olw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=XWMMSKsPXPoeKIITfEwf9TAQc4Z44nu8dZHBU8yA6C7Y2m2iUQV8Wwv+st6W9qI7i
-	 zRfRw++F0E/yfMjwlOSwZpzufxKWVtGWBnpWsUHA8k5W7RXTtSA9n2jMh/43E6mHDE
-	 JsHosyfa2Zkh5OTFdJvrVKF+OfSp9cb+tqWOEMqXchs24lhZhG1xHP93ULqoiUK74N
-	 2STqR6tHh1C1Mt1oUzlStR8XCbflunJbcM2+3Ly0yBAkKNjD6D+gwuvXyZsKhtoLNw
-	 DyusWYp1QRfWezm3ctV8QzjNsFsOYTt31p6yPDYf1svH2js/ciNF3290GGQM6Yl7a/
-	 MYi6GMuWrGyCQ==
-Date: Sat, 1 Nov 2025 01:14:43 -0400
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [GIT PULL] Kbuild fixes for 6.18 #2
-Message-ID: <20251101051443.GA3427600@ax162>
+	s=arc-20240116; t=1761989336; c=relaxed/simple;
+	bh=XVW/5/gggZTWUpkWK6wUOBNnYp1qwGX654Z6WrBEvYA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K0JIgIIcqWyaidGOnIQD3svWWnEarzupQuB4J5kob4IdhF+WO6QtgmHCmTWoyhTBTayRVjTmpcyWASGsvfDp5FudS8jFHs0nkg8beyK5AY7GIwaerlvkb55yF849/PYeRaAcyBHmjCuk2HtAIxRKgiqh0mOl/F+fzJVV/qebgu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqewDYZh; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-430b6a0eaeaso29789955ab.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 01 Nov 2025 02:28:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761989334; x=1762594134; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NmGetmPUb9VA8HYMaI3fVUAPUtPbcKl+pkTJw1ZTWWI=;
+        b=TqewDYZhlZLDQDEQATchlMjWEsFHZ11JRl1xnDfpTz9Qs82uOsKNaw0aPmecDGwXQf
+         vmUCApxeBOqFgcKPdyv18D+NEEKvH82Pc5xDmaB1wcFh7HM/+KD6CbUZqIxphzizmk3U
+         goCbo5MXp+Uz2EW3upPq4ywnBR7v+R6l59DBcQBF18jY31jH5mzLxrF/qkuewiOMLbp2
+         JdVDlc4Zxg6+y4/JTxvsgwb81C23S+nbuTo61IOsQhtQi9iNr1qXUU/GwOTxE0pHmdN4
+         En8ylh4JTASLG1lszucpcsPq40BmStBOd93ubuMQgvqc6hZNMWO8MKtyElML9RxyOQgU
+         w58g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761989334; x=1762594134;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NmGetmPUb9VA8HYMaI3fVUAPUtPbcKl+pkTJw1ZTWWI=;
+        b=AL2EBsJJ7moj7P2vT0kliv8GlFvwhHNRZe4pKM/qsLD/b6MdjWCs73Dk2yvaTkHdyX
+         xvzv0WpRbXvQYdXj3P87GJgIoRslbslTfJjT4M4gGqwK9+whv/WcHcKS2iNFyxQR+ibV
+         cn0WO8JcNHwW+DMEHsE+6KPI5CfOllVhwI6fR1NLdIwnDLcpEnjOnCBdfaBjwYCUFEjK
+         udPBh7XxUOCppoO9VgWMEvVt5o6BFUwBxOqLnEM/Cwwf75u2G/hHQRQww1AzDkBnO10l
+         lmP+OsCch3PPFltrhFw/yDOdFul7PFB0R13ZjMJJBuViovgbeiSPnTfuDkCMJWIgjnQ8
+         kkGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHYmuY3h0o0UiXnOz9sCZdDyLbRoYZDyGSYRwi1Ntf40YCfjebf8YnoHiFtw/wGd56QcTL3V6pXrOoEbE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWvjc9OiZwm7gkWSvlkIjlnUzEWt1XhAmY+97cNHmpKPDaXD94
+	RQBgiBXHOOUDts+LcTGpQ5MxiNENMF9a+24oNHYbIM3BDIpUvjU21Gccgbc8nZhbKv38YnALppt
+	wVVWxARZOaA0TmKUuNuKhiAReQIFNBtc=
+X-Gm-Gg: ASbGnctfjvGeoCkBB0ICGPnWXVLTCB8fGB0MTtLvtDdNWLzwtNGzi28VCtt+DGzBwQE
+	rbUzJFlfIjVauCAjxh1iwcqIT1thQlgsXKceGs+nmMQfAhu6BR7+nRYwaLYfauTyI7Thofw7UFE
+	gapd/qfrbmnmjIqTrnrOJM16GqNzfqWlVMuuQtxi8+kUrQNSBU3OESEV/BH2r5WVyE2SjoC9wbE
+	eP7Cnexx6LTU677TQUk1vqYwOP8mpQ0o2Jl2kwThqEE/S8aH+GFL3YafNrHN4/jnizlC4kNBB2G
+	ykHs6T04PK6nhays0G6CkhxC10Wv
+X-Google-Smtp-Source: AGHT+IGzWoWs7bzpcoZ73HRHlX2Do8BiND8Y7jERfA95QnyRrw9tcAQNLJ2up8NwJSI9AcaaT1m5NeHxplvD/8RvJ3U=
+X-Received: by 2002:a05:6e02:2485:b0:42e:7a5d:d7d6 with SMTP id
+ e9e14a558f8ab-4330d122f9amr94908495ab.2.1761989333843; Sat, 01 Nov 2025
+ 02:28:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
+ <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
+ <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
+ <20251028174541.GA1548965@ax162> <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
+ <20251031220732.GA2254630@ax162>
+In-Reply-To: <20251031220732.GA2254630@ax162>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Sat, 1 Nov 2025 10:28:43 +0100
+X-Gm-Features: AWmQ_bk3M0-Q4CZRFjEjAPuRZ8eL0rrEH2dcJIRWhP3CJcJlRJGn_U-BOuCK-xM
+Message-ID: <CAB95QAS6q7T3C2hT1XPFm9-Smao0T=oidJWvRA20NJeSnSEfLg@mail.gmail.com>
+Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+Hi Nathan,
 
-Please pull this second round of fixes for Kbuild for 6.18. The top two
-changes have not been in -next but they seemed low risk enough to send
-along without soak time. If there are any issues, please let me know.
+On Fri, 31 Oct 2025 at 23:07, Nathan Chancellor <nathan@kernel.org> wrote:
+> Unfortunately, nothing appears to be out of the ordinary there... Only
+> .modinfo gets removed from the vmlinux.unstripped to vmlinux stage.
+
+I've made one more experiment: kernel 6.17.5, built on a machine which
+shows no problem, using the .config file  from the machine where it
+does not boot, produces binaries that boot at the machine with the
+problem. These two machines are nearly identical in terms of installed
+software packages and their versions.
+
+Now, can I conclude that it is the toolchain which is faulty on two
+machines? And in which way?
 
 Cheers,
-Nathan
-
-The following changes since commit 211ddde0823f1442e4ad052a2f30f050145ccada:
-
-  Linux 6.18-rc2 (2025-10-19 15:19:16 -1000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-6.18-2
-
-for you to fetch changes up to 43c2931a95e6b295bfe9e3b90dbe0f7596933e91:
-
-  kconfig/nconf: Initialize the default locale at startup (2025-11-01 00:23:22 -0400)
-
-----------------------------------------------------------------
-Second round of Kbuild fixes for 6.19
-
-- Formally adopt Kconfig in MAINTAINERS
-
-- Fix install-extmod-build for more O= paths
-
-- Align end of .modinfo to fix Authenticode calculation in EDK2
-
-- Restore dynamic check for '-fsanitize=kernel-memory' in
-  CONFIG_HAVE_KMSAN_COMPILER to ensure backend target has support for
-  it
-
-- Initialize locale in menuconfig and nconfig to fix UTF-8 terminals
-  that may not support VT100 ACS by default like PuTTY
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-----------------------------------------------------------------
-Dimitri John Ledkov (1):
-      kbuild: align modinfo section for Secureboot Authenticode EDK2 compat
-
-Jakub Horký (2):
-      kconfig/mconf: Initialize the default locale at startup
-      kconfig/nconf: Initialize the default locale at startup
-
-James Le Cuirot (1):
-      kbuild: install-extmod-build: Fix when given dir outside the build dir
-
-Nathan Chancellor (2):
-      MAINTAINERS: Update Kconfig section
-      KMSAN: Restore dynamic check for '-fsanitize=kernel-memory'
-
- MAINTAINERS                          | 5 ++++-
- include/asm-generic/vmlinux.lds.h    | 2 +-
- lib/Kconfig.kmsan                    | 2 +-
- scripts/kconfig/mconf.c              | 3 +++
- scripts/kconfig/nconf.c              | 3 +++
- scripts/package/install-extmod-build | 2 +-
- 6 files changed, 13 insertions(+), 4 deletions(-)
+Eugene
 
