@@ -1,119 +1,89 @@
-Return-Path: <linux-kbuild+bounces-9353-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9354-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A0CC281E8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 01 Nov 2025 16:54:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E097C28327
+	for <lists+linux-kbuild@lfdr.de>; Sat, 01 Nov 2025 17:42:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9E41A4E84E3
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Nov 2025 15:54:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B33E53A5A9D
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Nov 2025 16:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58E9F2C08CD;
-	Sat,  1 Nov 2025 15:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1098265630;
+	Sat,  1 Nov 2025 16:38:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9zGmV4g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jyfkrC+i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4BC248F47
-	for <linux-kbuild@vger.kernel.org>; Sat,  1 Nov 2025 15:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17E234D3A7;
+	Sat,  1 Nov 2025 16:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762012454; cv=none; b=SXxNrqo0E+nUVtVJYqxBpG3XXdspV5qQjmLAtx5lmLO6vSsQrVydF25d6rYtQ0VTveSSYPlt1rN0Qy4JbxEWbiYSiFZ06NhzKxvlP4FxS3mYjrOuiC9gRKW7//iTSPUVdzPp8dnu7kAINNyUMm7763q5TGEondX/X7BX9S/CaXM=
+	t=1762015114; cv=none; b=jGQoC+U6/WSMqEog7JAxJ/NWPdRv2RnTkRwIkAQV7OyU2vaeCsO+dJiBuTXA20sTMwzLwchCqY+1zGBP15FS8wadNKdMtGVyXDPOOBNY5cA75zYShjJSbKNptO9UJb4yCuTFUZ5clypctKrYrmlLtfWjVUaQbx6PvUt2b04u9Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762012454; c=relaxed/simple;
-	bh=DZxrvCuj4VcRfVXQNKcqrzWO2/nyvtlkEBnmNGrmT9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D1d4B1lKackRaQswtZ8deGOANpLn/uuduVzww+081yvfzkeO/PkWxwJXpYzogLwKchKBjBCeAQyvMG78p7ASVpbg7Ho5/1MMuNogNqec/HvMhUpK5rHdNfWriUnFLpidNiP/3zKFfm4zcmKetbA4hwraghL+D3bFMa2VxypwO0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J9zGmV4g; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-295351ad2f5so1838585ad.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 01 Nov 2025 08:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762012452; x=1762617252; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DZxrvCuj4VcRfVXQNKcqrzWO2/nyvtlkEBnmNGrmT9M=;
-        b=J9zGmV4g5/ijhQUpjiIn1YuahtHv3SrKuxmFFkiSY5Ebje0B/FkNsKYXucYjzbmJ9C
-         qvxz1yi/RmVK0qPjTgdmzRZirzqA+ayA7mgQaU2Rh5vse1vkqlInsKLmaYuUbp6Hb9i1
-         4xCIPlqftSQZcWDh8yM26oe27ZXQViWfhon+HHnmQTsfqVlg2Xg/ClLtR9bmQ2svqBvl
-         dePQxvtskIgHPcEq6/G2E4FEjBNCyaFSxwqkoAGLQNujj9wZYd+qpdvMYzuxW5RlSxVm
-         aE9VkHh4t/k4X9GSoOmYr11Z57rrB7DT+73FOqR0uew2O/OVidbh2akTjHaii7JqM3Sz
-         O1gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762012452; x=1762617252;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DZxrvCuj4VcRfVXQNKcqrzWO2/nyvtlkEBnmNGrmT9M=;
-        b=qKUrtrXArcUbvae0qdeoxmhtja4+9JaZoZWPnIZW8PNumPrk28axc109a/f+/5WqRG
-         kyLCIMBxLDpIorbU+nQ4/8iD6UVhY7kamaQ9cdg/0QCRJHqbSqSB9cd0D3x4pjNAV7pE
-         rKXZaiPTqWv10BZd6j75tG/FLP+q3LAFy88UGiSn4XuyjnveXtXduC6ZUiGKYwMktoK4
-         LtdJDYpEilcXdRZNaehw40VSaG1gtUBJ6GcmIA4JqjNp0KpMsjYQY1oovrWgEaWo80PX
-         Wgzz4kkuE3sbrpK9h0y2THFUz7/F9mdHZ1efrAgWEa7b0l0ElC6K8i0wDkNoh/0eJeqI
-         2LYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtImNHK7h6KHtJZCmKgeIhs+2UuEIx2Ob/EA2fdzPNJ12aH/Q7FZB3AfQu0JDCHBojaS6l3fbVy9Zt1FA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnAY/15CQM3zTIgTOz+ZPRIJvbaTncAs3XB/CZZgeAi88/9tMd
-	qzq6qZNhY686l+7uABYXDcJWLkVwlI1PVZnyGo8jU3FIzmU8KHRMjLuV/gsHJj2PSInFHuz/mkV
-	EODK2shxcfU+l+Ze6Adz27thvwB/+dWE=
-X-Gm-Gg: ASbGnctMw8A6+lfIaVitrmrO/qy27Cw7Sb20cZmrxeVQd5BIipwS81+BXdYoiCs39vb
-	logJFyMwyxzMuLjdVCrgmMux/dC0UKcGTLM9AN+lNd9ZZwyLZDbHoTNLr/7mqq8227oW0C+k2RR
-	ylnHBD6E9kyuUxm6quW0JTSrX6UScmWsEhIzwX2UJgpdA2J9n32RbS37QxVzRHZBRu2JjciwEMi
-	56BdAJYihoqwcF5H9O0gzGlIZ8ZsTkafVOASajlZ90qbd2i6H5bBm3aeFItzv64GhT82WwmEfXO
-	iYM4NbDdF/pZZN8AB6FnRl4z5F+QqxXTQB3nEp51EGUVBJ04DRrsq3Rs1nVJesBUnf7JAS2SfUf
-	zjhg=
-X-Google-Smtp-Source: AGHT+IH98SKG2dNVCAgDMWAsxf7IghHixGwIwUQXBJWnv1yD4/76UJbZrqEwBLzCN0HeDuDp9PdZmiEDyhXUpHiXB1s=
-X-Received: by 2002:a17:902:d505:b0:295:3f35:a31b with SMTP id
- d9443c01a7336-2953f35a4edmr28620535ad.0.1762012452072; Sat, 01 Nov 2025
- 08:54:12 -0700 (PDT)
+	s=arc-20240116; t=1762015114; c=relaxed/simple;
+	bh=TbYkopGyFIENuHFLTsV1V/jcgq4zG4Ty8C4XMJb33II=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MFl4kNMZFDu98GGZpNoPr8VAf6XaxMBK05kXYNY9zZj+o8+b0oDt6MNL4OS6E9FoFLHMtOHvneoIy7R7VN16XRC+W0YatbO7Nuzu5g2nxxgGWjjqQuQGJf0bNp4x3kxzk30wIWNjQBpVSI9fhMbzkgJdej/MPSdUlKIfOVRG7y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jyfkrC+i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFF3BC4CEF1;
+	Sat,  1 Nov 2025 16:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762015114;
+	bh=TbYkopGyFIENuHFLTsV1V/jcgq4zG4Ty8C4XMJb33II=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jyfkrC+ikQeJH77i4aH47bJY6O3wr3xTa3lr2CYFhGR7l14ZHoYW4hmzOE/Ua9SXb
+	 Q8t6WH5YISEsddmO/udRldPCV+t/UOjkDDVyaqy59DaKS4EYTSEpiYYmAMf47XAx7d
+	 NO7bUVzL1Q8LpxBsJY6c3lX2q3WsG5LSac+riEZXekvOtCT58FJtGP8oJmfD+hF7LH
+	 N2U5KF3Ehcq0lQpBMgHbpw842nj6dfnFb7vRf352FMN8H4Likmowl5t0b/5zjxPJ5z
+	 Cxw1c2184KlmI1aUU06U5WP5xKCkeM4D1lTvo8mVizx9nducIm2DmwsV3sAMlhAC3n
+	 TAZWgjkHiwOeg==
+Date: Sat, 1 Nov 2025 12:38:28 -0400
+From: Nathan Chancellor <nathan@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-efi@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, David Sterba <dsterba@suse.com>
+Subject: Re: fms extension (Was: [PATCH] fs/pipe: stop duplicating union
+ pipe_index declaration)
+Message-ID: <20251101163828.GA3243548@ax162>
+References: <20251029-wobei-rezept-bd53e76bb05b@brauner>
+ <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
+ <20251030-zuruf-linken-d20795719609@brauner>
+ <20251029233057.GA3441561@ax162>
+ <20251030-meerjungfrau-getrocknet-7b46eacc215d@brauner>
+ <CAMj1kXHP14_F1xUYHfUzvtoNJjPEQM9yLaoKQX=v4j3-YyAn=A@mail.gmail.com>
+ <20251030172918.GA417112@ax162>
+ <20251030-zukunft-reduzieren-323e5f33dca6@brauner>
+ <20251031013457.GA2650519@ax162>
+ <20251101-bugsieren-gemocht-0e6115014a45@brauner>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251101094011.1024534-1-ojeda@kernel.org> <CAH5fLgjC20QmK0s_6ht1edL8wSR3d-yrJ_viuwdOxTCQRpMmgg@mail.gmail.com>
-In-Reply-To: <CAH5fLgjC20QmK0s_6ht1edL8wSR3d-yrJ_viuwdOxTCQRpMmgg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 1 Nov 2025 16:53:59 +0100
-X-Gm-Features: AWmQ_bmfFv9e45aUeUVbkE-t_FDmtneqkzR5nipR7SAGPuD1TLzugXVWW0zvQak
-Message-ID: <CANiq72nBEkTq7vos1Lv5Z1bgdZHt+UQWbauC0nr8xwxhuVBJJg@mail.gmail.com>
-Subject: Re: [PATCH] rust: kbuild: support `-Cjump-tables=n` for Rust 1.93.0
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Huacai Chen <chenhuacai@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	"H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251101-bugsieren-gemocht-0e6115014a45@brauner>
 
-On Sat, Nov 1, 2025 at 12:15=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
-> Does this need a CC stable too?
+On Sat, Nov 01, 2025 at 02:10:42PM +0100, Christian Brauner wrote:
+> I'd like a stable branch before -rc5, please.
 
-Definitely -- I just forgot my usual line:
+Sure thing. I have sent the change out for Acks now:
 
-Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is
-pinned in older LTSs).
+  https://lore.kernel.org/20251101-kbuild-ms-extensions-dedicated-cflags-v1-1-38004aba524b@kernel.org/
 
-Thanks!
-
-I will apply this when upstream's PR gets merged and send it together
-with a couple other fixes.
+I will finalize the branch by Thursday at the latest and ping you when
+it is ready.
 
 Cheers,
-Miguel
+Nathan
 
