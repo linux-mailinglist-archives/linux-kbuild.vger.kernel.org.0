@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-9377-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9379-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140CDC2D15B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 17:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA13C2D16D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 17:23:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F36004E7981
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 16:21:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 36E084EDBEF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 16:21:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2090931A579;
-	Mon,  3 Nov 2025 16:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E43B031A562;
+	Mon,  3 Nov 2025 16:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RVmVEh0L"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4cxwHzI0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2587F3191D2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3753195FD
 	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 16:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762186810; cv=none; b=iiNnSqM6RtguszYdWHhyOlmfHYYgcYV/yczicsjTbEasbKejS0k2VYE7h3frgZV7m6hxhlRfKM0b9pe5OHlCkm+JjfI9ZwNuUhZn27VN11dQf3weD9Rl0IhKcJox3C6IYYvBpDrWAYCXS8AsyoCTDhEVjGoy0Tz+OzhhuzAWfbo=
+	t=1762186812; cv=none; b=p2uvJm8jA/TRorwHn8tSE7gajrYPPgA8UTTbSRQpmrchaLB6xFRza6mVrI9wkp9NOHHyoY3F2/scJvFgJp4hezriKYHZHz+LVIhXDlCXMSKWQPZXi2E1sZ2Lf0nIzjcqIJXhuyJImjievZwPJUjzwcCx8W8aK7sIh/g/4bpoc84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762186810; c=relaxed/simple;
-	bh=tuyLXUvi/ESqwW2v6QjC+olXsEHZK/Kv3IdYAAA8beM=;
+	s=arc-20240116; t=1762186812; c=relaxed/simple;
+	bh=9Cwz4yVXI1l3qeHRLhyx4TZ/Ev1Njh9gQAluw4KuMPo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=a01/pBEWUD9hBUB8+yigS4SXxfjg6RUl+fvXO91/Se0qYJRkXazb++D2sE4+APMwr0FkSOAh7JvGkfLhFq5F42QkZ39d3tVSZEqnQO4BG0nLnJ/scXbQ9uvNKHF1xdBx6JCs5yz4vJiGBZIkLAHxHHnsOMuC4r2hDkNJmXa8GHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RVmVEh0L; arc=none smtp.client-ip=209.85.221.74
+	 To:Cc:Content-Type; b=SOrCUM+GbZYMPMDfKAYi463RfqPz+kFB5bFlCdkJPRj3Ev2y0xkUXi/jHchrAVfErR8KDV6p3SmFvI1AOibuVRkuoezAdxpuYXvT6SoE1+xSc0nKliAT02ij24+VuaIt1KUcrmGJ+Jq8P59tFvos5D01lckmkim6oFy3pqtgjtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4cxwHzI0; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-429c17b29f3so2107472f8f.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 08:20:07 -0800 (PST)
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-470fd92ad57so50743255e9.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 08:20:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762186806; x=1762791606; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762186807; x=1762791607; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6+VzLCYAN+u3C81ZeCic6e0B5W6UCDTRzeShogr9CFM=;
-        b=RVmVEh0LByx8eUVYFmsZLGJ3IFZZf5bQUYcdmr1Bwf/mlp7+Zkzrv1gTT/3WJdEocq
-         6h/uCbp7EvTatnQCw5LU+KTO42vlJPY/qeba7nZVmwhQImN4Sj7js/6soiraBuSQRJxJ
-         2xKSQ5yT2l2nFuVPBGU4Z7Hx73S4tM/f+RCJJ7Ukk5tj/pOzN5WcA/y2CSWvRtfovJIE
-         RiXgpyb2Qg3Z0ZuGCeUJl4KUs/SxWsS99zWpVVvYk99u4pGnGIXpS3y2tk6uK3/XYMW0
-         3E7K3zLweCq4QBmy0rrFz21akcPmj9utMTJkVAbPo31kvqqVorOFNhaSyYYz/0C//T7T
-         4qSA==
+        bh=I3NEOOYIbpeR+4we18GdYqD7b1OledoGg+btJU35ZGk=;
+        b=4cxwHzI0AQ7iZu5m355hJAxmp43DNe8NLTTPMxhU66Jvx5j63K3bc/HwCkxT0latvQ
+         EKQWh6CYyJKgX6ubDo/JA/Yw+NSB3c+H+YRb4Gz95zmUKM2LCgYYEMOCZS+0nz7zXoJI
+         ScBdlLG3xmJzAyHc5musgPZgb/XeVPTHtydcbOMX+/vFohLDx+npb8oY8V9Y7wYaNd9W
+         s6vEWqIBslb1LKqJnCBWOJ6bdyhCduby0FITfZFGNWN6Bgi4E0pONa2zgySBUMBfaDtQ
+         xiXRLjp16Kyc+R2f2IgiuNuKzgUkRwU0pKNUJpAmGzV5e40qIr+SYhgPKs3x3tFiQwAm
+         SXFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762186806; x=1762791606;
+        d=1e100.net; s=20230601; t=1762186807; x=1762791607;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6+VzLCYAN+u3C81ZeCic6e0B5W6UCDTRzeShogr9CFM=;
-        b=FFb+M/wrta4XMKOSowwEpHls8XXTk9QOIb+8WUk57vZ0ChrzhpITK9gV1/E2KoB0d9
-         l6zWUbXhB52HBOtH7KxqP5WG35Tt40ooaF1AJ6zUV3lFc21zrbTadZqKfn28azHjwjyh
-         bk7ww6mOgBc4EieTe19n7Y/aponU69zRDRPEjDoXoghedEuj9BVl/ZWT288r7TcDGHzb
-         SZsMJg2v6vtaDikze0LP+t2S6rmHaJrcUq95tTXMQZ3OG0BMQjx6ad9pvqcihwXxeNw+
-         z5wVA3nh17yQWXOhhZ0FQDOD6h3HS3QSNKiFkyocEMJnRyD1O01TlZHCbG6WcsW4LVMc
-         FPwA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/cWeNDLJAdD1E3LjGblo1qDqBKSlrw/SzGymTtHR8HHos7T+Cr2oztHnnoYT5lnMEL5LnTBxyqruH+Ek=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC5l0LhNq/4Y36BQNLqd7DsZLW68bxix+77RrhI/VSNpfO35Yx
-	rxKBg/r/+CJl3z+gVs9tmOXfqnDKNPViGbRzBvfHX+f61IkvPgjkLcw9NMPh1gAoQxDPRIrCp4f
-	fNWrYmgJmXoyX3qMHcQ==
-X-Google-Smtp-Source: AGHT+IHsA0v7E+SnXH75SrlLLdZznHgP2mGDuTma0AhnTccBK/k4OR/i3RdgETyahE/jGzsOOaCC+90khENn44c=
-X-Received: from wmbjt1.prod.google.com ([2002:a05:600c:5681:b0:477:1186:dfaf])
+        bh=I3NEOOYIbpeR+4we18GdYqD7b1OledoGg+btJU35ZGk=;
+        b=PtGZFUDx7vrGZGAj0HTKtRobDrbYxAQOqfGgZS2qTozTTHvFjmQ3nJsaxqtQ5E2j8W
+         Xqd0qbFEqcRxuFBaR/+1hO9de+cH/NKpFgRf4trBgauwWbOhnksTdksdl4p4YoKXwtAC
+         u9+JVUgtqRLSrnOMHFqCWVaM8AjaP86fHfzL+GQq9X/RLoe5ju+TVT4UvfGxZFk4JI0/
+         obKuSd2mVvnyLgBy4cOmLnKtXuvSH/BKiluY0Nf/BjRXiKdVl0l/evAmVoCGlXUfxrXs
+         Uzm7kvlLjDplE8IjlVIyrzTLkIzGah0YntypSFK6QPMzk3C/cyMSF+GEX+VKmDo3nuXU
+         YWWg==
+X-Forwarded-Encrypted: i=1; AJvYcCX0akpIDY4YkKRaomaRN8aEvdZ5fEyFY2KLqJEuMuAuSHApqElEjfXXcp72+l1SyDaSjUukSy56fwS72fc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyccTN8V7uGKVDDv51N6T2Eyj9kndWT0pHHwOA3kTImNDPbmZ/F
+	ooSqDSftZQTcb2E8meveEWNWPuvbRnKVl8gvrn1xhSmeWcRUMyYWUzxQLSinhRmrcVdTKc1KXEo
+	fLTgTDU+Q7m7YI7DqTQ==
+X-Google-Smtp-Source: AGHT+IGWADIxrNkiKWiAtHE2F2qUzfmmzbjTu7H/WDRRQcPsxtPCSsOpwinifQgqwk4x+PMn602oe0eH71+Kf3k=
+X-Received: from wmco23.prod.google.com ([2002:a05:600c:a317:b0:477:40c1:3e61])
  (user=sidnayyar job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:22c7:b0:429:d79f:c86b with SMTP id ffacd0b85a97d-429d79fcb0cmr2277909f8f.58.1762186806407;
- Mon, 03 Nov 2025 08:20:06 -0800 (PST)
-Date: Mon,  3 Nov 2025 16:19:50 +0000
+ 2002:a05:600c:6995:b0:471:15c1:45b9 with SMTP id 5b1f17b1804b1-477308b0606mr131316165e9.29.1762186807379;
+ Mon, 03 Nov 2025 08:20:07 -0800 (PST)
+Date: Mon,  3 Nov 2025 16:19:51 +0000
 In-Reply-To: <20251103161954.1351784-1-sidnayyar@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,8 +74,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251103161954.1351784-1-sidnayyar@google.com>
 X-Mailer: git-send-email 2.51.1.930.gacf6e81ea2-goog
-Message-ID: <20251103161954.1351784-5-sidnayyar@google.com>
-Subject: [PATCH v3 4/8] module loader: use kflagstab instead of *_gpl sections
+Message-ID: <20251103161954.1351784-6-sidnayyar@google.com>
+Subject: [PATCH v3 5/8] modpost: put all exported symbols in ksymtab section
 From: Siddharth Nayyar <sidnayyar@google.com>
 To: petr.pavlu@suse.com, corbet@lwn.net
 Cc: arnd@arndb.de, linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org, 
@@ -85,169 +85,90 @@ Cc: arnd@arndb.de, linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	gprocida@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-Read __kflagstab section for vmlinux and modules to determine whether
-kernel symbols are GPL only.
+Since the modules loader determines whether an exported symbol is GPL
+only from the kflagstab section data, modpost can put all symbols in the
+regular ksymtab and stop using the *_gpl versions of the ksymtab and
+kcrctab.
 
 Signed-off-by: Siddharth Nayyar <sidnayyar@google.com>
 Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 ---
- include/linux/module.h   |  1 +
- kernel/module/internal.h |  1 +
- kernel/module/main.c     | 55 +++++++++++++++++++++-------------------
- 3 files changed, 31 insertions(+), 26 deletions(-)
+ include/linux/export-internal.h | 21 +++++++++++----------
+ scripts/mod/modpost.c           |  8 ++++----
+ 2 files changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 3319a5269d28..9ba6ce433ac3 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -415,6 +415,7 @@ struct module {
- 	/* Exported symbols */
- 	const struct kernel_symbol *syms;
- 	const u32 *crcs;
-+	const u8 *flagstab;
- 	unsigned int num_syms;
- 
- #ifdef CONFIG_ARCH_USES_CFI_TRAPS
-diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-index 618202578b42..69b84510e097 100644
---- a/kernel/module/internal.h
-+++ b/kernel/module/internal.h
-@@ -57,6 +57,7 @@ extern const struct kernel_symbol __start___ksymtab_gpl[];
- extern const struct kernel_symbol __stop___ksymtab_gpl[];
- extern const u32 __start___kcrctab[];
- extern const u32 __start___kcrctab_gpl[];
-+extern const u8 __start___kflagstab[];
- 
- #define KMOD_PATH_LEN 256
- extern char modprobe_path[];
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index c66b26184936..4197af526087 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -11,6 +11,7 @@
- #include <linux/extable.h>
- #include <linux/moduleloader.h>
- #include <linux/module_signature.h>
-+#include <linux/module_symbol.h>
- #include <linux/trace_events.h>
- #include <linux/init.h>
- #include <linux/kallsyms.h>
-@@ -87,7 +88,7 @@ struct mod_tree_root mod_tree __cacheline_aligned = {
- struct symsearch {
- 	const struct kernel_symbol *start, *stop;
- 	const u32 *crcs;
--	enum mod_license license;
-+	const u8 *flagstab;
- };
- 
- /*
-@@ -364,19 +365,21 @@ static bool find_exported_symbol_in_section(const struct symsearch *syms,
- 					    struct find_symbol_arg *fsa)
- {
- 	struct kernel_symbol *sym;
--
--	if (!fsa->gplok && syms->license == GPL_ONLY)
--		return false;
-+	u8 sym_flags;
- 
- 	sym = bsearch(fsa->name, syms->start, syms->stop - syms->start,
- 			sizeof(struct kernel_symbol), cmp_name);
- 	if (!sym)
- 		return false;
- 
-+	sym_flags = *(syms->flagstab + (sym - syms->start));
-+	if (!fsa->gplok && (sym_flags & KSYM_FLAG_GPL_ONLY))
-+		return false;
-+
- 	fsa->owner = owner;
- 	fsa->crc = symversion(syms->crcs, sym - syms->start);
- 	fsa->sym = sym;
--	fsa->license = syms->license;
-+	fsa->license = (sym_flags & KSYM_FLAG_GPL_ONLY) ? GPL_ONLY : NOT_GPL_ONLY;
- 
- 	return true;
- }
-@@ -387,36 +390,31 @@ static bool find_exported_symbol_in_section(const struct symsearch *syms,
+diff --git a/include/linux/export-internal.h b/include/linux/export-internal.h
+index 4123c7592404..726054614752 100644
+--- a/include/linux/export-internal.h
++++ b/include/linux/export-internal.h
+@@ -37,14 +37,14 @@
+  * section flag requires it. Use '%progbits' instead of '@progbits' since the
+  * former apparently works on all arches according to the binutils source.
   */
- bool find_symbol(struct find_symbol_arg *fsa)
- {
--	static const struct symsearch arr[] = {
--		{ __start___ksymtab, __stop___ksymtab, __start___kcrctab,
--		  NOT_GPL_ONLY },
--		{ __start___ksymtab_gpl, __stop___ksymtab_gpl,
--		  __start___kcrctab_gpl,
--		  GPL_ONLY },
-+	const struct symsearch syms = {
-+		.start		= __start___ksymtab,
-+		.stop		= __stop___ksymtab,
-+		.crcs		= __start___kcrctab,
-+		.flagstab	= __start___kflagstab,
- 	};
- 	struct module *mod;
--	unsigned int i;
+-#define __KSYMTAB(name, sym, sec, ns)						\
++#define __KSYMTAB(name, sym, ns)						\
+ 	asm("	.section \"__ksymtab_strings\",\"aMS\",%progbits,1"	"\n"	\
+ 	    "__kstrtab_" #name ":"					"\n"	\
+ 	    "	.asciz \"" #name "\""					"\n"	\
+ 	    "__kstrtabns_" #name ":"					"\n"	\
+ 	    "	.asciz \"" ns "\""					"\n"	\
+ 	    "	.previous"						"\n"	\
+-	    "	.section \"___ksymtab" sec "+" #name "\", \"a\""	"\n"	\
++	    "	.section \"___ksymtab+" #name "\", \"a\""		"\n"	\
+ 		__KSYM_ALIGN						"\n"	\
+ 	    "__ksymtab_" #name ":"					"\n"	\
+ 		__KSYM_REF(sym)						"\n"	\
+@@ -59,15 +59,16 @@
+ #define KSYM_FUNC(name)		name
+ #endif
  
--	for (i = 0; i < ARRAY_SIZE(arr); i++)
--		if (find_exported_symbol_in_section(&arr[i], NULL, fsa))
--			return true;
-+	if (find_exported_symbol_in_section(&syms, NULL, fsa))
-+		return true;
+-#define KSYMTAB_FUNC(name, sec, ns)	__KSYMTAB(name, KSYM_FUNC(name), sec, ns)
+-#define KSYMTAB_DATA(name, sec, ns)	__KSYMTAB(name, name, sec, ns)
++#define KSYMTAB_FUNC(name, ns)	__KSYMTAB(name, KSYM_FUNC(name), ns)
++#define KSYMTAB_DATA(name, ns)	__KSYMTAB(name, name, ns)
  
- 	list_for_each_entry_rcu(mod, &modules, list,
- 				lockdep_is_held(&module_mutex)) {
--		struct symsearch arr[] = {
--			{ mod->syms, mod->syms + mod->num_syms, mod->crcs,
--			  NOT_GPL_ONLY },
--			{ mod->gpl_syms, mod->gpl_syms + mod->num_gpl_syms,
--			  mod->gpl_crcs,
--			  GPL_ONLY },
-+		const struct symsearch syms = {
-+			.start		= mod->syms,
-+			.stop		= mod->syms + mod->num_syms,
-+			.crcs		= mod->crcs,
-+			.flagstab	= mod->flagstab,
- 		};
+-#define SYMBOL_CRC(sym, crc, sec)   \
+-	asm(".section \"___kcrctab" sec "+" #sym "\",\"a\""	"\n" \
+-	    ".balign 4"						"\n" \
+-	    "__crc_" #sym ":"					"\n" \
+-	    ".long " #crc					"\n" \
+-	    ".previous"						"\n")
++#define SYMBOL_CRC(sym, crc)					\
++	asm("	.section \"___kcrctab+" #sym "\",\"a\""	"\n"	\
++	    "	.balign 4"				"\n"	\
++	    "__crc_" #sym ":"				"\n"	\
++	    "	.long " #crc				"\n"	\
++	    "	.previous"				"\n"	\
++	)
  
- 		if (mod->state == MODULE_STATE_UNFORMED)
+ #define SYMBOL_FLAGS(sym, flags)					\
+ 	asm("	.section \"___kflagstab+" #sym "\",\"a\""	"\n"	\
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index f5ce7aeed52d..8936db84779b 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1867,9 +1867,9 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
+ 		if (trim_unused_exports && !sym->used)
  			continue;
  
--		for (i = 0; i < ARRAY_SIZE(arr); i++)
--			if (find_exported_symbol_in_section(&arr[i], mod, fsa))
--				return true;
-+		if (find_exported_symbol_in_section(&syms, mod, fsa))
-+			return true;
+-		buf_printf(buf, "KSYMTAB_%s(%s, \"%s\", \"%s\");\n",
++		buf_printf(buf, "KSYMTAB_%s(%s, \"%s\");\n",
+ 			   sym->is_func ? "FUNC" : "DATA", sym->name,
+-			   sym->is_gpl_only ? "_gpl" : "", sym->namespace);
++			   sym->namespace);
+ 
+ 		buf_printf(buf, "SYMBOL_FLAGS(%s, 0x%02x);\n",
+ 			   sym->name, get_symbol_flags(sym));
+@@ -1890,8 +1890,8 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
+ 			     sym->name, mod->name, mod->is_vmlinux ? "" : ".ko",
+ 			     sym->name);
+ 
+-		buf_printf(buf, "SYMBOL_CRC(%s, 0x%08x, \"%s\");\n",
+-			   sym->name, sym->crc, sym->is_gpl_only ? "_gpl" : "");
++		buf_printf(buf, "SYMBOL_CRC(%s, 0x%08x);\n",
++			   sym->name, sym->crc);
  	}
- 
- 	pr_debug("Failed to find symbol %s\n", fsa->name);
-@@ -2607,6 +2605,7 @@ static int find_module_sections(struct module *mod, struct load_info *info)
- 				     sizeof(*mod->gpl_syms),
- 				     &mod->num_gpl_syms);
- 	mod->gpl_crcs = section_addr(info, "__kcrctab_gpl");
-+	mod->flagstab = section_addr(info, "__kflagstab");
- 
- #ifdef CONFIG_CONSTRUCTORS
- 	mod->ctors = section_objs(info, ".ctors",
-@@ -2810,8 +2809,12 @@ static int move_module(struct module *mod, struct load_info *info)
- 	return ret;
  }
- 
--static int check_export_symbol_versions(struct module *mod)
-+static int check_export_symbol_sections(struct module *mod)
- {
-+	if (mod->num_syms && !mod->flagstab) {
-+		pr_err("%s: no flags for exported symbols\n", mod->name);
-+		return -ENOEXEC;
-+	}
- #ifdef CONFIG_MODVERSIONS
- 	if ((mod->num_syms && !mod->crcs) ||
- 	    (mod->num_gpl_syms && !mod->gpl_crcs)) {
-@@ -3427,7 +3430,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 	if (err)
- 		goto free_unload;
- 
--	err = check_export_symbol_versions(mod);
-+	err = check_export_symbol_sections(mod);
- 	if (err)
- 		goto free_unload;
  
 -- 
 2.51.1.930.gacf6e81ea2-goog
