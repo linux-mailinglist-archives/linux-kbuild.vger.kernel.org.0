@@ -1,119 +1,134 @@
-Return-Path: <linux-kbuild+bounces-9381-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9382-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E81C2D17F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 17:24:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF917C2D887
+	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 18:48:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 42D514F08D1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 16:22:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1706B3BCCE7
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 17:48:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A615731D388;
-	Mon,  3 Nov 2025 16:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05319274B39;
+	Mon,  3 Nov 2025 17:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n1XsnXQA"
+	dkim=pass (1024-bit key) header.d=linuxtx.org header.i=@linuxtx.org header.b="OBJcL6dm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4587E31AF3E
-	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 16:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293FF22541C
+	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 17:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762186814; cv=none; b=Z3g+vPZohe5xRvsH2O1jUatboHrJFXu395Bg/yNxMOK8PNDAHUQ/Y3YPsoH5UxsXHsvKbBp3PjOeAu1DxyKX+tcvXWM4isGUqvO7pGCE5EFlaurJRSfyuOhd++kHsQPZM3Ba8/glJxxq4vbtwQYVzgtqoA+19tVA0tB97dHiaSg=
+	t=1762192078; cv=none; b=lsSbsg6SuqTW15HhWRIOLHc/j23u5NbywvjzCB3xqz+QBV9vwXQP9ilsfDNiCJe+gmXb8bEC58RB88S6CiqK+HR148nD1yKvTaTwqJy9CoBC+QPsE7tuUct7G0W+kFZMU14QhnQ5i8ZcxFqy0nAkgAhRklwrZoKEyBAelFYGkuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762186814; c=relaxed/simple;
-	bh=ZfLqA4q+LlT4KDHK6OgFCUnnDeCp0/yqCM3z3y4ZAUE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=o0x4fgMXnhVv86Y04wICwNz96fuZam71hP3wBvMz1pxpREQktBQazTT3o1Tzu3BP4NEbf64t3IrxbybGS7udHGuC7X3smKkyOlzNet2M302G1+ouGFBxqnz7MSSnALdjnC321xPBbSSxwj/B20nGVSc4x4NtoPnbhSzVNNwxBf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=n1XsnXQA; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-429cbd8299cso856902f8f.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 08:20:11 -0800 (PST)
+	s=arc-20240116; t=1762192078; c=relaxed/simple;
+	bh=SgKh3F2MqSvY/+atnwKQbzqTAv1ZnedXCRhqmQOnc24=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nfbz0JmPjF8RM1VwNUVL8uGtpKHCSEpIeHr68pNLSHMFNxzhg447gsYaW2TTQ9fUbwK1I515g2cq1iFmmafgLQRbt2Vz4NXmIhDUX2pEa/v+ZhIVPLXb9s9bnfcJU10/449Ed3Yq1+WVoxYG1rZHNDkPi7xRorKu3kc0hpqNyIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtx.org; spf=pass smtp.mailfrom=linuxtx.org; dkim=pass (1024-bit key) header.d=linuxtx.org header.i=@linuxtx.org header.b=OBJcL6dm; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtx.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtx.org
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-4332674b921so5407145ab.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 09:47:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762186810; x=1762791610; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dKMXNiGZfPIVH217MRjliLXTvp1YDgJjekxykL3Rm90=;
-        b=n1XsnXQAt2p3nRKaN4HTnKPHWC569qA8uToA2McZM3UKZJU0HLJHpL+s8xp2ORO7CA
-         tNfjzzjpxaTzkE50+HaZGP3+3uaMq9zijiAoSatK1Mm9sygV0nPCfq7e3/8M2EKMGB/A
-         FaOg1dCWLFxG8+gOu5kWjq0mbTKmPWBp9SKiqMTpAzGy7TKK4adXM2MyeRH5bYo1xynV
-         JxxQxMYvQ8n0KcHogckZHciVzIpkyLnj/n+74NuRjuGivON1k1qA2La6kfBPsGXnvAXG
-         olqjcjyUSwRJCRswG0Wsbwj9E3lYkCS6bbAhzttyMWQ13INhBTiFPSFfU9GJTlhmZjaE
-         RYvQ==
+        d=linuxtx.org; s=google; t=1762192075; x=1762796875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FjAKDCwmdTaGo3dsotYYIlyzJDEkmULXfXj+ZPIjvrU=;
+        b=OBJcL6dm59zkEX2MVYKKWpnpZSg60u3gIanBYB1fBVpqGfbfKbY/MwUcefeIz0Mp69
+         XNDI9sY9Dl7TwK5CpY+q2XnBWthJXWDzY7MNOGBQiW68lQAvl9lJggMoyfQs44diVvDQ
+         /wdZpYucEgUnuNZG4/h7eHk3y0lHlkIRayb+8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762186810; x=1762791610;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dKMXNiGZfPIVH217MRjliLXTvp1YDgJjekxykL3Rm90=;
-        b=Wtb4IGMWdxLy1Eioae2YwhVG8dCBziCrKSfDuw4FStx4NbzdcLf5GlXsKS5EwKSHGF
-         1JQSIqr4m20j2o7aVZEe5DSF1irSaqUXOnci977eA1vfco/16ASUytJwqSpIZDChMyzG
-         P2YqNNoiAnkd4e/TqHGPxY0HRTh3vK4bBmlqKdMyCs27GC1qXUYjYdWe0gY3PPy/j74o
-         xuugcv1ZIOUee0g+uFRkPVKsHt4GTQu7hlrucDuOVDgMjPaZOpqeJoLjH4zKCav9zcHO
-         pp1XAgxmlFo4/UZT+hSKbbaQOZTNcHFBa/NvgKJg5e4UngvGiRKh3//N2Iteh9GT0jDD
-         iAFg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2UuEHBOixx7Y93Sxt+x3w4j60fsMh0iPmPWoCgyEePCKORaB2YA6pToMLe6SQwxRImQOLni1cpcLukeU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz76ZKQvorBy2s3O98b+C6SIUxGIDFEdmgYsIWcF6YRVpkN/FMo
-	U+rQHtSkxzHALGBLH5ADkG0tmoDmKU6iHOCciX4up3URllSXPfAIA6GVy7yOsZlpDF3pKZyyV5M
-	ITizCtQkg8EGZ7N9hpQ==
-X-Google-Smtp-Source: AGHT+IFC8uEzBjpjBcVhKIzQAVZ9PgWEyRrTcxIH5OA39bpirlxZf+DPWIWJ65wuyC7UfWssuMtt201eUDa8ubY=
-X-Received: from wmna17.prod.google.com ([2002:a05:600c:691:b0:477:11b7:17fc])
- (user=sidnayyar job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2888:b0:3ff:d5c5:6b0d with SMTP id ffacd0b85a97d-429bd6723c1mr10520562f8f.4.1762186810296;
- Mon, 03 Nov 2025 08:20:10 -0800 (PST)
-Date: Mon,  3 Nov 2025 16:19:54 +0000
-In-Reply-To: <20251103161954.1351784-1-sidnayyar@google.com>
+        d=1e100.net; s=20230601; t=1762192075; x=1762796875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FjAKDCwmdTaGo3dsotYYIlyzJDEkmULXfXj+ZPIjvrU=;
+        b=JKb2z8rKSE+4RQPDQD2d+gpTcURrkEjlT7J3OI6qC8peGpHEzNrCgma3Vwnz/5FlYR
+         2cEfOSwCNwOr5jYJkrC+JUiTQ8zjjyGst+rIUt6l9LiemJ/oVkag+7iI82qJB77bfsII
+         QumJ6I9Is+pEns9B9FrYC9WpW1GDn1NCfMjZSPHz5nOgxqUudUO0JOXQifwlcAYWtAha
+         O7nwhz0APw/SPxlt8+YYnRc03IRFsWFS29PcWZF5TIKRI19rvWaoFISoRQn3YkNcKxSq
+         o7hX/aHsz8646bY/oX6PBY2GjpNQQv52eNM+6Z7myDpDX6y0li0+C5xJdMMsiUPaoFPH
+         7+Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEmvaSKoOMcmu7eVTt8pC5KQEFmSj6A0S0QnKh0gpxAthEmu1h5EnAxpbKt2r+/onH8Fg5jOUzBPAlMPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNsM/XujXgArDzOPXB/psG38rsXI6+KEOkuu+uVi6PNZ4s+RjI
+	vDqCIWxDvxF/lIydETPci0j+ayloMuayTHgPVqY9u4DFGCbEJmLWsamCWJmq+sZyHD+JiDrtCW2
+	/pBqhiplnmi6FJHVibOhFYAJjVQWwmnEOmNn4wcIB
+X-Gm-Gg: ASbGncsiyuJZ/Oqa/RrjaW2TUkshZIN6rYE6kjV/3Ix3SEHcjcw5Nlf3HNdOY1Xz3v0
+	C6JqN9HF9sAGHm3LU9NkAR6VzNJHepqlHvNA4S1tIui+6FGO67ok/VSkI3eOoj+hX7ZRdw1uLfw
+	IJP6bXE6OklIEFOqr8seeXcoD8lFb5oo8IL1wyakQ/nnslw7NRnVi9Z0tqc+oXLPjTKQJ92A1EM
+	QTknP1VnGCuyWPfwQzvuyHsjk19USclz+wQSn2gsD5XfT15y4i1phKdX3Lf5x8K2UE04FRe
+X-Google-Smtp-Source: AGHT+IEoZVeUMOUD21Jwvlvqg2DuQudLZFKN+F2ECw8IcJFa2Y5MP2DG+/93iqFN9rXQ8x3ei5N8FSQ+NKgZ+YBpzNA=
+X-Received: by 2002:a05:6e02:12c1:b0:42e:d74:7260 with SMTP id
+ e9e14a558f8ab-4330d217155mr180383195ab.29.1762192075132; Mon, 03 Nov 2025
+ 09:47:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251103161954.1351784-1-sidnayyar@google.com>
-X-Mailer: git-send-email 2.51.1.930.gacf6e81ea2-goog
-Message-ID: <20251103161954.1351784-9-sidnayyar@google.com>
-Subject: [PATCH v3 8/8] remove references to *_gpl sections in documentation
-From: Siddharth Nayyar <sidnayyar@google.com>
-To: petr.pavlu@suse.com, corbet@lwn.net
-Cc: arnd@arndb.de, linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev, 
-	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com, 
-	gprocida@google.com
+MIME-Version: 1.0
+References: <20251102212853.1505384-1-ojeda@kernel.org> <aQiDjuHK0qpgmj1J@google.com>
+In-Reply-To: <aQiDjuHK0qpgmj1J@google.com>
+From: Justin Forbes <jmforbes@linuxtx.org>
+Date: Mon, 3 Nov 2025 10:47:43 -0700
+X-Gm-Features: AWmQ_bnqgY3TD7_cPq8iTJOPSR5fRhrV4vLHy7AAe5o1XlAgXCBBQw2b5bBW9MI
+Message-ID: <CAFxkdAqxuFDMraNBNrOXPDpRzQTQftmc+QQMh_PVMgmLkuv=Tw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] rust: kbuild: treat `build_error` and `rustdoc` as
+ kernel objects
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Siddharth Nayyar <sidnayyar@google.com>
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
----
- Documentation/kbuild/modules.rst | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+On Mon, Nov 3, 2025 at 3:29=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> wr=
+ote:
+>
+> On Sun, Nov 02, 2025 at 10:28:52PM +0100, Miguel Ojeda wrote:
+> > Even if normally `build_error` isn't a kernel object, it should still
+> > be treated as such so that we pass the same flags. Similarly, `rustdoc`
+> > targets are never kernel objects, but we need to treat them as such.
+> >
+> > Otherwise, starting with Rust 1.91.0 (released 2025-10-30), `rustc`
+> > will complain about missing sanitizer flags since `-Zsanitizer` is a
+> > target modifier too [1]:
+> >
+> >     error: mixing `-Zsanitizer` will cause an ABI mismatch in crate `bu=
+ild_error`
+> >      --> rust/build_error.rs:3:1
+> >       |
+> >     3 | //! Build-time error.
+> >       | ^
+> >       |
+> >       =3D help: the `-Zsanitizer` flag modifies the ABI so Rust crates =
+compiled with different values of this flag cannot be used together safely
+> >       =3D note: unset `-Zsanitizer` in this crate is incompatible with =
+`-Zsanitizer=3Dkernel-address` in dependency `core`
+> >       =3D help: set `-Zsanitizer=3Dkernel-address` in this crate or uns=
+et `-Zsanitizer` in `core`
+> >       =3D help: if you are sure this will not cause problems, you may u=
+se `-Cunsafe-allow-abi-mismatch=3Dsanitizer` to silence this error
+> >
+> > Thus explicitly mark them as kernel objects.
+> >
+> > Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned=
+ in older LTSs).
+> > Link: https://github.com/rust-lang/rust/pull/138736 [1]
+> > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
-diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-index d0703605bfa4..b3a26a36ee17 100644
---- a/Documentation/kbuild/modules.rst
-+++ b/Documentation/kbuild/modules.rst
-@@ -426,11 +426,12 @@ Symbols From the Kernel (vmlinux + modules)
- Version Information Formats
- ---------------------------
- 
--	Exported symbols have information stored in __ksymtab or __ksymtab_gpl
--	sections. Symbol names and namespaces are stored in __ksymtab_strings,
--	using a format similar to the string table used for ELF. If
--	CONFIG_MODVERSIONS is enabled, the CRCs corresponding to exported
--	symbols will be added to the __kcrctab or __kcrctab_gpl.
-+	Exported symbols have information stored in the __ksymtab and
-+	__kflagstab sections. Symbol names and namespaces are stored in
-+	__ksymtab_strings section, using a format similar to the string
-+	table used for ELF. If CONFIG_MODVERSIONS is enabled, the CRCs
-+	corresponding to exported symbols will be added to the
-+	__kcrctab section.
- 
- 	If CONFIG_BASIC_MODVERSIONS is enabled (default with
- 	CONFIG_MODVERSIONS), imported symbols will have their symbol name and
--- 
-2.51.1.930.gacf6e81ea2-goog
+I can verify that this fixes kernel builds with rust 1.91 in Fedora.
 
+Tested-by: Justin M. Forbes <jforbes@fedoraproject.org>
 
