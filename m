@@ -1,166 +1,109 @@
-Return-Path: <linux-kbuild+bounces-9369-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9370-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF2EC2B94D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 13:14:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F36C2C83B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 15:58:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 368334E05AD
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 12:14:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26927188FE57
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 14:57:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F2B03093B8;
-	Mon,  3 Nov 2025 12:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE5B313E3E;
+	Mon,  3 Nov 2025 14:47:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ceNFHkBB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nB4LWXgE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ceNFHkBB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nB4LWXgE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLOofRBg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05417083C
-	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 12:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC6630CDA8;
+	Mon,  3 Nov 2025 14:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762172064; cv=none; b=ZHq9QFV7Nu7U9hNH4qAb6R9KM2ohpr0GMxpIfr0Z/7VvIou32EF27HaV0lgLpFwGPs5DV/l2NvGT4/avZgIQpk2kmSrUm5kg6bOz0PLv6bPxUYnFr3KeRXBBWRWT4w1t2M0Y2goaUYlL9OUVz25K0DD6ooaY+4PmTsC6/HvwMOo=
+	t=1762181247; cv=none; b=cKzy98fXJZd29Q+sOlwVgwwy2QS1P3S3piKod2bZd21GmRdpVGdRO/rkMHuueIRHZObbjKWyaEX7VC4a++TmSvZaUuhTYigUDhm82QkDIXb3Yo6/vvyBvBywodYf2O1YDcsfyPhBGxWSvWDynlu2CqqyTYcCH7EnJVzDuwlR9OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762172064; c=relaxed/simple;
-	bh=cKkMQvevQdOhaPRvM0MWUATjc8/anyMaXYdK1/2q2Nk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hgolzvzIpkSGMpbRHybEylEhJTU/3gUCwJlu7yVon8y/UkFNi1ce1kTfcwi3jvLorFE3mxRR22v78dyEOYwjZWVpL6nlqARgpLNgaK8Rc3NqMi3K9pAqrictxSvrnFfLrzKCt+HWOJPUv6Wkbttq0p0QLVdHnuIKiBhu088c3Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ceNFHkBB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nB4LWXgE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ceNFHkBB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nB4LWXgE; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F40B421C53;
-	Mon,  3 Nov 2025 12:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762172061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lsBqLrWGBcsjzB8SKguNf1OVfqKhPz+trH3CmFSrnWI=;
-	b=ceNFHkBBsb6JTtiueXdMG885nLekK7zBXOJE2WFnLsLRZaRp1nvektXgVDaYMHj2YLhn0U
-	JogEJZD9B1X98PgcaGJrhsK8bL/320/eGezZ3RC5y2OuUOSjoHFT/cUStnCtc3MybfzA1W
-	iWkebxVgVwixxy0Rv6ZZqfNGzv7wers=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762172061;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lsBqLrWGBcsjzB8SKguNf1OVfqKhPz+trH3CmFSrnWI=;
-	b=nB4LWXgEmdIqhsJZ36YyLzBsamw0MTUNJ6/bmtkNgdcfODe5y9QXNSZNS/ZLMSCAZWNT+W
-	VJriS8iz3qhJ5ZBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ceNFHkBB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nB4LWXgE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762172061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lsBqLrWGBcsjzB8SKguNf1OVfqKhPz+trH3CmFSrnWI=;
-	b=ceNFHkBBsb6JTtiueXdMG885nLekK7zBXOJE2WFnLsLRZaRp1nvektXgVDaYMHj2YLhn0U
-	JogEJZD9B1X98PgcaGJrhsK8bL/320/eGezZ3RC5y2OuUOSjoHFT/cUStnCtc3MybfzA1W
-	iWkebxVgVwixxy0Rv6ZZqfNGzv7wers=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762172061;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lsBqLrWGBcsjzB8SKguNf1OVfqKhPz+trH3CmFSrnWI=;
-	b=nB4LWXgEmdIqhsJZ36YyLzBsamw0MTUNJ6/bmtkNgdcfODe5y9QXNSZNS/ZLMSCAZWNT+W
-	VJriS8iz3qhJ5ZBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD74A1364F;
-	Mon,  3 Nov 2025 12:14:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LHI9LJycCGm4TwAAD6G6ig
-	(envelope-from <jdelvare@suse.de>); Mon, 03 Nov 2025 12:14:20 +0000
-Date: Mon, 3 Nov 2025 13:14:19 +0100
-From: Jean Delvare <jdelvare@suse.de>
-To: linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas.schier@linux.dev>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>
-Subject: [PATCH] Makefile: Let kernel-doc.py use PYTHON3 override
-Message-ID: <20251103131419.5e504ae2@endymion>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+	s=arc-20240116; t=1762181247; c=relaxed/simple;
+	bh=wEqUiWqzTn3qz8K/m/T7ZHGVJLtzuiTUO3H/8VHuy4M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nH8ayaivYncpoEsHfjL3PVmo4mL3YWVI2o2M0B25zuqT03WEGLtbEZGzYos/9itB83G/Cchuob43/CygXVozc5nBspY6JbU0RR4UiR4t7s0rqAjKSDlEeCLcWmAV77OGSm4vyJoeLghGPdfuOYXmDu1Gc6dkXlrTfMmBaBOGNzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLOofRBg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74552C4CEE7;
+	Mon,  3 Nov 2025 14:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762181247;
+	bh=wEqUiWqzTn3qz8K/m/T7ZHGVJLtzuiTUO3H/8VHuy4M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=gLOofRBgysxna9uxvfoCaDQSiaA4GPKntTz9Vyhb8eoWE9LSRiuSNsMcdOySc+HPm
+	 X5M7AyMh2VsUfuI+2K1EKsR3ouH04TMqLaZpsmdC7+MOzVDXycuKj2BevSsfwkBzZP
+	 C/qRSO+iBvxoMRgWcZZY6QtZlf81GlB/L9p9EKGZqeXmolio9oY/+ji70KQmZpdLCu
+	 0mk96GkjUGd5IVVrXp7bzMVxS2SUgQS24lrkVDBWrgbyg3KAPgJGpKy29rJGve5PQf
+	 ro9giLqf6UwJMEPrXETo5yZdLn6lmaCR4SU4CEekeawWeh1/ZmGmryvmZft/7Ab1oy
+	 Wpg5ZgLB5zhMA==
+From: Daniel Gomez <da.gomez@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+ Benno Lossin <lossin@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+ Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Trevor Gross <tmgross@umich.edu>, 
+ Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ linux-modules@vger.kernel.org
+In-Reply-To: <20250924-module-params-v3-v18-0-bf512c35d910@kernel.org>
+References: <20250924-module-params-v3-v18-0-bf512c35d910@kernel.org>
+Subject: Re: [PATCH v18 0/7] rust: extend `module!` macro with integer
+ parameter support
+Message-Id: <176218124220.2602452.14511624048623385037.b4-ty@kernel.org>
+Date: Mon, 03 Nov 2025 15:47:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: F40B421C53
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[huawei];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-
-It is possible to force a specific version of python to be used when
-building the kernel by passing PYTHON3= on the make command line.
-However kernel-doc.py is currently called with python3 hard-coded and
-thus ignores this setting.
-
-Use PYTHON3 to call kernel-doc.py so that the desired version of
-python is used.
-
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
----
- Makefile |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-6.17.orig/Makefile
-+++ linux-6.17/Makefile
-@@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
- 
- # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
- # has a logic to call it
--KERNELDOC       = $(srctree)/scripts/kernel-doc.py
-+KERNELDOC       = $(PYTHON3) $(srctree)/scripts/kernel-doc.py
- export KERNELDOC
- 
- KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+X-Mailer: b4 0.14.3
 
 
+On Wed, 24 Sep 2025 14:39:23 +0200, Andreas Hindborg wrote:
+> Extend the `module!` macro with support module parameters. Also add some
+> string to integer parsing functions.
+> 
+> Based on the original module parameter support by Miguel [1],
+> later extended and generalized by Adam for more types [2][3].
+> Originally tracked at [4].
+> 
+> [...]
+
+Applied, thanks!
+
+[1/7] rust: sync: add `SetOnce`
+      commit: 821fe7bf16c57d690f4f92997f4e51abb93e0347
+[2/7] rust: str: add radix prefixed integer parsing functions
+      commit: 51d9ee90ea9060be240830eb28f5f117ad00318c
+[3/7] rust: introduce module_param module
+      commit: 0b08fc292842a13aa496413b48c1efb83573b8c6
+[4/7] rust: module: use a reference in macros::module::module
+      commit: 3809d7a89fe550bf4065c04adff6dac610daddad
+[5/7] rust: module: update the module macro with module parameter support
+      commit: 0b24f9740f26ac7ad91ac0f4de27717c14de91bd
+[6/7] rust: samples: add a module parameter to the rust_minimal sample
+      commit: e119c2fe8c78632188f6cdeae620951a7032855a
+[7/7] modules: add rust modules files to MAINTAINERS
+      commit: ee3b8134b2bae848e03e56c090ceca4ae76cee06
+
+Best regards,
 -- 
-Jean Delvare
-SUSE L3 Support
+Daniel Gomez <da.gomez@kernel.org>
+
 
