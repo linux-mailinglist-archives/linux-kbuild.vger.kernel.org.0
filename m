@@ -1,97 +1,141 @@
-Return-Path: <linux-kbuild+bounces-9389-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9390-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B21CC2E265
-	for <lists+linux-kbuild@lfdr.de>; Mon, 03 Nov 2025 22:28:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DFA8C2E5FA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 04 Nov 2025 00:06:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37DAD3BA1BF
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 21:28:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFD42189077B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 23:06:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F89A2D0606;
-	Mon,  3 Nov 2025 21:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAD5B2FD66D;
+	Mon,  3 Nov 2025 23:05:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9S/miqC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CMiHZA1D"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BC72D0283
-	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 21:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF0D2FC037
+	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 23:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762205308; cv=none; b=rB1Ol2lrs/QtkNpGvxSH8dHbH4mdNE5q9BLlyJ1nWxW1eoSn1fCbAha+CqNaV/QXh9er8fMBsFYat0iN7NbcEAFsGIlkAbaCE+QW2wPCw8gOm+Jd6SiYMlP1K1hMr/7mzUlr+kAXkCJ/vHM+7lsctlcWPGMBWV/WBiy1XRkOfiU=
+	t=1762211159; cv=none; b=OKJ7FVz6Z/Tk+36W8dirVbOFgQ1Zb3SvYXFk2kkV+wuTdIWFXsbbwUf97a/vFJsa4EB4bUDJJPO4Rew0mscF6xa/kZdATx3+KcgVRHwh2ba5qJTs0h2rPg6RpBlwHS/OfQ7kI0m978QtsiRjkYJfGOQ4HCz2HhT3HRvxjrtmPLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762205308; c=relaxed/simple;
-	bh=x+s7NqOlBSD+6LTbIljgLw3kIbjrsuj6AUvEJihYyZ4=;
+	s=arc-20240116; t=1762211159; c=relaxed/simple;
+	bh=wpVJWBuenZcD3eSVXXuQBdHxyRZUm/ZGGvsoPgMAlCE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AszO4888zIsBsrrdTAic/m9XCAkHhnAxa1NrQw6PuCw6yCy/j4ifDrC4OwSlX4cmH3FGpZcyCC6lhjJNl+pLe8K6VOzvAGn13BwuKKqWNGmQSg88iVp5sFr6waid+YzWMAzY/uvt0Djg7zGF7D0j3U2PbJ3dFrFCyOSEOKClN8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9S/miqC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07B15C116D0
-	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 21:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762205308;
-	bh=x+s7NqOlBSD+6LTbIljgLw3kIbjrsuj6AUvEJihYyZ4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=m9S/miqCoNPGKCfZ6h3bOQqcb+8OePezM2HSGZNsLbss+c8dVmOyeOm6FzFUASERk
-	 FDehykKsB7VEarc7agIeqpXHEXc4fZxSpP8g1B9qEwK2/ZSNKWn4rGSZzo39rLYbD/
-	 y4f90aDvTqOY0HyNk236QpKQ1i0nGPntDowvvybn04qCGvk4LLuFvpkP1qhw1cKeIU
-	 jSnRHkDYqeWQ/mh3HgRCH8r+zrKQ8mY88Hb6su/6kqls1hWnlCQOaJgMd4XwA3pgUV
-	 VFSfgSxQTFOBi2sHnNN3JgIiWzeYDynyYBl4YyQMwPlcxzCAITmWKXZ1Y82XUjxzuT
-	 HxhQCGDV2wQDQ==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-376466f1280so62030971fa.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 13:28:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUsicnonDmb44CR/291+5fZr+7dMC4IDyS6k6sDD4LHg5sZWsECC8SFlqLySucX0L1PW3nmmIwsmzOGTRE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZT9Qo90ijcFK9OB5ldtBJO20ivJf7WbRyzFnMvtxzYg+bJ+Bg
-	2VlI/EhG88hwzDn7owYRCd5H6yws0VYcyZi0OLM0VZnfKc/JXRAluVZVaApQliGfmweMY1UbS8r
-	+fcF2tljAZVJ8rogDKFWxhVod9jvorWA=
-X-Google-Smtp-Source: AGHT+IGuHjVWYBSC48Khcwso6dkYnUdLSXLRJ93ObNH4eJ3vQHOB+Qa+7Akzu96ic9RvATC37meErLjCvp099ZL0tME=
-X-Received: by 2002:a2e:80d7:0:b0:37a:c4d:8215 with SMTP id
- 38308e7fff4ca-37a18d90652mr36490291fa.12.1762205306381; Mon, 03 Nov 2025
- 13:28:26 -0800 (PST)
+	 To:Cc:Content-Type; b=LIvBl3KzkHB2QJ9U4SmhcT5ztzRHgKYcJ9OaR10F3IiGzl8+VGCGxQFK8at5b4dHr9PogiYS267Ho6X60YtMA7SadxIRJV3BMoV3Ms3aY35dT0QOcud6FRwm9bwvu28lHPvP4vC5yxv+RJO81XORHszP7c502N2CLiU0qIAdt48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CMiHZA1D; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-28d18e933a9so4791045ad.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 15:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762211157; x=1762815957; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ogon7TK6sOugcfKJJppW+WnECgyNYUKvMApdomYEbKo=;
+        b=CMiHZA1Dx3TONUc1uZHfqLTY7pYjVGhppzjfh99oqjSc5G6TRcS4jMtNzlwmIts3E3
+         y8bFQ8QVMOTvVX/EpzNoQLJ3j64+hwAE4YusSzS3JcnVpcdu1UyJP3H4mRz60h7HjMCQ
+         FR2fpLyws20tNwjfyEDwODyz0t9rhbE8W7Ws/cjVfAfYj3jIlwRwUw+S/yqhijCI6ZQ1
+         7T233cgYC4xnP/sPKtzAmODvFl/bA+tWZnqOjLXrHHkYps3uQl9enlYMv78BNMvig5co
+         iWg2ytYb/XHpX6IIc35vuYCyJOcq22owxU1WEBYOLGUL0nRDqvvHDgtoZ1+WevzBKGUC
+         Q3CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762211157; x=1762815957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ogon7TK6sOugcfKJJppW+WnECgyNYUKvMApdomYEbKo=;
+        b=BkKW2vezD0anozvDUq9IPSZjkeQkLX+MxNkLSfudvgsxu1VhwQb/Hdj/0zQZqrucBi
+         jGsiyTsOp8wFklENB/xRHUwN2RKAgd3aV4coXQIkAPycIU1aZvbYo/LI0v714qFcp8Y0
+         hGDTV0PIYCpTRkywwbPlTrzLzYiT3sjoJwN5UiYMZ0nRjVgueHlRPh6mgNt2SyRAYdEG
+         Axzf+xwbMMeA6e5xbbJImvdqw6w8ClAEAyT73kcBlVHbWfiCq1/YY8hdcG5jzjATx3rz
+         EYStS5VHBFnXPzSvfBze81AVL0OuoLk+GUSCxv1Lp5nouXRsxL+0uDkY91cbF6+p20ut
+         yQLg==
+X-Forwarded-Encrypted: i=1; AJvYcCX3fjMhq5UcRj5Nm419zYHvxWqXwDsakawyYENZKjqKMwwdMIQwI4mmTLSidJlTptDR5nbRYEP8+VWBDyA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsWbybW8kyVvvWQU4fWKGdpvPsDPGiH976IOLvGf3IXuyKOWxB
+	NdQqXpaoa24RuBscW6+aPZbEjlG5msd8J9BZxLFhgRO6Wuek3NdsdCy/3czs4l610tWn8UWZCnp
+	hkbYIQHJLwRqEXi8HXmZJ9YI5pDo1m5I=
+X-Gm-Gg: ASbGnct8z/ga4wTUNuCIyub7lANRmPRX/H9AvPyotmC9sf1Pn2+9nxoOCje76WjvOas
+	J8naFB1mj26MHlAhBUDGJsSLxMk5DGQtLlUYvmMvI0zOPtNiWix1RQaIj3nYZM1xp0OEX+eMyh3
+	QjCtbvhBZmQfUeXlxiaHnqEg/88tdpXKNpkWJscmz/d8yoSoEZicu2tDzGYqNATxHt+8S78f3kh
+	5bkv+hWpTv6BNWe2XQu+E1MC2edXk2lJeb59z8GiE5RYWQDtv0OCo+uSNK1XrwP8ug9/7fFg1Iy
+	ZZ3QmwMSChxU1aGgUTahtUM8YkT4ZYCWFk1qcV+2fwHLfS7O0LjhJnCtc6DQkF0kzaaRxsfMz82
+	fgP/thGwxnXiP8g==
+X-Google-Smtp-Source: AGHT+IHugv4iFaTOCN4EOCjTVF2FfjlZWUSHrrn/GBxoYhXzdeo7YpUX0U5SRp9TWEaFsHczNUaXZUgkuqVdFch+J/I=
+X-Received: by 2002:a17:903:187:b0:290:ad79:c617 with SMTP id
+ d9443c01a7336-2951a380699mr111057345ad.1.1762211157387; Mon, 03 Nov 2025
+ 15:05:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
- <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
- <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
- <20251028174541.GA1548965@ax162> <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
- <20251031220732.GA2254630@ax162> <CAMj1kXF2kKyEOc6KSBfbdUMf5m4o=DLZXk4++C3q-utA_9g4DA@mail.gmail.com>
- <CAB95QARrcOc6h9=YTzLKkNE0dEaivtiLfK0kEQ1jNp+v1w4yzA@mail.gmail.com>
-In-Reply-To: <CAB95QARrcOc6h9=YTzLKkNE0dEaivtiLfK0kEQ1jNp+v1w4yzA@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 3 Nov 2025 22:28:15 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com>
-X-Gm-Features: AWmQ_bm-n3HwXzivyVXoLYd2aGYOVqqJZ7Y22VzHLa8sytU1FCReOfKDMoQeLaU
-Message-ID: <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com>
-Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org
+References: <20251102212853.1505384-1-ojeda@kernel.org>
+In-Reply-To: <20251102212853.1505384-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 4 Nov 2025 00:05:45 +0100
+X-Gm-Features: AWmQ_bkuLE73e6Hn0H_oMw4VNuro5lNa0qxJ-qywqWQaWYuKfzn120mRL3CMPr4
+Message-ID: <CANiq72=0JJz5XDHGpiyQBd9AmPCr4veJ=2oJywyyqQB8iMxqvA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] rust: kbuild: treat `build_error` and `rustdoc` as
+ kernel objects
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 3 Nov 2025 at 22:22, Eugene Shalygin <eugene.shalygin@gmail.com> wrote:
+On Sun, Nov 2, 2025 at 10:30=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
 >
-> Hi Ard and Nathan,
+> Even if normally `build_error` isn't a kernel object, it should still
+> be treated as such so that we pass the same flags. Similarly, `rustdoc`
+> targets are never kernel objects, but we need to treat them as such.
 >
-> On Mon, 3 Nov 2025 at 16:00, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > Eugene, can you try whether the image can be loaded by the EFI shell
-> > directly? You may have to rename the file and give it a .efi
-> > extension, but otherwise, you should be able to boot it using
+> Otherwise, starting with Rust 1.91.0 (released 2025-10-30), `rustc`
+> will complain about missing sanitizer flags since `-Zsanitizer` is a
+> target modifier too [1]:
 >
-> Did that with the kernel file and it loaded up until the non syncing
-> VFS error, but I suppose that is enough to state that the firmware can
-> boot the kernel image which rEFInd is unable to, and I should look for
-> answers with rEFInd author?
+>     error: mixing `-Zsanitizer` will cause an ABI mismatch in crate `buil=
+d_error`
+>      --> rust/build_error.rs:3:1
+>       |
+>     3 | //! Build-time error.
+>       | ^
+>       |
+>       =3D help: the `-Zsanitizer` flag modifies the ABI so Rust crates co=
+mpiled with different values of this flag cannot be used together safely
+>       =3D note: unset `-Zsanitizer` in this crate is incompatible with `-=
+Zsanitizer=3Dkernel-address` in dependency `core`
+>       =3D help: set `-Zsanitizer=3Dkernel-address` in this crate or unset=
+ `-Zsanitizer` in `core`
+>       =3D help: if you are sure this will not cause problems, you may use=
+ `-Cunsafe-allow-abi-mismatch=3Dsanitizer` to silence this error
 >
+> Thus explicitly mark them as kernel objects.
+>
+> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
+n older LTSs).
+> Link: https://github.com/rust-lang/rust/pull/138736 [1]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Indeed. Not saying there isn't anything to fix on the kernel side, but
-narrowing it down needs to be done on the side of the loader, it
-seems.
+Applied series to `rust-fixes` -- thanks everyone!
+
+I will send another less urgent one for 1.92.0 (in beta now) that goes
+on top of these here.
+
+Cheers,
+Miguel
 
