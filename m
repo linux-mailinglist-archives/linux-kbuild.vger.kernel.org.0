@@ -1,140 +1,101 @@
-Return-Path: <linux-kbuild+bounces-9399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9400-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C43CC31950
-	for <lists+linux-kbuild@lfdr.de>; Tue, 04 Nov 2025 15:42:57 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 828EEC31C6A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 04 Nov 2025 16:14:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 170C418925DC
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Nov 2025 14:37:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A529A4FD494
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Nov 2025 15:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC0632E73E;
-	Tue,  4 Nov 2025 14:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E448B1A9F83;
+	Tue,  4 Nov 2025 15:04:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="celNCeFq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5fdgbOT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626953314C4
-	for <linux-kbuild@vger.kernel.org>; Tue,  4 Nov 2025 14:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735DD128816
+	for <linux-kbuild@vger.kernel.org>; Tue,  4 Nov 2025 15:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762266957; cv=none; b=a685+beGskBoBQo6t0izGCzI7pP9ero01PWR3W1YmMqAVcPoQWT31UkrcengxY3w/o2NM/gG8uSQGgFdas4VGb5bbrG9+xaqriB2jIat5fo0XmgbgGdnuAgWuNEXAW/c6OoQGQtSr5K1qlzcImbsbbGEByTW7G9jQW2dY/dL6DM=
+	t=1762268688; cv=none; b=rVO2Usf7Vw95uhPKhuhM+nvw0fsezHOhF4YEdRD8AGk9JeAMBt4z7GCo0vXDFkO6X+fLJI/+a5E3IeDqlS6buPQ3UPDK74qWYkUw40Lp1T8KOf5l/gaHHppQYVuB21VZ7uoJGq3CS4LFmyUWurPXZnl0IFTSS+ycrJlM3Oj5tQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762266957; c=relaxed/simple;
-	bh=GX2GI3xXEF4HI3q0KcvqQ4jEGISNdcm25fBO522FbcI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=kneM4a9951WyLSE6cv6B7ARQapL4RuSe40T1yScaJ/7HfUNUiF2fkyNS0s6YVkcDMbLXdGvyj4WGOm+K4mJjS1fcpwZ4yTQBcCncWlr6ygkJas87TpMFZQLzwdbLm/2KSCzzs4wT1UYZ84RLl+MINCX+yw5KHMrEPoEYL6HVIIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=celNCeFq; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47754c0796cso8850375e9.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 04 Nov 2025 06:35:55 -0800 (PST)
+	s=arc-20240116; t=1762268688; c=relaxed/simple;
+	bh=okDzLA0rKlu/eWRDRHJjHOAGrdR4PDVDj6K4aczpkI4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ad32cRgX8agWulTQl/s6i2k02/rcLsD9GgFsdG1l7x2xaSQiRnjSb2L0N4xx4Rw25tWiJvh5xRVejG8wagYzmjydeqxu5loTSC5o1vY29o+TSkQblyA5U8hD1BQ7nO9KE4vF9qtzkIoyWiu/ujI4iIucu3WCdA3NnBcQrUJNDpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5fdgbOT; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-945a6c8721aso232082539f.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 04 Nov 2025 07:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762266954; x=1762871754; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IOVCXPPctiOeHSzFXrhZ8UdAWinRs+tNL6RnLupq0q4=;
-        b=celNCeFqoNdguOSwp+HXD2MW1ZH/Ls4ALDcRfRBNJIb4fH6Oqmw7/X9TKKCT6N3OZ+
-         5wwdNVyeDpBz8R1hzOdnRSNDHGIlatzaeSZO9WTPqhkdo/r3YMx5svQ0EOO4wHQ6ge5w
-         u8p73ppfns3Q0m/sRBqYGObL3Lmzd4QNZwrbBns6E7lAaUUBIw1rtHghrWV22RqCh0Hd
-         jQ6zaFv/Yehxn4V9L65e6KAYscDnwRIQLf39Spypa1fUY9Q4O0P+csRsC+cdI0H2/cVi
-         1XaEmpP3c8fiL6Eytq4H753ZANweMuGAmNTr1H/kwIXkQqm8N39HmYIa/rZPsgLd93un
-         agrg==
+        d=gmail.com; s=20230601; t=1762268686; x=1762873486; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=okDzLA0rKlu/eWRDRHJjHOAGrdR4PDVDj6K4aczpkI4=;
+        b=B5fdgbOT85wPz82NIN2F5xgKI6pRtbJV6YD9gGrjz1wn6vuqTf79VlapwxBGVL5e3h
+         8XUIvTrUr9sQDd97iHXws18BLeqyi77D1XI07qsInM05cGnLFPLEIWVghUMjOYB+fS4X
+         uFmtRA6WLZ+15afkTcJ3GMWKXNFOEQuXUGSUOPEV/VOD7yoIj5zAdza2dXTxoXyVAVWz
+         sVxVGU6TeZY63yUH9mspdxz+zo0vnsNv6OQ8x0FBfS1HctYbfteORvj5cyadreSKW+Az
+         dxg//StdsXvNp5sNqdJ9MPclFdhNCEFUwcN/kBqQc/3p1jBqyK/5yo0rlDLS2OR9vzAC
+         s2kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762266954; x=1762871754;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IOVCXPPctiOeHSzFXrhZ8UdAWinRs+tNL6RnLupq0q4=;
-        b=jwBA1Smdj6a4qolpzYV8ouw8vTh2ShNzovfaOHGgWqjnQSYjUw3vxrlBSbyTd2i3cx
-         Xgrd18osSr3NGLmsdSwC3U9kASB+kaFpP8JeCWHG9yn6M29w26Va8fMphnQ40DkYvDyz
-         5yTpab2Y1ON0PIg7uKM1hqMmNapcDnDcnaPgnlWcJguBH7xP3k15Qus3IBBIJWGd/0Z5
-         +dkZt5uY00lfa6z+hv7ZF8PE1jN1QOGKpraMrF6FUnrCr9dAm8Zkn2K3nlb7kdKpu0qD
-         ZXGBwNIG2phwdtLPwGOHV50cv4zmhwIN/ze/bAQrlzd5APPdWMOqmvwcioDUEo6D1JFS
-         x4AA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjWDKdymFrDteTakEJWPIFkXeBv4sZs7H+u5T1mv7g0YiLktlIpPgoGOp7/YLboSmGGkS7/t8VAF3rfcg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPGp9VW2ENbiHSZGa2BzGZ82SdXbsQwN/hH8PFY17podgV8/Ef
-	uxMVhfBeyLx3jm7mor/LdTXib6NK3zNCUtPh3UE088q6xKoNaQUOuM1+Av4AaiBEofR+0w/GgNF
-	TaaJ6Ej1i4jvWoAt/Yw==
-X-Google-Smtp-Source: AGHT+IHUIVO/JrZ+sifdGbE2HNDP12NCBQ4Gy+soRUB62GGdW8nKY8+xMnZfZi9CwRQeoxr1/8RQh5TlG7DGBL0=
-X-Received: from wmg26.prod.google.com ([2002:a05:600c:22da:b0:477:1347:d406])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8207:b0:477:55de:4ad with SMTP id 5b1f17b1804b1-47755de06bfmr24595865e9.30.1762266953468;
- Tue, 04 Nov 2025 06:35:53 -0800 (PST)
-Date: Tue, 4 Nov 2025 14:35:52 +0000
-In-Reply-To: <DDZZ1ZWIPH8P.3M7H00GIMJUXV@nvidia.com>
+        d=1e100.net; s=20230601; t=1762268686; x=1762873486;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=okDzLA0rKlu/eWRDRHJjHOAGrdR4PDVDj6K4aczpkI4=;
+        b=dHMzed2QuxG22Fe0ODPjpHS4uEEu74sY4VUHhNfTyIVX9tL3KRXyLdyYY45Lw+iiSf
+         2LQxHuu/xbg64lVvVb26qyMzjXZEUghIyyDL+VzoqFgNa3XHWb1LoSb4LBSdInZLiRFW
+         CtkIXjXIBL17HHQoOtZ6Hye7JT+DrJnx+mH/m38+ZA5wfwmwP+zrBtyESSdM+v4CHExE
+         uX58DCfAWtRz6CvNerno9KxcIlhahVo9y2vKMYCUc8TIBQ8Qcii4uQQfeW65Qc2ZYpA1
+         QGN4IPV42OWmx5sWF2gskRkjVGYiGHQCWewXeV6siLrPat1mbUytmD2+kT20+DgMv8QH
+         hPdA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4YvUpYqd/Em4ex9wRLnk4Nyqsvmg8GZFf73DI7mrGlCtN6pS7bjhtBOgmNdQckGyoz7FbbGulG/L9sVc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSsd4eMu/QrUmUL8Ckuh0JFXYzfVNnV5e/xKy34APBDe/sAoog
+	bYjVbkrMeq0j/Ch+f9rSALyQ1E0dgAMbHwvffLy5sBYYT95SgHQI9YkmgufrgxD0z7N64hvwlEZ
+	Es2OOTzXQLAzwThkD8AexNHwqxyK2OD9M7Q==
+X-Gm-Gg: ASbGncselBBWg/bvIqa/E1PjwHMrv5pDKL8CBc/sc8cmU6bBB+4yzhb6NgMBCkz+GzD
+	3KquBkkaYthw7DHJfyuHXDP0pQLEaLyqnuzYAAG0+CsaoyHa2vG017MxwuG+C9YbRlCK46GltDv
+	SX8VnG8awo5swPntu3jCq178oRlSdD9E9mb6f+2xxstetp635rVO2j2wZdlvIFGdpIHCZskfFFU
+	HueG9YMwDIDoo7h/+RxQlBfZpRKLbjgdq2siaBVsskjzjqFxOWhLrLx
+X-Google-Smtp-Source: AGHT+IFme1pTfEydzQziDdy2EyQykRR4vemY0/WnyM1b4EpMZ46mlwlGLpvZrA3qhPubS5EEjG+eX9FV6LQRljXLY8s=
+X-Received: by 2002:a05:6e02:1c01:b0:433:312e:e33c with SMTP id
+ e9e14a558f8ab-433312ee500mr94236005ab.1.1762268686209; Tue, 04 Nov 2025
+ 07:04:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251104-b4-as-flattened-v2-1-b042d8715a8d@nvidia.com>
- <aQoJUAdFFBpQiEZU@google.com> <DDZZ1ZWIPH8P.3M7H00GIMJUXV@nvidia.com>
-Message-ID: <aQoPSH1jyv9DWhsH@google.com>
-Subject: Re: [PATCH v2] rust: enable slice_flatten feature and provide it
- through an extension trait
-From: Alice Ryhl <aliceryhl@google.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
+ <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
+ <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
+ <20251028174541.GA1548965@ax162> <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
+ <20251031220732.GA2254630@ax162> <CAMj1kXF2kKyEOc6KSBfbdUMf5m4o=DLZXk4++C3q-utA_9g4DA@mail.gmail.com>
+ <CAB95QARrcOc6h9=YTzLKkNE0dEaivtiLfK0kEQ1jNp+v1w4yzA@mail.gmail.com> <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com>
+In-Reply-To: <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Tue, 4 Nov 2025 16:04:33 +0100
+X-Gm-Features: AWmQ_bntCa_RWqs4DOisXRX6NiLdOvI_9lZ6X800v6KH4gYTYLw5fq8z4ZSVINM
+Message-ID: <CAB95QAS__YYYBLc3KFjBUg_QqC3AOB0y6kvhSqZFR9fx7BDKvg@mail.gmail.com>
+Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 04, 2025 at 11:15:03PM +0900, Alexandre Courbot wrote:
-> On Tue Nov 4, 2025 at 11:10 PM JST, Alice Ryhl wrote:
-> > On Tue, Nov 04, 2025 at 12:53:18PM +0900, Alexandre Courbot wrote:
-> >> In Rust 1.80, the previously unstable `slice::flatten` family of methods
-> >> have been stabilized and renamed to `slice::as_flattened`.
-> >> 
-> >> This creates an issue as we want to use `as_flattened`, but need to
-> >> support the MSRV (which at the moment is Rust 1.78) where it is named
-> >> `flatten`.
-> >> 
-> >> Solve this by enabling the `slice_flatten` feature, and providing an
-> >> `as_flattened` implementation through an extension trait for compiler
-> >> versions where it is not available.
-> >> 
-> >> This lets code use `as_flattened` portably by just adding
-> >> 
-> >>     #[cfg(not(CONFIG_RUSTC_HAS_SLICE_AS_FLATTENED))]
-> >>     use kernel::slice::AsFlattened;
-> >> 
-> >> This extension trait can be removed once the MSRV passes 1.80.
-> >> 
-> >> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-> >> Link: https://lore.kernel.org/all/CANiq72kK4pG=O35NwxPNoTO17oRcg1yfGcvr3==Fi4edr+sfmw@mail.gmail.com/
-> >> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> >> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> >> ---
-> >> This patch was part of the Nova GSP boot series [1], but since it
-> >> requires attention from the core Rust team (and possibly the build
-> >> maintainers?) and is otherwise buried under Nova patches, I am taking
-> >> the freedom to send it separately for visibility.
-> >> 
-> >> For v2, the methods are aligned with the final names of the standard
-> >> library, and the extension trait is only visible when needed. This
-> >> simplifies both the patch, and the extra labor for user code.
-> >> 
-> >> [1] https://lore.kernel.org/all/20251029-gsp_boot-v7-0-34227afad347@nvidia.com/
-> >> [2] https://lore.kernel.org/all/CANiq72kK4pG=O35NwxPNoTO17oRcg1yfGcvr3==Fi4edr+sfmw@mail.gmail.com/
-> >
-> > With the below concern verified, you may add:
-> > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> 
-> Thanks! You may want to check the v3 that I just posted [1] which also
-> addressed your comment about having the extensions trait in the prelude.
-> 
-> [1] https://lore.kernel.org/rust-for-linux/20251104-b4-as-flattened-v3-1-6cb9c26b45cd@nvidia.com/T/#u
+On Mon, 3 Nov 2025 at 22:28, Ard Biesheuvel <ardb@kernel.org> wrote:
+> Indeed. Not saying there isn't anything to fix on the kernel side, but
+> narrowing it down needs to be done on the side of the loader, it
+> seems.
 
-Looks good thanks.
-
-Alice
+Thanks a lot!
 
