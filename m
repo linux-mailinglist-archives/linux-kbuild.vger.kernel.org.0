@@ -1,141 +1,172 @@
-Return-Path: <linux-kbuild+bounces-9390-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9391-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFA8C2E5FA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 04 Nov 2025 00:06:05 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDD6C2EF5F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 04 Nov 2025 03:23:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFD42189077B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Nov 2025 23:06:29 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5723F34ACBA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Nov 2025 02:23:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAD5B2FD66D;
-	Mon,  3 Nov 2025 23:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CMiHZA1D"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 793311DED42;
+	Tue,  4 Nov 2025 02:23:48 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF0D2FC037
-	for <linux-kbuild@vger.kernel.org>; Mon,  3 Nov 2025 23:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B54823A984;
+	Tue,  4 Nov 2025 02:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762211159; cv=none; b=OKJ7FVz6Z/Tk+36W8dirVbOFgQ1Zb3SvYXFk2kkV+wuTdIWFXsbbwUf97a/vFJsa4EB4bUDJJPO4Rew0mscF6xa/kZdATx3+KcgVRHwh2ba5qJTs0h2rPg6RpBlwHS/OfQ7kI0m978QtsiRjkYJfGOQ4HCz2HhT3HRvxjrtmPLU=
+	t=1762223028; cv=none; b=UUy9Ah2N9XmXIAzbgG2V3dxUz3vhoxESxJeKLGJbq4jbqFGpcYX3eqC/hkokmnlOZIjhuBn0a+AsbXKs7LKqXZWO7Ptisv+XHkGxxXUcA4/Ev/aknqZavBgDFpNvwqZlA1NGD/OgLtE1dmlVLpkSm1R6GcByFYpWQDWclx6Zpso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762211159; c=relaxed/simple;
-	bh=wpVJWBuenZcD3eSVXXuQBdHxyRZUm/ZGGvsoPgMAlCE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LIvBl3KzkHB2QJ9U4SmhcT5ztzRHgKYcJ9OaR10F3IiGzl8+VGCGxQFK8at5b4dHr9PogiYS267Ho6X60YtMA7SadxIRJV3BMoV3Ms3aY35dT0QOcud6FRwm9bwvu28lHPvP4vC5yxv+RJO81XORHszP7c502N2CLiU0qIAdt48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CMiHZA1D; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-28d18e933a9so4791045ad.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 Nov 2025 15:05:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762211157; x=1762815957; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ogon7TK6sOugcfKJJppW+WnECgyNYUKvMApdomYEbKo=;
-        b=CMiHZA1Dx3TONUc1uZHfqLTY7pYjVGhppzjfh99oqjSc5G6TRcS4jMtNzlwmIts3E3
-         y8bFQ8QVMOTvVX/EpzNoQLJ3j64+hwAE4YusSzS3JcnVpcdu1UyJP3H4mRz60h7HjMCQ
-         FR2fpLyws20tNwjfyEDwODyz0t9rhbE8W7Ws/cjVfAfYj3jIlwRwUw+S/yqhijCI6ZQ1
-         7T233cgYC4xnP/sPKtzAmODvFl/bA+tWZnqOjLXrHHkYps3uQl9enlYMv78BNMvig5co
-         iWg2ytYb/XHpX6IIc35vuYCyJOcq22owxU1WEBYOLGUL0nRDqvvHDgtoZ1+WevzBKGUC
-         Q3CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762211157; x=1762815957;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ogon7TK6sOugcfKJJppW+WnECgyNYUKvMApdomYEbKo=;
-        b=BkKW2vezD0anozvDUq9IPSZjkeQkLX+MxNkLSfudvgsxu1VhwQb/Hdj/0zQZqrucBi
-         jGsiyTsOp8wFklENB/xRHUwN2RKAgd3aV4coXQIkAPycIU1aZvbYo/LI0v714qFcp8Y0
-         hGDTV0PIYCpTRkywwbPlTrzLzYiT3sjoJwN5UiYMZ0nRjVgueHlRPh6mgNt2SyRAYdEG
-         Axzf+xwbMMeA6e5xbbJImvdqw6w8ClAEAyT73kcBlVHbWfiCq1/YY8hdcG5jzjATx3rz
-         EYStS5VHBFnXPzSvfBze81AVL0OuoLk+GUSCxv1Lp5nouXRsxL+0uDkY91cbF6+p20ut
-         yQLg==
-X-Forwarded-Encrypted: i=1; AJvYcCX3fjMhq5UcRj5Nm419zYHvxWqXwDsakawyYENZKjqKMwwdMIQwI4mmTLSidJlTptDR5nbRYEP8+VWBDyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsWbybW8kyVvvWQU4fWKGdpvPsDPGiH976IOLvGf3IXuyKOWxB
-	NdQqXpaoa24RuBscW6+aPZbEjlG5msd8J9BZxLFhgRO6Wuek3NdsdCy/3czs4l610tWn8UWZCnp
-	hkbYIQHJLwRqEXi8HXmZJ9YI5pDo1m5I=
-X-Gm-Gg: ASbGnct8z/ga4wTUNuCIyub7lANRmPRX/H9AvPyotmC9sf1Pn2+9nxoOCje76WjvOas
-	J8naFB1mj26MHlAhBUDGJsSLxMk5DGQtLlUYvmMvI0zOPtNiWix1RQaIj3nYZM1xp0OEX+eMyh3
-	QjCtbvhBZmQfUeXlxiaHnqEg/88tdpXKNpkWJscmz/d8yoSoEZicu2tDzGYqNATxHt+8S78f3kh
-	5bkv+hWpTv6BNWe2XQu+E1MC2edXk2lJeb59z8GiE5RYWQDtv0OCo+uSNK1XrwP8ug9/7fFg1Iy
-	ZZ3QmwMSChxU1aGgUTahtUM8YkT4ZYCWFk1qcV+2fwHLfS7O0LjhJnCtc6DQkF0kzaaRxsfMz82
-	fgP/thGwxnXiP8g==
-X-Google-Smtp-Source: AGHT+IHugv4iFaTOCN4EOCjTVF2FfjlZWUSHrrn/GBxoYhXzdeo7YpUX0U5SRp9TWEaFsHczNUaXZUgkuqVdFch+J/I=
-X-Received: by 2002:a17:903:187:b0:290:ad79:c617 with SMTP id
- d9443c01a7336-2951a380699mr111057345ad.1.1762211157387; Mon, 03 Nov 2025
- 15:05:57 -0800 (PST)
+	s=arc-20240116; t=1762223028; c=relaxed/simple;
+	bh=tFgeIE59jc/HFVOKmy9Ljs9aCmo0o12HJX/v/WhEX6I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ha8V659cMmPk4DQpZ3uayhZAaUFeBDmWr7nhrs3pQ/XZTmDQM+LsKX+59svH0IWhi/iJqlrZzm3/ygtTJa6S4qhOKglCVGVsdxMjzOB2t8cyCOU7rrDVv+v5eoN6QnmK9nrsY+WhCH4qTEC9Zz7SXhi0SJCWReJcd9pMF/kiUiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tinylab.org; spf=pass smtp.mailfrom=tinylab.org; arc=none smtp.client-ip=54.206.34.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tinylab.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tinylab.org
+X-QQ-mid: zesmtpsz7t1762222925t2995d897
+X-QQ-Originating-IP: A3/odC16aftFYDtQULxGfhYeoNPRYDA1Ks1BQJ6CPbs=
+Received: from [169.235.25.74] ( [169.235.25.74])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 04 Nov 2025 10:22:00 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 18013488585438763342
+EX-QQ-RecipientCnt: 13
+Message-ID: <0BF8B2E83B6154B6+f17f32b4-f6ff-4184-917d-4b27fb916eae@tinylab.org>
+Date: Mon, 3 Nov 2025 18:21:59 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251102212853.1505384-1-ojeda@kernel.org>
-In-Reply-To: <20251102212853.1505384-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 4 Nov 2025 00:05:45 +0100
-X-Gm-Features: AWmQ_bkuLE73e6Hn0H_oMw4VNuro5lNa0qxJ-qywqWQaWYuKfzn120mRL3CMPr4
-Message-ID: <CANiq72=0JJz5XDHGpiyQBd9AmPCr4veJ=2oJywyyqQB8iMxqvA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] rust: kbuild: treat `build_error` and `rustdoc` as
- kernel objects
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] dce, riscv: Unused syscall trimming with
+ PUSHSECTION and conditional KEEP()
+To: Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ i@maskray.me, Zhangjin Wu <falcon@tinylab.org>, ronbogo@outlook.com,
+ z1652074432@gmail.com, lx24@stu.ynu.edu.cn
+References: <30C972B6393DBAC5+cover.1760463245.git.tanyuan@tinylab.org>
+ <33333fdd-2aa2-4ce0-8781-92222829ea12@app.fastmail.com>
+Content-Language: en-US
+From: Yuan Tan <tanyuan@tinylab.org>
+In-Reply-To: <33333fdd-2aa2-4ce0-8781-92222829ea12@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:tinylab.org:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: MVZgjp+9CImMjfK5jnhey9JN5ObsfkhR9Pyom6Umy3WdUI/5Shp0ijBq
+	/CT/8RuToj9iDI6TMW7FG6/FrqL4WUM7SCWrJg8d3tUj11+6F1KNDjei5lCyzoI9T/rD2gS
+	OTCXBBdDP8PRE4hCaYtlzSXZHKEfxkdDUZ1px4JMlC/HMtYiwADn4t/OCj5qid0XeN0BXa5
+	18RMyjXjqgb7GEyXv5KSYfztqdlMurjAHWG1lushytmxuv2krJf3RlmT8aLDxUVj53aUdmR
+	jjNe1SRitD40itP4kPlcC/Ui030pWHjScCoS4Hn5oRR6z0FULFAzPlmYyNd0FsE+NmabT0O
+	CzU2aw97GdP3Tm47VFMlAeF5jKhSYtGpA/tzhCaT2QzUbm/uGPwUiN+2hdkCaMDQvBJjUBz
+	eZbz/T5Hh8fNCHR3EwhQ4R3YGmmBziaH0Km5LOUr00uxICEb42jJi8Zuy1ziFaoy4A54Npl
+	0Dt85Ymp4TKOrSig0KC0ocQpZUahry09NGc4En/g/ND2cmmYqoz1QE3xeSBbUyD6Mb59UYG
+	qZdjaGvR+pf/972hw/Omz5sfxszkaKJ9WoMxEjeG/TFzWV2SfxDODv8NuxELh7AUJBdZUpR
+	EWtZtK++v/Gy+SOUD6s/f0l/NM3CgtqYk4aFJjti3HyVDv3RNnc6kdeaNCxB1Orab/pyREl
+	ESDpwjcTc4Lm3pmVCqDscfNc9xz/jXv3UoQFCjFV2gmNObw3M0ha5cfp41r7MbK3BGBBa+w
+	fiso7aJkyPlxGfE9Lq3TImFXnFBicwZU2tIa15djZeL6s+4Q7M4ehy8jaI7AMFfIJXvQUhO
+	tUJbgXpy0kX2MXk3fiyqOqwgkiJ0DCPGUuXedIqQ6Wmv//YnOfUpOw8aKtpxI1BCQ3eoiCa
+	2QnSvJX0h3g5MfbrC6bf8CX61ZH9jsWCFxuwkJ/Uvuahoj8YQIomVZEwkK/H/k1jZrqJPHG
+	D8EyxFvXOj8C2nkjg4mSq0rBx+1soRq9IMMsrWjL9iSpESAem7vrtyal+CJXkayo8Jw3ffv
+	y4xd0V+WFUFA04s8Z/gZ+2uF5HY8DD7KF8pDgxNvgbWfxfqHpSLejb+5XBuZS8YC0EkXmEQ
+	QDpvaY9UWHgmRyjbl/mWcE=
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-On Sun, Nov 2, 2025 at 10:30=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Even if normally `build_error` isn't a kernel object, it should still
-> be treated as such so that we pass the same flags. Similarly, `rustdoc`
-> targets are never kernel objects, but we need to treat them as such.
->
-> Otherwise, starting with Rust 1.91.0 (released 2025-10-30), `rustc`
-> will complain about missing sanitizer flags since `-Zsanitizer` is a
-> target modifier too [1]:
->
->     error: mixing `-Zsanitizer` will cause an ABI mismatch in crate `buil=
-d_error`
->      --> rust/build_error.rs:3:1
->       |
->     3 | //! Build-time error.
->       | ^
->       |
->       =3D help: the `-Zsanitizer` flag modifies the ABI so Rust crates co=
-mpiled with different values of this flag cannot be used together safely
->       =3D note: unset `-Zsanitizer` in this crate is incompatible with `-=
-Zsanitizer=3Dkernel-address` in dependency `core`
->       =3D help: set `-Zsanitizer=3Dkernel-address` in this crate or unset=
- `-Zsanitizer` in `core`
->       =3D help: if you are sure this will not cause problems, you may use=
- `-Cunsafe-allow-abi-mismatch=3Dsanitizer` to silence this error
->
-> Thus explicitly mark them as kernel objects.
->
-> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
-n older LTSs).
-> Link: https://github.com/rust-lang/rust/pull/138736 [1]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Applied series to `rust-fixes` -- thanks everyone!
+On 10/15/2025 12:47 AM, Arnd Bergmann wrote:
+> On Wed, Oct 15, 2025, at 08:16, Yuan Tan wrote:
+>> Hi all,
+>>
+>> This series aims to introduce syscall trimming support based on dead code
+>> and data elimination (DCE). This can reduce the final image size, which is
+>> particularly useful for embedded devices, while also reducing the attack
+>> surface. It might further benefit specialized scenarios such as unikernels
+>> or LTO builds, and could potentially help shrink the instruction cache
+>> footprint.
+>>
+>> Besides that, this series also introduces a new PUSHSECTION macro. This
+>> wrapper allows sections created by .pushsection to have a proper reference
+>> relationship with their callers, so that --gc-sections can safely work
+>> without requiring unconditional KEEP() entries in linker scripts.
+>>
+>> Since the new syscalltbl.sh infrastructure has been merged, I think it’s a
+>> good time to push this patchsetTODO? forward.
+>>
+>> Patch 1–3 introduce the infrastructure for TRIM_UNUSED_SYSCALLS, mainly
+>> allowing syscalltbl.sh to decide which syscalls to keep according to
+>> USED_SYSCALLS.
+>> Patch 4 enables TRIM_UNUSED_SYSCALLS for the RISC-V architecture. With
+>> syscalltbl.sh now available, this feature should be applicable to all
+>> architectures that support LD_DEAD_CODE_DATA_ELIMINATION and use
+>> syscalltbl.sh, but let’s focus on RISC-V first.
+>> Patch 5–8 address the dependency inversion problem caused by sections
+>> created with .pushsection that are forcibly retained by KEEP() in linker
+>> scripts.
+> Thanks a lot for your work on this. I think it is indeed valuable to
+> be able to optimize kernels with a smaller subset of system calls for
+> known workloads, and have as much dead code elimination as possible.
+>
+> However, I continue to think that the added scripting with a known
+> set of syscall names is fundamentally the wrong approach to get to
+> this list: This adds complexity to the build process in one of
+> the areas that is already too complicated, and it duplicates what
+> we can already do with Kconfig for a subset of the system calls.
+>
+> I think the way we should configure the set of syscalls instead is
+> to add more Kconfig symbols guarded by CONFIG_EXPERT that turn
+> classes of syscalls on or off. You have obviously done the research
+> to come up with a list of used/unused entry points for one or more
+> workloads. Can you share those lists?
+>
+>       Arnd
 
-I will send another less urgent one for 1.92.0 (in beta now) that goes
-on top of these here.
 
-Cheers,
-Miguel
+Hi Arnd,
+
+Sorry for the late reply — this patchset really wore me out, and I only just
+recovered.  Thank you very much for your feedback!
+
+Regarding your suggestion to use Kconfig to control which system calls are
+included or excluded, perhaps we could take inspiration from systemd's
+classification approach. For example, systemd groups syscalls into categories
+like[1]:
+
+@aio @basic-io @chown @clock @cpu-emulation @debug @file-system
+
+and so on.
+
+However, if we go down this route, we would need to continuously maintain and
+update these categories whenever Linux introduces new system calls. I' m not
+sure whether that would be an ideal long-term approach.
+
+For reference, here is the list of syscalls required to run Lighttpd.
+
+execve set_tid_address mount write brk mmap munmap getuid getgid getpid
+clock_gettime getcwd fcntl fstat read dup3 socket setsockopt bind listen
+rt_sigaction rt_sigprocmask newfstatat prlimit64 epoll_create1 epoll_ctl pipe2
+epoll_pwait accept4 getsockopt recvfrom shutdown writev getdents64 openat close
+
+We've tested it successfully on QEMU + initramfs, and I can share the
+deployment script if anyone would like to reproduce the setup.
+
+Also, I noticed that there haven't been any comments so far on the later
+patches introducing the PUSHSECTION macro.  I' m a bit concerned about how
+people perceive this part.
+
+[1] https://github.com/systemd/systemd/blob/main/src/shared/seccomp-util.c
+
+
+
 
