@@ -1,69 +1,66 @@
-Return-Path: <linux-kbuild+bounces-9409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9410-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B304C34980
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCEEC3497F
 	for <lists+linux-kbuild@lfdr.de>; Wed, 05 Nov 2025 09:53:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83577561410
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Nov 2025 08:50:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 05CA34F3FE2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Nov 2025 08:51:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E74832E0406;
-	Wed,  5 Nov 2025 08:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FAB22E11D1;
+	Wed,  5 Nov 2025 08:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="VtFxd8an"
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="B1mDV8Ct"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154D12DBF4B;
-	Wed,  5 Nov 2025 08:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AF72DBF4B;
+	Wed,  5 Nov 2025 08:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762332526; cv=pass; b=ChqKWbWFeJgQWVBExsVuDrKwsebVWjhIHn4Z+Ch6AjMit+YxiPCW7rwFYygH9vhsauYrBK+GaUmnWIs9quKzVpSYvpAZLXRefF8Ty1lnsC8kShv5hhN0wDFX5Tvf3sO0i7wfRUCIatDZY0FDDvyjrq73h+sHd4lL+/nJL4fHT/M=
+	t=1762332533; cv=pass; b=qbnk8cWSxtzUvYbWvwe8q7/1Z5UiAOIgE8I6InCDF9W4YKecMUJGl0b96thsawzWwqC4AZZPzVgMxmor/gtIzpfBIRAZvIiejO7umi/esdaynwR0niXVPOBD8CtgQiSeW0yUpfp9ImwYKHbuhpaGyK+/9NEXfnYnvLpmJ8hNX2w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762332526; c=relaxed/simple;
-	bh=Dy5mN+mUFblKRdym21OGi3qMkGEXzXCYj1i7hdWWqEI=;
+	s=arc-20240116; t=1762332533; c=relaxed/simple;
+	bh=1zEZaPPfIvEl6XAYQkaxyHbG4DpjuTiC/+f5gyGcm5A=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dk2HTVrOFXH+Hll4uToGaeFieguVglS0pMdXiTaaJHmV0OptPi2jP5aJPSxNt5pKM3Eixo4zfoSFfkOnw/JGeM/ebaSAw6LJcnxc8CPY5NOZxUacyOiw1EXcoVEdc/vkUAuPo/0W7t84oAhlKix1mspzu+p206QMrqhvdIAb5no=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=VtFxd8an; arc=pass smtp.client-ip=136.143.184.112
+	 MIME-Version; b=vDNQFWiqZyZceWP1In0WEAjLkA9exNLFF+FWia0OJBZt7iMQIxbTLo0gd6dxfCTST8R+XVLNSh7Yq94g4Br5rCI6YcKua+NUtn3CHk6955kJPlBHMrKZ1Ost8GnfmZ9nGbKpOiLJlmevl4tppffNCQAP32ab3C5b0UnVgmSaUCQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=B1mDV8Ct; arc=pass smtp.client-ip=136.143.184.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
-ARC-Seal: i=1; a=rsa-sha256; t=1762332473; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1762332477; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=FEm1V0hQecp0D+8qxfrY41QkZS5DIncrP13A/RVZcsalMyNZIg26EeO6gIaLX5iusNMUl6r1TKj7KJo821mXmV6XWRRnSLWh9U+ToanfIkgbNHTY/gTMkyyATdSkJIgYC3UFZdInk2+thhp9u1E4cJpvjPeTMEky8I6iCUcZKmg=
+	b=eB0XYghFh06s9GahQOg6G9qjgEW16Gvu5ZfDcDDCg6ETz6o9bPoP7wz2rmJS7rT8fYdB6Pf2xGie+nKQAOjQka5D7nLFP1nPFIsh+fJ5h1PXATYRtTZ3O8GhvLIdDVWHUhTqbPqFvo9Gult5s5DLgY0+yW6O8f3jRjGv29Zs+Ig=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1762332473; h=Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=PspWpmNa95LwydSNmRMQC/seSofntuwNeQ9ulpO4Bz4=; 
-	b=QopEW/ZgTC3AfdHo0KLWQzeT2RLMUd/0GEvnJf3igu9QcfXFkmT9fiIycGA84lf8l5yr7T28V+G8refXtvdHGGt9SH18RQdQUwscEFt/tny1w85Yalo5npJi6QiOGUPqYIo97QjyP+3G6TMmhFt0Ie171PJhAXw4pkFmXZdJews=
+	t=1762332477; h=Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=/574By94Kh/X4PaVAuVUWEj34hcHHMjQhENaG+bXk7M=; 
+	b=fSX9ZvI5Q3OCjGxe+JIZGsbBcOUg1GLVNCSKt4zin4w9r2fETyG+DaXOxiuYMGnDDCkd6F+sKK/VRKZxInMOKmZDUv+TNxmAE6rE4aP82hT1q/XLshelq7/jJzVoMvlgRCxcc/qZRERWKfMNQyTslzvkWAVnh1rYTZTeutSEk+w=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=linux.beauty;
 	spf=pass  smtp.mailfrom=me@linux.beauty;
 	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762332473;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762332477;
 	s=zmail; d=linux.beauty; i=me@linux.beauty;
 	h=From:From:To:To:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=PspWpmNa95LwydSNmRMQC/seSofntuwNeQ9ulpO4Bz4=;
-	b=VtFxd8anhrmDqRA/YH3gAIEYunHRvnVptMzSUCucLOL1wSki6rdcT1l1n5SksBgE
-	tEOfOyVxK+I/CHsoNn8iZGi3JXqwAuFzU9hdSjMbj4VPSIEBk3gnck/2rZwTFhSZay6
-	4L4kaNTR6D4xzYhCXqXc7jwYE+yQgMOebHDDrNnw=
-Received: by mx.zohomail.com with SMTPS id 1762332472045113.64560980394197;
-	Wed, 5 Nov 2025 00:47:52 -0800 (PST)
+	bh=/574By94Kh/X4PaVAuVUWEj34hcHHMjQhENaG+bXk7M=;
+	b=B1mDV8CtDFTmlxJxbCA8TOxK7Hrqxlyjy6K6uFME6BSYiKpDkrLufDmN/4l0YoK2
+	Xzu1MoCMAUDyK31l8K8F0NB6Bhnyj+LJeB4M1+q1yO3H31QyhF2zC4dg8kKFtJsE00x
+	w3Ag7liwqMQoCtsU95zrmGc7xLungJPXjyLi0y9E=
+Received: by mx.zohomail.com with SMTPS id 176233247471619.3992800226398;
+	Wed, 5 Nov 2025 00:47:54 -0800 (PST)
 From: Li Chen <me@linux.beauty>
 To: Kees Cook <kees@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
 	linux-kernel@vger.kernel.org,
 	linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Dongsheng Yang <dongsheng.yang@linux.dev>,
-	Zheng Gu <cengku@gmail.com>,
-	dm-devel@lists.linux.dev
-Subject: [PATCH 3/3] dm-pcache: avoid leaking invalid metadata in pcache_meta_find_latest()
-Date: Wed,  5 Nov 2025 16:46:54 +0800
-Message-ID: <20251105084733.3598704-4-me@linux.beauty>
+	linux-kbuild@vger.kernel.org
+Subject: [RFC PATCH 0/2] Add cleanup_plugin for detecting problematic cleanup patterns
+Date: Wed,  5 Nov 2025 16:46:55 +0800
+Message-ID: <20251105084733.3598704-5-me@linux.beauty>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251105084733.3598704-1-me@linux.beauty>
 References: <20251105084733.3598704-1-me@linux.beauty>
@@ -78,59 +75,47 @@ X-ZohoMailClient: External
 
 From: Li Chen <chenl311@chinatelecom.cn>
 
-Before this change pcache_meta_find_latest() was copying each
-slot directly into meta_ret while scanning. If no valid slot
-was found and the function returned NULL, meta_ret still held
-whatever was last copied (possibly CRC-bad). Later users
-(e.g. cache_segs_init) could mistakenly trust that data.
+Hello,
 
-Allocate a temporary buffer instead and only populate meta_ret after a
-valid/latest header is found. If no valid header exists we return NULL
-without touching meta_ret.
+This patch series introduces a new GCC plugin called cleanup_plugin that
+warns developers about problematic patterns when using variables with
+__attribute__((cleanup(...))). The plugin addresses concerns documented
+in include/linux/cleanup.h regarding resource leaks and interdependency
+issues.
 
-Also add __free(kvfree) so the temporary buffer is always freed, and
-include the needed headers.
+The cleanup attribute helpers (__free, DEFINE_FREE, etc.) are designed
+to automatically clean up resources when variables go out of scope,
+following LIFO (last in first out) ordering. However, certain patterns
+can lead to subtle bugs:
 
-Signed-off-by: Li Chen <chenl311@chinatelecom.cn>
----
- drivers/md/dm-pcache/pcache_internal.h | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+1. Uninitialized cleanup variables: Variables declared with cleanup
+   attributes but not initialized can cause issues when cleanup functions
+   are called on undefined values.
 
-diff --git a/drivers/md/dm-pcache/pcache_internal.h b/drivers/md/dm-pcache/pcache_internal.h
-index b7a3319d2bd3e..ac28f9dd2986f 100644
---- a/drivers/md/dm-pcache/pcache_internal.h
-+++ b/drivers/md/dm-pcache/pcache_internal.h
-@@ -4,6 +4,8 @@
- 
- #include <linux/delay.h>
- #include <linux/crc32c.h>
-+#include <linux/slab.h>
-+#include <linux/cleanup.h>
- 
- #define pcache_err(fmt, ...)							\
- 	pr_err("dm-pcache: %s:%u " fmt, __func__, __LINE__, ##__VA_ARGS__)
-@@ -79,14 +81,17 @@ static inline void __must_check *pcache_meta_find_latest(struct pcache_meta_head
- 					u32 meta_size, u32 meta_max_size,
- 					void *meta_ret)
- {
--	struct pcache_meta_header *meta, *latest = NULL;
-+	struct pcache_meta_header *latest = NULL;
-+	struct pcache_meta_header *meta __free(kvfree);
- 	u32 i, seq_latest = 0;
--	void *meta_addr;
- 
--	meta = meta_ret;
-+	meta = kvzalloc(meta_size, GFP_KERNEL);
-+	if (!meta)
-+		return ERR_PTR(-ENOMEM);
- 
- 	for (i = 0; i < PCACHE_META_INDEX_MAX; i++) {
--		meta_addr = (void *)header + (i * meta_max_size);
-+		void *meta_addr = (void *)header + (i * meta_max_size);
-+
- 		if (copy_mc_to_kernel(meta, meta_addr, meta_size)) {
- 			pcache_err("hardware memory error when copy meta");
- 			return ERR_PTR(-EIO);
+2. NULL-initialized cleanup variables: The "__free(...) = NULL" pattern
+   at function top can cause interdependency problems, especially when
+   combined with guards or multiple cleanup variables, as the cleanup
+   may run in unexpected contexts.
+
+The plugin detects both of these problematic patterns and provides clear
+warnings to developers, helping prevent  incorrect cleanup ordering.
+Importantly, the plugin's warnings are not converted
+to errors by -Werror, allowing builds to continue while still alerting
+developers to potential issues.
+
+The plugin is enabled by default as it provides valuable compile-time
+feedback without impacting build performance.
+
+Li Chen (2):
+  gcc-plugins: add cleanup_plugin for uninitialized cleanup detection
+  gcc-plugins: cleanup_plugin: detect NULL init
+
+ scripts/Makefile.gcc-plugins         |   1 +
+ scripts/gcc-plugins/Kconfig          |   6 +
+ scripts/gcc-plugins/cleanup_plugin.c | 204 +++++++++++++++++++++++++++
+ 3 files changed, 211 insertions(+)
+ create mode 100644 scripts/gcc-plugins/cleanup_plugin.c
+
 -- 
 2.51.0
 
