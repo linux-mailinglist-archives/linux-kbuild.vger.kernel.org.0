@@ -1,152 +1,144 @@
-Return-Path: <linux-kbuild+bounces-9426-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9427-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90031C381BD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 05 Nov 2025 22:53:22 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC081C3832F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 05 Nov 2025 23:30:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 289BC18C7A0B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Nov 2025 21:53:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B3FC94EA984
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Nov 2025 22:30:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C30722DF14D;
-	Wed,  5 Nov 2025 21:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F21B2EFD95;
+	Wed,  5 Nov 2025 22:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=osandov-com.20230601.gappssmtp.com header.i=@osandov-com.20230601.gappssmtp.com header.b="WYkRQoHm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlA+MohT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C912DC341
-	for <linux-kbuild@vger.kernel.org>; Wed,  5 Nov 2025 21:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026BB2DF6EA;
+	Wed,  5 Nov 2025 22:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762379597; cv=none; b=IjWwlrO3snHl6zbXA1uAgN7rhXPFyLi6O1RN+/43zUVYJeOWOcRX+QoTbx2FFSkBdpfSMkJmi8TSZz9SHvHT2ya3hFgA6CX/ttV35RuNuA0mV3pu+c4+YQgSeARmkIBJMhGQOO4F41TpJsxnlSKpqECrVMqfTCP5/GYFAoZXD5I=
+	t=1762381836; cv=none; b=Cx9g5R2OTAC6tOkvhcoGrNkmxC1nE2VdkhHJmrVU1gR7v4/U+fUSpoY7v8m6OzBnas1ZL/sYftGx9zEmY9r/rsjakhgjTuYe4Del4TAYjmdYEI7CvrW1P5e+S+NwPylWUbjgxYTE8+ay0SKUVtpWVXfeZcMJF0FwORTLhxR2SS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762379597; c=relaxed/simple;
-	bh=roR+iHl5+yKbGXMgn+r+Uy/w3fFO0IOAH40xnQ+p/4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jb7pPPSaW4Xcz4cJDYEvEe1fXho6LdX/jrKlxzRlboG3Ni7H9nOT+xIK9gqP8Smvcbk1e1IYeAFiryZ93d5+owKOn2VejWB9xhpwBh8NdAELvk3SNIxe5AFAUyVkP0BlMJMXxVyJ6olcjTd0ufNJHA4C+aGpBql8T8LPxXoPcHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com; spf=none smtp.mailfrom=osandov.com; dkim=pass (2048-bit key) header.d=osandov-com.20230601.gappssmtp.com header.i=@osandov-com.20230601.gappssmtp.com header.b=WYkRQoHm; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osandov.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-33bba55200bso44046a91.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 05 Nov 2025 13:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20230601.gappssmtp.com; s=20230601; t=1762379595; x=1762984395; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LXYPCL23ES9Iyb1NQ2+5KG+FblnpsKPGwtWMhH2bakQ=;
-        b=WYkRQoHmw3VBywzUB+zNfAcc9p+MOWN27p9a0PCgMY7RnvfSuiX+fYrUSVMPvaGZ2P
-         25pCinmce4kL4B5fFSs+8e9GLJd0BvRhAhg/my/UnkDxCeJwl0LHgg7W+L9L4iiN7jXv
-         sh2sVKm/e5fkfUXXs24zjyfaRLmePqeoehCmhVrRI1qw7Mf/bKOaREPW3smOm+KDJzbD
-         +Hf1TpEmOiO3cF7z/paR5SM5xPhB4HbxB2XN+XA3QCJHcSXq1WK3pk+2sL34Kldpw+Of
-         TTgvGbvY9F+zWW4Y9dZSiQJk5LRwCwGVQcC17igMhu30jYUyyfPmWsdrZB4lzdCTALYG
-         wWlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762379595; x=1762984395;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LXYPCL23ES9Iyb1NQ2+5KG+FblnpsKPGwtWMhH2bakQ=;
-        b=Vujv3xwOpBhB2gKb+W9cBjHJcJ4VKIyka8Muw9d4YHFdj63a4AMkzb8JjtvR5vTH4S
-         yCXHk28bkgkQQnhZgoxHNXkBpdc6jKZQLiq1mdRqDl7MSVCnA5LYOGV7gLYRu9NdOcEs
-         Ie1spY/5IwLNevSu5DAKZXEkj7T0FpHio129j1LMQi9/7P0SYPhdnK6pmzWQSX2Fp0BD
-         hMrURnIlXQF667bmltP4Z1LTTAR8KiblpDfZL5X6saFxkzzOE1KV3G046soAvcE4JLJ/
-         3+oIAdECXH+LWtkUsGtpSEIsJZ4GspjaUCyj0mhNL7GYGcijegeK80x1bHGEtsB6Fl50
-         AlOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkUX1VFLBOqYQ5swOff9tdmnFaEDos2yCcA7hyGL28sM53h9t1YclJa7rDknVq+awdsQYVPccDYMDjcFs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGvE2Nt4mC1McfgxtaQW3xx1iIDMZMZr35msOAPnSy6YQCbW2b
-	BkthS+jhDNY0kx9KNqgPHimfwVngpsbRp0UqG80Harbp87PqsMObqNxfIuZh5CRrIYo=
-X-Gm-Gg: ASbGncuYhizUdWNDl6/zcwfY/L4K9x+7rPD6koBUaynb9Cf6cmirZmEEIisglTGeaRB
-	mtPfjdAaq8EJc5NRlL8ZGEwvVtPz1jaBT48el2KGghPKwEm6roshiLQz7Wg9j0bhkc3C22FcRTO
-	YW/1sbixTWvFJsJz0uvvQCAEv5hWFHeo+PkyK3R6jNwW/C+GQZGpidPkRIKDhdb8BfLZ1dENZz1
-	rbWa3d/PyFl8VoDbzFw+mvVPoUKcWuKYjoaK5dmF3ivggrZgq8aOF5xWpbg3QrihPnOcnCACBTx
-	rFn8p+CMBXN69JHWxpvVqAJ7EicO67khlgRrWFTwwoyAKqgV40EsWWS9aHnUp8c4zsjpnWwvv6+
-	aPav+7ygPGkiSrF54O5QbFmyKV4l/14ZrIvnoIpZIz3FrrzlAUxTiDh931C2gMFennT3+ow==
-X-Google-Smtp-Source: AGHT+IGY0r/CwQ4uYP5m9fphBTj5UtPwNG1Wco2SGrHkrgNEwj6b42fgxZjgQDbYi9yCWcOKFr/ugw==
-X-Received: by 2002:a17:90b:1811:b0:340:b501:3ae2 with SMTP id 98e67ed59e1d1-341a6b0d5a4mr3477066a91.0.1762379595410;
-        Wed, 05 Nov 2025 13:53:15 -0800 (PST)
-Received: from telecaster ([2620:10d:c090:500::7:5bbb])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-341d048e1d9sm221963a91.6.2025.11.05.13.53.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 13:53:14 -0800 (PST)
-Date: Wed, 5 Nov 2025 13:53:13 -0800
-From: Omar Sandoval <osandov@osandov.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Dimitri John Ledkov <dimitri.ledkov@surgut.co.uk>,
-	linux-kbuild@vger.kernel.org, Samir M <samir@linux.ibm.com>,
-	linux-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org, stable@vger.kernel.org,
-	Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	linux-debuggers@vger.kernel.org, Nicolas Schier <nsc@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>
-Subject: Re: [mainline]Error while running make modules_install command
-Message-ID: <aQvHSVXbOdiN_J5D@telecaster>
-References: <7fef7507-ad64-4e51-9bb8-c9fb6532e51e@linux.ibm.com>
- <56905387-ec43-4f89-9146-0db6889e46ab@linux.ibm.com>
- <aQpCE_XTU-bZHFbk@telecaster>
- <CANBHLUhJ5UVsN4-JN2PG=jq63yGttB9BD6Qm8MgvYirTvg_stw@mail.gmail.com>
- <20251105011548.GB769905@ax162>
+	s=arc-20240116; t=1762381836; c=relaxed/simple;
+	bh=mYnvpEKBogT7BsYEja2SXk61pPZfhZQoW0bsF8Nq61w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ubkx4/vP9NNz0XDhd5vXyOGYeRYPK5UavJGwRH4BuaNH00WTc8uw8xbl87Vlf9aAxokhp08aPH5ytuYiupeWYCckTrGshzCeTlUGH/ouWtYnEdtxDeiQRR3uxPqL41VxA8eZNYOGyle729s8law+m0ZRNLscGQiNfyIQfrJq19Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlA+MohT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA4EC4CEF5;
+	Wed,  5 Nov 2025 22:30:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762381835;
+	bh=mYnvpEKBogT7BsYEja2SXk61pPZfhZQoW0bsF8Nq61w=;
+	h=From:Date:Subject:To:Cc:From;
+	b=qlA+MohTzsuKi72Z/CfMBJJ8Lc6lpGAN58JpC/EaOcDaFf+aqyK8LzKq0I+y97fFd
+	 Pn2zEwHe9ImEZM+Bho9tDelyf2sE9I0cj1eQIyHtyxRUgPp79Se6rwhcCCeAvAyMds
+	 6nTaV3WBlYpy7HWw2CVx1K6qQzrgzlKvJUWzBFfJnuy3FAhmLYN0gAihohH6zDBVLk
+	 bRa2epBAJVjznyjYyTtJemBA02lkAaszOgWVfDn6VkiFfdAqHjtuYs7jEtOFbMmp9g
+	 3ZYQ8zWQjat0xWXWtJfCNk8ltS+2swBfki4oV1eM/AepxbC1POvtIg/V207OIle0Zj
+	 bisRqH01QD2sg==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Wed, 05 Nov 2025 15:30:27 -0700
+Subject: [PATCH] kbuild: Strip trailing padding bytes from
+ modules.builtin.modinfo
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105011548.GB769905@ax162>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251105-kbuild-fix-builtin-modinfo-for-kmod-v1-1-b419d8ad4606@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAALQC2kC/x3NwQqDMBAE0F+RPXfB1YZqf6V40GRTF9ukJCqC5
+ N+77W0eDDMnZE7CGe7VCYl3yRKDgi4V2HkMT0ZxamjqxhDVBpdpk5dDLwf+0ioB39FJ8BF9TLg
+ o0FhLfXe9Ue9a0KVPYu3/Xx5DKV87Guc3dQAAAA==
+X-Change-ID: 20251105-kbuild-fix-builtin-modinfo-for-kmod-5cc1984719d3
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: Dimitri John Ledkov <dimitri.ledkov@surgut.co.uk>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Omar Sandoval <osandov@fb.com>, 
+ Samir M <samir@linux.ibm.com>, 
+ Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2910; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=mYnvpEKBogT7BsYEja2SXk61pPZfhZQoW0bsF8Nq61w=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJncFzifhWsavu1JSbIoMF+Yc6vJeUpsppLz1gfa27dcd
+ Wbg8fjdUcrCIMbFICumyFL9WPW4oeGcs4w3Tk2CmcPKBDKEgYtTACay/ywjQ1uugjWHdkLbotqz
+ XmcS3FKUONV7XqVdWTndV7rOXMYjn5Fh0YorfySe7Gec4tXp6PtqqX5M7rz4ezL3rnBsPBTBLX+
+ FFQA=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Tue, Nov 04, 2025 at 06:15:48PM -0700, Nathan Chancellor wrote:
-> On Tue, Nov 04, 2025 at 08:35:57PM +0000, Dimitri John Ledkov wrote:
-> > On Tue, 4 Nov 2025 at 18:12, Omar Sandoval <osandov@osandov.com> wrote:
-> > > drgn's CI hit this same failure. FWIW, the commit fixed by this bisected
-> > > commit, 3e86e4d74c04 ("kbuild: keep .modinfo section in
-> > > vmlinux.unstripped"), also results in ELF segments of size 0 in vmlinux
-> > > for some configurations, which confused drgn until I added a workaround
-> > > (https://github.com/osandov/drgn/commit/2a9053de8796af866fd720a3c8c23013595d391a).
-> > > So there's some funkiness in this area.
-> 
-> Omar, could you provide me with a configuration file that reproduces
-> this for you? Is there an easy way to check for this situation on the
-> command line?
+After commit d50f21091358 ("kbuild: align modinfo section for Secureboot
+Authenticode EDK2 compat"), running modules_install with certain
+versions of kmod (such as 29.1 in Ubuntu Jammy) in certain
+configurations may fail with:
 
-Here's a script that reproduces it:
+  depmod: ERROR: kmod_builtin_iter_next: unexpected string without modname prefix
 
-```
-#!/bin/sh
+The additional padding bytes to ensure .modinfo is aligned within
+vmlinux.unstripped are unexpected by kmod, as this section has always
+just been null-terminated strings.
 
-set -e
+Strip the trailing padding bytes from modules.builtin.modinfo after it
+has been extracted from vmlinux.unstripped to restore the format that
+kmod expects while keeping .modinfo aligned within vmlinux.unstripped to
+avoid regressing the Authenticode calculation fix for EDK2.
 
-host_arch=x86_64
-compiler_version="12.4.0"
+Cc: stable@vger.kernel.org
+Fixes: d50f21091358 ("kbuild: align modinfo section for Secureboot Authenticode EDK2 compat")
+Reported-by: Omar Sandoval <osandov@fb.com>
+Reported-by: Samir M <samir@linux.ibm.com>
+Reported-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Closes: https://lore.kernel.org/7fef7507-ad64-4e51-9bb8-c9fb6532e51e@linux.ibm.com/
+Tested-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Tested-by: Omar Sandoval <osandov@fb.com>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ scripts/Makefile.vmlinux | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-compiler_dir="/tmp/arm64-gcc-$compiler_version"
-if [ ! -e "$compiler_dir" ]; then
-	rm -rf "$compiler_dir.tmp"
-	mkdir "$compiler_dir.tmp"
-	curl -L "https://mirrors.kernel.org/pub/tools/crosstool/files/bin/$host_arch/$compiler_version/$host_arch-gcc-$compiler_version-nolibc-aarch64-linux.tar.xz" | tar -C "$compiler_dir.tmp" -Jx
-	mv "$compiler_dir.tmp" "$compiler_dir"
-fi
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index ced4379550d7..cd788cac9d91 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -102,11 +102,24 @@ vmlinux: vmlinux.unstripped FORCE
+ # modules.builtin.modinfo
+ # ---------------------------------------------------------------------------
+ 
++# .modinfo in vmlinux.unstripped is aligned to 8 bytes for compatibility with
++# tools that expect vmlinux to have sufficiently aligned sections but the
++# additional bytes used for padding .modinfo to satisfy this requirement break
++# certain versions of kmod with
++#
++#   depmod: ERROR: kmod_builtin_iter_next: unexpected string without modname prefix
++#
++# Strip the trailing padding bytes after extracting .modinfo to comply with
++# what kmod expects to parse.
++quiet_cmd_modules_builtin_modinfo = GEN     $@
++      cmd_modules_builtin_modinfo = $(cmd_objcopy); \
++                                    sed -i 's/\x00\+$$/\x00/g' $@
++
+ OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
+ 
+ targets += modules.builtin.modinfo
+ modules.builtin.modinfo: vmlinux.unstripped FORCE
+-	$(call if_changed,objcopy)
++	$(call if_changed,modules_builtin_modinfo)
+ 
+ # modules.builtin
+ # ---------------------------------------------------------------------------
 
-export PATH="$compiler_dir/gcc-$compiler_version-nolibc/aarch64-linux/bin:$PATH"
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux- tinyconfig
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux- -j$(nproc) vmlinux
-readelf -W -l vmlinux | awk '$1 == "LOAD" && $6 ~ /0x0+\>/'
-```
+---
+base-commit: 6146a0f1dfae5d37442a9ddcba012add260bceb0
+change-id: 20251105-kbuild-fix-builtin-modinfo-for-kmod-5cc1984719d3
 
-It prints something like:
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
 
-  LOAD           0x1ef008 0x0000000000000000 0xffff800080220000 0x000000 0x000000 R   0x10000
-
-I.e., a segment with FileSiz and MemSiz 0.
-
-Using a newer crosstool version fixes it, so maybe this was a GCC or
-binutils bug.
-
-Thanks,
-Omar
 
