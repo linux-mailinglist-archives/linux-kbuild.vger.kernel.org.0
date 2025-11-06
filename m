@@ -1,59 +1,60 @@
-Return-Path: <linux-kbuild+bounces-9437-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9438-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC836C3D8BC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 06 Nov 2025 23:09:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC0FC3DCDA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 07 Nov 2025 00:23:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 91FDC4E297D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Nov 2025 22:09:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5498C3ABCFB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Nov 2025 23:22:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E4C30ACF4;
-	Thu,  6 Nov 2025 22:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EA073559D6;
+	Thu,  6 Nov 2025 23:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjNah95k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6Iah58g"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8542E543B;
-	Thu,  6 Nov 2025 22:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCD4350A3A;
+	Thu,  6 Nov 2025 23:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762466971; cv=none; b=Fc6Z1PZUb8KygV04qBKypTeaxl8+V/Sk5R/6xZjaT+jEDgAqVSL47cusNOPODzRiUUVCzhJSaUoB2Z12h/RjSGYG6F6Rym2gIRyYaO41vPmVaxvDK8NKespHplR/9WehwgPOW+yfOwYCupCKsdJbJgRXg+JIUGmCJb79a3mA7O4=
+	t=1762471225; cv=none; b=OKiH+dETLcsZvl7D+OschKhlVHaIqTtp82YXeMMrJYDCHb8kyvHgAbP1Lf6UC48N9p8tAT4qMohhZzc3/c4MVSUiHM3L5GKbs+uE5ugq9qaWvFDTryP+wEBN1lSBGlAXC+z9t9r8rZ9oxg3Kl9mysyNDQX8eVaLbiGn9hCg6sRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762466971; c=relaxed/simple;
-	bh=6nUtpfUvSVYLNR95cAiF2JZ+F5KYkzShMbZ84soSRgw=;
+	s=arc-20240116; t=1762471225; c=relaxed/simple;
+	bh=si2FyGZi7I6QK+vTqadl0v27WKE++e4h/95VGkk7bmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHup5RKSURMjQZrIRRJTaDlU8IatryS4GOGRKXhZW+RNtecfZYkWQVU5O3KURadwdixKI6b6YMwsoP/PwNDIeP+j11KxnYajo1OpmHq5YAnIQEwCb91Q7kSM0/IqEbYpl6HI5mo8JvOwhI3KdQcQwR8EgnErC8Bh85z2OUslg+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjNah95k; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 844AAC116C6;
-	Thu,  6 Nov 2025 22:09:28 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZQSIDYVeXVoC4MKAQXRWbTAgKiaankJrKzSi/GWJR6ipVLQU2NemGPwgvlF3boQ0TkwVMhJD0v7HJOcJLDCh/AuJYgkKH3Q80BThYbGojYggJXSCXcSKLU8aSQRwQhxmWXiCvPTAIJBadvZbLtOfGakhDEvKcyOW5l1hZmiQky8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6Iah58g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60801C113D0;
+	Thu,  6 Nov 2025 23:20:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762466970;
-	bh=6nUtpfUvSVYLNR95cAiF2JZ+F5KYkzShMbZ84soSRgw=;
+	s=k20201202; t=1762471224;
+	bh=si2FyGZi7I6QK+vTqadl0v27WKE++e4h/95VGkk7bmI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hjNah95kMLVjAIF4yYAjthcBh6Vxi0dQOOY+UJhpeafwWjYvkwXAgQX0QjR3Q1Yo7
-	 o6nXXgLY+kMLz2P55ogReaa5yzJVXNceazBP3IeZQoS2qc3XUmy9roCV+ExPnSOBhB
-	 EeJ+wAjNX1WnzTxTdolCGk6MkQCG58MQkHMvrvgVXinrk8sVVTPaoozdwyfXs+0qKd
-	 CA7rqEvHuYK/wW4W2/kGxTyfjWUZh3z0E4djEc3ZN1Alr2h+fCgWynbamAz/O4aJZ2
-	 4Ovl7siGO7ry8UcqzIon1QbX0EogGTF+CSWIMgQRJRd8zxFaDTQeU8CV3dnU5K4XCi
-	 ZJGIasVV69rYg==
-Date: Thu, 6 Nov 2025 23:09:25 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-efi@vger.kernel.org, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	David Sterba <dsterba@suse.com>
+	b=O6Iah58gRrfZZjXrGmbBxiokjKbP2xsXvW0zIlsksJC+RFWZqcAC3YwY1SeEp3O70
+	 Trbk3xKhs0JctrCl3TTEjo6fXTjEAVtmaoM5o+UmWLYz7dyRdMQ7ps07aCkWsPi9yZ
+	 xIbH5PYWSoMPuIKkPEuVnF2JIbJOyjL6CS7RMN0LUayXGB+2RiAcx8w0OaqhvvlLdh
+	 MHxRmElbgUjYxF/i0ppR3TEQOpbfPxTh/XmztN29y8ceVIVOKnRv2Fb9SVOewVN37Z
+	 3w1+czAVmISwbPDPb1HL1Lc53YU4ydM6/m6iNPsj/bQ4PceNjVW/YBjMJcZ6dy6Bha
+	 mw9AvYMge9FNg==
+Date: Thu, 6 Nov 2025 16:20:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-efi@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, David Sterba <dsterba@suse.com>
 Subject: Re: fms extension (Was: [PATCH] fs/pipe: stop duplicating union
  pipe_index declaration)
-Message-ID: <20251106-kabarett-auszuarbeiten-f8c855a4ff4c@brauner>
-References: <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
- <20251030-zuruf-linken-d20795719609@brauner>
+Message-ID: <20251106232019.GA4095629@ax162>
+References: <20251030-zuruf-linken-d20795719609@brauner>
  <20251029233057.GA3441561@ax162>
  <20251030-meerjungfrau-getrocknet-7b46eacc215d@brauner>
  <CAMj1kXHP14_F1xUYHfUzvtoNJjPEQM9yLaoKQX=v4j3-YyAn=A@mail.gmail.com>
@@ -62,28 +63,36 @@ References: <CAHk-=wjGcos7LACF0J40x-Dwf4beOYj+mhptD+xcLte1RG91Ug@mail.gmail.com>
  <20251031013457.GA2650519@ax162>
  <20251101-bugsieren-gemocht-0e6115014a45@brauner>
  <20251101163828.GA3243548@ax162>
+ <20251106-kabarett-auszuarbeiten-f8c855a4ff4c@brauner>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251101163828.GA3243548@ax162>
+In-Reply-To: <20251106-kabarett-auszuarbeiten-f8c855a4ff4c@brauner>
 
-On Sat, Nov 01, 2025 at 12:38:28PM -0400, Nathan Chancellor wrote:
-> On Sat, Nov 01, 2025 at 02:10:42PM +0100, Christian Brauner wrote:
-> > I'd like a stable branch before -rc5, please.
-> 
-> Sure thing. I have sent the change out for Acks now:
-> 
->   https://lore.kernel.org/20251101-kbuild-ms-extensions-dedicated-cflags-v1-1-38004aba524b@kernel.org/
-> 
-> I will finalize the branch by Thursday at the latest and ping you when
-> it is ready.
+Hey Christian,
 
-Hey Nathan!
+On Thu, Nov 06, 2025 at 11:09:25PM +0100, Christian Brauner wrote:
+> On Sat, Nov 01, 2025 at 12:38:28PM -0400, Nathan Chancellor wrote:
+> > On Sat, Nov 01, 2025 at 02:10:42PM +0100, Christian Brauner wrote:
+> > > I'd like a stable branch before -rc5, please.
+> > 
+> > Sure thing. I have sent the change out for Acks now:
+> > 
+> >   https://lore.kernel.org/20251101-kbuild-ms-extensions-dedicated-cflags-v1-1-38004aba524b@kernel.org/
+> > 
+> > I will finalize the branch by Thursday at the latest and ping you when
+> > it is ready.
+> 
+> Any status update on this?
 
-Any status update on this?
+Did https://lore.kernel.org/20251106174752.GA2440428@ax162/ not make it
+into your inbox?
+
+Cheers,
+Nathan
 
