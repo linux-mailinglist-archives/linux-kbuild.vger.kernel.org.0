@@ -1,232 +1,173 @@
-Return-Path: <linux-kbuild+bounces-9440-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9441-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF85C40223
-	for <lists+linux-kbuild@lfdr.de>; Fri, 07 Nov 2025 14:34:30 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE000C4146B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 07 Nov 2025 19:26:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35925420F58
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Nov 2025 13:33:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A52B94EC13B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Nov 2025 18:26:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 982352E6CC0;
-	Fri,  7 Nov 2025 13:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E99EB32779A;
+	Fri,  7 Nov 2025 18:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FTwDlunp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ORo5NbN6"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IawdOGL4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tl4J9ODk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IawdOGL4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tl4J9ODk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304B62E62A4;
-	Fri,  7 Nov 2025 13:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F6B33A018
+	for <linux-kbuild@vger.kernel.org>; Fri,  7 Nov 2025 18:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762522418; cv=none; b=QhaahoZqPPwW0YMY3KR3foaVs+WjmlHZgbq9quN6XIUyOOBHx/7oqelMHxpMY7yUEmkTZTMokLzR9txGFD19RhZsDEOj/2oDuXaG87qEe3Uei+JAtvJX4vrhB1Jt9PpibabGCJgUsdiGl6BxSh3V01bj9sqLWS0l82Ukh0ine+g=
+	t=1762539988; cv=none; b=Onz4xNdBOf/BtCCsCb2qFRjybfaLcWAuVoWiLNV+9GvEGxh3fJdX43lgepCriL93mSWkgYLi0iqnyGhrIPGQvDPuQ9Fv8UenZALQtrKUFg2w821hNdntbosUgDHmNWpBJxJEWV12E7fu0y1hyO5fcVCTZ8mV2xudntfuZ/5cjpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762522418; c=relaxed/simple;
-	bh=vR1IF9ZdNx9S88huKWq1DbNssn94QpmUI57Qw30wnUU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=F/+monwpedRykG6v6TtLTqsP6P5n7nTYxBaN8gJ9l/dSwLXT8jNis3sXY9bqVRuKqEg2qLONp2zdgWxBBpkA6egqCMzzNlx08gbmJoYbmSGbhLU1Hgslm+A2tACc1jksdEKSnVhInLNL7iwQKDTgdB6c85FqiI0+eSc/r3fQsf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FTwDlunp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ORo5NbN6; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 31B07EC0217;
-	Fri,  7 Nov 2025 08:33:35 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Fri, 07 Nov 2025 08:33:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762522415;
-	 x=1762608815; bh=qoNTBri6BFoATER30Out59sX4XhuNxOT0sEiKlWHhZ0=; b=
-	FTwDlunpfj+SJA80kY3vwi0QtIDIq6L+Is5CGmfWNH8y19dz+eUlaqLjH4ruYTbe
-	gT0s7Hk+m+/GmQhqLUstFXZUNiWilFAq73kVOBrK6t4ifO9/R0mPBghcph17QJy0
-	hAQk28Ut/WoRo6qfDtdpeC2ZIEmy82H6IWOs5Woo2tMlwixQQj1a2L7UNf/8X0c6
-	AZHGPtxfy6FZx4CU0UHYJY9/2b8Apg4KZ7Azxjf0LMlMDlklVLRSyw4EZHoLtFAV
-	TZhkcEJjG6bNW2NxXi5fHMBqmBOrBxTmOoVqwN28fstG4Y0hAm1choDBfN+LIsJ5
-	7sVfpx7QUNL5RN1SMTaA1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762522415; x=
-	1762608815; bh=qoNTBri6BFoATER30Out59sX4XhuNxOT0sEiKlWHhZ0=; b=O
-	Ro5NbN6H+XulPdb2sFyYcTqSZuypntzCF9ZwxRPtuosbpaBPXAQ4CKehfT8vYnUp
-	vZzbV/jeMPVywZQ9iQ7diea8FZp7vBTBZXVK7OHT32e+b2qO7TCl1gEUvy7K0fiO
-	lZZKSpWYuP+pCyFBFiB+UULLXqKnCAaz3OSuV1A7CKxY3JRAivQRXTdgmuK3jwC0
-	gCYc8RtVtnSFNxs2R7HnMkXpoIMcDOr0soOXXptIttgIikHj6j2jp/XxkqsXvloC
-	1e0NHUKrlZUNfIzyCr6i64EpzgLIwGzjmcibcWT22VDy+YN6AHCtMTOnXveI9kvu
-	0CZZgGHjzoOq88zUhhNDw==
-X-ME-Sender: <xms:LPUNadRqk_rPMn1hC4PXa7X-2lmMEiH19pqmrO2zsLKTwFS9nWWOXg>
-    <xme:LPUNaRnIvVGpXMcYJXJw0ZqScKHRawWPf75el4LHyHruTHS_p_qqItnA_p-icVxV1
-    CDVtnEeLjSi7qYrVGHqb34ctM8MLQ-YiasX2z_BtWRqUePowAqC8SI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeeljeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleej
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhope
-    iiudeihedvtdejgeegfedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrshgrhhhi
-    rhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgr
-    uggvrggurdhorhhgpdhrtghpthhtohepihesmhgrshhkrhgrhidrmhgvpdhrtghpthhtoh
-    eprhhonhgsohhgohesohhuthhlohhokhdrtghomhdprhgtphhtthhopehlgidvgeesshht
-    uhdrhihnuhdrvgguuhdrtghnpdhrtghpthhtohepfhgrlhgtohhnsehtihhnhihlrggsrd
-    horhhg
-X-ME-Proxy: <xmx:LPUNafhSVId5La2hoscRcYirzK6FithUJUQZaUQGQMEpiGwk78vZQg>
-    <xmx:LPUNaYaj8i5_foyx7RioDe7mwbUfrAlkeugyV4mJE-zZsXLTQ4GEyg>
-    <xmx:LPUNaTiVfTLz2adn1QX1_2WkS5b0HdNuufR2eGK6ZcrNY_k2aXI-mA>
-    <xmx:LPUNaabtXfqp0Kx7yFtlaHs-KvqUZZdo_Q3BIS8KP--KNahFYFmpAA>
-    <xmx:L_UNaX3xt1pHAgxJ5zDXSx9oglQ3DipmYV0h4djnA9p2AEwfMwXUfIkQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C8D5270006B; Fri,  7 Nov 2025 08:33:32 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1762539988; c=relaxed/simple;
+	bh=jvbYArc15nbrVfu4R2JmIKRGTKF/VMiJCjpU7IAHFnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d/599f+AOF44x3uyzGphORkHfkzUtDX69pM8PvP07vG4Oj+NiwFoB9CPLyDzNUNeSCFMsiavTigz6G70mgsiCBa0eEc727MvM56LNzZVv2+pSSE52FUcO3BaH3nVWSxgCiN1TMcIlFlZSmbeNMn8xWuq3OJyJmmGJhmA1eB+l7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IawdOGL4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tl4J9ODk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IawdOGL4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tl4J9ODk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7839F22268;
+	Fri,  7 Nov 2025 18:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762539985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=IawdOGL4sC4vw/Kq1b9zRGDZrK8zpv30QWKZHLipdPbsIx9mLJYmFTJzUdwH5lU+1QKjxD
+	IjQAG3izJ/swox9QBz4KoJNzH9ZUBtCfakP0eGW7REM8251ihazWPqUKEf2KAstupRLe5e
+	gZjNbvx0CH253PgZYXCrDhQ6yJalm4M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762539985;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=Tl4J9ODkwbfY7wHaQweK8uHB3GgGyKSo1bWdSClVsgIum8X3Rt+i8zfW5w6BrZXJN4It8T
+	xz7NboNm0WY3wWDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762539985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=IawdOGL4sC4vw/Kq1b9zRGDZrK8zpv30QWKZHLipdPbsIx9mLJYmFTJzUdwH5lU+1QKjxD
+	IjQAG3izJ/swox9QBz4KoJNzH9ZUBtCfakP0eGW7REM8251ihazWPqUKEf2KAstupRLe5e
+	gZjNbvx0CH253PgZYXCrDhQ6yJalm4M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762539985;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1SyhaAjRQ5R12yDuRdW+dH0QxxJRrDf/1IK//JY7oU=;
+	b=Tl4J9ODkwbfY7wHaQweK8uHB3GgGyKSo1bWdSClVsgIum8X3Rt+i8zfW5w6BrZXJN4It8T
+	xz7NboNm0WY3wWDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D2871395F;
+	Fri,  7 Nov 2025 18:26:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yYCTCNE5DmkZGQAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Fri, 07 Nov 2025 18:26:25 +0000
+Date: Fri, 7 Nov 2025 19:26:24 +0100
+From: Jean Delvare <jdelvare@suse.de>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor
+ <nathan@kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>,
+ linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas.schier@linux.dev>
+Subject: Re: [PATCH] Makefile: Let kernel-doc.py use PYTHON3 override
+Message-ID: <20251107192624.78b8a8cf@endymion>
+In-Reply-To: <20251107071342.52ed6437@sal.lan>
+References: <20251103131419.5e504ae2@endymion>
+	<20251103185609.GB672460@ax162>
+	<c0e4a0b0-b7c9-491b-ada3-74945fb2e3d9@infradead.org>
+	<20251107071342.52ed6437@sal.lan>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A-HrBBL8x6OF
-Date: Fri, 07 Nov 2025 14:33:12 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Yuan Tan" <tanyuan@tinylab.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, linux-kbuild@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
- i@maskray.me, "Zhangjin Wu" <falcon@tinylab.org>, ronbogo@outlook.com,
- z1652074432@gmail.com, lx24@stu.ynu.edu.cn
-Message-Id: <73010511-a804-4cf4-a5c1-1d08e3f324c5@app.fastmail.com>
-In-Reply-To: 
- <0BF8B2E83B6154B6+f17f32b4-f6ff-4184-917d-4b27fb916eae@tinylab.org>
-References: <30C972B6393DBAC5+cover.1760463245.git.tanyuan@tinylab.org>
- <33333fdd-2aa2-4ce0-8781-92222829ea12@app.fastmail.com>
- <0BF8B2E83B6154B6+f17f32b4-f6ff-4184-917d-4b27fb916eae@tinylab.org>
-Subject: Re: [PATCH v2 0/8] dce, riscv: Unused syscall trimming with PUSHSECTION and
- conditional KEEP()
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[huawei];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On Tue, Nov 4, 2025, at 03:21, Yuan Tan wrote:
+Hi Mauro,
 
->> Sorry for the late reply =E2=80=94 this patchset really wore me out, =
-and I only just
->> recovered.  Thank you very much for your feedback!
+On Fri, 7 Nov 2025 07:13:42 -0300, Mauro Carvalho Chehab wrote:
+> Please notice, however, that kERNEL_DOC env var is also called at some
+> DRM makefiles. Perhaps the issue you're getting is there.
 
-Sorry to hear this has been stressful for you. It's an unfortunate
-aspect of the way we work that sometimes=20
+I'm getting the warnings from a simple "make" call with W=1, and for
+pretty much all C files, not just drm drivers. For example:
 
-> On 10/15/2025 12:47 AM, Arnd Bergmann wrote:
->> On Wed, Oct 15, 2025, at 08:16, Yuan Tan wrote:
->> Thanks a lot for your work on this. I think it is indeed valuable to
->> be able to optimize kernels with a smaller subset of system calls for
->> known workloads, and have as much dead code elimination as possible.
->>
->> However, I continue to think that the added scripting with a known
->> set of syscall names is fundamentally the wrong approach to get to
->> this list: This adds complexity to the build process in one of
->> the areas that is already too complicated, and it duplicates what
->> we can already do with Kconfig for a subset of the system calls.
->>
->> I think the way we should configure the set of syscalls instead is
->> to add more Kconfig symbols guarded by CONFIG_EXPERT that turn
->> classes of syscalls on or off. You have obviously done the research
->> to come up with a list of used/unused entry points for one or more
->> workloads. Can you share those lists?
->
-> Regarding your suggestion to use Kconfig to control which system calls=
- are
-> included or excluded, perhaps we could take inspiration from systemd's
-> classification approach. For example, systemd groups syscalls into cat=
-egories
-> like[1]:
->
-> @aio @basic-io @chown @clock @cpu-emulation @debug @file-system
->
-> and so on.
+$ nice make CC=/usr/bin/gcc-8 PYTHON3=/usr/bin/python3.12 W=1
+(...)
+  CC      arch/x86/events/intel/core.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/core.c:0 Python 3.7 or later is required for correct results
+  CC      arch/x86/events/intel/bts.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/bts.c:0 Python 3.7 or later is required for correct results
+  CC      arch/x86/events/intel/ds.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/ds.c:0 Python 3.7 or later is required for correct results
+  CC      arch/x86/events/intel/knc.o
+Warning: Python 3.7 or later is required for correct results
+Warning: arch/x86/events/intel/knc.c:0 Python 3.7 or later is required for correct results
 
-I think many of the categories already naturally align with the
-structure of the kernel source code, so maintaining them naturally comes
-out of the build system.
+So without my patch, PYTHON3= is ignored for part of the build, and
+these recurrent warnings make it difficult to spot other warnings.
+Which is the reason why I proposed a fix. Alas, I see that my first candidate
+fix breaks "make htmldocs" as reported by Nathan. I'll send a different
+fix which doesn't seem to break anything in my tests.
 
-More importantly, turning off parts of the kernel on a per-file
-basis tends to work better for eliminating the entire block
-of code because only removing the syscall entry still leaves
-references to functions and global data structures from initcalls
-and exported functions.
-
-> However, if we go down this route, we would need to continuously maint=
-ain and
-> update these categories whenever Linux introduces new system calls. I'=
- m not
-> sure whether that would be an ideal long-term approach.
-
-If we can (at least roughly) align the categories between the kernel and=
- the
-systemd classification, that would at least make it easier to maintain
-the systemd ones.
-
-> For reference, here is the list of syscalls required to run Lighttpd.
->
-> execve set_tid_address mount write brk mmap munmap getuid getgid getpid
-> clock_gettime getcwd fcntl fstat read dup3 socket setsockopt bind list=
-en
-> rt_sigaction rt_sigprocmask newfstatat prlimit64 epoll_create1 epoll_c=
-tl pipe2
-> epoll_pwait accept4 getsockopt recvfrom shutdown writev getdents64 ope=
-nat close
->
-> We've tested it successfully on QEMU + initramfs, and I can share the
-> deployment script if anyone would like to reproduce the setup.
-
-Thanks for the list! Is this a workload you are interested in actually
-optimizing for deployment, or just something you used as a simple test
-environment?
-
-I see three types of syscalls in your list above:
-
-1. essential ones that are basically always needed
-2. socket interfaces (already optional)
-3. epoll (already optional)
-
-The first two sets are clearly going to have more syscalls in
-them that are usually used in combination with the others:
-If we provide read, write and writev, we should also provide readv,
-and if we provide socket/bind/listen/recvfrom, we also likely want
-accept/connect/sendto and probably recvmsg/sendmsg.
-
-Starting with your set of syscalls and those closely related
-ones, as well as the set of syscalls that already have a
-Kconfig option, we should be able to find the set of syscalls
-that are unconditionally enabled but could be optional.
-If you have the chance, could you compile that list?
-I might also have a list, but probably not in the next week.
-
-The next step after that I think is to measure the impact
-of turning off those remaining ones in a configuration that
-has the existing symbols (e.g. sysvipc, futex, compat_32bit_time,
-...) disabled already.
-
-Side note: I'm a  bit surprised to see fstat() in the list, since riscv
-should only really support newfstat().
-
-> Also, I noticed that there haven't been any comments so far on the lat=
-er
-> patches introducing the PUSHSECTION macro.=C2=A0 I' m a bit concerned =
-about how
-> people perceive this part.
-
-I don't have a strong opinion on this part.
-
-     Arnd
+Thanks,
+-- 
+Jean Delvare
+SUSE L3 Support
 
