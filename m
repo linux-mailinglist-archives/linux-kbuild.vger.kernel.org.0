@@ -1,65 +1,68 @@
-Return-Path: <linux-kbuild+bounces-9443-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9444-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B34C41513
-	for <lists+linux-kbuild@lfdr.de>; Fri, 07 Nov 2025 19:43:46 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F28C4197E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 07 Nov 2025 21:40:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCD5E1896A45
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Nov 2025 18:44:10 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2C8FB4E11A3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Nov 2025 20:40:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE7F32860F;
-	Fri,  7 Nov 2025 18:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05CDB30E83C;
+	Fri,  7 Nov 2025 20:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mv8lSd2H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sw0lJz97"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3A82E040D
-	for <linux-kbuild@vger.kernel.org>; Fri,  7 Nov 2025 18:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4ADA27B32B
+	for <linux-kbuild@vger.kernel.org>; Fri,  7 Nov 2025 20:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762541022; cv=none; b=FjVc4nnFNtEmJZyW0X6ec2OcJ4hqqeD1C9oK03ixj4CqyqiUbF6BCob1gpdbXCFkkWGuIzRPepfcUbPh2uFvCDK9NiTr056TdAcN+7eC2k2e8RMx19oWnsmuugWAvkfaTrjMmkLMgwlElxuV83hbb7TtANV3fXSW2AglMDT/C48=
+	t=1762548005; cv=none; b=MwFCJcbG99si72eTx//PaYAxwS1aE9VfK0zTAc6VZEDWof8GkoFVTsGYbkfaZoQXXrT8a34GfVjIUq1RaZE8AAQQJcfWy8OGcoeygAvKJJ6TU1rR3qGUdk3+0f9iQ54eh7Pj8JbV8Sxb04u6LlOZWQiMWcKKPziCKn6pj24FVVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762541022; c=relaxed/simple;
-	bh=QhwoD/SkXfj3MPkCbSD6w0UQt66HdmkGvottRWfhloQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GGbsBzQMTH5leOK3pOxWa/B3ECtK+LczkxyRic4iXTp0XQTMYBNtIXU/0Q+eniBcyjcgF20fqSk4324iTqh1Tf079QwhawO+u0sX0rZkr5qs0Zl8TBtomAjQp1PmEM3H3vVvykOqGJWsP1jJujJ/oh/Yernt3m6w4ROSso8TItY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mv8lSd2H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7287CC19422;
-	Fri,  7 Nov 2025 18:43:41 +0000 (UTC)
+	s=arc-20240116; t=1762548005; c=relaxed/simple;
+	bh=fAIJH6niIyqzV/G0nFnBw9WzRN1iK0Gu5rcb2+vzZ0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eR5Zr00ABLBkmTrgDpoM50cRtPEGU9Ddv1KOjyim8xnackh7D/pUInjswHudJr0T6+cIMOTiAh8r+ijmtuGWlfBiwhpayjs54/xJsmlbXuvW4rgG9CTvAXP+ON+kZX0knthosJ+dYgnmhc+8m5flAZK9L8ISfQcprUQ6WNNhLRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sw0lJz97; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43760C4CEF5;
+	Fri,  7 Nov 2025 20:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762541022;
-	bh=QhwoD/SkXfj3MPkCbSD6w0UQt66HdmkGvottRWfhloQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mv8lSd2H4k9FdZpJ2jGG8FXthsG87fuTVl7ENK5hs3pXbb4OohCnpoksiDrUR95y9
-	 Xj/1SEUhChkFFbD+uSgL48xJ3fkwHcL7c3TeiLVCX5gYQS79rZ1d0bZ2VW5J/Op/YB
-	 OykWuk037KrIhGEwfSjslhr9f2qm5366vezcO3PshhWtx/Lg7eq8QO9H60WpRwf0jt
-	 pomtusXQb8uGwg+V1VljnmM4raJT8Z+vWQJNA8TuIOKnB0gAxGJFv46ioEc7yiDF83
-	 gsZF5L8ApMY13UFCEgW9ZCAmsU3L01tiT3YcOERppoXsUuQqDQGWYyNccOnRVBC0Xs
-	 HgpAbXP/95Cug==
-Date: Fri, 7 Nov 2025 11:43:38 -0700
-From: Nathan Chancellor <nathan@kernel.org>
+	s=k20201202; t=1762548005;
+	bh=fAIJH6niIyqzV/G0nFnBw9WzRN1iK0Gu5rcb2+vzZ0k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sw0lJz97tcfjPteKxtbkYEWwjn7J+Bt0LC8XwfYseaKjB+keM9X7ZRBKbBmivbwKf
+	 1KHVA5tblRkQ3qMgjjru/m4GweH6bFMnj77tPbeUzmb+RMkHkqyfNBWjo9kZfOyGVR
+	 5D2X7qk4ClA6D//Jxxp6XigXgPFRd4fL2jqdhmYUct2UnG5jn6W5dK38lySMLrp3sO
+	 walFJgDlKv/91oFqvXsFO8B31QIJFmbTjf937h3pIL7Yu886kFYp46YF1Ef7TFOCW2
+	 81soOpONfCRie9Pb9OYM0iHGgbim4kEO5zirxM4mH6yZ8mVU54cQX7ht3CYld3X/BK
+	 EGmgLzo+drYKQ==
+Date: Fri, 7 Nov 2025 21:40:01 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jean Delvare <jdelvare@suse.de>
-Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas.schier@linux.dev>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>
 Subject: Re: [PATCH v2] Makefile: Let kernel-doc.py use PYTHON3 override
-Message-ID: <20251107184338.GA502997@ax162>
+Message-ID: <20251107214001.3b60ab65@foz.lan>
+In-Reply-To: <20251107192933.2bfe9e57@endymion>
 References: <20251107192933.2bfe9e57@endymion>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251107192933.2bfe9e57@endymion>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 07, 2025 at 07:29:33PM +0100, Jean Delvare wrote:
+Em Fri, 7 Nov 2025 19:29:33 +0100
+Jean Delvare <jdelvare@suse.de> escreveu:
+
 > It is possible to force a specific version of python to be used when
 > building the kernel by passing PYTHON3= on the make command line.
 > However kernel-doc.py is currently called with python3 hard-coded and
@@ -69,12 +72,10 @@ On Fri, Nov 07, 2025 at 07:29:33PM +0100, Jean Delvare wrote:
 > python is used.
 > 
 > Signed-off-by: Jean Delvare <jdelvare@suse.de>
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
 > ---
-
-Thanks, I can take this as a fix for 6.18 since it results in warnings
-in your environment. I will give it a day or so for folks to comment for
-review.
-
 > Changes in v2:
 >  * Leave KERNELDOC alone and patch the calling sites instead.
 > 
@@ -130,7 +131,9 @@ review.
 >  endif
 > 
 > 
-> -- 
-> Jean Delvare
-> SUSE L3 Support
+
+
+
+Thanks,
+Mauro
 
