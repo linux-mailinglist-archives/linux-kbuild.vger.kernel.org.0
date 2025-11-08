@@ -1,103 +1,86 @@
-Return-Path: <linux-kbuild+bounces-9458-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9459-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454FCC429F1
-	for <lists+linux-kbuild@lfdr.de>; Sat, 08 Nov 2025 10:06:50 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 425EFC42BE6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 08 Nov 2025 12:31:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B85A41883CBF
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Nov 2025 09:07:01 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EC21734997C
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Nov 2025 11:31:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5680D25524C;
-	Sat,  8 Nov 2025 09:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123A6209F5A;
+	Sat,  8 Nov 2025 11:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOuRN77A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DOGF5M0h"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74601D61B7
-	for <linux-kbuild@vger.kernel.org>; Sat,  8 Nov 2025 09:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10C61FBC8E
+	for <linux-kbuild@vger.kernel.org>; Sat,  8 Nov 2025 11:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762592793; cv=none; b=jQdxO/qVuPt/jgCMgx1976Rl5ub9+82rnP1mDn2PBlS1BiP9xUJxpV5kvuxWlAhvF6MAmkNvda05wvRJN2S22Ndn4LoHOKW2MbYIjcS49T9cD4SCML4NOgNt6UCXFRLyGh7iVGOK6Pzn15dQnCgmKi/SsYXH8a3e8GwAhii3A9c=
+	t=1762601469; cv=none; b=Ny5Hg2ldCet0U5vDc0dYFGXyRR3TPbJgTLdG58gVzmDdv9rpjAGDKqRM3Xgd0Xh1LqHZ7C5/MXkEYiGsOgAyqFQH4q7oGwWdZzp4zj76Sjf069jguF/+scBmRrtIkmnE2w1zWTXTuAUqiuYEkrmXyq43KVvsaHf3P3n6Fdp2Gwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762592793; c=relaxed/simple;
-	bh=5e8JsJPkRnjnvxJLk5/07pwvaKu5ka9GvEOU3uc20xI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fzhy6PeIImi2P0wP4ybIHhRf9WPMw4gLPhzuu+0kzhD51dgZyEwlz5o3bTTkzU5IXcVdwX/8MVAAKKJVGtLES6AGP+qqNz7FLIeBSvyqDOnFh8a9cU5i3rX8UnIFO1e+TZhx6i9D4TEeOa7IimsywJd4E1nKVp7LmWHnuUb3HM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MOuRN77A; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-4330e3080bfso5235705ab.2
-        for <linux-kbuild@vger.kernel.org>; Sat, 08 Nov 2025 01:06:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762592791; x=1763197591; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5e8JsJPkRnjnvxJLk5/07pwvaKu5ka9GvEOU3uc20xI=;
-        b=MOuRN77ALP3vkpIGiEI8BYOkA8e116P3xzbmphGYAclPMscZkAAs8bml2zETj+yQWA
-         +qZs6CEStvuRQWZWFdin13ve4jUoGN4jqILmtqyZN9sH6+BcdlFAefwoQCCDoIRM20II
-         EXVAYEH6lg3RWAxA0Ip4F6O2RtgJFz2OzZqnH4as7QrM7aTFYI5y29nFzECWj6W1Pzkf
-         u41qXXVZe318kqhMOKZGs4DVZOUEbdmcP2wHUEwFQ643ura5F26L5jwmeEC5Mz7ZP9Ps
-         BO6fMpVTCDqIEOqpDDr+ROB3TQHE7dj2A0Gd1igsjsqEgWr+U3IYJuxc4gqzd+iAxJgd
-         VqVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762592791; x=1763197591;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5e8JsJPkRnjnvxJLk5/07pwvaKu5ka9GvEOU3uc20xI=;
-        b=KU+AV4YcVADho9WSzXIu5OuHN+Ima6Rr1oC+ADc5XypO1/j/hUZB9nkpqX6DSrkCOT
-         y3IqX4kyYdazzv797iDckkWmT3ea/bNXjziYtyX+KrO2UiYVAfUEjQI2WYoFhv8/31ai
-         03Qq8nzDyPJigsbRk3zqkVQ9z8/A1WGBsXORl7OSjLolDIso4axQKC2hB7UscczXhYop
-         PSwhgJ5Dva1fL6QtgVsS62sGC8Fg+aqg4VOKd2HriT1IQPvMkTOqJuHLtVu+qnQyWE6X
-         yp9vb80XfPCCMubzEs58dP/1MIs10x7U0KCsTaHJD7kHTVvGvtHxQn2pG5nwalsV9IfI
-         ycvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGr6fY3uVqaQX2ECUNqtjOfB2hXqH3fn+Bc9UjoBPIl1DaTRQR+XPYAjY15QCxiX8jm1PHBKlYmNfmcyk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkTHFKsHn1Pts20lRVAS/PxzWVK4L0Wz3TYzevqLkmSTwM9KCb
-	qkzzVFCIVWqnB8syVDGwKiwqdqjM+KgnsILh8I+TKcDbozMruVd4iObAf7AhbK5MEQeBYEdRW2O
-	TTY3lFLw3fljtgUhg1WJy6IvGxS4vH78=
-X-Gm-Gg: ASbGncuJ83BhMUkIjaP9HjSQQOFRUA8KjSherDi6lv9D8VYKDDk6u/pVFqMsWPOqeNs
-	WX8bj9YXNS6uIEWoP97+2oSjNQvBpEDFBnQPoO1MyYkhYRjn+HdBAO/N0spf+1a2GcLleCjUpSO
-	83Zdc8LNq5wYTVDJTVeO2bSiYOQFuRueQU61Knv2qM3e/OryoJmMeTh8ly8EBSr/Z0X3i9Qj3w/
-	Q7bAo7Z/6P9NfXKy9loRHYc+ePMldAUVqbD4lncfbxFGGtLGq7vwmsE/YWuPHAue4JZp1Ujtjdr
-	lZvW3B6BocI7JytSNQPEO4JWwWYv
-X-Google-Smtp-Source: AGHT+IGja1wjt5XLwCuQKBiJ++JM60DADavzjqt2nrtNRbHFr8AZSVSL3xnG8tTvwMdnenutWkIfTjAH31OO4EHeBxw=
-X-Received: by 2002:a05:6e02:2383:b0:433:3664:b19b with SMTP id
- e9e14a558f8ab-43367e46460mr32976015ab.15.1762592790848; Sat, 08 Nov 2025
- 01:06:30 -0800 (PST)
+	s=arc-20240116; t=1762601469; c=relaxed/simple;
+	bh=pv9u/ERe5H1KfJiuB0O5cY7cauH+qxt598dIjMYV5a4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rLkS/pK7esM8McR0wZfRjtjI1THTs/DiR72LUTLbI+L/fkAyff5+srJRV0COSupZ7fnY8S4mgF/VfdhzgMSxfNrveqTgpWqUVm5St1hzL8Nmfg0qIBk1qA9pDOpZX25++EVJAs9rzq70qVUtLQPnKDBnYf+0INVNM8zKjUWyXdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DOGF5M0h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA940C4CEF7;
+	Sat,  8 Nov 2025 11:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762601469;
+	bh=pv9u/ERe5H1KfJiuB0O5cY7cauH+qxt598dIjMYV5a4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DOGF5M0hobUuwJBw/paHZUf+ZahaCOgl4ooaAME0lpy1mQ2/PytZodDhXl8X2BZoH
+	 XrY9e8M0CqrI1snTFvq9wWD1APTI3XAuatoKmquLeVIqGPCjXyJTgI4mlChPw1K3X/
+	 +yKwszZhqns51Cl6TZXBBMYSxMjMImyMUCJtoCvOYeK4FLOhdbNFbTzAwWqCDm5GeT
+	 Z6g28tYQFvHfcpCGoQOEDwXlSAWOKvz6TxTuwRSj5HOXaPt8ezbr71Opc9Bf9Rtrl5
+	 pwetbJjsCIzJmcakemMqSok8dDYxMGX1JF8b0UdgYp/zaWQqZqWrkFeqfzr2Lt2vsi
+	 VxjfQSlNbLijg==
+Date: Sat, 8 Nov 2025 12:20:35 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Jean Delvare <jdelvare@suse.de>
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2] Makefile: Let kernel-doc.py use PYTHON3 override
+Message-ID: <aQ8ng6lp2jxfr6bw@derry.ads.avm.de>
+References: <20251107192933.2bfe9e57@endymion>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB95QARfqSUNJCCgyPcTPu0-hk10e-sOVVMrnpKd6OdV_PHrGA@mail.gmail.com>
- <20251026211334.GA1659905@ax162> <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
- <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
- <20251028174541.GA1548965@ax162> <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
- <20251031220732.GA2254630@ax162> <CAMj1kXF2kKyEOc6KSBfbdUMf5m4o=DLZXk4++C3q-utA_9g4DA@mail.gmail.com>
- <CAB95QARrcOc6h9=YTzLKkNE0dEaivtiLfK0kEQ1jNp+v1w4yzA@mail.gmail.com>
- <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com> <CAB95QAS__YYYBLc3KFjBUg_QqC3AOB0y6kvhSqZFR9fx7BDKvg@mail.gmail.com>
-In-Reply-To: <CAB95QAS__YYYBLc3KFjBUg_QqC3AOB0y6kvhSqZFR9fx7BDKvg@mail.gmail.com>
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-Date: Sat, 8 Nov 2025 10:06:20 +0100
-X-Gm-Features: AWmQ_bkRNHFJNtYSzgQ7yhp3JFrMg-7yCHs86SlmqgR8aqtR-dYbtIubCKtnEXw
-Message-ID: <CAB95QAQyzYTrnGrkrcwXJ7Za37v7VsvwsmUezb1Z4VsF_RdLMQ@mail.gmail.com>
-Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107192933.2bfe9e57@endymion>
 
-I've got no response from the rEFInd author yet, but another user
-reported (https://bugzilla.kernel.org/show_bug.cgi?id=220731) a very
-similar problem with GRUB and ZSTD compression.
+On Fri, Nov 07, 2025 at 07:29:33PM +0100, Jean Delvare wrote:
+> It is possible to force a specific version of python to be used when
+> building the kernel by passing PYTHON3= on the make command line.
+> However kernel-doc.py is currently called with python3 hard-coded and
+> thus ignores this setting.
+> 
+> Use $(PYTHON3) to run $(KERNELDOC) so that the desired version of
+> python is used.
+> 
+> Signed-off-by: Jean Delvare <jdelvare@suse.de>
+> ---
+> Changes in v2:
+>  * Leave KERNELDOC alone and patch the calling sites instead.
+> 
+>  drivers/gpu/drm/Makefile      |    2 +-
+>  drivers/gpu/drm/i915/Makefile |    2 +-
+>  include/drm/Makefile          |    2 +-
+>  scripts/Makefile.build        |    2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
 
-Cheers,
-Eugene
+Thanks.
+
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
