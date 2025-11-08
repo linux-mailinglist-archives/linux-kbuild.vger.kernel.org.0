@@ -1,133 +1,107 @@
-Return-Path: <linux-kbuild+bounces-9452-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9453-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A285CC4251F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 08 Nov 2025 03:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C2DC42640
+	for <lists+linux-kbuild@lfdr.de>; Sat, 08 Nov 2025 04:51:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A143189326A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Nov 2025 02:50:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 967E11884748
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Nov 2025 03:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0140B2BE64A;
-	Sat,  8 Nov 2025 02:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 317EA2D0C82;
+	Sat,  8 Nov 2025 03:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VAchsO6a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JL1EyyCj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761B124468A
-	for <linux-kbuild@vger.kernel.org>; Sat,  8 Nov 2025 02:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDC81A9F97
+	for <linux-kbuild@vger.kernel.org>; Sat,  8 Nov 2025 03:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762570214; cv=none; b=D89wNRnbZti+I0Fs9AnHecx0r5RcS4KkuZwLF0OOh+MQUYHs9pMk/G/AM2IbA6cfsKPfoWN2spfhHvqZAokjTCaFsPZaKbzIe+taIaP0yW+2WKFIhGrGOHmgkuxhuOLUjg3dUlY+YFaDFOgh1XnMMiRwbYUQmi9L92BKtc0LMUg=
+	t=1762573902; cv=none; b=aWADV9TUlQySNYxB8A04OhEco5xXcvRKVJNCk34IqSLc8ibdNMd4Jho34SbWGBeKqTX25+hpU12BKDVc4H7Py462030ECgl3wXQB/UawKktUQL6tfQOIy165NQ/qFhwRCqIyN/oYpE+x67LDnkOYMJXjPsU750qh2ItosXMo4p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762570214; c=relaxed/simple;
-	bh=OAMQkM8H202HpZ9SyALa6Zflvi3TrT+59q9nVOpCnkg=;
+	s=arc-20240116; t=1762573902; c=relaxed/simple;
+	bh=q0snDR8xQE/MKs8/cvlLIB/+XXsMPIC+6i7g2yHZzn4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LSDmI+WRRoAVWjEmAFc41wmHR9TsM+7Gd8wqMOtBwqO0yF4QZOyC7fYDQfZzWuEwnvk+KtJcNLwsmeoTeNXhpBPREOdHj5jqlc+NM6VtMosASVLTzc2Cv8I/jsOfaLJOgq68E391WWVjEaSCCNPBYVcQLSCt/ygQlxd3HDLrJkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VAchsO6a; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-294f3105435so48345ad.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Nov 2025 18:50:13 -0800 (PST)
+	 To:Cc:Content-Type; b=lErsfA5CB+E1uJ7OjDNtHFny6Xym+PUblwxjIu883QR3Q5+Dx5xFr1m6cGjAVNu3P+fhMVj2LBUF72cND0PlkuBKmPyEi5vq+d5RHW0fHiAwCuqzkpqy24pzs2cpJFMfqMEDx6U4+97ZJFxLALxR4BBF260EwscL4US98NveE4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JL1EyyCj; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-297e2736308so298535ad.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Nov 2025 19:51:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762570213; x=1763175013; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762573900; x=1763178700; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xz9KbiB3pKiQMMUPj1p32orHVehzjrikuGFe9xgdEQk=;
-        b=VAchsO6alXNukU6gX/pvJYwQCDSkZMHVh4dVm5JfY1oGfbAmpLxIYCzpZtKbeACb5R
-         9sFUxtSIP4BSiAq9li9cHIgUHph9mZvWSTXO/T79k3bo0MUqC18QTeEytObcv5guW7PX
-         RIOMgMkQdealGumFovKyXvrSk+QXhr92rzy44TokOfWiRrjxS+x6igOdcw0y6Ax7dhRz
-         QPq9dkVUXaY7tjGC4wHgccyx5nv/nHP12pzmntBfGPDPuD61cbBRUMYB19mKOFXGeMiA
-         kMjEWQmn//kTGO2mW6VgLFV8byEqB4R7Mzz0ZdgGWj/1YuqOZ6BEsHcuqNhuSjHK4zsf
-         j1qA==
+        bh=q0snDR8xQE/MKs8/cvlLIB/+XXsMPIC+6i7g2yHZzn4=;
+        b=JL1EyyCjAu4FD76MI62hxbiXz58ajDEwaLHhf9AvdWC0YzucChlJG9HGdw4gjhqpqS
+         oK2Djh/BPstXaoyiofO7PAMu+GwSaZWrpRVEs6wlEQ6Kh+MNzS+PlgkxLFLm92fzv+b9
+         Q3N5Uk0qP0zwPYQKamnXOC+YQQ7ANjL192xrKpqexPI/KBj3hmnq+BlvS1XWD9p3twAS
+         TDMYgYV7H+I7A5k88u/gU2MKLMX9L96+EByOpbk4vJMhj8urZx72ZKZHlLgUpB7uNqbk
+         QneJP/dF5ONvfO899/FjmMeNNg5wypeAyIaMN7MIzKwhkrwZ1CCNwDt/XAmfxGR+S5wy
+         +TdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762570213; x=1763175013;
+        d=1e100.net; s=20230601; t=1762573900; x=1763178700;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Xz9KbiB3pKiQMMUPj1p32orHVehzjrikuGFe9xgdEQk=;
-        b=h2iXGnqi6qXbyK/Sv5Jso4OKkIyZq82mpchIAmeQyFiLMLgt9pOh9pEnTJVu/FseMh
-         MI9F/aGN5as+g/in9s2Qymkck2hiQnVNUGLzfxCFbQX1tn0kbw3fJVIaTgpZlpw66JfQ
-         w+ruGHsAFQ9wzR0KP1FJr9n/eBWujwhjnP4M3zKBRu6SfuuVa+MVgtKUsY9nnrqIZyB5
-         vYGzb1DYYGhZ2sKCbKrFRtKw9UZ0CwlRRH8hd51PBy2p8Yy+lfYI2iRJ0o4bKQxuszc7
-         oTZzHIzQDbPERRRVA8qJ8micexEyFy34NARELn6nnjFWtUakHcFgyFaOVCXFSJ0FzoGf
-         i+5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXSKcXzhkwWnT5Sk7hE8kW8leaN8kcrlW+BEbeKuqj1Z1t5Q2rmS7iRJZXaBWo0OnbTHSUOFTsUcbqkJug=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRznYY6NidNO5A8rVBy4VYy3S3pmf9G9pEjryczahZ223kuR8L
-	DmdiCaU24XAWMfbTgAcP/zPb4l7eHlTAFLEK8mejOfqynfgKXdhk/5ou8vRAtjCwhwiSk8eFcR9
-	HfX6dh8peKSxt8m4FlSXbaxaSBI6Gfw8Z9KwEuhbCWjRL3XfGDgWuR4Z8
-X-Gm-Gg: ASbGnctYll8KHqiplZc6i1zhiwhauGrKJALM2bNzMvs0eW3w45UudRudfx9E03+VJAB
-	yfg2UIus/RrqzTUV3YoZmREIudX2g32NTvTnpiQ0AXZLHsT81gdenyWKf7llAM1g+WhpfqYvTal
-	115ZlAm0Xs5dtHv92UmeKoNNG9phBRIIoWlmtoupz7ND5T2M4pxFlt5RDeRM/N7Pzhvoi6szzlP
-	54zf9T6YBj0/hWRTl+rPENX1r+Vn+ar0P58bsSDUlcOocL9HX9qMr7TydF5b0Z5QwQh
-X-Google-Smtp-Source: AGHT+IEDYpJKL+hIOzjq2gpmJ4iFLKF/Y9OWuaaO1G7yVaYPMHtubhDweRGu3Pd8BduK0hfGnF3VI4ZMdg1XmQs5Cik=
-X-Received: by 2002:a17:902:d4cd:b0:291:6858:ee60 with SMTP id
- d9443c01a7336-297e51be5b3mr2383685ad.4.1762570212326; Fri, 07 Nov 2025
- 18:50:12 -0800 (PST)
+        bh=q0snDR8xQE/MKs8/cvlLIB/+XXsMPIC+6i7g2yHZzn4=;
+        b=tcJHW7/GF8SRDdNuGVoei1Rs4kblwFZtlylRFvnWu1iVbMMinDyQ43GhkcWLLpD30d
+         1jcV44uFngkYipUzacayzGedbpIHoCVjHiVDCj2MnTTO7rjTXDtPVNNKYFDpLq2dBAaq
+         UbpKQti9fc9zbdJ0+zxTubHywwEokKobuRKgrFsGbki9e6RsxpBkT3Ry2LhIiKTDdhgX
+         0cTYYnhbxOncz9wzA9LkukndyI+hj9p4zeLcq8tQ7ZvzgT9jNlpFuiCuQVSJDlXW5P++
+         zKnULLvHCu2djWBCpBdLt3TaRwA+IUFDZKw/vfklW+1SR1sdnKtVlLN/u7LIcll0EyEN
+         jOTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEHzMinZnc8sBItLqt/yxufiyYhPvxRuV03n9zIrs5YZE8+draQPQJ01z95XdIeR6onKp47h8+yCn4g1I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6OmFEzxLUlBpn+XrnFXTrpD4I/BdVHFSfpI4moOzwOaEfECBN
+	x1j35Y1PIpL/uqbFluaN6VU7Ka548RTUUdDyU5Q/DymgfzmqxPVz/0tzxz4bkY31WF+IOGpaJYP
+	LepbNsAERdOGEu1nYB4HsjLXCd2a3aMk=
+X-Gm-Gg: ASbGncufbcBu7bc1tixlpIhHYe1lX1ElOJVN6oyGNLXvC0FREiAPeVei72HXbDZ9Uek
+	BK+RO9UOY3+tze9Vub+QTvHAlhxc3OKIWWVMj3MXFox4k/Y2F+zTMsrVr5oZI11vbtIEp2m9+Cl
+	1GtBUnnyOXhckiCV2SWzqj/FM+gfKF0ihYgWGAZyXQ2DHCEJePjHkxphT+VRIy6buENzeOWUaZw
+	YPUzcpCAGfa5GCHKmLCfTGbfxUomKwf0A5Ik1eABtodWPh3uuYNRviQctuWDk9C9iHO1fH+VGRg
+	qFPw/DwExjzAd5dXO+vs8Dp/qLCBpkL/YmeDTPmuwAy4N0pSSmxnKDkMek9gobFr2HPqNZsQZYt
+	KXxeRuhiqQF3VIQ==
+X-Google-Smtp-Source: AGHT+IETjy/Whs2XDm6e4xWFe1uDWjZVP1XuxrDCcYFXxquKd3GRTQOQIBFqHWaGhyeM6BjE/k74OlI4YppE1Fy6UDU=
+X-Received: by 2002:a17:902:d2c9:b0:296:4e0c:8013 with SMTP id
+ d9443c01a7336-297e56d8ddbmr10595185ad.6.1762573900080; Fri, 07 Nov 2025
+ 19:51:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251108014246.689509-1-ojeda@kernel.org> <CANiq72nKC5r24VHAp9oUPR1HVPqT+=0ab9N0w6GqTF-kJOeiSw@mail.gmail.com>
-In-Reply-To: <CANiq72nKC5r24VHAp9oUPR1HVPqT+=0ab9N0w6GqTF-kJOeiSw@mail.gmail.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Fri, 7 Nov 2025 18:49:35 -0800
-X-Gm-Features: AWmQ_bn2xE_C004xbiOPfj6vuNrWvyE4Ho8Vxi_L-U3qXSI0Ruu8KQu5_TFbvtY
-Message-ID: <CABCJKucCJLWfHz6o=wWWx95keLC6na+uO3a0WVLTPEz02gENPw@mail.gmail.com>
-Subject: Re: [PATCH] rust: kbuild: skip gendwarfksyms in `bindings.o` for Rust
- >= 1.91.0
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
-	Haiyue Wang <haiyuewa@163.com>, Miguel Ojeda <ojeda@kernel.org>
+References: <b8c1c73d-bf8b-4bf2-beb1-84ffdcd60547@163.com> <CANiq72kX4Yep3pNVq8Ge=txQbPnMO=zKsci5cPgz5LDS=D6NoQ@mail.gmail.com>
+ <CABCJKud0G+Xh+Wbtg4SDGvk4Yh5nmt5YgHEPj-H0y8GO5R3Amw@mail.gmail.com>
+ <CANiq72mw66ADx7LoUuqY6h9KCU=uFzcNQXZ21kMP7jBjCyyaHQ@mail.gmail.com>
+ <CANiq72=OFO8fBpJ6xvGunYrx5hXfcjQJ=YDqFxtMPWDzfzwpKw@mail.gmail.com> <CABCJKue1xeY7CGHScG04PdHT6TOPgsOpZVKWwgzO65qwAcbEJg@mail.gmail.com>
+In-Reply-To: <CABCJKue1xeY7CGHScG04PdHT6TOPgsOpZVKWwgzO65qwAcbEJg@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 8 Nov 2025 04:51:28 +0100
+X-Gm-Features: AWmQ_bnfSsY-GdPkrVyW1DX6qGnfSU4n42VV7Dd3nIzx6h8i36w7aMyP5XChm-I
+Message-ID: <CANiq72ncHgjjJ_c2fdTgOO9LxmmotRS8S6pwyckLmPJG_4GPNg@mail.gmail.com>
+Subject: Re: Only rust/bindings.o build fail on rust-1.91.0
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Haiyue Wang <haiyuewa@163.com>, rust-for-linux@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>, linux-modules@vger.kernel.org, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 7, 2025 at 6:31=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Sat, Nov 8, 2025 at 3:40=E2=80=AFAM Sami Tolvanen <samitolvanen@google.c=
+om> wrote:
 >
-> On Sat, Nov 8, 2025 at 2:44=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wr=
-ote:
-> >
-> > note that `CLIPPY=3D1` does not reproduce it
->
-> And obviously this means we have to special case this one too...
->
->     $(obj)/bindings.o: private skip_gendwarfksyms :=3D $(if $(call
-> rustc-min-version,109100),$(if $(KBUILD_CLIPPY),,1))
->
-> There may be other cases that disable the optimization or similar,
-> plus we may have other small crates in the future that could also
-> suffer from this, so it may be best to simply force to generate the
-> DWARF with a dummy symbol from that crate for the time being as the
-> fix:
->
->     #[expect(unused)]
->     static DUMMY_SYMBOL_FOR_DWARF_DEBUGINFO_GENERATION_FOR_GENDWARFKSYMS:
-> () =3D ();
+> Technically speaking, bindings.o still exports ~1500 symbols even with
+> newer rustc versions.
 
-This looks reasonable to me, and indeed seems to fix the problem.
+What do you mean?
 
-> And then later do something in the `cmd` command itself or teaching
-> `genkallksyms` to auto-skip in cases like this.
->
-> What do you think?
-
-Like I mentioned in the other thread, we ideally wouldn't silently
-skip symbol versioning because the exported symbols won't be usable in
-this case.
-
-Sami
+Cheers,
+Miguel
 
