@@ -1,158 +1,222 @@
-Return-Path: <linux-kbuild+bounces-9464-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9465-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F5CC44906
-	for <lists+linux-kbuild@lfdr.de>; Sun, 09 Nov 2025 23:26:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB43C44A32
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 00:29:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 925A0188981E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  9 Nov 2025 22:27:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93922188C321
+	for <lists+linux-kbuild@lfdr.de>; Sun,  9 Nov 2025 23:29:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E2571FC8;
-	Sun,  9 Nov 2025 22:26:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1848A221540;
+	Sun,  9 Nov 2025 23:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pYid74ZB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ro/6blGN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E99C264612
-	for <linux-kbuild@vger.kernel.org>; Sun,  9 Nov 2025 22:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA331D6DA9;
+	Sun,  9 Nov 2025 23:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762727208; cv=none; b=Nbd4jeD+otPqGFunEpqfAdQcqA6yS5sOGtF3FOT3RVki8ekISYAzqEWfD10l07O5A9gu7jdOyl2qpmsdjmlG+maXsaMCbXpAg/5rqCxZnGi3vfLFOpBIPwz/FSt9t0s/GG28JXAsMvXjMvfzwgSmG03viubxOsCk97gfGop2pos=
+	t=1762730967; cv=none; b=NndEgkVyKL9wpI1dG40rc5Wz6s8wYnOAqJKv6mEkV/IdjYTXXSLrdCc9h0OlEctQL5gKJKib5W+qf4lESQOJoHJ/eTZAooeydZkVway7SDWU+kYV8Jkoq3hcnn9cZcVHBHINahY3eNyCctJFJE5kprdM9mdLADyyQ1YHQtfuCOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762727208; c=relaxed/simple;
-	bh=GRwTmWWCgGyzksGBqAM9TXhdQPTGz3CGeiWXTeRupAA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZFt1L2+qlCNDoztfZrDax4o6h2q8yo9+rBZ7ATXlZAHAkLmq/XDv/kueUP4M+pMb8lcBokjzEo8/ORAZZboqnkpyoPQS9yphF72LZzw1isliabz+fAKh4TPywhkgOBtl3OspSno2w/EaZlCMfeSD9wXpARvUZf4CExS58y8PTI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pYid74ZB; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47778704516so3026065e9.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 09 Nov 2025 14:26:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762727205; x=1763332005; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l5PWbqtd6bcvUrej8zvNzXepXMjrjn2nyg8Z4cZHFz8=;
-        b=pYid74ZBgCb96gjMnKMx9gjrQkwxfIjFBhQAnJ1uwRsFIVxzTcJs6RMXE8UyhUsX+K
-         Qbgm2EgF44l3XmiOb0+VrSuTbe2TYCpNg86UI0XYS2EVdzP2HUhDTf+tn3a0upotHu+6
-         q+of6IWadR3+mLCeK6I3N1eNiJDphs24EbUuzYCwd5glHljfJ6CsXtn3BCwgnB8kytDc
-         YpBgkEQf+/MNn7Y/kfkC6yp0Kco/Cy29qmdzqDELCCloINL95qHXl+7UbcBDYDEyEKQL
-         O/NeXi0iEHslZqKWita2Mvzwrz38QrAU+8jRmVf3cjTRiL11h7papm4cDePAPS2byapg
-         eygw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762727205; x=1763332005;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l5PWbqtd6bcvUrej8zvNzXepXMjrjn2nyg8Z4cZHFz8=;
-        b=wHAN4Qyv5JQmI6+/m3hTQ1ATN7NoL09lFV6b07ZL9cqqHBOxIefwJI6r6gr3uPY7Lx
-         f2sed/EU76UzJEsxKi7QGo9e1FwYUxAKTenVyOMX7x2k29EEMNDqzcMK1ESgDvRU01yv
-         G4I5mlFRo2zGFzEuB8Z0/UYXrHPfUvRuQAAz1N8CedmmObgNz6UL9JEN6LNzjN6QcyI6
-         tRGHGQWDlhBByoW1E4BmCaNebpq+WfGVbgRG2Invpgfo8k1d9IGr/ea3KlMPV1XfYnT7
-         0D7ksD/qPI7RgMQLh9Ofyuy1O0gWXBgUbnVIgPcAEtEbkh/D3gV9vQiL3lFepuqd2Yt5
-         32rw==
-X-Forwarded-Encrypted: i=1; AJvYcCUgyPDmd33U5N13I8VRpEzNiYgEvnKaVdp9HkGFtp3Dev9ATAKz5b4587A6fhYBFXn30z0SX2qkcOoWoy4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSs7wby0m7Z5hWY7ZbR05xrX8B18K3HBdxllGD5kVa6o9lBRw8
-	D8wt52F0B47JHqakN7vSMS7aIhd1dXXUCTJnSm31QbxwUr/CPnNc/RzDvJnxeLEIaio=
-X-Gm-Gg: ASbGncu6SPceC5HQmLi42llZYcgVSpfUEZikOU6WQzfSWqL8ppugKGjdlFcd0dt/Xvt
-	Zd1Pg+08SX3QKE9vnrYpsOQju9A9kXDwB2MDBOYa22VSk5Vci9HYEyyF53Qty3qJ/FY2zTiRS74
-	uSIC/55kwkZcFjIQq5ApWWB0YZTAp4m7FB6reamwo096izV2lKnqr/loLcMNso0vL69II1ZwPPZ
-	y/bz03oD/irYr0MMWayhwTmiqFCKRojmVLasJDHJJo7qB5CEvawU4UggX/6Dyua7bfvRylSvXut
-	69NTFy/qrQM1Q0E45ryUit4GR8uL3upONh0KdCcs0FVDbhgEO1Iqk1t+2nfJwNN+9fEoAMEVHxZ
-	N/yDYaDIs5QKkyX7hSuQrWZaKAeh4LYKtncZmkabrIBGgqCreG/TwiL7fynKp6KGAwvDDd0cwyv
-	3AKH+PNjNK
-X-Google-Smtp-Source: AGHT+IGnXStHSl2sAW2VSLtoJGzxaRxNy1OwnwV1UuTdC0dx69zTixHcYF+mVfT18Y61FR6Hlsyn+w==
-X-Received: by 2002:a05:600c:4e93:b0:46e:37fc:def0 with SMTP id 5b1f17b1804b1-47773239bf6mr50608715e9.9.1762727204598;
-        Sun, 09 Nov 2025 14:26:44 -0800 (PST)
-Received: from hackbox.lan ([86.121.7.169])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2ee2ed31sm11601155f8f.29.2025.11.09.14.26.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Nov 2025 14:26:43 -0800 (PST)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Mon, 10 Nov 2025 00:26:31 +0200
-Subject: [PATCH] kbuild: install-extmod-build: Properly fix CC expansion
- when ccache is used
+	s=arc-20240116; t=1762730967; c=relaxed/simple;
+	bh=fziFQOyzAXf7ELLEPYsKq6XLBdxtRH/8u0gcNrBETYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=enJV0ubp9IU4VyG3XpiFgnLFXfo6PRjnXOjS2i/cgWK3/XA/A3x/sqhgwkRWyg3OnoBQKF0aIfNapTZFAEJSL4dv3iPwkgBs1AHtCd8E1g84jBt8mVych1k/kpfCd+m1LQSPJ6VWEjKM54q43CiHXcVvMNsLZMX4a3+gPHFEZiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ro/6blGN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA5BAC4CEF7;
+	Sun,  9 Nov 2025 23:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762730966;
+	bh=fziFQOyzAXf7ELLEPYsKq6XLBdxtRH/8u0gcNrBETYw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ro/6blGNU9TECL/0nh6lj6iY53Xqk1FslNrna5sVJ44TCrkCtWpNlb5sodwTWJlcz
+	 lKJh9pU3dibDiSSgtuHR5DUVPSBzAfot8AKaQupdK8HOmKYtmadoTltvkCihvjMH03
+	 jwUyRzvlsaaAm2asC7keHRBY9cAUirQQgJJrj5PmEjAttBeuag4kfAyIOCpWMNS5ID
+	 95cuUtGST18nytg0q/9NbST9dCjPzVcJv8tfw2Yq9uCAqmdzwZKMZBJvK8E1CoR3Er
+	 Q01fap/HpDC6Bwq0Nl/aNVA0rrvJdfWkGJN2NenvHu25+L+LVPYgPC0UpfsFhK8L4d
+	 LWXnJErCMov+w==
+Date: Sun, 9 Nov 2025 16:29:22 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Graham Roff <grahamr@qti.qualcomm.com>
+Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>
+Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
+Message-ID: <20251109232922.GA2977577@ax162>
+References: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251110-kbuild-install-extmod-build-fix-cc-expand-third-try-v1-1-5c0ddb1c67a8@linaro.org>
-X-B4-Tracking: v=1; b=H4sIABYVEWkC/yWNwQqDMBBEf0X23IUk6KH9ldJDkl3r0jRKEotF/
- HeX9jLwHsPMDpWLcIVbt0Phj1SZs4K9dBAnn5+MQsrgjBusNVd8hVUSoeTafErIW3vPhH85yoY
- xqlt8JmyTFM3yRReDHXoTPYURdHkprNXf6/1xHCdwu8j3hQAAAA==
-X-Change-ID: 20251109-kbuild-install-extmod-build-fix-cc-expand-third-try-2cb1540cadbf
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Masahiro Yamada <masahiroy@kernel.org>
-Cc: Jeff Johnson <jeff.johnson@oss.qualcomm.com>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Abel Vesa <abel.vesa@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1925; i=abel.vesa@linaro.org;
- h=from:subject:message-id; bh=GRwTmWWCgGyzksGBqAM9TXhdQPTGz3CGeiWXTeRupAA=;
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBpERUceXxIjNVIRpZszMr2rii7nI7/k293C+ehI
- dQ7wgdbSxOJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCaREVHAAKCRAbX0TJAJUV
- VqtAD/43McfqLq1snZF+fOLJ31wyzswCzkH8xbjHuxY8XQQ35S0qiuN7Y0Q+c28KzzCT1UERXoG
- 3PlPAN9MnUqsBhiUoEq7wRo+FaH74I66rwRVJ/xeFFZJQ8SHVo22C1/XXrw4J19faugzX6fTUaA
- hEqbjVhWkIofIjP1yJQyu0KibK+rKaguRt6cvAvrHGlQYDaxQfcJ73V5/m/KSjWYYGqGtnYcdOT
- AZJFzhAtM8Ilk7wEX0OtQEDpY8B69YuOuOQskfXZkitAWvlRSX6oE/6vYG7d2eL4adtz7Ux4oRH
- ZkG9yqRVG8vrKmTbG4DKb0G+FJjiSP7y4U8o117s2Mqd3OLYhWQDI3FaBK3efWYSQpoAiljlCcY
- Z8glNyNxI/jkBXH4AEsRtIozFnKxHB0kVOUJpLQjV54k7JozMdkCiD/+pyezeE3UIekuVxTEOnj
- Z7YmQFDQqixasblBF2VtabIX9x7B61X7lsOytG0yCF1xxFDe0xzpa0yHMD3YGNQoBJ4/HenisZL
- 23dWEnoJr1BlY/348RL31hyR22Y6AEa0FJyjJd8rU2Nky3I15+xMfsdarP0d8uCOLoiHSVGfemF
- EhcoBFz/P9iTAQhJymFFV7nCNXXTkAdMN94kpO8MS4saqZGwy+V7n9NWnGcuIQVAG5Rs0s32/+D
- 0nREDtZwKxUdXxQ==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
 
-Currently, when cross-compiling and ccache is used, the expanding of CC
-turns out to be without any quotes, leading to the following error:
+Hi Graham,
 
-make[4]: *** No rule to make target 'aarch64-linux-gnu-gcc'.  Stop.
-make[3]: *** [Makefile:2164: run-command] Error 2
+On Fri, Nov 07, 2025 at 05:16:34PM -0800, Graham Roff wrote:
+> From: Nicolas Pitre <nico@fluxnic.net>
+> 
+> Extend the "depends on" syntax to support conditional dependencies
+> using "depends on X if Y". While functionally equivalent to "depends
+> on X || (Y == n)", "depends on X if Y" is much more readable and
+> makes the kconfig language uniform in supporting the "if <expr>"
+> suffix.
+> 
+> The change is implemented by converting the "X if Y" syntax into the
+> "X || (Y == n)" syntax during "depends on" token processing.
+> 
+> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> 
+> [Graham Roff: Rewrote commit message and redid patch for latest kernel]
+> 
+> Signed-off-by: Graham Roff <grahamr@qti.qualcomm.com>
+> ---
+> This patch updates an earlier one that was not merged to work on 
+> the latest kernel release.
+> 
+> Link: https://lwn.net/ml/linux-kernel/nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr/#t
+> 
+> Support for this change has been expressed by a number of developers
+> since the original patch was proposed back in 2020, and has recently
+> also been raised as a patch to the Zephyr kconfig system.
 
-And it makes sense, because after expansion it ends up like this:
+Do you have a link to this Zephyr Kconfig change?
 
-make run-command KBUILD_RUN_COMMAND=+$(MAKE) \
-HOSTCC=ccache aarch64-linux-gnu-gcc VPATH= srcroot=. $(build)= ...
+> One specific use is when mapping the Bluetooth specification to Kconfig,
+> as it explicitly provides dependencies between features as conditional
+> on other features. Many other cases exist where the "slightly
+> counterintuitive" (quoted from the Kconfig specification) expression 
+> "depends on BAR || !BAR" has been used when a proper "if" condition 
+> would be more readable.
+> 
+> The earlier patch discussion ended without a real conclusion and should
+> be revisited now.
 
-So add another set of double quotes, this time escaped, to make sure the
-aarch64-linux-gnu-gcc isn't expanded to something that looks like an
-entirely separate target.
+I think it would be useful to have a slightly more concrete example in
+the documentation of where this could be useful because even with the
+"if" syntax, it still feels a little confusing to me at least with the
+current example. Since this is just internally converting "depends on A
+if B" to "depends on A || !B", this seems like a low risk addition to
+the Kconfig language but it would be good to have some tests under
+scripts/kconfig/tests like the ones recently added by commit
+f9afce4f32e9 ("kconfig: Add transitional symbol attribute for migration
+support") upstream.
 
-Fixes: 140332b6ed72 ("kbuild: fix linux-headers package build when $(CC) cannot link userspace")
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- scripts/package/install-extmod-build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-index 054fdf45cc37a8717444b8094daf3e1150a8ccf5..6cce5c41552d520bf069487352fd26417b0b3899 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -63,7 +63,7 @@ if [ "${CC}" != "${HOSTCC}" ]; then
- 	# Clear VPATH and srcroot because the source files reside in the output
- 	# directory.
- 	# shellcheck disable=SC2016 # $(MAKE) and $(build) will be expanded by Make
--	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='"${CC}"' VPATH= srcroot=. $(build)='"$(realpath --relative-to=. "${destdir}")"/scripts
-+	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='\""${CC}"\"' VPATH= srcroot=. $(build)='"$(realpath --relative-to=. "${destdir}")"/scripts
- 
- 	rm -f "${destdir}/scripts/Kbuild"
- fi
-
----
-base-commit: 9c0826a5d9aa4d52206dd89976858457a2a8a7ed
-change-id: 20251109-kbuild-install-extmod-build-fix-cc-expand-third-try-2cb1540cadbf
-
-Best regards,
--- 
-Abel Vesa <abel.vesa@linaro.org>
-
+> ---
+>  Documentation/kbuild/kconfig-language.rst | 12 +++++++++++-
+>  scripts/kconfig/lkc.h                     |  2 +-
+>  scripts/kconfig/menu.c                    | 12 +++++++++++-
+>  scripts/kconfig/parser.y                  |  6 +++---
+>  4 files changed, 26 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index abce88f15d7c..61848f999db8 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -118,7 +118,7 @@ applicable everywhere (see syntax).
+>    This is a shorthand notation for a type definition plus a value.
+>    Optionally dependencies for this default value can be added with "if".
+>  
+> -- dependencies: "depends on" <expr>
+> +- dependencies: "depends on" <expr> ["if" <expr>]
+>  
+>    This defines a dependency for this menu entry. If multiple
+>    dependencies are defined, they are connected with '&&'. Dependencies
+> @@ -134,6 +134,16 @@ applicable everywhere (see syntax).
+>  	bool "foo"
+>  	default y
+>  
+> +  The dependency definition itself may be conditional by appending "if"
+> +  followed by an expression. If such expression is false (n) then this
+> +  dependency is ignored. One possible use case is:
+> +
+> +    config FOO
+> +	tristate
+> +	depends on BAZ if BAZ != n
+> +
+> +  meaning that FOO is constrained by the value of BAZ only when it is set.
+> +
+>  - reverse dependencies: "select" <symbol> ["if" <expr>]
+>  
+>    While normal dependencies reduce the upper limit of a symbol (see
+> diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+> index 56548efc14d7..798985961215 100644
+> --- a/scripts/kconfig/lkc.h
+> +++ b/scripts/kconfig/lkc.h
+> @@ -82,7 +82,7 @@ void menu_warn(const struct menu *menu, const char *fmt, ...);
+>  struct menu *menu_add_menu(void);
+>  void menu_end_menu(void);
+>  void menu_add_entry(struct symbol *sym, enum menu_type type);
+> -void menu_add_dep(struct expr *dep);
+> +void menu_add_dep(struct expr *dep, struct expr *cond);
+>  void menu_add_visibility(struct expr *dep);
+>  struct property *menu_add_prompt(enum prop_type type, const char *prompt,
+>  				 struct expr *dep);
+> diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+> index 0f1a6513987c..b2d8d4e11e07 100644
+> --- a/scripts/kconfig/menu.c
+> +++ b/scripts/kconfig/menu.c
+> @@ -127,8 +127,18 @@ static struct expr *rewrite_m(struct expr *e)
+>  	return e;
+>  }
+>  
+> -void menu_add_dep(struct expr *dep)
+> +void menu_add_dep(struct expr *dep, struct expr *cond)
+>  {
+> +	if (cond) {
+> +		/*
+> +		 * We have "depends on X if Y" and we want:
+> +		 *	Y != n --> X
+> +		 *	Y == n --> y
+> +		 * That simplifies to: (X || (Y == n))
+> +		 */
+> +		dep = expr_alloc_or(dep,
+> +				expr_trans_compare(cond, E_EQUAL, &symbol_no));
+> +	}
+>  	current_entry->dep = expr_alloc_and(current_entry->dep, dep);
+>  }
+>  
+> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+> index 49b79dde1725..6d1bbee38f5d 100644
+> --- a/scripts/kconfig/parser.y
+> +++ b/scripts/kconfig/parser.y
+> @@ -323,7 +323,7 @@ if_entry: T_IF expr T_EOL
+>  {
+>  	printd(DEBUG_PARSE, "%s:%d:if\n", cur_filename, cur_lineno);
+>  	menu_add_entry(NULL, M_IF);
+> -	menu_add_dep($2);
+> +	menu_add_dep($2, NULL);
+>  	$$ = menu_add_menu();
+>  };
+>  
+> @@ -422,9 +422,9 @@ help: help_start T_HELPTEXT
+>  
+>  /* depends option */
+>  
+> -depends: T_DEPENDS T_ON expr T_EOL
+> +depends: T_DEPENDS T_ON expr if_expr T_EOL
+>  {
+> -	menu_add_dep($3);
+> +	menu_add_dep($3, $4);
+>  	printd(DEBUG_PARSE, "%s:%d:depends on\n", cur_filename, cur_lineno);
+>  };
+>  
+> 
+> ---
+> base-commit: a1388fcb52fcad3e0b06e2cdd0ed757a82a5be30
+> change-id: 20251106-kconfig_conditional_deps-51f1c903f863
+> 
+> Best regards,
+> -- 
+> Graham Roff <grahamr@qti.qualcomm.com>
+> 
 
