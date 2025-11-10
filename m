@@ -1,174 +1,162 @@
-Return-Path: <linux-kbuild+bounces-9468-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9469-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AB2C45286
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 08:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACC9C455FB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 09:28:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C7C334E89AF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 07:01:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AC31D4E565B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 08:28:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBB672E92B4;
-	Mon, 10 Nov 2025 07:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54CA22F49E0;
+	Mon, 10 Nov 2025 08:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOiYkuEK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QrN6e7Vm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07062F0661
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 07:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707D522B8A6
+	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 08:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762758005; cv=none; b=i6HOYgkS9DNxL2NLmcsxkd6iqWck9adl1oDMGZetkr+fcJZtxVKETw9FCJd3T6rjTo4kihwNbFuxqAKwe2rw4E7uv6DQIpi942TMvGb78l5nmA4LpQyT7KuMpJMqiEYkzFtrakP0gxUODqvDVkAhtcRQlXtg0jaHW35ZxOWHky8=
+	t=1762763316; cv=none; b=iLpwJn0EkJXyyuHW2rRZb6RRdmC5aWId5mWqJ+h2UiNYUjKD0OsPzXe58+p9Glg4AdzkzlHTVCTUAGzCqMZXlMgC4sOIYhsvgwEcq0FALgdY7jB0ia68gjHlnNQDe4wfkm8Vujijmy+x4w51Gf4gBt+Pa+zGDZJiGfnzn/ITWFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762758005; c=relaxed/simple;
-	bh=JdTdMo+NFiglCdCfKW95/AM4C/gcOP2vda5nUzM0Gcs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lhyPusJQQzTYJZltWQ2ooi/y58vTb3d6yAkiAUatJoAaOYzF91b797kr0/loAvCrGKauWdCozvoP7uK9DZHZ9qTHVUbL17YyOvRvg3NJELJ10xcDUtlVee5oj+Vi1Meq9J58MsjFYj5xm7eOyJ6gBeNTBbvcPzN1199fUNxjXT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOiYkuEK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60DA0C19424
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 07:00:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762758005;
-	bh=JdTdMo+NFiglCdCfKW95/AM4C/gcOP2vda5nUzM0Gcs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fOiYkuEKJeG64GjSkTz0f062EymlHD37s8k68FmgmEKb1QyozA9aH3644MecRv1rk
-	 MSLlU/QP/Vt/gBlJ3JMXb/jrSpZafF8b64XnG21/d2+aOMESrCAudIQeEymVVsc7Az
-	 u1E8J6JpR7C4w6R0ivD078MdWdFEsqExMLydk09mClOb76WxnIdBZ15Zb9VZf0GtbC
-	 CnGwXRkUIN8wtWYTzbK8xdN2DEE8A9YeQvTVi8aKXLDnghnVc2v/Nlj6QpAt4iK/SU
-	 cSdKQXbZzBawYnrauz+xbosh04Pz0PacM2n1UkAbs05FpZ5o8rWz6Bubs4wmTyw0Gu
-	 Wezc5Ezmnbkbw==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b6d402422c2so531548866b.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 09 Nov 2025 23:00:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUZStCjnuxSDwP/2dOKABLIOlrw6kJfy32dn3CYtd719SevYkjDLOPuvw9dZGiJOrSLYN1hlOuH3NlI3AE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwV6dUJdmu4QeCuTbuj+4dUFpA/KfQugrCJEWwDPes3Ib3inIef
-	b/wTa1T48XJBspFYihfkOPbKvqf3VvuJKq5r48Tr/sxtJa1fDzkT3a8oIIu556zX8XAyYS0clje
-	m0WJIBcWCqaswQUrr5EiI/cu4crHtgpY=
-X-Google-Smtp-Source: AGHT+IHkpMQjNw20ZABNl3NXRRjTGeTjlilbmH88N08NrWz3UtRyqo7y/Vo93oYm+gCDPeDFcWZjLsRDB5fNntbnReU=
-X-Received: by 2002:a17:907:3fa9:b0:b6d:5262:a615 with SMTP id
- a640c23a62f3a-b72e045bbe3mr518748666b.41.1762758003839; Sun, 09 Nov 2025
- 23:00:03 -0800 (PST)
+	s=arc-20240116; t=1762763316; c=relaxed/simple;
+	bh=s5iqABizyTsx5/aNOAa3LoP02EYNoIbfADX/c87JJh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHwPtVqzG1AV/UFU+oXeTjJr5zBx+O0liPnBhtwZZ6YzwCoEx8IKzd0Hi+PSQfnkdm1Mn8lXyKlG8OaoaX7l4jEOEruWj89l+HqihL1WN0suh66JWKWXooOsFGHYvE6lFvmOYm9f4XRvg+665wBkPCFeNY2BYn8ZsqLWN6qXKxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QrN6e7Vm; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b3c965df5so211223f8f.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 00:28:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762763313; x=1763368113; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LKSTj91dcFVmbB7NkANhTbRS7BofOtUF10VZ1W0mr10=;
+        b=QrN6e7Vme9dc2jdODThYZwp9ucu6IygdK3jb/UsECsVJU/qCP3ZBqzZr/VO2rMt8JX
+         B/Yq69fszt+IK9IrR7q2hyif1ZJTPa8REnnCTANKR3g65cQ7Y0DJ4GCnK2c6Gyrxxhn9
+         lANLLJkNVymSjI+p9PNG2ESOXCFBGMaU8LzXNzXASTgwUq1tPxSekagYDUV09J86g1os
+         9dZ9XTUnuqLAXFNJctjhQacsKPSjmFGKI0Ytkcz5aFtXWlLU6HqeduhsT0FbHf3AU6qY
+         vmqsHjnTo/ilSOrU8u99pnAeM3YS3A6fFHPOrp9VLouGR+0FqwB32YwP60eg0/KV2Uiz
+         AItw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762763313; x=1763368113;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LKSTj91dcFVmbB7NkANhTbRS7BofOtUF10VZ1W0mr10=;
+        b=N28hY1kmArusbmgakeLfcdhrREeJZheBwDyxjG9XuFUmJGHVpbTm66gVPs+25pxDMo
+         LGjvCKz7DjYQuPCI/27WkY0SF63cuUUc0xYFyekIyN+7lb6uLbnWQrLq5FidXMSdgdGF
+         Bk23FLJn/IuWKOyfb+XF1fsZRzf39fmReTUsqGXrlLOMbkuE9yc0cLf+fh6otAFz3Ucm
+         R3Ird3NlvctrMm10vgHdnXlLCD1Ymbribpj/I8upxmveu9ZvqVh1z5Z61RQGlbv6m33X
+         PUVGY00SFj0bDbu/rIlv7jTVRxZ9bn1mTmvQFyDnlfiH972NLcSKRYI+tExRcdeBHr/F
+         /Z/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUH+JMsjzge08iLZPCnWcj0zvglKJHxQnMgEX9tvkTaWio8CLbH36kWJsPTm+6Kcy/29tdVtSVXzuyaVGs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynpnuemeGZAlmc5yHUd1i0giPTZI6RGKPNFXtnCv2h644IWuLt
+	pdb/NjE51nNLYv2f0buc0nnCs27oDZ/h6HfRj0G83HFeuDCAEd7yD/o+IGsuxh1mdqY=
+X-Gm-Gg: ASbGncsi1QSfZlmLsf9ujYVntBpHyarF3c5O5d4besE/DfjtTEyUHHMW1xG9njV5Ezw
+	9Hx0xwF23al7RR9+C+qrnCJQ/r2T98TeukYuEG/q+uT/mACATbBA207agEkLwZKbEKAieKQbRTu
+	4K2DhixZlUB0cTaAOPd5hm2NnE2Z0/C74R5ptdtaNDU8oqwCrdN66vp5RC7luAjo5Fdt4Rv01Rm
+	bl/sS1b2zitAs7+/nGn//w57Np+O3kZOCaTcH4KFf5kqzZP8lpeM1wjbBqLy/RNIkHmM/5shR80
+	yEBLi2vVis6r0BmaOs3uxM5Rta9f7pqcMselxZQvyKFmrqo4I5tpTBZFxFITTy+zEVk2cmhhqaG
+	Qc6CO6xWeoxd8JEnDVsNJeTJ50OmGUdvCbzBmJAXBKkpmQPEYYiilcW39VsgxkbVGXzj4d8npxg
+	sRo2i3wNs=
+X-Google-Smtp-Source: AGHT+IEtUA/RT9kyVzGnwoHJZhdWBJKBW3uwg0FiWGaP3sARVQB3SyFfIiTIHURetWKhGAZ1x21nPg==
+X-Received: by 2002:a05:6000:1888:b0:42b:40b5:e64c with SMTP id ffacd0b85a97d-42b40b5e9dfmr115370f8f.30.1762763312634;
+        Mon, 10 Nov 2025 00:28:32 -0800 (PST)
+Received: from linaro.org ([86.121.7.169])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2ee2ed31sm13815116f8f.29.2025.11.10.00.28.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 00:28:32 -0800 (PST)
+Date: Mon, 10 Nov 2025 10:28:30 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Jeff Johnson <jeff.johnson@oss.qualcomm.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: install-extmod-build: Properly fix CC expansion
+ when ccache is used
+Message-ID: <yylihpoko4xxk4i5o7qfuidn4ve4vjedfbgc3uzysgvhla2fyb@2c5inm3xmwky>
+References: <20251110-kbuild-install-extmod-build-fix-cc-expand-third-try-v1-1-5c0ddb1c67a8@linaro.org>
+ <20251109234124.GC2977577@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAAhV-H7HN128du-b1Rk_9qbYBq7gMSwo0s31909N4pTou6wzew@mail.gmail.com>
- <rhnei6wovxmoqs36wdysomfsul3faxtmgde73wrrqdt3qo3b2j@akd7vzne76rq>
- <CAMj1kXF+hDJy0vRWNgwoijHxvA-scvhGODMj9A3dv19v3jf2yw@mail.gmail.com>
- <lgyzruqczm7uti2lfbhfhr5hyzpnm7wtvgffa2o7nigx76g6i3@wlffltvmhhez>
- <CAMj1kXFDquPxCYSBWgjikS=209pSJ_kth67M0RDeuetV9CPYAw@mail.gmail.com>
- <wlx6pt5crtfdwtop4w5vjznjfarrwitq44wdbufncjdvtsx647@tgobruak66yb>
- <CAMj1kXFfEBkcc-aiwGrRR-pKg4LBbS7weK0pEpZJsKOk5pbkuA@mail.gmail.com>
- <jxfb5a2c2qber623l2gwewirwod54bbgfnvt7t7f3jah2ea33g@2uyhy3auzmpx>
- <d9f3352a-1c1f-464a-a8fd-741cd96b5f8e@loongson.cn> <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
- <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn> <CAAhV-H5ZSTFDxvm-W1CrgEoQ5d_jw5yVsfetQ_J_qL5pqLtzgg@mail.gmail.com>
- <CAMj1kXGk0udgM67wrWqahqK8H0uE8emQj51SmJey+7fE-FTjdA@mail.gmail.com>
- <CAAhV-H4c=vdNWO0v_mYL2xZ9FYjDyRDvt6f_kV4d8Bh=CRJniQ@mail.gmail.com>
- <CAMj1kXEaxxcWTTANWeEMNjYDymdL5Fxy2B=XBF4RGtteEkfinw@mail.gmail.com> <421c08e1-255b-447b-b5e3-ee6544fbefd2@loongson.cn>
-In-Reply-To: <421c08e1-255b-447b-b5e3-ee6544fbefd2@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 10 Nov 2025 15:00:00 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5KsFShDJ_Cxu+1_ces8oojn8+S-7PLmE7aUj8gX5_GEw@mail.gmail.com>
-X-Gm-Features: AWmQ_bmq5wLFGGuKpNEar1lHdOssPyNtLtsWck9HgwZgdpmEeIMHmCh0kt8j7JI
-Message-ID: <CAAhV-H5KsFShDJ_Cxu+1_ces8oojn8+S-7PLmE7aUj8gX5_GEw@mail.gmail.com>
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Ard Biesheuvel <ardb@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, loongarch@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251109234124.GC2977577@ax162>
 
-On Mon, Nov 10, 2025 at 9:19=E2=80=AFAM Tiezhu Yang <yangtiezhu@loongson.cn=
-> wrote:
->
-> On 2025/10/28 =E4=B8=8B=E5=8D=889:47, Ard Biesheuvel wrote:
-> > On Sun, 26 Oct 2025 at 12:20, Huacai Chen <chenhuacai@kernel.org> wrote=
-:
-> >>
-> >> On Thu, Oct 23, 2025 at 4:07=E2=80=AFPM Ard Biesheuvel <ardb@kernel.or=
-g> wrote:
-> >>>
-> >>> On Thu, 23 Oct 2025 at 10:01, Huacai Chen <chenhuacai@kernel.org> wro=
-te:
-> >>>>
-> >>>> On Thu, Oct 23, 2025 at 2:55=E2=80=AFPM Tiezhu Yang <yangtiezhu@loon=
-gson.cn> wrote:
-> >>>>>
-> >>>>> Hi Josh and Ard,
-> >>>>>
-> >>>>> On 2025/10/20 =E4=B8=8B=E5=8D=882:55, Huacai Chen wrote:
-> >>>>>> On Mon, Oct 20, 2025 at 9:24=E2=80=AFAM Tiezhu Yang <yangtiezhu@lo=
-ongson.cn> wrote:
-> >>>>>>>
-> >>>>>>> Hi Josh, Ard and Huacai,
-> >>>>>>>
-> >>>>>>> On 2025/10/18 =E4=B8=8A=E5=8D=881:05, Josh Poimboeuf wrote:
-> >>>>>>>
-> >>>>>>> ...
-> >>>>>>>
-> >>>>>>>> But IIUC, the libstub code runs *very* early, and wouldn't show =
-up in a
-> >>>>>>>> stack trace anyway, because there are no traces of it on the sta=
-ck once
-> >>>>>>>> it branches to head.S code (which doesn't save the link register=
-).
-> >>>>>>>
-> >>>>>>> Thanks for your discussions.
-> >>>>>>>
-> >>>>>>> Are you OK with this current patch?
-> >>>>>> For me the current patch is just OK.
-> >>>>>
-> >>>>> We have discussed this a few times but there is almost no consensus
-> >>>>> of what should happen next and nothing changes.
-> >>>>>
-> >>>>> Could you please give me a clear reply? Then I can make progress fo=
-r
-> >>>>> the following series:
-> >>>>>
-> >>>>> https://lore.kernel.org/loongarch/20250917112716.24415-1-yangtiezhu=
-@loongson.cn/
-> >>>> For me, this patch is OK, ignore __efistub_ prefix in objtool is als=
-o
-> >>>> OK [1]. But I cannot accept the way that modifying the efistub part
-> >>>> only for LoongArch.
-> >>>>
-> >>>> Clear enough?
-> >>>>
-> >>>
-> >>> LoongArch is the only architecture which has the problem, so I don't
-> >>> see a reason to modify other architectures.
-> >>  From your reply I think the efistub code is completely right, but
-> >> objtool cannot handle the "noreturn" function pointer. And this patch
-> >> is a workaround rather than a proper fix (so you don't want to touch
-> >> other architectures), right?
-> >>
-> >
-> > That is my reasoning, yes. But Josh is right that it shouldn't make a
-> > difference in practice, I am just reluctant to make changes to the
-> > code running on the target to accommodate a flawed build time tool.
->
-> If I understand correctly, I should modify this patch to remove the
-> changes of arm and riscv for now, do the changes only when there is
-> a real problem or requirement some day, right? If no more comments,
-> I will send v3 later.
-Now everyone involved agrees that the efistub code is correct, so the
-proper solution is to fix the compiler. Changing efistub code and
-changing objtool (ignore __efistub prefix) are both workarounds, but I
-think changing objtool is a little more reasonable. Maybe Josh has
-different ideas?
+On 25-11-09 16:41:24, Nathan Chancellor wrote:
+> On Mon, Nov 10, 2025 at 12:26:31AM +0200, Abel Vesa wrote:
+> > Currently, when cross-compiling and ccache is used, the expanding of CC
+> > turns out to be without any quotes, leading to the following error:
+> > 
+> > make[4]: *** No rule to make target 'aarch64-linux-gnu-gcc'.  Stop.
+> > make[3]: *** [Makefile:2164: run-command] Error 2
+> > 
+> > And it makes sense, because after expansion it ends up like this:
+> > 
+> > make run-command KBUILD_RUN_COMMAND=+$(MAKE) \
+> > HOSTCC=ccache aarch64-linux-gnu-gcc VPATH= srcroot=. $(build)= ...
+> 
+> Yup, good old shell quoting... :(
+> 
+> > So add another set of double quotes, this time escaped, to make sure the
+> > aarch64-linux-gnu-gcc isn't expanded to something that looks like an
+> > entirely separate target.
+> > 
+> > Fixes: 140332b6ed72 ("kbuild: fix linux-headers package build when $(CC) cannot link userspace")
+> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > ---
+> >  scripts/package/install-extmod-build | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
+> > index 054fdf45cc37a8717444b8094daf3e1150a8ccf5..6cce5c41552d520bf069487352fd26417b0b3899 100755
+> > --- a/scripts/package/install-extmod-build
+> > +++ b/scripts/package/install-extmod-build
+> > @@ -63,7 +63,7 @@ if [ "${CC}" != "${HOSTCC}" ]; then
+> >  	# Clear VPATH and srcroot because the source files reside in the output
+> >  	# directory.
+> >  	# shellcheck disable=SC2016 # $(MAKE) and $(build) will be expanded by Make
+> > -	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='"${CC}"' VPATH= srcroot=. $(build)='"$(realpath --relative-to=. "${destdir}")"/scripts
+> > +	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='\""${CC}"\"' VPATH= srcroot=. $(build)='"$(realpath --relative-to=. "${destdir}")"/scripts
+> 
+> Can we avoid the need for escaping the " by just moving it to the other
+> side of the '?
+> 
+>   "${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC="'"${CC}"'" VPATH= srcroot=. $(build)='"$(realpath --relative-to=. "${destdir}")"/scripts
+> 
 
-Huacai
+Yep, this does the trick.
 
->
-> Thanks,
-> Tiezhu
->
->
+Will send v2.
+
+> This whole command is really hard to read but I don't really see an
+> obvious way to simplify it.
+
+Yeah, the only part I think can be simplied is pre-expanding the value
+after $(build)=, maybe ...
+
+> 
+> >  
+> >  	rm -f "${destdir}/scripts/Kbuild"
+> >  fi
+> > 
+> > ---
+> > base-commit: 9c0826a5d9aa4d52206dd89976858457a2a8a7ed
+> > change-id: 20251109-kbuild-install-extmod-build-fix-cc-expand-third-try-2cb1540cadbf
+> > 
+> > Best regards,
+> > -- 
+> > Abel Vesa <abel.vesa@linaro.org>
+> > 
 
