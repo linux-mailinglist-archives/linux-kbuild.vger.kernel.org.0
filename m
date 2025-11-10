@@ -1,80 +1,80 @@
-Return-Path: <linux-kbuild+bounces-9502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9503-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C3BC46585
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 12:44:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCA4C465C4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 12:48:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0203E4E65C9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:44:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD12F3ABF55
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:47:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AAB328506F;
-	Mon, 10 Nov 2025 11:44:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984A63093CD;
+	Mon, 10 Nov 2025 11:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DTmhAi2G"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DddieZtr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100C2309F07
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 11:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4EA302743
+	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 11:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762775048; cv=none; b=gFoI9VuslNR2UTYAoHRfOcuLn9KySj9uS96YHg1AFHdIbUlLSXMxpomPpM+UECUy4gCz6jh805dY51VSMI5B7S8ToJc5w4yGT0kikMMbUhnI9ZeB/PBkODV7JDeqJehTW13fMNJkgSaGJH2Vu5z6BdRmXrm068Ljvcno58Gsfis=
+	t=1762775235; cv=none; b=qO5vHabg1+rWtsptBsExaEbBp+apU6Zi4mDGO0WOiMrAvFy6R/qhX2akxKrRKPfmn6CvvZKnbFELn9tmjyTHnw+hTytfSJLOiLTvS9bS/+4DrXeEPQm+n3llsyRIHpM2P+OX5og8SJ/YKNLA+HjB06nJlxs9aqVrTxRNiG6x18c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762775048; c=relaxed/simple;
-	bh=KHlEJ3ZcFOvOfciC05S5x0Xt1y97nhfIAVEf/vmkfg4=;
+	s=arc-20240116; t=1762775235; c=relaxed/simple;
+	bh=UHsZ8mNOG8p7kZWeRQbdvDX87iavcoicnA0ph7mCQpM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gYaYU+GoSefAI3Bx5K1LhDxsBgUD/D01qrfhJ2xqdZ3SLaCRZW9Jc6oGEJ+JogqrGh7mPaxUBF3oLjA4u2RzT5J8GSjN9qpdY41MA+4GTa+QFcc2i4yzL8xYUPKiv/niei4bbr1NNHlbTJ8hFbwVojY0VQMX/XAtuSAz2C0sJtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DTmhAi2G; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=U1sChejIWzk5MgqQrZxt7xMKF4aKYuoDvrW8wmVFkl0XoB1MaTbvkeoHmTboX+vE+iTqO7/s8lfsroay7AqnMUiFKJ6SVV3H2zj6R9IRyn7aYkCdRLT0rKlrXda4LsCu2oGgl63R1LuK8sRVgg04DrY/W7Gt4grtCDCXdBNq/ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DddieZtr; arc=none smtp.client-ip=209.85.208.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-475c422fd70so18963975e9.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 03:44:05 -0800 (PST)
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-64091bef2ecso2878939a12.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 03:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762775044; x=1763379844; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762775232; x=1763380032; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjIkKq2mWwIfqO3bEG9TIc4WKN6b5GBEeKQWWDEpLnw=;
-        b=DTmhAi2GRC5/ozUW5FI0/rOwl81sPZduocy2op1eV4dYPJppBB7NqvN8RlibAG/jg1
-         /ZrvW1pGpLkAzxXlRRIkTWvuouko3aI5YXxiPRyTa7QP7uIKtZhupLcxtPQk7yH5blAe
-         1arYaNgFy2+OEk3CMRjYh9bc6R8Io3/FmRHjvilSpUeUXqECial2ucC8l72Ayx2uEOOX
-         ZK+hNpp5jrynxgeD0aLvsU6KxfMQ1mikbKUMt3Hk+RvgVKkNWVJlOx0TpOzOjbKwRCGA
-         fAb2CFPTCIuE5+F7xZx8X72SjzeiKFa4Xtdoa739NMli+/+hKYOz9faoH3qKmuJkP0X7
-         xV6w==
+        bh=wUCZuS6iBZ+Cb2EbxYt/LbW22Q1kNekqfCyN5WYEYrk=;
+        b=DddieZtr+YcRU6AGymXQ6+qbjn4EqfaO1LTBmOwgNdwd2GljS7zyb1RqN14kryvqia
+         N4CCnwoDamx2Y13a+sxDntiCwG14T10uI1J2PP2gs/++M8u8KmFDWeVPTkhGVJkd7MnX
+         /oPPoPxWLKuq2A52BHO8bifmzBZtHc3liXMbi/+mGONJAWn7rZvdMPNGtvI33lz2xU6u
+         ysPgqzNiiCIF6TMslrx6yVp6I+MC/7t7lzsZtPs0OPXVU7TcmmQeLvkTdztdQx04qOp3
+         vFq+6Tapi87i1kL1hJdKBMxmoC7UO9aI5evD46DVTYrG6830K8SRDB/frUImVwp3+4NW
+         P3dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762775044; x=1763379844;
+        d=1e100.net; s=20230601; t=1762775232; x=1763380032;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qjIkKq2mWwIfqO3bEG9TIc4WKN6b5GBEeKQWWDEpLnw=;
-        b=G2aaI0SRS7m/1EeTMskru3k9xoP3q+RqjoCtocfKH6Lkub70yQ/qyUvgbazWUN9K5A
-         eSvWtj4iQp9K/aiFBI9K54TGWSppzs5yPoVoVkoJD1u0ElS2VBp3ExD9MBcwXNDgT45Q
-         Q7ogDZrXANVZw4W/6Cv9idJnzPZTSj9VNu2avNV43yoJw/L5ztTYMcLD4CVB1s+4nZTq
-         zIr0lwcvNNyEMaA++Z8mgfQflNuqFJnrAU18x6LKG48tVrCIRgWXeuW266jdTGN9qwLT
-         CDBjNt1lwu1SvdTfQn8j7eLF22NYCA61mxx9nXt4xJxI4ecUtIfJqWBj83rpObg/Cuk7
-         jeng==
-X-Forwarded-Encrypted: i=1; AJvYcCXR42TDc7+IxudOWE9A0fI0wnC1lcx2M2I2LR7Jmoc77/Ljl+RgaqD4Tsc3FFjMPZIEMdfef8fUqH3Ueh0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDVwyvffzssqQY7EzR2Mr12nFowBcDiO50ErQPxRFL3Hz7uY+B
-	Y/WzlZA/fM44SZrks3fURTumOkl/6uIeNw1PWh3KTy2E7wg50SoWXYP0FAy709OZg6RVyku60eK
-	hCecolK4UF6mQMl99uA==
-X-Google-Smtp-Source: AGHT+IGkuNbhhInDD1ZmUt1/NhCQQS/t6wQ2i+1z9bpocdva95THZTedwTKnj4SLT8o++qExerTsl+FlUO1zVo8=
-X-Received: from wmom20.prod.google.com ([2002:a05:600c:4614:b0:477:77a8:8918])
+        bh=wUCZuS6iBZ+Cb2EbxYt/LbW22Q1kNekqfCyN5WYEYrk=;
+        b=tfBIUOXs0QZqh9tzS73Fz25X7fPUtavlwGolApTFUPC7YQM81ybCr/s4rylKo4yg6O
+         K2ICd1H4lwmbwkWKsaMSwM+eO9SyECDPYcRWMmheyvn/BKKIkZoDvmHwoiFAFutu1kux
+         8PxLFl23KmvBf5+XTGSyB/AJcjmH5hjmpBu0y4q6y1i5gIQ1fAH/hGhymLAVKY1CV5yo
+         kCpPyMiCHVuHlArPisnp9EK8UR7ck6h8dgKY9pBNJap1ajgQ+uMFwdB3WOL4byJGwNyk
+         bvRyKAactNp/T5s9NSJlgNyG9af9o1Caa56zU0+u+kzAZZbnbwMznyji7GbDThkwBmZ0
+         HaWg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6Nx5QL91XFA6azXZKAxsHMTX89A3mkP7Po7BRAm0ahagrvRgw/hH18frncUs6KKxH8dp5SNbblz7fNF8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC2u9HuzHTMbydubXLXrc8QjIErqjzugPF57vtVmmKSZlRWdUP
+	qvW9NFBzzAO4doUngzwUU/X+Olj6PquK9GpV8y+4ue7lILxD5vLXxJBiyNroUjEYwwzoWjWVXv5
+	ARb3wFoR0jJUViE+8XQ==
+X-Google-Smtp-Source: AGHT+IHn/ARWRXnaz/QbEvpiXa66T27fjTbhbGtpITormFJQJJtBcOuO5FmSZ0Htawn8t+iKKDuDiXxfGYOF77I=
+X-Received: from edbin4.prod.google.com ([2002:a05:6402:2084:b0:641:8e3a:1196])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4f94:b0:477:639f:2ae3 with SMTP id 5b1f17b1804b1-47773288ba4mr64880965e9.40.1762775044443;
- Mon, 10 Nov 2025 03:44:04 -0800 (PST)
-Date: Mon, 10 Nov 2025 11:44:03 +0000
-In-Reply-To: <20251110095025.1475896-14-ojeda@kernel.org>
+ 2002:a05:6402:2106:b0:640:ef03:82c9 with SMTP id 4fb4d7f45d1cf-6415dc11781mr6885792a12.11.1762775232291;
+ Mon, 10 Nov 2025 03:47:12 -0800 (PST)
+Date: Mon, 10 Nov 2025 11:47:11 +0000
+In-Reply-To: <20251110095025.1475896-17-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-14-ojeda@kernel.org>
-Message-ID: <aRHQA6FEoxACerIQ@google.com>
-Subject: Re: [PATCH 13/18] rust: quote: enable support in kbuild
+References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-17-ojeda@kernel.org>
+Message-ID: <aRHQv14husHrYpl_@google.com>
+Subject: Re: [PATCH 16/18] rust: syn: remove `unicode-ident` dependency
 From: Alice Ryhl <aliceryhl@google.com>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
@@ -86,29 +86,15 @@ Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
 	patches@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 
-On Mon, Nov 10, 2025 at 10:50:18AM +0100, Miguel Ojeda wrote:
-> With all the new files in place and ready from the new crate, enable
-> the support for it in the build system.
+On Mon, Nov 10, 2025 at 10:50:21AM +0100, Miguel Ojeda wrote:
+> The `syn` crate depends on the `unicode-ident` crate to determine whether
+> characters have the XID_Start or XID_Continue properties according to
+> Unicode Standard Annex #31.
+> 
+> However, we only need ASCII identifiers in the kernel, thus we can
+> simplify the check and remove completely that dependency.
 > 
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-> diff --git a/rust/Makefile b/rust/Makefile
-> index a614a23023cb..801a8cbf3bdd 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -199,8 +218,8 @@ rustdoc-clean: FORCE
->  quiet_cmd_rustc_test_library = $(RUSTC_OR_CLIPPY_QUIET) TL $<
->        cmd_rustc_test_library = \
->  	OBJTREE=$(abspath $(objtree)) \
-> -	$(RUSTC_OR_CLIPPY) $(rust_common_flags) \
-> -		@$(objtree)/include/generated/rustc_cfg $(rustc_target_flags) \
-> +	$(RUSTC_OR_CLIPPY) $(filter-out $(skip_flags),$(rust_common_flags) $(rustc_target_flags)) \
-> +		@$(objtree)/include/generated/rustc_cfg \
->  		--crate-type $(if $(rustc_test_library_proc),proc-macro,rlib) \
->  		--out-dir $(objtree)/$(obj)/test --cfg testlib \
->  		-L$(objtree)/$(obj)/test \
-
-This change seems unrelated?
-
-Alice
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
