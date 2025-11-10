@@ -1,130 +1,159 @@
-Return-Path: <linux-kbuild+bounces-9500-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD24C46333
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 12:19:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 228CCC46507
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 12:38:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 26BFA347DAB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:19:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E7F63B4DFD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:38:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62339305E37;
-	Mon, 10 Nov 2025 11:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE02830C605;
+	Mon, 10 Nov 2025 11:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cWW81H8B"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h/JNlBh9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769DA30594F;
-	Mon, 10 Nov 2025 11:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF52E30AACE
+	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 11:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762773581; cv=none; b=G5Mqj5+TsIZ83hE+5xSHgg0/y7N45wypUgX7kvWZSXLmC90BUKoJuC/D7H7sRKNWghAbtnJ9/MwURPl1+S0OEL4C8dDs90vSnZ5FyuaUP+/qazxK0JUo0mft6CY7pYBsmYIRh5ZIjx4dhgQlWilqR7YO24PDXLRIdgUa4szjp7c=
+	t=1762774689; cv=none; b=IesWbD3rYVK31ARut/imwN1XPoNFUblGUwoNR1SMAcR1UjrGGGE8ErLN56M4RvzWLJXq3FREzxHAeY4iqain4r4X46KjZDGfJA1pLjomIAWMlhMjbtyj1AdCNSLP6cMN8UhQ+axjW4KkpfkSv4LGIJCDRRRzUMT8c70SkCW2pOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762773581; c=relaxed/simple;
-	bh=9ZgikPugzcA7lSemy9YYqgvuQHJN0TCgzXGZe1SsZc0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=igCBEXR9BOOAijt6Oo8qwaD3FdN9gLS0bRWtR0JcwiMBMqwdeZ11c3+xYyIStTmdelvgOFvJD/nCMbNF/e8D2tiawkpF0XUY9mTAmL/RcTOCVpssAyTA7O+6+lzaa8Ug4eWCo3UXYazx1ahE1K3iCob2JhhjzqJhEMS6OLL75FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cWW81H8B; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <bd04f307-7f83-41f5-a1ad-afcd8d2a9237@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762773567;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iMOcbVruihWsGJTcS6Pxp0A++3NbHjIZvOX0ONskPMA=;
-	b=cWW81H8BPz/rAJ2CruCWlZPOAb8vmAlfaPluFWmcCj/P1Adl8ck6d2XWYtLj7ksYw93VFM
-	LV26jAy5vRVWeWDH2gVwClTsLcgCVNETbE+jF0HbEV8f2ntVyOjNm01NYp8eprMnVTdwgi
-	r5iIbMJXLQNJNdSSbHEd5q28TBAB2zM=
-Date: Mon, 10 Nov 2025 19:18:38 +0800
+	s=arc-20240116; t=1762774689; c=relaxed/simple;
+	bh=uxSBBgdJ6G0wqOTbxb4Aw2gp4edL/LWe0qLGHZZW64A=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=rZC8/um3RMDiO9IBW31cAb4CUkFjJdnIIT+V4Sr+pGjBr3gOPGbqWtltM2fPcuO2um5rQTQkdxc8fdZjBJhDS8w8sxisT7vmWA9IUw0xVMV+a67m59N8poj0XJAmRcv+LsBOs2iXI4P/q1Zn1oWP6Xpk1NH2Yj3dos1gBtCyv3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h/JNlBh9; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-64097bef0e2so4140623a12.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 03:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762774685; x=1763379485; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMnqzGHQkZQbLlqJI77L5ey44wwkU20ch9eam4NwE+Y=;
+        b=h/JNlBh9rSkXgIn7bi2tnlzD0j7SwzJMVwyBijlXQGsyemIGGNCQbwdeOyQd0HrJq2
+         Suf9ctGtGA5tSU8HlkdfjDfQdaQ8FtzIKcjsFvPAsGToHyCcrx4hL+Y/RNlV14QB6NIJ
+         QmyXuKH8EGNhPOrrnsf1rToK0Gb2zjCv9X89ni2D2CkpADPYDnUkyKaeMRrUIORtoDOe
+         7MywCeAsoEfFAA5QWCo8YYJy1HDYqnoHS1VzKjOPytaxDhSt9sJQt/DxDEc1KNwMIOmK
+         nGXUlgadghefvUyMl9jP/XwYspnqnEp+TxDl+Q5THEd41/1d2KjSctdd1SV0TQ6B8o3J
+         6nQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762774685; x=1763379485;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMnqzGHQkZQbLlqJI77L5ey44wwkU20ch9eam4NwE+Y=;
+        b=NgViAQ5n05R1f3qqPg4gfDNtAGnmFxOpbn4zReQEa1quVO8kCRHk6+pd/tHdXyXuQt
+         DEiClRetBbNk4VJc6TwW8jfZHlAb741rZMI/3DOeIvrUm/4vRfnj7D2MAYqRdmnxY+tl
+         VNQzVsBRG5unZjo1QJhGIKvOPtGaxGlXb6LJvneF/cEoQgsQLGVA2z4zpwhIyAl19jYL
+         xzNCfAMdkFXDnNtW+BIp1BK0rfepsibLdOqah69lY1vxiBSDnfFTk7/d1wooveQfnubR
+         7C24ZF3W1HH5136GZ3rxAnAUFEdM+ri4XJR4jRhmrgF8DKIXTG9rtVP9UYTgFMvRfV6K
+         +VTw==
+X-Forwarded-Encrypted: i=1; AJvYcCV01s3i3DBKTzsCzD/97sSjb2sQQbYcCSzfX3diurzbOSmPCL9Hox2S648sKXGYmwpVTBh/WIxtThA+IZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyY32xf+QTABObjmN1lvfsJ7rUTlXmcuV2cbIv1qCfLMMnErr0f
+	0xtF/prBCHB8DXnaVF5qztPG6X3Yw16meZuWkdOrbHfB1f1/CC+wNSsVgihQ3I5a8+llSqlr2Iy
+	MI6u5AeHJyC6+umDN9w==
+X-Google-Smtp-Source: AGHT+IGSOTdSHkqL0poJ5tqc7TrtRGaLiDYCsGpAd4/lDD5jX1KPXKGf/AHVmm5qz5MunTDbIDoNGHc6Ka1J5BQ=
+X-Received: from edbek21.prod.google.com ([2002:a05:6402:3715:b0:640:cfc4:f37f])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:354b:b0:640:9b11:5d65 with SMTP id 4fb4d7f45d1cf-6415e822920mr5942384a12.24.1762774685141;
+ Mon, 10 Nov 2025 03:38:05 -0800 (PST)
+Date: Mon, 10 Nov 2025 11:38:04 +0000
+In-Reply-To: <20251110095025.1475896-10-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] dm-pcache: avoid leaking invalid metadata in
- pcache_meta_find_latest()
-To: Li Chen <me@linux.beauty>, Kees Cook <kees@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
- Zheng Gu <cengku@gmail.com>, dm-devel@lists.linux.dev
-References: <20251105084733.3598704-1-me@linux.beauty>
- <20251105084733.3598704-4-me@linux.beauty>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Dongsheng Yang <dongsheng.yang@linux.dev>
-In-Reply-To: <20251105084733.3598704-4-me@linux.beauty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-10-ojeda@kernel.org>
+Message-ID: <aRHOnGyLx-bEVqcY@google.com>
+Subject: Re: [PATCH 09/18] rust: proc-macro2: enable support in kbuild
+From: Alice Ryhl <aliceryhl@google.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-Hi Li,
-
-     It seems you sent the same patch again, shoud it be V2 instead?
-
-Thanx
-
-在 11/5/2025 4:46 PM, Li Chen 写道:
-> From: Li Chen <chenl311@chinatelecom.cn>
->
-> Before this change pcache_meta_find_latest() was copying each
-> slot directly into meta_ret while scanning. If no valid slot
-> was found and the function returned NULL, meta_ret still held
-> whatever was last copied (possibly CRC-bad). Later users
-> (e.g. cache_segs_init) could mistakenly trust that data.
->
-> Allocate a temporary buffer instead and only populate meta_ret after a
-> valid/latest header is found. If no valid header exists we return NULL
-> without touching meta_ret.
->
-> Also add __free(kvfree) so the temporary buffer is always freed, and
-> include the needed headers.
->
-> Signed-off-by: Li Chen <chenl311@chinatelecom.cn>
+On Mon, Nov 10, 2025 at 10:50:14AM +0100, Miguel Ojeda wrote:
+> With all the new files in place and ready from the new crate, enable
+> the support for it in the build system.
+> 
+> `proc_macro_byte_character` and `proc_macro_c_str_literals` were
+> stabilized in Rust 1.79.0 [1] and were implemented earlier than our
+> minimum Rust version (1.78) [2][3]. Thus just enable them instead of using
+> the `cfg` that `proc-macro2` uses to emulate them in older compilers.
+> 
+> Link: https://github.com/rust-lang/rust/pull/123431 [1]
+> Link: https://github.com/rust-lang/rust/pull/112711 [2]
+> Link: https://github.com/rust-lang/rust/pull/119651 [3]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
->   drivers/md/dm-pcache/pcache_internal.h | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/md/dm-pcache/pcache_internal.h b/drivers/md/dm-pcache/pcache_internal.h
-> index b7a3319d2bd3e..ac28f9dd2986f 100644
-> --- a/drivers/md/dm-pcache/pcache_internal.h
-> +++ b/drivers/md/dm-pcache/pcache_internal.h
-> @@ -4,6 +4,8 @@
->   
->   #include <linux/delay.h>
->   #include <linux/crc32c.h>
-> +#include <linux/slab.h>
-> +#include <linux/cleanup.h>
->   
->   #define pcache_err(fmt, ...)							\
->   	pr_err("dm-pcache: %s:%u " fmt, __func__, __LINE__, ##__VA_ARGS__)
-> @@ -79,14 +81,17 @@ static inline void __must_check *pcache_meta_find_latest(struct pcache_meta_head
->   					u32 meta_size, u32 meta_max_size,
->   					void *meta_ret)
->   {
-> -	struct pcache_meta_header *meta, *latest = NULL;
-> +	struct pcache_meta_header *latest = NULL;
-> +	struct pcache_meta_header *meta __free(kvfree);
->   	u32 i, seq_latest = 0;
-> -	void *meta_addr;
->   
-> -	meta = meta_ret;
-> +	meta = kvzalloc(meta_size, GFP_KERNEL);
-> +	if (!meta)
-> +		return ERR_PTR(-ENOMEM);
->   
->   	for (i = 0; i < PCACHE_META_INDEX_MAX; i++) {
-> -		meta_addr = (void *)header + (i * meta_max_size);
-> +		void *meta_addr = (void *)header + (i * meta_max_size);
+>  Makefile                          |  3 +++
+>  rust/Makefile                     | 32 +++++++++++++++++++++++++++++--
+>  scripts/generate_rust_analyzer.py |  7 +++++++
+>  3 files changed, 40 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index fb4389aa5d5f..6ff887523eee 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1830,6 +1830,9 @@ PHONY += rustfmt rustfmtcheck
+>  
+>  rustfmt:
+>  	$(Q)find $(srctree) $(RCS_FIND_IGNORE) \
+> +		\( \
+> +			-path $(srctree)/rust/proc-macro2 \
+> +		\) -prune -o \
+>  		-type f -a -name '*.rs' -a ! -name '*generated*' -print \
+>  		| xargs $(RUSTFMT) $(rustfmt_flags)
+>  
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 9eea6563ef35..a614a23023cb 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -27,6 +27,8 @@ endif
+>  
+>  obj-$(CONFIG_RUST) += exports.o
+>  
+> +always-$(CONFIG_RUST) += libproc_macro2.rlib
 > +
->   		if (copy_mc_to_kernel(meta, meta_addr, meta_size)) {
->   			pcache_err("hardware memory error when copy meta");
->   			return ERR_PTR(-EIO);
+>  always-$(CONFIG_RUST_KERNEL_DOCTESTS) += doctests_kernel_generated.rs
+>  always-$(CONFIG_RUST_KERNEL_DOCTESTS) += doctests_kernel_generated_kunit.c
+>  
+> @@ -76,6 +78,17 @@ core-flags := \
+>      --edition=$(core-edition) \
+>      $(call cfgs-to-flags,$(core-cfgs))
+>  
+> +proc_macro2-cfgs := \
+> +    feature="proc-macro" \
+> +    wrap_proc_macro \
+> +    $(if $(call rustc-min-version,108800),proc_macro_span_file proc_macro_span_location)
+> +
+> +# Stable since Rust 1.79.0: `feature(proc_macro_byte_character,proc_macro_c_str_literals)`.
+> +proc_macro2-flags := \
+> +    --cap-lints=allow \
+> +    -Zcrate-attr='feature(proc_macro_byte_character,proc_macro_c_str_literals)' \
+> +    $(call cfgs-to-flags,$(proc_macro2-cfgs))
+> +
+
+I don't understand this. We enable the features even on 1.79, but we
+only pass the proc_macro_span_file, proc_macro_span_location cfgs on
+1.88 and above?
+
+We add the appropriate feature(_) invocations on older compilers, so
+should we not support those things on those compilers?
+
+Alice
 
