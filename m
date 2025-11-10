@@ -1,80 +1,80 @@
-Return-Path: <linux-kbuild+bounces-9503-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9504-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCA4C465C4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 12:48:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B569C465CA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 12:48:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD12F3ABF55
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:47:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCB393B0524
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:47:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984A63093CD;
-	Mon, 10 Nov 2025 11:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73228309EEC;
+	Mon, 10 Nov 2025 11:47:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DddieZtr"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="INJlm9ib"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4EA302743
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 11:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD83930B505
+	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 11:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762775235; cv=none; b=qO5vHabg1+rWtsptBsExaEbBp+apU6Zi4mDGO0WOiMrAvFy6R/qhX2akxKrRKPfmn6CvvZKnbFELn9tmjyTHnw+hTytfSJLOiLTvS9bS/+4DrXeEPQm+n3llsyRIHpM2P+OX5og8SJ/YKNLA+HjB06nJlxs9aqVrTxRNiG6x18c=
+	t=1762775250; cv=none; b=Om6j5eUQG/Qusi7yN4OITOA668ivnS0x36Fpv8FY651ThS3GIZiBMhsFuGtKUoQ7qopbDDiIUQNdqDAEWa8QhlXk5wn7oNVOeotHgT3ey4lj3ssuwOnjDoMxUBmmkciJMXAlAj6wDT78zpjSTjSIxdXX2H1cLAnHQNAjqBpyS5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762775235; c=relaxed/simple;
-	bh=UHsZ8mNOG8p7kZWeRQbdvDX87iavcoicnA0ph7mCQpM=;
+	s=arc-20240116; t=1762775250; c=relaxed/simple;
+	bh=Certre8NKMBWjJMOdCkjiT37S95gzPpjFWT1M8r9T2M=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=U1sChejIWzk5MgqQrZxt7xMKF4aKYuoDvrW8wmVFkl0XoB1MaTbvkeoHmTboX+vE+iTqO7/s8lfsroay7AqnMUiFKJ6SVV3H2zj6R9IRyn7aYkCdRLT0rKlrXda4LsCu2oGgl63R1LuK8sRVgg04DrY/W7Gt4grtCDCXdBNq/ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DddieZtr; arc=none smtp.client-ip=209.85.208.74
+	 To:Cc:Content-Type; b=DmY+6bjNb30mytMUnolv0EcTg/zpgpZDc2GwW2SzwcA88YQo0wuDbawZB+2sdjfUANEci15yAT/QxWjQ8rCasLiGRfpEUtB5NW6LuiVXzcIA8sAKDLcV1x/8JuMJluD4jktcsASeOn3cGlWJps+6w9H33btDY5DhPaskMOg2saw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=INJlm9ib; arc=none smtp.client-ip=209.85.221.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-64091bef2ecso2878939a12.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 03:47:13 -0800 (PST)
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-42b366a76ffso517764f8f.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 03:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762775232; x=1763380032; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762775247; x=1763380047; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wUCZuS6iBZ+Cb2EbxYt/LbW22Q1kNekqfCyN5WYEYrk=;
-        b=DddieZtr+YcRU6AGymXQ6+qbjn4EqfaO1LTBmOwgNdwd2GljS7zyb1RqN14kryvqia
-         N4CCnwoDamx2Y13a+sxDntiCwG14T10uI1J2PP2gs/++M8u8KmFDWeVPTkhGVJkd7MnX
-         /oPPoPxWLKuq2A52BHO8bifmzBZtHc3liXMbi/+mGONJAWn7rZvdMPNGtvI33lz2xU6u
-         ysPgqzNiiCIF6TMslrx6yVp6I+MC/7t7lzsZtPs0OPXVU7TcmmQeLvkTdztdQx04qOp3
-         vFq+6Tapi87i1kL1hJdKBMxmoC7UO9aI5evD46DVTYrG6830K8SRDB/frUImVwp3+4NW
-         P3dA==
+        bh=yAt7Z27w/lXRkHSeX0o2zGMIVMbZvME2esCv61DwS7Q=;
+        b=INJlm9ibIvrZ+wYgtzhvboaENtDAIrI6dy3Bk/JMDydCdFnSUiXqjD7wvKqFVdnP/b
+         Zh66kWpa0/fIZyN7bKajxWBttrBPzrFesfyZb7/+vqav8nAErFrtiDBfKXVjRmICqPhD
+         bm1CeInN4XTcIa7xCGC/5IAgqKqX2FuS+icLLEH7TRG4EthIvJlFcjS2i/0CGvwqywFG
+         W1PyssSUcVUs8JlGMWDN6dG9gOjobpL1Qw97yxu8UhS+9wEfgLgrq9lrNzjNh2F128gz
+         9JEFv+qHyca98L5DbJQCAn/4xuWLRSIziK+vBtrcuEHQxGaACM0Fmot3486cflJvJkPN
+         PJNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762775232; x=1763380032;
+        d=1e100.net; s=20230601; t=1762775247; x=1763380047;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wUCZuS6iBZ+Cb2EbxYt/LbW22Q1kNekqfCyN5WYEYrk=;
-        b=tfBIUOXs0QZqh9tzS73Fz25X7fPUtavlwGolApTFUPC7YQM81ybCr/s4rylKo4yg6O
-         K2ICd1H4lwmbwkWKsaMSwM+eO9SyECDPYcRWMmheyvn/BKKIkZoDvmHwoiFAFutu1kux
-         8PxLFl23KmvBf5+XTGSyB/AJcjmH5hjmpBu0y4q6y1i5gIQ1fAH/hGhymLAVKY1CV5yo
-         kCpPyMiCHVuHlArPisnp9EK8UR7ck6h8dgKY9pBNJap1ajgQ+uMFwdB3WOL4byJGwNyk
-         bvRyKAactNp/T5s9NSJlgNyG9af9o1Caa56zU0+u+kzAZZbnbwMznyji7GbDThkwBmZ0
-         HaWg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6Nx5QL91XFA6azXZKAxsHMTX89A3mkP7Po7BRAm0ahagrvRgw/hH18frncUs6KKxH8dp5SNbblz7fNF8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC2u9HuzHTMbydubXLXrc8QjIErqjzugPF57vtVmmKSZlRWdUP
-	qvW9NFBzzAO4doUngzwUU/X+Olj6PquK9GpV8y+4ue7lILxD5vLXxJBiyNroUjEYwwzoWjWVXv5
-	ARb3wFoR0jJUViE+8XQ==
-X-Google-Smtp-Source: AGHT+IHn/ARWRXnaz/QbEvpiXa66T27fjTbhbGtpITormFJQJJtBcOuO5FmSZ0Htawn8t+iKKDuDiXxfGYOF77I=
-X-Received: from edbin4.prod.google.com ([2002:a05:6402:2084:b0:641:8e3a:1196])
+        bh=yAt7Z27w/lXRkHSeX0o2zGMIVMbZvME2esCv61DwS7Q=;
+        b=rFMrstjlhH8ZRH40R69mSVM2FChclVWJBD5NlZOy3cUEGJK0ubxCAb8cCiP5vj6jCn
+         mmKSB/U4KwpyuLhDEPg0TP3X00twxi/63B/4ea0vo78UK3wsO4z0jankFhVbr97IJBCG
+         Md7Fg/mzuW/0PiXU9zDrpW0VUU1QleAgDo/Bwh7kxjzNvpXfykG2/bUE8ZiYAOniP9Ac
+         Hc4HPtsTo4YEXkeYiCQ0eNd6BM59ZRN1mRoSKk8YkHMLV82BPDr1kvstN2dRTIRsHy8a
+         ZakWEwRzhtKmvgSNgmYXi1dt54S5/RJfhju9kOuqzrKuYkC5SKnSRD8dZnnikcyJZL/W
+         VsvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNsfxPvvp7OdYFxgPVZQeg3azfGICG3lQ2HHzyT+LQOmqC8Z/mrOAArFXg9212SmqNmNXNwt+dlRdVxV8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjEDU0rgRUsVZ9Cn7wAS3mDg6YzMLn5UZoad8jw8bCPzA+T8ZX
+	AkuIr9vqSpOrnW2mASxkB/ZGIRQhokPaDXf8Q/WE/lCRkTzENuZQWvHjEuTfnYygSI2zZS3Y/9w
+	ooybE+VGfKyHNVGoz+g==
+X-Google-Smtp-Source: AGHT+IHCLy2mdnxpnK0+nxJnKpheaCzAh9ChVq3lvYBA5uZFfrDQycfDIP5ZYdgDCadZ+3ZCgwyWUNwt33mUhMs=
+X-Received: from wrbfp24.prod.google.com ([2002:a05:6000:2798:b0:429:ef2d:571d])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:2106:b0:640:ef03:82c9 with SMTP id 4fb4d7f45d1cf-6415dc11781mr6885792a12.11.1762775232291;
- Mon, 10 Nov 2025 03:47:12 -0800 (PST)
-Date: Mon, 10 Nov 2025 11:47:11 +0000
-In-Reply-To: <20251110095025.1475896-17-ojeda@kernel.org>
+ 2002:a5d:5f96:0:b0:429:d004:bb2c with SMTP id ffacd0b85a97d-42b2dc6c8a9mr5644715f8f.57.1762775247005;
+ Mon, 10 Nov 2025 03:47:27 -0800 (PST)
+Date: Mon, 10 Nov 2025 11:47:26 +0000
+In-Reply-To: <20251110095025.1475896-18-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-17-ojeda@kernel.org>
-Message-ID: <aRHQv14husHrYpl_@google.com>
-Subject: Re: [PATCH 16/18] rust: syn: remove `unicode-ident` dependency
+References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-18-ojeda@kernel.org>
+Message-ID: <aRHQztaAl6Hi67FM@google.com>
+Subject: Re: [PATCH 17/18] rust: syn: add `README.md`
 From: Alice Ryhl <aliceryhl@google.com>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
@@ -86,15 +86,42 @@ Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
 	patches@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 
-On Mon, Nov 10, 2025 at 10:50:21AM +0100, Miguel Ojeda wrote:
-> The `syn` crate depends on the `unicode-ident` crate to determine whether
-> characters have the XID_Start or XID_Continue properties according to
-> Unicode Standard Annex #31.
+On Mon, Nov 10, 2025 at 10:50:22AM +0100, Miguel Ojeda wrote:
+> Originally, when the Rust upstream `alloc` standard library crate was
+> vendored in commit 057b8d257107 ("rust: adapt `alloc` crate to the
+> kernel"), a `README.md` file was added to explain the provenance and
+> licensing of the source files.
 > 
-> However, we only need ASCII identifiers in the kernel, thus we can
-> simplify the check and remove completely that dependency.
+> Thus do the same for the `syn` crate.
 > 
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  rust/syn/README.md | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>  create mode 100644 rust/syn/README.md
+> 
+> diff --git a/rust/syn/README.md b/rust/syn/README.md
+> new file mode 100644
+> index 000000000000..d3e3981da2fe
+> --- /dev/null
+> +++ b/rust/syn/README.md
+> @@ -0,0 +1,13 @@
+> +# `syn`
+> +
+> +These source files come from the Rust `syn` crate, version 2.0.106
+> +(released 2025-08-16), hosted in the <https://github.com/dtolnay/syn>
+> +repository, licensed under "Apache-2.0 OR MIT" and only modified to add
+> +the SPDX license identifiers and to remove the `unicode-ident`
+> +dependency.
+> +
+> +For copyright details, please see:
+> +
+> +    https://github.com/dtolnay/syn/blob/2.0.106/README.md#license
+> +    https://github.com/dtolnay/syn/blob/2.0.106/LICENSE-APACHE
+> +    https://github.com/dtolnay/syn/blob/2.0.106/LICENSE-MIT
+> -- 
+> 2.51.2
+> 
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
