@@ -1,111 +1,121 @@
-Return-Path: <linux-kbuild+bounces-9490-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9491-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC610C45E2B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:19:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E98C45EB9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 11:27:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A42B83AD60B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 10:19:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BB2A1891E65
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 10:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 763F7302CA4;
-	Mon, 10 Nov 2025 10:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B04A305977;
+	Mon, 10 Nov 2025 10:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtgdWewe"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WIaQYpF2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97E30170B
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 10:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C806306D47
+	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 10:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762769973; cv=none; b=PzcE8AmDu8uKrhpxyKxU5dYKTW6ZZPPati6CQvwI1+tedOPGVZB4sqFbRsj/FVJ1hDusP2fymV8E8BIoB9Nc7ypoxrtGqcvRnezy9gusQogHGDqZMSE4LzpBGD8Z+1KD197Dm8IMLngWOkKWALr7bk1olESWivAeJbtQngvgnoo=
+	t=1762770268; cv=none; b=d+gBIzItOKAcTUsMkhKknsUblOm52QnQaXU6j+bWupQxDzd3BU3bCRtWe7CftXctHoXgfORkcMQh9hljLTPvnFdA2s4Ohh+JkMHCDdXARZj5SuWOKZuK94vtxPcbTYRT+UQG76DqzzstUcbzICFK2js0Dk9B1kMV0hGQgMrhTdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762769973; c=relaxed/simple;
-	bh=2GGpzP3+SpGhGrCwsh+gDg6Isv8qPzoSRYTGoMRT1HM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HbV9elgBzXVCSfG5AowPBkQqW3G9+j8Dl4nnhg8BRFzAsYDFSgwczdgAIL7ypgyryTLngxEdrHIU3eGxL+Ree6exHXlCdn9e8jpSnI3QQaXBEM1IZA/BFjEWJ+H7eBL+5nkr0ieB6TfzlGmVKdE13/OiFq+NgzM4fYAdhGv5kpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtgdWewe; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-297ea4c2933so588555ad.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 02:19:31 -0800 (PST)
+	s=arc-20240116; t=1762770268; c=relaxed/simple;
+	bh=aE0cpumrRJ1UXIBWA3mSkc4AapKLk4WpELDVIiqYqrI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=U79iIPjqivrEVSjDujQGUwM7JMNvruk/zu18acAfhA7Cmpr7lQc5i5Nh+y1YuuLM1LYgFFFOnQAvM3GJabDHpsg6H1FyBkoUKXoTsMoG57N0Y3PhM0ON5cYtKkrGIm6tRqfmyU5jTaJmn7yHBppo80J32fxmne08ffQpECfWoiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WIaQYpF2; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b7270cab7eeso251375166b.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 02:24:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762769971; x=1763374771; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2GGpzP3+SpGhGrCwsh+gDg6Isv8qPzoSRYTGoMRT1HM=;
-        b=UtgdWeweR9/lv6NVw6Wfskc4r1yK5dmSL88Ilk8tToguCJvbTy3KaX31nBMjnWqBhH
-         zP8dPw1PXr4unrBCVUnPtluVN85l5Rk2NmbFukFlGzx7PeX+/ApRK6nfSamoVeayCDfR
-         tGanf1ibqQz8KINUU1zYsxsAVSJur1z4NKAxl0QbeOtTAo1c0Wn1iyuUWV0DlwtV1hOo
-         Nbbz/2UD2WXXi4x29arHg1iEo3crsCNa0NoTEIsP6JqFljg+tKMEgosDHoaXeqQ9eg+8
-         BF/cqDk3dPqtmkCKiheRXKbuZOnmy4yZDQWhSPnlKqeQPRYbKyz477rinG9exoPEskPP
-         w2MQ==
+        d=google.com; s=20230601; t=1762770263; x=1763375063; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nNv22iO458s//Cdaagcdl8KtQQ9ntxwjUMQVBshAGaQ=;
+        b=WIaQYpF2dJNWtsu1TA3IOGY0VHBfiS881WUK21fcyqYc48yF2Wz9NmOpe9MEgepAK4
+         cbS1bXKaucri7bpfwffweucNmTdUB17uwgffv/KCukmslQuq9dlqSSrMO957WB6LPhsQ
+         FvZxqEfJS5jaellc9jpoet5LRpk4diF2nxg4dKa73KSigs990xKJ3LTP5JsbtxtYLFsJ
+         jxzpcdXxnXvdevxmtGMTvG9ykc0mUSZubndUgxvS/8I8IvTPYfHINL+zwJnPupw2bs0W
+         liXwmy+sUPizVlqnMoaDwxwlJx0hsamLNGvAHAV8g7hR3le6GkyD2NNQzlXEYZWAjXa2
+         V/uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762769971; x=1763374771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2GGpzP3+SpGhGrCwsh+gDg6Isv8qPzoSRYTGoMRT1HM=;
-        b=VzXugUwcoJofmofeQmYzZmf94GxSTpzDFHgFzPeisnbEYNUoPx60+o4HTrPQx3Nszt
-         X7WGrIT/5ZHFMIP9MW0vkcEuYRY7jSUqZcaWBDix693JYlTt44BthU2yRWlWbEqvMwQW
-         Iwxx+sTbOC3TCn55+QYfBpPLNxw9JoTQNM85WGpW/dWiE5ecKooPJPFEQ9PjPoN35Ntg
-         HS8h0wDgkVRUEXLsvm+yObP/AG8Ub+7tSFv++yvWWV/pd84E08yF0T6bvaUNrU6z+adQ
-         U4qjdQZO4xTLTXrrBUQjrFaCSJ8K57rBTeKhgKu3gIo49j4y4dRtb5lFBcAZYOu5fDEE
-         iFmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLP3fJVdxvd8JslS/b280ALFl55Q+WpWL5fXlMuY934JEiA7fRqwZiB0k9JOYffqSEgNzMywNxN3HyPFM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypmE7huxFxzpMda65d90lcC1EUsDeIaPt+B08kNXdpNIqrP2jD
-	Co0WAAgU+LK9QMtV/EOvAjdpaliWZsS+oF3q7VSCR/l47GKxrQCuXWF7fKUFauAOIkSUsua/Qqe
-	uvgZEpF1V5ThGdqmYphHf4kWSB3piUAg=
-X-Gm-Gg: ASbGncsJAAcIkhkzykHQDYQ4SXccfm683CBJfuKi3GBHI7S4yjhkCq+/eqOZ4tUCfUg
-	z8TqJ78E9cTAgfKy8kRyw3sfgvkoDgfc8XFiY7NfCkH9ByTtbeGDCMQXhORpUEJpIac/kzoWkCO
-	rFK/P2t+qmTEfsL3tyqShwlBuNFy2/6pW+9JUszKDe+0srOL0714nulSAefVvSfZCisF3rat+Nh
-	B4g8xgCFOoyaGbM+vsI3lOvsg3FYTBHyUsYlIa0K0yczWN45nndkWYbdQiuUHIrtPZXUey5NZp9
-	sW4Ar8DAzS2EKJ4osWb1XkUCCwuKIWedEUDdf3QPcqVlcIQng9iC6v4tjyMj1M8UVibNHdQdE9l
-	dxkFoSjPOpaYn2w==
-X-Google-Smtp-Source: AGHT+IFdFdVhwPLfh+yTbdERl64DQLjGM0Rh3dpM34UNEX4KxB1YYZB8zJPvvmK5YGpWecjSiRSDrXRu3SuqxEmyZWo=
-X-Received: by 2002:a17:902:f683:b0:297:d825:bf22 with SMTP id
- d9443c01a7336-297e56831acmr54002375ad.5.1762769971269; Mon, 10 Nov 2025
- 02:19:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762770263; x=1763375063;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nNv22iO458s//Cdaagcdl8KtQQ9ntxwjUMQVBshAGaQ=;
+        b=owYOgFr4UxJhuAWOOQjE4m8kAHLA+wGWwNh8af62KnVyoTHB02DCQ+JFprCx8tPzKw
+         AQgxeqYPQg1QwUpzeVQnmX4zYE4GBkpkVsJ7p+r4W2TOscoXO6v5VtQi7ad6hZcDS37H
+         L2jf5O/PytUxlyvrfRmg2RkKzy56AmMhdMBTG6k8/G5xiK/KhjYpKlkLV9nCjfSNm/Ce
+         Iwe8R3besOrzZfbfWEYCAT9N/2tqLlZ+v6G54mvJsk3cyoJAY4bXQGhvzSl2u+cdXTEM
+         dd/4yMC5YOymJlXZVbAa5gRwtc4xo/SXMyCL7bW2bkrMQx3TDB921mIzvs5iH0DheCL7
+         JsZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDWffxB1yjXd6UvCzc5mMNYmVGsoXpjwgiBV0VPg7a89Ii+hhKEfR1MHTrIXd10WMG9PGf0CJ7UX8PyOE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOlODf+TgfmF25zgwxlIuNCKgx1hk4KDU8MVuN5lv2l811ZaM3
+	cz4Sby/z7Wzccg2ZU+N5WshCNmZyGdr5Al3wydWg85BxukBQtzoiZm49vO6dVaqtVLKvA+aaZ28
+	2X3+M2mTKVwWUvJMK0A==
+X-Google-Smtp-Source: AGHT+IHF1mfHQnJtzIm6KGV9avfylPLNTU2wZn2/rVrhlMwC4+Dos2C8BVWng0M+4Mg0oVxmMCdjIYjJS7RxIbY=
+X-Received: from ejcvi8.prod.google.com ([2002:a17:907:d408:b0:b72:41e4:754b])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:7f26:b0:b40:da21:bf38 with SMTP id a640c23a62f3a-b72e041276dmr757987266b.36.1762770262892;
+ Mon, 10 Nov 2025 02:24:22 -0800 (PST)
+Date: Mon, 10 Nov 2025 10:24:22 +0000
+In-Reply-To: <20251110095025.1475896-2-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-3-ojeda@kernel.org>
-In-Reply-To: <20251110095025.1475896-3-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 10 Nov 2025 11:19:19 +0100
-X-Gm-Features: AWmQ_bkb3t3uALt-6fRzPMlQAGQiJXQm8chK-T8Qof8lqrSz2aUgJvRPu8rtcUQ
-Message-ID: <CANiq72n2TDN9oa7Yu2otk=HfpJQ7NA_X=up4uGO=JszGvaGspg@mail.gmail.com>
-Subject: Re: [PATCH 02/18] rust: kbuild: introduce `core-flags` and `core-skip_flags`
+Mime-Version: 1.0
+References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-2-ojeda@kernel.org>
+Message-ID: <aRG9VjsaCjsvAwUn@google.com>
+Subject: Re: [PATCH 01/18] rust: condvar: avoid `pub` in example
+From: Alice Ryhl <aliceryhl@google.com>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
 	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Nov 10, 2025 at 10:51=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wr=
-ote:
->
-> Thus do so here for `core`, which simplifies a bit the `Makefile`
-> (including the next commit) and makes it more consistent.
+On Mon, Nov 10, 2025 at 10:50:06AM +0100, Miguel Ojeda wrote:
+> The future move of pin-init to `syn` uncovers the following unreachable
+> public item in an example:
+> 
+>     error: unreachable `pub` item
+>          --> rust/doctests_kernel_generated.rs:14683:1
+>           |
+>     14683 | pub struct Example {
+>           | ---^^^^^^^^^^^^^^^
+>           | |
+>           | help: consider restricting its visibility: `pub(crate)`
+>           |
+>           = help: or consider exporting it for use by other crates
+>           = note: `-D unreachable-pub` implied by `-D warnings`
+>           = help: to override `-D warnings` add `#[allow(unreachable_pub)]`
+> 
+> There is no real downside of keeping the example as-is until the
+> `syn`-based pin-init is introduced, so there is no need to treat it as
+> a fix nor to backport it. However, we still need to change it before
+> introducing the new pin-init.
+> 
+> Thus do so.
+> 
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-We may want to eventually use `--cap-lints=3Dallow` here too, but the
-skip flags here were already feeling a bit more than needed for the
-series.
+The unreachable_pub warning normally does not trigger for documentation
+tests since using `pub` in documentation tests is not wrong. So this
+sounds like a bug in our doc-test setup.
 
-Cheers,
-Miguel
+Regardless, I don't mind changing it here for now.
+
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
