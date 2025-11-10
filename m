@@ -1,117 +1,122 @@
-Return-Path: <linux-kbuild+bounces-9518-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9519-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9DDC4721A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 15:20:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 340A3C4728F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 15:25:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A27BC4ED13B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 14:20:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B088B3A722C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 14:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A29531283E;
-	Mon, 10 Nov 2025 14:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B06531283C;
+	Mon, 10 Nov 2025 14:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKC+C/RN"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="gYwvnRf1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0781313269
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 14:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD1D3126C5;
+	Mon, 10 Nov 2025 14:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762784438; cv=none; b=Ha3EGO1lmyLRve8oAgE4LvrL25AGA+HmORIaOVXiX2htzTSD1OeqGFIympuNmfvmAZlqheq/7/LVgaDkNksxijGaBiL8i+I2MBzWZaDqChq2lEDqZVA3Tk5K3OSV+2IrBIuRb2LXV2+53l11dNogC2PlqZxLD1vD2sie9liAge4=
+	t=1762784665; cv=none; b=otRPKQyE9of7bqf3dvdySAP5WB/XxqdDdQeuPNX4cqbAuncCKRAZFWSwhlWTQt9jW5SqqDXzgsfdXZcYXneFdr0iwe0tDoCeq/RUf1cZ1M3+NS0SCtBPW0AmQ8nMOataK0G8Rz5XZgHemZpEj8wW+6kH0GjCpsrTnyeluPc0MZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762784438; c=relaxed/simple;
-	bh=5RJhHiiCQwpWrTvgzqpoOfkmMP+cjTCBSE/GzQfeUmA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ikp1pQVF3rkrhwSHRb5K43cp6LtSWrt296MssQat2b8eioKJK2IYPkJmJFHi+cGJQup44mZsz5FivJasuHCW4iGjOS16eYdp56Olu9ZLdlxNExVM2EJ5IPPVhq5xrO0zgUVRcPVIQFyOE8+USaxWAsetIVHuKUBYIrRBLuilQCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eKC+C/RN; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-297f6ccc890so1116175ad.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 06:20:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762784436; x=1763389236; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5RJhHiiCQwpWrTvgzqpoOfkmMP+cjTCBSE/GzQfeUmA=;
-        b=eKC+C/RNcmvF9/7kIronPyxyv0c4XMQUhOnLeLqCjVccI6SdWmDRHSFqwlx4uH9VX/
-         uOIW3UyFt5hgeKdgB2PLgMSqF81ew2KlYDa8VegWS5nLBdK+kujRMsCOAj1YIOQSPfvM
-         LmUjrTI8dFCTlnFKfg0+z2hDEGQwLY/U2TpVtFtCOIcjWtCH/qL6KeTcpXGbVxpkLr2K
-         928OiyoRKMwm3mVXkcyrN6myhaGNLdbZ5RnUkpGFbhAY1Ri8TihqTojt2FhkpGD3vHhO
-         nRNJa6+oovjzXglYDxo2KObrVHXJU8icuoleIYRKQCtubnxgLuKTQ2ejGpYSCDV4SqdT
-         6r7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762784436; x=1763389236;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5RJhHiiCQwpWrTvgzqpoOfkmMP+cjTCBSE/GzQfeUmA=;
-        b=TBB8+2KPxf1gRF5+ixssxHp0UjwgiMuLU1KnKVWyLOPhPFMLXFhSt/subc/gf08hkA
-         WTIU5xA/hWqTJeXFnuT7w2jy3yRdrOhiJBQlcxtLaQ3Cm4iC2ar+7dyhtHWflkHEE4H6
-         YZAKRp692FTR+/Pl+uF8lNoB0+ZlnNWMp//uxoHJVJsi3hc27Oha5DSC4g4z9tn8dohq
-         b+a1GwtrtDCATokQzTZrzDoD4aBmmvSo/rM1gK8LvrGvMuPHPPZ+ZbFe2JsjYd0dwIE9
-         zGQefO31p1n8lPICUy0dLQeXQdn6ZfogeMsS/Jnvc/jLHMiEDjgsHPPvH/nMQ9Q/OZFX
-         bjag==
-X-Forwarded-Encrypted: i=1; AJvYcCVT/Uw0MIc7iBFNK0R44JQo0HZkBIHt1aibGHViTWwdFXM6zEgEIENW5AZozzq0hKNiiPBgWgs4+lbBVws=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN0SoaTuk5hTkigIUEhli9A6CrLWr+JpUdhkXx9kO7Cdd2Xuks
-	AhC4QguCxNzzxd81WlqcWD/Yyji/eaXMz2pVt+spriHNsbDbdoUnPGQPwRiNiRbOT7R71N8JtAX
-	zC5oKacvDbCBcmb62G+jx+UYkLbOIip8=
-X-Gm-Gg: ASbGncsZrYayPWExP0UJ3NjPyzR1Dy84CUwIeh3hGAVQddfCAgegmg2Ka8VeWMJq1at
-	d1eEvXriBcppy1o0KDIaSIbyeOGP4uoKuwy2W/RhJwS1dx7KChmM8AVUI/6RjjF+Pff+9pz8edq
-	X1qEqXykxRpogxssflQhr2ybQp3U7FwBcHnUI8b8M5ipweFjzFJSLwvsVSg8fL3cWLSd0bPl2jv
-	0fkbWelzz+5EPb7B2p8fYoi8Ck4kMJtZSB1+nnZrBb/t1a8Rai0bqRP3xwWTOkdQRgqVkkGJGr0
-	70lXpOiug/Mjb7Nb7uIwQ8NGYyOixSO5cBfBWOYrYQBvTyVOzV3+bqVuRM2J8FghoWX6cMOkZqC
-	OLtQ=
-X-Google-Smtp-Source: AGHT+IGZkiX1aUs0nv10YP1XlBKx2b0IQf5b14V0qJA2D3DBZY4ttkzgbksRaQa0wfRvU24Ndk4q5iwI6HlbKZJm+ow=
-X-Received: by 2002:a17:902:e353:b0:297:e604:598 with SMTP id
- d9443c01a7336-297e60407famr37566705ad.4.1762784436127; Mon, 10 Nov 2025
- 06:20:36 -0800 (PST)
+	s=arc-20240116; t=1762784665; c=relaxed/simple;
+	bh=JGZIzuVhWGC5kPsqULut5X8vxT48KYgXTejxFx9xV5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mK6pmL2+P2iyF4Dp7ZJRVJ3vR0rT3uV9ausfDoz3KLrfouTEDgooW9x5bGLAMLWvNUwyV3agHE+Np8lVrbLzSYhzLETKlJsPs76Tut+BvPOPq4/7wBd9oCJSNcw+vOjRFKY4mP8YVgFDlACZbmaLTSTkVz9LasWG7GUqUlAqifk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=gYwvnRf1; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=MyqtwMhfj3aYB5/YZYHefwpNNP/5TyDe6z4hlolkG1o=;
+	b=gYwvnRf1gXDq1/sUEjvMK6XeiqeZ/mQhNjHq181GZDVBcLsWfXzMtaWbg8iX5i
+	aoVSlSxhcNndtiCfkr5mjHtd3llD0eZaNhMbQHusUrQrBCOCjEvN7QrMYAH9AD87
+	aXy+aSnJfsfYFr5A9JgX4rz+3YcePIhqhgDCD8RMU/xn8=
+Received: from [192.168.1.105] (unknown [])
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgDXnNFb9RFpkRvpDA--.18906S2;
+	Mon, 10 Nov 2025 22:23:24 +0800 (CST)
+Message-ID: <ca686233-f687-4147-b22a-72d0b0bedfcc@163.com>
+Date: Mon, 10 Nov 2025 22:23:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110135927.05d83da2@eugeo>
-In-Reply-To: <20251110135927.05d83da2@eugeo>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 10 Nov 2025 15:20:23 +0100
-X-Gm-Features: AWmQ_bm2tVFpKh5HhJeEvZYuh2tSSNBK7puyKDd5qGaAhmDUcRORxxihnStSDk0
-Message-ID: <CANiq72km0fyL+ueULZZCcg+2Uc5HTtdE_C++WfigLFnqE4sZ=g@mail.gmail.com>
-Subject: Re: [PATCH 00/18] `syn` support
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] gendwarfksyms: Skip files with no exports
+To: Miguel Ojeda <ojeda@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>
+Cc: linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org
+References: <20251110131913.1789896-1-ojeda@kernel.org>
+Content-Language: en-US
+From: Haiyue Wang <haiyuewa@163.com>
+In-Reply-To: <20251110131913.1789896-1-ojeda@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:PCgvCgDXnNFb9RFpkRvpDA--.18906S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww17ZF4DXFWrCFykAw15XFb_yoW8tFWkpF
+	Z3Wrs8Kry5Ga48tFW7Gr1xuF15X3s5Gr43JrWrXw48ZF17Z3ZagFZ29r45uFyUuws29ay5
+	tFsFvF1jgw4qv3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UtPEhUUUUU=
+X-CM-SenderInfo: 5kdl53xhzdqiywtou0bp/1tbiRR0Ca2kR4R9-swABs6
 
-On Mon, Nov 10, 2025 at 2:59=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> Thank you for creating this. I have been wanting to use `syn` even
-> before RfL was merged into mainline :)
+On 11/10/2025 9:19 PM, Miguel Ojeda wrote:
+> From: Sami Tolvanen <samitolvanen@google.com>
+> 
+> Starting with Rust 1.91.0 (released 2025-10-30), in upstream commit
+> ab91a63d403b ("Ignore intrinsic calls in cross-crate-inlining cost model")
+> [1][2], `bindings.o` stops containing DWARF debug information because the
+> `Default` implementations contained `write_bytes()` calls which are now
+> ignored in that cost model (note that `CLIPPY=1` does not reproduce it).
+> 
+> This means `gendwarfksyms` complains:
+> 
+>        RUSTC L rust/bindings.o
+>      error: gendwarfksyms: process_module: dwarf_get_units failed: no debugging information?
+> 
+> There are several alternatives that would work here: conditionally
+> skipping in the cases needed (but that is subtle and brittle), forcing
+> DWARF generation with e.g. a dummy `static` (ugly and we may need to
+> do it in several crates), skipping the call to the tool in the Kbuild
+> command when there are no exports (fine) or teaching the tool to do so
+> itself (simple and clean).
+> 
+> Thus do the last one: don't attempt to process files if we have no symbol
+> versions to calculate.
+> 
+>    [ I used the commit log of my patch linked below since it explained the
+>      root issue and expanded it a bit more to summarize the alternatives.
+> 
+>        - Miguel ]
+> 
+> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned in older LTSs).
+> Reported-by: Haiyue Wang <haiyuewa@163.com>
+> Closes: https://lore.kernel.org/rust-for-linux/b8c1c73d-bf8b-4bf2-beb1-84ffdcd60547@163.com/
+> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72nKC5r24VHAp9oUPR1HVPqT+=0ab9N0w6GqTF-kJOeiSw@mail.gmail.com/
+> Link: https://github.com/rust-lang/rust/commit/ab91a63d403b0105cacd72809cd292a72984ed99 [1]
+> Link: https://github.com/rust-lang/rust/pull/145910 [2]
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>   scripts/gendwarfksyms/gendwarfksyms.c | 3 ++-
+>   scripts/gendwarfksyms/gendwarfksyms.h | 2 +-
+>   scripts/gendwarfksyms/symbols.c       | 4 +++-
+>   3 files changed, 6 insertions(+), 3 deletions(-)
+> 
 
-Indeed, you were definitely one of the biggest proponents of `syn`
-since the beginning! I could have mentioned a bit more of the older
-history in the cover letter, sorry.
+Tested-by: Haiyue Wang <haiyuewa@163.com>
 
-In a sense, this cover letter could have had a
-Supported-by/Wanted-by/...: Gary & Benno et al. Actually, I may just
-add that :) And/or perhaps something about the history in the actual
-commit messages or use the cover letter in a merge.
-
-Thanks a lot for the very quick reviews and tests!
-
-Cheers,
-Miguel
 
