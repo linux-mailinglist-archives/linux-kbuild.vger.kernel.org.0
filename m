@@ -1,97 +1,96 @@
-Return-Path: <linux-kbuild+bounces-9521-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9522-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246E0C475FD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 15:57:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0795BC47C5F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 17:07:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB645188E822
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 14:57:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C68918932EE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 16:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E4093016E1;
-	Mon, 10 Nov 2025 14:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD3527147D;
+	Mon, 10 Nov 2025 15:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="z2APgdQ6"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="e0QCiNxE"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FE9199935
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 14:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E00A2571DD;
+	Mon, 10 Nov 2025 15:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762786642; cv=none; b=s9TT9CVGRcw41IpqZx9a3gRLS8WNsCHeClZO1nFaFJLE4+5w9vlD98aKgiTA5/+jaasSO5hR4kjzS/UxYMMPzmynd9crqG9f7333qPTCG3qhCOli1CGZ9a1/rfAZCzoFSSGo9WTGiTmZA5qmaA9WInVjWzCQRXJdt/8dnp+CWXY=
+	t=1762790374; cv=none; b=HGG38xmizOlWS0BrCppIb+uZFAwEJukLaI+1wDv1A3EOLp5P9PVGW+Mz0eCPv6ZV80NA50YwOVW4z0yI40A8eN3BOxaJBz44I2kkvFW3p8HWyYD4ZMGGLOn8mQpbnTLG2qEx1GpIlRz1zziVMkw0vhE2O0HM0U/C7uLE0R8NIZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762786642; c=relaxed/simple;
-	bh=XrYjurcXwMFuI1n6vQ4mS/+j3z0zFW9n2Q2HRAorD/k=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iOEYbUmr99y6zXODRxOq1oUWkv0wAI4e/LE6ZBIS1eVGSNDLyM8Ir3oE8Up7E/g32bfSKTGJG9CN3ZY8FLN2yciuvXyJyawkuOD4bgPHwkWAUHrsDobn1SxWYHBNVwkhUBwEfGeHj++2u3fHgJVOWUahR4Zmc/3eaOJNGncQyas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=z2APgdQ6; arc=none smtp.client-ip=209.85.218.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-b70caafad59so335463166b.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Nov 2025 06:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762786639; x=1763391439; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrYjurcXwMFuI1n6vQ4mS/+j3z0zFW9n2Q2HRAorD/k=;
-        b=z2APgdQ68ppohMezTmMnZUfXJwArZ+yKG2bGNYUSiLZUZi9tdGyAt8NDkBH3P/eXwE
-         LSceGSJUCNJHwSQlVLYkNWD+AQSmJoGCl5ksxV/2Fd64cm3YDojMcOirkQLf087pRVaQ
-         WfmdSbxqgGycjfK4OOlWtjVIpALEF5q9Po+mMSLqT/WGCy8xkhb9T41e50ssu3Ru8Uci
-         BgOv9WtcD8YYVx/F7KjtpacxOnm5g/bb9z3CPOzPlq3wBGa7iU+KXrO0j04GfZRSyNLI
-         6cXRItaSLfwQqE8FZOtSIm4b3cCxkEiiYvnWc3gCWj9BLkenWXT8/FVQqoHtmAzZTz+1
-         R2wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762786639; x=1763391439;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrYjurcXwMFuI1n6vQ4mS/+j3z0zFW9n2Q2HRAorD/k=;
-        b=wn71yailcQSGCm6M7e8brMrMlUTP51Vmd1OrUj7lYj72pxmPbeOTp7zOjp9jB+4M0l
-         RMrPlg5MraGGy7PNONvZj2Ai4UqIf9IYkVhflb8XjSmOn52dqCQGiHrn+lAG3qzOr5oL
-         foORleCdZWokEmZ7hbLoEEL01k5WxFpovm9ILH9qNn9fF1B3LJEsHkotz8pM0cqOP4mr
-         JJANOO4ku4yXVIiN+BjQ3l5gtsa8EapjdwzhQuVuXdIhovxRG577pGHQUn8EFrq3m2+V
-         wV4xVcTR0uIT6kDb04yojVh1AsQvyM+hSvUuYj8MpvSolr9hokc/0b9zj7AZa3ScwPi4
-         lYXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpCYc8QmHy1CY41vBulMYPZNU+SJnZoHwH9Jf1siFjIyOYBXYcqO5b/T1/NNTVqVu4Oi3+zogyn3nzClY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yylli1ouVFj7VEp3lS8lahbb7jaOZwXK5iFUiyUschUQAHfvY9n
-	oB3mqxbG0mLFRBhFz3uHJDcyrh4l83mF1iKzwAUpoKnJ135rnNQgkq1gSuIsKMnL4wIbe97+S4h
-	RaFdRtlyaE5ZuvBTOeg==
-X-Google-Smtp-Source: AGHT+IGOnlG8lE2H2BKECccs5w83Ie0qMvDDSxYqNCeNyk/4OUCiSM9N6qmdcMFCMYYfeMybQOzcZG1uqwa4NcY=
-X-Received: from ejcvb9.prod.google.com ([2002:a17:907:d049:b0:b72:b433:246a])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:1c85:b0:b3b:4e6:46e6 with SMTP id a640c23a62f3a-b72e02ca1d9mr839517866b.1.1762786639240;
- Mon, 10 Nov 2025 06:57:19 -0800 (PST)
-Date: Mon, 10 Nov 2025 14:57:18 +0000
-In-Reply-To: <20251110131913.1789896-1-ojeda@kernel.org>
+	s=arc-20240116; t=1762790374; c=relaxed/simple;
+	bh=gZKxNyrE0sD4Ub1Vp21weYbIAfnS5QGtyu7iDsvgYQg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KNA5Q0YvCzt1ScQ4fNw1vLtvCjWB+JkS9H5EEzLMBf6IJsl8NfGjV4NBbP/QH+TgAVrchntvlTylYWVx/1//0naqgjCfOYMlrXlsFPji+8CQh9Yn3Q29ZxegwAain8Z0EnxZ/1xXlBHupfFKP45QU4KhXhqf3wLIvMVhDz/m7CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=e0QCiNxE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 35ED040B69
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1762790372; bh=Hw+JoTlh+fN1+Vj5gYyi6iRz4VoCII4mPEe6jsXkwAM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=e0QCiNxEJiNsmAymdVvzafHbL4N3MlHG/hLKh2dZAeFddQV+VBU0pTJBiqdwrntWP
+	 GGCK/cDT9+FpOqaj4+oIAe2UflenT4JcnFjD/M3vYPdTCrhQb8a9JbCIBKjqIFEMjf
+	 EFdM2k5tlwDvmyEd7jOFDdmxb7J5g4TW+Pye+4ER5gyQeldu7JTMQ1jpi1ltrgfYqN
+	 Xz4D949JKTwHaVmsVt8hJ/lELpYQx+/3JUDxk1M/A9XMbcYv3B0Ne4EL04aN7GUYXg
+	 1g00E3bAner5Gj+nhgB8i7Gl03CNkqG6+fF33udgQgSVnAfn/INQfvRDlrBhMHvllw
+	 LzBkzQ5sl7cJw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 35ED040B69;
+	Mon, 10 Nov 2025 15:59:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Miguel Ojeda <ojeda@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex
+ Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn?=
+ Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev
+Subject: Re: [PATCH 00/18] `syn` support
+In-Reply-To: <20251110095025.1475896-1-ojeda@kernel.org>
+References: <20251110095025.1475896-1-ojeda@kernel.org>
+Date: Mon, 10 Nov 2025 08:59:31 -0700
+Message-ID: <874ir1zxng.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251110131913.1789896-1-ojeda@kernel.org>
-Message-ID: <aRH9Tjf0tszyQhKX@google.com>
-Subject: Re: [PATCH v2] gendwarfksyms: Skip files with no exports
-From: Alice Ryhl <aliceryhl@google.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
-	Haiyue Wang <haiyuewa@163.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Mon, Nov 10, 2025 at 02:19:13PM +0100, Miguel Ojeda wrote:
-> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned in older LTSs).
+Miguel Ojeda <ojeda@kernel.org> writes:
 
-Is gendwarfksyms actually present in 6.12 upstream? I know we have it in
-Android's 6.12 branch, but I thought we backported for Android only.
+> This patch series introduces support for `syn` (and its dependencies).
+> Having such support allows to greatly simplify writing complex macros
+> such as `pin-init`.
 
-Alice
+Just in case I'm not the only ignorant person who didn't immediately
+know what "syn" is and why we might want 57,000 lines of it in the
+kernel... :)
+
+    Syn is a parsing library for parsing a stream of Rust tokens into a
+    syntax tree of Rust source code.
+
+    Currently this library is geared toward use in Rust procedural
+    macros, but contains some APIs that may be useful more generally
+
+https://docs.rs/syn/latest/syn/
+
+Thanks,
+
+jon
 
