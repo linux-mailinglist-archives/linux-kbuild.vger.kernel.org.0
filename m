@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-9477-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9478-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DADC45BEA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 10:53:21 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB08C45BD5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 10:52:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B1D284EA68E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 09:51:54 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 649CA34069E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 09:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87BD4301037;
-	Mon, 10 Nov 2025 09:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC30303A30;
+	Mon, 10 Nov 2025 09:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J9+mX7mZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QK4o4fqH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B3C301025;
-	Mon, 10 Nov 2025 09:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4F4301025;
+	Mon, 10 Nov 2025 09:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762768286; cv=none; b=G8WtmLHtmqIG9mdfnJlTIr4LzIBpr1CkFUPHxNLsQ1b+E29aTM/lWaLQKpmj5Gg9MHtIh14ruK+SzUqOElJbfm7iATkUXEIFvQ0FLc0blL/H0CNIlOYX90B+0cgxr3YNJBkBsAyYipY/U4nPnh65llybLNdhyEeNDtKeN4RoVzQ=
+	t=1762768290; cv=none; b=MsRE2M4jaYlcj60phlsafOPK9CPkZYA604TwHRKVXOKaQnwdz9YJSr9q5HCIPpBM9SqhUo6Zls1rQRIAANXrqmXC/e9twNQ0/+63l1dXGSXCxcN9zF8hizi4/325y1vMSFgFqBFLdEcLeobCuOX9Q3V03r/N+tWDG3c4IvtuLSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762768286; c=relaxed/simple;
-	bh=lw/+uvThnriU44LMlr1D3JY/NUDrz+SVvNDWtarsKEw=;
+	s=arc-20240116; t=1762768290; c=relaxed/simple;
+	bh=tWfkCbupFVNsryHxEbfKiWzO8HQ7q9nn1fdIpeR+2mY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mmb5noKZ8OHDUiJ19LQng4DcxMnAsjHlQpirK8MVSeYrR2kjEae6isZY61rKH975k9cZM0664+VK8dR1JW2YUL2fgjb0CflSyDSdQhE81Vj+obB0xMDGG2SeYbFpk+QAFjUEkKqKWi31mntsSfFMefD6jNPs+vFiMc+xyvZTAuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J9+mX7mZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0720EC116B1;
-	Mon, 10 Nov 2025 09:51:21 +0000 (UTC)
+	 MIME-Version; b=iBrnw0da/BAoHkbTcK2AinF86PiQ7YXybakMqWATgar4wnILYZVVgdhDM+RjUa/ZK+c+SdGuufu3AsxeH7Xh9h9JRLtUSHTtGB3sbgZHHpbwRWP8FpcHV4POPMXolBTA2vUXgr83oGr2ftWaB9xxZkYu6fwA5GtGLRNiWPUqWaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QK4o4fqH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F64C16AAE;
+	Mon, 10 Nov 2025 09:51:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762768285;
-	bh=lw/+uvThnriU44LMlr1D3JY/NUDrz+SVvNDWtarsKEw=;
+	s=k20201202; t=1762768290;
+	bh=tWfkCbupFVNsryHxEbfKiWzO8HQ7q9nn1fdIpeR+2mY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=J9+mX7mZnIvt5XQFmVDCDJEz8qaPASFWGq3pFdnYGoS4R4Iyhkcbu37mZXhmyl5vv
-	 Ji8B5d1xxI8LJFx5IhyZfrUo2hpURVKPiSRopfBma5ArVh1kOFC1LecHc5vWoVOrLI
-	 OLvQGcLqiPSRpdQy5m0swAxZ9VryddrkFZFYAAWiw8FhQ9ASh7MtSSsYhE9F248u0r
-	 kI8z+UkvuxQ78IfPaRROnyDIPiNIFtnmebnTymA9Offye5HpRvUCo9/LlAD3anCjnZ
-	 4KgkN404PXh7/mz8J9Zy4Cm65L+9PHNqbvLXaW5lmXu79PROaDqyfFwORMlqTQoy3Q
-	 0P0B2nYinX/Uw==
+	b=QK4o4fqHORPgpcQLm8NTIsIuSlQ8zMd+Pj+GE080eY4YSXlIJcDaWL3FeRPIWAjAr
+	 7uYWYk42WlaMkOc9kpGDrkcOVZ/dqqHm6ozbnTRqHmq6QACXyOueZMjuP6ZxhLEJ4c
+	 MGsSRzBzhV/t1h5+NgYb31YE3WBf65TD1y8Ysuau4L66jdbLzZPggm0cqv8Z+sLkoK
+	 Shns7E/+jTtFFoob7HZnaTe8PY8yo8BmuoKCxpkZ9H5N/JbQRWZWOidDzCN4MTSm/2
+	 H1kcvj42uPQPBINUZWRuu4xt+yELe4qgPDLQAGtbLf0y4S1aASu4FpO/TRpSwthKlZ
+	 XnxKrCQ23ze9w==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev
-Subject: [PATCH 06/18] rust: proc-macro2: add SPDX License Identifiers
-Date: Mon, 10 Nov 2025 10:50:11 +0100
-Message-ID: <20251110095025.1475896-7-ojeda@kernel.org>
+Subject: [PATCH 07/18] rust: proc-macro2: remove `unicode_ident` dependency
+Date: Mon, 10 Nov 2025 10:50:12 +0100
+Message-ID: <20251110095025.1475896-8-ojeda@kernel.org>
 In-Reply-To: <20251110095025.1475896-1-ojeda@kernel.org>
 References: <20251110095025.1475896-1-ojeda@kernel.org>
 Precedence: bulk
@@ -71,162 +71,36 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Originally, when the Rust upstream `alloc` standard library crate was
-vendored in commit 057b8d257107 ("rust: adapt `alloc` crate to the
-kernel"), the SPDX License Identifiers were added to every file so that
-the license on those was clear.
+The `proc-macro2` crate depends on the `unicode-ident` crate to determine
+whether characters have the XID_Start or XID_Continue properties according
+to Unicode Standard Annex #31.
 
-Thus do the same for the `proc-macro2` crate.
-
-This makes `scripts/spdxcheck.py` pass.
+However, we only need ASCII identifiers in the kernel, thus we can
+simplify the check and remove completely that dependency.
 
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/proc-macro2/detection.rs                      | 2 ++
- rust/proc-macro2/extra.rs                          | 2 ++
- rust/proc-macro2/fallback.rs                       | 2 ++
- rust/proc-macro2/lib.rs                            | 2 ++
- rust/proc-macro2/location.rs                       | 2 ++
- rust/proc-macro2/marker.rs                         | 2 ++
- rust/proc-macro2/parse.rs                          | 2 ++
- rust/proc-macro2/probe.rs                          | 2 ++
- rust/proc-macro2/probe/proc_macro_span.rs          | 2 ++
- rust/proc-macro2/probe/proc_macro_span_file.rs     | 2 ++
- rust/proc-macro2/probe/proc_macro_span_location.rs | 2 ++
- rust/proc-macro2/rcvec.rs                          | 2 ++
- rust/proc-macro2/wrapper.rs                        | 2 ++
- 13 files changed, 26 insertions(+)
+ rust/proc-macro2/fallback.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/rust/proc-macro2/detection.rs b/rust/proc-macro2/detection.rs
-index beba7b237395..3de448cb2dde 100644
---- a/rust/proc-macro2/detection.rs
-+++ b/rust/proc-macro2/detection.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- use core::sync::atomic::{AtomicUsize, Ordering};
- use std::sync::Once;
- 
-diff --git a/rust/proc-macro2/extra.rs b/rust/proc-macro2/extra.rs
-index 522a90e136be..55feb5ec7526 100644
---- a/rust/proc-macro2/extra.rs
-+++ b/rust/proc-macro2/extra.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- //! Items which do not have a correspondence to any API in the proc_macro crate,
- //! but are necessary to include in proc-macro2.
- 
 diff --git a/rust/proc-macro2/fallback.rs b/rust/proc-macro2/fallback.rs
-index 1560105cfd25..9e005d67f7f5 100644
+index 9e005d67f7f5..9b43c97df97a 100644
 --- a/rust/proc-macro2/fallback.rs
 +++ b/rust/proc-macro2/fallback.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- #[cfg(wrap_proc_macro)]
- use crate::imp;
- #[cfg(span_locations)]
-diff --git a/rust/proc-macro2/lib.rs b/rust/proc-macro2/lib.rs
-index 2984af335adc..7b78d065d51c 100644
---- a/rust/proc-macro2/lib.rs
-+++ b/rust/proc-macro2/lib.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- //! [![github]](https://github.com/dtolnay/proc-macro2)&ensp;[![crates-io]](https://crates.io/crates/proc-macro2)&ensp;[![docs-rs]](crate)
- //!
- //! [github]: https://img.shields.io/badge/github-8da0cb?style=for-the-badge&labelColor=555555&logo=github
-diff --git a/rust/proc-macro2/location.rs b/rust/proc-macro2/location.rs
-index 7190e2d05255..3a11871e2943 100644
---- a/rust/proc-macro2/location.rs
-+++ b/rust/proc-macro2/location.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- use core::cmp::Ordering;
+@@ -818,11 +818,11 @@ pub(crate) fn set_span(&mut self, span: Span) {
+ }
  
- /// A line-column pair representing the start or end of a `Span`.
-diff --git a/rust/proc-macro2/marker.rs b/rust/proc-macro2/marker.rs
-index 23b94ce6fa85..6f322424808c 100644
---- a/rust/proc-macro2/marker.rs
-+++ b/rust/proc-macro2/marker.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- use alloc::rc::Rc;
- use core::marker::PhantomData;
- use core::panic::{RefUnwindSafe, UnwindSafe};
-diff --git a/rust/proc-macro2/parse.rs b/rust/proc-macro2/parse.rs
-index b8be403f842f..a005dea1fe88 100644
---- a/rust/proc-macro2/parse.rs
-+++ b/rust/proc-macro2/parse.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- use crate::fallback::{
-     self, is_ident_continue, is_ident_start, Group, Ident, LexError, Literal, Span, TokenStream,
-     TokenStreamBuilder,
-diff --git a/rust/proc-macro2/probe.rs b/rust/proc-macro2/probe.rs
-index b67f52036218..d68aa8cfd85e 100644
---- a/rust/proc-macro2/probe.rs
-+++ b/rust/proc-macro2/probe.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- #![allow(dead_code)]
+ pub(crate) fn is_ident_start(c: char) -> bool {
+-    c == '_' || unicode_ident::is_xid_start(c)
++    c == '_' || c.is_ascii_alphabetic()
+ }
  
- #[cfg(proc_macro_span)]
-diff --git a/rust/proc-macro2/probe/proc_macro_span.rs b/rust/proc-macro2/probe/proc_macro_span.rs
-index 2d7d44e07708..892a7eb3e5a0 100644
---- a/rust/proc-macro2/probe/proc_macro_span.rs
-+++ b/rust/proc-macro2/probe/proc_macro_span.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- // This code exercises the surface area that we expect of Span's unstable API.
- // If the current toolchain is able to compile it, then proc-macro2 is able to
- // offer these APIs too.
-diff --git a/rust/proc-macro2/probe/proc_macro_span_file.rs b/rust/proc-macro2/probe/proc_macro_span_file.rs
-index 8b76bdf5007b..f2dbc4056ebe 100644
---- a/rust/proc-macro2/probe/proc_macro_span_file.rs
-+++ b/rust/proc-macro2/probe/proc_macro_span_file.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- // The subset of Span's API stabilized in Rust 1.88.
+ pub(crate) fn is_ident_continue(c: char) -> bool {
+-    unicode_ident::is_xid_continue(c)
++    c == '_' || c.is_ascii_alphanumeric()
+ }
  
- extern crate proc_macro;
-diff --git a/rust/proc-macro2/probe/proc_macro_span_location.rs b/rust/proc-macro2/probe/proc_macro_span_location.rs
-index 79da34af54af..ae19c93394fa 100644
---- a/rust/proc-macro2/probe/proc_macro_span_location.rs
-+++ b/rust/proc-macro2/probe/proc_macro_span_location.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- // The subset of Span's API stabilized in Rust 1.88.
- 
- extern crate proc_macro;
-diff --git a/rust/proc-macro2/rcvec.rs b/rust/proc-macro2/rcvec.rs
-index 23edc77d597f..e224ebe277ef 100644
---- a/rust/proc-macro2/rcvec.rs
-+++ b/rust/proc-macro2/rcvec.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- use alloc::rc::Rc;
- use alloc::vec;
- use core::mem;
-diff --git a/rust/proc-macro2/wrapper.rs b/rust/proc-macro2/wrapper.rs
-index 2e3eb5b4d04e..6792e9834111 100644
---- a/rust/proc-macro2/wrapper.rs
-+++ b/rust/proc-macro2/wrapper.rs
-@@ -1,3 +1,5 @@
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+
- use crate::detection::inside_proc_macro;
- use crate::fallback::{self, FromStr2 as _};
- #[cfg(span_locations)]
+ #[track_caller]
 -- 
 2.51.2
 
