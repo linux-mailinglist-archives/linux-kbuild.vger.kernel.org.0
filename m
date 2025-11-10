@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-9487-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9488-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991E2C45C4D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 10:57:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 003A8C45C2B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 10:55:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1B38A4E7E3D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 09:54:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7D063B49BF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Nov 2025 09:54:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D7D303A3C;
-	Mon, 10 Nov 2025 09:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15EE306B39;
+	Mon, 10 Nov 2025 09:52:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZN1A7XW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qapKnB7r"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738B0301701;
-	Mon, 10 Nov 2025 09:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72785305E2B;
+	Mon, 10 Nov 2025 09:52:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762768333; cv=none; b=J4iYR2P+UIbZLLA5Xs1FtrxL9Uq50kKNCNFL0Y9eArNp3uD1NJv67hPeaZaj+HxAHnngtqHrxtz5vpR3BiE7yzkeyDbANHbKYI2Jt44bPGFMg4oU6cJotMZytwmdA1LXtFNss4AhL7xDDHa5SQO1PH3OPkN3nQ1nai3jvX3Jork=
+	t=1762768334; cv=none; b=bsabRmvp8DPxcmfTF+fhho31gDXNGLL931Kij8REkkeYkKyE2sb4wZXfYcO44eIAsqSm7epgwYIeyWlNWriEIIGgwA3a4NqA+11oXIqFd6R44Zi4aZej7fMtmW2skLx4Q77UvNc38IWuxgDPMXmLZB4jpdoMRp2zZEV8S8s4GhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762768333; c=relaxed/simple;
-	bh=o3btvzeHxMVgM0hJBQCMjEDCxNjsxB0EcAR+QZ0CiSM=;
+	s=arc-20240116; t=1762768334; c=relaxed/simple;
+	bh=DTF8yarDbQf1fMGwrVCjWLkS/7OIg2XBmftIbWHMux4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gIEO96psPeGxbOHyfNI9VXL9oD0rujIQCcOA3dd8KS1D3gzsRpD1TqrMHPAzp2vTeUrCbug4LpWgyoa0qqX6FEa1ogW4IZf6RIGQKelEvsO6qQ8K3BoZZkRjtJsWMtUf7MFuYZf0OWeiPVaQMvaG6Y3FLYv6jLgvDjx17bbcI5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XZN1A7XW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B9DFC4CEFB;
-	Mon, 10 Nov 2025 09:52:06 +0000 (UTC)
+	 MIME-Version; b=STcdPtu5Cbds+HM7ySTklKWKSK5npXXIbei3NtqiOaUowCeIcLj/4cCouxevMXrs9k++EiIhzBEOSolET7ZPmXSL1Kg/WsrTtnFCpN4iyN0m7qiaLRd34fhY2vqbpQMGOO1nhqpQ8RQN+UYIERBg/mb24DypRjTKYSQ5f3RRQHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qapKnB7r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E9CC4CEF5;
+	Mon, 10 Nov 2025 09:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762768330;
-	bh=o3btvzeHxMVgM0hJBQCMjEDCxNjsxB0EcAR+QZ0CiSM=;
+	s=k20201202; t=1762768334;
+	bh=DTF8yarDbQf1fMGwrVCjWLkS/7OIg2XBmftIbWHMux4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XZN1A7XWFj23G7vnIdrtcEZkjpE6UwpoBu24VYxZPUUYhw4UEkTzMxqHa02hLDSxG
-	 vQ3MBQItq3irA2UMEmeIBgRX5iiQzTRKqdW++6jFFoHoXNuGhvtuPNcBwbEqFCeoHs
-	 ssL01MrWxHMBcxfz06XQwxXsH9Htv47x4hfU5PrgyLTTYg1iWlXZrNo7sgfwKBYM5U
-	 qeTMWUneP9UiwhNlcRk4cFR5mDi+hJm4l2IhailTUf7MRtl5jUbeKR5/KZGhEbjCmJ
-	 gnwrpKaCcWuKObrJcuKhqO+fRsKgKZnk1kK2fFxedcPaSgVuPbn58LRQmAbwHSCY9T
-	 Z4D0Ufzu48w7g==
+	b=qapKnB7r/kbRSb/2SbwUcp88yrOQ4+wbxvNdmwyzeOAmVVA5Vf2WBkWormaQ21rjT
+	 Sjf37rg3F1N1GfRLTkcGpZHIdkzPpxR3XBPb6VBK8DavzNUP/QJ2If4mT80d+Ju9DQ
+	 kobLsz+6J/WB4d6U7i2D2w6+sDHkd7abQaAUNKB7OWgIlTwGwNqXD2CzbMNhdV5fwr
+	 o6GPPsYjkueOhxOuel3OVjn+6znU24muEMRb7DBWf6tEX8IvgtTRyejvbogZ1CFI7h
+	 61ED7LiuaWlhHFxCq9FHqrTy7QSCDj2NpbAXKehe8Fpgl7ocDNHyfJEs8cnblM3Rku
+	 BOH4TKu0i+6Yg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev
-Subject: [PATCH 16/18] rust: syn: remove `unicode-ident` dependency
-Date: Mon, 10 Nov 2025 10:50:21 +0100
-Message-ID: <20251110095025.1475896-17-ojeda@kernel.org>
+Subject: [PATCH 17/18] rust: syn: add `README.md`
+Date: Mon, 10 Nov 2025 10:50:22 +0100
+Message-ID: <20251110095025.1475896-18-ojeda@kernel.org>
 In-Reply-To: <20251110095025.1475896-1-ojeda@kernel.org>
 References: <20251110095025.1475896-1-ojeda@kernel.org>
 Precedence: bulk
@@ -71,36 +71,38 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The `syn` crate depends on the `unicode-ident` crate to determine whether
-characters have the XID_Start or XID_Continue properties according to
-Unicode Standard Annex #31.
+Originally, when the Rust upstream `alloc` standard library crate was
+vendored in commit 057b8d257107 ("rust: adapt `alloc` crate to the
+kernel"), a `README.md` file was added to explain the provenance and
+licensing of the source files.
 
-However, we only need ASCII identifiers in the kernel, thus we can
-simplify the check and remove completely that dependency.
+Thus do the same for the `syn` crate.
 
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/syn/ident.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ rust/syn/README.md | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 rust/syn/README.md
 
-diff --git a/rust/syn/ident.rs b/rust/syn/ident.rs
-index 2c4b56505bec..03ccebf9c022 100644
---- a/rust/syn/ident.rs
-+++ b/rust/syn/ident.rs
-@@ -39,11 +39,11 @@ fn from(token: Token![_]) -> Ident {
- pub(crate) fn xid_ok(symbol: &str) -> bool {
-     let mut chars = symbol.chars();
-     let first = chars.next().unwrap();
--    if !(first == '_' || unicode_ident::is_xid_start(first)) {
-+    if !(first == '_' || first.is_ascii_alphabetic()) {
-         return false;
-     }
-     for ch in chars {
--        if !unicode_ident::is_xid_continue(ch) {
-+        if !(ch == '_' || ch.is_ascii_alphanumeric()) {
-             return false;
-         }
-     }
+diff --git a/rust/syn/README.md b/rust/syn/README.md
+new file mode 100644
+index 000000000000..d3e3981da2fe
+--- /dev/null
++++ b/rust/syn/README.md
+@@ -0,0 +1,13 @@
++# `syn`
++
++These source files come from the Rust `syn` crate, version 2.0.106
++(released 2025-08-16), hosted in the <https://github.com/dtolnay/syn>
++repository, licensed under "Apache-2.0 OR MIT" and only modified to add
++the SPDX license identifiers and to remove the `unicode-ident`
++dependency.
++
++For copyright details, please see:
++
++    https://github.com/dtolnay/syn/blob/2.0.106/README.md#license
++    https://github.com/dtolnay/syn/blob/2.0.106/LICENSE-APACHE
++    https://github.com/dtolnay/syn/blob/2.0.106/LICENSE-MIT
 -- 
 2.51.2
 
