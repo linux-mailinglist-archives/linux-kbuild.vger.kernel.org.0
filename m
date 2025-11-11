@@ -1,88 +1,88 @@
-Return-Path: <linux-kbuild+bounces-9552-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9553-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DA5C4C916
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 10:13:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D86C4C97A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 10:17:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AED0F3B2DC7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 09:08:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A9E03A5CD1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 09:12:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E78E42586E8;
-	Tue, 11 Nov 2025 09:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D9B262FF6;
+	Tue, 11 Nov 2025 09:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="re7owBYY"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SKVSTcn1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A5E21D5AA
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 09:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D44629CEB
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 09:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762852109; cv=none; b=afg83fs6/9qGicp936lLoyF1BFEVYPUtagmRxbbcLB24wAUy54hZNSOAJz8GCPRFvtkiK3F2kB0hSWjDON8y2FDyHOOCoNAhHKx2Y52DC6qJJifNNH15Vo/zWwZljskKkdrulj28MOzePKD2SqKa7PctjGjCzkDQ0PUC6un15DQ=
+	t=1762852314; cv=none; b=Czgjc9XQa3rOwLt7JK0URiDiNI7vCxc7dDu/dPGJf5uiHG7j7s9ddhCElGSFrzbsejSXn6n8bYINeL/SrJ8ALyc7FetLmP+Nx8CwQ+5OFOgd7vo/HmGWPtDcmvjPfgSBj05a2dgBejysA9fGlUdI23b/VHBVspssGw8Zc0L8ckU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762852109; c=relaxed/simple;
-	bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
+	s=arc-20240116; t=1762852314; c=relaxed/simple;
+	bh=wMAn9oTbF3Zv6YZXMFgD9SCNTI8yFt+ADFGBD5EQzqY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sxvq6Dst1wmWqrntaCq5T8zcb6mzXSe6DaEtQS57m+UBqfnFegPYUKmQSxrX0kwyvnyc97o/XHe1OutgPRxVcfE7UGmN3ZAXPaKY3oLozN99DV2qooeLbKn2YeZXIZ/a6MMXWT8gCHwWATV0M9918bNbHcrfWGehQCwZZ1S6eL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=re7owBYY; arc=none smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=h6945gMCNeBPMvjf5S6QwhIBMjiFcElOyU9vn5mkhgzkcPmLQUi2SWXGivLZvcHinUZzLcdCGZWIdA+1EeLzRgCG3N2tCKfyxoHVPgbnWvg+4ble7pYGA3t9iQ/UOHrKpOru5MIQpNmM2TjqKnN9RKdXUzW3ypGEEbqMELqbPDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SKVSTcn1; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ed861eb98cso45651701cf.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 01:08:28 -0800 (PST)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8804650ca32so39403936d6.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 01:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762852107; x=1763456907; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762852311; x=1763457111; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
-        b=re7owBYYJrPTlSNKQcwaizDxrcmieeRuYuQ41APdnT5aR3nqNB71/0eTrKHKW25OEP
-         jTynEBUFpZV66AhtMhI4jLnGlfZIyJUVU4EXJ28JpI+PZkDvTnFJWHV+dI+G7fSkkBl0
-         Dkq+syf8qK7jZJwla9m/9JurteW6JeSWRIUkJQ6wehbDMLDroCObvJY7rj8Ia3x9jzEr
-         UShxa6heHm1cRyWSTdS3baRg9U6ikWYyBl8Gm8psmNKIBh6X4j3lkN2OAhpPlNZP9AWe
-         Ub7W+NwTMX75zZuf3tosBVf37Te4F/toDtjYuVISvXTwJj3CuZVop913uiuMZaWwE2LT
-         HmZA==
+        bh=wMAn9oTbF3Zv6YZXMFgD9SCNTI8yFt+ADFGBD5EQzqY=;
+        b=SKVSTcn1nqhQszrNr1vdsVjq8dSl9VoDABDmD7if+9Te7wJ6J6rDS7S50aJ5F69y5E
+         k4E9UZLYEurZWvTFPpJtJmpQVO3sKLOFk33oROWR9PjaRKPOsNd9aIYs2Y4bP40twuFV
+         y1wrJMuvjyGBhkWCw3NnHtMMBsAFT6HV5rwS0nU4gPbq3bG2iZG/R2yPw1hk3j+U4wY4
+         bsViKBtjl6JHn12zl48f6GCXe8krAM52fMG1bqA0czRerGWV5m+KbPcl9pnvA5BYIhhw
+         DYQCwvEA9PdZfsUncWAr0Lmvzq5AS371Eb5x39GczPqGUwPamAPNdAGl6KWLGNK/6P4W
+         kvFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762852107; x=1763456907;
+        d=1e100.net; s=20230601; t=1762852311; x=1763457111;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
-        b=MS37M/Ol8chZ0JuSygOlwezRs+SHsMmuxf6+cMAlOaLs01AZOwBw6/RN7ajRvQ9M12
-         1sPNgr1CfxKH0X5ADxCwCJF6c7tH77GJJ+JL7qFeabnTiip89mq+ze5ycFDWxBwDgKmW
-         XJsIQxZcIlpIDt4pp8DOnzIH0+VtbvCsrtsTImDrVf4yx8C8KYDfmgcWd4t5Bt9Y5Lbp
-         HrQkjr9EzXXETpL2PwYCygIQb6hPOHO7BLQwyxIJk2tLYFkVzBG2r/XSsIAs+op94+PB
-         WM4biEgKaaBQ+/P94zcATwsz6f7rkyp3t/nKynjzbLfZhKInqczsj0yQqNIpvupmk+8z
-         HeYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUsI2JvAUS1DS90R8qQ07EApBvICwqLwEIp+mi1C8MoWXr6Biq9jyGuNFE2V29n4/Qn6mB3slT2T0YY18M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLxfvQV00sQsqrN/SfnoIVgbvqd1nDjR+Vj9mMc4HmfH3QXxMf
-	N5ik+rA0tXaF5UQbtzt7H4vJDzafQgw+ZWjLCparYnoIjsO313F/sq9weWGG0ZWW1fp0P5NW/RB
-	WBY+hH9i6Xapjfv1dce9E7+6LoSom+jkxME2YVCDe
-X-Gm-Gg: ASbGncuNFoQ+YEiH8FcJCA6TfVthHMht8ZZI880IGjWx3Y+72vqVLA7Fm65u84jwJic
-	WUNnZ09xz+gRmjaGb2fLBodw8iej/xl0qPr/I3J9ul50RQBSZAIMMmIWBIx0i2Uu2BjujGX2jBi
-	YHQ4WDBnAGsBGut1S74hsmYUv9rSeYi/y4kX+MvuOihKMAbaD1Yu3O4qatdtBClNZS6zuaDrHD+
-	U+BU5Ij3dAysupTWP9W0WP1ossZjzL9E/mKCpXy3EbsM0KRem4HL7fl+B87MqM7LksVRaB1vXq+
-	4gJ5q1NaPU+rqwOY/Z4M5SFP5UHfDG1VHTpv
-X-Google-Smtp-Source: AGHT+IGGiGzNQ2eAyJqdaO9JyMrXkP7w+emfDXwZMPoyyY2gy1i/zUBgnLRf870LMq5UXpv/uG8YRTM2WfKUuwW/Bjc=
-X-Received: by 2002:ac8:5751:0:b0:4ec:f4be:6b12 with SMTP id
- d75a77b69052e-4eda4fd3621mr141844221cf.72.1762852106635; Tue, 11 Nov 2025
- 01:08:26 -0800 (PST)
+        bh=wMAn9oTbF3Zv6YZXMFgD9SCNTI8yFt+ADFGBD5EQzqY=;
+        b=QZWvpX9iAcT3fXAgpTEfuEOwRCVz5184iRmev5de5ixteJWTTLG7qwbnXyB2WyJVwb
+         4XjojsI9bgQuLcoaQJ2b9KD50s/9GIT3oOmXFxxLZci6erJX49TVR77PIA9dPzrirqsX
+         pyzyYgYZfKZz0qoU88nHdxkG9fmQEVQMQ6SuZTYngVWWRIeBc35PyrpYcJ1iWLXqbNT1
+         wLxwy93MT6qFk8DwWuIh47m2xOeyEOEd7udLeky+Zptjr74y6Hyyn5PNVtNleUCnlgoT
+         G+p5G3Pqwyu38zcCD75+pIUe5MrSSWNzw6U8KWfS6gkw6m4Vli6ZGBQH6J7RvQsKBU4n
+         P+yA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSvQnxaqD0II79TNYQcvH61hCZ4MqIWk6ORkxuehbZtYD4s+d7zaF/NZ/r/cGZ8uYFYHrzS7avHwsqYEc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB+xodctZSMY0GsFBZJA4YHhLBuRCD7ON94OjmqB1InUGkmeYe
+	WTyY64bH8CUoCHFwkc4H0GQGqAYIbianQkYZ+UxIyWE2d1onyYRHMRQAvV4wEV4qrcNindJK69m
+	suazZq39h1RBRrTcLvcEhzGseJ82L6x5Tbj+V0Aat
+X-Gm-Gg: ASbGncu15rb5RRwNgTG3NAhvez180890lIzdaErbIZVM/S2ND/sWQtTobkbIAp/87ep
+	OnjSvr+ecvIEBs0vyGaZfsFkBTnf4dATcpBfimt0YMmey1MnZddxapSHWGFXRq6PkIQu2IuHq7k
+	TCUqaCoR+ZB80Or9z8sVQs/zV/CXBn5g3JlAKu0kxetP9I1QMhGV6vHV483XHHm+GMSW7fp6J2e
+	kDd0oBFAYeUSIelx+i2su0KUN9q0dP2Q0Bh85/VNl0A0WfoTovXils9RTl2Aa6U/rFssYjcM/iZ
+	jRYih6RjMdNAfO8uoRnaCU1NcgloBmAB0tmE
+X-Google-Smtp-Source: AGHT+IH+IyV5M3UDNVO30prt5PPyyx1n6sQAkg8H+r/cXESUVZ9Sxny0Upk5iwgOz2Gyh93ucwAfPrYSF2wYVT/cQJo=
+X-Received: by 2002:ac8:7f84:0:b0:4d3:1b4f:dda1 with SMTP id
+ d75a77b69052e-4eda4ff2f1fmr126391511cf.61.1762852310737; Tue, 11 Nov 2025
+ 01:11:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <f533bb094a566242ec196afbde222796c6d6c084.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <f533bb094a566242ec196afbde222796c6d6c084.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:07:50 +0100
-X-Gm-Features: AWmQ_bksKNIR8oRrvQW5ElnBBjqadCFUKWpQKwYmKonXZ13JEF-XHOSa5ehktsY
-Message-ID: <CAG_fn=U3SLOoy_K-2ShOMYf80i4AE1tB1AL4w7wcJAXBxi+PtA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/18] x86/mm: LAM compatible non-canonical definition
+Date: Tue, 11 Nov 2025 10:11:14 +0100
+X-Gm-Features: AWmQ_bnrR-pK5Rc9D-XEScjrYr9MOeawukkWZRpWJ1yHRGagV2Ym8rHVDa4nqXc
+Message-ID: <CAG_fn=X-FB6vVtDC8WhQzF7cNePS5AtmC4W1-YfTce+5jOc+wA@mail.gmail.com>
+Subject: Re: [PATCH v6 11/18] x86/kasan: KASAN raw shadow memory PTE init
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -109,25 +109,25 @@ Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 9:08=E2=80=AFPM Maciej Wieczor-Retman
+On Wed, Oct 29, 2025 at 9:07=E2=80=AFPM Maciej Wieczor-Retman
 <m.wieczorretman@pm.me> wrote:
 >
 > From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 >
-> For an address to be canonical it has to have its top bits equal to each
-> other. The number of bits depends on the paging level and whether
-> they're supposed to be ones or zeroes depends on whether the address
-> points to kernel or user space.
+> In KASAN's generic mode the default value in shadow memory is zero.
+> During initialization of shadow memory pages they are allocated and
+> zeroed.
 >
-> With Linear Address Masking (LAM) enabled, the definition of linear
-> address canonicality is modified. Not all of the previously required
-> bits need to be equal, only the first and last from the previously equal
-> bitmask. So for example a 5-level paging kernel address needs to have
-> bits [63] and [56] set.
+> In KASAN's tag-based mode the default tag for the arm64 architecture is
+> 0xFE which corresponds to any memory that should not be accessed. On x86
+> (where tags are 4-bit wide instead of 8-bit wide) that tag is 0xE so
+> during the initializations all the bytes in shadow memory pages should
+> be filled with it.
 >
-> Change the canonical checking function to use bit masks instead of bit
-> shifts.
+> Use memblock_alloc_try_nid_raw() instead of memblock_alloc_try_nid() to
+> avoid zeroing out the memory so it can be set with the KASAN invalid
+> tag.
 >
 > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Acked-by: Alexander Potapenko <glider@google.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
 
