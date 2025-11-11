@@ -1,159 +1,116 @@
-Return-Path: <linux-kbuild+bounces-9560-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9561-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C3DC4D04D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 11:28:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AA6C4CF1F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 11:14:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84FBF427CD1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 10:14:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EC9318889A6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 10:15:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 439F3338F5B;
-	Tue, 11 Nov 2025 10:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85A10337BB1;
+	Tue, 11 Nov 2025 10:14:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="p+vIozFq"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AiNMTADZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx-relay106-hz1.antispameurope.com (mx-relay106-hz1.antispameurope.com [94.100.133.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E120F338F26
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 10:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.133.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762856048; cv=pass; b=cIwgPamVZCptzF3psUxWmrqOoyLumYUmSvsfCO7Zk/UmGe2/S3HQ0ldxv+JJHBurSU/2zxmDQECQebc0P+hSJ61AAbbbkU6lChCWAYbdPdvkTHypPE5rvGG0/a+QdA065h72pA1l9TfEQ+DKfK3o2Vfq5o4C+QzxlPT0QSgWYfE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762856048; c=relaxed/simple;
-	bh=qffjGVKHGKbLT2g/i1slYDW6JONYYo+k1+ICy3WTD/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KXwlXl0Z79s7lmg6pwYi/VWIhJpzewjdEasZE9rLBV+odpYKHvf4aMiS3bm9Hw74Ib3STYk5fjeJvsJ83/mv9t3sAcgHbzcbxtWTE2dOhmWfZR2XHqgZpRyXbHLtYF7ap2r/Mj6IdI+Kc7DCFrfS2E+hPe4i7wKBKgzRlVAu74A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=p+vIozFq; arc=pass smtp.client-ip=94.100.133.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate106-hz1.hornetsecurity.com 1;
- spf=pass reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com
- smtp.helo=hmail-p-smtp01-out04-hz1.hornetsecurity.com; dmarc=pass
- header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=5cd8tiR4oA2bomVQnghj6XdfSPPBJKKlunliO1VnFlM=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1762856023;
- b=LATsIJpjkXo9Bq6OTgN891Vd5yBiaU3YiHEZeK3jsv1lXHlr+OzRJRKIvZ6rI8CNMXXyAVgx
- HtaYGQBerfwDB84UD5wXw2eYtgHcfCvbgm/RNUOr1b8b5hx+6/sw8th3HphaqxQD32JRxOlsgRI
- 2YvYPzHCl0MlIY6KxAjqLAJot8ObtoqhevymN5d8qVz5Jawgnky39z1FY3TYtCHOHhllTBABkHN
- RjbzdMD3BdPUn5UlNOL5XDLT0mWG7rJctrJbLc2QTgaRdlGpcZe5Vp5xg0etIfxXVAxvI47vvnt
- zHpkXhNxS+FY9H3csdM+cSZV6fDsdLzU97rp1VR5HeQBQ==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1762856023;
- b=GSCDJ+ujA9cwn1/Y3bZyGyzj0r+7WvkEGDnFIfcvvnkKZTh2N677R1rX7cSQC2rOHIkQqT2T
- XlOimC+TH2iS0BHkGQmsLOuVF/iJHNmAaH8T7ZtGgfZISz0qNC4MKjSUbOGLv3Eon6cAR5Ji5kO
- WN+OfOjNC+wEIaRqbxtwsu+rprcd4wdw4Ux8n/80Drt2iyqP8cRuv7u0IkyPb+XJKg34Nr+5Piv
- SoegcMhCVSjRqE5Uk2z+isZqGZTpaRikPDmzJC4CgpjHeT8qxo7tDJtQf/hjKYMwwI+j1gSkijt
- GjXUdwDmGmdMaDPn4F4DI7s4YFHuoRg3T2X/3W92nxBEw==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay106-hz1.antispameurope.com;
- Tue, 11 Nov 2025 11:13:42 +0100
-Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net [82.135.125.110])
-	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by hmail-p-smtp01-out04-hz1.hornetsecurity.com (Postfix) with ESMTPSA id 3B9AC220C9E;
-	Tue, 11 Nov 2025 11:13:26 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, linux-arm-kernel@lists.infradead.org
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
- Li Jun <jun.li@nxp.com>, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH 4/9] arm64: dts: imx8mm-evk: add wakeup-source for usb phy
-Date: Tue, 11 Nov 2025 11:13:25 +0100
-Message-ID: <2809731.mvXUDI8C0e@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20251110-misc_dts-v1-4-7564b9f69a18@nxp.com>
-References:
- <20251110-misc_dts-v1-0-7564b9f69a18@nxp.com>
- <20251110-misc_dts-v1-4-7564b9f69a18@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF202221FBF
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 10:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762856092; cv=none; b=Kx/G/ZsoYd/e18vhUt1o51Lt5cQhEfG2DF3IiRAb4tEghsY0hbG8IVxO/xKPWVxJHxYhVqku2YHV/tSBz1i4xv6rrRCBOVSyadv0+gP28jDu8RLqgfzfz1IXJEQfy4AUANPoVAJWIJ/yFQy133drzEca86SPsCoYg2U6F6cIyF8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762856092; c=relaxed/simple;
+	bh=QCoNa0bAFU4qkhO5GhIkfapiatY4Py/cCoDedmB34wk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BAX/b/a+DPucawNLEc48n6VmiU8MgRfnQrn62ojzCICNdzLeWFTRnkA9uU6tySBLDZ7p/E+ngn6MICQq6nktXbw1pnhFN/sfPQYOU9nFiADJUb3gX+c7EvD8brkgdZe2WVHNaqwKVoeZCNyd7WTZRX0whj4apMXQVfDmftpTrJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AiNMTADZ; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3437af844afso2516848a91.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 02:14:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762856090; x=1763460890; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QCoNa0bAFU4qkhO5GhIkfapiatY4Py/cCoDedmB34wk=;
+        b=AiNMTADZUz0sVD+AWDCRC6XeC4li3NJTME4vB5hxqUPQE4kVBV7gC4Nr7Oms/vLoTr
+         5LHEm5EQn+iV0YSy3I4UCODdhKEFSYazK4TgHC3QURhtIZodF1lD3Y/Ohbf4bcaNw9dJ
+         JmNxcBUWBz+xy38inIAEOxN9REmNnRKNVzexvmuCkqFLrgSMGpchD8PAgC+D/pUhW30+
+         9J4OU7/uR9uRNdOyUm92HpMaERRwhgBDXn6ZE0Z0vhVnYimQ+M+0JBlTpVO1jtXo91qS
+         7p+tf72kM4ouhnmSbTJOBVuo5zHn/yKhI5KwzEQW3rFG2wbl+Spy+dp/Jq7c77psFLgE
+         ntPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762856090; x=1763460890;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QCoNa0bAFU4qkhO5GhIkfapiatY4Py/cCoDedmB34wk=;
+        b=iyAH1uHs+l+rR/MLJLqWQtsL1ALNEe3rrNWw/hcXp9p6ezLJUDtAnbveP9A6NdKQ7k
+         qJvCORG2x8GlQp9fXCZ/i5xPqqV7DC57/uwxo84oM0TpRLsfHYz9HgJRTgMXlPnnCBtJ
+         b0i8ZyQcPhJLptItg2f72zOCL1UZIOFYdO+crjMEcPdCvMapJskVjI4NBGzWPGlqG27D
+         Qjtvn1fO4TlM32oxxyo57tN8UqKGmAtcJ2v6Umslj8tW47O7rUxZqybPFaXoVHfi1/jH
+         HOXXpDjAx4OZNHlAVEHmrDsDgLGDunXcLEoenIWwWBTLIJtEqdPyZTLum9nwn+s873hw
+         Z+ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWACZyrcN8SLB2wq/k45Z8ctCzud+b5Ah935F/LLzu4v3b51zhHE6FG+rIBnXRvXG4zvq4hLgOd4G1RwGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhjC3e4jCMIsBqha6l19XJ0Viq4E7S7mnXffDwvEcsJX76s1Kn
+	0zdZKBegBT3JQD3AWy6asTtSxq1YrSNmT/aO4D1MRXo8BmTwqZUzA5KTzzzyPPiSA7XzqyU0M2J
+	bPezyxN25f5gDU/FVpfuw8cJF5fVinkMeYg66tbPH
+X-Gm-Gg: ASbGnctLCdATz6z+dxs9jCxdqucv/s6dKwXvdprHx6+G5RCDPR7jEj9oGfkdEezuem1
+	Doh9lO0L/XV+9P5E5JqPKpv2jJt4heNgcyeB8LAeVS4PkjtsLAudBHHqfH3FufdOGjB0T2Io27z
+	UJeiqsxaGNm13F2vEWMfIq6ahjClOKIaXoADwiKIYlaKHA4oIBj4P+H0ZdkVG6L4JZi0cL00/ry
+	FWbXhNJU1MS/p/EcGgYLoRp3GT5/go5iasXfUlFEc1G7Uq4ywXZhoBtDUwBUby9woosmGLHSMXn
+	OzY9jCyA2wz/KvbuoTmSicYuXyPgYeL8vcdc
+X-Google-Smtp-Source: AGHT+IFQSxMJjSbUGKNKNlHPOvAOCrOFIwylDJVM9WLCE9houa0HQsWEPCsgreAvWbtMbfV9H0B8kgzaUxxNh9fow8M=
+X-Received: by 2002:a17:90b:1f87:b0:340:bb64:c5e with SMTP id
+ 98e67ed59e1d1-3436cb89ac3mr14436274a91.14.1762856089911; Tue, 11 Nov 2025
+ 02:14:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-cloud-security-sender:alexander.stein@ew.tq-group.com
-X-cloud-security-recipient:linux-kbuild@vger.kernel.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype:outbound
-X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay106-hz1.antispameurope.com with 108FA11C9E97
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:98cd9670ad177dc9a441365add1c322b
-X-cloud-security:scantime:1.834
-DKIM-Signature: a=rsa-sha256;
- bh=5cd8tiR4oA2bomVQnghj6XdfSPPBJKKlunliO1VnFlM=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1762856022; v=1;
- b=p+vIozFqwZj4iqUews4mwtDjiLWiisZToz2Mum1MxMm3yI7hM4hnlczbWxYp16V23Zt86/1P
- GezA4aThhubrNV2Jz8K+b7J8UXRuq3zNWI/i1r95sDla+tO6kOs/vWwZWO7eoc2ZnTLlwxDbXeF
- iduZsnybPuSyaCf2/kBtPwcPX63Xa8jzQGVPVJtwQpYF3rrfKdWPS0cCm7CmjGPcPYI5FCNIZ24
- KfxKY+sWEftZpOgxh8Bp7Uj40zpGNyZXkdv/nn8mFSoL3jAW70RT7TUajBUam8Y9THZQc5HHSMv
- aul//HWLH2aeAHOekFNJMEh2f+I4OAUZuZJ2xhWjqM9dg==
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
+From: Alexander Potapenko <glider@google.com>
+Date: Tue, 11 Nov 2025 11:14:12 +0100
+X-Gm-Features: AWmQ_bk1ReQnmXZU019ENpKczYWPK1RduG0S2XHhWai-9JyZu-To_X33SgyNVa8
+Message-ID: <CAG_fn=UzrdF4v_0iK5b+DHDhFG5pD-W4cac62YYK5x2hgPx9yA@mail.gmail.com>
+Subject: Re: [PATCH v6 15/18] x86/kasan: Handle UD1 for inline KASAN reports
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
+	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
+	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, 
+	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, 
+	baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, 
+	wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, 
+	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, 
+	ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, 
+	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, 
+	mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, 
+	thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, 
+	jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, 
+	mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, 
+	vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, 
+	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, 
+	ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, 
+	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, 
+	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, 
+	rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
+	llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Am Montag, 10. November 2025, 21:54:44 CET schrieb Frank Li:
-> From: Li Jun <jun.li@nxp.com>
->=20
-> USB phy can be wakeup source to support wakeup system from USB.
->=20
-> Signed-off-by: Li Jun <jun.li@nxp.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> +++ b/arch/x86/mm/kasan_inline.c
 
-Typo in subject: Just imx8mm. Remove the '-evk'
-
-Best regards,
-Alexander
-
-> ---
->  arch/arm64/boot/dts/freescale/imx8mm.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/=
-dts/freescale/imx8mm.dtsi
-> index ed8b4843acb4804379ba025e83a63fe962c2937e..dfff164db827e80ef8822ae33=
-0fa604d1642f6f9 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -274,6 +274,7 @@ usbphynop1: usbphynop1 {
->  		assigned-clock-parents =3D <&clk IMX8MM_SYS_PLL1_100M>;
->  		clock-names =3D "main_clk";
->  		power-domains =3D <&pgc_otg1>;
-> +		wakeup-source;
->  	};
-> =20
->  	usbphynop2: usbphynop2 {
-> @@ -284,6 +285,7 @@ usbphynop2: usbphynop2 {
->  		assigned-clock-parents =3D <&clk IMX8MM_SYS_PLL1_100M>;
->  		clock-names =3D "main_clk";
->  		power-domains =3D <&pgc_otg2>;
-> +		wakeup-source;
->  	};
-> =20
->  	soc: soc@0 {
->=20
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+The name kasan_inline.c is confusing: a reader may imply that this
+file is used for CONFIG_KASAN_INLINE, or that it contains inline
+functions, while neither is true.
+I suggest renaming it into something like kasan_sw_tags.c
 
