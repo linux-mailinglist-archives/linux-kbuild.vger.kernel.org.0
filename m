@@ -1,226 +1,126 @@
-Return-Path: <linux-kbuild+bounces-9580-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9581-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAC8C4FB7F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 21:38:09 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6735C4FE42
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 22:42:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 803463B7C2E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 20:38:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E557E4E58BD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 21:41:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F19E933D6E6;
-	Tue, 11 Nov 2025 20:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B33DF32694C;
+	Tue, 11 Nov 2025 21:41:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yci4/T5y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFonxFw4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D54D33D6C7
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 20:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279FE32693B
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 21:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762893485; cv=none; b=PTQvMhYTSZVcbkqWfQOjkUgpP0P8Cv2gLafHoCOvqPIYx04CEiXrcT06fMwMnaGtM1A7TbLosdXUt7j5Kx7AMkx3v7ezr6NVn29jWyeE/fGCO4bnO6fYhU7Wy2KpqxY0RIEq8DHG7SYYbzyj4PXNkDbpU51Z3R2GYIiXhRlgHr8=
+	t=1762897292; cv=none; b=vET/z15swsMmWKWGgWCDuEB+cLtSAoeja1azgDA/MjKpCkXTWWrxDqimfcmf0vo4e3PuS7x3y8+QD9zDBmAQU5WCEbpXS4Fmat3TNDUb9esyauDb1iK6fbqKmuiGdzZcyZMCVk+u03jhFNX5XsUl2tl5r0VyA3j+r/6NydCcrww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762893485; c=relaxed/simple;
-	bh=7GWZxDCCMttOLyhuWX3RwzB7XVbSwN7ki8zrLyUQHdM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s0MsgUjd4pNVrB+B57IokBrmYR3MX64mXb5c6JQ7PyaMG432Mm1if8W42cEpKxrhyTH0ykTJJahA+OsRSLd9tStROhxbibzK8/4E2aGZ54vyzlLjE4tqXomCR1BsMbpZnv91rf9sy4YYIkUmw5bQ4ZpsKaKCYjWeZKwNjRBxORU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yci4/T5y; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1762897292; c=relaxed/simple;
+	bh=zfdAeaqTBrEgSr6xloh0Ahfnqu9+q+5A1a9axEx5SIQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uDT1e37XB7enjL2m//8qSQp5v40YXmDiv4S/W757DRAwhzOec3wFMOq3xJM/E9/UniFFaOM9W5+bIqOnSNF5qr4SIzcynYt3tdysiE4on21Di+dqOIDF4GK5AYpPJb61LGxqCYeiu+ky3R+9H0sgzMKDZNkcjltwHsKSHlCiNxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFonxFw4; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b714b1290aeso29421466b.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 12:38:03 -0800 (PST)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-297f5278e5cso151285ad.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 13:41:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762893482; x=1763498282; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xqn1zKvw9DCjF/8Ax6kOshUW26Fkeqzkn2Kx2fxNpnc=;
-        b=Yci4/T5yZvdBXIQ8lAQykFDsLLRsJOE8KRFWLzlbMInw1n8vCRAA/8YGo9SUMfrp0D
-         rCid0Ml6KqISSOg7qQMeKRNxfbBsIieBOmVp+ICxskYRiU5kD7jeLn/HNCXV+eL4iFEx
-         foDzuN56ktOQcA/Cf9C4Df7maOLS+5tz5zP/IJrJgm0ldfrnAfrCUuVoPrCJI7RyFXlY
-         b2cHIkUBMuMZPUA9HTQaDIjgS0OEK9iyAJ9iNiSxZzlTVMQmblRrxvQpg2cjEej8Y4+4
-         xuPUX8RhHeIsnLvW2UsIBnRZ7ZCO9rKPU/wR4nnGkwQA+ex4J1BdCvgDFNqt8APTgDAx
-         NxRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762893482; x=1763498282;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762897290; x=1763502090; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xqn1zKvw9DCjF/8Ax6kOshUW26Fkeqzkn2Kx2fxNpnc=;
-        b=q6Mn4v4VzvIARchcEd5vL4uCNm+n5z56ZOSJB0vQYRbcZP4GxG3JGPW8bZDQ8Krl+W
-         v4kaknj2oSpjE3RpurAjiIxLhpi0NhTpgZQ8LKxH1fbWt/CoISWifmCn9xyUJP8dYPDh
-         hTFFx+F8e4R0a2lwyVxukbt8dWJqHD83kScsLvOHx9z/PgTmeWOxrqK+EBXJMDN3s1cu
-         8c7m4MmMpeark+776Baln/sofV1uqZOE/CmAlioNe/2+9OMuXNKOaZaHEmuwaZW6uk57
-         gj7Kj/sjps+iNl6Ci4vqMENZ4ZbHVB1qCbKsFOjvEvRI5SV9FuvjMKZdvpypj9m5xdfW
-         2Smw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwItspNiMR2HHwAx53/qMiDdFpo2qSb9zkgW5KknB9BOJkrfqNy62XpSZxH9dN5RZ9NUeCweA7LetGTuE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSCjZQpdxOUENx4pS+t84FIzZL9h+2JMJox5i+XGnQ6xHAxLCk
-	rkkDNxWchxcqLzJLMR7T9QHX/kIGb/VK8QcsBCpFBugGxrRw1TzsiUXC
-X-Gm-Gg: ASbGncvkQwDaRz/aCp9X2XEAMa4v/v0tjVD4qkIRtZ2uJV86SDHQq8t+xModmZ3hd89
-	0GFZVHI8y8oQXrKKXZnxx2BDOs4vGdQfEG6yUE0+f6JAA9H86vUTX+3D/E8N+dq3GnEl2oYxsve
-	TlrgKA12OqKi0PvJo2WdHKaivR7rYoSUzg4CRVMZmPSf7q0D0MqAOC427RkgqvqeY6ByyJDSlGE
-	Ee5iMFt6n6Zrf4TZq9ommqkSMwvWy6raQAAS7hwAgl6YCkLjHgVJ0nHWEFpScP2eAD1dv4Bepug
-	WnO6vSoTWfTA4gNybalT0SFM5LxOV20ha81Ncm7dh96yaaB5gEU8CM8kCDzzmSD9TyisQ5KrPO/
-	WdCev0pFRtem9W9j4xY+9D+aFWKdAf5mlcApUCskIz3sEf7qN+RyalqxjwQUi97j5Lm3OEaDFHD
-	/kwBfyem4oFGNRwSp+e/hXNX7ExLvO5qRTrg==
-X-Google-Smtp-Source: AGHT+IG5np7B+oYRQPSJ6UlK9IUvVySK4fkR4lCuLAGITvhYKuu+IaCR926UVllS3cE9io14VQFjOQ==
-X-Received: by 2002:a17:906:fd86:b0:b70:af93:b32d with SMTP id a640c23a62f3a-b7331ab5d5amr46995466b.53.1762893482105;
-        Tue, 11 Nov 2025 12:38:02 -0800 (PST)
-Received: from [192.168.0.3] (mob-5-90-138-22.net.vodafone.it. [5.90.138.22])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bfa24d14sm1414930266b.74.2025.11.11.12.38.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Nov 2025 12:38:01 -0800 (PST)
-Message-ID: <f58e7b0d-d885-42e6-91e0-6fcc621964c2@gmail.com>
-Date: Tue, 11 Nov 2025 21:37:59 +0100
+        bh=oRd73cij+HovMGtftbZP3pXBqOWm36xza5TU1RGHHpM=;
+        b=gFonxFw4AKlFwXXPCiGjZbmlEYvW7aLCkTq/unD1ejL/KlzBzSO6UlR/KVJzILVUL5
+         9pMf7k/HGAA1z4+wpxE9OsfvyJaESquHEOrK5LFTwbZWxpsrJcxS5yvleQOJBBPcyIH/
+         hQxb4biLP+uDxqbNdQmVPUuIQljHwTknbxCjQuvZnOlXXFl0WHDWjPTyQuJDHSrNdL+0
+         ElSmkLliVf1tSDLb8yr6GiFXF6TJyrqv4OEO8Mhe4DHgjLBFJjiUNKK1Jn65wBY7h8g3
+         S/lZl/LSX5rvN1DAG4sMiw5pWBZthke/2g4s1Wxr9K4bZZW+AM+ltEDN1r9MCwJg70mU
+         XHhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762897290; x=1763502090;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oRd73cij+HovMGtftbZP3pXBqOWm36xza5TU1RGHHpM=;
+        b=MP4KEQcJaMgHuISXqNUCyTOBmKcSNPrxIFJ/DOrskjPBiNEbEez0CfpB3hmRd212Eh
+         MDci0KaCJH1BUK0r+qPZK/GNgLzC0TTGpBrDZLktI92GpKDUGygT6m6rn7eoSf54orq0
+         bsLPNYksJ9UaZRXeU6n/0Q04oEmAwPyYVUyKUu4yN5gHFZ5S1zaZAyhpfybEgO5ahGPp
+         r/UzPkhHjhmgWuHycxrPsK4pMnGUdOo1gJfK+5EINacGUWDUQVOLoLke/XKwfe0y8gGI
+         9tWvjWhKpt9CLQeU/phnz8NKj9fBrl5mfWWaE7uzkNU3Vxs7nDATxwCLExCf20bPL2D8
+         r+NA==
+X-Forwarded-Encrypted: i=1; AJvYcCXUgkhTWK//dn+yStEK9oif51jRGLVY00Sezm4cZ9xdZbmU6ZqXkwQBLiLg54tR31Wpy2OCU/Mi7gsXgZs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZZM350lZ4jvBEU1WPCSpD6kclxMGovQib6ds5a/QwtDrp/JSO
+	Xt88tHhx05742W7Q7fKPlkz4uLMRQdHZh+nzfBa/W56nrDeW6xo+DG/VPFx2+pXBP5xVDFTD6kk
+	X7UoJ53RnpiiNh6ojZbtBcq3KE2UnGqM=
+X-Gm-Gg: ASbGncuvvv5uTahCe5gHqCsEByAwrF6e/5meEZ2GL69sL1/su76v1KmvO9QuDhCtB0p
+	10hPg42835b7w98p4InAQGSjHapeLGibyq2Nf18EHDqSR10GEOWY3rU7BMymEpFp3cZ/HRlTODr
+	XHke7aWoAQuKrp0T0WGXAAowfXejJt+vtHNUr1gz+g61agq1KKSGh6k8uSQ2mm1ukp+f7w+kGnm
+	arCyHhMtTiwIANkxF2AMGaQ/V05nQ3AUgpvuzmaVXin/E5FducXim8fDflC4Dbe1i184m9XOimS
+	Rtr29xiaxqlWF5hXY5xbLOWuztvl7EX/FVXbgtRk2DU4N3gHigHxbmVtvyhTc78+V/6MP9yt3+S
+	IgoUifywSHZz9Qw==
+X-Google-Smtp-Source: AGHT+IGiL+Jp66P8oXD6skqSSMCPWrZ1n1NrI/tbAtWufk7Trii0awwoK1IEETOo90VFIpPok9XHsp8l7tpFByeE9/k=
+X-Received: by 2002:a17:902:c951:b0:295:f926:c030 with SMTP id
+ d9443c01a7336-2984ed34944mr5274945ad.2.1762897290547; Tue, 11 Nov 2025
+ 13:41:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Kconfig: Added compare capabilities for mconf
-To: Nicolas Schier <nsc@kernel.org>
-Cc: nathan@kernel.org, rdunlap@infradead.org, corbet@lwn.net,
- linux-kbuild@vger.kernel.org
-References: <20251030141342.159994-1-martellif67@gmail.com>
- <20251030141342.159994-2-martellif67@gmail.com>
- <aRNMww8YU_7dKwK3@derry.ads.avm.de>
-Content-Language: en-US
-From: Franco Martelli <martellif67@gmail.com>
-Autocrypt: addr=martellif67@gmail.com; keydata=
- xjMEXwx9ehYJKwYBBAHaRw8BAQdA8CkGKYFI/MK9U3RPhzE5H/ul7B6bHu/4BIhTf6LLO47N
- J0ZyYW5jbyBNYXJ0ZWxsaSA8bWFydGVsbGlmNjdAZ21haWwuY29tPsKWBBMWCAA+FiEET9sW
- 9yyU4uM6QbloXEn0O0LcklAFAmhyroACGwMFCQ0ncuYFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQXEn0O0LcklAHVwD9H5JZ52g292FD8w0x6meDD8y/6KkNpzuaLHP6/Oo8kAIBAJsh
- aMB9LdCBJTMtnxU8JTHtAoGOZ/59UJWeZIkuWJUNzjgEXwx9ehIKKwYBBAGXVQEFAQEHQNP5
- V2q0H0oiJu89h1SSPgQDtkixXvUvRf1rNLLIcNpPAwEIB8J+BBgWCAAmFiEET9sW9yyU4uM6
- QbloXEn0O0LcklAFAmhyroACGwwFCQ0ncuYACgkQXEn0O0LcklASVwEAoEkHMEU7mHc0zmAu
- D2R1PYsDh9+3wQeied5PrF+HdakBAOeSGsf40GBew5umZuM59I04d1uXYAXGMP+jGN2RUtMA
-In-Reply-To: <aRNMww8YU_7dKwK3@derry.ads.avm.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <b8c1c73d-bf8b-4bf2-beb1-84ffdcd60547@163.com> <CANiq72kX4Yep3pNVq8Ge=txQbPnMO=zKsci5cPgz5LDS=D6NoQ@mail.gmail.com>
+ <CABCJKud0G+Xh+Wbtg4SDGvk4Yh5nmt5YgHEPj-H0y8GO5R3Amw@mail.gmail.com>
+ <CANiq72mw66ADx7LoUuqY6h9KCU=uFzcNQXZ21kMP7jBjCyyaHQ@mail.gmail.com>
+ <CANiq72=OFO8fBpJ6xvGunYrx5hXfcjQJ=YDqFxtMPWDzfzwpKw@mail.gmail.com>
+ <CABCJKue1xeY7CGHScG04PdHT6TOPgsOpZVKWwgzO65qwAcbEJg@mail.gmail.com>
+ <CANiq72ncHgjjJ_c2fdTgOO9LxmmotRS8S6pwyckLmPJG_4GPNg@mail.gmail.com>
+ <CANiq72kcRsTWPhQVJ18P6RUxL=+c1Z8BJkyK_kRR8EBmmH+cWg@mail.gmail.com>
+ <20251108044206.GA3038215@google.com> <CANiq72mLbEVqX-uBtqy+_wru9CRRb3PL3qFqYEcjpZdNyZGd2w@mail.gmail.com>
+In-Reply-To: <CANiq72mLbEVqX-uBtqy+_wru9CRRb3PL3qFqYEcjpZdNyZGd2w@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 11 Nov 2025 22:41:18 +0100
+X-Gm-Features: AWmQ_bnYAMAYrSvwgB4l-mm_bJOJnIerdQKKKFbx5vEbbDg6gbIrr9kWQZIl59c
+Message-ID: <CANiq72n09yx9ZjOtOb3-3rPfpPLKaJZ2fs_Bmpbz28Y8U05snA@mail.gmail.com>
+Subject: Re: Only rust/bindings.o build fail on rust-1.91.0
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Haiyue Wang <haiyuewa@163.com>, rust-for-linux@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>, linux-modules@vger.kernel.org, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/11/25 at 15:48, Nicolas Schier wrote:
-> Hi Franco,
-> 
-> thanks for your contribution.  Some notes below:
+On Sat, Nov 8, 2025 at 6:08=E2=80=AFAM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> Exactly, that is what I was suggesting in the other thread about
+> editing the `cmd` command or directly teaching `genkallksyms` to
+> auto-skip, but I didn't know if there was a reason you didn't do that
+> originally instead of having (some of) the `skip_*` lines in the
+> `Makefile`.
+>
+> If not, then I assume we could already remove some of those lines,
+> e.g. the one for `ffi.o` (no need to do it on the fix, of course,
+> better to keep it minimal, but just to confirm there is no hidden
+> reason there).
 
-Hi Nicolas,
+For (cross-)reference: I sent "v2" of the fix, essentially taking your
+patch and my commit log and putting them together -- please let me
+know if this is with you!
 
-thank you very much for your answer.
+    https://lore.kernel.org/rust-for-linux/20251110131913.1789896-1-ojeda@k=
+ernel.org/
 
-> 
-> On Thu, Oct 30, 2025 at 03:13:42PM +0100, Franco Martelli wrote:
->> This patch allows to compare the tristate value of two .config files
->> inline, symbol by symbol, in mconf (make menuconfig) only. It can be
->> really useful when customizing the .config file.
->>
->> When a new stable release of a distribution is available, in the Linux
->> kernel many things has changed, this patch comes in help in this
->> situations, it allows to easily compare the customized .config file
->> built for the previous version of the distribution, with the one
->> provided by the new software distribution, used as reference.
->> Generally it can be helpful when the differences between .config files
->> are huge, because you can navigate across them in the menu window.
->>
->> The patch has a limitation, it only show the tristate value (Y/N/M) not
->> differences for symbol with a value (string), but it also marks with a
->> "#" the symbol missing in the loaded .config, meaning therefore the
->> symbol as a new feature.
-> 
-> I must confess, that I am not convinced yet, that this will be helpful
-> for general purposes.  Yes, large changes in .config files are not easy
-> to parse, but I do not see how your solution is easier to handle than
-> the use of scripts/diffconfig, other than not showing removed config
-> options.
+Thanks!
 
-the strong of my patch is interaction; scripts/diffconfig merely show
-you a list of differences that you'll have to handle instead, having
-differences reported near every symbol's item in the mconf window let
-you to interact with the differences inline, on the fly.
-
-> 
->>
->> o I've also added support for the more canonical <F1> key to show inline
->>    help window, in addition to <?> and <h> keys.
-> 
-> Please split-off logical these independent changes into separate
-> patches (Add support for 'F1' hot-key).
-
-OK, sorry!
-
-> 
-> Using simple letters (here 'h') as hot-keys is not a good idea as those
-> are already used for jumping through the currently shown menu item
-> (cp. highlighted letters in menu config screens).
-
-the 'h' hot-key was already in the source code used to open the 'help'
-window, it wasn't a my change.
-Using simple letters to call functionality was strongly advised to me by
-Randy Dunlap because some desktop environments intercept function keys
-by default, using letters provides a workaround for this.
-
-> 
->> o By pressing the <F2> or <D> key you will get a view with all the
->>    symbol differences listed.
->>
->> o By pressing the <F4> or <F> key you'll save to a file the differences.
-> 
-> While the list might be helpful for comparing two config files, a large
-> list within an ncurses window does not look like a good thing to me.
-
-True but the list will (hopefully) shrink during the configuration
-process and the list now (version 4) is sorted alphabetically.
-
-> 
-> When I save the list to a file (F4), I'd rather choose the output of
-> diffconfig for evaluation -- as it is more complete and has a layout
-> that looks more straight-forward and clear to me.
-
-OK, it seems easy to implement.
-
->> o Added help text that it describes the new features.
->>
->> This software is under GPL-2.0 license.
-> 
-> Please note that the whole Linux kernel source and its build system is
-> GPL-2.0 per se, cp. COPYING and the SPDX header line in each file.
-> 
->>
->> Changelog:
->> ----------
->>
->> scripts/kconfig/confdata.c:
->> ---------------------------
->>
->> Silenced a warning emitted when parsing the .config file to compare.
-> [...]
-> 
-> Please put any patch changelog below the triple-dash line ('---').
-
-OK sorry, I'm new to the kernel process patching.
-
-> 
-> I have not looked at the code, yet, as I have doubts regarding the
-> usefulness (see above).
-> 
-> Iff nobody mentions strong interest in these changes, please re-evaluate
-> if it makes sense for you to invest into a v5.
-
-I'll wait a couple of week, if in the meanwhile nobody appreciate my
-patch and therefore it will be rejected I'll made it available on my
-Github profile for the Linux 6.12.y kernel series.
-
-> Kind regards,
-> Nicolas
-
-Thanks again, kind regards.
--- 
-Franco Martelli
+Cheers,
+Miguel
 
