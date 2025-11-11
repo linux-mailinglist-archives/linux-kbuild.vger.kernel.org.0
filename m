@@ -1,59 +1,55 @@
-Return-Path: <linux-kbuild+bounces-9571-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36F0C4E99D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 15:53:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D978C4EA58
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 16:00:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3805518892BD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 14:49:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 963F142296B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 14:49:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456332F8BEE;
-	Tue, 11 Nov 2025 14:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CFE331077A;
+	Tue, 11 Nov 2025 14:48:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cyqMiDtL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TlTX7SP5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C18226E14C;
-	Tue, 11 Nov 2025 14:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293C830DD04
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 14:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762872529; cv=none; b=MptL8xTXOxn1oWOgiyIsPNk/sNYJ5Ey5gyVvj4b5YGtFA4S9EATGZsgIe53mwttp2k+I0L7sS1sbdUzl1LThblSytZfVvIVrHNUjsp/Xjzc13yEmXH56GqHWlIbovq4lp9rw8+HHke5EtnHU5Y3PvYMkXmiEt/xzctMeXBBv28Y=
+	t=1762872531; cv=none; b=fbvybQ3QdIUtXgjCBVhZFQcINIs546QQBaPMRB5kCBikFijakO8+0opyDKAyWLiB+KZaFKX2dWTOevK6N2x2BqmjprpPldqEZkzmdYyyCg0DCiLrNogCVwtAltyy0C8jxGNuIP/bAh5LWaj9FvgcuYcDCaK0wQO8i7IGKkylvoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762872529; c=relaxed/simple;
-	bh=meqgWx70cSyb1oEZ8r90RVAGKaR5A0M0JKCio8jOwHA=;
+	s=arc-20240116; t=1762872531; c=relaxed/simple;
+	bh=gcjHx0DzuGwbEc1jKseHRKYmImNdQDC327SXPGnIg+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjdgq3x3Lg+0X35cvRQBcpD5iHryFKmlgW5ausR5Pl1EmScJIKwUA7o+ih/Wwxl+BHfpgD7L29EjlkgWplYM6h8TLyEnCjolPYHhUCGYBZxYpPdXeK9UODp2skqZ4VKqyvVYgvYG4i2VrRa8/Qc5BzMJNMPjQKiPCqg2KVuj+Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cyqMiDtL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB2FBC4CEF7;
-	Tue, 11 Nov 2025 14:48:46 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=taWrrKvJIALG+Sqe6srDmmTWkZLjWFhcjwVlzf2+kijGpD+hOlQ1m2RDlM+acC5WUcRyvixV08WUIaGZSuwnbYPd86d+jEpDdsoes4/5BbZue3uFOtWM8QTNMBrdvNKHUWX3YuO595bOSrtE42CL0Ibe+6GF/x44VORkmCS5p2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TlTX7SP5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A6AC16AAE;
+	Tue, 11 Nov 2025 14:48:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762872527;
-	bh=meqgWx70cSyb1oEZ8r90RVAGKaR5A0M0JKCio8jOwHA=;
+	s=k20201202; t=1762872530;
+	bh=gcjHx0DzuGwbEc1jKseHRKYmImNdQDC327SXPGnIg+Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cyqMiDtLpQmYV/y1vJ85/H3ZFvA6hfmBPzhjLCftTmEkjrUsmvHjLi5sAK4B876p1
-	 3I05twr8DqibBokUJUyvAB2ShnYqJubfO/6Ulw9oXcieaL6h4w1in1L0pVnShCzI0/
-	 yqJlwsiUobmH2u/yUPU4YvykTyATiB6oom2KxwEeAKbJN3UBu+1JhqI5qYZ/qyUw1R
-	 rl36p4atnHq2DjgxvaYu654x+yNYjwvNY4sjBoRISCxE427P52ED2o3/lyhEHH6wCL
-	 xOQJn7A/XwOB4cqp2lWjW6X0J09iSWhvDcA3vvhJLN7Rmkc9dVHH1K72JTTn3xKMnK
-	 w2pr6WtDJSsYw==
-Date: Tue, 11 Nov 2025 15:33:33 +0100
+	b=TlTX7SP5vnVAX1NNLE7gRPdB2Zc7uzG6wAENvJO1KLIU73pWI97EkmPyW1sxne3f+
+	 27maN5lUYe29p2BQFrWEXSfKSHHYORPUG4a5/d5djC2ry8slfyREWuO1YtghL/mb5C
+	 Gx2gla0ldMl2P1Y6t5a96TT3j9JfW6TIIi7KqPuB/WEb/5+ki9EBeufT5Gl6IE21U3
+	 Yqh19CmXsV1DOdP15N0m2JR0WIDBUV3Uk4+RlWwl54zo3ZZN2QneE3IS45WUw6I4Hw
+	 9GtvowM9Ci9qrlvCzOdNyWKmuiqubqzxdGufz6NgpTn3egGY/mxyHkPOdsa0ci8nqj
+	 M4oNiaUaG0Sqw==
+Date: Tue, 11 Nov 2025 15:48:35 +0100
 From: Nicolas Schier <nsc@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: install-extmod-build: Properly fix CC
- expansion when ccache is used
-Message-ID: <aRNJPcFefMojmhfu@derry.ads.avm.de>
-References: <20251111-kbuild-install-extmod-build-fix-cc-expand-third-try-v2-1-15ba1b37e71a@linaro.org>
- <aRM0DmrBq-neaNYw@derry.ads.avm.de>
- <4qwfibqgwhigh4g7ic75ueeyy7py4hgjdg22cyuyvxod7x7vjf@nd4t2em2uaqp>
+To: Franco Martelli <martellif67@gmail.com>
+Cc: nathan@kernel.org, rdunlap@infradead.org, corbet@lwn.net,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/1] Kconfig: Added compare capabilities for mconf
+Message-ID: <aRNMww8YU_7dKwK3@derry.ads.avm.de>
+References: <20251030141342.159994-1-martellif67@gmail.com>
+ <20251030141342.159994-2-martellif67@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,48 +58,86 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4qwfibqgwhigh4g7ic75ueeyy7py4hgjdg22cyuyvxod7x7vjf@nd4t2em2uaqp>
+In-Reply-To: <20251030141342.159994-2-martellif67@gmail.com>
 
-On Tue, Nov 11, 2025 at 04:28:06PM +0200, Abel Vesa wrote:
-> On 25-11-11 14:03:10, Nicolas Schier wrote:
-> > On Tue, Nov 11, 2025 at 08:43:51AM +0200, Abel Vesa wrote:
-> > > Currently, when cross-compiling and ccache is used, the expanding of CC
-> > > turns out to be without any quotes, leading to the following error:
-> > > 
-> > > make[4]: *** No rule to make target 'aarch64-linux-gnu-gcc'.  Stop.
-> > > make[3]: *** [Makefile:2164: run-command] Error 2
-> > > 
-> > > And it makes sense, because after expansion it ends up like this:
-> > > 
-> > > make run-command KBUILD_RUN_COMMAND=+$(MAKE) \
-> > > HOSTCC=ccache aarch64-linux-gnu-gcc VPATH= srcroot=. $(build)= ...
-> > > 
-> > > So add another set of double quotes to surround whatever CC expands to
-> > > to make sure the aarch64-linux-gnu-gcc isn't expanded to something that
-> > > looks like an entirely separate target.
-> > > 
-> > > Fixes: 140332b6ed72 ("kbuild: fix linux-headers package build when $(CC) cannot link userspace")
-> > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > > ---
-> > > Changes in v2:
-> > > - Moved the new double quotes inside of single ones, to be able
-> > >   to drop the escape, like Nathan suggested.
-> > > - Re-worded the commit message according to the above change.
-> > > - Link to v1: https://lore.kernel.org/r/20251110-kbuild-install-extmod-build-fix-cc-expand-third-try-v1-1-5c0ddb1c67a8@linaro.org
-> > > ---
-> > >  scripts/package/install-extmod-build | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > 
-> > Just as a note: the fix is only required for build rpm packages.
+Hi Franco,
+
+thanks for your contribution.  Some notes below:
+
+On Thu, Oct 30, 2025 at 03:13:42PM +0100, Franco Martelli wrote:
+> This patch allows to compare the tristate value of two .config files
+> inline, symbol by symbol, in mconf (make menuconfig) only. It can be
+> really useful when customizing the .config file.
 > 
-> .. or pacman packages. Easy way to reproduce:
+> When a new stable release of a distribution is available, in the Linux
+> kernel many things has changed, this patch comes in help in this
+> situations, it allows to easily compare the customized .config file
+> built for the previous version of the distribution, with the one
+> provided by the new software distribution, used as reference.
+> Generally it can be helpful when the differences between .config files
+> are huge, because you can navigate across them in the menu window.
 > 
-> make ARCH=arm64 CROSS_COMPILE="aarch64-linux-gnu-" CC="ccache aarch64-linux-gnu-gcc" pacman-pkg
+> The patch has a limitation, it only show the tristate value (Y/N/M) not
+> differences for symbol with a value (string), but it also marks with a
+> "#" the symbol missing in the loaded .config, meaning therefore the
+> symbol as a new feature.
 
-ah sure.  Thanks!
+I must confess, that I am not convinced yet, that this will be helpful
+for general purposes.  Yes, large changes in .config files are not easy
+to parse, but I do not see how your solution is easier to handle than
+the use of scripts/diffconfig, other than not showing removed config
+options.
+
+> 
+> o I've also added support for the more canonical <F1> key to show inline
+>   help window, in addition to <?> and <h> keys.
+
+Please split-off logical these independent changes into separate
+patches (Add support for 'F1' hot-key).
+
+Using simple letters (here 'h') as hot-keys is not a good idea as those
+are already used for jumping through the currently shown menu item
+(cp. highlighted letters in menu config screens).
+
+> o By pressing the <F2> or <D> key you will get a view with all the
+>   symbol differences listed.
+> 
+> o By pressing the <F4> or <F> key you'll save to a file the differences.
+
+While the list might be helpful for comparing two config files, a large
+list within an ncurses window does not look like a good thing to me.
+
+When I save the list to a file (F4), I'd rather choose the output of
+diffconfig for evaluation -- as it is more complete and has a layout
+that looks more straight-forward and clear to me.
+
+> o Added help text that it describes the new features.
+> 
+> This software is under GPL-2.0 license.
+
+Please note that the whole Linux kernel source and its build system is
+GPL-2.0 per se, cp. COPYING and the SPDX header line in each file.
+
+> 
+> Changelog:
+> ----------
+> 
+> scripts/kconfig/confdata.c:
+> ---------------------------
+> 
+> Silenced a warning emitted when parsing the .config file to compare.
+[...]
+
+Please put any patch changelog below the triple-dash line ('---').
 
 
--- 
+I have not looked at the code, yet, as I have doubts regarding the
+usefulness (see above).
+
+Iff nobody mentions strong interest in these changes, please re-evaluate
+if it makes sense for you to invest into a v5.
+
+
+Kind regards,
 Nicolas
 
