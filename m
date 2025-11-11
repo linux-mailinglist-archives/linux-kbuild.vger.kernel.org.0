@@ -1,99 +1,100 @@
-Return-Path: <linux-kbuild+bounces-9565-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9566-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B0FC4E176
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 14:21:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9BDC4E173
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 14:21:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3B6C24E0719
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 13:21:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6D5E3AA32B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Nov 2025 13:21:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A4BB33122A;
-	Tue, 11 Nov 2025 13:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C78DA331219;
+	Tue, 11 Nov 2025 13:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bCUvxqSK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A2LQbXUx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bCUvxqSK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A2LQbXUx"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L7mSBt2N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p7tUeJYt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L7mSBt2N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p7tUeJYt"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF6233AD84
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 13:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2047D33AD84
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Nov 2025 13:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762867257; cv=none; b=RyoQqQs9RGT000OkrRSUkK8zSyTBl7dzF1NXYrapYisc18n0xh6PCrR9jUv2YWgo083OJ0J6B/Kvy0AkhEqyUWwywE9L7iGwu3CmNvf9rsndl2L2M+vmrZqlJOYWCATm5O8pkioFaE2MZuk1xe64bc3vNLpKGWi37VhTf7r96S4=
+	t=1762867272; cv=none; b=h9J4Oqw84y5YT3nSCr1QuMhxAqV2wBcwktCPlC/dhDQXhkCh9dc/x/ljHBe4U9D12ydOkyRoYH1y6bGP/6TNFoDO/XAMOnShg60vXbwk4OV0Bz2A9Y6LrbxrvPuvzh79mZR5PI2WSx59bfNoF0rcgXlKy4y2zGOkiIlh+QIExGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762867257; c=relaxed/simple;
-	bh=O9wQ6kgg6T4VAkQZUm8qgHmtwqn2FJJzu5v7xvVr4f0=;
+	s=arc-20240116; t=1762867272; c=relaxed/simple;
+	bh=OAhGI+/FknV6qmyLqBpbzLmqIrTwwj6PvfyDhDcOMAM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MgYOuX8H9UJpChC7v6iZXscYcCDxr8yxNPc4qyIMep8WLFluFT/ua7Wrat2FDZMWPKO5LtnSqqZmOGo5Lde/YiGqz/ns8F+NLc620pCvt2Bm0I74rZHpf5oRT/LlIV80XWIWB3FebEo+YJiRm/O6JpjHCOtha73KbfsWMLCmOBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bCUvxqSK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A2LQbXUx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bCUvxqSK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A2LQbXUx; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=k38P4E+9MyW1ewJFgxEJygIJU2GPVql+WfGAfGPMJzrgUoo98KBdfSF0LTlvvuwr1GEgoWX7JfC32H6FX2GyjAT1bAMpnUrQjLwkL74ikvs92NasOIjTp3T5PJl4gM3wnSMVjxz3suPBDpPW4Uekq0o1y94HfuXwSrEjWem5m4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L7mSBt2N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p7tUeJYt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L7mSBt2N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p7tUeJYt; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A149721FBA;
-	Tue, 11 Nov 2025 13:20:52 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 57DA41F7A6;
+	Tue, 11 Nov 2025 13:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762867252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762867269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qXIoOqWrEWT64xqTUDQGCMYbCFl9vsnccedtzyoHh/0=;
-	b=bCUvxqSKiKTxYJ8xLsb0fpTSpnNz9lRzFL1lZ6O9yziKeX2V+LFAjHxkyG6hGSEyyDH0wB
-	BK+oZAs3quzsDeoG3humT0tVz8uWE+Jj7cZ5ibabpIdB+niibw8egetjZrWDJ++5JikCdz
-	5vD3dLXR5001LK1G5iJ8rwFdJQLFv8E=
+	bh=NogFP4N0MLshdtNi5nInjdei5wUj8X5EVrXp4B1Ig1I=;
+	b=L7mSBt2NtW4lKf7FsKMNQ6+ZS9xOhXGJbBrb6hV19IYf8HNYspmUMXfkc7vOgzozG23OvA
+	1e9aAkRVEcJawgYwgMwQABQWRprKx+WKwcChKnZdmG6Bsq65o20A48B3Ik7hHd7sSVhh/B
+	wFbAMUp9Kq023LOB1ipqQ8hpjMQQ8ec=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762867252;
+	s=susede2_ed25519; t=1762867269;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qXIoOqWrEWT64xqTUDQGCMYbCFl9vsnccedtzyoHh/0=;
-	b=A2LQbXUxzl2z9tYraTb+QM/Nul/vWPBhHAJJTX+QjRY/ep2pT0LU1VisS0t76coOXIAYRD
-	q8lzT0MWy4vg4dCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=NogFP4N0MLshdtNi5nInjdei5wUj8X5EVrXp4B1Ig1I=;
+	b=p7tUeJYtBK1svCqq9ElxW1IhEoW4zdhyECuYf/PD9Qo0Mi5KoFMDbd+OGDjV44oLRd6Ulx
+	LNhQZWYrc3qV7KBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L7mSBt2N;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p7tUeJYt
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762867252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762867269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qXIoOqWrEWT64xqTUDQGCMYbCFl9vsnccedtzyoHh/0=;
-	b=bCUvxqSKiKTxYJ8xLsb0fpTSpnNz9lRzFL1lZ6O9yziKeX2V+LFAjHxkyG6hGSEyyDH0wB
-	BK+oZAs3quzsDeoG3humT0tVz8uWE+Jj7cZ5ibabpIdB+niibw8egetjZrWDJ++5JikCdz
-	5vD3dLXR5001LK1G5iJ8rwFdJQLFv8E=
+	bh=NogFP4N0MLshdtNi5nInjdei5wUj8X5EVrXp4B1Ig1I=;
+	b=L7mSBt2NtW4lKf7FsKMNQ6+ZS9xOhXGJbBrb6hV19IYf8HNYspmUMXfkc7vOgzozG23OvA
+	1e9aAkRVEcJawgYwgMwQABQWRprKx+WKwcChKnZdmG6Bsq65o20A48B3Ik7hHd7sSVhh/B
+	wFbAMUp9Kq023LOB1ipqQ8hpjMQQ8ec=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762867252;
+	s=susede2_ed25519; t=1762867269;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qXIoOqWrEWT64xqTUDQGCMYbCFl9vsnccedtzyoHh/0=;
-	b=A2LQbXUxzl2z9tYraTb+QM/Nul/vWPBhHAJJTX+QjRY/ep2pT0LU1VisS0t76coOXIAYRD
-	q8lzT0MWy4vg4dCA==
+	bh=NogFP4N0MLshdtNi5nInjdei5wUj8X5EVrXp4B1Ig1I=;
+	b=p7tUeJYtBK1svCqq9ElxW1IhEoW4zdhyECuYf/PD9Qo0Mi5KoFMDbd+OGDjV44oLRd6Ulx
+	LNhQZWYrc3qV7KBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E71614994;
-	Tue, 11 Nov 2025 13:20:51 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36CFB14994;
+	Tue, 11 Nov 2025 13:21:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qEktDjM4E2lpWAAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Tue, 11 Nov 2025 13:20:51 +0000
+	id qAxKOEM4E2lpWAAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Tue, 11 Nov 2025 13:21:07 +0000
 From: David Disseldorp <ddiss@suse.de>
 To: linux-kbuild@vger.kernel.org
 Cc: David Disseldorp <ddiss@suse.de>
-Subject: [RFC PATCH 1/3] scripts: headers_install: move config_leak_ignores assignment
-Date: Wed, 12 Nov 2025 00:16:20 +1100
-Message-ID: <20251111132021.22809-2-ddiss@suse.de>
+Subject: [RFC PATCH 2/3] scripts: headers_install: filter ignored configs via sed
+Date: Wed, 12 Nov 2025 00:16:21 +1100
+Message-ID: <20251111132021.22809-3-ddiss@suse.de>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251111132021.22809-1-ddiss@suse.de>
 References: <20251111132021.22809-1-ddiss@suse.de>
@@ -104,88 +105,116 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 57DA41F7A6
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
+X-Spam-Score: -3.01
 
-In preparation for skipping ignored configs within the sed script
-itself, rather than output post-processing.
+The sed script currently prints any CONFIG_ entries carried in installed
+headers. A subsequent shell script parses this output to check whether
+the found CONFIG_ values should be ignored or not.
+
+Drop the unnecessary sed output post-processing and instead skip over
+ignored CONFIG_ values as part of initial processing.
 
 Signed-off-by: David Disseldorp <ddiss@suse.de>
 ---
- scripts/headers_install.sh | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ scripts/headers_install.sh | 34 ++++++++++++----------------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
 
 diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-index 4c20c62c4faf5..d64b01806a05e 100755
+index d64b01806a05e..f46e91aa416cf 100755
 --- a/scripts/headers_install.sh
 +++ b/scripts/headers_install.sh
-@@ -38,6 +38,22 @@ sed -E -e '
- 	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
- ' $INFILE > $TMPFILE || exit 1
+@@ -54,11 +54,16 @@ arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION
+ arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
+ "
  
-+# The entries in the following list do not result in an error.
-+# Please do not add a new entry. This list is only for existing ones.
-+# The list will be reduced gradually, and deleted eventually. (hopefully)
-+#
-+# The format is <file-name>:<CONFIG-option> in each line.
-+config_leak_ignores="
-+arch/arc/include/uapi/asm/page.h:CONFIG_ARC_PAGE_SIZE_16K
-+arch/arc/include/uapi/asm/page.h:CONFIG_ARC_PAGE_SIZE_4K
-+arch/arc/include/uapi/asm/swab.h:CONFIG_ARC_HAS_SWAPE
-+arch/arm/include/uapi/asm/ptrace.h:CONFIG_CPU_ENDIAN_BE8
-+arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_NO
-+arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_SUPPORT
-+arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION
-+arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
-+"
++# generate sed regex to filter out ignored configs.
++# A subsequent 't' branches if any of these filters match.
++sed_filter_ignores=$(echo "$config_leak_ignores" \
++	| sed -ne "s@$INFILE:\(.*\)"'@\ts:^\1\\n::@p')
 +
  scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
  [ $? -gt 1 ] && exit 1
  
-@@ -64,22 +80,6 @@ configs=$(sed -e '
+ # Remove /* ... */ style comments, and find CONFIG_ references in code
+-configs=$(sed -e '
++sed -e '
+ :comment
+ 	s:/\*[^*][^*]*:/*:
+ 	s:/\*\*\**\([^/]\):/*\1:
+@@ -68,9 +73,12 @@ configs=$(sed -e '
+ 	/\/\*/! b check
+ 	N
+ 	b comment
+-:print
++:print'"
++	$sed_filter_ignores
++	t check
++	s@^\(.*\)\n.*@error: $INFILE leak \1 to user-space@
+ 	P
+-	D
++	Q2"'
+ :check
+ 	s:^\(CONFIG_[[:alnum:]_]*\):\1\n:
+ 	t print
+@@ -78,25 +86,7 @@ configs=$(sed -e '
+ 	s:^[^[:alnum:]_][^[:alnum:]_]*::
+ 	t check
  	d
- ' $OUTFILE)
- 
--# The entries in the following list do not result in an error.
--# Please do not add a new entry. This list is only for existing ones.
--# The list will be reduced gradually, and deleted eventually. (hopefully)
--#
--# The format is <file-name>:<CONFIG-option> in each line.
--config_leak_ignores="
--arch/arc/include/uapi/asm/page.h:CONFIG_ARC_PAGE_SIZE_16K
--arch/arc/include/uapi/asm/page.h:CONFIG_ARC_PAGE_SIZE_4K
--arch/arc/include/uapi/asm/swab.h:CONFIG_ARC_HAS_SWAPE
--arch/arm/include/uapi/asm/ptrace.h:CONFIG_CPU_ENDIAN_BE8
--arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_NO
--arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_SUPPORT
--arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION
--arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
--"
+-' $OUTFILE)
 -
- for c in $configs
- do
- 	leak_error=1
+-for c in $configs
+-do
+-	leak_error=1
+-
+-	for ignore in $config_leak_ignores
+-	do
+-		if echo "$INFILE:$c" | grep -q "$ignore$"; then
+-			leak_error=
+-			break
+-		fi
+-	done
+-
+-	if [ "$leak_error" = 1 ]; then
+-		echo "error: $INFILE: leak $c to user-space" >&2
+-		exit 1
+-	fi
+-done
++' $OUTFILE >&2 || exit 1
+ 
+ rm -f $TMPFILE
+ trap - EXIT
 -- 
 2.51.0
 
