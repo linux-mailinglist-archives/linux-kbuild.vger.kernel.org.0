@@ -1,121 +1,124 @@
-Return-Path: <linux-kbuild+bounces-9586-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9587-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACC7C51DD1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 12:14:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE39C521F5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 12:56:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A408134C1B3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 11:14:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44C683A4434
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 11:47:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29518264F9C;
-	Wed, 12 Nov 2025 11:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75BF93128BD;
+	Wed, 12 Nov 2025 11:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XXSQr06V"
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="DkAWK0og"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [144.217.248.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E00223BD1B
-	for <linux-kbuild@vger.kernel.org>; Wed, 12 Nov 2025 11:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926B635CBDC;
+	Wed, 12 Nov 2025 11:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.217.248.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946082; cv=none; b=cW/JszyJ8cjh9bz/vaRpLYtev0kVPEzOuhUwADI+RwwICsYfob6w56QHzlHA6iWfZMPi1NhT1YRdFMGigeBWbovg49am1e0mnwolptIknPheWkAKTaZghY64vf6CSqmkk1dRVjMWSZxx94NhtJOpXw6KcKPJda655swv+koQNcU=
+	t=1762948075; cv=none; b=F2Ml//uypt9Lx6D2eRPwnYqYcqS2cbueRbcqbsUbw9IKJGIaAWbBktxvL/P79R173bCnAJxWH0ze+LRvA/q0KHzWJNUnBfqCyK9MRmLMzNSOATiV1YGxx+XX2GDOY0Pm7Tk/dE38LajWKtkPLfmLz4n9u97TKkumLQE7CwBg1nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946082; c=relaxed/simple;
-	bh=h6hMfbhgFDo+gCBofNGaIGR6RdADey1hjtSNOkDpSwU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tzQVHfNUQDg0vRfY7pX3cEsUpgCKE6v96LyggPPvsjc19trwOYfZRWWaSbuDZMdaHcAEd+FXzTNzt7sEc2p7xImQ+GL2PenczFlufMgNXgHRk3xCzuFXNU1EKix2wIdDxR7Q3ffJD2EDfAiGjBiez3PT6PUJbPEqV2oQ3GkNxE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XXSQr06V; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-295395ceda3so735605ad.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Nov 2025 03:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762946080; x=1763550880; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h6hMfbhgFDo+gCBofNGaIGR6RdADey1hjtSNOkDpSwU=;
-        b=XXSQr06VR3icfBrhIVBXYOhEkXBwUypD2/Zbn/OeMbIgyQb9NlAN4cUmi1b+qwzrNZ
-         TfmiyBnmm01BMw/VftgpiShBR8deP3nhco1AMvpBAwOUfKNCrQ9o3l8ofYrrz6rgxeGa
-         XPinzy3OFFdr5+UoqdIpFrNMldYJEUvOgXJzsiCF2H2ASY0ee+tFnIYzYpoTBdowl5cy
-         cU/73ZrH4vmlmfLuOKvtsoaiQu6koG2qhsQAvYc/3sLhjoKozhymp0PtHeFq1RKx9hVJ
-         iLt7CPvcEgW/CLsM78p0ZbN6paiQtho4uMPzVzRPWdI/oHbAyFtDx1zwIoHDLzpqIoM2
-         0tdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762946080; x=1763550880;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=h6hMfbhgFDo+gCBofNGaIGR6RdADey1hjtSNOkDpSwU=;
-        b=Fv13UFKwkeICwpt8IZNMYy8sdWZWTYMXtBn3c1+BsV1xsohhatK6PjdEW6ayG3KNDk
-         mbo4KnVxvepSUAwgVNu27ldWnvf9QznerRncOmFqxOhEvy0pbHk8orqNay+s7kFmZdHQ
-         GG1bzHWuEwtMaiC+cfP05E3EqQz3yxS4esH4DBkqkKi1LUDBmgDWOIUsFYEM8X/3EMiw
-         1HT/i2Wqzqr7nXANsE+3rnLo6c05/TNPxvTaCU0XWNSlOIogJRupGdlPfW3XUJlTeGif
-         nOGLSsVJwBk24fvtXGk0UXx7q5Gix0e5lTmWgERZ+LFRgB08yf5q1U7jaxrExAoI04fZ
-         Dr3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXRPvPBzNVMRSqoeXGy78pG1xJG6quzP0BRwuxZiK556W80U7F4Dm8nau/pK43HyE7sQgD37YdzelFVipI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqbnnkXF2NZVl4+O1yQzBRPb4zGUy+LFL53AAFk8XNHHgqhedz
-	/ZoE5gkhwEvQzjbziuRBN5oXmgUfKu/O8kvdQYVG0CPSqFk/oFUJM/kGzxA/kYBmqq1PqpNByRn
-	Jik+NQD0QPfuWSCO/AcA39v0hFff+uZo=
-X-Gm-Gg: ASbGncseHeQ7GO0VGbGnqPWW2+lUFk6iyP9A23Rast+PQYMm2jlmlWZipJs8Zsw6kLd
-	JZFtA/SJAC2OgdGnpk+p60cqfOlRFU3Z0aTqI2erbgCnpJ7jlwXdRTYarDnjEUOy0l1oFP/sPVw
-	CTlpTGXzxpCvSkdYPnI0IPFlXdWJRcVl2pJfeHLPeKk0AKg6MVPPy5UCqusMOLHJbOJMGGwqXQD
-	hZV0bIFb7r+sjOLOyhr/H1WYZo2W/OUvEt2WetrczAXDDH6I0C6jXtJsa6FNos60hw+3J1k+SCh
-	KKqHrs4Pqj7XJ5wEbYLamCTegRE7pQ8vMXFKGYgnyGNtaepMyMhvly4tOcj+gGXDxl9Buz4ffsF
-	DvObM8YftN4ainw==
-X-Google-Smtp-Source: AGHT+IH+LDSJrK2CxsT+xWZOdZ7gKFmElQbYj/uFX0H6HJGbyKRr591NNlUWdNkrfJ7Nf3ybqLt6vVVhtmriacHHU64=
-X-Received: by 2002:a17:902:c409:b0:295:3262:c695 with SMTP id
- d9443c01a7336-2984ed6e08dmr21652545ad.3.1762946079913; Wed, 12 Nov 2025
- 03:14:39 -0800 (PST)
+	s=arc-20240116; t=1762948075; c=relaxed/simple;
+	bh=j2727zDvd9G/pRlFegMMtS5AtGImB4umCUDjqTbODNU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZWo3sr4GudmwAGzdfyA0Rlo86qqw/l9ragH0o2l5dv58BW3VdI44g9zVNp9G+s+UvOLEAny9ckF0Y8wW1fGUwi+MDGaGWL2efZCz6vZx9BUmmVgck3E+xMjQuKoVhERSzCX/ymo+KZS70Q32FwEYz2Uu2Vd9CWR/yZBJ0icCW9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=DkAWK0og; arc=none smtp.client-ip=144.217.248.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay1.mymailcheap.com (Postfix) with ESMTPS id 6F51F3E8C9;
+	Wed, 12 Nov 2025 11:47:45 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 6C17C40085;
+	Wed, 12 Nov 2025 11:47:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1762948063; bh=j2727zDvd9G/pRlFegMMtS5AtGImB4umCUDjqTbODNU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DkAWK0ogq1xpMsg6jqZHRmiOHpZwjHm7wlkdBz/e/gxwr1xppmzzl6tzpz6Y+tql2
+	 /r+G48UteKG/L2FlHPIUyjjgcgGcYmkYRbdOnB5B3BPhD4qhKyXizWCP78pfM77ScP
+	 34Vo+HmWJtfwvbev6P6aZAWNgmt2/f6v2dA7JlJQ=
+Received: from avenger-XINGYAO-Series (unknown [223.104.43.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 65EE240C52;
+	Wed, 12 Nov 2025 11:47:38 +0000 (UTC)
+From: WangYuli <wangyuli@aosc.io>
+To: kees@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Cc: linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	WangYuli <wangyl5933@chinaunicom.cn>,
+	WangYuli <wangyuli@aosc.io>
+Subject: [PATCH] fortify: Ignore intermediate *.tmp files
+Date: Wed, 12 Nov 2025 19:47:25 +0800
+Message-ID: <20251112114725.287349-1-wangyuli@aosc.io>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251110095025.1475896-1-ojeda@kernel.org> <20251110095025.1475896-10-ojeda@kernel.org>
- <98e549da-b7d5-45bc-8a9c-d05eb06a75e6@nvidia.com>
-In-Reply-To: <98e549da-b7d5-45bc-8a9c-d05eb06a75e6@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 12 Nov 2025 12:14:26 +0100
-X-Gm-Features: AWmQ_bm8KNkpZ7dumhoSEH6BrwUYU-Dw3GKK1Imj_lLMN6rly1tXHJZJQTQ0s2c
-Message-ID: <CANiq72mcQJnW-F+nb=Vseoa_amcwwhkC26N9BOs12MVfMVOdVA@mail.gmail.com>
-Subject: Re: [PATCH 09/18] rust: proc-macro2: enable support in kbuild
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Queue-Id: 6C17C40085
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [1.40 / 10.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_ONE(0.00)[1];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	SPFBL_URIBL_EMAIL_FAIL(0.00)[wangyl5933.chinaunicom.cn:server fail,wangyuli.aosc.io:server fail];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 
-On Mon, Nov 10, 2025 at 8:34=E2=80=AFPM John Hubbard <jhubbard@nvidia.com> =
-wrote:
->
-> Looks good. But for future code and commit log readers, should
-> we leave a small comment, to explain that this was vendored in,
-> and therefore excluded from "make rustfmt"?
->
-> An alternative approach might be to create a "vendored" subdir,
-> to make it clear which parts of the Rust for Linux code are
-> special in that way.
+From: WangYuli <wangyl5933@chinaunicom.cn>
 
-Sure, that can help, I will add it.
+The test_fortify.sh script generates logs of build-time warnings
+for string and memory functions. To ensure the final log file is
+updated atomically, the script first writes its output to a temporary
+file with a .log.tmp extension. Upon successful completion, this
+temporary file is renamed to the final .log file.
 
-The subdir makes sense, although it makes it into a different level
-than the other crates and I don't see it done with a folder in other
-cases either. Hmm... I will think about it.
+If the build process is interrupted before this rename operation,
+these *.log.tmp intermediate files will be left in the directory,
+creating a risk of them being accidentally added to the git repository.
 
-Thanks for taking a look!
+To prevent this from happening, add *.tmp to the .gitignore file to
+explicitly ignore these temporary files.
 
-Cheers,
-Miguel
+Signed-off-by: WangYuli <wangyl5933@chinaunicom.cn>
+Signed-off-by: WangYuli <wangyuli@aosc.io>
+---
+ lib/test_fortify/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lib/test_fortify/.gitignore b/lib/test_fortify/.gitignore
+index c1ba37d14b50..8056bc75b442 100644
+--- a/lib/test_fortify/.gitignore
++++ b/lib/test_fortify/.gitignore
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ /*.log
++/*.tmp
+-- 
+2.51.0
+
 
