@@ -1,124 +1,149 @@
-Return-Path: <linux-kbuild+bounces-9587-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9589-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE39C521F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 12:56:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F187AC52DE1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 16:02:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44C683A4434
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 11:47:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4268505417
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Nov 2025 14:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75BF93128BD;
-	Wed, 12 Nov 2025 11:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B395C341ADD;
+	Wed, 12 Nov 2025 14:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="DkAWK0og"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uCcCNGel"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [144.217.248.102])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926B635CBDC;
-	Wed, 12 Nov 2025 11:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.217.248.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5681233D6E7;
+	Wed, 12 Nov 2025 14:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762948075; cv=none; b=F2Ml//uypt9Lx6D2eRPwnYqYcqS2cbueRbcqbsUbw9IKJGIaAWbBktxvL/P79R173bCnAJxWH0ze+LRvA/q0KHzWJNUnBfqCyK9MRmLMzNSOATiV1YGxx+XX2GDOY0Pm7Tk/dE38LajWKtkPLfmLz4n9u97TKkumLQE7CwBg1nA=
+	t=1762958731; cv=none; b=ObUYfZSTr6DPLceOwF761JtoCXzGS9akIZ8x2N7ncl7zObSGftWdWF3ew2gicrtVB4gZPid8B99t9fm8uef0GoSrQ/hvn9UncY8Ms+v5n1oXZZycsOVm9Myuq2Adr2ilmXVeyi2UZidmys5KgkWLKhmAI7sjmb5yOMRQY6cPLFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762948075; c=relaxed/simple;
-	bh=j2727zDvd9G/pRlFegMMtS5AtGImB4umCUDjqTbODNU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZWo3sr4GudmwAGzdfyA0Rlo86qqw/l9ragH0o2l5dv58BW3VdI44g9zVNp9G+s+UvOLEAny9ckF0Y8wW1fGUwi+MDGaGWL2efZCz6vZx9BUmmVgck3E+xMjQuKoVhERSzCX/ymo+KZS70Q32FwEYz2Uu2Vd9CWR/yZBJ0icCW9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=DkAWK0og; arc=none smtp.client-ip=144.217.248.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
-	by relay1.mymailcheap.com (Postfix) with ESMTPS id 6F51F3E8C9;
-	Wed, 12 Nov 2025 11:47:45 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 6C17C40085;
-	Wed, 12 Nov 2025 11:47:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1762948063; bh=j2727zDvd9G/pRlFegMMtS5AtGImB4umCUDjqTbODNU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DkAWK0ogq1xpMsg6jqZHRmiOHpZwjHm7wlkdBz/e/gxwr1xppmzzl6tzpz6Y+tql2
-	 /r+G48UteKG/L2FlHPIUyjjgcgGcYmkYRbdOnB5B3BPhD4qhKyXizWCP78pfM77ScP
-	 34Vo+HmWJtfwvbev6P6aZAWNgmt2/f6v2dA7JlJQ=
-Received: from avenger-XINGYAO-Series (unknown [223.104.43.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 65EE240C52;
-	Wed, 12 Nov 2025 11:47:38 +0000 (UTC)
-From: WangYuli <wangyuli@aosc.io>
-To: kees@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu
-Cc: linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	WangYuli <wangyl5933@chinaunicom.cn>,
-	WangYuli <wangyuli@aosc.io>
-Subject: [PATCH] fortify: Ignore intermediate *.tmp files
-Date: Wed, 12 Nov 2025 19:47:25 +0800
-Message-ID: <20251112114725.287349-1-wangyuli@aosc.io>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1762958731; c=relaxed/simple;
+	bh=novVq7mIcfdWOjqb22DZyGsxIxWmlqMMB5fYxdyzH+U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mMJx9LHWhG98KJRX2TsT6eWkFclKZG0Bb9f1WiDslgohmBEjXdMaEEfGzGNMOievAjMeGgzYB1wAaxTOFCZBxsOJecoWyHdcLJCUUS3xA1ZmktX//Qq4SbaRRRHaIADuWCgTyVdfQDGjHnxpGfCafIXc2jcoCopGmvelV+aAfYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uCcCNGel; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9589C4CEF8;
+	Wed, 12 Nov 2025 14:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762958731;
+	bh=novVq7mIcfdWOjqb22DZyGsxIxWmlqMMB5fYxdyzH+U=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=uCcCNGel5JAONTbXSmFZv6s6lUS26zOUZ3JsOH2/MgdhJMXRv4N/23RDaC93ct6uv
+	 nNgk1LWvMPFj+h0pu5JLgjTccyysBKhD6AuCv2I+mqEJ+xaLK6V2y4Zbp816vBJ1HE
+	 GPll3jHNbz63klkJ6xVxkPdWB+C1NZPhDQudARm41tgkNk4GWmf323udVHMlh305b8
+	 tuwvBfGl/fHZoIpAJcicf6IPF5g7YPbo1YYyW3bb2EzcfzlOb/yz/Ce3FzkGqTYY9P
+	 NDGHjDOqejSsfQyUSxWObhFz+L55Cjl3SdAyP5Rhiow/vWPKq8nE1gL79BMEssSn2k
+	 cDzpgmN694QBw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA26CCFA1A;
+	Wed, 12 Nov 2025 14:45:30 +0000 (UTC)
+From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
+Date: Wed, 12 Nov 2025 20:15:13 +0530
+Subject: [PATCH 1/9] serdev: Convert to_serdev_device() and
+ to_serdev_controller() helpers to macros
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: nf1.mymailcheap.com
-X-Rspamd-Queue-Id: 6C17C40085
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 10.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_ONE(0.00)[1];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	SPFBL_URIBL_EMAIL_FAIL(0.00)[wangyl5933.chinaunicom.cn:server fail,wangyuli.aosc.io:server fail];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+Message-Id: <20251112-pci-m2-e-v1-1-97413d6bf824@oss.qualcomm.com>
+References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
+In-Reply-To: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1668;
+ i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
+ bh=pMjdMDUJJFdzXcs8r8heXhJAvEfUn5voSIPUccUCX28=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBpFJ2GiS7ttFmSpXLyf6Ebs4G+J1tZeIesPjGyO
+ Io4W/4qnFSJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCaRSdhgAKCRBVnxHm/pHO
+ 9S3zCACcJTT8QNObEZKWOhlVOpP+8Sdq43NqiYJbUBYuIUI/938PeuVe+p/Eu9tWu4Jx4ld9WLq
+ x7upQxEUF/78BXiJeB/5FQ9S0XNY1qRnZR2IndyMu0EquXXda9XQDoMxY6Xgeo3svQu9oDqZQ46
+ YaqnVYA2mfopwwCVjTkh4JNy2FGCmSChULV8E3JwBHN5v0UGXSVXfrHodrLB7u/4ySWqn51vWAz
+ wCF2daTzCAZTwT1Je0wMfLvgHK9msYEDJj7Kp/dqojqqcVsIMpkTzCBZHBzv5utYP7EsWD+E+l2
+ 00eA4GYX1ZWoyEYciBFQ6tATdVp8Ogfyl4maX1KkQroPRRTs
+X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
+X-Endpoint-Received: by B4 Relay for
+ manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
+X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Reply-To: manivannan.sadhasivam@oss.qualcomm.com
 
-From: WangYuli <wangyl5933@chinaunicom.cn>
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-The test_fortify.sh script generates logs of build-time warnings
-for string and memory functions. To ensure the final log file is
-updated atomically, the script first writes its output to a temporary
-file with a .log.tmp extension. Upon successful completion, this
-temporary file is renamed to the final .log file.
+If these helpers receive the 'const struct device' pointer, then the const
+qualifier will get dropped, leading to below warning:
 
-If the build process is interrupted before this rename operation,
-these *.log.tmp intermediate files will be left in the directory,
-creating a risk of them being accidentally added to the git repository.
+warning: passing argument 1 of ‘to_serdev_device_driver’ discards 'const'
+qualifier from pointer target type [-Wdiscarded-qualifiers]
 
-To prevent this from happening, add *.tmp to the .gitignore file to
-explicitly ignore these temporary files.
+This is not an issue as of now, but with the future commits adding serdev
+device based driver matching, this warning will get triggered. Hence,
+convert these helpers to macros so that the qualifier get preserved.
 
-Signed-off-by: WangYuli <wangyl5933@chinaunicom.cn>
-Signed-off-by: WangYuli <wangyuli@aosc.io>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 ---
- lib/test_fortify/.gitignore | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/serdev.h | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/lib/test_fortify/.gitignore b/lib/test_fortify/.gitignore
-index c1ba37d14b50..8056bc75b442 100644
---- a/lib/test_fortify/.gitignore
-+++ b/lib/test_fortify/.gitignore
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- /*.log
-+/*.tmp
+diff --git a/include/linux/serdev.h b/include/linux/serdev.h
+index 34562eb99931d808e885ce5022b8aa4577566885..ab185cac556380dfa3cdf94b7af6ee168b677587 100644
+--- a/include/linux/serdev.h
++++ b/include/linux/serdev.h
+@@ -49,10 +49,7 @@ struct serdev_device {
+ 	struct mutex write_lock;
+ };
+ 
+-static inline struct serdev_device *to_serdev_device(struct device *d)
+-{
+-	return container_of(d, struct serdev_device, dev);
+-}
++#define to_serdev_device(d) container_of(d, struct serdev_device, dev)
+ 
+ /**
+  * struct serdev_device_driver - serdev slave device driver
+@@ -67,10 +64,7 @@ struct serdev_device_driver {
+ 	void	(*remove)(struct serdev_device *);
+ };
+ 
+-static inline struct serdev_device_driver *to_serdev_device_driver(struct device_driver *d)
+-{
+-	return container_of(d, struct serdev_device_driver, driver);
+-}
++#define to_serdev_device_driver(d) container_of(d, struct serdev_device_driver, driver)
+ 
+ enum serdev_parity {
+ 	SERDEV_PARITY_NONE,
+
 -- 
-2.51.0
+2.48.1
+
 
 
