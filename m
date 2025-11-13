@@ -1,161 +1,130 @@
-Return-Path: <linux-kbuild+bounces-9615-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4510FC56A13
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 10:37:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8811CC57FDF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 15:41:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9BEA74E2F49
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 09:31:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BC163B3042
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 14:30:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6952DF3D1;
-	Thu, 13 Nov 2025 09:31:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ABBA2BEC43;
+	Thu, 13 Nov 2025 14:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ygwUYp2F";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+qRXOq4J"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nEke/2FF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE62320380;
-	Thu, 13 Nov 2025 09:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51AD2C1598
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Nov 2025 14:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763026276; cv=none; b=nBDQXOKXjcNt8V9F/SLl73YkjJ+g0XbTTye6QeUIi8x389HJWjmDAq/eE0+E9KJ2JaICxZp/lwKEnDFBqMAAkj/AC+o+oF7qQTMXiCb/eVImLPJFu7vn2Aa4wku5F0xoVtH3ILHGYbGstNGduE4LCz17eU8cIteqApWRCh01Mn8=
+	t=1763044248; cv=none; b=CW4xY9QxZr+DYQCUErjkn3dS7a1wlIv+Q0MS3Q/jokJFXsQxj9mdTodMqV3czsC3uRpnUeW5WjxwqQIKbLpBGLsztUP2BT+Ml+xrJVkaAN0rk0Lo9PqlapJFo2uhEcjsFEwgvM+u8Ff6l3IO/f2tf9oXoLArV5D4wVbdwrCrk2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763026276; c=relaxed/simple;
-	bh=O2/vwPXeEDFD/mI8BsOKjIlkUNBH5z8ELoKjc7T8RfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7lrnf/2B6Zbm7BgsU3TABcMyWtnxC6PB6QyjNsXG6ci3NgBs+Vjq0wfA7uOWx1iJBMtb5y7XmS+gRSYP9AmiS2uDvPmOXF73MGkj24lqCH+AAxVuqToaK6RDzR/8eXG/1WNnjnS2h3dwBk0ok18SIb5UI2FTcqcEUP1V2tWjm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ygwUYp2F; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+qRXOq4J; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Thu, 13 Nov 2025 10:31:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763026270;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=di0zlvtolFZ2ujSvVa+1BFR0CAlyEx4DiO0mYSWQDwc=;
-	b=ygwUYp2FepRzD3HjKdKbHo13iKPe5fGwe/j9Ys6zZiMvxAWN1OBuAhyCiELOtD2RGYJltU
-	8VX7MMGJ5DjE9n6DrWYVAuNwfdZvsbH1aHRwEYX3teYkFw5AJBO35bW4WpF5Tk5kFHUWrL
-	gLNEY+Wc1BUOIms3gsYJ/wOrqfpecWcaeu7T+cTr/m0bQLMtttloE8h10mHvi2/tYzORRN
-	G/jTKrO/gkksvgHb4CvJQr0H0W8vsKeIQ0e8rgMNvSrLaU6xLfa0eBk4Zd3xD9o+7GQDNd
-	mfHowgXQeM41cjXmGj3ubXSd3BExQ+zjAH7KBXzuEcjBpvptyc3CwuDZVPJ21A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763026270;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=di0zlvtolFZ2ujSvVa+1BFR0CAlyEx4DiO0mYSWQDwc=;
-	b=+qRXOq4Jk2slHhdA1iSs+PP5mTSlOHMcDybHXlytmmFNwk4bSfci9b5O8vXXVZ+OjYzTkf
-	EiwvRX9YrR/EFeCw==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] kbuild: userprogs: introduce
- architecture-specific CC_CAN_LINK and userprog flags
-Message-ID: <20251113102307-ca2180c8-4876-46ea-8678-aaedd9ba36f0@linutronix.de>
-References: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
- <aRToC77bNUy2sKAK@derry.ads.avm.de>
+	s=arc-20240116; t=1763044248; c=relaxed/simple;
+	bh=MBXryWsSo8WBJYsfFQQsezl+bvHfvcNsNG0PI/C7tiU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k2DDfQB1eC8oRS9ZN3k7Xt1BM3CIfwcOqN4PvAd4SfxJNGsv5+ujKlF5Shx3Jz4cc37jfHZ+JC/iLR0PsuObkd9gztG/5tsiiFL3ArO23nF0P2INtuwmU4kYgBBhnsIULtTZuzyzGNzOVw6Djoa/snQFRNPG0ehlMJBNDFc8kTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nEke/2FF; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-29516a36affso8532675ad.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Nov 2025 06:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1763044245; x=1763649045; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MBXryWsSo8WBJYsfFQQsezl+bvHfvcNsNG0PI/C7tiU=;
+        b=nEke/2FFZG1ng+mTf7XuFWr72uIT/zMOwz5Plept3fLottY4A7mR9yd0pdYTXPfV3L
+         hK19/tFNKtBWt03/3aIrLuEFubAZ86OG8UKxWfMXZ/xwaPm0haeaSFvRKRZyqL68IFFr
+         RUbfkpw/AxbmwRe4UBjcf4u0hY4RgCtAQU+DeP++bLkWGUge3WghXIIG2aYlBAHwJrwa
+         qNbtn/U/W2g+PNsPotzSGxq1CDZ2ivBjEr/ylIi5pnAtig/o0c8DLddUOMVoTVfBVYw2
+         2Wrg941g53UdcpQMWmmNwsTkD97k9PkGsnanMcPBhYlfeFftgOS6jQNCW+h68bt/aUbO
+         AUAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763044245; x=1763649045;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MBXryWsSo8WBJYsfFQQsezl+bvHfvcNsNG0PI/C7tiU=;
+        b=RU2vvGE2AktWDX5B2ZUGS6m2E8Ac7wp7q35RywcSzkqvlI6Wjz3KZYs35eerQqT6Sy
+         N83f1YDEM7b82V8TueQlP5Ka9+5OlbCOs6wp/L4zROkX5eTN/qTywvIbFVy8OnCnkhZ3
+         CXtz1/HvbxrSMrdLlKU7WFeFstCoO1juuyZ8xTIL7k/R+E7Jl0mUv3qLT6LLlE/lsi+a
+         42DJmr2YiNvkdnPzs1Ow6b4WsoBFqgf6Sbshf1QwTaeginlRY+Rm3YmG0R6Th2EwGrsO
+         /6kGjbJiosrPhnKpMAv4HHZMeZkNsTdWwpJDcH47OgZGpPtJBMX3xrrk9Y7ZGGtpTQqE
+         /Nyg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/sa3IQLxkcOL4hwwl6uzWiwSUgsFPkwe/4G/wYBjdGWLBhHBQZ7+q/K0SXSvNP+ERFzkVMQaRmiUbeCk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvvmPA5z/Pk0BL00Jf5ejTBTCS0vOFCdAyjeZ3dmfR/Ehbje/p
+	rndtxqgzOD0fAtqd1u8tQ4qU6/8wDcyjX7df5AvjPuMBPKNR3+UjRMhclgqDNyDb06ARqNIrfcJ
+	3znkpU4XzqbVokAcKZ4pv/Kw0o92dGCql/Q/Jt8TG
+X-Gm-Gg: ASbGncuG+AnFayGMMKBtuwMY08gezyySO08UnXhmSefp1Y6baYksL5WN+Vg7HIWbEq5
+	D+gdlsvbjeahCcu04eqDIhdHjQyhSorGkyi5sbKamtKhAiznWBDz1PvfSm7sk4EoNT0/dYutuLz
+	bCihLGjBms5g5oj8YQjyYu7pKFi8lvhBTAJKyu8o6e+kUGPamzb7Qe/cuzRKHWEP5NkRQMBK7r4
+	wh4ge1EK0x0IyI2m/woZNLfvTrZfTqN0oVfU0u0wZhZ1kNJEp2v4xxylkblQfk8F2wyNQOBuSNi
+	VVnJDQ7wTaGaQ5BeqHulzYc=
+X-Google-Smtp-Source: AGHT+IFnNFIlMm9/L/bcyHMVah+51vkdm0T/jdjxqhLQ7LFy8/zaHzLzvotK4qxuC0MECLmidBODybpZNRr9UFx4Cuk=
+X-Received: by 2002:a17:903:fa7:b0:294:f6b4:9a42 with SMTP id
+ d9443c01a7336-2984ed2b5edmr67173465ad.9.1763044244630; Thu, 13 Nov 2025
+ 06:30:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aRToC77bNUy2sKAK@derry.ads.avm.de>
+References: <20250918140451.1289454-1-elver@google.com> <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+ <aMx4-B_WAtX2aiKx@elver.google.com> <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
+ <aM0eAk12fWsr9ZnV@elver.google.com>
+In-Reply-To: <aM0eAk12fWsr9ZnV@elver.google.com>
+From: Marco Elver <elver@google.com>
+Date: Thu, 13 Nov 2025 15:30:08 +0100
+X-Gm-Features: AWmQ_bmFh2aVYHZwkaHdVYkb7IeD9B_c5E9TrUEhRxSr8kO14B_rxSCEK8GKI2o
+Message-ID: <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 12, 2025 at 09:03:23PM +0100, Nicolas Schier wrote:
-> On Tue, Oct 14, 2025 at 03:05:15PM +0200, Thomas Weiﬂschuh wrote:
-> > The current logic to inherit -m32/-m64 from the kernel build only works
-> > for a few architectures. It does not handle byte order differences,
-> > architectures using different compiler flags or different kinds of ABIs.
-> > 
-> > Introduce a per-architecture override mechanism to set CC_CAN_LINK and
-> > the flags used for userprogs.
-> > 
-> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> > ---
-> > Changes in v2:
-> > - Rebase and drop already applied patch
-> > - Disable CC_CAN_LINK if the test program generates warnings
-> > - Move to architecture-specific logic
-> > - Link to v1: https://lore.kernel.org/r/20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de
-> > 
-> > ---
-> > Thomas Weiﬂschuh (10):
-> >       kbuild: don't enable CC_CAN_LINK if the dummy program generates warnings
-> >       init: deduplicate cc-can-link.sh invocations
-> >       kbuild: allow architectures to override CC_CAN_LINK
-> >       riscv: Implement custom CC_CAN_LINK
-> >       s390: Implement custom CC_CAN_LINK
-> >       powerpc: Implement custom CC_CAN_LINK
-> >       MIPS: Implement custom CC_CAN_LINK
-> >       x86/Kconfig: Implement custom CC_CAN_LINK
-> >       sparc: Implement custom CC_CAN_LINK
-> >       kbuild: simplify CC_CAN_LINK
-> > 
-> >  Makefile                |  8 ++++++--
-> >  arch/mips/Kconfig       | 15 +++++++++++++++
-> >  arch/powerpc/Kconfig    | 15 +++++++++++++++
-> >  arch/riscv/Kconfig      | 11 +++++++++++
-> >  arch/s390/Kconfig       | 11 +++++++++++
-> >  arch/sparc/Kconfig      | 11 +++++++++++
-> >  arch/x86/Kconfig        | 11 +++++++++++
-> >  init/Kconfig            |  7 +++++--
-> >  scripts/Kconfig.include |  3 +++
-> >  scripts/cc-can-link.sh  |  2 +-
-> >  10 files changed, 89 insertions(+), 5 deletions(-)
-> > ---
-> > base-commit: 10f8210c7a7098897fcee5ca70236167b39eb797
-> > change-id: 20250813-kbuild-userprogs-bits-03c117da4d50
-> > 
-> > Best regards,
-> > -- 
-> > Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> > 
-> 
-> Thanks for the patch set and all the work behind!  I found only one
-> issue in patch 3, the rest looks good to me as they are.
-> 
-> I haven't reviewed the compiler flags for the archs, but from the formal
-> point of view they look good to me, too.
-> 
-> How shall we proceed with here?  I think, easiest would be if we get
-> appropriate acks from the architecture maintainers, so we could take
-> this via kbuild.
+On Fri, 19 Sept 2025 at 11:10, Marco Elver <elver@google.com> wrote:
+[..]
+> I went with "context guard" to refer to the objects themselves, as that
+> doesn't look too odd. It does match the concept of "guard" in
+> <linux/cleanup.h>.
+>
+> See second attempt below.
+[..]
 
-That would surely be the best option. Unfortunately quite frequently it is hard
-to get architecture maintainer's feedback on a cross-architecture series.
+I finally got around baking this into a renamed series, that now calls
+it "Context Analysis" - here's a preview:
+https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
 
-> Other opinions?
+As for when we should give this v4 another try: I'm 50/50 on sending
+this now vs. waiting for final Clang 22 to be released (~March 2026).
 
-It would also work to only take the first three patches through the kbuild tree
-and push the other ones through the architecture trees.
-
-I don't really have a clear preference.
-
-
-Thomas
+Preferences?
 
