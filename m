@@ -1,136 +1,229 @@
-Return-Path: <linux-kbuild+bounces-9609-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9610-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CBAC5542D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 02:35:23 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBD7C55BEB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 06:03:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5EC4C4E182C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 01:34:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 007C34E2A2A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 05:01:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4B12877C3;
-	Thu, 13 Nov 2025 01:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 576662FF17F;
+	Thu, 13 Nov 2025 05:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="yLT5YQJt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKgetDj7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDF228751A;
-	Thu, 13 Nov 2025 01:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=137.74.80.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1264E1EDA3C;
+	Thu, 13 Nov 2025 05:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762997668; cv=none; b=Skce4KL59fjbMp74jDA/j+XY5ZKyU9jZYOajK+Hb0s4wPbU4PefkJT+Mil2Eco490Blfr08iDxtzskeZmmGyKkqITyAuHSU0e/npFR9XGaSt5NChTW0KInzIQotipoPuKxU2eGnkqq05Fw7sfLwwCb4OhNep79MqnrwKA/C/Ck8=
+	t=1763010067; cv=none; b=KTc+m4Y9AP82Kh5mTKqgwP6m/HAyofyLNVzUWC08OEo0KwmItJ3MNRcO3739xNWVCjUjVatuu33epFAb6mmTKj0GGrOGoDYhbj35u4nxbQUavieA1tNLdOqbm64FvYEylv8LFTc4LYZvISl5R9hQNVVzRjQFCJxQb7XvRnkOhns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762997668; c=relaxed/simple;
-	bh=/C8d2McLRUeNClD+TCW1xxnMF0x3wXTvVg6S8iQDfxk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ozM5S7dNKyN6iBfiWdfZgJU+c69ZnOX+taHArE2fbu7CNCn9YxkyGez2kkwAEJG6/B1yAIN+d7EsREBgMOwzQoq8QUGSbsAV0rfiOpRslhxSogyAIVue7XYBxS6D0L80C7ncpfR/jTiHCsvtODu3aUm/zwTfHXd0qyMbengzmd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=yLT5YQJt; arc=none smtp.client-ip=137.74.80.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id 10044202D9;
-	Thu, 13 Nov 2025 01:34:19 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id 0330740084;
-	Thu, 13 Nov 2025 01:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1762997656; bh=/C8d2McLRUeNClD+TCW1xxnMF0x3wXTvVg6S8iQDfxk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=yLT5YQJtCOMQ0wAicIwX+bXUcUDiQZcfjoAB81C+dgPsKmHGPZP2RRIm4pX9cHZk3
-	 XZHEDZZU2e8psGhxNKnAZyBHEa17XXn8eZt7bfAOfNe2gp+P7HV+7vMkpwqG7mRgNN
-	 H1Y2HAYvLQiV9g5zzHqZoAQ+GvYJez9o/vTvdQdc=
-Received: from [192.168.0.64] (unknown [223.104.43.17])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 25C0042A31;
-	Thu, 13 Nov 2025 01:34:13 +0000 (UTC)
-Message-ID: <a2e3e8ec-bac6-401b-a302-c1a6ddc50e51@aosc.io>
-Date: Thu, 13 Nov 2025 09:34:11 +0800
+	s=arc-20240116; t=1763010067; c=relaxed/simple;
+	bh=elbIHIxtHN/iHCWls82TyqD3OxlbCSrevgrw2dpxzBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gUpJ/VV1jDuaAydRqKxl407oRvgHnW72cnm7ePtLugmR6iQM9VDIrlH8LoPWGswymRxfi7bmu2CzvpE+aLQDUQwwkbmlCXjGdGrxzW0iMwB/OtazgPBR+1vFq2iMTKVBlfza3d/tvH/Vqt0ZY3cAtzodWcNVdB/HlYsPgO29izI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKgetDj7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FA76C19424;
+	Thu, 13 Nov 2025 05:00:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763010066;
+	bh=elbIHIxtHN/iHCWls82TyqD3OxlbCSrevgrw2dpxzBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DKgetDj7dRR9Tfdf7Vr3zTxqI/ZLzKWaMpV2ow4x0puNQVtVelNfSdUZ2RKjLTROg
+	 e1ci46SxX8QhyVvhq42cupyaLkqn5pSKQoZRm+zuYjmTGQS9oQOyxVGMOTWXVnqrqn
+	 kjF7uVCwbDXPS6dQ6ApjXrMoVlW3PmSAH2QB7+QzqoumRp0gcINGgIIRsvXyfyRRGR
+	 BtkronFgRDPcwh0yq/Rs8VWiEK/+rFeER34DXNzZWI6Zu8vXPXH9wjXc2SOeGJG89p
+	 xQ9MWkqJ0cmkhd7IeyQOOEAHVlMrI6o8oy3DiXMdXyw5HVS4BzlVEFeIHR2Pnqxg24
+	 RGy9fx6Mj6eSA==
+Date: Thu, 13 Nov 2025 10:30:42 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+	Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Derek J. Clark" <derekjohn.clark@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH 7/9] dt-bindings: connector: Add PCIe M.2 Mechanical Key
+ E connector
+Message-ID: <qiwgnela4b6gbwuuq7xaqjong47c2ix6caagjl6ryqukzqkswn@6l7rvkf4dfyx>
+References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
+ <20251112-pci-m2-e-v1-7-97413d6bf824@oss.qualcomm.com>
+ <aRS/3OTerCBGlmBm@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] alpha/boot: Add .gitignore ignoring vmlinux kernel
- image
-To: Thorsten Blum <thorsten.blum@linux.dev>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20251112172248.3927-1-thorsten.blum@linux.dev>
-Content-Language: en-US
-From: WangYuli <wangyuli@aosc.io>
-In-Reply-To: <20251112172248.3927-1-thorsten.blum@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0330740084
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[linux.dev,linaro.org,gmail.com,kernel.org,fjasle.eu];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	SPFBL_URIBL_EMAIL_FAIL(0.00)[thorsten.blum.linux.dev:server fail,wangyl5933.chinaunicom.cn:server fail];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+In-Reply-To: <aRS/3OTerCBGlmBm@lizhi-Precision-Tower-5810>
 
-[ Cc the kbuild subsystem mailing list and its maintainers. ]
+On Wed, Nov 12, 2025 at 12:11:56PM -0500, Frank Li wrote:
+> On Wed, Nov 12, 2025 at 08:15:19PM +0530, Manivannan Sadhasivam wrote:
+> > Add the devicetree binding for PCIe M.2 Mechanical Key E connector defined
+> > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This connector
+> > provides interfaces like PCIe or SDIO to attach the WiFi devices to the
+> > host machine, USB or UART+PCM interfaces to attach the Bluetooth (BT)
+> > devices along with additional interfaces like I2C for NFC solution. At any
+> > point of time, the connector can only support either PCIe or SDIO as the
+> > WiFi interface and USB or UART as the BT interface.
+> >
+> > The connector provides a primary power supply of 3.3v, along with an
+> > optional 1.8v VIO supply for the Adapter I/O buffer circuitry operating at
+> > 1.8v sideband signaling.
+> >
+> > The connector also supplies optional signals in the form of GPIOs for fine
+> > grained power management.
+> >
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > ---
+> >  .../bindings/connector/pcie-m2-e-connector.yaml    | 154 +++++++++++++++++++++
+> >  MAINTAINERS                                        |   1 +
+> >  2 files changed, 155 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..91cb56b1a75b7e3de3b9fe9a7537089f96875746
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
+> > @@ -0,0 +1,154 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-connector.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: PCIe M.2 Mechanical Key E Connector
+> > +
+> > +maintainers:
+> > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > +
+> > +description:
+> > +  A PCIe M.2 E connector node represents a physical PCIe M.2 Mechanical Key E
+> > +  connector. Mechanical Key E connectors are used to connect Wireless
+> > +  Connectivity devices including combinations of Wi-Fi, BT, NFC to the host
+> > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and I2C.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: pcie-m2-e-connector
+> > +
+> > +  vpcie3v3-supply:
+> > +    description: A phandle to the regulator for 3.3v supply.
+> > +
+> > +  vpcie1v8-supply:
+> > +    description: A phandle to the regulator for VIO 1.8v supply.
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +    description: OF graph bindings modeling the interfaces exposed on the
+> > +      connector. Since a single connector can have multiple interfaces, every
+> > +      interface has an assigned OF graph port number as described below.
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: PCIe/SDIO interface
+> 
+> 
+> PCIe and SDIO is difference signal at key E. why combine to one port? The
+> similar case is USB2.0/UART
+> 
 
+They will be defined as separate endpoints in the next version.
 
-Hi Thorsten Blum,
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: USB 2.0/UART interface
+> > +
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: PCM/I2S interface
+> > +
+> > +      port@3:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: I2C interface
+> > +
+> > +    oneOf:
+> > +      - required:
+> > +          - port@0
+> > +
+> > +  clocks:
+> > +    description: 32.768 KHz Suspend Clock (SUSCLK) input from the host system to
+> > +      the M.2 card. Refer, PCI Express M.2 Specification r4.0, sec 3.1.12.1 for
+> > +      more details.
+> > +    maxItems: 1
+> 
+> Do we need add pciref clock here?
+> 
+> > +
+> > +  w_disable1-gpios:
+> 
+> use "-"
+> 
+> w-disable1-gpios
+> 
 
+I just went with the spec that defines the signal as W_DISABLE.
 
-(If the maintainers happen to spot patches like this), Please feel free 
-to add my "Co-developed-by" or "Reviewed-by" tag: WangYuli 
-<wangyl5933@chinaunicom.cn>
+> > +    description: GPIO controlled connection to W_DISABLE1# signal. This signal
+> > +      is used by the system to disable WiFi radio in the M.2 card. Refer, PCI
+> > +      Express M.2 Specification r4.0, sec 3.1.12.3 for more details.
+> > +    maxItems: 1
+> > +
+> > +  w_disable2-gpios:
+> > +    description: GPIO controlled connection to W_DISABLE2# signal. This signal
+> > +      is used by the system to disable BT radio in the M.2 card. Refer, PCI
+> > +      Express M.2 Specification r4.0, sec 3.1.12.3 for more details.
+> > +    maxItems: 1
+> > +
+> > +  led1-gpios:
+> > +    description: GPIO controlled connection to LED_1# signal. This signal is
+> > +      used by the M.2 card to indicate the card status via the system mounted
+> > +      LED. Refer, PCI Express M.2 Specification r4.0, sec 3.1.12.2 for more
+> > +      details.
+> > +    maxItems: 1
+> > +
+> > +  led2-gpios:
+> > +    description: GPIO controlled connection to LED_2# signal. This signal is
+> > +      used by the M.2 card to indicate the card status via the system mounted
+> > +      LED. Refer, PCI Express M.2 Specification r4.0, sec 3.1.12.2 for more
+> > +      details.
+> > +    maxItems: 1
+> > +
+> > +  viocfg-gpios:
+> > +    description: GPIO controlled connection to IO voltage configuration
+> > +      (VIO_CFG) signal. This signal is used by the M.2 card to indicate to the
+> > +      host system that the card supports an independent IO voltage domain for
+> > +      the sideband signals. Refer, PCI Express M.2 Specification r4.0, sec
+> > +      3.1.15.1 for more details.
+> > +    maxItems: 1
+> > +
+> > +  uim_power_src-gpios:
+> 
+> property use -
+> 
 
-  — I would be very grateful!
+Again, this is as per the spec. If DT maintainers object to it, I'll change it.
 
-Link: 
-https://lore.kernel.org/all/6269AF2792BA8D05+20250704085945.317850-1-wangyuli@uniontech.com/
+- Mani
 
-Link: 
-https://lore.kernel.org/all/47F75842218B0DDC+20250507060012.1203990-1-wangyuli@uniontech.com/
-
-Link: 
-https://lore.kernel.org/all/90A2E6E70A68DD1E+20250415091206.413647-1-wangyuli@uniontech.com/
-
-
-On 2025/11/13 01:22, Thorsten Blum wrote:
-> Building the kernel creates the untracked kernel image file 'vmlinux' in
-> 'arch/alpha/boot/' - ignore it by adding a new local .gitignore file.
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->   arch/alpha/boot/.gitignore | 2 ++
->   1 file changed, 2 insertions(+)
->   create mode 100644 arch/alpha/boot/.gitignore
->
-> diff --git a/arch/alpha/boot/.gitignore b/arch/alpha/boot/.gitignore
-> new file mode 100644
-> index 000000000000..4abc9c8ab7d3
-> --- /dev/null
-> +++ b/arch/alpha/boot/.gitignore
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +vmlinux
+-- 
+மணிவண்ணன் சதாசிவம்
 
