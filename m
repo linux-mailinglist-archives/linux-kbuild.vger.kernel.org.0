@@ -1,118 +1,129 @@
-Return-Path: <linux-kbuild+bounces-9613-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9614-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91E4C55C8E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 06:16:22 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2308C56967
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 10:28:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 769173ADF47
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 05:16:03 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9AA1835429C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Nov 2025 09:23:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F052BCF6C;
-	Thu, 13 Nov 2025 05:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C93F2C15BB;
+	Thu, 13 Nov 2025 09:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iVuiyaYu"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ju37J1p2";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yj3MpOVf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0400E219A89;
-	Thu, 13 Nov 2025 05:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E26027B359;
+	Thu, 13 Nov 2025 09:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763010960; cv=none; b=KHsschAlHNVnS6sDRbUyuwTIFCWxyZKCInQi3cnWAlkFhRN7s+9nrevrmBtWlvzrDJZF/VAs3EMVZO93JhGLHNvG1ixugVoUwyggUT9raN6T5i4H4H2b2BFUXA/aRx4sxLw/1Ld2/uwIf35rgs1pBmo8VfZP17jvLDWjhh33gRM=
+	t=1763025784; cv=none; b=XScvQ8i9ykP8/qF/6iBYS3rnqL80UvhjNORsiP3ckqdJGafUIKJ96nbzDzZUAGmb99ae0CEYWCOdqeLq9FrI7bKCfS47Yo1SjLmwCoAdG+v5ZiZJfilQ+RR2W8uSY22V0SdRgAvKqo/MilOiYzKddtwlVYRRiz8e8Ioy6WjuUrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763010960; c=relaxed/simple;
-	bh=kYF+v51HiH8f+oyjLD8Cw6AcWEWsC5LFA5+wU5FAo20=;
+	s=arc-20240116; t=1763025784; c=relaxed/simple;
+	bh=FeFEmT4UEE52+Px5hP+njnjxgPrdJB1eVuJms7OuiB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkXxB17mRAiUVtGu+2hyCgxl4JbBORy+G6HhB0GxdSKHPW7UtvKST8tGrtCaXVlaWJd7whw4lUctp49SjQvafY6yF5K1ZriTntS71bCELkkH7akddFVmvqnxaRK27s0mk2IIucM482pAq2bMJyK7YnLHWgVjjyIuguGfTgf9DlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iVuiyaYu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E95C19422;
-	Thu, 13 Nov 2025 05:15:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763010959;
-	bh=kYF+v51HiH8f+oyjLD8Cw6AcWEWsC5LFA5+wU5FAo20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iVuiyaYucSNIVgvOzygjjmNpCJS2H3qyavnx2/sxZyLzQNuRHoJfMdE/OkjRuCDb4
-	 nCOg1PyrQ+PVf9pL6W7aGVVQcSXk7WkNBJmT4FAfJDda5LY2PmCQYi3Ugt5LqSdmD7
-	 /+3Jtl5cLtmvFA/0R0P5+9/ODBh26PWd27j1OOa2mR+9tfjM+5L1y4oennPlbqcAhD
-	 xht3cTQQ2YvguLhoIVJEHLA7MqL2UVmaivbvsadrid7nX59htdpThCWWaPWyvRdI6e
-	 rZO/VbDWV9E0Xw/fFRmamCh0ojFU29uvsXovnGgyg5ws+Z8nZ/osM2174EEcN99tsS
-	 56tWpHi+YVTFQ==
-Date: Thu, 13 Nov 2025 10:45:35 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: manivannan.sadhasivam@oss.qualcomm.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH 1/9] serdev: Convert to_serdev_device() and
- to_serdev_controller() helpers to macros
-Message-ID: <vajsqzw2z5jljmlys6gk3eltj3b2fr4xymyv252idk57lk3wm3@gfff56nn25is>
-References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
- <20251112-pci-m2-e-v1-1-97413d6bf824@oss.qualcomm.com>
- <CAL_Jsq+dZOUCosma1QJ-aqtjWs4NDLRkAdB3Aaro=8_Ep7Y0Rg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Au1xRE8vexIFCHQ2rAfnjljA0scyQ8A1xZPJFgrHwlSfPbl/J3zozVFF0p4AtaYHnHPLLpKvRuCP6Nb+WPYB1wAUdAzochm+/x3IZxcIHj4eiPHf4VZK783czxloxAXImHbq6it+df6MsRu1wl3LSRcdc+6p/A+MG7uJTi75DP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ju37J1p2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yj3MpOVf; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Thu, 13 Nov 2025 10:22:58 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1763025779;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HMXftlIRLs0I4I5KBEH91u2IIAB76cPs2+aj/P7XaXI=;
+	b=ju37J1p2hCJon7Dq3EBdc85zXolYmJpQFCDTDD8FHlvRoEjSOjlt4Yp4KTbgB+KXM8NcYf
+	x3XTLgFMg7s207AYx4nl33y1T7AsXPupY2fLhI04LI5i9mGt07hV5/LXgVSxjC9NWmgQAa
+	KqW1OH6sg1WZuym+vr+IuqGfgMbqLdr1tI/aw1wSpW86G2aLwk2MCJCFBMALz4sjVRNETn
+	KkDa1CbmU1hyAhZyUbsikCLXiGWtupPq5TLM5m+oNtPlFP+wYSHVn6OyRIyBbZiK4RDRII
+	854zE6FXH9KIsYP0DkrSuQU61CL7NMT2DNoYB6l8S3LyjnomxgvlNoDIEVa5SA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1763025779;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HMXftlIRLs0I4I5KBEH91u2IIAB76cPs2+aj/P7XaXI=;
+	b=yj3MpOVfBn1X0F5np7dHo4NQ2EaJr+XO2eqbf3c6nh3gZeHlyNtkeRsYccVi0YEIjMy8Pj
+	TA7I+NuN5tR4vTBQ==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v2 03/10] kbuild: allow architectures to override
+ CC_CAN_LINK
+Message-ID: <20251113102236-1954dc76-ad1b-423d-ad29-104c3e07db17@linutronix.de>
+References: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
+ <20251014-kbuild-userprogs-bits-v2-3-faeec46e887a@linutronix.de>
+ <aRTmXJVXlbkF2rI4@derry.ads.avm.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_Jsq+dZOUCosma1QJ-aqtjWs4NDLRkAdB3Aaro=8_Ep7Y0Rg@mail.gmail.com>
+In-Reply-To: <aRTmXJVXlbkF2rI4@derry.ads.avm.de>
 
-On Wed, Nov 12, 2025 at 03:13:54PM -0600, Rob Herring wrote:
-> On Wed, Nov 12, 2025 at 8:45 AM Manivannan Sadhasivam via B4 Relay
-> <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
-> >
-> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> >
-> > If these helpers receive the 'const struct device' pointer, then the const
-> > qualifier will get dropped, leading to below warning:
-> >
-> > warning: passing argument 1 of ‘to_serdev_device_driver’ discards 'const'
-> > qualifier from pointer target type [-Wdiscarded-qualifiers]
-> >
-> > This is not an issue as of now, but with the future commits adding serdev
-> > device based driver matching, this warning will get triggered. Hence,
-> > convert these helpers to macros so that the qualifier get preserved.
-> >
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On Wed, Nov 12, 2025 at 08:56:12PM +0100, Nicolas Schier wrote:
+> On Tue, Oct 14, 2025 at 03:05:18PM +0200, Thomas Wei�schuh wrote:
+> > The generic test for CC_CAN_LINK assumes that all architectures use -m32
+> > and -m64 to switch between 32-bit and 64-bit compilation. This is overly
+> > simplistic. Architectures may use other flags (-mabi, -m31, etc.) or may
+> > also require byte order handling (-mlittle-endian, -EL). Expressing all
+> > of the different possibilities will be very complicated and brittle.
+> > Instead allow architectures to supply their own logic which will be
+> > easy to understand and evolve.
+> > 
+> > Both the boolean ARCH_HAS_CC_CAN_LINK and the string ARCH_USERFLAGS need
+> > to be implemented as kconfig does not allow the reuse of string options.
+> > 
+> > Signed-off-by: Thomas Wei�schuh <thomas.weissschuh@linutronix.de>
 > > ---
-> >  include/linux/serdev.h | 10 ++--------
-> >  1 file changed, 2 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/include/linux/serdev.h b/include/linux/serdev.h
-> > index 34562eb99931d808e885ce5022b8aa4577566885..ab185cac556380dfa3cdf94b7af6ee168b677587 100644
-> > --- a/include/linux/serdev.h
-> > +++ b/include/linux/serdev.h
-> > @@ -49,10 +49,7 @@ struct serdev_device {
-> >         struct mutex write_lock;
-> >  };
-> >
-> > -static inline struct serdev_device *to_serdev_device(struct device *d)
-> > -{
-> > -       return container_of(d, struct serdev_device, dev);
+> >  Makefile     | 13 +++++++++++--
+> >  init/Kconfig |  4 ++++
+> >  2 files changed, 15 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Makefile b/Makefile
+> > index 17cfa11ca7163aa3297101ceb3c9e85f4878f12d..26e5bca534e27034c355939bca4c90db435ecdbd 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1134,8 +1134,17 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
+> >  LDFLAGS_vmlinux	+= --emit-relocs --discard-none
+> >  endif
+> >  
+> > -# Align the bit size of userspace programs with the kernel
+> > -USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
+> > +# Align the architecture of userspace programs with the kernel
+> > +USERFLAGS_FROM_KERNEL := --target=%
+> > +
+> > +ifdef CONFIG_ARCH_USERPROGS_CFLAGS
 > 
-> See container_of_const()
+> Is this some left-over from a previous version?
 > 
+> s/CONFIG_ARCH_USERPROGS_CFLAGS/CONFIG_ARCH_USERFLAGS/
 
-Ah, didn't know about it. Will use it in v2.
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Indeed. Thanks.
 
