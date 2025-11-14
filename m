@@ -1,74 +1,76 @@
-Return-Path: <linux-kbuild+bounces-9632-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9633-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE9FC5DA5B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 15:43:30 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id D46DFC5DA70
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 15:44:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D2BB34F348F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 14:30:31 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DBF073589BD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 14:31:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D07D325493;
-	Fri, 14 Nov 2025 14:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035D332ABD1;
+	Fri, 14 Nov 2025 14:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="G0ypR099"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J1Ttlg0N"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B969732549C
-	for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 14:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4B8326D51
+	for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 14:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763130483; cv=none; b=gAzcDF9Dsd/65i/+vmHVAxiMC8QQBoQCDzYwDx2mGfstohv+SPlr8AXtJhNfGDHJLhTEMcuTCIm/u3vuv7aJzjlf5W2gt38dPoVIz3lDs38ygxKrUc6nkxXDc+xXnwgc0+aakmIbKOA00fa2XmjEdhI3cinr6xf9OoUJ+8lXpZM=
+	t=1763130493; cv=none; b=EymRLRoaPPXbhszEdeK6MPB3F3ZNF+Kb+cL86AauWZ1rbAUEMUsri6wqEdez2MTbxu4mkaK8tsu4v8C0c+7VMcUT1Q0NQUt+W+nzc5FC6ughXSyUNAj5h9/WhOs/XJcq9dH/JCk/AMCESuzQXk4M486s3ObC0dI+zTZMtVoh/I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763130483; c=relaxed/simple;
-	bh=BklQGKunSWSC90jjl2C7ggGLVd/hWGKHl6qwpD07aVc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=emwo+So9gvZFOY8XpKf7AT+lR9uMNIOjwQ/oToR7n+nJqo9ATfrgq4BtFF/rC1fL/ogDuQgoVccWVBImFbebQvxSIaW2XilExlXUuTCgx/oAW9R8Ylajthple6uERH0DAeFq4dItdvmhCXIpDlnsuOctsyQZxWe847m2X3Aq/w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=G0ypR099; arc=none smtp.client-ip=209.85.166.47
+	s=arc-20240116; t=1763130493; c=relaxed/simple;
+	bh=vtbE4iQccIDPAbt51GtKugnCRkvsnDiu597g0q1p1vA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=O93GOdg3CXdqs9a8CkFm/2+n5ebIkEUPAwOpVrepdIa1W6SM6ZDOMwMGmXs+gJLt8RUEv+4Pn/2doT74ZATIm/lVmeMwVuxA/lOsG2+E/o/5cMcNLc1YBBLHn+0ItczDMag7++9qB905ec+++TboU5FYHYk+QtsS5GEMvhMnJ5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J1Ttlg0N; arc=none smtp.client-ip=209.85.166.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-9486354dcb2so86650739f.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 06:28:01 -0800 (PST)
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-433692bbe4fso9514935ab.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 06:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763130481; x=1763735281; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LaRuk9UO1iAqBvlrA4UzPK6vezrUTGPRno5ObeOs0zk=;
-        b=G0ypR0999C24qi2OWdGrf/H9r2CylqsJJIbO9IHWcmLG6LARlSL06Wmo15L5x1i0ti
-         hSdZgTrFeDIrhgxMr1qgkDI1ng1SX5wiY/TxJUMhBNsf4PFAAZ9kYh1sgnQR4RcUzK1T
-         ezTSLtbM7ey/xWCToOx8cCh8PifWMQsCAwEeI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763130481; x=1763735281;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1763130491; x=1763735291; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LaRuk9UO1iAqBvlrA4UzPK6vezrUTGPRno5ObeOs0zk=;
-        b=YFC6WKLiz7zSdJFLQt25OtS7ZAsRP+sbavlNW9WUPZsVG9a2fi5UIs3qgZThqQB5DR
-         GM1HeZyF3JNPMVe9GsBXI07C2XbJYOmjTx+rLxO6YrqGoqR4aqhKfbnbqYJGNd285cIZ
-         0zRC+jOPJ0+TEi8/j0fUBlHa7zamP5E+6NT2+Xi9sYI0rDOlxt6wjoKm/zEFKgPD9M4j
-         mixj8yA3f6tuq2n8v6obc5KxOP/Otzkdefn5G35vIaD640PwJAMHwNzNxkM9SOJZOA9I
-         OWBRZE+t6WnK0xtFFAOxGH9zPhogsghaIyoXtjy7fM0KS7Yzo7iAetNvT9UV4sLAplvI
-         9Kug==
-X-Forwarded-Encrypted: i=1; AJvYcCVbFrwv/bJv019yleS3SR7rpwhtALbmYQo411dDfP2loiLM3W9HasMQNnjwFCgt26goyQQxpQLf1z/jH9U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzNSd7l2akhiv+nO/iX7mB01ahjVC2CzRigL/IkEjx760DhEZO
-	jMyXR5qgD90h4nKQsnfTROVEsTA/MvpVT0ANTlmna6CGmDKBTROpzlm81xoY7a5jPg==
-X-Gm-Gg: ASbGncvykQPJiLwhX5UGcg+bm8/1zaEr4/a9HJcFMjC/0MWf4WefZ1A17avysQRkBEq
-	Z0NqpZRpNTnVsCmClaP9LyuGYmAGDsh7VDp5K222tRQiAfbhYzQ3ZUUqAanghQZyImC23q1J1+d
-	gIkP9C2iNTEh9EdNJlpmwKA0kxpxQhyPoaETO59T+GoByH9svAmyfoM+GCIXYqj0K/3xZicwLCV
-	7ufIaNVtK1ymnngGxitszRIpPlY3gkXYnnQt8k9w1iFjvqHC+MiN0DR9B9lwVzo9r1+Spa2Es18
-	iWS5SrGlvJQ9COGPmZuANO2T/qaYBQx4eBL8agrVs6ktlEz4h0HExd9Uag4uDb42siARZDBsjcE
-	9/CAhtEr1wG3LeyLCFyhJzHHnktYY3GY8DSLgL03KrHDqn+SumRsctZPRrYbPdcQLfoV1YxysOl
-	VzhBKC
-X-Google-Smtp-Source: AGHT+IEELYloZwlPDfzBUS2CIFoqpVbdAlJTEoxSRiFLxI6XsjRz4z61w7km+eDQVxqihK9V+Z/gwA==
-X-Received: by 2002:a05:6e02:3812:b0:433:7b22:c2cd with SMTP id e9e14a558f8ab-4348c8be2b8mr48366475ab.8.1763130480703;
-        Fri, 14 Nov 2025 06:28:00 -0800 (PST)
+        bh=g04XP369OdIGlU7nO8ZhA20Z4uYWbY8J/2UrhgEgmF8=;
+        b=J1Ttlg0N6LKJN8NnZbsH7QqIhk3l6+pthl7S8qvWG1xbUXVbdhnmcWYHXkHTNUNlyO
+         myNeB0dhzIOEvZPQtUD6c2brUcF2+QpBXFJxsdE8N64518kKe6nT9J6Th+l4qSkxveGT
+         Q170jXhmSOP6fjw7Yu8W3GqRAYil3u+TYAiWA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763130491; x=1763735291;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=g04XP369OdIGlU7nO8ZhA20Z4uYWbY8J/2UrhgEgmF8=;
+        b=blV+0988tAhiVPk6lNym/LOxy3tF350nlq6a3wP0kUfCEgPEizPtItXEzwPaMjXi81
+         9R1dw81UJ9ZiiGz+/0WevXI2QzxMIHuRRKkisLTTM00e8utc2u2ksTSDN0Kbv05Jqecb
+         EKYi6r9RzQoPoO/I05u54uIgCbG8rbCsxsJY8QHRiWSYtDZZssW+fyuW46/L97jfuPwu
+         nQzDQ6t9yNCxv1PwkSYLd5L+3Cbcw0PzHdXUX0cBm+Ml19gOf+n3vlo8+FEbTxwxUKnx
+         zmGbDovujqg9zp1jG/IKlmET+OqUGU5b8IZptXRfPmSAk92A/4gv5ifDivpoNIRi3IER
+         GnxA==
+X-Forwarded-Encrypted: i=1; AJvYcCVUM/YVuVsJfBDn/f0THFYjuSGimYOey9Do51hQl3k6LYHTXJjdsX4iu5p3E5zCayXgLAjEy31JU2cTrRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzohBiHX0MrEGNcOc3Pbt64DPqXUD/bz4Qpr1HYUrNrH2FyXnKV
+	yJNhemVbgaj8C/rs2p4crPeNp3sJchZiluY0KxSM3RPKf7eDbIQZ3QgIM149hxAsSw==
+X-Gm-Gg: ASbGncvpZqxddsRx9C5znpfvIzv7BSd7H3Om/ZxU4fZ7L5VQXuNjZ9AamxF7pVVXUwl
+	pTuKi9AjYLjwDeYWoohDlKXJiMlxFUKVTx4NnN80Koj6oLdOto6YuAq9YAnKgJ00uvUUKdQV0NF
+	ybseTEqWpdzjHqSC1fpEeLBhvTfjAO5oVgR2kTuqLP5R/7rOeJyMpoPh6pxgt6dzIFtUiuj7i28
+	L/M4Q3EBmQRdJPOlwRJ2lkLNd442sn97tdXzsv6UuhlDCLFrua1Qv/gwtLEcybx5NhCO89/3woX
+	y459tNoSK0wqPtKg4uXjwX/3maH0whfT6O8QtkytgzfjP7w+NIab5eTia7if6CsD7fZBw5xXK/e
+	RG2RaI8fNFnn3Fq3Yf1GDOr9ubDa0277EeKJWsDSOgAt+39A17JMaTZHEJs3ICM3zPpvzsr0NyC
+	4RcXTVfL9vhOcEJ4o=
+X-Google-Smtp-Source: AGHT+IH9WRXDGpQxQ/K/6unFcP6iH5jd3lNOXJwjoIeZqn0+/6i1yonIkDQHVVuUwWSwfsG4BW0P5Q==
+X-Received: by 2002:a05:6e02:2389:b0:433:330a:a572 with SMTP id e9e14a558f8ab-4348c8e3e5amr60110435ab.13.1763130491388;
+        Fri, 14 Nov 2025 06:28:11 -0800 (PST)
 Received: from chromium.org ([73.34.74.121])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-434839cdb10sm27500205ab.32.2025.11.14.06.27.58
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-434839cdb10sm27500205ab.32.2025.11.14.06.28.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 06:28:00 -0800 (PST)
+        Fri, 14 Nov 2025 06:28:10 -0800 (PST)
 From: Simon Glass <sjg@chromium.org>
 To: linux-arm-kernel@lists.infradead.org
 Cc: Nicolas Schier <nicolas@fjasle.eu>,
@@ -78,90 +80,62 @@ Cc: Nicolas Schier <nicolas@fjasle.eu>,
 	Ahmad Fatoum <a.fatoum@pengutronix.de>,
 	=?UTF-8?q?J=20=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
 	Simon Glass <sjg@chromium.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
 	Bill Wendling <morbo@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Sterba <dsterba@suse.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
 	Justin Stitt <justinstitt@google.com>,
-	Kees Cook <kees@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Nick Terrell <terrelln@fb.com>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Parth Pancholi <parth.pancholi@toradex.com>,
-	Rong Xu <xur@google.com>,
 	Tamir Duberstein <tamird@gmail.com>,
 	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Will Deacon <will@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH v5 0/8] scripts/make_fit: Support ramdisks and faster operations
-Date: Fri, 14 Nov 2025 07:27:26 -0700
-Message-ID: <20251114142741.1919072-1-sjg@chromium.org>
+Subject: [PATCH v5 5/8] kbuild: Split out module targets into a variable
+Date: Fri, 14 Nov 2025 07:27:31 -0700
+Message-ID: <20251114142741.1919072-6-sjg@chromium.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251114142741.1919072-1-sjg@chromium.org>
+References: <20251114142741.1919072-1-sjg@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series updates 'make image.fit' to support adding a ramdisk to the
-FIT, either one provided as a parameter or one created from all the
-kernel modules.
+Add a modules-targets variable to list the targets which cause modules
+to be built, since we want to add a conditional target.
 
-It also includes a few performance improvement, so that building a FIT
-from ~450MB of kernel/module/devicetree files only takes a few seconds
-on a modern machine.
+Signed-off-by: Simon Glass <sjg@chromium.org>
+---
 
 Changes in v5:
-- Fix 'use' typo
 - Add a new patch to split out module targets into a variable
-- Build modules automatically if needed (fix from Nicolas Schier)
 
-Changes in v4:
-- Update the commit message
-- Provide the list of modules from the Makefile
-- Reduce verbosity (don't print every module filename)
-- Rename the Makefile variable from 'EXTRA' to 'MAKE_FIT_FLAGS'
-- Use an empty FIT_MODULES to disable the feature, instead of '0'
-- Make use of the 'modules' dependency to ensure modules are built
-- Pass the list of modules to the script
+ Makefile | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Changes in v3:
-- Move the ramdisk chunk into the correct patch
-- Add a comment at the top of the file about the -r option
-- Count the ramdisk in the total files
-- Update the commit message
-- Add a way to add built modules into the FIT
-
-Changes in v2:
-- Don't compress the ramdisk as it is already compressed
-
-Simon Glass (8):
-  scripts/make_fit: Speed up operation
-  scripts/make_fit: Support an initial ramdisk
-  scripts/make_fit: Move dtb processing into a function
-  scripts/make_fit: Provide a way to add built modules
-  kbuild: Split out module targets into a variable
-  kbuild: Allow adding modules into the FIT ramdisk
-  scripts/make_fit: Support a few more parallel compressors
-  scripts/make_fit: Compress dtbs in parallel
-
- Makefile             |   8 +-
- arch/arm64/Makefile  |   1 +
- scripts/Makefile.lib |  10 +-
- scripts/make_fit.py  | 264 +++++++++++++++++++++++++++++++++++++------
- 4 files changed, 243 insertions(+), 40 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index 638bc09a546a..8cd46222fc48 100644
+--- a/Makefile
++++ b/Makefile
+@@ -772,7 +772,12 @@ endif
+ # in addition to whatever we do anyway.
+ # Just "make" or "make all" shall build modules as well
+ 
+-ifneq ($(filter all modules nsdeps compile_commands.json clang-%,$(MAKECMDGOALS)),)
++modules-targets := all
++modules-targets += modules
++modules-targets += nsdeps
++modules-targets += compile_commands.json
++modules-targets += clang-%
++ifneq ($(filter $(modules-targets),$(MAKECMDGOALS)),)
+   KBUILD_MODULES := y
+ endif
+ 
 -- 
 2.43.0
 
-base-commit: 4a71531471926e3c391665ee9c42f4e0295a4585
-branch: fita5
 
