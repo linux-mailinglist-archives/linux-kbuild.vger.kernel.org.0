@@ -1,132 +1,126 @@
-Return-Path: <linux-kbuild+bounces-9627-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9628-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06C4C5D701
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 14:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841D8C5D70A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 14:52:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BF08F361080
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 13:43:37 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 575E33628D8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 13:44:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B72D9315D52;
-	Fri, 14 Nov 2025 13:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05F442459E1;
+	Fri, 14 Nov 2025 13:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gIRir/4L";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PJp/vBSm"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="U+rHcWUA";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QIaYmoGS"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142B11DE4DC;
-	Fri, 14 Nov 2025 13:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB9F14B950;
+	Fri, 14 Nov 2025 13:44:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763127810; cv=none; b=kV8WuLPZdmhv3DUdXcS4t/Rt5EEI8HHuMw0UBdrzROSAjv29Ikija+X3x8Q6fefcT1S5qZUYsIHtp5fcYkWFvVHURu4LCyA+liAr69wlF9AKKYhah4RiKjFtFkT3v0OLMoVeeoibVaCFCftJQaXv+4Jq7FeJ2X+JsDXxIoMUoLM=
+	t=1763127845; cv=none; b=gqNwl7M2/E7kG1hdopD1pjQmuNR2XqFIs7hytgDBhSAZx7513TGBG8pgB7O2rBwF6YsjF/3pWhyla7KbpmNlG1Oi2dJz3itR4xIsj/Xlj1DFJfc5yFmVbQ7iNcYht9/XpLLNuMMTkrmtqu4UOkQvEzBWsCksVzNQJ29Al6Syk9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763127810; c=relaxed/simple;
-	bh=ISg/AK+QzVsVcyIt5OGx/BlA/TtkDDhIO1Pr2OUhGnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tSeJf3zP+4+tR3lfKLeTsqLspN3l9sQOMt4x05tmD2uWo4VLvELbSX/XYsSYqTGBrW0N7LpX0KWckU20kjZQ4wrFbNSiMtgEoGDYw6WLXgHEk3OFAQeaICSq6F+JUHx35wKXuMEvbO2BEZzacGx37WrfRe5SMJhqCnXYbVXDwSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gIRir/4L; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PJp/vBSm; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1763127845; c=relaxed/simple;
+	bh=vmhUQcdPA9xN+CqPkq77ObxgivTQH8kTBBIE4cvpcNo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rAcX6CXla4h8vn6fg04JsP8PD2PgYB9rGGATeMLEZK0fzz0VpImhFDnc0wRVZnoN0IEnM31euAo+jBYQD1yjOrl+61x9fCA6yaA12nvPEV/YYZlg5wzxVuRFK5ohr6HUBDVzWRGgxuVnjPqvMSJavo8TfKR6WjzvfNuEKYtQ9Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=U+rHcWUA; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QIaYmoGS; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Fri, 14 Nov 2025 14:43:24 +0100
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763127807;
+	s=2020; t=1763127842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xQUB6KjOBhp5NcnouuFZQn81BWCzOQnuwQGVzcoOc6s=;
-	b=gIRir/4Lzgj/mHOd7JZaVUa1E9UZ0Kp6SBQjTGTYc3zBB9Uccw1PDQZgKCugDD7SNkLJc4
-	rWTA1bZOYnnxFBU1c3I5+6pxafi3efAKVcvOfQxa8mYLHkao6U1a+WgjquQRNJGq7KMi70
-	KU9KOzGVJgkI8JKU94Xqv5bvdlgDzk5qNnnCwypNirbyc7n9xcDwwQTJr5+ysJL63QDwuN
-	v4Zoxyc9j/Niyifj12WxqFysmUyas8fb1CvF8xpXQm6Uqhxo+L+tYv/l1uziRIrJw4fWPL
-	jpQKVyMnpupxpF8qCOOc7QA9LHCLSTU3hyevSChE6sWIUtC5QvXQSjxHIH2nHg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AGPbHk1KfhXxTA6//0KB10/k2tuI8GLHPEz9EV+lenA=;
+	b=U+rHcWUAq1f9ch1PN9YZ3651SYR1Qbgg7ZBzSA5un3p80OCOuCP45weUK0rRaMbLrLBO8x
+	0BNfzEnei8rY7e8f8G2VkIMFc9MMF8Ds2EYBCNyWJFfczD+Z8YD/GXZBWO7tEOIyN3elJm
+	/b+2nNYFQvuduUcfsA/U9H10rNMkAfRRmbcaVSYt9Y22kXPUg1MEIsLW4WCDfbIyZeOxDy
+	rcp09zcJRpCihpk57ee/HDmXC60FCn+B2ANeQ+1T3gt57ANh/B61ef6ieZSJctOVL3qth3
+	vDwoBy4GZLYLfpMWGt163oR06SaJA0Wz6wSpy8H2i5fN8i7ksUBridh70ZiE1A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763127807;
+	s=2020e; t=1763127842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xQUB6KjOBhp5NcnouuFZQn81BWCzOQnuwQGVzcoOc6s=;
-	b=PJp/vBSmzIi+3+3HURui2pgktdSqU9eraGxE64lkXGPNdO6ZlBzcYl1MFyPqJRIG+bG6hX
-	hK2GxotHfbZs93BQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nicolas Schier <nsc@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] kbuild: don't enable CC_CAN_LINK if the dummy
- program generates warnings
-Message-ID: <20251114143845-ff0d3849-4495-469c-b9c1-bebf2e8808db@linutronix.de>
-References: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
- <20251014-kbuild-userprogs-bits-v2-1-faeec46e887a@linutronix.de>
- <20251114042741.GA3582402@ax162>
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AGPbHk1KfhXxTA6//0KB10/k2tuI8GLHPEz9EV+lenA=;
+	b=QIaYmoGS9Vq6bh58Y67UkO3BM8hLxOFof0y4g5a/gCu4e/YPmc66iNZlBMSLMjZif7NvgX
+	y9SrYCLFPgiYuMBw==
+Subject: [PATCH v3 0/3] kbuild: userprogs: introduce architecture-specific
+ CC_CAN_LINK and userprog flags
+Date: Fri, 14 Nov 2025 14:43:55 +0100
+Message-Id: <20251114-kbuild-userprogs-bits-v3-0-4dee0d74d439@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251114042741.GA3582402@ax162>
+X-B4-Tracking: v=1; b=H4sIABsyF2kC/4XNQQ6CMBCF4auQrq3ptCDoynsYF4VOYaKhpIUGQ
+ 7i7hYULE+Pyn+R9s7CAnjCwS7Ywj5ECuT6FOmSs6XTfIieTmkkhC1GB4o96oqfhU9oN3rWB1zQ
+ GLlQDUBqdm0KwtB08Wpp393ZP3VEYnX/tbyJs139iBC64NGdb2hxAVOr6pH4avetpPhpkmxrlR
+ wIB+S9JJslqxCY/YVWV+lta1/UNaefRVwgBAAA=
+X-Change-ID: 20250813-kbuild-userprogs-bits-03c117da4d50
+To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763127841; l=1757;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=vmhUQcdPA9xN+CqPkq77ObxgivTQH8kTBBIE4cvpcNo=;
+ b=stRdoupFbyxa7j6zuTPPttcxu6ZP/Dfv94jMtv3uQFaoqH/cCcWRY41rdWQhhdmw4s6ID8d3l
+ UP6eH02pj6yCbBT3nTm2d+zgh/sjiADi90qKwFflo7Ce9SfGZaMkGEN
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Thu, Nov 13, 2025 at 09:27:41PM -0700, Nathan Chancellor wrote:
-> On Tue, Oct 14, 2025 at 03:05:16PM +0200, Thomas Weiﬂschuh wrote:
-> > It is possible that the kernel toolchain generates warnings when used
-> > together with the system toolchain. This happens for example when the
-> > older kernel toolchain does not handle new versions of sframe debug
-> > information. While these warnings where ignored during the evaluation
-> > of CC_CAN_LINK, together with CONFIG_WERROR the actual userprog build
-> > will later fail.
-> > 
-> > Example warning:
-> > 
-> > .../x86_64-linux/13.2.0/../../../../x86_64-linux/bin/ld:
-> > error in /lib/../lib64/crt1.o(.sframe); no .sframe will be created
-> > collect2: error: ld returned 1 exit status
-> > 
-> > Make sure that the very simple example program does not generate
-> > warnings already to avoid breaking the userprog compilations.
-> > 
-> > Fixes: ec4a3992bc0b ("kbuild: respect CONFIG_WERROR for linker and assembler")
-> > Fixes: 3f0ff4cc6ffb ("kbuild: respect CONFIG_WERROR for userprogs")
-> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+The current logic to inherit -m32/-m64 from the kernel build only works
+for a few architectures. It does not handle byte order differences,
+architectures using different compiler flags or different kinds of ABIs.
 
-Thanks!
+Introduce a per-architecture override mechanism to set CC_CAN_LINK and
+the flags used for userprogs.
+This revision only contains the generic kbuild infrastructure bits.
+The architecture-specific will go through the architecture trees.
+They are present in v2 of the series linked below.
 
-> While this makes sense as a way to immediately fix the problem and align
-> cc-can-link.sh with the other test functions like cc-option and like, it
-> is rather unfortunate that this particular warning causes an error since
-> the rest of the userprogs infrastructure does not care about SFrame...
-> I wonder if there is a way to avoid it since I think this warning does
-> not point to a fundamental problem.
+Signed-off-by: Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v3:
+- Drop all architecture-specific patches, they will go in through the architecture trees.
+- Trim recipient list.
+- Fix old reference to CONFIG_ARCH_USERPROGS_CFLAGS
+- Link to v2: https://lore.kernel.org/r/20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de
 
-I did not find any way to avoid this specific warning, unfortunately.
-This patch should make sense in any case. If we find a way to avoid the
-sframe warning then that should go on top.
+Changes in v2:
+- Rebase and drop already applied patch
+- Disable CC_CAN_LINK if the test program generates warnings
+- Move to architecture-specific logic
+- Link to v1: https://lore.kernel.org/r/20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de
 
-(...)
+---
+Thomas Wei√üschuh (3):
+      kbuild: don't enable CC_CAN_LINK if the dummy program generates warnings
+      init: deduplicate cc-can-link.sh invocations
+      kbuild: allow architectures to override CC_CAN_LINK
 
+ Makefile                | 13 +++++++++++--
+ init/Kconfig            |  8 ++++++--
+ scripts/Kconfig.include |  3 +++
+ scripts/cc-can-link.sh  |  2 +-
+ 4 files changed, 21 insertions(+), 5 deletions(-)
+---
+base-commit: 10f8210c7a7098897fcee5ca70236167b39eb797
+change-id: 20250813-kbuild-userprogs-bits-03c117da4d50
 
-Thomas
+Best regards,
+-- 
+Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
+
 
