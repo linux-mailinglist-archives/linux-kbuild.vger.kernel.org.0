@@ -1,94 +1,64 @@
-Return-Path: <linux-kbuild+bounces-9623-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9624-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79159C5B550
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 05:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB60C5C12C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 09:48:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8A5B54E4D3E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 04:38:30 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6222E4E53F1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 08:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5D532C11EC;
-	Fri, 14 Nov 2025 04:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B942FFDE2;
+	Fri, 14 Nov 2025 08:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3U+OeK9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fT5DOL1c"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B31C2C0275;
-	Fri, 14 Nov 2025 04:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408932FA0C4;
+	Fri, 14 Nov 2025 08:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763095105; cv=none; b=HpmPAILEXF+6Lae49yjGKu7VUWHpQcHZcUiA0MVYgV+KXgvcEsR+g8vo1uoqe/KKL6V466RRgWNPZ2byBtmL9QSkQ0lbwQ7+iAEwSEv2wlm2ZbT8hSiCwrnCv6SqbOX76nY9IOiVbkFygHaZ95+J3I76jwq0Bgk/sdiBH6nb8tA=
+	t=1763109936; cv=none; b=WC++9o+fvTF/cMGmBbRYvMMdFI1PiaB/mvxYEk2izdSYegK/FJThNJ9q0ecO2ZvYHc4WolYDtdD8z8cpzxQuCR9AH5NRfEuY0COkcqdwyQ4s3xsj8z15c+m5ctE7qjpYnCHb+43kkR2Vk6SzhTNzMhyN/PCMGtmIkZHjckjhQYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763095105; c=relaxed/simple;
-	bh=nHpuwrB2PqWoFYl7cIf1QtHauh5mGZ3uTev/Ldhcw+Q=;
+	s=arc-20240116; t=1763109936; c=relaxed/simple;
+	bh=DTA3TxtfcQ+fVJMWo0ftlacmxwLy+Ik6rOLuDRX47Bc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U0NOv7Lx79UjNcUKNdWJSx6o4q2lesY9vYqPhlNnA5p5ZTPds6YFwzUM6aDpnyRrf5d98ErUSRe5PhOgfMFuofEPNKWRovGnS0RlgqkMT4KYOpxUx/Rc7N/WqEPFf8MYo7pFmhPWsUqiJoSzYsrVB8i5QHYBWirg+9/sd8LIdnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3U+OeK9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D54CC4AF09;
-	Fri, 14 Nov 2025 04:38:15 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BnuqfHVAYpTSiK+Arqm3UA9T6xOF8kEW4GXWPjddXlL2u5LYtlv5Jnai88KDzgKsicE4jsKpEbd7p0Y/r2RVselygYchnOlzW5kB8yU4aGa0erl7W5wBIhe/zdSdbWo5aazlQEhILR/TYOekg0N3vytXo5ro7WimiUKMjKf0zTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fT5DOL1c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD2A8C16AAE;
+	Fri, 14 Nov 2025 08:45:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763095105;
-	bh=nHpuwrB2PqWoFYl7cIf1QtHauh5mGZ3uTev/Ldhcw+Q=;
+	s=k20201202; t=1763109935;
+	bh=DTA3TxtfcQ+fVJMWo0ftlacmxwLy+Ik6rOLuDRX47Bc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D3U+OeK9GhqfWF0+J2jd+muy8AARO4qDhP50T8K6+Ixjl7OYP08hLGOSjvEgNxOBJ
-	 S2GLkZXFLi/O9NjK1ipo/SNFyF/x2q+MTldVC8dPMtD+AzPiMHugVxJM95DcCbrvhf
-	 w+P4TONQUjEMO29loLzdZvpX463OkL/mVZC1yaEqf8ktr2zjE4sZ+5mY+avsykTA+K
-	 YA5I/rS3IC+TdNYYZ7Ei3wdD0P6JsEmLKcGpkSPlRUNbHgBaj0L7XpDuh3mccUNosD
-	 JdIkdst85rXaaJZP3s8sX9A0Gu6//cXcUYjCevnXiDhCSLjMa0X/U4YWXnNUEkL3Gn
-	 Gdnc8kbREu9lw==
-Date: Thu, 13 Nov 2025 21:38:12 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
-	rcu@vger.kernel.org
-Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
-Message-ID: <20251114043812.GC2566209@ax162>
-References: <20250918140451.1289454-1-elver@google.com>
- <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
- <aMx4-B_WAtX2aiKx@elver.google.com>
- <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
- <aM0eAk12fWsr9ZnV@elver.google.com>
- <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
+	b=fT5DOL1cOqCBSTmrq9rki9PJXa1Rf6akWSjKw9q/mMp/Qi0G4bi7OW+oTYaxHhzcu
+	 fzNnTR1uLsAkpFPFI+zOyghGN66WQ638AH/TNQ45sydMfAz8m4VAONobOTPFJMG2pX
+	 O2qj0r6g9G5PPyXaBr8lDpPHGgcWr4z9cx1wsKww+B1EPv7wzVui/WAfeCzRAN1tLe
+	 QqFxoQMvOip3q4B2LdM2C5YHTzPgHUFxQzz4ysnMZbhV7Gcb+YGLeONLWUZSxIotL1
+	 p1pjLUMYNbHGXnY6UeIMUi5wYRyVRNliFRREBII2FYFm/5uqOqNlxUJwK5Dwy5FJ4c
+	 vJxfuDH7QsBhg==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vJpQz-000000003Q6-1rnX;
+	Fri, 14 Nov 2025 09:45:33 +0100
+Date: Fri, 14 Nov 2025 09:45:33 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Subject: Re: [PATCH] modpost: drop '*_probe' from section check whitelist
+Message-ID: <aRbsLU-5KDN3HLDE@hovoldconsulting.com>
+References: <20251020091613.22562-1-johan@kernel.org>
+ <20251022203955.GA3256590@ax162>
+ <aRS6VQCKB7dXGbXx@hovoldconsulting.com>
+ <20251114041628.GA2566209@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -97,37 +67,22 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
+In-Reply-To: <20251114041628.GA2566209@ax162>
 
-On Thu, Nov 13, 2025 at 03:30:08PM +0100, Marco Elver wrote:
-> On Fri, 19 Sept 2025 at 11:10, Marco Elver <elver@google.com> wrote:
-> [..]
-> > I went with "context guard" to refer to the objects themselves, as that
-> > doesn't look too odd. It does match the concept of "guard" in
-> > <linux/cleanup.h>.
-> >
-> > See second attempt below.
-> [..]
+On Thu, Nov 13, 2025 at 09:16:28PM -0700, Nathan Chancellor wrote:
+> On Wed, Nov 12, 2025 at 05:48:21PM +0100, Johan Hovold wrote:
+> > Daniel has queued the clocksource fix for 6.19 now so I guess we can
+> > just wait until both fixes hit mainline and either send this one to
+> > Linus after that for -rc1 (or -rc2), or just wait until 6.20.
+> > 
+> > I'll send a reminder when both are in Linus's tree.
 > 
-> I finally got around baking this into a renamed series, that now calls
-> it "Context Analysis" - here's a preview:
-> https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
-> 
-> As for when we should give this v4 another try: I'm 50/50 on sending
-> this now vs. waiting for final Clang 22 to be released (~March 2026).
-> 
-> Preferences?
+> Thanks for the heads up! I think I would prefer having it bake in -next
+> for a cycle so I will plan to apply it to kbuild-next once 6.19-rc1 is
+> out. Then we should be able to catch any instances that crop up in new
+> code from -next testing.
 
-For the record, I can continue to upload clang snapshots for testing and
-validating this plus the sooner this hits a tree that goes into -next,
-the sooner the ClangBuiltLinux infrastructure can start testing it. I
-assume there will not need to be many compiler side fixes but if
-__counted_by has shown us anything, it is that getting this stuff
-deployed and into the hands of people who want to use it is the only
-real way to find corner cases to address. No strong objection from me if
-you want to wait for clang-22 to actually be released though for more
-access.
+Sounds good, thanks.
 
-Cheers,
-Nathan
+Johan
 
