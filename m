@@ -1,146 +1,167 @@
-Return-Path: <linux-kbuild+bounces-9631-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9632-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54754C5D6D4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 14:50:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE9FC5DA5B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 15:43:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8179C4ED3A7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 13:44:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D2BB34F348F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 14:30:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 495CF31D727;
-	Fri, 14 Nov 2025 13:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D07D325493;
+	Fri, 14 Nov 2025 14:28:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Irm7vNu6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EYFv4yzM"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="G0ypR099"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E50531C56D;
-	Fri, 14 Nov 2025 13:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B969732549C
+	for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 14:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763127850; cv=none; b=EsEf2F26wAy/zUdH6y5w3KwHuU1yEAstor2IQUHs3Fsx+eRcyZfyEFaJK16V4eZFq3mowddDsbkpQr+xJk3Ezq3nQkJ1E/bcsOj8X+0EklL/X422NMI4WFM/TXi/qhX4/c8BZRxot7t3DQzHt03iSURDyLH1BXws/z3ohc0qZgE=
+	t=1763130483; cv=none; b=gAzcDF9Dsd/65i/+vmHVAxiMC8QQBoQCDzYwDx2mGfstohv+SPlr8AXtJhNfGDHJLhTEMcuTCIm/u3vuv7aJzjlf5W2gt38dPoVIz3lDs38ygxKrUc6nkxXDc+xXnwgc0+aakmIbKOA00fa2XmjEdhI3cinr6xf9OoUJ+8lXpZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763127850; c=relaxed/simple;
-	bh=rcMnsX+Vh0ajIFhxLjMhfH8p4M1MQ2IzwPyJNkmsGaI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T5atw+QMbiiVaLNvEoCzr9A/1OstXfcGYYdxW+i8GQ47hNwH387105cS8HZ5/IRWFTyJUlYGiZCmaQ9mZ6Oo/t96WGhHNtmDZawiugnBjNMQlh+ULrk3CRX45Y2HwCBz+xpAw/ZblFs/RM2xQnEkWIzd7hHLN4ZNVCpX0yTcfLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Irm7vNu6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EYFv4yzM; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763127847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vwc56hjtuazj/+GR6nUE0ZFLKGkZMFAF/H+hEEe0//M=;
-	b=Irm7vNu6Whb0e2SZ40WXLxCCBvASPli0FbFV/DMbxznyqGbuYlNRvu2zTH9yCBAVLOfKNY
-	sfv5lHB83OF5LRq2qKxOdTuv0uMQToVHUYxQVIo9dKfwTo9btn8ChyZDQL65yJELMqwG+2
-	wiFNVj19Va5I+3DeQiB4vtJPolp6RG6/FtYE/4wgmAu7YJzFifNh0EYKeorM/FfxuhfjiZ
-	Tf+PVeTMhkAU8iJmRdPWA0oZdvBIgLyS4grj+tDj9q5Lfm0G7nofK0pc4pj5+5FCah0wgu
-	j3jKdhE3lcv6Umjhkc2V6uQmceUw5cxW/+67R6V6yDECw/BQVHbYid01ZHiKrg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763127847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vwc56hjtuazj/+GR6nUE0ZFLKGkZMFAF/H+hEEe0//M=;
-	b=EYFv4yzM4KUYMkL0HGGUr9zboXL9nrMewaWyFgRR+kdPx4Xqi27ICWnFqcUQgDuGcwrjgB
-	sMYj0wS1IQ7jl0Cw==
-Date: Fri, 14 Nov 2025 14:43:58 +0100
-Subject: [PATCH v3 3/3] kbuild: allow architectures to override CC_CAN_LINK
+	s=arc-20240116; t=1763130483; c=relaxed/simple;
+	bh=BklQGKunSWSC90jjl2C7ggGLVd/hWGKHl6qwpD07aVc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=emwo+So9gvZFOY8XpKf7AT+lR9uMNIOjwQ/oToR7n+nJqo9ATfrgq4BtFF/rC1fL/ogDuQgoVccWVBImFbebQvxSIaW2XilExlXUuTCgx/oAW9R8Ylajthple6uERH0DAeFq4dItdvmhCXIpDlnsuOctsyQZxWe847m2X3Aq/w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=G0ypR099; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-9486354dcb2so86650739f.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 06:28:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1763130481; x=1763735281; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LaRuk9UO1iAqBvlrA4UzPK6vezrUTGPRno5ObeOs0zk=;
+        b=G0ypR0999C24qi2OWdGrf/H9r2CylqsJJIbO9IHWcmLG6LARlSL06Wmo15L5x1i0ti
+         hSdZgTrFeDIrhgxMr1qgkDI1ng1SX5wiY/TxJUMhBNsf4PFAAZ9kYh1sgnQR4RcUzK1T
+         ezTSLtbM7ey/xWCToOx8cCh8PifWMQsCAwEeI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763130481; x=1763735281;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LaRuk9UO1iAqBvlrA4UzPK6vezrUTGPRno5ObeOs0zk=;
+        b=YFC6WKLiz7zSdJFLQt25OtS7ZAsRP+sbavlNW9WUPZsVG9a2fi5UIs3qgZThqQB5DR
+         GM1HeZyF3JNPMVe9GsBXI07C2XbJYOmjTx+rLxO6YrqGoqR4aqhKfbnbqYJGNd285cIZ
+         0zRC+jOPJ0+TEi8/j0fUBlHa7zamP5E+6NT2+Xi9sYI0rDOlxt6wjoKm/zEFKgPD9M4j
+         mixj8yA3f6tuq2n8v6obc5KxOP/Otzkdefn5G35vIaD640PwJAMHwNzNxkM9SOJZOA9I
+         OWBRZE+t6WnK0xtFFAOxGH9zPhogsghaIyoXtjy7fM0KS7Yzo7iAetNvT9UV4sLAplvI
+         9Kug==
+X-Forwarded-Encrypted: i=1; AJvYcCVbFrwv/bJv019yleS3SR7rpwhtALbmYQo411dDfP2loiLM3W9HasMQNnjwFCgt26goyQQxpQLf1z/jH9U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzNSd7l2akhiv+nO/iX7mB01ahjVC2CzRigL/IkEjx760DhEZO
+	jMyXR5qgD90h4nKQsnfTROVEsTA/MvpVT0ANTlmna6CGmDKBTROpzlm81xoY7a5jPg==
+X-Gm-Gg: ASbGncvykQPJiLwhX5UGcg+bm8/1zaEr4/a9HJcFMjC/0MWf4WefZ1A17avysQRkBEq
+	Z0NqpZRpNTnVsCmClaP9LyuGYmAGDsh7VDp5K222tRQiAfbhYzQ3ZUUqAanghQZyImC23q1J1+d
+	gIkP9C2iNTEh9EdNJlpmwKA0kxpxQhyPoaETO59T+GoByH9svAmyfoM+GCIXYqj0K/3xZicwLCV
+	7ufIaNVtK1ymnngGxitszRIpPlY3gkXYnnQt8k9w1iFjvqHC+MiN0DR9B9lwVzo9r1+Spa2Es18
+	iWS5SrGlvJQ9COGPmZuANO2T/qaYBQx4eBL8agrVs6ktlEz4h0HExd9Uag4uDb42siARZDBsjcE
+	9/CAhtEr1wG3LeyLCFyhJzHHnktYY3GY8DSLgL03KrHDqn+SumRsctZPRrYbPdcQLfoV1YxysOl
+	VzhBKC
+X-Google-Smtp-Source: AGHT+IEELYloZwlPDfzBUS2CIFoqpVbdAlJTEoxSRiFLxI6XsjRz4z61w7km+eDQVxqihK9V+Z/gwA==
+X-Received: by 2002:a05:6e02:3812:b0:433:7b22:c2cd with SMTP id e9e14a558f8ab-4348c8be2b8mr48366475ab.8.1763130480703;
+        Fri, 14 Nov 2025 06:28:00 -0800 (PST)
+Received: from chromium.org ([73.34.74.121])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-434839cdb10sm27500205ab.32.2025.11.14.06.27.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 06:28:00 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Schier <nicolas@fjasle.eu>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Tom Rini <trini@konsulko.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	=?UTF-8?q?J=20=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
+	Simon Glass <sjg@chromium.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Sterba <dsterba@suse.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Nick Terrell <terrelln@fb.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Parth Pancholi <parth.pancholi@toradex.com>,
+	Rong Xu <xur@google.com>,
+	Tamir Duberstein <tamird@gmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Will Deacon <will@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v5 0/8] scripts/make_fit: Support ramdisks and faster operations
+Date: Fri, 14 Nov 2025 07:27:26 -0700
+Message-ID: <20251114142741.1919072-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251114-kbuild-userprogs-bits-v3-3-4dee0d74d439@linutronix.de>
-References: <20251114-kbuild-userprogs-bits-v3-0-4dee0d74d439@linutronix.de>
-In-Reply-To: <20251114-kbuild-userprogs-bits-v3-0-4dee0d74d439@linutronix.de>
-To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763127841; l=2338;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=rcMnsX+Vh0ajIFhxLjMhfH8p4M1MQ2IzwPyJNkmsGaI=;
- b=EtLegc3uyI194hw+XnBdz/rKTZqcEoYt1DqUpPRvM2dqbBs62WV1ZYof0zQoQbhWCXwFnIHS5
- sSqIJEYGaqnAibE1cFvjWr9JsaMDPyKbsOsUWDo+TcoGk1bfi8Iaet4
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-The generic test for CC_CAN_LINK assumes that all architectures use -m32
-and -m64 to switch between 32-bit and 64-bit compilation. This is overly
-simplistic. Architectures may use other flags (-mabi, -m31, etc.) or may
-also require byte order handling (-mlittle-endian, -EL). Expressing all
-of the different possibilities will be very complicated and brittle.
-Instead allow architectures to supply their own logic which will be
-easy to understand and evolve.
+This series updates 'make image.fit' to support adding a ramdisk to the
+FIT, either one provided as a parameter or one created from all the
+kernel modules.
 
-Both the boolean ARCH_HAS_CC_CAN_LINK and the string ARCH_USERFLAGS need
-to be implemented as kconfig does not allow the reuse of string options.
+It also includes a few performance improvement, so that building a FIT
+from ~450MB of kernel/module/devicetree files only takes a few seconds
+on a modern machine.
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
----
- Makefile     | 13 +++++++++++--
- init/Kconfig |  4 ++++
- 2 files changed, 15 insertions(+), 2 deletions(-)
+Changes in v5:
+- Fix 'use' typo
+- Add a new patch to split out module targets into a variable
+- Build modules automatically if needed (fix from Nicolas Schier)
 
-diff --git a/Makefile b/Makefile
-index 17cfa11ca7163aa3297101ceb3c9e85f4878f12d..36e7154c66cbd4772883a84d57676c615e4480a3 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1134,8 +1134,17 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
- LDFLAGS_vmlinux	+= --emit-relocs --discard-none
- endif
- 
--# Align the bit size of userspace programs with the kernel
--USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
-+# Align the architecture of userspace programs with the kernel
-+USERFLAGS_FROM_KERNEL := --target=%
-+
-+ifdef CONFIG_ARCH_USERFLAGS
-+KBUILD_USERCFLAGS += $(CONFIG_ARCH_USERFLAGS)
-+KBUILD_USERLDFLAGS += $(CONFIG_ARCH_USERFLAGS)
-+else
-+# If not overridden also inherit the bit size
-+USERFLAGS_FROM_KERNEL += -m32 -m64
-+endif
-+
- KBUILD_USERCFLAGS  += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
- KBUILD_USERLDFLAGS += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
- 
-diff --git a/init/Kconfig b/init/Kconfig
-index 7b722e714d5c5a0580467914b226dc0700ec0797..4a2ae3cfbf26525a60936d9b29a74ef4319ba3a5 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -82,8 +82,12 @@ config RUSTC_LLVM_VERSION
- 	int
- 	default $(rustc-llvm-version)
- 
-+config ARCH_HAS_CC_CAN_LINK
-+	bool
-+
- config CC_CAN_LINK
- 	bool
-+	default ARCH_CC_CAN_LINK if ARCH_HAS_CC_CAN_LINK
- 	default $(cc_can_link_user,$(m64-flag)) if 64BIT
- 	default $(cc_can_link_user,$(m32-flag))
- 
+Changes in v4:
+- Update the commit message
+- Provide the list of modules from the Makefile
+- Reduce verbosity (don't print every module filename)
+- Rename the Makefile variable from 'EXTRA' to 'MAKE_FIT_FLAGS'
+- Use an empty FIT_MODULES to disable the feature, instead of '0'
+- Make use of the 'modules' dependency to ensure modules are built
+- Pass the list of modules to the script
+
+Changes in v3:
+- Move the ramdisk chunk into the correct patch
+- Add a comment at the top of the file about the -r option
+- Count the ramdisk in the total files
+- Update the commit message
+- Add a way to add built modules into the FIT
+
+Changes in v2:
+- Don't compress the ramdisk as it is already compressed
+
+Simon Glass (8):
+  scripts/make_fit: Speed up operation
+  scripts/make_fit: Support an initial ramdisk
+  scripts/make_fit: Move dtb processing into a function
+  scripts/make_fit: Provide a way to add built modules
+  kbuild: Split out module targets into a variable
+  kbuild: Allow adding modules into the FIT ramdisk
+  scripts/make_fit: Support a few more parallel compressors
+  scripts/make_fit: Compress dtbs in parallel
+
+ Makefile             |   8 +-
+ arch/arm64/Makefile  |   1 +
+ scripts/Makefile.lib |  10 +-
+ scripts/make_fit.py  | 264 +++++++++++++++++++++++++++++++++++++------
+ 4 files changed, 243 insertions(+), 40 deletions(-)
 
 -- 
-2.51.0
+2.43.0
 
+base-commit: 4a71531471926e3c391665ee9c42f4e0295a4585
+branch: fita5
 
