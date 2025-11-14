@@ -1,156 +1,133 @@
-Return-Path: <linux-kbuild+bounces-9622-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9623-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1A1C5B529
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 05:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79159C5B550
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 05:38:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5314B4E62A7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 04:31:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8A5B54E4D3E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Nov 2025 04:38:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7141E26B2D3;
-	Fri, 14 Nov 2025 04:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5D532C11EC;
+	Fri, 14 Nov 2025 04:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GdpqxCxO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D3U+OeK9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED2E7E0E4;
-	Fri, 14 Nov 2025 04:31:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B31C2C0275;
+	Fri, 14 Nov 2025 04:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763094691; cv=none; b=L98p6K8Nesd1dPq2C1MOvOQaXGypAuAE+l9z8Ql7wL05vcHB4Tl83b+A8iMLxfwVpWrfs+p1xpIaseMaCIirEAaNg/Qj3uVQhcY9906CZoSd27C5ENQq2eiTPUyLQRve0f9n+bbTP9cB0WFEm0ac/kjocsdYxdrL9b8gAqhI3+M=
+	t=1763095105; cv=none; b=HpmPAILEXF+6Lae49yjGKu7VUWHpQcHZcUiA0MVYgV+KXgvcEsR+g8vo1uoqe/KKL6V466RRgWNPZ2byBtmL9QSkQ0lbwQ7+iAEwSEv2wlm2ZbT8hSiCwrnCv6SqbOX76nY9IOiVbkFygHaZ95+J3I76jwq0Bgk/sdiBH6nb8tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763094691; c=relaxed/simple;
-	bh=uLMghE7ydDQjNwo+3JIijtmU11kVbvrP2zjXCZJb08c=;
+	s=arc-20240116; t=1763095105; c=relaxed/simple;
+	bh=nHpuwrB2PqWoFYl7cIf1QtHauh5mGZ3uTev/Ldhcw+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cklWP+2qknCW9JBlAitlYqJ7ZhZVbLrQ8L+4cTkLYHr7rckpXgWauAwy5sQTP4SWJCNaXm+UOkoXaDueLEcA0x9fKLvWhKK69f0efNiDqJ5537qG/OqpeZ6ItxYU0K6zEDIm0cC8BSPNSCwBf/p/azhfk95/dzQIz+J5WkGbge4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GdpqxCxO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09FCCC116B1;
-	Fri, 14 Nov 2025 04:31:24 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=U0NOv7Lx79UjNcUKNdWJSx6o4q2lesY9vYqPhlNnA5p5ZTPds6YFwzUM6aDpnyRrf5d98ErUSRe5PhOgfMFuofEPNKWRovGnS0RlgqkMT4KYOpxUx/Rc7N/WqEPFf8MYo7pFmhPWsUqiJoSzYsrVB8i5QHYBWirg+9/sd8LIdnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D3U+OeK9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D54CC4AF09;
+	Fri, 14 Nov 2025 04:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763094690;
-	bh=uLMghE7ydDQjNwo+3JIijtmU11kVbvrP2zjXCZJb08c=;
+	s=k20201202; t=1763095105;
+	bh=nHpuwrB2PqWoFYl7cIf1QtHauh5mGZ3uTev/Ldhcw+Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GdpqxCxOi3xQvATJP2BCYK6hrOnP9R5cYiNjQHQBPz9oSNHH7ro5W0uD4gZ+648jL
-	 tj/JiY+prRTx+D1vt7Nz03pusbf3dGGKQ/6fz8PjKc2IFtrPGR8LiFBHwCQAry7Qxw
-	 mUlnsbsazRxcrQsUDznTlpORXe/+nncE/B8pCnioxZdSgbJxELm6QrmNLgwF7zE6JN
-	 Pxrux4Sfz0nwhoWSODtDr5mAaxx5p3/gYBHabHsDigfml2sd+mb2qnOTPK1knulMUy
-	 ZZsk2NqRLRvBZUvbtbYTeA0D2tZvVb31byZFt1gt6cvBxxiIOcPjfEdc4KCJuIPl/q
-	 ZHNAlCJu1LZsg==
-Date: Thu, 13 Nov 2025 21:31:22 -0700
+	b=D3U+OeK9GhqfWF0+J2jd+muy8AARO4qDhP50T8K6+Ixjl7OYP08hLGOSjvEgNxOBJ
+	 S2GLkZXFLi/O9NjK1ipo/SNFyF/x2q+MTldVC8dPMtD+AzPiMHugVxJM95DcCbrvhf
+	 w+P4TONQUjEMO29loLzdZvpX463OkL/mVZC1yaEqf8ktr2zjE4sZ+5mY+avsykTA+K
+	 YA5I/rS3IC+TdNYYZ7Ei3wdD0P6JsEmLKcGpkSPlRUNbHgBaj0L7XpDuh3mccUNosD
+	 JdIkdst85rXaaJZP3s8sX9A0Gu6//cXcUYjCevnXiDhCSLjMa0X/U4YWXnNUEkL3Gn
+	 Gdnc8kbREu9lw==
+Date: Thu, 13 Nov 2025 21:38:12 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>,
-	Nicolas Schier <nsc@kernel.org>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
+To: Marco Elver <elver@google.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH v2 03/10] kbuild: allow architectures to override
- CC_CAN_LINK
-Message-ID: <20251114043122.GC3582402@ax162>
-References: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
- <20251014-kbuild-userprogs-bits-v2-3-faeec46e887a@linutronix.de>
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, llvm@lists.linux.dev,
+	rcu@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+Message-ID: <20251114043812.GC2566209@ax162>
+References: <20250918140451.1289454-1-elver@google.com>
+ <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+ <aMx4-B_WAtX2aiKx@elver.google.com>
+ <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
+ <aM0eAk12fWsr9ZnV@elver.google.com>
+ <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251014-kbuild-userprogs-bits-v2-3-faeec46e887a@linutronix.de>
+In-Reply-To: <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
 
-On Tue, Oct 14, 2025 at 03:05:18PM +0200, Thomas Weiﬂschuh wrote:
-> The generic test for CC_CAN_LINK assumes that all architectures use -m32
-> and -m64 to switch between 32-bit and 64-bit compilation. This is overly
-> simplistic. Architectures may use other flags (-mabi, -m31, etc.) or may
-> also require byte order handling (-mlittle-endian, -EL). Expressing all
-> of the different possibilities will be very complicated and brittle.
-> Instead allow architectures to supply their own logic which will be
-> easy to understand and evolve.
+On Thu, Nov 13, 2025 at 03:30:08PM +0100, Marco Elver wrote:
+> On Fri, 19 Sept 2025 at 11:10, Marco Elver <elver@google.com> wrote:
+> [..]
+> > I went with "context guard" to refer to the objects themselves, as that
+> > doesn't look too odd. It does match the concept of "guard" in
+> > <linux/cleanup.h>.
+> >
+> > See second attempt below.
+> [..]
 > 
-> Both the boolean ARCH_HAS_CC_CAN_LINK and the string ARCH_USERFLAGS need
-> to be implemented as kconfig does not allow the reuse of string options.
+> I finally got around baking this into a renamed series, that now calls
+> it "Context Analysis" - here's a preview:
+> https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
 > 
-> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> As for when we should give this v4 another try: I'm 50/50 on sending
+> this now vs. waiting for final Clang 22 to be released (~March 2026).
+> 
+> Preferences?
 
-Modulo Nicolas's existing comment about CONFIG_ARCH_USERPROGS_CFLAGS:
+For the record, I can continue to upload clang snapshots for testing and
+validating this plus the sooner this hits a tree that goes into -next,
+the sooner the ClangBuiltLinux infrastructure can start testing it. I
+assume there will not need to be many compiler side fixes but if
+__counted_by has shown us anything, it is that getting this stuff
+deployed and into the hands of people who want to use it is the only
+real way to find corner cases to address. No strong objection from me if
+you want to wait for clang-22 to actually be released though for more
+access.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-> ---
->  Makefile     | 13 +++++++++++--
->  init/Kconfig |  4 ++++
->  2 files changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 17cfa11ca7163aa3297101ceb3c9e85f4878f12d..26e5bca534e27034c355939bca4c90db435ecdbd 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1134,8 +1134,17 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
->  LDFLAGS_vmlinux	+= --emit-relocs --discard-none
->  endif
->  
-> -# Align the bit size of userspace programs with the kernel
-> -USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
-> +# Align the architecture of userspace programs with the kernel
-> +USERFLAGS_FROM_KERNEL := --target=%
-> +
-> +ifdef CONFIG_ARCH_USERPROGS_CFLAGS
-> +KBUILD_USERCFLAGS += $(CONFIG_ARCH_USERFLAGS)
-> +KBUILD_USERLDFLAGS += $(CONFIG_ARCH_USERFLAGS)
-> +else
-> +# If not overridden also inherit the bit size
-> +USERFLAGS_FROM_KERNEL += -m32 -m64
-> +endif
-> +
->  KBUILD_USERCFLAGS  += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
->  KBUILD_USERLDFLAGS += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
->  
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 7b722e714d5c5a0580467914b226dc0700ec0797..4a2ae3cfbf26525a60936d9b29a74ef4319ba3a5 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -82,8 +82,12 @@ config RUSTC_LLVM_VERSION
->  	int
->  	default $(rustc-llvm-version)
->  
-> +config ARCH_HAS_CC_CAN_LINK
-> +	bool
-> +
->  config CC_CAN_LINK
->  	bool
-> +	default ARCH_CC_CAN_LINK if ARCH_HAS_CC_CAN_LINK
->  	default $(cc_can_link_user,$(m64-flag)) if 64BIT
->  	default $(cc_can_link_user,$(m32-flag))
->  
-> 
-> -- 
-> 2.51.0
-> 
+Cheers,
+Nathan
 
