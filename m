@@ -1,128 +1,165 @@
-Return-Path: <linux-kbuild+bounces-9639-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9640-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C197C5FF3E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Nov 2025 04:17:01 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D24C6075A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Nov 2025 15:31:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D9BAD35E9FB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Nov 2025 03:17:00 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F00C135E973
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Nov 2025 14:31:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911371E3787;
-	Sat, 15 Nov 2025 03:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gzM3zeP5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5EC2D9EF8;
+	Sat, 15 Nov 2025 14:31:36 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B30219EED3
-	for <linux-kbuild@vger.kernel.org>; Sat, 15 Nov 2025 03:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CA0296BC3
+	for <linux-kbuild@vger.kernel.org>; Sat, 15 Nov 2025 14:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763176615; cv=none; b=ZXlK6RX3588ecG9p9DYzxnGmVy2F1dzdHzI8Ya4/yl4nerJGApbtYIetU39On2DpHajhSc2nuOPv8BaPEXIV0hi8HAVDi0v8dBRnvQQIaZj8BIzkwxHT+STi+qetG4PgQ0Xq2qG8fHWckI+eYortMXuGFFOHaAF2bUyhLEPTO+M=
+	t=1763217096; cv=none; b=fEsJT2K81eNAQYd8li+UKf0Oz7cy2jHqztDlT9sbopVd1A1oU7/5MWJWDs2T80otDkvNEruexDQpqroUdkq8D/Wu8gItDBuWWCFZUS8MArnRsgYIh8XGPuhAnFeoJlqHlpiZW68IoaqcmcHCIQ1QK+QLoO3G01VI8N6lDEqA3Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763176615; c=relaxed/simple;
-	bh=1dM7txdnL3WwXxhzg0NfITbWJawqUJn8AxOVuQOmSOA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bqIoGndWKOU9c2yZzIps48+QEu4xhMEHUKjwQtOLKzwsRMFBZyWhFs+f2jZS7davbDbENW7b7mvVqnYBIwKjOAeDHyVrHhEBR3vFGAKr6/5qVCufHehuLN6kLSelVq3UVode17+iB/wNNWPIUT1ZpYVWTBkZxHnFjLUR5cWE1MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gzM3zeP5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C0CC19421
-	for <linux-kbuild@vger.kernel.org>; Sat, 15 Nov 2025 03:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763176615;
-	bh=1dM7txdnL3WwXxhzg0NfITbWJawqUJn8AxOVuQOmSOA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gzM3zeP5FIrXkPRuKUDq0lbVTzb3+XfJowk7C28SobZejzXWN83pXJEcyP4cRgB1f
-	 dLzKFoPZ3octPecz1SMSWDH8nHJvzNfXENC3F1yAnCMPP2+Lu33dSvEADZWHigo6HP
-	 FX7gf5H3uVur7vI7YK+rnT8AS0H8jzebkxI8WAXvIeSvK8Uyre4RTbMs/fCCMPSk6t
-	 WTgALwDvLQ9dDGeEnhR6p6ypXYVRAF3bL9syz5UR4w25zcc99yA0hbY6o+xRCTEfXV
-	 QEntL7cSSUzWtdBy9PUvqkczBTDH9p2f37yXcVSi0eqcSYlqWObC3hRGvFbzTybSaN
-	 pM6myGQs8xcpQ==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64165cd689eso6020619a12.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 14 Nov 2025 19:16:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVHnjPVhJpEvt+QabZ/qGkVDtzQyj0ojJTDikinwCa+H/J2hMi6Ew86e1Bf15OGDXS66s/cbAKm4wDUc9A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/W2WjpHtp9F7R46TM8rIQlsP53Gey+3SpoNT4F3iybf6ewBrN
-	jBhIg3vo3mwNHs+w/lxF8aq4B3v7PeQ+z0j6E+6uOFt2Lq0dEawk9mEQjgeAd/Y8r4PUxWEaA0T
-	ERYhpDsqwAiIYrETXx8aWBO9CGKrTJsE=
-X-Google-Smtp-Source: AGHT+IEhCFcB8Sc5IPBxNenAIJu3Cub21VKbayDOKy8qEqMDOguZ4v0qRe+zt91ixvviR/N5Gw9ABrYXgf7ej1GR6n4=
-X-Received: by 2002:a17:907:94cb:b0:b72:84bd:88f3 with SMTP id
- a640c23a62f3a-b73658ae241mr667286066b.11.1763176613598; Fri, 14 Nov 2025
- 19:16:53 -0800 (PST)
+	s=arc-20240116; t=1763217096; c=relaxed/simple;
+	bh=rH2mmmw2NQnHWrzH+7KshY2pip4EbGFdE6Q7uHk65B0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YaeAKJ4GZAugmUCibmJznk39CHXKEI7faNb7JaGwMvw9axWHEg2N9id5WYzESZMqN23X8tPBC/C7D9ZIdf3lp279t2yf/pyed/iUhc6iwW4m6Mx1mWZ7G5+O9QIEle6l++M/NKEbRWkfzbWxE4clee6+rxsp+JV0f2+7U+FTZt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1vKHJJ-0007iq-MR; Sat, 15 Nov 2025 15:31:29 +0100
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1vKHJI-000bLu-0r;
+	Sat, 15 Nov 2025 15:31:28 +0100
+Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
+	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1vKHJI-0000000HHrX-0pY6;
+	Sat, 15 Nov 2025 15:31:28 +0100
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Date: Sat, 15 Nov 2025 15:21:51 +0100
+Subject: [PATCH] kbuild: add target to build a cpio containing modules
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <jxfb5a2c2qber623l2gwewirwod54bbgfnvt7t7f3jah2ea33g@2uyhy3auzmpx>
- <d9f3352a-1c1f-464a-a8fd-741cd96b5f8e@loongson.cn> <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
- <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn> <CAAhV-H5ZSTFDxvm-W1CrgEoQ5d_jw5yVsfetQ_J_qL5pqLtzgg@mail.gmail.com>
- <CAMj1kXGk0udgM67wrWqahqK8H0uE8emQj51SmJey+7fE-FTjdA@mail.gmail.com>
- <CAAhV-H4c=vdNWO0v_mYL2xZ9FYjDyRDvt6f_kV4d8Bh=CRJniQ@mail.gmail.com>
- <CAMj1kXEaxxcWTTANWeEMNjYDymdL5Fxy2B=XBF4RGtteEkfinw@mail.gmail.com>
- <421c08e1-255b-447b-b5e3-ee6544fbefd2@loongson.cn> <CAAhV-H5KsFShDJ_Cxu+1_ces8oojn8+S-7PLmE7aUj8gX5_GEw@mail.gmail.com>
- <32s3lvzfu6jkyho7qenrqbsm5wkgjnzn2imdp6tfwycmyxpzgu@kg5367uxmxii>
-In-Reply-To: <32s3lvzfu6jkyho7qenrqbsm5wkgjnzn2imdp6tfwycmyxpzgu@kg5367uxmxii>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 15 Nov 2025 11:16:42 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H47fzaKcMhgLWWOTxB+srBsg85-eK0LW1vQXQnvq32-+w@mail.gmail.com>
-X-Gm-Features: AWmQ_bk1bIi26jaM84_oT28vQ-tc26Bh0XF8H8WDo5TPEOpn0O8V--WlioeejxY
-Message-ID: <CAAhV-H47fzaKcMhgLWWOTxB+srBsg85-eK0LW1vQXQnvq32-+w@mail.gmail.com>
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-To: Josh Poimboeuf <jpoimboe@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, 
-	"Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>, Ard Biesheuvel <ardb@kernel.org>, loongarch@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAH6MGGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQ0NT3eSCzHzd3PyU0pzUYt2C7HRdc4MUC9NEM0sLS6MkJaC2gqLUtMw
+ KsJHRsbW1AMG3FwhiAAAA
+X-Change-ID: 20251115-cpio-modules-pkg-70d85a69892b
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Simon Glass <sjg@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Ahmad Fatoum <a.fatoum@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 12, 2025 at 2:00=E2=80=AFAM Josh Poimboeuf <jpoimboe@kernel.org=
-> wrote:
->
-> On Mon, Nov 10, 2025 at 03:00:00PM +0800, Huacai Chen wrote:
-> > On Mon, Nov 10, 2025 at 9:19=E2=80=AFAM Tiezhu Yang <yangtiezhu@loongso=
-n.cn> wrote:
-> > > If I understand correctly, I should modify this patch to remove the
-> > > changes of arm and riscv for now, do the changes only when there is
-> > > a real problem or requirement some day, right? If no more comments,
-> > > I will send v3 later.
-> >
-> > Now everyone involved agrees that the efistub code is correct, so the
-> > proper solution is to fix the compiler.
->
-> Hm?  I don't see how it's a compiler bug.  It's really just an objtool
-> limitation.
->
-> > Changing efistub code and changing objtool (ignore __efistub prefix)
-> > are both workarounds, but I think changing objtool is a little more
-> > reasonable. Maybe Josh has different ideas?
->
-> I thought the conversation had converged on what Tiezhu mentioned above,
-> which is to skip objtool on libstub for loongarch, but leave the other
-> arches alone.  That way objtool behavior is consistent between loongarch
-> and x86, and objtool doesn't need to ignore any prefixes.
->
-> So basically, the v2 patch minus the arm64/riscv changes.
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-Hi, ARM64 and RISC-V maintainers,
+Add a new package target to build a cpio archive containing the kernel
+modules. This is particularly useful to supplement an existing initramfs
+with the kernel modules so that the root filesystem can be started with
+all needed kernel modules without modifying it.
 
-Would you mind that this patch modifies the three architectures
-together (they are exactly the same style now)?
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+Co-developed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+ .gitignore               |  5 +++++
+ Makefile                 |  2 +-
+ scripts/Makefile.package | 17 +++++++++++++++++
+ 3 files changed, 23 insertions(+), 1 deletion(-)
 
-Madhavan is the author of ARM64's objtool, I think your opinion is
-also very important.
+diff --git a/.gitignore b/.gitignore
+index 86a1ba0d90353962183b47c0c657ec877e5b2f9f..764d115400d90f0904b8f60ea8851a7860c16411 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -96,6 +96,11 @@ modules.order
+ #
+ /tar-install/
+ 
++#
++# modules directory (make cpio-modules-pkg)
++#
++/modules-install/
++
+ #
+ # pacman files (make pacman-pkg)
+ #
+diff --git a/Makefile b/Makefile
+index fb4389aa5d5f1776f7bb5988102ed54f92491de7..19c7900d02ed5eee06f00820c138591b42e895e1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1583,7 +1583,7 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
+ # Directories & files removed with 'make mrproper'
+ MRPROPER_FILES += include/config include/generated          \
+ 		  arch/$(SRCARCH)/include/generated .objdiff \
+-		  debian snap tar-install PKGBUILD pacman \
++		  debian snap tar-install modules-install PKGBUILD pacman \
+ 		  .config .config.old .version \
+ 		  Module.symvers \
+ 		  certs/signing_key.pem \
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 74bcb9e7f7a4516473481468a0fcf700c3bead33..20eec9e2dec4dda3fa0ef64a15b80dccdcb55f90 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -189,6 +189,22 @@ tar-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar
+ tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
+ 	@:
+ 
++modules-install: FORCE
++	$(Q)$(MAKE) -f $(srctree)/Makefile
++	$(Q)rm -rf $@
++	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
++
++quiet_cmd_cpio = CPIO    $@
++      cmd_cpio = $(srctree)/usr/gen_initramfs.sh $< > $@
++
++modules-$(KERNELRELEASE)-$(ARCH).cpio: modules-install
++	$(Q)$(MAKE) -f $(srctree)/Makefile $(build)=usr cpio-data= usr/gen_init_cpio
++	$(call cmd,cpio)
++
++PHONY += cpio-modules-pkg
++cpio-modules-pkg: modules-$(KERNELRELEASE)-$(ARCH).cpio
++	@:
++
+ # perf-tar*-src-pkg - generate a source tarball with perf source
+ # ---------------------------------------------------------------------------
+ 
+@@ -245,6 +261,7 @@ help:
+ 	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
+ 	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
+ 	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
++	@echo '  cpio-modules-pkg    - Build the kernel modules as cpio archive'
+ 	@echo '  perf-tar-src-pkg    - Build the perf source tarball with no compression'
+ 	@echo '  perf-targz-src-pkg  - Build the perf source tarball with gzip compression'
+ 	@echo '  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression'
 
+---
+base-commit: e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
+change-id: 20251115-cpio-modules-pkg-70d85a69892b
 
-Huacai
+Best regards,
+-- 
+Ahmad Fatoum <a.fatoum@pengutronix.de>
 
->
-> --
-> Josh
 
