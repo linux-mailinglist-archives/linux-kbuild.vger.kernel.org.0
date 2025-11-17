@@ -1,71 +1,59 @@
-Return-Path: <linux-kbuild+bounces-9648-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9649-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA79FC63DA4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Nov 2025 12:38:33 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE55C659D0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Nov 2025 18:52:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 526F234E537
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Nov 2025 11:33:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 210AF4E6BDE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Nov 2025 17:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D46F320CB5;
-	Mon, 17 Nov 2025 11:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A214308F33;
+	Mon, 17 Nov 2025 17:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0iH7zKi"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="oQBqUjSf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF4128640B;
-	Mon, 17 Nov 2025 11:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9327530749E
+	for <linux-kbuild@vger.kernel.org>; Mon, 17 Nov 2025 17:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763379188; cv=none; b=U7SQP5bK1n/J4QZlT36e9NubCG99fJpYFIjkoblcwu0f6opDhEJVzGulL3yvx16aeYrif7H2D6JLexrP1oWIwugpHOfZQ4urfF3bzsvwRmSi6HwlTLGMseM9bGdrU6GMCoIwEYEHKyonuW9JtqUDMQBtXf9Y0PiLMnBpMoZ6RCQ=
+	t=1763401899; cv=none; b=gW1thofipaR/LMQpEqKPzHgHMAH+3PIYA1hYzISDe2DmLyyO6cKb7kOtsyOsGPQWWpNYMXel3Y5zcZMLRAk1wq2h/1KA/ctm4N7lj/B8oee+mzn0UPZGwhw8m7bvbMdonyyMScr6BlpQiMCJUD5D1qpYXtpt/NnXOCtH/cZlxQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763379188; c=relaxed/simple;
-	bh=7c7c0+Y2B/04JUOEwi1O55W3Y0JytX6yoqbHe2m//uE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=acBKtAYy2zwjbdePSx68JEZJnA3lbuwcZWlmxjaXtf9GWvV26ty9xbyqww6K5vCd2OnERU+dPjHsomibhV8ABeZgSPsnmBqxfYIf2PaI6rwJPqObBP1sUuiwia70cwGnGPBumTE3PaDYqRQcZQzkdpUTWEzEN6NNAJ8YzVVhqew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y0iH7zKi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85FFEC4CEFB;
-	Mon, 17 Nov 2025 11:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763379187;
-	bh=7c7c0+Y2B/04JUOEwi1O55W3Y0JytX6yoqbHe2m//uE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y0iH7zKi3zR5ITzvZgCo9KeJonwjYrYbonjxhYepOF3+xHZpaS3i9D0kEds9bBtBm
-	 tJVhUeo2NjA866SWv2uwt3B84zpsGt+rFkub8wba2n8v951OWWCU4Ddn/CRqhFholS
-	 t3JB2pOs8OAnnfo4XkYh5ksbvyG8Z2wOlp8SyxiDt8FhWpp/46kJIUxDt07hIkoRYi
-	 XHgQ9t+WpdVXZLdyBUt/JFVk0g3dfRlmreSb7STQNAVkigTmeYh/PoCPatGNe790Wb
-	 Fc0XZYMC40b+xXj9qVj/Dhc27kCOKFThiDS6ouhgXyf3oZzLgiJvVxpO1KCY61s7In
-	 tDypGsaVFETGQ==
-Date: Mon, 17 Nov 2025 11:33:01 +0000
-From: Will Deacon <will@kernel.org>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	"Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>,
-	Tiezhu Yang <yangtiezhu@loongson.cn>,
-	Ard Biesheuvel <ardb@kernel.org>, loongarch@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
-Message-ID: <aRsH7RTpAah4g5Xr@willie-the-truck>
-References: <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
- <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn>
- <CAAhV-H5ZSTFDxvm-W1CrgEoQ5d_jw5yVsfetQ_J_qL5pqLtzgg@mail.gmail.com>
- <CAMj1kXGk0udgM67wrWqahqK8H0uE8emQj51SmJey+7fE-FTjdA@mail.gmail.com>
- <CAAhV-H4c=vdNWO0v_mYL2xZ9FYjDyRDvt6f_kV4d8Bh=CRJniQ@mail.gmail.com>
- <CAMj1kXEaxxcWTTANWeEMNjYDymdL5Fxy2B=XBF4RGtteEkfinw@mail.gmail.com>
- <421c08e1-255b-447b-b5e3-ee6544fbefd2@loongson.cn>
- <CAAhV-H5KsFShDJ_Cxu+1_ces8oojn8+S-7PLmE7aUj8gX5_GEw@mail.gmail.com>
- <32s3lvzfu6jkyho7qenrqbsm5wkgjnzn2imdp6tfwycmyxpzgu@kg5367uxmxii>
- <CAAhV-H47fzaKcMhgLWWOTxB+srBsg85-eK0LW1vQXQnvq32-+w@mail.gmail.com>
+	s=arc-20240116; t=1763401899; c=relaxed/simple;
+	bh=dvBUOLItidwfrNQEf4mN9DTt1GLDuvVSAWBtWZ+I3h8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eT12OMsg5GmqF6qFJTvn8mHcXkD+yAD0wf4kZu2OW+aIRGkATYy+oR2XclyIndVBoo2hzrRDr59Wa0vOaChGgsU1AND2ym9LvFRxjU5pLi23Tq304YTAVIbJElgDQRBhJg3IgbobExmLzSU0dSQXaS/746zmXUgzBmmJh5aa9Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=oQBqUjSf; arc=none smtp.client-ip=85.9.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763401880; x=1763661080;
+	bh=8JHRGFc+rtU8gXb3Jyiztx9jQrUCtKtMFdopnkmvtTw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=oQBqUjSfF7G2kJQrbbupyMiiL3urxY+IOjodFvyRKJ7BeHY/Dcl/doiaaDctJYfkJ
+	 neWOwaOGLUAaNvOOA9Lnkn/V7Zxs46ZLspzWPnHWqsqxS/d+3JQ28pmHZyaP3ROCiP
+	 lPORmcpqbEa/NLboQDALyeNMJy7OAFr681dFCiyvFWO465XYCDffdIMULNoQdGBZG5
+	 LqsCEq8v1qizeghermjOZkDdSKpmudU0KEGcYzC75rPAJEG8nR1gQFIh5UjtYTVp5L
+	 Abt+RNltqCl/40foE++yjpzIs3zTJ+mCRrvbsrD50yTsJZVBuZlmevHhrdCKoaSwyO
+	 yZDKI/Aa1I0hg==
+Date: Mon, 17 Nov 2025 17:51:13 +0000
+To: Alexander Potapenko <glider@google.com>
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
+	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, stable@vger.kernel.org, Baoquan He <bhe@redhat.com>
+Subject: Re: [PATCH v6 01/18] kasan: Unpoison pcpu chunks with base address tag
+Message-ID: <ha5gz3hfjtfrmldzbscrbbtptecyqkwzkwdkjxnc2puqzquurl@nthv7frvqatw>
+In-Reply-To: <CAG_fn=Wj9rB0jHKT3QKjZsPYce1JFcb1e72QBOBP52Ybs3_qgQ@mail.gmail.com>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <fbce40a59b0a22a5735cb6e9b95c5a45a34b23cb.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=Wj9rB0jHKT3QKjZsPYce1JFcb1e72QBOBP52Ybs3_qgQ@mail.gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 7b84ae9accb4bc7551e617e5e7661cf28649358a
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -73,50 +61,58 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAhV-H47fzaKcMhgLWWOTxB+srBsg85-eK0LW1vQXQnvq32-+w@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 15, 2025 at 11:16:42AM +0800, Huacai Chen wrote:
-> On Wed, Nov 12, 2025 at 2:00 AM Josh Poimboeuf <jpoimboe@kernel.org> wrote:
-> >
-> > On Mon, Nov 10, 2025 at 03:00:00PM +0800, Huacai Chen wrote:
-> > > On Mon, Nov 10, 2025 at 9:19 AM Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
-> > > > If I understand correctly, I should modify this patch to remove the
-> > > > changes of arm and riscv for now, do the changes only when there is
-> > > > a real problem or requirement some day, right? If no more comments,
-> > > > I will send v3 later.
-> > >
-> > > Now everyone involved agrees that the efistub code is correct, so the
-> > > proper solution is to fix the compiler.
-> >
-> > Hm?  I don't see how it's a compiler bug.  It's really just an objtool
-> > limitation.
-> >
-> > > Changing efistub code and changing objtool (ignore __efistub prefix)
-> > > are both workarounds, but I think changing objtool is a little more
-> > > reasonable. Maybe Josh has different ideas?
-> >
-> > I thought the conversation had converged on what Tiezhu mentioned above,
-> > which is to skip objtool on libstub for loongarch, but leave the other
-> > arches alone.  That way objtool behavior is consistent between loongarch
-> > and x86, and objtool doesn't need to ignore any prefixes.
-> >
-> > So basically, the v2 patch minus the arm64/riscv changes.
-> 
-> Hi, ARM64 and RISC-V maintainers,
-> 
-> Would you mind that this patch modifies the three architectures
-> together (they are exactly the same style now)?
-> 
-> Madhavan is the author of ARM64's objtool, I think your opinion is
-> also very important.
+On 2025-11-10 at 18:32:21 +0100, Alexander Potapenko wrote:
+>On Wed, Oct 29, 2025 at 8:05=E2=80=AFPM Maciej Wieczor-Retman
+><m.wieczorretman@pm.me> wrote:
+>>
+>> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>>
+>> The problem presented here is related to NUMA systems and tag-based
+>> KASAN modes - software and hardware ones. It can be explained in the
+>> following points:
+>>
+>>         1. There can be more than one virtual memory chunk.
+>>         2. Chunk's base address has a tag.
+>>         3. The base address points at the first chunk and thus inherits
+>>            the tag of the first chunk.
+>>         4. The subsequent chunks will be accessed with the tag from the
+>>            first chunk.
+>>         5. Thus, the subsequent chunks need to have their tag set to
+>>            match that of the first chunk.
+>>
+>> Refactor code by moving it into a helper in preparation for the actual
+>> fix.
+>
+>The code in the helper function:
+>
+>> +void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+>> +{
+>> +       int area;
+>> +
+>> +       for (area =3D 0 ; area < nr_vms ; area++) {
+>> +               kasan_poison(vms[area]->addr, vms[area]->size,
+>> +                            arch_kasan_get_tag(vms[area]->addr), false)=
+;
+>> +       }
+>> +}
+>
+>is different from what was originally called:
+>
+>> -       for (area =3D 0; area < nr_vms; area++)
+>> -               vms[area]->addr =3D kasan_unpoison_vmalloc(vms[area]->ad=
+dr,
+>> -                               vms[area]->size, KASAN_VMALLOC_PROT_NORM=
+AL);
+>> +       kasan_unpoison_vmap_areas(vms, nr_vms);
+>
+>, so the patch description is a bit misleading.
+>
+>Please also ensure you fix the errors reported by kbuild test robot.
 
-arm64 doesn't (yet) use objtool.
+Thanks for looking at the series! Yes, I'll fix these two patches, I've
+split them off into a separate 'fixes' series and I'm trying to make
+sure it's an acutal refactor this time.
 
-I defer to Ard on anything relating to the arm64 efistub. Reading the
-start of this thread, it doesn't look like he's convinced and I'm not
-surprised if it's purely an issue with objtool.
-
-Will
 
