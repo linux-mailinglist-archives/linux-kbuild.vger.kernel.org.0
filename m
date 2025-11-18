@@ -1,146 +1,204 @@
-Return-Path: <linux-kbuild+bounces-9665-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9664-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF663C6A24C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:56:56 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2064C69F82
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:30:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8EFAE4F246D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 14:50:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTPS id 3A79728C49
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 14:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EC893AC39;
-	Tue, 18 Nov 2025 14:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 567C21DF97F;
+	Tue, 18 Nov 2025 14:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Lq4z7uIo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 945C22D9EC7
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 14:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BC235A959
+	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 14:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477436; cv=none; b=WR6/F4p8XgrpUuRl/zrAjLFMw7hpqC9ai4lp4Hxwaohc0nc9IjAILkvx2gW+Jt44saJD+93JT5L7U6yBr5LO3rTubJy2qOZMXfO64Byj4q0xoj0qPgZNyL6GZlPXOQMwOIed1i17yGNqNtFF+ftBz2ECTWQpV+6Q5KGi0DXO8aA=
+	t=1763476206; cv=none; b=rqZ+Dqr7aTQCuDtiGBKlsInieGaUpjMHMeCmn1+HvyCFhyfCRmfY7FVhVUZTZXq5d+m3Xir2MwepukyltHqEUTrZFJ/cZ9OkuiDIl8M3NV/R6SuC1TtO9xnjLLSSp/0LYW/aor9TJLFWg94tZb4xIp+tIGUa6YCe/GZX1sctKiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477436; c=relaxed/simple;
-	bh=rZkmb7zFofZfvDjvYK75CVHmmfpZ76lCH7TYpvuCr9k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d9GvP9p5s6+2IV9jDCfrajp3Y+frFA6xa5LclqDkwNIteCn6xLFJmInhkUR6RUWo/J2DZnP/QyAzCaHYliYLFV0UA2Qjv30KfLLrKefyj5Vt4jQumcnK/o+IPRUtqTTUoS7RKHLkIOYv3KLiFWkOnzlYBVtd6N5iklIfL29p+5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4d9n2N6Btgz9sSL;
-	Tue, 18 Nov 2025 15:25:16 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ycg5OWnpwCW8; Tue, 18 Nov 2025 15:25:16 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4d9n2N5KGnz9sRg;
-	Tue, 18 Nov 2025 15:25:16 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 90FBD8B769;
-	Tue, 18 Nov 2025 15:25:16 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id Qafumh8Gab3i; Tue, 18 Nov 2025 15:25:16 +0100 (CET)
-Received: from [192.168.202.221] (unknown [192.168.202.221])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id DCE948B763;
-	Tue, 18 Nov 2025 15:25:15 +0100 (CET)
-Message-ID: <748c8f8c-23ed-4589-9521-a948cce40922@csgroup.eu>
-Date: Tue, 18 Nov 2025 15:25:14 +0100
+	s=arc-20240116; t=1763476206; c=relaxed/simple;
+	bh=812u0/kE8U6KIifXA4o4gTvauRi/MWbHZ1WwZdLX1Rs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U7eBykUMRwC5oe5zz9g4tKGCPd0IRUDWZWOeRYfynNAH05IDWV/G2pMJn2dZgFheyRslc5W9LUqpJo8UGDCg0yaJVgRPzr6YBbGPQdAawQ/wCoTmprVS2Yy9kiZKvr730hSrogA1j17LfOOp25H+sCPmVTCRkc+7pFUVCtmd9JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Lq4z7uIo; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5943b62c47dso5538720e87.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 06:30:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763476202; x=1764081002; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JPuRb3+haxxFSoGOZ/Vv3ClCGfszWqWGAZKDKrczFMg=;
+        b=Lq4z7uIoHwX+T0oZpnQeE7Sgq9N1okHHPsxFDCimKWGvAYYyd1L3RkOxAFX6qqwgAK
+         n7bdZ81LqGV1aeevTqZ8wYxo8zm2fcmodj9xNDXKeQJspHWeAezhpEaV3ItXy5cPjLX4
+         6lleapZWGYLkpOGJxS/+B70xq3sqzhS76pnHvh3KpwGhTjAk0fG5Bfaevs8HoAynZMpF
+         6Y9f9b3Bef5JuVIba38qaCDqJwveVXQ19CNrRhMaBrwVBCOxUcjdGZbK08iPRuO8sCQ+
+         nlyYi9cr1Cu3HHRMrga2WbosxHKUD2ZvZJFSImC9bw3VIP1RTXdGahqstC5GX3Xx94Lo
+         LSYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763476202; x=1764081002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JPuRb3+haxxFSoGOZ/Vv3ClCGfszWqWGAZKDKrczFMg=;
+        b=ngxI5t/6U47q8LBItZyYgV5PfkG1rfKtseBiTu3Q10W5AtLgsWrSTdikezu8iyf0V0
+         FfCODL+g/CLAoL+Ux1W2obKDwrHe+s77Nw9Da1HOUNR36DoJDzxBp1qoA+nkT3+ALqjT
+         clBoneiR0Wo4vqTMEUIVe3HN8WvrQHtId6qtn4Y5PSuqeRxoMly9Wd0onUq2HIvTUuxI
+         gzmnQQvpitGzaHRc+vlmJJ741af4QiqBFngZT1N2Rb1mmAM8LMHvET1FLCjghQJ28+HX
+         UdH4fdnNwJ5MBvUz+k1wI49GRRubjaBo5uKkjQlVDjy1gAqObwOwlhC7yRhKtsUsIb79
+         MGpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUtMzOm3s3IFyY5p0rPK/W1rBZ8VpIOlHpDBNkUaP8wx3aF3UUWu5mUzK6kdtBNQgGVyuE4DOFPAq1nZg8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBY5N1ptiQsktOsrzkJCPxO+D1qrlF9iWFko0vXRwhbzFGgisS
+	wBEIU8eULA8T6FIdxnGEW1aCPTpbw2V5uwLo1UF1E+WUmRSbx2SGC+G3j7LX4+V4XLojDn/pYqn
+	e1i42UTjHotOlJVdvAHQoN3kFpFhpKSflJP6xGnSibQ==
+X-Gm-Gg: ASbGncvSZ0+NZCEBMgRbpRXtBgl9r3JbAX13ZBUDUB3TSolaY6giTWKuMwaFuQDLvuK
+	ySTBqDgqsk/IL+t5WvLvoIp7iSuvhIJzWhqXxxE0g14tewGEebhctfMhkI5uAhsKXD3vIFOqUOo
+	rzeabEfDIHFb/b334oh3XSzWCppTEQsash3uwQMvFG6Vvg1CEbT9fuAMI+r4T2TRhHKj8Thl9Zz
+	xBLHEaZu60MGqCRIb1ClwXK8BUVwwm6BgEKA8oOEKudmUyr1xn3BXfRCI/UluZa+D/rJpQL2LTV
+	qTAZyBHawqAqO+B9rnRppCsunr2jAg8BQuYg
+X-Google-Smtp-Source: AGHT+IG/8x599leRbcc55AKG5x7ewC54AAGqLK2r1ZPyGFLtbdnyvhRmFu7yQc8cTfZdSXpR6fRtj7AIKLBehJrw2m0=
+X-Received: by 2002:a05:6512:3ca2:b0:57a:2be1:d779 with SMTP id
+ 2adb3069b0e04-595841febd2mr6716947e87.31.1763476201587; Tue, 18 Nov 2025
+ 06:30:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] modpost: amend ppc symnames for -Os build
-To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>,
- linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>
-References: <20251118.131735.802732108462696577.rene@exactco.de>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Content-Language: fr-FR
-In-Reply-To: <20251118.131735.802732108462696577.rene@exactco.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com> <20251112-pci-m2-e-v1-8-97413d6bf824@oss.qualcomm.com>
+In-Reply-To: <20251112-pci-m2-e-v1-8-97413d6bf824@oss.qualcomm.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 18 Nov 2025 15:29:49 +0100
+X-Gm-Features: AWmQ_bnS7J2LiofnEnjv4l_cFHHTAIWcbKZPMExzLrGKBD6vTSaTLBGi1oU52Ic
+Message-ID: <CAMRc=MdRw+spjN0ySJ7We_GJ8GaDU2Nb4unaxcnr2ZLjLOeSrA@mail.gmail.com>
+Subject: Re: [PATCH 8/9] Bluetooth: hci_qca: Add support for WCN7850 PCIe M.2 card
+To: manivannan.sadhasivam@oss.qualcomm.com
+Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, linux-serial@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGksDQoNCkxlIDE4LzExLzIwMjUgw6AgMTM6MTcsIFJlbsOpIFJlYmUgYSDDqWNyaXTCoDoN
-Cj4gW1ZvdXMgbmUgcmVjZXZleiBwYXMgc291dmVudCBkZSBjb3VycmllcnMgZGUgcmVuZUBl
-eGFjdGNvLmRlLiBEw6ljb3V2cmV6IHBvdXJxdW9pIGNlY2kgZXN0IGltcG9ydGFudCDDoCBo
-dHRwczovL2FrYS5tcy9MZWFybkFib3V0U2VuZGVySWRlbnRpZmljYXRpb24gXQ0KPiANCj4g
-QnVpbGRpbmcgYSBzaXplIG9wdGltaXplZCBwcGMga2VybmVsLCBnY2MgZW1taXRzIG1vcmUg
-c3ltYm9scyB0aGFuDQo+IGN1cnJlbnRseSBhbGxvd2VkIGxpc3RlZCBpbiBzY3JpcHRzL21v
-ZC9tb2Rwb3N0LmMuIEFkZCB0byBmaXg6DQoNCllvdSBzaG91bGQgc2F5IHdoZW4gdGhlIHBy
-b2JsZW0gc3RhcnRlZCB0byBoYXBwZW4sIGFuZCB3aGF0IHRob3NlIA0KZnVuY3Rpb25zIGFy
-ZSBzdXBwb3NlZCB0byBzYXZlIGFuZCByZXN0b3JlLg0KDQpBcyBhbiBleGVtcGxlIHNlZSBj
-b21taXQgOGZlOWM5M2U3NDUzICgicG93ZXJwYzogQWRkIHZyIHNhdmUvcmVzdG9yZSANCmZ1
-bmN0aW9ucyIpDQoNCkFsc28gY29uZmlybSBpdCBpcyBvbmx5IG5lZWRlZCBvbiBwb3dlcnBj
-NjQsIGlmIHNvIG1ha2UgaXQgY2xlYXIgaW4gdGhlIA0KY29tbWl0IG1lc3NhZ2UuDQoNCkNo
-cmlzdG9waGUNCg0KDQo+IA0KPiBNT0RQT1NUIE1vZHVsZS5zeW12ZXJzDQo+IEVSUk9SOiBt
-b2Rwb3N0OiAiX3Jlc3RmcHJfMjAiIFtkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHUua29dIHVuZGVmaW5lZCENCj4gRVJST1I6IG1vZHBvc3Q6ICJfcmVzdGZwcl8yNiIgW2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5rb10gdW5kZWZpbmVkIQ0KPiBFUlJP
-UjogbW9kcG9zdDogIl9yZXN0ZnByXzIyIiBbZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1LmtvXSB1bmRlZmluZWQhDQo+IEVSUk9SOiBtb2Rwb3N0OiAiX3NhdmVncHIxXzI3
-IiBbZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmtvXSB1bmRlZmluZWQhDQo+
-IEVSUk9SOiBtb2Rwb3N0OiAiX3NhdmVncHIxXzI1IiBbZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1LmtvXSB1bmRlZmluZWQhDQo+IEVSUk9SOiBtb2Rwb3N0OiAiX3Jlc3Rm
-cHJfMjgiIFtkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHUua29dIHVuZGVmaW5l
-ZCENCj4gRVJST1I6IG1vZHBvc3Q6ICJfc2F2ZWdwcjFfMjkiIFtkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9hbWRncHUua29dIHVuZGVmaW5lZCENCj4gRVJST1I6IG1vZHBvc3Q6ICJf
-c2F2ZWZwcl8yMCIgW2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5rb10gdW5k
-ZWZpbmVkIQ0KPiBFUlJPUjogbW9kcG9zdDogIl9zYXZlZnByXzIyIiBbZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmtvXSB1bmRlZmluZWQhDQo+IEVSUk9SOiBtb2Rwb3N0
-OiAiX3Jlc3RmcHJfMTUiIFtkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHUua29d
-IHVuZGVmaW5lZCENCj4gV0FSTklORzogbW9kcG9zdDogc3VwcHJlc3NlZCA1NiB1bnJlc29s
-dmVkIHN5bWJvbCB3YXJuaW5ncyBiZWNhdXNlIHRoZXJlIHdlcmUgdG9vIG1hbnkpDQo+IA0K
-PiBTaWduZWQtb2ZmLWJ5OiBSZW7DqSBSZWJlIDxyZW5lQGV4YWN0Y28uZGU+DQo+IA0KPiAt
-LS0NCj4gICBzY3JpcHRzL21vZC9tb2Rwb3N0LmMgfCA0ICsrKysNCj4gICAxIGZpbGUgY2hh
-bmdlZCwgNCBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9tb2Qv
-bW9kcG9zdC5jIGIvc2NyaXB0cy9tb2QvbW9kcG9zdC5jDQo+IGluZGV4IDQ3YzhhYTJhNjkz
-OS4uMTMzZGZhMTYzMDhhIDEwMDY0NA0KPiAtLS0gYS9zY3JpcHRzL21vZC9tb2Rwb3N0LmMN
-Cj4gKysrIGIvc2NyaXB0cy9tb2QvbW9kcG9zdC5jDQo+IEBAIC02MDIsNiArNjAyLDEwIEBA
-IHN0YXRpYyBpbnQgaWdub3JlX3VuZGVmX3N5bWJvbChzdHJ1Y3QgZWxmX2luZm8gKmluZm8s
-IGNvbnN0IGNoYXIgKnN5bW5hbWUpDQo+ICAgICAgICAgICAgICAgICAgLyogU3BlY2lhbCBy
-ZWdpc3RlciBmdW5jdGlvbiBsaW5rZWQgb24gYWxsIG1vZHVsZXMgZHVyaW5nIGZpbmFsIGxp
-bmsgb2YgLmtvICovDQo+ICAgICAgICAgICAgICAgICAgaWYgKHN0cnN0YXJ0cyhzeW1uYW1l
-LCAiX3Jlc3RncHIwXyIpIHx8DQo+ICAgICAgICAgICAgICAgICAgICAgIHN0cnN0YXJ0cyhz
-eW1uYW1lLCAiX3NhdmVncHIwXyIpIHx8DQo+ICsgICAgICAgICAgICAgICAgICAgc3Ryc3Rh
-cnRzKHN5bW5hbWUsICJfcmVzdGdwcjFfIikgfHwNCj4gKyAgICAgICAgICAgICAgICAgICBz
-dHJzdGFydHMoc3ltbmFtZSwgIl9zYXZlZ3ByMV8iKSB8fA0KPiArICAgICAgICAgICAgICAg
-ICAgIHN0cnN0YXJ0cyhzeW1uYW1lLCAiX3Jlc3RmcHJfIikgfHwNCj4gKyAgICAgICAgICAg
-ICAgICAgICBzdHJzdGFydHMoc3ltbmFtZSwgIl9zYXZlZnByXyIpIHx8DQo+ICAgICAgICAg
-ICAgICAgICAgICAgIHN0cnN0YXJ0cyhzeW1uYW1lLCAiX3Jlc3R2cl8iKSB8fA0KPiAgICAg
-ICAgICAgICAgICAgICAgICBzdHJzdGFydHMoc3ltbmFtZSwgIl9zYXZldnJfIikgfHwNCj4g
-ICAgICAgICAgICAgICAgICAgICAgc3RyY21wKHN5bW5hbWUsICIuVE9DLiIpID09IDApDQo+
-IC0tDQo+IDIuNDYuMA0KPiANCj4gLS0NCj4gUmVuw6kgUmViZSwgRXhhY3RDT0RFIEdtYkgs
-IEJlcmxpbiwgR2VybWFueQ0KPiBodHRwczovL2V1cjAxLnNhZmVsaW5rcy5wcm90ZWN0aW9u
-Lm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZleGFjdGNvLmRlJTJGJmRhdGE9MDUl
-N0MwMiU3Q2NocmlzdG9waGUubGVyb3klNDBjc2dyb3VwLmV1JTdDYmRmODFiZWNmZjc2NGIw
-MGQ4YTcwOGRlMjY5YzcxNzYlN0M4Yjg3YWY3ZDg2NDc0ZGM3OGRmNDVmNjlhMjAxMWJiNSU3
-QzAlN0MwJTdDNjM4OTkwNjUxOTU4NjUwMzk3JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5
-SkZiWEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6
-TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRJTNEJTNEJTdDNjAwMDAlN0MlN0MlN0Mm
-c2RhdGE9MkE0aWxxUXUlMkJOeGV5Y0JRVU1GSU42R1ZXM3g0amt3anBJd3dFelZhZzV3JTNE
-JnJlc2VydmVkPTAg4oCiIGh0dHBzOi8vZXVyMDEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0
-bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRnQybGludXguY29tJTJGJmRhdGE9MDUlN0Mw
-MiU3Q2NocmlzdG9waGUubGVyb3klNDBjc2dyb3VwLmV1JTdDYmRmODFiZWNmZjc2NGIwMGQ4
-YTcwOGRlMjY5YzcxNzYlN0M4Yjg3YWY3ZDg2NDc0ZGM3OGRmNDVmNjlhMjAxMWJiNSU3QzAl
-N0MwJTdDNjM4OTkwNjUxOTU4Njc2ODI4JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SkZi
-WEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJ
-c0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRJTNEJTNEJTdDNjAwMDAlN0MlN0MlN0Mmc2Rh
-dGE9NnRvRnhjbnQxNk9XNk5MT0hCSkVBTjBERnkyVVdOWVY3R3haNWhxcHdsUSUzRCZyZXNl
-cnZlZD0wIOKAoiBodHRwczovL2V1cjAxLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2su
-Y29tLz91cmw9aHR0cHMlM0ElMkYlMkZwYXRyZW9uLmNvbSUyRnJlbmVyZWJlJmRhdGE9MDUl
-N0MwMiU3Q2NocmlzdG9waGUubGVyb3klNDBjc2dyb3VwLmV1JTdDYmRmODFiZWNmZjc2NGIw
-MGQ4YTcwOGRlMjY5YzcxNzYlN0M4Yjg3YWY3ZDg2NDc0ZGM3OGRmNDVmNjlhMjAxMWJiNSU3
-QzAlN0MwJTdDNjM4OTkwNjUxOTU4NjkzNDgyJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5
-SkZiWEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6
-TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRJTNEJTNEJTdDNjAwMDAlN0MlN0MlN0Mm
-c2RhdGE9dTFqNU9HQ2JWd2NFRHdsZncwQ1poVEU3NVN5JTJCSmlUNFZBM09QZVNlYlg0JTNE
-JnJlc2VydmVkPTANCg0K
+On Wed, Nov 12, 2025 at 3:45=E2=80=AFPM Manivannan Sadhasivam via B4 Relay
+<devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
+>
+> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+>
+> The WCN7850 PCIe M.2 card connected to the UART controller exposes the
+> 'WCN7850' serdev device and is controlled using the pwrseq framework.
+>
+> Hence, add support for it in the driver. It reuses the existing
+> 'qca_soc_data_wcn7850' driver data.
+>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.=
+com>
+> ---
+>  drivers/bluetooth/hci_qca.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>
+> diff --git a/drivers/bluetooth/hci_qca.c b/drivers/bluetooth/hci_qca.c
+> index 4cff4d9be3132561ee9bae4ddf2c8ac0bc13ecd7..09bfb3bba93698f496947775b=
+f6b31f2f20279f1 100644
+> --- a/drivers/bluetooth/hci_qca.c
+> +++ b/drivers/bluetooth/hci_qca.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/acpi.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pwrseq/consumer.h>
+> @@ -2344,6 +2345,9 @@ static int qca_serdev_probe(struct serdev_device *s=
+erdev)
+>
+>         qcadev->serdev_hu.serdev =3D serdev;
+>         data =3D device_get_match_data(&serdev->dev);
+> +       if (!data && serdev->id)
+> +               data =3D (const struct qca_device_data *) serdev->id->dri=
+ver_data;
+> +
+>         serdev_device_set_drvdata(serdev, qcadev);
+>         device_property_read_string_array(&serdev->dev, "firmware-name",
+>                                          qcadev->firmware_name, ARRAY_SIZ=
+E(qcadev->firmware_name));
+> @@ -2384,6 +2388,15 @@ static int qca_serdev_probe(struct serdev_device *=
+serdev)
+>         case QCA_WCN6855:
+>         case QCA_WCN7850:
+>         case QCA_WCN6750:
+> +               if (of_graph_is_present(dev_of_node(&serdev->ctrl->dev)))=
+ {
+> +                       qcadev->bt_power->pwrseq =3D devm_pwrseq_get(&ser=
+dev->ctrl->dev,
+> +                                                                  "uart"=
+);
+> +                       if (IS_ERR(qcadev->bt_power->pwrseq))
+> +                               qcadev->bt_power->pwrseq =3D NULL;
+> +                       else
+> +                               break;
+> +               }
+
+Did you by any chance copy this logic from commit: db0ff7e15923
+("driver: bluetooth: hci_qca:fix unable to load the BT driver")? This
+commit is wrong and it flew under my radar during the summer and I
+never got around to fixing it. It doesn't take into account probe
+deferral.
+
+Bartosz
+
+> +
+>                 if (!device_property_present(&serdev->dev, "enable-gpios"=
+)) {
+>                         /*
+>                          * Backward compatibility with old DT sources. If=
+ the
+> @@ -2740,6 +2753,12 @@ static const struct acpi_device_id qca_bluetooth_a=
+cpi_match[] =3D {
+>  MODULE_DEVICE_TABLE(acpi, qca_bluetooth_acpi_match);
+>  #endif
+>
+> +static const struct serdev_device_id qca_bluetooth_serdev_match[] =3D {
+> +       { "WCN7850", (kernel_ulong_t)&qca_soc_data_wcn7850 },
+> +       { },
+> +};
+> +MODULE_DEVICE_TABLE(serdev, qca_bluetooth_serdev_match);
+> +
+>  #ifdef CONFIG_DEV_COREDUMP
+>  static void hciqca_coredump(struct device *dev)
+>  {
+> @@ -2756,6 +2775,7 @@ static void hciqca_coredump(struct device *dev)
+>  static struct serdev_device_driver qca_serdev_driver =3D {
+>         .probe =3D qca_serdev_probe,
+>         .remove =3D qca_serdev_remove,
+> +       .id_table =3D qca_bluetooth_serdev_match,
+>         .driver =3D {
+>                 .name =3D "hci_uart_qca",
+>                 .of_match_table =3D of_match_ptr(qca_bluetooth_of_match),
+>
+> --
+> 2.48.1
+>
+>
 
