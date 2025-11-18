@@ -1,204 +1,107 @@
-Return-Path: <linux-kbuild+bounces-9664-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9666-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2064C69F82
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:30:26 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E73C6A276
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:58:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id 3A79728C49
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 14:30:26 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3E240364742
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 14:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 567C21DF97F;
-	Tue, 18 Nov 2025 14:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09CAF3624DF;
+	Tue, 18 Nov 2025 14:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Lq4z7uIo"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XQEC+Wz8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BC235A959
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 14:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715CC2D7DC7
+	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 14:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763476206; cv=none; b=rqZ+Dqr7aTQCuDtiGBKlsInieGaUpjMHMeCmn1+HvyCFhyfCRmfY7FVhVUZTZXq5d+m3Xir2MwepukyltHqEUTrZFJ/cZ9OkuiDIl8M3NV/R6SuC1TtO9xnjLLSSp/0LYW/aor9TJLFWg94tZb4xIp+tIGUa6YCe/GZX1sctKiI=
+	t=1763477898; cv=none; b=c8c0EjX4bP/u3p1rA0BH0D2BqzMfjj1ycAPa9+TVfvz/Ad2hzNwnoF+L/OT//TGwNVUg7OanZvoGlna7XrXmnO/1cUYBiVx4IVAJWeuDlAeLv1tUaTMtAb2F2QaAKeNVsB5Kh96BmVI381+LqrwB8x4jexTYYhjiTXbgW8t+zEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763476206; c=relaxed/simple;
-	bh=812u0/kE8U6KIifXA4o4gTvauRi/MWbHZ1WwZdLX1Rs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7eBykUMRwC5oe5zz9g4tKGCPd0IRUDWZWOeRYfynNAH05IDWV/G2pMJn2dZgFheyRslc5W9LUqpJo8UGDCg0yaJVgRPzr6YBbGPQdAawQ/wCoTmprVS2Yy9kiZKvr730hSrogA1j17LfOOp25H+sCPmVTCRkc+7pFUVCtmd9JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Lq4z7uIo; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5943b62c47dso5538720e87.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 06:30:03 -0800 (PST)
+	s=arc-20240116; t=1763477898; c=relaxed/simple;
+	bh=DPfztGpTpKeZwjuO3Y+4RpBkmoIsNivSOXSgBqsyN+0=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=LPAxwS4LNdTk7wPNYQ3yLGOBYaa4E3ad7DipMtbRMmLqvJ38cYR+3+AcbnUvomANq02+jb2tHDmk3JCso8nq+EJW2Fj14q5nHBJGHSOCXq+rqFg0NUdGSE70mRQEEzOMh3G+7lx+h6N1dJQ9p+FVj9lUX8cR3caNdA95eQo8AZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XQEC+Wz8; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47496b3c1dcso69876245e9.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 06:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763476202; x=1764081002; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JPuRb3+haxxFSoGOZ/Vv3ClCGfszWqWGAZKDKrczFMg=;
-        b=Lq4z7uIoHwX+T0oZpnQeE7Sgq9N1okHHPsxFDCimKWGvAYYyd1L3RkOxAFX6qqwgAK
-         n7bdZ81LqGV1aeevTqZ8wYxo8zm2fcmodj9xNDXKeQJspHWeAezhpEaV3ItXy5cPjLX4
-         6lleapZWGYLkpOGJxS/+B70xq3sqzhS76pnHvh3KpwGhTjAk0fG5Bfaevs8HoAynZMpF
-         6Y9f9b3Bef5JuVIba38qaCDqJwveVXQ19CNrRhMaBrwVBCOxUcjdGZbK08iPRuO8sCQ+
-         nlyYi9cr1Cu3HHRMrga2WbosxHKUD2ZvZJFSImC9bw3VIP1RTXdGahqstC5GX3Xx94Lo
-         LSYg==
+        d=google.com; s=20230601; t=1763477895; x=1764082695; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DPfztGpTpKeZwjuO3Y+4RpBkmoIsNivSOXSgBqsyN+0=;
+        b=XQEC+Wz8UIXoObeaMiJGlUUUvDcb4FseZK2UuMU8au9M843kYGS99h2eHb9yefkI+P
+         wEE6MVpKzjYgFqcMpCcfoiiyNYerIEo0Y1TRup9+CVafJC68DgHSprzpjf0NjRyXW8jB
+         r2GZdJU3mrSdmtg4JhcZ3QUNo3FvqoCxo3cr26bkKbMNos2SuJW67yIH6CfTXC5lv3fS
+         86LRppOz2ExLpinT25jF7jshe6nQD7d018Vy394BS7/xOt5h6WwoNEkltX/ROiCcEFAg
+         fo7BwCW370UituEtDTfejknVT9BzC4Jls4stUCZ2O3xfUzyo70A7rzcmtaCXAmSYLUru
+         wT0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763476202; x=1764081002;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JPuRb3+haxxFSoGOZ/Vv3ClCGfszWqWGAZKDKrczFMg=;
-        b=ngxI5t/6U47q8LBItZyYgV5PfkG1rfKtseBiTu3Q10W5AtLgsWrSTdikezu8iyf0V0
-         FfCODL+g/CLAoL+Ux1W2obKDwrHe+s77Nw9Da1HOUNR36DoJDzxBp1qoA+nkT3+ALqjT
-         clBoneiR0Wo4vqTMEUIVe3HN8WvrQHtId6qtn4Y5PSuqeRxoMly9Wd0onUq2HIvTUuxI
-         gzmnQQvpitGzaHRc+vlmJJ741af4QiqBFngZT1N2Rb1mmAM8LMHvET1FLCjghQJ28+HX
-         UdH4fdnNwJ5MBvUz+k1wI49GRRubjaBo5uKkjQlVDjy1gAqObwOwlhC7yRhKtsUsIb79
-         MGpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtMzOm3s3IFyY5p0rPK/W1rBZ8VpIOlHpDBNkUaP8wx3aF3UUWu5mUzK6kdtBNQgGVyuE4DOFPAq1nZg8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBY5N1ptiQsktOsrzkJCPxO+D1qrlF9iWFko0vXRwhbzFGgisS
-	wBEIU8eULA8T6FIdxnGEW1aCPTpbw2V5uwLo1UF1E+WUmRSbx2SGC+G3j7LX4+V4XLojDn/pYqn
-	e1i42UTjHotOlJVdvAHQoN3kFpFhpKSflJP6xGnSibQ==
-X-Gm-Gg: ASbGncvSZ0+NZCEBMgRbpRXtBgl9r3JbAX13ZBUDUB3TSolaY6giTWKuMwaFuQDLvuK
-	ySTBqDgqsk/IL+t5WvLvoIp7iSuvhIJzWhqXxxE0g14tewGEebhctfMhkI5uAhsKXD3vIFOqUOo
-	rzeabEfDIHFb/b334oh3XSzWCppTEQsash3uwQMvFG6Vvg1CEbT9fuAMI+r4T2TRhHKj8Thl9Zz
-	xBLHEaZu60MGqCRIb1ClwXK8BUVwwm6BgEKA8oOEKudmUyr1xn3BXfRCI/UluZa+D/rJpQL2LTV
-	qTAZyBHawqAqO+B9rnRppCsunr2jAg8BQuYg
-X-Google-Smtp-Source: AGHT+IG/8x599leRbcc55AKG5x7ewC54AAGqLK2r1ZPyGFLtbdnyvhRmFu7yQc8cTfZdSXpR6fRtj7AIKLBehJrw2m0=
-X-Received: by 2002:a05:6512:3ca2:b0:57a:2be1:d779 with SMTP id
- 2adb3069b0e04-595841febd2mr6716947e87.31.1763476201587; Tue, 18 Nov 2025
- 06:30:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763477895; x=1764082695;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DPfztGpTpKeZwjuO3Y+4RpBkmoIsNivSOXSgBqsyN+0=;
+        b=WERhJ0HVWU0FNkVmu32TR/mI1htR/LeBHb3xgOG7CtsEBl7O8UrWR+H0oa03mpPX6r
+         sgg9cKUnDaFvSlHECFVOR0R51BljwFC3rvyF5NFmJ35Xf3zGymHXSZJ8Bh7FE7tg+HIO
+         7humqtMyXrQqwjRMal1nkhm1BuvvXs3fbwcauoq7osL0jvyR3wHtCk+ujsLaFaW49NSJ
+         ldhTi9HkUToMAo7n3SiKwIPnFTGSkok47i8rE2xKzsedb4SP29lRLA3p0IoDHAC9MVeD
+         t37VOulGFwwv/elPDVgOFreA41fkgqg3cGhUH3gKTSchi42jKkBpp689yqiwHFBFcLRG
+         H6GA==
+X-Forwarded-Encrypted: i=1; AJvYcCXt/cr0uzC0SZ/WxMPKQAWfHz/lwgEP6vzHolLre/+/TRazhOtHCJNJX+PjbZ9SVABOmAZa4BUVoNsrq9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9kYP78zShYjWFKRSjmLyKdipJYnDkwFAUkxaehOypAapDIvbW
+	BTf8/Nm8R1uYsD4nP0WDHnrmbT1pjd7pVrFrEVY5EWFo+EP7ROywv7C9b1Czw/jrNEvXrgDiJax
+	t5H0D2nf+TehAjQ==
+X-Google-Smtp-Source: AGHT+IF5IuKqsfo4fGvtEqK6+inM6Wme3e1NzVR1nM/R1oTA+LPa6JsLnhIYst5T5QUx9HKDMNad3Q0W0SjPeQ==
+X-Received: from wmpl35.prod.google.com ([2002:a05:600c:8a3:b0:475:d8de:fe5b])
+ (user=gprocida job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:a07:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-4778fe55101mr148495515e9.4.1763477894678;
+ Tue, 18 Nov 2025 06:58:14 -0800 (PST)
+Date: Tue, 18 Nov 2025 14:57:36 +0000
+In-Reply-To: <20251110131913.1789896-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com> <20251112-pci-m2-e-v1-8-97413d6bf824@oss.qualcomm.com>
-In-Reply-To: <20251112-pci-m2-e-v1-8-97413d6bf824@oss.qualcomm.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 18 Nov 2025 15:29:49 +0100
-X-Gm-Features: AWmQ_bnS7J2LiofnEnjv4l_cFHHTAIWcbKZPMExzLrGKBD6vTSaTLBGi1oU52Ic
-Message-ID: <CAMRc=MdRw+spjN0ySJ7We_GJ8GaDU2Nb4unaxcnr2ZLjLOeSrA@mail.gmail.com>
-Subject: Re: [PATCH 8/9] Bluetooth: hci_qca: Add support for WCN7850 PCIe M.2 card
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, linux-serial@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
+Message-ID: <20251118145741.1042013-1-gprocida@google.com>
+Subject: Re: [PATCH v2] gendwarfksyms: Skip files with no exports
+From: Giuliano Procida <gprocida@google.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
+	Haiyue Wang <haiyuewa@163.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 12, 2025 at 3:45=E2=80=AFPM Manivannan Sadhasivam via B4 Relay
-<devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
->
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
->
-> The WCN7850 PCIe M.2 card connected to the UART controller exposes the
-> 'WCN7850' serdev device and is controlled using the pwrseq framework.
->
-> Hence, add support for it in the driver. It reuses the existing
-> 'qca_soc_data_wcn7850' driver data.
->
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.=
-com>
-> ---
->  drivers/bluetooth/hci_qca.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/drivers/bluetooth/hci_qca.c b/drivers/bluetooth/hci_qca.c
-> index 4cff4d9be3132561ee9bae4ddf2c8ac0bc13ecd7..09bfb3bba93698f496947775b=
-f6b31f2f20279f1 100644
-> --- a/drivers/bluetooth/hci_qca.c
-> +++ b/drivers/bluetooth/hci_qca.c
-> @@ -26,6 +26,7 @@
->  #include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_graph.h>
->  #include <linux/acpi.h>
->  #include <linux/platform_device.h>
->  #include <linux/pwrseq/consumer.h>
-> @@ -2344,6 +2345,9 @@ static int qca_serdev_probe(struct serdev_device *s=
-erdev)
->
->         qcadev->serdev_hu.serdev =3D serdev;
->         data =3D device_get_match_data(&serdev->dev);
-> +       if (!data && serdev->id)
-> +               data =3D (const struct qca_device_data *) serdev->id->dri=
-ver_data;
-> +
->         serdev_device_set_drvdata(serdev, qcadev);
->         device_property_read_string_array(&serdev->dev, "firmware-name",
->                                          qcadev->firmware_name, ARRAY_SIZ=
-E(qcadev->firmware_name));
-> @@ -2384,6 +2388,15 @@ static int qca_serdev_probe(struct serdev_device *=
-serdev)
->         case QCA_WCN6855:
->         case QCA_WCN7850:
->         case QCA_WCN6750:
-> +               if (of_graph_is_present(dev_of_node(&serdev->ctrl->dev)))=
- {
-> +                       qcadev->bt_power->pwrseq =3D devm_pwrseq_get(&ser=
-dev->ctrl->dev,
-> +                                                                  "uart"=
-);
-> +                       if (IS_ERR(qcadev->bt_power->pwrseq))
-> +                               qcadev->bt_power->pwrseq =3D NULL;
-> +                       else
-> +                               break;
-> +               }
+Hi.
 
-Did you by any chance copy this logic from commit: db0ff7e15923
-("driver: bluetooth: hci_qca:fix unable to load the BT driver")? This
-commit is wrong and it flew under my radar during the summer and I
-never got around to fixing it. It doesn't take into account probe
-deferral.
+> Thus do the last one: don't attempt to process files if we have no symbol
+> versions to calculate.
 
-Bartosz
+This results in the -T foo option being ignored in the case there were
+no symbols. I think it would be better, consistent with the
+documentation and expectations, for the file to be produced empty.
 
-> +
->                 if (!device_property_present(&serdev->dev, "enable-gpios"=
-)) {
->                         /*
->                          * Backward compatibility with old DT sources. If=
- the
-> @@ -2740,6 +2753,12 @@ static const struct acpi_device_id qca_bluetooth_a=
-cpi_match[] =3D {
->  MODULE_DEVICE_TABLE(acpi, qca_bluetooth_acpi_match);
->  #endif
->
-> +static const struct serdev_device_id qca_bluetooth_serdev_match[] =3D {
-> +       { "WCN7850", (kernel_ulong_t)&qca_soc_data_wcn7850 },
-> +       { },
-> +};
-> +MODULE_DEVICE_TABLE(serdev, qca_bluetooth_serdev_match);
-> +
->  #ifdef CONFIG_DEV_COREDUMP
->  static void hciqca_coredump(struct device *dev)
->  {
-> @@ -2756,6 +2775,7 @@ static void hciqca_coredump(struct device *dev)
->  static struct serdev_device_driver qca_serdev_driver =3D {
->         .probe =3D qca_serdev_probe,
->         .remove =3D qca_serdev_remove,
-> +       .id_table =3D qca_bluetooth_serdev_match,
->         .driver =3D {
->                 .name =3D "hci_uart_qca",
->                 .of_match_table =3D of_match_ptr(qca_bluetooth_of_match),
->
-> --
-> 2.48.1
->
->
+This means that just the for loop should be skipped, say by adding the
+condition there with &&.
+
+If you disagree, then please update the documentation to match the new
+behaviour.
+
+Regards,
+Giuliano.
 
