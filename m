@@ -1,90 +1,203 @@
-Return-Path: <linux-kbuild+bounces-9667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9668-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224EEC6A661
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 16:50:13 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF26C6A9E6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 17:28:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 1157F2B3F5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:50:11 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 94B6636009B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 16:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319DF368273;
-	Tue, 18 Nov 2025 15:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B85136A017;
+	Tue, 18 Nov 2025 16:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="VU/bLwEu"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KH16ukRP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kNMpTgxY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E48M3eqb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="az9HKZt9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAAF34DB67;
-	Tue, 18 Nov 2025 15:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B6536655F
+	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 16:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763480993; cv=none; b=FncQu56DWgn73sjlgI7h0CUeSi+AyDj7ofYu6MT9Mvb9ISzVnTaIf2U182yoVUfSt1NqIfejpR/bOZT8Vs6dgSwvIodwBmOJi8cAJ+VkBHc17vEi1PJxyOtcN2KBJFf7/P8bXXRnFR5k4dDcTB6Up1v4tE3Hqpte+8bsGAXoj50=
+	t=1763482714; cv=none; b=WCIMdI5eIDmxQCkUlcufO+GG1kVxwC/HXADOuYfD7kA504nrLoxZB1DMjTfIxUvG+Hq8spJ0Dp6N4CFrpxODwrQANqck9n3rSzeML+F0zgK2CZwovCT9AiX5mpIe7QWNI53a7LQ3CvNFpxq24A/HM55NMbvOuu7O6smN0kM5oq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763480993; c=relaxed/simple;
-	bh=MfLbaN0dJ19hVIu6xn27SwSPpBPbATDQqKhaL7vSpK0=;
-	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sepvZHnyRbFN4zgFyLOf2JFpyu826fX0eeP9hHKoi9C1RNAL7/qJEHJoCbMEVuWmZQyZij0BZ9xH7pFy2m9TxDk++G9jupQ/tN/wv2RUy1ID+ry3ZeaYZu2KkrGcWIqtaauQkOKYomKbNKTB/2vY3IssRbaYZS7ZOarwSP2QcEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=VU/bLwEu; arc=none smtp.client-ip=79.135.106.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1763480981; x=1763740181;
-	bh=a9ZfR2miDizST+NAQHBsA4FP50QJXQbD9wrCS0aDhy8=;
-	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=VU/bLwEuIA8h9TCyJ9L4mIWEDwhoUAZ5oktm+sibJB8c9aTCHAxh4iEjZUrUcj6WK
-	 DdWYM7vyaQOmZlh5HL5Rop5CGc1TZipkU5l3spES7VnHm/wUUlnVytrI8uH5q7ufRi
-	 fJw0DGDWl+PDb+suCmmvDLbYmrbGD/oONn1SpgQgOMNsVeLROqr98iWpCJYovuu/sN
-	 41PWpyT55lKaZwMubphsuvZFYg/YtTETtW1C8gMcytVRWd8U1Gal8gOTSiTCz1xJ+K
-	 7NTB37EXbP+Q7djtplgrpcbD/6KUccafGQHCQks1468PHcx+U+AH4aBTr4zCMgXQ4E
-	 UAncnjv3o9aLg==
-Date: Tue, 18 Nov 2025 15:49:28 +0000
-To: Alexander Potapenko <glider@google.com>, xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de,
-	surenb@google.com, ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
-From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
-Subject: Re: [PATCH v6 06/18] x86/kasan: Add arch specific kasan functions
-Message-ID: <tide3xvqthah7m7ji6bfzb5i3ofabgwf45bn3qvvzsurnswh6z@wjxzriavwlp5>
-In-Reply-To: <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <5be986faa12ed1176889c3ba25852c42674305f4.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=XFXFAvKS2+bc66FR+gw7rfSybETAOBUR_vneaVdF5F9A@mail.gmail.com> <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 2d31863a5f203112dd7296a62db9ab5faf481d58
+	s=arc-20240116; t=1763482714; c=relaxed/simple;
+	bh=VCaiqV8vCrrsLqqf8b1+K9+FOBl2AhCdEyAraBkbibA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hBcadRawanKss1dNKXf7Dq86JjFmj3RR0wyk8n9uwtK3WRrNOS1HifcILdAVm4esfsMJjpALR5+75KK3PH6PAwqMT7IIr7S/pnT36O3Qo9ri+1T+lJGmpF9bdBJV5IitXivyXKeZ0Dj9199i/9izKDEVDt9FiI6//0tGa0D4fxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KH16ukRP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kNMpTgxY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E48M3eqb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=az9HKZt9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from kitsune.suse.cz (unknown [10.100.12.127])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CFDEE1FF90;
+	Tue, 18 Nov 2025 16:18:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763482710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lV22ABgqhfmxJGlxKAwcYaFPokRsrb2FS9hJwycUbYk=;
+	b=KH16ukRPSLAQKNON4fDq3e0cySt60gkhrJbsAE6il46Zx5NkZMpWN5Xw+eaObV0QYabFpK
+	IggmZtIN+43xGo3qMknMT0h07lK9z8Epn8uzgf8rLJDJBglVRuRrefie/gk9fNaMw8m22T
+	lFwlJwc5bnNqEypSCnPNryxjrEK2NIw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763482710;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lV22ABgqhfmxJGlxKAwcYaFPokRsrb2FS9hJwycUbYk=;
+	b=kNMpTgxYQiXHAV7fn6GiscHJXuEVD0Q53hVRUGFendzeHDv1Aplq4lBqUlmnPkw2DoLtBK
+	YtY8SfGE7Dwu+WCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763482709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lV22ABgqhfmxJGlxKAwcYaFPokRsrb2FS9hJwycUbYk=;
+	b=E48M3eqb0FNOKTFlsCmDQcpSYChHjCVm7CbKBRSw5zz+tGtTtbpD2sw7IYy2z4goIPX3dc
+	Yw0cJRwerzDhFA2PtrnZMB4Dwjr+PDTZk5DGO6D6ndJ4IaTSSIjZXmDEIK9uE1L4sPMZ+j
+	1UsJhui0wBelbtKDOGrae9tf7H0UMiU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763482709;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lV22ABgqhfmxJGlxKAwcYaFPokRsrb2FS9hJwycUbYk=;
+	b=az9HKZt9LUWa3JKL3A5DFDDewT8jNcVyOVq52fgI6Fv8pt9P3IsYE9ROjUBSDP9YEmMQO9
+	h8j12jkzYUj5VXAA==
+Date: Tue, 18 Nov 2025 17:18:28 +0100
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: linux-modules@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] gendwarfksyms: Fix build on 32-bit hosts
+Message-ID: <aRycVOe5ZXSJJFpn@kitsune.suse.cz>
+References: <20251117203806.970840-2-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251117203806.970840-2-samitolvanen@google.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_ZERO(0.00)[0];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 
-On 2025-11-17 at 18:41:35 +0000, Maciej Wiecz=C3=B3r-Retman wrote:
->On 2025-11-11 at 10:31:13 +0100, Alexander Potapenko wrote:
->>> +#ifdef CONFIG_64BIT
->>> +static inline void *__tag_set(const void *__addr, u8 tag)
->>> +{
->>> +       u64 addr =3D (u64)__addr;
->>> +
->>> +       addr &=3D ~__tag_shifted(KASAN_TAG_MASK);
->>
->>KASAN_TAG_MASK is only defined in Patch 07, does this patch compile?
->
->Seems I forgot to remove it from patch 7. It's originally defined
->in the mmzone.h file and looked cleaner there according to Andrey.
->
->Thanks for noticing it's still in patch 7, I'll get rid of it.
+Hello,
 
-You were right before, after removing that define in patch 7 it doesn't
-compile. I think I'll just open code this definition here:
+On Mon, Nov 17, 2025 at 08:38:07PM +0000, Sami Tolvanen wrote:
+> We have interchangeably used unsigned long for some of the types
+> defined in elfutils, assuming they're always 64-bit. This obviously
+> fails when building gendwarfksyms on 32-bit hosts. Fix the types.
+> 
+> Reported-by: Michal Suchánek <msuchanek@suse.de>
+> Closes: https://lore.kernel.org/linux-modules/aRcxzPxtJblVSh1y@kitsune.suse.cz/
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> ---
+>  scripts/gendwarfksyms/dwarf.c   | 4 +++-
+>  scripts/gendwarfksyms/symbols.c | 5 +++--
+>  2 files changed, 6 insertions(+), 3 deletions(-)
 
->>> +       addr &=3D ~__tag_shifted((1UL << KASAN_TAG_WIDTH) - 1);
+with this patch gendwarfksyms builds on 32bit x86 and Arm.
 
-I don't see a nicer solution here if taking things from mmzone.h is out
-of the question. I suppose a #ifndef KASAN_TAG_MASK placed here that
-would just shadow the one in mmzone.h could work too?
+Tested-by: Michal Suchánek <msuchanek@suse.de>
 
+Thanks
+
+Michal
+
+> 
+> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+> index 3538a7d9cb07..e76d732f5f60 100644
+> --- a/scripts/gendwarfksyms/dwarf.c
+> +++ b/scripts/gendwarfksyms/dwarf.c
+> @@ -750,6 +750,7 @@ static void process_enumerator_type(struct state *state, struct die *cache,
+>  				    Dwarf_Die *die)
+>  {
+>  	bool overridden = false;
+> +	unsigned long override;
+>  	Dwarf_Word value;
+>  
+>  	if (stable) {
+> @@ -761,7 +762,8 @@ static void process_enumerator_type(struct state *state, struct die *cache,
+>  			return;
+>  
+>  		overridden = kabi_get_enumerator_value(
+> -			state->expand.current_fqn, cache->fqn, &value);
+> +			state->expand.current_fqn, cache->fqn, &override);
+> +		value = override;
+>  	}
+>  
+>  	process_list_comma(state, cache);
+> diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
+> index ecddcb5ffcdf..42cd27c9cec4 100644
+> --- a/scripts/gendwarfksyms/symbols.c
+> +++ b/scripts/gendwarfksyms/symbols.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (C) 2024 Google LLC
+>   */
+>  
+> +#include <inttypes.h>
+>  #include "gendwarfksyms.h"
+>  
+>  #define SYMBOL_HASH_BITS 12
+> @@ -242,7 +243,7 @@ static void elf_for_each_global(int fd, elf_symbol_callback_t func, void *arg)
+>  				error("elf_getdata failed: %s", elf_errmsg(-1));
+>  
+>  			if (shdr->sh_entsize != sym_size)
+> -				error("expected sh_entsize (%lu) to be %zu",
+> +				error("expected sh_entsize (%" PRIu64 ") to be %zu",
+>  				      shdr->sh_entsize, sym_size);
+>  
+>  			nsyms = shdr->sh_size / shdr->sh_entsize;
+> @@ -292,7 +293,7 @@ static void set_symbol_addr(struct symbol *sym, void *arg)
+>  		hash_add(symbol_addrs, &sym->addr_hash,
+>  			 symbol_addr_hash(&sym->addr));
+>  
+> -		debug("%s -> { %u, %lx }", sym->name, sym->addr.section,
+> +		debug("%s -> { %u, %" PRIx64 " }", sym->name, sym->addr.section,
+>  		      sym->addr.address);
+>  	} else if (sym->addr.section != addr->section ||
+>  		   sym->addr.address != addr->address) {
+> 
+> base-commit: 6a23ae0a96a600d1d12557add110e0bb6e32730c
+> -- 
+> 2.52.0.rc1.455.g30608eb744-goog
+> 
 
