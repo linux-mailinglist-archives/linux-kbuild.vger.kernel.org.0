@@ -1,134 +1,105 @@
-Return-Path: <linux-kbuild+bounces-9670-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50894C6AA95
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 17:35:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EAC2C6AF10
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 18:25:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 190B435C012
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 16:27:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 3E0D22D1C7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 17:25:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332E436CDF5;
-	Tue, 18 Nov 2025 16:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9174833C19E;
+	Tue, 18 Nov 2025 17:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NbiHbK8s"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b="Yx2WBjr0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from exactco.de (exactco.de [176.9.10.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169FF36C5AB
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 16:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC86433C1AF
+	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 17:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.10.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763483214; cv=none; b=A5b7uUvQik4aYYlUFVXJ8pT7YrKFvUHzRZx/SAsTUXjGpzOYhqJadBqe+hV+Jrf09eXZOLvUNZvwltTX4xVM1742FU0GPh8GAWXxx4d6m4NhCEI+AnJ4nK20kKfBIflr96RszNaL5oRhruVhA/thDvVBtZ6txAxbVtmSWJ+UreM=
+	t=1763486362; cv=none; b=fXLswkZ+09FL4cM9yhbFuDbJUG+h1zEdbcZfpPHyBKmAX11SkxXQHEQsErlB8nxqedCjEG2dQp2nNpcx7oGcLHcJQytbB+H9mXuNFwEOcDni7kDXtBT/7H3asuwUPlBpeZ3Fgwc8884m5Ac5ZyN2EeDSSVK9uok9gLe9PbFpu0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763483214; c=relaxed/simple;
-	bh=FwtecA3cou5swpKk+7V9h8LfHIUHPkUFVZFloQEb+dQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ff78Tj8YOGWQ5hCFYv3pLdp4XFuq0Utg0ev21vNkIq+6Lgw1yX4ui2dq3YdT/erb/EuW6txx6RejIV2yHt1JT9BV8xl1I3ZZSrbR2s9fAcEnEj7HlhLQPpM2bdz0JH4+JayrT+AsbHjeJgL0az853Ko5S1WVyd+1mqOSZ5sEwYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NbiHbK8s; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-295c64cb951so242925ad.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 08:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763483211; x=1764088011; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FwtecA3cou5swpKk+7V9h8LfHIUHPkUFVZFloQEb+dQ=;
-        b=NbiHbK8sCl+nRR1cXVIWdYqN0I3VLsKCKKWXS0wPLrvekyqFENCVxrsZSfo47wLxTw
-         z//TfUqJslTZvJ7bQSfH33MtR3xV+GmKEdC6onwso6GT5UW+RIoIrZf4en+KgLGz5Nct
-         2wSjImMNMkayjuFvq0UGue3kgZ/m9LFxk6tWEzSS3SHOSoVEldvwX3LjdMWSfznyiuTD
-         /YyB00J6YMdyn7K77TfxB1eB1otkKcXWVI1j0ixgMAUqQb9sw0JgDuuBGzZhIhTw52Uj
-         54tEhDKt4ruVyIVDYVg48gLevDM0KSo+NBDP63zbu5OVjHSE5rJBlAAWXkC1vVkZvp+L
-         7mcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763483211; x=1764088011;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FwtecA3cou5swpKk+7V9h8LfHIUHPkUFVZFloQEb+dQ=;
-        b=NF+9Kpa5At3+jaj2ZBmzVe3M1bPCHbZv4aikfbg++/jPoF4wlZX3EPJtQVxCwmihv2
-         UkYWyijB2gvY32Ug//09ui7two1Y2MhXPljycBsu1lsW44txnncU5xUyz35bX4ovSvna
-         nsejiu1675OZVLyvpPr4PjiRWa0uZWvibm/VFkVAyH41e1bkoU017gXIlp8A0VmNfPvT
-         ciL9wpGxQWyAKmSLdSGqr69cDojkI9BBtejFpC2ZkN26mjCOdfCrInmPbK3JYGl0eRql
-         M9NzPdzYR1mBRFw+HGp/GlH6h4St26Afed9veajb9uq7zbgHxUoS0ZqiEkKIuLJFDPcW
-         KZpg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQew9IIv9XE3CK+jVOCahj+xOfQ7aIKSasOhdxTDBlERvluKRzn2UwR23Z3zScB28hDkGA2fIBqs4MxJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycfvGnf/o+cFfBaHTqhBhV52IanXaH8gHNm/YGQiUjnUICunHm
-	4FvtzlsDB2HKIgOGWxg6jzu1zVw2K8sNveZ9Savjyxxr3DCUDIjI/Aw4MSGD4ysyx3gcVGGEKsb
-	WFtvl4rvyGy0gQKa4sfAZy4ABVuwjr0dHCksTjazl
-X-Gm-Gg: ASbGnctMC8qviAw++1UEIH2JnO6AcIYMHQ+nVtNPD13P2Bxd18SdbjwCaOozJ4cRNWn
-	ZNqEKwgOt9O5poItpPL1fpYMGFugFBXyiNGmmBlDme73rrSySBsECA5Fw5zLxDspmx4vnACrDr4
-	DoI8faoT1ntti9gQ60fBY4h+XJNVFN7SkChRt36rRQlnCZR3nuPGkMj5VqzECvFUbcYyLD214OE
-	XLs7BHDAUvfBwxFA2KExl35gaPdwGoKAXSYv2t6nGN/3p2y0KCFOv3uYXYckGb5xLCyUPv8IgMC
-	xS0=
-X-Google-Smtp-Source: AGHT+IEttx3J/mC4gE4KpQ4cPRjj+rRjuHjvkWN8RJrR+j19dbMNf6uYkFpkl0xwq9jCxBWF224ugSC9ScsaeVYU4f0=
-X-Received: by 2002:a05:7022:4387:b0:119:e56b:c1e1 with SMTP id
- a92af1059eb24-11c88f6e153mr87381c88.12.1763483210529; Tue, 18 Nov 2025
- 08:26:50 -0800 (PST)
+	s=arc-20240116; t=1763486362; c=relaxed/simple;
+	bh=KwPJaWM1JaotREDHzT9ew5cNRJpg+qhxZGBELdFseGc=;
+	h=Date:Message-Id:To:Cc:Subject:From:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=jQ/ErGEl8iqoFIosdh+g0cPO4S/bY8jaOLvi7GJ3Z7IWkQ5BbEW52ADXh3g8qgvnJ8IpCjDCRpPvHPZ3pl53kcAXKybpKV84J4Gc5NU74A2w5M3IaWDar/YLTHljfwZ6EXYQBw5v2YON7qlmFeB8r2+mxzVFBzTnm4YWNUDmH4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de; spf=pass smtp.mailfrom=exactco.de; dkim=pass (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b=Yx2WBjr0; arc=none smtp.client-ip=176.9.10.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=exactco.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de;
+	s=x; h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+	In-Reply-To:From:Subject:Cc:To:Message-Id:Date:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=bP7IS4BNaU4htgSTSaOq9yg1qieTaZzZOWRZt7CyTqI=; b=Yx2WBjr03mdDSpA89fUq2JlJQP
+	bV1AmC54RbdHbFNLvuflIdEng9WJPc7MZ/uFw/aa2h8nPYo838w+OA8f0EnxtXBDi81fb4RhIHUuM
+	MGXA5lXt2gaOGP42LKQzVbYT1tT5qbxLNcqA/MsmQzxA4YQoFIJ3ZOis5c6HS8mC0gAj6kqwPuiIZ
+	gvuXU6g/k7KbDao9mwJWV0olNsAfoMCTogRLOoFJRaNR1W/9NBODGR87G3LnzY0L+gNmwvlMSXfIg
+	ID7/MKhX6MT3CCoskN8jgMrRCzG7nO5Is7LbZqWGseLz1jnZaWhTp2HiGHw1brzplAETU92oa8a7b
+	SrYFOyOA==;
+Date: Tue, 18 Nov 2025 18:19:28 +0100 (CET)
+Message-Id: <20251118.181928.392761539252490710.rene@exactco.de>
+To: christophe.leroy@csgroup.eu
+Cc: linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com
+Subject: Re: [PATCH] modpost: amend ppc symnames for -Os build
+From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+In-Reply-To: <748c8f8c-23ed-4589-9521-a948cce40922@csgroup.eu>
+References: <20251118.131735.802732108462696577.rene@exactco.de>
+	<748c8f8c-23ed-4589-9521-a948cce40922@csgroup.eu>
+X-Mailer: Mew version 6.10 on Emacs 30.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251110131913.1789896-1-ojeda@kernel.org> <20251118145741.1042013-1-gprocida@google.com>
-In-Reply-To: <20251118145741.1042013-1-gprocida@google.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 18 Nov 2025 08:26:13 -0800
-X-Gm-Features: AWmQ_bkpM4OnhqoM9DwukpapoYV-fxdR_ddUQfMp-wv3ty5dsyWJZ2MH8TZJaP0
-Message-ID: <CABCJKuc0ZwN23MX4mV=vVne1giR=iWKSvqFg1oKMqxUcnOWiCg@mail.gmail.com>
-Subject: Re: [PATCH v2] gendwarfksyms: Skip files with no exports
-To: Giuliano Procida <gprocida@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
-	Haiyue Wang <haiyuewa@163.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Hi Giuliano,
+Hey Christophe,
 
-On Tue, Nov 18, 2025 at 6:58=E2=80=AFAM Giuliano Procida <gprocida@google.c=
-om> wrote:
->
-> Hi.
->
-> > Thus do the last one: don't attempt to process files if we have no symb=
-ol
-> > versions to calculate.
->
-> This results in the -T foo option being ignored in the case there were
-> no symbols. I think it would be better, consistent with the
-> documentation and expectations, for the file to be produced empty.
+thank you for your quick review!
 
-The kernel build doesn't produce empty symtypes files because symbol
-versioning is skipped for (non-Rust) object files that have no
-exports, and before rustc 1.91, we never ran gendwarfksyms for Rust
-object files that didn't have exports.
+On Tue, 18 Nov 2025 15:25:14 +0100, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
 
-> This means that just the for loop should be skipped, say by adding the
-> condition there with &&.
+> Le 18/11/2025 à 13:17, René Rebe a écrit :
+> > [Vous ne recevez pas souvent de courriers de
+> > rene@exactco.de. Découvrez pourquoi ceci est important à
+> > https://aka.ms/LearnAboutSenderIdentification ]
+> > Building a size optimized ppc kernel, gcc emmits more symbols than
+> > currently allowed listed in scripts/mod/modpost.c. Add to fix:
+> 
+> You should say when the problem started to happen, and what those
 
-No, I think the current behavior is correct, we shouldn't produce empty fil=
-es.
+I guess always, or at least for a long time with -Os functions have a
+certain pattern or size. Maybe the size of amdgpu and certainly the
+DC_FP use triggered the floating point ones for me.
 
-> If you disagree, then please update the documentation to match the new
-> behaviour.
+> functions are supposed to save and restore.
+> 
+> As an exemple see commit 8fe9c93e7453 ("powerpc: Add vr save/restore
+> functions")
+> 
+> Also confirm it is only needed on powerpc64, if so make it clear in
+> the commit message.
 
-I re-read the documentation and it doesn't really state how the -T
-flag behaves if the tool is used to process a file with no exports.
-While this doesn't impact kernel builds, a patch to clarify the
-documentation is always welcome!
+The fp ones can only occur for ppc64 right now as long as:
+ARCH_HAS_KERNEL_FPU_SUPPORT      if PPC64 && PPC_FPU
 
-Sami
+If the gpr ones are emitted by gcc for ppc(32) I would need to
+specifically review. As it is mostly the more modern ppc64, I'll use
+that for v2 then, ...
+
+	     René
+
+-- 
+René Rebe, ExactCODE GmbH, Berlin, Germany
+https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
 
