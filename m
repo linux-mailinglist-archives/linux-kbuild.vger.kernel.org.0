@@ -1,107 +1,90 @@
-Return-Path: <linux-kbuild+bounces-9666-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E73C6A276
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:58:43 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224EEC6A661
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 16:50:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3E240364742
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 14:58:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 1157F2B3F5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 15:50:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09CAF3624DF;
-	Tue, 18 Nov 2025 14:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319DF368273;
+	Tue, 18 Nov 2025 15:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XQEC+Wz8"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="VU/bLwEu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715CC2D7DC7
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 14:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAAF34DB67;
+	Tue, 18 Nov 2025 15:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477898; cv=none; b=c8c0EjX4bP/u3p1rA0BH0D2BqzMfjj1ycAPa9+TVfvz/Ad2hzNwnoF+L/OT//TGwNVUg7OanZvoGlna7XrXmnO/1cUYBiVx4IVAJWeuDlAeLv1tUaTMtAb2F2QaAKeNVsB5Kh96BmVI381+LqrwB8x4jexTYYhjiTXbgW8t+zEI=
+	t=1763480993; cv=none; b=FncQu56DWgn73sjlgI7h0CUeSi+AyDj7ofYu6MT9Mvb9ISzVnTaIf2U182yoVUfSt1NqIfejpR/bOZT8Vs6dgSwvIodwBmOJi8cAJ+VkBHc17vEi1PJxyOtcN2KBJFf7/P8bXXRnFR5k4dDcTB6Up1v4tE3Hqpte+8bsGAXoj50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477898; c=relaxed/simple;
-	bh=DPfztGpTpKeZwjuO3Y+4RpBkmoIsNivSOXSgBqsyN+0=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=LPAxwS4LNdTk7wPNYQ3yLGOBYaa4E3ad7DipMtbRMmLqvJ38cYR+3+AcbnUvomANq02+jb2tHDmk3JCso8nq+EJW2Fj14q5nHBJGHSOCXq+rqFg0NUdGSE70mRQEEzOMh3G+7lx+h6N1dJQ9p+FVj9lUX8cR3caNdA95eQo8AZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XQEC+Wz8; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47496b3c1dcso69876245e9.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Nov 2025 06:58:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763477895; x=1764082695; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DPfztGpTpKeZwjuO3Y+4RpBkmoIsNivSOXSgBqsyN+0=;
-        b=XQEC+Wz8UIXoObeaMiJGlUUUvDcb4FseZK2UuMU8au9M843kYGS99h2eHb9yefkI+P
-         wEE6MVpKzjYgFqcMpCcfoiiyNYerIEo0Y1TRup9+CVafJC68DgHSprzpjf0NjRyXW8jB
-         r2GZdJU3mrSdmtg4JhcZ3QUNo3FvqoCxo3cr26bkKbMNos2SuJW67yIH6CfTXC5lv3fS
-         86LRppOz2ExLpinT25jF7jshe6nQD7d018Vy394BS7/xOt5h6WwoNEkltX/ROiCcEFAg
-         fo7BwCW370UituEtDTfejknVT9BzC4Jls4stUCZ2O3xfUzyo70A7rzcmtaCXAmSYLUru
-         wT0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763477895; x=1764082695;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DPfztGpTpKeZwjuO3Y+4RpBkmoIsNivSOXSgBqsyN+0=;
-        b=WERhJ0HVWU0FNkVmu32TR/mI1htR/LeBHb3xgOG7CtsEBl7O8UrWR+H0oa03mpPX6r
-         sgg9cKUnDaFvSlHECFVOR0R51BljwFC3rvyF5NFmJ35Xf3zGymHXSZJ8Bh7FE7tg+HIO
-         7humqtMyXrQqwjRMal1nkhm1BuvvXs3fbwcauoq7osL0jvyR3wHtCk+ujsLaFaW49NSJ
-         ldhTi9HkUToMAo7n3SiKwIPnFTGSkok47i8rE2xKzsedb4SP29lRLA3p0IoDHAC9MVeD
-         t37VOulGFwwv/elPDVgOFreA41fkgqg3cGhUH3gKTSchi42jKkBpp689yqiwHFBFcLRG
-         H6GA==
-X-Forwarded-Encrypted: i=1; AJvYcCXt/cr0uzC0SZ/WxMPKQAWfHz/lwgEP6vzHolLre/+/TRazhOtHCJNJX+PjbZ9SVABOmAZa4BUVoNsrq9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9kYP78zShYjWFKRSjmLyKdipJYnDkwFAUkxaehOypAapDIvbW
-	BTf8/Nm8R1uYsD4nP0WDHnrmbT1pjd7pVrFrEVY5EWFo+EP7ROywv7C9b1Czw/jrNEvXrgDiJax
-	t5H0D2nf+TehAjQ==
-X-Google-Smtp-Source: AGHT+IF5IuKqsfo4fGvtEqK6+inM6Wme3e1NzVR1nM/R1oTA+LPa6JsLnhIYst5T5QUx9HKDMNad3Q0W0SjPeQ==
-X-Received: from wmpl35.prod.google.com ([2002:a05:600c:8a3:b0:475:d8de:fe5b])
- (user=gprocida job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:a07:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-4778fe55101mr148495515e9.4.1763477894678;
- Tue, 18 Nov 2025 06:58:14 -0800 (PST)
-Date: Tue, 18 Nov 2025 14:57:36 +0000
-In-Reply-To: <20251110131913.1789896-1-ojeda@kernel.org>
+	s=arc-20240116; t=1763480993; c=relaxed/simple;
+	bh=MfLbaN0dJ19hVIu6xn27SwSPpBPbATDQqKhaL7vSpK0=;
+	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sepvZHnyRbFN4zgFyLOf2JFpyu826fX0eeP9hHKoi9C1RNAL7/qJEHJoCbMEVuWmZQyZij0BZ9xH7pFy2m9TxDk++G9jupQ/tN/wv2RUy1ID+ry3ZeaYZu2KkrGcWIqtaauQkOKYomKbNKTB/2vY3IssRbaYZS7ZOarwSP2QcEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=VU/bLwEu; arc=none smtp.client-ip=79.135.106.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763480981; x=1763740181;
+	bh=a9ZfR2miDizST+NAQHBsA4FP50QJXQbD9wrCS0aDhy8=;
+	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=VU/bLwEuIA8h9TCyJ9L4mIWEDwhoUAZ5oktm+sibJB8c9aTCHAxh4iEjZUrUcj6WK
+	 DdWYM7vyaQOmZlh5HL5Rop5CGc1TZipkU5l3spES7VnHm/wUUlnVytrI8uH5q7ufRi
+	 fJw0DGDWl+PDb+suCmmvDLbYmrbGD/oONn1SpgQgOMNsVeLROqr98iWpCJYovuu/sN
+	 41PWpyT55lKaZwMubphsuvZFYg/YtTETtW1C8gMcytVRWd8U1Gal8gOTSiTCz1xJ+K
+	 7NTB37EXbP+Q7djtplgrpcbD/6KUccafGQHCQks1468PHcx+U+AH4aBTr4zCMgXQ4E
+	 UAncnjv3o9aLg==
+Date: Tue, 18 Nov 2025 15:49:28 +0000
+To: Alexander Potapenko <glider@google.com>, xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de,
+	surenb@google.com, ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Subject: Re: [PATCH v6 06/18] x86/kasan: Add arch specific kasan functions
+Message-ID: <tide3xvqthah7m7ji6bfzb5i3ofabgwf45bn3qvvzsurnswh6z@wjxzriavwlp5>
+In-Reply-To: <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <5be986faa12ed1176889c3ba25852c42674305f4.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=XFXFAvKS2+bc66FR+gw7rfSybETAOBUR_vneaVdF5F9A@mail.gmail.com> <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 2d31863a5f203112dd7296a62db9ab5faf481d58
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251118145741.1042013-1-gprocida@google.com>
-Subject: Re: [PATCH v2] gendwarfksyms: Skip files with no exports
-From: Giuliano Procida <gprocida@google.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
-	Haiyue Wang <haiyuewa@163.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi.
+On 2025-11-17 at 18:41:35 +0000, Maciej Wiecz=C3=B3r-Retman wrote:
+>On 2025-11-11 at 10:31:13 +0100, Alexander Potapenko wrote:
+>>> +#ifdef CONFIG_64BIT
+>>> +static inline void *__tag_set(const void *__addr, u8 tag)
+>>> +{
+>>> +       u64 addr =3D (u64)__addr;
+>>> +
+>>> +       addr &=3D ~__tag_shifted(KASAN_TAG_MASK);
+>>
+>>KASAN_TAG_MASK is only defined in Patch 07, does this patch compile?
+>
+>Seems I forgot to remove it from patch 7. It's originally defined
+>in the mmzone.h file and looked cleaner there according to Andrey.
+>
+>Thanks for noticing it's still in patch 7, I'll get rid of it.
 
-> Thus do the last one: don't attempt to process files if we have no symbol
-> versions to calculate.
+You were right before, after removing that define in patch 7 it doesn't
+compile. I think I'll just open code this definition here:
 
-This results in the -T foo option being ignored in the case there were
-no symbols. I think it would be better, consistent with the
-documentation and expectations, for the file to be produced empty.
+>>> +       addr &=3D ~__tag_shifted((1UL << KASAN_TAG_WIDTH) - 1);
 
-This means that just the for loop should be skipped, say by adding the
-condition there with &&.
+I don't see a nicer solution here if taking things from mmzone.h is out
+of the question. I suppose a #ifndef KASAN_TAG_MASK placed here that
+would just shadow the one in mmzone.h could work too?
 
-If you disagree, then please update the documentation to match the new
-behaviour.
-
-Regards,
-Giuliano.
 
