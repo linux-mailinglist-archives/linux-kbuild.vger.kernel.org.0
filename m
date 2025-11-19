@@ -1,76 +1,113 @@
-Return-Path: <linux-kbuild+bounces-9675-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9676-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343E5C6D8FA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 10:03:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CA7C6E38F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 12:29:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id D2D5C2D69B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 09:03:46 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A85334F138A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 11:21:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1CD333422;
-	Wed, 19 Nov 2025 09:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4A0352954;
+	Wed, 19 Nov 2025 11:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JwIBFnys";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PaAcT0Pa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE806332ED3;
-	Wed, 19 Nov 2025 09:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6295351FDE;
+	Wed, 19 Nov 2025 11:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763543022; cv=none; b=RY2PxUQSWnPyqu//9Vkw9FoHyBBR4ribao+G4ESJntF3O5fO7TiTSAnjBKPyAWrms0m6L7wYK1oBynF7S+uzw/qHW9988fgkgS8OZ3jklPyjYZ8ylkZjiTlToq2Bue3pSmZ4G45yvdKds2+brdrrRqBYlHBPkVCQKYzKDnBJQrk=
+	t=1763551266; cv=none; b=Iqbb6fRIino9O6WtwIgaDTiqZoQs+ncHgNOTNbf6tlChBNAazLrIUMp5xw7GzLN13bC+GZkznC5DvfQuWEDV6jqUslB47ja9Rd6txg+8Dinj8dwFucaaCq5BfkSGBo22PELlPOJLEXWANUKTl17EoYVXA/+0MpFBydtcWRrNIho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763543022; c=relaxed/simple;
-	bh=xWTsceOLcm5alMX7P+IpSRBOivCIAs3CfpJmkO28e9k=;
+	s=arc-20240116; t=1763551266; c=relaxed/simple;
+	bh=wUSBlZZ9YDio7KtZN+X06BL6FGFKBS5aTCskRkM16k8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tynFSJTVS6I7zbZ2FBBbV/Q6+yvZEeRRs28MMnGWgmAOrKHsBlel0YDrbfvW3omSOaw7vd8krb+GGQJ1ML83mqSp7aQJF+ThttRjdOK9VyBxwFSIfLVaFleCUFaR4kKQEA1b+AgTRqQFYAzZY5u5gktbsKB9871YFwGYbhdllS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 571276732A; Wed, 19 Nov 2025 10:03:36 +0100 (CET)
-Date: Wed, 19 Nov 2025 10:03:36 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-fsdevel@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6UtBXukTqsSg1ZGSFVDw+F67+FIcD3tAPfv3Qn8Yz8TqJTCBTnbNEKgCFelPc9nZvkeFXgauHKppLcmtJ7qwOh34sAcJwFaXkgVf38vHE/r2FHVyqQS+qT+wXo3uc8gjRYiG1QHc79ffmzdewOxjHQL1BFbslLqyUMa2hSBAvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JwIBFnys; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PaAcT0Pa; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Wed, 19 Nov 2025 12:20:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1763551257;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUSBlZZ9YDio7KtZN+X06BL6FGFKBS5aTCskRkM16k8=;
+	b=JwIBFnysf2LFLEtQg0xbgBLVccfduk/drgzvy4AakLpJLS1rDRyQ3SzGNJg3IqMxpjwJlF
+	cJrockj9vsQL4Rudtcco4j++0lF0oIiyoJs3cMm0ClblnX8RsGH/ozyLeD57cKb8+aSSJA
+	QI9lVHLOUmernjmTs12vttLTxWC+aCvD6dUgyV5Kjfq3bliqCoXkbvquz3cuHyK0cs9QMH
+	YMMKDLmCGd5XtftYaZeXwOfc8qiUI6pUaSfM6z2O3TCfhMLq5vQPTSpyC606DZEbtIpXr0
+	7C9H0dgS3L9wYZ1tvhxQJHgIS2xnolt2VlX39CkSU6ia9+iUQslt8YQZYkLMHg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1763551257;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUSBlZZ9YDio7KtZN+X06BL6FGFKBS5aTCskRkM16k8=;
+	b=PaAcT0Pa0I47odYk/hl8N5o9JPaoc9DwKGKLs5RMYXX+0Dgn5BKBKHZSE3snhCH4dps8hX
+	5JRbzpviPWRRL3Dw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] fs: unexport ioctl_getflags
-Message-ID: <20251119090336.GC24598@lst.de>
-References: <20251118070941.2368011-1-hch@lst.de> <20251119-frist-vertragen-22e1d099b118@brauner>
+	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v3 7/9] module: Move lockdown check into generic module
+ loader
+Message-ID: <20251119112055.W1l5FOxc@linutronix.de>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <20250429-module-hashes-v3-7-00e9258def9e@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251119-frist-vertragen-22e1d099b118@brauner>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250429-module-hashes-v3-7-00e9258def9e@weissschuh.net>
 
-On Wed, Nov 19, 2025 at 09:45:46AM +0100, Christian Brauner wrote:
-> On Tue, Nov 18, 2025 at 08:09:41AM +0100, Christoph Hellwig wrote:
-> > No modular users, nor should there be any for a dispatcher like this.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> 
-> Ideally we'd be able to catch unnecessary exports automatically.
-> Which would also be nice because it would mean that we could enforce
-> automatic removal of unused exports. I'm pretty sure we have a bunch of
-> them without realizing it.
+On 2025-04-29 15:04:34 [+0200], Thomas Wei=C3=9Fschuh wrote:
+> The lockdown check buried in module_sig_check() will not compose well
+> with the introduction of hash-based module validation.
 
-The problem with that is that it is so configuration dependent.
+An explanation of why would be nice.=20
 
-Also there are occasional cases where we add exports in one merge window
-for the users to appear in the next one to reduce cross-subsystem
-dependencies, so we'd nee to do this manually.
+> Move it into module_integrity_check() which will work better.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-Maybe just having CONFIG_TRIM_UNUSED_KSYMS outout the unused symbols
-in a log file and manually looking over that for various allmodconfigs
-might be a good start.
+Sebastian
 
