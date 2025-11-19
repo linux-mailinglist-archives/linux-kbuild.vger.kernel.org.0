@@ -1,152 +1,130 @@
-Return-Path: <linux-kbuild+bounces-9673-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9674-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A052C6BA68
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 21:37:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812A2C6CBE9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 05:31:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D8EFE35EEBB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Nov 2025 20:36:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 87CCB4F3991
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 04:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450622D7D41;
-	Tue, 18 Nov 2025 20:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cMxRSTiG"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8E822ECE9C;
+	Wed, 19 Nov 2025 04:27:40 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586562D1931;
-	Tue, 18 Nov 2025 20:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1107A2F8BE8;
+	Wed, 19 Nov 2025 04:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763498170; cv=none; b=D+GVWG4Ggm6J8Y5Tn+0pjPObSboXAbNPl/eRhpRpSyMenLGhtEv7NMA7mUekg6DlNmTNkXTeh6uk+LofkG5YPCnJSlfMZfoRh7rOrmbQhblphR1kwl60dpMFTdOzs2RqUYef4mBsEPla+TjeSfdfjywddSP0RgUGMPjx1Y3W9Rs=
+	t=1763526460; cv=none; b=UBgmf0h7jNBR3T/Ti7BKPhPZJF0f1yhunj/GoOta2yqgOKI/EARM1TClsQaweRPdVfw3pytilV6CKvLAiENlJ04xTGhHC//bH9pn7T0kRP97gb/GfZC0EzpZuZbhkt//vWuIv81xs4T/rE4QzmcN01dU/YsiBECk8GqKIDWnbO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763498170; c=relaxed/simple;
-	bh=EpQB4W4oN+k+80/90KKIP9GuppeQYjcHPM3+Ma5SH3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rLYQvP0KxTROLx4drJYedVb4r3O7ssq7aCSBMiKTT54tnRIkO/5RM8nH2Ibg7QprpyFHdoOIycZG3Hvl0zB3FcmgPKKtj2cC5t1GzynCuJPoUHKE5WD2xmD2jj/fT9DoEeD17leTVlcP3wYnL/+HblEe/IR6uH6J1XZ1rlcoPNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cMxRSTiG; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=8ne+SHPq+6VfT3qkrqy+bvDWVXNhMCjamVWYxqPzmM0=; b=cMxRSTiGsEnztYNdVf5WOeLcj2
-	mh0cYP+vXa94/Z42K3EbX5nvN6V2prhStCTmfjfK+n5zJDrkJdtAJFNiB9ZyW/1D8ZRFtTEZkcsrZ
-	Yw55vKRJApWcLv5c2hdhwC7f8cYmixcCSXmOJaap2sf2sMJwezo562mbqIdxAIVz7lbhWmytx0NdS
-	0qqn8IojO0VLG40t67IYVSh2Us9jpZId8ois6lu4EqScSKhSdQgyHrrnZbeVVsPSJqwxEhkNgf6+N
-	Y7XVXeTiLvhNTi9PBtsw5g37tHKmpWznhEdNNbiLZ6GNlfe7vATYyepuqm8iqmu4gLoeDTDjaO9BO
-	o3iZleHw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLRYx-0000000AbLX-1a5u;
-	Tue, 18 Nov 2025 19:40:27 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id A093D30029E; Tue, 18 Nov 2025 21:35:51 +0100 (CET)
-Date: Tue, 18 Nov 2025 21:35:51 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Maciej =?iso-8859-1?Q?Wiecz=F3r-Retman?= <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, kaleshsingh@google.com, kbingham@kernel.org,
-	akpm@linux-foundation.org, nathan@kernel.org,
-	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de,
-	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com,
-	kees@kernel.org, baohua@kernel.org, vbabka@suse.cz,
-	justinstitt@google.com, wangkefeng.wang@huawei.com,
-	leitao@debian.org, jan.kiszka@siemens.com,
-	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com,
-	ubizjak@gmail.com, ada.coupriediaz@arm.com,
-	nick.desaulniers+lkml@gmail.com, ojeda@kernel.org,
-	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com,
-	glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com,
-	jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com,
-	dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com,
-	yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com,
-	samuel.holland@sifive.com, vincenzo.frascino@arm.com,
-	bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
-	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com,
-	kas@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com,
-	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org,
-	rppt@kernel.org, will@kernel.org, luto@kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 15/18] x86/kasan: Handle UD1 for inline KASAN reports
-Message-ID: <20251118203551.GQ3245006@noisy.programming.kicks-ass.net>
-References: <cover.1761763681.git.m.wieczorretman@pm.me>
- <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
- <20251111102719.GH278048@noisy.programming.kicks-ass.net>
- <a4vtlaxadmqod44sriwf2b6cf5fzzvngl6f5s2vg6ziebahjtv@yctbqspkdn2b>
+	s=arc-20240116; t=1763526460; c=relaxed/simple;
+	bh=hLfuJ61oLqW2BaLcphzFXuJJWRUPwv1GeC9b/oMzyGU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=caDagrM1/rpxwBRvcU5GOkutBxrL6CVB/UGenuP7DN8EMjw4OkD8pkGSMKsj5nCbrxnS4Si30MJhC/xA1wFCSNy1UKjD4gqzFBcON2t5eGKVtB38JDSvO/GxzNWzC/ZhODBfXP3Qklm2H8iHY6wpOmVljGQUgXwxLBCF0037gGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8CxbNIyRx1p5lclAA--.15369S3;
+	Wed, 19 Nov 2025 12:27:30 +0800 (CST)
+Received: from linux.localdomain (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowJCxG8EsRx1pchQ4AQ--.53944S2;
+	Wed, 19 Nov 2025 12:27:25 +0800 (CST)
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] kbuild: Add KBUILD_VMLINUX_LIBS_PRELINK
+Date: Wed, 19 Nov 2025 12:27:08 +0800
+Message-ID: <20251119042708.27658-1-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a4vtlaxadmqod44sriwf2b6cf5fzzvngl6f5s2vg6ziebahjtv@yctbqspkdn2b>
+X-CM-TRANSID:qMiowJCxG8EsRx1pchQ4AQ--.53944S2
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoW7tr1fWr1rGry8GFWxGFyrKrX_yoW8Zr1rpa
+	90kw42939rX3yvq397CrW0qw45tFZ8ZrWrWFWDJan8CryDXr4I9rZ2kr43AryDuFyDAF45
+	WF1xAFyakFyDu3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
+	6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jOa93UUUUU=
 
-On Mon, Nov 17, 2025 at 09:47:20AM +0000, Maciej Wieczór-Retman wrote:
+In order to only link libstub to the final vmlinux, it can not use the
+current KBUILD_VMLINUX_LIBS, just add KBUILD_VMLINUX_LIBS_PRELINK. This
+is preparation for later patch, no functionality change.
 
-> >> +void kasan_inline_handler(struct pt_regs *regs)
-> >> +{
-> >> +	int metadata = regs->cx;
-> >> +	u64 addr = regs->di;
-> >> +	u64 pc = regs->ip;
-> >> +	bool recover = metadata & KASAN_ECX_RECOVER;
-> >> +	bool write = metadata & KASAN_ECX_WRITE;
-> >> +	size_t size = KASAN_ECX_SIZE(metadata);
-> >> +
-> >> +	if (user_mode(regs))
-> >> +		return;
-> >> +
-> >> +	if (!kasan_report((void *)addr, size, write, pc))
-> >> +		return;
-> >> +
-> >> +	kasan_die_unless_recover(recover, "Oops - KASAN", regs, metadata, die);
-> >> +}
-> >
-> >I'm confused. Going by the ARM64 code, the meta-data is constant per
-> >site -- it is encoded in the break immediate.
-> >
-> >And I suggested you do the same on x86 by using the single byte
-> >displacement instruction encoding.
-> >
-> >	ud1	0xFF(%ecx), %ecx
-> >
-> >Also, we don't have to use a fixed register for the address, you can do:
-> >
-> >	ud1	0xFF(%ecx), %reg
-> >
-> >and have %reg tell us what register the address is in.
-> >
-> >Then you can recover the meta-data from the displacement immediate and
-> >the address from whatever register is denoted.
-> >
-> >This avoids the 'callsite' from having to clobber cx and move the address
-> >into di.
-> >
-> >What you have here will work, and I don't suppose we care about code
-> >density with KASAN much, but it could've been so much better :/
-> 
-> Thanks for checking the patch out, maybe I got too focused on just
-> getting clang to work. You're right, I'll try using the displacement
-> encoding.
-> 
-> I was attempting a few different encodings because clang was fussy about
-> putting data where I wanted it. The one in the patch worked fine and I
-> thought it'd be consistent with the form that UBSan uses. But yeah, I'll
-> work on it more.
-> 
-> I'll also go and rebase my series onto your WARN() hackery one since
-> there are a lot of changes to traps.c.
+Link: https://lore.kernel.org/lkml/pq4h7jgndnt6p45lj4kgubxjd5gidfetugcuf5rcxzxxanzetd@6rrlpjnjsmuy/
+Suggested-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+There is a long discussion in the previous patch:
+https://lore.kernel.org/lkml/20250928085506.4471-1-yangtiezhu@loongson.cn/
 
-Thanks!
+This version is based on 6.18-rc6, split the generic parts out
+into a separate patch to avoid merge conflicts, the other parts
+will send out after the merge window.
+
+ Makefile                | 1 +
+ scripts/link-vmlinux.sh | 5 ++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index d763c2c75cdb..69485f47b794 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1199,6 +1199,7 @@ KBUILD_VMLINUX_OBJS := built-in.a $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)
+ KBUILD_VMLINUX_LIBS := $(filter-out %/, $(libs-y))
+ 
+ export KBUILD_VMLINUX_LIBS
++export KBUILD_VMLINUX_LIBS_PRELINK
+ export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
+ 
+ ifdef CONFIG_TRIM_UNUSED_KSYMS
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 433849ff7529..e72d3254b93f 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -61,12 +61,11 @@ vmlinux_link()
+ 	shift
+ 
+ 	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
+-		# Use vmlinux.o instead of performing the slow LTO link again.
+ 		objs=vmlinux.o
+-		libs=
++		libs="${KBUILD_VMLINUX_LIBS_PRELINK}"
+ 	else
+ 		objs=vmlinux.a
+-		libs="${KBUILD_VMLINUX_LIBS}"
++		libs="${KBUILD_VMLINUX_LIBS} ${KBUILD_VMLINUX_LIBS_PRELINK}"
+ 	fi
+ 
+ 	if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
+-- 
+2.42.0
+
 
