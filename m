@@ -1,66 +1,93 @@
-Return-Path: <linux-kbuild+bounces-9681-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9682-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BAEC6F1C4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 15:03:05 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B2AC6FD03
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 16:53:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 7910430B4E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 13:55:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 2A8A52F3BF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 15:53:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49A7A366DAB;
-	Wed, 19 Nov 2025 13:54:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF9E536920A;
+	Wed, 19 Nov 2025 15:48:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DiwsSHVB"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VRh9ulT9";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XK8cAQQ9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E574C366575;
-	Wed, 19 Nov 2025 13:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D952E368280;
+	Wed, 19 Nov 2025 15:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763560471; cv=none; b=WFw5dQUAwTSsjfsPmvwdogIx+l2aBKHEdZ9Ki+y2kLc9FyTTC65ZWq9XP63cL4LUWSwwtQpPoO0YyIZ/yC+7hHVpYHsAWS/zB7T0bRoCZCJr5q5W2MuzlfV8xZrv8bYViAFPHqw9qrEi9YPC3GUo5uMhWYWIEB+ndIyfBjT3ajU=
+	t=1763567325; cv=none; b=iKb83G2tbB2gg1T28TeFpGi0C7MVlBs0SQpEPQyI6vrqBpZqS8NgAB2Q+/hdknKAOrNiSq8/YZFrVGXwq+MosWI6Beq0EwhtzT5HbIwTPbz7MquzFV0TwdqD8rlSdX4lr9dSzZYoMTqus5t1FtIXS/WNv8PsWPYA5pvcnCR9AIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763560471; c=relaxed/simple;
-	bh=H2MmjTun/d2cwMOlmdoW2i7WyqB09cABdEW/N90tSjI=;
+	s=arc-20240116; t=1763567325; c=relaxed/simple;
+	bh=MStiUWaHLnkFbuKIFe0Os1WT6o/77tkLZdxBURkti9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2vheI8Tz9DnmedoyLf6OmuZxhy1fZeGHrRGlEoLjdeQuR4J6rn4VNzbx/nN2/4tfvPizToI/nR71nbpyLsa9a6MbV2yI+P9yTIje36ttbNSlSWHkTZXgSIBVJaDR6D2AGsWKTBhl57MmEulzHpiq1I9DeLHYVOr5XwABhG81HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DiwsSHVB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC790C2BC86;
-	Wed, 19 Nov 2025 13:54:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763560470;
-	bh=H2MmjTun/d2cwMOlmdoW2i7WyqB09cABdEW/N90tSjI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DiwsSHVBC8qiiXtRWrusuo5cDlObMGrhdRWLjmLPRgS4nIF0Ah28evTGM27AXSHTF
-	 04qeDfXp4+4oodk7nmggYhcHB9dKxFmRPFi7elkpqBQbTsSec8RvcwKeKV8efzfDnE
-	 ogXEpEcK9QZVDNmB/KgT4GjzDtLdSDUmqGMM6e1OhwI8nRyBdxGIx5VGLizR+t+lLi
-	 L+C/Zjb6VmeyUwFMMM4PyGlHqxJCFxYAPA2//qkd0QM8NMiNKGaRqwg7pSrfdiYuf9
-	 TsZFno8dCh1P2jHQwkfL/wic7WkP1WzmZuok3IGPlak5KTijO5CRCk4mCDWCL8QTdf
-	 gIEmTteUmlZFw==
-Date: Wed, 19 Nov 2025 19:24:12 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: manivannan.sadhasivam@oss.qualcomm.com, Rob Herring <robh@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH 9/9] power: sequencing: pcie-m2: Add support for PCIe M.2
- Key E connectors
-Message-ID: <igtegc4wgi3xiolpbilr3jw7c4xlyrj2d4bqb4b4m2yxcxutjh@4evsl2w6taud>
-References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
- <20251112-pci-m2-e-v1-9-97413d6bf824@oss.qualcomm.com>
- <CAMRc=MeyeyuNVP6CWcxNp8XSCT+P9ZNmgSj6Hktrv8ZYNN5kMg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEiQS3e/IFaHszi1Hjs6WxaCqGzHdFiFj5XkZ4l6F717c+pzGN8xS2MPjcr3A3BYRaf5o+gTsyF47UquIkdre21dUnkN9SjLo0br5VY0hovjxfctY+U4FT4NlHBAGC621j97TP3dDLN8QDdoY1Kba0hxncFuuFcnWo301Uo1j2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VRh9ulT9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XK8cAQQ9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Wed, 19 Nov 2025 16:48:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1763567317;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dQnlE2n5aekx+v6zObGqphQStw7ib6XRN1BfScwnLic=;
+	b=VRh9ulT9FxvWXw7qMNvg+9uqEbxMCDbNhTdu0TX5v8Jes0ESbXArTw+TvOAvrxRS9JJ2HV
+	JXYinsWrLLUTIDhNkVDo8fLhscZVlJtULXtH2F8ss4EgU+hPaS3aGl1MektltakP3CN5AS
+	MR+m66XxqYw6tAt0DewTszz+Lq+yBh+ZO9bCCdD5EgizYN/0aHF3aHdNeVAqNlAE1p0xnH
+	anshj0nr96xb7MViJ6sK/AT50w5MEHipWVDn3a7naUaCV36XkpcXZRam5SR1Ldaz6/+zlK
+	edwu9fTV5jAk4FXDjYH0+qekDRokeOz/zYC1UIQt1SZJHvgDN8NzzGqdt45AMw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1763567317;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dQnlE2n5aekx+v6zObGqphQStw7ib6XRN1BfScwnLic=;
+	b=XK8cAQQ9othT6G++4p2Pn+74xeBwkh0bSY/TQQSgsoPxSMehVrp8KtnZXI7Biuir2r6hnA
+	WYH4a8uF8T6ihmBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
+Message-ID: <20251119154834.A-tQsLzh@linutronix.de>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -69,164 +96,66 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MeyeyuNVP6CWcxNp8XSCT+P9ZNmgSj6Hktrv8ZYNN5kMg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
 
-On Wed, Nov 19, 2025 at 02:28:00PM +0100, Bartosz Golaszewski wrote:
-> On Wed, Nov 12, 2025 at 3:45 PM Manivannan Sadhasivam via B4 Relay
-> <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> wrote:
-> >
-> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> >
-> > Add support for handling the power sequence of the PCIe M.2 Key E
-> > connectors. These connectors are used to attach the Wireless Connectivity
-> > devices to the host machine including combinations of WiFi, BT, NFC using
-> > interfaces such as PCIe/SDIO for WiFi, USB/UART for BT and I2C for NFC.
-> >
-> > Currently, this driver supports only the PCIe interface for WiFi and UART
-> > interface for BT. The driver also only supports driving the 3.3v/1.8v power
-> > supplies and W_DISABLE{1/2}# GPIOs. The optional signals of the Key E
-> > connectors are not currently supported.
-> >
-> > For supporting Bluetooth over the non-discoverable UART interface, the
-> > driver currently creates the serdev interface after enumerating the PCIe
-> > interface. This is mandatory since the device ID is only known after the
-> > PCIe enumeration and the ID is used for creating the serdev device.
-> >
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > ---
-> >
-> > +static int pwrseq_pci_m2_e_uart_enable(struct pwrseq_device *pwrseq)
-> > +{
-> > +       struct pwrseq_pcie_m2_ctx *ctx = pwrseq_device_get_drvdata(pwrseq);
-> > +
-> > +       gpiod_set_value_cansleep(ctx->w_disable2_gpio, 0);
-> 
-> Since this is new code and gpiod_set_value_cansleep() now returns an
-> integer, can you do
-> 
+On 2025-04-29 10:05:04 [-0400], James Bottomley wrote:
+> On Tue, 2025-04-29 at 15:04 +0200, Thomas Wei=C3=9Fschuh wrote:
+> > The current signature-based module integrity checking has some
+> > drawbacks in combination with reproducible builds:
+> > Either the module signing key is generated at build time, which makes
+> > the build unreproducible,
+>=20
+> I don't believe it does: as long as you know what the key was, which
+> you can get from the kernel keyring, you can exactly reproduce the core
+> build (it's a public key after all and really equivalent to built in
+> configuration).  Is the fact that you have to boot the kernel to get
+> the key the problem?  In which case we could insist it be shipped in
+> the kernel packaging.
 
-Ack
+The kernel itself is signed. This is not a problem because distros have
+the "unsigned" package which is used for comparison.
+The modules are signed by an ephemeral key which is created at build
+time. This is where the problem starts:
+- the public key is embedded into the kernel. Extracting it with tooling
+  is possible (or it is part of the kernel package). Adding this key
+  into the build process while rebuilding the kernel should work.
+  This will however alter the build process and is not *the* original
+  one, which was used to build the image.
 
->   return gpiod_set_value_cansleep()?
-> 
-> Same elsewhere.
-> 
-> >
-> > +static int pwrseq_m2_pcie_notify(struct notifier_block *nb, unsigned long action,
-> > +                             void *data)
-> > +{
-> > +       struct pwrseq_pcie_m2_ctx *ctx = container_of(nb, struct pwrseq_pcie_m2_ctx, nb);
-> > +       struct pci_dev *pdev = to_pci_dev(data);
-> > +       struct device_node *remote;
-> > +       struct serdev_controller *serdev_ctrl;
-> > +       struct serdev_device *serdev;
-> > +       struct device *dev = ctx->dev;
-> > +       int ret;
-> > +
-> > +       /*
-> > +        * Check whether the PCI device is associated with this M.2 connector or
-> > +        * not, by comparing the OF node of the PCI device parent and the Port 0
-> > +        * (PCIe) remote node parent OF node.
-> > +        */
-> > +       remote = of_graph_get_remote_node(dev_of_node(ctx->dev), 0, -1);
-> > +       if (!remote || (remote != pdev->dev.parent->of_node)) {
-> > +               of_node_put(remote);
-> 
-> You could really use some __free(device_node) here. It would simplify
-> the code below quite a bit and make sure you don't miss anything.
-> 
+- the private key remains unknown which means the modules can not be
+  signed. The rebuilding would need to get past this limitation and the
+  logic must not be affected by this "change". Then the modules need to
+  be stripped of their signature for the comparison.
 
-Ack. I'm still trying to get used to the scope based cleanup :)
+Doing all this requires additional handling/ tooling on the "validation"
+infrastructure. This infrastructure works currently without special
+care.
+Adding special care will not build the package exactly like it has been
+built originally _and_ the results need to be interpreted (as in we
+remove this signature and do this and now it is fine).
 
-> > +               return NOTIFY_DONE;
-> > +       }
-> > +       of_node_put(remote);
-> > +
-> > +       switch (action) {
-> > +       case BUS_NOTIFY_ADD_DEVICE:
-> > +               /* Create serdev device for WCN7850 */
-> > +               if (pdev->vendor == PCI_VENDOR_ID_QCOM && pdev->device == 0x1107) {
-> > +                       remote = of_graph_get_remote_node(dev_of_node(ctx->dev), 1, -1);
-> > +                       if (!remote) {
-> > +                               of_node_put(remote);
-> > +                               return NOTIFY_DONE;
-> > +                       }
-> > +
-> > +                       serdev_ctrl = of_find_serdev_controller_by_node(remote);
-> > +                       of_node_put(remote);
-> > +                       if (!serdev_ctrl)
-> > +                               return NOTIFY_DONE;
-> > +
-> > +                       serdev = serdev_device_alloc(serdev_ctrl);
-> > +                       if (!serdev)
-> > +                               return NOTIFY_DONE;
-> > +
-> > +                       ret = serdev_device_add(serdev, "WCN7850");
-> > +                       if (ret) {
-> > +                               dev_err(dev, "Failed to add serdev for WCN7850: %d\n", ret);
-> > +                               serdev_device_put(serdev);
-> > +                               return NOTIFY_DONE;
-> > +                       }
-> > +               }
-> > +               break;
-> > +       }
-> > +
-> > +       return NOTIFY_DONE;
-> > +}
-> > +
-> > +static bool pwrseq_pcie_m2_check_remote_node(struct device *dev, u8 port, const char *node)
-> > +{
-> > +       struct device_node *remote;
-> 
-> Same here.
-> 
-> > +
-> > +       remote = of_graph_get_remote_node(dev_of_node(dev), port, -1);
-> > +       if (remote && of_node_name_eq(remote, node)) {
-> > +               of_node_put(remote);
-> > +               return true;
-> > +       }
-> > +
-> > +       of_node_put(remote);
-> > +
-> > +       return false;
-> > +}
-> > +
-> > +/*
-> > + * If the connector exposes a non-discoverable bus like UART, the respective
-> > + * protocol device needs to be created manually with the help of the notifier
-> > + * of the discoverable bus like PCIe.
-> > + */
-> 
-> I really like this idea BTW!
-> 
-> > +static void pwrseq_pcie_m2_register_notifier(struct pwrseq_pcie_m2_ctx *ctx, struct device *dev)
-> > +{
-> > +       int ret;
-> > +
-> > +       /*
-> > +        * Register a PCI notifier for Key E connector that has PCIe as Port 0
-> > +        * interface and Serial as Port 1 interface.
-> > +        */
-> > +       if (pwrseq_pcie_m2_check_remote_node(dev, 1, "serial")) {
-> > +               if (pwrseq_pcie_m2_check_remote_node(dev, 0, "pcie")) {
-> > +                       ctx->dev = dev;
-> > +                       ctx->nb.notifier_call = pwrseq_m2_pcie_notify;
-> > +                       ret = (bus_register_notifier(&pci_bus_type, &ctx->nb));
-> > +                       if (ret) {
-> > +                               dev_err_probe(dev, ret, "Failed to register notifier for serdev\n");
-> 
-> If this is optional and we don't handle the error, should we really
-> print it as one? I'd say a dev_dbg() would suffice unless the failure
-> here impacts the driver's behavior (which it does, so maybe the
-> notifier should not be optional?).
-> 
+Adding hashes of each module into the kernel image looks like a
+reasonable thing to do. I don't see any downsides to this. Yes, you are
+limited to the modules available at build time but this is also the case
+today with the ephemeral key. It is meant for distros not for individual
+developers testing their code.
 
-Fair enough. I was on double mind tbh. But it makes sense to return failure.
+With this change it is possible to build a kernel and its modules and
+put the result in an archive such as tar/ deb/ rpm. You can build the
+package _again_ following exactly the same steps as you did before and
+the result will be the identical archive.
+Bit by bit.
+No need for interpreting the results, stripping signatures or altering
+the build process.
 
-- Mani
+I fully agree with this approach. I don't like the big hash array but I
+have an idea how to optimize that part. So I don't see a problem in the
+long term.
 
--- 
-மணிவண்ணன் சதாசிவம்
+> Regards,
+>=20
+> James
+
+Sebastian
 
