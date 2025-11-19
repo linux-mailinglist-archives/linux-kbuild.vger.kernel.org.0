@@ -1,110 +1,125 @@
-Return-Path: <linux-kbuild+bounces-9686-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9687-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAC8C70A6F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 19:32:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D51C70EA8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 20:56:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AF3434E1F0A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 18:26:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id C897929793
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 19:56:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7ACD189BB0;
-	Wed, 19 Nov 2025 18:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A1636826D;
+	Wed, 19 Nov 2025 19:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="izlcdAOR"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="b+5LHHKo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DA930F7EB
-	for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 18:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A8731196D
+	for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 19:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763576776; cv=none; b=nX94iiXAq1eKVDDXORxsC0yHrabRyjPrun0ZODRd0mgYBjmZ1NU6dtKDpuX2Xo3egcsK57Pc/Ctb8+MUe6QZeenymS6e8522hZKGN1RuRx3hAUczStnsg6zsL0Y/YJ1x5A634iUzVEn1HqgqvzawNicmG62D4XSRDx6o40UWTK4=
+	t=1763582163; cv=none; b=U+sNa2bHHAlK38LplfloJiXu3jAZhsD6lzxxKzRF4ZJhKNtQuPN16lX9vrsBzzopKXl9CG4ipXG9C4WyLf07LvHM2UwF23evhLYsdhugiQpsWhgxCoAMnAVrHklb57LlKl9gLg5ho+GQKPYLxBNmQpsY2N+oEGmyj7D9i3WEay0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763576776; c=relaxed/simple;
-	bh=EjgUwYT+g1y2JFx/9PFi1UuA9kC+2dg2j0/sfmhoYbs=;
+	s=arc-20240116; t=1763582163; c=relaxed/simple;
+	bh=DN/DzA6q+86ev6MGPfAT+dLF+J2Uxfsbiqindp3jA1o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gjZ7l2UhJUm01S9w+hAdM1fY1l1ha2XEQ85vBQo64j/R9jxRGHYPkrO6OsqU2HutMSVtWeqn4GPsFhhYuPSFEg/WAXGISdyp17sefMGj0KwvqVj48IRO4IsgEzqxVJET3UYuXxUUHgrZ38lcLE+ZvPaiMAYCYvKFwbJzDG2Rr9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=izlcdAOR; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b735ce67d1dso10178966b.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 10:26:09 -0800 (PST)
+	 To:Cc:Content-Type; b=BH5SC8zeVHi3xeMgemXf6JBlcEP+WmZFe8YZ9xdjvT10mbnsb/6GsxWoWEGliRtaAiiQ6bo/diVg97XP9EzW5eWGtkI31piMe6hwFLtSILSSZdU4BmQ90ZX4j0cob6APMVJlE0bYNnoGl3XxAshm+bXQiiXGfoOqhvFcAOJTLg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=b+5LHHKo; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-29558061c68so1848155ad.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 11:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763576766; x=1764181566; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/0k/786NNZrTNzgG2V0hJHswcQ0gq84yCvnxP+cqo0=;
-        b=izlcdAORDiqeOg1ABywnNcEdmm8sMq74cdOGgSLvPx06WhQ8qmXztEqfbvgk12ePAL
-         UFmJuxViHPskDCkcYH4s0W0I6YGEpfYrTqoH4tuTD9J5Q+NEqeoKYsn56LoL2Sn6WBE+
-         UuJSDfQZBQAgT3lnEcPfD6AzJ3PZFabXM3Gcc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763576766; x=1764181566;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=paul-moore.com; s=google; t=1763582159; x=1764186959; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J/0k/786NNZrTNzgG2V0hJHswcQ0gq84yCvnxP+cqo0=;
-        b=JaDc3J9sx7+WfhV4666VMps0FMwY6if7ELtQRmEvbHOQwyt6M6vOkmYzpBk9GqHZuZ
-         teage0YXEAVkoxmvs0k9k4h5QUjbI9E7WH26gxtz2Wpb+sh3bFflH9WiIcGhSyq+I8rX
-         vpYeZWMdi9JbKJd+H9d25Oy7CukEmgvvph8vu8zSw9K5MCkvC+pWM8REzNsrowZjLZI2
-         +ys/b9ACx/748TON1f7jWRA/ZsjXkMGb4mrXVNXf0ulmfe1cJL3dPkF1sg3AioQwsq+t
-         Kpm48LxOO0Wp0/umuAwHcOCZDIUjavbiN1+qrv/m6LOVy4gueCUMCjzi8qJekso1cqOS
-         SpBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUVgXyJsHbxK2lZ8PkQibMbhlmf1pMBJSn0ta48Q4XaeLl9LsyNbLPSbFkrtuJDmiZDtgvkzTO/zfkwFwA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQDjRFlgtZSPycF/YfQWIrEws3B1xxH/KVxKX5wWVS+ERRtt/I
-	8gN/dj3gB7YQpJNXp19Rvq8RdCrIfixSrmEmC8+AiNwV6/37XT51UGJYKtwkY054dlgUYzxspec
-	8yd51cVeZvvN+tY/ZjfseepmXg3YjBJEuZVsPyUh2
-X-Gm-Gg: ASbGncvofO3Z95yU2vJXoFRmYIKsJDhRtm09mbf1ipKc9Wqo/sXn3YlyJRL4qoCg7qh
-	ReenSfb0M29u6H3UgUtTjxrODuTMg4HgiR5+N4D6Wxm+9+caqp4vVHPceyaEX6c3s0K5cBDEvno
-	+sle5qQIjGRlKBdliUPCVdGUAM7Sg4H8+bD3ZIT0oFMK00pnJc8yFquVKNj1LnWLn2VAPXREeyL
-	Vdf33UAEbxm/1y3CeW0l+7DAGur8qGVavjzE+BOxksemhoiCqRCy1mT18T8lIwAn/fWO9Knlnbg
-	PoyO
-X-Google-Smtp-Source: AGHT+IHn7Yl6CGz5ri+HRljjRFX0a25EhIRT71njQxzQyeKofDCi5+wW9Azx6XhEPOmwLRjPV/Xb+auFfcON9bFBCwQ=
-X-Received: by 2002:a17:907:6e92:b0:b76:26bc:f95f with SMTP id
- a640c23a62f3a-b7654add587mr16158266b.0.1763576766217; Wed, 19 Nov 2025
- 10:26:06 -0800 (PST)
+        bh=DN/DzA6q+86ev6MGPfAT+dLF+J2Uxfsbiqindp3jA1o=;
+        b=b+5LHHKo2uZFLgJwzREuY9gs6Zw+2e6wzfSVyCM6Eis7Crav0/UquXBkt3eWPsDkr1
+         zumaiIjnYOrQCagOg1M2UzdnVGm3MhCL43iRsDPC336Q2WCxQBcvPSe5leC4gw2poj7s
+         KsOFzixapMh3zBZemmBMkB2vuw8fEux8tQwtslZ2bLQ3n2gaiOIK1Uu0J9TWwaRmPCA+
+         pt6Y0hN/mNSTc+o/bby86XwRBgkwB+PebYDHdrqrwjXs9A5Hinsb/r9fsAi6ZI/yH2hl
+         sdlkuhJF03Ne6XEcF+wR8x9Cg5D3Y3iaZenTQdNJuE9JeHIAuVTfHPQjXHX1SWWjwTId
+         norw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763582159; x=1764186959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DN/DzA6q+86ev6MGPfAT+dLF+J2Uxfsbiqindp3jA1o=;
+        b=DrCSrEOzt/GRuziLXGl+pD/lZi1U4i3cN310yEQacuAF0tNESoGCA8AxoslwAIeWLv
+         YjyYKNVN4Bf62vmoNQoRNOhY8nD9XLGMGQuEwZwuR9Aw3ZbC2oEcdUwK7S4qrOK1ip6a
+         gf5s3mAIo6qwPKSd8HKBbZvYK3t+f8iAB7V/aB1aIVKgNifUaYUKy/PvTBWzWWvlqW/Z
+         V+DLC+Pp6UcYOBdE00EQCd+OGTvG2qp5mF6Dbn+ML+SdsmWAEJdzw/GbkOZ8fJs2LpUM
+         YtbQ6F18MNGpAtC9LhpPvhR5ERSvAky1OdcmS72oG+B6PbusjFyFg0jVnbRWTWfbLCYr
+         9Mpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbYVq4v6VM1TDTt+e7LExS/UEoeXNfW/LmjOgEzx9fUz64iDBvxmHo1Gw+HM4M8iDoo4d7Ejn0ZkKVHSk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytS5zdKWd5JIn/0a53277YAh1XwW2F+O+kjMusV0YdyYQ/6e9V
+	tVZGPZCiqOS89eAw/r9FCPq77MD7pgBZ0UjW18Q2I8vaD/82MMLgkl7Go90m0FssM3HbvIW4E2y
+	fxnuTir4cQ/pcbJ6o9G6zKRpSyt2OcPyFS2eJ/q1y
+X-Gm-Gg: ASbGncuBYJeb2b1GEMpRvUotTK5IXzpsSBddRWol0+gJgBVzAIOTKzEO7EfqQYjn+ID
+	2Mkn62wW8eGHhKtBaHTgwjrhbw60Ug44eoCeCWq7NKdrzcUedTEgI6XtKv1jM24Ev5ZYXX0jZjt
+	jyH8DpvMu/fg6bnMKZWeWUjq90n154Gj2z1CqjysvRDsWI3fTSED4glVrqaTtbDKuKqRjhv2Tla
+	1cch5brcr3pGObXe9590ovBuKfveDyGYc7SeDj+BhQzpKKqa44Bs3/c81DbfC+Fa4rQDNg=
+X-Google-Smtp-Source: AGHT+IFH9MSHfJWp6YXFB42UsuMhoLOkEWsFTDtMBAdcLCsEfu9ycctu3VPOXdyMN2njeOgrz0I5tCYbRs8o2VLROfk=
+X-Received: by 2002:a17:903:19cd:b0:295:a1a5:baf7 with SMTP id
+ d9443c01a7336-29b5b0d7f17mr6451945ad.37.1763582159025; Wed, 19 Nov 2025
+ 11:55:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
-In-Reply-To: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
-From: Simon Glass <sjg@chromium.org>
-Date: Wed, 19 Nov 2025 11:25:54 -0700
-X-Gm-Features: AWmQ_bkIPSrFQXttxhwEtB_FMvOnOc5OuQ1pu8cpgAf1EfFaq83_ktFA5Z_JgR4
-Message-ID: <CAFLszTgxLfDucOJK70EXh6PXGMcitC1_8QyWGo3DeruQnGMx+A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add target to build a cpio containing modules
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	kernel@pengutronix.de, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <20250429-module-hashes-v3-7-00e9258def9e@weissschuh.net> <20251119112055.W1l5FOxc@linutronix.de>
+In-Reply-To: <20251119112055.W1l5FOxc@linutronix.de>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 19 Nov 2025 14:55:47 -0500
+X-Gm-Features: AWmQ_bn1L21n_pWrZnJvXRwL1Z-01d6qlYWdrkllcBBpENXLHykDJ3f6oq3wlNk
+Message-ID: <CAHC9VhTuf1u4B3uybZxdojcmz5sFG+_JHUCC=C0N=9gFDmurHg@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] module: Move lockdown check into generic module loader
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	=?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
+	Christian Heusel <christian@heusel.eu>, =?UTF-8?Q?C=C3=A2ju_Mihai=2DDrosi?= <mcaju95@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 15 Nov 2025 at 07:31, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+On Wed, Nov 19, 2025 at 6:20=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+> On 2025-04-29 15:04:34 [+0200], Thomas Wei=C3=9Fschuh wrote:
+> > The lockdown check buried in module_sig_check() will not compose well
+> > with the introduction of hash-based module validation.
 >
-> From: Sascha Hauer <s.hauer@pengutronix.de>
->
-> Add a new package target to build a cpio archive containing the kernel
-> modules. This is particularly useful to supplement an existing initramfs
-> with the kernel modules so that the root filesystem can be started with
-> all needed kernel modules without modifying it.
->
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> Co-developed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
->  .gitignore               |  5 +++++
->  Makefile                 |  2 +-
->  scripts/Makefile.package | 17 +++++++++++++++++
->  3 files changed, 23 insertions(+), 1 deletion(-)
->
+> An explanation of why would be nice.
 
-Reviewed-by: Simon Glass <sjg@chromium.org>
-Tested-by: Simon Glass <sjg@chromium.org>
+/me shrugs
+
+I thought the explanation was sufficient.
+
+> > Move it into module_integrity_check() which will work better.
+> >
+> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+
+--=20
+paul-moore.com
 
