@@ -1,167 +1,118 @@
-Return-Path: <linux-kbuild+bounces-9764-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9688-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556A2C7B948
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 20:47:14 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9B5C7161E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 23:53:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2152C4E9EBC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:47:10 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9382335517A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 22:52:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F93F303A3C;
-	Fri, 21 Nov 2025 19:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7A5432C328;
+	Wed, 19 Nov 2025 22:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vA0nnPi2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEzOboja"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2A3302CAB;
-	Fri, 21 Nov 2025 19:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC42932B994;
+	Wed, 19 Nov 2025 22:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763754424; cv=none; b=gOsy/bkLkDZyDcj1+9s5HI0CH2r8zTVdDScJfOXGF4g/McZNBeQsEOaB3xTkMYOwrRTHWcL6Y0TF0SkIxin53Q8e4tTa6u5G7u1+TD9o6MVKXYeUGtgIb2Mo9iLeta2D7FJ86WRWW+nibc0kIVQESZuqhm8FEEfS1w3/3wn48/E=
+	t=1763592273; cv=none; b=hhanbMUFvnlpCtArfaZPD8HEBlA6wZPNn1ucAkOjfhACeiZwMbwDMzt+KIBisrjUc/XHC4UDqDG+x6mevouR1r4O8oqhrTrgq97ILI4lj74nMy52ot9s4etP+/kBAxb1K9Wuzhjqbu/V0g/oqyUeTep/AODA7wYojadY5SyU/yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763754424; c=relaxed/simple;
-	bh=G12g/v72rpg6oHwIsKwW7r2AWt7vFH3TU2TWjKKMmTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KLzRHgy3G4Ecb97SgHqWO3SE3OjjWcQMCa+qh/SaMUlCijq3oWVZ1PqPl54Zc6AHLA21HKlCENH8dEBqQPPejgtTmDfoXdgwDYNJb+8ttr/xQe2JOCNARfydg84Mi4pV7f5+sN001n+vdYh8zf22XgPTGQC5m7xvEhdS+aHDCJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vA0nnPi2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A08C4CEF1;
-	Fri, 21 Nov 2025 19:47:02 +0000 (UTC)
+	s=arc-20240116; t=1763592273; c=relaxed/simple;
+	bh=IA5GMOO9Vy0/NooVwZpkppIb8LeIk+vJSQM3MYS7+ig=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lyYyDK2Ae/Mdma149lUIUuW1JsbqKZaRfgC+IlA1aIh30uCfNPZM73b5yiwVvtuDALFK3Fv2glIqXau1ow8xXkSt4Hc4WaZ+QhF8MHL4kr6A0/eAkv2Yzop7TK0/qE1suJk383UJCeKw5AFEca5bV7G0LfKSL9pHPvjmFu3U5GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEzOboja; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 206BDC4CEF5;
+	Wed, 19 Nov 2025 22:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763754423;
-	bh=G12g/v72rpg6oHwIsKwW7r2AWt7vFH3TU2TWjKKMmTI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vA0nnPi2O04n7Q5BW039HbXJtxLU0zsf+WGFpaPBzSwMaFdCStHsyGV0r4EQ5NcmW
-	 4AljIb7Mm8w1Q+0QbxTmLUGLDFa5TD8/PckwsAoc8Qvqkho6HvGFTwQV+7Do4HJfiK
-	 x6deAs6N7fhGNP9OQAnilEPoP5YuXB63Kzv/W8lEG0z5ExpFFFG02OQLB6QctjxKhn
-	 XV3tRvRC85odnCZjI6kHSTii8AHOMQbn2wsPmvUjoez117IMuoEobrkNkMMlycU9/M
-	 Lx6YmzfEgfrlezTqXCmHQBSRwR8tibr8smfoshaPW8yOJt0kJIAR1+pFJkYe7oXByZ
-	 37JqUibbW9QOg==
-Date: Wed, 19 Nov 2025 21:20:32 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Tom Rini <trini@konsulko.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	J =?iso-8859-1?Q?=2E_Neusch=E4fer?= <j.ne@posteo.net>,
-	Chen-Yu Tsai <wenst@chromium.org>,
+	s=k20201202; t=1763592273;
+	bh=IA5GMOO9Vy0/NooVwZpkppIb8LeIk+vJSQM3MYS7+ig=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jEzObojasE+oO8OTDcrOdfp3nSq4lKpUeoEmuIYHzu+xe4+3ctPom/2CT/X54KGte
+	 w7KzjS9mb7SDBiO3EuydoGcD0yAJ41RPKzR7GQ05AGn7XgFppcT7dnZAmAqv1kQ9RI
+	 UtaAJlEfIVvD23ZUC9iM/28Tk+++O6Neu89/i7REbwcnlo2XUy8VmysL4T+zYOF/Ya
+	 XIOCH8mt5ns7CKYtQ2s7kgJuHlAPC6eQeVIWFBkgEvGPFXIowbuFkoDK7dNpyb5xDa
+	 //wezwx9ROHmCm0/iwNzW7qcKPvD2R9Vb9KJOM4hppQZ052Pl5+l2pW/LPMpWYRupX
+	 2n6FLmjF581rQ==
+From: Kees Cook <kees@kernel.org>
+To: "Gustavo A . R . Silva" <gustavoars@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, Kees Cook <kees@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Rong Xu <xur@google.com>,
-	Tamir Duberstein <tamird@gmail.com>, Will Deacon <will@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 6/8] kbuild: Allow adding modules into the FIT ramdisk
-Message-ID: <aR4mkHDgVOj3715A@derry.ads.avm.de>
-References: <20251119181333.991099-1-sjg@chromium.org>
- <20251119181333.991099-7-sjg@chromium.org>
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Tamir Duberstein <tamird@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] kbuild: Enable GCC diagnostic context for value-tracking warnings
+Date: Wed, 19 Nov 2025 14:44:31 -0800
+Message-Id: <20251119224426.work.380-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119181333.991099-7-sjg@chromium.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2220; i=kees@kernel.org; h=from:subject:message-id; bh=IA5GMOO9Vy0/NooVwZpkppIb8LeIk+vJSQM3MYS7+ig=; b=owGbwMvMwCVmps19z/KJym7G02pJDJlyHn5Ozo8fmYdkhCUGX/6tZvF/iq5hw+YpcZOWXt5dJ TzB/vvPjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgImoyTL8YtKQz34e/tBnbtib fqGl8Rs3b7O8frG1valfbvuVhjdRVYwMvRtmHmNLefmTWVsqdbrfS46E+9bO23cxf53+aVPXgTs CnAA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 19, 2025 at 11:13:27AM -0700, Simon Glass wrote:
-> Support 'make image.fit FIT_MODULES=1' to put all the modules into a
-> ramdisk image within the FIT.
-> 
-> Add image.fit as a target which requires modules, so that modules will
-> built automatically when using FIT_MODULES is not empty.
-> 
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> Suggested-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> Suggested-by: Reviewed-by: Nicolas Schier <nsc@kernel.org>
+Enable GCC 16's coming "-fdiagnostics-show-context=2" option[1] to
+provide enhanced diagnostic information for value-tracking warnings, which
+displays the control flow chain leading to the diagnostic. This covers our
+existing use of -Wrestrict and -Wstringop-overread, and gets us closer to
+enabling -Warray-bounds, -Wstringop-overflow, and -Wstringop-truncation.
 
-I think the
+The context depth of 2 provides the immediate decision path that led to
+the problematic code location, showing conditional checks and branch
+decisions that caused the warning. This will help us understand why
+GCC's value-tracking analysis triggered the warning and makes it easier
+to determine whether warnings are legitimate issues or false positives.
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+For example, an array bounds warning will now show the conditional
+statements (like "if (i >= 4)") that established the out-of-bounds access
+range, directly connecting the control flow to the warning location.
+This is particularly valuable when GCC's interprocedural analysis can
+generate warnings that are difficult to understand without seeing the
+inferred control flow.
 
-is enough :)
+Link: https://github.com/gcc-mirror/gcc/commit/6faa3cfe60ff9769d1bebfffdd2c7325217d7389 [1]
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>
+Cc: <linux-kbuild@vger.kernel.org>
+---
+ Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks.
-
-
-> Acked-by: Nathan Chancellor <nathan@kernel.org>
-> ---
-> 
-> Changes in v6:
-> - Mention that FIT_MODULES just needs to be non-empty
-> - Make use of modules.order instead of using 'find'
-> 
-> Changes in v5:
-> - Build modules automatically if needed (fix from Nicolas Schier)
-> 
-> Changes in v4:
-> - Rename the Makefile variable from 'EXTRA' to 'MAKE_FIT_FLAGS'
-> - Use an empty FIT_MODULES to disable the feature, instead of '0'
-> - Make use of the 'modules' dependency to ensure modules are built
-> - Pass the list of modules to the script
-> 
->  Makefile             | 1 +
->  arch/arm64/Makefile  | 1 +
->  scripts/Makefile.lib | 6 +++++-
->  3 files changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 8cd46222fc48..4eccaef95826 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -773,6 +773,7 @@ endif
->  # Just "make" or "make all" shall build modules as well
->  
->  modules-targets := all
-> +modules-targets += $(if $(FIT_MODULES),image.fit)
->  modules-targets += modules
->  modules-targets += nsdeps
->  modules-targets += compile_commands.json
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index 73a10f65ce8b..7036f251ab40 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -174,6 +174,7 @@ endif
->  all:	$(notdir $(KBUILD_IMAGE))
->  
->  image.fit: dtbs
-> +image.fit: $(if $(FIT_MODULES),modules)
->  
->  vmlinuz.efi image.fit: Image
->  $(BOOT_TARGETS): vmlinux
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1d581ba5df66..28e0cc0865b1 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -398,11 +398,15 @@ MAKE_FIT := $(srctree)/scripts/make_fit.py
->  # Use this to override the compression algorithm
->  FIT_COMPRESSION ?= gzip
->  
-> +# Set this to non-empty to include an initrd with all the kernel modules
-> +FIT_MODULES ?=
-> +
->  quiet_cmd_fit = FIT     $@
->        cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-> -		--name '$(UIMAGE_NAME)' \
-> +		--name '$(UIMAGE_NAME)' $(MAKE_FIT_FLAGS) \
->  		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
->  		$(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
-> +		$(if $(FIT_MODULES),--modules @$(objtree)/modules.order) \
->  		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
->  
->  # XZ
-> -- 
-> 2.43.0
-> 
-
+diff --git a/Makefile b/Makefile
+index d14824792227..d97452441cd0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -940,6 +940,9 @@ KBUILD_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
+ # for the randomize_kstack_offset feature. Disable it for all compilers.
+ KBUILD_CFLAGS	+= $(call cc-option, -fno-stack-clash-protection)
+ 
++# Get details on warnings generated due to GCC value tracking.
++KBUILD_CFLAGS	+= $(call cc-option, -fdiagnostics-show-context=2)
++
+ # Clear used registers at func exit (to reduce data lifetime and ROP gadgets).
+ ifdef CONFIG_ZERO_CALL_USED_REGS
+ KBUILD_CFLAGS	+= -fzero-call-used-regs=used-gpr
 -- 
-Nicolas
+2.34.1
+
 
