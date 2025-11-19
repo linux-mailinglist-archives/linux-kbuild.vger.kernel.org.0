@@ -1,161 +1,177 @@
-Return-Path: <linux-kbuild+bounces-9682-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9683-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B2AC6FD03
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 16:53:55 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32029C709D5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 19:19:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id 2A8A52F3BF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 15:53:53 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EC766344674
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 18:14:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF9E536920A;
-	Wed, 19 Nov 2025 15:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9890F341057;
+	Wed, 19 Nov 2025 18:14:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VRh9ulT9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XK8cAQQ9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gbRIxQut"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D952E368280;
-	Wed, 19 Nov 2025 15:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC100366DC1
+	for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 18:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763567325; cv=none; b=iKb83G2tbB2gg1T28TeFpGi0C7MVlBs0SQpEPQyI6vrqBpZqS8NgAB2Q+/hdknKAOrNiSq8/YZFrVGXwq+MosWI6Beq0EwhtzT5HbIwTPbz7MquzFV0TwdqD8rlSdX4lr9dSzZYoMTqus5t1FtIXS/WNv8PsWPYA5pvcnCR9AIo=
+	t=1763576045; cv=none; b=XKE2IVMvD6bENWAepGZjm39Dqr0ToD7J8/YhLxbrf8xu2LtWDRnrhVtKk7XDe4aql1w2G9vOAeoW49aoP22pqqFxQRqudnMEUhlv/8OkdBf0njHC46/lBowNibuPoa27LiDPGGsjAbSioH4xuhWfN6uqqSfGOx+XEPENbZTmKmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763567325; c=relaxed/simple;
-	bh=MStiUWaHLnkFbuKIFe0Os1WT6o/77tkLZdxBURkti9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pEiQS3e/IFaHszi1Hjs6WxaCqGzHdFiFj5XkZ4l6F717c+pzGN8xS2MPjcr3A3BYRaf5o+gTsyF47UquIkdre21dUnkN9SjLo0br5VY0hovjxfctY+U4FT4NlHBAGC621j97TP3dDLN8QDdoY1Kba0hxncFuuFcnWo301Uo1j2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VRh9ulT9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XK8cAQQ9; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Wed, 19 Nov 2025 16:48:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763567317;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dQnlE2n5aekx+v6zObGqphQStw7ib6XRN1BfScwnLic=;
-	b=VRh9ulT9FxvWXw7qMNvg+9uqEbxMCDbNhTdu0TX5v8Jes0ESbXArTw+TvOAvrxRS9JJ2HV
-	JXYinsWrLLUTIDhNkVDo8fLhscZVlJtULXtH2F8ss4EgU+hPaS3aGl1MektltakP3CN5AS
-	MR+m66XxqYw6tAt0DewTszz+Lq+yBh+ZO9bCCdD5EgizYN/0aHF3aHdNeVAqNlAE1p0xnH
-	anshj0nr96xb7MViJ6sK/AT50w5MEHipWVDn3a7naUaCV36XkpcXZRam5SR1Ldaz6/+zlK
-	edwu9fTV5jAk4FXDjYH0+qekDRokeOz/zYC1UIQt1SZJHvgDN8NzzGqdt45AMw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763567317;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dQnlE2n5aekx+v6zObGqphQStw7ib6XRN1BfScwnLic=;
-	b=XK8cAQQ9othT6G++4p2Pn+74xeBwkh0bSY/TQQSgsoPxSMehVrp8KtnZXI7Biuir2r6hnA
-	WYH4a8uF8T6ihmBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	s=arc-20240116; t=1763576045; c=relaxed/simple;
+	bh=fq7yGHxuW0cDFvgb+sXTHDvNA06ZmRk29X+WraNFCws=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hsLEM5gc1gEhDscdhoiKaUdcpwE8OTkXDJCHy4tD4+orP91p4EAJ4rMaO7c7x3MxBWIJco0DOktwZiSaH8VHYgeelQaABK4BF+HIRiVDT/YQ6bj4+Pi3vmNUUkJIo+dYa+Fwrdp1JxfOp59HUHJObwe/ku6acD67e04kqNR4Ktk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gbRIxQut; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-433100c59dcso353055ab.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 10:14:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1763576037; x=1764180837; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q0H4D6A5/Fz6+ZVWISfjUYImiLMbW+d5U+Obqut6PQU=;
+        b=gbRIxQutb+xPwnXKdAZIaE8HQcq9Ke++tLTZhGeffX2YEgUO3sTomk3Ayyo7wgblVq
+         b7qkOXI7bY5yu7WrYnr+e55CutRWZvSPvseA5KP8mSaF+vxkjZYUXPVkeW0b9t2Yoru7
+         12bixsqEeNPNHbEq9aNJt14fYjZMY0yH4k43o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763576037; x=1764180837;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q0H4D6A5/Fz6+ZVWISfjUYImiLMbW+d5U+Obqut6PQU=;
+        b=dL3TIS94egjEbf6247k+SyvN6TcDTFlLdu465GSKdG2k0VpKxMxCS9tWrmP5JX0bsx
+         1Gj5d0fXY0Ljz32o9eUDZtitZkHYbw8djznKB12WVArGH4kOft5fPk/TAQ2VGVYOTjN9
+         AUGdvKO9/pYQE2fyyL0sIfORGGAQIlAhicUxSQRLeYqtccfIKwFWZcWTV/SuKLXIkqo3
+         yq2cWMp6OO/jAYWvUNHRYfdQ1qnCdxMduPIpqrYlspc9N3sh0XoD0djOQyZjYvvMUERf
+         gQLILS6S4dJYxNDEBWVm3nwrLCKVKftQ/ygpu4sVSkba0yQElXLZpN1H1jR11j0DAk8s
+         NTYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnVEThC/9bcq3wS19gmitvkzq8+hQ2WEr4Wum5w/RFmFKAA0diFrpiyWZ3/aXOnqHOCXPouFiUiY4cQyc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzeQov9zTk6U9VWYLv/w8t7YzJPhZCQOffjU103R9Af/wFbKZH
+	NZaJjf65SAbt/hINOb+6FHHbPSFF9VAKT0B7Rwhz4uLPZ7ZwpVmVKyXHaGrBSKd2Bw==
+X-Gm-Gg: ASbGncsinjRw4f2+ZBn+FT1vYWS1uysMC6RUPJZl9NRmaIYGIEHTXVC4BZJLoBUsJLg
+	7g5+vVXzt9iJ/fR/P80qb4JovEeojMxW1CmwWL9KHFSTpwnaRKow9TCvsRWPmH5Y4VTRhDboBK7
+	8ZxCUpMIRvMpEabMo5//zCFKV9LLP7IW+v7FZIVpJDU3bpwaFbjbeFQ9mg2682rJbPj557gx7MV
+	mKKIQVkH5pOTIhm99ScFzAN9BNrwhuXz5SfuZomUsE3Lo/c1YbnKFX3U+9lmeQk9OYV/ij7Ld4B
+	vdUnsP+qeOL1NpZC1VZJnyL7owC7W4cBHTGDrNQUMwX3Fw7zwOF4NX520H5ZZ7zBAPMSIi+k4qT
+	hnJK7VzM9ewGsxq+4n51pbP37yTvPNXBhRemJP1x2XFLqBzPi50AkjBef3of2/WutQQYbTJovkU
+	r64WXg
+X-Google-Smtp-Source: AGHT+IE/2JEiabneT+vq3UyMtVUuWtIZXvc2b4MEv6Jrjx/DrjNxhr8iITGjEUqkm6x1qj9D1rKrZQ==
+X-Received: by 2002:a05:6e02:3789:b0:433:29a9:32db with SMTP id e9e14a558f8ab-435a9073140mr4249655ab.24.1763576036980;
+        Wed, 19 Nov 2025 10:13:56 -0800 (PST)
+Received: from chromium.org ([73.34.74.121])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-949385ae254sm4838639f.1.2025.11.19.10.13.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 10:13:56 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
 	Masahiro Yamada <masahiroy@kernel.org>,
+	Tom Rini <trini@konsulko.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	=?UTF-8?q?J=20=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Simon Glass <sjg@chromium.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Sterba <dsterba@suse.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Nick Terrell <terrelln@fb.com>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
-Message-ID: <20251119154834.A-tQsLzh@linutronix.de>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
- <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
+	Rong Xu <xur@google.com>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v6 0/8] scripts/make_fit: Support ramdisks and faster operations
+Date: Wed, 19 Nov 2025 11:13:21 -0700
+Message-ID: <20251119181333.991099-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2025-04-29 10:05:04 [-0400], James Bottomley wrote:
-> On Tue, 2025-04-29 at 15:04 +0200, Thomas Wei=C3=9Fschuh wrote:
-> > The current signature-based module integrity checking has some
-> > drawbacks in combination with reproducible builds:
-> > Either the module signing key is generated at build time, which makes
-> > the build unreproducible,
->=20
-> I don't believe it does: as long as you know what the key was, which
-> you can get from the kernel keyring, you can exactly reproduce the core
-> build (it's a public key after all and really equivalent to built in
-> configuration).  Is the fact that you have to boot the kernel to get
-> the key the problem?  In which case we could insist it be shipped in
-> the kernel packaging.
+This series updates 'make image.fit' to support adding a ramdisk to the
+FIT, either one provided as a parameter or one created from all the
+kernel modules.
 
-The kernel itself is signed. This is not a problem because distros have
-the "unsigned" package which is used for comparison.
-The modules are signed by an ephemeral key which is created at build
-time. This is where the problem starts:
-- the public key is embedded into the kernel. Extracting it with tooling
-  is possible (or it is part of the kernel package). Adding this key
-  into the build process while rebuilding the kernel should work.
-  This will however alter the build process and is not *the* original
-  one, which was used to build the image.
+It also includes a few performance improvement, so that building a FIT
+from ~450MB of kernel/module/devicetree files only takes a few seconds
+on a modern machine.
 
-- the private key remains unknown which means the modules can not be
-  signed. The rebuilding would need to get past this limitation and the
-  logic must not be affected by this "change". Then the modules need to
-  be stripped of their signature for the comparison.
+Note: I included support for using the existing cpio script as suggested
+by Ahmad, but a fallback remains in case that is not available.
 
-Doing all this requires additional handling/ tooling on the "validation"
-infrastructure. This infrastructure works currently without special
-care.
-Adding special care will not build the package exactly like it has been
-built originally _and_ the results need to be interpreted (as in we
-remove this signature and do this and now it is fine).
+https://lore.kernel.org/lkml/CAFLszThpTg-FBoNG_tQ0xve0LkYWER85EJeHuem-_JUD8J1Ocw@mail.gmail.com/
 
-Adding hashes of each module into the kernel image looks like a
-reasonable thing to do. I don't see any downsides to this. Yes, you are
-limited to the modules available at build time but this is also the case
-today with the ephemeral key. It is meant for distros not for individual
-developers testing their code.
+Changes in v6:
+- Using the modules.order file instead of 'find'
+- Use gen_initramfs.sh where available
+- Mention that FIT_MODULES just needs to be non-empty
+- Make use of modules.order instead of using 'find'
 
-With this change it is possible to build a kernel and its modules and
-put the result in an archive such as tar/ deb/ rpm. You can build the
-package _again_ following exactly the same steps as you did before and
-the result will be the identical archive.
-Bit by bit.
-No need for interpreting the results, stripping signatures or altering
-the build process.
+Changes in v5:
+- Fix 'use' typo
+- Add a new patch to split out module targets into a variable
+- Build modules automatically if needed (fix from Nicolas Schier)
 
-I fully agree with this approach. I don't like the big hash array but I
-have an idea how to optimize that part. So I don't see a problem in the
-long term.
+Changes in v4:
+- Update the commit message
+- Provide the list of modules from the Makefile
+- Reduce verbosity (don't print every module filename)
+- Rename the Makefile variable from 'EXTRA' to 'MAKE_FIT_FLAGS'
+- Use an empty FIT_MODULES to disable the feature, instead of '0'
+- Make use of the 'modules' dependency to ensure modules are built
+- Pass the list of modules to the script
 
-> Regards,
->=20
-> James
+Changes in v3:
+- Move the ramdisk chunk into the correct patch
+- Add a comment at the top of the file about the -r option
+- Count the ramdisk in the total files
+- Update the commit message
+- Add a way to add built modules into the FIT
 
-Sebastian
+Changes in v2:
+- Don't compress the ramdisk as it is already compressed
+
+Simon Glass (8):
+  scripts/make_fit: Speed up operation
+  scripts/make_fit: Support an initial ramdisk
+  scripts/make_fit: Move dtb processing into a function
+  scripts/make_fit: Provide a way to add built modules
+  kbuild: Split out module targets into a variable
+  kbuild: Allow adding modules into the FIT ramdisk
+  scripts/make_fit: Support a few more parallel compressors
+  scripts/make_fit: Compress dtbs in parallel
+
+ Makefile             |   8 +-
+ arch/arm64/Makefile  |   1 +
+ scripts/Makefile.lib |   6 +-
+ scripts/make_fit.py  | 293 +++++++++++++++++++++++++++++++++++++------
+ 4 files changed, 269 insertions(+), 39 deletions(-)
+
+-- 
+2.43.0
+
+base-commit: 4a71531471926e3c391665ee9c42f4e0295a4585
+branch: fita6
 
