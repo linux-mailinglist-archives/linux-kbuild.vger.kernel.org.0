@@ -1,76 +1,76 @@
-Return-Path: <linux-kbuild+bounces-9684-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9685-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A177C70995
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 19:14:49 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB090C7099B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 19:15:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id E26BE2F77B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 18:14:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 12B692286E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 18:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D63DD368267;
-	Wed, 19 Nov 2025 18:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E8F3306B00;
+	Wed, 19 Nov 2025 18:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jWBuzbhK"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HU9Idn5S"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B143538A7
-	for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 18:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C8A3126CB
+	for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 18:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763576071; cv=none; b=F2uT065Ile4zzCPcO1MipFtyYIcT2Tu7kXOClnjHxquCJH1UVHmL/ZdVRLP4el9nuSapzGwTfpm/iyosSTOyBWF7MQJjuTOKiu2F0po+Is0AvpXOnHEYT2X0QIh1w5+gjBX8SGFRkdq6T/EcH7h4+7nmosRpDXYOYu5DEP4iQvw=
+	t=1763576074; cv=none; b=OHhRnJhRBTAw8A7Jg4pgm9mN6tRXag/zLMjKuSU0vWcPduv3q/K8r0bmRNP+FQe9R4cuYvTLP5jEt1kwjcwL7L+clGdPYcOQNk1Pa7qqeax3v65MNlp1JvjN+6gbNyhfCvXbBdgg1BEGaqTSnKByjrDFKEDCkLeUQWdi5SASVmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763576071; c=relaxed/simple;
-	bh=fOaYndhzO7GXOWo11e/wLosmESF6vtdq2dn5BPwRTXU=;
+	s=arc-20240116; t=1763576074; c=relaxed/simple;
+	bh=N9znOiAe5PJwsEoCpATqeH68yT6+oiXSUDjwEep8rqE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u/EFRD9MiKvmHGqZHvXbNuBpBtG/1EjUXNxdNrE3ctlmH5a457CZ90vFhyNpJ1+D0n5qVhI6VWFJFrzkBDZIM9v+FtW6zkRgfchV8DiDGnaVcbVmCp29jMzoa623vFbahMIj5FkE/VcHtSWfbANv8gqhdBixBPygihgj37lWdPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jWBuzbhK; arc=none smtp.client-ip=209.85.166.173
+	 MIME-Version; b=ulu2BwuitATbKHNMfYExaKFhCF6mBdwoFzOgG8QSISVbReTfU+yf3EhdS2f0WOK0HK8mLkTKlvjVwSwWLOElHgJJOXyd3RfCXk0FdO6eLLV6gAvIaeLP7Nv3j8/7aSPVgbb5ssDuYC+uJAjRrUMIc9PpnOF5bzYjaLSMnrbCxTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HU9Idn5S; arc=none smtp.client-ip=209.85.166.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-4336f8e97c3so257585ab.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 10:14:17 -0800 (PST)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-948f8fa9451so137080639f.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Nov 2025 10:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763576055; x=1764180855; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1763576057; x=1764180857; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RPirOi0w0Cb/s6FnCbMEuNgCnH0qPfOw0gyvUWbzUDU=;
-        b=jWBuzbhKm7GmCR4B66v1R+1kHtaBSiBzlrhRU4GLgcpLANPgD/EM4Td1RUcdi9wae8
-         SJioEUcQO6Sf41HoOUwf/ZkZOwuR7VXC0DoIBNFepXtNw0BEEeGGGJGeTdmi5FlgBGoH
-         52CZHvipqomWdrTxgOkCcWmRCx/ahmCblq+x0=
+        bh=4cU75xuJ/5xIhcW50wA4hHS4Fk7gDNqRb9uRUlMbq3I=;
+        b=HU9Idn5Sc0tWMN4qxsg6yLFHv93vAMQ/I8sgSVGYpPdM6jF0yzLOzARkhO0n9KIHKB
+         374OVxf5P7PZObVGHap9Db1pmONd6uOjn1SvmwzBQLIMX+cpAsktg/snLcKySHLupyDt
+         mvtCnGqdjYGGfw2zV9QwTX2Gtg7Zw/TY/uTZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763576055; x=1764180855;
+        d=1e100.net; s=20230601; t=1763576057; x=1764180857;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RPirOi0w0Cb/s6FnCbMEuNgCnH0qPfOw0gyvUWbzUDU=;
-        b=vNHCc/ENkl6LpPb9/Vo+2iA9SBwsFq8OAVbomyrczolUsRD4zD6AV+Hx34T8PP/jw5
-         qNAneQjmzjVUSYFlmW5oFA2WgijL3fIz7hA34LAR9esL5DRVpzthQclmjKUp/0tuk+ly
-         8l955NDIFXrnlFuq/yleZOVQpTEfqL4LJjseAmmvOXNz8ECzr5gBXKMTjweyicWrlxB5
-         8wN6NT4QV4YMKpSgpoC/l/94/uEffOEP24L6DLG8vwBp8r9wmtUwOJjk++lVpqjmWcsG
-         eLoFH8Xlk4wKvy53hz9aHLuluvtRyrwRRkVg/87x/SQTilsT8g4pJRBqZQXnO0er+zbL
-         h2iw==
-X-Forwarded-Encrypted: i=1; AJvYcCV12+MRvyi+3liaSWRxYZi858lh9bVc5zTfKe/5y2CJhOnwhTvZZ4kLt3LDWSTluPg5676qqBWtqBviD1I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRw7avNjPBs489C9rXpO+8yWJpPat+Q2Qa1VRgrk/kZOatWpmx
-	NRIezqHi7cfpugV0Hr7h7EgfZGy5xkRJJjGrWN+Tn+SLS/DLiOyfkZ+u0iT6q+v5kg==
-X-Gm-Gg: ASbGnctDpO0qLs6HA6rsJaWTKUzv8YnkXX0V2TTJVojbApjADzncifjGfT9OI8yl9cU
-	SDS6a/yDMaXdI2ffjLRRjcWSFXMXGfDJQak7IJYZcJjGg3ZlfxJL4wlz7kq5D+EC5epuOk4lhHM
-	0Ea/pekbNO/s8Sm1j5ZNR8x4T7cu/Aybvo9EyZpBYvy9yFW47eqU1GIfqGI+mQgVwmpTfdMr//S
-	ni/FXmHM6saAWj9lhAfX1RHmAeq6Bre0Dmhax8EoRqV36YZxPBP5z/1bzVUL67cS3JULSxbg1sK
-	IZRfggrkz0qarwXD/LoZJQaeVgfsDW6tBHHzXg+9P0AGBTJ7GJaH5C9DQjZUELl0t60ZsJW83Qv
-	slRmGBFKCV/HdCt5oxAA7RIU0GXIQgUEhhtTuN80Ty6wMPRhpGt9AfkNx0hxtmBJNeQ7nVbGice
-	2rcnMn
-X-Google-Smtp-Source: AGHT+IEqawcvOIPqsXpALDErL/1Go+TjtEXbiX8/+Jw/9VSxcMjIN9Ju3r68ajG6bVKTrOJBVHHikA==
-X-Received: by 2002:a05:6e02:3398:b0:433:7f13:3a8c with SMTP id e9e14a558f8ab-435a902d081mr4341845ab.16.1763576054629;
-        Wed, 19 Nov 2025 10:14:14 -0800 (PST)
+        bh=4cU75xuJ/5xIhcW50wA4hHS4Fk7gDNqRb9uRUlMbq3I=;
+        b=JoUNGHCeJ+1+fX3M2NlubUVOQsGo7arNCVzkIJrLZ88ppEnglich9Cqz8aaOGUZCMi
+         Wymh7l3wA2ZVf4pfHsVmlBXf4lJ11QU7lbL2W5M+GnCeWy4muM5RYyyeJ8XWBC0ZFopr
+         SLI062toIe/yUg9KXfFKmEot+gP1nEIvO2cBFD/dsIfMqG4JSvM2Z/SPkxsi2+wUEiIq
+         hA7gxQ++wC/BuiuoOoREp7NGLKl7S23xD8rdQQ+oX4fneHX7eACTJ1KPZDONEhUg3YBd
+         beQb2zK+8NO9/sttJ6JdFTsFiFupRizmJkZLkR86DZG1rCk2TAq9dZNDYVS7EgVMPUDF
+         qLjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVnWdoKJMegx2sk5ofHOBb1gwydbOBGlC5p91I5tYmxUulBu2ZDT53maXYx43AXdCjDA8Af0xBaeIhh2A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnFFtf8wf1SXBK9xFqCL5EOR93qwgDzRp+lWty+CxzBMq7vcam
+	biDeS+RkC54ImXQiKUmfuoJXSIxJq7QhkCL3w3OdCqJS5k95BfUSDQpspNmMuXB4lQ==
+X-Gm-Gg: ASbGncsjWoYcfEqJOAm2pq+Alhu5zxkrs5rIBHeOUppJloky2QQ4nW6YMqOSM+QdRYi
+	WybEswppg1Vvx6lSU/Z/e5lNCLJLQCEPdswt6jq/Rbge/qNxTEuhl3GuUhUAbvC4L2KIXnjYSa/
+	gNZfBgvR6MfGEIFkIkqs61zCpbbJ+Kz0H3Hd6sqMeauNI3lpXwT8+3IuS38nnyQpebUL+lE8FpJ
+	8DZugWm9S9FKi7uPat4gnLbejFnWzPezYiywl3vQSPx1nqvkSOj9e0SvCvZ09WCdiixmksrPTBR
+	4r49ggDmzDKS96V/EeiiOcMHHgKyQ1myNTMXo3vAmfch9BfF6cYsi4RsCJtJKPjsQnPseHjCv4/
+	w+8W31CEaJ0WVYMQYwtLsoe6pEtFMhHq1CdDoC4Z4FOPpcjzMs84kO6cYOjzaRfMY2yUofkDSFv
+	/Nwxu3
+X-Google-Smtp-Source: AGHT+IEIAcWoFGwcNgccxAP828+yd7/kMEFFY+sH8+j/iQjjBsmYniUh67wbp4Ar9H6A3QqKNZyn4Q==
+X-Received: by 2002:a05:6602:1607:b0:948:e11f:5b4c with SMTP id ca18e2360f4ac-9492b6ed063mr334288439f.19.1763576057415;
+        Wed, 19 Nov 2025 10:14:17 -0800 (PST)
 Received: from chromium.org ([73.34.74.121])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-949385ae254sm4838639f.1.2025.11.19.10.14.11
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-949385ae254sm4838639f.1.2025.11.19.10.14.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 10:14:12 -0800 (PST)
+        Wed, 19 Nov 2025 10:14:16 -0800 (PST)
 From: Simon Glass <sjg@chromium.org>
 To: linux-arm-kernel@lists.infradead.org
 Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
@@ -81,19 +81,22 @@ Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Chen-Yu Tsai <wenst@chromium.org>,
 	Simon Glass <sjg@chromium.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
+	"Reviewed-by : Nicolas Schier" <nsc@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
+	Rong Xu <xur@google.com>,
 	Tamir Duberstein <tamird@gmail.com>,
+	Will Deacon <will@kernel.org>,
 	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v6 5/8] kbuild: Split out module targets into a variable
-Date: Wed, 19 Nov 2025 11:13:26 -0700
-Message-ID: <20251119181333.991099-6-sjg@chromium.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 6/8] kbuild: Allow adding modules into the FIT ramdisk
+Date: Wed, 19 Nov 2025 11:13:27 -0700
+Message-ID: <20251119181333.991099-7-sjg@chromium.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119181333.991099-1-sjg@chromium.org>
 References: <20251119181333.991099-1-sjg@chromium.org>
@@ -105,38 +108,81 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a modules-targets variable to list the targets which cause modules
-to be built, since we want to add a conditional target.
+Support 'make image.fit FIT_MODULES=1' to put all the modules into a
+ramdisk image within the FIT.
+
+Add image.fit as a target which requires modules, so that modules will
+built automatically when using FIT_MODULES is not empty.
 
 Signed-off-by: Simon Glass <sjg@chromium.org>
+Suggested-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Suggested-by: Reviewed-by: Nicolas Schier <nsc@kernel.org>
+Acked-by: Nathan Chancellor <nathan@kernel.org>
 ---
 
-(no changes since v5)
+Changes in v6:
+- Mention that FIT_MODULES just needs to be non-empty
+- Make use of modules.order instead of using 'find'
 
 Changes in v5:
-- Add a new patch to split out module targets into a variable
+- Build modules automatically if needed (fix from Nicolas Schier)
 
- Makefile | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Changes in v4:
+- Rename the Makefile variable from 'EXTRA' to 'MAKE_FIT_FLAGS'
+- Use an empty FIT_MODULES to disable the feature, instead of '0'
+- Make use of the 'modules' dependency to ensure modules are built
+- Pass the list of modules to the script
+
+ Makefile             | 1 +
+ arch/arm64/Makefile  | 1 +
+ scripts/Makefile.lib | 6 +++++-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 638bc09a546a..8cd46222fc48 100644
+index 8cd46222fc48..4eccaef95826 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -772,7 +772,12 @@ endif
- # in addition to whatever we do anyway.
+@@ -773,6 +773,7 @@ endif
  # Just "make" or "make all" shall build modules as well
  
--ifneq ($(filter all modules nsdeps compile_commands.json clang-%,$(MAKECMDGOALS)),)
-+modules-targets := all
-+modules-targets += modules
-+modules-targets += nsdeps
-+modules-targets += compile_commands.json
-+modules-targets += clang-%
-+ifneq ($(filter $(modules-targets),$(MAKECMDGOALS)),)
-   KBUILD_MODULES := y
- endif
+ modules-targets := all
++modules-targets += $(if $(FIT_MODULES),image.fit)
+ modules-targets += modules
+ modules-targets += nsdeps
+ modules-targets += compile_commands.json
+diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+index 73a10f65ce8b..7036f251ab40 100644
+--- a/arch/arm64/Makefile
++++ b/arch/arm64/Makefile
+@@ -174,6 +174,7 @@ endif
+ all:	$(notdir $(KBUILD_IMAGE))
  
+ image.fit: dtbs
++image.fit: $(if $(FIT_MODULES),modules)
+ 
+ vmlinuz.efi image.fit: Image
+ $(BOOT_TARGETS): vmlinux
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 1d581ba5df66..28e0cc0865b1 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -398,11 +398,15 @@ MAKE_FIT := $(srctree)/scripts/make_fit.py
+ # Use this to override the compression algorithm
+ FIT_COMPRESSION ?= gzip
+ 
++# Set this to non-empty to include an initrd with all the kernel modules
++FIT_MODULES ?=
++
+ quiet_cmd_fit = FIT     $@
+       cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
+-		--name '$(UIMAGE_NAME)' \
++		--name '$(UIMAGE_NAME)' $(MAKE_FIT_FLAGS) \
+ 		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
+ 		$(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
++		$(if $(FIT_MODULES),--modules @$(objtree)/modules.order) \
+ 		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
+ 
+ # XZ
 -- 
 2.43.0
 
