@@ -1,77 +1,57 @@
-Return-Path: <linux-kbuild+bounces-9689-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9690-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9138AC717AC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 00:59:14 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8554DC725B4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 07:39:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 27CB74E2F28
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Nov 2025 23:59:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B1695350B0C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 06:39:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B503A31ED8D;
-	Wed, 19 Nov 2025 23:59:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05CF221B9FD;
+	Thu, 20 Nov 2025 06:39:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4iKVDWi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9OPOdaL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7180BCA52;
-	Wed, 19 Nov 2025 23:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07A1D531;
+	Thu, 20 Nov 2025 06:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763596748; cv=none; b=LmlP9EIQrdRoxWWAL9wbIVAZepC3lAhR9ScBQ8fOBHL4l4EUV1fvQzP9+s7Ydse6V2nH1i+s37PIx4CtuMmOGiQMd7bBQB2WOjonA0sncBWVMghoKq6Yb8puNpEqx0/TOTbHgot9PGHlWlumim1sltQYZGLZi3z1op6oahkCsPc=
+	t=1763620781; cv=none; b=hPVAD8Ua0OZQvEadJ3gVOcggQjKTSVNucbeEmijhHa/jpbnuA/mjx5lSRm1ZzgXOVzh5+udD1i6Qi0gXjMq5FReZQ8Y/75jmG5y02KtgbZd4mNhV45WNTxtqMcgKPj+4It5U91WTEXtDLajoDDOv3NILUoQHsTvclbw+BjKiFEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763596748; c=relaxed/simple;
-	bh=aMfWom2YqMjywxvhE2wFwmB5PmpGzL00uN54+jIPqgU=;
+	s=arc-20240116; t=1763620781; c=relaxed/simple;
+	bh=Bjr1f4LmqAuec76mt0wT0PB8XOyz0eLzrvfzrgqunq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W5CIMmwHn9o7zrwkXZrOXZJ5mxGzKn0L7IDAfzSqrOnSB5w6FG7RNOMJPP6kFsGdc648izAUcaf3ggFhseOYENWCEWbLYnNN/FsDxqIJM1Jc3O8EsgOY9iXtiEvGAqG8hSqUIAeSlWnZIqUzff3VMSQdCcW0ipQ/nX0uhh3Vnog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4iKVDWi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29638C4CEF5;
-	Wed, 19 Nov 2025 23:59:07 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mYF2Yrh+dI5C0npTOpSTmYU2r4/MLCC5TIv/dvCsFFfU7y2wjN3g6bbbECDU0YT3e98IIUa+2Jqk4RcXL8wFrfoTK0r91ZLXll/j6/VsEGsHnEbUgnWnQevp8qVuQ0Qc5b3xcmrgJ5b35v9Pbv/XCQ9ju5ixVTfzr1pzeI7IX7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9OPOdaL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 867DAC4CEF1;
+	Thu, 20 Nov 2025 06:39:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763596747;
-	bh=aMfWom2YqMjywxvhE2wFwmB5PmpGzL00uN54+jIPqgU=;
+	s=k20201202; t=1763620781;
+	bh=Bjr1f4LmqAuec76mt0wT0PB8XOyz0eLzrvfzrgqunq8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V4iKVDWikOrKp8hiVqz7Okp9Q1q3wFuIqlNEPISzAxRKkGlABp3eSp+Q323D3HozF
-	 WQovlJ6kDkd1iVz/X6E3BuADT96viHLBJ7t0DQqIMu0W2U4TzTk/Py116HXU2jWkNa
-	 qdzNhgGXEtQ4zt9knAMOkL7xksapBqYXZmJERU27xjOqcHNjcHg5YUTlmcsrX6G3XC
-	 tceGSYW6Roc2HnSvfiJUQJere5z2Bk3CrTyV2sV9MvwNGqupZN9jMnrpfcC2hL8URJ
-	 mVU1CXqlhnfTXBnt83idwbEra5CVbSFhTWeLRTWsvxW7s1GEz1PusdHV6R537Gv57b
-	 4zMtgEWnlvIaQ==
-Date: Wed, 19 Nov 2025 17:59:05 -0600
-From: Rob Herring <robh@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Frank Li <Frank.li@nxp.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH 7/9] dt-bindings: connector: Add PCIe M.2 Mechanical Key
- E connector
-Message-ID: <20251119235905.GA3575788-robh@kernel.org>
-References: <20251112-pci-m2-e-v1-0-97413d6bf824@oss.qualcomm.com>
- <20251112-pci-m2-e-v1-7-97413d6bf824@oss.qualcomm.com>
- <aRS/3OTerCBGlmBm@lizhi-Precision-Tower-5810>
- <qiwgnela4b6gbwuuq7xaqjong47c2ix6caagjl6ryqukzqkswn@6l7rvkf4dfyx>
+	b=f9OPOdaLUYkzJlf5NWp9uq2CTRT1/ggyuMegH97WcPLLAOkxhs6I5IHE3G1bmp8sA
+	 q0aGTWGkpxv2bRjL8jdMIVvh4HG7c5UX3q3+ZkJqtlIw1qV7ZH7igUsTNT49l/ZHK5
+	 NvdPoB6mlUVUG9Obdud1LmxdcVrUsf+tbmOgsxwh9qr4Lfh8BsgJNJ9EhKmWMWnxFQ
+	 hiAYhfIsJwhH9QobBbeXyWVSX1ujXtrClE36Wfyn2TcpqdO6VfXTIXarQjmfVlE2ZJ
+	 OfTnEGbVfRsW6Ju7rInxIPeTAbscRAN6yk7UlO0YeSJe6ge5x74N8nzsHCLFxztIPS
+	 Zee2E75CfE7SA==
+Date: Wed, 19 Nov 2025 23:39:36 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>,
+	Simon Glass <sjg@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH] kbuild: add target to build a cpio containing modules
+Message-ID: <20251120063936.GA3321365@ax162>
+References: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -80,159 +60,111 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <qiwgnela4b6gbwuuq7xaqjong47c2ix6caagjl6ryqukzqkswn@6l7rvkf4dfyx>
+In-Reply-To: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
 
-On Thu, Nov 13, 2025 at 10:30:42AM +0530, Manivannan Sadhasivam wrote:
-> On Wed, Nov 12, 2025 at 12:11:56PM -0500, Frank Li wrote:
-> > On Wed, Nov 12, 2025 at 08:15:19PM +0530, Manivannan Sadhasivam wrote:
-> > > Add the devicetree binding for PCIe M.2 Mechanical Key E connector defined
-> > > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This connector
-> > > provides interfaces like PCIe or SDIO to attach the WiFi devices to the
-> > > host machine, USB or UART+PCM interfaces to attach the Bluetooth (BT)
-> > > devices along with additional interfaces like I2C for NFC solution. At any
-> > > point of time, the connector can only support either PCIe or SDIO as the
-> > > WiFi interface and USB or UART as the BT interface.
-> > >
-> > > The connector provides a primary power supply of 3.3v, along with an
-> > > optional 1.8v VIO supply for the Adapter I/O buffer circuitry operating at
-> > > 1.8v sideband signaling.
-> > >
-> > > The connector also supplies optional signals in the form of GPIOs for fine
-> > > grained power management.
-> > >
-> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > > ---
-> > >  .../bindings/connector/pcie-m2-e-connector.yaml    | 154 +++++++++++++++++++++
-> > >  MAINTAINERS                                        |   1 +
-> > >  2 files changed, 155 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..91cb56b1a75b7e3de3b9fe9a7537089f96875746
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
-> > > @@ -0,0 +1,154 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-connector.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: PCIe M.2 Mechanical Key E Connector
-> > > +
-> > > +maintainers:
-> > > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > > +
-> > > +description:
-> > > +  A PCIe M.2 E connector node represents a physical PCIe M.2 Mechanical Key E
-> > > +  connector. Mechanical Key E connectors are used to connect Wireless
-> > > +  Connectivity devices including combinations of Wi-Fi, BT, NFC to the host
-> > > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and I2C.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: pcie-m2-e-connector
-> > > +
-> > > +  vpcie3v3-supply:
-> > > +    description: A phandle to the regulator for 3.3v supply.
-> > > +
-> > > +  vpcie1v8-supply:
-> > > +    description: A phandle to the regulator for VIO 1.8v supply.
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +    description: OF graph bindings modeling the interfaces exposed on the
-> > > +      connector. Since a single connector can have multiple interfaces, every
-> > > +      interface has an assigned OF graph port number as described below.
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: PCIe/SDIO interface
-> > 
-> > 
-> > PCIe and SDIO is difference signal at key E. why combine to one port? The
-> > similar case is USB2.0/UART
-> > 
-> 
-> They will be defined as separate endpoints in the next version.
-> 
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: USB 2.0/UART interface
-> > > +
-> > > +      port@2:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: PCM/I2S interface
-> > > +
-> > > +      port@3:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: I2C interface
-> > > +
-> > > +    oneOf:
-> > > +      - required:
-> > > +          - port@0
-> > > +
-> > > +  clocks:
-> > > +    description: 32.768 KHz Suspend Clock (SUSCLK) input from the host system to
-> > > +      the M.2 card. Refer, PCI Express M.2 Specification r4.0, sec 3.1.12.1 for
-> > > +      more details.
-> > > +    maxItems: 1
-> > 
-> > Do we need add pciref clock here?
-> > 
-> > > +
-> > > +  w_disable1-gpios:
-> > 
-> > use "-"
-> > 
-> > w-disable1-gpios
-> > 
-> 
-> I just went with the spec that defines the signal as W_DISABLE.
-> 
-> > > +    description: GPIO controlled connection to W_DISABLE1# signal. This signal
-> > > +      is used by the system to disable WiFi radio in the M.2 card. Refer, PCI
-> > > +      Express M.2 Specification r4.0, sec 3.1.12.3 for more details.
-> > > +    maxItems: 1
-> > > +
-> > > +  w_disable2-gpios:
-> > > +    description: GPIO controlled connection to W_DISABLE2# signal. This signal
-> > > +      is used by the system to disable BT radio in the M.2 card. Refer, PCI
-> > > +      Express M.2 Specification r4.0, sec 3.1.12.3 for more details.
-> > > +    maxItems: 1
-> > > +
-> > > +  led1-gpios:
-> > > +    description: GPIO controlled connection to LED_1# signal. This signal is
-> > > +      used by the M.2 card to indicate the card status via the system mounted
-> > > +      LED. Refer, PCI Express M.2 Specification r4.0, sec 3.1.12.2 for more
-> > > +      details.
-> > > +    maxItems: 1
-> > > +
-> > > +  led2-gpios:
-> > > +    description: GPIO controlled connection to LED_2# signal. This signal is
-> > > +      used by the M.2 card to indicate the card status via the system mounted
-> > > +      LED. Refer, PCI Express M.2 Specification r4.0, sec 3.1.12.2 for more
-> > > +      details.
-> > > +    maxItems: 1
-> > > +
-> > > +  viocfg-gpios:
-> > > +    description: GPIO controlled connection to IO voltage configuration
-> > > +      (VIO_CFG) signal. This signal is used by the M.2 card to indicate to the
-> > > +      host system that the card supports an independent IO voltage domain for
-> > > +      the sideband signals. Refer, PCI Express M.2 Specification r4.0, sec
-> > > +      3.1.15.1 for more details.
-> > > +    maxItems: 1
-> > > +
-> > > +  uim_power_src-gpios:
-> > 
-> > property use -
-> > 
-> 
-> Again, this is as per the spec. If DT maintainers object to it, I'll change it.
+Hi Ahmad,
 
-Use '-'.
+On Sat, Nov 15, 2025 at 03:21:51PM +0100, Ahmad Fatoum wrote:
+> From: Sascha Hauer <s.hauer@pengutronix.de>
+> 
+> Add a new package target to build a cpio archive containing the kernel
+> modules. This is particularly useful to supplement an existing initramfs
+> with the kernel modules so that the root filesystem can be started with
+> all needed kernel modules without modifying it.
 
-Rob
+Yeah, I would say this is pretty useful, I have already used it while
+triaging another issue.
+
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> Co-developed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+>  .gitignore               |  5 +++++
+>  Makefile                 |  2 +-
+>  scripts/Makefile.package | 17 +++++++++++++++++
+>  3 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index 86a1ba0d90353962183b47c0c657ec877e5b2f9f..764d115400d90f0904b8f60ea8851a7860c16411 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -96,6 +96,11 @@ modules.order
+>  #
+>  /tar-install/
+>  
+> +#
+> +# modules directory (make cpio-modules-pkg)
+> +#
+> +/modules-install/
+> +
+>  #
+>  # pacman files (make pacman-pkg)
+>  #
+> diff --git a/Makefile b/Makefile
+> index fb4389aa5d5f1776f7bb5988102ed54f92491de7..19c7900d02ed5eee06f00820c138591b42e895e1 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1583,7 +1583,7 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
+>  # Directories & files removed with 'make mrproper'
+>  MRPROPER_FILES += include/config include/generated          \
+>  		  arch/$(SRCARCH)/include/generated .objdiff \
+> -		  debian snap tar-install PKGBUILD pacman \
+> +		  debian snap tar-install modules-install PKGBUILD pacman \
+>  		  .config .config.old .version \
+>  		  Module.symvers \
+>  		  certs/signing_key.pem \
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 74bcb9e7f7a4516473481468a0fcf700c3bead33..20eec9e2dec4dda3fa0ef64a15b80dccdcb55f90 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -189,6 +189,22 @@ tar-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar
+>  tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
+>  	@:
+>  
+> +modules-install: FORCE
+> +	$(Q)$(MAKE) -f $(srctree)/Makefile
+> +	$(Q)rm -rf $@
+> +	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
+> +
+> +quiet_cmd_cpio = CPIO    $@
+> +      cmd_cpio = $(srctree)/usr/gen_initramfs.sh $< > $@
+> +
+> +modules-$(KERNELRELEASE)-$(ARCH).cpio: modules-install
+> +	$(Q)$(MAKE) -f $(srctree)/Makefile $(build)=usr cpio-data= usr/gen_init_cpio
+
+This seems like a bit of a hack to generate gen_init_cpio this way but I
+am not sure it is worth moving usr/gen_init_cpio.c and
+usr/gen_initramfs.sh elsewhere (scripts?) to make it a most accessible
+hostprog right now... Nicolas, do you have any opinions on this?
+
+> +	$(call cmd,cpio)
+> +
+> +PHONY += cpio-modules-pkg
+> +cpio-modules-pkg: modules-$(KERNELRELEASE)-$(ARCH).cpio
+
+I think it would make a little more sense (and match the style of the
+perf package targets as well) to name this target modules-cpio-pkg.
+
+> +	@:
+> +
+>  # perf-tar*-src-pkg - generate a source tarball with perf source
+>  # ---------------------------------------------------------------------------
+>  
+> @@ -245,6 +261,7 @@ help:
+>  	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
+>  	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
+>  	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
+> +	@echo '  cpio-modules-pkg    - Build the kernel modules as cpio archive'
+>  	@echo '  perf-tar-src-pkg    - Build the perf source tarball with no compression'
+>  	@echo '  perf-targz-src-pkg  - Build the perf source tarball with gzip compression'
+>  	@echo '  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression'
+> 
+> ---
+> base-commit: e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
+> change-id: 20251115-cpio-modules-pkg-70d85a69892b
+> 
+> Best regards,
+> -- 
+> Ahmad Fatoum <a.fatoum@pengutronix.de>
+> 
 
