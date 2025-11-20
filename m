@@ -1,66 +1,72 @@
-Return-Path: <linux-kbuild+bounces-9692-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EF2C729DE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 08:34:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C339CC72A64
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 08:49:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A827F4E5F0A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 07:32:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 806562A578
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Nov 2025 07:49:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 691EF1C7012;
-	Thu, 20 Nov 2025 07:32:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBBE01C7012;
+	Thu, 20 Nov 2025 07:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nWsyWNvt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4k3UswuL"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="36gIT7nE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+im0up9G"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82285288C0E;
-	Thu, 20 Nov 2025 07:32:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27F6D531;
+	Thu, 20 Nov 2025 07:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763623976; cv=none; b=r3OTk6r5Wn6PRKJMi7sNB9entVI2oFPAWvy+jKtfjiTP3Z/aQX/z6AFA+DERZe4/u/7ZJHr7/rQpmnKLPmbSmW0KRbA0J/8ne23TpYjmYZL3YDO6wFtLf58vSkUgXFOeuPEUYQSIxZl9ct0Tky1621ZxyyBHT86sm0d2N2e/zm4=
+	t=1763624958; cv=none; b=kx6FDNp3QpScXahJZU9sEW9nkJVOj9Jtnx6+vJHOjTjb0QEw4lJKB1BHE8lBmGbFamwQvNxHJExOqyVt+azzHjrXVncrvqUVObsZYkQW3oQtYyZJwHxHU4buNGHXi0ALdLYRP5J5eAfJuOTS65RxF/27mu56b9zslNJAxJsUfTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763623976; c=relaxed/simple;
-	bh=dZGBEy3Bvu6uEuEM9hwXHac9y0d4YBVelDsWfe1BGdU=;
+	s=arc-20240116; t=1763624958; c=relaxed/simple;
+	bh=ms1Moo/6odqd3J1ShMUHrLxS3ADporEnRdtApNSbnyo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C/vkPqNnqJKaqah57B637INL5lszzn4Wik+FUglbJ6mplcy1vDlB+TlQ2frVvLhuGv9idedrXsMJi8axV+lWRzpoek0uWkA/y8RUNkraGoGrfCFJnXM4K19J7+7kmkMsUkB6XKIxR+F98u/1/8+yHqb0VAL8JHnuqlK6+2uDEtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nWsyWNvt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4k3UswuL; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=C6f9BaGaruop0QZ5ZUt7t/exHqTeRmAK4aBumYtcE2ssBd+JgycE/ZKa5/dVGjhQly2cbbq5FtjFPcisyCDA+hcJxPIRogcoiVh4NnZDn2bqdJY3WGvIZ09ZHZ2ZTbc72XrBK+QpenClyLuoqrD/kMfybJkvVI+YBNPgfC3Mrso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=36gIT7nE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+im0up9G; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Thu, 20 Nov 2025 08:32:50 +0100
+Date: Thu, 20 Nov 2025 08:49:14 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763623971;
+	s=2020; t=1763624955;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=upnGzJ32pXzCZAuawCDaWe2EF3jV5yEify4Jlhb+N38=;
-	b=nWsyWNvtVkFsWDacwMbrR5W0ZLlBoTImOVLTo3Bb0gGr//fsegBsEIhnrsGDI/IWv3bVfM
-	fLmywQfiEBeiKELearX3rgs1whPd/4aKmVTdKDFlF4X5iFu94LxVjgcy0SGmZfsKKwySlT
-	lnSEm/nPFqbB8Az3zmLRQaAffIBDCM1p/GkmhdbghI7H5aCBymIJZ92x4e0A2ZNVOgwTP+
-	LVaCtnpvCv2kIz0jycMvhG2yIQmlJwe2BNd3zFTVSWRKO11fLSL+LO5rqREpovHkJPz68v
-	ktJoave92TwF8bJy0rKWU/24qZKzKo1BtOskqAJhBF0J5WhXf5l17+JWq03eUA==
+	bh=pN66/aziM8FLBGXMDRc1fqp3c53JCtA+Qj3cip4GEus=;
+	b=36gIT7nE+F2U/HaP/Jhq3JbpOhAw4ZuqDQVvZFQtIw3D8UAsv252FfYz4j4Z+J6tVJvfuY
+	PqN2VIFAkDgQeKBTQ6BU+k+hoaUyQ1D3VmqyhvUmS/xz6Fk5yoYSh/rHEd8ziRaFh6NoMt
+	1a7FcmxXSv4/LIBKPzvoDFxgok0dKHzxLLUukxYXT5eEZ8k0cypAFvR5DiXGpX8G9eC1lG
+	+6Uqf7NfwtFxxANxhakvRl9kpLyaL6/5DDODyBMpI4vceYn6vWLMULYxvLGqhczfSrusNn
+	LA9fplqBf48XcjTXQKbQEs7Iel2qJWIsLWXriF7sVFsh++huHEwGcYOBVbk9YA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763623971;
+	s=2020e; t=1763624955;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=upnGzJ32pXzCZAuawCDaWe2EF3jV5yEify4Jlhb+N38=;
-	b=4k3UswuL5q14EbFqvA/FxG9kh189A6jTsgBonFfWJylfR4mO/Jonwkg7QtnaJZqt18qv80
-	0QvyjFzSZDuhDIBw==
+	bh=pN66/aziM8FLBGXMDRc1fqp3c53JCtA+Qj3cip4GEus=;
+	b=+im0up9G77Lr415VNwNxEueuVq7kWcvxeyn3rWfiWgn1DP998nkfcdF5RPWdFy/OHHsBan
+	TBRA6O3UyutwcADA==
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Simon Glass <sjg@chromium.org>, kernel@pengutronix.de, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH] kbuild: add target to build a cpio containing modules
-Message-ID: <20251120080325-536d8deb-fdfe-4dc0-9687-d5d73006376c@linutronix.de>
-References: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Tom Rini <trini@konsulko.com>, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, J =?utf-8?Q?=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Chen-Yu Tsai <wenst@chromium.org>, 
+	"Reviewed-by : Nicolas Schier" <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Rong Xu <xur@google.com>, Tamir Duberstein <tamird@gmail.com>, 
+	Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 6/8] kbuild: Allow adding modules into the FIT ramdisk
+Message-ID: <20251120084201-53a3c98f-6a3c-4116-8635-be67d58fd57b@linutronix.de>
+References: <20251119181333.991099-1-sjg@chromium.org>
+ <20251119181333.991099-7-sjg@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -69,116 +75,92 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
+In-Reply-To: <20251119181333.991099-7-sjg@chromium.org>
 
-On Sat, Nov 15, 2025 at 03:21:51PM +0100, Ahmad Fatoum wrote:
-> From: Sascha Hauer <s.hauer@pengutronix.de>
+On Wed, Nov 19, 2025 at 11:13:27AM -0700, Simon Glass wrote:
+> Support 'make image.fit FIT_MODULES=1' to put all the modules into a
+> ramdisk image within the FIT.
 > 
-> Add a new package target to build a cpio archive containing the kernel
-> modules. This is particularly useful to supplement an existing initramfs
-> with the kernel modules so that the root filesystem can be started with
-> all needed kernel modules without modifying it.
+> Add image.fit as a target which requires modules, so that modules will
+> built automatically when using FIT_MODULES is not empty.
 > 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> Co-developed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> Signed-off-by: Simon Glass <sjg@chromium.org>
+> Suggested-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> Suggested-by: Reviewed-by: Nicolas Schier <nsc@kernel.org>
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
 > ---
->  .gitignore               |  5 +++++
->  Makefile                 |  2 +-
->  scripts/Makefile.package | 17 +++++++++++++++++
->  3 files changed, 23 insertions(+), 1 deletion(-)
 > 
-> diff --git a/.gitignore b/.gitignore
-> index 86a1ba0d90353962183b47c0c657ec877e5b2f9f..764d115400d90f0904b8f60ea8851a7860c16411 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -96,6 +96,11 @@ modules.order
->  #
->  /tar-install/
->  
-> +#
-> +# modules directory (make cpio-modules-pkg)
-> +#
-> +/modules-install/
-> +
->  #
->  # pacman files (make pacman-pkg)
->  #
+> Changes in v6:
+> - Mention that FIT_MODULES just needs to be non-empty
+> - Make use of modules.order instead of using 'find'
+> 
+> Changes in v5:
+> - Build modules automatically if needed (fix from Nicolas Schier)
+> 
+> Changes in v4:
+> - Rename the Makefile variable from 'EXTRA' to 'MAKE_FIT_FLAGS'
+> - Use an empty FIT_MODULES to disable the feature, instead of '0'
+> - Make use of the 'modules' dependency to ensure modules are built
+> - Pass the list of modules to the script
+> 
+>  Makefile             | 1 +
+>  arch/arm64/Makefile  | 1 +
+>  scripts/Makefile.lib | 6 +++++-
+>  3 files changed, 7 insertions(+), 1 deletion(-)
+> 
 > diff --git a/Makefile b/Makefile
-> index fb4389aa5d5f1776f7bb5988102ed54f92491de7..19c7900d02ed5eee06f00820c138591b42e895e1 100644
+> index 8cd46222fc48..4eccaef95826 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -1583,7 +1583,7 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES += include/config include/generated          \
->  		  arch/$(SRCARCH)/include/generated .objdiff \
-> -		  debian snap tar-install PKGBUILD pacman \
-> +		  debian snap tar-install modules-install PKGBUILD pacman \
->  		  .config .config.old .version \
->  		  Module.symvers \
->  		  certs/signing_key.pem \
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 74bcb9e7f7a4516473481468a0fcf700c3bead33..20eec9e2dec4dda3fa0ef64a15b80dccdcb55f90 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -189,6 +189,22 @@ tar-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar
->  tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
->  	@:
-
-The other package targets have a separator and documentation comment.
-
+> @@ -773,6 +773,7 @@ endif
+>  # Just "make" or "make all" shall build modules as well
 >  
-> +modules-install: FORCE
-> +	$(Q)$(MAKE) -f $(srctree)/Makefile
-> +	$(Q)rm -rf $@
-
-We have the filename prefix ".tmp_" for temporary files and directories.
-These will be automatically ignored by git and cleaned up by "make clean".
-
-> +	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
-> +
-> +quiet_cmd_cpio = CPIO    $@
-> +      cmd_cpio = $(srctree)/usr/gen_initramfs.sh $< > $@
-
-Use $(CONFIG_SHELL).
-
-Using '-o' instead of redirecting stdout to the output file should enable the
-usage of the recent copy_file_range() optimizations in gen_init_cpio.
-
-> +
-> +modules-$(KERNELRELEASE)-$(ARCH).cpio: modules-install
-> +	$(Q)$(MAKE) -f $(srctree)/Makefile $(build)=usr cpio-data= usr/gen_init_cpio
-
-Drop the explicit '-f'; $(build) overwrites it.
-
-Is the cpio-data= intended to make sure the line 'hostprogs := gen_init_cpio'
-is executed? I don't think this works as usr/Makefile will overwrite 'cpio-data'
-in any case. But it should be fine to make hostprogs definition unconditional.
-
-> +	$(call cmd,cpio)
-> +
-> +PHONY += cpio-modules-pkg
-> +cpio-modules-pkg: modules-$(KERNELRELEASE)-$(ARCH).cpio
-> +	@:
-> +
->  # perf-tar*-src-pkg - generate a source tarball with perf source
->  # ---------------------------------------------------------------------------
+>  modules-targets := all
+> +modules-targets += $(if $(FIT_MODULES),image.fit)
+>  modules-targets += modules
+>  modules-targets += nsdeps
+>  modules-targets += compile_commands.json
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index 73a10f65ce8b..7036f251ab40 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -174,6 +174,7 @@ endif
+>  all:	$(notdir $(KBUILD_IMAGE))
 >  
-> @@ -245,6 +261,7 @@ help:
->  	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
->  	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
->  	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
-> +	@echo '  cpio-modules-pkg    - Build the kernel modules as cpio archive'
->  	@echo '  perf-tar-src-pkg    - Build the perf source tarball with no compression'
->  	@echo '  perf-targz-src-pkg  - Build the perf source tarball with gzip compression'
->  	@echo '  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression'
-> 
-> ---
-> base-commit: e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
-> change-id: 20251115-cpio-modules-pkg-70d85a69892b
-> 
-> Best regards,
+>  image.fit: dtbs
+> +image.fit: $(if $(FIT_MODULES),modules)
+>  
+>  vmlinuz.efi image.fit: Image
+>  $(BOOT_TARGETS): vmlinux
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 1d581ba5df66..28e0cc0865b1 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -398,11 +398,15 @@ MAKE_FIT := $(srctree)/scripts/make_fit.py
+>  # Use this to override the compression algorithm
+>  FIT_COMPRESSION ?= gzip
+>  
+> +# Set this to non-empty to include an initrd with all the kernel modules
+> +FIT_MODULES ?=
+> +
+>  quiet_cmd_fit = FIT     $@
+>        cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
+> -		--name '$(UIMAGE_NAME)' \
+> +		--name '$(UIMAGE_NAME)' $(MAKE_FIT_FLAGS) \
+
+Remnant of a previous revision?
+
+>  		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
+>  		$(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
+> +		$(if $(FIT_MODULES),--modules @$(objtree)/modules.order) \
+
+I am wondering how module dependencies work without the depmod invocation
+and modules.dep file.
+
+>  		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
+>  
+>  # XZ
 > -- 
-> Ahmad Fatoum <a.fatoum@pengutronix.de>
+> 2.43.0
 > 
 
