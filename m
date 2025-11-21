@@ -1,115 +1,251 @@
-Return-Path: <linux-kbuild+bounces-9762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9765-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C15BC7B6C0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 20:01:47 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AE4C7B957
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 20:47:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 02A3B343360
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:01:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1B8D74E71BA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:47:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B44273D81;
-	Fri, 21 Nov 2025 19:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D43302CAB;
+	Fri, 21 Nov 2025 19:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R66xKcqQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HS/I0gDR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE7A2264D5
-	for <linux-kbuild@vger.kernel.org>; Fri, 21 Nov 2025 19:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF92BE05F;
+	Fri, 21 Nov 2025 19:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763751702; cv=none; b=PswyLQds9F46FALb3o6Matisz4sQbfQu7IK5DQj4IasFuZADIbrpvfbwGyS914Vi3/WIJKd9FnHl04wKKqODMjhjAIsaY6u/y9n5NfQIs3cMAw9IuJIZogmG+XBZ3GbaNYf+xJai/at23oxsbJHtmHGfjkwsA8mIfBmJu9tPfaE=
+	t=1763754427; cv=none; b=rl0fLG7aBDA7qaw9+XQhkg4iP/lwAq2tU540DNF8EzHjei6RNQ0pph6KYh9t29osyWSJWTdvnHPgerLh2RFDi6Egx8yGtFmmkhE0lKLtB5GedzS9Eb7POBJBfdOxz/N6XpHhuUo5l3KJyfoGlxr/299FVBRdOGFZ/oHm6MOv/DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763751702; c=relaxed/simple;
-	bh=znNrGtLO/y2KIKC6w6UbPHjCgvfwhBb8OCIlLO/42vU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YDXQ0KjKSaMVGgOhQP7lhGFMp3bAPOeRHEB44eqBj0Z1PKosZ0LdmV9xH1Ykku8446KUg2nUYxSm4ytaIsxFu04gdJffbUAsZNdpcghcrpkdqQXBk0K1+L6sbAQEqleWMYz3vFC1ZL6+yGk1j4fth8xjwvteswZJ0rZxWxvXpWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R66xKcqQ; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-bc2c9a771b5so285828a12.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 21 Nov 2025 11:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763751700; x=1764356500; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gMRrQ5UDUuelFdTKPrDDsaVzS+ehlFeWjYLK9O4YUmY=;
-        b=R66xKcqQ02lkyymRFnl1rGiQ2xkD981v28fgZ3OiB6Zt9qnHZnS2dMI5NKgfaTyyKN
-         fx0YDPzQAGtJVHl+pMDj0TU1L5QQZeIQbLz73fymRiwfEfcEXEW4qIoYsM1UTVAzQ2Kh
-         980wSSu0RStPflVFBzgdZbWjunA1c3g1QNqtaG9GvmBIKBrbXGfMmzdJ04belCIRLL7L
-         CfreugdCMgIygMyuGiLINXpDD6CIfFqhKj0GFeV8ysaUjRozURESk3xD6KwWXJZ3MzHP
-         nOSJTbZ2H8TA2gbfzzRIU7XOLlam/cYwvuhGa7nqoyXYKcRVaGAoDvvSCiCS4WcrzyvI
-         Q87w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763751700; x=1764356500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gMRrQ5UDUuelFdTKPrDDsaVzS+ehlFeWjYLK9O4YUmY=;
-        b=ICnThxN17qURw8FPQPExy8Fts6+B4q+N+KLQU0kSIagyxCp3X9Kaz5LsIBz90+MUqe
-         zDFfCMVQwdSAUuPIUXUX889U3mYYJgQsBOyZNJ/1nxkx7R9iqMinbDJUoIIA1bIEjW5S
-         G4AMAIsjIXeYEe5s4r+/e7C4v+IvsQ9DDLyiTct0c77mnEkxxsG2GWMcKm1PDXk7lllu
-         d+3grSTTqccC4lXaXpyTlR+7vBIgHCf5MgA9AJYmSRCKxHZgVrpCT/MOZqN6kL/pi1WU
-         f2pEF2q/S1Nut7INyOb7g62Ij62KhFwL5wWaekDWd8MkfjtWje9Qyi4vIDvWOa7izPtb
-         +ijQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdtzexsPjZoK7OwJ8kEX68+P7wEVhzmo+eOecQ7RqNLF6mXx9u6AxIgOXvEYi7HCfm3YSmDfopv+J/cLc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1udYa2f/+Y0QQ9/4FWCtsDNEwsNjqtcVvsXMmVjU2/GWsddFk
-	/bFSf6nVaax1VpXlaCNtfb+mJT+vio5Rpq5hRWYXQTJ7ZBATU/rHknldrDsXDbfnavb+HT6BV/L
-	xOYrxZ5oWQ8kpnMoiXCcOvEtM6OTKcuE=
-X-Gm-Gg: ASbGncvpvfRP+GPYcaKBondrw2omqFtLs4QUkO1QJ3x4DPVuEZWhk+OUAH21EjlDbJq
-	JXu5Ztc5xQ3gGDd+dgxZT6TqBrh1d2GHDSiztWEKPwT8XGb40XsUaNrcM4TdNLgh9NVY81InyhN
-	62VRoVaPcJn9sbbaarrFE3IM7EEQZB6sDyMk0Kito8qg2APM5agpty6rjlCzNFDv/3JM9fPQ13G
-	a8oWZfZW5kBD/CGGwpvXuxmD4sdc67OzgHI5m9wJIMP50Fcv9VfOFNrY1+MVOGI7pwOhEHim4Jn
-	+0fdOAMX17mFrGV1A3xgzjKtXZG6Eqz3kEyWInzDiLkfya+DnIa8xwmCbjOAmBurUtvBzHPFvfY
-	CvbmP4RElRbcr4A==
-X-Google-Smtp-Source: AGHT+IHxzbdxx7SbQCrTEvxngdIKbtJYdfkpcAfmpDXK7Tu1gbYmvuvSxOavC3Q8fiaJxbZ3HHu3Yl70yC4dL2qOhV0=
-X-Received: by 2002:a05:693c:2a0c:b0:2a4:3593:5fc8 with SMTP id
- 5a478bee46e88-2a719277278mr918984eec.2.1763751699943; Fri, 21 Nov 2025
- 11:01:39 -0800 (PST)
+	s=arc-20240116; t=1763754427; c=relaxed/simple;
+	bh=Vg/9WM4svuJxXmTZGYFyYyC/fQlAZAwS2uwXY2DgmR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jij1M28UKimHRs0r9FLeSa36bn+/Q2z3zP9iIQwBi/JWfinmmIihg/vacAinSuGCdO39s2wvhEGyDOqs216yiPIs9iMCDEU/CuXR6SNuMkkkIudPQnAXcF/b1M4+iXFeS2HhDS/4FRbTmaKrvIsp2HE9E6i8togBA9FUYkayE7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HS/I0gDR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690D2C4CEF1;
+	Fri, 21 Nov 2025 19:47:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763754426;
+	bh=Vg/9WM4svuJxXmTZGYFyYyC/fQlAZAwS2uwXY2DgmR8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HS/I0gDRR5ulP8YpCKhY0pGoC//uLtHpesK93QeLmDwHiWXgVF9PfspYCcY8YDa4e
+	 QnodNPzsMmpz6DkDpNNgHyqQ4J63bUI2MoW12ViGmehzqFp9bWDuPmjnkp6kS0CvQS
+	 oabcR2BgJpsitAfB7NNHtgePHZblvY8fPs4S/l4KvQHoem1aliLIO4FMggaYN6eqI6
+	 PBCyKmFVL2E/c1ntLJU+gYavkSwA05ILhv6s7pKH1j6Mz7QkiodmlCv7istGTUFffJ
+	 ANaSC6cjqLNnAtUDr7Ap7skCr6YQHKCThhTudU1ChxaK3UZVeoVpj46DLusTf2ly+o
+	 VswKi+rmdKN6Q==
+Date: Fri, 21 Nov 2025 20:42:34 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2] kbuild: Support directory targets for building DTBs
+Message-ID: <aSDAqhUb8_76IP0Y@derry.ads.avm.de>
+References: <20251120204812.1983452-4-robh@kernel.org>
+ <20251121063033.GA571346@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251121184342.it.626-kees@kernel.org>
-In-Reply-To: <20251121184342.it.626-kees@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 21 Nov 2025 20:01:27 +0100
-X-Gm-Features: AWmQ_blNjwG2ZHIL75QpaofqEmG2atnGSXOJBOn15FdezxxUNWzQjNXhbF1nmK8
-Message-ID: <CANiq72mzu_reg+A7vV9ARtu40g4R2rGr6ort5SgjX2Wozo6j-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Enable GCC diagnostic context for
- value-tracking warnings
-To: Kees Cook <kees@kernel.org>
-Cc: "Gustavo A . R . Silva" <gustavoars@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AfpfqPLkSPOJGvv9"
+Content-Disposition: inline
+In-Reply-To: <20251121063033.GA571346@ax162>
+
+
+--AfpfqPLkSPOJGvv9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 21, 2025 at 7:43=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
->
-> Fixes based on this work have already
-> been landing, e.g.:
->
->   4a6f18f28627 ("net/mlx4_core: Avoid impossible mlx4_db_alloc() order va=
-lue")
->   8a39f1c870e9 ("ovl: Check for NULL d_inode() in ovl_dentry_upper()")
->   e5f7e4e0a445 ("drm/amdgpu/atom: Work around vbios NULL offset false pos=
-itive")
+On Thu, Nov 20, 2025 at 11:30:33PM -0700, Nathan Chancellor wrote:
+> On Thu, Nov 20, 2025 at 02:48:13PM -0600, Rob Herring (Arm) wrote:
+> > It is useful to be able to build all the DTBs for a vendor. One can list
+> > all the .dts files in a directory and convert those to %.dtb targets,
+> > but that doesn't work for base+overlay DTB targets.
+> >=20
+> > Adding the dts subdirectory is straight-forward, but building the
+> > DTBs should only happen for certain targets (dtbs, dtbs_check, %.dtb,
+> > %.dtbo, and the directory target(s)).
+> >=20
+> > The 'scripts_dtc' rule doesn't really depend on 'dt_binding_schemas',
+> > but the directory target only depends on 'scripts' which depends on
+> > 'scripts_dtc'.
+> >=20
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> > Please ack and I'll take this in the DT tree.
+> >=20
+> > I don't really like looking at MAKECMDGOALS, but that's the only way I
+> > could come up with that works. Maybe someone knows a better way.
+>=20
+> Yeah, I do worry that just looking for "dtb" in MAKECMDGOALS could
+> result in some false positives but in the tree now, I only see one .c
+> file that would trigger this logic, so maybe it is not that big of a
+> deal?
+>=20
+>   $ fd dtb
+>   arch/microblaze/boot/dts/linked_dtb.S
+>   arch/mips/include/asm/mach-loongson64/builtin_dtbs.h
+>   arch/um/kernel/dtb.c
+>   drivers/gpu/drm/ci/dtbs-check.sh
+>   scripts/Makefile.dtbinst
+>   scripts/Makefile.dtbs
+>=20
+> Unfortunately, my Make-fu is pretty weak right now so I do not have any
+> immediate suggestions but Nicolas might... otherwise, we could probably
+> ride this for right now and either revert it or forward fix it if
+> problems come up in further testing, since this does seem rather useful
+> for folks working on device tree files.
 
-Thanks for the references & extra context!
+well, evaluating MAKECMDGOALS does not look that bad to me.  But I'd
+rather like to reduce the use of findstring, see below.
 
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+>=20
+> > v2:
+> >  - Convert arm, mips and riscv. The other DT enabled arches don't have=
+=20
+> >    vendor directories.
+> >  - Link to v1: https://lore.kernel.org/all/20251113225952.867138-1-robh=
+@kernel.org/=20
+> >=20
+> > ---
+> >  Makefile              | 2 +-
+> >  arch/arm/Kbuild       | 2 ++
+> >  arch/arm64/Kbuild     | 2 ++
+> >  arch/mips/Kbuild      | 2 ++
+> >  arch/riscv/Kbuild     | 2 ++
+> >  scripts/Makefile.dtbs | 3 +++
+> >  6 files changed, 12 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/Makefile b/Makefile
+> > index 17cfa11ca716..85018d461575 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1494,7 +1494,7 @@ export CHECK_DTBS=3Dy
+> >  endif
+> > =20
+> >  ifneq ($(CHECK_DTBS),)
+> > -dtbs_prepare: dt_binding_schemas
+> > +scripts_dtc: dt_binding_schemas
+> >  endif
+> > =20
+> >  dtbs_check: dtbs
+> > diff --git a/arch/arm/Kbuild b/arch/arm/Kbuild
+> > index 69de6b6243c7..af7dd53585c3 100644
+> > --- a/arch/arm/Kbuild
+> > +++ b/arch/arm/Kbuild
+> > @@ -10,5 +10,7 @@ obj-y				+=3D probes/
+> >  obj-y				+=3D net/
+> >  obj-y				+=3D crypto/
+> > =20
+> > +subdir-y +=3D boot/dts
+> > +
+> >  # for cleaning
+> >  subdir- +=3D boot
+> > diff --git a/arch/arm64/Kbuild b/arch/arm64/Kbuild
+> > index 5bfbf7d79c99..9e9820af48c9 100644
+> > --- a/arch/arm64/Kbuild
+> > +++ b/arch/arm64/Kbuild
+> > @@ -5,5 +5,7 @@ obj-$(CONFIG_XEN)	+=3D xen/
+> >  obj-$(subst m,y,$(CONFIG_HYPERV))	+=3D hyperv/
+> >  obj-$(CONFIG_CRYPTO)	+=3D crypto/
+> > =20
+> > +subdir-y +=3D boot/dts
+> > +
+> >  # for cleaning
+> >  subdir- +=3D boot
+> > diff --git a/arch/mips/Kbuild b/arch/mips/Kbuild
+> > index e901bf554483..6125d00cdcef 100644
+> > --- a/arch/mips/Kbuild
+> > +++ b/arch/mips/Kbuild
+> > @@ -21,5 +21,7 @@ ifdef CONFIG_KVM
+> >  obj-y +=3D kvm/
+> >  endif
+> > =20
+> > +subdir-y +=3D boot/dts
+> > +
+> >  # for cleaning
+> >  subdir- +=3D boot
+> > diff --git a/arch/riscv/Kbuild b/arch/riscv/Kbuild
+> > index 126fb738fc44..3cf7f84eb287 100644
+> > --- a/arch/riscv/Kbuild
+> > +++ b/arch/riscv/Kbuild
+> > @@ -7,5 +7,7 @@ obj-$(CONFIG_KVM) +=3D kvm/
+> > =20
+> >  obj-$(CONFIG_ARCH_SUPPORTS_KEXEC_PURGATORY) +=3D purgatory/
+> > =20
+> > +subdir-y +=3D boot/dts
+> > +
+> >  # for cleaning
+> >  subdir- +=3D boot
+> > diff --git a/scripts/Makefile.dtbs b/scripts/Makefile.dtbs
+> > index 2d321b813600..4d0d164df275 100644
+> > --- a/scripts/Makefile.dtbs
+> > +++ b/scripts/Makefile.dtbs
+> > @@ -14,7 +14,10 @@ dtb-y           :=3D $(addprefix $(obj)/, $(dtb-y))
+> >  multi-dtb-y     :=3D $(addprefix $(obj)/, $(multi-dtb-y))
+> >  real-dtb-y      :=3D $(addprefix $(obj)/, $(real-dtb-y))
+> > =20
+> > +ifneq ($(findstring /dts/,$(MAKECMDGOALS))$(findstring dtb,$(MAKECMDGO=
+ALS)),)
 
-Cheers,
-Miguel
+Using '$(filter )' instead of '$(findstring )' reduces the risk of false
+positives, e.g.:
+
+dtb-targets :=3D %/dts %.dtb %.dtbo dtbs dtbs_check
+ifneq ($(findstring /dts/,$(MAKECMDGOALS))$(filter $(dtb-targets),$(MAKECMD=
+GOALS)),)
+
+
+With (something like) that:
+Tested-by: Nicolas Schier <nsc@kernel.org>
+Acked-by: Nicolas Schier <nsc@kernel.org>
+
+But [1] seems to break this patch.
+
+[1]: https://lore.kernel.org/linux-kbuild/20251120140645.478623-1-thomas.de=
+_schampheleire@nokia.com
+
+Kind regards,
+Nicolas
+
+--AfpfqPLkSPOJGvv9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmkgwKoACgkQB1IKcBYm
+Emm8Qw/+MwI0xujbY4z6kH8eqisZOdw3rGVbln1KTIUnNXmON6raX7XFOnAxqaHI
+BhYiwbUYWUHKeHApq1XCTR4WKNtzMYiID+zA0HuwxuqOlzdPwl35Xn+nvBw/Mmfw
+xUF9nqlmFu7MH9xIOfbWotGMIgqBc5FKAflHwHGpjW009mvPQ5hnMqiXk0DVu8oz
+rVLhviLqgjsx2ESl0sgkfiOBt0ygtzFKvUrqSVixl/sB5nI7sOhU190u8qvpZ/bV
+Pc6s9+IUhTv5+iaxhTUcsQjZTgHp5KJSrlmcIUY5eLdwFQRFAB3w4Kx8xNY8NO02
+xLPZSQ28FcJaBuRyLTYFy4CaVOMKV2r2JW5DUdkUxuIwh9UdEkOjCQSWfomRALGc
+PlZzKpsUp7p76fW2WkbjN9r45qCRFdaWEN3olr9vBh0Y5u+1AnZh7Ej/lws7Cj4z
+sEBo6QdAlP0ofjB1JrNP98MMOQu1Tr3fOwkadCmyRtuYqJG72Tj7t6EBrC/JRoS0
+MFl/XEPHgQcjRgVIWEfFtCwrflq2jO/f2fbfTZHPxbMbj99CATyDDTy+QWzB8bhT
+RqrzlrejhI4WV27fReo4wMk/Og8ewO0/h2mloIi1hrORFClz5M+aU3CCEvFu2hfY
++hBhCWYDLSN4n5mUhA6nH/RFdZoNohijzS15aqmkCNWx1yM/g5I=
+=pv6m
+-----END PGP SIGNATURE-----
+
+--AfpfqPLkSPOJGvv9--
 
