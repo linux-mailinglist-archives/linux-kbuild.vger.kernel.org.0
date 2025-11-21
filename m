@@ -1,54 +1,64 @@
-Return-Path: <linux-kbuild+bounces-9876-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9767-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03541C8BE82
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 21:49:16 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0484C7BD75
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 23:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6FAB3B777F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:49:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9A50E4EB4AB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 22:21:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5358B318135;
-	Wed, 26 Nov 2025 20:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 093B130DD22;
+	Fri, 21 Nov 2025 22:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="We4LevAm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJesF9+6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2574F16DEB0;
-	Wed, 26 Nov 2025 20:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8F430CDAB;
+	Fri, 21 Nov 2025 22:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764190151; cv=none; b=UaZTxJDfy+sU0XIgS/0MnI4PQ5cHXItK9wwl2RZQ/zc18K/ew4XaIfLeMXV/pM+0KxFca0yQK5UcNAxU4mBt6w9Yx2/wY00lYHs0UIkzx1Xkh/n6CFHIY3ME7lNusYN7hIXH0qB6NvdmPPKjq/j4bog3BD10QQncF/YPY6JgP4U=
+	t=1763763635; cv=none; b=Ucwewh0q4MC/Bx6Ppkpv0LsxHcvmjvo5tt0d6t1g6RhWhr425Ep9MGeCgOxCeng7aRlZkdQJs7T/WFe2U4Y8bYHoxWy/sdbXH6heg/K3Q8Tjca4vSF2ZxYrJpbGo8pvZbrItlKzDofVijgyHtLmACvlujIdt8dSpTyfqnNsDujA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764190151; c=relaxed/simple;
-	bh=bTg0AQnVQjYRj+5AwoOjeTHstG+BtnMifdDv+GuMp30=;
+	s=arc-20240116; t=1763763635; c=relaxed/simple;
+	bh=IA7dRYfgmLM6hh4dPmzDRF9cilrSQigzy922nod1WPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qbl5lTiuG3VWMx5bqA5SKec8UQzE8+zshgyXQjoeGKzED77m1AjzHiF/i3lx8vPcCwc10MsmwG8sTZdpKlv8q2P1apFmZpQZJhrZLUclx8J6CmdV27fmiVOWvWAXpIev9zdUMBfgJN6/u8LrMHzy8bp0PwwoIAkC6PibZxAX+VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=We4LevAm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89889C4CEF7;
-	Wed, 26 Nov 2025 20:49:10 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8kTp9N8lQJFDxCaFc2JBxzMh3sT+ljOZWEqfdswtK/svZfA3XfZLYpotiVCxkj1ClgM/gb7S55iXeBTuYfxsJWEA9TJYMnBaU/OsAzg3gXlO1Z3xkfVYmE2KVXNJxgLlRqTXu0A49MVOiSPiT14xpORTmdLZfdxIkrvk2TUl2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJesF9+6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F6DEC4CEF1;
+	Fri, 21 Nov 2025 22:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764190151;
-	bh=bTg0AQnVQjYRj+5AwoOjeTHstG+BtnMifdDv+GuMp30=;
+	s=k20201202; t=1763763635;
+	bh=IA7dRYfgmLM6hh4dPmzDRF9cilrSQigzy922nod1WPA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=We4LevAm6vT0xtHdJ09DrbSDHoVNv6I4HPXxld0JvAtNOAfEuY9kbMZmr4liIAvIF
-	 +ENVdod5Z3B6bKWYFu91Yz4buJJAAgkIPL9NWWHIpCpQT0z0Mh4jssnqn4164rCOye
-	 TbJMO+nB0d83/JeagXjw6yyGSWhLu3xbxaULQ++3Jq0Uyo8mIdt2XSKeTEJrVuxM9D
-	 1H0MM0BlOcKNH5LKKVJ0WAsvPabyyi7HcS+K345OVeUR/1uJEQ/0Y7mW1Frumw1cjY
-	 PTozM7FzDa5AYJbqgUPqB956vQlo1F8E/aOfDn2w19HAdMan4vGDw3GMDbxzYoJO+3
-	 oJtYIYtXCULBg==
-Date: Fri, 21 Nov 2025 20:56:59 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, devicetree@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Ensure .dtbo targets are applied to a base .dtb
-Message-ID: <aSDEC9D87nZB5RJp@derry.ads.avm.de>
-References: <20251114222759.4181152-1-robh@kernel.org>
+	b=GJesF9+6JXaHzGISpMpsgsByjjJRM0QtCtvm2qL3gNgta24CuCZbdho3/MCwy/6rm
+	 wTEygSGamPSDbl3LFobWCmgI0rPTUqF1eXo3FPj74vkKRYzqfWP8cE0MgKC7IQoIH1
+	 Z8PuCzaUKBcT+azvdSyjcMzK7TM21it/2mqnGZILw9g6yIpTZxkntKATJijxGupIy+
+	 cjOXjavQ62AwFHXfiyG1RyjkAMXVuPdgEH8aFq4snwjSQDUU2NkQJfkILhOEHJggNM
+	 RO6mCyvbw2bYilLbZKOHaF3d/PsO61RNb9mtw3RWYiN1EPtvTQ2jO37K3rML5gd/Yc
+	 +CNi7KS/9M9SA==
+Date: Fri, 21 Nov 2025 15:20:29 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2] kbuild: Support directory targets for building DTBs
+Message-ID: <20251121222029.GA1674270@ax162>
+References: <20251120204812.1983452-4-robh@kernel.org>
+ <20251121063033.GA571346@ax162>
+ <aSDAqhUb8_76IP0Y@derry.ads.avm.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,48 +67,32 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114222759.4181152-1-robh@kernel.org>
+In-Reply-To: <aSDAqhUb8_76IP0Y@derry.ads.avm.de>
 
-On Fri, Nov 14, 2025 at 04:27:58PM -0600, Rob Herring (Arm) wrote:
-> It is a requirement that DT overlays in the kernel are applied at build
-> time to a base DTB in order to validate they can be applied and to
-> validate them against the DT schemas. DT overlays on their own may be
-> incomplete and can't be validated.
+On Fri, Nov 21, 2025 at 08:42:34PM +0100, Nicolas Schier wrote:
+> Using '$(filter )' instead of '$(findstring )' reduces the risk of false
+> positives, e.g.:
 > 
-> Add a kbuild check so this doesn't have to be checked and fixed
-> periodically.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  scripts/Makefile.dtbs | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/scripts/Makefile.dtbs b/scripts/Makefile.dtbs
-> index 2d321b813600..15473edc2589 100644
-> --- a/scripts/Makefile.dtbs
-> +++ b/scripts/Makefile.dtbs
-> @@ -10,6 +10,13 @@ real-dtb-y := $(call real-search, $(dtb-y), .dtb, -dtbs)
->  # Base DTB that overlay is applied onto
->  base-dtb-y := $(filter %.dtb, $(call real-search, $(multi-dtb-y), .dtb, -dtbs))
->  
-> +# Ensure that any .dtbo is applied to at least one base .dtb. Otherwise, it
-> +# does not get validated.
-> +applied-dtbo := $(filter %.dtbo, \
-> +	$(call real-search, $(call multi-search, $(dtb-y) $(dtb-), .dtb, -dtbs), .dtb, -dtbs))
-> +unapplied-dtbo := $(filter-out $(applied-dtbo),$(filter %.dtbo, $(dtb-y)))
-> +$(if $(unapplied-dtbo), $(warning .dtbo is not applied to any base: $(unapplied-dtbo)))
-> +
->  dtb-y           := $(addprefix $(obj)/, $(dtb-y))
->  multi-dtb-y     := $(addprefix $(obj)/, $(multi-dtb-y))
->  real-dtb-y      := $(addprefix $(obj)/, $(real-dtb-y))
-> -- 
-> 2.51.0
-> 
+> dtb-targets := %/dts %.dtb %.dtbo dtbs dtbs_check
+> ifneq ($(findstring /dts/,$(MAKECMDGOALS))$(filter $(dtb-targets),$(MAKECMDGOALS)),)
 
-Acked-by: Nicolas Schier <nsc@kernel.org>
+Oh yeah, that would seem to clear up my concerns.
 
-Do you take this via DT tree?
+> With (something like) that:
+> Tested-by: Nicolas Schier <nsc@kernel.org>
+> Acked-by: Nicolas Schier <nsc@kernel.org>
 
-Kind regards,
-Nicolas
+Agreed.
+
+Acked-by: Nathan Chancellor <nathan@kernel.org>
+
+> But [1] seems to break this patch.
+> 
+> [1]: https://lore.kernel.org/linux-kbuild/20251120140645.478623-1-thomas.de_schampheleire@nokia.com
+
+Yeah, that will need to be coordinated, I cc'd Rob on that change for
+him to take a look as well.
+
+Cheers,
+Nathan
 
