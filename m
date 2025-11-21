@@ -1,63 +1,59 @@
-Return-Path: <linux-kbuild+bounces-9765-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9766-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AE4C7B957
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 20:47:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CEDC7B95A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 20:47:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1B8D74E71BA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:47:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B86FD3A6916
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D43302CAB;
-	Fri, 21 Nov 2025 19:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85F8305E14;
+	Fri, 21 Nov 2025 19:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HS/I0gDR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tfmAomQ1"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF92BE05F;
-	Fri, 21 Nov 2025 19:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFD5303A21;
+	Fri, 21 Nov 2025 19:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763754427; cv=none; b=rl0fLG7aBDA7qaw9+XQhkg4iP/lwAq2tU540DNF8EzHjei6RNQ0pph6KYh9t29osyWSJWTdvnHPgerLh2RFDi6Egx8yGtFmmkhE0lKLtB5GedzS9Eb7POBJBfdOxz/N6XpHhuUo5l3KJyfoGlxr/299FVBRdOGFZ/oHm6MOv/DQ=
+	t=1763754430; cv=none; b=Plysdjp6ya89/FcFB2ILX8kdYCsIM1t7pRG78lzRc1vDU2j/VBeUI6v76kOGiLmfrGcSTohEOqulsKK7gc6yis543oDM+KzrP0IWCm6K3mmmcrV/1FTXOugaqs6Z0k/X2ocxlGFUJNAWDJ7eMPYJdwThtb+4ty5HCbcehVJGjn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763754427; c=relaxed/simple;
-	bh=Vg/9WM4svuJxXmTZGYFyYyC/fQlAZAwS2uwXY2DgmR8=;
+	s=arc-20240116; t=1763754430; c=relaxed/simple;
+	bh=qvxNDXBnJW5pDOHtl3UPlVB07TrxBrvozO1z55FStgY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jij1M28UKimHRs0r9FLeSa36bn+/Q2z3zP9iIQwBi/JWfinmmIihg/vacAinSuGCdO39s2wvhEGyDOqs216yiPIs9iMCDEU/CuXR6SNuMkkkIudPQnAXcF/b1M4+iXFeS2HhDS/4FRbTmaKrvIsp2HE9E6i8togBA9FUYkayE7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HS/I0gDR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690D2C4CEF1;
-	Fri, 21 Nov 2025 19:47:06 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFO4Zq0tN1Muuh3dO2EXXDlSLLGpjeyHb+iuUz9pCUSO6rT96hLrnDS6TKQ8xQ2aYYo94A/5ax3y23HYMOycyZ15hhG+mtFVOr/wwe1JhCPurSRc2CpHjShSW3SwGS+jDJJrPA2BAkFXawtgVgtk0p3mdXoS1n8oB+8+AJk/vaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tfmAomQ1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BFCC19422;
+	Fri, 21 Nov 2025 19:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763754426;
-	bh=Vg/9WM4svuJxXmTZGYFyYyC/fQlAZAwS2uwXY2DgmR8=;
+	s=k20201202; t=1763754430;
+	bh=qvxNDXBnJW5pDOHtl3UPlVB07TrxBrvozO1z55FStgY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HS/I0gDRR5ulP8YpCKhY0pGoC//uLtHpesK93QeLmDwHiWXgVF9PfspYCcY8YDa4e
-	 QnodNPzsMmpz6DkDpNNgHyqQ4J63bUI2MoW12ViGmehzqFp9bWDuPmjnkp6kS0CvQS
-	 oabcR2BgJpsitAfB7NNHtgePHZblvY8fPs4S/l4KvQHoem1aliLIO4FMggaYN6eqI6
-	 PBCyKmFVL2E/c1ntLJU+gYavkSwA05ILhv6s7pKH1j6Mz7QkiodmlCv7istGTUFffJ
-	 ANaSC6cjqLNnAtUDr7Ap7skCr6YQHKCThhTudU1ChxaK3UZVeoVpj46DLusTf2ly+o
-	 VswKi+rmdKN6Q==
-Date: Fri, 21 Nov 2025 20:42:34 +0100
+	b=tfmAomQ1RNlmAmWELLIpp+qaJ+LVr1u2b6x2WmAqSoKyMRfYXbhJuIQnN2OncGiq7
+	 Xf0EjWOyjkVm6N20L9Lh1221sgWcdGEklhP3L5naMPZgSAIn6X7Gf+cuaTpKQpm7bz
+	 kwvJwPA5W+jhAC0cn/5DSeDJ/sQMlEAM+mfCRJZutmIrYINuecbIcaYn6nL8GeKQiC
+	 jWFendJNflA81crbjXmOxH7dd/WXSpwLuJBhqtzNnUSgZF0+DUmiazesIrbt2v2VnL
+	 XSsbRqdq3czR+oJQFX1RACVYK+/Dijg9ih/RzZc5lnA1Z4Pp8fgiHqw52fvo6IPJcZ
+	 FuLZDfJNG6EjA==
+Date: Fri, 21 Nov 2025 20:46:44 +0100
 From: Nicolas Schier <nsc@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v2] kbuild: Support directory targets for building DTBs
-Message-ID: <aSDAqhUb8_76IP0Y@derry.ads.avm.de>
-References: <20251120204812.1983452-4-robh@kernel.org>
- <20251121063033.GA571346@ax162>
+Cc: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>,
+	linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] kbuild: fix compilation of dtb specified on command-line
+ without make rule
+Message-ID: <aSDBpKUe_nJq3h21@derry.ads.avm.de>
+References: <20251120140645.478623-1-thomas.de_schampheleire@nokia.com>
+ <20251121064256.GB571346@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,187 +61,90 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AfpfqPLkSPOJGvv9"
+	protocol="application/pgp-signature"; boundary="9FJ7FA6pfcAXCHU/"
 Content-Disposition: inline
-In-Reply-To: <20251121063033.GA571346@ax162>
+In-Reply-To: <20251121064256.GB571346@ax162>
 
 
---AfpfqPLkSPOJGvv9
+--9FJ7FA6pfcAXCHU/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 20, 2025 at 11:30:33PM -0700, Nathan Chancellor wrote:
-> On Thu, Nov 20, 2025 at 02:48:13PM -0600, Rob Herring (Arm) wrote:
-> > It is useful to be able to build all the DTBs for a vendor. One can list
-> > all the .dts files in a directory and convert those to %.dtb targets,
-> > but that doesn't work for base+overlay DTB targets.
-> >=20
-> > Adding the dts subdirectory is straight-forward, but building the
-> > DTBs should only happen for certain targets (dtbs, dtbs_check, %.dtb,
-> > %.dtbo, and the directory target(s)).
-> >=20
-> > The 'scripts_dtc' rule doesn't really depend on 'dt_binding_schemas',
-> > but the directory target only depends on 'scripts' which depends on
-> > 'scripts_dtc'.
-> >=20
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > ---
-> > Please ack and I'll take this in the DT tree.
-> >=20
-> > I don't really like looking at MAKECMDGOALS, but that's the only way I
-> > could come up with that works. Maybe someone knows a better way.
+On Thu, Nov 20, 2025 at 11:42:56PM -0700, Nathan Chancellor wrote:
+> + Rob, as he reviewed e7e2941300d2
 >=20
-> Yeah, I do worry that just looking for "dtb" in MAKECMDGOALS could
-> result in some false positives but in the tree now, I only see one .c
-> file that would trigger this logic, so maybe it is not that big of a
-> deal?
->=20
->   $ fd dtb
->   arch/microblaze/boot/dts/linked_dtb.S
->   arch/mips/include/asm/mach-loongson64/builtin_dtbs.h
->   arch/um/kernel/dtb.c
->   drivers/gpu/drm/ci/dtbs-check.sh
->   scripts/Makefile.dtbinst
->   scripts/Makefile.dtbs
->=20
-> Unfortunately, my Make-fu is pretty weak right now so I do not have any
-> immediate suggestions but Nicolas might... otherwise, we could probably
-> ride this for right now and either revert it or forward fix it if
-> problems come up in further testing, since this does seem rather useful
-> for folks working on device tree files.
-
-well, evaluating MAKECMDGOALS does not look that bad to me.  But I'd
-rather like to reduce the use of findstring, see below.
-
->=20
-> > v2:
-> >  - Convert arm, mips and riscv. The other DT enabled arches don't have=
-=20
-> >    vendor directories.
-> >  - Link to v1: https://lore.kernel.org/all/20251113225952.867138-1-robh=
-@kernel.org/=20
+> On Thu, Nov 20, 2025 at 03:06:43PM +0100, Thomas De Schampheleire wrote:
+> > Since commit e7e2941300d2 ("kbuild: split device tree build rules into
+> > scripts/Makefile.dtbs"), it is no longer possible to compile a device t=
+ree
+> > blob that is not specified in a make rule
+> > like:
+> >     dtb-$(CONFIG_FOO) +=3D foo.dtb
 > >=20
-> > ---
-> >  Makefile              | 2 +-
-> >  arch/arm/Kbuild       | 2 ++
-> >  arch/arm64/Kbuild     | 2 ++
-> >  arch/mips/Kbuild      | 2 ++
-> >  arch/riscv/Kbuild     | 2 ++
-> >  scripts/Makefile.dtbs | 3 +++
-> >  6 files changed, 12 insertions(+), 1 deletion(-)
+> > Before the mentioned commit, one could copy a dts file to e.g.
+> > arch/arm64/boot/dts/ (or a new subdirectory) and then convert it to a d=
+tb
+> > file using:
+> >     make ARCH=3Darm64 foo.dtb
 > >=20
-> > diff --git a/Makefile b/Makefile
-> > index 17cfa11ca716..85018d461575 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1494,7 +1494,7 @@ export CHECK_DTBS=3Dy
-> >  endif
-> > =20
-> >  ifneq ($(CHECK_DTBS),)
-> > -dtbs_prepare: dt_binding_schemas
-> > +scripts_dtc: dt_binding_schemas
-> >  endif
-> > =20
-> >  dtbs_check: dtbs
-> > diff --git a/arch/arm/Kbuild b/arch/arm/Kbuild
-> > index 69de6b6243c7..af7dd53585c3 100644
-> > --- a/arch/arm/Kbuild
-> > +++ b/arch/arm/Kbuild
-> > @@ -10,5 +10,7 @@ obj-y				+=3D probes/
-> >  obj-y				+=3D net/
-> >  obj-y				+=3D crypto/
-> > =20
-> > +subdir-y +=3D boot/dts
-> > +
-> >  # for cleaning
-> >  subdir- +=3D boot
-> > diff --git a/arch/arm64/Kbuild b/arch/arm64/Kbuild
-> > index 5bfbf7d79c99..9e9820af48c9 100644
-> > --- a/arch/arm64/Kbuild
-> > +++ b/arch/arm64/Kbuild
-> > @@ -5,5 +5,7 @@ obj-$(CONFIG_XEN)	+=3D xen/
-> >  obj-$(subst m,y,$(CONFIG_HYPERV))	+=3D hyperv/
-> >  obj-$(CONFIG_CRYPTO)	+=3D crypto/
-> > =20
-> > +subdir-y +=3D boot/dts
-> > +
-> >  # for cleaning
-> >  subdir- +=3D boot
-> > diff --git a/arch/mips/Kbuild b/arch/mips/Kbuild
-> > index e901bf554483..6125d00cdcef 100644
-> > --- a/arch/mips/Kbuild
-> > +++ b/arch/mips/Kbuild
-> > @@ -21,5 +21,7 @@ ifdef CONFIG_KVM
-> >  obj-y +=3D kvm/
-> >  endif
-> > =20
-> > +subdir-y +=3D boot/dts
-> > +
-> >  # for cleaning
-> >  subdir- +=3D boot
-> > diff --git a/arch/riscv/Kbuild b/arch/riscv/Kbuild
-> > index 126fb738fc44..3cf7f84eb287 100644
-> > --- a/arch/riscv/Kbuild
-> > +++ b/arch/riscv/Kbuild
-> > @@ -7,5 +7,7 @@ obj-$(CONFIG_KVM) +=3D kvm/
-> > =20
-> >  obj-$(CONFIG_ARCH_SUPPORTS_KEXEC_PURGATORY) +=3D purgatory/
-> > =20
-> > +subdir-y +=3D boot/dts
-> > +
-> >  # for cleaning
-> >  subdir- +=3D boot
-> > diff --git a/scripts/Makefile.dtbs b/scripts/Makefile.dtbs
-> > index 2d321b813600..4d0d164df275 100644
-> > --- a/scripts/Makefile.dtbs
-> > +++ b/scripts/Makefile.dtbs
-> > @@ -14,7 +14,10 @@ dtb-y           :=3D $(addprefix $(obj)/, $(dtb-y))
-> >  multi-dtb-y     :=3D $(addprefix $(obj)/, $(multi-dtb-y))
-> >  real-dtb-y      :=3D $(addprefix $(obj)/, $(real-dtb-y))
-> > =20
-> > +ifneq ($(findstring /dts/,$(MAKECMDGOALS))$(findstring dtb,$(MAKECMDGO=
-ALS)),)
+> > In this scenario, both 'dtb-y' and 'dtb-' are empty, and the inclusion =
+of
+> > scripts/Makefile.dtbs relies on 'targets' to contain the MAKECMDGOALS. =
+The
+> > value of 'targets', however, is only final later in the code.
+> >=20
+> > Move the conditional include of scripts/Makefile.dtbs down to where the
+> > value of 'targets' is final.
+> >=20
+> > Fixes: e7e2941300d2 ("kbuild: split device tree build rules into script=
+s/Makefile.dtbs")
+> > Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.c=
+om>
+>=20
+> Huh, TIL that .c and .S files can be built in the same way...
+>=20
+>   $ touch init/foo.c init/bar.S
+>   $ make init/foo.o init/bar.o
+>   $ ls init/.foo.o.cmd init/.bar.o.cmd
+>   init/.bar.o.cmd
+>   init/.foo.o.cmd
+>=20
+> I do not necessarily love splitting up the conditional includes from
+> each other but I am not sure it can be avoided... Nicolas, are you okay
+> with me taking this as a fix or do you want to take it via kbuild-next?
+> If the latter:
+>=20
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Using '$(filter )' instead of '$(findstring )' reduces the risk of false
-positives, e.g.:
-
-dtb-targets :=3D %/dts %.dtb %.dtbo dtbs dtbs_check
-ifneq ($(findstring /dts/,$(MAKECMDGOALS))$(filter $(dtb-targets),$(MAKECMD=
-GOALS)),)
-
-
-With (something like) that:
-Tested-by: Nicolas Schier <nsc@kernel.org>
-Acked-by: Nicolas Schier <nsc@kernel.org>
-
-But [1] seems to break this patch.
-
-[1]: https://lore.kernel.org/linux-kbuild/20251120140645.478623-1-thomas.de=
-_schampheleire@nokia.com
+I am ok with you taking it via kbuild-fixed, thanks.
 
 Kind regards,
 Nicolas
 
---AfpfqPLkSPOJGvv9
+PS: If I combine this here with [1], [1] does not work any more.
+[1]: https://lore.kernel.org/linux-kbuild/20251120204812.1983452-4-robh@ker=
+nel.org
+
+--9FJ7FA6pfcAXCHU/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmkgwKoACgkQB1IKcBYm
-Emm8Qw/+MwI0xujbY4z6kH8eqisZOdw3rGVbln1KTIUnNXmON6raX7XFOnAxqaHI
-BhYiwbUYWUHKeHApq1XCTR4WKNtzMYiID+zA0HuwxuqOlzdPwl35Xn+nvBw/Mmfw
-xUF9nqlmFu7MH9xIOfbWotGMIgqBc5FKAflHwHGpjW009mvPQ5hnMqiXk0DVu8oz
-rVLhviLqgjsx2ESl0sgkfiOBt0ygtzFKvUrqSVixl/sB5nI7sOhU190u8qvpZ/bV
-Pc6s9+IUhTv5+iaxhTUcsQjZTgHp5KJSrlmcIUY5eLdwFQRFAB3w4Kx8xNY8NO02
-xLPZSQ28FcJaBuRyLTYFy4CaVOMKV2r2JW5DUdkUxuIwh9UdEkOjCQSWfomRALGc
-PlZzKpsUp7p76fW2WkbjN9r45qCRFdaWEN3olr9vBh0Y5u+1AnZh7Ej/lws7Cj4z
-sEBo6QdAlP0ofjB1JrNP98MMOQu1Tr3fOwkadCmyRtuYqJG72Tj7t6EBrC/JRoS0
-MFl/XEPHgQcjRgVIWEfFtCwrflq2jO/f2fbfTZHPxbMbj99CATyDDTy+QWzB8bhT
-RqrzlrejhI4WV27fReo4wMk/Og8ewO0/h2mloIi1hrORFClz5M+aU3CCEvFu2hfY
-+hBhCWYDLSN4n5mUhA6nH/RFdZoNohijzS15aqmkCNWx1yM/g5I=
-=pv6m
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmkgwaQACgkQB1IKcBYm
+EmmyiA/9HasZHH2qdhvYBgASuVc6gbPsoDMt85cQYFrfbuP+6CFLbjuoaIEU1MDh
+wZGeaTGGf9+PtW7gJXkuiRsZ4bXKkKvffrULbYHoS03k3hmvANKFUJr630Vuwhzy
+CrBdNR0+kh5Zl0mnRwy2se58YDo7iFxX9hilk0RYBJE2qz099j58S83yyEJYigWH
+uD4C0b0LY7/CMQXg35m3gdoEbbFrX6woF/LUONy/q+Mmlh082fGzZijn2nXMvgCC
+4encpoFWx8JrGFA3lCPlHSq2UP4cUxuFc4vzk0SmqpAkSr161R4DEYhNryzPBIgS
+6/5tsE2FgYhdXWzMLcUOnovHWjAKPQh15dLTqvirbl+X+sJ8hWe0l77WHe/nSv7a
+dmctr9pPnfwIO6m6KGaO3sQuniZw3XF2FV9j1OHnEgYNubARLhxB45ysgz6wjtGo
+UEz6WnQ2fcwdSKSm9S90S/MIj5s+YRJ+D+qoR/M3WQVLTRpgyZP+p+t0B4lDHbP+
+4KIGIi2JTV/oi7QKCwUr/zwvh9abPM0FWQxxAWF5LkHtLIwd2wajQNkqY5rGkgfB
+NSMTzRu9nMh/OzjNmUSUxJU4o+iYSC5NDyZCeCjS3dW4SAnZQZgnlR3mKxNsq689
+kcvdzVm9ckmNS+gRXDK+Rck2PAd0m04yr9ynqifzN+c6PVizrE0=
+=of57
 -----END PGP SIGNATURE-----
 
---AfpfqPLkSPOJGvv9--
+--9FJ7FA6pfcAXCHU/--
 
