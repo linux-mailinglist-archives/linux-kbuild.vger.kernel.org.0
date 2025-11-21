@@ -1,62 +1,57 @@
-Return-Path: <linux-kbuild+bounces-9759-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9760-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10572C7B599
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:32:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0C3C7B5C7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 19:42:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB1663A510C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 18:32:12 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BC57E35D2C2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Nov 2025 18:42:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F8BE22E406;
-	Fri, 21 Nov 2025 18:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F7C2E03E3;
+	Fri, 21 Nov 2025 18:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IgPwc5T4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OwfS76Px"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FCA824BD;
-	Fri, 21 Nov 2025 18:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7CD2727ED;
+	Fri, 21 Nov 2025 18:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763749930; cv=none; b=omnM20ng/ORrmiDdkW5VvMdDuJi6mhSdALryRsXckj5v1DI42O6B6svYvtj1gk5W3e3YZ/oENS7lNmhaOy7o2kct0i7OKPNaJrwcq/ehMVvc9T9hpfTRoSh1Ivued5agwYKyyJi6MnXNZmRASFtamxf83w2ullVwrV8ckJKa44A=
+	t=1763750570; cv=none; b=mSg3G3cSmjdhj4xZA3SKHQPEMsx7+AMfgT3UkvyD+vlms0MA/x/Bi1BO3n7O/atkUCW2NnIYRwEXwe6FR8BKFA4Y8nAHj44992wuYhI8xaPVQJEW9mvpkqef2qGEDFxxOwUW1+iOLJR2iXVV8IiC1HO8yAPecEk/NHbMUNNILhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763749930; c=relaxed/simple;
-	bh=TEEid0BTj44D8bNrA5BaiVdfS+mkOgrjLHIWm4cgxUo=;
+	s=arc-20240116; t=1763750570; c=relaxed/simple;
+	bh=0bMZ4NLDj8CskLCEMHyms2+DxxfLSA3gVajQFVYgIow=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GRQYx9mdO/QvTSN4HTH1p1wAfOLvOK9jzTzAYtcN20IWXwGkSFxowI9QFrYQpH6mWgTrL0LC8yiK+gPvVtd3P41Nnl9GNgKD3vOK1ZHUyhd+a7X/c7qVFmI/rgM1fByFT/lVxU2kVy40Eeg4z95+wXI9ts+HC0ucZLK4bSVcEM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IgPwc5T4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 660ECC4CEF1;
-	Fri, 21 Nov 2025 18:32:10 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=W23tKa89PE4h78hWIUxHE5T1fJEF5crJzfK43pF/I3E40hbOMexNeYu9dJv29L+Q7RMnxUnen9CLFO+cHTx4NNYrtr2huGK++p4c6FXpIFlxYwB6py+MlkfFpZRxIXHWcgKIMOSTLY/I4rZZ1i4TDBGSgP1ijZfMVZxCX7EjwsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OwfS76Px; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB4EC4CEF1;
+	Fri, 21 Nov 2025 18:42:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763749930;
-	bh=TEEid0BTj44D8bNrA5BaiVdfS+mkOgrjLHIWm4cgxUo=;
+	s=k20201202; t=1763750570;
+	bh=0bMZ4NLDj8CskLCEMHyms2+DxxfLSA3gVajQFVYgIow=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IgPwc5T4Bvmv9g5/Ih37FdzyGK85hGyrXkZIV2+HZIOQsLa5zATrBf2d23kGdydlj
-	 npJW37udHskz8RsVlWaqrbFU+iR4rNymTZinBKND493NFxoUUzf4qmYcnO1SiFzFev
-	 77FhvnT06lFUBGA5hC8HZgsbBVtxskwYRUtCXIvRRGtIybFnc+FWYJV8qIJxk8ETZ2
-	 tb1JX0VncYGLPyG1iUG8OMIqWy4pw20i8Vpjoft1WyFrMYl2WW7YmEFZLCRzYrw/hs
-	 CbvK9gWBLptKqoYWBZ9nkdcx81j5I7qZb6VT09ULovQ5mzJXI+UR+XsSt0Fr+Xz2rZ
-	 ziohBPc+X/G7Q==
-Date: Fri, 21 Nov 2025 10:32:09 -0800
-From: Kees Cook <kees@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Enable GCC diagnostic context for value-tracking
- warnings
-Message-ID: <202511211030.87A256197A@keescook>
-References: <20251119224426.work.380-kees@kernel.org>
- <CANiq72=tzUPrDd2=GBnqxm_PmjF9nT3iVJ5ZT6AiZQqkjvdH_g@mail.gmail.com>
+	b=OwfS76PxWsTyb+evI0DjzSdw52gt48ZkvUBIvhqu2K2chtrb1J5goM2bIhcK6YF17
+	 2E6jYyd9wEhXy8Ly+42iLaN2hn4Sfkv75r5BoMILmn6GdQqeojmMsN3yRq8/2KhEKD
+	 poytx9cTo5q78MOQMGe0mtWoxln3wO+iG3ZqK82cPdN/vF2jpmKIooXZgNdygXvriL
+	 CZjHlg7Jgm/kqJ8rHoRWCuVdjqJ2FXMtlRGsf1q9D0jHzbEs60T40Q3Npktkah8zdY
+	 XIrSPHV/iIQj+YOeBEK8Imx4rz3lGbXX+xbuA+l08mP4vyDtnJzOObgUwo1rVcRbGJ
+	 4I43q2OgU7yGA==
+Date: Fri, 21 Nov 2025 10:42:47 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Tiezhu Yang <yangtiezhu@loongson.cn>, Ard Biesheuvel <ardb@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, linux-kbuild@vger.kernel.org, linux-efi@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] kbuild: Add KBUILD_VMLINUX_LIBS_PRELINK
+Message-ID: <hka6ukulmkmxp7mrcmxmllco2sqof2elextc7ggcikazfzmwni@a4pnogedcr7r>
+References: <20251119042708.27658-1-yangtiezhu@loongson.cn>
+ <20251121070140.GA780042@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,39 +60,42 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=tzUPrDd2=GBnqxm_PmjF9nT3iVJ5ZT6AiZQqkjvdH_g@mail.gmail.com>
+In-Reply-To: <20251121070140.GA780042@ax162>
 
-On Thu, Nov 20, 2025 at 09:17:16AM +0100, Miguel Ojeda wrote:
-> On Wed, Nov 19, 2025 at 11:44 PM Kees Cook <kees@kernel.org> wrote:
-> >
-> > Enable GCC 16's coming "-fdiagnostics-show-context=2" option[1] to
-> > provide enhanced diagnostic information for value-tracking warnings, which
-> > displays the control flow chain leading to the diagnostic. This covers our
+On Fri, Nov 21, 2025 at 12:01:40AM -0700, Nathan Chancellor wrote:
+> > @@ -1199,6 +1199,7 @@ KBUILD_VMLINUX_OBJS := built-in.a $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)
+> >  KBUILD_VMLINUX_LIBS := $(filter-out %/, $(libs-y))
+> >  
+> >  export KBUILD_VMLINUX_LIBS
+> > +export KBUILD_VMLINUX_LIBS_PRELINK
 > 
-> > existing use of -Wrestrict and -Wstringop-overread, and gets us closer to
-> > enabling -Warray-bounds, -Wstringop-overflow, and -Wstringop-truncation.
+> This variable name is a little confusing to me since they do get added
+> to vmlinux during linking, not before. I am not sure of a better one
+> though, maybe KBUILD_VMLINUX_LIBS_FINAL?
+
+I think that name was my idea.  Not sure what I was thinking, I guess
+"prelink" was somehow meant to imply after the vmlinux.o whole-archive
+link but before the "final" link.
+
+"final" is indeed better.
+
+> It may also make sense to
+> introduce similar syntax to the existing libs-y syntax, maybe
 > 
-> I am probably missing some context, but in what sense gets us closer?
-> Do you mean it will make it easier to understand those when we enable
-> them? i.e. we still can't enable them until the minimum is upgraded,
-> right?
-
-Right -- we've been tracking down -Warray-bounds warnings for several
-years now and it has been quite difficult to determine which are "real"
-and which are false positives. This option makes the "real" cases much
-more obvious.
-
-I will improve the commit log.
-
-> Apart from that, it looks like a nice improvement on the output from
-> the PR examples -- I didn't test it, but the patch itself looks fine
-> of course:
+>   final-libs-y
 > 
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> or something like that?
 
-Thanks!
+Yeah, I suppose that would mirror how KBUILD_VMLINUX_LIBS is wired up.
+
+> Also, since these objects are no longer in KBUILD_VMLINUX_LIBS, does
+> this new variable need to be added to any of the other places in the
+> build system that use KBUILD_VMLINUX_LIBS for things such as build
+> dependencies?
+
+Not sure about that one.  drivers/firmware/efi/libstub/lib.a is getting
+built regardless so there must already be an implicit dependency?
 
 -- 
-Kees Cook
+Josh
 
