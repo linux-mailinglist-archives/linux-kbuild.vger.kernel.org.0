@@ -1,122 +1,205 @@
-Return-Path: <linux-kbuild+bounces-9772-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9773-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10417C7CE3D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Nov 2025 12:27:14 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4012DC7DAD0
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 03:29:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F33D84E4861
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Nov 2025 11:27:12 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 20B1E352573
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 02:29:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE0A279DA2;
-	Sat, 22 Nov 2025 11:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EA720CCCA;
+	Sun, 23 Nov 2025 02:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lSkynLBV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430A313AD1C;
-	Sat, 22 Nov 2025 11:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9D320B81B
+	for <linux-kbuild@vger.kernel.org>; Sun, 23 Nov 2025 02:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763810831; cv=none; b=TOQy0ycUz94s3hw88RtuJxEtIENOleMXgMO2WwoocG588eLX8vAwBbmu2WQWQFYJKeSjKD7c+GKMbxS5ZDggHMphtZ1nSsIE8DDi5msZ8x8RCJhA918eusmobDhN+8L11uD0vaidUltspvEf1zUpUnSa4nKjzTrhLcvVr+yzhyY=
+	t=1763864942; cv=none; b=oDYH475KUlqGjiYyOPkdRmnx50CPnh9wlPKZYO+BigKvlro6CGIzT+X1B6rkhoUoU1qHxV9zn1l+YV8kJPoI6FjsHNy9GGrjVxHF8c3Bv0k7NK7QpvVmmgLLprW4aR95QC0qlSzzndj85yQp1GThABbREvlYnt1h22qq0IL5YHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763810831; c=relaxed/simple;
-	bh=PdKae5AjMVZitRaBXKL1kJYtGQ3efsdJlfub/gHe9PE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A0jM1MDSs9xsmdG2qfdTZazeH1aYICEPg0mr2bNcdEkQQSNQE+hAo/G/OT1f2Vj8URhoBk5nwpa5A8vOnSSuz9mVKet6RcewqERwClSwN3JQ8aDelw4s+Tm553l0ZoK/UieBZv3FhSmv4+W4xsp/OidCso7bxO2+vVXvAfX5kF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [36.44.121.68])
-	by gateway (Coremail) with SMTP id _____8CxbNIFniFpNO4mAA--.18897S3;
-	Sat, 22 Nov 2025 19:27:01 +0800 (CST)
-Received: from [192.168.0.111] (unknown [36.44.121.68])
-	by front1 (Coremail) with SMTP id qMiowJAxvsH8nSFpm+g7AQ--.53718S3;
-	Sat, 22 Nov 2025 19:26:57 +0800 (CST)
-Message-ID: <7f179e5f-610c-6468-cb3f-17d25d096a8f@loongson.cn>
-Date: Sat, 22 Nov 2025 19:26:52 +0800
+	s=arc-20240116; t=1763864942; c=relaxed/simple;
+	bh=5/gE9+3vHOoB1f8yml6mnDnZO5OsQRxggIUPttmfMEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GMAjZpLfzZRulf80jbTJMcAtmf43zXxw58kALcvGBc3YclSaJYuMnTH81Z5QFfEUlUtEEAPnWuYaMDWjz+gDkKDyWHUXN0nLa/3vlaksKzdRbvoFTQizx1bJb/ki0xJdkQVwuyjLwWPlqett4DQH9thvIGmCKRHCxTfRrnIKfSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lSkynLBV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A5EBC19424
+	for <linux-kbuild@vger.kernel.org>; Sun, 23 Nov 2025 02:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763864941;
+	bh=5/gE9+3vHOoB1f8yml6mnDnZO5OsQRxggIUPttmfMEI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lSkynLBVL7qbBWmP7VIrRx09zE8Ng0gBmoadl+PInPMq+4lFWJmeMmAgdjGxGV9Q4
+	 nMmQsSLfPGz283G1TBASqmUaA0hSUvc7EuBSpcxU2UzLEW2mvUpAhkP26dcAcwu0C1
+	 bFOYmIVd/0XCG4sQbdwGEywoIYs4WXHc6eHigLBK/MFXyBCSIhfmHU4SKMnb3PW03p
+	 VC1UGiJ7B5n0YlLVsgWG6v3Wf5fSoRR0MvHnIKxmC+rxkO6N6LdLBck0MU0MuNzlJo
+	 y2F0FO4XTTyBGU+G7dFmuiEOrFBgptYD0gG9hMFRjg93a/mlLse1zNSvIY0mYYjpDQ
+	 B3+DHfCj797ww==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b737502f77bso458162166b.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 22 Nov 2025 18:29:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXtkIDGEoVQVxBv8u1XGwOHyD88byywPnzBvxWjDkAmjX2Dtn0icBHp1lqw/685eCwailUMVDOlpMgaaVQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8erB+n3+tDJa3F5+V99rl8rr6R7CMGbq4sbLajtGe1S8426Y/
+	bXlj8/OxrreBHItWNNaS8Nqh6mKiSDbgYGsN+kV6itYZEEG4+4j793sfJDif+T1WQcpwHpi4uMn
+	9XQURcXvj6vdb/AxMTJFgm2MXgLtFjI8=
+X-Google-Smtp-Source: AGHT+IF2NG45CGhewRb+YxxwCpQ+Qs09Wv1Cd6UcCR2RSlep4aU6EwJEltWefiEmVuOu3WrO2PpFhIzvWqq/mYqO3k4=
+X-Received: by 2002:a17:907:7f1e:b0:b70:b077:b957 with SMTP id
+ a640c23a62f3a-b767158cd7amr622544566b.15.1763864939736; Sat, 22 Nov 2025
+ 18:28:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v1] kbuild: Add KBUILD_VMLINUX_LIBS_PRELINK
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-efi@vger.kernel.org, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20251119042708.27658-1-yangtiezhu@loongson.cn>
- <20251122013551.GA3928114@ax162>
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-In-Reply-To: <20251122013551.GA3928114@ax162>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qMiowJAxvsH8nSFpm+g7AQ--.53718S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7AFWxury5KFWUGFW7Gr17Jwc_yoW8GFW5pa
-	1vyr4jvFsrJw4vqan7C345Xa1YqF95XrWxWFyDKa98Z3yDXr10vrZFgF43ZF9FvFyDAF4S
-	gFs7XF9xCry7K3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU92b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
-	xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
-	AYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
-	IF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVF
-	xhVjvjDU0xZFpf9x07jreOLUUUUU=
+References: <CAAhV-H6m5vszCyiF3qi94cpHBPVuqM2xH93D=gfsQqOSYvC-sA@mail.gmail.com>
+ <33612d85-e70b-26da-8460-ea6b9064ce08@loongson.cn> <CAAhV-H5ZSTFDxvm-W1CrgEoQ5d_jw5yVsfetQ_J_qL5pqLtzgg@mail.gmail.com>
+ <CAMj1kXGk0udgM67wrWqahqK8H0uE8emQj51SmJey+7fE-FTjdA@mail.gmail.com>
+ <CAAhV-H4c=vdNWO0v_mYL2xZ9FYjDyRDvt6f_kV4d8Bh=CRJniQ@mail.gmail.com>
+ <CAMj1kXEaxxcWTTANWeEMNjYDymdL5Fxy2B=XBF4RGtteEkfinw@mail.gmail.com>
+ <421c08e1-255b-447b-b5e3-ee6544fbefd2@loongson.cn> <CAAhV-H5KsFShDJ_Cxu+1_ces8oojn8+S-7PLmE7aUj8gX5_GEw@mail.gmail.com>
+ <32s3lvzfu6jkyho7qenrqbsm5wkgjnzn2imdp6tfwycmyxpzgu@kg5367uxmxii>
+ <CAAhV-H47fzaKcMhgLWWOTxB+srBsg85-eK0LW1vQXQnvq32-+w@mail.gmail.com>
+ <aRsH7RTpAah4g5Xr@willie-the-truck> <CAAhV-H4AasfFet_Gi_mVyte3RPMH3qBS73dBfF-=Gd7HJ6ZPEw@mail.gmail.com>
+ <39617a3e-c476-abac-8425-bbcece769cdb@loongson.cn>
+In-Reply-To: <39617a3e-c476-abac-8425-bbcece769cdb@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sun, 23 Nov 2025 10:29:02 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4fHBuRpDEDQrExApgnREJaT8JWUJ2700bEPFxDqToi2w@mail.gmail.com>
+X-Gm-Features: AWmQ_bmAZrJIPzwBoGQGazI9CFQ9PH-O_LgSCm_k_cIQ90BdG2Wz9hDhqi3Uewg
+Message-ID: <CAAhV-H4fHBuRpDEDQrExApgnREJaT8JWUJ2700bEPFxDqToi2w@mail.gmail.com>
+Subject: Re: [PATCH v2] efistub: Only link libstub to final vmlinux
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Will Deacon <will@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	"Madhavan T. Venkataraman" <madvenka@linux.microsoft.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	loongarch@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/22/25 09:35, Nathan Chancellor wrote:
-> On Wed, Nov 19, 2025 at 12:27:08PM +0800, Tiezhu Yang wrote:
-> ...
->> index 433849ff7529..e72d3254b93f 100755
->> --- a/scripts/link-vmlinux.sh
->> +++ b/scripts/link-vmlinux.sh
->> @@ -61,12 +61,11 @@ vmlinux_link()
->>   	shift
->>   
->>   	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
->> -		# Use vmlinux.o instead of performing the slow LTO link again.
-> 
-> Why is this comment getting removed?
+On Sat, Nov 22, 2025 at 7:04=E2=80=AFPM Tiezhu Yang <yangtiezhu@loongson.cn=
+> wrote:
+>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+>
+> Hi all,
+>
+> On 11/21/25 22:36, Huacai Chen wrote:
+> > On Mon, Nov 17, 2025 at 7:33=E2=80=AFPM Will Deacon <will@kernel.org> w=
+rote:
+> >>
+> >> On Sat, Nov 15, 2025 at 11:16:42AM +0800, Huacai Chen wrote:
+> >>> On Wed, Nov 12, 2025 at 2:00=E2=80=AFAM Josh Poimboeuf <jpoimboe@kern=
+el.org> wrote:
+> >>>>
+> >>>> On Mon, Nov 10, 2025 at 03:00:00PM +0800, Huacai Chen wrote:
+> >>>>> On Mon, Nov 10, 2025 at 9:19=E2=80=AFAM Tiezhu Yang <yangtiezhu@loo=
+ngson.cn> wrote:
+> >>>>>> If I understand correctly, I should modify this patch to remove th=
+e
+> >>>>>> changes of arm and riscv for now, do the changes only when there i=
+s
+> >>>>>> a real problem or requirement some day, right? If no more comments=
+,
+> >>>>>> I will send v3 later.
+> >>>>>
+> >>>>> Now everyone involved agrees that the efistub code is correct, so t=
+he
+> >>>>> proper solution is to fix the compiler.
+> >>>>
+> >>>> Hm?  I don't see how it's a compiler bug.  It's really just an objto=
+ol
+> >>>> limitation.
+> >>>>
+> >>>>> Changing efistub code and changing objtool (ignore __efistub prefix=
+)
+> >>>>> are both workarounds, but I think changing objtool is a little more
+> >>>>> reasonable. Maybe Josh has different ideas?
+> >>>>
+> >>>> I thought the conversation had converged on what Tiezhu mentioned ab=
+ove,
+> >>>> which is to skip objtool on libstub for loongarch, but leave the oth=
+er
+> >>>> arches alone.  That way objtool behavior is consistent between loong=
+arch
+> >>>> and x86, and objtool doesn't need to ignore any prefixes.
+> >>>>
+> >>>> So basically, the v2 patch minus the arm64/riscv changes.
+> >>>
+> >>> Hi, ARM64 and RISC-V maintainers,
+> >>>
+> >>> Would you mind that this patch modifies the three architectures
+> >>> together (they are exactly the same style now)?
+> >>>
+> >>> Madhavan is the author of ARM64's objtool, I think your opinion is
+> >>> also very important.
+> >>
+> >> arm64 doesn't (yet) use objtool.
+> >>
+> >> I defer to Ard on anything relating to the arm64 efistub. Reading the
+> >> start of this thread, it doesn't look like he's convinced and I'm not
+> >> surprised if it's purely an issue with objtool.
+> > OK, I know, but I have a concern.
+> >
+> > Ard said that he is reluctant to make changes to accommodate a flawed
+> > build time tool and there may be regression risk.
+> >
+> > So, I'm also reluctant and don't want LoongArch to meet regression
+> > risk. If one day LoongArch has a regression, we probably need another
+> > workaround to "fix" this workaround. But if these three architectures
+> > change in the same way, we may have a chance to solve some fundamental
+> > problems...
+>
+> IIUC, Josh do not like to ignore these EFISTUB functions in
+> validate_branch() of objtool, Huacai do not like to only link
+> libstub to vmlinux only for LoongArch.
+>
+> It seems that there is only one way to fix or workaround this
+> problem, remove the attribute __noreturn for real_kernel_entry()
+> and then make efi_boot_kernel() ends with a return instruction [1]
+> or an unconditional jump instruction [2] that only touches
+> drivers/firmware/efi/libstub/loongarch.c.
+>
+> Since this is a issue only for LoongArch by now, what do you
+> think of this minimal change only for LoongArch libstub code?
+> Using "return EFI_LOAD_ERROR" [1] or "while (1)" [2]?
+>
+> Maybe this is the simple and direct way for this special issue
+> only on LoongArch so far. If not, any other suggestions?
+>
+> On the other hand, is it possible to add KBUILD_VMLINUX_LIBS_FINAL
+> and then use it only for LoongArch first [3]? Any potential risks?
+>
+> What is the next step?
+Is it possible to improve objtool that can handle indirect __noreturn funct=
+ions?
+Is it possible to improve objtool that can handle
+OBJECT_FILES_NON_STANDARD event LTO is enabled?
+Is it possible to improve objtool that only ignore __efistub prefix
+for LoongArch?
 
-When using KBUILD_VMLINUX_LIBS_PRELINK or KBUILD_VMLINUX_LIBS_FINAL,
-drivers/firmware/efi/libstub/lib.a needs to be linked to the final
-vmlinux with vmlinux.o, so I thought the above comment is not proper,
-it I misunderstood it, I will keep the comment as is.
 
->>   		objs=vmlinux.o
->> -		libs=
->> +		libs="${KBUILD_VMLINUX_LIBS_PRELINK}"
->>   	else
->>   		objs=vmlinux.a
->> -		libs="${KBUILD_VMLINUX_LIBS}"
->> +		libs="${KBUILD_VMLINUX_LIBS} ${KBUILD_VMLINUX_LIBS_PRELINK}"
->>   	fi
->>   
->>   	if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
+Huacai
 
-FYI, the previous patch is still under discussion yesterday [1],
-I do not know whether this patch is necessary and what is the next
-step [2].
-
-[1] 
-https://lore.kernel.org/loongarch/CAAhV-H4AasfFet_Gi_mVyte3RPMH3qBS73dBfF-=Gd7HJ6ZPEw@mail.gmail.com/
-[2] 
-https://lore.kernel.org/loongarch/39617a3e-c476-abac-8425-bbcece769cdb@loongson.cn/
-
-Thanks,
-Tiezhu
-
+>
+> [1]
+> https://lore.kernel.org/loongarch/CAMj1kXH-rK0bRyHXdJ-crAyMyvJHApH0WR7_8Q=
+d8vrSPBLK+yg@mail.gmail.com/
+> [2]
+> https://lore.kernel.org/loongarch/20250826064631.9617-2-yangtiezhu@loongs=
+on.cn/
+> [3] https://lore.kernel.org/loongarch/20251122000101.GA1996391@ax162/
+>
+> Thanks,
+> Tiezhu
+>
 
