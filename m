@@ -1,121 +1,110 @@
-Return-Path: <linux-kbuild+bounces-9781-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9782-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78039C7E4A5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 18:11:06 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6227FC7E58C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 19:37:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B86E33A9C39
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 17:11:04 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D7E5434542B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 18:36:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5718221F0A;
-	Sun, 23 Nov 2025 17:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F5FF15A86D;
+	Sun, 23 Nov 2025 18:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wo8WQpA6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H8a+b7E4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sQ9APbWa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFEA14F125;
-	Sun, 23 Nov 2025 17:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9A713AD26;
+	Sun, 23 Nov 2025 18:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763917860; cv=none; b=K++/V/Ye4GGVMMVI7ch5SinaBQhunRrEKTwRMDur3QU1zyTRoLcqB3Emh9i2fEyBiGG7lfa8vfhEOl2Wr/vFks8NoQvdI+ykzmKf8W52C92HqLXJzSFP0cuJEvQjnjGysONQAlfgUyFSqJFNdH02yxRMuyLgOVcoUb24qn+tSc8=
+	t=1763923015; cv=none; b=kiXy/ks4v0hz9M51HY9O+A2JCOrPj99e8zsdVcX6sw/RVAcuoqIReOkS8w3TfXQY86eYLsysEP3Sfe8J/s4XY2nkddZves6QZK4bAnB9IrPoN1Tz9/IxTeew5T3lFRXzs3kwt33JqRYCTo3lW+rTu2a5bjkCkr2jZeXRgBJcGeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763917860; c=relaxed/simple;
-	bh=1TvV2CIHODDVvcsCFmEG146E5nX65wm9DJeM5XXQwW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IyQw9rNx7Y83G9VuO8fNSOybgs1V6SSB1o2n2QAXsv+7Gc9tPvHD3YGy4/+kpJuhNrnrktc+uwsEljtsO+lRz3JfK2QMFP2CuWG67pZEaqa3Qpf9Qn0uhGhIeKtxybS0F4zI4I8mwZbjD9ip+dd6tC2uCcTOb79B/1Iixf9wJU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wo8WQpA6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=H8a+b7E4; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Sun, 23 Nov 2025 18:10:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763917856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1TvV2CIHODDVvcsCFmEG146E5nX65wm9DJeM5XXQwW8=;
-	b=wo8WQpA6NfO5oq1yU5MNIxMljtmOFymvIKwf+z4UpWIwlmWK66C9CioLMyGAOPzFA0j76x
-	feTDuA2whfyAklcQwWO/kFWvgwWMGymo+2py2F9m0snFPcsiGb2px0IjJZXqcGHrvur9VH
-	JltI0wdrt+vgV2fQLaCE9TaaYnJ1sEPv3Xcrqp0ibg+AnJOIAG+nn4YMVG874FGgvxpo2n
-	MJMTZztLqBmS37z8mUn6XD5/rXrSl5JNZ15qQTziNCOzq622/JthL+xDeTbEIH+I9kWOCg
-	JKL5L5uhHGwBitxvsz2++MsIcD4j/XrNx79t/M05VLbd8rdWlYJFtlifZn2GHw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763917856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1TvV2CIHODDVvcsCFmEG146E5nX65wm9DJeM5XXQwW8=;
-	b=H8a+b7E4pwlDvJgRrStalE/DblBpY6KGjVhb8qJAv2yo/f7vbjkwGdH54cVGXBkqaDHNNk
-	EznfI2lT8cZDOYBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v3 7/9] module: Move lockdown check into generic module
- loader
-Message-ID: <20251123171054.wnPvVQrF@linutronix.de>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
- <20250429-module-hashes-v3-7-00e9258def9e@weissschuh.net>
- <20251119112055.W1l5FOxc@linutronix.de>
- <CAHC9VhTuf1u4B3uybZxdojcmz5sFG+_JHUCC=C0N=9gFDmurHg@mail.gmail.com>
+	s=arc-20240116; t=1763923015; c=relaxed/simple;
+	bh=FEMswfPCj1k1rdEYrvQHS1IYdrTw5pOqxKt5a4aQ1KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ippdod6GDk/aEh8so59IFagEERvC5udkfzWgfUBulgVTICDM9fYPHrlsZztk7gBf5zy5ExVEpVjKUlrNQ/vOLZFUZA3J5pZluKfkN11L+rPc79keVD4g3DXD55hj/4Lzr4w+4iCoiiZ9DJTdMoJb7KYrn2AXtbtQxXo45ifgDyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sQ9APbWa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C1EC113D0;
+	Sun, 23 Nov 2025 18:36:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763923014;
+	bh=FEMswfPCj1k1rdEYrvQHS1IYdrTw5pOqxKt5a4aQ1KI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sQ9APbWaOVzA03oEmvb3aCMaCKh7Uzh7pYJZ2LVLXGO0xi2RWbrd0AkRbtdZEyRZS
+	 V99VL7lH/sOGqmLX9xL3NUwybRcZN9fekjY9lFZMNy4qzLbs6tABbUmlWOd7sl0Hfz
+	 0ij1NBPR1JihaoCIk3p0d1S0jyPdwTFWG2C0i9lrkZTJTDrM5KqUvRt+KRxOKFkLBX
+	 LRFeOiVvrPGpCaORyDBFmHoTNChmisB1WuLCgcQiEsf9eztkKKXv7RlDA34dYfT+Ld
+	 nas0HLx/2AQGaPtCmJFBLJp2YiyM552XpSVpVqzUmRwTufmd29Bdwx8VbYJjFGAk/s
+	 z31a14R5qoLMQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vNExA-00000007fjK-0nJv;
+	Sun, 23 Nov 2025 18:36:52 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Subject: [PATCH] kbuild: deb-pkg: Allow packages to be excluded from bindeb-pkg
+Date: Sun, 23 Nov 2025 18:36:47 +0000
+Message-ID: <20251123183647.76559-1-maz@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAHC9VhTuf1u4B3uybZxdojcmz5sFG+_JHUCC=C0N=9gFDmurHg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, nathan@kernel.org, nicolas.schier@linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 2025-11-19 14:55:47 [-0500], Paul Moore wrote:
-> On Wed, Nov 19, 2025 at 6:20=E2=80=AFAM Sebastian Andrzej Siewior
-> <bigeasy@linutronix.de> wrote:
-> > On 2025-04-29 15:04:34 [+0200], Thomas Wei=C3=9Fschuh wrote:
-> > > The lockdown check buried in module_sig_check() will not compose well
-> > > with the introduction of hash-based module validation.
-> >
-> > An explanation of why would be nice.
->=20
-> /me shrugs
->=20
-> I thought the explanation was sufficient.
+The bindeb-pkg target generates a number of individual packages:
+the kernel package itself, the debug package, the kernel and libc
+header packages.
 
-Okay. So if it is just me and everyone is well aware then okay.
+It is at times useful to not generate all the packages, such as
+the debug package, even if the kernel configuration has CONFIG_DEBUG.
 
-Sebastian
+For this purpose, let the user provide a DEB_EXCLUDE_PKG environment
+variable that can contain exclusion patterns for some of the build
+artefacts. This saves precious cycles when repeatedly building packages
+for testing purposes, where not all packages are strictly necessary.
+
+The default behaviour, with no variable defined, is of course unchanged.
+
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+---
+ scripts/package/debian/rules | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index a417a7f8bbc1a..cc5ebb8a37e1a 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -29,7 +29,12 @@ make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE) \
+ 
+ binary-targets := $(addprefix binary-, image image-dbg headers libc-dev)
+ 
+-all-packages = $(shell dh_listpackages)
++# DEB_EXCLUDE_PKG excludes a list of packages from the set that would
++# normally be produced. Can be either explicit package names or patterns.
++# For example:
++# DEB_EXCLUDE_PKG="linux-headers-% linux-libc-dev linux-image-%-dbg"
++# limits the packages to the linux-image package.
++all-packages = $(filter-out $(DEB_EXCLUDE_PKG), $(shell dh_listpackages))
+ image-package = $(filter linux-image-% user-%, $(filter-out %-dbg, $(all-packages)))
+ image-dbg-package = $(filter %-dbg, $(all-packages))
+ libc-dev-package = $(filter linux-libc-dev, $(all-packages))
+-- 
+2.47.3
+
 
