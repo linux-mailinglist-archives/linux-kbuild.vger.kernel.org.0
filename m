@@ -1,110 +1,125 @@
-Return-Path: <linux-kbuild+bounces-9782-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9783-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6227FC7E58C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 19:37:00 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B74C7E743
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 21:37:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D7E5434542B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 18:36:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 065EA4E3708
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 20:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F5FF15A86D;
-	Sun, 23 Nov 2025 18:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 809CC2561A7;
+	Sun, 23 Nov 2025 20:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sQ9APbWa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erp63ult"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9A713AD26;
-	Sun, 23 Nov 2025 18:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554E821CFFA;
+	Sun, 23 Nov 2025 20:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763923015; cv=none; b=kiXy/ks4v0hz9M51HY9O+A2JCOrPj99e8zsdVcX6sw/RVAcuoqIReOkS8w3TfXQY86eYLsysEP3Sfe8J/s4XY2nkddZves6QZK4bAnB9IrPoN1Tz9/IxTeew5T3lFRXzs3kwt33JqRYCTo3lW+rTu2a5bjkCkr2jZeXRgBJcGeg=
+	t=1763930254; cv=none; b=tR2zqiptvc81K+Dh3UvSbkhlUh8JSjG7Be16UO7LdSlKo/3rNa79gQ1CElvzc0882NZQ28cpT9lU9Fa0bPd91FGNQ6ty9FXzz3uddKcopWcbo7tDmqliBm/zH7lVEDK0AYDHF7NQRdhmxtamg2iCyZS2Hp5Wl3ywus9yT0dnO0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763923015; c=relaxed/simple;
-	bh=FEMswfPCj1k1rdEYrvQHS1IYdrTw5pOqxKt5a4aQ1KI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ippdod6GDk/aEh8so59IFagEERvC5udkfzWgfUBulgVTICDM9fYPHrlsZztk7gBf5zy5ExVEpVjKUlrNQ/vOLZFUZA3J5pZluKfkN11L+rPc79keVD4g3DXD55hj/4Lzr4w+4iCoiiZ9DJTdMoJb7KYrn2AXtbtQxXo45ifgDyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sQ9APbWa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C1EC113D0;
-	Sun, 23 Nov 2025 18:36:54 +0000 (UTC)
+	s=arc-20240116; t=1763930254; c=relaxed/simple;
+	bh=TieJwcXr+/aTZj4wc4j+GA/U6txwYo1FguFJVFzDgpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j7gqEHpnszB9fZslnoCXYTjZUBaERTwYow0LAUJjlIbFkwyR5Ugx66RhOXPanWMwYIEaw1YXDqVE/h1oCw9LO4TwfoN8wKSEKd8AY0wURVHTYI1gMRPdxu6D2IXv5QQF7PtJuQwt2yiS9op2Mk1A3/SFVQ0fzKq8AmDJm7uY5eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erp63ult; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78276C113D0;
+	Sun, 23 Nov 2025 20:37:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763923014;
-	bh=FEMswfPCj1k1rdEYrvQHS1IYdrTw5pOqxKt5a4aQ1KI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=sQ9APbWaOVzA03oEmvb3aCMaCKh7Uzh7pYJZ2LVLXGO0xi2RWbrd0AkRbtdZEyRZS
-	 V99VL7lH/sOGqmLX9xL3NUwybRcZN9fekjY9lFZMNy4qzLbs6tABbUmlWOd7sl0Hfz
-	 0ij1NBPR1JihaoCIk3p0d1S0jyPdwTFWG2C0i9lrkZTJTDrM5KqUvRt+KRxOKFkLBX
-	 LRFeOiVvrPGpCaORyDBFmHoTNChmisB1WuLCgcQiEsf9eztkKKXv7RlDA34dYfT+Ld
-	 nas0HLx/2AQGaPtCmJFBLJp2YiyM552XpSVpVqzUmRwTufmd29Bdwx8VbYJjFGAk/s
-	 z31a14R5qoLMQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vNExA-00000007fjK-0nJv;
-	Sun, 23 Nov 2025 18:36:52 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>
-Subject: [PATCH] kbuild: deb-pkg: Allow packages to be excluded from bindeb-pkg
-Date: Sun, 23 Nov 2025 18:36:47 +0000
-Message-ID: <20251123183647.76559-1-maz@kernel.org>
-X-Mailer: git-send-email 2.47.3
+	s=k20201202; t=1763930253;
+	bh=TieJwcXr+/aTZj4wc4j+GA/U6txwYo1FguFJVFzDgpo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=erp63ultzxQUoGSqe43oDQ+BP0joVjCXqf6xiD4Y4Ybj4xnCL0lP5pbbDfcYDNdwx
+	 nftHVTsodjyQQQ8EDdBQzLrnyPzZ/VbWp5cafzlDNVcx3hX5g5XawRx5FUkAeHS1Vr
+	 PLpM/qn8VQSWhzZLSC2F67cD3l5Ksj2G6HXVMwXFjCnUWX1sXCs3xRjRkaT75D4tLX
+	 X22jcfXEziBA9/G75DIPXZd0LSxPkiduq+d8NkGKE+TiOWawcYvZe6KzxIwd+u+3vL
+	 16fSQY4bKMEgq9LvgJ+jC4BlXUTkhRPaHlGxWTnnK/QM8BNLUlzV77ClZUsVmXKBqn
+	 AeuNof1+RjT0Q==
+Date: Sun, 23 Nov 2025 21:34:23 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH] kbuild: deb-pkg: Allow packages to be excluded from
+ bindeb-pkg
+Message-ID: <aSNvz2rzpt2PE9t8@levanger>
+References: <20251123183647.76559-1-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, nathan@kernel.org, nicolas.schier@linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uNN/4sRHZmnidjq9"
+Content-Disposition: inline
+In-Reply-To: <20251123183647.76559-1-maz@kernel.org>
 
-The bindeb-pkg target generates a number of individual packages:
-the kernel package itself, the debug package, the kernel and libc
-header packages.
 
-It is at times useful to not generate all the packages, such as
-the debug package, even if the kernel configuration has CONFIG_DEBUG.
+--uNN/4sRHZmnidjq9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For this purpose, let the user provide a DEB_EXCLUDE_PKG environment
-variable that can contain exclusion patterns for some of the build
-artefacts. This saves precious cycles when repeatedly building packages
-for testing purposes, where not all packages are strictly necessary.
+On Sun, Nov 23, 2025 at 06:36:47PM +0000, Marc Zyngier wrote:
+> The bindeb-pkg target generates a number of individual packages:
+> the kernel package itself, the debug package, the kernel and libc
+> header packages.
+>=20
+> It is at times useful to not generate all the packages, such as
+> the debug package, even if the kernel configuration has CONFIG_DEBUG.
+>=20
+> For this purpose, let the user provide a DEB_EXCLUDE_PKG environment
+> variable that can contain exclusion patterns for some of the build
+> artefacts. This saves precious cycles when repeatedly building packages
+> for testing purposes, where not all packages are strictly necessary.
+>=20
+> The default behaviour, with no variable defined, is of course unchanged.
+>=20
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
 
-The default behaviour, with no variable defined, is of course unchanged.
+thanks for your suggestion.  Could you please check whether the usual
+Debian build profiles are sufficient for your needs, e.g.:
 
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- scripts/package/debian/rules | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+    DEB_BUILD_PROFILES=3D"pkg.linux-upstream.nokernelheaders pkg.linux-upst=
+ream.nokerneldbg" make bindeb-pkg
 
-diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-index a417a7f8bbc1a..cc5ebb8a37e1a 100755
---- a/scripts/package/debian/rules
-+++ b/scripts/package/debian/rules
-@@ -29,7 +29,12 @@ make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE) \
- 
- binary-targets := $(addprefix binary-, image image-dbg headers libc-dev)
- 
--all-packages = $(shell dh_listpackages)
-+# DEB_EXCLUDE_PKG excludes a list of packages from the set that would
-+# normally be produced. Can be either explicit package names or patterns.
-+# For example:
-+# DEB_EXCLUDE_PKG="linux-headers-% linux-libc-dev linux-image-%-dbg"
-+# limits the packages to the linux-image package.
-+all-packages = $(filter-out $(DEB_EXCLUDE_PKG), $(shell dh_listpackages))
- image-package = $(filter linux-image-% user-%, $(filter-out %-dbg, $(all-packages)))
- image-dbg-package = $(filter %-dbg, $(all-packages))
- libc-dev-package = $(filter linux-libc-dev, $(all-packages))
--- 
-2.47.3
+I do like that we have the Debian build profiles [1] mechanism here, and
+would rather extend it, if neccessary, instead of implementing a
+different approach additionally.
 
+Kind regards,
+Nicolas
+
+
+[1]: https://wiki.debian.org/BuildProfileSpec
+
+--uNN/4sRHZmnidjq9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmkjb6wACgkQB1IKcBYm
+Emmj5xAAoVgf7xb9TCSDnpAzvVemrtbULeVRrgyKUl4bTAk8ybNNy3vOMXFQ/+LX
+X9ROxUVpWOYtZPSBEgYoIr8GpTmTPT22qmdjXTM809dhZ+Dm5iC0A8n5vy1+YnOZ
+RXaH6jM00yVvq0g+BPv0KHopJMSldfYcfvm50qUAnfYGXIIViRljVajmlloP9iv8
+BD+O/5bWOShgRavA7ngneLjXHWt2XSVadSRLXKp0Tu0qNdB0+1uLYe6rfR4wuHVu
+X2uYqLaeKlHgRRZar2eF1IvcQdhnM1A0jejcFvaPJjWV1WFbKDnt0gWY5SeFBC5Y
+9cZdDQbTV0GAKvn06z0LSfC82y0otOlhgfCbaQ8jz3nRobaYZOB3BkoVOzE/L7lu
+mPJltHsW2Ab3Mr2FWga/WJWToE4Hw+EJGeyDCxRERwJv2O1nxZa7mP4VqyeITEzj
+VrHru+IwCO7ijDSsMpWmamy0SGHiyfvN1F0369Lm8DOHDjeF/BuyBqxOQDUtBj/n
+625o54m7xovAhcCiu21AoSCCNdGDAef0EGoTFSklRCgn4Bu028JTDiXckIMMEF5+
+wZ6C435SbCnRE/0he91BCzRt/2PZOLStr7YguKhJ93ZvGDjZ5c14QBbV01OZaNHo
+MnSzi9KeCLO2Bl5flcTgj8rIS2fyW64vvO2TurJFvYP1FfbRm2E=
+=FstN
+-----END PGP SIGNATURE-----
+
+--uNN/4sRHZmnidjq9--
 
