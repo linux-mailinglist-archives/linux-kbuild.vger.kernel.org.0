@@ -1,112 +1,121 @@
-Return-Path: <linux-kbuild+bounces-9784-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9785-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A627C7E798
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 22:15:39 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C79C7E7EA
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 22:47:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F08CF341DAB
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 21:15:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 642E9345CE1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Nov 2025 21:47:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A70523956E;
-	Sun, 23 Nov 2025 21:15:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3CC26E6F2;
+	Sun, 23 Nov 2025 21:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u5OfKYtv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCipwYgp"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAAC1FF1C7;
-	Sun, 23 Nov 2025 21:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30FC2BCF5;
+	Sun, 23 Nov 2025 21:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763932534; cv=none; b=U67h3MSPBdiD4rjXge4RNuy8lOUCGVo1PFb6lnOzfO0wN1W00H97IpKWolGShruCqQFhchQu0x0sY/4GGoXi1ywB3ptk28CvSLQS++sbh7rCI3gm7qhWquzJYrA2iD6maq4vVdiHOFBnAjP25w+NDa9SAu26GduNGLuEXvqY+Hg=
+	t=1763934445; cv=none; b=HE7d6gqcq7eJ3W+ObPdlsosJQS/x4hBM9q/jy+LkX+TwG4FsHFVIt1WEVOZpisslQ8/lV6rRWEgtrlpbGyj6XR7f2K7FmmlKKMWvQb8jIxamFaZ1k/JLd78w8db7z2yzCCf3rkSzlUfJ65cd0pcFLz+bhoBIiRF2TNjYMvtMkJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763932534; c=relaxed/simple;
-	bh=D+OCR0hsIV5XBu9XitqcJnVl2OG0xT1N8cd+2rxAbx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EGV5w/bBz9AjostvrcGpvOvL20/IWiIKvL75eofUlL6XZzf9PRi68EfnQ/pY5rjnwspRHsJYfHo6Ll/4BSnzVLSTrgQqkank/wyfI1WN0ZFz+6pcdS0vmWX6F5+oyYHFAdyAMRMNCXHaY8Bvyyth/i03CP+f6m5mTIfL39DTTWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u5OfKYtv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD64C113D0;
-	Sun, 23 Nov 2025 21:15:30 +0000 (UTC)
+	s=arc-20240116; t=1763934445; c=relaxed/simple;
+	bh=BOOQmNh41X9ciFM/IZAe4F5I/dYGlUI669F0RSbHIHo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t5rgGwuUA2FuKP8Z/KXMf7T5TcbIzRryTPxBtr0rCnLhy9MR2QBcvsrZnQ/WHNbXzaXYL0mAwWOvqWYy8IbCRZIE73ux/iBokg2l2/lEnXMDmZBlkvilvgWORMrmBnZQSc7mr4MQ/Hzi1K/1xJdDA9JFeHk1WNFxXEgw+ldAws4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCipwYgp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 344A6C113D0;
+	Sun, 23 Nov 2025 21:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763932532;
-	bh=D+OCR0hsIV5XBu9XitqcJnVl2OG0xT1N8cd+2rxAbx0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u5OfKYtv/ujJ053wsKTh+hcRA+Ivna+Bt62V0TjLzF2yiIHx7BpzLiRUDINbCJ8Yx
-	 WzFACAdHIyvvVpE5gvPtCls6LtSWJSY3vyCek4t3xSyLUfxr2z+32kGj+aUrQZuKne
-	 NCJXnlSqTi6KFqidDad5ynXBMp9rn/lXF36IxnSPfTMveQMFvo6d1hiwyjxBQfrDZQ
-	 SDf95KbWuILgD2SkzBxC7jvITxbJlbmH95RuJrQgA1zp+xn0SvcBYl+YDIkR2FI2C1
-	 6zJYFk7EwaHnDkKKcFGvTiDSgVq1zLvAw5Glu2MTwTYBANcdaZUvkXc+U8NI35BSy9
-	 T6oq6SOQ3K1gQ==
-Date: Sun, 23 Nov 2025 14:15:27 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-efi@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] kbuild: Add KBUILD_VMLINUX_LIBS_PRELINK
-Message-ID: <20251123211527.GB3667167@ax162>
-References: <20251119042708.27658-1-yangtiezhu@loongson.cn>
- <20251122013551.GA3928114@ax162>
- <7f179e5f-610c-6468-cb3f-17d25d096a8f@loongson.cn>
+	s=k20201202; t=1763934445;
+	bh=BOOQmNh41X9ciFM/IZAe4F5I/dYGlUI669F0RSbHIHo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WCipwYgpNFSxh2zZDCv/9QolpR/oCC/teK+W8IqpfrDXLkmPhlNVPrDCTZDhvb/NY
+	 nqQsNf6QWGexzrFako/GV8sjU5Cb90azD1JLkH5SLw4GfBQTqv355R138yNF4Euq/l
+	 L9Sko8GJD5nlQnSiESO6RAFLHO7ugPrXNhN4cFhwP04mDeZv9zNw+gO2EOGO09chRS
+	 3kD8H+Qa/kqBrozWYbaRtaxaNxB7x3eXyu4EzM0my6rRIfyTfj8q0PmuaV7tUzHghQ
+	 Io9jeRpc7CJBigGees9fTkqCsU5Mk9wGQP3+oBoxB3IVzlcdJzmyIAHepEu9SgK8O7
+	 CXEYGk/ORvibg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vNHvX-00000007gxo-11AG;
+	Sun, 23 Nov 2025 21:47:23 +0000
+Date: Sun, 23 Nov 2025 21:47:22 +0000
+Message-ID: <87h5ukfml1.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH] kbuild: deb-pkg: Allow packages to be excluded from bindeb-pkg
+In-Reply-To: <aSNvz2rzpt2PE9t8@levanger>
+References: <20251123183647.76559-1-maz@kernel.org>
+	<aSNvz2rzpt2PE9t8@levanger>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f179e5f-610c-6468-cb3f-17d25d096a8f@loongson.cn>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: nsc@kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, nathan@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sat, Nov 22, 2025 at 07:26:52PM +0800, Tiezhu Yang wrote:
-> On 11/22/25 09:35, Nathan Chancellor wrote:
-> > On Wed, Nov 19, 2025 at 12:27:08PM +0800, Tiezhu Yang wrote:
-> > ...
-> > > index 433849ff7529..e72d3254b93f 100755
-> > > --- a/scripts/link-vmlinux.sh
-> > > +++ b/scripts/link-vmlinux.sh
-> > > @@ -61,12 +61,11 @@ vmlinux_link()
-> > >   	shift
-> > >   	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
-> > > -		# Use vmlinux.o instead of performing the slow LTO link again.
+On Sun, 23 Nov 2025 20:34:23 +0000,
+Nicolas Schier <nsc@kernel.org> wrote:
+> 
+> On Sun, Nov 23, 2025 at 06:36:47PM +0000, Marc Zyngier wrote:
+> > The bindeb-pkg target generates a number of individual packages:
+> > the kernel package itself, the debug package, the kernel and libc
+> > header packages.
 > > 
-> > Why is this comment getting removed?
+> > It is at times useful to not generate all the packages, such as
+> > the debug package, even if the kernel configuration has CONFIG_DEBUG.
+> > 
+> > For this purpose, let the user provide a DEB_EXCLUDE_PKG environment
+> > variable that can contain exclusion patterns for some of the build
+> > artefacts. This saves precious cycles when repeatedly building packages
+> > for testing purposes, where not all packages are strictly necessary.
+> > 
+> > The default behaviour, with no variable defined, is of course unchanged.
+> > 
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
 > 
-> When using KBUILD_VMLINUX_LIBS_PRELINK or KBUILD_VMLINUX_LIBS_FINAL,
-> drivers/firmware/efi/libstub/lib.a needs to be linked to the final
-> vmlinux with vmlinux.o, so I thought the above comment is not proper,
-> it I misunderstood it, I will keep the comment as is.
-
-I think this comment is referring to the use of vmlinux.o instead of
-vmlinux.a, nothing to do with libs=, so I think the comment should
-remain.
-
-> > >   		objs=vmlinux.o
-> > > -		libs=
-> > > +		libs="${KBUILD_VMLINUX_LIBS_PRELINK}"
-> > >   	else
-> > >   		objs=vmlinux.a
-> > > -		libs="${KBUILD_VMLINUX_LIBS}"
-> > > +		libs="${KBUILD_VMLINUX_LIBS} ${KBUILD_VMLINUX_LIBS_PRELINK}"
-> > >   	fi
-> > >   	if is_enabled CONFIG_GENERIC_BUILTIN_DTB; then
+> thanks for your suggestion.  Could you please check whether the usual
+> Debian build profiles are sufficient for your needs, e.g.:
 > 
-> FYI, the previous patch is still under discussion yesterday [1],
-> I do not know whether this patch is necessary and what is the next
-> step [2].
+>     DEB_BUILD_PROFILES="pkg.linux-upstream.nokernelheaders pkg.linux-upstream.nokerneldbg" make bindeb-pkg
 > 
-> [1] https://lore.kernel.org/loongarch/CAAhV-H4AasfFet_Gi_mVyte3RPMH3qBS73dBfF-=Gd7HJ6ZPEw@mail.gmail.com/
-> [2] https://lore.kernel.org/loongarch/39617a3e-c476-abac-8425-bbcece769cdb@loongson.cn/
+> I do like that we have the Debian build profiles [1] mechanism here, and
+> would rather extend it, if neccessary, instead of implementing a
+> different approach additionally.
 
-Thanks, we will wait to see the conclusion of those threads before
-applying this.
+Ah, amazing!
+
+I had no idea this was even a thing, and 2ad7126c51908 ("kbuild:
+deb-pkg: add pkg.linux-upstream.nokerneldbg build profile") is exactly
+what I needed,
+
+Many thanks for pointing this out, my patch can therefore be safely
+ignored.
 
 Cheers,
-Nathan
+
+	M.
+
+-- 
+Jazz isn't dead. It just smells funny.
 
