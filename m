@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-9806-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9082DC814AC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9D1C814B5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:20:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AE309347E3E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:19:59 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D53BE346283
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:20:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A29D5314A89;
-	Mon, 24 Nov 2025 15:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8131F313E19;
+	Mon, 24 Nov 2025 15:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCncgcZo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rn+1KhbR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BC6314A80;
-	Mon, 24 Nov 2025 15:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BAE313E06;
+	Mon, 24 Nov 2025 15:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763997557; cv=none; b=uYoLdsB1k61Lc37ShiVwsuDqKkSJxXG3y8qPP8AK1VSSuCa4/Gnh5BNl62DbGPSkQNPhA4nTO392sri7EfEzP5xrHleD91eGqAxIDYG3boxTRHGQX+lN2AxLrltKyYNEBEzFQjx1TPU+vbofmlcfaddAZ+aofPtFIEx4qwbVflE=
+	t=1763997561; cv=none; b=tJkKuyUC/JH4NoXVrNRg98y9WHfe7bvck6KqAivosA3r/rUTesLqPXyXFOxmz3mlAYSMpXVFiFW8Sk11gdW6j0S7dPh6aLLHCd493O3Gcq6z2SagYystf968b7PPjY+hJztMObuFyMfuTOklbcXk8P6XLAKM5TgVIjA9vJXL86c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763997557; c=relaxed/simple;
-	bh=BYq28y2dSLEjQ5ZXYLjJVlE82VaBFdRbCujBSLfgKb0=;
+	s=arc-20240116; t=1763997561; c=relaxed/simple;
+	bh=xvgRLIv5dNjSzULhi3eB0gHy3Q8Jnreth6xUv0VM3ZU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aWx+rQ9lhDD9AUD8cElwjYw3QpdpDOoyLVF8nCCtqpkAzNkV41go+k1G4FLO2IYXF9QrvW4Ksu1FE+wj4tO/T87S5lmyUggqq0ssH/5vUCPJaY13IGiuZH2xt5k08V9CDQGeiOOalRgAXOK3BbaFaJ6rHeZ0jT8DMoYLu4fcZJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCncgcZo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A82C116D0;
-	Mon, 24 Nov 2025 15:19:13 +0000 (UTC)
+	 MIME-Version; b=QVm0VP1FEC4zoa0OsDf5DjTAnH2KoUTr9PaQYTfb2kEOBo9d8rydBrpveHvCzfzYsmBJdZduZ5Vv0sE8oi1NkenRI6T1vNOLuHe5fSw1M1EgxEsa3YpMjfpWPeQI7jeSjgyAEaF9gvLOXEXm8hCSYXNcDCims1cJRWX67jo86Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rn+1KhbR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77491C4CEF1;
+	Mon, 24 Nov 2025 15:19:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763997557;
-	bh=BYq28y2dSLEjQ5ZXYLjJVlE82VaBFdRbCujBSLfgKb0=;
+	s=k20201202; t=1763997561;
+	bh=xvgRLIv5dNjSzULhi3eB0gHy3Q8Jnreth6xUv0VM3ZU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nCncgcZovWdjf7jPcvgBsiEYMQXZwHpn7KP7SEh1sGDSvmKbeUAX9tzd1EpbN3r5v
-	 DnF7phm6zt+jiN5y+zyPyxI7CYTOpHbwCLF3NG1vLhIm+K3ZZPOp0ttmDLmMcID8Ex
-	 28ifw6viYURIQfS+4GKPyODveRmVoqIP+mDhVK5WvQohyjSddg3QrkkHf8EHTvJJ3h
-	 YviCrY306H+C+8isMOHcA41j+a4cH/3CyjgIavt4kt8OYRB+Visgrt2NzZ5gBmDau3
-	 NNtI97f6fAm6GK02u1+7Mg54whKiMvWMOoaIPUtBpxCViE7htDUi3HrbrArRO1pmMN
-	 yVRvilZQAWeHw==
+	b=Rn+1KhbRY3v/FKQBVbCDvk6aM89E9yb1zidCQCKRvtI3TW3NjO8WAf3rCB7to/SN0
+	 p37PYLh/jEahxDApbsZtFd9yLjCjS/dX7W86SQbYTIYx/hPRqZd4eFe1wjUwQfApiV
+	 Uo7tkLx4FnzINYSuQXuBJz080NK0tukrejiZC3+BWDW1I9fRTd6F0S8iqDVly9iyN0
+	 JDczr2xJYYf8OrXyFEfDGiU+Rgkcq1iihZzWvDXeZ1zSwOgAjVeXy9HRTfGw0QT167
+	 tFqWeO4tsyLcxj1riPun57NghOezPTsAfQl4Av8abCRc4tXzHmg6SXxB9geE7EVPmT
+	 mmgzefoF+2+Jw==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -59,9 +59,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
 	Jesung Yang <y.j3ms.n@gmail.com>
-Subject: [PATCH v2 04/20] rust: kbuild: support skipping flags in `rustc_test_library`
-Date: Mon, 24 Nov 2025 16:18:16 +0100
-Message-ID: <20251124151837.2184382-5-ojeda@kernel.org>
+Subject: [PATCH v2 05/20] rust: kbuild: support using libraries in `rustc_procmacro`
+Date: Mon, 24 Nov 2025 16:18:17 +0100
+Message-ID: <20251124151837.2184382-6-ojeda@kernel.org>
 In-Reply-To: <20251124151837.2184382-1-ojeda@kernel.org>
 References: <20251124151837.2184382-1-ojeda@kernel.org>
 Precedence: bulk
@@ -72,8 +72,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Crates like `quote` (added later) will need the ability to skip flags
-in the `rustc_test_library` command.
+Proc macros such as `macros` and `pin-init` will need the ability to use
+libraries such as `syn` (added later) in the `rustc_procmacro` command.
 
 Thus add the support for it.
 
@@ -83,24 +83,22 @@ Tested-by: Gary Guo <gary@garyguo.net>
 Tested-by: Jesung Yang <y.j3ms.n@gmail.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ rust/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rust/Makefile b/rust/Makefile
-index 45ef84513b6c..6fdab341fc48 100644
+index 6fdab341fc48..0288ca8d270c 100644
 --- a/rust/Makefile
 +++ b/rust/Makefile
-@@ -172,8 +172,8 @@ rustdoc-clean: FORCE
- quiet_cmd_rustc_test_library = $(RUSTC_OR_CLIPPY_QUIET) TL $<
-       cmd_rustc_test_library = \
- 	OBJTREE=$(abspath $(objtree)) \
--	$(RUSTC_OR_CLIPPY) $(rust_common_flags) \
--		@$(objtree)/include/generated/rustc_cfg $(rustc_target_flags) \
-+	$(RUSTC_OR_CLIPPY) $(filter-out $(skip_flags),$(rust_common_flags) $(rustc_target_flags)) \
-+		@$(objtree)/include/generated/rustc_cfg \
- 		--crate-type $(if $(rustc_test_library_proc),proc-macro,rlib) \
- 		--out-dir $(objtree)/$(obj)/test --cfg testlib \
- 		-L$(objtree)/$(obj)/test \
+@@ -437,7 +437,7 @@ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
+ 		-Clinker-flavor=gcc -Clinker=$(HOSTCC) \
+ 		-Clink-args='$(call escsq,$(KBUILD_PROCMACROLDFLAGS))' \
+ 		--emit=dep-info=$(depfile) --emit=link=$@ --extern proc_macro \
+-		--crate-type proc-macro \
++		--crate-type proc-macro -L$(objtree)/$(obj) \
+ 		--crate-name $(patsubst lib%.$(libmacros_extension),%,$(notdir $@)) \
+ 		@$(objtree)/include/generated/rustc_cfg $<
+ 
 -- 
 2.52.0
 
