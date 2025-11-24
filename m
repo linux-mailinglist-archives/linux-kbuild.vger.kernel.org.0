@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-9803-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9804-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C426DC81494
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:19:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A1DC81497
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:19:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E99C44E60E4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:19:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38EA83A78ED
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:19:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 211C9313E0F;
-	Mon, 24 Nov 2025 15:19:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A5D8313E3F;
+	Mon, 24 Nov 2025 15:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKWEzcrg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APY0OstT"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5857313522;
-	Mon, 24 Nov 2025 15:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D10A31355A;
+	Mon, 24 Nov 2025 15:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763997545; cv=none; b=scxd3i4VHir2jJK/5fhlIeyaCSb4uqXZ4Beo++ZcagpPVU5ZkeWWNtjU86EdIP0CQGG0XwS3utdS/Eu6Bt2aR7mdSA+8P0KVlp66x+iPklulD6bIZtMFaTMOKwfGicdtO8Ru4SEnEkMxJZEE42YCmM4Df/anez3HF37FNzw/NMg=
+	t=1763997549; cv=none; b=dEyOprfmCQhDoA65IDHlI8RuXlo2UzMg03PoLoqvKuqqX8ACpS7TFslklvDf+0Oo1M3EBrbYoNNbTnyAwj7dYT5kU6tz3a4CG5/S5vEXycqW8rUkovYaFsn/SyewCG8BqMAmZkpaLMyOGsw6vkqtKqy56u6fLwySXkJbA+4E/fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763997545; c=relaxed/simple;
-	bh=6Y31Ep13sBVEy0VoLZvLjFfOWYJl9hv0DSol9lc30Go=;
+	s=arc-20240116; t=1763997549; c=relaxed/simple;
+	bh=ftNkFtBoYt7uNDdSMESD1jcmUrVtwSeg8Bd6lydF1ds=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hWhT2NQoGYv3W/uT3YL5l3bBcZhr7sON8yc7ELHWjHimh6L6qmjgix1e2WOUAEPk2V8TpjjAtve37fUFQ3x111qcZTpdDDNU3O4z5xhz1ZCuZCKYmxn7lC84tdkBph8SEpxRH8rxBTOgjl4/4tbabiqZ+Trg17IirW9pYkuBSFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKWEzcrg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5239C116C6;
-	Mon, 24 Nov 2025 15:19:00 +0000 (UTC)
+	 MIME-Version; b=K1z23rRLN3KnM20h+Fl+RKsOTpaupaUSePDKHdKnll/QHSHw+7qu7jyhGaz6TCKgQIA8tIB1NLTW6lnhdIq43Ap5o8tan19lKvUy9XK66bU4MompAgCGMevwDnxzsF72Fv5SgPP8zcJI+M7bZaLHB8xyv/nhU8Zek7hveEMBwWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APY0OstT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7330C4CEF1;
+	Mon, 24 Nov 2025 15:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763997544;
-	bh=6Y31Ep13sBVEy0VoLZvLjFfOWYJl9hv0DSol9lc30Go=;
+	s=k20201202; t=1763997548;
+	bh=ftNkFtBoYt7uNDdSMESD1jcmUrVtwSeg8Bd6lydF1ds=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vKWEzcrg2SwqKC2t07VmZacO+CFm39z7vRUTOR8DuST7F6E/9zhu/kRsRky8igt8M
-	 DrP0JMXXViKQRE8iLXbzUb18V0NKR7RfT1+HRSsD+RkmYYigtLww80bBpx+cr1W/j9
-	 GlT8k9ipyHY6XCZwnOIfB/UnQrC3DXRtTO5Hr4qvx6mIq7CGAlbYAU2CLQhA8h/bcV
-	 20UoHqf73UB1CV1QHzfn6rhUqJILq6j1G9flVyS5jHtJq3FNn3y3/LZn4tlCQYg937
-	 SfmFPzdcb3W2ZUcrIIMgkhGUopKQa461aEDzgsZPt2/0HJKsyd7bgPwbPoSLcw7BZ+
-	 BNZn4NOVNrDCw==
+	b=APY0OstTrkQon/azznA2KlNMW/ctRvIvIf1vJmirfS44ypiwyPGKH653mBMkLi1td
+	 YS84hnR6zdShcUxZXRuCu7vFwrwc7pIYx8Cs/r/QCWV9sA2u5s9oTSua/R5bi1Z8hD
+	 itLt5GUaturVVE8plBxWFSETC+Uikr7M20YUXb0OyMKS5Q2NgelsT33AMnwXmGCiEV
+	 dDNM697RuQ/MBjCny/OsBE8I4w+nEAhBh/B5nxel3W3UnCUircaa8FkkqOZBuq4jlX
+	 ftkdVfERhIQttHsLf0XHNkbpSduQCIv/jH5dEV3L2bJHvCIk6gXtWkzEZY5jfgn2v9
+	 QoWaf5kwW7YLQ==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -59,9 +59,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
 	Jesung Yang <y.j3ms.n@gmail.com>
-Subject: [PATCH v2 01/20] rust: kbuild: introduce `core-flags` and `core-skip_flags`
-Date: Mon, 24 Nov 2025 16:18:13 +0100
-Message-ID: <20251124151837.2184382-2-ojeda@kernel.org>
+Subject: [PATCH v2 02/20] rust: kbuild: simplify `--cfg` handling
+Date: Mon, 24 Nov 2025 16:18:14 +0100
+Message-ID: <20251124151837.2184382-3-ojeda@kernel.org>
 In-Reply-To: <20251124151837.2184382-1-ojeda@kernel.org>
 References: <20251124151837.2184382-1-ojeda@kernel.org>
 Precedence: bulk
@@ -72,18 +72,13 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the next commits we are introducing `*-{cfgs,skip_flags,flags}`
-variables for other crates.
+We need to handle `cfg`s in both `rustc` and `rust-analyzer`, and in
+future commits some of those contain double quotes, which complicates
+things further.
 
-Thus do so here for `core`, which simplifies a bit the `Makefile`
-(including the next commit) and makes it more consistent.
-
-This means we stop passing `-Wrustdoc::unescaped_backticks` to `rustc`
-and `-Wunreachable_pub` to `rustdoc`, i.e. we skip more, which is fine
-since it shouldn't have an effect.
-
-In addition, use `:=` for `core-cfgs` to make it consistent with the
-upcoming additions.
+Thus, instead of removing the `--cfg ` part in the rust-analyzer
+generation script, have the `*-cfgs` variables contain just the actual
+`cfg`, and use that to generate the actual flags in `*-flags`.
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Gary Guo <gary@garyguo.net>
@@ -91,58 +86,48 @@ Tested-by: Gary Guo <gary@garyguo.net>
 Tested-by: Jesung Yang <y.j3ms.n@gmail.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/Makefile | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ rust/Makefile                     | 6 ++++--
+ scripts/generate_rust_analyzer.py | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/rust/Makefile b/rust/Makefile
-index 23c7ae905bd2..ce1853a09d3d 100644
+index ce1853a09d3d..9967f3457d44 100644
 --- a/rust/Makefile
 +++ b/rust/Makefile
-@@ -60,11 +60,20 @@ rustdoc_test_quiet=--test-args -q
+@@ -60,8 +60,10 @@ rustdoc_test_quiet=--test-args -q
  rustdoc_test_kernel_quiet=>/dev/null
  endif
  
--core-cfgs = \
-+core-cfgs := \
-     --cfg no_fp_fmt_parse
++cfgs-to-flags = $(patsubst %,--cfg='%',$1)
++
+ core-cfgs := \
+-    --cfg no_fp_fmt_parse
++    no_fp_fmt_parse
  
  core-edition := $(if $(call rustc-min-version,108700),2024,2021)
  
-+core-skip_flags := \
-+    --edition=2021 \
-+    -Wunreachable_pub \
-+    -Wrustdoc::unescaped_backticks
-+
-+core-flags := \
-+    --edition=$(core-edition) \
-+    $(core-cfgs)
-+
+@@ -72,7 +74,7 @@ core-skip_flags := \
+ 
+ core-flags := \
+     --edition=$(core-edition) \
+-    $(core-cfgs)
++    $(call cfgs-to-flags,$(core-cfgs))
+ 
  # `rustdoc` did not save the target modifiers, thus workaround for
  # the time being (https://github.com/rust-lang/rust/issues/144521).
- rustdoc_modifiers_workaround := $(if $(call rustc-min-version,108800),-Cunsafe-allow-abi-mismatch=fixed-x18)
-@@ -122,8 +131,8 @@ rustdoc-macros: $(src)/macros/lib.rs rustdoc-clean FORCE
+diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
+index fc27f0cca752..dedca470adc1 100755
+--- a/scripts/generate_rust_analyzer.py
++++ b/scripts/generate_rust_analyzer.py
+@@ -15,7 +15,7 @@ def args_crates_cfgs(cfgs):
+     crates_cfgs = {}
+     for cfg in cfgs:
+         crate, vals = cfg.split("=", 1)
+-        crates_cfgs[crate] = vals.replace("--cfg", "").split()
++        crates_cfgs[crate] = vals.split()
  
- # Starting with Rust 1.82.0, skipping `-Wrustdoc::unescaped_backticks` should
- # not be needed -- see https://github.com/rust-lang/rust/pull/128307.
--rustdoc-core: private skip_flags = --edition=2021 -Wrustdoc::unescaped_backticks
--rustdoc-core: private rustc_target_flags = --edition=$(core-edition) $(core-cfgs)
-+rustdoc-core: private skip_flags = $(core-skip_flags)
-+rustdoc-core: private rustc_target_flags = $(core-flags)
- rustdoc-core: $(RUST_LIB_SRC)/core/src/lib.rs rustdoc-clean FORCE
- 	+$(call if_changed,rustdoc)
+     return crates_cfgs
  
-@@ -499,9 +508,9 @@ $(obj)/helpers/helpers.o: $(src)/helpers/helpers.c $(recordmcount_source) FORCE
- $(obj)/exports.o: private skip_gendwarfksyms = 1
- 
- $(obj)/core.o: private skip_clippy = 1
--$(obj)/core.o: private skip_flags = --edition=2021 -Wunreachable_pub
-+$(obj)/core.o: private skip_flags = $(core-skip_flags)
- $(obj)/core.o: private rustc_objcopy = $(foreach sym,$(redirect-intrinsics),--redefine-sym $(sym)=__rust$(sym))
--$(obj)/core.o: private rustc_target_flags = --edition=$(core-edition) $(core-cfgs)
-+$(obj)/core.o: private rustc_target_flags = $(core-flags)
- $(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs \
-     $(wildcard $(objtree)/include/config/RUSTC_VERSION_TEXT) FORCE
- 	+$(call if_changed_rule,rustc_library)
 -- 
 2.52.0
 
