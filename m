@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-9810-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9811-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46531C814C8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:21:56 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF2BC814CE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:22:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 677B734758B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:21:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 983614E6B4F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:21:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB21E313E3A;
-	Mon, 24 Nov 2025 15:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6595315D44;
+	Mon, 24 Nov 2025 15:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qt03R+Tc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AiunD9dZ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9683148A3;
-	Mon, 24 Nov 2025 15:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C30313E29;
+	Mon, 24 Nov 2025 15:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763997574; cv=none; b=HSq6/1/+x3TmESPn+saBwIUq8FBfp3HIen+GzolfSggvOTxRJ2A01E8af97Bj4PXMpwlZSNtXat+rA3K3E3nCYrhEZMw/0Pa1T39dxEtMjATO5TwkxKZNvP6OvQG/pPwmF6Tnzp0w4GFGlKnNliDt2BFapldVhP3XBCR8011Skg=
+	t=1763997578; cv=none; b=NudYrb4BxDFR5mhDUiCFzQE6ny2CKTzWNTgMTl88ikR8AR7KGrzPCPeU8QqOCf6pmwViinq2hGT6BiHQkX4rEyQYi98nt19RypoEVJTPDiGyP385fep1BEdgJ+cLL8kQCrTYl6BpRW4CuM61Lq/77gfgChDuIldLMHjFpHYaz0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763997574; c=relaxed/simple;
-	bh=qP8H4KbldX4ym0wDH2ARhCFeX0lZaVOw4pNpCrhYCM4=;
+	s=arc-20240116; t=1763997578; c=relaxed/simple;
+	bh=QyWf6un0iyXwuZhP/q/B/xBsbhhCsZajTwpxBQ7zkoE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CGDzrxac1TrEtatYQZIh91Zgc7zUyxnNDgBmPCQxYI7eq8iy3JfdQMO77cWS5hF7aunFeakbXt3KQui3tptlnykLOJaXd6vyvR7K3uycZToBLBzEy5N8yXz2L4OiE7H7xbYz/uBZAdt30A4g8s8IE3BTgXOSNYnYYCzZeqik1to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qt03R+Tc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F99C116C6;
-	Mon, 24 Nov 2025 15:19:30 +0000 (UTC)
+	 MIME-Version; b=Is2IY5202ph+IGQt7Rt36AR2gU0R86EC5I0tf1mb92orbkskKlAG86Romvqu2TjedtrLgCzZFJc9/mLHIVQKxpcn9i1Pp5NGIiEVpDh1+rIqmfePdWzKxG/wByq/96YyxGpFE6Nj68/TImKKgtGGsGhTkkBC9p2afJACbyz2CMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AiunD9dZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95DCAC116D0;
+	Mon, 24 Nov 2025 15:19:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763997574;
-	bh=qP8H4KbldX4ym0wDH2ARhCFeX0lZaVOw4pNpCrhYCM4=;
+	s=k20201202; t=1763997578;
+	bh=QyWf6un0iyXwuZhP/q/B/xBsbhhCsZajTwpxBQ7zkoE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qt03R+TcoCq02jXyWc32Z+65gxQd18fX3aF7hJYZI7j+5qw+sIHOSUlP07iUcK1Sd
-	 L6FCEvpS18PlsFYPVNfONW5U9JcXnMRFrf6tcyLiyYreQvRSJHQHWlBdrIglCWT/+a
-	 SEWIz6BugePvrKsBKVRZwNqkSpRaVQKkn0Xc+Y2XG7WrqEEq1JItr2i003EI0ODMpn
-	 PF8GB5jFC4CuUwPkLwVVnki8UW6KMPDLzAF0qvcG5ID3B5ooBQRiuyD99axW/ASEuJ
-	 bT3FSCODZ55dtQHVhiWeWOmp9TaDheWf0HAEsHvkeSKxZByQFqaXIEeoChfbMaiiEM
-	 COlTzQ0uTq/Rw==
+	b=AiunD9dZAV6vODOPSjFHDCD67itnOpSv/FwyHLi1yETRHs9AJSdRwjvKGTSHOIXRE
+	 SXpv9U5ZDFzeK+ED+fEfG0SnLRmlppoyZteYhhdhxPXpPZ0ip9v/9ncm6QyZhjRX79
+	 VWJwxExJYUdRIEqSYN3p8pvzKTwIBETIJdLjWJGc+8Qorb32hyVHCIXbuM8JXAbZhK
+	 dEPL4ZAK5qr/4kE/KOYgKyfRONcx2MZoq+Fpej7pdCnoCHvIrnIS+dylXx2vNkEqVQ
+	 N2rIWxIz6nQRPkn+RsQ0ne4c8aY5lLkjqApNXovaXg3c5opPDufEHuXNJ3tKh/ttUh
+	 ZV7nPcemqIEgQ==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -59,9 +59,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
 	Jesung Yang <y.j3ms.n@gmail.com>
-Subject: [PATCH v2 08/20] rust: proc-macro2: remove `unicode_ident` dependency
-Date: Mon, 24 Nov 2025 16:18:20 +0100
-Message-ID: <20251124151837.2184382-9-ojeda@kernel.org>
+Subject: [PATCH v2 09/20] rust: proc-macro2: add `README.md`
+Date: Mon, 24 Nov 2025 16:18:21 +0100
+Message-ID: <20251124151837.2184382-10-ojeda@kernel.org>
 In-Reply-To: <20251124151837.2184382-1-ojeda@kernel.org>
 References: <20251124151837.2184382-1-ojeda@kernel.org>
 Precedence: bulk
@@ -72,12 +72,12 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The `proc-macro2` crate depends on the `unicode-ident` crate to determine
-whether characters have the XID_Start or XID_Continue properties according
-to Unicode Standard Annex #31.
+Originally, when the Rust upstream `alloc` standard library crate was
+vendored in commit 057b8d257107 ("rust: adapt `alloc` crate to the
+kernel"), a `README.md` file was added to explain the provenance and
+licensing of the source files.
 
-However, we only need ASCII identifiers in the kernel, thus we can
-simplify the check and remove completely that dependency.
+Thus do the same for the `proc-macro2` crate.
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Gary Guo <gary@garyguo.net>
@@ -85,27 +85,29 @@ Tested-by: Gary Guo <gary@garyguo.net>
 Tested-by: Jesung Yang <y.j3ms.n@gmail.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/proc-macro2/fallback.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ rust/proc-macro2/README.md | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 rust/proc-macro2/README.md
 
-diff --git a/rust/proc-macro2/fallback.rs b/rust/proc-macro2/fallback.rs
-index 9e005d67f7f5..9b43c97df97a 100644
---- a/rust/proc-macro2/fallback.rs
-+++ b/rust/proc-macro2/fallback.rs
-@@ -818,11 +818,11 @@ pub(crate) fn set_span(&mut self, span: Span) {
- }
- 
- pub(crate) fn is_ident_start(c: char) -> bool {
--    c == '_' || unicode_ident::is_xid_start(c)
-+    c == '_' || c.is_ascii_alphabetic()
- }
- 
- pub(crate) fn is_ident_continue(c: char) -> bool {
--    unicode_ident::is_xid_continue(c)
-+    c == '_' || c.is_ascii_alphanumeric()
- }
- 
- #[track_caller]
+diff --git a/rust/proc-macro2/README.md b/rust/proc-macro2/README.md
+new file mode 100644
+index 000000000000..af044fee4f59
+--- /dev/null
++++ b/rust/proc-macro2/README.md
+@@ -0,0 +1,13 @@
++# `proc-macro2`
++
++These source files come from the Rust `proc-macro2` crate, version
++1.0.101 (released 2025-08-16), hosted in the
++<https://github.com/dtolnay/proc-macro2> repository, licensed under
++"Apache-2.0 OR MIT" and only modified to add the SPDX license
++identifiers and to remove the `unicode-ident` dependency.
++
++For copyright details, please see:
++
++    https://github.com/dtolnay/proc-macro2/blob/1.0.101/README.md#license
++    https://github.com/dtolnay/proc-macro2/blob/1.0.101/LICENSE-APACHE
++    https://github.com/dtolnay/proc-macro2/blob/1.0.101/LICENSE-MIT
 -- 
 2.52.0
 
