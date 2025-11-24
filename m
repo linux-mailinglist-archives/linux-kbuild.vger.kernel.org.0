@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-9804-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9805-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A1DC81497
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:19:45 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EC5C814A9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 16:20:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38EA83A78ED
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:19:31 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B9C4C4E122B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Nov 2025 15:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A5D8313E3F;
-	Mon, 24 Nov 2025 15:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88B753148BA;
+	Mon, 24 Nov 2025 15:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APY0OstT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EN8mRtu0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D10A31355A;
-	Mon, 24 Nov 2025 15:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5915231355A;
+	Mon, 24 Nov 2025 15:19:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763997549; cv=none; b=dEyOprfmCQhDoA65IDHlI8RuXlo2UzMg03PoLoqvKuqqX8ACpS7TFslklvDf+0Oo1M3EBrbYoNNbTnyAwj7dYT5kU6tz3a4CG5/S5vEXycqW8rUkovYaFsn/SyewCG8BqMAmZkpaLMyOGsw6vkqtKqy56u6fLwySXkJbA+4E/fs=
+	t=1763997554; cv=none; b=pPQ8Jj97As9zVFTf+iaNY/B5+S3HvLSoHqFUu/ZYDGtTLvXMe2Ma1YbKs/OVBqI8IymF5i6pFNU66NLX3tq83p65mXxe1Zj2CL0sb8Nu8oKpsUG7i6MKSGHjWJaYF2HFRzNql3EUOoa+vEr6vblPufQNKNDXLXH61T51Z+a+jR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763997549; c=relaxed/simple;
-	bh=ftNkFtBoYt7uNDdSMESD1jcmUrVtwSeg8Bd6lydF1ds=;
+	s=arc-20240116; t=1763997554; c=relaxed/simple;
+	bh=2rKN1/YUZ7uLwEL6BZnfvfhRWHuJSYRLW4VPV/aKGc8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K1z23rRLN3KnM20h+Fl+RKsOTpaupaUSePDKHdKnll/QHSHw+7qu7jyhGaz6TCKgQIA8tIB1NLTW6lnhdIq43Ap5o8tan19lKvUy9XK66bU4MompAgCGMevwDnxzsF72Fv5SgPP8zcJI+M7bZaLHB8xyv/nhU8Zek7hveEMBwWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APY0OstT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7330C4CEF1;
-	Mon, 24 Nov 2025 15:19:04 +0000 (UTC)
+	 MIME-Version; b=kCWi1CfniKYkhGWABbaCEMzOg10M/1HAF66CePoX421wN49Mho0Cm5n/uoFpMaV7txSSs/iRgpHCj+LHaA8ZvXiPTrRTZUPJXdblmD6U7a/S1pWer5tUU2FCCkUlb2qSOosp8CeHtq706V8vBMOP9DS4p8iQCjmdl6fgm54d6Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EN8mRtu0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21400C116C6;
+	Mon, 24 Nov 2025 15:19:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763997548;
-	bh=ftNkFtBoYt7uNDdSMESD1jcmUrVtwSeg8Bd6lydF1ds=;
+	s=k20201202; t=1763997552;
+	bh=2rKN1/YUZ7uLwEL6BZnfvfhRWHuJSYRLW4VPV/aKGc8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=APY0OstTrkQon/azznA2KlNMW/ctRvIvIf1vJmirfS44ypiwyPGKH653mBMkLi1td
-	 YS84hnR6zdShcUxZXRuCu7vFwrwc7pIYx8Cs/r/QCWV9sA2u5s9oTSua/R5bi1Z8hD
-	 itLt5GUaturVVE8plBxWFSETC+Uikr7M20YUXb0OyMKS5Q2NgelsT33AMnwXmGCiEV
-	 dDNM697RuQ/MBjCny/OsBE8I4w+nEAhBh/B5nxel3W3UnCUircaa8FkkqOZBuq4jlX
-	 ftkdVfERhIQttHsLf0XHNkbpSduQCIv/jH5dEV3L2bJHvCIk6gXtWkzEZY5jfgn2v9
-	 QoWaf5kwW7YLQ==
+	b=EN8mRtu0ItyWhuV7lVKp+N8BjQtjfGAWr2JcN2TSqODxPS4FvE6TpOhtB9W276j5V
+	 TWLEBZqc4kRiciyL3gGLXipwiHCwZJDZ5YZ0d1ZvRWN1DEnr/srOW2KT3Isif4wBb9
+	 E7+4+6GtKocqGINJYOy4thb3a+C/sZR6RUjCdvqLQQMAeRaRaMlyYM4dnothJ040Z6
+	 yaKaAUYniA70rfzog14HTeZmVsSvYf8Hg8ekrn1LnjjbJ4N9optv5Dpyrr+o3nlaj8
+	 ULU23ypnODG9oBubWqwBZmqsul44lYL3kayxJcwNTsFB3A6NoxBYaJg/2OBCDXhZsw
+	 CwVYDavfPcb4A==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -59,9 +59,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
 	Jesung Yang <y.j3ms.n@gmail.com>
-Subject: [PATCH v2 02/20] rust: kbuild: simplify `--cfg` handling
-Date: Mon, 24 Nov 2025 16:18:14 +0100
-Message-ID: <20251124151837.2184382-3-ojeda@kernel.org>
+Subject: [PATCH v2 03/20] rust: kbuild: add proc macro library support
+Date: Mon, 24 Nov 2025 16:18:15 +0100
+Message-ID: <20251124151837.2184382-4-ojeda@kernel.org>
 In-Reply-To: <20251124151837.2184382-1-ojeda@kernel.org>
 References: <20251124151837.2184382-1-ojeda@kernel.org>
 Precedence: bulk
@@ -72,62 +72,51 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We need to handle `cfg`s in both `rustc` and `rust-analyzer`, and in
-future commits some of those contain double quotes, which complicates
-things further.
+Add the proc macro library rule that produces `.rlib` files to be used
+by proc macros such as the `macros` crate.
 
-Thus, instead of removing the `--cfg ` part in the rust-analyzer
-generation script, have the `*-cfgs` variables contain just the actual
-`cfg`, and use that to generate the actual flags in `*-flags`.
-
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Gary Guo <gary@garyguo.net>
 Tested-by: Gary Guo <gary@garyguo.net>
 Tested-by: Jesung Yang <y.j3ms.n@gmail.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/Makefile                     | 6 ++++--
- scripts/generate_rust_analyzer.py | 2 +-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ .gitignore    |  1 +
+ rust/Makefile | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
+diff --git a/.gitignore b/.gitignore
+index 86a1ba0d9035..3a7241c941f5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -41,6 +41,7 @@
+ *.o.*
+ *.patch
+ *.pyc
++*.rlib
+ *.rmeta
+ *.rpm
+ *.rsi
 diff --git a/rust/Makefile b/rust/Makefile
-index ce1853a09d3d..9967f3457d44 100644
+index 9967f3457d44..45ef84513b6c 100644
 --- a/rust/Makefile
 +++ b/rust/Makefile
-@@ -60,8 +60,10 @@ rustdoc_test_quiet=--test-args -q
- rustdoc_test_kernel_quiet=>/dev/null
- endif
+@@ -421,6 +421,16 @@ $(obj)/exports_bindings_generated.h: $(obj)/bindings.o FORCE
+ $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
+ 	$(call if_changed,exports)
  
-+cfgs-to-flags = $(patsubst %,--cfg='%',$1)
++quiet_cmd_rustc_procmacrolibrary = $(RUSTC_OR_CLIPPY_QUIET) PL $@
++      cmd_rustc_procmacrolibrary = \
++	$(if $(skip_clippy),$(RUSTC),$(RUSTC_OR_CLIPPY)) \
++		$(filter-out $(skip_flags),$(rust_common_flags) $(rustc_target_flags)) \
++		--emit=dep-info,link --crate-type rlib -O \
++		--out-dir $(objtree)/$(obj) -L$(objtree)/$(obj) \
++		--crate-name $(patsubst lib%.rlib,%,$(notdir $@)) $<; \
++	mv $(objtree)/$(obj)/$(patsubst lib%.rlib,%,$(notdir $@)).d $(depfile); \
++	sed -i '/^\#/d' $(depfile)
 +
- core-cfgs := \
--    --cfg no_fp_fmt_parse
-+    no_fp_fmt_parse
- 
- core-edition := $(if $(call rustc-min-version,108700),2024,2021)
- 
-@@ -72,7 +74,7 @@ core-skip_flags := \
- 
- core-flags := \
-     --edition=$(core-edition) \
--    $(core-cfgs)
-+    $(call cfgs-to-flags,$(core-cfgs))
- 
- # `rustdoc` did not save the target modifiers, thus workaround for
- # the time being (https://github.com/rust-lang/rust/issues/144521).
-diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
-index fc27f0cca752..dedca470adc1 100755
---- a/scripts/generate_rust_analyzer.py
-+++ b/scripts/generate_rust_analyzer.py
-@@ -15,7 +15,7 @@ def args_crates_cfgs(cfgs):
-     crates_cfgs = {}
-     for cfg in cfgs:
-         crate, vals = cfg.split("=", 1)
--        crates_cfgs[crate] = vals.replace("--cfg", "").split()
-+        crates_cfgs[crate] = vals.split()
- 
-     return crates_cfgs
- 
+ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
+       cmd_rustc_procmacro = \
+ 	$(RUSTC_OR_CLIPPY) $(rust_common_flags) $(rustc_target_flags) \
 -- 
 2.52.0
 
