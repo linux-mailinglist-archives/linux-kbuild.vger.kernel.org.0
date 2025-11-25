@@ -1,232 +1,120 @@
-Return-Path: <linux-kbuild+bounces-9849-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9850-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86246C86E46
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 20:57:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF702C86F66
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 21:13:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 08989351CAE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 19:57:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B35353B0526
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 20:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718FD33ADA3;
-	Tue, 25 Nov 2025 19:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7262FB0B9;
+	Tue, 25 Nov 2025 20:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E3+WFYd7"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r6XKd7Ua"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39983271E3
-	for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 19:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4A8329C58
+	for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 20:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764100647; cv=none; b=F6V0qtcje8e+ol5bhXICOhftAUAnz0dsd7TbCNBJOOuj7N7lrJG56CEhu31LNHDCm8IXFFA+BuyJlhR5bSZEDwWVjv+y6guW+bjMPq4RzqKEdj8w6KCg7LCe8P6/mApFLVbNDQE84ILd6Ld3/BWpqb8L+ubMDH8dH5o3s2n5Bas=
+	t=1764101432; cv=none; b=SYDndCE22OUxQYVgo0W1WLKGyXzhwwPKkOBEzwxedh7YjKZanW+iOZ9EKkjBrDlvPZjdLykyUMXiptk4oLt4T73XCo7+4wwgQJ2gVcfcacZ4kcKpijopEtitmekIxwRGWd3UADf3++3rBN5Fmlq611rTTyKhF6thudCCsAerwdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764100647; c=relaxed/simple;
-	bh=iokwoTFVPBOTaPfOIU5c7pX/GalN7fc0nJfgCYlBKvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJuaN2qk8fSqvp5YKZ5K73RMrulDQM5/Vq6dLG3KVl65ry588qhzQtt+9scqqXzOgvJzwNj7wBbb773/cxPqoPxUFO8SnSYpBkeAny/dNvDSxRRiQAXWAenLhPTeWH9xgewN7viuo3whDBLTgwUWDCkR/sb6k0cfyAYgoBekPcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E3+WFYd7; arc=none smtp.client-ip=209.85.221.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42b2a0c18caso3691478f8f.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 11:57:24 -0800 (PST)
+	s=arc-20240116; t=1764101432; c=relaxed/simple;
+	bh=IpmkyWu37izB9U/urDTB4FMeYG+K+Cuv8K/u3LCvyYE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jOUizJhGP38Igon/i+gdTUVog45/a3dk8I6kTMy/26qPwv+/uZOed6eiRwFK2F05oC8DHg5roHJuRkt10eA9gYXsHYH8Z1gTjpt4r8wkTsRvRrsV61kMMUffwiiFa7YPYK3e7IbRKgqFbpEslxvhrsu9WFXXCEAoV9EwCTYTVOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=r6XKd7Ua; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-295c64cb951so36765ad.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 12:10:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764100643; x=1764705443; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E1UnNoOWnCZ6jNATqSLrvL0gVBX8cPau2AT5/t6kV9Y=;
-        b=E3+WFYd7f5+MIm16F523Jp2L/0FdmLr2llL7NvcjJTaVC7gDZ4jAJ3ZT92cjbATxxy
-         K1neAO0iFSJp8rd6CMc46LL0vFY2ZxYuff7IhW47BekmuS9OlG6eozp9ZPoQWIpHT89C
-         NFXd3qkiLizg7f/a3lWPgX8VVnaHVdcUt3zGL+uCUE6EbbzGXUYHSpasPSbAXqfSPobO
-         e3LLS+2RS+Ol8n/1DBwdv47Vl9IdOsxUE+KJBIv0pUYV78VVC55KiqzuPCPQcRc/6xDg
-         F0O6d/mQ47TNSJurO7m1fpqIYpSPMarRaECaISWbkqPu5iLzwy0CSkkxPMjANFl2VqeJ
-         lzpg==
+        d=google.com; s=20230601; t=1764101430; x=1764706230; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i+5vyqCrtY9XbVqcemX0lY7g/P4KxTFS1RrZs7bK+uY=;
+        b=r6XKd7UaPy81HY4T8ChhRs0XIESXHy5xdnFVIvOlQa+zHomKc4QuXz6n6ueLegroZX
+         62qJfSGXx3xbr6b0j4OXv4Vg/U+zu7ZVo+mjg2FfVU7nph2uj+SU2rv1/uQcMotMhb3D
+         prENkAq0UzXLc6LPl2CJMj4+rlSmxdQkNGJx31U0iDjA+RbARG87K0CpkduKiG2spMPW
+         0GSYg1V/IVS4p+AWbFBOfbVlBbCoCJnEHnMC2YovNlnI9Wnxf7e/UFjPM9MlSi/PFvgj
+         13nEdXKJKd9PqKCbT2ZpGJb+DlOgxMtqGexiYpC4Z36HOSf+yNmM0JGbiltiJbQcG4NW
+         gj7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764100643; x=1764705443;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E1UnNoOWnCZ6jNATqSLrvL0gVBX8cPau2AT5/t6kV9Y=;
-        b=RyKwgm5mJnFVO9ZdiexUFb1PZIccZibDguc1ZI0Pa1vZFokYp3J3u4nz8tAJxuQCmj
-         yqf4/j+23V0b0J5kdvHisgyPZLkZ+fklo6LFFe6/2l2QQn6VctYu5tYmsPls2sd+H037
-         6DeUdOLy/Dwa0e+JYdmo/z0B8tNxq6r6tdFcuJG8iq+1avutkAujd7qUt5E3BDDH+Tgd
-         qK0il7/o4++Sn6EXGTuNz6ifr0o2ibWrhltRGAPtxM7vykkqjazTg72uWqqzipJF/a4v
-         Y4SSKATkGu6SebsqI5c7tvDzLgZcKlqbQUY/BEH91EOquQUelZ29t/lGr5mFIlAkO8dN
-         jz5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXa45lLs8Kmad3P3TKwRnWhdZtLwtw0pn3wOmos3T6xGr9DJS+4IYZzpOP/ROg8pMwSZ2cgE88f14KS/X0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgDrYVh5pDrbxeAxOS5b2xysKFp3Bdc+neBzSGUeMsYkiDs2el
-	z9kgelRJBL2Wkk8xKB0JPjufmrDWjWQvFe5hL+v+OdBgm3ldGZG8RUsoM2wQffPq9KY=
-X-Gm-Gg: ASbGncvBB3biFySFPool//KgwgLkn/CltSne4IF/YIctGXKCXSxkgpv1CIXmDagGH7n
-	WMj/w2aZMukNzEMMrZiW6LMOqfTNlZiD1jVlo685AeufpKqjrvNyKRCOpWODKx6qWNBoTnDvbpy
-	DInNMkILc4YpUtZgvDHjfl63D1XtKkA4CQ1HjojgRGPFrLSSCBdeFHn45KTu/qQgwU8RZwIAnr4
-	jPk+PTBOhZDBj3OvfnjrOZRfI5A5MVLCIsUXRGknARbNnh4WXlfxBmp8RmxEc9xr4uTTirrEIZM
-	2FKKlbGvuIrw/2isen4/fq42HbiNGCdgYzbBFqizvi+/lw797LxdZuv5TqXSXc2VT5aZPQ2Gqef
-	cfos3ohEGHUkLoBdtrsWXJbnmNFcStWN1vkC4RdJfXRX1wNZNVzAQcb+z5cP9kaLxoMn+jZp/Al
-	axt0pfYQJUS8Nkq5fIGtaIXLg=
-X-Google-Smtp-Source: AGHT+IEAbkYexDq6opE/RHcWGXGaG9IQZqQuowS+lidqh7NE88eFU6gVV4oNIEt+OqoiQG7s1o7+ow==
-X-Received: by 2002:a05:6000:2881:b0:42b:3dfb:645c with SMTP id ffacd0b85a97d-42cc1ac9debmr18306375f8f.12.1764100643122;
-        Tue, 25 Nov 2025 11:57:23 -0800 (PST)
-Received: from linaro.org ([2a02:2454:ff23:4430:a656:9e9b:eea0:17e9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm36157180f8f.33.2025.11.25.11.57.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 11:57:22 -0800 (PST)
-Date: Tue, 25 Nov 2025 20:57:18 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 00/10] Add support for handling PCIe M.2 Key E
- connectors in devicetree
-Message-ID: <aSYKHjpJkXWUVIyo@linaro.org>
-References: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1764101430; x=1764706230;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i+5vyqCrtY9XbVqcemX0lY7g/P4KxTFS1RrZs7bK+uY=;
+        b=h3upo+vo1aGk7Fwvk+FM2RIGdl79E2kWslcNLF4qNm634LLv/+sywohOv/ft5gvxNT
+         MhGlkrM2VhrPUV02Kf6O0b1pUQwssLsFXKJo11TZZ7+qzj9RGbiNK34nsH7VWyFK5RhF
+         dumYIuDwySk1ZpxFpad8xPoHDnNXTtC0lAR7rK0aq0UCGMTQH8ltOZ+/1VIhsYHbjrej
+         qp1gseijUFpCqSPh1AfMjptEQs/SeT0qjQyXySUj2h9DSHDOz/opwjMPQXg86vBWMUcu
+         jt3lUcVccn8rpCF9ORKhrrcN1gCUiMSG94PwUXIvuF5aCVLK4ZN0UAdpW8ejK47xPwK1
+         gY4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUvJFIFqZwZYrwrBhKMRYBXQkHJNqU1fy8ldFZOBsobnlJ1/4Zd2MPly4CI5PdTtmcpnjx8CCYKmgO96gY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLiTiCUCsayU43nn8tT9vYwUrL+BY6hMUu99uka9/ty5B6pXOX
+	uXWMsQ99X3m0jgg1030giqTk1hwwYoFaPTbdzHbdrNVebByQvii6oH9RaD+Xfw3eAAyDrsG4HOr
+	g/iFI7twKJSyoDmoa5KPyqf3cBk7UTZl4nXWnC/Vh
+X-Gm-Gg: ASbGnctLdJT9cUBb7ul7q//seGDxORvbquiOhTu1irw4ksxTSgkVNIdQ4Gb4wuAiZs0
+	tvxtAbHrdcD6dGhAm1ApfwU4TdFUVwglDiOfjpiNaWKI4My2rziFmd83BvuBqBIFu/HDveJxtHo
+	TpROQ2Ok6SBar18K7Vq7Eg25eTV4eRPsHyOD6udS7yJZ5Ahx1cZ/Ok2oADLzdsyy1fPd8yBRInP
+	qxsfBr6f1AqIpfB3vswKivodw9xrlMmqqg7+SbDhRX5qI2cnYCiMnAM2fUnjziGehbT
+X-Google-Smtp-Source: AGHT+IGna2ErKhNthbpSypt53IuMt3hgqHZlvYfXCyfz0EDoxhdTVpdJkiV9BuKUCjqG7mkLQMunNXHx2Y/iuXgA2LM=
+X-Received: by 2002:a05:7022:a91:b0:11a:4752:4322 with SMTP id
+ a92af1059eb24-11dc327e1femr21774c88.3.1764101429398; Tue, 25 Nov 2025
+ 12:10:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com>
+References: <20251117203806.970840-2-samitolvanen@google.com> <aRycVOe5ZXSJJFpn@kitsune.suse.cz>
+In-Reply-To: <aRycVOe5ZXSJJFpn@kitsune.suse.cz>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Tue, 25 Nov 2025 12:09:52 -0800
+X-Gm-Features: AWmQ_blW6iMHGI7aTPQJK8iAONzA-fBA8_Io8bUpLEK98GyzR8N3QeVQrdLSgl8
+Message-ID: <CABCJKucc0bxLJ=b9rkiwWts6uA=ReLFr32K1OP9WH51D-hO4+A@mail.gmail.com>
+Subject: Re: [PATCH] gendwarfksyms: Fix build on 32-bit hosts
+To: =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>, 
+	Daniel Gomez <da.gomez@kernel.org>
+Cc: linux-modules@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 25, 2025 at 08:15:04PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> This series is the continuation of the series [1] that added the initial support
-> for the PCIe M.2 connectors. This series extends it by adding support for Key E
-> connectors. These connectors are used to connect the Wireless Connectivity
-> devices such as WiFi, BT, NFC and GNSS devices to the host machine over
-> interfaces such as PCIe/SDIO, USB/UART and NFC. This series adds support for
-> connectors that expose PCIe interface for WiFi and UART interface for BT. Other
-> interfaces are left for future improvements.
-> 
-> Serdev device support for BT
-> ============================
-> 
-> Adding support for the PCIe interface was mostly straightforward and a lot
-> similar to the previous Key M connector. But adding UART interface has proved to
-> be tricky. This is mostly because of the fact UART is a non-discoverable bus,
-> unlike PCIe which is discoverable. So this series relied on the PCI notifier to
-> create the serdev device for UART/BT. This means the PCIe interface will be
-> brought up first and after the PCIe device enumeration, the serdev device will
-> be created by the pwrseq driver. This logic is necessary since the connector
-> driver and DT node don't describe the device, but just the connector. So to make
-> the connector interface Plug and Play, the connector driver uses the PCIe device
-> ID to identify the card and creates the serdev device. This logic could be
-> extended in the future to support more M.2 cards. Even if the M.2 card uses SDIO
-> interface for connecting WLAN, a SDIO notifier could be added to create the
-> serdev device.
-> 
-> Open questions
-> ==============
-> 
-> Though this series adds the relevant functionality for handling the M.2 Key M
-> connectors, there are still a few open questions exists on the design. 
-> 
-> 1. I've used the M.2 card model name as the serdev device name. This is found
-> out by comparing the PCIe VID:PID in the notifier. Is this approach acceptable?
-> I did not use the PID as the serdev name since it will vary if the SDIO
-> interface is used in the future.
-> 
-> 2. PCIe client drivers of some M.2 WLAN cards like the Qcom QCA6390, rely on
-> the PCIe device DT node to extract properties such as
-> 'qcom,calibration-variant', 'firmware-name', etc... For those drivers, should we
-> add the PCIe DT node in the Root Port in conjunction with the Port node as
-> below?
-> 
-> pcie@0 {
-> 	wifi@0 {
-> 		compatible = "pci17cb,1103";
-> 		...
-> 		qcom,calibration-variant = "LE_X13S";
-> 	};
-> 
-> 	port {
-> 		pcie4_port0_ep: endpoint {
-> 			remote-endpoint = <&m2_e_pcie_ep>;
-> 		};
-> 	};
-> };
-> 
-> This will also require marking the PMU supplies optional in the relevant ath
-> bindings for M.2 cards.
-> 
-> 3. Some M.2 cards require specific power up sequence like delays between
-> regulator/GPIO and such. For instance, the WCN7850 card supported in this series
-> requires 50ms delay between powering up an interface and driving it. I've just
-> hardcoded the delay in the driver, but it is a pure hack. Since the pwrseq
-> driver doesn't know anything about the device it is dealing with before powering
-> it ON, how should it handle the device specific power requirements? Should we
-> hardcode the device specific property in the connector node? But then, it will
-> no longer become a generic M.2 connector and sort of defeats the purpose of the
-> connector binding.
-> 
-> I hope to address these questions with the help of the relevant subsystem
-> maintainers and the community. 
-> 
-> Testing
-> =======
-> 
-> This series, together with the devicetree changes [2] was tested on the
-> Qualcomm X1e based Lenovo Thinkpad T14s Laptop which has the WCN7850 WLAN/BT M.2
-> card connected over PCIe and UART.
-> 
-> [2] https://github.com/Mani-Sadhasivam/linux/commit/acbee74a5c90fc8839bb7b6f326c677ee1c0d89c
+On Tue, Nov 18, 2025 at 8:18=E2=80=AFAM Michal Such=C3=A1nek <msuchanek@sus=
+e.de> wrote:
+>
+> Hello,
+>
+> On Mon, Nov 17, 2025 at 08:38:07PM +0000, Sami Tolvanen wrote:
+> > We have interchangeably used unsigned long for some of the types
+> > defined in elfutils, assuming they're always 64-bit. This obviously
+> > fails when building gendwarfksyms on 32-bit hosts. Fix the types.
+> >
+> > Reported-by: Michal Such=C3=A1nek <msuchanek@suse.de>
+> > Closes: https://lore.kernel.org/linux-modules/aRcxzPxtJblVSh1y@kitsune.=
+suse.cz/
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > ---
+> >  scripts/gendwarfksyms/dwarf.c   | 4 +++-
+> >  scripts/gendwarfksyms/symbols.c | 5 +++--
+> >  2 files changed, 6 insertions(+), 3 deletions(-)
+>
+> with this patch gendwarfksyms builds on 32bit x86 and Arm.
+>
+> Tested-by: Michal Such=C3=A1nek <msuchanek@suse.de>
 
-Thanks for working on describing the M.2 connectors properly in the
-device tree!
+Great, thanks for testing!  Daniel, do you want to take this fix
+through the modules tree?
 
-I haven't had time to look into this in detail yet, but a quick look at
-the dt-bindings and examples looks good to me! Thanks for keeping the
-bindings as generic as possible.
-
-I have a small nitpick for the specific example you have here: The
-Lenovo ThinkPad T14s does not actually have a "M.2 Mechanical Key E
-connector". If you look at a picture of the mainboard [1], the WLAN/BT
-module is "soldered-down" (look on the right, on the right side next to
-the large copper bracket). In the M.2 specification, "soldered-down"
-modules do not have a "key", they have a specific pinout that is
-followed (see section 5.4). The power sequencing etc and the set of pins
-is quite similar/the same though.
-
-My notes (from a few months ago) suggest the T14s probably uses a
-non-standard M.2 Type 1620 LGA pinout. I don't remember the exact chain
-of thought behind that, but you can find similarly looking modules with
-this type, e.g. https://www.sparklan.com/product/wnsq-290be/. There is a
-1620 *BGA* pinout in the M.2 specification, but a 1620 *LGA* pinout does
-not exist there. Interestingly, in the block diagram of the module in
-the link above this type is called *Q*M.2 1620 LGA 168 pin, as if this
-is some Qualcomm-specific form factor.
-
-A real mechanical key E connector can be found e.g. in the X1E CRD, X1E
-Devkit, or I think some of the X1E-based HP laptops (would need to check
-which one exactly).
-
-I'm not sure if it's really appropriate modeling the "soldered-down"
-variant as "Mechanical Key E connector" in the DT. We might need
-a separate compatible for this. Do you have any thoughts about that?
-
-Thanks,
-Stephan
-
-[1]: https://www.notebookcheck.com/fileadmin/_processed_/d/c/csm_DSC_0003_aadae1ddd2.jpg
+Sami
 
