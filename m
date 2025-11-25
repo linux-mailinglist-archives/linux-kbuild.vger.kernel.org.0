@@ -1,120 +1,110 @@
-Return-Path: <linux-kbuild+bounces-9832-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9835-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E30CC85068
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 13:53:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2310C85259
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 14:19:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0DF964E395F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 12:53:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2A933AD383
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 13:19:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39071320A3E;
-	Tue, 25 Nov 2025 12:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Um2gjLgo";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7WN+rbmK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721D93246E3;
+	Tue, 25 Nov 2025 13:18:54 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C95E27467D;
-	Tue, 25 Nov 2025 12:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D71322C99
+	for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 13:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764075184; cv=none; b=NS0Nu+Y42VJneZEYy0E3w6SW+WUpNRjfdbe8pSlhRDJ7ii0MCmN2kpOrsEDs5dsKHLcCDRE7qDtX6r+6jH1/42zGgeaidoFGOYcvnw2rJTSLtPLppXir27xI14VLP5FRieLw0TIa2zg93LM/FGjWU/VgNrGnrC1e/PAFFYCwgrA=
+	t=1764076734; cv=none; b=BZlLIs8uCU64gg90Iw9ZwYhxemshmQEPN7F81A+ltbhJk7nI6IhabK6UBsHgamqwVMsIxWnss/RV52uyDZfUW9OSPYXTPxHrSf4DNrAKi6J2UI3YCAvvBtTsoJ24LDjzUuSIS2bNcwGjdWbTowpvxcKypQ80h4dOERj2iB8CTEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764075184; c=relaxed/simple;
-	bh=Qb6yADEJ6q0b5zhRUsbd+B9TbNhRB8As0A9B0/Zfd/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QkqKRrgD4XPhPqaHgvVf5McuiljdjheCtMb/Wpw1IgRoAk3m3OzpZk6HIDKgXY5xYOJHkxFUh5ZGcIUAK0dWxMsHNRFp4F+FIf5dk5VuU9pYleCXNOt0yRorcD4Tzls0JncAy/jOdiy2S7w7h8tRn3vJwmCtxC+GYpXeGFFVMYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Um2gjLgo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7WN+rbmK; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Tue, 25 Nov 2025 13:52:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1764075180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gCxUOclmtbZH0FfIA8TitbS2pzMJSgpDS1M3y8P1PcI=;
-	b=Um2gjLgo3TnQatkVmZxEs+PAzzfwB4tlSBj95ieTk3fcTcT//EMzFH2OSbwwaIHXWXGn0N
-	g+CJ7bLa88Twi3YksxZZ5I56lN/rBjpcUS3DVLBO4mxLYKs3jDFOSUjDqC2ljT83zdOnmM
-	eVW9uYCmfLre76j4+2KBFTNsg/8QgEjidxE7Epil3CDzDL+10R9ie4vQ43Nf7j9iISZwa9
-	+bQotKqytgeVRfUA8W2SnST/6j3QlgrQg7GWs3t32SEXo41+khqEgOGlk3FMWBEuvObH7r
-	A0orZBoeKIF4vm4+hcobt4W2E+fv20hoQd5KHc90edwL6QtJpnZi8Fle8NGQiQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1764075180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gCxUOclmtbZH0FfIA8TitbS2pzMJSgpDS1M3y8P1PcI=;
-	b=7WN+rbmKQh+/SlNZQM4vLvHm1dHdtykOX3BkXhPLpEiIlX0j/Uo4BYOqT2mjaYLL65WGW9
-	icThbs1AjNj6aZBA==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Simon Glass <sjg@chromium.org>, kernel@pengutronix.de, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH] kbuild: add target to build a cpio containing modules
-Message-ID: <20251125134030-7a8d0be5-7404-4885-b179-86b8aab4cd07@linutronix.de>
-References: <20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de>
- <20251120080325-536d8deb-fdfe-4dc0-9687-d5d73006376c@linutronix.de>
- <e358027d-a996-404f-b043-62b9c1b4d06c@pengutronix.de>
+	s=arc-20240116; t=1764076734; c=relaxed/simple;
+	bh=5rrjmXwhas9OxIhsFINtvvydwxcmgr7QlC+fTAMLFfE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=En+KPSLqskcaDC4yg26tIK8dQAPHRXUnqc7gipYEXitUpOD4XyEssPNM1d80z9878gZpD4hl5uqwn1NMgTf6GneGH+IoTG8PL7OpPJAFfFGZOt1OUVh+OH7ho8LQuO1qEm3U0lx/nm108jv23EuRHSBZCUuclTP2vKd8aptKOF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1vNswA-00041i-Uo; Tue, 25 Nov 2025 14:18:30 +0100
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1vNswA-002PEX-23;
+	Tue, 25 Nov 2025 14:18:30 +0100
+Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
+	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1vNswA-0000000243F-2LZF;
+	Tue, 25 Nov 2025 14:18:30 +0100
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: [PATCH v2 0/2] kbuild: add target to build a cpio containing
+ modules
+Date: Tue, 25 Nov 2025 14:18:18 +0100
+Message-Id: <20251125-cpio-modules-pkg-v2-0-aa8277d89682@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e358027d-a996-404f-b043-62b9c1b4d06c@pengutronix.de>
-
-On Tue, Nov 25, 2025 at 01:07:20PM +0100, Ahmad Fatoum wrote:
-> On 11/20/25 8:32 AM, Thomas Weißschuh wrote:
-> >> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> >> index 74bcb9e7f7a4516473481468a0fcf700c3bead33..20eec9e2dec4dda3fa0ef64a15b80dccdcb55f90 100644
-> >> --- a/scripts/Makefile.package
-> >> +++ b/scripts/Makefile.package
-
-(...)
-
-> >> +quiet_cmd_cpio = CPIO    $@
-> >> +      cmd_cpio = $(srctree)/usr/gen_initramfs.sh $< > $@
-> > 
-> > Use $(CONFIG_SHELL).
-> 
-> Can do. Is this to allow users to override CONFIG_SHELL from outside?
-
-I think so. Some distributions do weird things.
-
-> If so, why not go one step further and remove shebangs from scripts
-> altogether to enforce that they are called with a $(VARIABLE) that can
-> be overridden?
-
-The shebang is also useful to enable syntax highlighting in editors, tell
-linters which shell dialect (POSIX/bash) is expected and to run the script
-without kbuild. I would just leave it as is.
-
-(...)
-
-> > Is the cpio-data= intended to make sure the line 'hostprogs := gen_init_cpio'
-> > is executed? I don't think this works as usr/Makefile will overwrite 'cpio-data'
-> > in any case. But it should be fine to make hostprogs definition unconditional.
-> 
-> Will add a commit making hostprogs := gen_init_cpio unconditional.
-> The current approach worked though, because specifying the variable on
-> the command line overrides cpio-data := assignments even if there are
-> multiple.
-
-Indeed. Good to know, thanks!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJqsJWkC/32NQQ6CMBBFr2Jm7ZhOQwVceQ/DAukIE7VtWiAYw
+ t2tHMDle8l/f4XEUTjB5bBC5FmSeJdBHw/QDa3rGcVmBq20ISKDXRCPb2+nFycMzx5LZSvTnuu
+ q1nfIsxD5IcuevDWZB0mjj5/9Yaaf/RObCQkVWdOqsqiKQl8Du34ao3eynCxDs23bFxwH/AO1A
+ AAA
+X-Change-ID: 20251115-cpio-modules-pkg-70d85a69892b
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Simon Glass <sjg@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+ Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
 
-Thomas
+---
+Changes in v2:
+- Add Simon's Tested-by and Reviewed-by
+- rename to modules-cpio-pkg (Nathan)
+- add separator/doc comment heading (Thomas)
+- Make temp directory ignoring and cleanup automatic (Thomas)
+- Use CONFIG_SHELL instead of shebang (Thomas)
+- Use -o instead of redirecting stdout when creating cpio (Thomas)
+- Drop superfluous -f as $(build)= overrides it (Thomas)
+- Add extra preparatory patch that makes hostprogs := gen_init_cpio
+  unconditional
+- Link to v1: https://lore.kernel.org/r/20251115-cpio-modules-pkg-v1-1-01d5a0748442@pengutronix.de
+
+---
+Ahmad Fatoum (1):
+      initramfs: add gen_init_cpio to hostprogs unconditionally
+
+Sascha Hauer (1):
+      kbuild: add target to build a cpio containing modules
+
+ scripts/Makefile.package | 20 ++++++++++++++++++++
+ usr/Makefile             |  4 ++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+---
+base-commit: e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
+change-id: 20251115-cpio-modules-pkg-70d85a69892b
+
+Best regards,
+-- 
+Ahmad Fatoum <a.fatoum@pengutronix.de>
+
 
