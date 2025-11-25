@@ -1,134 +1,104 @@
-Return-Path: <linux-kbuild+bounces-9833-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9836-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97467C8524A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 14:18:51 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28865C852BF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 14:26:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0DE9F4E04A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 13:18:50 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C780234FAEE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Nov 2025 13:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47CE33246E0;
-	Tue, 25 Nov 2025 13:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60ABC31A814;
+	Tue, 25 Nov 2025 13:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ukM1tess"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34BA2EB5D4
-	for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 13:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF373101C9
+	for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 13:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764076721; cv=none; b=dyh1xjH3f60/dYGjNTmcyoed7n3f+oeSeNbR1liKJ+xsBQTvkCHRJvCtrZSjKBG1Z1KrQ/Dr4BSxOesmOycVYtVSKWxGFMjsn9/OAsN+/Ms+86LxDdzCl0XDYFNe1yJC668oV4EdQReWvNFgSBHtrhNpMnc4RUIuvCsqQv0d2gc=
+	t=1764077165; cv=none; b=ZKjdljuJdYrkW1bZMbOIIz2eKqXpHW2JazHoaDWlS9YIXSZkD6oLkqObBcT4Bg4iB+q12RhZlEWp7HeoKHwl2BWA87TLZ7Xzh7YqGQ4E/Bc2+ajE1Fcl8X/43nIYTR8ae/YevxhDEK+sm5Ygn5mPbBJwRgA51GEZ3Br5eU+/yxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764076721; c=relaxed/simple;
-	bh=U3A6Xd9TSpMn+xkgCiCwE8rYfDb5pBA+PsQtjpsv/A0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=laGagOnrrZ0tZtGkPaDfqyf2gcu5f35zKyYSIb9tWgfHt2KabEb/61yxdqv3FSoxRjvPvgS71tpVZP94SOqIDzRhfCPLEMTsjqXISmqBNo+w/VNfBnSxoK921izdDzW0t6HHvwMHi0YkcGOcciecR4eclExv1rh3QW9mjkahtOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1vNswA-00041j-Uo; Tue, 25 Nov 2025 14:18:30 +0100
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1vNswA-002PEZ-24;
-	Tue, 25 Nov 2025 14:18:30 +0100
-Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
-	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1vNswA-0000000243F-2N7T;
-	Tue, 25 Nov 2025 14:18:30 +0100
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Date: Tue, 25 Nov 2025 14:18:20 +0100
-Subject: [PATCH v2 2/2] kbuild: add target to build a cpio containing
- modules
+	s=arc-20240116; t=1764077165; c=relaxed/simple;
+	bh=M0m7i3HqAAFepUal17tcRxZTSUzCfk3WUiGlWvRtVu0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MNkyqR0qHikgtgKqYinV3Jqw4vluIu6i09qQn65YDZUDe/Qn+eCV9Wm42T7s77jhBdwv+Q414bEzqZjBfmjrw8qA8pVj5L60mugeThoUrzey8+HfghHIdDChBeyZaNJGfS0aR1a/JcJXK6x9q3CEPUJVupwY3THD8gCRcFRjI9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ukM1tess; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19853C4CEF1
+	for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 13:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764077165;
+	bh=M0m7i3HqAAFepUal17tcRxZTSUzCfk3WUiGlWvRtVu0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ukM1tesseJW6LDDUZuOAxmmNWd9a91Zo1MH6l4eY2Bv57ugxN9hAiGrOBjc2BDIiF
+	 4rTeEfyjlOQikQddQgiN16NSy63gRRJDFYK6onYTSo68vjn3LJUyJ8/fez6Sp/w5u9
+	 7FWWwKMUGi1lh+567MEsArq+yM0lGHJEG+l9qF47qmrc37rdE62rZzQvJ3bJeOzioj
+	 C8+aNsoqGj348tUZfqq5+LIpA/KKBRSi0y+KJ7YK1lLFLtHX5G67/2xskDw546IwT1
+	 KpR4Cf3aJuNVgodqxzqHIE8+/i7WiuQcbiDPnrvapNwd62mXUB0yNN5fJIbFIqsspI
+	 htf5G66ipH+9g==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64074f01a6eso9736285a12.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Nov 2025 05:26:05 -0800 (PST)
+X-Gm-Message-State: AOJu0YwDlbH5DsVdRiiZKkO5aDC3sPspDtC3LgKmLQ8H06PpcT8UIY+f
+	AOOXyuaMYN6BQQDqIpIXSE/sjo3faqdJ73z/bLUCuLnbRugUh7yC7lcc8m01DltO0Wg+/UFMZSI
+	nDr6uO2t47ibFmvTbIaE8t1a/nE7UCg==
+X-Google-Smtp-Source: AGHT+IHoVO7mxKyEwTrUaY9TBwwXV/4RR+MmEXpxRRyiQkfAr1nwBXv4VAlqPGXgUsA9/vrCAzZ6A4YW5PqgmiVAitE=
+X-Received: by 2002:a05:6402:4405:b0:643:129f:9d8e with SMTP id
+ 4fb4d7f45d1cf-64555b9aafamr13080758a12.8.1764077163658; Tue, 25 Nov 2025
+ 05:26:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251125-cpio-modules-pkg-v2-2-aa8277d89682@pengutronix.de>
-References: <20251125-cpio-modules-pkg-v2-0-aa8277d89682@pengutronix.de>
-In-Reply-To: <20251125-cpio-modules-pkg-v2-0-aa8277d89682@pengutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Simon Glass <sjg@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- kernel@pengutronix.de, linux-kernel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Ahmad Fatoum <a.fatoum@pengutronix.de>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+References: <20251120140645.478623-1-thomas.de_schampheleire@nokia.com>
+ <20251124130747.GA3957523-robh@kernel.org> <aSWKdgypKqt1Mq_J@L-PF2SHBMP>
+In-Reply-To: <aSWKdgypKqt1Mq_J@L-PF2SHBMP>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 25 Nov 2025 07:25:51 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK-M_CBVjXXCFrW8UKoDgSV2N8ctc2Ao6E4VZpfCj6chQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bkcQFb9pmHx3xoYsnJAJHkTUbiNSWUKhXxMBBvxqa5SvicB6Jb0VtZJuBA
+Message-ID: <CAL_JsqK-M_CBVjXXCFrW8UKoDgSV2N8ctc2Ao6E4VZpfCj6chQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix compilation of dtb specified on command-line
+ without make rule
+To: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
+Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Sascha Hauer <s.hauer@pengutronix.de>
+On Tue, Nov 25, 2025 at 4:52=E2=80=AFAM Thomas De Schampheleire
+<thomas.de_schampheleire@nokia.com> wrote:
+>
+> On Mon, Nov 24, 2025 at 07:07:47AM -0600, Rob Herring wrote:
+> > On Thu, Nov 20, 2025 at 03:06:43PM +0100, Thomas De Schampheleire wrote=
+:
+> [...]
+> > > In this scenario, both 'dtb-y' and 'dtb-' are empty, and the inclusio=
+n of
+> > > scripts/Makefile.dtbs relies on 'targets' to contain the MAKECMDGOALS=
+. The
+> > > value of 'targets', however, is only final later in the code.
+> > >
+> > > Move the conditional include of scripts/Makefile.dtbs down to where t=
+he
+> > > value of 'targets' is final.
+> >
+> > This breaks 'make dtbs' (and just 'make' for arm64).
+>
+> I see the 'make dtbs' failure, I will investigate.
+>
+> I don't yet see a problem with 'make ARCH=3Darm64 CROSS_COMPILE=3D[...]' =
+after a
+> standard 'defconfig'. Can you please clarify how it fails for you?
 
-Add a new package target to build a cpio archive containing the kernel
-modules. This is particularly useful to supplement an existing initramfs
-with the kernel modules so that the root filesystem can be started with
-all needed kernel modules without modifying it.
+Did it build the dtbs? "dtbs" is an implicit target for "all", so I'm
+assuming that wouldn't work either.
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-Reviewed-by: Simon Glass <sjg@chromium.org>
-Tested-by: Simon Glass <sjg@chromium.org>
-Co-developed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
- scripts/Makefile.package | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 74bcb9e7f7a4516473481468a0fcf700c3bead33..83bfcf7cb09fd2d69b97e0c19a2b99c728835e8d 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -189,6 +189,25 @@ tar-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar
- tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
- 	@:
- 
-+# modules-cpio-pkg - generate an initramfs with the modules
-+# ---------------------------------------------------------------------------
-+
-+.tmp_modules_cpio: FORCE
-+	$(Q)$(MAKE) -f $(srctree)/Makefile
-+	$(Q)rm -rf $@
-+	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
-+
-+quiet_cmd_cpio = CPIO    $@
-+      cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
-+
-+modules-$(KERNELRELEASE)-$(ARCH).cpio: .tmp_modules_cpio
-+	$(Q)$(MAKE) $(build)=usr usr/gen_init_cpio
-+	$(call cmd,cpio)
-+
-+PHONY += modules-cpio-pkg
-+modules-cpio-pkg: modules-$(KERNELRELEASE)-$(ARCH).cpio
-+	@:
-+
- # perf-tar*-src-pkg - generate a source tarball with perf source
- # ---------------------------------------------------------------------------
- 
-@@ -245,6 +264,7 @@ help:
- 	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
- 	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
- 	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
-+	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
- 	@echo '  perf-tar-src-pkg    - Build the perf source tarball with no compression'
- 	@echo '  perf-targz-src-pkg  - Build the perf source tarball with gzip compression'
- 	@echo '  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression'
-
--- 
-2.47.3
-
+Rob
 
