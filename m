@@ -1,116 +1,101 @@
-Return-Path: <linux-kbuild+bounces-9874-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9875-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9076C8B8A1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:13:24 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B50E3C8BBD5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 21:00:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 433034E123F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:13:23 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 56D4A357A76
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:00:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6443833EB18;
-	Wed, 26 Nov 2025 19:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0270134027E;
+	Wed, 26 Nov 2025 20:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xvW14r6M"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U65324fX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B70133AD99
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 19:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4365314D0C;
+	Wed, 26 Nov 2025 19:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764184400; cv=none; b=PqDRHnFMOiSBPg9PVHarFEZYhHmF+jbTDB5CXuAbOR4q84XxZ2aCCZiUOJ+YClnZGb2LCPU2DomtjkunLILWHXTG9RYb9ZeJP28ZJGnkuaMwYrDXLZCA7FTsvqoaoSVPobRdAjYpnDbAV7MpMbRoJ9Dd6PbA7kQearMoUkOyRYE=
+	t=1764187199; cv=none; b=Re4mLQGfTA50zLJFjHkRaO+pLghNRi8ton/ivj7w8HE7kGqVCSOgy7YZTOSuMKidzLUct91aI0xOGNt7ws704OpCPy2DoT2YQ/qHZldCDVnfNeLxPwj+JMv2kETdl/JFZBBZADjmg7pQep4bSiEGNR3Pywrc4a/ZD36gxAyCwZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764184400; c=relaxed/simple;
-	bh=N0Zb+RrDajauwjsyN6i28AMVPOJUhfk5DbUUzMwggys=;
+	s=arc-20240116; t=1764187199; c=relaxed/simple;
+	bh=JVkhGAnFuqOLyOevdPN+qYtg3KUlxPhUsvfr3ZMySPI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lphKrb8UMV2ktAIppqHOmL75m/I7VBsxCpdmnnZE9FIgIc6KSSZ0RlDc6AcZaW0Cqr22fCFq2AN4qEimHP3GJgXwV+DLZ1S28LYFw4AYyv3lMNfquoBSKuVsP4ngLtxTpSxczxIWdAy9m+1/NdjL5m3fZ2hEovcPTOEaVCNPxiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xvW14r6M; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <6b61c22b-d38c-47c1-8b8f-a37e44866644@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764184396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oj7a/chW6SNwlrR4P2Y5EG7P7Q7f9ZjCmFxdGZ83m2c=;
-	b=xvW14r6MwplzZCEMbwn7A8A5jtx0DN9DcCMJSK0NDmNKOyL8XG8Tv7TwV2bWk44sVCEGbi
-	GAL8rrEGFMQ+esPBU+v0Uc5zM2A4hnwP9Txc+Z1bqMfiEYj/673tCW1sKhwu+S4ce2lRAz
-	IfIA22ebNUlPHWZEylq3zBBIQuW2pFc=
-Date: Wed, 26 Nov 2025 11:13:07 -0800
+	 In-Reply-To:Content-Type; b=JD+NSlNexUHEq2/7sbMfWtAXMJafyjWfIJAfrWZjHEoYjW20cETT4D3SRA7ueRZtCQtK3MaHt3uwnr19bQ8isc7alGKkrBEUq9Txq22suZ3wwLZihLpNEVydieb81IMGAvZmx3hsIWxcF/ZnPsukS8DhM/uz4FAdK1NAzCaHYm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U65324fX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB18FC4CEF7;
+	Wed, 26 Nov 2025 19:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764187199;
+	bh=JVkhGAnFuqOLyOevdPN+qYtg3KUlxPhUsvfr3ZMySPI=;
+	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=U65324fXGG4SAU0RxSSsnYMz4mPZOgiBdK+xN20jRu2PlWwEJehwLkEH0mQe199GS
+	 08EAZl3rjCxO2tl0b6nzDmvKa3ROgFF2bf5HN7bY6056yhIl4w9gixd5L3RQDmqzQe
+	 vlHgWv2f9UIxsGvvxqHcm5VgS1jmgILEHmCoP1ugNbSFSXJREDZZNSuoVueejtfYA/
+	 +w6NbiodaPC/iDD9t6JlbFA1byZxznuiEnljp/BYDOmrbVljxa6HHfM5xAx4Xcg74T
+	 8+2pLy9tRO2Cgaf+7TPNUFVkjDeuz7nOsIV+QT6UmA8Yg67pHSgskYPwEg+CNmIGpX
+	 YV+SfZyZ8wPTA==
+Message-ID: <9d9ca6f0-b4cc-4fef-9ca2-9cb754330581@kernel.org>
+Date: Wed, 26 Nov 2025 20:59:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1 4/4] resolve_btfids: change in-place update
- with raw binary output
-To: Donglin Peng <dolinux.peng@gmail.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- bpf@vger.kernel.org, dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Alan Maguire <alan.maguire@oracle.com>
-References: <20251126012656.3546071-1-ihor.solodrai@linux.dev>
- <20251126012656.3546071-5-ihor.solodrai@linux.dev>
- <CAErzpmt7ER171hAjQ2SwbmC9R3dVsKHj02B8VM5gKMViP1iFqA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Reply-To: Daniel Gomez <da.gomez@kernel.org>
+Subject: Re: [PATCH] gendwarfksyms: Fix build on 32-bit hosts
+To: Sami Tolvanen <samitolvanen@google.com>,
+ =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+Cc: linux-modules@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251117203806.970840-2-samitolvanen@google.com>
+ <aRycVOe5ZXSJJFpn@kitsune.suse.cz>
+ <CABCJKucc0bxLJ=b9rkiwWts6uA=ReLFr32K1OP9WH51D-hO4+A@mail.gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <CAErzpmt7ER171hAjQ2SwbmC9R3dVsKHj02B8VM5gKMViP1iFqA@mail.gmail.com>
+From: Daniel Gomez <da.gomez@kernel.org>
+Organization: kernel.org
+In-Reply-To: <CABCJKucc0bxLJ=b9rkiwWts6uA=ReLFr32K1OP9WH51D-hO4+A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On 11/26/25 5:03 AM, Donglin Peng wrote:
-> On Wed, Nov 26, 2025 at 9:29 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+
+
+On 25/11/2025 21.09, Sami Tolvanen wrote:
+> On Tue, Nov 18, 2025 at 8:18 AM Michal Suchánek <msuchanek@suse.de> wrote:
 >>
->> [...]
+>> Hello,
 >>
->> For the kernel modules creating special .bpf.o file is not necessary,
->> and so embedding of sections data produced by resolve_btfids is
->> straightforward with the objcopy.
-> 
-> The Makefile for the bpf selftests also needs be updated too:
-> https://elixir.bootlin.com/linux/v6.18-rc7/source/tools/testing/selftests/bpf/Makefile#L708
-> 
-> This results in the self-test for resolve_btfids failing:
->  $./vmtest.sh -- ./test_progs -t resolve_btfids -v
-> ...
-> test_resolve_btfids:PASS:id_check 0 nsec
-> test_resolve_btfids:FAIL:id_check wrong ID for S (0 != 3)
-
-Good catch, thanks.
-
-I remember I noticed this at some point, and then forgot...
-
-Interestingly this test passes on CI [1]: 
-
-2025-11-26T03:09:52.0908317Z #366     reg_bounds_rand_ranges_u64_u64:OK
-2025-11-26T03:09:52.0925114Z #367     resolve_btfids:OK
-2025-11-26T03:09:52.3904190Z #368/1   res_spin_lock_failure/res_spin_lock_arg:OK
-
-I'll take a closer look.
-
-[1] https://github.com/kernel-patches/bpf/actions/runs/19690981192/job/56406840021
-
-> 
-> 
->> [...]
+>> On Mon, Nov 17, 2025 at 08:38:07PM +0000, Sami Tolvanen wrote:
+>>> We have interchangeably used unsigned long for some of the types
+>>> defined in elfutils, assuming they're always 64-bit. This obviously
+>>> fails when building gendwarfksyms on 32-bit hosts. Fix the types.
+>>>
+>>> Reported-by: Michal Suchánek <msuchanek@suse.de>
+>>> Closes: https://lore.kernel.org/linux-modules/aRcxzPxtJblVSh1y@kitsune.suse.cz/
+>>> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+>>> ---
+>>>  scripts/gendwarfksyms/dwarf.c   | 4 +++-
+>>>  scripts/gendwarfksyms/symbols.c | 5 +++--
+>>>  2 files changed, 6 insertions(+), 3 deletions(-)
 >>
+>> with this patch gendwarfksyms builds on 32bit x86 and Arm.
+>>
+>> Tested-by: Michal Suchánek <msuchanek@suse.de>
+> 
+> Great, thanks for testing!  Daniel, do you want to take this fix
+> through the modules tree?
+> 
+> Sami
 
+Absolutely! Since we are at the end of the rc cycle, I'll merge this after
+sending the current queued patches.
 
