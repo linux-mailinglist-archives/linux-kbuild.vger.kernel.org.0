@@ -1,129 +1,136 @@
-Return-Path: <linux-kbuild+bounces-9864-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9877-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F71C8862E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 08:18:07 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A26C8BE85
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 21:49:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2E9C5356BF2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 07:17:39 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F413E358A4C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:49:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7865D288C39;
-	Wed, 26 Nov 2025 07:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5688334252A;
+	Wed, 26 Nov 2025 20:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="e64wx9sd";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1J7X0wYX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6M0EEqH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38C3285071;
-	Wed, 26 Nov 2025 07:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA27340DBD;
+	Wed, 26 Nov 2025 20:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764141402; cv=none; b=P3o12V7eNqoGBYMwT3kUaF72eV5TvF1aXKa/uqk+WRrsQ+gEQ3WnV2FxjTD2qZzdgXCkp51/Q3r+ezV743FwpqaDets2AEYT0iHQjoThKwlLBCPWh7AfAyxY89j7oXt90kxtlnbJ+dqo6oRCE916Rxbv8fP2OKBrxaorLYhxKpg=
+	t=1764190155; cv=none; b=hfzhPBt49cG7JF+/b0E+WCJMxJ/zR4Fg6nd4N9wlnei2dQkRbjIyDfuhmXgt9Olglt31S677pPqbnZf78WcGHMES8xtr3wVtMsWEJ4qYUAJfGPOlt8CYtwL4QdjNuBOToS6r3SfCHxrpDg5Livi4H6U5o/YCzv9Ws5XCw9ZYbDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764141402; c=relaxed/simple;
-	bh=W2U9c5dnm0gBkFez+jTAwoDoBmB7c56L1xDC6s2xtqY=;
+	s=arc-20240116; t=1764190155; c=relaxed/simple;
+	bh=Ld6pg6klGN4n4kfd7qcFOY91BR7cRFdceB5VpT8strY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=chjwdknZ8GrrueeCFXOwFKML2FmDYVoOyV3toZtAh2t2tdhxj0NnabtJU72C57PSOigJ+2B/yyntwayVb5nfMKHnBMZjYB7X93psXEjQLpif61vmzGMjQsTeaomDYjD6fouGJI+qlXWs1aA3OCEqFuOtMv4IwxsFC5hYMJbZAso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=e64wx9sd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1J7X0wYX; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Wed, 26 Nov 2025 08:16:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1764141398;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UMPNPgQF7EFk8fZKuStuZmZpYxMUfWjshcS2iwRDj7E=;
-	b=e64wx9sdKMuAEOyk8Ro45BZ1y0o6TbClP2QFvNwkTubvJICUftVL00usk1GF5F1Ur9fhHb
-	zDxvA8+xsqyAS6ACr7/lOV86yiO+gHdJp3H7MzAUARaRJg7FRpQqBLPN/kN0gvaV9Y5SuU
-	/9T5JDzA3EvVsiN5/FirnXlmZ9Occf5VJp3erFgWe7xk6DgnelVhqCRKe8OwutoLPnaCkp
-	Pd4XazZC/wBf7VVx/PgAnGcy8kSm2JPAr8Di8WAzIOaQUjrAZU7kSY9Ut1yFDeM5RtxURC
-	C+b9zezBlueOwThohMlP1VqTdUlrb/qvXb14uxTZNXj4wD9uWLOd0u57BvpSlA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1764141398;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UMPNPgQF7EFk8fZKuStuZmZpYxMUfWjshcS2iwRDj7E=;
-	b=1J7X0wYXyqqb80DXylWtfuTcneoc2Y16RiVLcGXa65CVSpk04p3MRtRZdh8t9N9Qu0TBc1
-	LNcWmrqXea02cMDQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Tom Rini <trini@konsulko.com>, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, J =?utf-8?Q?=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Chen-Yu Tsai <wenst@chromium.org>, 
-	Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Rong Xu <xur@google.com>, Tamir Duberstein <tamird@gmail.com>, 
-	Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 6/8] kbuild: Allow adding modules into the FIT ramdisk
-Message-ID: <20251126080620-921e6880-cacf-44c5-bd8b-f380fbb8090a@linutronix.de>
-References: <20251119181333.991099-1-sjg@chromium.org>
- <20251119181333.991099-7-sjg@chromium.org>
- <20251120084201-53a3c98f-6a3c-4116-8635-be67d58fd57b@linutronix.de>
- <CAFLszTjsgkPV_-Si79RY5T_Fxd5+f-b1VbpG11uS3E9Lk4Ofmg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IX8IWlErQ2eEv7PYwlbpuu/m6xUGTRKvwCnahma3p5Eb+AUu0Lar3XjuAeWG44EK3yXsBrsvJqQ+ITQVXw1cNJ0T71VZsGk6/w0t5hXcOOAh9OcMHWAsjbGznZt2BGWuzKesSNBgVFezNCvFZSxbJVrCsZ0ugbIwWtzp5ZLwKgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6M0EEqH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A8FC4CEF7;
+	Wed, 26 Nov 2025 20:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764190154;
+	bh=Ld6pg6klGN4n4kfd7qcFOY91BR7cRFdceB5VpT8strY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J6M0EEqHVRfQA1jr09+cwgXWEAGXh9fvl57IVLxcAnc2gsBTRKn8rrnAK0x150wiB
+	 b5x9pilzhDcjkdEkys+NbSvPZ7O6/2e2kFvYudNcrLgfu+A6YTL8RKXeb0jJv24FBz
+	 hNBzjwPkRlayoBytNeRUQZYBqGsqdF+qRkKAFESnl3MXNGcPV6hTD3lhrG6A6x9G2+
+	 shVEHINKQDEjZdqN16YUpS8fnrcnR/AmpkxGHHk7nrT2vzRRZnQeiPA8emtbzY1FDp
+	 9DrW4aAxqA89Y1I+dv3L9+7sIQgVWW76KFeXrKu2bA8A7nya6DpAnShBhyHoPY5duJ
+	 4wGjxY//q5ZlQ==
+Date: Wed, 26 Nov 2025 08:49:41 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Tamir Duberstein <tamird@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: Enable GCC diagnostic context for
+ value-tracking warnings
+Message-ID: <aSaxFayrJEAUz1cT@derry.ads.avm.de>
+References: <20251121184342.it.626-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFLszTjsgkPV_-Si79RY5T_Fxd5+f-b1VbpG11uS3E9Lk4Ofmg@mail.gmail.com>
+In-Reply-To: <20251121184342.it.626-kees@kernel.org>
 
-On Tue, Nov 25, 2025 at 02:58:12PM -0700, Simon Glass wrote:
-> On Thu, 20 Nov 2025 at 00:49, Thomas Weißschuh
-> <thomas.weissschuh@linutronix.de> wrote:
-> >
-> > On Wed, Nov 19, 2025 at 11:13:27AM -0700, Simon Glass wrote:
-
-(...)
-
-> > >  quiet_cmd_fit = FIT     $@
-> > >        cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-> > > -             --name '$(UIMAGE_NAME)' \
-> > > +             --name '$(UIMAGE_NAME)' $(MAKE_FIT_FLAGS) \
-> >
-> > Remnant of a previous revision?
+On Fri, Nov 21, 2025 at 10:43:48AM -0800, Kees Cook wrote:
+> Enable GCC 16's coming "-fdiagnostics-show-context=N" option[1] to
+> provide enhanced diagnostic information for value-tracking warnings,
+> which displays the control flow chain leading to the diagnostic. This
+> covers our existing use of -Wrestrict and -Wstringop-overread, and
+> gets us closer to enabling -Warray-bounds, -Wstringop-overflow, and
+> -Wstringop-truncation, so we can track the rationale for the warning,
+> letting us more quickly identify actual issues vs what have looked in
+> the past like false positives. Fixes based on this work have already
+> been landing, e.g.:
 > 
-> The flags are there to allow extra options to be passed if needed.
-
-Are they necessary for the module functionality added here?
-If not I'd put them into a dedicated commit.
-
-> >
-> > >               $(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
-> > >               $(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
-> > > +             $(if $(FIT_MODULES),--modules @$(objtree)/modules.order) \
-> >
-> > I am wondering how module dependencies work without the depmod invocation
-> > and modules.dep file.
+>   4a6f18f28627 ("net/mlx4_core: Avoid impossible mlx4_db_alloc() order value")
+>   8a39f1c870e9 ("ovl: Check for NULL d_inode() in ovl_dentry_upper()")
+>   e5f7e4e0a445 ("drm/amdgpu/atom: Work around vbios NULL offset false positive")
 > 
-> We have a mechanism to place a pre-build initrd with the filesystem,
-> etc. into the FIT. But for this particular feature (suggested by Ahmad
-> Fatoum) we are just providing the raw modules. Presumably another
-> initrd would be needed to provide the startup files?
+> The context depth ("=N") provides the immediate decision path that led
+> to the problematic code location, showing conditional checks and branch
+> decisions that caused the warning. This will help us understand why
+> GCC's value-tracking analysis triggered the warning and makes it easier
+> to determine whether warnings are legitimate issues or false positives.
+> 
+> For example, an array bounds warning will now show the conditional
+> statements (like "if (i >= 4)") that established the out-of-bounds access
+> range, directly connecting the control flow to the warning location.
+> This is particularly valuable when GCC's interprocedural analysis can
+> generate warnings that are difficult to understand without seeing the
+> inferred control flow.
+> 
+> While my testing has shown that "=1" reports enough for finding
+> the origin of most bounds issues, I have used "=2" here just to be
+> conservative. Build time measurements with this option off, =1, and =2
+> are all with noise of each other, so there seems to be no harm in "turning
+> it up". If we need to, we can make this value configurable in the future.
+> 
+> Link: https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=6faa3cfe60ff9769d1bebfffdd2c7325217d7389 [1]
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas.schier@linux.dev>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Cc: <linux-kbuild@vger.kernel.org>
+> ---
+>  Makefile | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index d14824792227..d97452441cd0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -940,6 +940,9 @@ KBUILD_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
+>  # for the randomize_kstack_offset feature. Disable it for all compilers.
+>  KBUILD_CFLAGS	+= $(call cc-option, -fno-stack-clash-protection)
+>  
+> +# Get details on warnings generated due to GCC value tracking.
+> +KBUILD_CFLAGS	+= $(call cc-option, -fdiagnostics-show-context=2)
+> +
+>  # Clear used registers at func exit (to reduce data lifetime and ROP gadgets).
+>  ifdef CONFIG_ZERO_CALL_USED_REGS
+>  KBUILD_CFLAGS	+= -fzero-call-used-regs=used-gpr
+> -- 
+> 2.34.1
+> 
 
-modules.dep is more than optional and generic startup files but an integral
-part of a module tree. Without it, any module depending on another module's
-symbols will fail to load. Also the modules will be unsigned, potentially
-making them unloadable. Ahmad's patch does produce a complete and fully
-functional module tree by means of 'make headers_install'.
+Thanks!
 
-> > >               --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
-> > >
-> > >  # XZ
-> > > --
-> > > 2.43.0
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
