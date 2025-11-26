@@ -1,190 +1,154 @@
-Return-Path: <linux-kbuild+bounces-9872-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9873-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C784C8B841
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:02:18 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBB6C8B871
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:08:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 742344E69CF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:02:17 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EAF2E35BF1E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3D2831352B;
-	Wed, 26 Nov 2025 19:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABD633DEF7;
+	Wed, 26 Nov 2025 19:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jWv7MUXT"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NqxbAVFu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0870E311C3C
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 19:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531CC3112B0
+	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 19:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764183733; cv=none; b=q4PfeVtNkbq0VKOYDdgvQ5/vxwO8+QW3MwKH4FRi3RdF30ktqrt1lVmqyADwdWJm6QQwFHSToqmqb+J/VZncF5jR66dU6hIH5skBHnMFPlJ5vh6yjuCZLLoEWsxf3QLEyhGnaL7QaJOktduai8mS28qxMmpFNRHsGBW+x4jwtXY=
+	t=1764184098; cv=none; b=b84zKcSHM8wWApPJSPQZLj8Sy+1fD890qjZ8vOiCTQallkYY99GabYIwBnYijQmtv0uS+23epyAdpzcgoKspX0IlwoAffcV557BshZKi02WnA42ojNz53qRoHZXjEAGAoNzWs5hIfZ3xgy+OiV5csG7zoXUStkPSOny+VaQn1wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764183733; c=relaxed/simple;
-	bh=PGb8QzCiz9c4xSY4LPkdirXHsPvgBNAHw9qgYtuKWIg=;
+	s=arc-20240116; t=1764184098; c=relaxed/simple;
+	bh=QkrMuFPGwvXJZ5qY/D1AgGZOqbHZcZUqeE2SK3B2p9w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gYfjW9uK2H6aEmHiTod5OouEu/a8GutdiolB7bsWXE8j+YvVHGRlz5ZcGww0e02eWLG4aD3aW0hOfjUJhmbpmIdYpRKAT7L69H1BzyyxHcYWjhFp/o7GqpmQXDQTk55ITyxlG9ZZVacGxLTvW6W+sjmmaxe3NBh5S4QJxpxXCO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jWv7MUXT; arc=none smtp.client-ip=95.215.58.182
+	 In-Reply-To:Content-Type; b=PfHDaeh5wTHglPmtTtf3l1lXLm+SQiTSeNdY6eCleKateGqzLMdzaEnIeVKkrZNa1X8PK2e88AwRH5AcoY6Dmk+GKsk4D3gDylAArYfSilbaaUCB25NxsVMAoOUI0d/k2M/yu/JyS85gY/Mmkl4mXfjwjUOjGKUaHJTla0gReBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NqxbAVFu; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <362b4519-522f-440b-a2ed-bd233166609b@linux.dev>
+Message-ID: <d91c8ccc-cf5f-4d50-9a8e-944f90e0401a@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764183718;
+	t=1764184094;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YF+vsyUPsLX+oIXuhWbF9px0T1obEdHnI8t1Kbok7xs=;
-	b=jWv7MUXTuCuMm5O1dI2pDhkIp7Tos4/paH/uMgfCpFyy0ge38vXNgek8dsVN03YJ9sK9wu
-	DzidIyBE0iGb5GOC9oZXsHrGbjJ+eJ5xD9VKxVosKouOiVVpKfQG9nnCu7vZntPSPhWeZR
-	O5/qXNoXN68Vee2K6QC6hpus+iw3ujw=
-Date: Wed, 26 Nov 2025 11:01:24 -0800
+	bh=Q3P5T0GSkwkYYH5jOoeKnyxxs+DIn65xOfHXjhWpU5M=;
+	b=NqxbAVFud7sNqDfhkbP8DgQaySFVpHgOgtZ4wqA0R67NNlFm3wunvqPSZuPZf4EEtHk5sb
+	LyQXIisSmUWXWln1O5pcvLfmjmA+gxOhzDZBFdDBNLeDyRfbojM3a9R2Xm+tDT6+l8ypfS
+	xJykJ3e/ZdRzZZ/S3IgWSDLT6UrQHBc=
+Date: Wed, 26 Nov 2025 11:08:04 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1 0/4] resolve_btfids: Support for BTF
- modifications
-To: Alan Maguire <alan.maguire@oracle.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Subject: Re: [PATCH bpf-next v1 3/4] resolve_btfids: introduce enum
+ btf_id_kind
+To: bot+bpf-ci@kernel.org, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, nathan@kernel.org,
+ nicolas.schier@linux.dev, nick.desaulniers+lkml@gmail.com, morbo@google.com,
+ justinstitt@google.com
 Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- Donglin Peng <dolinux.peng@gmail.com>
-References: <20251126012656.3546071-1-ihor.solodrai@linux.dev>
- <5bd0b578-e9ff-4958-b01c-fa3e9336eecb@oracle.com>
+ alan.maguire@oracle.com, dolinux.peng@gmail.com, martin.lau@kernel.org,
+ clm@meta.com
+References: <20251126012656.3546071-4-ihor.solodrai@linux.dev>
+ <3d0b94b9fdd5150c136784b5e6904264e5fb09a00d8512e459ec6c3046ed9abb@mail.kernel.org>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <5bd0b578-e9ff-4958-b01c-fa3e9336eecb@oracle.com>
+In-Reply-To: <3d0b94b9fdd5150c136784b5e6904264e5fb09a00d8512e459ec6c3046ed9abb@mail.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 11/26/25 4:36 AM, Alan Maguire wrote:
-> On 26/11/2025 01:26, Ihor Solodrai wrote:
->> This series changes resolve_btfids and kernel build scripts to enable
->> BTF transformations in resolve_btfids. Main motivation for enhancing
->> resolve_btfids is to reduce dependency of the kernel build on pahole
->> capabilities [1] and enable BTF features and optimizations [2][3]
->> particular to the kernel.
->>
->> Patches #1-#3 in the series are non-functional refactoring in
->> resolve_btfids. The last patch (#4) makes significant changes in
->> resolve_btfids and introduces scripts/gen-btf.sh. Implementation
->> changes are described in detail in the patch description.
->>
->> One RFC item in this patchset is the --distilled_base [4] handling.
->> Before this patchset .BTF.base was generated and added to target
->> binary by pahole, based on these conditions [5]:
->>   * pahole version >=1.28
->>   * the kernel module is out-of-tree (KBUILD_EXTMOD)
->>
->> Since BTF finalization is now done by resolve_btfids, it requires
->> btf__distill_base() to happen there. However, in my opinion, it is
->> unnecessary to add and pass through a --distilled_base flag for
->> resolve_btfids.
->>
-> hi Ihor,
+On 11/25/25 6:09 PM, bot+bpf-ci@kernel.org wrote:
+>> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
+>> index b7b44e72e..7f5a9f7dd 100644
+>> --- a/tools/bpf/resolve_btfids/main.c
+>> +++ b/tools/bpf/resolve_btfids/main.c
 > 
-> Can you say more about what constitutes BTF finalization and why BTF
-> distillation prior to finalization (i.e. in pahole) isn't workable? Is
-> it the concern that we eliminate types due to filtering, or is it a
-> problem with sorting/tracking type ids? Are there operations we
-> do/anticipate that make prior distillation infeasbile? Thanks!
-
-Hi Alan,
-
-That's a good question. AFAIU the distillation should be done on the
-final BTF, after all the transformations (sorting, adding/removing BTF
-types) have been applied. At least this way we can be sure that the
-distilled base is valid.
-
-We certainly want BTF generation process to be the same for modules
-and the kernel, which means that BTF modifications in resolve_btfids
-have to be applied to module BTF also.
-
-So the question is whether btf2btf will be safe to do *after*
-distillation, and that of course depends on the specifics.
-
-Let's say pahole generated BTF for a module and a distilled base.  If
-later some types are removed from module BTF, or a new type is added
-(that might refer to a type absent in distilled base), is the btf/base
-pair still valid?
-
-My intuition is that it is more reliable to distill the final-final
-BTF, and so with resolve_btfids taking over kernel BTF finalization it
-makes sense to do it there. Otherwise we may be upfront limiting
-ourselves in how module BTF can be changed in resolve_btfids.
-
-What are the reasons to keep distillation in pahole? It's a simple
-libbpf API call after all. Anything I might be missing?
-
-
+> [ ... ]
 > 
->> Logically, any split BTF referring to kernel BTF is not very useful
->> without the .BTF.base, which is why the feature was developed in the
->> first place. Therefore it makes sense to always emit .BTF.base for all
->> modules, unconditionally. This is implemented in the series.
+>> @@ -260,26 +266,33 @@ static char *get_id(const char *prefix_end)
+>>  	return id;
+>>  }
 >>
->> However it might be argued that .BTF.base is redundant for in-tree
->> modules: it takes space the module ELF and triggers unnecessary
->> btf__relocate() call on load [6]. It can be avoided by special-casing
->> in-tree module handling in resolve_btfids either with a flag or by
->> checking env variables. The trade-off is slight performance impact vs
->> code complexity.
+>> -static struct btf_id *add_set(struct object *obj, char *name, bool is_set8)
+>> +static struct btf_id *add_set(struct object *obj, char *name, enum btf_id_kind kind)
+>>  {
+>>  	/*
+>>  	 * __BTF_ID__set__name
+>>  	 * name =    ^
+>>  	 * id   =         ^
+>>  	 */
+>> -	char *id = name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__")) - 1;
+>> +	int prefixlen = kind == BTF_ID_KIND_SET8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__");
+>> +	char *id = name + prefixlen - 1;
+>>  	int len = strlen(name);
+>> +	struct btf_id *btf_id;
 >>
+>>  	if (id >= name + len) {
+>>  		pr_err("FAILED to parse set name: %s\n", name);
+>>  		return NULL;
+>>  	}
+>>
+>> -	return btf_id__add(&obj->sets, id, true);
+>> +	btf_id = btf_id__add(&obj->sets, id, true);
+>> +	if (btf_id)
+>> +		btf_id->kind = kind;
+>> +
+>> +	return btf_id;
+>>  }
+>>
+>>  static struct btf_id *add_symbol(struct rb_root *root, char *name, size_t size)
+>>  {
+>> +	struct btf_id *btf_id;
+>>  	char *id;
+>>
+>>  	id = get_id(name + size);
+>> @@ -288,7 +301,10 @@ static struct btf_id *add_symbol(struct rb_root *root, char *name, size_t size)
+>>  		return NULL;
+>>  	}
+>>
+>> -	return btf_id__add(root, id, false);
+>> +	btf_id = btf_id__add(root, id, false);
+>> +	btf_id->kind = BTF_ID_KIND_SYM;
+>                  ^^^^
 > 
-> I would say avoid distillation for in-tree modules if possible, as it
-> imposes runtime costs in relocation/type renumbering on module load. For
-> large modules (amdgpu take a bow) that could be non-trivial time-wise.
-> IMO the build-time costs/complexities are worth paying to avoid a
-> runtime tax on module load.
+> Can add_symbol() dereference a NULL pointer here? The function
+> btf_id__add() can return NULL on allocation failure (when zalloc fails),
+> but the new code sets btf_id->kind before checking if btf_id is NULL.
+> 
+> In contrast, add_set() checks for NULL before setting the kind field.
+> Should add_symbol() do the same?
 
-Acked. I still would like to avoid passing flags around if possible.
+We pass unique=false to btf_id__add() and that means that it can only
+return NULL if zalloc() fails, which is unlikely.
 
-Is it reasonable to simply check for KBUILD_EXTMOD env var from
-withing resolve_btfids? Any drawbacks to that?
-
-Thanks.
-
+Checking for NULL here is little too defensive, but won't hurt.
 
 > 
->> [1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@linux.dev/
->> [2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
->> [3] https://lore.kernel.org/bpf/20251119031531.1817099-1-dolinux.peng@gmail.com/
->> [4] https://docs.kernel.org/bpf/btf.html#btf-base-section
->> [5] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/scripts/Makefile.btf#n29
->> [6] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/kernel/bpf/btf.c#n6358
->>
->> Ihor Solodrai (4):
->>   resolve_btfids: rename object btf field to btf_path
->>   resolve_btfids: factor out load_btf()
->>   resolve_btfids: introduce enum btf_id_kind
->>   resolve_btfids: change in-place update with raw binary output
->>
->>  MAINTAINERS                     |   1 +
->>  scripts/Makefile.modfinal       |   5 +-
->>  scripts/gen-btf.sh              | 166 ++++++++++++++++++++++
->>  scripts/link-vmlinux.sh         |  42 +-----
->>  tools/bpf/resolve_btfids/main.c | 234 +++++++++++++++++++++++---------
->>  5 files changed, 348 insertions(+), 100 deletions(-)
->>  create mode 100755 scripts/gen-btf.sh
->>
+>> +
+>> +	return btf_id;
+>>  }
 > 
+> [ ... ]
+> 
+> 
+> ---
+> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+> 
+> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/19689674924
 
 
