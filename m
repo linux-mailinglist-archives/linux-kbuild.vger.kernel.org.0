@@ -1,47 +1,47 @@
-Return-Path: <linux-kbuild+bounces-9857-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9858-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDB1C87B17
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 02:29:59 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB06C87B32
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 02:30:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 59510354E2E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 01:29:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 606A34EB8D1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 01:30:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1568D2FD7D8;
-	Wed, 26 Nov 2025 01:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BF802FBDF4;
+	Wed, 26 Nov 2025 01:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SrTIFUVB"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ozOqoMmw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249BF2F7453
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 01:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7EF2FBDEF
+	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 01:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764120581; cv=none; b=uINqMWgxzSDfyfpv4GILnkDCjj70Gw5/o4lxDZqjHl9wW4a87RtYNUQDMceHSx/HqUNZMSZRaR/2gAC0n6SOJxUHsYQPw/IH3Spe0hkmt/L9bQVj7uJ30TPuqcMap2uswKkIl3eHMBCg+QiTDhaBvNzo7EkqloN5j3jdtVrNRJg=
+	t=1764120587; cv=none; b=E4c/eU5keVz+47zeDOlhK+8NzTJoTPciy7CTsnM5IoUfTQINxHagKLz1NJBFkr9pB5MMkWjQoEt8NqqPl9R1C3VULmBKkvd8aZywXd4j8dBLVdOD7wuaM8H7lKdYCZzpTFGUhAMQD7HnT7HZIImZZd9nhCrb4lfS0LmusGlx18w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764120581; c=relaxed/simple;
-	bh=aXv/pih24yggz6hes7FfJ4CF5Nhjv1blxuz2JItVklU=;
+	s=arc-20240116; t=1764120587; c=relaxed/simple;
+	bh=xCvFs1xbcVN6h+Vy2tQsGp0ZQAuYsMF+spiFOaf/Irg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DIAH5KpIDgdpxBlV3zDdONKSnSSbxpc6p5Jf5rjNB+qJR4Pm/21DvRVhacCcKxv9/j+n9v9t1RYv4Prm4PNoAZptvUlAz2pENXDhnJtlXoer7iEpK0ucvV9oqo5rgvfE8Y93YGGKigIg6phgSgXODlOGF9sKTVnusCdP2YuBdCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SrTIFUVB; arc=none smtp.client-ip=91.218.175.180
+	 MIME-Version; b=U/A/G+e/uRv7f2hTOr+AfhKZQorm/ryw/cCoTLsCQ1zyCp6PTYF5Fpl1yaxXOLE+UWsfFHLhI4HRQDBdX/svT1ifewzNojodDDlJdU/x+yB5ymIhAddqjM10ivo+zzmhXRY9ArQ8Z2BOBN4X/GwVnx4Kj6yhwGeNRCMBqKt3khM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ozOqoMmw; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764120577;
+	t=1764120583;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ncfgnkJo0FOQMsiCWv0mDQ10nQdwXB48HeO+ohRsxaQ=;
-	b=SrTIFUVBrpFAmd98XMWC17KblJ3e7muWCuc+Or/BXUEkR6JHurnYCxGgznBKd6k1Y1goFG
-	eSINmtcq8EG3lfVrbQ9T6efABDn33zVhzp/7cKiKHRKQfULWuLxvoPCZPk6/qQ2mimxhDw
-	cA7fnESy8kLMq7BHs5cmoEeU2T3095k=
+	bh=8OxpVlu97uQOGmIsABXF9JpduqMEidWW+QhnLTm9npg=;
+	b=ozOqoMmwYEy7W1BpWVntj+K2UBfM18cylAmrgcVy5bN2TCF+A6jmJZ/GfdoJ7MSxh5s7QG
+	Mh3Ssvs5JU9yzDE+uTsJj1SHogTx+3YHwb39wkmPpJTn0cSEzn0+VpTZT91ip94Lo6GgMl
+	ipeh+NywOo7JuYy7x6MWBJIYgxG2etE=
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
@@ -66,9 +66,9 @@ Cc: bpf@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Alan Maguire <alan.maguire@oracle.com>,
 	Donglin Peng <dolinux.peng@gmail.com>
-Subject: [PATCH bpf-next v1 2/4] resolve_btfids: factor out load_btf()
-Date: Tue, 25 Nov 2025 17:26:54 -0800
-Message-ID: <20251126012656.3546071-3-ihor.solodrai@linux.dev>
+Subject: [PATCH bpf-next v1 3/4] resolve_btfids: introduce enum btf_id_kind
+Date: Tue, 25 Nov 2025 17:26:55 -0800
+Message-ID: <20251126012656.3546071-4-ihor.solodrai@linux.dev>
 In-Reply-To: <20251126012656.3546071-1-ihor.solodrai@linux.dev>
 References: <20251126012656.3546071-1-ihor.solodrai@linux.dev>
 Precedence: bulk
@@ -80,118 +80,178 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-Increase the lifetime of parsed BTF in resolve_btfids by factoring
-load_btf() routine out of symbols_resolve() and storing the base_btf
-and btf pointers in the struct object.
+Instead of using multiple flags, make struct btf_id tagged with an
+enum value indicating its kind in the context of resolve_btfids.
 
 Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 ---
- tools/bpf/resolve_btfids/main.c | 47 ++++++++++++++++++++++++---------
- 1 file changed, 34 insertions(+), 13 deletions(-)
+ tools/bpf/resolve_btfids/main.c | 61 ++++++++++++++++++++++-----------
+ 1 file changed, 41 insertions(+), 20 deletions(-)
 
 diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-index d2762487ce5f..b7b44e72e765 100644
+index b7b44e72e765..7f5a9f7dde7f 100644
 --- a/tools/bpf/resolve_btfids/main.c
 +++ b/tools/bpf/resolve_btfids/main.c
-@@ -116,6 +116,9 @@ struct object {
- 	const char *btf_path;
- 	const char *base_btf_path;
+@@ -98,6 +98,13 @@
+ # error "Unknown machine endianness!"
+ #endif
  
-+	struct btf *btf;
-+	struct btf *base_btf;
++enum btf_id_kind {
++	BTF_ID_KIND_NONE,
++	BTF_ID_KIND_SYM,
++	BTF_ID_KIND_SET,
++	BTF_ID_KIND_SET8
++};
 +
- 	struct {
- 		int		 fd;
- 		Elf		*elf;
-@@ -529,16 +532,10 @@ static int symbols_collect(struct object *obj)
- 	return 0;
+ struct btf_id {
+ 	struct rb_node	 rb_node;
+ 	char		*name;
+@@ -105,9 +112,8 @@ struct btf_id {
+ 		int	 id;
+ 		int	 cnt;
+ 	};
+-	int		 addr_cnt;
+-	bool		 is_set;
+-	bool		 is_set8;
++	enum btf_id_kind kind:8;
++	int		 addr_cnt:8;
+ 	Elf64_Addr	 addr[ADDR_CNT];
+ };
+ 
+@@ -260,26 +266,33 @@ static char *get_id(const char *prefix_end)
+ 	return id;
  }
  
--static int symbols_resolve(struct object *obj)
-+static int load_btf(struct object *obj)
+-static struct btf_id *add_set(struct object *obj, char *name, bool is_set8)
++static struct btf_id *add_set(struct object *obj, char *name, enum btf_id_kind kind)
  {
--	int nr_typedefs = obj->nr_typedefs;
--	int nr_structs  = obj->nr_structs;
--	int nr_unions   = obj->nr_unions;
--	int nr_funcs    = obj->nr_funcs;
--	struct btf *base_btf = NULL;
--	int err, type_id;
--	struct btf *btf;
--	__u32 nr_types;
-+	struct btf *base_btf = NULL, *btf = NULL;
-+	int err;
+ 	/*
+ 	 * __BTF_ID__set__name
+ 	 * name =    ^
+ 	 * id   =         ^
+ 	 */
+-	char *id = name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__")) - 1;
++	int prefixlen = kind == BTF_ID_KIND_SET8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__");
++	char *id = name + prefixlen - 1;
+ 	int len = strlen(name);
++	struct btf_id *btf_id;
  
- 	if (obj->base_btf_path) {
- 		base_btf = btf__parse(obj->base_btf_path, NULL);
-@@ -546,7 +543,7 @@ static int symbols_resolve(struct object *obj)
- 		if (err) {
- 			pr_err("FAILED: load base BTF from %s: %s\n",
- 			       obj->base_btf_path, strerror(-err));
--			return -1;
-+			goto out_err;
- 		}
+ 	if (id >= name + len) {
+ 		pr_err("FAILED to parse set name: %s\n", name);
+ 		return NULL;
  	}
  
-@@ -555,9 +552,30 @@ static int symbols_resolve(struct object *obj)
- 	if (err) {
- 		pr_err("FAILED: load BTF from %s: %s\n",
- 			obj->btf_path ?: obj->path, strerror(-err));
--		goto out;
-+		goto out_err;
- 	}
- 
-+	obj->base_btf = base_btf;
-+	obj->btf = btf;
+-	return btf_id__add(&obj->sets, id, true);
++	btf_id = btf_id__add(&obj->sets, id, true);
++	if (btf_id)
++		btf_id->kind = kind;
 +
-+	return 0;
-+
-+out_err:
-+	btf__free(base_btf);
-+	btf__free(btf);
-+	return err;
-+}
-+
-+static int symbols_resolve(struct object *obj)
-+{
-+	int nr_typedefs = obj->nr_typedefs;
-+	int nr_structs  = obj->nr_structs;
-+	int nr_unions   = obj->nr_unions;
-+	int nr_funcs    = obj->nr_funcs;
-+	struct btf *btf = obj->btf;
-+	int err, type_id;
-+	__u32 nr_types;
-+
- 	err = -1;
- 	nr_types = btf__type_cnt(btf);
- 
-@@ -615,8 +633,6 @@ static int symbols_resolve(struct object *obj)
- 
- 	err = 0;
- out:
--	btf__free(base_btf);
--	btf__free(btf);
- 	return err;
++	return btf_id;
  }
  
-@@ -824,6 +840,9 @@ int main(int argc, const char **argv)
- 	if (symbols_collect(&obj))
- 		goto out;
+ static struct btf_id *add_symbol(struct rb_root *root, char *name, size_t size)
+ {
++	struct btf_id *btf_id;
+ 	char *id;
  
-+	if (load_btf(&obj))
-+		goto out;
+ 	id = get_id(name + size);
+@@ -288,7 +301,10 @@ static struct btf_id *add_symbol(struct rb_root *root, char *name, size_t size)
+ 		return NULL;
+ 	}
+ 
+-	return btf_id__add(root, id, false);
++	btf_id = btf_id__add(root, id, false);
++	btf_id->kind = BTF_ID_KIND_SYM;
 +
- 	if (symbols_resolve(&obj))
- 		goto out;
++	return btf_id;
+ }
  
-@@ -833,6 +852,8 @@ int main(int argc, const char **argv)
- 	if (!(fatal_warnings && warnings))
- 		err = 0;
- out:
-+	btf__free(obj.base_btf);
-+	btf__free(obj.btf);
- 	if (obj.efile.elf) {
- 		elf_end(obj.efile.elf);
- 		close(obj.efile.fd);
+ /* Older libelf.h and glibc elf.h might not yet define the ELF compression types. */
+@@ -491,28 +507,24 @@ static int symbols_collect(struct object *obj)
+ 			id = add_symbol(&obj->funcs, prefix, sizeof(BTF_FUNC) - 1);
+ 		/* set8 */
+ 		} else if (!strncmp(prefix, BTF_SET8, sizeof(BTF_SET8) - 1)) {
+-			id = add_set(obj, prefix, true);
++			id = add_set(obj, prefix, BTF_ID_KIND_SET8);
+ 			/*
+ 			 * SET8 objects store list's count, which is encoded
+ 			 * in symbol's size, together with 'cnt' field hence
+ 			 * that - 1.
+ 			 */
+-			if (id) {
++			if (id)
+ 				id->cnt = sym.st_size / sizeof(uint64_t) - 1;
+-				id->is_set8 = true;
+-			}
+ 		/* set */
+ 		} else if (!strncmp(prefix, BTF_SET, sizeof(BTF_SET) - 1)) {
+-			id = add_set(obj, prefix, false);
++			id = add_set(obj, prefix, BTF_ID_KIND_SET);
+ 			/*
+ 			 * SET objects store list's count, which is encoded
+ 			 * in symbol's size, together with 'cnt' field hence
+ 			 * that - 1.
+ 			 */
+-			if (id) {
++			if (id)
+ 				id->cnt = sym.st_size / sizeof(int) - 1;
+-				id->is_set = true;
+-			}
+ 		} else {
+ 			pr_err("FAILED unsupported prefix %s\n", prefix);
+ 			return -1;
+@@ -643,7 +655,7 @@ static int id_patch(struct object *obj, struct btf_id *id)
+ 	int i;
+ 
+ 	/* For set, set8, id->id may be 0 */
+-	if (!id->id && !id->is_set && !id->is_set8) {
++	if (!id->id && id->kind == BTF_ID_KIND_SYM) {
+ 		pr_err("WARN: resolve_btfids: unresolved symbol %s\n", id->name);
+ 		warnings++;
+ 	}
+@@ -696,6 +708,7 @@ static int sets_patch(struct object *obj)
+ {
+ 	Elf_Data *data = obj->efile.idlist;
+ 	struct rb_node *next;
++	int cnt;
+ 
+ 	next = rb_first(&obj->sets);
+ 	while (next) {
+@@ -715,11 +728,15 @@ static int sets_patch(struct object *obj)
+ 			return -1;
+ 		}
+ 
+-		if (id->is_set) {
++		switch (id->kind) {
++		case BTF_ID_KIND_SET:
+ 			set = data->d_buf + off;
++			cnt = set->cnt;
+ 			qsort(set->ids, set->cnt, sizeof(set->ids[0]), cmp_id);
+-		} else {
++			break;
++		case BTF_ID_KIND_SET8:
+ 			set8 = data->d_buf + off;
++			cnt = set8->cnt;
+ 			/*
+ 			 * Make sure id is at the beginning of the pairs
+ 			 * struct, otherwise the below qsort would not work.
+@@ -744,10 +761,14 @@ static int sets_patch(struct object *obj)
+ 						bswap_32(set8->pairs[i].flags);
+ 				}
+ 			}
++			break;
++		case BTF_ID_KIND_SYM:
++		default:
++			pr_err("Unexpected btf_id_kind %d for set '%s'\n", id->kind, id->name);
++			return -1;
+ 		}
+ 
+-		pr_debug("sorting  addr %5lu: cnt %6d [%s]\n",
+-			 off, id->is_set ? set->cnt : set8->cnt, id->name);
++		pr_debug("sorting  addr %5lu: cnt %6d [%s]\n", off, cnt, id->name);
+ 
+ 		next = rb_next(next);
+ 	}
 -- 
 2.52.0
 
