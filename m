@@ -1,48 +1,48 @@
-Return-Path: <linux-kbuild+bounces-9870-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9871-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23604C8B6BD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:23:03 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9614BC8B735
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:33:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DEE983590F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 18:22:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 305F44E638D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 18:33:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 174043126B1;
-	Wed, 26 Nov 2025 18:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1DBE31354A;
+	Wed, 26 Nov 2025 18:32:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kBLIQ2D9"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bugEiiRN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13CC31282D
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 18:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D8C310764
+	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 18:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764181367; cv=none; b=osEH9/huPe871XCMdVVZCdvennSYQjxvAkLipKBo0a4THuv8RxqGYRB3/JQ5x2s46Lavh+/6wgpAAvYxoS+Fq76d05VqgS8DwStJ2K5v7dQykqzjIM81/ajII7a+D2gAif0ygCwoVrvTpPKn91lmMl8fjjFSVO1k8kuI4HrrtpQ=
+	t=1764181974; cv=none; b=Lk/qs2+cVLxCumz2s3w852CpSq2sLSzSSqsCdUQBferXoqlSdbWWUmy1WUI9cIQQbm79um43lOrxmokjPMaCRYRIk22WOinXdHuLHsXuPNYDA3xycJ/+TRXzMcDNcxnu4Eiul2+42M5MoZ7TExNdz2NRhnpJcK8NUSxR6Y4gBhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764181367; c=relaxed/simple;
-	bh=11+n6ED0oj4GlVfro7776FjNWhcM74GpNCK3Tx4RzU8=;
+	s=arc-20240116; t=1764181974; c=relaxed/simple;
+	bh=AOoe5JtT1OHWwr9WMwKaAoJ7KKM01g+Aduh6RSFzgEo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aHuPO1LfXwvBgkhnjXTlEy3XvfotclcliaaVlWXkwrcOstV7J+p430R2oWbGbz56J3UJjjxyDJOa+Moykfs1O8ZjBxpnbRRfa2Rs5Iju1AiPCdsMZ2qvVy14qI2MGQq6htneVfPlBOIuiSZ1BMcVDtejF7XVFjDZ4JJqq9CZ3lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kBLIQ2D9; arc=none smtp.client-ip=95.215.58.186
+	 In-Reply-To:Content-Type; b=rvoYaIQ0rY0dj0Ke6NLRxwHvVej2xohsE6yfwYwm/2QYQctAZWLSQqVQ3UsVF2BdcxX5zoJTHgN8PUFSsdiZ675trxgu/K7/1NgRA9/6j6EqBs6FvT3GvQLuOYiC1powfxvyQAKqN6dKaRgcdrMKuHNJV9GhdQYgjMVAofU0dTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bugEiiRN; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <102a3220-2490-4c81-b2c9-6b107d6e4aff@linux.dev>
+Message-ID: <7fb4b953-449d-4f72-8bc7-2becae3cc639@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764181351;
+	t=1764181960;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b5lnVEmMjTQunScWht2/TigkN5EtXsb7CslpuxT4iIY=;
-	b=kBLIQ2D9+46RfxQscZxA2XbmkNw2KlF45o/VXrEzwlTmpM/33kdUcRiUsJBdDj4WKBihIA
-	5060+ffqWI7XBRJMtqScZzGWXxvPTLBi0saW50GcRGyBtl4CVkGy8IZij/jN1OID6IS8WJ
-	lg1zYeyciryXqWZaKfJnBXABvuxWlXI=
-Date: Wed, 26 Nov 2025 10:22:21 -0800
+	bh=5kl7ivhO8IEcaYStwnE6ABlTpqXsrzXg6GsRqFQk9Jg=;
+	b=bugEiiRNridTMoZfkk4a3ngi8Awv7I4mc9QqFHPdagwYHMg1n4+0q0IM9mQ6QGsofYSD1R
+	p+g/aLEoNg/uwmche/65NvyMgWtlJURKOQ3kwgqYxYBrvrX36F7k3nY0o8QGXEdvSzNBqe
+	ZiK3HbDVVQ2jF2jxRxUkmXmyu9tt0ok=
+Date: Wed, 26 Nov 2025 10:32:30 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -80,46 +80,100 @@ On 11/25/25 8:46 PM, Donglin Peng wrote:
 > On Wed, Nov 26, 2025 at 9:29 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
 >>
 >> [...]
->> +
->> +gen_btf_data()
->> +{
->> +       info BTF "${ELF_FILE}"
->> +       btf1="${ELF_FILE}.btf.1"
->> +       ${PAHOLE} -J ${PAHOLE_FLAGS}                    \
->> +               ${BTF_BASE:+--btf_base ${BTF_BASE}}     \
->> +               --btf_encode_detached=${btf1}           \
->> +               "${ELF_FILE}"
->> +
->> +       info BTFIDS "${ELF_FILE}"
->> +       RESOLVE_BTFIDS_OPTS=""
->> +       if is_enabled CONFIG_WERROR; then
->> +               RESOLVE_BTFIDS_OPTS+=" --fatal_warnings "
+>>  static const char * const resolve_btfids_usage[] = {
+>> @@ -823,12 +875,13 @@ int main(int argc, const char **argv)
+>>                 .funcs    = RB_ROOT,
+>>                 .sets     = RB_ROOT,
+>>         };
+>> +       char out_path[PATH_MAX];
+>>         bool fatal_warnings = false;
+>>         struct option btfid_options[] = {
+>>                 OPT_INCR('v', "verbose", &verbose,
+>>                          "be more verbose (show errors, etc)"),
+>>                 OPT_STRING(0, "btf", &obj.btf_path, "BTF data",
+>> -                          "BTF data"),
+>> +                          "input BTF data"),
+>>                 OPT_STRING('b', "btf_base", &obj.base_btf_path, "file",
+>>                            "path of file providing base BTF"),
+>>                 OPT_BOOLEAN(0, "fatal_warnings", &fatal_warnings,
+>> @@ -844,6 +897,9 @@ int main(int argc, const char **argv)
+>>
+>>         obj.path = argv[0];
+>>
+>> +       if (load_btf(&obj))
+>> +               goto out;
 > 
-> In POSIX sh, +=is undefined[1], and I encountered the following error:
-> 
-> ./scripts/gen-btf.sh: 90: RESOLVE_BTFIDS_OPTS+= --fatal_warnings : not found
-> 
-> We should use the following syntax instead:
-> 
-> RESOLVE_BTFIDS_OPTS="${RESOLVE_BTFIDS_OPTS} --fatal_warnings "
+> I think I can add the BTF sorting function here based on your patch.
 
-Hi Donglin, thanks for taking a look.
+Correct. Any btf2btf transformations will have to happen before the
+symbols resolution.
 
-These and a couple of other bugs have been caught by CI [1].
-I am working on v2.
-
-I changed the script to #!/bin/bash and will run the shellcheck 
-before submitting the next revision [2], when it's ready.
-
-[1] https://github.com/kernel-patches/bpf/actions/runs/19689674975
-[2] https://github.com/kernel-patches/bpf/pull/10370
-
-> 
-> [1] https://www.shellcheck.net/wiki/SC3024
 > 
 > Thanks,
 > Donglin
->> [...]
+>> +
+>>         if (elf_collect(&obj))
+>>                 goto out;
+>>
+>> @@ -853,23 +909,37 @@ int main(int argc, const char **argv)
+>>          */
+>>         if (obj.efile.idlist_shndx == -1 ||
+>>             obj.efile.symbols_shndx == -1) {
+>> -               pr_debug("Cannot find .BTF_ids or symbols sections, nothing to do\n");
+>> -               err = 0;
+>> -               goto out;
+>> +               pr_debug("Cannot find .BTF_ids or symbols sections, skip symbols resolution\n");
+>> +               goto dump_btf;
+>>         }
+>>
+>>         if (symbols_collect(&obj))
+>>                 goto out;
+>>
+>> -       if (load_btf(&obj))
+>> -               goto out;
+>> -
+>>         if (symbols_resolve(&obj))
+>>                 goto out;
+>>
+>>         if (symbols_patch(&obj))
+>>                 goto out;
+>>
+>> +       strcpy(out_path, obj.path);
+>> +       strcat(out_path, ".btf_ids");
+>> +       if (dump_raw_btf_ids(&obj, out_path))
+>> +               goto out;
+>> +
+>> +dump_btf:
+>> +       strcpy(out_path, obj.path);
+>> +       strcat(out_path, ".btf");
+> 
+> Do we need to add .btf files to the .gitignore file?
 
+I don't know. Probably?
+
+I take care to cleanup temporary files in the gen-btf.sh, but it makes
+sense to .gitignore them anyways, since those are temporary build
+artifacts.
+
+> 
+> Thanks,
+> Donglin
+> 
+>> +       if (dump_raw_btf(obj.btf, out_path))
+>> +               goto out;
+>> +
+>> +       if (obj.base_btf) {
+>> +               strcpy(out_path, obj.path);
+>> +               strcat(out_path, ".distilled_base.btf");
+>> +               if (dump_raw_btf(obj.base_btf, out_path))
+>> +                       goto out;
+>> +       }
+>> +
+>>         if (!(fatal_warnings && warnings))
+>>                 err = 0;
+>>  out:
+>> --
+>> 2.52.0
+>>
 
 
