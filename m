@@ -1,154 +1,116 @@
-Return-Path: <linux-kbuild+bounces-9873-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9874-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBB6C8B871
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:08:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9076C8B8A1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 20:13:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EAF2E35BF1E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:08:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 433034E123F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 19:13:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABD633DEF7;
-	Wed, 26 Nov 2025 19:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6443833EB18;
+	Wed, 26 Nov 2025 19:13:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NqxbAVFu"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xvW14r6M"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531CC3112B0
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 19:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B70133AD99
+	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 19:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764184098; cv=none; b=b84zKcSHM8wWApPJSPQZLj8Sy+1fD890qjZ8vOiCTQallkYY99GabYIwBnYijQmtv0uS+23epyAdpzcgoKspX0IlwoAffcV557BshZKi02WnA42ojNz53qRoHZXjEAGAoNzWs5hIfZ3xgy+OiV5csG7zoXUStkPSOny+VaQn1wk=
+	t=1764184400; cv=none; b=PqDRHnFMOiSBPg9PVHarFEZYhHmF+jbTDB5CXuAbOR4q84XxZ2aCCZiUOJ+YClnZGb2LCPU2DomtjkunLILWHXTG9RYb9ZeJP28ZJGnkuaMwYrDXLZCA7FTsvqoaoSVPobRdAjYpnDbAV7MpMbRoJ9Dd6PbA7kQearMoUkOyRYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764184098; c=relaxed/simple;
-	bh=QkrMuFPGwvXJZ5qY/D1AgGZOqbHZcZUqeE2SK3B2p9w=;
+	s=arc-20240116; t=1764184400; c=relaxed/simple;
+	bh=N0Zb+RrDajauwjsyN6i28AMVPOJUhfk5DbUUzMwggys=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PfHDaeh5wTHglPmtTtf3l1lXLm+SQiTSeNdY6eCleKateGqzLMdzaEnIeVKkrZNa1X8PK2e88AwRH5AcoY6Dmk+GKsk4D3gDylAArYfSilbaaUCB25NxsVMAoOUI0d/k2M/yu/JyS85gY/Mmkl4mXfjwjUOjGKUaHJTla0gReBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NqxbAVFu; arc=none smtp.client-ip=95.215.58.179
+	 In-Reply-To:Content-Type; b=lphKrb8UMV2ktAIppqHOmL75m/I7VBsxCpdmnnZE9FIgIc6KSSZ0RlDc6AcZaW0Cqr22fCFq2AN4qEimHP3GJgXwV+DLZ1S28LYFw4AYyv3lMNfquoBSKuVsP4ngLtxTpSxczxIWdAy9m+1/NdjL5m3fZ2hEovcPTOEaVCNPxiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xvW14r6M; arc=none smtp.client-ip=95.215.58.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <d91c8ccc-cf5f-4d50-9a8e-944f90e0401a@linux.dev>
+Message-ID: <6b61c22b-d38c-47c1-8b8f-a37e44866644@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764184094;
+	t=1764184396;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Q3P5T0GSkwkYYH5jOoeKnyxxs+DIn65xOfHXjhWpU5M=;
-	b=NqxbAVFud7sNqDfhkbP8DgQaySFVpHgOgtZ4wqA0R67NNlFm3wunvqPSZuPZf4EEtHk5sb
-	LyQXIisSmUWXWln1O5pcvLfmjmA+gxOhzDZBFdDBNLeDyRfbojM3a9R2Xm+tDT6+l8ypfS
-	xJykJ3e/ZdRzZZ/S3IgWSDLT6UrQHBc=
-Date: Wed, 26 Nov 2025 11:08:04 -0800
+	bh=oj7a/chW6SNwlrR4P2Y5EG7P7Q7f9ZjCmFxdGZ83m2c=;
+	b=xvW14r6MwplzZCEMbwn7A8A5jtx0DN9DcCMJSK0NDmNKOyL8XG8Tv7TwV2bWk44sVCEGbi
+	GAL8rrEGFMQ+esPBU+v0Uc5zM2A4hnwP9Txc+Z1bqMfiEYj/673tCW1sKhwu+S4ce2lRAz
+	IfIA22ebNUlPHWZEylq3zBBIQuW2pFc=
+Date: Wed, 26 Nov 2025 11:13:07 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1 3/4] resolve_btfids: introduce enum
- btf_id_kind
-To: bot+bpf-ci@kernel.org, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, nathan@kernel.org,
- nicolas.schier@linux.dev, nick.desaulniers+lkml@gmail.com, morbo@google.com,
- justinstitt@google.com
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- alan.maguire@oracle.com, dolinux.peng@gmail.com, martin.lau@kernel.org,
- clm@meta.com
-References: <20251126012656.3546071-4-ihor.solodrai@linux.dev>
- <3d0b94b9fdd5150c136784b5e6904264e5fb09a00d8512e459ec6c3046ed9abb@mail.kernel.org>
+Subject: Re: [PATCH bpf-next v1 4/4] resolve_btfids: change in-place update
+ with raw binary output
+To: Donglin Peng <dolinux.peng@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ bpf@vger.kernel.org, dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Alan Maguire <alan.maguire@oracle.com>
+References: <20251126012656.3546071-1-ihor.solodrai@linux.dev>
+ <20251126012656.3546071-5-ihor.solodrai@linux.dev>
+ <CAErzpmt7ER171hAjQ2SwbmC9R3dVsKHj02B8VM5gKMViP1iFqA@mail.gmail.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <3d0b94b9fdd5150c136784b5e6904264e5fb09a00d8512e459ec6c3046ed9abb@mail.kernel.org>
+In-Reply-To: <CAErzpmt7ER171hAjQ2SwbmC9R3dVsKHj02B8VM5gKMViP1iFqA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 11/25/25 6:09 PM, bot+bpf-ci@kernel.org wrote:
->> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
->> index b7b44e72e..7f5a9f7dd 100644
->> --- a/tools/bpf/resolve_btfids/main.c
->> +++ b/tools/bpf/resolve_btfids/main.c
+On 11/26/25 5:03 AM, Donglin Peng wrote:
+> On Wed, Nov 26, 2025 at 9:29 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+>>
+>> [...]
+>>
+>> For the kernel modules creating special .bpf.o file is not necessary,
+>> and so embedding of sections data produced by resolve_btfids is
+>> straightforward with the objcopy.
 > 
-> [ ... ]
+> The Makefile for the bpf selftests also needs be updated too:
+> https://elixir.bootlin.com/linux/v6.18-rc7/source/tools/testing/selftests/bpf/Makefile#L708
 > 
->> @@ -260,26 +266,33 @@ static char *get_id(const char *prefix_end)
->>  	return id;
->>  }
->>
->> -static struct btf_id *add_set(struct object *obj, char *name, bool is_set8)
->> +static struct btf_id *add_set(struct object *obj, char *name, enum btf_id_kind kind)
->>  {
->>  	/*
->>  	 * __BTF_ID__set__name
->>  	 * name =    ^
->>  	 * id   =         ^
->>  	 */
->> -	char *id = name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__")) - 1;
->> +	int prefixlen = kind == BTF_ID_KIND_SET8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__");
->> +	char *id = name + prefixlen - 1;
->>  	int len = strlen(name);
->> +	struct btf_id *btf_id;
->>
->>  	if (id >= name + len) {
->>  		pr_err("FAILED to parse set name: %s\n", name);
->>  		return NULL;
->>  	}
->>
->> -	return btf_id__add(&obj->sets, id, true);
->> +	btf_id = btf_id__add(&obj->sets, id, true);
->> +	if (btf_id)
->> +		btf_id->kind = kind;
->> +
->> +	return btf_id;
->>  }
->>
->>  static struct btf_id *add_symbol(struct rb_root *root, char *name, size_t size)
->>  {
->> +	struct btf_id *btf_id;
->>  	char *id;
->>
->>  	id = get_id(name + size);
->> @@ -288,7 +301,10 @@ static struct btf_id *add_symbol(struct rb_root *root, char *name, size_t size)
->>  		return NULL;
->>  	}
->>
->> -	return btf_id__add(root, id, false);
->> +	btf_id = btf_id__add(root, id, false);
->> +	btf_id->kind = BTF_ID_KIND_SYM;
->                  ^^^^
-> 
-> Can add_symbol() dereference a NULL pointer here? The function
-> btf_id__add() can return NULL on allocation failure (when zalloc fails),
-> but the new code sets btf_id->kind before checking if btf_id is NULL.
-> 
-> In contrast, add_set() checks for NULL before setting the kind field.
-> Should add_symbol() do the same?
+> This results in the self-test for resolve_btfids failing:
+>  $./vmtest.sh -- ./test_progs -t resolve_btfids -v
+> ...
+> test_resolve_btfids:PASS:id_check 0 nsec
+> test_resolve_btfids:FAIL:id_check wrong ID for S (0 != 3)
 
-We pass unique=false to btf_id__add() and that means that it can only
-return NULL if zalloc() fails, which is unlikely.
+Good catch, thanks.
 
-Checking for NULL here is little too defensive, but won't hurt.
+I remember I noticed this at some point, and then forgot...
+
+Interestingly this test passes on CI [1]: 
+
+2025-11-26T03:09:52.0908317Z #366     reg_bounds_rand_ranges_u64_u64:OK
+2025-11-26T03:09:52.0925114Z #367     resolve_btfids:OK
+2025-11-26T03:09:52.3904190Z #368/1   res_spin_lock_failure/res_spin_lock_arg:OK
+
+I'll take a closer look.
+
+[1] https://github.com/kernel-patches/bpf/actions/runs/19690981192/job/56406840021
 
 > 
->> +
->> +	return btf_id;
->>  }
 > 
-> [ ... ]
-> 
-> 
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/19689674924
+>> [...]
+>>
 
 
