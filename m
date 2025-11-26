@@ -1,128 +1,143 @@
-Return-Path: <linux-kbuild+bounces-9879-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9880-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9282BC8C34B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 23:25:42 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F19C8C654
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 00:58:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 01426344D28
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 22:25:42 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 41AC14E3400
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Nov 2025 23:58:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D6C319875;
-	Wed, 26 Nov 2025 22:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D1B3016EC;
+	Wed, 26 Nov 2025 23:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cXAKUNg+"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IwEpBWXs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9012FB99D
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 22:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498B5301460
+	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 23:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764195937; cv=none; b=P6NOolOJtzgjw3GbzF9V9F5sfh5Q+LIVPEqxhkI1AfsswXpMubd6UxehIBH6BvS0y9cFhhC+xUGo+X8MjAACuX6QTDN+87X1x8e3nZePnbK7fF7/X1lxdtaHSWebIyyZ3Tc9Gt5xR8SEXeSxG9HeAjcZM9i6w80LfPAyJjacYrs=
+	t=1764201507; cv=none; b=ubhj2NCaUT+NobrKsdEUpfhQlm7NdZqkTMnXiYIG++Ajnv1GdQpLjLRqFGAoebHCajs3Up2/LiwCWwtRfkT5mj2V8bqeg5kypbB8YVBrSvboJoOuNwaKMDTTSlUT/s2ZmualDpuhnvE1s2vIUdPVqkO0EhUVgcwjRKx9ifURQrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764195937; c=relaxed/simple;
-	bh=HOT4Gu96WDg1GNjhCNSzX+3zkGtP/7lynXOjNF7OuuM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J0VrNvuSGZPPiM8HSw7oissPOU7mH1Loilm4uRT8sCcr3Ut0AbdFbMX7kcJcIkZt+AshAokOw9YyoY1CJSYQNjjz3CXiFVd/FVXo5V6z6hzDEBlOlcfZe/iTtiQ3xvZvEERSFOA4JL5sRRF9wFImynUrV3Dwl6vRMYNKDQaXA2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cXAKUNg+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D96BC116D0
-	for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 22:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764195937;
-	bh=HOT4Gu96WDg1GNjhCNSzX+3zkGtP/7lynXOjNF7OuuM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cXAKUNg+Gr8x07WTRiiU27RCxnDcBPNJEQH0PrsXtXeV4hichLIKK9JX39Tcu7qOj
-	 gCP/Z8fbtLS14P9Bzq0M9qy5YWymCuckR9cxtRIsD+DWH4IXT+j5xwl1JfLvNqL1M4
-	 SJNvuX2rFtk3svrxRFoAtwEsw0o+dL2uUl38HohDryoTgbxqCMYrFZtYPmHHG48fkW
-	 vIU31Udm/3/klGJ4v9iGMYNm2meHipJtl0kksh0dmhxFG0+nwcdT2L6qfgBOlHm0xL
-	 I+8ISJG1nHx/WIhRv50EYn7Q702gQaFY7MvqGy59VI7DgSGZAd0Epup65YVQAiIZtA
-	 XYrbv/FGcGc4g==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64074f01a6eso510707a12.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 26 Nov 2025 14:25:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWX/nfCmp9rRb0NUbXGsG5XItE9pGXmA4oB/x3zThv2RK1CYrQT6FlVpNypVZczHjzt44uplFFSajN7Ck8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYoPRXRqLPDnIhCelO3KFeRBvJ9ifX+LYrtPVrdr/4ZYEN4S69
-	ZKYh+IVl+f2H6AOePzOyeegkYMjRgrjn3N673WYYZ6IIkVdesn0/APauvZHPGBQDrOaHuBPHYjV
-	hWl6/NiusmdJKBcknMw7Mg4nkVV/6LQ==
-X-Google-Smtp-Source: AGHT+IE8t9dgqpkksbjPh6GcMq0WGLROg6+4afEUls7q/K2hXXYpvpEA6HkyAjhC1SY4duWi9xNeDPU4OhqOOxqyumE=
-X-Received: by 2002:a05:6402:274e:b0:641:8644:f87f with SMTP id
- 4fb4d7f45d1cf-64555cd9bd8mr20042023a12.17.1764195935712; Wed, 26 Nov 2025
- 14:25:35 -0800 (PST)
+	s=arc-20240116; t=1764201507; c=relaxed/simple;
+	bh=fqModIZQ9weIdajfx2Law3kUMrQJn4OXAAZVino9I3I=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UPy7doY0eZ5vKptrAko75H8bIopU9vP/Z5w7dhhGXDmJyJPYV9VWBLRtr37ScOVBGZIYpNo3Fut3JRXqxTyDyEGazf3p+KtnA49UxjfRfe/rKY7OGcgNm6z+rWuPC5IST5OvYfLzcfXt2Wo+vmQHVwJDbjutkrwE16KRa5jNdPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IwEpBWXs; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <9ac1ab7b-1412-4e81-a993-df95c372c4d8@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1764201493;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pJsW4MSL8jrZwt1mHNooy6P3uX9Y7YjgeSxiW1DH7p8=;
+	b=IwEpBWXs+DaXxkfjq3hjka/S3m0r2fZlwZ+szIi+PQl7KYPQWdNo4SztZ6Ydhqos6rIPFk
+	02AAmEFhJcA6ctotzRhsdeuP88y8ZQNFc9s02+L0Oad83N5La54CNUlhB6Ptyv+2y/y45Q
+	wKnFL64HtnAY512PdUCeMEAXs+8Fty0=
+Date: Wed, 26 Nov 2025 15:58:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251114222759.4181152-1-robh@kernel.org> <aSDEC9D87nZB5RJp@derry.ads.avm.de>
-In-Reply-To: <aSDEC9D87nZB5RJp@derry.ads.avm.de>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 26 Nov 2025 16:25:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKJEZodVSo-6bZBcUTc0TfNCs6bEGfvy9ZdZbmSbu=cSA@mail.gmail.com>
-X-Gm-Features: AWmQ_blJXcfU7CfsdtSi-0_ppiE05WGbkk25QamtIsJcoqd1FjOKuZFah7ilsls
-Message-ID: <CAL_JsqKJEZodVSo-6bZBcUTc0TfNCs6bEGfvy9ZdZbmSbu=cSA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Ensure .dtbo targets are applied to a base .dtb
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH bpf-next v1 4/4] resolve_btfids: change in-place update
+ with raw binary output
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Donglin Peng <dolinux.peng@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ bpf@vger.kernel.org, dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Alan Maguire <alan.maguire@oracle.com>
+References: <20251126012656.3546071-1-ihor.solodrai@linux.dev>
+ <20251126012656.3546071-5-ihor.solodrai@linux.dev>
+ <CAErzpmt7ER171hAjQ2SwbmC9R3dVsKHj02B8VM5gKMViP1iFqA@mail.gmail.com>
+ <6b61c22b-d38c-47c1-8b8f-a37e44866644@linux.dev>
+Content-Language: en-US
+In-Reply-To: <6b61c22b-d38c-47c1-8b8f-a37e44866644@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Nov 26, 2025 at 2:49=E2=80=AFPM Nicolas Schier <nsc@kernel.org> wro=
-te:
->
-> On Fri, Nov 14, 2025 at 04:27:58PM -0600, Rob Herring (Arm) wrote:
-> > It is a requirement that DT overlays in the kernel are applied at build
-> > time to a base DTB in order to validate they can be applied and to
-> > validate them against the DT schemas. DT overlays on their own may be
-> > incomplete and can't be validated.
-> >
-> > Add a kbuild check so this doesn't have to be checked and fixed
-> > periodically.
-> >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > ---
-> >  scripts/Makefile.dtbs | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/scripts/Makefile.dtbs b/scripts/Makefile.dtbs
-> > index 2d321b813600..15473edc2589 100644
-> > --- a/scripts/Makefile.dtbs
-> > +++ b/scripts/Makefile.dtbs
-> > @@ -10,6 +10,13 @@ real-dtb-y :=3D $(call real-search, $(dtb-y), .dtb, =
--dtbs)
-> >  # Base DTB that overlay is applied onto
-> >  base-dtb-y :=3D $(filter %.dtb, $(call real-search, $(multi-dtb-y), .d=
-tb, -dtbs))
-> >
-> > +# Ensure that any .dtbo is applied to at least one base .dtb. Otherwis=
-e, it
-> > +# does not get validated.
-> > +applied-dtbo :=3D $(filter %.dtbo, \
-> > +     $(call real-search, $(call multi-search, $(dtb-y) $(dtb-), .dtb, =
--dtbs), .dtb, -dtbs))
-> > +unapplied-dtbo :=3D $(filter-out $(applied-dtbo),$(filter %.dtbo, $(dt=
-b-y)))
-> > +$(if $(unapplied-dtbo), $(warning .dtbo is not applied to any base: $(=
-unapplied-dtbo)))
-> > +
-> >  dtb-y           :=3D $(addprefix $(obj)/, $(dtb-y))
-> >  multi-dtb-y     :=3D $(addprefix $(obj)/, $(multi-dtb-y))
-> >  real-dtb-y      :=3D $(addprefix $(obj)/, $(real-dtb-y))
-> > --
-> > 2.51.0
-> >
->
-> Acked-by: Nicolas Schier <nsc@kernel.org>
+On 11/26/25 11:13 AM, Ihor Solodrai wrote:
+> On 11/26/25 5:03 AM, Donglin Peng wrote:
+>> On Wed, Nov 26, 2025 at 9:29 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+>>>
+>>> [...]
+>>>
+>>> For the kernel modules creating special .bpf.o file is not necessary,
+>>> and so embedding of sections data produced by resolve_btfids is
+>>> straightforward with the objcopy.
+>>
+>> The Makefile for the bpf selftests also needs be updated too:
+>> https://elixir.bootlin.com/linux/v6.18-rc7/source/tools/testing/selftests/bpf/Makefile#L708
+>>
+>> This results in the self-test for resolve_btfids failing:
+>>  $./vmtest.sh -- ./test_progs -t resolve_btfids -v
+>> ...
+>> test_resolve_btfids:PASS:id_check 0 nsec
+>> test_resolve_btfids:FAIL:id_check wrong ID for S (0 != 3)
+> 
+> Good catch, thanks.
+> 
+> I remember I noticed this at some point, and then forgot...
+> 
+> Interestingly this test passes on CI [1]: 
+> 
+> 2025-11-26T03:09:52.0908317Z #366     reg_bounds_rand_ranges_u64_u64:OK
+> 2025-11-26T03:09:52.0925114Z #367     resolve_btfids:OK
+> 2025-11-26T03:09:52.3904190Z #368/1   res_spin_lock_failure/res_spin_lock_arg:OK
+> 
+> I'll take a closer look.
 
-Thanks!
+I figured out why this test was flaky.
 
-> Do you take this via DT tree?
+Even though I removed elf_update() call from resolve_btfids, the ELF
+was opened with:
 
-Yes, I'll take it.
+    elf = elf_begin(fd, ELF_C_RDWR_MMAP, NULL);
 
-Rob
+And the buffers which resolve_btfids writes to are from Elf_Data
+returned by elf_getdata(). And so the file might actually get written
+to in-place, which is why the resolve_btfids test passed for me with
+no changes to the selftests.
+
+I switched ELF_C_RDWR_MMAP to ELF_C_READ_MMAP_PRIVATE, and then the
+ELF reliably remains intact (and the test fails). From libelf.h:
+
+  ELF_C_READ_MMAP_PRIVATE,	/* Read, but memory is writable, results are
+				   not written to the file.  */
+
+It makes sense to use this for what resolve_btfids is doing.
+
+I'll fix selftests/bpf/Makefile in the next revision.
+
+
+> 
+> [1] https://github.com/kernel-patches/bpf/actions/runs/19690981192/job/56406840021
+> 
+>>
+>>
+>>> [...]
+>>>
+> 
+
 
