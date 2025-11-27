@@ -1,151 +1,125 @@
-Return-Path: <linux-kbuild+bounces-9893-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9894-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59F4C8F79A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 17:16:47 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A39AC8FF13
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 19:53:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70F4E3A4766
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 16:16:46 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 36180351FA6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 18:53:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 189872C21F6;
-	Thu, 27 Nov 2025 16:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2F3726F28A;
+	Thu, 27 Nov 2025 18:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPs5FdL0"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VHgv2UZn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354442C0286
-	for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 16:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A455179C8
+	for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 18:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764260204; cv=none; b=OIxIC3rrjigSUAi4V0YP9d0EVsHjrUpfRXEzOeVaD7QHhnrKP2RP4ZXilcljkaMzJHD/AeUuJ+XMKOb4Q40AKfSB6UIpOi/WbacfJ3AF2AthpcfKqGYbmJSHL6nwytHcnrdjx0cl2WyzNXJE8aA92siQTuZ7EfFBbSkUkzkwxuE=
+	t=1764269600; cv=none; b=MfDEHjgmK40xmU1NbVUtM8MgKt2gJ64n5oXOMM4bpIKGqZyPjY5bpGiv3ljCcmpGD/+EfupVDUntHRessfGFZ8RUiYNFijcSflbzhSfKDlMRdjtaDVayJQ3lWWKUCssq8NZREl5vayF1M9/Z4IHAVlrgwTE4zmz5YgDVJnqhlOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764260204; c=relaxed/simple;
-	bh=xDypKOX/n6GRcGDAU8VyLfV/rY9GENv82TIM6XTxRto=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fmXb6ff6cUEkT4UqLz9f7q8LdrnXjMx1lfH91sSWXTM01IjXOaDRzqI/p+HHptBOZqPXLytSETO92H4l1SV6FkyLNvsgHN0YP17OxpTjH/Ec57L6SPuP/ymp7EAcIYHf9yma93NvVvgqDaxJtNye8rrDq2rjd3Ox+t38CbPMq4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPs5FdL0; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-640a503fbe8so2029706a12.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 08:16:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764260200; x=1764865000; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KNO28PzgIsx+2Ndb8A3ECc1R+7TzxXSai5xVu+osWaY=;
-        b=KPs5FdL04I8adeZnQ9V4xT1D/R21qLv4bEymY7y1NKEsv1aSHOxF7+0WOhOANz6hEu
-         H0t9EqE3YzDceOOA3aOZJ50d9mUgX6KkcBRvBSfaqWx0Vx5/aQXfdqzXkhrn9NrISEpq
-         FNhREaJi6TU+fIpTf4p3drfvf7RVIdc9L2+mIuGhqUNNVtnf4tdoPBB0GJ8B1hso97xG
-         XEQnXkv895T5F58P8cYDt+Z/7cV2HHFfsC5TbUh7o34q52u+qWHcnDjbG1vyCouftlhm
-         Ojjghv40AkxBRREjFwcO5yf9SysAncr+yoDaaiYIpcUnwfWjCWKTlUaJcVSdFALHypzg
-         bynw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764260200; x=1764865000;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KNO28PzgIsx+2Ndb8A3ECc1R+7TzxXSai5xVu+osWaY=;
-        b=KDiqie4plKVxpAUn4qa25rWXeIOCR9u5/kjEJ96p7umlZVe2wc3Vl/gNLHx8zYZLMO
-         aDpqWMG6M99T8LERkvsdrDAdBmTV7KS6y/R7UNOTZ96yuaWIu5VZuiqpJwSjXGXS7Pd2
-         E6Nos5dEyw7vQ2u/1CxNWe8a3r1nDRm1mAMnIKpa6LlTVyEs2KZdSe9UAqiBQYN0E+vK
-         hGiQEbskvH5vEkKH3w+WdyXyZaEjGRft/XAvAPXU0slj+I618CVTZdTzNV5HZFOar7+J
-         kk+eIwgsdG1Gg/s6BpAjeEirDuGXLVLRxVK71QOT6FaCHox+gM3M0G6UGgHrqTSu8P4x
-         tuJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW8PusE4Y6Ropk4uWTD1WS6SKQveTk5A1zDjrPbQSs5aonPBO1f/ZM3pgHbTaM6wpBUZTKaureB1rK7Y/g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2JWBRJTc/LGcH+y7I1pBxwJUzgXb6hs3p+uDnAUVRZkN4mXxD
-	L6MrSLBkj0hgU3BBqLuunRT9V6O2Se6s0MYFNuIJXVRFsuua2O/48Z1WR/OEkHgFkH5GPIn9kuk
-	8O+YGgyPcAdayHgrPCE2sF2RYlqBAWsQ=
-X-Gm-Gg: ASbGncunrj2jncPoksQboQQfJk2jdl373GqfdR7xLlbSb5rlkhXSxm5aCNvti7M5vd1
-	f4Tkd6epfiMSILuD1EEVX19dsPRwro5+DscaHOBoOuFNIm799qIuSUh+TgHfJJ5ys1SIUDQHqxS
-	xH9lWMVRPCMb61qYEDcdjYmx5qWstdx06ubbGNJ9xAJ/ibtvEnnRXPxUkZe1qoO53XBkgjLsM6B
-	x5ahpXyeq20JqoRwDGeO5wrPitiTRJm7eMl/MaqqPVNFIIac34sNQ2td+9L5a4zbfpE0MZYdLyi
-	ANBA9TM4xr44WrwDRigR3YL578eUTHTdWSL5LOZlQ2UGLYi7YC5TtNQ8Ms12aKOMoMkhE8U=
-X-Google-Smtp-Source: AGHT+IE6et7KPZp2GkXfofcAVlXzT7muZvGR6VaoGxIvgHz2tucfIoZqOFaUmU2ZIt9fSGn6WlPk+6UoVkEjoIjxQZM=
-X-Received: by 2002:a17:906:f5a5:b0:b3f:f207:b748 with SMTP id
- a640c23a62f3a-b76c547167bmr1211487466b.10.1764260200132; Thu, 27 Nov 2025
- 08:16:40 -0800 (PST)
+	s=arc-20240116; t=1764269600; c=relaxed/simple;
+	bh=2L9UD345rU94AfBtvlI4dQC63bAGeZGywGagB8VUEFI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mzeL0ggpWtmVDUZcOy0hvHLXongd3lbiLHKzn/TGJ0yNgMj1N7weSnf/xGoxZ0D7J1PqWg0tdihLrnOUHTFYM0V83Qds052l6f/hyIOstSVLp3SIvc0TrixyTTApBIwglwUP98rhQbLaDlB3W0XmaoXYO9K5G7uIl0LFqVo5AQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VHgv2UZn; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1764269595;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GniM6YWeq8q57UYAO1fBBln/A1ZwY/HbEQa5QXtzgU4=;
+	b=VHgv2UZnKYhAzLcVEt0ru2xlOmBTctJR6vyVekWuhm8sPwB16OMH731lHhsRuPdh2rMR5Y
+	G2VXWK6ZElw3QjgeB0qPg/WH9JKItJd8XEX0SBkjUtD6AiDHuAZifZ05+frzrw7ipA4lEW
+	+4XCDBwd3quuifFVfL1ze1BA6Os+gig=
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Donglin Peng <dolinux.peng@gmail.com>
+Cc: bpf@vger.kernel.org,
+	dwarves@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH bpf-next v2 0/4] resolve_btfids: Support for BTF modifications
+Date: Thu, 27 Nov 2025 10:52:38 -0800
+Message-ID: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251127155452.42660-1-dev-josejavier.rodriguez@duagon.com>
-In-Reply-To: <20251127155452.42660-1-dev-josejavier.rodriguez@duagon.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 27 Nov 2025 18:16:03 +0200
-X-Gm-Features: AWmQ_bkZa2nrqUftdjH6MAYONe3JSVeW4Th2GGUqnpqYo2uuwkRVZXIvhkoPc0g
-Message-ID: <CAHp75VdvJUFwFBRKT+iqwQXiK-toah3gZq6pX9Omcp6d2R7g+A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] mcb: Add modpost support for processing MODULE_DEVICE_TABLE
-To: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
-Cc: linus.walleij@linaro.org, brgl@kernel.org, jic23@kernel.org, 
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, morbidrsa@gmail.com, 
-	jth@kernel.org, wim@linux-watchdog.org, linux@roeck-us.net, nathan@kernel.org, 
-	nsc@kernel.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Nov 27, 2025 at 5:56=E2=80=AFPM Jose Javier Rodriguez Barbarin
-<dev-josejavier.rodriguez@duagon.com> wrote:
->
-> During the process of update of one of the device drivers that are part o=
-f
-> mcb bus (gpio-menz127.c),
+This series changes resolve_btfids and kernel build scripts to enable
+BTF transformations in resolve_btfids. Main motivation for enhancing
+resolve_btfids is to reduce dependency of the kernel build on pahole
+capabilities [1] and enable BTF features and optimizations [2][3]
+particular to the kernel.
 
-> one maintainer of the GPIO subsystem
+Patches #1-#3 in the series are non-functional refactoring in
+resolve_btfids. The last patch (#4) makes significant changes in
+resolve_btfids and introduces scripts/gen-btf.sh. Implementation
+changes are described in detail in the patch description.
 
-Krzysztof? Did I miss something and he is now a (co)maintainer here?
+[1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@linux.dev/
+[2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
+[3] https://lore.kernel.org/bpf/20251119031531.1817099-1-dolinux.peng@gmail.com/
 
-> asked me
-> why I was adding new MODULE_ALIAS when I also added the same new
-> information on MODULE_DEVICE_TABLE.
->
-> You can find the messages here:
->
-> https://lore.kernel.org/linux-gpio/80a20b13-7c6a-4483-9741-568424f957ef@k=
-ernel.org/
->
-> After a deeper analysis, I came across that the mcb_table_id defined insi=
-de
-> MODULE_DEVICE_TABLE on all device drivers was being ignored as modpost wa=
-s
-> not processing the mcb MODULE_DEVICE_TABLE entries. For this reason, form=
-er
-> contributors were using MODULE_ALIAS for enabling mcb to autoload the
-> device drivers.
->
-> My proposal with these changes is to complete the mcb bus by adding
-> modpost support for processing mcb MODULE_DEVICE_TABLE and removing
-> MODULE_ALIAS from all device drivers as they are no longer needed.
->
-> Jose Javier Rodriguez Barbarin (2):
->   mcb: Add missing modpost build support
->   mcb: Remove MODULE_ALIAS from all mcb client drivers
->
->  drivers/gpio/gpio-menz127.c            | 1 -
->  drivers/iio/adc/men_z188_adc.c         | 1 -
->  drivers/tty/serial/8250/8250_men_mcb.c | 3 ---
->  drivers/tty/serial/men_z135_uart.c     | 1 -
->  drivers/watchdog/menz69_wdt.c          | 1 -
->  scripts/mod/devicetable-offsets.c      | 3 +++
->  scripts/mod/file2alias.c               | 9 +++++++++
->  7 files changed, 12 insertions(+), 7 deletions(-)
->
-> --
-> 2.51.1
+---
 
+v1->v2:
+  - gen-btf.sh and other shell script fixes (Donglin)
+  - update selftests build (Donglin)
+  - generate .BTF.base only when KBUILD_EXTMOD is set (Alan)
+  - proper endianness handling for cross-compilation
+  - change elf_begin mode from ELF_C_RDWR_MMAP to ELF_C_READ_MMAP_PRIVATE
+  - remove compressed_section_fix()
+  - nit NULL check in patch #3 (suggested by AI)
 
+v1: https://lore.kernel.org/bpf/20251126012656.3546071-1-ihor.solodrai@linux.dev/
 
---=20
-With Best Regards,
-Andy Shevchenko
+Ihor Solodrai (4):
+  resolve_btfids: rename object btf field to btf_path
+  resolve_btfids: factor out load_btf()
+  resolve_btfids: introduce enum btf_id_kind
+  resolve_btfids: change in-place update with raw binary output
+
+ MAINTAINERS                          |   1 +
+ scripts/Makefile.modfinal            |   5 +-
+ scripts/gen-btf.sh                   | 167 ++++++++++++++
+ scripts/link-vmlinux.sh              |  42 +---
+ tools/bpf/resolve_btfids/main.c      | 331 +++++++++++++++++----------
+ tools/testing/selftests/bpf/Makefile |   5 +
+ 6 files changed, 395 insertions(+), 156 deletions(-)
+ create mode 100755 scripts/gen-btf.sh
+
+-- 
+2.52.0
+
 
