@@ -1,132 +1,156 @@
-Return-Path: <linux-kbuild+bounces-9882-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9883-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC71C8E908
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 14:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A299DC8E91D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 14:48:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3FD5C34E460
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 13:47:42 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 23A3234E963
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Nov 2025 13:48:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FA042BE65F;
-	Thu, 27 Nov 2025 13:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD1D7298CAF;
+	Thu, 27 Nov 2025 13:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Mqi7wt8o"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="i02WFtvh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AA729346F
-	for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 13:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6D127380A
+	for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 13:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764251247; cv=none; b=gbrDYgyGoz86sCAu2UZsPCctHCpq/XLAsVO8GlDkTDdhGd1mrfi9na15U21CLAoms1uEamY6vmQ6h7zTO4Rr93yQUaFPFojPAcC5D2OCbSkaRlSqDvpYc9dQypt/Qx56TtktWqdQv+mt6hHMW0uI28XJGqnW/+MQwMpqqlUntyw=
+	t=1764251302; cv=none; b=Jv+SodliX3gKnVCmj78t7fDsu4fNRNL3UsmvLT54Bixh15A/yQZYfd+YcxKYtUH1QzELj+220Wd0E9Ep8ODCblezP9iJ6imWhVgVjzx4jE48CmjOGV+hexqUck3Az6JBXnTgsPttL2hBCGh3olu7Z1nEltiDkQF2x5jkER7+FJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764251247; c=relaxed/simple;
-	bh=27yd/l6012XaQH/g8Ixa+D6cMcVdfn8d9/IVn2JOVCI=;
+	s=arc-20240116; t=1764251302; c=relaxed/simple;
+	bh=uaVm51pAfA+7BtceViMdoGw/achxdyKv4cZ8WrD61Jg=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dm6KFixQnxaDe7yxwqjmykf6mBkIQR9d4wX5UZotPqN6NhdEtv0uUah8EDjMYHykr0qwkRaDeCmQeTsYF6wUPnKm1b/Ge8y7hackMtqnlQNLakToamx+bqk0DiFwLt9qi8KiGLA5ZC84QuYBctlzdWSZesUjd1VM32RBhILhIRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=Mqi7wt8o; arc=none smtp.client-ip=209.85.167.42
+	 To:Cc:Content-Type; b=B4a6j6Ii8H0Rz1I6ldOJ3mAtrPE0cJ33fURVb/tCjl5VkIyLvCgrw5wLua3BO0NMRNSne4kPDcicSPnTsCpGJ9VZKMe6N4aLfSLuW+xuI7LjspoCdpKLLRRV04qZzN+l3Le2swhhBw1P0rWvq4z1tnndn0/KLbhrL0Affjw/duQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=i02WFtvh; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5959b2f3fc9so883752e87.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 05:47:25 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59583505988so1124150e87.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 27 Nov 2025 05:48:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764251243; x=1764856043; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:references
-         :mime-version:in-reply-to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=27yd/l6012XaQH/g8Ixa+D6cMcVdfn8d9/IVn2JOVCI=;
-        b=Mqi7wt8oNrr+2+e4XNhQBFHjbbJlNk2prXtZZdeiWDpubDuSNPjtqVuc6fFI7gQTNW
-         vlhDRF8Ikv07ZhquMqzkqlRbUqUBvhhznOF0yf+VzMxYMKnOLOCd6txDRXhkTGnAwFfn
-         9q/AFxkcnrl71n9rhoZuu/08jdMh/RFnG0Cl63G8H+FblB9m8ujHai9LfGR+WngJj2Dd
-         TjMLWQA1KgMyWpako1U/QHpPDjlp8y4V15h620/0cvt4YsBCRXEygHzP/Lbbhj6NIsYB
-         DsZitljR6hDpZnbRH3U5UlgO5Ha0pWvDDCPBmOt/Z+Dos4I7Or/n2AinAFdgzuAfJvVY
-         hiLQ==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764251298; x=1764856098; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G07GekTGY4SC2iSrWnFuwKzI1N7AFmcaYb52fmGR7rY=;
+        b=i02WFtvhCeLzn92sa9e6xhLxGCy5Sim19nT058tNigw8epvH/gu95hf6cLoCMwaNKY
+         IqDKAGXh9dHQ/dGJmuBfIuL3x/3mQmdidgbmfcIKIjLBeAG7tUFDR0YBRsGW0Q1IIWCk
+         8BuLjnJel7z1JJH+LbF6Le/w1hwgX1kygRLXlZuPD8EGkDB3tvxTix82fUhYx1k6zGAF
+         WYPTVg29Fu6D0wGZWAe3AaCoPL1SrCyRd+L5F+8XRBLDTLLH+h0GNs9EAqP9xQuJU9hr
+         2RtSX9K2ugisuqMpl+ZtNhMiLL6v8ebRDa+i7wN7d6DHi3DpAxXVwwbzJUy6U9og1UQx
+         LF5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764251243; x=1764856043;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:references
-         :mime-version:in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=27yd/l6012XaQH/g8Ixa+D6cMcVdfn8d9/IVn2JOVCI=;
-        b=kPtF/jkniJcjUOqt8NeQ7HiNehkAn33Y5H+ZY/KdcvX9JN4OwIXqWXN5ZetthfsrCh
-         89//A/YviparNOgu87dhM7HJE4OqGnmdE/rNBmYr/jKIX4uneX2mw4d9G+AlTPmJ+JXM
-         qFk/tYvk3qBQmM38Lv2NvCfVm1iWIaBkJlALxktGuzWGXaZQcSH4/lzQY0mEnAE78uWk
-         kvx37aoXzHcTeB+8z+gO+BczLzI2XrGU9zQK+ekHqqvYIueaA2obYssEqFxoYzFxu6ud
-         ne/2ZN/E5OiNcTkG6Vuy2e55PwMzTMce9TnKz09ARLsg/OyZbwt3NZhkypju459EUGqL
-         9dfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4YBISXL7a37VxH36U+rTs+k5BPvi5kY733V/J+3dgAZhtaCRsEhjgfuWUWtPkrlbkJpFLU1cn6ziRUtg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVc16ewcjNSU5toFnljtuhUSgVTa/S7Hpi70Y/+8LORNc63d6P
-	8Cy/QWAxWTAO5z8TLPuO6pa4rrCtAwuCHj6W2rhPhED36ISg2lh3SuQ9jnxxUKj9/LNRc6DiBRY
-	Sa3uN3nWtuarLRb+cYPN3jOqK5Vq0k3/CLJJ1/Q95KA==
-X-Gm-Gg: ASbGncvnb9qBUC5yP1TjZCCCrkCY9IQjKPSZ+SYCRBXdxIJiap9nl5x94aBj4ImS7ju
-	9q1kA2nHLFKzX/qF+8BBAPL5CNwWew9W5SiAsp1NJb882whLITBQEgggEZIIUklJyqGNSk8FErI
-	feUTJTlLYVTbz06rU4fd/rMScbg8Kkbbw5ZzUHYQfOjTKAyDadGZgEu8inEuCKjP/BV16tQDaZN
-	QzshSu/a84MrQBywUbiuWOs+LkL8ffsX+CKWgG1zyGy6xz6PKDS6ff32NuXMRPjZvgT0njrYZLt
-	3rxwl6wlrqJfedGdkwqfURExZfw=
-X-Google-Smtp-Source: AGHT+IHIByvzTN9XhwquV0dZ7CSOzT2wtZW2aRAexw9uGkGjWx9uXnsQQnkc0lHm6G8MnJ63g3o+AbKWIIpqZ/ETI6E=
-X-Received: by 2002:a05:6512:2354:b0:594:36b3:d1f9 with SMTP id
- 2adb3069b0e04-596a3ec4221mr8118131e87.25.1764251243268; Thu, 27 Nov 2025
- 05:47:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764251298; x=1764856098;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G07GekTGY4SC2iSrWnFuwKzI1N7AFmcaYb52fmGR7rY=;
+        b=npBgqtnzoLPU7ude8NAQctdGYo7ea5+T/VOTs7DTpJvPx9VCKMAF5b2Gs0al2MaOQS
+         W1SyvCIPvVGexBOrPLWu9ICcWaYCc61QUhhGbKtGrIXyS1IM9iERGBtcvEzMEw3E/7fQ
+         o/nGyS+vJJTloSfrn3LLMct+wOZ4Z7nurb9oHVAeslK49Si7p+VJcmyqKNFvTivJkMlL
+         vkjQ3tbn0F0EdgP5AVJrgz1uW56y6SlERDKoKxs4v6fBkUid/E67qd/UaqoYRXz17zW1
+         55de9iDGdXuLFbISMQ7h2coM6Jp92dST+NvwzkBEKFB7Frf3k+APMh6Br5yM4DQA4Avt
+         7K0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXS9slsNnidxKtROkdfdHVVE41FZnB40WRMPCjZpo+2X/N85uROPrapeSYmgP5lQRGiClQ4i9VQF/BP3QU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv1RJcUquVFhc5aAY5+zEKjr708mhGaPj4o32pgQAVa1IiMfup
+	BLylF+WCSZJE4wUlJnReR8cu5w7NEEUHmcTWQIA5ceRZ0Ft/M/pXDkaauACmN88tN/hIPw+m9XM
+	KDcMTzBK94xfmhAJh/RCm6iqZdcZh4W9hTLvrbn/K4g==
+X-Gm-Gg: ASbGncvS/ZZzeQ3UxEVf7KkJgvKiBPCjAH9xTWbST5PopMydpGW4oiSPAO/0UVjPrKD
+	kQskTFb2dDRM+TzTJvQ5SOVVJKG88Kl5JuW/tvxnu61KwVNCUoETTsxzv3SOam1O1efZ02MHq4d
+	cGD3aU6mp35KEzw+76p1Up42dxU9w2ACu144XlC1pxJy0BED64T4zFvq/gPKuho36wVg3ztInp5
+	LwXG8rbm8OXtYJesXy56yYKC6kRFRxwVSlnSsPk0LsyTq36qrP3+akxOnsj9iPFF9pADRU8PsjD
+	ym9LlBMG7CYNXFcrt8Lna+mi5mM=
+X-Google-Smtp-Source: AGHT+IGvFI8L5fGXcjZ+qNvP8EZkHInkEP3SOQcYofhj+ZFeXXcaPdCECdiTD+YtbO/uvB+N8tYFM9k+NWHSnM4EQ3k=
+X-Received: by 2002:a05:6512:6d3:b0:594:37bc:f40c with SMTP id
+ 2adb3069b0e04-596a3749dfcmr8511591e87.10.1764251297792; Thu, 27 Nov 2025
+ 05:48:17 -0800 (PST)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Nov 2025 08:47:21 -0500
+ HTTPREST; Thu, 27 Nov 2025 05:48:16 -0800
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 27 Nov 2025 08:47:21 -0500
+ HTTPREST; Thu, 27 Nov 2025 05:48:16 -0800
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-In-Reply-To: <20251125-pci-m2-e-v2-1-32826de07cc5@oss.qualcomm.com>
+In-Reply-To: <20251125-pci-m2-e-v2-7-32826de07cc5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com> <20251125-pci-m2-e-v2-1-32826de07cc5@oss.qualcomm.com>
-Date: Thu, 27 Nov 2025 08:47:21 -0500
-X-Gm-Features: AWmQ_blvAAM2uq578ciPVCG4M9rg3fVM1qAGhRvJTTtDZYm9qOnYz1mkG_i5iVY
-Message-ID: <CAMRc=Me+mWYaa4ZKTmch-NtuvP-2ifbY1Zwi9E9KMyUgFSt0fA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] serdev: Convert to_serdev_*() helpers to macros
- and use container_of_const()
+References: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com> <20251125-pci-m2-e-v2-7-32826de07cc5@oss.qualcomm.com>
+Date: Thu, 27 Nov 2025 05:48:16 -0800
+X-Gm-Features: AWmQ_bk0-XCJTQ6PapzzNjyRg3LPIzKuWTKtDYqS86NfBbxq1eZ_R5ABgi6vUTk
+Message-ID: <CAMRc=Mck-Vx6SSDSp4+jFWeobQ3fzf9P=zJa_bQoEe6T6R_VHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] serdev: Do not return -ENODEV from
+ of_serdev_register_devices() if external connector is used
 To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>, 
+Cc: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>, 
 	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
 	linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
 	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 25 Nov 2025 15:45:05 +0100, Manivannan Sadhasivam via B4 Relay
+On Tue, 25 Nov 2025 15:45:11 +0100, Manivannan Sadhasivam via B4 Relay
 <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> said:
 > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 >
-> If these helpers receive the 'const struct device' pointer, then the cons=
-t
-> qualifier will get dropped, leading to below warning:
+> If an external connector like M.2 is connected to the serdev controller
+> in DT, then the serdev devices may be created dynamically by the connector
+> driver. So do not return -ENODEV from of_serdev_register_devices() if the
+> static nodes are not found and the graph node is used.
 >
-> warning: passing argument 1 of =E2=80=98to_serdev_device_driver=E2=80=99 =
-discards 'const'
-> qualifier from pointer target type [-Wdiscarded-qualifiers]
->
-> This is not an issue as of now, but with the future commits adding serdev
-> device based driver matching, this warning will get triggered. Hence,
-> convert these helpers to macros so that the qualifier get preserved and
-> also use container_of_const() as container_of() is deprecated.
->
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.=
-com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 > ---
+>  drivers/tty/serdev/core.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> index 8c2a40a537d9..fba7b98026bb 100644
+> --- a/drivers/tty/serdev/core.c
+> +++ b/drivers/tty/serdev/core.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/of_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/pm_runtime.h>
+> @@ -581,7 +582,13 @@ static int of_serdev_register_devices(struct serdev_controller *ctrl)
+>  		} else
+>  			found = true;
+>  	}
+> -	if (!found)
+> +
+> +	/*
+> +	 * When the serdev controller is connected to an external connector like
+> +	 * M.2 in DT, then the serdev devices may be created dynamically by the
+> +	 * connector driver.
+> +	 */
+> +	if (!found && !of_graph_is_present(ctrl->dev.of_node))
+>  		return -ENODEV;
+>
+>  	return 0;
+>
+> --
+> 2.48.1
+>
+>
+>
 
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
