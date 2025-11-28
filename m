@@ -1,170 +1,131 @@
-Return-Path: <linux-kbuild+bounces-9900-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9901-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60BEC90E6E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Nov 2025 06:53:11 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F81C91128
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Nov 2025 08:54:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 97ACC4E07C9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Nov 2025 05:53:10 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 444B9348F61
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Nov 2025 07:54:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A23D229BD9A;
-	Fri, 28 Nov 2025 05:53:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949352D4B6D;
+	Fri, 28 Nov 2025 07:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="grSjPLCW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="isVkdmf5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827A1288C96
-	for <linux-kbuild@vger.kernel.org>; Fri, 28 Nov 2025 05:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BEBC2EA;
+	Fri, 28 Nov 2025 07:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764309187; cv=none; b=YE+0ow9XMGg/5mOoi/omVJFwJsUgSAtqBsjcc+trKXNVdDAwmBN5Qqq/UFsoKvxdlwF50CJvzMJV3kFcyLo5fzF55Cg5SDoge+XD5WjGPUhIax2KoKgxyflBWIUUjtwsuvuSzYwaoCIXC2aKakwJaSp4YQq3AKb7vYOoij62zV8=
+	t=1764316465; cv=none; b=AANtgSbsGN65b3HR1B0+TQv7rPQ9BnNh9ryD3iFCNjCuIQZMIBuevZuGC60GnVfqHAll5x/S8gJ4Y5NgXKlW9l7mfTI2IgQn0shSgr4dBFrYBD5OU7PRq0ZarJBk9/GhjwZ+lr47CzV1kq0KlZVa8T6TmrKeDN1pLZVpkIpN83Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764309187; c=relaxed/simple;
-	bh=RQVF1+JFrUDP7pWYGElPnvlQaxwGVSjjir5Air3+jxE=;
+	s=arc-20240116; t=1764316465; c=relaxed/simple;
+	bh=pzM/UFQ4rAPUbnfeQ3KKSzYXL0ONVwdYXU3p3ni+ExM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OIa9b7/zOEbux1lohT629wKm1FsIeYuHWczB1dA8PHpflQzPu5OyFgsXSKC07hoUavtCSZcw3xrhQoNtQbe1mt27GtxENA7m9H9ENsUN+vuYjbRXQ/PMclpmg5yNLk3EHq0tHx+opC6Cs0/Lw3sRnFq68JK8x0QtksbqM96TqFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=grSjPLCW; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <bba5017e-a590-480b-ae48-17ae45e44e48@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764309173;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DeK+WWIuGM5Ij6R+DCWdy+dRvgTRhpUvIDcR9SzI3VY=;
-	b=grSjPLCWd8k6WDkTLuZ+zD73d/pcfAdLPYtBp722Kn9FsBVX8KgjwXD5hVp2LTyzWmrl/V
-	EulG/P7+YmdQCaNrTqJ5no/ZJm0FRXcY8TKw6KIufKzwmHPtzc//TM9sesBtOiZxLVWBei
-	lF0U8uLWBw6MYC8bloWXqR3IQSissDw=
-Date: Thu, 27 Nov 2025 21:52:33 -0800
+	 In-Reply-To:Content-Type; b=mxzjgmSeJD9gA2ldCuhq/mHqkeRGIyGFnWT66XqaBusHQF6fiObUZ23JNEvPWGpHZD/JdJR6X5ova9DWCXAMkUTYHxtDObtp2+vy+kdY48B3NeHFPx4GbsbR6OtKDj86Q5BfXcUM3cjZAfhSLAEfuK7QH7Rj2WvutlI6ry+HxP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=isVkdmf5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74EBFC4CEF1;
+	Fri, 28 Nov 2025 07:54:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764316464;
+	bh=pzM/UFQ4rAPUbnfeQ3KKSzYXL0ONVwdYXU3p3ni+ExM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=isVkdmf5YSDI+n9xv6QfyTplWqOOp9SD0slPBuiCPaPZQDi8Q37Z00qbtnDjpcXzA
+	 OBlakAObQ2HR/+RLeoQtkoeJSFknlOCG8THuqjrof9Hr4jK5nEYTtxZNRDUM4mVrFc
+	 a5Fb6k00QoURkZk2mjrZRHgUzGxqlXNtbjtwBKZ3dvxq44ce1nXSxo+CJ620zGnldn
+	 1CCzlWSJ6qPV6T4lcjzNAT2kdChWtZppXKxywWVYsctbF93tmP/DaccMss7m1hucmG
+	 CTEHl0iSXoyMQxbt4ir+gMPdEHPjPWnv7ZnlRyGTBae9OUllInFtMRwWMhxlj9NuGR
+	 i/7LuX8guOgeQ==
+Message-ID: <e40e877a-130c-45f5-ad73-560704592815@kernel.org>
+Date: Fri, 28 Nov 2025 08:54:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-To: Donglin Peng <dolinux.peng@gmail.com>
-Cc: Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Alan Maguire <alan.maguire@oracle.com>, bpf@vger.kernel.org,
- dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
- <20251127185242.3954132-5-ihor.solodrai@linux.dev>
- <CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ9iK2ChyiBw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] mcb: Add missing modpost build support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
+Cc: linus.walleij@linaro.org, brgl@kernel.org, jic23@kernel.org,
+ dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ gregkh@linuxfoundation.org, morbidrsa@gmail.com, jth@kernel.org,
+ wim@linux-watchdog.org, linux@roeck-us.net, nathan@kernel.org,
+ nsc@kernel.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
+References: <20251127155452.42660-1-dev-josejavier.rodriguez@duagon.com>
+ <20251127155452.42660-2-dev-josejavier.rodriguez@duagon.com>
+ <CAHp75VeNtYJPmXtDfWEN3a184YXTKNems657UDeBKp4xpOGovQ@mail.gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ9iK2ChyiBw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <CAHp75VeNtYJPmXtDfWEN3a184YXTKNems657UDeBKp4xpOGovQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 11/27/25 7:20 PM, Donglin Peng wrote:
-> On Fri, Nov 28, 2025 at 2:53 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
->>
->> [...]
->>
->> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
->> index bac22265e7ff..ec7e2a7721c7 100644
->> --- a/tools/testing/selftests/bpf/Makefile
->> +++ b/tools/testing/selftests/bpf/Makefile
->> @@ -4,6 +4,7 @@ include ../../../scripts/Makefile.arch
->>  include ../../../scripts/Makefile.include
->>
->>  CXX ?= $(CROSS_COMPILE)g++
->> +OBJCOPY ?= $(CROSS_COMPILE)objcopy
->>
->>  CURDIR := $(abspath .)
->>  TOOLSDIR := $(abspath ../../..)
->> @@ -716,6 +717,10 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)                  \
->>         $$(call msg,BINARY,,$$@)
->>         $(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS) $$(LLVM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
->>         $(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@
->> +       $(Q)if [ -f $$@.btf_ids ]; then \
->> +               $(OBJCOPY) --update-section .BTF_ids=$$@.btf_ids $$@; \
+On 27. 11. 25, 17:10, Andy Shevchenko wrote:
+>>   static const struct devtable devtable[] = {
 > 
-> I encountered a resolve_btfids self-test failure when enabling the
-> BTF sorting feature, with the following error output:
+>>          {"cpu", SIZE_cpu_feature, do_cpu_entry},
+>>          {"mei", SIZE_mei_cl_device_id, do_mei_entry},
+>>          {"rapidio", SIZE_rio_device_id, do_rio_entry},
+>> +       {"mcb", SIZE_mcb_device_id, do_mcb_entry},
 > 
-> All error logs:
-> resolve_symbols:PASS:resolve 0 nsec
-> test_resolve_btfids:PASS:id_check 0 nsec
-> test_resolve_btfids:PASS:id_check 0 nsec
-> test_resolve_btfids:FAIL:id_check wrong ID for T (7 != 5)
-> #369     resolve_btfids:FAIL
-> 
-> The root cause is that prog_tests/resolve_btfids.c retrieves type IDs
-> from btf_data.bpf.o and compares them against the IDs in test_progs.
-> However, while the IDs in test_progs are sorted, those in btf_data.bpf.o
-> remain in their original unsorted state, causing the validation to fail.
-> 
-> This presents two potential solutions:
-> 1. Update the relevant .BTF.* section datas in btf_data.bpf.o, including
->     the .BTF and .BTF.ext sections
-> 2. Modify prog_tests/resolve_btfids.c to retrieve IDs from test_progs.btf
->     instead. However, I discovered that test_progs.btf is deleted in the
->     subsequent code section.
-> 
-> What do you think of it?
+> Perhaps squeeze it to be more ordered (yes, I know that the table is
+> not so ordered, but given context suggests to put it after "mei").
 
-Within resolve_btfids it's clear that we have to update (sort in this
-case) BTF first, and then resolve the ids based on the changed BTF.
+s/after/before/ :)
 
-As for the test, we should probably change it to become closer to an
-actual resolve_btfids use-case. Maybe even replace or remove it.
-
-resolve_btfids operates on BTF generated by pahole for
-kernel/module. And the .BTF_ids section makes sense only in kernel
-space AFAIU (might be wrong, let me know if I am).
-
-And in this test we are using BTF produced by LLVM for a BPF program,
-and then create a .BTF_ids section in a user-space app (test_progs /
-resolve_btfids.test.o), although using proper kernel macros.
-
-By the way, the test was written more than 5y ago [1], so it might be
-outdated too.
-
-I think the behavior that we care about is already indirectly tested
-by bpf_testmod module tests, with custom BPF kfuncs and BTF_ID_*
-declarations etc. If resolve_btfids is broken, those tests will fail.
-
-But it's also reasonable to have some tests targeting resolve_btfids
-app itself, of course. This one doesn't fit though IMO.
-
-I'll try to think of something.
-
-[1] https://lore.kernel.org/bpf/20200703095111.3268961-10-jolsa@kernel.org/
-
-
-> 
-> Thanks,
-> Donglin
-> 
->> +       fi
->> +       $(Q)rm -f $$@.btf_ids $$@.btf
->>         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)bpftool \
->>                    $(OUTPUT)/$(if $2,$2/)bpftool
->>
->> --
->> 2.52.0
->>
-
+-- 
+js
+suse labs
 
