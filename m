@@ -1,155 +1,235 @@
-Return-Path: <linux-kbuild+bounces-9913-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9914-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EC9C93FB7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Nov 2025 15:31:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C15C5C948B5
+	for <lists+linux-kbuild@lfdr.de>; Sun, 30 Nov 2025 00:00:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 529FF3A5FD8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Nov 2025 14:31:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D38653A6501
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Nov 2025 23:00:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9867B30FC38;
-	Sat, 29 Nov 2025 14:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07CD1247DE1;
+	Sat, 29 Nov 2025 23:00:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PWj4NUCZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a7ayhB0a"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C30E2475CF;
-	Sat, 29 Nov 2025 14:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167CC13A86C
+	for <linux-kbuild@vger.kernel.org>; Sat, 29 Nov 2025 23:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764426674; cv=none; b=Sxo1hPp3WSd5PqN2GqITi1mZoFmIeGeo/36jarfEx8lnSxPMgawifVPSIz06jZ/DF7BV1RhbdK1rU0HRklUySiXM+6Q+3dm7o4xbODItXmaY36zkXJt6zGyibeOUbEhOUOP7tcy3Ln0klK5Swd4/FnL2Zo7cfcMPeEZG7gkFQ6c=
+	t=1764457248; cv=none; b=svzVnKexKFkfkutyxanf0ZbrllRSmIld6qprP1qOx8LABWr7kXa7CX83ixh+D5OGrlcaA5iGHqcNd3bpUqCPDc1dMpMUQOOxp0SqKJXYRo0lTiinemfwqyY7mFIH5qaA1C9kMZSeoRvlpHxEhOtyxiK1UltCul9Vf2MxsHCEVw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764426674; c=relaxed/simple;
-	bh=OOXM+8VJNr1jofMq1aDwIoY/tJO1ZvIsD3b19brw7lc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FCdDzs/duUsn4BXITUAsA78yUYV+ycWDFrOKQqPRv09WDwaYOG8NQ5VyRJWb7smtVbyLITP7KxwocUlAhoNl4N5VHqA9AR8qi9carSdI/ASsPPzqDzDXaSf/eUJ+F+MgnUkLypMKFzWgcPPnlfupXu38/SqX9mNx6/XDnkA91Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PWj4NUCZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E083AC4CEF7;
-	Sat, 29 Nov 2025 14:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764426671;
-	bh=OOXM+8VJNr1jofMq1aDwIoY/tJO1ZvIsD3b19brw7lc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PWj4NUCZXJCf0cQOQb/LwGSzkgtSkTq3JT0SBX/1zyzCien82/KxUzpcFPaPNswO1
-	 LPsmXmQGJaV/nsBwXaRc+feT5qhOHUyfve6rwdiYNZTuZDq4ve43Lr9B6KzaOEx1BT
-	 3zmN40bldzF85pdUb/lerOgzou1GFRyUUPNCnRVlHr1SUTob626mzl5IcZJvMWTvAt
-	 OANnR3Mpymo9zIAywoq14c/rXgiM7+MbSLIw+wWZzQrHmOWro44T3QcT70eaQ626DY
-	 MvjC4jKdWWhEH5sfrKC/+iEzAFN9Gm2uGILsrHvsHzIGHMqlgMtiMcR6i1cpV+wLao
-	 gm220dgQpILkw==
-Message-ID: <9efa0a3c-ffef-488a-97f3-45b9649d35fd@kernel.org>
-Date: Sat, 29 Nov 2025 15:31:03 +0100
+	s=arc-20240116; t=1764457248; c=relaxed/simple;
+	bh=ahbrlVHUyjKynsmUn0eg1wukhIGIxV/YCSxXPxWxPkg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fQ7klfFrUCRcOZeZW+60SrVAemA4socw+XyglLNq2Shg1PPjUb5oWT1ru2DNXWeiFhO4Bo+Rxx9xsDBP5GDgw6uFZKumuyW83MrEVZC9JLJR5JU/DF3WnsLE8YEDhrGLcv7SNIwYkbTT5TwJsbfykJilnkfkEcGEi9/DFuHhXZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a7ayhB0a; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-640a503fbe8so5631168a12.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 29 Nov 2025 15:00:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764457245; x=1765062045; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o7abD6XH4eHcxEiWpbo/4uwSFXjdFhqX7mjZwLL/Fl0=;
+        b=a7ayhB0a8mVesvDqyRPRfbj1qe5w2GyPPN0KTnT0F08k6+kCSI2gBADzePtfn/h//m
+         EbiyixkVPtyiLEjuxSW2SrgTzw1DsjZbsU9Kff0xrpWmR06aaslxioPuT7Gqn9mqgSVE
+         mzE2+ZQCFFUh4/vORTyqyTJ4SpwAG66swkMrIHXbo1U9lCx5oSkvw+7HPscncaVevLvz
+         DNFi6eXZmzLa+2wGh63XhZNuSvGvfg6Ma3eg9uTKZtmZLIloEfUiAYy3Hx3a/stjxfl7
+         VPTYzWDYkFPqKS7iOZm8mV4u9bsxfK/5cq0/LTDdBhDtICz32Ek6NlTMzpCq4qCefmQt
+         shzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764457245; x=1765062045;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=o7abD6XH4eHcxEiWpbo/4uwSFXjdFhqX7mjZwLL/Fl0=;
+        b=Dje75hVeUwCYJvFC2+4lQnhRdJIdIwConephuMFSXJK20soze3/MJ8uiW8LkPjeexa
+         enO9e4mqXahif/IC3Uzqb2uny6qL39fVRzjoaw8IUefFk60Lr+z3zVBMask0WHgGawFr
+         89WxaymChPkAl8ecshhLjtLCGHQ/WaDvcm2oMgtYcDsMAQfNnYPGa8ffgewAW1E9V+AZ
+         bQPF9fWOJJ10zEHrzQI+FW92/picjBrnmQ+hrUUfoV3OvEEIiyXx6nV8JlAa9dze5ho+
+         u5h44LztckGUa7c/lTOoXIgnTeKa6otvMHAkhEtsSQIuw0V6/EX7aFRfasQtyVusbgoE
+         ZGYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTK+nSmJ0/8gHGqpzXu0uEbwH4upkmRqYqwStXtqAJ7hI3SZM3a5tiFlR+HfWvLoRudvtEdnN3oERxUBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNCBmjZ9RI4wX5GfzyCIaizvilQH8XV2STCPbJ/gTUZhl3MZno
+	J/BrEtDkMQ1Onk0qR3ekWYqR1bK2yi6EOr69H42KMelqa1TQw1bF9CIvX2d/TMWYkTGujQ7d241
+	8qQVvpBqMxA7orOPm3ysZxBvSh4EnprA=
+X-Gm-Gg: ASbGncsbSJfs8xRq4GRh2oYf8M8jdn6IZKa6Y3HHQMLa0cRRuFESmp49aXy+EzfB5m7
+	9bSphZQsNsibwdJA+1UZxXe7uPybPMkwZuEgEVGl5OnB8RJ+KctVsYkUFUbaMsdcBR4Itw7MACr
+	l5M3fj0aTeJ1Faa/vJL6DfmSVPRX7x85VzI+YCCVNR3yaa5gP4QoSsax+FzvA0Dt8LPDePqu2nr
+	kh8pId+evCIJToBShruQC/i8rB1ejcDm7bUZOGquJ87SxzBcyw1pa2vsPqn3oJikwuzy66Q
+X-Google-Smtp-Source: AGHT+IFraZxIxArC6ZRLXa5g7OneQiuIwggV1ggNXIteOyfynnk9uYcAtUhHJonNAod2bu5yo5u0XI1eptsrAOVctRM=
+X-Received: by 2002:a05:6402:50d2:b0:633:d0b7:d6d2 with SMTP id
+ 4fb4d7f45d1cf-645eb2a9007mr18043484a12.18.1764457245181; Sat, 29 Nov 2025
+ 15:00:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/10] power: sequencing: pcie-m2: Add support for PCIe
- M.2 Key E connectors
-To: manivannan.sadhasivam@oss.qualcomm.com, Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Derek J. Clark" <derekjohn.clark@gmail.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20251125-pci-m2-e-v2-0-32826de07cc5@oss.qualcomm.com>
- <20251125-pci-m2-e-v2-10-32826de07cc5@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251125-pci-m2-e-v2-10-32826de07cc5@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251121100044.282684-1-thuth@redhat.com> <20251121100044.282684-2-thuth@redhat.com>
+In-Reply-To: <20251121100044.282684-2-thuth@redhat.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Sun, 30 Nov 2025 00:00:33 +0100
+X-Gm-Features: AWmQ_bkDTkRArCOJtRA_LXcLs7nIqPHlR48Siu-A5cxKCr76Y6aVmGcQU7u8Tko
+Message-ID: <CA+=Fv5SPuYyZ2ASzz3oVMCRQNP-G+0pbW58o32ryXrm_RBfqSA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/9] alpha: Replace __ASSEMBLY__ with __ASSEMBLER__ in
+ the alpha headers
+To: Thomas Huth <thuth@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org, 
+	Richard Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>, 
+	linux-alpha@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25/11/2025 15:45, Manivannan Sadhasivam via B4 Relay wrote:
->  static const struct pwrseq_pcie_m2_pdata pwrseq_pcie_m2_m_of_data = {
->  	.targets = pwrseq_pcie_m2_m_targets,
->  };
-> @@ -92,6 +174,96 @@ static int pwrseq_pcie_m2_match(struct pwrseq_device *pwrseq,
->  	return PWRSEQ_NO_MATCH;
+On Fri, Nov 21, 2025 at 11:10=E2=80=AFAM Thomas Huth <thuth@redhat.com> wro=
+te:
+>
+> From: Thomas Huth <thuth@redhat.com>
+>
+> While the GCC and Clang compilers already define __ASSEMBLER__
+> automatically when compiling assembly code, __ASSEMBLY__ is a
+> macro that only gets defined by the Makefiles in the kernel.
+> This can be very confusing when switching between userspace
+> and kernelspace coding, or when dealing with uapi headers that
+> rather should use __ASSEMBLER__ instead. So let's standardize now
+> on the __ASSEMBLER__ macro that is provided by the compilers.
+>
+> This is a completely mechanical patch (done with a simple "sed -i"
+> statement).
+>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Matt Turner <mattst88@gmail.com>
+> Cc: linux-alpha@vger.kernel.org
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  arch/alpha/include/asm/console.h     | 4 ++--
+>  arch/alpha/include/asm/page.h        | 4 ++--
+>  arch/alpha/include/asm/pal.h         | 4 ++--
+>  arch/alpha/include/asm/thread_info.h | 8 ++++----
+>  4 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/arch/alpha/include/asm/console.h b/arch/alpha/include/asm/co=
+nsole.h
+> index 088b7b9eb15ae..1cabdb6064bbe 100644
+> --- a/arch/alpha/include/asm/console.h
+> +++ b/arch/alpha/include/asm/console.h
+> @@ -4,7 +4,7 @@
+>
+>  #include <uapi/asm/console.h>
+>
+> -#ifndef __ASSEMBLY__
+> +#ifndef __ASSEMBLER__
+>  extern long callback_puts(long unit, const char *s, long length);
+>  extern long callback_getc(long unit);
+>  extern long callback_open_console(void);
+> @@ -26,5 +26,5 @@ struct crb_struct;
+>  struct hwrpb_struct;
+>  extern int callback_init_done;
+>  extern void * callback_init(void *);
+> -#endif /* __ASSEMBLY__ */
+> +#endif /* __ASSEMBLER__ */
+>  #endif /* __AXP_CONSOLE_H */
+> diff --git a/arch/alpha/include/asm/page.h b/arch/alpha/include/asm/page.=
+h
+> index 5ec4c77e432e0..d2c6667d73e9e 100644
+> --- a/arch/alpha/include/asm/page.h
+> +++ b/arch/alpha/include/asm/page.h
+> @@ -6,7 +6,7 @@
+>  #include <asm/pal.h>
+>  #include <vdso/page.h>
+>
+> -#ifndef __ASSEMBLY__
+> +#ifndef __ASSEMBLER__
+>
+>  #define STRICT_MM_TYPECHECKS
+>
+> @@ -74,7 +74,7 @@ typedef struct page *pgtable_t;
+>  #define PAGE_OFFSET            0xfffffc0000000000
+>  #endif
+>
+> -#endif /* !__ASSEMBLY__ */
+> +#endif /* !__ASSEMBLER__ */
+>
+>  #define __pa(x)                        ((unsigned long) (x) - PAGE_OFFSE=
+T)
+>  #define __va(x)                        ((void *)((unsigned long) (x) + P=
+AGE_OFFSET))
+> diff --git a/arch/alpha/include/asm/pal.h b/arch/alpha/include/asm/pal.h
+> index db2b3b18b34c7..799a64c051984 100644
+> --- a/arch/alpha/include/asm/pal.h
+> +++ b/arch/alpha/include/asm/pal.h
+> @@ -4,7 +4,7 @@
+>
+>  #include <uapi/asm/pal.h>
+>
+> -#ifndef __ASSEMBLY__
+> +#ifndef __ASSEMBLER__
+>
+>  extern void halt(void) __attribute__((noreturn));
+>  #define __halt() __asm__ __volatile__ ("call_pal %0 #halt" : : "i" (PAL_=
+halt))
+> @@ -183,5 +183,5 @@ qemu_get_vmtime(void)
+>         return v0;
 >  }
->  
-> +static int pwrseq_m2_pcie_notify(struct notifier_block *nb, unsigned long action,
-> +			      void *data)
-> +{
-> +	struct pwrseq_pcie_m2_ctx *ctx = container_of(nb, struct pwrseq_pcie_m2_ctx, nb);
-> +	struct pci_dev *pdev = to_pci_dev(data);
-> +	struct device_node *pci_remote __free(device_node) = NULL;
+>
+> -#endif /* !__ASSEMBLY__ */
+> +#endif /* !__ASSEMBLER__ */
+>  #endif /* __ALPHA_PAL_H */
+> diff --git a/arch/alpha/include/asm/thread_info.h b/arch/alpha/include/as=
+m/thread_info.h
+> index 4a4d00b37986e..98ccbca64984c 100644
+> --- a/arch/alpha/include/asm/thread_info.h
+> +++ b/arch/alpha/include/asm/thread_info.h
+> @@ -4,14 +4,14 @@
+>
+>  #ifdef __KERNEL__
+>
+> -#ifndef __ASSEMBLY__
+> +#ifndef __ASSEMBLER__
+>  #include <asm/processor.h>
+>  #include <asm/types.h>
+>  #include <asm/hwrpb.h>
+>  #include <asm/sysinfo.h>
+>  #endif
+>
+> -#ifndef __ASSEMBLY__
+> +#ifndef __ASSEMBLER__
+>  struct thread_info {
+>         struct pcb_struct       pcb;            /* palcode state */
+>
+> @@ -44,7 +44,7 @@ register struct thread_info *__current_thread_info __as=
+m__("$8");
+>
+>  register unsigned long *current_stack_pointer __asm__ ("$30");
+>
+> -#endif /* __ASSEMBLY__ */
+> +#endif /* __ASSEMBLER__ */
+>
+>  /* Thread information allocation.  */
+>  #define THREAD_SIZE_ORDER 1
+> @@ -110,7 +110,7 @@ register unsigned long *current_stack_pointer __asm__=
+ ("$30");
+>         put_user(res, (int __user *)(value));                           \
+>         })
+>
+> -#ifndef __ASSEMBLY__
+> +#ifndef __ASSEMBLER__
+>  extern void __save_fpu(void);
+>
+>  static inline void save_fpu(void)
+> --
+> 2.51.1
+>
 
-
-This is an undesired syntax explicitly documented as one to avoid. You
-need here proper assignment, not NULL. Please don't use cleanup.h if you
-do not intend to follow it because it does not make the code simpler.
-
-> +	struct device_node *serdev_remote __free(device_node) = NULL;
-
-This is even worse. Instead of making it local scope, you have automatic
-cleanup for entire function with completely redundant constructor.
-
-Please, use cleanup.h only if you really want to follow its spirit.
-Otherwise it does not make the code easier.
-
-
-Best regards,
-Krzysztof
+Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
 
