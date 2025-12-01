@@ -1,331 +1,341 @@
-Return-Path: <linux-kbuild+bounces-9931-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9932-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17451C98B4D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 19:26:51 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46562C98B59
+	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 19:27:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 922BB344393
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 18:26:50 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 970A23443EA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 18:27:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 871D0337BA1;
-	Mon,  1 Dec 2025 18:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 162483385A3;
+	Mon,  1 Dec 2025 18:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=duagon.com header.i=@duagon.com header.b="jZ3LSWZo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e3P/UOa9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ZRAP278CU002.outbound.protection.outlook.com (mail-switzerlandnorthazon11020093.outbound.protection.outlook.com [52.101.186.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3784337B93;
-	Mon,  1 Dec 2025 18:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.186.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764613607; cv=fail; b=ojvQoaWNI/uHPQ7v1v48PYCZPm+LAdXf79gzEGbH5Fh/N7YkuNTyBG7EL6jBGutbipSqaLbn8gHIj0FGCNf7jNtUyAkysPXUWWbgsVaaCm68g2TzvyF3iu4fJIO9dFDkReo3LKOhJWSSb2ha7/01hPL1u63pqR7i/q4mf8Fhb34=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764613607; c=relaxed/simple;
-	bh=OLb7s2jzAHkNhHxp5MCs9WuDav80dgWpGYCfAcbvGsw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lFaZxS4oDFJzu2iLhYGtKUV7yWS53GJI6o8aGg4uQwyfpC0gvmRl9xxfpE3CTtdvcWJs0a8kZNklxgetJeWMPV4TlMmwbLaeIueDoKbyxgIlYh92IwqxeHkA0qpsT0DTWcKxOX7Vq1sVm33IBfEteetLkk3biIsFiL6WEBh7UHI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=duagon.com; spf=pass smtp.mailfrom=duagon.com; dkim=pass (1024-bit key) header.d=duagon.com header.i=@duagon.com header.b=jZ3LSWZo; arc=fail smtp.client-ip=52.101.186.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=duagon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=duagon.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yGrEjHjIf+glF5ibx0LRNW/3KJG0XyiRaImyxpNMrFteM1wnCWhfQQZlTfVkAN9V/RbEIGo+lwKtr33LJadFeO0stliCHoUG2LlWvqBJpTDpyAuFUMP0XWpU0RViXmokzXgWNJK+RcRR6UUYE3rSlwfdr3dolKvhVIzaSL9CJv4wHqvv1fGyfDxWs3t/WeXEdEx520SB0bG/2xP82frv4v+255UUvrcFOPz6fEexwZSkUx8VLygFPKrx6QvC/914rP7Qs8RBeqtG7c0ItpXxx9567i9nSX5EeFw3jduEwcWiSQosSMuviCZWQ6NZq2z/ziybDRMlKWLVNke0xQWu4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DVpays01eYymfy0TaeicSkz8PF6S1sgal81f2Dig9mE=;
- b=mLVDFeerdxOeK0PtLl9mkdWOb5KSI7ZWcZcEiNe7iejXSkMy4P+KDMpuYNHxJ1o2UgMd2W9FINyY5rR5Crng5zVT8vPpDXvB61ZS43BrWf7sZOROKuCfpfFt4NJFHNzGxBXpL9REi4IccKLgLy2i8CrTaqoLxAL4ztam3sLr5AtbpJHedq07Ntbjvn1Cv0Jglf1fjsPH8cvoqolcL38AvFauO0YbaBO2zNbyE8e3uGbFJdV+EG9wq2OM1UaarfHn3ApA2tx485Nle04hwewGWkrW7N3DPKoraiTcvgQoUZ+iob927jTBRr77OG2YiOBTIVhEBmLsANvaSo0Asnwhgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 40.93.85.5) smtp.rcpttodomain=chromium.org smtp.mailfrom=duagon.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=duagon.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=duagon.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DVpays01eYymfy0TaeicSkz8PF6S1sgal81f2Dig9mE=;
- b=jZ3LSWZozvSTqEZsrrKz0qUoDXshyYqFpcIX3qjpNr484SWQBd5Knb3+S9Pq+mk7ddVcFU9AVqkcYhVF4HlM2OSC6fw9xyxuDPzHQKpuqRKSu5xZIlgdaMCTqaiBOPn3vEB+8/zTSd99fGqbTm9b9DE6kwUKqGcLnBZhtytlMG4=
-Received: from DUZPR01CA0097.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4bb::10) by ZR0P278MB0076.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1a::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 18:26:40 +0000
-Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
- (2603:10a6:10:4bb:cafe::63) by DUZPR01CA0097.outlook.office365.com
- (2603:10a6:10:4bb::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Mon,
- 1 Dec 2025 18:26:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 40.93.85.5)
- smtp.mailfrom=duagon.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=duagon.com;
-Received-SPF: Pass (protection.outlook.com: domain of duagon.com designates
- 40.93.85.5 as permitted sender) receiver=protection.outlook.com;
- client-ip=40.93.85.5; helo=ZRAP278CU002.outbound.protection.outlook.com; pr=C
-Received: from hz-deliver01.de.seppmail.cloud (2a01:4f8:a0:900b::219) by
- DB1PEPF000509FD.mail.protection.outlook.com (2603:10a6:18:3::6d7) with
- Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 1 Dec 2025 18:26:40 +0000
-Received: from hz-glue03.de.seppmail.cloud (unknown [10.11.0.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hz-deliver01.de.seppmail.cloud (Postfix) with ESMTPS id 4dKsmv46vnz4wrt;
-	Mon,  1 Dec 2025 19:26:39 +0100 (CET)
-Received: from hz-glue03.de.seppmail.cloud (unknown [172.18.0.3])
-	by hz-glue03.de.seppmail.cloud (Postfix) with SMTP id 4dKsmv3XVZz1xZr;
-	Mon,  1 Dec 2025 19:26:39 +0100 (CET)
-X-SEPP-Suspect: 466b26bb19e149d59a0d80abcf58fbb5
-Received: from hz-scan09.de.seppmail.cloud (unknown [10.11.0.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by hz-glue03.de.seppmail.cloud (Postfix) with ESMTPS id 4dKsmv2fGNz1xZ9;
-	Mon,  1 Dec 2025 19:26:39 +0100 (CET)
-Received: from hz-scan09 (localhost [127.0.0.1])
-	by hz-scan09.de.seppmail.cloud (Postfix) with SMTP id 4dKsmv201hz197W;
-	Mon, 01 Dec 2025 19:26:39 +0100 (CET)
-Received: from hz-m365gate01.de.seppmail.cloud (unknown [10.11.0.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hz-scan09.de.seppmail.cloud (Postfix) with ESMTPS;
-	Mon, 01 Dec 2025 19:26:38 +0100 (CET)
-Received: from ZRAP278CU002.outbound.protection.outlook.com (mail-switzerlandnorthazlp17010005.outbound.protection.outlook.com [40.93.85.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (not verified))
-	by hz-m365gate01.de.seppmail.cloud (Postfix) with ESMTPS id 4dKsmq5jK9z2sp2;
-	Mon,  1 Dec 2025 19:26:35 +0100 (CET)
-Received: from DB8PR04CA0012.eurprd04.prod.outlook.com (2603:10a6:10:110::22)
- by GV0P278MB2091.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:6f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 18:26:32 +0000
-Received: from DU2PEPF00028D02.eurprd03.prod.outlook.com
- (2603:10a6:10:110:cafe::23) by DB8PR04CA0012.outlook.office365.com
- (2603:10a6:10:110::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Mon,
- 1 Dec 2025 18:26:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.79.220.33)
- smtp.mailfrom=duagon.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=duagon.com;
-Received-SPF: Pass (protection.outlook.com: domain of duagon.com designates
- 20.79.220.33 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.79.220.33; helo=de1-emailsignatures-cloud.codetwo.com; pr=C
-Received: from de1-emailsignatures-cloud.codetwo.com (20.79.220.33) by
- DU2PEPF00028D02.mail.protection.outlook.com (10.167.242.186) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 1 Dec 2025 18:26:31 +0000
-Received: from ZR1P278CU001.outbound.protection.outlook.com (40.93.85.53) by de1-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12) via SMTP; Mon, 01 Dec 2025 18:26:30 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=duagon.com;
-Received: from ZR0P278MB0523.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:34::6) by
- ZR2P278MB1146.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:5f::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.17; Mon, 1 Dec 2025 18:26:28 +0000
-Received: from ZR0P278MB0523.CHEP278.PROD.OUTLOOK.COM
- ([fe80::39da:49d1:7c23:953e]) by ZR0P278MB0523.CHEP278.PROD.OUTLOOK.COM
- ([fe80::39da:49d1:7c23:953e%7]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 18:26:28 +0000
-Date: Mon, 1 Dec 2025 19:26:21 +0100
-From: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-CC: andy@kernel.org, krzk@kernel.org, linus.walleij@linaro.org,
-	nathan@kernel.org, nsc@kernel.org, gregkh@linuxfoundation.org,
-	bleung@chromium.org, heikki.krogerus@linux.intel.com,
-	abhishekpandit@chromium.org, masahiroy@kernel.org,
-	legion@kernel.org, hughd@google.com, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/1] mcb: Add modpost support for processing
- MODULE_DEVICE_TABLE
-Message-ID: <aS3dzQ2AUq_TsHsE@MNI-190>
-References: <20251201160720.28580-1-dev-josejavier.rodriguez@duagon.com>
- <aS3YvQMhbmnYiZrm@smile.fi.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aS3YvQMhbmnYiZrm@smile.fi.intel.com>
-X-ClientProxiedBy: MA4P292CA0004.ESPP292.PROD.OUTLOOK.COM
- (2603:10a6:250:2d::10) To ZR0P278MB0523.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:34::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DAC337BBC
+	for <linux-kbuild@vger.kernel.org>; Mon,  1 Dec 2025 18:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764613629; cv=none; b=HsgnTfjWlqi8pWzQIsM3WzLOcttWo5JTy1xSCQpo1L700hZ8ic5Xwb9bM3D60TPWwdfwGFlrm5glC69FFhcOZtx/ydkFh6v7mk4n7yO9gtutlPA4enj5lUkTT9xbt3PpA9SXKH+vgV1eQMbZiPNNenI6RHbcnJPyM2i/G4fzqLo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764613629; c=relaxed/simple;
+	bh=Oqw+12WE701l1f1TwGH2seyHYMxYe+Xqgy5HR8nXULk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kFNF5nDO2J26Flf1Ido2JWzjDL0RzCqGF0S/wXhL7jGkaQDukUYqvYQZ5VLPT7snc/WQmBFHWymOSrPx3+Bz04olmCZgWzI4bauoXDAfIpTmFkiTC/qItiDScSJkfDXXM/aJFmBUi0dmWASwH9hNlxtX4zWQe9qrb+7BnBIjeUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e3P/UOa9; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29555b384acso51144375ad.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 10:27:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764613626; x=1765218426; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=t4LngEGfANLHmsHbH8DGsv2GB/mOjSjrOn98fu7nAbY=;
+        b=e3P/UOa9m2m08h8YkOTGquYphKgiyKUDZDc7qo4r5tz625igplogDVeAwkh6at+lp1
+         lZRTFeEXt7XtqQa7jzr48B8lVKze2qhplwvkOag+45WYalcbT8mSESaT4u8vQFi4HPnj
+         HVLEeuP9tXwCs88wicSJ8sOdflhjul5gNlPjw3W3TgjjKc5JNHIuAMEtciQU5uzdv8G4
+         NV699GCM6gbxMq9m7o98ymVYth/cCJ3fmZTrXBGyM+PBW/993eetU2Y3Bueg116hRttM
+         2BdCHqAsESraxKUBsF5LQm9ePrD524I5Ti9fNnvOYmtw9EX3qpjp9muBTq3nlR4EenUW
+         +ckQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764613626; x=1765218426;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t4LngEGfANLHmsHbH8DGsv2GB/mOjSjrOn98fu7nAbY=;
+        b=m1c6JZsqwTQslRn3qdXT8O3RI5P8M2XroWZYqx1rF8aYJH6y9FIJBmTnbT3Xy+MnLG
+         EZ3EQPnjW6vnGgpRkdxEpORmLogHX9ogY4fstSgomHNzQFwKDU20CHjbGllhMQ73najn
+         M0823E2Tl654m94+h6Q4YF3wQUAMH+mOcTB97I5lRiKJ2D3YMKih+R20KyEz3YH+F63n
+         43pCCa8nxyjCehQ0mI5vSKXDFAqmQk7lGlobekDUt3ljxLa60yH5pAhsZFqqGPKum8GY
+         Vi6xVnYvkODBzsnph7EX9H80/VV9UIgcThRubbr49UikwOteXnB8WbXsagRNPVoOU5Yr
+         2lig==
+X-Forwarded-Encrypted: i=1; AJvYcCVXW6SVGoIQK19JjhEegFg9cd9GYMA6YWf5vjMiTZDT+lKFXYij58Sxcflg1nExZG4mz0iw4afWiS1Es0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTIFuDYn6qfIypjT+cfZaOWbHnmO2Xy5236ZFf1tN5GJwuAiMq
+	EUNmjDtDMUPSxRMzDzxS3y8kNo7hxywgt8k4hUVNe6iFAB4Srwi1CDozsiqt+SqPGjk=
+X-Gm-Gg: ASbGncvQwkrut9eDuLiy5xEV8Ds9gM3Hyg8IcroOD0lcQ0wRl1MYGFSAwsyu21JXy6l
+	ncFbfuvCYu3aMX2/Zzjnv6copzW5BS3m/BBj5ScnrOMOGFMH0B9A2kfMIh6v8FR10Ghi2lQbQgQ
+	PXLbQPqZoF0ZWEzGTckdBd43JiftWJXfff91bQFScsz36yy1c5WBT5skO5Dif2wLHZ6tOos3+pb
+	prexiGl8UP3dxSxVDOCNusGu30KUN17xWXq273Bel4Yt5oEfYX0qe00RXVvJ2+ui1PxLZ9yMCvO
+	Y4TQgLu8WtrSEDfcVXM2861mippr1If9E/KKmNsRfSnDBD2b5s5tQ3IUlqR/cyLF+G31YbTkldz
+	PD79v304hf/b7AvIKVeIBI24i1pIHjoCZ3kx6hbCDJUfcj0HThKrBwPyy2GJwGhT7f68GwXMUVg
+	unQDWOfFruqfWB4evbgWfKgQlbpiIsTfRz7sq9
+X-Google-Smtp-Source: AGHT+IF9K57qoC5IjEjc4mYogefluYvwG/X7Dku4JGaj8S9XO9T4+dQH/sdyPqluw0Wg/ijbBwX56w==
+X-Received: by 2002:a17:902:ebca:b0:295:82b4:216a with SMTP id d9443c01a7336-29b6c6b5911mr397778135ad.55.1764613626171;
+        Mon, 01 Dec 2025 10:27:06 -0800 (PST)
+Received: from ?IPv6:2a03:83e0:115c:1:a2c1:e629:f1e2:84c8? ([2620:10d:c090:500::6:79eb])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb29fbbsm128466535ad.49.2025.12.01.10.27.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 10:27:05 -0800 (PST)
+Message-ID: <483e9a808bcc400a80e8c9a752fa0163b2d0dd54.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v2 3/4] resolve_btfids: introduce enum
+ btf_id_kind
+From: Eduard Zingerman <eddyz87@gmail.com>
+To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
+ <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
+ <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,  Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend	
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev	 <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>,  Nathan Chancellor	 <nathan@kernel.org>, Nicolas Schier
+ <nicolas.schier@linux.dev>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
+ Stitt	 <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>,
+ Donglin Peng	 <dolinux.peng@gmail.com>
+Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-kbuild@vger.kernel.org
+Date: Mon, 01 Dec 2025 10:27:02 -0800
+In-Reply-To: <20251127185242.3954132-4-ihor.solodrai@linux.dev>
+References: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
+	 <20251127185242.3954132-4-ihor.solodrai@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	ZR0P278MB0523:EE_|ZR2P278MB1146:EE_|DU2PEPF00028D02:EE_|GV0P278MB2091:EE_|DB1PEPF000509FD:EE_|ZR0P278MB0076:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d91f5cd-1805-45fe-9fce-08de31072bd4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|52116014|376014|7416014|1800799024|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?43JqK/PeIWdl9hQYshj/Jvq4uDHMOnYF+dPxJanB5CMqRmrj/2+DBW2WmQdA?=
- =?us-ascii?Q?aS7ux314Q2mqabwvWE4AySYv5+hYYYDvJ194BbIj+JPauwsgZ1u38PCOSNt+?=
- =?us-ascii?Q?eyy4SgT+fBIXgeHYQry8oe3MqGm/ONDKm1PBCTW2GVJOyQWJnpmcgu5VEL1E?=
- =?us-ascii?Q?+YEygwS8zmvsbIeOeYxdO77ax2WB716DVnRtYyxjdvEyxtWBhXCHfTznGHBO?=
- =?us-ascii?Q?CZ8wY1zcE8tPsxzWfvW2j1z8I6h97XW4wdOXkryMDcfoT+Ac0ZSowwUUULZX?=
- =?us-ascii?Q?wVWUdJPEpWzJd8aSx/3S7aaqNGpe1qy2rzcyAsvw03tUhjXbhHP49IJKccU4?=
- =?us-ascii?Q?yKlEy/SK/4VP05frbTJKT1BYbBg5m514nVVFRef99MkrKXew8fBqsU/A5gLp?=
- =?us-ascii?Q?wTWX/GC56FmhwxEqMrYVxO6FiiF93Kwms+NdeTpM84qnksNsvkcc5C8hTCKs?=
- =?us-ascii?Q?98J8jwo0SZW5mBId3zhblDxCsdt4gKLWobJ/51bINLEHva5UVYnBJndl+g9Z?=
- =?us-ascii?Q?IUiUZb+qF87KwwDaIP5Jp7DrhTD0Z5MHeRPw3fP/GyvGJ4+6PUMy/JqLj8Q2?=
- =?us-ascii?Q?WurrZZerRgGkWdQI/IvBn9aa2itkYFWxdEHs/yu5YmOq1TWDUPSNj/DE0NAb?=
- =?us-ascii?Q?xfFXEgQoQZqGykkOfcbeRMRE8jxsVKjb7NqYnVFDmA5VnKJh4WxxY08DRTHu?=
- =?us-ascii?Q?Cf8itGlE/LXi0R0cOQ02X5k077ruD2Ljsykx+//HhcpAgSj5fgHk5yZ7W9qk?=
- =?us-ascii?Q?cvM5SQFEUcdXEPLyiqAiiPqQNVsSNjH5xZVJIaWaPDQv2KMvNCeF88qkH+Gy?=
- =?us-ascii?Q?F0vWpKRXu4gZcXo+KG/YuvlygHxA1uZNEf7izoZd9QjVSURkVKgvF3bduXKQ?=
- =?us-ascii?Q?eiLctEIS4a3B/rs6hSb366Wl9Y9aKtRrerazg6mTqjN/vGCFQIalg+Rrfhp2?=
- =?us-ascii?Q?PvFYRca/11hJsUPYKq3ciw/1x1fx598jAHUl8pZT4hNNbrQ1WjITQkmFa2JJ?=
- =?us-ascii?Q?4G2j3ij+T4B2lAMlH0S4DoYL8YbILdjV1bQgDRBder2eQXoj5D+/w61dZGx1?=
- =?us-ascii?Q?cXeTDBOYPhyFLvOR1aUZtuRtxB5Wsfwm6fa0fmXK1aqqpPjYEl+gDiSAJyJm?=
- =?us-ascii?Q?A9HwN6QaCBLWh0jzXcBrW8HBH3Oz11JE6RtooIqXirD6tR5cVzKaz2iSOatE?=
- =?us-ascii?Q?WU+cVh9U1R1LW9moL+cmL7lN/K3kTlEvBVwsj5bsSL65OoWOtFs+j2my77/b?=
- =?us-ascii?Q?UZ4zc91q1FdCKX2Qz4b9Z22OAjaR+QI6BJtmPX2HKiXG5JupExXSaHdWb2uM?=
- =?us-ascii?Q?8IMMB7an+nFoyecX0cbvf4nIpvZi6SzTKmUL4ykh/iJ0/9CwDCb1bUYpL2H1?=
- =?us-ascii?Q?2A5bp3EyQLRmqXdCUR5oulMU73DYH3fgEhnAYsQqmEVSUHZHG+MMFdVLSUk0?=
- =?us-ascii?Q?5bTHV3taNbPYyNQs12/xm+wmlVgSlBNMPVjNJ/PiN7ALrXfiCLmF7lmeqfc8?=
- =?us-ascii?Q?UZF2LZWM69PEvD9dF5DH+OYY40nFV985//Dx?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR0P278MB0523.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(7416014)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR2P278MB1146
-X-CodeTwo-MessageID: df094273-3300-4bd4-9104-7433267b7ce1.20251201182630@de1-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 1
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DU2PEPF00028D02.eurprd03.prod.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
- f4ed8eae-fc57-42a7-f599-08de3107244c
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|7416014|36860700013|376014|1800799024|35042699022|82310400026|14060799003|7053199007;
-X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?tPqCvjK8TEYYoqyF65D4bg+qEH4ThYTxrCoxdw9cVoCuDI0XFF/ohYpFb18J?=
- =?us-ascii?Q?cnxAR1NEG3/ZXJunRUkFMaDcZgjGZuEUxVS+YSgxrsj8RY59nc3j1Tx6nyZw?=
- =?us-ascii?Q?es3UAPEW69Jz6EdSuu4GUu9XJHJMRPnZhipyG5gWKT/r1WwXQb1CYc5/vNO7?=
- =?us-ascii?Q?nb+lfkVU3WU0jpSmffhQhK6PvcToGQneSUwoxgivv62MzzxNhNULIvSPZU59?=
- =?us-ascii?Q?DDIXvob02NfhMPFnBLNgNtTAZQxWeQjWW9ZqAniknytjem3zDDUeHUNA8jYf?=
- =?us-ascii?Q?fHt1Ly2mzz9xoP+neqOMKOdw6Tj/gabEHORsGH/yGcIjDIZ59K0kFMw16cdc?=
- =?us-ascii?Q?J2J+xa7m91eyKZXKV1WT0K+JeYH0teafmsWT7BGwRYbHsCflSaxnifDtGJsO?=
- =?us-ascii?Q?RVXNST2Y2uH+/fZINTqV7j8u5t0IQ3yVuLNUjzPhe8NJVsnZ9Rdsmn/5D1Us?=
- =?us-ascii?Q?6VvkQVfm6r0rnMoaSfeO025nn+MMFpYbIrApLd89C780te+ezhHmqGou3Inz?=
- =?us-ascii?Q?ndQH+o/iagX68d8gaLL6+2C/+UpraxPP5EAwcx3GbikQ5gifGy/IV1BYKSDn?=
- =?us-ascii?Q?dhXSjjMk6cEuIftGWy/gc4Zt8IZOzfWC6AthXRBS1Csm7ZUMSCNBzI/4O1tw?=
- =?us-ascii?Q?uwx0zgbvUXvjIKoDou0ed3NPVstWiOcjzStXJybC9OQFXpHz+gVBDrQVJjwv?=
- =?us-ascii?Q?FjtkLZF4Z+6q/QHGveB3pmzDsHQBZ23+Dn8eVB7Ph4rNM0l3rNRXgW0YQnP2?=
- =?us-ascii?Q?lOfkCvTI4gj3WCxAuKv15D/6xguM0e9HfKWvD6eFyiCiftu5hU1GVlRfy5Aj?=
- =?us-ascii?Q?fGm9wON4vhO8B9lBgQdvXaYGV0KKNSeR8t7HVOaxgnblb5XhyzXGLrOkZIwc?=
- =?us-ascii?Q?1ec/YiD8x6lWfJqfv48PMr7zPFENvZS8kL1qDX0x1Ah6cgkdzu1AKV0QfKvK?=
- =?us-ascii?Q?hKM/JXI3LUG8CT++C40UBuvVc5bwcXH+us7oHOGy6gpayK9bnEc2re0aeHRW?=
- =?us-ascii?Q?/vIGZeNy5QizF2zdpcO1wXIU+6DKrW+gVI7k9YlRk6075khQhPNVkj4D6JpL?=
- =?us-ascii?Q?HtzqIhBspj5/J+P9NYlPdOyZNtjY5g/u1OR+JZ1KwaaBLgwIZQPan9jsrsM9?=
- =?us-ascii?Q?U9xUJIVKv6dxhS+OZRrlTNngVTHZywwRCK1xVjxU24qUGWpBIjAhbd3XP1cP?=
- =?us-ascii?Q?/mQiDxZvcu1Nfqa+Hy3NAndRIIVjopYMx2UE5jTf4nc5ILHTq5k3I0Wm7BbS?=
- =?us-ascii?Q?nmg50ZluOipBD6cmw7alM7AIoLTl2Hb6iwojNeesJ7UDexzyLFTpnXBxuu31?=
- =?us-ascii?Q?w+LuRYpkvzwC2ICEub0QmflfMzXnUEW3I7NtrUhSPgYOIbwx66dPLmJdCzbE?=
- =?us-ascii?Q?JRxMHIOqpBcGc7ffFdeCUxh1kWDhuucPqhla/mxz+pNPqbrG0aay29KGWltq?=
- =?us-ascii?Q?wPOF47DyO/QqrNWWvlxFggYQUnpQyk5kqIts2qjoeIsJlMDkBZMyRazAWumU?=
- =?us-ascii?Q?/iPcJ7foMtxBOX5ypNeORQA6RQRlE2FAfVV4XhfyKPUbDjLZFIFNqR7RAY3w?=
- =?us-ascii?Q?nDltd3pB1HeILkETHNo=3D?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:20.79.220.33;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:de1-emailsignatures-cloud.codetwo.com;PTR:de1-emailsignatures-cloud.codetwo.com;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(376014)(1800799024)(35042699022)(82310400026)(14060799003)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV0P278MB2091
-X-SEPP-CCCVersion: 2025-11-05T14:36:24+01:00 6c313bee
-X-MS-Exchange-SkipListedInternetSender:
- ip=[40.93.85.5];domain=ZRAP278CU002.outbound.protection.outlook.com
-X-MS-Exchange-ExternalOriginalInternetSender:
- ip=[40.93.85.5];domain=ZRAP278CU002.outbound.protection.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB1PEPF000509FD.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	af7e67d5-95d4-4e5e-1ab6-08de310726ba
-X-SM-ruleversion: 2.1.0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|7416014|1800799024|10070799003|35042699022;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?MSr3MMSKuKGH+Qu82dOWUvOSQ2fWXaEQ5HgEpHw7oBYTp35Dmi770dikMpWS?=
- =?us-ascii?Q?c5sasoY2JBTg1NrciwCcOnKtUkp/7rBSwN+U7Xx7n96qybXi3hYcQa0YZFEo?=
- =?us-ascii?Q?vOSKK0QiSH3z9OZxfMhWRkUGvws+5hrR9zouv+ODfj93q/QT8m0tI1+1GtTr?=
- =?us-ascii?Q?xcIqfpEgZhxDb9QE4NdK6rRGAk09Ub23xZ+JRDMHGAgaLFXphd8q2zvlaX9u?=
- =?us-ascii?Q?vLJxrg6EhNX9Av2bYUrMOqljYrEeYSNAXe/6qiU1hluXllzZTN8VarLaULaI?=
- =?us-ascii?Q?rYcGpRVqa5j3IYNY88sw0JgrO5gcO0QzgteW315+fGE4EjR0RmXZsfi32/LB?=
- =?us-ascii?Q?iLhwxCjextqxB46x4LUMFtHil5u/4hWwtxo07aBS8lkQwJvPjIz6cZKhGiWf?=
- =?us-ascii?Q?4g5QXS78+8mdSD7OtfuQWvstTTHq16IKb53QWQ1WcuCGQq4B6+NZnNUDi8ba?=
- =?us-ascii?Q?96c0F+yJOpMAWGdKWBKH4fjcXeSTn8fZi926NoacUCUVNepzvtQE2d8QDqtn?=
- =?us-ascii?Q?RvqSO27WvsdPx0czEc6cFo7Gk9bIQoNl+fEQglCy3xedePzkQfcvfgfoSMDS?=
- =?us-ascii?Q?kdp61TjOCf7pGjHOjAJNoBBvfhXTcTjxXnbxmJKsC0HEwN8OsDqLU2Zoxwam?=
- =?us-ascii?Q?/lOcoJ9zQRkwegbkUKtAGv0jNlNxINFGQbfNGuISizbNiSc8cUbBfEMX4aQ0?=
- =?us-ascii?Q?z3myPnDbvTKWxBNoAExmpYBLafBR03BbYFa1lkv/bgK66j2aq15CUjwt/FPd?=
- =?us-ascii?Q?wVNqcQRI2Rk4bFOOlz9Jcw+6c97UgYkiAGFwgrhuPRuetjmEtxEc4KYwKln1?=
- =?us-ascii?Q?a9UyGrGgovP14ZytKL3Q0pZOJIBNdr1Yj/Nxu8raeSpH5pJswsLDZPQxsnEf?=
- =?us-ascii?Q?paGW4ThX2pdhgaPBWNrTOfAMNixGh/KXOe43EgCk3BiGQiqHIhztlIf4jDRC?=
- =?us-ascii?Q?8JBr2eFW+lGXwAju0BAy3rI23Xc+O5wdtdWhk1OpHgKasDBHADd8H0rVXNNb?=
- =?us-ascii?Q?KYJccHLE+PhrJZlnog5WJKg1F3hHK7VqAatenDcq2ksFJ9QcENfW+uazJSTf?=
- =?us-ascii?Q?PzjNbQyzZ6QTHvi6zXl0v3IlRYDiTDPYoYg53ndoPQbFvYSUbpZB1ix9lhhy?=
- =?us-ascii?Q?cyLOgsvG0wtb?=
-X-Forefront-Antispam-Report:
-	CIP:2a01:4f8:a0:900b::219;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZRAP278CU002.outbound.protection.outlook.com;PTR:mail-switzerlandnorthazlp17010005.outbound.protection.outlook.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(7416014)(1800799024)(10070799003)(35042699022);DIR:OUT;SFP:1102;
-X-OriginatorOrg: duagon.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 18:26:40.1824
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d91f5cd-1805-45fe-9fce-08de31072bd4
-X-MS-Exchange-CrossTenant-Id: e5e7e96e-8a28-45d6-9093-a40dd5b51a57
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5e7e96e-8a28-45d6-9093-a40dd5b51a57;Ip=[2a01:4f8:a0:900b::219];Helo=[hz-deliver01.de.seppmail.cloud]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509FD.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0076
 
-On Mon, Dec 01, 2025 at 08:04:45PM +0200, Andy Shevchenko wrote:
-> On Mon, Dec 01, 2025 at 05:07:19PM +0100, Jose Javier Rodriguez Barbarin wrote:
-> > During the process of update of one of the device drivers that are part of
-> > mcb bus (gpio-menz127.c), Krzysztof from GPIO subsystem asked me
-> > why I was adding new MODULE_ALIAS when I also added the same new
-> > information on MODULE_DEVICE_TABLE.
-> > 
-> > You can find the messages here:
-> > 
-> > https://lore.kernel.org/linux-gpio/80a20b13-7c6a-4483-9741-568424f957ef@kernel.org/
-> > 
-> > After a deeper analysis, I came across that the mcb_table_id defined inside
-> > MODULE_DEVICE_TABLE on all device drivers was being ignored as modpost was
-> > not processing the mcb MODULE_DEVICE_TABLE entries. For this reason, former
-> > contributors were using MODULE_ALIAS for enabling mcb to autoload the
-> > device drivers.
-> > 
-> > My proposal with these changes is to complete the mcb bus by adding
-> > modpost support for processing mcb MODULE_DEVICE_TABLE.
-> > 
-> > Once this patch is merged, I will send patches one by one for removing
-> > MODULE_ALIAS from all device drivers as they are no longer needed
-> > (as Andy Shevchenko suggested in v1 review).
-> 
-> Not sure if we need a cover letter for a single change, but yes, this
-> what I think the best approach and code wise it's fine to me:
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
-> (but we still need a Fixes tag I assume).
+On Thu, 2025-11-27 at 10:52 -0800, Ihor Solodrai wrote:
+> Instead of using multiple flags, make struct btf_id tagged with an
+> enum value indicating its kind in the context of resolve_btfids.
+>
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> ---
 
-Yes, I also though that a cover letter for a single patch could be a bit
-useless but I wanted to explain myself the changes from v1 to v2.
+Just a few nits, looks good to me overall.
 
-I think now I understood why I should include the fixes tag in the
-commit message. Let me send v3 with fixes tag and without a cover letter.
+>  tools/bpf/resolve_btfids/main.c | 62 ++++++++++++++++++++++-----------
+>  1 file changed, 42 insertions(+), 20 deletions(-)
+>
+> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/m=
+ain.c
+> index b4caae1170dd..c60d303ca6ed 100644
+> --- a/tools/bpf/resolve_btfids/main.c
+> +++ b/tools/bpf/resolve_btfids/main.c
+> @@ -98,6 +98,13 @@
+>  # error "Unknown machine endianness!"
+>  #endif
+>
+> +enum btf_id_kind {
+> +	BTF_ID_KIND_NONE,
+> +	BTF_ID_KIND_SYM,
+> +	BTF_ID_KIND_SET,
+> +	BTF_ID_KIND_SET8
+> +};
+> +
+>  struct btf_id {
+>  	struct rb_node	 rb_node;
+>  	char		*name;
+> @@ -105,9 +112,8 @@ struct btf_id {
+>  		int	 id;
+>  		int	 cnt;
+>  	};
+> -	int		 addr_cnt;
+> -	bool		 is_set;
+> -	bool		 is_set8;
+> +	enum btf_id_kind kind:8;
+> +	int		 addr_cnt:8;
+                                 ^^
 
-Best regards,
+Nit: these bitfields are not really necessary:
 
-Javier R.
+  $ pahole -C btf_id ./tools/bpf/resolve_btfids/resolve_btfids
+  struct btf_id {
+          struct rb_node             rb_node __attribute__((__aligned__(8))=
+); /*     0    24 */
+          char *                     name;                 /*    24     8 *=
+/
+          union {
+                  int                id;                   /*    32     4 *=
+/
+                  int                cnt;                  /*    32     4 *=
+/
+          };                                               /*    32     4 *=
+/
+          enum btf_id_kind           kind:8;               /*    36: 0  4 *=
+/
+          int                        addr_cnt:8;           /*    36: 8  4 *=
+/
 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+          /* XXX 16 bits hole, try to pack */
+
+          Elf64_Addr                 addr[100];            /*    40   800 *=
+/
+
+          /* size: 840, cachelines: 14, members: 6 */
+          /* sum members: 836 */
+          /* sum bitfield members: 16 bits, bit holes: 1, sum bit holes: 16=
+ bits */
+          /* forced alignments: 1 */
+          /* last cacheline: 8 bytes */
+  } __attribute__((__aligned__(8)));
+
+>  	Elf64_Addr	 addr[ADDR_CNT];
+>  };
+>
+> @@ -260,26 +266,33 @@ static char *get_id(const char *prefix_end)
+>  	return id;
+>  }
+>
+> -static struct btf_id *add_set(struct object *obj, char *name, bool is_se=
+t8)
+> +static struct btf_id *add_set(struct object *obj, char *name, enum btf_i=
+d_kind kind)
+>  {
+>  	/*
+>  	 * __BTF_ID__set__name
+>  	 * name =3D    ^
+>  	 * id   =3D         ^
+>  	 */
+> -	char *id =3D name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "=
+__")) - 1;
+> +	int prefixlen =3D kind =3D=3D BTF_ID_KIND_SET8 ? sizeof(BTF_SET8 "__") =
+: sizeof(BTF_SET "__");
+
+Nit: Should prefixlen be an input parameter as well? (Or adjust the 'name' =
+at the callsite?)
+     Otherwise the parameter is still a boolean logically.
+
+> +	char *id =3D name + prefixlen - 1;
+>  	int len =3D strlen(name);
+> +	struct btf_id *btf_id;
+>
+>  	if (id >=3D name + len) {
+>  		pr_err("FAILED to parse set name: %s\n", name);
+>  		return NULL;
+>  	}
+>
+> -	return btf_id__add(&obj->sets, id, true);
+> +	btf_id =3D btf_id__add(&obj->sets, id, true);
+> +	if (btf_id)
+> +		btf_id->kind =3D kind;
+> +
+> +	return btf_id;
+>  }
+>
+>  static struct btf_id *add_symbol(struct rb_root *root, char *name, size_=
+t size)
+>  {
+> +	struct btf_id *btf_id;
+>  	char *id;
+>
+>  	id =3D get_id(name + size);
+> @@ -288,7 +301,11 @@ static struct btf_id *add_symbol(struct rb_root *roo=
+t, char *name, size_t size)
+>  		return NULL;
+>  	}
+>
+> -	return btf_id__add(root, id, false);
+> +	btf_id =3D btf_id__add(root, id, false);
+> +	if (btf_id)
+> +		btf_id->kind =3D BTF_ID_KIND_SYM;
+> +
+> +	return btf_id;
+
+Agree with Andrii regarding 'kind' being a btf_id__add() parameter.
+
+>  }
+>
+>  /* Older libelf.h and glibc elf.h might not yet define the ELF compressi=
+on types. */
+> @@ -491,28 +508,24 @@ static int symbols_collect(struct object *obj)
+>  			id =3D add_symbol(&obj->funcs, prefix, sizeof(BTF_FUNC) - 1);
+>  		/* set8 */
+>  		} else if (!strncmp(prefix, BTF_SET8, sizeof(BTF_SET8) - 1)) {
+> -			id =3D add_set(obj, prefix, true);
+> +			id =3D add_set(obj, prefix, BTF_ID_KIND_SET8);
+>  			/*
+>  			 * SET8 objects store list's count, which is encoded
+>  			 * in symbol's size, together with 'cnt' field hence
+>  			 * that - 1.
+>  			 */
+> -			if (id) {
+> +			if (id)
+>  				id->cnt =3D sym.st_size / sizeof(uint64_t) - 1;
+> -				id->is_set8 =3D true;
+> -			}
+>  		/* set */
+>  		} else if (!strncmp(prefix, BTF_SET, sizeof(BTF_SET) - 1)) {
+> -			id =3D add_set(obj, prefix, false);
+> +			id =3D add_set(obj, prefix, BTF_ID_KIND_SET);
+>  			/*
+>  			 * SET objects store list's count, which is encoded
+>  			 * in symbol's size, together with 'cnt' field hence
+>  			 * that - 1.
+>  			 */
+> -			if (id) {
+> +			if (id)
+>  				id->cnt =3D sym.st_size / sizeof(int) - 1;
+> -				id->is_set =3D true;
+> -			}
+>  		} else {
+>  			pr_err("FAILED unsupported prefix %s\n", prefix);
+>  			return -1;
+> @@ -643,7 +656,7 @@ static int id_patch(struct object *obj, struct btf_id=
+ *id)
+>  	int i;
+>
+>  	/* For set, set8, id->id may be 0 */
+> -	if (!id->id && !id->is_set && !id->is_set8) {
+> +	if (!id->id && id->kind =3D=3D BTF_ID_KIND_SYM) {
+>  		pr_err("WARN: resolve_btfids: unresolved symbol %s\n", id->name);
+>  		warnings++;
+>  	}
+> @@ -696,6 +709,7 @@ static int sets_patch(struct object *obj)
+>  {
+>  	Elf_Data *data =3D obj->efile.idlist;
+>  	struct rb_node *next;
+> +	int cnt;
+>
+>  	next =3D rb_first(&obj->sets);
+>  	while (next) {
+> @@ -715,11 +729,15 @@ static int sets_patch(struct object *obj)
+>  			return -1;
+>  		}
+>
+> -		if (id->is_set) {
+> +		switch (id->kind) {
+> +		case BTF_ID_KIND_SET:
+>  			set =3D data->d_buf + off;
+> +			cnt =3D set->cnt;
+>  			qsort(set->ids, set->cnt, sizeof(set->ids[0]), cmp_id);
+> -		} else {
+> +			break;
+> +		case BTF_ID_KIND_SET8:
+>  			set8 =3D data->d_buf + off;
+> +			cnt =3D set8->cnt;
+>  			/*
+>  			 * Make sure id is at the beginning of the pairs
+>  			 * struct, otherwise the below qsort would not work.
+> @@ -744,10 +762,14 @@ static int sets_patch(struct object *obj)
+>  						bswap_32(set8->pairs[i].flags);
+>  				}
+>  			}
+> +			break;
+> +		case BTF_ID_KIND_SYM:
+> +		default:
+
+Nit: just default, no need for `case BTF_ID_KIND_SYM:`?
+
+> +			pr_err("Unexpected btf_id_kind %d for set '%s'\n", id->kind, id->name=
+);
+> +			return -1;
+>  		}
+>
+> -		pr_debug("sorting  addr %5lu: cnt %6d [%s]\n",
+> -			 off, id->is_set ? set->cnt : set8->cnt, id->name);
+> +		pr_debug("sorting  addr %5lu: cnt %6d [%s]\n", off, cnt, id->name);
+>
+>  		next =3D rb_next(next);
+>  	}
 
