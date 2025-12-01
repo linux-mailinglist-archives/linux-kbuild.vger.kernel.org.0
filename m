@@ -1,324 +1,138 @@
-Return-Path: <linux-kbuild+bounces-9935-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7459EC995C6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 23:16:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40498C99990
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 00:37:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AF6444E2FD3
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 22:16:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA68E3A149A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 23:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400C0285CB3;
-	Mon,  1 Dec 2025 22:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F9A2877E8;
+	Mon,  1 Dec 2025 23:36:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4t6DIrJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arSFJ0KH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7659288502
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Dec 2025 22:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59176192B75;
+	Mon,  1 Dec 2025 23:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764627389; cv=none; b=K2HFX4Gc89+SA2RUDuIJ13VNY/Ommdg/jyvfEEAZXf+U8GDmlJKi50Q1sWbB8xeQOeWxJ52fAyK18G97jDykwSlHn6Z9zzNnycIQERnJb8z9louYXsemc2tC5XpcQWhhzg4v4OLYtYenwz7WEYziQVgkf4BbLcI8r7Ds95Lm49c=
+	t=1764632219; cv=none; b=IRNIGKRDfjLmS20y5r0n4QFLY67d3XZ0YMKQw0E4yv3lbhHBFybnA1KE9hrcj6nOLuZ4nLHZLDmI+qPa7YJ3hJU0En3Wuj/y2CplPRrtT2AD5oYpMiN+nis2OLH7+7+xx4bse8XcF/p04AhUQNUDZ5S4MkHW/IePZQPctYMhyKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764627389; c=relaxed/simple;
-	bh=UANTJ9prjAOLmAhB2BRuWafk1FsbmYtvreo0sbNU5z8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=swQiZY/InF8MM14mnn2tr+5GPbkUseW6Pp+mCEBlvirjyFPSPLpSzawPLdHZw4GBKrT+v/GMmYgJRXNV3QG1l60XBORMxWAMD5hHTE39c0ZsJVMyczXwVoDauvUVPy9jaBD3bsSvOg0+e+DfYxP1PTlOF313NWPaw1eMfZzQid4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4t6DIrJ; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-295548467c7so55423025ad.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 14:16:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764627385; x=1765232185; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qmTDU1yutPapGGMqicm0y3igMZLnZ6HVLLwLttQPajU=;
-        b=P4t6DIrJwo5h6e0EzUCj7jFtVSZvqPBv7k+9nar1oDE9TPPuRTpUalwSGl2ujETfTu
-         6tloHPY/vwS9UXABfme5WxMfSR4toXKUTB7fimCJuPLH7PAcVUO7NgRfRNJuv2pzfWZ2
-         fx6pdezz6sryn+FrD+JMQeCh2cCKnjDRhUt28aolaSU8OurFwWf4iA5YbAeiykdW8q2Q
-         ZL9oi8zG+DBTp5XWnipF2LjEP0IooGNJvtwvnUMzL/36ocnwiK/cMMXm83/ekbpmRoEy
-         iU0ooQWxyGTPu5tuvTQRyA2JeW4CwAWlg0iEGld9xP2YbAmr31Y2gQWAAvpqCkjiy9z1
-         ye4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764627385; x=1765232185;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qmTDU1yutPapGGMqicm0y3igMZLnZ6HVLLwLttQPajU=;
-        b=mO988gWYOcO+BAaqQeYP+4CSJ6i42OShAxAfK0/eHr6d1tkcd7DjFmVjuRsQXDaXyd
-         wFVJ3Igd1L5puUETMsC8veSSvVjtSza1YReVMRjz9dlYH0UN9CGsNIcpeiEFN5VIMrJq
-         Ptht9mtgWt2o1rvfnzEzUi9Z6zW2Tg1Pdp5+/qP3rOGhMhryCIuHwCYDfcrFa+gONAVM
-         FUNMI1VNflhHx3w7hPBo49okxLaazw/FO0bnwYhOxkcV6OvWG2irtjhPKcGyQxczwPUa
-         gILCgAAwLVKtkZ9+8IRmu6stU/7OxzgieaXL0kw31ypZfSytdEss+95aE7ruhE7KZBRm
-         QJgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFxMJLC7CiHlOASUBy8bZ6OdGeiOHk3QCw2ZaeKJSvuSExPNm7NND+SOWoigkSf2L0YSoOJkRcWP6qATo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfWMAybocPiMuu9fYpljKd8XcWfJ3QXXYZWWRyerYOlsQMQ5sR
-	S8ZtgpOkXIJBNfQgmEhe6tYvmiSxvVC2m//jPsYHC5MwdvJfAmPUcd9AOy+67O/oXbJPPwHzbSw
-	v/2qBtENpqKKkK7ZVPWDdx/Npe57530Y=
-X-Gm-Gg: ASbGncvHVlpwkfyqf0YV556U64jStHVANVvYNVFD98O7dfFiyto3EQyjPGX5k193tIQ
-	/zmscODeQYER0asq23GkW3l/4osr3gsRoZfO2yLifJ5VPksYudA5oMAZojSotP9o4oDEg5DVrCM
-	tQ7ZZGVvQZBOPNAVxocqJrL7Wfx7jmkhd3vbT/a9B3BmoWJLxV2QY01MCkP9oR8t9s80WkvIDQK
-	r5P5VDGIMUqE9Z+Rq8fgLuGjYEjPkWl8scZHXHx3d//AWrtD9a5c108AeEepPDwxsfXOZC8d5WL
-	+gpjckx0W+Q=
-X-Google-Smtp-Source: AGHT+IHJonU412I7f/JNw79vOqJqutwP0n+3EczJg91StGLd5pArOCgHU+a6Q32Xj7+OaRUxQ4P4A3BeStvEnWoZ0lM=
-X-Received: by 2002:a17:903:903:b0:295:a1a5:bae9 with SMTP id
- d9443c01a7336-29b6be86b48mr380351715ad.8.1764627384453; Mon, 01 Dec 2025
- 14:16:24 -0800 (PST)
+	s=arc-20240116; t=1764632219; c=relaxed/simple;
+	bh=Nv42c72d7HMMy+9VNtksidEP/EgKDQ53P/Uj+NgeGlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sIYvqIw5CzYUFYC9XLz+xwQ4WYbKjV5bXfnkEigGvVxgG+LGBxDEqbxj13XvWx6iIc3QHWzllIN7liFeF0eXEBEDk4uNW4D/d88R35f4JJ4iC2xBYQ/tn60IWYZiOd5go+z/ddLQItK912GMwQsxAOMNUnCnOtIIZELL8bSHhNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arSFJ0KH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59780C4CEF1;
+	Mon,  1 Dec 2025 23:36:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764632219;
+	bh=Nv42c72d7HMMy+9VNtksidEP/EgKDQ53P/Uj+NgeGlU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=arSFJ0KHc+VGyp3C470dWYNqtj6/kseC4IdBAu75x480mgmbxMKVTcNC03Cixpb+L
+	 IanDN0tQHcprlnhmnnV4pBLQuBmhssQtyRdGCu69hvGd9gGJR9qjH68X5FpysHpZxn
+	 HwRuimRTV6TE1LiUN6vf8SqD3oNjMV1DThvpqQ+dtgEK0DvhQ4SS5R+EDuz3bsrtf+
+	 DFstlLm7m2XtIOEP4m7jErZebBkFjlCChitm9Av979dphEe2vU6AxzWpXmybiVUiY8
+	 DemCaiwJiq20Y7pkrU/jRRM0v89B4qm4DyOSlat7cn8gALZFyf6FAHOOXXBPFxCGcl
+	 6h4J9SeysBD+A==
+Date: Mon, 1 Dec 2025 16:36:54 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Simon Glass <sjg@chromium.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Add top-level target for building gen_init_cpio
+Message-ID: <20251201233654.GA2018462@ax162>
+References: <20251128-kbuild-add-top-level-target-for-building-gen_init_cpio-v1-1-84c63a8fc8d4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251127185242.3954132-1-ihor.solodrai@linux.dev> <20251127185242.3954132-5-ihor.solodrai@linux.dev>
-In-Reply-To: <20251127185242.3954132-5-ihor.solodrai@linux.dev>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Mon, 1 Dec 2025 14:16:11 -0800
-X-Gm-Features: AWmQ_bmWg6fCHhn0HD4vXKJ3af5X_5LGHopBhTlMCANtxVWkk5lw1M6mvAxVkCk
-Message-ID: <CAEf4BzbuHChnpoAGm1EJt6tVbW7yruV14BCD0iMeJmNt1OyEiA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>, 
-	Donglin Peng <dolinux.peng@gmail.com>, bpf@vger.kernel.org, dwarves@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251128-kbuild-add-top-level-target-for-building-gen_init_cpio-v1-1-84c63a8fc8d4@kernel.org>
 
-On Thu, Nov 27, 2025 at 10:53=E2=80=AFAM Ihor Solodrai <ihor.solodrai@linux=
-.dev> wrote:
->
-> Currently resolve_btfids updates .BTF_ids section of an ELF file
-> in-place, based on the contents of provided BTF, usually within the
-> same input file, and optionally a BTF base.
->
-> This patch changes resolve_btfids behavior to enable BTF
-> transformations as part of its main operation. To achieve this
-> in-place ELF write in resolve_btfids is replaced with generation of
-> the following binaries:
->   * ${1}.btf with .BTF section data
->   * ${1}.distilled_base.btf with .BTF.base section data (for
->     out-of-tree modules)
->   * ${1}.btf_ids with .BTF_ids section data, if it exists in ${1}
->
-> The execution of resolve_btfids and consumption of its output is
-> orchestrated by scripts/gen-btf.sh introduced in this patch.
->
-> The rationale for this approach is that updating ELF in-place with
-> libelf API is complicated and bug-prone, especially in the context of
-> the kernel build. On the other hand applying objcopy to manipulate ELF
-> sections is simpler and more reliable.
->
-> There are two distinct paths for BTF generation and resolve_btfids
-> application in the kernel build: for vmlinux and for kernel modules.
->
-> For the vmlinux binary a .BTF section is added in a roundabout way to
-> ensure correct linking (details below). The patch doesn't change this
-> approach, only the implementation is a little different.
->
-> Before this patch it worked like follows:
->
->   * pahole consumed .tmp_vmlinux1 [1] and added .BTF section with
->     llvm-objcopy [2] to it
->   * then everything except the .BTF section was stripped from .tmp_vmlinu=
-x1
->     into a .tmp_vmlinux1.bpf.o object [1], later linked into vmlinux
->   * resolve_btfids was executed later on vmlinux.unstripped [3],
->     updating it in-place
->
-> After this patch gen-btf.sh implements the following:
->
->   * pahole consumes .tmp_vmlinux1 and produces a *detached* file with
->     raw BTF data
->   * resolve_btfids consumes .tmp_vmlinux1 and detached BTF to produce
->     (potentially modified) .BTF, and .BTF_ids sections data
->   * a .tmp_vmlinux1.bpf.o object is then produced with objcopy copying
->     BTF output of resolve_btfids
->   * .BTF_ids data gets embedded into vmlinux.unstripped in
->     link-vmlinux.sh by objcopy --update-section
->
-> For the kernel modules creating special .bpf.o file is not necessary,
-> and so embedding of sections data produced by resolve_btfids is
-> straightforward with the objcopy.
->
-> With this patch an ELF file becomes effectively read-only within
-> resolve_btfids, which allows to delete elf_update() call and satelite
-> code (like compressed_section_fix [4]).
->
-> Endianness handling of .BTF_ids data is also changed. Previously the
-> "flags" part of the section was bswapped in sets_patch() [5], and then
-> Elf_Type was modified before elf_update() to signal to libelf that
-> bswap may be necessary. With this patch we explicitly bswap entire
-> data buffer on load and on dump.
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/scri=
-pts/link-vmlinux.sh#n115
-> [2] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/tree/btf_encod=
-er.c#n1835
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/scri=
-pts/link-vmlinux.sh#n285
-> [4] https://lore.kernel.org/bpf/20200819092342.259004-1-jolsa@kernel.org/
-> [5] https://lore.kernel.org/bpf/cover.1707223196.git.vmalik@redhat.com/
->
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+On Fri, Nov 28, 2025 at 09:01:55PM +0100, Nicolas Schier wrote:
+> Add a top-level target for building gen_init_cpio to prevent re-entering
+> kbuild for 'modules-cpio-pkg'.
+> 
+> The recently introduced target 'modules-cpio-pkg' depends on
+> gen_init_cpio but there is no simple way to add this dependency as a
+> prerequisite that can be built in parallel to other recipes.
+> 
+> Introducing the top-level target, enables fixing this and also prepares
+> a possible move of gen_init_cpio from usr/ to scripts/.
+> 
+> Signed-off-by: Nicolas Schier <nsc@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+
+Do you want to take this for a late 6.19 features pull request or should
+I pick it up during the 6.20 cycle?
+
 > ---
->  MAINTAINERS                          |   1 +
->  scripts/Makefile.modfinal            |   5 +-
->  scripts/gen-btf.sh                   | 167 ++++++++++++++++++++
->  scripts/link-vmlinux.sh              |  42 +-----
->  tools/bpf/resolve_btfids/main.c      | 218 +++++++++++++++++----------
->  tools/testing/selftests/bpf/Makefile |   5 +
->  6 files changed, 317 insertions(+), 121 deletions(-)
->  create mode 100755 scripts/gen-btf.sh
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 48aabeeed029..5cd34419d952 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4672,6 +4672,7 @@ F:        net/sched/act_bpf.c
->  F:     net/sched/cls_bpf.c
->  F:     samples/bpf/
->  F:     scripts/bpf_doc.py
-> +F:     scripts/gen-btf.sh
->  F:     scripts/Makefile.btf
->  F:     scripts/pahole-version.sh
->  F:     tools/bpf/
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 542ba462ed3e..3862fdfa1267 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -38,9 +38,8 @@ quiet_cmd_btf_ko =3D BTF [M] $@
->        cmd_btf_ko =3D                                                    =
- \
->         if [ ! -f $(objtree)/vmlinux ]; then                            \
->                 printf "Skipping BTF generation for %s due to unavailabil=
-ity of vmlinux\n" $@ 1>&2; \
-> -       else                                                            \
-> -               LLVM_OBJCOPY=3D"$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) =
-$(MODULE_PAHOLE_FLAGS) --btf_base $(objtree)/vmlinux $@; \
-> -               $(RESOLVE_BTFIDS) -b $(objtree)/vmlinux $@;             \
-> +       else    \
-> +               $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vmlin=
-ux $@; \
->         fi;
->
-
-[...]
-
-> +if ! is_enabled CONFIG_DEBUG_INFO_BTF; then
-> +       exit 0
-> +fi
+>  Makefile                 | 6 ++++++
+>  scripts/Makefile.package | 1 -
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 17cfa11ca716..d5750e5bd633 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1383,6 +1383,10 @@ ifdef CONFIG_HEADERS_INSTALL
+>  prepare: headers
+>  endif
+>  
+> +PHONY += usr_gen_init_cpio
+> +usr_gen_init_cpio: scripts_basic
+> +	$(Q)$(MAKE) $(build)=usr usr/gen_init_cpio
 > +
-> +gen_btf_data()
-> +{
-> +       info BTF "${ELF_FILE}"
-> +       btf1=3D"${ELF_FILE}.btf.1"
-> +       ${PAHOLE} -J ${PAHOLE_FLAGS}                    \
-> +               ${BTF_BASE:+--btf_base ${BTF_BASE}}     \
-> +               --btf_encode_detached=3D${btf1}           \
-
-please double-check what pahole version has --btf_encode_detached, we
-might need to change minimal supported pahole version because of this
-
-pw-bot: cr
-
-
-> +               "${ELF_FILE}"
+>  PHONY += scripts_unifdef
+>  scripts_unifdef: scripts_basic
+>  	$(Q)$(MAKE) $(build)=scripts scripts/unifdef
+> @@ -1635,6 +1639,8 @@ distclean: mrproper
+>  # Packaging of the kernel to various formats
+>  # ---------------------------------------------------------------------------
+>  
+> +modules-cpio-pkg: usr_gen_init_cpio
 > +
-> +       info BTFIDS "${ELF_FILE}"
-> +       RESOLVE_BTFIDS_OPTS=3D""
-> +       if is_enabled CONFIG_WERROR; then
-> +               RESOLVE_BTFIDS_OPTS+=3D" --fatal_warnings "
-> +       fi
-> +       if [ -n "${KBUILD_VERBOSE}" ]; then
-> +               RESOLVE_BTFIDS_OPTS+=3D" -v "
-> +       fi
-> +       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_OPTS}        \
-> +               ${BTF_BASE:+--btf_base ${BTF_BASE}}     \
-> +               --btf ${btf1} "${ELF_FILE}"
-> +}
-> +
-
-[...]
-
-> +static int dump_raw_data(const char *out_path, const void *data, u32 siz=
-e)
-> +{
-> +       int fd, ret;
->
-> -       err =3D elf_update(obj->efile.elf, ELF_C_WRITE);
-> -       if (err < 0) {
-> -               pr_err("FAILED elf_update(WRITE): %s\n",
-> -                       elf_errmsg(-1));
-> +       fd =3D open(out_path, O_WRONLY | O_CREAT | O_TRUNC, 0640);
-> +       if (fd < 0) {
-> +               pr_err("Couldn't open %s for writing\n", out_path);
-> +               return fd;
-> +       }
-> +
-> +       ret =3D write(fd, data, size);
-> +       if (ret < 0 || ret !=3D size) {
-
-use fopen() and fwrite() instead of low-level syscalls? for write()
-it's "expected" that it might be interrupted and not complete a full
-write, so you'd need to handle that in a loop properly. With fwrite()
-I think all this is handled internally, so I'd stick to fopen()'s FILE
-abstraction and fwrite().
-
-> +               pr_err("Failed to write data to %s\n", out_path);
-> +               close(fd);
-> +               unlink(out_path);
-> +               return -1;
-> +       }
-
-[...]
-
-> +static int dump_raw_btf(struct btf *btf, const char *out_path)
-> +{
-> +       const void *raw_btf_data;
-> +       u32 raw_btf_size;
-> +       int fd, err;
-> +
-> +       raw_btf_data =3D btf__raw_data(btf, &raw_btf_size);
-> +       if (raw_btf_data =3D=3D NULL) {
-
-nit: !raw_btf_data, it's C
-
-[...]
-
-> @@ -844,6 +879,11 @@ int main(int argc, const char **argv)
->                 usage_with_options(resolve_btfids_usage, btfid_options);
->
->         obj.path =3D argv[0];
-> +       strcpy(out_path, obj.path);
-> +       path_len =3D strlen(out_path);
-
-Eduard already suggested using snprintf() later in the code, I'd say
-use snprintf() here as well instead of strcpy(). When working with
-fixed-sized buffers, snprintf() is the most ergonomic way to deal with
-that and not trigger unnecessary compiler warnings about possible
-truncations, out of buffer writes, and stuff like that.
-
-> +
-> +       if (load_btf(&obj))
-> +               goto out;
->
->         if (elf_collect(&obj))
->                 goto out;
-
-[...]
+>  %src-pkg: FORCE
+>  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.package $@
+>  %pkg: include/config/kernel.release FORCE
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 83bfcf7cb09f..0ec946f9b905 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -201,7 +201,6 @@ quiet_cmd_cpio = CPIO    $@
+>        cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
+>  
+>  modules-$(KERNELRELEASE)-$(ARCH).cpio: .tmp_modules_cpio
+> -	$(Q)$(MAKE) $(build)=usr usr/gen_init_cpio
+>  	$(call cmd,cpio)
+>  
+>  PHONY += modules-cpio-pkg
+> 
+> ---
+> base-commit: cb6649f6217c0331b885cf787f1d175963e2a1d2
+> change-id: 20251128-kbuild-add-top-level-target-for-building-gen_init_cpio-6401e0ee0710
+> prerequisite-message-id: 20251125-cpio-modules-pkg-v2-0-aa8277d89682@pengutronix.de
+> prerequisite-patch-id: 9132e567c46357daaf2bd728ff18bfda1c51a9cb
+> prerequisite-patch-id: 0dfe03db654169d314d3baaba8536a9bfc9bcc70
+> 
+> Best regards,
+> -- 
+> Nicolas
+> 
 
