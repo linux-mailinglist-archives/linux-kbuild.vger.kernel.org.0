@@ -1,279 +1,214 @@
-Return-Path: <linux-kbuild+bounces-9921-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9922-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D49C96583
-	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 10:15:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFEAC98131
+	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 16:38:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 91713341039
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 09:15:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABEC93A366D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 15:37:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2C572BE04B;
-	Mon,  1 Dec 2025 09:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC7F13321C4;
+	Mon,  1 Dec 2025 15:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="kqGB9bm3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMgVtRww"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9A71C5D72;
-	Mon,  1 Dec 2025 09:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C585E3321AB;
+	Mon,  1 Dec 2025 15:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764580546; cv=none; b=uGIT982yzGjUqZ6fyyVeXtwqM6NXteQp3UMBxCPHpOik1Y8kOHMVNhmuDJweFFDnlPEFMm41QVPSv0ysXJSa9dsrcwpGNjDl4+WuVlyB4OnJs7/lNMYDRR8JfHFIxBJIcFSIQq1+fobtlm/N4IpxbSoXo4+GhugVxcRjPlKqxFI=
+	t=1764603471; cv=none; b=Zoz8URjNP4lz5D6og5SJXAI1XAjqD8T0TuBGdxVMYOLQAuZvE/70SC8DHk46p6tAKMfsb341wCAudyPgqiGwEFrvLDlQTOfGmEPshIxurhovIyHS6c7fWCQcsGs/rjg3IjVmCOgsU1rMsvHDftOXG3UgYX+b1Ci82hYVdFUD4+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764580546; c=relaxed/simple;
-	bh=czIpE4+9+FfQLZx0FfytxxzcMS23ZMMCFTyej9A76rw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C1DpNY84ilxbQbcTUZFiVCcsGLKuEw3Qh7LqdaGbZjLo965EN7xcg9l32Qwrixe7iQftk6N/b9J+8ETo+ek962o8qgM8AcsyFh/ZiS5e2+Wd6hkWiiJtsjU4qNwILsDu86ngzUSEfHNX8wlWTIxtKtjS3M1DjpfgajjAEKlPo9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=kqGB9bm3; arc=none smtp.client-ip=185.226.149.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight@runbox.com>)
-	id 1vQ00I-007RTg-FN; Mon, 01 Dec 2025 10:15:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector2; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date;
-	bh=A1aE9FNL9Wa0FF02Gl4fjI6YVQrv4fhCdVpT1ZzQa6M=; b=kqGB9bm3lAJJlrRo0w0reOO6d1
-	iXZioVyDL2Q1yxRxK+PCasHZDrdYLApbdZRyYWoEBMBdcGk0TCn5ke7wzg7YrVt4Eqlcx8a1fl8MD
-	0HXEa8WAGckaUHgG5oR9PNo+fAb+SbMBXO3ZsfY/6Aq97yuHVP4EAkjw6LJrc+BJt/Kdh47r/YOJw
-	ScpjSyoGnf7HShPnBxDhC02aesV2WYkSCR09sU8QDjxN1o3YdVqKaTsX+D2jLkX23ZFb4JLVl9dZT
-	4dfiZKNA6warGMS7CHSR3sjcU3R4GM5YpaZnvxXR64JdBDJujGNZ2N0vMzCTjm9IZ8xLL395slAY4
-	ysGHfUZQ==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight@runbox.com>)
-	id 1vQ00H-0003uU-Gc; Mon, 01 Dec 2025 10:15:29 +0100
-Received: by submission03.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1vQ007-007Kn9-RK; Mon, 01 Dec 2025 10:15:19 +0100
-Date: Mon, 1 Dec 2025 09:15:14 +0000
-From: david laight <david.laight@runbox.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?=
- Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Sergio =?UTF-8?B?R29uesOhbGV6?= Collado
- <sergio.collado@gmail.com>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: `KSYM_NAME_LEN` strikes again
-Message-ID: <20251201091514.0bea544b@pumpkin>
-In-Reply-To: <20251201021659.1729308-1-ojeda@kernel.org>
-References: <20251201021659.1729308-1-ojeda@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1764603471; c=relaxed/simple;
+	bh=awUTRTYRGaLiiA9acpIPZAJNdxWgH4jwSBoltIcAfH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F3QDkcOv2ACM+kO6mKojbuP4Mm+xOhEAB3HkLSFe4pirXhkp28qWdYC4xPnlLwXKuN4g71q84WS/slde+b4Q7QPh2GuKCulDf/2mK4VOnszfCoJKQpBIeSAO6LhAfT4CKxqeM2uWKpATWwhb8JXm7sr3bidvUSof6nOqrhFUHAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMgVtRww; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD7FC4CEF1;
+	Mon,  1 Dec 2025 15:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764603471;
+	bh=awUTRTYRGaLiiA9acpIPZAJNdxWgH4jwSBoltIcAfH0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=BMgVtRwwGY72+uUV4/BPmYEhSjTDu1yr1IvMTtMhRW09D2jqJFg7SeWcuE7jvvZZX
+	 ilmaeEtq1uu7IGrMgEleUZ0G1rc6sIeBjvr9f1dayhCXkpJk7RDOBfjU0Gx8O6hzBe
+	 hGw5RdUK0yNJRQWDEZiuwX/QdZtUvfax1TbRe72U+1d33ghz1E1gqcMB8zw1/OICXV
+	 QhpHc198CJfPVFOdF+w5pVlYKPRFIOCpzmhGX63pRNZFQEC1C2idN/dzku/BB6kexA
+	 i0JdK2dVYtCdLztcOvgA22UrD91y3xbhF8NxQgBw3isXbokKEmgFHvxNxiz01dIxmQ
+	 qbfr8IEZFs+Ig==
+Date: Mon, 1 Dec 2025 16:37:38 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL] kbuild changes for v6.19
+Message-ID: <aS22QhwdrHN24ToD@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Mon,  1 Dec 2025 03:16:59 +0100
-Miguel Ojeda <ojeda@kernel.org> wrote:
-
-> Hi all,
-> 
-> In some Rust configs with -Os and doctests enabled, we are hitting
-> KSYM_NAME_LEN again:
-> 
->     Symbol _RINvMs3_NvNtNtCs1ewLyjEZ7Le_6kernel4sync4lock1__INtB6_12___ThePinData
->     NtNvNvNvCs1RN9EnoqSlC_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_0
->     4main52__doctest_main_rust_kernel_sync_lock_spinlock_rs_34_05InnerNtNtB8_8spinlock
->     15SpinLockBackendE5stateNtNtCsb7ts3l0a5c3_4core7convert10InfallibleINtNtCs5hDniGXnib3_
->     8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB61_6OpaqueNtNtCse4H1uDrGHP9_
->     8bindings12bindings_raw8spinlockE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3F_E3new0s_0E0B6c_B4j_EEB1d_
->     too long for kallsyms (518 >= 512).
->     Please increase KSYM_NAME_LEN both in kernel and kallsyms.c
-> 
-> Which expands to e.g.
-> 
->     <kernel::sync::lock::_::__ThePinData<doctests_kernel_generated::rust_doctest_kernel_sync_lock_spinlock_rs_0::main::_doctest_main_rust_kernel_sync_lock_spinlock_rs_34_0::Inner,
->     kernel::sync::lock::spinlock::SpinLockBackend>>::state::<core::convert::Infallible,  
->     pin_init::__internal::InitClosure<<kernel::types::Opaque<bindings::bindings_raw::spinlock>>::ffi_init
->     <<kernel::sync::lock::Lock<doctests_kernel_generated::rust_doctest_kernel_sync_lock_spinlock_rs_0::main::_doctest_main_rust_kernel_sync_lock_spinlock_rs_34_0::Inner,
->     kernel::sync::lock::spinlock::SpinLockBackend>>::new::{closure#0}::{closure#1}>::{closure#0},  
->     kernel::types::Opaque<bindings::bindings_raw::spinlock>, core::convert::Infallible>>
-
-Given that is even more unreadable than a typical C++ name is it actually worth printing?
-Looking at it, perhaps some of the inner <...> could be replaced with a hash
-(possibly with the last real name added) with the ability to look up the hash
-in a separate table if needed.
-I think that is equivalent to using a short name for a type?
-
-If rust is using the same ELF symbol resolution as C uses in shared libraries
-you really don't want long symbols at all.
-Clearly no one thought about the performance of dynamic linking.
-
-	David
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qQBt54GaISGqDieK"
+Content-Disposition: inline
 
 
-> 
-> If we decide to increase KSYM_NAME_LEN again, we need to use a number
-> that is a multiple of 64:
-> 
->     BUILD_BUG_ON(KSYM_NAME_LEN % sizeof(u64));
-> 
-> I first tried with 512+128, but I still saw things symbols slightly over
-> that:
-> 
->     too long for kallsyms (645 >= 640).
-> 
-> So I picked 512+256 and it builds clean with a patch like the one below.
-> Hopefully nobody relies on it being a power of 2.
-> 
-> Other options:
-> 
->   - Conditionally doing it only for those builds that need it, to avoid
->     penalizing other builds (including normal Rust builds).
-> 
->   - Building the Rust side with -O2 for now, or at least tweaking some
->     of the inlining behavior under -Os.
-> 
->   - Not supporting Rust for `CC_OPTIMIZE_FOR_SIZE` for now (e.g. under
->     `BROKEN`).
-> 
->   - Stop all this and go with a hashing approach like Willy/Linus
->     discussed back then:
-> 
->         https://lore.kernel.org/rust-for-linux/CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com/
-> 
-> Cheers,
-> Miguel
-> 
-> From: Miguel Ojeda <ojeda@kernel.org>
-> Date: Sun, 30 Nov 2025 17:46:29 +0100
-> Subject: [PATCH] kallsyms: increase KSYM_NAME_LEN to 768 (512+256)
-> 
-> Untested!
-> ---
->  include/linux/kallsyms.h            | 2 +-
->  kernel/livepatch/core.c             | 4 ++--
->  lib/tests/longest_symbol_kunit.c    | 7 +++++--
->  scripts/kallsyms.c                  | 2 +-
->  tools/include/linux/kallsyms.h      | 2 +-
->  tools/lib/perf/include/perf/event.h | 2 +-
->  tools/lib/symbol/kallsyms.h         | 2 +-
->  7 files changed, 12 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
-> index d5dd54c53ace..f17d335f36b2 100644
-> --- a/include/linux/kallsyms.h
-> +++ b/include/linux/kallsyms.h
-> @@ -15,7 +15,7 @@
-> 
->  #include <asm/sections.h>
-> 
-> -#define KSYM_NAME_LEN 512
-> +#define KSYM_NAME_LEN 768
->  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + \
->  			(KSYM_NAME_LEN - 1) + \
->  			2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
-> diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
-> index 0e73fac55f8e..cf7f2d561386 100644
-> --- a/kernel/livepatch/core.c
-> +++ b/kernel/livepatch/core.c
-> @@ -210,7 +210,7 @@ static int klp_resolve_symbols(Elf_Shdr *sechdrs, const char *strtab,
->  	 * we use the smallest/strictest upper bound possible (56, based on
->  	 * the current definition of MODULE_NAME_LEN) to prevent overflows.
->  	 */
-> -	BUILD_BUG_ON(MODULE_NAME_LEN < 56 || KSYM_NAME_LEN != 512);
-> +	BUILD_BUG_ON(MODULE_NAME_LEN < 56 || KSYM_NAME_LEN != 768);
-> 
->  	relas = (Elf_Rela *) relasec->sh_addr;
->  	/* For each rela in this klp relocation section */
-> @@ -224,7 +224,7 @@ static int klp_resolve_symbols(Elf_Shdr *sechdrs, const char *strtab,
-> 
->  		/* Format: .klp.sym.sym_objname.sym_name,sympos */
->  		cnt = sscanf(strtab + sym->st_name,
-> -			     ".klp.sym.%55[^.].%511[^,],%lu",
-> +			     ".klp.sym.%55[^.].%767[^,],%lu",
->  			     sym_objname, sym_name, &sympos);
->  		if (cnt != 3) {
->  			pr_err("symbol %s has an incorrectly formatted name\n",
-> diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_kunit.c
-> index 9b4de3050ba7..ff8eed2cb4bd 100644
-> --- a/lib/tests/longest_symbol_kunit.c
-> +++ b/lib/tests/longest_symbol_kunit.c
-> @@ -19,8 +19,11 @@
->  #define DDDDI(name) DDDI(n##name##name)
->  #define DDDDDI(name) DDDDI(n##name##name)
-> 
-> -/*Generate a symbol whose name length is 511 */
-> -#define LONGEST_SYM_NAME  DDDDDI(g1h2i3j4k5l6m7n)
-> +#define __SUM(A, B) s##A##B
-> +#define SUM(A, B) __SUM(A, B)
-> +
-> +/* Generate a symbol whose name length is KSYM_NAME_LEN (including null) */
-> +#define LONGEST_SYM_NAME SUM(DDDDDI(g1h2i3j4k5l6m7n),DDDDI(g1h2i3j4k5l6m7n))
-> 
->  #define RETURN_LONGEST_SYM 0xAAAAA
-> 
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 4b0234e4b12f..c90bb90c874e 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -31,7 +31,7 @@
-> 
->  #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
-> 
-> -#define KSYM_NAME_LEN		512
-> +#define KSYM_NAME_LEN		768
-> 
->  struct sym_entry {
->  	unsigned long long addr;
-> diff --git a/tools/include/linux/kallsyms.h b/tools/include/linux/kallsyms.h
-> index f61a01dd7eb7..089b59906641 100644
-> --- a/tools/include/linux/kallsyms.h
-> +++ b/tools/include/linux/kallsyms.h
-> @@ -6,7 +6,7 @@
->  #include <stdio.h>
->  #include <unistd.h>
-> 
-> -#define KSYM_NAME_LEN 512
-> +#define KSYM_NAME_LEN 768
-> 
->  struct module;
-> 
-> diff --git a/tools/lib/perf/include/perf/event.h b/tools/lib/perf/include/perf/event.h
-> index aa1e91c97a22..ea3debf97db9 100644
-> --- a/tools/lib/perf/include/perf/event.h
-> +++ b/tools/lib/perf/include/perf/event.h
-> @@ -104,7 +104,7 @@ struct perf_record_throttle {
->  };
-> 
->  #ifndef KSYM_NAME_LEN
-> -#define KSYM_NAME_LEN 512
-> +#define KSYM_NAME_LEN 768
->  #endif
-> 
->  struct perf_record_ksymbol {
-> diff --git a/tools/lib/symbol/kallsyms.h b/tools/lib/symbol/kallsyms.h
-> index 542f9b059c3b..435f626c92d1 100644
-> --- a/tools/lib/symbol/kallsyms.h
-> +++ b/tools/lib/symbol/kallsyms.h
-> @@ -7,7 +7,7 @@
->  #include <linux/types.h>
-> 
->  #ifndef KSYM_NAME_LEN
-> -#define KSYM_NAME_LEN 512
-> +#define KSYM_NAME_LEN 768
->  #endif
-> 
->  static inline u8 kallsyms2elf_binding(char type)
-> 
-> base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-> --
-> 2.52.0
-> 
+--qQBt54GaISGqDieK
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Linus,
+
+please pull these update to Kbuild for v6.19.  This is my first pull
+request, so please let me know if anything is incorrect and not matching
+your standards.
+
+All changes have been in -next, most for several cycles without reported
+problems.
+
+Non-native kbuild changes are related to addition of -fms-extensions and
+a conversion example; as well as for the userspace CC_CAN_LINK addition.
+
+Thanks and kind regards,
+Nicolas
+
+
+----------------------------------------------------------------
+
+The following changes since commit 211ddde0823f1442e4ad052a2f30f050145ccada:
+
+  Linux 6.18-rc2 (2025-10-19 15:19:16 -1000)
+
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git t=
+ags/kbuild-6.19-1
+
+for you to fetch changes up to 2a9c8c0b59d366acabb8f891e84569376f3e2709:
+
+  kbuild: add target to build a cpio containing modules (2025-11-26 21:56:1=
+4 +0100)
+
+----------------------------------------------------------------
+Kbuild updates for v6.19
+
+  - Enable -fms-extensions, allowing anonymous use of tagged struct or
+    union in struct/union (tag kbuild-ms-extensions-6.19).  An exemplary
+    conversion patch is added here, too (btrfs).
+
+  - Introduce architecture-specific CC_CAN_LINK and flags for userprogs
+
+  - Add new packaging target 'modules-cpio-pkg' for building a initramfs
+    cpio w/ kmods
+
+  - Handle included .c files in gen_compile_commands
+
+  - Minor kbuild changes:
+    - Use objtree for module signing key path, fixing oot kmod signing
+    - Improve documentation of KBUILD_BUILD_TIMESTAMP
+    - Reuse KBUILD_USERCFLAGS for UAPI, instead of defining twice
+    - Rename scripts/Makefile.extrawarn to Makefile.warn
+    - Drop obsolete types.h check from headers_check.pl
+    - Remove outdated config leak ignore entries
+
+Signed-off-by: Nicolas Schier <nsc@kernel.org>
+
+----------------------------------------------------------------
+Ahmad Fatoum (1):
+      initramfs: add gen_init_cpio to hostprogs unconditionally
+
+Gang Yan (1):
+      kbuild: doc: improve KBUILD_BUILD_TIMESTAMP documentation
+
+Mikhail Malyshev (1):
+      kbuild: Use objtree for module signing key path
+
+Nathan Chancellor (4):
+      jfs: Rename _inline to avoid conflict with clang's '-fms-extensions'
+      kbuild: Add '-fms-extensions' to areas with dedicated CFLAGS
+      kbuild: Rename Makefile.extrawarn to Makefile.warn
+      kbuild: uapi: Drop types.h check from headers_check.pl
+
+Nicolas Schier (3):
+      Merge tag 'kbuild-ms-extensions-6.19' into kbuild-next
+      MAINTAINERS, .mailmap: Update mail address for Nicolas Schier
+      scripts: headers_install.sh: Remove two outdated config leak ignore e=
+ntries
+
+Pat Somaru (1):
+      scripts/clang-tools: Handle included .c files in gen_compile_commands
+
+Rasmus Villemoes (2):
+      Kbuild: enable -fms-extensions
+      btrfs: send: make use of -fms-extensions for defining struct fs_path
+
+Sascha Hauer (1):
+      kbuild: add target to build a cpio containing modules
+
+Thomas Wei=DFschuh (4):
+      kbuild: uapi: reuse KBUILD_USERCFLAGS
+      kbuild: don't enable CC_CAN_LINK if the dummy program generates warni=
+ngs
+      init: deduplicate cc-can-link.sh invocations
+      kbuild: allow architectures to override CC_CAN_LINK
+
+ .mailmap                                      |   4 +-
+ Documentation/kbuild/kbuild.rst               |  10 +-
+ MAINTAINERS                                   |   2 +-
+ Makefile                                      |  18 +++-
+ arch/arm64/kernel/vdso32/Makefile             |   3 +-
+ arch/loongarch/vdso/Makefile                  |   2 +-
+ arch/parisc/boot/compressed/Makefile          |   2 +-
+ arch/powerpc/boot/Makefile                    |   3 +-
+ arch/s390/Makefile                            |   3 +-
+ arch/s390/purgatory/Makefile                  |   3 +-
+ arch/x86/Makefile                             |   4 +-
+ arch/x86/boot/compressed/Makefile             |   7 +-
+ drivers/firmware/efi/libstub/Makefile         |   4 +-
+ drivers/gpu/drm/Makefile                      |   2 +-
+ fs/btrfs/send.c                               |  39 ++++----
+ fs/jfs/jfs_incore.h                           |   6 +-
+ init/Kconfig                                  |   8 +-
+ scripts/Kconfig.include                       |   3 +
+ scripts/Makefile.modinst                      |   2 +-
+ scripts/Makefile.package                      |  20 ++++
+ scripts/{Makefile.extrawarn =3D> Makefile.warn} |   4 +-
+ scripts/cc-can-link.sh                        |   2 +-
+ scripts/clang-tools/gen_compile_commands.py   | 135 ++++++++++++++++++++++=
+++--
+ scripts/headers_install.sh                    |   2 -
+ usr/Makefile                                  |   4 +-
+ usr/include/Makefile                          |  11 +--
+ usr/include/headers_check.pl                  |  63 ------------
+ 27 files changed, 236 insertions(+), 130 deletions(-)
+ rename scripts/{Makefile.extrawarn =3D> Makefile.warn} (98%)
+
+--qQBt54GaISGqDieK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmkttkIACgkQB1IKcBYm
+EmmTexAAk4tdTzr41SYNnA3mMkrcMqKXBUHroUIY8t2ZA2SLS6sOFkelD78laaIR
+SiQY4QO0AL1vudAF01dwy88H8ydjJye9VfVp3wr5boZbyrX0fkaR0VmCFJKQBezx
+Nj0zQ/qVNLgltXYIlZtwykpIsLfsGbxDP9uKwxio6OT5tuy8jtOGsN4kHuKYP18r
+ub/mz+KwPj+QPLD/F7KhltmW8j0bRAmG5mqr6iCq2+D5kzXx/eea/Fb2p08AFiZC
+2LisF6+xYZoKTdpoP57uZo5Jd+jVflSweDibbfqnKvweDgcbvBa0tabau0l/ZPAU
+ryNgYrW6b9UdKKlwzzbI3D9/LjgwPAGXiC1OBe82P539lsMkSQixxtjH13uDysfF
+HOkWLDBooPtebFZIXn/RNk/Ow4QScRW7DhfKMFhpRdH6tXLIc9sxduoVW5zY2tCl
+oCy535gfQMVWrlMPUHbMggp1FlXkZjOEvKzwZcR6MwTWcSW00D18R/wFELS6QQE8
+lwerDiRa+J/1jp3Kv06cVcw3sTNcvVaOUb8e0ADQV2qYrzk6R6mVLQlC+YSmv9/N
+gtobu61J+ZfcRucsNFX1lyBNrj0uYbxXzgn6wd+dDi1Qld0Q5SCaXoc2QhpX6/+h
+SbjQKxCPv4QAfHYwdhTitxsisHIu00rIu3IzG8d4LaRkiYrqbkY=
+=04W+
+-----END PGP SIGNATURE-----
+
+--qQBt54GaISGqDieK--
 
