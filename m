@@ -1,112 +1,126 @@
-Return-Path: <linux-kbuild+bounces-9925-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9926-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D44C983FA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 17:30:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE64C98409
+	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 17:32:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E39A03440D7
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 16:30:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64D2B3A16A4
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 16:32:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45DA23328F5;
-	Mon,  1 Dec 2025 16:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6753731CA50;
+	Mon,  1 Dec 2025 16:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZjDmW6a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nIrPlRu+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4010334C13
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Dec 2025 16:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07651FBEA6
+	for <linux-kbuild@vger.kernel.org>; Mon,  1 Dec 2025 16:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764606627; cv=none; b=oFHzg3YT1MD8VbsEfE+TBZLk4E1/Wm7bNVfQHESWW49KLtEHksWbXBwOCyUXUis3/JF7YKhRLSHInG10e+Vq7d4WZfwTafJaE5nA99kVt0Zo52drnAdNvHmWt1LpsSCxG45Aab+j8uNWuaeYCLvKaWKdTkDHqD9qbx5akosAQgw=
+	t=1764606736; cv=none; b=joyz1NWtXEVaMgTz6f0L8VkbUD5h/i5wDKdUSYvozYmtLLQzFuj/72+5j3r0kpIsjfKxrUHXcbgNADyj7lL2jV4regWq7DyW+shhk7MRtoQMo2RZkjmaQ4Rz3kiZcYDqUt6wQj7GlCZAYxAyfURMGu53Kqdo1KzKDmVylMdD1I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764606627; c=relaxed/simple;
-	bh=zpKbkUkQrhP8Z8G+eZrB42QlKP9ymO5xUUiC1g9Bi/g=;
+	s=arc-20240116; t=1764606736; c=relaxed/simple;
+	bh=sw6lbfdaMYOrwnUAK6JJqbnSFVu5NtCzD19L3bQZnvw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J+m4oFT9oYPax9vfGkp4HZysgVM3fm1tZ8sa6kFevEzzYC4s3L7rLeK5eXZMbRV4L139L6o8dnz1Y3v8lD7VbKI+GJXkwmA1atLBv32rUReg+UE9pOAOxpvYUHN8NTrW7hDKgubS0iLYljI0xebYtTsDdHqHcMN0aBEZYYYjsQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZjDmW6a; arc=none smtp.client-ip=209.85.215.181
+	 To:Cc:Content-Type; b=ca0Xq4dFywJq+regephLU6C8jwz95cn3jDT8FH5ziiGjYJXzpeJIr/Nbe02BM/+9UnH5/R7WlIY1v9HmqEfv28ukFMG1KP/bEtB3H8yoMmW1EvSawf/F1lS2dRm9wSBngrUaPk2QUw549TRyfk47n2h/w/1wE5Roo2jK2G1KjaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nIrPlRu+; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b9a5f4435adso255410a12.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 08:30:25 -0800 (PST)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-bc144564e07so124524a12.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 08:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764606625; x=1765211425; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764606734; x=1765211534; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zpKbkUkQrhP8Z8G+eZrB42QlKP9ymO5xUUiC1g9Bi/g=;
-        b=BZjDmW6aSk8coDJLlfCMz7XX/PpeP4g7GsVX6FDsePUr1MhUF0I3ZtGQ4vKl5+8rNA
-         dQEQ19BYWduDEZKIUAAN/0YsD0aeAvJ0jHO8ljS5KtJem/OnsY9hpnXbbI85xvTf5UG9
-         zwJcyd8XS2JgE2ZLV+3lToGef7yjVmxuNpo74QkFTJ008HjZ/VU29neMgS3MSYh7zr8V
-         QCgEG0ottiVg8gjGWBsc1svovyQcu+WmzwPz01U+y5HSj/8n/ajY7ZiXTqFvkyrRubi4
-         bR+jOpfc0VzHKS3K6d/fBok0PW67e0s96tiYgkqKYvinmScYhj4iU4ENNiCDWmkTiEF+
-         VWiA==
+        bh=sw6lbfdaMYOrwnUAK6JJqbnSFVu5NtCzD19L3bQZnvw=;
+        b=nIrPlRu+/q7x/wK/sT062eP8PGC4iV4/ZI9+3KSmGiqU0ALe2wRM4EVGLq89Ja9HMF
+         JwvTSWEQ6kCWs/sguNAFhvmd08aMUGdCWHd+IaqaygJRtRFhKQwJxFb05Hph/IekcSid
+         skDcIsj/kh1Qdbx/kvi+LgihYOyJH0KGEm7tQoypdNQ6XJ9uqtb3av3dutzgbHx9nHXx
+         FJTpZIxq5MoG6WUJ3Q1uQG+3xKPKQQoxb8DhwHWDG0I7FWrcRGIOIArGr8PjpfyKR2X/
+         MojD54s+C0brKnyFvLeY3ejigCJi5PAHvm8zF0dojSag7NWygxrsznovgS/sntsAPyxQ
+         caSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764606625; x=1765211425;
+        d=1e100.net; s=20230601; t=1764606734; x=1765211534;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zpKbkUkQrhP8Z8G+eZrB42QlKP9ymO5xUUiC1g9Bi/g=;
-        b=eKOSIDXx/6E6kC64KpgQSBfY7dspt3X29AWw5oKxMJ4s/ktrScKx9L/TZrcGTtUlXW
-         0GL11fjI1xZnMdm9m1muHSMN+d+MxiEP/u4skgs5YlASS3QiH/gXWbdMfQwv0kdnBb0x
-         3dpf+48Epkk2dT60KGgnPa12nx2wCHWhMn5O5hdwRHsy+MEkO+JDFveJdJ+PVxOIESfA
-         pQXTiLab9gfZynd0BtYLV4hlhCQnQ7TClgrRLQVxXQJ99apT6a/4jrU+V6ImxoR00ZJG
-         XRsyTbTal4LG/H+Rmqc3RMR8PJ7x9jVXjsEA5OSfBDUsmjo1ms3DHf3iprBm7BEfTK9R
-         6ObQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXmytZcwazPNeJR7lzW2vqOq7+mxDbunJnsAXT8pLMKCLL6iPt2b+0bFBNGWC4KCDSHzeVm5vBLNqX90lo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8TBqgX6XxLX9miR+q/grxv5/A6t/6cskfLPyB934z6c0DaHyP
-	jgCnmfDtZqULmBtoA33jOHeKa7nrQUNAjLtwKnedJ2S/L9VLojgK8Hqh+50KmRsZdjEjPCqV9K1
-	ugYzwnCY+PnTmKLXfhQvVfP9OSn+Y68I=
-X-Gm-Gg: ASbGncvkfxvuWtA0LlByMJTzB5V5Vapv1UFb6f4F6K+WmkU8epnrF51eXnhHOvmbUZa
-	t2YX0KzQW8rpFWAJc1e2Voj4PayJCLB5PjBxQ1yV5He+Gz389cLfV6AOEOIWYKMXZgZZl9bxtn0
-	8lov4AXL/fzbYRQD1l7WUPx0dZEuARZdeFNSq9Rfm9lmUMUxdpnXDL2CyiM7zvS4lbMo16iofcM
-	MPoJ0UnBIEsc6MhyBoO5R5Vn6q735pDC2jOUoozof7zwJFidwdJUF37kb1BnjPPg3+3u34h7nrH
-	6DPYMDbuGh3Sn4TtRCDMjRFyntoFyk4uxpIgtHRZHqfOWASCrblwSd+RsXMUtpldRffUSGn9DkP
-	myDng3qyqY1gDMA==
-X-Google-Smtp-Source: AGHT+IEf7vOC5mAqU/omo2/IqPWzWyzZXuA9/nGkYTAFHB5XIB3JrboNwDg1L1ZxYoKdJ5V3/dY93SPwNN1ywHBmg28=
-X-Received: by 2002:a05:7300:570d:b0:2a4:4862:c97a with SMTP id
- 5a478bee46e88-2a718ae7143mr24440001eec.0.1764606624691; Mon, 01 Dec 2025
- 08:30:24 -0800 (PST)
+        bh=sw6lbfdaMYOrwnUAK6JJqbnSFVu5NtCzD19L3bQZnvw=;
+        b=r25Gu+mDfDsr1+xtVTUxyKWC/Tbw7PWCePKS+jQg0JKyY69gBb8F1rcXxVxXk64ifz
+         opte0zJaaxbeULAR5zRFbktWz8i39wpryfEHvan6tRtafCLek1IbkF3I3GEz8JRRhxmi
+         NdTDkthh7Ng+YHNgOgN8iAK420kb6YxorH666hj2+4zMiWYmBGrzGb8LahwbuD4W9xAi
+         vK9doMvkBeci4EsxSCQwAWMDI3Mhm5bIwnaUUdnzS0JthKuDoq7pX9RNxBPHjS7/WkOs
+         Zi5UFaI/kEtg5ayXxoj5Or1BhshRD/5gCO6Hh2NXsdr9EfPZyjChT6LTlwIXUz1JmJnR
+         T3Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIYtbEyR394xLrHdDvOmJokSEFsGDTzjn+xUKfPswjPgJ0hSLx7eFNUwz9ib/qOYOKQ3luvEeM8Uh6CO8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTFir6oLj4O37HZe1ZAWDMpYqdPnr3T+rZORLdH9VQWKxQTVG/
+	lVcPNcPk/3VYsOslxmE1PIBef2FOA/iRBmdhl3vtiGJ5aGK2sKEmEQ7tXs1OrwbKqwVY1avFH8z
+	cl6CAr4AMMlCS+GHj2EzoJKjyp9yWG+o=
+X-Gm-Gg: ASbGnct2Xu46eRo3hJtzGXMzH+1jx7B0JH/8pDjc54UXtofyxRLMzv30yb8EZ/TgpwJ
+	WC75JA4Yu0tYW0oagh7hGWdkXcsQRNwf/jONkxfPOL6SER2XKWQE/J0qLcO5w5L4SvfoOo5TqHv
+	oeFdE/IbBcseEZdPPlzdoYuxmw7F0Qm7S1fDyG1wOvRYC2v278kL379sHtSBJRr30RAefJIK+Iy
+	sAnleB9To7kYbcEP7jkHKQy/sF3DBv2ybILSbkwshI95Gyk8RUpjTZbk88KCKuX0H/rljHPfzSN
+	RgkxmpKPVBlP75l9wlWcxRY0yzaYu+vcx/eJb7aJ1REzrdykkNRQeaNGnz4rXHcZhR4tnzJ5x0n
+	67ippWuFtmYWqTA==
+X-Google-Smtp-Source: AGHT+IFSaSNSYsK9skLd9L3+GD87nHsBSTQ18ZktTY/G96pIsxF9X+6Kz0gUfJMhuXFXa1pntC2ut2LHSu9bZOjPBzc=
+X-Received: by 2002:a05:7301:e24:b0:2a4:3593:2c07 with SMTP id
+ 5a478bee46e88-2a7243ec7b9mr21871944eec.0.1764606733811; Mon, 01 Dec 2025
+ 08:32:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251201021659.1729308-1-ojeda@kernel.org> <470357d7-5958-4470-a718-25b9c7660565@nvidia.com>
-In-Reply-To: <470357d7-5958-4470-a718-25b9c7660565@nvidia.com>
+References: <20251201021659.1729308-1-ojeda@kernel.org> <20251201091514.0bea544b@pumpkin>
+In-Reply-To: <20251201091514.0bea544b@pumpkin>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 1 Dec 2025 17:30:11 +0100
-X-Gm-Features: AWmQ_bnMEmfxLG1OVV1esCiKsI9DP3zTI0SclB2p7uTVFkawC9SWtkbSUgpCJPI
-Message-ID: <CANiq72ngYj4qRwBUZoaS+aT8uAsjRRvY+i5t+L26GudN_0KVLw@mail.gmail.com>
+Date: Mon, 1 Dec 2025 17:32:00 +0100
+X-Gm-Features: AWmQ_bkmIhVv2rJrH-FGssiwc-d63OARlmBA3UX_0DtxkLH5hJJvHYQu-4zaClg
+Message-ID: <CANiq72nvzDmhDvFoOx5eyGGmHkpNyJSy-c9mZK4yu_fDKfeS9w@mail.gmail.com>
 Subject: Re: `KSYM_NAME_LEN` strikes again
-To: John Hubbard <jhubbard@nvidia.com>
+To: david laight <david.laight@runbox.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	=?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>, 
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 1, 2025 at 5:57=E2=80=AFAM John Hubbard <jhubbard@nvidia.com> w=
-rote:
+On Mon, Dec 1, 2025 at 10:15=E2=80=AFAM david laight <david.laight@runbox.c=
+om> wrote:
 >
-> But if it's actually an option, it seems like a very nice one:
-> a durable and long-lasting fix.
+> Given that is even more unreadable than a typical C++ name is it actually=
+ worth printing?
+> Looking at it, perhaps some of the inner <...> could be replaced with a h=
+ash
+> (possibly with the last real name added) with the ability to look up the =
+hash
+> in a separate table if needed.
 
-Unless something has changed that I am not aware of, it is still an
-option and it would avoid us having to play these games.
+For printing, yeah, parts could be skipped. But if we are looking into
+replacing parts of the mangling scheme, then at that point we could go
+with the single hash (although, yes, at least seeing "something" could
+perhaps clarify in some cases).
 
-So if someone has time to implement it, then that would be great.
+> I think that is equivalent to using a short name for a type?
+
+Do you mean skipping the paths and/or the generics etc.?
+
+(That expansion I showed is actually already a "short" version in at
+least one way: it doesn't print add the actual crate hash, which e.g.
+the GNU c++filt prints without `--no-verbose`, and typically appears
+between brackets, e.g. `kernel[e6083e32b3c2ec6]::sync::lock...).
 
 Cheers,
 Miguel
