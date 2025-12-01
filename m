@@ -1,136 +1,250 @@
-Return-Path: <linux-kbuild+bounces-9918-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9919-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0547C958D2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 02:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C3EC95937
+	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 03:17:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B08543A164A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 01:56:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3831F3A1B17
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 02:17:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B23155322;
-	Mon,  1 Dec 2025 01:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558C217A309;
+	Mon,  1 Dec 2025 02:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="pAxoySF0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggTpk1m2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61832628D;
-	Mon,  1 Dec 2025 01:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1551F146D53;
+	Mon,  1 Dec 2025 02:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764554199; cv=none; b=n5Tg6Zknot9tCohUqMwT+Q5XlJma7ovmAVxNNo7/Nytxe3YMmuBUL/rIhw5i/bBBCqGzdFCZv7j+A6WWBHGtun5EYh+e9Nwwr+PU4/zz2n5pXnM0+kw2fQx7jAbr3CCJxdGPR2rCV6g08WgPDHnAkmefZTK6BJj+R6PDa/WIuog=
+	t=1764555474; cv=none; b=i8OU3Q84H0c3+Cv6KvuAF3g/WKDL26N0olY8qLB2N86IKc6NYk5TfGN3V0LhmtohDJWZxYb0tXh9voj6CUTKGToF2WoBhMqc1anvugeuSL6Nc7SxaYLFOa3tlNoKOMlhePnMtxzbX7V7q9db1r6rN+OqZbsl9+ZlxlBPLK3F6ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764554199; c=relaxed/simple;
-	bh=3ZVXdrCOy5PxUchG0euPZX5RfSAo5IQi7+Cbw5/aAhA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lTlQkHJfxZ8JEK+JC+O2HlRueOVw39PYX9KRxzEBE1g040QXD+Oew6wEGdqdDzGXIo1+YkEzNT03cVOfHdzpM2UaFiPHoxIlWHL1Rf+H6mtYMwU/51hRXu7ifxUpI2LMzjNyKaTRHOHjk719YJU/oUFPvZDqSMZDhgMHdg7+3vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=pAxoySF0; arc=none smtp.client-ip=159.100.248.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.119.157])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 0FF93260DB;
-	Mon,  1 Dec 2025 01:56:36 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay3.mymailcheap.com (Postfix) with ESMTPS id 966E23E93B;
-	Mon,  1 Dec 2025 01:56:27 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id AE50C40130;
-	Mon,  1 Dec 2025 01:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1764554185; bh=3ZVXdrCOy5PxUchG0euPZX5RfSAo5IQi7+Cbw5/aAhA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pAxoySF0Qr4+asXGwsOjhGe4IljYgCctU0rb5ZWZrGOWLlWmGqrH50qSjW2+AGvID
-	 a5MQERUHTH7lke943oNsaoz3p35f7qZy3xb2YR7sxCu8sQrTmq4OE5fRjbMd8ltEfu
-	 4bu3rNVS1itHn0EUgfJ/3xPx/Gx9yXrtzJh9y6p4=
-Received: from [192.168.0.64] (unknown [39.144.78.120])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 2888841283;
-	Mon,  1 Dec 2025 01:56:22 +0000 (UTC)
-Message-ID: <46de5cc0-ed26-4fc9-8ae6-2e418a87c862@aosc.io>
-Date: Mon, 1 Dec 2025 09:56:20 +0800
+	s=arc-20240116; t=1764555474; c=relaxed/simple;
+	bh=QPcB6NV9WphWByyTSrRRobitP73Z6jrcq8qO99pRXQI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h/8R2rN7B7grjf1ow+UWBvWwlGW+QtvBtL3Gg1UcAZ7sr6diAyFJkLSMlRspy6mU3skXVIY35pKBSsj5I74VKhZxDKya8X1DOnkhY7xIQJ6L7aEHJWbCXbYQsfN+QsOcphxUJ2jiysHCr8weIjV6jwE1e9BllmKY703+2XOtcZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggTpk1m2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DE88C4CEFB;
+	Mon,  1 Dec 2025 02:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764555472;
+	bh=QPcB6NV9WphWByyTSrRRobitP73Z6jrcq8qO99pRXQI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ggTpk1m2Nje0+iGbz6w+KoJDZBdoB7V5hd1eq8aPY/Eyac5UOqK/rreG2Zz0GfX3R
+	 KwXhYBIpjndhE61mXOcy2Zibx4GSHlo1RSczoxtU6WkDb5KL6h9y022r0xI6jxbXJc
+	 vtHsLvBl7EPdQllPhjcZriLn6+2GPC5t5cvU11eoXZfCXZmJFGrO20ljpCjZ8qjXo4
+	 HbWxug7ON06LpOEjwNWjjW3u147ju0zQH0uvhqI9CdLBRSQSztD2jXoGlDeBLTXXgJ
+	 sDggZVQ32duHuqgj4eMM52vVVqPRImNnBO8qASN/w0P4xknRsuBOJ5WmDoACkA79RE
+	 KmCrKuv6LNctg==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: `KSYM_NAME_LEN` strikes again
+Date: Mon,  1 Dec 2025 03:16:59 +0100
+Message-ID: <20251201021659.1729308-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] fortify: Cleanup temp file also on non-successful
- exit
-To: Nicolas Schier <nsc@kernel.org>, Kees Cook <kees@kernel.org>
-Cc: WangYuli <wangyl5933@chinaunicom.cn>,
- Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- Nicolas Schier <nicolas.schier@linux.dev>
-References: <20251128-fortify-improve-handling-of-tempfile-v1-0-a79d0d3abcac@kernel.org>
- <20251128-fortify-improve-handling-of-tempfile-v1-2-a79d0d3abcac@kernel.org>
-Content-Language: en-US
-From: WangYuli <wangyuli@aosc.io>
-In-Reply-To: <20251128-fortify-improve-handling-of-tempfile-v1-2-a79d0d3abcac@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: AE50C40130
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	SPFBL_URIBL_EMAIL_FAIL(0.00)[nicolas.schier.linux.dev:server fail,n.schier.avm.de:server fail,wangyuli.aosc.io:server fail];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+Content-Transfer-Encoding: 8bit
 
-On 2025/11/29 03:27, Nicolas Schier wrote:
+Hi all,
 
-> From: Nicolas Schier <nicolas.schier@linux.dev>
->
-> Ensure cleanup of test_fortify.sh's temporary file also on script
-> interruption, or some common signals.
->
-> Reported-by: WangYuli <wangyuli@aosc.io>
-> Closes: https://lore.kernel.org/linux-kbuild/20251112114725.287349-1-wangyuli@aosc.io/
-> Signed-off-by: Nicolas Schier <n.schier@avm.de>
-> ---
->   lib/test_fortify/test_fortify.sh | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/lib/test_fortify/test_fortify.sh b/lib/test_fortify/test_fortify.sh
-> index 368d07d9acbf..ad6dd44fa31c 100644
-> --- a/lib/test_fortify/test_fortify.sh
-> +++ b/lib/test_fortify/test_fortify.sh
-> @@ -29,7 +29,7 @@ shift
->   __cleanup() {
->   	rm -f "$TMP"
->   }
-> -trap __cleanup EXIT
-> +trap __cleanup EXIT HUP INT QUIT TERM
->   
->   # Function names in warnings are wrapped in backticks under UTF-8 locales.
->   # Run the commands with LANG=C so that grep output will not change.
->
+In some Rust configs with -Os and doctests enabled, we are hitting
+KSYM_NAME_LEN again:
 
-Reviewed-by: WangYuli <wangyuli@aosc.io>
+    Symbol _RINvMs3_NvNtNtCs1ewLyjEZ7Le_6kernel4sync4lock1__INtB6_12___ThePinData
+    NtNvNvNvCs1RN9EnoqSlC_25doctests_kernel_generated43rust_doctest_kernel_sync_lock_spinlock_rs_0
+    4main52__doctest_main_rust_kernel_sync_lock_spinlock_rs_34_05InnerNtNtB8_8spinlock
+    15SpinLockBackendE5stateNtNtCsb7ts3l0a5c3_4core7convert10InfallibleINtNtCs5hDniGXnib3_
+    8pin_init10___internal11InitClosureNCINvMs5_NtBc_5typesINtB61_6OpaqueNtNtCse4H1uDrGHP9_
+    8bindings12bindings_raw8spinlockE8ffi_initNCNCNvMs0_B8_INtB8_4LockB15_B3F_E3new0s_0E0B6c_B4j_EEB1d_
+    too long for kallsyms (518 >= 512).
+    Please increase KSYM_NAME_LEN both in kernel and kallsyms.c
 
-Thans,
+Which expands to e.g.
 
+    <kernel::sync::lock::_::__ThePinData<doctests_kernel_generated::rust_doctest_kernel_sync_lock_spinlock_rs_0::main::_doctest_main_rust_kernel_sync_lock_spinlock_rs_34_0::Inner,
+    kernel::sync::lock::spinlock::SpinLockBackend>>::state::<core::convert::Infallible,
+    pin_init::__internal::InitClosure<<kernel::types::Opaque<bindings::bindings_raw::spinlock>>::ffi_init
+    <<kernel::sync::lock::Lock<doctests_kernel_generated::rust_doctest_kernel_sync_lock_spinlock_rs_0::main::_doctest_main_rust_kernel_sync_lock_spinlock_rs_34_0::Inner,
+    kernel::sync::lock::spinlock::SpinLockBackend>>::new::{closure#0}::{closure#1}>::{closure#0},
+    kernel::types::Opaque<bindings::bindings_raw::spinlock>, core::convert::Infallible>>
+
+If we decide to increase KSYM_NAME_LEN again, we need to use a number
+that is a multiple of 64:
+
+    BUILD_BUG_ON(KSYM_NAME_LEN % sizeof(u64));
+
+I first tried with 512+128, but I still saw things symbols slightly over
+that:
+
+    too long for kallsyms (645 >= 640).
+
+So I picked 512+256 and it builds clean with a patch like the one below.
+Hopefully nobody relies on it being a power of 2.
+
+Other options:
+
+  - Conditionally doing it only for those builds that need it, to avoid
+    penalizing other builds (including normal Rust builds).
+
+  - Building the Rust side with -O2 for now, or at least tweaking some
+    of the inlining behavior under -Os.
+
+  - Not supporting Rust for `CC_OPTIMIZE_FOR_SIZE` for now (e.g. under
+    `BROKEN`).
+
+  - Stop all this and go with a hashing approach like Willy/Linus
+    discussed back then:
+
+        https://lore.kernel.org/rust-for-linux/CAHk-=whzXv=Fu7dQshSTyd9H1-JS5=gyKwW-GMNGccAKs4Mwpg@mail.gmail.com/
+
+Cheers,
+Miguel
+
+From: Miguel Ojeda <ojeda@kernel.org>
+Date: Sun, 30 Nov 2025 17:46:29 +0100
+Subject: [PATCH] kallsyms: increase KSYM_NAME_LEN to 768 (512+256)
+
+Untested!
+---
+ include/linux/kallsyms.h            | 2 +-
+ kernel/livepatch/core.c             | 4 ++--
+ lib/tests/longest_symbol_kunit.c    | 7 +++++--
+ scripts/kallsyms.c                  | 2 +-
+ tools/include/linux/kallsyms.h      | 2 +-
+ tools/lib/perf/include/perf/event.h | 2 +-
+ tools/lib/symbol/kallsyms.h         | 2 +-
+ 7 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
+index d5dd54c53ace..f17d335f36b2 100644
+--- a/include/linux/kallsyms.h
++++ b/include/linux/kallsyms.h
+@@ -15,7 +15,7 @@
+
+ #include <asm/sections.h>
+
+-#define KSYM_NAME_LEN 512
++#define KSYM_NAME_LEN 768
+ #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + \
+ 			(KSYM_NAME_LEN - 1) + \
+ 			2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
+diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
+index 0e73fac55f8e..cf7f2d561386 100644
+--- a/kernel/livepatch/core.c
++++ b/kernel/livepatch/core.c
+@@ -210,7 +210,7 @@ static int klp_resolve_symbols(Elf_Shdr *sechdrs, const char *strtab,
+ 	 * we use the smallest/strictest upper bound possible (56, based on
+ 	 * the current definition of MODULE_NAME_LEN) to prevent overflows.
+ 	 */
+-	BUILD_BUG_ON(MODULE_NAME_LEN < 56 || KSYM_NAME_LEN != 512);
++	BUILD_BUG_ON(MODULE_NAME_LEN < 56 || KSYM_NAME_LEN != 768);
+
+ 	relas = (Elf_Rela *) relasec->sh_addr;
+ 	/* For each rela in this klp relocation section */
+@@ -224,7 +224,7 @@ static int klp_resolve_symbols(Elf_Shdr *sechdrs, const char *strtab,
+
+ 		/* Format: .klp.sym.sym_objname.sym_name,sympos */
+ 		cnt = sscanf(strtab + sym->st_name,
+-			     ".klp.sym.%55[^.].%511[^,],%lu",
++			     ".klp.sym.%55[^.].%767[^,],%lu",
+ 			     sym_objname, sym_name, &sympos);
+ 		if (cnt != 3) {
+ 			pr_err("symbol %s has an incorrectly formatted name\n",
+diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_kunit.c
+index 9b4de3050ba7..ff8eed2cb4bd 100644
+--- a/lib/tests/longest_symbol_kunit.c
++++ b/lib/tests/longest_symbol_kunit.c
+@@ -19,8 +19,11 @@
+ #define DDDDI(name) DDDI(n##name##name)
+ #define DDDDDI(name) DDDDI(n##name##name)
+
+-/*Generate a symbol whose name length is 511 */
+-#define LONGEST_SYM_NAME  DDDDDI(g1h2i3j4k5l6m7n)
++#define __SUM(A, B) s##A##B
++#define SUM(A, B) __SUM(A, B)
++
++/* Generate a symbol whose name length is KSYM_NAME_LEN (including null) */
++#define LONGEST_SYM_NAME SUM(DDDDDI(g1h2i3j4k5l6m7n),DDDDI(g1h2i3j4k5l6m7n))
+
+ #define RETURN_LONGEST_SYM 0xAAAAA
+
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 4b0234e4b12f..c90bb90c874e 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -31,7 +31,7 @@
+
+ #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
+-#define KSYM_NAME_LEN		512
++#define KSYM_NAME_LEN		768
+
+ struct sym_entry {
+ 	unsigned long long addr;
+diff --git a/tools/include/linux/kallsyms.h b/tools/include/linux/kallsyms.h
+index f61a01dd7eb7..089b59906641 100644
+--- a/tools/include/linux/kallsyms.h
++++ b/tools/include/linux/kallsyms.h
+@@ -6,7 +6,7 @@
+ #include <stdio.h>
+ #include <unistd.h>
+
+-#define KSYM_NAME_LEN 512
++#define KSYM_NAME_LEN 768
+
+ struct module;
+
+diff --git a/tools/lib/perf/include/perf/event.h b/tools/lib/perf/include/perf/event.h
+index aa1e91c97a22..ea3debf97db9 100644
+--- a/tools/lib/perf/include/perf/event.h
++++ b/tools/lib/perf/include/perf/event.h
+@@ -104,7 +104,7 @@ struct perf_record_throttle {
+ };
+
+ #ifndef KSYM_NAME_LEN
+-#define KSYM_NAME_LEN 512
++#define KSYM_NAME_LEN 768
+ #endif
+
+ struct perf_record_ksymbol {
+diff --git a/tools/lib/symbol/kallsyms.h b/tools/lib/symbol/kallsyms.h
+index 542f9b059c3b..435f626c92d1 100644
+--- a/tools/lib/symbol/kallsyms.h
++++ b/tools/lib/symbol/kallsyms.h
+@@ -7,7 +7,7 @@
+ #include <linux/types.h>
+
+ #ifndef KSYM_NAME_LEN
+-#define KSYM_NAME_LEN 512
++#define KSYM_NAME_LEN 768
+ #endif
+
+ static inline u8 kallsyms2elf_binding(char type)
+
+base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
 --
-
-WangYuli
-
-
+2.52.0
 
