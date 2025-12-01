@@ -1,58 +1,59 @@
-Return-Path: <linux-kbuild+bounces-9936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9937-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40498C99990
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 00:37:03 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0C7C999BD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 00:41:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA68E3A149A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 23:37:01 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 30E224E1A2D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 23:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84F9A2877E8;
-	Mon,  1 Dec 2025 23:36:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2177A288514;
+	Mon,  1 Dec 2025 23:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arSFJ0KH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pky6klNm"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59176192B75;
-	Mon,  1 Dec 2025 23:36:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F89192B75;
+	Mon,  1 Dec 2025 23:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764632219; cv=none; b=IRNIGKRDfjLmS20y5r0n4QFLY67d3XZ0YMKQw0E4yv3lbhHBFybnA1KE9hrcj6nOLuZ4nLHZLDmI+qPa7YJ3hJU0En3Wuj/y2CplPRrtT2AD5oYpMiN+nis2OLH7+7+xx4bse8XcF/p04AhUQNUDZ5S4MkHW/IePZQPctYMhyKU=
+	t=1764632470; cv=none; b=fth/8kZ+CiCLew2+B6g1f6mYoXzg+AQvCj876XduqGXU6Js/K6teg6IvLoP05i7PZAPVRqpfy3IM1XsK8jx3VPiYdfQW6uQLuaHXBw5rUKaIVCwglLvoEWskm9cMHJ9IPKiBCCFZ4x2053nfM/d3WOFSswJnC3iq0l8Io1esAKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764632219; c=relaxed/simple;
-	bh=Nv42c72d7HMMy+9VNtksidEP/EgKDQ53P/Uj+NgeGlU=;
+	s=arc-20240116; t=1764632470; c=relaxed/simple;
+	bh=U6LpWpeVXSOYbm0WD8JShtLo0PbflnlmWMyWDezpX+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIYvqIw5CzYUFYC9XLz+xwQ4WYbKjV5bXfnkEigGvVxgG+LGBxDEqbxj13XvWx6iIc3QHWzllIN7liFeF0eXEBEDk4uNW4D/d88R35f4JJ4iC2xBYQ/tn60IWYZiOd5go+z/ddLQItK912GMwQsxAOMNUnCnOtIIZELL8bSHhNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arSFJ0KH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59780C4CEF1;
-	Mon,  1 Dec 2025 23:36:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7wZdgYmRiu0IKMGsVgnIO5YjX2ZRH+OqlhPdcPZQVLdmvSvSt5ef2W3yBKYQOmSA+YXLoaCefjk6WINpH1PcDJPQxFor0m07V4IF2QnCxPX5ufNKHqSnMJdy2m9As6rElTyUD29F0Mf8VvalkoRZUJepm0gJH6CrX9nf9xILBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pky6klNm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E8AC116C6;
+	Mon,  1 Dec 2025 23:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764632219;
-	bh=Nv42c72d7HMMy+9VNtksidEP/EgKDQ53P/Uj+NgeGlU=;
+	s=k20201202; t=1764632469;
+	bh=U6LpWpeVXSOYbm0WD8JShtLo0PbflnlmWMyWDezpX+o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=arSFJ0KHc+VGyp3C470dWYNqtj6/kseC4IdBAu75x480mgmbxMKVTcNC03Cixpb+L
-	 IanDN0tQHcprlnhmnnV4pBLQuBmhssQtyRdGCu69hvGd9gGJR9qjH68X5FpysHpZxn
-	 HwRuimRTV6TE1LiUN6vf8SqD3oNjMV1DThvpqQ+dtgEK0DvhQ4SS5R+EDuz3bsrtf+
-	 DFstlLm7m2XtIOEP4m7jErZebBkFjlCChitm9Av979dphEe2vU6AxzWpXmybiVUiY8
-	 DemCaiwJiq20Y7pkrU/jRRM0v89B4qm4DyOSlat7cn8gALZFyf6FAHOOXXBPFxCGcl
-	 6h4J9SeysBD+A==
-Date: Mon, 1 Dec 2025 16:36:54 -0700
+	b=Pky6klNmWaQCy+oWljqqfOgvBpZ+UWU151wLWlzznDbnJJRsOBoSjI39ysRg2e4Ey
+	 2YgjirUlXJggmHhV5FH4nYE6i6OiqIwC9wGE11oh8iXPsSwbo4zI2HRdOCWflnsHh0
+	 f3JYbEkNvKsGJQsSO5farmk2VSwdyiSyCw2ZRchK5m5svg6lsL94JpPwEuMdNsxpPt
+	 GaaRT8OmOI/SIoc3VJOhkBmYIwTVQh2LXnVA6yKeKm3FGRamy/wt3E4lvP+xpew//2
+	 HjLfff2ehtynlcfzzAAd8M+GuUwFeMAENpgOzKkXcT/frZqQvvrP0Ee51Xpfm5l08V
+	 HsgX9z9MIjUIA==
+Date: Mon, 1 Dec 2025 16:41:05 -0700
 From: Nathan Chancellor <nathan@kernel.org>
 To: Nicolas Schier <nsc@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Simon Glass <sjg@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Add top-level target for building gen_init_cpio
-Message-ID: <20251201233654.GA2018462@ax162>
-References: <20251128-kbuild-add-top-level-target-for-building-gen_init_cpio-v1-1-84c63a8fc8d4@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, WangYuli <wangyuli@aosc.io>,
+	WangYuli <wangyl5933@chinaunicom.cn>,
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Subject: Re: [PATCH 1/2] fortify: Rename temporary file to match ignore
+ pattern
+Message-ID: <20251201234105.GB2018462@ax162>
+References: <20251128-fortify-improve-handling-of-tempfile-v1-0-a79d0d3abcac@kernel.org>
+ <20251128-fortify-improve-handling-of-tempfile-v1-1-a79d0d3abcac@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -61,78 +62,44 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251128-kbuild-add-top-level-target-for-building-gen_init_cpio-v1-1-84c63a8fc8d4@kernel.org>
+In-Reply-To: <20251128-fortify-improve-handling-of-tempfile-v1-1-a79d0d3abcac@kernel.org>
 
-On Fri, Nov 28, 2025 at 09:01:55PM +0100, Nicolas Schier wrote:
-> Add a top-level target for building gen_init_cpio to prevent re-entering
-> kbuild for 'modules-cpio-pkg'.
+On Fri, Nov 28, 2025 at 08:27:57PM +0100, Nicolas Schier wrote:
+> From: Nicolas Schier <nicolas.schier@linux.dev>
 > 
-> The recently introduced target 'modules-cpio-pkg' depends on
-> gen_init_cpio but there is no simple way to add this dependency as a
-> prerequisite that can be built in parallel to other recipes.
+> test_fortify.sh uses a temporary file that might appear as untracked
+> file in some rare sitations.  Rename it to match one of top-level's
+> gitignore patterns.
 > 
-> Introducing the top-level target, enables fixing this and also prepares
-> a possible move of gen_init_cpio from usr/ to scripts/.
-> 
-> Signed-off-by: Nicolas Schier <nsc@kernel.org>
+> Reported-by: WangYuli <wangyuli@aosc.io>
+> Closes: https://lore.kernel.org/linux-kbuild/20251112114725.287349-1-wangyuli@aosc.io/
+> Signed-off-by: Nicolas Schier <n.schier@avm.de>
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-Do you want to take this for a late 6.19 features pull request or should
-I pick it up during the 6.20 cycle?
+Not a big problem but some tools might complain about the email mismatch
+between the From: line (which will end up being the author) and the
+Signed-off-by line.
 
 > ---
->  Makefile                 | 6 ++++++
->  scripts/Makefile.package | 1 -
->  2 files changed, 6 insertions(+), 1 deletion(-)
+>  lib/test_fortify/test_fortify.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Makefile b/Makefile
-> index 17cfa11ca716..d5750e5bd633 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1383,6 +1383,10 @@ ifdef CONFIG_HEADERS_INSTALL
->  prepare: headers
->  endif
+> diff --git a/lib/test_fortify/test_fortify.sh b/lib/test_fortify/test_fortify.sh
+> index c2688ab8281d..368d07d9acbf 100644
+> --- a/lib/test_fortify/test_fortify.sh
+> +++ b/lib/test_fortify/test_fortify.sh
+> @@ -17,7 +17,7 @@ WANT="__${FILE%%-*}"
+>  # Argument 2: Where to write the build log.
+>  OUT="$1"
+>  shift
+> -TMP="${OUT}.tmp"
+> +TMP="${OUT%/*}/.${OUT##*/}.tmp"
 >  
-> +PHONY += usr_gen_init_cpio
-> +usr_gen_init_cpio: scripts_basic
-> +	$(Q)$(MAKE) $(build)=usr usr/gen_init_cpio
-> +
->  PHONY += scripts_unifdef
->  scripts_unifdef: scripts_basic
->  	$(Q)$(MAKE) $(build)=scripts scripts/unifdef
-> @@ -1635,6 +1639,8 @@ distclean: mrproper
->  # Packaging of the kernel to various formats
->  # ---------------------------------------------------------------------------
->  
-> +modules-cpio-pkg: usr_gen_init_cpio
-> +
->  %src-pkg: FORCE
->  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.package $@
->  %pkg: include/config/kernel.release FORCE
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 83bfcf7cb09f..0ec946f9b905 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -201,7 +201,6 @@ quiet_cmd_cpio = CPIO    $@
->        cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
->  
->  modules-$(KERNELRELEASE)-$(ARCH).cpio: .tmp_modules_cpio
-> -	$(Q)$(MAKE) $(build)=usr usr/gen_init_cpio
->  	$(call cmd,cpio)
->  
->  PHONY += modules-cpio-pkg
+>  # Argument 3: Path to "nm" tool.
+>  NM="$1"
 > 
-> ---
-> base-commit: cb6649f6217c0331b885cf787f1d175963e2a1d2
-> change-id: 20251128-kbuild-add-top-level-target-for-building-gen_init_cpio-6401e0ee0710
-> prerequisite-message-id: 20251125-cpio-modules-pkg-v2-0-aa8277d89682@pengutronix.de
-> prerequisite-patch-id: 9132e567c46357daaf2bd728ff18bfda1c51a9cb
-> prerequisite-patch-id: 0dfe03db654169d314d3baaba8536a9bfc9bcc70
-> 
-> Best regards,
 > -- 
-> Nicolas
+> 2.51.0
 > 
 
