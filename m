@@ -1,127 +1,192 @@
-Return-Path: <linux-kbuild+bounces-9926-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9927-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE64C98409
-	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 17:32:22 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C70AAC98831
+	for <lists+linux-kbuild@lfdr.de>; Mon, 01 Dec 2025 18:27:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64D2B3A16A4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 16:32:18 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A3FCC4E1AFA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 17:27:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6753731CA50;
-	Mon,  1 Dec 2025 16:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB3F5337B81;
+	Mon,  1 Dec 2025 17:27:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nIrPlRu+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iDHDxekv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07651FBEA6
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Dec 2025 16:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3192131619C
+	for <linux-kbuild@vger.kernel.org>; Mon,  1 Dec 2025 17:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764606736; cv=none; b=joyz1NWtXEVaMgTz6f0L8VkbUD5h/i5wDKdUSYvozYmtLLQzFuj/72+5j3r0kpIsjfKxrUHXcbgNADyj7lL2jV4regWq7DyW+shhk7MRtoQMo2RZkjmaQ4Rz3kiZcYDqUt6wQj7GlCZAYxAyfURMGu53Kqdo1KzKDmVylMdD1I4=
+	t=1764610038; cv=none; b=hFVPhEa+hkbKNmGX1SjK1H610drzfLrZRYqzDDZBQJM2ZW85g7Wgi0CAlQqrWDxnBDL+IpxPbAs8T8xP79N3dw+stmPNC4k1WQ1EkLUu79bJLKL+rMVN96C62E9KxsOc7tA5NKA7KpN/Uesj0kuhsir8CT8p3i2OJLTQRbHeVHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764606736; c=relaxed/simple;
-	bh=sw6lbfdaMYOrwnUAK6JJqbnSFVu5NtCzD19L3bQZnvw=;
+	s=arc-20240116; t=1764610038; c=relaxed/simple;
+	bh=UKEcAU5XG9XTh0LArW+wQNvSNYiB+nKnM68aZ0vsVi0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ca0Xq4dFywJq+regephLU6C8jwz95cn3jDT8FH5ziiGjYJXzpeJIr/Nbe02BM/+9UnH5/R7WlIY1v9HmqEfv28ukFMG1KP/bEtB3H8yoMmW1EvSawf/F1lS2dRm9wSBngrUaPk2QUw549TRyfk47n2h/w/1wE5Roo2jK2G1KjaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nIrPlRu+; arc=none smtp.client-ip=209.85.215.169
+	 To:Cc:Content-Type; b=YhZa7NF8R4VrnzL2uJyQl0HVHYJi0kN+F3N+us1VAi9YvDXIV5VXKfcZSI4o/nbjTVrbthvY+2JhApZyv8wTf94Ci7Veuv8Eqj39b8BNbjUibfRSEhWukGM6ZK1k6l6jt1NHGwJX9q0DxaKBmvjFGNlK/+OM8NfWq/rK4dRfSt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iDHDxekv; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-bc144564e07so124524a12.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 08:32:14 -0800 (PST)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3436a97f092so5617296a91.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 09:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764606734; x=1765211534; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764610036; x=1765214836; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sw6lbfdaMYOrwnUAK6JJqbnSFVu5NtCzD19L3bQZnvw=;
-        b=nIrPlRu+/q7x/wK/sT062eP8PGC4iV4/ZI9+3KSmGiqU0ALe2wRM4EVGLq89Ja9HMF
-         JwvTSWEQ6kCWs/sguNAFhvmd08aMUGdCWHd+IaqaygJRtRFhKQwJxFb05Hph/IekcSid
-         skDcIsj/kh1Qdbx/kvi+LgihYOyJH0KGEm7tQoypdNQ6XJ9uqtb3av3dutzgbHx9nHXx
-         FJTpZIxq5MoG6WUJ3Q1uQG+3xKPKQQoxb8DhwHWDG0I7FWrcRGIOIArGr8PjpfyKR2X/
-         MojD54s+C0brKnyFvLeY3ejigCJi5PAHvm8zF0dojSag7NWygxrsznovgS/sntsAPyxQ
-         caSg==
+        bh=ijq5sdrlqJg37gB6OmgS7cKCkkSyxlmrkLtviwXuwno=;
+        b=iDHDxekv4gVpeFGVHXCkHbjAFU5Dbw3m+XHVPOMWq1BNS+K7IX1RHNnnKUu4BLu6uI
+         21ZCWI9LqrjGSfPChFUJRdCkVxZpRJohTyeIrTJajDnbX1V14FFyFwk1bzLhfXqOBBxS
+         uisHkfBVsgmHbk6t7fEgi4YlkCH87v7I1UGLWBWCsV77fzHDa0oPAwxGyyV1wDm4YvHx
+         lcDovKGVJmrKonM7g5AZWjPhmjIxpCv3ExyuSpoCQ82u0baI8CSbHimXM1VYklw0KqGU
+         e7kb8HJDw6Wq3xtMYEODEJ3kR7gfj9F6YtC3YK2gIFfP4dOvL64dMBidoCiZoJcRfmBY
+         aMqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764606734; x=1765211534;
+        d=1e100.net; s=20230601; t=1764610036; x=1765214836;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sw6lbfdaMYOrwnUAK6JJqbnSFVu5NtCzD19L3bQZnvw=;
-        b=r25Gu+mDfDsr1+xtVTUxyKWC/Tbw7PWCePKS+jQg0JKyY69gBb8F1rcXxVxXk64ifz
-         opte0zJaaxbeULAR5zRFbktWz8i39wpryfEHvan6tRtafCLek1IbkF3I3GEz8JRRhxmi
-         NdTDkthh7Ng+YHNgOgN8iAK420kb6YxorH666hj2+4zMiWYmBGrzGb8LahwbuD4W9xAi
-         vK9doMvkBeci4EsxSCQwAWMDI3Mhm5bIwnaUUdnzS0JthKuDoq7pX9RNxBPHjS7/WkOs
-         Zi5UFaI/kEtg5ayXxoj5Or1BhshRD/5gCO6Hh2NXsdr9EfPZyjChT6LTlwIXUz1JmJnR
-         T3Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCVIYtbEyR394xLrHdDvOmJokSEFsGDTzjn+xUKfPswjPgJ0hSLx7eFNUwz9ib/qOYOKQ3luvEeM8Uh6CO8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTFir6oLj4O37HZe1ZAWDMpYqdPnr3T+rZORLdH9VQWKxQTVG/
-	lVcPNcPk/3VYsOslxmE1PIBef2FOA/iRBmdhl3vtiGJ5aGK2sKEmEQ7tXs1OrwbKqwVY1avFH8z
-	cl6CAr4AMMlCS+GHj2EzoJKjyp9yWG+o=
-X-Gm-Gg: ASbGnct2Xu46eRo3hJtzGXMzH+1jx7B0JH/8pDjc54UXtofyxRLMzv30yb8EZ/TgpwJ
-	WC75JA4Yu0tYW0oagh7hGWdkXcsQRNwf/jONkxfPOL6SER2XKWQE/J0qLcO5w5L4SvfoOo5TqHv
-	oeFdE/IbBcseEZdPPlzdoYuxmw7F0Qm7S1fDyG1wOvRYC2v278kL379sHtSBJRr30RAefJIK+Iy
-	sAnleB9To7kYbcEP7jkHKQy/sF3DBv2ybILSbkwshI95Gyk8RUpjTZbk88KCKuX0H/rljHPfzSN
-	RgkxmpKPVBlP75l9wlWcxRY0yzaYu+vcx/eJb7aJ1REzrdykkNRQeaNGnz4rXHcZhR4tnzJ5x0n
-	67ippWuFtmYWqTA==
-X-Google-Smtp-Source: AGHT+IFSaSNSYsK9skLd9L3+GD87nHsBSTQ18ZktTY/G96pIsxF9X+6Kz0gUfJMhuXFXa1pntC2ut2LHSu9bZOjPBzc=
-X-Received: by 2002:a05:7301:e24:b0:2a4:3593:2c07 with SMTP id
- 5a478bee46e88-2a7243ec7b9mr21871944eec.0.1764606733811; Mon, 01 Dec 2025
- 08:32:13 -0800 (PST)
+        bh=ijq5sdrlqJg37gB6OmgS7cKCkkSyxlmrkLtviwXuwno=;
+        b=Le8brCZ9000iKwp4WKcujNqqHrXGfOhprMeN4dz9DcDjVT+IcrBe9790jdZVNNRUzm
+         Lih+CUzm9+uWaJtwrem9nEV1QwRR9mm8nwuzdwKqyVIEn/3yDLvRA6V5mmr4CRoK3jIQ
+         xfAMA6AubX0CbbyJg147NsJR/a0zen4QSQnr50cDjpD2vp4dpxpNenhNCsQ9qxCyatuI
+         T3HlYDsCp8XEyefPiNpARvDhXa1jpV9F7TwPc1PMt+tz3tnUWq+BL7Q+aPiNnLjGDGr+
+         u1gnQOBAhQAOol7Ld70xZREXzZRKFwtCBod8EslX9XEC42MDnFaGajMf7xY5z9WeAcUk
+         f/nA==
+X-Forwarded-Encrypted: i=1; AJvYcCVw90XifwM3nTs9ohEEWkKAZijg+YfAOoFV3rd0wNuFKt0pJS7pDtIF0H5+CEv4tz5LcNVb5lslZU7pUNQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLEFJcbOLuzPvcadGFECPJk4iP3Qh7p8ISzzLZgiS3G4qGldMM
+	5OYz79eIxAp7rNpG9wPXMN1C/nGjE+su/uWsHkeeU7ubS5u6z/4YZpRitrAVfFWMW17njkBbLd2
+	upkqhDI/GVz5VzQZ1C5rPFtQfnDgPKLI=
+X-Gm-Gg: ASbGncvNUohsqi8AP1wyO/ZrcFgdOf4xWN4wdfVJU/QMEyDpquvPoO/TecD7clkfthl
+	gEhrDf/nmgXaF/WBiLXzw3cr5QG5BJikdsK8ex7GjPJwNHpaXoFEG8x6MPkG7BmpTIAkhEmZV0y
+	NPHU/g/3xSkOb4aRqXpIYdMrlmnFxdIwdoHidymCDitvPcbs9rTpSvoieBOx575mrM+UYVWyrNc
+	jnoPtyK8cYyd/NTRJnZksfFk8s90JwAUW4I6py2jSGsHPSGD31Z9prB0Iia2h/THAG864nfvciD
+	tCYmW+Ywtps=
+X-Google-Smtp-Source: AGHT+IGx09HDUgaoADTduGqPajX6ASw2XvUan4kcA666p0ucXEytDotdQYFZNC19FTRcVAIVrhsi5V5N6apBj1QvUjk=
+X-Received: by 2002:a17:90b:2781:b0:341:194:5e82 with SMTP id
+ 98e67ed59e1d1-3475ed5183fmr24662841a91.30.1764610036443; Mon, 01 Dec 2025
+ 09:27:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251201021659.1729308-1-ojeda@kernel.org> <20251201091514.0bea544b@pumpkin>
-In-Reply-To: <20251201091514.0bea544b@pumpkin>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 1 Dec 2025 17:32:00 +0100
-X-Gm-Features: AWmQ_bkmIhVv2rJrH-FGssiwc-d63OARlmBA3UX_0DtxkLH5hJJvHYQu-4zaClg
-Message-ID: <CANiq72nvzDmhDvFoOx5eyGGmHkpNyJSy-c9mZK4yu_fDKfeS9w@mail.gmail.com>
-Subject: Re: `KSYM_NAME_LEN` strikes again
-To: david laight <david.laight@runbox.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	=?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
+References: <20251127185242.3954132-1-ihor.solodrai@linux.dev> <20251127185242.3954132-4-ihor.solodrai@linux.dev>
+In-Reply-To: <20251127185242.3954132-4-ihor.solodrai@linux.dev>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 1 Dec 2025 09:27:03 -0800
+X-Gm-Features: AWmQ_bkjXdi8-UO2T_nJR5GKr0m3vFgYdnfm11dAyI-KtaylhiOL7YCwKriYRGE
+Message-ID: <CAEf4Bza+L_RL_d7JFFLmzkYj2dbnT8rDgqwCat2zLOekToRm-g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 3/4] resolve_btfids: introduce enum btf_id_kind
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>, 
+	Donglin Peng <dolinux.peng@gmail.com>, bpf@vger.kernel.org, dwarves@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 1, 2025 at 10:15=E2=80=AFAM david laight <david.laight@runbox.c=
-om> wrote:
+On Thu, Nov 27, 2025 at 10:53=E2=80=AFAM Ihor Solodrai <ihor.solodrai@linux=
+.dev> wrote:
 >
-> Given that is even more unreadable than a typical C++ name is it actually=
- worth printing?
-> Looking at it, perhaps some of the inner <...> could be replaced with a h=
-ash
-> (possibly with the last real name added) with the ability to look up the =
-hash
-> in a separate table if needed.
+> Instead of using multiple flags, make struct btf_id tagged with an
+> enum value indicating its kind in the context of resolve_btfids.
+>
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> ---
+>  tools/bpf/resolve_btfids/main.c | 62 ++++++++++++++++++++++-----------
+>  1 file changed, 42 insertions(+), 20 deletions(-)
 
-For printing, yeah, parts could be skipped. But if we are looking into
-replacing parts of the mangling scheme, then at that point we could go
-with the single hash (although, yes, at least seeing "something" could
-perhaps clarify in some cases).
+[...]
 
-> I think that is equivalent to using a short name for a type?
+>
+> -static struct btf_id *add_set(struct object *obj, char *name, bool is_se=
+t8)
+> +static struct btf_id *add_set(struct object *obj, char *name, enum btf_i=
+d_kind kind)
+>  {
+>         /*
+>          * __BTF_ID__set__name
+>          * name =3D    ^
+>          * id   =3D         ^
+>          */
+> -       char *id =3D name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF=
+_SET "__")) - 1;
+> +       int prefixlen =3D kind =3D=3D BTF_ID_KIND_SET8 ? sizeof(BTF_SET8 =
+"__") : sizeof(BTF_SET "__");
+> +       char *id =3D name + prefixlen - 1;
+>         int len =3D strlen(name);
+> +       struct btf_id *btf_id;
+>
+>         if (id >=3D name + len) {
+>                 pr_err("FAILED to parse set name: %s\n", name);
+>                 return NULL;
+>         }
+>
+> -       return btf_id__add(&obj->sets, id, true);
+> +       btf_id =3D btf_id__add(&obj->sets, id, true);
+> +       if (btf_id)
+> +               btf_id->kind =3D kind;
+> +
+> +       return btf_id;
+>  }
+>
+>  static struct btf_id *add_symbol(struct rb_root *root, char *name, size_=
+t size)
+>  {
+> +       struct btf_id *btf_id;
+>         char *id;
+>
+>         id =3D get_id(name + size);
+> @@ -288,7 +301,11 @@ static struct btf_id *add_symbol(struct rb_root *roo=
+t, char *name, size_t size)
+>                 return NULL;
+>         }
+>
+> -       return btf_id__add(root, id, false);
+> +       btf_id =3D btf_id__add(root, id, false);
+> +       if (btf_id)
+> +               btf_id->kind =3D BTF_ID_KIND_SYM;
 
-Do you mean skipping the paths and/or the generics etc.?
+seeing this pattern repeated, wouldn't it make sense to just pass this
+kind to btf_id__add() and set it there?
 
-(That expansion I showed is actually already a "short" version in at
-least one way: it doesn't print add the actual crate hash, which e.g.
-the GNU c++filt prints without `--no-verbose`, and typically appears
-between brackets, e.g. `kernel[e6083e32b3c2ec6]::sync::lock...).
+> +
+> +       return btf_id;
+>  }
+>
 
-Cheers,
-Miguel
+[...]
+
+> @@ -643,7 +656,7 @@ static int id_patch(struct object *obj, struct btf_id=
+ *id)
+>         int i;
+>
+>         /* For set, set8, id->id may be 0 */
+> -       if (!id->id && !id->is_set && !id->is_set8) {
+> +       if (!id->id && id->kind =3D=3D BTF_ID_KIND_SYM) {
+
+nit: comment says the exception is specifically for SET and SET8, so I
+think checking for those two instead of for SYM (implying that only
+other possible options are set and set8) would be a bit more
+future-proof?
+
+>                 pr_err("WARN: resolve_btfids: unresolved symbol %s\n", id=
+->name);
+>                 warnings++;
+>         }
+
+[...]
 
