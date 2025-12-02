@@ -1,104 +1,304 @@
-Return-Path: <linux-kbuild+bounces-9938-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9939-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4658BC999F0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 00:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B1FC99D1A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 03:02:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EEFA44E1CE4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Dec 2025 23:43:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 41DDE4E2D1F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Dec 2025 02:01:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B13AF28D850;
-	Mon,  1 Dec 2025 23:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C7411F131A;
+	Tue,  2 Dec 2025 02:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GkboA9ji"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giJ2zL2h"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F57B2853F8;
-	Mon,  1 Dec 2025 23:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38300219319
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Dec 2025 02:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764632590; cv=none; b=NpmFg8D4cnR3UpO7JseFLbcYoGtMIGc+s1uMHcokiBNk4aQHdaKMKUiRr2gh1i0Wgc1Q57cJSM4qZf9SZCl9fAdGuwvn38NRgRBLB85oKSopVc/vHdM2QqO1tS0T5RsVnlKrdWUiDhfH7/aLiwrrZchGCzj2U/Eqqbslu4Z0SBc=
+	t=1764640906; cv=none; b=ddKPb6jtqKT7ByuPzhZm5XkWClkZmLJYGHlHkU0lV4StTULFf7cjbWeHLeWz6eh19AvuTWEBGSy09Efbk+5O89MV4PpiYmAEEAoWRvDYwDElyGj5JqLwqvWBpd4YFxJrkrzDXfDjAeuL46YlThwIGh/GOWb7PKX2tqr6dCLBwdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764632590; c=relaxed/simple;
-	bh=Sbks+0LeMZW1z1LxdnVBnRWwfQhx6DpoBLWkrbIIiXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vza1nZC55AES55nD0ohcQIj0Iyfyk3loLH4TcJISXZ5tWZc3biciX5pzScJ8ElvVrfYpkn2qq2coLiBKgxY6Asw79HniubwSIilYrc7D5Ue/hUERxhRe3iyDQmKzb6Stj1jdAUvcXfd3VieNppY5YCwQjzpegTYutkzuKSZaaak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GkboA9ji; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E3CCC4CEF1;
-	Mon,  1 Dec 2025 23:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764632590;
-	bh=Sbks+0LeMZW1z1LxdnVBnRWwfQhx6DpoBLWkrbIIiXA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GkboA9jidFYp/b2aHvzGp/gQS5oUfnk6Vxs3iKgPGtOJ/qxCOoUr2QqmiWfBbGWAS
-	 sXu5d1G961d6UQzm1i6FInzOwowf6iHZKBaB3PLlWcmbMtKZuz3l6tSXxgqgxct3jh
-	 Q5uolMNpBLCy9u3Xo+gbhDA1+/5Icbofr44CkuPHm0+I86nkC/vAYplixNR5/pQUiO
-	 2ADgsBEfQXghpRfiLPwmYZoOkyNnYOHm9Ihzi51ZZG9tI4EtgHtnDgMnLIgvsjh0Tq
-	 KPj/HUFW46Ewm6jymsemRn2RIaBfTmbcicLkC8GbM8QsmdQE14QLmOo8HsTZF05UKG
-	 uMQ5HofKmt3Mg==
-Date: Mon, 1 Dec 2025 16:43:05 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, WangYuli <wangyuli@aosc.io>,
-	WangYuli <wangyl5933@chinaunicom.cn>,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Nicolas Schier <nicolas.schier@linux.dev>
-Subject: Re: [PATCH 2/2] fortify: Cleanup temp file also on non-successful
- exit
-Message-ID: <20251201234305.GC2018462@ax162>
-References: <20251128-fortify-improve-handling-of-tempfile-v1-0-a79d0d3abcac@kernel.org>
- <20251128-fortify-improve-handling-of-tempfile-v1-2-a79d0d3abcac@kernel.org>
+	s=arc-20240116; t=1764640906; c=relaxed/simple;
+	bh=1xm2uxq3/XWsun1w9jLUXw2+0r+sZnuQEDplDJXFQuY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BLuev6CMXa9uczdKRf+lapeAoefsFA2+vbFbXeqBzbwPUktut3dMMWLLRF7E6aipOHXy27FjyBUXaSvetIiCbgEjjuQeSXseD/p5Bmha5XkJR0f3JD7QoNCTnN49YPKauqzKTvDWJo9dy7MUJI6vrHuZsWBFs7ChmLyXEFqRFJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=giJ2zL2h; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64198771a9bso9507178a12.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Dec 2025 18:01:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764640902; x=1765245702; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tm5mr5yL9Du8VwaKrx/bLGxyw/v9Tzp/9qk0FyO6AHc=;
+        b=giJ2zL2hyFm4MbS08gYshTsWaqig5fkZxiIt5+LRfEsA13EPwhePysGXXTERSOfb6m
+         zJBo9ci9PE5k51heJhvhqsykW9oOOPnWnr6XIRWpMHXKQy9bkh7A7lslD9gm7kC7qcGQ
+         C5BfgHRXwDEQc3e3GelYThfgSzToQbiSjACoJ8FtyU7WWyrSz3H3Kt1iTQYpFbGExXt8
+         SY9sFjPd6/a0Yiwlu71icFuu0+90j0qkuoo9yW3+I9sYjdz430EpuiKjHxEmQnZTArei
+         zWEAqq2xQMm8xCBS1tWaKmWEhI5geRpL7fJ+VmcJ5cKc11LuQ9l76dp1vgncm4smZZbn
+         hbiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764640902; x=1765245702;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Tm5mr5yL9Du8VwaKrx/bLGxyw/v9Tzp/9qk0FyO6AHc=;
+        b=DVVn5LRfHKWlV3R1bfqdv401JmBgu5te+6Faabu8nR3ODHjG0xHhbC++fIOoMkH3VZ
+         7kxN05jQH49fC/Cpf5COPhcswGdiGL0oiQA9H/iocnwPVsU3kkdDqR2oCq2AeksSoKrX
+         885f1O/gPic80mKrjQmbUfOUX8ppiUoSBz+67AXYszQ+CzSrvKzSIFalPEy+0TBKY8OP
+         uf3nbdx+IkSUfJu4/1FRP9353VEBiF6+PspwFwlTVeL5nXHN1+vzHdPBF9w/DJY98w/Z
+         FzVYVbMh1H+nt/gVuxsFveSqxl5JCU9WC4v9pEcv+fEhOB/x+msRyfFjJyLKCWVOtwrr
+         NAWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULKns286q/KY/LU9s5FCLx9VeCJb4WGGSwr3FWQtHbvu4I9C3N11BAT4HI5rHn0zbcmtipLWT+2iT3xSA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPKxKakA54T4Y5pVwL9fIkTqwHbdcg+TVEh7/ZPHRiUAE+nxNq
+	4WeeFRfcDaRfi310oFOSZpXSg/E7gt3bpoLqt92W18H6FZlD1LcPeNKEHtFrDgYQo2D/GN1sdrY
+	kHF8SzWnEXCwSjJbQXJxP7QBQfilKAl8=
+X-Gm-Gg: ASbGncvF9ZsHUk+JNhxgP7Rbt/8/ItSqnj3ZYwb8N9NspramkyxReZPcNU3q+RKHSiL
+	/9bgXVuM6mqIaZaDPA1UoOqSVbHqhG6CMF7OUI0XF5L3Y/3Ql643fBmd6eqXXtccyN/aAxU88Yp
+	j770Dw6Hn/a4h62UdZU93/nnk/HGpJPSmlkqyv4VMqTgjgAOvlDzT5VQTct0JzzlgsrRSTwgYOd
+	mCNCTnkfjQxPOAWtAsczWtre6t3annXbIoGqv1xDKh7Yh52dC4yM7v+9bFlbBRoBJUXE8aL
+X-Google-Smtp-Source: AGHT+IHHko5taDzoikUBxxib+Dl66QmkMrihFVovUWzM3DLPTsIrY4nj1HQrVpOngr31v5ZBjowao82qKsNyWp/1rW8=
+X-Received: by 2002:a17:907:948e:b0:b76:6aca:f1f3 with SMTP id
+ a640c23a62f3a-b7671589e26mr4690153166b.19.1764640902328; Mon, 01 Dec 2025
+ 18:01:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251128-fortify-improve-handling-of-tempfile-v1-2-a79d0d3abcac@kernel.org>
+References: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
+ <20251127185242.3954132-5-ihor.solodrai@linux.dev> <CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ9iK2ChyiBw@mail.gmail.com>
+ <bba5017e-a590-480b-ae48-17ae45e44e48@linux.dev> <642f6b68-0691-44a1-844f-a8cddec41fd0@linux.dev>
+In-Reply-To: <642f6b68-0691-44a1-844f-a8cddec41fd0@linux.dev>
+From: Donglin Peng <dolinux.peng@gmail.com>
+Date: Tue, 2 Dec 2025 10:01:30 +0800
+X-Gm-Features: AWmQ_bnjqK72ks9Avti-IcUvnRHy9afmTaSBhUzRFloy790PNcPXAn75zl9WskI
+Message-ID: <CAErzpmsoeFJBhqXZF1ttUCDx5HSFVawdiVfsG2vWSOq4DBBruQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
+ with raw binary output
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>, bpf@vger.kernel.org, 
+	dwarves@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 28, 2025 at 08:27:58PM +0100, Nicolas Schier wrote:
-> From: Nicolas Schier <nicolas.schier@linux.dev>
-> 
-> Ensure cleanup of test_fortify.sh's temporary file also on script
-> interruption, or some common signals.
-> 
-> Reported-by: WangYuli <wangyuli@aosc.io>
-> Closes: https://lore.kernel.org/linux-kbuild/20251112114725.287349-1-wangyuli@aosc.io/
-> Signed-off-by: Nicolas Schier <n.schier@avm.de>
+On Tue, Dec 2, 2025 at 3:46=E2=80=AFAM Ihor Solodrai <ihor.solodrai@linux.d=
+ev> wrote:
+>
+> On 11/27/25 9:52 PM, Ihor Solodrai wrote:
+> > On 11/27/25 7:20 PM, Donglin Peng wrote:
+> >> On Fri, Nov 28, 2025 at 2:53=E2=80=AFAM Ihor Solodrai <ihor.solodrai@l=
+inux.dev> wrote:
+> >>>
+> >>> [...]
+> >>>
+> >>> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/sel=
+ftests/bpf/Makefile
+> >>> index bac22265e7ff..ec7e2a7721c7 100644
+> >>> --- a/tools/testing/selftests/bpf/Makefile
+> >>> +++ b/tools/testing/selftests/bpf/Makefile
+> >>> @@ -4,6 +4,7 @@ include ../../../scripts/Makefile.arch
+> >>>  include ../../../scripts/Makefile.include
+> >>>
+> >>>  CXX ?=3D $(CROSS_COMPILE)g++
+> >>> +OBJCOPY ?=3D $(CROSS_COMPILE)objcopy
+> >>>
+> >>>  CURDIR :=3D $(abspath .)
+> >>>  TOOLSDIR :=3D $(abspath ../../..)
+> >>> @@ -716,6 +717,10 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS=
+)                  \
+> >>>         $$(call msg,BINARY,,$$@)
+> >>>         $(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS) $$(LL=
+VM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
+> >>>         $(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o =
+$$@
+> >>> +       $(Q)if [ -f $$@.btf_ids ]; then \
+> >>> +               $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids $$=
+@; \
+> >>
+> >> I encountered a resolve_btfids self-test failure when enabling the
+> >> BTF sorting feature, with the following error output:
+> >>
+> >> All error logs:
+> >> resolve_symbols:PASS:resolve 0 nsec
+> >> test_resolve_btfids:PASS:id_check 0 nsec
+> >> test_resolve_btfids:PASS:id_check 0 nsec
+> >> test_resolve_btfids:FAIL:id_check wrong ID for T (7 !=3D 5)
+> >> #369     resolve_btfids:FAIL
+> >>
+> >> The root cause is that prog_tests/resolve_btfids.c retrieves type IDs
+> >> from btf_data.bpf.o and compares them against the IDs in test_progs.
+> >> However, while the IDs in test_progs are sorted, those in btf_data.bpf=
+.o
+> >> remain in their original unsorted state, causing the validation to fai=
+l.
+> >>
+> >> This presents two potential solutions:
+> >> 1. Update the relevant .BTF.* section datas in btf_data.bpf.o, includi=
+ng
+> >>     the .BTF and .BTF.ext sections
+> >> 2. Modify prog_tests/resolve_btfids.c to retrieve IDs from test_progs.=
+btf
+> >>     instead. However, I discovered that test_progs.btf is deleted in t=
+he
+> >>     subsequent code section.
+> >>
+> >> What do you think of it?
+> >
+> > Within resolve_btfids it's clear that we have to update (sort in this
+> > case) BTF first, and then resolve the ids based on the changed BTF.
+> >
+> > As for the test, we should probably change it to become closer to an
+> > actual resolve_btfids use-case. Maybe even replace or remove it.
+> >
+> > resolve_btfids operates on BTF generated by pahole for
+> > kernel/module. And the .BTF_ids section makes sense only in kernel
+> > space AFAIU (might be wrong, let me know if I am).
+> >
+> > And in this test we are using BTF produced by LLVM for a BPF program,
+> > and then create a .BTF_ids section in a user-space app (test_progs /
+> > resolve_btfids.test.o), although using proper kernel macros.
+> >
+> > By the way, the test was written more than 5y ago [1], so it might be
+> > outdated too.
+> >
+> > I think the behavior that we care about is already indirectly tested
+> > by bpf_testmod module tests, with custom BPF kfuncs and BTF_ID_*
+> > declarations etc. If resolve_btfids is broken, those tests will fail.
+> >
+> > But it's also reasonable to have some tests targeting resolve_btfids
+> > app itself, of course. This one doesn't fit though IMO.
+> >
+> > I'll try to think of something.
+>
+> Hi Donglin,
+>
+> I discussed this off-list with Andrii, and we agreed that the selftest
+> itself is reasonable with respect to testing resolve_btfids output.
+>
+> In this series, I only have to change the test_progs build recipe.
+>
+> The problem that you've encountered I think can be fixed in the test,
+> which is basically what you suggested as option 2:
+>
+>   static int resolve_symbols(void)
+>   {
+>         struct btf *btf;
+>         int type_id;
+>         __u32 nr;
+>
+>         btf =3D btf__parse_elf("btf_data.bpf.o", NULL); /* <--- this */
+>
+>         [...]
+>
+> Instead of reading in the source BTF, we have to load .btf produced by
+> resolve_btfids. A complication is that it's going to be a different
+> file for every TRUNNER_BINARY, which has to be accounted for, although
+> the BTF itself would be identical between relevant runners.
+>
+> If go this route, I think we should add .btf cleanup to the Makefile
+> and update local .gitignore
 
-I guess with patch 1, this does not become as big of a deal. Kees, is
-there any reason to leave these temporary files around if there was an
-interruption or other signal? I do not see any obvious ones so:
+Thanks, could the following modification be accepted?
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+diff --git a/tools/testing/selftests/bpf/.gitignore
+b/tools/testing/selftests/bpf/.gitignore
+index be1ee7ba7ce0..38ac369cd701 100644
+--- a/tools/testing/selftests/bpf/.gitignore
++++ b/tools/testing/selftests/bpf/.gitignore
+@@ -45,3 +45,4 @@ xdp_synproxy
+ xdp_hw_metadata
+ xdp_features
+ verification_cert.h
++*.btf
+diff --git a/tools/testing/selftests/bpf/Makefile
+b/tools/testing/selftests/bpf/Makefile
+index 2a027ff9ceaf..a1188129229f 100644
+--- a/tools/testing/selftests/bpf/Makefile
++++ b/tools/testing/selftests/bpf/Makefile
+@@ -720,7 +720,7 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)
+                 \
+        $(Q)if [ -f $$@.btf_ids ]; then \
+                $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids $$@; \
+        fi
+-       $(Q)rm -f $$@.btf_ids $$@.btf
++       $(Q)rm -f $$@.btf_ids
+        $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)bpftoo=
+l \
+                   $(OUTPUT)/$(if $2,$2/)bpftool
 
-> ---
->  lib/test_fortify/test_fortify.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/lib/test_fortify/test_fortify.sh b/lib/test_fortify/test_fortify.sh
-> index 368d07d9acbf..ad6dd44fa31c 100644
-> --- a/lib/test_fortify/test_fortify.sh
-> +++ b/lib/test_fortify/test_fortify.sh
-> @@ -29,7 +29,7 @@ shift
->  __cleanup() {
->  	rm -f "$TMP"
->  }
-> -trap __cleanup EXIT
-> +trap __cleanup EXIT HUP INT QUIT TERM
->  
->  # Function names in warnings are wrapped in backticks under UTF-8 locales.
->  # Run the commands with LANG=C so that grep output will not change.
-> 
-> -- 
-> 2.51.0
-> 
+@@ -908,7 +908,7 @@ EXTRA_CLEAN :=3D $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)
+                 \
+        prog_tests/tests.h map_tests/tests.h verifier/tests.h           \
+        feature bpftool $(TEST_KMOD_TARGETS)                            \
+        $(addprefix $(OUTPUT)/,*.o *.d *.skel.h *.lskel.h *.subskel.h   \
+-                              no_alu32 cpuv4 bpf_gcc                   \
++                              *.btf no_alu32 cpuv4 bpf_gcc             \
+                               liburandom_read.so)                      \
+        $(OUTPUT)/FEATURE-DUMP.selftests
+
+diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+index 51544372f52e..00883ff16569 100644
+--- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
++++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+@@ -101,7 +101,7 @@ static int resolve_symbols(void)
+        int type_id;
+        __u32 nr;
+
+-       btf =3D btf__parse_elf("btf_data.bpf.o", NULL);
++       btf =3D btf__parse_raw("test_progs.btf");
+        if (CHECK(libbpf_get_error(btf), "resolve",
+                  "Failed to load BTF from btf_data.bpf.o\n"))
+                return -1;
+
+Thanks,
+Donglin
+
+>
+> This change is not strictly necessary in this series, but it is for
+> the BTF sorting series. Let me know if you would like to take this on,
+> so we don't do the same work twice.
+
+Thanks, I will take it on.
+
+>
+> >
+> > [1] https://lore.kernel.org/bpf/20200703095111.3268961-10-jolsa@kernel.=
+org/
+> >
+> >
+> >>
+> >> Thanks,
+> >> Donglin
+> >>
+> >>> +       fi
+> >>> +       $(Q)rm -f $$@.btf_ids $$@.btf
+> >>>         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)=
+bpftool \
+> >>>                    $(OUTPUT)/$(if $2,$2/)bpftool
+> >>>
+> >>> --
+> >>> 2.52.0
+> >>>
+> >
+>
 
