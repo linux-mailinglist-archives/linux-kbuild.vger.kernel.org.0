@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-9949-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9950-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DA9C9CEA3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 21:28:27 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F339C9CEA9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Dec 2025 21:28:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 45ACF348DB9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Dec 2025 20:28:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 67DEF4E3FDB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Dec 2025 20:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6632F1FC9;
-	Tue,  2 Dec 2025 20:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4DC82F1FCA;
+	Tue,  2 Dec 2025 20:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RvOx4AtQ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kHaC/jli"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DB52EACEF
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Dec 2025 20:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EF22F2616
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Dec 2025 20:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764707294; cv=none; b=ZFRT6TKYtpfQtIBdgV2nXkfjgqex8HwSjzOwdfr8DenZaRrtxjMlBSXPxR4mPgdhlgFFmC5m+HvUn3iukMqNXDwLOKPNh7wVmqW4NBYreQF3k+QUTNFkVI1nGzSIleMgAZtAawNGBCpymfKXkFxkzN7hXhS4FkbKevZNb0fyz3o=
+	t=1764707298; cv=none; b=Zbw3xgc3T6wGPUibEfkDi4vN8zKYqlpCMPpBcs5W3VSXPUMuvYgtFbhPvJK1AM1RCv3Gs5nlxJCCrNK/kXA4dBIn6Yh3gOVL8j5j37DbJpwvEwRDsfSu6NYh58DDkDvrq6Wxwlz97RykrX4GKLffUvuEbeTN/Q30CbdxbIUrRBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764707294; c=relaxed/simple;
-	bh=o237WR5t4MMOHA/6xwLqKKnBZN3/rDT9uVvqOcTiQhs=;
+	s=arc-20240116; t=1764707298; c=relaxed/simple;
+	bh=yeBX0eL+YEEo9zWpSpzNVC/hIVvpLSYTUpSpVAG9gsI=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=JngMLvZQReT6jeWobE9wteyDf0LdUh8/X0KgBXOuhURoJsry8t4ZaxFqOkLI/UQ07DrzeGerh9PZKJggEQK0PkE3aqJQn3r0FwhUJBddnHktAxtHnhtC31OmV9Vwk+ClIFsR17znFRD38RcPfNl/+DDFKTkHbUqJxel7tJmavYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RvOx4AtQ; arc=none smtp.client-ip=209.85.218.73
+	 To:Cc:Content-Type; b=MuHbEIhz9vkg0AzH2RCxRxolqq0m3W7DhQv1EF7Pw9u0nznxnw8krXcvxU8X4M7vlNUnJPrIwaUlK1eLBT0UggdoMPg7mrg7ORpvarQhz7J6xb7h0ecBlat2sYOy+aFcPanSKse4f4VaTJ7Np2F40oeGVhcnejoc2xkWYav9ZOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kHaC/jli; arc=none smtp.client-ip=209.85.208.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b736eca894fso446946566b.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Dec 2025 12:28:12 -0800 (PST)
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-64097bef0e2so8012419a12.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Dec 2025 12:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764707291; x=1765312091; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1764707292; x=1765312092; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0yaLbdbXJAqPOG8MVf6C4XR3DKZYvDAAnU5HF8zvPbo=;
-        b=RvOx4AtQHBpN6vRQmlqdo3GHoSePk/yMwKE1iFz79u/gbST6sQqKbv7j4u13qxNFN1
-         oUTo9wxfPfx+HxrWAcCbLvxi9mbqbFLKFMCzhE6U4rXPz6xb3R8TVcc7Z50n26C0VVFy
-         tRKYfebbyaDmFK36TTuFADVaqDZZ7fidQdxNtiwQ5//tnnXReEr5uN3Iti9Zgfpw9m70
-         oxCi9Acp8GlkbhAFRo8rcOopUh0FtCpMD6G7NNVRTOb6OzqLEkgTgEYPBdMwb3hO/oNQ
-         lz+ZN17j7SX/c0zr3ckfWAz08NqYwfUiAfbyiMj6L7R+KABatidh/KvkQeVWFMPOkbLG
-         2HKQ==
+        bh=6p+COANrRJg4iyKTRaWVzi/wMI4z3c+bFvZRqbOPrm4=;
+        b=kHaC/jliomvb9Ib1C68yoUQ+HOhllmssGoXgSbmm+P+h/FUkApnWoB7J/Q8eAvnYps
+         l++0yClw9aw+80DGeEiDeNAMHR/rhPdVlojmEayNEOsiV7r/gfzxThVKuDld5eCX3aoT
+         J9oA+dJGN7cGRIRLj05FO6SzfjvUZ7E6rUVVDjHQ1ie24NoTEct2iWQ4PmaBkcIFPIh5
+         rZJ9N/b++4KMgPxP9y9Hrwf6V44dtKE0qBADv9A0hS9CtOJJnC36qHSyPn25BL9MwUDN
+         2//wqblOmNilS5XFyF7v7Xr9EEfwD4q8Aw2skCRb1XvprtYKkSHu0h7658nE8fMj4gmg
+         WlwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764707291; x=1765312091;
+        d=1e100.net; s=20230601; t=1764707292; x=1765312092;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0yaLbdbXJAqPOG8MVf6C4XR3DKZYvDAAnU5HF8zvPbo=;
-        b=pFmPgGT8zSRUv68e23M2PQPjJLlybN2/I2cSuqQkmWvy3KOJN/e34v/lx7OIVo0pt5
-         AdevXglRUFeZohMty0Ch/rn6wLE+9pM1idKcJ+RmgVl4fKs6PCbeno+ylY/TJ2OjncEt
-         dosU5857jeScwqzHvk6GzAlsDBQk/yGM5gQz8vNUu7ym5Z3sluipmaQoFOEJdSa/Lj2d
-         4DboKFt+igzomYzBiKGhLqszM8ibHYoY6eO7YABr5U01Nyg9M/5+wkGSX1LDdh001iwO
-         8l8vq8RtF60u9cEJnrEcJ3iluOE9NSJfbR9x5ROPNSYsrAmRJhb2JCLLaCJRxhT0dCy/
-         j/DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXfYwIHX01kFvpNIzLTL1euos1qRIAdyYbWZFeKFRdqq93W8wVMr+HNTXTyCEw0JRV0z7cp4D0mw/J2/fk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyT1gzEDX8LnuSOVXu1j4jBYDcRqQC8Un50pOxi8Tu2clNrDcPj
-	Ui7C3YtbOaYreDnlKGjlqSN1o/e43b1Zxv2TskLSs7bfljS9Yx+esEca/vkthJSafIonsF/fUO5
-	oP7fZfV6MTZL/SrVQPw==
-X-Google-Smtp-Source: AGHT+IFxbJTUi3LG/UxAzVg0DHJfs/QK8ZkbgJFUFzeew/1o2JPNxmwoD7ry+SYsd199ZxrJFbneEJ7rLxcSHeI=
-X-Received: from ejckp26.prod.google.com ([2002:a17:907:999a:b0:b72:6a6d:5018])
+        bh=6p+COANrRJg4iyKTRaWVzi/wMI4z3c+bFvZRqbOPrm4=;
+        b=HuyTFmAyDWpQDZ30lk/WEjyIDmmwxc5UwMlV/pGi5oyPZQ+Ux9umF5TVKlR1R/q8FH
+         Rya7hGrwuCUv0LhqkW4IJ+rny2PFBv/WpIszr0By5RslPzfwILuD31YswE7/R+zK1DFU
+         p2gughf97r421aBxUPB9pNU8iff5GZrKO4ZooZeKqGCJXvX6BrvYqECUBv9UH+5nURNa
+         GHzJuPntJw5u3hCrk4zywblxrYGezAztmDMlX3VyoipMwndCQnlxQkUiWjWiqObHtPFE
+         ZZ1/TwIM/CGcetAVIToOyePXmxxWmMNfcw9h3dk2KLBUkeTonnVQFI7F4X3+62kqrNf8
+         XRDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaBQl7PUBwXm/+3aP80ujzA4XAB9YDfbofx5sHqiq+Urkat7J1XUns+PE0nAaSxgyEWbV2rZIYOV8BH+8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpsrWJ03uaWMFGlMxvWiAcQNv3a/8lE4FPFvXDErSKbteNW5oo
+	5DnOLroCBK4HoVYMgK0CsDEP0gTO4UhrlUGLTFSjkOLh9FKIh63m6i8aoWyGwdI9Er+Gjk6QuKA
+	ILGsHe8/KBLyA3Pkkdg==
+X-Google-Smtp-Source: AGHT+IHlno9/sG7/bayEdrUxcRJ+XAK+NEe9iVymOZCA9KTFp8CJ1IAcUSelacyyX3nFi5Yad+XDFFP4AwI+IlQ=
+X-Received: from edaa21.prod.google.com ([2002:a05:6402:24d5:b0:640:92f5:e6fc])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:9289:b0:b73:76c5:8f7c with SMTP id a640c23a62f3a-b767184bc4cmr5031432266b.43.1764707290453;
- Tue, 02 Dec 2025 12:28:10 -0800 (PST)
-Date: Tue, 02 Dec 2025 20:27:56 +0000
+ 2002:a05:6402:3584:b0:640:74f5:d9f6 with SMTP id 4fb4d7f45d1cf-64794f74e19mr816955a12.25.1764707292013;
+ Tue, 02 Dec 2025 12:28:12 -0800 (PST)
+Date: Tue, 02 Dec 2025 20:27:57 +0000
 In-Reply-To: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,22 +74,22 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=993; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=o237WR5t4MMOHA/6xwLqKKnBZN3/rDT9uVvqOcTiQhs=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpL0vXS2KTuDwIHjFPV9SPMyVgAzUi/MU12KYc+
- WMaROi5+LCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaS9L1wAKCRAEWL7uWMY5
- RjdSD/41DCALGMN7nyQxyeW2hZ9gETkyG8/iqH2wlmXrShi1r1+WB5woa9Xyur1kDN4fny2B3pO
- Y/5ZTPeLOcZ/aZiVYBNJA/D9HwDtronU7j5mUuxB0yWDU86evl6AxsKiEvJuzy96b8AtZ0ARx94
- IgGN41NqoWqbtVWQg6QlCkP56YIrgkpzGAS8atcgpDUrXNb+PE5wxdosva9Kh9do0WUVeLVeSKd
- BdEA9iG36VbrEo4YdJv4GRojxiLeD9CDzvYaGx6ijS8AsM1Osv5V66FEhywlu5eg8vNaBbPlcj2
- xI8IBYCVYdeDDvb1eKyZRLyLRwSvHfbhkMIgkLYycP51rfgkb9kJ8xzMWQGx4zynmLXzAXH0J0m
- 5EB4i8kqfcM55bSpXOcCJzmldnW5zNj6/a6PmCC3hINHPjiHjIKkZmyQFZ+xyfRWH5U5ZZnvqIq
- RTDSAE/Vjex1zfELbKMrNyp4+efGryIeLo2hKskD8xXiqzcEDhKiNZY7C3d1jHSgp0uyZLRoe7e
- N/0L4pucmpbvlsisOuuXdvhokGnGK0s/K4V9WjZ94AoP9QZDTbOpFHNW6iUVflzEdZFfDfqHEs/
- ToADXA5Wr2TwTuT9flTY9YEdDg46zEMD7PVRz2llCMVxG6AYZdE+1gKeJLV9PHtLVfRe6h8qxrt EQLssKb+G2MtrPw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4811; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=ILovg7w2jH5gFOEQybF86Y3dXSsF4YeG9sZZSLyxF8g=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpL0vXWcW4aVlMjlcTWMGU9dXcoeSC3ebU+h+yW
+ gJ6gVmPh1OJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaS9L1wAKCRAEWL7uWMY5
+ RngFEACMVsbQT0Zwv8K0Ot/Yv1D0f0w7dRnqAHbcNhDHMtJMF0eKhiccoIyiC0h/BYKvRp8B5Pu
+ KSeabwFIVcOwoJsWy+5R1rqIx2eJqi4leqQWKrIzXrso29P9gXpzBWdBOHwwr0PRYGZZs9eqSEp
+ Ni8/A1g20ZtVifJDwYSoZtF/5PminXSIGBdm5krya3CD3v+xoirkqH8c7cd2uifxi5KrJD6qek3
+ 5UiQj/e4qgQTTynWcQS9YiJt+sMktrku/XQEmJXyVaDIHrxSMZoWHIYLpdeIwuiWJpPkFPmM8Ni
+ UzcSlSLe2Bxh/onkCZs/OKqLm0ynAVl4fGqZIA6f3VhqaSBHVnokKZ+zij8Jdz14c35nUQN/dlr
+ fvOd1oiCesg5Ish6+R3Bi9z1VNW+dWygGww6u5+rCxA0+GEIXwc1qoQir54sFgOIf+hunXFo4Ps
+ uLzgkzsB6nmOXPv2xxyib9QijAdpCBZ86gSnclbCWDhA/RolFCvtuAfNdVfh8WJ1Iy0/4U/1DaE
+ rITItP7ShM8YN+VXCGtruti4f6K9bW3e4z5o9gr5h2C2ODxhxNafTH018EFzRJ9GMSoZZiqSNG+
+ wV0PayaQaYSr4TIzmDNriukMQuoKo6fI+++0wRf8nzwUNjnaAZu/qQppZTmL/cbdyjVfrZ8J0ZC bpyEsLN+f3zJ2gA==
 X-Mailer: b4 0.14.2
-Message-ID: <20251202-inline-helpers-v1-1-879dae33a66a@google.com>
-Subject: [PATCH 1/4] vmalloc: export vrealloc_node_align_noprof
+Message-ID: <20251202-inline-helpers-v1-2-879dae33a66a@google.com>
+Subject: [PATCH 2/4] rust: helpers: #define __rust_helper
 From: Alice Ryhl <aliceryhl@google.com>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
@@ -106,32 +106,120 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
 	nouveau@lists.freedesktop.org, Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-This symbol is used from the Nova driver, so it needs to be exported to
-avoid a build failure when building Nova as a module.
+From: Gary Guo <gary@garyguo.net>
 
-ERROR: modpost: "vrealloc_node_align_noprof" [drivers/gpu/nova-core/nova_core.ko] undefined!
-ERROR: modpost: "vrealloc_node_align_noprof" [samples/rust/rust_dma.ko] undefined!
+Because of LLVM inling checks, it's generally not possible to inline a C
+helper into Rust code, even with LTO:
 
-This error is only triggered if inlining of helpers into Rust is
-enabled.
+* LLVM doesn't want to inline functions compiled with
+  `-fno-delete-null-pointer-checks` with code compiled without. The C
+  CGUs all have this enabled and Rust CGUs don't. Inlining is okay since
+  this is one of the hardening features that does not change the ABI,
+  and we shouldn't have null pointer dereferences in these helpers.
 
+* LLVM doesn't want to inline functions with different list of builtins. C
+  side has `-fno-builtin-wcslen`; `wcslen` is not a Rust builtin, so
+  they should be compatible, but LLVM does not perform inlining due to
+  attributes mismatch.
+
+* clang and Rust doesn't have the exact target string. Clang generates
+  `+cmov,+cx8,+fxsr` but Rust doesn't enable them (in fact, Rust will
+  complain if `-Ctarget-feature=+cmov,+cx8,+fxsr` is used). x86-64
+  always enable these features, so they are in fact the same target
+  string, but LLVM doesn't understand this and so inlining is inhibited.
+  This can be bypassed with `--ignore-tti-inline-compatible`, but this
+  is a hidden option.
+
+To fix this, we can add __always_inline on every helper, which skips
+these LLVM inlining checks. For this purpose, introduce a new
+__rust_helper macro that needs to be added to every helper.
+
+The actual additions of __rust_helper can happen in separate patches. A
+"flag day" change is not required since missing annotations do not lead
+to anything worse than missing inlining.
+
+Signed-off-by: Gary Guo <gary@garyguo.net>
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- mm/vmalloc.c | 1 +
- 1 file changed, 1 insertion(+)
+ rust/helpers/atomic.c                     |  5 -----
+ rust/helpers/helpers.c                    | 31 +++++++++++++++++++++++++++++++
+ scripts/atomic/gen-rust-atomic-helpers.sh |  5 -----
+ 3 files changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 798b2ed21e46059f341ed0d46c7fe56bbe357b22..e086d00f04d61ebd481cb84e3dfea51d8a2ffc57 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -4200,6 +4200,7 @@ void *vrealloc_node_align_noprof(const void *p, size_t size, unsigned long align
+diff --git a/rust/helpers/atomic.c b/rust/helpers/atomic.c
+index cf06b7ef9a1c559e8d7bdfc2bcd2aeb8951c29d1..a48605628ed73ac32aae2e6280481407a670e88f 100644
+--- a/rust/helpers/atomic.c
++++ b/rust/helpers/atomic.c
+@@ -11,11 +11,6 @@
  
- 	return n;
- }
-+EXPORT_SYMBOL(vrealloc_node_align_noprof);
+ #include <linux/atomic.h>
  
- #if defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA32)
- #define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
+-// TODO: Remove this after INLINE_HELPERS support is added.
+-#ifndef __rust_helper
+-#define __rust_helper
+-#endif
+-
+ __rust_helper int
+ rust_helper_atomic_read(const atomic_t *v)
+ {
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index 551da6c9b5064c324d6f62bafcec672c6c6f5bee..d0e2f1f9b449b2248cfbddcee1e8bf9becc8a2f9 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -7,6 +7,37 @@
+  * Sorted alphabetically.
+  */
+ 
++#include <linux/compiler_types.h>
++
++#ifdef __BINDGEN__
++// Omit `inline` for bindgen as it ignores inline functions.
++#define __rust_helper
++#else
++// The helper functions are all inline functions.
++//
++// We use `__always_inline` here to bypass LLVM inlining checks, in case the
++// helpers are inlined directly into Rust CGUs.
++//
++// The LLVM inlining checks are false positives:
++// * LLVM doesn't want to inline functions compiled with
++//   `-fno-delete-null-pointer-checks` with code compiled without.
++//   The C CGUs all have this enabled and Rust CGUs don't. Inlining is okay
++//   since this is one of the hardening features that does not change the ABI,
++//   and we shouldn't have null pointer dereferences in these helpers.
++// * LLVM doesn't want to inline functions with different list of builtins. C
++//   side has `-fno-builtin-wcslen`; `wcslen` is not a Rust builtin, so they
++//   should be compatible, but LLVM does not perform inlining due to attributes
++//   mismatch.
++// * clang and Rust doesn't have the exact target string. Clang generates
++//   `+cmov,+cx8,+fxsr` but Rust doesn't enable them (in fact, Rust will
++//   complain if `-Ctarget-feature=+cmov,+cx8,+fxsr` is used). x86-64 always
++//   enable these features, so they are in fact the same target string, but
++//   LLVM doesn't understand this and so inlining is inhibited. This can be
++//   bypassed with `--ignore-tti-inline-compatible`, but this is a hidden
++//   option.
++#define __rust_helper __always_inline
++#endif
++
+ #include "atomic.c"
+ #include "auxiliary.c"
+ #include "barrier.c"
+diff --git a/scripts/atomic/gen-rust-atomic-helpers.sh b/scripts/atomic/gen-rust-atomic-helpers.sh
+index 45b1e100ed7c63108ee6cb07e48a17668f860d47..a3732153af29f415e397e17cab6e75cb5d7efafc 100755
+--- a/scripts/atomic/gen-rust-atomic-helpers.sh
++++ b/scripts/atomic/gen-rust-atomic-helpers.sh
+@@ -47,11 +47,6 @@ cat << EOF
+ 
+ #include <linux/atomic.h>
+ 
+-// TODO: Remove this after INLINE_HELPERS support is added.
+-#ifndef __rust_helper
+-#define __rust_helper
+-#endif
+-
+ EOF
+ 
+ grep '^[a-z]' "$1" | while read name meta args; do
 
 -- 
 2.52.0.158.g65b55ccf14-goog
