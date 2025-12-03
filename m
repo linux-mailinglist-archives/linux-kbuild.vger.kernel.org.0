@@ -1,100 +1,110 @@
-Return-Path: <linux-kbuild+bounces-9965-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9966-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179E9CA1840
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 21:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938ADCA18DD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 21:27:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C00113004B8E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 20:05:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3FB76300B83D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 20:27:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 836D3242D6E;
-	Wed,  3 Dec 2025 20:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4D027707;
+	Wed,  3 Dec 2025 20:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdHECC4F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGbXmK48"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC55E398FA5
-	for <linux-kbuild@vger.kernel.org>; Wed,  3 Dec 2025 20:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504D0398F88;
+	Wed,  3 Dec 2025 20:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764792350; cv=none; b=ItQQlSRMkWC+bHvcVcmd9WJeS9hiZwa5i7ciCBe5aidAW0K+3mDWUWcdPs9JPs2kEpsWcpcKjQiNFenePVxjuPQvApGBjhpdu5DX3Uno1bVT8uy4f01pNbF0gBYOTbRC0CpOVvEVXk7dxMbqj8Iju3IaR2MnV1310EpQhWmObZI=
+	t=1764793648; cv=none; b=cX6C2bIna9cFVvhpD1z3h45PU+bBdCRqPGEg6muJhU/YEw9cAh/Nm8EPeqcBV+5Vf9/Bl44qyNxDIj9hJ5CN70iTRI2ps8b0h0vlBYFoooKy+sZh2EgNRZjCkR6njbj/wrpXFRyya8PwQM5UJBUFhWbeIVUmOtwmDhhpiVQg+dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764792350; c=relaxed/simple;
-	bh=AG9GrROvweeacWEAdRTVykiH1D+eyLznjpshHadtW48=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ddh91meN8jIQshOlvshFYSpBDdQlP09joBrZRgyn6lYhjyYz+xLvJLDJuj+Fa7720kkVGxLwaYTdsQv3N1bOorB19qQRVzT4PZ+8MhG5n0Td25AH/cVheTa/YuZMGKDQLq29UnbbC2YmThT84EwcYbnFbqNzmlQfLxlGiVe8oWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YdHECC4F; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37ba5af5951so1491681fa.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Dec 2025 12:05:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764792347; x=1765397147; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wnUb7wkPZTtLzr68E4z+N8DU80QWM8TPlOvaXkpc0Ak=;
-        b=YdHECC4FrU/ZYmt//3wcVULxh3vQlNUwX+f3YyONFgyID72I1KAV9P6O1r5isdHMat
-         mYXygo+TaMYQau0KOA2TdRnVx7nUdxIfMGHZFbHL60n/6RCK/n0330KeMfkyH/tF2xkR
-         UTPtx3GpIpqUYW8t7biwbVCZnuRatRnYqLIotYnpdM/4ny3TLff8PHLzuU/7+WADQgRR
-         fgDkr+g8R3vi+Lahdv02gZTzLIrTKbMBkjL9CIvA4fAiquVWkuItIJYLlrd/LYUkH5KS
-         kqdFQkMV+b6PEirUSGf8nhM7Sgm0yhYmKbI1JDaYo102Rmv7c1GSyCE+H3W9bSjjyGYc
-         yJBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764792347; x=1765397147;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wnUb7wkPZTtLzr68E4z+N8DU80QWM8TPlOvaXkpc0Ak=;
-        b=kmzqXuB3Ncz8eo3mPfmKiAyxvq1+t2F5UB0oHDzhHvaurTO0TILASKvFEg/ynXFi1M
-         /rswo0usi0Wp9VTz6T5FgZMw/++9XGYvVAYG7L0+7bHEcw3jK5d5x75dp/ku8nnn8mko
-         UARCTOugXnhGEG5sbtoQ6EeEg+CT1CZcUl5l8p0DdV160vdaj617jQ32G83nYXiiO58K
-         W6TXIzpstCn+uD0Wq9f0JBlH+EDEs2qySbkeyavc0nOlJg1MtS06N24B5L8098vfxk8y
-         NTojotsH9rngkI4h8SwNrj/hklrkIk4YWfwKs2HlVs3X7KB4rgQ9D3Z69YE5Tz0LkxRO
-         c2vA==
-X-Gm-Message-State: AOJu0YxF5K4Z0rZHsQI0McKpevxqLRZS8rBQ3gkLfWFhljKByRP0K559
-	CH30kqmkycQJZ6rHDrQQ1YD4ulcOIPU9VCbrv7N1TPIc6hcuOtCCh/NX
-X-Gm-Gg: ASbGnctQ6stWZHZr07PzMkuuU7pR6bBXh9lPCFhnnfXLWEgxk3r+X/z4mNHwHYq9zvz
-	atmPB6ff5ocJoLPOuELSkxCCr6GbLE+b97SxaoCFhvZU6KLL1A8olNSsZKhvnQPK2q4MBlPujeP
-	P+TT1Zts8GBWl/J+ZsVGwnX7O52Moqv+3uFaW3IUyGTwPkeErF+87gdaHGTxQsFO7FCjsYY6OQ0
-	WX5q21GEVQtg3TFXSSxSV+xV2cXZozsB+HwO22OLj8g8+tKWbGslUjq0LJ/eLml56roiqyRvGJI
-	k3Hte05hXfJ8cbwHu2wulXgr7BmISUtzzOc4zVfCKSX/C5UASt5JQrHhtcr09/p7dk7l0yuXTdo
-	5UzHu3uo49EwUF3jSgga08FzuSw6iClomXuZC4IJEVVaKrX5airR6G811Uu0I7toji6xRBM/Eml
-	ymbA6hjr0=
-X-Google-Smtp-Source: AGHT+IFcrgyNy9/ys9WRk5jnvE4VJKw6Gba3tzTM5kC/GYNY8kJZ0Zuoj8YiWvo44qtPhCxdA2OHmw==
-X-Received: by 2002:a2e:3510:0:b0:37d:1911:7a45 with SMTP id 38308e7fff4ca-37e639571femr9547531fa.42.1764792346686;
-        Wed, 03 Dec 2025 12:05:46 -0800 (PST)
-Received: from localhost ([194.190.17.114])
-        by smtp.gmail.com with UTF8SMTPSA id 38308e7fff4ca-37d236dd782sm44470811fa.15.2025.12.03.12.05.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 12:05:45 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: regressions@lists.linux.dev
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION][BISECTED] kbuild: CFLAGS=-w no longer works
-Date: Wed,  3 Dec 2025 23:05:03 +0300
-Message-ID: <20251203200536.102101-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251009075149.1083040-1-safinaskar@gmail.com>
-References: <20251009075149.1083040-1-safinaskar@gmail.com>
+	s=arc-20240116; t=1764793648; c=relaxed/simple;
+	bh=YtqooKhsYBrg4sYxme5XWWx7XdlPQEBX2B2+A4DR7YY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ChA3UBT6XWprgX7rT5DCVBhVo2HEK9nYV9zKFX4ARxRA3gZGcnUVRCJ3ru1jKrK8lWZEpJWwlegssetbz4BhNzHmhcKRb0lisuK0mKytxyzRmcG1oEVRSmsqsms/V7Z2cLJ4n+JMdy+zEahBQUgehePaWkhYld0E6l2sAo7A0nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGbXmK48; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A593BC4CEF5;
+	Wed,  3 Dec 2025 20:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764793647;
+	bh=YtqooKhsYBrg4sYxme5XWWx7XdlPQEBX2B2+A4DR7YY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HGbXmK48LGiBBCGveFNykoHduqMwhikqIIEMhQoAaXNGqRAQJDSd0W9lDbkLM8Px1
+	 kQw1xC4CpHVzGz7r6pnG6U0cSUh5GR7ka9BgQBVFkOib0pIJsxhdkHYcT3XwifYPzd
+	 nrVUJ68K1QN80H2/7KKqvNN/dl43A+lV7/tC+6q+L2F+FS7nWg/0fdajrHIj05tN54
+	 dz0q36USlopIn++rQO/AdTf7V/XH7phjSQLTJFGLxikfHMVCwBv6WE0UM7G8GC+wRY
+	 RDiXoXdMNMbEWqdI2tQSkQ38K1xfqrbghH5STkeNLyR/0NgZHHnQQPGwN4IKsXWAEa
+	 AJXe25qXn7qng==
+Date: Wed, 3 Dec 2025 13:27:21 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>,
+	andy@kernel.org, krzk@kernel.org, linus.walleij@linaro.org,
+	nsc@kernel.org, bleung@chromium.org,
+	heikki.krogerus@linux.intel.com, abhishekpandit@chromium.org,
+	masahiroy@kernel.org, legion@kernel.org, hughd@google.com,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
+Subject: Re: [PATCH v3] mcb: Add missing modpost build support
+Message-ID: <20251203202721.GA3060476@ax162>
+References: <20251202084200.10410-1-dev-josejavier.rodriguez@duagon.com>
+ <20251202203421.GB1959956@ax162>
+ <2025120340-clubbing-stash-a933@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025120340-clubbing-stash-a933@gregkh>
 
-Askar Safin <safinaskar@gmail.com>:
-> #regzbot introduced: d1d0963121769d8d16150b913fe886e48efefa51
+On Wed, Dec 03, 2025 at 09:07:02AM +0100, Greg KH wrote:
+> On Tue, Dec 02, 2025 at 01:34:21PM -0700, Nathan Chancellor wrote:
+> > On Tue, Dec 02, 2025 at 09:42:00AM +0100, Jose Javier Rodriguez Barbarin wrote:
+> > > mcb bus is not prepared to autoload client drivers with the data defined on
+> > > the drivers' MODULE_DEVICE_TABLE. modpost cannot access to mcb_table_id
+> > > inside MODULE_DEVICE_TABLE so the data declared inside is ignored.
+> > > 
+> > > Add modpost build support for accessing to the mcb_table_id coded on device
+> > > drivers' MODULE_DEVICE_TABLE.
+> > > 
+> > > Fixes: 3764e82e5150 ("drivers: Introduce MEN Chameleon Bus")
+> > > Reviewed-by: Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
+> > > Signed-off-by: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
+> > > ---
+> > 
+> > Acked-by: Nathan Chancellor <nathan@kernel.org>
+> > 
+> > We should be able to get this to Linus by 6.19-rc1.
+> 
+> Why?  What's the rush?
 
-#regzbot report: https://lore.kernel.org/lkml/20251009075149.1083040-1-safinaskar@gmail.com/
-#regzbot invalid: there is no bug, kbuild works as documented
+I was going off of Andy's previous comments about getting this into a
+6.19-rc release to allow Jose to send the follow up changes for removing
+MODULE_ALIAS from the drivers that use mcb_device_id, which are spread
+out across the tree.
 
--- 
-Askar Safin
+  https://lore.kernel.org/CAHp75VfhM5GuYY1qUKgBhePDo4oe5k3K1ZDTPbYJNr5NtjVVfQ@mail.gmail.com/
+  https://lore.kernel.org/aS3YUYtrEn39lUPl@smile.fi.intel.com/
+
+That could be -rc2 or -rc3 obviously but -rc1 is objectively the most
+compatible base for all maintainer trees.
+
+> It should have been in -next already to get into -rc1.
+
+This seems like a low risk change, maybe even a borderline fix (and it
+would still be in -next before it went to Linus). I do not have to push
+it that quickly though, I have no strong opinion on the priority of this
+change. Another option would be a shared branch after -rc1 is out that
+other trees could pull in so that those changes could go into 6.20 and
+get proper -next soak time.
+
+Cheers,
+Nathan
 
