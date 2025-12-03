@@ -1,59 +1,72 @@
-Return-Path: <linux-kbuild+bounces-9966-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9967-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938ADCA18DD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 21:27:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 379FECA1AD1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 22:26:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3FB76300B83D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 20:27:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 250DC300E78F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 21:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4D027707;
-	Wed,  3 Dec 2025 20:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB7CB2D6E59;
+	Wed,  3 Dec 2025 21:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGbXmK48"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zd86bIpv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504D0398F88;
-	Wed,  3 Dec 2025 20:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898AD2C21FC;
+	Wed,  3 Dec 2025 21:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764793648; cv=none; b=cX6C2bIna9cFVvhpD1z3h45PU+bBdCRqPGEg6muJhU/YEw9cAh/Nm8EPeqcBV+5Vf9/Bl44qyNxDIj9hJ5CN70iTRI2ps8b0h0vlBYFoooKy+sZh2EgNRZjCkR6njbj/wrpXFRyya8PwQM5UJBUFhWbeIVUmOtwmDhhpiVQg+dw=
+	t=1764797166; cv=none; b=pjbMyGJQbfWRdw+lJ6aJp0kbNP+ORPwl0z/x0UcyE53kgA1WGWPhxas53oLyOHsmhy+CdJnBL7NfyPeUmcxVl6CyDMsWvRxt1ec7bkn4+cL13UeAbsxSCIzMHYIjs+MBDS0TIDybSPaPVlY5iezEOZ5KjBT1jLdH5WZDZra+Blw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764793648; c=relaxed/simple;
-	bh=YtqooKhsYBrg4sYxme5XWWx7XdlPQEBX2B2+A4DR7YY=;
+	s=arc-20240116; t=1764797166; c=relaxed/simple;
+	bh=GFgAqj8UfGyBUyXfv+53BPOejR4vlRFgXnL4TObOzNM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChA3UBT6XWprgX7rT5DCVBhVo2HEK9nYV9zKFX4ARxRA3gZGcnUVRCJ3ru1jKrK8lWZEpJWwlegssetbz4BhNzHmhcKRb0lisuK0mKytxyzRmcG1oEVRSmsqsms/V7Z2cLJ4n+JMdy+zEahBQUgehePaWkhYld0E6l2sAo7A0nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGbXmK48; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A593BC4CEF5;
-	Wed,  3 Dec 2025 20:27:24 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGv986fpVSDxpa04Y6xJYLnJQ0x38qDs/pJOsI3YHoag85No44t/UG4/VGHL6amVujyMffZrDcbiD8D/jCqrQAE/q0IjIAm3vXeL2Pspm7SZmuQ2e10FEu1H3kQg/S6cqgc48z3ShNENqyAaBub7zf0hUlXkmOZIDhx7mhDrjVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zd86bIpv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A5D0C4CEF5;
+	Wed,  3 Dec 2025 21:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764793647;
-	bh=YtqooKhsYBrg4sYxme5XWWx7XdlPQEBX2B2+A4DR7YY=;
+	s=k20201202; t=1764797166;
+	bh=GFgAqj8UfGyBUyXfv+53BPOejR4vlRFgXnL4TObOzNM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HGbXmK48LGiBBCGveFNykoHduqMwhikqIIEMhQoAaXNGqRAQJDSd0W9lDbkLM8Px1
-	 kQw1xC4CpHVzGz7r6pnG6U0cSUh5GR7ka9BgQBVFkOib0pIJsxhdkHYcT3XwifYPzd
-	 nrVUJ68K1QN80H2/7KKqvNN/dl43A+lV7/tC+6q+L2F+FS7nWg/0fdajrHIj05tN54
-	 dz0q36USlopIn++rQO/AdTf7V/XH7phjSQLTJFGLxikfHMVCwBv6WE0UM7G8GC+wRY
-	 RDiXoXdMNMbEWqdI2tQSkQ38K1xfqrbghH5STkeNLyR/0NgZHHnQQPGwN4IKsXWAEa
-	 AJXe25qXn7qng==
-Date: Wed, 3 Dec 2025 13:27:21 -0700
+	b=Zd86bIpvg86iAEPANnDmH3QLfW8yzPG0kdsDWe9N2/EYvP4E4L9o550SSI8Yv4LVZ
+	 URMQb7wPkrwy3laoLMkOWv9kZRBo6Y6BMGYa1zv/UOiYIVd1BsnWue8Z1t9ELX7Jve
+	 6i57FY+s0dGa6aljNBsNu9O6zTwIzP+xAhmeuUtOYebVtJKIiCI5TmZbU3HciuuTbq
+	 3UT5mzV9hDBwXBm5TipT1YTZHmVTV25YbGoONGYQG43tNFbqqBdZ7TDqbUQlxvv7+L
+	 O2McGBanr21d+vpA/GHY1azbF8OM4IyeLD71qJhNjGEEKRMZVCNJVT0wfcoaUBZnmc
+	 sCIvRJ6Q37TLw==
+Date: Wed, 3 Dec 2025 14:25:58 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>,
-	andy@kernel.org, krzk@kernel.org, linus.walleij@linaro.org,
-	nsc@kernel.org, bleung@chromium.org,
-	heikki.krogerus@linux.intel.com, abhishekpandit@chromium.org,
-	masahiroy@kernel.org, legion@kernel.org, hughd@google.com,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
-Subject: Re: [PATCH v3] mcb: Add missing modpost build support
-Message-ID: <20251203202721.GA3060476@ax162>
-References: <20251202084200.10410-1-dev-josejavier.rodriguez@duagon.com>
- <20251202203421.GB1959956@ax162>
- <2025120340-clubbing-stash-a933@gregkh>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+	nouveau@lists.freedesktop.org, Matthew Maurer <mmaurer@google.com>
+Subject: Re: [PATCH 4/4] build: rust: provide an option to inline C helpers
+ into Rust
+Message-ID: <20251203212558.GB3060476@ax162>
+References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
+ <20251202-inline-helpers-v1-4-879dae33a66a@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,48 +75,70 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2025120340-clubbing-stash-a933@gregkh>
+In-Reply-To: <20251202-inline-helpers-v1-4-879dae33a66a@google.com>
 
-On Wed, Dec 03, 2025 at 09:07:02AM +0100, Greg KH wrote:
-> On Tue, Dec 02, 2025 at 01:34:21PM -0700, Nathan Chancellor wrote:
-> > On Tue, Dec 02, 2025 at 09:42:00AM +0100, Jose Javier Rodriguez Barbarin wrote:
-> > > mcb bus is not prepared to autoload client drivers with the data defined on
-> > > the drivers' MODULE_DEVICE_TABLE. modpost cannot access to mcb_table_id
-> > > inside MODULE_DEVICE_TABLE so the data declared inside is ignored.
-> > > 
-> > > Add modpost build support for accessing to the mcb_table_id coded on device
-> > > drivers' MODULE_DEVICE_TABLE.
-> > > 
-> > > Fixes: 3764e82e5150 ("drivers: Introduce MEN Chameleon Bus")
-> > > Reviewed-by: Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
-> > > Signed-off-by: Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
-> > > ---
-> > 
-> > Acked-by: Nathan Chancellor <nathan@kernel.org>
-> > 
-> > We should be able to get this to Linus by 6.19-rc1.
-> 
-> Why?  What's the rush?
+Hi Alice,
 
-I was going off of Andy's previous comments about getting this into a
-6.19-rc release to allow Jose to send the follow up changes for removing
-MODULE_ALIAS from the drivers that use mcb_device_id, which are spread
-out across the tree.
+On Tue, Dec 02, 2025 at 08:27:59PM +0000, Alice Ryhl wrote:
+...
+> diff --git a/Makefile b/Makefile
+> index 96ddbaae7e12de71bcfabef4639de3a13a6e4815..5834bfd568548d1bee34b328dccce5d60f85526f 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -517,6 +517,8 @@ OBJCOPY		= $(LLVM_PREFIX)llvm-objcopy$(LLVM_SUFFIX)
+>  OBJDUMP		= $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
+>  READELF		= $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
+>  STRIP		= $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
+> +LLVM_LINK	= $(LLVM_PREFIX)llvm-link$(LLVM_SUFFIX)
+> +LLVM_AS		= $(LLVM_PREFIX)llvm-as$(LLVM_SUFFIX)
 
-  https://lore.kernel.org/CAHp75VfhM5GuYY1qUKgBhePDo4oe5k3K1ZDTPbYJNr5NtjVVfQ@mail.gmail.com/
-  https://lore.kernel.org/aS3YUYtrEn39lUPl@smile.fi.intel.com/
+Please keep the binutils alphabetized (i.e, put LLVM_LINK between AR and
+NM).
 
-That could be -rc2 or -rc3 obviously but -rc1 is objectively the most
-compatible base for all maintainer trees.
+Other than that, this seems fine from a Kbuild perspective (but I did
+not look too hard).
 
-> It should have been in -next already to get into -rc1.
+>  else
+>  CC		= $(CROSS_COMPILE)gcc
+>  LD		= $(CROSS_COMPILE)ld
+> @@ -625,7 +627,7 @@ export RUSTC_BOOTSTRAP := 1
+>  export CLIPPY_CONF_DIR := $(srctree)
+>  
+>  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC HOSTPKG_CONFIG
+> -export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN
+> +export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN LLVM_LINK LLVM_AS
+>  export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
+>  export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+>  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 3034e294d50df55c4003c5fa5df442f59e711bd8..e63c5eb57b049aff988419ccd12dfd99d59f5080 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -3427,6 +3427,21 @@ config RUST_KERNEL_DOCTESTS
+>  
+>  	  If unsure, say N.
+>  
+> +config RUST_INLINE_HELPERS
+> +    bool "Inline C helpers into Rust crates (EXPERIMENTAL)"
+> +    depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
+> +    depends on EXPERT
+> +    help
+> +        Links C helpers into Rust crates through LLVM IR.
+> +
+> +        If this option is enabled, instead of generating object files directly,
+> +        rustc is asked to produce LLVM IR, which is then linked together with
+> +        the LLVM IR of C helpers, before object file is generated.
+> +
+> +        This requires a matching LLVM version for Clang and rustc.
+> +
+> +        If unsure, say N.
+> +
 
-This seems like a low risk change, maybe even a borderline fix (and it
-would still be in -next before it went to Linus). I do not have to push
-it that quickly though, I have no strong opinion on the priority of this
-change. Another option would be a shared branch after -rc1 is out that
-other trees could pull in so that those changes could go into 6.20 and
-get proper -next soak time.
+I am just curious, why would someone want (or not) to do this? This help
+text does not really indicate the point of the option, just what it
+does. Is it just the standard tradeoffs with inlining (potential
+improvements in performance due to better optimization opportunities
+versus text size increase and icache pressure) or something else?
 
 Cheers,
 Nathan
