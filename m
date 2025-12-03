@@ -1,446 +1,237 @@
-Return-Path: <linux-kbuild+bounces-9959-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9960-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3D8C9EC11
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 11:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEFEC9ED20
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 12:13:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6102534A279
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 10:42:50 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7D5C2346024
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 11:13:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115212EFD9C;
-	Wed,  3 Dec 2025 10:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07C4C2F2913;
+	Wed,  3 Dec 2025 11:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FziRWimn"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="hOul+9t2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QyaXp01v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7C02EF652
-	for <linux-kbuild@vger.kernel.org>; Wed,  3 Dec 2025 10:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D3B2F2603;
+	Wed,  3 Dec 2025 11:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764758560; cv=none; b=Pf8ag7D6Tx74VKDG7rz4HLjQoEqNMbQXXtm7VtjUviSFs7Zdop+I0yhu0uREBASqzWLfGQziyGVkJB61889i8RYrAbe50qqTHrzKG4OAvZlc2geC7do/NI0/XIteg6LacNTt0byQbOcOZ/2qiwOmbbOpWl3GJbcMvXs5auXHPgw=
+	t=1764760418; cv=none; b=YLoIUuUKEsFMnf4QYlzVbN0NQF/W8UMt7SsjAaj2xO9o43Z/leeiXCF6SBSywK+QsvALI0ahX72xsIMtBQNhFtYl21tPvi6HxOud3I3uhADRYvdyLxIIv5s8dbJ6EtX2toZJY2wuOs1MkEl3KAyXuhU87J84LjWBjySVMbPdhxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764758560; c=relaxed/simple;
-	bh=tEQVcPqsv8DAVxcYPPcWyTn9akh39anPXKzKrd7i5io=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bMJrstaFk/0eFQElq/dVY6YYEkYm5ixX7DDmYB6XH6hXbLPwLUgKzWkLvKZhilhbYNALM9BM7jYWME2Gy8SBXneZWbXIBKCEUKmH2jDriliLFXXG5vbW5K8MvKcn5HgaKyB5A9P96uo2JoWNmzHYiFCINbwAbPU2h102rcVOzXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FziRWimn; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b735487129fso948753266b.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Dec 2025 02:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764758555; x=1765363355; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x446siwotpujmP9BD8csJrElgaCH9mcm8ox97o4pMsE=;
-        b=FziRWimnSOZXMLqSYFPrFqAQhuNEQrdYAo0pYD6STpoCktBqn7EFv1AwBsc1rsXXqK
-         LSulohgWHUHjdpCXmQnvHUuJ07kHrreCaCf3ljrK9Ncb14rB3yPyHhog03GFbIFVVsq1
-         uhBCM2WPHT8Dz04BTkKoKBKO1/mH35j6iwyxYdCmWVeUSFjNYZU6kyhfDg0ChJXxbciD
-         8iXdwTlVN61FX0ABdlhAjFU8A/1Al0QChW281622o2+EO1Km10ouKh7DriBxAIf/+fo/
-         EY0nvP8V01hpPlOQ+/1gvL4lj4RzvKJUCPraYQyv/pd0BpHCwOh6ixIChUJu6ZF4fqC2
-         e+GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764758555; x=1765363355;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=x446siwotpujmP9BD8csJrElgaCH9mcm8ox97o4pMsE=;
-        b=xUvMZ2HB6zNB8F8J8wXd/lLtwU+pmBteH/MbIT787VOgkGLKfdk/Pk4ETnYD0E4IY2
-         jDsQMHZ89xuSsqevOzuZRxM6iWdO2x3aIUNQP1xWT5HrVCKYEPMLMaqKjBPsPtv87eGT
-         nkTmhG0ixcZCHX+ZuHPXltIFic1OKpqogjvRiFF7PTT/QkCYT89Qw/E/rpP7rVG+fA4v
-         QedpsF8J82QLmyPmNwTjdw0NAsM0N8iWXO8WONNE3CTNWQSq/qDIzXCDA85JPCCXJTxM
-         T/K9A6a0en/XvCDzKjbq+7MQ6MwNE3o2fmg8w8iOhF1j58wBYLRnwtDvUs3ABq+RgK3a
-         prHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWO/26FMXpLbJ6lKevXjMJaaW/jNK4Z5Q3YMdqjiwjZgOCvRoIoCFm5Kl7WMwrhNsflahrFziMLgXXcny4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlVBbYpnLciHzFPfYHj4rfOc2Mi34VwCwTCGiZAI2uRc3varz5
-	Xy378qCQiIET/utlVq9jgdPzWB7TPvOxyzErFcHX54nbx06nHOinXTwbIEoO3JrXENnoHWCSAfy
-	RHasF3xu1wFN2ehdq9xa0t4XfGzefpHE=
-X-Gm-Gg: ASbGncvInqfmtU5Eg38/04O2K+j1Z478ghrogKffexGEpxL5hvwfpVVEVv7NAD4/+F1
-	MZxZKGMqlJZQjFVteTIxmskGwJXhDSksanVuErXpGO1LKcofPIwFo35FM8NRelNTOZi9hi1p5MU
-	e8ShQGKqrRbq+/TDANuF99mewR7hP2Hi4vkYOQYgafBJqIDbkCg6IwDXaHycnQ/1JcnxGc2ZaCp
-	OgeRPB8auh+vZyZEGJ7PsQ/s9L74oOdsAKUdq8d11R970DRnyCmJbHPpLnCas8vkTOYTHNJ
-X-Google-Smtp-Source: AGHT+IHY/Q93Vb8a/mu4yVgPiQqVsL9c07dOacbfrRsix1y6rD1JRR9OpZPDMkVzYiWbim0ckYAl2J/+cVNWgMwQSmY=
-X-Received: by 2002:a17:907:1c0b:b0:b71:1164:6a7e with SMTP id
- a640c23a62f3a-b79db622b72mr177431666b.0.1764758554899; Wed, 03 Dec 2025
- 02:42:34 -0800 (PST)
+	s=arc-20240116; t=1764760418; c=relaxed/simple;
+	bh=azUpzl+Mqi5qm3YAX05S5bGyelHtcHA+mU5T8o4tLW0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Txd7U4u+T2VWGT9Nar7yBxv6b0veWZT9jm2Cw2H844JIPxvgljXTR2KbYRwTiyUAybo9/wwlnr5I1SFzRJB20FpvUjZD/zK3tNMTSrLmZHZ5gK7KxMByJuz92Q/0oCeoYlraR0P2gpwIJhbRNANGKjz4ttP2DrQpEBmgIg2XfWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=hOul+9t2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QyaXp01v; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id EA7237A0081;
+	Wed,  3 Dec 2025 06:13:34 -0500 (EST)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-04.internal (MEProxy); Wed, 03 Dec 2025 06:13:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1764760414;
+	 x=1764846814; bh=YKdb+8l66UjAcBrgpOrU8WrV1sdDB8wuszrMqADbfnA=; b=
+	hOul+9t2G80f86fgU8sGmcdIY5wqNogHFkF8Z0Qeh0K+aWKykIBu22ww60hoiLz4
+	CLZPphxX1BNL4tTlPgXbYJbTFKOMoEe/7Df1a0rQZFOVv4zNxNKnmov5nTso80BL
+	YMPVvJH/qR5gpazJy4GxBLdESJewhqTLir4LBvCKlisKaADXhb5NUg830qNX4HAI
+	pcNAFjmD3vZpdjZcoliAox7NEMkzHIDhmk2JAVWuToRjjpq6FUAfjZXlZFBKreQb
+	yOLEafyOJQ3/Hyd7D++OejL1u0L5HHS46YFTZWAc8dv+2ICnLgDSSubq5/KEfr03
+	+sim0ijaxpKphTCiWSUjUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764760414; x=
+	1764846814; bh=YKdb+8l66UjAcBrgpOrU8WrV1sdDB8wuszrMqADbfnA=; b=Q
+	yaXp01vW+rIQiAuCf/F6CoSsyPENi2feziGzqixEbt2ijbgLGKI6TKzsaKJqAXTG
+	DREqKGMrqPuXag77xY1ygVVwOFRPgt+PMGd7Owp4qpbycpNM8klSJOVyN70tX9iA
+	yJygrLvWfQko4DPZwX7TbcBhud1FFYfwIyuMHUJMIbZ1FYJ/3UnZO8jMeAqYDzFw
+	6xzWv69PDUDa/4v6A3CRPLPqvR8zK3JjYkCqr0kGVbRndDiq9yB/BFbpL0CkAAfq
+	xK4ygm2ln+VNVlDy3B9QEW5JfZRyidXbSAF+sfXIFvmtDmSg+lWJTezRVUGSxK94
+	D+SI/3nVzoRb/FeroZAHg==
+X-ME-Sender: <xms:XRswaciQ4wo2K084QLdm4NSTc9hQWMdItx4ZYbKwgFDBcnj8ZRb_sQ>
+    <xme:XRswaf0o59o4spJrvLSp7ImMGxmemqhVS4ECKg6wcBUo68GpXd5Fk2uW_RqotrTO8
+    JnEiJKtsmznTeGKw_y6O2SFfNxXYwaav8TL_biGcGz447T_NRJSYVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhguuceu
+    vghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnh
+    epffdttefhleekvedvvedtvdfghfdvvdeftdehudekkedvffdukedthfefffefkeeunecu
+    ffhomhgrihhnpehprghsthgvsghinhdrtghomhenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgt
+    phhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepphgrlhhmvghrse
+    gurggssggvlhhtrdgtohhmpdhrtghpthhtohepiiduieehvddtjeeggeefvdesghhmrghi
+    lhdrtghomhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+    gidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhope
+    hisehmrghskhhrrgihrdhmvgdprhgtphhtthhopehrohhnsghoghhosehouhhtlhhoohhk
+    rdgtohhmpdhrtghpthhtoheplhigvdegsehsthhurdihnhhurdgvughurdgtnhdprhgtph
+    htthhopehfrghltghonhesthhinhihlhgrsgdrohhrgh
+X-ME-Proxy: <xmx:XRswaaz_U52lCjzKHgfAa9rca3rlw9dtenhZ3Sy0mIhcv8J-GdZ6Wg>
+    <xmx:XRswaSrk6I8MZIxo95ScFD41TYeMdhzv9i_z5OVjiiC7i0R10X3EUw>
+    <xmx:XRswaQxzmoiK2XDugHJsxMLX5Zg1a1W-PkUhG3F7U26ln_f3O33OYA>
+    <xmx:XRswaerYZOsg4ztJES2hQIthPhk1lIhauI-Wv90oxPoLG9QeH94xHg>
+    <xmx:XhswadEUk7yIgiRsemgLUJMs_IT7XNVbx7p-6djBcnbL6W6_Z-vZQNKx>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 043BFC40054; Wed,  3 Dec 2025 06:13:33 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
- <20251127185242.3954132-5-ihor.solodrai@linux.dev> <CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ9iK2ChyiBw@mail.gmail.com>
- <bba5017e-a590-480b-ae48-17ae45e44e48@linux.dev> <642f6b68-0691-44a1-844f-a8cddec41fd0@linux.dev>
- <CAErzpmsoeFJBhqXZF1ttUCDx5HSFVawdiVfsG2vWSOq4DBBruQ@mail.gmail.com>
- <1175fe21-5c0b-4680-8fa7-55d22e4bcaca@linux.dev> <CAErzpms1hg=6JZJMRLK6gNsSZDeBbz-4RmUfU6aSf8J281QSwQ@mail.gmail.com>
-In-Reply-To: <CAErzpms1hg=6JZJMRLK6gNsSZDeBbz-4RmUfU6aSf8J281QSwQ@mail.gmail.com>
-From: Donglin Peng <dolinux.peng@gmail.com>
-Date: Wed, 3 Dec 2025 18:42:22 +0800
-X-Gm-Features: AWmQ_bmhEOss5ZpSm8ZEk9zYyIjRbLCVVUj76yCk7ixG7XwWPKROGcRPJiZDmb4
-Message-ID: <CAErzpmvB8s4KKViFAPOn8OhxsLj49_cM+95iJdcr5TSGnL5q4A@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>, bpf@vger.kernel.org, 
-	dwarves@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-ThreadId: A-HrBBL8x6OF
+Date: Wed, 03 Dec 2025 12:13:11 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Yuan Tan" <tanyuan@tinylab.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, linux-kbuild@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ i@maskray.me, "Zhangjin Wu" <falcon@tinylab.org>, ronbogo@outlook.com,
+ z1652074432@gmail.com, lx24@stu.ynu.edu.cn
+Message-Id: <bd1e8856-2dbe-4dcf-beb6-9c52437fb01a@app.fastmail.com>
+In-Reply-To: 
+ <921F22AF0D7D10F0+3a743e26-ae83-40e8-b266-ccffe478d2c7@tinylab.org>
+References: <30C972B6393DBAC5+cover.1760463245.git.tanyuan@tinylab.org>
+ <33333fdd-2aa2-4ce0-8781-92222829ea12@app.fastmail.com>
+ <0BF8B2E83B6154B6+f17f32b4-f6ff-4184-917d-4b27fb916eae@tinylab.org>
+ <73010511-a804-4cf4-a5c1-1d08e3f324c5@app.fastmail.com>
+ <921F22AF0D7D10F0+3a743e26-ae83-40e8-b266-ccffe478d2c7@tinylab.org>
+Subject: Re: [PATCH v2 0/8] dce, riscv: Unused syscall trimming with PUSHSECTION and
+ conditional KEEP()
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 3, 2025 at 5:14=E2=80=AFPM Donglin Peng <dolinux.peng@gmail.com=
-> wrote:
->
-> On Wed, Dec 3, 2025 at 3:01=E2=80=AFAM Ihor Solodrai <ihor.solodrai@linux=
-.dev> wrote:
-> >
-> > On 12/1/25 6:01 PM, Donglin Peng wrote:
-> > > On Tue, Dec 2, 2025 at 3:46=E2=80=AFAM Ihor Solodrai <ihor.solodrai@l=
-inux.dev> wrote:
-> > >>
-> > >> On 11/27/25 9:52 PM, Ihor Solodrai wrote:
-> > >>> On 11/27/25 7:20 PM, Donglin Peng wrote:
-> > >>>> On Fri, Nov 28, 2025 at 2:53=E2=80=AFAM Ihor Solodrai <ihor.solodr=
-ai@linux.dev> wrote:
-> > >>>>>
-> > >>>>> [...]
-> > >>>>>
-> > >>>>> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing=
-/selftests/bpf/Makefile
-> > >>>>> index bac22265e7ff..ec7e2a7721c7 100644
-> > >>>>> --- a/tools/testing/selftests/bpf/Makefile
-> > >>>>> +++ b/tools/testing/selftests/bpf/Makefile
-> > >>>>> @@ -4,6 +4,7 @@ include ../../../scripts/Makefile.arch
-> > >>>>>  include ../../../scripts/Makefile.include
-> > >>>>>
-> > >>>>>  CXX ?=3D $(CROSS_COMPILE)g++
-> > >>>>> +OBJCOPY ?=3D $(CROSS_COMPILE)objcopy
-> > >>>>>
-> > >>>>>  CURDIR :=3D $(abspath .)
-> > >>>>>  TOOLSDIR :=3D $(abspath ../../..)
-> > >>>>> @@ -716,6 +717,10 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_=
-OBJS)                  \
-> > >>>>>         $$(call msg,BINARY,,$$@)
-> > >>>>>         $(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS) $=
-$(LLVM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
-> > >>>>>         $(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bp=
-f.o $$@
-> > >>>>> +       $(Q)if [ -f $$@.btf_ids ]; then \
-> > >>>>> +               $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_id=
-s $$@; \
-> > >>>>
-> > >>>> I encountered a resolve_btfids self-test failure when enabling the
-> > >>>> BTF sorting feature, with the following error output:
-> > >>>>
-> > >>>> All error logs:
-> > >>>> resolve_symbols:PASS:resolve 0 nsec
-> > >>>> test_resolve_btfids:PASS:id_check 0 nsec
-> > >>>> test_resolve_btfids:PASS:id_check 0 nsec
-> > >>>> test_resolve_btfids:FAIL:id_check wrong ID for T (7 !=3D 5)
-> > >>>> #369     resolve_btfids:FAIL
-> > >>>>
-> > >>>> The root cause is that prog_tests/resolve_btfids.c retrieves type =
-IDs
-> > >>>> from btf_data.bpf.o and compares them against the IDs in test_prog=
-s.
-> > >>>> However, while the IDs in test_progs are sorted, those in btf_data=
-.bpf.o
-> > >>>> remain in their original unsorted state, causing the validation to=
- fail.
-> > >>>>
-> > >>>> This presents two potential solutions:
-> > >>>> 1. Update the relevant .BTF.* section datas in btf_data.bpf.o, inc=
-luding
-> > >>>>     the .BTF and .BTF.ext sections
-> > >>>> 2. Modify prog_tests/resolve_btfids.c to retrieve IDs from test_pr=
-ogs.btf
-> > >>>>     instead. However, I discovered that test_progs.btf is deleted =
-in the
-> > >>>>     subsequent code section.
-> > >>>>
-> > >>>> What do you think of it?
-> > >>>
-> > >>> Within resolve_btfids it's clear that we have to update (sort in th=
-is
-> > >>> case) BTF first, and then resolve the ids based on the changed BTF.
-> > >>>
-> > >>> As for the test, we should probably change it to become closer to a=
-n
-> > >>> actual resolve_btfids use-case. Maybe even replace or remove it.
-> > >>>
-> > >>> resolve_btfids operates on BTF generated by pahole for
-> > >>> kernel/module. And the .BTF_ids section makes sense only in kernel
-> > >>> space AFAIU (might be wrong, let me know if I am).
-> > >>>
-> > >>> And in this test we are using BTF produced by LLVM for a BPF progra=
-m,
-> > >>> and then create a .BTF_ids section in a user-space app (test_progs =
-/
-> > >>> resolve_btfids.test.o), although using proper kernel macros.
-> > >>>
-> > >>> By the way, the test was written more than 5y ago [1], so it might =
-be
-> > >>> outdated too.
-> > >>>
-> > >>> I think the behavior that we care about is already indirectly teste=
-d
-> > >>> by bpf_testmod module tests, with custom BPF kfuncs and BTF_ID_*
-> > >>> declarations etc. If resolve_btfids is broken, those tests will fai=
-l.
-> > >>>
-> > >>> But it's also reasonable to have some tests targeting resolve_btfid=
-s
-> > >>> app itself, of course. This one doesn't fit though IMO.
-> > >>>
-> > >>> I'll try to think of something.
-> > >>
-> > >> Hi Donglin,
-> > >>
-> > >> I discussed this off-list with Andrii, and we agreed that the selfte=
-st
-> > >> itself is reasonable with respect to testing resolve_btfids output.
-> > >>
-> > >> In this series, I only have to change the test_progs build recipe.
-> > >>
-> > >> The problem that you've encountered I think can be fixed in the test=
-,
-> > >> which is basically what you suggested as option 2:
-> > >>
-> > >>   static int resolve_symbols(void)
-> > >>   {
-> > >>         struct btf *btf;
-> > >>         int type_id;
-> > >>         __u32 nr;
-> > >>
-> > >>         btf =3D btf__parse_elf("btf_data.bpf.o", NULL); /* <--- this=
- */
-> > >>
-> > >>         [...]
-> > >>
-> > >> Instead of reading in the source BTF, we have to load .btf produced =
-by
-> > >> resolve_btfids. A complication is that it's going to be a different
-> > >> file for every TRUNNER_BINARY, which has to be accounted for, althou=
-gh
-> > >> the BTF itself would be identical between relevant runners.
-> > >>
-> > >> If go this route, I think we should add .btf cleanup to the Makefile
-> > >> and update local .gitignore
-> > >
-> > > Thanks, could the following modification be accepted?
-> > >
-> > > diff --git a/tools/testing/selftests/bpf/.gitignore
-> > > b/tools/testing/selftests/bpf/.gitignore
-> > > index be1ee7ba7ce0..38ac369cd701 100644
-> > > --- a/tools/testing/selftests/bpf/.gitignore
-> > > +++ b/tools/testing/selftests/bpf/.gitignore
-> > > @@ -45,3 +45,4 @@ xdp_synproxy
-> > >  xdp_hw_metadata
-> > >  xdp_features
-> > >  verification_cert.h
-> > > +*.btf
-> > > diff --git a/tools/testing/selftests/bpf/Makefile
-> > > b/tools/testing/selftests/bpf/Makefile
-> > > index 2a027ff9ceaf..a1188129229f 100644
-> > > --- a/tools/testing/selftests/bpf/Makefile
-> > > +++ b/tools/testing/selftests/bpf/Makefile
-> > > @@ -720,7 +720,7 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)
-> > >                  \
-> > >         $(Q)if [ -f $$@.btf_ids ]; then \
-> > >                 $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids $$=
-@; \
-> > >         fi
-> > > -       $(Q)rm -f $$@.btf_ids $$@.btf
-> > > +       $(Q)rm -f $$@.btf_ids
-> > >         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)=
-bpftool \
-> > >                    $(OUTPUT)/$(if $2,$2/)bpftool
-> > >
-> > > @@ -908,7 +908,7 @@ EXTRA_CLEAN :=3D $(SCRATCH_DIR) $(HOST_SCRATCH_DI=
-R)
-> > >                  \
-> > >         prog_tests/tests.h map_tests/tests.h verifier/tests.h        =
-   \
-> > >         feature bpftool $(TEST_KMOD_TARGETS)                         =
-   \
-> > >         $(addprefix $(OUTPUT)/,*.o *.d *.skel.h *.lskel.h *.subskel.h=
-   \
-> > > -                              no_alu32 cpuv4 bpf_gcc                =
-   \
-> > > +                              *.btf no_alu32 cpuv4 bpf_gcc          =
-   \
-> > >                                liburandom_read.so)                   =
-   \
-> > >         $(OUTPUT)/FEATURE-DUMP.selftests
-> > >
-> > > diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > > b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > > index 51544372f52e..00883ff16569 100644
-> > > --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > > +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > > @@ -101,7 +101,7 @@ static int resolve_symbols(void)
-> > >         int type_id;
-> > >         __u32 nr;
-> > >
-> > > -       btf =3D btf__parse_elf("btf_data.bpf.o", NULL);
-> > > +       btf =3D btf__parse_raw("test_progs.btf");
-> >
-> > We can't hardcode a filename here, because $(OUTPUT)/$(TRUNNER_BINARY)
-> > is a generic rule for a number of different binaries (test_progs,
-> > test_maps, test_progs-no_alu32 and others).
-> >
-> > I think there are a few options how to deal with this:
-> > - generate .btf and .btf_ids not for the final TRUNNER_BINARY, but for
-> >   a specific test object (resolve_btfids.test.o in this case); then we
-> >   could load "resolve_btfids.test.o.btf"
-> > - implement an --output-btf option in resolve_btfids
-> > - somehow (env var?) determine what binary is running in the test
-> > - (a hack) in the makefile, copy $@.btf to "test.btf" or similar
-> >
-> > IMO the first option is the best, as this makefile code exists because
-> > of that specific test.
-> >
-> > The --output-btf is okay in principle, but I don't like the idea of
-> > adding a cli option that would be used only for one selftest.
->
-> Thanks, I understand. Here are the changes based on the first option:
->
-> diff --git a/tools/testing/selftests/bpf/Makefile
-> b/tools/testing/selftests/bpf/Makefile
-> index 2a027ff9ceaf..751960aeb8e5 100644
-> --- a/tools/testing/selftests/bpf/Makefile
-> +++ b/tools/testing/selftests/bpf/Makefile
-> @@ -704,6 +704,16 @@ ifneq ($2:$(OUTPUT),:$(shell pwd))
->         $(Q)rsync -aq $$^ $(TRUNNER_OUTPUT)/
->  endif
->
-> +ifneq ($(TRUNNER_BINARY),test_maps)
-> +$(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf
-> $(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf_ids:
-> $(TRUNNER_OUTPUT)/btf_data.bpf.o          \
-> +
->                       $(TRUNNER_OUTPUT)/resolve_btfids.test.o    \
-> +
->                       $(RESOLVE_BTFIDS)
-> +       $(call msg,BTF+IDS,resolve_btfids,$@)
-> +       $(Q)$(RESOLVE_BTFIDS) --btf $(dir $@)btf_data.bpf.o $(dir
-> $@)resolve_btfids.test.o
+On Wed, Dec 3, 2025, at 07:02, Yuan Tan wrote:
+> On 11/7/2025 5:33 AM, Arnd Bergmann wrote:
+>> On Tue, Nov 4, 2025, at 03:21, Yuan Tan wrote:
+>>> For reference, here is the list of syscalls required to run Lighttpd.
+>>>
+>>> execve set_tid_address mount write brk mmap munmap getuid getgid get=
+pid
+>>> clock_gettime getcwd fcntl fstat read dup3 socket setsockopt bind li=
+sten
+>>> rt_sigaction rt_sigprocmask newfstatat prlimit64 epoll_create1 epoll=
+_ctl pipe2
+>>> epoll_pwait accept4 getsockopt recvfrom shutdown writev getdents64 o=
+penat close
+>>>
 
-Sorry, the above command has some issues. Use the following command instead=
-:
-$(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)btf_data.bpf.o
-$(TRUNNER_OUTPUT)resolve_btfids.test.o
+...
 
-> +
-> +$(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf=
-_ids
-> +endif
-> +
->  # some X.test.o files have runtime dependencies on Y.bpf.o files
->  $(OUTPUT)/$(TRUNNER_BINARY): | $(TRUNNER_BPF_OBJS)
+>>
+>> Side note: I'm a  bit surprised to see fstat() in the list, since ris=
+cv
+>> should only really support newfstat().
 >
-> @@ -716,11 +726,9 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)
->                  \
->                              | $(TRUNNER_BINARY)-extras
->         $$(call msg,BINARY,,$$@)
->         $(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS)
-> $$(LLVM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
-> -       $(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@
-> -       $(Q)if [ -f $$@.btf_ids ]; then \
-> -               $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids $$@; \
-> +       $(Q)if [ "$(TRUNNER_BINARY)" !=3D "test_maps" ]; then \
-> +               $(OBJCOPY) --update-section
-> .BTF_ids=3D$(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf_ids $$@; \
->         fi
-> -       $(Q)rm -f $$@.btf_ids $$@.btf
->         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)bpft=
-ool \
->                    $(OUTPUT)/$(if $2,$2/)bpftool
 >
-> @@ -908,7 +916,7 @@ EXTRA_CLEAN :=3D $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)
->                  \
->         prog_tests/tests.h map_tests/tests.h verifier/tests.h           \
->         feature bpftool $(TEST_KMOD_TARGETS)                            \
->         $(addprefix $(OUTPUT)/,*.o *.d *.skel.h *.lskel.h *.subskel.h   \
-> -                              no_alu32 cpuv4 bpf_gcc                   \
-> +                              *.btf *.btf_ids no_alu32 cpuv4 bpf_gcc   \
->                                liburandom_read.so)                      \
->         $(OUTPUT)/FEATURE-DUMP.selftests
+> The syscall list comes from a simple test environment rather than a
+> workload I intend to optimize for deployment.
 >
-> diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> index 51544372f52e..eef6efc82606 100644
-> --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> @@ -101,9 +101,9 @@ static int resolve_symbols(void)
->         int type_id;
->         __u32 nr;
+> The list I posted was generated using strace on RISC-V QEMU. I was
+> looking at the ABI names, not the actual kernel syscall names.=C2=A0 O=
+ne
+> question here: for syscall trimming, should we discuss everything in
+> terms of syscall ABI names or the actual kernel syscall function names?
+> I would like to confirm your preference before I continue with the
+> updated list.
+
+Right, we clearly need to come up with a consistent naming here.
+Unfortunately both the function names and the macro names can
+be confusing here.
+
+> For now, I'll continue the discussion in terms of syscall ABI names.
+
+Ok
+
+> Following your suggestion, I started by taking the syscall list requir=
+ed
+> for the Lighttpd workload and expanded it into the corresponding
+> functional groups.
 >
-> -       btf =3D btf__parse_elf("btf_data.bpf.o", NULL);
-> +       btf =3D btf__parse_raw("resolve_btfids.test.o.btf");
->         if (CHECK(libbpf_get_error(btf), "resolve",
-> -                 "Failed to load BTF from btf_data.bpf.o\n"))
-> +                 "Failed to load BTF from resolve_btfids.test.o.btf\n"))
->                 return -1;
+> Here is a very preliminary draft of the syscall grouping, based on the
+> systemd classification.
 >
->         nr =3D btf__type_cnt(btf);
+> https://pastebin.com/raw/Yx92bb3m
 >
-> >
-> > >         if (CHECK(libbpf_get_error(btf), "resolve",
-> > >                   "Failed to load BTF from btf_data.bpf.o\n"))
-> > >                 return -1;
-> > >
-> > > Thanks,
-> > > Donglin
-> > >
-> > >>
-> > >> This change is not strictly necessary in this series, but it is for
-> > >> the BTF sorting series. Let me know if you would like to take this o=
-n,
-> > >> so we don't do the same work twice.
-> > >
-> > > Thanks, I will take it on.
-> >
-> > Thank you. I think that'll be a patch in the BTF sorting series.
-> > You can work on top of this (v2) series for now. The feedback so far ha=
-s
-> > been mostly nits, and I don't expect overall approach to change in v3.
-> >
-> > >
-> > >>
-> > >>>
-> > >>> [1] https://lore.kernel.org/bpf/20200703095111.3268961-10-jolsa@ker=
-nel.org/
-> > >>>
-> > >>>
-> > >>>>
-> > >>>> Thanks,
-> > >>>> Donglin
-> > >>>>
-> > >>>>> +       fi
-> > >>>>> +       $(Q)rm -f $$@.btf_ids $$@.btf
-> > >>>>>         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTST=
-RAP)bpftool \
-> > >>>>>                    $(OUTPUT)/$(if $2,$2/)bpftool
-> > >>>>>
-> > >>>>> --
-> > >>>>> 2.52.0
-> > >>>>>
-> > >>>
-> > >>
-> >
+> Then, I wrote a small script that classifies each syscall from lighttpd
+> into its category and then enumerates all syscalls belonging to those
+> categories.
+>
+> It addresses two of the items you asked for
+>
+> - Identifying the syscall families related to my minimal Lighttpd
+> =C2=A0 workload
+>
+> - Enumerating which syscalls appear in those categories and could
+> =C2=A0 potentially become optional
+>
+> ```
+> Categories present in lighttpd_syscalls.txt:
+> =C2=A0 @basic-io: 5 / 16
+> =C2=A0 @clock: 1 / 8
+> =C2=A0 @default: 9 / 30
+> =C2=A0 @file-system: 6 / 47
+> =C2=A0 @io-event: 3 / 7
+> =C2=A0 @ipc: 1 / 23
+> =C2=A0 @mount: 1 / 13
+> =C2=A0 @network-io: 8 / 18
+> =C2=A0 @signal: 2 / 14
+> Total unique categories: 9
+> Total categories defined: 30
+
+Thanks for compiling the list, this is very useful!
+
+It's clear that the systemd categories have a someone different
+purpose, which does mean that some of the categories pull in
+way more syscalls than we need for your testcase:
+
+- ipc is mostly for sysvipc (controlled by CONFIG_SYSVIPC, but not used
+  in your workload), but it also includes pipe2, which you do use.
+
+- network-io includes all the socket interfaces, and I think
+  that makes sense as a category (CONFIG_NET).
+
+- clock contains all the posix clock and timer support, but you
+  only use clock_gettime(). We have CONFIG_POSIX_TIMERS, which
+  you can disable to get close to what you want here.
+
+- The 'mount' category has gained a lot of non-optional syscalls
+  over the past few years, but you only use the traditonal
+  'mount'. Since the general idea is to move away from the mount
+  syscall to the newer ones, I'm not sure it makes sense to
+  have additional options here, but that depends a bit on the
+  amount of space savings and may be worth trying.
+
+> This produces a list of 176 syscalls across 9 categories that are
+> relevant to the workload. The output also shows which categories do not
+> appear in this workload (21 categories with 0 syscalls used).
+>
+> If the categorization works this way, it's actually quite surprising
+> that even such a simple workload would pull in as many as 176 syscalls.
+> I'm not sure yet what the actual trimming impact will look like after
+> building, but I will test that next.
+
+Sounds good. See if you can disable CONFIG_SYSVIPC and
+CONFIG_POSIX_TIMERS in those tests, in addition to the ones from
+categories you list as being unused.
+
+      Arnd
 
