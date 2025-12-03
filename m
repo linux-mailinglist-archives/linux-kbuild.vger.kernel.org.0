@@ -1,420 +1,628 @@
-Return-Path: <linux-kbuild+bounces-9957-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9958-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246D7C9E6C8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 10:14:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3ADC9E8E5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 10:45:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F18D14E1220
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 09:14:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A15E63A792F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 09:45:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389C22D77FE;
-	Wed,  3 Dec 2025 09:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC28B2E9EC3;
+	Wed,  3 Dec 2025 09:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jcb4hee3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v0sbM61b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YBK4IXcl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v0sbM61b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YBK4IXcl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F0B2C21FF
-	for <linux-kbuild@vger.kernel.org>; Wed,  3 Dec 2025 09:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E202E9ECE
+	for <linux-kbuild@vger.kernel.org>; Wed,  3 Dec 2025 09:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764753279; cv=none; b=lv/hCAAIk7h/Qifi+CI6zIew3177maOveZw88T3hyDkjYrEdywaU6I7PslYXfuCT8CGRmXVg9yj/7o5Lx7mhJv7wBZeIRO+YVr1KYsNRtjVlgwF8BvraIgxjG0ejdJoZo8UdbUizbgQM/XCIMdbAyEOs6qJIxEGQg/s8J267fno=
+	t=1764754965; cv=none; b=AVuqFZQiARkb6Dsf9ZslhhllReyWUlQSwx56u8ua3Y5QwIIBP4nNDublYg9OMBEKvFNHWNwBXpZPzcMwhFkn1bo0wLZ/avOMlG4pX1laQ12fBdwDd5BHMoFZuqrMViq/ahdYIiCSUI+my9TYbRymHrBEiRfTBnt6UTxPAxAkHh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764753279; c=relaxed/simple;
-	bh=ut8HRGOgivsoB0kx50pHLVq+z8gVE0mBBi4b9ppr2Kw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oJBoOUswkXOblDXO6+8gqWKl1cKP3sMOs8Vc4sI1mU0BEMy/ph7WXUiKVFqsNcQQb+9/hw2K3mACK1Dcw2WnofmBYAoYozon4USx4zy/gMYm95oAQg+maF7JjNnLlvVW0pAaFQhlDgzR91iFjaG/hdDq3RRdv6d9GA17NgKCur4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jcb4hee3; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b739ef3f739so455463866b.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Dec 2025 01:14:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764753275; x=1765358075; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/jykVF6C50DofBVWNGtAsaNOhzMdnpnwN579zp18tvo=;
-        b=Jcb4hee3i6RMrNEDL6FgKEL6kgpTWTzI3E8xdGmh0v+9Kl0kFeS8U+YFkS5z6vjvqd
-         9JJuhPBYi6bcqE3OAH+LCw8JZn8AYFkFj6t6a32Ohvw+QRxiCd4cmTO7ITNDncY7pZ1N
-         ybL3J22pdhas7ltWIC6eN97d0a1t9pejZpd2EQlaMQMdp+53yk3Do5U80p92+jOoXJEd
-         QMVV9cCOqAJnbYZdhzyWGqCtJNf7gxp7SE9HQ0zsksGneqDsuyzasENf+kmttR/Bbji7
-         WLWrvNa7GBZFs7USsx3yWy2CmPe4x1DxZagWFD9cBAqZ7cFnP9lQ+2m9L0QHD7LQeJOO
-         CSGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764753275; x=1765358075;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/jykVF6C50DofBVWNGtAsaNOhzMdnpnwN579zp18tvo=;
-        b=Q9HB1tJ8do1Om1jNWGu31joXZnC6zSeiN2umyBbDkmLE89148ypEs2ddRurW89Lgk2
-         YLfB0ax2uazVy/JxiXbiL+JvfD9LkppyP30mTHgM0AXUpBRI9/x9MCcFFN/xS5GwoIyH
-         W9BMeEj4mrYiQiWAEtJL16wviu9Le0eLGu7ln7f1bQSyrFtNK8sVMn++Yyv8JvQgsM1t
-         wmPfKva3/UVJC7j96sQXyW20l2ePxlIG1fN25EO98kdYn+Pg/qaYJGDxb532YRpoAyCF
-         unQjB4kaVQJFF4feBfTf9VuBflgsFR79JfenvGrR9WFv2LXd0Hz0Cgu5Lmbg9AtuhG5I
-         HbPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfI2vDeOdmg+f/+p//XF8RqcM5Q8/WoMjec0ROSyEAdX6NrGiukMa0up7RKFUrXy7VEAdw8u1uE1qbD98=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpLIIETXmOR0ZRzod7JEKt2AuA5ZrFDcZCZdsIRRYdzsTfHxzS
-	3HQSElTIpdqJLvCByIzhBZs22HDruhNAjuv8os4Q+vwGJLsSWjC4JqGHBQ8ly1cJ2PW9uBXMs+i
-	SAvPBYEE2pKPnnFlvgQraoTtBIVjz200=
-X-Gm-Gg: ASbGncvfmuKQM3FqtXL7JCfjwgidg/1w7Hnx7odfM8XI5CZ/ZoTr1KDOz6TAGjV/h2d
-	G2fUBKo7ABV/XmOEKN5RqvVJShTDuVmWpQBY7AwJXMw3C0KPMda1KIh3rMGI8mFXPZXp7luXgXO
-	ICRrr2OIa25UqKzPzYQevJzxktgggKaytGgcCJsIB2w/8/h1CFQ+exz/OqNIj4miXOX5eilC8kr
-	Un98jNiEqg5BbufpfphzR2lOyQnARpjEbukQ/6itpHkmW47kiZgn14CEF5Z9hd2TyqXhU23
-X-Google-Smtp-Source: AGHT+IEbr04sJVE4nvZUHZmXCNQkR/JZubmHYKe97g98UhmUP9Gb2cZrjPJlhUbKu9YMF0LyXfxhYRMYX4mSKvhJRSI=
-X-Received: by 2002:a17:906:f58f:b0:b73:6998:7bce with SMTP id
- a640c23a62f3a-b79dc51b194mr158113566b.33.1764753274848; Wed, 03 Dec 2025
- 01:14:34 -0800 (PST)
+	s=arc-20240116; t=1764754965; c=relaxed/simple;
+	bh=5bJLhwgaOOB+7MmQE1kCaxy6HNMhSVJjcOeSIxsJ1JE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uTdyelm0phbIK/VTC7VX31GZDUwpEzu6DiYIRQH6I+xlcWulchftefp5UEqR30urB6fm7cwTnYmA8CyR9Pd2wmECQJU9c2/uGUmWVXh3DH/WxUiJCbvKr1nUoBXh4Jaz/78cDikKMxATHND6pldBSqKzL/3jpEqmr5ql8BehWyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v0sbM61b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YBK4IXcl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v0sbM61b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YBK4IXcl; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3D9D2336E1;
+	Wed,  3 Dec 2025 09:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764754961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pyf3805CYxZp0YJgzZsk8ik4AtAhgcf2o9QEYLt9/dM=;
+	b=v0sbM61b8YbsG5FuAgf1Tci6WvCgmqPjNfMnXAcnx4hBoUF7RxiLwfEWLoNYcl0NDDE/q0
+	zcse8eBxlhREgoSLWP87isffMgnSeCR5O30rw00r51UHHO90INGxX8yvHzc3ccf9V0yDZj
+	Ee5ULseJFistaZnD64UO0EqaRfOgkyE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764754961;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pyf3805CYxZp0YJgzZsk8ik4AtAhgcf2o9QEYLt9/dM=;
+	b=YBK4IXclr9/PKXf4DkKFh0o9coRY2epeRTuZHpqQsOYnhnyrBgH7H6fAGlzOLkYymYv+lx
+	Qmzt6so1coooe6Cw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764754961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pyf3805CYxZp0YJgzZsk8ik4AtAhgcf2o9QEYLt9/dM=;
+	b=v0sbM61b8YbsG5FuAgf1Tci6WvCgmqPjNfMnXAcnx4hBoUF7RxiLwfEWLoNYcl0NDDE/q0
+	zcse8eBxlhREgoSLWP87isffMgnSeCR5O30rw00r51UHHO90INGxX8yvHzc3ccf9V0yDZj
+	Ee5ULseJFistaZnD64UO0EqaRfOgkyE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764754961;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pyf3805CYxZp0YJgzZsk8ik4AtAhgcf2o9QEYLt9/dM=;
+	b=YBK4IXclr9/PKXf4DkKFh0o9coRY2epeRTuZHpqQsOYnhnyrBgH7H6fAGlzOLkYymYv+lx
+	Qmzt6so1coooe6Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF1DB3EA63;
+	Wed,  3 Dec 2025 09:42:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 17WWKRAGMGn1GgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 03 Dec 2025 09:42:40 +0000
+Date: Wed, 03 Dec 2025 10:42:40 +0100
+Message-ID: <871plbucj3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Dell.Client.Kernel@dell.com,
+	amadeuszx.slawinski@linux.intel.com,	baojun.xu@ti.com,
+	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
+ <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
+ <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
+ <dxu@dxuuu.xyz>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+References: <87o6q8l68r.wl-tiwai@suse.de>
+	<20251015145749.2572-1-safinaskar@gmail.com>
+	<878qhckxc5.wl-tiwai@suse.de>
+	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+	<875xcgkvnw.wl-tiwai@suse.de>
+	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+	<87bjm78978.wl-tiwai@suse.de>
+	<CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
- <20251127185242.3954132-5-ihor.solodrai@linux.dev> <CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ9iK2ChyiBw@mail.gmail.com>
- <bba5017e-a590-480b-ae48-17ae45e44e48@linux.dev> <642f6b68-0691-44a1-844f-a8cddec41fd0@linux.dev>
- <CAErzpmsoeFJBhqXZF1ttUCDx5HSFVawdiVfsG2vWSOq4DBBruQ@mail.gmail.com> <1175fe21-5c0b-4680-8fa7-55d22e4bcaca@linux.dev>
-In-Reply-To: <1175fe21-5c0b-4680-8fa7-55d22e4bcaca@linux.dev>
-From: Donglin Peng <dolinux.peng@gmail.com>
-Date: Wed, 3 Dec 2025 17:14:21 +0800
-X-Gm-Features: AWmQ_bmZ6kzjhxdhvzeaKJNPMi5MeEsvJ8QRRB3ITcKG_ofOlcKUeWSpxKEpwtc
-Message-ID: <CAErzpms1hg=6JZJMRLK6gNsSZDeBbz-4RmUfU6aSf8J281QSwQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>, bpf@vger.kernel.org, 
-	dwarves@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-On Wed, Dec 3, 2025 at 3:01=E2=80=AFAM Ihor Solodrai <ihor.solodrai@linux.d=
-ev> wrote:
->
-> On 12/1/25 6:01 PM, Donglin Peng wrote:
-> > On Tue, Dec 2, 2025 at 3:46=E2=80=AFAM Ihor Solodrai <ihor.solodrai@lin=
-ux.dev> wrote:
-> >>
-> >> On 11/27/25 9:52 PM, Ihor Solodrai wrote:
-> >>> On 11/27/25 7:20 PM, Donglin Peng wrote:
-> >>>> On Fri, Nov 28, 2025 at 2:53=E2=80=AFAM Ihor Solodrai <ihor.solodrai=
-@linux.dev> wrote:
-> >>>>>
-> >>>>> [...]
-> >>>>>
-> >>>>> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/s=
-elftests/bpf/Makefile
-> >>>>> index bac22265e7ff..ec7e2a7721c7 100644
-> >>>>> --- a/tools/testing/selftests/bpf/Makefile
-> >>>>> +++ b/tools/testing/selftests/bpf/Makefile
-> >>>>> @@ -4,6 +4,7 @@ include ../../../scripts/Makefile.arch
-> >>>>>  include ../../../scripts/Makefile.include
-> >>>>>
-> >>>>>  CXX ?=3D $(CROSS_COMPILE)g++
-> >>>>> +OBJCOPY ?=3D $(CROSS_COMPILE)objcopy
-> >>>>>
-> >>>>>  CURDIR :=3D $(abspath .)
-> >>>>>  TOOLSDIR :=3D $(abspath ../../..)
-> >>>>> @@ -716,6 +717,10 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OB=
-JS)                  \
-> >>>>>         $$(call msg,BINARY,,$$@)
-> >>>>>         $(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS) $$(=
-LLVM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
-> >>>>>         $(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.=
-o $$@
-> >>>>> +       $(Q)if [ -f $$@.btf_ids ]; then \
-> >>>>> +               $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids =
-$$@; \
-> >>>>
-> >>>> I encountered a resolve_btfids self-test failure when enabling the
-> >>>> BTF sorting feature, with the following error output:
-> >>>>
-> >>>> All error logs:
-> >>>> resolve_symbols:PASS:resolve 0 nsec
-> >>>> test_resolve_btfids:PASS:id_check 0 nsec
-> >>>> test_resolve_btfids:PASS:id_check 0 nsec
-> >>>> test_resolve_btfids:FAIL:id_check wrong ID for T (7 !=3D 5)
-> >>>> #369     resolve_btfids:FAIL
-> >>>>
-> >>>> The root cause is that prog_tests/resolve_btfids.c retrieves type ID=
-s
-> >>>> from btf_data.bpf.o and compares them against the IDs in test_progs.
-> >>>> However, while the IDs in test_progs are sorted, those in btf_data.b=
-pf.o
-> >>>> remain in their original unsorted state, causing the validation to f=
-ail.
-> >>>>
-> >>>> This presents two potential solutions:
-> >>>> 1. Update the relevant .BTF.* section datas in btf_data.bpf.o, inclu=
-ding
-> >>>>     the .BTF and .BTF.ext sections
-> >>>> 2. Modify prog_tests/resolve_btfids.c to retrieve IDs from test_prog=
-s.btf
-> >>>>     instead. However, I discovered that test_progs.btf is deleted in=
- the
-> >>>>     subsequent code section.
-> >>>>
-> >>>> What do you think of it?
-> >>>
-> >>> Within resolve_btfids it's clear that we have to update (sort in this
-> >>> case) BTF first, and then resolve the ids based on the changed BTF.
-> >>>
-> >>> As for the test, we should probably change it to become closer to an
-> >>> actual resolve_btfids use-case. Maybe even replace or remove it.
-> >>>
-> >>> resolve_btfids operates on BTF generated by pahole for
-> >>> kernel/module. And the .BTF_ids section makes sense only in kernel
-> >>> space AFAIU (might be wrong, let me know if I am).
-> >>>
-> >>> And in this test we are using BTF produced by LLVM for a BPF program,
-> >>> and then create a .BTF_ids section in a user-space app (test_progs /
-> >>> resolve_btfids.test.o), although using proper kernel macros.
-> >>>
-> >>> By the way, the test was written more than 5y ago [1], so it might be
-> >>> outdated too.
-> >>>
-> >>> I think the behavior that we care about is already indirectly tested
-> >>> by bpf_testmod module tests, with custom BPF kfuncs and BTF_ID_*
-> >>> declarations etc. If resolve_btfids is broken, those tests will fail.
-> >>>
-> >>> But it's also reasonable to have some tests targeting resolve_btfids
-> >>> app itself, of course. This one doesn't fit though IMO.
-> >>>
-> >>> I'll try to think of something.
-> >>
-> >> Hi Donglin,
-> >>
-> >> I discussed this off-list with Andrii, and we agreed that the selftest
-> >> itself is reasonable with respect to testing resolve_btfids output.
-> >>
-> >> In this series, I only have to change the test_progs build recipe.
-> >>
-> >> The problem that you've encountered I think can be fixed in the test,
-> >> which is basically what you suggested as option 2:
-> >>
-> >>   static int resolve_symbols(void)
-> >>   {
-> >>         struct btf *btf;
-> >>         int type_id;
-> >>         __u32 nr;
-> >>
-> >>         btf =3D btf__parse_elf("btf_data.bpf.o", NULL); /* <--- this *=
-/
-> >>
-> >>         [...]
-> >>
-> >> Instead of reading in the source BTF, we have to load .btf produced by
-> >> resolve_btfids. A complication is that it's going to be a different
-> >> file for every TRUNNER_BINARY, which has to be accounted for, although
-> >> the BTF itself would be identical between relevant runners.
-> >>
-> >> If go this route, I think we should add .btf cleanup to the Makefile
-> >> and update local .gitignore
-> >
-> > Thanks, could the following modification be accepted?
-> >
-> > diff --git a/tools/testing/selftests/bpf/.gitignore
-> > b/tools/testing/selftests/bpf/.gitignore
-> > index be1ee7ba7ce0..38ac369cd701 100644
-> > --- a/tools/testing/selftests/bpf/.gitignore
-> > +++ b/tools/testing/selftests/bpf/.gitignore
-> > @@ -45,3 +45,4 @@ xdp_synproxy
-> >  xdp_hw_metadata
-> >  xdp_features
-> >  verification_cert.h
-> > +*.btf
-> > diff --git a/tools/testing/selftests/bpf/Makefile
-> > b/tools/testing/selftests/bpf/Makefile
-> > index 2a027ff9ceaf..a1188129229f 100644
-> > --- a/tools/testing/selftests/bpf/Makefile
-> > +++ b/tools/testing/selftests/bpf/Makefile
-> > @@ -720,7 +720,7 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)
-> >                  \
-> >         $(Q)if [ -f $$@.btf_ids ]; then \
-> >                 $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids $$@;=
- \
-> >         fi
-> > -       $(Q)rm -f $$@.btf_ids $$@.btf
-> > +       $(Q)rm -f $$@.btf_ids
-> >         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)bp=
-ftool \
-> >                    $(OUTPUT)/$(if $2,$2/)bpftool
-> >
-> > @@ -908,7 +908,7 @@ EXTRA_CLEAN :=3D $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)
-> >                  \
-> >         prog_tests/tests.h map_tests/tests.h verifier/tests.h          =
- \
-> >         feature bpftool $(TEST_KMOD_TARGETS)                           =
- \
-> >         $(addprefix $(OUTPUT)/,*.o *.d *.skel.h *.lskel.h *.subskel.h  =
- \
-> > -                              no_alu32 cpuv4 bpf_gcc                  =
- \
-> > +                              *.btf no_alu32 cpuv4 bpf_gcc            =
- \
-> >                                liburandom_read.so)                     =
- \
-> >         $(OUTPUT)/FEATURE-DUMP.selftests
-> >
-> > diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > index 51544372f52e..00883ff16569 100644
-> > --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-> > @@ -101,7 +101,7 @@ static int resolve_symbols(void)
-> >         int type_id;
-> >         __u32 nr;
-> >
-> > -       btf =3D btf__parse_elf("btf_data.bpf.o", NULL);
-> > +       btf =3D btf__parse_raw("test_progs.btf");
->
-> We can't hardcode a filename here, because $(OUTPUT)/$(TRUNNER_BINARY)
-> is a generic rule for a number of different binaries (test_progs,
-> test_maps, test_progs-no_alu32 and others).
->
-> I think there are a few options how to deal with this:
-> - generate .btf and .btf_ids not for the final TRUNNER_BINARY, but for
->   a specific test object (resolve_btfids.test.o in this case); then we
->   could load "resolve_btfids.test.o.btf"
-> - implement an --output-btf option in resolve_btfids
-> - somehow (env var?) determine what binary is running in the test
-> - (a hack) in the makefile, copy $@.btf to "test.btf" or similar
->
-> IMO the first option is the best, as this makefile code exists because
-> of that specific test.
->
-> The --output-btf is okay in principle, but I don't like the idea of
-> adding a cli option that would be used only for one selftest.
+On Tue, 02 Dec 2025 20:21:45 +0100,
+Askar Safin wrote:
+> 
+> On Thu, Oct 16, 2025 at 12:52 PM Takashi Iwai <tiwai@suse.de> wrote:
+> > Could you try to just enable CONFIG_SND_SOC_SOF_ALDERLAKE=m on top of
+> > the broken config?  If my guess is right, this should make the audio
+> > working again.
+> 
+> I did this. And the audio indeed works now.
+> 
+> Here are detailed logs:
+> 
+> - Here is Debian config for 6.18-rc7: [config-6.18-amd64]
+> - I downloaded vanilla Linux 6.18-rc7 from kernel.org
+> - I copied that Debian config (see above) as .config to Linux sources
+> - I did "LOCALVERSION=-first make --silent -j32 < /dev/null" ("<
+> /dev/null", because I don't want to answer any questions)
+> - This is output: [attachment first-out]
+> - Then I booted into it
+> - Audio works
+> - Here is config of this kernel: [config-6.18.0-rc7-first]
+> - Here is "find /lib/modules/6.18.0-rc7-first": [find-6.18.0-rc7-first]
+> - Here is alsa-info: [attachment alsa-info-first]
+> - Here is lsmod: [attachment first-lsmod]
+> - Then I "cd" into kernel source (note that ".config" remained since last time)
+> - I typed "make localmodconfig < /dev/null"
+> - Here is output: [attachment localmodconfig-out]
+> - I did "LOCALVERSION=-second make --silent -j32"
+> - This command didn't produce any output and didn't ask any questions
+> - Then I booted into new kernel
+> - Audio doesn't work
+> - Here is config of this kernel: [config-6.18.0-rc7-second]
+> - Here is "find /lib/modules/6.18.0-rc7-second": [find-6.18.0-rc7-second]
+> - Here is alsa-info: [attachment alsa-info-second]
+> - Here is lsmod: [attachment second-lsmod]
+> - I enabled CONFIG_SND_SOC_SOF_ALDERLAKE=m
+> - Then I booted into new kernel
+> - Audio works (!!!)
+> - Here is config: [config-6.18.0-rc7-third]
+> - Here is alsa-info: [alsa-info-third]
+> 
+> I used default Debian initramfs generator during all these tests.
 
-Thanks, I understand. Here are the changes based on the first option:
+Then the problem is that snd-intel-dspcfg assigns
+SND_INTEL_DSP_DRIVER_ANY because no corresponding entry matches to
+your device without CONFIG_SND_SOC_SOF_ALDERLAKE.  This leads to let
+AVS probing it, then failing.
 
-diff --git a/tools/testing/selftests/bpf/Makefile
-b/tools/testing/selftests/bpf/Makefile
-index 2a027ff9ceaf..751960aeb8e5 100644
---- a/tools/testing/selftests/bpf/Makefile
-+++ b/tools/testing/selftests/bpf/Makefile
-@@ -704,6 +704,16 @@ ifneq ($2:$(OUTPUT),:$(shell pwd))
-        $(Q)rsync -aq $$^ $(TRUNNER_OUTPUT)/
- endif
+A rather hackish fix would be something like below.  Instead of
+dropping the SOF-only entries via ifdef, make them dumb entries
+instead, so that the legacy driver are assigned for those when the
+kconfigs aren't set.
 
-+ifneq ($(TRUNNER_BINARY),test_maps)
-+$(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf
-$(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf_ids:
-$(TRUNNER_OUTPUT)/btf_data.bpf.o          \
+The below patch is to the latest Linus tree, and for older kernels,
+you might need to adjust it, but you see what to be done there.
+
+
+thanks,
+
+Takashi
+
+-- 8< --
+diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
+index c401c0658421..818d8e502731 100644
+--- a/sound/hda/core/intel-dsp-config.c
++++ b/sound/hda/core/intel-dsp-config.c
+@@ -29,6 +29,9 @@ MODULE_PARM_DESC(dsp_driver, "Force the DSP driver for Intel DSP (0=auto, 1=lega
+ #define FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE (FLAG_SOF_ONLY_IF_DMIC | \
+ 					    FLAG_SOF_ONLY_IF_SOUNDWIRE)
+ 
++/* Enable SOF only the given kconfig is enabled, otherwise fallback to legacy */
++#define FLAG_SOF_DEP(cfg)	(IS_ENABLED(cfg) ? FLAG_SOF : 0)
 +
-                      $(TRUNNER_OUTPUT)/resolve_btfids.test.o    \
+ struct config_entry {
+ 	u32 flags;
+ 	u16 device;
+@@ -209,11 +212,13 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CNL_LP,
+ 		.codec_hid =  &essx_83x6,
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_CANNONLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CNL_LP,
+ 	},
+-#endif
 +
-                      $(RESOLVE_BTFIDS)
-+       $(call msg,BTF+IDS,resolve_btfids,$@)
-+       $(Q)$(RESOLVE_BTFIDS) --btf $(dir $@)btf_data.bpf.o $(dir
-$@)resolve_btfids.test.o
-+
-+$(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf_i=
-ds
-+endif
-+
- # some X.test.o files have runtime dependencies on Y.bpf.o files
- $(OUTPUT)/$(TRUNNER_BINARY): | $(TRUNNER_BPF_OBJS)
-
-@@ -716,11 +726,9 @@ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)
-                 \
-                             | $(TRUNNER_BINARY)-extras
-        $$(call msg,BINARY,,$$@)
-        $(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS)
-$$(LLVM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
--       $(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@
--       $(Q)if [ -f $$@.btf_ids ]; then \
--               $(OBJCOPY) --update-section .BTF_ids=3D$$@.btf_ids $$@; \
-+       $(Q)if [ "$(TRUNNER_BINARY)" !=3D "test_maps" ]; then \
-+               $(OBJCOPY) --update-section
-.BTF_ids=3D$(TRUNNER_OUTPUT)/resolve_btfids.test.o.btf_ids $$@; \
-        fi
--       $(Q)rm -f $$@.btf_ids $$@.btf
-        $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)bpftoo=
-l \
-                   $(OUTPUT)/$(if $2,$2/)bpftool
-
-@@ -908,7 +916,7 @@ EXTRA_CLEAN :=3D $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)
-                 \
-        prog_tests/tests.h map_tests/tests.h verifier/tests.h           \
-        feature bpftool $(TEST_KMOD_TARGETS)                            \
-        $(addprefix $(OUTPUT)/,*.o *.d *.skel.h *.lskel.h *.subskel.h   \
--                              no_alu32 cpuv4 bpf_gcc                   \
-+                              *.btf *.btf_ids no_alu32 cpuv4 bpf_gcc   \
-                               liburandom_read.so)                      \
-        $(OUTPUT)/FEATURE-DUMP.selftests
-
-diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-index 51544372f52e..eef6efc82606 100644
---- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-+++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
-@@ -101,9 +101,9 @@ static int resolve_symbols(void)
-        int type_id;
-        __u32 nr;
-
--       btf =3D btf__parse_elf("btf_data.bpf.o", NULL);
-+       btf =3D btf__parse_raw("resolve_btfids.test.o.btf");
-        if (CHECK(libbpf_get_error(btf), "resolve",
--                 "Failed to load BTF from btf_data.bpf.o\n"))
-+                 "Failed to load BTF from resolve_btfids.test.o.btf\n"))
-                return -1;
-
-        nr =3D btf__type_cnt(btf);
-
->
-> >         if (CHECK(libbpf_get_error(btf), "resolve",
-> >                   "Failed to load BTF from btf_data.bpf.o\n"))
-> >                 return -1;
-> >
-> > Thanks,
-> > Donglin
-> >
-> >>
-> >> This change is not strictly necessary in this series, but it is for
-> >> the BTF sorting series. Let me know if you would like to take this on,
-> >> so we don't do the same work twice.
-> >
-> > Thanks, I will take it on.
->
-> Thank you. I think that'll be a patch in the BTF sorting series.
-> You can work on top of this (v2) series for now. The feedback so far has
-> been mostly nits, and I don't expect overall approach to change in v3.
->
-> >
-> >>
-> >>>
-> >>> [1] https://lore.kernel.org/bpf/20200703095111.3268961-10-jolsa@kerne=
-l.org/
-> >>>
-> >>>
-> >>>>
-> >>>> Thanks,
-> >>>> Donglin
-> >>>>
-> >>>>> +       fi
-> >>>>> +       $(Q)rm -f $$@.btf_ids $$@.btf
-> >>>>>         $(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRA=
-P)bpftool \
-> >>>>>                    $(OUTPUT)/$(if $2,$2/)bpftool
-> >>>>>
-> >>>>> --
-> >>>>> 2.52.0
-> >>>>>
-> >>>
-> >>
->
+ 
+ /* Coffelake */
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_COFFEELAKE)
+@@ -230,11 +235,12 @@ static const struct config_entry config_table[] = {
+ 			{}
+ 		}
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_COFFEELAKE) |\
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CNL_H,
+ 	},
+-#endif
+ 
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_COMETLAKE)
+ /* Cometlake-LP */
+@@ -269,10 +275,6 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
+ 		.codec_hid =  &essx_83x6,
+ 	},
+-	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
+-	},
+ /* Cometlake-H */
+ 	{
+ 		.flags = FLAG_SOF,
+@@ -298,11 +300,17 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CML_H,
+ 		.codec_hid =  &essx_83x6,
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_COMETLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_CML_H,
+ 	},
+-#endif
++	{
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_COMETLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.device = PCI_DEVICE_ID_INTEL_HDA_CML_LP,
++	},
+ 
+ /* Icelake */
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_ICELAKE)
+@@ -324,11 +332,12 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ICL_LP,
+ 		.codec_hid =  &essx_83x6,
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ICELAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ICL_LP,
+ 	},
+-#endif
+ 
+ /* Jasper Lake */
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_JASPERLAKE)
+@@ -356,11 +365,12 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_JSL_N,
+ 		.codec_hid =  &essx_83x6,
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_JASPERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_JSL_N,
+ 	},
+-#endif
+ 
+ /* Tigerlake */
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_TIGERLAKE)
+@@ -388,137 +398,150 @@ static const struct config_entry config_table[] = {
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_TGL_LP,
+ 		.codec_hid =  &essx_83x6,
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_TIGERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_TGL_LP,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_TIGERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_TGL_H,
+ 	},
+-#endif
+ 
+ /* Elkhart Lake */
+-#if IS_ENABLED(CONFIG_SND_SOC_SOF_ELKHARTLAKE)
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ELKHARTLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_EHL_0,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ELKHARTLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_EHL_3,
+ 	},
+-#endif
+ 
+ /* Alder Lake / Raptor Lake */
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_ALDERLAKE)
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF,
++		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_P,
++		.dmi_table = (const struct dmi_system_id []) {
++			{
++				.ident = "Google Chromebooks",
++				.matches = {
++					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
++				}
++			},
++			{}
++		}
++	},
++	{
++		.flags = FLAG_SOF,
++		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_P,
++		.codec_hid =  &essx_83x6,
++	},
++	{
++		.flags = FLAG_SOF,
++		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_PS,
++		.codec_hid =  &essx_83x6,
++	},
++	{
++		.flags = FLAG_SOF,
++		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_N,
++		.dmi_table = (const struct dmi_system_id []) {
++			{
++				.ident = "Google Chromebooks",
++				.matches = {
++					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
++				}
++			},
++			{}
++		}
++	},
++	{
++		.flags = FLAG_SOF,
++		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_P_0,
++		.dmi_table = (const struct dmi_system_id []) {
++			{
++				.ident = "Google Chromebooks",
++				.matches = {
++					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
++				}
++			},
++			{}
++		}
++	},
++	{
++		.flags = FLAG_SOF,
++		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_P_1,
++		.dmi_table = (const struct dmi_system_id []) {
++			{
++				.ident = "Google Chromebooks",
++				.matches = {
++					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
++				}
++			},
++			{}
++		}
++	},
++#endif
++	{
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_S,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_S,
+ 	},
+ 	{
+-		.flags = FLAG_SOF,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_P,
+-		.dmi_table = (const struct dmi_system_id []) {
+-			{
+-				.ident = "Google Chromebooks",
+-				.matches = {
+-					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
+-				}
+-			},
+-			{}
+-		}
+-	},
+-	{
+-		.flags = FLAG_SOF,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_P,
+-		.codec_hid =  &essx_83x6,
+-	},
+-	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_P,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_PX,
+ 	},
+ 	{
+-		.flags = FLAG_SOF,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_PS,
+-		.codec_hid =  &essx_83x6,
+-	},
+-	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_PS,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_M,
+ 	},
+ 	{
+-		.flags = FLAG_SOF,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_N,
+-		.dmi_table = (const struct dmi_system_id []) {
+-			{
+-				.ident = "Google Chromebooks",
+-				.matches = {
+-					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
+-				}
+-			},
+-			{}
+-		}
+-	},
+-	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_N,
+ 	},
+ 	{
+-		.flags = FLAG_SOF,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_P_0,
+-		.dmi_table = (const struct dmi_system_id []) {
+-			{
+-				.ident = "Google Chromebooks",
+-				.matches = {
+-					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
+-				}
+-			},
+-			{}
+-		}
+-	},
+-	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_P_0,
+ 	},
+ 	{
+-		.flags = FLAG_SOF,
+-		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_P_1,
+-		.dmi_table = (const struct dmi_system_id []) {
+-			{
+-				.ident = "Google Chromebooks",
+-				.matches = {
+-					DMI_MATCH(DMI_SYS_VENDOR, "Google"),
+-				}
+-			},
+-			{}
+-		}
+-	},
+-	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_P_1,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_M,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_ALDERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_RPL_PX,
+ 	},
+-#endif
+ 
+ /* Meteor Lake */
+ #if IS_ENABLED(CONFIG_SND_SOC_SOF_METEORLAKE)
+@@ -536,55 +559,56 @@ static const struct config_entry config_table[] = {
+ 			{}
+ 		}
+ 	},
++#endif
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_METEORLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_MTL,
+ 	},
+ 	/* ArrowLake-S */
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_METEORLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ARL_S,
+ 	},
+ 	/* ArrowLake */
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_METEORLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_ARL,
+ 	},
+-#endif
+ 
+ /* Lunar Lake */
+-#if IS_ENABLED(CONFIG_SND_SOC_SOF_LUNARLAKE)
+ 	/* Lunarlake-P */
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_LUNARLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_LNL_P,
+ 	},
+-#endif
+ 
+ 	/* Panther Lake, Wildcat Lake */
+-#if IS_ENABLED(CONFIG_SND_SOC_SOF_PANTHERLAKE)
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_PANTHERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_PTL,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_PANTHERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_PTL_H,
+ 	},
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_PANTHERLAKE) | \
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_WCL,
+ 	},
+ 
+-#endif
+-
+ 	/* Nova Lake */
+-#if IS_ENABLED(CONFIG_SND_SOC_SOF_NOVALAKE)
+ 	{
+-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
++		.flags = FLAG_SOF_DEP(CONFIG_SND_SOC_SOF_NOVALAKE) |\
++			FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
+ 		.device = PCI_DEVICE_ID_INTEL_HDA_NVL_S,
+ 	},
+-#endif
+ 
+ };
+ 
 
