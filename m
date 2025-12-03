@@ -1,348 +1,272 @@
-Return-Path: <linux-kbuild+bounces-9954-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9955-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D913CC9D72C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 01:41:01 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E61C9DE2A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Dec 2025 07:10:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B3253A2C5D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 00:41:00 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AA759348F85
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Dec 2025 06:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083021EFFB4;
-	Wed,  3 Dec 2025 00:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="35Mi+Y8q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3395D29D29F;
+	Wed,  3 Dec 2025 06:04:20 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0542213A258
-	for <linux-kbuild@vger.kernel.org>; Wed,  3 Dec 2025 00:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7782877CB;
+	Wed,  3 Dec 2025 06:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764722457; cv=none; b=c3PsX+cKSl/2ZkA4G7Jk3ILtu3ISSe13n4iTzwcOr/HETPocQ9eIqxwBG76zhiQUst+iVah/6jxhzf4aKdX5YJeMKslOzdjfPykZR22PYX50kmYd/R94D0mqEYqFi0waEpHrELHXS3EKrPDFKNORfK3dHWpNc8U2zDcFPPcT0gY=
+	t=1764741860; cv=none; b=GmFiqCbO+P62RhfyCd6mLKCiVFSPu6lKMopa6R9mB7TNg7h+nySd2maF5NichpVqAG3GaDUFA86RWie8bujyZoREDig+JY34KVSdNoSBd1GVSqck4+smexP9penn4Nr3skmxAou5SluiWEv9o+RM2xR0K8KhaTGZcB2h1j2FJnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764722457; c=relaxed/simple;
-	bh=4xuGbXmfnTCUVhOk6EdhyGfR4JrGxiM26jMTw4JpWf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pGTqqCuY4ZL/tqDfak6EK/1hRqSEcgSTcunnBIvB6PpjUCM+NJ/40UE3zuS2ltRutbpCv8eS4vnnYHhbTpNG7Buo/QqdgU+ovIxk3EASqA0AoDsRgQhuIcfnpetWvo2GxL+JUUob+NcBHXy3vn6vFH40wb/myINBFU8GCQN8enw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=35Mi+Y8q; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64175f78a6fso4748a12.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Dec 2025 16:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764722454; x=1765327254; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B3Oc4D01w5dnpG7EGuBSSV6W8GNHvTw+m8MC7UWCybk=;
-        b=35Mi+Y8qdYsGWyYY7pQYVV/XkXd0EP7JuwYLV8xjSwru+mAX18pu/Rxfxq5C20wQXi
-         w22laxdfW36m08Rczjs0bj2pJfmPMkZzKALM3FFJsObeujfC8TV44Ujba9urGkzZHdMm
-         EwFZ5gfoUNdU5sIXFE7P3Yg25rywXdLd22L7XSSh88f+KdWKbla0EH+9+1MWNzsN34rY
-         QAafFbiga2PJn/KzHPWLMimyGS+yE/E2kGV2u0A5ORTgo95TbKOg+T0s0UedkwKjA2qW
-         q+W7rTXgq4PGmNpBEcs3otDxrZVLT1IFstQdENoOZjb2lr5HtkP/R/9w/3S4TlsMMvky
-         WsSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764722454; x=1765327254;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B3Oc4D01w5dnpG7EGuBSSV6W8GNHvTw+m8MC7UWCybk=;
-        b=xSUiqU1jhvuf0NYxR0XoqinG1fT/RYxFU1TOlJtjVUvxY+1N0T2PBJfons8Qde0tKu
-         u+fx6i9lNJiFDuy+Any2ghectJ0Zz/LCVAgoL0P8qWcm9zRHRfZUXKDIYPc61Z+jilkA
-         UKjz2SScmjOYKtpnzslX61qDXFc6BwfzvJZ64dvU7R1XBhVVO2H2hLyNEH7phd5mMfGE
-         RoBNMJo00i1EFBuNn8H8gREalNmzZbeOoAC9bVaWoSYMeuqLv8I+Q8ksp2CDX7IbxC9c
-         /LS51aSJTLJ60tqU9anBTbJiZ07QB2uQZOVUHIhPvxhi9hZdlxVAE3fT/Ra/sujDVCR7
-         +qUg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+sVpN5Elt1Q4R17hUAl8XBlnLL211d4D/XBu/HJ4qWIjW9iWCqYRsGwkxsQC3fe9Foud/12moFf7iM84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVdO859Rj7h1024saXlcVp4kud+LPwlPLT01zcElSUvNtip29K
-	gWmiNqGG0y99Tf9TAOi76J1oaDQoT4UVVtxsYGJ+KmoqMjH59YUWKsP7gpPguvypPjOR+phGdsY
-	jKR/EgyrVWF5b5ALJ7/IHVNErhT+A4GRamWkRKVkO
-X-Gm-Gg: ASbGncv3UCR9yKaCxC5gKSqQj1PZG04H2hS1FiqQ/5cA1Z6eIIlgskNC0JD2BtwV7WV
-	u4VkWMIc221GgCb1lDkaSl+KS26+eZ9sJNAa6GpEDnS/0SRV2F6pW+B/AJ58wDSPy9YjgjBpZ7K
-	dH+AFxELuFpsznBkxXIY7ZI3Xn5yps/xIrcj3aCwnjXNxUUwr7iGgQC5LqoS/xwDO8OBwe/m+P4
-	CSHJZumNBcXF5gxBezuABBpcsAsGQ4NT1NoVteH3b6OV6qXTGtgEwZWQhSc5sgxxyYlPGHIhae5
-	7VHOW+rqk0apfd33QsmxwFMdcnzdtFIyT0WezHI=
-X-Google-Smtp-Source: AGHT+IGUpO0L+WhI58F9++W1H/peDm2X2DnX35lpzSJlaDsXJA8kDOMd11eAqj6cUIz2+cVg+h2Z9la6R9E/O0WsxH0=
-X-Received: by 2002:a05:6402:2183:10b0:640:914c:ab91 with SMTP id
- 4fb4d7f45d1cf-6479b43672fmr9260a12.3.1764722454227; Tue, 02 Dec 2025 16:40:54
- -0800 (PST)
+	s=arc-20240116; t=1764741860; c=relaxed/simple;
+	bh=Cv1m6mFOEbqxqQ7ohqRcJ0BfyrpDB7qBBNdsXm8lCM4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=nuyl71GcbNf3pdsM6VAoyvzGRPzcsPHKxYGN/dimlcHkfI8sFwj3VkZ7zZtO19ykBaniIuYKBNyNeM/kxJWVPJovt6bYLWjEb+ayVtv+tIH5kkMQXUhM2O7qKn5YjeD9u4HnNkAvUqSfSiOhaCXK8a2clOeAVTyxlMCTQTE0CIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tinylab.org; spf=pass smtp.mailfrom=tinylab.org; arc=none smtp.client-ip=15.184.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tinylab.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tinylab.org
+X-QQ-mid: esmtpsz19t1764741758t994f776a
+X-QQ-Originating-IP: ecJ7hl59DzA1RsOBM2o5nW7l0oYjMDoO2gtQ1U1uKbs=
+Received: from [169.235.25.235] ( [169.235.25.235])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 03 Dec 2025 14:02:33 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 9602860117365221652
+EX-QQ-RecipientCnt: 13
+Message-ID: <921F22AF0D7D10F0+3a743e26-ae83-40e8-b266-ccffe478d2c7@tinylab.org>
+Date: Tue, 2 Dec 2025 22:02:31 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com> <20251202-inline-helpers-v1-4-879dae33a66a@google.com>
-In-Reply-To: <20251202-inline-helpers-v1-4-879dae33a66a@google.com>
-From: Matthew Maurer <mmaurer@google.com>
-Date: Tue, 2 Dec 2025 16:40:41 -0800
-X-Gm-Features: AWmQ_blBVdIJYux_tf6OFeNJfOnc6oPyFKVIBlfORGWG1BYJoNUf8x7Y_xiutHA
-Message-ID: <CAGSQo01=7YDfYzbjipNtsK8AzXciSpY+v53kAhh+oZ_QisAh4Q@mail.gmail.com>
-Subject: Re: [PATCH 4/4] build: rust: provide an option to inline C helpers
- into Rust
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
-	nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Yuan Tan <tanyuan@tinylab.org>
+Subject: Re: [PATCH v2 0/8] dce, riscv: Unused syscall trimming with
+ PUSHSECTION and conditional KEEP()
+To: Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ i@maskray.me, Zhangjin Wu <falcon@tinylab.org>, ronbogo@outlook.com,
+ z1652074432@gmail.com, lx24@stu.ynu.edu.cn
+References: <30C972B6393DBAC5+cover.1760463245.git.tanyuan@tinylab.org>
+ <33333fdd-2aa2-4ce0-8781-92222829ea12@app.fastmail.com>
+ <0BF8B2E83B6154B6+f17f32b4-f6ff-4184-917d-4b27fb916eae@tinylab.org>
+ <73010511-a804-4cf4-a5c1-1d08e3f324c5@app.fastmail.com>
+Content-Language: en-US
+In-Reply-To: <73010511-a804-4cf4-a5c1-1d08e3f324c5@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:tinylab.org:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: Mn6sU2dhbGGPy3SlOxmaK0LE5Z51PtSefaFsZdr10igLsnLoZ95HCyu4
+	3kYfG0vJgPK/ONwJr9N/nsFfj9qj/HisO07YKO8nXRGSkZRFa+83dLwGoRUssC3rLlh9dNy
+	rf50P9OviAxHJ4/ZhX+rXutNF42Wkm6kuFvPUwzPyWSD6ch45QEgL48BjtTb1TzOZ3GOFwN
+	x/8ks0KlKaPJPFcwUZqk+Dw/s9j88yFfyUDCsT4YG8x4MZGDehtt6HrEyE6G0vBVH7Uk+mV
+	ubttnFKf0VURGnjyTeQeBFf4H11FZkUr9nxBGsjHU7CxxUeJieUl+dNYdUg/OdrMaahSWfk
+	KzbrVtj9wO2/MpiwNlY60fo/bRxRCHZ4iXrEnsw6vm+ygvf3r3RXWZc98CyJ8WkMx8uzfs/
+	dfYMO1tf2FBh15cZbl40QZMxMwt3hm9GZfmfJzYMWGXWqtuLL9G0KEh7lWdvP0lhoAtuPop
+	M38YkHg4QauuibB+CaVMtmGzTeEW9rPwxWHEeIbT1TmJkIcsgW7S4pucyrFreDI4BxMCBK8
+	jp5OaeP4GxldON2poRnHEgpwF2tIxKyFG1bs3U+0TTVn372PKL9dtRhBiAmOn5fdAE0L80w
+	SBM8lgX42BceNrMN2ovfQInrloEcjhwnyj0qoWOIuYSzTV37mRCpnXc0c3oGntduZin8Mqk
+	ZvVv+FI7akoPZ9DRXIqQyyR7YDXHVT+S/iIxGZoHvngBzEgUS4u6yhaPt0SOB3ApXhuhiKi
+	o0UlpKBqBIoIoCUPtPe8gxJytnoMsNvEmvWqqGVfRFdGL1HxL2thAHDH8Mr/Y5rVADX76v1
+	3pMr5+36aQRL3I7nmCCDmmtxzgRkvdaAexXPBox+oi9w4/Qe7GLVrrXbYX+zplGeYmFiGHo
+	EmVCeLFwrXlgjDkhGot5B77MC/3TNGMhWM1DgK1/30ujzGa4rA52WRSH72kfGf2Xp1FUghH
+	SqC0Fule4TVHSHq9v2ib1s8xDn6dlcEh+8dIC5kcPrWW5FpgCV3aMAxi/
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
-On Tue, Dec 2, 2025 at 12:28=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
-> From: Gary Guo <gary@garyguo.net>
->
-> A new experimental Kconfig option, `RUST_INLINE_HELPERS` is added to
-> allow C helpers (which were created to allow Rust to call into
-> inline/macro C functions without having to re-implement the logic in
-> Rust) to be inlined into Rust crates without performing global LTO.
->
-> If the option is enabled, the following is performed:
-> * For helpers, instead of compiling them to an object file to be linked
->   into vmlinux, they're compiled to LLVM IR.
-> * The LLVM IR is compiled to bitcode (This is step is not necessary, but
->   is a performance optimisation to prevent LLVM from always have to
->   reparse the same IR).
-> * When a Rust crate is compiled, instead of generating an object file, we
->   ask LLVM bitcode to be generated.
-> * llvm-link is invoked with --internalize to combine the helper bitcode
->   with the crate bitcode. This step is similar to LTO, but this is much
->   faster since it only needs to inline the helpers.
-> * clang is invoked to turn the combined bitcode into a final object file.
->
-> The --internalize flag tells llvm-link to treat all symbols in
-> helpers.bc using `internal` linkage. This matches the behavior of
-> `clang` on `static inline` functions, and avoids exporting the symbol
-> from the object file.
 
-I've filed a PR with LLVM [1] to clarify that this is the intended
-operation of the tool.
+On 11/7/2025 5:33 AM, Arnd Bergmann wrote:
+> On Tue, Nov 4, 2025, at 03:21, Yuan Tan wrote:
+>
+>>> Sorry for the late reply — this patchset really wore me out, and I only just
+>>> recovered.  Thank you very much for your feedback!
+> Sorry to hear this has been stressful for you. It's an unfortunate
+> aspect of the way we work that sometimes 
+>
+>> On 10/15/2025 12:47 AM, Arnd Bergmann wrote:
+>>> On Wed, Oct 15, 2025, at 08:16, Yuan Tan wrote:
+>>> Thanks a lot for your work on this. I think it is indeed valuable to
+>>> be able to optimize kernels with a smaller subset of system calls for
+>>> known workloads, and have as much dead code elimination as possible.
+>>>
+>>> However, I continue to think that the added scripting with a known
+>>> set of syscall names is fundamentally the wrong approach to get to
+>>> this list: This adds complexity to the build process in one of
+>>> the areas that is already too complicated, and it duplicates what
+>>> we can already do with Kconfig for a subset of the system calls.
+>>>
+>>> I think the way we should configure the set of syscalls instead is
+>>> to add more Kconfig symbols guarded by CONFIG_EXPERT that turn
+>>> classes of syscalls on or off. You have obviously done the research
+>>> to come up with a list of used/unused entry points for one or more
+>>> workloads. Can you share those lists?
+>> Regarding your suggestion to use Kconfig to control which system calls are
+>> included or excluded, perhaps we could take inspiration from systemd's
+>> classification approach. For example, systemd groups syscalls into categories
+>> like[1]:
+>>
+>> @aio @basic-io @chown @clock @cpu-emulation @debug @file-system
+>>
+>> and so on.
+> I think many of the categories already naturally align with the
+> structure of the kernel source code, so maintaining them naturally comes
+> out of the build system.
+>
+> More importantly, turning off parts of the kernel on a per-file
+> basis tends to work better for eliminating the entire block
+> of code because only removing the syscall entry still leaves
+> references to functions and global data structures from initcalls
+> and exported functions.
+>
+>> However, if we go down this route, we would need to continuously maintain and
+>> update these categories whenever Linux introduces new system calls. I' m not
+>> sure whether that would be an ideal long-term approach.
+> If we can (at least roughly) align the categories between the kernel and the
+> systemd classification, that would at least make it easier to maintain
+> the systemd ones.
+>
+>> For reference, here is the list of syscalls required to run Lighttpd.
+>>
+>> execve set_tid_address mount write brk mmap munmap getuid getgid getpid
+>> clock_gettime getcwd fcntl fstat read dup3 socket setsockopt bind listen
+>> rt_sigaction rt_sigprocmask newfstatat prlimit64 epoll_create1 epoll_ctl pipe2
+>> epoll_pwait accept4 getsockopt recvfrom shutdown writev getdents64 openat close
+>>
+>> We've tested it successfully on QEMU + initramfs, and I can share the
+>> deployment script if anyone would like to reproduce the setup.
+> Thanks for the list! Is this a workload you are interested in actually
+> optimizing for deployment, or just something you used as a simple test
+> environment?
+>
+> I see three types of syscalls in your list above:
+>
+> 1. essential ones that are basically always needed
+> 2. socket interfaces (already optional)
+> 3. epoll (already optional)
+>
+> The first two sets are clearly going to have more syscalls in
+> them that are usually used in combination with the others:
+> If we provide read, write and writev, we should also provide readv,
+> and if we provide socket/bind/listen/recvfrom, we also likely want
+> accept/connect/sendto and probably recvmsg/sendmsg.
+>
+> Starting with your set of syscalls and those closely related
+> ones, as well as the set of syscalls that already have a
+> Kconfig option, we should be able to find the set of syscalls
+> that are unconditionally enabled but could be optional.
+> If you have the chance, could you compile that list?
+> I might also have a list, but probably not in the next week.
+>
+> The next step after that I think is to measure the impact
+> of turning off those remaining ones in a configuration that
+> has the existing symbols (e.g. sysvipc, futex, compat_32bit_time,
+> ...) disabled already.
+>
+> Side note: I'm a  bit surprised to see fstat() in the list, since riscv
+> should only really support newfstat().
 
-[1]: https://github.com/llvm/llvm-project/pull/170397
 
+The syscall list comes from a simple test environment rather than a
+workload I intend to optimize for deployment.
+
+The list I posted was generated using strace on RISC-V QEMU. I was
+looking at the ABI names, not the actual kernel syscall names.  One
+question here: for syscall trimming, should we discuss everything in
+terms of syscall ABI names or the actual kernel syscall function names?
+I would like to confirm your preference before I continue with the
+updated list.
+
+For now, I'll continue the discussion in terms of syscall ABI names.
+
+Following your suggestion, I started by taking the syscall list required
+for the Lighttpd workload and expanded it into the corresponding
+functional groups.
+
+Here is a very preliminary draft of the syscall grouping, based on the
+systemd classification.
+
+https://pastebin.com/raw/Yx92bb3m
+
+Then, I wrote a small script that classifies each syscall from lighttpd
+into its category and then enumerates all syscalls belonging to those
+categories.
+
+It addresses two of the items you asked for
+
+- Identifying the syscall families related to my minimal Lighttpd
+  workload
+
+- Enumerating which syscalls appear in those categories and could
+  potentially become optional
+
+```
+Categories present in lighttpd_syscalls.txt:
+  @basic-io: 5 / 16
+  @clock: 1 / 8
+  @default: 9 / 30
+  @file-system: 6 / 47
+  @io-event: 3 / 7
+  @ipc: 1 / 23
+  @mount: 1 / 13
+  @network-io: 8 / 18
+  @signal: 2 / 14
+Total unique categories: 9
+Total categories defined: 30
+
+Categories not present in lighttpd_syscalls.txt:
+  @aio: 0 / 9
+  @chown: 0 / 2
+  @debug: 0 / 5
+  @keyring: 0 / 3
+  @memlock: 0 / 5
+  @module: 0 / 3
+  @pkey: 0 / 3
+  @privileged: 0 / 15
+  @process: 0 / 24
+  @reboot: 0 / 3
+  @resources: 0 / 14
+  @sandbox: 0 / 4
+  @setuid: 0 / 12
+  @swap: 0 / 2
+  @sync: 0 / 6
+  @system-service: 0 / 24
+  @timer: 0 / 11
+  arch-specific: 0 / 1
+  memory-isolation: 0 / 1
+  memory-protection: 0 / 1
+  security-lsm: 0 / 3
+
+All syscalls in the appearing categories:
+accept, accept4, adjtimex, bind, brk, cachestat, chdir, chroot, clock_adjtime, clock_getres, clock_gettime, clock_nanosleep, clock_settime, close, close_range, connect, copy_file_range, dup, dup3, epoll_create1, epoll_ctl, epoll_pwait, epoll_pwait2, eventfd2, execve, exit, exit_group, faccessat, faccessat2, fallocate, fchdir, fchmod, fchmodat, fchmodat2, fcntl, fgetxattr, flistxattr, fremovexattr, fsconfig, fsetxattr, fsmount, fsopen, fspick, fstat, fstatfs, ftruncate, futex, futex_requeue, futex_wait, futex_waitv, futex_wake, get_robust_list, getcwd, getdents64, getegid, geteuid, getgid, getpeername, getpid, getppid, getrandom, getsockname, getsockopt, gettid, gettimeofday, getuid, getxattr, inotify_add_watch, inotify_init1, inotify_rm_watch, ioctl, kill, lgetxattr, linkat, listen, listmount, listxattr, llistxattr, lremovexattr, lseek, lsetxattr, membarrier, memfd_create, mkdirat, mknodat, mmap, mount, mount_setattr, move_mount, mprotect, mq_getsetattr, mq_notify, mq_open,
+mq_timedreceive, mq_timedsend, mq_unlink, mremap, msgctl, msgget, msgrcv, msgsnd, munmap, newfstatat, open_tree, openat, openat2, pidfd_send_signal, pipe2, pivot_root, ppoll, pread64, preadv, preadv2, prlimit64, process_madvise, process_vm_readv, process_vm_writev, pselect6, pwrite64, pwritev, pwritev2, read, readahead, readlinkat, readv, recvfrom, recvmmsg, recvmsg, removexattr, renameat2, restart_syscall, riscv_flush_icache, riscv_hwprobe, rseq, rt_sigaction, rt_sigpending, rt_sigprocmask, rt_sigqueueinfo, rt_sigreturn, rt_sigsuspend, rt_sigtimedwait, rt_tgsigqueueinfo, semctl, semget, semop, semtimedop, sendmmsg, sendmsg, sendto, set_robust_list, set_tid_address, setsockopt, settimeofday, setxattr, shmat, shmctl, shmdt, shmget, shutdown, sigaltstack, signalfd4, socket, socketpair, statfs, statmount, statx, symlinkat, tgkill, tkill, truncate, umask, umount2, unlinkat, utimensat, write, writev
+Total syscalls in these categories: 176
+```
+
+
+This produces a list of 176 syscalls across 9 categories that are
+relevant to the workload. The output also shows which categories do not
+appear in this workload (21 categories with 0 syscalls used).
+
+If the categorization works this way, it's actually quite surprising
+that even such a simple workload would pull in as many as 176 syscalls.
+I'm not sure yet what the actual trimming impact will look like after
+building, but I will test that next.
+
+>> Also, I noticed that there haven't been any comments so far on the later
+>> patches introducing the PUSHSECTION macro.  I' m a bit concerned about how
+>> people perceive this part.
+> I don't have a strong opinion on this part.
 >
-> To ensure that RUST_INLINE_HELPERS is not incompatible with BTF, we pass
-> the -g0 flag when building helpers. See commit 5daa0c35a1f0 ("rust:
-> Disallow BTF generation with Rust + LTO") for details.
->
-> We have an intended triple mismatch of `aarch64-unknown-none` vs
-> `aarch64-unknown-linux-gnu`, so we suppress the warning.
->
-> Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> Co-developed-by: Matthew Maurer <mmaurer@google.com>
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> Signed-off-by: Gary Guo <gary@garyguo.net>
-> Co-developed-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> ---
->  Makefile               |  4 +++-
->  lib/Kconfig.debug      | 15 +++++++++++++++
->  rust/Makefile          | 26 ++++++++++++++++++++++----
->  rust/exports.c         |  5 ++++-
->  scripts/Makefile.build |  5 ++++-
->  5 files changed, 48 insertions(+), 7 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 96ddbaae7e12de71bcfabef4639de3a13a6e4815..5834bfd568548d1bee34b328d=
-ccce5d60f85526f 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -517,6 +517,8 @@ OBJCOPY             =3D $(LLVM_PREFIX)llvm-objcopy$(L=
-LVM_SUFFIX)
->  OBJDUMP                =3D $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
->  READELF                =3D $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
->  STRIP          =3D $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
-> +LLVM_LINK      =3D $(LLVM_PREFIX)llvm-link$(LLVM_SUFFIX)
-> +LLVM_AS                =3D $(LLVM_PREFIX)llvm-as$(LLVM_SUFFIX)
->  else
->  CC             =3D $(CROSS_COMPILE)gcc
->  LD             =3D $(CROSS_COMPILE)ld
-> @@ -625,7 +627,7 @@ export RUSTC_BOOTSTRAP :=3D 1
->  export CLIPPY_CONF_DIR :=3D $(srctree)
->
->  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COM=
-PILE LD CC HOSTPKG_CONFIG
-> -export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDG=
-EN
-> +export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDG=
-EN LLVM_LINK LLVM_AS
->  export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
->  export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX=
- YACC AWK INSTALLKERNEL
->  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 3034e294d50df55c4003c5fa5df442f59e711bd8..e63c5eb57b049aff988419ccd=
-12dfd99d59f5080 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -3427,6 +3427,21 @@ config RUST_KERNEL_DOCTESTS
->
->           If unsure, say N.
->
-> +config RUST_INLINE_HELPERS
-> +    bool "Inline C helpers into Rust crates (EXPERIMENTAL)"
-> +    depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
-> +    depends on EXPERT
-> +    help
-> +        Links C helpers into Rust crates through LLVM IR.
-> +
-> +        If this option is enabled, instead of generating object files di=
-rectly,
-> +        rustc is asked to produce LLVM IR, which is then linked together=
- with
-> +        the LLVM IR of C helpers, before object file is generated.
-> +
-> +        This requires a matching LLVM version for Clang and rustc.
-> +
-> +        If unsure, say N.
-> +
->  endmenu # "Rust"
->
->  endmenu # Kernel hacking
-> diff --git a/rust/Makefile b/rust/Makefile
-> index d7d19c21b671dea10242b1772a8bcf0bf5dcc1cd..2344e2662ce29280582215954=
-132c09f63cd8c9d 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -6,15 +6,19 @@ rustdoc_output :=3D $(objtree)/Documentation/output/rus=
-t/rustdoc
->  obj-$(CONFIG_RUST) +=3D core.o compiler_builtins.o ffi.o
->  always-$(CONFIG_RUST) +=3D exports_core_generated.h
->
-> +ifdef CONFIG_RUST_INLINE_HELPERS
-> +always-$(CONFIG_RUST) +=3D helpers/helpers.bc
-> +else
-> +obj-$(CONFIG_RUST) +=3D helpers/helpers.o
-> +always-$(CONFIG_RUST) +=3D exports_helpers_generated.h
-> +endif
->  # Missing prototypes are expected in the helpers since these are exporte=
-d
->  # for Rust only, thus there is no header nor prototypes.
-> -obj-$(CONFIG_RUST) +=3D helpers/helpers.o
->  CFLAGS_REMOVE_helpers/helpers.o =3D -Wmissing-prototypes -Wmissing-decla=
-rations
->
->  always-$(CONFIG_RUST) +=3D bindings/bindings_generated.rs bindings/bindi=
-ngs_helpers_generated.rs
->  obj-$(CONFIG_RUST) +=3D bindings.o pin_init.o kernel.o
-> -always-$(CONFIG_RUST) +=3D exports_helpers_generated.h \
-> -    exports_bindings_generated.h exports_kernel_generated.h
-> +always-$(CONFIG_RUST) +=3D exports_bindings_generated.h exports_kernel_g=
-enerated.h
->
->  always-$(CONFIG_RUST) +=3D uapi/uapi_generated.rs
->  obj-$(CONFIG_RUST) +=3D uapi.o
-> @@ -468,6 +472,13 @@ $(obj)/bindings/bindings_helpers_generated.rs: priva=
-te bindgen_target_extra =3D ;
->  $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c =
-FORCE
->         $(call if_changed_dep,bindgen)
->
-> +quiet_cmd_rust_helper =3D HELPER  $@
-> +      cmd_rust_helper =3D \
-> +       $(CC) $(filter-out $(CFLAGS_REMOVE_helpers/helpers.o), $(c_flags)=
-) -c -g0 $< -emit-llvm -o $@
-> +
-> +$(obj)/helpers/helpers.bc: $(obj)/helpers/helpers.c FORCE
-> +       +$(call if_changed_dep,rust_helper)
-> +
->  rust_exports =3D $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && =
-$$3!~/__(pfx|cfi|odr_asan)/ { printf $(2),$$3 }'
->
->  quiet_cmd_exports =3D EXPORTS $@
-> @@ -547,11 +558,13 @@ quiet_cmd_rustc_library =3D $(if $(skip_clippy),RUS=
-TC,$(RUSTC_OR_CLIPPY_QUIET)) L
->         OBJTREE=3D$(abspath $(objtree)) \
->         $(if $(skip_clippy),$(RUSTC),$(RUSTC_OR_CLIPPY)) \
->                 $(filter-out $(skip_flags),$(rust_flags)) $(rustc_target_=
-flags) \
-> -               --emit=3Ddep-info=3D$(depfile) --emit=3Dobj=3D$@ \
-> +               --emit=3Ddep-info=3D$(depfile) --emit=3D$(if $(link_helpe=
-r),llvm-bc=3D$(patsubst %.o,%.bc,$@),obj=3D$@) \
->                 --emit=3Dmetadata=3D$(dir $@)$(patsubst %.o,lib%.rmeta,$(=
-notdir $@)) \
->                 --crate-type rlib -L$(objtree)/$(obj) \
->                 --crate-name $(patsubst %.o,%,$(notdir $@)) $< \
->                 --sysroot=3D/dev/null \
-> +       $(if $(link_helper),;$(LLVM_LINK) --internalize --suppress-warnin=
-gs $(patsubst %.o,%.bc,$@) $(obj)/helpers/helpers.bc -o $(patsubst %.o,%.m.=
-bc,$@); \
-> +               $(CC) $(CLANG_FLAGS) $(KBUILD_CFLAGS) -Wno-override-modul=
-e -c $(patsubst %.o,%.m.bc,$@) -o $@) \
->         $(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@) \
->         $(cmd_objtool)
->
-> @@ -678,4 +691,9 @@ $(obj)/kernel.o: $(obj)/kernel/generated_arch_warn_as=
-m.rs $(obj)/kernel/generate
->  endif
->  endif
->
-> +ifdef CONFIG_RUST_INLINE_HELPERS
-> +$(obj)/kernel.o: private link_helper =3D 1
-> +$(obj)/kernel.o: $(obj)/helpers/helpers.bc
-> +endif
-> +
->  endif # CONFIG_RUST
-> diff --git a/rust/exports.c b/rust/exports.c
-> index 587f0e776aba52854080f15aa91094b55996c072..1b52460b0f4eeef6df9081abb=
-9b7e054a28c3c21 100644
-> --- a/rust/exports.c
-> +++ b/rust/exports.c
-> @@ -16,10 +16,13 @@
->  #define EXPORT_SYMBOL_RUST_GPL(sym) extern int sym; EXPORT_SYMBOL_GPL(sy=
-m)
->
->  #include "exports_core_generated.h"
-> -#include "exports_helpers_generated.h"
->  #include "exports_bindings_generated.h"
->  #include "exports_kernel_generated.h"
->
-> +#ifndef CONFIG_RUST_INLINE_HELPERS
-> +#include "exports_helpers_generated.h"
-> +#endif
-> +
->  // For modules using `rust/build_error.rs`.
->  #ifdef CONFIG_RUST_BUILD_ASSERT_ALLOW
->  EXPORT_SYMBOL_RUST_GPL(rust_build_error);
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index d0ee33a487be95f8ba9a5c964ebecfbebc6c4bf8..04eaf2b4fbca2245f904a6dc7=
-875cb3275aa7df6 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -343,7 +343,10 @@ rust_common_cmd =3D \
->  # would not match each other.
->
->  quiet_cmd_rustc_o_rs =3D $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-> -      cmd_rustc_o_rs =3D $(rust_common_cmd) --emit=3Dobj=3D$@ $< $(cmd_o=
-bjtool)
-> +      cmd_rustc_o_rs =3D $(rust_common_cmd) --emit=3D$(if $(CONFIG_RUST_=
-INLINE_HELPERS),llvm-bc=3D$(patsubst %.o,%.bc,$@),obj=3D$@) $< \
-> +       $(if $(CONFIG_RUST_INLINE_HELPERS),;$(LLVM_LINK) --internalize --=
-suppress-warnings $(patsubst %.o,%.bc,$@) $(objtree)/rust/helpers/helpers.b=
-c -o $(patsubst %.o,%.m.bc,$@); \
-> +               $(CC) $(CLANG_FLAGS) $(KBUILD_CFLAGS) -Wno-override-modul=
-e -c $(patsubst %.o,%.m.bc,$@) -o $@) \
-> +       $(cmd_objtool)
->
->  define rule_rustc_o_rs
->         $(call cmd_and_fixdep,rustc_o_rs)
->
-> --
-> 2.52.0.158.g65b55ccf14-goog
->
+>      Arnd
+
 
