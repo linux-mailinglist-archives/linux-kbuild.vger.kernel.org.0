@@ -1,119 +1,167 @@
-Return-Path: <linux-kbuild+bounces-9983-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9984-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3622FCA2E92
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Dec 2025 10:08:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76367CA3136
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Dec 2025 10:48:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 06BA03020379
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Dec 2025 09:06:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0E5D93049D3A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Dec 2025 09:46:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ED08331A53;
-	Thu,  4 Dec 2025 09:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 839212BE62D;
+	Thu,  4 Dec 2025 09:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dit5ZXxb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949BA313E34;
-	Thu,  4 Dec 2025 09:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2B6331226
+	for <linux-kbuild@vger.kernel.org>; Thu,  4 Dec 2025 09:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764839213; cv=none; b=GjI1Wm/miIECFtUr3ztXPOu28a/OGEBuv+DeF7dCxCXtLZ6VOIImhC9A3hrh8MTSmVyhv4JZMpmjaOONWdFLSZ5SJwQdHD18XCfNuIJDgpORcTixeoN4Jcqca9l4rLtOLoDtJYBFFwCtNIwuQa+2xeR0li+3TpteqU/DYkxgxdk=
+	t=1764841567; cv=none; b=Nft0npUY5kNz/wApLHLzGUejlAokwjp/cFNOYs95MglOXjFSvl1CSp8HwAzwabok1589a7Cp6Da4Ou9dMZ72AEFu7VdnZUBqhA0AuyBjJjl4T3LHVNX2bTpNpo1Ra6B4+/MquTTiLmpkYXtqkmFoAFSevA3pY0fS0gLnjAMjHdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764839213; c=relaxed/simple;
-	bh=y5lRhbplovhxS8wXZdgJehPPhVuxa9eyvYlnoEEqbEI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hmYf1TZk4A66xML2HGL3Ician8cDnN8r+abfFAjIiirmEyBQ/bkYgyztoMB+BGiIGPND8+dNjVc/ZEYWoB8HDfYuqb5lpFH/GazVvbuvlQvfBaBxjZ5FRLoIxDv49oNx1dqPavKu+pG/NH0aX2oZzES2sN62ttlVTKRiNtzGSZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.107] (unknown [114.241.82.59])
-	by APP-01 (Coremail) with SMTP id qwCowAAnwdD+TjFpm+0MAw--.960S2;
-	Thu, 04 Dec 2025 17:06:06 +0800 (CST)
-Message-ID: <1a6bb8cd-cc08-458f-a6f6-cdfefd327320@iscas.ac.cn>
-Date: Thu, 4 Dec 2025 17:06:05 +0800
+	s=arc-20240116; t=1764841567; c=relaxed/simple;
+	bh=EzgpGjg1QwWDfYIOOESLFG/yLw37B0pgIc7/2w/E3vA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=YeX9y2QExde7aS0pPHmeLXgpK1mzF/v4x6EuJJiqeuAJcxqZXQLxR3Pvee+bsDo+ERUucIcsdRc4CddGpY5zFMM+i6PWwAJHRsxAqCP85zBasDK/wH64OY5mdHcfqiQpH2+fp0/GD1DTYdx0YEqMEJNCTqmDidEbAZdgVOu4JEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dit5ZXxb; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-6408222225eso729054a12.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 04 Dec 2025 01:46:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1764841564; x=1765446364; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Y+LEByl2j3nWQKuuz9R99dq4dapViIO+66bH6orc1c=;
+        b=dit5ZXxbz5w0YkpsHITRZEssjnXeUZvv6VpjX5s9AMdPLOhvrMSimGt76WUlCDM7Ta
+         NN8nTbr3n2Nf95XDArtK/A/ry8vKcYEpgN9nzimn4wg3yrzDouV77/IWG/Zr6D4RfdjR
+         t9aJwi4/xlI2g+AvYjZrlmkEI9HVkYU6r+zvHm8QKCvoMClHTjdVaoZ+F/GJxLYXIIzb
+         7Y7aTw1qNgd+Y4izoTaMLbUNTJvmyDc6EaMb+wo/69cwKW4Y0Qg//nwSwaev9b/CPwdR
+         roG7C3uSHVt8rGUnj74TvCQQQHWpTcODLoBMsZL4aZCjuE3w1S7T9Yv+gCy3z0NLhp/F
+         Eh7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764841564; x=1765446364;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Y+LEByl2j3nWQKuuz9R99dq4dapViIO+66bH6orc1c=;
+        b=fXBB+i649UvSjmPLZjHdvQOOB+ZBp078OexJBWNwJuGnjl9+l4A30WDwluK+0REQBt
+         QXs8e+Bs3JlQquKdBJLpsMqceqDmbTr94kvP73xvtD2CSccOgfMYMP3L5aVljk9ObH5c
+         uxroPRF+JskkVPmzecg9aM10hXnDA71WodfcCzcFlqq/gewUROBb2Axsq5K4mV3szQJh
+         dvzCGpBsp8iMT8ir95EBpnk7PARzN0aIJQvCJ84xqlalsPmzPRhcV6duZ43BXbMXORQB
+         Kv9S25GP8SSDSdzfkw6WmZi7ZGBajaM7AUZQoIlHuyNTe6yMG9nmIfwCuAOxhk9cxVui
+         PnMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWyrNuiV9ggyK3AP72QNkgb+TI8+5tk7kOIA/p7GuFOJsluc58heO9803r2ZffwJRty+/Zz7uYOBv+rRGs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRPyRnAFY/n1CvQGDqDmJeCTdR5/ZOABeK7Rw8yDrVBMKZktvB
+	QJt6HVPSk+nDX/0J/vuIZm9AM7yd8sISPxj7fThBnCvNkhIx0lINlMIrvbJ0uskkaUZqXgAkHgb
+	ttJe2jyt3HXAQdfIawg==
+X-Google-Smtp-Source: AGHT+IH+B9WzKRmSWzOuHrGLt1JUxDjhE9BQol+oE79eSw4Io68p4o5P8fUOkglayWG/HVrXi6i/Vno1TKnYch4=
+X-Received: from edbig1.prod.google.com ([2002:a05:6402:4581:b0:62f:24aa:896a])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:1e94:b0:640:c640:98c5 with SMTP id 4fb4d7f45d1cf-6479c4c441bmr5333397a12.34.1764841564163;
+ Thu, 04 Dec 2025 01:46:04 -0800 (PST)
+Date: Thu, 4 Dec 2025 09:46:03 +0000
+In-Reply-To: <20251203212558.GB3060476@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] rust: add a Kconfig function to test for support
- of bindgen options
-To: Asuna Yang <spriteovo@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Jonathan Corbet <corbet@lwn.net>, Jason Montleon <jmontleo@redhat.com>,
- Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org
-References: <20251204-gcc-rust-v5-v5-0-2d4f20d86c24@gmail.com>
- <20251204-gcc-rust-v5-v5-3-2d4f20d86c24@gmail.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <20251204-gcc-rust-v5-v5-3-2d4f20d86c24@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:qwCowAAnwdD+TjFpm+0MAw--.960S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWUWr4rtFWrCry7tw1fJFb_yoW8Xw1fpr
-	yvkF1q9rW8J3W8Aw17CFW0qF13ua1xtrWfW34kt347JrW7Xw40gaySkr47try8CFWv9ry2
-	vF4F9as09F4UCw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvvb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
-	8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
-	c7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
-	IFyTuYvjxUVhL0UUUUU
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+Mime-Version: 1.0
+References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
+ <20251202-inline-helpers-v1-4-879dae33a66a@google.com> <20251203212558.GB3060476@ax162>
+Message-ID: <aTFYWyUE-ln5KrsX@google.com>
+Subject: Re: [PATCH 4/4] build: rust: provide an option to inline C helpers
+ into Rust
+From: Alice Ryhl <aliceryhl@google.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
+	nouveau@lists.freedesktop.org, Matthew Maurer <mmaurer@google.com>
+Content-Type: text/plain; charset="utf-8"
 
+On Wed, Dec 03, 2025 at 02:25:58PM -0700, Nathan Chancellor wrote:
+> Hi Alice,
+> 
+> On Tue, Dec 02, 2025 at 08:27:59PM +0000, Alice Ryhl wrote:
+> ...
+> > diff --git a/Makefile b/Makefile
+> > index 96ddbaae7e12de71bcfabef4639de3a13a6e4815..5834bfd568548d1bee34b328dccce5d60f85526f 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -517,6 +517,8 @@ OBJCOPY		= $(LLVM_PREFIX)llvm-objcopy$(LLVM_SUFFIX)
+> >  OBJDUMP		= $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
+> >  READELF		= $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
+> >  STRIP		= $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
+> > +LLVM_LINK	= $(LLVM_PREFIX)llvm-link$(LLVM_SUFFIX)
+> > +LLVM_AS		= $(LLVM_PREFIX)llvm-as$(LLVM_SUFFIX)
+> 
+> Please keep the binutils alphabetized (i.e, put LLVM_LINK between AR and
+> NM).
+> 
+> Other than that, this seems fine from a Kbuild perspective (but I did
+> not look too hard).
 
-On 12/4/25 15:54, Asuna Yang wrote:
-> From: Asuna Yang <spriteovo@gmail.com>
->
-> Add a new `bindgen-backend-option` Kconfig function to test whether the
-> bindgen backend supports a given flag.
->
-> A subsequent commit will use this function to test for RISC-V extension
-> flags.
->
-> Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
-> ---
->  scripts/Kconfig.include | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> index d42042b6c9e2..5d4d29eed0b3 100644
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -78,3 +78,8 @@ rustc-llvm-version := $(shell,$(srctree)/scripts/rustc-llvm-version.sh $(RUSTC))
->  # If you are testing for unstable features, consider testing RUSTC_VERSION
->  # instead, as features may have different completeness while available.
->  rustc-option = $(success,trap "rm -rf .tmp_$$" EXIT; mkdir .tmp_$$; $(RUSTC) $(1) --crate-type=rlib /dev/null --out-dir=.tmp_$$ -o .tmp_$$/tmp.rlib)
-> +
-> +# $(bindgen-backend-option,<flag>)
-> +# Return y if bindgen backend supports <flag>, n otherwise
-> +# For now, the backend refers only to libclang, so more specifically, this function tests whether the given flag is recognized by the libclang used by bindgen.
-> +bindgen-backend-option = $(success,trap "rm -f .tmp_$$.h" EXIT; touch .tmp_$$.h; $(BINDGEN) .tmp_$$.h -- --target=$(BINDGEN_TARGET) $(1))
->
-Can probably be simplified down to:
+Sure will reorder.
 
-$(BINDGEN) /dev/null -- -x c --target=$(BINDGEN_TARGET) $(1)
+> >  else
+> >  CC		= $(CROSS_COMPILE)gcc
+> >  LD		= $(CROSS_COMPILE)ld
+> > @@ -625,7 +627,7 @@ export RUSTC_BOOTSTRAP := 1
+> >  export CLIPPY_CONF_DIR := $(srctree)
+> >  
+> >  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC HOSTPKG_CONFIG
+> > -export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN
+> > +export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN LLVM_LINK LLVM_AS
+> >  export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
+> >  export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
+> >  export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > index 3034e294d50df55c4003c5fa5df442f59e711bd8..e63c5eb57b049aff988419ccd12dfd99d59f5080 100644
+> > --- a/lib/Kconfig.debug
+> > +++ b/lib/Kconfig.debug
+> > @@ -3427,6 +3427,21 @@ config RUST_KERNEL_DOCTESTS
+> >  
+> >  	  If unsure, say N.
+> >  
+> > +config RUST_INLINE_HELPERS
+> > +    bool "Inline C helpers into Rust crates (EXPERIMENTAL)"
+> > +    depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
+> > +    depends on EXPERT
+> > +    help
+> > +        Links C helpers into Rust crates through LLVM IR.
+> > +
+> > +        If this option is enabled, instead of generating object files directly,
+> > +        rustc is asked to produce LLVM IR, which is then linked together with
+> > +        the LLVM IR of C helpers, before object file is generated.
+> > +
+> > +        This requires a matching LLVM version for Clang and rustc.
+> > +
+> > +        If unsure, say N.
+> > +
+> 
+> I am just curious, why would someone want (or not) to do this? This help
+> text does not really indicate the point of the option, just what it
+> does. Is it just the standard tradeoffs with inlining (potential
+> improvements in performance due to better optimization opportunities
+> versus text size increase and icache pressure) or something else?
 
+Basically you probably want this on if you can enable it, but
+RUSTC_CLANG_LLVM_COMPATIBLE is actually a pretty harsh requirement. If
+you just install rustc and clang, it's likely they wont be sufficiently
+compatible for LTO to take place.
+
+I'll expand on this in the help text.
+
+Alice
 
