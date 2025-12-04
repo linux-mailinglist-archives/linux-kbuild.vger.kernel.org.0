@@ -1,71 +1,71 @@
-Return-Path: <linux-kbuild+bounces-9993-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9994-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677DACA3B48
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Dec 2025 14:03:50 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82355CA3C04
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Dec 2025 14:16:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E8CBD3042BC8
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Dec 2025 13:03:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 76D46300D01B
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Dec 2025 13:15:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795BE34027E;
-	Thu,  4 Dec 2025 13:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF2DC33B6FC;
+	Thu,  4 Dec 2025 13:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fdyLgtrz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eEfcJc7r"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7CA33F388
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Dec 2025 13:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B999434321F
+	for <linux-kbuild@vger.kernel.org>; Thu,  4 Dec 2025 13:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764853420; cv=none; b=kyAS1v0JyZzexUYza7U3fOAi5n50YwbHNAYDiFa/SEXCAOrSQAOdzRJuJy5RwKshzje2yaMG+owytU/o3GpzLjAFSCec1h5ep3sJYun87iK0zKwQ9NogiokJn/oC2NWIqg/gaYCnLsv8OU78bzAECxd3Oy1I8oyss1bXWdM/vSs=
+	t=1764854138; cv=none; b=BFGTOK1x3bKiYnaD6NvtABhpibj/0iWIU0nBAImHKIVLFF55Dm1p0LaqlBm8DO1o3prBMwSiCpJrnwtAA7b4BI/LMkgiGsfCUEcsnxGOW2tvaPUOs2i1COPRiFtYQykBW6k9e1DAOQxq5UPKY6bTs1SHyHGVWosNqkzZ1RJrq98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764853420; c=relaxed/simple;
-	bh=DZKv42qa7v+jlPt/J58c7v92f0tQGg3ENDSxzC+0QxU=;
+	s=arc-20240116; t=1764854138; c=relaxed/simple;
+	bh=Wny4M191Yr6Td48Z53labtwrelyi+1dAudOVsu2AK4M=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tVLwH0acY68MIg4jV78LMKbgz2w1J9FDMHGwUvJKAjSE3FE07Cd73aDYbAYa0BB8KzNwwdlCugiX1DMS+kh09bxoOWaUkLbNMfh33INyjz7VVBTxZd3No5sF3q/w7ikGkw5U53GDuW5s0th8DFTQWwfsCK4beCJxkcvqiS+N8yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fdyLgtrz; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=b5X21ABYGYYB2rPI/pfybzrkIDuOBgkomxnB+qYxu8NeYFBWjZg9pcEB/B64KfNiPHQS6Lv3ptfv+DVFSjo7G81FzJHZOHfGhoW2R+HTJIBGkvfIdCKf4ytk0MweXom2YDUYEWBDUGt8mKDeZpssNxSHkQIGi9cmTa7g6ZY5Qms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eEfcJc7r; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4775e00b16fso6158515e9.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Dec 2025 05:03:37 -0800 (PST)
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-477771366cbso6266775e9.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 04 Dec 2025 05:15:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764853416; x=1765458216; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1764854135; x=1765458935; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XHv3hl5kxLsYbFyLkQO+405gPeY3rXV12cSRgU/67FU=;
-        b=fdyLgtrzn3FefJGe0jG8Chi0eGWKXxBb+sBy8F4fosRLD1GDOP8cOAc+2qxXWYbxBg
-         /VmmCfxWVO5yqdIZXimOPBHfTvUNOnFhUoYZUfAPFojSkika0mfQN5s/DQ2BNJ20O7vm
-         lBSprIwXPH3iYjrxdF450tfb1aAQ8s2BQgQqeuaGw5IJEOGQruAXPqo0DxLuQK0I3ksj
-         L6uYPgzgO+DAcdaQtRGas7cuGhx/kPF1KR4l5b3WvNgf4PJwfhDz9adWQnWt1bOryW4L
-         y2PjlgydF+VwHGl/LLTNiMoppq53OQAK1KGVcT+tweoKuKeGs7o/aB0hHxruK22UXWc9
-         qZhw==
+        bh=Wny4M191Yr6Td48Z53labtwrelyi+1dAudOVsu2AK4M=;
+        b=eEfcJc7rhw0cV4AVNryfwcBVWVzGB9WlKaupTm7Da2GPKv/F15Drx6dff9i7hmhXux
+         91ywzr7ehL8Jn8Cut8F//aFCM80hZOtldydSRH4RAqYCnGEinGYUCxy8JUIqMrXsoZlW
+         BmIdCP9sV61gj9hEiL+kVcqoRbMxuM7+ZgYs3O7Xh37HoRrDiIV1wmR0BCWgRI+008zJ
+         w0zBqPuyuZV6kQiL9aHMLGG3vtrKBmqZlKEJKruCOG0Uo1AcFdjC/i1fb5zUZ2rzfthb
+         n3yegWPw/vgiNu1jFIejjQreRJlLUrkazHluobEuyp8VEpe2L2LXEpwuK+6A1DRuq7z0
+         EJjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764853416; x=1765458216;
+        d=1e100.net; s=20230601; t=1764854135; x=1765458935;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=XHv3hl5kxLsYbFyLkQO+405gPeY3rXV12cSRgU/67FU=;
-        b=cPSan8klvhV/w8w+6Q0r2QQl753kpV2psrHvLCQFXcfTiwRX0mqTMfr6uBDa3MpgCS
-         HaODm2z6kfGQ3ZbW5dWAGUEjDHvdjW7evFNtLE5NrCw+Mv15gQKqeaNIXCchAOK5ffX0
-         +1+Fb7r+9AUbqEF1DxTLULzgKfrbYWXH3MCuG9W2ydHYL1/0kDVybcMQesneIz2cI+Kt
-         Bf5AH9OP8A9iA/wOPqH3ymsWtld9j0BG8pvHXowlhkduy7JKV5jeKFjpjf3y08HIjcTw
-         kfUng29x9BdaTJ6CPEEjt6qPPJU7b4Hb95Wrie1Auwd8/cCHHn3NjACsZ9CMveSwGiZi
-         xm/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXbi6lTZ30bOWkEX5ool9GfR/9Pf+qt4+mfXK4NRIhRhlsOw7kt/LESiAUMXtzlzph/qQdXXLQ2/8/6i8k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyT68qR9rCcm1v25MECqw47Th7LfBsDercLdb+Vdc0TlY9s/eJM
-	PxlwHr2XgPGPIIuCMWZ+PQ5Ef+HU7XgZrKgBFbW0MfZgIvfCK4pvH1oe92+6NwQLVNGZ0l6rBch
-	d2FtBSLmuDchFgbQYIg==
-X-Google-Smtp-Source: AGHT+IHesTuadwDk2buktyr5KdT759hnUgQEo1wC+McdN7/pwalBTRVnkgrSBeIn+Q+0wMXJFuvSYefcIW+twrM=
-X-Received: from wmlu6.prod.google.com ([2002:a05:600c:2106:b0:477:5c35:1b95])
+        bh=Wny4M191Yr6Td48Z53labtwrelyi+1dAudOVsu2AK4M=;
+        b=PP960z1nnQDUwLGX0LFQCIPOCJdBOegcrFmkkG1SN5Xp7eT0WTz+fx7WPO88nbh2T4
+         EjIxAttrmXNIeP17NbUIwxGKU+FinY2NKjXsh/8bE43H+yH7j2siwCs3+v8uEuHtcEPC
+         FCFtonYpaJbfcWQ/zvp6Z4/4YHcLTpwJiXEVSvdPQWAWuXWx0ijbSYtVZ/z/6QDtVIlN
+         fzlv55IZ3KcHd9HjH1oFzNt7NTIQipZYOEVGUZ/4CgtKtG3Z2AXIVZBwmV4/F/YTfrw6
+         4qz6+fpycsW1LN9Z312YeuInzqdqWR37JvnPsYE2Emjsyj9HZluW2v+aMCuwetSgs7Cn
+         Ka6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUk4mc3waG6prPxBowknXJp/QOcpRi3hAoJfAYDESg6p0LmBsVEeKltm8ysCZM9JxCqY9si9PIfPI6YiRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkqOaX3Hx4/S/IVwRdJw0848LhouVwXVWY4/w8X42qSFjpFnri
+	NvViYCiXzcYFONfQnCyVop6xLfXEKT3YsF5KO/2A4aPsxsJjwV00GT2kimzTuRICTl11bbU2OLs
+	600uPyABsP1SrFjG7lg==
+X-Google-Smtp-Source: AGHT+IHhq1jpZSgsrG7+u70UeMI118GpL4lyrcZgSJfzAV0BpquOo2d1tIrYUXW40rz39aPBfrTMkT06vKIZZ8M=
+X-Received: from wmbjj12.prod.google.com ([2002:a05:600c:6a0c:b0:470:fd92:351d])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5246:b0:477:641a:1402 with SMTP id 5b1f17b1804b1-4792f244c5fmr28025045e9.4.1764853415686;
- Thu, 04 Dec 2025 05:03:35 -0800 (PST)
-Date: Thu, 4 Dec 2025 13:03:34 +0000
-In-Reply-To: <20251204123906.GL2528459@noisy.programming.kicks-ass.net>
+ 2002:a05:600c:4e89:b0:477:55c9:c3ea with SMTP id 5b1f17b1804b1-4792af485a4mr64437335e9.35.1764854135213;
+ Thu, 04 Dec 2025 05:15:35 -0800 (PST)
+Date: Thu, 4 Dec 2025 13:15:34 +0000
+In-Reply-To: <dd5856a8-e120-4884-8828-9d0c9edc60f0@crisal.io>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -75,14 +75,14 @@ Mime-Version: 1.0
 References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
  <20251202-inline-helpers-v1-4-879dae33a66a@google.com> <20251204100725.GF2528459@noisy.programming.kicks-ass.net>
  <aTFhFXCqvy7nmDOp@google.com> <20251204111124.GJ2528459@noisy.programming.kicks-ass.net>
- <CANiq72=r+Fmu0uuNF=6x36GWWQZGZk9gApnMZxakJavviwG+ug@mail.gmail.com> <20251204123906.GL2528459@noisy.programming.kicks-ass.net>
-Message-ID: <aTGGpsbIYm1tXMDY@google.com>
+ <CANiq72=r+Fmu0uuNF=6x36GWWQZGZk9gApnMZxakJavviwG+ug@mail.gmail.com> <dd5856a8-e120-4884-8828-9d0c9edc60f0@crisal.io>
+Message-ID: <aTGJdlwMRxGg2iZ1@google.com>
 Subject: Re: [PATCH 4/4] build: rust: provide an option to inline C helpers
  into Rust
 From: Alice Ryhl <aliceryhl@google.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Antoni Boucher <bouanto@zoho.com>, 
-	"Emilio Cobos =?utf-8?Q?=C3=81lvarez?=" <emilio@crisal.io>, Arthur Cohen <arthur.cohen@embecosm.com>, 
+To: "Emilio Cobos =?utf-8?Q?=C3=81lvarez?=" <emilio@crisal.io>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Antoni Boucher <bouanto@zoho.com>, Arthur Cohen <arthur.cohen@embecosm.com>, 
 	Gary Guo <gary@garyguo.net>, Josh Triplett <josh@joshtriplett.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
 	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
@@ -98,62 +98,62 @@ Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Antoni Boucher <bouanto@zoho
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 04, 2025 at 01:39:06PM +0100, Peter Zijlstra wrote:
-> On Thu, Dec 04, 2025 at 12:57:31PM +0100, Miguel Ojeda wrote:
+On Thu, Dec 04, 2025 at 01:49:28PM +0100, Emilio Cobos =C3=81lvarez wrote:
+> On 12/4/25 12:57 PM, Miguel Ojeda wrote:
 > > On Thu, Dec 4, 2025 at 12:11=E2=80=AFPM Peter Zijlstra <peterz@infradea=
 d.org> wrote:
-> > >
+> > >=20
 > > > Right. Earlier I also proposed using libclang to parse the C header a=
 nd
 > > > inject that. This might be a little simpler, in that..
 > >=20
 > > Yeah, that would be closer to the `bindgen` route in that `libclang`
 > > gets already involved.
-> >=20
-> > > ... if you build rustc against libclang they are necessarily from the
-> > > same LLVM build.
-> >=20
-> > So currently there are 3 "LLVMs" that get involved:
-> >=20
-> >   - The one Clang uses (in LLVM=3D1 builds).
 >=20
-> Well, being on Debian, I'm more likely to be using LLVM=3D-22 (or whateve=
-r
-> actual version is required, 22 just being the latest shipped by Debian
-> at this point in time).
+> Yeah, so... there are existing tools (c2rust [0] being the actively
+> maintained one IIUC) that in theory could do something like that (transla=
+te
+> the bodies of the functions from C to Rust so that rustc could consume th=
+em
+> directly rather than via LLVM LTO).
 >=20
-> >   - The one `rustc` uses (the LLVM backend).
-> >   - The one `bindgen` uses (via libclang).
+> I think the intended use case is more "translate a whole C project into
+> rust", but it could be interesting to test how well / poorly it performs
+> with the kernel helpers / with a single header translated to Rust.
 >=20
-> These are not necessarily the same? That is, is not bindgen part of the
-> rustc project and so would be built against the same LLVM?
-
-Rustc and bindgen are both part of the Rust project, but they're two
-different repos:
-https://github.com/rust-lang/rust
-https://github.com/rust-lang/rust-bindgen
-
-Generally you need to ensure that bindgen matches clang. This ensures
-that bindgen and clang agree on the interpretation of C headers.
-
-> > If that is all done within `rustc` (so no `bindgen`), then there may
-> > still be `rustc` vs. Clang mismatches, which are harder to resolve in
-> > the Rust side at least (it is easier to pick another Clang version to
-> > match).
-> >=20
-> > For those using builds from distros, that shouldn't be a problem.
-> > Others using external `rustc` builds, e.g. from `rustup` (e.g. for
-> > testing different Rust versions) it would be harder.
+> I personally haven't tried it because for work I need to deal with C++,
+> which means that automatic translation to Rust is a lot harder / probably
+> impossible in general. So for Firefox we end up relying on bindgen +
+> cross-language LTO for this kind of thing, and it works well for us.
 >=20
-> Make rust part of LLVM and get them all built and distributed
-> together... such that LLVM=3D-23 will get me a coherent set of tools.
+> If I'm understanding correctly, it seems the kernel needs this extra bit =
+of
+> help (__always_inline) to push LLVM to inline C functions into rust, whic=
+h
+> is a bit unfortunate... But this approach seems sensible to me, for now a=
+t
+> least.
 >=20
-> /me runs like crazeh ;-)
+> FWIW Bindgen recently gained an option to generate inline functions [1],
+> which could help avoid at least the bindgen ifdef in the patch series?
+>=20
+> Anyways, it might be interesting to give c2rust a go on the kernel helper=
+s
+> if nobody has done so, and see how well / poorly it works in practice? Of
+> course probably introducing a new dependency would be kind of a pain, but
+> could be a good data point for pushing into adding something like it buil=
+t
+> into rustc...
 
-Maybe clang itself should have an option to emit Rust headers, taking
-over the role of bindgen?
+I already tried c2rust as an alternative to this patch. It works okay
+for many functions, but it's missing support for some features such as
+asm goto, though this is fixable. But a larger issue is that some things
+simply do not translate to Rust right now. For example:
 
-/me runs like crazeh ;-)
+* Atomics use the Ir operand.
+* static_branch uses the i operand.
+
+neither of which translate directly to Rust.
 
 Alice
 
