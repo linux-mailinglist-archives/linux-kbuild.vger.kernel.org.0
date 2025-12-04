@@ -1,174 +1,204 @@
-Return-Path: <linux-kbuild+bounces-10002-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10003-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D86CA51AD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Dec 2025 20:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB14CA51E6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Dec 2025 20:29:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 989093008894
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Dec 2025 19:14:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CE20A30D424D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Dec 2025 19:29:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26DF4398FA4;
-	Thu,  4 Dec 2025 19:14:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7CAE34106E;
+	Thu,  4 Dec 2025 19:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fean+DgM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ipWSo0gS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E081B6D1A
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Dec 2025 19:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51B72F49EB
+	for <linux-kbuild@vger.kernel.org>; Thu,  4 Dec 2025 19:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764875647; cv=none; b=dvFLjeNZG3Qbdu4wD7ouNd+Vcb0oZSfil/IdyUXI9jwE0+uPn/Oqf/BcP7zK97sE3Wci8+wXJrQH0zjAGUY6YdxXfcEzohCpcEsv1rhElmMGiIMjRnycOreIJvZtMSduQUEAB9zOgzSiFrK0DuJNYaUK/JxvzckiLGU9ZSKZs58=
+	t=1764876570; cv=none; b=suwGQ+JSo1yEzp8SN0r5e4m2kQ1eSMOaMc2NABkxqrdU+ZwDq2w+EeCAiBW+H8EqDGe8yKkYpytDsAnf/SVSDaKVUyQhmPZs64kxovEshzjOKbnD41NTM7VGAXbheWh+q1liljpxG+f/jde55MR1WigaWKPvuHM4JStlQdX/o68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764875647; c=relaxed/simple;
-	bh=JQ5QxrsW4CdzbsKnoOQvJJ5PzEobus6odwezWhVo0rE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NorDvBYLM7w1JKXgLM5qpp3bRrcxsIcj3E3otgrMGBOmlJ0p4NOFhuHxBnpiQfENAZGGFla/C2AV8Pbww68yJJ7C0oP1QWOVOKqhetMolvX+zY9cIk1oO6Kb2VcMxwA7YaNZ6Vzujz6FmaSx0S3A6iVHHsNI5YYXx4PtwcQAwzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fean+DgM; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7b86e0d9615so2222393b3a.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Dec 2025 11:14:05 -0800 (PST)
+	s=arc-20240116; t=1764876570; c=relaxed/simple;
+	bh=li2jOPCpnZmjfOxkVB/u3Ntjt/9n1Mv+93gAuK1nZY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J22RMfoF0HqHz6HntB+yo6gzLZHd2jLV4la5Yz89estdnMGXSTQFNvBxNmN8nqRl7R9lLF+u9t+Ad/gHHwlol6qBc2VaOWxphOMiAz7q2tkjWzpR136JES6SO26jBvggL68vNbZYEUhj4zQL+vWF8/V2RkXmaA99NR/Cp1yUSFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ipWSo0gS; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4edb8d6e98aso83711cf.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 04 Dec 2025 11:29:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764875645; x=1765480445; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4iLBnCrKDlW6EVT4F6zHi2LCZGQ9e/O7rjq69QuiQOs=;
-        b=fean+DgMkJaJWNycsXHznSm/HAYi0/4EqtVBqckRhe4v+TvqpVXWXoQWfA/3+dIw14
-         +7t4mUlqEyKfSOri3ATbWqqPjQbEEwQ77cI/nPOAS/tWX0UhYPQkWzdjVTSAIK3MjsL2
-         zSUKwT/QKxJqB4jKV5aGBpA5HUdp3n+CLZ4QOiqCcyfHfyHu6DZnVzGTfRsbvLtb7JYO
-         Y/CL2WgqhSPHZbh4A7lLMK0CYgf2QZTBt47mZCNoLvWcNbMhhXhiCsfHQp50mUu4TJ3F
-         3sRfnoXoU6x5agBdeETGiJskNtaw4vX2/KBXHJc6n8Z3AIqKd1PvSDvnb5d2+4JuqGXy
-         o3Vw==
+        d=google.com; s=20230601; t=1764876568; x=1765481368; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=li2jOPCpnZmjfOxkVB/u3Ntjt/9n1Mv+93gAuK1nZY4=;
+        b=ipWSo0gSioiPIkwLQWZ+OxmCocZz9Kgi19nrEX/PAHqsxkhaW3pYGJCqPmKOY3JgeX
+         H6NMsRP7053g9Q2T048rWAC3e3zkDQ/5jIw2fltcFL74BpER8PQgLtvMtCK/D8iQ7mQ0
+         pweOtRCVbbMEAKIZ3Ws9BIG5Fs06Ohl1ZnmJjS8yT0JyUIoQEUA6ZpceZJ63AR1NStcB
+         pOcqq7Rblu+SQraVHx/6wTVFvzcUk3+mMsrtmt3R/73SKpakT5bbYjMPG6xQPniYa9qS
+         5OViEWqizWLyCDAYA6mnmM77pi1zF/2ppdtvZ07QmmTGKeCQnjqKyOP4JQbQMUgR7Psl
+         MvWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764875645; x=1765480445;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4iLBnCrKDlW6EVT4F6zHi2LCZGQ9e/O7rjq69QuiQOs=;
-        b=wcn7w8H/34RMo7xINTpBsHavy2q7p4VVe8Im0wXmQEs9VE6U78arpkBCBZivsam81x
-         hph88Opy3iDYLB4tLDa6uQ/I+m6E+a/wprp/g8hwv8672KDh1WN1/Wa37ZuG2v1Metn1
-         h/cZR1Zym93BtVaXPCKzNXXzWAPMX00YH9QAlsW8Zw/b/KfRhUyJM0yJxgzHpjJ2fHIT
-         YZ0Hedhq8EdL75KNfHAMhrRHSNebSEb9/hYFEBok2GoRtBaVv2vBPKP02+Z1ZY69UMUv
-         QkTpOuu6rfFJouOLojPQY0oSfAjg/XhCQfnThlkDX5LSigW4MTWuo+0osC/EU+NwnHzO
-         QM/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUX4lk/LVDDNkfEJkGNEhQrqZRKu/OucffaMknBizxrb/MWG5dbQMtuVBcxJZqBvWARH0g/CgIr4A/kFBk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPEIXJW6/0LqEUkLdzavuUeNMaw4/05NalnbdS+R7n0xWSbVDj
-	6i5tdPfQFRGcYziVXpV6+Fr7dbkK2xqSCvO2qrpiMCwEA0+Ujk8Sk2Th
-X-Gm-Gg: ASbGncth2/2pBnLQTvM1ZxbioERMngjUElyFfCh74m1pqcOcCGwb6U1Ch+vKGQuIKIN
-	9j9jk3lf5ZesFtYzjhNJgDwLdMEv3pFX1F6uCuPKlGAbDF+RHhVik9rZbVz2EX3KOoqRkWWnktQ
-	QGanVCsnA7ksvM6kKLt4zIWwB3w+FMd3rzp4xTMAVSFUtXIc3JVXpxcp0l1y7UpJKBcSqK+U/f3
-	stVsdI8feDW0dg8eVCgGv0rdAwYzS5VGk/YQkcvIclGjrq58dGoxEmbZOlYGWt5ENjGGJGai8XH
-	kCWr7qYeaDlw867V+b4KTkSsDhpPoBDsggvT+TptKS43v4RFfsTA1z/8LDdt08DfZd2Ui2dCiCk
-	QLxZyt3mbYwbO5tuwqZJCjn2Yty8GhG72mf3k8Pm+qN1pfcQJ/RusYr6t4OOKf6SP6qjHoImNcB
-	+LkjyZhro7
-X-Google-Smtp-Source: AGHT+IHDD2gcPeEJ2VqP0Gvh25ZpaJm4IY72MOY+qLFxj6wemLduQ7TOYEB8DY54v2FdPw9GuEZqCQ==
-X-Received: by 2002:a05:6300:210c:b0:35d:a823:2ff7 with SMTP id adf61e73a8af0-363f5d32a43mr9086859637.1.1764875644746;
-        Thu, 04 Dec 2025 11:14:04 -0800 (PST)
-Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf6a2745cd3sm2509085a12.27.2025.12.04.11.14.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 11:14:04 -0800 (PST)
-Message-ID: <6cdae76c99bb74c3389a05e39c34732c2ca172c6.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
- <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,  Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend	
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev	 <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>,  Nathan Chancellor	 <nathan@kernel.org>, Nicolas Schier
- <nicolas.schier@linux.dev>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
- Stitt	 <justinstitt@google.com>, Alan Maguire <alan.maguire@oracle.com>,
- Donglin Peng	 <dolinux.peng@gmail.com>
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-kbuild@vger.kernel.org
-Date: Thu, 04 Dec 2025 11:14:01 -0800
-In-Reply-To: <131b4190-9c49-4f79-a99d-c00fac97fa44@linux.dev>
-References: <20251127185242.3954132-1-ihor.solodrai@linux.dev>
-	 <20251127185242.3954132-5-ihor.solodrai@linux.dev>
-	 <de6d1c8f581fb746ad97b93dbfb054ae7db6b5d8.camel@gmail.com>
-	 <e8aacbc8-3702-42e9-b5f0-cfcd71df072e@linux.dev>
-	 <763200e4f55197da44789b97fd5379ae8bf32c08.camel@gmail.com>
-	 <79031f38-d131-4b78-982c-7ca6ab9de71e@linux.dev>
-	 <707080716569c7de7c3cb5869b67d62b55a96b68.camel@gmail.com>
-	 <131b4190-9c49-4f79-a99d-c00fac97fa44@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        d=1e100.net; s=20230601; t=1764876568; x=1765481368;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=li2jOPCpnZmjfOxkVB/u3Ntjt/9n1Mv+93gAuK1nZY4=;
+        b=IWCwhjrPz2vy8pdQ3aWXukTIpgsHSfGMcZD5s0JOkMJ0d1aA8LQc8j9z6+ZsH7rFDB
+         s/7KPkZ+4Q6SqjDLhcyJho9Ok7E0Hcth6+O9TgVWX308E1HZOcER3wMv21lmAFOrU8cv
+         FII5tuphJQD2at2FleCubRMHWJl38z0GMMkP1kngRhHjWF+VoiQfNdy/Gtc/RV3vAvrP
+         BVXotnbw5IUFtclCQynIMR6fAzv+Xj5ASkJpMFoUzd5f8ZmVNNQTq+1/rgD34fuX6/sf
+         LQnVZaglKnmeXKW5wXSLb2gNLgnZTm6tyxNKK5tFZN0t2mi/r+4uHHm3F2L8algpJroK
+         cX+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXo5E+iFMismpGfxv910zly2Qh71bu1cHv8a2U5IUIlKXhR4YoFcYVekZAZze2/aiZy1PufP0GRgQh6ARs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0RqczUgmxIB9/0dbqp2I6LY8uKi45lmrurl0Al7EdWVTKm/mL
+	q0QnkDD9AoBbG1ahwJeL1CAa0UL9nr2ltzZ9E4XOZDzUjS0df2dLgY0ba3UzegU5qZYPvpOycn/
+	kw+AgRQyolUbgve1holG7XJsW8NEhe0BZ5yHvUeaP
+X-Gm-Gg: ASbGncsaCJeIkBmCuiNTpsDD9CzDyX1mneWaWiZmIdbO8g4qQrvxL7lYW01z3wD6w7i
+	+VBv1Kk4eqht+XmncZvOfb/k8WyUM8UhT5bkDnIFPyzpgeDHohnw5KHZMxvYKQ1w9lojTUKM1cS
+	nIZZiZGrXfcducrA6AiKcO/rPI1Fh556+2jVZJu9Djuqlx/uMLF+W5VMLG++K/XUic8wJcPmAXq
+	GY7VkMugr01zmflgUqRYF4cbBwEhZihFqDyG+DCIMpNQiAxq0kISf+cd0A6TmIszq6KHZ8XNNg6
+	Tmut1URPaS9ZiLMKriSyo0lKBA==
+X-Google-Smtp-Source: AGHT+IG/7kUZxd/9UMd9RxOWK7oRJw6LsWkyhbSwzHRq9dv3XGK3gE0ZwwYu8Q59dnHZWlQ+QWACJNmSaDdEdt4GFj0=
+X-Received: by 2002:ac8:7d91:0:b0:4ed:ff77:1a87 with SMTP id
+ d75a77b69052e-4f0310036bbmr1019101cf.19.1764876567093; Thu, 04 Dec 2025
+ 11:29:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
+ <20251202-inline-helpers-v1-4-879dae33a66a@google.com> <20251204100725.GF2528459@noisy.programming.kicks-ass.net>
+ <aTFhFXCqvy7nmDOp@google.com> <20251204111124.GJ2528459@noisy.programming.kicks-ass.net>
+ <CANiq72=r+Fmu0uuNF=6x36GWWQZGZk9gApnMZxakJavviwG+ug@mail.gmail.com>
+ <dd5856a8-e120-4884-8828-9d0c9edc60f0@crisal.io> <aTGJdlwMRxGg2iZ1@google.com>
+ <20251204142742.GM2528459@noisy.programming.kicks-ass.net>
+In-Reply-To: <20251204142742.GM2528459@noisy.programming.kicks-ass.net>
+From: Matthew Maurer <mmaurer@google.com>
+Date: Thu, 4 Dec 2025 11:29:13 -0800
+X-Gm-Features: AWmQ_blF4lJt3BfO2o2NOJRf3_Ss0kAS-vrqLdfp0qFcfHcQVmwUbXFySwWbsjc
+Message-ID: <CAGSQo01Am_rNeZqnqZU3hY7SwWG=dTHtzcksPSHUTiasgex+cA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] build: rust: provide an option to inline C helpers
+ into Rust
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, =?UTF-8?Q?Emilio_Cobos_=C3=81lvarez?= <emilio@crisal.io>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Antoni Boucher <bouanto@zoho.com>, 
+	Arthur Cohen <arthur.cohen@embecosm.com>, Gary Guo <gary@garyguo.net>, 
+	Josh Triplett <josh@joshtriplett.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
+	nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2025-12-04 at 11:04 -0800, Ihor Solodrai wrote:
-> On 12/4/25 10:06 AM, Eduard Zingerman wrote:
-> > On Thu, 2025-12-04 at 09:29 -0800, Ihor Solodrai wrote:
-> >=20
-> > [...]
-> >=20
-> > > Ok, it seems you're conflating two separate issues.
-> > >=20
-> > > There is a requirement to *link* .BTF section into vmlinux, because i=
-t
-> > > must have a SHF_ALLOC flag, which makes objcopying the section data
-> > > insufficient: linker has to do some magic under the hood.
-> > >=20
-> > > The patch doesn't change this behavior, and this was (and is) covered
-> > > in the script comments.
-> > >=20
-> > > A separate issue is what resolve_btfids does: updates ELF in-place
-> > > (before the patch) or outputs detached section data (after patch).
-> > >=20
-> > > The paragraph in the commit message attempted to explain the decision
-> > > to output raw section data. And apparently I did a bad job of
-> > > that. I'll rewrite this part it in the next revision.
-> > >=20
-> > > And I feel I should clarify that I didn't claim that libelf is buggy.
-> > > I meant that using it is complicated, which makes resolve_btfids bugg=
-y.
-> >=20
-> > So, pahole does the following:
-> > - elf_begin(fildes: fd, cmd: ELF_C_RDWR, ref: NULL);
-> > - selects a section to modify and modifies it
-> > - elf_flagdata(data: btf_data, cmd: ELF_C_SET, flags: ELF_F_DIRTY);
-> > - elf_update(elf, cmd: ELF_C_WRITE)
-> > - elf_end(elf)
-> >=20
-> > What exactly is complicated about that?
->=20
-> Take a look at the resolve_btfids code that is removed in this patch,
-> as a consequence of switching to read-only ELF.
->=20
-> Also consider that before these changes resolve_btfids had a simple
-> job: update data buffer of a single section, importantly, without
-> changing its size.
->=20
-> Now let's say we keep "update in-place" approach (which I tried to do,
-> btw). In addition to previous .BTF_ids data update, resolve_btfids may
-> need to either add or update .BTF section changing its size (triggering
-> reorg of sections in ELF, depending on the flags) and add .BTF.base
-> section. There is also a question of how to do it: do we elf_update()
-> multiple times or try to "batch" the updates?
->=20
-> All of this is possible, but the alternative is much simpler:
->=20
->     ${OBJCOPY} --add-section .BTF=3D${ELF_FILE}.btf ${ELF_FILE}
->=20
-> Why re-implement our own incomplete version of objcopy if we can just
-> use it to deal with the details of the ELF update?
->=20
-> Note also that even in pahole "add .BTF section" is implemented via
-> llvm-objcopy call. My guess is: to avoid the headache of figuring out
-> correct libelf usage.
+On Thu, Dec 4, 2025 at 6:27=E2=80=AFAM Peter Zijlstra <peterz@infradead.org=
+> wrote:
+>
+> On Thu, Dec 04, 2025 at 01:15:34PM +0000, Alice Ryhl wrote:
+> > On Thu, Dec 04, 2025 at 01:49:28PM +0100, Emilio Cobos =C3=81lvarez wro=
+te:
+> > > On 12/4/25 12:57 PM, Miguel Ojeda wrote:
+> > > > On Thu, Dec 4, 2025 at 12:11=E2=80=AFPM Peter Zijlstra <peterz@infr=
+adead.org> wrote:
+> > > > >
+> > > > > Right. Earlier I also proposed using libclang to parse the C head=
+er and
+> > > > > inject that. This might be a little simpler, in that..
+> > > >
+> > > > Yeah, that would be closer to the `bindgen` route in that `libclang=
+`
+> > > > gets already involved.
+> > >
+> > > Yeah, so... there are existing tools (c2rust [0] being the actively
+> > > maintained one IIUC) that in theory could do something like that (tra=
+nslate
+> > > the bodies of the functions from C to Rust so that rustc could consum=
+e them
+> > > directly rather than via LLVM LTO).
+> > >
+> > > I think the intended use case is more "translate a whole C project in=
+to
+> > > rust", but it could be interesting to test how well / poorly it perfo=
+rms
+> > > with the kernel helpers / with a single header translated to Rust.
+> > >
+> > > I personally haven't tried it because for work I need to deal with C+=
++,
+> > > which means that automatic translation to Rust is a lot harder / prob=
+ably
+> > > impossible in general. So for Firefox we end up relying on bindgen +
+> > > cross-language LTO for this kind of thing, and it works well for us.
+> > >
+> > > If I'm understanding correctly, it seems the kernel needs this extra =
+bit of
+> > > help (__always_inline) to push LLVM to inline C functions into rust, =
+which
+> > > is a bit unfortunate... But this approach seems sensible to me, for n=
+ow at
+> > > least.
+> > >
+> > > FWIW Bindgen recently gained an option to generate inline functions [=
+1],
+> > > which could help avoid at least the bindgen ifdef in the patch series=
+?
+> > >
+> > > Anyways, it might be interesting to give c2rust a go on the kernel he=
+lpers
+> > > if nobody has done so, and see how well / poorly it works in practice=
+? Of
+> > > course probably introducing a new dependency would be kind of a pain,=
+ but
+> > > could be a good data point for pushing into adding something like it =
+built
+> > > into rustc...
+> >
+> > I already tried c2rust as an alternative to this patch. It works okay
+> > for many functions, but it's missing support for some features such as
+> > asm goto, though this is fixable. But a larger issue is that some thing=
+s
+> > simply do not translate to Rust right now. For example:
+> >
+> > * Atomics use the Ir operand.
+> > * static_branch uses the i operand.
+> >
+> > neither of which translate directly to Rust.
 
-Please put this motivation in the commit message.
+I took a shot at `c2rust` as well, the summary was that `c2rust` was missin=
+g:
+* Asm goto support
+* __builtin_types_compatible_p
+* Deduced types
+* __count
+* _Generic
+
+I was adding hacky implementations along the way to see if things
+could be made to work, but the %l and %i missing in Rust itself that
+Alice pointed out were not things that could really be worked around.
+
+I also think that the bitcode-based approach is more future proof -
+the kernel may pick up new C features that `c2rust` hasn't yet learned
+about. If `clang` is in charge of generating the bitcode for the
+to-be-inlined helpers, we don't risk any desync in terms of what
+features are supported either by `c2rust` or by `rustc` relative to
+what's in use by the rest of the kernel.
+
+>
+> Right this. AFAIK Rust simply does not have feature parity with inline
+> asm. Them having picked a wildly different syntax for inline asm didn't
+> help either of course. But Rust is Rust, must have terrible syntax :-)
 
