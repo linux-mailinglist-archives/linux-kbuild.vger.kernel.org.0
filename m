@@ -1,45 +1,45 @@
-Return-Path: <linux-kbuild+bounces-10013-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10014-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E571CA9808
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Dec 2025 23:34:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97D1CA9811
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Dec 2025 23:34:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B207F31D3654
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Dec 2025 22:32:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 97EFD31FFDB9
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Dec 2025 22:32:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597D82E091D;
-	Fri,  5 Dec 2025 22:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF73C2E8B81;
+	Fri,  5 Dec 2025 22:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dTPmLZjM"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dtoyQ2EA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA1E2E62AC
-	for <linux-kbuild@vger.kernel.org>; Fri,  5 Dec 2025 22:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F0B2DCBF2
+	for <linux-kbuild@vger.kernel.org>; Fri,  5 Dec 2025 22:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764973929; cv=none; b=up2rQxO9jB56qnaCjXlrbATrVXevr0DvXxEuDSB7hKYDaEigvTg0ymH3Vr1w8n1eM7yctYk9MzXzVILlcptk9vF66x4h3vpGSF137rsyrk0DxjTuhgtRw+91hQWLgySedpAzYO5EhykJ1q3Ir0Wxq0brtDLjGIBF8V2EZ1S5HOI=
+	t=1764973933; cv=none; b=J694TxRb+DXnYsaxa+vUQ+U+4wcJlBN1BogOk6Amp5HHMhR5sBxx7tGUah/nCvBSCgEpN6pXvL2Bk56IEAteLJK5oTqyIMBNbB+KPZ61l+nzA+NDiLZ/PyH9jtErFR2j2q1AIvjPuyREwB9A4OXh2ioL5P6dpfDAyvq5yv7Jm1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764973929; c=relaxed/simple;
-	bh=EtZ0SNSBcb2hWeg/hT2jAj5ngQ/k+0+ZzenKRqh2KJQ=;
+	s=arc-20240116; t=1764973933; c=relaxed/simple;
+	bh=hrMkLbJGP2etGbfbVUP37Wea9+jV9JdwwSy0XVuALP4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UDawcxKMdBZX+Fwx7mfQ0VVsxz7j6Lwj/1CblLLoLtPo7pBsdO9nGDj7Ihzyb+t6Kw0xua+bG+OTnVquRzHqEbf9msotPCQ06WYq5yl7RpSrtt0p9QL302i0CHdgdH5zkH+X5z13kNl57vd5W7OSZ+gO7oYBQ161FhQ++3txuis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dTPmLZjM; arc=none smtp.client-ip=95.215.58.176
+	 MIME-Version; b=TWOMA76YBguqnVozTNkF2ghGPBNeJqMwORCp3mQ6nAL9fbyWTTirRGvjwZVz5wywUD60QqbEFwEztrpQmYOW83oV80Y3XPgjbCCGFj9vl7s01Hcx8cPTs1TxgooE7EhSBRGVz5YvQY8yt1rk/LLadXBmNZXxACQkUyWVXA4tI2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dtoyQ2EA; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764973921;
+	t=1764973928;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z89/MI6wuAfZCzmI3llKFLPjB4Umm2slJ048Z+KfNg8=;
-	b=dTPmLZjM3+LbJCLuZNe1Zgm+CUZphOqhCkBB6E9WO2MYaf2jldas/H64lA5vY6108ZzxHK
-	ZftQc87adqbsft9S5CHf9vjv9jddXlrT3tuRBkHvn5/XpcOeXTiqlKm0KGxF6cK5wbkU7F
-	yqtFrUTcBDFCsPVk39WXqCZ4pmUvl6E=
+	bh=DjYCk/YLmANLt4RXPinivYwRmafysD3BO0jHoz3Z14I=;
+	b=dtoyQ2EABBSpaMat8xZA3VFh6LhfUxQFUbG5By5zLh5MGvBxfrE/2xmABlFUXZuFOkTrdK
+	mnVdWpK44cai4pH0Zw3jhtwX0MLrT5XRiYOYvtEwJKVhkqP4c1VxDvVjL1YWbq3u2j4SHv
+	PUKnyFq3uydLsKvcvf2i7x4GUra2Ito=
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
@@ -70,9 +70,9 @@ Cc: bpf@vger.kernel.org,
 	dwarves@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH bpf-next v3 4/6] lib/Kconfig.debug: Set the minimum required pahole version to v1.22
-Date: Fri,  5 Dec 2025 14:30:44 -0800
-Message-ID: <20251205223046.4155870-5-ihor.solodrai@linux.dev>
+Subject: [PATCH bpf-next v3 5/6] selftests/bpf: Run resolve_btfids only for relevant .test.o objects
+Date: Fri,  5 Dec 2025 14:30:45 -0800
+Message-ID: <20251205223046.4155870-6-ihor.solodrai@linux.dev>
 In-Reply-To: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
 References: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
 Precedence: bulk
@@ -84,89 +84,68 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-Subsequent patches in the series change vmlinux linking scripts to
-unconditionally pass --btf_encode_detached to pahole, which was
-introduced in v1.22 [1][2].
+A selftest targeting resolve_btfids functionality relies on a resolved
+.BTF_ids section to be available in the TRUNNER_BINARY. The underlying
+BTF data is taken from a special BPF program (btf_data.c), and so
+resolve_btfids is executed as a part of a TRUNNER_BINARY build recipe
+on the final binary.
 
-This change allows to remove PAHOLE_HAS_SPLIT_BTF Kconfig option and
-other checks of older pahole versions.
+Subsequent patches in this series allow resolve_btfids to modify BTF
+before resolving the symbols, which means that the test needs access
+to that modified BTF [1]. Currently the test simply reads in
+btf_data.bpf.o on the assumption that BTF hasn't changed.
 
-[1] https://github.com/acmel/dwarves/releases/tag/v1.22
-[2] https://lore.kernel.org/bpf/cbafbf4e-9073-4383-8ee6-1353f9e5869c@oracle.com/
+Implement resolve_btfids call only for particular test objects (just
+resolve_btfids.test.o for now). The test objects are linked into the
+TRUNNER_BINARY, and so .BTF_ids section will be available there.
+
+This will make it trivial for the resolve_btfids test to access BTF
+modified by resolve_btfids.
+
+[1] https://lore.kernel.org/bpf/CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ9iK2ChyiBw@mail.gmail.com/
 
 Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 ---
- lib/Kconfig.debug         | 13 ++++---------
- scripts/Makefile.btf      |  9 +--------
- tools/sched_ext/README.md |  1 -
- 3 files changed, 5 insertions(+), 18 deletions(-)
+ tools/testing/selftests/bpf/Makefile | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 742b23ef0d8b..3abf3ae554b6 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -389,18 +389,13 @@ config DEBUG_INFO_BTF
- 	depends on !DEBUG_INFO_SPLIT && !DEBUG_INFO_REDUCED
- 	depends on !GCC_PLUGIN_RANDSTRUCT || COMPILE_TEST
- 	depends on BPF_SYSCALL
--	depends on PAHOLE_VERSION >= 116
--	depends on DEBUG_INFO_DWARF4 || PAHOLE_VERSION >= 121
-+	depends on PAHOLE_VERSION >= 122
- 	# pahole uses elfutils, which does not have support for Hexagon relocations
- 	depends on !HEXAGON
- 	help
- 	  Generate deduplicated BTF type information from DWARF debug info.
--	  Turning this on requires pahole v1.16 or later (v1.21 or later to
--	  support DWARF 5), which will convert DWARF type info into equivalent
--	  deduplicated BTF type info.
--
--config PAHOLE_HAS_SPLIT_BTF
--	def_bool PAHOLE_VERSION >= 119
-+	  Turning this on requires pahole v1.22 or later, which will convert
-+	  DWARF type info into equivalent deduplicated BTF type info.
+diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+index 4aa60e83ff19..ffd0a4c354c7 100644
+--- a/tools/testing/selftests/bpf/Makefile
++++ b/tools/testing/selftests/bpf/Makefile
+@@ -643,6 +643,9 @@ $(TRUNNER_TESTS_HDR): $(TRUNNER_TESTS_DIR)/*.c
+ 		 ) > $$@)
+ endif
  
- config PAHOLE_HAS_BTF_TAG
- 	def_bool PAHOLE_VERSION >= 123
-@@ -422,7 +417,7 @@ config PAHOLE_HAS_LANG_EXCLUDE
- config DEBUG_INFO_BTF_MODULES
- 	bool "Generate BTF type information for kernel modules"
- 	default y
--	depends on DEBUG_INFO_BTF && MODULES && PAHOLE_HAS_SPLIT_BTF
-+	depends on DEBUG_INFO_BTF && MODULES
- 	help
- 	  Generate compact split BTF type information for kernel modules.
++$(TRUNNER_OUTPUT)/resolve_btfids.test.o: $(RESOLVE_BTFIDS) $(TRUNNER_OUTPUT)/btf_data.bpf.o
++$(TRUNNER_OUTPUT)/resolve_btfids.test.o: private TEST_NEEDS_BTFIDS = 1
++
+ # compile individual test files
+ # Note: we cd into output directory to ensure embedded BPF object is found
+ $(TRUNNER_TEST_OBJS): $(TRUNNER_OUTPUT)/%.test.o:			\
+@@ -650,6 +653,9 @@ $(TRUNNER_TEST_OBJS): $(TRUNNER_OUTPUT)/%.test.o:			\
+ 		      | $(TRUNNER_OUTPUT)/%.test.d
+ 	$$(call msg,TEST-OBJ,$(TRUNNER_BINARY),$$@)
+ 	$(Q)cd $$(@D) && $$(CC) -I. $$(CFLAGS) -MMD -MT $$@ -c $(CURDIR)/$$< $$(LDLIBS) -o $$(@F)
++	$$(if $$(TEST_NEEDS_BTFIDS),					\
++		$$(call msg,BTFIDS,$(TRUNNER_BINARY),$$@)		\
++		$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@)
  
-diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
-index db76335dd917..7c1cd6c2ff75 100644
---- a/scripts/Makefile.btf
-+++ b/scripts/Makefile.btf
-@@ -7,14 +7,7 @@ JOBS := $(patsubst -j%,%,$(filter -j%,$(MAKEFLAGS)))
- 
- ifeq ($(call test-le, $(pahole-ver), 125),y)
- 
--# pahole 1.18 through 1.21 can't handle zero-sized per-CPU vars
--ifeq ($(call test-le, $(pahole-ver), 121),y)
--pahole-flags-$(call test-ge, $(pahole-ver), 118)	+= --skip_encoding_btf_vars
--endif
--
--pahole-flags-$(call test-ge, $(pahole-ver), 121)	+= --btf_gen_floats
--
--pahole-flags-$(call test-ge, $(pahole-ver), 122)	+= -j$(JOBS)
-+pahole-flags-$(call test-ge, $(pahole-ver), 122)	+= --btf_gen_floats -j$(JOBS)
- 
- pahole-flags-$(call test-ge, $(pahole-ver), 125)	+= --skip_encoding_btf_inconsistent_proto --btf_gen_optimized
- 
-diff --git a/tools/sched_ext/README.md b/tools/sched_ext/README.md
-index 16a42e4060f6..56a9d1557ac4 100644
---- a/tools/sched_ext/README.md
-+++ b/tools/sched_ext/README.md
-@@ -65,7 +65,6 @@ It's also recommended that you also include the following Kconfig options:
- ```
- CONFIG_BPF_JIT_ALWAYS_ON=y
- CONFIG_BPF_JIT_DEFAULT_ON=y
--CONFIG_PAHOLE_HAS_SPLIT_BTF=y
- CONFIG_PAHOLE_HAS_BTF_TAG=y
- ```
+ $(TRUNNER_TEST_OBJS:.o=.d): $(TRUNNER_OUTPUT)/%.test.d:			\
+ 			    $(TRUNNER_TESTS_DIR)/%.c			\
+@@ -695,13 +701,11 @@ $(OUTPUT)/$(TRUNNER_BINARY): | $(TRUNNER_BPF_OBJS)
+ $(OUTPUT)/$(TRUNNER_BINARY): $(TRUNNER_TEST_OBJS)			\
+ 			     $(TRUNNER_EXTRA_OBJS) $$(BPFOBJ)		\
+ 			     $(TRUNNER_LIB_OBJS)			\
+-			     $(RESOLVE_BTFIDS)				\
+ 			     $(TRUNNER_BPFTOOL)				\
+ 			     $(OUTPUT)/veristat				\
+ 			     | $(TRUNNER_BINARY)-extras
+ 	$$(call msg,BINARY,,$$@)
+ 	$(Q)$$(CC) $$(CFLAGS) $$(filter %.a %.o,$$^) $$(LDLIBS) $$(LLVM_LDLIBS) $$(LDFLAGS) $$(LLVM_LDFLAGS) -o $$@
+-	$(Q)$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@
+ 	$(Q)ln -sf $(if $2,..,.)/tools/build/bpftool/$(USE_BOOTSTRAP)bpftool \
+ 		   $(OUTPUT)/$(if $2,$2/)bpftool
  
 -- 
 2.52.0
