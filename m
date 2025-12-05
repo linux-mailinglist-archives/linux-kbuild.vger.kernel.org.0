@@ -1,123 +1,156 @@
-Return-Path: <linux-kbuild+bounces-10008-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10009-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13E1CA8CBB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Dec 2025 19:29:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F75CA97E1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Dec 2025 23:32:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ECEE430DC015
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Dec 2025 18:25:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2C8DB3127039
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Dec 2025 22:31:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A357345CDF;
-	Fri,  5 Dec 2025 18:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B4A2D8796;
+	Fri,  5 Dec 2025 22:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pge4oVgX"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p90w8aGW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065F5344052;
-	Fri,  5 Dec 2025 18:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1FB218AB9
+	for <linux-kbuild@vger.kernel.org>; Fri,  5 Dec 2025 22:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764959099; cv=none; b=X0O8RGfzQe4iWqQKwPk8+8oXfwDbxsNR1jKqwRCTTAwvMq8/47dMNCr4CWGMjyIfiFQlpVQ0Hz7sgRB2l1TSaqR7hQDoj3bRg31cTHQEuUIwySMro85QnGfDVbsjPHNxpQqyGqSZbwbkLd/gkAR56DJYFUi6kydTFlL5viIfAfg=
+	t=1764973898; cv=none; b=PzXeGVghK5XcOXuDNjITV/E4qc9uQ/8sc1zd36d4HPnY01Aom+qW4mMV23+eFtdvzkcCKIzLh6ZvW4eHpRSWNrZRRpe036JDAMsr6V9/MxGNBKNlEIAcnUDTm9Vj6KHkjv7zUtA9Fi4YTv05U4GCaEPyQsFSVUyqcgFtJjJ9IV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764959099; c=relaxed/simple;
-	bh=r/JH27NDiyw3W5ATKUx6/ZGSbvRvNIzMvvKpuXPXYxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e7K1q9oey2MYzwlglTR33TdWZKOMIsGpT8gtzEe3YIM+PFPyX1hxOxNqv5uQdmHOEV1nKKYFyib1ZCHSGZAeZvX49yehERvAjiZQqh8w8DUxQ4rPpThdJJ9rzhLs7BcAvRQBCTJahVojkjjChbdoFqgmEqT8Z3bqlznn42yv6CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pge4oVgX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B05C4CEF1;
-	Fri,  5 Dec 2025 18:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764959098;
-	bh=r/JH27NDiyw3W5ATKUx6/ZGSbvRvNIzMvvKpuXPXYxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pge4oVgXs8EVQ7NXocjYKUE8BWTnyYnXPrYwu93epdS6UmUQsxobi8bGssXothI0/
-	 5ONjhmsbu1NnNc1wUK41ibAPm7UQTx0i2ofO8piDN7+B+AQCTeMAa5H8gRJpzQ3RCD
-	 SNx8iNx91ZxZh+3dNGGtRxwXs0VV3rszkJPDPBH0nbIpokhkTb9wARYHYEOe4I6Dd9
-	 5tsFraBqTPRDf3sjyGg6DivzsnvKtfToN8FroJMV1osqd3XCwPMyGvwuQVrDYdQSe5
-	 S6CbZfKjeK82qpDeiWOV9oNY58JpZ3H+3n2NJdNGy6dsvhTLb/1aeBQsbuD+jpMJnp
-	 hnQifZ78BncYQ==
-Date: Fri, 5 Dec 2025 11:23:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Graham Roff <grahamr@qti.qualcomm.com>, Nicolas Schier <nsc@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Pitre <nico@fluxnic.net>
-Subject: Re: [PATCH v2] Support conditional deps using "depends on X if Y"
-Message-ID: <20251205182334.GB3974306@ax162>
-References: <20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com>
- <20251205015352.GA2060615@ax162>
- <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
+	s=arc-20240116; t=1764973898; c=relaxed/simple;
+	bh=ZNqm7oHIZbNL752IYqIC32qC+PVXZwaW3tAgaYNsH2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LDSzO0JdBevA332x2kCMNneLcjFpFWDTwG/j4lO1XzSqVjOM12Lqrr/BrqBSrb9p7JD6Bc/PNXI/kxULZYHmfWkG4JSCi5Y77ndiDJ5SYYb8ntV2Vzi+OBE/nv7JXjfV4zoeWrUwXfhbgTTFDEDhHWTsbpRRiaBQ0xbmXmY6/9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p90w8aGW; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1764973893;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tpWED5TFtlhM0TqckEPc2BmxoqJxSKCvf8fdQQdyKV4=;
+	b=p90w8aGWjcp2z9/esRxRjw5wqxqhbtTTAMrOfvahYCiHPJyjXTFLBoYIgJwcd1nam5kIqF
+	x9oC6ZE0Nb8kupmRIoYugHk5y/rhyMCAeyqR5WtPojQYf2yGObdnb5ko6fI75mtRFi7Nh5
+	Exil4VcGkFdtc4wQji16ZRtF7xjmOFI=
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Donglin Peng <dolinux.peng@gmail.com>
+Cc: bpf@vger.kernel.org,
+	dwarves@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH bpf-next v3 0/6] resolve_btfids: Support for BTF modifications
+Date: Fri,  5 Dec 2025 14:30:40 -0800
+Message-ID: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Dec 05, 2025 at 09:01:51AM +0100, Arnd Bergmann wrote:
-> Agreed, the question is whether a small improvement in
-> readability is worth the complexity of having multiple
-> ways of expressing the same thing.
+This series changes resolve_btfids and kernel build scripts to enable
+BTF transformations in resolve_btfids. Main motivation for enhancing
+resolve_btfids is to reduce dependency of the kernel build on pahole
+capabilities [1] and enable BTF features and optimizations [2][3]
+particular to the kernel.
 
-I think the biggest thing that this patch has going for this is that
-there is minimal additional complexity within scripts/kconfig and that
-it basically internally converts the 'depends on ... if ...' into the
-simple 'depends on' so there is no behavioral difference. The diff stat
-of the core of the change speaks to that I think.
+Patches #1-#3 in the series are non-functional refactoring in
+resolve_btfids.
 
- scripts/kconfig/lkc.h    |  2 +-
- scripts/kconfig/menu.c   | 12 +++++++++++-
- scripts/kconfig/parser.y |  6 +++---
- 3 files changed, 15 insertions(+), 5 deletions(-)
+Patch #4 changes minimum version of pahole required for
+CONFIG_DEBUG_INFO_BTF to v1.22
 
-> I don't see anything that the new syntax would allow
-> that we were currently missing.
+Patch #5 makes a small prep change in selftests/bpf build.
 
-I see this as syntactic sugar. It is just giving users a different (and
-possibly more intuitive) way of expressing the same thing but I
-understand being concerned about people misusing it (even though I think
-it is already hard enough to get dependencies right sometimes).
+The last patch (#6) makes significant changes in resolve_btfids and
+introduces scripts/gen-btf.sh. See implementation details in the patch
+description.
 
-> This is the bit that frequently confuses developers with the
-> current syntax, and I agree it would be nice to have a better
-> way,  but I'm not sure the proposal actually helps enough to
-> warrant a mass-conversion of existing Kconfig files.
+Successful CI run: https://github.com/kernel-patches/bpf/actions/runs/19976024062?pr=10438
 
-I do agree that the 'depends on A || !A' syntax is confusing and that
-this does not really address that but I think that is besides the point
-here. I also agree that it is probably not worth converting existing
-users to this syntax (unless there is solid reasoning), I would not want
-to see cleanup patches of that nature, just use in new code.
+[1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@linux.dev/
+[2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
+[3] https://lore.kernel.org/bpf/20251119031531.1817099-1-dolinux.peng@gmail.com/
 
-> With the existing syntax, this could be expressed as
-> 
->       depends on FOO = BAR
-> 
-> or
-> 
->       depends on (FOO && BAR) || (!FOO && !BAR)
-> 
-> and I don't see how the new syntax is an improvement
-> over these.
+---
 
-Maybe the "if" syntax could be easier to understand with actual real
-world values? I cannot think of anything off the top of my head but
-real world dependencies might read a bit more naturally with this
-syntax.
+v2->v3:
+  - add patch #4 bumping minimum pahole version (Andrii, Alan)
+  - add patch #5 pre-fixing resolve_btfids test (Donglin)
+  - add GEN_BTF var and assemble RESOLVE_BTFIDS_FLAGS in Makefile.btf (Alan)
+  - implement --distill_base flag in resolve_btfids, set it depending
+    on KBUILD_EXTMOD in Makefile.btf (Eduard)
+  - various implementation nits, see the v2 thread for details (Andrii, Eduard)
 
-> Overall, I'm not convinced by this patch. I have no strong
-> objection to anything in here, but I'm worried that extending
-> the syntax adds more problems than this one solves.
+v2: https://lore.kernel.org/bpf/20251127185242.3954132-1-ihor.solodrai@linux.dev/
 
-Thanks a lot for the input!
+v1->v2:
+  - gen-btf.sh and other shell script fixes (Donglin)
+  - update selftests build (Donglin)
+  - generate .BTF.base only when KBUILD_EXTMOD is set (Alan)
+  - proper endianness handling for cross-compilation
+  - change elf_begin mode from ELF_C_RDWR_MMAP to ELF_C_READ_MMAP_PRIVATE
+  - remove compressed_section_fix()
+  - nit NULL check in patch #3 (suggested by AI)
 
-Cheers,
-Nathan
+v1: https://lore.kernel.org/bpf/20251126012656.3546071-1-ihor.solodrai@linux.dev/
+
+Ihor Solodrai (6):
+  resolve_btfids: Rename object btf field to btf_path
+  resolve_btfids: Factor out load_btf()
+  resolve_btfids: Introduce enum btf_id_kind
+  lib/Kconfig.debug: Set the minimum required pahole version to v1.22
+  selftests/bpf: Run resolve_btfids only for relevant .test.o objects
+  resolve_btfids: change in-place update with raw binary output
+
+ MAINTAINERS                                   |   1 +
+ lib/Kconfig.debug                             |  13 +-
+ scripts/Makefile.btf                          |  26 +-
+ scripts/Makefile.modfinal                     |   5 +-
+ scripts/Makefile.vmlinux                      |   2 +-
+ scripts/gen-btf.sh                            | 157 ++++++++
+ scripts/link-vmlinux.sh                       |  46 +--
+ tools/bpf/resolve_btfids/main.c               | 355 ++++++++++++------
+ tools/sched_ext/README.md                     |   1 -
+ tools/testing/selftests/bpf/.gitignore        |   3 +
+ tools/testing/selftests/bpf/Makefile          |  11 +-
+ .../selftests/bpf/prog_tests/resolve_btfids.c |   4 +-
+ 12 files changed, 434 insertions(+), 190 deletions(-)
+ create mode 100755 scripts/gen-btf.sh
+
+-- 
+2.52.0
+
 
