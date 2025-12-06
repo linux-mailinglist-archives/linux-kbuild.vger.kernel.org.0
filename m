@@ -1,125 +1,303 @@
-Return-Path: <linux-kbuild+bounces-10025-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10026-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27D0CAA0F5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Dec 2025 06:09:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F464CAA7F8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 06 Dec 2025 15:06:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7D6823025830
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Dec 2025 05:08:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A77BA322787B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Dec 2025 14:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D638C277CA5;
-	Sat,  6 Dec 2025 05:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DB0A2FE07B;
+	Sat,  6 Dec 2025 14:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2YMKR7I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTyhVDhy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3232926D4EF;
-	Sat,  6 Dec 2025 05:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126EA2FDC56;
+	Sat,  6 Dec 2025 14:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764997726; cv=none; b=OpN7aWS2ZouT6NYaWA4njMEtm2uHSzbpBRFge8IJ7DgoyQfC9dUc8FDjArumT7J2qTYa/ufAXI+Pjv2Uw3kcAY6WvVR24onoEsTxy5IUG0wSEzE4/Ev52zdZCH3kPxpjGK9kzZpx6eSbhaPOJw5FvRou8MBYicWgmmfb4b0zKaM=
+	t=1765029800; cv=none; b=fXAWI5Us33vfD1vcllFIJS9WglmU2J/VQ9B0zwXS6zPvBoektH1Cnp4O/xzq6BrRJHOJfuarywdsZVu5BwJIRInalq+VOO8Fg53aaRFX8aWbB3z4Y94mlOBPdR5Cp20Uu9qLzH50NEvBg0lHqDCCjAzoP2BFXLZClkzatt8d9n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764997726; c=relaxed/simple;
-	bh=j/QZd/4kMu55XIBOPMe09h9lbHWk2lk9IH8f+xSQTMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=opA6l1D+jyq5WmEBWUs3kwoIESpB0LvXhV7pxnNv3s180OC2CJxmxmtiojqfiFXSBiMs5JFrdkJZuAANwaG8f/rGQDoAYXVhiKFJLF3D99Vys0OVWOxM194E/R9aM2uxiKRGgg2+n2MxzUqXsjWpU1eN8iutXzwa2AL5IiCaUTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2YMKR7I; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764997726; x=1796533726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j/QZd/4kMu55XIBOPMe09h9lbHWk2lk9IH8f+xSQTMI=;
-  b=m2YMKR7I53NYnAl3mzHUGgGVDNwjCRufAS6WAUtunjo/pV+J8JaQG/rd
-   cAlkALCL5KjP4DUW22yYlVo9XTsEjbfbOszG60FzAHG6imm/e8Chl0LJ7
-   w4iWwJ3cmhweOFd06FAAm1veVc4Um3TrVQT3CETps0Ae9p4fHcuLSHXLp
-   /8xk/SjhE1vnqUlMzESAHd/GkiWAxzJVxO+UYFYlDWLx26UkGP2evdLfd
-   KeTgcpGTSx5tmMMlt6/2UGcSkBfxqLPBnvSad1ZadFtTNW/GzZaSb8LqM
-   4UpJNeZb+0awPsriyA/2B4GCVN3cRLVoYm1TJIiWDrAX1NNyRzLfg6H8y
-   g==;
-X-CSE-ConnectionGUID: mXY5B8F0QjSjwb13KBF9Eg==
-X-CSE-MsgGUID: T6MzgMbsRHSNCDxYnIh8+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="78495344"
-X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="78495344"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 21:08:45 -0800
-X-CSE-ConnectionGUID: 5NkFzyigRJCQ95sxGNR5lQ==
-X-CSE-MsgGUID: laItp1lsTTyzFqCULrsegA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="199911934"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Dec 2025 21:08:39 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRkX6-00000000FsB-45ha;
-	Sat, 06 Dec 2025 05:08:36 +0000
-Date: Sat, 6 Dec 2025 13:08:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	s=arc-20240116; t=1765029800; c=relaxed/simple;
+	bh=NS4Xr1fGxL/eg6tHwlX4g6+yoClMCNZ2LkZ9ME2kvOw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B/DLez9OmwPxOHvAHAtLGgG7dqul27Q6tbelB1k0EGLSMWotZCRdxVcZQ4cMqvQc56YfvNoL+/fkdLWv6xB+ut+9vawqYYK8HClQ357uaBBrAsQ3a/SceTT5FAqCwe1jAC38uII5ll99KsiATEy4Fvwh4gxkVLR7vSpvsb3cG6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTyhVDhy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1784EC4CEF5;
+	Sat,  6 Dec 2025 14:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765029799;
+	bh=NS4Xr1fGxL/eg6tHwlX4g6+yoClMCNZ2LkZ9ME2kvOw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OTyhVDhyWaHqQk7zszSMXVzz5etAqXDtW0y6hcdAn/GHnawxMnHCmEjl3czyaNjLx
+	 6qZFNjrTLiXGc0V0q6cvPoV0chhEigdTtpM2sgUI1QDsRRyVSznd4hcSBN+YVVlHpA
+	 iI9SP3NGq+tmTNGnHedVkAvbJeeEqOmyOmdnnGFhKny8m3BJTjTPsrXeY2vX6WkUfU
+	 eMkhxrPHgCUHVBMc4VcHixM4OxtQ+fz/jnRc4oesvKW9GAcR34XOnNw44L237U5rRJ
+	 qOmwtRei+o61+juSzAb3XifhA7LZldnA4IAY1fJSOpY9vv8LL41NGY2alLDnIsG+dc
+	 A0ABDNACEodHg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Mikhail Malyshev <mike.malyshev@gmail.com>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Alan Maguire <alan.maguire@oracle.com>,
-	Donglin Peng <dolinux.peng@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, dwarves@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-Message-ID: <202512061213.85NHVN2W-lkp@intel.com>
-References: <20251127185242.3954132-5-ihor.solodrai@linux.dev>
+	Nicolas Schier <nsc@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	alexandre.f.demers@gmail.com,
+	torsten.hilbrich@secunet.com,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-6.1] kbuild: Use objtree for module signing key path
+Date: Sat,  6 Dec 2025 09:02:17 -0500
+Message-ID: <20251206140252.645973-12-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251206140252.645973-1-sashal@kernel.org>
+References: <20251206140252.645973-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251127185242.3954132-5-ihor.solodrai@linux.dev>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Ihor,
+From: Mikhail Malyshev <mike.malyshev@gmail.com>
 
-kernel test robot noticed the following build errors:
+[ Upstream commit af61da281f52aba0c5b090bafb3a31c5739850ff ]
 
-[auto build test ERROR on bpf-next/master]
+When building out-of-tree modules with CONFIG_MODULE_SIG_FORCE=y,
+module signing fails because the private key path uses $(srctree)
+while the public key path uses $(objtree). Since signing keys are
+generated in the build directory during kernel compilation, both
+paths should use $(objtree) for consistency.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/resolve_btfids-rename-object-btf-field-to-btf_path/20251128-025645
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251127185242.3954132-5-ihor.solodrai%40linux.dev
-patch subject: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update with raw binary output
-config: arm64-randconfig-004-20251205 (https://download.01.org/0day-ci/archive/20251206/202512061213.85NHVN2W-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061213.85NHVN2W-lkp@intel.com/reproduce)
+This causes SSL errors like:
+  SSL error:02001002:system library:fopen:No such file or directory
+  sign-file: /kernel-src/certs/signing_key.pem
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061213.85NHVN2W-lkp@intel.com/
+The issue occurs because:
+- sig-key uses: $(srctree)/certs/signing_key.pem (source tree)
+- cmd_sign uses: $(objtree)/certs/signing_key.x509 (build tree)
 
-All errors (new ones prefixed by >>):
+But both keys are generated in $(objtree) during the build.
 
->> ld.lld: error: .tmp_vmlinux1.btf.o is incompatible with aarch64elf
+This complements commit 25ff08aa43e37 ("kbuild: Fix signing issue for
+external modules") which fixed the scripts path and public key path,
+but missed the private key path inconsistency.
 
+Fixes out-of-tree module signing for configurations with separate
+source and build directories (e.g., O=/kernel-out).
+
+Signed-off-by: Mikhail Malyshev <mike.malyshev@gmail.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nicolas Schier <nsc@kernel.org>
+Link: https://patch.msgid.link/20251015163452.3754286-1-mike.malyshev@gmail.com
+Signed-off-by: Nicolas Schier <nsc@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+Now I have the complete picture. All stable trees that contain commit
+13b25489b6f8 (v6.13+) have the incomplete fix and need this patch. Let
+me finalize my analysis:
+
+## Complete Analysis
+
+### 1. COMMIT MESSAGE ANALYSIS
+
+The commit message is clear and well-documented:
+- **Subject**: "kbuild: Use objtree for module signing key path" -
+  clearly states what it does
+- **Body**: Explains the problem with detailed error messages and root
+  cause analysis
+- **References**: Explicitly mentions commit 25ff08aa43e37 as the
+  incomplete fix it complements
+- **No Cc: stable@vger.kernel.org tag** - the maintainer did not
+  explicitly request stable backport
+- **No Fixes: tag** - However, logically this fixes the same issue as
+  25ff08aa43e37, which has `Fixes: 13b25489b6f8`
+- **Has Reviewed-by and Tested-by tags** from Nicolas Schier and Nathan
+  Chancellor
+
+### 2. CODE CHANGE ANALYSIS
+
+The change is a **single character change** (literally changing one
+word):
+
+```makefile
+# Before:
+sig-key := $(if $(wildcard
+$(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CONFIG_MODULE_SIG_KEY)
+
+# After:
+sig-key := $(if $(wildcard
+$(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)$(CONFIG_MODULE_SIG_KEY)
+```
+
+**Technical mechanism of the bug:**
+1. When building out-of-tree modules with `CONFIG_MODULE_SIG_FORCE=y`
+   and separate source/build directories (e.g., `O=/kernel-out`):
+   - `$(srctree)` points to the source tree (e.g., `/kernel-src`)
+   - `$(objtree)` points to the build tree (e.g., `/kernel-out`)
+
+2. Module signing keys are **generated during kernel compilation** and
+   stored in `$(objtree)/certs/`:
+   - Private key: `$(objtree)/certs/signing_key.pem`
+   - Public key: `$(objtree)/certs/signing_key.x509`
+
+3. After commit 25ff08aa43e37, `cmd_sign` correctly uses
+   `$(objtree)/certs/signing_key.x509` for the public key, but `sig-key`
+   still uses `$(srctree)/certs/signing_key.pem` for the private key.
+
+4. This creates an **inconsistency**: The `sign-file` tool is called
+   with:
+   - Private key: `/kernel-src/certs/signing_key.pem` (WRONG - file
+     doesn't exist there)
+   - Public key: `/kernel-out/certs/signing_key.x509` (CORRECT)
+
+5. Result: `fopen()` fails with "No such file or directory" when trying
+   to open the private key.
+
+**Why the fix is correct:**
+- Both signing keys are generated in `$(objtree)`, so both paths should
+  reference `$(objtree)`
+- The fix is logically consistent with what commit 25ff08aa43e37 did for
+  the other paths
+- The conditional `$(if $(wildcard
+  $(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)` only adds the prefix if the
+  key path is not absolute, which is correct behavior
+
+### 3. CLASSIFICATION
+
+- **Type**: Bug fix (not a feature)
+- **Category**: Build system fix
+- **Severity**: Causes complete failure of out-of-tree module signing
+  with CONFIG_MODULE_SIG_FORCE=y
+- **Security relevance**: Low (doesn't fix a security vulnerability per
+  se, but affects security feature - module signing)
+- **Exception category**: Build fix - these are explicitly allowed in
+  stable
+
+### 4. SCOPE AND RISK ASSESSMENT
+
+- **Lines changed**: 1 line (trivial)
+- **Files touched**: 1 file (`scripts/Makefile.modinst`)
+- **Complexity**: Extremely simple - just changing `srctree` to
+  `objtree`
+- **Subsystem**: kbuild (build system)
+- **Risk level**: **VERY LOW**
+  - Only affects out-of-tree module signing with separate source/build
+    directories
+  - Only affects configurations with `CONFIG_MODULE_SIG_FORCE=y` or
+    `CONFIG_MODULE_SIG_ALL=y`
+  - The change is logically correct and consistent with the rest of the
+    code
+  - Cannot break anything that was working before
+
+### 5. USER IMPACT
+
+- **Who is affected**:
+  - Users building out-of-tree modules (e.g., NVIDIA drivers,
+    VirtualBox, ZFS)
+  - With separate source and build directories (`O=/path/to/build`)
+  - With module signature enforcement enabled
+- **Severity**: HIGH for affected users - module signing completely
+  fails
+- **User reports**: The commit message shows this was reported as a real
+  user problem with specific error messages
+- **Prevalence**: Common scenario for distribution builders and
+  enterprise environments
+
+### 6. STABILITY INDICATORS
+
+- **Tested-by: Nicolas Schier** - the kbuild maintainer tested it
+- **Reviewed-by: Nathan Chancellor** - well-known kernel developer
+  reviewed it
+- **Link to patch discussion**: Shows proper review process
+- **Age in mainline**: This appears to be a recent commit (October 2025
+  in the patch date)
+
+### 7. DEPENDENCY CHECK
+
+**Critical finding**: This commit has a dependency:
+- It requires commit **25ff08aa43e37** ("kbuild: Fix signing issue for
+  external modules") to be present first
+- 25ff08aa43e37 requires commit **13b25489b6f8** ("kbuild: change
+  working directory to external module directory with M=")
+
+**Affected stable versions**:
+- v6.13.x: Has 13b25489b6f8 (the bug) and backported 25ff08aa43e37
+  (partial fix) → **NEEDS this patch**
+- v6.14.x: Has both 13b25489b6f8 and 25ff08aa43e37 → **NEEDS this
+  patch**
+- v6.15.x: Has both → **NEEDS this patch**
+- v6.16.x: Has both → **NEEDS this patch**
+- v6.17.x: Has both → **NEEDS this patch**
+- v6.6.x and older: Does NOT have 13b25489b6f8 → **Does NOT need this
+  patch** (and would break if applied)
+
+**Backport note**: This commit should ONLY be backported to stable trees
+that already have:
+1. Commit 13b25489b6f8 (the original behavior change)
+2. Commit 25ff08aa43e37 (the partial fix)
+
+This means v6.13+ stable trees only.
+
+### SUMMARY
+
+This commit is an **excellent candidate for stable backport** to kernel
+versions v6.13+:
+
+**Positive factors:**
+1. ✅ Fixes a real bug that causes complete failure of module signing
+2. ✅ Extremely small change (1 line, 1 word)
+3. ✅ Zero risk of regression (only fixes broken behavior)
+4. ✅ Properly reviewed and tested by kbuild maintainers
+5. ✅ Complements an existing fix that was already backported to stable
+6. ✅ Build fix category - explicitly allowed in stable rules
+7. ✅ Clear, well-documented commit message
+8. ✅ Affects users who follow best practices (separate build directory)
+
+**Concerns:**
+1. ⚠️ No explicit `Cc: stable@vger.kernel.org` tag (but the first fix
+   also didn't have one and was still backported)
+2. ⚠️ No explicit `Fixes:` tag (but logically fixes the same issue as
+   25ff08aa43e37)
+3. ⚠️ Must only be applied to v6.13+ stable trees (where 13b25489b6f8
+   exists)
+
+The commit passes all stable kernel criteria: it's obviously correct,
+fixes a real user-visible bug, is small and surgical, has no new
+features, and has been tested. The incomplete fix in stable trees is
+currently causing module signing to fail for users with separate
+source/build directories.
+
+**YES**
+
+ scripts/Makefile.modinst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index 1628198f3e830..9ba45e5b32b18 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -100,7 +100,7 @@ endif
+ # Don't stop modules_install even if we can't sign external modules.
+ #
+ ifeq ($(filter pkcs11:%, $(CONFIG_MODULE_SIG_KEY)),)
+-sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CONFIG_MODULE_SIG_KEY)
++sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)$(CONFIG_MODULE_SIG_KEY)
+ else
+ sig-key := $(CONFIG_MODULE_SIG_KEY)
+ endif
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
 
