@@ -1,254 +1,442 @@
-Return-Path: <linux-kbuild+bounces-10034-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10035-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039BCCAF71C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Dec 2025 10:27:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD09CB004D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Dec 2025 14:08:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 62DDB3059AD6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Dec 2025 09:27:10 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 819FC301842C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Dec 2025 13:08:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202032DA74D;
-	Tue,  9 Dec 2025 09:27:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EABE2EBDE0;
+	Tue,  9 Dec 2025 13:07:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xqc7svUB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lpm+0YKh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2LSQXNXG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gs7cwMOZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/zGNqGS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3F92DC793
-	for <linux-kbuild@vger.kernel.org>; Tue,  9 Dec 2025 09:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6470B26CE04
+	for <linux-kbuild@vger.kernel.org>; Tue,  9 Dec 2025 13:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765272430; cv=none; b=fJf9c72vIxb47l+F9+EcDIghdIPdkOCbrAghRTnu5eSFpkhK6OqtWjoW4+kQfitN3a5+QJlu4ML7RLhSEz+3bqrbmmGZsiOBkWrEVYmqAoURYfJp2MPcDYpy8CP2dQo7E8GAQe7nvDo/yCc5jDgT2L9vDpkJRbtbj7fkfv5WWiw=
+	t=1765285647; cv=none; b=Vdnh0s5E0eyik8bAMjkbi8SB3+RMHsaYq7DVS7XP9vP1sJM1OTpckEWbbScmR7PcYvkhntzW8gguvdq4Lj1Kgeo4IaEWQ471NeBwNbd8vmYkDYnzo5x4LFI9KesoAh3WSraO90hdJEP4FDIIPyzBnEqUeHJccXAuL6do8by5GO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765272430; c=relaxed/simple;
-	bh=ZcKZ481C2jLZ7ih4+ZUTT8eeFrSLUYcjyUPbydQ7LPE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=de/vc4PkYchEjvrhHb/+APOLbvS0xjlMHixHLXGO6TF8hJqOeKYEWpMMWZ5pAtnW3Mt/aJj30JL9rdJi1EgdFLh4E3yzjGU6Mc481SrMeapARRsdnYNooJUgTWrZXgprWEYttsR61wScjUz8KunfjrYRWpbCxuMvG7KzI/eAoLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xqc7svUB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lpm+0YKh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2LSQXNXG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gs7cwMOZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DF0B133734;
-	Tue,  9 Dec 2025 09:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765272424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=Xqc7svUBR1AJk/UN7X+MfgVxaTjswcCkeKCfdIIwMxlst6y9vz67qcnQnwwcG+1E8FNZIi
-	hv8XeFUrfCVThZPoMiLLgfp2y4ONq2xAVt9JLAy8apVpaE+HgvnHYfnhSKOQF66oo3sYfT
-	xjfjnfIZ9yXT2Lh0kQ0is4Mnwh6c65s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765272424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=Lpm+0YKhPDaGZkgzeR4FlL82eQQ0ZlTXbRWvhcsy3E3qA81rRc5GjTwQnhmxULz7WYGlen
-	snr8Z+JICfjF7ZCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2LSQXNXG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gs7cwMOZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765272423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=2LSQXNXGlUWW5iBQpeO/S5XQSgJAz0VdDvE1JAFcGG+ik0nPS42u0w7/ia7FwfM/l5x5e+
-	fIMoOUec6XJsdz+MDclq0QPNpvc4bP74TT3+DJ0zCMNeOaR9ZQLA5XUx7YIhEhJnYeZI3S
-	hkp143y0PMAF9G9G/5NIije/udujwDo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765272423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eR5fSpLK5nNTF3pQQGGjJgsXD8rC/QnYDrR90jCyL+Q=;
-	b=Gs7cwMOZ99ycrBGLtJ/y/mIkZ88YXtKBMmSW0H3IN9ngklEhpzk+1Hr3FaNG99VfJRYbp/
-	CtT2FqJvn4pBn2Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 621033EA63;
-	Tue,  9 Dec 2025 09:27:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xWa9FmfrN2nnNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 09 Dec 2025 09:27:03 +0000
-Date: Tue, 09 Dec 2025 10:27:03 +0100
-Message-ID: <87y0ncrons.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: Dell.Client.Kernel@dell.com,	amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
-	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
-	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
- <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
- <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
-	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
- =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
- <dxu@dxuuu.xyz>
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
-In-Reply-To: <875xagt7d1.wl-tiwai@suse.de>
-References: <87o6q8l68r.wl-tiwai@suse.de>
-	<20251015145749.2572-1-safinaskar@gmail.com>
-	<878qhckxc5.wl-tiwai@suse.de>
-	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
-	<875xcgkvnw.wl-tiwai@suse.de>
-	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
-	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
-	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
-	<87bjm78978.wl-tiwai@suse.de>
-	<CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
-	<871plbucj3.wl-tiwai@suse.de>
-	<CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
-	<875xagt7d1.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
+	s=arc-20240116; t=1765285647; c=relaxed/simple;
+	bh=KUa9aJm+1Q1mYo9B8g2XNK9lG0dCj/Q59hq3/77vBqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cyjdP/PL2V38ocMGHK3Xxf+FQB55UUMHJ+HsqxeXrtu7rViRqT5VqRpuOPqLPRTASCyj/2BTYNnUrLYo2eJS2HviaQ3m6S9WKbM2Jrb3oBAnAwdO94ld9YyAYJBlpYDlNDspM4ZBx9cKJbV+w4qA92kuo7e1yrwOJfWyC8NvZ2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/zGNqGS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D6ABC4CEF5;
+	Tue,  9 Dec 2025 13:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765285646;
+	bh=KUa9aJm+1Q1mYo9B8g2XNK9lG0dCj/Q59hq3/77vBqo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i/zGNqGSsBD7q6eBFsNrgFy505iB+vB7MRQbdjB5xqp0ZTNr8KdukxFv2ZdprHi/k
+	 QQC6+wBlsipTYYbmnzls2t/U0Gifjxp6OWc1KqmjxlH6nr3mHLeq40S1qJuXfbmU84
+	 YGSO3PS5/d9FNFHnsUzunVBx7xsM1cxvRpQntcM5St9dHUrvcr5EYOF3jZP0iSmx1N
+	 N0hvNZFrYpRFOmbSRDkPULJWU1XDsOhaD67+CmP1Wo/cYEcSSZmNqJftkoKm1P8VOu
+	 8wGf54+9qkel5hr90K6s44dq4OQTB2LpG3pIYz/KpCdKPArziVFu3wEKz2WXjCLGxw
+	 1RegQxXEE+e5Q==
+Date: Tue, 9 Dec 2025 14:07:16 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: "Grube, Jack" <jrg72@njit.edu>
+Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH] usr/gen_initramfs.sh: (cosmetic) improve comments and
+ formatting
+Message-ID: <aTgfBL14P77rJh7Z@derry.ads.avm.de>
+References: <CY4PR03MB3222B6B21B6A0E160CEF6CBBFBC5A@CY4PR03MB3222.namprd03.prod.outlook.com>
+ <CAA_eE_XSJm0ujLfZVu1WzRaMnzODW_4nw=+-2k2zxS_9iaQEEg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: DF0B133734
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+In-Reply-To: <CAA_eE_XSJm0ujLfZVu1WzRaMnzODW_4nw=+-2k2zxS_9iaQEEg@mail.gmail.com>
 
-On Tue, 09 Dec 2025 08:57:46 +0100,
-Takashi Iwai wrote:
+Hi Jack,
+
+On Wed, Nov 05, 2025 at 01:27:32PM -0500, Grube, Jack wrote:
+> I heartily apologize for the double email. I got the order of
+> arguments mixed up when using git format-patch the first time. This is
+> the correct patch.
 > 
-> On Sat, 06 Dec 2025 22:39:52 +0100,
-> Askar Safin wrote:
-> > 
-> > On Wed, Dec 3, 2025 at 12:42 PM Takashi Iwai <tiwai@suse.de> wrote:
-> > > A rather hackish fix would be something like below.  Instead of
-> > 
-> > I tested. This patch works. Thank you!
-> > Tested-by: Askar Safin <safinaskar@gmail.com>
+> Signed-off-by: Jack Grube <jrg72@njit.edu>
+
+thanks for your contribution and sorry for the long delay.  Common
+practise of Linux patch submissions obeys several rules (cp. [1] and
+other documents in that folder), for example:
+
+  * send logically independent changes as separate patches
+    (here for example: SPDX header; code indentation; re-formatting of
+    comments)
+
+  * describe the changes for each patch (what problem you want to fix,
+    why each patch is important and shall be applied).
+
+[1]: Documentation/process/submitting-patches.rst
+
+Iff you might send another patch (set), please make use of '--dry-run'
+or similar options to check your patches prior to sending them out.
+
+`scripts/get_maintainer.pl --email --no-rolestats` helps obtaining a
+list of reasonable patch mail receipients.
+
+> ---
+>  usr/gen_initramfs.sh | 48 +++++++++++++++++++++++---------------------
+>  1 file changed, 25 insertions(+), 23 deletions(-)
 > 
-> Thanks for testing!
+> diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+> index 7eba2fddf0ef..ff8ddd373fc1 100755
+> --- a/usr/gen_initramfs.sh
+> +++ b/usr/gen_initramfs.sh
+> @@ -1,8 +1,9 @@
+>  #!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+
+Good catch.  To my own surprise, there are even more files below usr/
+that are missing SPDX headers.
+
+Please put SPDX header addition into a separate patch.
+
+>  # Copyright (C) Martin Schlemmer <azarah@nosferatu.za.org>
+>  # Copyright (C) 2006 Sam Ravnborg <sam@ravnborg.org>
+> -#
+> -# Released under the terms of the GNU GPL
+> +
+> +# Released under the terms of the GNU GPL.
+
+I don't think that this a relevant enhancement.
+
+>  #
+>  # Generate a cpio packed initramfs. It uses gen_init_cpio to generate
+>  # the cpio archive.
+> @@ -18,15 +19,15 @@ $0 [-o <file>] [-l <dep_list>] [-u <uid>] [-g
+> <gid>] {-d | <cpio_source>} ...
+>     -o <file>      Create initramfs file named <file> by using gen_init_cpio
+>     -l <dep_list>  Create dependency list named <dep_list>
+>     -u <uid>       User ID to map to user ID 0 (root).
+> -              <uid> is only meaningful if <cpio_source> is a
+> -              directory.  "squash" forces all files to uid 0.
+> +                  <uid> is only meaningful if <cpio_source> is a
+> +                  directory.  "squash" forces all files to uid 0.
+>     -g <gid>       Group ID to map to group ID 0 (root).
+> -              <gid> is only meaningful if <cpio_source> is a
+> -              directory.  "squash" forces all files to gid 0.
+> +                  <gid> is only meaningful if <cpio_source> is a
+> +                  directory.  "squash" forces all files to gid 0.
+>     -d <date>      Use date for all file mtime values
+>     <cpio_source>  File list or directory for cpio archive.
+> -              If <cpio_source> is a .cpio file it will be used
+> -              as direct input to initramfs.
+> +                  If <cpio_source> is a .cpio file it will be used
+> +                  as direct input to initramfs.
+
+This patch is not applicable, did you generate it properly with 'git
+format-patch' or something similar?  usr/gen_initramfs.sh starts with
+one or two tabs in these lines, your patch does not match that.
+
+(And it seems to me, that your editor settings might be suboptimal for
+kernel code; please use a tab size of 8 characters if you want to
+optimise indenting.)
+
 > 
-> On the second thought, a better fix would be just to change the
-> default fallback from ANY to LEGACY, so a oneliner change like below.
-> Could you test it instead of the previous one?
+>  All options except -o and -l may be repeated and are interpreted
+>  sequentially and immediately.  -u and -g states are preserved across
+> @@ -35,8 +36,9 @@ to reset the root/group mapping.
+>  EOF
+>  }
 > 
-> It was set to ANY as we assumed that all drivers should cover the
-> devices generally, but in the end, SOF or AVS need specific firmware
-> files, hence it doesn't make sense to bind to them if specific kconfig
-> is enabled.
+> +
 
-The below one is a revised fix, just to be safer in case the legacy
-driver is disabled, too.  Give it a try.
+Please do not add arbitrary empty lines.
+
+>  # awk style field access
+> -# $1 - field number; rest is argument string
+> +# $1 -- field number; the rest is the argument string.
+
+While I think that most of your changes in the comments (this one and
+the remaining) are correct, I am not convinced that it's worth the
+effort.
 
 
-Takashi
+Kind regards,
+Nicolas
 
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] ALSA: hda: intel-dsp-config: Prefer legacy driver as fallback
 
-When config table entries don't match with the device to be probed,
-currently we fall back to SND_INTEL_DSP_DRIVER_ANY, which means to
-allow any drivers to bind with it.
 
-This was set so with the assumption (or hope) that all controller
-drivers should cover the devices generally, but in practice, this
-caused a problem as reported recently.  Namely, when a specific
-kconfig for SOF isn't set for the modern Intel chips like Alderlake,
-a wrong driver (AVS) got probed and failed.  This is because we have
-entries like:
-
-/* Alder Lake / Raptor Lake */
-	{
-		.flags = FLAG_SOF | FLAG_SOF_ONLY_IF_DMIC_OR_SOUNDWIRE,
-		.device = PCI_DEVICE_ID_INTEL_HDA_ADL_S,
-	},
-....
-
-so this entry is effective only when CONFIG_SND_SOC_SOF_ALDERLAKE is
-set.  If not set, there is no matching entry, hence it returns
-SND_INTEL_DSP_DRIVER_ANY as fallback.  OTOH, if the kconfig is set, it
-explicitly falls back to SND_INTEL_DSP_DRIVER_LEGACY when no DMIC or
-SoundWire is found -- that was the working scenario.  That being said,
-the current setup may be broken for modern Intel chips that are
-supposed to work with either SOF or legacy driver when the
-corresponding kconfig were missing.
-
-For addressing the problem above, this patch changes the fallback
-driver to the legacy driver as much as possible, i.e. return
-SND_INTEL_DSP_DRIVER_LEGACY type.  When CONFIG_SND_HDA_INTEL is also
-off, the fallback is set to SND_INTEL_DSP_DRIVER_ANY type, just to be
-sure.
-
-Link: https://lore.kernel.org/all/20251014034156.4480-1-safinaskar@gmail.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/core/intel-dsp-config.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/core/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
-index c401c0658421..0c25e87408de 100644
---- a/sound/hda/core/intel-dsp-config.c
-+++ b/sound/hda/core/intel-dsp-config.c
-@@ -718,7 +718,8 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
- 	/* find the configuration for the specific device */
- 	cfg = snd_intel_dsp_find_config(pci, config_table, ARRAY_SIZE(config_table));
- 	if (!cfg)
--		return SND_INTEL_DSP_DRIVER_ANY;
-+		return IS_ENABLED(CONFIG_SND_HDA_INTEL) ?
-+			SND_INTEL_DSP_DRIVER_LEGACY : SND_INTEL_DSP_DRIVER_ANY;
- 
- 	if (cfg->flags & FLAG_SOF) {
- 		if (cfg->flags & FLAG_SOF_ONLY_IF_SOUNDWIRE &&
--- 
-2.52.0
-
+>  field() {
+>     shift $1 ; echo $1
+>  }
+> @@ -44,7 +46,7 @@ field() {
+>  filetype() {
+>     local argv1="$1"
+> 
+> -   # symlink test must come before file test
+> +   # The symlink test must come before the file test.
+>     if [ -L "${argv1}" ]; then
+>         echo "slink"
+>     elif [ -f "${argv1}" ]; then
+> @@ -81,9 +83,9 @@ list_parse() {
+>     echo "$1" | sed 's/:/\\:/g; s/$/ \\/' >> $dep_list
+>  }
+> 
+> -# for each file print a line in following format
+> +# For each file, print a line in following format:
+>  # <filetype> <name> <path to file> <octal mode> <uid> <gid>
+> -# for links, devices etc the format differs. See gen_init_cpio for details
+> +# For links, devices, etc., the format differs. See gen_init_cpio for details.
+>  parse() {
+>     local location="$1"
+>     local name="/${location#${srcdir}}"
+> @@ -143,14 +145,14 @@ header() {
+>     printf "\n#####################\n# $1\n" >> $cpio_list
+>  }
+> 
+> -# process one directory (incl sub-directories)
+> +# Process one directory (including sub-directories).
+>  dir_filelist() {
+>     header "$1"
+> 
+>     srcdir=$(echo "$1" | sed -e 's://*:/:g')
+>     dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+> 
+> -   # If $dirlist is only one line, then the directory is empty
+> +   # If $dirlist is only one line, then the directory is empty.
+>     if [  "$(echo "${dirlist}" | wc -l)" -gt 1 ]; then
+>         print_mtime "$1"
+> 
+> @@ -179,7 +181,7 @@ input_file() {
+>             done
+>         fi
+>     elif [ -d "$1" ]; then
+> -       # If a directory is specified then add all files in it to fs
+> +       # If a directory is specified, then add all files in it to the
+> file system.
+>         dir_filelist "$1"
+>     else
+>         echo "  ${prog}: Cannot open '$1'" >&2
+> @@ -202,26 +204,26 @@ while [ $# -gt 0 ]; do
+>     arg="$1"
+>     shift
+>     case "$arg" in
+> -       "-l")   # files included in initramfs - used by kbuild
+> +       "-l")   # files included in initramfs--used by kbuild
+>             dep_list="$1"
+>             echo "deps_initramfs := \\" > $dep_list
+>             shift
+>             ;;
+> -       "-o")   # generate cpio image named $1
+> +       "-o")   # Generate a cpio image named $1.
+>             output="-o $1"
+>             shift
+>             ;;
+> -       "-u")   # map $1 to uid=0 (root)
+> +       "-u")   # Map $1 to uid=0 (root).
+>             root_uid="$1"
+>             [ "$root_uid" = "-1" ] && root_uid=$(id -u || echo 0)
+>             shift
+>             ;;
+> -       "-g")   # map $1 to gid=0 (root)
+> +       "-g")   # Map $1 to gid=0 (root).
+>             root_gid="$1"
+>             [ "$root_gid" = "-1" ] && root_gid=$(id -g || echo 0)
+>             shift
+>             ;;
+> -       "-d")   # date for file mtimes
+> +       "-d")   # Date for file mtimes
+>             timestamp="$(date -d"$1" +%s || :)"
+>             if test -n "$timestamp"; then
+>                 timestamp="-t $timestamp"
+> @@ -237,7 +239,7 @@ while [ $# -gt 0 ]; do
+>                 "-"*)
+>                     unknown_option
+>                     ;;
+> -               *)  # input file/dir - process it
+> +               *)  # input file/dir -- process it
+>                     input_file "$arg"
+>                     ;;
+>             esac
+> @@ -245,6 +247,6 @@ while [ $# -gt 0 ]; do
+>     esac
+>  done
+> 
+> -# If output_file is set we will generate cpio archive
+> -# we are careful to delete tmp files
+> +# If the output_file is set, we will generate cpio archive.
+> +# We are careful to delete tmp files.
+>  usr/gen_init_cpio $output $timestamp $cpio_list
+> --
+> Jack Grube
+> 
+> 
+> On Wed, Nov 5, 2025 at 1:06 PM Jack Grube <jrg72@njit.edu> wrote:
+> >
+> > This patch rewrites comments to be more descriptive and as complete sentences;
+> > it also tweaks the usage function's output is also adjusted to make it more readable
+> > when using the -h flag.
+> > I ran the script with the -h option to verify that the usage output remains correct,
+> > but no other testing was performed as no core logic was changed.
+> > Lastly, I added an SPDX license identifier for any tools that may depend on that.
+> > I welcome feedback there are any areas for improvement.
+> >
+> >
+> > diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+> > index 4490d496f374..7eba2fddf0ef 100755
+> > --- a/usr/gen_initramfs.sh
+> > +++ b/usr/gen_initramfs.sh
+> > @@ -1,8 +1,8 @@
+> >  #!/bin/sh
+> > -# SPDX-License-Identifier: GPL-2.0-or-later
+> >  # Copyright (C) Martin Schlemmer <azarah@nosferatu.za.org>
+> >  # Copyright (C) 2006 Sam Ravnborg <sam@ravnborg.org>
+> > -# Released under the terms of the GNU GPL.
+> > +#
+> > +# Released under the terms of the GNU GPL
+> >  #
+> >  # Generate a cpio packed initramfs. It uses gen_init_cpio to generate
+> >  # the cpio archive.
+> > @@ -18,15 +18,15 @@ $0 [-o <file>] [-l <dep_list>] [-u <uid>] [-g <gid>] {-d | <cpio_source>} ...
+> >       -o <file>      Create initramfs file named <file> by using gen_init_cpio
+> >       -l <dep_list>  Create dependency list named <dep_list>
+> >       -u <uid>       User ID to map to user ID 0 (root).
+> > -                    <uid> is only meaningful if <cpio_source> is a
+> > -                    directory.  "squash" forces all files to uid 0.
+> > +                  <uid> is only meaningful if <cpio_source> is a
+> > +                  directory.  "squash" forces all files to uid 0.
+> >       -g <gid>       Group ID to map to group ID 0 (root).
+> > -                    <gid> is only meaningful if <cpio_source> is a
+> > -                    directory.  "squash" forces all files to gid 0.
+> > +                  <gid> is only meaningful if <cpio_source> is a
+> > +                  directory.  "squash" forces all files to gid 0.
+> >       -d <date>      Use date for all file mtime values
+> >       <cpio_source>  File list or directory for cpio archive.
+> > -                    If <cpio_source> is a .cpio file it will be used
+> > -                    as direct input to initramfs.
+> > +                  If <cpio_source> is a .cpio file it will be used
+> > +                  as direct input to initramfs.
+> >
+> >  All options except -o and -l may be repeated and are interpreted
+> >  sequentially and immediately.  -u and -g states are preserved across
+> > @@ -35,9 +35,8 @@ to reset the root/group mapping.
+> >  EOF
+> >  }
+> >
+> > -
+> >  # awk style field access
+> > -# $1 -- field number; the rest is the argument string.
+> > +# $1 - field number; rest is argument string
+> >  field() {
+> >       shift $1 ; echo $1
+> >  }
+> > @@ -45,7 +44,7 @@ field() {
+> >  filetype() {
+> >       local argv1="$1"
+> >
+> > -     # The symlink test must come before the file test.
+> > +     # symlink test must come before file test
+> >       if [ -L "${argv1}" ]; then
+> >             echo "slink"
+> >       elif [ -f "${argv1}" ]; then
+> > @@ -82,9 +81,9 @@ list_parse() {
+> >       echo "$1" | sed 's/:/\\:/g; s/$/ \\/' >> $dep_list
+> >  }
+> >
+> > -# For each file, print a line in following format:
+> > +# for each file print a line in following format
+> >  # <filetype> <name> <path to file> <octal mode> <uid> <gid>
+> > -# For links, devices, etc., the format differs. See gen_init_cpio for details.
+> > +# for links, devices etc the format differs. See gen_init_cpio for details
+> >  parse() {
+> >       local location="$1"
+> >       local name="/${location#${srcdir}}"
+> > @@ -144,14 +143,14 @@ header() {
+> >       printf "\n#####################\n# $1\n" >> $cpio_list
+> >  }
+> >
+> > -# Process one directory (including sub-directories).
+> > +# process one directory (incl sub-directories)
+> >  dir_filelist() {
+> >       header "$1"
+> >
+> >       srcdir=$(echo "$1" | sed -e 's://*:/:g')
+> >       dirlist=$(find "${srcdir}" -printf "%p %m %U %G\n" | LC_ALL=C sort)
+> >
+> > -     # If $dirlist is only one line, then the directory is empty.
+> > +     # If $dirlist is only one line, then the directory is empty
+> >       if [  "$(echo "${dirlist}" | wc -l)" -gt 1 ]; then
+> >             print_mtime "$1"
+> >
+> > @@ -180,7 +179,7 @@ input_file() {
+> >                   done
+> >             fi
+> >       elif [ -d "$1" ]; then
+> > -           # If a directory is specified, then add all files in it to the file system.
+> > +           # If a directory is specified then add all files in it to fs
+> >             dir_filelist "$1"
+> >       else
+> >             echo "  ${prog}: Cannot open '$1'" >&2
+> > @@ -203,26 +202,26 @@ while [ $# -gt 0 ]; do
+> >       arg="$1"
+> >       shift
+> >       case "$arg" in
+> > -           "-l") # files included in initramfs--used by kbuild
+> > +           "-l") # files included in initramfs - used by kbuild
+> >                   dep_list="$1"
+> >                   echo "deps_initramfs := \\" > $dep_list
+> >                   shift
+> >                   ;;
+> > -           "-o") # Generate a cpio image named $1.
+> > +           "-o") # generate cpio image named $1
+> >                   output="-o $1"
+> >                   shift
+> >                   ;;
+> > -           "-u") # Map $1 to uid=0 (root).
+> > +           "-u") # map $1 to uid=0 (root)
+> >                   root_uid="$1"
+> >                   [ "$root_uid" = "-1" ] && root_uid=$(id -u || echo 0)
+> >                   shift
+> >                   ;;
+> > -           "-g") # Map $1 to gid=0 (root).
+> > +           "-g") # map $1 to gid=0 (root)
+> >                   root_gid="$1"
+> >                   [ "$root_gid" = "-1" ] && root_gid=$(id -g || echo 0)
+> >                   shift
+> >                   ;;
+> > -           "-d") # Date for file mtimes
+> > +           "-d") # date for file mtimes
+> >                   timestamp="$(date -d"$1" +%s || :)"
+> >                   if test -n "$timestamp"; then
+> >                         timestamp="-t $timestamp"
+> > @@ -238,7 +237,7 @@ while [ $# -gt 0 ]; do
+> >                         "-"*)
+> >                               unknown_option
+> >                               ;;
+> > -                       *)    # input file/dir -- process it
+> > +                       *)    # input file/dir - process it
+> >                               input_file "$arg"
+> >                               ;;
+> >                   esac
+> > @@ -246,6 +245,6 @@ while [ $# -gt 0 ]; do
+> >       esac
+> >  done
+> >
+> > -# If the output_file is set, we will generate cpio archive.
+> > -# We are careful to delete tmp files.
+> > +# If output_file is set we will generate cpio archive
+> > +# we are careful to delete tmp files
+> >  usr/gen_init_cpio $output $timestamp $cpio_list
+> >
+> 
+> 
+> -- 
+> Jack Grube
+> B.S. Computer Science, 2026.
+> Ying Wu College of Computing, NJIT.
+> Secretary — Newman Catholic Club, 2023–24; President 2024–26
 
