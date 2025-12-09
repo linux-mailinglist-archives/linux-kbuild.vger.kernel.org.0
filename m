@@ -1,303 +1,190 @@
-Return-Path: <linux-kbuild+bounces-10032-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10033-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1F3CAE855
-	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Dec 2025 01:29:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EB5CAF3A4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 09 Dec 2025 08:58:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 727833050BA3
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Dec 2025 00:27:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 477DB300DC8E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Dec 2025 07:57:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB208221D9E;
-	Tue,  9 Dec 2025 00:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CF2C2C2349;
+	Tue,  9 Dec 2025 07:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CIgrIV9v"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HsPDtfrG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TYOIuoFd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HsPDtfrG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TYOIuoFd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B235E221290;
-	Tue,  9 Dec 2025 00:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DA32C17A0
+	for <linux-kbuild@vger.kernel.org>; Tue,  9 Dec 2025 07:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765239436; cv=none; b=P5i+QSVyrnlnoCCUSws74lPKxzOmcpWIDFjkRb20swWl7gFXaVoOc6Ka0raf1fuT5xvanXhsg7jtZKkkdLK6N/AoYfNsTV1EdceUJxIrmKfLUCb14zTDczqkFMPeMCk5XKU834+FnS1FOcHkJwW3W/l9dpyi8edJUVD6xS+jTLo=
+	t=1765267070; cv=none; b=DpxU61lwcUXvNqAJGTzb+b3Ml0GJpZwHRYArYvIfHtJ4jv85Rp/rhdJ/iPOPrXOAxMPGG3K7HzMhgUpNhYHLi75j3gvlPTHShSr9NnmsarsZcaF6N4EWq+h8T9Nujl463XHZSLOG5eOeequaW6GRXT30BQNEb6HoDtS3SJNY/jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765239436; c=relaxed/simple;
-	bh=NS4Xr1fGxL/eg6tHwlX4g6+yoClMCNZ2LkZ9ME2kvOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RGV1YdQftQ4eOyzFf9z+s9uBHP+itpBZEBnpMoyXrxGZIIAqaOOIABqgQ3t8YA8Z/48pgZsmkYWL1J29DMXYOt9GgmX1uOxO8HFTnsbeD8omEYYmuHI1HLkQvU/VoTqRmCRbpu31/dPbIdL+aSuClT3X5vy3/XndbDqtGRJZ81Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CIgrIV9v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD725C4CEF1;
-	Tue,  9 Dec 2025 00:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765239436;
-	bh=NS4Xr1fGxL/eg6tHwlX4g6+yoClMCNZ2LkZ9ME2kvOw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CIgrIV9vQX8afrj4mUkjJA+TrA1yc2u0iiyhoq+DPDymSm2N9J/8l6F/sVnzYNOle
-	 13cNCkwufpO3muD+G+mCkpVzlCa0Lys+LB6Pj8sJoPOd5ocHiKmBYXwNPe1QlX28Me
-	 9qvboGevIrlpf5l3VdYwkvzmN1ygpt5Wa6fjCiLl1VsQwa8kAnOi5nx5XOpJNcFzIy
-	 EDPrJmbp0GibfD0V6Wy4h7mPmfCscdmQDz1Q39kAAMqjFZChRefANIDukzKOTSmbAS
-	 vn+qkOsV0/U2B2G9EUOOR9YEpbpU/MubJkx0APDevinK5GvmEX8cqrxLR6S9ZhboIs
-	 c75+jCLbSMdug==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Mikhail Malyshev <mike.malyshev@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	masahiroy@kernel.org,
-	torsten.hilbrich@secunet.com,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] kbuild: Use objtree for module signing key path
-Date: Mon,  8 Dec 2025 19:15:11 -0500
-Message-ID: <20251209001610.611575-19-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251209001610.611575-1-sashal@kernel.org>
-References: <20251209001610.611575-1-sashal@kernel.org>
+	s=arc-20240116; t=1765267070; c=relaxed/simple;
+	bh=nz87QrQLYiSwa0c/YpdP/GTj8UJPE4nba5/2QW7IP4g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BnQzwTlsVnJEsjB2bd7q27XgjwBH+4FdjuXBM/+fmxqGdZRvBxYShq80l1BLD1bTT+V2m1f6Pdcuim5ikrPvzNTW/9vTwOUTRHlGq13HNUVW8Aq+EHUGHS2TmxnrJde/9HJ5hR7+GYbYkJMmHRk/GyOiSu1aRi9y/n5aKkYG+48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HsPDtfrG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TYOIuoFd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HsPDtfrG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TYOIuoFd; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1F2D0337A2;
+	Tue,  9 Dec 2025 07:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765267067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
+	b=HsPDtfrG0BiNJkejAKo9Qdrl25YPIeSiLhFAFE0NLNGSX5NDSIq4AfnQ7kdaFm59QA+mim
+	CL0pwE0yuTIpYYXmyWLDHFuYav3eEdK3el1QjtvS/N2Z5jTDviWwanGcj8IhghNfsz8RwI
+	NFcumvQYkN2OUXbZ6OAzb94NwsoIUrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765267067;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
+	b=TYOIuoFdOg859/7mJSrj5aS+f4V8M2rBUBLv8iOd04TDKIRzy0DAKn1j2J1qYDHH4Z+DZv
+	fG58+fCBpob08cDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765267067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
+	b=HsPDtfrG0BiNJkejAKo9Qdrl25YPIeSiLhFAFE0NLNGSX5NDSIq4AfnQ7kdaFm59QA+mim
+	CL0pwE0yuTIpYYXmyWLDHFuYav3eEdK3el1QjtvS/N2Z5jTDviWwanGcj8IhghNfsz8RwI
+	NFcumvQYkN2OUXbZ6OAzb94NwsoIUrs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765267067;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KO3VcMy+bgqoVvLQfOtoJbYm6o/l+2PFoYM8zvqmlfc=;
+	b=TYOIuoFdOg859/7mJSrj5aS+f4V8M2rBUBLv8iOd04TDKIRzy0DAKn1j2J1qYDHH4Z+DZv
+	fG58+fCBpob08cDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91FB73EA63;
+	Tue,  9 Dec 2025 07:57:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7+T2IXrWN2nYZAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Dec 2025 07:57:46 +0000
+Date: Tue, 09 Dec 2025 08:57:46 +0100
+Message-ID: <875xagt7d1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Dell.Client.Kernel@dell.com,
+	amadeuszx.slawinski@linux.intel.com,	baojun.xu@ti.com,
+	bo.liu@senarytech.com,	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,	kailang@realtek.com,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	regressions@lists.linux.dev,	rf@opensource.cirrus.com,	Nicolas Schier
+ <nsc@kernel.org>,	linux-kbuild@vger.kernel.org,	Masahiro Yamada
+ <masahiroy@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	miguel.ojeda.sandonis@gmail.com,	ojeda@kernel.org,	sam@gentoo.org,	Thomas
+ =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,	Daniel Xu
+ <dxu@dxuuu.xyz>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA: hda: Move controller drivers into sound/hda/controllers directory)
+In-Reply-To: <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+References: <87o6q8l68r.wl-tiwai@suse.de>
+	<20251015145749.2572-1-safinaskar@gmail.com>
+	<878qhckxc5.wl-tiwai@suse.de>
+	<CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+	<875xcgkvnw.wl-tiwai@suse.de>
+	<CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+	<CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+	<CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+	<87bjm78978.wl-tiwai@suse.de>
+	<CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+	<871plbucj3.wl-tiwai@suse.de>
+	<CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,dell.com,linux.intel.com,ti.com,senarytech.com,intel.com,realtek.com,vger.kernel.org,opensource.cirrus.com,lists.linux.dev,kernel.org,gmail.com,gentoo.org,linutronix.de,dxuuu.xyz];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-From: Mikhail Malyshev <mike.malyshev@gmail.com>
+On Sat, 06 Dec 2025 22:39:52 +0100,
+Askar Safin wrote:
+> 
+> On Wed, Dec 3, 2025 at 12:42 PM Takashi Iwai <tiwai@suse.de> wrote:
+> > A rather hackish fix would be something like below.  Instead of
+> 
+> I tested. This patch works. Thank you!
+> Tested-by: Askar Safin <safinaskar@gmail.com>
 
-[ Upstream commit af61da281f52aba0c5b090bafb3a31c5739850ff ]
+Thanks for testing!
 
-When building out-of-tree modules with CONFIG_MODULE_SIG_FORCE=y,
-module signing fails because the private key path uses $(srctree)
-while the public key path uses $(objtree). Since signing keys are
-generated in the build directory during kernel compilation, both
-paths should use $(objtree) for consistency.
+On the second thought, a better fix would be just to change the
+default fallback from ANY to LEGACY, so a oneliner change like below.
+Could you test it instead of the previous one?
 
-This causes SSL errors like:
-  SSL error:02001002:system library:fopen:No such file or directory
-  sign-file: /kernel-src/certs/signing_key.pem
+It was set to ANY as we assumed that all drivers should cover the
+devices generally, but in the end, SOF or AVS need specific firmware
+files, hence it doesn't make sense to bind to them if specific kconfig
+is enabled.
 
-The issue occurs because:
-- sig-key uses: $(srctree)/certs/signing_key.pem (source tree)
-- cmd_sign uses: $(objtree)/certs/signing_key.x509 (build tree)
 
-But both keys are generated in $(objtree) during the build.
+Takashi
 
-This complements commit 25ff08aa43e37 ("kbuild: Fix signing issue for
-external modules") which fixed the scripts path and public key path,
-but missed the private key path inconsistency.
-
-Fixes out-of-tree module signing for configurations with separate
-source and build directories (e.g., O=/kernel-out).
-
-Signed-off-by: Mikhail Malyshev <mike.malyshev@gmail.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nicolas Schier <nsc@kernel.org>
-Link: https://patch.msgid.link/20251015163452.3754286-1-mike.malyshev@gmail.com
-Signed-off-by: Nicolas Schier <nsc@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Now I have the complete picture. All stable trees that contain commit
-13b25489b6f8 (v6.13+) have the incomplete fix and need this patch. Let
-me finalize my analysis:
-
-## Complete Analysis
-
-### 1. COMMIT MESSAGE ANALYSIS
-
-The commit message is clear and well-documented:
-- **Subject**: "kbuild: Use objtree for module signing key path" -
-  clearly states what it does
-- **Body**: Explains the problem with detailed error messages and root
-  cause analysis
-- **References**: Explicitly mentions commit 25ff08aa43e37 as the
-  incomplete fix it complements
-- **No Cc: stable@vger.kernel.org tag** - the maintainer did not
-  explicitly request stable backport
-- **No Fixes: tag** - However, logically this fixes the same issue as
-  25ff08aa43e37, which has `Fixes: 13b25489b6f8`
-- **Has Reviewed-by and Tested-by tags** from Nicolas Schier and Nathan
-  Chancellor
-
-### 2. CODE CHANGE ANALYSIS
-
-The change is a **single character change** (literally changing one
-word):
-
-```makefile
-# Before:
-sig-key := $(if $(wildcard
-$(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CONFIG_MODULE_SIG_KEY)
-
-# After:
-sig-key := $(if $(wildcard
-$(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)$(CONFIG_MODULE_SIG_KEY)
-```
-
-**Technical mechanism of the bug:**
-1. When building out-of-tree modules with `CONFIG_MODULE_SIG_FORCE=y`
-   and separate source/build directories (e.g., `O=/kernel-out`):
-   - `$(srctree)` points to the source tree (e.g., `/kernel-src`)
-   - `$(objtree)` points to the build tree (e.g., `/kernel-out`)
-
-2. Module signing keys are **generated during kernel compilation** and
-   stored in `$(objtree)/certs/`:
-   - Private key: `$(objtree)/certs/signing_key.pem`
-   - Public key: `$(objtree)/certs/signing_key.x509`
-
-3. After commit 25ff08aa43e37, `cmd_sign` correctly uses
-   `$(objtree)/certs/signing_key.x509` for the public key, but `sig-key`
-   still uses `$(srctree)/certs/signing_key.pem` for the private key.
-
-4. This creates an **inconsistency**: The `sign-file` tool is called
-   with:
-   - Private key: `/kernel-src/certs/signing_key.pem` (WRONG - file
-     doesn't exist there)
-   - Public key: `/kernel-out/certs/signing_key.x509` (CORRECT)
-
-5. Result: `fopen()` fails with "No such file or directory" when trying
-   to open the private key.
-
-**Why the fix is correct:**
-- Both signing keys are generated in `$(objtree)`, so both paths should
-  reference `$(objtree)`
-- The fix is logically consistent with what commit 25ff08aa43e37 did for
-  the other paths
-- The conditional `$(if $(wildcard
-  $(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)` only adds the prefix if the
-  key path is not absolute, which is correct behavior
-
-### 3. CLASSIFICATION
-
-- **Type**: Bug fix (not a feature)
-- **Category**: Build system fix
-- **Severity**: Causes complete failure of out-of-tree module signing
-  with CONFIG_MODULE_SIG_FORCE=y
-- **Security relevance**: Low (doesn't fix a security vulnerability per
-  se, but affects security feature - module signing)
-- **Exception category**: Build fix - these are explicitly allowed in
-  stable
-
-### 4. SCOPE AND RISK ASSESSMENT
-
-- **Lines changed**: 1 line (trivial)
-- **Files touched**: 1 file (`scripts/Makefile.modinst`)
-- **Complexity**: Extremely simple - just changing `srctree` to
-  `objtree`
-- **Subsystem**: kbuild (build system)
-- **Risk level**: **VERY LOW**
-  - Only affects out-of-tree module signing with separate source/build
-    directories
-  - Only affects configurations with `CONFIG_MODULE_SIG_FORCE=y` or
-    `CONFIG_MODULE_SIG_ALL=y`
-  - The change is logically correct and consistent with the rest of the
-    code
-  - Cannot break anything that was working before
-
-### 5. USER IMPACT
-
-- **Who is affected**:
-  - Users building out-of-tree modules (e.g., NVIDIA drivers,
-    VirtualBox, ZFS)
-  - With separate source and build directories (`O=/path/to/build`)
-  - With module signature enforcement enabled
-- **Severity**: HIGH for affected users - module signing completely
-  fails
-- **User reports**: The commit message shows this was reported as a real
-  user problem with specific error messages
-- **Prevalence**: Common scenario for distribution builders and
-  enterprise environments
-
-### 6. STABILITY INDICATORS
-
-- **Tested-by: Nicolas Schier** - the kbuild maintainer tested it
-- **Reviewed-by: Nathan Chancellor** - well-known kernel developer
-  reviewed it
-- **Link to patch discussion**: Shows proper review process
-- **Age in mainline**: This appears to be a recent commit (October 2025
-  in the patch date)
-
-### 7. DEPENDENCY CHECK
-
-**Critical finding**: This commit has a dependency:
-- It requires commit **25ff08aa43e37** ("kbuild: Fix signing issue for
-  external modules") to be present first
-- 25ff08aa43e37 requires commit **13b25489b6f8** ("kbuild: change
-  working directory to external module directory with M=")
-
-**Affected stable versions**:
-- v6.13.x: Has 13b25489b6f8 (the bug) and backported 25ff08aa43e37
-  (partial fix) → **NEEDS this patch**
-- v6.14.x: Has both 13b25489b6f8 and 25ff08aa43e37 → **NEEDS this
-  patch**
-- v6.15.x: Has both → **NEEDS this patch**
-- v6.16.x: Has both → **NEEDS this patch**
-- v6.17.x: Has both → **NEEDS this patch**
-- v6.6.x and older: Does NOT have 13b25489b6f8 → **Does NOT need this
-  patch** (and would break if applied)
-
-**Backport note**: This commit should ONLY be backported to stable trees
-that already have:
-1. Commit 13b25489b6f8 (the original behavior change)
-2. Commit 25ff08aa43e37 (the partial fix)
-
-This means v6.13+ stable trees only.
-
-### SUMMARY
-
-This commit is an **excellent candidate for stable backport** to kernel
-versions v6.13+:
-
-**Positive factors:**
-1. ✅ Fixes a real bug that causes complete failure of module signing
-2. ✅ Extremely small change (1 line, 1 word)
-3. ✅ Zero risk of regression (only fixes broken behavior)
-4. ✅ Properly reviewed and tested by kbuild maintainers
-5. ✅ Complements an existing fix that was already backported to stable
-6. ✅ Build fix category - explicitly allowed in stable rules
-7. ✅ Clear, well-documented commit message
-8. ✅ Affects users who follow best practices (separate build directory)
-
-**Concerns:**
-1. ⚠️ No explicit `Cc: stable@vger.kernel.org` tag (but the first fix
-   also didn't have one and was still backported)
-2. ⚠️ No explicit `Fixes:` tag (but logically fixes the same issue as
-   25ff08aa43e37)
-3. ⚠️ Must only be applied to v6.13+ stable trees (where 13b25489b6f8
-   exists)
-
-The commit passes all stable kernel criteria: it's obviously correct,
-fixes a real user-visible bug, is small and surgical, has no new
-features, and has been tested. The incomplete fix in stable trees is
-currently causing module signing to fail for users with separate
-source/build directories.
-
-**YES**
-
- scripts/Makefile.modinst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index 1628198f3e830..9ba45e5b32b18 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -100,7 +100,7 @@ endif
- # Don't stop modules_install even if we can't sign external modules.
- #
- ifeq ($(filter pkcs11:%, $(CONFIG_MODULE_SIG_KEY)),)
--sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CONFIG_MODULE_SIG_KEY)
-+sig-key := $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(objtree)/)$(CONFIG_MODULE_SIG_KEY)
- else
- sig-key := $(CONFIG_MODULE_SIG_KEY)
- endif
--- 
-2.51.0
-
+-- 8< --
+--- a/sound/hda/core/intel-dsp-config.c
++++ b/sound/hda/core/intel-dsp-config.c
+@@ -718,7 +718,7 @@ int snd_intel_dsp_driver_probe(struct pci_dev *pci)
+ 	/* find the configuration for the specific device */
+ 	cfg = snd_intel_dsp_find_config(pci, config_table, ARRAY_SIZE(config_table));
+ 	if (!cfg)
+-		return SND_INTEL_DSP_DRIVER_ANY;
++		return SND_INTEL_DSP_DRIVER_LEGACY;
+ 
+ 	if (cfg->flags & FLAG_SOF) {
+ 		if (cfg->flags & FLAG_SOF_ONLY_IF_SOUNDWIRE &&
 
