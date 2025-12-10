@@ -1,120 +1,118 @@
-Return-Path: <linux-kbuild+bounces-10039-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10040-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC7FCB17C0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 01:28:52 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id D113ACB1A5E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 02:46:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 88188302866B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 00:28:51 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2EAB23017D90
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 01:46:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 468F6199385;
-	Wed, 10 Dec 2025 00:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABB4248F68;
+	Wed, 10 Dec 2025 01:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IX20C6Nd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1+j0f3m"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8B77260F;
-	Wed, 10 Dec 2025 00:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D53219E7F7
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Dec 2025 01:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765326529; cv=none; b=RHA5f2UWnQJZBWopQDiL2rAa9sSfh9HBWbpvJzHvbgleTLvVsedJCGjLKQ1ZzF4/0lx0GLNY9j1L3MITNLKDJqU+VyGS1T54MfZ0bPu9iztnlymhyCzgQUADPOK7AFhoLJ8kGBdWz4o+WAcWsKn+eJ8muWWjapynuuroyFiU4ks=
+	t=1765331193; cv=none; b=Pz8V3u7DdajSMnl64hNw4/oFzCyzYYc7CAKplzGqFzUa1COoUD/1c05rBGm2Hf6Ne/SAsdzIVj1C4wYa/3r4T7Yei5IEHbc1APx5Ecxn0cYcwusdD7BtPekXRE5A37omQPpmz/SizPHhOayu3iGXCIgpkB0eqmJMvEDHYQzDc7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765326529; c=relaxed/simple;
-	bh=k+3/C1s1DKKJnGuLzDKigusspipj91iCUM411FA/pdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQ1jDmijZj7EquLaXHH+jMIRk4iukEyhZO95tWErySarjMNEHvhvSw/za7cqgECYsr9dHvA1zNJbInjeUywCWObD1lKu5TWElpzySUXlsX6bePUiab7380Sl01iM/BgemRrhdNlylfy4oF2bcMYeQjYYZ9VSm/1YiYqG5Vt5G1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IX20C6Nd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE8AC4CEF5;
-	Wed, 10 Dec 2025 00:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765326527;
-	bh=k+3/C1s1DKKJnGuLzDKigusspipj91iCUM411FA/pdc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IX20C6NdM8/HAkgb/9bw0uWnlJni+OhJeOWgUXZIzaInQJU/uLY/hRUtkd1vacCng
-	 uBYPRgBOrMyvG9M22V/cydjl69mqv/FMhCTGQA00Xz62ci3su0T+etmNcd5rXGEeTw
-	 j2y4oaPXFfLJtqdHEy8eT9OAcSCcMuLPOui5JesWh28dF9OfbrffF9znu51sxTJV5A
-	 7vGQ4h3p+zXmlQ1z2dygmWns7DGJlqMRQLOZKiqZXCR4MqzhFpbpK6Lu4Q1l6C5Kby
-	 6TOwT6RfM08201jfcR1McIhZ9YH5dCr8GQZmsOil5V3T+8Nj+ZUG6cxXjrerlQNCYc
-	 LJV9+xuNRTbEA==
-Date: Wed, 10 Dec 2025 09:28:43 +0900
-From: Nathan Chancellor <nathan@kernel.org>
-To: Fabian Pfitzner <f.pfitzner@pengutronix.de>
-Cc: Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: fix modules.builtin.modinfo being executable
-Message-ID: <20251210002843.GA597239@ax162>
-References: <20251209-modinfo-executable-v1-1-ed0c553a4390@pengutronix.de>
+	s=arc-20240116; t=1765331193; c=relaxed/simple;
+	bh=+/APqOnN84rXLQeXUydTcFlZtrcqSjMaTX9Y+xK4YE4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KFGzMpgHGuhhZRXGJ5gzVwZ9M+r51p4Rs+u6CqNAbOGFbs2TrR5btBFEwoQ8Vc2LPHSrfGhbEUXKWV6ThSkT5NEiV/az5P2do25CvzUrRJGjr/CHO/7HEbjbZ0PVncrx2txyvVmUFdcqBtNtaVQjm+1zddH+TYs9mms1wKTbsMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1+j0f3m; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-78a76afeff6so71023207b3.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 09 Dec 2025 17:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765331191; x=1765935991; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EFP+SwCgoD6NbY96JnNDOX6vBcbdvYJju9zn+wNt47g=;
+        b=Q1+j0f3maF1qb+xbAVAgf08HIzVqoNZ+gYsJisxuwZjzCjCQrWNm2bsyTlUGDVTrlU
+         H3DlAMc1nz0lz6ZNOdbVaZtbWKgl9QAC+qHFb6RgTp3lLh3FeLGySXuqlhTYm8ViwXiv
+         oG95yPYo3iFLN9uPaqszxFGzM7TwyIWIM7dbpNnw7lvTa+7c6H2fv8FpMZ+AAt+fBFur
+         lZjOXs0A4Vyx00OW0GyZW0jtm+3py4qNc6FCDYgXkuOBC6e2i4Wz/5mmGQHYtvkhSH+c
+         ITywSjmYknJBJxgnLFddHCy7wql+XEb7ikQMcUMchCJ6MAd4bxAhDGoN7NgK57a5ilIE
+         4oNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765331191; x=1765935991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EFP+SwCgoD6NbY96JnNDOX6vBcbdvYJju9zn+wNt47g=;
+        b=T0pbaV+tHAOWTbpI1OUuKC5NNz+PZEaqV4OkV/G+cNnumQpQpa8B7vwb2QLZpVa+d0
+         3BeU2Sl0/UT02TWCBY/qkRQIw3yDRUHKAupOpa/ZsLN/im0cLwxP7E6Vgc1qWvKcbUXD
+         3JIrlmRFlzqJr4kVZH1ulrpmy5G7yxdoWQQI+0pi+4CJrTgFKMplfGKvpuCXhz1yfTrm
+         EDcfzHRjRBlfG1GwWuZXCG6EMxgc7Kx8EydmuCrPRzmHRtjE6dWHTG5G//fq3HGMf36a
+         LuPZ7Zl5ZgQ8iBvH/S9J0RzPF63J6w0Q6bvf3JvrCGG4ikBxlhPnYPmOsAZtBdXkgfvQ
+         fH6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW8SdgCL6KY0wZHIQ+qltVe9n5pKADow77me6VVt0EliQ/mwip2Vk2lMmB+DZaNjSJjZK8YP15J8sNWwJs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZAVykXHAat4SAb7huPYpFjbLcrfcEdAdBWmuVfznYwJWoXIT9
+	bqGRMdNjQt6Ov+MP/3dLvIOmJ1jr9ORCi6ry4s6rm9jzCZU+kGuX3/eqjqBBY10JIkfFpUbk3+2
+	T3Pu5q9GP1IgMKxYPgRSXv1S0SVSJw+g=
+X-Gm-Gg: AY/fxX41ybW1SqJtGlA7q32Y9n97cVqNVDzeXAAECbzxCG9v1dUC1Yd16o4fPNHwrmI
+	T4w6WRwILMDBE2Kgc7RxNJ1yANum2ymBh2+kiqFbyL2SbBPQtYFwiSQ9xfBhdHNHTzdSFKp4TJb
+	U51L5L2Uy/g6l0vjXdKtoOdbbDdEPtggUqJFG7Mz1WFCipl4M9UwnoGd2xStjBNhspcAR9d38t7
+	OagLzcMfmteczcgNF7+muScZDyU0i+2okldA7VBD3iL3OwPm1D+/1KV4tUEOWLAAKB0JmTz
+X-Google-Smtp-Source: AGHT+IE85Xv0u/sx6VfPNzN3g4Tl7u3d0ImAA0DZGLPPhQUIIiFLjZzVvS+WAuRYWIBQ7d8QfLpIaV6TgcnURt8BOek=
+X-Received: by 2002:a05:690c:4a0c:b0:787:e3c1:8c with SMTP id
+ 00721157ae682-78c9d7cdacfmr5671147b3.64.1765331191298; Tue, 09 Dec 2025
+ 17:46:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251209-modinfo-executable-v1-1-ed0c553a4390@pengutronix.de>
+References: <87o6q8l68r.wl-tiwai@suse.de> <20251015145749.2572-1-safinaskar@gmail.com>
+ <878qhckxc5.wl-tiwai@suse.de> <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+ <875xcgkvnw.wl-tiwai@suse.de> <CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+ <CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+ <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+ <87bjm78978.wl-tiwai@suse.de> <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+ <871plbucj3.wl-tiwai@suse.de> <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+ <875xagt7d1.wl-tiwai@suse.de> <87y0ncrons.wl-tiwai@suse.de>
+In-Reply-To: <87y0ncrons.wl-tiwai@suse.de>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Wed, 10 Dec 2025 04:45:55 +0300
+X-Gm-Features: AQt7F2rd32LSsdqWLpP58mgpRDLCWij5Xhm4_fvW6LhI8L_uc3Zw-8pHnicMoVI
+Message-ID: <CAPnZJGCknqB3XjNY5zhD7i84pz+uL+v4OUgw04ADxR-W=CAeGA@mail.gmail.com>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA:
+ hda: Move controller drivers into sound/hda/controllers directory)
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Dell.Client.Kernel@dell.com, amadeuszx.slawinski@linux.intel.com, 
+	baojun.xu@ti.com, bo.liu@senarytech.com, cezary.rojewski@intel.com, 
+	kai.vehmanen@linux.intel.com, kailang@realtek.com, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	regressions@lists.linux.dev, rf@opensource.cirrus.com, 
+	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, sam@gentoo.org, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Daniel Xu <dxu@dxuuu.xyz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 09, 2025 at 04:59:45PM +0100, Fabian Pfitzner wrote:
-> Since commit a26a6c93edfe ("kbuild: Strip trailing padding bytes from
-> modules.builtin.modinfo") the resulting modules.builtin.modinfo file gets
-> copied by objcopy resulting in an executable file.
+On Tue, Dec 9, 2025 at 12:27=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+> The below one is a revised fix, just to be safer in case the legacy
+> driver is disabled, too.  Give it a try.
 
-objcopy has been used to generate modules.builtin.modinfo since its
-introduction in commit 898490c010b5 ("moduleparam: Save information
-about built-in modules in separate file"). This would seem to indicate
-some issue with the sed command in that change if it is indeed the
-culprit of introducing this behavior? Or is there something else going
-on here?
+I just tested both patches (this and previous). Both work.
 
-> It seems, that objcopy detects this file as executable even though
-> the file is not executable at all.
+Also, please, add this for regzbot:
+> Fixes: 2d9223d2d64c ("ALSA: hda: Move controller drivers into sound/hda/c=
+ontrollers directory")
+> Reported-by: Askar Safin <safinaskar@gmail.com>
 
-This section comes from vmlinux.unstripped, which is executable, perhaps
-that is related?
-
-> This problem arises on x86_64 and arm-v7a, but for some reason does not
-> happen on aarch64.
-
-This file is executable for me on an aarch64 machine:
-
-  $ uname -m
-  aarch64
-
-  $ ls -al /usr/lib/modules/6.18.0-next-20251205-00002-g8e6af29eba24/modules.builtin.modinfo
-  .rwxr-xr-x@ 197k root  5 Dec 09:39 /usr/lib/modules/6.18.0-next-20251205-00002-g8e6af29eba24/modules.builtin.modinfo
-
-> Fix this problem by removing the execution bit afterwards.
-
-This seems obviously correct since there is no reason for this file to
-be executable but does this result in any other problems?
-
-> Signed-off-by: Fabian Pfitzner <f.pfitzner@pengutronix.de>
-> ---
->  scripts/Makefile.vmlinux | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-> index cd788cac9d91dadcf4e83a39142f9d7bc61ffed0..7ee6aad760495ac5357132954c32ff879d24f72e 100644
-> --- a/scripts/Makefile.vmlinux
-> +++ b/scripts/Makefile.vmlinux
-> @@ -113,6 +113,7 @@ vmlinux: vmlinux.unstripped FORCE
->  # what kmod expects to parse.
->  quiet_cmd_modules_builtin_modinfo = GEN     $@
->        cmd_modules_builtin_modinfo = $(cmd_objcopy); \
-> +                                    chmod -x $@; \
->                                      sed -i 's/\x00\+$$/\x00/g' $@
->  
->  OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
-> 
-> ---
-> base-commit: cb015814f8b6eebcbb8e46e111d108892c5e6821
-> change-id: 20251209-modinfo-executable-2d2af74150c0
-> 
-> Best regards,
-> -- 
-> Fabian Pfitzner <f.pfitzner@pengutronix.de>
-> 
+--=20
+Askar Safin
 
