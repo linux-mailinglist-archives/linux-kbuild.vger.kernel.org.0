@@ -1,118 +1,91 @@
-Return-Path: <linux-kbuild+bounces-10040-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10041-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D113ACB1A5E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 02:46:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2808CB22D1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 08:17:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2EAB23017D90
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 01:46:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DDDDD3069549
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 07:17:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABB4248F68;
-	Wed, 10 Dec 2025 01:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7682B231858;
+	Wed, 10 Dec 2025 07:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1+j0f3m"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vqw8AVqZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D53219E7F7
-	for <linux-kbuild@vger.kernel.org>; Wed, 10 Dec 2025 01:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB5122A1D4;
+	Wed, 10 Dec 2025 07:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765331193; cv=none; b=Pz8V3u7DdajSMnl64hNw4/oFzCyzYYc7CAKplzGqFzUa1COoUD/1c05rBGm2Hf6Ne/SAsdzIVj1C4wYa/3r4T7Yei5IEHbc1APx5Ecxn0cYcwusdD7BtPekXRE5A37omQPpmz/SizPHhOayu3iGXCIgpkB0eqmJMvEDHYQzDc7c=
+	t=1765351040; cv=none; b=fz6gvnzJujrGAl8Hvrwvg1l4+LmdG1+BrT5i/1QazlZ3fuyZ78ktv2FcWHGzxFh08UE+Frr36RUOomJvkXRp1lzEyYRAv3LQWAPZLR7Io5q+lNOHJ+3SbW0p5ICzBbevoV3jSpc70miZbGKiRI/IGY4qV7mOmotA+IY2GN8jES4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765331193; c=relaxed/simple;
-	bh=+/APqOnN84rXLQeXUydTcFlZtrcqSjMaTX9Y+xK4YE4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KFGzMpgHGuhhZRXGJ5gzVwZ9M+r51p4Rs+u6CqNAbOGFbs2TrR5btBFEwoQ8Vc2LPHSrfGhbEUXKWV6ThSkT5NEiV/az5P2do25CvzUrRJGjr/CHO/7HEbjbZ0PVncrx2txyvVmUFdcqBtNtaVQjm+1zddH+TYs9mms1wKTbsMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1+j0f3m; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-78a76afeff6so71023207b3.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 09 Dec 2025 17:46:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765331191; x=1765935991; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EFP+SwCgoD6NbY96JnNDOX6vBcbdvYJju9zn+wNt47g=;
-        b=Q1+j0f3maF1qb+xbAVAgf08HIzVqoNZ+gYsJisxuwZjzCjCQrWNm2bsyTlUGDVTrlU
-         H3DlAMc1nz0lz6ZNOdbVaZtbWKgl9QAC+qHFb6RgTp3lLh3FeLGySXuqlhTYm8ViwXiv
-         oG95yPYo3iFLN9uPaqszxFGzM7TwyIWIM7dbpNnw7lvTa+7c6H2fv8FpMZ+AAt+fBFur
-         lZjOXs0A4Vyx00OW0GyZW0jtm+3py4qNc6FCDYgXkuOBC6e2i4Wz/5mmGQHYtvkhSH+c
-         ITywSjmYknJBJxgnLFddHCy7wql+XEb7ikQMcUMchCJ6MAd4bxAhDGoN7NgK57a5ilIE
-         4oNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765331191; x=1765935991;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EFP+SwCgoD6NbY96JnNDOX6vBcbdvYJju9zn+wNt47g=;
-        b=T0pbaV+tHAOWTbpI1OUuKC5NNz+PZEaqV4OkV/G+cNnumQpQpa8B7vwb2QLZpVa+d0
-         3BeU2Sl0/UT02TWCBY/qkRQIw3yDRUHKAupOpa/ZsLN/im0cLwxP7E6Vgc1qWvKcbUXD
-         3JIrlmRFlzqJr4kVZH1ulrpmy5G7yxdoWQQI+0pi+4CJrTgFKMplfGKvpuCXhz1yfTrm
-         EDcfzHRjRBlfG1GwWuZXCG6EMxgc7Kx8EydmuCrPRzmHRtjE6dWHTG5G//fq3HGMf36a
-         LuPZ7Zl5ZgQ8iBvH/S9J0RzPF63J6w0Q6bvf3JvrCGG4ikBxlhPnYPmOsAZtBdXkgfvQ
-         fH6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW8SdgCL6KY0wZHIQ+qltVe9n5pKADow77me6VVt0EliQ/mwip2Vk2lMmB+DZaNjSJjZK8YP15J8sNWwJs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZAVykXHAat4SAb7huPYpFjbLcrfcEdAdBWmuVfznYwJWoXIT9
-	bqGRMdNjQt6Ov+MP/3dLvIOmJ1jr9ORCi6ry4s6rm9jzCZU+kGuX3/eqjqBBY10JIkfFpUbk3+2
-	T3Pu5q9GP1IgMKxYPgRSXv1S0SVSJw+g=
-X-Gm-Gg: AY/fxX41ybW1SqJtGlA7q32Y9n97cVqNVDzeXAAECbzxCG9v1dUC1Yd16o4fPNHwrmI
-	T4w6WRwILMDBE2Kgc7RxNJ1yANum2ymBh2+kiqFbyL2SbBPQtYFwiSQ9xfBhdHNHTzdSFKp4TJb
-	U51L5L2Uy/g6l0vjXdKtoOdbbDdEPtggUqJFG7Mz1WFCipl4M9UwnoGd2xStjBNhspcAR9d38t7
-	OagLzcMfmteczcgNF7+muScZDyU0i+2okldA7VBD3iL3OwPm1D+/1KV4tUEOWLAAKB0JmTz
-X-Google-Smtp-Source: AGHT+IE85Xv0u/sx6VfPNzN3g4Tl7u3d0ImAA0DZGLPPhQUIIiFLjZzVvS+WAuRYWIBQ7d8QfLpIaV6TgcnURt8BOek=
-X-Received: by 2002:a05:690c:4a0c:b0:787:e3c1:8c with SMTP id
- 00721157ae682-78c9d7cdacfmr5671147b3.64.1765331191298; Tue, 09 Dec 2025
- 17:46:31 -0800 (PST)
+	s=arc-20240116; t=1765351040; c=relaxed/simple;
+	bh=eMiRLuXBhClK2+tci3p2R5z1acpw2/WKR5xG9n6i/3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W8WX+/pQBcT6Mr7X91BbAHuJEVMPidaqFE6JVBC3gkw+vK7WjoFleR0IqS9rZQSlEMCA+c+skH1aU0iZC5Hy6Yq3AS80TAhZJnBwIP2XSuWI5mr64LJZ/7XWtevlIFNcW6hHF3t95/7ykjNA8TRVwEEn43xRFSA/+2J0x3wDziE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vqw8AVqZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91283C4CEF1;
+	Wed, 10 Dec 2025 07:17:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765351039;
+	bh=eMiRLuXBhClK2+tci3p2R5z1acpw2/WKR5xG9n6i/3w=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Vqw8AVqZrd72rACWo81wJo9AcjrvM1AIFsgUS0LcIfFsYYLPkpP9sYEkD/n3zRC9P
+	 ZSXSTL13PDPpJhH/B2p9md2JdiWERSA1xw7rTw8eJN862nPF7i/eyXwsLR4Ula+/Q1
+	 j6ZNbyteSCNe/LuKpGkpTWw0jQmB33YcXN34Gglm2IQNFA6sWbOJah7yIt/7gxF8wR
+	 UMRz15dFrorq3QIICNsYJ3xbJENDHt5M0K1yCzxsV1m4WnN6+A+ZCmDX2vfgfBST19
+	 hd0nvuwxDcGq/TuvY+6Z8XV8AXZxBPyoL/cF8/As4J1qqDeJXxBMftRthIaAtAqAla
+	 nHjh4HkUNoaPA==
+Date: Wed, 10 Dec 2025 16:17:15 +0900
+From: Nathan Chancellor <nathan@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>,
+	linux-kbuild@vger.kernel.org
+Subject: [GIT PULL] Kbuild for 6.19 #2
+Message-ID: <20251210071715.GA1138940@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87o6q8l68r.wl-tiwai@suse.de> <20251015145749.2572-1-safinaskar@gmail.com>
- <878qhckxc5.wl-tiwai@suse.de> <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
- <875xcgkvnw.wl-tiwai@suse.de> <CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
- <CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
- <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
- <87bjm78978.wl-tiwai@suse.de> <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
- <871plbucj3.wl-tiwai@suse.de> <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
- <875xagt7d1.wl-tiwai@suse.de> <87y0ncrons.wl-tiwai@suse.de>
-In-Reply-To: <87y0ncrons.wl-tiwai@suse.de>
-From: Askar Safin <safinaskar@gmail.com>
-Date: Wed, 10 Dec 2025 04:45:55 +0300
-X-Gm-Features: AQt7F2rd32LSsdqWLpP58mgpRDLCWij5Xhm4_fvW6LhI8L_uc3Zw-8pHnicMoVI
-Message-ID: <CAPnZJGCknqB3XjNY5zhD7i84pz+uL+v4OUgw04ADxR-W=CAeGA@mail.gmail.com>
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA:
- hda: Move controller drivers into sound/hda/controllers directory)
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Dell.Client.Kernel@dell.com, amadeuszx.slawinski@linux.intel.com, 
-	baojun.xu@ti.com, bo.liu@senarytech.com, cezary.rojewski@intel.com, 
-	kai.vehmanen@linux.intel.com, kailang@realtek.com, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	regressions@lists.linux.dev, rf@opensource.cirrus.com, 
-	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, sam@gentoo.org, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Daniel Xu <dxu@dxuuu.xyz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Dec 9, 2025 at 12:27=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
-> The below one is a revised fix, just to be safer in case the legacy
-> driver is disabled, too.  Give it a try.
+Hi Linus,
 
-I just tested both patches (this and previous). Both work.
+Please pull this single Kbuild change for 6.19. This really should have
+gone into 6.18 since it has been in kbuild-fixes for almost a month but
+I was sick over the Thanksgiving break and I wanted to make sure I did
+not step on Nicolas's toes for 6.19.
 
-Also, please, add this for regzbot:
-> Fixes: 2d9223d2d64c ("ALSA: hda: Move controller drivers into sound/hda/c=
-ontrollers directory")
-> Reported-by: Askar Safin <safinaskar@gmail.com>
+Cheers,
+Nathan
 
---=20
-Askar Safin
+The following changes since commit e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c:
+
+  Linux 6.18-rc5 (2025-11-09 15:10:19 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-6.19-2
+
+for you to fetch changes up to 4ab2ee307983548b29ddaab0ecaef82d526cf4c9:
+
+  kbuild: install-extmod-build: Properly fix CC expansion when ccache is used (2025-11-11 22:31:34 -0700)
+
+----------------------------------------------------------------
+Second round of Kbuild updates for 6.19
+
+- Fix install-extmod-build when ccache is used via CC
+
+----------------------------------------------------------------
+Abel Vesa (1):
+      kbuild: install-extmod-build: Properly fix CC expansion when ccache is used
+
+ scripts/package/install-extmod-build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
