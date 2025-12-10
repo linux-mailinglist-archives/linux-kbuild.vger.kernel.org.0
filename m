@@ -1,111 +1,133 @@
-Return-Path: <linux-kbuild+bounces-10044-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10045-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A014ECB3144
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 14:59:12 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC43CB3165
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 15:02:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E755C308479D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 13:55:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A1402319CE3A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Dec 2025 13:58:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 619A3324B2B;
-	Wed, 10 Dec 2025 13:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD7232572B;
+	Wed, 10 Dec 2025 13:58:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="AbYn7C8g"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="dvRlJphA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BCA322C83;
-	Wed, 10 Dec 2025 13:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE24199230;
+	Wed, 10 Dec 2025 13:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765374930; cv=none; b=t6FBnGcGQTbsimRx1oxcb8+dqSebqmQHhYQ4mA47m0M818CwhjIHnP1yEaS2y8WvjjumETF7rHUf8ebNkOY+JMO6ehD/9+kanJ3izwb3MilIJZ61hdqoFJRgDRTUNQhwvN+s1Zg15cF7dldPoZP92oVzESFSO7RbTaY3ZyJ4B9o=
+	t=1765375130; cv=none; b=RbKL9dhWaySwj5YnqjBCT9358GTajCv401iZM+7RZj+vY1+dRI0tK0JJnIXpixXHRR2KX8DmWKU1XmnabbQaZ/GONwlLeYWU7oPKFZWIgcVLmLqBEn3aODQ6ZeHQiLD7QE+11y6FnUXZHV51x56iHoOSrfcQyHSiGDnHgPfl+rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765374930; c=relaxed/simple;
-	bh=DAtUlv8bDxKZGj8g2l9j9Ya3tL4DDzbIQQvoToS86R4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D+lQH5XZR3dI1ewBS8G4uHLw4zCLSblvbV29LdJvYUtQNxM/e3NUGXneULbbACRti9voxM8kK+q8cHNgE4PhRTC6ZdgLmC3bCQRFsiBXZynPP97nkluMkoInBeMJ2T0r9b3AolbioFvcdifPcZEVPyWoU0efc5RpFjpF4mZPOYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=AbYn7C8g; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=UIMfeOC7d4j2HsZslC/hqGz2UqxXTYa7u4kBsuOIxeQ=; t=1765374928;
-	x=1765806928; b=AbYn7C8g/H4AE60+esc3mTLK2qo6UYY9mLeT2mBNyOF2ZWX5A6/FJuL3pWL73
-	JEMDPO99vrH5Us+c5MdrAbyfvjR836tra4lUdnT8pB7F5eW3a4RyKDSg/cko3LVNHYNtqAenTvdkH
-	Bm0W2bvYKA3LDin1vBYRHmtiG8pvf+Xn1S2X2JVqzYtX1zUUIatxuJ0QqvjSkWlchXiTlemJzwwUF
-	j2dtNn5f0qlsn2lKnnTpT42KlMNKlAzQzPp5Hci9k02ZmUN/4jWEHrC5lVXhTg/JFyCgRMDuCk9Fw
-	Ezv4y48vPRrHhGCjhhxJ/COSKNalIhRDADk56V/xA9rDXrODaw==;
-Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-	id 1vTKex-00BHlF-1z;
-	Wed, 10 Dec 2025 14:55:15 +0100
-Message-ID: <429d18da-af3a-43d2-987f-a6da89935d60@leemhuis.info>
-Date: Wed, 10 Dec 2025 14:55:14 +0100
+	s=arc-20240116; t=1765375130; c=relaxed/simple;
+	bh=ZYnbkK7w/9Ce2f4DfTpNrePenSR/1bl9OL8WjCGRX/A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=huONOEbgmeEiDsn+z56b3gmtYC9ADLHUIk9oAYgDLjikh8jNzjWTY1frqcLX1ho4xtz3ouFK4Caj8BjN61iP7X+CDpiK6gjftoFxuE/sxSvfs5raJLC3fF1DslIKm/MMGTshFTJ1deGIG+WMkN83pfm78bMEigpi3l6lBp1ewVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=dvRlJphA; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76DE64428E;
+	Wed, 10 Dec 2025 13:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1765375120;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sI+gUyOFXYEnZpQhmkAjZV83XJOAgEZ2StiKU6kfikY=;
+	b=dvRlJphA4Daf0OIIMyPQBd3HtUqo9i7eO2yF1x+UK7QCeA9IMs5wLg8hVHV3L/uYFKLJl7
+	I1+3pOu20RvequvZp48eQlJRbk/0MFEjjZOk1Sk+mpIWnMBLMRqVsmdBDQZrcy1q4d8abs
+	vYbwDPQ4X59Q/7ORd+VxoHxHRCcWvfj7CL0RfznKPb7q8I6lABXK/wQhSj0mTKRX42WCan
+	bNPNtK5GBJJ8UJ/fyLjtjmqkXigygQea09LxKKMODYLBv1mXR37HakyuEaFxgpshGdM8Ix
+	xhpJaRw1M7W3A5m5eYnycbJOGiNKrdvQ+5AT61ktp0fgpXqRKyHcI4GbAboeyg==
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	workflows@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>,
+	Guillaume Tucker <gtucker@gtucker.io>
+Subject: [PATCH v1 0/2] scripts: introduce containerized builds
+Date: Wed, 10 Dec 2025 14:58:27 +0100
+Message-ID: <cover.1765374789.git.gtucker@gtucker.io>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA:
- hda: Move controller drivers into sound/hda/controllers directory)
-To: Takashi Iwai <tiwai@suse.de>, Askar Safin <safinaskar@gmail.com>
-Cc: Dell.Client.Kernel@dell.com, amadeuszx.slawinski@linux.intel.com,
- baojun.xu@ti.com, bo.liu@senarytech.com, cezary.rojewski@intel.com,
- kai.vehmanen@linux.intel.com, kailang@realtek.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- regressions@lists.linux.dev, rf@opensource.cirrus.com,
- Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
- sam@gentoo.org, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <thomas.weissschuh@linutronix.de>, Daniel Xu <dxu@dxuuu.xyz>
-References: <87o6q8l68r.wl-tiwai@suse.de>
- <20251015145749.2572-1-safinaskar@gmail.com> <878qhckxc5.wl-tiwai@suse.de>
- <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
- <875xcgkvnw.wl-tiwai@suse.de>
- <CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
- <CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
- <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
- <87bjm78978.wl-tiwai@suse.de>
- <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
- <871plbucj3.wl-tiwai@suse.de>
- <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
- <875xagt7d1.wl-tiwai@suse.de> <87y0ncrons.wl-tiwai@suse.de>
- <CAPnZJGCknqB3XjNY5zhD7i84pz+uL+v4OUgw04ADxR-W=CAeGA@mail.gmail.com>
- <87345iebky.wl-tiwai@suse.de>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <87345iebky.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1765374928;8fb7157f;
-X-HE-SMSGID: 1vTKex-00BHlF-1z
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvvdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepifhuihhllhgruhhmvgcuvfhutghkvghruceoghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhoqeenucggtffrrghtthgvrhhnpeevudefgedvheduffekjeetveffteffkeduieehveeifedvtedtgfeluddvffeftdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhtlhgrsgdrtghomhenucfkphepvddttddumeekiedumeegrgegtdemkeeivddtmeejkegrsgemkehfkedumedvkeeludemgegsvgegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegrgegtdemkeeivddtmeejkegrsgemkehfkedumedvkeeludemgegsvgegpdhhvghlohepshhtrghrughushhtrdhlrghnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeejieffgfeigeegvdekgfdpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpt
+ hhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhushhtqdhfohhrqdhlihhnuhigsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgsuhhilhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghuthhomhgrthgvugdqthgvshhtihhngheslhhishhtshdrhihotghtohhprhhojhgvtghtrdhorhhg
+X-GND-State: clean
 
-On 12/10/25 14:00, Takashi Iwai wrote:
-> On Wed, 10 Dec 2025 02:45:55 +0100,
->> On Tue, Dec 9, 2025 at 12:27 PM Takashi Iwai <tiwai@suse.de> wrote:
->> Also, please, add this for regzbot:
->>> Fixes: 2d9223d2d64c ("ALSA: hda: Move controller drivers into sound/hda/controllers directory")
-> 
-> Actually this tag isn't really right.  This commit casually surfaced
-> the issue in your particular case, but the bug itself was introduced
-> from the very beginning, and it could hit earlier.
+This proposal emerged from an email discussion and a talk at Plumbers
+last year:
 
-And for the record: regzbot notices when a commit that is tracked to
-have caused as regression is mentioned, but only takes a note, as one
-commit can cause different regressions that need separate fixes.
+    https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
 
-What counts for regzbot is the link to the report (e.g.
-https://lore.kernel.org/all/20251014034156.4480-1-safinaskar@gmail.com/)
-in the fix using a Link or Closes tag. And Takashi usually adds those iirc.
+The aim is to facilitate reproducing builds for CI bots as well as
+developers using containers.  Here's an illustrative example with a
+kernel.org toolchain in a Docker image from tuxmake:
 
-Ciao, Thorsten
+    $ scripts/container -i tuxmake/korg-clang-21 make LLVM=1 defconfig
+      HOSTCC  scripts/basic/fixdep
+      HOSTCC  scripts/kconfig/conf.o
+    [...]
+      HOSTCC  scripts/kconfig/util.o
+      HOSTLD  scripts/kconfig/conf
+    *** Default configuration is based on 'x86_64_defconfig'
+    #
+    # configuration written to .config
+    #
+
+and a follow-up command to build the kernel with the verbose flag
+turned on to show DEBUG log messages from the container tool:
+
+    $ scripts/container -i tuxmake/korg-clang-21 -v -- make LLVM=1 -j8
+    [container DEBUG] runtime=docker, image=tuxmake/korg-clang-21
+      GEN     arch/x86/include/generated/asm/orc_hash.h
+      HOSTCC  scripts/basic/fixdep
+      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
+      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
+      WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
+      WRAP    arch/x86/include/generated/uapi/asm/errno.h
+    [...]
+      LD      arch/x86/boot/setup.elf
+      OBJCOPY arch/x86/boot/setup.bin
+      BUILD   arch/x86/boot/bzImage
+    Kernel: arch/x86/boot/bzImage is ready  (#1)
+
+While the example above uses a tuxmake image, I've also started
+preparing reference container images with kernel.org toolchains and
+no third-party dependencies other than the base Debian distro:
+
+    https://gitlab.com/gtucker/korg-containers
+
+This patch series include a documentation page with all the relevant
+details about how to use the tool and images currently available.
+
+Guillaume Tucker (2):
+  scripts: add tool to run containerized builds
+  Documentation: dev-tools: add container.rst page
+
+ Documentation/dev-tools/container.rst | 175 ++++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst     |   1 +
+ scripts/container                     | 112 +++++++++++++++++
+ 3 files changed, 288 insertions(+)
+ create mode 100644 Documentation/dev-tools/container.rst
+ create mode 100755 scripts/container
+
+-- 
+2.47.3
 
 
