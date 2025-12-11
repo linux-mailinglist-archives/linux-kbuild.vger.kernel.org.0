@@ -1,138 +1,122 @@
-Return-Path: <linux-kbuild+bounces-10071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10072-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B70CCB621E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Dec 2025 15:04:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C79CB6DFF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Dec 2025 19:11:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5AB7C301F02B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Dec 2025 14:03:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 744B830142D8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Dec 2025 18:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E534B2D0C7A;
-	Thu, 11 Dec 2025 14:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D169314B6B;
+	Thu, 11 Dec 2025 18:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dpNBIpQ2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GnXrH3Ay"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4A1213E7A
-	for <linux-kbuild@vger.kernel.org>; Thu, 11 Dec 2025 14:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12D9224249
+	for <linux-kbuild@vger.kernel.org>; Thu, 11 Dec 2025 18:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765461830; cv=none; b=Nb89O/9wnvkbCeL3ovl8s92bE5jAL488IuerdmxeeAAN2yz8HDZU9KRzDC9DiBIOmPweUk+A0+qqvCYsop0E+vun1s9idh8OGsBJKn9mDOMSY6gjN2bZR98CC/TkV8NL+ANmmYr1s+sva6cskbXRpz7ISu6t2F6mKTQhq8MKocM=
+	t=1765476714; cv=none; b=dFQifXXGbBzqg1yR6Oo3N0QmYOf8TKsLMkQEvTxpio9ZpaWpMg1h97JyjL0/2Pla1kyGZNGhfBjzaNL2lPj6O6xCy7KqKpZcf/gS2T6Z9PbEI7AhVmFjBZfQIWCvDAMbd2rV8WOXPKOrp4+S3CmR9oB81AXQMNnOQVfj1M7g4MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765461830; c=relaxed/simple;
-	bh=h3wjZGG48fZ9pxWsr3LfkOz8cQcq5N+oV3tr1nZ5BOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IjsARKuUVWpdvFueJOAP8vAvNRjiLSTu4eW0AVh5dZ3tnHcWBLvPWRhdUSOJiAzETPpRtjhUv2JIsxrFQ7hqdiSYExv1G02q+3tnbeIciZzqbs5YhblrJQaw54xdvOn+fONhvTapC2WxtvLaROj48ivfMTb6wmvkjmZqN0g7J04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dpNBIpQ2; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-450b3f60c31so38186b6e.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Dec 2025 06:03:49 -0800 (PST)
+	s=arc-20240116; t=1765476714; c=relaxed/simple;
+	bh=ohNRR8mRdaddagF55e/ewnAj0hfyCt/6ndE4X2UBo0M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DAuJrPOZyQlGhJ6gStTdyMepPwf68fgtE/K+SsN4uHXgXmbOD7+/GMQfR3Ejlt97fHkRrJ4KyXKHx1eS7QBCo7H+ypM4g3HpFmaxQsCa6poPbjv/woNX49QlABYEOYoSzIbrHV8KE/tgTf8lcY8y63GU/tGHltx4SqJMgjiuzUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GnXrH3Ay; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-78c64370309so4186757b3.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Dec 2025 10:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765461828; x=1766066628; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1765476712; x=1766081512; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ocxfd2riU5l6RNdagWaPymuHyCDM3y1Y0L0w/bDOMGU=;
-        b=dpNBIpQ2FgaS1DHIOTcCYfjxLJEOGEUbt0+JswT4dsswDFAwpB9MfpqBANbOBB/ZNJ
-         QTELh/zHYSGbXeQLHTLx5DshX3n/eBY2Y6ADXJed2kjRe9zUY6CFaqE0EPY1z9NEh2nb
-         7yEgNUEU2wTz7Iar3wa/lxNmSczkg/I3n9hSo=
+        bh=SDp1RXcJwC2kzIqG/Erv9zF7oztqaR2rGAAgD3AO8Fk=;
+        b=GnXrH3AyZra2IjiQu7YJNxiDwWOxER1CAFPMWhGxlkquejDzkOGn0RLrXflr01ye3w
+         A54bSDZi83FI3gYzZSdv4X4Rxh4GmWpZ/LsLFJL6EUDjXa8YdWvdfAW705Z/lpg/qFAa
+         esW76zNyaDESgKB5N4KAg0O/x29cVEk3E7mx/F0wPbmGRZw1i9Vx2Hw0wXDtRH116Mg+
+         X9MNH+rPCFD8twgufmBx8tBdCa1pjxMtF+1ws8c0Mhp/vAIH8JysgsALKm6akbJG0ujp
+         wcfs+VGR6z1o/B8MKbzZhbMuPPpW7lJEUSR4ld1Z9X6iZyiWDBqkgVquhqML449WxP3S
+         E2sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765461828; x=1766066628;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1765476712; x=1766081512;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ocxfd2riU5l6RNdagWaPymuHyCDM3y1Y0L0w/bDOMGU=;
-        b=e4MT3NvDqIc9JNddm5WExvA2pebQRHnE3Bx8DIhvtFKJGy292x5d9UzpXf1/xP5lOG
-         4wFOlVw7+lreLErikeJ//tQ2l/4bv1daD+W2ZjwcvG1tZppxPjlsiaT3CGBYfJo6FBMB
-         a032cpGHEYP8ta4ISe30N8I/ICdkC+1U7n8D+geopeGYxXhfTI63gEPScV0fTIvV2SNT
-         fK7jl58IitCjwL5xhIXtdVlVI1SBsguNdIKKr9SqbycFcSIgy9TVNM1s90FE47xQQ2Ru
-         LHfXrfrGuEKQLBgJ3N/I3mFeYxUT1l1XUnopwHknp1RKsST+kV5avpFqSkjc+0oLchoj
-         XWQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtgwezCHt2olL2LnVx253vaVWpI+oXe1lrpg5k1B2wXXVjQSTV/JRcqbi1EMW+19Mn9m17uTk06Ubf1uI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCYS9WmnnxF8rehPtUGhCqFvYjP1JiAjJDsoOhGDrILIdWQA17
-	3faaidjSY71v36epD1+vRlJmPQ7BFqqMuiTdoPF5ygETrg+mjt+mnc8T/0Hl1yq0m2A5FTAN5o3
-	AXaU=
-X-Gm-Gg: AY/fxX7IAwP3WHNLl3saZFAvTj8UOZD04Hl3JME1I2DzRDeXYrFARL4Pm+UrNNFIJfM
-	86vuZ7lAzVaFkSRokC72VRQbf9dAfYX9VuAiOXsJrFWr80HfyurArVOsNIEWRFRFBJJjIzAjxyE
-	avoXYAttUyR3B/XmB4TyXvzMzMYlIs2EyacBOZbYtgeeyBuSco5JE1U6ed3Y3bJFaKy4n+NcMSe
-	ozRtavJ8CM5hISEm/GQ8u3PZmUxWAZg9mL9CeZXiJvw1mLHEaG2s4NcKZVbglcxxscV0EG8xU/e
-	qVmi5ckeYOgynu3hvlle9bUIUFb8lLjm69IUwYUwPo7fN2m3JySEcbAfZMmgaMYoBznxGdrTzq9
-	B9KO1naDoJvQu5Hkeyc3sH/pNx+Jh10Zezt4BjEYAIuPc6FnbCWPqJkp5cdA8gD6Su0pcBZ14pP
-	hFv+4B
-X-Google-Smtp-Source: AGHT+IHtuzi/39tczpLCYlwV1m0CpQpVxWVqkNMlvivSc8jFvfBYvWlon4SeWF8dguVxgleSft/DYA==
-X-Received: by 2002:a05:6808:bc2:b0:44d:b8d3:3214 with SMTP id 5614622812f47-45586581c02mr2763469b6e.3.1765461828234;
-        Thu, 11 Dec 2025 06:03:48 -0800 (PST)
-Received: from chromium.org ([73.34.74.121])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45598d6e789sm1130030b6e.22.2025.12.11.06.03.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 06:03:47 -0800 (PST)
-From: Simon Glass <sjg@chromium.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Nicolas Schier <nicolas@fjasle.eu>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	=?UTF-8?q?J=20=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Tom Rini <trini@konsulko.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Simon Glass <sjg@chromium.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Oleh Zadorozhnyi <lesorubshayan@gmail.com>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 4/6] kbuild: Support a MAKE_FIT_FLAGS environment variable
-Date: Thu, 11 Dec 2025 07:03:01 -0700
-Message-ID: <20251211140309.1910613-5-sjg@chromium.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251211140309.1910613-1-sjg@chromium.org>
-References: <20251211140309.1910613-1-sjg@chromium.org>
+        bh=SDp1RXcJwC2kzIqG/Erv9zF7oztqaR2rGAAgD3AO8Fk=;
+        b=g0hOJRBdc6cCJZSVTj6YgdweunoH/UuG0gakg4DoAkJHfU2Y40BfIuOEHoFlUoCjGy
+         HMPIzsda5pjogIzA7gRR0WgVfy2z9HWeE+hhUxCnyb35J0gQr+9zznCcOX29qr2LapjT
+         VESLoy4vpiJCsD3QtgxTklD7+xNoUbDsPZjE2v/f7SEwvsBzwOndSEnrZw9RvgH1SFbj
+         PyomO13jybgiB+yTjUyi+yZc9NzbMDP5vVK7c6Imc/FnjxB+TfQ+vsft+Y0wh1tUGIYm
+         +KMxE7cYyIvBXXyFkqzLxz65HGxpDiWN6Ug2+8gj1g6jfn7AQxATgZ73QRd9/7nTqU46
+         WnhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUy0rVIlVc0fHM+A/i6lyAFpqjOgR4eiM/OY/Ws0SdWOwvhLydQdX8tU2uUldEpMCeiWAbyR3D/BabJl0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK4xkcuto+SImT39FgHqwCcCdajVQ3+53BFRCB14lU8mTm78Ni
+	A9q/WjFfEE9qxzXy1gOuhZeE4skzKZAXR2/CK2jxFma+AHt31w7tZrzsz7kNAvvet+eOSmfyhML
+	Ps5SJLGepQqyko6YmVkxJzMoI7qYBefQ=
+X-Gm-Gg: AY/fxX4+GP74a7chrLeWxOsv6BIMQ6Zsqedu4AvLIPNZtkIO51ghskkyiZWoHBU9n7C
+	hdNFqpceTup5NEOoRf8N8yvcFKAgjLZUqGG+foRm62O8uxQLXjhJwL1KUV5VOFXqhnv2846fRjR
+	u3x24HYV3kTT3xaXOrjQ5S6G3PRwoPikRwUZ4hnYv8K08oa3ZW++cQSnYLyq1XK7wxiv6brE0Dd
+	kAL+kgAkvmy4AR+WfBp1khs+8Jozzn86FANAP2QH5KMkQAhdVMTh+7dmJqgfY+zOZDlN19S
+X-Google-Smtp-Source: AGHT+IFRzgGjcYxIbLMExA6spsMBuwax3EGl9r6dtOafMGycs0N9+jMTSH/Ac+W+oS1JYN3ndc0s25a9u/TA2UWi42U=
+X-Received: by 2002:a53:d003:0:b0:63f:b1d4:f9e3 with SMTP id
+ 956f58d0204a3-6446e948acamr4367472d50.9.1765476711525; Thu, 11 Dec 2025
+ 10:11:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <87o6q8l68r.wl-tiwai@suse.de> <20251015145749.2572-1-safinaskar@gmail.com>
+ <878qhckxc5.wl-tiwai@suse.de> <CAPnZJGDeCkqqUpEh0SBfwvsxfMp9ZDXqvhrC1s9zRp6jX+Fvnw@mail.gmail.com>
+ <875xcgkvnw.wl-tiwai@suse.de> <CAPnZJGDmCnKPz2eygwDjQGXZWVctGyJxV+OeFSLLeZPOCEvvbA@mail.gmail.com>
+ <CAPnZJGBdqPhmNOes4-BRu8C-0d3yco8H93WhdORxm7MRBSw7CQ@mail.gmail.com>
+ <CAPnZJGCqY9j-33piRBpkurSDsOfAqV6+ODGtToGDsgNQd-g9cQ@mail.gmail.com>
+ <87bjm78978.wl-tiwai@suse.de> <CAPnZJGAxrVJooo9CdgExd+uR+s=W9Na2dZzyjKZc=xYZv_kvmA@mail.gmail.com>
+ <871plbucj3.wl-tiwai@suse.de> <CAPnZJGBq=q2iW9gMEv9U9LCKJ6f6Uu7Z3QrDCw6SdRGL0sAKVQ@mail.gmail.com>
+ <875xagt7d1.wl-tiwai@suse.de> <87y0ncrons.wl-tiwai@suse.de>
+ <CAPnZJGCknqB3XjNY5zhD7i84pz+uL+v4OUgw04ADxR-W=CAeGA@mail.gmail.com> <87345iebky.wl-tiwai@suse.de>
+In-Reply-To: <87345iebky.wl-tiwai@suse.de>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Thu, 11 Dec 2025 21:11:15 +0300
+X-Gm-Features: AQt7F2q_yl_QsO8lNkmidwy3ZCDdGlJk7jGsZGeMqFXZskur9LDYPeAhNm2kr9w
+Message-ID: <CAPnZJGANGeXuD56sfNMN4D4gVQD=4eZ4bA2bTP3yuBJhatXeow@mail.gmail.com>
+Subject: Re: [REGRESSION][BISECTED] My audio broke (was: [PATCH 05/27] ALSA:
+ hda: Move controller drivers into sound/hda/controllers directory)
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Dell.Client.Kernel@dell.com, amadeuszx.slawinski@linux.intel.com, 
+	baojun.xu@ti.com, bo.liu@senarytech.com, cezary.rojewski@intel.com, 
+	kai.vehmanen@linux.intel.com, kailang@realtek.com, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	regressions@lists.linux.dev, rf@opensource.cirrus.com, 
+	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, sam@gentoo.org, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	Daniel Xu <dxu@dxuuu.xyz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In some cases it is useful to be able to pass additional flags to the
-make_fit.py script. For example, since ramdisks are typically large,
-passing -E to use external data can be helpful.
+On Wed, Dec 10, 2025 at 4:00=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+> Actually this tag isn't really right.  This commit casually surfaced
+> the issue in your particular case, but the bug itself was introduced
+> from the very beginning, and it could hit earlier.
 
-Add a new MAKE_FIT_FLAGS variable for this.
+Then, please, add this:
+> Fixes: 82d9d54a6c0e ("ALSA: hda: add Intel DSP configuration / probe code=
+")
+> Cc: <stable@vger.kernel.org>
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
----
+82d9d54a6c0e is commit, which introduced "intel-dsp-config.c"
+(the file was renamed since then, but I think stable devs will able to
+figure this out)
 
-Changes in v7:
-- Add a new patch with the MAKE_FIT_FLAGS change
-
- scripts/Makefile.lib | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 28a1c08e3b22..a5641a6538b1 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -400,7 +400,7 @@ FIT_COMPRESSION ?= gzip
- 
- quiet_cmd_fit = FIT     $@
-       cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
--		--name '$(UIMAGE_NAME)' \
-+		--name '$(UIMAGE_NAME)' $(MAKE_FIT_FLAGS) \
- 		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
- 		$(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
- 		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
--- 
-2.43.0
-
+--=20
+Askar Safin
 
