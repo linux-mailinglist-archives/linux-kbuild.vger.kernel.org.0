@@ -1,80 +1,80 @@
-Return-Path: <linux-kbuild+bounces-10077-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10073-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9B5CB85BC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 10:04:10 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF629CB8119
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 08:09:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0C01B30109BB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 09:04:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2E564300ADB0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 07:09:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F1C73101DA;
-	Fri, 12 Dec 2025 09:04:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34CB2D0C84;
+	Fri, 12 Dec 2025 07:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YgxMLxH5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ubz2INzF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE88430FC04
-	for <linux-kbuild@vger.kernel.org>; Fri, 12 Dec 2025 09:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2C92773F4
+	for <linux-kbuild@vger.kernel.org>; Fri, 12 Dec 2025 07:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765530248; cv=none; b=sdmuIbdRs+Lt5sB+/fZRTpHIZJpEGXCFAGlgP3ngShlUacsoAF09EvdQ8pxSTl6RMccVCPfx4xfxDGC4ffR12a0qiS1yozM+Kd6Uj3QqcrgH65TZqrhHGyZANZQd7YkCMiSBLm0QE5bZWxfVkaafnVKO4Wd9vwLcYMMmbVEsfA0=
+	t=1765523371; cv=none; b=LnScLhJKCdonTZej7Q47bHu3tZJlAMjznO5FmLb181wuuGVMjSQp3q4HYZZYf+nhPSnxZjBh61AlBK3f4Y4eJPajeOIK40M3hGGli/JiYjlY/6mWaAaAM87I8n67u0Apk2QbGZiWGODXOOzoFIg8Vgyzz4KMvslSwpW/bJhOGWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765530248; c=relaxed/simple;
-	bh=PcDog/To0UjbKuyFLuDAwEJCCxk0v1Bgpl+ObyVOA/w=;
+	s=arc-20240116; t=1765523371; c=relaxed/simple;
+	bh=rcFIJSID1VDJnjvbTDVTD6FbXH4CfZBKvwp6ewb69eI=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qwJT10FLXHSqMpmKYKUTOCoXbjUhpJYdxxAwXVpTQkTxunaoBpUzXGXAAcnbGZBJbNmcInTQ9qbYvL0G31kbptAjKz7xtpGktZ6MHgaWASmOaf6cxvLsij4eSKdEeGu52eAzCB7t6X0visuXXRXV60JoJfis4X1zmXrWw2CgzpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YgxMLxH5; arc=none smtp.client-ip=209.85.222.175
+	 Content-Type:MIME-Version; b=Wq/iFXmLESDbJfh1aoLIUpKLDvjaZ0h13kpmuEVXDh6cq7IVWP+Bp50SwKVjgOB+/J2eVdyEbAcBy94rZRbRHl7zdHIoRPr1VXbLT31OkTxmIZ0orcsw/GOUh68zUN3moNeujekYdJ9ZHyoiYOoCBJSenNjJlAwuTeNL/GnFb5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ubz2INzF; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8b2da83f721so114774685a.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 12 Dec 2025 01:04:05 -0800 (PST)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2956d816c10so11132755ad.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 11 Dec 2025 23:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765530244; x=1766135044; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765523369; x=1766128169; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=HA/4sr3TqfG74qmcWJYKn1Au1cNj4XE5l8roaw6U9kQ=;
-        b=YgxMLxH5FEpyFUTmPDLhjgrZH2r3x3k4JRiuyQ5M9jnz+RVcFI+57MVyT2/JRtaIsJ
-         RoomW416CSLohDDxnYng/AM43xvKqOpetJpBx/c8zpbAi+47ImKTK0iIiH/0tIF49mOo
-         OVpSdj3EpzU7jcEkQbG1nOvOY9LfUye8errSPywRrZtteLb8+HVDRbDHsGG8Fbcdi2Ls
-         +zFPHXra4pJEgDwRMYOS8l7uEnIA7oICh6OTIooiBWfiPiLKPB7mYFM8E0romhN9c0bP
-         RO520B9wQcDJCYDUpNO52Z9IHqZyEY+IXjMM2QhslMeOnxOZf/XbrPNEmr++s5m5LpI1
-         jr/A==
+        bh=taRaJ5VlWHSJuUogRunxbYADYYPRbeksELcn5Rh5qyI=;
+        b=Ubz2INzFYWzJluuIuAe6UXjiqDjUq7/PsZsMLuX40oyGYZwEhENyjbAz3EnZN07AmD
+         t60BW5maS5asuN1Pj9yjR4PY6Z7Z+RK4hhB0KmUwQOirC03p04HojfaYdwaND/Cyc+kl
+         jKqzBanw94QMeYUW+GdqePZsZf9IsSQyL4T0BGOiWNrzQnFYgETncM8BzXkVaheTROKF
+         KEIEaCmjmJGd7JJb22kLnkBbZjLBp12rzi/yKTJIFjfKtvkcy42gvz7pSh676SFmKpDw
+         ZVuUbDZlJ04Z0atZD0GV9X8wlEwOHwkXjUF0FHqAbVeeYl/zuNrR4EQiiWAHUkX3igSB
+         NoHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765530244; x=1766135044;
+        d=1e100.net; s=20230601; t=1765523369; x=1766128169;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HA/4sr3TqfG74qmcWJYKn1Au1cNj4XE5l8roaw6U9kQ=;
-        b=qo93bHZnhcJY8xysUMrOAIjKaIxxJqkWwZfNsEIC0oHYViS+GhJ254VQ4kNpex09sf
-         V9ki+jePv6o9B5g1Mbgs4GQkMirwNZip51dhmpnF/HrXuZfhCqlb8s87mU/adYmTLgEN
-         ccyXrKw161RtEFAd3TseivVuX6bVzrvFFHioTKJc/qiEuHfsSwIy4ZVzc/zyR5kylXpI
-         pxub0CWw217YkUL+Psa9xUwZ9VA4JqRo7tNqMdwAzlj6C0qw2WTl+W0gSlg38eXWIEyI
-         Y+SQ1la1BlSwCVHCePvvUppjCnWe3ay/ukF9WIng3milIJ6/79NAGUEQQmVYxo27bXrh
-         NyFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXkKUzr9uM4dMjDuwrpq/YW6DMGt9tmY+JKFlWCmX13fX+k+LPkc1ufENeDnQogflCf0PLAU2YWgRn9+ZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOZkb8fbtC2lP3WAzVV+hMNC8x5K3EB5aKZlJKM3ZNxrc26+v2
-	6IfkPWJ2uq1Rb9G0IqXAQWqzIbGFWZX4C9vx9avZn21ZXE1vob+E784yQJFweQQ1
-X-Gm-Gg: AY/fxX64OtcBup33WPyeZW/qN5ebZtTMgjf7yDgBEtF1qwv8A1wPEhEsUkoUWGyg1bR
-	gqbqRu1hg4vVHkJoFYGz/G8QGRCOr6opuAImiApTOFq9FYfdyCWKJGRBCjM2v/3yeqnud23/BUq
-	WHt0/nX4jSrEp0dXEwRs1PFbmfKFA+p87W83dUoFojovqrGz+cggJS15yk0ilXLpFAHxqVj4la+
-	C6xONJO40G3hmU8FtTJpbNEdSpYB5NtXbTfQmDTNQAWneVxUB4OG2eWbt4k5b3HVl5+nVmN/OVq
-	IdxkDNtiLntqvYAGk5k8l2cubkh1rkFs0+ClWaPjY4lCKWKLvjTY1KRVaITTip/YiXstIxmloCL
-	UAzgSq//j5ilo/ZWSehjJU0aqVai95y72giZCnaoOGYpinW6c9w9/HLkR1Zk2mDlmpnIyoKP23t
-	3u2dktvXkNJsPbNr7hqdm/UnYJLZgswTKRU4UhHXQktH4=
-X-Google-Smtp-Source: AGHT+IFWTMFJQMKXlJUDxuMrVm62gSFXENwTcyB18RGeM1BcBDoReByl3fxu8tZ+slqa0tRQxxkuxQ==
-X-Received: by 2002:a17:902:d3ca:b0:298:68e:4042 with SMTP id d9443c01a7336-29eeec1d557mr31575955ad.26.1765523343711;
-        Thu, 11 Dec 2025 23:09:03 -0800 (PST)
+        bh=taRaJ5VlWHSJuUogRunxbYADYYPRbeksELcn5Rh5qyI=;
+        b=oiKeaoiUcE4FZcz1r5sh1fKz4/JePgfAp6TLlndWuF4HQiZ6CUrwuy75YOCLIVMR+z
+         +O7qTpCo5r/tIG7dblnlTwdhsrQbRG63g3ly9h0U7G+gxIgkdYJ1mbAdhQUv4Ictz225
+         /7aCU2Csuabkkl20BNDvDW3cf8ASFYjZdhWYZ/wHgYSk+w1R+zB8FfQzRyNUmysCMZ93
+         KbdTT89WKgk/oNhVuODMA2h02dYyZAQexG2eXKDrVwU23sIpAtbI/EeZPpN9nKxEYCEg
+         OujVj8Ypa/DLIobcSjCqwf1g6IxE8sLUACSAg2n2pplUouqgKF2ElJlV2QqfzAUNrGxO
+         4h2w==
+X-Forwarded-Encrypted: i=1; AJvYcCU32thL6WrFfvc/VMQc5FxbD3ZxE04u8rJbuksEYMKinlUEEcujbO3h9PG8ZxJoJR/oc2RNPAiV+FshF/I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW4EQ+co+8iAFKP4HpEDt9Am+P7t6VHlckEn0oJkqmIjfEzfho
+	ymQuqAlPn5sDBZWYZFxUQxi9ygeYEpf2ukGuWyUtWZbkaF7dtmIPow3V
+X-Gm-Gg: AY/fxX5bZu8mX/ZK3l8gVY1th6UuENjtgge1r4B9lBHCXKJ8rIHz+CeCHGoimMD6ZDA
+	ADiRjrkazj8ic2MhK/bIqXF/dQ1MUNVqgBQQXPUobkW5emcpVEe4WOMTxeXU2H7STVpmEC/8xN1
+	qV5ToaD+WDM4jM9VFx1DwqHoXSPy64Ax24mTA/KKoebhdD13f1rJ5Y+Uc93FNDVmp2yNJ7NNAOt
+	RRA0L1n31D+FujyCV6uKtUpxJfsp4gkWbkO/EZWsnY/iWxJvwfQKUJt4FyCndW0cK5gXW7orBu0
+	qhBbicdNgNZYZJgjVkaMGPQAiC+5JBmS+XDQ7+d0+tgxRGV3IwrJjD9upcScMU7Lra9iCd++AeJ
+	rTIX5DEOXMCtLl2xzj4tDnusdF8Gd2Cw9+jR8qyF/3Or+EE8TJaN+1XMksxu8b9+uewW6y/qxYR
+	kgsAVtOg9YLiGaVo2crS79WXZzovSdOv12al4h0HaiVQk=
+X-Google-Smtp-Source: AGHT+IFofls55I9SmzDD+JUpzLkrd9iqjAHtwopQZ9d48ulj+lsYXpWt5ararv/5zaraLa80YwAWHQ==
+X-Received: by 2002:a17:903:46c6:b0:29d:9b3c:4fc8 with SMTP id d9443c01a7336-29f23d40decmr12993205ad.61.1765523368880;
+        Thu, 11 Dec 2025 23:09:28 -0800 (PST)
 Received: from [10.200.2.32] (fs98a57d9c.tkyc007.ap.nuro.jp. [152.165.125.156])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d38b98sm44760935ad.34.2025.12.11.23.08.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9b37356sm43756675ad.2.2025.12.11.23.09.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 23:09:03 -0800 (PST)
-Message-ID: <b11c1ae3816842f7b1768072982680c0bc80d8f4.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v3 6/6] resolve_btfids: change in-place update
- with raw binary output
+        Thu, 11 Dec 2025 23:09:28 -0800 (PST)
+Message-ID: <386068b11e146a9dbb502f770d7e012e3dea950f.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v3 3/6] resolve_btfids: Introduce enum
+ btf_id_kind
 From: Eduard Zingerman <eddyz87@gmail.com>
 To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
  <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
@@ -92,10 +92,10 @@ To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
  <dolinux.peng@gmail.com>
 Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
  linux-kernel@vger.kernel.org, 	linux-kbuild@vger.kernel.org
-Date: Fri, 12 Dec 2025 16:08:54 +0900
-In-Reply-To: <20251205223554.4159772-1-ihor.solodrai@linux.dev>
-References: <20251205223046.4155870-6-ihor.solodrai@linux.dev>
-	 <20251205223554.4159772-1-ihor.solodrai@linux.dev>
+Date: Fri, 12 Dec 2025 16:09:21 +0900
+In-Reply-To: <20251205223046.4155870-4-ihor.solodrai@linux.dev>
+References: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
+		 <20251205223046.4155870-4-ihor.solodrai@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
@@ -106,151 +106,77 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Fri, 2025-12-05 at 14:35 -0800, Ihor Solodrai wrote:
-> Currently resolve_btfids updates .BTF_ids section of an ELF file
-> in-place, based on the contents of provided BTF, usually within the
-> same input file, and optionally a BTF base.
->=20
-> Change resolve_btfids behavior to enable BTF transformations as part
-> of its main operation. To achieve this, in-place ELF write in
-> resolve_btfids is replaced with generation of the following binaries:
->   * ${1}.BTF with .BTF section data
->   * ${1}.BTF_ids with .BTF_ids section data if it existed in ${1}
->   * ${1}.BTF.base with .BTF.base section data for out-of-tree modules
->=20
-> The execution of resolve_btfids and consumption of its output is
-> orchestrated by scripts/gen-btf.sh introduced in this patch.
->=20
-> The motivation for emitting binary data is that it allows simplifying
-> resolve_btfids implementation by delegating ELF update to the $OBJCOPY
-> tool [1], which is already widely used across the codebase.
->=20
-> There are two distinct paths for BTF generation and resolve_btfids
-> application in the kernel build: for vmlinux and for kernel modules.
->=20
-> For the vmlinux binary a .BTF section is added in a roundabout way to
-> ensure correct linking. The patch doesn't change this approach, only
-> the implementation is a little different.
->=20
-> Before this patch it worked as follows:
->=20
->   * pahole consumed .tmp_vmlinux1 [2] and added .BTF section with
->     llvm-objcopy [3] to it
->   * then everything except the .BTF section was stripped from .tmp_vmlinu=
-x1
->     into a .tmp_vmlinux1.bpf.o object [2], later linked into vmlinux
->   * resolve_btfids was executed later on vmlinux.unstripped [4],
->     updating it in-place
->=20
-> After this patch gen-btf.sh implements the following:
->=20
->   * pahole consumes .tmp_vmlinux1 and produces a *detached* file with
->     raw BTF data
->   * resolve_btfids consumes .tmp_vmlinux1 and detached BTF to produce
->     (potentially modified) .BTF, and .BTF_ids sections data
->   * a .tmp_vmlinux1.bpf.o object is then produced with objcopy copying
->     BTF output of resolve_btfids
->   * .BTF_ids data gets embedded into vmlinux.unstripped in
->     link-vmlinux.sh by objcopy --update-section
->=20
-> For kernel modules, creating a special .bpf.o file is not necessary,
-> and so embedding of sections data produced by resolve_btfids is
-> straightforward with objcopy.
->=20
-> With this patch an ELF file becomes effectively read-only within
-> resolve_btfids, which allows deleting elf_update() call and satellite
-> code (like compressed_section_fix [5]).
->=20
-> Endianness handling of .BTF_ids data is also changed. Previously the
-> "flags" part of the section was bswapped in sets_patch() [6], and then
-> Elf_Type was modified before elf_update() to signal to libelf that
-> bswap may be necessary. With this patch we explicitly bswap entire
-> data buffer on load and on dump.
->=20
-> [1] https://lore.kernel.org/bpf/131b4190-9c49-4f79-a99d-c00fac97fa44@linu=
-x.dev/
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/scripts/link-vmlinux.sh?h=3Dv6.18#n110
-> [3] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/tree/btf_encod=
-er.c?h=3Dv1.31#n1803
-> [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/scripts/link-vmlinux.sh?h=3Dv6.18#n284
-> [5] https://lore.kernel.org/bpf/20200819092342.259004-1-jolsa@kernel.org/
-> [6] https://lore.kernel.org/bpf/cover.1707223196.git.vmalik@redhat.com/
+On Fri, 2025-12-05 at 14:30 -0800, Ihor Solodrai wrote:
+> Instead of using multiple flags, make struct btf_id tagged with an
+> enum value indicating its kind in the context of resolve_btfids.
 >=20
 > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 > ---
 
 Acked-by: Eduard Zingerman <eddyz87@gmail.com>
 
-> @@ -552,6 +528,13 @@ static int symbols_collect(struct object *obj)
->  	return 0;
->  }
-> =20
-> +static inline bool is_envvar_set(const char *var_name)
-> +{
-> +	const char *value =3D getenv(var_name);
-> +
-> +	return value && value[0] !=3D '\0';
-> +}
-> +
+(But see a question below).
 
-This is a leftover, not used anywhere.
+> @@ -213,14 +218,19 @@ btf_id__add(struct rb_root *root, char *name, bool =
+unique)
+>  			p =3D &(*p)->rb_left;
+>  		else if (cmp > 0)
+>  			p =3D &(*p)->rb_right;
+> -		else
+> -			return unique ? NULL : id;
+> +		else if (kind =3D=3D BTF_ID_KIND_SYM && id->kind =3D=3D BTF_ID_KIND_SY=
+M)
+
+Nit: I'd keep the 'unique' parameter alongside 'kind' and resolve this
+     condition on the function callsite.
+
+> +			return id;
+> +		else {
+> +			pr_err("Unexpected duplicate symbol %s of kind %d\n", name, id->kind)=
+;
+> +			return NULL;
+> +		}
+
+[...]
+
+> @@ -491,28 +515,24 @@ static int symbols_collect(struct object *obj)
+>  			id =3D add_symbol(&obj->funcs, prefix, sizeof(BTF_FUNC) - 1);
+>  		/* set8 */
+>  		} else if (!strncmp(prefix, BTF_SET8, sizeof(BTF_SET8) - 1)) {
+> -			id =3D add_set(obj, prefix, true);
+> +			id =3D add_set(obj, prefix, BTF_ID_KIND_SET8);
+>  			/*
+>  			 * SET8 objects store list's count, which is encoded
+>  			 * in symbol's size, together with 'cnt' field hence
+>  			 * that - 1.
+>  			 */
+> -			if (id) {
+> +			if (id)
+>  				id->cnt =3D sym.st_size / sizeof(uint64_t) - 1;
+> -				id->is_set8 =3D true;
+> -			}
+>  		/* set */
+>  		} else if (!strncmp(prefix, BTF_SET, sizeof(BTF_SET) - 1)) {
+> -			id =3D add_set(obj, prefix, false);
+> +			id =3D add_set(obj, prefix, BTF_ID_KIND_SET);
+>  			/*
+>  			 * SET objects store list's count, which is encoded
+>  			 * in symbol's size, together with 'cnt' field hence
+>  			 * that - 1.
+>  			 */
+> -			if (id) {
+> +			if (id)
+
+Current patch is not a culprit, but shouldn't resolve_btfids fail if
+`id` cannot be added? (here and in a hunk above).
+
+>  				id->cnt =3D sym.st_size / sizeof(int) - 1;
+> -				id->is_set =3D true;
+> -			}
+>  		} else {
+>  			pr_err("FAILED unsupported prefix %s\n", prefix);
+>  			return -1;
 
 [...]
 
-> @@ -860,23 +913,34 @@ int main(int argc, const char **argv)
->  	 */
->  	if (obj.efile.idlist_shndx =3D=3D -1 ||
->  	    obj.efile.symbols_shndx =3D=3D -1) {
-> -		pr_debug("Cannot find .BTF_ids or symbols sections, nothing to do\n");
-> -		err =3D 0;
-> -		goto out;
-> +		pr_debug("Cannot find .BTF_ids or symbols sections, skip symbols resol=
-ution\n");
-> +		goto dump_btf;
->  	}
-> =20
->  	if (symbols_collect(&obj))
->  		goto out;
-> =20
-> -	if (load_btf(&obj))
-> -		goto out;
-> -
->  	if (symbols_resolve(&obj))
->  		goto out;
-> =20
->  	if (symbols_patch(&obj))
->  		goto out;
-> =20
-> +	err =3D make_out_path(out_path, obj.path, BTF_IDS_SECTION);
-> +	if (err || dump_raw_btf_ids(&obj, out_path))
-> +		goto out;
-> +
-> +dump_btf:
-> +	err =3D make_out_path(out_path, obj.path, BTF_ELF_SEC);
-> +	if (err || dump_raw_btf(obj.btf, out_path))
-
-Nit: 'err' is not set if dump_raw_btf() errors out.
-     Maybe use:
-
-     	   err =3D make_out_path(out_path, obj.path, BTF_ELF_SEC);
-     	   err =3D err ?: dump_raw_btf(obj.btf, out_path);
-	   if (err)
-	      goto out;
-     ?
-
-> +		goto out;
-> +
-> +	if (obj.base_btf && obj.distill_base) {
-> +		err =3D make_out_path(out_path, obj.path, BTF_BASE_ELF_SEC);
-> +		if (err || dump_raw_btf(obj.base_btf, out_path))
-> +			goto out;
-> +	}
-> +
->  	if (!(fatal_warnings && warnings))
->  		err =3D 0;
->  out:
-
-[...]
 
