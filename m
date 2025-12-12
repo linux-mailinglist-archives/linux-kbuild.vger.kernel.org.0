@@ -1,118 +1,128 @@
-Return-Path: <linux-kbuild+bounces-10075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0AECB815B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 08:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F39DCB87BF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 10:36:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 73056308B598
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 07:10:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CD14E3071F93
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Dec 2025 09:32:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2476B30F80F;
-	Fri, 12 Dec 2025 07:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DBE0313272;
+	Fri, 12 Dec 2025 09:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdYVYhXq"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DMpgfaqC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C78B30F7F0
-	for <linux-kbuild@vger.kernel.org>; Fri, 12 Dec 2025 07:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB07C279DCC;
+	Fri, 12 Dec 2025 09:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765523429; cv=none; b=siupjOkoHC9IONfWrVYRQiR1B2kQI5dehuPz4dBJ5HT+O0dQFFVks6HFbYIXdGHQ4zNMpRTNzVZKAlxeRJTkS9dTMyRBKihQ14EXy73FwcN6DRQVxydGtnH5b/+BwYSAM6K122wM1LP6wevr5Zb4MI9owD/NO0CroV3vwirUIes=
+	t=1765531937; cv=none; b=Y67D0XLuq/EkwhZHG/8jeXErTchIsFku2fYIhBc3sWzmEv6I9V8qg7L95sZlM0sjTFaOI5nqwivZWSRlm5skQURfbllq9BI/6TX3mp4UIvaNppAlVppjmkTpoN7Qd81Hh6mnkZ07xJTyA5Pyy2u2VIUQ2xTJDpW/YTlyZcu1TXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765523429; c=relaxed/simple;
-	bh=W7uppCv7V1iw0fcoFOO1Ov19o0BqWyomQuPZ+QZwW24=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ajjex9vgX1cSXU4rbe2+i+CKwpocJoLQm/Ar+UvJmUQs5+NOJ0tB9/IWIaZAm58yM2bJjCONTT+zkmRupwZ5IVdgJsXJ0g2Qi6r4zPXS/Lz81szyxXrS3YygTwSBCCx2ZsvKwH1tNGFdwkTneEZ8jUHN/xTsALLcTf15L7/oRpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kdYVYhXq; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-343ff854297so1187127a91.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Dec 2025 23:10:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765523426; x=1766128226; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=W7uppCv7V1iw0fcoFOO1Ov19o0BqWyomQuPZ+QZwW24=;
-        b=kdYVYhXqwt4Vp7WzR2Q3Ynwt+4xcxM1ONflrrKsrY9nMGzVZdCkhv2dfB2w8mRsLID
-         9DuTzfN8qEdSvSjMfhTr0SBGj797Lw6iCvZL3HCY9Wi+0eYyP4m8tahPt2etrSpnY+Ff
-         gpz5kuONXKwpSsW13HeIkzbqyUNkpHZqBnBkvhtdwgSFmMX6ClB7RLMMs5eTQjpi3qBa
-         zBRFKybMsPpTRMKSZ/TCHmEnAM9Ft+EggdE04lSqtrOk2LNufzQkhpwuhYj4b/n53GZp
-         iYplcDZWs1xOcuzBlq9UtMcx25iGatvbMu1ubh+4gTDKxXFLNKj4mJ4a/AzFkheZCnxq
-         oRpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765523426; x=1766128226;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W7uppCv7V1iw0fcoFOO1Ov19o0BqWyomQuPZ+QZwW24=;
-        b=BvDXaZAsJKnbhXLnZGzpUUq8956rxPC2xC0aituZ9+8eaHLBHrJAi48Y3M8C6s4Ymk
-         aOrxsqqFbHHACM9a1gI7eRkC2dLSOYfm5GqDDQxQcTNrTtqeoFBelTxklxujTwCKRqDq
-         gjwO8rab5qhiVPsYqquLTitqDjaXd8oK9HSQxB1jyJhhTDCzt4SpjaGNMhZm4oZiR1O+
-         0S+99wpfYcofWh73oCGpWXTWXIkPO2BUFJEMprfHR09Hl6//aA97G0UaupRR35aHCGDR
-         L3Uk1uMsCkBrTmZbALV8nXE0JQjOduWDjVFcDirFGB8FC1lHGqmZL3aAWpIi3B+JFgNW
-         09oA==
-X-Forwarded-Encrypted: i=1; AJvYcCXR8n/lmREeVAqgyjvwCqqMcS9iMbprm1N4nGFPkOTycNfT8MJpxjWLuLQusvF0Vn9rFI+oimzJWJzqMow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxBhu0RCN9HGAbXz9pwktdKJew3mrNOnERd1KTEM+7yB6oqKWP
-	Gcyo0/vOIfaB7C85CO/3G5KtpSt1u853obA6emUnAAKXQVyZ3a7jGx2a
-X-Gm-Gg: AY/fxX5X4dOn/WqJtWETkgz7Cg8Ey28LgOdl8IE9B78T0SIf3rxuuHN6MgdwzqXq65G
-	WooG5oahUM9VE5JcrE7+Edpi5rqYKdXZH/MwQptbasvR2uh6g9o6mpS+0bRbqIO3lo5GC8VwDQp
-	N1WhMpIy83MRyypWE2PhPrYttoRjFTmaTf0p9lrPlRV3gYJVgbeMmCbtjyKFR2FkyPSzjH1MhgO
-	i+xIeuux606voLXEWK6Ac0E/URqjCfGpYGeC0U3P8XR8bnXXs0rOBELJXso9ErTDi0jjHWoY+wA
-	rLFGWJzqSYAQwdEnnu/kkB9qx1UY5x+WieDRZLaBisc8z0vNRfjYCiMDvc41ORsadsxLRac26Sq
-	LH9TZ/VlKsESSfebe8zOPlzozBTjDKUGizCsEt0l/QVI0Ca06WCgLMlB2w1lH6UsDTdM7DofURY
-	noQgdG0N9SPSviSRMATuoRbH7Fi0MSKnsxFlke2fgVqoU=
-X-Google-Smtp-Source: AGHT+IFABMRkw8oyKCgA0tVnnLIaZDoEoQW4VZmuiRYNtTWUY/AN8gGPDAFTfjKFmICcMWMfhDD3Cw==
-X-Received: by 2002:a17:90b:3b50:b0:341:88c9:6eb2 with SMTP id 98e67ed59e1d1-34abd6b5d46mr1284217a91.1.1765523426298;
-        Thu, 11 Dec 2025 23:10:26 -0800 (PST)
-Received: from [10.200.2.32] (fs98a57d9c.tkyc007.ap.nuro.jp. [152.165.125.156])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe2aa5c8sm976435a91.15.2025.12.11.23.10.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 23:10:25 -0800 (PST)
-Message-ID: <bf7ed4cf0254fb3fa707ad49f3b2ed0be6b500c2.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v3 2/6] resolve_btfids: Factor out load_btf()
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
- <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,  Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend	
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev	 <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>,  Andrew Morton <akpm@linux-foundation.org>, Nathan
- Chancellor <nathan@kernel.org>, Nicolas Schier	 <nsc@kernel.org>, Tejun Heo
- <tj@kernel.org>, David Vernet <void@manifault.com>,  Andrea Righi
- <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, Shuah Khan
- <shuah@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt	 <justinstitt@google.com>,
- Alan Maguire <alan.maguire@oracle.com>, Donglin Peng	
- <dolinux.peng@gmail.com>
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-kbuild@vger.kernel.org
-Date: Fri, 12 Dec 2025 16:10:19 +0900
-In-Reply-To: <20251205223046.4155870-3-ihor.solodrai@linux.dev>
-References: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
-		 <20251205223046.4155870-3-ihor.solodrai@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1765531937; c=relaxed/simple;
+	bh=f9Da21adZQy/Oskm47YpQxay+GCPm29iHOfp24GOE3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VhoL8J3z/jOh+HursG0/fEz4NFW/PS9h0/WAs0qevj4LAtH/2kwO9jXf53XTtqDfyv2fwlwSss4od2ODT1FpiCOjhS2SoKX4Xh3hQmRhp2muwEGsETGB7JPEg76aMG8+DE8BEn40cfoVfrNf/6xrLRE+NynTJi1g7fLYEFlTrBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DMpgfaqC; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7N1yRupjJwsCEjdeUujuXdzSn7k5Mwr4a3y236fW66U=; b=DMpgfaqCYynagwlYCabdmyw/Bp
+	rUrSWkBegZ7jFRY2i5aeyB3mBsMgEJmvOI0UYVuZszBnKfB9R5n85wNsrF+pa+wV09POIzKpx0Plm
+	5ztxDsDOKPs08ziIzR4xEbQLew7usFxnN7+f3OYd+0FRhq3UKr+eIQumIXme//DjvI6A17dnCDjOv
+	UErEQ9Ybt3bC0AD21CkKRgFinT24xXYc+0CoUTjQkZa/8/sybPij8mY6g7IEQZKZbws0SII2upGj5
+	Pm0cIgInYYSL26iTrbPz5JyXnVLmPXf+7T6z44avAqu0UsbtenM0BV7SHv+qf468Pez8BP7yUSJsv
+	h8N4R/2w==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vTyde-0000000GP06-2F8E;
+	Fri, 12 Dec 2025 08:36:34 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 8C24F30041D; Fri, 12 Dec 2025 10:31:49 +0100 (CET)
+Date: Fri, 12 Dec 2025 10:31:49 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 02/35] compiler-context-analysis: Add infrastructure
+ for Context Analysis with Clang
+Message-ID: <20251212093149.GJ3911114@noisy.programming.kicks-ass.net>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120145835.3833031-4-elver@google.com>
+ <20251211120441.GG3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOyDW7-G5Op5nw722ecPEv=Ys5TPbJnVBB1_WGiM2LeWQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOyDW7-G5Op5nw722ecPEv=Ys5TPbJnVBB1_WGiM2LeWQ@mail.gmail.com>
 
-On Fri, 2025-12-05 at 14:30 -0800, Ihor Solodrai wrote:
-> Increase the lifetime of parsed BTF in resolve_btfids by factoring
-> load_btf() routine out of symbols_resolve() and storing the base_btf
-> and btf pointers in the struct object.
->=20
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> ---
+On Thu, Dec 11, 2025 at 02:12:19PM +0100, Marco Elver wrote:
 
-Acked-by: Eduard Zingerman <eddyz87@gmail.com>
+> What's a better name?
+
+That must be the hardest question in programming; screw this P-vs-NP
+debate :-)
+
+> context_lock_struct -> and call it "context lock" rather than "context
+> guard"; it might work also for things like RCU, PREEMPT, BH, etc. that
+> aren't normal "locks", but could claim they are "context locks".
+> 
+> context_handle_struct -> "context handle" ...
+
+Both work for me I suppose, although I think I have a slight preference
+to the former: 'context_lock_struct'.
+
+One other possibility is wrapping things like so:
+
+#define define_context_struct(name) ... // the big thing
+
+#define define_lock_struct(name) define_context_struct(name)
+
 
 
