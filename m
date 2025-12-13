@@ -1,75 +1,77 @@
-Return-Path: <linux-kbuild+bounces-10091-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10092-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A587BCBB055
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 15:09:33 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE69CBB05E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 15:09:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 579853001BC8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 14:09:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2111C3033354
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 14:09:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03A772FFDF8;
-	Sat, 13 Dec 2025 14:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A67030B51A;
+	Sat, 13 Dec 2025 14:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ejnh3FEE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JSfn8c0m"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3921942AB7
-	for <linux-kbuild@vger.kernel.org>; Sat, 13 Dec 2025 14:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24DE2F12C5
+	for <linux-kbuild@vger.kernel.org>; Sat, 13 Dec 2025 14:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765634970; cv=none; b=t37LuwmbMUjIckxJVBr/vd7mk4dfWTLl08i63AI/1fgyc3quyYPGoCq/xqyTO/wWQr5p6Y0ZuGLG2t2DchVAK+ZPkG+kdnmJmfe3qkVjsEQk3Idf0KLqex/51j19yGd75kFjgKN/VwYu1f7wYDBWT5jPbxCycCGVxm5EHPZtjx8=
+	t=1765634973; cv=none; b=o4PVYP9Y+6mts3FLiRpLrhyR+PKvM9LUgSVN+SkksjRC7eV3iItK0X0ta/x3QXf+pxkSqMKSw4CCBXVSYWW3KWMVRPdRYmllveOidsbREvjn1IsBBE69oRgK3tLpS8iRz9zcoUy2Eyn3DFRxg8IIOJImtQxoIagYess0/LH7XIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765634970; c=relaxed/simple;
-	bh=wxU+pZ1SQMAvOOUNDxytX9hTksCcyvQLVHAYow6z1HA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OurQPGiIsxbV8hxBlWNyKoaqyQF+YJjp1+7QLSxie8L77KYKir4dUiPLw2KYGKOEPWYJ+ukGYglLoJfUTE3PZPCbBg+Ay8HdHWE5RgjXTV/o5YcOcWA9aMXmVxVJACyafzSUU9bepnTr6wioTzbVtU0cJRP9pmtjUsXgEjsmXz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ejnh3FEE; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1765634973; c=relaxed/simple;
+	bh=Rq6PX8fhVb4oNv7mzv8GekiV6pRlU/Sog6lNRgPsrgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EliWMY5WXjv2cknj+3+/RMI++b2JlGG3e8wtLhUHxJ3YZL4Izl4lDHgzg9I8VDNdYSm0QNosciru9KEin/fklz+xCn9EUM6YTDRJl+hFJnmpnNFU7QJBwZZY6hKuVW3MmUW0Tlb8hQFy7yjK+T8azFwRoqG5cQLmpp9bRjQnEkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JSfn8c0m; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so25881615e9.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Dec 2025 06:09:28 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47118259fd8so21126685e9.3
+        for <linux-kbuild@vger.kernel.org>; Sat, 13 Dec 2025 06:09:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765634967; x=1766239767; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vM3/qwju6TUB5rKPxQvw8v6N+bpFadF0DoVs0x+xuQU=;
-        b=ejnh3FEE1RSjYluBSVw7DHtgXqVP/Tkgehg5U2LLCtPChhbzqdMOWhP6Z2SlIrFkgl
-         /m4uWbmQ7wXGLt/2I1excb5gX7Efg7UxxMc0IduxbyvRRcy3yOd30akfN4M87P6PB0t+
-         K+MwcKvl/AVBwK2A1bmZQlzgSF9op3oJKu9Un8u4cBFEw11u1u+zuoifiyWBTQWoxyXt
-         XoggkV9n7t4LAveg3NtWskEiIw2/27PnM0GHU6hLVaFvS5aR5LYjkG5PVEmNbCHWFtzk
-         fo0vH7Brm/TUV37jDxBouMB7iKJbQEpg5MbZh5hN6sayMx+4xrCMjG7ObzlNxHOabDUv
-         v4fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765634967; x=1766239767;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1765634969; x=1766239769; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vM3/qwju6TUB5rKPxQvw8v6N+bpFadF0DoVs0x+xuQU=;
-        b=kGjH8jtyVd+IPX87pSHbBiT7pB5Z0o/0KA67Cp2hXoegmWy/JOUqyw3SirufNFvEgv
-         DlBp+Tcrl9brKmiWP+1kR7qy6rNdbcxP1QHEoxP2sWKC4ybrUosDofWGl9fI+7zbRgXQ
-         PTfLy7gKBCPsB28DLYQ4pGWxICy+s+o7soIeo+HpEnycM4XxNxv39H1SBsFzzSeFZ3GV
-         xWaZ9dXnLsh+sBjCfzgthuWHMHGyWSZ/H8HCekm3bgtyC+K1lr/OwhYwEyzXYalNEEWR
-         cDTED4FqMy7mOm6CXyEx8x9HjIGWUDZRCa64kVPQL8E3SzVP/RsrIrnqcOfRL4OYDXkU
-         /aWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUgMYIBjPmjWrElu0V0W9Zf10M5dagYKk1yIhlk6xN5lMZYSfvLITb6RxV+oG7FxwXVMnzLgGdxP41+fU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfOPs4LmP1F3rt/kAI79fL1m1nWLE8zFIc4FPjC98y+2u0Z2Ze
-	ehkp+lcwNVTCt6gQnmj3MhBFuBUTUXfBcmy3uUVP138GiRXD/R+4x3TkInrX+WMZ
-X-Gm-Gg: AY/fxX6DuDKbLoF5nU7sNkEdvXaKMwWAP6JjHyAAX2LG6QosXMqDEfkNqbM0PHyc1Lf
-	qp8ivHR47W9uhhKQXufsB5lhVVWSN1dhRLu2Z4P8sztKkKu8SLTmIWMaocC/gD7c2wF9xckG562
-	K8/xiXG2zG1larytwEBStkmDdbBD1sgJ7jRHlJpBsHgX/gPtSgqIsNhJWnX+ILKhHXufSamtopt
-	Rl5k4JkOrxvsY6d3r5biuLT6ZgSOn63GsotNJlvMrjDkdyQB2wPfz8PZOE1AOFfVR3PUZyMpDLc
-	OiqD68+3iAxXNr/o2FkPQfVPP8OOzQy/rFPNr6Ypu8IBiNtwSKi+BE1ph3rKA7n5f8rZSeW5/RN
-	QO/BZBL7BoJnTMMbMxpfyeDsbE+k2JEvjI6YO4WFMXqu708i1pj306GSlAlfV+Jvl8AMquzRdNr
-	yXKPog/IbTcPQ=
-X-Google-Smtp-Source: AGHT+IG1q1j6s6LuLVMrMF+nfrclR+JSyI6ET8cqL/+xAgFlGvNlZfBuyKf0lgAWR7VgSwOZxHURQQ==
-X-Received: by 2002:a05:600c:35d1:b0:479:1b0f:dfff with SMTP id 5b1f17b1804b1-47a8f8bdf0dmr65038865e9.10.1765634967492;
-        Sat, 13 Dec 2025 06:09:27 -0800 (PST)
+        bh=4wkQdMZhFehM7X9oxK+5FxGCNjYwru8qlopiCNXH2jA=;
+        b=JSfn8c0mlk6sMhrTZdz4QOXywuuB4E12RmXTvYcWc2QMKOlY6pSrnYqp1wUQSsQtWy
+         S1AsCnRDLEikRgSmPS206/kT8oi2VUkFA4d6b42pSncsnjayGz4IbZUIZc9DOj0Q7SRQ
+         LnPxdXzqpPA5Bv0/GpqkMYYpepbO35frPWAMm4ORtRC3Y0KroCB9wOAYhXcwGkyvKBvJ
+         USJ9AMfcX9xHmxSPAePRDrSgashZ+Ie+qoj2rZMoQZiPXMhq4zp7s5FSnpK1WhAR7caX
+         JQyaXyhpO5v0BpbmTHsAfylEYHOwHEPRARtBB8VVVZgjI2zpm5eFP6HPdcdQ79ghW3wW
+         eiYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765634969; x=1766239769;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4wkQdMZhFehM7X9oxK+5FxGCNjYwru8qlopiCNXH2jA=;
+        b=SWejKIDJUxDXPEgGTBo452ruFaVXCE2NjOlgEbD6NbK6bxMXOWL7IwHHfiSwHTzfXK
+         B22oEkH83OsnY5E/gEj8lWbbnTwWTUm/T94EHG1Aoa014ghYKNSLBWC9bwsCN5wQajl8
+         vhzAu0kT3nrB52xecrzYhY3ow0prD96WrHuGoU6zcvKVF66o4eWPQGNAXkFquuOODyQu
+         it+sIHPcBohMQJArZTFmpHYie23p39mrkkTS8uIQ+WH9BhTUJb4BT+xznWE4qBL+PLcC
+         dfAhxPZ+Vx3f+XgfCUcfzpo1SPLPwTZnRZgEUj+cdCiu0hse0wIstHLpNlqJNj9MBf0i
+         xEuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTFIfbXu07CSlVsIbqYEjvqWFmB/ndrzx7LJ/UAkGmyIkYj+YqTIx3EYU9X6BTGqdMg2bQ0fCMT3xFqcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDslGivy5I8WUsUmEr6lA9ydz4qCxMqGY16UNpDo2oNyffMyvL
+	xvXWB3A3Ym6VDZInbzGlfATOk2heFnIYWX2BDLAiy5S8HpUQU5p+yyI7
+X-Gm-Gg: AY/fxX5nDc1qEi8W3REz/1ffbKu76m115GvsD6NcQ1CZAtwK9rz8faWOsPVf1WM1miq
+	cY2xhFE/NBwugeGDNqaYOaqPQIR7L7IlGyGzMgKoWj03NGoNVUk0sPmxSIZVpLw5hFVYs96zV+8
+	L1Hi7M/LzRSLIMvGIY/bBc8QTegC+oHyUUOGmJiZhyC3M5OZluh7bvQ8q4qmEm71KuqICBY+vp0
+	JqVrIZFuA9mns5nQtHQ5ha1hgO1FOGbTAu4imK2vNuuTHtqnYdfQXkopzV3/iZ/fCQsrZbnUm7Z
+	XxmH011lzHr6fPzBt7S44Iufhf2wDr0UjuZiomDBZEmK7nEL12UT8Rdo2dDRl0JRyCYeFX9WkAQ
+	TVnBv81SQFykNA6lbEo39BHbfe6+OUFLKVlxvnlQbvQAUV1CzcmpITFAAA+HiWVGlSSN8pxTJW/
+	38tAEdWljtKmA=
+X-Google-Smtp-Source: AGHT+IFP+1RfSnfJoIfQNFSFSD/9i0tZkRKTINn696kj2KvzUYTROBf/7m6yjhmoaQVi6glWTdYT8w==
+X-Received: by 2002:a05:600d:6443:10b0:477:7b30:a6fc with SMTP id 5b1f17b1804b1-47a8f90f371mr48428025e9.30.1765634968901;
+        Sat, 13 Dec 2025 06:09:28 -0800 (PST)
 Received: from fedora.lan ([2a0d:6fc1:2:c000:4240:b502:d22f:bb75])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f74b17bsm89216945e9.2.2025.12.13.06.09.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f74b17bsm89216945e9.2.2025.12.13.06.09.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 06:09:26 -0800 (PST)
+        Sat, 13 Dec 2025 06:09:28 -0800 (PST)
 From: Rostislav Krasny <rostiprodev@gmail.com>
 To: Nathan Chancellor <nathan@kernel.org>
 Cc: Nicolas Schier <nsc@kernel.org>,
@@ -77,10 +79,12 @@ Cc: Nicolas Schier <nsc@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Rostislav Krasny <rostiprodev@gmail.com>
-Subject: [PATCH v2 0/1] kconfig: move XPM icons to separate files
-Date: Sat, 13 Dec 2025 16:09:22 +0200
-Message-ID: <20251213140923.19710-1-rostiprodev@gmail.com>
+Subject: [PATCH v2 1/1] kconfig: move XPM icons to separate files
+Date: Sat, 13 Dec 2025 16:09:23 +0200
+Message-ID: <20251213140923.19710-2-rostiprodev@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251213140923.19710-1-rostiprodev@gmail.com>
+References: <20251213140923.19710-1-rostiprodev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -89,12 +93,18 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review and approve this path. Version 2 of this patch fixes
-two accidentally broken icons.
+Replace deprecated gdk_pixbuf_new_from_xpm_data() with gdk_pixbuf_new_from_file()
+and update both GTK and QT frontends to load XPM icons from separate files
+in scripts/kconfig/icons/ instead of from the code.
 
-Rostislav Krasny (1):
-  kconfig: move XPM icons to separate files
+xpm_menu_inv and xpm_void were removed and not converted into xpm files
+because they are not used since 64285dc5c41fc7a031695c2c286a2bfef9eaf2c6
 
+This eliminates the GTK deprecation warnings at compile time, improves
+memory usage and code organization.
+
+Signed-off-by: Rostislav Krasny <rostiprodev@gmail.com>
+---
  scripts/kconfig/Makefile              |   4 +-
  scripts/kconfig/gconf.c               |  35 ++-
  scripts/kconfig/icons/back.xpm        |  29 +++
@@ -130,6 +140,937 @@ Rostislav Krasny (1):
  delete mode 100644 scripts/kconfig/images.c
  delete mode 100644 scripts/kconfig/images.h
 
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index fb50bd4f4103..5baf1c44ffa2 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -201,7 +201,7 @@ $(addprefix $(obj)/, mconf.o $(lxdialog)): | $(obj)/mconf-cflags
+ # qconf: Used for the xconfig target based on Qt
+ hostprogs	+= qconf
+ qconf-cxxobjs	:= qconf.o qconf-moc.o
+-qconf-objs	:= images.o $(common-objs)
++qconf-objs	:= $(common-objs)
+ 
+ HOSTLDLIBS_qconf         = $(call read-file, $(obj)/qconf-libs)
+ HOSTCXXFLAGS_qconf.o     = -std=c++11 -fPIC $(call read-file, $(obj)/qconf-cflags)
+@@ -219,7 +219,7 @@ targets += qconf-moc.cc
+ 
+ # gconf: Used for the gconfig target based on GTK+
+ hostprogs	+= gconf
+-gconf-objs	:= gconf.o images.o $(common-objs)
++gconf-objs	:= gconf.o $(common-objs)
+ 
+ HOSTLDLIBS_gconf   = $(call read-file, $(obj)/gconf-libs)
+ HOSTCFLAGS_gconf.o = $(call read-file, $(obj)/gconf-cflags)
+diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
+index 8b164ccfa008..9f8586cb8a3e 100644
+--- a/scripts/kconfig/gconf.c
++++ b/scripts/kconfig/gconf.c
+@@ -5,7 +5,6 @@
+ 
+ #include <stdlib.h>
+ #include "lkc.h"
+-#include "images.h"
+ 
+ #include <gtk/gtk.h>
+ 
+@@ -951,12 +950,24 @@ static void fixup_rootmenu(struct menu *menu)
+ }
+ 
+ /* Main Window Initialization */
+-static void replace_button_icon(GtkWidget *widget, const char * const xpm[])
++static void replace_button_icon(GtkWidget *widget, const char *filename)
+ {
+ 	GdkPixbuf *pixbuf;
+ 	GtkWidget *image;
++	GError *err = NULL;
++
++	char *env = getenv(SRCTREE);
++	gchar *path = g_strconcat(env ? env : g_get_current_dir(), "/scripts/kconfig/icons/", filename, NULL);
++
++	pixbuf = gdk_pixbuf_new_from_file(path, &err);
++	g_free(path);
++
++	if (err) {
++		g_warning("Failed to load icon %s: %s", filename, err->message);
++		g_error_free(err);
++		return;
++	}
+ 
+-	pixbuf = gdk_pixbuf_new_from_xpm_data((const char **)xpm);
+ 	image = gtk_image_new_from_pixbuf(pixbuf);
+ 	g_object_unref(pixbuf);
+ 
+@@ -1078,17 +1089,17 @@ static void init_main_window(const gchar *glade_file)
+ 	single_btn = GTK_WIDGET(gtk_builder_get_object(builder, "button4"));
+ 	g_signal_connect(single_btn, "clicked",
+ 			 G_CALLBACK(on_single_clicked), NULL);
+-	replace_button_icon(single_btn, xpm_single_view);
++	replace_button_icon(single_btn, "single_view.xpm");
+ 
+ 	split_btn = GTK_WIDGET(gtk_builder_get_object(builder, "button5"));
+ 	g_signal_connect(split_btn, "clicked",
+ 			 G_CALLBACK(on_split_clicked), NULL);
+-	replace_button_icon(split_btn, xpm_split_view);
++	replace_button_icon(split_btn, "split_view.xpm");
+ 
+ 	full_btn = GTK_WIDGET(gtk_builder_get_object(builder, "button6"));
+ 	g_signal_connect(full_btn, "clicked",
+ 			 G_CALLBACK(on_full_clicked), NULL);
+-	replace_button_icon(full_btn, xpm_tree_view);
++	replace_button_icon(full_btn, "tree_view.xpm");
+ 
+ 	widget = GTK_WIDGET(gtk_builder_get_object(builder, "button7"));
+ 	g_signal_connect(widget, "clicked",
+@@ -1269,7 +1280,17 @@ static void init_right_tree(void)
+ 	g_signal_connect(G_OBJECT(renderer), "edited",
+ 			 G_CALLBACK(renderer_edited), tree2_w);
+ 
+-	pix_menu = gdk_pixbuf_new_from_xpm_data((const char **)xpm_menu);
++	char *env = getenv(SRCTREE);
++	gchar *path = g_strconcat(env ? env : g_get_current_dir(), "/scripts/kconfig/icons/menu.xpm", NULL);
++	GError *err = NULL;
++
++	pix_menu = gdk_pixbuf_new_from_file(path, &err);
++	g_free(path);
++
++	if (err) {
++		g_warning("Failed to load menu icon: %s", err->message);
++		g_error_free(err);
++	}
+ 
+ 	for (i = 0; i < COL_VALUE; i++) {
+ 		column = gtk_tree_view_get_column(view, i);
+diff --git a/scripts/kconfig/icons/back.xpm b/scripts/kconfig/icons/back.xpm
+new file mode 100644
+index 000000000000..2a4c30127608
+--- /dev/null
++++ b/scripts/kconfig/icons/back.xpm
+@@ -0,0 +1,29 @@
++/* XPM */
++static char * back_xpm[] = {
++"22 22 3 1",
++". c None",
++"# c #000083",
++"a c #838183",
++"......................",
++"......................",
++"......................",
++"......................",
++"......................",
++"...........######a....",
++"..#......##########...",
++"..##...####......##a..",
++"..###.###.........##..",
++"..######..........##..",
++"..#####...........##..",
++"..######..........##..",
++"..#######.........##..",
++"..########.......##a..",
++"...............a###...",
++"...............###....",
++"......................",
++"......................",
++"......................",
++"......................",
++"......................",
++"......................"
++};
+diff --git a/scripts/kconfig/icons/choice_no.xpm b/scripts/kconfig/icons/choice_no.xpm
+new file mode 100644
+index 000000000000..306e314ed9c6
+--- /dev/null
++++ b/scripts/kconfig/icons/choice_no.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * choice_no_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++"    ....    ",
++"  ..    ..  ",
++"  .      .  ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .        . ",
++"  .      .  ",
++"  ..    ..  ",
++"    ....    ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/choice_yes.xpm b/scripts/kconfig/icons/choice_yes.xpm
+new file mode 100644
+index 000000000000..edeb91067379
+--- /dev/null
++++ b/scripts/kconfig/icons/choice_yes.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * choice_yes_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++"    ....    ",
++"  ..    ..  ",
++"  .      .  ",
++" .   ..   . ",
++" .  ....  . ",
++" .  ....  . ",
++" .   ..   . ",
++"  .      .  ",
++"  ..    ..  ",
++"    ....    ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/load.xpm b/scripts/kconfig/icons/load.xpm
+new file mode 100644
+index 000000000000..8c2d8725d1ef
+--- /dev/null
++++ b/scripts/kconfig/icons/load.xpm
+@@ -0,0 +1,31 @@
++/* XPM */
++static char * load_xpm[] = {
++"22 22 5 1",
++". c None",
++"# c #000000",
++"c c #838100",
++"a c #ffff00",
++"b c #ffffff",
++"......................",
++"......................",
++"......................",
++"............####....#.",
++"...........#....##.##.",
++"..................###.",
++".................####.",
++".####...........#####.",
++"#abab##########.......",
++"#babababababab#.......",
++"#ababababababa#.......",
++"#babababababab#.......",
++"#ababab###############",
++"#babab##cccccccccccc##",
++"#abab##cccccccccccc##.",
++"#bab##cccccccccccc##..",
++"#ab##cccccccccccc##...",
++"#b##cccccccccccc##....",
++"###cccccccccccc##.....",
++"##cccccccccccc##......",
++"###############.......",
++"......................"
++};
+diff --git a/scripts/kconfig/icons/menu.xpm b/scripts/kconfig/icons/menu.xpm
+new file mode 100644
+index 000000000000..8ae1b74b3c0c
+--- /dev/null
++++ b/scripts/kconfig/icons/menu.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * menu_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++" .......... ",
++" .        . ",
++" . ..     . ",
++" . ....   . ",
++" . ...... . ",
++" . ...... . ",
++" . ....   . ",
++" . ..     . ",
++" .        . ",
++" .......... ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/menuback.xpm b/scripts/kconfig/icons/menuback.xpm
+new file mode 100644
+index 000000000000..f988c2c323c3
+--- /dev/null
++++ b/scripts/kconfig/icons/menuback.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * menuback_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++" .......... ",
++" .        . ",
++" .     .. . ",
++" .   .... . ",
++" . ...... . ",
++" . ...... . ",
++" .   .... . ",
++" .     .. . ",
++" .        . ",
++" .......... ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/save.xpm b/scripts/kconfig/icons/save.xpm
+new file mode 100644
+index 000000000000..f8be53d83b40
+--- /dev/null
++++ b/scripts/kconfig/icons/save.xpm
+@@ -0,0 +1,31 @@
++/* XPM */
++static char * save_xpm[] = {
++"22 22 5 1",
++". c None",
++"# c #000000",
++"a c #838100",
++"b c #c5c2c5",
++"c c #cdb6d5",
++"......................",
++".####################.",
++".#aa#bbbbbbbbbbbb#bb#.",
++".#aa#bbbbbbbbbbbb#bb#.",
++".#aa#bbbbbbbbbcbb####.",
++".#aa#bbbccbbbbbbb#aa#.",
++".#aa#bbbccbbbbbbb#aa#.",
++".#aa#bbbbbbbbbbbb#aa#.",
++".#aa#bbbbbbbbbbbb#aa#.",
++".#aa#bbbbbbbbbbbb#aa#.",
++".#aa#bbbbbbbbbbbb#aa#.",
++".#aaa############aaa#.",
++".#aaaaaaaaaaaaaaaaaa#.",
++".#aaaaaaaaaaaaaaaaaa#.",
++".#aaa#############aa#.",
++".#aaa#########bbb#aa#.",
++".#aaa#########bbb#aa#.",
++".#aaa#########bbb#aa#.",
++".#aaa#########bbb#aa#.",
++".#aaa#########bbb#aa#.",
++"..##################..",
++"......................"
++};
+diff --git a/scripts/kconfig/icons/single_view.xpm b/scripts/kconfig/icons/single_view.xpm
+new file mode 100644
+index 000000000000..33c3b239dc8e
+--- /dev/null
++++ b/scripts/kconfig/icons/single_view.xpm
+@@ -0,0 +1,28 @@
++/* XPM */
++static char * single_view_xpm[] = {
++"22 22 2 1",
++". c None",
++"# c #000000",
++"......................",
++"......................",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"..........#...........",
++"......................",
++"......................"
++};
+diff --git a/scripts/kconfig/icons/split_view.xpm b/scripts/kconfig/icons/split_view.xpm
+new file mode 100644
+index 000000000000..09e22246d936
+--- /dev/null
++++ b/scripts/kconfig/icons/split_view.xpm
+@@ -0,0 +1,28 @@
++/* XPM */
++static char * split_view_xpm[] = {
++"22 22 2 1",
++". c None",
++"# c #000000",
++"......................",
++"......................",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......#......#........",
++"......................",
++"......................"
++};
+diff --git a/scripts/kconfig/icons/symbol_mod.xpm b/scripts/kconfig/icons/symbol_mod.xpm
+new file mode 100644
+index 000000000000..769465fcb0ce
+--- /dev/null
++++ b/scripts/kconfig/icons/symbol_mod.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * symbol_mod_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++" .......... ",
++" .        . ",
++" .        . ",
++" .   ..   . ",
++" .  ....  . ",
++" .  ....  . ",
++" .   ..   . ",
++" .        . ",
++" .        . ",
++" .......... ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/symbol_no.xpm b/scripts/kconfig/icons/symbol_no.xpm
+new file mode 100644
+index 000000000000..e4e9d46c9aca
+--- /dev/null
++++ b/scripts/kconfig/icons/symbol_no.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * symbol_no_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++" .......... ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .        . ",
++" .......... ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/symbol_yes.xpm b/scripts/kconfig/icons/symbol_yes.xpm
+new file mode 100644
+index 000000000000..dab7e10ae7a9
+--- /dev/null
++++ b/scripts/kconfig/icons/symbol_yes.xpm
+@@ -0,0 +1,18 @@
++/* XPM */
++static char * symbol_yes_xpm[] = {
++"12 12 2 1",
++"  c white",
++". c black",
++"            ",
++" .......... ",
++" .        . ",
++" .        . ",
++" .      . . ",
++" .     .. . ",
++" . .  ..  . ",
++" . ....   . ",
++" .  ..    . ",
++" .        . ",
++" .......... ",
++"            "
++};
+diff --git a/scripts/kconfig/icons/tree_view.xpm b/scripts/kconfig/icons/tree_view.xpm
+new file mode 100644
+index 000000000000..290835b802eb
+--- /dev/null
++++ b/scripts/kconfig/icons/tree_view.xpm
+@@ -0,0 +1,28 @@
++/* XPM */
++static char * tree_view_xpm[] = {
++"22 22 2 1",
++". c None",
++"# c #000000",
++"......................",
++"......................",
++"......#...............",
++"......#...............",
++"......#...............",
++"......#...............",
++"......#...............",
++"......########........",
++"......#...............",
++"......#...............",
++"......#...............",
++"......#...............",
++"......#...............",
++"......########........",
++"......#...............",
++"......#...............",
++"......#...............",
++"......#...............",
++"......#...............",
++"......########........",
++"......................",
++"......................"
++};
+diff --git a/scripts/kconfig/images.c b/scripts/kconfig/images.c
+deleted file mode 100644
+index 2f9afffa5d79..000000000000
+--- a/scripts/kconfig/images.c
++++ /dev/null
+@@ -1,328 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>
+- */
+-
+-#include "images.h"
+-
+-const char * const xpm_load[] = {
+-"22 22 5 1",
+-". c None",
+-"# c #000000",
+-"c c #838100",
+-"a c #ffff00",
+-"b c #ffffff",
+-"......................",
+-"......................",
+-"......................",
+-"............####....#.",
+-"...........#....##.##.",
+-"..................###.",
+-".................####.",
+-".####...........#####.",
+-"#abab##########.......",
+-"#babababababab#.......",
+-"#ababababababa#.......",
+-"#babababababab#.......",
+-"#ababab###############",
+-"#babab##cccccccccccc##",
+-"#abab##cccccccccccc##.",
+-"#bab##cccccccccccc##..",
+-"#ab##cccccccccccc##...",
+-"#b##cccccccccccc##....",
+-"###cccccccccccc##.....",
+-"##cccccccccccc##......",
+-"###############.......",
+-"......................"};
+-
+-const char * const xpm_save[] = {
+-"22 22 5 1",
+-". c None",
+-"# c #000000",
+-"a c #838100",
+-"b c #c5c2c5",
+-"c c #cdb6d5",
+-"......................",
+-".####################.",
+-".#aa#bbbbbbbbbbbb#bb#.",
+-".#aa#bbbbbbbbbbbb#bb#.",
+-".#aa#bbbbbbbbbcbb####.",
+-".#aa#bbbccbbbbbbb#aa#.",
+-".#aa#bbbccbbbbbbb#aa#.",
+-".#aa#bbbbbbbbbbbb#aa#.",
+-".#aa#bbbbbbbbbbbb#aa#.",
+-".#aa#bbbbbbbbbbbb#aa#.",
+-".#aa#bbbbbbbbbbbb#aa#.",
+-".#aaa############aaa#.",
+-".#aaaaaaaaaaaaaaaaaa#.",
+-".#aaaaaaaaaaaaaaaaaa#.",
+-".#aaa#############aa#.",
+-".#aaa#########bbb#aa#.",
+-".#aaa#########bbb#aa#.",
+-".#aaa#########bbb#aa#.",
+-".#aaa#########bbb#aa#.",
+-".#aaa#########bbb#aa#.",
+-"..##################..",
+-"......................"};
+-
+-const char * const xpm_back[] = {
+-"22 22 3 1",
+-". c None",
+-"# c #000083",
+-"a c #838183",
+-"......................",
+-"......................",
+-"......................",
+-"......................",
+-"......................",
+-"...........######a....",
+-"..#......##########...",
+-"..##...####......##a..",
+-"..###.###.........##..",
+-"..######..........##..",
+-"..#####...........##..",
+-"..######..........##..",
+-"..#######.........##..",
+-"..########.......##a..",
+-"...............a###...",
+-"...............###....",
+-"......................",
+-"......................",
+-"......................",
+-"......................",
+-"......................",
+-"......................"};
+-
+-const char * const xpm_tree_view[] = {
+-"22 22 2 1",
+-". c None",
+-"# c #000000",
+-"......................",
+-"......................",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......########........",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......########........",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......#...............",
+-"......########........",
+-"......................",
+-"......................"};
+-
+-const char * const xpm_single_view[] = {
+-"22 22 2 1",
+-". c None",
+-"# c #000000",
+-"......................",
+-"......................",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"..........#...........",
+-"......................",
+-"......................"};
+-
+-const char * const xpm_split_view[] = {
+-"22 22 2 1",
+-". c None",
+-"# c #000000",
+-"......................",
+-"......................",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......#......#........",
+-"......................",
+-"......................"};
+-
+-const char * const xpm_symbol_no[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-" .......... ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .......... ",
+-"            "};
+-
+-const char * const xpm_symbol_mod[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-" .......... ",
+-" .        . ",
+-" .        . ",
+-" .   ..   . ",
+-" .  ....  . ",
+-" .  ....  . ",
+-" .   ..   . ",
+-" .        . ",
+-" .        . ",
+-" .......... ",
+-"            "};
+-
+-const char * const xpm_symbol_yes[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-" .......... ",
+-" .        . ",
+-" .        . ",
+-" .      . . ",
+-" .     .. . ",
+-" . .  ..  . ",
+-" . ....   . ",
+-" .  ..    . ",
+-" .        . ",
+-" .......... ",
+-"            "};
+-
+-const char * const xpm_choice_no[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-"    ....    ",
+-"  ..    ..  ",
+-"  .      .  ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-" .        . ",
+-"  .      .  ",
+-"  ..    ..  ",
+-"    ....    ",
+-"            "};
+-
+-const char * const xpm_choice_yes[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-"    ....    ",
+-"  ..    ..  ",
+-"  .      .  ",
+-" .   ..   . ",
+-" .  ....  . ",
+-" .  ....  . ",
+-" .   ..   . ",
+-"  .      .  ",
+-"  ..    ..  ",
+-"    ....    ",
+-"            "};
+-
+-const char * const xpm_menu[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-" .......... ",
+-" .        . ",
+-" . ..     . ",
+-" . ....   . ",
+-" . ...... . ",
+-" . ...... . ",
+-" . ....   . ",
+-" . ..     . ",
+-" .        . ",
+-" .......... ",
+-"            "};
+-
+-const char * const xpm_menu_inv[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-" .......... ",
+-" .......... ",
+-" ..  ...... ",
+-" ..    .... ",
+-" ..      .. ",
+-" ..      .. ",
+-" ..    .... ",
+-" ..  ...... ",
+-" .......... ",
+-" .......... ",
+-"            "};
+-
+-const char * const xpm_menuback[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-" .......... ",
+-" .        . ",
+-" .     .. . ",
+-" .   .... . ",
+-" . ...... . ",
+-" . ...... . ",
+-" .   .... . ",
+-" .     .. . ",
+-" .        . ",
+-" .......... ",
+-"            "};
+-
+-const char * const xpm_void[] = {
+-"12 12 2 1",
+-"  c white",
+-". c black",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            ",
+-"            "};
+diff --git a/scripts/kconfig/images.h b/scripts/kconfig/images.h
+deleted file mode 100644
+index 7212dec2006c..000000000000
+--- a/scripts/kconfig/images.h
++++ /dev/null
+@@ -1,33 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>
+- */
+-
+-#ifndef IMAGES_H
+-#define IMAGES_H
+-
+-#ifdef __cplusplus
+-extern "C" {
+-#endif
+-
+-extern const char * const xpm_load[];
+-extern const char * const xpm_save[];
+-extern const char * const xpm_back[];
+-extern const char * const xpm_tree_view[];
+-extern const char * const xpm_single_view[];
+-extern const char * const xpm_split_view[];
+-extern const char * const xpm_symbol_no[];
+-extern const char * const xpm_symbol_mod[];
+-extern const char * const xpm_symbol_yes[];
+-extern const char * const xpm_choice_no[];
+-extern const char * const xpm_choice_yes[];
+-extern const char * const xpm_menu[];
+-extern const char * const xpm_menu_inv[];
+-extern const char * const xpm_menuback[];
+-extern const char * const xpm_void[];
+-
+-#ifdef __cplusplus
+-}
+-#endif
+-
+-#endif /* IMAGES_H */
+diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+index b84c9f2485d1..afa73cc4f4fb 100644
+--- a/scripts/kconfig/qconf.cc
++++ b/scripts/kconfig/qconf.cc
+@@ -26,8 +26,6 @@
+ #include "lkc.h"
+ #include "qconf.h"
+ 
+-#include "images.h"
+-
+ 
+ static QApplication *configApp;
+ static ConfigSettings *configSettings;
+@@ -1283,13 +1281,14 @@ ConfigMainWindow::ConfigMainWindow(void)
+ 		move(x.toInt(), y.toInt());
+ 
+ 	// set up icons
+-	ConfigItem::symbolYesIcon = QIcon(QPixmap(xpm_symbol_yes));
+-	ConfigItem::symbolModIcon = QIcon(QPixmap(xpm_symbol_mod));
+-	ConfigItem::symbolNoIcon = QIcon(QPixmap(xpm_symbol_no));
+-	ConfigItem::choiceYesIcon = QIcon(QPixmap(xpm_choice_yes));
+-	ConfigItem::choiceNoIcon = QIcon(QPixmap(xpm_choice_no));
+-	ConfigItem::menuIcon = QIcon(QPixmap(xpm_menu));
+-	ConfigItem::menubackIcon = QIcon(QPixmap(xpm_menuback));
++	QString iconsDir = QString(getenv("SRCTREE") ? getenv("SRCTREE") : QDir::currentPath()) + "/scripts/kconfig/icons/";
++	ConfigItem::symbolYesIcon = QIcon(QPixmap(iconsDir + "symbol_yes.xpm"));
++	ConfigItem::symbolModIcon = QIcon(QPixmap(iconsDir + "symbol_mod.xpm"));
++	ConfigItem::symbolNoIcon = QIcon(QPixmap(iconsDir + "symbol_no.xpm"));
++	ConfigItem::choiceYesIcon = QIcon(QPixmap(iconsDir + "choice_yes.xpm"));
++	ConfigItem::choiceNoIcon = QIcon(QPixmap(iconsDir + "choice_no.xpm"));
++	ConfigItem::menuIcon = QIcon(QPixmap(iconsDir + "menu.xpm"));
++	ConfigItem::menubackIcon = QIcon(QPixmap(iconsDir + "menuback.xpm"));
+ 
+ 	QWidget *widget = new QWidget(this);
+ 	setCentralWidget(widget);
+@@ -1312,7 +1311,7 @@ ConfigMainWindow::ConfigMainWindow(void)
+ 
+ 	configList->setFocus();
+ 
+-	backAction = new QAction(QPixmap(xpm_back), "Back", this);
++	backAction = new QAction(QPixmap(iconsDir + "back.xpm"), "Back", this);
+ 	backAction->setShortcut(QKeySequence::Back);
+ 	connect(backAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::goBack);
+@@ -1322,12 +1321,12 @@ ConfigMainWindow::ConfigMainWindow(void)
+ 	connect(quitAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::close);
+ 
+-	QAction *loadAction = new QAction(QPixmap(xpm_load), "&Open", this);
++	QAction *loadAction = new QAction(QPixmap(iconsDir + "load.xpm"), "&Open", this);
+ 	loadAction->setShortcut(QKeySequence::Open);
+ 	connect(loadAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::loadConfig);
+ 
+-	saveAction = new QAction(QPixmap(xpm_save), "&Save", this);
++	saveAction = new QAction(QPixmap(iconsDir + "save.xpm"), "&Save", this);
+ 	saveAction->setShortcut(QKeySequence::Save);
+ 	connect(saveAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::saveConfig);
+@@ -1344,15 +1343,15 @@ ConfigMainWindow::ConfigMainWindow(void)
+ 	searchAction->setShortcut(QKeySequence::Find);
+ 	connect(searchAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::searchConfig);
+-	singleViewAction = new QAction(QPixmap(xpm_single_view), "Single View", this);
++	singleViewAction = new QAction(QPixmap(iconsDir + "single_view.xpm"), "Single View", this);
+ 	singleViewAction->setCheckable(true);
+ 	connect(singleViewAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::showSingleView);
+-	splitViewAction = new QAction(QPixmap(xpm_split_view), "Split View", this);
++	splitViewAction = new QAction(QPixmap(iconsDir + "split_view.xpm"), "Split View", this);
+ 	splitViewAction->setCheckable(true);
+ 	connect(splitViewAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::showSplitView);
+-	fullViewAction = new QAction(QPixmap(xpm_tree_view), "Full View", this);
++	fullViewAction = new QAction(QPixmap(iconsDir + "tree_view.xpm"), "Full View", this);
+ 	fullViewAction->setCheckable(true);
+ 	connect(fullViewAction, &QAction::triggered,
+ 		this, &ConfigMainWindow::showFullView);
 -- 
 2.52.0
 
