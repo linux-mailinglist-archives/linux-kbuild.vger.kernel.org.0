@@ -1,104 +1,124 @@
-Return-Path: <linux-kbuild+bounces-10087-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84959CBA2AA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 02:40:18 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4562CCBB102
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 16:57:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7A895300A2B2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 01:40:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B78D8301B5B3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Dec 2025 15:57:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F8D01B87C0;
-	Sat, 13 Dec 2025 01:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB952D6630;
+	Sat, 13 Dec 2025 15:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRiu2/q5"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="G078ZJCT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CA819F13F;
-	Sat, 13 Dec 2025 01:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCBE2D63F8;
+	Sat, 13 Dec 2025 15:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765590015; cv=none; b=oDg710/V9F+OIR2YntqOi7WAsAig84j1W9po59olx6kZhSGGC61FEvUCWaLA/eIbXYAUrtwC/JUx+Rckpyk1N/SYuS/XzOZNpRN+ohdqjMNJvmmcRILg/KVY0eLtPAIwIs6q7ip7MUimvo/OXAoXVZ0y/4DJSzf9OksXgytEKuw=
+	t=1765641441; cv=none; b=VdKWxAVggIsWzV+qyer6CmFTUwEwo91Rr7fIePV19B9VWO4v/NwNxZXd8LUzPcqCQw6F2mvIewg0GWiqKRzKJTir6bgn8ExwDFoadrAXtNxuxY99fU32jjsh5zs9iNDiSafhzTjTrQ6Na29MfDL2U+FCXMV+zdY+2xO1x/2HG6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765590015; c=relaxed/simple;
-	bh=O/jwb1Bfr59e/A6IOWCJZGscFliaL38PsmVm26gy0jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kz3zKVlsVUnLkfe+MLQ/ZklUajD1KvRSqgfPc7g8kPQd34e36pS39wBqvwf2LvIgxt/INtc0lpQBEsU3x49Vu8/WOI+gEKj5hmW55dx3pEP9F2J0A/9zwvEMvTeKR7B8Pu1OmysKpU9uVGp0aHA7lhab5aGLH3UE+8kCygSkJHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRiu2/q5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B948C4CEF1;
-	Sat, 13 Dec 2025 01:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765590014;
-	bh=O/jwb1Bfr59e/A6IOWCJZGscFliaL38PsmVm26gy0jk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YRiu2/q53dkLif7q4uNFSnrsQYxunLMq2sapvB98RRwCwkK/kljK9PhJmbHlGH43W
-	 pcJw1pFHMkgPFz9dwNK1DIhqneUFOcoVLP6TfBTIZpV6rpsP5e99fbmDrlRiAnXkP8
-	 I949hvbxr7t+18H+8zb7yThzoJI6OH2/VZbdgtSuUru6sYPY89o9ENxcTQmC0SC+IB
-	 QtWgQBfoDhoM298ltcyA11fpzQbIfgZIA03K4IdcD5l5h05DyF+oydEr9todwiBOtg
-	 5R9AdnTGvxxoph70+mmM8/BX2WFQulQ3YU98vmRzFQQA758ZhE0MCCnpl7CGOA0UpA
-	 HIMU8F/ZvN0ew==
-Date: Sat, 13 Dec 2025 10:40:09 +0900
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Graham Roff <grahamr@qti.qualcomm.com>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>
-Subject: Re: [PATCH v2] Support conditional deps using "depends on X if Y"
-Message-ID: <20251213014009.GA3115176@ax162>
-References: <20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com>
- <20251205015352.GA2060615@ax162>
- <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
- <20251205182334.GB3974306@ax162>
- <1f2376e39dc46772e630e2cc9f9b40a2ef20993d@intel.com>
+	s=arc-20240116; t=1765641441; c=relaxed/simple;
+	bh=beItitjX9g62dtNCQNrmeuH1IQRm8RLLxfGpegHrzg8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qNnu1rykv1HtLzNOAkUK4xSGVD/CYrhXsZgj3/L9+m3REw1L7+2JmSdINzY3Gft4eqVAdBsfqtPkFE8VS8PoptQRzTKfL3RjyPcMIGxe5PFajvujTgfWp5MsYvHtYoMH+jkmJZdzExd/2lLApxDe9MDDAswKq1FkusvXL/cBdPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=G078ZJCT; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 4E65A58031E;
+	Sat, 13 Dec 2025 04:16:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 21FB51F68F;
+	Sat, 13 Dec 2025 04:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1765599383;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kIqdS8u8Zgyt0ZzuuPPbcBwmYBvu0KqK59FdenEwKSk=;
+	b=G078ZJCTPooC9/mSXIJI9PeuT4h2ukEFgcD93TorotB/dcWuqEFGCUjORkm+jF4yvUXKNb
+	TnNFiSULNcfxwshtmjM0tjkdKWeHaDyh8TLoGsEOM8rlhjYpyIFV3OtD+mENAgJO8twnNC
+	zrs+60gZE2bFmJaDhL5dw3gU+LsDpp/LCvRWWSXbBf7F8wGzzaNtH9/xGcRXkSvIXahIiV
+	BRXtu2GS+35cQbMLhzH+YMV4iIROrz5Ggjc5j5VXNkVf4mMt/QBgcRNfzO7CHLnJ7CmT6w
+	MfaN4kAtMMqy/DGAXe0SJp1gSP2Xo0Ny6gcqrKZCkdQO50CpgCIuTA7xfsgLQQ==
+Message-ID: <b476af54-59dd-4b33-aa5c-4aded5d88e19@gtucker.io>
+Date: Sat, 13 Dec 2025 05:16:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f2376e39dc46772e630e2cc9f9b40a2ef20993d@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] scripts: add tool to run containerized builds
+To: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev,
+ Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>
+References: <cover.1765374789.git.gtucker@gtucker.io>
+ <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+Content-Language: en-US
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnheptdejheejheffvedvhffftdefuddvkedvveevleeuieegkeeukedvueefvdejteefnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemvddtfeelmeeiudehheemvgeitgemgeehuggtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegrgegtdemkeeivddtmedvtdefleemieduheehmegviegtmeeghegutgdphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgegrgedtmeekiedvtdemvddtfeelmeeiudehheemvgeitgemgeehuggtngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepvdduhfeuheduhfeikefhpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdpr
+ hgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehruhhsthdqfhhorhdqlhhinhhugiesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegruhhtohhmrghtvgguqdhtvghsthhinhhgsehlihhsthhsrdihohgtthhophhrohhjvggtthdrohhrgh
 
-On Wed, Dec 10, 2025 at 05:07:39PM +0200, Jani Nikula wrote:
-> On Fri, 05 Dec 2025, Nathan Chancellor <nathan@kernel.org> wrote:
-> > On Fri, Dec 05, 2025 at 09:01:51AM +0100, Arnd Bergmann wrote:
-> >> This is the bit that frequently confuses developers with the
-> >> current syntax, and I agree it would be nice to have a better
-> >> way,  but I'm not sure the proposal actually helps enough to
-> >> warrant a mass-conversion of existing Kconfig files.
-> >
-> > I do agree that the 'depends on A || !A' syntax is confusing and that
-> > this does not really address that but I think that is besides the point
-> > here. I also agree that it is probably not worth converting existing
-> > users to this syntax (unless there is solid reasoning), I would not want
-> > to see cleanup patches of that nature, just use in new code.
-> 
-> I think "depends on A if A" is an improvement over "A || !A". But not a
-> drastic improvement.
+[+Onur - sorry I didn't Cc you when sending this series]
 
-Agreed.
+On 10/12/2025 2:58 pm, Guillaume Tucker wrote:
+> +def run_docker(args):
+> +    """Run a command in a Docker container"""
+> +    uid = args.uid or os.getuid()
+> +    gid = args.gid or args.uid or os.getgid()
+> +    cmd = [
+> +        'docker', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
+> +        '--workdir', '/src',
+> +        '--user', f'{uid}:{gid}'
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
 
-> I think the question is, can we figure out an even better syntax for
-> that use case? Something that conveys the "optionally depends on A"
-> meaning? Is there something so good that it would warrant cleanup
-> conversions just for the improved clarity?
+Just realised that it also needs a TTY to handle Ctrl-C signals
+correctly, otherwise the Python process would stop but the container
+would keep running in a detached process (same for podman):
 
-I cannot think of anything off the top of my head but given how new I am
-to actually maintaining Kconfig, maybe something else will come up over
-time (or maybe Nicolas has some thoughts).
 
-> If we can't come up with anything, let's just roll with what we have
-> here?
+diff --git a/scripts/container b/scripts/container
+index 74644ac33685..e05425c06d28 100755
+--- a/scripts/container
++++ b/scripts/container
+@@ -30,6 +30,7 @@ def run_docker(args):
+      cmd = [
+          'docker', 'run',
+          '--interactive',
++        '--tty',
+          '--volume', f'{os.getcwd()}:/src',
+          '--workdir', '/src',
+          '--user', f'{uid}:{gid}'
 
-This is my plan personally, as I feel like this (or the future v3) is
-good enough (and brings consistency to "depends" with regards to
-supporting "if" like "prompt" and "select" do). I am a firm believer in
-"don't let perfect be the enemy of good".
 
-Cheers,
-Nathan
+I'll send a v2 next week, but I'll wait a bit for any feedback first.
+
+Thanks,
+Guillaume
+
+
+
 
