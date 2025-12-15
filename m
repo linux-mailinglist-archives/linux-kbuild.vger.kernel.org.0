@@ -1,129 +1,229 @@
-Return-Path: <linux-kbuild+bounces-10096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC06CBBB11
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Dec 2025 14:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42509CBD2B8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Dec 2025 10:30:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA75630054A6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Dec 2025 13:15:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ECF3C3009F8D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Dec 2025 09:30:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F6D19D8AC;
-	Sun, 14 Dec 2025 13:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB692256C8B;
+	Mon, 15 Dec 2025 09:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhPnmbAG"
+	dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="pnErKi7r"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAA219C566
-	for <linux-kbuild@vger.kernel.org>; Sun, 14 Dec 2025 13:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57D4155C97;
+	Mon, 15 Dec 2025 09:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765718138; cv=none; b=LNqwDUssa0CgJPlLsMhiWCWxl+ie3NXDLU3m3T6btOdfsEv/QswrrLxe8St0X/CIUi52Wg76AjgwGUTl8pnh8ISrjYfzMKNF8guRW1u/owSQBeZz2zyTAW17EnF73HLDsSHBQ0qbNy8ttY+FNJjJmdFWdEf+nY1w2vF/6WS6w4w=
+	t=1765791052; cv=none; b=ftzxTVSr0bdKr1ZVfGnMIRkLcESKNE+2PL2jSyOJrndJ5sGlmYBep/2Znsv/3pbKPf3nxdJNneAo6cz3Q3VDU2nLHpO2WyzgColuliIGqoBcUrRR9MuyS4WvVlBjLyxZrYbYYxiAEMs/tlh5It45u0PBHrwc29z/bMJtCXGtQvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765718138; c=relaxed/simple;
-	bh=EdUmem+sejpz36yYnKdOzQ3u1tIJjqiU1Dj7+evT9lU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dpE9wcaUSwPJjq8fFQNnY/54PXNn+afE4B8eVaW6JLSK2wYDJ4ptQQJRj5+IA/hhpk4PQ+vYC42QAKiF3qX1nDxZ9Qhn6nJhb/KgN0M7qN1eodnOJDrN0Ki2vFObMzvLoxM77If+z/C/PwSlZRhAD6pixxsrEsn1oiab2j6CNLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JhPnmbAG; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b32ff5d10so1427564f8f.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 14 Dec 2025 05:15:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765718135; x=1766322935; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2xGSG0Vsa9+qI2wiCp2gliIFyT6dWVXRARFOSTyb3V8=;
-        b=JhPnmbAGl7ZDzZN2P0hLQWuj/DLI5/dDl3Lx/y4nlehc0+5aW8pfG1lL3Xg/aBbSoO
-         TrI4ixJ+cfc5JtZy0brwz3GeZEW/Vqt5/f3gbsZF3TZHAub9pP2qU9fHAZFMM+48MTe2
-         Cc7BFdgIBSQf95r0cH94qEKIVQHldwpbqd7vuDzv9MnlTu0fqpnI+MWcUpnqtJ5bxuf6
-         AKWa0+2R7glOP8JEDFDyK8AZGC/WHLHY6pZOnMbVR5+qpYuvBdSZlJEA9IaWikw3xgry
-         KsfIYzrmCnY6DyoRQvJKHo8V+WoodYIbZpgpwadaVH9CxivW7akFyXpE31Wz8XY4/XIe
-         PBHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765718135; x=1766322935;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2xGSG0Vsa9+qI2wiCp2gliIFyT6dWVXRARFOSTyb3V8=;
-        b=bEqfLfLoC20rMNbj8MO6DMZAThGTJKjOp8ztQEeiQQC04u8EV+3USKfGs1rTgaoV/C
-         Wy2bO4K0dJ3bOHnjiT0Na+86i+dy1zoYnJlydjxwAKWv68W/kTJCrzzK17UljD5/4+IB
-         /j9AKOfifW+BitBf7e+Z8yoBWQ3mLA++XKCyFAFQoGD1gPdj94VcR45mvecY1IiyNeoW
-         ZHUtDUhZmbNcyfPPeofnBi9oBWn3EjSNyW41P7Gw31IbqWk7QtBJDrFO4BFipeIQmJIH
-         +yxm6gUoAUTGko/cyL/DosLB6PS2upn/CbYUyJBxqNwtloFV4ClYzwO+CYvXBNMzQM/o
-         zyNg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPqmPtRmjtULTEWHSH90wP7usYj0aY5Czg4BUiuY+ngbPdYh+r0Pigi/sjfaWOFPdWoGdeY2ya1Q/H3go=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6IeIxRTekGd2n3W6Hxe33uwZauJ9jy72Y04M8Bs3z57FT78Uf
-	3YqlmeJAv5JK3PFFjfUe0siXDogYdLdp2ar8LZChUfbbbRRqD4RZjEdN
-X-Gm-Gg: AY/fxX41FUtjzKjdjfCF/wKHgUtderb9sTqG0A/kpOAODyyShXlwYzZYjbQTVpqYpd1
-	8VQyoZ5DsVHAqublu/ZFdzE17Cm/ZJ7KcPQAxWsjRCmfdRIviO0jRpV/3Es1PCBGyoLbbkHWtOM
-	vD9tSKcp6cpkEvxdhronrN8pAznPg3VR6RiZ7L/9d1bEQJ2uxSoTptNTcM3DVfBGQFi4wtOg/6I
-	CAN3ei47blpMLG/nR8kA1WxzNHqg0ov+yScnni4eoDcdCxtqOajjKy3kika+q54HjKbYxBGv63K
-	MmmDKp6v7l2E0t9S9Ov45QKkaPyXdj29hSmwSf57Ax+l8tCSBNvZAW4xIutYt5oonrhf5IcyS5b
-	jAPYdRV3/Yb4su99uD3MJg6aTnM2v5EBgAyoB+vB/TDaZOTXaIBcfT6fpxat495h9O5Jyj9s3KN
-	4rrPesP6UkFy9T83tKI1srKmQ80oUJi33woqOMxU4zaMKCGdmst2c8L+63zFKhCrp5LD3C1lNm
-X-Google-Smtp-Source: AGHT+IG55in7CePXegLIYGWIvbg9pSdIRdxYIXe/y9JbYHMR2Q5mql3QRGrehZJInzb7dHPJhLZsIQ==
-X-Received: by 2002:a05:6000:186d:b0:425:86da:325f with SMTP id ffacd0b85a97d-42fb3ee6156mr8233050f8f.27.1765718134895;
-        Sun, 14 Dec 2025 05:15:34 -0800 (PST)
-Received: from snowdrop.snailnet.com (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43009dfe5b3sm10822533f8f.39.2025.12.14.05.15.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Dec 2025 05:15:34 -0800 (PST)
-From: david.laight.linux@gmail.com
-To: Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH 1/1] kbuild: Only enable -Wtautological-constant-out-of-range-compare for W=2
-Date: Sun, 14 Dec 2025 13:15:28 +0000
-Message-Id: <20251214131528.3648-1-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1765791052; c=relaxed/simple;
+	bh=swqRlMoAO3NvcCoEm7GKISvmasPoc2eXkU2/fm394BE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f+Darv/Ad0tY1RXB3NWGTlcvFkRSxhQ/eg45AonCOZ83aFA7KNhwkTAxwb0ELXqbc1pokqjFMNoO5J0EvnyquOgR0rL5K3R2qyfY7k59PosI1NGNCKnIEyFA71OuA5DIhjAetMM3Y9R13r+KvfaJWK+fKR3gkhFHRpAw3f6SGic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (1024-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=pnErKi7r; arc=none smtp.client-ip=178.154.239.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onurozkan.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+Received: from mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:1698:0:640:befc:0])
+	by forward500b.mail.yandex.net (Yandex) with ESMTPS id 4BDA0C026A;
+	Mon, 15 Dec 2025 12:24:14 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 9OPpYE5LtiE0-E5fX9gQU;
+	Mon, 15 Dec 2025 12:24:13 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+	s=mail; t=1765790653;
+	bh=kprlpmhDORKZihgrcnjt54NlN/3ATtQKhKSPmCXRgxU=;
+	h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+	b=pnErKi7r/pJ6EEz4IpoCH+Ck5x1TXYefWSUcsAA1a24sJ/0h0LFUXMDT60+PlrDa0
+	 oqkV/IXHtDkV5Qk+gjBVXuv1HW31jrpzfdg58OrbPnl9XZ3g5YRZlrltVe32bZwj/F
+	 uvkfCjASOqj6tKOrspotkEOXN1rdzxXN9YIZ2Bh0=
+Authentication-Results: mail-nwsmtp-smtp-production-main-74.sas.yp-c.yandex.net; dkim=pass header.i=@onurozkan.dev
+Date: Mon, 15 Dec 2025 12:24:07 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH v1 1/2] scripts: add tool to run containerized builds
+Message-ID: <20251215122407.720d65bf@nimda>
+In-Reply-To: <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+References: <cover.1765374789.git.gtucker@gtucker.io>
+	<97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: David Laight <david.laight.linux@gmail.com>
+Hi Guillaume,
 
-The kernel code style is to use !(expr) rather that (expr) == 0.
-But clang complains that converting some constant expressions
-(eg (0xffffu << 16)) to a boolean always evalutes to true.
-This happens often in the validity checks in #defines.
-Move tautological-constant-out-of-range-compare to W=2 (along with the
-similar type-limits).
+Excellent work! Just one note from my side so far:
 
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
- scripts/Makefile.warn | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 10 Dec 2025 14:58:28 +0100
+Guillaume Tucker <gtucker@gtucker.io> wrote:
 
-diff --git a/scripts/Makefile.warn b/scripts/Makefile.warn
-index 68e6fafcb80c..e2d467835c5b 100644
---- a/scripts/Makefile.warn
-+++ b/scripts/Makefile.warn
-@@ -151,7 +151,6 @@ KBUILD_CFLAGS += -Wformat-insufficient-args
- endif
- endif
- KBUILD_CFLAGS += $(call cc-option, -Wno-pointer-to-enum-cast)
--KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
- KBUILD_CFLAGS += $(call cc-option, -Wno-unaligned-access)
- KBUILD_CFLAGS += -Wno-enum-compare-conditional
- endif
-@@ -179,6 +178,7 @@ KBUILD_CFLAGS += -Wno-shift-negative-value
- 
- ifdef CONFIG_CC_IS_CLANG
- KBUILD_CFLAGS += -Wno-enum-enum-conversion
-+KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
- endif
- 
- ifdef CONFIG_CC_IS_GCC
--- 
-2.39.5
+> Add a 'scripts/container' tool written in Python to run any command in
+> the source tree from within a container.  This can typically be used
+> to call 'make' with a compiler toolchain image to run reproducible
+> builds but any arbitrary command can be run too.  Only Docker and
+> Podman are supported for this initial version.
+> 
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Link:
+> https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
+> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io> ---
+>  scripts/container | 112
+> ++++++++++++++++++++++++++++++++++++++++++++++ 1 file changed, 112
+> insertions(+) create mode 100755 scripts/container
+> 
+> diff --git a/scripts/container b/scripts/container
+> new file mode 100755
+> index 000000000000..74644ac33685
+> --- /dev/null
+> +++ b/scripts/container
+> @@ -0,0 +1,112 @@
+> +#!/bin/env python3
 
+By default, this will not work on NixOS because /bin/env is
+not a valid path.
+
+It will fail like this:
+
+	$ cat something
+	#!/bin/env python3
+	
+	$ ./something
+	zsh: ./something: bad interpreter: /bin/env: no such file or
+	directory
+
+Is there a reason for not using /usr/bin/env?
+
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright (C) 2025 Guillaume Tucker
+> +
+> +"""Containerized builds"""
+> +
+> +import argparse
+> +import logging
+> +import os
+> +import subprocess
+> +import sys
+> +
+> +
+> +def get_logger(verbose):
+> +    """Set up a logger with the appropriate level"""
+> +    logger = logging.getLogger('container')
+> +    handler = logging.StreamHandler()
+> +    handler.setFormatter(logging.Formatter(
+> +        fmt='[container {levelname}] {message}', style='{'
+> +    ))
+> +    logger.addHandler(handler)
+> +    logger.setLevel(logging.DEBUG if verbose is True else
+> logging.INFO)
+> +    return logger
+> +
+> +
+> +def run_docker(args):
+> +    """Run a command in a Docker container"""
+> +    uid = args.uid or os.getuid()
+> +    gid = args.gid or args.uid or os.getgid()
+> +    cmd = [
+> +        'docker', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
+> +        '--workdir', '/src',
+> +        '--user', f'{uid}:{gid}'
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
+> +
+> +
+> +def run_podman(args):
+> +    """Run a command in a Podman container"""
+> +    uid = args.uid or 1000
+> +    gid = args.gid or args.uid or 1000
+> +    cmd = [
+> +        'podman', 'run',
+> +        '--interactive',
+> +        '--volume', f'{os.getcwd()}:/src',
+> +        '--workdir', '/src',
+> +        '--userns', f'keep-id:uid={uid},gid={gid}',
+> +    ]
+> +    if args.env_file:
+> +        cmd += ['--env-file', args.env_file]
+> +    cmd.append(args.image)
+> +    cmd += args.cmd
+> +    return subprocess.call(cmd)
+> +
+> +
+> +def main(args):
+> +    """Main entry point for the container tool"""
+> +    logger = get_logger(args.verbose)
+> +    logger.debug("runtime=%s, image=%s", args.runtime, args.image)
+> +    runtimes = {
+> +        'docker': run_docker,
+> +        'podman': run_podman,
+> +    }
+> +    handler = runtimes.get(args.runtime)
+> +    if not handler:
+> +        logger.error("Unknown container runtime: %s", args.runtime)
+> +        return 1
+> +    try:
+> +        return handler(args)
+> +    except KeyboardInterrupt:
+> +        logger.error("aborted")
+> +        return 1
+> +
+> +
+> +if __name__ == '__main__':
+> +    parser = argparse.ArgumentParser("Containerized builds")
+> +    parser.add_argument(
+> +        '-e', '--env-file',
+> +        help="Path to an environment file to load in the container."
+> +    )
+> +    parser.add_argument(
+> +        '-g', '--gid',
+> +        help="Group ID to use inside the container."
+> +    )
+> +    parser.add_argument(
+> +        '-i', '--image', default='gcc',
+> +        help="Container image, default is gcc."
+> +    )
+> +    parser.add_argument(
+> +        '-r', '--runtime', choices=['docker', 'podman'],
+> default='docker',
+> +        help="Container runtime, default is docker."
+> +    )
+> +    parser.add_argument(
+> +        '-u', '--uid',
+> +        help="User ID to use inside the container.  If the -g option
+> is not"
+> +        "specified, the user ID will also be used for the group ID."
+> +    )
+> +    parser.add_argument(
+> +        '-v', '--verbose', action='store_true',
+> +        help="Enable verbose output."
+> +    )
+> +    parser.add_argument(
+> +        'cmd', nargs='+',
+> +        help="Command to run in the container"
+> +    )
+> +    sys.exit(main(parser.parse_args(sys.argv[1:])))
+
+-Onur
 
