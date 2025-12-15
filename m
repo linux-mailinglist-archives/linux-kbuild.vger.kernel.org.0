@@ -1,169 +1,264 @@
-Return-Path: <linux-kbuild+bounces-10100-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10101-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD5ACBDC56
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Dec 2025 13:24:26 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8F0CBE18D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Dec 2025 14:39:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 027173010CDC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Dec 2025 12:17:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 86766301C004
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Dec 2025 13:39:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58F00148850;
-	Mon, 15 Dec 2025 12:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9873321A4;
+	Mon, 15 Dec 2025 13:39:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWRiQcfl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EuTucd9g"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8823F7260A
-	for <linux-kbuild@vger.kernel.org>; Mon, 15 Dec 2025 12:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21879331A51
+	for <linux-kbuild@vger.kernel.org>; Mon, 15 Dec 2025 13:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765801052; cv=none; b=XLoz8ZDhecOBsZcJ2xyn15eDvAJ5VpskA9sjwJbdg0Ff3QVvGRuZWM+eS2gcPxEv3hvAdGX8eD1VqlZ+JW5OHPrNKt0PN1KbJ9a6gvNmEyWajtWL5HujOp5QDSzjIuDs8rebmJ5U4RTLSPj0xyT9Ypw0mAF8sP1jY3u+34h3i90=
+	t=1765805945; cv=none; b=laWl7oOddMmas874kSjuebCPnE3JZSwCtp5McdYQFwtWkUzApM/lv1BqMDXryWrowrpJo/yDc08MmrpB2dR+CUS6XmyLmXWvaJIaF03CIiXCh9UGyuZsFo7UX3e7T5pSmV/3WDEy7VGVPKY/nUErJJIhnCNVdkuZ1mcLZAcZCNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765801052; c=relaxed/simple;
-	bh=4NKbKdXoF69O/v3F5VX0MeyVaX0UZZffHXaLhbOZxUA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LgekpkAYBVZgkbH3/jfKHxHAesXk37YDeETpCIFW117NA9OBMU45+dyd1doDXKwkdGINUNosgrdQSxlDlJqtLx64pRsQ2vT95EEyaZQH+dbqa7ZDKDQxFnzC1ZUOxXfcHl+ZQ0n65pKLu/16uqW5bUw4Dfiqq4C0hr7P8OkD+nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWRiQcfl; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-477aa218f20so21972135e9.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 15 Dec 2025 04:17:30 -0800 (PST)
+	s=arc-20240116; t=1765805945; c=relaxed/simple;
+	bh=0RJ8hn5UA+jBMKgL2vexCP4P2w3UyioHPbHfmWoCqpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJjiJ516mVNJNCWSXON2wCIySApmi60ETSumIkZJQTrE0iwJuaSykD6a3oAGbnRSthddMwXjQyAsLVRre+OPBfHhmnUQW6pF+FQCxNu6Z6kJWbXi+m/S+Bkkb7R/JiAbcX7yaGqNntGcYjwGy3jG1tEDC3iHKT/oHEbZ34VJ95U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EuTucd9g; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42e2d5e119fso1567723f8f.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Dec 2025 05:39:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765801049; x=1766405849; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+wBMpDpYfgZrWAcGGwblbnMJhhVgVNGie/vmA06QjKI=;
-        b=DWRiQcflQY/oPlKMIYHDcV5tMQtzPx7/KaR4eLP/96j5+/NwrE9KgsatQG2fGd7qoS
-         GSO9C6YTu+ZgHMY4v5QzGiO1wS0nNTvmeGpYJkgyRi2OT+ZWHHCPRWQuxSARylxch+1f
-         Y4UU+YyGzs7fBGZaFH7SX5MGqOz8ig5IM7bqqDYN6ZKaqCaJtxV8CT1FDJQUvqutsJHN
-         yWMt5QbvXVqdl58zvi208tU9I0K2qD0CnaJ8/6xHWEp1T6QUHiUdfMUKV6drZvaxCbDO
-         JWZ3TXbgaPBVBS/Bz+vRYGz8eXT/QgBy+bbe+h17QtI336kpwE8uRI0y7pGH6KWtGLrS
-         E0iw==
+        d=google.com; s=20230601; t=1765805940; x=1766410740; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HP7wXZoAxj3YG64MFXhffqc9TkW1sld9ucKsb/6ZFh4=;
+        b=EuTucd9gZXbKS7k60S0O8+xmk6dWUzB6AJNJfJNSq4hCCI494y+YN2Qq1M2nPeZ7g5
+         LuU9h8ECct3c3zuO/9QgMVnrnXkzRJgRH9odpRxmaXJoMbbzxmLzBsdBkzCWalcMs8O0
+         +pwkeU2qKXOJUaNXpoOP02zQ1tVD8s9wko/KZIUVdb/UfaM7zYH212hBjrcuW4FJgH1J
+         hgW7iydeQCYKyq0iu2CmX9VQvEb5jf024NaEH6kA/hPoU5u67Btd0n6K9BJ3Wwyep1ZS
+         JZOqh1SL51X9kUXVjf42jy+x53KVKkGyUDYet3sxooMjnwhSTE0cGLmWT8n+j33oro1t
+         wdDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765801049; x=1766405849;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+wBMpDpYfgZrWAcGGwblbnMJhhVgVNGie/vmA06QjKI=;
-        b=RUjLF5qPeREfIbXL7MHuHavSA42pZJR33T1AJ/Fh1969rzu+FNWMi/pBSl7IBwNfuH
-         cVRfRtmWcAXFM4Og9bNARqRbDl4YDNV93eKphJ4Lct3NDtiP7fksikyXK3I8dAXWPBmw
-         7c157/I5WmJUj8lWRdd4Mm7EPy1SK1G1DPRVdwZj6qDpt8YKDPHt9eOqYXeLCXOXD4Ic
-         Fv6MpguXvmST/YGLFjYY4zjjvZBb48OCEGTGCOrQwG0GgCU7v+kSvzWz+8H9g3KE3dAT
-         jv+MGDloZkQtyQ0synfMvLJNr8U4EbiuA1jadyWX6dNmql2j15Z9W7v4GsRDogPP+739
-         9fQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtiYfndr7x+MPvjitagFlktPkvEdyuK54syMccRRtm0kr058NopzyNzatKLYmehk/xURs5ZgAyClqFuRc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf2hHB7K+Oibng/gdUrZiR+eUdWEpHYRYy7Y2pA7datikCAK1G
-	hzHpjsMHbZxlOtA2+LRfRJpurWC87LpQSwj/3XLxGnEWUeWW/iCbaXlj
-X-Gm-Gg: AY/fxX59QtE/5MKx80wYglz4di1QFMnVhN4H/dFE6Zn3qseQtRwZHZc+s+e0+AqMBeA
-	Ul+NW1a44LTezycsOc94I3ZBEjbLgPpEDtRqgKM+wAv+fPWLtfVjzriZqoCqVGoVIkjPy+9z9mn
-	m4mVFV/eYi9PS/ZwWNJD60J9yNKG7W+pnz+PkpkBkZW3mHJQYix9r0OLJ7YWWDdsgfGaRKL3UMd
-	yzS2lZVi5d3aL/+yWpZ2lxENA0kxKfuqgMC0eh/z8ISqv5SLkAPbRbCj4uHNzPwwa7UJvlbq8j+
-	deHoHv0BFsK8EJPbFKsqHXRnSQpdP0bXgmgr7oYm66F8TTmGEzFRtN2sQ7pGvI74jDwMy9EXJge
-	IJFW9PWkunWj9p4mFOMPcGRJnHjjsgO2NjgumpRIbrjTK3O6Cipk0FAWEY8fxuxMGrlC8h5wKvz
-	eST2jAL/2tFwoKdPT6AFXqibhI
-X-Google-Smtp-Source: AGHT+IH9JDOpbPuun7nC0jCId5lX3+h1bjNa1HYOaTMS/gGx6qZw9KBRSpCqvSuozGy7V76BmE+n+g==
-X-Received: by 2002:a05:600c:8b67:b0:471:14af:c715 with SMTP id 5b1f17b1804b1-47a8f8a6d83mr87606615e9.3.1765801048597;
-        Mon, 15 Dec 2025 04:17:28 -0800 (PST)
-Received: from ?IPV6:2001:871:22a:3342::1ad1? ([2001:871:22a:3342::1ad1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f36b6a19sm14277633f8f.38.2025.12.15.04.17.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Dec 2025 04:17:28 -0800 (PST)
-Message-ID: <6eaa65a1-e7dd-404c-b716-d4f7a0ce7f5c@gmail.com>
-Date: Mon, 15 Dec 2025 13:17:26 +0100
+        d=1e100.net; s=20230601; t=1765805940; x=1766410740;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HP7wXZoAxj3YG64MFXhffqc9TkW1sld9ucKsb/6ZFh4=;
+        b=dGQ8bp7VGUiKBXj9FuaHbNhKXOmBI0BD4xG3warPyO+vrLBVVuLC52Xvnra52+GCTI
+         Ap/ZwILBmuUvFolr1DPDyHVMRTGW4PX24bC++FPNonWs4OuZYhloUCCO/UAAOjL9ZXco
+         uFDsfEggGslQyl6SonQBKl6ttKn86N+NNjWP96yNWOzJtFVB2S9YlTZjiE2iLhL34vBW
+         NkuamXGEdIvUH+iQZEtKmOK7yxQPARjSWn3XTLKgLU+kma4IczBH4ArgDmvHI4+5PHvA
+         mxDY2Qm1V8hR3VXwkKeCfwC2Tbv+/UHT3AMJSdLW8Y5/wVaxHzk1tZsvdjY/LiwGapVF
+         FKgw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5FmXRC/0jcCcngjcnJKUpihpYRQ4dcu9WNOM7B1mHqe0oQTIA4Res3mp0kSvUQhxhHCzVaUhjabPkPDk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqK6GK6+mEroouHmNoHmE1nrsZVogVrYtNSvYkeqCjGidAzlOp
+	M/dKkWYKK2ZzltXUjE2+0HuNLeqemq8pcszvelc88qSMEbdoL+EcUinA7Ql6Uf9AfA==
+X-Gm-Gg: AY/fxX4Jsfi+3fkrpp41nqsKIDpQqhOZsaKK8cI9Lt504EO1eWZoSdktY5Zb5HORLyZ
+	0SjUKaryyTulM1aT/NbNkvdXKvDd3oTfANdNGBVSWmlYrBtPpgXqNJJXqhyq17Nd6g/lfLFjRRj
+	TQhQ6fOQ5TbCbUndXIqbtul9k/0q93kP5FQFC32FZrWAsEqQtp+AGCMHmWP5mIJb8zWN4zkrs2R
+	uRsNXkGFJLLcYg19ggIkX9TCL9uo9zcLIlA6MQhxwtyaThj61rAFG4AB9bWa83n4KRmef7O5hH0
+	Uz0e9g3P+MyOKQqxN6CHO8TjKJCNVvvLCiZtVepakhEcRCO65tUPUk7UhlsdsWqfHSaL9cyuHXh
+	C65yrt77uFaOpLJ4eStjMaYdUrlB42Zdh1EIQ0t/fWChHoyauISVQ1vG9JkQV0njhGL3JhzLN5L
+	9SXLjZBngfidV/+Zq32L/Z+pAHT2XADR7tCg04Wee8XpAa+VPG
+X-Google-Smtp-Source: AGHT+IH6RRE6qce8+BKlIh2iGfXIIE/0drfAuueOfe5s5dH/DcFdShyJ99GxaUFmEfIgshY9jhag6g==
+X-Received: by 2002:a05:6000:310f:b0:430:f7dc:7e8e with SMTP id ffacd0b85a97d-430f7dc809cmr4594614f8f.34.1765805939977;
+        Mon, 15 Dec 2025 05:38:59 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:5741:4422:4d1d:b335])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fb68866f3sm21319081f8f.36.2025.12.15.05.38.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 05:38:59 -0800 (PST)
+Date: Mon, 15 Dec 2025 14:38:52 +0100
+From: Marco Elver <elver@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
+ analysis
+Message-ID: <aUAPbFJSv0alh_ix@elver.google.com>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120151033.3840508-7-elver@google.com>
+ <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
+ <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
+ <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ARMv7 Linux + Rust doesn't boot when compiling with only LLVM=1
-To: Rudraksha Gupta <guptarud@gmail.com>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
- rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <1286af8e-f908-45db-af7c-d9c5d592abfd@gmail.com>
- <CANiq72kYjNrvyjVs0FOFvrzUf7QYe8i+NpBS6bMEzX8uJbwB+w@mail.gmail.com>
- <66cba90e-c9b1-4356-a021-e8beeff0b88d@gmail.com>
-Content-Language: en-US, de-DE
-From: Christian Schrefl <chrisi.schrefl@gmail.com>
-In-Reply-To: <66cba90e-c9b1-4356-a021-e8beeff0b88d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-On 12/14/25 8:34 AM, Rudraksha Gupta wrote:
-> On 12/13/25 22:06, Miguel Ojeda wrote:
->> On Sun, Dec 14, 2025 at 12:54 AM Rudraksha Gupta <guptarud@gmail.com> wrote:
->>> - The kernel boots and outputs via UART when I build the kernel with the
->>> following:
->>>
->>> make LLVM=1 ARCH="$arm" CC="${CC:-gcc}"
->>>
->>> - The kernel doesn't boot and there is no output via UART when I build
->>> the kernel with the following:
->>>
->>> make LLVM=1 ARCH="$arm"
->>>
->>> The only difference being: CC="${CC:-gcc}". Is this expected?
->> It depends on what that resolves to, i.e. your environment etc., i.e.
->> that is resolved before Kbuild is called.
+On Fri, Dec 12, 2025 at 12:09PM +0100, Peter Zijlstra wrote:
+> On Fri, Dec 12, 2025 at 11:15:29AM +0100, Marco Elver wrote:
+> > On Fri, 12 Dec 2025 at 10:43, Peter Zijlstra <peterz@infradead.org> wrote:
+> > [..]
+> > > > Correct. We're trading false negatives over false positives at this
+> > > > point, just to get things to compile cleanly.
+> > >
+> > > Right, and this all 'works' right up to the point someone sticks a
+> > > must_not_hold somewhere.
+> > >
+> > > > > > Better support for Linux's scoped guard design could be added in
+> > > > > > future if deemed critical.
+> > > > >
+> > > > > I would think so, per the above I don't think this is 'right'.
+> > > >
+> > > > It's not sound, but we'll avoid false positives for the time being.
+> > > > Maybe we can wrangle the jigsaw of macros to let it correctly acquire
+> > > > and then release (via a 2nd cleanup function), it might be as simple
+> > > > as marking the 'constructor' with the right __acquires(..), and then
+> > > > have a 2nd __attribute__((cleanup)) variable that just does a no-op
+> > > > release via __release(..) so we get the already supported pattern
+> > > > above.
+> > >
+> > > Right, like I mentioned in my previous email; it would be lovely if at
+> > > the very least __always_inline would get a *very* early pass such that
+> > > the above could be resolved without inter-procedural bits. I really
+> > > don't consider an __always_inline as another procedure.
+> > >
+> > > Because as I already noted yesterday, cleanup is now all
+> > > __always_inline, and as such *should* all end up in the one function.
+> > >
+> > > But yes, if we can get a magical mash-up of __cleanup and __release (let
+> > > it be knows as __release_on_cleanup ?) that might also work I suppose.
+> > > But I vastly prefer __always_inline actually 'working' ;-)
+> > 
+> > The truth is that __always_inline working in this way is currently
+> > infeasible. Clang and LLVM's architecture simply disallow this today:
+> > the semantic analysis that -Wthread-safety does happens over the AST,
+> > whereas always_inline is processed by early passes in the middle-end
+> > already within LLVM's pipeline, well after semantic analysis. There's
+> > a complexity budget limit for semantic analysis (type checking,
+> > warnings, assorted other errors), and path-sensitive &
+> > intra-procedural analysis over the plain AST is outside that budget.
+> > Which is why tools like clang-analyzer exist (symbolic execution),
+> > where it's possible to afford that complexity since that's not
+> > something that runs for a normal compile.
+> > 
+> > I think I've pushed the current version of Clang's -Wthread-safety
+> > already far beyond what folks were thinking is possible (a variant of
+> > alias analysis), but even my healthy disregard for the impossible
+> > tells me that making path-sensitive intra-procedural analysis even if
+> > just for __always_inline functions is quite possibly a fool's errand.
 > 
-> Sorry about that, I should've specified in the original email. The CC resolves to armv7-alpine-linux-musleabihf-gcc.
+> Well, I had to propose it. Gotta push the envelope :-)
 > 
-> When both LLVM=1 and the CC=gcc are used, I can insmod the sample rust modules just fine. However, if I only use LLVM=1, my phone doesn't output anything over UART, and I assume that it fails to boot. Interestingly enough, if I just specify LLVM=1 (with no CC=gcc), and remove the rust related configs from the pmos.config fragment, then my phone boots and I can see logs over UART.
+> > So either we get it to work with what we have, or give up.
+> 
+> So I think as is, we can start. But I really do want the cleanup thing
+> sorted, even if just with that __release_on_cleanup mashup or so.
 
-Did you try other architectures / devices as well (especially can you reproduce it on qemu-arm)?
+Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
+abstraction. For that one I was able to make it work like I thought we
+could (below). Some awkwardness is required to make it work in
+for-loops, which only let you define variables with the same type.
 
-Did you try a LLVM=1 build without rust enabled?
+For <linux/cleanup.h> it needs some more thought due to extra levels of
+indirection.
 
-> 
->> The normal way of calling would be the latter anyway -- with the
->> former you are setting a custom `CC` (either whatever you have there
->> or the `gcc` default). By default, `LLVM=1` means `CC=clang`.
->>
->> So it could be that you are using a completely different compiler
->> (even Clang vs. GCC, or different versions, and so on). Hard to say.
->> And depending on that, you may end up with a very different kernel
->> image. Even substantial Kconfig options may get changed etc.
->>
->> I would suggest comparing the kernel configuration of those two ways
->> (attaching them here could also be nice to see what compilers you are
->> using and so on).
-> 
-> postmarketOS uses kernel config fragments and tracks the latest linux-next:
-> 
-> - https://gitlab.postmarketos.org/postmarketOS/pmaports/-/blob/master/device/testing/linux-next/devices.config
-> 
-> - https://gitlab.postmarketos.org/postmarketOS/pmaports/-/blob/master/device/testing/linux-next/pmos.config
-> 
-> - build recipe: https://gitlab.postmarketos.org/postmarketOS/pmaports/-/blob/master/device/testing/linux-next/APKBUILD
-> 
-> 
-> The only thing that changed was whether CC=gcc was specified or not:
-> 
-> https://gitlab.postmarketos.org/postmarketOS/pmaports/-/commit/b9102ac5718b8d18acb6801a62e1cd4cc7edc0cb
-> 
+------ >8 ------
 
-I'm not familiar with pmbootstrap, what is required to reproduce this?
-Do I just need to use the edge channel with linux-next or is something special required?
-
-I might habe time to look into trying to reproduce it this week, but I'm not sure.
-I have a armv7 based asus-flo device to try it out. Its not very well supported, but
-It should be sufficient for this.
-
-Cheers,
-Christian
-
+diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+index b5563dc83aba..5162962b4b26 100644
+--- a/include/linux/seqlock.h
++++ b/include/linux/seqlock.h
+@@ -1249,6 +1249,7 @@ struct ss_tmp {
+ };
+ 
+ static __always_inline void __scoped_seqlock_cleanup(struct ss_tmp *sst)
++	__no_context_analysis
+ {
+ 	if (sst->lock)
+ 		spin_unlock(sst->lock);
+@@ -1278,6 +1279,7 @@ extern void __scoped_seqlock_bug(void);
+ 
+ static __always_inline void
+ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
++	__no_context_analysis
+ {
+ 	switch (sst->state) {
+ 	case ss_done:
+@@ -1320,9 +1322,18 @@ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
+ 	}
+ }
+ 
++/*
++ * Context analysis helper to release seqlock at the end of the for-scope; the
++ * alias analysis of the compiler will recognize that the pointer @s is is an
++ * alias to @_seqlock passed to read_seqbegin(_seqlock) below.
++ */
++static __always_inline void __scoped_seqlock_cleanup_ctx(struct ss_tmp **s)
++	__releases_shared(*((seqlock_t **)s)) __no_context_analysis {}
++
+ #define __scoped_seqlock_read(_seqlock, _target, _s)			\
+ 	for (struct ss_tmp _s __cleanup(__scoped_seqlock_cleanup) =	\
+-	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) };	\
++	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) }, \
++	     *__UNIQUE_ID(ctx) __cleanup(__scoped_seqlock_cleanup_ctx) = (struct ss_tmp *)_seqlock; \
+ 	     _s.state != ss_done;					\
+ 	     __scoped_seqlock_next(&_s, _seqlock, _target))
+ 
+diff --git a/lib/test_context-analysis.c b/lib/test_context-analysis.c
+index 4612025a1065..3f72b1ab2300 100644
+--- a/lib/test_context-analysis.c
++++ b/lib/test_context-analysis.c
+@@ -261,6 +261,13 @@ static void __used test_seqlock_writer(struct test_seqlock_data *d)
+ 	write_sequnlock_irqrestore(&d->sl, flags);
+ }
+ 
++static void __used test_seqlock_scoped(struct test_seqlock_data *d)
++{
++	scoped_seqlock_read (&d->sl, ss_lockless) {
++		(void)d->counter;
++	}
++}
++
+ struct test_rwsem_data {
+ 	struct rw_semaphore sem;
+ 	int counter __guarded_by(&sem);
 
