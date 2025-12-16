@@ -1,80 +1,53 @@
-Return-Path: <linux-kbuild+bounces-10118-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10119-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C488BCC341D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 14:36:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BB2CC3A94
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 15:40:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8340A30B34D2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 13:28:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 65F3430FEB02
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 14:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2B26354AE3;
-	Tue, 16 Dec 2025 13:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E58C35970E;
+	Tue, 16 Dec 2025 13:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="buYJu0gC"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dMWulvkE"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38876355033
-	for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 13:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CA0358D2C;
+	Tue, 16 Dec 2025 13:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765891601; cv=none; b=R5jXQZrhNnFuLBFEy/whLKgWda6KUat5sKMVsKS12eqE8UM6rzECckfQN2CVlnd1xJjSJee1enU4toxToJbOo/LmuuhyqGmOIioMcPdDDHF+jl7D2aKeEprqtgwZpjCtYHPEGY1HrvL1ZcQPWcFLRzUkRX9piwob0+ldCRWLq9A=
+	t=1765892510; cv=none; b=FZgHWS0fmuCHczt2g2BXfjki5owoDdCVOn/6qUf3S1vS0y9XQMzYj8WrXeokfjX1lr4Re1ZnO6iFJSlVE8RKm+wE4tQq9avHBe59aHKUG0qkS9zF0Qkpe4kdNZIxqlz121RRpjWeKne+uqcyAY7ti8i8Y5fSITmXGLSw740mxs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765891601; c=relaxed/simple;
-	bh=XzSmUQ9wBuoAsnnswWznp0kvFEGZQ0Tj3+vUePVVnwM=;
+	s=arc-20240116; t=1765892510; c=relaxed/simple;
+	bh=gWLCD3iBOBUmWuAt+1zM67Tkj23VTvcGTN7S+MGr/ks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fB19PfZElyXQQihGLPd7tZ6Uh0iYXkSRg2imYOIK3jOi1a+17qGPDKXmAhems2Dk6pEGmGh+d6PsIxRXXtbmG/P0iixKT7DkzvDEafc/Dx7enFZtjBuP7Qzg/GjBZp1yhz1/i/N/Bs7Tf3TCG4ds0rVtNmAgpzDKkJpTStl32No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=buYJu0gC; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-649820b4b3aso2310821a12.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 05:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765891597; x=1766496397; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3V/ozmG0P6zbhJMhekfGn6dV/6uy4a54Tyfq8of8mrw=;
-        b=buYJu0gC4OU4CKzN0mxTwWWLvQ4CNFOE6E5ISWagDJYeSPRRTZEJblsZjS10eKAI9o
-         pQdfa6WhBntvFfS1/XfQ9/yKOraEw6DxVQO1uzuOL+URVzk+f/q/8DnJktaiNSd7DBJi
-         tnvbE/8vjuq16rtJWuUvHoaCMvXhFVVpMb5RvybkAgLEXB0x4AmWNOt7wO8kDRH24QY6
-         cvXAamGreZz8arkujIiH+dEPwH4lss3HYi/D/FkrIOKheflpobF84oPK+vMLJ5LcyDpB
-         VceNZB1hflgT0S3PNCJ/TA87AIeCNjz1cBLeBQM6/Y56AMmE5BbW75KkDYJQlrauWTp6
-         g5oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765891597; x=1766496397;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3V/ozmG0P6zbhJMhekfGn6dV/6uy4a54Tyfq8of8mrw=;
-        b=vmiPb7xukbGDRQ9FWmY4uo792DlbElT3zjTEQULwNe54LjbkZ8XjrqmP6LuNXHt6ST
-         OM8UNpnqs04ZHzXjgsom5QVR38N8I5ibAaZMEKB7wik/cyMfNHD4BheM/UXKK8w7qHAh
-         njbFZRWKc7pWQCuO7dBWMKW9xXTXYpuk2vROIfCcukeNo2BzQDoOjm6YrF25NSsnztht
-         pbaWGwib0/EkMtqCF/RaOhRo+q7GDBekuYiM2y9vZ8B/F4KTze8XuztI7E223H6E0Hye
-         8vEgLORYPIVo1WMfBvpgikPkSxC2GohNHMVMMYG3WdCydBFVuW+jlzdvFlQwcMNgd5yg
-         OnHw==
-X-Forwarded-Encrypted: i=1; AJvYcCX23aflZrtHyo0sE9oAm8d6+4S28sVI1yaHdcVRaGl2ByaZ+2P9vVgvZO1ZIy/WEAQhoOD9huvM8G34QGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxydBHHbAIdU9dEVqT1rVP7KJDlsTo44/SD4UxodWwY/EU4O0pV
-	Eriz0MJCP6AMh2JimpsN1dikWQ7Pj0LpcfiolwvjjN514w85I78vveBCdblVwsl4pA==
-X-Gm-Gg: AY/fxX7XbwZiIkbCIeTeXRxr5rtcz3GZIi/ualbp0lWyAExoR2Bt8pZK8zcw8Pq0wCV
-	VCKtGGThCUVzR32iQMKoRLRA2zSfbttHon5PWuO8aThP2nluhwF2l3kVqznDJOCsDhtmtdpcC6H
-	Zjz+DUQ4dRTJhvtZ2vS0vLpoD+yfY1Wzo/MoccA77Aaqg4bGnjKG0R4ZkctrRARn+ym3UZ3hmo+
-	S37AI0dlAid8HVvUbUm0VZ5uLaYZmAy+ru4UHHIGkwNQJO+jofqqsT41IZYllhERL9ch9R5c8wj
-	gePvBMc6/V+mkGx17zTEaJ+OATRwDNJ3p92rs5KlpIcmccx+uq77R4T4WOgYkGE6MP63b5KtHaM
-	aATzi6RE1c0EihRI45AeNyT40114l5Xnb2iJxtulCtWQ7+rrjAp4GH31q2K2ezN94ngm9apHGRx
-	ANv2t/LmLBxt0tIkt/CVXnmHafg0EAqDeJHQcWQ0EQWJTxmoyF
-X-Google-Smtp-Source: AGHT+IEXN8c4l2W138SpFxaraGM3jOuuGwcwQYafzXlaDOwN/Hd+sEz4uwdMcyiAnZ9D77N2tR3XDg==
-X-Received: by 2002:a17:907:72c7:b0:b6d:9bab:a7ba with SMTP id a640c23a62f3a-b7d23a97591mr1453601666b.42.1765891597176;
-        Tue, 16 Dec 2025 05:26:37 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:2834:9:ea4c:b2a8:24a4:9ce9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa5d0b0dsm1693444566b.67.2025.12.16.05.26.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 05:26:36 -0800 (PST)
-Date: Tue, 16 Dec 2025 14:26:28 +0100
-From: Marco Elver <elver@google.com>
-To: Peter Zijlstra <peterz@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RPqecn0gUX9gVyVjHQzMB3U73teEXvOKockdNz+bVfX3ydDGMM1FJI807xGmQ6IepzO8XLjgtkJdyD3ox4DXJ+qz4xXjh0hofU1GVuoK9vgWibuNjgmkjGab6Cl5JAL7a6IjAIEI8m/nPO6ckdntPrOB7bWxSvGtz9zQIbvJc1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dMWulvkE; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3682UGOf9mvj955UPR/gJlxWjdDq8XctSWFz2A093u0=; b=dMWulvkEtlHRfwLzo+fiUy1Rul
+	jjpm7Nh2E3i0jPKr9HMflOZdHLmzPwGROrRfy+9DA6rqyFyOwg/sOMcHP7z1I0KSJNIkPWJ2wBtvb
+	Ab5EX9vtW7XFPbI4t8avQsSZnbwYHlc3xLHwv/1NtPJCLFIMM2yoqbJX0EIdSz3yYrDjgMHG9FMBZ
+	xuG4HBparMxFnq8+KjCFyLlfRplAa3ifZIAEXjq5tFbyaU1w/zO0idGO9PQS93MnJhQKxuk3vQX6n
+	NUXzHndpgSJ6+YIVw3RTr17Z6URMVucWjRkhg5YJiyV6sn66SBQExl7rk/IIt4FKVR/iMv9woMrvX
+	bcL7MGng==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vVVIn-00000003LNo-2njp;
+	Tue, 16 Dec 2025 13:41:21 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 0582B30029E; Tue, 16 Dec 2025 14:41:20 +0100 (CET)
+Date: Tue, 16 Dec 2025 14:41:19 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
 	Will Deacon <will@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -114,7 +87,7 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
 	llvm@lists.linux.dev, rcu@vger.kernel.org
 Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
  analysis
-Message-ID: <aUFeBHuBJr-Y512D@elver.google.com>
+Message-ID: <20251216134119.GU3707837@noisy.programming.kicks-ass.net>
 References: <20251120145835.3833031-2-elver@google.com>
  <20251120151033.3840508-7-elver@google.com>
  <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
@@ -123,8 +96,8 @@ References: <20251120145835.3833031-2-elver@google.com>
  <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
  <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
  <aUAPbFJSv0alh_ix@elver.google.com>
- <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
- <20251216122359.GS3707837@noisy.programming.kicks-ass.net>
+ <20251216123211.GT3707837@noisy.programming.kicks-ass.net>
+ <aUFdRzx1dxRx1Uqa@elver.google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -133,37 +106,28 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216122359.GS3707837@noisy.programming.kicks-ass.net>
-User-Agent: Mutt/2.2.13 (2024-03-09)
+In-Reply-To: <aUFdRzx1dxRx1Uqa@elver.google.com>
 
-On Tue, Dec 16, 2025 at 01:23PM +0100, Peter Zijlstra wrote:
-> On Mon, Dec 15, 2025 at 04:53:18PM +0100, Marco Elver wrote:
-> > One observation from the rebase: Generally synchronization primitives
-> > do not change much and the annotations are relatively stable, but e.g.
-> > RCU & sched (latter is optional and depends on the sched-enablement
-> > patch) receive disproportionally more changes, and while new
-> > annotations required for v6.19-rc1 were trivial, it does require
-> > compiling with a Clang version that does produce the warnings to
-> > notice.
-> 
-> I have:
-> 
-> Debian clang version 22.0.0 (++20251023025710+3f47a7be1ae6-1~exp5)
-> 
-> I've not tried if that is new enough.
+On Tue, Dec 16, 2025 at 02:23:19PM +0100, Marco Elver wrote:
 
-That's new enough - it's after
-https://github.com/llvm/llvm-project/commit/7ccb5c08f0685d4787f12c3224a72f0650c5865e
-which is the minimum required version.
-
-> > While Clang 22-dev is being tested on CI, I doubt maintainers already
-> > use it, so it's possible we'll see some late warnings due to missing
-> > annotations when things hit -next. This might be an acceptable churn
-> > cost, if we think the outcome is worthwhile. Things should get better
-> > when Clang 22 is released properly, but until then things might be a
-> > little bumpy if there are large changes across the core
-> > synchronization primitives.
+> > Also, why do we need this second variable with cleanup; can't the
+> > existing __scoped_seqlock_cleanup() get the __releases_shared()
+> > attribute?
 > 
-> Yeah, we'll see how bad it gets, we can always disable it for
-> COMPILE_TEST or so for a while.
+> The existing __scoped_seqlock_cleanup() receives &_s (struct ss_tmp *),
+> and we can't refer to the _seqlock from __scoped_seqlock_cleanup(). Even
+> if I create a member seqlock_t* ss_tmp::seqlock and initialize it with
+> _seqlock, the compiler can't track that the member would be an alias of
+> _seqlock. The function __scoped_seqlock_next() does receive _seqlock to
+> effectively release it executes for every loop, so there'd be a "lock
+> imbalance" in the compiler's eyes.
+> 
+> So having the direct alias (even if we cast it to make it work in the
+> single-statement multi-definition, the compiler doesn't care) is
+> required for it to work.
+
+Right -- it just clicked while I was walking outside. Without actual
+inlining it cannot see through the constructor and track the variable :/
+
+OK, let me stare at this more.
 
