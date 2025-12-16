@@ -1,125 +1,117 @@
-Return-Path: <linux-kbuild+bounces-10122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10123-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D07CCC51D6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 21:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D2ECC56C6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Dec 2025 00:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E073F3032131
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 20:42:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62CA53038985
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 23:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 518772DEA87;
-	Tue, 16 Dec 2025 20:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFB622750E6;
+	Tue, 16 Dec 2025 23:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EOSBR9jD"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZLAmhF5k"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3BE272E54
-	for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 20:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F7E23182D;
+	Tue, 16 Dec 2025 23:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765917732; cv=none; b=AZaUs9Eu3+ylNdQpcNOk4LYyW25koCRbvyUNnbeufF4Tcdn+7fsoExmT9FhoEKAPkzr7ZZDe63x0WwTtj9sejYSU1WIEGeWURvl1sErKlL4y8YzL1iXcAIa26/A5rd7vapbm7DhXZATMUXlOu42j95JCW5k4Bov3UJ0k+s19+sA=
+	t=1765926269; cv=none; b=kw/GchsP99XX+BJDX8gVqu+L+MeQFw0PSH8uJJ+33DvQkezR2vDCpjYZX5e/+gFnyN8rAOhhwxuGOSK3FLGvl4s4fhr2vMhzft/8tJfMEzG/WheJ3xvaAKstpcBgkw3agol1SZ6UuXLyNWkYyVBAW90638yjD8pjPfPU+rJdsW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765917732; c=relaxed/simple;
-	bh=kYRZPQVIXaPZPvBqjFrVHSe3OQvXSms9kx6HAz+Sc6o=;
+	s=arc-20240116; t=1765926269; c=relaxed/simple;
+	bh=XVvkwiBeO0LpEJLgRN9rlShhDNf2+VEW8CLg1utIFbw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fj9R0LcusShMTKwaCmwytGU2DGEcmCNSDSYKHVfLRGRSRkfkFlzqau1yMbgnW2XMUcxeL2nOymAN2JLu0LixTzs5Rg9SlStVqYg//lOjD5b5v6NWl4BzxG+fVNjP+otdf8W9l4rJWqYcsS/+eP0Dv5Nqqw6jYBkS17A1qkEB494=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EOSBR9jD; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <cecb6351-ea9a-4f8a-863a-82c9ef02f012@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765917714;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NI/FBGNehU9YUSYgyB/T6XjjzQJetB/bgxtbGtuRsyA=;
-	b=EOSBR9jDAYi3b1D0UmXpcjapzKWvFni01k2gkpJj7cMWZ5nKYil9hpl5OoaBz8zFEiJ6Pu
-	FficCWLudBTHev9OhiQRCHRtdJD0My8wh2lpkccQ+0NAJGbkW5zDVSrXoMQJPlKnCJqNIp
-	mQpWb8uvFo6YjSIG5D406m+IA6x0XIg=
-Date: Tue, 16 Dec 2025 12:41:44 -0800
+	 In-Reply-To:Content-Type; b=EhUGnbg9tGsxNCCohm1FJnFOVgJ4rh/WLqmtJwR31TkiLkvTUEpgMpuTu6ZjSoeQP1N1kXIuatp4mlGke9RBC+DUJDOOIVUS7+Ffcx47NHk545jJTa6xYzoaSKqhj5ds8BdYY/I9qqrzMrKrGh3fD+EIhAoKkjdHrJOTySQGZQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZLAmhF5k; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IxsIQMZPVOr2OQwYbnGD7xHTcUhCEDoZKq4ymqdT2Ik=; b=ZLAmhF5kyklKKjUL6Yuvcw2HrM
+	brU1efvjy21+vIKvDNf6Hr+Yb5PL77waOXrT7QQU/SWprZbVzYs9rzxi7yBJ0FIOaxURE/wMcy1sK
+	Yvib4vLioccM9y1PBaA+xPDbYMKDwRifTjq4VpZz/35T8D+7NOw9/hC5P9Qoglc9oNA3Rz/EfuklO
+	eABOBVudQ70DqV8at/i705Ng1ThJRtgDOVeAcg88QnP4HqDe9kCD8BdAx+XNqjHP6KHJe/GxKbGac
+	zhNLGCWMnaR3Bc8FpOfu8z6+tRwPf46ozsrewSpszqDd3l9YFQ705O1G4rWC8c2Z/ueSLhTE/5s0u
+	eCLGSWUQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vVdhW-00000005uAI-3M0Y;
+	Tue, 16 Dec 2025 22:39:26 +0000
+Message-ID: <46a5f2d9-b118-4675-8372-40f9b2fc7bbe@infradead.org>
+Date: Tue, 16 Dec 2025 14:39:20 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
- with raw binary output
-To: kernel test robot <lkp@intel.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Alan Maguire <alan.maguire@oracle.com>, Donglin Peng <dolinux.peng@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
- dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20251127185242.3954132-5-ihor.solodrai@linux.dev>
- <202512061213.85NHVN2W-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] kconfig: move XPM icons to separate files
+To: Rostislav Krasny <rostiprodev@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251213140923.19710-1-rostiprodev@gmail.com>
+ <20251213140923.19710-2-rostiprodev@gmail.com>
+ <35baccd7-bcb6-4794-9b6e-ce5982bd2342@infradead.org>
+ <CAKU3Xk6H0V2W2sEwfWZMrfJ11j5MvbhX34rpos1OfyA=zHoWfA@mail.gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <202512061213.85NHVN2W-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAKU3Xk6H0V2W2sEwfWZMrfJ11j5MvbhX34rpos1OfyA=zHoWfA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 12/5/25 9:08 PM, kernel test robot wrote:
-> Hi Ihor,
+Hi,
+
+On 12/16/25 12:38 PM, Rostislav Krasny wrote:
+> On Tue, 16 Dec 2025 at 09:10, Randy Dunlap <rdunlap@infradead.org> wrote:
+>> This worked well for me when I ran 'make gconfig'. However, when I tested
+>> 'make xconfig', instead of having icons/symbols for
+>>   Back, Open, Save, Single View, Split View, Full View
+>> I have words as listed above.
 > 
-> kernel test robot noticed the following build errors:
+> I've double checked my patch again with the latest master branch of
+> Linux and "make xconfig" works properly on my machine.
+> Here you can see the screenshot: https://ibb.co/Q2jX9tQ
 > 
-> [auto build test ERROR on bpf-next/master]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/resolve_btfids-rename-object-btf-field-to-btf_path/20251128-025645
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20251127185242.3954132-5-ihor.solodrai%40linux.dev
-> patch subject: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update with raw binary output
-> config: arm64-randconfig-004-20251205 (https://download.01.org/0day-ci/archive/20251206/202512061213.85NHVN2W-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061213.85NHVN2W-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512061213.85NHVN2W-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> ld.lld: error: .tmp_vmlinux1.btf.o is incompatible with aarch64elf
+> I use Fedora 43 with Cinnamon DE. The Qt development package that I
+> installed is qt5-qtbase-devel version 5.15.18-1.fc43 plus its
+> dependencies.
+> What version of Qt do you use? Did "make xconfig" work properly before
+> you applied my patch?
 > 
 
-I was able to reproduce this error.
+Yes, "make xconfig" worked properly before applying this patch.
 
-It happens only when cross-compiling with LLVM (which we don't do on
-BPF CI, btw) because of this line in gen-btf.sh:
+.qconf.cmd (generated by build) tells me I am using Qt6.
+I don't see any build errors/warnings.
 
-	echo "" | ${CC} -c -x c -o ${btf_data} -
+qt-core-devel & qt-base-common-devel are v6.10.1-1.2 from
+openSUSE Tumbleweed.
 
-The purpose of this command is to produce an "empty" linkable ELF
-file. The .BTF section is objcopied into it, and then it's linked
-into the vmlinux.
+> 
+> BTW if I install qt6-qtbase-devel (currently version 6.10.1-2.fc43)
+> instead of qt5-qtbase-devel it fails on compilation, but this is a
+> completely different problem that existed even before my changes. I
+> will try to fix it later, it seems like a wrong include path.
+> 
+> $ make xconfig
+>   HOSTCXX scripts/kconfig/qconf.o
+> scripts/kconfig/qconf.cc:7:10: fatal error: QAction: No such file or directory
+>     7 | #include <QAction>
+>       |          ^~~~~~~~~
+> compilation terminated.
+> make[2]: *** [scripts/Makefile.host:148: scripts/kconfig/qconf.o] Error 1
+> make[1]: *** [/home/huligan/develop/linux/Makefile:742: xconfig] Error 2
+> make: *** [Makefile:248: __sub-make] Error 2
 
-Before the changes in this patch, the "empty" ELF was produced with
-objcopy --strip-all on .tmp_vmlinux1, which is a slower operation.
+-- 
+~Randy
 
-ld.lld fails, because ${CC} without the flags is just clang in this
-case, and it emits an ELF for host arch, which of course can't be
-linked. It can be fixed with:
-
-	echo "" | ${CC} ${CLANG_FLAGS} -c -x c -o ${btf_data} -
-
-${CLANG_FLAGS} contains a correct clang --target when cross-compiling.
-
-I'll use this in the upcoming v4 of the series.
 
