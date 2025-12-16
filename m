@@ -1,80 +1,53 @@
-Return-Path: <linux-kbuild+bounces-10113-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10114-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9C8CC20C6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 12:01:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F619CC2F95
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 13:53:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E2B4D302DA44
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 11:01:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E2EA33157C6B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 12:27:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D7F33D6C1;
-	Tue, 16 Dec 2025 11:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E51C34F473;
+	Tue, 16 Dec 2025 12:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZpviBOjD"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g637eP12"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09AF33BBA4
-	for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 11:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02003328E3;
+	Tue, 16 Dec 2025 12:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765882874; cv=none; b=HMtJfVp9SjbGycj4uSLIHXshQG3POY5IIvq8XHPnGev3yfb+hDqoVhqy9XMP543hdlR6Lx8C6ATIHyqKhbH1R+IbHd1ZcM+hI2QiQy2qYvLWM95gx6PpGYRQxvQKafz8QtYNNYztX8Py/C/Asxc1qgwaxZdLfU/jlvYJhBHXGbU=
+	t=1765887861; cv=none; b=laVnbdhhz7fBpAl8OvU0dgjfaWfaaOI5UmlREdlRUqt886uZs7/fFxwysPu1CxnbFgm9BJWl0KUVIswuWD7ocDF7I926tR/GpxuomoInuA/oMcc95Cy0zo1S21JNezeBsDEHS+jRwoWoZEeN1LCUlJCLk6exDb3KfIqaKrOeZZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765882874; c=relaxed/simple;
-	bh=mOm64EM4tgjM1MXcHPhVsoMKtGcavhpQka6kUnBhwsE=;
+	s=arc-20240116; t=1765887861; c=relaxed/simple;
+	bh=lLRQaT+PfrlE09N+ydMoSz7Mn4llxrI8kjoKOroo6L4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D7fsj8cI2d5eMYMYeWCGEworC0tBP/OCqA5qL1Ga3L6ZsNkaQyMzhdDsGixBJAFur3fVBXQr/UBEemCiiifZMOZSej3/JkF3xBckZWhWqDpqY/4nay+V/Cxfr/w3Bi1VMNQpecLPz14HjwrSol45b8Xh8dv66pDKoLIcKqaqW54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZpviBOjD; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477aa218f20so29470395e9.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 03:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765882871; x=1766487671; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3fwbXvgWn6Nd0xRDLnbqnTLufRK/0AjdBlMA+CLIc/0=;
-        b=ZpviBOjDfIsPR/XLfIKK+E0LIxfXjaTtVEH5dh2NuZoghJq5XN47vDA9xiaqnrcHWW
-         EnOS1JV1hbBUhWh0NVgF4UOpTm+TdwMOl6ljVwzHAQp83Nlo4u7SeTLoNigK7QIahXTv
-         qoP/kMr/yPJD8DF2mghOx0N0hZKx8GX5ArUQB3NtLwKcrPiW+9Rmjtod5+ooHKGa8ykf
-         ZYAt9JIaU4zdF6HShCHWD/ElcjWSd0IvTUE63gEX9ZyUE5xwEBIexAIMeXNVu2/zr3Ib
-         hmANx7BFkha7D6hca0s+i4hT+H4E8wwd08e81wNQwvDx+ll1BnNFs5hFyCbDLEZo1KbN
-         a8yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765882871; x=1766487671;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3fwbXvgWn6Nd0xRDLnbqnTLufRK/0AjdBlMA+CLIc/0=;
-        b=CfcBlbHf9l7Z9ZEkUafzKrMb2zEuMAV+1R/0IETVFQxjF4JvpdyiH59GhP+1svz+C1
-         /3jzImsq/jsKIn25pyIhNA/llEqiQvRZ11HWGRFmglcQsGf1zU1aCGurCb+mVvp4XOJy
-         jtMJL75zn8dNd0h9+4hP9Z+zykh8sMlEsiDRb2cr6hKeGQLBXANPTxBa7QDUXm7/xZDj
-         dlarH30jJNzJZaDEbkrW3wtIGoh7AMCNZh7ZufXsg5K/OUE2ufEaswnWtD2sWBZQuLhM
-         xhE6oXRN8KrvPu5KL3njXfbjD0e5yBjah6jk4kfHKLpOGVdRMDoq8SJq9dWQ4hLC4FJc
-         FDOA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhAwqLg2Kby2f9uDUOHcEqcQ9sRhUpnhmS3WXpvRpbMUVVvKIJ1BanSn8EBHvlqulzVOL1bLpt1i0qf3U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwzhBPIDHIWt1gyhVTnpb8feMKX1EkJbCFvwtOWjf9A0XIfx2e
-	yXRcfhU598IEaOCmlNWBwYOwLzJgkAwr05UQMP8Q3ivOxx1ZlnYTKYfT/IFKQlwMWQ==
-X-Gm-Gg: AY/fxX7SbkWLZWAsfqi4XiirebqC+AywXGks+UWZQgkW9Ex40tQeqioaisnD5DV5SMK
-	FNlgieqp8w6y0kOGlAx5+3ik2Blb/IyNUxQC6YYyV4oTv0CkeozeeUzFxIbc0rdJ3SZ8DTfLgm0
-	bKbR5SdWhCeJ1ThsbWFTmBDv0a5Jf7JxP9BjqlzGklJQxlfAROIGtfh98wPmPARyDdR3gWE2E/L
-	3OiQ48s8SGQ3TOTJF/26c7LuuYKKZX4RBWpxPHd2oRxrvRveDkqzGrqyPyJlZeCUlFz1LcTvegq
-	AOD+8l2IzoBLr0+/2klJzbd5JGPwMNF1C/+TRY8A4ddMgEpYaWV3skXNegop35EtC3gDUsGvWuV
-	56qt+1Fcd1UH4jvespIRdu03+EPm2FyrMC69h31hfu0RO5rzk3BCnuNMWyoS8FTEEnbz5zPI/9T
-	D/huiZMlvnROMJhFpGkDxc9jw/8cpatW/Rn9sMihEdq11iww1nBNH5FIu+QnM=
-X-Google-Smtp-Source: AGHT+IHPMwFoz32u9J3kCO+8mIIo+dWtYExr149Lgk7NY5BncmGMC4iCyfwqqX0j0PAhtkij+iZr9A==
-X-Received: by 2002:a05:600c:3ba7:b0:477:7af8:c88b with SMTP id 5b1f17b1804b1-47bd3d41de0mr37923685e9.11.1765882870450;
-        Tue, 16 Dec 2025 03:01:10 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:2834:9:ea4c:b2a8:24a4:9ce9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f5f6ede8sm17789236f8f.4.2025.12.16.03.01.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 03:01:09 -0800 (PST)
-Date: Tue, 16 Dec 2025 12:01:02 +0100
-From: Marco Elver <elver@google.com>
-To: Peter Zijlstra <peterz@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lVAuMAZ9iU9oOK3B49IDWkPG5Qhh8c04pZ4QbTEogupY4CBFFXuUdaP3twB01A6iLxEJjz5c0nol5o/fKubFJEQEosZ8iKbPJ5elRmzyD6/RmRpjUm0q0Klif0b1r3yus0rRmgfLV4KgTmgoOEw4IgJUu+OUTqKqHyHf/WBZeGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g637eP12; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=lLRQaT+PfrlE09N+ydMoSz7Mn4llxrI8kjoKOroo6L4=; b=g637eP12cSdDeAwjLUJVp9bFxA
+	NCfokUWkyh4uqLE48N1Kt6KCkC0EROAHECKL/1Pfv7IamNv287e7/ZRrq31y34dK3TYBeWd+ECvxs
+	L2SBBUq1PaIzX16nemfVr+aLsuXjWsLOgrSUi5KRBcSlf5V/ymVNJIDj3BrGeJPcaT2nC099cRgIH
+	jZMyRMXi3Rdob5lJ/38vx25CRMg8UqRuY8Ehd0Lf01AEduHpm4wgTpBdsE5z9c25E0Q1CoPEhtZ43
+	C3TmwnFQoLCm3OgM+z6Aor54f4zuN6+7brFHBUbgoXnQ1ypFdhfOMuTF5UMymOEpBLnFKLBNM9Sfb
+	JfHr4YQQ==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vVTES-00000004hkA-3IWl;
+	Tue, 16 Dec 2025 11:28:44 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 60ABA300220; Tue, 16 Dec 2025 13:23:59 +0100 (CET)
+Date: Tue, 16 Dec 2025 13:23:59 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
 	Will Deacon <will@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -114,7 +87,7 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
 	llvm@lists.linux.dev, rcu@vger.kernel.org
 Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
  analysis
-Message-ID: <aUE77hgJa58waFOy@elver.google.com>
+Message-ID: <20251216122359.GS3707837@noisy.programming.kicks-ass.net>
 References: <20251120145835.3833031-2-elver@google.com>
  <20251120151033.3840508-7-elver@google.com>
  <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
@@ -133,74 +106,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
-User-Agent: Mutt/2.2.13 (2024-03-09)
 
-On Mon, Dec 15, 2025 at 04:53PM +0100, Marco Elver wrote:
-[..]
-> > > So I think as is, we can start. But I really do want the cleanup thing
-> > > sorted, even if just with that __release_on_cleanup mashup or so.
-> >
-> > Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
-> > abstraction. For that one I was able to make it work like I thought we
-> > could (below). Some awkwardness is required to make it work in
-> > for-loops, which only let you define variables with the same type.
-> >
-> > For <linux/cleanup.h> it needs some more thought due to extra levels of
-> > indirection.
-> 
-> For cleanup.h, the problem is that to instantiate we use
-> "guard(class)(args..)". If it had been designed as "guard(class,
-> args...)", i.e. just use __VA_ARGS__ explicitly instead of the
-> implicit 'args...', it might have been possible to add a second
-> cleanup variable to do the same (with some additional magic to extract
-> the first arg if one exists). Unfortunately, the use of the current
-> guard()() idiom has become so pervasive that this is a bigger
-> refactor. I'm going to leave cleanup.h as-is for now, if we think we
-> want to give this a go in the current state.
+On Mon, Dec 15, 2025 at 04:53:18PM +0100, Marco Elver wrote:
+> One observation from the rebase: Generally synchronization primitives
+> do not change much and the annotations are relatively stable, but e.g.
+> RCU & sched (latter is optional and depends on the sched-enablement
+> patch) receive disproportionally more changes, and while new
+> annotations required for v6.19-rc1 were trivial, it does require
+> compiling with a Clang version that does produce the warnings to
+> notice.
 
-Alright, this can work, but it's not that ergonomic as I'd hoped (see
-below): we can redefine class_<name>_constructor to append another
-cleanup variable. With enough documentation, this might be workable.
+I have:
 
-WDYT?
+Debian clang version 22.0.0 (++20251023025710+3f47a7be1ae6-1~exp5)
 
------- >8 ------
+I've not tried if that is new enough.
 
+> While Clang 22-dev is being tested on CI, I doubt maintainers already
+> use it, so it's possible we'll see some late warnings due to missing
+> annotations when things hit -next. This might be an acceptable churn
+> cost, if we think the outcome is worthwhile. Things should get better
+> when Clang 22 is released properly, but until then things might be a
+> little bumpy if there are large changes across the core
+> synchronization primitives.
 
-diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
-index 2f998bb42c4c..b47a1ba57e8e 100644
---- a/include/linux/cleanup.h
-+++ b/include/linux/cleanup.h
-@@ -518,7 +518,10 @@ static inline void class_##_name##_destructor(class_##_name##_t *_T) _unlock;
- 
- #define DECLARE_LOCK_GUARD_1_ATTRS(_name, _lock, _unlock)		\
- static inline class_##_name##_t class_##_name##_constructor(lock_##_name##_t *_T) _lock;\
--static inline void class_##_name##_destructor(class_##_name##_t *_T) _unlock;
-+static __always_inline void __class_##_name##_cleanup_ctx(class_##_name##_t **_T) \
-+	__no_context_analysis _unlock {}
-+#define WITH_LOCK_GUARD_1_ATTRS(_name, _T) class_##_name##_constructor(_T), \
-+	*__UNIQUE_ID(cleanup_ctx) __cleanup(__class_##_name##_cleanup_ctx) = (void *)(_T)
- 
- #define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)		\
- __DEFINE_CLASS_IS_CONDITIONAL(_name, false);				\
-diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-index 8ed48d40007b..06c3f947ea49 100644
---- a/include/linux/mutex.h
-+++ b/include/linux/mutex.h
-@@ -255,9 +255,12 @@ DEFINE_LOCK_GUARD_1(mutex, struct mutex, mutex_lock(_T->lock), mutex_unlock(_T->
- DEFINE_LOCK_GUARD_1_COND(mutex, _try, mutex_trylock(_T->lock))
- DEFINE_LOCK_GUARD_1_COND(mutex, _intr, mutex_lock_interruptible(_T->lock), _RET == 0)
- 
--DECLARE_LOCK_GUARD_1_ATTRS(mutex, __assumes_ctx_lock(_T), /* */)
--DECLARE_LOCK_GUARD_1_ATTRS(mutex_try, __assumes_ctx_lock(_T), /* */)
--DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr, __assumes_ctx_lock(_T), /* */)
-+DECLARE_LOCK_GUARD_1_ATTRS(mutex,	__acquires(_T), __releases(*(struct mutex **)_T))
-+DECLARE_LOCK_GUARD_1_ATTRS(mutex_try,	__acquires(_T), __releases(*(struct mutex **)_T))
-+DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr,	__acquires(_T), __releases(*(struct mutex **)_T))
-+#define class_mutex_constructor(_T)	WITH_LOCK_GUARD_1_ATTRS(mutex, _T)
-+#define class_mutex_try_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_try, _T)
-+#define class_mutex_intr_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_intr, _T)
- 
- extern unsigned long mutex_get_owner(struct mutex *lock);
- 
+Yeah, we'll see how bad it gets, we can always disable it for
+COMPILE_TEST or so for a while.
 
