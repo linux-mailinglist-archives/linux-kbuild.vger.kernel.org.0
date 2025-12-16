@@ -1,229 +1,191 @@
-Return-Path: <linux-kbuild+bounces-10107-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10108-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126E6CC09DF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 03:39:06 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FA9CC09F1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 03:41:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D0B15301E159
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 02:39:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 781113022A6E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 02:41:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 114582E2846;
-	Tue, 16 Dec 2025 02:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5957125F797;
+	Tue, 16 Dec 2025 02:41:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KI60THRW"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="e1OZWV13"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D21223323
-	for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 02:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1FF1643B
+	for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 02:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765852739; cv=none; b=P2KnHmpJQtFbtFz4qps+5ZRSaZ1r493qXY6SqFwGuOVp5Y9zjcPTigApP1Sxiq4t9Yl1j++myc9LE/acpLeb2VbIqVGUvUa+ofxtyK+GysmaGzfVff0neqAH625YPbU4gdNbT6cicJp40X/Yzem+US/MYaj3WtQcFGpDaenfuRo=
+	t=1765852867; cv=none; b=II1jhKt4gDy5+N+t1qKooHyz3GuHda/9H6RNsKCkzr2qaUALW3KWyDMtnuKUk12gof2jolFNoWXd6zxADoq7fFA4pTiSH9+my/HOZLt5JxAO/xzuMEAUidSksFHIVOdQb8kR8WJaj3qCqOofXTDBFHwyDjTYQq3U7If7M/HLqiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765852739; c=relaxed/simple;
-	bh=CRqvv3fNFlF/pMhl/fYHATl3VT03MbTVoZsGl5GO+QA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HkfOdjnxigazn5/rszuB6GFt45VaG4WkynK2NboJwPPtlt+FnnZ8VxQ5kq6b9VwkvQ9D05y7E6MaLhLxkINQaIwHGv7K8pSA+4UrERGnMFYBBnyqrFUSVizb1ntSlcbzVcy/3OuKxnYvgXDMaI7x1QhM/tmbdfhb9NFL+UZcKpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KI60THRW; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7bb3092e4d7so4403604b3a.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 15 Dec 2025 18:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765852736; x=1766457536; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PFYZGHPIDqEcscjEAD6wlaUMrMUa0OQ70xZuQLsYAvQ=;
-        b=KI60THRWvUfwjZyfazfiOG3enHDWoYijAokjxAqVpx4IL7nsdSmsqS/mxGYpC89QkG
-         WXOZ8jTxlOhxLYQwAd6JGB1RKV2lEienrcMv2dX0ht65qsRhrXtPB9samXUejzxBwczh
-         HrFDux3KXLJi27iZPYh+6+JelljLCzz1/QCogkkfXlu7N9+DrfkewbjSclTi1XeaH3kL
-         LrSIeDPH8YV/rArcldbF01ZPnwniCLf8W+xo10wAi3M4UzWa/jy5IgezhxUMP6giddIN
-         3S2biSdvx0n97qmxWa/oVHxocGg1le8OhrMNO7u/CCyHzWvMncXCIaElFvkuMIo5YvsM
-         vWvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765852736; x=1766457536;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PFYZGHPIDqEcscjEAD6wlaUMrMUa0OQ70xZuQLsYAvQ=;
-        b=QYGuzmZ4qniguII0qGXn+hM1Ni3p1OxOCHK217tnN7qnfJufy++B/t7BQDomiIUK3L
-         1XSX5efxg7/R/MX1Oo8+Q8pP4gLI7j/e6KXuXK8ubNpvZhOFSIg81GUDx+FGuMnG9tAt
-         QZDr5CZNRInhYfkA2HzPAGKzPBriBoi/tVBnaKALp21AKMPnZhI8hA30b/dJIql6Niwr
-         8BfQffNYFRc1aptV3ng4x1lASTrY9a6a9GtTvLPvm1iB1ueUhedOf0R44Znk72Mec4G2
-         OAOigQGzM5+E/Cftxcsv/7xvbubhy3r7zicnDxoESoZEn/JuqvalK8EBAxwuRzDJhT1K
-         DcMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWq7i+3i28uN8+5wE689kR0lISsAxinrmiFbWLReBNtlvw8ULM6C5DM1sq1zR3FmZxVycZNVN7lPEwn/lw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7vlUDg/9ellbKIbXDPST/ubj8HgxHzYTVqqz7rJbvbTF68eFa
-	AOYBVIqilQ6HGPf2jCDh2CEafpcmegmCyapTpeXWL9p5zPoJfBOQFHBN
-X-Gm-Gg: AY/fxX4WxWWYWd8Y2tIHyaGwr2Gi6UWhEYR/kbmTznC9u09VczeGYCFhe6YcY9XXp/B
-	Gn6/lNR0YbQCfWreb2UeucZgC2RqlGdeA0AD053+JnZmCSCkCPvYMMACFZfu56Nn392iavNBdPT
-	OB02LClDz4ZR0kJTGym6H1K/2DvKhJLMQf1x6QGYSzRVbibh0bj/IbYgFHh4A4t9ACxci0kwZ98
-	4uhs71PqMy6GGNqxVoOEbUk/UCzzuxHpvLjutmyh29eB1pAZ36sM8rqD0U9hBWVg/YAOO+temJY
-	/zk2lWw0yAfTjGOvnX/fTwMSxKhpGHsA7iTnM/1Dk7efvI3Eu/vDrF+K70rYad1PubQmSGSkiqB
-	SmNQE+O51i8Ghy3+0lC8eR9yQbpOts8iFpXDBb9VQVUqnowPpV6YFj5imjiuRDXfXg4dc9gQfuc
-	HkgO6b1K2Y
-X-Google-Smtp-Source: AGHT+IHEIg3J+lGR4aNsRmfuVPwq4rJAZ56la77XOJ3WlFamSh1GHnswzh6XaH/onObOFEP5iTw7DA==
-X-Received: by 2002:a05:6a20:3d05:b0:35d:8881:e6a4 with SMTP id adf61e73a8af0-369b4c32d75mr12649177637.25.1765852736157;
-        Mon, 15 Dec 2025 18:38:56 -0800 (PST)
-Received: from [192.168.0.226] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c11d3e8af1asm8153533a12.2.2025.12.15.18.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 18:38:55 -0800 (PST)
-Message-ID: <b37bbff7486f47404872017faecba43833116d61.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v3 3/6] resolve_btfids: Introduce enum
- btf_id_kind
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov
- <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>,  Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend	
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev	 <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>,  Andrew Morton <akpm@linux-foundation.org>, Nathan
- Chancellor <nathan@kernel.org>, Nicolas Schier	 <nsc@kernel.org>, Tejun Heo
- <tj@kernel.org>, David Vernet <void@manifault.com>,  Andrea Righi
- <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, Shuah Khan
- <shuah@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt	 <justinstitt@google.com>,
- Alan Maguire <alan.maguire@oracle.com>, Donglin Peng	
- <dolinux.peng@gmail.com>
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-kbuild@vger.kernel.org
-Date: Mon, 15 Dec 2025 18:38:52 -0800
-In-Reply-To: <c857acb9-977a-49ca-a03f-ef3fd68fabae@linux.dev>
-References: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
-	 <20251205223046.4155870-4-ihor.solodrai@linux.dev>
-	 <386068b11e146a9dbb502f770d7e012e3dea950f.camel@gmail.com>
-	 <c857acb9-977a-49ca-a03f-ef3fd68fabae@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1765852867; c=relaxed/simple;
+	bh=tfWDHofzMebiRcOGNldFQDVacKqeMdwUb7FytkcumI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QCP5C4iV/LAlntS8Pr/9TMQT2USm/0Jg2Sc5ygGuXFaoGg1aX5lxQZkcYIA+8OK9hDIlweNmLRPcSoX8DjRPr10puohIg1rzYFlYL+EDrbgHKBI/Ubwb/ntDAM1RFXv1SpuI7zfd/K18TyMTa1qZJI6Ny1PzlWZWaJjH4TdAWmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=e1OZWV13; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <85b89c11-8a97-49ec-9c5c-9b028d339195@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765852862;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zzZovHK8HDtcFcCDm3GlnuGabKeFhqNDxebi6h1KZcI=;
+	b=e1OZWV13x75p6CY73SkIucf4cGTc+rdgnzHcntUQy5MwlHuWwoAfB2WrPdpclDU/WJpehr
+	i0oSa7ZJyn0PiEA51BzXfmhPqS+mxjNVYViyIbPWXqPbQwuu04KzjSS4aFFDVW01hH6/T9
+	8h/5y8B4gtP99gc5LPpdT9fQyinEpK4=
+Date: Mon, 15 Dec 2025 18:40:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH bpf-next v3 4/6] lib/Kconfig.debug: Set the minimum
+ required pahole version to v1.22
+To: Alan Maguire <alan.maguire@oracle.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
+ Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Donglin Peng <dolinux.peng@gmail.com>
+Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20251205223046.4155870-1-ihor.solodrai@linux.dev>
+ <20251205223046.4155870-5-ihor.solodrai@linux.dev>
+ <8f946abf-dd88-4fac-8bb4-84fcd8d81cf0@oracle.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <8f946abf-dd88-4fac-8bb4-84fcd8d81cf0@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 2025-12-15 at 18:31 -0800, Ihor Solodrai wrote:
-> On 12/11/25 11:09 PM, Eduard Zingerman wrote:
-> > On Fri, 2025-12-05 at 14:30 -0800, Ihor Solodrai wrote:
-> > > Instead of using multiple flags, make struct btf_id tagged with an
-> > > enum value indicating its kind in the context of resolve_btfids.
-> > >=20
-> > > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> > > ---
-> >=20
-> > Acked-by: Eduard Zingerman <eddyz87@gmail.com>
-> >=20
-> > (But see a question below).
-> >=20
-> > > @@ -213,14 +218,19 @@ btf_id__add(struct rb_root *root, char *name, b=
-ool unique)
-> > >  			p =3D &(*p)->rb_left;
-> > >  		else if (cmp > 0)
-> > >  			p =3D &(*p)->rb_right;
-> > > -		else
-> > > -			return unique ? NULL : id;
-> > > +		else if (kind =3D=3D BTF_ID_KIND_SYM && id->kind =3D=3D BTF_ID_KIN=
-D_SYM)
-> >=20
-> > Nit: I'd keep the 'unique' parameter alongside 'kind' and resolve this
-> >      condition on the function callsite.
->=20
-> I don't like the boolean args, they're always opaque on the callsite.
->=20
-> We want to allow duplicates for _KIND_SYM and forbid for other kinds.
-> Since we are passing the kind from outside, I think it makes sense to
-> check for this inside the function. It makes the usage simpler.
+On 12/12/25 9:26 AM, Alan Maguire wrote:
+> On 05/12/2025 22:30, Ihor Solodrai wrote:
+>> Subsequent patches in the series change vmlinux linking scripts to
+>> unconditionally pass --btf_encode_detached to pahole, which was
+>> introduced in v1.22 [1][2].
+>>
+>> This change allows to remove PAHOLE_HAS_SPLIT_BTF Kconfig option and
+>> other checks of older pahole versions.
+>>
+>> [1] https://github.com/acmel/dwarves/releases/tag/v1.22
+>> [2] https://lore.kernel.org/bpf/cbafbf4e-9073-4383-8ee6-1353f9e5869c@oracle.com/
+>>
+>> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+>> ---
+>>  lib/Kconfig.debug         | 13 ++++---------
+>>  scripts/Makefile.btf      |  9 +--------
+>>  tools/sched_ext/README.md |  1 -
+>>  3 files changed, 5 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+>> index 742b23ef0d8b..3abf3ae554b6 100644
+>> --- a/lib/Kconfig.debug
+>> +++ b/lib/Kconfig.debug
+>> @@ -389,18 +389,13 @@ config DEBUG_INFO_BTF
+>>  	depends on !DEBUG_INFO_SPLIT && !DEBUG_INFO_REDUCED
+>>  	depends on !GCC_PLUGIN_RANDSTRUCT || COMPILE_TEST
+>>  	depends on BPF_SYSCALL
+>> -	depends on PAHOLE_VERSION >= 116
+>> -	depends on DEBUG_INFO_DWARF4 || PAHOLE_VERSION >= 121
+>> +	depends on PAHOLE_VERSION >= 122
+>>  	# pahole uses elfutils, which does not have support for Hexagon relocations
+>>  	depends on !HEXAGON
+>>  	help
+>>  	  Generate deduplicated BTF type information from DWARF debug info.
+>> -	  Turning this on requires pahole v1.16 or later (v1.21 or later to
+>> -	  support DWARF 5), which will convert DWARF type info into equivalent
+>> -	  deduplicated BTF type info.
+>> -
+>> -config PAHOLE_HAS_SPLIT_BTF
+>> -	def_bool PAHOLE_VERSION >= 119
+>> +	  Turning this on requires pahole v1.22 or later, which will convert
+>> +	  DWARF type info into equivalent deduplicated BTF type info.
+>>  
+>>  config PAHOLE_HAS_BTF_TAG
+>>  	def_bool PAHOLE_VERSION >= 123
+>> @@ -422,7 +417,7 @@ config PAHOLE_HAS_LANG_EXCLUDE
+>>  config DEBUG_INFO_BTF_MODULES
+>>  	bool "Generate BTF type information for kernel modules"
+>>  	default y
+>> -	depends on DEBUG_INFO_BTF && MODULES && PAHOLE_HAS_SPLIT_BTF
+>> +	depends on DEBUG_INFO_BTF && MODULES
+>>  	help
+>>  	  Generate compact split BTF type information for kernel modules.
+>>  
+>> diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+>> index db76335dd917..7c1cd6c2ff75 100644
+>> --- a/scripts/Makefile.btf
+>> +++ b/scripts/Makefile.btf
+>> @@ -7,14 +7,7 @@ JOBS := $(patsubst -j%,%,$(filter -j%,$(MAKEFLAGS)))
+>>
+> 
+> hi Ihor, a small suggestion here, and it is orthogonal to what you're 
+> doing here, so just for consideration if you're planning a v4 since you're 
+> touching this file.
 
-On the contrary, the callsite knows exactly what it wants:
-unique or non-unique entries. Here you need additional logic
-to figure out the intent.
+Hi Alan. v4 for sure, and maybe even v5, we'll see.
 
-Arguably the uniqueness is associated not with entry type,
-but with a particular tree the entry is added to.
-And that is a property of the callsite.
+> 
+> We've had problems in the past because we get pahole version from .config
+> in Makefile.btf
+> 
+> pahole-ver := $(CONFIG_PAHOLE_VERSION)
+> 
+> and it can be outdated.
+> 
+> Specifically the problem is that if "make oldconfig" is not run after
+> updating pahole we don't get the actual pahole version during builds
+> and options can be missing. See [1] for an example, but perhaps we
+> should do
+> 
+> pahole-ver := $(shell $(srctree)/scripts/pahole-version.sh)
+> 
+> in Makefile.btf to ensure the value reflects latest pahole and that
+> then determines which options we use? Andrii suggested an approach like
+> CC_VERSION_TEXT might be worth pursuing; AFAICT that recomputes the
+> CC_VERSION and warns the user if there is a version difference. Given that
+> the CONFIG pahole version requirements are all pretty modest - it might
+> simply be enough to recompute it in Makefile.btf and perhaps ensure it's 
+> not less than CONFIG_PAHOLE_VERSION. Just a thought anyway. Thanks!
 
-> > > +			return id;
-> > > +		else {
-> > > +			pr_err("Unexpected duplicate symbol %s of kind %d\n", name, id->k=
-ind);
-> > > +			return NULL;
-> > > +		}
-> >=20
-> > [...]
-> >=20
-> > > @@ -491,28 +515,24 @@ static int symbols_collect(struct object *obj)
-> > >  			id =3D add_symbol(&obj->funcs, prefix, sizeof(BTF_FUNC) - 1);
-> > >  		/* set8 */
-> > >  		} else if (!strncmp(prefix, BTF_SET8, sizeof(BTF_SET8) - 1)) {
-> > > -			id =3D add_set(obj, prefix, true);
-> > > +			id =3D add_set(obj, prefix, BTF_ID_KIND_SET8);
-> > >  			/*
-> > >  			 * SET8 objects store list's count, which is encoded
-> > >  			 * in symbol's size, together with 'cnt' field hence
-> > >  			 * that - 1.
-> > >  			 */
-> > > -			if (id) {
-> > > +			if (id)
-> > >  				id->cnt =3D sym.st_size / sizeof(uint64_t) - 1;
-> > > -				id->is_set8 =3D true;
-> > > -			}
-> > >  		/* set */
-> > >  		} else if (!strncmp(prefix, BTF_SET, sizeof(BTF_SET) - 1)) {
-> > > -			id =3D add_set(obj, prefix, false);
-> > > +			id =3D add_set(obj, prefix, BTF_ID_KIND_SET);
-> > >  			/*
-> > >  			 * SET objects store list's count, which is encoded
-> > >  			 * in symbol's size, together with 'cnt' field hence
-> > >  			 * that - 1.
-> > >  			 */
-> > > -			if (id) {
-> > > +			if (id)
-> >=20
-> > Current patch is not a culprit, but shouldn't resolve_btfids fail if
-> > `id` cannot be added? (here and in a hunk above).
->=20
-> By the existing design, resolve_btfids generally fails if
-> CONFIG_WERROR is set and `warnings > 0`.
->=20
-> And in this particular place it would fails with -ENOMEM a bit below:
->=20
->        [...]
-> 		} else if (!strncmp(prefix, BTF_SET, sizeof(BTF_SET) - 1)) {
-> 			id =3D add_set(obj, prefix, BTF_ID_KIND_SET);
-> 			/*
-> 			 * SET objects store list's count, which is encoded
-> 			 * in symbol's size, together with 'cnt' field hence
-> 			 * that - 1.
-> 			 */
-> 			if (id)
-> 				id->cnt =3D sym.st_size / sizeof(int) - 1;
-> 		} else {
-> 			pr_err("FAILED unsupported prefix %s\n", prefix);
-> 			return -1;
-> 		}
->=20
->   /* --> */	if (!id)
-> 			return -ENOMEM;
->=20
-> So I think an error code change may be appropriate, and that's about it.
+Yeah, I am aware of the issue.
 
-Oh, ok, sorry, didn't notice that.
+I am not sure version refresh in Makefile.btf would be enough, since
+there are config dependencies in Kconfig.debug.  So we either need to
+trigger re-config, and maybe even force full kernel re-build, or
+somehow get rid of the version checks in the kconfig, which may be a
+challenge.
 
->=20
-> >=20
-> > >  				id->cnt =3D sym.st_size / sizeof(int) - 1;
-> > > -				id->is_set =3D true;
-> > > -			}
-> > >  		} else {
-> > >  			pr_err("FAILED unsupported prefix %s\n", prefix);
-> > >  			return -1;
-> >=20
-> > [...]
-> >=20
+I think the simplest thing we could is to check if the version has
+changed and fail the build. That's a "panic!" approach though.
+
+I'll look into how compiler versions are checked, maybe it's not that
+hard to add similar behavior for pahole.
+
+
+> 
+> Alan
+>  
+> [1] https://lore.kernel.org/bpf/CAEf4BzYi1xX3p_bY3j9dEuPvtCW3H7z=p2vdn-2GY0OOenxQAg@mail.gmail.com/
+> 
+
 
