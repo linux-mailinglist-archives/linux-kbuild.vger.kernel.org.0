@@ -1,128 +1,206 @@
-Return-Path: <linux-kbuild+bounces-10112-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10113-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B280DCC13F6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 08:10:55 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9C8CC20C6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 12:01:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7F777300C28B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 07:10:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E2B4D302DA44
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Dec 2025 11:01:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ADFD2F363C;
-	Tue, 16 Dec 2025 07:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D7F33D6C1;
+	Tue, 16 Dec 2025 11:01:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NSyNFBTN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZpviBOjD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852B333BBDA;
-	Tue, 16 Dec 2025 07:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09AF33BBA4
+	for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 11:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765869042; cv=none; b=ZsAvuor7zApa9aOgB2GAgJ3eKJt9hsnn69fSMtWfZD/SXid8Hp0J6D2bZ8EuF4Tf1oahPDs97xHEleTmnKvjxxOYTqrBlrSC6JeUv/FMzF4h3x0+xOmIf1HhhJan7LiYvAWV1xsSAqTFMpG/rbbPZJqKrO0ihyyJSKB8k7gfbrU=
+	t=1765882874; cv=none; b=HMtJfVp9SjbGycj4uSLIHXshQG3POY5IIvq8XHPnGev3yfb+hDqoVhqy9XMP543hdlR6Lx8C6ATIHyqKhbH1R+IbHd1ZcM+hI2QiQy2qYvLWM95gx6PpGYRQxvQKafz8QtYNNYztX8Py/C/Asxc1qgwaxZdLfU/jlvYJhBHXGbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765869042; c=relaxed/simple;
-	bh=tMjQscmPnxR/7hg5xP3slOxadD2I08HKFkd3NoyfbRE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dLcoCDkWtRgBxEm9zfS8YhMG1cUKSz96yTJOs95tJb3tswiWjs5LHL5kr+aD/ReDOiYYlrq25D51LurgtJqdtJx6fxkd1GdOlZLoqtdxMetMfQWzaoHajsa1nf3LRJSBfy0+2uakEYd7E/PtvWAV9amzsfJBEszdSYZRfgvsOiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NSyNFBTN; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=TYVRJ+CAMoDazTs0ONDHZW/vWoLMRFEZuQmviQneOMU=; b=NSyNFBTNDwAopmOOD5McdMb/Mr
-	z8R2AMvOhpSjLDh6Zr8Eu2Wy1xl7xK6nyFpV2+dIYc9ifx/y/J4iwuHTD+Oytpee95T45bn57i3s4
-	TI4zpHt+jucdwNsIqgGTzpVFGCmpAxrIVO/nFy1XjypCtkk8UdMkmUNFKMUl2X/SiKscwPZ3B8Ctx
-	p9dmZUbAhqKK3jJ6LKWIPaSHIxowne5sukaGrlC3MBZ+RxLFeel7wCQdhO9PQ83Qt/ms+aKV3qGPH
-	Sa7Beqr5A1SinJKIBwUgzGl4o8ezVxcqaYs4PflzRRZ09rGYhxo/JQUnsJtT4PpjpmK3Y5HvFxUjw
-	vza58n8w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVPCg-00000004pa7-1qD5;
-	Tue, 16 Dec 2025 07:10:38 +0000
-Message-ID: <35baccd7-bcb6-4794-9b6e-ce5982bd2342@infradead.org>
-Date: Mon, 15 Dec 2025 23:10:38 -0800
+	s=arc-20240116; t=1765882874; c=relaxed/simple;
+	bh=mOm64EM4tgjM1MXcHPhVsoMKtGcavhpQka6kUnBhwsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7fsj8cI2d5eMYMYeWCGEworC0tBP/OCqA5qL1Ga3L6ZsNkaQyMzhdDsGixBJAFur3fVBXQr/UBEemCiiifZMOZSej3/JkF3xBckZWhWqDpqY/4nay+V/Cxfr/w3Bi1VMNQpecLPz14HjwrSol45b8Xh8dv66pDKoLIcKqaqW54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZpviBOjD; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477aa218f20so29470395e9.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Dec 2025 03:01:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765882871; x=1766487671; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3fwbXvgWn6Nd0xRDLnbqnTLufRK/0AjdBlMA+CLIc/0=;
+        b=ZpviBOjDfIsPR/XLfIKK+E0LIxfXjaTtVEH5dh2NuZoghJq5XN47vDA9xiaqnrcHWW
+         EnOS1JV1hbBUhWh0NVgF4UOpTm+TdwMOl6ljVwzHAQp83Nlo4u7SeTLoNigK7QIahXTv
+         qoP/kMr/yPJD8DF2mghOx0N0hZKx8GX5ArUQB3NtLwKcrPiW+9Rmjtod5+ooHKGa8ykf
+         ZYAt9JIaU4zdF6HShCHWD/ElcjWSd0IvTUE63gEX9ZyUE5xwEBIexAIMeXNVu2/zr3Ib
+         hmANx7BFkha7D6hca0s+i4hT+H4E8wwd08e81wNQwvDx+ll1BnNFs5hFyCbDLEZo1KbN
+         a8yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765882871; x=1766487671;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3fwbXvgWn6Nd0xRDLnbqnTLufRK/0AjdBlMA+CLIc/0=;
+        b=CfcBlbHf9l7Z9ZEkUafzKrMb2zEuMAV+1R/0IETVFQxjF4JvpdyiH59GhP+1svz+C1
+         /3jzImsq/jsKIn25pyIhNA/llEqiQvRZ11HWGRFmglcQsGf1zU1aCGurCb+mVvp4XOJy
+         jtMJL75zn8dNd0h9+4hP9Z+zykh8sMlEsiDRb2cr6hKeGQLBXANPTxBa7QDUXm7/xZDj
+         dlarH30jJNzJZaDEbkrW3wtIGoh7AMCNZh7ZufXsg5K/OUE2ufEaswnWtD2sWBZQuLhM
+         xhE6oXRN8KrvPu5KL3njXfbjD0e5yBjah6jk4kfHKLpOGVdRMDoq8SJq9dWQ4hLC4FJc
+         FDOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhAwqLg2Kby2f9uDUOHcEqcQ9sRhUpnhmS3WXpvRpbMUVVvKIJ1BanSn8EBHvlqulzVOL1bLpt1i0qf3U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwzhBPIDHIWt1gyhVTnpb8feMKX1EkJbCFvwtOWjf9A0XIfx2e
+	yXRcfhU598IEaOCmlNWBwYOwLzJgkAwr05UQMP8Q3ivOxx1ZlnYTKYfT/IFKQlwMWQ==
+X-Gm-Gg: AY/fxX7SbkWLZWAsfqi4XiirebqC+AywXGks+UWZQgkW9Ex40tQeqioaisnD5DV5SMK
+	FNlgieqp8w6y0kOGlAx5+3ik2Blb/IyNUxQC6YYyV4oTv0CkeozeeUzFxIbc0rdJ3SZ8DTfLgm0
+	bKbR5SdWhCeJ1ThsbWFTmBDv0a5Jf7JxP9BjqlzGklJQxlfAROIGtfh98wPmPARyDdR3gWE2E/L
+	3OiQ48s8SGQ3TOTJF/26c7LuuYKKZX4RBWpxPHd2oRxrvRveDkqzGrqyPyJlZeCUlFz1LcTvegq
+	AOD+8l2IzoBLr0+/2klJzbd5JGPwMNF1C/+TRY8A4ddMgEpYaWV3skXNegop35EtC3gDUsGvWuV
+	56qt+1Fcd1UH4jvespIRdu03+EPm2FyrMC69h31hfu0RO5rzk3BCnuNMWyoS8FTEEnbz5zPI/9T
+	D/huiZMlvnROMJhFpGkDxc9jw/8cpatW/Rn9sMihEdq11iww1nBNH5FIu+QnM=
+X-Google-Smtp-Source: AGHT+IHPMwFoz32u9J3kCO+8mIIo+dWtYExr149Lgk7NY5BncmGMC4iCyfwqqX0j0PAhtkij+iZr9A==
+X-Received: by 2002:a05:600c:3ba7:b0:477:7af8:c88b with SMTP id 5b1f17b1804b1-47bd3d41de0mr37923685e9.11.1765882870450;
+        Tue, 16 Dec 2025 03:01:10 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:ea4c:b2a8:24a4:9ce9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f5f6ede8sm17789236f8f.4.2025.12.16.03.01.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 03:01:09 -0800 (PST)
+Date: Tue, 16 Dec 2025 12:01:02 +0100
+From: Marco Elver <elver@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
+ analysis
+Message-ID: <aUE77hgJa58waFOy@elver.google.com>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120151033.3840508-7-elver@google.com>
+ <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
+ <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
+ <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
+ <aUAPbFJSv0alh_ix@elver.google.com>
+ <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] kconfig: move XPM icons to separate files
-To: Rostislav Krasny <rostiprodev@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251213140923.19710-1-rostiprodev@gmail.com>
- <20251213140923.19710-2-rostiprodev@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251213140923.19710-2-rostiprodev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-Hi,
-
-On 12/13/25 6:09 AM, Rostislav Krasny wrote:
-> Replace deprecated gdk_pixbuf_new_from_xpm_data() with gdk_pixbuf_new_from_file()
-> and update both GTK and QT frontends to load XPM icons from separate files
-> in scripts/kconfig/icons/ instead of from the code.
+On Mon, Dec 15, 2025 at 04:53PM +0100, Marco Elver wrote:
+[..]
+> > > So I think as is, we can start. But I really do want the cleanup thing
+> > > sorted, even if just with that __release_on_cleanup mashup or so.
+> >
+> > Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
+> > abstraction. For that one I was able to make it work like I thought we
+> > could (below). Some awkwardness is required to make it work in
+> > for-loops, which only let you define variables with the same type.
+> >
+> > For <linux/cleanup.h> it needs some more thought due to extra levels of
+> > indirection.
 > 
-> xpm_menu_inv and xpm_void were removed and not converted into xpm files
-> because they are not used since 64285dc5c41fc7a031695c2c286a2bfef9eaf2c6
-> 
-> This eliminates the GTK deprecation warnings at compile time, improves
-> memory usage and code organization.
+> For cleanup.h, the problem is that to instantiate we use
+> "guard(class)(args..)". If it had been designed as "guard(class,
+> args...)", i.e. just use __VA_ARGS__ explicitly instead of the
+> implicit 'args...', it might have been possible to add a second
+> cleanup variable to do the same (with some additional magic to extract
+> the first arg if one exists). Unfortunately, the use of the current
+> guard()() idiom has become so pervasive that this is a bigger
+> refactor. I'm going to leave cleanup.h as-is for now, if we think we
+> want to give this a go in the current state.
 
-Yes, it does that.
+Alright, this can work, but it's not that ergonomic as I'd hoped (see
+below): we can redefine class_<name>_constructor to append another
+cleanup variable. With enough documentation, this might be workable.
 
-This worked well for me when I ran 'make gconfig'. However, when I tested
-'make xconfig', instead of having icons/symbols for
-  Back, Open, Save, Single View, Split View, Full View
-I have words as listed above.
+WDYT?
+
+------ >8 ------
 
 
-> Signed-off-by: Rostislav Krasny <rostiprodev@gmail.com>
-> ---
->  scripts/kconfig/Makefile              |   4 +-
->  scripts/kconfig/gconf.c               |  35 ++-
->  scripts/kconfig/icons/back.xpm        |  29 +++
->  scripts/kconfig/icons/choice_no.xpm   |  18 ++
->  scripts/kconfig/icons/choice_yes.xpm  |  18 ++
->  scripts/kconfig/icons/load.xpm        |  31 +++
->  scripts/kconfig/icons/menu.xpm        |  18 ++
->  scripts/kconfig/icons/menuback.xpm    |  18 ++
->  scripts/kconfig/icons/save.xpm        |  31 +++
->  scripts/kconfig/icons/single_view.xpm |  28 +++
->  scripts/kconfig/icons/split_view.xpm  |  28 +++
->  scripts/kconfig/icons/symbol_mod.xpm  |  18 ++
->  scripts/kconfig/icons/symbol_no.xpm   |  18 ++
->  scripts/kconfig/icons/symbol_yes.xpm  |  18 ++
->  scripts/kconfig/icons/tree_view.xpm   |  28 +++
->  scripts/kconfig/images.c              | 328 --------------------------
->  scripts/kconfig/images.h              |  33 ---
->  scripts/kconfig/qconf.cc              |  29 ++-
->  18 files changed, 345 insertions(+), 385 deletions(-)
->  create mode 100644 scripts/kconfig/icons/back.xpm
->  create mode 100644 scripts/kconfig/icons/choice_no.xpm
->  create mode 100644 scripts/kconfig/icons/choice_yes.xpm
->  create mode 100644 scripts/kconfig/icons/load.xpm
->  create mode 100644 scripts/kconfig/icons/menu.xpm
->  create mode 100644 scripts/kconfig/icons/menuback.xpm
->  create mode 100644 scripts/kconfig/icons/save.xpm
->  create mode 100644 scripts/kconfig/icons/single_view.xpm
->  create mode 100644 scripts/kconfig/icons/split_view.xpm
->  create mode 100644 scripts/kconfig/icons/symbol_mod.xpm
->  create mode 100644 scripts/kconfig/icons/symbol_no.xpm
->  create mode 100644 scripts/kconfig/icons/symbol_yes.xpm
->  create mode 100644 scripts/kconfig/icons/tree_view.xpm
->  delete mode 100644 scripts/kconfig/images.c
->  delete mode 100644 scripts/kconfig/images.h
--- 
-~Randy
-
+diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
+index 2f998bb42c4c..b47a1ba57e8e 100644
+--- a/include/linux/cleanup.h
++++ b/include/linux/cleanup.h
+@@ -518,7 +518,10 @@ static inline void class_##_name##_destructor(class_##_name##_t *_T) _unlock;
+ 
+ #define DECLARE_LOCK_GUARD_1_ATTRS(_name, _lock, _unlock)		\
+ static inline class_##_name##_t class_##_name##_constructor(lock_##_name##_t *_T) _lock;\
+-static inline void class_##_name##_destructor(class_##_name##_t *_T) _unlock;
++static __always_inline void __class_##_name##_cleanup_ctx(class_##_name##_t **_T) \
++	__no_context_analysis _unlock {}
++#define WITH_LOCK_GUARD_1_ATTRS(_name, _T) class_##_name##_constructor(_T), \
++	*__UNIQUE_ID(cleanup_ctx) __cleanup(__class_##_name##_cleanup_ctx) = (void *)(_T)
+ 
+ #define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)		\
+ __DEFINE_CLASS_IS_CONDITIONAL(_name, false);				\
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 8ed48d40007b..06c3f947ea49 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -255,9 +255,12 @@ DEFINE_LOCK_GUARD_1(mutex, struct mutex, mutex_lock(_T->lock), mutex_unlock(_T->
+ DEFINE_LOCK_GUARD_1_COND(mutex, _try, mutex_trylock(_T->lock))
+ DEFINE_LOCK_GUARD_1_COND(mutex, _intr, mutex_lock_interruptible(_T->lock), _RET == 0)
+ 
+-DECLARE_LOCK_GUARD_1_ATTRS(mutex, __assumes_ctx_lock(_T), /* */)
+-DECLARE_LOCK_GUARD_1_ATTRS(mutex_try, __assumes_ctx_lock(_T), /* */)
+-DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr, __assumes_ctx_lock(_T), /* */)
++DECLARE_LOCK_GUARD_1_ATTRS(mutex,	__acquires(_T), __releases(*(struct mutex **)_T))
++DECLARE_LOCK_GUARD_1_ATTRS(mutex_try,	__acquires(_T), __releases(*(struct mutex **)_T))
++DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr,	__acquires(_T), __releases(*(struct mutex **)_T))
++#define class_mutex_constructor(_T)	WITH_LOCK_GUARD_1_ATTRS(mutex, _T)
++#define class_mutex_try_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_try, _T)
++#define class_mutex_intr_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_intr, _T)
+ 
+ extern unsigned long mutex_get_owner(struct mutex *lock);
+ 
 
