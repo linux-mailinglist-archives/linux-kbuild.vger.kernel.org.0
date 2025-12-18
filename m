@@ -1,135 +1,111 @@
-Return-Path: <linux-kbuild+bounces-10150-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10151-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86230CC9EC8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 01:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79864CCA939
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 08:06:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F1EB4304EB6C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 00:47:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 549003023784
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 07:04:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F7DB22156A;
-	Thu, 18 Dec 2025 00:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A137B21B185;
+	Thu, 18 Dec 2025 07:04:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7ZenOoM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Uu/4j9k7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565BA1DFDA1;
-	Thu, 18 Dec 2025 00:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC8C1E32D3
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 07:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766018851; cv=none; b=t0kPGVq0U/03IVZerxsR7XqsJKu8q4OcD7ACKx5JTtkorUxFaSKrZgJ8G1mRKJMs2S/C+R873zraJjQkFvsudo4+2XPAPYxZVeElts50H22DeJkj5B9DXebLUSfvGKMpkqVweoWT0LES316pMxGcQbfw9pKP7kUZhq+54fc2494=
+	t=1766041443; cv=none; b=hRo4r9b7ZatZziDgPmjQBE2sb6ZDkYmxGz6YUlKZNOOpccTO3jAu47M5kOUKj+haZLFqgpv/wuvn9/n4mmkZBAfz0zQvkioLQLR7kAHElEsOQchb4Jwv3IN0MbLkR/KYLgzQMsbcAEP+CRJUrw6uR7d7v0yxUMmsC/qiJVbNMZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766018851; c=relaxed/simple;
-	bh=E8sAIcVg1PzVskIljHV4RS3WEpZOWSUATNnW7aZI7/E=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=ou0YBCqTE4VagG7u6vL/1OvcR0ndinmHXyTPWd6uqknjkoCTw/+xyBSX/WAQ8A08fJp79opYGiVodkNGZUhOVcq0TfIuqopFHmkupIRLSlEuYmBo5kyb0HDLUhU0tPMrjnIrJWyThO1gC92IPgY4YCi2v+Zzct6RnO0iswp3S+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7ZenOoM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC22C4CEF5;
-	Thu, 18 Dec 2025 00:47:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766018850;
-	bh=E8sAIcVg1PzVskIljHV4RS3WEpZOWSUATNnW7aZI7/E=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=k7ZenOoMZ+SZnya3iTdP17V5YV9lyv6jRs5Elr1HeLqhUVTdtWgrKFB4vrQtyC28p
-	 i5yXVcRhPdVL7a3D1nDxyte4/8j5bwfyR4k/rnygmflIo3hgTapJAI+ItvfGFMclC6
-	 JObuECDmkRs8gsm3CFwZXr5Pc/a9RLs32IkRP+HINeoR/lfiZgFuHlkAwU7gK3s1CV
-	 ZwRIcXmdo3gTwDMIQHkZdu/xUnJ6S9qkOeov1FcYyHZCCh0lNZQp8nZRHRyFx26mzQ
-	 5kE2Z0IJ8AsNLlSQXh+4uor8NgVjnEZniOVrTjbo1rM95VHwBWogloTWW2YW1uv5wj
-	 M866+OPMhdU1w==
-Content-Type: multipart/mixed; boundary="===============8902308381200231805=="
+	s=arc-20240116; t=1766041443; c=relaxed/simple;
+	bh=NG3Flv7V1JNWQucAPiMPvjdrPT7SVnIc+oED17nZscU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mvsG5NFAGJ+KCxAD3gSX02nQiIBs4lhoQLotBhFGwIbXlIWRyFYa2ueCj9yFNuOQO1BXKBc2WTLB7AammWwa6E3UcVrNLzkITus6MHOl0TFL6nnC5Dd0e0ferTaatmAA/V812NZGiF1u35LqsPU28RX9GO/OOSGkKjquZwcXogw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Uu/4j9k7; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-37a3340391cso1957551fa.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 17 Dec 2025 23:04:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1766041440; x=1766646240; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NG3Flv7V1JNWQucAPiMPvjdrPT7SVnIc+oED17nZscU=;
+        b=Uu/4j9k7Vf1dlPsfv2K+6VLxrbX4etShNtYvm1i9DZQR4MHPHF7+8ph6SgITvqf92d
+         lMn+e75eJrRV9E/bnLYHEMxxv2Vhnvp7X6HPXvOvIM1cfsAAwGAxdh3bRjavCWm20f+2
+         CC2fCLm9r+bmlffXrolJdOvC1HCaYKjriG817nYYVB6W64phZY0pBiVTqIPsgmp9+0nJ
+         Zr0+0Svj1X2A6dukZvh7kn9p4qR1J7MTWhZpdPKmQ+yvJAlj2HR0omjinVhtp438U3Ix
+         uM4q8SL3iZ/CvbfwVnKtwjLRnGpPi0b/Siu1FJcnBOL3/ejqkrOfMkmv9VFp+6So4mNh
+         LH7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766041440; x=1766646240;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NG3Flv7V1JNWQucAPiMPvjdrPT7SVnIc+oED17nZscU=;
+        b=jShcib+WZGYgBNbvF+kfS/O8VwUh9byzAm0D9jbOP4F11bLA3aw5U+i7WFTfFWdtGb
+         +G9A8Nkvz7NbyGbVCTti5c/AyWlqNhATsrIjs4XJS+Wfq5wU0f7ZQhJJGIgucaiOwJIo
+         WLJH/u5iFDNhv31DzDUlV+87tkiVmTJDbM1BBNhEkf9dtqA3GumTpgHUm+eJ3XwD3jCf
+         QO11KTGQ12LpRYOMfjs13p6+Vej5nkk5XuiEq6naW1OLId+qljrmfmte2dBBrYRSeuZA
+         tuXOnLCVtTaLpL9yBvBAAEMVE5UMlUlmMwSX32yjXR8N6qLrAzWc6wVR0ZFvbYWYLclE
+         2p6A==
+X-Forwarded-Encrypted: i=1; AJvYcCW1kpjSwrHV8A/Qlh+SQAJ71MjdAEIQaZD5F3HRSlhaSVRbPVXbu4/pbisSFsgwADwYhIgnBar+FZOFcGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkZU+k9Nlor0x6tligSaCSyB97eMZYwxv56eaHXNmY+36NzO+k
+	nklHN8uH3w0zs5pq9d+TtC8psumbLpEAbbXl1hc1uVJ/T41RCriaKuViK4zNDpzYzXvst+87uzl
+	wgrtS2Bdr64jkv+Kav0BA/XcpJpS2wJOVhck4IRy5
+X-Gm-Gg: AY/fxX7KGCWty06EnM5YB2LmPN+QjL4hB8wxrdDyWHjnEPbpvIM/yNRZr+8TghXOoRa
+	W8rtwGlu/1XE6dUygn8MmQ0JFhGAR3uImg5LU1WTY+6jqm+JLlfn3md8Z6Ukb7G+DTxAOivJqbo
+	GAcz3hwdXwLg/UW8w0r+ItxHVFitVUsZe62nnNiG54EGI2/X5UQZsTJUP3jaYAFNmW5ai55zFbi
+	G0QShroT8LowxWtKw3VSEPxM4nCXMUG64gtdwAdBc/We7VFhKf5e0VDhHV/KfRYErN6kinCLkld
+	QAPfyNNJML3wq8cwxKlmkrnf5E2Q
+X-Google-Smtp-Source: AGHT+IGa6ehysAt1ztbTbddQktMKfUrCu3vaE0KFaPi7hrb5bZr+Y8vH8de83qrbg/8SFAqqSQSjSGQ4/4o9cSJ/80I=
+X-Received: by 2002:a05:651c:e17:b0:37a:2e32:3200 with SMTP id
+ 38308e7fff4ca-37fd08a242amr68378951fa.33.1766041439731; Wed, 17 Dec 2025
+ 23:03:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <106b6e71bce75b8f12a85f2f99e75129e67af7287f6d81fa912589ece14044f9@mail.kernel.org>
-In-Reply-To: <20251218003314.260269-4-ihor.solodrai@linux.dev>
-References: <20251218003314.260269-4-ihor.solodrai@linux.dev>
-Subject: Re: [PATCH bpf-next v4 3/8] resolve_btfids: Introduce enum btf_id_kind
-From: bot+bpf-ci@kernel.org
-To: ihor.solodrai@linux.dev,alan.maguire@oracle.com,ast@kernel.org,arighi@nvidia.com,akpm@linux-foundation.org,andrii@kernel.org,morbo@google.com,changwoo@igalia.com,daniel@iogearbox.net,void@manifault.com,dolinux.peng@gmail.com,eddyz87@gmail.com,haoluo@google.com,jolsa@kernel.org,john.fastabend@gmail.com,corbet@lwn.net,justinstitt@google.com,kpsingh@kernel.org,martin.lau@linux.dev,nathan@kernel.org,nick.desaulniers+lkml@gmail.com,nsc@kernel.org,shuah@kernel.org,song@kernel.org,sdf@fomichev.me,tj@kernel.org,yonghong.song@linux.dev
-Cc: bpf@vger.kernel.org,dwarves@vger.kernel.org,linux-kbuild@vger.kernel.org,linux-kernel@vger.kernel.org,sched-ext@lists.linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Thu, 18 Dec 2025 00:47:30 +0000 (UTC)
+References: <20251217-revert-scripts-clang-rools-handle-included-c-files-v1-1-def5651446da@kernel.org>
+ <20251218001336.GA2451437@ax162>
+In-Reply-To: <20251218001336.GA2451437@ax162>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Thu, 18 Dec 2025 08:03:47 +0100
+X-Gm-Features: AQt7F2qsoLJMYrCrAExz1xhd2YRJehR5Pg82DcCwzCkvH_0u7lE9uhe7avhFjOQ
+Message-ID: <CACT4Y+Z5Mtax6BMtpY6Zj9Zd_1XjphfkMDp_3Wrzo94Pw9=VhA@mail.gmail.com>
+Subject: Re: [PATCH] Revert "scripts/clang-tools: Handle included .c files in gen_compile_commands"
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
---===============8902308381200231805==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-> index b4caae1170dd..da8c7d127632 100644
-> --- a/tools/bpf/resolve_btfids/main.c
-> +++ b/tools/bpf/resolve_btfids/main.c
-
-[ ... ]
-
-> @@ -260,22 +279,36 @@ static char *get_id(const char *prefix_end)
->  	return id;
->  }
+On Thu, 18 Dec 2025 at 01:13, Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> -static struct btf_id *add_set(struct object *obj, char *name, bool is_set8)
-> +static struct btf_id *add_set(struct object *obj, char *name, enum btf_id_kind kind)
->  {
-> +	int len = strlen(name);
-> +	int prefixlen;
-> +	char *id;
-> +
->  	/*
->  	 * __BTF_ID__set__name
->  	 * name =    ^
->  	 * id   =         ^
->  	 */
-> -	char *id = name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__")) - 1;
-> -	int len = strlen(name);
-> +	switch (kind) {
-> +	case BTF_ID_KIND_SET:
-> +		prefixlen = sizeof(BTF_SET "__") - 1;
-> +		break;
-> +	case BTF_ID_KIND_SET8:
-> +		prefixlen = sizeof(BTF_SET8 "__") - 1;
-> +		break;
-> +	default:
-> +		pr_err("Unexpected kind %d passed to %s() for symbol %s\n", kind, __func__, name);
-> +		return NULL;
-> +	}
-> +
-> +	id = name + prefixlen - 1;
-
-Is this off by one? The original code computed:
-
-    id = name + sizeof(BTF_SET "__") - 1
-
-For BTF_SET ("set"), this gives: name + sizeof("set__") - 1 = name + 6 - 1 = name + 5
-
-The new code computes:
-
-    prefixlen = sizeof(BTF_SET "__") - 1 = 6 - 1 = 5
-    id = name + prefixlen - 1 = name + 5 - 1 = name + 4
-
-The -1 appears to be applied twice now, once in the prefixlen assignment and
-again when computing id. Should this line be:
-
-    id = name + prefixlen;
-
->  	if (id >= name + len) {
->  		pr_err("FAILED to parse set name: %s\n", name);
->  		return NULL;
->  	}
+> On Wed, Dec 17, 2025 at 08:13:43PM +0100, Nicolas Schier wrote:
+> > This reverts commit 9362d34acf91a706c543d919ade3e651b9bd2d6f.
+> >
+> > Dmitry Vyukov reported that commit 9362d34acf91 ("scripts/clang-tools:
+> > Handle included .c files in gen_compile_commands") generates false
+> > entries in some cases for C files that are included in other C files but
+> > not meant for standalone compilation.
+> >
+> > For properly forking clangd, including .c files is discouraged.
+> >
+> > Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> > Closes: https://lore.kernel.org/r/CACT4Y+Z8aCz0XcoJx9XXPHZSZHxGF8Kx9iUbFarhpTSEPDhMfg@mail.gmail.com
+> > Signed-off-by: Nicolas Schier <nsc@kernel.org>
 >
-> -	return btf_id__add(&obj->sets, id, true);
-> +	return btf_id__add_unique(&obj->sets, id, kind);
->  }
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
 
+Acked-by: Dmitry Vyukov <dvyukov@google.com>
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/20321956014
-
---===============8902308381200231805==--
+Thanks!
 
