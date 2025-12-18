@@ -1,161 +1,157 @@
-Return-Path: <linux-kbuild+bounces-10163-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10164-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E39CCD767
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 21:05:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D19E8CCD840
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 21:24:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6334D3063C2D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 20:04:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 94A48302D5DB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 20:24:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8814F2BEC21;
-	Thu, 18 Dec 2025 20:04:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F342C0F7F;
+	Thu, 18 Dec 2025 20:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="M17jirHj"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="R1dB4sf9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KLmC+XZw";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m2AV1reB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pGDrHNC0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82847284888
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 20:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD0721C17D
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 20:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766088254; cv=none; b=LmE23RjbPxRVymoNABv9g0hZtRyJAr0+dr0W9oRhKM9F7PuiSt+eNGtTiVWJr1PGhXug35Alxb9IU0fmZC4Pkg3+knIkicZUzTN09MoTVa3pxFvs3aply5buM1tD5jYqrP+wLNgb6tDYSr6PUhXFknSe/Qbva4fUivu/WfuICmg=
+	t=1766089460; cv=none; b=PhxkR73ml8YYwlafWlpIPPdtd+vUzqBAZrlKSt9d9NN3ky7DG9AU0LZ+gnwLDtDoTtrIwp3buhf/WipKjWapwT9yIyNQOE6JTwXnNzR1EFJuqcjmMI85q1xNE1vT0WSb0des11w2WS8Sk5VJkJ3pQYS8LT+rFDm9leLbbxNsbSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766088254; c=relaxed/simple;
-	bh=PPvYnQFfQ73AnUC0oRFF/I/KG/4xgToHLM8c+NUW9KQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pYI/Vr4tejYYS8sD65P3JjCqvbDxdBmqx6hxiNw5h/D8PhbzCtpJZ+Y2LvP9TdUx+bwswyCkDlozXGTONyUi9OyR/wuQwRhe3EAZeRKEtONiJl021YzZvG/TEa09o9+jLfTy/tJ7tFT1+7fHmlrfuzG9ZmZNZSpKIIpmdWZXxmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=M17jirHj; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <113fe7cd-210c-4c4f-8703-f289010fd049@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766088240;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	s=arc-20240116; t=1766089460; c=relaxed/simple;
+	bh=vXXNS4VwpQeDDfuZ3nZnMdZ0MhrVo7BR+If1/cV5e1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KmTPBHnFx+ya6zuLH3DMaPXE7A5uuQ+0QqHWcA0W2ee94obUU7C2dpwcKapTUmVMtD/4BhSx2UmrMCZLzfrQEzOR9Gtt+ld9iYkQ6sDc/Ny6ssWkqmJEd6V4UKl2onjO2xtc0BSJn6JILWX5hWONeMjLU1iMnfqBkVMYxLMIktk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=R1dB4sf9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KLmC+XZw; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m2AV1reB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pGDrHNC0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EB6BC3369D;
+	Thu, 18 Dec 2025 20:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1766089457;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HJWs7dH71y+hTKsetOhwbeZpE9paXeOM1specKRWVPc=;
-	b=M17jirHjlrJw432LfQw2ENQp2+vaVwBMXOCMQti9IIYJRb9brkYmXeD1WcEPzXEdSRWZ7T
-	vOx9isK633UZl4/Ar4G7/E9/w6C01J8nU88uSPidbhEvuIyaU5QdC/T3FIifRqWgH+W6oD
-	DrUPmPnZVuLU0oIL7jvcyFv0HRWPXqE=
-Date: Thu, 18 Dec 2025 12:03:19 -0800
+	bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+	b=R1dB4sf9mfAcw1P82r/QTHuIgH19/quEpfUcEo5CoxRmcxmeOhMAL9sNxu+aLUQdtjk+Qr
+	xNP7apmpi/TcA7PnbOZufSTn2BH6wh9c2Aj67bZjcNdfjBNR/ZYdWS/jLBUk9YKCCRukEN
+	w6Q5d1P5LaGUmcHEkncpUf67VEOVm+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1766089457;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+	b=KLmC+XZwpbrArd/ao1ybzSdWTPPeBFBUDROsAdiz8sVViknkWMc8xHtzLHZfXfdodGQNic
+	7jI/yHM0QK6VrcAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1766089456;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+	b=m2AV1reBAqK9FeMAHaWwTK9XebHo0jm9URZaUepPWYOZ8b9ZcikgTgeu5hdyDLGUAnnG0R
+	dM4zVexojF1Whwd/pTCtZN6yATuocMtRG+J4eyxv+lGP7kXT3mtsiqKXB8A3N6TzvqWrKb
+	dcrLW53N2ye4J6uzRvvJ94ZnOAxgXvw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1766089456;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZU3BqqLGPheJCdDQ8t7eYRIzLyzYKNVYksKlHPTuHA4=;
+	b=pGDrHNC0P3Nmn3AtGB7C3W1HNHv65Jg6IkWKCOh4Lq/5vmzef6hwPzH5RyrrbfGrGgXdoi
+	vTpYiq187cf9rgAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6CB33EA63;
+	Thu, 18 Dec 2025 20:24:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IvFKMPBiRGnUWQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Thu, 18 Dec 2025 20:24:16 +0000
+Date: Thu, 18 Dec 2025 21:24:15 +0100
+From: David Sterba <dsterba@suse.cz>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH 2/2] kbuild: cleanup local -Wno-type-limits exceptions
+Message-ID: <20251218202415.GQ3195@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+ <20251218-remove_wtype-limits-v1-2-735417536787@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v4 3/8] resolve_btfids: Introduce enum
- btf_id_kind
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: bot+bpf-ci@kernel.org, alan.maguire@oracle.com, ast@kernel.org,
- arighi@nvidia.com, akpm@linux-foundation.org, andrii@kernel.org,
- morbo@google.com, changwoo@igalia.com, daniel@iogearbox.net,
- void@manifault.com, dolinux.peng@gmail.com, eddyz87@gmail.com,
- haoluo@google.com, jolsa@kernel.org, john.fastabend@gmail.com,
- corbet@lwn.net, justinstitt@google.com, kpsingh@kernel.org,
- martin.lau@linux.dev, nathan@kernel.org, nick.desaulniers+lkml@gmail.com,
- nsc@kernel.org, shuah@kernel.org, song@kernel.org, sdf@fomichev.me,
- tj@kernel.org, yonghong.song@linux.dev, bpf@vger.kernel.org,
- dwarves@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, sched-ext@lists.linux.dev,
- martin.lau@kernel.org, clm@meta.com
-References: <20251218003314.260269-4-ihor.solodrai@linux.dev>
- <106b6e71bce75b8f12a85f2f99e75129e67af7287f6d81fa912589ece14044f9@mail.kernel.org>
- <d9b9e129-349b-4510-bf33-01b831c2174b@linux.dev>
- <CAEf4BzZXzQ6fZetTA8Trwa_pu7o1AJuMyUuHbW9YXHYGQL-_HA@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <CAEf4BzZXzQ6fZetTA8Trwa_pu7o1AJuMyUuHbW9YXHYGQL-_HA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218-remove_wtype-limits-v1-2-735417536787@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spamd-Result: default: False [-2.50 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[lkml];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linux.intel.com,suse.de,ffwll.ch,fb.com,suse.com,linux-foundation.org,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:replyto];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.50
 
-On 12/18/25 11:58 AM, Andrii Nakryiko wrote:
-> On Thu, Dec 18, 2025 at 9:47 AM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
->>
->> On 12/17/25 4:47 PM, bot+bpf-ci@kernel.org wrote:
->>>> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
->>>> index b4caae1170dd..da8c7d127632 100644
->>>> --- a/tools/bpf/resolve_btfids/main.c
->>>> +++ b/tools/bpf/resolve_btfids/main.c
->>>
->>> [ ... ]
->>>
->>>> @@ -260,22 +279,36 @@ static char *get_id(const char *prefix_end)
->>>>      return id;
->>>>  }
->>>>
->>>> -static struct btf_id *add_set(struct object *obj, char *name, bool is_set8)
->>>> +static struct btf_id *add_set(struct object *obj, char *name, enum btf_id_kind kind)
->>>>  {
->>>> +    int len = strlen(name);
->>>> +    int prefixlen;
->>>> +    char *id;
->>>> +
->>>>      /*
->>>>       * __BTF_ID__set__name
->>>>       * name =    ^
->>>>       * id   =         ^
->>>>       */
->>>> -    char *id = name + (is_set8 ? sizeof(BTF_SET8 "__") : sizeof(BTF_SET "__")) - 1;
->>>> -    int len = strlen(name);
->>>> +    switch (kind) {
->>>> +    case BTF_ID_KIND_SET:
->>>> +            prefixlen = sizeof(BTF_SET "__") - 1;
->>>> +            break;
->>>> +    case BTF_ID_KIND_SET8:
->>>> +            prefixlen = sizeof(BTF_SET8 "__") - 1;
->>>> +            break;
->>>> +    default:
->>>> +            pr_err("Unexpected kind %d passed to %s() for symbol %s\n", kind, __func__, name);
->>>> +            return NULL;
->>>> +    }
->>>> +
->>>> +    id = name + prefixlen - 1;
->>>
->>> Is this off by one? The original code computed:
->>>
->>>     id = name + sizeof(BTF_SET "__") - 1
->>>
->>> For BTF_SET ("set"), this gives: name + sizeof("set__") - 1 = name + 6 - 1 = name + 5
->>>
->>> The new code computes:
->>>
->>>     prefixlen = sizeof(BTF_SET "__") - 1 = 6 - 1 = 5
->>>     id = name + prefixlen - 1 = name + 5 - 1 = name + 4
->>>
->>> The -1 appears to be applied twice now, once in the prefixlen assignment and
->>> again when computing id. Should this line be:
->>>
->>>     id = name + prefixlen;
->>
->> Yes, this is an off-by-one bug.
->>
->> Good catch, Opus 4.5. Sonnet 4.5 missed this in v3.
->>
->> This was "harmless", since the names stored in the trees don't affect
->> the output.  The comparison between the names still works, as they all
->> simply got a "_" prefix.  But this only makes the bug sneaky, which is
->> very bad.
->>
->> The suggested fix is meh though, IMO a better one is:
+On Thu, Dec 18, 2025 at 07:50:02PM +0100, Vincent Mailhol wrote:
+> Now that -Wno-type-limits is globally deactivated, there is no need
+> for local exceptions anymore.
 > 
-> the bug is not in determining prefix length, but in using it to find
-> where id starts in the string, so the fix should be
-> 
-> id = name + prefixlen;
-> 
-> prefixlen is calculated correctly, IMO
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+> ---
 
-Aaahh, because the null byte is counted by sizeof, right... I missed that.
+>  fs/btrfs/Makefile        | 1 -
 
-> 
->>
->> [...]
->>
-
+Acked-by: David Sterba <dsterba@suse.com>
 
