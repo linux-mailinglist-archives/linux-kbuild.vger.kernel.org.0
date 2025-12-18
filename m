@@ -1,135 +1,156 @@
-Return-Path: <linux-kbuild+bounces-10173-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B7ECCDC14
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 23:07:02 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC327CCDC5D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 23:19:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 16EB1301276A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:07:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A572A3028C90
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:19:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C142D8793;
-	Thu, 18 Dec 2025 22:07:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E4A62D97AA;
+	Thu, 18 Dec 2025 22:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="liKa0KNf"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZwZtLpv4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D60629D27D
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 22:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E12D22A1E1
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 22:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766095619; cv=none; b=mPROt4QeSKUoD5TIl+gz7qu8nwHNRfjMdrzwpYpf/M7COrqSYIUXsYXa7wWpvooiP4qDb1UCfnjU9F88T4UkOLvbm5wpXg5O28i/QX4Idbtv16euOg69jVMGm8gxUh8u1h3OobtE5PGzemKl770R2z9GjPsHiTECsd1vdpL3DRk=
+	t=1766096377; cv=none; b=lk9/gQFNzl3TCjSK4F35eWgi7orRAMvaUu+tOrrdnIkM/wOXwWMp84QGsUVmgOqCCiWyELPcuiI99Bq3i6A+KRYP3oM0v35wCcZi2cHY0V0s97MMbWKVxe3p3n283Q9116m56oQvRPgMWsC4hfi4ppbORHYPqLYWqy4dHM9nrew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766095619; c=relaxed/simple;
-	bh=J4Nn2NlGfDoMoLD2jX96Gn59VTZ3FbVS9Sq+YlKTdug=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k4G3sXMV0t3/caHQc27RIfR6mmqTlFUXwFIn0aS4ATqc9NSDgKqAydjfDcbY9QEFVRHwwYf/FL0GMec/A/VUepbST5b0L3pQChSWIVOnZfxgy/3hww4/ze9HbwyhUnDxnkQwq5MX0yUcve8tNdpxxZdDjaw96qRoKqF6rNQ5biQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=liKa0KNf; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4775e891b5eso4853055e9.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 14:06:58 -0800 (PST)
+	s=arc-20240116; t=1766096377; c=relaxed/simple;
+	bh=8pSoe1Bmi+W4NijU12aYw3XcputPGwR7O6GNCXc/aeM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lAYMpeiFY6GuJzpaE2HrJyXM7SHkR4bR5bZ8pf1b2US0x1h/sjHQrAxtqT2gJuy5GBBzahT3QpkzcsuDrtSWCFolcLZkP3JCvkFDogJWLT+ZoSIKiWPFTe4+aJ96IdFsLGreZmxexqK56LJI9R5J9VVmXmdk0v/V+7/MlufjClg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZwZtLpv4; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6492e78ce07so1457782a12.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 14:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766095617; x=1766700417; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FCWNyqqNvxqk0sIuAi6HOTqP3nuQgibcAJ59og/NAJg=;
-        b=liKa0KNfSTlpJ0iuaL+p+4S0MpSmTpX9aE6o7KTOJ4tWOjF/2WPsQTVt+WcI6RtCxk
-         aQTODRmXd5geqIg+VVirxkzakC0b6jlg2gGV7YjMeD3uGS5G9wezTa5PzxHIL0A6Rbl0
-         RgxtZDfCJsXR1MgSk+ahQCQA9+zMjQxyyEfwTVT/8gPfb//3SKWbw+RnVvmLfn8LSvax
-         +Pk0ck1dkIIPqKfkHmaR3HFoJ+28UAb8em+W1IeQs/xEZi5x/v6sUtFYra83UrWCOQdq
-         WwtOcbCZD5NoybFueDbdIW8mk6uEadc2PhTVvR2QhK09ab0IOiTLrkro1jx067TP95l5
-         bbNA==
+        d=linux-foundation.org; s=google; t=1766096373; x=1766701173; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jndt3SqYxM2jZAywVtZf3yYDl10GUxyvdAXQWbglW60=;
+        b=ZwZtLpv496T8ZsKzK98v5OSTqJ+2OR6/8V4sq9jvyvs32ekGxwJipxbLSee4SDWDgL
+         e0IrB6nxmuc0/GcdUSa6MUqthiN91oGWIPLU8V49Cuu4XJAyQDP20CYR0qDQeyhzraF6
+         wB0oEr5+IqOwH8Yrrc9ORQCPmyGafp2ck94Is=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766095617; x=1766700417;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FCWNyqqNvxqk0sIuAi6HOTqP3nuQgibcAJ59og/NAJg=;
-        b=KxMtYBG/mLoxLuZd6CyqvBDKDWaXs4hFDqqvMHFZUuJde22LpYJpOuGGEbip5YlRo+
-         hbE7+ckQ2s+8uaF1I8e3Dm+xmCseM6NdNrN8kXVm4eR0r7b9GUanVJck63b7hRaZeq7m
-         LVmQq3/YH5biTxl20fWv9MqfUMdUK/wkk+nZmLOGP5DKBnYkLGOYTiua2A0GIQaFWAXk
-         BdApz/yxqyAn0gW8jza3WBc5d3nVG759eaSPpV2XJHLV2RMdfWDAgPyCT3kOIe8DbfIo
-         8ymh03skxrsUoIkzWOrEHxt/K88a+00RB+9PBNf+3mXBNVTSJxLtZ++pg4IRIl+I9s1K
-         cj3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUNCXCrtcKZluPhZS/CgUGCgBmnD5PP8zMXmIuQ3+YXcUiPP3Osf+HUf48Ysv8hVZPWKIRuVc23fc0hmK8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNRecxv+o8dSflGrKAYvOPqftraNaSnJ2Hr07J0KpYiIVaVhbz
-	3B73NL/AG7dhWTo7NU//lKVX7SQDiZzj4m7FmDv4xrY2SfxjnQ5yIdeB
-X-Gm-Gg: AY/fxX6iBFB9IRqT6SFj+nqaHwGzf9nbnmdMkG5pWcoS7JKSXze2TMzWhSglnfxkhoa
-	8EEDWNY8WvfY+nO85N2OUPnks+vKT9/OeOMWSOXWWm+91oKt1lnCkewvmmcN1N2cY4zXOBDOwDs
-	/kE1Iqm+FHUNomT/YnR29SjxrDesQpq2riFzkf6TKPNiJQzJahKfTcvSVOOldmsPinAwwFBqXbW
-	pcbTPLaFDpqSngMGDHSLgbZcfDREViEENF3oMjorNtUjPEmOIvnbbZ4f5TZAFvARZpXngxDampI
-	Q7lA8CgBWGfQ/xlRiCaGw5jb/z4hr1fVA73Q7QiimIZsdNZBd1kivuU8YXDq8RWxomblXSJVx9o
-	YHZJNsC3c5TQ422oYHNpZYnTrOSDztquWmx4oP2N56a66f0YOefmOir59V/iVeVjJP+KYFke5Ml
-	2xlbkS+hCkPzToNlcy4tATe6yMaNRMEPFIMbBSQH1OXxmIZ4WAAN+s
-X-Google-Smtp-Source: AGHT+IGTunC8kRSxjImDPeRC9HvKyQNV1Ibv0KtdSMjVnMShq1E8PEmRrIAevTE0VIl4mZ+C4NDiJQ==
-X-Received: by 2002:a05:600c:3b8d:b0:477:7725:c16a with SMTP id 5b1f17b1804b1-47d1953da58mr7304975e9.10.1766095616415;
-        Thu, 18 Dec 2025 14:06:56 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be2723d19sm71561025e9.2.2025.12.18.14.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 14:06:56 -0800 (PST)
-Date: Thu, 18 Dec 2025 22:06:51 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Vincent Mailhol <mailhol@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
- Stitt <justinstitt@google.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chris Mason <clm@fb.com>, David Sterba
- <dsterba@suse.com>, linux-kbuild@vger.kernel.org,
- linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits
-Message-ID: <20251218220651.5cdde06f@pumpkin>
-In-Reply-To: <CAHk-=wjrNyuMfkU2RHs28TbFGSORk45mkjtzqeB7uhYJx33Vuw@mail.gmail.com>
-References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
-	<20251218202644.0bd24aa8@pumpkin>
-	<CAHk-=wjrNyuMfkU2RHs28TbFGSORk45mkjtzqeB7uhYJx33Vuw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20230601; t=1766096373; x=1766701173;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jndt3SqYxM2jZAywVtZf3yYDl10GUxyvdAXQWbglW60=;
+        b=kiMXEu1lJqzaJxOU3/aX8XaMM0quwY6Ql4aoBgrSmcsoAo7BZw4rvVPbN9PCHGrdq+
+         Vi6FcJCQp5sfWlMFHYif8itzzjHdcz9OYMWnL0JDkmXKKQKc+JHjlWs4HnWq7IsznjpE
+         jzDd3ArzC1R+MVBfZRqtbT40JZMwQOyMFITVRl+lwgTfQuiUslnVMj7rVYcjtNOu1v2d
+         anAV3BiGrxzFrbMIWUJ9qyJ5uBUl2Ndi0Lcy1tOJ0msYqz7vW3QlFHUnTj4x9C4N5HJu
+         xLcwsIsVLvP7tx7CovE0QNO9tZji0r2Moyw6x1uyUNrPgbAhyHDeGVoGv2iJJmnWZvTH
+         MJ3g==
+X-Forwarded-Encrypted: i=1; AJvYcCV0o5UIT7HutosydIWmEavP8HrnA0HLv9pzeC0joza2wPHK5/JC+2BEsf2rJuMVpNO0zisu6FGetNJNi+U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGKYcFtZRQQNXBG9pQkVk6+s9YF30yrX82CWTEFsmVgtKw8P/a
+	+1ldQKwfelpOYzlRzpRTcR3Cufpc2WomJbHL+/JAkLY7L1VoiRJ5It2hs3rhhbXDAaSFokWDhYj
+	ISXWjjQCJMg==
+X-Gm-Gg: AY/fxX67RXck1yh5VOp2ug0JeYue0rvaw4pG6jyjK32QaNOzGWCWcIOuqR3TzRIDyPh
+	mG+GfCAnHZYMi/YzQMbDF2bqjk6rZuYRPGS6Xwy82PBbNf+zyyhXDQ8lHEpQcAOd7ItJhVsurI/
+	kaLYaUuzGxZBYRV7Tl6i1zFYVMStQZi8QndBtLRpehS8aTGgQhHOf502HDMwCTX15eK8U8WzLTN
+	W7i2mfk7o5F0VfFVAfwEOGq0tlSEx/bdFL9fJUG/5cfEI1VEifqro1nBXtG98ejKCOANk5Fn+/Y
+	ACJ1yfaccF7+jbHWwcGPaEUyHsnbWg2eys3Wa6p/HhxLkUaTzMN7Wn5Tk329ha58MUgmhIXNoha
+	U4PfneR2+VuhcGE51zE9fkhFId1eJ75hnSVgwS7LoTOsmCSBrVDNeq5bEjpahf4dVFHcDj/1XE2
+	e12xGgtDYzq9NDpGexSf/4Csghw8CBHkH9JDL4bNr/ahL3yoSOOVV3ETfCrK+l
+X-Google-Smtp-Source: AGHT+IEGy3PZE2fDG3AE017kBgXhD8dXA66r9nsLcmGDFzVbtQE5JaSKsvYmtXeVC79CN1iy+c807A==
+X-Received: by 2002:a17:907:6ea4:b0:b80:f2e:6e1 with SMTP id a640c23a62f3a-b803722a7demr84075066b.43.1766096373496;
+        Thu, 18 Dec 2025 14:19:33 -0800 (PST)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037ab7f86sm54138066b.17.2025.12.18.14.19.32
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Dec 2025 14:19:32 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-649784c8967so1382687a12.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 14:19:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXc92HB3lo8rqgfaWEpJZp3YxFzq1vEN1YkjN2ArC8lcCv5h9Ex9ioaeHPbGEe5lHS7hsx3LoKZ9oRmqFU=@vger.kernel.org
+X-Received: by 2002:a17:906:4fd0:b0:b77:1b05:a081 with SMTP id
+ a640c23a62f3a-b8036fade7bmr90274566b.27.1766096371748; Thu, 18 Dec 2025
+ 14:19:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+ <20251218202644.0bd24aa8@pumpkin> <CAHk-=wjrNyuMfkU2RHs28TbFGSORk45mkjtzqeB7uhYJx33Vuw@mail.gmail.com>
+ <20251218220651.5cdde06f@pumpkin>
+In-Reply-To: <20251218220651.5cdde06f@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 19 Dec 2025 10:19:15 +1200
+X-Gmail-Original-Message-ID: <CAHk-=wjMVfu-aiQ8aNHcgsh6hYwbZCoX1B4ps2scibokO8EZ+A@mail.gmail.com>
+X-Gm-Features: AQt7F2rQbkmjgbTYE3I0u5o-OP0XOCVU9BjhcXCAu035ycTBeAxGxqvP-3yEHoo
+Message-ID: <CAHk-=wjMVfu-aiQ8aNHcgsh6hYwbZCoX1B4ps2scibokO8EZ+A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Vincent Mailhol <mailhol@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, linux-kbuild@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 19 Dec 2025 08:34:05 +1200
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Fri, 19 Dec 2025 at 10:06, David Laight <david.laight.linux@gmail.com> wrote:
+>
+> True - especially for code like:
+>         if (x < 0 || x > limit)
+>                 return ...
 
-> On Fri, 19 Dec 2025 at 08:26, David Laight <david.laight.linux@gmail.com> wrote:
-> >
-> > One possibility is to conditionally add _Pragma()  
-> 
-> No. That compiler warning is pure and utter garbage. I have pointed it
-> out fopr *years*, and compiler people don't get it.
-> 
-> So that warning just needs to die. It's shit. It's wrong.
+Exactly.
 
-True - especially for code like:
-	if (x < 0 || x > limit)
-		return ...
-where the code is correct even with 'accidental' conversion of a
-negative signed value to a large unsigned one.
+And yes, sometimes the type of 'x' is obvious, and having the range
+check for zero can be seen as redundant for unsigned types, but even
+in that "obviously redundant" case the code is *clearer* with both the
+lower and upper range checked.
 
-clang seems to have a dozen similar warnings, all of which are a PITA
-for kernel code - like rejecting !(4 << 16).
+And apart from being clearer, it's also then safe when somebody does
+change the type for whatever reason.
 
-_Pragma() might be usable for -Wshadow, which is generally useful for
-local variables (but not global functions like log() and j0()).
-(I usually enable it and fix up the consequences.)
-Things like the masked userspace access define which carefully
-creates a readonly variable that shadows a user local would need
-to disable that one.
+And lots of types do *not* have obvious signedness. They might be
+typedefs, or have other much subtler issues. Something as simple as
+"char" has subtle sign behavior, and when it comes to things like
+enums the signedness can also be very non-obvious.
 
-	David
+So having both sides of a range check is *always* a good idea, even if
+one side _may_ be redundant for some type-range reasons.
 
+And there really is absolutely _no_ sane way to get rid of that broken
+warning except to just disable the warning itself. All other
+alternatives are actively broken - adding a Pragma only makes the code
+worse and illegible, and removing the lower bounds check again only
+makes the code worse.
+
+So this is a compiler warning that actively encourages worse code. It
+needs to *die*. It doesn't fix anything.
+
+And the people who point out that it can show bugs - absolutely *ANY*
+warning can do that. That doesn't make a warning good. Any code can
+have bugs in it.
+
+The sparse warning I outlined (and that Vincent wrote up and tested
+and made into a proper patch) was actually showing interesting issues
+in a much better way.
+
+And that sparse warning could certainly be improved on too - I think
+that one too would be better if it noticed "oh, it's a pure range
+check, so let's not warn even when the code otherwise looks dodgy".
+
+But at least it didn't warn for obviously good code like the horrid
+broken type-range warning does.
+
+                  Linus
 
