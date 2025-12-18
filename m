@@ -1,123 +1,155 @@
-Return-Path: <linux-kbuild+bounces-10152-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10153-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A284CCB9B0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 12:26:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2497ECCBD63
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 13:50:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5D40D309F21A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 11:23:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DAD4E300980D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 12:50:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00DD2314D13;
-	Thu, 18 Dec 2025 11:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06984333745;
+	Thu, 18 Dec 2025 12:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MMhSvlZ1"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="L1dU708F"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3375E2853EE;
-	Thu, 18 Dec 2025 11:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1458333453;
+	Thu, 18 Dec 2025 12:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766057019; cv=none; b=TeSNhJetdKuNQMO0X2KybJMsaGQ240517+R9slB/zUJwxbvsJVW/uAmwg/nQbJ8ld2u0RyBjO5wFC+xfykTCnBfX+nW8ZETppsbOYKc+k7xDFr5PiOB3TROICm1gMBkToIUTzkCAHNbwbF89SZUsCFFpO5JyQTAWHEnWisMMY4I=
+	t=1766062220; cv=none; b=ARXTQdJME51r0wcAlRBMIHwndnLsQ5doCLjx+8h6fjqrCP5r2/CGvT/l3RBCbHlCJL2z5t2NLUd4KEQ1wbajuvg6iBE5lW6l55EgL9zJOyl3ODGlodseixLzqmy1c9QhbRfobouBQLw2hfu5ML2dSTX6MM7leGbPvuNI2wIxCh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766057019; c=relaxed/simple;
-	bh=WWs/FMKLopR8GlxWJLTbeh62Yklb02RoamS4e6t082k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nj/KxinKKXSXl0H98ikO5+zkWB28juM3DI1KmJZUvAUz39Dnm57l9KZy6vdGnM7+2/JUjvfKdI2mZGL4H/xI7/D7+sQviEyMkgU0m/KUh262elWwE1CyvEJuHWtKzqomPUFMgFaNYpw4L7POfsXzesQQtwuHu4Q5M0fNaUszBG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MMhSvlZ1; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WWs/FMKLopR8GlxWJLTbeh62Yklb02RoamS4e6t082k=; b=MMhSvlZ1U0lhTWOGU4FNuxYI3Z
-	GRAr+CdcUkTNZseY0omR8YLKLA1QJlpPz1h86m2c3EhJzJB5yGJ/CygiILJOK+qNvILaFDFwhuAw3
-	EJQbrqkHxY/iK3OjSwLrw+rUQdfX56nRe6Db43U9YpR6ybFZf3B6r2x30ztvg5jS67xA/pUoZXDVb
-	C+Mdp/HiC6X/EPz8pwEx4Ulki1zvOIk/I0ObPrwEXdFYBvYpYS2o6qvadq5aCBujtL64qu3Wyq7WI
-	LhK84HnA/xPWUkY0PFgKtEEIwQVN91FdDzOSntpHWyeqHY7S9olXkJWkJuT/Mc2wTOwAluJ2qhhEs
-	CwoFBrow==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWBEi-00000008e0m-01ZP;
-	Thu, 18 Dec 2025 10:27:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DCB0D300578; Thu, 18 Dec 2025 12:23:08 +0100 (CET)
-Date: Thu, 18 Dec 2025 12:23:08 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	s=arc-20240116; t=1766062220; c=relaxed/simple;
+	bh=3FqguW+N1KWgl+BPYfmhGoqZNth4k6R3BJaV+6K12Cc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wtj43quQVkVDJNWHqnMCPK7dRAuEKeBBLmVIvspQXNla4xZ+PxUndDOTNC2xypMc7+NykJEiOMlqIJk6flZa1Kpj0MrfdyMi9sxUmJbtrz23NhEW5S5FBRUi/AcS8nhZ8cS3pIeLWjKH6m86jOcGBTacOtFEuABrNmqL1cntgq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=L1dU708F; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id AE8995813A3;
+	Thu, 18 Dec 2025 12:50:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94E1F443C7;
+	Thu, 18 Dec 2025 12:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1766062207;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V8s2tGKSq0ssGPTlSp7MzGNZDN/P/3Qao4OZXsz56BQ=;
+	b=L1dU708F0axmku8kVd1BQ41p4l4SGdsCPl0TO1sPvbUjnKcfHSfO0uGGGgmFxxtyvA+5yl
+	7v9G9zqn2tLRRDNsxN+5eWkiRZlRIgvulsXne7LReXYehqwPP74ALXdRNZoKowL2SIOP2M
+	m0nKZcd4LUHugdqN0XhrPRxPxXUnhkCgrLMFhX2APvH18XylnhndkYLtWky97V+3sWDdc7
+	h78UuKJWoBgA07rmCOr+KUyKlDg9uLrwSNsDJ/clAfJW4RCsvLlj1o88CnlwMXq4lKiZeS
+	USpSmRS1y+6bvUznDmTRlRLc++4qNluv0+Z7D3wdQHxNQkYB/PVhIe5q429khA==
+From: Guillaume Tucker <gtucker@gtucker.io>
+To: Nathan Chancellor <nathan@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
- analysis
-Message-ID: <20251218112308.GU3911114@noisy.programming.kicks-ass.net>
-References: <20251120151033.3840508-7-elver@google.com>
- <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
- <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
- <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
- <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
- <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
- <aUAPbFJSv0alh_ix@elver.google.com>
- <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
- <aUE77hgJa58waFOy@elver.google.com>
- <aUGBff8Oko5O8EsP@elver.google.com>
+	David Gow <davidgow@google.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Cc: Guillaume Tucker <gtucker@gtucker.io>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	automated-testing@lists.yoctoproject.org,
+	workflows@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 0/2] scripts: introduce containerized builds
+Date: Thu, 18 Dec 2025 13:49:51 +0100
+Message-ID: <cover.1766061692.git.gtucker@gtucker.io>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUGBff8Oko5O8EsP@elver.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepteehhffgudetheehheetffehtdfgvdehiefggedvhefgkeduvdfhgfdtteduteefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemheegiegvmeekfeefrgemfeeffhgumegvieekfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemheegiegvmeekfeefrgemfeeffhgumegvieekfedphhgvlhhopehrihhnghhordhlrghnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeelgefgudfhgeegfeevjedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhto
+ hepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopehgthhutghkvghrsehgthhutghkvghrrdhiohdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
 
-On Tue, Dec 16, 2025 at 04:57:49PM +0100, Marco Elver wrote:
+This proposal emerged from an email discussion and a talk at Plumbers
+last year:
 
-> Below is the preview of the complete changes to make the lock guards
-> work properly.
+    https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
 
-Right. Not pretty but it works.
+The aim is to facilitate reproducing builds for CI bots as well as
+developers using containers.  Here's an illustrative example with a
+kernel.org toolchain in a Docker image from tuxmake:
 
-I did spend a few hours yesterday trying out various thing that don't
-work -- as I'm sure you did too -- but could not come up with something
-saner.
+    $ scripts/container -i tuxmake/korg-clang-21 make LLVM=1 defconfig
+      HOSTCC  scripts/basic/fixdep
+      HOSTCC  scripts/kconfig/conf.o
+    [...]
+      HOSTCC  scripts/kconfig/util.o
+      HOSTLD  scripts/kconfig/conf
+    *** Default configuration is based on 'x86_64_defconfig'
+    #
+    # configuration written to .config
+    #
 
-So yeah, lets just do this.
+and a follow-up command to build the kernel with the verbose flag
+turned on to show DEBUG log messages from the container tool:
+
+    $ scripts/container -i tuxmake/korg-clang-21 -v -- make LLVM=1 -j8
+    [container DEBUG] runtime: docker
+    [container DEBUG] image: tuxmake/korg-clang-21
+    [container DEBUG] container: c5a88761-f55a-4027-84c9-bc3c6dc9c4cd
+      GEN     arch/x86/include/generated/asm/orc_hash.h
+      HOSTCC  scripts/basic/fixdep
+      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+    [...]
+      BUILD   arch/x86/boot/bzImage
+    Kernel: arch/x86/boot/bzImage is ready  (#1)
+
+As a next step to make this tool more useful, I'm in the process of
+preparing reference container images with kernel.org toolchains and no
+third-party dependencies other than the base Debian distro:
+
+    https://gitlab.com/gtucker/korg-containers
+
+Say, to run KUnit using the latest kernel.org GCC toolchain:
+
+    scripts/container \
+        -i registry.gitlab.com/gtucker/korg-containers/gcc:kunit -- \
+        tools/testing/kunit/kunit.py \
+            run \
+            --arch=x86_64 \
+            --cross_compile=x86_64-linux-
+
+This patch series also include a documentation page with all the
+relevant details about how to use the tool and the images currently
+available.
+
+---
+Changes in v2:
+- Drop default image but make -i option required
+- Look for Docker and Podman if no runtime specified
+- Catch SIGINT from user to abort container with Docker
+- Explicitly name each container with a UUID
+- Update documentation accordingly
+
+---
+
+Guillaume Tucker (2):
+  scripts: add tool to run containerized builds
+  Documentation: dev-tools: add container.rst page
+
+ Documentation/dev-tools/container.rst | 175 +++++++++++++++++++++++
+ Documentation/dev-tools/index.rst     |   1 +
+ scripts/container                     | 194 ++++++++++++++++++++++++++
+ 3 files changed, 370 insertions(+)
+ create mode 100644 Documentation/dev-tools/container.rst
+ create mode 100755 scripts/container
+
+-- 
+2.47.3
+
 
