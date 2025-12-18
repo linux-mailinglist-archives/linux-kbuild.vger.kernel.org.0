@@ -1,105 +1,105 @@
-Return-Path: <linux-kbuild+bounces-10176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174C1CCDD7A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 23:39:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8AFCCDD7D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 23:40:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A81D330680E3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:36:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 712663005481
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:40:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18B6E302753;
-	Thu, 18 Dec 2025 22:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55CB72D4811;
+	Thu, 18 Dec 2025 22:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G8x8FlI3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jAZ0tnxv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D131264628
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 22:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E4F264628
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 22:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766097414; cv=none; b=rIAv+yUqOwn4gEdWuJi3QA5MxRuvgXSz3UQIPKHdKE6yTQ0q503zF7ApIx4EQSmI9cc83I9s5pIzpJXdQqa5+ARh7ebAfDc95bZf/pnvVG2MmDXYTx9io8eqOKo/baCj579i912XkUskiFOaU+rPZzsgLink/RZ8txcCXW/O4H8=
+	t=1766097599; cv=none; b=poRMQ1qm6a98EItbLMizrq32CSXPEuJbjekN2pXASIYSkMRoWefzRrPQNOWFzWRPx3ETTNXxvX5W9nTRyo410JId4hD+s/s6RWHV3Q8nuGz8jdB26aS9v3hQ8bt+TUT9gPgHWAyynJZeQhDuah9WtJcBJ+l9SmgLkKo4s/CNJYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766097414; c=relaxed/simple;
-	bh=R8UeLBJLrvkfvZOEZSqcabfSgjfJkFuoPrm60lLwYBY=;
+	s=arc-20240116; t=1766097599; c=relaxed/simple;
+	bh=eamKHa6W7ULY0ixSx/sof431csrKXdlpYvmmnDnJOFA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LQfOGbO54+eVCEoyQ6T8TR7DLrjKicNWx1ZhxiYEN/i5tal++ZthqPeVn6nJiyf4rwdsktqp5oA0q/wYL0f8DNrwy6w8rrDFEbMVAjdSgXQgHvSPn+sxzbWljQid2z0Xm/4QtxFAzQhWyGrShjctWBAZoWDnQXFHtVINOCsPqAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G8x8FlI3; arc=none smtp.client-ip=209.85.215.180
+	 Content-Type:MIME-Version; b=XJA/+38w1ihivS9NvIn35mHLYAqk+03rLe346KF1cCjP2gCiemcNwbMiMvYvIXUTDaL/dlo5Lvjy1+R0JDnU64WqzJ1oM9Hw9UUZQmC94PG+HaHhbZG5bJrd2RiFGYrCAGL2jAvvCba8FPXQy7B6F0pHl0terxBkS8/TbcOzbPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jAZ0tnxv; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso1063659a12.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 14:36:51 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a09757004cso13263185ad.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 14:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766097411; x=1766702211; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766097597; x=1766702397; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=VzVQ1y8+WKGH6EPGxTsxz1kEYrhRBeEdLO+POK8ea7k=;
-        b=G8x8FlI3sn0OwbT2cHGOW/DjZph5q9pdSQB4zJCFA5ueteqkvP839NC7ZCDc3CeNnV
-         X9Kb3Wxy94z6CSXUZvnDAq1ulbdVsrun/CKLieRZJEV03/5T67xXlSixd3Bg17k8Sccy
-         aPUvqsvGHbDZ2wUfGSNwqFwbG5T/6wBal82HwfOvGUeTTSjPmfZJi91GCTW1bphq2RIt
-         p1OARAJ73MpcBUQdFnx2EIR6YRjNejRYaQ45jpIKv7mENlWUgBcnhRI8vdQaxcRwJf3j
-         MfzcwaIWa+SgaU+XdpomdQWjJlOTyKJan8S7pGBlWDeHMfi4T+1AEwGesQegdlahHvyQ
-         rVFw==
+        bh=eamKHa6W7ULY0ixSx/sof431csrKXdlpYvmmnDnJOFA=;
+        b=jAZ0tnxv63j4DOvodBhWdTRwmrfNfUen/w5yFUlkAcD/EBvQzMK3Cm4wYcsRkZ7CBK
+         4sz/2yI/lafXrnXEVoBkEsBKZKAE9HxUsBLGO7Qn2QZMZ02LPj48YWIYPoqZvSalkysA
+         zuwJ2wPCbqN/tyd4fKR9glkI4s4H4ohAV5BdWZY50B1IIhTbj/xh/03LWPm9HZsLeeGF
+         PuBgxvHQqjYuLwPZPHuI8ZNO3OcLQGLM/fzibopqhGZLHjzosQGGJx1r0PCxrh00P58Z
+         NqSdkARs/ceSaP82PifVltK24F1o/zBO7P6zJ+hgiJeb1nbQoEkaAhzqlali3TVBWvQx
+         0Ojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766097411; x=1766702211;
+        d=1e100.net; s=20230601; t=1766097597; x=1766702397;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzVQ1y8+WKGH6EPGxTsxz1kEYrhRBeEdLO+POK8ea7k=;
-        b=a0AMi5GPn55HcpwI2xhIcFWeE5hmFq0Kr6LcNewaV92pYZ70fvgYLjyBkPyWzco/GC
-         YfUp+pKVxhG+9dXgbyIsRZ/Q3gq9xu6RKyMarHgB6nPz3ExKp2sMCyoay7FrXIQKP+HE
-         yHm+5cyGf75y2TZoQNjFO3XWW2CaBLqunDXMOznZiWh9x0f1SVa7K3XKrAoEnpXHFsjD
-         75ZmHJa2NDMzTA9TMeo2H6PTbnMCOSRqQ4IQXErY8OR+ilYzqr2xuvXpNikwt+hSrYsi
-         RtCOgx6tGMgYqtpRdcDr2r4P1tOd6vlkcmbwaITNpyULiO1g+Fn3mLVtv5OzAWQ1BVHR
-         CiLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlclqwRI8H5XvKKMficSH2t0ggN+0KFPvNj6RwIIesz5U8e9hG+/Fz0QDHOw9yekMiVfNJHPobo6FRDfw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBfW0idnQND0xJFftOztXIHOBL2aPx21vJOz3wTzi10cITjznI
-	LAUhhH+FOgYTs0/YlaNR1SKs2jDlUps7tSMY2A+F+q5f6Ltx9MZu+7up
-X-Gm-Gg: AY/fxX40j+Bs2C/HUD3QozVmbX8ve4BG+tT4DYsncj4OkssAJMS1MkNum+mFKMuN7vi
-	jReyYlfqeP47K77kK7Nosh0TmI7gEWt49WrQaOF6oWX4OH7sH34fyqaGdzcls1464NHkhWC6RS2
-	H9AlC3ANiRBUPOZWqt8GL0lzF1lCHMgb2hh4ZITkms5RHDbIKUZu3fV4hPDt3cK/cLP0TQYfu4J
-	scsjXqFFx/nuQGBvlqLHDFNRz0XTAh/fEJowEZvZ4qdBQBM/wiWwPOaSs+iM9pRMMcXK/KRJlu2
-	xE8K8i8cv5qI/jd4fKb0jZU0Q002sos10c8MhL0W4zuKvV0AJ0Rv7yr0bVr2ig6oOP6Muf0RF0B
-	f0JXNbQ8j00TH21vuNNHMscCv4Br3dvGuN+R09EtTcOfW/X+luS2QzMyiVVXk9NHq4ttdSNERgW
-	6tO9EpRqgMvpFsa8Ui+dJd8/2/zLs+NgsVUiPaOkl0ET7A6JI=
-X-Google-Smtp-Source: AGHT+IHNPlWMg4U+f1upK+9jgW3JjSmNEr/AngVm9bM2DPXIk+aTU/1sGxVvbhy1P/adlu2zEQdkZQ==
-X-Received: by 2002:a05:7300:80c2:b0:2ae:4be1:db4a with SMTP id 5a478bee46e88-2b05ec02ff2mr1170186eec.12.1766097410643;
-        Thu, 18 Dec 2025 14:36:50 -0800 (PST)
+        bh=eamKHa6W7ULY0ixSx/sof431csrKXdlpYvmmnDnJOFA=;
+        b=QJJSj/NFRneYznwVXfPmN+XA4xfPzhh/iMiX/BGiY8mDJ0tN6RMY+9iSEHDtSlPJ1I
+         nvP056SrTb7W3WUU+FtXEz9EnyvEs5SpQ3Dns4LUHo3rnr3gQK9Rd1CvLLdxpuoCqeZL
+         6oKieS7MB6MeaUJOu+pbHInN7B7+uEI6aou7E9POIO0iYnXUZNZOFrLsCxsM2RPD0N4D
+         OeLNYQ/CXk5E/6MFTqu4U7fj0va9P3SzwuXb8R6pdq66tMS+1mAblrFUP8noc3YI9EOY
+         XvCyr+qSs7GwbJWYbWpL3M6KmKNgLuCpzqdGKDVBkuyLLqWB5mOER/N1WVLL/SWnEVxL
+         Q7jA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+/Dz/37fTAGe80YQ6Wru80jxspE9gUPlV5qrIwOeSIEDfFZhWHwAHiXkqOVgxqi6dCzpjpD2UE6WFavU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlAA5eWwxaDSymtQBt+3EKulbjggt2fBZQS5yrhxbV9W3X/vrM
+	QADx6a58q53AmL2Vt77kMtyjMLrlPjfyNLFOHCQX0uqJ7PQwAbmQX5bcY8bX67Bbz74=
+X-Gm-Gg: AY/fxX5Fcm90otUC49Lc2NioioPgesxK424dS6JmGX52Eqowdyi9VrbC0lhn6hhF0A1
+	jOOJUNS3Y1zbQnL9xQPJ6/vSWNQ00qaLfuNaOePLn+AgP/fG0CL8kTn/BDJO8hAzZjZP1gLD9uF
+	ethhN3D8egk4Mt88Iik65kJBKwm18Jwq3lauZWth1+o+A4dfZzPD3fuiBLMYjOrXdoD52nJFWjC
+	RdeYzBkq9lG/PQU6k0VxoN7Qoz3+WZpg4gYHx3YUL1HxDkc0z4xvqVkB6CxlavWOYdjG4/vWuvR
+	QgO1Kqa4rueou138DttUqHELFiaQQc2MXVeRWbLkIE+3NP7oV+4fQ5tDIDj8MWk4cmFnaOua52i
+	0U7wUgMbAfWZG8csYXeZogs/KDTqc7Ep3BbdM6YwHuawcsXdWC6JiXs4K7RLeOMF5+Sex+lwstW
+	+p/KaKComx/9qxf0GAnmtgevdU9OY2iBsSh+xk
+X-Google-Smtp-Source: AGHT+IEVSlp9LXlzmaGmg8SZZsLd9mJhWKS6Iylg31EbQc75zWEKIMS5zueMBmRpuYcgZRvP0hKo6w==
+X-Received: by 2002:a05:7022:2586:b0:119:e56c:18a7 with SMTP id a92af1059eb24-121722b4e90mr878908c88.15.1766097597216;
+        Thu, 18 Dec 2025 14:39:57 -0800 (PST)
 Received: from ?IPv6:2a03:83e0:115c:1:4779:aa2b:e8ff:52c4? ([2620:10d:c090:500::5:3eff])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05ffd5f86sm1263617eec.5.2025.12.18.14.36.48
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217253bfe2sm1480954c88.10.2025.12.18.14.39.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 14:36:50 -0800 (PST)
-Message-ID: <78acd4cd0cb8ed6b4c0c36cb79294efe606a4366.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v4 5/8] kbuild: Sync kconfig when
- PAHOLE_VERSION changes
+        Thu, 18 Dec 2025 14:39:56 -0800 (PST)
+Message-ID: <62a74bb81d7e791cffe4aa52bf3e18bc854f3edc.camel@gmail.com>
+Subject: Re: [PATCH bpf-next v4 8/8] resolve_btfids: Change in-place update
+ with raw binary output
 From: Eduard Zingerman <eddyz87@gmail.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alan Maguire	
- <alan.maguire@oracle.com>, Alexei Starovoitov <ast@kernel.org>, Andrea
- Righi	 <arighi@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- Andrii Nakryiko	 <andrii@kernel.org>, Bill Wendling <morbo@google.com>,
- Changwoo Min	 <changwoo@igalia.com>, Daniel Borkmann
- <daniel@iogearbox.net>, David Vernet	 <void@manifault.com>, Donglin Peng
- <dolinux.peng@gmail.com>, Hao Luo	 <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, John Fastabend	 <john.fastabend@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, Justin Stitt	 <justinstitt@google.com>, KP Singh
- <kpsingh@kernel.org>, Martin KaFai Lau	 <martin.lau@linux.dev>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers	
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>, Ihor Solodrai
+	 <ihor.solodrai@linux.dev>
+Cc: Alan Maguire <alan.maguire@oracle.com>, Alexei Starovoitov
+ <ast@kernel.org>,  Andrea Righi <arighi@nvidia.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Andrii Nakryiko	 <andrii@kernel.org>, Bill
+ Wendling <morbo@google.com>, Changwoo Min	 <changwoo@igalia.com>, Daniel
+ Borkmann <daniel@iogearbox.net>, David Vernet	 <void@manifault.com>,
+ Donglin Peng <dolinux.peng@gmail.com>, Hao Luo	 <haoluo@google.com>, Jiri
+ Olsa <jolsa@kernel.org>, John Fastabend	 <john.fastabend@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Justin Stitt	 <justinstitt@google.com>,
+ KP Singh <kpsingh@kernel.org>, Martin KaFai Lau	 <martin.lau@linux.dev>,
+ Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers	
  <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nsc@kernel.org>, Shuah
  Khan	 <shuah@kernel.org>, Song Liu <song@kernel.org>, Stanislav Fomichev	
  <sdf@fomichev.me>, Tejun Heo <tj@kernel.org>, Yonghong Song	
- <yonghong.song@linux.dev>
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kbuild@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- sched-ext@lists.linux.dev
-Date: Thu, 18 Dec 2025 14:36:47 -0800
-In-Reply-To: <9640d2f5-7e6e-4526-a9ab-831bd826f01d@linux.dev>
+ <yonghong.song@linux.dev>, bpf@vger.kernel.org, dwarves@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sched-ext@lists.linux.dev
+Date: Thu, 18 Dec 2025 14:39:54 -0800
+In-Reply-To: <CAEf4BzZA4czi1KEOrW9tn8v18LZN4FAqzrHyB_78VatEZhb+Fw@mail.gmail.com>
 References: <20251218003314.260269-1-ihor.solodrai@linux.dev>
-	 <20251218003314.260269-6-ihor.solodrai@linux.dev>
-	 <8be2cafa00b759220e73a6ce837ac9a3ff52da1f.camel@gmail.com>
-	 <9640d2f5-7e6e-4526-a9ab-831bd826f01d@linux.dev>
+	 <20251218003314.260269-9-ihor.solodrai@linux.dev>
+	 <914f4a97-f053-4979-b63a-9b7a7f72369a@linux.dev>
+	 <CAEf4BzZA4czi1KEOrW9tn8v18LZN4FAqzrHyB_78VatEZhb+Fw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
@@ -110,125 +110,15 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Thu, 2025-12-18 at 13:33 -0800, Ihor Solodrai wrote:
-> On 12/18/25 11:21 AM, Eduard Zingerman wrote:
-> > On Wed, 2025-12-17 at 16:33 -0800, Ihor Solodrai wrote:
-> > > This patch implements kconfig re-sync when the pahole version changes
-> > > between builds, similar to how it happens for compiler version change
-> > > via CC_VERSION_TEXT.
-> > >=20
-> > > Define PAHOLE_VERSION in the top-level Makefile and export it for
-> > > config builds. Set CONFIG_PAHOLE_VERSION default to the exported
-> > > variable.
-> > >=20
-> > > Kconfig records the PAHOLE_VERSION value in
-> > > include/config/auto.conf.cmd [1].
-> > >=20
-> > > The Makefile includes auto.conf.cmd, so if PAHOLE_VERSION changes
-> > > between builds, make detects a dependency change and triggers
-> > > syncconfig to update the kconfig [2].
-> > >=20
-> > > For external module builds, add a warning message in the prepare
-> > > target, similar to the existing compiler version mismatch warning.
-> > >=20
-> > > Note that if pahole is not installed or available, PAHOLE_VERSION is
-> > > set to 0 by pahole-version.sh, so the (un)installation of pahole is
-> > > treated as a version change.
-> > >=20
-> > > See previous discussions for context [3].
-> > >=20
-> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/scripts/kconfig/preprocess.c?h=3Dv6.18#n91
-> > > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/tree/Makefile?h=3Dv6.18#n815
-> > > [3] https://lore.kernel.org/bpf/8f946abf-dd88-4fac-8bb4-84fcd8d81cf0@=
-oracle.com/
-> > >=20
-> > > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> > > ---
-> >=20
-> > When building BPF selftest modules the pahole version change was
-> > detected, but it seems that BTF rebuild was not triggered:
-> >=20
-> >   $ (cd ./tools/testing/selftests/bpf/test_kmods/; make -j)
-> >   make[1]: Entering directory '/home/ezingerman/bpf-next'
-> >   make[2]: Entering directory '/home/ezingerman/bpf-next/tools/testing/=
-selftests/bpf/test_kmods'
-> >     CC [M]  bpf_testmod.o
-> >     CC [M]  bpf_test_no_cfi.o
-> >     CC [M]  bpf_test_modorder_x.o
-> >     CC [M]  bpf_test_modorder_y.o
-> >     CC [M]  bpf_test_rqspinlock.o
-> >     MODPOST Module.symvers
-> >     CC [M]  bpf_testmod.mod.o
-> >     CC [M]  .module-common.o
-> >     CC [M]  bpf_test_no_cfi.mod.o
-> >     CC [M]  bpf_test_modorder_x.mod.o
-> >     CC [M]  bpf_test_modorder_y.mod.o
-> >     CC [M]  bpf_test_rqspinlock.mod.o
-> >     LD [M]  bpf_test_modorder_x.ko
-> >     LD [M]  bpf_testmod.ko
-> >     LD [M]  bpf_test_modorder_y.ko
-> >     LD [M]  bpf_test_no_cfi.ko
-> >     BTF [M] bpf_test_modorder_x.ko
-> >     LD [M]  bpf_test_rqspinlock.ko
-> >     BTF     bpf_test_modorder_x.ko
-> >     BTF [M] bpf_test_no_cfi.ko
-> >     BTF [M] bpf_test_modorder_y.ko
-> >     BTF [M] bpf_testmod.ko
-> >     BTF     bpf_test_no_cfi.ko
-> >     BTF     bpf_test_modorder_y.ko
-> >     BTF [M] bpf_test_rqspinlock.ko
-> >     BTF     bpf_testmod.ko
-> >     BTF     bpf_test_rqspinlock.ko
-> >     BTFIDS  bpf_test_modorder_x.ko
-> >     BTFIDS  bpf_test_modorder_y.ko
-> >     BTFIDS  bpf_test_no_cfi.ko
-> >     BTFIDS  bpf_testmod.ko
-> >     OBJCOPY bpf_test_modorder_x.ko.BTF
-> >     BTFIDS  bpf_test_rqspinlock.ko
-> >     OBJCOPY bpf_test_no_cfi.ko.BTF
-> >     OBJCOPY bpf_test_modorder_y.ko.BTF
-> >     OBJCOPY bpf_testmod.ko.BTF
-> >     OBJCOPY bpf_test_rqspinlock.ko.BTF
-> >   make[2]: Leaving directory '/home/ezingerman/bpf-next/tools/testing/s=
-elftests/bpf/test_kmods'
-> >   make[1]: Leaving directory '/home/ezingerman/bpf-next'
-> >   [~/bpf-next]
-> >   $ (cd ./tools/testing/selftests/bpf/test_kmods/; make -j)
-> >   make[1]: Entering directory '/home/ezingerman/bpf-next'
-> >   make[2]: Entering directory '/home/ezingerman/bpf-next/tools/testing/=
-selftests/bpf/test_kmods'
-> >   make[2]: Leaving directory '/home/ezingerman/bpf-next/tools/testing/s=
-elftests/bpf/test_kmods'
-> >   make[1]: Leaving directory '/home/ezingerman/bpf-next'
-> >=20
-> > ... update pahole from version 131 to 132 ...
-> >=20
-> >   [~/bpf-next]
-> >   $ (cd ./tools/testing/selftests/bpf/test_kmods/; make -j)
-> >   make[1]: Entering directory '/home/ezingerman/bpf-next'
-> >   make[2]: Entering directory '/home/ezingerman/bpf-next/tools/testing/=
-selftests/bpf/test_kmods'
-> >   warning: pahole version differs from the one used to build the kernel
-> >     The kernel was built with: 131
-> >     You are using:             132
-> >   make[2]: Leaving directory '/home/ezingerman/bpf-next/tools/testing/s=
-elftests/bpf/test_kmods'
-> >   make[1]: Leaving directory '/home/ezingerman/bpf-next'
-> >=20
-> > Is this an expected behavior?
->=20
-> Yes, it's expected.
->=20
-> I simply repeated the logic used for compiler version change: for
-> external modules only the warning is printed.
->=20
-> See https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/Makefile?h=3Dv6.18#n1857
->=20
+On Thu, 2025-12-18 at 13:15 -0800, Andrii Nakryiko wrote:
 
-Ok, it does rebuild BTF for the kernel itself.
+[...]
 
-Tested-by: Eduard Zingerman <eddyz87@gmail.com>
+> It all looks good to me, so don't wait for any more feedback from my
+> side. If Eduard doesn't find anything in patch #8, please send new
+> revision, thanks!
+
+Lgtm, let's wrap this up.
+
+[...]
 
