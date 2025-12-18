@@ -1,139 +1,175 @@
-Return-Path: <linux-kbuild+bounces-10168-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10161-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0068CCDA22
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:05:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A16C7CCD68C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 20:36:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 33C0A305741A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 21:05:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B00F63005497
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 19:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3147238D27;
-	Thu, 18 Dec 2025 21:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8415337B8D;
+	Thu, 18 Dec 2025 19:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EYB107p0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MR2wAHPE"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14C22C21C4
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 21:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEFC32E73E
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 19:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766091926; cv=none; b=hPhPB9MLoBKdgUGpHztVhTtt0+np6VTIaE7pyZ4XpHlQqc9h0ZH1BZjErJZGbTkO12UfIrCxs45aBD6s5qSmck5xo5+MTxBgL7dYVoLYnahPVV4lh8xc4CjcWt0VE/UbH9mi303OHM8daPDTyVf12p6VDBhHu17ZIdPKPMpo6yI=
+	t=1766086572; cv=none; b=YLx9o0L/yhyVgmloeejYJBQ+uKi07f9whgyLAJvae2QchV+WFeUzs2CUbrQJywWHiXI72KW/VquTrZOiCfoSjuUGAs6j1hMom1NfWfHT5FttrTGZK2Edle0nH3wBamc3hzMssYaK6vpOHzUYE3AIktfLPmo8flawvJEEeo7sxGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766091926; c=relaxed/simple;
-	bh=Wk9qv34inWutk0debgHw5c52MI0wE6RiXjFrTeu/W50=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=j7ufNNq3SJL55ZdSDmIqqUicCIU/khoqfO48pjQrq031D6b4b9Zvqug/WdgoyXFpxYgadnloMODzG57TXY8MPc7j9yxK4jyzM4L1wqhJX9CfQc/+RY3nQnjELwb+EPGAQkV29C7uBgJGVZ3qVLTX2rXz9js1tvojjcIX+5ix1wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EYB107p0; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a0d52768ccso14234185ad.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 13:05:24 -0800 (PST)
+	s=arc-20240116; t=1766086572; c=relaxed/simple;
+	bh=gtsgVIH7cjnvnUoQ9+ZBM3YPEjvKI+7T+Jy5w4IfORE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MJiIckLdaYRr/ZS4RpWGY726I8jHMh5JWGjgNcJVx/vt8tYK4z1h+9HoHII34oXF+0VpGvFoSI7IsPnvRI5JpmXQutFK3s+nkuC09ONmAWcQfAfovnLM0y5u4qiQoVVAi+7VyUPMMFemVw4ov9CRcn/YVjMDIUaTwrmTupBJoYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MR2wAHPE; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso7384945e9.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 11:36:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766091924; x=1766696724; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Wk9qv34inWutk0debgHw5c52MI0wE6RiXjFrTeu/W50=;
-        b=EYB107p0ogLZ6QCHj5VzSyaLWq16F2y5+xUMLJtGVSXTPH9nCg8BNMFSsl3rjClxNJ
-         8yQ87eM6WjEGqfko215Q/k0UGqYT8BE0s1T6d9NuxBXIhpysRtQp/sVME1y5pPJw6D9D
-         zt6lrp/87+sh/xJouUrWejvzLOeg3lQ4OqgoGsv5CiqiRSPU3VHzd2TJVXuYCHKD1czv
-         VCHHPRwZ9dQZ5PuwWKfhzSgDb1YKV08VZQXwAOagC6ILTD7Etdjhi+SZtqbVXJRLQPKg
-         dnmq7rATytJpR+kIzwxdkPlH9PUA7e1bVcwzWT6DElIKo2ouMWJZZ5YJyjdjhmDSn2Cw
-         T2HQ==
+        d=linaro.org; s=google; t=1766086569; x=1766691369; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cxp4Ie+boIejqpFbsPiC20+/Xw7M9cKxZsjEWRRRwds=;
+        b=MR2wAHPESpzG1WVzeKpUXuNnViiKpPJZeLXZp6/Ec23mJPUMkg3r6Ee12G9uu3LJaZ
+         mKlV+Spy1pY/j7KSIgydvkBbSx3UtVWFq1A2DzzUu/NBVkr7zpV1/cpbBlv2rs4SunGv
+         sSWaLwgI+oWTH8g3V9yV+Y6uD+NHaFLTyEPhKj1A1uKqKjC2YDWnvom/q9IF8DwkPGpO
+         2GHDQQXd4yuTJSqHAKTVvw2HkatYtbdk8kyeGyj4k23tmRRJgprljSGehXm+4QI8uNz1
+         Ex+QI6IiS4HtALGV6cIjcVmds6ENOkQBaaapHYdNvJ9S395L02KV28KUBTRO3xRVDTlF
+         M8Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766091924; x=1766696724;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wk9qv34inWutk0debgHw5c52MI0wE6RiXjFrTeu/W50=;
-        b=gJjwC0KiWt4jIdSH8Bh2P+SIjUk5i9qbO6r8629nEdijMYg8Dq8HPQC8hRHpxlPAiT
-         NbaMRuckkXqX8uNq8QHM8D1EybboSqSDsiyCOHzlGLtMipgqWBIYlid3t+kzrSg9Sm3T
-         vklBAzaH4vDHrxoy8lSL+aANzR1AS7ytWKD99u3PPjOgma4hhjluYsBwz9PmwvdaayjF
-         fOioObwKWaaYx/39k9uKKdxNgJ6FELUN6she0EvH3toC3/jnX1oE6jpVmKlSAX3xrI15
-         Kt6WM/cRASodRY7NbP/OjJ2RaFeetxofRo5ET3yQOYbgBDn4rt+N6Ug2/TbsUatm6Qu4
-         lulw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2HlRv1T6kON8GLk/4pOsoAGaTgciaqmRh0s7VnhQW1oubn/aOxHO3YNgM9JyndSgHOvAaRmHW1TXJpWQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5gPfpYUYNW6UuFksa9NSwzpjF9FcHslA89++uD9OcidzuNQ1F
-	vIWgPrpxxpAzRUQ+/1KPFNUuPaeAeqd6WsHXV0Rl5N9phE7LRQJqoyC9
-X-Gm-Gg: AY/fxX4TbPgrkBBD8qo5wNf0g7F0UhRnxmzoV4IMqrCUMvHAQHBZ3Df7pP8WJ3J5gqF
-	NC95ExFuo4cn0AhxntjNqcx0FNIWlQt8Ti5tfO4gZ9SK8EysM5KQE9vP4s2SzmnDtJpkhAz9sPR
-	DPJPvymi1cyGGGa7HO3BrVunIBX3hSTuVVptyEIT5xWfJY8J7qAderHqJWlKJdCnY9lkWG/htFw
-	/UHM47Vsd0yGUr8kHiYs2mWQ180xuO3fWIKkjUro2Q6BlwgPLsUpO6xxmWQtVPPjiU+FvAZ/9XJ
-	05wcjHGc6xSd12WjGCV5H9MVph8dSG5iFk0y6yBCkWH3F4zNIK9sEoOBtlMhXeuxDmYzBS9Tobw
-	ZxdAHG+r6yMZil+de5t1C2woF6UIpwiS2+xJPMMf61neVPhuS3C5XGHr4vLChIbfLHgnbX21rQH
-	DxDrblA/uFSQjGN0XTRW2b5w9s4bFGrnKFbnkU
-X-Google-Smtp-Source: AGHT+IE5wqF1Ur/4n0bAKqhUgwQpIAW7BXffJ7Vx2YXELxiT7ohVhw05y1v6Iu0zG3ReeHlWkO5oUA==
-X-Received: by 2002:a05:6a00:4006:b0:7e8:4398:b362 with SMTP id d2e1a72fcca58-7ff6667949dmr378405b3a.53.1766085763362;
-        Thu, 18 Dec 2025 11:22:43 -0800 (PST)
-Received: from ?IPv6:2a03:83e0:115c:1:d912:2088:c593:6daa? ([2620:10d:c090:500::7:e642])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7b127b00sm99807b3a.21.2025.12.18.11.22.40
+        d=1e100.net; s=20230601; t=1766086569; x=1766691369;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cxp4Ie+boIejqpFbsPiC20+/Xw7M9cKxZsjEWRRRwds=;
+        b=qdK/isOwbJk+a1zPrNVGqQct3B6kZU0ouzjYyjemv1xXM+7lar0kYO1ubcpHGLkNa5
+         bKjaEYnhg4sP3l3Z4KeD6ea+sG1GpA60MxJTMOZ1MqzB+vpKncNoQJKST5w/Ia0RDTJm
+         UDEh5oi6iORTz4cVcIkNK71+bYzuruOPcJXJcheWbeiMFQ2DDDw7og0LONL/ChHjB5vy
+         /aZQ5EQNg0VYYr85Fu2aOF3XGN3LDyYLeQu92pQuBwEtkYCmLNR/1DUHVPBl32WJVIWK
+         G6gIbe8a7FQlql/g1IkNtfZWI2vlwJFLB3Q7vAfX5n0jARtbj1NIrG5JqveCjn0m8a2u
+         u8Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCWKpM3GcwBo67rtVzS6M3PaZnRGfJWNDdOX/7OZldT5iJ/bxIZbS2gG6RCMnyoYHOE9P7NyR5+a1gf3yuA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5Ge3P/qxB2fX++IPNhQ/LK9c1ClpL8yLpOhqyJiOmlc2QebX3
+	nMRPUhLoU0V0MdOJ/6s+DgIM/XdT17/Ka+RbDy7XPELpwYgxoY43pASz3cH8BIniqa4=
+X-Gm-Gg: AY/fxX6FC9SSLmZd615e99xkRN2sBrBiapw68NejDCRW0YuFGfACfQcVCNabzQuKAhI
+	CSysaSFgwlzKUWTM2T5Ub+6fi4UJEBgtD0R7tbIhKqXsuyN+ZmDFg2Dw1mU8c60gjEXFn2n0fJx
+	ZKizLWsiSAaCawUJTgsd8BLz0xMd+UzFVutNV/8Y46I6jeQnjTv5O9t4UIv70A2BUhxakv4Wo6g
+	9JXhNyRQDpbvi8CYhh37f90zNnqaUsaIGgXnH4Ae8XLbnkRwO1sZC9h3A0sfMAhxN3Jl8nn3WbL
+	7+7oHtOI54itT3oK/qU/rCYuAI2LtKVezTqwfNi7Urzhj+2/0mezxtiZkB5sIGX/6G9vRCEooOq
+	HHaqrV9qPgki674Dt1TcDKdZBFPs4+S4sgUfT9Nz58Crmg/Z6N84pLnXEpzvsXw6AZBKeywZt0R
+	SSS73GVv8NMgeWSgjYSyWF4sPOzV8=
+X-Google-Smtp-Source: AGHT+IEWnJ+smox+Awq4YY2u+tYf4kZjFoSNBjl69Zus1TVDvNF1T4vaSgqJeTV4pQlOkjzV9gYE1A==
+X-Received: by 2002:a05:600c:818f:b0:477:7b16:5f77 with SMTP id 5b1f17b1804b1-47d19538725mr2627515e9.3.1766086568848;
+        Thu, 18 Dec 2025 11:36:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa64cesm552594f8f.35.2025.12.18.11.36.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 11:22:43 -0800 (PST)
-Message-ID: <0be0a3b4d39e31653ce38c16b413d717921f2ced.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v4 7/8] selftests/bpf: Run resolve_btfids only
- for relevant .test.o objects
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, Alan Maguire	
- <alan.maguire@oracle.com>, Alexei Starovoitov <ast@kernel.org>, Andrea
- Righi	 <arighi@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- Andrii Nakryiko	 <andrii@kernel.org>, Bill Wendling <morbo@google.com>,
- Changwoo Min	 <changwoo@igalia.com>, Daniel Borkmann
- <daniel@iogearbox.net>, David Vernet	 <void@manifault.com>, Donglin Peng
- <dolinux.peng@gmail.com>, Hao Luo	 <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, John Fastabend	 <john.fastabend@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, Justin Stitt	 <justinstitt@google.com>, KP Singh
- <kpsingh@kernel.org>, Martin KaFai Lau	 <martin.lau@linux.dev>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers	
- <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nsc@kernel.org>, Shuah
- Khan	 <shuah@kernel.org>, Song Liu <song@kernel.org>, Stanislav Fomichev	
- <sdf@fomichev.me>, Tejun Heo <tj@kernel.org>, Yonghong Song	
- <yonghong.song@linux.dev>
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kbuild@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- sched-ext@lists.linux.dev
-Date: Thu, 18 Dec 2025 11:22:40 -0800
-In-Reply-To: <20251218003314.260269-8-ihor.solodrai@linux.dev>
-References: <20251218003314.260269-1-ihor.solodrai@linux.dev>
-	 <20251218003314.260269-8-ihor.solodrai@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        Thu, 18 Dec 2025 11:36:08 -0800 (PST)
+Date: Thu, 18 Dec 2025 22:36:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
+Subject: Re: [PATCH 1/2] kbuild: remove gcc's -Wtype-limits
+Message-ID: <aURXpAwm-ITVlHMl@stanley.mountain>
+References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+ <20251218-remove_wtype-limits-v1-1-735417536787@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218-remove_wtype-limits-v1-1-735417536787@kernel.org>
 
-On Wed, 2025-12-17 at 16:33 -0800, Ihor Solodrai wrote:
-> A selftest targeting resolve_btfids functionality relies on a resolved
-> .BTF_ids section to be available in the TRUNNER_BINARY. The underlying
-> BTF data is taken from a special BPF program (btf_data.c), and so
-> resolve_btfids is executed as a part of a TRUNNER_BINARY build recipe
-> on the final binary.
->=20
-> Subsequent patches in this series allow resolve_btfids to modify BTF
-> before resolving the symbols, which means that the test needs access
-> to that modified BTF [1]. Currently the test simply reads in
-> btf_data.bpf.o on the assumption that BTF hasn't changed.
->=20
-> Implement resolve_btfids call only for particular test objects (just
-> resolve_btfids.test.o for now). The test objects are linked into the
-> TRUNNER_BINARY, and so .BTF_ids section will be available there.
->=20
-> This will make it trivial for the resolve_btfids test to access BTF
-> modified by resolve_btfids.
->=20
-> [1] https://lore.kernel.org/bpf/CAErzpmvsgSDe-QcWH8SFFErL6y3p3zrqNri5-UHJ=
-9iK2ChyiBw@mail.gmail.com/
->=20
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> ---
+On Thu, Dec 18, 2025 at 07:50:01PM +0100, Vincent Mailhol wrote:
+> W=2 builds are heavily polluted by the -Wtype-limits warning.
+> 
+> Here are some W=12 statistics on Linux v6.19-rc1 for an x86_64
+> defconfig (with just CONFIG_WERROR set to "n") using gcc 14.3.1:
+> 
+> 	 Warning name			count	percent
+> 	-------------------------------------------------
+> 	 -Wlogical-op			    2	  0.00 %
+> 	 -Wmaybe-uninitialized		  138	  0.20 %
+> 	 -Wunused-macros		  869	  1.24 %
+> 	 -Wmissing-field-initializers	 1418	  2.02 %
+> 	 -Wshadow			 2234	  3.19 %
+> 	 -Wtype-limits			65378	 93.35 %
+> 	-------------------------------------------------
+> 	 Total				70039	100.00 %
+> 
+> As we can see, -Wtype-limits represents the vast majority of all
+> warnings. The reason behind this is that these warnings appear in
+> some common header files, meaning that some unique warnings are
+> repeated tens of thousands of times (once per header inclusion).
+> 
+> Add to this the fact that each warning is coupled with a dozen lines
+> detailing some macro expansion. The end result is that the W=2 output
+> is just too bloated and painful to use.
+> 
+> Three years ago, I proposed in [1] modifying one such header to
+> silence that noise. Because the code was not faulty, Linus rejected
+> the idea and instead suggested simply removing that warning.
+> 
+> At that time, I could not bring myself to send such a patch because,
+> despite its problems, -Wtype-limits would still catch the below bug:
+> 
+> 	unsigned int ret;
+> 
+> 	ret = check();
+> 	if (ret < 0)
+> 		error();
+> 
+> Meanwhile, based on another suggestion from Linus, I added a new check
+> to sparse [2] that would catch the above bug without the useless spam.
+> 
+> With this, remove gcc's -Wtype-limits. People who still want to catch
+> incorrect comparisons between unsigned integers and zero can now use
+> sparse instead.
+> 
+> On a side note, clang also has a -Wtype-limits warning but:
+> 
+>   * it is not enabled in the kernel at the moment because, contrary to
+>     gcc, clang did not include it under -Wextra.
+> 
+>   * it does not warn if the code results from a macro expansion. So,
+>     if activated, it would not cause as much spam as gcc does.
+> 
+>   * -Wtype-limits is split into four sub-warnings [3] meaning that if
+>     it were to be activated, we could select which one to keep.
+> 
 
-Acked-by: Eduard Zingerman <eddyz87@gmail.com>
+Sounds good.  I like your Sparse check.
 
-[...]
+Maybe we should enable the Sparse checking as well because it sounds
+like they are doing a lot of things right.  I think Smatch catches the
+same bugs that Clang would but it would be good to have multiple
+implementations.  The -Wtautological-unsigned-enum-zero-compare trips
+people up because they aren't necessarily expecting enums to be
+unsigned.
+
+regards,
+dan carpenter
+
+
 
