@@ -1,188 +1,106 @@
-Return-Path: <linux-kbuild+bounces-10171-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10172-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8842CCDB38
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:34:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52777CCDB62
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:38:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 870C4301CC6B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 21:34:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 71FC73017F1D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 21:37:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4F682E62C4;
-	Thu, 18 Dec 2025 21:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 033C63074BA;
+	Thu, 18 Dec 2025 21:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Sczlcd+o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HqOwRFXV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB832BDC16
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 21:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41659326D76;
+	Thu, 18 Dec 2025 21:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766093638; cv=none; b=OT5nIt4tUcIPq7xKzU+FvAIYTtUtnxJf117yJIdkJF8YO9Or/b3Trlq11GGHdYZLuTEHw2BhoEJZf1nPPZI2JAgDM7ShHsogenypRxOu5wvB91qAPm/OZPQNX3DkSyCpPj9YYDvdPfypyNFWqEGK6kRgMtX8R0WVsqzmdh4IrlE=
+	t=1766093858; cv=none; b=VQsK7uGSoi3oqH41qUcqyBOzL5tVg8YWOuOHzDIPyMcSTy06nw7iPFRnPObpg56EnAR/DhXZSdyd/EhKzFyITbK6rFEa2jvqjnxZhRjpwm2pJoPdTeLQJHRh1wd3yuNstb4BfyPiPpH3go5r39o6uJnurvukxjGMLcYRCZAKOC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766093638; c=relaxed/simple;
-	bh=nYZswDKyjjC5+c0/UPan8aJWVj96EADwWyqqyvzcic0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pHq0ukBC3o7iWVB+0qax1i9hZdPFfVJGSaa2m8ngCKVFU/4ELBivWJent2CBSseXMGYvZxw3KmYlvqFuPVKaAEYSizaJuxR+deyYv/R4dybOGuoQeTLneF/8MeAfRWpJI9+6XYldVGlvjaSdepTUycHw5XiJiUe9//HOrv6fB+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Sczlcd+o; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <9640d2f5-7e6e-4526-a9ab-831bd826f01d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766093623;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ouj1OpOD4K/IS1ICDkXQ7vK2eG5wMXCTAmpt1p7VQsE=;
-	b=Sczlcd+o0by017x47kGyU6GdcUx922Z5Dh3i/+jJGvXIH9rrBNmPPk8PAcycIEkSQ4g8zE
-	Zl4ISesnNNH54sqvt7GWlQy8sWoVtyhS3d4BwmcM/DJ71dOZpsb1cwFshwlK+xTmR1Jviq
-	c0FUF3blSOHyMI+fXNDwYhGzRx8XSrU=
-Date: Thu, 18 Dec 2025 13:33:21 -0800
+	s=arc-20240116; t=1766093858; c=relaxed/simple;
+	bh=Iw0N4vdniXbG7LgRU/RPyc6F9LWD1FN8wtW/d5Wew7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VVVUtFQFAOwl1bDTSYPUci3JTf77OiaEBVY7zbTR4WB4vY8spkvEX5EZP/QZOuUIkFrRbzsPAFQ5sshWqstSEMPVx+b+8M6z6i+T7TKBaliphIfXaRk6LcbrlA4BvO6o8w9QZK/XVCMZ+IQyvGybUJaqQgRXaE40cU4awEXcxvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HqOwRFXV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45022C4CEFB;
+	Thu, 18 Dec 2025 21:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766093857;
+	bh=Iw0N4vdniXbG7LgRU/RPyc6F9LWD1FN8wtW/d5Wew7g=;
+	h=Date:From:To:Cc:Subject:From;
+	b=HqOwRFXVt+YclNTt1GQTkektIY60KlaHfdRxeW6b+skSN5AuETp3FNcAuhRvwXzsY
+	 S6sRfAR0k7ECCrVpSvetEMN/1LJbwv9cSkC30ynTJURGpJTLaKKQdq0qvRJJbUuWCV
+	 6r99sassIrI2E9YLONGH7xvjQM0sHWLjrfm8h1la1vBsh84p+E5SPR7HRJGdJMY77U
+	 f9QbTn0SwjrVqWlKeBP18V6dniZi2d2Cjeawg6L8n9SjdzSal/4lumeQk0LGe4WhiZ
+	 9ql6G1H1Yax5I3fd7RAFqmKE4YWW1LtN2PDFViIH1UQ3TUsI77fYujoU3ZHV0wMr0p
+	 akHofjInFBE0Q==
+Date: Thu, 18 Dec 2025 22:34:59 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: Updating Kbuild tree and contacts
+Message-ID: <aURzg3BliUOYxnhI@levanger>
+Mail-Followup-To: Stephen Rothwell <sfr@canb.auug.org.au>,
+	linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v4 5/8] kbuild: Sync kconfig when PAHOLE_VERSION
- changes
-To: Eduard Zingerman <eddyz87@gmail.com>,
- Alan Maguire <alan.maguire@oracle.com>, Alexei Starovoitov <ast@kernel.org>,
- Andrea Righi <arighi@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- Andrii Nakryiko <andrii@kernel.org>, Bill Wendling <morbo@google.com>,
- Changwoo Min <changwoo@igalia.com>, Daniel Borkmann <daniel@iogearbox.net>,
- David Vernet <void@manifault.com>, Donglin Peng <dolinux.peng@gmail.com>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Justin Stitt <justinstitt@google.com>, KP Singh <kpsingh@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Nicolas Schier <nsc@kernel.org>, Shuah Khan <shuah@kernel.org>,
- Song Liu <song@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Tejun Heo <tj@kernel.org>, Yonghong Song <yonghong.song@linux.dev>
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- sched-ext@lists.linux.dev
-References: <20251218003314.260269-1-ihor.solodrai@linux.dev>
- <20251218003314.260269-6-ihor.solodrai@linux.dev>
- <8be2cafa00b759220e73a6ce837ac9a3ff52da1f.camel@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <8be2cafa00b759220e73a6ce837ac9a3ff52da1f.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-
-On 12/18/25 11:21 AM, Eduard Zingerman wrote:
-> On Wed, 2025-12-17 at 16:33 -0800, Ihor Solodrai wrote:
->> This patch implements kconfig re-sync when the pahole version changes
->> between builds, similar to how it happens for compiler version change
->> via CC_VERSION_TEXT.
->>
->> Define PAHOLE_VERSION in the top-level Makefile and export it for
->> config builds. Set CONFIG_PAHOLE_VERSION default to the exported
->> variable.
->>
->> Kconfig records the PAHOLE_VERSION value in
->> include/config/auto.conf.cmd [1].
->>
->> The Makefile includes auto.conf.cmd, so if PAHOLE_VERSION changes
->> between builds, make detects a dependency change and triggers
->> syncconfig to update the kconfig [2].
->>
->> For external module builds, add a warning message in the prepare
->> target, similar to the existing compiler version mismatch warning.
->>
->> Note that if pahole is not installed or available, PAHOLE_VERSION is
->> set to 0 by pahole-version.sh, so the (un)installation of pahole is
->> treated as a version change.
->>
->> See previous discussions for context [3].
->>
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/preprocess.c?h=v6.18#n91
->> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Makefile?h=v6.18#n815
->> [3] https://lore.kernel.org/bpf/8f946abf-dd88-4fac-8bb4-84fcd8d81cf0@oracle.com/
->>
->> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
->> ---
-> 
-> When building BPF selftest modules the pahole version change was
-> detected, but it seems that BTF rebuild was not triggered:
-> 
->   $ (cd ./tools/testing/selftests/bpf/test_kmods/; make -j)
->   make[1]: Entering directory '/home/ezingerman/bpf-next'
->   make[2]: Entering directory '/home/ezingerman/bpf-next/tools/testing/selftests/bpf/test_kmods'
->     CC [M]  bpf_testmod.o
->     CC [M]  bpf_test_no_cfi.o
->     CC [M]  bpf_test_modorder_x.o
->     CC [M]  bpf_test_modorder_y.o
->     CC [M]  bpf_test_rqspinlock.o
->     MODPOST Module.symvers
->     CC [M]  bpf_testmod.mod.o
->     CC [M]  .module-common.o
->     CC [M]  bpf_test_no_cfi.mod.o
->     CC [M]  bpf_test_modorder_x.mod.o
->     CC [M]  bpf_test_modorder_y.mod.o
->     CC [M]  bpf_test_rqspinlock.mod.o
->     LD [M]  bpf_test_modorder_x.ko
->     LD [M]  bpf_testmod.ko
->     LD [M]  bpf_test_modorder_y.ko
->     LD [M]  bpf_test_no_cfi.ko
->     BTF [M] bpf_test_modorder_x.ko
->     LD [M]  bpf_test_rqspinlock.ko
->     BTF     bpf_test_modorder_x.ko
->     BTF [M] bpf_test_no_cfi.ko
->     BTF [M] bpf_test_modorder_y.ko
->     BTF [M] bpf_testmod.ko
->     BTF     bpf_test_no_cfi.ko
->     BTF     bpf_test_modorder_y.ko
->     BTF [M] bpf_test_rqspinlock.ko
->     BTF     bpf_testmod.ko
->     BTF     bpf_test_rqspinlock.ko
->     BTFIDS  bpf_test_modorder_x.ko
->     BTFIDS  bpf_test_modorder_y.ko
->     BTFIDS  bpf_test_no_cfi.ko
->     BTFIDS  bpf_testmod.ko
->     OBJCOPY bpf_test_modorder_x.ko.BTF
->     BTFIDS  bpf_test_rqspinlock.ko
->     OBJCOPY bpf_test_no_cfi.ko.BTF
->     OBJCOPY bpf_test_modorder_y.ko.BTF
->     OBJCOPY bpf_testmod.ko.BTF
->     OBJCOPY bpf_test_rqspinlock.ko.BTF
->   make[2]: Leaving directory '/home/ezingerman/bpf-next/tools/testing/selftests/bpf/test_kmods'
->   make[1]: Leaving directory '/home/ezingerman/bpf-next'
->   [~/bpf-next]
->   $ (cd ./tools/testing/selftests/bpf/test_kmods/; make -j)
->   make[1]: Entering directory '/home/ezingerman/bpf-next'
->   make[2]: Entering directory '/home/ezingerman/bpf-next/tools/testing/selftests/bpf/test_kmods'
->   make[2]: Leaving directory '/home/ezingerman/bpf-next/tools/testing/selftests/bpf/test_kmods'
->   make[1]: Leaving directory '/home/ezingerman/bpf-next'
-> 
-> ... update pahole from version 131 to 132 ...
-> 
->   [~/bpf-next]
->   $ (cd ./tools/testing/selftests/bpf/test_kmods/; make -j)
->   make[1]: Entering directory '/home/ezingerman/bpf-next'
->   make[2]: Entering directory '/home/ezingerman/bpf-next/tools/testing/selftests/bpf/test_kmods'
->   warning: pahole version differs from the one used to build the kernel
->     The kernel was built with: 131
->     You are using:             132
->   make[2]: Leaving directory '/home/ezingerman/bpf-next/tools/testing/selftests/bpf/test_kmods'
->   make[1]: Leaving directory '/home/ezingerman/bpf-next'
-> 
-> Is this an expected behavior?
-
-Yes, it's expected.
-
-I simply repeated the logic used for compiler version change: for
-external modules only the warning is printed.
-
-See https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Makefile?h=v6.18#n1857
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gYUlLUBjoRLxmagy"
+Content-Disposition: inline
 
 
+--gYUlLUBjoRLxmagy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Stephen,
+
+Nathan and I have to reorganize the kbuild branches a bit.  Can you
+please update the branches for the kbuild tree
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git
+  (unchanged)
+
+for linux-next to
+
+  kbuild-for-next        and
+  kbuild-fixes-for-next
+
+Please let me know if there are any issues or questions.
+
+Thsnks and kind regards
+Nicolas
+
+--gYUlLUBjoRLxmagy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmlEc3QACgkQB1IKcBYm
+Emk+yxAAjEco32bmZBpWIIof6jX05C/K7Lrxa1EPKPrsr914Y9/bpzpYoWOMrXXu
+omeNTxkN5LsSJxJigKrR6SVwSOgtrQENefcIIMu6AcWYwkDKJaG21pocMLIIKyW/
+8/16tOamVcDQCfX2gs/NG7/1Cv4m+0NpBHVrEBu957/3kEtLF5zwAuCLhDHi5Wef
+wKJAua4JINihDkPYlESbGZcR4Go9VX5CB0xTsQ7N/RT5uTiOaTl8xFvENjCOSUK7
+Dt6mFbyJMb+QBRfAwVvAn9UL/rIGXthn2zWQV27cCAE5JrZykxru+xfoHmNpXTt9
+6WimMB3+MGmy59lFhJIrfNlfB4OXlUBaP9JR4A/JRE8bxQlUj1LqoRNglt3Ks6fD
+Wi//I3FWJojJDyFmIFqCkSrr/OqEvq8Arf0ibY/F0NU0wtLllF8Nuq95gTFzEubZ
+lsNur3ivHG/Ytvlq8cRzgYuPyKJgAqCZAYdzMHWeYKIPZUAQ6eGS/OPDK+Xucd49
+e9Eurotr9djbFy1Lzxl8v48lfA6Gsdcri97rx/ZZ1FVAvKG+TcEy3Gy11uYRg7I8
+HqM5hJLtoY5LSVpoXq76TyX9bYP/0h5ovE/znbHpGdJTQe3hR8Ln/JMPfr0vUCnf
+eX7AuPfFz1gk9bxNvE6GKDSLEpv+gD+T1+/aHBb7eE2TYGQShyk=
+=L9PB
+-----END PGP SIGNATURE-----
+
+--gYUlLUBjoRLxmagy--
 
