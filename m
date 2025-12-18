@@ -1,51 +1,51 @@
-Return-Path: <linux-kbuild+bounces-10154-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10155-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63DACCBD69
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 13:50:32 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D29ACCBD6F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 13:50:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 23BEB30213D1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 12:50:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B43FC30475CC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 12:50:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49F38334681;
-	Thu, 18 Dec 2025 12:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78B1C334C1A;
+	Thu, 18 Dec 2025 12:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="QPLTg87i"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="M2c1mYol"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13CB333446;
-	Thu, 18 Dec 2025 12:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD2B332EC0;
+	Thu, 18 Dec 2025 12:50:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766062221; cv=none; b=P9W2RheDQWvJt12KGA5p8qu+Zzuy8Ai/AmwZs0FG9Kbtc6pJgZN7efmR0R5bHtnVrVyOeRxrYAe/LWFeTDY4Pk07lnwMI57xq33Z89Vw7BxelHOHJyD6fGpyWEABdWgvc6LRKVsVLnAW2JMzhLtyEZDqUCVe6w8Vt5sOn/j4+4g=
+	t=1766062223; cv=none; b=UX+qlIuJXWL7cswtoYaMwhpAanZQGRy1V4ROzlm+4O4DbHDzSJEqQaiJDvBrDeKcQBJOmlWhAM2XcTdtGN8Xyd/JbF6Dded0a5WXSTzKCCd8COC/17pSXdXtQ64d/dpmNS2d8ILZmblou7aW3ZTJvRR7Y3SyF+i7bt/hJxybV5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766062221; c=relaxed/simple;
-	bh=3ZGjq7izSi8TdD53HqrPyBX9wTkMq/qYEyjGMBX4Gvg=;
+	s=arc-20240116; t=1766062223; c=relaxed/simple;
+	bh=cb1EYuLPZCGCXdZa0orsidPlMBk7O0+4oMcaMbjHA38=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R0Mhpes0AWtbQPLcCRKeXFrIlBaGtYICxrzTBQQjbns8b3SFLy1nFmQLUOU9Yrk9SfP3V4zGSJUoBINNPFkzQNELqDgkLvB5rJqWkCHaX6bbBVsSxq+vOlCo2D19YDYl9rvegGNSmerVcKmutnrTZG+BAYfEXVM5jf+D/R1DzHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=QPLTg87i; arc=none smtp.client-ip=217.70.178.249
+	 MIME-Version:Content-Type; b=HeAy35H2eSjYOEV709APB6Bb2QnYhynhFCod/FoD8kYGyrwCr/zKJIPe7C3+/1tSb0CjLQNizNuq+2HbAfFOfgUT2tFasNPDZbjjEeBDEsfhM2nRGePVsmW1cIc1WffCLgW8e8B1qzvCdo8PjqSQxb0it0Ffbz3xBep7m7ws6c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=M2c1mYol; arc=none smtp.client-ip=217.70.178.249
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id DD9C45813A6;
-	Thu, 18 Dec 2025 12:50:16 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 53CC3443C9;
-	Thu, 18 Dec 2025 12:50:07 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 1B1485813AF;
+	Thu, 18 Dec 2025 12:50:17 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A87C5443CB;
+	Thu, 18 Dec 2025 12:50:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1766062208;
+	t=1766062209;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0eh6FrWYE/omJJYRQ5m1L6v7R/FZOmO9HIkQ9NsmlNE=;
-	b=QPLTg87iRsw4gOD5Rtj8DTAYVOQ6I8pmO9UAxmLmznQ2pkDkWu5FY5eg/B4XR4gtnUq+Ra
-	BvEuh3ZLUSZNKJ3nocNOOu1PJoEOkqEifICM6B35HKYHvILV6MVEg/rhdOG6f9o2lcoJwl
-	SKdcvM4TmNjUPmz4Kc38biXYMJQQlI61X86eFD5etIv6Cg/BL3syGe5PebUjlNwv8ZKtYC
-	jaqEzTN34/xlPDoHe5E5XxsHFtUL7elaZc8TGH1vFQ5cJhvp4vu7GgHjNzSLAHr3ferXIG
-	Hl5irLvGsjgkdxcjwIwgzASdQtpfzsbMmDen3JnH7r7KgQ4kPQflimqordXiCQ==
+	bh=hfiV+MXAPfvRTSCJL7TaIGOT2OdBflC/9gc07OtO5hM=;
+	b=M2c1mYolZqchb5R1EW7NiuQUkluBmdcrNYgQiL21FG+gcds4f4ZLFQCnMbSFAlQkrRMDYH
+	yNtH/JqrMo4UORder2YWmQecHheKkVnmqJIn9aBUm4DkKNSNZke/GzBBBAVQvXq1khE5yA
+	Zulr4popkEldBzi51i54mmv+EnZGQMMEVl30Ca23EkwwkcMPivPH0sdeXr4wfBccYe0OxJ
+	lWx8fVgWNZugsuQ/Stf+wo47QqWf9sQgOUqeR01aRTG5JSveaQUNcxmPSjIhqpNvVJA3TY
+	cQmw0WhpMRqcbM0Xb9JNMgkakDwqPaXDQtlGmRL3vzHQO2p1ZGssR3JTp38Qxg==
 From: Guillaume Tucker <gtucker@gtucker.io>
 To: Nathan Chancellor <nathan@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
@@ -59,9 +59,9 @@ Cc: Guillaume Tucker <gtucker@gtucker.io>,
 	automated-testing@lists.yoctoproject.org,
 	workflows@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH v2 1/2] scripts: add tool to run containerized builds
-Date: Thu, 18 Dec 2025 13:49:52 +0100
-Message-ID: <35b951506304b141047812f516fa946a4f1549a1.1766061692.git.gtucker@gtucker.io>
+Subject: [PATCH v2 2/2] Documentation: dev-tools: add container.rst page
+Date: Thu, 18 Dec 2025 13:49:53 +0100
+Message-ID: <ff8da6b9680ef01ee44f6d0cf89e34dd76abb116.1766061692.git.gtucker@gtucker.io>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1766061692.git.gtucker@gtucker.io>
 References: <cover.1766061692.git.gtucker@gtucker.io>
@@ -76,226 +76,219 @@ Content-Transfer-Encoding: 8bit
 X-GND-Sasl: gtucker@gtucker.io
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepiedutedthfekheevheefgeeuleegleetueettedttdegieduiedujeefvdelgeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeegrgegtdemkeeivddtmeehgeeivgemkeeffegrmeeffehfugemvgeikeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegrgegtdemkeeivddtmeehgeeivgemkeeffegrmeeffehfugemvgeikeefpdhhvghloheprhhinhhgohdrlhgrnhdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepheefveevfeeggeefveelpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddvpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhof
- iesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghnrdguvghvpdhrtghpthhtohepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepheevgfdutdeufefhgfeuleeuffejkeelfefhueffkefgieevheeigeeigfejjeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemheegiegvmeekfeefrgemfeeffhgumegvieekfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemheegiegvmeekfeefrgemfeeffhgumegvieekfedphhgvlhhopehrihhnghhordhlrghnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeetkeejveehgeegfeevuedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpt
+ hhtohepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopehgthhutghkvghrsehgthhutghkvghrrdhiohdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
 
-Add a 'scripts/container' tool written in Python to run any command in
-the source tree from within a container.  This can typically be used
-to call 'make' with a compiler toolchain image to run reproducible
-builds but any arbitrary command can be run too.  Only Docker and
-Podman are supported for this initial version.
+Add a dev-tools/container.rst documentation page for the
+scripts/container tool.  This covers the basic usage with additional
+information about environment variables and user IDs.  It also
+includes a number of practical examples with a reference to the
+experimental kernel.org toolchain images.
 
 Cc: Nathan Chancellor <nathan@kernel.org>
 Cc: Miguel Ojeda <ojeda@kernel.org>
 Cc: David Gow <davidgow@google.com>
 Cc: "Onur Özkan" <work@onurozkan.dev>
-Link: https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
 Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
 ---
- scripts/container | 194 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 194 insertions(+)
- create mode 100755 scripts/container
+ Documentation/dev-tools/container.rst | 175 ++++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst     |   1 +
+ 2 files changed, 176 insertions(+)
+ create mode 100644 Documentation/dev-tools/container.rst
 
-diff --git a/scripts/container b/scripts/container
-new file mode 100755
-index 000000000000..2d0143c7d43e
+diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
+new file mode 100644
+index 000000000000..5254feae02c2
 --- /dev/null
-+++ b/scripts/container
-@@ -0,0 +1,194 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0-only
-+# Copyright (C) 2025 Guillaume Tucker
++++ b/Documentation/dev-tools/container.rst
+@@ -0,0 +1,175 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2025 Guillaume Tucker
 +
-+"""Containerized builds"""
++====================
++Containerized Builds
++====================
 +
-+import abc
-+import argparse
-+import logging
-+import os
-+import shutil
-+import subprocess
-+import sys
-+import uuid
-+
-+
-+class ContainerRuntime(abc.ABC):
-+    """Base class for a container runtime implementation"""
-+
-+    name = None  # Property defined in each implementation class
-+
-+    def __init__(self, args, logger):
-+        self._uid = args.uid or os.getuid()
-+        self._gid = args.gid or args.uid or os.getgid()
-+        self._env_file = args.env_file
-+        self._logger = logger
-+
-+    @classmethod
-+    def is_present(cls):
-+        """Determine whether the runtime is present on the system"""
-+        return shutil.which(cls.name) is not None
-+
-+    @abc.abstractmethod
-+    def _do_run(self, image, cmd, container_name):
-+        """Runtime-specific handler to run a command in a container"""
-+
-+    @abc.abstractmethod
-+    def _do_abort(self, container_name):
-+        """Runtime-specific handler to abort a command in running container"""
-+
-+    def run(self, image, cmd):
-+        """Run a command in a runtime container"""
-+        container_name = str(uuid.uuid4())
-+        self._logger.debug("container: %s", container_name)
-+        try:
-+            return self._do_run(image, cmd, container_name)
-+        except KeyboardInterrupt:
-+            self._logger.error("user aborted")
-+            self._do_abort(container_name)
-+            return 1
++The ``container`` tool can be used to run any command in the kernel source tree
++from within a container.  Doing so facilitates reproducing builds across
++various platforms, for example when a test bot has reported an issue which
++requires a specific version of a compiler or an external test suite.  While
++this can already be done by users who are familiar with containers, having a
++dedicated tool in the kernel tree lowers the barrier to entry by solving common
++problems once and for all (e.g. user id management).  It also makes it easier
++to share an exact command line leading to a particular result.  The main use
++case is likely to be kernel builds but virtually anything can be run: KUnit,
++checkpatch etc. provided a suitable image is available.
 +
 +
-+class DockerRuntime(ContainerRuntime):
-+    """Run a command in a Docker container"""
++Options
++=======
 +
-+    name = 'docker'
++Command line syntax::
 +
-+    def _do_run(self, image, cmd, container_name):
-+        cmdline = [
-+            'docker', 'run',
-+            '--name', container_name,
-+            '--rm',
-+            '--tty',
-+            '--volume', f'{os.getcwd()}:/src',
-+            '--workdir', '/src',
-+            '--user', f'{self._uid}:{self._gid}'
-+        ]
-+        if self._env_file:
-+            cmdline += ['--env-file', self._env_file]
-+        cmdline.append(image)
-+        cmdline += cmd
-+        return subprocess.call(cmdline)
++  scripts/container -i IMAGE [OPTION]... CMD...
 +
-+    def _do_abort(self, container_name):
-+        subprocess.call(['docker', 'kill', container_name])
++Available options:
 +
++``-e, --env-file ENV_FILE``
 +
-+class PodmanRuntime(ContainerRuntime):
-+    """Run a command in a Podman container"""
++    Path to an environment file to load in the container.
 +
-+    name = 'podman'
++``-g, --gid GID``
 +
-+    def _do_run(self, image, cmd, container_name):
-+        cmdline = [
-+            'podman', 'run',
-+            '--name', container_name,
-+            '--rm',
-+            '--tty',
-+            '--interactive',
-+            '--volume', f'{os.getcwd()}:/src',
-+            '--workdir', '/src',
-+            '--userns', f'keep-id:uid={self._uid},gid={self._gid}',
-+        ]
-+        if self._env_file:
-+            cmdline += ['--env-file', self._env_file]
-+        cmdline.append(image)
-+        cmdline += cmd
-+        return subprocess.call(cmdline)
++    Group id to use inside the container.
 +
-+    def _do_abort(self, container_name):
-+        pass  # Signals are handled by Podman in interactive mode
++``-i, --image IMAGE``
++
++    Container image name (required).
++
++``-r, --runtime RUNTIME``
++
++    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
++
++    If not specified, the first one found on the system will be used
++    i.e. Docker if present, otherwise Podman.
++
++``-u, --uid UID``
++
++    User id to use inside the container.
++
++    If the ``-g`` option is not specified, the user id will also be used for
++    the group id.
++
++``-v, --verbose``
++
++    Enable verbose output.
++
++``-h, --help``
++
++    Show the help message and exit.
 +
 +
-+class Runtimes:
-+    """List of all supported runtimes"""
++Usage
++=====
 +
-+    runtimes = [DockerRuntime, PodmanRuntime]
++It's entirely up to the user to choose which image to use and the ``CMD``
++arguments are passed directly as an arbitrary command line to run in the
++container.  The tool will take care of mounting the source tree as the current
++working directory and adjust the user and group id as needed.
 +
-+    @classmethod
-+    def get_names(cls):
-+        """Get a list of all the runtime names"""
-+        return list(runtime.name for runtime in cls.runtimes)
-+
-+    @classmethod
-+    def get(cls, name):
-+        """Get a single runtime class matching the given name"""
-+        for runtime in cls.runtimes:
-+            if runtime.name == name:
-+                if not runtime.is_present():
-+                    raise ValueError(f"runtime not found: {name}")
-+                return runtime
-+        raise ValueError(f"unknown runtime: {runtime}")
-+
-+    @classmethod
-+    def find(cls):
-+        """Find the first runtime present on the system"""
-+        for runtime in cls.runtimes:
-+            if runtime.is_present():
-+                return runtime
-+        raise ValueError("no runtime found")
++The container image which would typically include a compiler toolchain is
++provided by the user and selected via the ``-i`` option.  The container runtime
++can be selected with the ``-r`` option, which can be either ``docker`` or
++``podman``.  If none is specified, the first one found on the system will be
++used.  Support for other runtimes may be added later depending on their
++popularity among users.
 +
 +
-+def _get_logger(verbose):
-+    """Set up a logger with the appropriate level"""
-+    logger = logging.getLogger('container')
-+    handler = logging.StreamHandler()
-+    handler.setFormatter(logging.Formatter(
-+        fmt='[container {levelname}] {message}', style='{'
-+    ))
-+    logger.addHandler(handler)
-+    logger.setLevel(logging.DEBUG if verbose is True else logging.INFO)
-+    return logger
++Environment Variables
++=====================
++
++Environment variables are not propagated to the container so they have to be
++either defined in the image itself or via the ``-e`` option using an
++environment file.  In some cases it makes more sense to have them defined in
++the Containerfile used to create the image.  For example, a Clang-only compiler
++toolchain image may have ``LLVM=1`` defined.  The local environment file is
++more useful for user-specific variables added during development.
++
++Please note that ``make`` options can still be passed on the command line, so
++while this can't be done since the first argument needs to be the executable::
++
++  scripts/container -i tuxmake/korg-clang LLVM=1 make
++
++this will work::
++
++  scripts/container -i tuxmake/korg-clang make LLVM=1
 +
 +
-+def main(args):
-+    """Main entry point for the container tool"""
-+    logger = _get_logger(args.verbose)
-+    try:
-+        cls = Runtimes.get(args.runtime) if args.runtime else Runtimes.find()
-+    except ValueError as ex:
-+        logger.error(ex)
-+        return 1
-+    logger.debug("runtime: %s", cls.name)
-+    logger.debug("image: %s", args.image)
-+    return cls(args, logger).run(args.image, args.cmd)
++User IDs
++========
++
++This is an area where the behaviour will vary slightly depending on the
++container runtime.  The goal is to run commands as the user invoking the tool.
++With Podman, a namespace is created to map the current user id to a different
++one in the container (1000 by default).  With Docker, while this is also
++possible with recent versions it requires a special feature to be enabled in
++the daemon so it's not used here for simplicity.  Instead, the container is run
++with the current user id directly.  In both cases, this will provide the same
++file permissions for the kernel source tree mounted as a volume.  The only
++difference is that when using Docker without a namespace, the user id may not
++be the same as the default one set in the image.
++
++Say, we're using an image which sets up a default user with id 1000 and the
++current user calling the ``container`` tool has id 1234.  The kernel source
++tree was checked out by this same user so the files belong to user 1234.  With
++Podman, the container will be running as user id 1000 with a mapping to id 1234
++so that the files from the mounted volume appear to belong to id 1000 inside
++the container.  With Docker and no namespace, the container will be running
++with user id 1234 which can access the files in the volume but not in the user
++1000 home directory.  This shouldn't be an issue when running commands only in
++the kernel tree but it is worth highlighting here as it might matter for
++special corner cases.
 +
 +
-+if __name__ == '__main__':
-+    parser = argparse.ArgumentParser(
-+        'container',
-+        description="Containerized builds.  See the dev-tools/container "
-+        "kernel documentation section for more details."
-+    )
-+    parser.add_argument(
-+        '-e', '--env-file',
-+        help="Path to an environment file to load in the container."
-+    )
-+    parser.add_argument(
-+        '-g', '--gid',
-+        help="Group ID to use inside the container."
-+    )
-+    parser.add_argument(
-+        '-i', '--image', required=True,
-+        help="Container image name."
-+    )
-+    parser.add_argument(
-+        '-r', '--runtime', choices=Runtimes.get_names(),
-+        help="Container runtime name.  If not specified, the first one found "
-+        "on the system will be used i.e. Docker if present, otherwise Podman."
-+    )
-+    parser.add_argument(
-+        '-u', '--uid',
-+        help="User ID to use inside the container.  If the -g option is not "
-+        "specified, the user ID will also be set as the group ID."
-+    )
-+    parser.add_argument(
-+        '-v', '--verbose', action='store_true',
-+        help="Enable verbose output."
-+    )
-+    parser.add_argument(
-+        'cmd', nargs='+',
-+        help="Command to run in the container"
-+    )
-+    sys.exit(main(parser.parse_args(sys.argv[1:])))
++Examples
++========
++
++The shortest example is to run a basic kernel build using Docker and a tuxmake
++Clang image::
++
++  scripts/container -i tuxmake/korg-clang -- make LLVM=1 defconfig
++  scripts/container -i tuxmake/korg-clang -- make LLVM=1 -j$(nproc)
++
++.. note::
++
++   When running a command with options within the container, it should be
++   separated with a double dash ``--`` to not confuse them with the
++   ``container`` tool options.  Plain commands with no options don't strictly
++   require the double dashes e.g.::
++
++     scripts/container -i tuxmake/korg-clang make mrproper
++
++To run ``checkpatch.pl`` in a ``patches`` directory with a generic image::
++
++  scripts/container -i perl:slim-trixie scripts/checkpatch.pl patches/*
++
++The examples below refer to ``kernel.org`` images which are based on the
++`kernel.org compiler toolchains
++<https://mirrors.edge.kernel.org/pub/tools/>`__.  These aren't (yet) officially
++available in any public registry but users can build their own locally instead
++using this `experimental repository
++<https://gitlab.com/gtucker/korg-containers>`__ by running ``make
++PREFIX=kernel.org/``.
++
++To build just ``bzImage`` using Clang::
++
++  scripts/container -i kernel.org/clang -- make bzImage -j$(nproc)
++
++Same with GCC 15 as a particular version tag::
++
++  scripts/container -i kernel.org/gcc:15 -- make bzImage -j$(nproc)
++
++To run KUnit::
++
++  scripts/container -i kernel.org/gcc:kunit -- \
++      tools/testing/kunit/kunit.py \
++          run \
++          --arch=x86_64 \
++          --cross_compile=x86_64-linux-
++
++To build the HTML documentation, which requires the ``kdocs`` image built with
++``make PREFIX=kernel.org/ extra`` as it's not a compiler toolchain::
++
++  scripts/container -i kernel.org/kdocs make htmldocs
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 4b8425e348ab..527a0e4cf2ed 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -38,6 +38,7 @@ Documentation/process/debugging/index.rst
+    gpio-sloppy-logic-analyzer
+    autofdo
+    propeller
++   container
+ 
+ 
+ .. only::  subproject and html
 -- 
 2.47.3
 
