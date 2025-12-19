@@ -1,61 +1,61 @@
-Return-Path: <linux-kbuild+bounces-10271-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10272-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56328CD1DEF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 21:57:21 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB541CD1E62
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 22:01:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C1F1D30019E4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 20:57:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D9DB1301786C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 21:01:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E2832ED87C;
-	Fri, 19 Dec 2025 20:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EFA933C532;
+	Fri, 19 Dec 2025 21:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="42advhE8"
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="s9OJBwkd"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC032D73A7;
-	Fri, 19 Dec 2025 20:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADF12D5A01;
+	Fri, 19 Dec 2025 21:01:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766177837; cv=none; b=PqcqK593N/ITXmSJFsUoPT7xAY8HfTzppFr96f9IX+vsKm1mpnNo+s+YwCFxGSdB7+jINBo357Ny57wez80suzTD+e4Mjh+YzqqaCFDJUXFNKXT7hp1j2MCZYWOb211B83ywGheWbrs3+60Hsyv40II4zxUJdMLMQzL8C0ueGiQ=
+	t=1766178110; cv=none; b=Xoxla2zGVGNvUqtLWzK/vvP9qbLkTtQj0Wf9/MqDGCuLUZjLC8mciBn6CW088iNJ78XqT7OeqjGk+cy/M1PG/D9s8a6bUjbYYRHK8oHt35aXPoRc3mQ/Dlu7AHq2ZRvpB7p3ROZkEV5w6oG2TJA94SvSPmlM+q0yvAs1nhcz4po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766177837; c=relaxed/simple;
-	bh=UUutlXsyKb2gG6q2Bb60u4frplNSTg/akfFMQ0csH/s=;
+	s=arc-20240116; t=1766178110; c=relaxed/simple;
+	bh=MkDUjQNs27Lw1dXpmCJjBTZs8R/jJJRn5FiTSdyMBac=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OSt6/g8STgF+MvRfx9kYYt8DSOwq8D7l9im2JxQw5W95Vr8rnWfUdiIG3WO/uUjwnAhCG33c+sQgH4MQdlCegqyDO7wn2ERKKSRzAImm0aZQZqqyzydDS5Feg+pKxZFRugWmeo6cBTW7SgwVqw4oma64tatilXCsvjU8V85JHQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=42advhE8; arc=none smtp.client-ip=199.89.1.16
+	 In-Reply-To:Content-Type; b=qE9Q8Tt1X9+TopPETHkbvkQU1LVkXAv9f0YWj27iYn3hNcT0ewk/OcLdjeuX21G4y22ujiG9v8n1hPP82Z1FK3URngG20K/Aetb2WlYBSaIhiWXUoBqCL0c9xskze+uowzG0txbMfaViI1ihIEGv/lsEaWIgmuYhHZOECcFZHP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=s9OJBwkd; arc=none smtp.client-ip=199.89.1.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dY0GL6DqzzlwqQK;
-	Fri, 19 Dec 2025 20:57:14 +0000 (UTC)
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dY0Mb6PP5zlxr5f;
+	Fri, 19 Dec 2025 21:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
 	content-transfer-encoding:content-type:content-type:in-reply-to
 	:from:from:content-language:references:subject:subject
 	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1766177827; x=1768769828; bh=4FWBwq5pA2UdoaEgzi2KEETe
-	O4vK6VBDGoxeKhWq2EE=; b=42advhE8BUZnyv/5oJUUeZfNT/pyn/krhapzDFZR
-	OBUJ0SwyUsXO7uWfZ6iD0TrvIUO0ufVYHcs9gPs9Yqxc4qotWvsEzwGramYp6CYN
-	o+EGCohH3V8J9IhuomIk/LCHjW3RgZPH2dV8y8Y9/buyyKUpXBWBMrItfx8AOqTX
-	jq7pYXvADCFY2Cl8TGfhSzpmEiMCCTvc43oPwpNA7c+USkz6m87eVaXEmQbE1pLZ
-	puRIt1KDSkfXRrJ6t868WlCL5q0CmJX9IeVQSPmC/fOCbhWY/f8+bgPqRX1GSUKF
-	gqoq4DJuwCbsLvpoRdEwWeEfLonpdDECo4UR7y1nVmqsyg==
+	 s=mr01; t=1766178100; x=1768770101; bh=9KjTqulqtSqtlYJ8kiScMrzE
+	zgfg45JI8uubNScSnWY=; b=s9OJBwkdhoRjw1wT9W38EQGW90jCfITJQ4Dj5Ydm
+	WkQeHjsl/TckZ0nDw8xfVOYGZw5litIkS9f3OXuZwzO3hTtugFky8jXGfceKpZDV
+	U1wEoqDkAkOMwveLyjPBCCVL2v2gxTQ7x/fhl18iwptJc48fGOosD/Ijsbi7r/ca
+	rtNB5lMYdEKIxVGwaqn1+m/eMvK94sr4xGOge9D31/73d4nxhOva8PPSQvnMQRHF
+	+dGUczfKiOfUUVvzbKqIDczdov8eJDoRYazYFGQ2jKTEyiBdQxt7MumMuAFABlVU
+	GcwDY+4yUv4P2PoxCQif8fbXLJcwS0c/QHyFDMfcdKDinA==
 X-Virus-Scanned: by MailRoute
 Received: from 013.lax.mailroute.net ([127.0.0.1])
  by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id cbXucOoI7gI2; Fri, 19 Dec 2025 20:57:07 +0000 (UTC)
+ id IXqnKxjTN97r; Fri, 19 Dec 2025 21:01:40 +0000 (UTC)
 Received: from [100.119.48.131] (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dY0Fy2c2mzlwqPy;
-	Fri, 19 Dec 2025 20:56:53 +0000 (UTC)
-Message-ID: <4d6ba8aa-cc33-42a5-ae28-7a480d660c45@acm.org>
-Date: Fri, 19 Dec 2025 12:56:53 -0800
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dY0Ly622Wzlxr5b;
+	Fri, 19 Dec 2025 21:01:13 +0000 (UTC)
+Message-ID: <a62c731f-7ff5-48a0-8700-b62cd163f369@acm.org>
+Date: Fri, 19 Dec 2025 13:01:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -63,7 +63,8 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 18/36] locking/local_lock: Include missing headers
+Subject: Re: [PATCH v5 21/36] debugfs: Make debugfs_cancellation a context
+ lock struct
 To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
  Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
  Will Deacon <will@kernel.org>
@@ -95,59 +96,26 @@ Cc: "David S. Miller" <davem@davemloft.net>,
  linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
  linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-19-elver@google.com>
+ <20251219154418.3592607-22-elver@google.com>
 Content-Language: en-US
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20251219154418.3592607-19-elver@google.com>
+In-Reply-To: <20251219154418.3592607-22-elver@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
 On 12/19/25 7:40 AM, Marco Elver wrote:
-> Including <linux/local_lock.h> into an empty TU will result in the
-> compiler complaining:
->=20
-> ./include/linux/local_lock.h: In function =E2=80=98class_local_lock_irq=
-save_constructor=E2=80=99:
-> ./include/linux/local_lock_internal.h:95:17: error: implicit declaratio=
-n of function =E2=80=98local_irq_save=E2=80=99; <...>
->     95 |                 local_irq_save(flags);                        =
-  \
->        |                 ^~~~~~~~~~~~~~
->=20
-> As well as (some architectures only, such as 'sh'):
->=20
-> ./include/linux/local_lock_internal.h: In function =E2=80=98local_lock_=
-acquire=E2=80=99:
-> ./include/linux/local_lock_internal.h:33:20: error: =E2=80=98current=E2=
-=80=99 undeclared (first use in this function)
->     33 |         l->owner =3D current;
->=20
-> Include missing headers to allow including local_lock.h where the
-> required headers are not otherwise included.
->=20
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->   include/linux/local_lock_internal.h | 2 ++
->   1 file changed, 2 insertions(+)
->=20
-> diff --git a/include/linux/local_lock_internal.h b/include/linux/local_=
-lock_internal.h
-> index 8f82b4eb542f..1a1ea1232add 100644
-> --- a/include/linux/local_lock_internal.h
-> +++ b/include/linux/local_lock_internal.h
-> @@ -4,7 +4,9 @@
->   #endif
->  =20
->   #include <linux/percpu-defs.h>
-> +#include <linux/irqflags.h>
->   #include <linux/lockdep.h>
-> +#include <asm/current.h>
->  =20
->   #ifndef CONFIG_PREEMPT_RT
->  =20
-
-The abbreviation "TU" is uncommon. Hence, please expand that
-abbreviation. Anyway:
-
+> When compiling include/linux/debugfs.h with CONTEXT_ANALYSIS enabled, we
+> can see this error:
+> 
+> ./include/linux/debugfs.h:239:17: error: use of undeclared identifier 'cancellation'
+>    239 | void __acquires(cancellation)
+> 
+> Move the __acquires(..) attribute after the declaration, so that the
+> compiler can see the cancellation function argument, as well as making
+> struct debugfs_cancellation a real context lock to benefit from Clang's
+> context analysis.
+> 
+> This change is a preparatory change to allow enabling context analysis
+> in subsystems that include the above header.
 Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 
