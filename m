@@ -1,140 +1,93 @@
-Return-Path: <linux-kbuild+bounces-10265-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D43CD1CBD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 21:40:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AADE8CD1CEA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 21:42:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C31423062E11
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 20:38:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D248530943A5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 20:39:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C7E2D8370;
-	Fri, 19 Dec 2025 20:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19B702E6CA5;
+	Fri, 19 Dec 2025 20:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="23ejbMoW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AXRrodCf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59D62D6E67;
-	Fri, 19 Dec 2025 20:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57E52DFF28;
+	Fri, 19 Dec 2025 20:39:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766176735; cv=none; b=WY8dvnsMs3B5N7bo4s8RJsfmwWRLE6RYeII8E8cIwmiikuv3nJvIl2Axdg8x4XJjAAgdI6QH4P3Iz2uLq0GgYwWE3IJWkVTLofSXnRZ0JEfICoZbWCriPW5eL5N+ZrEJ+uHESmVvV5a/JqCh0C5Ub63jiaRkXbooVj50RjMh3U8=
+	t=1766176775; cv=none; b=SJ2+daTodezZG9gOlLByGVWgp62tlIbSIIGedNtSgOIszrYCoNeQx5tT8s9J1AdxdLzYm5SK33Ti/XEVQ8FV9CdcrO2SbFm10XNfvuiASR5msnwWNXK4/79ksnn0SyKBIrs5yU+cokK32NvVLDIm11B9adJ+9zJI7dS6R+xhkmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766176735; c=relaxed/simple;
-	bh=CZxWxdGzalfuaJeqiULERsX6sGBwBWd6pLNQFv3wUGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qaV3EHPrkoMN5CCoA3JSnK/7l+rfPDrQ/AzPU/qUxh4T7/kRZJ2Dgfrrr+aIGbxDQXGQpTqKRczY9W5IQOOH+dXXn8F9yvfndK3C+9g5xrYHDatFm47U7M9om46/BZXwlfX0w+oIlXc9MQpYAgllIA5LfLwEC9C721ObUFpkkv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=23ejbMoW; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dXzs815rqzlwqPy;
-	Fri, 19 Dec 2025 20:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1766176724; x=1768768725; bh=M2FKNH25BsSSupvqYh8XNhuf
-	T7PJPLlufiLItK/K4/Q=; b=23ejbMoWSMGXSBFPZlmUzRtGna4H5HROcPKMbUup
-	V/WdRBWbup4GDNoX4ZzYi/+9a2QxQyjFpfuEdRS5ewl/8ts1Xxp1RTcZSs54u6Ol
-	V4+ys1ry+a515MDuanbl0Ud7DP9g1ofFdkwrrR83EYCeIoXuBBDi8v0Mx6Otj3WI
-	eXu2aS2vAeC+/lTfWViepaxFvMNipVgj+00o7/6Ytj/CfDmAbV43JA319Vk62LAg
-	y8BnF8cLm6gyyRXsKaD6m8R0XZAZMGGmDVyQ2i904nnISBAr0ieu6hnDNx9oLGke
-	a0C4gG35l9QIBTC0Lq9pBQ+IlBmqQe7BkmR8IZhBjfK2WA==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id MkJHsfOVfhWT; Fri, 19 Dec 2025 20:38:44 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dXzrm6hBtzlwqPY;
-	Fri, 19 Dec 2025 20:38:32 +0000 (UTC)
-Message-ID: <61037092-ddfb-4504-9351-7f6a3e5e4616@acm.org>
-Date: Fri, 19 Dec 2025 12:38:32 -0800
+	s=arc-20240116; t=1766176775; c=relaxed/simple;
+	bh=sUf352fv9czrcON4xgFAWIAeYcn53j+LWyGQZDGY6Hw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VAr9HWcbK+sHJ9rhTJcclutCXV4TUTMeV5j0COBpjyehxyceXyA7qmnPRVHl/qSuZDZ6Ub4eA1asUhsUaRVQmbb8FkmizcxVzm4SLdFBhc8DTVz2mhfIcLXn660J0XoBhWwdNqirngMRYxeWUe6akLifyFPheImHs5EnBz6DQm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AXRrodCf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA74C4CEF1;
+	Fri, 19 Dec 2025 20:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766176774;
+	bh=sUf352fv9czrcON4xgFAWIAeYcn53j+LWyGQZDGY6Hw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=AXRrodCfr2Cl2oHex6xsXiIAzIJw/X8EbqaBwCJb0qsnqYCW9YPL7gdsGYQS2Swkq
+	 Wcrz4rcp7OALfEJe3tQK7XNBzpXR14yAFlb4OKMsNR9GoKv/3Lgie8+p0oTbIlSBoU
+	 vYzbnSMtnTvez/7W6clPJFX9ui88lXb8a2ryvHcKDpeaQf7WLYqljfQ6ATu+y24VJo
+	 36D4+pZszwi/l2eHs0H2B5/4w3A6N5wFpJ/jCZ8+puQ59FJdfzdtCbNf7k3//aHm3I
+	 vO/Tzi48SlP3+yaR+b09lde2b16ufbpsQUsrYQIb/dXOOIkIYXJt8OGKd1KUzj5YjU
+	 F6lN0xyM++QHA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>, 
+ Rostislav Krasny <rostiprodev@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20251217015409.30102-1-rostiprodev@gmail.com>
+References: <20251217015409.30102-1-rostiprodev@gmail.com>
+Subject: Re: [PATCH v3 0/1] kconfig: move XPM icons to separate files
+Message-Id: <176617677285.1406915.9246716063376321712.b4-ty@kernel.org>
+Date: Fri, 19 Dec 2025 13:39:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/36] bit_spinlock: Include missing <asm/processor.h>
-To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- Will Deacon <will@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
- Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
- <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
- Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Josh Triplett <josh@joshtriplett.org>, Justin Stitt
- <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
- <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
- Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
- kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-13-elver@google.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20251219154418.3592607-13-elver@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev
 
-On 12/19/25 7:40 AM, Marco Elver wrote:
-> Including <linux/bit_spinlock.h> into an empty TU will result in the
-> compiler complaining:
+On Wed, 17 Dec 2025 03:54:08 +0200, Rostislav Krasny wrote:
+> On Wed, 17 Dec 2025 at 00:39, Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > Yes, "make xconfig" worked properly before applying this patch.
+> >
+> > .qconf.cmd (generated by build) tells me I am using Qt6.
+> > I don't see any build errors/warnings.
+> >
+> > qt-core-devel & qt-base-common-devel are v6.10.1-1.2 from
+> > openSUSE Tumbleweed.
 > 
-> ./include/linux/bit_spinlock.h:34:4: error: call to undeclared function 'cpu_relax'; <...>
->     34 |                         cpu_relax();
->        |                         ^
-> 1 error generated.
-> 
-> Include <asm/processor.h> to allow including bit_spinlock.h where
-> <asm/processor.h> is not otherwise included.
-> 
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->   include/linux/bit_spinlock.h | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/linux/bit_spinlock.h b/include/linux/bit_spinlock.h
-> index c0989b5b0407..59e345f74b0e 100644
-> --- a/include/linux/bit_spinlock.h
-> +++ b/include/linux/bit_spinlock.h
-> @@ -7,6 +7,8 @@
->   #include <linux/atomic.h>
->   #include <linux/bug.h>
->   
-> +#include <asm/processor.h>  /* for cpu_relax() */
-> +
->   /*
->    *  bit-based spin_lock()
->    *
+> [...]
 
-The abbreviation "TU" is uncommon so it's probably a good idea to expand
-it. Anyway:
+Applied to
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next
+
+Thanks!
+
+[1/1] kconfig: move XPM icons to separate files
+      https://git.kernel.org/kbuild/c/18e2d526bf245
+
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped or
+reverted.
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
 
