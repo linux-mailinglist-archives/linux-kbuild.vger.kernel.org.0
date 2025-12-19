@@ -1,77 +1,95 @@
-Return-Path: <linux-kbuild+bounces-10200-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10201-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14561CCECA6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 08:33:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D33DCCEDC3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 08:56:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B7BEE3012BE2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 07:33:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B7A5302CF47
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 07:55:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 884AA2BE03D;
-	Fri, 19 Dec 2025 07:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97186248886;
+	Fri, 19 Dec 2025 07:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+S2bAGU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lAs528FQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E96C25EFAE;
-	Fri, 19 Dec 2025 07:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8A71DE8AE;
+	Fri, 19 Dec 2025 07:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766129616; cv=none; b=Z0L/R3xdAw2me/CwjQuBmLuXzhAaF5rppKCrJQ9JZH0oCrT35OA26E42KahkPZhcTmEgqj6yotEmRUCSvQhhTqC7ziRTE3U0d6GK4PKtv31+ihNL+kj2/9CRIPO/lHQIwq6XCUfgourAcxHQjurbM26aDCKZWgZDH6HG72ZfSXA=
+	t=1766130907; cv=none; b=ZWdv9QEXU0lQtHXYtm3UmI/JeJICdEO8safqad6x1YXq+keaceAJx0h0ghfmHbJhbI33CkUU7yR0YcEDUgMRoXs75q54y4NnApNbv3Ys5BnGNmB1T4RZsdc4clmY4pjaOjVMwuginD115M8qoDqqMhGrbHTl99T1UhcZ5fPvcTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766129616; c=relaxed/simple;
-	bh=f8+G6CVnJp2DBUsfaWCf5DINHDnv28/Brh1CjQS5678=;
+	s=arc-20240116; t=1766130907; c=relaxed/simple;
+	bh=cRqy5SMxZBEEUhWLiniqceALJQlzCGDWTLiWzjfMohA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ObU5Ul/sOvdeWdHJVn6a4KEVrcYGCFhAf51Aah69n0bZxwrWFzLH78NsJGlgYNKaV7i75eXrzWIqK8hLf6EkLOEALqL5UUAdMZAgFMYpAEm9w3RJWWE0vUFoFAsQ1Oxaop3NVl4r77sPJY6xk6pPedOv/BRGqbuI3pue/ghv2Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+S2bAGU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CF86C4CEF1;
-	Fri, 19 Dec 2025 07:33:35 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=WgYRNb7CvWyk9pMhU/qBQrNihRdfVwEUig2oSyfzcCLm3ZA0mSQ1BHhOfPzqBUZY6dCMVLTz7NW+UPuvIggK6XLNBeBp5sDV3myLBr8gf2mS8B1zmlKRWreNhuOgG8Ur3P36KnL6BCPRkFd5n8EOkG+7qwQsM34S9bvS9si1HYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lAs528FQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB8BC4CEF1;
+	Fri, 19 Dec 2025 07:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766129615;
-	bh=f8+G6CVnJp2DBUsfaWCf5DINHDnv28/Brh1CjQS5678=;
+	s=k20201202; t=1766130906;
+	bh=cRqy5SMxZBEEUhWLiniqceALJQlzCGDWTLiWzjfMohA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P+S2bAGU5yOPI6ncR6Hsq8cPmW3M4Yqg506ro+7zmln9tQTIazrjsEYt1+YBl5zHP
-	 T5tyLBVp7D/uFJpY19JFsqZ3pdgwViUoaBXHMPH+mt62otQ+STb42h+x5dyss0VW1F
-	 5/dpDUyvgNdMEnjs7EWMLMw2DVAXN/n+X4FXM8fPbnjVrTnp0+SU43DQMFMMiN+253
-	 1OK5VXRczsdldkhAx6rXyIte+FDktPPwr+04wnqfqaX30/SfFOpOgX0KIquRzLEL6G
-	 HiT3C2w+H+r/n3KOVwGF9K/kAC6ypuhzVRcuGX9l7jZz6+ZLYEw/mcYxUxgB8YD7qP
-	 U+FgPloDdpSrw==
-Date: Fri, 19 Dec 2025 08:33:29 +0100
+	b=lAs528FQIHLEdBLraQXuxmlRSxN9dVa0VrY6O6KLY0sLXW3KQDaMKhBxnp5x7j3Tq
+	 IoVQixBxcj6BHwWmwrYu8tufd0wA+mn1XRp3/U0Y7YkbIS5i0pkEw/1uLb4NRG2HUm
+	 FIm+Fj/7CfabRJ3APBXJ9Kv0h8ulb4A8HcerrLxq/evxRXKqSj8dPHZPso8a9O542U
+	 tUzJt4bcWpv2rczCzAhHQXLZSOZdjIc787HC5Nu+0glNa8WWQqZwf33nCUqYmwZ+jG
+	 dgwf8ZqjXPFPGSrRlwmRVdkhgdW5nbm2Ck9wmu0rRaFIDV6yQc1b2u/XrJWX8NTgne
+	 SV7UnF7moiOPw==
+Date: Fri, 19 Dec 2025 08:49:27 +0100
 From: Nicolas Schier <nsc@kernel.org>
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits
-Message-ID: <aUT_yWin_xslnOFh@derry.ads.avm.de>
-Mail-Followup-To: Vincent Mailhol <mailhol@kernel.org>,
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Nathan Chancellor <nathan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>, Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Shuah Khan <shuah@kernel.org>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
 	Justin Stitt <justinstitt@google.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
-References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+	Alan Maguire <alan.maguire@oracle.com>,
+	Donglin Peng <dolinux.peng@gmail.com>, bpf@vger.kernel.org,
+	dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, sched-ext@lists.linux.dev
+Subject: Re: [PATCH bpf-next v6 5/8] kbuild: Sync kconfig when PAHOLE_VERSION
+ changes
+Message-ID: <aUUDh1BkRcamDI9a@derry.ads.avm.de>
+Mail-Followup-To: Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>, Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Shuah Khan <shuah@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Donglin Peng <dolinux.peng@gmail.com>, bpf@vger.kernel.org,
+	dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, sched-ext@lists.linux.dev
+References: <20251219020006.785065-1-ihor.solodrai@linux.dev>
+ <20251219020006.785065-6-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -80,50 +98,59 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+In-Reply-To: <20251219020006.785065-6-ihor.solodrai@linux.dev>
 
-On Thu, Dec 18, 2025 at 07:50:00PM +0100, Vincent Mailhol wrote:
-> I often read on the mailing list people saying "who cares about W=2
-> builds anyway?". At least I do. Not that I want to fix all of them,
-> but on some occasions, such as new driver submissions, I have often
-> found a couple valid diagnostics in the W=2 output.
+On Thu, Dec 18, 2025 at 06:00:03PM -0800, Ihor Solodrai wrote:
+> This patch implements kconfig re-sync when the pahole version changes
+> between builds, similar to how it happens for compiler version change
+> via CC_VERSION_TEXT.
 > 
-> That said, the annoying thing is that W=2 is heavily polluted by one
-> warning: -Wtype-limits. Try a gcc W=2 build on any file and see the
-> results for yourself. I suspect this to be the reason why so few
-> people are using W=2.
+> Define PAHOLE_VERSION in the top-level Makefile and export it for
+> config builds. Set CONFIG_PAHOLE_VERSION default to the exported
+> variable.
 > 
-> This series removes gcc's -Wtype-limits in an attempt to make W=2 more
-> useful. Those who do not use W=2 can continue to not use it if they
-> want. Those who, like me, use it form time to time will get an
-> improved experience from the reduced spam.
+> Kconfig records the PAHOLE_VERSION value in
+> include/config/auto.conf.cmd [1].
 > 
-> Extra details on statistics, past attempts and -Wtype-limits
-> alternatives are given in the first patch description.
+> The Makefile includes auto.conf.cmd, so if PAHOLE_VERSION changes
+> between builds, make detects a dependency change and triggers
+> syncconfig to update the kconfig [2].
 > 
-> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+> For external module builds, add a warning message in the prepare
+> target, similar to the existing compiler version mismatch warning.
+> 
+> Note that if pahole is not installed or available, PAHOLE_VERSION is
+> set to 0 by pahole-version.sh, so the (un)installation of pahole is
+> treated as a version change.
+> 
+> See previous discussions for context [3].
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/preprocess.c?h=v6.18#n91
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Makefile?h=v6.18#n815
+> [3] https://lore.kernel.org/bpf/8f946abf-dd88-4fac-8bb4-84fcd8d81cf0@oracle.com/
+> 
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 > ---
-> Vincent Mailhol (2):
->       kbuild: remove gcc's -Wtype-limits
->       kbuild: cleanup local -Wno-type-limits exceptions
+>  Makefile     | 9 ++++++++-
+>  init/Kconfig | 2 +-
+>  2 files changed, 9 insertions(+), 2 deletions(-)
 > 
->  drivers/gpu/drm/Makefile | 1 -
->  fs/btrfs/Makefile        | 1 -
->  scripts/Makefile.warn    | 4 +++-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> ---
-> base-commit: 3e7f562e20ee87a25e104ef4fce557d39d62fa85
-> change-id: 20251205-remove_wtype-limits-c77eb46d09c2
-> 
-> Best regards,
-> -- 
-> Vincent Mailhol <mailhol@kernel.org>
-> 
+> diff --git a/Makefile b/Makefile
+> index e404e4767944..9b90a2a2218e 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -713,6 +713,7 @@ endif
+>  # upgrade.
+>  CC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(CC) --version 2>/dev/null | head -n 1))
+>  RUSTC_VERSION_TEXT = $(subst $(pound),,$(shell $(RUSTC) --version 2>/dev/null))
+> +PAHOLE_VERSION = $(shell $(srctree)/scripts/pahole-version.sh $(PAHOLE))
 
-Thanks for the effort!  (This allows to revert commit dc7fe518b049
-("overflow: Fix -Wtype-limits compilation warnings").)
+As PAHOLE_VERSION is handled in the same way as CC_VERSION_TEXT and
+RUSTC_VERSION_TEXT at line 736/737: could you please add it to the
+comment above, too?
+
+Patch looks good to me, thanks!
 
 Reviewed-by: Nicolas Schier <nsc@kernel.org>
-
-
+Tested-by: Nicolas Schier <nsc@kernel.org>
 
