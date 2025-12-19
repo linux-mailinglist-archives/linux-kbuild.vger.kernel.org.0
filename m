@@ -1,45 +1,45 @@
-Return-Path: <linux-kbuild+bounces-10193-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10194-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4574ECCE3A2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 03:05:43 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 585C4CCE358
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 03:01:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C3360309C7CE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 02:01:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5B31030387BD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 02:01:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EADCA2857C7;
-	Fri, 19 Dec 2025 02:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CF67288C3F;
+	Fri, 19 Dec 2025 02:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jfKSWNB5"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wVjOYG2V"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F7E284669
-	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 02:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE402868B5
+	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 02:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766109669; cv=none; b=g8hktjGqi0qMaJKe9UuFDrPvLx1fX09H2U34PvjOiuI6t212fuwPB51wc4MrPHEq2PpQVWhOIr2GReMiO98V142/jv97dmBUGEFHN5qLt8/ZxvjVqmvt+2glnWNSe0BB2r477kGF5KM1xrPHKdw7iPfRDaQkDredXVD6bZ3+GC4=
+	t=1766109684; cv=none; b=FQRMwtTa2kFX4AKALYGCPwITMGTJtUBRtcmRk9uWFa0EwaQJ6i4w9qnTB+XDDrQ3AM/M7vq9Dr+2WLjroq9tkyE+lbLH6bAoFBMCFzYxeDc4Jry1wntD0SWkLdTXU11GnglETJCpesIrhVbbdRtBAmM1zsySGHD04JX/TxU4uCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766109669; c=relaxed/simple;
-	bh=VuNfMpTBm0CUYXaO+t8aSyvTsMROnkknWppmR/tAKfU=;
+	s=arc-20240116; t=1766109684; c=relaxed/simple;
+	bh=WLjB49Bv+US9iVn92oQnMFPHp8ZyZVv5Qy/cHB0piSQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RVecw0w8MSKi2wmfltg6ZuAt6+K8BfuQl7fUpV+Zb0vdgAPebfIKnAes3DNTkc5qxcKmMTE7ta58URIoWg9+UvyakjAVNmOXpXrL2GtAc3WUFvCY5nAUzzXOtWB/ATdItjMZ3oI799gnv6/OaF3NG7GfaxOebKUdvKRJ/FqpJ0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jfKSWNB5; arc=none smtp.client-ip=91.218.175.183
+	 MIME-Version; b=RcrsCYG+gBXZPRnbfitCx5SIrQ736GTWRuUvdr0ImxEMFPIA9Z06h618h04sX2Q5nh1eQtfw3gGYVnMdt3hvXwIOL3IrA/7z/ZIWVzJNFDy2lnNDo5P1EDep5Snf8SzRqL0+NRpp+g3O+QoCiLNAwrx/MACDtkSUDsjIhA0lQ58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wVjOYG2V; arc=none smtp.client-ip=91.218.175.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766109662;
+	t=1766109672;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aayb7iWI2Jbv+ieS21a4aukFU/2uaqV3fIN+m3cIAm4=;
-	b=jfKSWNB5Zw0D8r89UMylhXfa9y5MQeOa4KUtvApvMTBVZXzDaDwcFQgBcWuF9T1xMfts04
-	6BJRbAGALErdsa3e14+AOnaCZ1a3/9CKGFbdF16PNW4SaJNGZ70ywyXqu5F7yYdnj/OA6c
-	vj93+6taKHijoBdcnfSEvvR/ysA1QJA=
+	bh=3czLYeRjRlvXBbARi9TdvkmM7dkqe9ZURILhRZlVpf8=;
+	b=wVjOYG2VuAkk88imkm+3hxW0Zbr7+cpera3BSDPlMqs0hePlXnJEslrw3eAb1ITPv8YZQK
+	Qz4d8hI2ikKabfv6C7Is8lc8/LQawyfP6uJli3JmdnF486SpuQwo/0xmAPIb0mh00oMLDQ
+	OPExh6t1JhzR75tydE3lTnJZ6UNgIqA=
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
@@ -72,9 +72,9 @@ Cc: bpf@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	sched-ext@lists.linux.dev
-Subject: [PATCH bpf-next v6 4/8] resolve_btfids: Always build with -Wall -Werror
-Date: Thu, 18 Dec 2025 18:00:02 -0800
-Message-ID: <20251219020006.785065-5-ihor.solodrai@linux.dev>
+Subject: [PATCH bpf-next v6 5/8] kbuild: Sync kconfig when PAHOLE_VERSION changes
+Date: Thu, 18 Dec 2025 18:00:03 -0800
+Message-ID: <20251219020006.785065-6-ihor.solodrai@linux.dev>
 In-Reply-To: <20251219020006.785065-1-ihor.solodrai@linux.dev>
 References: <20251219020006.785065-1-ihor.solodrai@linux.dev>
 Precedence: bulk
@@ -86,30 +86,93 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-resolve_btfids builds without compiler warnings currently, so let's
-enforce this for future changes with '-Wall -Werror' flags [1].
+This patch implements kconfig re-sync when the pahole version changes
+between builds, similar to how it happens for compiler version change
+via CC_VERSION_TEXT.
 
-[1] https://lore.kernel.org/bpf/1957a60b-6c45-42a7-b525-a6e335a735ff@linux.dev/
+Define PAHOLE_VERSION in the top-level Makefile and export it for
+config builds. Set CONFIG_PAHOLE_VERSION default to the exported
+variable.
+
+Kconfig records the PAHOLE_VERSION value in
+include/config/auto.conf.cmd [1].
+
+The Makefile includes auto.conf.cmd, so if PAHOLE_VERSION changes
+between builds, make detects a dependency change and triggers
+syncconfig to update the kconfig [2].
+
+For external module builds, add a warning message in the prepare
+target, similar to the existing compiler version mismatch warning.
+
+Note that if pahole is not installed or available, PAHOLE_VERSION is
+set to 0 by pahole-version.sh, so the (un)installation of pahole is
+treated as a version change.
+
+See previous discussions for context [3].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/kconfig/preprocess.c?h=v6.18#n91
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Makefile?h=v6.18#n815
+[3] https://lore.kernel.org/bpf/8f946abf-dd88-4fac-8bb4-84fcd8d81cf0@oracle.com/
 
 Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 ---
- tools/bpf/resolve_btfids/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Makefile     | 9 ++++++++-
+ init/Kconfig | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
-index ce1b556dfa90..1733a6e93a07 100644
---- a/tools/bpf/resolve_btfids/Makefile
-+++ b/tools/bpf/resolve_btfids/Makefile
-@@ -70,7 +70,8 @@ HOSTCFLAGS_resolve_btfids += -g \
-           -I$(srctree)/tools/include/uapi \
-           -I$(LIBBPF_INCLUDE) \
-           -I$(SUBCMD_INCLUDE) \
--          $(LIBELF_FLAGS)
-+          $(LIBELF_FLAGS) \
-+          -Wall -Werror
+diff --git a/Makefile b/Makefile
+index e404e4767944..9b90a2a2218e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -713,6 +713,7 @@ endif
+ # upgrade.
+ CC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(CC) --version 2>/dev/null | head -n 1))
+ RUSTC_VERSION_TEXT = $(subst $(pound),,$(shell $(RUSTC) --version 2>/dev/null))
++PAHOLE_VERSION = $(shell $(srctree)/scripts/pahole-version.sh $(PAHOLE))
  
- LIBS = $(LIBELF_LIBS) -lz
+ ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+ include $(srctree)/scripts/Makefile.clang
+@@ -733,7 +734,7 @@ ifdef config-build
+ # KBUILD_DEFCONFIG may point out an alternative default configuration
+ # used for 'make defconfig'
+ include $(srctree)/arch/$(SRCARCH)/Makefile
+-export KBUILD_DEFCONFIG KBUILD_KCONFIG CC_VERSION_TEXT RUSTC_VERSION_TEXT
++export KBUILD_DEFCONFIG KBUILD_KCONFIG CC_VERSION_TEXT RUSTC_VERSION_TEXT PAHOLE_VERSION
  
+ config: outputmakefile scripts_basic FORCE
+ 	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+@@ -1921,12 +1922,18 @@ clean: private rm-files := Module.symvers modules.nsdeps compile_commands.json
+ PHONY += prepare
+ # now expand this into a simple variable to reduce the cost of shell evaluations
+ prepare: CC_VERSION_TEXT := $(CC_VERSION_TEXT)
++prepare: PAHOLE_VERSION := $(PAHOLE_VERSION)
+ prepare:
+ 	@if [ "$(CC_VERSION_TEXT)" != "$(CONFIG_CC_VERSION_TEXT)" ]; then \
+ 		echo >&2 "warning: the compiler differs from the one used to build the kernel"; \
+ 		echo >&2 "  The kernel was built by: $(CONFIG_CC_VERSION_TEXT)"; \
+ 		echo >&2 "  You are using:           $(CC_VERSION_TEXT)"; \
+ 	fi
++	@if [ "$(PAHOLE_VERSION)" != "$(CONFIG_PAHOLE_VERSION)" ]; then \
++		echo >&2 "warning: pahole version differs from the one used to build the kernel"; \
++		echo >&2 "  The kernel was built with: $(CONFIG_PAHOLE_VERSION)"; \
++		echo >&2 "  You are using:             $(PAHOLE_VERSION)"; \
++	fi
+ 
+ PHONY += help
+ help:
+diff --git a/init/Kconfig b/init/Kconfig
+index fa79feb8fe57..317f3c0b13ad 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -171,7 +171,7 @@ config RUSTC_HAS_FILE_AS_C_STR
+ 
+ config PAHOLE_VERSION
+ 	int
+-	default $(shell,$(srctree)/scripts/pahole-version.sh $(PAHOLE))
++	default "$(PAHOLE_VERSION)"
+ 
+ config CONSTRUCTORS
+ 	bool
 -- 
 2.52.0
 
