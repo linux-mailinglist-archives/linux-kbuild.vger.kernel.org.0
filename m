@@ -1,146 +1,191 @@
-Return-Path: <linux-kbuild+bounces-10188-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10189-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A20CCE264
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 02:37:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC1FCCE37B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 03:03:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 22F15302EDBF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 01:37:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BEE6F3064DC9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 02:00:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAAA5228CB0;
-	Fri, 19 Dec 2025 01:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC5628467D;
+	Fri, 19 Dec 2025 02:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Fu2vm2Sg"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="gI98l/io"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5AF20C00A
-	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 01:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87FE27FD7C
+	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 02:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766108253; cv=none; b=MEFIursjUzzNnmDvYnj+zT4DmsiCNUqKf/qXNKZx0sCToloe+IKK2roE5IxKQ00qWOF+MlOdUo0wzweWdDGz+oT4W+oB92jZdWpt9pnWwVqCD0ObmFnB0oRVPKuvj4C2DwB9jG8bljBhB93olWG1IexUPgP7yzQvnlgdEfBultQ=
+	t=1766109638; cv=none; b=mRPfb55jkOTI+jSV2xTAhCkX77QO7Q0Ut4RbFEgMAEmvs8E9cn7q0hL3WaZaK7i9TeZ+aVdFzUxgB1Fmt39mYHkNIXJ3Pyp0J7LGm+QPlw4o0f8FqVdxRQ4ynLm23Kvtwq4P9hRFgcOU4wpRhzEwsOiljitsy5Wvw6o5G+EgbLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766108253; c=relaxed/simple;
-	bh=2OjqvjnDMF22+ZyNKWm190d8Gq6HJza0XosaeCmd1fk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uOoEpOLH3oR9mT6yH5+cRmirqDYftpeYGXCPltegQ2X+ybUMfRvNwBu0homiprqIUHoEnLLp67tpADpYBAPLwF6qd8tpDiDdNiirXx26hZAkCtBF4Re9U+5Nt09n8wGen/NFxXocjpX9Ycly9sZA/H16DSN+ZVl4ohsq7GyOS2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Fu2vm2Sg; arc=none smtp.client-ip=91.218.175.183
+	s=arc-20240116; t=1766109638; c=relaxed/simple;
+	bh=+L8/Od1GmtQad3hgduaEBm5cAGozldSw8UtRlHqykdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nEi3D6fhUKTVyvAya9Nl46/8x7Aoqnr7Puf9ih63QBBhLVtIk0UPUYK08h7HYlIPSOl/P+XAyGGz/JkZcbIlpzr0f+KavH/pgRPv64OOxC1c2F+3pxLN1l0hkrsqK4+01SYabNomyXo2AeJS/Ev/PkL/Ad6fONHXjs+k17sQerA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=gI98l/io; arc=none smtp.client-ip=91.218.175.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <d023c8bb-1053-46ca-9236-f7e1e6bee52f@linux.dev>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766108244;
+	t=1766109624;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iQzKvNOg/YRR9JxTw6aHrhcwLz0yvmB4i/8mZqSWKPI=;
-	b=Fu2vm2SgrOSwEuWnTJA+1fkvMkB1rh5xjBCV3kAiUQMDrfhyKj6YKOVORuRVc4IDwYldKn
-	Rh4T2ksb5ejKIfTRl7mItfLwIOjx40looP1eDSIaMTaVoiUWH2MybgtCItnXYbaVBSyQ/a
-	BVHGo+W9/XxdlLblz4uZrDAH4lx/pXM=
-Date: Thu, 18 Dec 2025 17:37:13 -0800
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+HZQh2xoesiaxye5wqm6/BBkSDuC7ggMw3RMptLyUQ0=;
+	b=gI98l/ioibZHrwQoytali7SeYokmhOiUKnZSF9Q5etLNhB3cWFTUcIni27u8gLQs8JG/72
+	ePV/P2V1m53EMQ7w9O4xENJ+ClzVEapHh/6YP1lRKbtMmWEevxrTLYAhXXjWYqrhg8/C4c
+	kkqp5dkEX3FIJb2ChnlBfo9/ZtmPx1I=
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Donglin Peng <dolinux.peng@gmail.com>
+Cc: bpf@vger.kernel.org,
+	dwarves@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	sched-ext@lists.linux.dev
+Subject: [PATCH bpf-next v6 0/8] resolve_btfids: Support for BTF modifications
+Date: Thu, 18 Dec 2025 17:59:58 -0800
+Message-ID: <20251219020006.785065-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v5 8/8] resolve_btfids: Change in-place update
- with raw binary output
-To: bot+bpf-ci@kernel.org, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
- akpm@linux-foundation.org, nathan@kernel.org, nsc@kernel.org,
- corbet@lwn.net, tj@kernel.org, void@manifault.com, arighi@nvidia.com,
- changwoo@igalia.com, shuah@kernel.org, nick.desaulniers+lkml@gmail.com,
- morbo@google.com, justinstitt@google.com, alan.maguire@oracle.com,
- dolinux.peng@gmail.com
-Cc: bpf@vger.kernel.org, dwarves@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- sched-ext@lists.linux.dev, martin.lau@kernel.org, clm@meta.com
-References: <20251219003147.587098-9-ihor.solodrai@linux.dev>
- <e269870b8db409800045ee0061fc02d21721e0efadd99ca83960b48f8db7b3f3@mail.kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <e269870b8db409800045ee0061fc02d21721e0efadd99ca83960b48f8db7b3f3@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 12/18/25 4:53 PM, bot+bpf-ci@kernel.org wrote:
->> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
->> index e721e20a2bbd..7127396c5f50 100644
->> --- a/tools/bpf/resolve_btfids/main.c
->> +++ b/tools/bpf/resolve_btfids/main.c
-> 
-> [ ... ]
-> 
->> @@ -587,6 +563,19 @@ static int load_btf(struct object *obj)
->>  	obj->base_btf = base_btf;
->>  	obj->btf = btf;
->>
->> +	if (obj->base_btf && obj->distill_base) {
->> +		err = btf__distill_base(obj->btf, &base_btf, &btf);
->> +		if (err) {
->> +			pr_err("FAILED to distill base BTF: %s\n", strerror(errno));
->> +			goto out_err;
->> +		}
->> +
->> +		btf__free(obj->btf);
->> +		btf__free(obj->base_btf);
->> +		obj->btf = btf;
->> +		obj->base_btf = base_btf;
->> +	}
->> +
->>  	return 0;
->>
->>  out_err:
->> +	btf__free(base_btf);
->> +	btf__free(btf);
->>  	return err;
->>  }
-> 
-> Can this lead to a double free if btf__distill_base() fails?
-> 
-> At the point of calling btf__distill_base(), the local variables base_btf
-> and btf have already been assigned to obj->base_btf and obj->btf. If
-> btf__distill_base() fails, it does not modify its output parameters, so
-> base_btf and btf still point to the same memory as obj->base_btf and
-> obj->btf.
-> 
-> The out_err path then frees base_btf and btf (the original BTF objects).
-> But obj->base_btf and obj->btf still point to this freed memory. When
-> load_btf() returns an error to main(), the cleanup at the out: label
-> calls btf__free(obj.base_btf) and btf__free(obj.btf), which would free
-> the same memory a second time.
-> 
-> The execution path would be:
->   main() -> load_btf() -> btf__distill_base() fails
->   -> out_err frees base_btf and btf
->   -> return err to main()
->   -> main() goto out
->   -> btf__free(obj.base_btf) and btf__free(obj.btf) -> double free
-> 
-> Perhaps the out_err path should set obj->base_btf = NULL and obj->btf =
-> NULL after freeing, or load_btf() should clear obj->base_btf/obj->btf
-> before going to out_err?
+This series changes resolve_btfids and kernel build scripts to enable
+BTF transformations in resolve_btfids. Main motivation for enhancing
+resolve_btfids is to reduce dependency of the kernel build on pahole
+capabilities [1] and enable BTF features and optimizations [2][3]
+particular to the kernel.
 
-I confirmed this is indeed a double free, although in a corner case.
+Patches #1-#4 in the series are non-functional changes in
+resolve_btfids.
 
-I agree, we should set obj->btf and obj->btf_base to NULL at out_err.
+Patch #5 makes kernel build notice pahole version changes between
+builds.
 
-Sending a v6 in a bit.
+Patch #6 changes minimum version of pahole required for
+CONFIG_DEBUG_INFO_BTF to v1.22
 
-> 
-> 
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/20355860150
+Patch #7 makes a small prep change in selftests/bpf build.
+
+The last patch (#8) makes significant changes in resolve_btfids and
+introduces scripts/gen-btf.sh. See implementation details in the patch
+description.
+
+Successful BPF CI run: https://github.com/kernel-patches/bpf/actions/runs/20353330265
+
+[1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@linux.dev/
+[2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
+[3] https://lore.kernel.org/bpf/20251119031531.1817099-1-dolinux.peng@gmail.com/
+
+---
+
+v5->v6:
+  - patch #8: fix double free when btf__distill_base fails (reported by AI)
+    https://lore.kernel.org/bpf/e269870b8db409800045ee0061fc02d21721e0efadd99ca83960b48f8db7b3f3@mail.kernel.org/
+
+v5: https://lore.kernel.org/bpf/20251219003147.587098-1-ihor.solodrai@linux.dev/
+
+v4->v5:
+  - patch #3: fix an off-by-one bug (reported by AI)
+    https://lore.kernel.org/bpf/106b6e71bce75b8f12a85f2f99e75129e67af7287f6d81fa912589ece14044f9@mail.kernel.org/
+  - patch #8: cleanup GEN_BTF in Makefile.btf
+
+v4: https://lore.kernel.org/bpf/20251218003314.260269-1-ihor.solodrai@linux.dev/
+
+v3->v4:
+  - add patch #4: "resolve_btfids: Always build with -Wall -Werror"
+  - add patch #5: "kbuild: Sync kconfig when PAHOLE_VERSION changes" (Alan)
+  - fix clang cross-compilation (LKP)
+    https://lore.kernel.org/bpf/cecb6351-ea9a-4f8a-863a-82c9ef02f012@linux.dev/
+  - remove GEN_BTF env variable (Andrii)
+  - nits and cleanup in resolve_btfids/main.c (Andrii, Eduard)
+  - nits in a patch bumping minimum pahole version (Andrii, AI)
+
+v3: https://lore.kernel.org/bpf/20251205223046.4155870-1-ihor.solodrai@linux.dev/
+
+v2->v3:
+  - add patch #4 bumping minimum pahole version (Andrii, Alan)
+  - add patch #5 pre-fixing resolve_btfids test (Donglin)
+  - add GEN_BTF var and assemble RESOLVE_BTFIDS_FLAGS in Makefile.btf (Alan)
+  - implement --distill_base flag in resolve_btfids, set it depending
+    on KBUILD_EXTMOD in Makefile.btf (Eduard)
+  - various implementation nits, see the v2 thread for details (Andrii, Eduard)
+
+v2: https://lore.kernel.org/bpf/20251127185242.3954132-1-ihor.solodrai@linux.dev/
+
+v1->v2:
+  - gen-btf.sh and other shell script fixes (Donglin)
+  - update selftests build (Donglin)
+  - generate .BTF.base only when KBUILD_EXTMOD is set (Alan)
+  - proper endianness handling for cross-compilation
+  - change elf_begin mode from ELF_C_RDWR_MMAP to ELF_C_READ_MMAP_PRIVATE
+  - remove compressed_section_fix()
+  - nit NULL check in patch #3 (suggested by AI)
+
+v1: https://lore.kernel.org/bpf/20251126012656.3546071-1-ihor.solodrai@linux.dev/
+
+Ihor Solodrai (8):
+  resolve_btfids: Rename object btf field to btf_path
+  resolve_btfids: Factor out load_btf()
+  resolve_btfids: Introduce enum btf_id_kind
+  resolve_btfids: Always build with -Wall -Werror
+  kbuild: Sync kconfig when PAHOLE_VERSION changes
+  lib/Kconfig.debug: Set the minimum required pahole version to v1.22
+  selftests/bpf: Run resolve_btfids only for relevant .test.o objects
+  resolve_btfids: Change in-place update with raw binary output
+
+ Documentation/scheduler/sched-ext.rst         |   1 -
+ MAINTAINERS                                   |   1 +
+ Makefile                                      |   9 +-
+ init/Kconfig                                  |   2 +-
+ lib/Kconfig.debug                             |  13 +-
+ scripts/Makefile.btf                          |  21 +-
+ scripts/Makefile.modfinal                     |   5 +-
+ scripts/Makefile.vmlinux                      |   2 +-
+ scripts/gen-btf.sh                            | 157 ++++++++
+ scripts/link-vmlinux.sh                       |  42 +-
+ tools/bpf/resolve_btfids/Makefile             |   3 +-
+ tools/bpf/resolve_btfids/main.c               | 358 ++++++++++++------
+ tools/sched_ext/README.md                     |   1 -
+ tools/testing/selftests/bpf/.gitignore        |   3 +
+ tools/testing/selftests/bpf/Makefile          |  11 +-
+ .../selftests/bpf/prog_tests/resolve_btfids.c |   4 +-
+ 16 files changed, 443 insertions(+), 190 deletions(-)
+ create mode 100755 scripts/gen-btf.sh
+
+-- 
+2.52.0
 
 
