@@ -1,124 +1,185 @@
-Return-Path: <linux-kbuild+bounces-10177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10178-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8AFCCDD7D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 23:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B12CCE104
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 01:32:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 712663005481
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Dec 2025 22:40:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BE711304C9D7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 00:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55CB72D4811;
-	Thu, 18 Dec 2025 22:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 716C0DF76;
+	Fri, 19 Dec 2025 00:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jAZ0tnxv"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LQVTfrfX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E4F264628
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 22:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B05017D2;
+	Fri, 19 Dec 2025 00:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766097599; cv=none; b=poRMQ1qm6a98EItbLMizrq32CSXPEuJbjekN2pXASIYSkMRoWefzRrPQNOWFzWRPx3ETTNXxvX5W9nTRyo410JId4hD+s/s6RWHV3Q8nuGz8jdB26aS9v3hQ8bt+TUT9gPgHWAyynJZeQhDuah9WtJcBJ+l9SmgLkKo4s/CNJYM=
+	t=1766104343; cv=none; b=dB+GemJVFPySVQi8vPIyJYhNM+TpHYWF/pV85J6SBUzMwDRP21FNCfZKoC2p291ejSNTT3dS2spzAv++phm0D8Ck3/v4u1rCUCEo3tzqAWboo6gLcDSLY1hIRTuDMFGDbMDTwpLjAyqxPbXoG1AmBqWp7P9k2Krzie95s+qON1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766097599; c=relaxed/simple;
-	bh=eamKHa6W7ULY0ixSx/sof431csrKXdlpYvmmnDnJOFA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XJA/+38w1ihivS9NvIn35mHLYAqk+03rLe346KF1cCjP2gCiemcNwbMiMvYvIXUTDaL/dlo5Lvjy1+R0JDnU64WqzJ1oM9Hw9UUZQmC94PG+HaHhbZG5bJrd2RiFGYrCAGL2jAvvCba8FPXQy7B6F0pHl0terxBkS8/TbcOzbPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jAZ0tnxv; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a09757004cso13263185ad.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 18 Dec 2025 14:39:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766097597; x=1766702397; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eamKHa6W7ULY0ixSx/sof431csrKXdlpYvmmnDnJOFA=;
-        b=jAZ0tnxv63j4DOvodBhWdTRwmrfNfUen/w5yFUlkAcD/EBvQzMK3Cm4wYcsRkZ7CBK
-         4sz/2yI/lafXrnXEVoBkEsBKZKAE9HxUsBLGO7Qn2QZMZ02LPj48YWIYPoqZvSalkysA
-         zuwJ2wPCbqN/tyd4fKR9glkI4s4H4ohAV5BdWZY50B1IIhTbj/xh/03LWPm9HZsLeeGF
-         PuBgxvHQqjYuLwPZPHuI8ZNO3OcLQGLM/fzibopqhGZLHjzosQGGJx1r0PCxrh00P58Z
-         NqSdkARs/ceSaP82PifVltK24F1o/zBO7P6zJ+hgiJeb1nbQoEkaAhzqlali3TVBWvQx
-         0Ojw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766097597; x=1766702397;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eamKHa6W7ULY0ixSx/sof431csrKXdlpYvmmnDnJOFA=;
-        b=QJJSj/NFRneYznwVXfPmN+XA4xfPzhh/iMiX/BGiY8mDJ0tN6RMY+9iSEHDtSlPJ1I
-         nvP056SrTb7W3WUU+FtXEz9EnyvEs5SpQ3Dns4LUHo3rnr3gQK9Rd1CvLLdxpuoCqeZL
-         6oKieS7MB6MeaUJOu+pbHInN7B7+uEI6aou7E9POIO0iYnXUZNZOFrLsCxsM2RPD0N4D
-         OeLNYQ/CXk5E/6MFTqu4U7fj0va9P3SzwuXb8R6pdq66tMS+1mAblrFUP8noc3YI9EOY
-         XvCyr+qSs7GwbJWYbWpL3M6KmKNgLuCpzqdGKDVBkuyLLqWB5mOER/N1WVLL/SWnEVxL
-         Q7jA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+/Dz/37fTAGe80YQ6Wru80jxspE9gUPlV5qrIwOeSIEDfFZhWHwAHiXkqOVgxqi6dCzpjpD2UE6WFavU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlAA5eWwxaDSymtQBt+3EKulbjggt2fBZQS5yrhxbV9W3X/vrM
-	QADx6a58q53AmL2Vt77kMtyjMLrlPjfyNLFOHCQX0uqJ7PQwAbmQX5bcY8bX67Bbz74=
-X-Gm-Gg: AY/fxX5Fcm90otUC49Lc2NioioPgesxK424dS6JmGX52Eqowdyi9VrbC0lhn6hhF0A1
-	jOOJUNS3Y1zbQnL9xQPJ6/vSWNQ00qaLfuNaOePLn+AgP/fG0CL8kTn/BDJO8hAzZjZP1gLD9uF
-	ethhN3D8egk4Mt88Iik65kJBKwm18Jwq3lauZWth1+o+A4dfZzPD3fuiBLMYjOrXdoD52nJFWjC
-	RdeYzBkq9lG/PQU6k0VxoN7Qoz3+WZpg4gYHx3YUL1HxDkc0z4xvqVkB6CxlavWOYdjG4/vWuvR
-	QgO1Kqa4rueou138DttUqHELFiaQQc2MXVeRWbLkIE+3NP7oV+4fQ5tDIDj8MWk4cmFnaOua52i
-	0U7wUgMbAfWZG8csYXeZogs/KDTqc7Ep3BbdM6YwHuawcsXdWC6JiXs4K7RLeOMF5+Sex+lwstW
-	+p/KaKComx/9qxf0GAnmtgevdU9OY2iBsSh+xk
-X-Google-Smtp-Source: AGHT+IEVSlp9LXlzmaGmg8SZZsLd9mJhWKS6Iylg31EbQc75zWEKIMS5zueMBmRpuYcgZRvP0hKo6w==
-X-Received: by 2002:a05:7022:2586:b0:119:e56c:18a7 with SMTP id a92af1059eb24-121722b4e90mr878908c88.15.1766097597216;
-        Thu, 18 Dec 2025 14:39:57 -0800 (PST)
-Received: from ?IPv6:2a03:83e0:115c:1:4779:aa2b:e8ff:52c4? ([2620:10d:c090:500::5:3eff])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217253bfe2sm1480954c88.10.2025.12.18.14.39.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 14:39:56 -0800 (PST)
-Message-ID: <62a74bb81d7e791cffe4aa52bf3e18bc854f3edc.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v4 8/8] resolve_btfids: Change in-place update
- with raw binary output
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>, Ihor Solodrai
-	 <ihor.solodrai@linux.dev>
-Cc: Alan Maguire <alan.maguire@oracle.com>, Alexei Starovoitov
- <ast@kernel.org>,  Andrea Righi <arighi@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, Andrii Nakryiko	 <andrii@kernel.org>, Bill
- Wendling <morbo@google.com>, Changwoo Min	 <changwoo@igalia.com>, Daniel
- Borkmann <daniel@iogearbox.net>, David Vernet	 <void@manifault.com>,
- Donglin Peng <dolinux.peng@gmail.com>, Hao Luo	 <haoluo@google.com>, Jiri
- Olsa <jolsa@kernel.org>, John Fastabend	 <john.fastabend@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Justin Stitt	 <justinstitt@google.com>,
- KP Singh <kpsingh@kernel.org>, Martin KaFai Lau	 <martin.lau@linux.dev>,
- Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers	
- <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nsc@kernel.org>, Shuah
- Khan	 <shuah@kernel.org>, Song Liu <song@kernel.org>, Stanislav Fomichev	
- <sdf@fomichev.me>, Tejun Heo <tj@kernel.org>, Yonghong Song	
- <yonghong.song@linux.dev>, bpf@vger.kernel.org, dwarves@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	s=arc-20240116; t=1766104343; c=relaxed/simple;
+	bh=/9F8U6krMVz7I8HAc2L42gRERllz5l8PhuoTUHi4uAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qCIE9czlRpUgBN4MgwKhAhcM+BRPadeEUAjN5TVDWPNxjL0s0PSvbWq7oGl972WdgTr1Jn21q3q52V8v2SkXE9Pff3CEfGIFx+6Z7tLc7ATVuOf1bd03rDfIZBLQ2pJfe8/l9lahj9M6JFkoLabqXXs64D+eE2taFHtWHW8efI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LQVTfrfX; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766104328;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3rKyjbF5xMDrEJBv7zRhMTWeZC0Uc25dvwa9mjEsxL8=;
+	b=LQVTfrfXuu6QEsex3DxCPpbEUtn/reCiUJUp/xVwg2Rb8zADm6jWo3JfIejj7VEHOP0RUN
+	XIecANLTQ+Y9HXVjT/diByT+WpvApwXYucXM/Zrm+iaU2sWFvHEMGERESOUMKlG26B51hW
+	4Sl9KSMPgVuKuVoka1mKVcblzdUa5Vo=
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+To: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Donglin Peng <dolinux.peng@gmail.com>
+Cc: bpf@vger.kernel.org,
+	dwarves@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
 	sched-ext@lists.linux.dev
-Date: Thu, 18 Dec 2025 14:39:54 -0800
-In-Reply-To: <CAEf4BzZA4czi1KEOrW9tn8v18LZN4FAqzrHyB_78VatEZhb+Fw@mail.gmail.com>
-References: <20251218003314.260269-1-ihor.solodrai@linux.dev>
-	 <20251218003314.260269-9-ihor.solodrai@linux.dev>
-	 <914f4a97-f053-4979-b63a-9b7a7f72369a@linux.dev>
-	 <CAEf4BzZA4czi1KEOrW9tn8v18LZN4FAqzrHyB_78VatEZhb+Fw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+Subject: [PATCH bpf-next v5 0/8] resolve_btfids: Support for BTF modifications
+Date: Thu, 18 Dec 2025 16:31:39 -0800
+Message-ID: <20251219003147.587098-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 2025-12-18 at 13:15 -0800, Andrii Nakryiko wrote:
+This series changes resolve_btfids and kernel build scripts to enable
+BTF transformations in resolve_btfids. Main motivation for enhancing
+resolve_btfids is to reduce dependency of the kernel build on pahole
+capabilities [1] and enable BTF features and optimizations [2][3]
+particular to the kernel.
 
-[...]
+Patches #1-#4 in the series are non-functional changes in
+resolve_btfids.
 
-> It all looks good to me, so don't wait for any more feedback from my
-> side. If Eduard doesn't find anything in patch #8, please send new
-> revision, thanks!
+Patch #5 makes kernel build notice pahole version changes between
+builds.
 
-Lgtm, let's wrap this up.
+Patch #6 changes minimum version of pahole required for
+CONFIG_DEBUG_INFO_BTF to v1.22
 
-[...]
+Patch #7 makes a small prep change in selftests/bpf build.
+
+The last patch (#8) makes significant changes in resolve_btfids and
+introduces scripts/gen-btf.sh. See implementation details in the patch
+description.
+
+Successful BPF CI run: https://github.com/kernel-patches/bpf/actions/runs/20353330265
+
+[1] https://lore.kernel.org/dwarves/ba1650aa-fafd-49a8-bea4-bdddee7c38c9@linux.dev/
+[2] https://lore.kernel.org/bpf/20251029190113.3323406-1-ihor.solodrai@linux.dev/
+[3] https://lore.kernel.org/bpf/20251119031531.1817099-1-dolinux.peng@gmail.com/
+
+---
+
+v4->v5:
+  - patch #3: fix an off-by-one bug (reported by AI)
+    https://lore.kernel.org/bpf/106b6e71bce75b8f12a85f2f99e75129e67af7287f6d81fa912589ece14044f9@mail.kernel.org/
+  - patch #8: cleanup GEN_BTF in Makefile.btf
+
+v4: https://lore.kernel.org/bpf/20251218003314.260269-1-ihor.solodrai@linux.dev/
+
+v3->v4:
+  - add patch #4: "resolve_btfids: Always build with -Wall -Werror"
+  - add patch #5: "kbuild: Sync kconfig when PAHOLE_VERSION changes" (Alan)
+  - fix clang cross-compilation (LKP)
+    https://lore.kernel.org/bpf/cecb6351-ea9a-4f8a-863a-82c9ef02f012@linux.dev/
+  - remove GEN_BTF env variable (Andrii)
+  - nits and cleanup in resolve_btfids/main.c (Andrii, Eduard)
+  - nits in a patch bumping minimum pahole version (Andrii, AI)
+
+v3: https://lore.kernel.org/bpf/20251205223046.4155870-1-ihor.solodrai@linux.dev/
+
+v2->v3:
+  - add patch #4 bumping minimum pahole version (Andrii, Alan)
+  - add patch #5 pre-fixing resolve_btfids test (Donglin)
+  - add GEN_BTF var and assemble RESOLVE_BTFIDS_FLAGS in Makefile.btf (Alan)
+  - implement --distill_base flag in resolve_btfids, set it depending
+    on KBUILD_EXTMOD in Makefile.btf (Eduard)
+  - various implementation nits, see the v2 thread for details (Andrii, Eduard)
+
+v2: https://lore.kernel.org/bpf/20251127185242.3954132-1-ihor.solodrai@linux.dev/
+
+v1->v2:
+  - gen-btf.sh and other shell script fixes (Donglin)
+  - update selftests build (Donglin)
+  - generate .BTF.base only when KBUILD_EXTMOD is set (Alan)
+  - proper endianness handling for cross-compilation
+  - change elf_begin mode from ELF_C_RDWR_MMAP to ELF_C_READ_MMAP_PRIVATE
+  - remove compressed_section_fix()
+  - nit NULL check in patch #3 (suggested by AI)
+
+v1: https://lore.kernel.org/bpf/20251126012656.3546071-1-ihor.solodrai@linux.dev/
+
+Ihor Solodrai (8):
+  resolve_btfids: Rename object btf field to btf_path
+  resolve_btfids: Factor out load_btf()
+  resolve_btfids: Introduce enum btf_id_kind
+  resolve_btfids: Always build with -Wall -Werror
+  kbuild: Sync kconfig when PAHOLE_VERSION changes
+  lib/Kconfig.debug: Set the minimum required pahole version to v1.22
+  selftests/bpf: Run resolve_btfids only for relevant .test.o objects
+  resolve_btfids: Change in-place update with raw binary output
+
+ Documentation/scheduler/sched-ext.rst         |   1 -
+ MAINTAINERS                                   |   1 +
+ Makefile                                      |   9 +-
+ init/Kconfig                                  |   2 +-
+ lib/Kconfig.debug                             |  13 +-
+ scripts/Makefile.btf                          |  21 +-
+ scripts/Makefile.modfinal                     |   5 +-
+ scripts/Makefile.vmlinux                      |   2 +-
+ scripts/gen-btf.sh                            | 157 ++++++++
+ scripts/link-vmlinux.sh                       |  42 +--
+ tools/bpf/resolve_btfids/Makefile             |   3 +-
+ tools/bpf/resolve_btfids/main.c               | 356 ++++++++++++------
+ tools/sched_ext/README.md                     |   1 -
+ tools/testing/selftests/bpf/.gitignore        |   3 +
+ tools/testing/selftests/bpf/Makefile          |  11 +-
+ .../selftests/bpf/prog_tests/resolve_btfids.c |   4 +-
+ 16 files changed, 441 insertions(+), 190 deletions(-)
+ create mode 100755 scripts/gen-btf.sh
+
+-- 
+2.52.0
+
 
