@@ -1,70 +1,68 @@
-Return-Path: <linux-kbuild+bounces-10224-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10225-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7FECD0C88
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 17:15:02 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F4BCD0B63
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 17:04:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4261C30596B4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 16:13:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 742F830FA7EF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 15:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C898834B68C;
-	Fri, 19 Dec 2025 15:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7BEF34C80D;
+	Fri, 19 Dec 2025 15:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2WR/Hmn0"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VYiPy6ZB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EF734B410
-	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 15:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606BB34BA2E
+	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 15:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766159201; cv=none; b=n0aR90UOaeNWpTAOQvSMGffoM0S2duTplUf1TXR+oGueltTL0jNSFNhjgFFIA6xPmYiEFnl7DTsgGP7wiP0nSWp/u2a+PrJc3TdCarkYX/9t+Z3sRmB6XnBJpQQTLYAegyJMMKWTe2qC1SwnPA8BNZRsoSt7K8vdlPMcEP61RXs=
+	t=1766159206; cv=none; b=TbW6fLBcB4qQxyZCvrDLZomBHHh8b+nZ4uV33kfgknhlkQj9Fv1JnOrkhDnoXwWxwjZvOtfmIbQN55g6M+TwGsJsLDgALWCPGOgBk6h4ilpWFh0SzhwB2cVhlREA36qqiO5cno2RhfqE/W3Txr5RryIMFbGPVMR1XeK1PB+8oYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766159201; c=relaxed/simple;
-	bh=ZqqBArB2yoGPi5pRLFHBWVfZ5IhyubnYslnOT+L1Eto=;
+	s=arc-20240116; t=1766159206; c=relaxed/simple;
+	bh=39Ur7dfeLkHLPtspMQ6+jpRwScZmVubBFyalh3J9qTg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GZPl+fCy/v3H80eqNx0uVZ+Oc2QwIrp5aaICfcOTYXCKZ+lYmyEJs/2fje8EwQrWYHDb8r2Zuz4qxPm4zK2Z2yX5qYilh2rbduGz/0mW6xXb2wguXvD3scc94pzYT/Mcy7TmI9kc5Ng3kcGqHnsSXRL2oXrO52VYKd94h//SyyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2WR/Hmn0; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=dwqevRRbsGdq+z69MuUcFL1WgHuXlRuvsi7JbzDyTcVRgmLBNUNMxPn6dA/QCJSloDfeNCxRPkuKBdOcSOm25HyUEhbg4IdqrQWww8KlNZf8uFLYOZC1bM13mCOx5k9T5dc8ZQMG/okhdNIHG9omawRvYrfwHSd1WNoYVFo9Q3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VYiPy6ZB; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-477964c22e0so15831035e9.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 07:46:38 -0800 (PST)
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-47910af0c8bso15823075e9.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 07:46:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1766159197; x=1766763997; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pnCWdNxOjiV83xbv6/Q1ySENLnYMSFtAYAkCgCH7C/E=;
-        b=2WR/Hmn0XZkceSqV5BECw8Nu1JHmqfbv0Ou6CpRlp2vPWa0GPbR4LV24BndLk2nIRR
-         8pTZmPHLc3MYELV+LZPjjBD+6Mj3etIprLflB3mBRjTRNJxhnNY2gvQc2ayqGzfh6gkj
-         LOer+amJqinrFc1hQHgWbEBX+1P+TWIYW0Vji6CLlzQkIYyfE6Rl0HnOyuPmWzKDUrt0
-         t9PvIYW9rEXPMJHMhbmJJE6wp5oJr6jbsDNPb7HdozANnm9kFO4lXrANZ5AsAZtgucU8
-         gO1cA79OEB5KwMco4RlW08kLV9WDu6jBrWLcE83RvIQycMDNKcA8p+mUCobLL83+7ONr
-         4bmA==
+        d=google.com; s=20230601; t=1766159201; x=1766764001; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OmbIhVE6lrQtlGznaoJubWA1ZdiFv/Z/aaL1L4DndHU=;
+        b=VYiPy6ZBchv4JwBBKPpvdOXKedFA1lePijZImUvu9S9yoSz+jN1rx/tUhyVa9N+LSh
+         DBxsNwftsht7XLxGGdgMwApKmSFqwhGRfaGJonTPZ22jKl7n+X9civslQ77uJ+AD+od3
+         Pl1S0UfSfKLI15MZIWNhBKUXtU0gCsdUHHhx4S+x7CnM7NFTQU/msRRrFUUyqK7/+TFZ
+         fdVHs7OBadasCaTOgX7fdgQsgcXipx5mygoufQ/G/GxK8J6IZQW5DzZ0PIhjLGrQqGvB
+         fBf74k8AAz6FI4gB1AxpyA72cjc9dRJEhQ7YIiCEENXTvFOES63TY4N0qNL2z9NAWlrS
+         H15A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766159197; x=1766763997;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pnCWdNxOjiV83xbv6/Q1ySENLnYMSFtAYAkCgCH7C/E=;
-        b=if16Ev48EWoNQBR58oYGEkGV/fX00aT5sFlcN0n8U6jFB39fpbV9mnTbfPuv3/iUbO
-         95PLx/bpEGYEPep4afNlTitgC/GaNwQhJ6q9G+w1JINOrnPsWnLdKI9fHBOqkq2y6ndi
-         bJROj0z1jhyPDN6NGHg/m2dtF5Bsm1yCrkIfqk72sNVuEu+AOjDsDxeW8NWkSGujtzv0
-         rkqnmd71DObXdY1/YsHsHYtaoFQJbC0rhsUNeo5hMNJ5S6Gy7NDWOiIIyk9OLMsuNCCM
-         nHFa6WSvHTEM2ifFLScC5UuyA2hXkzkz7MBdoSgAjS+ijVdX75Dk11GH1c9BxRc1ZHxo
-         vPIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVCOwAa/z/H2+8hAm2K786fYT8E6JCVM2FmRWCSqp/8vQFHzhy/mlE7bqbdHUGbbQw1nKZt0As/uUMQJfI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtEgou4k9pTm58a3oEQcdHkkSCSkgJeFJq+UZTrr74OB9j6LrE
-	9x7jFye+LOHhHt67of9G+C61qzVMU8vfgl+EbkOrdoz5HtWmR32cyvpBDffeZqoYSNf29pCbHbV
-	6Rg==
-X-Google-Smtp-Source: AGHT+IH94p9GxjeE5eZFV8DN+RguEekXTKbRPlnErvQrVGXfEBJeQJYNzzYoe3WVGxRFHI0q7jnGDkVIDg==
-X-Received: from wmcn13.prod.google.com ([2002:a05:600c:c0cd:b0:477:a6e8:797a])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:888b:b0:477:9cec:c83e
- with SMTP id 5b1f17b1804b1-47be2999667mr56775795e9.1.1766159196727; Fri, 19
- Dec 2025 07:46:36 -0800 (PST)
-Date: Fri, 19 Dec 2025 16:40:07 +0100
+        d=1e100.net; s=20230601; t=1766159201; x=1766764001;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OmbIhVE6lrQtlGznaoJubWA1ZdiFv/Z/aaL1L4DndHU=;
+        b=Z5LqjoFcS5P5L8brb7MDHlkUIjsXyLKQBgCUU/ckDKjlfbThR34HUoMNkLYNPZrWXW
+         uqFPZpyiwlnrllxrJq+ahqL7rkchDevcM5o7+c8VLPozyHtfXmZmmX6IZdJs3W0Cm3qA
+         kzSVaQ44mogmxn6fksCEtVggsESN67ByKmH3xOj/8EzD3aMTrqx19EjuJC2T9Kqdmbwi
+         uzsb5p8Fk7euerGynMH9xwGerHlKBE+Ll8dc535RXkkiSaBcHnK2UxozUpWsFeIx/9DQ
+         ERDMpZIzu+HuS/W4MB74eO4WBCxpj6biRaLD47v88c7LdkzNytf03FRm9WmP2D9ZVwLt
+         Dx5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXtXmcadmeo1i5PiOeXa4inS+85YCiV8qGlF8wRAEVVOzBpNzj2PR1MXDgkjQvf+yeMgjgndBSVgyGXiw4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKfChJoL/qjvk1fLHZv7gd63OkjB0Vu403iMbZD3EiUluzaFc4
+	jUViI0aGSgkW0yXv1zQkwWNIshG3MKxW+e89Bu765B1Nez3MnYJN0uML8FPacUkUYpYsK0PM08L
+	9zA==
+X-Google-Smtp-Source: AGHT+IG8sG31wXc+Qczu/TlGtNtQXVUelf3E14dDPvkeumRAhR7hfNjKeviKIQMKw+eqk2KBY9GxLKpBwQ==
+X-Received: from wmoo8-n2.prod.google.com ([2002:a05:600d:108:20b0:47b:daaa:51cf])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:4fc6:b0:465:a51d:d4
+ with SMTP id 5b1f17b1804b1-47d1953b768mr30732635e9.6.1766159200542; Fri, 19
+ Dec 2025 07:46:40 -0800 (PST)
+Date: Fri, 19 Dec 2025 16:40:08 +0100
 In-Reply-To: <20251219154418.3592607-1-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,8 +72,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251219154418.3592607-1-elver@google.com>
 X-Mailer: git-send-email 2.52.0.322.g1dd061c0dc-goog
-Message-ID: <20251219154418.3592607-19-elver@google.com>
-Subject: [PATCH v5 18/36] locking/local_lock: Include missing headers
+Message-ID: <20251219154418.3592607-20-elver@google.com>
+Subject: [PATCH v5 19/36] locking/local_lock: Support Clang's context analysis
 From: Marco Elver <elver@google.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -101,50 +99,447 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
 	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Including <linux/local_lock.h> into an empty TU will result in the
-compiler complaining:
-
-./include/linux/local_lock.h: In function =E2=80=98class_local_lock_irqsave=
-_constructor=E2=80=99:
-./include/linux/local_lock_internal.h:95:17: error: implicit declaration of=
- function =E2=80=98local_irq_save=E2=80=99; <...>
-   95 |                 local_irq_save(flags);                          \
-      |                 ^~~~~~~~~~~~~~
-
-As well as (some architectures only, such as 'sh'):
-
-./include/linux/local_lock_internal.h: In function =E2=80=98local_lock_acqu=
-ire=E2=80=99:
-./include/linux/local_lock_internal.h:33:20: error: =E2=80=98current=E2=80=
-=99 undeclared (first use in this function)
-   33 |         l->owner =3D current;
-
-Include missing headers to allow including local_lock.h where the
-required headers are not otherwise included.
+Add support for Clang's context analysis for local_lock_t and
+local_trylock_t.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- include/linux/local_lock_internal.h | 2 ++
- 1 file changed, 2 insertions(+)
+v5:
+* Rename "context guard" -> "context lock".
+* Use new cleanup.h helpers to properly support scoped lock guards.
 
-diff --git a/include/linux/local_lock_internal.h b/include/linux/local_lock=
-_internal.h
-index 8f82b4eb542f..1a1ea1232add 100644
+v4:
+* Rename capability -> context analysis.
+
+v3:
+* Switch to DECLARE_LOCK_GUARD_1_ATTRS() (suggested by Peter)
+* __assert -> __assume rename
+* Rework __this_cpu_local_lock helper
+* Support local_trylock_t
+---
+ Documentation/dev-tools/context-analysis.rst |  2 +-
+ include/linux/local_lock.h                   | 51 ++++++++------
+ include/linux/local_lock_internal.h          | 71 +++++++++++++++----
+ lib/test_context-analysis.c                  | 73 ++++++++++++++++++++
+ 4 files changed, 161 insertions(+), 36 deletions(-)
+
+diff --git a/Documentation/dev-tools/context-analysis.rst b/Documentation/dev-tools/context-analysis.rst
+index 7b660c3003a0..a48b75f45e79 100644
+--- a/Documentation/dev-tools/context-analysis.rst
++++ b/Documentation/dev-tools/context-analysis.rst
+@@ -80,7 +80,7 @@ Supported Kernel Primitives
+ 
+ Currently the following synchronization primitives are supported:
+ `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`,
+-`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`.
++`bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`, `local_lock_t`.
+ 
+ For context locks with an initialization function (e.g., `spin_lock_init()`),
+ calling this function before initializing any guarded members or globals
+diff --git a/include/linux/local_lock.h b/include/linux/local_lock.h
+index b0e6ab329b00..99c06e499375 100644
+--- a/include/linux/local_lock.h
++++ b/include/linux/local_lock.h
+@@ -14,13 +14,13 @@
+  * local_lock - Acquire a per CPU local lock
+  * @lock:	The lock variable
+  */
+-#define local_lock(lock)		__local_lock(this_cpu_ptr(lock))
++#define local_lock(lock)		__local_lock(__this_cpu_local_lock(lock))
+ 
+ /**
+  * local_lock_irq - Acquire a per CPU local lock and disable interrupts
+  * @lock:	The lock variable
+  */
+-#define local_lock_irq(lock)		__local_lock_irq(this_cpu_ptr(lock))
++#define local_lock_irq(lock)		__local_lock_irq(__this_cpu_local_lock(lock))
+ 
+ /**
+  * local_lock_irqsave - Acquire a per CPU local lock, save and disable
+@@ -29,19 +29,19 @@
+  * @flags:	Storage for interrupt flags
+  */
+ #define local_lock_irqsave(lock, flags)				\
+-	__local_lock_irqsave(this_cpu_ptr(lock), flags)
++	__local_lock_irqsave(__this_cpu_local_lock(lock), flags)
+ 
+ /**
+  * local_unlock - Release a per CPU local lock
+  * @lock:	The lock variable
+  */
+-#define local_unlock(lock)		__local_unlock(this_cpu_ptr(lock))
++#define local_unlock(lock)		__local_unlock(__this_cpu_local_lock(lock))
+ 
+ /**
+  * local_unlock_irq - Release a per CPU local lock and enable interrupts
+  * @lock:	The lock variable
+  */
+-#define local_unlock_irq(lock)		__local_unlock_irq(this_cpu_ptr(lock))
++#define local_unlock_irq(lock)		__local_unlock_irq(__this_cpu_local_lock(lock))
+ 
+ /**
+  * local_unlock_irqrestore - Release a per CPU local lock and restore
+@@ -50,7 +50,7 @@
+  * @flags:      Interrupt flags to restore
+  */
+ #define local_unlock_irqrestore(lock, flags)			\
+-	__local_unlock_irqrestore(this_cpu_ptr(lock), flags)
++	__local_unlock_irqrestore(__this_cpu_local_lock(lock), flags)
+ 
+ /**
+  * local_trylock_init - Runtime initialize a lock instance
+@@ -66,7 +66,7 @@
+  * locking constrains it will _always_ fail to acquire the lock in NMI or
+  * HARDIRQ context on PREEMPT_RT.
+  */
+-#define local_trylock(lock)		__local_trylock(this_cpu_ptr(lock))
++#define local_trylock(lock)		__local_trylock(__this_cpu_local_lock(lock))
+ 
+ #define local_lock_is_locked(lock)	__local_lock_is_locked(lock)
+ 
+@@ -81,27 +81,36 @@
+  * HARDIRQ context on PREEMPT_RT.
+  */
+ #define local_trylock_irqsave(lock, flags)			\
+-	__local_trylock_irqsave(this_cpu_ptr(lock), flags)
+-
+-DEFINE_GUARD(local_lock, local_lock_t __percpu*,
+-	     local_lock(_T),
+-	     local_unlock(_T))
+-DEFINE_GUARD(local_lock_irq, local_lock_t __percpu*,
+-	     local_lock_irq(_T),
+-	     local_unlock_irq(_T))
++	__local_trylock_irqsave(__this_cpu_local_lock(lock), flags)
++
++DEFINE_LOCK_GUARD_1(local_lock, local_lock_t __percpu,
++		    local_lock(_T->lock),
++		    local_unlock(_T->lock))
++DEFINE_LOCK_GUARD_1(local_lock_irq, local_lock_t __percpu,
++		    local_lock_irq(_T->lock),
++		    local_unlock_irq(_T->lock))
+ DEFINE_LOCK_GUARD_1(local_lock_irqsave, local_lock_t __percpu,
+ 		    local_lock_irqsave(_T->lock, _T->flags),
+ 		    local_unlock_irqrestore(_T->lock, _T->flags),
+ 		    unsigned long flags)
+ 
+ #define local_lock_nested_bh(_lock)				\
+-	__local_lock_nested_bh(this_cpu_ptr(_lock))
++	__local_lock_nested_bh(__this_cpu_local_lock(_lock))
+ 
+ #define local_unlock_nested_bh(_lock)				\
+-	__local_unlock_nested_bh(this_cpu_ptr(_lock))
+-
+-DEFINE_GUARD(local_lock_nested_bh, local_lock_t __percpu*,
+-	     local_lock_nested_bh(_T),
+-	     local_unlock_nested_bh(_T))
++	__local_unlock_nested_bh(__this_cpu_local_lock(_lock))
++
++DEFINE_LOCK_GUARD_1(local_lock_nested_bh, local_lock_t __percpu,
++		    local_lock_nested_bh(_T->lock),
++		    local_unlock_nested_bh(_T->lock))
++
++DECLARE_LOCK_GUARD_1_ATTRS(local_lock, __acquires(_T), __releases(*(local_lock_t __percpu **)_T))
++#define class_local_lock_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(local_lock, _T)
++DECLARE_LOCK_GUARD_1_ATTRS(local_lock_irq, __acquires(_T), __releases(*(local_lock_t __percpu **)_T))
++#define class_local_lock_irq_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(local_lock_irq, _T)
++DECLARE_LOCK_GUARD_1_ATTRS(local_lock_irqsave, __acquires(_T), __releases(*(local_lock_t __percpu **)_T))
++#define class_local_lock_irqsave_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(local_lock_irqsave, _T)
++DECLARE_LOCK_GUARD_1_ATTRS(local_lock_nested_bh, __acquires(_T), __releases(*(local_lock_t __percpu **)_T))
++#define class_local_lock_nested_bh_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(local_lock_nested_bh, _T)
+ 
+ #endif
+diff --git a/include/linux/local_lock_internal.h b/include/linux/local_lock_internal.h
+index 1a1ea1232add..e8c4803d8db4 100644
 --- a/include/linux/local_lock_internal.h
 +++ b/include/linux/local_lock_internal.h
-@@ -4,7 +4,9 @@
- #endif
-=20
- #include <linux/percpu-defs.h>
-+#include <linux/irqflags.h>
- #include <linux/lockdep.h>
-+#include <asm/current.h>
-=20
+@@ -10,21 +10,23 @@
+ 
  #ifndef CONFIG_PREEMPT_RT
-=20
---=20
+ 
+-typedef struct {
++context_lock_struct(local_lock) {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map	dep_map;
+ 	struct task_struct	*owner;
+ #endif
+-} local_lock_t;
++};
++typedef struct local_lock local_lock_t;
+ 
+ /* local_trylock() and local_trylock_irqsave() only work with local_trylock_t */
+-typedef struct {
++context_lock_struct(local_trylock) {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map	dep_map;
+ 	struct task_struct	*owner;
+ #endif
+ 	u8		acquired;
+-} local_trylock_t;
++};
++typedef struct local_trylock local_trylock_t;
+ 
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ # define LOCAL_LOCK_DEBUG_INIT(lockname)		\
+@@ -84,9 +86,14 @@ do {								\
+ 			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
+ 			      LD_LOCK_PERCPU);			\
+ 	local_lock_debug_init(lock);				\
++	__assume_ctx_lock(lock);				\
+ } while (0)
+ 
+-#define __local_trylock_init(lock) __local_lock_init((local_lock_t *)lock)
++#define __local_trylock_init(lock)				\
++do {								\
++	__local_lock_init((local_lock_t *)lock);		\
++	__assume_ctx_lock(lock);				\
++} while (0)
+ 
+ #define __spinlock_nested_bh_init(lock)				\
+ do {								\
+@@ -97,6 +104,7 @@ do {								\
+ 			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
+ 			      LD_LOCK_NORMAL);			\
+ 	local_lock_debug_init(lock);				\
++	__assume_ctx_lock(lock);				\
+ } while (0)
+ 
+ #define __local_lock_acquire(lock)					\
+@@ -119,22 +127,25 @@ do {								\
+ 	do {							\
+ 		preempt_disable();				\
+ 		__local_lock_acquire(lock);			\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_lock_irq(lock)					\
+ 	do {							\
+ 		local_irq_disable();				\
+ 		__local_lock_acquire(lock);			\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_lock_irqsave(lock, flags)			\
+ 	do {							\
+ 		local_irq_save(flags);				\
+ 		__local_lock_acquire(lock);			\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_trylock(lock)					\
+-	({							\
++	__try_acquire_ctx_lock(lock, ({				\
+ 		local_trylock_t *__tl;				\
+ 								\
+ 		preempt_disable();				\
+@@ -148,10 +159,10 @@ do {								\
+ 				(local_lock_t *)__tl);		\
+ 		}						\
+ 		!!__tl;						\
+-	})
++	}))
+ 
+ #define __local_trylock_irqsave(lock, flags)			\
+-	({							\
++	__try_acquire_ctx_lock(lock, ({				\
+ 		local_trylock_t *__tl;				\
+ 								\
+ 		local_irq_save(flags);				\
+@@ -165,7 +176,7 @@ do {								\
+ 				(local_lock_t *)__tl);		\
+ 		}						\
+ 		!!__tl;						\
+-	})
++	}))
+ 
+ /* preemption or migration must be disabled before calling __local_lock_is_locked */
+ #define __local_lock_is_locked(lock) READ_ONCE(this_cpu_ptr(lock)->acquired)
+@@ -188,18 +199,21 @@ do {								\
+ 
+ #define __local_unlock(lock)					\
+ 	do {							\
++		__release(lock);				\
+ 		__local_lock_release(lock);			\
+ 		preempt_enable();				\
+ 	} while (0)
+ 
+ #define __local_unlock_irq(lock)				\
+ 	do {							\
++		__release(lock);				\
+ 		__local_lock_release(lock);			\
+ 		local_irq_enable();				\
+ 	} while (0)
+ 
+ #define __local_unlock_irqrestore(lock, flags)			\
+ 	do {							\
++		__release(lock);				\
+ 		__local_lock_release(lock);			\
+ 		local_irq_restore(flags);			\
+ 	} while (0)
+@@ -208,13 +222,19 @@ do {								\
+ 	do {							\
+ 		lockdep_assert_in_softirq();			\
+ 		local_lock_acquire((lock));			\
++		__acquire(lock);				\
+ 	} while (0)
+ 
+ #define __local_unlock_nested_bh(lock)				\
+-	local_lock_release((lock))
++	do {							\
++		__release(lock);				\
++		local_lock_release((lock));			\
++	} while (0)
+ 
+ #else /* !CONFIG_PREEMPT_RT */
+ 
++#include <linux/spinlock.h>
++
+ /*
+  * On PREEMPT_RT local_lock maps to a per CPU spinlock, which protects the
+  * critical section while staying preemptible.
+@@ -269,7 +289,7 @@ do {								\
+ } while (0)
+ 
+ #define __local_trylock(lock)					\
+-	({							\
++	__try_acquire_ctx_lock(lock, context_unsafe(({		\
+ 		int __locked;					\
+ 								\
+ 		if (in_nmi() | in_hardirq()) {			\
+@@ -281,17 +301,40 @@ do {								\
+ 				migrate_enable();		\
+ 		}						\
+ 		__locked;					\
+-	})
++	})))
+ 
+ #define __local_trylock_irqsave(lock, flags)			\
+-	({							\
++	__try_acquire_ctx_lock(lock, ({				\
+ 		typecheck(unsigned long, flags);		\
+ 		flags = 0;					\
+ 		__local_trylock(lock);				\
+-	})
++	}))
+ 
+ /* migration must be disabled before calling __local_lock_is_locked */
+ #define __local_lock_is_locked(__lock)					\
+ 	(rt_mutex_owner(&this_cpu_ptr(__lock)->lock) == current)
+ 
+ #endif /* CONFIG_PREEMPT_RT */
++
++#if defined(WARN_CONTEXT_ANALYSIS)
++/*
++ * Because the compiler only knows about the base per-CPU variable, use this
++ * helper function to make the compiler think we lock/unlock the @base variable,
++ * and hide the fact we actually pass the per-CPU instance to lock/unlock
++ * functions.
++ */
++static __always_inline local_lock_t *__this_cpu_local_lock(local_lock_t __percpu *base)
++	__returns_ctx_lock(base) __attribute__((overloadable))
++{
++	return this_cpu_ptr(base);
++}
++#ifndef CONFIG_PREEMPT_RT
++static __always_inline local_trylock_t *__this_cpu_local_lock(local_trylock_t __percpu *base)
++	__returns_ctx_lock(base) __attribute__((overloadable))
++{
++	return this_cpu_ptr(base);
++}
++#endif /* CONFIG_PREEMPT_RT */
++#else  /* WARN_CONTEXT_ANALYSIS */
++#define __this_cpu_local_lock(base) this_cpu_ptr(base)
++#endif /* WARN_CONTEXT_ANALYSIS */
+diff --git a/lib/test_context-analysis.c b/lib/test_context-analysis.c
+index 1c96c56cf873..003e64cac540 100644
+--- a/lib/test_context-analysis.c
++++ b/lib/test_context-analysis.c
+@@ -6,7 +6,9 @@
+ 
+ #include <linux/bit_spinlock.h>
+ #include <linux/build_bug.h>
++#include <linux/local_lock.h>
+ #include <linux/mutex.h>
++#include <linux/percpu.h>
+ #include <linux/rcupdate.h>
+ #include <linux/rwsem.h>
+ #include <linux/seqlock.h>
+@@ -458,3 +460,74 @@ static void __used test_srcu_guard(struct test_srcu_data *d)
+ 	{ guard(srcu_fast)(&d->srcu); (void)srcu_dereference(d->data, &d->srcu); }
+ 	{ guard(srcu_fast_notrace)(&d->srcu); (void)srcu_dereference(d->data, &d->srcu); }
+ }
++
++struct test_local_lock_data {
++	local_lock_t lock;
++	int counter __guarded_by(&lock);
++};
++
++static DEFINE_PER_CPU(struct test_local_lock_data, test_local_lock_data) = {
++	.lock = INIT_LOCAL_LOCK(lock),
++};
++
++static void __used test_local_lock_init(struct test_local_lock_data *d)
++{
++	local_lock_init(&d->lock);
++	d->counter = 0;
++}
++
++static void __used test_local_lock(void)
++{
++	unsigned long flags;
++
++	local_lock(&test_local_lock_data.lock);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock(&test_local_lock_data.lock);
++
++	local_lock_irq(&test_local_lock_data.lock);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock_irq(&test_local_lock_data.lock);
++
++	local_lock_irqsave(&test_local_lock_data.lock, flags);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock_irqrestore(&test_local_lock_data.lock, flags);
++
++	local_lock_nested_bh(&test_local_lock_data.lock);
++	this_cpu_add(test_local_lock_data.counter, 1);
++	local_unlock_nested_bh(&test_local_lock_data.lock);
++}
++
++static void __used test_local_lock_guard(void)
++{
++	{ guard(local_lock)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++	{ guard(local_lock_irq)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++	{ guard(local_lock_irqsave)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++	{ guard(local_lock_nested_bh)(&test_local_lock_data.lock); this_cpu_add(test_local_lock_data.counter, 1); }
++}
++
++struct test_local_trylock_data {
++	local_trylock_t lock;
++	int counter __guarded_by(&lock);
++};
++
++static DEFINE_PER_CPU(struct test_local_trylock_data, test_local_trylock_data) = {
++	.lock = INIT_LOCAL_TRYLOCK(lock),
++};
++
++static void __used test_local_trylock_init(struct test_local_trylock_data *d)
++{
++	local_trylock_init(&d->lock);
++	d->counter = 0;
++}
++
++static void __used test_local_trylock(void)
++{
++	local_lock(&test_local_trylock_data.lock);
++	this_cpu_add(test_local_trylock_data.counter, 1);
++	local_unlock(&test_local_trylock_data.lock);
++
++	if (local_trylock(&test_local_trylock_data.lock)) {
++		this_cpu_add(test_local_trylock_data.counter, 1);
++		local_unlock(&test_local_trylock_data.lock);
++	}
++}
+-- 
 2.52.0.322.g1dd061c0dc-goog
 
 
