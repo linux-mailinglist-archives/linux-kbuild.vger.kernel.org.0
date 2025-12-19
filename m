@@ -1,145 +1,139 @@
-Return-Path: <linux-kbuild+bounces-10288-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10289-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0CE7CD216F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 23:18:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8565ACD2181
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 23:22:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B52B93001BCC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 22:18:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1C7E4303E018
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Dec 2025 22:22:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEA10199949;
-	Fri, 19 Dec 2025 22:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5932E219A89;
+	Fri, 19 Dec 2025 22:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VfNtDWjf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfZlARGA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122291487F6
-	for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 22:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13509199949;
+	Fri, 19 Dec 2025 22:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766182712; cv=none; b=sQKvBngK7O+fdvTIK5+0tvl7NK7UslyIcuC1obcnwSm35dPrrNMYn83fa1vZLzAxnQfio0RpNM5f0RSPYu30IpnpUlWTLR0FqdRnSbIxvlUDhh8JIOGcJar0OVy3BgRkk9LiEw9ZmRXGyoGKGk3BYtBT6Er8JaW1OmaCw8pxx6g=
+	t=1766182919; cv=none; b=Cp8Yd9XJKpeXAyxpkO4KWfqCUdJanAg/vqXPEc2/b5n2wtrSZJ9Ze5nn7fakuCJUaXwQ62u8AE/2DUa5XYJFM+cyYIK8lpKavgS1HyekwzwgeDVZwzBLb3KzoirURtUkpLuR+PnLGa2M7239k4s2r5DELoBjt9D4EdYM9FjGAos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766182712; c=relaxed/simple;
-	bh=dyggFKYkHATvculCCrZqdJ7slx1kC+rp+7uwz1762FQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qdGoohT/CIJhEUmTmoA0rCyCaIr5FAq3jqM0oCG73roX/z+nApnyGvhxA6CulytXjZhzE5TRY2/56wWdTpTcusQP7T6tXQ4KrQdcwnE+jKCr6M4aMPF03ESw69Yr0/xPk2R2wrwBTW3NMKpeKfZ0oJ8VtSmWTmAfu8/MQM+8k2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VfNtDWjf; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so15789685e9.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 19 Dec 2025 14:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766182709; x=1766787509; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RQJwxRPUK/2OdlbcMPnKVt7Hxg5Z9WKk/zQoAYjwUJg=;
-        b=VfNtDWjf5gNz7F36axc1Q16+fl51vYdDyDnKGjXERcfv/1hKAxwMlGKbh0hD2ct9o8
-         HW6q8pnfBZAnRugtOJdIX6AJkV7vKHFyO4uZmVV3JyxW/l0ctliKdSK8iy9Pd1z0eFpB
-         LoUnnXPV8ETMALHWDJWvR/WOwTnhCVNOCmwC6yfPwzIR4P70yXdQQEXZljMSr44547Ue
-         MoPyRf7AMMPk3RfqCZI45xYzdNLqsb86ufaIEbf1T5glqjsc0BDDA922WGKfL+jDa3fG
-         WbcrEdJpSYdZAKS/x1c03TvDhNwnLNGNnP3zTGlPZ7XvKQbRfeyvgu6so7pjn1AWb3LN
-         8kaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766182709; x=1766787509;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RQJwxRPUK/2OdlbcMPnKVt7Hxg5Z9WKk/zQoAYjwUJg=;
-        b=L8hsGELSoMS5KFlA4pB+kDzVmc5IlytCba9Oe279Lp3eto0EeId16FN+uhRdNJY+PE
-         46btBkbOSNg93EyK79Jsdy/404PdM6OiKH/iGAMm+aw4juAhSkrQe3UWH0dU+YYzO+HY
-         nd7x2lSLuQ4xuxhVben6xwU2MHUojDX5Hu+AFKfBEIjo6lSUQPYsmGhDDjqkLLc0u9X4
-         0Cdl3mw5lUzqG/0Y/aMiiodmZWaCGvdiieXlqv32wV6qQxCdWbTSBuAtUAFfRFz2KDTH
-         +n+IlS/YQrWlcJXuSIy+W6qIaUHyzhr5q3fawgQ8l29N5fF+ensXCkfFMeVjGieWwgtl
-         mMQA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdXDgJNlzCH0lg+kNM9E6EERE1S/MVreY7r2rz9jYOZ02e5gL+4QlfNAx70KX0PRt/J7kBOzOMKDHzNKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuuUlhwVkLauTC64+Vk/PVC7Hpw8/ntH43xgn8zxbSzI3VgTgf
-	OY1YRrz8znL0dT9OAWWjEp3/vL0hXrDc8fHT6GHaHpcmVOkDzHqKvjxY
-X-Gm-Gg: AY/fxX4Zb2ihB2bSdC/GeB+mhc1xOmoMxNMbo/uxP1Sdm301aSLPanf61WZCLMegWN9
-	udbpevHLLHzBLnZ8Sba+7SgeE19fPw6Xaqm6ywFwc9oj7MkXcsP9SDyfBSvkoEwd9FarNY5P0av
-	mT1gIiiqEziXwveCk7towk39SsGt81ckJ7vGxWb2YPwsFwYniDjKXJRKnoDQ8Ctm2bIWLsQBumr
-	JLcGK2OqhA42k4aHBLkExJwSuRntYoMcBA6/SiqWui2e1vLnEIZtCzz171HY7RocNb4Ti0rPOHF
-	tQK8P6Or6v79+1QGcpHhz7jTiKlkHR8FZhKnzm8zqjowznaBjaa1M+QXrrjnAevkubJR2rhoHbQ
-	Rd/qRmYSnvMBPQ70EqKz2ZXSRdX9duNkKDWp12nwY6JlDTXVBnT1UG8Zuuk2JZJ58jwnDPGDY8u
-	gnmKyxebsV630ILe5FKmHbmZZ/wTEFFkDZ6LQz+j7MmxO0dES6wtOS
-X-Google-Smtp-Source: AGHT+IFdbfX2VjooFC/IeancJMkqD9QDu6TZQT1ikcQ+IhMWuXDbEwCH7uHHpiyYXaqd725Qq4HkAw==
-X-Received: by 2002:a05:600c:8216:b0:477:97c7:9be7 with SMTP id 5b1f17b1804b1-47d19549a07mr45741515e9.1.1766182709164;
-        Fri, 19 Dec 2025 14:18:29 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be2723d19sm129944585e9.2.2025.12.19.14.18.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 14:18:28 -0800 (PST)
-Date: Fri, 19 Dec 2025 22:18:27 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nsc@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] kbuild: Only enable
- -Wtautological-constant-out-of-range-compare for W=2
-Message-ID: <20251219221827.4efa210c@pumpkin>
-In-Reply-To: <20251219201231.GB1404453@ax162>
-References: <20251214131528.3648-1-david.laight.linux@gmail.com>
-	<20251219201231.GB1404453@ax162>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1766182919; c=relaxed/simple;
+	bh=FsqeszlxIHiTohzZngxRkVyLF51Apt1E+JyyqMd1yFE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=O18e0Ga7b9TI6a5ZxoJW5vqFRP5MwwfpgwKiTUAMj15URLZMXVWaa5JCZPSoYNbiSJrH8FW1ybe4SePz3ZqPSF+GBiwGcKo2JEdJjsHzLKOk6nallygORBFvww1UfscOBqhLhDNQOCNiLyxfzOWDNhERJxjDTJn/kyfeBcO1F/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BfZlARGA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BCD1C4CEF1;
+	Fri, 19 Dec 2025 22:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766182918;
+	bh=FsqeszlxIHiTohzZngxRkVyLF51Apt1E+JyyqMd1yFE=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=BfZlARGAHPN0qekSR8SbUYz5e5FGLDRFtWswsHunHgQUq76yZFStl0MKmmdaSBSbb
+	 8j226H6+xgy54SqzvUCjzQ3bc+FMExKfSsBhpulCtCH3kzm3VOSL9YNdz4lTDl9sTP
+	 L0sqHNN+t0KTZRZEPsTCSfmI7CGvgktbhizWhLHw1o/nENDULPNP5fvpA+rbyL9Zgf
+	 JA0ZyoElHuvQRTghyYXwn6c68bK4wsm/gPcNvIHfdNcKd4WV2B/gG9pARAekDvJnsi
+	 co7TGJx7jUtnMxenfUxYDVFTpQnqrWSwjInLioJJXDYRAPXSxmn/xlgnvarAC8m1+W
+	 dLOpywftaZLvQ==
+Message-ID: <3ead6685-a5d4-4113-923d-84bf8aee49b3@kernel.org>
+Date: Fri, 19 Dec 2025 23:21:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] kbuild: remove gcc's -Wtype-limits
+From: Vincent Mailhol <mailhol@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org
+References: <20251218-remove_wtype-limits-v1-0-735417536787@kernel.org>
+ <20251218-remove_wtype-limits-v1-1-735417536787@kernel.org>
+ <aURXpAwm-ITVlHMl@stanley.mountain>
+ <480c3c06-7b3c-4150-b347-21057678f619@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <480c3c06-7b3c-4150-b347-21057678f619@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 19 Dec 2025 13:12:31 -0700
-Nathan Chancellor <nathan@kernel.org> wrote:
+On 18/12/2025 at 23:31, Vincent Mailhol wrote:
 
-> Hi David,
+(...)
+
+> Concerning clang, here are the statistics:
 > 
-> On Sun, Dec 14, 2025 at 01:15:28PM +0000, david.laight.linux@gmail.com wrote:
-> > From: David Laight <david.laight.linux@gmail.com>
-> > 
-> > The kernel code style is to use !(expr) rather that (expr) == 0.
-> > But clang complains that converting some constant expressions
-> > (eg (0xffffu << 16)) to a boolean always evalutes to true.
-> > This happens often in the validity checks in #defines.
-> > Move tautological-constant-out-of-range-compare to W=2 (along with the
-> > similar type-limits).
-> > 
-> > Signed-off-by: David Laight <david.laight.linux@gmail.com>  
+> 	$ make -s LLVM=1 CFLAGS_KERNEL="-Wtype-limits" 2>&1 | grep -o '\[-W\S*\]' | sort | uniq -c
+> 	      2 [-Wtautological-type-limit-compare]
+> 	     15 [-Wtautological-unsigned-enum-zero-compare]$ make -s LLVM=1 CFLAGS_KERNEL="-Wtype-limits"
 > 
-> I would like Arnd to comment on this before applying because the
-> reasoning of this change does not feel good enough to disable this
-> warning. It is not like '== 0' is inherently uncommon in the kernel or
-> hard to write to avoid the implicit conversion warning. To be honest, I
-> am a bit surprised -Wtautological-constant-out-of-range-compare fires
-> for that instead of some sort of -Wconversion warning...
+> (done on a linux v6.19-rc1 defconfig with clang v20.1.8)
+> 
+> Not so many warnings, at least, less than what I would have thought!
+> 
+> -Wtautological-unsigned-char-zero-compare and
+> -Wtautological-unsigned-zero-compare gave zero findings. So those two
+> can be enabled, I guess? I am still surprised that
+> -Wtautological-unsigned-zero-compare gives nothing. I would have
+> expected some kind of false positives on that one. No sure if I missed
+> something here.
 
-Somewhere I got confused and must have looked at the wrong email (or just
-failed to separate two very long warning names).
-The actual warning was:
+I was a bit worried of that -Wtautological-unsigned-zero-compare got
+zero findings so I reran a build but this time on an allyesconfig
+(minus CONFIG_WERROR):
 
->> drivers/gpu/drm/xe/xe_guc.c:639:19: error: converting the result of '<<' to a boolean always evaluates to true [-Werror,-Wtautological-constant-compare]  
-     639 |                 klvs[count++] = PREP_GUC_KLV_TAG(OPT_IN_FEATURE_EXT_CAT_ERR_TYPE);
-         |                                 ^
-   drivers/gpu/drm/xe/xe_guc_klv_helpers.h:62:2: note: expanded from macro 'PREP_GUC_KLV_TAG'
-      62 |         PREP_GUC_KLV_CONST(MAKE_GUC_KLV_KEY(TAG), MAKE_GUC_KLV_LEN(TAG))
-         |         ^
-   drivers/gpu/drm/xe/xe_guc_klv_helpers.h:38:20: note: expanded from macro 'PREP_GUC_KLV_CONST'
-      38 |         (FIELD_PREP_CONST(GUC_KLV_0_KEY, (key)) | \
-         |                           ^
-   drivers/gpu/drm/xe/abi/guc_klvs_abi.h:36:35: note: expanded from macro 'GUC_KLV_0_KEY'
-      36 | #define GUC_KLV_0_KEY                           (0xffffu << 16)
+	$ make -j8 -s LLVM=1 CFLAGS_KERNEL="-Wtype-limits" 2>&1 | grep -o '\[-W\S*\]' | sort | uniq -c
+	     29 [-Wtautological-type-limit-compare]
+	     55 [-Wtautological-unsigned-enum-zero-compare]
+	     76 [-Wtautological-unsigned-zero-compare]
 
-Inside FIELD_PREP_CONST(mask, val) there is (with the patch, and if I've
-typed it correctly):
-	BUILD_BUG_ON_ZERO(!(mask) || (mask) & ((mask) + ((mask) & -(mask)))))
-to check the mask is non-zero and contiguous bits.
+This is closer than expected. And looking at the findings,
+-Wtautological-unsigned-zero-compare also warns on some sane code
+which is just doing some range checks.
 
-But this all reminds me of a compiler I once used that would generate a
-warning for 'constant in conditional context'.
+(...)
 
-	David
+> In conclusion, I agree that we could enable three of clang's
+> -Wtype-limits sub-warning. But this is not the scope of that series. I
+> would rather prefer to have this as a separate series.
+
+With this, I want to amend my conclusion. both
+-Wtautological-unsigned-enum-zero-compare and
+-Wtautological-unsigned-zero-compare should be kept disabled. The only
+candidates are -Wtautological-type-limit-compare and
+-Wtautological-unsigned-char-zero-compare.
+
+-Wtautological-unsigned-char-zero-compare would need another study. It
+seems that this warning is only triggered on platforms where char is
+unsigned which explains why I did not see it when building on x86_64.
+
+Well, I think I will stop this clang's -Wtype-limits study for the
+moment. If anyone wants to continue the work please go ahead.
+
+
+Yours sincerely,
+Vincent Mailhol
 
