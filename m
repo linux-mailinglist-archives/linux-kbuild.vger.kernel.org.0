@@ -1,162 +1,156 @@
-Return-Path: <linux-kbuild+bounces-10304-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10305-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62020CD2E9C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Dec 2025 13:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52130CD2EFD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Dec 2025 13:52:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 05CDC300F8A8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Dec 2025 12:15:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A15B83014DB1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Dec 2025 12:52:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1B311E4AF;
-	Sat, 20 Dec 2025 12:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F3672D7DF5;
+	Sat, 20 Dec 2025 12:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhKZBA+m"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4fKfKSKv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112E63A1E7F
-	for <linux-kbuild@vger.kernel.org>; Sat, 20 Dec 2025 12:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C5F23ABBD
+	for <linux-kbuild@vger.kernel.org>; Sat, 20 Dec 2025 12:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766232936; cv=none; b=rBQ6/z2s8tO2DXWZWMNtUxBYrOumWmpgrZHgr7F0F7IM3L7QiTtPMB12eSGEIyshoIrHtsCnv5FPJzq3x+K+xSElIC9wxIHLGER4nhOaQGAFU+NkKh8l61pCJ2Lp5WiIBpsRwoekn5iWbIgCofA5N80E8AwJpFrZGl7l7PXE6W0=
+	t=1766235130; cv=none; b=RDBMJsD16jTifZCe7RL/Z43hCXar70uWbLhJpAq1LehxSJaFB5EXvzNoHsUyLDMwaDF/LOyoAbjJ4RmfmxrkbIvG99QL3cYrhTSS/01HvbK3tvsB7Cz8LwcLNiPfKL0WDuEPNN6/S58xz1cuf0Qglb2ENkFMg9KibQL7nx0md+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766232936; c=relaxed/simple;
-	bh=HT6rGisAzJrATVoHaTjefftalkSsNqwoPak/aLxYEP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TnveL36t82OwaKceGt8be7fV0VV1s3p9ZLWgy3VSHp4i58RGBYPd6m/+ytMAPFWu6FntWDT47Ww4JH5+azMjviNe21JXdoZyuFCflv+gOABsNe8ye5sNQkR+F0hWZf+RWQx/hdv2vUlJHCSVkonlUszXv5B73HuOeLHwAhXb3lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhKZBA+m; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779a4fc95aso18308665e9.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 Dec 2025 04:15:34 -0800 (PST)
+	s=arc-20240116; t=1766235130; c=relaxed/simple;
+	bh=wkv3Ho3KGiVJkt5Z4uain5drk7TOMSZYfvI9aQbzCrQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oRGuhUZrz+76N2b09BgWhjtX1TlQNHnEoC8kByTj0PQ4b5vCRYyDWz7J+Ex14TLH0CyMsi+gGel4S2DyeYT/Sm7IbMenIFcVCxYbemOxtccT3L6Y9RPqBtFNh8iLaMTOhdb8oR91IUoH82mHSWzby5aw/8oKGbpoBQF5/6visO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4fKfKSKv; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-bd1b0e2c1eeso1944724a12.0
+        for <linux-kbuild@vger.kernel.org>; Sat, 20 Dec 2025 04:52:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766232933; x=1766837733; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0iELTgggMQoPNj9yF64m2G8T+d+6iv2FEFJAnnAfMx8=;
-        b=LhKZBA+mfOiNHh7YwA8FOIk3Zr9nFSSdJZFYAad9KGKDPwQ1BFuzubpoyzxrpgFTfa
-         pqaN/UdpxcFgN5zvCUnlV1qncqu27K/hLiohzZ5RxCtn9u76YZL/f1viAyFTj1m08AoY
-         0cU3ysT9f0gy1qXrSyqFZzIAiN+pFSptx7qS1s4Q+Z4KAS4wEJjD+EC82lk3loeVRqVZ
-         edwdcGyt98yzQMXCFnMCDRGyGDKaU9gUp9aLeiqDsqv68qcEtgAM71Jx723arEInxPD0
-         dztNnKjVQD7S0pTRtpMYIW87iDIoKRoH7+ek74fWI00Xq0J6BhAAn40THp7rQPkjq4u7
-         7dkA==
+        d=google.com; s=20230601; t=1766235127; x=1766839927; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+dbDPICBAvFxThOmxuLLN+XESg+4otRZJCktLSd/IHI=;
+        b=4fKfKSKvM1SC6Tzv/bJ7SpdOWrpUGOe+n+A0s4HucJnyJXoUvg0bBqgs3cJDHd9d0P
+         fxyPZ1jO4LYfkUJb/NShyPV2B7ey2yft+RzlVDNvS34KL0lvRtgDj8MYBTSJ4uB11TOb
+         kJgeX/fWH4r3ZoBCu5rGx9tgC0Almi31+Rg7noxwgSeyltZaSWzD5G26BrXB4I3DxRCX
+         yQDd1uSFawTeGBdhklItdKxkhJ5GeWzKj2oZPIE5K/jf9Jg5LMnqMxEaFGTIiDw+BYK0
+         QnIBI5evkUDynqRI//PJWAeBUCPNPRR5RX5+KOrMK+tZHSGNK+Co9jfADrmS1yHAKKBU
+         /Q9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766232933; x=1766837733;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0iELTgggMQoPNj9yF64m2G8T+d+6iv2FEFJAnnAfMx8=;
-        b=bz7MnTtRXTVwMSh5cPXT8ohry2Cx+K+2Sp08fn0eEmw+6230KtqKjpuDWSyDNQwxxX
-         noe+T1hXE5JTBtlgYns13NoP5lfVtzfE8QqrKvDBGIdeLrBPHQPls0MXuqj6T/ID1l5Z
-         kS6698mhNvlY8WWn3hAujltVI+lqJule7U2b/g2DptuYqDSxbzqHPzj9hO4+GpFjQiQB
-         Q28S12nPWQXRibP+seWS66ObnBs2RToIwK7cSzCGljL/HZpe6BUEj2fMaUzJNEDHZrcL
-         h6kqZymamdbqQdocWIUw9v4I4O2+o8vKBevmnbKZrr0jHx3cc3xpG8ahjQQt5+DM2a8e
-         06QQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1o4fhAKfSJI6dorPtlYkwuOMZgRz50FssucFykqFezPiaiog0sZc9eUjB5TPIRpidMh8ZeQVmQ6Y1RJA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVOtX7N1wmhneTL31WBaqa9BrzeR47xXt2N9wjBKAwNBTo1or7
-	qBXNddtw9wZyRRh1xa2cn/iIYG/jGrsHsqEGEOJ7ymRCxfgTAZ78Oiof
-X-Gm-Gg: AY/fxX5rWB2DJgcXblfnwWJbGKrZsd1tt7groWgwOzkAaprXqgO2al/w572AWVflsMC
-	7918Q4E/dR+N4xsKKV+g+5VugJyKVXn9lsTxYL1krNTWvmbkqSy6MC8kMNBr4cWetosW2U6j4Ng
-	s6zSxb2oC1/UsotSoBvjc3Tuipqqi7yNZlde3edi2YJVl1LigKa9iQDctsZwXcf1xYePq8UP9C3
-	7okv4rxE+P7/8zPRBeB+clO7fEaqfXwFSIAP9qLQtufjCzoiQbaF99xcPMR3uzbWiy9hpp+xJLn
-	Oh1OLKS4OKuICaGaGNHpCCdtI7k6DM2aM5s+FLNUllesMiE17+yw23oLLtXWLC8+6Sf6tU32Ohi
-	FDc+RPOpP92qhbUZIfovY0oW00JS6p0kSubrz6U/NnZO273sxmddPe9bZ62GF+Ig/PZPF06VUlB
-	7WroJrF+X3b23lH5cljUdNQehISVsvY18ePwvtPwf0TY0CWjNkxshhJhJ1B6R7kD0=
-X-Google-Smtp-Source: AGHT+IFQoE4QDWQr8T1wZVNOYSd+3Uu6vakq96tn+Zj5GkyDF7taAVFShsYizNWCCMZfEV2IPRwWJA==
-X-Received: by 2002:a05:6000:2011:b0:429:cb8b:b58e with SMTP id ffacd0b85a97d-4324e437982mr6834081f8f.28.1766232933035;
-        Sat, 20 Dec 2025 04:15:33 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa2bdfsm10477146f8f.32.2025.12.20.04.15.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Dec 2025 04:15:32 -0800 (PST)
-Date: Sat, 20 Dec 2025 12:15:31 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Arnd Bergmann" <arnd@arndb.de>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Cc: "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier"
- <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] kbuild: Only enable
- -Wtautological-constant-out-of-range-compare for W=2
-Message-ID: <20251220121531.0dae2544@pumpkin>
-In-Reply-To: <40f1457c-6e57-4d09-b50e-7133bafa7c3e@app.fastmail.com>
-References: <20251214131528.3648-1-david.laight.linux@gmail.com>
- <20251219201231.GB1404453@ax162>
- <20251219221827.4efa210c@pumpkin>
- <40f1457c-6e57-4d09-b50e-7133bafa7c3e@app.fastmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20230601; t=1766235127; x=1766839927;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+dbDPICBAvFxThOmxuLLN+XESg+4otRZJCktLSd/IHI=;
+        b=BR/NybJ3miJh8cz1uB6zNVnhtXZF3wr31URhwGXo9/mEdN5d0egmPQRH0VXNZCvnln
+         nTpUgBlEH0R3J0/KcHwSSomXwhiy4zThhGSMOnwcLwmNod63sluR/KL+VfkGcT4yL/P4
+         2uCot5ZiPJaWOcAB6XCcxL5O1EHs6ZLQM1y/b8I+aTVEbvnZ74HZRmqaLtSFswrhDj0O
+         xvvixxNIwOz5nqm8/EKhtnhs7uCDc3V+JWp/eEm/4lFpOCsf6j6FFkQFljE6nEWHvdx2
+         LGQsxh7niLhbfU5aGtj4nQLD8udnxIusICsoXFflgCb6+VmB6nZNGX0H8AYOk23SNEYZ
+         iSyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnmaL1F1v5MICploycg6siYQrix02FICSabIkv3f5q+IMyiabWtnIrCG60xGg+KW0FMHOqGOCJ48gVtZY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNBn8QOMaBhMsWvhMSdfoRyP47yizJ3Rwd7lOoHXe6LdwTchIM
+	IdD9ewyYES4QYRukrQ2H9zgag1DxcZ7JbosptRoV0JQyfAfuIb//XHeGLLUyPI4W+DJD8TGcAH2
+	e6vX6JiHcBA1Gfb2sovy/G+Jq6wsHHgrV183jNq04
+X-Gm-Gg: AY/fxX7aDqwVxlPe5I5V3UbAWIP59caHZPhLwW64IjM3Qo04QpfCw77xaVGE2twgGJJ
+	leGugPkfUAAOHXlRow4IhvewlGWUrd2+lDSZ4IMS1wSAZU5oqMiHqtRqKctGu2w9M3jKnaZj6Oc
+	B1cP/+e9+hl6JDoZgKdzKmMMai+tqfYiM3ktVbLo/aJmZ0RBYVxRdLNSTa/GF9ffy6txKGDLnzI
+	1Om1qLvSyt2nJKNx0UtNydkwD27hOeXx5X+1uopRv0vkdmA8b/JLb82PJOwk49v2Slt0n+E72AW
+	wqEKbRqHhM97InC0rJJhUEesPTE=
+X-Google-Smtp-Source: AGHT+IFK+Y5PBS3dXibTZfBS01UEAFChnwqe6iaCyTB/4jIaIz5ZwPF8qLO8d7Qf00M2Z85ZCatTVKEE522UP0jz/Ik=
+X-Received: by 2002:a05:7022:6291:b0:119:e569:f61e with SMTP id
+ a92af1059eb24-121722e12e7mr5961881c88.23.1766235126461; Sat, 20 Dec 2025
+ 04:52:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251219154418.3592607-1-elver@google.com> <20251219154418.3592607-25-elver@google.com>
+ <9af0d949-45f5-45cd-b49d-d45d53f5d8f6@gmail.com>
+In-Reply-To: <9af0d949-45f5-45cd-b49d-d45d53f5d8f6@gmail.com>
+From: Marco Elver <elver@google.com>
+Date: Sat, 20 Dec 2025 13:51:30 +0100
+X-Gm-Features: AQt7F2ppWjAa_1uLXQb3ar2W4qqqhjA5uP_vsvi-YrCuihuPYztcukGp4Yjpido
+Message-ID: <CANpmjNOUr8rHmui_nPpGBzmXe4VRn=70dT7n6sWpJc6FD2qLbA@mail.gmail.com>
+Subject: Re: [PATCH v5 24/36] compiler-context-analysis: Remove __cond_lock()
+ function-like helper
+To: Bart Van Assche <bart.vanassche@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
+	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 20 Dec 2025 11:27:13 +0100
-"Arnd Bergmann" <arnd@arndb.de> wrote:
+On Fri, 19 Dec 2025 at 22:42, Bart Van Assche <bart.vanassche@gmail.com> wrote:
+> On 12/19/25 8:40 AM, Marco Elver wrote:
+> >   Documentation/dev-tools/context-analysis.rst  |  2 -
+> >   Documentation/mm/process_addrs.rst            |  6 +-
+> >   .../net/wireless/intel/iwlwifi/iwl-trans.c    |  4 +-
+> >   .../net/wireless/intel/iwlwifi/iwl-trans.h    |  6 +-
+> >   .../intel/iwlwifi/pcie/gen1_2/internal.h      |  5 +-
+> >   .../intel/iwlwifi/pcie/gen1_2/trans.c         |  4 +-
+> >   include/linux/compiler-context-analysis.h     | 31 ----------
+> >   include/linux/lockref.h                       |  4 +-
+> >   include/linux/mm.h                            | 33 ++--------
+> >   include/linux/rwlock.h                        | 11 +---
+> >   include/linux/rwlock_api_smp.h                | 14 ++++-
+> >   include/linux/rwlock_rt.h                     | 21 ++++---
+> >   include/linux/sched/signal.h                  | 14 +----
+> >   include/linux/spinlock.h                      | 45 +++++---------
+> >   include/linux/spinlock_api_smp.h              | 20 ++++++
+> >   include/linux/spinlock_api_up.h               | 61 ++++++++++++++++---
+> >   include/linux/spinlock_rt.h                   | 26 ++++----
+> >   kernel/signal.c                               |  4 +-
+> >   kernel/time/posix-timers.c                    | 13 +---
+> >   lib/dec_and_lock.c                            |  8 +--
+> >   lib/lockref.c                                 |  1 -
+> >   mm/memory.c                                   |  4 +-
+> >   mm/pgtable-generic.c                          | 19 +++---
+> >   tools/include/linux/compiler_types.h          |  2 -
+>
+> This patch should be split into one patch per subsystem or driver.
+> E.g. one patch for the iwlwifi driver, another patch for the mm
+> subsystem, one patch for the rwlock primitive, one patch for the
+> spinlock primitive, etc.
+>
+> The tools/include/linux/compiler_types.h change probably should be
+> left out because it is user space code instead of kernel code and
+> the rest of the series applies to kernel code only.
 
-> On Fri, Dec 19, 2025, at 23:18, David Laight wrote:
-> > On Fri, 19 Dec 2025 13:12:31 -0700 Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > Somewhere I got confused and must have looked at the wrong email (or just
-> > failed to separate two very long warning names).
-> > The actual warning was:
-> >  
-> >>> drivers/gpu/drm/xe/xe_guc.c:639:19: error: converting the result of '<<' to a boolean always evaluates to true [-Werror,-Wtautological-constant-compare]    
-> >      639 |                 klvs[count++] = 
-> > PREP_GUC_KLV_TAG(OPT_IN_FEATURE_EXT_CAT_ERR_TYPE);  
-> 
-> This does seem like a completely sensible warning to me, and it's
-> always been enabled by default. I see three patches in the git history
-> (all from Nathan), which all make sense as well.
-> 
-> > Inside FIELD_PREP_CONST(mask, val) there is (with the patch, and if I've
-> > typed it correctly):
-> > 	BUILD_BUG_ON_ZERO(!(mask) || (mask) & ((mask) + ((mask) & -(mask)))))
-> > to check the mask is non-zero and contiguous bits.  
-> 
-> I think the problem is (as so often) the linux/bitfield.h headers
-> making things way too complicated. That condition makes no sense to
-> me, and neither would I expect a compiler to make sense of it either.
+AFAIK, the user space version is just a copy of the kernel version to
+support headers that are used by both. See
+4bba4c4bb09ad4a2b70836725e08439c86d8f9e4. The sparse annotations were
+copied in ab3c0ddb0d71dc214b61d11deb8770196ef46c05.
 
-It is simple really :-)
--mask is (~mask + 1) so its lowest set bit is the same at that of mask.
-Adding mask changes the adjacent 1s to zeros.
-Anding with mask is then any high bits that are the same in both.
-So is non-zero if mask has noncontiguous bits in it.
+And there's no point in keeping it around given it's all gone:
 
-Adding ' == 0' and ' != 0' would just make the line longer.
-
-> 
-> If there is no way to express those conditions more clearly, I would
-> prefer removing the BUILD_BUG_ON stuff from the bitfield.h header,
-> it keeps causing way more false positives than finding actual bugs
-> with the input.
-
-I was just trying to reduce the .i lines line from 18KB for a typical use.
-
-But maybe the whole set of checks is entirely pointless.
-The simple FIELD_PREP() is just ((val * (mask & -mask)) & mask).
-FIELD_GET() can be (reg & mask)/(mask & -mask) for constants, but that
-isn't 'nice' if mask is a variable, (reg & mask) >> ffs(mask) is better.
-But you only want to use builtin_ffs() for constants so do need to
-select between __ffs() and __ffs64() for variables - three cases.
-
-There is also no point in the u8 and u16 variants (same for GENMASK()).
-The values get promoted to 'int' and 'unsigned int' would be better.
-
-Maybe I'll do a 'dump all the crap' commit.
-
-Probably the only useful check is statically_true(hi < lo) in GENMASK.
-
-	David
-
-> 
->      Arnd
-
+% git grep __cond_lock
+<nothing>
 
