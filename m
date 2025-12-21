@@ -1,50 +1,53 @@
-Return-Path: <linux-kbuild+bounces-10311-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10312-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B48CD361F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Dec 2025 20:31:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FCACD454B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Dec 2025 21:06:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9B3EC30006CD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Dec 2025 19:31:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D47753004B80
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Dec 2025 20:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 905E91E8329;
-	Sat, 20 Dec 2025 19:31:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D0A319850;
+	Sun, 21 Dec 2025 20:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xO8CxGrq"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="I+tqQM+O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B533316DEB1;
-	Sat, 20 Dec 2025 19:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59966318138;
+	Sun, 21 Dec 2025 20:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766259087; cv=none; b=kJ9SB4z4yhh5KOC/54FRteyWtpIZ1FT517ikFmnROUoEL7AjZ2UBZv6ysqxUD/L8aQO+4ukprJKhcSTSipTgT6rh25mW5FmeVlnXBpG7pg8oZO0avwbyk7eXcK7080fnnySY2Hbtgub1svjKpgKbbt++lf2mXdPa+L+j+CsgEEw=
+	t=1766347591; cv=none; b=ufKzUjgJRrKoizE/t4A5KWpeQbL3XtaJ9vun7t8xvtKKwh/oZ1ojuGee6hwrF8DmtccrlTAtoD2pZWvDlLurfj9ZgaezefvApp+/4nll5tzsxnY3LHKFJbbJMNCoR9l+jZA02bJJnL+eNJPlO3YTdqn8lrzZzjM2jLSfwLyYtPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766259087; c=relaxed/simple;
-	bh=TAeZSiDeozu8HbZpaQxcLKgCOJoumCZPmLKGxvAbC4s=;
+	s=arc-20240116; t=1766347591; c=relaxed/simple;
+	bh=zNnqaKZBSekNsX/KcgxQrrHlzmMi6CcT6Wz6BnoiwCY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ry1v+tPWVLsmatjq0FQU61nrbEgeu++/gj/7CQji4nh9/YRS9Qp8fYh1lRAUwLFipTuW13z31rvz1Us+Bhw/KxTbmvE4C0RTSIQ7G7Fi8CKxGbrh/Lr7AJpb0GQUG4oh/tjJzgKHh07N4dsCP2F+yndKRPKgqkVqdZ9u7vhCjsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xO8CxGrq; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=2jrNQwKuMaBdvMN0lpf1Chl28gyV3jOOPnOPGd2XLAc=; b=xO8CxGrqut0RrxNzKEsxZsO84F
-	a3JtGD2+PJmPgblNumPNSXrqBzMfg6cIPP168kAYXEYJukXeucHAVYzah0dSEcFbK/ix37xzW2n53
-	cVklph2vAw6Mgm/gJa1zx4uiehpdqPSJSPNREyRCQ5LasUenTD7jRDwFXLk7OKOTv3T3bqZOwWSQ/
-	rAfLg22+miaUCVoMTo3c6Q+LvDSnJyiyeWv6tf9CS7Daa6RABDVDc9w4ljFl4uT9ik8ILaX7ZCPzK
-	CoM1oAOv2+iuFMQky7psin3t/UJ0fxfAKizmBqKA/RaKhQ+TTjOF/6NGURlc1VO6IJwwIroVNxH3+
-	0oLzRqtw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vX2fh-0000000Bqrx-0ZeC;
-	Sat, 20 Dec 2025 19:31:21 +0000
-Message-ID: <32779c95-697c-4930-afe0-2848541673bb@infradead.org>
-Date: Sat, 20 Dec 2025 11:31:19 -0800
+	 In-Reply-To:Content-Type; b=SNq+quchhaVZOkqUWN7vHs4xz1bzDlCsJ9RxoSpfyDarpJ4Fr+6tOYefJFxrYnQI+bnTFFmjKlvM4CPBhwsQ0TFwaPt7rgrVJ6K3xlD8eEKgglW6QOgX2kvRXJFVHZfej56k15VEjyh+8RBbWmsMNcfBtzm/bA4Bsf1AUfhstyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=I+tqQM+O; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id DA06D5807B0;
+	Sun, 21 Dec 2025 20:04:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76D5B41CFA;
+	Sun, 21 Dec 2025 20:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1766347452;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qa1iIFKuk8NI0XERRHjPLRaCElYBzFa0XDvEQaphdyQ=;
+	b=I+tqQM+O3I8UFm++5QWWB4AaoHp/PMD3r69Tg25rHIq2SbL7nEDPZ1TauGGXhFyI/KiQ/t
+	1j0x+WoU/P7Unvk+V7SPjhz1CAv/t2b6pUl524Wdj/De9fVgIFBCIlRlK0n0p/rbTMpVeU
+	UaGR5tQ8UtIXNdrAuyiyki8fEMmvyyG1m2EMKNmD76eYbJ93MXHjqydq7glHZeuASuNT2n
+	mA/uEHSrzO/HEXdG7ZjgATjfrWBu7cENRacyYRSokM3mu8roeoIbrQVU8vEeISaafikItW
+	jGUm2pq3U7LLOJvB5bAMMxj+v5utApgZofWhANRXlas9fXPv1E4c0/5cn/E+Xg==
+Message-ID: <4a0f381d-94e8-4e05-838a-5e90c6627fbc@gtucker.io>
+Date: Sun, 21 Dec 2025 21:04:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,50 +55,52 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kbuild: Fix typos in makefiles.rst
-To: cp0613@linux.alibaba.com, nathan@kernel.org, nsc@kernel.org,
- corbet@lwn.net
-Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251220125434.2430-1-cp0613@linux.alibaba.com>
+Subject: Re: [PATCH v1 1/2] scripts: add tool to run containerized builds
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+ llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+References: <cover.1765374789.git.gtucker@gtucker.io>
+ <97dec58ebe4161027f13f2215ed9da4a43bc8c47.1765374789.git.gtucker@gtucker.io>
+ <20251219194748.GA1404325@ax162> <20251219211518.GB1407372@ax162>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251220125434.2430-1-cp0613@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <20251219211518.GB1407372@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehgeeljecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepjeefkeevheekhfefleeuiefffedvgfdtkeejgeelgeelgeekuedtgfetkedugeegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepudejiedrudeghedrkedurddvuddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudejiedrudeghedrkedurddvuddupdhhvghloheplgduledvrdduieekrdduleekrdeigegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeejieffheeugeduvefhtedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeelpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehruhhsthdqfhhorhdqlhhinhhug
+ iesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegruhhtohhmrghtvgguqdhtvghsthhinhhgsehlihhsthhsrdihohgtthhophhrohhjvggtthdrohhrgh
 
+Hi Nathan,
 
-
-On 12/20/25 4:54 AM, cp0613@linux.alibaba.com wrote:
-> From: Chen Pei <cp0613@linux.alibaba.com>
+On 19/12/2025 10:15 pm, Nathan Chancellor wrote:
+> On Fri, Dec 19, 2025 at 12:47:48PM -0700, Nathan Chancellor wrote:
+>> Most of these two functions are the same. Maybe they could be abstracted
+>> into a simple class so that most of the logic could be shared between
+>> the two implementations? That also might simplify main() a bit and make
+>> fulfilling David's request a little simpler as well.
 > 
-> The correct command to generate header files is
-> make headers_install.
-> 
-> Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
+> Sigh, this is what I get for working through my inbox bottom up since I
+> see that you did this in v2 :) looks good, I will give a couple more
+> comments there.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thank you twice for the reviews then :)  Yes I'm glad the v2
+pre-addressed some of the things you mentioned.  I'll reply there too
+regarding user id management etc.
 
-Thanks.
+In the meantime I also started this thread about container images:
 
-> ---
->  Documentation/kbuild/makefiles.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 8aef3650c1f3..24a4708d26e8 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -1264,7 +1264,7 @@ Add prerequisites to archheaders
->  --------------------------------
->  
->  The archheaders: rule is used to generate header files that
-> -may be installed into user space by ``make header_install``.
-> +may be installed into user space by ``make headers_install``.
->  
->  It is run before ``make archprepare`` when run on the
->  architecture itself.
+  
+https://lore.kernel.org/all/cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io/
 
--- 
-~Randy
+I believe this will go hand-in-hand with the scripts/container tool,
+not with hard dependencies but they will enhance each other.
+
+Cheers,
+Guillaume
+
 
