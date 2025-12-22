@@ -1,99 +1,161 @@
-Return-Path: <linux-kbuild+bounces-10317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271D8CD542C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Dec 2025 10:12:30 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF1ACD572A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Dec 2025 11:04:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5BAA2300C5FC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Dec 2025 09:11:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0FE4E3002907
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Dec 2025 10:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B07C27FB32;
-	Mon, 22 Dec 2025 09:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F8030FC2E;
+	Mon, 22 Dec 2025 10:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="GrDhNyBY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DX3xwYra"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E881F1932;
-	Mon, 22 Dec 2025 09:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A592A2FE04E;
+	Mon, 22 Dec 2025 10:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766394714; cv=none; b=qCpDOJhyTMl3OlWqC28yCLMBd5qH56Ypp5sHCWxKHG7aYaGUCZv3s3u5Ru1Ttqz77W1Zt5/+HfXzxqKNgNMwICo8U+3Lm40ihhF/gS+arYu9jRxciT7RIMNJD1qb8u8NJuglkRSbbB+wyNwvXAJAIjoOp6BsbawUfhi3x3XRBtM=
+	t=1766397878; cv=none; b=Gs7LzYzqLSBrDQF4WVrEEV2rcHDk65ZHM2Kr2yBmasbvIUv1/7fCwJbAcSh6H4A/3lB6PRGc/djfV/k/Beq3H76bBWgItuiJehzA2XG/ZI8udyQKjtwrlFeWiJAxslK3Q+W7HPNQRslkm/wcnYN51FJ6AiowY7hOJUwbQ01tEtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766394714; c=relaxed/simple;
-	bh=N9aCVMEl/HTjHPLuPPhGpC4Mtohmk3lLmADEJn/Yi7o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LtcHJvoZM7LP2Dh1BSSRCOtKYVgvl5UF9u9BZ/PVvEhAug4HRpzxgReTTh5VcFkyFQEWwRkYPxlfx6qDdS7A/G0nd4clAgKaBMfaY00Jzf4vhi4/ZknXEyY6BZRfMlVcY100/Ojl6K/UM7c00+9d6vhG+rc7DRlCBe114DZbxFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=GrDhNyBY; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F1C901F68E;
-	Mon, 22 Dec 2025 09:11:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1766394709;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eKexkeADCmpnATxFKMwqTtjq4nHqFt3WnpfG4v4OE78=;
-	b=GrDhNyBYLEabym01b9mEKJPS+uB1RJGCcf6GJCCoO73NrFbbbLNzX2NUDSpRWzV24kjGlg
-	cLI+PU/iaoHWukyGPUgWquQ9Dn40SnCRvaRIICEEocgGkZjNj8cHHKqnkDimAEQgt0Zqi0
-	wHPCKqzbENWWBbVm7o0o7ajx+Rjy7mpNpfb/EsszGxv4DeL66JxuxTc8BfSgaHxX1SpTqx
-	fNbRg102O6bkqYgBZOYQuHT5N39dpBZokPaz6ncnUuO209FabGUDpRtnEmnICI2eprGwog
-	dzkM0ndCRUVwFDG55xoQXLOpMJmvikcy+OLl+JC8rLBhUeHBeto98YuVbg8MxA==
-Message-ID: <09b3bc78-6c55-4d8c-8d09-9f313454dee3@gtucker.io>
-Date: Mon, 22 Dec 2025 10:11:25 +0100
+	s=arc-20240116; t=1766397878; c=relaxed/simple;
+	bh=J1EZZVCwpTiIbAyrMOpmNy+FRRI8Ai9A8vQMUUkNmH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QSWTiXFnd30+aaVlqtvoqWj1p3UCXDzQ3RM4OTgoDqoDHTjp4SwOTRmKoHFFWE4YP0haMFYRWjv03j9p4UsIODFOLokLUdusTntZM8JfOlb0OkofPGP6g2VJeBO4jzGkWNQ5gGBR5HycrH87xjBN4ic9tLCGxmhsE5+Y+RZH07M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DX3xwYra; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766397876; x=1797933876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J1EZZVCwpTiIbAyrMOpmNy+FRRI8Ai9A8vQMUUkNmH0=;
+  b=DX3xwYraDdOg7VESPHMr33rlqhhNbppdLOtjw1WzT0k1mYAcMNnAhkVk
+   rQStC4xW7BdQeIsHLb0DcXK8TwD/2kRhC/0MZhoHB7xenrd+KebeiO9Zo
+   SxkqvOUhipJLJJTTiQRXOaf5NghgOmwjcz82j4M0aoNKZWbqgxA7ai11E
+   7RcRFMQMSaAGFOQ1TApGjXnrYD3NrhFSNULv7tCxGEZoZFBxEWCUEofjo
+   Mmdnf4qbDMnDN7TX915Jo4igKHm4JD3rPreuamYEP0ZeJ9xGYBLU/aNAe
+   a/8GHxoJ9zWCkhmaca4af9Pijy4tjoMFjhXsrO0gJ46Gts9kHwbCFkmJv
+   g==;
+X-CSE-ConnectionGUID: PEWuh9piQhKmScX5SyFXqQ==
+X-CSE-MsgGUID: csPj7wriT8SLUGrwk/MfBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71883096"
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="71883096"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:04:36 -0800
+X-CSE-ConnectionGUID: SENbKwQ2TGuu/Q2AuFUCmg==
+X-CSE-MsgGUID: nfxshazyT4av5RHtxHYyhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="222977989"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 02:04:31 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXcmC-000000000MH-2wzD;
+	Mon, 22 Dec 2025 10:04:28 +0000
+Date: Mon, 22 Dec 2025 18:03:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vincent Mailhol <mailhol@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chris Mason <chris.mason@fusionio.com>,
+	David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Vincent Mailhol <mailhol@kernel.org>
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+Message-ID: <202512221735.mRV4BZqB-lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] scripts: add tool to run containerized builds
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
- workflows@vger.kernel.org, llvm@lists.linux.dev
-References: <cover.1766061692.git.gtucker@gtucker.io>
- <35b951506304b141047812f516fa946a4f1549a1.1766061692.git.gtucker@gtucker.io>
- <3241bbcb-d9c1-49bd-b8a7-610543dfb454@gtucker.io>
- <CANiq72mtqdR0EU9GM6yu1-Rn0V98ZftUA814eY3ue2YH1xdNHw@mail.gmail.com>
-Content-Language: en-GB
-From: Guillaume Tucker <gtucker@gtucker.io>
-Organization: gtucker.io
-In-Reply-To: <CANiq72mtqdR0EU9GM6yu1-Rn0V98ZftUA814eY3ue2YH1xdNHw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehieehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfhojggtgfesthekredttddvjeenucfhrhhomhepifhuihhllhgruhhmvgcuvfhutghkvghruceoghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhoqeenucggtffrrghtthgvrhhnpeduleegveeuteefffffjeffhfejhfejjeevtdelgefhjeeluedttdfggfdvieeuveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemfhhfvghfmeeifhgtudemjeehfhgrmeekvdehkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemfhhfvghfmeeifhgtudemjeehfhgrmeekvdehkedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgegrgedtmeekiedvtdemfhhfvghfmeeifhgtudemjeehfhgrmeekvdehkegnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupefhudevledtudfhieekgfdpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehmihhguhgvlhhojhgvuggrshgrnhguohhnihhss
- ehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhofiesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghnrdguvghvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 
-Hi Miguel,
+Hi Vincent,
 
-On 22/12/2025 04:30, Miguel Ojeda wrote:
-> On Sun, Dec 21, 2025 at 9:19 PM Guillaume Tucker <gtucker@gtucker.io> wrote:
->>
->> Another piece of feedback from your v1 review was to add a link to
->> the documentation.  As it's not published yet I just mentioned the
->> section name here in the v2 - but I can anticipate what the final URL
->> will be i.e.:
->>
->>      https://www.kernel.org/doc/html/latest/dev-tools/container
-> 
-> A docs.kernel.org URL instead may look better?
+kernel test robot noticed the following build warnings:
 
-Ah yes, good point.  Except right now it's returning HTTP 403...
-Hopefully that's just a temporary technical glitch.
+[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
 
-Cheers,
-Guillaume
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
+base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
+patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
+patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
+config: x86_64-randconfig-161-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221735.mRV4BZqB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221735.mRV4BZqB-lkp@intel.com/
+
+smatch warnings:
+fs/libfs.c:1628 generic_check_addressable() warn: unsigned '*_d' is never less than zero.
+fs/libfs.c:1628 generic_check_addressable() warn: unsigned '_a' is never less than zero.
+mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '*_d' is never less than zero.
+mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '_a' is never less than zero.
+
+vim +1628 fs/libfs.c
+
+1b061d9247f71c Christoph Hellwig   2010-05-26  1613  
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1614  /**
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1615   * generic_check_addressable - Check addressability of file system
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1616   * @blocksize_bits:	log of file system block size
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1617   * @num_blocks:		number of blocks in file system
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1618   *
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1619   * Determine whether a file system with @num_blocks blocks (and a
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1620   * block size of 2**@blocksize_bits) is addressable by the sector_t
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1621   * and page cache of the system.  Return 0 if so and -EFBIG otherwise.
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1622   */
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1623  int generic_check_addressable(unsigned blocksize_bits, u64 num_blocks)
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1624  {
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1625  	u64 last_fs_block = num_blocks - 1;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1626  	u64 last_fs_page, max_bytes;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1627  
+25050181b61aa0 Pankaj Raghav       2025-06-30 @1628  	if (check_shl_overflow(num_blocks, blocksize_bits, &max_bytes))
+25050181b61aa0 Pankaj Raghav       2025-06-30  1629  		return -EFBIG;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1630  
+25050181b61aa0 Pankaj Raghav       2025-06-30  1631  	last_fs_page = (max_bytes >> PAGE_SHIFT) - 1;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1632  
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1633  	if (unlikely(num_blocks == 0))
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1634  		return 0;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1635  
+25050181b61aa0 Pankaj Raghav       2025-06-30  1636  	if (blocksize_bits < 9)
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1637  		return -EINVAL;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1638  
+a33f13efe05192 Joel Becker         2010-08-16  1639  	if ((last_fs_block > (sector_t)(~0ULL) >> (blocksize_bits - 9)) ||
+a33f13efe05192 Joel Becker         2010-08-16  1640  	    (last_fs_page > (pgoff_t)(~0ULL))) {
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1641  		return -EFBIG;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1642  	}
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1643  	return 0;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1644  }
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1645  EXPORT_SYMBOL(generic_check_addressable);
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1646  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
