@@ -1,67 +1,60 @@
-Return-Path: <linux-kbuild+bounces-10343-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10344-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1390CE025C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Dec 2025 22:39:27 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9ED0CE025F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Dec 2025 22:39:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2CA243014AC4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Dec 2025 21:39:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5952330036E8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Dec 2025 21:39:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74B5F24E4B4;
-	Sat, 27 Dec 2025 21:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAB2426CE1E;
+	Sat, 27 Dec 2025 21:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FQR3LZRT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCposO/c"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DF81D5ACE;
-	Sat, 27 Dec 2025 21:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8B3265CDD;
+	Sat, 27 Dec 2025 21:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766871565; cv=none; b=mLlE+GtA/LunqVTy8WtDvJz3qwpkohZn8KM11wHKUGgK68Xe/+XqaQXW1s6qnal9sa55aEH+UxE416C2jo0SS24BV8V/F12s9S8qhG0SLUPqPga5CVRWcy5gz7HV9+TcmyVZvlOrfRKVHfc3wy/9GSwow7nqkjMJEIlJQrp+1xU=
+	t=1766871567; cv=none; b=IaNFAHv1JXGS9vpoBjS/LW7uayt8d+Joj/bnbPSIKIMBqANcy7tZWemhYeh3K+OmQAF2ZEmBmxpx7WQnDWUwnQ5h8jcxEgTK4jXSiFDN2rhNjyKoU9SN4gOCT8puI8y80mZF5MZDtaN/B382yD08hLk+MMddDnjRQADvCKHZdHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766871565; c=relaxed/simple;
-	bh=b+CbMrpFxhtdbh9PiyjaYoRjElwG9hY5VQ0QVpIj/2s=;
+	s=arc-20240116; t=1766871567; c=relaxed/simple;
+	bh=rDaOu60HTWqiLMnVfWELTmuZDGIdOup3ai2pplXrZpY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E+r7a/5Dvwd6yBjJuo4RB9bW3/5uqqpN6EKDako4qrU+R0FD4i8bjmn7J6DHv6LqGUplm3wAFw9y/42jgyOcISJ6VikQEtZO+nOh3bCRulzANHpilSUI06SOc/8Fy67AzoLdtxQEHQdRLr8151tZKnu+G61VbKUND9stUBl8ML4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQR3LZRT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39D73C4CEF1;
-	Sat, 27 Dec 2025 21:39:24 +0000 (UTC)
+	 MIME-Version:Content-Type; b=fylGNOnox2zNG9Uq66YIzuhBPuu0F3n6kJdB5NNTZFY4Y76oN3AQyCzcn2pARdBkWW3NiqSmJrRJCJsf3KAZcTLwAiMoXNXyaNqkwCPpz4HYOiCW7D6lMBacsfb8glEOr1dWpWc8bVv6qegDNLef29qLqysYTvvfm8WgCdbigp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCposO/c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DBEC16AAE;
+	Sat, 27 Dec 2025 21:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766871564;
-	bh=b+CbMrpFxhtdbh9PiyjaYoRjElwG9hY5VQ0QVpIj/2s=;
+	s=k20201202; t=1766871567;
+	bh=rDaOu60HTWqiLMnVfWELTmuZDGIdOup3ai2pplXrZpY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FQR3LZRTAB5DuXCl+hz4GqrQXt/o588Sts/PjongmbXr/FnXg3d3e/OHV+y1AcUi0
-	 bTSy7gJlWtAvIFAFpfSvzep34WlVZcS57YVHCmUafuKrlTB57GzU6SueT4F4sPkXfR
-	 9L3cS67fu1bj03ZiyzcV9QTNbuHcY1O+fJJhMtYMitcIbNHNnYw5wKDy2sAa5so+Mh
-	 NXD7qjQ7i3vZsUPorJdgZ1HzOvU3XE9CzOBdi7JveNs18RCXyoEMby38mQ8B+uCNZZ
-	 38mx+NyJQ9V3lxyGGJOePAPkTSkQWaE7qeUBbO0Bcb8DXL3gGTPYOLnjk6R3u2kG5w
-	 j1gUMweU/AN4A==
+	b=OCposO/cipBRZuwqMbISfgHnUzf9TcS6+5w6cQ5IIsKFYsEcKnMw9VzhAwX6waEit
+	 TQec3o0zPFqMvAlhA8EMngQi7n1cU3dxBRKie29MPLgd7E0YdoDCiTX81zn+6JHStr
+	 PbVmynpMEJSeKRMaH7T3fFnxIqLjDIRMQrPin99l8VvDWJhSd+Eklsy/qwv3uKfjw1
+	 v50ZnaqIF9sTjtpiYZIm2tnWgfpdiCjpNO3/qX9QxEeCEgXaf5fNfiWAM5+/eo4Lcz
+	 0dh2Su1GmN1hx2QUxpduoT4D8TZ3QpIqCvRCLvlxSshTmrkytVJ2jLnDkGPK+/HtgT
+	 hqUFZVgJZoJgw==
 From: Nicolas Schier <nsc@kernel.org>
-To: andy@kernel.org,
-	krzk@kernel.org,
-	linus.walleij@linaro.org,
-	nathan@kernel.org,
-	gregkh@linuxfoundation.org,
-	bleung@chromium.org,
-	heikki.krogerus@linux.intel.com,
-	abhishekpandit@chromium.org,
-	masahiroy@kernel.org,
-	legion@kernel.org,
-	hughd@google.com,
-	Jose Javier Rodriguez Barbarin <dev-josejavier.rodriguez@duagon.com>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org,
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nicolas Schier <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Jorge Sanjuan Garcia <dev-jorge.sanjuangarcia@duagon.com>
-Subject: Re: [PATCH v3] mcb: Add missing modpost build support
-Date: Sat, 27 Dec 2025 21:10:11 +0100
-Message-ID: <176686408097.98851.3631406135184697169.b4-ty@kernel.org>
+	Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH] Revert "scripts/clang-tools: Handle included .c files in gen_compile_commands"
+Date: Sat, 27 Dec 2025 21:10:12 +0100
+Message-ID: <176686408087.98851.18001317531307257371.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251202084200.10410-1-dev-josejavier.rodriguez@duagon.com>
-References: <20251202084200.10410-1-dev-josejavier.rodriguez@duagon.com>
+In-Reply-To: <20251217-revert-scripts-clang-rools-handle-included-c-files-v1-1-def5651446da@kernel.org>
+References: <20251217-revert-scripts-clang-rools-handle-included-c-files-v1-1-def5651446da@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -72,21 +65,21 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Tue, 02 Dec 2025 09:42:00 +0100, Jose Javier Rodriguez Barbarin wrote:
-> mcb bus is not prepared to autoload client drivers with the data defined on
-> the drivers' MODULE_DEVICE_TABLE. modpost cannot access to mcb_table_id
-> inside MODULE_DEVICE_TABLE so the data declared inside is ignored.
+On Wed, 17 Dec 2025 20:13:43 +0100, Nicolas Schier wrote:
+> This reverts commit 9362d34acf91a706c543d919ade3e651b9bd2d6f.
 > 
-> Add modpost build support for accessing to the mcb_table_id coded on device
-> drivers' MODULE_DEVICE_TABLE.
+> Dmitry Vyukov reported that commit 9362d34acf91 ("scripts/clang-tools:
+> Handle included .c files in gen_compile_commands") generates false
+> entries in some cases for C files that are included in other C files but
+> not meant for standalone compilation.
 > 
 > [...]
 
 Applied to kbuild-fixes, thanks!
 
-[1/1] mcb: Add missing modpost build support
-      commit: 1f4ea4838b13c3b2278436a8dcb148e3c23f4b64
-      https://git.kernel.org/kbuild/c/1f4ea4838b13
+[1/1] Revert "scripts/clang-tools: Handle included .c files in gen_compile_commands"
+      commit: 07fe35b766a6fcd4ec8214e5066b7b0056b6ec6a
+      https://git.kernel.org/kbuild/c/07fe35b766a6
 
 Best regards,
 -- 
