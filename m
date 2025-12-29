@@ -1,146 +1,119 @@
-Return-Path: <linux-kbuild+bounces-10350-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10351-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3B1CE6972
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Dec 2025 12:46:47 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9B0CE80AF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Dec 2025 20:28:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CB93B302ABA7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Dec 2025 11:45:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 00502300A28D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Dec 2025 19:28:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E3032D47ED;
-	Mon, 29 Dec 2025 11:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0D35274B4D;
+	Mon, 29 Dec 2025 19:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PL/4fliV"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jNeIe3bC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAAD30DED8
-	for <linux-kbuild@vger.kernel.org>; Mon, 29 Dec 2025 11:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D592673B7
+	for <linux-kbuild@vger.kernel.org>; Mon, 29 Dec 2025 19:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767008720; cv=none; b=p/6TE8YKX8iPu6cpQJ1NlQZNd6MV1S4XOlxZ5NzTJiTYheMkvFc+xak4+OAK2ZA5hk9p1RuQ3fnu+oicD1mmxoCoZNZeFxgUrZp/NBdt9GC6JPw28+IGyJtsF++S17wDvsrCWaNjwgXIKPsI9JKxtB+7YahS4LvzQ9Tl9J1CsZ4=
+	t=1767036522; cv=none; b=sls0FATiZHwU6Gcx8iN1UXxL2RRHhErv0t2AutSmtTwFcHrFGYKCBALnP0FeeZBQmdAAD3DkbxyQxtp+urcYWNIbHnJANvhYjWt6FET1GlATwiS29VMHJZOOex7+rlnF8uEk52sBk+0SXuAYjLxJG+/H4yqMS55H6kIk495U8a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767008720; c=relaxed/simple;
-	bh=U17CiipV99tJxb5bl3yvI3ODUrvvhu+idhOO+vgSEdw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=L/SB0BcL1A9FPDFWXUbN5IntUzC/2w0HmEVU8U/7kGhF7aVZMFSCaqiIh4O9oGRwbYzmieK4RLqCW83ibDCZxqsYp0V3lNntKFMC6qnSWdqMtqAO/iz7sGNnxNpqNrxacAv9dDX6SlD9zLGhTK3z0GV9OsRlzK1eCZtlFNQfl08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PL/4fliV; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5957db5bdedso10369815e87.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Dec 2025 03:45:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767008714; x=1767613514; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c+j2RfmhG2P7RkXIgKc8NiLZhEGOPPRK3h8OXTdV5pA=;
-        b=PL/4fliVmjJWYm2mDf51iWFKwz0kgE/AxWizKkAdFiCQi7haGOK4AEzLmzMrzw0Mdm
-         lwHfZIszU8b/AoPRYZWlRQKAHg0fcAoGI7OLhd/NHNTlCEuDdvDi+u02axULEOQwcl+D
-         EqK0hSzSVqPiyafC7a3WonohzK/urW8zhuzDjMv0R745L14O5QA0Gxj4WB+DxGUalEKw
-         Bmc6MKmUu2xDM3Rifs7m1UBupqs26aaBsTJM5aPxj0f5tPayikAQWkKzTOok28sUTmsw
-         fCxfgD1tEHI/bM5T8AFegjN9YvCId+qGtl37KK8xlIfuMXc+1DnbcNn+ZbbQ3n165aly
-         Cj0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767008714; x=1767613514;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c+j2RfmhG2P7RkXIgKc8NiLZhEGOPPRK3h8OXTdV5pA=;
-        b=JIE3sYjmyNTDoNHJ+HxKR3wuh8c0t9gIJ1qULn61i3YZJDcrYFXXAz3pEZAb3/mjD8
-         +pr+akMf2zo+PpzhwnZnwyJ1iGbvg5/AZZRmywWrLYyPtIo63mDHcG5yrekB9iQNdQfc
-         riPiC7j1wKaCo4aRhaf+De1hacchvLY/snak35UooNewCKgo1JVhOfMAqCBMgcAGPe+F
-         R0ksO1iHMznQuh6DG2WhLI3sFF9XbhiAw2pD49OiaDRb178Gyjbg5pOp9qVrDXeU8WT3
-         JfINfgMSejZeDda0rw9nFvOjkbnUTX94aPzISSmLSp6BgHDzxqiFKnyct5aoFjScsuXP
-         O7UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXayiaSQ7JQaNWaNp8qgv+t87kE2zylisgomaal5a0+78LuIgRvWynYw1O/ziL/Wm7SC54BqryZJQNWcJU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEZtWqEY8/7Afyo+vYPqafsr2kYjQtWdeEN+hB+T6Qt3Gk+klv
-	3i/biPpqM3udiE61HStEFw3q+MDlnvWlDc1cvqeMdMM8YlIw8YeKblM/qpKQDuwkK3Q=
-X-Gm-Gg: AY/fxX60epDtYzi3yKijA9PAN+cZhm7TvwZ3fAaWAvj5i9QTkeIw4859bzgEF9OqLMd
-	3xEjYszKW2TxFAr0UMUgK0C+jbgVjj1vvoDV8qV3gkBfJoQTn4lhAfv/zs+YjMavNZj3ZzBtxwQ
-	MqI52FK0mwNsb4SBh1Zpc1u8dsnpTdmNsV7Up9cT8FQgKbtBqGiXf6jn2SZFYmBJXrEBpa5LwCB
-	cGrikQK9SFxbxleZ6Mhmh+ZiMl8LZFJ4NBwm9SNFf+nykPyWdm0+o3x0nRKo3IdDA9iPJzw54E7
-	9pYmeMeKn+thXKmzsdCshN+yzBMbzAgCMDT3diYd/sljqCBD1vhxmhS0MgkVi6mGbdbILuIFFbR
-	0HI10tfRzQpaOjbn13GN9fYxc+cJub7WI+HdBMaDFd4aPAuM18fr6eAu7+rBSIyTjouUCZpys2L
-	JiWpUJCSquS7UQ4j3A8oxRUnEkNdxZsnrggVwMOpLTk7us
-X-Google-Smtp-Source: AGHT+IF17Yhf8RbxeDAoPczyvZrBsuXq49KKZ+PuMJ+YskyyFNVG7eBi4v7E+ourdAITJ38fOOFtVg==
-X-Received: by 2002:a05:6512:3191:b0:598:8f92:c340 with SMTP id 2adb3069b0e04-59a17d7768amr10594632e87.52.1767008714356;
-        Mon, 29 Dec 2025 03:45:14 -0800 (PST)
-Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a18618d59sm9239711e87.61.2025.12.29.03.45.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 03:45:14 -0800 (PST)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Anders Roxell <anders.roxell@linaro.org>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 3/3] scripts: kconfig: merge_config.sh: warn on duplicate input files
-Date: Mon, 29 Dec 2025 13:44:47 +0200
-Message-ID: <20251229114447.45236-3-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251229114447.45236-1-mikko.rapeli@linaro.org>
-References: <20251229114447.45236-1-mikko.rapeli@linaro.org>
+	s=arc-20240116; t=1767036522; c=relaxed/simple;
+	bh=OvepIgKTsXQ554crop9a18ID5p0xWukoyJgTO3AWK+s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HeDkkAj2v9SzU2O+Q8T0zL6PcsRNSk557O60X+c3Jqku3nd4REXoFrREuXpIbFt+b0BrYXb9DrbajPZEI59UhLKQc5bzRs3K07NK1HNIaFT6ZikjduDp7TuMKMYc19YQXwJy17//0/k8jdAx1v4frYAVxj+wDH6g73twEfwvX0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jNeIe3bC; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <5c9130f8-dd8a-41c4-8033-d5661f64c01a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767036509;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Irz9LTpqvbmdmlGPdks1FZg7wCTsfvzQn5Eo49frrB4=;
+	b=jNeIe3bCnu6XyQCXlqqd5hpLnTRq96sypyzRUtDSC6IHaCuWb7ttMM4nGHeAaXtjshEnam
+	qVSotNJSq4u18h03AMXj9tATx7VRK69uKeu+c126wv8frmZHDHEs77M53pSAGB/Se5nSsX
+	2oF8EeFZniVaZ0rEM8Lx/htuO/53pDA=
+Date: Mon, 29 Dec 2025 11:28:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [bpf-next:master 8/9] FAILED: load BTF from .tmp_vmlinux1.BTF.1:
+ No such file or directory
+To: kernel test robot <lkp@intel.com>, Dinh Nguyen <dinguyen@kernel.org>,
+ Alan Maguire <alan.maguire@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>,
+ bpf <bpf@vger.kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dwarves <dwarves@vger.kernel.org>
+References: <202512250932.X7mdviuH-lkp@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <202512250932.X7mdviuH-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-External scripts like yocto kernel scc may provide
-same input config fragment multiple times. This may
-be a bug since processing same fragments multiple times
-can be time consuming.
+On 12/24/25 5:01 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> head:   f14cdb1367b947d373215e36cfe9c69768dbafc9
+> commit: 522397d05e7d4a7c30b91841492360336b24f833 [8/9] resolve_btfids: Change in-place update with raw binary output
+> config: nios2-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251225/202512250932.X7mdviuH-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512250932.X7mdviuH-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512250932.X7mdviuH-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    Complex, interval and imaginary float types are not supported
+>    Error while encoding BTF.
 
-Cc: Anders Roxell <anders.roxell@linaro.org>
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- scripts/kconfig/merge_config.sh | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Hi Dinh, Alan,
 
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index bc6b5d0a69bc..0996bf118325 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -128,6 +128,8 @@ trap clean_up EXIT
- 
- cat $INITFILE > $TMP_FILE
- 
-+PROCESSED_FILES=""
-+
- # Merge files, printing warnings on overridden values
- for ORIG_MERGE_FILE in $MERGE_LIST ; do
- 	echo "Merging $ORIG_MERGE_FILE"
-@@ -135,6 +137,14 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
- 		echo "The merge file '$ORIG_MERGE_FILE' does not exist.  Exit." >&2
- 		exit 1
- 	fi
-+
-+	# Check for duplicate input files
-+	case " $PROCESSED_FILES " in
-+		*" $ORIG_MERGE_FILE "*)
-+			${WARNOVERRIDE} "WARNING: Input file provided multiple times: $ORIG_MERGE_FILE"
-+			;;
-+	esac
-+
- 	# Use awk for single-pass processing instead of per-symbol grep/sed
- 	if ! awk -v prefix="$CONFIG_PREFIX" \
- 		-v warnoverride="$WARNOVERRIDE" \
-@@ -256,6 +266,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
- 		STRICT_MODE_VIOLATED=true
- 	fi
- 	mv "${TMP_FILE}.new" "$TMP_FILE"
-+	PROCESSED_FILES="$PROCESSED_FILES $ORIG_MERGE_FILE"
- done
- if [ "$STRICT_MODE_VIOLATED" = "true" ]; then
- 	echo "The fragment redefined a value and strict mode had been passed."
--- 
-2.34.1
+Not sure why this has surfaced only now, but it appears that kernel
+build with ARCH=nios2 and CONFIG_DEBUG_INFO_BTF=y has been broken for
+a long time.
+
+I tried the following revisions:
+  - bpf-next @ 522397d05e7d as in bug report
+  - bpf-next @ 014e1cdb5fad without the gen-btf.sh patch
+  - v6.18
+  - v6.17
+  - v6.12 (~1y ago)
+
+All fail with the same error in pahole [1]:
+
+	Complex, interval and imaginary float types are not supported
+	Encountered error while encoding BTF.
+
+I used v1.24 in most experiments, the default debian:bookworm
+installation.  Upgrading pahole to v1.31 doesn't change this behavior.
+
+I also stumbled on a phoronix article [2], saying Nios II support has
+ended with GCC 15. Is it actively supported in Linux?
+
+Not clear to me if anything needs to be fixed here. I'd appreciate any input.
+
+Thanks.
+
+[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/tree/btf_encoder.c?h=v1.31#n469
+[2] https://www.phoronix.com/news/GCC-15-Drops-Altera-Nios-II
+
+
+>>> FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
+> 
 
 
