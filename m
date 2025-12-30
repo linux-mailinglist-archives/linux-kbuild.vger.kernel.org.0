@@ -1,95 +1,184 @@
-Return-Path: <linux-kbuild+bounces-10374-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10375-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62186CEA7EC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 19:44:20 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B13C6CEA7FE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 19:45:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7656430380DE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 18:43:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A5BB33016924
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 18:45:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47FA32ED21;
-	Tue, 30 Dec 2025 18:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9FE2F28EF;
+	Tue, 30 Dec 2025 18:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FcN0ncod"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YFU9FBMG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93733271A7C;
-	Tue, 30 Dec 2025 18:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA0717AE11;
+	Tue, 30 Dec 2025 18:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767120204; cv=none; b=Ufs4k4npAX9J41nfM9b3aYDusc6vOdAuLd1577aW/jPvnMzasJ8PdSSOveSQc0X3kEqmV3XR7ECJlug0eIzCGIUyq7mWYIuqYp9sAQZAzO5KO+y/oPNldvAzx3vkPRxlBRQUX9R6NG/kEweYsEl9cm455ag9C8MfX1NwqxvHZQw=
+	t=1767120314; cv=none; b=J0yNlfzrOwP7F3V83ez0u65XS+ukRiK6D449YK+QHZQ1nTjUoejgpxQ/+Ob/7ZnRiQkRH4WQbB0N/UKmsBw1JTctk67GlnMQZbk4Cnor3E/WkIUvkTXzxWEUchABeTYyGmY/xjMDtc/ATOdJXtGvVeRSBz92tqMdJryKUp2z0DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767120204; c=relaxed/simple;
-	bh=WrlGMin2EgRjAkIaWiiWYH94N9NdEkLX6onE7jLgZQU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=YcrZdUgHH4zUOvV0Zd/+vTIBPmiJKzetxFrITc/XsfQS9tduR9c4cZytTYmifxny+wh7VFAh9q2uANYT7KigcmSO2v9eaiMY2p00AZRSaNd1X9EpVUej0lQ+zlxgw6J9ii5jvOnMK1lAXK+BNtJmdvGjnTVWqFnBgGJGBF0Jkrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FcN0ncod; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17211C4CEFB;
-	Tue, 30 Dec 2025 18:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767120204;
-	bh=WrlGMin2EgRjAkIaWiiWYH94N9NdEkLX6onE7jLgZQU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=FcN0ncod52lcXxeXbXHFxhG0FOF/Envk4veDSFsvm/UOqDxhR23AEanDQ9JFOnhNG
-	 LjE2YrnNbY2+xOyP4u1orsSLrQ/Gfo+VMfEOmhDm9cVaY9faDYojaZheAn1yQ/8/YC
-	 MFtKSIZ2f8VmYHYUU8yk7LHZnTxIH0wjDC81N0wDewQ/fH0kUyWXjshOr7TYj8VPnK
-	 edyhYKwzeKhK7kmSwHI2S+Zjumi12IYy5mRYH4m5r92Gl4y+KRdNjQCMsshQ6T2mP+
-	 Xs2aU/nVHpMEtisnr3PxAAz8iQWrCPZIaV/G3S9CKBugxBzHPEt+jPajGihU/vOIBD
-	 b1KKtz0EtAnQQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B8E33809A0D;
-	Tue, 30 Dec 2025 18:40:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1767120314; c=relaxed/simple;
+	bh=yRC9t65PO3NSduAzMKoSrj4oMSrnLS8ACvjrMDeASUk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O2LwZJRGi54h8xTSYyRyZQDFbupK7ysAXgdwtjFqaqgEuc2E8G1fbHNdlqPVZhXra1uz+u0yfvLhSgkx+xcz3RHF5WY7QtG9YYmsT8vEno/frt/v7D/oOgHUOiollURbSl8JPL2vzk1Mz4hJ7CGvx4mFiZnpRgvtt1aBWBThwIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YFU9FBMG; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <6f845383-563e-49a7-941c-03e9db6158cc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767120300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VR4Tl9AFiA48E3t4mhEMyh1YOQgRBN3waZ3st/FSflQ=;
+	b=YFU9FBMGTOgpkSg9MZfgapPcIC9yjumwdoUDaBmMcBKdqJzVqMma9omfwqJJwbYSMJIHLe
+	W5BidMBdcnreQsqktWGCN0feiN3N6VxEb5mUdY4BkEdmpk92iJtx6b2AFKLQsbdS6XHN3z
+	/WgqNXwwu21cirsWK87Fw+setz+HDYo=
+Date: Tue, 30 Dec 2025 10:44:52 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [RFC PATCH v1] module: Fix kernel panic when a symbol st_shndx is
+ out of bounds
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Luis Chamberlain
+ <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ linux-modules@vger.kernel.org, bpf <bpf@vger.kernel.org>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ clang-built-linux <llvm@lists.linux.dev>
+References: <20251224005752.201911-1-ihor.solodrai@linux.dev>
+ <9edd1395-8651-446b-b056-9428076cd830@linux.dev>
+ <af906e9e-8f94-41f5-9100-1a3b4526e220@linux.dev>
+ <20251229212938.GA2701672@ax162>
+ <6b87701b-98fb-4089-a201-a7b402e338f9@linux.dev>
+ <CAADnVQ+X-a92LEgcd-HjTJUcw2zR_jtUmD9U-Z6OtNnvpVwfiw@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <CAADnVQ+X-a92LEgcd-HjTJUcw2zR_jtUmD9U-Z6OtNnvpVwfiw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next] scripts/gen-btf.sh: Fix .btf.o generation when
- compiling for RISCV
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176712000605.3329931.5334657371123861484.git-patchwork-notify@kernel.org>
-Date: Tue, 30 Dec 2025 18:40:06 +0000
-References: <20251229202823.569619-1-ihor.solodrai@linux.dev>
-In-Reply-To: <20251229202823.569619-1-ihor.solodrai@linux.dev>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, nathan@kernel.org,
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+X-Migadu-Flow: FLOW_OUT
 
-Hello:
-
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
-
-On Mon, 29 Dec 2025 12:28:23 -0800 you wrote:
-> gen-btf.sh emits a .btf.o file with BTF sections to be linked into
-> vmlinux in link-vmlinux.sh
+On 12/29/25 4:50 PM, Alexei Starovoitov wrote:
+> On Mon, Dec 29, 2025 at 4:39 PM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
+>>
+>> On 12/29/25 1:29 PM, Nathan Chancellor wrote:
+>>> Hi Ihor,
+>>>
+>>> On Mon, Dec 29, 2025 at 12:40:10PM -0800, Ihor Solodrai wrote:
+>>>> I think the simplest workaround is this one: use objcopy from binutils
+>>>> instead of llvm-objcopy when doing --update-section.
+>>>>
+>>>> There are just 3 places where that happens, so the OBJCOPY
+>>>> substitution is going to be localized.
+>>>>
+>>>> Also binutils is a documented requirement for compiling the kernel,
+>>>> whether with clang or not [1].
+>>>>
+>>>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/changes.rst?h=v6.18#n29
+>>>
+>>> This would necessitate always specifying a CROSS_COMPILE variable when
+>>> cross compiling with LLVM=1, which I would really like to avoid. The
+>>> LLVM variants have generally been drop in substitutes for several
+>>> versions now so some groups such as Android may not even have GNU
+>>> binutils installed in their build environment (see a recent build
+>>> fix [1]).
+>>>
+>>> I would much prefer detecting llvm-objcopy in Kconfig (such as by
+>>> creating CONFIG_OBJCOPY_IS_LLVM using the existing check for
+>>> llvm-objcopy in X86_X32_ABI in arch/x86/Kconfig) and requiring a working
+>>> copy (>= 22.0.0 presuming the fix is soon merged) or an explicit opt
+>>> into GNU objcopy via OBJCOPY=...objcopy for CONFIG_DEBUG_INFO_BTF to be
+>>> selectable.
+>>
+>> I like the idea of opt into GNU objcopy, however I think we should
+>> avoid requiring kbuilds that want CONFIG_DEBUG_INFO_BTF to change any
+>> configuration (such as adding an explicit OBJCOPY= in a build command).
+>>
+>> I drafted a patch (pasted below), introducing BTF_OBJCOPY which
+>> defaults to GNU objcopy. This implements the workaround, and should be
+>> easy to update with a LLVM version check later after the bug is fixed.
+>>
+>> This bit:
+>>
+>> @@ -391,6 +391,7 @@ config DEBUG_INFO_BTF
+>>         depends on PAHOLE_VERSION >= 122
+>>         # pahole uses elfutils, which does not have support for Hexagon relocations
+>>         depends on !HEXAGON
+>> +       depends on $(success,command -v $(BTF_OBJCOPY))
+>>
+>> Will turn off DEBUG_INFO_BTF if relevant GNU objcopy happens to not be
+>> installed.
+>>
+>> However I am not sure this is the right way to fail here. Because if
+>> the kernel really does need BTF (which is effectively all kernels
+>> using BPF), then we are breaking them anyways just downstream of the
+>> build.
+>>
+>> An "objcopy: command not found" might make some pipelines red, but it
+>> is very clear how to address.
+>>
+>> Thoughts?
+>>
+>>
+>> From 7c3b9cce97cc76d0365d8948b1ca36c61faddde3 Mon Sep 17 00:00:00 2001
+>> From: Ihor Solodrai <ihor.solodrai@linux.dev>
+>> Date: Mon, 29 Dec 2025 15:49:51 -0800
+>> Subject: [PATCH] BTF_OBJCOPY
+>>
+>> ---
+>>  Makefile                             |  6 +++++-
+>>  lib/Kconfig.debug                    |  1 +
+>>  scripts/gen-btf.sh                   | 10 +++++-----
+>>  scripts/link-vmlinux.sh              |  2 +-
+>>  tools/testing/selftests/bpf/Makefile |  4 ++--
+>>  5 files changed, 14 insertions(+), 9 deletions(-)
 > 
-> This .btf.o file is created by compiling an emptystring with ${CC},
-> and then adding BTF sections into it with ${OBJCOPY}.
+> All the makefile hackery looks like overkill and wrong direction.
 > 
-> To ensure the .btf.o is linkable when cross-compiling with LLVM, we
-> have to also pass ${KBUILD_FLAGS}, which in particular control the
-> target word size.
+> What's wrong with kernel/module/main.c change?
 > 
-> [...]
+> Module loading already does a bunch of sanity checks for ELF
+> in elf_validity_cache_copy().
+> 
+> + if (sym[i].st_shndx >= info->hdr->e_shnum)
+> is just one more.
+> 
+> Maybe it can be moved to elf_validity*() somewhere,
+> but that's a minor detail.
+> 
+> iiuc llvm-objcopy affects only bpf testmod, so not a general
+> issue that needs top level makefile changes.
 
-Here is the summary with links:
-  - [bpf-next] scripts/gen-btf.sh: Fix .btf.o generation when compiling for RISCV
-    https://git.kernel.org/bpf/bpf-next/c/600605853f87
+By the way, we don't have to put BTF_OBJCOPY variable in the top level
+Makefile.  It can be defined in Makefile.btf, which is included only
+with CONFIG_DEBUG_INFO_BTF=y
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+We have to define BTF_OBJCOPY in the top-level makefile *if* we want
+CONFIG_DEBUG_INFO_BTF to depend on it, and get disabled if BTF_OBJCOPY
+is not set/available.
+
+I was trying to address Nathan's concern, that some kernel build
+environments might not have GNU binutils installed, and kconfig should
+detect that.  IMO putting BTF_OBJCOPY in Makefile.btf is more
+appropriate, assuming the BTF_OBJCOPY variable is at all an acceptable
+workaround for the llvm-objcopy bug.
+
 
 
 
