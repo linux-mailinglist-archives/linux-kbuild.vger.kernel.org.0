@@ -1,127 +1,125 @@
-Return-Path: <linux-kbuild+bounces-10359-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10360-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5BBCE874C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 01:59:27 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4E5CE8DA7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 08:09:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 350FC3001BE7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 00:59:27 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1C3083001E01
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 07:09:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 626C52DA759;
-	Tue, 30 Dec 2025 00:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E7142F12C3;
+	Tue, 30 Dec 2025 07:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oLZ7OzKO"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="q7rGyAoc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9rZ+Gw0f"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523242DCF6C;
-	Tue, 30 Dec 2025 00:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0798A23D7DE;
+	Tue, 30 Dec 2025 07:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767056365; cv=none; b=BAbbccrvCROsFgZ8qm1t6XZXBBeX7Me8exNTZDOUy3IGlHyXHMP2aKQie8wDaLOy18TfSgvynhM8OYdNOaFrmijy0vAME7w9aIIXhV3h6pGKduYWbOzUJm47VX9SBuPfY3iB9IS43Mc5OFh10EWG04ipkrFevOautum5BDoRh5k=
+	t=1767078575; cv=none; b=NypWSjE+2UIQBC4W5sLgX5wJ8yC0uQNMbEi4p8IwKqMB/kgUgynT+fsf7fudNaFLdqG+TxNw8dg22g5eqXd5+ZXSS1wWIAx7TOiJXh72J7Y31P7XcjCO0FfavwsRqhKO/ChYkfzzHDeT6LU9Z3L9y3nFUxP0HI9mYJ37vpsE4mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767056365; c=relaxed/simple;
-	bh=2lxDnwdsZekXe4NfDsKQJITWCMDUWP6xiRX5VchwVV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i/VNADts5yLU90PsjaMUHC76ju/yZY8QZQDqaVXhyhrAVL2/sh6I0NB2B76yRFF87EqSRfmBKUIaz3jvgBzOMA03fvr0Gxt/8SPJmlV/8d42Hp+i9/Aw/JAMTjAVuYRwHNutZxSM6hD6MhZCo6+6zL0xR+/9UTNqLi22wlnWpCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oLZ7OzKO; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <26800836-3864-47ec-910b-aed571758f04@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767056351;
+	s=arc-20240116; t=1767078575; c=relaxed/simple;
+	bh=IivRrwJ/QQ1qM9idmiSnDpJrtD51f9wI7sMi5h4F7OU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bbgH9iUSa1BGgCem7oSIYL3gLbLym2bPBCrS66HCsDAVn/n4pHdPMVHnSD881v3esZ/dXZsDafL10X3b41elWWU4R+OibllFxOWIcXT/L1cDsf0Aa8Un4xkqjuqiFByMD/HVyMgA9kKJEz/REDgsQ6ZtxO93cDFeifuOxO4bB9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=q7rGyAoc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9rZ+Gw0f; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1767078572;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TSyzvjl2It73lqYA6EDJUDBcvQxjHw4X7Zb7XrvQVUQ=;
-	b=oLZ7OzKOpf4AbXx1p7wAm4IkLiVOcM7MnlHBnQYpYeKv2eymkHXiCpvQz03QcYr9tU4Bcc
-	WO/jFUHfHLy+ol+q9jTWIiewXfC4ZhoMW2JWLqXm3jpqTCQ0vVgUq9r9RnZRw1hiOGyWHH
-	FgosFZ8sEO9qw+v4wRKSoxAGCYXUflA=
-Date: Mon, 29 Dec 2025 16:59:03 -0800
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tfg8gdXm6/DfXAg25GDEsNM2qWQ1jPNdTROUtFtGLkY=;
+	b=q7rGyAocNyC55P8nBLipy5jQKfZ2W/xH8jnkOWhig3nwwdv3+f8H4fUp+L7TOzvC9rT3Go
+	sTI60LHOJdtUKgP/xy1IqveUGg36BkjMEdywqKXVsqDboFhuFWhYnP2CaQGyQ+7on0ivat
+	J5hVVRhKP7sSKbCxeM9XZBpChsbqRp+0CiR7+4rklHhJs4A71TSCzxxyC/NqkcvK82DL22
+	8LJGwzZnSsgVgyL6DUovKzb2Dlzv5oQBbwQZtD9ZaJlhknaMYRTyczQpRRaWLhr9IduYKZ
+	32jxJfsC12OzaaIyIKO3ni1DhTYPHXhiZ0gaXv8s+S8pOpH3H1s7R8dcyaXb8g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1767078572;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tfg8gdXm6/DfXAg25GDEsNM2qWQ1jPNdTROUtFtGLkY=;
+	b=9rZ+Gw0fg8EUPW+Cc/a5GSmffgBpytTQGklbfPEtFPrTji0a1j2xtvEs+wVxsRLLfwaAyB
+	Llt5imlobHNr5TAw==
+Date: Tue, 30 Dec 2025 08:09:29 +0100
+Subject: [PATCH] kbuild: uapi: Drop check_config()
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH v1] module: Fix kernel panic when a symbol st_shndx is
- out of bounds
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Luis Chamberlain
- <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
- linux-modules@vger.kernel.org, bpf <bpf@vger.kernel.org>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- clang-built-linux <llvm@lists.linux.dev>
-References: <20251224005752.201911-1-ihor.solodrai@linux.dev>
- <9edd1395-8651-446b-b056-9428076cd830@linux.dev>
- <af906e9e-8f94-41f5-9100-1a3b4526e220@linux.dev>
- <20251229212938.GA2701672@ax162>
- <6b87701b-98fb-4089-a201-a7b402e338f9@linux.dev>
- <CAADnVQ+X-a92LEgcd-HjTJUcw2zR_jtUmD9U-Z6OtNnvpVwfiw@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <CAADnVQ+X-a92LEgcd-HjTJUcw2zR_jtUmD9U-Z6OtNnvpVwfiw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Message-Id: <20251230-uapi-check_config-v1-1-00ecec109f39@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAKh6U2kC/x3MQQqAIBBA0avErBtI06iuEhFiYw2BhlIE4d2Tl
+ m/x/wuJIlOCsXoh0s2Jgy8QdQV2N34j5LUYZCO1kHLAy5yMdid7LDZ4xxv2xqiW2k73qoPSnZE
+ cP/9zmnP+AAKkT3BjAAAA
+X-Change-ID: 20251229-uapi-check_config-8aa43e365846
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767078571; l=1307;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=IivRrwJ/QQ1qM9idmiSnDpJrtD51f9wI7sMi5h4F7OU=;
+ b=Dw9mhzc/DF7VIrYDGznO51VowWBIhEUltCeSwjBoQAZLmoaTrPgDgaAk5Uk55CTTOlmY3EvWD
+ rLgZq5AayU4B4mlm+rJ91nyJ//00BqqAimLraV0RMfS6WHofIkaVAvM
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On 12/29/25 4:50 PM, Alexei Starovoitov wrote:
-> On Mon, Dec 29, 2025 at 4:39 PM Ihor Solodrai <ihor.solodrai@linux.dev> wrote:
->>
->> [...]
->>
->>
->> From 7c3b9cce97cc76d0365d8948b1ca36c61faddde3 Mon Sep 17 00:00:00 2001
->> From: Ihor Solodrai <ihor.solodrai@linux.dev>
->> Date: Mon, 29 Dec 2025 15:49:51 -0800
->> Subject: [PATCH] BTF_OBJCOPY
->>
->> ---
->>  Makefile                             |  6 +++++-
->>  lib/Kconfig.debug                    |  1 +
->>  scripts/gen-btf.sh                   | 10 +++++-----
->>  scripts/link-vmlinux.sh              |  2 +-
->>  tools/testing/selftests/bpf/Makefile |  4 ++--
->>  5 files changed, 14 insertions(+), 9 deletions(-)
-> 
-> All the makefile hackery looks like overkill and wrong direction.
-> 
-> What's wrong with kernel/module/main.c change?
-> 
-> Module loading already does a bunch of sanity checks for ELF
-> in elf_validity_cache_copy().
-> 
-> + if (sym[i].st_shndx >= info->hdr->e_shnum)
-> is just one more.
-> 
-> Maybe it can be moved to elf_validity*() somewhere,
-> but that's a minor detail.
-> 
-> iiuc llvm-objcopy affects only bpf testmod, so not a general
-> issue that needs top level makefile changes.
+headers_install.sh already tests for CONFIG symbols. It does so in a
+more comprehensive way, by only checking for references in code and
+also running even if CONFIG_UAPI_HEADER_TEST is disabled.
+And check_config() has been disabled any case.
 
-AFAIU, the problem is that the llvm-objcopy bug is essentially
-use-after-free [1], that may (or may not) corrupt st_shndx value of
-some symbols when executing --update-section.
+Drop the pointless check.
 
-And so we can't trust this command anywhere in the kernel build, even
-though it only manifested itself in a BPF test module.
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ usr/include/headers_check.pl | 8 --------
+ 1 file changed, 8 deletions(-)
 
-With the gen-btf.sh changes ${OBJCOPY} --update-section is called for
-all binaries with .BTF_ids: vmlinux and all modules.
+diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.pl
+index af5a513eaa00..6cd6eb652c8d 100755
+--- a/usr/include/headers_check.pl
++++ b/usr/include/headers_check.pl
+@@ -40,7 +40,6 @@ foreach my $file (@files) {
+ 		&check_include();
+ 		&check_asm_types();
+ 		&check_declarations();
+-		# Dropped for now. Too much noise &check_config();
+ 	}
+ 	close $fh;
+ }
+@@ -77,13 +76,6 @@ sub check_declarations
+ 	}
+ }
+ 
+-sub check_config
+-{
+-	if ($line =~ m/[^a-zA-Z0-9_]+CONFIG_([a-zA-Z0-9_]+)[^a-zA-Z0-9_]/) {
+-		printf STDERR "$filename:$lineno: leaks CONFIG_$1 to userspace where it is not valid\n";
+-	}
+-}
+-
+ my $linux_asm_types;
+ sub check_asm_types
+ {
 
-The fix in module.c is an independent kernel bug, that is hopefully
-fixed with the st_shndx check.
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251229-uapi-check_config-8aa43e365846
 
-[1] https://github.com/llvm/llvm-project/issues/168060#issuecomment-3533552952
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
 
