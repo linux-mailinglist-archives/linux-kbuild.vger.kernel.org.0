@@ -1,38 +1,38 @@
-Return-Path: <linux-kbuild+bounces-10365-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10366-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63128CE9CD3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 14:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F893CEA381
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 17:49:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 46FD23024D61
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 13:39:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4533A300C2A6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Dec 2025 16:49:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 630D8239099;
-	Tue, 30 Dec 2025 13:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20A4831A54C;
+	Tue, 30 Dec 2025 16:49:03 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0364B223705;
-	Tue, 30 Dec 2025 13:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989A523D2A3;
+	Tue, 30 Dec 2025 16:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767101993; cv=none; b=WaTAE2RWP2Is0BEfpLuAgS34Nd3whDuecy2ktuT0bl41DczlNZiolZ2Hh+c5/PfKvqrEKGxY+1Lka8hFlj3GjmWZDlwGAw0foQq+2n5uvA2SGp5+DQ08fECrAiAnhRE21hO8B51uKUs9dx3nP2fwbrZb2o4+GvdbgvOEKrgjaNI=
+	t=1767113343; cv=none; b=dELlKj+OeP+vf18xYt9cfwmukrKqBrojuHhKXzRcPS4ubf3fsjd8xveKEGIlEaOxsDqlY+GLjGWaFRQMh3kmffrJPQc12P/m3kfTwRJrd6zwblenkOLaFTauGlmwqMMdTIkbzO2YVt9GY+4f2Vz4L1C70taGcGaJK9ybdieYNKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767101993; c=relaxed/simple;
-	bh=0d/OanXMJ0pRPad1es/3QtK336I3Hcqs1dKIXrOzFYk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hVL12VA767k6sZvUtb8Y2A/1TsPonWfhatyCrcxuV99FCG6UwQIDcgFRdxuSaZmsRlKWhMW/0JOtO5dgjSllU4bZDuXReNFkJjdJ+wdFnKn2DJ/kIJet4Kjx4mFvDE2YKWqu9SpQXJue+vz9UF5ANYt00rfg603H9keOaymm0Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [127.0.0.2] (unknown [114.241.82.59])
-	by APP-01 (Coremail) with SMTP id qwCowADnjWkN1lNpCqNgAg--.13684S2;
-	Tue, 30 Dec 2025 21:39:26 +0800 (CST)
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-Date: Tue, 30 Dec 2025 21:39:17 +0800
-Subject: [PATCH] riscv: boot: Always make Image from vmlinux, not
- vmlinux.unstripped
+	s=arc-20240116; t=1767113343; c=relaxed/simple;
+	bh=TUu2Dp2xZxi1yNJqpMQ42nivcbRZIxIELfScEgMADkU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KmasS6xayOtHIJvayimq+FdxkhhV7WstcIu6B7Y31hnefqMad+mgd4gryRz0m8BzmdH4xYyvL91fXZRZLNeYOzdYWYtIoC5IDIGoK1keVwC1aOUFRgBZQBmu0cz758pw8XBxXhRGRH5wIbHrMrGMq9VNJ/M3rWp+p9irXeaHUso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from minun.felixc.at (unknown [65.108.105.71])
+	by APP-05 (Coremail) with SMTP id zQCowAA3yQw8AlRpUjKQAg--.63740S2;
+	Wed, 31 Dec 2025 00:48:08 +0800 (CST)
+From: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
+Subject: [PATCH v6 0/4] RISC-V: re-enable gcc + rust builds
+Date: Tue, 30 Dec 2025 17:47:53 +0100
+Message-Id: <20251230-gcc-rust-v5-v6-0-2ac86ba728c8@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -41,88 +41,82 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251230-riscv-vmlinux-not-unstripped-v1-1-15f49df880df@iscas.ac.cn>
-X-B4-Tracking: v=1; b=H4sIAATWU2kC/yXNywqDMBCF4VeRWXdKEmlBX6Uo2GRsB2q0kwtC8
- N0b6vI7i/8UCCRMAfqmgFDmwKuv0JcG7HvyL0J21WCUuWnTKhQONmNePuzTjn6NmHyIwttGDlt
- FVtmuVbMzUBOb0Mz7P/8YTgt9U32J5wjPKRDadVk49k2+X3WHYvVYDhiO4wdoLjN0ngAAAA==
-X-Change-ID: 20251230-riscv-vmlinux-not-unstripped-30ec0c930fd2
-To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+X-B4-Tracking: v=1; b=H4sIADkCVGkC/22MQQrDIBBFrxJmXYuZaChd9R4lC9HRDDSxaCotw
+ bvXZl34m/fhvR0yJaYM126HRIUzx7XBeOrAzmYNJNg1BpSoe5RKBGtFeuVNFC2M8ZYcDT2ZAZr
+ xTOT5fdTuU+OZ8xbT54gX/Xv/d9qkQKc8SncZLapbWAw/zjYuMNVav7H9R8mmAAAA
+X-Change-ID: 20251204-gcc-rust-v5-aafcede31ea3
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
  Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Nathan Chancellor <nathan@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
- Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: Han Gao <gaohan@iscas.ac.cn>, linux-riscv@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- stable@vger.kernel.org, Vivian Wang <wangruikang@iscas.ac.cn>
+ Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor@kernel.org>, 
+ Mingcong Bai <jeffbai@aosc.io>, Han Gao <rabenda.cn@gmail.com>, 
+ Vivian Wang <wangruikang@iscas.ac.cn>, Jason Montleon <jmontleo@redhat.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+ Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
 X-Mailer: b4 0.14.3
-X-CM-TRANSID:qwCowADnjWkN1lNpCqNgAg--.13684S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWUAF1DGr4UJw1DWrWUXFb_yoW8Cr15p3
-	yUuw1YkrWUJrWj9F10y3y293y2qFn0g3y3ZFW8GF1DtrWjqF1vqwsIgayUWF9rGFs3Wa1D
-	Xr4fGF95Ca40y3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
-	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
-	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
-	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
-	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+X-CM-TRANSID:zQCowAA3yQw8AlRpUjKQAg--.63740S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrW8KrWUGF48JF1fuw4UJwb_yoW8Jw4xpa
+	95Cr4fKrWDJFWIgr4fAr48WF45GF1rJrWrJF17t34UJ3y7ur18trnIkr4rJa17ZryvvrWj
+	vr1F9Fy09ryUCwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBKb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+	YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r4a6rW5MxkIecxEwVCI4V
+	WUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_
+	Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x
+	0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8
+	JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIx
+	AIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRAhL0DUUUUU=
+	=
+X-CM-SenderInfo: x0lq233loux21fy6x21ufox2xfdvhtffof0/
 
-Since commit 4b47a3aefb29 ("kbuild: Restore pattern to avoid stripping
-.rela.dyn from vmlinux") vmlinux has .rel*.dyn preserved. Therefore, use
-vmlinux to produce Image, not vmlinux.unstripped.
+Previous v5 patch:
+https://lore.kernel.org/20251204-gcc-rust-v5-v5-0-2d4f20d86c24@gmail.com
 
-Doing so fixes booting a RELOCATABLE=y Image with kexec. The problem is
-caused by this chain of events:
+Changes in v6:
+- Simplified `bindgen-backend-option` Kconfig function by using
+`/dev/null` with clang option `-x c` instead of `touch`ing a new temp
+file.
+- Moved the `BINDGEN_TARGET` check to `rust/Makefile` so it only
+performs the check when Rust is enabled, avoiding breaking targets that
+do not support Rust builds.
+- Updated my git email to the institutional email address.
 
-- Since commit 3e86e4d74c04 ("kbuild: keep .modinfo section in
-  vmlinux.unstripped"), vmlinux.unstripped gets a .modinfo section.
-- The .modinfo section has SHF_ALLOC, so it ends up in Image, at the end
-  of it.
-- The Image header's image_size field does not expect to include
-  .modinfo and does not account for it, since it should not be in Image.
-- If .modinfo is large enough, the file size of Image ends up larger
-  than image_size, which eventually leads to it failing
-  sanity_check_segment_list().
-
-Using vmlinux instead of vmlinux.unstripped means that the unexpected
-.modinfo section is gone from Image, fixing the file size problem.
-
-Cc: stable@vger.kernel.org
-Fixes: 3e86e4d74c04 ("kbuild: keep .modinfo section in vmlinux.unstripped")
-Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
+Signed-off-by: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
 ---
- arch/riscv/boot/Makefile | 4 ----
- 1 file changed, 4 deletions(-)
+Asuna Yang (4):
+      rust: export BINDGEN_TARGET from a separate Makefile
+      rust: generate a fatal error if BINDGEN_TARGET is undefined
+      rust: add a Kconfig function to test for support of bindgen options
+      RISC-V: handle extension configs for bindgen, re-enable gcc + rust builds
 
-diff --git a/arch/riscv/boot/Makefile b/arch/riscv/boot/Makefile
-index bfc3d0b75b9b..5301adf5f3f5 100644
---- a/arch/riscv/boot/Makefile
-+++ b/arch/riscv/boot/Makefile
-@@ -31,11 +31,7 @@ $(obj)/xipImage: vmlinux FORCE
- 
- endif
- 
--ifdef CONFIG_RELOCATABLE
--$(obj)/Image: vmlinux.unstripped FORCE
--else
- $(obj)/Image: vmlinux FORCE
--endif
- 	$(call if_changed,objcopy)
- 
- $(obj)/Image.gz: $(obj)/Image FORCE
-
+ Documentation/rust/arch-support.rst |  2 +-
+ Makefile                            |  3 ++-
+ arch/riscv/Kconfig                  | 35 ++++++++++++++++++++++++++++++++++-
+ rust/Makefile                       | 17 ++++++++---------
+ scripts/Kconfig.include             |  5 +++++
+ scripts/Makefile.rust               | 10 ++++++++++
+ 6 files changed, 60 insertions(+), 12 deletions(-)
 ---
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20251230-riscv-vmlinux-not-unstripped-30ec0c930fd2
+base-commit: 8640b74557fc8b4c300030f6ccb8cd078f665ec8
+change-id: 20251204-gcc-rust-v5-aafcede31ea3
 
 Best regards,
 -- 
-Vivian "dramforever" Wang
+Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
 
 
