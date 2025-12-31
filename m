@@ -1,300 +1,307 @@
-Return-Path: <linux-kbuild+bounces-10387-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10388-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D128BCEAFEA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 02:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB449CEB791
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 08:50:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B8CA300D141
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 01:26:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 80582300D412
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 07:50:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 223191E5B63;
-	Wed, 31 Dec 2025 01:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 857852DC77B;
+	Wed, 31 Dec 2025 07:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Jbp05A7L"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KsSJulX+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A9086352;
-	Wed, 31 Dec 2025 01:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640EF3A1E82
+	for <linux-kbuild@vger.kernel.org>; Wed, 31 Dec 2025 07:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767144374; cv=none; b=XHrlWlyH3syhKeyKYODWotbRGUJ94pe+1IEtrT5jcPh87qHMQ/dQ5WMnv24jDqB4VtQOVxAGDJbis7vrqwZqWkT9mRiQ6v5HPO+Xf18glXAQwrOpg62AGT/2I5daoPPoLYPt622NEQSV4BK18skPcSJXsE2qA5i3xpXBz5DzZVg=
+	t=1767167425; cv=none; b=SMG4prOZEvGJFKfrGO8WW3U1BoOr1ZxB0SYVGzmCbJ1rUZn3A+KLe/Lo5T584o0zIq1HrCKaIJJF4A06pM/PY6y/nw+1zAZEZ1sBmY/eo3zuQ/yOFPGuBik+Q/1JVEfJzhkB1B2R8gqzTVbyFQABnBLgTBZDxUYPaaWevT/dGXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767144374; c=relaxed/simple;
-	bh=EP81NzZERTa4WpEj5g0CAj0u3mjOAYp9iIlHjG7ghQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nk2P0Us92GN0c/MLo4hXYlSpnt4/atjXNAg7uU1vyXmrJv81nTeK7dPTeV9v9kdvKw0ELAywD7SCL/5bLsU2DYX1eJxeIAZTseiDjGP/E6Byb3VQNb4AdYUxZVCSpbldYgl+5SSSpT9l7zul+VVBCvGXCN8KT9OMFxhVe3m+4VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Jbp05A7L; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767144368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oW1Reu5DMmVKSwa9Snx8B+yvijdb2ZtOnW+HkCnezlk=;
-	b=Jbp05A7Lwo6Z90OwyUIpXaFeUGIHS//O9l9zgriLwjjJKkuzlner+CkFFQn6D20MNYtSo7
-	nIIJ/n5TsO0jDT0UnGT9GZ9ISYdr2qZOb0rXlZSf8vBbC2DJLtujMeey1LGLDNbvOl41mh
-	Fwxwg9Hq3vW8vIbchXum4meie4bf9Mg=
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-To: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: bpf@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH bpf-next v2] resolve_btfids: Implement --patch_btfids
-Date: Tue, 30 Dec 2025 17:25:57 -0800
-Message-ID: <20251231012558.1699758-1-ihor.solodrai@linux.dev>
+	s=arc-20240116; t=1767167425; c=relaxed/simple;
+	bh=fxEzaQ6lkFLGA60S2/GrY3erz6kciiVpJIW+iahBKt4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N2raN2LgtpdrOcZVzrXBDLhtUUs+Zy3nKWEY5La46etnhKBHw+qcUlQHgr2lOhcGFWwfKPyghqyogsr0Go2JfxKOSegH1cgXJkLTWK/zmIknylu1dwNQ3MJId+tuXCRVPI6RQuN5LUD8HggOvYrSE3a8qN8C/WwQMMVC/RAU2y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KsSJulX+; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5958931c9c7so12053218e87.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Dec 2025 23:50:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767167420; x=1767772220; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7fhWwk1OIIngc9+BNbJ57EwGtjW+U+G1SAXRVs840o=;
+        b=KsSJulX+n6Z9p5ZBgI2kZlHKURstxpIBQAyKmR2QcqXrKVhawy7NTGU2bOGRLmUy1i
+         +C+W3xFAURo/gBAsqrHueiKS0aIJkqnZjv0Uf75jMN+bZDOVXDQgHVQise53wrweBb1O
+         cLaEGULTeB/MYyrzCLo2brQVyKJ7RNc6rw6rLgtR6lzeftDJ8b9ocOSNgnRjossvuxnP
+         TL1OrAr30xHLhM+W0yUIp0Uc30N0Fhs5/SX3bhdd6JSZrs42Gii5NL4gR2dqVVGSUDFO
+         CX+Om03XHPj6uXOgWE0VPsrUgAe9bX90Ia+sKB4R+01W/IDk6t8igelCWf5j9DyzahBQ
+         r34g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767167420; x=1767772220;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y7fhWwk1OIIngc9+BNbJ57EwGtjW+U+G1SAXRVs840o=;
+        b=WDhEYAPFlOG0+FmQ9Fy/2717dph2d7gIXUMUnbgRAelF1VGVgtjs09jjMvdhLCCxZ9
+         IH9bLOW9rip6btmwPrIIb90QdbD5LCkEcmYQZAolJxOsp1PhT/2bA5iRlNZxJZY4y7Rl
+         ObIwUElome69z96QcyZ87TSH/uLaFGFi3EVE0MXhzf+sPC1/BQpB/rsRN+rQDqjPqJ6M
+         +MGee0pqw8Y/ad/zuQke9IwZ8jJu3FCozKt4iqKjwgDtB9sUPOWJlf/Xfs26GWYG1/+P
+         INCGa32D4TpF8m5OkIkLV3XL+zSm/wcnfHRy43swyq8AkrlBvQfJ9/Qcj8XGIjWwMFgm
+         GJbw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4tMiwy1pySSlITXVJVPVGSo8CHiRtEq0YMtvW+OafSmGYvmbGvpsFdJGlTv6ghfnZoy9Vr+AmbDuMmPQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwODihEYwGvRd2UwaGdNV7U+6F5HtwZsz/FE8zBhN4Ac1qDYW7U
+	d1V+bmaPFydJ7KYWJOoehuyNSTkDj2Os5/oyVYQDQZ2l2u87KWlnEdoCz6aNCi00SuA=
+X-Gm-Gg: AY/fxX5Tyydm4C3MfqwuVcbnWOa/YBfso+svbEA6Jc5EDNFl5Al4Wl9NzT9A1/p8Ee+
+	sRrb5R2iOSAdo3uONdAhlMcWB/CbQ3bfBSMYenPyTbeROja8m+LHSe+WYZ/4tyYCZK6i1hqW6XL
+	I6hf28kyG4poN7s7Bwcd7DTNNWw0BWid8no+9pvCG3OBDXOvwKWpR967chBczZT89Zic7BIBUh1
+	/ileEhRvPtj7XCcxJrlHr48p3odrAnxecf+MhBM62pzHOxAKMi09OPWuYKZyNS8SeoKLe6Td2+w
+	B16P2G8HwNj9MPqeQA7Nmx1JBDIJeYzzCv5TblCrzIclTcsupAZ2MijlmumfeVPXBNkT4tad3+C
+	xAoa0l9s/OoV4TQjBCcC4+aSlBeeQs2tpt9nKrcfpl/LxbjnXwa3Ynj3L18E+1BCuVWs5rx8HUo
+	hs3ISu33NgymM141ZSmRVr46YF4+jBuCIEiJjHeNfrpDh0
+X-Google-Smtp-Source: AGHT+IHPeGYwEIg1sfdKZUrJLzCCdo6/6keVmm3o6KtBA+7sbS3jVHsPf6XffXT2ipsDqtxUVRscTA==
+X-Received: by 2002:a05:6512:4016:b0:598:f4cb:aafd with SMTP id 2adb3069b0e04-59a17d958b8mr13239980e87.19.1767167420313;
+        Tue, 30 Dec 2025 23:50:20 -0800 (PST)
+Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185d5ea6sm10683304e87.5.2025.12.30.23.50.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 23:50:19 -0800 (PST)
+Date: Wed, 31 Dec 2025 09:50:18 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] scripts: kconfig: merge_config.sh: refactor from
+ shell/sed/grep to awk
+Message-ID: <aVTVugHI-gqnVOqa@nuoska>
+References: <20251229114447.45236-1-mikko.rapeli@linaro.org>
+ <20251230205549.GE4062669@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251230205549.GE4062669@ax162>
 
-Recent changes in BTF generation [1] rely on ${OBJCOPY} command to
-update .BTF_ids section data in target ELF files.
+Hi,
 
-This exposed a bug in llvm-objcopy --update-section code path, that
-may lead to corruption of a target ELF file. Specifically, because of
-the bug st_shndx of some symbols may be (incorrectly) set to 0xffff
-(SHN_XINDEX) [2][3].
+On Tue, Dec 30, 2025 at 01:55:49PM -0700, Nathan Chancellor wrote:
+> Hi Mikko,
+> 
+> I don't really know awk well so I won't give as much review on that
+> part.
+> 
+> On Mon, Dec 29, 2025 at 01:44:45PM +0200, Mikko Rapeli wrote:
+> > From: Anders Roxell <anders.roxell@linaro.org>
+> > 
+> > merge_config.sh shell/sed/grep loop scales poorly and is slow.
+> > With Yocto genericarm64 kernel and around 190 config fragments
+> > the script takes more than 20 minutes to run on a fast build machine.
+> > Re-implementation with awk does the same job in 10 seconds.
+> > Using awk since it is likely available in the build environments
+> > and using perl, python etc would introduce more complex runtime
+> > dependencies. awk is good enough and lot better than shell/sed/grep.
+> > 
+> > Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> >  scripts/kconfig/merge_config.sh | 161 ++++++++++++++++++++++++--------
+> >  1 file changed, 123 insertions(+), 38 deletions(-)
+> > 
+> > diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+> > index 79c09b378be8..46397d7c6957 100755
+> > --- a/scripts/kconfig/merge_config.sh
+> > +++ b/scripts/kconfig/merge_config.sh
+> > @@ -16,8 +16,8 @@
+> >  set -e
+> >  
+> >  clean_up() {
+> > -	rm -f $TMP_FILE
+> > -	rm -f $MERGE_FILE
+> > +	rm -f "${TMP_FILE}"
+> > +	rm -f "${TMP_FILE}.new"
+> >  }
+> >  
+> >  usage() {
+> > @@ -121,7 +121,6 @@ SED_CONFIG_EXP1="s/^\(${CONFIG_PREFIX}[a-zA-Z0-9_]*\)=.*/\1/p"
+> >  SED_CONFIG_EXP2="s/^# \(${CONFIG_PREFIX}[a-zA-Z0-9_]*\) is not set$/\1/p"
+> 
+> The SED_CONFIG_EXP variables are unused now so they can be removed.
 
-While there is a pending fix for LLVM, it'll take some time before it
-lands (likely in 22.x). And the kernel build must keep working with
-older LLVM toolchains in the foreseeable future.
+Right, removing in v2.
 
-Using GNU objcopy for .BTF_ids update would work, but it would require
-changes to LLVM-based build process, likely breaking existing build
-environments as discussed in [2].
+> >  TMP_FILE=$(mktemp ./.tmp.config.XXXXXXXXXX)
+> > -MERGE_FILE=$(mktemp ./.merge_tmp.config.XXXXXXXXXX)
+> >  
+> >  echo "Using $INITFILE as base"
+> >  
+> > @@ -136,42 +135,128 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+> >  		echo "The merge file '$ORIG_MERGE_FILE' does not exist.  Exit." >&2
+> >  		exit 1
+> >  	fi
+> > -	cat $ORIG_MERGE_FILE > $MERGE_FILE
+> > -	CFG_LIST=$(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $MERGE_FILE)
+> > -
+> > -	for CFG in $CFG_LIST ; do
+> > -		grep -q -w $CFG $TMP_FILE || continue
+> > -		PREV_VAL=$(grep -w $CFG $TMP_FILE)
+> > -		NEW_VAL=$(grep -w $CFG $MERGE_FILE)
+> > -		BUILTIN_FLAG=false
+> > -		if [ "$BUILTIN" = "true" ] && [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; then
+> > -			${WARNOVERRIDE} Previous  value: $PREV_VAL
+> > -			${WARNOVERRIDE} New value:       $NEW_VAL
+> > -			${WARNOVERRIDE} -y passed, will not demote y to m
+> > -			${WARNOVERRIDE}
+> > -			BUILTIN_FLAG=true
+> > -		elif [ "x$PREV_VAL" != "x$NEW_VAL" ] ; then
+> > -			${WARNOVERRIDE} Value of $CFG is redefined by fragment $ORIG_MERGE_FILE:
+> > -			${WARNOVERRIDE} Previous  value: $PREV_VAL
+> > -			${WARNOVERRIDE} New value:       $NEW_VAL
+> > -			${WARNOVERRIDE}
+> > -			if [ "$STRICT" = "true" ]; then
+> > -				STRICT_MODE_VIOLATED=true
+> > -			fi
+> > -		elif [ "$WARNREDUN" = "true" ]; then
+> > -			${WARNOVERRIDE} Value of $CFG is redundant by fragment $ORIG_MERGE_FILE:
+> > -		fi
+> > -		if [ "$BUILTIN_FLAG" = "false" ]; then
+> > -			sed -i "/$CFG[ =]/d" $TMP_FILE
+> > -		else
+> > -			sed -i "/$CFG[ =]/d" $MERGE_FILE
+> > -		fi
+> > -	done
+> > -	# In case the previous file lacks a new line at the end
+> > -	echo >> $TMP_FILE
+> > -	cat $MERGE_FILE >> $TMP_FILE
+> > -done
+> > +	# Use awk for single-pass processing instead of per-symbol grep/sed
+> > +	if ! awk -v prefix="$CONFIG_PREFIX" \
+> 
+> Please use the AWK variable from Kbuild here:
+> 
+>   if ${AWK} -v prefix="$CONFIG_PREFIX" \
+> 
+> You can do something like:
+> 
+>   if [ -z "${AWK}" ]; then
+>       AWK=awk
+>   fi
+> 
+> towards the top of the script to have the script continue to work
+> outside of Kbuild as well.
 
-To work around llvm-objcopy bug, implement --patch_btfids code path in
-resolve_btfids as a drop-in replacement for:
+Ok will add this in v2.
 
-    ${OBJCOPY} --update-section .BTF_ids=${btf_ids} ${elf}
+> > +		-v warnoverride="$WARNOVERRIDE" \
+> > +		-v strict="$STRICT" \
+> > +		-v builtin="$BUILTIN" \
+> > +		-v warnredun="$WARNREDUN" '
+> > +	BEGIN {
+> > +		strict_violated = 0
+> > +		cfg_regex = "^" prefix "[a-zA-Z0-9_]+"
+> > +		notset_regex = "^# " prefix "[a-zA-Z0-9_]+ is not set$"
+> > +	}
+> > +
+> > +	# Extract config name from a line, returns "" if not a config line
+> > +	function get_cfg(line) {
+> > +		if (match(line, cfg_regex)) {
+> > +			return substr(line, RSTART, RLENGTH)
+> > +		} else if (match(line, notset_regex)) {
+> > +			# Extract CONFIG_FOO from "# CONFIG_FOO is not set"
+> > +			sub(/^# /, "", line)
+> > +			sub(/ is not set$/, "", line)
+> > +			return line
+> > +		}
+> > +		return ""
+> > +	}
+> > +
+> > +	# Normalize: strip trailing comments, convert "is not set" to "=n"
+> > +	function normalize(line) {
+> > +		if (line == "") return ""
+> > +		sub(/[[:space:]]+#.*/, "", line)
+> > +		if (line ~ / is not set$/) {
+> > +			sub(/^# /, "", line)
+> > +			sub(/ is not set$/, "=n", line)
+> > +		}
+> > +		return line
+> > +	}
+> > +
+> > +	function warn_builtin(cfg, prev, new) {
+> > +		if (warnoverride == "true") return
+> > +		print cfg ": -y passed, will not demote y to m" > "/dev/stderr"
+> > +		print "  Previous value: " prev > "/dev/stderr"
+> > +		print "  New value:	 " new > "/dev/stderr"
+> > +		print "" > "/dev/stderr"
+> > +	}
+> > +
+> > +	function warn_redefined(cfg, prev, new) {
+> > +		if (warnoverride == "true") return
+> > +		print "Value of " cfg " is redefined by fragment " mergefile ":" > "/dev/stderr"
+> > +		print "  Previous value: " prev > "/dev/stderr"
+> > +		print "  New value:	 " new > "/dev/stderr"
+> > +		print "" > "/dev/stderr"
+> > +	}
+> > +
+> > +	function warn_redundant(cfg) {
+> > +		if (warnredun != "true" || warnoverride == "true") return
+> > +		print "Value of " cfg " is redundant by fragment " mergefile ":" > "/dev/stderr"
+> > +	}
+> > +
+> > +	# First pass: read merge file, store all lines and index
+> > +	FILENAME == ARGV[1] {
+> > +	        mergefile = FILENAME
+> > +		merge_lines[FNR] = $0
+> > +		merge_total = FNR
+> > +		cfg = get_cfg($0)
+> > +		if (cfg != "") {
+> > +			merge_cfg[cfg] = $0
+> > +			merge_cfg_line[cfg] = FNR
+> > +		}
+> > +		next
+> > +	}
+> >  
+> > +	# Second pass: process base file (TMP_FILE)
+> > +		cfg = get_cfg($0)
+> > +
+> > +		# Not a config or not in merge file - keep it
+> > +		if (cfg == "" || !(cfg in merge_cfg)) {
+> 
+>   I get an error on this line when trying to use this script via the arm64
+>   virtconfig target:
+> 
+>   $ make -skj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- clean virtconfig
+>   awk: cmd. line:70:              if (cfg == "" || !(cfg in merge_cfg)) {
+>   awk: cmd. line:70:              ^ syntax error
+>   make[2]: *** [arch/arm64/Makefile:222: virtconfig] Error 1
+>   ...
+> 
+>   $ awk --version | head -1
+>   GNU Awk 5.3.2, API 4.0, PMA Avon 8-g1, (GNU MPFR 4.2.2, GNU MP 6.3.0)
 
-Which works specifically for .BTF_ids section:
+Oops. Sorry, there is a curly brace missing:
 
-    ${RESOLVE_BTFIDS} --patch_btfids ${btf_ids} ${elf}
+@@ -216,6 +214,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+        }
 
-This feature in resolve_btfids can be removed at some point in the
-future, when llvm-objcopy with a relevant bugfix becomes common.
+        # Second pass: process base file (TMP_FILE)
++       {
+                cfg = get_cfg($0)
 
-[1] https://lore.kernel.org/bpf/20251219181321.1283664-1-ihor.solodrai@linux.dev/
-[2] https://lore.kernel.org/bpf/20251224005752.201911-1-ihor.solodrai@linux.dev/
-[3] https://github.com/llvm/llvm-project/issues/168060#issuecomment-3533552952
+                # Not a config or not in merge file - keep it
 
-Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+but this is fatal so I had been testing an old version of the patch
+in my yocto/bitbake setup. I will double check this with v2.
 
----
+Cheers,
 
-Successful BPF CI run: https://github.com/kernel-patches/bpf/actions/runs/20608321584
----
- scripts/gen-btf.sh                   |   2 +-
- scripts/link-vmlinux.sh              |   2 +-
- tools/bpf/resolve_btfids/main.c      | 117 +++++++++++++++++++++++++++
- tools/testing/selftests/bpf/Makefile |   2 +-
- 4 files changed, 120 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/gen-btf.sh b/scripts/gen-btf.sh
-index 12244dbe097c..0aec86615416 100755
---- a/scripts/gen-btf.sh
-+++ b/scripts/gen-btf.sh
-@@ -123,7 +123,7 @@ embed_btf_data()
- 	fi
- 	local btf_ids="${ELF_FILE}.BTF_ids"
- 	if [ -f "${btf_ids}" ]; then
--		${OBJCOPY} --update-section .BTF_ids=${btf_ids} ${ELF_FILE}
-+		${RESOLVE_BTFIDS} --patch_btfids ${btf_ids} ${ELF_FILE}
- 	fi
- }
- 
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index e2207e612ac3..1915adf3249b 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -266,7 +266,7 @@ vmlinux_link "${VMLINUX}"
- 
- if is_enabled CONFIG_DEBUG_INFO_BTF; then
- 	info OBJCOPY ${btfids_vmlinux}
--	${OBJCOPY} --update-section .BTF_ids=${btfids_vmlinux} ${VMLINUX}
-+	${RESOLVE_BTFIDS} --patch_btfids ${btfids_vmlinux} ${VMLINUX}
- fi
- 
- mksysmap "${VMLINUX}" System.map
-diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-index 2cbc252259be..df39982f51df 100644
---- a/tools/bpf/resolve_btfids/main.c
-+++ b/tools/bpf/resolve_btfids/main.c
-@@ -862,8 +862,119 @@ static inline int make_out_path(char *buf, u32 buf_sz, const char *in_path, cons
- 	return 0;
- }
- 
-+/*
-+ * Patch the .BTF_ids section of an ELF file with data from provided file.
-+ * Equivalent to: objcopy --update-section .BTF_ids=<btfids> <elf>
-+ *
-+ * 1. Find .BTF_ids section in the ELF
-+ * 2. Verify that blob file size matches section size
-+ * 3. Update section data buffer with blob data
-+ * 4. Write the ELF file
-+ */
-+static int patch_btfids(const char *btfids_path, const char *elf_path)
-+{
-+	Elf_Scn *scn = NULL;
-+	FILE *btfids_file;
-+	size_t shdrstrndx;
-+	int fd, err = -1;
-+	Elf_Data *data;
-+	struct stat st;
-+	GElf_Shdr sh;
-+	char *name;
-+	Elf *elf;
-+
-+	elf_version(EV_CURRENT);
-+
-+	fd = open(elf_path, O_RDWR, 0666);
-+	if (fd < 0) {
-+		pr_err("FAILED to open %s: %s\n", elf_path, strerror(errno));
-+		return -1;
-+	}
-+
-+	elf = elf_begin(fd, ELF_C_RDWR_MMAP, NULL);
-+	if (!elf) {
-+		close(fd);
-+		pr_err("FAILED cannot create ELF descriptor: %s\n", elf_errmsg(-1));
-+		return -1;
-+	}
-+
-+	elf_flagelf(elf, ELF_C_SET, ELF_F_LAYOUT);
-+
-+	if (elf_getshdrstrndx(elf, &shdrstrndx) != 0) {
-+		pr_err("FAILED cannot get shdr str ndx\n");
-+		goto out;
-+	}
-+
-+	while ((scn = elf_nextscn(elf, scn)) != NULL) {
-+
-+		if (gelf_getshdr(scn, &sh) != &sh) {
-+			pr_err("FAILED to get section header\n");
-+			goto out;
-+		}
-+
-+		name = elf_strptr(elf, shdrstrndx, sh.sh_name);
-+		if (!name)
-+			continue;
-+
-+		if (strcmp(name, BTF_IDS_SECTION) == 0)
-+			break;
-+	}
-+
-+	if (!scn) {
-+		pr_err("FAILED: section %s not found in %s\n", BTF_IDS_SECTION, elf_path);
-+		goto out;
-+	}
-+
-+	data = elf_getdata(scn, NULL);
-+	if (!data) {
-+		pr_err("FAILED to get %s section data from %s\n", BTF_IDS_SECTION, elf_path);
-+		goto out;
-+	}
-+
-+	if (stat(btfids_path, &st) < 0) {
-+		pr_err("FAILED to stat %s: %s\n", btfids_path, strerror(errno));
-+		goto out;
-+	}
-+
-+	if ((size_t)st.st_size != data->d_size) {
-+		pr_err("FAILED: size mismatch - %s section in %s is %zu bytes, %s is %zu bytes\n",
-+		       BTF_IDS_SECTION, elf_path, data->d_size, btfids_path, (size_t)st.st_size);
-+		goto out;
-+	}
-+
-+	btfids_file = fopen(btfids_path, "rb");
-+	if (!btfids_file) {
-+		pr_err("FAILED to open %s: %s\n", btfids_path, strerror(errno));
-+		goto out;
-+	}
-+
-+	pr_debug("Copying data from %s to %s section of %s (%zu bytes)\n",
-+		 btfids_path, BTF_IDS_SECTION, elf_path, data->d_size);
-+
-+	if (fread(data->d_buf, data->d_size, 1, btfids_file) != 1) {
-+		pr_err("FAILED to read %s\n", btfids_path);
-+		fclose(btfids_file);
-+		goto out;
-+	}
-+	fclose(btfids_file);
-+
-+	elf_flagdata(data, ELF_C_SET, ELF_F_DIRTY);
-+	if (elf_update(elf, ELF_C_WRITE) < 0) {
-+		pr_err("FAILED to update ELF file %s\n", elf_path);
-+		goto out;
-+	}
-+
-+	err = 0;
-+out:
-+	elf_end(elf);
-+	close(fd);
-+
-+	return err;
-+}
-+
- static const char * const resolve_btfids_usage[] = {
- 	"resolve_btfids [<options>] <ELF object>",
-+	"resolve_btfids --patch_btfids <.BTF_ids file> <ELF object>",
- 	NULL
- };
- 
-@@ -880,6 +991,7 @@ int main(int argc, const char **argv)
- 		.funcs    = RB_ROOT,
- 		.sets     = RB_ROOT,
- 	};
-+	const char *btfids_path = NULL;
- 	bool fatal_warnings = false;
- 	char out_path[PATH_MAX];
- 
-@@ -894,6 +1006,8 @@ int main(int argc, const char **argv)
- 			    "turn warnings into errors"),
- 		OPT_BOOLEAN(0, "distill_base", &obj.distill_base,
- 			    "distill --btf_base and emit .BTF.base section data"),
-+		OPT_STRING(0, "patch_btfids", &btfids_path, "file",
-+			   "path to .BTF_ids section data blob to patch into ELF file"),
- 		OPT_END()
- 	};
- 	int err = -1;
-@@ -905,6 +1019,9 @@ int main(int argc, const char **argv)
- 
- 	obj.path = argv[0];
- 
-+	if (btfids_path)
-+		return patch_btfids(btfids_path, obj.path);
-+
- 	if (load_btf(&obj))
- 		goto out;
- 
-diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
-index f28a32b16ff0..9488d076c740 100644
---- a/tools/testing/selftests/bpf/Makefile
-+++ b/tools/testing/selftests/bpf/Makefile
-@@ -657,7 +657,7 @@ $(TRUNNER_TEST_OBJS): $(TRUNNER_OUTPUT)/%.test.o:			\
- 	$$(if $$(TEST_NEEDS_BTFIDS),						\
- 		$$(call msg,BTFIDS,$(TRUNNER_BINARY),$$@)			\
- 		$(RESOLVE_BTFIDS) --btf $(TRUNNER_OUTPUT)/btf_data.bpf.o $$@;	\
--		$(OBJCOPY) --update-section .BTF_ids=$$@.BTF_ids $$@)
-+		$(RESOLVE_BTFIDS) --patch_btfids $$@.BTF_ids $$@)
- 
- $(TRUNNER_TEST_OBJS:.o=.d): $(TRUNNER_OUTPUT)/%.test.d:			\
- 			    $(TRUNNER_TESTS_DIR)/%.c			\
--- 
-2.52.0
-
+-Mikko
 
