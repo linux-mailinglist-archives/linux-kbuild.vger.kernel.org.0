@@ -1,321 +1,187 @@
-Return-Path: <linux-kbuild+bounces-10393-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10396-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1429CEC503
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 18:05:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E415CCEC524
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 18:08:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 494FD3001010
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 17:05:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F351E300C0F0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 17:07:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 249CA284883;
-	Wed, 31 Dec 2025 17:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E34929ACD7;
+	Wed, 31 Dec 2025 17:07:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="dp0iqhuz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jzIRqTTC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AFB28134F;
-	Wed, 31 Dec 2025 17:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC812264A8
+	for <linux-kbuild@vger.kernel.org>; Wed, 31 Dec 2025 17:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767200746; cv=none; b=mMqdLhoNDIb3XGuJF/pbjLNmti+gZImz6EkIZ0Vr7czq8wK9dVKWNGEWqB96efjq6sWFOlcYGkBexJnVPNsFIw9QW8JVp5oGBkut5I6Joum9oCtnpvjoMpPIO9md/2z1BCUbWs+4ri4Oyf6Al8sIO8UlXQswcgte11FyhgyTKUU=
+	t=1767200876; cv=none; b=hEB8EFuK1nfbWA56ebpIAhZIANx/9Q4Ggd825jx6U65ei44Ss58jXezxoY4I61d8BL+3HXfAxMOlyr6MwvKMVJG/Ho5yuzS7hf/jGOL38XLZ7ETtJRV3398/gjKJzIUID1fdGpw1nBm31ztNiN8RVXwyWFoFCvRp/EmXRTwQlfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767200746; c=relaxed/simple;
-	bh=snBHHuvWf5KyvsHCFEdGk2glkLavsJi49GeO5lf6bDA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PqVP79WE2IG49z2xyt3qp/UrtR2mdNWaTwdSIWHnFg1VHB/Uew9gn7pcQ2vmC/5UOGpxm9HBJ04G6qEdVEaxKbZRGl/5njem35ZLc+fdisurqvLUwdCV/6zSp8NOKYIg9lZqrANC5nO3jJ+CPReWJGPNYPKg9MsByFjjkDnswC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=dp0iqhuz; arc=none smtp.client-ip=217.70.178.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id 262B5580A0E;
-	Wed, 31 Dec 2025 16:52:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6579F44378;
-	Wed, 31 Dec 2025 16:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1767199924;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/drX+57VWb7xTVKQES/W9fjxSDva5SqLzUqmVIPNHes=;
-	b=dp0iqhuzids1AC7oyae5n5xxq9Ii/eLoFgitMMCPtmQeQet5Sqr3yWvg7kP41h8NM+FWq0
-	KPzW+EdRcQR4KVmerkLFqNEMJ9TWNdUBlLOJNa3R0rPbKPkQmhGtPH8n2W176/zxCh7/hu
-	q3BPTSXUHag+aE9gV7I1xWMYLT6sE1jduWr6JQnDWxfy30lsqwtgO9E4wQHbUvQSng+Bzz
-	ctD5iGAHfEHpvuLVmMSw/esaUDJC4Lu5BaJD1mnPCC0vyycANT61ygXo+0My/xpsKKbVvb
-	7IV+8y9WnU4WCePjVd9XoQ8876mODivRbftmcdasd33Qb/l9vrXqQQDcbIB2Hg==
-From: Guillaume Tucker <gtucker@gtucker.io>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	David Gow <davidgow@google.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Cc: Guillaume Tucker <gtucker@gtucker.io>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	automated-testing@lists.yoctoproject.org,
-	workflows@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
-Date: Wed, 31 Dec 2025 17:51:50 +0100
-Message-ID: <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1767199119.git.gtucker@gtucker.io>
-References: <cover.1767199119.git.gtucker@gtucker.io>
+	s=arc-20240116; t=1767200876; c=relaxed/simple;
+	bh=iz/UUlvU1upnV3KH0c/iPCBatJHmNiwakC/d+LY3L/Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eTBybEr9TeCirp5ymZov/UOTpQ2LBdaDlhPiN+Z59w/gnZo0kJauNH4DTJY53tUUQAdT7Iaw14vItSJPBJSw2X8qbeFQIAxFgZR45rIEX5TaGS79MXEtUHsJ+7w+r8cW5W364qyR++lClodLwLho3fvmK+OWU2rIFSTzkzjC2pU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jzIRqTTC; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42e2e3c0dccso6570588f8f.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 31 Dec 2025 09:07:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767200871; x=1767805671; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jLSVM7oT2x+mygqgfjoFl6JBKT9XHb0lY82HBBdL4IY=;
+        b=jzIRqTTCVdhEKKNGlwCIi+eUIBVfhK9wcYFD5AVOC3i6TjURwa50tigvn8003guT/U
+         RaxPVxFlVmHkTjnrUpdkrEz81IU54zhBKM6Ck45bK0QpjBhVTjYHGzrT6mcwDrVhxnIi
+         aMrUkv6HUdPmeE1aOUHUGCWQnTi4nZRJvVnN09seE+0QcGovDhypePzbUy6RZVA9qvXr
+         nn1uejQpafAjJwU77KrGgEOGTPYbtDdlxw3f8GzyS8aUZVQMuqYh3ejuYd/HU9CXlNco
+         ITTH4i0ghIfeDBgGm0wxQj6+M+TGN4AXLlLmvx6uzFweclgEZURDpGNN2m3eTAYq91LW
+         jh0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767200871; x=1767805671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jLSVM7oT2x+mygqgfjoFl6JBKT9XHb0lY82HBBdL4IY=;
+        b=VXCSy09Etv4DViP/c92RuSKW9gOBhjrzOqKvJGoB/JLQPuQ6L1N6J22TVusC+nL9ao
+         FP4YLG4nQXHBfUKkcak/mShQLLQzCDsxe10yGY6yfHYJrrKnERlQrK4Q4zgG2MlqfZBn
+         xqrMz3RVimXL6Dj4n7nTjc9q8nMwnwVL33PnN+FDJ8qsSn+wPAslj8V/VTGRwrysyOZH
+         LOPfoX5mjKN3rDxSwI/UbusTiJAjS3/0kyuNOXdeFJHqug/z3A9TBAbZIi97ktvFkrz5
+         yb2Xgd4hC6THppziTnuVSFb0tWjN8DBKSinpGfJB8WbiRDvxtUdmP4SXkLIsyPpRNg3e
+         ZSow==
+X-Forwarded-Encrypted: i=1; AJvYcCVd9mDihBJ91sELFtIC4nF8wm7XZTpcD2Ql06TS7vd/5h7UduZf9f3b4cNmk22vWBMDHB3tZUvygrxfCIo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCd3Pozj/J5qyLEsbUBbc69Ar1gYLQzU4xZ0bfnmGVZm1nIP1T
+	w82zB/lf9EbSH94Xml/BgoXnIreJ9D2B/CwozdAwy2DCIX3f9ck9UTrZiUv7Dwg64/XrOw8R/D7
+	42sMz58TbUkLtqaflv2AnRxrkv8Sm+J0=
+X-Gm-Gg: AY/fxX7BuGsypl/I8g/3rJKhYyddY52nPhDJw8YpdlAbeHJDpzR6oeYgbAk8K0nsJiC
+	N+eH5CFCbo4yYOp/qO7xKOmpz9/ydf/DyNtgbun7YeIg3Mtt7wGJTAWWf+MkGY60uJ5PMdk0EXd
+	OQs4OR8yiQBLfuDh/EvTooCaaq2m/fChOm2YdufIJlNPN3kv4i6pbAcdqXggmzlA4RRVukzfs0/
+	cxtFXaBbOecbHZUnMDckvCZ+oeQ2X+OSW6rhcs+MoEAxNXDgp4AMRNl8iEC8L5r4HUJs+GbqKzm
+	kWVMfM8xYw3cqsynYYc8LySVzZ7i
+X-Google-Smtp-Source: AGHT+IEkhAN3JBU8zznfxeuU4iqR4nG6AkymGS0XQpDyuqMfnwRYOj7A11/R/1jpmMlTRsWkkib46OaiAjAonYbdyx4=
+X-Received: by 2002:a05:6000:2886:b0:42f:dbbc:5103 with SMTP id
+ ffacd0b85a97d-4324e4fda18mr46838205f8f.35.1767200871338; Wed, 31 Dec 2025
+ 09:07:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekfeegvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepheevgfdutdeufefhgfeuleeuffejkeelfefhueffkefgieevheeigeeigfejjeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhlrggsrdgtohhmnecukfhppedvtddtudemkeeiudemgegrgedtmeekiedvtdemhegtuggsmegrugeisgemjegvkegtmeegvdehfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemhegtuggsmegrugeisgemjegvkegtmeegvdehfedphhgvlhhopehrihhnghhordhlrghnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeeiheejlefhgeegfeejkedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduvddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpt
- hhtohepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopehgthhutghkvghrsehgthhutghkvghrrdhiohdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
-X-GND-State: clean
-X-GND-Score: -100
+References: <20251231012558.1699758-1-ihor.solodrai@linux.dev>
+In-Reply-To: <20251231012558.1699758-1-ihor.solodrai@linux.dev>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Wed, 31 Dec 2025 09:07:40 -0800
+X-Gm-Features: AQt7F2rgOTewqDmcAzVEygDD_JCldDLnUICazgBgTeXp9vlBwTr9MFsimdJvJoQ
+Message-ID: <CAADnVQ+biTSDaNtoL=ct9XtBJiXYMUqGYLqu604C3D8N+8YH9A@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2] resolve_btfids: Implement --patch_btfids
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	bpf <bpf@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a dev-tools/container.rst documentation page for the
-scripts/container tool.  This covers the basic usage with additional
-information about environment variables and user IDs.  It also
-includes a number of practical examples with a reference to the
-experimental kernel.org toolchain images.
+On Tue, Dec 30, 2025 at 5:26=E2=80=AFPM Ihor Solodrai <ihor.solodrai@linux.=
+dev> wrote:
+>
+> Recent changes in BTF generation [1] rely on ${OBJCOPY} command to
+> update .BTF_ids section data in target ELF files.
+>
+> This exposed a bug in llvm-objcopy --update-section code path, that
+> may lead to corruption of a target ELF file. Specifically, because of
+> the bug st_shndx of some symbols may be (incorrectly) set to 0xffff
+> (SHN_XINDEX) [2][3].
+>
+> While there is a pending fix for LLVM, it'll take some time before it
+> lands (likely in 22.x). And the kernel build must keep working with
+> older LLVM toolchains in the foreseeable future.
+>
+> Using GNU objcopy for .BTF_ids update would work, but it would require
+> changes to LLVM-based build process, likely breaking existing build
+> environments as discussed in [2].
+>
+> To work around llvm-objcopy bug, implement --patch_btfids code path in
+> resolve_btfids as a drop-in replacement for:
+>
+>     ${OBJCOPY} --update-section .BTF_ids=3D${btf_ids} ${elf}
+>
+> Which works specifically for .BTF_ids section:
+>
+>     ${RESOLVE_BTFIDS} --patch_btfids ${btf_ids} ${elf}
+>
+> This feature in resolve_btfids can be removed at some point in the
+> future, when llvm-objcopy with a relevant bugfix becomes common.
+>
+> [1] https://lore.kernel.org/bpf/20251219181321.1283664-1-ihor.solodrai@li=
+nux.dev/
+> [2] https://lore.kernel.org/bpf/20251224005752.201911-1-ihor.solodrai@lin=
+ux.dev/
+> [3] https://github.com/llvm/llvm-project/issues/168060#issuecomment-35335=
+52952
+>
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+>
+> ---
+>
+> Successful BPF CI run: https://github.com/kernel-patches/bpf/actions/runs=
+/20608321584
+> ---
+>  scripts/gen-btf.sh                   |   2 +-
+>  scripts/link-vmlinux.sh              |   2 +-
+>  tools/bpf/resolve_btfids/main.c      | 117 +++++++++++++++++++++++++++
+>  tools/testing/selftests/bpf/Makefile |   2 +-
+>  4 files changed, 120 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/gen-btf.sh b/scripts/gen-btf.sh
+> index 12244dbe097c..0aec86615416 100755
+> --- a/scripts/gen-btf.sh
+> +++ b/scripts/gen-btf.sh
+> @@ -123,7 +123,7 @@ embed_btf_data()
+>         fi
+>         local btf_ids=3D"${ELF_FILE}.BTF_ids"
+>         if [ -f "${btf_ids}" ]; then
+> -               ${OBJCOPY} --update-section .BTF_ids=3D${btf_ids} ${ELF_F=
+ILE}
+> +               ${RESOLVE_BTFIDS} --patch_btfids ${btf_ids} ${ELF_FILE}
+>         fi
+>  }
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index e2207e612ac3..1915adf3249b 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -266,7 +266,7 @@ vmlinux_link "${VMLINUX}"
+>
+>  if is_enabled CONFIG_DEBUG_INFO_BTF; then
+>         info OBJCOPY ${btfids_vmlinux}
+> -       ${OBJCOPY} --update-section .BTF_ids=3D${btfids_vmlinux} ${VMLINU=
+X}
+> +       ${RESOLVE_BTFIDS} --patch_btfids ${btfids_vmlinux} ${VMLINUX}
+>  fi
 
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc: David Gow <davidgow@google.com>
-Cc: "Onur Özkan" <work@onurozkan.dev>
-Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
----
- Documentation/dev-tools/container.rst | 201 ++++++++++++++++++++++++++
- Documentation/dev-tools/index.rst     |   1 +
- 2 files changed, 202 insertions(+)
- create mode 100644 Documentation/dev-tools/container.rst
+Applied, but please follow up to reduce the verbosity
+  OBJCOPY net/mptcp/mptcp_diag.ko.BTF
+  OBJCOPY net/bridge/br_netfilter.ko.BTF
+  OBJCOPY net/bridge/netfilter/ebt_log.ko.BTF
+  OBJCOPY net/caif/caif.ko.BTF
+  OBJCOPY net/bridge/netfilter/ebt_ip.ko.BTF
+  BTFIDS  net/netfilter/ipvs/ip_vs.ko
+  OBJCOPY net/netfilter/ipvs/ip_vs.ko.BTF
+  BTFIDS  drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko
+  OBJCOPY drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko.BTF
 
-diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
-new file mode 100644
-index 000000000000..f6f134ec09f5
---- /dev/null
-+++ b/Documentation/dev-tools/container.rst
-@@ -0,0 +1,201 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2025 Guillaume Tucker
-+
-+====================
-+Containerized Builds
-+====================
-+
-+The ``container`` tool can be used to run any command in the kernel source tree
-+from within a container.  Doing so facilitates reproducing builds across
-+various platforms, for example when a test bot has reported an issue which
-+requires a specific version of a compiler or an external test suite.  While
-+this can already be done by users who are familiar with containers, having a
-+dedicated tool in the kernel tree lowers the barrier to entry by solving common
-+problems once and for all (e.g. user id management).  It also makes it easier
-+to share an exact command line leading to a particular result.  The main use
-+case is likely to be kernel builds but virtually anything can be run: KUnit,
-+checkpatch etc. provided a suitable image is available.
-+
-+
-+Options
-+=======
-+
-+Command line syntax::
-+
-+  scripts/container -i IMAGE [OPTION]... CMD...
-+
-+Available options:
-+
-+``-e, --env-file ENV_FILE``
-+
-+    Path to an environment file to load in the container.
-+
-+``-g, --gid GID``
-+
-+    Group id to use inside the container.
-+
-+``-i, --image IMAGE``
-+
-+    Container image name (required).
-+
-+``-r, --runtime RUNTIME``
-+
-+    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
-+
-+    If not specified, the first one found on the system will be used
-+    i.e. Docker if present, otherwise Podman.
-+
-+``-s, --shell``
-+
-+    Run the container in an interactive shell.
-+
-+``-u, --uid UID``
-+
-+    User id to use inside the container.
-+
-+    If the ``-g`` option is not specified, the user id will also be used for
-+    the group id.
-+
-+``-v, --verbose``
-+
-+    Enable verbose output.
-+
-+``-h, --help``
-+
-+    Show the help message and exit.
-+
-+
-+Usage
-+=====
-+
-+It's entirely up to the user to choose which image to use and the ``CMD``
-+arguments are passed directly as an arbitrary command line to run in the
-+container.  The tool will take care of mounting the source tree as the current
-+working directory and adjust the user and group id as needed.
-+
-+The container image which would typically include a compiler toolchain is
-+provided by the user and selected via the ``-i`` option.  The container runtime
-+can be selected with the ``-r`` option, which can be either ``docker`` or
-+``podman``.  If none is specified, the first one found on the system will be
-+used.  Support for other runtimes may be added later depending on their
-+popularity among users.
-+
-+By default, commands are run non-interactively.  The user can abort a running
-+container with SIGINT (Ctrl-C).  To run commands interactively with a TTY, the
-+``--shell`` or ``-s`` option can be used.  Signals will then be received by the
-+shell directly rather than the parent ``container`` process.  To exit an
-+interactive shell, use Ctrl-D or ``exit``.
-+
-+.. note::
-+
-+   The only host requirement aside from a container runtime is Python 3.10 or
-+   later.
-+
-+
-+Environment Variables
-+=====================
-+
-+Environment variables are not propagated to the container so they have to be
-+either defined in the image itself or via the ``-e`` option using an
-+environment file.  In some cases it makes more sense to have them defined in
-+the Containerfile used to create the image.  For example, a Clang-only compiler
-+toolchain image may have ``LLVM=1`` defined.
-+
-+The local environment file is more useful for user-specific variables added
-+during development.  It is passed as-is to the container runtime so its format
-+may vary.  Typically, it will look like the output of ``env``.  For example::
-+
-+  INSTALL_MOD_STRIP=1
-+  SOME_RANDOM_TEXT=One upon a time
-+
-+Please also note that ``make`` options can still be passed on the command line,
-+so while this can't be done since the first argument needs to be the
-+executable::
-+
-+  scripts/container -i tuxmake/korg-clang LLVM=1 make
-+
-+this will work::
-+
-+  scripts/container -i tuxmake/korg-clang make LLVM=1
-+
-+
-+User IDs
-+========
-+
-+This is an area where the behaviour will vary slightly depending on the
-+container runtime.  The goal is to run commands as the user invoking the tool.
-+With Podman, a namespace is created to map the current user id to a different
-+one in the container (1000 by default).  With Docker, while this is also
-+possible with recent versions it requires a special feature to be enabled in
-+the daemon so it's not used here for simplicity.  Instead, the container is run
-+with the current user id directly.  In both cases, this will provide the same
-+file permissions for the kernel source tree mounted as a volume.  The only
-+difference is that when using Docker without a namespace, the user id may not
-+be the same as the default one set in the image.
-+
-+Say, we're using an image which sets up a default user with id 1000 and the
-+current user calling the ``container`` tool has id 1234.  The kernel source
-+tree was checked out by this same user so the files belong to user 1234.  With
-+Podman, the container will be running as user id 1000 with a mapping to id 1234
-+so that the files from the mounted volume appear to belong to id 1000 inside
-+the container.  With Docker and no namespace, the container will be running
-+with user id 1234 which can access the files in the volume but not in the user
-+1000 home directory.  This shouldn't be an issue when running commands only in
-+the kernel tree but it is worth highlighting here as it might matter for
-+special corner cases.
-+
-+
-+Examples
-+========
-+
-+The shortest example is to run a basic kernel build using the default runtime
-+(e.g. Docker) and a ``tuxmake`` Clang image::
-+
-+  scripts/container -i tuxmake/korg-clang -- make LLVM=1 defconfig
-+  scripts/container -i tuxmake/korg-clang -- make LLVM=1 -j$(nproc)
-+
-+.. note::
-+
-+   When running a command with options within the container, it should be
-+   separated with a double dash ``--`` to not confuse them with the
-+   ``container`` tool options.  Plain commands with no options don't strictly
-+   require the double dashes e.g.::
-+
-+     scripts/container -i tuxmake/korg-clang make mrproper
-+
-+To run ``checkpatch.pl`` in a ``patches`` directory with a generic image::
-+
-+  scripts/container -i perl:slim-trixie scripts/checkpatch.pl patches/*
-+
-+The examples below refer to ``kernel.org`` images which are based on the
-+`kernel.org compiler toolchains
-+<https://mirrors.edge.kernel.org/pub/tools/>`__.  These aren't (yet) officially
-+available in any public registry but users can build their own locally instead
-+using this `experimental repository
-+<https://gitlab.com/gtucker/korg-containers>`__ by running ``make
-+PREFIX=kernel.org/``.
-+
-+To build just ``bzImage`` using Clang::
-+
-+  scripts/container -i kernel.org/clang -- make bzImage -j$(nproc)
-+
-+Same with GCC 15 as a particular version tag::
-+
-+  scripts/container -i kernel.org/gcc:15 -- make bzImage -j$(nproc)
-+
-+To run KUnit in an interactive shell and get the full output::
-+
-+  scripts/container -s -i kernel.org/gcc:kunit -- \
-+      tools/testing/kunit/kunit.py \
-+          run \
-+          --arch=x86_64 \
-+          --cross_compile=x86_64-linux-
-+
-+To just start an interactive shell::
-+
-+  scripts/container -si kernel.org/gcc bash
-+
-+To build the HTML documentation, which requires the ``kdocs`` image built with
-+``make PREFIX=kernel.org/ extra`` as it's not a compiler toolchain::
-+
-+  scripts/container -i kernel.org/kdocs make htmldocs
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 4b8425e348ab..527a0e4cf2ed 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -38,6 +38,7 @@ Documentation/process/debugging/index.rst
-    gpio-sloppy-logic-analyzer
-    autofdo
-    propeller
-+   container
- 
- 
- .. only::  subproject and html
--- 
-2.47.3
 
+All of these OBJCOPY lines are not correct anymore and can
+be simply removed. No need to yell at the user about these steps.
+
+imo BTFIDS lines can be removed too. They just scroll on the screen.
 
