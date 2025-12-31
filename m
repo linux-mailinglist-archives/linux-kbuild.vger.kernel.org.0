@@ -1,124 +1,77 @@
-Return-Path: <linux-kbuild+bounces-10385-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10386-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BFECEAF67
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 01:29:06 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D702ACEAF7C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 01:31:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 65E8C3017666
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 00:29:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7BCE43018316
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 00:31:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 976F719E819;
-	Wed, 31 Dec 2025 00:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08BB0199385;
+	Wed, 31 Dec 2025 00:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CN4c/cgQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHB3jVKB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40856BB5B
-	for <linux-kbuild@vger.kernel.org>; Wed, 31 Dec 2025 00:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAB3131E49;
+	Wed, 31 Dec 2025 00:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767140944; cv=none; b=WLHjHyITEmL3eKJVRt/8/TFdMAwOib1Oqpjk24PIw+hqOWX0OiMQYd3gxi7g3kkb6B1LFAI7yRha/r/d9WAHgSPWoj9HIDXCfmYYz5aaY/AUFMtbDfIcUBo3gUv2+uJUUAc7WIeiZh5wP46qMSE1uvm2fQskkR7l9F69T9r7Agw=
+	t=1767141061; cv=none; b=GWcHRnIHWbOhBpTo02yQ1i/BLXqXEqm6i3cSw6dv6FEdvN/J62XIaKAjyIiHFYvwkXmN7KlJo/GQG1RSLZzSTv41FDsiuNMCVcz3crWr/AFM0DR2N+yNGdQL0gPyj9HgBX2NErYR6xfluIdzWhgBKTMzaU3/4PBfUKibFxubDAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767140944; c=relaxed/simple;
-	bh=15ICW73KVhuAlu61i5qNM0mcwffa26obfmQBnWlEZUI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BbDAzbi3tdeIduTdesWMO7IeiplchTm0NiFH0AQRQLlF/wEt/EQ4FTLPnOemOC7/bW64Qnciie33KWgOefc0K9iYpd3PHQ2Ih9l5iw8cpu+dl6cmHgbDUGh9Qdl4LEE2zCsVzuSvDChqaTPg8uGplwgMUyHSfWbkLEyUOu1vxMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CN4c/cgQ; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <6b24678f-b2eb-4139-8fe1-0834c8c8b75a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767140940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ptXwDTCaK6ovB3BEaXkKwky5ITyBb7mrkOQOmGqq/MU=;
-	b=CN4c/cgQePYijuUb8rRQVJiLgZpUjHOaW5DFgIQbLMqe4TviIHm5qCJuufACfixORJz9Lu
-	jOkAQEA/y0h6+q2HMbqte/KBDpz2CdTHKQ8nr06+8Od67oi6+y4fnHWuBbUfF3PX7xvFga
-	0/K8sYyxJeio+Fs7P5O1H1RTKhQfguQ=
-Date: Tue, 30 Dec 2025 16:28:31 -0800
+	s=arc-20240116; t=1767141061; c=relaxed/simple;
+	bh=8DsH0rZ65Z/UvLa0nkE/G0G86Zhg6WQwFd0CWhDEEr4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=DkoJnCfeVHb4PeSOf0/0PWdP99J6F83f2X2z4ajTbUHgz+1oboERhyDOiNP0K3XKhGRFZpx8ZRCzGfu9Nu37q/sYIVRTXWuMcttpmVKIMpLkWrtTyiUXJu5Ck+xVK1brdIl/MAokutPZzrKvwR4eKnhvQvQ7HY4W5/0WVT7Dbuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHB3jVKB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83EE7C4CEFB;
+	Wed, 31 Dec 2025 00:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767141061;
+	bh=8DsH0rZ65Z/UvLa0nkE/G0G86Zhg6WQwFd0CWhDEEr4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=nHB3jVKBI/qdutZRMky1723rGYNqEZBnM9repl3u0BSnOdTSfw21E1nRpx3Fwxyah
+	 2UulhTlgxx+zDZUXEKwa91QXux23JUAcTUd+8QCwXxIK6TWm+hXXyXmIdvZkmmy+E6
+	 UCzGzuvQBIuhgMGnnfAyF6amxPCGLV37giEORUbcd5Ry45qOX9Ddjy9pmgGjLV01DW
+	 u+7sAxTrgRftwmoBug48O2o4VA4etzCOyMQnoxnAlzf79/LkSr22s9h0V2z0qwW+1g
+	 uJ6yhNwWi7zRbnnCMT5qhBN4qElD0YUVNKg7Vey5S+AyNe5vvWHJp0YMgqTinR15JU
+	 PneD5jgKIfZog==
+Date: Tue, 30 Dec 2025 17:30:57 -0700 (MST)
+From: Paul Walmsley <pjw@kernel.org>
+To: Vivian Wang <wangruikang@iscas.ac.cn>
+cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+    Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+    Nathan Chancellor <nathan@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+    Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+    Han Gao <gaohan@iscas.ac.cn>, linux-riscv@lists.infradead.org, 
+    linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+    stable@vger.kernel.org
+Subject: Re: [PATCH] riscv: boot: Always make Image from vmlinux, not
+ vmlinux.unstripped
+In-Reply-To: <20251230-riscv-vmlinux-not-unstripped-v1-1-15f49df880df@iscas.ac.cn>
+Message-ID: <28f873a5-6e9e-f2d3-9eb3-587745705eca@kernel.org>
+References: <20251230-riscv-vmlinux-not-unstripped-v1-1-15f49df880df@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1] resolve_btfids: Implement --patch_btfids
-To: bot+bpf-ci@kernel.org, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
- nathan@kernel.org, nsc@kernel.org
-Cc: bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, martin.lau@kernel.org,
- yonghong.song@linux.dev, clm@meta.com
-References: <20251231000702.1625600-1-ihor.solodrai@linux.dev>
- <bba828ccd8d2ef3871375809d56c8d66c161bc453f03df80090dc03cf31f50aa@mail.kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <bba828ccd8d2ef3871375809d56c8d66c161bc453f03df80090dc03cf31f50aa@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
 
-On 12/30/25 4:26 PM, bot+bpf-ci@kernel.org wrote:
->> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
->> index 2cbc252259be..1269efa06853 100644
->> --- a/tools/bpf/resolve_btfids/main.c
->> +++ b/tools/bpf/resolve_btfids/main.c
-> 
-> [ ... ]
-> 
->> +static int patch_btfids(const char *btfids_path, const char *elf_path)
->> +{
->> +	Elf_Scn *scn = NULL;
->> +	FILE *btfids_file;
->> +	size_t shdrstrndx;
->> +	int fd, err = -1;
->> +	Elf_Data *data;
->> +	struct stat st;
->> +	GElf_Shdr sh;
->> +	char *name;
->> +	Elf *elf;
->> +
->> +	elf_version(EV_CURRENT);
->> +
->> +	fd = open(elf_path, O_RDWR, 0666);
->> +	if (fd < 0) {
->> +		pr_err("FAILED to open %s: %s\n", elf_path, strerror(errno));
->> +		return -1;
->> +	}
->> +
->> +	elf = elf_begin(fd, ELF_C_RDWR_MMAP, NULL);
->> +	if (!elf) {
->> +		close(fd);
->> +		pr_err("FAILED cannot create ELF descriptor: %s\n", elf_errmsg(-1));
->> +		return -1;
->> +	}
-> 
-> [ ... ]
-> 
->> +	err = 0;
->> +out:
->> +	elf_end(elf);
->> +	return err;
->> +}
-> 
-> Should the file descriptor fd be closed here? Looking at elf_collect() and its
-> cleanup in main(), the pattern is to call elf_end() and then close(fd)
-> separately. Without close(fd), error paths that reach 'goto out' after
-> successful open() and elf_begin() will leak the file descriptor.
+On Tue, 30 Dec 2025, Vivian Wang wrote:
 
-Correct. I missed close(fd) on the happy path.
+> Since commit 4b47a3aefb29 ("kbuild: Restore pattern to avoid stripping
+> .rela.dyn from vmlinux") vmlinux has .rel*.dyn preserved. Therefore, use
+> vmlinux to produce Image, not vmlinux.unstripped.
+> 
+> Doing so fixes booting a RELOCATABLE=y Image with kexec. 
 
-> 
-> 
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/20608784032
+Thanks, queued for v6.19-rc.
 
+
+- Paul
 
