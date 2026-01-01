@@ -1,92 +1,154 @@
-Return-Path: <linux-kbuild+bounces-10399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10400-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610FDCEC9A2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 22:43:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC71CED181
+	for <lists+linux-kbuild@lfdr.de>; Thu, 01 Jan 2026 16:10:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 60BD83007699
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Dec 2025 21:43:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F2A93006AAB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Jan 2026 15:10:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E885D3093DE;
-	Wed, 31 Dec 2025 21:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBA272D3A80;
+	Thu,  1 Jan 2026 15:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5Hnyens"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qPtWOjyC"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCFA2BD00C;
-	Wed, 31 Dec 2025 21:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144342D0607;
+	Thu,  1 Jan 2026 15:10:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767217404; cv=none; b=hFXvVg+CvuuMbQboYx0OH57cPB+Jtsx4f99U1j5j5Nt7Sf9Z/ejkyROlFhPb0+yUNBsgOqerAFDLB/QxLG11WPhzQoYpzmUUv0uIZREdU1vzEIBkmJJF/XBINWcXuiU3RQrxsBUOs3WbTJyZAxpNIg+TIRaIgUYx2OwmO/4vBxk=
+	t=1767280245; cv=none; b=M3yQ5+MRD7swcLQ8s+V2thOGVHoEO9O9w5oTaZ83oi5j8J2QgVbwx9pPW/XTTUBcaMRbPdAXeqfLF2Yi1dhjRS0G7Olq+3vICVPT0kAcdmppVtXRj+hRyIM3lXgW7Av+xhmPXgSeAyOMwS+p/DmwqBpu9Tz57CqeN5e9ByVzRDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767217404; c=relaxed/simple;
-	bh=zjkiUOFtQUg3utE7N9prdVTdxXopfiRzdJkp4QRnPYA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=ppI9AxZkktrGPcFiQD1iLLPXoJTsRIOOwHmc/g3jbiCj1azHoD9npTyZYc9uP+HS3h3+ocZ5FHFwrHAKepizdGNN57mKRzy6NEb2OVF1FnkjUpDCcDeIrwEOUHMgoJbG6gnpIe/W1dyj1y33kjEQ/IAAgMhEwbLlDtAW1B6Z2Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5Hnyens; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B018C113D0;
-	Wed, 31 Dec 2025 21:43:24 +0000 (UTC)
+	s=arc-20240116; t=1767280245; c=relaxed/simple;
+	bh=Hsig7qMqvEeHA2BrqJU8yUjptGfEzJylfzi+6cxd0ug=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UAhNo7V/rG0WLtdds9TziWGsIBNfm26Du0BEaHk95s+qRD0vbLhfKhKrUO741IFoYWS9J9h7hc+3lFlyQBGLEyqVGO4KWruzjqPyw6/3ubyQiQfkLwyynhzi4G+2jIVzJwqDHM4tRY/cj+zCuNHxVbKZZovK7Dbl02mRvZGILJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qPtWOjyC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F6FC4CEF7;
+	Thu,  1 Jan 2026 15:10:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767217404;
-	bh=zjkiUOFtQUg3utE7N9prdVTdxXopfiRzdJkp4QRnPYA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=V5Hnyens2D5Gh2Ja/s3JK/HQRiGKJbXl8wAoZLZ/ZBZXdlpapftHL8mjbb6i2qDkI
-	 WSL1r+91c0W2EAQKNHG1tirjOBm0U8xRsSkWB0ugomh0LbbFZbOr5oPFM7scRz9+Ap
-	 xc3qv72IqwYj9ZY39vyJyIPFyLElTPuKWD/6Ad24xb5ROiX1sx+14I5tjMhT370MWE
-	 4sA0qk6pGRNou5o/rl99wsgu5lDRS3VyVfLiJC3bbpPZcSRpqmIv65nu75tDup9Qo2
-	 K0yp4sKGinid+ENZoNtJU1xS5vqYIKVyEZnFXYICYiq0yNcWM9StIQ2H/DvxogdT16
-	 rtQ8uwD0BT26Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F2BF13809A83;
-	Wed, 31 Dec 2025 21:40:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1767280244;
+	bh=Hsig7qMqvEeHA2BrqJU8yUjptGfEzJylfzi+6cxd0ug=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qPtWOjyCCVoSbrgS2By+iC+tj/ZvF1ekBhMhWNic+UdxunQzjzXupcVisCiQw0WRF
+	 NfSFKZz3L6tMfm8jaTLqv9GRWlQOL6xHpYie5zd8kkt+JMjfhzXY1jmpw/Q4DpBLlP
+	 LExnq3NxIvOMw1FV0XWjOJzHC+6/SZimsEdhk6znVGM2FLupF4/j+R3Zfb/gRIGx6m
+	 cHTfRSzxvhQlZZ/JDvl7RU+A01rNwqRhEzPduJideLi32KeSMEyc6JOB+VeSwoe2GU
+	 cORzzmAL15U743KQLWeY8vsDe6JTTeSrK8tHZY16Q/5hg8/0vTkrOJyxvGwfccZQqF
+	 Qyd0UTVRBtdog==
+Message-ID: <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
+Date: Thu, 1 Jan 2026 16:10:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
+ <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+From: Vincent Mailhol <mailhol@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v1] scripts/gen-btf.sh: Reduce log verbosity
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176721720579.3606175.10334632447565675369.git-patchwork-notify@kernel.org>
-Date: Wed, 31 Dec 2025 21:40:05 +0000
-References: <20251231183929.65668-1-ihor.solodrai@linux.dev>
-In-Reply-To: <20251231183929.65668-1-ihor.solodrai@linux.dev>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- nathan@kernel.org, nsc@kernel.org, bpf@vger.kernel.org,
- linux-kbuild@vger.kernel.org
 
-Hello:
-
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
-
-On Wed, 31 Dec 2025 10:39:29 -0800 you wrote:
-> Remove info messages from gen-btf.sh, as they are unnecessarily
-> detailed and sometimes inaccurate [1].  Verbose log can be produced by
-> passing V=1 to make, which will set -x for the shell.
+On 20/12/2025 at 12:02, Vincent Mailhol wrote:
+> The is_non_negative() and is_negative() function-like macros just
+> exist as a workaround to silence the -Wtype-limits warning. Now that
+> this warning is disabled, those two macros have lost their raison
+> d'être. Remove them.
 > 
-> [1] https://lore.kernel.org/bpf/CAADnVQ+biTSDaNtoL=ct9XtBJiXYMUqGYLqu604C3D8N+8YH9A@mail.gmail.com/
+> This reverts commit dc7fe518b049 ("overflow: Fix -Wtype-limits
+> compilation warnings").
 > 
-> Suggested-by: Alexei Starovoitov <ast@kernel.org>
-> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> Suggested-by: Nicolas Schier <nsc@kernel.org>
+> Link: https://lore.kernel.org/all/aUT_yWin_xslnOFh@derry.ads.avm.de
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+
+So at the end, this patch got five kernel test robot reports:
+
+  https://lore.kernel.org/all/202512221735.mRV4BZqB-lkp@intel.com/
+  https://lore.kernel.org/all/202512230342.Lgha2HGH-lkp@intel.com/
+  https://lore.kernel.org/all/202512251340.UApIFw9R-lkp@intel.com/
+  https://lore.kernel.org/all/202512271618.33YepxDC-lkp@intel.com/
+  https://lore.kernel.org/all/202512280906.wt7UNpya-lkp@intel.com/
+
+All these are the same smatch warning just triggered from a different
+place. I think it is still too early to undo that workaround in
+include/linux/overflow.h, otherwise developers would be getting that
+smatch report too often.
+
+I will send a v4 in which I will drop this patch. This basically means
+that the v4 is a revert to v1...
+
+> ---
+> Changelog:
 > 
-> [...]
+>   v1 -> v2: new patch
+> ---
+>  include/linux/overflow.h | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+> index 736f633b2d5f..ab142d60c6b5 100644
+> --- a/include/linux/overflow.h
+> +++ b/include/linux/overflow.h
+> @@ -36,12 +36,6 @@
+>  #define __type_min(T) ((T)((T)-type_max(T)-(T)1))
+>  #define type_min(t)	__type_min(typeof(t))
+>  
+> -/*
+> - * Avoids triggering -Wtype-limits compilation warning,
+> - * while using unsigned data types to check a < 0.
+> - */
+> -#define is_non_negative(a) ((a) > 0 || (a) == 0)
+> -#define is_negative(a) (!(is_non_negative(a)))
+>  
+>  /*
+>   * Allows for effectively applying __must_check to a macro so we can have
+> @@ -201,9 +195,9 @@ static inline bool __must_check __must_check_overflow(bool overflow)
+>  	typeof(d) _d = d;						\
+>  	unsigned long long _a_full = _a;				\
+>  	unsigned int _to_shift =					\
+> -		is_non_negative(_s) && _s < 8 * sizeof(*d) ? _s : 0;	\
+> +		_s >= 0 && _s < 8 * sizeof(*d) ? _s : 0;		\
+>  	*_d = (_a_full << _to_shift);					\
+> -	(_to_shift != _s || is_negative(*_d) || is_negative(_a) ||	\
+> +	(_to_shift != _s || *_d < 0 || _a < 0 ||			\
+>  	(*_d >> _to_shift) != _a);					\
+>  }))
+>  
+> 
 
-Here is the summary with links:
-  - [bpf-next,v1] scripts/gen-btf.sh: Reduce log verbosity
-    https://git.kernel.org/bpf/bpf-next/c/453dece55bb1
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Yours sincerely,
+Vincent Mailhol
 
 
