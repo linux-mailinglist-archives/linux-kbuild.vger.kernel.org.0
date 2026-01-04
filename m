@@ -1,146 +1,111 @@
-Return-Path: <linux-kbuild+bounces-10412-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10413-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2520BCF0537
-	for <lists+linux-kbuild@lfdr.de>; Sat, 03 Jan 2026 20:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4271DCF14C1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 04 Jan 2026 21:53:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EB041300EA05
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Jan 2026 19:40:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9C2583009F80
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jan 2026 20:53:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E23248F68;
-	Sat,  3 Jan 2026 19:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D17532E8E07;
+	Sun,  4 Jan 2026 20:53:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ptk8Eq01"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gn5YfUlS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADDB3A1E72;
-	Sat,  3 Jan 2026 19:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A492C2364
+	for <linux-kbuild@vger.kernel.org>; Sun,  4 Jan 2026 20:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767469227; cv=none; b=HUA9Eou3UAaI4eDAGwUfzJVdiRIgiO2VDvSnayp0yi1f1t2C5dTJ9PMpmNWHS8J+RRl+X5AMxM+irx4qafSEk3uwtdW/cOh6iUq3PaonCBqRYsH5YsqkE8jdyRFw/vLUvDo1r2VfXd4jpBSJ9ItMJ8OuJ/F6zhMuMiDr1fXaI+k=
+	t=1767560020; cv=none; b=nr9rD36P41YXOYlqrh1TocRfU/YMQv3j2GKTR1f1smasX19pnj7w0doMZ/LhutvRN4UmAco9CLivqLm9lu+2GRlBks1lPK29wV85csfre4uMCWoLDHxyiZ2nRESqqo+LLqMbABE3rmieckIhFNadGuPh3C30fLOcGqOdpoOBtCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767469227; c=relaxed/simple;
-	bh=tkpnTK4Qj656t1SjViYdrojmOrUb4VMdsQ1vCgGZFaM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JpB80xk6phQC6rXRixGV7d+rD3udH77sco7mA11vQGDtVs4ghgVA/6Mm9RQshnxjK/QkA4FfoyNjpW+v0l4oqgRSXdsP+8lC26XzaDi7SwjKvQoEHA/Y+It/aXWOHOIuEzGs68vThqbOIo7T0qL/FhmzS/DF/EiGXG0EFXENyP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ptk8Eq01; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2700C113D0;
-	Sat,  3 Jan 2026 19:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767469226;
-	bh=tkpnTK4Qj656t1SjViYdrojmOrUb4VMdsQ1vCgGZFaM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ptk8Eq017hq7LXx1dg/UvM82Pt2sJPL5TWUcNecJF4hcdqsylreXB1vc6LxpYKW/R
-	 9BFtTUrUfQ6lI82kt6wwlhqf7M65pT8tHi9NtuTo7kfe+tZuRamjzVaBj8o2/xOmMS
-	 LaoevR3U2LqszzHyshrbiae4H/vyhmY377Eo5dqooqKzC+noeELYMVY4t02yU2o+5C
-	 qtYwbFBsNY0o0tndQO1CLdFe7U5Ma1IxgGojOEUmf4U6vKfryh1yieUj4B5oJplZ5N
-	 grGmU4u6Dmx9hrkVInJgl38oRemDeRkyJojpy+NB09Tc3smQe+7xN7WuoL6oL+li+0
-	 Drx6RpyJAa6UQ==
-Message-ID: <e66bd09b-9879-4562-a71e-a1e1a964f3f2@kernel.org>
-Date: Sat, 3 Jan 2026 20:40:17 +0100
+	s=arc-20240116; t=1767560020; c=relaxed/simple;
+	bh=sK5xKgJux8sT3Sx9ZUS8NtOGkJPrQ0I7tH8PhjrPm4A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iHB1ufjH4CB+sAd5TwM9QhKpSwuKcajNCywVjRRFitNGXVcE00MfNFDF+Gk0pOFhu7HjBFEjmuqGiuD2E6bxXBtGnDZfKe5Oqeqok/l0o6fctgWD/HPEyXoT20euLY8tOsch6zioOtSqWWNj/cEfil58fNXWTKFtl+vz+KPi2Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gn5YfUlS; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c1e0e7f21dfso278134a12.2
+        for <linux-kbuild@vger.kernel.org>; Sun, 04 Jan 2026 12:53:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767560018; x=1768164818; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sK5xKgJux8sT3Sx9ZUS8NtOGkJPrQ0I7tH8PhjrPm4A=;
+        b=Gn5YfUlSE/MZYy058WhEIaVWq7NaQKUZD8l3Aux6Pl0aC6r9507k50CKLswafbHRpN
+         tKzmyO0F9R6LHvkZMPSXPupYBsOmydl0bDSAzZqktg3da3wVzExGlc+TVtilZwPKHgpM
+         V1dQvqFgOpaYwXFkbQ5yTX3RvKxOMwblQghyYFqT+krfjRa5GGYc05WrHvkssxgpoC0q
+         u/0kTjfXGXdcOg5LiS5GlXrLldJa3sS9of6oy19Bkw1CkROhS+PKzzVtLzJx0qOTpc9Z
+         GU+WDfyyN+Tkr7Ui+5LmyVH0DkMSii0bN8LFAt6ZsnYSlTZG/Dc4D+uP/0Ec2fmahWfV
+         Lm+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767560018; x=1768164818;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sK5xKgJux8sT3Sx9ZUS8NtOGkJPrQ0I7tH8PhjrPm4A=;
+        b=XEKdKo7SWetUFdx3IQkjzsgC0lNcLiMKt92dXotXLr4dHsLE2EXGFuXffGlHCMOPJV
+         WvVgpTGWxxrX5H7V7P8oNWgeEY1+sMU0b4NqpWfXCzvh3htxKUCL3iOytfhpOh0GWq2S
+         VY3CIA+AY0YA6Ki9+YqTf12SRkFottLqICBcOQlRVrd2w6QLH26SfZQWJwtpPKglsir8
+         IXH1Do3K/2KONgUFqRJksGic1OwUj5HqCDlqRakoXMQ5gcOYN4BT41ICDY5gw3YoH1pv
+         +yCzk3W3hmgNmB4LBLzsolVweTzPvdwhbaIctYb72DyiGdetcYlyY8b9PJ3zGl7LAKtF
+         j30w==
+X-Forwarded-Encrypted: i=1; AJvYcCWPboWmGxnbyRa7fyPqXtDQvlEbKSM8vznzfcKmaSdfKRxO5OiNbOxzHiLJ+aM6mowHV2WpkBVL5JDvrtY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCsi5Vg3+0fVMulazKtrjUtH3x5CIzKqZFBSDPb+TLTFGFDApN
+	S+IwJtNf84uskaPwO92PLIxC3xLF+4/q8bLR62lHaeJUwfTuStgk9O3z9j6XqtTLZDDZ0r6wYIQ
+	nBkvc4SZ7d5RyqKA52Koz64vlWM/SWjE=
+X-Gm-Gg: AY/fxX6VAI2IJtZRZLkExQDSp/o03azp4sqYb2yUkDlr2MI5hhkmSvivJOkb4oK2phJ
+	Gz2G0TZ3xXvVaDqkeMTi9OMBz51hctugakLsy/fg7YmArSpzl7Qr7HmqIC73ewiIr5J6ZDdXYYI
+	C0Azd7T5dPRjeb7+crdu1et2Jzv40YIMSnsVWWtq6J2xRu9Rn6KtKYuXtbfyKAfS2FJWadY4TQ5
+	X8kstW3XS+OieEBFPAHSTxjADAJxrQxz8FdrnPnBZNgBlAYBedggHY2vd+BvFRX9UgmlnR+62Fo
+	Nj32iJz1dfPrAzsuivwGITf4OnBOiQ3pxjGmXcHzzpCystNDiP1wz/JFY1WJi/uR/KPak9tgRvw
+	xDYezoqGAwP2j
+X-Google-Smtp-Source: AGHT+IEY5WU8qdT2x4W9RhyaoUAIxe/Revt/XcUhrg0fBmvqp9LK2uRUv+DpO1/rHFugYJh7v9P+cWIgLbf4IU/ffNQ=
+X-Received: by 2002:a05:7300:e9ce:20b0:2ae:5b31:5dc with SMTP id
+ 5a478bee46e88-2b05ec6b143mr17044785eec.7.1767560018452; Sun, 04 Jan 2026
+ 12:53:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] overflow: Update is_non_negative() and is_negative()
- comment
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
- linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>
-References: <20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org>
- <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
- <acdd84b2-e893-419c-8a46-da55d695dda2@kernel.org>
- <20260101-futuristic-petrel-of-ecstasy-23db5f@lindesnes>
- <CANiq72=jRT+6+2PBgshsK-TpxPiRK70H-+3D6sYaN-fdfC83qw@mail.gmail.com>
- <b549e430-5623-4c60-acb1-4b5e095ae870@kernel.org>
- <b6b35138-2c37-4b82-894e-59e897ec7d58@kernel.org>
- <903ba91b-f052-4b1c-827d-6292965026c5@moroto.mountain>
- <c84557e6-aa92-42e9-8768-e246676ec1e9@kernel.org>
- <aVlKTculhgJzuZJy@stanley.mountain>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <aVlKTculhgJzuZJy@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251217150010.665153-1-siddhesh@gotplt.org> <20251217224050.1186896-1-siddhesh@gotplt.org>
+In-Reply-To: <20251217224050.1186896-1-siddhesh@gotplt.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 4 Jan 2026 21:53:25 +0100
+X-Gm-Features: AQt7F2qb1EDeyLmlG9hUTUI1fBPD9sLv7nfHHvfBJvOJxdTKvQkzrqD3Rmnu53k
+Message-ID: <CANiq72n0BtCxAsXOaNnSMWC-aW2bNTPzN=4VGb+ic8YA6jhsAw@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: Add -fdiagnostics-show-context to bindgen_skip_c_flags
+To: Siddhesh Poyarekar <siddhesh@gotplt.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, stable@vger.kernel.org, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, clang-built-linux <llvm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/01/2026 at 17:56, Dan Carpenter wrote:
-> On Sat, Jan 03, 2026 at 12:10:45PM +0100, Vincent Mailhol wrote:
->> On 03/01/2026 at 11:02, Dan Carpenter wrote:
->>> Thanks Randy, for sending this to me.  I'm on the sparse list, but
->>> I've been on vacation and haven't caught up with my email. 
->>
->> Welcome back, hope you enjoyed your holidays!
->>
->>> I can easily silence this in Smatch.
->>
->> Thanks. I ran this locally, I can confirm that this silences the
->> warning. So:
->>
->> Tested-by: Vincent Mailhol <mailhol@kernel.org>
->>
->>> diff --git a/check_unsigned_lt_zero.c b/check_unsigned_lt_zero.c
->>> index bfeb3261f91d..ac3e650704ce 100644
->>> --- a/check_unsigned_lt_zero.c
->>> +++ b/check_unsigned_lt_zero.c
->>> @@ -105,7 +105,8 @@ static bool is_allowed_zero(struct expression *expr)
->>>  	    strcmp(macro, "STRTO_H") == 0 ||
->>>  	    strcmp(macro, "SUB_EXTEND_USTAT") == 0 ||
->>>  	    strcmp(macro, "TEST_CASTABLE_TO_TYPE_VAR") == 0 ||
->>> -	    strcmp(macro, "TEST_ONE_SHIFT") == 0)
->>> +	    strcmp(macro, "TEST_ONE_SHIFT") == 0 ||
->>> +	    strcmp(macro, "check_shl_overflow") == 0)
->>
->> But, for the long term, wouldn't it better to just ignore all the code
->> coming from macro extensions instead of maintaining this allow-list?
->>
-> 
-> Of course, that idea occured to me, but so far the allow list is not
-> very burdensome to maintain.
+On Wed, Dec 17, 2025 at 11:41=E2=80=AFPM Siddhesh Poyarekar <siddhesh@gotpl=
+t.org> wrote:
+>
+> but clang does not have this option, so avoid passing it to bindgen.
 
-Indeed, but my concern was more on how people would treat such smatch
-warnings coming from the kernel test robot. It is very uncommon to have
-an allow-list hard coded into the static analyzer. Actually, this is the
-first time I see this. My fear here is that people will just uglify the
-code rather than sending a patch to extend the allow list in smatch.
+This looks indeed correct, although it is not yet in a released GCC
+(testing quickly in Compiler Explorer, GCC 15.2 doesn't have it, but
+GCC trunk has).
 
-> I maybe should disable it for all macros unless the --spammy option is used...
+I will apply it -- Cc'ing ClangBuiltLinux and Kbuild so that they are aware=
+.
 
-IMHO, that would be an even better approach. That said, I am happy
-enough with your previous patch which resolves my issue and which is way
-better than updating the is_non_negative() and is_negative() comments as
-I did in my patch!
+Thanks!
 
-
-Yours sincerely,
-Vincent Mailhol
-
+Cheers,
+Miguel
 
