@@ -1,111 +1,171 @@
-Return-Path: <linux-kbuild+bounces-10413-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10414-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4271DCF14C1
-	for <lists+linux-kbuild@lfdr.de>; Sun, 04 Jan 2026 21:53:43 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E383CF16E6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 04 Jan 2026 23:49:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9C2583009F80
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jan 2026 20:53:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 85F9A30011A4
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Jan 2026 22:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D17532E8E07;
-	Sun,  4 Jan 2026 20:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D13143C61;
+	Sun,  4 Jan 2026 22:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gn5YfUlS"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xqy+GozV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A492C2364
-	for <linux-kbuild@vger.kernel.org>; Sun,  4 Jan 2026 20:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3AB52F88;
+	Sun,  4 Jan 2026 22:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767560020; cv=none; b=nr9rD36P41YXOYlqrh1TocRfU/YMQv3j2GKTR1f1smasX19pnj7w0doMZ/LhutvRN4UmAco9CLivqLm9lu+2GRlBks1lPK29wV85csfre4uMCWoLDHxyiZ2nRESqqo+LLqMbABE3rmieckIhFNadGuPh3C30fLOcGqOdpoOBtCU=
+	t=1767566976; cv=none; b=XI1MRkwtn8xS+OiQDsnH5IHR27y8CTEaFisDgYjt1bNxP+Vvp2GfgSOSphWIszv/hoOhph/Ph0wv4+/PCRrKiL9F8EKSZ0QjJXcpATmS9QHgiFtY+WSVZP+7OBZPNNTnoIiTFBmCYF92QSc47v1V/aUZ+2WE6LQSTxSn0XUTd2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767560020; c=relaxed/simple;
-	bh=sK5xKgJux8sT3Sx9ZUS8NtOGkJPrQ0I7tH8PhjrPm4A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iHB1ufjH4CB+sAd5TwM9QhKpSwuKcajNCywVjRRFitNGXVcE00MfNFDF+Gk0pOFhu7HjBFEjmuqGiuD2E6bxXBtGnDZfKe5Oqeqok/l0o6fctgWD/HPEyXoT20euLY8tOsch6zioOtSqWWNj/cEfil58fNXWTKFtl+vz+KPi2Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gn5YfUlS; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c1e0e7f21dfso278134a12.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 04 Jan 2026 12:53:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767560018; x=1768164818; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sK5xKgJux8sT3Sx9ZUS8NtOGkJPrQ0I7tH8PhjrPm4A=;
-        b=Gn5YfUlSE/MZYy058WhEIaVWq7NaQKUZD8l3Aux6Pl0aC6r9507k50CKLswafbHRpN
-         tKzmyO0F9R6LHvkZMPSXPupYBsOmydl0bDSAzZqktg3da3wVzExGlc+TVtilZwPKHgpM
-         V1dQvqFgOpaYwXFkbQ5yTX3RvKxOMwblQghyYFqT+krfjRa5GGYc05WrHvkssxgpoC0q
-         u/0kTjfXGXdcOg5LiS5GlXrLldJa3sS9of6oy19Bkw1CkROhS+PKzzVtLzJx0qOTpc9Z
-         GU+WDfyyN+Tkr7Ui+5LmyVH0DkMSii0bN8LFAt6ZsnYSlTZG/Dc4D+uP/0Ec2fmahWfV
-         Lm+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767560018; x=1768164818;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sK5xKgJux8sT3Sx9ZUS8NtOGkJPrQ0I7tH8PhjrPm4A=;
-        b=XEKdKo7SWetUFdx3IQkjzsgC0lNcLiMKt92dXotXLr4dHsLE2EXGFuXffGlHCMOPJV
-         WvVgpTGWxxrX5H7V7P8oNWgeEY1+sMU0b4NqpWfXCzvh3htxKUCL3iOytfhpOh0GWq2S
-         VY3CIA+AY0YA6Ki9+YqTf12SRkFottLqICBcOQlRVrd2w6QLH26SfZQWJwtpPKglsir8
-         IXH1Do3K/2KONgUFqRJksGic1OwUj5HqCDlqRakoXMQ5gcOYN4BT41ICDY5gw3YoH1pv
-         +yCzk3W3hmgNmB4LBLzsolVweTzPvdwhbaIctYb72DyiGdetcYlyY8b9PJ3zGl7LAKtF
-         j30w==
-X-Forwarded-Encrypted: i=1; AJvYcCWPboWmGxnbyRa7fyPqXtDQvlEbKSM8vznzfcKmaSdfKRxO5OiNbOxzHiLJ+aM6mowHV2WpkBVL5JDvrtY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCsi5Vg3+0fVMulazKtrjUtH3x5CIzKqZFBSDPb+TLTFGFDApN
-	S+IwJtNf84uskaPwO92PLIxC3xLF+4/q8bLR62lHaeJUwfTuStgk9O3z9j6XqtTLZDDZ0r6wYIQ
-	nBkvc4SZ7d5RyqKA52Koz64vlWM/SWjE=
-X-Gm-Gg: AY/fxX6VAI2IJtZRZLkExQDSp/o03azp4sqYb2yUkDlr2MI5hhkmSvivJOkb4oK2phJ
-	Gz2G0TZ3xXvVaDqkeMTi9OMBz51hctugakLsy/fg7YmArSpzl7Qr7HmqIC73ewiIr5J6ZDdXYYI
-	C0Azd7T5dPRjeb7+crdu1et2Jzv40YIMSnsVWWtq6J2xRu9Rn6KtKYuXtbfyKAfS2FJWadY4TQ5
-	X8kstW3XS+OieEBFPAHSTxjADAJxrQxz8FdrnPnBZNgBlAYBedggHY2vd+BvFRX9UgmlnR+62Fo
-	Nj32iJz1dfPrAzsuivwGITf4OnBOiQ3pxjGmXcHzzpCystNDiP1wz/JFY1WJi/uR/KPak9tgRvw
-	xDYezoqGAwP2j
-X-Google-Smtp-Source: AGHT+IEY5WU8qdT2x4W9RhyaoUAIxe/Revt/XcUhrg0fBmvqp9LK2uRUv+DpO1/rHFugYJh7v9P+cWIgLbf4IU/ffNQ=
-X-Received: by 2002:a05:7300:e9ce:20b0:2ae:5b31:5dc with SMTP id
- 5a478bee46e88-2b05ec6b143mr17044785eec.7.1767560018452; Sun, 04 Jan 2026
- 12:53:38 -0800 (PST)
+	s=arc-20240116; t=1767566976; c=relaxed/simple;
+	bh=1+tcYN9hjb34NvTy078ZGQoFPO1f185WERxyJUp5mOE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VqIuQTSOW/ONhUaIA47BjgkKMSssRL1LfjlMiwifZuGw9xEWqR3sZxpd1KJ7td9+2wkutPa/EoYzXoZp5DxsSVtDqla6CTBu1zlJ1Gx3P/5FXbSyJW/YPUhLgZ8EXbfUXW1/ImS1L3BKk+wJLuNAiePlhx7E2i0kkzQiD6IkWnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Xqy+GozV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=i/xAjHZ4c+xXNXhUcPgf/W28sA38oklY9+CYDqZh59Q=; b=Xqy+GozVj0JzxcUbtu8P7o1xqk
+	ThFiC7/6QRtRmVpspQaEppUfuTftQIQxT5dEOP5XX0gb8dCE2BhvfywqIAQukq2bkHwEkwGc19I5G
+	d1F1naEcUKrSJodjqdY7cX4EgtycOV+wfVmwUfcpGjS+7LuK471MNlu6UPn1CNF0HtBJyri3j7JEX
+	rOiqe2KPYJU2vVUYNSAvztYVjG/wlK5JHSSzxb2AdxbQvH+gyisQ6kMUrn4HBK38Kn6N8SwU6pxyi
+	mOKgDfvxbx7YtkmNxb3uMUJ2owMoGq20M0siHzisbvysooOWVc9QX8bJ9mRnCYVx2roxLl9SsQCO7
+	cOCCInDQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vcWuj-0000000AWwP-2R2b;
+	Sun, 04 Jan 2026 22:49:33 +0000
+Message-ID: <e99afc0e-e0a2-4719-9c04-4fa8fcafb4f0@infradead.org>
+Date: Sun, 4 Jan 2026 14:49:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251217150010.665153-1-siddhesh@gotplt.org> <20251217224050.1186896-1-siddhesh@gotplt.org>
-In-Reply-To: <20251217224050.1186896-1-siddhesh@gotplt.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 4 Jan 2026 21:53:25 +0100
-X-Gm-Features: AQt7F2qb1EDeyLmlG9hUTUI1fBPD9sLv7nfHHvfBJvOJxdTKvQkzrqD3Rmnu53k
-Message-ID: <CANiq72n0BtCxAsXOaNnSMWC-aW2bNTPzN=4VGb+ic8YA6jhsAw@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: Add -fdiagnostics-show-context to bindgen_skip_c_flags
-To: Siddhesh Poyarekar <siddhesh@gotplt.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, stable@vger.kernel.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, clang-built-linux <llvm@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] kconfig: Support conditional deps using "depends on X
+ if Y"
+To: Graham Roff <grahamr@qti.qualcomm.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+ Arnd Bergmann <arnd@arndb.de>
+References: <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251215-kconfig_conditional_deps-v3-1-59519af0a5df@qti.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 17, 2025 at 11:41=E2=80=AFPM Siddhesh Poyarekar <siddhesh@gotpl=
-t.org> wrote:
->
-> but clang does not have this option, so avoid passing it to bindgen.
 
-This looks indeed correct, although it is not yet in a released GCC
-(testing quickly in Compiler Explorer, GCC 15.2 doesn't have it, but
-GCC trunk has).
 
-I will apply it -- Cc'ing ClangBuiltLinux and Kbuild so that they are aware=
-.
+On 12/15/25 3:06 PM, Graham Roff wrote:
+> From: Nicolas Pitre <nico@fluxnic.net>
+> 
+> Extend the "depends on" syntax to support conditional dependencies
+> using "depends on X if Y". While functionally equivalent to "depends
+> on X || (Y == n)", "depends on X if Y" is much more readable and
+> makes the kconfig language uniform in supporting the "if <expr>"
+> suffix.
+> This also improves readability for "optional" dependencies, which
+> are the subset of conditional dependencies where X is Y.
+> Previously such optional dependencies had to be expressed as
+> the counterintuitive "depends on X || !X", now this can be
+> represented as "depends on X if X".
+> 
+> The change is implemented by converting the "X if Y" syntax into the
+> "X || (Y == n)" syntax during "depends on" token processing.
+> 
+> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> 
+> [Graham Roff: Rewrote commit message, updated patch, added tests]
+> 
+> Signed-off-by: Graham Roff <grahamr@qti.qualcomm.com>
 
-Thanks!
+LGTM. Thanks.
 
-Cheers,
-Miguel
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+> This patch updates an earlier one that was not merged to work on 
+> the latest kernel release.
+> 
+> Link: https://lwn.net/ml/linux-kernel/nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr/#t
+> 
+> Support for this change has been expressed by a number of developers
+> since the original patch was proposed back in 2020, and has recently
+> also been raised as a patch to the Zephyr kconfig system.
+> One specific use is when mapping the Bluetooth specification to Kconfig,
+> as it explicitly provides dependencies between features as conditional
+> on other features. Many other cases exist where the "slightly
+> counterintuitive" (quoted from the Kconfig specification) expression 
+> "depends on BAR || !BAR" has been used when a proper "if" condition 
+> would be more readable. Some examples:
+> 
+> arch/arm64/Kconfig:
+>   depends on ARM64_64K_PAGES || !ARM64_VA_BITS_52 -->
+>   depends on ARM64_64K_PAGES if ARM64_VA_BITS_52
+> arch/mips/Kconfig:
+>   depends on SYS_SUPPORTS_HOTPLUG_CPU || !SMP -->
+>   depends on SYS_SUPPORTS_HOTPLUG_CPU if SMP
+> arch/riscv/Kconfig:
+>   depends on CC_HAS_MIN_FUNCTION_ALIGNMENT || !RISCV_ISA_C -->
+>   depends on CC_HAS_MIN_FUNCTION_ALIGNMENT if RISCV_ISA_C
+> arch/x86/Kconfig:
+>   depends on X86_64 || !SPARSEMEM -->
+>   depends on X86_64 if SPARSEMEM
+> drivers/acpi/Kconfig:
+>   depends on ACPI_WMI || !X86 -->
+>   depends on ACPI_WMI if X86
+> drivers/bluetooth/Kconfig:
+>   depends on USB || !BT_HCIBTUSB_MTK
+>   depends on USB if BT_HCIBTUSB_MTK
+> mm/Kconfig:
+>   depends on !ARM || CPU_CACHE_VIPT -->
+>   depends on CPU_CACHE_VIPT if ARM
+> kernel/Kconfig.locks:
+>   depends on !PREEMPTION || ARCH_INLINE_READ_UNLOCK -->
+>   depends on ARCH_INLINE_READ_UNLOCK if PREEMPTION
+> 
+> The earlier patch discussion ended without a real conclusion and should
+> be revisited now.
+> ---
+> Changes in v3:
+> - Updated commit to prefix with "kconfig:".
+> - Updated tests to support modules for tri_state configs.
+> - Link to v2: https://lore.kernel.org/r/20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com
+> 
+> Changes in v2:
+> - Added test cases.
+> - Updated documentation to improve the dscription of conditional
+>   and optional dependencies
+> - Link to v1: https://lore.kernel.org/r/20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com
+> ---
+>  Documentation/kbuild/kconfig-language.rst          | 22 +++++++++++++--
+>  scripts/kconfig/lkc.h                              |  2 +-
+>  scripts/kconfig/menu.c                             | 12 +++++++-
+>  scripts/kconfig/parser.y                           |  6 ++--
+>  scripts/kconfig/tests/conditional_dep/Kconfig      | 32 ++++++++++++++++++++++
+>  scripts/kconfig/tests/conditional_dep/__init__.py  | 14 ++++++++++
+>  .../kconfig/tests/conditional_dep/expected_config1 | 11 ++++++++
+>  .../kconfig/tests/conditional_dep/expected_config2 |  9 ++++++
+>  .../kconfig/tests/conditional_dep/expected_config3 | 11 ++++++++
+>  scripts/kconfig/tests/conditional_dep/test_config1 |  6 ++++
+>  scripts/kconfig/tests/conditional_dep/test_config2 |  7 +++++
+>  scripts/kconfig/tests/conditional_dep/test_config3 |  6 ++++
+>  12 files changed, 130 insertions(+), 8 deletions(-)
+
+
+-- 
+~Randy
 
