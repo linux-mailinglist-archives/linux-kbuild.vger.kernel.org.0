@@ -1,133 +1,95 @@
-Return-Path: <linux-kbuild+bounces-10422-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10423-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB64CF58EE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 05 Jan 2026 21:47:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34D7CF5EF0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 06 Jan 2026 00:04:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8D7AE300CB6D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jan 2026 20:47:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A2CCC3082B1C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Jan 2026 23:03:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F668207A32;
-	Mon,  5 Jan 2026 20:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C20C22D6624;
+	Mon,  5 Jan 2026 23:03:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMHzx6W0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LDEuDAkw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF144414;
-	Mon,  5 Jan 2026 20:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951CC3A1E6D;
+	Mon,  5 Jan 2026 23:03:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767646031; cv=none; b=C3/FN6+pPHDIeKSpcREF0NdltQ4SI9pivwVGdizjt2VBE+q/3d5TTjPlgEq3s21GjABL5H4fCCs0upr0savkX5IaBcx5Y78m6NhBCGjIVzCO3E9sslupZ7GRBjk2sl1QLSsoLjEt1s9inEB2vEjLTJYOyij17fugshmPN0KXYc0=
+	t=1767654208; cv=none; b=qF11ITASeM8BfdLCbZ7wgnlLckk5dlY9aVMTOqpVs1iYaUUHlGgzcoMNibw66OO1px0dhsFvP604Bjz06H+QcUDHvq1jcly338MoZ/Gqekfxcyh1aShGkIKXnDfMA3bN+CGStiBcRjP91q9A8Hb5QU+3QvFJmPZUuUXjVnyhhpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767646031; c=relaxed/simple;
-	bh=0cXxgiKJYEDsCA8YbH5UmnzTobnhAPOmLswUtmtPxRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=LuKOchQqB7TmivGmzXmu2zILvGXh3NwrmO/4U5Xb4Dg0Barv4zedUE/tvvG84FCUmEq+Xh57MrR14MAbgl+bcxNbDXoAwY3psPlpARfQi3fqpKV6Sc82O5v0kbSloh71mFuTYTPZ/1cDco1H2VvdjZa6zc4818eJjNN3Zd+87xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMHzx6W0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B913DC116D0;
-	Mon,  5 Jan 2026 20:47:04 +0000 (UTC)
+	s=arc-20240116; t=1767654208; c=relaxed/simple;
+	bh=xMpoAjOMiDQD0DfTNUYeG05v1tNz9/4y1VvJcgXMxf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tDnAD9Y4YjkN5wE3QZT+VX7G5pxl60/TjdSctnuz4yXoft1ToHYJ4ScXRSMpTHbgrEc6rprJTo2nDWZaMPqHOZNjyG2IVa+wIsSWQ4a2lMtiQjCjgQwMvqf3uy1oXx4JmMmB8wJfGfjq1X9R3o+EKuKLg08YCuLKXSBuDxYUQeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LDEuDAkw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA0BC116D0;
+	Mon,  5 Jan 2026 23:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767646030;
-	bh=0cXxgiKJYEDsCA8YbH5UmnzTobnhAPOmLswUtmtPxRA=;
-	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
-	b=BMHzx6W0wYpa3dgpAYuiWxtwk/g6bicVK04ntKuo+FrzNCEcut784a7NVdkREQZ4Q
-	 n4b9t2XKZwfbQY6ArCYQZMAmEdWhpQGSVD7qkABSAfRymBfqNTZYJpXZpRI7C7lRRR
-	 oesQ925GuAJP+kPS+GIt2TaKlrtanK8p9EXO57ajadGtvsbqVeMrKEVFhcwYQdIYa7
-	 VkFFAlpclS3v14r8gKi2wB1f3DcqJU46CQEAqo980IZaN8BYe9OfQtj3CP1niifHIy
-	 FlIgh+mkVBtY0Cf10+z+7TjcjSnOIynxH6CzYDfTlgR9raoYjiNClOWiXo9nZjKbUj
-	 kczLXVhiwMwjg==
-Message-ID: <54fe30d3-856e-45d4-ba30-b9e770d9afc6@kernel.org>
-Date: Mon, 5 Jan 2026 21:47:02 +0100
+	s=k20201202; t=1767654208;
+	bh=xMpoAjOMiDQD0DfTNUYeG05v1tNz9/4y1VvJcgXMxf4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LDEuDAkwdNtHJo0bsAkb1kq//l7nlma7NpMmPFsPAvSuQr2+ULCqLQKhf6dBKpzHy
+	 qt3BAnz9ZUNuGkz4c5FlVYPxJKMT7bsZEHfy6gaB1DH1Nuv6fTkBM2/g0J/qvYwGUR
+	 jqhNR/zr9MUmPMuHZmYOtCCF5uZtYoULCRIDWl0o9z99KakGyyWrZOreeVFFcenCfR
+	 tYFmtTNdgqVNT4M5NpvXf1JYItFIgCfOUtCdW4w6Sq5BpDLN08SGNUOyHlzPAOLxK0
+	 ikRMDFWE0OrutVVaRtblgciEUEg7c/M48AVNclFVP7TYnBEJoMds1IKvYetKwWxayC
+	 Yab4rcXbjF7fQ==
+Date: Mon, 5 Jan 2026 16:03:22 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Siddhesh Poyarekar <siddhesh@gotplt.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	stable@vger.kernel.org,
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+	clang-built-linux <llvm@lists.linux.dev>
+Subject: Re: [PATCH v2] rust: Add -fdiagnostics-show-context to
+ bindgen_skip_c_flags
+Message-ID: <20260105230322.GA1276749@ax162>
+References: <20251217150010.665153-1-siddhesh@gotplt.org>
+ <20251217224050.1186896-1-siddhesh@gotplt.org>
+ <CANiq72n0BtCxAsXOaNnSMWC-aW2bNTPzN=4VGb+ic8YA6jhsAw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] kbuild: remove gcc's -Wtype-limits
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-References: <20260101-remove_wtype-limits-v4-0-225b75c29086@kernel.org>
- <aVutfSk4PWbGac_Q@levanger>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kbuild@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-btrfs@vger.kernel.org,
- linux-hardening@vger.kernel.org, Daniel Plakosh <dplakosh@sei.cmu.edu>
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <aVutfSk4PWbGac_Q@levanger>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72n0BtCxAsXOaNnSMWC-aW2bNTPzN=4VGb+ic8YA6jhsAw@mail.gmail.com>
 
-On 05/01/2026 at 13:24, Nicolas Schier wrote:
-> On Thu, Jan 01, 2026 at 04:21:38PM +0100, Vincent Mailhol wrote:
->> I often read on the mailing list people saying "who cares about W=2
->> builds anyway?". At least I do. Not that I want to fix all of them,
->> but on some occasions, such as new driver submissions, I have often
->> found a couple valid diagnostics in the W=2 output.
->>
->> That said, the annoying thing is that W=2 is heavily polluted by one
->> warning: -Wtype-limits. Try a gcc W=2 build on any file and see the
->> results for yourself. I suspect this to be the reason why so few
->> people are using W=2.
->>
->> This series removes gcc's -Wtype-limits in an attempt to make W=2 more
->> useful. Those who do not use W=2 can continue to not use it if they
->> want. Those who, like me, use it for time to time will get an improved
->> experience from the reduced spam.
->>
->> Patch #1 deactivates -Wtype-limits. Extra details on statistics, past
->> attempts and alternatives are given in the description.
->>
->> Patch #2 clean-ups the local Kbuild -Wno-type-limits exceptions.
->>
->> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
->> ---
->> Changes in v4:
->>
->>   - Remove patch #3.
->>   - Aside from minor changes in the patch descriptions, this is
->>     basially a revert to v1.
->>
->> Link to v3: https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-0-24b170af700e@kernel.org
+On Sun, Jan 04, 2026 at 09:53:25PM +0100, Miguel Ojeda wrote:
+> On Wed, Dec 17, 2025 at 11:41 PM Siddhesh Poyarekar <siddhesh@gotplt.org> wrote:
+> >
+> > but clang does not have this option, so avoid passing it to bindgen.
 > 
-> just to prevent confusions:  As Dan silenced the Smatch warning caused
-> by patch #3 [1] (thanks!), the additional comment patch [2] is obsolete
-> and v3 of the series is a more complete version than v4.
+> This looks indeed correct, although it is not yet in a released GCC
+> (testing quickly in Compiler Explorer, GCC 15.2 doesn't have it, but
+> GCC trunk has).
+> 
+> I will apply it -- Cc'ing ClangBuiltLinux and Kbuild so that they are aware.
 
-Exactly!
+Right, this does look correct, as this option is specific to GCC for the
+purpose of exposing more information from GCC internals to the user for
+understanding diagnostics better.
 
-Thanks to Daniel's effort we finally have a complete fix.
+I will say if this makes 6.19, the stable tag is not necessary since
+7454048db27d6 landed in 6.19-rc1 and I would not expect it to get
+backported (but even if it did via AUTOSEL or something, the Fixes tag
+should ensure it gets included).
 
-Let me know if you need any actions from my side. Otherwise, I will
-assume that my part of the work is done here and will just wait for the
-v3 to be picked.
-
-(I am so happy to start 2026 by getting rid of this annoying
--Wtype-limits spam :D)
-
-
-Yours sincerely,
-Vincent Mailhol
-
+Cheers,
+Nathan
 
