@@ -1,142 +1,180 @@
-Return-Path: <linux-kbuild+bounces-10427-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10428-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001EECF9600
-	for <lists+linux-kbuild@lfdr.de>; Tue, 06 Jan 2026 17:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DD8CFA269
+	for <lists+linux-kbuild@lfdr.de>; Tue, 06 Jan 2026 19:29:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4AB383026BEA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jan 2026 16:28:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F2E2E31705BC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jan 2026 17:41:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6973337105;
-	Tue,  6 Jan 2026 16:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D8442FD68D;
+	Tue,  6 Jan 2026 17:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NFeXsLRZ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ljs0vtvS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9D2332ECD
-	for <linux-kbuild@vger.kernel.org>; Tue,  6 Jan 2026 16:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2046F2FC011
+	for <linux-kbuild@vger.kernel.org>; Tue,  6 Jan 2026 17:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767716897; cv=none; b=hLnOgr+91bG2/czovcMliZh0eqQn/qonBCt3yEmymPr/uCPixnoj0ofyFB2GpXL+7f2FoxkZXsd7tTkkOaBuW+k13pkjdd7jLkK162WrS3kSkx8pwOfhJLPXAdGoPI1XSpBYP+gvjhWT4AhhQ7YmSFzzIHbHDPQPGM/ER6ArBPY=
+	t=1767720893; cv=none; b=OPm0MWXPlTdSwjLGsw8kNa3v0HG+nQLiGHauf7hZ9xFI/wIzOEFNIu+FX5JLWHNlrdDKM1AzYTchnMkHLWH67TAaaFTcxspEiGrEpyubBG5YkGtsLUYKYzry6/VeB19JyR4Vt99UyC1FosV2p2oakCr96XIQdJcHcRksUgF+Keo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767716897; c=relaxed/simple;
-	bh=LrHmYMQz2JETizEwTZEg0NFEQD6BSQgY8pOFDuVF2fY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gA/Rr9Nl3kcbpLY6z7RHF2/Y0Nq3cTe+jN0CP2PKmtW4Z8RAkhyYwaRihRZyZnXH2Qsw5RLBGFsk/JRmDIPHFZWKIwHX6beok1MoaeX8NgJJuO+8WT/Gag3NXn8GI1XQmJcPR8Qy33UvDJKd7BNi2ltOTglBL3clSyApT4LhxD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NFeXsLRZ; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7c6cc366884so701543a34.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Jan 2026 08:28:15 -0800 (PST)
+	s=arc-20240116; t=1767720893; c=relaxed/simple;
+	bh=vbg/4Kuy8+wEtCaTdI808rOQJV/eEI0U33FeZ9sxcno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BU9gt5+tORRZ4DqjZVukGxVy+0RCLg5ThKF4LUx1YU4R/RbuolD3gCUlLc0zPeNVM6yMjfWXuV5pt5EiJTJGEll2wFmFCYwzeG0u/3W8ZoxLIK1Oezn29ujzaqIJGxV8J0VX8BfPttppodRUOyy6+69Jo9KMSTrNSW8y7Ang8/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ljs0vtvS; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-477770019e4so10424935e9.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 Jan 2026 09:34:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1767716895; x=1768321695; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1767720888; x=1768325688; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ipCBgG4tAC4eMeyn2MxISmiQcln27ZuBPIR3j6YmQYw=;
-        b=NFeXsLRZLUEsjKzxlyzu9ZxkQr0/PzpowcX98NDDB3FaUPnxjQB/P5uoMetUcgfZIh
-         bHpC8WCoc4E5qC69y4N8f5/USzPxZPMzqExpKmqaeLIR7k8+14rmJcfAiiG98Dt53R+4
-         1MZBPxYf+dqX4XRH1aDPhlBvuJQ62ekOUALJM=
+        bh=RXcHtzljW/LEwcnvhUw7B+CYy+kN5WC/pk6M+qEtNI0=;
+        b=Ljs0vtvSNgpYJhknDhx9bELQGkkGVBktvrRTynlExmpLIGaAKcKfy3q+Vzhc0CBdzt
+         hBu8YqcaTsruwaGPpR28ZieFzq6vpX9ppPbtMDq1YX7oLCc1WBHU2/khCZGPgcPiCJQo
+         /SdqgjVvcX4o8hT7DcaJnMaMrndMqG0BlSQCVNuO18iucidmTBu/KWco362PprZTfFO/
+         XbxStM5Ax6eKh7Rzmwb+jd7wTMCelndFhBbeJ2nvVNQfn/FL+xadO2yxh5ZLwyELgTkw
+         edYtcRWUeQEl3fZGMU433z7W5zEQdjxichBC/sKkiUvsD8eW0UgBMhLx19RKhPBoMKrS
+         pmaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767716895; x=1768321695;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1767720888; x=1768325688;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ipCBgG4tAC4eMeyn2MxISmiQcln27ZuBPIR3j6YmQYw=;
-        b=aiG49SyOfVhSHIYDCmVS93/vECgN8DHmay+HWEoVrVQw5gKa9/9sqkjZkdUPkx8RAh
-         rmp7MJ3F94DuSV/TPZ14V11Dp98NNTHCLzzjetEbT2YAOOC5g3ELxOWuNYUbzML2kV/9
-         4J61ccMcfZItw4e+PVGTu/EVdlDKbDgiBs73V3aYMRPYFVplS9A+lUl+w8GbbZHu2aBd
-         JAZWeVV0dFXma03WyiZgH+SRMahbw/OpmQY25ZTw/Uoh3C4yUGgdXzdcFebq2wGmcI8y
-         fAF95fnviaRDnU/8IZAgHtGvphOFX8iqVE/L14x7+dSk3aA60K4omO3VVCrlIcFofh6N
-         FMhg==
-X-Forwarded-Encrypted: i=1; AJvYcCX28gaAHP0bUu7shrkKPUa2nz4J+w/q5OkAuTE3FcT12w6+IxK/ZRhAB88xSiTg9zCwSkOxztUtY3Z411g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2p/pUyRdfPFGGs8eOhHmfOkr2RKsxQnLC1jsSApRofH4aiQwR
-	gj3tDicLAW6T0adpGxmCHPPkbL8Ek0q+VL4WjlhnUOyjTG4UOentDAW9alvsjjvB+w==
-X-Gm-Gg: AY/fxX54csW8Zk6WaaQ0wccn5efgYkGu+Jj3XD8evntzS8DV/uACZiLZWpKBhh2bvdh
-	p3sEiCufLRGBTYKSoIhdtAFhHDdbhrt5DSdHZ/RrTX8s0OM52uXEXghaWp2ZMPjvYhKERyZ4/dK
-	r572nnAUlzaKp+khQHHZalumZ5S3HwicwIp0z4wLwdpLe9cdxJ3XCJ/5VvXR5hE2uqxy07JuqK+
-	a8IGGpZYK07Sn0E4CQVWNQCtLjYK33mpqG8wKXXohhxniK3F8xrqp/FdI3SQTvn4fedUdZyp01i
-	qYFgd2L4qvtF5ep3mv2NWfZHISY8h9fulewAPQXfocHOXi4qwhjdDkv4/YGC/0U7z56DGiCR7CH
-	sPWDbnyccSs+q6chDCQ94W6g7o8rehb0IegfO8nrJkCs8WZfkzG7uPFUg/D+S1P3r2WB9zIGwIp
-	iZmptj7rQARUUceGc=
-X-Google-Smtp-Source: AGHT+IG5unstQaaQcPjn0DiH3jaE5oSh1mV8bO1AA2CK0b4+WePZuy1yQ/9D0Wa0H4hxceCfnxGxBg==
-X-Received: by 2002:a05:6830:439e:b0:7c7:68d8:f6f5 with SMTP id 46e09a7af769-7ce4663b84dmr2566399a34.3.1767716894875;
-        Tue, 06 Jan 2026 08:28:14 -0800 (PST)
-Received: from chromium.org ([73.34.74.121])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478af8b2sm1630951a34.15.2026.01.06.08.28.12
+        bh=RXcHtzljW/LEwcnvhUw7B+CYy+kN5WC/pk6M+qEtNI0=;
+        b=GM3sHe2dbMKKlwZeiLiZObxHzsusdFr+k3JurcOpzwkg/E10GkE0fu6v4zp3HzcCFZ
+         H+lsE8mQKz8Q93dsqBwaVETXhFZKSFh3DEgkUeXwwYEOFpIVNzsUymL73NNwij0kATJA
+         Ie1KOtOLrA+i6zejwV+A26gnYSNAhqzMR8zhfBzPIBuHUTMzJz1rCB0DWJNy1xAjqt63
+         mUQZnaSyQbom6pI3EpLEt/d5kND5E29UQ95M3aYtoV7b3jQ4Jsp9wQXRbW5Ojpf5h0VL
+         1aEZzbDkEMnV4Hmf7BRkvEv9+wK/D7tDQMvCkelw1s4ciwpICXgnyhy3M4XriKJanFJU
+         kwUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGXlK3In3zAO4x0yBmqJwhz0V+sRw8I2Y4+yFkrEMgzpz+F1ahYLMVPioNh3YB3voeOeVpA+m3hiRfXcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgJNE5Grn6fLvmoylewfSuwV8AwabPesRAF3DZy58hHT7So/2Q
+	gcuXEPSTTPw429b+EfJleIDaMN62ZccF6zT6Cqm6fj6yrA6Twvzwb2wJvYIhEWa+xg==
+X-Gm-Gg: AY/fxX5BXdYoEAszzqOSPLLWFeQB8Jk35cdUmZ+4V/8+dVveiKIBMmheGWQXIisYAt4
+	OSlyT5iOuFf3ALU4UwEUZLfYRxtGzRUnLslvvbB8rZ6VQ29HK37DJJGic7XJS5Ues10YGeuYAJE
+	l+0jvPvqa//hAcFoVMxU2mJkOocBZ9s74XqkfBvUL2BK/bT/Qu/qu8DjUiWEAycTro7SykuDpLD
+	tLK4BHsD/M2wVmvLb+aRdBMRLriD6qi2fOq+ivor7giGci/gcjWfPHUgejpfK+gMBc/rYWV1nkA
+	yYeDqg6yH6hxlseeRnUyrkTMXksky2cKdJyLVJKZpwWGOAzGUbPSKLrCmz5Qq2iWT3BHfHeyuFj
+	hXXhAQ4Ju9u7CXICUY1XTkQBvffyRcUfDFfCS6LXFQWdYWdlFQT93oLJAY+KH4cuZuRZU6fvVd7
+	N+Evp3RpaLhPS2enery8/cJDTY2M9zgQbVk3cOD/BqMOq/cpny
+X-Google-Smtp-Source: AGHT+IHmVK6EqE14VH+HPUL16Zk51harYxsBJJheKVL1BeqXTS/M31ba8unH1eaK7+ALdSr4nMxyjw==
+X-Received: by 2002:a05:600c:46ca:b0:477:7a53:f493 with SMTP id 5b1f17b1804b1-47d7f0980e2mr44046495e9.23.1767720888108;
+        Tue, 06 Jan 2026 09:34:48 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:4477:8df2:f516:1bd3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7fb4b3c5sm21868415e9.15.2026.01.06.09.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 08:28:13 -0800 (PST)
-From: Simon Glass <sjg@chromium.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	=?UTF-8?q?J=20=2E=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Tom Rini <trini@konsulko.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Simon Glass <sjg@chromium.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Kees Cook <kees@kernel.org>,
+        Tue, 06 Jan 2026 09:34:47 -0800 (PST)
+Date: Tue, 6 Jan 2026 18:34:39 +0100
+From: Marco Elver <elver@google.com>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Petr Mladek <pmladek@suse.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 4/6] kbuild: Support a FIT_EXTRA_ARGS environment variable
-Date: Tue,  6 Jan 2026 09:27:34 -0700
-Message-ID: <20260106162738.2605574-5-sjg@chromium.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260106162738.2605574-1-sjg@chromium.org>
-References: <20260106162738.2605574-1-sjg@chromium.org>
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v5 06/36] cleanup: Basic compatibility with context
+ analysis
+Message-ID: <aV1HrwZm6xg8PnRU@elver.google.com>
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-7-elver@google.com>
+ <993d381a-c24e-41d2-a0be-c1b0b5d8cbe9@I-love.SAKURA.ne.jp>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <993d381a-c24e-41d2-a0be-c1b0b5d8cbe9@I-love.SAKURA.ne.jp>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-In some cases it is useful to be able to pass additional flags to the
-make_fit.py script. For example, since ramdisks are typically large,
-passing -E to use external data can be helpful.
+On Tue, Jan 06, 2026 at 10:21PM +0900, Tetsuo Handa wrote:
+> On 2025/12/20 0:39, Marco Elver wrote:
+> > Introduce basic compatibility with cleanup.h infrastructure.
+> 
+> Can Compiler-Based Context- and Locking-Analysis work with conditional guards
+> (unlock only if lock succeeded) ?
+> 
+> I consider that replacing mutex_lock() with mutex_lock_killable() helps reducing
+> frequency of hung tasks under heavy load where many processes are preempted waiting
+> for the same mutex to become available (e.g.
+> https://syzkaller.appspot.com/bug?extid=8f41dccfb6c03cc36fd6 ).
+> 
+> But e.g. commit f49573f2f53e ("tty: use lock guard()s in tty_io") already replaced
+> plain mutex_lock()/mutex_unlock() with plain guard(mutex). If I propose a patch for
+> replacing mutex_lock() with mutex_lock_killable(), can I use conditional guards?
+> (Would be yes if Compiler-Based Context- and Locking-Analysis can work, would be no
+>  if Compiler-Based Context- and Locking-Analysis cannot work) ?
 
-Add a new FIT_EXTRA_ARGS variable for this.
+It works for cond guards, so yes. But, only if support for
+mutex_lock_killable() is added. At the moment mutex.h only has:
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
-Reviewed-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
+	...
+	DEFINE_LOCK_GUARD_1(mutex, struct mutex, mutex_lock(_T->lock), mutex_unlock(_T->lock))
+	DEFINE_LOCK_GUARD_1_COND(mutex, _try, mutex_trylock(_T->lock))
+	DEFINE_LOCK_GUARD_1_COND(mutex, _intr, mutex_lock_interruptible(_T->lock), _RET == 0)
 
-Changes in v9:
-- Rename the variable to FIT_EXTRA_ARGS
+	DECLARE_LOCK_GUARD_1_ATTRS(mutex,	__acquires(_T), __releases(*(struct mutex **)_T))
+	#define class_mutex_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex, _T)
+	DECLARE_LOCK_GUARD_1_ATTRS(mutex_try,	__acquires(_T), __releases(*(struct mutex **)_T))
+	#define class_mutex_try_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_try, _T)
+	DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr,	__acquires(_T), __releases(*(struct mutex **)_T))
+	#define class_mutex_intr_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_intr, _T)
+	...
 
-Changes in v7:
-- Add a new patch with the MAKE_FIT_FLAGS change
+And we also have a test in lib/test_context-analysis.c checking it
+actually works:
 
- scripts/Makefile.lib | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	...
+	scoped_cond_guard(mutex_try, return, &d->mtx) {
+		d->counter++;
+	}
+	scoped_cond_guard(mutex_intr, return, &d->mtx) {
+		d->counter++;
+	}
+	...
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 28a1c08e3b22..e8da632d5348 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -400,7 +400,7 @@ FIT_COMPRESSION ?= gzip
- 
- quiet_cmd_fit = FIT     $@
-       cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
--		--name '$(UIMAGE_NAME)' \
-+		--name '$(UIMAGE_NAME)' $(FIT_EXTRA_ARGS) \
- 		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
- 		$(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
- 		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
--- 
-2.43.0
-
+What's missing is a variant for mutex_lock_killable(), but that should
+be similar to the mutex_lock_interruptible() variant.
 
