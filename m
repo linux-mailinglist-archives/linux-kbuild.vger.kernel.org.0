@@ -1,96 +1,116 @@
-Return-Path: <linux-kbuild+bounces-10430-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10433-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7C4CFB374
-	for <lists+linux-kbuild@lfdr.de>; Tue, 06 Jan 2026 23:10:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5692ACFDB0C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 07 Jan 2026 13:33:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B0218304EBFB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Jan 2026 22:10:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CE73A30BC97B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jan 2026 12:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 686D72E9749;
-	Tue,  6 Jan 2026 22:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 572F7329C52;
+	Wed,  7 Jan 2026 12:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qi+MZXd1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YT7lKsIL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FAB288C13;
-	Tue,  6 Jan 2026 22:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27258308F3A;
+	Wed,  7 Jan 2026 12:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767737453; cv=none; b=nNtj3PGbilqA4TRjJfkn7Mm49rafA9MQSgYtw9P0rCyN0fca4gmLJ42JY9j/R4+HN8XmGJfSx8vlz2o1gkOF179+D7ajYpXmNAa1494M3EAOy7nchw3Cqt6oBkqn9aLwOywLFFQ5hgYYd/5rReJogNJSxRX8y741qVV0UxnT3U0=
+	t=1767788648; cv=none; b=L7+XVm1y70vk4j1YZO0CGrfXHCM42WjdC3du9ljmTjKnYSDCRjPWqbv2aNrTEYQbyDFOXbwhoJ8VfhvSXufpo9L22vSL4Vap/Ua5JjB+Isf6ZeyRWESlU5M/ZO2WRyNRZzj4td8cgVfFO35IvSyOuyhqHO2GJySkttjvKZmjd7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767737453; c=relaxed/simple;
-	bh=3ItmZWXe7SLATqaA/No0vinjdYjMYE4Kv3BCtuInokY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JxBZZ9W1Et5lmEsn7y29taKQQowRX6cOZR7ZEsIaDT1TQQtTHg1wvzySeCiKHkzKJT4oNp55oKcva4LrDIM5WZ1YHD+/hu4p15dcqi8B4lfL6Q2mUWHcm4tF4yLWFMXh2kKjgWlaMUURI/N8Azx3tH6tYfFFZmilmbSdaWWpzaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qi+MZXd1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5845FC19421;
-	Tue,  6 Jan 2026 22:10:50 +0000 (UTC)
+	s=arc-20240116; t=1767788648; c=relaxed/simple;
+	bh=Lq+qb8p/JeZZ24gFARiIHk8jb++YEHQT5hO3qTQR3Dw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ho83fUTK4B+4uJD9c262kOsoJzsDOPzsYk1Bbe08Gc297dSy+A1X4y09jpE8AgAHAlyNix0fecdWPJ5XbrXSSKwLhTC5NMUD+AkjbimMbJgZ97YY3eptI5+x9FnL1nF2MKTMIZbIlHOg+kdzuyv2x4Lo8O98g6VgelQkbVaubdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YT7lKsIL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE2BC4CEF7;
+	Wed,  7 Jan 2026 12:24:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767737452;
-	bh=3ItmZWXe7SLATqaA/No0vinjdYjMYE4Kv3BCtuInokY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qi+MZXd1/oLdWLcHvlwqpwcdkrYHzdtmHT3UgLO+nOBkwS3ltGhH3Hu6g3YkQJqM7
-	 wJmRt1U0p7fUaarV6lfCX+laBGFcXHKL14KfF+GkMm4m9hwlCbOlAG5EDnYBTFQUBX
-	 pyMbndCiICGcvQPXXiV8JBIqIYWg5eeZlRstgw5QXjHFHh40PVxhN9YzZSXLtYJ3zT
-	 nrZWEI5ajr1HQ0lJLLeVY6gVq3KG1iLntKBXJCwKPUaUTaWp0SvKX84NcDLZYoyaQp
-	 9JB/IuzyIr62iqM90v5gmVD8zx13GGdpWUG9Ao1jMffjSfyUMwmpovwmHz0+4IVHhG
-	 R28nCoOf2KRjg==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Brian Cain <bcain@kernel.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-hexagon@vger.kernel.org
-In-Reply-To: <20251223-uapi-nostdinc-v1-0-d91545d794f7@linutronix.de>
-References: <20251223-uapi-nostdinc-v1-0-d91545d794f7@linutronix.de>
-Subject: Re: [PATCH 0/5] kbuild: uapi: improvements to header testing
-Message-Id: <176773745004.1983625.3214132191933293574.b4-ty@kernel.org>
-Date: Tue, 06 Jan 2026 15:10:50 -0700
+	s=k20201202; t=1767788648;
+	bh=Lq+qb8p/JeZZ24gFARiIHk8jb++YEHQT5hO3qTQR3Dw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YT7lKsIL4LmNfK9eUGj51kaYJfJfLQzVlgoMitV0b19j0lcJZ8troi/+V49jjtdUJ
+	 qhVMSF80VQrUlyyAhJwQc2IzYUIlOLo2VDSrj1XEjU0g8O+ChiZCM3BDVuGsi1BF3Y
+	 1PIoqO1gZIdKT5botN3Lx2oAI6RUWiqgz2JMfxfZXgDzXM6MZWVOLrMnva9Ht7gPCE
+	 IucAai8tLwT+XJiV3oTKnnWrsVZfIwKkqNMLWTtjnE4rk3t236XwAOj1hIxddYxk9I
+	 R1q9plGRjwg8Ov3p/4r52h8vTA3+lBwQ2EEtzawKcAkPycVlW/BGSpYf1dZO5C6NKF
+	 OvK3Y9zEcICiw==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn?=
+ Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Mark Rutland
+ <mark.rutland@arm.com>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Nicolas Schier
+ <nicolas.schier@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH 2/4] rust: helpers: #define __rust_helper
+In-Reply-To: <20251202-inline-helpers-v1-2-879dae33a66a@google.com>
+References: <20251202-inline-helpers-v1-0-879dae33a66a@google.com>
+ <20251202-inline-helpers-v1-2-879dae33a66a@google.com>
+Date: Wed, 07 Jan 2026 12:49:32 +0100
+Message-ID: <875x9diqwj.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain
 
-On Tue, 23 Dec 2025 08:04:07 +0100, Thomas Weißschuh wrote:
-> Also validate that UAPI headers do not depend on libc and remove the
-> dependency on CC_CAN_LINK.
-> 
-> 
+Alice Ryhl <aliceryhl@google.com> writes:
 
-Applied to
+> From: Gary Guo <gary@garyguo.net>
+>
+> Because of LLVM inling checks, it's generally not possible to inline a C
+> helper into Rust code, even with LTO:
+>
+> * LLVM doesn't want to inline functions compiled with
+>   `-fno-delete-null-pointer-checks` with code compiled without. The C
+>   CGUs all have this enabled and Rust CGUs don't. Inlining is okay since
+>   this is one of the hardening features that does not change the ABI,
+>   and we shouldn't have null pointer dereferences in these helpers.
+>
+> * LLVM doesn't want to inline functions with different list of builtins. C
+>   side has `-fno-builtin-wcslen`; `wcslen` is not a Rust builtin, so
+>   they should be compatible, but LLVM does not perform inlining due to
+>   attributes mismatch.
+>
+> * clang and Rust doesn't have the exact target string. Clang generates
+>   `+cmov,+cx8,+fxsr` but Rust doesn't enable them (in fact, Rust will
+>   complain if `-Ctarget-feature=+cmov,+cx8,+fxsr` is used). x86-64
+>   always enable these features, so they are in fact the same target
+>   string, but LLVM doesn't understand this and so inlining is inhibited.
+>   This can be bypassed with `--ignore-tti-inline-compatible`, but this
+>   is a hidden option.
+>
+> To fix this, we can add __always_inline on every helper, which skips
+> these LLVM inlining checks. For this purpose, introduce a new
+> __rust_helper macro that needs to be added to every helper.
+>
+> The actual additions of __rust_helper can happen in separate patches. A
+> "flag day" change is not required since missing annotations do not lead
+> to anything worse than missing inlining.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-Thanks!
-
-[1/5] kbuild: uapi: validate that headers do not use libc
-      https://git.kernel.org/kbuild/c/6059b880a93c3
-[2/5] hexagon: Drop invalid UAPI header asm/signal.h
-      https://git.kernel.org/kbuild/c/cc45d2ea5cfb8
-[3/5] kbuild: uapi: don't compile test bpf_perf_event.h on xtensa
-      https://git.kernel.org/kbuild/c/e2772ba5f43df
-[4/5] kbuild: uapi: split out command conditions into variables
-      https://git.kernel.org/kbuild/c/4ac85d9bc73ed
-[5/5] kbuild: uapi: drop dependency on CC_CAN_LINK
-      https://git.kernel.org/kbuild/c/e3970d77ec504
-
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped or
-reverted. Patches applied to an "unstable" branch are accepted pending
-wider testing in -next and any post-commit review; they will generally
-be moved to the main branch in a week if no issues are found.
 
 Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+Andreas Hindborg
+
 
 
