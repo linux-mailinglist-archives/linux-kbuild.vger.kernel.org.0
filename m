@@ -1,98 +1,97 @@
-Return-Path: <linux-kbuild+bounces-10441-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10442-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AF9D000FB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 07 Jan 2026 21:52:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F0DD000FE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 07 Jan 2026 21:53:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5D9543015E00
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jan 2026 20:52:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 78F6330056DB
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Jan 2026 20:53:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41F4A23C8A0;
-	Wed,  7 Jan 2026 20:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 786B023C8A0;
+	Wed,  7 Jan 2026 20:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YCbVRpvQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jocM9Wfg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zmfgSLgq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D4mkYat2"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Hq8JMm6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+yyOKjwa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Hq8JMm6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+yyOKjwa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8401A317D
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 Jan 2026 20:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0161A317D
+	for <linux-kbuild@vger.kernel.org>; Wed,  7 Jan 2026 20:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767819175; cv=none; b=FtbWxkvzNLgxVms3eKIoBgC9zvv7x6uNznZelazla6dremVrJP/LW8NNbixlZd3/m6MU/mrgRGyaP4Spuf1VJ6BD9Xwlj7Ha4R90HlIAO1rot7zvaz/1Lq2X/SBWbzhfriL333Wuxeryqtk5PWva8G8bzciAt7i2pVJMry8f3j8=
+	t=1767819178; cv=none; b=B6KfljoaCAJVU0TsPWq72uhtspj72PNXRxDFoR5/0CQ6d+D42y5gleB5nMhljwjBzsqcJpv1Fu1x5h0BrOH/VnhRke/7HzcrhgRYX5hawiE9Vp8MSOCk6xMDnQZh3jrduP+MjG+A0zM3lVRq69nxr+1+dykX3cuYWK91c5BzP88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767819175; c=relaxed/simple;
-	bh=j3cNhFmqU3QQq70kN7d/403Uemxv6oAv6T+Z+CM968w=;
+	s=arc-20240116; t=1767819178; c=relaxed/simple;
+	bh=A4cPRX9gr5UKaAXNfbDYTHmRpvlGHB7Lo7vhZe1VMQc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OtY8SoWOGh9MGSlRLiETwBzao+4UKXjIUz9hqPABK3MG4oJeR2TxHGwbe/gUvMmMYKhYyf7IbDAT5bbP4yvq4mmnTFPIRLIpUh8TqIA7AjawEeG1Bv1EzjmN+hZ+PPVF8z4p3s2WT1ZSH7Z3sO97OOC7Xk9sQ6Nv9GIU1Wo8AY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YCbVRpvQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jocM9Wfg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zmfgSLgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=D4mkYat2; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=s91dXkxK8jXp1jqZ+whD/V+mvUJq/ehz+qq9oiYx9zRkTCdp2wthTht4bmPPfjPQh95pYAXmRcODxWMWmqnqvy3NpJeSAPj+uKl/D2qL7rUSO2oi9Zh/VSssIhhgjnEZ639fQZ31chLzejcLH0yRiNk1xTdm1B3ukcWkGKa0w4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Hq8JMm6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+yyOKjwa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Hq8JMm6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+yyOKjwa; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 439605C322;
-	Wed,  7 Jan 2026 20:52:50 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 15FE33414D;
+	Wed,  7 Jan 2026 20:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767819171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1767819173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R2ipmyBGpChtc5I5NV+pnWZmAPSU6N3RypPEq+myQW4=;
-	b=YCbVRpvQGEI0yjVPik2ojbyD5Aldftn93/FErTx2XGOJescfRZ/Jpv6H+UxBTpfwCbf+IY
-	huA0INkv6B5ifOqA7WylUizrSH432jWUkDFURtMuNEiAy6MD4o3AejbzBxqEq7Yc6LUMeE
-	QfZFjGSZqJWcGvBw933HZHY2fpNkjDE=
+	bh=2rv4JBB9MtZ1ifVX9Q20vu+BIlEB2eSu3TUwTvjXbqY=;
+	b=1Hq8JMm6cNFo5eaKSQqheO3jATYr/R+PxfRKEr7k+qw6OpxqqqP/KLxINK0DG5x5sQHtuw
+	edV6CKbXmEb39j80YaMsjIIIaf1RRF8IiZeXwVLCZEVLSCfe+igZKpHe0C86mqFll9fV3k
+	qGcp+taSJNXk10+T5UaXoEZKZIncS3k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767819171;
+	s=susede2_ed25519; t=1767819173;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R2ipmyBGpChtc5I5NV+pnWZmAPSU6N3RypPEq+myQW4=;
-	b=jocM9WfgPffz54zEfD5JSc1q8w5cS1TYiZmqywVXY18biyyJrKQ2+5b+88z2oOdDsYs0mQ
-	ssaVp6eq3/vC05CA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zmfgSLgq;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=D4mkYat2
+	bh=2rv4JBB9MtZ1ifVX9Q20vu+BIlEB2eSu3TUwTvjXbqY=;
+	b=+yyOKjwaobA2KJNLgoAu43wgh7bvgQisA25GRtWzB44emDREJdcUWpWVAFhI1VuRBBBE0e
+	s+VSzETCAkn/BLBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1767819170; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1767819173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R2ipmyBGpChtc5I5NV+pnWZmAPSU6N3RypPEq+myQW4=;
-	b=zmfgSLgqq1m5JzUmJ1SwOkI7t8is7Jv/a3AsirUv6MRA+GnV4j5ELItfkkBquaXKQjIOCc
-	cPfkWf30krH+0MZzrVzWSq5PT+8OKPU+O9pU9fqV+Eq+MiVrugtXSPnfHpWSysf5Zi083m
-	Vr6duow3EMEqY6EY8lqt3CFZgN70HUc=
+	bh=2rv4JBB9MtZ1ifVX9Q20vu+BIlEB2eSu3TUwTvjXbqY=;
+	b=1Hq8JMm6cNFo5eaKSQqheO3jATYr/R+PxfRKEr7k+qw6OpxqqqP/KLxINK0DG5x5sQHtuw
+	edV6CKbXmEb39j80YaMsjIIIaf1RRF8IiZeXwVLCZEVLSCfe+igZKpHe0C86mqFll9fV3k
+	qGcp+taSJNXk10+T5UaXoEZKZIncS3k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1767819170;
+	s=susede2_ed25519; t=1767819173;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R2ipmyBGpChtc5I5NV+pnWZmAPSU6N3RypPEq+myQW4=;
-	b=D4mkYat2eI9Tu7budBtcSHI43jkjFNBOPP8OV7kxwtn6sFm+FvYYayu8ZrXZlgEJQ1ahvn
-	NMKSpa0m826I7kBg==
+	bh=2rv4JBB9MtZ1ifVX9Q20vu+BIlEB2eSu3TUwTvjXbqY=;
+	b=+yyOKjwaobA2KJNLgoAu43wgh7bvgQisA25GRtWzB44emDREJdcUWpWVAFhI1VuRBBBE0e
+	s+VSzETCAkn/BLBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 273933EA63;
-	Wed,  7 Jan 2026 20:52:50 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDCAD3EA63;
+	Wed,  7 Jan 2026 20:52:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MPQjCKLHXmlENwAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Wed, 07 Jan 2026 20:52:50 +0000
+	id 8OShOKTHXmlENwAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Wed, 07 Jan 2026 20:52:52 +0000
 From: David Disseldorp <ddiss@suse.de>
 To: linux-kbuild@vger.kernel.org
 Cc: David Disseldorp <ddiss@suse.de>
-Subject: [PATCH v2 1/2] scripts: headers_install: filter ignored configs via sed
-Date: Thu,  8 Jan 2026 07:39:42 +1100
-Message-ID: <20260107205239.6390-2-ddiss@suse.de>
+Subject: [PATCH v2 2/2] scripts: headers_install: avoid extra sed call for license check
+Date: Thu,  8 Jan 2026 07:39:43 +1100
+Message-ID: <20260107205239.6390-3-ddiss@suse.de>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260107205239.6390-1-ddiss@suse.de>
 References: <20260107205239.6390-1-ddiss@suse.de>
@@ -104,132 +103,80 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 439605C322
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.976];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 
-The sed script currently prints any CONFIG_ entries carried in installed
-headers. A subsequent shell script parses this output to check whether
-the found CONFIG_ values should be ignored or not.
+headers_install runs a sed script to check that any GPL variant
+SPDX-License-Identifier line carries a "WITH Linux-syscall-note".
+A subsequent sed invocation then handles removal of a few things that
+aren't desired in installed headers (e.g. __attribute_const__).
 
-Drop the unnecessary sed output post-processing and instead skip over
-ignored CONFIG_ values as part of initial processing.
-
-INFILE may carry a prefix for e.g. make headers_install O=build_dir .
-Therefore, don't anchor the <file-name>:<CONFIG-option> match against
-the beginning of INFILE.
+Combine these two sed scripts to avoid re-processing the same file.
+License check errors, as opposed to write errors, are indicated via a
+special sed exit status of 9.
 
 Signed-off-by: David Disseldorp <ddiss@suse.de>
 ---
- scripts/headers_install.sh | 55 +++++++++++++-------------------------
- 1 file changed, 19 insertions(+), 36 deletions(-)
+ scripts/headers_install.sh | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-index 0e4e939efc940..2181abd1c9b70 100755
+index 2181abd1c9b70..ef952cbbb8fde 100755
 --- a/scripts/headers_install.sh
 +++ b/scripts/headers_install.sh
-@@ -42,7 +42,7 @@ scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
+@@ -23,20 +23,25 @@ TMPFILE=$OUTFILE.tmp
+ 
+ trap 'rm -f $OUTFILE $TMPFILE' EXIT
+ 
+-# SPDX-License-Identifier with GPL variants must have "WITH Linux-syscall-note"
+-if [ -n "$(sed -n -e "/SPDX-License-Identifier:.*GPL-/{/WITH Linux-syscall-note/!p}" $INFILE)" ]; then
+-	echo "error: $INFILE: missing \"WITH Linux-syscall-note\" for SPDX-License-Identifier" >&2
+-	exit 1
+-fi
+-
++# returns 9 if GPL SPDX-License-Identifier omits "WITH Linux-syscall-note"
+ sed -E -e '
++	/SPDX-License-Identifier:.*GPL-/{/WITH Linux-syscall-note/! Q9}
+ 	s/([[:space:](])(__user|__force|__iomem)[[:space:]]/\1/g
+ 	s/__attribute_const__([[:space:]]|$)/\1/g
+ 	s@^#include <linux/compiler.h>@@
+ 	s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\2/g
+ 	s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g
+ 	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
+-' $INFILE > $TMPFILE || exit 1
++' $INFILE > $TMPFILE
++case $? in
++9)
++	echo "error: $INFILE: missing \"WITH Linux-syscall-note\" for SPDX-License-Identifier" >&2
++	exit 1
++	;;
++1)
++	exit 1
++	;;
++esac
+ 
+ scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
  [ $? -gt 1 ] && exit 1
- 
- # Remove /* ... */ style comments, and find CONFIG_ references in code
--configs=$(sed -e '
-+sed -e '
- :comment
- 	s:/\*[^*][^*]*:/*:
- 	s:/\*\*\**\([^/]\):/*\1:
-@@ -53,48 +53,31 @@ configs=$(sed -e '
- 	N
- 	b comment
- :print
-+	# The entries in the following list do not result in an error.
-+	# Please do not add a new entry. This list is only for existing ones.
-+	# The list will be reduced gradually, and deleted eventually.
-+	#
-+	# The format is s@<file-name>:<CONFIG-option>\n@@ in each line.
-+	s@arch/arc/include/uapi/asm/swab.h:CONFIG_ARC_HAS_SWAPE\n@@
-+	s@arch/arm/include/uapi/asm/ptrace.h:CONFIG_CPU_ENDIAN_BE8\n@@
-+	s@arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_NO\n@@
-+	s@arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_SUPPORT\n@@
-+	s@arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION\n@@
-+	s@arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64\n@@
-+
-+	# Jump if any of the above filters applied, otherwise error out.
-+	t check
-+	s@^\(.*\)\n.*@error: \1 leak to user-space@
- 	P
--	D
-+	Q2
- :check
--	s:^\(CONFIG_[[:alnum:]_]*\):\1\n:
-+	s@^\(CONFIG_[[:alnum:]_]*\)@'"$INFILE"':\1\n@
- 	t print
- 	s:^[[:alnum:]_][[:alnum:]_]*::
- 	s:^[^[:alnum:]_][^[:alnum:]_]*::
- 	t check
- 	d
--' $OUTFILE)
--
--# The entries in the following list do not result in an error.
--# Please do not add a new entry. This list is only for existing ones.
--# The list will be reduced gradually, and deleted eventually. (hopefully)
--#
--# The format is <file-name>:<CONFIG-option> in each line.
--config_leak_ignores="
--arch/arc/include/uapi/asm/swab.h:CONFIG_ARC_HAS_SWAPE
--arch/arm/include/uapi/asm/ptrace.h:CONFIG_CPU_ENDIAN_BE8
--arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_NO
--arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_SUPPORT
--arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION
--arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
--"
--
--for c in $configs
--do
--	leak_error=1
--
--	for ignore in $config_leak_ignores
--	do
--		if echo "$INFILE:$c" | grep -q "$ignore$"; then
--			leak_error=
--			break
--		fi
--	done
--
--	if [ "$leak_error" = 1 ]; then
--		echo "error: $INFILE: leak $c to user-space" >&2
--		exit 1
--	fi
--done
-+' $OUTFILE >&2 || exit 1
- 
- rm -f $TMPFILE
- trap - EXIT
 -- 
 2.51.0
 
