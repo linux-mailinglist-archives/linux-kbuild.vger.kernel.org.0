@@ -1,55 +1,124 @@
-Return-Path: <linux-kbuild+bounces-10454-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10455-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6481D0C3F6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 22:07:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19220D0C411
+	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 22:07:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B40E5301BCF0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 21:06:56 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4DC0C302008F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 21:07:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B931C31D399;
-	Fri,  9 Jan 2026 21:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8233531E0EF;
+	Fri,  9 Jan 2026 21:07:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6vKIMX1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3aufw5g0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F2631D367;
-	Fri,  9 Jan 2026 21:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1190F32254E
+	for <linux-kbuild@vger.kernel.org>; Fri,  9 Jan 2026 21:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767992814; cv=none; b=mi++JUkM1QL7IFfipqbDnDrtFBNn2as/b4n1l/9m+WX/EpKMI0ncCSj8inb47RMRLm2oY4l89VgXeLTwxZ5fdj1+70VKolnh627zPZAA/DFHPkL+Lx/7uCZTB8VOeJOhINelI3HkwTf43CAWw4k4F2cPUIWfGrodmG8iG4QGw3Y=
+	t=1767992822; cv=none; b=eLannbEiFIcf2g58+e1M2ukEdg5nINQUkhHs+F78hY+g7eVlTmuCtfgtfU0Lh/UqwgSSoMwPb7T9ZW3kCajPgwkPyLg2SbJh419sdP84vN2hkBha5MDDFpSxzX3eAeMIQbcibfccbcH+J4zvyhr4Hfr+yGbLL5MsZDOhWA6HjfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767992814; c=relaxed/simple;
-	bh=LEW6pf+NoIZrBQDpVuYo+xSoyizKTTAmMr1YcU1TRPw=;
+	s=arc-20240116; t=1767992822; c=relaxed/simple;
+	bh=wZYProj9n7cDm7L+0im3lC/7Zt3vu+GEy+eJDL5drSs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JRv3v8xDd8QWzAcQvG++60AwvPsCHN/yeetxUIzz/Ok7t+nMdpt+edHNMUUSBcKSfLqZWHTKspRJsJ36zAexk4F+l+RiyMPoTT5N5pyzFwdSewloxyBUTSjh54MGLVUnGEfnPRdAGBpJCGlENjPWfehBqi84ykiYURETBDjlFzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6vKIMX1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC50C4CEF1;
-	Fri,  9 Jan 2026 21:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767992813;
-	bh=LEW6pf+NoIZrBQDpVuYo+xSoyizKTTAmMr1YcU1TRPw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F6vKIMX1hbCoYcoL4MX8xHMuyAU5phIVUNqbO3z6wMTjUNAO6Ut3/p8paRuZRfW0b
-	 bZy1AoSvIZlLbP2cLk4KnX0lrA019wJiYySU9q5yO3XrT+pS77ZQ558d8/bADiZP81
-	 nQPj0ArvQmysdNncgGK9SUCWCKhu2v7f9MPiefCigeFkIsBRn9V1FmOqMM50nIaZx6
-	 1feJXUyUg4EFh10Yns6AomVsD36MIsgue4RD5vf8URqacOsu4OUS64CXo9nUQ4PNAV
-	 4HaEP4u8tNdvlqvbG5+YomiHl4vwQbmbVNB3dkDxJZ5leH2M9gAb9mfxGckjmKaKc7
-	 O5vivCARuab+w==
-Date: Fri, 9 Jan 2026 22:06:39 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Holger Kiehl <Holger.Kiehl@dwd.de>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: Re: Since 6.18.x make binrpm-pkg does not sign modules
-Message-ID: <aWFt34dkIvlu1EYI@derry.ads.avm.de>
-Mail-Followup-To: Holger Kiehl <Holger.Kiehl@dwd.de>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
-References: <68c375f6-e07e-fec-434d-6a45a4f1390@praktifix.dwd.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bBKJZTcmx1YmObCYARSPJ9AgC097856rDgCnJITc+KwweDQv9i+eQC8JILC7m9X+i5Uc+KSSOKWmi+BH97fqS6zrXizWy9jzpYbRJ+6fByICWjqXJLKZYUXvaYqMR9il+Gz6JNdzPP/wy5V9taAkiuTiCKOW7hNBa9NVmGDAyss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3aufw5g0; arc=none smtp.client-ip=209.85.221.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-4327778df7fso2896825f8f.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jan 2026 13:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767992818; x=1768597618; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5YiRRXuPlaLabH8Y/4leOeBvuw8o8W+AqfnKT5Dc7EA=;
+        b=3aufw5g08msYbZ+sNHV46va9ufdmUPfXEpIdAvge+2QO8/u3FhHTJ76VpoVGzI48gu
+         yUXxv5KZLITdEpz24Ml11TDwIVO0GkTffSlr9K/rOk170mT1k3yOeS8S4/FANfY3rrff
+         s4+rL13nFUR9fMJk4IRbUjcSv0v0P670zB/ilBpSwMH/rN3JjDCJ1TnMv9tIl2lbvXAp
+         TYyJZYYdX6bPNx9dxt+VpkcrKayKQpdXl/HcXnzUOs5F7Yp60NbugiDCQ45ANQl3Y2aR
+         RhouAgtXeLl3iYpRcZkAJLNG+6nQkbnRq+0v5HIX2LmGXK94CKcxc8kGWrpOeh2Du6pG
+         Wx5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767992818; x=1768597618;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5YiRRXuPlaLabH8Y/4leOeBvuw8o8W+AqfnKT5Dc7EA=;
+        b=Z3WvpWy4+o0vOWrntrRdr8icaUp4mJ3HNc/dp/2jkiIHJlMUCWYDaf8Moyth1+m+UJ
+         XBKhnmEod4bFk0Ju8IXpk2EwGpsYAJJbYx4H+GCec3Ypq+rDtawT3/v5hbP0UeVhNeZ5
+         GPJ5PUZhsm9e91GZSfH7q19h3xzwfkOx7f+xxlcllgmffTVFVghEw0j4WDVXoXswBcfM
+         Z++UMMe5XMpovfEWMGh7D+1GGv6W4CFGbipfI00tw2bwOxrkSA70tZnC+52C+/2EB3mU
+         1CGbyVQVTBy+8OKq7WFhAzR0upcA+PdLsyizRci9n4fZ9ROAexM09ydZsSUQg+X9sinW
+         USUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPwSycLKSiD0/7VJOU9AjBkXqQfINlqW9rKj41AwzO4YiseTYkgbY/ROrh5yvKUIm/GDdZsSvYKjv5if8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjyeZesnskS9LGwPi87y0QqJvQZ/h6gAVk7GJAOYwtNWdFldis
+	y6DdIlpTpKu4JckVJWRKUvXjMiSp9GMLJP8vxFFakmp1NkM0GW+0N/oeCGw92yUTPw==
+X-Gm-Gg: AY/fxX6mNRZriwPks3H6I0ZMn+0Wy/GoEstodItrzY9Xec1sYt9upwpSaAqPpOr1LYk
+	4W28jGHytiBzeuoMAZeMnMjRNyuSb78iyVjlVkMse/S7DRAZMulUlgBx0GTDpOmK8X8Fb1qP3qr
+	tRXEoWdGw5lE4PD5wOwE2Du+zM3HGRGcgXrGnLgJDcCO7p7IfDJsZpzMD4f+9qW8sjC0aytucth
+	1RMe8URk7Aq3pDx0XR1Vd+jwM4ldH7/aszFjKYwTR1DtoBlg4kunhiyHDZ2ZNBhz5MNVVHWxTVf
+	e+R7RpxauKLlKKmhKSIY733HSh8+kWHVmeGqWh/rZXn2Pc4fKoYo8vhYwDyUFnllUUq18/zmjIF
+	t7x8PVoVp9drigzoVNeFgVYnVihyOmSwKsM7tl81KmfzVlZwGOcFE4DynfWbt7kSwI2Cx2LTFET
+	CdXCMrhztfMtxRO1XIb+6kh5I8iizT6Egk8wjxBODwgLFpv99R
+X-Google-Smtp-Source: AGHT+IGq/RRhgqPG360sNev62yK5kDA+HwwG1xM6/+WULZOG4/KY3n5LdCQUAGWoCEcUzU7iAOtzbQ==
+X-Received: by 2002:a05:6000:4023:b0:432:b951:e9fc with SMTP id ffacd0b85a97d-432c37636b0mr12665932f8f.47.1767992817879;
+        Fri, 09 Jan 2026 13:06:57 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:2965:801e:e18a:cba1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5df9c5sm25214398f8f.22.2026.01.09.13.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 13:06:57 -0800 (PST)
+Date: Fri, 9 Jan 2026 22:06:50 +0100
+From: Marco Elver <elver@google.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v5 20/36] locking/ww_mutex: Support Clang's context
+ analysis
+Message-ID: <aWFt6hcLaCjQQu2c@elver.google.com>
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-21-elver@google.com>
+ <05c77ca1-7618-43c5-b259-d89741808479@acm.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -58,98 +127,86 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <68c375f6-e07e-fec-434d-6a45a4f1390@praktifix.dwd.de>
+In-Reply-To: <05c77ca1-7618-43c5-b259-d89741808479@acm.org>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-On Fri, Jan 09, 2026 at 03:04:33PM +0100, Holger Kiehl wrote:
-> Hello,
+On Fri, Jan 09, 2026 at 12:16PM -0800, Bart Van Assche wrote:
+> On 12/19/25 8:40 AM, Marco Elver wrote:
+> > Add support for Clang's context analysis for ww_mutex.
+> > 
+> > The programming model for ww_mutex is subtly more complex than other
+> > locking primitives when using ww_acquire_ctx. Encoding the respective
+> > pre-conditions for ww_mutex lock/unlock based on ww_acquire_ctx state
+> > using Clang's context analysis makes incorrect use of the API harder.
 > 
-> when building kernel with 'make binrpm-pkg' the modules in the
-> /lib/modules directory of the rpm package are no longer signed
-> although one sees the following during the build process:
-> 
->    .
->    .
->    INSTALL /usr/src/kernels/linux-6.18.4/rpmbuild/BUILD/kernel-6.18.4-build/BUILDROOT/lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
->    .
->    .
->    SIGN    /usr/src/kernels/linux-6.18.4/rpmbuild/BUILD/kernel-6.18.4-build/BUILDROOT/lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+> That's a very short description. It should have been explained in the
+> patch description how the ww_acquire_ctx changes affect callers of the
+> ww_acquire_{init,done,fini}() functions.
 
-thanks for your report; well, that's interesting.  The modules signed
-during the package build preparations ("SIGN    .../rpmbuild/BUILD/...")
-is significantly larger than the one in the build tree (as expected, as
-the latter is unsigned); but the one that lands in the rpm package is
-_smaller_ than the module in the build tree.
+How so? The API is the same (now statically enforced), and there's no
+functional change at runtime. Or did I miss something?
 
-My experience with rpmbuild is limited, I need more time for
-investigation.
+> >   static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+> >   				   struct ww_class *ww_class)
+> > +	__acquires(ctx) __no_context_analysis
+> > [ ... ]
+> >   static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+> > +	__releases(ctx) __acquires_shared(ctx) __no_context_analysis
+> >   {
+> > [ ... ]
+> >   static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+> > +	__releases_shared(ctx) __no_context_analysis
+> 
+> The above changes make it mandatory to call ww_acquire_done() before
+> calling ww_acquire_fini(). In Documentation/locking/ww-mutex-design.rst
+> there is an example where there is no ww_acquire_done() call between
+> ww_acquire_init() and ww_acquire_fini() (see also line 202).
 
-Nathan, do you have more insights on the rpm build process?
+It might be worth updating the example with what the kernel-doc
+documentation recommends (below).
 
-Kind regards,
-Nicolas
+> The
+> function dma_resv_lockdep() in drivers/dma-buf/dma-resv.c doesn't call
+> ww_acquire_done() at all. Does this mean that the above annotations are
+> wrong?
 
+If there's 1 out of N ww_mutex users that missed ww_acquire_done()
+there's a good chance that 1 case is wrong.
 
+But generally, depends if we want to enforce ww_acquire_done() or not
+which itself is no-op in non-lockdep builds, however, with
+DEBUG_WW_MUTEXES it's no longer no-op so it might be a good idea to
+enforce it to get proper lockdep checking.
 
->    .
->    .
-> 
-> But when installing this RPM and check this it says:
-> 
->    # modinfo /lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
->    filename:       /lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
->    alias:          net-pf-42
->    license:        GPL v2
->    description:    Qualcomm IPC-router driver
->    license:        Dual BSD/GPL
->    description:    Qualcomm IPC Router Nameservice
->    author:         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->    srcversion:     473C5AB47E04ECEA0106681
->    depends:        
->    intree:         Y
->    name:           qrtr
->    retpoline:      Y
->    vermagic:       6.18.4 SMP preempt mod_unload modversions
-> 
-> This happens (no signature) with all modules, qrtr.ko was just taken
-> as an example.
-> 
-> Building the kernel via 'make && make modules_install && make install'
-> the modules then do have a signature. Also with kernel 6.12.x the
-> modules are signed when building with 'make binrpm-pkg'.
-> 
-> Config looks as follows:
-> 
->    # grep CONFIG_MODULE_ .config
->    CONFIG_MODULE_SIG_FORMAT=y
->    CONFIG_MODULE_DEBUGFS=y
->    # CONFIG_MODULE_DEBUG is not set
->    # CONFIG_MODULE_FORCE_LOAD is not set
->    CONFIG_MODULE_UNLOAD=y
->    # CONFIG_MODULE_FORCE_UNLOAD is not set
->    CONFIG_MODULE_UNLOAD_TAINT_TRACKING=y
->    CONFIG_MODULE_SRCVERSION_ALL=y
->    CONFIG_MODULE_SIG=y
->    # CONFIG_MODULE_SIG_FORCE is not set
->    CONFIG_MODULE_SIG_ALL=y
->    # CONFIG_MODULE_SIG_SHA1 is not set
->    # CONFIG_MODULE_SIG_SHA256 is not set
->    # CONFIG_MODULE_SIG_SHA384 is not set
->    CONFIG_MODULE_SIG_SHA512=y
->    # CONFIG_MODULE_SIG_SHA3_256 is not set
->    # CONFIG_MODULE_SIG_SHA3_384 is not set
->    # CONFIG_MODULE_SIG_SHA3_512 is not set
->    CONFIG_MODULE_SIG_HASH="sha512"
->    # CONFIG_MODULE_COMPRESS is not set
->    # CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
->    CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
->    CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
->    # CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
-> 
-> What am I missing?
-> 
-> Regards,
-> Holger
+> Is there a better solution than removing the __acquire() and
+> __release() annotations from the above three functions?
 
--- 
-Nicolas
+The kernel-doc comment for ww_acquire_done() says:
+
+	/**
+	 * ww_acquire_done - marks the end of the acquire phase
+	 * @ctx: the acquire context
+	 *
+>>	 * Marks the end of the acquire phase, any further w/w mutex lock calls using
+>>	 * this context are forbidden.
+>>	 *
+>>	 * Calling this function is optional, it is just useful to document w/w mutex
+>>	 * code and clearly designated the acquire phase from actually using the locked
+>>	 * data structures.
+	 */
+	static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+		__releases(ctx) __acquires_shared(ctx) __no_context_analysis
+	{
+	#ifdef DEBUG_WW_MUTEXES
+		lockdep_assert_held(ctx);
+
+		DEBUG_LOCKS_WARN_ON(ctx->done_acquire);
+		ctx->done_acquire = 1;
+	#endif
+	}
+
+It states it's optional, but it's unclear if that's true with
+DEBUG_WW_MUTEXES builds. I'd vote for enforcing use of
+ww_acquire_done(). If there's old code that's not using it, it should be
+added there to get proper lockdep checking.
 
