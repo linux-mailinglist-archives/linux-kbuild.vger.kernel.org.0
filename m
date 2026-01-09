@@ -1,77 +1,80 @@
-Return-Path: <linux-kbuild+bounces-10450-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10451-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C00D0A346
-	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 14:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1A0D0A920
+	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 15:14:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F2763300DD9F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 13:07:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A301F301AFC5
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 14:14:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E19735BDBF;
-	Fri,  9 Jan 2026 13:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C96AD35E523;
+	Fri,  9 Jan 2026 14:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=dwd.de header.i=@dwd.de header.b="cdSFwx1K"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from ofcsgdbm.dwd.de (ofcsgdbm.dwd.de [141.38.3.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F612EAD10;
-	Fri,  9 Jan 2026 13:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD8D54763
+	for <linux-kbuild@vger.kernel.org>; Fri,  9 Jan 2026 14:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.38.3.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767964025; cv=none; b=a2ztNGYwBKt0cU34PdFh5YMkA70C4T6/XVaJQjnL5x5PNgS0BSs3CyxTUcRN80hZSrFQXYazzJmgamfv7w8WcwgmB6yv1UYDSESBT1aT6qQvkpg43NOD9TOF8tR8xWhCgylCG/GDXXYTIOLT5wuIwOxOjc8jVryh0/TYR+kqrLA=
+	t=1767968057; cv=none; b=Rl7C4GXPGDfeqNRyqVvwEBhrOuEUzPFlKaFUkSh2OZQ+BurCCnjPWU3PPr+2X/WfqV37c3MLIfH634TE5068W166yeK87WVqP1y7+fC3eVl+laZGjGStK4kA1KOXTMYnXq4TRev3cLTMu3ruzFXi77sZZQCsY7mMZZ+9oCUDUsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767964025; c=relaxed/simple;
-	bh=I5Q9VQte+4cFW14Gz8D4egaODJhcInTga4GejSY4LNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uUs5nxC8Ontljgziu66/phRF7ShB9N3os14dCcZthpN0A95gCX8a4Eq6+YaC7yVHAf6P4lpiCxwMY07Y28DjaSP+m7/s+LFng+LezdZn0/APNv+W/nsIaW02O1eRY992Kl2DtOlCNvd0neusKlLbg9wnqgV6k5N9n0FZAz+yfnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 32BC75ACA9;
-	Fri,  9 Jan 2026 13:06:58 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id A03A520010;
-	Fri,  9 Jan 2026 13:06:44 +0000 (UTC)
-Date: Fri, 9 Jan 2026 08:07:15 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Marco Elver <elver@google.com>, Bart Van Assche <bvanassche@acm.org>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Luc Van Oostenryck
- <luc.vanoostenryck@gmail.com>, Chris Li <sparse@chrisli.org>, "Paul E.
- McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>,
- Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>, Eric
- Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, Jann Horn
- <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg
- <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, Josh Triplett
- <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, Kees Cook
- <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn
- <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda
- <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Tetsuo Handa
- <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>,
- Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman
- Long <longman@redhat.com>, kasan-dev@googlegroups.com,
- linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-security-module@vger.kernel.org,
- linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
- llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v5 10/36] locking/mutex: Support Clang's context
- analysis
-Message-ID: <20260109080715.0a390f6b@gandalf.local.home>
-In-Reply-To: <20260109060249.GA5259@lst.de>
-References: <20251219154418.3592607-1-elver@google.com>
-	<20251219154418.3592607-11-elver@google.com>
-	<57062131-e79e-42c2-aa0b-8f931cb8cac2@acm.org>
-	<aWA9P3_oI7JFTdkC@elver.google.com>
-	<20260109060249.GA5259@lst.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767968057; c=relaxed/simple;
+	bh=3MOFehWZ9m5+WiMtSF8r9O2f2bs1OUZJqo/UhG5ujSo=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=bZRdOgeRXTYicdq7+h2NrUYPEZ879wMHwf5ARPHYjFhiaDFcx8Sd1A3pKtuSIZ8wr4fUJdXG1DVJ5B0/um4lIWQYkwW+NaPmJ4miblP4JH4xddQ64OcNvqNv7OHU231GnXdfaaTZzh6OHzuZtu0+eeNO8j6w4VaBolatK6Oxcb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dwd.de; spf=pass smtp.mailfrom=dwd.de; dkim=pass (2048-bit key) header.d=dwd.de header.i=@dwd.de header.b=cdSFwx1K; arc=none smtp.client-ip=141.38.3.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dwd.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dwd.de
+Received: from localhost (localhost [127.0.0.1])
+	by ofcsg2dn4.dwd.de (Postfix) with ESMTP id 4dnk6V3LH0z2wMY
+	for <linux-kbuild@vger.kernel.org>; Fri,  9 Jan 2026 14:04:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dwd.de; h=
+	content-type:content-type:mime-version:message-id:subject
+	:subject:from:from:date:date:received:received:received:received
+	:received:received:received:received; s=dwd-csg20210107; t=
+	1767967474; x=1769177075; bh=3MOFehWZ9m5+WiMtSF8r9O2f2bs1OUZJqo/
+	UhG5ujSo=; b=cdSFwx1KlfRRGQ/vIHdPqP8m9vKpsRrIgk34VeyMhI0X2bzg9vn
+	loGLhHYJ4gstm36qeIxiecdSlD4/1o1xaWnjHRfuR2xKF1R0S/UQftRFNU71zIKu
+	gzRSXu6oHLiNH+wuajAL9lvKeco/gD8YrzwBqw/gUwwrwRjWZr8GTSfKqxJ2J43D
+	M7xFrKTJ5cPuUMhpyWzhEMnFXYJELPDsdG1J0CvKROq3A3M1oBPA8PqJ7s8tiIY/
+	1gTHfEBxGXWNSctRoQ3cft+cAdVqHvuH5lePWQuEl8tPseDgUPqyTC+/mdIPstxg
+	wYPduFYgGp4ik/Ppkd6juQtrrL4s9C9S03g==
+X-Virus-Scanned: by amavisd-new at csg.dwd.de
+Received: from ofcsg2cteh1.dwd.de ([172.30.232.65])
+ by localhost (ofcsg2dn4.dwd.de [172.30.232.27]) (amavis, port 10024)
+ with ESMTP id VzkCt50SRk8K for <linux-kbuild@vger.kernel.org>;
+ Fri,  9 Jan 2026 14:04:34 +0000 (UTC)
+Received: from ofcsg2cteh1.dwd.de (unknown [127.0.0.1])
+	by DDEI (Postfix) with ESMTP id 2A6CAC902D73
+	for <root@ofcsg2dn4.dwd.de>; Fri,  9 Jan 2026 14:04:34 +0000 (UTC)
+Received: from ofcsg2cteh1.dwd.de (unknown [127.0.0.1])
+	by DDEI (Postfix) with ESMTP id 1E8E9C90291A
+	for <root@ofcsg2dn4.dwd.de>; Fri,  9 Jan 2026 14:04:34 +0000 (UTC)
+X-DDEI-TLS-USAGE: Unused
+Received: from ofcsgdbm.dwd.de (unknown [172.30.232.27])
+	by ofcsg2cteh1.dwd.de (Postfix) with ESMTP
+	for <root@ofcsg2dn4.dwd.de>; Fri,  9 Jan 2026 14:04:34 +0000 (UTC)
+Received: from ofcsgdbm.dwd.de by localhost (Postfix XFORWARD proxy);
+ Fri, 09 Jan 2026 14:04:34 -0000
+Received: from ofcsg2dvf1.dwd.de (unknown [172.30.232.10])
+	by ofcsg2dn4.dwd.de (Postfix) with ESMTPS id 4dnk6V0T30z2wMG;
+	Fri,  9 Jan 2026 14:04:34 +0000 (UTC)
+Received: from ofmailhub.dwd.de (ofmailhub.dwd.de [141.38.39.208])
+	by ofcsg2dvf1.dwd.de  with ESMTP id 609E4XtC014759-609E4XtD014759;
+	Fri, 9 Jan 2026 14:04:33 GMT
+Received: from praktifix.dwd.de (praktifix.dwd.de [141.38.44.46])
+	by ofmailhub.dwd.de (Postfix) with ESMTP id D6B40453EE;
+	Fri,  9 Jan 2026 14:04:33 +0000 (UTC)
+Date: Fri, 9 Jan 2026 15:04:33 +0100 (CET)
+From: Holger Kiehl <Holger.Kiehl@dwd.de>
+To: linux-kernel <linux-kernel@vger.kernel.org>
+cc: Nathan Chancellor <nathan@kernel.org>, 
+    Nicolas Schier <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org
+Subject: Since 6.18.x make binrpm-pkg does not sign modules
+Message-ID: <68c375f6-e07e-fec-434d-6a45a4f1390@praktifix.dwd.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -79,33 +82,89 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: xo5wgurkrpym6obtb6d77z4eqezppqwq
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: A03A520010
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/Yuy/xlEJ4FchBK8FGPRyEzpxFlfJw7cM=
-X-HE-Tag: 1767964004-230449
-X-HE-Meta: U2FsdGVkX1/mK5KxM694kU63Rdn/iZMuRkOJbrkqpBY9gVZfABZTPJnGV+GXEC41f1CraOV8yVb8JwE6ex2vbV4aoxOT3VLKLF5Thmk+n9vBrpyyHnFtGdrkM3exSJJfO3l1oVR97XyrKK8Hkfj/5sdmmAH04zSgJDoYobVhPLcJaqT68Q0XdWN9PbI1sOsFrspcL2fHNGmrmo/p6rwpjlSypMilSM5I5ewwgNFo1hyODxJhs+YqTtFErumcaYRIY1tmmRLhIj0JwjIBTskcyNNIQY/Qv4I7CCtQ3inbL2pdKc5Mrj40SiW4O33CrPwJHtQvEPJd1GEXqrywF3gfPLCE0T+XQaZa
+X-FEAS-Client-IP: 141.38.39.208
+X-FE-Last-Public-Client-IP: 141.38.39.208
+X-FE-Policy-ID: 2:2:1:SYSTEM
+X-TMASE-Version: DDEI-5.1-9.1.1004-29688.000
+X-TMASE-Result: 10--7.515800-10.000000
+X-TMASE-MatchedRID: ebEStOsB1eHlWiNI/3lADytPpXoicS5XBGvINcfHqhfCvo6DOxRiGkky
+	WkxwbAqd6A359G52VXra79nEzIkbtuuxJ6yExp+Qvybt3bgNxoIZ9kiZvd+oBHEYikaYBI9GTx9
+	jhIf/nmx+etgWL9CZfCXsjdlhqK2FuzPW6EqBhGCOjIrMSa2sR52PthYkuzed6ljkEk+hhAdNx9
+	SgDrJ3kiXIi1nfrFIZmyiLZetSf8l9j2GwzTE3vSq2rl3dzGQ1pJED3CRyjE8fik2cUsCLrum1C
+	81V6y79WllSBewq9pcVBlgIO1cr7el5G/kaPuJqftwZ3X11IV0=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-TMASE-INERTIA: 0-0;;;;
+X-DDEI-PROCESSED-RESULT: Safe
 
-On Fri, 9 Jan 2026 07:02:49 +0100
-Christoph Hellwig <hch@lst.de> wrote:
+Hello,
 
-> On Fri, Jan 09, 2026 at 12:26:55AM +0100, Marco Elver wrote:
-> > Probably the most idiomatic option is to just factor out construction.
-> > Clearly separating complex object construction from use also helps
-> > readability regardless, esp. where concurrency is involved. We could
-> > document such advice somewhere.  
-> 
-> Initializing and locking a mutex (or spinlock, or other primitive) is a
-> not too unusual pattern, often used when inserting an object into a
-> hash table or other lookup data structure.  So supporting it without
-> creating pointless wrapper functions would be really useful.  One thing
-> that would be nice to have and probably help here is to have lock
-> initializers that create the lock in a held state.
+when building kernel with 'make binrpm-pkg' the modules in the
+/lib/modules directory of the rpm package are no longer signed
+although one sees the following during the build process:
 
-Right. If tooling can't handle a simple pattern of initializing a lock than
-taking it, that's a hard show stopper of adding that tooling.
+   .
+   .
+   INSTALL /usr/src/kernels/linux-6.18.4/rpmbuild/BUILD/kernel-6.18.4-build/BUILDROOT/lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+   .
+   .
+   SIGN    /usr/src/kernels/linux-6.18.4/rpmbuild/BUILD/kernel-6.18.4-build/BUILDROOT/lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+   .
+   .
 
--- Steve
+But when installing this RPM and check this it says:
+
+   # modinfo /lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+   filename:       /lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+   alias:          net-pf-42
+   license:        GPL v2
+   description:    Qualcomm IPC-router driver
+   license:        Dual BSD/GPL
+   description:    Qualcomm IPC Router Nameservice
+   author:         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+   srcversion:     473C5AB47E04ECEA0106681
+   depends:        
+   intree:         Y
+   name:           qrtr
+   retpoline:      Y
+   vermagic:       6.18.4 SMP preempt mod_unload modversions
+
+This happens (no signature) with all modules, qrtr.ko was just taken
+as an example.
+
+Building the kernel via 'make && make modules_install && make install'
+the modules then do have a signature. Also with kernel 6.12.x the
+modules are signed when building with 'make binrpm-pkg'.
+
+Config looks as follows:
+
+   # grep CONFIG_MODULE_ .config
+   CONFIG_MODULE_SIG_FORMAT=y
+   CONFIG_MODULE_DEBUGFS=y
+   # CONFIG_MODULE_DEBUG is not set
+   # CONFIG_MODULE_FORCE_LOAD is not set
+   CONFIG_MODULE_UNLOAD=y
+   # CONFIG_MODULE_FORCE_UNLOAD is not set
+   CONFIG_MODULE_UNLOAD_TAINT_TRACKING=y
+   CONFIG_MODULE_SRCVERSION_ALL=y
+   CONFIG_MODULE_SIG=y
+   # CONFIG_MODULE_SIG_FORCE is not set
+   CONFIG_MODULE_SIG_ALL=y
+   # CONFIG_MODULE_SIG_SHA1 is not set
+   # CONFIG_MODULE_SIG_SHA256 is not set
+   # CONFIG_MODULE_SIG_SHA384 is not set
+   CONFIG_MODULE_SIG_SHA512=y
+   # CONFIG_MODULE_SIG_SHA3_256 is not set
+   # CONFIG_MODULE_SIG_SHA3_384 is not set
+   # CONFIG_MODULE_SIG_SHA3_512 is not set
+   CONFIG_MODULE_SIG_HASH="sha512"
+   # CONFIG_MODULE_COMPRESS is not set
+   # CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
+   CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+   CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
+   # CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
+
+What am I missing?
+
+Regards,
+Holger
 
