@@ -1,62 +1,61 @@
-Return-Path: <linux-kbuild+bounces-10452-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10453-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58DBD0C248
-	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 21:11:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DF1D0C2A6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 21:18:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DB5CE30089A9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 20:11:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DA69A303C201
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 20:16:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2CF261B6D;
-	Fri,  9 Jan 2026 20:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E009368271;
+	Fri,  9 Jan 2026 20:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m5rIwwPw"
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="RjLtkJa1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9216B1A58D
-	for <linux-kbuild@vger.kernel.org>; Fri,  9 Jan 2026 20:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CD1366DD6;
+	Fri,  9 Jan 2026 20:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767989481; cv=none; b=td+VrohFBe3Qo0do8PIoCby0IYgE0LsTDMx2jgO8uvVcsSQ7Fj+7DO00KJbxmWMOHPP0Z7rOkfVBUuoWrPeimrwkyfNsxhvPuKJ62SKXKYV+LClyaj5tgQZDuto1L+e56UmBt1Z2ZK+2e7/fXzauhtlqE6JO3uVPH9lxeBQsu+A=
+	t=1767989817; cv=none; b=TtQxWF0dTnHoXATSEMDJLBiZUyTBb9z7pf7oz9+7okSKowb9IXo49H7SGET3Ktn1ICtVBMQW8ZGrA01AUQXj2pLNX63ZFx8PbparcVOyZ5BQBmYVb2yxP3kuiQ2x3ZzzYZuiOnK1VuIXDvUOEXSarNgfGNQp7lRpk5pGQvBreAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767989481; c=relaxed/simple;
-	bh=z7KFs8b/ygfjXm2E7ggomeHnfjvcMi1E2zfXgRfwWgQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=jlBRsLzC+XRRAW/7usuYh7pJ6kAcZfP4tRGIXdWuIywT2XSWvOOcM/R+QUndlqB6lZr51x0YiFVhbeSM+QqETyENaQOVmQ0tZFRKKb4gxNBN/gQdeHuC1DlCyYJYcmGC7sYEQnNgJz571pQFD/NyutBO7XmSl7CTpyBeCMq9PxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m5rIwwPw; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767989480; x=1799525480;
-  h=message-id:date:mime-version:to:cc:from:subject:
-   content-transfer-encoding;
-  bh=z7KFs8b/ygfjXm2E7ggomeHnfjvcMi1E2zfXgRfwWgQ=;
-  b=m5rIwwPwLAyKIxA3mjptWkPCX7e7tDLva4fCs2s2SSrzozgcUFAJHdzs
-   7dbu9M0unWdJtw+1yQXujopdYIFsSjetXrT2GjpTx/tJNDr5oj/sE3Rgx
-   nPRvLU+qSui+VdXDs2KG0KgB4K1bbZJ3DWmHBdIwXa+19TrrGP85H2okk
-   nrAm+c3eoPpDl4vqmM2MGq0uczDtntH8go6V4kwAZwSQ71Sa/BqBU74G5
-   B604c0lDosQtZWycTd/l5AhS+CWzZ2MY+a46pH3UBhZ90D1uvtur2NL7n
-   uDOANnVc6Y+z6mpHWW6qsW6350Xl5h92fbjwuNwXwHdFWkbilYQ+lFhzv
-   A==;
-X-CSE-ConnectionGUID: zStsv+QKTnurMxkfdOYx9Q==
-X-CSE-MsgGUID: qf7oIPlZS9mprqN+YLynAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69445954"
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="69445954"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 12:11:20 -0800
-X-CSE-ConnectionGUID: wCcufjoTRd6/iOX/37icgA==
-X-CSE-MsgGUID: tdIeFptWTRe0eYsS4lcNvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="234755013"
-Received: from cjbeckma-mobl1.amr.corp.intel.com (HELO [10.246.21.211]) ([10.246.21.211])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 12:11:19 -0800
-Message-ID: <675fb923-ea81-4109-b828-24caf89fa795@linux.intel.com>
-Date: Fri, 9 Jan 2026 21:11:16 +0100
+	s=arc-20240116; t=1767989817; c=relaxed/simple;
+	bh=ADaYwFS3kKhM5xXVlApjjoRfDaP+xucJXVcKN8R+3xU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fge9O7k51LaQUobXhpyUldTjEH8GkE262e2jssE3pWokm88FHFeEnPqfQBzLUWQnlCycOp72mrqHmZ6m6HcGxym3jXWJhpGP+WJfs3JW0qjC0jDIl04WgT9m6eXsKIUHcI6MmDD2uHox0tMbC0/0aSWsXneh9OGKidrYri32FEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=RjLtkJa1; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4dntN66qC7z1XSVtL;
+	Fri,  9 Jan 2026 20:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1767989807; x=1770581808; bh=MWWlok8ve6te0Z1LFT3tDlJ2
+	/NkqaoxHzzfJCelUW48=; b=RjLtkJa1D0QD6TAtBF7G2Jt4AHXQc+brZdc/5Tt3
+	jLo0eDAvbJmHIgNEXvLWEKHxTHRyVyb8D/Q06Ur+0T8jENUFddkat1ZKTy3z3SCC
+	yDf86qyZn7Mw6O42JTSazct3a+5P6OhdLUxYoG2N+K1nLDa+zdW6XgfbDJXsR7ng
+	jwo0GO2ay6yXtRwcQHBbI2rYmhtkOiawoqZQXc3Ti/WgrYqhAEUZOdNAs9KC7uUn
+	Qq0xxt6q5wZuMIdq5Cl7pFCXgskRMzaEvQTOGgVF3O1ctVoejnnjZWNZJ35Ht4/9
+	VhXFXR50Omzjcooxo8ojFKm5X7x9JePv61sq2YtntHteEg==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id JY_Dc9oQqhZL; Fri,  9 Jan 2026 20:16:47 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4dntMk3WPZz1XT1Zk;
+	Fri,  9 Jan 2026 20:16:33 +0000 (UTC)
+Message-ID: <05c77ca1-7618-43c5-b259-d89741808479@acm.org>
+Date: Fri, 9 Jan 2026 12:16:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -64,40 +63,77 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 20/36] locking/ww_mutex: Support Clang's context
+ analysis
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+ Will Deacon <will@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+ Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
+ <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
+ Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Triplett <josh@joshtriplett.org>, Justin Stitt
+ <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
+ <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+ Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
+ kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-21-elver@google.com>
 Content-Language: en-US
-To: linux-kbuild@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, masahiroy@kernel.org
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: Module out of tree compilation fails due to missing kdoc python
- module after 992a9df41ad7
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-Content-Type: text/plain; charset=UTF-8
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20251219154418.3592607-21-elver@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello,
+On 12/19/25 8:40 AM, Marco Elver wrote:
+> Add support for Clang's context analysis for ww_mutex.
+> 
+> The programming model for ww_mutex is subtly more complex than other
+> locking primitives when using ww_acquire_ctx. Encoding the respective
+> pre-conditions for ww_mutex lock/unlock based on ww_acquire_ctx state
+> using Clang's context analysis makes incorrect use of the API harder.
 
-I have run into an issue after recent commit 992a9df41ad7 ("docs: bring
-some order to our Python module hierarchy").
+That's a very short description. It should have been explained in the
+patch description how the ww_acquire_ctx changes affect callers of the
+ww_acquire_{init,done,fini}() functions.
 
-When building out-of-tree module with W=1 flag (using headers .deb
-package built with bindeb-pkg target), kernel-doc.py now tries to:
+>   static inline void ww_acquire_init(struct ww_acquire_ctx *ctx,
+>   				   struct ww_class *ww_class)
+> +	__acquires(ctx) __no_context_analysis
+> [ ... ]
+>   static inline void ww_acquire_done(struct ww_acquire_ctx *ctx)
+> +	__releases(ctx) __acquires_shared(ctx) __no_context_analysis
+>   {
+> [ ... ]
+>   static inline void ww_acquire_fini(struct ww_acquire_ctx *ctx)
+> +	__releases_shared(ctx) __no_context_analysis
 
-import from the kdoc
-from kdoc.kdoc_files import KernelFiles
-from kdoc.kdoc_output import RestFormat, ManFormat
+The above changes make it mandatory to call ww_acquire_done() before
+calling ww_acquire_fini(). In Documentation/locking/ww-mutex-design.rst
+there is an example where there is no ww_acquire_done() call between
+ww_acquire_init() and ww_acquire_fini() (see also line 202). The
+function dma_resv_lockdep() in drivers/dma-buf/dma-resv.c doesn't call
+ww_acquire_done() at all. Does this mean that the above annotations are
+wrong? Is there a better solution than removing the __acquire() and
+__release() annotations from the above three functions?
 
-PYTHONPATH for kernel-doc.py is set relative to the file itself, which
-in case of using headers is just ../tools/lib/python but it does not exist.
-
-So the tools/lib/python/kdoc module isn't included in the
-headers .deb package created by bindeb-pkg target (it only contains
-objtool under tools/) which causes failures during the build due to
-missing kdoc module.
-
-Should these Python modules be packaged with kernel-doc.py in the
-headers .deb package or am I missing something here?
-
-Thanks,
-Karol
+Bart.
 
