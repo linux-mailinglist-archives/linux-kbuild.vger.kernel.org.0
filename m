@@ -1,290 +1,224 @@
-Return-Path: <linux-kbuild+bounces-10475-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10476-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFAA2D0D279
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 08:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C2ED0D560
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 12:43:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7A39630EEC30
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 06:57:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 830393016714
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 11:43:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A7D34D900;
-	Sat, 10 Jan 2026 06:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0447933D6C4;
+	Sat, 10 Jan 2026 11:43:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvAbBmRf"
+	dkim=pass (2048-bit key) header.d=dwd.de header.i=@dwd.de header.b="OGrXM3ej"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ofcsgdbm.dwd.de (ofcsgdbm.dwd.de [141.38.3.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9660349AE6;
-	Sat, 10 Jan 2026 06:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2A533D4E2
+	for <linux-kbuild@vger.kernel.org>; Sat, 10 Jan 2026 11:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.38.3.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768028226; cv=none; b=j0Vqvts3v1p7X2SY4uYWwGsAOgMb9/7g8vHrmRcDAhR6KFh+5fsSXUWxOTK3nnKbOOAMb8QMYEY0Pmm2vM/Rou/Vjun9RMnck18T8u/TmeBjyqYS/icoTvJXZ/Ykboq7ws0Tm0uovtmVdpzPcOAzojEs06tV5i8n5cUrMO8n5qI=
+	t=1768045432; cv=none; b=IbZOAbN0svLymbaUkXJTK4MCVnWEzQalxKC7gBmi9Eh8a/WKIqry0To9HhUE+9uKOC6wrCxOfSH7SHZol3Ube9I8j2yu00na3qNkO+KeddUOj1m2hFt+lZJIP6UUcHuvtyng8nnasnPSp0AAmDai71ac9oNZbOZ2FpA4/3uSt6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768028226; c=relaxed/simple;
-	bh=M63xYuGhzTnw77y0XcBIHpc3qTNOnrlDzshVGfxXGIc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eo+uSyBwaKQFO/RlG7o0AJ3CmW7nYFjzBRj/ayNdWhXFesGWQ1hb57HvbZwNsQBR2z7MMQZpecd45VZjYMxxpwnBTFUy1hnjcaDw3eJilspVR1IAp2Gt7NYiJ1L66LdCu/bSaQ0J2xfLWf7ujq+CnIdANkVz1R0no1gLH61u/cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvAbBmRf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 627C1C19423;
-	Sat, 10 Jan 2026 06:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768028226;
-	bh=M63xYuGhzTnw77y0XcBIHpc3qTNOnrlDzshVGfxXGIc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lvAbBmRfc3NdDNO3EaF5NsjOgZEjNcZhWEmfNeQb0Px/Iml5xA7wczcQeXcllpCYj
-	 ZjwF3EZ31za3ZRi8exnQ1NsZvvrAKHXG+CNxG/5xWZMLt+gzZEQMbiEuGzJeKBh31k
-	 v4OiIfSs3zLl6clB+HJMnkcqnMUyD/8LlVGW/Y0W6LxPINwqbeyAUVcYXyb+vkvcC1
-	 0faiXwo4tR11s4P8+yGM11LOzyblcnB4RO2DaDShTlan0uGQ7EWfE2R+mESuBfxliF
-	 Bc93pr2DyDqu25bfdI5EJrS00wdU8v49SH+IxUpKNj3BcZ/CuSml+9PG5ofpxcY2xU
-	 k1P7ulPDXN64Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A17DD277CB;
-	Sat, 10 Jan 2026 06:57:06 +0000 (UTC)
-From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
-Date: Sat, 10 Jan 2026 12:26:32 +0530
-Subject: [PATCH v3 14/14] power: sequencing: pcie-m2: Create serdev device
- for WCN7850 bluetooth
+	s=arc-20240116; t=1768045432; c=relaxed/simple;
+	bh=zGpme1KSdVB2Sne3eW8Zm9YCCvYp85iD1I4gzT+xGOY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=OQjqC5Qm4H8QEmIw/uBoMLzdzMMD7CNbT7Pd5dilZQ2+ICsRAbnie7KyxZjSnSxKGq0j72lBINihnR7T8NZR+G/NC2cONFlEPGHUSy7da87KgHS2rZflyP4Id+7XXi4/j+Hll2K9LWMNRIQi4mZ51cYVSjDugbWYe6DCBB1VbMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dwd.de; spf=pass smtp.mailfrom=dwd.de; dkim=pass (2048-bit key) header.d=dwd.de header.i=@dwd.de header.b=OGrXM3ej; arc=none smtp.client-ip=141.38.3.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dwd.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dwd.de
+Received: from localhost (localhost [127.0.0.1])
+	by ofcsg2dn3.dwd.de (Postfix) with ESMTP id 4dpGxc2Vflz4tyH
+	for <linux-kbuild@vger.kernel.org>; Sat, 10 Jan 2026 11:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dwd.de; h=
+	content-type:content-type:mime-version:references:message-id
+	:in-reply-to:subject:subject:from:from:date:date:received
+	:received:received:received:received:received:received:received;
+	 s=dwd-csg20210107; t=1768045428; x=1769255029; bh=zGpme1KSdVB2S
+	ne3eW8Zm9YCCvYp85iD1I4gzT+xGOY=; b=OGrXM3ejvSr/MDAn/u+CXpZWQnXAH
+	7rEWpwjuLWUuKgckfuM1XjDd9HSDDkkgSWfziUgOe1D6kP5U8ia9Tz8lw8zUJvNZ
+	xTTC37yaQJk80CW3POfp+SazUwh9riNWO9g+NQCDlfS6qQT3N3t3Yz2AlPC01wQp
+	aw6f44881/xd8Jj3WcMg/Y8Y73hNiTcYt6CpEk3WLz60DWhg92ZtjxMyUU01fBl5
+	0xU6G4SZZJGr3kbmqPUwMqQY1seVhG05iv39uxm4QS8ouqTecfJExwSniqS4HCG7
+	Js6QjDlJeEJ+OKqjTsc6n4KaCi+Vcti5tuE6t+8JYao96VDPFfFObteYg==
+X-Virus-Scanned: by amavisd-new at csg.dwd.de
+Received: from ofcsg2cteh1.dwd.de ([172.30.232.65])
+ by localhost (ofcsg2dn3.dwd.de [172.30.232.26]) (amavis, port 10024)
+ with ESMTP id xvME7Z7ZTsMp for <linux-kbuild@vger.kernel.org>;
+ Sat, 10 Jan 2026 11:43:48 +0000 (UTC)
+Received: from ofcsg2cteh1.dwd.de (unknown [127.0.0.1])
+	by DDEI (Postfix) with SMTP id 20CBEC902AF4
+	for <root@ofcsg2dn3.dwd.de>; Sat, 10 Jan 2026 11:43:48 +0000 (UTC)
+Received: from ofcsg2cteh1.dwd.de (unknown [127.0.0.1])
+	by DDEI (Postfix) with ESMTP id 09BC8C902E75
+	for <root@ofcsg2dn3.dwd.de>; Sat, 10 Jan 2026 11:43:27 +0000 (UTC)
+X-DDEI-TLS-USAGE: Unused
+Received: from ofcsgdbm.dwd.de (unknown [172.30.232.26])
+	by ofcsg2cteh1.dwd.de (Postfix) with ESMTP
+	for <root@ofcsg2dn3.dwd.de>; Sat, 10 Jan 2026 11:43:26 +0000 (UTC)
+Received: from ofcsgdbm.dwd.de by localhost (Postfix XFORWARD proxy);
+ Sat, 10 Jan 2026 11:43:27 -0000
+Received: from ofcsg2dvf2.dwd.de (unknown [172.30.232.11])
+	by ofcsg2dn3.dwd.de (Postfix) with ESMTPS id 4dpGxB70SRz4tvy;
+	Sat, 10 Jan 2026 11:43:26 +0000 (UTC)
+Received: from ofmailhub.dwd.de (ofldap.dwd.de [141.38.39.208])
+	by ofcsg2dvf2.dwd.de  with ESMTP id 60ABhQ4w016337-60ABhQ4x016337;
+	Sat, 10 Jan 2026 11:43:26 GMT
+Received: from praktifix.dwd.de (praktifix.dwd.de [141.38.44.46])
+	by ofmailhub.dwd.de (Postfix) with ESMTP id BD771452FC;
+	Sat, 10 Jan 2026 11:43:26 +0000 (UTC)
+Date: Sat, 10 Jan 2026 12:43:26 +0100 (CET)
+From: Holger Kiehl <Holger.Kiehl@dwd.de>
+To: Nicolas Schier <nsc@kernel.org>
+cc: linux-kernel <linux-kernel@vger.kernel.org>, 
+    Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+    Uday Shankar <ushankar@purestorage.com>
+Subject: Re: Since 6.18.x make binrpm-pkg does not sign modules
+In-Reply-To: <aWFt34dkIvlu1EYI@derry.ads.avm.de>
+Message-ID: <71bc53a4-9b54-c15a-96e-23fb338ac71@praktifix.dwd.de>
+References: <68c375f6-e07e-fec-434d-6a45a4f1390@praktifix.dwd.de> <aWFt34dkIvlu1EYI@derry.ads.avm.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260110-pci-m2-e-v3-14-4faee7d0d5ae@oss.qualcomm.com>
-References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
-In-Reply-To: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Mark Pearson <mpearson-lenovo@squebb.ca>, 
- "Derek J. Clark" <derekjohn.clark@gmail.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Bartosz Golaszewski <brgl@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- linux-acpi@vger.kernel.org, 
- Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5942;
- i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
- bh=Vp7zYCRu5g++KTpycV6G46GxYVukXvcLdhL4fCvf0XY=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBpYfg++CojcI/ArwvutjAh/aYmpyIOq9cl2wKAe
- 28Y/hBJCleJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCaWH4PgAKCRBVnxHm/pHO
- 9Ql5B/9E1CdAqnK1mNQgswa7wqthDkSc9rCfk/sIks3lGXEgHCzNRoFIxTTAXs8x9BZ7uoUV6Pw
- gsJDjJxoTu1H+qIi7ZWQKMbPIPYZDgD2J+NrccRfcR9T05z8r9T/YESRPMeooyA3LwMoosxgLy0
- EcLU8B+j7nO5KAHKiGGeNt6kP9A2uFZiJlC7G0uZ8NI7n0v+HDXEZ5HY8QSQ5yPCoyI7+rP75ew
- EYlAWhJZzZMfe3fFbCOtEQenFlR+HJARr4s78hWj7XAsKbUTkN0iJNIXXdmAb5EGjsW6d2qArxV
- lterlf/QYVzMwuBnByh/jQ6HHZ8b3ko+MSYmJYmAlNdcDOZh
-X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
-X-Endpoint-Received: by B4 Relay for
- manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
-X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Reply-To: manivannan.sadhasivam@oss.qualcomm.com
+Content-Type: text/plain; charset=US-ASCII
+X-FEAS-Client-IP: 141.38.39.208
+X-FE-Last-Public-Client-IP: 141.38.39.208
+X-FE-Policy-ID: 2:2:1:SYSTEM
+X-TMASE-Version: DDEI-5.1-9.1.1004-29688.007
+X-TMASE-Result: 10--21.626700-10.000000
+X-TMASE-MatchedRID: xcONGPdDH5oMek0ClnpVp/HkpkyUphL9fjJOgArMOCb+Aw16GgqpO4UO
+	mGTb5yG/x3iFO+XIjdtSOBg59F2OIYqcpPaWAlpJ8MPuu+RzTf5MkOX0UoduuV/8lGqVstJXDEN
+	M/mw+DTL+ZF6Oacqo27NXhgNwZpXj7c9QLp+KWZcSEYfcJF0pRYGzTdEevOMzhg/Tt7otYdg1Md
+	dcSZZtR9c82afsPzKXHBunSHImBEKLgXghGVLQksYv//yaWh0Dlom2OdVbFGmwxkbalTMB89iiD
+	kGpj+2G8YMGIR6ZqjXgEe/gTiF1iTM8HubNfKJD194/5X9VfCxkcZ9Vcvq375mxQvqCDBwfULfC
+	3mZUjoQa6MeoDNjEW0a/sUqtu9vNA6bGiJ6csn3CeTJ8O/OHmF1kFRebn5yayPRAwD/3abYbyCX
+	f6orxg3wseitYmET9dAmmyaq2DZxDq2SVEk72KFZ0V5tYhzdWxEHRux+uk8jpP8tMOyYmaA==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-TMASE-INERTIA: 0-0;;;;
+X-DDEI-PROCESSED-RESULT: Safe
 
-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On Fri, 9 Jan 2026, Nicolas Schier wrote:
 
-For supporting bluetooth over the non-discoverable UART interface of
-WCN7850, create the serdev device after enumerating the PCIe interface.
-This is mandatory since the device ID is only known after the PCIe
-enumeration and the ID is used for creating the serdev device.
+> On Fri, Jan 09, 2026 at 03:04:33PM +0100, Holger Kiehl wrote:
+> > Hello,
+> > 
+> > when building kernel with 'make binrpm-pkg' the modules in the
+> > /lib/modules directory of the rpm package are no longer signed
+> > although one sees the following during the build process:
+> > 
+> >    .
+> >    .
+> >    INSTALL /usr/src/kernels/linux-6.18.4/rpmbuild/BUILD/kernel-6.18.4-build/BUILDROOT/lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+> >    .
+> >    .
+> >    SIGN    /usr/src/kernels/linux-6.18.4/rpmbuild/BUILD/kernel-6.18.4-build/BUILDROOT/lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+> 
+> thanks for your report; well, that's interesting.  The modules signed
+> during the package build preparations ("SIGN    .../rpmbuild/BUILD/...")
+> is significantly larger than the one in the build tree (as expected, as
+> the latter is unsigned); but the one that lands in the rpm package is
+> _smaller_ than the module in the build tree.
+> 
+Reading the comment in scripts/package/kernel.spec
 
-Since there is no OF or ACPI table for the created serdev, a software node
-is created with the 'compatible' property. This property will be used to
-match the existing OF device id in the bluetooth driver.
+   # later, we make all modules executable so that find-debuginfo.sh strips
+   # them up. but they don't actually need to be executable, so remove the
+   # executable bit, taking care to do it _after_ find-debuginfo.sh has run
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
----
- drivers/power/sequencing/pwrseq-pcie-m2.c | 125 +++++++++++++++++++++++++++++-
- 1 file changed, 124 insertions(+), 1 deletion(-)
+I would think that find-debuginfo.sh also strips the signature of the
+modules. As a quick test I replaced scripts/package/kernel.spec and
+scripts/package/mkspec in the 6.18.4 tree with those from 6.12.64 and
+then did a 'make binrpm-pkg'. Then the signature of the modules in
+the rpm package are not removed.
 
-diff --git a/drivers/power/sequencing/pwrseq-pcie-m2.c b/drivers/power/sequencing/pwrseq-pcie-m2.c
-index ad94090bbdb2..7c7bde563341 100644
---- a/drivers/power/sequencing/pwrseq-pcie-m2.c
-+++ b/drivers/power/sequencing/pwrseq-pcie-m2.c
-@@ -17,6 +17,7 @@
- #include <linux/platform_device.h>
- #include <linux/pwrseq/provider.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/serdev.h>
- #include <linux/slab.h>
- 
- struct pwrseq_pcie_m2_pdata {
-@@ -26,11 +27,14 @@ struct pwrseq_pcie_m2_pdata {
- struct pwrseq_pcie_m2_ctx {
- 	struct pwrseq_device *pwrseq;
- 	struct device_node *of_node;
-+	struct fwnode_handle *fwnode;
-+	struct serdev_device *serdev;
- 	const struct pwrseq_pcie_m2_pdata *pdata;
- 	struct regulator_bulk_data *regs;
- 	size_t num_vregs;
- 	struct gpio_desc *w_disable1_gpio;
- 	struct gpio_desc *w_disable2_gpio;
-+	struct notifier_block nb;
- 	struct device *dev;
- 
- };
-@@ -179,9 +183,124 @@ static void pwrseq_pcie_free_resources(void *data)
- {
- 	struct pwrseq_pcie_m2_ctx *ctx = data;
- 
-+	fwnode_handle_put(ctx->fwnode);
-+	serdev_device_put(ctx->serdev);
-+	bus_unregister_notifier(&pci_bus_type, &ctx->nb);
- 	regulator_bulk_free(ctx->num_vregs, ctx->regs);
- }
- 
-+static const struct property_entry wcn7850_bt_props[] = {
-+	PROPERTY_ENTRY_STRING("compatible", "qcom,wcn7850-bt"),
-+};
-+
-+static int pwrseq_m2_pcie_notify(struct notifier_block *nb, unsigned long action,
-+			      void *data)
-+{
-+	struct pwrseq_pcie_m2_ctx *ctx = container_of(nb, struct pwrseq_pcie_m2_ctx, nb);
-+	struct pci_dev *pdev = to_pci_dev(data);
-+	struct serdev_controller *serdev_ctrl;
-+	struct device *dev = ctx->dev;
-+	struct device_node *remote;
-+	int ret;
-+
-+	/*
-+	 * Check whether the PCI device is associated with this M.2 connector or
-+	 * not, by comparing the OF node of the PCI device parent and the Port 0
-+	 * (PCIe) remote node parent OF node.
-+	 */
-+	remote = of_graph_get_remote_node(dev_of_node(ctx->dev), 0, 0);
-+	if (!remote || (remote != pdev->dev.parent->of_node)) {
-+		of_node_put(remote);
-+		return NOTIFY_DONE;
-+	}
-+	of_node_put(remote);
-+
-+	switch (action) {
-+	case BUS_NOTIFY_ADD_DEVICE:
-+		/* Create serdev device for WCN7850 */
-+		if (pdev->vendor == PCI_VENDOR_ID_QCOM && pdev->device == 0x1107) {
-+			remote = of_graph_get_remote_node(dev_of_node(ctx->dev), 1, 1);
-+			if (!remote) {
-+				of_node_put(remote);
-+				return NOTIFY_DONE;
-+			}
-+
-+			serdev_ctrl = of_find_serdev_controller_by_node(remote);
-+			of_node_put(remote);
-+			if (!serdev_ctrl)
-+				return NOTIFY_DONE;
-+
-+			ctx->serdev = serdev_device_alloc(serdev_ctrl);
-+			if (!ctx->serdev)
-+				return NOTIFY_BAD;
-+
-+			ctx->fwnode = fwnode_create_software_node(wcn7850_bt_props, NULL);
-+			if (IS_ERR(ctx->fwnode))
-+				return notifier_from_errno(PTR_ERR(ctx->fwnode));
-+
-+			device_set_node(&ctx->serdev->dev, ctx->fwnode);
-+
-+			ret = serdev_device_add(ctx->serdev);
-+			if (ret) {
-+				dev_err(dev, "Failed to add serdev for WCN7850: %d\n", ret);
-+				fwnode_handle_put(ctx->fwnode);
-+				serdev_device_put(ctx->serdev);
-+				return notifier_from_errno(ret);
-+			}
-+		}
-+		break;
-+	case BUS_NOTIFY_REMOVED_DEVICE:
-+		/* Destroy serdev device for WCN7850 */
-+		if (pdev->vendor == PCI_VENDOR_ID_QCOM && pdev->device == 0x1107) {
-+			fwnode_handle_put(ctx->fwnode);
-+			serdev_device_put(ctx->serdev);
-+		}
-+		break;
-+	}
-+
-+	return NOTIFY_OK;
-+}
-+
-+static bool pwrseq_pcie_m2_check_remote_node(struct device *dev, u8 port, u8 endpoint,
-+					     const char *node)
-+{
-+	struct device_node *remote __free(device_node) =
-+			of_graph_get_remote_node(dev_of_node(dev), port, endpoint);
-+
-+	if (remote && of_node_name_eq(remote, node))
-+		return true;
-+
-+	return false;
-+}
-+
-+/*
-+ * If the connector exposes a non-discoverable bus like UART, the respective
-+ * protocol device needs to be created manually with the help of the notifier
-+ * of the discoverable bus like PCIe.
-+ */
-+static int pwrseq_pcie_m2_register_notifier(struct pwrseq_pcie_m2_ctx *ctx, struct device *dev)
-+{
-+	int ret;
-+
-+	/*
-+	 * Register a PCI notifier for Key E connector that has PCIe as Port
-+	 * 0/Endpoint 0 interface and Serial as Port 1/Endpoint 1 interface.
-+	 */
-+	if (pwrseq_pcie_m2_check_remote_node(dev, 1, 1, "serial")) {
-+		if (pwrseq_pcie_m2_check_remote_node(dev, 0, 0, "pcie")) {
-+			ctx->dev = dev;
-+			ctx->nb.notifier_call = pwrseq_m2_pcie_notify;
-+			ret = bus_register_notifier(&pci_bus_type, &ctx->nb);
-+			if (ret) {
-+				dev_err_probe(dev, ret, "Failed to register notifier for serdev\n");
-+				return ret;
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int pwrseq_pcie_m2_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -236,7 +355,11 @@ static int pwrseq_pcie_m2_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(ctx->pwrseq),
- 				     "Failed to register the power sequencer\n");
- 
--	return 0;
-+	/*
-+	 * Register a notifier for creating protocol devices for
-+	 * non-discoverable busses like UART.
-+	 */
-+	return pwrseq_pcie_m2_register_notifier(ctx, dev);
- }
- 
- static const struct of_device_id pwrseq_pcie_m2_of_match[] = {
+Looking back, it looks like this change was introduced with 6.15-rc1:
 
--- 
-2.48.1
+https://github.com/torvalds/linux/commit/a7c699d090a1f3795c3271c2b399230e182db06e
+   or
+https://lkml.org/lkml/2025/3/31/1313
 
+The module signatures are needed if you run the kernel in lockdown mode.
+The kernel refuses to load unsigned modules.
 
+Regards,
+Holger
+
+> My experience with rpmbuild is limited, I need more time for
+> investigation.
+> 
+> Nathan, do you have more insights on the rpm build process?
+> 
+> Kind regards,
+> Nicolas
+> 
+> 
+> 
+> >    .
+> >    .
+> > 
+> > But when installing this RPM and check this it says:
+> > 
+> >    # modinfo /lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+> >    filename:       /lib/modules/6.18.4/kernel/net/qrtr/qrtr.ko
+> >    alias:          net-pf-42
+> >    license:        GPL v2
+> >    description:    Qualcomm IPC-router driver
+> >    license:        Dual BSD/GPL
+> >    description:    Qualcomm IPC Router Nameservice
+> >    author:         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> >    srcversion:     473C5AB47E04ECEA0106681
+> >    depends:        
+> >    intree:         Y
+> >    name:           qrtr
+> >    retpoline:      Y
+> >    vermagic:       6.18.4 SMP preempt mod_unload modversions
+> > 
+> > This happens (no signature) with all modules, qrtr.ko was just taken
+> > as an example.
+> > 
+> > Building the kernel via 'make && make modules_install && make install'
+> > the modules then do have a signature. Also with kernel 6.12.x the
+> > modules are signed when building with 'make binrpm-pkg'.
+> > 
+> > Config looks as follows:
+> > 
+> >    # grep CONFIG_MODULE_ .config
+> >    CONFIG_MODULE_SIG_FORMAT=y
+> >    CONFIG_MODULE_DEBUGFS=y
+> >    # CONFIG_MODULE_DEBUG is not set
+> >    # CONFIG_MODULE_FORCE_LOAD is not set
+> >    CONFIG_MODULE_UNLOAD=y
+> >    # CONFIG_MODULE_FORCE_UNLOAD is not set
+> >    CONFIG_MODULE_UNLOAD_TAINT_TRACKING=y
+> >    CONFIG_MODULE_SRCVERSION_ALL=y
+> >    CONFIG_MODULE_SIG=y
+> >    # CONFIG_MODULE_SIG_FORCE is not set
+> >    CONFIG_MODULE_SIG_ALL=y
+> >    # CONFIG_MODULE_SIG_SHA1 is not set
+> >    # CONFIG_MODULE_SIG_SHA256 is not set
+> >    # CONFIG_MODULE_SIG_SHA384 is not set
+> >    CONFIG_MODULE_SIG_SHA512=y
+> >    # CONFIG_MODULE_SIG_SHA3_256 is not set
+> >    # CONFIG_MODULE_SIG_SHA3_384 is not set
+> >    # CONFIG_MODULE_SIG_SHA3_512 is not set
+> >    CONFIG_MODULE_SIG_HASH="sha512"
+> >    # CONFIG_MODULE_COMPRESS is not set
+> >    # CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
+> >    CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+> >    CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
+> >    # CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
+> > 
+> > What am I missing?
+> > 
+> > Regards,
+> > Holger
+> 
+> -- 
+> Nicolas
+> 
 
