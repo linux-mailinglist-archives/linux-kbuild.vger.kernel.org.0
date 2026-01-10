@@ -1,132 +1,153 @@
-Return-Path: <linux-kbuild+bounces-10456-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3806D0C4BD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 09 Jan 2026 22:26:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB5FD0CB9A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 02:37:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2557E3030DBD
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Jan 2026 21:26:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7EAAE300DCB7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 01:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6121933CEBC;
-	Fri,  9 Jan 2026 21:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FC7121CC62;
+	Sat, 10 Jan 2026 01:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="UQJCMP5/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8Xt3ZnD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A7B31B133;
-	Fri,  9 Jan 2026 21:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4B12A1CF
+	for <linux-kbuild@vger.kernel.org>; Sat, 10 Jan 2026 01:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767994007; cv=none; b=Wa9O5z0ie0Xj4eFrtzSN4aKooD6M9zO0FbeM6RzNDlkwAK3SDln8XGixV2LGS0yiQgF7dw26r9lCHQkhFHKxQhF3AvCJv17S8nOGjsR9t8Nv4Vvm7RfkiUGXUOt9aKFVtsvFdqf7l9kLCQTBrOSQx3wnpiuF7uAw8SXkMW00KGE=
+	t=1768008909; cv=none; b=e1AjX/odgSX2YvURlBY69hrp1We4rYjrPvGsruBlQSa/rcAhwa0R3lgbZ3qLapOS6ZoSLX/CQB0qs3OgvkWsTsfsB50+yHWYr74ZRTrgJETW0ib/uhrfOEqCIv5MnBws0aIeJbQZD8Dspmukl4uJsLPLB3zILJrkMXQnrV/Et4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767994007; c=relaxed/simple;
-	bh=kVqxi06fhKwoZgXTNpFdWEZ/nlKbofAaMwqmPcPl6V4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lahfa1wI201GRGtxBCAMsjBt5v8V3TEqgZK2MQbDqDhgKNXeXlOTrVDFmFh4sHd9MFy0Dx7M2VV+IROHxW4Q1PDTx9G+ycovEv0GLlf3Y4yd/tRI890dIM9yMIHS7HTxnP5VdchHjgsmkC2mGOdYrwN5GhFHlLZ0jl8ZAPVUqVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=UQJCMP5/; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dnvwj1rSVzlsqj1;
-	Fri,  9 Jan 2026 21:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1767993997; x=1770585998; bh=kVqxi06fhKwoZgXTNpFdWEZ/
-	nlKbofAaMwqmPcPl6V4=; b=UQJCMP5/4z5OkbytmihEViGuPxzO9MDFixo1jD/j
-	b7B+ZCP9e73vZ3Lw5l0wl4bbaMC2+1fC/nuUtQ5Qlw8nIM+EbIuZnUW2Zu/mse1A
-	d/KzsFdZLLYSLdLoVcxZsopqYXBfFggKKaS7l/Xzj0d4R6LcnSGzVLTsWnjCAzlG
-	j0jGrM6I8VxGPhZFu7ln5JERHarPuFgd6jxrRZWTvlb8pN9qri//ThxalZKJAw4M
-	2ayFAwPTWuSmIOsoqZCnT3A2Zko5jGsXg7uSYnllHsZ6Dee9gPu+KHIXFaJFY3DW
-	2utpFE0Zij1eDpkq5UWLB4QwFY0l4H0xzCVpLK9pcF9oMw==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 4NnprJS4L2Lu; Fri,  9 Jan 2026 21:26:37 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dnvwJ0Q9kzm10Bh;
-	Fri,  9 Jan 2026 21:26:23 +0000 (UTC)
-Message-ID: <8143ab09-fd9b-4615-8afb-7ee10e073c51@acm.org>
-Date: Fri, 9 Jan 2026 13:26:23 -0800
+	s=arc-20240116; t=1768008909; c=relaxed/simple;
+	bh=xLPWOwur5lZyTIFQhKJgCuS3vM2v4fZ1AeSleNLa7T0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sznjcNEIQKMGwJecjE/AnxwlgZo7HlybLxgE+8cFrrqbOauwgTe1rOd4Gt3rmZ9/fhKlGizrrhyFQeGYSYbGdJYdbtxL/3fS1wgaZtDIABI+hXgEyLZElu1E4mlk6u0wd7gy9xRln/yHSXLCJ/rW3ncsp/HLCXXpR8s5rbXaZkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V8Xt3ZnD; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-34ccdcbe520so1810956a91.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jan 2026 17:35:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768008907; x=1768613707; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsWZnuzRPjzvjOn98WGp9+L8/QX752dDvG+p5I6ytmo=;
+        b=V8Xt3ZnDJnoudBle7rlPnr37yVUhoD6aNtpKRu+enc7XgfmixZa0nnI3kjFNpVdTk4
+         RK7/FEWo/LadA8KagY9EUprdw1RLl6jmueN3ge/vXl1No+9F2ezwKPpcO15DwjkQxACi
+         GcpXt6YCcjvpiRPWqdU76Isou0kARU6hRKnC/EfYIGwmYfYEmN4SOsGGEy95kw4X0ze+
+         1iHh+XrPpVGC3j76mGiyRRO98hLECralDtWq0VC+DVz9L4G0OUQtHpzWm8zMpcFb7ddE
+         SCaRY95blv60ucnzThL/u2UiFNd9yU5KTj4Z3P45+trXxQpkaSrnFDodcSKmyCNMuO5V
+         /szw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768008907; x=1768613707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NsWZnuzRPjzvjOn98WGp9+L8/QX752dDvG+p5I6ytmo=;
+        b=HViUGpnOfwr33OAlUZHgyaA14kIzwR7xwj1RBtIIhrybP82N1TdSFbZaPegXB07Dfh
+         2MTYUH9rJiCGrz87J3vCO8iF7XTcWYcdALAkM26Aa4gjUbZ+lMvnA227nDCCYHLGI9Yj
+         E3Dnx7ImxBd27agHrurlLKm66mNxsuF3EO+qyo/MtOYXNrmRCScvW2hy04KKC0Mxy1Oz
+         qDs/le31DP5ckTc0Dwn9PpYdmh4d/IemLwCYi/Wz8K5I8ZMUNrfvjzoJt0zf6bqEAX3a
+         qLJXdaDMIiDloIMmqRdg7g9dPlSwrXRPqjsifnN/D8QPH/wM2pKbA/ZSDc3MsurAoa45
+         gclg==
+X-Forwarded-Encrypted: i=1; AJvYcCXdhscpj5SMUtsKLx7NagI+HS8nmbeeP4WkI5dCIwgyRAF32PHn4w91OcnKjIM/FF2rszTG3Lg5nmKOO+U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTp3/N1JMrBdM0r5SlU2UEKh8irhnE23wBPXilC7qOOyfXZG19
+	U4WojpzfPBaYca6DhKEK0/GMjB8D8XYg1Az2VaM+R7B1wAsxRi2LcCdzh9BRpmZc
+X-Gm-Gg: AY/fxX4AOooRPs4Yq+ebOVtOOoh6aBfWztaJDNJa9ITPlhA3y58usOKjtb2HayAQqQ1
+	iS1YVTpzd8z+PXfUdsKmX3yhF9tO3E/O+ON0rbYJIILiMYZIFHnQFAeVhKFqWOQNTgygK/Z5jgh
+	Y1xe9LvSxVHhWfUHGDdM3UInGJIKKcUuwrIAHCLaI57g0clnR62Y4/kHV42V2kUSXrDN1Jitn5u
+	7RTanTfoYumtxpzDag1mdDer9oqtQkrdxIvk2JYskJXbxZLfVKjHi/0uc61nYTYaYMNrmpUKP6R
+	OIDe6H7VzwZSvLk7TwXvNwwbVPM8OVG47v8KqlENy+iBQJszjt7tXrAmsnBDPZDHdfvfOYE7K5+
+	p9WBlMz/c3X5aY0H/eI8N/szWvfpRrLgMwJF2C7a4iwOuw/sQmCA/ipEYlO3db6UND9TIM8L1Z5
+	62f702XsY+FWvWdQXP
+X-Google-Smtp-Source: AGHT+IG4haSCU8mLrpiROHRvGF2RpFG58Ht9x3CEvvHtSyyrAxmqjeIcd2/fYDfQi5FS0sQ3PX9vbg==
+X-Received: by 2002:a17:90b:2692:b0:343:cfa1:c458 with SMTP id 98e67ed59e1d1-34f68c47998mr10983895a91.18.1768008906891;
+        Fri, 09 Jan 2026 17:35:06 -0800 (PST)
+Received: from PC.. ([2401:4900:88ab:2bed:6481:28de:e3bd:f865])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5fb64d7asm11431057a91.11.2026.01.09.17.35.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 17:35:06 -0800 (PST)
+From: MIshraMohit21-LE <mishraloopmohit@gmail.com>
+X-Google-Original-From: MIshraMohit21-LE <mohit.mishra@lunaredgeit.com>
+To: mohit.mishra@lunaredgeit.com
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Michal Marek <michal.lkml@markovi.net>,
+	Kees Cook <keescook@chromium.org>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: Globally enable fall-through warning
+Date: Sat, 10 Jan 2026 07:04:13 +0530
+Message-ID: <20260110013412.14426-2-mohit.mishra@lunaredgeit.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 20/36] locking/ww_mutex: Support Clang's context
- analysis
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
- Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
- <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
- Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Josh Triplett <josh@joshtriplett.org>, Justin Stitt
- <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
- <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
- Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
- kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-21-elver@google.com>
- <05c77ca1-7618-43c5-b259-d89741808479@acm.org>
- <aWFt6hcLaCjQQu2c@elver.google.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <aWFt6hcLaCjQQu2c@elver.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-(+Maarten)
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 
-On 1/9/26 2:06 PM, Marco Elver wrote:
-> If there's 1 out of N ww_mutex users that missed ww_acquire_done()
-> there's a good chance that 1 case is wrong.
+Now that all the fall-through warnings have been addressed in the
+kernel, enable the fall-through warning globally.
 
-$ git grep -w ww_acquire_done '**c'|wc -l
-11
-$ git grep -w ww_acquire_fini '**c'|wc -l
-33
+Also, update the deprecated.rst file to include implicit fall-through
+as 'deprecated' so people can be pointed to a single location for
+justification.
 
-The above statistics show that there are more cases where
-ww_acquire_done() is not called rather than cases where
-ww_acquire_done() is called.
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ Documentation/process/deprecated.rst | 14 ++++++++++++++
+ Makefile                             |  3 +++
+ 2 files changed, 17 insertions(+)
 
-Maarten, since you introduced the ww_mutex code, do you perhaps prefer
-that calling ww_acquire_done() is optional or rather that all users that
-do not call ww_acquire_done() are modified such that they call
-ww_acquire_done()? The full email conversation is available here:
-https://lore.kernel.org/all/20251219154418.3592607-1-elver@google.com/
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64a3427..053b24a6dd38 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+ lead to a crash, possible overwriting sensitive contents at the end of the
+ stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+ memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
++
++Implicit switch case fall-through
++---------------------------------
++The C language allows switch cases to "fall through" when
++a "break" statement is missing at the end of a case. This,
++however, introduces ambiguity in the code, as it's not always
++clear if the missing break is intentional or a bug. As there
++have been a long list of flaws `due to missing "break" statements
++<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
++"implicit fall-through". In order to identify an intentional fall-through
++case, we have adopted the marking used by static analyzers: a comment
++saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
++is more widely handled by C compilers, static analyzers, and IDEs, we can
++switch to using that instead.
+diff --git a/Makefile b/Makefile
+index 9be5834073f8..bdf8eac51b07 100644
+--- a/Makefile
++++ b/Makefile
+@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+ # warn about C99 declaration after statement
+ KBUILD_CFLAGS += -Wdeclaration-after-statement
+ 
++# Warn about unmarked fall-throughs in switch statement.
++KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
++
+ # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+ KBUILD_CFLAGS += -Wvla
+ 
+-- 
+2.43.0
 
-Thanks,
-
-Bart.
 
