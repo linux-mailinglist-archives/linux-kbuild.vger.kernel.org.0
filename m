@@ -1,153 +1,167 @@
-Return-Path: <linux-kbuild+bounces-10457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10458-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB5FD0CB9A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 02:37:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB30D0CDC2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 04:13:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7EAAE300DCB7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 01:35:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ED744300D4B3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Jan 2026 03:13:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FC7121CC62;
-	Sat, 10 Jan 2026 01:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF2F7081E;
+	Sat, 10 Jan 2026 03:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8Xt3ZnD"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="UgEf2WY0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4B12A1CF
-	for <linux-kbuild@vger.kernel.org>; Sat, 10 Jan 2026 01:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E76433AD
+	for <linux-kbuild@vger.kernel.org>; Sat, 10 Jan 2026 03:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768008909; cv=none; b=e1AjX/odgSX2YvURlBY69hrp1We4rYjrPvGsruBlQSa/rcAhwa0R3lgbZ3qLapOS6ZoSLX/CQB0qs3OgvkWsTsfsB50+yHWYr74ZRTrgJETW0ib/uhrfOEqCIv5MnBws0aIeJbQZD8Dspmukl4uJsLPLB3zILJrkMXQnrV/Et4E=
+	t=1768014815; cv=none; b=IGnrY28gBDnCQWBl9GQUZf3R/zdJPYexAVH9FxxD/E0YevRxSx7qw5oMygboLIE7SIn4WuKy0nT3yjR5AwHc4i2kdvib/YRF2vn3GDhBeq31X81cHOrMcPwhR+PVDJiu79tQKYVRNKrDkfQoY+bU0osOm++A4qDx6+Nq3UBelNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768008909; c=relaxed/simple;
-	bh=xLPWOwur5lZyTIFQhKJgCuS3vM2v4fZ1AeSleNLa7T0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sznjcNEIQKMGwJecjE/AnxwlgZo7HlybLxgE+8cFrrqbOauwgTe1rOd4Gt3rmZ9/fhKlGizrrhyFQeGYSYbGdJYdbtxL/3fS1wgaZtDIABI+hXgEyLZElu1E4mlk6u0wd7gy9xRln/yHSXLCJ/rW3ncsp/HLCXXpR8s5rbXaZkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V8Xt3ZnD; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-34ccdcbe520so1810956a91.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 09 Jan 2026 17:35:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768008907; x=1768613707; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsWZnuzRPjzvjOn98WGp9+L8/QX752dDvG+p5I6ytmo=;
-        b=V8Xt3ZnDJnoudBle7rlPnr37yVUhoD6aNtpKRu+enc7XgfmixZa0nnI3kjFNpVdTk4
-         RK7/FEWo/LadA8KagY9EUprdw1RLl6jmueN3ge/vXl1No+9F2ezwKPpcO15DwjkQxACi
-         GcpXt6YCcjvpiRPWqdU76Isou0kARU6hRKnC/EfYIGwmYfYEmN4SOsGGEy95kw4X0ze+
-         1iHh+XrPpVGC3j76mGiyRRO98hLECralDtWq0VC+DVz9L4G0OUQtHpzWm8zMpcFb7ddE
-         SCaRY95blv60ucnzThL/u2UiFNd9yU5KTj4Z3P45+trXxQpkaSrnFDodcSKmyCNMuO5V
-         /szw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768008907; x=1768613707;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NsWZnuzRPjzvjOn98WGp9+L8/QX752dDvG+p5I6ytmo=;
-        b=HViUGpnOfwr33OAlUZHgyaA14kIzwR7xwj1RBtIIhrybP82N1TdSFbZaPegXB07Dfh
-         2MTYUH9rJiCGrz87J3vCO8iF7XTcWYcdALAkM26Aa4gjUbZ+lMvnA227nDCCYHLGI9Yj
-         E3Dnx7ImxBd27agHrurlLKm66mNxsuF3EO+qyo/MtOYXNrmRCScvW2hy04KKC0Mxy1Oz
-         qDs/le31DP5ckTc0Dwn9PpYdmh4d/IemLwCYi/Wz8K5I8ZMUNrfvjzoJt0zf6bqEAX3a
-         qLJXdaDMIiDloIMmqRdg7g9dPlSwrXRPqjsifnN/D8QPH/wM2pKbA/ZSDc3MsurAoa45
-         gclg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdhscpj5SMUtsKLx7NagI+HS8nmbeeP4WkI5dCIwgyRAF32PHn4w91OcnKjIM/FF2rszTG3Lg5nmKOO+U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTp3/N1JMrBdM0r5SlU2UEKh8irhnE23wBPXilC7qOOyfXZG19
-	U4WojpzfPBaYca6DhKEK0/GMjB8D8XYg1Az2VaM+R7B1wAsxRi2LcCdzh9BRpmZc
-X-Gm-Gg: AY/fxX4AOooRPs4Yq+ebOVtOOoh6aBfWztaJDNJa9ITPlhA3y58usOKjtb2HayAQqQ1
-	iS1YVTpzd8z+PXfUdsKmX3yhF9tO3E/O+ON0rbYJIILiMYZIFHnQFAeVhKFqWOQNTgygK/Z5jgh
-	Y1xe9LvSxVHhWfUHGDdM3UInGJIKKcUuwrIAHCLaI57g0clnR62Y4/kHV42V2kUSXrDN1Jitn5u
-	7RTanTfoYumtxpzDag1mdDer9oqtQkrdxIvk2JYskJXbxZLfVKjHi/0uc61nYTYaYMNrmpUKP6R
-	OIDe6H7VzwZSvLk7TwXvNwwbVPM8OVG47v8KqlENy+iBQJszjt7tXrAmsnBDPZDHdfvfOYE7K5+
-	p9WBlMz/c3X5aY0H/eI8N/szWvfpRrLgMwJF2C7a4iwOuw/sQmCA/ipEYlO3db6UND9TIM8L1Z5
-	62f702XsY+FWvWdQXP
-X-Google-Smtp-Source: AGHT+IG4haSCU8mLrpiROHRvGF2RpFG58Ht9x3CEvvHtSyyrAxmqjeIcd2/fYDfQi5FS0sQ3PX9vbg==
-X-Received: by 2002:a17:90b:2692:b0:343:cfa1:c458 with SMTP id 98e67ed59e1d1-34f68c47998mr10983895a91.18.1768008906891;
-        Fri, 09 Jan 2026 17:35:06 -0800 (PST)
-Received: from PC.. ([2401:4900:88ab:2bed:6481:28de:e3bd:f865])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5fb64d7asm11431057a91.11.2026.01.09.17.35.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 17:35:06 -0800 (PST)
-From: MIshraMohit21-LE <mishraloopmohit@gmail.com>
-X-Google-Original-From: MIshraMohit21-LE <mohit.mishra@lunaredgeit.com>
-To: mohit.mishra@lunaredgeit.com
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Kees Cook <keescook@chromium.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] Makefile: Globally enable fall-through warning
-Date: Sat, 10 Jan 2026 07:04:13 +0530
-Message-ID: <20260110013412.14426-2-mohit.mishra@lunaredgeit.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1768014815; c=relaxed/simple;
+	bh=krELXkH5ubMPF3gKx+ZzZTbekIIyfXsG5WVpDp+p31g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fnz3pz6RutGyijpOUmH7XQTxGfP2AdJHM+CIDH8wti4kebr6Unkd9mld7mPGzk/x+EyIuW1oC0xPnpvbhKVhDyYXpOpFtggzD8rradpUTsKK5b/pOo8B8K/6grPZ6OSOAl9GLE+nN/Yc6NwBbaldZ+ohf9kZNXGd2RzIS0W9stI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=UgEf2WY0; arc=none smtp.client-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+Received: from eig-obgw-5003b.ext.cloudfilter.net ([10.0.29.155])
+	by cmsmtp with ESMTPS
+	id ePCvv07FKaPqLePPsvyAiM; Sat, 10 Jan 2026 03:13:28 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id ePPrvrXif2l0kePPrvitCJ; Sat, 10 Jan 2026 03:13:28 +0000
+X-Authority-Analysis: v=2.4 cv=UfRRSLSN c=1 sm=1 tr=0 ts=6961c3d8
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=Aea70ojWhvW6xI+oM0giEQ==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=7T7KSl7uo7wA:10 a=sMBj6sIwAAAA:8
+ a=_Wotqz80AAAA:8 a=c-n4J4-pAAAA:8 a=Z4Rwk6OoAAAA:8 a=NZ-89VFvAAAA:8
+ a=cm27Pg_UAAAA:8 a=VwQbUJbxAAAA:8 a=vqrTxftTu3ppZ4ASemcA:9 a=QEXdDO2ut3YA:10
+ a=d2ev92nbPIAA:10 a=buJP51TR1BpY-zbLSsyS:22 a=HkZW87K1Qel5hWWM3VKY:22
+ a=pm31WBKQz9GEXVZSZ1ft:22 a=2aFnImwKRvkU0tJ3nQRT:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=RB/eVnJO0ueNOrkQZcgjGIOul/MDRHDGAgQ8mCIflUs=; b=UgEf2WY0WOud5PLv0OyvmrdhDG
+	HSJOHlSES7uZ99hKG72Ed/H1GYAARCb6rLIf4K/+SrOd2XMAldfjsmgmUqpatFwExd3wR7W+eVZGG
+	axJ2AG7lZ+Wqwb7B7fNShtAT2JQMSHT1icsMMK2ruNZbND5vw9gEdOE53851dDX+JXnbi1TqkqxMI
+	x3LQnWDum5ZrKkU1KXG2rK9VLZ88gw1qHTTEL2iQ8SvKnjFTiVr3RKA6uBBWFjH+3G9hw0eC+DhMH
+	98lCt0TOVddDeNomOI+sVdzbyxezzgY5JbRLmOvaghCN6PpGtvEIBZ83Xb6Hz7Qq7f+kyvarnSx3B
+	DFcFKMTw==;
+Received: from flh4-122-130-137-161.osk.mesh.ad.jp ([122.130.137.161]:50828 helo=[10.79.109.44])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.99.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1vePPq-000000006Na-40Rp;
+	Fri, 09 Jan 2026 21:13:27 -0600
+Message-ID: <d91d137e-a9a4-4b91-a759-62054b53bd44@embeddedor.com>
+Date: Sat, 10 Jan 2026 12:12:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Makefile: Globally enable fall-through warning
+To: MIshraMohit21-LE <mishraloopmohit@gmail.com>, mohit.mishra@lunaredgeit.com
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Michal Marek <michal.lkml@markovi.net>, Kees Cook <keescook@chromium.org>,
+ linux-kbuild@vger.kernel.org
+References: <20260110013412.14426-2-mohit.mishra@lunaredgeit.com>
+Content-Language: en-US
 From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20260110013412.14426-2-mohit.mishra@lunaredgeit.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 122.130.137.161
+X-Source-L: No
+X-Exim-ID: 1vePPq-000000006Na-40Rp
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: flh4-122-130-137-161.osk.mesh.ad.jp ([10.79.109.44]) [122.130.137.161]:50828
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 1
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfNECsT5YdeyUBD06AKfa9ZyK/IRsn/s0UpBWaXsMIKjewABMLzx52K3W6kT9dbLElDka5Ul6RzjaGPbdD4BYJ2qqDCykv1RYKyt/zr76MPtsmOzktCWd
+ lywMk8+A0YWp2lOOfUYV0UZMBI1bVooPxZmMd86q9EevkCsWd5CJYkWNgtbg1s30Kj095jAdbUzqn3Xry8WyLg5rVoXxUGvecIu40OtITJnQwIfWNUEePxi8
 
-Now that all the fall-through warnings have been addressed in the
-kernel, enable the fall-through warning globally.
+Are you intentionally spamming us?
 
-Also, update the deprecated.rst file to include implicit fall-through
-as 'deprecated' so people can be pointed to a single location for
-justification.
+-Gustavo
 
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- Documentation/process/deprecated.rst | 14 ++++++++++++++
- Makefile                             |  3 +++
- 2 files changed, 17 insertions(+)
-
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..053b24a6dd38 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
- lead to a crash, possible overwriting sensitive contents at the end of the
- stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
- memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
-+
-+Implicit switch case fall-through
-+---------------------------------
-+The C language allows switch cases to "fall through" when
-+a "break" statement is missing at the end of a case. This,
-+however, introduces ambiguity in the code, as it's not always
-+clear if the missing break is intentional or a bug. As there
-+have been a long list of flaws `due to missing "break" statements
-+<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
-+"implicit fall-through". In order to identify an intentional fall-through
-+case, we have adopted the marking used by static analyzers: a comment
-+saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
-+is more widely handled by C compilers, static analyzers, and IDEs, we can
-+switch to using that instead.
-diff --git a/Makefile b/Makefile
-index 9be5834073f8..bdf8eac51b07 100644
---- a/Makefile
-+++ b/Makefile
-@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
- # warn about C99 declaration after statement
- KBUILD_CFLAGS += -Wdeclaration-after-statement
- 
-+# Warn about unmarked fall-throughs in switch statement.
-+KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
-+
- # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
- KBUILD_CFLAGS += -Wvla
- 
--- 
-2.43.0
+On 1/10/26 10:34, MIshraMohit21-LE wrote:
+> From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+> 
+> Now that all the fall-through warnings have been addressed in the
+> kernel, enable the fall-through warning globally.
+> 
+> Also, update the deprecated.rst file to include implicit fall-through
+> as 'deprecated' so people can be pointed to a single location for
+> justification.
+> 
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+>   Documentation/process/deprecated.rst | 14 ++++++++++++++
+>   Makefile                             |  3 +++
+>   2 files changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 49e0f64a3427..053b24a6dd38 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+>   lead to a crash, possible overwriting sensitive contents at the end of the
+>   stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+>   memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
+> +
+> +Implicit switch case fall-through
+> +---------------------------------
+> +The C language allows switch cases to "fall through" when
+> +a "break" statement is missing at the end of a case. This,
+> +however, introduces ambiguity in the code, as it's not always
+> +clear if the missing break is intentional or a bug. As there
+> +have been a long list of flaws `due to missing "break" statements
+> +<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
+> +"implicit fall-through". In order to identify an intentional fall-through
+> +case, we have adopted the marking used by static analyzers: a comment
+> +saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
+> +is more widely handled by C compilers, static analyzers, and IDEs, we can
+> +switch to using that instead.
+> diff --git a/Makefile b/Makefile
+> index 9be5834073f8..bdf8eac51b07 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+>   # warn about C99 declaration after statement
+>   KBUILD_CFLAGS += -Wdeclaration-after-statement
+>   
+> +# Warn about unmarked fall-throughs in switch statement.
+> +KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
+> +
+>   # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+>   KBUILD_CFLAGS += -Wvla
+>   
 
 
