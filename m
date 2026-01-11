@@ -1,181 +1,121 @@
-Return-Path: <linux-kbuild+bounces-10482-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10483-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D58D0E92F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Jan 2026 11:29:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B66D0F88C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Jan 2026 18:42:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BC0CD30049F0
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Jan 2026 10:29:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 77F5630329EF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Jan 2026 17:41:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0466623ABBE;
-	Sun, 11 Jan 2026 10:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C742F34C830;
+	Sun, 11 Jan 2026 17:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kkXfLBeF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VYN5UIgZ"
+	dkim=pass (2048-bit key) header.d=dwd.de header.i=@dwd.de header.b="hmUb6DDs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from ofcsgdbm.dwd.de (ofcsgdbm.dwd.de [141.38.3.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAEB23AB88
-	for <linux-kbuild@vger.kernel.org>; Sun, 11 Jan 2026 10:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D47D2222D1
+	for <linux-kbuild@vger.kernel.org>; Sun, 11 Jan 2026 17:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.38.3.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768127395; cv=none; b=hn8AuPkCyzsnaP58LwemNAUwaVSYZzor3eL+eoY/Q+PPFiZz8g99gst3wCr/LpeutZt3hMIVu1neEaWuoE64pXpASmdiyvdOfNH59h1gjpqkjtBf8sRsEVopDEdaxdbB7U5uxRO0AbMz6g6U/WOXoZV+0o1h7YQwJsuM7sNunKA=
+	t=1768153310; cv=none; b=ViW/GOwHKUHRVUmemRHJEnLYQxhF2kMBhuD1AY8ZaMG7J6S8+w9qbwewsz2nImI4CZ2JBJvKIjyIx9RQxYookBmfb4oeXlzYtau2UV86Pf9s5uNvpUFq69JZhePP6UhtMT5I4r5zlgnfJZtxTKR0kvhXGQ2FSKY6AkFS4oBhE6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768127395; c=relaxed/simple;
-	bh=yheON5ZUbnn6ELwpk8zzv7Qh1BwJ8OdwbLEvQcYMY3w=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=J853Zd1iRV8ICtgfbA0br2QKPlHC8F5cQvmQ+oS35fba7D91sul5oE47MUmaIERrPmJEOz9mubi4seoFmx9/AvXwDx1u7LzIA8ySAXCesXHsbsCQWNw0c4mEVOXSYFbDY9WqZTRNyUgWIHNgiBwQT4gpwYKOpZBtrwKCIAuAvGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kkXfLBeF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VYN5UIgZ; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id C40801D00129;
-	Sun, 11 Jan 2026 05:29:51 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Sun, 11 Jan 2026 05:29:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1768127391;
-	 x=1768213791; bh=6RMOPJc8MLLse1vRCBHrkSArguVZcEAgOQpWKXH1ESo=; b=
-	kkXfLBeFbkVM+I3MkHzUbbdvNGJgv20iNAhceDK8f4zs35W4B/gedY/U5eKLR3tM
-	rOWhaXDaMRyprCicbDlzTjlMgpqK+B3sNLgKnJGgRB7Uay2j39KvZZlMiL+M6xbM
-	TVaArQiYNl9cZlfmyssXPJzDlk8KLYI0mdGmJOG/tTxIrjDqx6NUAqDCRIxNArC+
-	vP3hsdtynuSX42ySf0GuHVr+qpBppnRtxjXEGt9dY25ahYEmjPsxD7Wk09IRUIMt
-	am7hvBroOb5NLrGQRyNSPoIPkavB9HEmuPtYLYGCGeUo2HchNPg4C2OfIcryzgs6
-	gGnvjVGlmg1UJMjf3F0dwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768127391; x=
-	1768213791; bh=6RMOPJc8MLLse1vRCBHrkSArguVZcEAgOQpWKXH1ESo=; b=V
-	YN5UIgZaHE6AJtSYxTU01H/IM4E5lFq4jHHhM+HWGLpR5IQ7mdt7MWfUzph04gTr
-	vggEXRlhtK04iGSLvmsjMAoV9kgsoJklrgdx4ynmYlBVT1zxtJpL3ZUgz/8FmLHT
-	QjFTOfjk+Ys2DcAkS6bwASfncg3jdsfHWu/xWkDR92MfsgF27KAe5FzdHkYdxVrb
-	lEVmrhYMFmJJ/i1inNe3XwMrJXqXbhGPCvpMtmoUaMyuGYoVIdxa+kHmKstRmqug
-	zSYMBl5QF/jWsGvICKsHQm3g8/PXpC79S6wyFG8/2sPly4DdkY4uWmBB/bXokptU
-	yoTqQWBZn6t2P1AickaGQ==
-X-ME-Sender: <xms:n3tjaezYK69uHA84vOPNy8rgTNc7YT0S_4RsXFgnQNLa6SG80ugUAQ>
-    <xme:n3tjaVE4rnfr9xRWjm4KiAPe31ZA9q0zaIuDSqRmTBjG49HIBWYYx8M0QBT2UsuBB
-    8qWDMVYaAON2VXDkRTE_7QmQdUM1yanWWopZsdHZCO38tLU-MQQpLY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudegfeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepnhhitghkrdguvghsrghulhhnihgvrhhsodhlkhhmlhesghhmrghilh
-    drtghomhdprhgtphhtthhopehjuhhsthhinhhsthhithhtsehgohhoghhlvgdrtghomhdp
-    rhgtphhtthhopehmohhrsghosehgohhoghhlvgdrtghomhdprhgtphhtthhopehnrghthh
-    grnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhstgeskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepthhhohhmrghsrdifvghishhsshgthhhuhheslhhinhhuthhrohhnih
-    igrdguvgdprhgtphhtthhopehllhhvmheslhhishhtshdrlhhinhhugidruggvvhdprhgt
-    phhtthhopehprghttghhvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
-    eplhhinhhugidqkhgsuhhilhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:n3tjaYS_4bq4i5yGW7ZA4Nm2JrENN94fubBJZWkGKtI7qP9s0R3Q2Q>
-    <xmx:n3tjaSUKq-Hxy-dhB8lfvP4rCt0y9WXU8OokmtIIiGNY0lFHaQchdA>
-    <xmx:n3tjaaTIsqSM5u4662PZD_k7ylPdd0QAm58S_v7oh5g_NDwfYF0rTA>
-    <xmx:n3tjaS3HByArCczJwL9kady1Yx58CtdcH_qj6gK_FK0Y5fW_w8XDHg>
-    <xmx:n3tjaVLTpELHxq_iTPLjVETCqjtofDWgm950wrawCgc5RpWY3uJ2evEW>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 59B19700065; Sun, 11 Jan 2026 05:29:51 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1768153310; c=relaxed/simple;
+	bh=UXKCXGLvc9iw2HTjgchiDEAF8DC1FIot/3hn8K08QpE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=jqsmoJ0WfsyYjN6Y3UBIC2RZEFAOCKKl0U1EDkLxgqqbMfXdhpWZZ4Df1veWwQWDYBS16/m/6rXTWFLPfzAg1NbewTJ9rObJ57phfqh1Zf4oatxsAVBSzyhoqC7D/Z2vSqOeTysuB1M/THe/tWDyXr3nFg+Mng9uZUfe9VcRWUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dwd.de; spf=pass smtp.mailfrom=dwd.de; dkim=pass (2048-bit key) header.d=dwd.de header.i=@dwd.de header.b=hmUb6DDs; arc=none smtp.client-ip=141.38.3.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dwd.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dwd.de
+Received: from localhost (localhost [127.0.0.1])
+	by ofcsg2dn3.dwd.de (Postfix) with ESMTP id 4dq2r40Xhnz4tk0
+	for <linux-kbuild@vger.kernel.org>; Sun, 11 Jan 2026 17:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dwd.de; h=
+	content-type:content-type:mime-version:references:message-id
+	:in-reply-to:subject:subject:from:from:date:date:received
+	:received:received:received:received:received:received:received;
+	 s=dwd-csg20210107; t=1768153299; x=1769362900; bh=UXKCXGLvc9iw2
+	HTjgchiDEAF8DC1FIot/3hn8K08QpE=; b=hmUb6DDs32Gf1quf2maNvDmjgReS/
+	UIBllbRYlaf3xVmQ1ttJivn3Eyb5aXvs63SrNLmQzxsA+XuiEUE3+81cd7CT7vbU
+	TGCF5Y9oTooKX0LbTWCp4GO9hEGW2L03hFmkh6akZAJQ9fwqaL1m3S+1mOQ2RH5a
+	1JZRhXOB5zupIUh8+/qK/UM51Y6xulaLVQef66jp2BcgaHZv50nhcok8Qt6hhGro
+	r3luZH7+VzNaJZGq1AqpVARb0AJf0F+joJ3XPPfqtWSt3r7Y1RQuOSfYefVXgswp
+	+lQpyZxTb7wYSpMtZuSgf3vg/KxK7R+UX7RuNQ4MUWgUyEjgKUo2fT/7A==
+X-Virus-Scanned: by amavisd-new at csg.dwd.de
+Received: from ofcsg2cteh1.dwd.de ([172.30.232.65])
+ by localhost (ofcsg2dn3.dwd.de [172.30.232.26]) (amavis, port 10024)
+ with ESMTP id JThJfu94Rwk2 for <linux-kbuild@vger.kernel.org>;
+ Sun, 11 Jan 2026 17:41:39 +0000 (UTC)
+Received: from ofcsg2cteh1.dwd.de (unknown [127.0.0.1])
+	by DDEI (Postfix) with ESMTP id C3BF7C902E8E
+	for <root@ofcsg2dn3.dwd.de>; Sun, 11 Jan 2026 17:41:39 +0000 (UTC)
+Received: from ofcsg2cteh1.dwd.de (unknown [127.0.0.1])
+	by DDEI (Postfix) with ESMTP id B8886C902E66
+	for <root@ofcsg2dn3.dwd.de>; Sun, 11 Jan 2026 17:41:39 +0000 (UTC)
+X-DDEI-TLS-USAGE: Unused
+Received: from ofcsgdbm.dwd.de (unknown [172.30.232.26])
+	by ofcsg2cteh1.dwd.de (Postfix) with ESMTP
+	for <root@ofcsg2dn3.dwd.de>; Sun, 11 Jan 2026 17:41:39 +0000 (UTC)
+Received: from ofcsgdbm.dwd.de by localhost (Postfix XFORWARD proxy);
+ Sun, 11 Jan 2026 17:41:39 -0000
+Received: from ofcsg2dvf2.dwd.de (unknown [172.30.232.11])
+	by ofcsg2dn3.dwd.de (Postfix) with ESMTPS id 4dq2r34zJKz4tk0;
+	Sun, 11 Jan 2026 17:41:39 +0000 (UTC)
+Received: from ofmailhub.dwd.de (ofldap.dwd.de [141.38.39.196])
+	by ofcsg2dvf2.dwd.de  with ESMTP id 60BHfdfN005470-60BHfdfO005470;
+	Sun, 11 Jan 2026 17:41:39 GMT
+Received: from praktifix.dwd.de (praktifix.dwd.de [141.38.44.46])
+	by ofmailhub.dwd.de (Postfix) with ESMTP id 6ADC5E190F;
+	Sun, 11 Jan 2026 17:41:39 +0000 (UTC)
+Date: Sun, 11 Jan 2026 18:41:39 +0100 (CET)
+From: Holger Kiehl <Holger.Kiehl@dwd.de>
+To: Nicolas Schier <nsc@kernel.org>
+cc: linux-kernel <linux-kernel@vger.kernel.org>, 
+    Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+    Uday Shankar <ushankar@purestorage.com>
+Subject: Re: Since 6.18.x make binrpm-pkg does not sign modules
+In-Reply-To: <aWLF4BwQemwIZMMp@levanger>
+Message-ID: <71934f81-c412-cdaa-421b-b3b599be756d@praktifix.dwd.de>
+References: <68c375f6-e07e-fec-434d-6a45a4f1390@praktifix.dwd.de> <aWFt34dkIvlu1EYI@derry.ads.avm.de> <71bc53a4-9b54-c15a-96e-23fb338ac71@praktifix.dwd.de> <aWLF4BwQemwIZMMp@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Al1egLVrYt0c
-Date: Sun, 11 Jan 2026 11:29:31 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nsc@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev
-Message-Id: <29b2e736-d462-45b7-a0a9-85f8d8a3de56@app.fastmail.com>
-In-Reply-To: 
- <20260110-uapi-test-disable-headers-arm-clang-unaligned-access-v1-1-b7b0fa541daa@kernel.org>
-References: 
- <20260110-uapi-test-disable-headers-arm-clang-unaligned-access-v1-1-b7b0fa541daa@kernel.org>
-Subject: Re: [PATCH] kbuild: uapi: Avoid testing certain headers on ARCH=arm with
- CC=clang
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+X-FEAS-Client-IP: 141.38.39.196
+X-FE-Last-Public-Client-IP: 141.38.39.196
+X-FE-Policy-ID: 2:2:1:SYSTEM
+X-TMASE-Version: DDEI-5.1-9.1.1004-29692.001
+X-TMASE-Result: 10--12.991400-10.000000
+X-TMASE-MatchedRID: 7ySqCuYCpfgMek0ClnpVp/HkpkyUphL9NUSduuqYHDtLWMri+Qqmsexl
+	/JBXgQ0mgaQ6I9UEU8wv9l0GJdC16OM2fQ6STlVfrMZ+BqQt2NrzZKDA1/pIrjocBhlYvFzr/ji
+	lg8PXoIs6hUOcTonr9H8mA3sDDq0AcWlAkEA3e4Nq8/xv2Um1avoLR4+zsDTthUfR2rvBju6nw5
+	2XVXCkJAmyI2aXdNvCF6Vf0jVDQ4v8i5dt33x0CD/R7vuyshIstPrxAaEmNdo=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-TMASE-INERTIA: 0-0;;;;
+X-DDEI-PROCESSED-RESULT: Safe
 
-On Sun, Jan 11, 2026, at 01:52, Nathan Chancellor wrote:
->
-> To keep the build working while the root cause of the warnings is
-> investigated and resolved, disable testing these header files for
-> ARCH=arm when building with clang. 
+On Sat, 10 Jan 2026, Nicolas Schier wrote:
 
-I think we can just safely mark the internal unions as __packed as
-well. The (untested) change below would annotate all of them
-as being potentially misaligned so they can be stored at an
-odd start offset, and correctly produce warnings when someone
-takes the address of a member.
+> A simple solution might be to call modules_sign target after the
+> find-debuginfo.sh run; but commit 16c36f8864e3 spunds to me as if we
+> should rather do something similiar as for the Debian packages:
+> modules_install with INSTALL_MOD_STRIP=1 and then install only the debug
+> infos manually.
+> 
+> Does that make sense?
+> 
+I am not a kernel developer and my knowledge in this area is very
+limited. Did try your suggestion to call modules_install with
+INSTALL_MOD_STRIP=1, but still the signature was removed in the
+RPM. Removing the 'chmod u+x', so find-debuginfo.sh does not strip
+them, did not help either. But, most properly, I am still missing
+something.
 
-     Arnd
-
-diff --git a/include/uapi/linux/hyperv.h b/include/uapi/linux/hyperv.h
-index aaa502a7bff4..02ea5f2e43d4 100644
---- a/include/uapi/linux/hyperv.h
-+++ b/include/uapi/linux/hyperv.h
-@@ -362,7 +362,7 @@ struct hv_kvp_exchg_msg_value {
-                __u8 value[HV_KVP_EXCHANGE_MAX_VALUE_SIZE];
-                __u32 value_u32;
-                __u64 value_u64;
--       };
-+       } __packed;
- } __attribute__((packed));
- 
- struct hv_kvp_msg_enumerate {
-diff --git a/include/uapi/linux/vbox_vmmdev_types.h b/include/uapi/linux/vbox_vmmdev_types.h
-index 6073858d52a2..15ccfb5d624c 100644
---- a/include/uapi/linux/vbox_vmmdev_types.h
-+++ b/include/uapi/linux/vbox_vmmdev_types.h
-@@ -229,14 +229,14 @@ struct vmmdev_hgcm_function_parameter32 {
-                                __u32 phys_addr;
-                                __u32 linear_addr;
-                        } u;
--               } pointer;
-+               } __packed pointer;
-                struct {
-                        /** Size of the buffer described by the page list. */
-                        __u32 size;
-                        /** Relative to the request header. */
-                        __u32 offset;
--               } page_list;
--       } u;
-+               } __packed page_list;
-+       } __packed u;
- } __packed;
- VMMDEV_ASSERT_SIZE(vmmdev_hgcm_function_parameter32, 4 + 8);
- 
-@@ -251,14 +251,14 @@ struct vmmdev_hgcm_function_parameter64 {
-                        union {
-                                __u64 phys_addr;
-                                __u64 linear_addr;
--                       } u;
-+                       } __packed u;
-                } __packed pointer;
-                struct {
-                        /** Size of the buffer described by the page list. */
-                        __u32 size;
-                        /** Relative to the request header. */
-                        __u32 offset;
--               } page_list;
-+               } __packed page_list;
-        } __packed u;
- } __packed;
- VMMDEV_ASSERT_SIZE(vmmdev_hgcm_function_parameter64, 4 + 12);
+Kind regards,
+Holger
 
