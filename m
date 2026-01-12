@@ -1,210 +1,127 @@
-Return-Path: <linux-kbuild+bounces-10529-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10530-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06EAD1510B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 20:35:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA46D15282
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 21:08:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CC87C30AB81D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 19:30:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C232302BA5C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 20:08:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC883242B5;
-	Mon, 12 Jan 2026 19:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D2E32C939;
+	Mon, 12 Jan 2026 20:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a3gndHcM"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="QT4Gpkfe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C0F320CD5;
-	Mon, 12 Jan 2026 19:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B709A32C302;
+	Mon, 12 Jan 2026 20:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768246194; cv=none; b=CyDtNkP0SKwnanIrFm+OIAeVzguLg3tVYy5GMCMBHnN4NCm6Sl8Pc+PEeKfFYILG3RUmbp3wOmdVVNbdL17PQsUd4BiPPE/vlmhjOWn0ZojIxqZNBOfGBBfvbTzTKWfBUFQgF70Xh7Gm1JFAgX5hScwz1NlxF2frfEkd37dOBZk=
+	t=1768248519; cv=none; b=bQPDtsuxrn0wMchyvwQMsBdJZ/wXHjd0ZzT5rhsingmZrCpp6KI4sbmFmXbrDVdmiiCSBF4YVQ1Fm7j6g0xkMaEbWA7EApHe3pu55fuHck20noKY4fAQTk78qT9AUUDDdMpylAsnm4RWzdY8AAKbd/kk/hnBUYx6aa/3YrCLbNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768246194; c=relaxed/simple;
-	bh=/FNl+yM0hGl4sB95N++ILsrhRRKe3muJ5CSF6Ts1Pxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bvcdvy4EY84TCctN8KQmQJB7NHqQbPQN/uusZXNigckaABwXazjSc+/2sz85faC0pkGrexZvkJmGyeD7VBOjd+08O1bgrYB3S5vbyKCCuOEDu17U5cVrorcKF3BbYkjOtk74ic/zcq1dSrxfDWpm90/PMYUriYJvvSk0/YIHHwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a3gndHcM; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768246193; x=1799782193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/FNl+yM0hGl4sB95N++ILsrhRRKe3muJ5CSF6Ts1Pxg=;
-  b=a3gndHcMrUEeiZ7O7PW5KERg9+HO9xUyrDv6zXdJa+KWbkIfcUsmbp3f
-   qVhd2bAx3LPMJ0R5fM6QE8UqCDIrPFneGN8W7/XyzyjGhar59cv2Iu6AX
-   E6B11ykn9h2hASa/bAStYCOro1+ueOCPFA/gu7rjk7ahER/yzM3wq+MtO
-   Fy/hcHKJi4QotePt3bEHnLVobaJFS8+2cX5Wh61MMwaoEL0LM1fw2fQWr
-   +9KvtUNIPalFzxlWqLX4dvGycumU5ZiHzGdp+YCllD1ABxF3GMq/BeoV8
-   Aqz2nULxqXRS5Md/TG/KPI5v3MAbezDjD5QFOAHj055/u65I7Ky1Co1eO
-   g==;
-X-CSE-ConnectionGUID: KImT7tFCTBGTgmRB3HqYFg==
-X-CSE-MsgGUID: GZfGabTmRcK2CXO4z9IfQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73370489"
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="73370489"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 11:29:53 -0800
-X-CSE-ConnectionGUID: DtpOCRNwS4WSwE7pSA5Krw==
-X-CSE-MsgGUID: nPyjcCCJQMqWwjQygcO+BA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208646824"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 11:29:46 -0800
-Date: Mon, 12 Jan 2026 21:29:44 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-acpi@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v4 0/9] Add support for handling PCIe M.2 Key E
- connectors in devicetree
-Message-ID: <aWVLqEV4hTzlRYLu@smile.fi.intel.com>
-References: <20260112-pci-m2-e-v4-0-eff84d2c6d26@oss.qualcomm.com>
+	s=arc-20240116; t=1768248519; c=relaxed/simple;
+	bh=6HlH6fTgDaIxuF6BqTtRulNWBD0wkhs1+qui3XV4hRk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uQO1gNEG/0PZnPNKcV2QSpt07a8FWqN+FmpO/+4aMTOXzbcjIv742yymzd5g/qn33vK3qqAe3VbMU/z6fJgP5V4LNmler4wy89ebYaODdb1CiSkmGj/wxNnE/J37y+MVb4kCXIu3cy9Mm4MKvn/H015Kju3XIJESt2n77uqNXbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=QT4Gpkfe; arc=none smtp.client-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1768248514; x=1768507714;
+	bh=0xx91FMArzFMWklxJ23UJVUdtYrv0ESnhx5I4mmt2rU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=QT4GpkfeDeiZhEH0UHFstVyzQKRlUDyyzO3NyBJ4KpGqlaKOkHJ9suj9ZyeqrjLMI
+	 dU1YDifSGjmZNM3qKkvKMgpskAglgi05UxiDWwfhkh8rX+s/2lZb76KG3QD7v51syV
+	 0B3XohFYhfPIvGVCtMKCqW5/zpjF9fPlI3L34+4MkYznIaFJ2Yc9D3QRFDR6w9Ijap
+	 nrTxnMyLEwwurUV6I+I4XP8Hz1wtDy+uAR/LBbsc4LqgkTw2cK9GoTnicbBOiEonAf
+	 OMQntpaTaWtrP2VUSiCzqFMGh5mkUD6C225v9M2ytPNklm/HL+ToP6GKFuKce+qo4B
+	 OrUUPcrIkR7Bg==
+Date: Mon, 12 Jan 2026 20:08:23 +0000
+To: Andrew Morton <akpm@linux-foundation.org>
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Cc: corbet@lwn.net, morbo@google.com, rppt@kernel.org, lorenzo.stoakes@oracle.com, ubizjak@gmail.com, mingo@redhat.com, vincenzo.frascino@arm.com, maciej.wieczor-retman@intel.com, maz@kernel.org, catalin.marinas@arm.com, yeoreum.yun@arm.com, will@kernel.org, jackmanb@google.com, samuel.holland@sifive.com, glider@google.com, osandov@fb.com, nsc@kernel.org, luto@kernel.org, jpoimboe@kernel.org, Liam.Howlett@oracle.com, kees@kernel.org, jan.kiszka@siemens.com, thomas.lendacky@amd.com, jeremy.linton@arm.com, dvyukov@google.com, axelrasmussen@google.com, leitao@debian.org, ryabinin.a.a@gmail.com, bigeasy@linutronix.de, peterz@infradead.org, mark.rutland@arm.com, urezki@gmail.com, brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com, andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org, vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com, samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com, surenb@google.com, anshuman.khandual@arm.com, smostafa@google.com,
+	yuanchu@google.com, ada.coupriediaz@arm.com, dave.hansen@linux.intel.com, kas@kernel.org, nick.desaulniers+lkml@gmail.com, david@kernel.org, bp@alien8.de, ardb@kernel.org, justinstitt@google.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <aWU-oL8oYS_PTwzc@maciej>
+In-Reply-To: <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
+References: <cover.1768233085.git.m.wieczorretman@pm.me> <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 74b6155b55c4853d5925984570fe14ed71d1c92c
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112-pci-m2-e-v4-0-eff84d2c6d26@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 09:55:59PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+On 2026-01-12 at 10:29:57 -0800, Andrew Morton wrote:
+>On Mon, 12 Jan 2026 17:26:29 +0000 Maciej Wieczor-Retman <m.wieczorretman@=
+pm.me> wrote:
+>
+>> The patchset aims to add a KASAN tag-based mode for the x86 architecture
+>> with the help of the new CPU feature called Linear Address Masking
+>> (LAM). Main improvement introduced by the series is 2x lower memory
+>> usage compared to KASAN's generic mode, the only currently available
+>> mode on x86. The tag based mode may also find errors that the generic
+>> mode couldn't because of differences in how these modes operate.
+>
+>Well this is a hearty mixture of arm, x86 and MM.  I guess that means
+>mm.git.
+>
+>The review process seems to be proceeding OK so I'll add this to
+>mm.git's mm-new branch, which is not included in linux-next.  I'll aim
+>to hold it there for a week while people check the patches over and
+>send out their acks (please).  Then I hope I can move it into mm.git's
+>mm-unstable branch where it will receive linux-next exposure.
 
-> This series is the continuation of the series [1] that added the initial support
-> for the PCIe M.2 connectors. This series extends it by adding support for Key E
-> connectors. These connectors are used to connect the Wireless Connectivity
-> devices such as WiFi, BT, NFC and GNSS devices to the host machine over
-> interfaces such as PCIe/SDIO, USB/UART and NFC. This series adds support for
-> connectors that expose PCIe interface for WiFi and UART interface for BT. Other
-> interfaces are left for future improvements.
-> 
-> Serdev device support for BT
-> ============================
-> 
-> Adding support for the PCIe interface was mostly straightforward and a lot
-> similar to the previous Key M connector. But adding UART interface has proved to
-> be tricky. This is mostly because of the fact UART is a non-discoverable bus,
-> unlike PCIe which is discoverable. So this series relied on the PCI notifier to
-> create the serdev device for UART/BT. This means the PCIe interface will be
-> brought up first and after the PCIe device enumeration, the serdev device will
-> be created by the pwrseq driver. This logic is necessary since the connector
-> driver and DT node don't describe the device, but just the connector. So to make
-> the connector interface Plug and Play, the connector driver uses the PCIe device
-> ID to identify the card and creates the serdev device. This logic could be
-> extended in the future to support more M.2 cards. Even if the M.2 card uses SDIO
-> interface for connecting WLAN, a SDIO notifier could be added to create the
-> serdev device.
-> 
-> Open questions
-> ==============
-> 
-> Though this series adds the relevant functionality for handling the M.2 Key M
-> connectors, there are still a few open questions exists on the design. 
-> 
-> 1. Created a dynamic 'bluetooth' node with the compatible property matching the
-> WCN7850 device and attached it to the serdev device. This allowed reusing the
-> existing OF based BT driver without much modifications.
+Thank you :)
 
-And now I like the solution, thanks!
+>
+>> [1] Currently inline mode doesn't work on x86 due to things missing in
+>> the compiler. I have written a patch for clang that seems to fix the
+>> inline mode and I was able to boot and check that all patches regarding
+>> the inline mode work as expected. My hope is to post the patch to LLVM
+>> once this series is completed, and then make inline mode available in
+>> the kernel config.
+>>
+>> [2] While I was able to boot the inline tag-based kernel with my
+>> compiler changes in a simulated environment, due to toolchain
+>> difficulties I couldn't get it to boot on the machine I had access to.
+>> Also boot time results from the simulation seem too good to be true, and
+>> they're much too worse for the generic case to be believable. Therefore
+>> I'm posting only results from the physical server platform.
+>>
+>> =3D=3D=3D=3D=3D=3D=3D Compilation
+>> Clang was used to compile the series (make LLVM=3D1) since gcc doesn't
+>> seem to have support for KASAN tag-based compiler instrumentation on
+>> x86.
+>
+>OK, known issues and they are understandable.  With this patchset is
+>there any way in which our testers can encounter these things?  If so
+>can we make changes to protect them from hitting known issues?
 
-> 2. PCIe client drivers of some M.2 WLAN cards like the Qcom QCA6390, rely on
-> the PCIe device DT node to extract properties such as
-> 'qcom,calibration-variant', 'firmware-name', etc... For those drivers, should we
-> add the PCIe DT node in the Root Port in conjunction with the Port node as
-> below?
-> 
-> pcie@0 {
-> 	wifi@0 {
-> 		compatible = "pci17cb,1103";
-> 		...
-> 		qcom,calibration-variant = "LE_X13S";
-> 	};
-> 
-> 	port {
-> 		pcie4_port0_ep: endpoint {
-> 			remote-endpoint = <&m2_e_pcie_ep>;
-> 		};
-> 	};
-> };
-> 
-> This will also require marking the PMU supplies optional in the relevant ath
-> bindings for M.2 cards.
-> 
-> 3. Some M.2 cards require specific power up sequence like delays between
-> regulator/GPIO and such. For instance, the WCN7850 card supported in this series
-> requires 50ms delay between powering up an interface and driving it. I've just
-> hardcoded the delay in the driver, but it is a pure hack. Since the pwrseq
-> driver doesn't know anything about the device it is dealing with before powering
-> it ON, how should it handle the device specific power requirements? Should we
-> hardcode the device specific property in the connector node? But then, it will
-> no longer become a generic M.2 connector and sort of defeats the purpose of the
-> connector binding.
-> 
-> I hope to address these questions with the help of the relevant subsystem
-> maintainers and the community. 
-> 
-> Testing
-> =======
-> 
-> This series, together with the devicetree changes [2] was tested on the
-> Qualcomm X1e based Lenovo Thinkpad T14s Laptop which has the WCN7850 WLAN/BT
-> 1620 LGA card connected over PCIe and UART.
-> 
-> Dependency
-> ==========
-> 
-> This series is dependent on the M.2 Key M series [1] on top of v6.19-rc1.
-> 
-> [1] https://lore.kernel.org/linux-pci/20260107-pci-m2-v5-0-8173d8a72641@oss.qualcomm.com
-> [2] https://github.com/Mani-Sadhasivam/linux/commit/753033861360171f2af1fdd56e8985ff916e1ac2
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> ---
-> Changes in v4:
-> - Switched to dynamic OF node for serdev instead of swnode and dropped all
->   swnode related patches
+The gcc documentation states that the -fsanitize=3Dkernel-hwaddress is
+similar to -fsanitize=3Dhwaddress, which only works on AArch64. So that
+hints that it shouldn't work.
 
-Yep, and I even won't insist on fwnode API in serdev as now OF one makes more
-sense. OTOH, most of the handling on pwrseq and serdev can be rewritten using
-fwnode in principle.
+But while with KASAN sw_tags enabled the kernel compiles fine with gcc,
+at least in my patched qemu it doesn't run. I remember Ada Couprie Diaz
+mention that passing -march=3Darrowlake might help since the tag support
+seems to be based on arch.
 
-> - Link to v3: https://lore.kernel.org/r/20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com
+I'll check if there's a non-hacky way to have gcc work too, but perhaps
+to minimize hitting known issue, for now HAVE_ARCH_KASAN_SW_TAGS should
+be locked behind both ADDRESS_MASKING and CC_IS_CLANG in the Kconfig?
 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+--=20
+Kind regards
+Maciej Wiecz=C3=B3r-Retman
 
 
