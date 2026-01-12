@@ -1,88 +1,123 @@
-Return-Path: <linux-kbuild+bounces-10500-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C227D12083
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:51:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96194D12154
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:57:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 862813008F0D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 10:51:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AA387307A030
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 10:54:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 971D034D4EF;
-	Mon, 12 Jan 2026 10:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD5334F46A;
+	Mon, 12 Jan 2026 10:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4EjOOdup";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EnPLrJnK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ER9uDpKU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A4B34D925
-	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 10:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB3334FF46
+	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 10:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215104; cv=none; b=mKKgcOzS5v2155K1HlSRp2r10FsgBfzQP2Palml88tZ722XX7Y2t2cLmuoyDZMrAcR3jlW2lGVWuciG0BtjR91zYUHkxAqCww1qQBgOTaxW8lW3Bt0DysI5Z2Auu2cMiNAR/SVYimwEX31Dd1sjC7DMV4M10c9BvsLF9w0VAR5k=
+	t=1768215260; cv=none; b=BajYWFebMQ3ylA9pOY+1p00nhliYyPaFETZDUe2wYcyMbDFC4h5gaUw1k4R0FV7mr1Bo1p5AKE5eR+MFy138J+3pcts3Sy3On1CfD47GzE5O0zLNV0HV/IRb6NvLfK/tFGVAU1NgqN7XxpE4PWPf3bVjitABVZIzfwJ3s7Zcfpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215104; c=relaxed/simple;
-	bh=oMxnyE7FHNcMSzwSwznJpBbdErwKS8cGjHXO7MFPAQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTlZCWf8zVbs+Rio62EeEfU9eJo9hdrcqjT3k+/OU++dpbB2cVVRVMvxztfw2uJlE62Gq9AHysXN4q0Jz3HEA2AmZ2+m1itfe3w0MihSGdPNUG6qOli6XA1UQnw989BtJ+3L2xtPMiwT8MeGLyXSQ64hU8M1r0b1QH2CFL2fBrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4EjOOdup; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EnPLrJnK; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Mon, 12 Jan 2026 11:51:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768215101;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oMxnyE7FHNcMSzwSwznJpBbdErwKS8cGjHXO7MFPAQw=;
-	b=4EjOOdupWWiKlK2rbWOFx9xHX6Mi8u1My7Ulr6BSHlQd7s2X2G7SOHCPYXXChmxxWeRWIS
-	62wMlyruuI1zSjbgqgnNjvAbZbRR/m7UCVanCjDsGW8Q4gfopkB/miM9zLA7QWi+gzz9Xx
-	8SpHOT24oO0D5UzS9Vg+htEmulCLbumDRig97/qNQ1BPc4Gt7H0KxHLqDjXMTnO1BMWgy5
-	LwwWRIXdWQHxPwiuNF5Zi2Kocbdpk1xzXRAo3WvZ1lpLTfHOAJa0KZ27FczUDm3lajEM/4
-	F1dZcPaMJxT2B/Z8vt3MF5SDPZSyRlfzpUvKg4w5cz8UNoIIknBZuBsqj0EJig==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768215101;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oMxnyE7FHNcMSzwSwznJpBbdErwKS8cGjHXO7MFPAQw=;
-	b=EnPLrJnKw8UFHXsPTC5RqHgHie/Xa8ldBvPFyRt1jC8rJUscX3vk6qp4Ub2D4LfyDZCbvw
-	63FBdnupJqm4SPAQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: David Disseldorp <ddiss@suse.de>
-Cc: linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] scripts: headers_install: filter ignored configs
- via sed
-Message-ID: <20260112114650-7d38ec05-adfd-4f65-8605-67b051fcdeaf@linutronix.de>
-References: <20260107205239.6390-1-ddiss@suse.de>
- <20260107205239.6390-2-ddiss@suse.de>
+	s=arc-20240116; t=1768215260; c=relaxed/simple;
+	bh=JN8Tx9lcEFa1feWSSo2+DawtEa+D5nz6pKkmTYdd80o=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cfQ2OZv+ONmBoPgSbJG4oJXsMUg1lbs3YUb7GephxfvlxBnn9rfLvrpHSwpkR/R1M/n2b10TIROvWZYcANHEaqQM5TeI5XdUIQa9oqzQ0Is87z/SLWxDPUGlQPyTKmKxeahes+r79FDBgpWyY0oB4g2iOxN7lQiOFaoEnTLPhIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ER9uDpKU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5019BC2BC9E
+	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 10:54:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768215259;
+	bh=JN8Tx9lcEFa1feWSSo2+DawtEa+D5nz6pKkmTYdd80o=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=ER9uDpKU0gKhm7Mmd4Cxsn7MpqOQ7vgt/ZcySJ+A9bsTzXxToNbycaa4e7QBta8wD
+	 T8NSpwycbQYwIUTgh19uyJzFyLVV6QQKvVGN6qt0KMPkIdc7nYA5/U/QaOUJfI/kHy
+	 4Sd8Rvl0QCaU2Atg20NBcAm9QKTOwrxoxTsSOFizYh1bMtgu6MnsGhGFxsls0+Oizc
+	 Xfu6WwhJvA9CBk8mYony8E2iuqdfKr+rPvb+ZNEc0SiWYI7T1hZhsiyqoKBkOzwwuA
+	 E1rPydvvuBL8GGQHD+ufLKpzTd1tbTNHHZ6tGNWh5Zxq05oWl3ZtIWyApP4xskyR6/
+	 fc8kgRKSlTMpg==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-382fb275271so43770631fa.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 02:54:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU/l5CwL32ZIXasABaE//CUpKoUFIVIAV6jg5gZfwmp/PYu74rv3U08vGvC+txkiVo3fWCmQ64kd+JfzYQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFi2YaXpRLIWbBKUEfPmDdnHn1wwgbRFjXWndsoJcGv88ysEm4
+	UZYwDj4BGALgsSHTHdEkc7LBmV3ABIZGlSgmXgRVbbZ1f5W3mgu8bYaXGe0p3hZTCtqOSWDMI3E
+	HJZQliNUwAI8CcTJkKl0PLgcXfKpSH7yCbPqM1C/d7A==
+X-Google-Smtp-Source: AGHT+IFOFA8kXD2/ntFFnMuqlDdI+7/+mE0Jg2kNrYOPk8LLfb+NDy962k4fw01JMa4nCZndlay6ttujw6BSDeEvZxc=
+X-Received: by 2002:a05:651c:210d:b0:383:4b8:435c with SMTP id
+ 38308e7fff4ca-38304b844c3mr52338991fa.9.1768215257586; Mon, 12 Jan 2026
+ 02:54:17 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 12 Jan 2026 02:54:16 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 12 Jan 2026 02:54:16 -0800
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <aWSq_7_5kkQIv9Hc@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107205239.6390-2-ddiss@suse.de>
+References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com> <aWSq_7_5kkQIv9Hc@smile.fi.intel.com>
+Date: Mon, 12 Jan 2026 02:54:16 -0800
+X-Gmail-Original-Message-ID: <CAMRc=MfoUi-qvZnOcM5pgvmVhPMEK+gvs5m2APrqLXc2J7x1AQ@mail.gmail.com>
+X-Gm-Features: AZwV_Qgkgd0gbVuBhbU6fLauSpqstnPMp3OpP37gMnJcwjV2eQkZ3qyjBa1-dnE
+Message-ID: <CAMRc=MfoUi-qvZnOcM5pgvmVhPMEK+gvs5m2APrqLXc2J7x1AQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Add support for handling PCIe M.2 Key E
+ connectors in devicetree
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+	manivannan.sadhasivam@oss.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi David,
+On Mon, 12 Jan 2026 09:04:15 +0100, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Sat, Jan 10, 2026 at 12:26:18PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+>>
 
-On Thu, Jan 08, 2026 at 07:39:42AM +1100, David Disseldorp wrote:
-> The sed script currently prints any CONFIG_ entries carried in installed
-> headers. A subsequent shell script parses this output to check whether
-> the found CONFIG_ values should be ignored or not.
-> Drop the unnecessary sed output post-processing and instead skip over
-> ignored CONFIG_ values as part of initial processing.
+[snip]
 
-The exlusion logic is going to go away completely soon:
-https://lore.kernel.org/lkml/20260112-headers_install-config-leak-v2-0-4d8084444603@linutronix.de/
-(My series is probably going through the asm-generic tree)
+>> Though this series adds the relevant functionality for handling the M.2 Key M
+>> connectors, there are still a few open questions exists on the design.
+>>
+>> 1. I've used the DT compatible for the serdev swnode to match the existing OF
+>> device_id of the bluetooth driver. This avoids implementing custom serdev id
+>> matching as implemented till v2.
+>
+> Yeah, swnodes are not designed to replace the real DT or other firmware
+> interface. The idea of swnodes is to have them providing quirks if needed (i.e.
+> fixing up the broken or missed FW device properties). This should not have been
+> done this way. Please, consider another approach, e.g. DT-overlay.
+>
 
-Our patches will conflict.
+This may have been true historically but software nodes were introduced before
+the auxiliary bus. With platform devices, the question has a clear response:
+DT or ACPI first, then possibly additional software node. But with auxiliary
+devices, where does the entirety of device properties come from if we - for
+whatever reason - don't want to propagate any "real" firmware node?
 
+This is not even about this particular series, rather it's a wider architecture
+question.
 
-Thomas
+Bartosz
 
