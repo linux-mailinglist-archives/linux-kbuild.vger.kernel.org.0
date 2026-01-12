@@ -1,164 +1,149 @@
-Return-Path: <linux-kbuild+bounces-10504-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10505-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79446D123A3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 12:18:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A45D123B6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 12:19:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2A22630041A7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:14:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BFC7E302EA31
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B92D500963;
-	Mon, 12 Jan 2026 11:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1A953563CC;
+	Mon, 12 Jan 2026 11:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kILFB66J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SJWZ9Ny6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wa8BTrz7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="57+DaGLO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOkrzxTX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA39C30171A
-	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 11:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF43559EC;
+	Mon, 12 Jan 2026 11:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768216473; cv=none; b=FnxQBPA6Lzn5zDnnI8DcEsSlB47D90gSgGD49v6cLW5pISY2DFsEuVfuwjCosufRWqOQJhdHay2XVDG99axLasbb6ZhQYIEkc8nvICQEHmx9Okwc3X1XwtlmtpvcVDvdaLVyP9HISN4DC9hGVf54e2RXK3Z4Y45SMrU1uPwdj44=
+	t=1768216524; cv=none; b=c8rMDLtPueqGW9wI9mGOKj4ZuksOlW9PfxXp1RubRj/bDeB0pRnYmx5IP8uuBDUv37CZsHmzZ7DJ+VotuH0PFDmR8hEOkwUlC8fL6EUd8OhQMy9VO33Gu2QXuM5eHOSVG5es+kMn0ATM8HHHmgIFlwGPe2cYbxyQST6dZ3v8/7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768216473; c=relaxed/simple;
-	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qkP63cejlhSjAtdI2QJIV3ZqOGW6xwwDFrsGuI4AU4siz32ssXQEZpadQTnWdxKhmKLi0B1+RLaWK94fDtOtVUwFDHMAYScG320lKJ9jqtjyTk43sL1xsyczU1/13bzHwK9utJqdrfV8JhELjvKA5YLtlKdYDwI+m+7dPqm+bEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kILFB66J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SJWZ9Ny6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wa8BTrz7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=57+DaGLO; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ED2F733736;
-	Mon, 12 Jan 2026 11:14:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768216470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
-	b=kILFB66JwFS5e9HeYpONtoeUE3/inqrKuoCtlAL5sApejhyz/ksVkZQ7gy4kVmI0W5ryPT
-	u8/+hKKTcVjsrZt3xpMD260XEWZeFmsIs7GBMcdkic39D7IPgLRJzSewyPrOFmszuY6UJ7
-	eeY9DJmTOI791GFO+qTsTezc1qaBbpI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768216470;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
-	b=SJWZ9Ny6Z/LbrxuHSjE8Ldpmon75kqZrZV6K9VvvU/vCqVMKz6T271BnWz8tb5CoU3Ln1A
-	5TFvEMPc8W926WBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wa8BTrz7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=57+DaGLO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768216468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
-	b=wa8BTrz7+9pybdcoEpmv6QKnX9wT8yM8i2xiJOtElVptW3I0JnCaKxAtlM2WUHeNgpGjA+
-	55JMvwT5NItJWbXPxXPTe9aIJbWjB+hVXaqwdW8bfG6b81BnfjsQ2KpcM9b8FTAOApoDQJ
-	8NIvZ7u7Z/Z3nZpJFyBh8zw11fgyW2M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768216468;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
-	b=57+DaGLOPRsiTyzKWa5NSZs0KG0LpJKq0Oq+3G/PYo07hbvSnV+piRi4RRi4BeOcuMjBZU
-	KGGpRzZM69eY0dBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFDC73EA63;
-	Mon, 12 Jan 2026 11:14:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SbZFMZTXZGlMJQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Mon, 12 Jan 2026 11:14:28 +0000
-Date: Mon, 12 Jan 2026 22:14:28 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>
-Cc: linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] scripts: headers_install: filter ignored configs
- via sed
-Message-ID: <20260112221428.6f1ce9fe.ddiss@suse.de>
-In-Reply-To: <20260112114650-7d38ec05-adfd-4f65-8605-67b051fcdeaf@linutronix.de>
-References: <20260107205239.6390-1-ddiss@suse.de>
-	<20260107205239.6390-2-ddiss@suse.de>
-	<20260112114650-7d38ec05-adfd-4f65-8605-67b051fcdeaf@linutronix.de>
+	s=arc-20240116; t=1768216524; c=relaxed/simple;
+	bh=zUSCP1wlBfzuXE8NqisF5E9uyqPXe+GBaVIHFJQsuQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmvvzTjjddG82PALPYM4KCK16MtIuQ55s0P1qFHhQK/Q0L3sMe2uayMSo335YHg98M8Uofj1OyzrVJ6ihrjfpykrfkHdr9mrDA9ptecarGkxiiA+0dDsCKR7XjtdG4EWyVn4ii/LPGCr6sXZMCNOdjBli4Au8tAHuHVq/HQH18U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOkrzxTX; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768216523; x=1799752523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zUSCP1wlBfzuXE8NqisF5E9uyqPXe+GBaVIHFJQsuQc=;
+  b=YOkrzxTXzeOUMoQWA6cTprZC+zpGF4q2qS7RvU4ksZ0BaY7xo/OsgtpF
+   jSI74vpQZYGnBYathDznmX344Rg5BIOKRTYb1NA/LfWslfgoWqM51VTYJ
+   sR96ncLH5ygzLWfavGmV/x1RLIXuCMMZiZZSuGlBQZ9fIFgzGyeO/hxsH
+   wObdUl6QsMr6lB8smFJDt9fdRNOFLaqgv847xfXsE4SIDfmjvrEdfqeZa
+   nUTJkpzdPN7OD/fQQ0OnYs3uBf6KmvkDc+Csrvv4vBasNGlvaDx6mHdMc
+   xgsqBN/3bQZbQQWc/l9Iu8qoiHq9yVKvkgvyWCgTd4U9+bA5+18F7pwZJ
+   w==;
+X-CSE-ConnectionGUID: 6WVsrkR+TdCu6VvYTahNDQ==
+X-CSE-MsgGUID: AD7rNmHrQHiNetTiLDouwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80209602"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="80209602"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:15:22 -0800
+X-CSE-ConnectionGUID: kUR6ig1/RUKJYBcy/p3hfQ==
+X-CSE-MsgGUID: OAg+gLOMQVGuS3+zfM3y2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="203977233"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:15:16 -0800
+Date: Mon, 12 Jan 2026 13:15:13 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-acpi@vger.kernel.org, manivannan.sadhasivam@oss.qualcomm.com
+Subject: Re: [PATCH v3 04/14] software node: Add software_node_match_device()
+ API
+Message-ID: <aWTXwSaNEVZsNxip@smile.fi.intel.com>
+References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
+ <20260110-pci-m2-e-v3-4-4faee7d0d5ae@oss.qualcomm.com>
+ <aWSxcJTLzBFbMGad@smile.fi.intel.com>
+ <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: ED2F733736
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Thomas,
+On Mon, Jan 12, 2026 at 06:03:34AM -0500, Bartosz Golaszewski wrote:
+> On Mon, 12 Jan 2026 09:31:44 +0100, Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> said:
+> > On Sat, Jan 10, 2026 at 12:26:22PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> >
+> >> Add software_node_match_device() API to match the swnode device with the
+> >> swnode driver. The matching is based on the compatible property in the
+> >> device and the driver's of_match_table.
+> >
+> > NAK. swnodes != real firmware nodes.
+> 
+> While I'm not arguing that this is *the* solution, I think it warrants
+> a discussion on proper matching of devices that are only backed by a software
+> node - for instance a serdev device on the auxiliary bus. I understand what
+> software nodes were historically but perhaps it's time to extend their role as
+> a full-blown firmware node allowing matching with drivers.
+> 
+> Reusing existing OF IDs is just one way, we could potentially think about a
+> high-level fwnode-based device to driver matching?
 
-On Mon, 12 Jan 2026 11:51:41 +0100, Thomas Wei=C3=9Fschuh wrote:
+There is already proposed and agree way to do that via DT overlays.
+If one needs to describe the (PnP or hotpluggable) hardware, it's
+the way to go as the HW maybe much complex than the just one small UART
+appendix.
 
-> Hi David,
->=20
-> On Thu, Jan 08, 2026 at 07:39:42AM +1100, David Disseldorp wrote:
-> > The sed script currently prints any CONFIG_ entries carried in installed
-> > headers. A subsequent shell script parses this output to check whether
-> > the found CONFIG_ values should be ignored or not.
-> > Drop the unnecessary sed output post-processing and instead skip over
-> > ignored CONFIG_ values as part of initial processing. =20
->=20
-> The exlusion logic is going to go away completely soon:
-> https://lore.kernel.org/lkml/20260112-headers_install-config-leak-v2-0-4d=
-8084444603@linutronix.de/
-> (My series is probably going through the asm-generic tree)
->=20
-> Our patches will conflict.
+As per auxdevice, this should not be enumerable by compatible. The auxdevice
+usually are created by other devices (from real ones) that _know_ the topology.
+I don't see why we need to open the can of worms with the software nodes
+to enumerate them as real ones.
 
-Looks good, I'm happy to drop this patch in favour of your removals.
-Patch v2 2/2 should still be relevant and apply relatively cleanly.
+P.S. Collect others' opinions (esp. device property reviewers and maintainers)
+and we will see. But I do not see any even looking good justification for that.
+It might be that I didn't get fully the use case and the other means can not
+be used. But taking into account history of the rejection of the matching against
+OF compatible string in swnodes suggests that this will stay the way it's now.
 
-Thanks, David
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
