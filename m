@@ -1,126 +1,136 @@
-Return-Path: <linux-kbuild+bounces-10534-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10535-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2872D15849
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 23:05:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB93D15AF4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 23:54:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 319D2300A997
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 22:05:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17B66302C20E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 22:53:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BEE308F28;
-	Mon, 12 Jan 2026 22:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E942296BB7;
+	Mon, 12 Jan 2026 22:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="hs5fvItj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHu7FvY0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D903101D8;
-	Mon, 12 Jan 2026 22:05:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFF9270EC1;
+	Mon, 12 Jan 2026 22:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768255531; cv=none; b=uIoZmN2yvl2EpPkpLy+PhetTVKBgdQbYoKw/y68qK9J24WX/VjuzkibZWMbzwn6WeOvMj7WK66eUKnktCgzotd5/6A2C3gXma13hPQZ8ypXmAiCYUHjF5peQmDDJW62OLurGDkv3zcUMStTLb5z0z4XS6qr/0SEexLA4yv8OZcg=
+	t=1768258392; cv=none; b=PFxlGEgI16duqU2EqXbdFtsHdOPNyKe+Qnd40w5QQRvMPNsz8aOEry/uT5XW4KT85MkE52xeelnS7coLNlGfeYOSczBytVcbnPMtKiwdtAHAGJQim95b2TK8rMA711zGyp66o/MFo+9w5jHXZ2KaKAdQASjCDGxeWC19D5CyUc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768255531; c=relaxed/simple;
-	bh=AWbovU9yx+EpWoS2uH0YQS2sLaGQNcCturbavPTShxs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EKC0zCQvL0wjuxe6AL+d8FlCv/eCpdQeYtxQfBpzlL1gcG0E7/27kE/Cum5knEC+WL3Hp+7FdqJs4UhG7O1ejO7wcD+x1LYxfayjYwRl2Ekg2gq2VpEvwteJZsz/UPtyEMt5KjGT4WFSbaYAIZ9Gla8/bpgXsEZlJd6Pe6phXsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=hs5fvItj; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dqmf137mPzlqfHK;
-	Mon, 12 Jan 2026 22:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1768255522; x=1770847523; bh=z9Y4BPiPU5vZeqyn1OIEPskt
-	kMud/fciou6gPOxT/Gg=; b=hs5fvItjOEws4VXy8vRpfYKZ6iyXl7qohAnJxjPR
-	hMx4gdQ+APBsH3BLqhgEqPQMix6M9gSCOQ+5eME/2LwroWVIeUXroMEG/a3Fqknq
-	FdM9OcgvI52xQwiErSfBLyFlB92ssvSNbndiHo9uc6GBOBa5lH/lnV2YC61stTL3
-	LgoJdWlkxhEDR9qAW8cLuNUpV/2zWO3F1/axpXRkpjUl9rMX+fIxGiG/iqTNxXBw
-	3RKN/ZrDAQ0P7Yt0aHJfTt4Q7SG8kjBXQuspB49gAWBnigIUkjm0NYEsZkQyMT+Z
-	2mZFN83sJGRk0MscnaN1nLn9JPULOySkmo9EeDGhgsGmAw==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id IkkI-SR9t1-b; Mon, 12 Jan 2026 22:05:22 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dqmdS2QtzzllB6t;
-	Mon, 12 Jan 2026 22:04:59 +0000 (UTC)
-Message-ID: <3de714fc-7a18-4bcc-9ab5-c3831efbdb84@acm.org>
-Date: Mon, 12 Jan 2026 14:04:59 -0800
+	s=arc-20240116; t=1768258392; c=relaxed/simple;
+	bh=tjydLnqjMw8FmyuO1L3aZRXJhGPhGJxCd9JUJs958yk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXK61gL2tDXA4LBQy/esRGI3QQjLpYxrS7DR85eZgexv184s1FJx5PWoYm95zBpHK+/rogmUso5PALPA7Tbhtxkl2sdS0vPqpIcXXeEIusXR5ucRypUp5gUcbetN9AbCgFYbmN+XvptC/IsSTSoYyNKscmR283DiD5MwNc7qzno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHu7FvY0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA825C116D0;
+	Mon, 12 Jan 2026 22:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768258391;
+	bh=tjydLnqjMw8FmyuO1L3aZRXJhGPhGJxCd9JUJs958yk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nHu7FvY01U+TRxIOwmD3fVx6/u6P/UrtUFVIYWSS9ulGOagjv0iXZvM8eHmDjWzh4
+	 kkdydIQ+aO2ZO4zwH3PZMfADR899NTePEI0UEFHUTDoUxWuARGp9hCdDpSTFUuSgvw
+	 OWmddPC0fWecK7KCUQH/edDjYvlQCOUNeeP+8sv9tjkoeGUKCL4WEM1jxIrEvwFf5K
+	 ZqO7Rn3CQjmUp4znfccCzmu6Q0Rkpw967hQyC3tAa8H97j90mTTPQm2xSfzaTkrF52
+	 ZAE8A90+LN/ZI7oPpturqW0omPYRhnDCqFgXGIpSPbJyTKw9c81OYO9vXB/P+xWygd
+	 emDCaM1MZ2axA==
+Date: Mon, 12 Jan 2026 15:53:07 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev, patches@lists.linux.dev
+Subject: Re: [PATCH] kbuild: uapi: Avoid testing certain headers on ARCH=arm
+ with CC=clang
+Message-ID: <20260112225307.GA2241363@ax162>
+References: <20260110-uapi-test-disable-headers-arm-clang-unaligned-access-v1-1-b7b0fa541daa@kernel.org>
+ <29b2e736-d462-45b7-a0a9-85f8d8a3de56@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 36/36] sched: Enable context analysis for core.c and
- fair.c
-To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
- Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- Will Deacon <will@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
- Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
- <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
- Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Josh Triplett <josh@joshtriplett.org>, Justin Stitt
- <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
- <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
- Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
- kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-37-elver@google.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20251219154418.3592607-37-elver@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <29b2e736-d462-45b7-a0a9-85f8d8a3de56@app.fastmail.com>
 
-On 12/19/25 8:40 AM, Marco Elver wrote:
-> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
-> index a63f65aa5bdd..a22248aebcf9 100644
-> --- a/include/linux/sched/signal.h
-> +++ b/include/linux/sched/signal.h
-> @@ -738,10 +738,12 @@ static inline int thread_group_empty(struct task_struct *p)
->   		(thread_group_leader(p) && !thread_group_empty(p))
->   
->   extern struct sighand_struct *lock_task_sighand(struct task_struct *task,
-> -						unsigned long *flags);
-> +						unsigned long *flags)
-> +	__acquires(&task->sighand->siglock);
+On Sun, Jan 11, 2026 at 11:29:31AM +0100, Arnd Bergmann wrote:
+> On Sun, Jan 11, 2026, at 01:52, Nathan Chancellor wrote:
+> >
+> > To keep the build working while the root cause of the warnings is
+> > investigated and resolved, disable testing these header files for
+> > ARCH=arm when building with clang. 
+> 
+> I think we can just safely mark the internal unions as __packed as
+> well. The (untested) change below would annotate all of them
+> as being potentially misaligned so they can be stored at an
+> odd start offset, and correctly produce warnings when someone
+> takes the address of a member.
 
-I think the above annotation is wrong and should be changed into
-__cond_acquires(nonnull, &task->sighand->siglock). My understanding of
-the code in kernel/signal.c is that lock_task_sighand() only returns
-with sighand->siglock acquired if it returns a non-NULL pointer.
+Yeah, this diff appears to avoid those warnings in my testing. Would you
+want to send these changes as formal patches so we can get formal acks
+from the maintainers of these files to take them via the kbuild tree
+with Thomas's UAPI testing changes?
 
-Bart.
+> diff --git a/include/uapi/linux/hyperv.h b/include/uapi/linux/hyperv.h
+> index aaa502a7bff4..02ea5f2e43d4 100644
+> --- a/include/uapi/linux/hyperv.h
+> +++ b/include/uapi/linux/hyperv.h
+> @@ -362,7 +362,7 @@ struct hv_kvp_exchg_msg_value {
+>                 __u8 value[HV_KVP_EXCHANGE_MAX_VALUE_SIZE];
+>                 __u32 value_u32;
+>                 __u64 value_u64;
+> -       };
+> +       } __packed;
+>  } __attribute__((packed));
+>  
+>  struct hv_kvp_msg_enumerate {
+> diff --git a/include/uapi/linux/vbox_vmmdev_types.h b/include/uapi/linux/vbox_vmmdev_types.h
+> index 6073858d52a2..15ccfb5d624c 100644
+> --- a/include/uapi/linux/vbox_vmmdev_types.h
+> +++ b/include/uapi/linux/vbox_vmmdev_types.h
+> @@ -229,14 +229,14 @@ struct vmmdev_hgcm_function_parameter32 {
+>                                 __u32 phys_addr;
+>                                 __u32 linear_addr;
+>                         } u;
+> -               } pointer;
+> +               } __packed pointer;
+>                 struct {
+>                         /** Size of the buffer described by the page list. */
+>                         __u32 size;
+>                         /** Relative to the request header. */
+>                         __u32 offset;
+> -               } page_list;
+> -       } u;
+> +               } __packed page_list;
+> +       } __packed u;
+>  } __packed;
+>  VMMDEV_ASSERT_SIZE(vmmdev_hgcm_function_parameter32, 4 + 8);
+>  
+> @@ -251,14 +251,14 @@ struct vmmdev_hgcm_function_parameter64 {
+>                         union {
+>                                 __u64 phys_addr;
+>                                 __u64 linear_addr;
+> -                       } u;
+> +                       } __packed u;
+>                 } __packed pointer;
+>                 struct {
+>                         /** Size of the buffer described by the page list. */
+>                         __u32 size;
+>                         /** Relative to the request header. */
+>                         __u32 offset;
+> -               } page_list;
+> +               } __packed page_list;
+>         } __packed u;
+>  } __packed;
+>  VMMDEV_ASSERT_SIZE(vmmdev_hgcm_function_parameter64, 4 + 12);
 
