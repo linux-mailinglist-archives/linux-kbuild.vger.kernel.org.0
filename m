@@ -1,85 +1,126 @@
-Return-Path: <linux-kbuild+bounces-10533-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10534-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2811D1574E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 22:37:29 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2872D15849
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 23:05:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D5519303E412
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 21:37:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 319D2300A997
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 22:05:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2477D343D6F;
-	Mon, 12 Jan 2026 21:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BEE308F28;
+	Mon, 12 Jan 2026 22:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="oWL6Z7f+"
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="hs5fvItj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7435A314A7F;
-	Mon, 12 Jan 2026 21:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D903101D8;
+	Mon, 12 Jan 2026 22:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768253832; cv=none; b=jwiYHjCxadWctACLMac7LZozwvdJcxZ6NuJdpiGqBdXk9Yx9BeErC34OwsRp/Tcq6z1fV4odOcFJC/kB4BzodaTlYz/s2S3Ao3MmUEIZ9/pIFGlCnuerNG6nhEEyGDDSQZmEPTuqe42uvkMdKgGRaZeraP0EbFUTAUSkwR32kDI=
+	t=1768255531; cv=none; b=uIoZmN2yvl2EpPkpLy+PhetTVKBgdQbYoKw/y68qK9J24WX/VjuzkibZWMbzwn6WeOvMj7WK66eUKnktCgzotd5/6A2C3gXma13hPQZ8ypXmAiCYUHjF5peQmDDJW62OLurGDkv3zcUMStTLb5z0z4XS6qr/0SEexLA4yv8OZcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768253832; c=relaxed/simple;
-	bh=hRFWcaipyLONtRXyHxft03VAoFh756m7VR33q0xfuhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RuohQvjvOlR3lyQpwd6+Sd+9LosWWAMe5HvvtQycle6QF89RmJYbDxwV+664oJNDCSzjkaPDHEAcc0yIzmmUKf27dpovnEtHAHVCbFJz2WtmOaAwIYVstvWydM7pWXPeNJiUgAyqfkfFsHSjajAzgmbRR/G3lFUz9gEOGpAQF1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=oWL6Z7f+; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1768253828;
-	bh=hRFWcaipyLONtRXyHxft03VAoFh756m7VR33q0xfuhk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oWL6Z7f+4jHLgJ56uYgGAJhkJcyc1pgHI2iMhqzpbP2gsS9K3XB22RMzAda9NPtWs
-	 xRH6zn/r3TofeiDRyg4sXpRM+PnzTSHbSOXYj2Taf1IxLZnWtzeiejRXJIx61tMOwL
-	 7O2FNq583n/I7qZtqQPF3e5tclRqzHRah0NC2CXE=
-Date: Mon, 12 Jan 2026 22:37:08 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: WangYuli <wangyuli@aosc.io>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: Reject unexpected values for LLVM=
-Message-ID: <06011271-65b0-4992-8d6b-8946c1c9d287@t-8ch.de>
-References: <20260112-kbuild-llvm-arg-v1-1-8e9bbdae996f@weissschuh.net>
- <d43c85d0-4d84-44df-a436-09fca7a11b07@aosc.io>
+	s=arc-20240116; t=1768255531; c=relaxed/simple;
+	bh=AWbovU9yx+EpWoS2uH0YQS2sLaGQNcCturbavPTShxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EKC0zCQvL0wjuxe6AL+d8FlCv/eCpdQeYtxQfBpzlL1gcG0E7/27kE/Cum5knEC+WL3Hp+7FdqJs4UhG7O1ejO7wcD+x1LYxfayjYwRl2Ekg2gq2VpEvwteJZsz/UPtyEMt5KjGT4WFSbaYAIZ9Gla8/bpgXsEZlJd6Pe6phXsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=hs5fvItj; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dqmf137mPzlqfHK;
+	Mon, 12 Jan 2026 22:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1768255522; x=1770847523; bh=z9Y4BPiPU5vZeqyn1OIEPskt
+	kMud/fciou6gPOxT/Gg=; b=hs5fvItjOEws4VXy8vRpfYKZ6iyXl7qohAnJxjPR
+	hMx4gdQ+APBsH3BLqhgEqPQMix6M9gSCOQ+5eME/2LwroWVIeUXroMEG/a3Fqknq
+	FdM9OcgvI52xQwiErSfBLyFlB92ssvSNbndiHo9uc6GBOBa5lH/lnV2YC61stTL3
+	LgoJdWlkxhEDR9qAW8cLuNUpV/2zWO3F1/axpXRkpjUl9rMX+fIxGiG/iqTNxXBw
+	3RKN/ZrDAQ0P7Yt0aHJfTt4Q7SG8kjBXQuspB49gAWBnigIUkjm0NYEsZkQyMT+Z
+	2mZFN83sJGRk0MscnaN1nLn9JPULOySkmo9EeDGhgsGmAw==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id IkkI-SR9t1-b; Mon, 12 Jan 2026 22:05:22 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dqmdS2QtzzllB6t;
+	Mon, 12 Jan 2026 22:04:59 +0000 (UTC)
+Message-ID: <3de714fc-7a18-4bcc-9ab5-c3831efbdb84@acm.org>
+Date: Mon, 12 Jan 2026 14:04:59 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d43c85d0-4d84-44df-a436-09fca7a11b07@aosc.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 36/36] sched: Enable context analysis for core.c and
+ fair.c
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+ Will Deacon <will@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+ Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
+ <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
+ Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Triplett <josh@joshtriplett.org>, Justin Stitt
+ <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
+ <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+ Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
+ kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-37-elver@google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20251219154418.3592607-37-elver@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2026-01-12 14:58:08+0800, WangYuli wrote:
-> Hi Thomas Weißschuh,
-> 
-> On 2026/1/12 14:43, Thomas Weißschuh wrote:
-> 
-> > The LLVM argument is documented to accept one of three forms:
-> > * a literal '1' to use the default 'clang',
-> > * a toolchain prefix path, ending in a trailing '/',
-> > * a version suffix.
-> > 
-> > All other values are silently treated as '1'. If for example
-> > the user accidentally forgets the trailing '/' of a toolchain prefix,
-> > kbuild will unexpectedly and silently fall back to the system toolchain.
-> > 
-> > Instead report an error if the user specified an invalid value for LLVM.
-> > 
-> "Falling back to the system toolchain" may be an acceptable behavior; I
-> think reporting a warning here rather than an error would be more
-> appropriate.
+On 12/19/25 8:40 AM, Marco Elver wrote:
+> diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+> index a63f65aa5bdd..a22248aebcf9 100644
+> --- a/include/linux/sched/signal.h
+> +++ b/include/linux/sched/signal.h
+> @@ -738,10 +738,12 @@ static inline int thread_group_empty(struct task_struct *p)
+>   		(thread_group_leader(p) && !thread_group_empty(p))
+>   
+>   extern struct sighand_struct *lock_task_sighand(struct task_struct *task,
+> -						unsigned long *flags);
+> +						unsigned long *flags)
+> +	__acquires(&task->sighand->siglock);
 
-For which value of 'LLVM' would a silent fallback be the thing to do?
+I think the above annotation is wrong and should be changed into
+__cond_acquires(nonnull, &task->sighand->siglock). My understanding of
+the code in kernel/signal.c is that lock_task_sighand() only returns
+with sighand->siglock acquired if it returns a non-NULL pointer.
 
-
-Thomas
+Bart.
 
