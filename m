@@ -1,113 +1,164 @@
-Return-Path: <linux-kbuild+bounces-10503-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10504-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6000AD122B7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 12:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79446D123A3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 12:18:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D9D63112D1B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:03:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A22630041A7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:14:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32AF35502A;
-	Mon, 12 Jan 2026 11:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B92D500963;
+	Mon, 12 Jan 2026 11:14:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zt/kcdR5"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kILFB66J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SJWZ9Ny6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wa8BTrz7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="57+DaGLO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0342D47E3
-	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 11:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA39C30171A
+	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 11:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215818; cv=none; b=RPCOyDOlzePksY0CdQmQ3gDWv+q3q1dYUK7QjthksBNoz9KrmjY7ax5Kzm95vzw0B65O7EtOptXa343xBZP8aH5eELu+2/bE3c2EynVHbwXD1c5x8TaEeeaAZovQpHeHUn0zUrS//VoaUKYGo8dXRz5L41Q2BK2HRlTWNONkWG4=
+	t=1768216473; cv=none; b=FnxQBPA6Lzn5zDnnI8DcEsSlB47D90gSgGD49v6cLW5pISY2DFsEuVfuwjCosufRWqOQJhdHay2XVDG99axLasbb6ZhQYIEkc8nvICQEHmx9Okwc3X1XwtlmtpvcVDvdaLVyP9HISN4DC9hGVf54e2RXK3Z4Y45SMrU1uPwdj44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215818; c=relaxed/simple;
-	bh=NgqM4UUbMqyNIz/GFA+SzHDO4/PJlRI74n+5LLiO3BI=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UkMHsuTCD5QggabmNEFnCkQ2nkn4x88xgI2iPmkpAQRN5jT/UoCv7dT70FDQwPMjlbE3OaCikl1L42D1C2hNT9a+sWfmzciioDceZy9iQ5hQ9KMfnEzE6HmREng5iQzY4JQYhyDRqCNfnTEKRMDpIyTERzHkUJfTnd5uHPMX4nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zt/kcdR5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43FE4C4AF0D
-	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 11:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768215818;
-	bh=NgqM4UUbMqyNIz/GFA+SzHDO4/PJlRI74n+5LLiO3BI=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=Zt/kcdR5bUMSJSjc86b6aW5z6tlpPxjJZ0GLebVxLE3UXaF1yz7r35HCF44HYrrRN
-	 ltR632hfg3dW78G2iQzh1TdcxmXDTH28cKjm1bqx+38NcMibl8cm2NmYRPJALIq9RK
-	 18WEhb5d98uDNXwzj/UW+VrG64jbrARzpdvsB90oVVrVR5En+l2700v/Kl6UYOLs4B
-	 IGsoGu7Sdu+fDrEQAstNsiFBraOmxoYb/Z9+jNuY1cFWaxQGdT21cPMSnsSYuYWk+l
-	 G3sMgan/Oi5ERA4FJMbL/qx9TV0hkwHyNJY8YE5l+7QPWrSX0okcrZMVMV6R4oVrmJ
-	 Rlvs4LZeakOBA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3831ad8ae4eso21500811fa.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 03:03:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXmdoCjTnEUYSECyHdOGBHaQP+LHjOfiT1UwKZ0a3YifuF5df56JbrgSfNY2jU2t7ymjwJFBYKOPqBlJ6Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJGfN4AxL8fCKlLgIO+qpuOxX4hsvYyhkVeP99Bmk+vATCwXwH
-	gfrYXacmCuCDBe6efp04pjMVn9cIYMqveBtwgBdykaBDxN4tFMzpcwcmAB/SEtMKN3MU8OO1rnY
-	dzkBlIo4gcAtgcQ5IM6cgZzByixxeg6ejcR4eY7U/zg==
-X-Google-Smtp-Source: AGHT+IFohkkf9UHfdNA1htiBVdbZfkEaHRBgSuESNj4zQqJpi4VxNX3mipN9Pmd0KZs5DRsLqlBmxWaWnb8zj3OJKys=
-X-Received: by 2002:a05:651c:a07:b0:37f:cb34:211b with SMTP id
- 38308e7fff4ca-382ff68c23emr54526941fa.18.1768215816730; Mon, 12 Jan 2026
- 03:03:36 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 12 Jan 2026 06:03:34 -0500
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 12 Jan 2026 06:03:34 -0500
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <aWSxcJTLzBFbMGad@smile.fi.intel.com>
+	s=arc-20240116; t=1768216473; c=relaxed/simple;
+	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qkP63cejlhSjAtdI2QJIV3ZqOGW6xwwDFrsGuI4AU4siz32ssXQEZpadQTnWdxKhmKLi0B1+RLaWK94fDtOtVUwFDHMAYScG320lKJ9jqtjyTk43sL1xsyczU1/13bzHwK9utJqdrfV8JhELjvKA5YLtlKdYDwI+m+7dPqm+bEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kILFB66J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SJWZ9Ny6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wa8BTrz7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=57+DaGLO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ED2F733736;
+	Mon, 12 Jan 2026 11:14:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768216470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
+	b=kILFB66JwFS5e9HeYpONtoeUE3/inqrKuoCtlAL5sApejhyz/ksVkZQ7gy4kVmI0W5ryPT
+	u8/+hKKTcVjsrZt3xpMD260XEWZeFmsIs7GBMcdkic39D7IPgLRJzSewyPrOFmszuY6UJ7
+	eeY9DJmTOI791GFO+qTsTezc1qaBbpI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768216470;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
+	b=SJWZ9Ny6Z/LbrxuHSjE8Ldpmon75kqZrZV6K9VvvU/vCqVMKz6T271BnWz8tb5CoU3Ln1A
+	5TFvEMPc8W926WBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wa8BTrz7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=57+DaGLO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1768216468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
+	b=wa8BTrz7+9pybdcoEpmv6QKnX9wT8yM8i2xiJOtElVptW3I0JnCaKxAtlM2WUHeNgpGjA+
+	55JMvwT5NItJWbXPxXPTe9aIJbWjB+hVXaqwdW8bfG6b81BnfjsQ2KpcM9b8FTAOApoDQJ
+	8NIvZ7u7Z/Z3nZpJFyBh8zw11fgyW2M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1768216468;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EMAElTEWXEvClHUnuljWLTry5QkeCZO4eMnwyFwfThU=;
+	b=57+DaGLOPRsiTyzKWa5NSZs0KG0LpJKq0Oq+3G/PYo07hbvSnV+piRi4RRi4BeOcuMjBZU
+	KGGpRzZM69eY0dBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFDC73EA63;
+	Mon, 12 Jan 2026 11:14:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SbZFMZTXZGlMJQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Mon, 12 Jan 2026 11:14:28 +0000
+Date: Mon, 12 Jan 2026 22:14:28 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>
+Cc: linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] scripts: headers_install: filter ignored configs
+ via sed
+Message-ID: <20260112221428.6f1ce9fe.ddiss@suse.de>
+In-Reply-To: <20260112114650-7d38ec05-adfd-4f65-8605-67b051fcdeaf@linutronix.de>
+References: <20260107205239.6390-1-ddiss@suse.de>
+	<20260107205239.6390-2-ddiss@suse.de>
+	<20260112114650-7d38ec05-adfd-4f65-8605-67b051fcdeaf@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
- <20260110-pci-m2-e-v3-4-4faee7d0d5ae@oss.qualcomm.com> <aWSxcJTLzBFbMGad@smile.fi.intel.com>
-Date: Mon, 12 Jan 2026 06:03:34 -0500
-X-Gmail-Original-Message-ID: <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
-X-Gm-Features: AZwV_QgCCma7UwKHQgZ5nLG4r75yg0AnwRFvJBiXixfwLwob-etKnqTGCK9cMAM
-Message-ID: <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
-Subject: Re: [PATCH v3 04/14] software node: Add software_node_match_device() API
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	manivannan.sadhasivam@oss.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: ED2F733736
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On Mon, 12 Jan 2026 09:31:44 +0100, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Sat, Jan 10, 2026 at 12:26:22PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
->
->> Add software_node_match_device() API to match the swnode device with the
->> swnode driver. The matching is based on the compatible property in the
->> device and the driver's of_match_table.
->
-> NAK. swnodes != real firmware nodes.
->
+Hi Thomas,
 
-While I'm not arguing that this is *the* solution, I think it warrants
-a discussion on proper matching of devices that are only backed by a software
-node - for instance a serdev device on the auxiliary bus. I understand what
-software nodes were historically but perhaps it's time to extend their role as
-a full-blown firmware node allowing matching with drivers.
+On Mon, 12 Jan 2026 11:51:41 +0100, Thomas Wei=C3=9Fschuh wrote:
 
-Reusing existing OF IDs is just one way, we could potentially think about a
-high-level fwnode-based device to driver matching?
+> Hi David,
+>=20
+> On Thu, Jan 08, 2026 at 07:39:42AM +1100, David Disseldorp wrote:
+> > The sed script currently prints any CONFIG_ entries carried in installed
+> > headers. A subsequent shell script parses this output to check whether
+> > the found CONFIG_ values should be ignored or not.
+> > Drop the unnecessary sed output post-processing and instead skip over
+> > ignored CONFIG_ values as part of initial processing. =20
+>=20
+> The exlusion logic is going to go away completely soon:
+> https://lore.kernel.org/lkml/20260112-headers_install-config-leak-v2-0-4d=
+8084444603@linutronix.de/
+> (My series is probably going through the asm-generic tree)
+>=20
+> Our patches will conflict.
 
-Bartosz
+Looks good, I'm happy to drop this patch in favour of your removals.
+Patch v2 2/2 should still be relevant and apply relatively cleanly.
+
+Thanks, David
 
