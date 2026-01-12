@@ -1,88 +1,92 @@
-Return-Path: <linux-kbuild+bounces-10506-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D62D12C27
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 14:25:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330F9D12DA1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 14:37:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 187023009767
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 13:23:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3CCC230181B1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 13:37:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB87C358D09;
-	Mon, 12 Jan 2026 13:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 396A5359709;
+	Mon, 12 Jan 2026 13:37:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arusekk.pl header.i=@arusekk.pl header.b="cwsLLvUB"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GYy0IXRw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44DC3587A1
-	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 13:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057F92DBF78;
+	Mon, 12 Jan 2026 13:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768224222; cv=none; b=prFDEzeH8SDyHgjjDLsaT3nwjYLDsfy+Y1KTqoDbeCJ9PvqvxNW/BK33Y863HA//rghUKl98gvy5b8KMro+QiEI0kyvSpU5/FFHQVMutxMWxA3yIKX8x6YyvcGoaSv9pGgm9/fMH5u4IOhnIk9CJYuZNL6G9vShOdRnUfwdhg6Q=
+	t=1768225024; cv=none; b=QaDdO4i3s/eM26SCuwlDlK683Qu7HXgF20O8aPtPOPyr4Rx9KqcbVr7cRiEQUc43cahFqjuLTG399lvFFQr+o6zxpKZ6IjN3ev02ytckBeT1QvgjvqgljhI3Vw/zSh/Efx2+LLciNxT2oUVdkd9iWzem5tjB1O+P2Jvurb32bbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768224222; c=relaxed/simple;
-	bh=CZTJjP0k6kzmoRJErfyVOrpsAr41G7M07VU+UPpF7xo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TsqlNduv6Ma7MWdmWsTODITE2IQ45yQyp+AVL7/hqzglBsvu8yqaY8tOiYB8R13OZIn96WNpwaWS7T9+6YAZz6Rf7Aqfq2T0YLvFGTVktUhvV3BF75jTCDhBIcfYf2MV7rQh89W8AYHmam7aHUwdHgd1O0FKYeUNZp+ildD6GYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arusekk.pl; spf=pass smtp.mailfrom=arusekk.pl; dkim=pass (2048-bit key) header.d=arusekk.pl header.i=@arusekk.pl header.b=cwsLLvUB; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arusekk.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arusekk.pl
-Message-ID: <35312d4f-0783-43bf-8a91-0e80bffe821c@arusekk.pl>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arusekk.pl; s=key1;
-	t=1768224217;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UBo48CIAcIoS+ESLNbk+BNRduXadIoFVGFtgQXU8cvM=;
-	b=cwsLLvUBAK74E1aG/5ilarWIlurzxUKvxLcGozVH7MYnJTwwLg9yaAsZLP7V4JvF3OepdB
-	olqGwqT1twa+df8tlDFA3Z6U8AH5QMBgHic7h7zE8mnInIW03wx29lddnLmP2qd6AdRtY2
-	o/MtVcwcLVi1NHU6FIiKXoz8WZ2LIl0PKn88aSSjdyKKCmekvae/3LdpHW9tNCwjttl/6F
-	CObhbP+OJImZbOEFjmWHI3Ii3UIZNtrPMKpL15TPrkQw8dFhC6xDDn6N7/2VEESUFJz8WH
-	jT9gVH1fNGjNbrOApGb4zLB0Bl5xMOV13CBso1RXj61xE4IKLnHCXBDg9zpkHw==
-Date: Mon, 12 Jan 2026 14:24:42 +0100
+	s=arc-20240116; t=1768225024; c=relaxed/simple;
+	bh=bzYUe9Krw1KHbB/obzxKLRvZYPhkA90KZUSBQi3hf2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lW1sus33ynA3Ie+o7qBBo9rUVvZufwZIr7tblnVFD81LTDZ89JZQEKsxGS6suTQCuzKn9I9smlM+jRmr2AXfcGXGXfolDQPIb5zwn2EWsqabniyhOsAT1GLfaBnSSVOkItXbn5KAUjUapdgp0QJo49hjB2ERyLEkO/HAdYJiK28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GYy0IXRw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6079BC16AAE;
+	Mon, 12 Jan 2026 13:37:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768225023;
+	bh=bzYUe9Krw1KHbB/obzxKLRvZYPhkA90KZUSBQi3hf2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GYy0IXRwxYRa6+Eb+mt0hD4IbxIA8k971nzVORZJz0zmrD/N8l/oqWJpUakCf6wyk
+	 4cDPflH+DuT8pXO12YmlZzAw/osbsYT5dykv2XNR3OTbA6ujOqz4XfvvS39ltm0Gz8
+	 LXG+ptmkdPUMV/1tppmmnwZXLEAlxkNvWXT1rWf8=
+Date: Mon, 12 Jan 2026 08:37:02 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, manivannan.sadhasivam@oss.qualcomm.com, 
+	Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Derek J. Clark" <derekjohn.clark@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	linux-acpi@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v3 03/14] software node: Implement device_get_match_data
+ fwnode callback
+Message-ID: <20260112-miniature-quiet-gorilla-263fed@lemur>
+References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
+ <20260110-pci-m2-e-v3-3-4faee7d0d5ae@oss.qualcomm.com>
+ <aWSpFk9z0zpyKjr6@smile.fi.intel.com>
+ <6l3rs5pv6xnrbygpvqrdxqoqtybjyefsltk5bl4336q56rfoza@ejo3sxuufghe>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] kconfig: fix static linking of nconf
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Mark Brown
- <broonie@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Arkadiusz Kozdra <floss@arusekk.pl>
-References: <20260110114808.22595-1-floss@arusekk.pl>
- <20260110232043.GA90060@ax162>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Arkadiusz Kozdra <floss@arusekk.pl>
-In-Reply-To: <20260110232043.GA90060@ax162>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6l3rs5pv6xnrbygpvqrdxqoqtybjyefsltk5bl4336q56rfoza@ejo3sxuufghe>
 
-W dniu 11.01.2026 o 00:20, Nathan Chancellor pisze:
->> -PKG="ncursesw menuw panelw"
->> -PKG2="ncurses menu panel"
-> Is it worth a comment that the order of these packages is intentional to
-> support static library builds? I do not mind adding after the fact to
-> save you from sending a v2. I guess this situation is not too common
-> since 1c5af5cf9308 is over six years old at this point but if any other
-> dependencies become necessary in the future, it might help folks place
-> them in the correct order.
+On Mon, Jan 12, 2026 at 01:49:54PM +0530, Manivannan Sadhasivam wrote:
+> > I really do not want to see this patch without very good justification
+> > (note, there were at least two attempts in the past to add this stuff
+> >  and no-one was merged, have you studied those cases?).
+> > 
+> 
+> Yes I did. I didn't put the above justification in the cover letter, as it was
+> already overwhelmed with too much information regarding the connector node.
+> Maybe I should've added it in the comments section of this patch. But I didn't
+> know how to do that with b4.
 
-Sure, this is because ld still only visits each archive once, 
-left-to-right, by design.
-I think a comment about library dependencies and order would do a lot.
-Feel free to reword and/or add comments as you please.
-Thank you for your help.
+You can just amend the commit directly and put comments under "---". They
+will be preserved when email is sent, but won't be applied when the maintainer
+pulls the series.
 
-- Arusekk
-
+-K
 
