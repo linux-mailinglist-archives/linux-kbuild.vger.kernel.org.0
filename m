@@ -1,149 +1,88 @@
-Return-Path: <linux-kbuild+bounces-10505-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10506-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A45D123B6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 12:19:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D62D12C27
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 14:25:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BFC7E302EA31
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 11:15:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 187023009767
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 13:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1A953563CC;
-	Mon, 12 Jan 2026 11:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB87C358D09;
+	Mon, 12 Jan 2026 13:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOkrzxTX"
+	dkim=pass (2048-bit key) header.d=arusekk.pl header.i=@arusekk.pl header.b="cwsLLvUB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF43559EC;
-	Mon, 12 Jan 2026 11:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44DC3587A1
+	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 13:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768216524; cv=none; b=c8rMDLtPueqGW9wI9mGOKj4ZuksOlW9PfxXp1RubRj/bDeB0pRnYmx5IP8uuBDUv37CZsHmzZ7DJ+VotuH0PFDmR8hEOkwUlC8fL6EUd8OhQMy9VO33Gu2QXuM5eHOSVG5es+kMn0ATM8HHHmgIFlwGPe2cYbxyQST6dZ3v8/7A=
+	t=1768224222; cv=none; b=prFDEzeH8SDyHgjjDLsaT3nwjYLDsfy+Y1KTqoDbeCJ9PvqvxNW/BK33Y863HA//rghUKl98gvy5b8KMro+QiEI0kyvSpU5/FFHQVMutxMWxA3yIKX8x6YyvcGoaSv9pGgm9/fMH5u4IOhnIk9CJYuZNL6G9vShOdRnUfwdhg6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768216524; c=relaxed/simple;
-	bh=zUSCP1wlBfzuXE8NqisF5E9uyqPXe+GBaVIHFJQsuQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jmvvzTjjddG82PALPYM4KCK16MtIuQ55s0P1qFHhQK/Q0L3sMe2uayMSo335YHg98M8Uofj1OyzrVJ6ihrjfpykrfkHdr9mrDA9ptecarGkxiiA+0dDsCKR7XjtdG4EWyVn4ii/LPGCr6sXZMCNOdjBli4Au8tAHuHVq/HQH18U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOkrzxTX; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768216523; x=1799752523;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zUSCP1wlBfzuXE8NqisF5E9uyqPXe+GBaVIHFJQsuQc=;
-  b=YOkrzxTXzeOUMoQWA6cTprZC+zpGF4q2qS7RvU4ksZ0BaY7xo/OsgtpF
-   jSI74vpQZYGnBYathDznmX344Rg5BIOKRTYb1NA/LfWslfgoWqM51VTYJ
-   sR96ncLH5ygzLWfavGmV/x1RLIXuCMMZiZZSuGlBQZ9fIFgzGyeO/hxsH
-   wObdUl6QsMr6lB8smFJDt9fdRNOFLaqgv847xfXsE4SIDfmjvrEdfqeZa
-   nUTJkpzdPN7OD/fQQ0OnYs3uBf6KmvkDc+Csrvv4vBasNGlvaDx6mHdMc
-   xgsqBN/3bQZbQQWc/l9Iu8qoiHq9yVKvkgvyWCgTd4U9+bA5+18F7pwZJ
-   w==;
-X-CSE-ConnectionGUID: 6WVsrkR+TdCu6VvYTahNDQ==
-X-CSE-MsgGUID: AD7rNmHrQHiNetTiLDouwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80209602"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="80209602"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:15:22 -0800
-X-CSE-ConnectionGUID: kUR6ig1/RUKJYBcy/p3hfQ==
-X-CSE-MsgGUID: OAg+gLOMQVGuS3+zfM3y2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="203977233"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:15:16 -0800
-Date: Mon, 12 Jan 2026 13:15:13 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-acpi@vger.kernel.org, manivannan.sadhasivam@oss.qualcomm.com
-Subject: Re: [PATCH v3 04/14] software node: Add software_node_match_device()
- API
-Message-ID: <aWTXwSaNEVZsNxip@smile.fi.intel.com>
-References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
- <20260110-pci-m2-e-v3-4-4faee7d0d5ae@oss.qualcomm.com>
- <aWSxcJTLzBFbMGad@smile.fi.intel.com>
- <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
+	s=arc-20240116; t=1768224222; c=relaxed/simple;
+	bh=CZTJjP0k6kzmoRJErfyVOrpsAr41G7M07VU+UPpF7xo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TsqlNduv6Ma7MWdmWsTODITE2IQ45yQyp+AVL7/hqzglBsvu8yqaY8tOiYB8R13OZIn96WNpwaWS7T9+6YAZz6Rf7Aqfq2T0YLvFGTVktUhvV3BF75jTCDhBIcfYf2MV7rQh89W8AYHmam7aHUwdHgd1O0FKYeUNZp+ildD6GYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arusekk.pl; spf=pass smtp.mailfrom=arusekk.pl; dkim=pass (2048-bit key) header.d=arusekk.pl header.i=@arusekk.pl header.b=cwsLLvUB; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arusekk.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arusekk.pl
+Message-ID: <35312d4f-0783-43bf-8a91-0e80bffe821c@arusekk.pl>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arusekk.pl; s=key1;
+	t=1768224217;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UBo48CIAcIoS+ESLNbk+BNRduXadIoFVGFtgQXU8cvM=;
+	b=cwsLLvUBAK74E1aG/5ilarWIlurzxUKvxLcGozVH7MYnJTwwLg9yaAsZLP7V4JvF3OepdB
+	olqGwqT1twa+df8tlDFA3Z6U8AH5QMBgHic7h7zE8mnInIW03wx29lddnLmP2qd6AdRtY2
+	o/MtVcwcLVi1NHU6FIiKXoz8WZ2LIl0PKn88aSSjdyKKCmekvae/3LdpHW9tNCwjttl/6F
+	CObhbP+OJImZbOEFjmWHI3Ii3UIZNtrPMKpL15TPrkQw8dFhC6xDDn6N7/2VEESUFJz8WH
+	jT9gVH1fNGjNbrOApGb4zLB0Bl5xMOV13CBso1RXj61xE4IKLnHCXBDg9zpkHw==
+Date: Mon, 12 Jan 2026 14:24:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=Md6+hhLMOmmDejKW+_jbWu3_XB4qNobyi27pezfXsVLFw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Subject: Re: [PATCH] kconfig: fix static linking of nconf
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Mark Brown
+ <broonie@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Arkadiusz Kozdra <floss@arusekk.pl>
+References: <20260110114808.22595-1-floss@arusekk.pl>
+ <20260110232043.GA90060@ax162>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Arkadiusz Kozdra <floss@arusekk.pl>
+In-Reply-To: <20260110232043.GA90060@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jan 12, 2026 at 06:03:34AM -0500, Bartosz Golaszewski wrote:
-> On Mon, 12 Jan 2026 09:31:44 +0100, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> said:
-> > On Sat, Jan 10, 2026 at 12:26:22PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> >
-> >> Add software_node_match_device() API to match the swnode device with the
-> >> swnode driver. The matching is based on the compatible property in the
-> >> device and the driver's of_match_table.
-> >
-> > NAK. swnodes != real firmware nodes.
-> 
-> While I'm not arguing that this is *the* solution, I think it warrants
-> a discussion on proper matching of devices that are only backed by a software
-> node - for instance a serdev device on the auxiliary bus. I understand what
-> software nodes were historically but perhaps it's time to extend their role as
-> a full-blown firmware node allowing matching with drivers.
-> 
-> Reusing existing OF IDs is just one way, we could potentially think about a
-> high-level fwnode-based device to driver matching?
+W dniu 11.01.2026 o 00:20, Nathan Chancellor pisze:
+>> -PKG="ncursesw menuw panelw"
+>> -PKG2="ncurses menu panel"
+> Is it worth a comment that the order of these packages is intentional to
+> support static library builds? I do not mind adding after the fact to
+> save you from sending a v2. I guess this situation is not too common
+> since 1c5af5cf9308 is over six years old at this point but if any other
+> dependencies become necessary in the future, it might help folks place
+> them in the correct order.
 
-There is already proposed and agree way to do that via DT overlays.
-If one needs to describe the (PnP or hotpluggable) hardware, it's
-the way to go as the HW maybe much complex than the just one small UART
-appendix.
+Sure, this is because ld still only visits each archive once, 
+left-to-right, by design.
+I think a comment about library dependencies and order would do a lot.
+Feel free to reword and/or add comments as you please.
+Thank you for your help.
 
-As per auxdevice, this should not be enumerable by compatible. The auxdevice
-usually are created by other devices (from real ones) that _know_ the topology.
-I don't see why we need to open the can of worms with the software nodes
-to enumerate them as real ones.
-
-P.S. Collect others' opinions (esp. device property reviewers and maintainers)
-and we will see. But I do not see any even looking good justification for that.
-It might be that I didn't get fully the use case and the other means can not
-be used. But taking into account history of the rejection of the matching against
-OF compatible string in swnodes suggests that this will stay the way it's now.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+- Arusekk
 
 
