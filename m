@@ -1,92 +1,151 @@
-Return-Path: <linux-kbuild+bounces-10507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10508-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330F9D12DA1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 14:37:10 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF50D133C5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 15:42:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3CCC230181B1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 13:37:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1E1F8300B9C8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 14:37:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 396A5359709;
-	Mon, 12 Jan 2026 13:37:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F46624E4D4;
+	Mon, 12 Jan 2026 14:37:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GYy0IXRw"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HxKCXCEn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057F92DBF78;
-	Mon, 12 Jan 2026 13:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27511AF0BB
+	for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 14:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768225024; cv=none; b=QaDdO4i3s/eM26SCuwlDlK683Qu7HXgF20O8aPtPOPyr4Rx9KqcbVr7cRiEQUc43cahFqjuLTG399lvFFQr+o6zxpKZ6IjN3ev02ytckBeT1QvgjvqgljhI3Vw/zSh/Efx2+LLciNxT2oUVdkd9iWzem5tjB1O+P2Jvurb32bbM=
+	t=1768228629; cv=none; b=UQhzPSW3szy9dOQHu6mDEpw7LEGuTeb65N958v7f3ULLVS/w47Gbht5pmztt1r7MfuZX4en4YQfmnR3cvowTYG+TbKSD6laHq8jNSkbUnYBHDDH9RzNCl2DHq6m/DmQWhwsYKjexNPxZ5K0z21Lh+z8DJWhi6KLTD9HDeAJjPA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768225024; c=relaxed/simple;
-	bh=bzYUe9Krw1KHbB/obzxKLRvZYPhkA90KZUSBQi3hf2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lW1sus33ynA3Ie+o7qBBo9rUVvZufwZIr7tblnVFD81LTDZ89JZQEKsxGS6suTQCuzKn9I9smlM+jRmr2AXfcGXGXfolDQPIb5zwn2EWsqabniyhOsAT1GLfaBnSSVOkItXbn5KAUjUapdgp0QJo49hjB2ERyLEkO/HAdYJiK28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GYy0IXRw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6079BC16AAE;
-	Mon, 12 Jan 2026 13:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768225023;
-	bh=bzYUe9Krw1KHbB/obzxKLRvZYPhkA90KZUSBQi3hf2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GYy0IXRwxYRa6+Eb+mt0hD4IbxIA8k971nzVORZJz0zmrD/N8l/oqWJpUakCf6wyk
-	 4cDPflH+DuT8pXO12YmlZzAw/osbsYT5dykv2XNR3OTbA6ujOqz4XfvvS39ltm0Gz8
-	 LXG+ptmkdPUMV/1tppmmnwZXLEAlxkNvWXT1rWf8=
-Date: Mon, 12 Jan 2026 08:37:02 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, manivannan.sadhasivam@oss.qualcomm.com, 
-	Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
-	"Derek J. Clark" <derekjohn.clark@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	linux-acpi@vger.kernel.org, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v3 03/14] software node: Implement device_get_match_data
- fwnode callback
-Message-ID: <20260112-miniature-quiet-gorilla-263fed@lemur>
-References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
- <20260110-pci-m2-e-v3-3-4faee7d0d5ae@oss.qualcomm.com>
- <aWSpFk9z0zpyKjr6@smile.fi.intel.com>
- <6l3rs5pv6xnrbygpvqrdxqoqtybjyefsltk5bl4336q56rfoza@ejo3sxuufghe>
+	s=arc-20240116; t=1768228629; c=relaxed/simple;
+	bh=iyqqznUqDL99OwJCEkrsF2iVykllrm4FsNPCyAuRMwE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DF1VDTtqBUN3e70yJBBtPRgiJAHrtOY2IJDqeK7VYpT2d8qQ0MQg2rp2+V35rEFVZqF3RdTnpOaxIVR+sck8k3Q9OqWWRgDAaeYi6a0TnUmhS4s+86XBBZ5SKvh+bnfSWSyi09yIuxLtjqykJDz7oCC4WC3QHZhqeEVKFcBQzPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HxKCXCEn; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso51585905e9.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 06:37:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1768228626; x=1768833426; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gusj9aT7RaX3C9uGASncaxKiTRdOev9W3ScVaZSC4iY=;
+        b=HxKCXCEnI49Qz4IQaghPBJuui1rlMR6Novwc99GHqU+DzA2GaaTSHU0BmrzVdrjoR0
+         eaJfAzUC0RPWV3NJ3dAm7K4H5ny9qutM5lWev7HR6nAwHlWZ222AgweMPQO1Pk4ZQ2/c
+         927hsXyAyGVY5f9lK0+0f5jSUCbYNy+Q+zvBu1EG//K7ZGUb0WZAj8LIpQJEuaYR0xGr
+         S/ADOD4neNCly69JA/OBFTtTVbHlCYWBXvPAD40FLZRPusoLLzlNVgM4hYtl7lA3HcSf
+         Ew0d2xha43Q3Zw25P0OfIN5XwuIZDFWAF751T2FBGekiJw+zOfXVAX2cnH7DpNk0CKmM
+         9XXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768228626; x=1768833426;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Gusj9aT7RaX3C9uGASncaxKiTRdOev9W3ScVaZSC4iY=;
+        b=usJgRs4S85MER3C6a6vSrMGe+R25gpwpydLZ2TvD40uaroBuRfkftbyX7xuvDSo6+x
+         bfKyHx8QgvF+Hnpy2z/ITxra9maG1slQuIFwry+YdE8bwY6xf24wlF0aqGvDqPQYdpac
+         5QQXv9t+JGEOXS/ZKjCZ8rNh8vKbvE9K9ncdVzIXXtoza0eH/CHBnfxSfOl4EVjcy5v2
+         FsMkVDx0z69Uk6Odln+UXcgNZiTXMLakYR9JME3UTa5f8WLbhKJcXq9iw+9uZqqriZua
+         3v77/+EAHeqFkgRHfWXNHRD08jvWrNOCQr8AMer0OKFMIS47nSxAkxujscaJQxHEScTe
+         z4tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJwLAircdlk8wwKQd5xBVVabDkuPFtKjyJ+VSUjaJ7LGzGCDvNVC+OAQmQdRuO+4IP33E1jXRNS+61jX8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjXeM8eXbzWr3ImRoK3XKqrGAiYGn6Uf4jiYPMjMZFeWrb7mci
+	pKmx2MzmU3qGMgY94OoGh6qLXgy7CImyuAXZvskJ7Vv8S5gM0PEZU35/BEB0kmVy5rk=
+X-Gm-Gg: AY/fxX4JPgfr7nxgDv3s6HMyvNN8poPXCSpNN7gk7q+SnorT179yCrn55o1Zf/xAj44
+	g8J1aceux89oDShIHELpG1e3/vmt2A0m92HJxKUicXR3rPd/urErBhPSZRRGEjwjQvCSbVghNCJ
+	D4NuUzOjh9SJLAWUZtt8fzwrGmzvUzy3CAKwE81PURnQEpjwofHeAU5ZQvTizulqgEemtumXwIc
+	bDfetU/R0bdYGqWjYTRlIMOhq6uoLiO11/rJgqztPn7jwAsAnh//d2wy2f6KA+pnVS8hg17p6PM
+	5he0QnBGtKfbGlbeBjaeDHqMINYjs4mMSC7RkOELvZmDYVTC8HqtnXFsDKGM4fsOg2EPIJp39oP
+	nKLyp6kcxeopgCIp0ZjVfyl5gzv/Iefxtwg9gyfJDAYIrr/N0O1Npzi6PRkABV2fi5M0wdUXmNZ
+	zvgGuoL4TgH90BzAHDUKBAFOK0VwALBQ==
+X-Google-Smtp-Source: AGHT+IFmm1oEKKdZV8ZlNXFTTJqlKJkxSdN4HcGz/P7O+LQJVZm9Zz54Me3GJnG5+SbV8c+kl57MWg==
+X-Received: by 2002:a5d:5f94:0:b0:432:5bac:3915 with SMTP id ffacd0b85a97d-432c37c87e4mr21260896f8f.39.1768228625843;
+        Mon, 12 Jan 2026 06:37:05 -0800 (PST)
+Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff0b2sm38877725f8f.42.2026.01.12.06.37.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jan 2026 06:37:05 -0800 (PST)
+Message-ID: <d683a5c5-51ad-4b8e-bf8e-6a0526f7c9c1@suse.com>
+Date: Mon, 12 Jan 2026 15:37:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6l3rs5pv6xnrbygpvqrdxqoqtybjyefsltk5bl4336q56rfoza@ejo3sxuufghe>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] module: Fix kernel panic when a symbol st_shndx is out of
+ bounds
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <20251230183208.1317279-1-ihor.solodrai@linux.dev>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20251230183208.1317279-1-ihor.solodrai@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 12, 2026 at 01:49:54PM +0530, Manivannan Sadhasivam wrote:
-> > I really do not want to see this patch without very good justification
-> > (note, there were at least two attempts in the past to add this stuff
-> >  and no-one was merged, have you studied those cases?).
-> > 
+On 12/30/25 7:32 PM, Ihor Solodrai wrote:
+> The module loader doesn't check for bounds of the ELF section index in
+> simplify_symbols():
 > 
-> Yes I did. I didn't put the above justification in the cover letter, as it was
-> already overwhelmed with too much information regarding the connector node.
-> Maybe I should've added it in the comments section of this patch. But I didn't
-> know how to do that with b4.
+>        for (i = 1; i < symsec->sh_size / sizeof(Elf_Sym); i++) {
+> 		const char *name = info->strtab + sym[i].st_name;
+> 
+> 		switch (sym[i].st_shndx) {
+> 		case SHN_COMMON:
+> 
+> 		[...]
+> 
+> 		default:
+> 			/* Divert to percpu allocation if a percpu var. */
+> 			if (sym[i].st_shndx == info->index.pcpu)
+> 				secbase = (unsigned long)mod_percpu(mod);
+> 			else
+>   /** HERE --> **/		secbase = info->sechdrs[sym[i].st_shndx].sh_addr;
+> 			sym[i].st_value += secbase;
+> 			break;
+> 		}
+> 	}
+> 
+> A symbol with an out-of-bounds st_shndx value, for example 0xffff
+> (known as SHN_XINDEX or SHN_HIRESERVE), may cause a kernel panic:
+> 
+>   BUG: unable to handle page fault for address: ...
+>   RIP: 0010:simplify_symbols+0x2b2/0x480
+>   ...
+>   Kernel panic - not syncing: Fatal exception
+> 
+> This can happen when module ELF is legitimately using SHN_XINDEX or
+> when it is corrupted.
+> 
+> Add a bounds check in simplify_symbols() to validate that st_shndx is
+> within the valid range before using it.
+> 
+> This issue was discovered due to a bug in llvm-objcopy, see relevant
+> discussion for details [1].
+> 
+> [1] https://lore.kernel.org/linux-modules/20251224005752.201911-1-ihor.solodrai@linux.dev/
+> 
+> Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 
-You can just amend the commit directly and put comments under "---". They
-will be preserved when email is sent, but won't be applied when the maintainer
-pulls the series.
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
--K
+-- 
+Thanks,
+Petr
 
