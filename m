@@ -1,94 +1,89 @@
-Return-Path: <linux-kbuild+bounces-10571-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5CDD1AA66
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 18:34:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 830FFD1B528
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 21:58:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id BCA663007F0E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 17:34:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 68C14302A954
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 20:58:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25AD22FDC55;
-	Tue, 13 Jan 2026 17:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BE231ED95;
+	Tue, 13 Jan 2026 20:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WbyA3+Fz"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KFbKNiGe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E489D1CD1E4;
-	Tue, 13 Jan 2026 17:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57608318B9E;
+	Tue, 13 Jan 2026 20:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768325643; cv=none; b=pf2xm8Kjjq2VAcPf8Mx8MInrIib9MShGlm3yAL2whotM3YMAZGnjgaYRM9D+eJCRbkbSILZtFAeEbVpucOIxfj0D5KoZyr2ByVPVue761PiXDZ6OoAifeARK1pNMUws14TCRnON3QEuMuOqVDDLRtvAL3vzEF955JvipN5Rxrko=
+	t=1768337888; cv=none; b=eSyLN2F3X9oZiAfSX41+vyLzISrSvzSHn7lj/tDz+h3DYXdacIKdvhz9ImVOyC3c3sFRG65Bqc+4Tpj7aOEn8NbVfGHXcPI1peNR86i9lS/UJ3IuIsFMiYk9jIzrluGMmAJph8kVBrFqQd34olSSfYszbuhLfxbqAtHKMwH/fAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768325643; c=relaxed/simple;
-	bh=YZwbcRRPs13mP8+rij8yZTXdw99Dd9eLfldfmPqX6MI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=m3muBAnRfUy3kAhG+bmfzh1hKraZOpEvN7W6efoNKr/PRAMP9HijIZlVFkFD+fQWol6H0dEsMOBDnd4x6q/3AXB1XLSNsxl9lYIBPldJVo424v7EBRCXTKK0E4w5FDR/XI9pPVYqORt9PueZd+gyxqZrnXyRQo+UNMlpnrUXHJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=WbyA3+Fz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7658C116C6;
-	Tue, 13 Jan 2026 17:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1768325642;
-	bh=YZwbcRRPs13mP8+rij8yZTXdw99Dd9eLfldfmPqX6MI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WbyA3+FzTYTAmHvwVlZfLUe40KQDNlYCOwODqmT24UnodE6me2UXyfdkbMRcgiM2A
-	 Ie7nNf0bhgBJqvjW6G7/jpya3q2bjnOxZm4JHG8oFsLRnvEoKeoDSzoMF0+3t4TFR5
-	 ZgzaiDm3pu+lQM1rrx41GzTtPJgJ5q3yEJ2FLXuA=
-Date: Tue, 13 Jan 2026 09:34:00 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Maciej Wieczor-Retman <m.wieczorretman@pm.me>, corbet@lwn.net,
- morbo@google.com, rppt@kernel.org, lorenzo.stoakes@oracle.com,
- ubizjak@gmail.com, mingo@redhat.com, vincenzo.frascino@arm.com,
- maciej.wieczor-retman@intel.com, maz@kernel.org, catalin.marinas@arm.com,
- yeoreum.yun@arm.com, will@kernel.org, jackmanb@google.com,
- samuel.holland@sifive.com, glider@google.com, osandov@fb.com,
- nsc@kernel.org, luto@kernel.org, jpoimboe@kernel.org,
- Liam.Howlett@oracle.com, kees@kernel.org, jan.kiszka@siemens.com,
- thomas.lendacky@amd.com, jeremy.linton@arm.com, dvyukov@google.com,
- axelrasmussen@google.com, leitao@debian.org, ryabinin.a.a@gmail.com,
- bigeasy@linutronix.de, peterz@infradead.org, mark.rutland@arm.com,
- urezki@gmail.com, brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com,
- andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org,
- vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com,
- samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com,
- surenb@google.com, anshuman.khandual@arm.com, smostafa@google.com,
- yuanchu@google.com, ada.coupriediaz@arm.com, dave.hansen@linux.intel.com,
- kas@kernel.org, nick.desaulniers+lkml@gmail.com, david@kernel.org,
- ardb@kernel.org, justinstitt@google.com, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for
- x86
-Message-Id: <20260113093400.412cb4c5596ff3336ac803fb@linux-foundation.org>
-In-Reply-To: <20260113114705.GJaWYwubl3yCqa1POx@fat_crate.local>
-References: <cover.1768233085.git.m.wieczorretman@pm.me>
-	<20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
-	<20260113114705.GJaWYwubl3yCqa1POx@fat_crate.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1768337888; c=relaxed/simple;
+	bh=TD2Vm9wqBzFMKU8+rXMduQiJ/DYduTKCttxOJrynlJY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XwKzJWOGDWQkvHSrK0NIr86RvfeUq/IpLYm5gNYhqHZxUXs397C98BfWAkXtFmoKN9Vrz/DxahB8fpizxO/TnThCvCOng0yDmNlA173Hf+QpZM3tLK6+XAWgL2S2WJM5GK4GP/dA2p4qL5CbIdZ05cqi9mw1tETSRXoiBcnQyMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KFbKNiGe; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8ECE440C7C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768337886; bh=jqbRJsomiPWk6cLkmHUFygsj5IDMKDpLe8eU/EmOQZg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KFbKNiGe2YaK8agCCcuhtI6+jquk1zq0gG+KF8tf26qgrt+mu/JiJ+gzbKP6bqQMN
+	 o7GNTc4J3fQM8W/8z9Yx+/EG84EKlxLg/7D0V7II0cgTusmeD6IcxuPu8sgGfOQzpy
+	 4N4Gkr2u0sDZzk9fId6gcMxp8Ciq4WMgzd/vmlwqjgiD+v3Cy9kMqvJz2MNhhjW7gN
+	 lpVos9KUAT0bDV2gX0BhW+OGZIfJ9cCaY9mK+GH8vWLbsEG7FHDMcQKw3rsAHsVS4d
+	 Cc/SUpnN4GZzmtLCv3EguW3eyNyTVrc0OnxJvFwbyJ5loGgMWHfxEQXNZaBGW3v4kw
+	 xXElLZXpMaoyw==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8ECE440C7C;
+	Tue, 13 Jan 2026 20:58:06 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Nauman Sabir <officialnaumansabir@gmail.com>
+Cc: linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-kbuild@vger.kernel.org, Nauman Sabir
+ <officialnaumansabir@gmail.com>
+Subject: Re: [PATCH v3 3/3] Documentation: Fix typos and grammatical errors
+In-Reply-To: <20260112160820.19075-1-officialnaumansabir@gmail.com>
+References: <20260112160820.19075-1-officialnaumansabir@gmail.com>
+Date: Tue, 13 Jan 2026 13:58:05 -0700
+Message-ID: <87o6mxw7qa.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Tue, 13 Jan 2026 12:47:05 +0100 Borislav Petkov <bp@alien8.de> wrote:
+Nauman Sabir <officialnaumansabir@gmail.com> writes:
 
-> On Mon, Jan 12, 2026 at 10:29:57AM -0800, Andrew Morton wrote:
-> > The review process seems to be proceeding OK so I'll add this to
-> > mm.git's mm-new branch, which is not included in linux-next.  I'll aim
-> > to hold it there for a week while people check the patches over and
-> > send out their acks (please).  Then I hope I can move it into mm.git's
-> > mm-unstable branch where it will receive linux-next exposure.
-> 
-> Yah, you can drop this one and take the next revision after all comments have
-> been addressed.
+> Fix various typos and grammatical errors across documentation files:
+>
+> - Fix missing preposition 'in' in process/changes.rst
+> - Correct 'result by' to 'result from' in admin-guide/README.rst
+> - Fix 'before hand' to 'beforehand' in cgroup-v1/hugetlb.rst
+> - Correct 'allows to limit' to 'allows limiting' in hugetlb.rst,
+>   cgroup-v2.rst, and kconfig-language.rst
+> - Fix 'needs precisely know' to 'needs to precisely know'
+> - Correct 'overcommited' to 'overcommitted' in hugetlb.rst
+> - Fix subject-verb agreement: 'never causes' to 'never cause'
+> - Fix 'there is enough' to 'there are enough' in hugetlb.rst
+> - Fix 'metadatas' to 'metadata' in filesystems/erofs.rst
+> - Fix 'hardwares' to 'hardware' in scsi/ChangeLog.sym53c8xx
+>
+> Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
 
-Cool, I removed the series.
+The "3/3" in the subject suggests there's two other patches somewhere?
+
+Thanks,
+
+jon
 
