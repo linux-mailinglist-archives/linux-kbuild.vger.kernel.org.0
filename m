@@ -1,113 +1,173 @@
-Return-Path: <linux-kbuild+bounces-10536-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10537-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C46D15C32
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 00:16:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3ABAD1631C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 02:45:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 812F13009282
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Jan 2026 23:16:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D46103019B47
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 01:44:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7737325B2F4;
-	Mon, 12 Jan 2026 23:16:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654FA274B40;
+	Tue, 13 Jan 2026 01:44:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q8dwzBLw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i1+tv2it"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513D423D2A3;
-	Mon, 12 Jan 2026 23:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27BC23D7DE
+	for <linux-kbuild@vger.kernel.org>; Tue, 13 Jan 2026 01:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768259789; cv=none; b=Z8XJcTdd6Rj49WRLDofFWYylc+QuXKo4boQ4fXPEyDxhLrl8hgJbGfoXV2PQrpd0GE+rFfZ1FJXzRbWrNmL9Xh3bTwH8wqivV4smwWeyBaWL4WZOm3BZ/dqNbvCBVhKYQnc9BaDkoZwMlTwOWymTGQeMlgDZvkJ04NKoV/jZ01Y=
+	t=1768268690; cv=none; b=iBSbldPt+hkDVdhBgXyESnTWMI0t/cYSj9Ta2BLmlAZ/TaCrz3LSDZsMrGoy0EaBj8W8g0iGftPqJLKNnLJBKSXPNCMYEPN+qrs9pYBV2JrbuD03sf0BuOD+IovuWemlzzOGPKcB00RJEJU8K/7UT5LJ7AeyAikKDpgX17tRXH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768259789; c=relaxed/simple;
-	bh=rKHeyzseh0s9gnL1L1fbmVyKpPR6NF8aEZ7uuKcE1Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V+9be0efqObbjFebn1d8tau23YfKa7QmPrEfpTuqSit71P+TbJKAul+YI8mfcS53alFtSkb0MTtBqH/t38DJjbgH4u5WspxSGT2tWXG5OdKL6HpYcGLZWf2YxT6j7IstZxsyZ2QJ32ggM/k2Z/mjXU4DuPkGdr/OGHer4lvbagY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q8dwzBLw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F493C116D0;
-	Mon, 12 Jan 2026 23:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768259788;
-	bh=rKHeyzseh0s9gnL1L1fbmVyKpPR6NF8aEZ7uuKcE1Lo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q8dwzBLwrlJ3Wr9IBw+8FsNVzbfeQg4edj98vtu1cVHtBBEWADDtbV2bpNvjkKDUC
-	 3oxCWn737YSigqBRQxksPQI2ZUUYajKljpCIWzib5OJSptq44cC47MAvl2BuW1lRdS
-	 RFoH9M4EfTJQboqnkLPj21EO/+LUNwuw6x6yyeaoWYtLi2kA+7AJeFLK/6kScKndVt
-	 dnao7SeHf6JZc83cyq7vJUbKzhcZPsjFTeufeFvwlwQTQUvB4xD2z+UnEG0SG/AMJ+
-	 35QXcUjrC02MBgQogHZdO/KW3Uy26M7362u0HX2OOaAXzVdFriL3MP2+SIZZmDUHpV
-	 aI1hZSH5Q6BHA==
-Date: Mon, 12 Jan 2026 16:16:24 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: Reject unexpected values for LLVM=
-Message-ID: <20260112231624.GA2272167@ax162>
-References: <20260112-kbuild-llvm-arg-v1-1-8e9bbdae996f@weissschuh.net>
+	s=arc-20240116; t=1768268690; c=relaxed/simple;
+	bh=rzrjC221+4p2F3nUmD1KU5yTvAmfj72IKccTj/qfT6I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SKrm0ToF8Js5GyQaN3qwIwcwraQj+sOdDrSm4OEURIBPsZ9phtFWUgxei8vLBq/9aYzfbOmIccTsyjvn9lnJK1sx4amuEkkDnuVJYlhydy+NWrYvjdKJtfxDjQ1+3bQlFSwGTANsfnsPLbaKpUm7K+uzSSyqEwSIXVddrWPnRA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i1+tv2it; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-432d256c2a9so3473623f8f.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Jan 2026 17:44:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768268687; x=1768873487; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8QXuf4cwRpBOzqTZvP4qMKCqVPPc0MElEg+LdlADa3c=;
+        b=i1+tv2itsqegd2gAv1GRfllqhV5epd/v+tPtGbTy164dPvtJcyb9YmKWI2fCHWkDZH
+         Fq8fiJB2gBQ9wme1EiBfx38SVhk2drWlObHxNmoFJ4NGZ21qSOfYkr/ULpLBp70l6deN
+         NLStcmUsXPf8Xhtd3dAazJZZOBycM8CxCjoBhp5ssBgWhEmWG9QBOsVOmvg7HZmIVsIT
+         QFliazRL17gSnnscSGdaLuJUTmtyE+QCh4X/uxJ/XwJM1eXFBxGHzHhid9GaFSGwrNxX
+         eu1ceX2twHbU77nYYowZVoijyvmzbgVW2gCu9k6fo07LclE479RrFoLoiY6r0NkRJo4D
+         luvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768268687; x=1768873487;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8QXuf4cwRpBOzqTZvP4qMKCqVPPc0MElEg+LdlADa3c=;
+        b=RFBx38B4QDPDTslKJ0xiLKmJ6j6G7kXMVye2p8KMK1JWRauNDOukp9yfWDjVlFu3XD
+         Wsp7AlKBBEBr071TWiaLDGyrIbR58QYEaAPrZ862zUXSqMziFF9Ud+wOJZf3eb6MJMcb
+         0V2Rxa+AymWpr1q6R7lO76uYLeKf84N/hEkxKxtHQXKjAsBhZJSS3fNhuJmuVHWRwknO
+         WlgVuwAkDmn4pQFYOB0/DpA4XLV/+L/ATg9UsPf+497zsKBCNvVFO8mYW8ykHij6njQ3
+         FwZDr6Qp6/RfYlrN1gKgGRLNK+wQLrb3AA205YfH0YibabTw1f2/sgif+YwEI1T4yXqz
+         cHPw==
+X-Forwarded-Encrypted: i=1; AJvYcCVsH2L2FZOE5RX6Vm7qeJiMTvwahnenZb7Bu9tsGmCi4nkn2Hi3lAd/Rrew/ev2NJQ2qL9DaQMCDgxXUpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxgr6gH5tNJtZEW0QrapU0tu7ctPA6BgVBc/Kn9UOq3CxY7inj4
+	FTCZyWff/IwrohxmRQnXVUgS8aoDLuOKysHkcwbzB4mKtLvqNXa+eOyO6FEpeR7++Eq1aHayGhl
+	IrDrhpxpdaL9x6AfGiL0upcANlPmwsHU=
+X-Gm-Gg: AY/fxX7WEa2tjT/xC2s04+AFTQsz3LyWMPcwPot+K3kSwxtcV64Q+jTX1P7UKyj9nRv
+	yA3fY9PYwmAkgDvsqu4uDIMzX5wv0oTJDMjrrdV0DL1u6K9v8h45EhlE/nVROrApwSIuFcoZidV
+	q+37k2UQOZpKavtkAGPrcQWZkkoN0SHr3aDAYPaxnKKgYl5yaqkRfudJuCF9kLVfF73llu+ntSA
+	FNhXxbyIu8mSEV1NLmOGKSHc1FUDPkKKwUZ1Hpc5n7Ok17LtENwFQfg8Lz5YR5cy7rpeSTV0VJf
+	2JHq6Z3aAsBj16bTOVKfa+s88lCNQw==
+X-Google-Smtp-Source: AGHT+IEebGw6L+DCEowzC1fWnpJ9/6F/tHC8QlJPrsrlqIYFHxBkcEnJQunhABrVxJS4ojuoSVylquTQBlixDe2/UhU=
+X-Received: by 2002:a05:6000:25c6:b0:42b:4267:83e3 with SMTP id
+ ffacd0b85a97d-432c374f5femr24312893f8f.5.1768268687045; Mon, 12 Jan 2026
+ 17:44:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260112-kbuild-llvm-arg-v1-1-8e9bbdae996f@weissschuh.net>
+References: <cover.1768233085.git.m.wieczorretman@pm.me>
+In-Reply-To: <cover.1768233085.git.m.wieczorretman@pm.me>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 13 Jan 2026 02:44:35 +0100
+X-Gm-Features: AZwV_Qg49kJdgHS5b0feyJ3FQ4qpkZSxgMzwvg9-kXkrvqB0Op5YiaAIZPipNv4
+Message-ID: <CA+fCnZf5NMa=_Aic_gVQ05rvAvYx0xUpbZ=hOg2=7A9=ZbPdFw@mail.gmail.com>
+Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for x86
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: corbet@lwn.net, morbo@google.com, rppt@kernel.org, 
+	lorenzo.stoakes@oracle.com, ubizjak@gmail.com, mingo@redhat.com, 
+	vincenzo.frascino@arm.com, maciej.wieczor-retman@intel.com, maz@kernel.org, 
+	catalin.marinas@arm.com, yeoreum.yun@arm.com, will@kernel.org, 
+	jackmanb@google.com, samuel.holland@sifive.com, glider@google.com, 
+	osandov@fb.com, nsc@kernel.org, luto@kernel.org, jpoimboe@kernel.org, 
+	akpm@linux-foundation.org, Liam.Howlett@oracle.com, kees@kernel.org, 
+	jan.kiszka@siemens.com, thomas.lendacky@amd.com, jeremy.linton@arm.com, 
+	dvyukov@google.com, axelrasmussen@google.com, leitao@debian.org, 
+	ryabinin.a.a@gmail.com, bigeasy@linutronix.de, peterz@infradead.org, 
+	mark.rutland@arm.com, urezki@gmail.com, brgerst@gmail.com, hpa@zytor.com, 
+	mhocko@suse.com, weixugc@google.com, kbingham@kernel.org, vbabka@suse.cz, 
+	nathan@kernel.org, trintaeoitogc@gmail.com, samitolvanen@google.com, 
+	tglx@kernel.org, thuth@redhat.com, surenb@google.com, 
+	anshuman.khandual@arm.com, smostafa@google.com, yuanchu@google.com, 
+	ada.coupriediaz@arm.com, dave.hansen@linux.intel.com, kas@kernel.org, 
+	nick.desaulniers+lkml@gmail.com, david@kernel.org, bp@alien8.de, 
+	ardb@kernel.org, justinstitt@google.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 07:43:52AM +0100, Thomas Weiﬂschuh wrote:
-> The LLVM argument is documented to accept one of three forms:
-> * a literal '1' to use the default 'clang',
-> * a toolchain prefix path, ending in a trailing '/',
-> * a version suffix.
-> 
-> All other values are silently treated as '1'. If for example
-> the user accidentally forgets the trailing '/' of a toolchain prefix,
-> kbuild will unexpectedly and silently fall back to the system toolchain.
+On Mon, Jan 12, 2026 at 6:26=E2=80=AFPM Maciej Wieczor-Retman
+<m.wieczorretman@pm.me> wrote:
+>
+> =3D=3D=3D=3D=3D=3D=3D Introduction
+> The patchset aims to add a KASAN tag-based mode for the x86 architecture
+> with the help of the new CPU feature called Linear Address Masking
+> (LAM). Main improvement introduced by the series is 2x lower memory
+> usage compared to KASAN's generic mode, the only currently available
+> mode on x86. The tag based mode may also find errors that the generic
+> mode couldn't because of differences in how these modes operate.
+>
+> =3D=3D=3D=3D=3D=3D=3D How does KASAN' tag-based mode work?
+> When enabled, memory accesses and allocations are augmented by the
+> compiler during kernel compilation. Instrumentation functions are added
+> to each memory allocation and each pointer dereference.
+>
+> The allocation related functions generate a random tag and save it in
+> two places: in shadow memory that maps to the allocated memory, and in
+> the top bits of the pointer that points to the allocated memory. Storing
+> the tag in the top of the pointer is possible because of Top-Byte Ignore
+> (TBI) on arm64 architecture and LAM on x86.
+>
+> The access related functions are performing a comparison between the tag
+> stored in the pointer and the one stored in shadow memory. If the tags
+> don't match an out of bounds error must have occurred and so an error
+> report is generated.
+>
+> The general idea for the tag-based mode is very well explained in the
+> series with the original implementation [1].
+>
+> [1] https://lore.kernel.org/all/cover.1544099024.git.andreyknvl@google.co=
+m/
+>
+> =3D=3D=3D=3D=3D=3D=3D Differences summary compared to the arm64 tag-based=
+ mode
+> - Tag width:
+>         - Tag width influences the chance of a tag mismatch due to two
+>           tags from different allocations having the same value. The
+>           bigger the possible range of tag values the lower the chance
+>           of that happening.
+>         - Shortening the tag width from 8 bits to 4, while it can help
+>           with memory usage, it also increases the chance of not
+>           reporting an error. 4 bit tags have a ~7% chance of a tag
+>           mismatch.
+>
+> - Address masking mechanism
+>         - TBI in arm64 allows for storing metadata in the top 8 bits of
+>           the virtual address.
+>         - LAM in x86 allows storing tags in bits [62:57] of the pointer.
+>           To maximize memory savings the tag width is reduced to bits
+>           [60:57].
+>
+> - Inline mode mismatch reporting
+>         - Arm64 inserts a BRK instruction to pass metadata about a tag
+>           mismatch to the KASAN report.
+>         - Right now on x86 the INT3 instruction is used for the same
+>           purpose. The attempt to move it over to use UD1 is already
+>           implemented and tested but relies on another series that needs
+>           merging first. Therefore this patch will be posted separately
+>           once the dependency is satisfied by being merged upstream.
+>
 
-Yeah, I do not think falling back to the system toolchain is great here.
-This would also catch misuse of LLVM=0, since that is treated as LLVM=1,
-rather than reverting to GCC + binutils.
-
-> Instead report an error if the user specified an invalid value for LLVM.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> ---
->  Makefile | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Makefile b/Makefile
-> index e404e4767944..2a085a1b6875 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -447,6 +447,8 @@ ifneq ($(filter %/,$(LLVM)),)
->  LLVM_PREFIX := $(LLVM)
->  else ifneq ($(filter -%,$(LLVM)),)
->  LLVM_SUFFIX := $(LLVM)
-> +else ifneq ($(LLVM),1)
-> +$(error Invalid value for LLVM=)
-
-If having a hard error is untenable (I am not sure that it is), we could
-just warn. Pointing to Documentation/kbuild/llvm.rst might be worthwhile
-in the message as well.
-
->  endif
->  
->  HOSTCC	= $(LLVM_PREFIX)clang$(LLVM_SUFFIX)
-> 
-> ---
-> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> change-id: 20260111-kbuild-llvm-arg-c7346a4f2b3a
-> 
-> Best regards,
-> -- 
-> Thomas Weiﬂschuh <linux@weissschuh.net>
-> 
-> 
+Please also update the Software Tag-Based KASAN section in
+Documentation/dev-tools/kasan.rst accordingly.
 
