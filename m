@@ -1,99 +1,160 @@
-Return-Path: <linux-kbuild+bounces-10580-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10582-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32165D1F453
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 15:02:49 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EED6BD1F4DA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 15:06:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA15C313084F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 13:57:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D0D0930141D0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 14:02:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A45C27E1A1;
-	Wed, 14 Jan 2026 13:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E0B2D879A;
+	Wed, 14 Jan 2026 14:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fu7NPq6/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GamcmtOM"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D041E25F9;
-	Wed, 14 Jan 2026 13:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF49F2D8371;
+	Wed, 14 Jan 2026 14:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768399050; cv=none; b=uJl8iKqMNAMvHT5SQ1/6Ax1wGDSX+bXmgGOSYFyGXlZdNCXGQ/HNESbEn0UDgG9wSLwFduYMb8/DI4iLL5m59sdmrOeIhnGBlQS9y6nbRrPo114yiWv9ahWgIikeDwSoZPHLzzORXBkUe9JI9deNgfVhR/rZ6JiiJydEtktCyiI=
+	t=1768399319; cv=none; b=XQiOvRnxHTqWGontaEdcXhPAfLJ/mnWZBkE6Yydz3EhmCDEOxV4VqudEDm4VMxUt1EG3QfQyUSm1gmivjb805041wQCV+/Xc7NVmU4ueyi8kFqD4Jl6JsPClIpyrhjXdXXMnGDyHFBAon/NHbSaQlKUso5hUmrFWzHlXRIHReXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768399050; c=relaxed/simple;
-	bh=sv6so1kAWDstRTHH9n09D8fRDroRVEa1x32rvkw/VJA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gHIthNO2eRBtqXRwNhbjwJXFd0fpCB8CQ1R6xQVu8maNJu3LujDof+lNhDvO4Ad//LuS+Y5LXt8wpIm1cYPoCo+GdV7amex3SNuypFuuvoJGNrOn/O1Eeo+r0Z6/935LHqth3xVlXdf/KGxrtmNRgy3+C9P++KuaainugWjYpeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fu7NPq6/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D82C16AAE;
-	Wed, 14 Jan 2026 13:57:29 +0000 (UTC)
+	s=arc-20240116; t=1768399319; c=relaxed/simple;
+	bh=YThRr+SqFQrj1xWYbkZyAQfpTQhSxOJrEz7Vmu8eYO0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D9vQBa5OfCgazENkjB0mwTCmeN0N5uI2g4mu9qPFtlpNLEV6HFB75GGCyg/5BUd6MTRQ5LDeH9DJJ3Y6e3u1euYS/J+ItnsGT/UDxC8TUUInzeIA7jD5i8GjoE8c91cpVvlT0eEWvV9vB3tg5VQTFyqwg1y054cJ75T+RaoG//8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GamcmtOM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62176C19423;
+	Wed, 14 Jan 2026 14:01:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768399050;
-	bh=sv6so1kAWDstRTHH9n09D8fRDroRVEa1x32rvkw/VJA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fu7NPq6/5Yz27+CRF235QGwz8QhQzdXAyCsYF3xmHYlXix6wwXg3JMFFQ2zU3azST
-	 n7XQuB5LnysRQURFB3HIPnt+2inoAy5uYkIZ6ynobBuDqmJzPJ0V1649SgQqKe2loA
-	 sBobkyBECVksGERwvQPaZ3n7su7jOYar84fzHAEquF55veYToZ8A1QId6BeonN97eM
-	 esysauvxCYv5d58U9xZNeBSMnIL9UJQKWwL7QH92TZpvvqSd5NF4nFGyA0Ub07OaaH
-	 8zSS5LcPBiw+meCaIeCZsZ8AasAr7iumYYNYGK+4crDjmH461g3hELxSNfZDQq9zkX
-	 N9xtU4IJKIkKw==
-From: Nicolas Schier <nsc@kernel.org>
-Date: Wed, 14 Jan 2026 14:57:15 +0100
-Subject: [PATCH v2 2/2] fortify: Cleanup temp file also on non-successful
- exit
+	s=k20201202; t=1768399318;
+	bh=YThRr+SqFQrj1xWYbkZyAQfpTQhSxOJrEz7Vmu8eYO0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GamcmtOMZjUjnBtKP0uhc41XsMqZ5fSe9+uXZ30TVeZpZSpRIIMXLIZ6LSMmqmxZJ
+	 NMpWBOrVCw5ay9J9pII8Hg/QzzTF8slSB/w2unqe4TNoWuGWzngFiEoJoUAvAmqFB5
+	 Iwga7pBiI5Zhqw1J+tOTc30FaWvGC89yLrq+JlbFxL2kl2s3LxRjEpWvdFoSPyfKHh
+	 jTw7x+USzU8jCMBBzyudL54Ry+Ze3oj0BmfkDgneM6dbU0fXZXjVgZ4iNhOuJykciN
+	 khzGT4OdT3Wu+wQV1jAF14IH2be73WBLizVZPZCNbT/eImzvDLUXbcLvK5UdivHV/a
+	 mq/qzYKU6Fp5w==
+Message-ID: <2a44e967-ebae-4641-88d7-ccb4536ee3b7@kernel.org>
+Date: Wed, 14 Jan 2026 15:01:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260114-fortify-improve-handling-of-tempfile-v2-2-63b86c4dbd0e@kernel.org>
-References: <20260114-fortify-improve-handling-of-tempfile-v2-0-63b86c4dbd0e@kernel.org>
-In-Reply-To: <20260114-fortify-improve-handling-of-tempfile-v2-0-63b86c4dbd0e@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>, 
- WangYuli <wangyuli@aosc.io>, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768399036; l=1024;
- i=nsc@kernel.org; s=20250924; h=from:subject:message-id;
- bh=sv6so1kAWDstRTHH9n09D8fRDroRVEa1x32rvkw/VJA=;
- b=1TtsteheMDjFq0FlufKyn5Ge631Q8bpNrEyQg4F61tMMYLvq961Z2cyy+NNtS6R6aMCHlBPh/
- wOYyBwBypzlBoOzwM+gdG+2Go6Ynsx0jiBMnpra3ZIa2/lFrEtx6B+y
-X-Developer-Key: i=nsc@kernel.org; a=ed25519;
- pk=+0ar7sBdSzOoVoXxW8B+48yZbV4azT4joSEm8UyP7z4=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/9] serdev: Add an API to find the serdev controller
+ associated with the devicetree node
+To: manivannan.sadhasivam@oss.qualcomm.com, Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ linux-acpi@vger.kernel.org
+References: <20260112-pci-m2-e-v4-0-eff84d2c6d26@oss.qualcomm.com>
+ <20260112-pci-m2-e-v4-2-eff84d2c6d26@oss.qualcomm.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260112-pci-m2-e-v4-2-eff84d2c6d26@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Ensure cleanup of test_fortify.sh's temporary file also on script
-interruption, or some common signals.
+Hi Mani,
 
-Reported-by: WangYuli <wangyuli@aosc.io>
-Closes: https://lore.kernel.org/linux-kbuild/20251112114725.287349-1-wangyuli@aosc.io/
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Reviewed-by: WangYuli <wangyuli@aosc.io>
-Signed-off-by: Nicolas Schier <nsc@kernel.org>
----
- lib/test_fortify/test_fortify.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for your work in this.
 
-diff --git a/lib/test_fortify/test_fortify.sh b/lib/test_fortify/test_fortify.sh
-index 368d07d9acbf737be376756b39def87f12f4e9bf..ad6dd44fa31c0ad3a063cd0caab3a4664f9f3f31 100644
---- a/lib/test_fortify/test_fortify.sh
-+++ b/lib/test_fortify/test_fortify.sh
-@@ -29,7 +29,7 @@ shift
- __cleanup() {
- 	rm -f "$TMP"
- }
--trap __cleanup EXIT
-+trap __cleanup EXIT HUP INT QUIT TERM
- 
- # Function names in warnings are wrapped in backticks under UTF-8 locales.
- # Run the commands with LANG=C so that grep output will not change.
+On 12-Jan-26 17:26, Manivannan Sadhasivam via B4 Relay wrote:
+> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> 
+> Add of_find_serdev_controller_by_node() API to find the serdev controller
+> device associated with the devicetree node.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> ---
+>  drivers/tty/serdev/core.c | 16 ++++++++++++++++
+>  include/linux/serdev.h    |  9 +++++++++
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/tty/serdev/core.c b/drivers/tty/serdev/core.c
+> index b33e708cb245..25382c2d63e6 100644
+> --- a/drivers/tty/serdev/core.c
+> +++ b/drivers/tty/serdev/core.c
+> @@ -504,6 +504,22 @@ struct serdev_controller *serdev_controller_alloc(struct device *host,
+>  }
+>  EXPORT_SYMBOL_GPL(serdev_controller_alloc);
+>  
+> +/**
+> + * of_find_serdev_controller_by_node() - Find the serdev controller associated
+> + *					 with the devicetree node
+> + * @node:	Devicetree node
+> + *
+> + * Return: Pointer to the serdev controller associated with the node. NULL if
+> + * the controller is not found.
+> + */
+> +struct serdev_controller *of_find_serdev_controller_by_node(struct device_node *node)
+> +{
+> +	struct device *dev = bus_find_device_by_of_node(&serdev_bus_type, node);
+> +
+> +	return (dev && dev->type == &serdev_ctrl_type) ? to_serdev_controller(dev) : NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(of_find_serdev_controller_by_node);
+> +
 
--- 
-2.47.3
+This new of_find_serdev_controller_by_node() function needs:
+
+#ifdef CONFIG_OF ... #endif
+
+around it, to match the stubbing you are doing in serdev.h
+
+>  static int of_serdev_register_devices(struct serdev_controller *ctrl)
+>  {
+>  	struct device_node *node;
+> diff --git a/include/linux/serdev.h b/include/linux/serdev.h
+> index ecde0ad3e248..db9bfaba0662 100644
+> --- a/include/linux/serdev.h
+> +++ b/include/linux/serdev.h
+> @@ -333,4 +333,13 @@ static inline bool serdev_acpi_get_uart_resource(struct acpi_resource *ares,
+>  }
+>  #endif /* CONFIG_ACPI */
+>  
+> +#ifdef CONFIG_OF
+> +struct serdev_controller *of_find_serdev_controller_by_node(struct device_node *node);
+> +#else
+> +struct serdev_controller *of_find_serdev_controller_by_node(struct device_node *node)
+> +{
+> +	return NULL;
+> +}
+
+stubs like this one should be static inline to avoid warnings like this one:
+
+In file included from drivers/tty/serdev/core.c:21:
+./include/linux/serdev.h:339:27: warning: no previous prototype for ‘of_find_serdev_controller_by_node’ [-Wmissing-prototypes]
+  339 | struct serdev_controller *of_find_serdev_controller_by_node(struct device_node *node)
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Regards,
+
+Hans
+
 
 
