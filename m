@@ -1,169 +1,117 @@
-Return-Path: <linux-kbuild+bounces-10573-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10575-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0CED1C487
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 04:41:38 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7B3D1E8CD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 12:51:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2504230434B7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 03:41:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F090630383D5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 11:49:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142882E1F11;
-	Wed, 14 Jan 2026 03:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE0E39B481;
+	Wed, 14 Jan 2026 11:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kkyEAjf3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7o7XXLD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCE92D739B;
-	Wed, 14 Jan 2026 03:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF40399000;
+	Wed, 14 Jan 2026 11:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768362078; cv=none; b=b0VYrZOz116uK2v8Qu6oAsn7nikLHUyGWRtV3WhjQ+AJPa4ZSqxPeS52T0az2EiGY37uX+t/efGhLC5wvXyNHoR+6msoYuIkqpVCpKvXwM/AucwHL6Eq5upJdKeDXEur14VuakBRetFrYrsF4eNjrZWD825n6r5Oe/ptuA2uVUw=
+	t=1768391300; cv=none; b=r88PR4dvidbfRQAORNSI+Os93ZeGQNKtnmv/WFh/r3o5DBA/0Ju18f/W46Ixy5vdy+4izYcpSEaHAZvrrozyaNhnZNysGWWdfWjDOqqeKBBUbfJwVMpHCOqBIB9hUJszVg7n7F0yp5wAvsVi4fFwyKnbty3Z0O3K6aKkIEE+7fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768362078; c=relaxed/simple;
-	bh=fuHX1gJvEHLXSbrpNZBA4M1RZiyGD+1HT2Iv1MurZ9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FZ5/UPKWHF6GQBFPlV0baX3R3bN4kr0/H9yGUgmlSsqegiUKO6VpQhqQWWkZnv4vgab2wj6nKmLvTj9tCYbX8x0PQEQZBMByuqrvAwNCnrx8aDsHWR5TUd00NQBhiKY9gi7DZI1QQeALkUeo4lHZtU6TYu2nCNnAyhkudVdhSlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kkyEAjf3; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <977d29f6-4157-4fdb-b0d6-c24def482c06@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768362064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wzuS26H8SYTScmOx3++ZwcMsS+D3jzSzvm/KUyjaJik=;
-	b=kkyEAjf3vAwmkpA6qQLnuaSZre5hBN1zivZR7feQaZvMwILYv8oANx8h+F6HDtKtMjlTGd
-	gn0lxegePRhz+XBSWXtBXaiKo9+/Gdy9/KJsL/7dx5iYjqhXvnXEZ+zWcHtH+MjVlHKQFM
-	4yb2rB8VCNXVTy1HzFsLEuwTZ+qx5q0=
-Date: Wed, 14 Jan 2026 11:40:51 +0800
+	s=arc-20240116; t=1768391300; c=relaxed/simple;
+	bh=42b1jPMRaZQMJsFTcdIPsgOH+T5OPHq2ZKwWlPwIz44=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Kn4APzosVu3WC9ev/HCUwMogM7PkDvpfRsTBaM2TPpy7ES0NWOGnjMJY0v+YieFFl8NaK/DTiK5xUt+xukoajl5iCm6H+pfy03batffzJVsX8LNx7F/Ptp9GwxaodjtnvVmJdQuLB8CbUHT4tpZxH8XoYMTJOEvp2wRQClgRX+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7o7XXLD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 27719C2BC86;
+	Wed, 14 Jan 2026 11:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768391300;
+	bh=42b1jPMRaZQMJsFTcdIPsgOH+T5OPHq2ZKwWlPwIz44=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=O7o7XXLDaiYzs93VgV3RZzXPKw8S7HWiYG6LYTRdiab5rsryYJGtGvu83pUD27HqH
+	 UGnQhxQBYLa8hINWTHg/40l7SwgvqXoHeNtJFEXEEqkvoG1GN0izO1162Eop4KJ/Yg
+	 S93sQzZAUdfzelmDxpNQLBk1C4B7ZlbrFNzp+gmkliFS88xQLP5dlsZEyeLPCvh1+1
+	 ylBJf2IygroDEGJhLbuns/wvqVzmKe9HKam8aA+AnvmI5q6E4eM/9j/kNaUsvOIt/l
+	 3e/35M7LrkhESr8you8sU0ilwWOB5YLMqOZk4cCGmDLk9ceRo+2Mwtg6zqKEEZnYUy
+	 Av2Mxhw3Wn0bQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10505D29FEA;
+	Wed, 14 Jan 2026 11:48:20 +0000 (UTC)
+From: Jihan LIN via B4 Relay <devnull+linjh22s.gmail.com@kernel.org>
+Subject: [PATCH v2 0/2] gendwarfksyms: Document build dependencies
+Date: Wed, 14 Jan 2026 19:47:43 +0800
+Message-Id: <20260114-documents_gendwarfksyms-v2-0-297c98bd62c6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 03/14] software node: Implement device_get_match_data
- fwnode callback
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- manivannan.sadhasivam@oss.qualcomm.com
-Cc: Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Derek J. Clark" <derekjohn.clark@gmail.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
- Stephan Gerhold <stephan.gerhold@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
- <20260110-pci-m2-e-v3-3-4faee7d0d5ae@oss.qualcomm.com>
- <aWSpFk9z0zpyKjr6@smile.fi.intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <aWSpFk9z0zpyKjr6@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-B4-Tracking: v=1; b=H4sIAF+CZ2kC/3WNQQ7CIBQFr9L8tRhAa6kr72Eag/BpiQIGarVpu
+ LvYxKXLmeTNWyBhtJjgWC0QcbLJBl+AbypQg/Q9EqsLA6f8QBmtiQ7q6dCP6dKj1y8ZzS3NLpH
+ WCIF72UjNDZT1I6Kx77V87goPNo0hzuvRxL721xR/mxMjjNT8ykyrdkI19NQ7ae9bFRx0OecPF
+ /L5zr4AAAA=
+X-Change-ID: 20260105-documents_gendwarfksyms-9f88e4a7ad2f
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>
+Cc: linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Jihan LIN <linjh22s@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768391298; l=1284;
+ i=linjh22s@gmail.com; s=linjh22s_machine; h=from:subject:message-id;
+ bh=42b1jPMRaZQMJsFTcdIPsgOH+T5OPHq2ZKwWlPwIz44=;
+ b=OhZJJST3EqaB8evuw8uBs1/Mh0MwTtGN1AdtBslfMv4u2s/DuVo6soixm5q9t7N9lQDdQmtf9
+ gnU8lXrczWABzmmL5EWYh3qHGm4lX5ghB3gimUgRYyMRPQM8nDZqA7C
+X-Developer-Key: i=linjh22s@gmail.com; a=ed25519;
+ pk=MnRQAVFy1t4tiGb8ce7ohJwrN2YFXd+dA7XmzR6GmUc=
+X-Endpoint-Received: by B4 Relay for linjh22s@gmail.com/linjh22s_machine
+ with auth_id=592
+X-Original-From: Jihan LIN <linjh22s@gmail.com>
+Reply-To: linjh22s@gmail.com
+
+Hi,
+
+I found there is no documentation for build dependencies in gendwarfksyms
+while digging into Rust drivers. Though Yuli added libdw-dev to the build
+dependencies for packaging [1], it seems that there is no documentation
+about it.
+
+This series documents the build dependencies of gendwarfksyms, adds a few
+examples for installing these dependencies on some distributions and
+introduces indentation style cleanup as suggested.
+
+[1]: https://lore.kernel.org/all/79C925DCE2E963FF+20250422104927.144252-1-wangyuli@uniontech.com/
+
+Signed-off-by: Jihan LIN <linjh22s@gmail.com>
+---
+Changes in v2:
+- Fix style for section 'Dependencies'.
+- Introduce a new patch to clean up indentation in gendwarfksyms.rst.
+- Link to v1: https://lore.kernel.org/r/20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com
+
+---
+Jihan LIN (2):
+      Documentation/kbuild: Document gendwarfksyms build dependencies
+      Documentation/kbuild: gendwarfksyms: Style cleanup
+
+ Documentation/kbuild/gendwarfksyms.rst | 123 +++++++++++++++++++--------------
+ 1 file changed, 73 insertions(+), 50 deletions(-)
+---
+base-commit: b71e635feefc852405b14620a7fc58c4c80c0f73
+change-id: 20260105-documents_gendwarfksyms-9f88e4a7ad2f
+
+Best regards,
+-- 
+Jihan LIN <linjh22s@gmail.com>
 
 
-
-On 2026/1/12 15:56, Andy Shevchenko wrote:
-> On Sat, Jan 10, 2026 at 12:26:21PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> 
->> Because the software node backend of the fwnode API framework lacks an
->> implementation for the .device_get_match_data function callback.
-> 
-> Maybe this is done on purpose. 
-
-
-It is a *fact* that the broken swnode lacks an implementation for the 
-.device_get_match_data stub.
-
-
-Otherwise, If it is really done *on purpose*, the maintainers of swnode
-backend probably shall document it in the source file *explicitly*.
-
-Have you thought about this aspect?
-> 
-
-If it is sure thing, then it shouldn't start with "Maybe ..."
-
-
->> This makes it difficult to use(and/or test) a few drivers that originates
->> from DT world on the non-DT platform.
-> 
-> How difficult? 
-
-The emphasis isn't on the 'difficult' word, it means 'inconvenience'
-
-> DSA implementation went to the way of taking DT overlay
-> approach. Why that one can't be applied here?
-
-
-Software node as an complement of ACPI, Therefore should do the same.
-
-
-
-DT overlay introduce extra overhead/side effects on the non-DT systems.
-
-Besides, DT overlay requires the OS distribution(such as ubuntu) has the 
-DT overlay config option selected.
-
-
-
-> 
->> Implement the .device_get_match_data fwnode callback, which helps to keep
->> the three backends of the fwnode API aligned as much as possible. This is
->> also a fundamental step to make a few drivers OF-independent truely
->> possible.
->>
->> Device drivers or platform setup codes are expected to provide a software
->> node string property, named as "compatible". At this moment, the value of
->> this string property is being used to match against the compatible entries
->> in the of_device_id table. It can be extended in the future though.
-> 
-> I really do not want to see this patch
-
-You can do that by dropping the maintainer-ship.
-
-Your endless, bruth-force ranting on such a straight-forward thing 
-doesn't make much sense, because that waste everybody's time.
-
-> without very good justification
-
-
-Justifications has been provided over and over again.
-
-> (note, there were at least two attempts in the past to add this stuff
-
-This exactly saying that the implementation is missing.
-
->   and no-one was merged, 
-
-That's the reason why you see it at least the second time.
-
-have you studied those cases?).
-> 
-
-The first one is not 100% correct.
 
