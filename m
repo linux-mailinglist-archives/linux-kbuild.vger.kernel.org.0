@@ -1,89 +1,169 @@
-Return-Path: <linux-kbuild+bounces-10572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10573-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830FFD1B528
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 21:58:37 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0CED1C487
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 04:41:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 68C14302A954
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Jan 2026 20:58:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2504230434B7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Jan 2026 03:41:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BE231ED95;
-	Tue, 13 Jan 2026 20:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142882E1F11;
+	Wed, 14 Jan 2026 03:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KFbKNiGe"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kkyEAjf3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57608318B9E;
-	Tue, 13 Jan 2026 20:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCE92D739B;
+	Wed, 14 Jan 2026 03:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768337888; cv=none; b=eSyLN2F3X9oZiAfSX41+vyLzISrSvzSHn7lj/tDz+h3DYXdacIKdvhz9ImVOyC3c3sFRG65Bqc+4Tpj7aOEn8NbVfGHXcPI1peNR86i9lS/UJ3IuIsFMiYk9jIzrluGMmAJph8kVBrFqQd34olSSfYszbuhLfxbqAtHKMwH/fAI=
+	t=1768362078; cv=none; b=b0VYrZOz116uK2v8Qu6oAsn7nikLHUyGWRtV3WhjQ+AJPa4ZSqxPeS52T0az2EiGY37uX+t/efGhLC5wvXyNHoR+6msoYuIkqpVCpKvXwM/AucwHL6Eq5upJdKeDXEur14VuakBRetFrYrsF4eNjrZWD825n6r5Oe/ptuA2uVUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768337888; c=relaxed/simple;
-	bh=TD2Vm9wqBzFMKU8+rXMduQiJ/DYduTKCttxOJrynlJY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XwKzJWOGDWQkvHSrK0NIr86RvfeUq/IpLYm5gNYhqHZxUXs397C98BfWAkXtFmoKN9Vrz/DxahB8fpizxO/TnThCvCOng0yDmNlA173Hf+QpZM3tLK6+XAWgL2S2WJM5GK4GP/dA2p4qL5CbIdZ05cqi9mw1tETSRXoiBcnQyMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KFbKNiGe; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8ECE440C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768337886; bh=jqbRJsomiPWk6cLkmHUFygsj5IDMKDpLe8eU/EmOQZg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KFbKNiGe2YaK8agCCcuhtI6+jquk1zq0gG+KF8tf26qgrt+mu/JiJ+gzbKP6bqQMN
-	 o7GNTc4J3fQM8W/8z9Yx+/EG84EKlxLg/7D0V7II0cgTusmeD6IcxuPu8sgGfOQzpy
-	 4N4Gkr2u0sDZzk9fId6gcMxp8Ciq4WMgzd/vmlwqjgiD+v3Cy9kMqvJz2MNhhjW7gN
-	 lpVos9KUAT0bDV2gX0BhW+OGZIfJ9cCaY9mK+GH8vWLbsEG7FHDMcQKw3rsAHsVS4d
-	 Cc/SUpnN4GZzmtLCv3EguW3eyNyTVrc0OnxJvFwbyJ5loGgMWHfxEQXNZaBGW3v4kw
-	 xXElLZXpMaoyw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8ECE440C7C;
-	Tue, 13 Jan 2026 20:58:06 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nauman Sabir <officialnaumansabir@gmail.com>
-Cc: linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-kbuild@vger.kernel.org, Nauman Sabir
- <officialnaumansabir@gmail.com>
-Subject: Re: [PATCH v3 3/3] Documentation: Fix typos and grammatical errors
-In-Reply-To: <20260112160820.19075-1-officialnaumansabir@gmail.com>
-References: <20260112160820.19075-1-officialnaumansabir@gmail.com>
-Date: Tue, 13 Jan 2026 13:58:05 -0700
-Message-ID: <87o6mxw7qa.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1768362078; c=relaxed/simple;
+	bh=fuHX1gJvEHLXSbrpNZBA4M1RZiyGD+1HT2Iv1MurZ9o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FZ5/UPKWHF6GQBFPlV0baX3R3bN4kr0/H9yGUgmlSsqegiUKO6VpQhqQWWkZnv4vgab2wj6nKmLvTj9tCYbX8x0PQEQZBMByuqrvAwNCnrx8aDsHWR5TUd00NQBhiKY9gi7DZI1QQeALkUeo4lHZtU6TYu2nCNnAyhkudVdhSlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kkyEAjf3; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <977d29f6-4157-4fdb-b0d6-c24def482c06@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768362064;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wzuS26H8SYTScmOx3++ZwcMsS+D3jzSzvm/KUyjaJik=;
+	b=kkyEAjf3vAwmkpA6qQLnuaSZre5hBN1zivZR7feQaZvMwILYv8oANx8h+F6HDtKtMjlTGd
+	gn0lxegePRhz+XBSWXtBXaiKo9+/Gdy9/KJsL/7dx5iYjqhXvnXEZ+zWcHtH+MjVlHKQFM
+	4yb2rB8VCNXVTy1HzFsLEuwTZ+qx5q0=
+Date: Wed, 14 Jan 2026 11:40:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v3 03/14] software node: Implement device_get_match_data
+ fwnode callback
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ manivannan.sadhasivam@oss.qualcomm.com
+Cc: Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
+ Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20260110-pci-m2-e-v3-0-4faee7d0d5ae@oss.qualcomm.com>
+ <20260110-pci-m2-e-v3-3-4faee7d0d5ae@oss.qualcomm.com>
+ <aWSpFk9z0zpyKjr6@smile.fi.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <aWSpFk9z0zpyKjr6@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Nauman Sabir <officialnaumansabir@gmail.com> writes:
 
-> Fix various typos and grammatical errors across documentation files:
->
-> - Fix missing preposition 'in' in process/changes.rst
-> - Correct 'result by' to 'result from' in admin-guide/README.rst
-> - Fix 'before hand' to 'beforehand' in cgroup-v1/hugetlb.rst
-> - Correct 'allows to limit' to 'allows limiting' in hugetlb.rst,
->   cgroup-v2.rst, and kconfig-language.rst
-> - Fix 'needs precisely know' to 'needs to precisely know'
-> - Correct 'overcommited' to 'overcommitted' in hugetlb.rst
-> - Fix subject-verb agreement: 'never causes' to 'never cause'
-> - Fix 'there is enough' to 'there are enough' in hugetlb.rst
-> - Fix 'metadatas' to 'metadata' in filesystems/erofs.rst
-> - Fix 'hardwares' to 'hardware' in scsi/ChangeLog.sym53c8xx
->
-> Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
 
-The "3/3" in the subject suggests there's two other patches somewhere?
+On 2026/1/12 15:56, Andy Shevchenko wrote:
+> On Sat, Jan 10, 2026 at 12:26:21PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> 
+>> Because the software node backend of the fwnode API framework lacks an
+>> implementation for the .device_get_match_data function callback.
+> 
+> Maybe this is done on purpose. 
 
-Thanks,
 
-jon
+It is a *fact* that the broken swnode lacks an implementation for the 
+.device_get_match_data stub.
+
+
+Otherwise, If it is really done *on purpose*, the maintainers of swnode
+backend probably shall document it in the source file *explicitly*.
+
+Have you thought about this aspect?
+> 
+
+If it is sure thing, then it shouldn't start with "Maybe ..."
+
+
+>> This makes it difficult to use(and/or test) a few drivers that originates
+>> from DT world on the non-DT platform.
+> 
+> How difficult? 
+
+The emphasis isn't on the 'difficult' word, it means 'inconvenience'
+
+> DSA implementation went to the way of taking DT overlay
+> approach. Why that one can't be applied here?
+
+
+Software node as an complement of ACPI, Therefore should do the same.
+
+
+
+DT overlay introduce extra overhead/side effects on the non-DT systems.
+
+Besides, DT overlay requires the OS distribution(such as ubuntu) has the 
+DT overlay config option selected.
+
+
+
+> 
+>> Implement the .device_get_match_data fwnode callback, which helps to keep
+>> the three backends of the fwnode API aligned as much as possible. This is
+>> also a fundamental step to make a few drivers OF-independent truely
+>> possible.
+>>
+>> Device drivers or platform setup codes are expected to provide a software
+>> node string property, named as "compatible". At this moment, the value of
+>> this string property is being used to match against the compatible entries
+>> in the of_device_id table. It can be extended in the future though.
+> 
+> I really do not want to see this patch
+
+You can do that by dropping the maintainer-ship.
+
+Your endless, bruth-force ranting on such a straight-forward thing 
+doesn't make much sense, because that waste everybody's time.
+
+> without very good justification
+
+
+Justifications has been provided over and over again.
+
+> (note, there were at least two attempts in the past to add this stuff
+
+This exactly saying that the implementation is missing.
+
+>   and no-one was merged, 
+
+That's the reason why you see it at least the second time.
+
+have you studied those cases?).
+> 
+
+The first one is not 100% correct.
 
