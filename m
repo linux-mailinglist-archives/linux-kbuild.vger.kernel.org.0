@@ -1,180 +1,231 @@
-Return-Path: <linux-kbuild+bounces-10615-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5A4D32D0B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 15:46:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC5FD37A27
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 18:31:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F1E793033DEF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 14:44:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 47ACE308B360
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 17:31:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8852D77FF;
-	Fri, 16 Jan 2026 14:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA5B39525D;
+	Fri, 16 Jan 2026 17:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZK8eH7fb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JtQG7N6v"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785DD283C82;
-	Fri, 16 Jan 2026 14:43:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462C036BCC4
+	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 17:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768574594; cv=none; b=o9AAJcv9AcVtYFRV+DUq9C9aVxhf2SP/gPXC+0V+ydbioW5lCOU7SRKa6jASrlmmRR2MnLnk2AsHngc7Xib8HJv0nlxALNEbmNa2yzuJoi50lhO0KAPd0boOuP0JvA4C6IVTEXv8FPEYzTnO/5eVBzoYQY2HDQzCE+FuIhvsrQA=
+	t=1768584671; cv=none; b=rP7BdehtzWGmV3CW/XMBEjSh3q7+NK0ozn2BpIOu5EmlNDO4AgUGAtfDcqA1mR9hJ0IJOhAGxmchpLxkQ6d4ppSO2ioNHxAUTMbismx6OMMLux8/GQ7MCqQqghboXMEXd07H8/7yQYJtA47OJz0d0cx71fWwfZVvp4HguMeCy7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768574594; c=relaxed/simple;
-	bh=VeHWIHkcQ9AFfItzbMmyl8YOQqITLehdpmsz1R9lqlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WWWtgixHCsmwB/ronJhw+Ve8W34WvkXY8Tz5j4BvAf25DWJtzJSURvMTCZuKcQhROYRJlG7TYXQk0jhViEtUHCNiRy3ve/MpOu9mIB48nehM6g4PcmVASNmtEA2GKF9tRHq1ZD3Vm0Sz8RVOKDMZUxvfVWIZ26YaxFMr0KdbuI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZK8eH7fb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073C6C116C6;
-	Fri, 16 Jan 2026 14:43:05 +0000 (UTC)
+	s=arc-20240116; t=1768584671; c=relaxed/simple;
+	bh=dacZLFUsrFNSw+mnrOAiyarQ8iNk57zLC4mQM+1G4ms=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jrTvKvaWvYeOqQbgTilQPWONLY6VhdvMSHxZgEgXORRiBFN1ZcLDt5zMStdY3rIxE9cZNFPWd1QvWALpYH4CCz2vW0qYHZifhrOzk3/KDFfN8vkwIoq3MksoFLa9zRwvztBqc0S61GRVV90tsUyPNRnDbefRF+pRmoCXkqDhBj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JtQG7N6v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE3FC2BC87
+	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 17:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768574594;
-	bh=VeHWIHkcQ9AFfItzbMmyl8YOQqITLehdpmsz1R9lqlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZK8eH7fbVAJuu0G1Uo5qVMd3dtfbdYEGhZ6/BokuiAV/wPZ9vdI5GE1eIy+P1AMQV
-	 TiGmHkll7ns/mv3/iMCJcUJBHkkOtD9wHC5Zzi+wvSskxpz39/DrvPo4sw35IkicJm
-	 1n/q2Lmx8F5arkGNSAjC2UPdzq4t3Nn/7/EgGRwdS4YML52Sim0snfzJ9k3mhknutM
-	 s9c0stY2Nu9tI6uqIshvgbH7zus7jYGZqvv4b2g+l38vn8yR4Ee2HlnkZX5JkLLOuU
-	 2fyyOFYN/w5/E4247VfpoHnnbmiEjOiIAjvxehJu+m5vRJgPNqKem9bNykLInrPE0N
-	 xNcfmyFHAJ35w==
-Date: Fri, 16 Jan 2026 20:12:57 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v4 5/9] dt-bindings: connector: Add PCIe M.2 Mechanical
- Key E connector
-Message-ID: <ysfkemsf4w7r3eoahfpjdr3z3buec5kvw4qol2njhxrz5tsdpo@4scz632uaj5i>
-References: <20260112-pci-m2-e-v4-0-eff84d2c6d26@oss.qualcomm.com>
- <20260112-pci-m2-e-v4-5-eff84d2c6d26@oss.qualcomm.com>
- <20260113171424.GA3925312-robh@kernel.org>
- <xyttom64ht5hrrp5hecjqehnyfgsv4mfl2t36e2sveu44ccpjl@lkzquse2kqsx>
- <CAL_JsqJxBNm0y6T7vji6MXgsO65iDJ-tdUEo0cOxkw7EuMKpkg@mail.gmail.com>
- <gcmm23ji4fkcqeshcyiehuyega7kdbtvmofp4usmol2icwn6gy@i46icelwwqh5>
- <CAL_JsqKKBjurY7ZrScayvkTijR-F6GWBofry48xoPFBFi55u4w@mail.gmail.com>
+	s=k20201202; t=1768584671;
+	bh=dacZLFUsrFNSw+mnrOAiyarQ8iNk57zLC4mQM+1G4ms=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JtQG7N6vfiQR5tfWyJO8gf2Os9eILW6cKv3KPjcdAhjtOOTD6aHiU2Zbov22aOIYo
+	 ESlXepbgAgo123/gFPgte+73sh09Jzt0FaspTpVy8x9ovhVBGE5E58/tWu/fijVZlU
+	 o9Szgta063uO2t1OSeCrlp6JCQctUcMtMkAUHKzY5jH+e2OFqNZllVGbXMY205jgIm
+	 Ikto6YFN/WQRo08HOY1JlT8rEQ3I1IjNJtAw3bqCWqMSVx0JXwhVgn7mEx/2gTIoPK
+	 O+JpPLHqYQoh0cKlEBowcOIU3VF3XGM1lUF9zMDSmbnPXSTSM4RO7DDIRAsOuicV6N
+	 Z4w0+RlC4MJwA==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6505d3adc3aso3643765a12.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 09:31:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWBHU7UkVLFXDxgiJIktFc8AGqsNkj9FlbH+uUCOWx4mVb8o0x8LNT7Bcnj1NkxIpjXT0Cs4I8rPBp1qVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpwfqV0WqJrB1qgi4oVaXyc/x8ve4LPMKZChaNUJ7ZzBIV4Szq
+	c8G0GykrHC715qRQnsqVy5YZgCBb76a4mPSk6i5gVFgmA20GWRSZSfCU6mAU8XCj7nqEG0SshUX
+	v1romCoHtLZBb84fPf16fOtg8JbfYHg==
+X-Received: by 2002:a05:6402:3547:b0:64c:9e19:9831 with SMTP id
+ 4fb4d7f45d1cf-654ba1c92e9mr2632146a12.12.1768584669199; Fri, 16 Jan 2026
+ 09:31:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqKKBjurY7ZrScayvkTijR-F6GWBofry48xoPFBFi55u4w@mail.gmail.com>
+References: <20260112-pci-m2-e-v4-0-eff84d2c6d26@oss.qualcomm.com>
+ <20260112-pci-m2-e-v4-5-eff84d2c6d26@oss.qualcomm.com> <20260113171424.GA3925312-robh@kernel.org>
+ <xyttom64ht5hrrp5hecjqehnyfgsv4mfl2t36e2sveu44ccpjl@lkzquse2kqsx>
+ <CAL_JsqJxBNm0y6T7vji6MXgsO65iDJ-tdUEo0cOxkw7EuMKpkg@mail.gmail.com>
+ <gcmm23ji4fkcqeshcyiehuyega7kdbtvmofp4usmol2icwn6gy@i46icelwwqh5>
+ <CAL_JsqKKBjurY7ZrScayvkTijR-F6GWBofry48xoPFBFi55u4w@mail.gmail.com> <ysfkemsf4w7r3eoahfpjdr3z3buec5kvw4qol2njhxrz5tsdpo@4scz632uaj5i>
+In-Reply-To: <ysfkemsf4w7r3eoahfpjdr3z3buec5kvw4qol2njhxrz5tsdpo@4scz632uaj5i>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 16 Jan 2026 11:30:57 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLJhLgDj846Xm3xh6iTpqKcGgAc0JarsAw4gJbOOih-eA@mail.gmail.com>
+X-Gm-Features: AZwV_Qgl_qLSqXPnKjpXjk329SOPF0xVaDGWoAyGNkj_0sZsVv7qP7OLwVi399U
+Message-ID: <CAL_JsqLJhLgDj846Xm3xh6iTpqKcGgAc0JarsAw4gJbOOih-eA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/9] dt-bindings: connector: Add PCIe M.2 Mechanical
+ Key E connector
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 16, 2026 at 08:19:07AM -0600, Rob Herring wrote:
-> On Thu, Jan 15, 2026 at 4:42 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
-> >
-> > On Wed, Jan 14, 2026 at 11:45:42AM -0600, Rob Herring wrote:
-> > > On Wed, Jan 14, 2026 at 10:14 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
-> > > >
-> > > > On Tue, Jan 13, 2026 at 11:14:24AM -0600, Rob Herring wrote:
-> > > > > On Mon, Jan 12, 2026 at 09:56:04PM +0530, Manivannan Sadhasivam wrote:
-> > > > > > Add the devicetree binding for PCIe M.2 Mechanical Key E connector defined
-> > > > > > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This connector
-> > > > > > provides interfaces like PCIe or SDIO to attach the WiFi devices to the
-> > > > > > host machine, USB or UART+PCM interfaces to attach the Bluetooth (BT)
-> > > > > > devices. Spec also provides an optional interface to connect the UIM card,
-> > > > > > but that is not covered in this binding.
-> > > > > >
-> > > > > > The connector provides a primary power supply of 3.3v, along with an
-> > > > > > optional 1.8v VIO supply for the Adapter I/O buffer circuitry operating at
-> > > > > > 1.8v sideband signaling.
-> > > > > >
-> > > > > > The connector also supplies optional signals in the form of GPIOs for fine
-> > > > > > grained power management.
-> > > > > >
-> > > > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > > > > > ---
-> > > > > >  .../bindings/connector/pcie-m2-e-connector.yaml    | 154 +++++++++++++++++++++
-> > > > > >  MAINTAINERS                                        |   1 +
-> > > > > >  2 files changed, 155 insertions(+)
-> > > > > >
-> > > > > > diff --git a/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..b65b39ddfd19
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml
-> > > > > > @@ -0,0 +1,154 @@
-> > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > +%YAML 1.2
-> > > > > > +---
-> > > > > > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-connector.yaml#
-> > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > +
-> > > > > > +title: PCIe M.2 Mechanical Key E Connector
-> > > > > > +
-> > > > > > +maintainers:
-> > > > > > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > > > > > +
-> > > > > > +description:
-> > > > > > +  A PCIe M.2 E connector node represents a physical PCIe M.2 Mechanical Key E
-> > > > > > +  connector. Mechanical Key E connectors are used to connect Wireless
-> > > > > > +  Connectivity devices including combinations of Wi-Fi, BT, NFC to the host
-> > > > > > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and I2C.
-> > > > > > +
-> > > > > > +properties:
-> > > > > > +  compatible:
-> > > > > > +    const: pcie-m2-e-connector
-> > > > > > +
-> > > > > > +  vpcie3v3-supply:
-> > > > > > +    description: A phandle to the regulator for 3.3v supply.
-> > > > > > +
-> > > > > > +  vpcie1v8-supply:
-> > > > > > +    description: A phandle to the regulator for VIO 1.8v supply.
-> > > > >
-> > > > > I don't see any 1.8V supply on the connector. There are 1.8V IOs and you
-> > > > > may need something in DT to ensure those are powered. However, there's
-> > > > > no guarantee that it's a single supply.
-> > > > >
-> > > >
-> > > > 1.8v VIO supply is an optional supply and is only required if the platform
-> > > > supports 1.8v for sideband signals such as PERST#, WAKE#... I can include it in
-> > > > the example for completeness.
+On Fri, Jan 16, 2026 at 8:43=E2=80=AFAM Manivannan Sadhasivam <mani@kernel.=
+org> wrote:
+>
+> On Fri, Jan 16, 2026 at 08:19:07AM -0600, Rob Herring wrote:
+> > On Thu, Jan 15, 2026 at 4:42=E2=80=AFAM Manivannan Sadhasivam <mani@ker=
+nel.org> wrote:
 > > >
-> > > My point is that PERST# and WAKE# supplies could be 2 different 1.8V
-> > > supplies and those supply the I/O pads of the GPIO pins (and possibly
-> > > external pull-ups) that drive them. The 1.8V supply doesn't supply
-> > > 1.8V to the slot, so making it a slot/connector property is wrong.
+> > > On Wed, Jan 14, 2026 at 11:45:42AM -0600, Rob Herring wrote:
+> > > > On Wed, Jan 14, 2026 at 10:14=E2=80=AFAM Manivannan Sadhasivam <man=
+i@kernel.org> wrote:
+> > > > >
+> > > > > On Tue, Jan 13, 2026 at 11:14:24AM -0600, Rob Herring wrote:
+> > > > > > On Mon, Jan 12, 2026 at 09:56:04PM +0530, Manivannan Sadhasivam=
+ wrote:
+> > > > > > > Add the devicetree binding for PCIe M.2 Mechanical Key E conn=
+ector defined
+> > > > > > > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This c=
+onnector
+> > > > > > > provides interfaces like PCIe or SDIO to attach the WiFi devi=
+ces to the
+> > > > > > > host machine, USB or UART+PCM interfaces to attach the Blueto=
+oth (BT)
+> > > > > > > devices. Spec also provides an optional interface to connect =
+the UIM card,
+> > > > > > > but that is not covered in this binding.
+> > > > > > >
+> > > > > > > The connector provides a primary power supply of 3.3v, along =
+with an
+> > > > > > > optional 1.8v VIO supply for the Adapter I/O buffer circuitry=
+ operating at
+> > > > > > > 1.8v sideband signaling.
+> > > > > > >
+> > > > > > > The connector also supplies optional signals in the form of G=
+PIOs for fine
+> > > > > > > grained power management.
+> > > > > > >
+> > > > > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@o=
+ss.qualcomm.com>
+> > > > > > > ---
+> > > > > > >  .../bindings/connector/pcie-m2-e-connector.yaml    | 154 +++=
+++++++++++++++++++
+> > > > > > >  MAINTAINERS                                        |   1 +
+> > > > > > >  2 files changed, 155 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/Documentation/devicetree/bindings/connector/pcie=
+-m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-=
+e-connector.yaml
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..b65b39ddfd19
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-c=
+onnector.yaml
+> > > > > > > @@ -0,0 +1,154 @@
+> > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > > > +%YAML 1.2
+> > > > > > > +---
+> > > > > > > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-conne=
+ctor.yaml#
+> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > > +
+> > > > > > > +title: PCIe M.2 Mechanical Key E Connector
+> > > > > > > +
+> > > > > > > +maintainers:
+> > > > > > > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcom=
+m.com>
+> > > > > > > +
+> > > > > > > +description:
+> > > > > > > +  A PCIe M.2 E connector node represents a physical PCIe M.2=
+ Mechanical Key E
+> > > > > > > +  connector. Mechanical Key E connectors are used to connect=
+ Wireless
+> > > > > > > +  Connectivity devices including combinations of Wi-Fi, BT, =
+NFC to the host
+> > > > > > > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and =
+I2C.
+> > > > > > > +
+> > > > > > > +properties:
+> > > > > > > +  compatible:
+> > > > > > > +    const: pcie-m2-e-connector
+> > > > > > > +
+> > > > > > > +  vpcie3v3-supply:
+> > > > > > > +    description: A phandle to the regulator for 3.3v supply.
+> > > > > > > +
+> > > > > > > +  vpcie1v8-supply:
+> > > > > > > +    description: A phandle to the regulator for VIO 1.8v sup=
+ply.
+> > > > > >
+> > > > > > I don't see any 1.8V supply on the connector. There are 1.8V IO=
+s and you
+> > > > > > may need something in DT to ensure those are powered. However, =
+there's
+> > > > > > no guarantee that it's a single supply.
+> > > > > >
+> > > > >
+> > > > > 1.8v VIO supply is an optional supply and is only required if the=
+ platform
+> > > > > supports 1.8v for sideband signals such as PERST#, WAKE#... I can=
+ include it in
+> > > > > the example for completeness.
+> > > >
+> > > > My point is that PERST# and WAKE# supplies could be 2 different 1.8=
+V
+> > > > supplies and those supply the I/O pads of the GPIO pins (and possib=
+ly
+> > > > external pull-ups) that drive them. The 1.8V supply doesn't supply
+> > > > 1.8V to the slot, so making it a slot/connector property is wrong.
+> > > >
 > > >
+> > > Ok, I get your point that VIO 1.8v supply is just limited to the I/O =
+logic and
+> > > not the whole card/adapter. But I don't get your multiple supplies co=
+ncern. Spec
+> > > says, "A 1.8 V supply pin called VIO 1.8 V is used to supply the on-A=
+dapter I/O
+> > > buffer circuitry operating at 1.8 V." So it implies that either the s=
+ingle
+> > > supply available to the card through VIO might be used to power the w=
+hole I/O
+> > > circuit logic or the card can derive its own 1.8v supply from 3.3v su=
+pply.
+> > >
+> > > So how come the card can have 2 different 1.8v supplies powering the =
+I/O
+> > > circuitry?
 > >
-> > Ok, I get your point that VIO 1.8v supply is just limited to the I/O logic and
-> > not the whole card/adapter. But I don't get your multiple supplies concern. Spec
-> > says, "A 1.8 V supply pin called VIO 1.8 V is used to supply the on-Adapter I/O
-> > buffer circuitry operating at 1.8 V." So it implies that either the single
-> > supply available to the card through VIO might be used to power the whole I/O
-> > circuit logic or the card can derive its own 1.8v supply from 3.3v supply.
+> > Is there a pin on the connector for 1.8V supply? I don't have the
+> > spec, but the pinout I found[1] didn't show one. If there's a pin,
+> > then I have no concern.
 > >
-> > So how come the card can have 2 different 1.8v supplies powering the I/O
-> > circuitry?
-> 
-> Is there a pin on the connector for 1.8V supply? I don't have the
-> spec, but the pinout I found[1] didn't show one. If there's a pin,
-> then I have no concern.
-> 
+>
+> Oh yes, there is a single VIO pin defined in the spec for multiple Keys. =
+Since
+> it is optional, it could've been omitted in the design you referenced.
+>
+> So should I name it as vio1v8-supply or vpcie1v8-supply? I don't see any =
+other
+> 1.8v supplies other than the VIO supply though.
 
-Oh yes, there is a single VIO pin defined in the spec for multiple Keys. Since
-it is optional, it could've been omitted in the design you referenced.
+vpcie1v8 is fine.
 
-So should I name it as vio1v8-supply or vpcie1v8-supply? I don't see any other
-1.8v supplies other than the VIO supply though.
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Rob
 
