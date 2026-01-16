@@ -1,127 +1,73 @@
-Return-Path: <linux-kbuild+bounces-10600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2C6D27DF3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Jan 2026 19:57:53 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5669ED2973C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 01:52:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8390731B547B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Jan 2026 18:39:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 63FF73036C6B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 00:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E18C3BFE47;
-	Thu, 15 Jan 2026 18:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9826C30B508;
+	Fri, 16 Jan 2026 00:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b0WQ54ov"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tS7E2Pw1"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCA13BFE25;
-	Thu, 15 Jan 2026 18:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739E729D289;
+	Fri, 16 Jan 2026 00:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768502333; cv=none; b=E6j1fWEnC9OCIDjW8fYMJ1XtrWig2G2Aw53IXqRIUldDEg8NTle/k6chiX2ds3QnNlbVUSnOjPE7rHAUDW4Yd4BnVXc62cVZHrFjtXR+ybiciTNv98oQOgK6g5d6+PmoLe+xvs0LK40VA1Io/AcxSrKczNPjzjBfsA8Ex2qJYYM=
+	t=1768524735; cv=none; b=e06uz84KeawIzBXqj3k7z+4HlvsZ/vXV/p0v5zDGNZ+FNn0aLi39ZewhXF6qSVfAj2VTJS9lygLCTY17FDFkGAVfzo8lx1lvG0oJNli/fZZkRIwKmovpJrAoOcgYGlw1yxBKpdQlS4O+TSUkbcnCQ7yEjfxUtHSnieDOG1JWnPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768502333; c=relaxed/simple;
-	bh=7S5r6qZkhx5y+DfF1z743TKT2hep7ZzGxgnEnl90z94=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QR3V3nAVCVqvi3zq1qJq8GsOdrjbWnksp6U+Hw+aTeiCILNeJHJZRp14lJG0hphMkXuQPsboVwEryLLqpO2qWIfXCIXoU9a8ovdwNkI8I1a3ELrgmPSRcgRq5soyRCtHiLS36SHRCqChLkoF1YUlfxgalwsvaVPGT7v8ZdPSoBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b0WQ54ov; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB36EC116D0;
-	Thu, 15 Jan 2026 18:38:49 +0000 (UTC)
+	s=arc-20240116; t=1768524735; c=relaxed/simple;
+	bh=K60EpeW1OnCTHNDlSQ02tOAQsYSCiDrib7sXMBvJMtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O0dVMJa/av9CyWIHpq/V0UK6qc3kA99deGZl//2431163v66GP4OpBDyP7JB9t6bRVG1iSTcRVOn1fk/CIk3xQWm5L6zTIo+A3EvMfs+K0Mg7H3eB4maJZNRpK3Jyw3WIMioFRDkVxOh4tP1DDrgqTqjdflyNwF5TzG7m/K4i2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tS7E2Pw1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D25C116D0;
+	Fri, 16 Jan 2026 00:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768502332;
-	bh=7S5r6qZkhx5y+DfF1z743TKT2hep7ZzGxgnEnl90z94=;
-	h=From:To:Cc:Subject:Date:From;
-	b=b0WQ54ovxPyCPGmMpcCdfFqqfNd+sA6WAcvucBqhXOhMlMdmNEwMUkeN39D08cdJi
-	 pPOvb573LNFZSZE+nNiYnWR0LWxG9qTWhrowtJKv6EBYB6VQxZVNiS3cSSsMgXw1bi
-	 ml9zjCfB0gDYHHrqctSFvlVlBCpMfQL+FJO26JN4oeVGXCmcLRNDiU133FetV0UTrC
-	 7EWdrWv7yJmXd6fisXCKJRTyrmBnhTRJ6brbQlSAOC/U/WQYU2u07V8WaXYfeEK1fV
-	 cLqOY4kQnuarBofizJ+l/b4bJz3yIswIUt7I3LbqVfJTZB+cxy2fjuDB3L4KKBdYib
-	 oYTSJ7M4DoLug==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
+	s=k20201202; t=1768524735;
+	bh=K60EpeW1OnCTHNDlSQ02tOAQsYSCiDrib7sXMBvJMtE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tS7E2Pw164OqZKCU6eE4nwPSy/8EY2d+tsW2YoRuhLHQMN4zv9n0LyAQaSg665B42
+	 n47GhZ2OKPqw8i9JnS9sVjGDunlaVK47TWkcMr+ZR+nVf1PWDB5KeraSD/GFU505KJ
+	 HqG9VM0kQLl/NebDxY/0/dyHW9rx/fN7ScGjWruZ/tE1A+kOwVYZk7+EIZeZU3mCFU
+	 ko4Tfcg6bbcZtnF9In/5k+zFkJWg9F/HDSJSX9S153zz5vJaRLz4IHxS5tirvKbdDq
+	 HWP+NgdwNYPebutLDfhB9+LFaAhYcgEhejUNAv8YGiT8PslNNj2I0taU5I0ArJgUv/
+	 CzsYnjrrW8MXQ==
+Date: Thu, 15 Jan 2026 16:52:14 -0800
+From: Kees Cook <kees@kernel.org>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] rust: kbuild: give `--config-path` to `rustfmt` in `.rsi` target
-Date: Thu, 15 Jan 2026 19:38:32 +0100
-Message-ID: <20260115183832.46595-1-ojeda@kernel.org>
+	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] kallsyms: Get rid of kallsyms relative base
+Message-ID: <202601151651.C156DC5D7@keescook>
+References: <20260115145644.1749948-2-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115145644.1749948-2-ardb+git@google.com>
 
-`rustfmt` is configured via the `.rustfmt.toml` file in the source tree,
-and we apply `rustfmt` to the macro expanded sources generated by the
-`.rsi` target.
+On Thu, Jan 15, 2026 at 03:56:45PM +0100, Ard Biesheuvel wrote:
+> This makes all entries in the kallsyms_offsets[] array visible as
+> place-relative references in the ELF metadata, which will be important
+> when implementing ELF-based fg-kaslr.
 
-However, under an `O=` pointing to an external folder (i.e. not just
-a subdir), `rustfmt` will not find the file when checking the parent
-folders. Since the edition is configured in this file, this can lead to
-errors when it encounters newer syntax, e.g.
+This makes things a lot simpler.
 
-    error: expected one of `!`, `.`, `::`, `;`, `?`, `where`, `{`, or an operator, found `"rust_minimal"`
-      --> samples/rust/rust_minimal.rsi:29:49
-       |
-    28 | impl ::kernel::ModuleMetadata for RustMinimal {
-       |                                               - while parsing this item list starting here
-    29 |     const NAME: &'static ::kernel::str::CStr = c"rust_minimal";
-       |                                                 ^^^^^^^^^^^^^^ expected one of 8 possible tokens
-    30 | }
-       | - the item list ends here
-       |
-       = note: you may be trying to write a c-string literal
-       = note: c-string literals require Rust 2021 or later
-       = help: pass `--edition 2024` to `rustc`
-       = note: for more on editions, read https://doc.rust-lang.org/edition-guide
+Reviewed-by: Kees Cook <kees@kernel.org>
 
-A workaround is to use `RUSTFMT=n`, which is documented in the `Makefile`
-help for cases where macro expanded source may happen to break `rustfmt`
-for other reasons, but this is not one of those cases.
-
-One solution would be to pass `--edition`, but we want `rustfmt` to
-use the entire configuration, even if currently we essentially use the
-default configuration.
-
-Thus explicitly give the path to the config file to `rustfmt` instead.
-
-Reported-by: Alice Ryhl <aliceryhl@google.com>
-Fixes: 2f7ab1267dc9 ("Kbuild: add Rust support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- scripts/Makefile.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 5037f4715d74..0c838c467c76 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -356,7 +356,7 @@ $(obj)/%.o: $(obj)/%.rs FORCE
- quiet_cmd_rustc_rsi_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-       cmd_rustc_rsi_rs = \
- 	$(rust_common_cmd) -Zunpretty=expanded $< >$@; \
--	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) $@
-+	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) --config-path $(srctree)/.rustfmt.toml $@
- 
- $(obj)/%.rsi: $(obj)/%.rs FORCE
- 	+$(call if_changed_dep,rustc_rsi_rs)
-
-base-commit: 74e15ac34b098934895fd27655d098971d2b43d9
 -- 
-2.52.0
-
+Kees Cook
 
