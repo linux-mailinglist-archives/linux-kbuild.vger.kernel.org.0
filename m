@@ -1,59 +1,89 @@
-Return-Path: <linux-kbuild+bounces-10604-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10605-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A63AD2BB27
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 06:00:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4539D2E1CA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 09:37:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0B2403035AB6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 05:00:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 44AFA30204AE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 08:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A2C934A3C9;
-	Fri, 16 Jan 2026 05:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8045E304BB3;
+	Fri, 16 Jan 2026 08:36:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqI1kM87"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="N8U/kReR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57E2346E4C;
-	Fri, 16 Jan 2026 05:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387B42F5A12;
+	Fri, 16 Jan 2026 08:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768539652; cv=none; b=HdFpurBYe2BC/7OJLKUXsUfEFJGD6fWMnMWVzC6K4BKoWA8BgPnQ55CVCcWraH4AOR/AUY3GoJNMwnnFPtK7hQiFbkHXUBaCEQ6eC6gdfE3kq0AJIReeghtUvnh0bpP3IdjjxAFT2iixIqV5XHVIc4wbZNDQK5gv4gFIeAlnh54=
+	t=1768552574; cv=none; b=RkDubVO+WEK3ordyLXlnvvNx8wc1CjkR8Pr6nQJyFtKLiIHdiV8Ll9F2YCGRLsWB2YCGqK/1MmVCrJcM4lTHBpMB0AzlFrE3IR2bo5wquHq90QGlIhWUmQccKqcUyXAQRKnwF9IYULd2szwV4E76vbspIx7/FiDXFiu3Lrhq+C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768539652; c=relaxed/simple;
-	bh=xSptFaBZ/Dy9J1LxiE5xyKBnbnA4K005bsuBlQwSzdc=;
+	s=arc-20240116; t=1768552574; c=relaxed/simple;
+	bh=PWMQNk6NsIaOJqlFsxr4gNfT8QvXI57DAFFtAqQpGKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RGKgEv9luXf9+NQFQVA0AozQnFkx02l11IvhyghnMof84AXNTo4HJK75gxS7XSPNMiNds7KYGsIb2a9eWaElNJVTkA+tIa4m6wkmn5y6RQdyZXdzMODUh8ulQXUCC88n6DHOoi7k7EVQa04Ym7U/KkfQC2WuhSmCS6blLLlaYLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqI1kM87; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98074C116C6;
-	Fri, 16 Jan 2026 05:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768539652;
-	bh=xSptFaBZ/Dy9J1LxiE5xyKBnbnA4K005bsuBlQwSzdc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eqI1kM87ra5XPhHD+gzZ9ZLCwxmr3Ap+6tr+veXwQVeOr0dNQkS677oxFC+Et47fE
-	 dJS/xVxYl3ZW0a/LdIvtMmQQYdY918oqjox0s6zWJeCn0vhSfHg4Mel4xygvuw7X5+
-	 bpSzQmfRmtMEnNl20e7y6HhCCTP2eVC5ikZGs9fZAzF1X8EV1buTs/w66BK6iHEwmo
-	 x6qNCi4kLU/bqp84B4Pfdi1Rd+IFfHcHh3jlMyWzBrEUxZoq8wUCcBp+w95jOC/+7J
-	 LphKeRVkzXVG9PBklURl9pJQZ3uzhkS3oSMvxolIShrjV2ryAMkzGjMOaowmmzscM4
-	 4Dgacl6kXevKg==
-Date: Thu, 15 Jan 2026 22:00:46 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] rust: kbuild: give `--config-path` to `rustfmt` in
- `.rsi` target
-Message-ID: <20260116050046.GA1452322@ax162>
-References: <20260115183832.46595-1-ojeda@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SdY7ZvdqygTCaeGHubxOye5H1G51/WeQuXkGDM3ct3jVUhbRA2JOHqKE/g4Chm9jfAUwNOhCDJzm5wdcuWZ0OZqoozMqCWLkvo3tVoDRLNOsmxCjJB2VE0xhi5Yfd9FAN0CAFpiPnFe5JHd/h1by+h1Ii6jUHF/lHiUcZA+8eJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=N8U/kReR; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=1DJLxs4y7O5J7ezC63DvSZ7vqsn7u/tUV4Hm+64XqVM=; b=N8U/kReRTO4lGC3XxnL8rlXKG7
+	Aqnw625jS4q44Y5Fd/nxaYph+/+kveAmY/Bc4bWmENyxClRwJ7wWAooADgDckV/F3G/iMKYXLl+Z6
+	+FIBI4x8o5fFPaXiA9NrW/cMm3Q/p65D4ty4rudbCXjQzKWtZBe5yvqx3e3dNUlMlWVUkngrvr+T8
+	1G5FImw+EYBiLMlXjuxV/0fGMHSdb6CvEv8BnLKU8ymZMRyffQC50AJk3e1JJLJip0GXzb6J8ata/
+	xumVi0uNd9HwF5LfCgAZThAiQe0SNaieUe4DsdRzW2aft4JxW0DnbtaKGn1d73ysGCOAfAp2Bn9WC
+	WTZMinRQ==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vgfJM-00000008IvF-1t4L;
+	Fri, 16 Jan 2026 08:36:04 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 1467E30065D; Fri, 16 Jan 2026 09:36:04 +0100 (CET)
+Date: Fri, 16 Jan 2026 09:36:04 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Bill Wendling <morbo@google.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Marc Herbert <Marc.Herbert@linux.intel.com>,
+	Uros Bizjak <ubizjak@gmail.com>, Tejun Heo <tj@kernel.org>,
+	Jeff Xu <jeffxu@chromium.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	John Stultz <jstultz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	llvm@lists.linux.dev, Nicolas Schier <nsc@kernel.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Naman Jain <namjain@linux.microsoft.com>,
+	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/2] Compiler Attributes: Add __counted_by_ptr macro
+Message-ID: <20260116083604.GJ830755@noisy.programming.kicks-ass.net>
+References: <20251121195504.1661783-1-morbo@google.com>
+ <20260114193716.1740684-1-morbo@google.com>
+ <202601141956.A798BFF@keescook>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,72 +92,32 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115183832.46595-1-ojeda@kernel.org>
+In-Reply-To: <202601141956.A798BFF@keescook>
 
-On Thu, Jan 15, 2026 at 07:38:32PM +0100, Miguel Ojeda wrote:
-> `rustfmt` is configured via the `.rustfmt.toml` file in the source tree,
-> and we apply `rustfmt` to the macro expanded sources generated by the
-> `.rsi` target.
+On Wed, Jan 14, 2026 at 08:00:54PM -0800, Kees Cook wrote:
+> On Wed, Jan 14, 2026 at 07:36:47PM +0000, Bill Wendling wrote:
+> > Introduce __counted_by_ptr(), which works like __counted_by(), but for
+> > pointer struct members.
+> > 
+> > struct foo {
+> > 	int a, b, c;
+> > 	char *buffer __counted_by_ptr(bytes);
+> > 	short nr_bars;
+> > 	struct bar *bars __counted_by_ptr(nr_bars);
+> > 	size_t bytes;
+> > };
+> > 
+> > Because "counted_by" can only be applied to pointer members in very
+> > recent compiler versions, its application ends up needing to be distinct
+> > from flexibe array "counted_by" annotations, hence a separate macro.
+> > 
+> > Note that Clang's support for "void *" members will be in version 22.
+> > So, when using Clang, you'll need to wait until its release before using
+> > the feature with "void *". No such restriction applies to GCC's version
+> > 16.
 > 
-> However, under an `O=` pointing to an external folder (i.e. not just
-> a subdir), `rustfmt` will not find the file when checking the parent
-> folders. Since the edition is configured in this file, this can lead to
-> errors when it encounters newer syntax, e.g.
-> 
->     error: expected one of `!`, `.`, `::`, `;`, `?`, `where`, `{`, or an operator, found `"rust_minimal"`
->       --> samples/rust/rust_minimal.rsi:29:49
->        |
->     28 | impl ::kernel::ModuleMetadata for RustMinimal {
->        |                                               - while parsing this item list starting here
->     29 |     const NAME: &'static ::kernel::str::CStr = c"rust_minimal";
->        |                                                 ^^^^^^^^^^^^^^ expected one of 8 possible tokens
->     30 | }
->        | - the item list ends here
->        |
->        = note: you may be trying to write a c-string literal
->        = note: c-string literals require Rust 2021 or later
->        = help: pass `--edition 2024` to `rustc`
->        = note: for more on editions, read https://doc.rust-lang.org/edition-guide
-> 
-> A workaround is to use `RUSTFMT=n`, which is documented in the `Makefile`
-> help for cases where macro expanded source may happen to break `rustfmt`
-> for other reasons, but this is not one of those cases.
-> 
-> One solution would be to pass `--edition`, but we want `rustfmt` to
-> use the entire configuration, even if currently we essentially use the
-> default configuration.
-> 
-> Thus explicitly give the path to the config file to `rustfmt` instead.
-> 
-> Reported-by: Alice Ryhl <aliceryhl@google.com>
-> Fixes: 2f7ab1267dc9 ("Kbuild: add Rust support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> I think to keep operational parity, we should limit counted_ptr on Clang
+> to version 22 then, otherwise we'll have problems using it on void *.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-I assume you will take this via the Rust tree?
-
-> ---
->  scripts/Makefile.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 5037f4715d74..0c838c467c76 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -356,7 +356,7 @@ $(obj)/%.o: $(obj)/%.rs FORCE
->  quiet_cmd_rustc_rsi_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
->        cmd_rustc_rsi_rs = \
->  	$(rust_common_cmd) -Zunpretty=expanded $< >$@; \
-> -	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) $@
-> +	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) --config-path $(srctree)/.rustfmt.toml $@
->  
->  $(obj)/%.rsi: $(obj)/%.rs FORCE
->  	+$(call if_changed_dep,rustc_rsi_rs)
-> 
-> base-commit: 74e15ac34b098934895fd27655d098971d2b43d9
-> -- 
-> 2.52.0
-> 
+Ooh, you got that fixed! Nice!
 
