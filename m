@@ -1,151 +1,97 @@
-Return-Path: <linux-kbuild+bounces-10609-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10610-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DCC0D2F140
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 10:53:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B2AD2F8C5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 11:28:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2D710302EACF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 09:53:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4ED34300FBC0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 10:28:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591803587B4;
-	Fri, 16 Jan 2026 09:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FF4035BDDC;
+	Fri, 16 Jan 2026 10:28:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZk1W/KT"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="pNVv8tH2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7F03587CE
-	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 09:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F377F30AAD4;
+	Fri, 16 Jan 2026 10:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768557207; cv=none; b=efaAcTxCXwyK65zmqYi4HRZWJOGaXKTQNS0NFKHD557SPIqWVvKT0d7VbaWaSQGpHnvgZvd1epZpRpE/zNpL58TqxUZfnAdc+NKe4iaJO/YXaJ5a/tkUPXOVC2p2/0tg96/9VVPIWh3djZxgquV42MuUMs/Y4iU20q/SYNPExRc=
+	t=1768559316; cv=none; b=Ny36VlKF9qv2QJVOpAW98/CgABqmOUtBUU+pJ05oEuvzZoPOa2Q9VnhIWZFSJndvkDFvZyezu1O3Bbjig71jpztJyXimxBJyJS+Ev6Oxuz0EC+eHddCmS1ibhQQIxH1pAng2JpEnZrIIyQxNTNVDzyiTBp1yGYGjXnAAoo8dXcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768557207; c=relaxed/simple;
-	bh=UTgpQh0ZLgnzkFSvhFTTbcTXvNmo/rsBWjbi2EKkncY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EVCxROuQ6Vb1an9a41aUE6bZw/zA813FChzPBRPRh3LGVtkxHLb8J7C7+AQlGWCwOpLQRMO17vQnxoPsgq8JcV6iYSBy0VHjBmfOGe401ZXQS2daA3sYQqckbfCnMY+c8C/KfEu4OQ+9zNTxZyG6Svpbo8o+M6Z2RejaFXNWmbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZk1W/KT; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4801d98cf39so5789065e9.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 01:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768557204; x=1769162004; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kc9Ty9XgpUdwxFhTnyIgiWP6bdhC4HIf+rr8u+NJ+Go=;
-        b=BZk1W/KTAm1xH+5VKcuPMSh2uu/pebl3HoUOauxWdOOJM5QVP69whoozeB/Pt42+Cy
-         2SQ1qbf5EYaXXEwknSVHkP9zNwL0cBdFakLz9lDVBI7vgweyRwtI4Xk+juBEiHDhYH7J
-         9/9sNafc+3mVEf18cNd2AaI5YQBgkY0LAanTEHalIOt8NUEO6+fZmCKCxnvmATovxv4p
-         5eST7qwoCvougdi5q3NQze4req0uMCrdN58mcgRZenQS4VSbDUx1zYU77AikTxQ22YtK
-         ZT056if92mc/gOG0aVnHYmWC2IKes/lzW3X9BkctCNn3W3+ej8crnWUa753hOIsbFV4g
-         yboA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768557204; x=1769162004;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Kc9Ty9XgpUdwxFhTnyIgiWP6bdhC4HIf+rr8u+NJ+Go=;
-        b=uvIMFqif0/qHfCWyPMSPrN4e4Xl02ClkHtiYcb8eNeZNuFiRQjk9XdSlH5WNkkkPJn
-         oB6CMeo3cIPmDtG0IJkTt7enxmSLB9TJxs87bDGkwr6e/L1ID+mCunY77Cib1O9BQ7oB
-         VuBprG70acVN1yoP8YP3ceY/05V7lKJgZI6wyiMYfS+geTAvAAIZBj9edKavDqxaDuwT
-         EEZYTqD6OGmyHj8OSMLaF2+kpkaq7PaM6NKxwprntsUwpDBauHVygy+7azuHqZ3JlkC2
-         XF4qr2Wh0zFZEM3Vin3wx3PAiyLEbsRA8AypBGcaJILh05VyoWdJY74OYO8490SplwZ+
-         CpCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWU1AMHZ3r7T8JAsJKYHHCkkmvVj/5eua+vnaZRlJzMCZhwq2V2Wxwx74wbEkLcSQ84RdK+X8y7bUA54cc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk/R6uJvHli/LYnyPq3sZSLlpVrpsnGf6OU4XWxc/j9grC5fl9
-	70GnNWg7H9RhLQkX1cq56X1/ELj9g2UJGNCmocs6o2+XaeH3c5SibZ1A
-X-Gm-Gg: AY/fxX54rGn0lKnZahOTeqbrlTs4Mytb4007Fepe2BzugJ3snggVnNYsJpc87mVElJT
-	1Fpv6aGj3oUV5yUftgtvSCv1WZdS7fJnBMM+v0h74kkwV9mrj7ovBJuVBi7Zi0F/aYXkjXz+ThX
-	vFTyyXq73fCk8TnsDjyKg0QsTNjtt8EZNptPX7Vr+L3BDkrBXgmNuyXAMKgLIzfEK18nBWonH8S
-	WcRFwni4IEEiO8lgSA4LVqlp5JFS60h+UFGBxy2rbpYJ6u/+06QOlwNeIfMEIq0QeepSKa6sQsg
-	OCbZ561moKhmK0I3WS5Ox83RmF6rbzztu8tpkZRauAoOJubWrSqCNGXZemk6slR/nfbcV1+6/Ca
-	Alw59J9HpwgHD77AveXsBSGBWw70j72G1sXZsCA/0oSxBVp81V+r4yjtSBhQ6agb2RkhgTwatvM
-	ARDWwIq5fFEcykD25ssPQfg+QHTFuKDznpXM9atnUxiJnFcLuBSoAR
-X-Received: by 2002:a05:600c:8b64:b0:47a:8cce:2940 with SMTP id 5b1f17b1804b1-4801eac0f22mr21648235e9.14.1768557203887;
-        Fri, 16 Jan 2026 01:53:23 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f428ac749sm90683575e9.5.2026.01.16.01.53.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 01:53:23 -0800 (PST)
-Date: Fri, 16 Jan 2026 09:53:18 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Bill Wendling <morbo@google.com>
-Cc: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <nick.desaulniers+lkml@gmail.com>, Justin Stitt
- <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Heiko
- Carstens <hca@linux.ibm.com>, Marc Herbert <Marc.Herbert@linux.intel.com>,
- Uros Bizjak <ubizjak@gmail.com>, Tejun Heo <tj@kernel.org>, Jeff Xu
- <jeffxu@chromium.org>, "Michal =?UTF-8?B?S291dG7DvQ==?="
- <mkoutny@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, "Thomas
- =?UTF-8?B?V2Vpw59zY2h1aA==?=" <thomas.weissschuh@linutronix.de>, John
- Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Brian Gerst <brgerst@gmail.com>, Masahiro
- Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, llvm@lists.linux.dev, Nicolas Schier
- <nsc@kernel.org>, Tamir Duberstein <tamird@gmail.com>, Steven Rostedt
- <rostedt@goodmis.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, "H. Peter
- Anvin" <hpa@zytor.com>, Naman Jain <namjain@linux.microsoft.com>, Simon
- Horman <horms@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Ingo Molnar <mingo@kernel.org>, Thomas Gleixner
- <tglx@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] Compiler Attributes: Add __counted_by_ptr macro
-Message-ID: <20260116095318.46a149fb@pumpkin>
-In-Reply-To: <20260116005838.2419118-1-morbo@google.com>
-References: <20260114193716.1740684-1-morbo@google.com>
-	<20260116005838.2419118-1-morbo@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1768559316; c=relaxed/simple;
+	bh=NWT4fqaPSR5Wbi/YaVXMhA5Y+CY1AeO2zyoYubCyZE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TLYv61YHUBsJu8DTwWW1rYzVVdOphusaLX/muAXiDSYK++UshAWifmNOxdHIEDQECnpFLLI/PJnutJ0rX0IFdPf6JNyW6vFC/Is177DYbQYQf7quQOUMd1L675BMAoZvttCJBYS/lLsf4Rlw5NfdRXJWXjy0gAQ2/MzB0jutYyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=pNVv8tH2; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4D00D41B45;
+	Fri, 16 Jan 2026 10:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1768559305;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cnn7+UeGMO3uyCCwAt6CdNrflwgCUAjAPq/d3MXPX6I=;
+	b=pNVv8tH2IFjZ+C4gx75aHX7J0nXZ0ewyT/Veh990MkXMykC2GJmVbJJhr/cklEDslBwapx
+	AIvo1GtNjAjUIvcgVvPjYPHStrlUMk9ZoefM+88iavOWvD/EdQab/p31EP7+OVhZYHloZY
+	msvmdHhTFNbqVNn8exUEiShFI3BPrGwq3DVdKkcNuqK+GNAu16H3dr3RruA9R3UjxmJyc9
+	AjHJ7n6v7DsDoZE+BGiIF8HNvOWT/aCmxvcNQPbf8VoCzCnLb67RqOV6cRZcYk/olqeAKt
+	6E/K0GbWcuByAa8u368Jaww8Ihwj7vHkiX18C26zwXm5yKqOIL/eP2eq7dSjFw==
+Message-ID: <6af4b4cb-cf0a-4647-bdb8-0b2b1cb03b76@gtucker.io>
+Date: Fri, 16 Jan 2026 11:28:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
+To: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <cover.1767199119.git.gtucker@gtucker.io>
+Content-Language: en-GB
+From: Guillaume Tucker <gtucker@gtucker.io>
+Organization: gtucker.io
+In-Reply-To: <cover.1767199119.git.gtucker@gtucker.io>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdekjedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhohgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnhepfeegvdfgveethfffhedvfffgfeefveetkeegudduvdefleejgfdtveeuiedufeeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvddttddumeekiedumeegrgegtdemkeeivddtmegtvggvsgemfhehvdemkegtvgejmegtvgdutgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgegrgedtmeekiedvtdemtggvvggsmehfhedvmeektggvjeemtggvudgtpdhhvghloheplgfkrfggieemvddttddumeekiedumeegrgegtdemkeeivddtmegtvggvsgemfhehvdemkegtvgejmegtvgdutggnpdhmrghilhhfrhhomhepghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhopdhqihgupeegffdttdffgeduueeghedpmhhouggvpehsmhhtphhouhhtpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpt
+ hhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhhiughgohifsehgohhoghhlvgdrtghomhdprhgtphhtthhopeifohhrkhesohhnuhhrohiikhgrnhdruggvvhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-State: clean
 
-On Fri, 16 Jan 2026 00:57:57 +0000
-Bill Wendling <morbo@google.com> wrote:
+Hello,
 
-> Introduce __counted_by_ptr(), which works like __counted_by(), but for
-> pointer struct members.
-> 
-> struct foo {
-> 	int a, b, c;
-> 	char *buffer __counted_by_ptr(bytes);
-> 	short nr_bars;
-> 	struct bar *bars __counted_by_ptr(nr_bars);
-> 	size_t bytes;
-> };
-> 
-> Because "counted_by" can only be applied to pointer members in very
-> recent compiler versions, its application ends up needing to be distinct
-> from flexibe array "counted_by" annotations, hence a separate macro.
-...
-> diff --git a/Makefile b/Makefile
-> index 9d38125263fb..6b029f694bc2 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -952,6 +952,12 @@ KBUILD_CFLAGS	+= $(CC_AUTO_VAR_INIT_ZERO_ENABLER)
->  endif
->  endif
->  
-> +ifdef CONFIG_CC_IS_CLANG
-> +ifdef CONFIG_CC_HAS_COUNTED_BY_PTR
-> +KBUILD_CFLAGS	+= -fexperimental-late-parse-attributes
-> +endif
-> +endif
+On 31/12/2025 17:51, Guillaume Tucker wrote:
+> Changes in v3:
+> - Refactor common code for Docker and Podman
+> - Add docs.kernel.org URL in help message
+> - Use pathlib Python package
+> - Handle signals in parent process by default
+> - Add --shell option to use an interactive shell
+> - Tweak debug messages in verbose mode
+> - Specify Python 3.10 as minimum version in the docs
+> - Provide an example env file in the docs
+> - Update docs regarding interactive shell usage
 
-Will that still be needed for clang 22?
-Looks a bit like a temporary flag to avoid regressions.
-Probably ought to at least have a comment that it won't be needed
-by some future clang version so that it gets tidied up.
+I'm sure you're all busy landing commits ahead of the next merge
+window.  Could you please take a look at this v3 when you have a
+moment?  I believe I've addressed everything from previous reviews.
 
-	David
+Thanks,
+Guillaume
+
 
