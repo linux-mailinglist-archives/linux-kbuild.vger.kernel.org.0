@@ -1,123 +1,122 @@
-Return-Path: <linux-kbuild+bounces-10605-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10607-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4539D2E1CA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 09:37:20 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0C5D2ED25
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 10:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 44AFA30204AE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 08:36:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EF08C30515B1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 09:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8045E304BB3;
-	Fri, 16 Jan 2026 08:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8C673570B3;
+	Fri, 16 Jan 2026 09:34:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="N8U/kReR"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OHqUGt+1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387B42F5A12;
-	Fri, 16 Jan 2026 08:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABFF34F275
+	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 09:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768552574; cv=none; b=RkDubVO+WEK3ordyLXlnvvNx8wc1CjkR8Pr6nQJyFtKLiIHdiV8Ll9F2YCGRLsWB2YCGqK/1MmVCrJcM4lTHBpMB0AzlFrE3IR2bo5wquHq90QGlIhWUmQccKqcUyXAQRKnwF9IYULd2szwV4E76vbspIx7/FiDXFiu3Lrhq+C8=
+	t=1768556064; cv=none; b=Sv5bvI+cSjWb4VUO5dE1TKKHvNuaxLSxIRy3r+KfAev4Q+6s0pax+ZBRnaaaWppEHoCKKRYF0dMgNKGlOytNVrYP4HRO4sH2Jzv4RdtVN0Pv1YxwNytw8XOf6iOG3jrMSkas9F+KatYJjLEdhrQrcZy+qIMhwEiGl9BnCwJePfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768552574; c=relaxed/simple;
-	bh=PWMQNk6NsIaOJqlFsxr4gNfT8QvXI57DAFFtAqQpGKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SdY7ZvdqygTCaeGHubxOye5H1G51/WeQuXkGDM3ct3jVUhbRA2JOHqKE/g4Chm9jfAUwNOhCDJzm5wdcuWZ0OZqoozMqCWLkvo3tVoDRLNOsmxCjJB2VE0xhi5Yfd9FAN0CAFpiPnFe5JHd/h1by+h1Ii6jUHF/lHiUcZA+8eJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=N8U/kReR; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=1DJLxs4y7O5J7ezC63DvSZ7vqsn7u/tUV4Hm+64XqVM=; b=N8U/kReRTO4lGC3XxnL8rlXKG7
-	Aqnw625jS4q44Y5Fd/nxaYph+/+kveAmY/Bc4bWmENyxClRwJ7wWAooADgDckV/F3G/iMKYXLl+Z6
-	+FIBI4x8o5fFPaXiA9NrW/cMm3Q/p65D4ty4rudbCXjQzKWtZBe5yvqx3e3dNUlMlWVUkngrvr+T8
-	1G5FImw+EYBiLMlXjuxV/0fGMHSdb6CvEv8BnLKU8ymZMRyffQC50AJk3e1JJLJip0GXzb6J8ata/
-	xumVi0uNd9HwF5LfCgAZThAiQe0SNaieUe4DsdRzW2aft4JxW0DnbtaKGn1d73ysGCOAfAp2Bn9WC
-	WTZMinRQ==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgfJM-00000008IvF-1t4L;
-	Fri, 16 Jan 2026 08:36:04 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 1467E30065D; Fri, 16 Jan 2026 09:36:04 +0100 (CET)
-Date: Fri, 16 Jan 2026 09:36:04 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Bill Wendling <morbo@google.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Marc Herbert <Marc.Herbert@linux.intel.com>,
-	Uros Bizjak <ubizjak@gmail.com>, Tejun Heo <tj@kernel.org>,
-	Jeff Xu <jeffxu@chromium.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	John Stultz <jstultz@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Brian Gerst <brgerst@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	llvm@lists.linux.dev, Nicolas Schier <nsc@kernel.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Naman Jain <namjain@linux.microsoft.com>,
-	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] Compiler Attributes: Add __counted_by_ptr macro
-Message-ID: <20260116083604.GJ830755@noisy.programming.kicks-ass.net>
-References: <20251121195504.1661783-1-morbo@google.com>
- <20260114193716.1740684-1-morbo@google.com>
- <202601141956.A798BFF@keescook>
+	s=arc-20240116; t=1768556064; c=relaxed/simple;
+	bh=pbj3poqSA6w0rLBL9Xjc+o+0Qy8FGE4aZbcHYXFFjrA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Q75uF7WscNoqoB1ffoig8mHzS3FcHy28cX+Asr4cnuMC+m+MONxIbwJIkbRRyM5kXMF22O8Xfbhc6Ety+msPfMCx1OCEt4kBuV+398SA4aHFjd1h31ojHE9DaZ5DA1L1hzM1m6Z0Zh/jVr/er+ckZO2zY/BXhSKQJ9i9RWY+Jo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OHqUGt+1; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-47d3ffa98fcso12791465e9.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 01:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768556060; x=1769160860; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SM6NKFa+8czj9hhtBF0xXJOx+gqzzPlF6ypX+t4zEPw=;
+        b=OHqUGt+1xfUCMc++xzWDe3jQhdRFl8fI8g1rjZCFkBXSMGZfrmKJ6nmx0WWqz7qpzn
+         o52fygM3kCEjhXRwMiDqhFxsMVXWORC/jt95agXIVV+kxxJ4Aydo+kHLYLCrwE6GNvri
+         +4IB9eDcKbM9HO9ZrcoAhou7vyy0u5v+mntHx9TobjQsNGwRk7HIuqOGiLavKDkFNz+T
+         KAck+khopMfgBylKjpsUgWNDbiWuMEJDjE7hAQOVsezOnzXJWi99XyhS1+xzJ6IPteWN
+         6g/+AsskhBsq3eNs3G+JS3eLrHtv1FKtR0vNj29AEXRjGH1CLGOs7RUNRkEFBC7LfIpL
+         nyaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768556060; x=1769160860;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SM6NKFa+8czj9hhtBF0xXJOx+gqzzPlF6ypX+t4zEPw=;
+        b=FpK8f8FzzghCppIzZ/KIrql0sLdkz2jo2crgWvFnN/94qaO8N6ZzzFuK0dUx0XMWLD
+         tkbR8eHBNa8oa3GuT2CwZJG/mQo7HwinjXlekmcA8dJZmUdnXJJYtkGLo1k4Np3s/vcF
+         8OymGf3UVZu1dno6RYKiFnJcdMmda2lG6layVXsYwsrLptmNctQbsp+/JWKFpSPcrvki
+         IwQMN96Lz14q/w1imsiktQnSSKe0TZeVatMRYLQdl+6hd4GzwosAr9zgZz3UVyGl3pTy
+         Ti/bJQGx60u9mLVZlaEYc91mquO99qU2z6YrovzX9aZcnYS1KpvLbbsq1l9NueOXfs0V
+         AvYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU8Y64y2RtG6WI7zaVGuB9cZYxdrf4mHdTv22KUsWUFRK5Yzl32ZFV0lnHsj295ns+uPbKv5GKAwwNL+hE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJePs62S62ZpHOzyo0B6b091TO+mzNP9R8NVGDj7SHVHutBPu0
+	PDOx0+1luaUyzbaOqCne5ofObw6KNwW/GXp+bMbz0TMwXGj7Z++TccbGFxBYRkQHOIK9e3JFNw=
+	=
+X-Received: from wmol18.prod.google.com ([2002:a05:600c:47d2:b0:47d:56a1:4296])
+ (user=ardb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:474d:b0:477:7b16:5f77
+ with SMTP id 5b1f17b1804b1-4801eab5193mr17103645e9.3.1768556059765; Fri, 16
+ Jan 2026 01:34:19 -0800 (PST)
+Date: Fri, 16 Jan 2026 10:34:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202601141956.A798BFF@keescook>
+Mime-Version: 1.0
+X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=ardb@kernel.org;
+ h=from:subject; bh=jkgJW8J3bxHcweCYNOTK5wmG7iWn+bGurzq2dxW/Ks8=;
+ b=owGbwMvMwCVmkMcZplerG8N4Wi2JITOLjd3oQEH61f11LpI9KzYYHPANVmiYrsv/3v7rZsYfj
+ RZvMg53lLIwiHExyIopsgjM/vtu5+mJUrXOs2Rh5rAygQxh4OIUgIms4mX479Qdzc256uPJqW3P
+ 9rDInFucu7B18r2/4n90uZf4nQ39kMnwT7/q+KQJdTaP7uf0nwvX2yLoXL9+j3jQOaNTjTrr37/ /wgIA
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260116093359.2442297-4-ardb+git@google.com>
+Subject: [PATCH v2 0/2] Simplify kallsyms offset table generation
+From: Ard Biesheuvel <ardb+git@google.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ard Biesheuvel <ardb@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-mips@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 14, 2026 at 08:00:54PM -0800, Kees Cook wrote:
-> On Wed, Jan 14, 2026 at 07:36:47PM +0000, Bill Wendling wrote:
-> > Introduce __counted_by_ptr(), which works like __counted_by(), but for
-> > pointer struct members.
-> > 
-> > struct foo {
-> > 	int a, b, c;
-> > 	char *buffer __counted_by_ptr(bytes);
-> > 	short nr_bars;
-> > 	struct bar *bars __counted_by_ptr(nr_bars);
-> > 	size_t bytes;
-> > };
-> > 
-> > Because "counted_by" can only be applied to pointer members in very
-> > recent compiler versions, its application ends up needing to be distinct
-> > from flexibe array "counted_by" annotations, hence a separate macro.
-> > 
-> > Note that Clang's support for "void *" members will be in version 22.
-> > So, when using Clang, you'll need to wait until its release before using
-> > the feature with "void *". No such restriction applies to GCC's version
-> > 16.
-> 
-> I think to keep operational parity, we should limit counted_ptr on Clang
-> to version 22 then, otherwise we'll have problems using it on void *.
+From: Ard Biesheuvel <ardb@kernel.org>
 
-Ooh, you got that fixed! Nice!
+v2:
+- implement minimal PC32 support for MIPS so it can tolerate the symbol
+  references emitted by kallsyms
+- use signed decimal to represent the offset, so that symbols appearing
+  before _text can be represented correctly.
+- add Kees's ack
+
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>
+Cc: Kees Cook <kees@kernel.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Kees Cook <kees@kernel.org>
+Cc: linux-kbuild@vger.kernel.org 
+Cc: linux-hardening@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+
+Ard Biesheuvel (2):
+  mips: Add support for PC32 relocations in vmlinux
+  kallsyms: Get rid of kallsyms relative base
+
+ arch/mips/boot/tools/relocs.c       |  2 +
+ arch/mips/include/asm/elf.h         |  2 +
+ kernel/kallsyms.c                   |  6 +-
+ kernel/kallsyms_internal.h          |  1 -
+ kernel/vmcore_info.c                |  1 -
+ scripts/kallsyms.c                  | 64 ++++++--------------
+ scripts/link-vmlinux.sh             |  4 ++
+ tools/perf/tests/vmlinux-kallsyms.c |  1 -
+ 8 files changed, 29 insertions(+), 52 deletions(-)
+
+-- 
+2.52.0.457.g6b5491de43-goog
+
 
