@@ -1,231 +1,144 @@
-Return-Path: <linux-kbuild+bounces-10616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC5FD37A27
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 18:31:56 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 487A8D3861D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 20:42:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 47ACE308B360
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 17:31:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EDBCB300B038
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Jan 2026 19:42:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA5B39525D;
-	Fri, 16 Jan 2026 17:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE8F39B49B;
+	Fri, 16 Jan 2026 19:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JtQG7N6v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1qvRufi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462C036BCC4
-	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 17:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768584671; cv=none; b=rP7BdehtzWGmV3CW/XMBEjSh3q7+NK0ozn2BpIOu5EmlNDO4AgUGAtfDcqA1mR9hJ0IJOhAGxmchpLxkQ6d4ppSO2ioNHxAUTMbismx6OMMLux8/GQ7MCqQqghboXMEXd07H8/7yQYJtA47OJz0d0cx71fWwfZVvp4HguMeCy7M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768584671; c=relaxed/simple;
-	bh=dacZLFUsrFNSw+mnrOAiyarQ8iNk57zLC4mQM+1G4ms=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E78A34BA54
+	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 19:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768592530; cv=pass; b=K+ztJjLBwY0aS4GH/zPeU82lXeV2A8BeVisrbvjGSKiQU6vjHhlRv72r5bK2hJcWpkkKopyx5vHfZim3AtTJgJu5zMo8TpaAgBbgKI4+8bbUQgnvuxSclfSWpJoNkLXbsagg6BgFmvaKnC4hd5jnukSa3USnrpiwB1qIDi4A9L4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768592530; c=relaxed/simple;
+	bh=eAdi2tKGdwtzK1W4hmlYB+ZVtEVFHvDaVbcQV/op7wA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jrTvKvaWvYeOqQbgTilQPWONLY6VhdvMSHxZgEgXORRiBFN1ZcLDt5zMStdY3rIxE9cZNFPWd1QvWALpYH4CCz2vW0qYHZifhrOzk3/KDFfN8vkwIoq3MksoFLa9zRwvztBqc0S61GRVV90tsUyPNRnDbefRF+pRmoCXkqDhBj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JtQG7N6v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE3FC2BC87
-	for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 17:31:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768584671;
-	bh=dacZLFUsrFNSw+mnrOAiyarQ8iNk57zLC4mQM+1G4ms=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JtQG7N6vfiQR5tfWyJO8gf2Os9eILW6cKv3KPjcdAhjtOOTD6aHiU2Zbov22aOIYo
-	 ESlXepbgAgo123/gFPgte+73sh09Jzt0FaspTpVy8x9ovhVBGE5E58/tWu/fijVZlU
-	 o9Szgta063uO2t1OSeCrlp6JCQctUcMtMkAUHKzY5jH+e2OFqNZllVGbXMY205jgIm
-	 Ikto6YFN/WQRo08HOY1JlT8rEQ3I1IjNJtAw3bqCWqMSVx0JXwhVgn7mEx/2gTIoPK
-	 O+JpPLHqYQoh0cKlEBowcOIU3VF3XGM1lUF9zMDSmbnPXSTSM4RO7DDIRAsOuicV6N
-	 Z4w0+RlC4MJwA==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6505d3adc3aso3643765a12.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 09:31:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWBHU7UkVLFXDxgiJIktFc8AGqsNkj9FlbH+uUCOWx4mVb8o0x8LNT7Bcnj1NkxIpjXT0Cs4I8rPBp1qVk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpwfqV0WqJrB1qgi4oVaXyc/x8ve4LPMKZChaNUJ7ZzBIV4Szq
-	c8G0GykrHC715qRQnsqVy5YZgCBb76a4mPSk6i5gVFgmA20GWRSZSfCU6mAU8XCj7nqEG0SshUX
-	v1romCoHtLZBb84fPf16fOtg8JbfYHg==
-X-Received: by 2002:a05:6402:3547:b0:64c:9e19:9831 with SMTP id
- 4fb4d7f45d1cf-654ba1c92e9mr2632146a12.12.1768584669199; Fri, 16 Jan 2026
- 09:31:09 -0800 (PST)
+	 To:Cc:Content-Type; b=BpcgWragkR/USXwoisspgPSV+dOU+lPm1a7izoZ5S7nzOoXUhR9DpyevsNfWwAunWoH+A8aC+nHM9WSxWGNGxl5fIu+0gw4P7Fbl7cGPmOMTmCVidF1KP9VUn1j+ro4nixaf19XTJElPDKxiOX1cQSRrOmDNaheCWN6QcutU7Jc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1qvRufi; arc=pass smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2b6c1ec0dd6so95296eec.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 16 Jan 2026 11:42:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768592528; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bpAJUn4+ZTserUuYC8z0zkun/UQW5JI5sB+hbXN31JCeLBtt0qisouvQgCPZ5WqFXM
+         HF1Q55+bl0K6fnT3iPTJSNzR+yZLM0272soilURUoJS51yn6O+7WhPKgQxgZyhVMYQK7
+         TlewY7zvRX1AIm8Yp1Sx3wDI2zFOETRMVsOdZDZFgR79BBspUQJx6tGvxcDu67mtmyRn
+         fqbKjFNdFsol9nuVmIqq+IzGGI2+vYLjrZtetZXqJsHrZ+Jrpi7d6ZrttDHNCQzteNjl
+         OADVlxYaPFNUIMfDDi7Z/uFpkmuOK+kk5jgZvwpIodeGvNe+w51gXSWX7Q0En6mX65Xw
+         medw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eAdi2tKGdwtzK1W4hmlYB+ZVtEVFHvDaVbcQV/op7wA=;
+        fh=ptArFkzLhIT5oDHKD3C1XOIvfRQe3Zw6MTN2CRJzo9g=;
+        b=N19GzmXGfm8bjEaCV9zokdxk+XiQKbrAF+BAh7FUxqVtGsxJOSfFHvscwSAoUSkkOy
+         nOkXwucoJvIxx+IVZR3KDkhrkpVS5VGrdemxjXkqbz67nuIyJOYafv/iVxSW2+ymiZei
+         tJ5tZRTYp9sxEqczUI9R729E/b1JX4KzJkx8YGONsBlyWsCoSuidRxobMIvOyfT1GTJA
+         KQmoYPNvwpmuvzp7ngvFI2vVbfLPcxcH/slAUAjZb3au82nR1wp3WJv8nsJE2mcx56bf
+         KuJ3wLez3TS3p9rGU+1+6GVUL9Ci3HkGiNmds0kvwnhF/OuqRAip/seT0xjQlls62Ps6
+         yCVg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768592528; x=1769197328; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eAdi2tKGdwtzK1W4hmlYB+ZVtEVFHvDaVbcQV/op7wA=;
+        b=Q1qvRufi2FlJezBM9DltIzJGbKKG8NAKI4IjW+5Vyclfox606IlLvgSFM+HThFPezD
+         69n6YdhpehLCgt3IwiPQQh/bi4TYlT3ZYazkmibDx85echRyP4aFJvvwj/yM/W79UQiE
+         askSrBhpvNzaJ1vtOSoI9WHpVX4QY1Fwzf8HzV7U4M4ckw8zYWq90FURszTQzAMx4Oap
+         9ocBSw64jg7cmeY0phqCcifuhhB4mVQ1ME4S4x8o0SeMjUl70F1Pqs3RyzaDBtBQcNqq
+         1lEayaccxPrCWZfVkxm8QoJ8Tn9wM9Hklagz+bKbvqYKCjIa/XjCSapM6tAXEgcS9YUf
+         uEow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768592528; x=1769197328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eAdi2tKGdwtzK1W4hmlYB+ZVtEVFHvDaVbcQV/op7wA=;
+        b=i6cD/1LTdAh0PTBnIuptRfjlb4Ham1eAD57IPKu28fOrRN5GHgFRg0dcBJZnbwYs3r
+         KXyhIim8DALxuTER2SYg6CSZDWTieGpK6SO+/q+enFRYRXrhDKfd0ThTxNO4LrAk+1Vd
+         dVsa0Vf+KD6RQsTo+NpAF82plxNNlxBwRJf6E1IhR9TjZYFa1UYJoAo81c85UeOMpR1t
+         qygZuiifA11yQgLzfnoLjzbbwk9ZtNuE2F25GW43VmZiYzJonY4AP6vi7cdBncmw6Erz
+         2peg6oCLhEUj+Gu+axMXMkBqvbtvGXgI6Cb2J8PnsJlHZxlBjQ7ZPD2WHSkXRZcp4gWy
+         DRZA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2fHSSqIrzyaVnrAcgGnU2DypXzH9xyFgDKAFKFtaBdeOf2K6xjamTtQA9GA4F2aM3A/I+orAKXrnBYr4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFyGXaTgqU8gdZ2SKoCctJdj29G6X8T4mF52+QYP8Qj2wsR+97
+	Vt8vMvMRVsB1cXWPFpCbizK+jG42/YAx7rOm7WsqbvnLkaQbFazvYXo1g+h2MLFnkY07idB8bq0
+	IlR2rmORjigWvFEubsVO2pXm2N/qAo5iGqV79
+X-Gm-Gg: AY/fxX7kqCJKtaWYYtKt78GEfpFxgqPk+h+kkbJ7GrR/s1ryAoY+J7U2NUwnZmK6J+4
+	Yp7xNnyx2CVjAb6HGTRQvKhSg20ltWwaP3ypsX2GTqVFqAz8swUJ7MJRcT+f0RJIc/Qlj7CAppF
+	+3Y9pFjLxoDxVeL0713bBHezO513Du41b+4A9vJeAIPcJ2IJhcmaw+jav4y2C8ToiIrCYASx70I
+	hXCqfoeF1Kmd4GpxXBgzpG6FnvJ46hlXt0Sq/HtOccZK/y8DjqmuvPLHOa/ufShU34oAFqzhPtA
+	JBSLGbReEnwty7Ym9YflZOV6YvMm2omYT1gNzOdOMfgLU0GUyk5XIgr7SQ6I30ppxwkiZdJ4z2M
+	gay9+eEPV8IOHxpvwXsZds4c=
+X-Received: by 2002:a05:7300:748a:b0:2ae:5b8c:324a with SMTP id
+ 5a478bee46e88-2b6b40adeddmr1981519eec.4.1768592528181; Fri, 16 Jan 2026
+ 11:42:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112-pci-m2-e-v4-0-eff84d2c6d26@oss.qualcomm.com>
- <20260112-pci-m2-e-v4-5-eff84d2c6d26@oss.qualcomm.com> <20260113171424.GA3925312-robh@kernel.org>
- <xyttom64ht5hrrp5hecjqehnyfgsv4mfl2t36e2sveu44ccpjl@lkzquse2kqsx>
- <CAL_JsqJxBNm0y6T7vji6MXgsO65iDJ-tdUEo0cOxkw7EuMKpkg@mail.gmail.com>
- <gcmm23ji4fkcqeshcyiehuyega7kdbtvmofp4usmol2icwn6gy@i46icelwwqh5>
- <CAL_JsqKKBjurY7ZrScayvkTijR-F6GWBofry48xoPFBFi55u4w@mail.gmail.com> <ysfkemsf4w7r3eoahfpjdr3z3buec5kvw4qol2njhxrz5tsdpo@4scz632uaj5i>
-In-Reply-To: <ysfkemsf4w7r3eoahfpjdr3z3buec5kvw4qol2njhxrz5tsdpo@4scz632uaj5i>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 16 Jan 2026 11:30:57 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLJhLgDj846Xm3xh6iTpqKcGgAc0JarsAw4gJbOOih-eA@mail.gmail.com>
-X-Gm-Features: AZwV_Qgl_qLSqXPnKjpXjk329SOPF0xVaDGWoAyGNkj_0sZsVv7qP7OLwVi399U
-Message-ID: <CAL_JsqLJhLgDj846Xm3xh6iTpqKcGgAc0JarsAw4gJbOOih-eA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/9] dt-bindings: connector: Add PCIe M.2 Mechanical
- Key E connector
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org
+References: <20260116-rust-analyzer-pin-init-duplication-v1-1-5e85c5824a02@kernel.org>
+In-Reply-To: <20260116-rust-analyzer-pin-init-duplication-v1-1-5e85c5824a02@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 16 Jan 2026 20:41:54 +0100
+X-Gm-Features: AZwV_QiHfkNU0QNLcCb8-zUmrI_DNezL1s6uGMNEqvePx_xxikoGbdwF6RvO-i4
+Message-ID: <CANiq72=O-+UTxP-eATh1yMAzX6B-O8h7v8FYVG7F-Ym0rA6F_A@mail.gmail.com>
+Subject: Re: [PATCH] scripts: generate_rust_analyzer.py: reduce cfg plumbing
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jesung Yang <y.j3ms.n@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 16, 2026 at 8:43=E2=80=AFAM Manivannan Sadhasivam <mani@kernel.=
-org> wrote:
+On Fri, Jan 16, 2026 at 5:11=E2=80=AFPM Tamir Duberstein <tamird@kernel.org=
+> wrote:
 >
-> On Fri, Jan 16, 2026 at 08:19:07AM -0600, Rob Herring wrote:
-> > On Thu, Jan 15, 2026 at 4:42=E2=80=AFAM Manivannan Sadhasivam <mani@ker=
-nel.org> wrote:
-> > >
-> > > On Wed, Jan 14, 2026 at 11:45:42AM -0600, Rob Herring wrote:
-> > > > On Wed, Jan 14, 2026 at 10:14=E2=80=AFAM Manivannan Sadhasivam <man=
-i@kernel.org> wrote:
-> > > > >
-> > > > > On Tue, Jan 13, 2026 at 11:14:24AM -0600, Rob Herring wrote:
-> > > > > > On Mon, Jan 12, 2026 at 09:56:04PM +0530, Manivannan Sadhasivam=
- wrote:
-> > > > > > > Add the devicetree binding for PCIe M.2 Mechanical Key E conn=
-ector defined
-> > > > > > > in the PCI Express M.2 Specification, r4.0, sec 5.1.2. This c=
-onnector
-> > > > > > > provides interfaces like PCIe or SDIO to attach the WiFi devi=
-ces to the
-> > > > > > > host machine, USB or UART+PCM interfaces to attach the Blueto=
-oth (BT)
-> > > > > > > devices. Spec also provides an optional interface to connect =
-the UIM card,
-> > > > > > > but that is not covered in this binding.
-> > > > > > >
-> > > > > > > The connector provides a primary power supply of 3.3v, along =
-with an
-> > > > > > > optional 1.8v VIO supply for the Adapter I/O buffer circuitry=
- operating at
-> > > > > > > 1.8v sideband signaling.
-> > > > > > >
-> > > > > > > The connector also supplies optional signals in the form of G=
-PIOs for fine
-> > > > > > > grained power management.
-> > > > > > >
-> > > > > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@o=
-ss.qualcomm.com>
-> > > > > > > ---
-> > > > > > >  .../bindings/connector/pcie-m2-e-connector.yaml    | 154 +++=
-++++++++++++++++++
-> > > > > > >  MAINTAINERS                                        |   1 +
-> > > > > > >  2 files changed, 155 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/devicetree/bindings/connector/pcie=
--m2-e-connector.yaml b/Documentation/devicetree/bindings/connector/pcie-m2-=
-e-connector.yaml
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..b65b39ddfd19
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/devicetree/bindings/connector/pcie-m2-e-c=
-onnector.yaml
-> > > > > > > @@ -0,0 +1,154 @@
-> > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > > +%YAML 1.2
-> > > > > > > +---
-> > > > > > > +$id: http://devicetree.org/schemas/connector/pcie-m2-e-conne=
-ctor.yaml#
-> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > +
-> > > > > > > +title: PCIe M.2 Mechanical Key E Connector
-> > > > > > > +
-> > > > > > > +maintainers:
-> > > > > > > +  - Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcom=
-m.com>
-> > > > > > > +
-> > > > > > > +description:
-> > > > > > > +  A PCIe M.2 E connector node represents a physical PCIe M.2=
- Mechanical Key E
-> > > > > > > +  connector. Mechanical Key E connectors are used to connect=
- Wireless
-> > > > > > > +  Connectivity devices including combinations of Wi-Fi, BT, =
-NFC to the host
-> > > > > > > +  machine over interfaces like PCIe/SDIO, USB/UART+PCM, and =
-I2C.
-> > > > > > > +
-> > > > > > > +properties:
-> > > > > > > +  compatible:
-> > > > > > > +    const: pcie-m2-e-connector
-> > > > > > > +
-> > > > > > > +  vpcie3v3-supply:
-> > > > > > > +    description: A phandle to the regulator for 3.3v supply.
-> > > > > > > +
-> > > > > > > +  vpcie1v8-supply:
-> > > > > > > +    description: A phandle to the regulator for VIO 1.8v sup=
-ply.
-> > > > > >
-> > > > > > I don't see any 1.8V supply on the connector. There are 1.8V IO=
-s and you
-> > > > > > may need something in DT to ensure those are powered. However, =
-there's
-> > > > > > no guarantee that it's a single supply.
-> > > > > >
-> > > > >
-> > > > > 1.8v VIO supply is an optional supply and is only required if the=
- platform
-> > > > > supports 1.8v for sideband signals such as PERST#, WAKE#... I can=
- include it in
-> > > > > the example for completeness.
-> > > >
-> > > > My point is that PERST# and WAKE# supplies could be 2 different 1.8=
-V
-> > > > supplies and those supply the I/O pads of the GPIO pins (and possib=
-ly
-> > > > external pull-ups) that drive them. The 1.8V supply doesn't supply
-> > > > 1.8V to the slot, so making it a slot/connector property is wrong.
-> > > >
-> > >
-> > > Ok, I get your point that VIO 1.8v supply is just limited to the I/O =
-logic and
-> > > not the whole card/adapter. But I don't get your multiple supplies co=
-ncern. Spec
-> > > says, "A 1.8 V supply pin called VIO 1.8 V is used to supply the on-A=
-dapter I/O
-> > > buffer circuitry operating at 1.8 V." So it implies that either the s=
-ingle
-> > > supply available to the card through VIO might be used to power the w=
-hole I/O
-> > > circuit logic or the card can derive its own 1.8v supply from 3.3v su=
-pply.
-> > >
-> > > So how come the card can have 2 different 1.8v supplies powering the =
-I/O
-> > > circuitry?
-> >
-> > Is there a pin on the connector for 1.8V supply? I don't have the
-> > spec, but the pinout I found[1] didn't show one. If there's a pin,
-> > then I have no concern.
-> >
->
-> Oh yes, there is a single VIO pin defined in the spec for multiple Keys. =
-Since
-> it is optional, it could've been omitted in the design you referenced.
->
-> So should I name it as vio1v8-supply or vpcie1v8-supply? I don't see any =
-other
-> 1.8v supplies other than the VIO supply though.
+> Plumb `pin-init{,-internal}` cfgs from Makefile to rust-analyzer and
+> automatically interpret `--cfg <crate>=3D<cfg>` as applying to <crate>.
 
-vpcie1v8 is fine.
+So I guess the goal is to simplify things and avoid duplicate
+information, which is good, but in general commits should explain why
+the change is done (i.e. not just what is done), even if it may seem
+obvious (for patches you receive, then you should ask the same to
+submitters! :).
 
-Rob
+In addition, for the `rust/Makefile` ones, I try to mark those as
+"rust: kbuild:" where possible/reasonable -- for instance, this could
+be split into two patches. The first one would be the "rust: kbuild:"
+factoring out the flags into the new variables and the second would
+then be the rust-analyzer one that only would need the extra two
+arguments in `rust/Makefile`.
+
+The changes themselves seem fine.
+
+Cc'ing Kbuild as well (there is no major change here, but still, I do
+it out of habit).
+
+Thanks!
+
+Cheers,
+Miguel
 
