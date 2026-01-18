@@ -1,86 +1,167 @@
-Return-Path: <linux-kbuild+bounces-10653-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10654-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A6CD39883
-	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jan 2026 18:30:59 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D29D3998D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jan 2026 20:43:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BEC7D300A356
-	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jan 2026 17:30:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 53769300768C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Jan 2026 19:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A68A2EA480;
-	Sun, 18 Jan 2026 17:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8417622652D;
+	Sun, 18 Jan 2026 19:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyVFMji/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565BD2236EB
-	for <linux-kbuild@vger.kernel.org>; Sun, 18 Jan 2026 17:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768757454; cv=none; b=aOBhEKtsoWa3QFA2EFM/WODptxpY0ltJ5QDOydUw78rZr1JS9GodVY7806HTxbRAnQlYQHr/nQDWGlDbpTjCfGmaTsfcb5hizzvLxWhjohXhTlce92fjvD598n9sIqeGec6+VH/OoEWc+Rr2ZEXp2ijISVe17x6LnIOzCpfw51o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768757454; c=relaxed/simple;
-	bh=PBfll2I7zUhXMlHxVNH9Is/iLLFeR0v64oeoQNJnT2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NZqgvavPU1ZS36b9R2Ohu5wH3LyUawO1NqmVLkUa3ZuF/Aby6RhgbOh7z4NPfIFwEuvyT9y7Ip5MMHOLUP+UJPgqDADm/4ks4x3JGv/SrWzPKKJQsLs/lPp49Zng1qRSJvb9/dS27VvTjJgbfwzR8++qL2j/aT3D377JRwcSOz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vhWbs-0007rC-ST; Sun, 18 Jan 2026 18:30:44 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vhWbt-001HK7-05;
-	Sun, 18 Jan 2026 18:30:44 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vhWbs-001bJ5-0n;
-	Sun, 18 Jan 2026 18:30:44 +0100
-Date: Sun, 18 Jan 2026 18:30:44 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, devicetree@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sherry Sun <sherry.sun@nxp.com>, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 3/9] arm64: dts: imx8mm-evk: add uart1 and bluetooth
- node
-Message-ID: <20260118173044.e4teyisguldzu55c@pengutronix.de>
-References: <20260117-misc_dts-v2-0-0f319c7e9b55@nxp.com>
- <20260117-misc_dts-v2-3-0f319c7e9b55@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F59291864
+	for <linux-kbuild@vger.kernel.org>; Sun, 18 Jan 2026 19:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768765398; cv=pass; b=OSe8GvnPFQrKUdoVPTrppUJTVrTVhvr7wEFE3WikrAHZ3NhiXmWPuB+Es4H67RD3NaQo1QM/f59mMup/Hk+lGNgStcNxannSOSAIZTOk/6dO1YY6XHKAcmBDjqtiWwHKmu0zzCRV9DMICZbw5L6oBol5VUDcF3n1OM+lt1xRckM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768765398; c=relaxed/simple;
+	bh=YcWX4KpE5LzyFkGNlp0UmN6AScfsx8INQHNsRSOVao8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d75EI9Bl2WFJ9rpQsvx2ObaQvcIV/QJ3UvLf2GcZkOXO35Y9osfVIJ73XjQtweLDjc0hDsRyao2RvG6NjgvuckkwDYVJVxQ3qHxw4docUPzloScscdvFk/4MDD7TUGNZJFCefyt3TZyjdesR4RlS0ax1vYgeufGFK8CXJBQcQHY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyVFMji/; arc=pass smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b6ce77a2cbso50004eec.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 18 Jan 2026 11:43:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768765396; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AUJg/g+QhB9MNh2xPCCEUEpQvow52MkvpZ+yL7/5xHz0h1WnVkwj1juXbyOtIwU+r8
+         4d/p0XlUGV0zz9uE9BXzj+0TTLh66KH7aDefsbHEhSJ945kplPZntJMA8nbjWPD3fsoz
+         nzJgNJ9q1kYP9LrbMDfTK7NNdGw1lT+bk3zdUPYBLBVjZLHonNvdRq7Iepxf1r7mecRQ
+         vWzpar0zWBHQd6bbJYK48CuIW28P7HwHGb9J7SVB2NbnyvPKSYJ3zLvmRrjIHop3/kVk
+         kzT5k4FvkcZwMs+Clrfmyta6hg1yQ/HT+5ECnrsXb1oNx72F+ysxQGENhsKCSj67A+Lm
+         Umag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3WkwnRacVzZnF9+VHDBdh2NvGD/q/Isu1ZQKlvNDN0I=;
+        fh=9V8bs5XCHhWqGiCC2DKhf/Gq5HZue+7TymMBT3M33/Y=;
+        b=Md40jz9aiVwTbl+dfiMTkZys1Wfd62i2NiEOIsMBGVIOIC6bmJdB9dWfhKJfq99OGF
+         Lh743ZunZ6svVyqNPxRvlEkV+w2dsjQcnT29XECW+AT/IzIK90xX9JJhGVtAU7amrIDh
+         tIyV/6fIS81uspdkG92qdQw/R1kW0xyw6htHbo/uFTM8jzvGtn5RDYqGx9NcbpyKCT/E
+         htkw22J2tLNIZIZP8DmJekubp9krgAZwmGOkc3mW+CdkDAbbdofy9G9RQtSLNSEVS3vc
+         KO5iBS7rLXgRhKTcBynTf8ne/3Jm9obwoJX6Awl+bHwkRgFzu1Meoo+38DWX4ME/XSpA
+         Nk3A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768765396; x=1769370196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3WkwnRacVzZnF9+VHDBdh2NvGD/q/Isu1ZQKlvNDN0I=;
+        b=JyVFMji/c1eBg4LJmOVPcjNlcOenkPq7z/Ysjq3Hehh3n2JscrHBsQqoX0KD9dIj/B
+         CgGK4f6ikRvaXkaNakJpb9IqeqXcI3liEZr9ApuIuJ7hhwPV5z1v06CjEzlOiDIsqC5r
+         f9DM+zzkFTg170yiNciTf9IZoMPVzY6JrDPmytalgfSnVJga+bl9uIrIjSt70kwxPhWZ
+         lgNubit1H/r/xahYemoLlOJ9rrd8PPy4jnmXsNubOrK45nhpSEI1syOxwxUadEJ+7HSj
+         0CfCLjMTsvLkyG0lZgj8v3eDZq4Zn4N+/Kiy19W/8WQllIrTJ9Cbf7nkaUtuiES+e3iP
+         de3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768765396; x=1769370196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3WkwnRacVzZnF9+VHDBdh2NvGD/q/Isu1ZQKlvNDN0I=;
+        b=YHuYbu3WZfhxWQ87KazhXLDKQ58nn7qVaY1fqOImKCGo6mLdAZKhAi6dpG6Tp6uAeB
+         KWiFNLb/Kks+r+uk7lPhE80D0lUVppZSgvalmXmrAmEl4NA/fm+90FyDlt0y1kv9qAMF
+         /zpcGxzOyiE0b2Ao3muFb07rHQTYHErwGOIpZXHX31ncsr2mndbbjiDReab0GGmdAoXt
+         KIVoN2yu9VPXf+dFVmcgHImrDXOtCI7XL54TXbFgCyV45M18mQ7Seh7S1myJgWZllrg7
+         iKOs7skkInNrU3kNrqSH3/1ISwXFLOkYZLo+5NC6418UXeCfkp6zRoCU2E9AD0zubOW+
+         uR1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWfWpxdo0FwlAqwZYPxwCl5bIK20Hx1UvDHJiYPA9zibnqE801VF6UGTJPtPKYjhagVILTz5IYlsZVSrsA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfbQHhQ9QZM+NmvGDUYhpMn+3mONxYdbTT6Y+FYM9M3gtQq/yK
+	CVrx8IQwR2fievHQUPKc1KsFQgxDReEgS4sHhwH3FH4EgK5HVR0LrWneWAdVRlpzkFOscJQZRG2
+	RLob9gLpZPHGUPOufhsNkvVk3qrPerPk=
+X-Gm-Gg: AY/fxX6G+jcJRymFNISHaGcCcmu4+KKTp9NYCSaFDLZB4DQ0m4DJsh9YrBlSwqyVyB7
+	crqsZsaoZ8RV32ugQqsdPXQiGqz/Uhkf/UvHYdnEbJSqFrz5yIb2H74rpn0Idl0hm8Yv0IFelVz
+	Cfl9lfnjE7AABw/OC6cBrMbBw6gEHba1aiXxcQlKYcX+cdZ2EWzfyIotNGPw73y2Y5o85OHwwwo
+	GMYwolps7lncB7m2OLZ+osB1UMLxIjsHO4LB5ah7WXSByYTmWFvblp5i1oLXSZofqCo4oN3I5is
+	Y4HZwSEBnxC2KU10FFySWlC6MTL50T10o2HwCwGyDFhSnch9yyPgCJJSr6Y16lSagjPEcX1Onej
+	RUz5A553MRimh
+X-Received: by 2002:a05:7301:1f10:b0:2ae:5245:d50e with SMTP id
+ 5a478bee46e88-2b6b4114382mr3414544eec.8.1768765396119; Sun, 18 Jan 2026
+ 11:43:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260117-misc_dts-v2-3-0f319c7e9b55@nxp.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+References: <20260115183832.46595-1-ojeda@kernel.org>
+In-Reply-To: <20260115183832.46595-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 18 Jan 2026 20:43:03 +0100
+X-Gm-Features: AZwV_Qird-lwibLosQ8SVV1mDXaYy8TIK_gyKIQwJqqY-9VOd-kxYQI5T5v3RQE
+Message-ID: <CANiq72mRB1Hhu=m26GsFHDTdiRTditNZGT4bRYWhWo_oBWsYXA@mail.gmail.com>
+Subject: Re: [PATCH] rust: kbuild: give `--config-path` to `rustfmt` in `.rsi` target
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26-01-17, Frank Li wrote:
-> From: Sherry Sun <sherry.sun@nxp.com>
-> 
-> Add uart1 and bluetooth node.
-> 
-> Signed-off-by: Sherry Sun <sherry.sun@nxp.com>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+On Thu, Jan 15, 2026 at 7:38=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> `rustfmt` is configured via the `.rustfmt.toml` file in the source tree,
+> and we apply `rustfmt` to the macro expanded sources generated by the
+> `.rsi` target.
+>
+> However, under an `O=3D` pointing to an external folder (i.e. not just
+> a subdir), `rustfmt` will not find the file when checking the parent
+> folders. Since the edition is configured in this file, this can lead to
+> errors when it encounters newer syntax, e.g.
+>
+>     error: expected one of `!`, `.`, `::`, `;`, `?`, `where`, `{`, or an =
+operator, found `"rust_minimal"`
+>       --> samples/rust/rust_minimal.rsi:29:49
+>        |
+>     28 | impl ::kernel::ModuleMetadata for RustMinimal {
+>        |                                               - while parsing th=
+is item list starting here
+>     29 |     const NAME: &'static ::kernel::str::CStr =3D c"rust_minimal"=
+;
+>        |                                                 ^^^^^^^^^^^^^^ e=
+xpected one of 8 possible tokens
+>     30 | }
+>        | - the item list ends here
+>        |
+>        =3D note: you may be trying to write a c-string literal
+>        =3D note: c-string literals require Rust 2021 or later
+>        =3D help: pass `--edition 2024` to `rustc`
+>        =3D note: for more on editions, read https://doc.rust-lang.org/edi=
+tion-guide
+>
+> A workaround is to use `RUSTFMT=3Dn`, which is documented in the `Makefil=
+e`
+> help for cases where macro expanded source may happen to break `rustfmt`
+> for other reasons, but this is not one of those cases.
+>
+> One solution would be to pass `--edition`, but we want `rustfmt` to
+> use the entire configuration, even if currently we essentially use the
+> default configuration.
+>
+> Thus explicitly give the path to the config file to `rustfmt` instead.
+>
+> Reported-by: Alice Ryhl <aliceryhl@google.com>
+> Fixes: 2f7ab1267dc9 ("Kbuild: add Rust support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+Applied to `rust-fixes` -- thanks everyone!
+
+Cheers,
+Miguel
 
