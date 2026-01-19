@@ -1,61 +1,62 @@
-Return-Path: <linux-kbuild+bounces-10680-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10679-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71179D3A7EC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jan 2026 13:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6008D3A7E6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jan 2026 13:06:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BA03630402EE
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5B8A530380CC
 	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Jan 2026 12:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377AC359F81;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30250359719;
 	Mon, 19 Jan 2026 12:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aJ+pWdo0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KoB9JclS"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ADF329C6C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A48320CCD;
 	Mon, 19 Jan 2026 12:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768824317; cv=none; b=lJNjv2FRFNV65C2uVTeQWi+NOvY2EaY/Z5xX+R1FXM9t/trKthyBkPCxRPM5+4tEdzJbagPVR/Z3WRybNonZ1BftIkveezV4OU92Oam8+M5dJ5PAZqYkCctQk3AZY0JfsYXiOY3meW/j83cdXPwSeD0aSDAJU5cSIW2pIhfMlIE=
+	t=1768824317; cv=none; b=NEq9yWvfoAk2JjgkRm2UH5gJ0d/xfsj6s065m4UG5UGQQF5dMkD4euWVlPVPP1aAWtPaw3c8PWx4hmodSeBRQOYw3bKeIVZDeDG5oAG7wsPYBkbOh0/VZhuxd2by2/2SP/FMT3XyoDAERb1qUBqS4JzZrDXXBwFNJ+e1ohDqHUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768824317; c=relaxed/simple;
-	bh=uAgz6NVwdL1fSgq++5Vdt7SvGll1o/f20D2+Kc+Gl6c=;
+	bh=y5iZGxGixN2k9HnEvZMtqvRXtngWsH3N6Ec9onhRymc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Type; b=FMvwbkfGHuV1KQXgr4FVMjwtdyarIwKHBPHm7+pr46x1tA41I518KTD9S0ify4V/zEu7QP4ng86uUG+le8EQNIprA1QAFuIHYvxl3g1RENLX8F3trPcWALt+NqRrEkZdIzeXi/vd8PwZv3NQqJKJqUrVBmeulGd8kEqa2YpjElw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aJ+pWdo0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64FCC4AF09;
+	 MIME-Version:Content-Type; b=jHnTZIjdVsaZPtSsvAxmL/CH5U/2S9RNn0UXTMTsnp7MFp7d54R2NzOVqyF3DNOuJSQYkhvl7EXCpRZ1UWTNGqjAqPH33iCvY4wwdFCQO1ebVHo+4MI3Ajypm5UZo11F/oSqUHFsch+cdO9D39kWEGSfEtZAqqn9f+QupoFt3vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KoB9JclS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8407C4AF0C;
 	Mon, 19 Jan 2026 12:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768824316;
-	bh=uAgz6NVwdL1fSgq++5Vdt7SvGll1o/f20D2+Kc+Gl6c=;
+	bh=y5iZGxGixN2k9HnEvZMtqvRXtngWsH3N6Ec9onhRymc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aJ+pWdo0Tq59ur1/vDvnzdzAODQB+0BpPcPaKhE1BlTE+naH79rJGPzNzNg/1DYRO
-	 ZUV4usc7G0oiHnnc1nCJ8BmhHcuFIAQi+U5TMFh7g5ea+Xf8vkV9wJoKQK3pamzf2H
-	 zRHfcHC0k3jFnAGzcMMtz+gowPOz/+p9rhsVfx6r5mnkcWWTg8x4E6jg+esUdgcWQ8
-	 VTxgxE7AAhpegUBy4MuwntcrXHF/92n4BwbmyFfo60gXGUPlaB35qqPKwb4JZgUuJm
-	 UynONt/lasjE6wBmtpgJZawth73DeUtHznc6z4v8o49JqNtDuMDsCanfOxRibMSXAH
-	 /Wvx5ONH91W8A==
+	b=KoB9JclSl2SERqOuHQPj5OWv2vJ0D2IgpAiiq76po1yxaLjUg6ccWM88joknbGGrO
+	 rkzWB0HdiAIbhFww4fZVwi4fiGze4qT2dfHkbQBB4nDpTcBTJlPwvr+QjL5rSKy+4a
+	 oAedl2z6+YasaC8XBDqtHeaMt8mfmebhM60valfqIDTTSm+1xXyQn9GT/Tj1ruNMnl
+	 80+BAU9G3Evl/l5woyEEP2gVGv5CGUdCHiXNS+CvvJHDa5Y6jR9k2PjHDtoHv0p9ro
+	 sFAuNwh1GhM9zgg1Y8rVA/35EKKeDcyK9KYSUdd/Lw0PDVURzyvdRpfMUBJa5KPQu1
+	 rH9SM3aIkAi7w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vho0Q-00000001ZjM-3Xkg;
+	id 1vho0Q-00000001ZjQ-3epy;
 	Mon, 19 Jan 2026 13:05:14 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	workflows@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 4/9] docs: kdoc: some fixes to kernel-doc comments
-Date: Mon, 19 Jan 2026 13:04:59 +0100
-Message-ID: <ec08727f22ad35e6c58519c1f425f216f14b701c.1768823489.git.mchehab+huawei@kernel.org>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH 5/9] docs: kdoc: remove support for an external kernel-doc from sphinx
+Date: Mon, 19 Jan 2026 13:05:00 +0100
+Message-ID: <a97a8361546648906344457a7e92e4db533048a9.1768823489.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768823489.git.mchehab+huawei@kernel.org>
 References: <cover.1768823489.git.mchehab+huawei@kernel.org>
@@ -65,142 +66,123 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are some typos and English errors in the comments of kernel‑doc.py.
+From: Jonathan Corbet <corbet@lwn.net>
 
-Locate them with the help of an LLM (gpt‑oss 14B), executed locally
-with this prompt:
+The ability to build the docs with an external kernel-doc program involves
+some truly confusing logic and complicates the task of moving kernel-doc
+out of scripts/.  But this feature is not useful for normal documentation
+builds, and the external kernel-doc can always be run by hand when it needs
+debugging.  So just remove that feature and make life easier.
 
-        review English grammar and syntax at the comments on the code below:
-        <cat scripts/kernel-doc.py>
+There is still a bunch of logic to build a command line that we never use;
+the idea is to be able to output it, but I'm not sure if that is worth
+keeping.
 
-While LLM worked fine for the task of doing an English grammar review
-for strings, being able to distinguish them from the actual code, it
-was not is perfect: some things required manual work to fix.
-
--
-
-While here, replace:
-
-    "/**" with: ``/**``
-
-As, if we ever rename this script to kernel_doc.py and add it to
-Sphinx ext autodoc, we want to avoid this warning:
-
-    scripts/kernel_doc.py:docstring of kernel_doc:10: WARNING: Inline strong start-string without end-string. [docutils]
-
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ Documentation/sphinx/kerneldoc.py | 53 ++++---------------------------
+ 1 file changed, 6 insertions(+), 47 deletions(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index f1f3f56edeb5..4e3b9cfe3fd7 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -9,9 +9,9 @@
- #       The rationale is that it shall fail gracefully during Kernel
- #       compilation with older Kernel versions. Due to that:
- #       - encoding line is needed here;
--#       - no f-strings can be used on this file.
--#       - the libraries that require newer versions can only be included
--#         after Python version is checked.
-+#       - f-strings cannot be used in this file.
-+#       - libraries that require newer versions can only be included
-+#         after the Python version has been checked.
- #
- # Converted from the kernel-doc script originally written in Perl
- # under GPLv2, copyrighted since 1998 by the following authors:
-@@ -88,16 +88,13 @@
- #    Yujie Liu <yujie.liu@intel.com>
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index d8cdf068ef35..afbab458550a 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -190,35 +190,7 @@ class KernelDocDirective(Directive):
  
- """
--kernel_doc
--==========
+         return cmd
+ 
+-    def run_cmd(self, cmd):
+-        """
+-        Execute an external kernel-doc command.
+-        """
 -
--Print formatted kernel documentation to stdout
-+Print formatted kernel documentation to stdout.
+-        env = self.state.document.settings.env
+-        node = nodes.section()
+-
+-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+-        out, err = p.communicate()
+-
+-        out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
+-
+-        if p.returncode != 0:
+-            sys.stderr.write(err)
+-
+-            logger.warning("kernel-doc '%s' failed with return code %d"
+-                                % (" ".join(cmd), p.returncode))
+-            return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
+-        elif env.config.kerneldoc_verbosity > 0:
+-            sys.stderr.write(err)
+-
+-        filenames = self.parse_args["file_list"]
+-        for filename in filenames:
+-            self.parse_msg(filename, node, out, cmd)
+-
+-        return node.children
+-
+-    def parse_msg(self, filename, node, out, cmd):
++    def parse_msg(self, filename, node, out):
+         """
+         Handles a kernel-doc output for a given file
+         """
+@@ -244,7 +216,7 @@ class KernelDocDirective(Directive):
  
- Read C language source or header FILEs, extract embedded
- documentation comments, and print formatted documentation
- to standard output.
+         self.do_parse(result, node)
  
--The documentation comments are identified by the "/**"
-+The documentation comments are identified by the ``/**``
- opening comment mark.
+-    def run_kdoc(self, cmd, kfiles):
++    def run_kdoc(self, kfiles):
+         """
+         Execute kernel-doc classes directly instead of running as a separate
+         command.
+@@ -258,23 +230,17 @@ class KernelDocDirective(Directive):
+         filenames = self.parse_args["file_list"]
  
- See Documentation/doc-guide/kernel-doc.rst for the
-@@ -134,13 +131,13 @@ May be used multiple times.
- """
+         for filename, out in kfiles.msg(**self.msg_args, filenames=filenames):
+-            self.parse_msg(filename, node, out, cmd)
++            self.parse_msg(filename, node, out)
  
- EXPORT_DESC = """
--Only output documentation for the symbols that have been
-+Only output documentation for symbols that have been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
+         return node.children
  
- INTERNAL_DESC = """
--Only output documentation for the symbols that have NOT been
-+Only output documentation for symbols that have NOT been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
-@@ -163,7 +160,7 @@ Header and C source files to be parsed.
- """
+     def run(self):
+-        global kfiles
+-
+         cmd = self.handle_args()
+         if self.verbose >= 1:
+             logger.info(cmd_str(cmd))
  
- WARN_CONTENTS_BEFORE_SECTIONS_DESC = """
--Warns if there are contents before sections (deprecated).
-+Warn if there are contents before sections (deprecated).
+         try:
+-            if kfiles:
+-                return self.run_kdoc(cmd, kfiles)
+-            else:
+-                return self.run_cmd(cmd)
+-
++            return self.run_kdoc(kfiles)
+         except Exception as e:  # pylint: disable=W0703
+             logger.warning("kernel-doc '%s' processing failed with: %s" %
+                            (cmd_str(cmd), pformat(e)))
+@@ -286,15 +252,8 @@ class KernelDocDirective(Directive):
  
- This option is kept just for backward-compatibility, but it does nothing,
- neither here nor at the original Perl script.
-@@ -171,7 +168,7 @@ neither here nor at the original Perl script.
+ def setup_kfiles(app):
+     global kfiles
+-
+-    kerneldoc_bin = app.env.config.kerneldoc_bin
+-
+-    if kerneldoc_bin and kerneldoc_bin.endswith("kernel-doc.py"):
+-        print("Using Python kernel-doc")
+-        out_style = RestFormat()
+-        kfiles = KernelFiles(out_style=out_style, logger=logger)
+-    else:
+-        print(f"Using {kerneldoc_bin}")
++    out_style = RestFormat()
++    kfiles = KernelFiles(out_style=out_style, logger=logger)
  
  
- class MsgFormatter(logging.Formatter):
--    """Helper class to format warnings on a similar way to kernel-doc.pl"""
-+    """Helper class to format warnings in a similar way to kernel-doc.pl."""
- 
-     def format(self, record):
-         record.levelname = record.levelname.capitalize()
-@@ -273,7 +270,7 @@ def main():
-                         help=NOSYMBOL_DESC)
- 
-     parser.add_argument("-D", "-no-doc-sections", "--no-doc-sections",
--                        action='store_true', help="Don't outputt DOC sections")
-+                        action='store_true', help="Don't output DOC sections")
- 
-     parser.add_argument("files", metavar="FILE",
-                         nargs="+", help=FILES_DESC)
-@@ -302,12 +299,12 @@ def main():
-     python_ver = sys.version_info[:2]
-     if python_ver < (3,6):
-         #
--        # Depending on Kernel configuration, kernel-doc --none is called at
-+        # Depending on the Kernel configuration, kernel-doc --none is called at
-         # build time. As we don't want to break compilation due to the
-         # usage of an old Python version, return 0 here.
-         #
-         if args.none:
--            logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
-+            logger.error("Python 3.6 or later is required by kernel-doc. Skipping checks")
-             sys.exit(0)
- 
-         sys.exit("Python 3.6 or later is required by kernel-doc. Aborting.")
-@@ -316,7 +313,7 @@ def main():
-         logger.warning("Python 3.7 or later is required for correct results")
- 
-     #
--    # Import kernel-doc libraries only after checking Python version
-+    # Import kernel-doc libraries only after checking the Python version
-     #
-     from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-     from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
+ def setup(app):
 -- 
 2.52.0
 
