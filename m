@@ -1,389 +1,233 @@
-Return-Path: <linux-kbuild+bounces-10745-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10746-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OD1uMFHTb2mgMQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10745-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 20:11:13 +0100
+	id uBCiEjzSb2mgMQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10746-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 20:06:36 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0066F4A10E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 20:11:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC914A021
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 20:06:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5D6799C253D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 16:29:25 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6B42062B98D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 17:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91C5B42883E;
-	Tue, 20 Jan 2026 16:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87DE94418CB;
+	Tue, 20 Jan 2026 17:55:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="OjZD03z6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiBz+h/a"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A2F43C077;
-	Tue, 20 Jan 2026 16:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768925681; cv=none; b=TQmd+yQZLLFZhlq28G0wG34EM2CZOObbl4mmM7csCyF2f94fubQikAhiH/FPFZIFEQ0/JG+BN8Cn/tm0SfsRq0Byqf9RauatNeZZSmdcNLHxpcejzvrm/tdNC5sojK/5LDbN+/Neg/4C4KIJjsZnaF2g8thFKSKtYXYf7AcgpoY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768925681; c=relaxed/simple;
-	bh=NtMBCR+q0P1aJLU24lxIxNj8tkwKExNxU8cX0AxMfkA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hFaoPv+4QKcgqogdKEhmIqvQUdIREzlLj11Vu8CjMG9bIj7OBcRjl6lsINla0YNHW0ZI4dgYS/wMEAVcF+VcsrqsvATdv81+vI8zdIprr9W8H2pJ3NOHs4Tg81nkZhHYQCORgXXqAg2RR2K74AQM+tFb1xKoxK30FO/f43jUDZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=OjZD03z6; arc=none smtp.client-ip=148.251.102.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
-Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 2B80F200B1;
-	Tue, 20 Jan 2026 17:14:34 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 8A50C1FA844;
-	Tue, 20 Jan 2026 17:14:33 +0100 (CET)
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id JLwFkNYUIskX; Tue, 20 Jan 2026 17:14:33 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 028D51FA854;
-	Tue, 20 Jan 2026 17:14:33 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 028D51FA854
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1768925673;
-	bh=WO5yxUc2yPeWFe8UG6x8RWRsGzg09S2kRvhD+JGxhps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=OjZD03z6G7bzJljx+dncgHqzBTmunGMHHbQWGWGunNCHPHZvxIu+jIgHxT/yBRgbQ
-	 cJE8EuNITC9rbR47kKOWA8HVff1/go7B/K+w7btZ0phE+qmFlZuBr3JuhxtsUAR19M
-	 NQWHbK7UN7Y016Jm20Hv7ebOwwLEhB8dfdPT1/F3GI1r68XTeHPdjGY2MdLSGgkHyW
-	 oQln63q2stbXsxKoNiXo5Ci439PAOO4nfIOL2PY5T9TD4vUN31gyyiiRTicKafW2cd
-	 Y25Y6sIDHqyJhkPevcITXmkKQ0WXy1yeePvcWFqrSTacODiFG9uSHwciWxM5KhvGJZ
-	 qqfc1eFEtRvrQ==
-X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id hgqh-69i_rkU; Tue, 20 Jan 2026 17:14:32 +0100 (CET)
-Received: from [192.168.0.168] (ipservice-092-208-231-176.092.208.pools.vodafone-ip.de [92.208.231.176])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 7DA5C1FA407;
-	Tue, 20 Jan 2026 17:14:32 +0100 (CET)
-Message-ID: <f52de745-0d3a-4b7e-98d9-44259ff9d5e9@tngtech.com>
-Date: Tue, 20 Jan 2026 17:14:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25A3441056
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 17:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768931703; cv=pass; b=f/6bC81FNHiW0MiRmq/J/hYWPTnkhbgsGv8epCoBMCm8eb6WcbjnKiq9uOuZw66PCtPA+VeoLneGDi5zfnbfzC3Yu3Y5PnDON/xbAeJpmYHD+JnNCiCIW7+az1htAKBXi2qN6Hxv2t/mgv0Z4ES9cEZ/xqjs+yqrSxzLsymxWAA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768931703; c=relaxed/simple;
+	bh=oHcdxkzTnAC7Ywax8Vckvgjp4LUCRYz+0yKN85C0sUM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f5sPpqA6ixLj5xu7J9PDjm4y4HpnElRZqiyup2zDS8MEct+hCNYhyJeIDXAgwCjXTZ4UOcDalQsawYb7bntduhN5QDZw4EMjPo9EG8vgfDu1f8VUEiLyGfymMNWbGOiowTTYM18bm3GiJFdRDwrnq55N6emR9EuFuEy1BP7VoOU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiBz+h/a; arc=pass smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so36746735e9.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 09:55:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768931699; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JHQRMXoTKsXiUfXuBIHM+dFH/x1b6m1ndRgnzs6YHPFKZ0JDhSA5V/HluhhSjras/B
+         +RHDzNwqBJWfCL4J1LifBk5GhYYvWYQ0a9OpI7Jl5Pcrjpa+lilQHPeipW1Zjsb6i4ej
+         5RqwAZ9cz5rGVLIKIR/mcKm4ICu8LgW7UO4eJOMgF0wTZkCPG/gCz46B40/og+pafbGe
+         BX6RWvVAlRHxqxkDH7AOgKBlqvTGiv5svAMMjyXECZfhgGbndmlOLNRcZBvMq/O3yvF5
+         yCj4DxlyGNCF1suLEDLxtp1Knm5cDeHPVpHGNuQ1pbJX502MN+PuSCdXnA1a0LX+/FpT
+         BX6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CSI8A4TsHJKLPFzycUoWUfFc682TNPoMjAF0fDDKMCo=;
+        fh=1veo5iunkvocSUG3QelRMdkSc/8uD1QqN24KUf+iF+w=;
+        b=gOeuNJCaYmEB1p8RSGnTgXawpadp/JP30hzorGxUo93ZG67b+xJnPAdZLbjvWQZzKm
+         8lSNY2MIAUJ/LSGogqqfMXuyMR+JhuURlZ+Ec6B6FiEIvHQZDoLcROHvMYod6KPqKHOJ
+         W86nohr6rwA43GH2C5bLRHFeoSfMwJs1lec7hF5YfoFZL0+qs6xXBEban1c5rI3JNzlg
+         CH2ibPyEuw+IAJKBYHWD115m3sbUuzWCUBigHn3yQ+Lfaic/TSDRwi6U6I/oU5VUGY0L
+         7/kFK3MfYYkJXE1PObRkVr8DZuSGiK7TQvMfA8ScefSZR4zoodjOC9RDY+mXFk6yt6bn
+         Smaw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768931699; x=1769536499; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CSI8A4TsHJKLPFzycUoWUfFc682TNPoMjAF0fDDKMCo=;
+        b=eiBz+h/adRD4Em4CAOvIQdl2nHB4yFq4jv6rWxqr+54/c615zVMIiuTc63wA/yStk8
+         Thj1tW2UovqgGXY+4vRzqgt/WlLKkZkWFNyVbyY6mIwSZnJQn775YBVaVB2rEZP8e+Mm
+         l5NRmYE0vYnn0IICHD8bF2ZAOuvFEPa77P0VFf/Q+0z0bNnM9I3j8d3ujQoODmrrZbaj
+         0NkzBYOFYLaf9LxWVoeCAjRoGkA93ixdK14uJNVnVMirdyEzHQ1PwK+yJRIywjLpqiZY
+         bYclbjgffVlQSwXWwCOJvms6AaOegnuH/NMUTWwF0z/8zOqKKQ8w02HKufypU1y/5VPv
+         W/Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768931699; x=1769536499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CSI8A4TsHJKLPFzycUoWUfFc682TNPoMjAF0fDDKMCo=;
+        b=YA2nAfTwY2XKxjSWaX5LsGqNQ+bHUstw1c9ZY0IzyEs+SQMZAF7hESDaxGYSm1wiPP
+         jjYC3S7sYJIWrosk1GvdcjY/OJLFj7ip+aOjVoTGfja6urG27ZNQPREOA/jVEEbrMO+E
+         AzYqbCfaHPhQ3+kqk0a+ZBHlfu2qOwCDm5J7QpnlooxnJ7ywd3vLTdD/46DxD5bPVuHv
+         G2dJfhyuNfEDEvF8Ll4aW43f1splXb+vVWRZw/mdOTx747tHn2LLG0lzHeLxtkJuKZRQ
+         FlzE4eO5X2bytpv88Bc998lZ6J5g5lBptmr+qn+igjgkCqNnYQ/eiSHt5QBxob45+3yI
+         lyJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTDts7SPvWWj176r1UI/Zl3GEiubAtC3vs4IDXMjdkngFuzuCNwiSevfazKe1fKlhwNes2W5YRFljB4ms=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKXtZ7hpJhQeF5HIsroxuwjqMDaEkWGE9bAGc/sehzrtoKezqO
+	M5XvJl0qI4TKOfE+0FNi8o4ahFit8VL6T+ieSH97KX7U9JbdUBbstS2qw9JcRkk9DrAZDu0jFJj
+	lQXr9o8me0LHYfnSsX83XbPetP4zvxvU=
+X-Gm-Gg: AZuq6aLXmgyxxm0XKZPxPdUG2b3JCJTboTivowsLFI3Y//Bj3xXj1tHfis5tTdmHMg0
+	OogAQCZWd1cv5f1ciDHRwVt8EygQRyuF6mR2LRqx4UksDHFnN454XZlyTAYgU0EvbQ62BOaFEqC
+	oZEq5sm6w0soYiE10oPd5IwVoiCuNX8ZpqRQN7Rm3RJ8mN1rIkdR9s/1Pw1ChZLgEGz/8OHzl8G
+	LNXGUbLFbGCsDGExeFY7JA0OBj8im25ro5926UAXLuF0j6A1Kl9Cj9Q/osTJ5DFJ28biNS2ibDM
+	fsvj/iKtInhnCU8rE3DAMBmbAaKq2Q==
+X-Received: by 2002:a05:6000:310d:b0:430:f58d:40e5 with SMTP id
+ ffacd0b85a97d-4356a051bbamr17722513f8f.30.1768931698830; Tue, 20 Jan 2026
+ 09:54:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/14] Add SPDX SBOM generation tool
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
- maximilian.huber@tngtech.com
-References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
- <2026012035-entail-peddling-7b33@gregkh>
-From: Luis Augenstein <luis.augenstein@tngtech.com>
-Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
- 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 JQQ=
-In-Reply-To: <2026012035-entail-peddling-7b33@gregkh>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------7PW8V0Khf0NQqmtJUcsfgXxZ"
-X-Spamd-Result: default: False [-3.96 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+References: <cover.1768845098.git.m.wieczorretman@pm.me>
+In-Reply-To: <cover.1768845098.git.m.wieczorretman@pm.me>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 20 Jan 2026 18:54:48 +0100
+X-Gm-Features: AZwV_QjKpw6bSXc49tC7Ft6D0ET5YLTkUvlrSRTXNNU3JrK5sgQbId38njXfil8
+Message-ID: <CA+fCnZf+U3RhmMeGxQ-UypJw2yGd8RJ0gFKrCXsC1eQ5YO-eXw@mail.gmail.com>
+Subject: Re: [PATCH v9 00/13] kasan: x86: arm64: KASAN tag-based mode for x86
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: chleroy@kernel.org, surenb@google.com, justinstitt@google.com, 
+	nsc@kernel.org, jan.kiszka@siemens.com, trintaeoitogc@gmail.com, 
+	dave.hansen@linux.intel.com, ryabinin.a.a@gmail.com, kees@kernel.org, 
+	maciej.wieczor-retman@intel.com, urezki@gmail.com, will@kernel.org, 
+	nick.desaulniers+lkml@gmail.com, brgerst@gmail.com, ubizjak@gmail.com, 
+	rppt@kernel.org, samitolvanen@google.com, thuth@redhat.com, mhocko@suse.com, 
+	nathan@kernel.org, osandov@fb.com, thomas.lendacky@amd.com, 
+	yeoreum.yun@arm.com, akpm@linux-foundation.org, catalin.marinas@arm.com, 
+	morbo@google.com, jackmanb@google.com, mingo@redhat.com, jpoimboe@kernel.org, 
+	vbabka@suse.cz, corbet@lwn.net, lorenzo.stoakes@oracle.com, 
+	vincenzo.frascino@arm.com, luto@kernel.org, glider@google.com, 
+	weixugc@google.com, axelrasmussen@google.com, samuel.holland@sifive.com, 
+	kbingham@kernel.org, jeremy.linton@arm.com, kas@kernel.org, tglx@kernel.org, 
+	ardb@kernel.org, peterz@infradead.org, hpa@zytor.com, dvyukov@google.com, 
+	yuanchu@google.com, leitao@debian.org, david@kernel.org, 
+	anshuman.khandual@arm.com, bp@alien8.de, Liam.Howlett@oracle.com, 
+	kasan-dev@googlegroups.com, linux-kbuild@vger.kernel.org, x86@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.46 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
-	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	MIME_UNKNOWN(0.10)[application/pgp-keys];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tngtech.com:+];
-	HAS_ATTACHMENT(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+,3:+,4:~,5:~];
-	DMARC_POLICY_ALLOW(0.00)[tngtech.com,quarantine];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10745-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,tngtech.com:email,tngtech.com:dkim,tngtech.com:mid];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,siemens.com,gmail.com,linux.intel.com,intel.com,redhat.com,suse.com,fb.com,amd.com,arm.com,linux-foundation.org,suse.cz,lwn.net,oracle.com,sifive.com,infradead.org,zytor.com,debian.org,alien8.de,googlegroups.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,kvack.org];
+	TAGGED_FROM(0.00)[bounces-10746-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 0066F4A10E
+	FROM_NEQ_ENVFROM(0.00)[andreyknvl@gmail.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[61];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,pm.me:email]
+X-Rspamd-Queue-Id: AAC914A021
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7PW8V0Khf0NQqmtJUcsfgXxZ
-Content-Type: multipart/mixed; boundary="------------36XZTf3u9JuoUSMgvjg0Ou8p";
- protected-headers="v1"
-Message-ID: <f52de745-0d3a-4b7e-98d9-44259ff9d5e9@tngtech.com>
-Date: Tue, 20 Jan 2026 17:14:32 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/14] Add SPDX SBOM generation tool
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
- maximilian.huber@tngtech.com
-References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
- <2026012035-entail-peddling-7b33@gregkh>
-From: Luis Augenstein <luis.augenstein@tngtech.com>
-Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
- 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 JQQ=
-In-Reply-To: <2026012035-entail-peddling-7b33@gregkh>
-Autocrypt-Gossip: addr=maximilian.huber@tngtech.com; keydata=
- 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
- /5CE/Cgrmg==
-
---------------36XZTf3u9JuoUSMgvjg0Ou8p
-Content-Type: multipart/mixed; boundary="------------4JD4jnTeDvZl2apEpj7bZhGf"
-
---------------4JD4jnTeDvZl2apEpj7bZhGf
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-> I'm still getting:
+On Tue, Jan 20, 2026 at 3:40=E2=80=AFPM Maciej Wieczor-Retman
+<m.wieczorretman@pm.me> wrote:
 >
-> 	make[3]: Nothing to be done for 'sbom'.
+> Maciej Wieczor-Retman (11):
+>   kasan: Fix inline mode for x86 tag-based mode
+>   x86/kasan: Add arch specific kasan functions
+>   x86/mm: Reset tag for virtual to physical address conversions
+>   mm/execmem: Untag addresses in EXECMEM_ROX related pointer arithmetic
+>   x86/mm: Use physical address comparisons in fill_p*d/pte
+>   x86/kasan: Initialize KASAN raw shadow memory
+>   x86/mm: Reset tags in a canonical address helper call
+>   x86/mm: Initialize LAM_SUP
+>   x86: Increase minimal SLAB alignment for KASAN
+>   x86/kasan: Use a logical bit shift for kasan_mem_to_shadow
+>   x86/kasan: Make software tag-based kasan available
 >
-> When rebuilding the kernel and nothing needs to be done for the sbom.
-> That message should not be there, right?
+> Samuel Holland (2):
+>   kasan: sw_tags: Use arithmetic shift for shadow computation
+>   kasan: arm64: x86: Make special tags arch specific
+>
+>  Documentation/arch/arm64/kasan-offsets.sh |  8 ++-
+>  Documentation/arch/x86/x86_64/mm.rst      | 10 ++-
 
-Ah, you mean the message should always be suppressed.
-Sorry, I thought your concern was just that this message appeared when
-the SBOM should have been regenerated.
-With the changes in v2, the SBOM should now regenerate correctly
-whenever the build configuration changes.
-I will include the additional suppression of the make message in the
-next version.
+Still missing Documentation/dev-tools/kasan.rst updates. Feel free to
+send as a separate patch to avoid resending the whole series.
 
-Best,
-Luis
 
---=20
-Luis Augenstein * luis.augenstein@tngtech.com * +49-152-25275761
-TNG Technology Consulting GmbH, Beta-Str. 13, 85774 Unterf=C3=B6hring
-Gesch=C3=A4ftsf=C3=BChrer: Henrik Klagges, Dr. Robert Dahlke, Thomas Endr=
-es
-Aufsichtsratsvorsitzender: Christoph Stock
-Sitz: Unterf=C3=B6hring * Amtsgericht M=C3=BCnchen * HRB 135082
 
---------------4JD4jnTeDvZl2apEpj7bZhGf
-Content-Type: application/pgp-keys; name="OpenPGP_0x795C8ACACDDCFB34.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x795C8ACACDDCFB34.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-tQXRyz0F2tHrTjqKJQQ=3D
-=3Dgh9z
------END PGP PUBLIC KEY BLOCK-----
-
---------------4JD4jnTeDvZl2apEpj7bZhGf--
-
---------------36XZTf3u9JuoUSMgvjg0Ou8p--
-
---------------7PW8V0Khf0NQqmtJUcsfgXxZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEJzBrWn4qHw5a0jAXeVyKys3c+zQFAmlvqegFAwAAAAAACgkQeVyKys3c+zRY
-mRAAi10dNjG6BhT927Cg8jbD4bf00j2GLHfIAbZvgCy0n3dUk6S4hdM4UyDv9P/A/dkyrPt9vHMg
-v9fWShMqaRtV/GKIBu/bp4rJVGb9vgHxX9U1q57oyhM0cuK2F+ShCcY7jp6OtNhcgWP+gy7Jg6qx
-c2SJLZ4a+8DmjVfrJvMOW6ilNIVnIKUu54WkvQUAsQbMKtpFjMP7cY/48D/gE5iFH0ZFWg8mWjnZ
-7i8LRi+aZOQ94Ld01SlhhVzaFl4GAwaMSNqvYzLS1hpX0Hhrc5K7sW3+DWYShBHz7hOUJFSLWKz7
-2qTT43GmrOGO7qTJybryGgSWlNV9ASaMCXcH7zLEtHcRX1PEc5nAl/vodA0F4j6QvLKUq53JB6rZ
-ryDl9+sCMCquRcwM7SLg1lkB4GwzazBlh05Ods2FzCO5FU3gCzai0esUugMZsppyG02LxSJ94kuR
-fhB67AH1oTB9FGKsiKPJiSLMsX5S/DtXA5DaPX4/jb/mSR8Yh1LCfCp/KtC0Fk5Zbj0l/mM3Or/A
-ftNjNPAzFLce+brlb+mjilibf5rzd5aIVoA0HD+CfUTA+4QeEfb+bDxPsmRiYoIfw8i8pXSJJd/B
-ryu+3xilsTboPC4cmMjY58wuEqdvLekWvp7dSHgWixHmy7zlvxzEl2v2erGQQTY5QG3rJBHkGVeZ
-y2w=
-=YF3G
------END PGP SIGNATURE-----
-
---------------7PW8V0Khf0NQqmtJUcsfgXxZ--
+>  MAINTAINERS                               |  4 +-
+>  arch/arm64/Kconfig                        | 10 +--
+>  arch/arm64/include/asm/kasan-tags.h       | 14 ++++
+>  arch/arm64/include/asm/kasan.h            |  7 +-
+>  arch/arm64/include/asm/memory.h           | 14 +++-
+>  arch/arm64/include/asm/uaccess.h          |  1 +
+>  arch/arm64/mm/Makefile                    |  2 +
+>  arch/arm64/mm/kasan_init.c                |  7 +-
+>  arch/arm64/mm/kasan_sw_tags.c             | 35 ++++++++++
+>  arch/x86/Kconfig                          |  4 ++
+>  arch/x86/boot/compressed/misc.h           |  1 +
+>  arch/x86/include/asm/cache.h              |  4 ++
+>  arch/x86/include/asm/kasan-tags.h         |  9 +++
+>  arch/x86/include/asm/kasan.h              | 79 ++++++++++++++++++++++-
+>  arch/x86/include/asm/page.h               |  8 +++
+>  arch/x86/include/asm/page_64.h            |  1 +
+>  arch/x86/kernel/head_64.S                 |  3 +
+>  arch/x86/mm/init.c                        |  3 +
+>  arch/x86/mm/init_64.c                     | 11 ++--
+>  arch/x86/mm/kasan_init_64.c               | 24 ++++++-
+>  arch/x86/mm/maccess.c                     |  2 +-
+>  arch/x86/mm/physaddr.c                    |  2 +
+>  include/linux/kasan-tags.h                | 21 ++++--
+>  include/linux/kasan.h                     | 13 ++--
+>  include/linux/mm.h                        |  6 +-
+>  include/linux/mmzone.h                    |  2 +-
+>  include/linux/page-flags-layout.h         |  9 +--
+>  lib/Kconfig.kasan                         |  3 +-
+>  mm/execmem.c                              |  9 ++-
+>  mm/kasan/kasan.h                          |  7 ++
+>  mm/kasan/report.c                         | 15 ++++-
+>  mm/vmalloc.c                              |  7 +-
+>  scripts/Makefile.kasan                    |  3 +
+>  scripts/gdb/linux/kasan.py                |  5 +-
+>  scripts/gdb/linux/mm.py                   |  5 +-
+>  37 files changed, 312 insertions(+), 56 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/kasan-tags.h
+>  create mode 100644 arch/arm64/mm/kasan_sw_tags.c
+>  create mode 100644 arch/x86/include/asm/kasan-tags.h
 
