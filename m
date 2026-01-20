@@ -1,86 +1,86 @@
-Return-Path: <linux-kbuild+bounces-10723-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10724-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AilK7gZcGkEVwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10723-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:11:36 +0100
+	id KHbvA4NxcGktYAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10724-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 07:26:11 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244AC4E58F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A6752078
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 07:26:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8465D72B5C3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 12:18:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EE16E72BA59
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 12:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554234219E0;
-	Tue, 20 Jan 2026 12:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B8642669A;
+	Tue, 20 Jan 2026 12:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="boq31eZl"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TxXPm3SX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306343E8C7D
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 12:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D503876CB
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 12:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768911473; cv=none; b=Jy5TlljXaDiyl+r4LEVycw5KNooDeol7Ua7BwBXyC35dMdbLkVLrO4cupQ1qayB4UJZYSWMWLl9sIw9EsKmkU/BwTMAre7R+/ZTmL/+XNdiI7FtcwULMIk4Oi2SlmqCZ60yO0zkUMIrIyLQApafxEXkrveo7IVKhXnWv+LtDbLs=
+	t=1768911522; cv=none; b=aqeJzNOJpwKgQJOyylQOS9WlYVhmH+FspW7Ide3Q4aq3W9w9X9o/5mF3zrqlwlgKF1Z6OyUvIkyIdULE+ZMXC9yFV22Fy4MhDLNIhP0JgjLcGKMz/Am4oK1f19c4DpYqe5vaxPjGc9hIgVJz/OxF7LS9PWRNTiQdbeyJSire0V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768911473; c=relaxed/simple;
-	bh=iIuzik8f3PuL5IiD05JYvutWRTw3mpzpbRggsiY4kB4=;
+	s=arc-20240116; t=1768911522; c=relaxed/simple;
+	bh=yGS0ZhV/HmECUguQyiOv2PcpOrExvW9AuC6J9fOS0CI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QQRygGD/xxguULNEVmzTO0+si1ctyv31elVadX5HBSm5Cx1ixq11VApVBEfNjLVzkn7UVNoXgRllByJo9eVMTedx/MOB4popDG3fH844L5xqzu/r8Gk5XTeqd1iMorCTkLWEkqiSZmejggWCf9AxJgtHSZjseLQP0d53VOcwhzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=boq31eZl; arc=none smtp.client-ip=209.85.221.65
+	 In-Reply-To:Content-Type; b=nncbfw+IKMQSCh8Woy4Z5bkzeh9QUjd1NDdMRZbd6t6itI3Lj5mIL/CShUfx2K+b4/dDPz/0972Y3X8PgoLHID6vIVUCVtTo0/jnUF6nMYDFE3pzvRNdYi5S1ePtwX1aVoe9BX7N125ReFgmvlV/GPYGnFi6afRbLWWZiKxld3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TxXPm3SX; arc=none smtp.client-ip=209.85.128.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-4359249bbacso233326f8f.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 04:17:50 -0800 (PST)
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so27578065e9.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 04:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1768911469; x=1769516269; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1768911519; x=1769516319; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iJRswF5rrqok4Sjk5jUvdiR7sS5VwezMU3Ml3c2KzVk=;
-        b=boq31eZl0sUGywf9IH6qctlquE+MboocMi5kXOESrth2/RLFNyNekK9Yz2p1Dm4t9q
-         pzPu50oo+ZQND3pYlw9dqv/dzBtad2jjkOxqOgH5zj9JdQbt4TzZMQ1CL+5Y93Ptb+la
-         e68NZCwT7H95F6HnUMCIbzjTX4lYBvMufaKkpt95DH3x2a+wlmkPFq6H58XsYpvNyLRD
-         0iudwmABr3Nnsdhy0fiTlKZQETK2XdxsXMpqi5nnrsk1w6Ug3pY8EG8Pk3MwB9OS2Aud
-         +3stOyreBUDzcd7CQMyvNzeCsvA6aeAxsLN5gZFf3huV2+gCBGtMMGAOJy97nuT6HP2Z
-         +toQ==
+        bh=s1QLxkpeIxpFrMstTs2QBaunDmwUVDSpnYCC8/tZjnk=;
+        b=TxXPm3SXzYXEWMyPWwXJiE31IPvj/QAgzjMskSNjekWpIy8sah4x6dvWZzlGpMvHsV
+         Pox7nQBpHWJuXZuF11o4Ox9fIXdsJNPC9rZI5yD1kdfwdLgwWw8bMHFs5OYVhbuvxm4H
+         rCGYf9nNMyNXX+C/pgJxPTbVwsjf873WS0HiF1eiDfJWhfWyZIDbRsQN+YQWTvg9epgM
+         UHucV0hmPFBL40hItqhVW8m9sXCFsV4LGTudxesOaYwQ/jNAVRCrBF8L40es0f+mF46q
+         dfeWBae3RNbHrcqFTrw+kcgdspJ3c284/J72VorVubEnC5EVQD9qm1YzI63FuQrrdKsP
+         Ubzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768911469; x=1769516269;
+        d=1e100.net; s=20230601; t=1768911519; x=1769516319;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iJRswF5rrqok4Sjk5jUvdiR7sS5VwezMU3Ml3c2KzVk=;
-        b=gGANxmnDumrriJ5XScvK0GqgJfHGssTPnzpPcdAuJncO8dY3ZwGQAAyhXB7fXe+EKn
-         vEGwx9vHl1d54ULZ9K96lLL6qecupv+r81Xemr2yxgYzxEZ9/fYABpUxi+p4pAhGZblO
-         C3i4SEXcE7PVK62VBGgOfcWQ/9W0LvnVXmpkYS3otfTz+OUNiHJe/x76u5JOSr8Bs+JK
-         36gVyQiLf+fFM3C//8KQLU95bBhaQiy1Z9Vs5bWMnQ5u2/HHgKOjoDmnwFncRMOPNENv
-         xZqct4+BT1t8VC6e3k5LTeB6yanAmfCS272ma8QbYvGbm7vylVNAdNZ243u9woBK1D/o
-         Uvqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZGnJslKE037zfj2GLpra/YkzNgQMY+mhxs3b0ibOld0c+CVIB0B9SJO7/rP66VgWa4ueT37gcgMwjZXU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqHCYcscNRyWM7PHssEUvULo1eQGyeJqDwZeDdF5uhDanVm03L
-	JPknrRGjqhnkroE6HIx7xQI5YVssxXdbkV2DXvNCZC0ahiHKNqD5XLbX7w0puVXfUL8=
-X-Gm-Gg: AZuq6aJMITB+em3604ePWm+2W5unhsGSwS8kVNvcyPmGhHhYp7yEyLjoKc7yGsMh4gJ
-	UtKVZKu4jR15suHswrWVQS5DC6AYu/dPVBpq2EZsMAcX6HQxWKFmuyM3o4vEFI0FzufKqWMn+Ys
-	eaAI7sFA1MydGF3eVQzEYnkBNsM2NA71O4uBAzlB4iAEP2nTiNjKcESwVpvuAmWxpLfJBZV7YfL
-	kO75jna+OIgWfxMMXhycXCdPNtlaHYq2khtYPcj+VlrcmcVMNa56SIN/ZDoWWqlCJqdRZG9slBl
-	2OGwtRGETNBFnXTngvIcyPmA/iU3PMIm0I3sMa19NqS4MpgXpORz8jCwaeryAP1dRowW5/GTt9f
-	jtDNpFszgHzAhdR13qRBXWXbCqh6XDzMaWPqsRkKj/BRhQU4q34QvgT4jTk9HNlR9h57GoUBveR
-	uWBRx6tMC51LC9VsEXL2j3p0JdkOmbMABsvL3qMV73
-X-Received: by 2002:a05:6000:2387:b0:42f:b555:5275 with SMTP id ffacd0b85a97d-43569548aa2mr19948618f8f.10.1768911469374;
-        Tue, 20 Jan 2026 04:17:49 -0800 (PST)
+        bh=s1QLxkpeIxpFrMstTs2QBaunDmwUVDSpnYCC8/tZjnk=;
+        b=J65OG02aS0Ufq3wpBGiS9SRwJ3IIytwefWVWG8Ks6o3TiDqCREHZfg9U7oOQd87wGv
+         bFKWdAFu2lzfiSWrwxw4KBh+8BRuwY/kLEa+WZE85gBlBvc6iLapFyI8I8OJUEvZK8l+
+         TKVlHjFHQESFVt5qzup7TopiNaLoX8yHBlkqsjNrnQ64I5fPwe3F0mwNcUIWE6i8QH8I
+         Z4DkIEg/njddH4nBO24+Bm1RVYN/WFc7c3YbJGzSWwgaWVPKuBEatj4gMmAkx0W5a5U3
+         qjL8F/BMCjbAqH4nfk3Rl0uS/7ZvpY0I766mXReSIGXgaXICXoI52xl/JcuB9BCGKGN0
+         bXqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmmNVTjkCl+TzIrqbs72njwJ0/yBa5LibnGk3se4S7OgaLCIUWDcyKqhoH/Sv6O/P88yv0GI9Ukz1sPJc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxkhO0lIhGjHYdVG2WZhfQtxriHBpN4G7uWiC+kC6pF6Y6edy2
+	Xc6ehL+cT1sRFawpvk7Nsf94HigQg0L270JVl6aBxpXcJ/27w6NX/5ockobj7ph7Klo=
+X-Gm-Gg: AY/fxX70mjaFtgc56JuQMVEv4sYXp7Ed2B4k3XAVUwvIoPDQ7SBwl1qtQW4kVcCbwHW
+	0DTXr9O1oiiL1j4zOja8pOo5tqO47X19jSe2ly89IX0vJH6Hc2U59Bpxyp8iFIfbIp2/y6rEKpH
+	lPB8OQyvoprENA6SPvAXP2WMFXOPa2vEMKywzzSR9lHK3ViNO9C39yhOwq9ETgcYXLVMVmw9JZ5
+	8hh25cqEnrVwwe96IMa2bSQ+4kiNjIAE9ZUY/JQHL8hwCLh2nc6SJlv+yShF06ep3gtrMRZHDc1
+	YPWzQ4KkHCp5VZam6ktxt9F3sh7C30H/Lv0A9SFZqmMLZYklgHBBlREk3D4HonYnaT8jGeAOtOd
+	g/bAvg9nm1OFC1GIiYbb9EwThGAxOH3uhHpWPLNqI4lMMEFQ/Sf8cSWZpTPIfEGiSN5t6zjYimp
+	RzXYLx0EoE34aVeoOmMf/gp/LeKcflVw==
+X-Received: by 2002:a05:600d:6413:10b0:480:3a72:5c10 with SMTP id 5b1f17b1804b1-4803a725caemr54816275e9.16.1768911519124;
+        Tue, 20 Jan 2026 04:18:39 -0800 (PST)
 Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356997e6dasm29657069f8f.32.2026.01.20.04.17.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4289b7aasm306330525e9.2.2026.01.20.04.18.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 04:17:49 -0800 (PST)
-Message-ID: <4d379736-9b6a-4e40-ad67-53ee7498759c@suse.com>
-Date: Tue, 20 Jan 2026 13:17:48 +0100
+        Tue, 20 Jan 2026 04:18:38 -0800 (PST)
+Message-ID: <f1128fe0-96bf-4819-9315-dcd4a7dda2c6@suse.com>
+Date: Tue, 20 Jan 2026 13:18:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -88,8 +88,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] Documentation/kbuild: Document gendwarfksyms build
- dependencies
+Subject: Re: [PATCH v2 2/2] Documentation/kbuild: gendwarfksyms: Style cleanup
 To: linjh22s@gmail.com
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
@@ -98,10 +97,10 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260114-documents_gendwarfksyms-v2-0-297c98bd62c6@gmail.com>
- <20260114-documents_gendwarfksyms-v2-1-297c98bd62c6@gmail.com>
+ <20260114-documents_gendwarfksyms-v2-2-297c98bd62c6@gmail.com>
 Content-Language: en-US
 From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260114-documents_gendwarfksyms-v2-1-297c98bd62c6@gmail.com>
+In-Reply-To: <20260114-documents_gendwarfksyms-v2-2-297c98bd62c6@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.46 / 15.00];
@@ -116,7 +115,7 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,lwn.net,gmail.com,google.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-10723-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10724-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_POLICY_ALLOW(0.00)[suse.com,quarantine];
@@ -133,74 +132,20 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,suse.com:email,suse.com:dkim,suse.com:mid]
-X-Rspamd-Queue-Id: 244AC4E58F
+X-Rspamd-Queue-Id: 76A6752078
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 1/14/26 12:47 PM, Jihan LIN via B4 Relay wrote:
 > From: Jihan LIN <linjh22s@gmail.com>
 > 
-> Although dependencies for gendwarfksyms were recently added to the
-> packaging rules [1-2], the corresponding documentation was missing.
+> The indentation in gendwarfksyms.rst currently uses a mix of tabs and
+> spaces.
+> Convert all indentation to tabs, and match the usage output and code
+> examples with theirs references.
 > 
-> Document the required build dependencies for gendwarfksyms, and
-> include a few examples for installing these dependencies on some
-> distributions.
-> 
-> [1] commit 657f96cb7c06 ("kbuild: deb-pkg: Add libdw-dev:native to
-> Build-Depends-Arch")
-> [2] commit 5bd6bdd0f76e ("kbuild: rpm-pkg: Add (elfutils-devel or
-> libdw-devel) to BuildRequires")
+> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
 > Signed-off-by: Jihan LIN <linjh22s@gmail.com>
-> ---
->  Documentation/kbuild/gendwarfksyms.rst | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/Documentation/kbuild/gendwarfksyms.rst b/Documentation/kbuild/gendwarfksyms.rst
-> index ed366250a54eac3a72c2f529da94a9e803704ae4..0e153d13b052da6edcf65950739730c123cd49db 100644
-> --- a/Documentation/kbuild/gendwarfksyms.rst
-> +++ b/Documentation/kbuild/gendwarfksyms.rst
-> @@ -14,6 +14,29 @@ selected, **gendwarfksyms** is used instead to calculate symbol versions
->  from the DWARF debugging information, which contains the necessary
->  details about the final module ABI.
->  
-> +Dependencies
-> +------------
-> +
-> +libelf, libdw and zlib are dependencies of gendwarfksyms.
-> +
-> +Here are a few examples for installing these dependencies:
-> +
-> +* Arch Linux and derivatives::
-> +
-> +	sudo pacman --needed -S zlib libelf
-> +
-> +* Debian, Ubuntu, and derivatives::
-> +
-> +	sudo apt install libelf-dev libdw-dev zlib1g-dev
-> +
-> +* Fedora and derivatives::
-> +
-> +	sudo dnf install elfutils-libelf-devel elfutils-devel zlib-devel
-> +
-> +* openSUSE and derivatives::
-> +
-> +	sudo zypper install libelf-devel libdw-devel zlib-devel
-> +
-
-Nit: I suggest slightly adjusting the text to something like:
-
-"""
-Gendwarfksyms depends on the libelf, libdw, and zlib libraries.
-
-Here are a few examples of how to install these dependencies:
-"""
-
-.. and swap the items on the pacman line to 'libelf zlib' so the order
-is always libelf, libdw, zlib.
-
-Looks ok to me nonetheless, the list is consistent with similar examples
-in Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
 
 Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
