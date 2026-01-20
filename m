@@ -1,71 +1,71 @@
-Return-Path: <linux-kbuild+bounces-10709-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10710-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MP5oGBV6cGktYAAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10709-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 08:02:45 +0100
+	id aE4aJe9XcWkNEwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10710-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 23:49:19 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA22C52873
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 08:02:44 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CF25F0A1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 23:49:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BAECE824945
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 11:55:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DC253645F6E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 11:55:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D158410D04;
-	Tue, 20 Jan 2026 11:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A66A4421EEF;
+	Tue, 20 Jan 2026 11:55:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="FwhQjser"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="D1KQdPOv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FCB3A89A9;
-	Tue, 20 Jan 2026 11:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E064C363C6D;
+	Tue, 20 Jan 2026 11:55:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768910139; cv=none; b=Pq1F5coIXbD0ohpPE6unD3SRtKkKYHw04gHCMyx3QD6d+02ho0GBraGsw5+7JZ+pqIgsgxa9jIiLYV3Ti2fTWOTa3JT5fEgGSd7fAjFLAzwEOYHf3VQo3Uk3YObcCC3afTtscqhZ2SUdmvGccPi5+Xm7NI2oV1rxtAd9V94nJAM=
+	t=1768910140; cv=none; b=jw9bAO4/FqBKEz0h/OsGz/rss/T9avbLEpeJ6muq2eyQC4YxgKlfBAslvSOSeBlmnXcK+JeTzA7GTE7ZRfJTGZbTmTeuEuPXFNbPK1sTHQ1GqoBVzf3F2TN0xuhlGNb0efPA+R812biy9auG08k3gkX9jEydQKa9dUXsLfb8PlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768910139; c=relaxed/simple;
-	bh=+etQlbdhm7PIAOLoypk1QEroNC0D3j2/8Kttnqr7e5k=;
+	s=arc-20240116; t=1768910140; c=relaxed/simple;
+	bh=MmdU7mAXsERDhcftLhJk8wzfCW9FoyJkMAZGJQzgPTs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sRCm1U+f+AR0BDrEtFLBFwl6/BxJpbSJmKJ4NLWUNnJ548843+sKB8f1xHH89OuWvv43//kUWOuTjLRnAXl7DiF6x3bUcc9SNfXeeMYABlUNJepufkuaoiKRYzRtrAwAjxQ9kZTilfe3fPs3fFjsUCWStZLdFW8XFyrnSpUXu2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=FwhQjser; arc=none smtp.client-ip=148.251.102.236
+	 MIME-Version; b=i1q6ZB9EfkiCENO9ZAvtg3PRXRdoWzzLUkItul4DKaS/43gl+2+N686dah7CAGJVGkUbil+yvwsMLZsnKuwsoFTNfSMiRd2o6NjlvGSVPudxD1VmsPRu50kibXOpve7ZuNFSeQ2YoRZBqlpr/4ai8liiUwT4OAFItEF1SLm7UjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=D1KQdPOv; arc=none smtp.client-ip=148.251.102.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
 Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id C0E4A200B2;
-	Tue, 20 Jan 2026 12:55:31 +0100 (CET)
+	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id A5FE9200B6;
+	Tue, 20 Jan 2026 12:55:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id D25231FA5F5;
-	Tue, 20 Jan 2026 12:55:30 +0100 (CET)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 24B931FA5F5;
+	Tue, 20 Jan 2026 12:55:32 +0100 (CET)
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id Xn4GYDMsM3hm; Tue, 20 Jan 2026 12:55:29 +0100 (CET)
+ with ESMTP id CKFjdeaNyg7e; Tue, 20 Jan 2026 12:55:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 4050F1FA598;
-	Tue, 20 Jan 2026 12:55:29 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 4050F1FA598
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 6156F1FA659;
+	Tue, 20 Jan 2026 12:55:31 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 6156F1FA659
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1768910129;
-	bh=hnzWJ1xeYbdpRe1qMF+Y0w/F2bamh0dAiqpaQ4bJuLY=;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1768910131;
+	bh=mCCGYzs2YjzxAtiQeTqaCe3JRrDhM42tNDPHzxjwJ4A=;
 	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=FwhQjser//fIBNNZvcTcpHpIojhuFYoh3KyKeWCOhrE8BWcaXNnrfC8FgLL54zydI
-	 zPcoOdUrL8oeIoQraWek18P9zAgMVDoPeFi6uC2svp2OPdYkLvKpncl+TBxOz4PsM0
-	 md4lvhE1thIGjynr+e2mfZNE8mRdrAu8uRbmbKzZJHjlcrhi4u3VUdbMTZth68Ny++
-	 o3KOfQJyShvCAzdZjoCWB9Gu6mGIfgw37BrFX0Df2z1RIQnbCrfWdnSVLW+hJEq/KE
-	 GP/Mfm31BObWRaTNQUnIsN/7YJ3ZAWLZnkvqlZJ+MGZ8qhk84ZfIoL+pRTekhM9BhV
-	 EGJ0S6x2gYbYg==
+	b=D1KQdPOvcUwSrKy6jCdGWzKyosqMpVYzqKffMVoZYSdsFPn+EefGMdSm+HOln0x/H
+	 UVAElL2RF2Ek2gqNmKkXocNxf17misGFy1pfJ3dwlFWSDW7NCOoou5MvG3VZ3YBvAw
+	 tPAyeiAXP6wG3ltjklC6RPOVftwWTV/NpTs9YhA1Ay3oO/Jo/K4aq76FPosm19y6M/
+	 rnN8aUKn6KJsbqQXCpKv4CyoGJ3hF2JRWu7SCzVPF3lTlF1S/hRuW32qwwGilpczRb
+	 xP7PxL0OnGhTjc5DH081c8AP/fXoX1C3q6tETTIGoFSYWPkOXi7TckAT4/67VseAoX
+	 02XI+7PGs3FOg==
 X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id y2Ybgm_Lex9y; Tue, 20 Jan 2026 12:55:29 +0100 (CET)
+ with ESMTP id Ps9zttvzJUqy; Tue, 20 Jan 2026 12:55:31 +0100 (CET)
 Received: from DESKTOP-0O0JV6I.localdomain (ipservice-092-208-231-176.092.208.pools.vodafone-ip.de [92.208.231.176])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id E29741F88AF;
-	Tue, 20 Jan 2026 12:55:28 +0100 (CET)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 0DBF71FA598;
+	Tue, 20 Jan 2026 12:55:31 +0100 (CET)
 From: Luis Augenstein <luis.augenstein@tngtech.com>
 To: nathan@kernel.org,
 	nsc@kernel.org
@@ -75,9 +75,9 @@ Cc: linux-kbuild@vger.kernel.org,
 	gregkh@linuxfoundation.org,
 	maximilian.huber@tngtech.com,
 	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v2 01/14] tools/sbom: integrate tool in make process
-Date: Tue, 20 Jan 2026 12:53:39 +0100
-Message-Id: <20260120115352.10910-2-luis.augenstein@tngtech.com>
+Subject: [PATCH v2 02/14] tools/sbom: setup sbom logging
+Date: Tue, 20 Jan 2026 12:53:40 +0100
+Message-Id: <20260120115352.10910-3-luis.augenstein@tngtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260120115352.10910-1-luis.augenstein@tngtech.com>
 References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
@@ -88,451 +88,252 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.46 / 15.00];
+X-Rspamd-Server: lfdr
+X-Spamd-Result: default: False [0.54 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DATE_IN_PAST(1.00)[34];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
 	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[tngtech.com:+];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[tngtech.com,quarantine];
-	TAGGED_FROM(0.00)[bounces-10709-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10710-lists,linux-kbuild=lfdr.de];
+	DMARC_POLICY_ALLOW(0.00)[tngtech.com,quarantine];
+	DKIM_TRACE(0.00)[tngtech.com:+];
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,tngtech.com:email,tngtech.com:dkim,tngtech.com:mid,sancloud.com:email,spdx.org:url];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: CA22C52873
+X-Rspamd-Queue-Id: 57CF25F0A1
 X-Rspamd-Action: no action
-X-Rspamd-Server: lfdr
 
-Add CONFIG_SBOM option and integrate SBOM tool into the kernel build
-process.
+Add logging infrastructure for warnings and errors.
+Errors and warnings are accumulated and summarized in the end.
 
 Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
 ---
- .gitignore          |   1 +
- MAINTAINERS         |   6 ++
- Makefile            |  15 +++-
- lib/Kconfig.debug   |   9 ++
- tools/Makefile      |   3 +-
- tools/sbom/Makefile |  35 ++++++++
- tools/sbom/README   | 208 ++++++++++++++++++++++++++++++++++++++++++++
- tools/sbom/sbom.py  |  16 ++++
- 8 files changed, 291 insertions(+), 2 deletions(-)
- create mode 100644 tools/sbom/Makefile
- create mode 100644 tools/sbom/README
- create mode 100644 tools/sbom/sbom.py
+ tools/sbom/sbom.py              | 24 ++++++++-
+ tools/sbom/sbom/__init__.py     |  0
+ tools/sbom/sbom/config.py       | 47 ++++++++++++++++++
+ tools/sbom/sbom/sbom_logging.py | 88 +++++++++++++++++++++++++++++++++
+ 4 files changed, 158 insertions(+), 1 deletion(-)
+ create mode 100644 tools/sbom/sbom/__init__.py
+ create mode 100644 tools/sbom/sbom/config.py
+ create mode 100644 tools/sbom/sbom/sbom_logging.py
 
-diff --git a/.gitignore b/.gitignore
-index 3a7241c941f5..f3372f15eb1b 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -48,6 +48,7 @@
- *.s
- *.so
- *.so.dbg
-+*.spdx.json
- *.su
- *.symtypes
- *.tab.[ch]
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f1b020588597..03d7d93d8e63 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23365,6 +23365,12 @@ R:	Marc Murphy <marc.murphy@sancloud.com>
- S:	Supported
- F:	arch/arm/boot/dts/ti/omap/am335x-sancloud*
-=20
-+SBOM
-+M:	Luis Augenstein <luis.augenstein@tngtech.com>
-+M:	Maximilian Huber <maximilian.huber@tngtech.com>
-+S:	Maintained
-+F:	tools/sbom/
-+
- SC1200 WDT DRIVER
- M:	Zwane Mwaikambo <zwanem@gmail.com>
- S:	Maintained
-diff --git a/Makefile b/Makefile
-index 9d38125263fb..a1c0cbd110e5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1457,6 +1457,19 @@ prepare: tools/bpf/resolve_btfids
- endif
- endif
-=20
-+ifdef CONFIG_SBOM
-+all: tools/sbom
-+tools/sbom: $(notdir $(KBUILD_IMAGE)) modules
-+	$(Q)mkdir -p $(objtree)/tools
-+	$(Q)$(MAKE) \
-+		O=3D$(abspath $(objtree)) \
-+		subdir=3Dtools \
-+		-C $(srctree)/tools/ \
-+		sbom \
-+		srctree=3D$(abspath $(srctree)) \
-+		CONFIG_MODULES=3D$(CONFIG_MODULES)
-+endif
-+
- # The tools build system is not a part of Kbuild and tends to introduce
- # its own unique issues. If you need to integrate a new tool into Kbuild=
-,
- # please consider locating that tool outside the tools/ tree and using t=
-he
-@@ -1612,7 +1625,7 @@ CLEAN_FILES +=3D vmlinux.symvers modules-only.symve=
-rs \
- 	       modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
- 	       compile_commands.json rust/test \
- 	       rust-project.json .vmlinux.objs .vmlinux.export.c \
--               .builtin-dtbs-list .builtin-dtb.S
-+	       .builtin-dtbs-list .builtin-dtb.S sbom-*.spdx.json
-=20
- # Directories & files removed with 'make mrproper'
- MRPROPER_FILES +=3D include/config include/generated          \
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ba36939fda79..9d03ef854f61 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -563,6 +563,15 @@ config OBJTOOL_WERROR
-=20
- 	  If unsure, say Y.
-=20
-+config SBOM
-+	bool "Generate Software Bill of Materials"
-+	help
-+	  If enabled, the kernel build will generate SPDX SBOM documents
-+	  describing all source files, and build artifacts involved in the buil=
-d.
-+	  The SBOM documents are generated in SPDX 3.0.1 format and saved to th=
-e build output
-+	  directory after the build completes.
-+	  For more information, see tools/sbom/README
-+
- config STACK_VALIDATION
- 	bool "Compile-time stack metadata validation"
- 	depends on HAVE_STACK_VALIDATION && UNWINDER_FRAME_POINTER
-diff --git a/tools/Makefile b/tools/Makefile
-index cb40961a740f..7b4b1c96dcd5 100644
---- a/tools/Makefile
-+++ b/tools/Makefile
-@@ -27,6 +27,7 @@ help:
- 	@echo '  nolibc                 - nolibc headers testing and installati=
-on'
- 	@echo '  objtool                - an ELF object analysis tool'
- 	@echo '  perf                   - Linux performance measurement and ana=
-lysis tool'
-+	@echo '  sbom                   - SBOM generation tool'
- 	@echo '  selftests              - various kernel selftests'
- 	@echo '  sched_ext              - sched_ext example schedulers'
- 	@echo '  bootconfig             - boot config tool'
-@@ -70,7 +71,7 @@ acpi: FORCE
- cpupower: FORCE
- 	$(call descend,power/$@)
-=20
--counter dma firewire hv guest bootconfig spi usb virtio mm bpf iio gpio =
-objtool leds wmi firmware debugging tracing: FORCE
-+counter dma firewire hv guest bootconfig spi usb virtio mm bpf iio gpio =
-objtool leds wmi firmware debugging tracing sbom: FORCE
- 	$(call descend,$@)
-=20
- bpf/%: FORCE
-diff --git a/tools/sbom/Makefile b/tools/sbom/Makefile
-new file mode 100644
-index 000000000000..8be7f2f3e631
---- /dev/null
-+++ b/tools/sbom/Makefile
-@@ -0,0 +1,35 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+SBOM_SOURCE_FILE :=3D $(objtree)/sbom-source.spdx.json
-+SBOM_BUILD_FILE :=3D $(objtree)/sbom-build.spdx.json
-+SBOM_OUTPUT_FILE :=3D $(objtree)/sbom-output.spdx.json
-+SBOM_ROOTS_FILE :=3D $(objtree)/sbom-roots.txt
-+
-+
-+ifeq ($(srctree),$(objtree))
-+    SBOM_TARGETS :=3D $(SBOM_BUILD_FILE) $(SBOM_OUTPUT_FILE)
-+else
-+    SBOM_TARGETS :=3D $(SBOM_SOURCE_FILE) $(SBOM_BUILD_FILE) $(SBOM_OUTP=
-UT_FILE)
-+endif
-+
-+SBOM_DEPS :=3D $(objtree)/$(KBUILD_IMAGE) $(objtree)/include/generated/a=
-utoconf.h
-+ifdef CONFIG_MODULES
-+    SBOM_DEPS +=3D $(objtree)/modules.order
-+endif
-+
-+sbom: $(SBOM_TARGETS)
-+
-+$(SBOM_TARGETS) &: $(SBOM_DEPS)
-+	@echo "  GEN     $(notdir $(SBOM_TARGETS))"
-+
-+	@printf "%s\n" "$(KBUILD_IMAGE)" > $(SBOM_ROOTS_FILE)
-+	@if [ "$(CONFIG_MODULES)" =3D "y" ]; then \
-+		sed 's/\.o$$/.ko/' $(objtree)/modules.order >> $(SBOM_ROOTS_FILE); \
-+	fi
-+
-+	@python3 sbom.py
-+
-+	@rm $(SBOM_ROOTS_FILE)
-+
-+.PHONY: sbom
-diff --git a/tools/sbom/README b/tools/sbom/README
-new file mode 100644
-index 000000000000..5d157a1f9af8
---- /dev/null
-+++ b/tools/sbom/README
-@@ -0,0 +1,208 @@
-+<!--
-+SPDX-License-Identifier: GPL-2.0-only OR MIT
-+Copyright (C) 2025 TNG Technology Consulting GmbH
-+-->
-+
-+KernelSbom
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Introduction
-+------------
-+
-+The kernel `CONFIG_SBOM` option enables the KernelSbom tool,
-+a Python script `sbom.py` that runs during the kernel build process
-+after all build outputs have been generated.
-+KernelSbom analyzes every file involved in the build and produces
-+Software Bill of Materials (SBOM) documents in SPDX 3.0.1 format.
-+The generated SBOM documents capture:
-+- **Final output artifacts**, typically the kernel image and modules
-+- **All source files** that contributed to the build with metadata
-+  and licensing information
-+- **Details of the build process**, including intermediate artifacts
-+  and the build commands linking source files to the final output
-+  artifacts
-+
-+KernelSbom is originally developed in the
-+[KernelSbom repository](https://github.com/TNG/KernelSbom).
-+
-+Requirements
-+------------
-+
-+Python 3.10 or later. No libraries or other dependencies are required.
-+
-+Basic Usage
-+-----------
-+
-+Enable the `CONFIG_SBOM` option and start a kernel build.
-+For example:
-+
-+    $ make defconfig O=3Dkernel_build
-+    $ scripts/config --file kernel_build/.config --enable SBOM
-+    $ make O=3Dkernel_build -j$(nproc)
-+
-+After all build outputs have been generated, KernelSbom produces three
-+SPDX documents in the root directory of the object tree:
-+
-+- `sbom-source.spdx.json`
-+  Describes all source files involved in the build and
-+  associates each file with its corresponding license expression.
-+
-+- `sbom-output.spdx.json`
-+  Captures all final build outputs (kernel image and `.ko` module files)
-+  and includes build metadata such as environment variables and
-+  a hash of the `.config` file used for the build.
-+
-+- `sbom-build.spdx.json`
-+  Imports files from the source and output documents and describes every
-+  intermediate build artifact. For each artifact, it records the exact
-+  build command used and establishes the relationship between
-+  input files and generated outputs.
-+
-+When enabling the KernelSbom tool, it is recommended to perform
-+out-of-tree builds using `O=3D<objtree>`. KernelSbom classifies files as
-+source files when they are located in the source tree and not in the
-+object tree. For in-tree builds, where the source and object trees are
-+the same directory, this distinction can no longer be made reliably.
-+In that case, KernelSbom does not generate a dedicated source SBOM.
-+Instead, source files are included in the build SBOM.
-+
-+Standalone Usage
-+----------------
-+
-+KernelSbom can also be used as a standalone script to generate
-+SPDX documents for specific build outputs. For example, after a
-+successful x86 kernel build, KernelSbom can generate SPDX documents
-+for the `bzImage` kernel image:
-+
-+    $ SRCARCH=3Dx86 python3 tools/sbom/sbom.py \
-+        --src-tree . \
-+        --obj-tree ./kernel_build \
-+        --roots arch/x86/boot/bzImage \
-+        --generate-spdx \
-+        --generate-used-files \
-+        --prettify-json \
-+        --debug
-+
-+Note that when KernelSbom is invoked outside of the `make` process,
-+the environment variables used during compilation are not available and
-+therefore cannot be included in the generated SPDX documents. It is
-+recommended to set at least the `SRCARCH` environment variable to the
-+architecture for which the build was performed.
-+
-+For a full list of command-line options, run:
-+
-+    $ python3 tools/sbom/sbom.py --help
-+
-+Output Format
-+-------------
-+
-+KernelSbom generates documents conforming to the
-+[SPDX 3.0.1 specification](https://spdx.github.io/spdx-spec/v3.0.1/)
-+serialized as JSON-LD.
-+
-+To reduce file size, the output documents use the JSON-LD `@context`
-+to define custom prefixes for `spdxId` values. While this is compliant
-+with the SPDX specification, only a limited number of tools in the
-+current SPDX ecosystem support custom JSON-LD contexts. To use such
-+tools with the generated documents, the custom JSON-LD context must
-+be expanded before providing the documents.
-+See https://lists.spdx.org/g/Spdx-tech/message/6064 for more information=
-.
-+
-+How it Works
-+------------
-+
-+KernelSbom operates in two major phases:
-+1. **Generate the cmd graph**, an acyclic directed dependency graph.
-+2. **Generate SPDX documents** based on the cmd graph.
-+
-+KernelSbom begins from the root artifacts specified by the user, e.g.,
-+`arch/x86/boot/bzImage`. For each root artifact, it collects all
-+dependencies required to build that artifact. The dependencies come
-+from multiple sources:
-+
-+- **`.cmd` files**: The primary source is the `.cmd` file of the
-+  generated artifact, e.g., `arch/x86/boot/.bzImage.cmd`. These files
-+  contain the exact command used to build the artifact and often include
-+  an explicit list of input dependencies. By parsing the `.cmd` file,
-+  the full list of dependencies can be obtained.
-+
-+- **`.incbin` statements**: The second source are include binary
-+  `.incbin` statements in `.S` assembly files.
-+
-+- **Hardcoded dependencies**: Unfortunately, not all build dependencies
-+  can be found via `.cmd` files and `.incbin` statements. Some build
-+  dependencies are directly defined in Makefiles or Kbuild files.
-+  Parsing these files is considered too complex for the scope of this
-+  project. Instead, the remaining gaps of the graph are filled using a
-+  list of manually defined dependencies, see
-+  `sbom/cmd_graph/hardcoded_dependencies.py`. This list is known to be
-+  incomplete. However, analysis of the cmd graph indicates a ~99%
-+  completeness. For more information about the completeness analysis,
-+  see [KernelSbom #95](https://github.com/TNG/KernelSbom/issues/95).
-+
-+Given the list of dependency files, KernelSbom recursively processes
-+each file, expanding the dependency chain all the way to the version
-+controlled source files. The result is a complete dependency graph
-+where nodes represent files, and edges represent "file A was used to
-+build file B" relationships.
-+
-+Using the cmd graph, KernelSbom produces three SPDX documents.
-+For every file in the graph, KernelSbom:
-+
-+- Parses `SPDX-License-Identifier` headers,
-+- Computes file hashes,
-+- Estimates the file type based on extension and path,
-+- Records build relationships between files.
-+
-+Each root output file is additionally associated with an SPDX Package
-+element that captures version information, license data, and copyright.
-+
-+Advanced Usage
-+--------------
-+
-+Including Kernel Modules
-+------------------------
-+
-+The list of all `.ko` kernel modules produced during a build can be
-+extracted from the `modules.order` file within the object tree.
-+For example:
-+
-+    $ echo "arch/x86/boot/bzImage" > sbom-roots.txt
-+    $ sed 's/\.o$/.ko/' ./kernel_build/modules.order >> sbom-roots.txt
-+
-+Then use the generated roots file:
-+
-+    $ SRCARCH=3Dx86 python3 tools/sbom/sbom.py \
-+        --src-tree . \
-+        --obj-tree ./kernel_build \
-+        --roots-file sbom-roots.txt \
-+        --generate-spdx
-+
-+
-+Equal Source and Object Trees
-+------------------------------
-+
-+When the source tree and object tree are identical (for example, when
-+building in-tree), source files can no longer be reliably distinguished
-+from generated files.
-+In this scenario, KernelSbom does not produce a dedicated
-+`sbom-source.spdx.json` document. Instead, both source files and build
-+artifacts are included together in `sbom-build.spdx.json`, and
-+`sbom.used-files.txt` lists all files referenced in the build document.
-+
-+Unknown Build Commands
-+----------------------
-+
-+Because the kernel supports a wide range of configurations and versions,
-+KernelSbom may encounter build commands in `.cmd` files that it does
-+not yet support. By default, KernelSbom will fail if an unknown build
-+command is encountered.
-+
-+If you still wish to generate SPDX documents despite unsupported
-+commands, you can use the `--do-not-fail-on-unknown-build-command`
-+option. KernelSbom will continue and produce the documents, although
-+the resulting SBOM will be incomplete.
-+
-+This option should only be used when the missing portion of the
-+dependency graph is small and an incomplete SBOM is acceptable for
-+your use case.
 diff --git a/tools/sbom/sbom.py b/tools/sbom/sbom.py
-new file mode 100644
-index 000000000000..9c2e4c7f17ce
---- /dev/null
+index 9c2e4c7f17ce..c7f23d6eb300 100644
+--- a/tools/sbom/sbom.py
 +++ b/tools/sbom/sbom.py
-@@ -0,0 +1,16 @@
-+#!/usr/bin/env python3
+@@ -6,9 +6,31 @@
+ Compute software bill of materials in SPDX format describing a kernel bu=
+ild.
+ """
+=20
++import logging
++import sys
++import sbom.sbom_logging as sbom_logging
++from sbom.config import get_config
++
+=20
+ def main():
+-    pass
++    # Read config
++    config =3D get_config()
++
++    # Configure logging
++    logging.basicConfig(
++        level=3Dlogging.DEBUG if config.debug else logging.INFO,
++        format=3D"[%(levelname)s] %(message)s",
++    )
++
++    # Report collected warnings and errors in case of failure
++    warning_summary =3D sbom_logging.summarize_warnings()
++    error_summary =3D sbom_logging.summarize_errors()
++
++    if warning_summary:
++        logging.warning(warning_summary)
++    if error_summary:
++        logging.error(error_summary)
++        sys.exit(1)
+=20
+=20
+ # Call main method
+diff --git a/tools/sbom/sbom/__init__.py b/tools/sbom/sbom/__init__.py
+new file mode 100644
+index 000000000000..e69de29bb2d1
+diff --git a/tools/sbom/sbom/config.py b/tools/sbom/sbom/config.py
+new file mode 100644
+index 000000000000..3dc569ae0c43
+--- /dev/null
++++ b/tools/sbom/sbom/config.py
+@@ -0,0 +1,47 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR MIT
 +# Copyright (C) 2025 TNG Technology Consulting GmbH
 +
-+"""
-+Compute software bill of materials in SPDX format describing a kernel bu=
-ild.
-+"""
++import argparse
++from dataclasses import dataclass
 +
 +
-+def main():
-+    pass
++@dataclass
++class KernelSbomConfig:
++    debug: bool
++    """Whether to enable debug logging."""
 +
 +
-+# Call main method
-+if __name__ =3D=3D "__main__":
-+    main()
++def _parse_cli_arguments() -> dict[str, bool]:
++    """
++    Parse command-line arguments using argparse.
++
++    Returns:
++        Dictionary of parsed arguments.
++    """
++    parser =3D argparse.ArgumentParser(
++        description=3D"Generate SPDX SBOM documents for kernel builds",
++    )
++    parser.add_argument(
++        "--debug",
++        action=3D"store_true",
++        default=3DFalse,
++        help=3D"Enable debug logs (default: False)",
++    )
++
++    args =3D vars(parser.parse_args())
++    return args
++
++
++def get_config() -> KernelSbomConfig:
++    """
++    Parse command-line arguments and construct the configuration object.
++
++    Returns:
++        KernelSbomConfig: Configuration object with all settings for SBO=
+M generation.
++    """
++    # Parse cli arguments
++    args =3D _parse_cli_arguments()
++
++    debug =3D args["debug"]
++
++    return KernelSbomConfig(debug=3Ddebug)
+diff --git a/tools/sbom/sbom/sbom_logging.py b/tools/sbom/sbom/sbom_loggi=
+ng.py
+new file mode 100644
+index 000000000000..3460c4d84626
+--- /dev/null
++++ b/tools/sbom/sbom/sbom_logging.py
+@@ -0,0 +1,88 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++import logging
++import inspect
++from typing import Any, Literal
++
++
++class MessageLogger:
++    """Logger that prints the first occurrence of each message immediate=
+ly
++    and keeps track of repeated messages for a final summary."""
++
++    messages: dict[str, list[str]]
++    repeated_logs_limit: int
++    """Maximum number of repeated messages of the same type to log befor=
+e suppressing further output."""
++
++    def __init__(self, level: Literal["error", "warning"], repeated_logs=
+_limit: int =3D 3) -> None:
++        self._level =3D level
++        self.messages =3D {}
++        self.repeated_logs_limit =3D repeated_logs_limit
++
++    def log(self, template: str, /, **kwargs: Any) -> None:
++        """Log a message based on a template and optional variables."""
++        message =3D template.format(**kwargs)
++        if template not in self.messages:
++            self.messages[template] =3D []
++        if len(self.messages[template]) < self.repeated_logs_limit:
++            if self._level =3D=3D "error":
++                logging.error(message)
++            elif self._level =3D=3D "warning":
++                logging.warning(message)
++        self.messages[template].append(message)
++
++    def get_summary(self) -> str:
++        """Return summary of collected messages."""
++        if len(self.messages) =3D=3D 0:
++            return ""
++        summary: list[str] =3D [f"Summarize {self._level}s:"]
++        for msgs in self.messages.values():
++            for i, msg in enumerate(msgs):
++                if i < self.repeated_logs_limit:
++                    summary.append(msg)
++                    continue
++                summary.append(
++                    f"... (Found {len(msgs) - i} more {'instances' if (l=
+en(msgs) - i) !=3D 1 else 'instance'} of this {self._level})"
++                )
++                break
++        return "\n".join(summary)
++
++
++_warning_logger: MessageLogger
++_error_logger: MessageLogger
++
++
++def warning(msg_template: str, /, **kwargs: Any) -> None:
++    """Log a warning message."""
++    _warning_logger.log(msg_template, **kwargs)
++
++
++def error(msg_template: str, /, **kwargs: Any) -> None:
++    """Log an error message including file, line, and function context."=
+""
++    frame =3D inspect.currentframe()
++    caller_frame =3D frame.f_back if frame else None
++    info =3D inspect.getframeinfo(caller_frame) if caller_frame else Non=
+e
++    if info:
++        msg_template =3D f'File "{info.filename}", line {info.lineno}, i=
+n {info.function}\n{msg_template}'
++    _error_logger.log(msg_template, **kwargs)
++
++
++def summarize_warnings() -> str:
++    return _warning_logger.get_summary()
++
++
++def summarize_errors() -> str:
++    return _error_logger.get_summary()
++
++
++def has_errors() -> bool:
++    return len(_error_logger.messages) > 0
++
++
++def init() -> None:
++    global _warning_logger, _error_logger
++    _warning_logger =3D MessageLogger("warning")
++    _error_logger =3D MessageLogger("error")
++
++
++init()
 --=20
 2.34.1
 
