@@ -1,52 +1,52 @@
-Return-Path: <linux-kbuild+bounces-10730-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10731-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gAstLmIrcGniWwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10730-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 02:26:58 +0100
+	id yPg9GuIecGlRVwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10731-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:33:38 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BCB4F140
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 02:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD3D4E8B7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:33:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7EB1792387C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 13:55:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8AE0D923BA0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 13:56:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF9C438FEC;
-	Tue, 20 Jan 2026 13:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E9A143900C;
+	Tue, 20 Jan 2026 13:55:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gwDTDqqt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cAruJHew"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B1921ABBB;
-	Tue, 20 Jan 2026 13:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C51C42980D;
+	Tue, 20 Jan 2026 13:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768917312; cv=none; b=gCv1LyUNtw1YdVCsdEr604w4vpyqG7KiPOXRDnG8Ymp3ukOtalQkGm9bhKgpyW5uNXrHjhXZIjO/WzqdvWYyMPkVs3PjqkZMASjbNByy0jRDyQ4VpxgGIQnUUhovQqWBp5iTbFMKPMsE/rSn9aiN5T29S2GwIEKCRzoaGR8zN3Y=
+	t=1768917313; cv=none; b=t+M0t8dXuokLzYyOUteottsfLbxMB2eQaaBJZA5sYlZtnn83BkpbwWdBdNgG4v2PPzbZBoZ4ZhxA4Zjz4UqKCZ8Um0RkK1AJAflGF2FxFVYSehJC08iXkL6GfK0OKQh/D3NSeivhlbmrZl+T5vgUIU9/5bJJzysXeGNPgke9hHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768917312; c=relaxed/simple;
-	bh=OBHzWftJV/HPuzjp7EqL2/okD1447XonIyvVUXHuPyg=;
+	s=arc-20240116; t=1768917313; c=relaxed/simple;
+	bh=PjUrq5cWtFbXMjc2NQa42ZtqpF3yt0CzwHVTrsX+g20=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hXNtkEVdBBqy6q3f21Lo9jg2KU8yfns/FOcvC+eIbL6AlVcDiVaHtZaCReTYOMJC2c9poVsw241abQVB6c14Uw8nv6P4DVOruIEkNoFoGfYgvPSGKepxTKtjxTRFLL1G0ywtIiG0PgG7yQDNCUVQq56/plk+r6ADu6UC6LC3nVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gwDTDqqt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65546C16AAE;
-	Tue, 20 Jan 2026 13:55:09 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=dtJeWDKqIyAl6gvy4925kiyX0KuTwDEDZYac93semCYYCNlWAZiMmMAU3QUsjBCWGfEk5eDl29dMM/wtX7y4Q/rhk8VaXoHgFQcWBXxaTY/N3HKRgrdU/1LhIDf809OT67ny2I8j0NAqHt1YZapPdBMAxqjsI2jZmuorc7RM9tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cAruJHew; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63EB0C19422;
+	Tue, 20 Jan 2026 13:55:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768917309;
-	bh=OBHzWftJV/HPuzjp7EqL2/okD1447XonIyvVUXHuPyg=;
+	s=k20201202; t=1768917312;
+	bh=PjUrq5cWtFbXMjc2NQa42ZtqpF3yt0CzwHVTrsX+g20=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gwDTDqqtkwHgeTN6IP41Sqd3KBe8c9lwFp8o9NKhx1kDxhOrC1jJohlLMVmsv88AB
-	 ziEOXJeMGY6uBPANYuze1oI9P83VknRsN3GXpTUJhokSWIJeI7Q9j6Rm3J6R7XYh9i
-	 lGDceu4UReTscxvb6CmJmxSzD7ZQfXmg7aBh1rLCfLCe3jPcgFJ+CAVZL/HIBONiFc
-	 CUOh70KLJBMd+znpVopz62rrKpJFkrXq18UC3cGD0LM9Ecs99BobtjfS08Eylb7XQ2
-	 6CR97G/WwQWPHRMIJ4+FOjJdBIWlR8NwIvICBB/uUVy6iuEoM/wa3M1imC6ge0oFZP
-	 Nce/uoYXSuZuQ==
-Date: Tue, 20 Jan 2026 14:53:33 +0100
+	b=cAruJHew5WAvdT2fMAkD4tprZTxGpGVlg4fZ6VM6EfG6NgKAe+6w6dhKc5yYTDJMG
+	 AhRO+iY7shNn9Mnltsas2VT1z5/DS5p2wTpkcDef4hHBduNzcJCIDWdYXpS5VGU4sh
+	 Ofp/WzbN5v3cliWSW/VwZmN/WoS1RXiJciB1HrRgpz48jio9yHg2w8cWH15/YiK95y
+	 KFQ7MqOfZNcprjnTmGBjVWYGjRbNEh/YsazMuTHhmVEsN4UeZs4FXSNXEb7L7ghpJo
+	 PEJvgsu4hLU0PtGHlYCaKbDTM2XHdVHITS/tWVxr7fI1HGAe+PEZE1T08erKr82NCj
+	 HdDeiM7QSUdWg==
+Date: Tue, 20 Jan 2026 14:54:47 +0100
 From: Nicolas Schier <nsc@kernel.org>
 To: Guillaume Tucker <gtucker@gtucker.io>
 Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -56,8 +56,8 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
-Message-ID: <aW-I3fNqp_7X0oeg@derry.ads.avm.de>
+Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
+Message-ID: <aW-JJ5DT-LRSZkdF@derry.ads.avm.de>
 Mail-Followup-To: Guillaume Tucker <gtucker@gtucker.io>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>, David Gow <davidgow@google.com>,
@@ -67,17 +67,15 @@ Mail-Followup-To: Guillaume Tucker <gtucker@gtucker.io>,
 	automated-testing@lists.yoctoproject.org, workflows@vger.kernel.org,
 	llvm@lists.linux.dev
 References: <cover.1767199119.git.gtucker@gtucker.io>
- <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
+In-Reply-To: <cover.1767199119.git.gtucker@gtucker.io>
 X-Spamd-Result: default: False [-1.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
@@ -86,7 +84,7 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10730-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10731-lists,linux-kbuild=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -103,214 +101,103 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,docker.io:url,gtucker.io:email]
-X-Rspamd-Queue-Id: 25BCB4F140
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,derry.ads.avm.de:mid,gitlab.com:url]
+X-Rspamd-Queue-Id: CCD3D4E8B7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Dec 31, 2025 at 05:51:50PM +0100, Guillaume Tucker wrote:
-> Add a dev-tools/container.rst documentation page for the
-> scripts/container tool.  This covers the basic usage with additional
-> information about environment variables and user IDs.  It also
-> includes a number of practical examples with a reference to the
-> experimental kernel.org toolchain images.
+On Wed, Dec 31, 2025 at 05:51:48PM +0100, Guillaume Tucker wrote:
+> This proposal emerged from discussions over email and after a talk at
+> Plumbers 2024:
 > 
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: David Gow <davidgow@google.com>
-> Cc: "Onur Özkan" <work@onurozkan.dev>
-> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
+>     https://lore.kernel.org/all/affb7aff-dc9b-4263-bbd4-a7965c19ac4e@gtucker.io/
+> 
+> The aim is to facilitate reproducing builds for CI bots as well as
+> developers using containers.  Here's an illustrative example with a
+> kernel.org toolchain in a Docker image from tuxmake:
+> 
+>     $ scripts/container -i tuxmake/korg-clang-21 make LLVM=1 defconfig
+>       HOSTCC  scripts/basic/fixdep
+>       HOSTCC  scripts/kconfig/conf.o
+>     [...]
+>       HOSTCC  scripts/kconfig/util.o
+>       HOSTLD  scripts/kconfig/conf
+>     *** Default configuration is based on 'x86_64_defconfig'
+>     #
+>     # configuration written to .config
+>     #
+> 
+> This patch series also includes a documentation page with all the
+> relevant details and further examples about how to use the tool.
+> 
+> To go one step further, I'm in the process of preparing reference
+> container images with kernel.org toolchains and no third-party
+> dependencies other than the base Debian distro.  See this thread for
+> more details and options to host them in an upstream way:
+> 
+>     https://lore.kernel.org/all/cc737636-2a43-4a97-975e-4725733f7ee4@gtucker.io/
+> 
+> Say, to run KUnit using the latest kernel.org GCC toolchain:
+> 
+>     scripts/container --shell \
+>         -i registry.gitlab.com/gtucker/korg-containers/gcc:kunit -- \
+>         tools/testing/kunit/kunit.py \
+>             run \
+>             --arch=x86_64 \
+>             --cross_compile=x86_64-linux-
+> 
 > ---
+> Changes in v3:
+> - Refactor common code for Docker and Podman
+> - Add docs.kernel.org URL in help message
+> - Use pathlib Python package
+> - Handle signals in parent process by default
+> - Add --shell option to use an interactive shell
+> - Tweak debug messages in verbose mode
+> - Specify Python 3.10 as minimum version in the docs
+> - Provide an example env file in the docs
+> - Update docs regarding interactive shell usage
+> 
+> Changes in v2:
+> - Drop default image but make -i option required
+> - Look for Docker and Podman if no runtime specified
+> - Catch SIGINT from user to abort container with Docker
+> - Explicitly name each container with a UUID
+> - Update documentation accordingly
+> 
+> ---
+> 
+> Guillaume Tucker (2):
+>   scripts: add tool to run containerized builds
+>   Documentation: dev-tools: add container.rst page
+> 
 >  Documentation/dev-tools/container.rst | 201 ++++++++++++++++++++++++++
 >  Documentation/dev-tools/index.rst     |   1 +
->  2 files changed, 202 insertions(+)
+>  scripts/container                     | 199 +++++++++++++++++++++++++
+>  3 files changed, 401 insertions(+)
 >  create mode 100644 Documentation/dev-tools/container.rst
+>  create mode 100755 scripts/container
 > 
-> diff --git a/Documentation/dev-tools/container.rst b/Documentation/dev-tools/container.rst
-> new file mode 100644
-> index 000000000000..f6f134ec09f5
-> --- /dev/null
-> +++ b/Documentation/dev-tools/container.rst
-> @@ -0,0 +1,201 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2025 Guillaume Tucker
-> +
-> +====================
-> +Containerized Builds
-> +====================
-> +
-> +The ``container`` tool can be used to run any command in the kernel source tree
-> +from within a container.  Doing so facilitates reproducing builds across
-> +various platforms, for example when a test bot has reported an issue which
-> +requires a specific version of a compiler or an external test suite.  While
-> +this can already be done by users who are familiar with containers, having a
-> +dedicated tool in the kernel tree lowers the barrier to entry by solving common
-> +problems once and for all (e.g. user id management).  It also makes it easier
-> +to share an exact command line leading to a particular result.  The main use
-> +case is likely to be kernel builds but virtually anything can be run: KUnit,
-> +checkpatch etc. provided a suitable image is available.
-> +
-> +
-> +Options
-> +=======
-> +
-> +Command line syntax::
-> +
-> +  scripts/container -i IMAGE [OPTION]... CMD...
-> +
-> +Available options:
-> +
-> +``-e, --env-file ENV_FILE``
-> +
-> +    Path to an environment file to load in the container.
-> +
-> +``-g, --gid GID``
-> +
-> +    Group id to use inside the container.
-> +
-> +``-i, --image IMAGE``
-> +
-> +    Container image name (required).
-> +
-> +``-r, --runtime RUNTIME``
-> +
-> +    Container runtime name.  Supported runtimes: ``docker``, ``podman``.
-> +
-> +    If not specified, the first one found on the system will be used
-> +    i.e. Docker if present, otherwise Podman.
-> +
-> +``-s, --shell``
-> +
-> +    Run the container in an interactive shell.
-> +
-> +``-u, --uid UID``
-> +
-> +    User id to use inside the container.
-> +
-> +    If the ``-g`` option is not specified, the user id will also be used for
-> +    the group id.
-> +
-> +``-v, --verbose``
-> +
-> +    Enable verbose output.
-> +
-> +``-h, --help``
-> +
-> +    Show the help message and exit.
-> +
-> +
-> +Usage
-> +=====
-> +
-> +It's entirely up to the user to choose which image to use and the ``CMD``
-> +arguments are passed directly as an arbitrary command line to run in the
-> +container.  The tool will take care of mounting the source tree as the current
-> +working directory and adjust the user and group id as needed.
-> +
-> +The container image which would typically include a compiler toolchain is
-> +provided by the user and selected via the ``-i`` option.  The container runtime
-> +can be selected with the ``-r`` option, which can be either ``docker`` or
-> +``podman``.  If none is specified, the first one found on the system will be
-> +used.  Support for other runtimes may be added later depending on their
-> +popularity among users.
-> +
-> +By default, commands are run non-interactively.  The user can abort a running
-> +container with SIGINT (Ctrl-C).  To run commands interactively with a TTY, the
-> +``--shell`` or ``-s`` option can be used.  Signals will then be received by the
-> +shell directly rather than the parent ``container`` process.  To exit an
-> +interactive shell, use Ctrl-D or ``exit``.
-> +
-> +.. note::
-> +
-> +   The only host requirement aside from a container runtime is Python 3.10 or
-> +   later.
-> +
-> +
-> +Environment Variables
-> +=====================
-> +
-> +Environment variables are not propagated to the container so they have to be
-> +either defined in the image itself or via the ``-e`` option using an
-> +environment file.  In some cases it makes more sense to have them defined in
-> +the Containerfile used to create the image.  For example, a Clang-only compiler
-> +toolchain image may have ``LLVM=1`` defined.
-> +
-> +The local environment file is more useful for user-specific variables added
-> +during development.  It is passed as-is to the container runtime so its format
-> +may vary.  Typically, it will look like the output of ``env``.  For example::
-> +
-> +  INSTALL_MOD_STRIP=1
-> +  SOME_RANDOM_TEXT=One upon a time
-> +
-> +Please also note that ``make`` options can still be passed on the command line,
-> +so while this can't be done since the first argument needs to be the
-> +executable::
-> +
-> +  scripts/container -i tuxmake/korg-clang LLVM=1 make
-> +
-> +this will work::
-> +
-> +  scripts/container -i tuxmake/korg-clang make LLVM=1
+> -- 
+> 2.47.3
+> 
+> 
 
-First of all: Thanks for all that work!
+Out-of-source builds do not work on my system with podman.  If this is
+expected, I think it would be great to mention that somewhere in the
+documentation.
 
 
-I probably have just read it over: I have to prefix the
-'tuxmake/korg-clang' by 'docker.io/'.  Is that a problem of my system
-configuration (Debian forky, no special podman config)?
+Nevertheless, thanks a lot!  I expect me to use that a lot in the
+future!
 
+For the whole patch set:
+Tested-by: Nicolas Schier <nsc@kernel.org>
+Acked-by: Nicolas Schier <nsc@kernel.org>
 
-> +
-> +
-> +User IDs
-> +========
-> +
-> +This is an area where the behaviour will vary slightly depending on the
-> +container runtime.  The goal is to run commands as the user invoking the tool.
-> +With Podman, a namespace is created to map the current user id to a different
-> +one in the container (1000 by default).  With Docker, while this is also
-> +possible with recent versions it requires a special feature to be enabled in
-> +the daemon so it's not used here for simplicity.  Instead, the container is run
-> +with the current user id directly.  In both cases, this will provide the same
-> +file permissions for the kernel source tree mounted as a volume.  The only
-> +difference is that when using Docker without a namespace, the user id may not
-> +be the same as the default one set in the image.
-> +
-> +Say, we're using an image which sets up a default user with id 1000 and the
-> +current user calling the ``container`` tool has id 1234.  The kernel source
-> +tree was checked out by this same user so the files belong to user 1234.  With
-> +Podman, the container will be running as user id 1000 with a mapping to id 1234
-> +so that the files from the mounted volume appear to belong to id 1000 inside
-> +the container.  With Docker and no namespace, the container will be running
-> +with user id 1234 which can access the files in the volume but not in the user
-> +1000 home directory.  This shouldn't be an issue when running commands only in
-> +the kernel tree but it is worth highlighting here as it might matter for
-> +special corner cases.
+Kind regards,
+Nicolas
 
-I tested a tiny bit with podman as runtime backend.  If I leave out the
-'-r podman' podman's docker emulation is in effect and fails with:
-
-    $ scripts/container -i docker.io/tuxmake/korg-clang -- make LLVM=1 -j8 olddefconfig
-    Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
-    mkdir: cannot create directory '.tmp_15': Permission denied
-    mkdir: cannot create directory '.tmp_19': Permission denied
-    mkdir: cannot create directory '.tmp_22': Permission denied
-    mkdir: cannot create directory '.tmp_25': Permission denied
-    mkdir: cannot create directory '.tmp_28': Permission denied
-    mkdir: cannot create directory '.tmp_31': Permission denied
-      HOSTCC  scripts/basic/fixdep
-    error: error opening 'scripts/basic/.fixdep.d': Permission denied
-    1 error generated.
-    make[2]: *** [scripts/Makefile.host:114: scripts/basic/fixdep] Error 1
-    make[1]: *** [/src/Makefile:655: scripts_basic] Error 2
-    make: *** [Makefile:248: __sub-make] Error 2
-    [exit code 2]
-
-But with '-r podman' it works like a charm.
-
-Would it make sense to switch the default runtime to podman to
-prevent non-functional podman-docker emulation?  (Or is this just a
-problem on my machine?)
 
 -- 
 Nicolas
