@@ -1,75 +1,74 @@
-Return-Path: <linux-kbuild+bounces-10736-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10737-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uItDFAjHb2mgMQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10736-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 19:18:48 +0100
+	id iOniBWyzb2nHMAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10737-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 17:55:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EF849506
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 19:18:47 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0A1480D0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 17:55:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 01E1A7EAA68
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 15:54:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 358B99E4231
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Jan 2026 15:54:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3658F46AF18;
-	Tue, 20 Jan 2026 15:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A3548035C;
+	Tue, 20 Jan 2026 15:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="REZAzfyU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7T6BtI5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AFE046AF0F
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 15:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1909480357
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 15:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768922931; cv=none; b=nusLfkCbN+CYocy2fJziOF4P33ttkBYkVBL+RDyq1kjKUTpaUCOBwnMOv9xllRxBDqV9y3WtigYleB5b9MDiIr1qVifChLIFasYCvozXvF/ujqvodJrVh6kTufmwdhTPyiNACVlf5Ye/C6h0/semG/ePusO8SfIOUFtNJrsmhq4=
+	t=1768922938; cv=none; b=Ff7J3OgR6qT/4Lu6Q4cVrdTgT6bu1DN9tTrHBWWM9D3D1AhbLd3cQ2u6HPru3lZp6tHLygKYvYvicuodNpWlyHST39KAdht+1hcGJMR+lujeiQHpDgU+WDjaD/dgFJDMFQQgaullEu1m/qqdPaGzlbBqcdmSQqU3FvhBhBSPiQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768922931; c=relaxed/simple;
-	bh=dl3n6fCypG8vkThD9BAp7rguf6h03v9XsKH7wuiZifw=;
+	s=arc-20240116; t=1768922938; c=relaxed/simple;
+	bh=IvCBOJsyp4jJf5j7bOKWY8QnmddhJ1IJm+3EBzoWwGo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g54NAEb4ezUdOHTSGIpT1SPeNVzwyfDQZ7aA69PTM+9iyI2qNeqL1bGqUMS7XbKNKqr3qndOexeWvQ8Upbv5nL+rfJ2PFmyLa8QveUlFQNZq+uTG0/4XQ94ivaJLFIEvG0UmfJTqT0DIdzeMzKNaQILBKVIcvrmrqwGgnVRsIv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=REZAzfyU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77FEC2BCB0
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 15:28:50 +0000 (UTC)
+	 To:Cc:Content-Type; b=ER3f7fHGuV4fa0h3ctUkSqGoOVIR4YLJB4YNuWbuGASB1ezaYxW/BCjnazXlwpSE9DVlKvRgE0MqyhqW8Vv5HS002L75nyZxV4hfv6eiL9kKnt/1+sTuhLXqwVkyVuVe4i1KyM7UsxDNvyC3Ro9TXO46LHYt06+XQpTXiKI/+bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7T6BtI5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77006C2BCB0
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 15:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768922930;
-	bh=dl3n6fCypG8vkThD9BAp7rguf6h03v9XsKH7wuiZifw=;
+	s=k20201202; t=1768922938;
+	bh=IvCBOJsyp4jJf5j7bOKWY8QnmddhJ1IJm+3EBzoWwGo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=REZAzfyUg4MOS+AvyirJQipGS1lgQbuDRpFSYDAQga9B8WTowkViNQ1SemgnnIADV
-	 MytMt+qPvCvwCXMfnjqgLnJHDqyfd077giMM+i0pIqUZmijfpRw/b7yf09/0eaiDf1
-	 sUI/7UJdPnybtdD4MGHM9oe/35jeLHkxFRZrspWcHfvxUYflAtVLGsIfZ3DWqY/DfP
-	 4kHepsASidYZX3iUExkawpgW5jGMKjWaoZbDCnxs4TzlqLPS5TAHBi54oHGvu7W0y1
-	 /n+SRsQIFcInbnxVgKTl0GoXZj+LDx5pmFdQzRvzVvMPGbZQvKRVNcrZUzDukVc+yJ
-	 cZnlUpyJOAwqw==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38301bf7864so55690991fa.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 07:28:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVcYwpK5WPjPKuOupO55G/BuCviCE+j63CVeQS5C0wRBc6hWlA1F4SaRCAsWH5zJO7pV/ygEWp0ewGxz/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6VupJ67v95rQeR7bbI6lmnKqBp4Mcdht2l9fY0cVB2a+zJfLN
-	KNK8/JMKv9GolTEcFJW55vx+rl9FiSzLPt7HAksOtGtmPzwqu6I54XqJGZs8aZmXefgUVwQiGcI
-	KW3nryqqrzV6MC1/aAYSXbxGEcEuylrE=
-X-Received: by 2002:a05:651c:2128:b0:37e:6884:6756 with SMTP id
- 38308e7fff4ca-38384dc857cmr61735921fa.14.1768922929328; Tue, 20 Jan 2026
- 07:28:49 -0800 (PST)
+	b=V7T6BtI5SYdGHoupHnzXXv/JfqxSquvGfgFNxHw1eJO/pgHFuAv7yo97IMmGvrcHX
+	 lgT8l3zynbd7bvULOOuakecCzajWO4zzLei21VinO7GFDTRYgms6c3D7KzqMuHZ6oL
+	 G9FGdN34R4DBy7WMKJKoK1phSaMp9z/bcBhqHC9LaRyR7E2IlmDicINVMm/Z2RaY01
+	 OF/UIcsy0ANXsIX4d8/A4sl1JY7dy4gDGrxeWJLLIA4JRGfFFdt5Sy5nhsO9D2cRQT
+	 kw20T0uG1VSQCVIQ8tZv9bJhSt7b9Dk45gfV0bOCPOMgE7/akaGzzcjDYI9DJpnkBf
+	 IizVCRdJIdspQ==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-383138a497bso53523851fa.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 07:28:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXamxwoaJrPMz5agsNRVHO/oRlRY2QiO8cOqFrJJ3IIrv2vU/yv4dyLZAsavGVNbAnpMfhv5qtrzEkxGLw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIgBIRwpvTd/2fuRyEhl0BFlbXLn/svqjYA1CpmiiwFhYz9QfV
+	wDP1pcE7qiGIZnMcq0YdYKrAXKxAfePwoyNHM9njd2xX6Qci28bLXanOz07+02hr1SOnEIsxf8m
+	7KZPSddZwio23DtVTa1N/jKDrHMjjNas=
+X-Received: by 2002:a05:651c:3135:b0:37f:d18e:15f8 with SMTP id
+ 38308e7fff4ca-38386a263aamr43785091fa.22.1768922937133; Tue, 20 Jan 2026
+ 07:28:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260120-ra-fix-v1-0-829e4e92818c@nvidia.com> <20260120-ra-fix-v1-2-829e4e92818c@nvidia.com>
-In-Reply-To: <20260120-ra-fix-v1-2-829e4e92818c@nvidia.com>
+References: <20260120-ra-fix-v1-0-829e4e92818c@nvidia.com> <20260120-ra-fix-v1-3-829e4e92818c@nvidia.com>
+In-Reply-To: <20260120-ra-fix-v1-3-829e4e92818c@nvidia.com>
 From: Tamir Duberstein <tamird@kernel.org>
-Date: Tue, 20 Jan 2026 10:28:12 -0500
-X-Gmail-Original-Message-ID: <CAJ-ks9nNv2oDGeCbZoBzEJdrKj-pLgcniUbyss8uSoxXiUvLkA@mail.gmail.com>
-X-Gm-Features: AZwV_QjIhIRBLh1D5esl4khZclzoZ0r-NLtnQuo5LxaAeKd7McXAhJVBHp5ZiUc
-Message-ID: <CAJ-ks9nNv2oDGeCbZoBzEJdrKj-pLgcniUbyss8uSoxXiUvLkA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] scripts: generate_rust_analyzer: plumb editions via
- command line
+Date: Tue, 20 Jan 2026 10:28:21 -0500
+X-Gmail-Original-Message-ID: <CAJ-ks9=Sc=sdWo+6u3+rHhEmCcU_WbFMvowmfgmsS0s5iyrduA@mail.gmail.com>
+X-Gm-Features: AZwV_QgEELRWyFhIJ6jLFEbp5U5lJpzOCxtgiXiZbsYYMWErsdC901P28SJwwvE
+Message-ID: <CAJ-ks9=Sc=sdWo+6u3+rHhEmCcU_WbFMvowmfgmsS0s5iyrduA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] scripts: generate_rust_analyzer: plumb crate-attrs
 To: Eliot Courtney <ecourtney@nvidia.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
@@ -91,14 +90,14 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-10736-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10737-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
+	R_SPF_SOFTFAIL(0.00)[~all];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -106,222 +105,127 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,nvidia.com:email,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: E6EF849506
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,nvidia.com:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 7C0A1480D0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On Tue, Jan 20, 2026 at 3:54=E2=80=AFAM Eliot Courtney <ecourtney@nvidia.co=
 m> wrote:
 >
-> Add --editions argument to pass crate editions in a similar way to the
-> existing --cfgs mechanism.
+> Add --crate-attrs argument to pass per-crate attributes.
 >
-> It sets editions as follows:
->   - core: 2024 for rustc >=3D 1.87 otherwise 2021
->   - quote: 2018
->   - all others: 2021
+> The crate_attrs field was added to rust-analyzer in v0.3.2727 (~1.94.0)
+> and is silently ignored by older versions, so it's safe to add it.
+
+Please add citations for both claims made here.
+
 >
 > Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 > ---
->  rust/Makefile                     |  8 +++--
->  scripts/generate_rust_analyzer.py | 70 ++++++++++++++++++++++-----------=
-------
->  2 files changed, 45 insertions(+), 33 deletions(-)
+>  rust/Makefile                     | 5 ++++-
+>  scripts/generate_rust_analyzer.py | 9 +++++++--
+>  2 files changed, 11 insertions(+), 3 deletions(-)
 >
 > diff --git a/rust/Makefile b/rust/Makefile
-> index 4dcc2eff51cb..2238b0b69197 100644
+> index 2238b0b69197..e6c5108ab625 100644
 > --- a/rust/Makefile
 > +++ b/rust/Makefile
-> @@ -95,8 +95,10 @@ quote-cfgs :=3D \
->  quote-skip_flags :=3D \
->      --edition=3D2021
+> @@ -84,9 +84,11 @@ proc_macro2-cfgs :=3D \
+>      $(if $(call rustc-min-version,108800),proc_macro_span_file proc_macr=
+o_span_location)
 >
-> +quote-edition :=3D 2018
+>  # Stable since Rust 1.79.0: `feature(proc_macro_byte_character,proc_macr=
+o_c_str_literals)`.
+> +proc_macro2-crate-attrs :=3D feature(proc_macro_byte_character,proc_macr=
+o_c_str_literals)
 > +
->  quote-flags :=3D \
-> -    --edition=3D2018 \
-> +    --edition=3D$(quote-edition) \
+>  proc_macro2-flags :=3D \
 >      --cap-lints=3Dallow \
->      --extern proc_macro2 \
->      $(call cfgs-to-flags,$(quote-cfgs))
-> @@ -567,10 +569,12 @@ quiet_cmd_rustc_library =3D $(if $(skip_clippy),RUS=
-TC,$(RUSTC_OR_CLIPPY_QUIET)) L
+> -    -Zcrate-attr=3D'feature(proc_macro_byte_character,proc_macro_c_str_l=
+iterals)' \
+> +    -Zcrate-attr=3D'$(proc_macro2-crate-attrs)' \
+>      $(call cfgs-to-flags,$(proc_macro2-cfgs))
 >
->  rust-analyzer:
->         $(Q)MAKEFLAGS=3D $(srctree)/scripts/generate_rust_analyzer.py \
-> -               --cfgs=3D'core=3D$(core-cfgs)' $(core-edition) \
-> +               --cfgs=3D'core=3D$(core-cfgs)' \
->                 --cfgs=3D'proc_macro2=3D$(proc_macro2-cfgs)' \
->                 --cfgs=3D'quote=3D$(quote-cfgs)' \
+>  quote-cfgs :=3D \
+> @@ -575,6 +577,7 @@ rust-analyzer:
 >                 --cfgs=3D'syn=3D$(syn-cfgs)' \
-> +               --editions=3D'core=3D$(core-edition)' \
-> +               --editions=3D'quote=3D$(quote-edition)' \
+>                 --editions=3D'core=3D$(core-edition)' \
+>                 --editions=3D'quote=3D$(quote-edition)' \
+> +               --crate-attrs=3D'proc_macro2=3D$(proc_macro2-crate-attrs)=
+' \
 >                 $(realpath $(srctree)) $(realpath $(objtree)) \
 >                 $(rustc_sysroot) $(RUST_LIB_SRC) $(if $(KBUILD_EXTMOD),$(=
 srcroot)) \
 >                 > rust-project.json
 > diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_an=
 alyzer.py
-> index c188d1f1fd5b..17ed5546504b 100755
+> index 17ed5546504b..e8c50812fb9f 100755
 > --- a/scripts/generate_rust_analyzer.py
 > +++ b/scripts/generate_rust_analyzer.py
-> @@ -11,6 +11,13 @@ import pathlib
+> @@ -11,6 +11,7 @@ import pathlib
 >  import subprocess
 >  import sys
 >
-> +def args_single(args):
-> +    result =3D {}
-> +    for arg in args:
-> +        crate, val =3D arg.split("=3D", 1)
-> +        result[crate] =3D val
-> +    return result
-
-This is a bit sloppy. If we expect exactly one edition per crate, we
-should error when we find that is not the case.
-
-Separately this is almost identical to `args_crates_cfgs`; it would be
-better to unify the implementation.
-
 > +
->  def args_crates_cfgs(cfgs):
->      crates_cfgs =3D {}
->      for cfg in cfgs:
-> @@ -19,7 +26,7 @@ def args_crates_cfgs(cfgs):
+>  def args_single(args):
+>      result =3D {}
+>      for arg in args:
+> @@ -26,7 +27,7 @@ def args_crates_cfgs(cfgs):
 >
 >      return crates_cfgs
 >
-> -def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, c=
-ore_edition):
-> +def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, e=
+> -def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, e=
 ditions):
+> +def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, e=
+ditions, crate_attrs):
 >      # Generate the configuration list.
 >      generated_cfg =3D []
 >      with open(objtree / "include" / "generated" / "rustc_cfg") as fd:
-> @@ -34,8 +41,35 @@ def generate_crates(srctree, objtree, sysroot_src, ext=
-ernal_src, cfgs, core_edit
->      crates =3D []
+> @@ -42,6 +43,7 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
+rnal_src, cfgs, editions)
 >      crates_indexes =3D {}
 >      crates_cfgs =3D args_crates_cfgs(cfgs)
-> +    crates_editions =3D args_single(editions)
-> +
-> +    def append_crate(display_name, root_module, deps, cfg=3D[], is_works=
+>      crates_editions =3D args_single(editions)
+> +    crates_crate_attrs =3D args_crates_cfgs(crate_attrs)
+>
+>      def append_crate(display_name, root_module, deps, cfg=3D[], is_works=
 pace_member=3DTrue, is_proc_macro=3DFalse):
-> +        # Miguel Ojeda writes:
-> +        #
-> +        # > ... in principle even the sysroot crates may have different
-> +        # > editions.
-> +        # >
-> +        # > For instance, in the move to 2024, it seems all happened at =
-once
-> +        # > in 1.87.0 in these upstream commits:
-> +        # >
-> +        # >     0e071c2c6a58 ("Migrate core to Rust 2024")
-> +        # >     f505d4e8e380 ("Migrate alloc to Rust 2024")
-> +        # >     0b2489c226c3 ("Migrate proc_macro to Rust 2024")
-> +        # >     993359e70112 ("Migrate std to Rust 2024")
-> +        # >
-> +        # > But in the previous move to 2021, `std` moved in 1.59.0, whi=
-le
-> +        # > the others in 1.60.0:
-> +        # >
-> +        # >     b656384d8398 ("Update stdlib to the 2021 edition")
-> +        # >     06a1c14d52a8 ("Switch all libraries to the 2021 edition"=
-)
-> +        #
-> +        # Link: https://lore.kernel.org/all/CANiq72kd9bHdKaAm=3D8xCUhSHM=
-y2csyVed69bOc4dXyFAW4sfuw@mail.gmail.com/
-> +        #
-> +        # At the time of writing all rust versions we support build the
-> +        # sysroot crates with the same edition. We may need to relax thi=
-s
-> +        # assumption if future edition moves span multiple rust versions=
-.
-> +        edition =3D crates_editions.get(display_name, "2021")
+>          # Miguel Ojeda writes:
+> @@ -78,6 +80,8 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
+rnal_src, cfgs, editions)
+>              "deps": [{"crate": crates_indexes[dep], "name": dep} for dep=
+ in deps],
+>              "cfg": cfg,
+>              "edition": edition,
+> +            # Crate attributes were introduced in 1.94.0 but older versi=
+ons will silently ignore this.
 
-This logic is incorrect, and the relocation of this comment is also
-incorrect. The sysroot crates std, alloc, and proc_macro should also
-be compiled with core's edition (this comment explains why). Your
-patch changes that to edition 2021, which is incorrect.
+Citations needed.
 
 
->
-> -    def append_crate(display_name, root_module, deps, cfg=3D[], is_works=
-pace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
->          crate =3D {
->              "display_name": display_name,
->              "root_module": str(root_module),
-> @@ -68,31 +102,6 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
-ternal_src, cfgs, core_edit
->              deps,
->              cfg,
->              is_workspace_member=3DFalse,
-> -            # Miguel Ojeda writes:
-> -            #
-> -            # > ... in principle even the sysroot crates may have differ=
-ent
-> -            # > editions.
-> -            # >
-> -            # > For instance, in the move to 2024, it seems all happened=
- at once
-> -            # > in 1.87.0 in these upstream commits:
-> -            # >
-> -            # >     0e071c2c6a58 ("Migrate core to Rust 2024")
-> -            # >     f505d4e8e380 ("Migrate alloc to Rust 2024")
-> -            # >     0b2489c226c3 ("Migrate proc_macro to Rust 2024")
-> -            # >     993359e70112 ("Migrate std to Rust 2024")
-> -            # >
-> -            # > But in the previous move to 2021, `std` moved in 1.59.0,=
- while
-> -            # > the others in 1.60.0:
-> -            # >
-> -            # >     b656384d8398 ("Update stdlib to the 2021 edition")
-> -            # >     06a1c14d52a8 ("Switch all libraries to the 2021 edit=
-ion")
-> -            #
-> -            # Link: https://lore.kernel.org/all/CANiq72kd9bHdKaAm=3D8xCU=
-hSHMy2csyVed69bOc4dXyFAW4sfuw@mail.gmail.com/
-> -            #
-> -            # At the time of writing all rust versions we support build =
-the
-> -            # sysroot crates with the same edition. We may need to relax=
- this
-> -            # assumption if future edition moves span multiple rust vers=
-ions.
-> -            edition=3Dcore_edition,
->          )
->
->      # NB: sysroot crates reexport items from one another so setting up o=
-ur transitive dependencies
-> @@ -120,8 +129,7 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
-ternal_src, cfgs, core_edit
->          "quote",
->          srctree / "rust" / "quote" / "lib.rs",
->          ["core", "alloc", "std", "proc_macro", "proc_macro2"],
-> -        cfg=3Dcrates_cfgs["quote"],
-> -        edition=3D"2018",
-> +        cfg=3Dcrates_cfgs["quote"]
->      )
->
->      append_crate(
-> @@ -224,7 +232,7 @@ def main():
->      parser =3D argparse.ArgumentParser()
+> +            "crate_attrs": crates_crate_attrs.get(display_name, []),
+>              "env": {
+>                  "RUST_MODFILE": "This is only for rust-analyzer"
+>              }
+> @@ -233,6 +237,7 @@ def main():
 >      parser.add_argument('--verbose', '-v', action=3D'store_true')
 >      parser.add_argument('--cfgs', action=3D'append', default=3D[])
-> -    parser.add_argument("core_edition")
-> +    parser.add_argument('--editions', action=3D'append', default=3D[])
+>      parser.add_argument('--editions', action=3D'append', default=3D[])
+> +    parser.add_argument('--crate-attrs', action=3D'append', default=3D[]=
+)
 >      parser.add_argument("srctree", type=3Dpathlib.Path)
 >      parser.add_argument("objtree", type=3Dpathlib.Path)
 >      parser.add_argument("sysroot", type=3Dpathlib.Path)
-> @@ -238,7 +246,7 @@ def main():
+> @@ -246,7 +251,7 @@ def main():
 >      )
 >
 >      rust_project =3D {
 > -        "crates": generate_crates(args.srctree, args.objtree, args.sysro=
-ot_src, args.exttree, args.cfgs, args.core_edition),
-> +        "crates": generate_crates(args.srctree, args.objtree, args.sysro=
 ot_src, args.exttree, args.cfgs, args.editions),
+> +        "crates": generate_crates(args.srctree, args.objtree, args.sysro=
+ot_src, args.exttree, args.cfgs, args.editions, args.crate_attrs),
 >          "sysroot": str(args.sysroot),
 >      }
 >
