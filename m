@@ -1,250 +1,185 @@
-Return-Path: <linux-kbuild+bounces-10761-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4D0uLOIocGmyWwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10761-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 02:16:18 +0100
+	id 8CAbONKkcGlyYgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10762-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 11:05:06 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459344EF0D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 02:16:18 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8E554E55
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 11:05:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3BFB88C70B4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:16:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B0CE08E291A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 09:57:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C0F929D297;
-	Wed, 21 Jan 2026 01:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E52421891;
+	Wed, 21 Jan 2026 09:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbL/rA7v"
+	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="EQ1DCx84"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612952DB795
-	for <linux-kbuild@vger.kernel.org>; Wed, 21 Jan 2026 01:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9053D3486;
+	Wed, 21 Jan 2026 09:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768958171; cv=none; b=EPugE5T9Ze/hjryVkj+MEhOJXxfnoEJ1F2xRm4X5ufHeDLKovbOOQnX0Jfk4LpA+xm/9jOIE4o49JhiU+MoaG07U83+UzpCv212OTV/YglSU+o+liymmnekGQOJq3HftYhAOr0+4XjXogUju8Bj+vkmrnbhpu7fgAfXY3CxLEls=
+	t=1768989362; cv=none; b=WIEm2dwUOKbkMEeoUFpse4y0+dtjE5tnPxKkur3xJZSZHw7gp79FmIrSNHPhqDKRbdZYJBwLroy4swVB+rgqAstfREef/64Sz3iW0SbvAp7E5Cs+++wxjmBXiufHpFyZEJ0kjVr8duFqrPDQ/dDm70giNuhS5fUm0zV2Ijgl9Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768958171; c=relaxed/simple;
-	bh=8tK93kNbfRfdSjL6W5C/lx7kmJbOTp0ynbmaT+UmxLU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=bqlTtRAjk2vr8SlydC5YLmq4ff7t2HPLlIzadRoRZfT8iKruv2F4meC0Y/bYYbea5rKEBStw8VHZAdMP+6YNPC/DI1aopycXhQm5S0J/YjrB5rn5o4YS71mLuZ3+OuaSCTVRlF5CiUPl9MM7KLDn6bC2Dd8w96yh5KEnf8E/KME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bbL/rA7v; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-81ecbdfdcebso3583328b3a.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 17:16:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768958169; x=1769562969; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TuJvjah/Tw/b3alV1e6g6NeIK8xwKHZbZfdxMeTcSjs=;
-        b=bbL/rA7vKnUK60t458F+k9TNmrrwQRp8FNJf1paJmgyO7pQcG9Tf2qL0FwNlIhhj/M
-         wmtYltkWPyFHUdsyCKbqd5h08PvbVZgVW6ePP6x4NVHWViPuxHkqzTm0gxh8OfPs6vQJ
-         CoiqOT7sQXm04poUyru2FrS/ScaUYPl+3wTfGnhHIBqQFxlhYv9aatxwTWh67PAtLBHJ
-         Y9PzxZWzEPOv5SuVLi91d7OvHTAc4sWuYMTDIvQDFiArd1iN344BmRJ13zI5QeVzP2Ye
-         O/cu6PKyRykf8hSOPQiv/f+f6ecEViOeILdgFEa3vHKTQteqaqUX5o8vxRrXy0Fzf9bH
-         RLEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768958169; x=1769562969;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TuJvjah/Tw/b3alV1e6g6NeIK8xwKHZbZfdxMeTcSjs=;
-        b=bctz/W1Q/pEOqVQjY7ZC8Vc01NfNgXSgeWMWZNDbSAEX1A6peSkd1+tspz28nhDH3Z
-         4Mpkh4ZJgIzSqjEAfY2/vu2mtNQlE9CnyP9LLlxowb+alem5549UjJDk+1d2Qo+0aBOe
-         4Dvfxj/rylppC4e4u0xaFzmRr8CUlmp3iE91Yw9t2eGpgMcnteJ/h03Xu2n7VyUKedoP
-         5vwS9GUs4zHq1gNtnL4f3HQFT4hhivln29qV53ah4PoluzwNV6GU3H0O67ZgFUTPwss8
-         4JPGx9vfVrNfykL/cQ3a+ViCuJALVt94teDDbQ8leeZwZfUOiyfQMq1qimC36IlWkbtY
-         Dk+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVuBntPLgoXkTwExrHDVc2vw/GO7HN7SX6daXmQdm8YN9BXre+os+goeJlllNHlArRRtxjiQIM6+C6Mdi8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuA7Re26dI6kgYCHbZM5UVs5n01SN/XKx+W0dKCWghtHpfsjde
-	7VQJLKULbb9cf0C7srog4x2NoWCw+VWJJFZcmObculH2zMFhOTIiNo7N
-X-Gm-Gg: AZuq6aIMcCi/1ZehX9aCQ3DAv/ivCvhJzVHU2yrhCJccwtavfewjpwCYTEPp7jK5Kgr
-	fFMuzP5BCnHDMGIeIwYhpgmz9gkOSu4SsfKJFhlaKGPglilSaXb9LYhAJWy1R9yfkG94TqnYBXk
-	IgemFqLfU9ydy7gfaxYiLO8QFN0q/I0O0/gMBEDxuCKWtXP3kZpWXdo4DhWX4UR59VFdlGJyyV6
-	cgpMuPPIjVThPOYyVlfsdKMn0vD3UbCIANdX0qbDXPZjOolvdTmgCqrOrliDJbont6j6p2Lcqyx
-	KLzjlbwQTtSwgOiOGtIP2vJR5/8U8ftmahMlMRYUUsEs6qpRB9sOLu9/X5pEfynmZsTT0fAb/eh
-	dSnPbvZQOG7VXRNVIuJaK5KjluQGDL7BO1OEn+euBOBB2Wq64YiP5/YVBSRFUgRkMfjiehtzYei
-	I2RqMscW6pCKbAPJDw
-X-Received: by 2002:a05:6a00:1413:b0:81d:8d00:76d2 with SMTP id d2e1a72fcca58-81fa18204a0mr12463838b3a.40.1768958168312;
-        Tue, 20 Jan 2026 17:16:08 -0800 (PST)
-Received: from localhost ([112.149.32.52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa108c4dbsm13363443b3a.5.2026.01.20.17.16.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 17:16:07 -0800 (PST)
+	s=arc-20240116; t=1768989362; c=relaxed/simple;
+	bh=vb33am2CXNzJTUFW8xjXCgEdnw5d36/6zQ548a5P7CE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=tXgUVz50Q4aaj1iRO820VJrW5mpExsFTmELSBzd5UBQGRHOlljPA1Rfop8IaSFDHk+xY+LanCrAXuHTtwtnTAEHNRZWrhgxwtkeVQsRUWPB99Xb/eodEheZxLVKsvuX+PcOeJ/C/4TEShvTuWG3AU13ZHLvlbqwGKf32T+pheIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=EQ1DCx84; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A38F9430CC;
+	Wed, 21 Jan 2026 09:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
+	t=1768989356;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GaqCvMBL8GtzVC6jIdKSwudL/1w67Gf2qPep5NgGXv4=;
+	b=EQ1DCx84h6BZdcoubAvXWSPdKNVxCvwdllgqX2gJTFTgVi2brHbRG9kfXR4iby7t6eVMV0
+	BizgUDW4ZXuVQymNB4OZoZ7faRLH/Wg5zt5AAT7puLMhUIBNC/VpskQFvnk+cBUwOkstVA
+	4SBQDx3Pl0XWJdZnbGTDQcIDj8f7/28ZILt3FEOX4qY+18vjAAWs7FNhftncYvorbRKPHM
+	4s3RZ25KbKn+EiQPBgsP2PPumyE3zw93wNGgEDdFnu5mULfsO5PGA1Qz54f7dHeyBr4jrG
+	2qioSwCL+IbnsRt1aCwSaDEN73Wd3V5V8O9jYs8Gp8ceYJWW8MMwhpq7/iEmeg==
+Message-ID: <e96a6e71-80b3-4556-a4eb-fd242e0f5713@gtucker.io>
+Date: Wed, 21 Jan 2026 10:55:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 21 Jan 2026 10:16:03 +0900
-Message-Id: <DFTVC1IH8KM0.VR14LX627BWD@gmail.com>
-Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] scripts: generate_rust_analyzer.py: reduce cfg
- plumbing
-From: "Jesung Yang" <y.j3ms.n@gmail.com>
-To: "Tamir Duberstein" <tamird@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Jesung Yang" <y.j3ms.n@gmail.com>
-X-Mailer: aerc 0.21.0
-References: <20260120-rust-analyzer-pin-init-duplication-v2-0-a1c76f0d3bef@kernel.org> <20260120-rust-analyzer-pin-init-duplication-v2-2-a1c76f0d3bef@kernel.org>
-In-Reply-To: <20260120-rust-analyzer-pin-init-duplication-v2-2-a1c76f0d3bef@kernel.org>
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] Documentation: dev-tools: add container.rst page
+To: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
+ workflows@vger.kernel.org, llvm@lists.linux.dev
+References: <cover.1767199119.git.gtucker@gtucker.io>
+ <c859f9b6dd5313136f7a445497d6209405eafa7e.1767199119.git.gtucker@gtucker.io>
+ <aW-I3fNqp_7X0oeg@derry.ads.avm.de> <20260120183550.GD2749368@ax162>
+Content-Language: en-US
+From: Guillaume Tucker <gtucker@gtucker.io>
+In-Reply-To: <20260120183550.GD2749368@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: gtucker@gtucker.io
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedvleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefiuhhilhhlrghumhgvucfvuhgtkhgvrhcuoehgthhutghkvghrsehgthhutghkvghrrdhioheqnecuggftrfgrthhtvghrnheptdejffefieefffegtefgueehgeehgfdviefhjeegleetgefhfeejfeeuuefhgeeinecuffhomhgrihhnpeguohgtkhgvrhdrihhopdhpohgumhgrnhdrihhonecukfhppedujeeirddukeekrddujeegrddugedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudejiedrudekkedrudejgedrudeguddphhgvlhhopegludelvddrudeikedrudelkedrieegngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugepteefkefhleegfedtveevpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddupdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhofiesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoi
+ ihkrghnrdguvghvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-GND-State: clean
+X-GND-Score: -100
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[gtucker.io:s=gm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-10762-lists,linux-kbuild=lfdr.de];
+	DMARC_NA(0.00)[gtucker.io];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10761-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[gtucker.io:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yj3msn@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: 459344EF0D
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gtucker@gtucker.io,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,ghcr.io:url,quay.io:url,podman.io:url,gtucker.io:mid,gtucker.io:dkim,docker.io:url]
+X-Rspamd-Queue-Id: 7F8E554E55
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed Jan 21, 2026 at 1:10 AM KST, Tamir Duberstein wrote:
-> Centralize `cfg` lookup in `append_crate` to avoid having to do so for
-> each crate. Remove hardcoded `cfg`s for `pin-init{,-internal}` now that
-> these are passed from `rust/Makefile`.
->
-> Signed-off-by: Tamir Duberstein <tamird@kernel.org>
-> ---
->  scripts/generate_rust_analyzer.py | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_an=
-alyzer.py
-> index 147d0cc94068..b96d3cbe3df1 100755
-> --- a/scripts/generate_rust_analyzer.py
-> +++ b/scripts/generate_rust_analyzer.py
-> @@ -35,7 +35,9 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
-rnal_src, cfgs, core_edit
->      crates_indexes =3D {}
->      crates_cfgs =3D args_crates_cfgs(cfgs)
-> =20
-> -    def append_crate(display_name, root_module, deps, cfg=3D[], is_works=
-pace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
-> +    def append_crate(display_name, root_module, deps, cfg=3DNone, is_wor=
-kspace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
-> +        if cfg is None:
-> +            cfg =3D crates_cfgs.get(display_name, [])
+On 20/01/2026 7:35 pm, Nathan Chancellor wrote:
+> On Tue, Jan 20, 2026 at 02:53:33PM +0100, Nicolas Schier wrote:
+>> I probably have just read it over: I have to prefix the
+>> 'tuxmake/korg-clang' by 'docker.io/'.  Is that a problem of my system
+>> configuration (Debian forky, no special podman config)?
+> 
+> Some distributions ship registries.conf [1] to allow unqualified image
+> names but I do not think Debian does. Personally, I use the full name
+> regardless but it should be easy to create it for commands such as these
+> to work. I use:
+> 
+> unqualified-search-registries = ['docker.io', 'ghcr.io', 'quay.io']
+> 
+> [1]: https://podman.io/docs/installation#registriesconf
 
-Could we add a brief comment explaining how the behavior of
-`append_crate` changes according to the `cfg` parameter? Since `None`
-and an empty list have different effects, documenting that distinction
-would make the intended behavior clearer.
+And this is not directly related to the scripts/container tool as it
+just passes the image name as-is.  Maybe the example in the docs
+should explicitly use docker.io/ though.
 
-This would also help later when we add proper Python docstrings.
+>> I tested a tiny bit with podman as runtime backend.  If I leave out the
+>> '-r podman' podman's docker emulation is in effect and fails with:
+>>
+>>      $ scripts/container -i docker.io/tuxmake/korg-clang -- make LLVM=1 -j8 olddefconfig
+>>      Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+>>      mkdir: cannot create directory '.tmp_15': Permission denied
+>>      mkdir: cannot create directory '.tmp_19': Permission denied
+>>      mkdir: cannot create directory '.tmp_22': Permission denied
+>>      mkdir: cannot create directory '.tmp_25': Permission denied
+>>      mkdir: cannot create directory '.tmp_28': Permission denied
+>>      mkdir: cannot create directory '.tmp_31': Permission denied
+>>        HOSTCC  scripts/basic/fixdep
+>>      error: error opening 'scripts/basic/.fixdep.d': Permission denied
+>>      1 error generated.
+>>      make[2]: *** [scripts/Makefile.host:114: scripts/basic/fixdep] Error 1
+>>      make[1]: *** [/src/Makefile:655: scripts_basic] Error 2
+>>      make: *** [Makefile:248: __sub-make] Error 2
+>>      [exit code 2]
+>>
+>> But with '-r podman' it works like a charm.
+>>
+>> Would it make sense to switch the default runtime to podman to
+>> prevent non-functional podman-docker emulation?  (Or is this just a
+>> problem on my machine?)
+> 
+> Yeah, I think it would be better to prefer podman over docker if both
+> existed on the system. Something like this should do that?
+> 
+> diff --git a/scripts/container b/scripts/container
+> index dbe92630f05b..50c4ae851001 100755
+> --- a/scripts/container
+> +++ b/scripts/container
+> @@ -105,7 +105,7 @@ class PodmanRuntime(CommonRuntime):
+>   class Runtimes:
+>       """List of all supported runtimes"""
+>   
+> -    runtimes = [DockerRuntime, PodmanRuntime]
+> +    runtimes = [PodmanRuntime, DockerRuntime]
+>   
+>       @classmethod
+>       def get_names(cls):
 
-Thanks!
+Yes this should do the trick, although the help message and docs
+would need to be updated too.
 
-Best regards,
-Jesung
+A better way still would be to make it able to distinguish between
+actual Docker and docker-compatible Podman (e.g. if it's just a
+symlink) so it's not just down to luck.  This may be added to the
+list of potential improvements.
 
->          crate =3D {
->              "display_name": display_name,
->              "root_module": str(root_module),
-> @@ -60,7 +62,7 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
-rnal_src, cfgs, core_edit
->      def append_sysroot_crate(
->          display_name,
->          deps,
-> -        cfg=3D[],
-> +        cfg=3DNone,
->          edition=3D"2021",
->      ):
->          append_crate(
-> @@ -75,7 +77,7 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
-rnal_src, cfgs, core_edit
->      # NB: sysroot crates reexport items from one another so setting up o=
-ur transitive dependencies
->      # here is important for ensuring that rust-analyzer can resolve symb=
-ols. The sources of truth
->      # for this dependency graph are `(sysroot_src / crate / "Cargo.toml"=
- for crate in crates)`.
-> -    append_sysroot_crate("core", [], cfg=3Dcrates_cfgs.get("core", []), =
-edition=3Dcore_edition)
-> +    append_sysroot_crate("core", [], edition=3Dcore_edition)
->      append_sysroot_crate("alloc", ["core"])
->      append_sysroot_crate("std", ["alloc", "core"])
->      append_sysroot_crate("proc_macro", ["core", "std"])
-> @@ -90,21 +92,18 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
-ternal_src, cfgs, core_edit
->          "proc_macro2",
->          srctree / "rust" / "proc-macro2" / "lib.rs",
->          ["core", "alloc", "std", "proc_macro"],
-> -        cfg=3Dcrates_cfgs["proc_macro2"],
->      )
-> =20
->      append_crate(
->          "quote",
->          srctree / "rust" / "quote" / "lib.rs",
->          ["alloc", "proc_macro", "proc_macro2"],
-> -        cfg=3Dcrates_cfgs["quote"],
->      )
-> =20
->      append_crate(
->          "syn",
->          srctree / "rust" / "syn" / "lib.rs",
->          ["proc_macro", "proc_macro2", "quote"],
-> -        cfg=3Dcrates_cfgs["syn"],
->      )
-> =20
->      append_crate(
-> @@ -124,7 +123,6 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
-ternal_src, cfgs, core_edit
->          "pin_init_internal",
->          srctree / "rust" / "pin-init" / "internal" / "src" / "lib.rs",
->          [],
-> -        cfg=3D["kernel"],
->          is_proc_macro=3DTrue,
->      )
-> =20
-> @@ -132,7 +130,6 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
-ternal_src, cfgs, core_edit
->          "pin_init",
->          srctree / "rust" / "pin-init" / "src" / "lib.rs",
->          ["core", "pin_init_internal", "macros"],
-> -        cfg=3D["kernel"],
->      )
-> =20
->      append_crate(
+Feel free to make these tweaks now, or we might wait a bit to see if
+others have more feedback with further changes and I can send a v4.
 
+Cheers,
+Guillaume
 
