@@ -1,83 +1,83 @@
-Return-Path: <linux-kbuild+bounces-10760-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10761-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KFBUEJ8YcGkEVwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10760-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:06:55 +0100
+	id 4D0uLOIocGmyWwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10761-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 02:16:18 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A780F4E4A9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:06:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 459344EF0D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 02:16:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BE4B0781455
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 00:01:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3BFB88C70B4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 01:16:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E47481DD;
-	Wed, 21 Jan 2026 00:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C0F929D297;
+	Wed, 21 Jan 2026 01:16:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aj7cv7B0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbL/rA7v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2D01CFBA
-	for <linux-kbuild@vger.kernel.org>; Wed, 21 Jan 2026 00:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612952DB795
+	for <linux-kbuild@vger.kernel.org>; Wed, 21 Jan 2026 01:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768953689; cv=none; b=qi1k4DL7WLYZ/rvNtz6z1i8gJp2WL+hSNHS9yOwhGDo/+uFdXLbvcm3cgh/CIzYLwVsL5MFayAQZbTC98d6n7vvohlJwAnBqhr0IlVfQTJH0DVy3udv0c7W97hYR+nUpR1wjXY6mydJFHoK6QeFAKOSRK0l3Et2lcD0YF4ZO+G4=
+	t=1768958171; cv=none; b=EPugE5T9Ze/hjryVkj+MEhOJXxfnoEJ1F2xRm4X5ufHeDLKovbOOQnX0Jfk4LpA+xm/9jOIE4o49JhiU+MoaG07U83+UzpCv212OTV/YglSU+o+liymmnekGQOJq3HftYhAOr0+4XjXogUju8Bj+vkmrnbhpu7fgAfXY3CxLEls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768953689; c=relaxed/simple;
-	bh=yRdJQmpTWwZj8gimb94j0TPF7S8boNAdmVxrjjDF1sk=;
+	s=arc-20240116; t=1768958171; c=relaxed/simple;
+	bh=8tK93kNbfRfdSjL6W5C/lx7kmJbOTp0ynbmaT+UmxLU=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=kXXT9mi7nwTyMnDMh/MCeRX5CIf7B/l0vSKYfTQiyWBaPV7Cl/U6BnUTa4i4ApNgbNL1c5iQtX3/7RCiqjFlpeLX1sfYGHcdgdryu1Qkzb/xPLtd0ZgWCqShITax0GvScFaT9xOe2cPkY+dBJ1x7aZ3ulXwRGYBD50+FBzu0UGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aj7cv7B0; arc=none smtp.client-ip=209.85.215.194
+	 References:In-Reply-To; b=bqlTtRAjk2vr8SlydC5YLmq4ff7t2HPLlIzadRoRZfT8iKruv2F4meC0Y/bYYbea5rKEBStw8VHZAdMP+6YNPC/DI1aopycXhQm5S0J/YjrB5rn5o4YS71mLuZ3+OuaSCTVRlF5CiUPl9MM7KLDn6bC2Dd8w96yh5KEnf8E/KME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bbL/rA7v; arc=none smtp.client-ip=209.85.210.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-c05d66dbab2so3786128a12.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 16:01:27 -0800 (PST)
+Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-81ecbdfdcebso3583328b3a.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Jan 2026 17:16:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768953687; x=1769558487; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768958169; x=1769562969; darn=vger.kernel.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yRdJQmpTWwZj8gimb94j0TPF7S8boNAdmVxrjjDF1sk=;
-        b=aj7cv7B0RiXLew4GU9ErUHbAz1sreeIe7dPcnwtstuOM9qQjMu5fRgQ9EBmLP+F7XH
-         2/xff9vM+4JNgTXv5ZMsuD+uPxhPj/ErW4Ajd9N95PqsztfiZ3SdXF6ZEnPyyRbYIeM6
-         bP/Ia+qWB6fHsKu0WHMLddGXW+Ze84HnwWeT6oG11XMQ72f5dcFkjSVtsyTz2mFb12yk
-         aXYa0qmtm+jy6LHB7K4CmLGVwaAEiFOaNhVyhouuyeFrg0Zq3/1cG83yiEJbj90rkp+W
-         5+Z6tVM7GN7Xv8sQN1Y6rEBEVApAnvQAqwJ+1C+nEMcjMZycdvE01iQ71Cm2dPukq9qK
-         PV+g==
+        bh=TuJvjah/Tw/b3alV1e6g6NeIK8xwKHZbZfdxMeTcSjs=;
+        b=bbL/rA7vKnUK60t458F+k9TNmrrwQRp8FNJf1paJmgyO7pQcG9Tf2qL0FwNlIhhj/M
+         wmtYltkWPyFHUdsyCKbqd5h08PvbVZgVW6ePP6x4NVHWViPuxHkqzTm0gxh8OfPs6vQJ
+         CoiqOT7sQXm04poUyru2FrS/ScaUYPl+3wTfGnhHIBqQFxlhYv9aatxwTWh67PAtLBHJ
+         Y9PzxZWzEPOv5SuVLi91d7OvHTAc4sWuYMTDIvQDFiArd1iN344BmRJ13zI5QeVzP2Ye
+         O/cu6PKyRykf8hSOPQiv/f+f6ecEViOeILdgFEa3vHKTQteqaqUX5o8vxRrXy0Fzf9bH
+         RLEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768953687; x=1769558487;
+        d=1e100.net; s=20230601; t=1768958169; x=1769562969;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yRdJQmpTWwZj8gimb94j0TPF7S8boNAdmVxrjjDF1sk=;
-        b=hhdp7DGHcoY8XVM2BLVaNYnDQJzrh0bqG0dsI0KIUQIENjya29YMkhO9mtHGB4VDQC
-         LsK3XVpnzd2Aj5Q0t61x179HRnRmZ6k5C1hN0PQM1UQUMh5cO+EkL9b71l5MoBNIhqv8
-         rp9/HJcYgLrjaWG9JEVldrw+qJEzurYtJfwC1+fNQQaAfoHdCx14jP/TFdZTB+J8QB2n
-         uBuG5JZGORql7USu5G2F96hPHerV7HvPDwdN7PzCCCGJb2am/47M1xuD/22mo0S47D5C
-         lI05YMYM6IR2kvkotGieohl4pfoNsslPNNPAOo0uFDbmJg66mog7hoAuVb6dtEd7OyTE
-         mzwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUyB8zgTLIOAIhsfKwvXGbgv6PcaELh2omjbTXi7HcEbNiweaRzRIvTOXXpq3Gv1Depy4cnnwSW5H2NWkg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjEl+o28by/LhqfZUCFADCvBp0EZmjc22WzQmNLQw2AvgZaJXV
-	xCq8tX86vtp7SbEfOsmzjUU6pA4gHz66uS5utGAh1tjWJdwsznGMRZPh
-X-Gm-Gg: AZuq6aJsSdHF/2+UBBMceiV+9rAZFt6Uid/HywKJhWkfTKIdq4ZYSC0I0U2mQ8XC04V
-	bSa2Y8i6A4YVhKU1LCzRWp8swwxb0gnGNSwMEb035XER+g2SGhaND1U4rOxmYxmQc9medY5+bwC
-	5zRRUg3yxZGCtjWz6SdLBxmYQWaME7oNqgmQQdHUrtRolSvKIHXZme5xQ0If95bxu/5u+dmPWOV
-	S+SXvb9UH+DumORNNIJHQCV0qccGP8cQyZYcB6EAyp6RNtyyiAoLz3MQfeLztfQgzLv+011LrnQ
-	RW/laY593yMCMBafR+5yVQ0oqiiBPfw7kRiBX48txf4hF3jalnWsBMS5mnytU5Iqo2syIH1s62p
-	TJHnd5YBjlxYVeAipUOJDN5V6Gz1BWQzXCKs/SsxqvbhvB15dncKkbauCXkux2JUa5vkF6jfFa6
-	GBBxWqsg==
-X-Received: by 2002:a17:903:1a2c:b0:2a0:d5bf:b271 with SMTP id d9443c01a7336-2a76ad5bf2bmr31448885ad.32.1768953686781;
-        Tue, 20 Jan 2026 16:01:26 -0800 (PST)
+        bh=TuJvjah/Tw/b3alV1e6g6NeIK8xwKHZbZfdxMeTcSjs=;
+        b=bctz/W1Q/pEOqVQjY7ZC8Vc01NfNgXSgeWMWZNDbSAEX1A6peSkd1+tspz28nhDH3Z
+         4Mpkh4ZJgIzSqjEAfY2/vu2mtNQlE9CnyP9LLlxowb+alem5549UjJDk+1d2Qo+0aBOe
+         4Dvfxj/rylppC4e4u0xaFzmRr8CUlmp3iE91Yw9t2eGpgMcnteJ/h03Xu2n7VyUKedoP
+         5vwS9GUs4zHq1gNtnL4f3HQFT4hhivln29qV53ah4PoluzwNV6GU3H0O67ZgFUTPwss8
+         4JPGx9vfVrNfykL/cQ3a+ViCuJALVt94teDDbQ8leeZwZfUOiyfQMq1qimC36IlWkbtY
+         Dk+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVuBntPLgoXkTwExrHDVc2vw/GO7HN7SX6daXmQdm8YN9BXre+os+goeJlllNHlArRRtxjiQIM6+C6Mdi8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuA7Re26dI6kgYCHbZM5UVs5n01SN/XKx+W0dKCWghtHpfsjde
+	7VQJLKULbb9cf0C7srog4x2NoWCw+VWJJFZcmObculH2zMFhOTIiNo7N
+X-Gm-Gg: AZuq6aIMcCi/1ZehX9aCQ3DAv/ivCvhJzVHU2yrhCJccwtavfewjpwCYTEPp7jK5Kgr
+	fFMuzP5BCnHDMGIeIwYhpgmz9gkOSu4SsfKJFhlaKGPglilSaXb9LYhAJWy1R9yfkG94TqnYBXk
+	IgemFqLfU9ydy7gfaxYiLO8QFN0q/I0O0/gMBEDxuCKWtXP3kZpWXdo4DhWX4UR59VFdlGJyyV6
+	cgpMuPPIjVThPOYyVlfsdKMn0vD3UbCIANdX0qbDXPZjOolvdTmgCqrOrliDJbont6j6p2Lcqyx
+	KLzjlbwQTtSwgOiOGtIP2vJR5/8U8ftmahMlMRYUUsEs6qpRB9sOLu9/X5pEfynmZsTT0fAb/eh
+	dSnPbvZQOG7VXRNVIuJaK5KjluQGDL7BO1OEn+euBOBB2Wq64YiP5/YVBSRFUgRkMfjiehtzYei
+	I2RqMscW6pCKbAPJDw
+X-Received: by 2002:a05:6a00:1413:b0:81d:8d00:76d2 with SMTP id d2e1a72fcca58-81fa18204a0mr12463838b3a.40.1768958168312;
+        Tue, 20 Jan 2026 17:16:08 -0800 (PST)
 Received: from localhost ([112.149.32.52])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7193dedacsm135367515ad.58.2026.01.20.16.01.21
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa108c4dbsm13363443b3a.5.2026.01.20.17.16.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jan 2026 16:01:25 -0800 (PST)
+        Tue, 20 Jan 2026 17:16:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -86,26 +86,24 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 21 Jan 2026 09:01:20 +0900
-Message-Id: <DFTTQTYK1KNF.2N1PS08QIAID2@gmail.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+Date: Wed, 21 Jan 2026 10:16:03 +0900
+Message-Id: <DFTVC1IH8KM0.VR14LX627BWD@gmail.com>
+Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
+ "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] scripts: generate_rust_analyzer.py: reduce cfg
+ plumbing
+From: "Jesung Yang" <y.j3ms.n@gmail.com>
+To: "Tamir Duberstein" <tamird@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
  Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
  "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH 6/6] scripts: generate_rust_analyzer: move sysroot
- crates to sysroot_project
-From: "Jesung Yang" <y.j3ms.n@gmail.com>
-To: "Tamir Duberstein" <tamird@kernel.org>, "Eliot Courtney"
- <ecourtney@nvidia.com>, "Jesung Yang" <y.j3ms.n@gmail.com>
+ "Jesung Yang" <y.j3ms.n@gmail.com>
 X-Mailer: aerc 0.21.0
-References: <20260120-ra-fix-v1-0-829e4e92818c@nvidia.com>
- <20260120-ra-fix-v1-6-829e4e92818c@nvidia.com>
- <CAJ-ks9k_c3hq9ov8nqXLakkC6=Ly1+Fr3kbQ8BUbAQrRcHZhqw@mail.gmail.com>
-In-Reply-To: <CAJ-ks9k_c3hq9ov8nqXLakkC6=Ly1+Fr3kbQ8BUbAQrRcHZhqw@mail.gmail.com>
+References: <20260120-rust-analyzer-pin-init-duplication-v2-0-a1c76f0d3bef@kernel.org> <20260120-rust-analyzer-pin-init-duplication-v2-2-a1c76f0d3bef@kernel.org>
+In-Reply-To: <20260120-rust-analyzer-pin-init-duplication-v2-2-a1c76f0d3bef@kernel.org>
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -115,74 +113,138 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-10760-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10761-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[yj3msn@gmail.com,linux-kbuild@vger.kernel.org];
-	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,nvidia.com:email]
-X-Rspamd-Queue-Id: A780F4E4A9
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: 459344EF0D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed Jan 21, 2026 at 12:34 AM KST, Tamir Duberstein wrote:
-> On Tue, Jan 20, 2026 at 3:55=E2=80=AFAM Eliot Courtney <ecourtney@nvidia.=
-com> wrote:
->>
->> Use rust-analyzer's sysroot_project feature to properly configure
->> sysroot crates (core, alloc, std, proc_macro). This allows
->> rust-analyzer to correctly resolve items from the sysroot and
->> automatically add sysroot crate dependencies to all project crates.
->>
->> Some sysroot crates use #[path] directives to load files outside of
->> their directory but still in the sysroot. This is disallowed by
->> rust-analyzer, so the sysroot crate are not properly loaded. Loading the=
-m
->> using sysroot_project tells rust-analyzer to let them load anything insi=
-de
->> sysroot_src.
->>
->> The sysroot_project field was added to rust-analyzer in v0.3.2328
->> (~1.87.0) and is silently ignored by older versions. In that case,
->> rust-analyzer falls back to loading the sysroot via sysroot_src.
->> This basically works, but the advantage of using sysroot_project is
->> that we can make the set of features/cfgs more similar to what the
->> actual build uses.
+On Wed Jan 21, 2026 at 1:10 AM KST, Tamir Duberstein wrote:
+> Centralize `cfg` lookup in `append_crate` to avoid having to do so for
+> each crate. Remove hardcoded `cfg`s for `pin-init{,-internal}` now that
+> these are passed from `rust/Makefile`.
 >
-> This is a very nice patch, and perhaps obviates the need for the
-> versioning infrastructure in
-> https://lore.kernel.org/all/20260109-ra-fix-primitive-v2-0-249852a4145a@g=
-mail.com/.
+> Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+> ---
+>  scripts/generate_rust_analyzer.py | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_an=
+alyzer.py
+> index 147d0cc94068..b96d3cbe3df1 100755
+> --- a/scripts/generate_rust_analyzer.py
+> +++ b/scripts/generate_rust_analyzer.py
+> @@ -35,7 +35,9 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
+rnal_src, cfgs, core_edit
+>      crates_indexes =3D {}
+>      crates_cfgs =3D args_crates_cfgs(cfgs)
+> =20
+> -    def append_crate(display_name, root_module, deps, cfg=3D[], is_works=
+pace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
+> +    def append_crate(display_name, root_module, deps, cfg=3DNone, is_wor=
+kspace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
+> +        if cfg is None:
+> +            cfg =3D crates_cfgs.get(display_name, [])
 
-I still think the versioning infrastructure is a prerequisite as we're
-using the `sysroot_src` field here.
+Could we add a brief comment explaining how the behavior of
+`append_crate` changes according to the `cfg` parameter? Since `None`
+and an empty list have different effects, documenting that distinction
+would make the intended behavior clearer.
 
-If we specify `sysroot_src` without `crate_attrs =3D ["no_std"]`,
-rust-analyzer treats `std` as a dependency for all local crates by
-default. Consequently, any rust-analyzer version lacking `crate_attrs`
-support (which silently ignores `crate_attrs =3D ["no_std"]`) would
-incorrectly assume an implicit `std` dependency for all kernel modules.
-Having the versioning infrastructure first allows us to handle this
-transition without breaking the user experience for those on older
-toolchains.
+This would also help later when we add proper Python docstrings.
+
+Thanks!
 
 Best regards,
 Jesung
+
+>          crate =3D {
+>              "display_name": display_name,
+>              "root_module": str(root_module),
+> @@ -60,7 +62,7 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
+rnal_src, cfgs, core_edit
+>      def append_sysroot_crate(
+>          display_name,
+>          deps,
+> -        cfg=3D[],
+> +        cfg=3DNone,
+>          edition=3D"2021",
+>      ):
+>          append_crate(
+> @@ -75,7 +77,7 @@ def generate_crates(srctree, objtree, sysroot_src, exte=
+rnal_src, cfgs, core_edit
+>      # NB: sysroot crates reexport items from one another so setting up o=
+ur transitive dependencies
+>      # here is important for ensuring that rust-analyzer can resolve symb=
+ols. The sources of truth
+>      # for this dependency graph are `(sysroot_src / crate / "Cargo.toml"=
+ for crate in crates)`.
+> -    append_sysroot_crate("core", [], cfg=3Dcrates_cfgs.get("core", []), =
+edition=3Dcore_edition)
+> +    append_sysroot_crate("core", [], edition=3Dcore_edition)
+>      append_sysroot_crate("alloc", ["core"])
+>      append_sysroot_crate("std", ["alloc", "core"])
+>      append_sysroot_crate("proc_macro", ["core", "std"])
+> @@ -90,21 +92,18 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
+ternal_src, cfgs, core_edit
+>          "proc_macro2",
+>          srctree / "rust" / "proc-macro2" / "lib.rs",
+>          ["core", "alloc", "std", "proc_macro"],
+> -        cfg=3Dcrates_cfgs["proc_macro2"],
+>      )
+> =20
+>      append_crate(
+>          "quote",
+>          srctree / "rust" / "quote" / "lib.rs",
+>          ["alloc", "proc_macro", "proc_macro2"],
+> -        cfg=3Dcrates_cfgs["quote"],
+>      )
+> =20
+>      append_crate(
+>          "syn",
+>          srctree / "rust" / "syn" / "lib.rs",
+>          ["proc_macro", "proc_macro2", "quote"],
+> -        cfg=3Dcrates_cfgs["syn"],
+>      )
+> =20
+>      append_crate(
+> @@ -124,7 +123,6 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
+ternal_src, cfgs, core_edit
+>          "pin_init_internal",
+>          srctree / "rust" / "pin-init" / "internal" / "src" / "lib.rs",
+>          [],
+> -        cfg=3D["kernel"],
+>          is_proc_macro=3DTrue,
+>      )
+> =20
+> @@ -132,7 +130,6 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
+ternal_src, cfgs, core_edit
+>          "pin_init",
+>          srctree / "rust" / "pin-init" / "src" / "lib.rs",
+>          ["core", "pin_init_internal", "macros"],
+> -        cfg=3D["kernel"],
+>      )
+> =20
+>      append_crate(
+
 
