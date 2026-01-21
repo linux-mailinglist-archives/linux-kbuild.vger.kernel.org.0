@@ -1,253 +1,214 @@
-Return-Path: <linux-kbuild+bounces-10777-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10778-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oBvCCUpTcWkKCQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10777-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 23:29:30 +0100
+	id SAYlI3RecWnLGAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10778-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 00:17:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E6B5ECE0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 23:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B8F5F62E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 00:17:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E1BAB4ED42D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 22:29:27 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 684FC94B0D0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Jan 2026 23:15:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC344421EF5;
-	Wed, 21 Jan 2026 22:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42F8E478864;
+	Wed, 21 Jan 2026 23:12:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qMl9T3ZU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JInWRjBb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917EF43C059;
-	Wed, 21 Jan 2026 22:29:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3643A43E4B5
+	for <linux-kbuild@vger.kernel.org>; Wed, 21 Jan 2026 23:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769034564; cv=none; b=cr5a0MibWEA6M3mq22CpG8rN4Je9UFkzfv6dS0/bEZZLpn8DYS6M5yyta7n3dlXY5a3TxGlDiDF87mNEMQnh3kDBSBWzzJ999s1z3CkfCykT1nS1Z2KMiff/5/cbSFC4sxFBVOa5w5J/SCcGR+PSEy/CIoZbjI8AA2u+jD3eaj4=
+	t=1769037137; cv=none; b=OR5cbaRTpGOvP25FvHzQRhalyaWnLFdzx26cas7iJZ0abhtr/40AFeThdOI5FmiUbDQi1Lq/SnJXtmFC1Ok9OviX1ObVvaLcFj32J3fe0aTaE5cVCGfluQaFilaJ7vgkElG2RQL7yRfXIC5xVPH0NcnmNaRoL9WNqKT9Wcv8H9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769034564; c=relaxed/simple;
-	bh=03URoAD5rrDrIP1JgO7AfHgHCSLvGTiLJJH50AgZlhQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RZ+d9OuwRnhNK2zwURmee2LH7TUL5SEvLGRhjq9h3busw7XiuIIVsrg7duKI4IWGjpLnDwvwrvJvIykoEm8mk6fMTFp4sfAE59AEhnWxKL2aYr863W7sldn+6DAnp4Ww74vViv6JhOLAs02r0fds0rXeSdkgpVG0f8Fl3ifP+cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qMl9T3ZU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3309C4CEF1;
-	Wed, 21 Jan 2026 22:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769034564;
-	bh=03URoAD5rrDrIP1JgO7AfHgHCSLvGTiLJJH50AgZlhQ=;
-	h=From:Date:Subject:To:Cc:From;
-	b=qMl9T3ZUINaCK+/D02WeCqj0MaosSoh/erRxptpz9LT2Q2YtTx9DFH9PTFH0SFAJw
-	 aiCLeyB4xRRMPr4xQ81I8D9JKWdgiTeiol4eJiietLTaTKcUGmvfl1DcJ/mRDdOhNc
-	 a0RRlP4k/ej/PerwxA//w2Q1xFnLatoxTBwE/7J7ZEJRh2uC0ggmlOa+wA+r4x8cxE
-	 UFVR0+KYO1ibk3qhoomU+AK9kaye9VF9uX2mgzQR50ZHHvOQ8niA2zP/rAmDDjv72F
-	 3e5wg9ZdzvXEs5N9g6z8RpGEGrEUrxrQj1P7FhF7+HkktChS0Srv5lDR3YA042VWWC
-	 EJU6Gi9XcH6Gw==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Wed, 21 Jan 2026 15:29:15 -0700
-Subject: [PATCH] kbuild: rpm-pkg: Generate debuginfo package manually
+	s=arc-20240116; t=1769037137; c=relaxed/simple;
+	bh=nicC8+jQs+KtIj72y7cCmjx0QatbClmM3BMjEzyUHcI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=jE6rTYM5JmQtyCKdE1ypjRKVc+rOeEVKU5Aedc3lXKopjdnFeFfxJjVc0UtOXnWbVdN/r1UvcBECQsOzmKy9EBI5XlHkRW0DOTvZ8S50M4ipnfQPtGNIF1pcrwD0n3rbWOWC7uA0jK0bsjWUIWYqDR/rfjjySqA4SYYHD5+eLHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JInWRjBb; arc=none smtp.client-ip=209.85.210.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-81f5381d168so395222b3a.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Jan 2026 15:12:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769037126; x=1769641926; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sc/mNIGKOkGXOmNQcditc1e06kj6bQ3nXqqocKQMT1g=;
+        b=JInWRjBbfSs0kDty3rjrdtYrcZcctlA+ZclKrWtQWO4t9rHzosxzNQl68ytW5ecIfa
+         YjRS9Ok0gDKYye6VqgRDYBCGd0YReu/isWO+0E4WAD8rbFwqGMCA/9d/sUubwVaLSVI4
+         lBE2w5loWbHfkvVwF863Fn4JacA+3ujiSL1uGETqTmzBl3xmaDjv4/kjyhVPTOhI8XAG
+         AAQtdAttOI82UkfV5HeW53PHm/ptbn1uF9A83T/76I9jE3xY4oWwIXNiVKBki9ZfGA8Q
+         HdkWwLskMTD1jn1EeG8jMPL12SZI02ABZbyNrFzzLGMh9XlrZZBLEQDp/m193g8MpWPK
+         YbgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769037126; x=1769641926;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Sc/mNIGKOkGXOmNQcditc1e06kj6bQ3nXqqocKQMT1g=;
+        b=gQzEnf6n9mqvEOKv088jQjLFLQwJxLQWNy2jhaC4YcObYEoc1fZiKo33ym+m8mfPJZ
+         F56adM9hQmsr37omEvJNvy1EtbkSLxgj2+O55tJ5Ra7t6nWuT2jG3xnUP6ls6ro4vii3
+         jFHRqJ1HWnncCKLHRLCsXs6NzpWBdXCkWir9R5yrUacgzfhGqRCmm5TrKH0HYOixtTBO
+         JBElfvgwT+TbZoo5tU08hhjzrirNmzKydsvMP6hl7Qk9l9eJy+FIpxpE7hXrAnZdkFGK
+         /wzItGS718mEC0NLa/OgVfNBtNeCfF6KzswfzDzm31Hn6ViipL+oSSchEDtaBWGRdFzB
+         BZ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCV4YyhC4akijG40+BjPV95NPCFjM62Tq2s8mwh9WxgTTZLbnNMAe6TKGCeVEP7XQhHIP30tZyXTJzFgVYk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5V58iU9BVnz4Ak2H3e0nhpamITTDBX+LWlMKylVTS+rhEx5Ft
+	JIX7EDYh5hJxZqFaBBfba9Mt+DVI7wuv2KsKmtAoKkGVgLftgxDEAU1s
+X-Gm-Gg: AZuq6aKdO5ahLZSdhiS6zWKhspXQ1ERMa26CxObZyyPaNOBOmaeKI5bE0sHDVspBK8R
+	QrJAnTkXqbiZmQdVONwdv4bpvBRHHX+vDD9o2JlMyDq3O1QA6YWfLRMDTkBJSy2Y3VR3khrz8Ue
+	5pGH3vW/eWtopWIQZQNZMdDSvnuiHINSM2OaEK/ugARjeVfBfKMgEcc5+6tbrKJfYg0SAYnODW4
+	aJz5vcU5b+LIvS7Y7atSUL9mjs+eS+d3JtcpiWZanDz91hmpgfiN/BvL1bs9+4HRXdj4csx2khj
+	WIUpUwCJ8RwdrqglAfQuTte6Wfsk719yiTKn2W5HMT+Co2Sp3lU+2x/MAnp1W2ti+16sd27qQNN
+	he/PbMZPn54sbw7Dqbulke5U3h337cZfU2w3btwC5uLFrvY1CXfMGlMy7RBix/Us6VA3zzJHCTo
+	GFkw1I2A==
+X-Received: by 2002:a05:6a21:9988:b0:38b:ec0d:51ed with SMTP id adf61e73a8af0-38e45e8d3dfmr7094344637.69.1769037126245;
+        Wed, 21 Jan 2026 15:12:06 -0800 (PST)
+Received: from localhost ([112.149.32.52])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3533527bacesm499552a91.17.2026.01.21.15.12.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jan 2026 15:12:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-fix-module-signing-binrpm-pkg-v1-1-8fc5832b6cbc@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBA0auQWTtJWwyJXsW4aMtYB2RoOkBMC
- He36vIt/t9BqTApXJsdCm2sPEuFPTUQn14SIffV4IzrjHUWH/zGae7XF6FyEpaEgaXkCfOY8HJ
- uyXchRuMN1EcuVIPf/3b/W9cwUFy+UziODw+0NsGBAAAA
-X-Change-ID: 20260121-fix-module-signing-binrpm-pkg-943ea6bcc0a0
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: Uday Shankar <ushankar@purestorage.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Holger Kiehl <Holger.Kiehl@dwd.de>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5870; i=nathan@kernel.org;
- h=from:subject:message-id; bh=03URoAD5rrDrIP1JgO7AfHgHCSLvGTiLJJH50AgZlhQ=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJmFwU6fvvUfd3B4+azlivKluLiPmVyv9msILW210lN1q
- F0qfuB7RykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZjIunJGhjep2XdbJrbxiJ3p
- lc9Llzp69u78jz6LOdnOHd9Z4Vmf8oPhn45OqDjHCiHzHXqs2dONZwt26P1PVXHtFd+z+/t6qdY
- cZgA=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 22 Jan 2026 08:12:01 +0900
+Message-Id: <DFUNBMAPQS6Z.4RPBKCCKCMIA@gmail.com>
+To: "Tamir Duberstein" <tamird@kernel.org>, "Jesung Yang"
+ <y.j3ms.n@gmail.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Nathan
+ Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Linux
+ Kbuild mailing list" <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] scripts: generate_rust_analyzer.py: reduce cfg
+ plumbing
+From: "Jesung Yang" <y.j3ms.n@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <20260120-rust-analyzer-pin-init-duplication-v2-0-a1c76f0d3bef@kernel.org> <20260120-rust-analyzer-pin-init-duplication-v2-2-a1c76f0d3bef@kernel.org> <DFTVC1IH8KM0.VR14LX627BWD@gmail.com> <CAJ-ks9nVxs5aGWPO5m=7GBjEE+Rn_qS_Yg0HD6qc5=Na6-K9OQ@mail.gmail.com>
+In-Reply-To: <CAJ-ks9nVxs5aGWPO5m=7GBjEE+Rn_qS_Yg0HD6qc5=Na6-K9OQ@mail.gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.96 / 15.00];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	TAGGED_FROM(0.00)[bounces-10777-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-10778-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yj3msn@gmail.com,linux-kbuild@vger.kernel.org];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dwd.de:email,system.map:url,dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,p:email]
-X-Rspamd-Queue-Id: 71E6B5ECE0
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns]
+X-Rspamd-Queue-Id: 45B8F5F62E
 X-Rspamd-Action: no action
 
-Commit a7c699d090a1 ("kbuild: rpm-pkg: build a debuginfo RPM") adjusted
-the __spec_install_post macro to include __os_install_post, which runs
-brp-strip. This ends up stripping module signatures, breaking loading
-modules with lockdown enabled.
+On Wed Jan 21, 2026 at 11:13 PM KST, Tamir Duberstein wrote:
+> On Tue, Jan 20, 2026 at 8:16=E2=80=AFPM Jesung Yang <y.j3ms.n@gmail.com> =
+wrote:
+>> On Wed Jan 21, 2026 at 1:10 AM KST, Tamir Duberstein wrote:
+>> > Centralize `cfg` lookup in `append_crate` to avoid having to do so for
+>> > each crate. Remove hardcoded `cfg`s for `pin-init{,-internal}` now tha=
+t
+>> > these are passed from `rust/Makefile`.
+>> >
+>> > Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+>> > ---
+>> >  scripts/generate_rust_analyzer.py | 13 +++++--------
+>> >  1 file changed, 5 insertions(+), 8 deletions(-)
+>> >
+>> > diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust=
+_analyzer.py
+>> > index 147d0cc94068..b96d3cbe3df1 100755
+>> > --- a/scripts/generate_rust_analyzer.py
+>> > +++ b/scripts/generate_rust_analyzer.py
+>> > @@ -35,7 +35,9 @@ def generate_crates(srctree, objtree, sysroot_src, e=
+xternal_src, cfgs, core_edit
+>> >      crates_indexes =3D {}
+>> >      crates_cfgs =3D args_crates_cfgs(cfgs)
+>> >
+>> > -    def append_crate(display_name, root_module, deps, cfg=3D[], is_wo=
+rkspace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
+>> > +    def append_crate(display_name, root_module, deps, cfg=3DNone, is_=
+workspace_member=3DTrue, is_proc_macro=3DFalse, edition=3D"2021"):
+>> > +        if cfg is None:
+>> > +            cfg =3D crates_cfgs.get(display_name, [])
+>>
+>> Could we add a brief comment explaining how the behavior of
+>> `append_crate` changes according to the `cfg` parameter? Since `None`
+>> and an empty list have different effects, documenting that distinction
+>> would make the intended behavior clearer.
+>
+> I don't think this is necessary - it won't age well when we change the
+> entire API surface here in the next version of the series[0] that adds
+> type annotations.
+>
+> Link: https://lore.kernel.org/all/20250424-rust-analyzer-host-v6-0-40e67f=
+e5c38a@gmail.com/
+> [0]
+>
+>> This would also help later when we add proper Python docstrings.
+>
+> Same as above: a lot of change is coming. Is this worth considering right=
+ now?
 
-Undo most of the changes of the aforementioned debuginfo patch and
-mirror commit 16c36f8864e3 ("kbuild: deb-pkg: use build ID instead of
-debug link for dbg package") in kernel.spec to generate a functionally
-equivalent debuginfo package while avoiding touching the modules after
-they have already been signed during modules_install.
+Fair point, thanks for the context.
 
-Fixes: a7c699d090a1 ("kbuild: rpm-pkg: build a debuginfo RPM")
-Reported-by: Holger Kiehl <Holger.Kiehl@dwd.de>
-Closes: https://lore.kernel.org/68c375f6-e07e-fec-434d-6a45a4f1390@praktifix.dwd.de/
-Tested-by: Holger Kiehl <Holger.Kiehl@dwd.de>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-Uday, could you verify that your usecases for the debuginfo package
-continue to work after this change?
+Reviewed-by: Jesung Yang <y.j3ms.n@gmail.com>
 
-Nicolas, if you would like to take this as a fix, please do so.
-Otherwise, I can apply it to kbuild-next.
----
- scripts/package/kernel.spec | 65 +++++++++++++++++++++------------------------
- 1 file changed, 30 insertions(+), 35 deletions(-)
+By the way, could you share your plan for upcoming major changes? It
+would help me prepare and align my series if I know the intended
+direction. I currently have these on my radar:
 
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index 98f206cb7c60..0f1c8de1bd95 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -2,6 +2,8 @@
- %{!?_arch: %define _arch dummy}
- %{!?make: %define make make}
- %define makeflags %{?_smp_mflags} ARCH=%{ARCH}
-+%define __spec_install_post /usr/lib/rpm/brp-compress || :
-+%define debug_package %{nil}
- 
- Name: kernel
- Summary: The Linux Kernel
-@@ -46,34 +48,12 @@ against the %{version} kernel package.
- %endif
- 
- %if %{with_debuginfo}
--# list of debuginfo-related options taken from distribution kernel.spec
--# files
--%undefine _include_minidebuginfo
--%undefine _find_debuginfo_dwz_opts
--%undefine _unique_build_ids
--%undefine _unique_debug_names
--%undefine _unique_debug_srcs
--%undefine _debugsource_packages
--%undefine _debuginfo_subpackages
--%global _find_debuginfo_opts -r
--%global _missing_build_ids_terminate_build 1
--%global _no_recompute_build_ids 1
--%{debug_package}
-+%package debuginfo
-+Summary: Debug information package for the Linux kernel
-+%description debuginfo
-+This package provides debug information for the kernel image and modules from the
-+%{version} package.
- %endif
--# some (but not all) versions of rpmbuild emit %%debug_package with
--# %%install. since we've already emitted it manually, that would cause
--# a package redefinition error. ensure that doesn't happen
--%define debug_package %{nil}
--
--# later, we make all modules executable so that find-debuginfo.sh strips
--# them up. but they don't actually need to be executable, so remove the
--# executable bit, taking care to do it _after_ find-debuginfo.sh has run
--%define __spec_install_post \
--	%{?__debug_package:%{__debug_install_post}} \
--	%{__arch_install_post} \
--	%{__os_install_post} \
--	find %{buildroot}/lib/modules/%{KERNELRELEASE} -name "*.ko" -type f \\\
--		| xargs --no-run-if-empty chmod u-x
- 
- %prep
- %setup -q -n linux
-@@ -87,7 +67,7 @@ patch -p1 < %{SOURCE2}
- mkdir -p %{buildroot}/lib/modules/%{KERNELRELEASE}
- cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERNELRELEASE}/vmlinuz
- # DEPMOD=true makes depmod no-op. We do not package depmod-generated files.
--%{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} DEPMOD=true modules_install
-+%{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} INSTALL_MOD_STRIP=1 DEPMOD=true modules_install
- %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
- cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
- cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
-@@ -118,22 +98,31 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
- 	echo "%exclude /lib/modules/%{KERNELRELEASE}/build"
- } > %{buildroot}/kernel.list
- 
--# make modules executable so that find-debuginfo.sh strips them. this
--# will be undone later in %%__spec_install_post
--find %{buildroot}/lib/modules/%{KERNELRELEASE} -name "*.ko" -type f \
--	| xargs --no-run-if-empty chmod u+x
--
- %if %{with_debuginfo}
- # copying vmlinux directly to the debug directory means it will not get
- # stripped (but its source paths will still be collected + fixed up)
- mkdir -p %{buildroot}/usr/lib/debug/lib/modules/%{KERNELRELEASE}
- cp vmlinux %{buildroot}/usr/lib/debug/lib/modules/%{KERNELRELEASE}
-+
-+echo /usr/lib/debug/lib/modules/%{KERNELRELEASE}/vmlinux > %{buildroot}/debuginfo.list
-+
-+while read -r mod; do
-+	mod="${mod%.o}.ko"
-+	dbg="%{buildroot}/usr/lib/debug/lib/modules/%{KERNELRELEASE}/kernel/${mod}"
-+	buildid=$("${READELF}" -n "${mod}" | sed -n 's@^.*Build ID: \(..\)\(.*\)@\1/\2@p')
-+	link="%{buildroot}/usr/lib/debug/.build-id/${buildid}.debug"
-+
-+	mkdir -p "${dbg%/*}" "${link%/*}"
-+	"${OBJCOPY}" --only-keep-debug "${mod}" "${dbg}"
-+	ln -sf --relative "${dbg}" "${link}"
-+
-+	echo "${dbg#%{buildroot}}" >> %{buildroot}/debuginfo.list
-+	echo "${link#%{buildroot}}" >> %{buildroot}/debuginfo.list
-+done < modules.order
- %endif
- 
- %clean
- rm -rf %{buildroot}
--rm -f debugfiles.list debuglinks.list debugsourcefiles.list debugsources.list \
--	elfbins.list
- 
- %post
- if [ -x /usr/bin/kernel-install ]; then
-@@ -172,3 +161,9 @@ fi
- /usr/src/kernels/%{KERNELRELEASE}
- /lib/modules/%{KERNELRELEASE}/build
- %endif
-+
-+%if %{with_debuginfo}
-+%files -f %{buildroot}/debuginfo.list debuginfo
-+%defattr (-, root, root)
-+%exclude /debuginfo.list
-+%endif
+  [1] https://lore.kernel.org/all/20250424-rust-analyzer-host-v6-0-40e67fe5=
+c38a@gmail.com/
+  [2] https://lore.kernel.org/rust-for-linux/20260109-ra-fix-primitive-v2-0=
+-249852a4145a@gmail.com/
+  [3] https://lore.kernel.org/rust-for-linux/20260120-ra-fix-v1-0-829e4e928=
+18c@nvidia.com/
 
----
-base-commit: d4271702ab2fb0e4474ce66e3c68dfbdf8dc3e4c
-change-id: 20260121-fix-module-signing-binrpm-pkg-943ea6bcc0a0
+I assume you would prefer merging [1] first? Please let me know if I'm
+missing something.
+
+Thanks!
 
 Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
-
+Jesung
 
