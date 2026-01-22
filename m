@@ -1,202 +1,237 @@
-Return-Path: <linux-kbuild+bounces-10785-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10786-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLEoCmt6cWkvHwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10785-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 02:16:27 +0100
+	id yHaOHl+bcWmdKAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10786-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 04:37:03 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70154603BE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 02:16:26 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC4761605
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 04:37:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6B3DA4FABEF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 01:16:22 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8194B408A04
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 03:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECBC834B1B6;
-	Thu, 22 Jan 2026 01:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 958703EDAD7;
+	Thu, 22 Jan 2026 03:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DzZfdJAJ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eeIimcnU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32EB830C350;
-	Thu, 22 Jan 2026 01:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769044574; cv=none; b=ckIzKjDsrK+qb+e7ZG4vwjkhadvTFZ5zMjcjbEHTqSBgSyy0uSUcEY/O7QOKdxtwgBHTaPuvN1kjbx9RcmKp3i0fCgqtbGy2rx083AjaD+vM1rSFj9N6JLEIXpQVIOo1uvWhnrGWilXUYLUpiNKkxT5ZO9TnS33FTF9OKzafn7k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769044574; c=relaxed/simple;
-	bh=mt4QzWS48/1dqK5pGNjeoDNuDbYTCLIxtoHS3XC9bMI=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=dWCGl2FmRNrm+KhZHxCaC1X4w79V/7sLkp54F+ReIygsJPardB6raqv8JRPkz3izUro/+dX8w86hwhs6AJ+r19YGF7tI7KmFH9Zw9LiItzc0Sknu6RqFxiAskYAcsjgiIHtE3NnPzws9n0ZAG1Q2OSaAhP4FhOHpbCDa85UwLas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8DxPMP5eXFpTl8LAA--.37009S3;
-	Thu, 22 Jan 2026 09:14:34 +0800 (CST)
-Received: from [10.130.40.83] (unknown [113.200.148.30])
-	by front1 (Coremail) with SMTP id qMiowJCxPML2eXFpmmYqAA--.17826S3;
-	Thu, 22 Jan 2026 09:14:31 +0800 (CST)
-Subject: Re: [RFC PATCH 2/3] kbuild: Make sure to generate config file
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260120123730.30487-1-yangtiezhu@loongson.cn>
- <20260120123730.30487-3-yangtiezhu@loongson.cn>
- <20260121234748.GA2137017@ax162>
-From: Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <1bb9876f-cb1f-e088-cb9d-f76032f0d395@loongson.cn>
-Date: Thu, 22 Jan 2026 09:14:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07633DA7EB
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 03:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769052721; cv=pass; b=EgYQPJh3pw6LyJHukRT6XsJj57k0zirN5u6Wn8dnkj4hBfsDaaYgGviuSY6lZJZI9dVPxCFieaatYfJ9y6AnJaYQKhICzP8sfDbX9rT9ksyWj/OdAKvK6oei2zRL+0mrCrhIhitn5lWqis6uAr8O5o52LO1mOXdOuo/07pOb0Ko=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769052721; c=relaxed/simple;
+	bh=YqGJEQXocCu2IXgx1JMKkre0smD+S44fNBjqxDtbnXA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a/AAAi9oiYwW38TuHjjnIXzo5jeo5yU8fpmlNCBvbTbMhbLzmOY7SD4cpatP2ERfVtPHevdgO3t6EbtUmbXqgSnpLiLPuSe87GNRzGpe2NsMBdPyAQUUjNkfCKQnGtP72GZLNgBrugpG2TTgROhKYy5W7A+P80cx9PJ+M+QZ6WI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DzZfdJAJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eeIimcnU; arc=pass smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60LN0i4x2727048
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 03:31:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:to; s=
+	qcppdkim1; bh=f38V1daSMqmqUi5nFuou/Qz/Xb9FRonTJr9QHeZssNY=; b=Dz
+	ZfdJAJRImGgOrmVy09qIhBY5HgqSq/WtxkaipjMF5sdbJonyjh1+Ln4YBDzevxZV
+	QggbQJr2HRRAxJm9anWNK/O+fNCSjykqVXC71i9l1M0OwONVXCUdGtEAU8MZJOtZ
+	p3rtf7I3l/tLpM+Qq2w16/LlzxM1T9Ty8hCEjxmrv/67lod4aPnBsB2S+a+qTySL
+	GAELu9ZwMj0oNkHGl61RwUz5yOZSAV+LFmG4R3b++VDqdZ5LgACcu9tykjpD9NHE
+	cJCoOaSpTJxKpTU0naF5Wh4gw2jcFfiSIVRa7US6UmBxJSJ7gS7jKXQj3vIg/qvR
+	f9tzUzIFd+HT7r00PFIg==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4btysftebe-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 03:31:58 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2b0588c6719so1121296eec.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Jan 2026 19:31:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769052718; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ECDHdQBIo4XcjP3Tcpi3PjpiQ1VXRqK+24aEH87r5H1YGB2Syl2wOv6BLIJyes1oc2
+         fKquL2PCbdx12c/9xSwBfbkfesiPu6pPqDM8TgeRTln4XV4lmPjxlnESC4yoFbluiS01
+         ZFRNSy1rEgGjEdmBJgnjNE0+oHXq2unBcqCQgqJuV+hmIdfGXxB+8TUeePSaTL0ZKd57
+         UcCJjo5fTVExm7LU7KYMuCX0nv9Dym5GzUXtRoXhp4pMBFkNFulCJ4yA/JwXogau5wYE
+         alvEiNMGLKD+RYPQ6f4/UHNMmpF0DgAhcrhJsb3zCIrfFsiNBapkBA0YLJzSuEAaAJvq
+         WZ9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:dkim-signature;
+        bh=f38V1daSMqmqUi5nFuou/Qz/Xb9FRonTJr9QHeZssNY=;
+        fh=JVlwuu9pybe1jONZjenRt5qzAvGpwAB6EPF4Hz9kbl8=;
+        b=hiTpd07xAmHFN0pbUd1SHkFcZoQRzgHjtuvm0nuVc022IbuFkZkcEBUYbni0ycnXHa
+         /oIUCGysFTRShpihZwq9VQq1QvEvC6DIyQ/QY0KKf3ICG2YGnAcKXKg3k+dfhXg8d2Gw
+         1TS0Tg6v6+KjrvzUeB/O7/1S7iVy2ID1+8h4vbdtyIo0afmrjrDZSeGKDuvK/f2o9Mm1
+         HQtbpJbvTFDSFTInBVGqI4JwMRLpZWvA+KrBKh4W9TLRvpgtTwpFFTlKWJvaucJ5yoNy
+         XJzgXi6boYJhaSB+WP8Kficgc9iJ/1IHOKnopk5zLFFAzlc5WH2JnUtkDW2cNvP7EOB7
+         tbXQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1769052718; x=1769657518; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=f38V1daSMqmqUi5nFuou/Qz/Xb9FRonTJr9QHeZssNY=;
+        b=eeIimcnUbdAXyC5zJVMbvhhunYHBnGIJEWL4aYwzkaBx/ab4R24Xd0eR9N9mfzHf6n
+         ivIHVV6+75hOcoQjA1LwH6bYXhnvfUHIynri3ApPI7Py4c88RzJVb4qaRcLpx1hxvpfO
+         bdYFTjuY8tP377unRSU0TipzxoaJ9MtjG3anv9rcSXKgNHB2bAWmDhH1+bjDXE5JBBLU
+         kraNhe2XaSVkDVNqmfmI8Y4/FubhEyrN/EZRNdMcCG0ymg/JLZ99HCo2unj5Ibk8W426
+         8RXyU0oTRyc9kK4pN+5lCWjKVsWpo5tr4cxA7Xfjuky85i2UgTKSEQA411jQ1I009oDg
+         NpOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769052718; x=1769657518;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f38V1daSMqmqUi5nFuou/Qz/Xb9FRonTJr9QHeZssNY=;
+        b=TdWcWhzJ/+AnQU2iUjGiDygSQ2Nd/bpCTyJKWEJfOFmOwpkST7tNT5V1YMXtAS8QhU
+         zZKWNbY0t4XHhCmyxYZdm7U5ur49qEwQ+tc56+cpD4V9cLD9qxG4NEyTEXFk4O98Mpyu
+         yOq08Szn7FoVi6yySpcAZRwVe3mOY3SD0GQA24dR2QBB/1dqjk5OyOTVl+csL8G4kPq7
+         OyQn39r5FDLrLa24e+N+kBc3GE47UlN5aJiw2IR7W35FqAnEKeU8ZZAQjgi5Oz+NX3LB
+         mbKpTKf4MhDnSisH2i6Wt1xpsF0GRESxw6odL0/H2b46EdXWSx2nKbZa3580rgcE3Ovs
+         xlDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVP/28Hm73xVQPq1guVXqqZB2ra4AEkzyEhDIepNv+3Nfodjc4O349Bc8E8M2IJOyAn6e5V56LRg3D0bts=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwteAMVqNV2Gz6Y1aTayyESXvdsP/zGQA4L2RZA/YhJHhNajeh1
+	s1WzBarevi6y5JGDBRZ1XPiYPYWPLrTNMu8BOovJWws6eZYGw7dZn6c6Aevn86oeXPgyrck22t2
+	wXJPaXHz/bNHxmPk7NsFfxbwKcy3RvLT/jyp8MtDHBs02r05UD3CfLlz3lAPrmoBQ7wxQzejjoB
+	fgefnwqI1p8Ql/J3NqDDY7ii59H8OS8eYDlUQEoXVWsQ==
+X-Gm-Gg: AZuq6aKemZCzpJm8yEfw06JAUJUnYc/u/3g3PT0De+b6jRnN09RIE5FVZXnrIA9Oj4l
+	MqEjJh6ePqIUce4B2gvNaZvzt/KaWJAc5QxuCGRxbLsWzKLY4IESVQzCy7T7+y8FWrk8Q1Saz0I
+	ojfuYIY8h8+WPuggpzrujHKwXiUKFLLtlDqzwn3zhGmbCYF3Ql6Zp0aj7FXCa7t1y2nMrtH4avw
+	FWodZiTlSNpXcz18GC5eZTU6g==
+X-Received: by 2002:a05:7022:619a:b0:11b:c86b:3870 with SMTP id a92af1059eb24-12476a72fdfmr1188402c88.4.1769052716309;
+        Wed, 21 Jan 2026 19:31:56 -0800 (PST)
+X-Received: by 2002:a05:7022:619a:b0:11b:c86b:3870 with SMTP id
+ a92af1059eb24-12476a72fdfmr1188385c88.4.1769052715500; Wed, 21 Jan 2026
+ 19:31:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260121234748.GA2137017@ax162>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxPML2eXFpmmYqAA--.17826S3
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxCrWrtw4xCw1UCw15CF47ZFc_yoW5Cr4kpa
-	1rAw1UKFn5JF15Aa17K3yrGFy5Ars7tFyUXr17GFyIyr9rtr90yrsFvry3uF1DW395trW0
-	qr95Ka4a9a1UtagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
-	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
-	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UU
-	UUU==
+References: <20260121105801.1827-1-msuchanek@suse.de> <20260121231651.GA601114@ax162>
+In-Reply-To: <20260121231651.GA601114@ax162>
+Reply-To: rob.clark@oss.qualcomm.com
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Wed, 21 Jan 2026 19:31:44 -0800
+X-Gm-Features: AZwV_QjjZBDlevCSTRGBPUhBJZbwYWNu3veoPDZepGhNutEwE7FkCuZamuMzoE4
+Message-ID: <CACSVV00oEEOXczPXZD9TX9nra7UOqzqBgobH+Q5GFGqQeqvLPQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: dummy-tools: Add python3
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Michal Suchanek <msuchanek@suse.de>, linux-kbuild@vger.kernel.org,
+        Nicolas Schier <nsc@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=N8Ik1m9B c=1 sm=1 tr=0 ts=69719a2e cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=HBHXGj094uW-_k1tqT4A:9 a=QEXdDO2ut3YA:10 a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-GUID: -H7MvZTYKCddz2cwYDyQiJ4oY7re4Wv7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDAyNSBTYWx0ZWRfX2uyEmuRmMSR4
+ d3wH+keL3kfc32mWkov2ilDTpnaGsZr9k5c2hbK+1D+diWx8nTpfH+tLrGPJ/8G/VxFdQYaSzIR
+ XsNDgBRoA6rHIIDLPZ4s8tOMd6Jg1agh1ST1W1zqUX/zgkHj48Ev7J7yHGf4fs/9aslaFnfNPSV
+ glETztw9sv5uvmOhTU7WGT+NarOM9a5IsN3YL+v+68u3TDvzu1fUp4dPvcbojPdQnt1Vnjt8mEz
+ XxJxlob7TaAwxZ4XYDlKCI/VE/CstV77FjWEmgBhzqhFyfCtbQtpA2j1iBuCeBjyraaMXsYPZlR
+ E3MDX8csIq5iRsyeQLWx67jjB58BY0zePWo9z2LwAhvCiNpbBev8bc0WVrr6M+WkJyI+IzGIMd5
+ LSf8dUTXc1K9AOc1BiHuqaabHXnVvW6zWN22B6OXBl1kk1+ccMwDsFCz4EfEnkNfZ2jEjlLoj36
+ fkRtKfEbKJVKDoSg7yQ==
+X-Proofpoint-ORIG-GUID: -H7MvZTYKCddz2cwYDyQiJ4oY7re4Wv7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-21_04,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 phishscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 bulkscore=0 malwarescore=0 adultscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601220025
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.26 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-1.96 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	DMARC_NA(0.00)[loongson.cn];
-	R_DKIM_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yangtiezhu@loongson.cn,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	TAGGED_FROM(0.00)[bounces-10785-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,loongson.cn:mid,loongson.cn:email]
-X-Rspamd-Queue-Id: 70154603BE
+	DMARC_POLICY_ALLOW(0.00)[qualcomm.com,reject];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10786-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	TO_DN_SOME(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rob.clark@oss.qualcomm.com,linux-kbuild@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	HAS_REPLYTO(0.00)[rob.clark@oss.qualcomm.com]
+X-Rspamd-Queue-Id: 5FC4761605
 X-Rspamd-Action: no action
 
-On 2026/1/22 上午7:47, Nathan Chancellor wrote:
-> Hi Tiezhu,
-> 
-> On Tue, Jan 20, 2026 at 08:37:29PM +0800, Tiezhu Yang wrote:
->> After commit 75cffd392bfa ("LoongArch: Using generic scripts/install.sh
->> in `make install`"), arch/loongarch/boot/install.sh is usually not used,
->> either /root/bin/installkernel or /sbin/installkernel is used if found.
->>
->> Then it can not generate the config file in most cases, just copy it to
->> the installation path. Otherwise there may be an error when testing bpf,
->> for example.
->>
->>    $ ./test_verifier
->>    gzopen /boot/config-6.19.0-rc6: No such file or directorg
-> 
-> This could also be resolved by enabling CONFIG_IKCONFIG_PROC.
+On Wed, Jan 21, 2026 at 3:16=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Wed, Jan 21, 2026 at 11:57:57AM +0100, Michal Suchanek wrote:
+> > DRM_MSM_VALIDATE_XML depends on a python feature. Add a dummy python
+> > interpreter to make it possible to configure this option with dummy
+> > tools.
+> >
+> > Fixes: b587f413ca47 ("drm/msm/gen_header: allow skipping the validation=
+")
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+>
+> Sure, this seems reasonable, as Python may become more used for various
+> parts of the kernel over time.
+>
+> I was thinking this could qualify as a fix for Nicolas to take now but
+> the help text of CONFIG_DRM_MSM_VALIDATE_XML mentions this option is
+> mostly targeted at drm/msm developers, so we can probably just take this
+> via kbuild-next.
 
-Currently, CONFIG_IKCONFIG_PROC is set by default on LoongArch,
-the above error still exists, it checks /boot/config-* first,
-here is the related code:
+yes, this is a developers option
 
-tools/testing/selftests/bpf/unpriv_helpers.c:
-static gzFile open_config(void)
-{
-         struct utsname uts;
-         char buf[PATH_MAX];
-         gzFile config;
+Acked-by: Rob Clark <robin.clark@oss.qualcomm.com>
 
-         if (uname(&uts)) {
-                 perror("uname");
-                 goto config_gz;
-         }
-
-         snprintf(buf, sizeof(buf), "/boot/config-%s", uts.release);
-         config = gzopen(buf, "rb");
-         if (config)
-                 return config;
-         fprintf(stderr, "gzopen %s: %s\n", buf, strerror(errno));
-
-config_gz:
-         config = gzopen("/proc/config.gz", "rb");
-         if (!config)
-                 perror("gzopen /proc/config.gz");
-         return config;
-}
-
->> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
->> ---
->>   scripts/install.sh | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/scripts/install.sh b/scripts/install.sh
->> index 05d62ac513ee..ecf354d8f4f1 100755
->> --- a/scripts/install.sh
->> +++ b/scripts/install.sh
->> @@ -34,6 +34,12 @@ do
->>   		continue
->>   	fi
->>   
->> +	# Install kernel config file
->> +	if [ -f ${INSTALL_PATH}/config-${KERNELRELEASE} ]; then
->> +	  mv ${INSTALL_PATH}/config-${KERNELRELEASE} ${INSTALL_PATH}/config-${KERNELRELEASE}.old
->> +	fi
->> +	cp .config ${INSTALL_PATH}/config-${KERNELRELEASE}
->> +
-> 
-> I am a little hesistant to change the generic install logic to handle
-> these files, especially since the map file should be handled by
-> installkernel like you mention in patch 3 (but I am open to other
-> opinions/arguments) and the configuration can be made available via
-> CONFIG_IKCONFIG_PROC as I mention above.
-> 
-> If LoongArch wants this behavior as part of its install process, why not
-> just bring back the lines of 75cffd392bfa after $(cmd,install)
-> 
-> install:
->      $(call cmd,install)
->      $(Q)install -D -m 644 .config $(INSTALL_PATH)/config-$(KERNELRELEASE)
->      $(Q)install -D -m 644 System.map $(INSTALL_PATH)/System.map-$(KERNELRELEASE)
-> 
->>   	# installkernel(8) says the parameters are like follows:
->>   	#
->>   	#   installkernel version zImage System.map [directory]
-
-Yes, this works well for LoongArch. If there is no need to do this for
-all archs, I will only touch arch/loongarch files.
-
-By the way, I do not know why it can not generate System.map by the
-installkernel in practice, could you please check it?
-
-Thanks,
-Tiezhu
-
+>
+> > ---
+> >  scripts/dummy-tools/python3 | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >  create mode 100755 scripts/dummy-tools/python3
+> >
+> > diff --git a/scripts/dummy-tools/python3 b/scripts/dummy-tools/python3
+> > new file mode 100755
+> > index 000000000000..1f3ac6541dd3
+> > --- /dev/null
+> > +++ b/scripts/dummy-tools/python3
+> > @@ -0,0 +1,5 @@
+> > +#!/bin/sh
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +
+> > +true
+> > --
+> > 2.51.0
+> >
 
