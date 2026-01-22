@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-10832-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10831-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yHDcJm6ycmn5ogAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10832-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jan 2026 00:27:42 +0100
+	id IAUrKGiycmnwogAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10831-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jan 2026 00:27:36 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07C36E7A1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jan 2026 00:27:41 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B1C6E793
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Jan 2026 00:27:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8BB0730095F6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 23:27:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1F29F3018774
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 23:27:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08DB3389452;
-	Thu, 22 Jan 2026 23:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B1003DB74D;
+	Thu, 22 Jan 2026 23:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AgK2pGk1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gviIDwXi"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780E83DB757
-	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 23:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AFF388878
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 23:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769124452; cv=none; b=oW5O3APbNlSdB467fgpX/eNQBqgPQ6d4EXTujOEFrumHsj5p6dS3flTAlMhRx9DBdErm7dA58RfAqQ8DUqhUOflZgwRSKHMrv36xvmMcNor4khAjTPPM9GWMlEj6KGWPY8tJ9GFEOfQgdeAfnJoq/3qXDSGnz0iRJW6eP4o58mA=
+	t=1769124451; cv=none; b=toRo+sGqjUih3wNt/mNF97wA9jM5rDrSCskGU78v/X6DuxEAbSYqCbZ06w7OXs1Ij35uHd3bSat4Ywt6giPQc+UUtXHMGRsRF8N9xSqMfF3smQIi7FaDjJA78zUN0wbKNfED/ZkBV3+6w/kWBfUOSkw2+w7yL/9L+JyfcW6Jqa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769124452; c=relaxed/simple;
-	bh=pEuQYhNfzcrqZS1sMzYI5aKtp9TjL+4Pg78eNcIsJM4=;
+	s=arc-20240116; t=1769124451; c=relaxed/simple;
+	bh=4fuT4kSBYejpM1YxVatCRAaDrX+MQN4AsB/aXUX7se0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YQHqiRxgrSVzVIWjpbvT0ox15OczEm3nfCMeitG8OXGnYZMBmU0eujxU9OQDN83zznlK1HfN6mVqREczpluftaI54n8QlpPvNDhgvRhlEo5FPW53i3q9Y8Yq7a/sCNt8k4E4zqba0WNYvitxssJKsSow4i0QB1Wb1HF310i+MeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AgK2pGk1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66559C116D0;
-	Thu, 22 Jan 2026 23:27:29 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=FHq4CBOCDJFXqAi7kK6lb/YLoFVD8s/NZLo5wxxG0MZIIEzc7xtrIqqxPiL7kUDJ+2Tr5NGR5KhpDgKyjgWv+F1VtJ/rq4WtOxrlstG6eC/0A0jlnogfIlet+1Y60iCUlAborLQwBETRCc0PqBeZwu1La88FRwPaF+ny0k21dIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gviIDwXi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE51C19423;
+	Thu, 22 Jan 2026 23:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769124450;
-	bh=pEuQYhNfzcrqZS1sMzYI5aKtp9TjL+4Pg78eNcIsJM4=;
+	s=k20201202; t=1769124451;
+	bh=4fuT4kSBYejpM1YxVatCRAaDrX+MQN4AsB/aXUX7se0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=AgK2pGk17ytzkNE1U7e7iW2wrz3nrFqeyzmM7Lbqd6pqHWSnGFMdzgtdNsEJ6Yacd
-	 p54UY56878bNJj5lTdaiTEK3v3Uhql+ObStzPTokvbs/5rrp/S6BjYJZ9FMx4jVghj
-	 /iB3GPDCt9x/PWv157P0Vw24e3iNPOS+LCYwWywjyfxnV9khj8564c0UsPym23e/mh
-	 OTOjbWiSDGPYCojeSEwgV9oDt4IVDAWOoTqhwM8wMpf28gtQbbwI6SaY+yDqO4R5Gi
-	 SVdqDNaa+uigtOlQ8muLshE1t0dlrSO8T+ZQgyjDjqJPq1j4TqOwpwntWG96VdxMyX
-	 OVJIiqHpPo+sw==
+	b=gviIDwXiqnBrRalKOSjHiCciZ26BPLsYeW+YXSMyzemhYvZq4NJwcHKbUPsMHzWpm
+	 66tp4qG2mCwcFZFrok4Z9eY9vk6L5wHUZO/eAzr7pEj3cvqXVdBwhTn3v2m9AIYf2m
+	 5kW40Mr6ISgiE6S40yFASXXGVKZS8LSfU2R5N9zykood0FfUH2R1GHerP4LSRDEzcu
+	 tDQnyl/QQabQ9U1zCI5sVAW4eQCifWW0ihpJ7ahrcAzz0zeD1obA7VYnjK7JdEtFE9
+	 ZdnkWMFI6JX/fLKvl0NWzhTJ819AEqDS3t/313IGmhYDuGAVpjuPyCqLdnhzAUqZ0e
+	 /2VEbtPUxZf3g==
 From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 22 Jan 2026 16:27:22 -0700
-Subject: [PATCH 2/3] scripts/container: Use list comprehension in
- get_names()
+Date: Thu, 22 Jan 2026 16:27:23 -0700
+Subject: [PATCH 3/3] scripts/container: Use iterable unpacking for
+ _get_opts()
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -56,19 +56,19 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-scripts-container-ruff-fixes-v1-2-fd1b928c3f10@kernel.org>
+Message-Id: <20260122-scripts-container-ruff-fixes-v1-3-fd1b928c3f10@kernel.org>
 References: <20260122-scripts-container-ruff-fixes-v1-0-fd1b928c3f10@kernel.org>
 In-Reply-To: <20260122-scripts-container-ruff-fixes-v1-0-fd1b928c3f10@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
  Guillaume Tucker <gtucker@gtucker.io>
 Cc: linux-kbuild@vger.kernel.org
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1104; i=nathan@kernel.org;
- h=from:subject:message-id; bh=pEuQYhNfzcrqZS1sMzYI5aKtp9TjL+4Pg78eNcIsJM4=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJlFm+Lk066wHjqjIbpPoVfuTtfuxcp7G1Zq1PV2iEz5v
- Yn7pkBbRykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZiIz12Gf+ZhxZeZJqzNnVMy
- 7znjf/ZQ70VdXjbz+FMUOTkPtGb/fcHwVy5Febf9nBUqnYJpX8KlxJy3H20Mvye30XpK2ZzMlMP
- T2AE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1959; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=4fuT4kSBYejpM1YxVatCRAaDrX+MQN4AsB/aXUX7se0=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJlFm+I+2vY/5Jw+Z8u6IqYCk6qpJhv2qP2QEjdQtrUL/
+ CkUcHhaRykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZjIiRpGhjWHXVdcCT5QvdT/
+ IeOs30rO1+XPFB25eO20rNy2O7PmBEsw/M+ebGXLkRpl8n6SetkrhbVqy27+fbjBZsWdH/eKIts
+ N17AAAA==
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-Rspamd-Server: lfdr
@@ -76,11 +76,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-10832-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10831-lists,linux-kbuild=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -88,7 +88,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
@@ -97,44 +97,68 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[runtime.name:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C07C36E7A1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 61B1C6E793
 X-Rspamd-Action: no action
 
-'ruff check --select C4 scripts/container' warns:
+'ruff check --select RUF scripts/container' warns:
 
-  C400 Unnecessary generator (rewrite as a list comprehension)
-     --> scripts/container:113:16
-      |
-  111 |     def get_names(cls):
-  112 |         """Get a list of all the runtime names"""
-  113 |         return list(runtime.name for runtime in cls.runtimes)
-      |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  114 |
-  115 |     @classmethod
-      |
-  help: Rewrite as a list comprehension
+  RUF005 Consider iterable unpacking instead of concatenation
+    --> scripts/container:89:16
+     |
+  88 |       def _get_opts(self, container_name):
+  89 |           return super()._get_opts(container_name) + [
+     |  ________________^
+  90 | |             '--user', f'{self._uid}:{self._gid}'
+  91 | |         ]
+     | |_________^
+     |
+  help: Replace with iterable unpacking
 
-Do as it suggests.
+  RUF005 Consider iterable unpacking instead of concatenation
+     --> scripts/container:100:16
+      |
+   99 |       def _get_opts(self, container_name):
+  100 |           return super()._get_opts(container_name) + [
+      |  ________________^
+  101 | |             '--userns', f'keep-id:uid={self._uid},gid={self._gid}',
+  102 | |         ]
+      | |_________^
+      |
+  help: Replace with iterable unpacking
+
+Iterable unpacking is more efficient, so switch to it as it suggests
+(even if it is unlikely to matter given how small these lists are).
 
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- scripts/container | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/container | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/container b/scripts/container
-index dae475c6d262..5afaad762492 100755
+index 5afaad762492..09a14f7e29f3 100755
 --- a/scripts/container
 +++ b/scripts/container
-@@ -110,7 +110,7 @@ class Runtimes:
-     @classmethod
-     def get_names(cls):
-         """Get a list of all the runtime names"""
--        return list(runtime.name for runtime in cls.runtimes)
-+        return [runtime.name for runtime in cls.runtimes]
+@@ -86,7 +86,8 @@ class DockerRuntime(CommonRuntime):
+     name = 'docker'
  
-     @classmethod
-     def get(cls, name):
+     def _get_opts(self, container_name):
+-        return super()._get_opts(container_name) + [
++        return [
++            *super()._get_opts(container_name),
+             '--user', f'{self._uid}:{self._gid}'
+         ]
+ 
+@@ -97,7 +98,8 @@ class PodmanRuntime(CommonRuntime):
+     name = 'podman'
+ 
+     def _get_opts(self, container_name):
+-        return super()._get_opts(container_name) + [
++        return [
++            *super()._get_opts(container_name),
+             '--userns', f'keep-id:uid={self._uid},gid={self._gid}',
+         ]
+ 
 
 -- 
 2.52.0
