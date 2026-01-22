@@ -1,83 +1,83 @@
-Return-Path: <linux-kbuild+bounces-10801-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10802-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iKiKEo4HcmmvZwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10801-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 12:18:38 +0100
+	id OLTJIYEJcmmOagAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10802-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 12:26:57 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66BC65DFA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 12:18:37 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8901D65F95
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 12:26:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 13250701D91
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 11:06:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3FE468A3E2B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 11:06:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA5B447D95E;
-	Thu, 22 Jan 2026 10:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5796440B6FE;
+	Thu, 22 Jan 2026 10:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zxDV/WTc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fkqX5WSu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C3E47DD53
-	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 10:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5655E47DD78
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 10:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769079502; cv=none; b=HoVsYKTL9Aohtn9cdDmhqmYjhT3L3N6qbUb5Io2QI9Mk62NLg2VLhReb7KYFgpfCjGMLgm7EJjk14Gfa4dGXr21fD0Z2b658SK4P4WghxweZdM/i93DZvkxMw5Nx21NIxfn6yYfek0Yjwf9djn2EWs6Braohl+Waqh7vRi407cY=
+	t=1769079504; cv=none; b=CXQ8ocWPRzmDiq/41U7miC8G0ledYJ0QVkY2Ci2pDQHp8rV7mUUogHoIgmI6PpyhHmNFD51bMbtTs9Hf0W9xVC8hog5lsuVOTz173BkcyPaHSq76ah/ofAox9jT3kLONuCab2nzt4/U3qKtTOnYjdib0ctSa9c6RROOXzFqCMi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769079502; c=relaxed/simple;
-	bh=5R0b3Np4piW8Ssr+m+GKm27eMSdI0vpy/o7lpwDixRY=;
+	s=arc-20240116; t=1769079504; c=relaxed/simple;
+	bh=IMkJgM4aRmhqZgphBUQfQMkJfQvCESQd/ZaYH5f5ydg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eMP/ALYxdhZ0Mz4WWHFR6JHl1Im/GZLyKEXWBoXb/YcrksRC1u1dYUXC6nYMvMLpOGoiV9ikMbiq/EmPS569MnQ9DGXCNuC+sgIm+wPuJG+UMXnbxlFnFvibU2pR1A1A24+0a8BnpCsHrMkStymO2N2gGVuRN18YOhXHgFJj2ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zxDV/WTc; arc=none smtp.client-ip=209.85.208.174
+	 MIME-Version; b=HJD+nf+bhNp5I1DNoQ5o+6bCxzNRbff3CBbAeGxQDrdzCAVVddIqlm8V6mlXtrtpGAci1OgxnAIZe+fj6YVFhCelrCjQCCO3PmzoN4khptcKkT3w10aGyp1hsrlEvNP2Ecuojuj/otAdd+tC5QYY67rpK+SlV8yY9Hq7u0EvGv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fkqX5WSu; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-385bdc72422so8276841fa.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 02:58:20 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59b685d2b79so804481e87.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 02:58:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769079499; x=1769684299; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1769079500; x=1769684300; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CqSKO6ey7biEgZMFwwVIuw0/Zybnbie8BcSIyb4Zy1A=;
-        b=zxDV/WTchR9P80CvHwlqKmWzBeNRLgGqOKRsM30H0YLnGl70oUc8EsudaJ7X2bQq+A
-         Y7vuBByd/GIxdNFabylmM+/ZPy+b7ux8mze43/hZ0LznsvxxCF88Z/7t/orvsTVLWErF
-         FcPNzbHoeg1KFr7XBAHRtP6LSns1GF1L49nYzcu0Tt6voI5Abs4js2imDV7LtgOXYolc
-         92ruVbUeT3e/B8PV8qVEHZ73MAgLZtqP/z3mz15zg3Kdtae9OWi436scuTZNnfULnjzI
-         9L9EyA+PC9K61gACD8qKpwWphn2Rdx+fkSv+BTJpS9q08zBc5pDzQg6FnqJC2mnGbIib
-         2VpA==
+        bh=jDvZa1RQe6YqqWZizFboxtjozJnHM2wFaUUPlzeKgK0=;
+        b=fkqX5WSuSxODH0W+JaIO1SedJDlVZcMjyFR7I1vreCipfg8UelpEVEjphXFMQOp6dp
+         oL+07hhHgFcuY1t1CyH7dR58QqA2uXOcxFNUH7/xA7jAvslbLVzyTi7kOqkgwwuN8r/i
+         3LAtvgy0Ek4SW4ahactf4QZGXymoQCaDMpbu+mvOedvHFmviaYHaPJ3e5OUCJ+D8A/zZ
+         BHSXjOegnnMSIYnoQbVOkCpBkcyRD1kOGOicGdIEj6OZrMe3Zk9U5YSfiGceTOKf0h40
+         KnHnjYkjKLD/Bg7RuRo/zKiYl68DdE1VhRQ6vvvmBE6xW1JQAFlOa8LnWcEIzdFjpGRO
+         6M7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769079499; x=1769684299;
+        d=1e100.net; s=20230601; t=1769079500; x=1769684300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CqSKO6ey7biEgZMFwwVIuw0/Zybnbie8BcSIyb4Zy1A=;
-        b=M4/PvEql3/cbQGdfgpk1/6vc0gI/pY+1e0l2oZPH9pfaqVyYyaUlugzKZ/Zn0DoJY2
-         0rnDxdBZh/gZ2oU3R7+GUXcIUvjxIufN2W/gLHIhJL20zCYDgzIl1nt+NDmnl344GSGH
-         kXMz8DhioAxfXfjDeREnQ6X3F6SexFyhDBTdBjsavOR6Z/CEzLa6lOaFrufDinqrIcJ5
-         vSnvfhTi+SNrvRGKQVef73Uiy1Cjb2+OoP7fK3ZYgWkSQacgCucCgqdvRldfl1CdEBbD
-         lYepx/uUx7zWKTZViGxO09GevRU50J/ggMZnSaWEjVG7iKMWRa27S/UR5PLsbTq+NnrM
-         olvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUkTLBNjscsFMQs0dTgj9BJ+LVCNjX8QxR53IDgjXV8Di1QKKW9M+iBTwVTxxv+ORi9MQOQtRbfXibOImo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE7iPXxqxrv2e4uoWwfU5weBWEjvUPeSg32akRUfY/7YFC9oPi
-	Yq8CCAwLj5cnd8iRrt5tbhyw7iw6RotaC7dwwFB4uFxSE9RsdC8eTRsU3lxohy+z03k=
-X-Gm-Gg: AZuq6aIFpjqYJsPLzVJDvniptcXOERqt5A9P6M4FEJQijLZRwyEiMuBo5zFJejEcdXP
-	P9Sy4HSA0yqAa8gvh1l5BwbCbQw3W+/bv+uVpphfAqsQ23SRw2xPke2vNHfcs1TWZeYEVvLZ/F2
-	b3f5armXGLf3PMOeRXino0OqkMvvcBQZVT3kNj3ve1uSmdYA1KIDuZ/Gw3XrnVqDmA58trMJbD2
-	sg42vBp4A0Sp6IEWfpxkc3P6hVzAGINeSPux+tHHqAtSMObCOh+d7mShIwjg3lkcc5jEzPLnJZw
-	2Fe+ew7i2PUAcFezPlFgD5o+bBQHAQ0XnbieaiieLSNJfWs9PUwSFqX/ntf7aZDoX9HTETsQmZZ
-	X78JBWf50E/SPNYHR2uoi3ctO1iNjSR5tEH3Bl5+K0ssn8FwfWKYxX4d7nT6oRNdvG3lBE7VKyu
-	dxGw1f0vBWU/XQFA5a1RV6HlSD7Pk1YX2UMzftPgRGdEQn
-X-Received: by 2002:a2e:b8cf:0:b0:383:1832:958a with SMTP id 38308e7fff4ca-385a54b99bcmr30117351fa.44.1769079498610;
-        Thu, 22 Jan 2026 02:58:18 -0800 (PST)
+        bh=jDvZa1RQe6YqqWZizFboxtjozJnHM2wFaUUPlzeKgK0=;
+        b=XTMqUMB6FJvb0Bo6bo8t3dg0FqS0txbe6Dqo+3ugW2Mh5qVe4mMBAIDKTedpt59MMT
+         IFFRx8Y9UHcWKHkYKmJhMYNzDZD4ocNmqUjphBs5tDrW6lOEUqLbB0wJX173IFFIPvap
+         lw+x90x7xETOdb6Jj9lmSCAeaU6sqT1pTx3buBP9fZxE4nOVPVDmfeGmC5c3tck3eohH
+         3Jbu0VsZptoQ+vY6628nmZC2HIgiM1n4wWLeTpa3xtYMr7tdKVtwBFKfyGJkMsQPw97U
+         mSFIS2jGPwvAeW61JmhZZLdjbcIduVrFvNnEGZSgfGV0OR4PJdtZBN8/TahylrizuUAf
+         DyCg==
+X-Forwarded-Encrypted: i=1; AJvYcCV51FW7/Le1y5Py6piRhmvYQtR5Uchhalow2HVRRQY5Rb7629QNRwea9eAnhBdDc73LNibymLJC6DvTJjI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZFeqS2YtdYqF7/aV7OMVTbNnLBp1AhfQOWFB8ijzmlR1/mOE3
+	SmIvksz5SgA5+rgulNr66KS10A9TDyY4+SveENCSMvhlFWsrC4HUCtEtWmOpnu5VB/I=
+X-Gm-Gg: AZuq6aJpoqoZHQjfK6G5ado3t1z8gzUJ+FrL2Dp3Vdq4EOt8ZEI0LUDeKd2ITcgMUyn
+	JTZ3rdqOH/AqPXpScOlrFCTFQ9YY9TJI7wBwRq12/Ktfh0t5uox6ei94RpJADAACWwOqKWUF26A
+	/aJv0GfMfgmb0GVHCfZMIWwhf8r084+fkAqpAr8h9hyLZVBODBy8Kfid7e2DQBDUeYvwothNspQ
+	EMMJKLg7SyQp1rPXLEhmZNWp6XnshfwFa75wuymlXp9icSIztb0mf5UEOYvmy02w+Aii+e15Qtf
+	/8uIrxQiVjkaz+13CyX4F59YHwPyDia3hKe51Bm9ApechnOStnUFQk9v+WAhpLVvKKc6l/j3gtt
+	Io+8eUOIt6gSzoCostgAClindGPTWkISfj5J1RnJ/d8tgWBG8G87P35oqzqnaD1wt+8XMYOXAeA
+	523GLMcASTGKicVDDLppV1QvT46HVUKHIA45YpfafwuFn3
+X-Received: by 2002:a05:6512:3c90:b0:59a:11b7:80c4 with SMTP id 2adb3069b0e04-59baeee382fmr6872830e87.35.1769079500157;
+        Thu, 22 Jan 2026 02:58:20 -0800 (PST)
 Received: from nuoska (87-100-249-247.bb.dnainternet.fi. [87.100.249.247])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-385d5091433sm350841fa.14.2026.01.22.02.58.18
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-385d5091433sm350841fa.14.2026.01.22.02.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 02:58:18 -0800 (PST)
+        Thu, 22 Jan 2026 02:58:19 -0800 (PST)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nsc@kernel.org>,
@@ -85,9 +85,9 @@ To: Nathan Chancellor <nathan@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v3 2/3] scripts: kconfig: merge_config.sh: use awk in checks too
-Date: Thu, 22 Jan 2026 12:57:50 +0200
-Message-ID: <20260122105751.2186609-2-mikko.rapeli@linaro.org>
+Subject: [PATCH v3 3/3] scripts: kconfig: merge_config.sh: warn on duplicate input files
+Date: Thu, 22 Jan 2026 12:57:51 +0200
+Message-ID: <20260122105751.2186609-3-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260122105751.2186609-1-mikko.rapeli@linaro.org>
 References: <20260122105751.2186609-1-mikko.rapeli@linaro.org>
@@ -113,9 +113,9 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10801-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10802-lists,linux-kbuild=lfdr.de];
 	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mikko.rapeli@linaro.org,linux-kbuild@vger.kernel.org];
@@ -125,145 +125,64 @@ X-Spamd-Result: default: False [-0.46 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,linaro.org:dkim,linaro.org:mid,ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns]
-X-Rspamd-Queue-Id: B66BC65DFA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 8901D65F95
 X-Rspamd-Action: no action
 
-Converting from shell/sed/grep loop to awk improves runtime
-checks of Yocto genericarm64 kernel config from 20 seconds
-to under 1 second. The checks catch this kind of issues:
-
-WARNING: CONFIG_BLK_DEV_DM differs:
-Requested value: CONFIG_BLK_DEV_DM=y
-Actual value:    CONFIG_BLK_DEV_DM=m
-WARNING: CONFIG_SECURITY_NETWORK differs:
-Requested value: CONFIG_SECURITY_NETWORK=n
-Actual value:    CONFIG_SECURITY_NETWORK=y
-WARNING: Value requested for CONFIG_ARM64_BTI_KERNEL not in final .config
-Requested value: CONFIG_ARM64_BTI_KERNEL=y
-Actual value:
+External scripts like yocto kernel scc may provide
+same input config fragment multiple times. This may
+be a bug since processing same fragments multiple times
+can be time consuming.
 
 Cc: Anders Roxell <anders.roxell@linaro.org>
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- scripts/kconfig/merge_config.sh | 97 +++++++++++++++++++++++++++++----
- 1 file changed, 86 insertions(+), 11 deletions(-)
+ scripts/kconfig/merge_config.sh | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-v3: use $VAR syntax for shell variables, changed output to be a bit more
-    similar to the shell script version before
+v3: no changes
 
-v2: awk from ${AWK}
-    https://lore.kernel.org/linux-kbuild/20251229114447.45236-1-mikko.rapeli@linaro.org/T/#md557a7746d96920ff270448738adf96b9fa993ca
+v2: no changes
+    https://lore.kernel.org/linux-kbuild/20251229114447.45236-1-mikko.rapeli@linaro.org/T/#me2023dbfef124059bd906d44c60ffaa7cd83732c
 
 v1: https://lore.kernel.org/linux-kbuild/20251229114447.45236-1-mikko.rapeli@linaro.org/T/#t
 
 diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index de217771b78c..9eda9dbd4542 100755
+index 9eda9dbd4542..735e1de450c6 100755
 --- a/scripts/kconfig/merge_config.sh
 +++ b/scripts/kconfig/merge_config.sh
-@@ -286,16 +286,91 @@ fi
- # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
- make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+@@ -130,6 +130,8 @@ trap clean_up EXIT
  
-+# Check all specified config values took effect (might have missed-dependency issues)
-+if ! "$AWK" -v prefix="$CONFIG_PREFIX" \
-+	-v warnoverride="$WARNOVERRIDE" \
-+	-v strict="$STRICT" \
-+	-v warnredun="$WARNREDUN" '
-+BEGIN {
-+	strict_violated = 0
-+	cfg_regex = "^" prefix "[a-zA-Z0-9_]+"
-+	notset_regex = "^# " prefix "[a-zA-Z0-9_]+ is not set$"
-+}
+ cat $INITFILE > $TMP_FILE
  
--# Check all specified config values took (might have missed-dependency issues)
--for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
-+# Extract config name from a line, returns "" if not a config line
-+function get_cfg(line) {
-+	if (match(line, cfg_regex)) {
-+		return substr(line, RSTART, RLENGTH)
-+	} else if (match(line, notset_regex)) {
-+		# Extract CONFIG_FOO from "# CONFIG_FOO is not set"
-+		sub(/^# /, "", line)
-+		sub(/ is not set$/, "", line)
-+		return line
-+	}
-+	return ""
-+}
- 
--	REQUESTED_VAL=$(grep -w -e "$CFG" $TMP_FILE)
--	ACTUAL_VAL=$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
--	if [ "x$REQUESTED_VAL" != "x$ACTUAL_VAL" ] ; then
--		echo "Value requested for $CFG not in final .config"
--		echo "Requested value:  $REQUESTED_VAL"
--		echo "Actual value:     $ACTUAL_VAL"
--		echo ""
--	fi
--done
-+function warn_mismatch(cfg, merged, final) {
-+	if (warnredun == "true") return
-+	if (final == "" && !(merged ~ / is not set$/ || merged ~ /=n$/)) {
-+		print "WARNING: Value requested for " cfg " not in final .config"
-+		print "Requested value: " merged
-+		print "Actual value:    " final
-+	} else if (final == "" && merged ~ / is not set$/) {
-+		# not set, pass
-+	} else if (merged == "" && final != "") {
-+		print "WARNING: " cfg " not in merged config but added in final .config:"
-+		print "Requested value: " merged
-+		print "Actual value:    " final
-+	} else {
-+		print "WARNING: " cfg " differs:"
-+		print "Requested value: " merged
-+		print "Actual value:    " final
-+	}
-+}
++PROCESSED_FILES=""
 +
-+# First pass: read effective config file, store all lines
-+FILENAME == ARGV[1] {
-+	cfg = get_cfg($0)
-+	if (cfg != "") {
-+		config_cfg[cfg] = $0
-+	}
-+	next
-+}
+ # Merge files, printing warnings on overridden values
+ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+ 	echo "Merging $ORIG_MERGE_FILE"
+@@ -137,6 +139,14 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+ 		echo "The merge file '$ORIG_MERGE_FILE' does not exist.  Exit." >&2
+ 		exit 1
+ 	fi
 +
-+# Second pass: process merged config and compare against effective config
-+{
-+	cfg = get_cfg($0)
-+	if (cfg == "") next
++	# Check for duplicate input files
++	case " $PROCESSED_FILES " in
++		*" $ORIG_MERGE_FILE "*)
++			${WARNOVERRIDE} "WARNING: Input file provided multiple times: $ORIG_MERGE_FILE"
++			;;
++	esac
 +
-+	# strip trailing comment
-+	sub(/[[:space:]]+#.*/, "", $0)
-+	merged_val = $0
-+	final_val = config_cfg[cfg]
-+
-+	if (merged_val == final_val) next
-+
-+	if (merged_val ~ /=n$/ && final_val ~ / is not set$/) next
-+	if (merged_val ~ /=n$/ && final_val == "") next
-+
-+	warn_mismatch(cfg, merged_val, final_val)
-+
-+	if (strict == "true") {
-+		strict_violated = 1
-+	}
-+}
-+
-+END {
-+	if (strict_violated) {
-+		exit 1
-+	}
-+}' \
-+"$KCONFIG_CONFIG" "$TMP_FILE"; then
-+	# awk exited non-zero, strict mode was violated
-+	STRICT_MODE_VIOLATED=true
-+fi
-+
-+if [ "$STRICT" == "true" ] && [ "$STRICT_MODE_VIOLATED" == "true" ]; then
-+	echo "Requested and effective config differ"
-+	exit 1
-+fi
+ 	# Use awk for single-pass processing instead of per-symbol grep/sed
+ 	if ! "$AWK" -v prefix="$CONFIG_PREFIX" \
+ 		-v warnoverride="$WARNOVERRIDE" \
+@@ -259,6 +269,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
+ 		STRICT_MODE_VIOLATED=true
+ 	fi
+ 	mv "$TMP_FILE.new" "$TMP_FILE"
++	PROCESSED_FILES="$PROCESSED_FILES $ORIG_MERGE_FILE"
+ done
+ if [ "$STRICT_MODE_VIOLATED" = "true" ]; then
+ 	echo "The fragment redefined a value and strict mode had been passed."
 -- 
 2.34.1
 
