@@ -1,71 +1,71 @@
-Return-Path: <linux-kbuild+bounces-10822-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10823-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uLKpNkOCcmnFlgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10822-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 21:02:11 +0100
+	id MORgIWmJcmkPmAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10823-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 21:32:41 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B72A6D4F9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 21:02:11 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E52E6D701
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 21:32:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AD20F300D467
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 20:02:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 75C13300645D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 20:32:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59F1E39BA4A;
-	Thu, 22 Jan 2026 20:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E75FB3A2AC0;
+	Thu, 22 Jan 2026 20:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="WycBHm1G"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="TuXj9lXJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59E1389DE9;
-	Thu, 22 Jan 2026 20:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4A52F745B;
+	Thu, 22 Jan 2026 20:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769112127; cv=none; b=HQcUow7Qo/wsh46ZGm3cU7ThZlJNb0UQfUcKm3zs9lR0rHa88SqOml2riilrCGAjS3kYiR874rKk4Ulk4CbAifpb8o3w9Y8dGtgbHk7Wzgp5Cg1Fz89Zd7mkEHZiGbR28cm7JS3q6kA/hDiGaEMoyM90dnUQajHJ4j7mgU9gSFQ=
+	t=1769113956; cv=none; b=JTZ5HIqXBlbMOwlP/1U0X0ZGvbUj8z9EG6XEVH2im+L/wTh/6KyPLyJvufBlJaIMhE8gwl15vaex6NLrKb3ZI0+Gy2gaVkcjWjCgZNAXeWuUzKlI5/zMTVCc+WAhUlZ1rQVYQxyQH+uzoeY6GEqbCN+T+pB2MyNaJeWU0eWkSKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769112127; c=relaxed/simple;
-	bh=AZ6YOlIXemTIlhLOuyk0KCiazH+IrDAzFUaFk6Q3+3s=;
+	s=arc-20240116; t=1769113956; c=relaxed/simple;
+	bh=mXZI0d6+DUsRJH/FcKnMJYfmYwxzY/E5xingOgEcS5A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aHzqhATAzRXjfHsosVCTlLKxZgf0HvKEpyhdXK1M3+MMSzmGWZ3JhBZePaupSeko50qKaFal99qNFM7roYG50KYOQBVaworj98lujvsaq5OgWp6dix8UVkuxTlKCr1iOyMxvRdbhYW3OY9nQvP8RDUmGOjJRxYFmyJTjz70XXi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=WycBHm1G; arc=none smtp.client-ip=148.251.102.236
+	 In-Reply-To:Content-Type; b=pe3v7R9neFN189iWhTrxVKqlc5oZxZ0qMkJQP17VHQ04NJlVKeTXrVATumpgIEtbijgtsGx6SGEdhtgUGESJs1ZQMrDTSjKEjBCFcG8HUsKL912fVejB8QZe8Xvs0kNP7m3WTkpaJcRQIz3QctTMxDrJU8pvkPp9sRMd2kgL/fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=TuXj9lXJ; arc=none smtp.client-ip=148.251.102.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
 Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id E8CAC200C8;
-	Thu, 22 Jan 2026 21:01:50 +0100 (CET)
+	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id C0770200CD;
+	Thu, 22 Jan 2026 21:32:26 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 8F5C91FA7EB;
-	Thu, 22 Jan 2026 21:01:50 +0100 (CET)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 643701FA86C;
+	Thu, 22 Jan 2026 21:32:26 +0100 (CET)
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id 72CoimQTN6af; Thu, 22 Jan 2026 21:01:49 +0100 (CET)
+ with ESMTP id D7wFGT97_ZBB; Thu, 22 Jan 2026 21:32:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 335F21FA872;
-	Thu, 22 Jan 2026 21:01:49 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 335F21FA872
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id C9CDD1FA86A;
+	Thu, 22 Jan 2026 21:32:25 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz C9CDD1FA86A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1769112109;
-	bh=4is+DVbd9UuETEIT3EqQ9Klx2MAa9Ed2hOWBXTrh+f8=;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1769113945;
+	bh=mXZI0d6+DUsRJH/FcKnMJYfmYwxzY/E5xingOgEcS5A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=WycBHm1GN9a3OEjOx7G+2cO+NU36NC1B3CF6JbbNuIOjMmEwWJ170r4oSQFLHDvOS
-	 cCs/aeh4w+ArQU/ZdQe6BEjO5CQ5SmqooqEy4sWLlwuWgDG94IT94jcN5OOSKM+KBw
-	 aYSZoIKmTPDI0VMYnuEKcIbCeQkuCqZTWjh8uqMhdjvdhLj9n8l6xDpfK08uMJTcxk
-	 0aGRS2JU6FMRuMY5r0CHVydfEnWSemj0EUM1GARHGefH6dmP5rCbNBj2rHHsuGdpwa
-	 a8b07kudE13HU3+4rCBaw0m2IOiBUsHAMhzArFSoi+SFbH4JQ//6u/+3i10tyan5h2
-	 XnbDNp2yUIwiQ==
+	b=TuXj9lXJxqeKsL5lsE/sYi2jyTZR81/g/VolFtfW1k9SC58xpXMi35H1+UpnnCgFj
+	 h71TZz6M6noR6O7WVjYiPTitnRuUar83MRi/aDWPTpvW6cuAh3jSkJeH3NuzKln71i
+	 4apwn7u3ZiQkL4Sd5+QIglFDjKrz+tDyFQvb8Gdm7nRCSVnHul9oEIGKRkEEIgKsLD
+	 58krwfVjaW/0QHQ2JSFq/ZrEcDszNQugKHbrKrNi3g2Rzhouj5/rXOB8Sh//22is7o
+	 Z1rcpSyM+X3dLPTjZS0iEpRouYO1QwdywXg76qYFelGyFhMZRKbGyEE9tZPTRIOyl3
+	 r7ukRpAzSmO9w==
 X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id tC3Y2VvRCVRx; Thu, 22 Jan 2026 21:01:49 +0100 (CET)
+ with ESMTP id xdHzNbOG_bg2; Thu, 22 Jan 2026 21:32:25 +0100 (CET)
 Received: from [192.168.0.168] (ipservice-092-208-231-176.092.208.pools.vodafone-ip.de [92.208.231.176])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id B447E1FA603;
-	Thu, 22 Jan 2026 21:01:48 +0100 (CET)
-Message-ID: <60381253-676f-4ec9-b55c-922d91e3be23@tngtech.com>
-Date: Thu, 22 Jan 2026 21:01:48 +0100
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 52BC71FA4EA;
+	Thu, 22 Jan 2026 21:32:25 +0100 (CET)
+Message-ID: <8b756b72-36f1-43d2-96a6-159165faedd6@tngtech.com>
+Date: Thu, 22 Jan 2026 21:32:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -73,14 +73,13 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/14] tools/sbom: add unit tests for command parsers
+Subject: Re: [PATCH v2 00/14] Add SPDX SBOM generation tool
 To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
  gregkh@linuxfoundation.org, maximilian.huber@tngtech.com
 References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
- <20260120115352.10910-14-luis.augenstein@tngtech.com>
- <CANiq72k4bNpxVKU=Ue6yWDJmJf7u14WJhPARL-Gp16S-02xxZA@mail.gmail.com>
+ <CANiq72mtWhjVNNYc6nvxuQ3XAnMWBDiZyOvJ1BNN=M+097Wvpw@mail.gmail.com>
 From: Luis Augenstein <luis.augenstein@tngtech.com>
 Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
  xsFNBGW7l0QBEAC++Fst8K0hAw6IK/nX+I8Xs/iCsUh/cwhrm2feHEjAtgStgaxDTEjgthIY
@@ -125,10 +124,10 @@ Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
  PDT6iXvRUlgl/trWLkUu13V9Ey0Qwald52093tqHgdd1bdsjvxZoyFsF+qsKIiOD/Swf/HBm
  K0fJXDdJPTJ1HoB/ZD4zVxHTa9thaybbzLZJfwE46YcykYz999J/FsXjKaHL3hMX7GixYNtU
  gKIL1i5GfLGxpXY0jbEKei3Y6Pa0iOBL4IILkOvaXqgEII0AKKRJ9J0ZtQXRyz0F2tHrTjqK JQQ=
-In-Reply-To: <CANiq72k4bNpxVKU=Ue6yWDJmJf7u14WJhPARL-Gp16S-02xxZA@mail.gmail.com>
+In-Reply-To: <CANiq72mtWhjVNNYc6nvxuQ3XAnMWBDiZyOvJ1BNN=M+097Wvpw@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------H06v0QbmTOEO7Pm9nHQJSp2G"
+ boundary="------------s61gn5pcKikO60gQHNOvXWLN"
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.66 / 15.00];
 	SIGNED_PGP(-2.00)[];
@@ -137,20 +136,20 @@ X-Spamd-Result: default: False [-2.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
 	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
 	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_UNKNOWN(0.10)[application/pgp-keys];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+,1:+,2:+,3:+,4:~,5:~];
 	DKIM_TRACE(0.00)[tngtech.com:+];
-	TAGGED_FROM(0.00)[bounces-10822-lists,linux-kbuild=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10823-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	HAS_ATTACHMENT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tngtech.com:email,tngtech.com:dkim,tngtech.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	PRECEDENCE_BULK(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
@@ -162,25 +161,24 @@ X-Spamd-Result: default: False [-2.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 0B72A6D4F9
+X-Rspamd-Queue-Id: 0E52E6D701
 X-Rspamd-Action: no action
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------H06v0QbmTOEO7Pm9nHQJSp2G
-Content-Type: multipart/mixed; boundary="------------lONXuhjmqwchpQ3UMUnGuCYm";
+--------------s61gn5pcKikO60gQHNOvXWLN
+Content-Type: multipart/mixed; boundary="------------8AHR0qinv71L0sv2r9gzsdWY";
  protected-headers="v1"
-Message-ID: <60381253-676f-4ec9-b55c-922d91e3be23@tngtech.com>
-Date: Thu, 22 Jan 2026 21:01:48 +0100
+Message-ID: <8b756b72-36f1-43d2-96a6-159165faedd6@tngtech.com>
+Date: Thu, 22 Jan 2026 21:32:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/14] tools/sbom: add unit tests for command parsers
+Subject: Re: [PATCH v2 00/14] Add SPDX SBOM generation tool
 To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
  gregkh@linuxfoundation.org, maximilian.huber@tngtech.com
 References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
- <20260120115352.10910-14-luis.augenstein@tngtech.com>
- <CANiq72k4bNpxVKU=Ue6yWDJmJf7u14WJhPARL-Gp16S-02xxZA@mail.gmail.com>
+ <CANiq72mtWhjVNNYc6nvxuQ3XAnMWBDiZyOvJ1BNN=M+097Wvpw@mail.gmail.com>
 From: Luis Augenstein <luis.augenstein@tngtech.com>
 Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
  xsFNBGW7l0QBEAC++Fst8K0hAw6IK/nX+I8Xs/iCsUh/cwhrm2feHEjAtgStgaxDTEjgthIY
@@ -225,7 +223,7 @@ Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
  PDT6iXvRUlgl/trWLkUu13V9Ey0Qwald52093tqHgdd1bdsjvxZoyFsF+qsKIiOD/Swf/HBm
  K0fJXDdJPTJ1HoB/ZD4zVxHTa9thaybbzLZJfwE46YcykYz999J/FsXjKaHL3hMX7GixYNtU
  gKIL1i5GfLGxpXY0jbEKei3Y6Pa0iOBL4IILkOvaXqgEII0AKKRJ9J0ZtQXRyz0F2tHrTjqK JQQ=
-In-Reply-To: <CANiq72k4bNpxVKU=Ue6yWDJmJf7u14WJhPARL-Gp16S-02xxZA@mail.gmail.com>
+In-Reply-To: <CANiq72mtWhjVNNYc6nvxuQ3XAnMWBDiZyOvJ1BNN=M+097Wvpw@mail.gmail.com>
 Autocrypt-Gossip: addr=maximilian.huber@tngtech.com; keydata=
  xsFNBFOMeAgBEADGqgEfFA1q6BG2yiIDpOPNeGZ4EdHftaJqHHcec61xosrARYNX25dRBomy
  AmV2OgcpTi3f5a/z7be1AMxbYp6P3IR/UbyjAsEYQVhyVn+4/dAp2Uq+crJckkBuy3icNrhS
@@ -270,59 +268,65 @@ Autocrypt-Gossip: addr=maximilian.huber@tngtech.com; keydata=
  cIdsNnstzd5/GXooeTngDOjMkaXQ768xNoYG0WWZRip4HwYRQDwfXTgzLsESzjhiWADybqlJ
  /5CE/Cgrmg==
 
---------------lONXuhjmqwchpQ3UMUnGuCYm
-Content-Type: multipart/mixed; boundary="------------vHIAVKCJ0a87rWBEPACpTNTz"
+--------------8AHR0qinv71L0sv2r9gzsdWY
+Content-Type: multipart/mixed; boundary="------------SH74SpEkQ1knmlAnz6FU2BUq"
 
---------------vHIAVKCJ0a87rWBEPACpTNTz
+--------------SH74SpEkQ1knmlAnz6FU2BUq
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-> Hmm... Is this supposed to have two files in `expected`?
+> it seems to require a fair amount of hardcoding, e.g.
+> it seems we may need to list every generator tool in
+> `SINGLE_COMMAND_PARSERS`?
+
+Yes. Optimally, the cmd files would contain the full list of input
+files, such that parsing the commands would no longer be necessary.
+However, that was considered out of scope for this project.
+
+> But if it is meant to accurately match everything, then it will
+> require keeping those lists in sync with Kbuild, right?
+
+Yes. The goal should be to keep the parser functions complete, that is,
+to add new ones as soon as unsupported commands are discovered. It is
+quite likely that the current list of parser functions is not complete.
+When unsupported commands are encountered, KernelSbom is still able to
+generate the SBOM as much as possible, as explained in the last section
+of the README.
+
+> Unknown Build Commands
+> ----------------------
 >
-> I mean, `core.o` is really the output of the rule, even if it gets
-> modified in-place in the middle.
+> Because the kernel supports a wide range of configurations and versions=
+,
+> KernelSbom may encounter build commands in `.cmd` files that it does
+> not yet support. By default, KernelSbom will fail if an unknown build
+> command is encountered.
+>
+> If you still wish to generate SPDX documents despite unsupported
+> commands, you can use the `--do-not-fail-on-unknown-build-command`
+> option. KernelSbom will continue and produce the documents, although
+> the resulting SBOM will be incomplete.
+>
+> This option should only be used when the missing portion of the
+> dependency graph is small and an incomplete SBOM is acceptable for
+> your use case.
 
-Hi Miguel,
 
-thank you for the review.
+> In addition, why does this need to be a `CONFIG_` option? Should this
+> be a separate tool or at most a target that supports whatever config
+> happens to be, rather than part of the config itself?
 
-I believe the test is correct under the current design. The test case
-consists of two commands:
-
-1. A `rustc` invocation, with `lib.rs` as the input and `rust/core.o` as
-the output.
-2. An `llvm-objcopy` invocation, where `rust/core.o` is used as both the
-input and the output.
-
-The `parse_inputs_from_commands` function is designed to return all
-inputs it encounters across all provided commands. The motivation behind
-this is to allow isolated parser functions that operate independently of
-which other commands occur before or after.
-Take for example the commands
-`objcopy [...] vmlinux.unstripped vmlinux` and
-`objcopy [...] rust/core.o`. Both should be handled by the same
-`objcopy` parser logic, which should return `vmlinux.unstripped` and
-`rust/core.o` as inputs, respectively.
-
-That said, you are absolutely right that the final graph node for
-`rust/core.o` should only depend on `lib.rs`, and not on itself, as that
-would introduce a cyclical dependency. The current implementation
-accounts for this case in `cmd_file.py:121`, where such
-self-dependencies are explicitly filtered out:
-
-> if input_file =3D=3D target_path:
->     # Skip target file to prevent cycles. This is necessary because
-some multi stage commands first create an output and then pass it as
-input to the next command, e.g., objcopy.
->     continue
-
-An alternative approach would be to have each parser function suppress
-returning inputs when the input and output files are identical, but I
-think that would be more complex in the end.
+The main reason to run the SBOM tool within the main make process is to
+gain direct access to the make/environment variables used during the
+build. The `KERNEL_BUILD_VARIABLES_ALLOWLIST` defines which environment
+variables should be included in the SBOM if they are available. When the
+tool is run outside of the main build, this information is no longer
+accessible.
+We are looking for a better place for the CONFIG_SBOM option though, as
+`lib/Kconfig.debug` may not be the most appropriate place?
 
 Best,
 Luis
-
 
 --=20
 Luis Augenstein * luis.augenstein@tngtech.com * +49-152-25275761
@@ -332,7 +336,7 @@ es
 Aufsichtsratsvorsitzender: Christoph Stock
 Sitz: Unterf=C3=B6hring * Amtsgericht M=C3=BCnchen * HRB 135082
 
---------------vHIAVKCJ0a87rWBEPACpTNTz
+--------------SH74SpEkQ1knmlAnz6FU2BUq
 Content-Type: application/pgp-keys; name="OpenPGP_0x795C8ACACDDCFB34.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x795C8ACACDDCFB34.asc"
 Content-Description: OpenPGP public key
@@ -391,30 +395,30 @@ tQXRyz0F2tHrTjqKJQQ=3D
 =3Dgh9z
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------vHIAVKCJ0a87rWBEPACpTNTz--
+--------------SH74SpEkQ1knmlAnz6FU2BUq--
 
---------------lONXuhjmqwchpQ3UMUnGuCYm--
+--------------8AHR0qinv71L0sv2r9gzsdWY--
 
---------------H06v0QbmTOEO7Pm9nHQJSp2G
+--------------s61gn5pcKikO60gQHNOvXWLN
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEEJzBrWn4qHw5a0jAXeVyKys3c+zQFAmlygiwFAwAAAAAACgkQeVyKys3c+zR2
-DQ//QYLDRurosAUR4jqNpgBKaOubKHi5jPTLJwIvF6uH/1iKBFtqzVLqwG0zZzDcF2au4fAD5BW3
-XdAUpoG3X3X5M8PKsSkp7fDkPqAB8B2PL01NKL7ysWwG/BeyAMv7Fkl2cZdmEvuve0TKfP1nTWZ+
-hL4rCFdfZLepCqCco3/Otivlz5jZRbeM8WlSJa4pKWUEti2UyOlxlY7x6Ij+3qBQgpomh9XXXVRj
-yFEPlkQhIWr/rXoccIzLxsrcvXzzQA9TEhfl6c/gPXRqynhmQnTy5DtSo9PipPz+tsXiFkOxsAYR
-O3xie7KKYIUzD+lGLgpkoKUw5O+I5F7UkwjzE6+h/OjUsXdrGev0Z2ElUanLgTVGW7F/76AOsSVP
-Vra3dpvyuRaQHhZAYP7TD52QZ35t8hSnsmaoJ8NAM6wnQV8+nw7umPW282WHzBn7jQ+4Gbk/Ry7I
-4c/iS1kSLbW3HZel2354BACAna1QU+0afEk5Vap5Q3oXXThuz7aHNEezGdiGwYwLGqo9dWlRCzn/
-TWeqVPHy47znGSIhkit1xtPTRLJCks+5Bap2JzcBoiAeVxDe/YADRCSFHVlW6xu8OBkQcNI0L4rh
-dD9s56xawr1s0UXef0wdTSXSObNCl10+4YFdOjwT9mM01rVXpV+HzRQ9KxL5ZWdKmqj35jLx0+JS
-F60=
-=7/8Q
+wsF5BAABCAAjFiEEJzBrWn4qHw5a0jAXeVyKys3c+zQFAmlyiVkFAwAAAAAACgkQeVyKys3c+zR2
+RA/+LPE84pQk9jM9ENab+b5dw1icPZcgGRb5JHne7f3eOewkoDaNqhGzXsb7o+1H5S9p04/3B3TZ
+bnqoln3KY3VuoCq1Mzyb3pEki8l8Z/KOt+uvQKxgL7Axtieg8EoiFqDtHOntNoQJ6iy5whbxo9oY
+upiG/o0wJqwGZBCfLeXmCyCEECZD8wdQTF6JBD4VVZpTnYn1vjzi538p9OXKa2SE8IBkFUPuiM4x
+afcNc+lHx0c8aNfeRS1SMB1LSur7hB2sFwl1u2JJIJNFf4+qPi9B43IBsxphZebQHjGGLn+5myRp
+VQr7tvjyMxgwMuEe9zOrXQLFtgAsYwQVqZv6xA635QlWrZOypGxE2M1xUeDeyrARfNF4P61Fe22n
+MfPz2Y+siAzszO3+xeXBwMTpLoAcPpBZAOnOJD0MdLc8i39mn3sbDhgUm0fdlN9qmng4ZiuIDTbY
+rjwknAmClV8beFGxIqqtc1TQq+ZVtX9bFIxKr4hjNtub9c4UMYQjv+VvmdHrc4Vt3KzHUM6Vq7Cg
+ZJwzg5iNN3guejn4sGUZ/G0KWbpyQw1L3yMzomkIj8z07O7hZu2GYNNh+2da7D5bLBDRMveVPiJs
+aF1pqAa7mCrLwoHV/DfCnmapBbcE9v1PZYWbuIm/HHM3Aj3Hdu+hUk7g1RrlmrndJDuXNPcinfAf
+lFc=
+=VFIb
 -----END PGP SIGNATURE-----
 
---------------H06v0QbmTOEO7Pm9nHQJSp2G--
+--------------s61gn5pcKikO60gQHNOvXWLN--
 
