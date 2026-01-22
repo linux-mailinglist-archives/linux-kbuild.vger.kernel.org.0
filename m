@@ -1,90 +1,90 @@
-Return-Path: <linux-kbuild+bounces-10824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10825-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MH1jEjmUcmksmQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10824-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 22:18:49 +0100
+	id 2NhYFCSVcmksmQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10825-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 22:22:44 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E646DA7C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 22:18:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C17356DB4C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 22:22:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 88FBF30180B4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 21:18:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B884D30073C7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 21:22:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F58E3370F4;
-	Thu, 22 Jan 2026 21:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AB23BFE27;
+	Thu, 22 Jan 2026 21:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeYJp/63"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+eAkhsy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD27C3BE499
-	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 21:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496483BE492
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 21:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769116717; cv=none; b=gvb+r8u15EOGLPDnXm3OQZ8KQYO3IudHzAWdGXHgnx/a8Y+yhuMrOI/xJrd4zUcPeUXC432fmY9FZOa4WO4UV4xZGKpAhEUueSbkLhBWIDvd4s3APAbrZqeSvTN5Alz/2kLcigaIAktzD919JJa8R71xMrAn/6tWyxw5tZ3lrTk=
+	t=1769116959; cv=none; b=Mmw5n/Ev5JPIn8yKLDYZuAnBSwkjoMLxbMO9f84lOhsKRpNMxa29/zSj+SrFtrfqDQNMBjTCRhm2W4U5UgSdXXqkVY0E3B7Tt5LzjSo0Z/a7do3JyFlp9GSNaD0BFlNuxFlzz8FvIRBgVziLK2A5sdrxHGBVbq5OEvBuWphM4gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769116717; c=relaxed/simple;
-	bh=ri+f734N+LMTEBLLE6PxMfS3bJzuFpRt5lmOKXnXyiQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LOPLnB6X4c9/7IAHu2SnZSQhVbTav5+KCCZDeNjWqeHqWeL1XtTxLMTRg5u0/lQdWxwsjp/I6p/mVZ1PSB1XpcO3IX9EOWkBSOX1jNkiBu13ucqiqIuZmtigxKp1ah6Cva8U8rB9cRb5Ko8g7rmztk/AGTG4Gl3zrMlPIHo98l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeYJp/63; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1769116959; c=relaxed/simple;
+	bh=PM0WWCPe+aMzCcU6jV60qN5uWi+uKmCMZ1COBSTDUc4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AaD2x+jTXLAFBwqjl/r68iNaol+Lg5QvnmofsgCBOY65ealIgIX0Zgc8kPvQSYY4GkW+gcQRaThC5OAJhc764DgSCO6oL6RBTYqCSoDdT3dLHNc853Voq72Vz4/CIo+p8YkrerHLA9ZNiKtbjY2QOrPitipa0X0LaJCZHcL2oeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+eAkhsy; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c61342a69b9so544803a12.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 13:18:30 -0800 (PST)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8220bd582ddso748610b3a.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Jan 2026 13:22:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769116708; x=1769721508; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769116949; x=1769721749; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4fZTSCAveiRDrTItnX/UkkSd0Zh9ul2e9kLoTXPQ4g=;
-        b=QeYJp/63PoIttc75pFxTMmkJyR+xH06bIKWPjzhiWz6Ct5b2tBG95QtTG2Abl9Eh4s
-         MSjCN81v4Xm9Uh6V8yrgPuvTnUZw6HrfZiNpSbiQT8tEqhZtHNwdipKmvN+jD+g+WZu1
-         ULzVXtjsom1hSEJe46iIDuUSG7JkDibKNf83LAC2r3BcgokHWnGh5onMC5rrS1POh3hm
-         YHo6r5fLwja+ynM9TL6HwX1LkaZ/uQhiUkSxEDcks8tE/reSxMGQiqjxDNes/MVEnMeM
-         p3wxpFsNwbyakT+Kwp5I+KRU0yVNL15i3MxBSZkwBqvBez9lfidkfBuAv3JgYXF1kK05
-         ExCQ==
+        bh=+OKB15hfiF/VmXnlSKVJXMo5lBvtkbyidI36e8ktlSI=;
+        b=f+eAkhsyQtdIqpsgwSSumbDEBewppCGhTBdF16ZVnQ8lB/YOdp0QJUbOSxZ1P8yHls
+         PmEYsP9FhDSyqe2FC3bzZZK0nyDpJPM0rJpZAOGknfMu1CjEdKfUh5KIhjd2DXLsA1E0
+         8fuc3nHwkFUXzoC9Hy4jsldluda9Y/ErtvIwyv0tRwIIOWmLcPWC+WF2mc3IcVR2bY7G
+         KZlhoH+paVK7qtxtuHX6BefVUIf59KTmIyH3nC1+xDV5EY2pFHXCv4euAGmL9DoruCV3
+         JLlX0YdkQPMb1Qoyd1QoJgoEKQMzEgkBNG/kkirRI79K9muOEPhCbs5VruCJs7e1RMx1
+         kuwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769116708; x=1769721508;
+        d=1e100.net; s=20230601; t=1769116949; x=1769721749;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m4fZTSCAveiRDrTItnX/UkkSd0Zh9ul2e9kLoTXPQ4g=;
-        b=X7+EhkW00Ix1C7dVD1gcWnBaY/UDfJ+OUrppbr4jIGoRJl7tDCjrrFZC+Du6PResOz
-         VUPxyXYKmfDQIVVk7H0qRWKpsoF/+TMgM8wRtUNYt7M4X+Ginr1l0chTMni5ia+91Ept
-         ETpxSDfi8LhIfi/udfV7eMIjiL1ZbZrJ0AcZA6pIKudR3nXtBuDdbldUFgScGj6cmiTn
-         FvjZpQd62A5FcSf6+4kEnBbU6irMMmRPmzPBb4JhG+n7iok3sCVSImRNQ3aTt+NCBal2
-         d2ZweF2v9MPx4qgoYG1sJYFJ9bBxqNZivUPBe6Ni3t6yYDZfmn4wql56QOk3JKdbk6CC
-         MhOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjTZC/bvCMOSGu0Vs96E91zmJt0zpyi6Vp593EB6/nkO5/1Q3YkSfM+FjLeT8MIWR3ouoq68dkLt3Uv8A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC3Q7CqaFP8hE04+MFWOhU1Wz1Geqfz9JMguJS9aRnYvk+eNNP
-	hczVmYeX139CbxENaDFysoIwTrmhe7n2v1r6EXEP7A967zLYHOpz2+4mm17mFQ==
-X-Gm-Gg: AZuq6aK01f7ywdlCBgz1x9pk+oXTRb7la7xP8rxMwqKKgDUCK/Z4VlR0shXpA9lHWkh
-	R3b6fLSuP/hg7xRt2nD/p8RpMVUTRIMH0iXLeOD/BjOnom6BsBBlryd9/xYn9SCqQqM4AMSe6nt
-	QWNX/TNJ6JTSaLn5z1ZDLnSuDWJ4Whliidj3iBaxrXZ1RWSvHHTg39r85/jceGmSofmkvOI0TFY
-	K1r17/RBiotZdUNzdYhYCeAbijqJ2np92i8hW2WfVXKYRS1GsB8ql479179D39lhDyfSwKqE5ts
-	6ab+ANfU0uF1wekTTSSRC9CTx0A886pyWj7NjYOXCAEs/ASKfL9HNm7dcmqiIMh5jiI7R8InU8C
-	8FtwUUJlk2uXzWJZkzYRJvflCujgXAjxjQLULib29RMp8sz7o6VhISD05B8n1M4QdMOQfIub+Jg
-	NDA0OjCDNTNFRlMUY7bAVemQCWXd7bM8ahbemhW0xj7WtrxVv+K2Oynw9olPwUSWcIr4ZX+7ZIV
-	wuKdBQ4qMPHOAiyORObeaAWRdtgJyGs1lLUAYognA==
-X-Received: by 2002:a17:903:8c8:b0:295:560a:e499 with SMTP id d9443c01a7336-2a7fe43ed49mr6175795ad.5.1769116707581;
-        Thu, 22 Jan 2026 13:18:27 -0800 (PST)
+        bh=+OKB15hfiF/VmXnlSKVJXMo5lBvtkbyidI36e8ktlSI=;
+        b=ehGhUVGChGdd4IhQ8h5eN8rg+JKgJebB+9TqDOI6lh/bAlNel6T2op5hMhCDO93jI8
+         uFTCixBa1yO+rd6K8da2t9xnom5piDb2xKUFER+fYTkAVhXxMBHPYBCTTz4v9nidjg4a
+         5ZAlXkcXXUZYbwq0VuCs3xCu0keFCwbwCEjptUSHPvBo0oWF63/labEweFq88jVWMhQM
+         aYTju1ioll0raKZKAWl6A36fI1NSGU++wchPJZoYStixTa1r+VU/5e9k6JbWiw5PV6F5
+         FXb6pIYLpbN4QiD5aAg/dyT8MGuYGhB4aWwaQaWxOJyTZjJKAv8wJLQ/l6FYtIIkjy1D
+         yOVw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/vnc4G4/SW74iKzXltrcQ4sRYNruJ6wkJgkul2Ja8CCrZndZ/HWYnmutf494yufW9zoQSHOWH+Pgi2SU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yym6/oY2MoVKEgpS1u7Fb2PtJwk0N//nfdm18gFXbUOzPcwU9KF
+	/Km3Q4bGDT6OmTGyk7uACmzEieW3UZypUOCtR0DsSmtAbBREGqNZ3TUMJTjDnw==
+X-Gm-Gg: AZuq6aKGkyp3Dp9i5xnqYhuAktUDaQPC70mpSLy4W5RzqdMzOYLMVJs6bvo3iMtD0Ic
+	G++BsrPhJ2RHd7piK5AkAcBFxyDOgpL+3maoD5bgDomSPn7oDc9l1CIeeKNt8uJwbTPHX7inZ0Y
+	PtPhotAb6Ux8vu7Qt+u8Sn2kPm2rUF03q7YEyTTC9o5buOPMHPWmKcrhuLbNoBAmqGPm1XxYhni
+	vWj1EWTHeEMg/2EbEZDsjsPxPledXLYpazNQA14ugL+x8vXSz8Ircjp1bYDmtCV5vd1umvd6v0l
+	tMjkI62gQvftFktUn7IKSjpLOANorTzJwLDkR2NbHBGflUn/ax3UAZ7LzpTE6Hr7KAQAV/T7ipn
+	DEaZ0Sdj6CU909ax8dXlbpDIyONjYKY96qOybJGBAy7hiWKPvVX3Vfn8McGOvl9HXHgncDa6KkQ
+	xX7NEphFPPUoN2cMTLJDUTSmEkba9/FI4gTP7mNSKa0yPcXZe8CHj0JiwUl28+axa7+taFnpQek
+	4rxh/ZXZy/2QTY5Ue7udzoQf+YA8wm9Gsw0/BZSXg==
+X-Received: by 2002:a05:6a20:b7a7:b0:366:14af:9bda with SMTP id adf61e73a8af0-38e6f829fb8mr741126637.80.1769116948811;
+        Thu, 22 Jan 2026 13:22:28 -0800 (PST)
 Received: from arch.localdomain ([2401:4900:ad2f:b6fa:8cb2:5884:b62f:4e7e])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802daa703sm1464205ad.16.2026.01.22.13.18.25
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c635a3f2ddcsm209505a12.17.2026.01.22.13.22.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 13:18:27 -0800 (PST)
+        Thu, 22 Jan 2026 13:22:28 -0800 (PST)
 From: krishgulati7@gmail.com
 To: reach.krishgulati@gmail.com,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: fusion1110 <krishgulati7@gmail.com>
+Cc: Krish Gulati <krishgulati7@gmail.com>
 Subject: [PATCH] kbuild: add custom extraversion to Makefile
-Date: Fri, 23 Jan 2026 02:48:03 +0530
-Message-ID: <20260122211816.9257-1-krishgulati7@gmail.com>
+Date: Fri, 23 Jan 2026 02:51:49 +0530
+Message-ID: <20260122212221.11177-1-krishgulati7@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -100,14 +100,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-10824-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10825-lists,linux-kbuild=lfdr.de];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
@@ -123,14 +123,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C8E646DA7C
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C17356DB4C
 X-Rspamd-Action: no action
 
-From: fusion1110 <krishgulati7@gmail.com>
+From: Krish Gulati <krishgulati7@gmail.com>
 
-Signed-off-by: fusion1110 <krishgulati7@gmail.com>
+Signed-off-by: Krish Gulati <krishgulati7@gmail.com>
 ---
  Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
