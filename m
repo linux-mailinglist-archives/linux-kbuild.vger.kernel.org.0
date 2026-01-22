@@ -1,132 +1,202 @@
-Return-Path: <linux-kbuild+bounces-10784-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10785-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPMpFkFpcWmaGgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10784-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 01:03:13 +0100
+	id WLEoCmt6cWkvHwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10785-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 02:16:27 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5B45FC79
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 01:03:12 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70154603BE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 02:16:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8CD5D361BCF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 00:03:12 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6B3DA4FABEF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Jan 2026 01:16:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 466E47260F;
-	Thu, 22 Jan 2026 00:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gb9hF9LZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECBC834B1B6;
+	Thu, 22 Jan 2026 01:16:15 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3863B2AF00;
-	Thu, 22 Jan 2026 00:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32EB830C350;
+	Thu, 22 Jan 2026 01:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769040185; cv=none; b=UFJyYopmFETur3TsiGOBHLPAzx7ieRcTjZMSKfHHR4WK5IEcGRK2KXt5YfK3wBVHIipg11S3yHfBSdkjv+EIxxGb7tlUbz+ltbK067q9B/qZEvR43S1g6Pnon7oas98KVxu7Wh4W/lYybmbxzSdCmdcHP2CJnp9BOjX/InGRZso=
+	t=1769044574; cv=none; b=ckIzKjDsrK+qb+e7ZG4vwjkhadvTFZ5zMjcjbEHTqSBgSyy0uSUcEY/O7QOKdxtwgBHTaPuvN1kjbx9RcmKp3i0fCgqtbGy2rx083AjaD+vM1rSFj9N6JLEIXpQVIOo1uvWhnrGWilXUYLUpiNKkxT5ZO9TnS33FTF9OKzafn7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769040185; c=relaxed/simple;
-	bh=I9pdNdwwGCu/pmlSLxnbwumFj0DXKXxwhgrWRTn5fU0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Z01B4JzqG5l/mbcw6zoEEykc9/2kLs4dbE5cCk7ana04AnNfh07h59XaIRUqhJBd/M9K2cu+O0N1ioRxtjkJ/Ie9y51Qsoj7ruekFADMRYwUPqWv+tDBi60J+NC5FF6lFczJvrpMaR/+n0pkURYX5BGzMjL1kYNXEQoE1frHgGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gb9hF9LZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5DFCC4CEF1;
-	Thu, 22 Jan 2026 00:03:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769040182;
-	bh=I9pdNdwwGCu/pmlSLxnbwumFj0DXKXxwhgrWRTn5fU0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gb9hF9LZ8p9aDCid2V8NMMFLltE3I9F9WzpoRiQ+yRzyfCqU92tJkZOZAqqAQ+N1s
-	 VBkhE4G1LQwVPtAlFgKpUQqNFawLsquGi8uTt6j+/TSSRQkks9deh3rVTSyv6yxnpd
-	 etBDs1VNGfVGRI3qhmZRf3wp4tJ8PpZS2SMzKsfHEA8z87yP0ZyUznH5JACE3HUhEk
-	 zFBtwGc7GuAmXIAd24WfFr9AdyaTxaePq2L0TXoxa3FJxYApXyRkA6SnZyV5DVvbXM
-	 Z8Z1OpVmYWWAUbHiwJPWm6roV7kWEs04JCzUoYkUZszO/170vetyUL+5iNBW7jt7Ye
-	 mFzN/JnlFvXlg==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, WangYuli <wangyuli@aosc.io>
-In-Reply-To: <20260121-kbuild-llvm-arg-v2-1-5e4d8dca4ad8@weissschuh.net>
-References: <20260121-kbuild-llvm-arg-v2-1-5e4d8dca4ad8@weissschuh.net>
-Subject: Re: [PATCH v2] kbuild: Reject unexpected values for LLVM=
-Message-Id: <176904018061.36280.9070517793890679732.b4-ty@kernel.org>
-Date: Wed, 21 Jan 2026 17:03:00 -0700
+	s=arc-20240116; t=1769044574; c=relaxed/simple;
+	bh=mt4QzWS48/1dqK5pGNjeoDNuDbYTCLIxtoHS3XC9bMI=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=dWCGl2FmRNrm+KhZHxCaC1X4w79V/7sLkp54F+ReIygsJPardB6raqv8JRPkz3izUro/+dX8w86hwhs6AJ+r19YGF7tI7KmFH9Zw9LiItzc0Sknu6RqFxiAskYAcsjgiIHtE3NnPzws9n0ZAG1Q2OSaAhP4FhOHpbCDa85UwLas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8DxPMP5eXFpTl8LAA--.37009S3;
+	Thu, 22 Jan 2026 09:14:34 +0800 (CST)
+Received: from [10.130.40.83] (unknown [113.200.148.30])
+	by front1 (Coremail) with SMTP id qMiowJCxPML2eXFpmmYqAA--.17826S3;
+	Thu, 22 Jan 2026 09:14:31 +0800 (CST)
+Subject: Re: [RFC PATCH 2/3] kbuild: Make sure to generate config file
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260120123730.30487-1-yangtiezhu@loongson.cn>
+ <20260120123730.30487-3-yangtiezhu@loongson.cn>
+ <20260121234748.GA2137017@ax162>
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <1bb9876f-cb1f-e088-cb9d-f76032f0d395@loongson.cn>
+Date: Thu, 22 Jan 2026 09:14:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20260121234748.GA2137017@ax162>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev
+X-CM-TRANSID:qMiowJCxPML2eXFpmmYqAA--.17826S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCrWrtw4xCw1UCw15CF47ZFc_yoW5Cr4kpa
+	1rAw1UKFn5JF15Aa17K3yrGFy5Ars7tFyUXr17GFyIyr9rtr90yrsFvry3uF1DW395trW0
+	qr95Ka4a9a1UtagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
+	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UU
+	UUU==
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.46 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.26 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	TAGGED_FROM(0.00)[bounces-10784-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,weissschuh.net];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	MIME_TRACE(0.00)[0:+];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	DMARC_NA(0.00)[loongson.cn];
+	R_DKIM_NA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: ED5B45FC79
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yangtiezhu@loongson.cn,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_FROM(0.00)[bounces-10785-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,loongson.cn:mid,loongson.cn:email]
+X-Rspamd-Queue-Id: 70154603BE
 X-Rspamd-Action: no action
 
-On Wed, 21 Jan 2026 14:42:39 +0100, Thomas Weißschuh wrote:
-> The LLVM argument is documented to accept one of three forms:
-> * a literal '1' to use the default 'clang',
-> * a toolchain prefix path, ending in a trailing '/',
-> * a version suffix.
+On 2026/1/22 上午7:47, Nathan Chancellor wrote:
+> Hi Tiezhu,
 > 
-> All other values are silently treated as '1'. If for example
-> the user accidentally forgets the trailing '/' of a toolchain prefix,
-> kbuild will unexpectedly and silently fall back to the system toolchain.
+> On Tue, Jan 20, 2026 at 08:37:29PM +0800, Tiezhu Yang wrote:
+>> After commit 75cffd392bfa ("LoongArch: Using generic scripts/install.sh
+>> in `make install`"), arch/loongarch/boot/install.sh is usually not used,
+>> either /root/bin/installkernel or /sbin/installkernel is used if found.
+>>
+>> Then it can not generate the config file in most cases, just copy it to
+>> the installation path. Otherwise there may be an error when testing bpf,
+>> for example.
+>>
+>>    $ ./test_verifier
+>>    gzopen /boot/config-6.19.0-rc6: No such file or directorg
 > 
-> [...]
+> This could also be resolved by enabling CONFIG_IKCONFIG_PROC.
 
-Applied to
+Currently, CONFIG_IKCONFIG_PROC is set by default on LoongArch,
+the above error still exists, it checks /boot/config-* first,
+here is the related code:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next
+tools/testing/selftests/bpf/unpriv_helpers.c:
+static gzFile open_config(void)
+{
+         struct utsname uts;
+         char buf[PATH_MAX];
+         gzFile config;
 
-Thanks!
+         if (uname(&uts)) {
+                 perror("uname");
+                 goto config_gz;
+         }
 
-[1/1] kbuild: Reject unexpected values for LLVM=
-      https://git.kernel.org/kbuild/c/502678b88cb3b
+         snprintf(buf, sizeof(buf), "/boot/config-%s", uts.release);
+         config = gzopen(buf, "rb");
+         if (config)
+                 return config;
+         fprintf(stderr, "gzopen %s: %s\n", buf, strerror(errno));
 
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped or
-reverted. Patches applied to an "unstable" branch are accepted pending
-wider testing in -next and any post-commit review; they will generally
-be moved to the main branch in a week if no issues are found.
+config_gz:
+         config = gzopen("/proc/config.gz", "rb");
+         if (!config)
+                 perror("gzopen /proc/config.gz");
+         return config;
+}
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+>> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+>> ---
+>>   scripts/install.sh | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/scripts/install.sh b/scripts/install.sh
+>> index 05d62ac513ee..ecf354d8f4f1 100755
+>> --- a/scripts/install.sh
+>> +++ b/scripts/install.sh
+>> @@ -34,6 +34,12 @@ do
+>>   		continue
+>>   	fi
+>>   
+>> +	# Install kernel config file
+>> +	if [ -f ${INSTALL_PATH}/config-${KERNELRELEASE} ]; then
+>> +	  mv ${INSTALL_PATH}/config-${KERNELRELEASE} ${INSTALL_PATH}/config-${KERNELRELEASE}.old
+>> +	fi
+>> +	cp .config ${INSTALL_PATH}/config-${KERNELRELEASE}
+>> +
+> 
+> I am a little hesistant to change the generic install logic to handle
+> these files, especially since the map file should be handled by
+> installkernel like you mention in patch 3 (but I am open to other
+> opinions/arguments) and the configuration can be made available via
+> CONFIG_IKCONFIG_PROC as I mention above.
+> 
+> If LoongArch wants this behavior as part of its install process, why not
+> just bring back the lines of 75cffd392bfa after $(cmd,install)
+> 
+> install:
+>      $(call cmd,install)
+>      $(Q)install -D -m 644 .config $(INSTALL_PATH)/config-$(KERNELRELEASE)
+>      $(Q)install -D -m 644 System.map $(INSTALL_PATH)/System.map-$(KERNELRELEASE)
+> 
+>>   	# installkernel(8) says the parameters are like follows:
+>>   	#
+>>   	#   installkernel version zImage System.map [directory]
+
+Yes, this works well for LoongArch. If there is no need to do this for
+all archs, I will only touch arch/loongarch files.
+
+By the way, I do not know why it can not generate System.map by the
+installkernel in practice, could you please check it?
+
+Thanks,
+Tiezhu
 
 
