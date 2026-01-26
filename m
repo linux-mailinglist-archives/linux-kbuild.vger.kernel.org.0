@@ -1,193 +1,139 @@
-Return-Path: <linux-kbuild+bounces-10871-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10872-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJd5MJu4d2nKkQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10871-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jan 2026 19:55:23 +0100
+	id gC3iAV69d2l8kgEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10872-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jan 2026 20:15:42 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E147D8C3D7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jan 2026 19:55:22 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9AD8C6FB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jan 2026 20:15:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7CA82301C599
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jan 2026 18:55:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0F36230209C4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Jan 2026 19:15:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2917725F988;
-	Mon, 26 Jan 2026 18:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DCBB6D1A7;
+	Mon, 26 Jan 2026 19:15:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="4b+R0ix5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9cVjp3d"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4C9252904;
-	Mon, 26 Jan 2026 18:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A2317555
+	for <linux-kbuild@vger.kernel.org>; Mon, 26 Jan 2026 19:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769453720; cv=none; b=a5kMJcFafY8QjK8WAMhGzxtQCzBkX3bLRimVxo0ov1021PCQPiF1PjQZyp2Ab77gMa+ZnptbDPxtdiVq0tNCuysOEJjqd1ltrIVPtf0+hY/Y/EMtUR+GVFGywj/6E6POhbUt5gFM0lA5MnaKi4K3soVZ6BEMx5zoLctu7Sw9uBo=
+	t=1769454939; cv=none; b=dw6T6ihW88RrZRn3Md28b91BZNcJjG72SpD23Q6736bFoBdbGotqyF0xwYS7eLGL2FDmCxbEqHbAoO7vAWHepaaE10BXQWIj/RR8oWp7rRTNiAjC7w0Kf8ErN7FeJFkobY4nKlNaQ1dY0IX8/nEsoAqM9WVJxkVRh/0JIOWtIIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769453720; c=relaxed/simple;
-	bh=jMVk9CS2JBRNsS5GC6/yI2ZxOvdhUQdY4kP4Vs3jjqU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U1LdWPmSE5EV/wwkSS6C/sNX1XhD/h0erzyArhHo19CvXQl7xZCsNgooFFxCFnkPxGxw/v1mFZ4qxiHCViTDS73pUrt1R4jjDEsbGmWEbCNe9mIM/wWj6ZBOHhFsLkUeIKOMBUffctIWlzGFVH0aOB7tMnsHcxBELg7cChxkvgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=4b+R0ix5; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4f0Hm56kBhzlgyGr;
-	Mon, 26 Jan 2026 18:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1769453709; x=1772045710; bh=lrmRnMiS7e8oDqS8sJHadbKN
-	aRE4y8/9HerN9jURAnw=; b=4b+R0ix5+Os0UdymHVdPefR75pAjuePHzZSBDv1T
-	PhKFA4FAC8OQc9TuXgMxSrv6ALYLM26zsK043txlRzxnGUh1OQAsqSN0foShyawt
-	pgoA82i8a3e56Az+c5yQ/FRzJRlVVV9ONPOmo5QZvE0Q0R6BZlDabDdSvqRaIrWq
-	5qv/o/SAv+5/3fRLam45SzREjjV6pc62GFn6nBiQJg3JMywlrNKvmQ7VlMyrTxAH
-	T23+3S/pU978iX4yw8ahY2EFo/8Xq0lczgH+hEk7oD3ExiVmcFff0tai2SlH7PR7
-	9U/uiA5vPsPPUdDSnrYljSKcp1+NnDZMaTuY+V/YB+pCTQ==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id vhOvcRL97NLm; Mon, 26 Jan 2026 18:55:09 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4f0Hlj4MJNzlh1T6;
-	Mon, 26 Jan 2026 18:54:57 +0000 (UTC)
-Message-ID: <8c1bbab4-4615-4518-b773-a006d1402b8b@acm.org>
-Date: Mon, 26 Jan 2026 10:54:56 -0800
+	s=arc-20240116; t=1769454939; c=relaxed/simple;
+	bh=dTGZk6l1d1yUnTJG6KbUdyIDnFLYoJUW9yqvtaipprg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dsej3M8wgtwU1QyBz1U2t0VercQqF1gLQNW3AwvMHvqFS/4ta87oDnlzWqiAUE9x78EhuWcB5LENcH+2fg3g7icGz1F6NkwbNeCSe15xZ11LVH9QfRwngGiL4bsoqKYGSMBKUlwmRy1P0ESobo2PrlDB9S4kYQ9eZhXFe3/pGV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9cVjp3d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE2EBC116C6
+	for <linux-kbuild@vger.kernel.org>; Mon, 26 Jan 2026 19:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769454938;
+	bh=dTGZk6l1d1yUnTJG6KbUdyIDnFLYoJUW9yqvtaipprg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=G9cVjp3du4pxZFI0mIzNaA7fpELINk01EGjlFkrgyXQ/K4DZK0ZgQTaVimGv2a3Vl
+	 dneCQhrCRzTFGKoCjuHHzGuxZA72fdQdoTXhd0sZTFcKLOKENl8Sb7OBSarFTDXOsr
+	 8dv/Rs1kb4h/A17NLTtyD/S1AitRRlZob9wBjgepILXzhZXpUhrPC19+dqWyf9kbtp
+	 xtd0C51Sw9kLvORfrOj04qqyQzyPQtaWXD9+9Nn+7JRU0cWX4c7Nj0Wp7CLmjjp8tO
+	 xy2I0+wEYW/Wf/BBbiZz4qR4P9VJ39yytGWXlMgfDay/2Wszh0vum63esEnfjKLJha
+	 4ioWwM5LcqmeQ==
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-89478e429afso43774296d6.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 26 Jan 2026 11:15:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUB/0OdPIjbPkP2FhJVuKv44D2yKJD0aFCB4nNDOmxvWQrch+P5epcvwmyoRXJLH7m9l/rRpH3WAuzQgAk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv/qnGdXDOcZZO9qlIQrRe0bMdsQnd9nElNPSZ0nEa3sBj0OMb
+	Z0CowOHRs987S+aWAzZ2xdDOH+lmfU9HEIyanaHBpaik7v3ZNlvKguL+qTzG4PSGYoWQXn+PkHe
+	4MZHwE0WY8GLEB8TBYTtzXiQrMe7wB3g=
+X-Received: by 2002:a05:6214:19ee:b0:894:61f9:c63b with SMTP id
+ 6a1803df08f44-894b06b4effmr77870556d6.12.1769454937967; Mon, 26 Jan 2026
+ 11:15:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 15/36] srcu: Support Clang's context analysis
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
- Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
- <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
- Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Josh Triplett <josh@joshtriplett.org>, Justin Stitt
- <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
- <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
- Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
- kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-16-elver@google.com>
- <dd65bb7b-0dac-437a-a370-38efeb4737ba@acm.org>
- <aXez9fSxdfu5-Boo@elver.google.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <aXez9fSxdfu5-Boo@elver.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAPhsuW48m9pPbKsiiNDnagrtF2vLYwHSZWUASirhFKgUSVrzQQ@mail.gmail.com>
+ <20260123205359.GA95167@ax162> <CAPhsuW5XfLkAkEWVosGQFhgKj4f_Fez0G0fsT_6D1dbZuudr4w@mail.gmail.com>
+ <20260123234418.GA206716@ax162> <CAPhsuW54fjr1tP+khcMYQ3qTjN_Eff_rm0dM4h3=TpFVwAdh5w@mail.gmail.com>
+ <aXUfOK38XIapv1Ak@levanger> <CAPhsuW4xCmGu4g2N7eBzR4tt4yFffWSAjr_dQvUzkUvQAspvTA@mail.gmail.com>
+ <2ad44cb3-2c17-4808-987e-a4b98a9601fe@infradead.org>
+In-Reply-To: <2ad44cb3-2c17-4808-987e-a4b98a9601fe@infradead.org>
+From: Song Liu <song@kernel.org>
+Date: Mon, 26 Jan 2026 11:15:25 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW5PVVeJ9Hu0kb76=T561r7up9Oz+NVFyjxqUuCnY4=ksg@mail.gmail.com>
+X-Gm-Features: AZwV_Qg-idTz8GVV0NvLTQoDJxI83G5-8i08_fUrbkokai90L_eKzZNd5vrLFTs
+Message-ID: <CAPhsuW5PVVeJ9Hu0kb76=T561r7up9Oz+NVFyjxqUuCnY4=ksg@mail.gmail.com>
+Subject: Re: make olddefconfig surprises
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
-	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,gmail.com,kernel.org,davemloft.net,chrisli.org,google.com,arndb.de,lst.de,linuxfoundation.org,gondor.apana.org.au,nvidia.com,intel.com,lwn.net,joshtriplett.org,nttdata.co.jp,arm.com,efficios.com,goodmis.org,i-love.sakura.ne.jp,linutronix.de,suug.ch,redhat.com,googlegroups.com,vger.kernel.org,kvack.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[acm.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10871-lists,linux-kbuild=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-10872-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_GT_50(0.00)[50];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[song@kernel.org,linux-kbuild@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E147D8C3D7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,infradead.org:email]
+X-Rspamd-Queue-Id: 5D9AD8C6FB
 X-Rspamd-Action: no action
 
-On 1/26/26 10:35 AM, Marco Elver wrote:
-> That being said, I don't think it's wrong to write e.g.:
-> 
-> 	spin_lock(&updater_lock);
-> 	__acquire_shared(ssp);
-> 	...
-> 	// writes happen through rcu_assign_pointer()
-> 	// reads can happen through srcu_dereference_check()
-> 	...
-> 	__release_shared(ssp);
-> 	spin_unlock(&updater_lock);
-> 
-> , given holding the updater lock implies reader access.
-> 
-> And given the analysis is opt-in (CONTEXT_ANALYSIS := y), I think
-> it's a manageable problem.
+On Mon, Jan 26, 2026 at 9:52=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
+>
+>
+>
+> On 1/26/26 9:17 AM, Song Liu wrote:
+> > On Sat, Jan 24, 2026 at 11:40=E2=80=AFAM Nicolas Schier <nsc@kernel.org=
+> wrote:
+> > [...]
+> >> Have you tried to use something like
+> >>
+> >>   make KCONFIG_ALLCONFIG=3Dwhatever/minimal.config make allnoconfig
+> >
+> > Hmm.. This doesn't seem to work (or I didn't get it right):
+> >
+> > $ cat y.config
+> > CONFIG_LIVEPATCH=3Dy
+> > $ make KCONFIG_ALLCONFIG=3Dy.config allnoconfig
+> > #
+> > # No change to .config
+> > #
+> > $ grep LIVEPATCH .config || echo no LIVEPATCH
+> > no LIVEPATCH
+>
+> You still need to supply all of the dependencies.
+> We don't have an in-tree kernel config tool that will automatically
+> set all of the dependencies.
 
-I'd like to make context-analysis mandatory for the entire kernel tree.
+Got it. Thanks for the clarification!
 
-> If you have a different idea how we can solve this, please let us know.
-> 
-> One final note, usage of srcu_dereference_check() is rare enough:
-> 
-> 	arch/x86/kvm/hyperv.c:	irq_rt = srcu_dereference_check(kvm->irq_routing, &kvm->irq_srcu,
-> 	arch/x86/kvm/x86.c:	kvm_free_msr_filter(srcu_dereference_check(kvm->arch.msr_filter, &kvm->srcu, 1));
-> 	arch/x86/kvm/x86.c:	kfree(srcu_dereference_check(kvm->arch.pmu_event_filter, &kvm->srcu, 1));
-> 	drivers/gpio/gpiolib.c:	label = srcu_dereference_check(desc->label, &desc->gdev->desc_srcu,
-> 	drivers/hv/mshv_irq.c:	girq_tbl = srcu_dereference_check(partition->pt_girq_tbl,
-> 	drivers/hwtracing/stm/core.c:	link = srcu_dereference_check(src->link, &stm_source_srcu, 1);
-> 	drivers/infiniband/hw/hfi1/user_sdma.c:	pq = srcu_dereference_check(fd->pq, &fd->pq_srcu,
-> 	fs/quota/dquot.c:			struct dquot *dquot = srcu_dereference_check(
-> 	fs/quota/dquot.c:				struct dquot *dquot = srcu_dereference_check(
-> 	fs/quota/dquot.c:		put[cnt] = srcu_dereference_check(dquots[cnt], &dquot_srcu,
-> 	fs/quota/dquot.c:		transfer_from[cnt] = srcu_dereference_check(dquots[cnt],
-> 	include/linux/kvm_host.h:	return srcu_dereference_check(kvm->memslots[as_id], &kvm->srcu,
-> 	virt/kvm/irqchip.c:	irq_rt = srcu_dereference_check(kvm->irq_routing, &kvm->irq_srcu,
-> 
-> , that I think it's easy enough to annotate these places with the above
-> suggestions in case you're trying out global enablement.
-
-Has it ever been considered to add support in the clang compiler for a
-variant of __must_hold() that expresses that one of two capabilities
-must be held by the caller? I think that would remove the need to
-annotate SRCU update-side code with __acquire_shared(ssp) and
-__release_shared(ssp).
-
-Thanks,
-
-Bart.
+Song
 
