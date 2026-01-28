@@ -1,151 +1,145 @@
-Return-Path: <linux-kbuild+bounces-10917-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10918-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wJd5AoiveWnnyQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10917-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jan 2026 07:41:12 +0100
+	id UHUFKxXSeWlCzwEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10918-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jan 2026 10:08:37 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548A29D7E2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jan 2026 07:41:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAFF9EA45
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jan 2026 10:08:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9DE163013A7B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jan 2026 06:40:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 06CF9301301A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Jan 2026 09:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 187AE32D0D3;
-	Wed, 28 Jan 2026 06:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A7A733DEE0;
+	Wed, 28 Jan 2026 09:08:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cakA8ApY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/fy8wA9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1E02C1598
-	for <linux-kbuild@vger.kernel.org>; Wed, 28 Jan 2026 06:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB14133D51F;
+	Wed, 28 Jan 2026 09:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769582427; cv=none; b=ETCiGjutt8J6t12mdAc2rFLa0TEFULEN8azMVFFOq6Bq73NQJlUCjIyhZHdEUcxrj19BatarXjE97umLPRcJ5Laaa4UieG1hs6zvEzOPVf/NXCV8SEl3iuHOMaXXhSOroYC/6bjKrpwV2grjhB1+g/mmxu+nlRq7QfwGx11ikxs=
+	t=1769591314; cv=none; b=BclEgplBtWrghWnDTBDtyqCZNWPc7rSx4RD5SeIfx1sU2s4ZM7LjkYaso1Nnk51gerBVW8ZAbgtAa/5Tf1S9I+NQ33kUs1v8654t7ZPzzcKU706ruszmSQpA80W0Q63J8EC/HvNHlwsqmSw1yH/RTCIQl3LG6D6+oWaAvQoC+Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769582427; c=relaxed/simple;
-	bh=Tglq3tG4MOUPWXg3JW/lM9LBxx8ouLfyNog7EDt2TXw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a1d/YzBfFQeySOZbegKEZZCcw1muZzYTdQSyKpBbz4PwH89SGNjdlG/jBm/1d3wr7ACvyptcSIsNz4lSkWCaMmTl4wCyFWzDlAal0b/giWs1lwuGhOTUCrpRziYEzGJuALaKlHsRZMMlb9zxm7JrBmpLcl1FcxsTRBalS+m2Osg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cakA8ApY; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a0fe77d141so37733395ad.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Jan 2026 22:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769582425; x=1770187225; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q5wdqCTW75VpAVckiHMv4ri6S7nk1WSn+fLTVSHewpE=;
-        b=cakA8ApYh9njHyotxBW0JP1QlaGpZtK/gHRgbU9AXXQadwZzr/jfikJXO1eKq9uEGt
-         yHiPnVrRYNHg1fAc/jF8zyCShGzLK1DMb/MJGlIOB24cQGMSDV8YE7j8xC85KuhLbETE
-         Y9CfvKTRBE/hHpPlsBgAixSBf7JM5iWpglxWVTbDuZHWu+DuL1oi8bQHqHCDVoMx2+Yl
-         sOacNSHDFpOoTywFNO6htvVFavHKdnubaP7100hJriLfkXiUMCkdlf3ikOQ16OC3z2qa
-         ZDBn1yRBFAxqHiC+Qb+PbAX55Uly8ONOIXC6uI4HjZavDop/cI1S50wWkbNNXoVK7jGS
-         HexA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769582425; x=1770187225;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q5wdqCTW75VpAVckiHMv4ri6S7nk1WSn+fLTVSHewpE=;
-        b=pipHv8IaWMI9ZtUiEiNWsh4y1tV+BLmxfTOn1142RSIsF0LLSlMC4Q1dm3zf8CQIsA
-         BhvTVjStJW6ScrUzOtXcwu/qsl4slP9QIXOUysxUO4SVNz7pUO73HFwtD1QTsIR6QPWv
-         786a01Hdp8HQQMRVw61GTA0saUPIj4hRZ0ItE/TNPgDmOcs99Nbv3OcN/l7IR/9LiyMk
-         OHa5ChrcLfHOaXg9XCqrh78dUe8ye21kahsIce8SXjb8QZ9CoYRDNicjE/iJYcPFA0FM
-         SySJzadSpZComhe5OmseltedZ/p6AcSacxWrHuKnG7jTnzCoyzzWIbqHgW0bgJ0plSIV
-         x+IA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNPyJRHqA1srHAAL2aHgDtQTDIrRFE7iXwhfLZASvuJZkuzStGQTY4LqQOA6vN9vKOaxxeaTy+r5HgI6E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrFKf8aVwL+BMAZ9ZT7eiH+UVMp5/zWKTz6JFdErGUOqNXxmV6
-	HKQSkLLygW4iSTzLOxneoEIrYMhDMqE8IswAO6ALXKEqpZpylxwP+Vut
-X-Gm-Gg: AZuq6aI+KUld7h2o/TtuswKi0OuvPiW9yy7MlXBhczz8OGsnkrGfMi8ngHy83y255dn
-	/vTLnIJPTsRg8+nVsdUM1WKOQUzX8LBLsIsHw0ew3tqdctS5ekCs8ikvLjzhM5V3o6PsBW0hgz/
-	k3a478iQqtMi+RFUYrdyTh4gwA9aYpZaioMibK0mH7s+fpbwTXYCgpGgXuJ2y3H8VZj/briRX3i
-	6cHHG1EelMnR5cPuYZhYOjLet+Uzldgx0KBicKLjS73qYsRB2YSeOLJMw5Ftu+pAO4vtFvdxkOC
-	UbprKJjthROaDOGI6G/8Z73l8Nh/FRkc5pYmOQtM6jqmk7FqzF244TFOIe2hDmp3WSQSpctoh9E
-	Rb7MI+mI1ucvVQlPbnrZRvAZXG0/qNFQfrkM2jAe2eDJCQmslFuKd2/DhLAUV6hv/i13mlZMRNb
-	8inD/+EINOV3q6/NRMKZYrNTqkY6W+0wPT
-X-Received: by 2002:a17:903:38c5:b0:295:195:23b6 with SMTP id d9443c01a7336-2a870e02d3emr46828755ad.55.1769582425218;
-        Tue, 27 Jan 2026 22:40:25 -0800 (PST)
-Received: from hyd-e160-a08-1-06.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4c3deasm12253015ad.57.2026.01.27.22.40.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 22:40:24 -0800 (PST)
-From: Rahul Joshi <rj5547884@gmail.com>
-To: a7247017124@gmail.com,
-	nathan@kernel.org,
-	nsc@kernel.org
-Cc: Rahul Joshi <rj5547884@gmail.com>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] Add an extra version field
-Date: Wed, 28 Jan 2026 12:09:59 +0530
-Message-Id: <20260128063959.3443361-1-rj5547884@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1769591314; c=relaxed/simple;
+	bh=qMm7hX4PVk6Yh3XxSpUlBGaH4NHbgK3Mp/XYDMcbkRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/TMeLnHnpE8QRPz8Ye5h/l7aBwJevfKv+V3lheWUA8XOQa5XrBcJVU2oZzsChk1RJkg8CWpQowWBsjbpNxkL0xcOz4Y5VcM0emLxfg8z0L+LvFKMeDuk5V2EI7vzFynvw1HMuY0sSLbQftKG3mGTSM4fp1Tuhvqk/IJNLf4WvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/fy8wA9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EBAC4CEF1;
+	Wed, 28 Jan 2026 09:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769591314;
+	bh=qMm7hX4PVk6Yh3XxSpUlBGaH4NHbgK3Mp/XYDMcbkRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a/fy8wA9Ztf/7aCePdtske0mvp+fqFqnCZsHDPJ/NDcxQ1pKTPzboloLlYqcHgEFo
+	 nqnipaJT9VkDVukFpSdOMKa7PcNjFHvebwoLcNFQuWheZq793us26RZq7cZXrYpVc5
+	 h2GA19GCxCfxUJ74kdMIR4h+mQ84c0ap1OaKRm83rK7a7KdqR5N6VpIxpq7qFRZCs/
+	 s68Wa1+DlG9UTXR9Ese3MSAX1Mv33dfsHa/9OnQmVSstz1DltU4pDiF5DhoJTKDU3o
+	 VBgQRiMaL1EMRHDhH14u8NVMR2O7BQ1wn9jl0X6CEOvUVEHyxayEzemBuA27+LUNuJ
+	 8SubglEKBH0xw==
+Date: Wed, 28 Jan 2026 09:16:13 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Ethan Zuo <yuxuan.zuo@outlook.com>, masahiroy@kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Fix permissions of modules.builtin.modinfo
+Message-ID: <aXnFzbuV6oQJD_Sj@levanger>
+Mail-Followup-To: Nathan Chancellor <nathan@kernel.org>,
+	Ethan Zuo <yuxuan.zuo@outlook.com>, masahiroy@kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <SY0P300MB0609BE844D61B504AB2013C99C90A@SY0P300MB0609.AUSP300.PROD.OUTLOOK.COM>
+ <20260127205915.GA3856796@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127205915.GA3856796@ax162>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-10917-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-10918-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[outlook.com,kernel.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rj5547884@gmail.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 548A29D7E2
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,outlook.com:email]
+X-Rspamd-Queue-Id: 0CAFF9EA45
 X-Rspamd-Action: no action
 
-Renamed extra revision field to build and test
-kernel.
+On Tue, Jan 27, 2026 at 01:59:15PM -0700, Nathan Chancellor wrote:
+> Hi Ethan,
+> 
+> On Wed, Jan 28, 2026 at 03:23:23AM +0800, Ethan Zuo wrote:
+> > Currently, modules.builtin.modinfo is created with executable permissions
+> > (0755). This is because after commit 39cfd5b12160 ("kbuild: extract
+> > modules.builtin.modinfo from vmlinux.unstripped"), modules.builtin.modinfo
+> > is extracted from vmlinux.unstripped using objcopy. When extracting
+> > sections, objcopy inherits attributes from the source ELF file.
+> 
+> Ah, that explains why this is only visble after 39cfd5b12160, as
+> vmlinux.o was just a regular object file, whereas vmlinux.unstripped is
+> an executable. There was another patch submitted to address this issue
+> that did not explain that bit well:
+> 
+> https://lore.kernel.org/20251209-modinfo-executable-v1-1-ed0c553a4390@pengutronix.de/
+> 
+> > Since modules.builtin.modinfo is a data file and not an executable,
+> > it should have 0644 permissions. The executable bit can trigger
+> > warnings in Debian's Lintian tool.
+> 
+> I had asked on that previous submission what sort of issues could be
+> expected from being executable and warnings from tools is a reasonable
+> answer to that. Thanks for including that.
+> 
+> > Explicitly set the permissions to 0644 after generation.
+> 
+> Would it be better to do what the previous submission did and just
+> remove the execute bit via 'chmod -x'? That seems to be slightly more
+> common in the kernel (even though there are very few uses of 'chmod'
+> throughout Makefile instances) and seems to get at the issue a little
+> bit more. Not sure if the creation of these files respects umask, in
+> case someone had a more restrictive one, but that might be contrived.
+> 
+> > Fixes: 39cfd5b12160 ("kbuild: extract modules.builtin.modinfo from vmlinux.unstripped")
+> > Signed-off-by: Ethan Zuo <yuxuan.zuo@outlook.com>
+> 
+> Nicolas, do you want to take this as a fix for 6.19 or should I take it
+> via kbuild-next for 6.20/7.0?
+> 
 
-Signed-off-by: Rahul Joshi <rj5547884@gmail.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm happy to take it (v2) for kbuild-fixes this week.
+Thanks!
 
-diff --git a/Makefile b/Makefile
-index 1465f715786d..63930d842b19 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2,7 +2,7 @@
- VERSION = 6
- PATCHLEVEL = 19
- SUBLEVEL = 0
--EXTRAVERSION = -rc6
-+EXTRAVERSION = -rc6-rahul-joshi
- NAME = Baby Opossum Posse
- 
- # *DOCUMENTATION*
 -- 
-2.34.1
-
+Nicolas
 
