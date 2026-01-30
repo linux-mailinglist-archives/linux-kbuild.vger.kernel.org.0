@@ -1,195 +1,142 @@
-Return-Path: <linux-kbuild+bounces-10945-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10946-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iKxUDY1sfGkSMgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10945-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 09:32:13 +0100
+	id CBFrK5iVfGkQNwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10946-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 12:27:20 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38B7B8601
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 09:32:12 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2067BBA100
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 12:27:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 972F8300D635
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 08:32:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C2FA03011C6F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 11:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6A72DECCB;
-	Fri, 30 Jan 2026 08:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53F4536606D;
+	Fri, 30 Jan 2026 11:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPQaCTMx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7PuIOUK"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADF1219EB;
-	Fri, 30 Jan 2026 08:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F66359FA1
+	for <linux-kbuild@vger.kernel.org>; Fri, 30 Jan 2026 11:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769761929; cv=none; b=VMoC8nJYOh0xpf0sMs80sDs3TTwDnwN+JN5+AprmpPmyWQ4rAz47PuI99lTM74LoTMHFL+5OGqr6cc9LoEb49EzFX978NVKBHQxq/GSzGRNtfLsPVDXFoH++Gz9rwQRccuwl9qtsJF2w5JQSuJQBUq3130RuxUfx8zgHN+U9Bm4=
+	t=1769772313; cv=none; b=lgtYev2hYh/Aov/ggUxw8+/y7Nl0Tg5BLY44KvOOSyzAaiGSnd3CxbZwBywRsSp4zgzwBnWaGX+5kV1BltZAChQljctoEbmWYd+n06r4RtSXgrN9MW6zN6rmdxPHVhDYOiiSh6AJfZapN2eYtc0F7xqSCgV5JtyWQADF9XHAoCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769761929; c=relaxed/simple;
-	bh=kqZupq81AGCTC9o5NgnD/B6fOlW+S7Ww8dnDkQ5so2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bg/nkoTuzHME06YlDdXoH0oTG+bgEsOqMLXA2Y+LMtTGrMGTN+4/qgLW45ppZEe7IkSWgZWMAVkhNC2RbT6s8IW2+aCwCDptkjauxRsRm2NVtUnHCl4HyrdKrGyfE//RKGkaE1eucSGayN3jueTmxsutluonfSveIQjvUvqs3Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPQaCTMx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C69C4CEF7;
-	Fri, 30 Jan 2026 08:32:06 +0000 (UTC)
+	s=arc-20240116; t=1769772313; c=relaxed/simple;
+	bh=/Is4pF+G/cAVaoRANAVnOakAyrY90dOrluvgZxDsU3A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lf7QhK2t3+FmZ5C3fTYOR9FNJsHuUSf/V8HwRHGC5kGIsWtwpcbEiYCSBGDv6M2LChw/bMbx31adN4D+QcurxAFQD9GIVDlYw9qBWdevEU7u+WaUVWSAuMjiAwg6QtkvO8lOS9+Vf3jvYOJUXG10cCoUAlhLBC4+Jlp2i8BS8sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7PuIOUK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E661EC19425
+	for <linux-kbuild@vger.kernel.org>; Fri, 30 Jan 2026 11:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769761928;
-	bh=kqZupq81AGCTC9o5NgnD/B6fOlW+S7Ww8dnDkQ5so2k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cPQaCTMxmlOC6aaFjOPPAXpTuu+OhyzacVlpb5sL5WaTeFueXYv8cn2gnU+JwVR2I
-	 +pRVAQm6mnl00ljEPyU18bQCwN9knd0e073dZfDY/TInGRkWeEZrwlzow2dc+uV+nr
-	 sZ8yP9S9s/E87wAaAcvn8VoGtwfJszGL4bdmpV68mwVGGyAuee9GjQhcUsV8vs7Aff
-	 BhBLO+ByfdBNqImhaPV7fkNcSCuniMdmTu1RjjB0W7f3tXi08V55Ah/9WVpcuHXwWp
-	 QlghnmgW4trO7xODrDmjRsGCq10m/aVmSXAWh7aCHeFPt8eL4CZdy/QnePLbKgJJPC
-	 eAhqIisjqw4YQ==
-Date: Fri, 30 Jan 2026 09:32:03 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Rong Zhang <i@rong.moe>, Jonathan Corbet <corbet@lwn.net>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] kbuild: install-extmod-build: Add missing python
- libraries
-Message-ID: <20260130092816.162a48fe@foz.lan>
-In-Reply-To: <20260130064011.GA2981809@ax162>
-References: <20260129175321.415295-1-i@rong.moe>
-	<20260130011106.GA359714@ax162>
-	<20260130063056.72fbe458@foz.lan>
-	<20260130064011.GA2981809@ax162>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1769772312;
+	bh=/Is4pF+G/cAVaoRANAVnOakAyrY90dOrluvgZxDsU3A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=u7PuIOUK2J6AWwefUUjfa1qkpxuKuXHSjAdtUAJpXG6PE9gf7/lG3PYwU8lOmrvfL
+	 cfjcWsu7x80DiuHCOU1ElZfyJHFPnNM+KalIqjIQUJ0zwIKGM8IcCiLWTq+P3eNIvN
+	 qLb3gtKOfdb3eU6a43I1jGsGSfeyBLoXthxi6ipWvDSxRT2djX8iF/Mk+vNEyw0l0W
+	 P2qltqpOzmj5SEVhxnnFA/uqj9yJ4euAZwRacpZlIz0+G+UQUMiZFV5b4Zh/5kuz5g
+	 1/LP7y4xG/TNEC00T0XMD3TIdIcX4SVLrwbP4qoZkACJkt6uHnlrnO1TXkAYLOZJW3
+	 TkZ2B8Q9KrM/A==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-385bdc72422so16722711fa.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jan 2026 03:25:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXjUMbQBBbgT1TJFwp1CwAO2+dhLfzi6OAhY83nSa6xaBRQRs4LebbDWU/Y8W3XiShEZT6IhvZgzKc2bQM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfRcgPklhDMZwQqKXEyCOGShkQLkd1UYbkXMgm4KR0EtYewO96
+	vGfAj/zIblCILSyNIu/9r/L6FFf1Wb/9GCXEboBo9++pTjheqal7d4QXqpUh7B2K5gJd+rcbPU1
+	Q2hpmGg2gdC///sKRBVrM3QLzSa3DhXo=
+X-Received: by 2002:a05:651c:1501:b0:37b:b140:e512 with SMTP id
+ 38308e7fff4ca-38646523bb6mr8808741fa.10.1769772311581; Fri, 30 Jan 2026
+ 03:25:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260127-rust-analyzer-pin-init-duplication-v3-0-118c48c35e88@kernel.org>
+ <20260127-rust-analyzer-pin-init-duplication-v3-1-118c48c35e88@kernel.org> <CANiq72knqZ7-xXjuSdv4rAuxpY5u8xF8DvGyKVqWnZfGyRf2rQ@mail.gmail.com>
+In-Reply-To: <CANiq72knqZ7-xXjuSdv4rAuxpY5u8xF8DvGyKVqWnZfGyRf2rQ@mail.gmail.com>
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Fri, 30 Jan 2026 06:24:34 -0500
+X-Gmail-Original-Message-ID: <CAJ-ks9nuS26bxqSwDcQ9+N=bPmjZhPjiDGWt4Txab23wzSAu3A@mail.gmail.com>
+X-Gm-Features: AZwV_QgzWNA8amtP91hQR2Vy7ysVURzVirKm6ZDuOm-OlKn9LXIa7aZyFmkEg5Q
+Message-ID: <CAJ-ks9nuS26bxqSwDcQ9+N=bPmjZhPjiDGWt4Txab23wzSAu3A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] rust: kbuild: extract configs for reuse
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Jesung Yang <y.j3ms.n@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-10945-lists,linux-kbuild=lfdr.de,huawei];
+	TAGGED_FROM(0.00)[bounces-10946-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,foz.lan:mid]
-X-Rspamd-Queue-Id: A38B7B8601
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2067BBA100
 X-Rspamd-Action: no action
 
-On Thu, 29 Jan 2026 23:40:11 -0700
-Nathan Chancellor <nathan@kernel.org> wrote:
+On Thu, Jan 29, 2026 at 11:43=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Tue, Jan 27, 2026 at 2:55=E2=80=AFPM Tamir Duberstein <tamird@kernel.o=
+rg> wrote:
+> >
+> > Extract `pin_init{,_internal}-{cfgs,flags}` to reduce duplication.
+> >
+> > Acked-by: Benno Lossin <lossin@kernel.org>
+> > Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+>
+> Applied to `rust-next` -- thanks everyone!
+>
+> I rebased and things changed a fair bit since now we have a few
+> `--extern`s more -- Tamir, please double-check that things will still
+> work with your future rust-analyzer patch on top!
 
-> On Fri, Jan 30, 2026 at 06:30:56AM +0100, Mauro Carvalho Chehab wrote:
-> > On Thu, 29 Jan 2026 18:11:06 -0700
-> > Nathan Chancellor <nathan@kernel.org> wrote:  
-> > > On Fri, Jan 30, 2026 at 01:49:55AM +0800, Rong Zhang wrote:  
-> ...
-> > > >   $ make -C /lib/modules/6.19.0-rc6/build/ M="$(pwd)" modules V=1 W=1
-> > > >   [...]
-> > > >   make -f /usr/src/linux-headers-6.19.0-rc6/scripts/Makefile.build obj=. need-builtin=1 need-modorder=1
-> > > >   # CC [M]  mod.o
-> > > >   [...]
-> > > >   # cmd_checkdoc mod.o
-> > > >   PYTHONDONTWRITEBYTECODE=1 python3 /usr/src/linux-headers-6.19.0-rc6/scripts/kernel-doc.py -none mod.c  
-> > 
-> > This sounds really weird, as it is trying to run scripts/kernel-doc.py
-> > instead of tools/docs/kernel-doc. Does the out-of-tree Makefile
-> > override KERNELDOC variable? The current version contains:
-> > 	
-> > 	KERNELDOC       = $(srctree)/tools/docs/kernel-doc
-> > 
-> > But somehow it is using the old version before the renames:
-> > 
-> > 	KERNELDOC       = $(srctree)/scripts/kernel-doc.py  
-> 
-> Well I think based on the "6.19.0-rc6" in the path above, this is
-> mainline, not -next, so the rename has has not happend there yet.
+Looks good.
 
-Ah, ok. On your e-mail you mentioned the renaming patch, so I
-ended assuming that was the case.
+>     [ The new variables will be used later on to easily pass them to
+>       the `scripts/generate_rust_analyzer.py` script. - Miguel ]
+>
+>     [ Rebased. Moved new variables above. Reworded title. - Miguel ]
+>
+> Cheers,
+> Miguel
 
-> 
-> > Btw, I did a very quick test here, using an old OOT project I have
-> > at github:
-> > 
-> > 	https://github.com/mchehab/xr_serial  
-> ...
-> > It sounds to me that Rong may be using a Makefile on his OOT project
-> > that was not updated to pick the right kernel-doc tool.  
-> 
-> If I use that project with Rong's original command, the
-> linux-upstream-headers package from the pacman-pkg target (which uses
-> install-extmod-build), and the following fix up for a more modern kernel
-> version, I see the following error:
-> 
->   $ make -C /usr/lib/modules/6.19.0-rc7-next-20260129/build M=/tmp/xr_serial modules V=1 W=1
->   ...
->   # CC [M]  xr_serial.o
->     gcc ...
->   # cmd_checkdoc xr_serial.o
->     PYTHONDONTWRITEBYTECODE=1 python3 /usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc -none   xr_serial.c
->   python3: can't open file '/usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc': [Errno 2] No such file or directory
->   make[3]: *** [/usr/lib/modules/6.19.0-rc7-next-20260129/build/scripts/Makefile.build:287: xr_serial.o] Error 2
-> 
-> If it is not expected that kernel-doc runs for external modules, then
-> maybe cmd_checkdoc should also be wrapped in a check for KBUILD_EXTMOD?
-
-I don't particularly see any reason why running kernel-doc for external
-modules, as the goal of running it there (outside make htmldocs) is to
-detect early problems at linux-next and other CIs.
-
-On the other hand, I also don't see any problem on encapsulating
-kernel-doc at the tarball created by install-extmod-build with something
-like:
-
-	ifeq ($(KBUILD_EXTMOD),)
-		ifneq ($(KBUILD_EXTRA_WARN),)
-		  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
-	        	$(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
-		        $<
-		endif
-	endif
-
-at scripts/Makefile.build.
-
-
-So, feel free to add to either one of the approaches:
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-That's said, it should be noticed that the DRM subsystem also has
-some similar code:
-
-	drivers/gpu/drm/Makefile:                PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-	drivers/gpu/drm/i915/Makefile:    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none -Werror $<
-	drivers/gpu/drm/i915/Makefile:          $(KERNELDOC) -none -Werror $<; touch $@
-	include/drm/Makefile:           PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-	scripts/Makefile.build:  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
-
-but I suspect that only scripts/Makefile.build probably need
-such check.
-
-Regards,
-Mauro
+Thanks Miguel!
 
