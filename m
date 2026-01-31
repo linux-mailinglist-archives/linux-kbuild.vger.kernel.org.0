@@ -1,55 +1,73 @@
-Return-Path: <linux-kbuild+bounces-10952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10961-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ZdyOI0o8fWl7RAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10952-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 00:18:34 +0100
+	id xXaSI05nfmmAYQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10961-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 21:34:22 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E3ABF57C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 00:18:33 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E71C3E6A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 21:34:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7CD40303132F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Jan 2026 23:18:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D71443019808
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 20:34:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C67835E526;
-	Fri, 30 Jan 2026 23:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CAEB3783B6;
+	Sat, 31 Jan 2026 20:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h2oOv/wf"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="FyP9WMRg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E780A1EB5F8;
-	Fri, 30 Jan 2026 23:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E8D3612D8
+	for <linux-kbuild@vger.kernel.org>; Sat, 31 Jan 2026 20:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769815110; cv=none; b=qnXfodr2QxrAwOgqJuoTUvHThDzrTWuY+wfMDWUpHr1/BVHzAEgXlJuYK43VVdY4eIz2Qnz1BVolYcYHulKOgmaTIKLqnMQsO//TEE0QaHBcz1gai+BtnOJlf7exbweqbQL4Tv9yRg4ECGcFmyJo6pVBxHSiG4qQzmcYP+EiZb8=
+	t=1769891657; cv=none; b=YwPiA9R86BJT0+EtG4M87cEQSURfoh4UbWmwx/xWMAXcRXtjuLt87lJDWPe1Wjw7X1lYkVGWIjn5QDAj9kCTltRPPdjtS2AsLXK7XnLQwT56S70GWeq/bTbXn9sHOPnaoSkdWRjfgVtF5lnMaMy/0KD11Hbd2sG/GVLlhIGuA/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769815110; c=relaxed/simple;
-	bh=t6+FD63TBEjAF4loU6XF4HOpBwGsFUNv91UC8x59JYY=;
+	s=arc-20240116; t=1769891657; c=relaxed/simple;
+	bh=trW///4DZC+Gf3eWgnl0dDN5Cp3CVH1pn14LAtTFeVI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fu6RWOQT/UBsFk9sblbb9zf4CtSz5jwqaCk1Si2axSLjhLFnrt6XslBK2x/uSO5LDBGf77pF6CoajC0N72/F74AjQXHaCA130zmLlP4W9UwhnbKgi7OaklrRe7Z0EdBVrgEvUvquKx6PXfWL/pc9xdzNq9GBJg3dZt0v3qNgSzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h2oOv/wf; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=Ct6PRjAV8EIz+4t5CUzKQxPZkHqnE7I8tv6/wvFfDNpExCuwP+5Pf/YAuhTfNEPf7Fc6qZqPhwaI9JnjWD6tHj4amHgy8d4eqJlMfabmofeJbZ8Lm2eKsVqHgIk6vrk1K1/vQzp1qa0R5evjZD19Vbv3F4UDlRtIxKv0g03hC40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=FyP9WMRg; arc=none smtp.client-ip=44.202.169.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+Received: from eig-obgw-5005b.ext.cloudfilter.net ([10.0.29.189])
+	by cmsmtp with ESMTPS
+	id mHf7vNnJqSkcfmHfVv9VkT; Sat, 31 Jan 2026 20:34:09 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id mHfUviZ0BjAxumHfVvaDb0; Sat, 31 Jan 2026 20:34:09 +0000
+X-Authority-Analysis: v=2.4 cv=EoDSrTcA c=1 sm=1 tr=0 ts=697e6741
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=boSZjC74iCM+AjoU0vq/6A==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=7T7KSl7uo7wA:10 a=ag1SF4gXAAAA:8
+ a=VwQbUJbxAAAA:8 a=sMBj6sIwAAAA:8 a=TFj8SqQbAAAA:8 a=_Wotqz80AAAA:8
+ a=c-n4J4-pAAAA:8 a=Z4Rwk6OoAAAA:8 a=NZ-89VFvAAAA:8 a=cm27Pg_UAAAA:8
+ a=WBVUFX3z8u_b3z711c8A:9 a=QEXdDO2ut3YA:10 a=d2ev92nbPIAA:10
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=pTDFpEv3elsvYK9BQVU7:22 a=buJP51TR1BpY-zbLSsyS:22
+ a=HkZW87K1Qel5hWWM3VKY:22 a=pm31WBKQz9GEXVZSZ1ft:22 a=2aFnImwKRvkU0tJ3nQRT:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=6O1mYVG2C4caxIEKCFEl8cUKL+tPPC5+mqnQqr+mWek=; b=h2oOv/wf+Gc10WkF1rp6lpKhkx
-	REDyin4qfKyGMKAcdYmyjQRWX+VrSfwR4eXd8S2FNWlADZqsKpnxN7EvCdHc8CCZMwbNlODRRUqBj
-	V5U+9vU+B7KisVoQ7uYed0oa+vWVk0Kq636TjCG7kO6S1Pchuxw0YZNWtk50oIw/VEjd5R/oHVwg4
-	V4/CUHugHHoryEUoLPQSjfboedENzshD0dfK61pSZkzolTxa9WB2kLMBpjHNW2jd0R8aDCgwqzRHD
-	4Uw/6WH8KgIZ5wEXi17F41tNvBNsKBlrj08GiHFqQXWU1oOPozjg3NZmHoQIHPRKbXbZRPwDonUCe
-	2Uz7VkBw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlxku-000000025sf-22tZ;
-	Fri, 30 Jan 2026 23:18:24 +0000
-Message-ID: <70955fc0-84c0-440f-85ba-2d97418ca827@infradead.org>
-Date: Fri, 30 Jan 2026 15:18:22 -0800
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=/IhkU1fxPPQsCPfhnyelknzkyfaLv2rdmRCMUd9KYGA=; b=FyP9WMRgnMM5wc1spZgAnDpAhX
+	jshI/uqabsR9VIxzCSRP9oxs9nR1fRFBREO3WFlcYOq5/HQy+go3jLFyupBzUYv6ozPVvz97jTNsz
+	dFuCMcLva3+b/2RltuCsnye+H9oHSkPCha7XhUX4eVn94YDACy+mZMO8dyy0oSJe8is7qKb4OAuWj
+	1C3ynH6YhqJ9jcuXXC+uw2B4SMstNs492dWUJog3nynM8IczPau7/M6jqt00ctNTR9wE4BGS8iYfC
+	FJz+SktczScZ8f13+yPx0d84OXK3JuTEbznFTvAeZFbXdD4ZQDj75Y5vZDzEaf3mKkbSyhdEttvv/
+	IH80ivZw==;
+Received: from [177.238.18.27] (port=45796 helo=[192.168.0.104])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.99.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1vmHfU-00000001W4v-26vi;
+	Sat, 31 Jan 2026 14:34:08 -0600
+Message-ID: <068adaf8-9f41-4918-b1dc-1104aad98abf@embeddedor.com>
+Date: Sat, 31 Jan 2026 14:33:27 +0900
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,141 +75,139 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
- modules
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rong Zhang
- <i@rong.moe>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
+Subject: Re: [PATCH] Makefile: Globally enable fall-through warning
+To: david@stennet.com, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Michal Marek <michal.lkml@markovi.net>, Kees Cook <keescook@chromium.org>,
+ linux-kbuild@vger.kernel.org
+References: <20260131054051.6938-1-david@stennet.com>
+ <20260131054051.6938-2-david@stennet.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20260131054051.6938-2-david@stennet.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 177.238.18.27
+X-Source-L: No
+X-Exim-ID: 1vmHfU-00000001W4v-26vi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.104]) [177.238.18.27]:45796
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 1
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfAySSZ5rOZdgU91a40FKkpPCJmiRpwW9DaY8u3D1F03y5b8M8nIBWjcxADR5woQRVHFQj1aVIerDOSJxa8O6EeVfq7NtNf3h/gxOfNdjdLy+Kce3AGFI
+ d3gIelKC5T7o4tj/L07WVfum9K4/C4kPx54YH4h060AAZ8DwGRVVH4zIcR5x9QQxK4j+uDwCjV1R6/5DIv80o0cku7y1tkqXExxFaVkGkynFqPQhTgZWWcRC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	R_DKIM_REJECT(1.00)[embeddedor.com:s=default];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	HAS_X_SOURCE(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10961-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[embeddedor.com];
+	DKIM_TRACE(0.00)[embeddedor.com:-];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10952-lists,linux-kbuild=lfdr.de];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_X_ANTIABUSE(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[gustavo@embeddedor.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,huawei];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,infradead.org:email,infradead.org:dkim,infradead.org:mid]
-X-Rspamd-Queue-Id: E8E3ABF57C
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[stennet.com:email,markovi.net:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-foundation.org:email,linuxfoundation.org:url]
+X-Rspamd-Queue-Id: 86E71C3E6A
 X-Rspamd-Action: no action
 
+Shuah,
 
+People taking this[1] LF training have been wrongly submitting this
+patch since 2022 [2].
 
-On 1/30/26 1:37 PM, Nathan Chancellor wrote:
-> After commit 778b8ebe5192 ("docs: Move the python libraries to
-> tools/lib/python"), building an external module with any value of W=
-> against the output of install-extmod-build fails with:
-> 
->   $ make -C /usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build M=$PWD W=1
->   make: Entering directory '/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build'
->   make[1]: Entering directory '...'
->     CC [M] ...
->   Traceback (most recent call last):
->     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 339, in <module>
->       main()
->       ~~~~^^
->     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 295, in main
->       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
->       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   ModuleNotFoundError: No module named 'kdoc'
-> 
-> scripts/lib was included in the build directory from find_in_scripts but
-> after the move to tools/lib/python, it is no longer included, breaking
-> kernel-doc.py.
-> 
-> Commit eba6ffd126cd ("docs: kdoc: move kernel-doc to tools/docs") breaks
-> this even further by moving kernel-doc outside of scripts as well, so it
-> cannot be found when called by cmd_checkdoc.
-> 
->   $ make -C /usr/lib/modules/6.19.0-rc7-next-20260130/build M=$PWD W=1
->   make: Entering directory '/usr/lib/modules/6.19.0-rc7-next-20260130/build'
->   make[1]: Entering directory '...'
->     CC [M]  ...
->   python3: can't open file '/usr/lib/modules/6.19.0-rc7-next-20260130/build/tools/docs/kernel-doc': [Errno 2] No such file or directory
-> 
-> While kernel-doc could be useful for external modules, it is more useful
-> for in-tree documentation that will be build and included in htmldocs.
-> Rather than including it in install-extmod-build, just skip running
-> kernel-doc for the external module build.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 778b8ebe5192 ("docs: Move the python libraries to tools/lib/python")
-> Reported-by: Rong Zhang <i@rong.moe>
-> Closes: https://lore.kernel.org/20260129175321.415295-1-i@rong.moe/
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Why?
 
+-Gustavo
 
-LGTM.
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+[1] https://training.linuxfoundation.org/training/a-beginners-guide-to-linux-kernel-development-lfd103/
+[2] https://lore.kernel.org/all/20220517195912.GA10952@embeddedor/
 
-Thanks.
-
+On 1/31/26 14:40, david@stennet.com wrote:
+> From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+> 
+> Now that all the fall-through warnings have been addressed in the
+> kernel, enable the fall-through warning globally.
+> 
+> Also, update the deprecated.rst file to include implicit fall-through
+> as 'deprecated' so people can be pointed to a single location for
+> justification.
+> 
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 > ---
-> This is an alternative to Rong's proposed fix for the first error:
+>   Documentation/process/deprecated.rst | 14 ++++++++++++++
+>   Makefile                             |  3 +++
+>   2 files changed, 17 insertions(+)
 > 
->   https://lore.kernel.org/20260129175321.415295-1-i@rong.moe/
-> 
-> I noticed the second one by inspection of -next and further testing.
-> ---
->  scripts/Makefile.build | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 5037f4715d74..f01d7957edf7 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -166,11 +166,13 @@ else ifeq ($(KBUILD_CHECKSRC),2)
->          cmd_force_checksrc = $(CHECK) $(CHECKFLAGS) $(c_flags) $<
->  endif
->  
-> +ifeq ($(KBUILD_EXTMOD),)
->  ifneq ($(KBUILD_EXTRA_WARN),)
->    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
->          $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
->          $<
->  endif
-> +endif
->  
->  # Compile C sources (.c)
->  # ---------------------------------------------------------------------------
-> 
-> ---
-> base-commit: 63804fed149a6750ffd28610c5c1c98cce6bd377
-> change-id: 20260130-kbuild-skip-kernel-doc-extmod-276584e7b2b0
-> 
-> Best regards,
-> --  
-> Nathan Chancellor <nathan@kernel.org>
-> 
-> 
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 49e0f64a3427..053b24a6dd38 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+>   lead to a crash, possible overwriting sensitive contents at the end of the
+>   stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+>   memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
+> +
+> +Implicit switch case fall-through
+> +---------------------------------
+> +The C language allows switch cases to "fall through" when
+> +a "break" statement is missing at the end of a case. This,
+> +however, introduces ambiguity in the code, as it's not always
+> +clear if the missing break is intentional or a bug. As there
+> +have been a long list of flaws `due to missing "break" statements
+> +<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
+> +"implicit fall-through". In order to identify an intentional fall-through
+> +case, we have adopted the marking used by static analyzers: a comment
+> +saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
+> +is more widely handled by C compilers, static analyzers, and IDEs, we can
+> +switch to using that instead.
+> diff --git a/Makefile b/Makefile
+> index 9be5834073f8..bdf8eac51b07 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+>   # warn about C99 declaration after statement
+>   KBUILD_CFLAGS += -Wdeclaration-after-statement
+>   
+> +# Warn about unmarked fall-throughs in switch statement.
+> +KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
+> +
+>   # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+>   KBUILD_CFLAGS += -Wvla
+>   
 
--- 
-~Randy
 
