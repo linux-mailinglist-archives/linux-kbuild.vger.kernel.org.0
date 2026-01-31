@@ -1,95 +1,131 @@
-Return-Path: <linux-kbuild+bounces-10953-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10954-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPWkAeuVfWnQSgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10953-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 06:40:59 +0100
+	id eHduEBSxfWnwTAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10954-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 08:36:52 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F46DC0E39
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 06:40:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D85C11A2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 08:36:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 21BEA300363A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 05:40:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B0D6B300F9F8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 07:36:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC5773358B7;
-	Sat, 31 Jan 2026 05:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1B81333442;
+	Sat, 31 Jan 2026 07:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=stennet-com.20230601.gappssmtp.com header.i=@stennet-com.20230601.gappssmtp.com header.b="tufskf4s"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxUD/sd8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636E032BF3A
-	for <linux-kbuild@vger.kernel.org>; Sat, 31 Jan 2026 05:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8900B329E4F
+	for <linux-kbuild@vger.kernel.org>; Sat, 31 Jan 2026 07:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769838055; cv=none; b=WT4Vq6zFW1g4wiE0f1+ioQZbXpBowzE7XSDBH9yvP//aw+prN1v415SFhF6+VtkutGwBDXgGHO191zqDmPyzFI76CKiepgQoB2wFWJJKTN62YLRM/UdFHyHUopXUvCQbPobHTrCPYIoYTf46T7MBw7THVc2STovOUtczG/4nHBk=
+	t=1769844999; cv=none; b=fCrmeh4QRhLNaZ3EEnL3P+bNJnptyRzkWsuoYxNtSXFilbk6udjf5jyEdFvEP+MFed63XHvAm4D2xW3lR0eurCS9GaDWAMLq/Tqm3D82b+E51mlupcc/WkJuPJnIwGEtL5Lz5QLSzZ8pFv/LsmYDlm/rlheYovDzHwNc4WgSIV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769838055; c=relaxed/simple;
-	bh=Xb/h/Vac2G/tqTulade8NVwFrL8Hd47vuG5+InSj1ak=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BHmBddSTcnv9R48o5CWa04R8kxhe2PiIMNI1sr5VYFxIl9VzEEDzjzJ5hBoU/Co1c3YkSYp/9ZhpvbNWM+oBsBV11QyFSjJ/8MVnduAwEQKEwQBCY4xzDM8/TWDjd71dUd82G63Jrfe/psByL8VHkDe/u4YZV8l6BYYktc+vG24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stennet.com; spf=none smtp.mailfrom=stennet.com; dkim=pass (2048-bit key) header.d=stennet-com.20230601.gappssmtp.com header.i=@stennet-com.20230601.gappssmtp.com header.b=tufskf4s; arc=none smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=stennet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=stennet.com
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1244bce2c17so98225c88.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jan 2026 21:40:54 -0800 (PST)
+	s=arc-20240116; t=1769844999; c=relaxed/simple;
+	bh=nY7lzQOVExn4AJ6nTUtW8NcMqjv6w/dyQWietm+R40w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Z5kj68If0S7myroPmhqUI8/y0tMjU9GgwPYgzFIhUylJIYV9Nvkm1NiQFEgYapVpD3152HOrMCc8/FJ4asMO+npjgH6XwJvYskc6qda5W9C+fPfmydkCW3fspRAOmM3/AZUKAvMQ4iUzpKHt/1mWx2tH1uVXPxxUW/qZpwZkPjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxUD/sd8; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-480706554beso29983845e9.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Jan 2026 23:36:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=stennet-com.20230601.gappssmtp.com; s=20230601; t=1769838053; x=1770442853; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769844996; x=1770449796; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6EHXC0+5WwGjzxO6nhB0I9+Yv+MYJk1jowBhHlsrX7Y=;
-        b=tufskf4siKyfNrFCzGGOqz9gnmAhZueoP7SrN0T7uwk9LqcI7FlIqWR6RbmgDdtV1Q
-         JbhM448P3FV3l4m2phZxkAaqRD2CijwprMK8+XtVMiQBH+ECzB0GW68luoVWWIP7fwgI
-         PqP/iz+diCAqFpYvkN6J49AdfelNxQNDQeK7Q81v4uoicimx78BKuB+PJKUW7cCOLGfG
-         Js+TmBvtsODVH+deSzPdlAqhHu7Jt8PYoWhKOTtnxke7GpbAgjIwF2KhvsW43/EN2xCW
-         lzE9JatcmwcpkuTX0PTU3XkmOSkGm6Va0YEOAT7l3Q1w2yqa3zrZ+PeLbuVsvNo7cTrP
-         o4Cg==
+        bh=5n1UjayTk0hO0b45clVXSkBxo9hRuWG9N3/vJ5awb1g=;
+        b=fxUD/sd8b3wQtQ+1lw6r6s407RaqfpNZfgGyYQigk6ugXox9dM52OaDnYiwwSqTzEl
+         jEGEvibHs+f7Nqnaq7YuFS/JiIXWagxLk3hEhwz0ojyd/vHsiFtDQtX2FIKM4/RVsAzz
+         F9HuybNgpagi9qIePKl/lGazzR8F4CR0P39bGKtsdeiqz1Z8AFU/nO9vMJgWj6OH/Cj9
+         OyXk8Ln5zM7eieL5kmwj4GykrH3XxYSC/fe1Sh3xnK5tSExP682QdF4rTbYwfBxi6EqC
+         7Wy1jeugDsSMWF22gL3pZV85LiwP9vGES3tElukotgVzSbOCKcBDDnCy2Glk5svSwHEE
+         SZXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769838053; x=1770442853;
+        d=1e100.net; s=20230601; t=1769844996; x=1770449796;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6EHXC0+5WwGjzxO6nhB0I9+Yv+MYJk1jowBhHlsrX7Y=;
-        b=IQThAL3A6B9d0ZPbvSnEEJicc5iBLVGzRbWXbs/V01+1uM1pDkx69TkNJ7bH2bqO/N
-         mNfCvl3+sVveSe1sLsmQyM5P1k1DzVu2m0iYu62X/yimhy9BJUPZnQ6u/x4q+SJ+WRuo
-         shEIuTPfn9KaVuy4T71ufaDq8B1/RAdSuY8qDOqZIBktt+i6RViswbt8j/sBqC6tKGKY
-         2+ljObFL7BKeyEEc80cLBLrAiQdOdL+KFbxqAMvvua4H2DCzkvBGFUce2/2q/8M5G1x3
-         MkUeDhgkHfvzVpc07inLD24VvVkywLNl24Pb86ml52k9dtwLj3ubv7BkngmcL1Y+gSBj
-         0zWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXwyDBMrNv3BHVX6Mwwj1mYbdpxQ8LV68IG6QLO8VKcizZl/MvSsCRf6/UVyC9FB8+qZx9vypCpbFvPFLc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHgG/jzUNc6LiC/5yDA9WdQgisQf9JaUNMuRd7oaBDdFns8jQY
-	ituVfAFT7paQ3GoGHYBvepaei2Z05sXYgswdcYy0D2Cshq78TqUUFGDOJIbrp9ovwZs=
-X-Gm-Gg: AZuq6aIiXeZtTzV6oCFfElgocxQ8DP46YwDzaGGtuQ3MBpVjh5Y54eo6IWwHtHE6WGm
-	U/Q9/6wOJx5QCCtJft4yXLIxv4ur06STbnBzQHOHr3wAaOtaiIoN46GehKjN4Ld9+68lnNiKhTv
-	tbnFaKgF3vwY9fP0mE1GKIu2LnvpLqjgAcND3oty8Mvk8HkQwrPhpsliNeCB1VpXqRLA0X6grOd
-	AVg9nCvpeFOTKPAsfYlW6CCyV/Aq0S84Io5ZhETK4Kv9Prgl3yqDxSCnlg7rqREkt9tejti6uA8
-	AQs6a3MyGV3hK6CXKUZ29aJIBEH6vh3cGx3TBIKMaw7Zn7E1NLAA1+hE891jhGUNP3D7ld9QLT5
-	0wO73OxfAVOD6CWH4UjqDbmLYQguAGjVZfRsl1DfYLFG96zIiAdS4MyRSISYP6h0UcqaiNZ77XI
-	dBlXkCIL2jbti33ucqiAnb7IPtioE=
-X-Received: by 2002:a05:7022:220a:b0:124:9e46:830e with SMTP id a92af1059eb24-125c0f95649mr1384888c88.1.1769838053230;
-        Fri, 30 Jan 2026 21:40:53 -0800 (PST)
-Received: from david-XPS-15-9500.ucsd.edu ([128.54.167.73])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7bb9ca10csm8764306eec.30.2026.01.30.21.40.52
+        bh=5n1UjayTk0hO0b45clVXSkBxo9hRuWG9N3/vJ5awb1g=;
+        b=MOx/hcNUc27BZN5WrUB/+35KSHC5oZVpvtCWouhtlpjXyl9hH6fmC53vLGI9UGS+TO
+         HwH/WUbow7VAooM3gtv0+r+G4Xafa8Kki4Nt8bBsqVwgJsNOW6/y4W7jjoEIyQ/DSjCC
+         87LmjjxUMesTTw8H2KZz5W/WDbIYDAojo6XCOnt4SpxyOQ5zgGuiFIzNAaSzj4zSMyse
+         Q3HVlXoXhmQz04KvdICRzwq9nUEIQt1SgVyWmiXc3tNzI3UfhgjC+kcJuj1YxX5RLdnO
+         zGsjnMEKfYUcEwB2XuSUESkZllZtXX+TyEqWOB0DwdpCdZT3vvl/XEW6+/vjey+Ejj94
+         MgMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSoxXykswCzA7bBaI/bwJcGoY7bN7WvNAm1L49Xn50TwffcWQ+aGaVK1SVF2k4ktC/nR3i0vs0pKcAKnk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYldU4KHQoc3wTVilR1l0fvEw3vk0MrwQFWD3rRbxHqcKy7qJO
+	WYVfetmeSZHU+nEryIOrP9xX9H8slHC6+PSLQ4Qpxlq3YGnFoS+pANSS
+X-Gm-Gg: AZuq6aLbo5h/OupTa/wlZRXDutg65ZGJWghQmjp4YVMBsZZ3jBXv8pSYfDAs6tjiM/4
+	c1fMooIS6HADieethcQno15etib90fyRbXZ8FHu+byxt4fIt6D2U94Drqz3Ilms6aj3/KX3manK
+	vD0wJ8FAbG8WUies6NO3PY5p+wUDCq5NvOuv1K08df7CpNOBuLNslWbET4jP/1ekFOOgFvYOxtc
+	LdghWYdyB7Q7wMuX37ZusneWOp/auVuBBtq3CmSOh7n2DsG/+fXda/bqvgu8v+AZyDn0LvXxX2V
+	8/d8KUz3W1t658K1zC2C8KrLn1Sos3mYefcZZOqqKEfqDmbGV5usahlwiygnFl9/rGYcpqj+Kgm
+	OadxoDjqSCqI5dogKz4ckMR95+xv3mnMSJ7W5DsBE0Gh5OOF94LrYIqOHvQfB8+BhrQVAcI5RPt
+	u9
+X-Received: by 2002:a05:600c:1e89:b0:47a:9560:5944 with SMTP id 5b1f17b1804b1-482db4ac0f4mr57301605e9.34.1769844995600;
+        Fri, 30 Jan 2026 23:36:35 -0800 (PST)
+Received: from legion.lan ([2a02:a58:9200:ea00::700])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cd8fadfsm248952145e9.0.2026.01.30.23.36.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 21:40:52 -0800 (PST)
-From: david@stennet.com
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Kees Cook <keescook@chromium.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] Makefile: Globally enable fall-through warning
-Date: Fri, 30 Jan 2026 21:40:50 -0800
-Message-Id: <20260131054051.6938-2-david@stennet.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260131054051.6938-1-david@stennet.com>
-References: <20260131054051.6938-1-david@stennet.com>
+        Fri, 30 Jan 2026 23:36:35 -0800 (PST)
+From: =?UTF-8?q?Mihai-Drosi=20C=C3=A2ju?= <mcaju95@gmail.com>
+To: linux@weissschuh.net
+Cc: arnd@arndb.de,
+	arnout@bzzt.net,
+	atomlin@atomlin.com,
+	bigeasy@linutronix.de,
+	chleroy@kernel.org,
+	christian@heusel.eu,
+	corbet@lwn.net,
+	coxu@redhat.com,
+	da.gomez@kernel.org,
+	da.gomez@samsung.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	f.gruenbichler@proxmox.com,
+	jmorris@namei.org,
+	kpcyrd@archlinux.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	lkp@intel.com,
+	maddy@linux.ibm.com,
+	mattia@mapreri.org,
+	mcaju95@gmail.com,
+	mcgrof@kernel.org,
+	mpe@ellerman.id.au,
+	nathan@kernel.org,
+	naveen@kernel.org,
+	nicolas.bouchinet@oss.cyber.gouv.fr,
+	nicolas.schier@linux.dev,
+	npiggin@gmail.com,
+	nsc@kernel.org,
+	paul@paul-moore.com,
+	petr.pavlu@suse.com,
+	roberto.sassu@huawei.com,
+	samitolvanen@google.com,
+	serge@hallyn.com,
+	xiujianfeng@huawei.com,
+	zohar@linux.ibm.com
+Subject: Re: [PATCH v4 00/17] module: Introduce hash-based integrity checking
+Date: Sat, 31 Jan 2026 09:36:36 +0200
+Message-ID: <20260131073636.65494-1-mcaju95@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -98,93 +134,85 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[stennet-com.20230601.gappssmtp.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10953-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DMARC_NA(0.00)[stennet.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@stennet.com,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[stennet-com.20230601.gappssmtp.com:+];
-	FROM_NO_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	FREEMAIL_CC(0.00)[arndb.de,bzzt.net,atomlin.com,linutronix.de,kernel.org,heusel.eu,lwn.net,redhat.com,samsung.com,gmail.com,oracle.com,proxmox.com,namei.org,archlinux.org,vger.kernel.org,lists.ozlabs.org,intel.com,linux.ibm.com,mapreri.org,ellerman.id.au,oss.cyber.gouv.fr,linux.dev,paul-moore.com,suse.com,huawei.com,google.com,hallyn.com];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10954-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[mcaju95@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mitre.org:url,linux-foundation.org:email,chromium.org:email,socionext.com:email,embeddedor.com:email]
-X-Rspamd-Queue-Id: 8F46DC0E39
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D4D85C11A2
 X-Rspamd-Action: no action
 
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+> The current signature-based module integrity checking has some drawbacks
+in combination with reproducible builds. Either the module signing key
+is generated at build time, which makes the build unreproducible, or a
+static signing key is used, which precludes rebuilds by third parties
+and makes the whole build and packaging process much more complicated.
 
-Now that all the fall-through warnings have been addressed in the
-kernel, enable the fall-through warning globally.
+I think there is a middle ground where the module signing key is generated
+using a key derivation function that has as an input a deterministic value
+on the build host, such as /etc/machine-id . The problem with this approach
+is that only hosts knowing the value will be able to reproduce the build.
 
-Also, update the deprecated.rst file to include implicit fall-through
-as 'deprecated' so people can be pointed to a single location for
-justification.
+Maybe this is a solution to NixOS secret management? Introduce minimal
+impurity as a cryptographic seed and derive the rest of the secrets using
+something like Argon2(seed, key_uuid).
 
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- Documentation/process/deprecated.rst | 14 ++++++++++++++
- Makefile                             |  3 +++
- 2 files changed, 17 insertions(+)
+There might be another approach to code integrity rather than step-by-step
+reproducibility. One may exploit the very cryptographic primitives that make
+reproducibility hard to ensure that reproducibility is most  likely valid.
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..053b24a6dd38 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
- lead to a crash, possible overwriting sensitive contents at the end of the
- stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
- memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
-+
-+Implicit switch case fall-through
-+---------------------------------
-+The C language allows switch cases to "fall through" when
-+a "break" statement is missing at the end of a case. This,
-+however, introduces ambiguity in the code, as it's not always
-+clear if the missing break is intentional or a bug. As there
-+have been a long list of flaws `due to missing "break" statements
-+<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
-+"implicit fall-through". In order to identify an intentional fall-through
-+case, we have adopted the marking used by static analyzers: a comment
-+saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
-+is more widely handled by C compilers, static analyzers, and IDEs, we can
-+switch to using that instead.
-diff --git a/Makefile b/Makefile
-index 9be5834073f8..bdf8eac51b07 100644
---- a/Makefile
-+++ b/Makefile
-@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
- # warn about C99 declaration after statement
- KBUILD_CFLAGS += -Wdeclaration-after-statement
- 
-+# Warn about unmarked fall-throughs in switch statement.
-+KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
-+
- # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
- KBUILD_CFLAGS += -Wvla
- 
--- 
-2.34.1
+For example, the module signing issue, the build host publishes four artifacts:
+* The source-code
+* The compiled and signed binary
+* The build environment
+* Its public key
 
+Now, we don't need to sign with the private key to know that building the source
+code using the specific build environment and signing the result with the private
+key will result in the claimed binary. We can just compile and verify with the
+public key.
+
+So a traditional workflow would be:
+compiled_module + module_signature == module
+
+In this case we build the module, sign it with whatever key, distribute the
+builds and the private key to whoever wants to reproduce the build. Or we build
+locally and the key stays with the end-user.
+
+While the cryptographic approach would be:
+verify(compiled_code, module.signature) is True
+
+In this case we distribute the builds, source code and the public key. While
+everyone can ensure that the compiled code is the result of the build
+environment and source code. The signature is verified using cryptographic
+means.
+
+As long as no one cracks RSA or an algorithm of our choosing/has an absurd
+amount of luck, the cryptographic approach would be just as good as the traditional
+approach at ensuring that a program has stopped with a certain output.
 
