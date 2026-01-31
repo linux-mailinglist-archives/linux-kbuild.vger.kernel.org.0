@@ -1,143 +1,176 @@
-Return-Path: <linux-kbuild+bounces-10955-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10956-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDCxCJUGfmmVUwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10955-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 14:41:41 +0100
+	id gIiqLpMZfmnKVgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10956-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 16:02:43 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF41C209B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 14:41:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A36EC29D6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 16:02:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 756EB3007AF4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 13:36:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 219D7300A605
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Jan 2026 15:02:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38349352C34;
-	Sat, 31 Jan 2026 13:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E15C2C08A2;
+	Sat, 31 Jan 2026 15:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="UGyu9OOz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXzxeNNk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C3225F7B9;
-	Sat, 31 Jan 2026 13:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1905576026;
+	Sat, 31 Jan 2026 15:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769866595; cv=none; b=jpWc0PiUjn2F8NGX36l3atcENYEv+XAkq2K8E1S2scqSgRssesgZ8Z8Y7KZiP2bGmdtJhwWIi3CAbAWzr1ibVB7u+I+/DCT6lp/syi44TLT93LKX36fbAS8I9jKdmyiziE7PPW1K2DAAvKOdyMa9OfUOMXAt/++iOhbQb78CW7M=
+	t=1769871760; cv=none; b=TYxbXKEqvDJ0x64JhI79ViUzLjUmzz8DBAzWV5DJ1lhM2A8taovZir9AYqgIsqLjRH1PnfDWqDwRscVOyiLJ3ESMDOAV8A0OG69KQGmShkbltyxk1WtKHQm463TJ6A3MV2vbabo0/C3KBVHtqQG/tHgpHH0aTYf7I7bAjBeydUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769866595; c=relaxed/simple;
-	bh=ETjIu9X1UzfMeb2/GaBDScxVgeJExTm8Knq3LrxVE5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=mgw3EQLH5+8XhDuc/q44GzvPY3z4xw1rbK0ypjJizotNfZJrDGW2QfcGdSVWSTpeCqSzmu7Fe3xjjmgIy0kfbyDGZV11b1+6bkmUhc/1BQ72WSo3RD2OUiZhwv6/DJpPb8UXp3RSkKk9BdqM4Y9Qcur2uyKWG8AnlFDdGSMSoXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=UGyu9OOz; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F281D438D7;
-	Sat, 31 Jan 2026 13:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1769866585;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FNbBAYy8eEVK14kERy6x2Yy7Zc40mqn4g0KFfR9rgoQ=;
-	b=UGyu9OOzk+A1qmhAfyuNIRh0bm9l9ZyGxJ8JOOVOILBjTzsmBZAsT+91/t1XZDApduoIUm
-	5cxPpMBzIkTAs7Y5UAYIBNA9UjgDdTBJfQNbu3I6K0iZ1r0TYVPGT1vvSk3lofIjPeY+By
-	9rzsAC/0pQiP265d4qe8hNjEH0Wq79v9DcXgX13kgx+8iCzF4NsY0NCfPeCWCxAiPm01Gr
-	LyiZbgqvwpV6twwWoaCN/HNKG6oNuWAwsh9TpiQjBHQp4aWx6SyGUPE0vpgZx6c/F2RvCj
-	eNC3MqeLOySNxaoa5AqaSKwWjLLocB/x7qw7XFXWgky/nMnkkPFpv1+ZF/VWCg==
-Message-ID: <4848da1a-91bf-4c2d-a6df-63963ee9f0a3@gtucker.io>
-Date: Sat, 31 Jan 2026 14:36:17 +0100
+	s=arc-20240116; t=1769871760; c=relaxed/simple;
+	bh=evR7J1cgRygUP/vp6mbLTdnFKPRUX/a0xZWUlakiNQQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AGUyZDxDWDpRa9vM3w9tEkiNUDDPcnB7lV3pwNM94WV7Ex455Pkh50kadqfCPKFBTAYMY7VAgG/yNxiJ3VIAyc3AFR6K0ep0UpoF1Mg8nmmJEFmPxHCOV6zgFNr4y3/KVFFilmg8EUsQC93oMK0ikfxdL60BSMM1Q8tNE9CfjE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXzxeNNk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A56C4CEF1;
+	Sat, 31 Jan 2026 15:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769871759;
+	bh=evR7J1cgRygUP/vp6mbLTdnFKPRUX/a0xZWUlakiNQQ=;
+	h=From:Date:Subject:To:Cc:From;
+	b=hXzxeNNkn6ZDr3E9Ovt3e0lGG5jG7lt+Q2LtvEIk2IZFfmiFYXDVhVtPrg8Q6KRfp
+	 oGGaTczv3yygP1KXwQEE+e+v5CqhQfBsFLfFAJ8gSxuhTMdHH10WLUPr7sCSTRBsGE
+	 z22xtjb72kM+btRpJpgExhT/f5qAOaX1ehEBbRIV59+Dz94azn2HAAmsWm12ZEa1iQ
+	 lsUVF3hLqVKlThXwXOn9tF3/dBvq3um4rzSYMrdXzTXTlpDYfwQnrC+YEmBv29LDqW
+	 s6E+S4QJXISGudEmPlm+KXtiaCZqVMQlNQZSBRkTnTw+4JyDRLSNtwAcrmRzlFcmiG
+	 jZKEbckeZ2g1g==
+From: Nicolas Schier <nsc@kernel.org>
+Date: Sat, 31 Jan 2026 16:02:32 +0100
+Subject: [PATCH] kbuild: Run kernel-doc only for in-tree builds
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] scripts: introduce containerized builds
-To: Nicolas Schier <nsc@kernel.org>
-References: <cover.1767199119.git.gtucker@gtucker.io>
- <aW-JJ5DT-LRSZkdF@derry.ads.avm.de>
- <56209dbc-2dbe-4f52-a703-bcbd9ed3e712@gtucker.io> <aXkceKDeYxUGHLQh@levanger>
-Content-Language: en-US
-Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- David Gow <davidgow@google.com>, =?UTF-8?Q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-kbuild@vger.kernel.org, automated-testing@lists.yoctoproject.org,
- workflows@vger.kernel.org, llvm@lists.linux.dev
-From: Guillaume Tucker <gtucker@gtucker.io>
-In-Reply-To: <aXkceKDeYxUGHLQh@levanger>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddujedvtdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfvefhjggtgfesthejredttddvjeenucfhrhhomhepifhuihhllhgruhhmvgcuvfhutghkvghruceoghhtuhgtkhgvrhesghhtuhgtkhgvrhdrihhoqeenucggtffrrghtthgvrhhnpedvheeiieejhfefkeffhfetjefhudevlefgudelkeffteefgfdtveeuleetleehgeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemieejtgemudekuddtmehftdehudemsggtrgeimeguughfleemiegsfeemvggstdgsnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeeijegtmedukedutdemfhdthedumegstggrieemuggufhelmeeisgefmegvsgdtsgdphhgvlhhopeglkffrggeimedvtddtudemieejtgemudekuddtmehftdehudemsggtrgeimeguughfleemiegsfeemvggstdgsngdpmhgrihhlfhhrohhmpehgthhutghkvghrsehgthhutghkvghrrdhiohdpqhhiugephfdvkeduffegfeekffejpdhmohguvgepshhmthhpohhuthdpnhgspghrtghpthhtohepuddvpdhrtghpthhtohepnhhstgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepn
- hgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvihgughhofiesghhoohhglhgvrdgtohhmpdhrtghpthhtohepfihorhhksehonhhurhhoiihkrghnrdguvghvpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvg
-X-GND-State: clean
-X-GND-Score: -100
+Message-Id: <20260131-run-kernel-doc-only-in-tree-v1-1-93a9c695dfb1@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIcZfmkC/x3NQQrCMBBG4auUWTuQRNDBq4gLbX/tYJnIpBVLy
+ d2NLr/NexsVuKLQqdvI8dai2RrirqN+vNoDrEMzpZAOIe4j+2L8hBsmHnLP2aaV1Xh2gKPcIEe
+ IpCDUCi/HXT//+vnSPGqZs6+/Wa31C7cVBq18AAAA
+X-Change-ID: 20260131-run-kernel-doc-only-in-tree-18be87e88208
+To: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Nicolas Schier <nsc@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Rong Zhang <i@rong.moe>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2291; i=nsc@kernel.org;
+ s=20250924; h=from:subject:message-id;
+ bh=evR7J1cgRygUP/vp6mbLTdnFKPRUX/a0xZWUlakiNQQ=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpfhmID1QaN9RoqpmqJs+ZfdJXiaJV/0wtAv/P8
+ vFy1IucEdOJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCaX4ZiAAKCRAHUgpwFiYS
+ aYqMEAC7uAKSIKaXkBYfWmLwWIhtyzPG3QAdUAdZxQ8w+yAnSJs9m5/BeM7w1Fb199gIMRkwBlZ
+ FX0hVnhVFj4OY44uMXaMGAMn4gQt8+Z5VSgsLDVsQGKeufQROpnOcbyNoo3vbGVH9vU8Cer3Cvf
+ 26kF2hv6DLNq+Rx2tpBIilk51dWqiqHq1/G7nBukAwDhRvqWBQGgs1vjcvSsjOJkEdMqBCefXiw
+ fBeH7LO1n8Gp7Q+Wo7eM1jl3teFS1cdwlWdwBuFYuuDKBy+/teR1cXlXyUopSrontfzL/jGctMZ
+ rckubJnCfhABZt5nZh2nG/zwTzEoEUlFZc494J9ma7HM8RgqDlPT4yhksbhteLqEXi07SQCYQHN
+ OspAb5HttoVZPjBLi6asN90S4sWJ5yvor43io3KLomxgLIJUiEzaHPQcVCaGwolJNUiVd9EI01l
+ 5i1DDzlrLugkOfkiJLWHwz3A4uMXxy3LsZThNS1kL1CPYEtSbCOI4eIkPDu61g/pnO/BlrBLoM7
+ HwQWXTLa4DR0HfIwYqmCvP3XNk1Zn98S+vRvtjMFNg0HmaowIWsYgnFn2CuYCAjaxLd7SzcwW+g
+ cNOG4Adgc+tZqEV0vWcISeLYIk+vTnthen/L2I+55H0lud36Ta3N7sBz9VxjnqxAwMrs668p2Yf
+ 8q7EQgxYhQ1GgSQ==
+X-Developer-Key: i=nsc@kernel.org; a=openpgp;
+ fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[gtucker.io:s=gm1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-10956-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[gtucker.io];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10955-lists,linux-kbuild=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gtucker.io:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gtucker@gtucker.io,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,huawei];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,gtucker.io:mid,gtucker.io:dkim]
-X-Rspamd-Queue-Id: 3FF41C209B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1A36EC29D6
 X-Rspamd-Action: no action
 
-Hi Nicolas,
+Stop running kernel-doc when building out-of-tree kernel modules.
 
-On 27/01/2026 9:13 pm, Nicolas Schier wrote:
-> On Thu, Jan 22, 2026 at 03:12:36PM +0100, Guillaume Tucker wrote:
->> Hi Nicolas,
->>
->> On 20/01/2026 14:54, Nicolas Schier wrote:
->>> Out-of-source builds do not work on my system with podman.  If this is
->>> expected, I think it would be great to mention that somewhere in the
->>> documentation.
->>
->> The v4 now mentions this and also includes a trick using bind-mount:
->>
->>    mkdir -p $HOME/tmp/my-kernel-build
->>    mkdir -p build
->>    sudo mount --bind $HOME/tmp/my-kernel-build build
->>    scripts/container -i kernel.org/gcc -- make mrproper
->>    scripts/container -i kernel.org/gcc -- make O=build defconfig
->>    scripts/container -i kernel.org/gcc -- make O=build -j$(nproc)
->>
->> Would this work for your use-case?  Directory names are entirely
->> arbitrary.  It's not ideal but might be good enough as a workaround
->> until this gets properly supported by the tool in a future version.
-> 
-> sorry for the long delay.  Yes, thanks for the follow-up!
+Rong Zhang reported that building external modules with W set fails
+since v6.19-rc1 as the kernel-doc Python modules are no more available
+when building against a kernel module build tree exported by
+scripts/package/install-extmod-build.
 
-Great!  Thank you for confirming.  It's now in linux-next.
+As there is no good reason for checking documentation when building
+out-of-tree kernel modules, stop it.
 
-Cheers,
-Guillaume
+Fixes: 778b8ebe5192 ("docs: Move the python libraries to tools/lib/python")
+Reported-by: Rong Zhang <i@rong.moe>
+Closes: https://lore.kernel.org/linux-kbuild/20260129175321.415295-1-i@rong.moe
+Suggested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Tested-by: Nicolas Schier <nsc@kernel.org>
+Signed-off-by: Nicolas Schier <nsc@kernel.org>
+---
+I left out a 'Cc: stable@kernel.org' as the problem exists just since
+v6.19-rc1; please intervene ASAP if you think it should be added.
+---
 
+---
+Thanks for the report (Rong) and the patch suggestion (Mauro)!
+I left out a 'Cc: stable@kernel.org' as the problem exists just since
+6.19-rc1; please intervene ASAP if you think it should be added.
+---
+ scripts/Makefile.build | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 5037f4715d7491761b75d086441367c6c08c099e..05674bae3c637b4476a11b5e6af630d8daa3b613 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -166,10 +166,12 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+         cmd_force_checksrc = $(CHECK) $(CHECKFLAGS) $(c_flags) $<
+ endif
+ 
+-ifneq ($(KBUILD_EXTRA_WARN),)
+-  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
+-        $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
+-        $<
++ifeq ($(KBUILD_EXTMOD),)
++    ifneq ($(KBUILD_EXTRA_WARN),)
++      cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
++            $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
++            $<
++    endif
+ endif
+ 
+ # Compile C sources (.c)
+
+---
+base-commit: 6d60354ea2f90352b22039ed8371c4f4321df90e
+change-id: 20260131-run-kernel-doc-only-in-tree-18be87e88208
+
+Best regards,
+-- 
+Nicolas
 
 
