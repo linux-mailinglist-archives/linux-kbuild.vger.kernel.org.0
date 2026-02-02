@@ -1,206 +1,425 @@
-Return-Path: <linux-kbuild+bounces-10971-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10972-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kMkqEizMgGl3AgMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10971-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Feb 2026 17:09:16 +0100
+	id AJFgJ6PRgGlBBwMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10972-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Feb 2026 17:32:35 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F68CEB14
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Feb 2026 17:09:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B84CF03E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Feb 2026 17:32:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 398D5307E9B5
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Feb 2026 16:01:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1B119301F7B4
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Feb 2026 16:28:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D83F637D12C;
-	Mon,  2 Feb 2026 16:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5CBA37C10C;
+	Mon,  2 Feb 2026 16:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TuzNLQb1"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="QYbZrYLn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.zimbra-vnc.de (mailgw01.zimbra-vnc.de [148.251.101.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600FD37BE6F
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Feb 2026 16:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770048075; cv=pass; b=I0vtj3Yle0hDzJIl48QoBCBVPDmyXTzcshd2Ev/KMOoyyRfNkzLXdsCQ7ZXqlMixV2tMS/jdsDKBI2TXyU6tU8/bwwyIdCXgeu+xlFp7CgTeNBMhdlNbfANn2UiRDHePATHwdm6zMXtoOkBWRzuiCP4R5893IhGNos6L/9ZKkU4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770048075; c=relaxed/simple;
-	bh=0BtDeyyl/iEgg9hwcpMaGrHfwUoMjGiFjJ7w+1aGu2A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cwT47lQndBJ1NhhVAYwRuEHzt3Aphu1VwDKKHJb5EYPvzElMIUnby7CddxVF8JwtJKPxXLTCTsjORZ3KrSQy0oOs5WzbgDUB6EzQvvG8qzxa7c+sXPekqRDVztO8O8w9T4AUkJZmRlmQQA6g7Kuoy/CQQcaQCsTwqf3ndsvdQ8A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TuzNLQb1; arc=pass smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2b7267ff06fso230386eec.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Feb 2026 08:01:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770048073; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hd+SzdQVuNsrKVh/HeWK061c97PzpId59C9+KkQ7ijE3dCjJVmLLxWvPN4WuwzCyny
-         /XMhm0xLmBMUUu4d3mA4Hta+rO7aj+s3nsm6PvA/M+juzVrSs21AtLfpC6vjb3x63kZX
-         mAc3G6UkaxR0X/e+6L0tYFwwOvXwDVKtURuKbJU9qxRLdQvt1s67/21hhvb9dHo1Dv6d
-         7ui/pX2eTrFdMNiygco2v5seLc9cU8Vq2S/DyjNOGX+gJJTB4pqF4YubArNoEaod6CxZ
-         WN/L47JWJX5jsoY1qlQHZMEK64nztF+UQ4SdSGTCDlnQ/FKkyEYKDFSyRzS3SPrgNQ2w
-         RtIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=N2yFLlLhyvsK2yEKQP/gByFr2oK4zM6au86EX7CUR3k=;
-        fh=kG1+cE0y3/BIlhzMMCbB+hXi+bTotGBvoZnskUJtC+0=;
-        b=ZmjPDOc4Rg5ytzCFQze61Uj4P1H24GNiF5VV7HMAekzbjo8TOZdY060FKHF2jAlcft
-         H1ONOJNwm24ifMU3xhVjCAAIhYrtUbgUwJwi5LnhxId+s9IWQrZcVEr6xiBvszbONL4x
-         ti7f412bO0WRXK2/uY5Fsj/1DgcQV06Qem8pSq+V/y1qUapFFTRF25JBg4hjV1ONhUH/
-         6iCQikU/CMQZtGVF9kTefqeXUpWH6WNWez78XP83w6L/PQC/eYMbGv8RUZvN4vMeX2U3
-         O+vZ7jJ0wcbjMKNChdH6CL/3UWjzip2RwbkKfWyKAPGVSZcOHRSO95zF2bv33lKaEgfe
-         SMCg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770048073; x=1770652873; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N2yFLlLhyvsK2yEKQP/gByFr2oK4zM6au86EX7CUR3k=;
-        b=TuzNLQb1/hfkk0AkVG78Xv/3KYfntdFrEHqIG8T1rUR/9Xax9ZEpl+kAdkbOesT1Ex
-         BKgoDwTSylll8f0Zi+pOXXztQwDt5a6TrJqkusgmVVGlf52MN4fcFTUmcLLelWB14W69
-         VzR5OZVk+q0YAu1nAuhFcDqhFoSPHVZJykl4gbf3fOj+y19H19FUgVqv4l0MWNlFcLLo
-         JlLE1gD1XttjHF0MXWynnlOiw+mj4txbhK8kVFFauNiQh3aHlwpwqydxu1ZXv0uwrbM1
-         JmnKkEsbO8CiHLOAAQ3K5r/uXf2GVyyCDCsnmolaIwOgMadChn0b076GAGXF1OfylysB
-         BQ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770048073; x=1770652873;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=N2yFLlLhyvsK2yEKQP/gByFr2oK4zM6au86EX7CUR3k=;
-        b=r1vFCODQVS7DfcRnwAYDSwj/yIpxZUv7NGdp4PRVBJ7RUX5LnCbsRvautARoe5GgIa
-         7MkQ6Pb3HbIQWoMUng/TidzMzpc85mxkZrxdGd6v2RXx5GoFifE3wNQite6OYL4QTBLX
-         vRsqg++5V52eRBzBQ+mtEJD6jUhxT/yMuEb/F8PXT4A3hxkn3eRG7a5TJqHz3/1XyYhd
-         HYswGC8Yg4p4dYQSMpSHbkksURcBELUYGkLolwqRvWqn41un4HeTQJjo0Vh9SWxshHar
-         /u9myLwujrsJlVbCOrA4f8QUbsPNXKKEV7ktPkNIVQA/mJGm8Wq9OGvh+BAsjVlGL2pN
-         6cJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXmE9D2sdkOWb0ah4yegw37L+QqGg54IfdqicVL/C8p/4HYq0lwcKnB/lVPfiJ7LuuHjcP3TFT43INRjW4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGabbQ9VgIKqe3+gs01+U5PB6ZPK0vBTbpLQOtjwquKsHF+h3b
-	kCiRO0gZqcwQ39bisuzgn5YDfcdW0MrgqUMEgaK04fk/vFPO87f1HErM6Bt2nQfI7LscyLFG8Mj
-	GP/8miActQAxqPmgcdHxdRhuJ2XJUCWk=
-X-Gm-Gg: AZuq6aKuzrTZOBZu4z+B0Fn6DCtCixbn5VOXhv5fZ0hRj/0pHpfvYOz5TCKn/eWIz1L
-	bds/BVOmpTO7wmilRSUIYWMkgE1LGs4Eouu2cTYVesM092XTmeWwXyIVbO7dWCIFeWaZcMS5jfH
-	nJYJAIh9A/GsgAtfCReTmYqqMaUvQvKHucxa0qkRrLWQyEa0gQRc+AzPdykQz2HLNs4+Bgn4sUN
-	jyf1lelHn1fNJqiqT8yPy+3mmEbnh21b4D6anlOz5LUlcJ4+UMcpvj+7nYPjcihxQOS8+cEQq26
-	yX3AkJrVVBVmYQJoSDenTB05UWtYtxFdTbiNtryk5HnAHtd43gR6B4iOB3QCy3qDPDmpkmc1Key
-	kE+8jHm+9Zv+Q
-X-Received: by 2002:a05:693c:2287:b0:2ae:5b8c:324a with SMTP id
- 5a478bee46e88-2b7c86dba33mr2866701eec.4.1770048071379; Mon, 02 Feb 2026
- 08:01:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16BC3783AE;
+	Mon,  2 Feb 2026 16:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.101.236
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770049730; cv=none; b=CqOXhN6NTm3YUdVQpdSOrQZLnj7Lfa/axK144eMznl7pm30MFCkqMe5due5ywQv6CyUKni82GwRpyebcg7kmOPUu+5R5KNmsqiOQ31d02dpBkPOrFt3KcHM0ef3uoJNjIey+zIuHpxXz9+OIu37FjaoIjUUAKvjJhDmLmYcqfTc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770049730; c=relaxed/simple;
+	bh=2GzRS2jjewfS8XU5BvrDNxtYXk5R6UQ1u3ZzAx1FHyE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qyjnAa7Ppr3dVaC9XMdvkfYFOcndMp3ismTgmyQzdqdiUsgndqXx79gHtMCTBF7oBdU7uSkgFuy64sj8iVo6WqRDUhYlYK5S9FW3gcWQ+2/2hQS8UOLLuEaiP6uzXuwVFzIlAL8FzlfQaF2jWeSET+aLT3Bb6xYXmJlCNMPjlXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=QYbZrYLn; arc=none smtp.client-ip=148.251.101.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
+Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
+	by mailgw01.zimbra-vnc.de (Postfix) with ESMTPS id 2C79C3FB39;
+	Mon,  2 Feb 2026 17:28:40 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 7DCB61FA8CD;
+	Mon,  2 Feb 2026 17:28:39 +0100 (CET)
+Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
+ by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id WhJy-gfQI_O7; Mon,  2 Feb 2026 17:28:38 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id CA9481FA8D3;
+	Mon,  2 Feb 2026 17:28:38 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz CA9481FA8D3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1770049718;
+	bh=jK+17fIRQ30GXuyCAacoP2dT2LXJ6ENZNPCWJ84k58g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=QYbZrYLnQROdRYGmpkA30FB+lcacnrHjBVPhGjkiYHq2CVqv6qZcvFt33ZPyi70gC
+	 eb/13Djvb/9po8A/UkFMuFdQkLm2sJcn7z4NKnUt4ZQnUy1f0NypHHL5CQCnypEcNz
+	 xHEve9+d3DC0ysZoPZC7W1IGjEzXPg/zWHi5y4aWnutPO2gspaUO7zLObIUXK8mahX
+	 DAvzAG0s9ZxH5eSVYcwvbs4fggqWTYzTxInjrssHKSd6hfhsKnJkXn0meJcPv5aqRH
+	 dVhqWcmAYoq/+OwtL2T/smM/Dk/CnHjesDFSX0fwwjWi0k51+5DPIkABOAUvstGge6
+	 ZNL+GzeKkk66g==
+X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
+Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
+ by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id zftG9paW1WPx; Mon,  2 Feb 2026 17:28:38 +0100 (CET)
+Received: from [192.168.0.168] (ipservice-092-208-231-176.092.208.pools.vodafone-ip.de [92.208.231.176])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 3A2FE1FA8A6;
+	Mon,  2 Feb 2026 17:28:38 +0100 (CET)
+Message-ID: <6ed0fe99-3724-40c2-8d98-3309a3cf0104@tngtech.com>
+Date: Mon, 2 Feb 2026 17:28:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260202222144.2689495-1-mlksvender@gmail.com> <20260203002116.2703251-1-mlksvender@gmail.com>
-In-Reply-To: <20260203002116.2703251-1-mlksvender@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 2 Feb 2026 17:00:59 +0100
-X-Gm-Features: AZwV_QhlLkKU5asgPXcnSf5m_gL2EtKJ7XV2olDXWzfVVBZdXU40rEAYbiSjYi8
-Message-ID: <CANiq72n39eU9WE=Yh0_yJzmqMxo=QAaU2pN0UqP9jZ7bT7rhgA@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: Makefile: bound rustdoc workaround to affected versions
-To: HeeSu Kim <mlksvender@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>
-Cc: ojeda@kernel.org, gary@garyguo.net, charmitro@posteo.net, 
-	a.hindborg@kernel.org, aliceryhl@google.com, bjorn3_gh@protonmail.com, 
-	boqun@google.com, dakr@kernel.org, lossin@kernel.org, tmgross@umich.edu, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/14] Add SPDX SBOM generation tool
+To: Nathan Chancellor <nathan@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: nsc@kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+ maximilian.huber@tngtech.com
+References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
+ <CANiq72mtWhjVNNYc6nvxuQ3XAnMWBDiZyOvJ1BNN=M+097Wvpw@mail.gmail.com>
+ <2026012214-magician-mashed-c84c@gregkh>
+ <CANiq72mcDqAS-FUfkAnxa7OEO4Kq6r6=uvhEb_UW4sGattCOuQ@mail.gmail.com>
+ <2026012533-preflight-surviving-43e5@gregkh>
+ <CANiq72=_tPP4cPaUMPiM14h1kk97EXSf5vg-yHHYo-Px+31ZSg@mail.gmail.com>
+ <a01233b9-23a2-4666-91ed-f1cf030dcb9f@tngtech.com>
+ <20260127231037.GA3378797@ax162>
+From: Luis Augenstein <luis.augenstein@tngtech.com>
+Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
+ 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 JQQ=
+In-Reply-To: <20260127231037.GA3378797@ax162>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------K3hsLa6AJy7M7Yi8kbaA0tO0"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_UNKNOWN(0.10)[application/pgp-keys];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-10971-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,posteo.net,google.com,protonmail.com,umich.edu,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:+,4:~,5:~];
+	DKIM_TRACE(0.00)[tngtech.com:+];
+	TAGGED_FROM(0.00)[bounces-10972-lists,linux-kbuild=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linuxfoundation.org];
+	HAS_ATTACHMENT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B7F68CEB14
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 14B84CF03E
 X-Rspamd-Action: no action
 
-On Mon, Feb 2, 2026 at 4:21=E2=80=AFPM HeeSu Kim <mlksvender@gmail.com> wro=
-te:
->
-> This bug was fixed in Rust 1.90.0 (rust-lang/rust#144523). Restrict
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------K3hsLa6AJy7M7Yi8kbaA0tO0
+Content-Type: multipart/mixed; boundary="------------8jVDsEtZ2wtLNTSkpm0JOv09";
+ protected-headers="v1"
+Message-ID: <6ed0fe99-3724-40c2-8d98-3309a3cf0104@tngtech.com>
+Date: Mon, 2 Feb 2026 17:28:39 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/14] Add SPDX SBOM generation tool
+To: Nathan Chancellor <nathan@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: nsc@kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+ maximilian.huber@tngtech.com
+References: <20260120115352.10910-1-luis.augenstein@tngtech.com>
+ <CANiq72mtWhjVNNYc6nvxuQ3XAnMWBDiZyOvJ1BNN=M+097Wvpw@mail.gmail.com>
+ <2026012214-magician-mashed-c84c@gregkh>
+ <CANiq72mcDqAS-FUfkAnxa7OEO4Kq6r6=uvhEb_UW4sGattCOuQ@mail.gmail.com>
+ <2026012533-preflight-surviving-43e5@gregkh>
+ <CANiq72=_tPP4cPaUMPiM14h1kk97EXSf5vg-yHHYo-Px+31ZSg@mail.gmail.com>
+ <a01233b9-23a2-4666-91ed-f1cf030dcb9f@tngtech.com>
+ <20260127231037.GA3378797@ax162>
+From: Luis Augenstein <luis.augenstein@tngtech.com>
+Autocrypt: addr=luis.augenstein@tngtech.com; keydata=
+ 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 JQQ=
+In-Reply-To: <20260127231037.GA3378797@ax162>
+Autocrypt-Gossip: addr=maximilian.huber@tngtech.com; keydata=
+ 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
+ /5CE/Cgrmg==
 
-Normally these references should be full links (i.e. a tag), since we
-do not have "autolinking" like GitHub e.g.
+--------------8jVDsEtZ2wtLNTSkpm0JOv09
+Content-Type: multipart/mixed; boundary="------------ma0IqkGSgsKVlJnnlBCskGhi"
 
-  Link: https://........ [1]
+--------------ma0IqkGSgsKVlJnnlBCskGhi
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Then you can use [1] above instead of the parenthesis.
+Hi Nathan,
 
-> are affected by the bug, avoiding unnecessary flags on newer compiler
+> I wonder if it would be better for this to live within scripts/ instead=
 
-To clarify a bit: avoiding the flags is good, but I think avoiding the
-skipping of the checks that the flag does is what is more important
-(i.e. if it were just the former advantage, I would say it is not
-worth the complexity of the added tests).
+> of tools/, as that should allow it to be integrated into the build
+> process a little bit more naturally, such as using $(Q) instead of @,
+> $(PYTHON3) instead of the bare python3, being able to access
+> CONFIG_MODULES directly, and cleaning up the actual implementation of
+> the sbom target in Makefile.
 
-> Suggested-by: Gary Guo <gary@garyguo.net>
+Thanks, I wasn=E2=80=99t aware that targets under scripts/ have access to=
+ more
+Make variables by default. During development, we didn=E2=80=99t have str=
+ong
+reasons for choosing either tools/ or scripts/. I=E2=80=99m happy to move=
+ it to
+scripts/ if that is the preferred location.
 
-This is very minor and it is fine without a change, but for
-completeness: for Suggested-by we generally add a Link: after that
-tag, i.e. to lore.kernel.org to the message where Gary suggested it in
-this case.
+Regarding $(Q) and $(PYTHON3), I noticed that these variables are
+actually available within the tools/ directory as well, so we could
+switch to using them even if we stay under tools/.
 
-> Fixes: abbf9a449441 ("rust: workaround `rustdoc` target modifiers bug")
+CONFIG_MODULES and src_tree, on the other hand, need to be passed
+explicitly when staying in tools/, whereas they would be available by
+default under scripts/ in which case we could simply invoke the script vi=
+a:
+```Makefile
+PHONY +=3D sbom
+sbom: all
+	$(Q)$(MAKE) $(build)=3Dscripts/sbom
+```
 
-I think this is not really a fix anymore, i.e. nothing is broken, and
-instead it is more of a feature, as far as I understand: avoiding to
-skip the silencing of the checks.
+So yes, I think it makes sense to move it to scripts then.
 
-If you added the tag to suggest that the patch should be backported to
-stable kernels, then in these cases an explicit Cc: stable@ may be
-added, mentioning the versions where this should go, e.g. in this
-case:
+Best,
+Luis
 
-  Cc: stable@vger.kernel.org # Useful in 6.18.y and later.
 
-(I used "Useful" instead of my usual "Needed" since it is not critical
-to backport -- but please correct me if I am wrong).
+--=20
+Luis Augenstein * luis.augenstein@tngtech.com * +49-152-25275761
+TNG Technology Consulting GmbH, Beta-Str. 13, 85774 Unterf=C3=B6hring
+Gesch=C3=A4ftsf=C3=BChrer: Henrik Klagges, Dr. Robert Dahlke, Thomas Endr=
+es
+Aufsichtsratsvorsitzender: Christoph Stock
+Sitz: Unterf=C3=B6hring * Amtsgericht M=C3=BCnchen * HRB 135082
 
-By the way, I wonder if we would want at least a `rustc-max-version`
-function or instead a range-based one for this sort of test. It is not
-a blocker for this patch, but we may want to limit other workarounds
-too (e.g. the one below this one).
+--------------ma0IqkGSgsKVlJnnlBCskGhi
+Content-Type: application/pgp-keys; name="OpenPGP_0x795C8ACACDDCFB34.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x795C8ACACDDCFB34.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Cc'ing Kbuild since I don't recall we have that for C compilers, so
-there may be a reason for that.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Thanks for the patch!
+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
+tQXRyz0F2tHrTjqKJQQ=3D
+=3Dgh9z
+-----END PGP PUBLIC KEY BLOCK-----
 
-Cheers,
-Miguel
+--------------ma0IqkGSgsKVlJnnlBCskGhi--
+
+--------------8jVDsEtZ2wtLNTSkpm0JOv09--
+
+--------------K3hsLa6AJy7M7Yi8kbaA0tO0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEJzBrWn4qHw5a0jAXeVyKys3c+zQFAmmA0LgFAwAAAAAACgkQeVyKys3c+zQv
+fQ/9EGg4UP4TcooaXNggzCEDpemw/pj7eNAJfgUOx6VYXTNTyTpGB96Zoi2dF7n4iiEELOJMyjv/
+OoY20+vcy52CoPc2RDslz6cC2eU9X7lF9C+t8GVOQpkxc+9fVkt28tCPdE7hOido0CInppfCySA5
+y096RqNNe+CUigCSqEAby1hjiCyEZWlMak5+fIOL+JhMMKg8oCfyUXlrubqrLIfMLXlbQdGQEMw6
+3lvJ/3+bOg5cE6J6UwW6xlSsWSnHB3JUkipFMOV+iV0RslQRQcKvemSwiewdXK2wQkaVlWSks9t5
+AYTvojpkPPeAjF9Yn4VesI6DPbeI/ioAk+KwcmpFa8jDZC/SVvhU6UcN4Vmv9T3TOncafQRSShnK
+zUdXCxbQOZgqY7QvXOoQYxuYE2VbgJLpgz43ZcQTv6lf67W/RNA33Y/OMTsBj3A6apYN50n3CYdc
+knhz4wmTzInK0Z1v2it+C1iofFkqFDJPsW3C0NeCFiUQpseUmM0zlp4QpXreaXPvNAdZIP6m8sII
+oo6/HNfMpQZewxs0v4YJsJFH8Xwb1PvDOTs0rKrivTSM6vew2btJi0vUaDVFpEzMFgOYBOWRMj7c
+GQLsgK+9B8O8QKbratypxz7mALvnhxBtiqGUtZQ5iqoYFWQZ1gVYgCfmcPer0HKoVNAfRhbnB3G0
+hXI=
+=g28a
+-----END PGP SIGNATURE-----
+
+--------------K3hsLa6AJy7M7Yi8kbaA0tO0--
 
