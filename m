@@ -1,363 +1,166 @@
-Return-Path: <linux-kbuild+bounces-10995-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10996-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +ODNOn3dgWmDLQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10995-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 12:35:25 +0100
+	id WNyDC7/ggWmDLQMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10996-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 12:49:19 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C4AD8732
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 12:35:25 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6F2D89CA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 12:49:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 50EE7300F1D8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 11:34:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6B62D3052442
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 11:49:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF1BF33BBA2;
-	Tue,  3 Feb 2026 11:34:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7EAD335551;
+	Tue,  3 Feb 2026 11:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RgsvswK7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXE8xwf0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C455339874
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Feb 2026 11:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B4A334698;
+	Tue,  3 Feb 2026 11:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770118470; cv=none; b=dAIxU1+1JQTaJvWg5EQQfP7gD3YmnuWJCHF9IIkUS4tUoYIy5WRpWCv//3i1RcQR57VimZJCRIsDlyYlQCjkn+LxGDLwO+galjXNaySTMXQey9+Doo14DNnKttSSOFgYaEj7/uXY+M9mYrsopuJJh9dUMh0L/4YAyz9F2rbEyck=
+	t=1770119356; cv=none; b=AuS39bqJgmD8td5IPEJscpyemtTCEA7KOdaNUUcM7xiwcV1mJKUs1JFm0GcK2VMb282ryFRPtG6dqJwDcXQ8HAE7NkbW3HbJpaltf6N6afBu2UC/Owakb8StP8QaMHhICYUFNY6OLs/JgpB5ElSHNar3j9gs/BGIPrTLntVKNzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770118470; c=relaxed/simple;
-	bh=//P1rk5eFGynhrO1/9spa/pn1mv9PbMqJLjl3bUpxoU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Y3XD0Wh8dO0utqNSMQBxFtkyKD7Z6jKB8E7GYdpJjnBe08Uu9st6GdxSD8wz1qp7VeAtLyOceqiMdVaA9D7CX0nCjfgPYeyzUOznK5KIXY4uBIoUCPu6wYMMmdp/wLB5+Znlc8SRbl72uu/psO45qKKgW3Y6Kh8gZyNY/UDw3zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RgsvswK7; arc=none smtp.client-ip=209.85.221.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-436164e80a5so163886f8f.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 Feb 2026 03:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770118467; x=1770723267; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aE0I4qCeFvAhyrBrsfU7k4O+fmQQ+xM6mESOeLTMWYY=;
-        b=RgsvswK7bV7MH2UzZsRE3lIJfuNh4EG6g99y3V89dlVOBojTMjuwUM0jf1FGpCT8E1
-         7wIzkSUeFzH+rZOXOaDyHhm+6B5TB1slc7Z0eoAPxN3jbiv4mocdugNIxOdeO3FBZpK+
-         jPVt9esr1mDlpp7s/s1j2XAr0AOjxIygUJSaBI/xzvMIS9FG8fCTdyDvGksZg70NZw9W
-         w1Wk0LdRbwPkKpEOf1DPz0hg4glka+JQr/ohd1+O503NwuZj8sx7l1YBSAFbaQbMrb+u
-         Z4lXxYSibXYXwUFTAYQfh3z92DlQ5EQbX3vOdw9FnPpMlhvrlPwdTapPv/zYkwRtfM2n
-         A2Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770118467; x=1770723267;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aE0I4qCeFvAhyrBrsfU7k4O+fmQQ+xM6mESOeLTMWYY=;
-        b=Bn8jA/40HQlqLowFLx7agwOBTvRfblOjMsSKUXAqAFNv4SE0ZM0xa/rHHjnteKICKV
-         Et0Rc17w/nS/VeBhWwhjDC9dcCP3dA2aku0/AdZLb21W+LSakWWCd0HOGL3bckep+JHZ
-         NTmucLtS7YBM8+kUL5cxavugJTb14ESuNkWK+9oimGMWxJHZqhuKWC5yUWd0CBb83zOI
-         5fHB4TJlonlq1fKc48JwSO0CWiWqOJ+z3MPSj/oCu7zAc4ZReoNb+YpdskghRjlL1ui/
-         Ah1ELaqK8jmw4uSATs2WxAWHj80JeUs4BUIHKzvmxdooPOehqt4Y04ZpoE+3vIE7R+Nu
-         vXIg==
-X-Forwarded-Encrypted: i=1; AJvYcCX/TX2dSI59005PrIB94XZ3CUb84earZ4BvC7vXSgTb/PydnfMR9RnMiDX4MfRGbiagdyIKFj6uhsPQVQo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7YClDTvEhTFJeOewDbFUISXkzB9RW1/98vzgK3EPTANwFGHgA
-	5EsFKF3l8y6e5Q5ySRXrjhk+xJBQc4RTpW9EG0l6WgGE/fWYJnE0bzh7yPYAlXMGHJH94sohf06
-	mqwajU185mhC9POr35A==
-X-Received: from wrfu10.prod.google.com ([2002:a05:6000:38a:b0:436:1564:8b38])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:26c6:b0:435:a815:dd81 with SMTP id ffacd0b85a97d-435f3a6a9e4mr23351106f8f.11.1770118466723;
- Tue, 03 Feb 2026 03:34:26 -0800 (PST)
-Date: Tue, 03 Feb 2026 11:34:10 +0000
-In-Reply-To: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
+	s=arc-20240116; t=1770119356; c=relaxed/simple;
+	bh=7ILxXahiaRMCy7sKKUTza8oVYDmH7ThnLjrpTuldxdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GhHIXO/qSork9Xjx9oeFExb4UceEf2DeO0aqPj5EG5/fbDCOqXcfpTk9/g/C0/j0tyM1yt9kbBL4sW4kRnvIg5EWTEJmA2D8BzZl6aOiN/3XBrG8ft3uyITokfVdTcu/I5cM42fNKDT+Zc0SY5RTAEHuKjE0ArytxwYS8QO/l8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXE8xwf0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77BBCC116D0;
+	Tue,  3 Feb 2026 11:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770119356;
+	bh=7ILxXahiaRMCy7sKKUTza8oVYDmH7ThnLjrpTuldxdU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lXE8xwf0Zxg7pR6+SwMV7ZeqkDpDkpFRX72NUdtij1MSMa3eH1pD4d4O9NBz0c97d
+	 Zw0puwGCIdDoNCUr53faZV3Eqigm7YApD1DLt235tCF/X48vqHB39XlTPTcvOIGNui
+	 CVQj9IwB9GzGjEwGbBpIhsyxzj5VBzzvQVUwfTM2NpKnoEjsn5iREidDAhemHufU/i
+	 P3e9ywqpC3FU2jT6L/O0i55jYqnuKXN+3yqNmiva/WPCXVnAbi9IZPbHMoIwQicXy4
+	 vM4x3xccLWokfQ1mlHqS4/YtVcqaUFUvVA0d4gTFX4d4UJ1pzXm4eBBJewlTPQsQab
+	 Ot5sdSVYUgSKg==
+Date: Tue, 3 Feb 2026 11:49:08 +0000
+From: Will Deacon <will@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+	Matthew Maurer <mmaurer@google.com>, elver@google.com
+Subject: Re: [PATCH v2 1/3] kbuild: rust: add
+ `CONFIG_RUSTC_CLANG_LLVM_COMPATIBLE`
+Message-ID: <aYHgtJ_xLeo5W-lZ@willie-the-truck>
+References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
+ <20260203-inline-helpers-v2-1-beb8547a03c9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9996; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=ccYqFunpYUJ3E9tFyGaM8o4GOz90mNx5YokAm40heqc=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpgd09hi110q+7UOnBQB1eL+5EOe+WuCfuQr49U
- unbqQxlHpmJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaYHdPQAKCRAEWL7uWMY5
- RmdyEAC8Gb4J7AKABnGI1ESN5mKs8wfRAVbeEptQbCRE5TG56C8/CwBu3BxngSIJaR/jsj4cg+v
- 7E0sKl/e97o+ZFQ1e9+FgXjFE7mVT12T4WUYBVqLBjTCamAok2TTrixp+zYddUq+ccwGolxU2MY
- wBGy5AIj3hlrdI1XTXv0NYJa4I4Glhfer2cK5LuX/6pkbjv7AQywMBrJtEapUtDvygG+cs0Uz4n
- zHRznz9Xh6RSnlT17RKc8EABqA3R7Z/Y1TfSPuiYNT+i1vFhkHNGluu0cxtkBL/PEZd15dIpN9B
- CXvT+lZRPcrEVVL2fuqYe+gQgP56/sgeJvjD7jcfyJI3zXMfQpMyFC8pB+rbFKJIVG7GNB7L0Rt
- 4WqgYZBp0kM9WfQ+cmN7CaAFLaSsq6PDDnQFm61oEIBCoup6Q5tW2ceX6RNTUETpSUxy80qbzu8
- Rhm7tuiSWxxpbMg+aRVGw5nFrxnliAzu/PFfSdq7Ro9SOo045XuS6+UKMlWE9o9WbFN/DB0TD9L
- w8uffrD51wqql0njRGx4d6VDYm6dS3Zi9JOQVznM/Z2AIqWquCTTwpocObwK8qDoX6PwKhb9ix/
- H5C5Hb9A4mUHv16LwURptoWOxXnWZP3I9pTQEulcrf6CnuKSZ9eQszFn5hXt60Q4x6yPGd9DXBd EsK/t8LslrkpMww==
-X-Mailer: b4 0.14.2
-Message-ID: <20260203-inline-helpers-v2-3-beb8547a03c9@google.com>
-Subject: [PATCH v2 3/3] build: rust: provide an option to inline C helpers
- into Rust
-From: Alice Ryhl <aliceryhl@google.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
-	Alice Ryhl <aliceryhl@google.com>, Matthew Maurer <mmaurer@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203-inline-helpers-v2-1-beb8547a03c9@google.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-10996-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-10995-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[26];
-	FREEMAIL_CC(0.00)[gmail.com,garyguo.net,protonmail.com,kernel.org,umich.edu,nvidia.com,infradead.org,arm.com,google.com,linux.dev,linux-foundation.org,vger.kernel.org,lists.linux.dev,kvack.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,infradead.org,arm.com,google.com,linux.dev,linux-foundation.org,vger.kernel.org,lists.linux.dev,kvack.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,garyguo.net:email]
-X-Rspamd-Queue-Id: 21C4AD8732
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[will@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,garyguo.net:email,rust-lang.org:url]
+X-Rspamd-Queue-Id: 8D6F2D89CA
 X-Rspamd-Action: no action
 
-From: Gary Guo <gary@garyguo.net>
+On Tue, Feb 03, 2026 at 11:34:08AM +0000, Alice Ryhl wrote:
+> From: Gary Guo <gary@garyguo.net>
+> 
+> This config detects if Rust and Clang have matching LLVM major version.
+> All IR or bitcode operations (e.g. LTO) rely on LLVM major version to be
+> matching, otherwise it may generate errors, or worse, miscompile
+> silently due to change of IR semantics.
+> 
+> It's usually suggested to use the exact same LLVM version, but this can
+> be difficult to guarantee. Rust's suggestion [1] is also major-version
+> only, so I think this check is sufficient for the kernel.
+> 
+> Link: https://doc.rust-lang.org/rustc/linker-plugin-lto.html [1]
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> ---
+>  init/Kconfig | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index e95d43457851862afc8313389777e4dd9348c178..0e900d3d8be7874a33e0f44754a8d038e68d7e65 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -82,6 +82,21 @@ config RUSTC_LLVM_VERSION
+>  	int
+>  	default $(rustc-llvm-version)
+>  
+> +config RUSTC_LLVM_MAJOR_VERSION
+> +	int
+> +	default $(shell,expr $(rustc-llvm-version) / 10000)
+> +
+> +config RUSTC_CLANG_LLVM_COMPATIBLE
+> +	bool
+> +	default y if CC_IS_CLANG && RUSTC_LLVM_MAJOR_VERSION = $(shell,expr $(cc-version) / 10000)
+> +	help
+> +	  This indicates whether Rust and Clang use LLVM of the same major
+> +	  version.
+> +
+> +	  Operations involving handling LLVM IR or bitcode (e.g. cross-language
+> +	  LTO) requires the same LLVM major version to work properly. For best
+> +	  compatibility it is recommended that the exact same LLVM is used.
 
-A new experimental Kconfig option, `RUST_INLINE_HELPERS` is added to
-allow C helpers (which were created to allow Rust to call into
-inline/macro C functions without having to re-implement the logic in
-Rust) to be inlined into Rust crates without performing global LTO.
+Is cross-language LTO something we're actually looking at doing for the
+kernel, or is this just stale help text given what you're using it for
+in this series?
 
-If the option is enabled, the following is performed:
-* For helpers, instead of compiling them to an object file to be linked
-  into vmlinux, they're compiled to LLVM IR bitcode. Two versions are
-  generated: one for built-in code (`helpers.bc`) and one for modules
-  (`helpers_module.bc`, with -DMODULE defined). This ensures that C
-  macros/inlines that behave differently for modules (e.g. static calls)
-  function correctly when inlined.
-* When a Rust crate or object is compiled, instead of generating an
-  object file, LLVM bitcode is generated.
-* llvm-link is invoked with --internalize to combine the helper bitcode
-  with the crate bitcode. This step is similar to LTO, but this is much
-  faster since it only needs to inline the helpers.
-* clang is invoked to turn the combined bitcode into a final object file.
-* Since clang may produce LLVM bitcode when LTO is enabled, and objtool
-  requires ELF input, $(cmd_ld_single) is invoked to ensure the object
-  is converted to ELF before objtool runs.
-
-The --internalize flag tells llvm-link to treat all symbols in
-helpers.bc using `internal` linkage [1]. This matches the behavior of
-`clang` on `static inline` functions, and avoids exporting the symbol
-from the object file.
-
-To ensure that RUST_INLINE_HELPERS is not incompatible with BTF, we pass
-the -g0 flag when building helpers. See commit 5daa0c35a1f0 ("rust:
-Disallow BTF generation with Rust + LTO") for details.
-
-We have an intended triple mismatch of `aarch64-unknown-none` vs
-`aarch64-unknown-linux-gnu`, so we pass --suppress-warnings to llvm-link
-to suppress it.
-
-We add $(cmd_ld_single) before $(cmd_objtool). Otherwise objtool fails
-to parse the resulting files as Elf when CONFIG_LTO is enabled.
-
-I considered adding some sort of check that KBUILD_MODNAME is not
-present in helpers_module.bc, but this is actually not so easy to carry
-out because .bc files store strings in a weird binary format, so you
-cannot just grep it for a string to check whether it ended up using
-KBUILD_MODNAME anywhere.
-
-Link: https://github.com/llvm/llvm-project/pull/170397 [1]
-Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Co-developed-by: Matthew Maurer <mmaurer@google.com>
-Signed-off-by: Matthew Maurer <mmaurer@google.com>
-Signed-off-by: Gary Guo <gary@garyguo.net>
-Co-developed-by: Alice Ryhl <aliceryhl@google.com>
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
- Makefile               |  3 ++-
- lib/Kconfig.debug      | 15 +++++++++++++++
- rust/Makefile          | 29 +++++++++++++++++++++++++----
- rust/exports.c         |  5 ++++-
- scripts/Makefile.build |  7 ++++++-
- 5 files changed, 52 insertions(+), 7 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index c97f06ee0dda1c922aa23bd5249052591d528eb6..155db03cf489d931eefdb4bd7e3b93e5aa3ea2d6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -519,6 +519,7 @@ OBJCOPY		= $(LLVM_PREFIX)llvm-objcopy$(LLVM_SUFFIX)
- OBJDUMP		= $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
- READELF		= $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
- STRIP		= $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
-+LLVM_LINK	= $(LLVM_PREFIX)llvm-link$(LLVM_SUFFIX)
- else
- CC		= $(CROSS_COMPILE)gcc
- LD		= $(CROSS_COMPILE)ld
-@@ -627,7 +628,7 @@ export RUSTC_BOOTSTRAP := 1
- export CLIPPY_CONF_DIR := $(srctree)
- 
- export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC HOSTPKG_CONFIG
--export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN
-+export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN LLVM_LINK
- export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
- export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
- export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 7570a694d54e6170ae6738634218b37e38a4b76a..c44c08b49f3a3c2e06fca42adeb9e04304e7a869 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3551,6 +3551,21 @@ config RUST_KERNEL_DOCTESTS
- 
- 	  If unsure, say N.
- 
-+config RUST_INLINE_HELPERS
-+	bool "Inline C helpers into Rust code"
-+	depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
-+	depends on EXPERT
-+	help
-+	  Inlines C helpers into Rust code using Link Time Optimization.
-+
-+	  If this option is enabled, C helper functions declared in
-+	  rust/helpers/ are inlined into Rust code, which is helpful for
-+	  performance of Rust code. This requires a matching LLVM version for
-+	  Clang and rustc.
-+
-+	  If you are sure that you're using Clang and rustc with matching LLVM
-+	  versions, say Y. Otherwise say N.
-+
- endmenu # "Rust"
- 
- endmenu # Kernel hacking
-diff --git a/rust/Makefile b/rust/Makefile
-index 63464bd2c1e9734cd6e659f7ee3db58bf995d6dd..a6839f2d39feefcfea497384ae202a7c6b475942 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -6,15 +6,19 @@ rustdoc_output := $(objtree)/Documentation/output/rust/rustdoc
- obj-$(CONFIG_RUST) += core.o compiler_builtins.o ffi.o
- always-$(CONFIG_RUST) += exports_core_generated.h
- 
-+ifdef CONFIG_RUST_INLINE_HELPERS
-+always-$(CONFIG_RUST) += helpers/helpers.bc helpers/helpers_module.bc
-+else
-+obj-$(CONFIG_RUST) += helpers/helpers.o
-+always-$(CONFIG_RUST) += exports_helpers_generated.h
-+endif
- # Missing prototypes are expected in the helpers since these are exported
- # for Rust only, thus there is no header nor prototypes.
--obj-$(CONFIG_RUST) += helpers/helpers.o
- CFLAGS_REMOVE_helpers/helpers.o = -Wmissing-prototypes -Wmissing-declarations
- 
- always-$(CONFIG_RUST) += bindings/bindings_generated.rs bindings/bindings_helpers_generated.rs
- obj-$(CONFIG_RUST) += bindings.o pin_init.o kernel.o
--always-$(CONFIG_RUST) += exports_helpers_generated.h \
--    exports_bindings_generated.h exports_kernel_generated.h
-+always-$(CONFIG_RUST) += exports_bindings_generated.h exports_kernel_generated.h
- 
- always-$(CONFIG_RUST) += uapi/uapi_generated.rs
- obj-$(CONFIG_RUST) += uapi.o
-@@ -480,6 +484,14 @@ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ;
- $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c FORCE
- 	$(call if_changed_dep,bindgen)
- 
-+quiet_cmd_rust_helper = HELPER  $@
-+      cmd_rust_helper = \
-+	$(CC) $(filter-out $(CFLAGS_REMOVE_helpers/helpers.o), $(c_flags)) \
-+		-c -g0 $< $(if $(filter %_module.bc,$@),-DMODULE) -emit-llvm -o $@
-+
-+$(obj)/helpers/helpers.bc $(obj)/helpers/helpers_module.bc: $(src)/helpers/helpers.c FORCE
-+	+$(call if_changed_dep,rust_helper)
-+
- rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__(pfx|cfi|odr_asan)/ { printf $(2),$$3 }'
- 
- quiet_cmd_exports = EXPORTS $@
-@@ -561,12 +573,16 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
- 	OBJTREE=$(abspath $(objtree)) \
- 	$(if $(skip_clippy),$(RUSTC),$(RUSTC_OR_CLIPPY)) \
- 		$(filter-out $(skip_flags),$(rust_flags)) $(rustc_target_flags) \
--		--emit=dep-info=$(depfile) --emit=obj=$@ \
-+		--emit=dep-info=$(depfile) --emit=$(if $(link_helper),llvm-bc=$(patsubst %.o,%.bc,$@),obj=$@) \
- 		--emit=metadata=$(dir $@)$(patsubst %.o,lib%.rmeta,$(notdir $@)) \
- 		--crate-type rlib -L$(objtree)/$(obj) \
- 		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
- 		--sysroot=/dev/null \
-+	$(if $(link_helper),;$(LLVM_LINK) --internalize --suppress-warnings $(patsubst %.o,%.bc,$@) \
-+		$(obj)/helpers/helpers$(if $(part-of-module),_module).bc -o $(patsubst %.o,%.m.bc,$@); \
-+		$(CC) $(CLANG_FLAGS) $(KBUILD_CFLAGS) -Wno-override-module -c $(patsubst %.o,%.m.bc,$@) -o $@) \
- 	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@) \
-+	$(cmd_ld_single) \
- 	$(cmd_objtool)
- 
- rust-analyzer:
-@@ -696,4 +712,9 @@ $(obj)/kernel.o: $(obj)/kernel/generated_arch_warn_asm.rs $(obj)/kernel/generate
- endif
- endif
- 
-+ifdef CONFIG_RUST_INLINE_HELPERS
-+$(obj)/kernel.o: private link_helper = 1
-+$(obj)/kernel.o: $(obj)/helpers/helpers.bc
-+endif
-+
- endif # CONFIG_RUST
-diff --git a/rust/exports.c b/rust/exports.c
-index 587f0e776aba52854080f15aa91094b55996c072..1b52460b0f4eeef6df9081abb9b7e054a28c3c21 100644
---- a/rust/exports.c
-+++ b/rust/exports.c
-@@ -16,10 +16,13 @@
- #define EXPORT_SYMBOL_RUST_GPL(sym) extern int sym; EXPORT_SYMBOL_GPL(sym)
- 
- #include "exports_core_generated.h"
--#include "exports_helpers_generated.h"
- #include "exports_bindings_generated.h"
- #include "exports_kernel_generated.h"
- 
-+#ifndef CONFIG_RUST_INLINE_HELPERS
-+#include "exports_helpers_generated.h"
-+#endif
-+
- // For modules using `rust/build_error.rs`.
- #ifdef CONFIG_RUST_BUILD_ASSERT_ALLOW
- EXPORT_SYMBOL_RUST_GPL(rust_build_error);
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 0c838c467c764e14a51ad132444544373e90a84c..7176d997ecab7c3ffd1e00400a8a79a8309485e1 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -343,7 +343,12 @@ rust_common_cmd = \
- # would not match each other.
- 
- quiet_cmd_rustc_o_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
--      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $< $(cmd_objtool)
-+      cmd_rustc_o_rs = $(rust_common_cmd) --emit=$(if $(CONFIG_RUST_INLINE_HELPERS),llvm-bc=$(patsubst %.o,%.bc,$@),obj=$@) $< \
-+	$(if $(CONFIG_RUST_INLINE_HELPERS),;$(LLVM_LINK) --internalize --suppress-warnings $(patsubst %.o,%.bc,$@) \
-+		$(objtree)/rust/helpers/helpers$(if $(part-of-module),_module).bc -o $(patsubst %.o,%.m.bc,$@); \
-+		$(CC) $(CLANG_FLAGS) $(KBUILD_CFLAGS) -Wno-override-module -c $(patsubst %.o,%.m.bc,$@) -o $@) \
-+	$(cmd_ld_single) \
-+	$(cmd_objtool)
- 
- define rule_rustc_o_rs
- 	$(call cmd_and_fixdep,rustc_o_rs)
-
--- 
-2.53.0.rc1.225.gd81095ad13-goog
-
+Will
 
