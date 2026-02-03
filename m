@@ -1,192 +1,311 @@
-Return-Path: <linux-kbuild+bounces-10978-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10991-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wO4mBwhBgWl6FAMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10978-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 01:27:52 +0100
+	id uDy9L8TEgWnZJgMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10991-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 10:49:56 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D0AD2F64
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 01:27:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3369FD7155
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 10:49:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9507C300609A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 00:17:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 48F65304DC92
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 09:45:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7990313D521;
-	Tue,  3 Feb 2026 00:17:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0C32C08D1;
+	Tue,  3 Feb 2026 09:45:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4h5okCy"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b="fyO8WkeF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from exactco.de (exactco.de [176.9.10.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220F8E555
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Feb 2026 00:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9979B396D0D
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Feb 2026 09:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.10.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770077875; cv=none; b=K55pNKJ3pNnC8m8mm67nUbSgH9r8LJ/AjnpXnLblOCrRDBD6xiEcR+w5spjsDHBQbrk1NIul+YWwG+guIrqRDR7m7DIx7jIk/5WNig1ILFjzBxoN2n/WfXT9WbLasVS0KxO1t8fGxop3Y9XE/oJ4YP8YaJXBbzNGRjdfP0jNrEk=
+	t=1770111955; cv=none; b=Jyv3IuZ0x8LfSLaR/75fOz9f0v0Vv4FTjxZwnIFkgJEMFgbmu+sGNWLrTFRc/c3D8mL02ouoA3rol5hd+Q4hFcYQjfSCG4l62oFYD7Ca1J+/pNFQQD4XcX/bcLo6eb2Qxbsj73hpjuIW3qJW3ugtr26SSeI09fSPXJeLXW8L0K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770077875; c=relaxed/simple;
-	bh=ZJVy6cPRC9mVjPwe70OyZwHOLgx0hBKchie2Ey+56o4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FpSaUJ0LK0MHZeDAjAgn4TOY6xTuxTXQTiMH1v9RRibvILD5OKp7mVE0WCF865qDr9atUdVE9b8L1JIzvFhJ5uvSzwBc37l9pXmgBCcAwOBAEmfsMXCins4zWvFtNjImP2Ma30BuKw6s2D5U8gljCQG9J/+N8yjOqZGVPHSLbyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4h5okCy; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2a0c09bb78cso2096645ad.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Feb 2026 16:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770077873; x=1770682673; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SZ1ws/HZ3fMtoPm4mMzkQZSOpt+7LENYkmppWHzFdqA=;
-        b=X4h5okCysoBz/QiSq5/mM9++K1C1JQlcJxa107X0FYoJkks62N4Vo91K0uWw4MnW3Y
-         8e363Uw0SZ5YUckuF/CxOl97e9bS/2c1nm/qXPbEgW/NTN3genVWNb9eDDDXPvu1aLel
-         5W9fwyTBlskb0vjfws3Ccjg3eCQUuwmgHlaAOi4n5+soluSYXIzBfXVrWA4Dtl+sCcZU
-         6OxN/plGs059h4hIfKWlyXlRT6H/fgkz9qf25aACVQscHoTlAUBnp6tsP00Tm6vzgHqK
-         /5+chZvsJkeDiYPwU0K5QMHeXbWpQUtEVft7JOyUsXG3DXvEljLqB+9tBhNIUM77hMpX
-         M2kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770077873; x=1770682673;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SZ1ws/HZ3fMtoPm4mMzkQZSOpt+7LENYkmppWHzFdqA=;
-        b=DUlXwJlD3jG5irGpr0MtZo3Wp7TgXcQuYUCb5Kg+2uvimEI8JDUiDobW0FHN/gp003
-         47P4cXDj7IQbzfG6rl06k7m1GyjF2m+QcIJkrLqY4y/CXg7p3CM6wUO3Hi2mgpgwr/36
-         jRqoMVqA6BQGloQb9ceNjDolQCK7e2LfiDosI93/XFFHhR7XzKkZj4khX6KQIDb4Jw1R
-         rJ//JjFRr4tMLny18INfjtTjYdMnu3jlA7EcqZYNatgVSRuta9j8e+wbfF07rQ96aQAX
-         nm7S91avCChC/L9D/2FZfxKNWLgFU7D6svy0HNovW1pADJDthRKwcQ/9vRLy+h4Y6sQB
-         evYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMPu8TEqeLLvOI4WX39/OIdLfyRcOHXjR+RuAZQsC8wC71Gf0sDaDmWbtYbSyaI6MlmoyFBVIsfnSZVQk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw32QmM1/IqLJqNgR2FKJ/+H8Bjd6lqN/HCRAOpvoedWgZYa7iu
-	EmM1tH5so6PQykTrtjdU1W7HPuIV+54tFxQPZ51HDa+Vkw4g59rCwuIR
-X-Gm-Gg: AZuq6aJU/5J+JZoXvdoLg+ETRxPeZsH1seVpV+X6zX9MVNWIoRUSTCInSq3d50+qgcL
-	MciAmEBJNsn0as/ogOzCCCT5fKzYqYhBEK+dvYY5yvgsnRsaabp4TyaMiMzG3N969cKSAeagKhh
-	7VuLY41KBATgOfylTnTifRs8xWFd4c/Hk1FN6tmoepRwMijTcTo5U437G7SQbPMzlGg5DhMiQrI
-	zRgsHEksDgnT5MIGqGEijIOw2WvbDxMCyZNCCRK702LD1+txYLY4azaiQYN0BhlzMPVEJ+zL/nw
-	D15OQxQKP+stuoKkUEeht8ExgNopUmD7C4Qyu+nQ5QnDrgQ5Wmtxh6NsSlZdNKbb/USQCdh54N4
-	8grN+RzY70hOpDlNPd1k7g0zocpf8aWydQFCX9um1o5QRQRRAi0ihykz6SMIKhp7eqQ8UPypeLB
-	Cq3Js=
-X-Received: by 2002:a17:903:2ecd:b0:2a7:b412:6cc8 with SMTP id d9443c01a7336-2a92458de40mr8592055ad.1.1770077873450;
-        Mon, 02 Feb 2026 16:17:53 -0800 (PST)
-Received: from misys ([58.120.241.145])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b6e4110sm149973765ad.84.2026.02.02.16.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 16:17:53 -0800 (PST)
-From: HeeSu Kim <mlksvender@gmail.com>
-To: miguel.ojeda.sandonis@gmail.com
-Cc: a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	bjorn3_gh@protonmail.com,
-	boqun@google.com,
-	charmitro@posteo.net,
-	dakr@kernel.org,
-	gary@garyguo.net,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lossin@kernel.org,
-	nathan@kernel.org,
-	nsc@kernel.org,
-	ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	tmgross@umich.edu,
-	HeeSu Kim <mlksvender@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3] rust: Makefile: bound rustdoc workaround to affected versions
-Date: Tue,  3 Feb 2026 18:17:31 +0900
-Message-ID: <20260203091731.2731080-1-mlksvender@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <CANiq72n39eU9WE=Yh0_yJzmqMxo=QAaU2pN0UqP9jZ7bT7rhgA@mail.gmail.com>
-References: <CANiq72n39eU9WE=Yh0_yJzmqMxo=QAaU2pN0UqP9jZ7bT7rhgA@mail.gmail.com>
+	s=arc-20240116; t=1770111955; c=relaxed/simple;
+	bh=G7kvl2iXGoMXGm7oqHiym0vPwgOKWlq/tCoT4FaR768=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=iJGJxWgRAww8RLrIpo+M0vERKiIT4tZkPI48tvOrjma28+OvIEydb1j8JBXDGHP+QgoBMjFfIGB2uGgkCuEFXoUur8RcMdiMkxn6mKzaukBygA40gEs5vNrKpTNHg0Dq2GK371arEwlj4PDD4w3TQdRdO54INqNYnCBVjsl3tJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de; spf=pass smtp.mailfrom=exactco.de; dkim=pass (2048-bit key) header.d=exactco.de header.i=@exactco.de header.b=fyO8WkeF; arc=none smtp.client-ip=176.9.10.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=exactco.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=exactco.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de;
+	s=x; h=To:References:Message-Id:Content-Transfer-Encoding:Cc:Date:In-Reply-To
+	:From:Subject:Mime-Version:Content-Type:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=reES5J+W+8DrIpUG4yVp96fM0Lx+QH7RckP1uZzjGBM=; b=fyO8WkeF2Ivl6gzbaVHN3HNIcx
+	CrCtg6uBqLcH4OWZ4C2Js8l7tdg9FYtUXlTmvU+NiPE4SAqTBbPeC32PE1Ppk+0Fk0ycVBHXZnLd+
+	SMgKvPo3AxeTWtv7UBPq/LQ8ZSZj3Mwb7R0CvgoEyEORpcj0O/qKGqkP+YocIU9dY64JC18JXoQI1
+	NJbcQchczB8kKEhbU31iVEpxOvWAhiu7iTde3Zcrg1t4SlSeKdbfE/uDRdwWS2++XShYysvmCJ9xS
+	4in4dsCw+LRyHKJWx9af7OSWuivcAcTvRDQsMY1VeY70+BMgBe1P8im/9PZG1mkXTEfBLODcIpyOl
+	sLkdVLqw==;
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
+Subject: Re: [PATCH V2] modpost: Amend ppc64 save/restfpr symnames for -Os
+ build
+From: =?utf-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>
+In-Reply-To: <20260203064800.GA701088@ax162>
+Date: Tue, 3 Feb 2026 10:18:52 +0100
+Cc: chleroy@kernel.org,
+ linux-kbuild@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ maddy@linux.ibm.com,
+ mpe@ellerman.id.au,
+ npiggin@gmail.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <99F903A5-F470-49ED-83B9-22D5963B25F2@exactco.de>
+References: <20251123.131330.407910684435629198.rene@exactco.de>
+ <d69d7167-00d1-49c5-90ee-6bc0b7e8295f@kernel.org>
+ <20251123.160941.475051668667578407.rene@exactco.de>
+ <20251123.162551.979799191208988118.rene@exactco.de>
+ <20260203064800.GA701088@ax162>
+To: Nathan Chancellor <nathan@kernel.org>
+X-Mailer: Apple Mail (2.3826.400.131.1.6)
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.84 / 15.00];
-	DATE_IN_FUTURE(4.00)[8];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_REJECT(1.00)[exactco.de:s=x];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-10978-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10991-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.ozlabs.org,linux.ibm.com,ellerman.id.au,gmail.com];
+	DMARC_NA(0.00)[exactco.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,protonmail.com,posteo.net,garyguo.net,vger.kernel.org,umich.edu,gmail.com];
-	GREYLIST(0.00)[pass,body];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mlksvender@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[exactco.de:-];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rene@exactco.de,linux-kbuild@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,garyguo.net:email]
-X-Rspamd-Queue-Id: 42D0AD2F64
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,exactco.de:email,exactco.de:url,exactco.de:mid,patreon.com:url]
+X-Rspamd-Queue-Id: 3369FD7155
 X-Rspamd-Action: no action
 
-The `-Cunsafe-allow-abi-mismatch=fixed-x18` workaround was added to
-handle a rustdoc bug where target modifiers were not properly saved [1].
+Hi,
 
-This bug was fixed in Rust 1.90.0 [2]. Restrict the workaround to only
-apply for Rust 1.88.x and 1.89.x versions that are affected by the
-bug, preserving ABI compatibility checks on newer compiler versions.
+On 3. Feb 2026, at 07:48, Nathan Chancellor <nathan@kernel.org> wrote:
+>=20
+> On Sun, Nov 23, 2025 at 04:25:51PM +0100, Ren=C3=A9 Rebe wrote:
+>> Hey,
+>>=20
+>> On Sun, 23 Nov 2025 16:09:41 +0100 (CET), Ren=C3=A9 Rebe =
+<rene@exactco.de> wrote:
+>>=20
+>>> On Sun, 23 Nov 2025 15:57:24 +0100, "Christophe Leroy (CS GROUP)" =
+<chleroy@kernel.org> wrote:
+>>>=20
+>>>> Le 23/11/2025 =C3=A0 13:13, Ren=C3=A9 Rebe a =C3=A9crit :
+>>>>> Building a size optimized ppc64 kernel (-Os), gcc emits more FP
+>>>>> save/restore symbols, that the linker generates on demand into the
+>>>>> .sfpr section. Explicitly allow-list those in =
+scripts/mod/modpost.c,
+>>>>> too. They are needed for the amdgpu in-kernel floating point =
+support.
+>>>>=20
+>>>> Would have been interested to know with which version of GCC the
+>>>> problem started.
+>>>=20
+>>> idk, maybe forever, or at least a decade fo GCC? Most devs probably
+>>> don't build size optimized, and addtionally we only use in kernel
+>>> floating point for amdgpu since recently? Should I add Fixes: for =
+the
+>>> in-kernel FP hash?
+>>>=20
+>>>> By the way you seem to fix the problem for modules, but does it =
+also
+>>>> work when amdgpu is in kernel ? I would have expected a need to add
+>>>> functions in arch/powerpc/lib/crtsavres.S as well, just like =
+following
+>>>> commits:
+>>>>=20
+>>>> 8fe9c93e7453 ("powerpc: Add vr save/restore functions")
+>>>> 7fca5dc8aa7a ("powerpc: Fix module building for gcc 4.5 and 64 =
+bit")
+>>>> da3de6df33f5 ("[POWERPC] Fix -Os kernel builds with newer gcc
+>>>> versions")
+>>>=20
+>>> idk, I avoid linking that big stuff directly into the kernel and =
+would
+>>> need to specically test that, too. I guess I go do that now, too, =
+...
+>>=20
+>> It appears built-in amdgpu FP somehow magically works for me:
+>>=20
+>> debug-linux:[linux-6.17]# grep DRM.*AMD .config
+>> CONFIG_DRM_AMDGPU=3Dy
+>> CONFIG_DRM_AMDGPU_SI=3Dy
+>> CONFIG_DRM_AMDGPU_CIK=3Dy
+>> CONFIG_DRM_AMDGPU_USERPTR=3Dy
+>> CONFIG_DRM_AMD_ACP=3Dy
+>> CONFIG_DRM_AMD_DC=3Dy
+>> CONFIG_DRM_AMD_DC_FP=3Dy
+>> CONFIG_DRM_AMD_DC_SI=3Dy
+>> ...
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_ddc.o
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_log.o
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_psp.o
+>>  CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp.o
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp1_execution.o
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp1_transition.o
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp2_execution.o
+>>  CC      =
+drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp2_transition.o
+>>  AR      drivers/gpu/drm/amd/amdgpu/built-in.a
+>>  AR      drivers/gpu/drm/built-in.a
+>>  AR      drivers/gpu/built-in.a
+>>  AR      drivers/built-in.a
+>>  AR      built-in.a
+>>  AR      vmlinux.a
+>>  LD      vmlinux.o
+>>  GEN     modules.builtin.modinfo
+>>  GEN     modules.builtin
+>>  MODPOST vmlinux.symvers
+>>  CC      .vmlinux.export.o
+>>  UPD     include/generated/utsversion.h
+>>  CC      init/version-timestamp.o
+>>  KSYMS   .tmp_vmlinux0.kallsyms.S
+>>  AS      .tmp_vmlinux0.kallsyms.o
+>>  LD      .tmp_vmlinux1
+>>  NM      .tmp_vmlinux1.syms
+>>  KSYMS   .tmp_vmlinux1.kallsyms.S
+>>  AS      .tmp_vmlinux1.kallsyms.o
+>>  LD      .tmp_vmlinux2
+>>  NM      .tmp_vmlinux2.syms
+>>  KSYMS   .tmp_vmlinux2.kallsyms.S
+>>  AS      .tmp_vmlinux2.kallsyms.o
+>>  LD      vmlinux.unstripped
+>>  NM      System.map
+>>  SORTTAB vmlinux.unstripped
+>> make[3]: Nothing to be done for 'vmlinux.unstripped'.
+>>  OBJCOPY vmlinux
+>>=20
+>> So I guess the patch is good to go after clarifying which kind of
+>> Fixes: to use?
+>=20
+> Was this ever picked up or addressed elswhere?
 
-Link: https://github.com/rust-lang/rust/issues/144521 [1]
-Link: https://github.com/rust-lang/rust/pull/144523 [2]
-Suggested-by: Gary Guo <gary@garyguo.net>
-Link: https://lore.kernel.org/rust-for-linux/DG4JM9PU51M0.1YRGM9HVTY24U@garyguo.net/
-Cc: stable@vger.kernel.org # Useful in 6.18.y and later.
-Signed-off-by: HeeSu Kim <mlksvender@gmail.com>
----
-Changes in v3:
-- Remove Fixes: tag (this is a feature, not a fix)
-- Use full URLs with Link: tags instead of GitHub-style references
-- Add Link: to lore.kernel.org for Suggested-by attribution
-- Add Cc: stable for potential backporting to 6.18.y
+Nope, still needs to be applied AFAICS ;-)
 
-Changes in v2:
-- Change approach: bound to affected Rust versions instead of ARM64-only
-  (the flag is simply ignored on non-ARM64 architectures)
+Thanks!
 
- rust/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+	Ren=C3=A9
 
-diff --git a/rust/Makefile b/rust/Makefile
-index 5c0155b83454..55e2dc865207 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -136,7 +136,8 @@ pin_init-flags := \
+>>>>> MODPOST Module.symvers
+>>>>> ERROR: modpost: "_restfpr_20" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_restfpr_26" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_restfpr_22" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_savegpr1_27" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_savegpr1_25" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_restfpr_28" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_savegpr1_29" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_savefpr_20" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_savefpr_22" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> ERROR: modpost: "_restfpr_15" =
+[drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+>>>>> undefined!
+>>>>> WARNING: modpost: suppressed 56 unresolved symbol warnings because
+>>>>> there were too many)
+>>>>> Signed-off-by: Ren=C3=A9 Rebe <rene@exactco.de>
+>>>>> ---
+>>>>> V2: description
+>>>>> Theoretically for -stable, but no previous commit that broke it.
+>>>>=20
+>>>> In that case you have to add Cc: stable@vger.kernel.org
+>>>> Add indeed it is likely a gcc upgrade that broke it, not a previous
+>>>> commit.
+>>>=20
+>>> Should I then simply use enabling amdgpu dc_fp and in-kernel FP as =
+the
+>>> breaking commit for Fixes:?
+>>>=20
+>>> Thanks!
+>>>=20
+>>> Ren=C3=A9
+>>>=20
+>>>>> ---
+>>>>>  scripts/mod/modpost.c | 4 ++++
+>>>>>  1 file changed, 4 insertions(+)
+>>>>> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>>>>> index 47c8aa2a6939..133dfa16308a 100644
+>>>>> --- a/scripts/mod/modpost.c
+>>>>> +++ b/scripts/mod/modpost.c
+>>>>> @@ -602,6 +602,10 @@ static int ignore_undef_symbol(struct =
+elf_info
+>>>>> *info, const char *symname)
+>>>>>   /* Special register function linked on all modules during final =
+link of
+>>>>>   .ko */
+>>>>>   if (strstarts(symname, "_restgpr0_") ||
+>>>>>      strstarts(symname, "_savegpr0_") ||
+>>>>> +    strstarts(symname, "_restgpr1_") ||
+>>>>> +    strstarts(symname, "_savegpr1_") ||
+>>>>> +    strstarts(symname, "_restfpr_") ||
+>>>>> +    strstarts(symname, "_savefpr_") ||
+>>>>>      strstarts(symname, "_restvr_") ||
+>>>>>      strstarts(symname, "_savevr_") ||
+>>>>>      strcmp(symname, ".TOC.") =3D=3D 0)
+>>>>=20
+>>>=20
+>>> --=20
+>>> Ren=C3=A9 Rebe, ExactCODE GmbH, Berlin, Germany
+>>> https://exactco.de =E2=80=A2 https://t2linux.com =E2=80=A2 =
+https://patreon.com/renerebe
+>>=20
+>> --=20
+>> Ren=C3=A9 Rebe, ExactCODE GmbH, Berlin, Germany
+>> https://exactco.de =E2=80=A2 https://t2linux.com =E2=80=A2 =
+https://patreon.com/renerebe
 
- # `rustdoc` did not save the target modifiers, thus workaround for
- # the time being (https://github.com/rust-lang/rust/issues/144521).
--rustdoc_modifiers_workaround := $(if $(call rustc-min-version,108800),-Cunsafe-allow-abi-mismatch=fixed-x18)
-+# The bug was fixed in Rust 1.90.0, so only apply for 1.88.x and 1.89.x.
-+rustdoc_modifiers_workaround := $(if $(call rustc-min-version,108800),$(if $(call test-lt,$(CONFIG_RUSTC_VERSION),109000),-Cunsafe-allow-abi-mismatch=fixed-x18))
-
- # Similarly, for doctests (https://github.com/rust-lang/rust/issues/146465).
- doctests_modifiers_workaround := $(rustdoc_modifiers_workaround)$(if $(call rustc-min-version,109100),$(comma)sanitizer)
---
-2.52.0
+--=20
+https://exactco.de =E2=80=A2 https://t2linux.com =E2=80=A2 =
+https://patreon.com/renerebe
 
 
