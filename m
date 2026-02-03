@@ -1,258 +1,247 @@
-Return-Path: <linux-kbuild+bounces-10987-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10988-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cAWbOveagWl/HAMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10987-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 07:51:35 +0100
+	id OFTxHWmdgWlwHwMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10988-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 08:02:01 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FE1D5780
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 07:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6789D5854
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 08:02:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 71D85303A852
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 06:48:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C0151300D71E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 07:01:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141F638E5F1;
-	Tue,  3 Feb 2026 06:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11EB238F955;
+	Tue,  3 Feb 2026 07:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eevVl2qq"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y6X/tVqK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rMCKswJm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB1038BF90
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Feb 2026 06:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F4C372B2B;
+	Tue,  3 Feb 2026 07:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770101285; cv=none; b=kzL7H1c49AKqYEsO2TbYvLDb5rhL3rVKMcPjHA4FhHS6RxLqh0pMBIjxih2gtDjoUnUdSIYAhvnBlLWUR/ffFksi5381pHASAQxmhdPR07hnlqNX6M2c4ow10YeMhRgswwgWrnsd5Fet2B+hy9QcbGtnGMbsVb/o/vU09EJN9I4=
+	t=1770102119; cv=none; b=d5s2e+vCDtCller/aofERKOmTl+EQUR5ZW8PbjXhh766qG44nvdvvmcJOqNovWEnAGLLqoogWrjNMwZcM1nF2vpeUkf5qeEuVtAxqcAMUB+BRwiCVhG07xgXj2rK7wju3DLmfnbQimoiMCl92W6YF5VUZPZAHF+cLC2BCPGaPcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770101285; c=relaxed/simple;
-	bh=DBiReB4Q+1e/CMQ4SDJwbTiDxnKQkOOzQpHkhc3T+/Y=;
+	s=arc-20240116; t=1770102119; c=relaxed/simple;
+	bh=mgh/39skWYNypmbrN18qR4syp6oXdyNc2fm2CcaBap8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mz6ncQlNLNfKyFHCbMSSKLLcWhEoTFROmJ/KxmhSzWoYlhwCzCixEgiJ7VXonOGrxC0cuyRaGARBrtfpoU647YFxx8tA/4r10yyHB57dN9FrHZMd8yq3Ygnu3DarfwDQpG1P9lqpCkSInQaWC7L4XoHCILryZX/K0kBqdy2pGBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eevVl2qq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C875C116D0;
-	Tue,  3 Feb 2026 06:48:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770101285;
-	bh=DBiReB4Q+1e/CMQ4SDJwbTiDxnKQkOOzQpHkhc3T+/Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eevVl2qq5esU47MGc2pWXWt1cCWEVoqkzuDgNwlq321XIQssdSpKaZgLszLB9UPh2
-	 c2tVHkj/2UriXlqFNq71B4izt9hefFNWBSogNsl7HkQZErVq9mS0ApDn15QudFwXWj
-	 JMs4Va7XqXKKi+0O0xrnvxpYHQR2pbk5YDUFLbGORy6YTq3BpkUIaPTGF2AVdajT4R
-	 oZRX1ctk3yFC/l1Deg/zkrgR5i93LsvweHWBIXnSYfvAliEuPQ1ad0Hqq47pg5RlGT
-	 rdeZ/xXq/CdeBgYxedU2ugJ7qMORWTlTC8YrNk0uALf1Xp2WFl6a1OlVckBpVHQWA4
-	 WWCRz9mF7AInA==
-Date: Mon, 2 Feb 2026 23:48:00 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-Cc: chleroy@kernel.org, linux-kbuild@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com
-Subject: Re: [PATCH V2] modpost: Amend ppc64 save/restfpr symnames for -Os
- build
-Message-ID: <20260203064800.GA701088@ax162>
-References: <20251123.131330.407910684435629198.rene@exactco.de>
- <d69d7167-00d1-49c5-90ee-6bc0b7e8295f@kernel.org>
- <20251123.160941.475051668667578407.rene@exactco.de>
- <20251123.162551.979799191208988118.rene@exactco.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=elrggwkY8BNdQv0Z4CiaKGueoQz5m1WQe7rgTR2ZsmWkgqI64jtDX6cRUg63ba33Y7hFDHPK2Z8TyxI69o1rDpBJYWAiPwvT7AhC/VbbX2Qr8oGLvC6Ely1mXC54+/RU8OBK/wGPtURskceCfRnOxb/ajQviJxjxvq31r6kEgC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Y6X/tVqK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rMCKswJm; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 3 Feb 2026 08:01:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1770102115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JVK0dROhNrON4b+0PmAq1JrLEYoLB9gGhDZiNFwxyAg=;
+	b=Y6X/tVqKR1/RuAYcnkRutTFb137noBD2s8ZHmWJkI1ERnB8pVbP2JqgeEi7ypQGchzyTj1
+	113ct5tt+d5wvtnTybDcdMyRIMu24+RqQcTDbf1qX6tx9Naj2Xmq+T+lFdbiJqycvCIfXg
+	PPx/qgZdXpOGALs0jRzosJqXQvb2Ohgev+MGo7px7AXjLCKHROH+Vl3c4C1GB5OtiYirec
+	QLKlK36RHrFICe9HCSrr0Fzv53DrdTr+Nm5NV10S7AdufTBd1ygibdvql0Mm5d8F1B6RT5
+	tWfTUMWQ0o6d63+lkuNRDQj7i+A5l9gzE3dZdExLp/Vg18EyaSYAOyt/Cgf3Hg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1770102115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JVK0dROhNrON4b+0PmAq1JrLEYoLB9gGhDZiNFwxyAg=;
+	b=rMCKswJmZv+FpshaDrpPyLa5JjQOPUcUxyBtKqrQySL1DnMzvwr2H7Vts1yEM4YbPv4qjy
+	um+3HZnTRasIDYDw==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Naman Jain <namjain@linux.microsoft.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Tamir Duberstein <tamird@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Kees Cook <kees@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Subject: Re: [RFC PATCH] kbuild: Make --build-id linker flag configurable
+Message-ID: <20260203074853-7e380585-f7d6-47e7-94b1-cf16bbfb7a08@linutronix.de>
+References: <20260202110631.978412-1-namjain@linux.microsoft.com>
+ <20260202151101-d5558a6f-88d0-41dd-8816-18957a029ce8@linutronix.de>
+ <6eadf05f-21bf-47d7-abd8-e4694a21e6da@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251123.162551.979799191208988118.rene@exactco.de>
+In-Reply-To: <6eadf05f-21bf-47d7-abd8-e4694a21e6da@linux.microsoft.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.ozlabs.org,linux.ibm.com,ellerman.id.au,gmail.com];
-	TAGGED_FROM(0.00)[bounces-10987-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-10988-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,redhat.com,alien8.de,linux.intel.com,zytor.com,gmail.com,goodmis.org,vger.kernel.org,lists.infradead.org,linux.microsoft.com];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[exactco.de:url,exactco.de:email,system.map:url,patreon.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 66FE1D5780
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:mid,linutronix.de:dkim,reproducible-builds.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E6789D5854
 X-Rspamd-Action: no action
 
-On Sun, Nov 23, 2025 at 04:25:51PM +0100, René Rebe wrote:
-> Hey,
-> 
-> On Sun, 23 Nov 2025 16:09:41 +0100 (CET), René Rebe <rene@exactco.de> wrote:
-> 
-> > On Sun, 23 Nov 2025 15:57:24 +0100, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
+On Tue, Feb 03, 2026 at 11:58:11AM +0530, Naman Jain wrote:
+> On 2/2/2026 7:45 PM, Thomas Wei�schuh wrote:
+> > Hi Naman,
 > > 
-> > > Le 23/11/2025 à 13:13, René Rebe a écrit :
-> > > > Building a size optimized ppc64 kernel (-Os), gcc emits more FP
-> > > > save/restore symbols, that the linker generates on demand into the
-> > > > .sfpr section. Explicitly allow-list those in scripts/mod/modpost.c,
-> > > > too. They are needed for the amdgpu in-kernel floating point support.
+> > On Mon, Feb 02, 2026 at 11:06:31AM +0000, Naman Jain wrote:
+> > > Build ID hashes include file paths, so building the same source from
+> > > different directories produces different binaries. This breaks
+> > > reproducible builds.
 > > > 
-> > > Would have been interested to know with which version of GCC the
-> > > problem started.
-> > 
-> > idk, maybe forever, or at least a decade fo GCC? Most devs probably
-> > don't build size optimized, and addtionally we only use in kernel
-> > floating point for amdgpu since recently? Should I add Fixes: for the
-> > in-kernel FP hash?
-> > 
-> > > By the way you seem to fix the problem for modules, but does it also
-> > > work when amdgpu is in kernel ? I would have expected a need to add
-> > > functions in arch/powerpc/lib/crtsavres.S as well, just like following
-> > > commits:
+> > > Add KBUILD_BUILD_ID variable (default: sha1) to allow overriding:
 > > > 
-> > > 8fe9c93e7453 ("powerpc: Add vr save/restore functions")
-> > > 7fca5dc8aa7a ("powerpc: Fix module building for gcc 4.5 and 64 bit")
-> > > da3de6df33f5 ("[POWERPC] Fix -Os kernel builds with newer gcc
-> > > versions")
+> > >      make KBUILD_BUILD_ID=none
+> > > 
+> > > The variable is exported to VDSO Makefiles which also include a
+> > > fallback default for standalone invocation.
+> > > 
+> > > Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+> > > ---
+> > > Hi,
+> > > Sending this change for RFC, as it is quite possible that this is a
+> > > generic problem and I may be missing something.
+> > > 
+> > > I am trying to implement reproducible builds for one of my product
+> > > kernel. I referred https://reproducible-builds.org/docs/build-path/
+> > > and tried to use both -fdebug-prefix-map=OLD=NEW and
+> > > -fmacro-prefix-map=OLD=NEW, but still could not achieve bit by bit
+> > > binary reproducibility without overwriting build-id to none.
+> > > If I move the kernel to same path in other setup, I was able to create
+> > > same binary hash, however, without it, there is some difference in
+> > > build-id hash values.
 > > 
-> > idk, I avoid linking that big stuff directly into the kernel and would
-> > need to specically test that, too. I guess I go do that now, too, ...
 > 
-> It appears built-in amdgpu FP somehow magically works for me:
+> Hi Thomas,
+> Thanks for looking into this and sharing your inputs.
 > 
-> debug-linux:[linux-6.17]# grep DRM.*AMD .config
-> CONFIG_DRM_AMDGPU=y
-> CONFIG_DRM_AMDGPU_SI=y
-> CONFIG_DRM_AMDGPU_CIK=y
-> CONFIG_DRM_AMDGPU_USERPTR=y
-> CONFIG_DRM_AMD_ACP=y
-> CONFIG_DRM_AMD_DC=y
-> CONFIG_DRM_AMD_DC_FP=y
-> CONFIG_DRM_AMD_DC_SI=y
-> ...
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_ddc.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_log.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp_psp.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp1_execution.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp1_transition.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp2_execution.o
->   CC      drivers/gpu/drm/amd/amdgpu/../display/modules/hdcp/hdcp2_transition.o
->   AR      drivers/gpu/drm/amd/amdgpu/built-in.a
->   AR      drivers/gpu/drm/built-in.a
->   AR      drivers/gpu/built-in.a
->   AR      drivers/built-in.a
->   AR      built-in.a
->   AR      vmlinux.a
->   LD      vmlinux.o
->   GEN     modules.builtin.modinfo
->   GEN     modules.builtin
->   MODPOST vmlinux.symvers
->   CC      .vmlinux.export.o
->   UPD     include/generated/utsversion.h
->   CC      init/version-timestamp.o
->   KSYMS   .tmp_vmlinux0.kallsyms.S
->   AS      .tmp_vmlinux0.kallsyms.o
->   LD      .tmp_vmlinux1
->   NM      .tmp_vmlinux1.syms
->   KSYMS   .tmp_vmlinux1.kallsyms.S
->   AS      .tmp_vmlinux1.kallsyms.o
->   LD      .tmp_vmlinux2
->   NM      .tmp_vmlinux2.syms
->   KSYMS   .tmp_vmlinux2.kallsyms.S
->   AS      .tmp_vmlinux2.kallsyms.o
->   LD      vmlinux.unstripped
->   NM      System.map
->   SORTTAB vmlinux.unstripped
-> make[3]: Nothing to be done for 'vmlinux.unstripped'.
->   OBJCOPY vmlinux
 > 
-> So I guess the patch is good to go after clarifying which kind of
-> Fixes: to use?
+> > Can you force the same build path during package building?
+> > That should avoid this issue.
+> 
+> Since we can't control where the user would clone their kernel, I was
+> initially skeptical to copy the kernel to a same build path like
+> /tmp/kernel/src directory due to uncertainties related to free space,
+> permissions, but I tried it now and it works fine. It should be OK for my
+> use-case.
+> 
+> I am currently using NixOS for reproducible build environment.
 
-Was this ever picked up or addressed elswhere?
+So users are already forced to use a specific distribution for rebuilding.
+Also requiring a specific build path doesn't look like a big step then.
 
-> > > > MODPOST Module.symvers
-> > > > ERROR: modpost: "_restfpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_restfpr_26" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_restfpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_savegpr1_27" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_savegpr1_25" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_restfpr_28" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_savegpr1_29" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_savefpr_20" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_savefpr_22" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > ERROR: modpost: "_restfpr_15" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-> > > > undefined!
-> > > > WARNING: modpost: suppressed 56 unresolved symbol warnings because
-> > > > there were too many)
-> > > > Signed-off-by: René Rebe <rene@exactco.de>
-> > > > ---
-> > > > V2: description
-> > > > Theoretically for -stable, but no previous commit that broke it.
-> > > 
-> > > In that case you have to add Cc: stable@vger.kernel.org
-> > > Add indeed it is likely a gcc upgrade that broke it, not a previous
-> > > commit.
+> > > Reproducibility wiki says "In most cases however, post-processing is
+> > > required to either remove the build path or to normalize it to a
+> > > predefined value.". I have tried that, and it works, but wanted to
+> > > conclude if that is my last option here.
 > > 
-> > Should I then simply use enabling amdgpu dc_fp and in-kernel FP as the
-> > breaking commit for Fixes:?
+> > I am not a fan of this aproach. The build id should stay usable.
+> > Can you figure out where the build paths are used?
+> > You may need to also compare the debug symbols.
 > > 
-> > Thanks!
-> > 
-> > 	René
-> > 
-> > > > ---
-> > > >   scripts/mod/modpost.c | 4 ++++
-> > > >   1 file changed, 4 insertions(+)
-> > > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > > index 47c8aa2a6939..133dfa16308a 100644
-> > > > --- a/scripts/mod/modpost.c
-> > > > +++ b/scripts/mod/modpost.c
-> > > > @@ -602,6 +602,10 @@ static int ignore_undef_symbol(struct elf_info
-> > > > *info, const char *symname)
-> > > >   		/* Special register function linked on all modules during final link of
-> > > >   		.ko */
-> > > >   		if (strstarts(symname, "_restgpr0_") ||
-> > > >   		    strstarts(symname, "_savegpr0_") ||
-> > > > +		    strstarts(symname, "_restgpr1_") ||
-> > > > +		    strstarts(symname, "_savegpr1_") ||
-> > > > +		    strstarts(symname, "_restfpr_") ||
-> > > > +		    strstarts(symname, "_savefpr_") ||
-> > > >   		    strstarts(symname, "_restvr_") ||
-> > > >   		    strstarts(symname, "_savevr_") ||
-> > > >   		    strcmp(symname, ".TOC.") == 0)
-> > > 
-> > 
-> > -- 
-> > René Rebe, ExactCODE GmbH, Berlin, Germany
-> > https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
+> > > Thanks.
 > 
-> -- 
-> René Rebe, ExactCODE GmbH, Berlin, Germany
-> https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
+> I agree.
+> We did not have any use of these build paths, but some vendors may be using
+> it to fetch the build information from the binaries.
+> If your comment was about in-kernel usage of these build paths, I'll look
+> into it.
+
+I'd like to know where the build paths in the binary are coming from.
+So we can fix the issue properly instead of working around it.
+You said you are using -fmacro-prefix-map and -fdebug-prefix-map to avoid them.
+(There is also -ffile-prefix-map which should be more robust and easy to use)
+
+> > > ---
+> > >   Makefile                          | 8 ++++++--
+> > >   arch/arm64/kernel/vdso/Makefile   | 5 ++++-
+> > >   arch/arm64/kernel/vdso32/Makefile | 5 ++++-
+> > >   arch/x86/entry/vdso/Makefile      | 5 ++++-
+> > >   4 files changed, 18 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/Makefile b/Makefile
+> > > index 3373308d2217c..3fcff4af200d7 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -1132,8 +1132,12 @@ KBUILD_AFLAGS   += $(KAFLAGS)
+> > >   KBUILD_CFLAGS   += $(KCFLAGS)
+> > >   KBUILD_RUSTFLAGS += $(KRUSTFLAGS)
+> > > -KBUILD_LDFLAGS_MODULE += --build-id=sha1
+> > > -LDFLAGS_vmlinux += --build-id=sha1
+> > > +# Can be overridden for reproducible builds by using "make KBUILD_BUILD_ID=none"
+> > > +KBUILD_BUILD_ID ?= sha1
+> > > +export KBUILD_BUILD_ID
+> > > +
+> > > +KBUILD_LDFLAGS_MODULE += --build-id=$(KBUILD_BUILD_ID)
+> > > +LDFLAGS_vmlinux += --build-id=$(KBUILD_BUILD_ID)
+> > >   KBUILD_LDFLAGS	+= -z noexecstack
+> > >   ifeq ($(CONFIG_LD_IS_BFD),y)
+> > > diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> > > index 7dec05dd33b70..b3ee5982b4676 100644
+> > > --- a/arch/arm64/kernel/vdso/Makefile
+> > > +++ b/arch/arm64/kernel/vdso/Makefile
+> > > @@ -9,6 +9,9 @@
+> > >   # Include the generic Makefile to check the built vdso.
+> > >   include $(srctree)/lib/vdso/Makefile.include
+> > > +# Fallback for standalone builds, normally inherited from top-level Makefile
+> > > +KBUILD_BUILD_ID ?= sha1
+> > > +
+> > 
+> > What kind of standalone builds?
+> > This doesn't look like it belongs into this patch.
+> > 
+> > (...)
+> 
+> The case I was trying to cover here was when we try to compile
+> arch/x86/entry/vdso/ separately, without the KBUILD_BUILD_ID coming from
+> main build scripts, "--build-id=" would be left empty, while we may want to
+> retain original value i.e. sha1.
+> 
+>     make ARCH=x86_64 arch/x86/entry/vdso/
+
+I don't think this is or should be supported.
+
+> arch/x86/entry/vdso/Makefile:
+> -VDSO_LDFLAGS = -shared --hash-style=both --build-id=sha1 --no-undefined \
+> +VDSO_LDFLAGS = -shared --hash-style=both --build-id=$(KBUILD_BUILD_ID)
+> --no-undefined \
+> 
+> Anyways, this may not be required now.
+
+
+Thomas
 
