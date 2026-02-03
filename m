@@ -1,247 +1,148 @@
-Return-Path: <linux-kbuild+bounces-10988-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-10989-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OFTxHWmdgWlwHwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-10988-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 08:02:01 +0100
+	id OKXhE+2wgWn+IgMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-10989-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 09:25:17 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6789D5854
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 08:02:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE17D6304
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Feb 2026 09:25:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C0151300D71E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 07:01:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BF53D3063B6F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Feb 2026 08:18:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11EB238F955;
-	Tue,  3 Feb 2026 07:01:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A1D394483;
+	Tue,  3 Feb 2026 08:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y6X/tVqK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rMCKswJm"
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="n/vfRxg6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F4C372B2B;
-	Tue,  3 Feb 2026 07:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E005D2DC336;
+	Tue,  3 Feb 2026 08:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770102119; cv=none; b=d5s2e+vCDtCller/aofERKOmTl+EQUR5ZW8PbjXhh766qG44nvdvvmcJOqNovWEnAGLLqoogWrjNMwZcM1nF2vpeUkf5qeEuVtAxqcAMUB+BRwiCVhG07xgXj2rK7wju3DLmfnbQimoiMCl92W6YF5VUZPZAHF+cLC2BCPGaPcA=
+	t=1770106706; cv=none; b=jHAHIksqopkiMv85p3kk9b2KPEQZYYguxcjfFACEMEEjjLaa0a8mFzHhCcEYd6xN3ansut/2qETzQug7mH3xFb2x+8SSrAQ96Qh0kchURp8ycHfu3fckwnOUnn8k6PmYXFCvhBfOLVsoLwK/vm5Zzep+kJVbQ5lhbSylE3xjszE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770102119; c=relaxed/simple;
-	bh=mgh/39skWYNypmbrN18qR4syp6oXdyNc2fm2CcaBap8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=elrggwkY8BNdQv0Z4CiaKGueoQz5m1WQe7rgTR2ZsmWkgqI64jtDX6cRUg63ba33Y7hFDHPK2Z8TyxI69o1rDpBJYWAiPwvT7AhC/VbbX2Qr8oGLvC6Ely1mXC54+/RU8OBK/wGPtURskceCfRnOxb/ajQviJxjxvq31r6kEgC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Y6X/tVqK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rMCKswJm; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Tue, 3 Feb 2026 08:01:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1770102115;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JVK0dROhNrON4b+0PmAq1JrLEYoLB9gGhDZiNFwxyAg=;
-	b=Y6X/tVqKR1/RuAYcnkRutTFb137noBD2s8ZHmWJkI1ERnB8pVbP2JqgeEi7ypQGchzyTj1
-	113ct5tt+d5wvtnTybDcdMyRIMu24+RqQcTDbf1qX6tx9Naj2Xmq+T+lFdbiJqycvCIfXg
-	PPx/qgZdXpOGALs0jRzosJqXQvb2Ohgev+MGo7px7AXjLCKHROH+Vl3c4C1GB5OtiYirec
-	QLKlK36RHrFICe9HCSrr0Fzv53DrdTr+Nm5NV10S7AdufTBd1ygibdvql0Mm5d8F1B6RT5
-	tWfTUMWQ0o6d63+lkuNRDQj7i+A5l9gzE3dZdExLp/Vg18EyaSYAOyt/Cgf3Hg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1770102115;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JVK0dROhNrON4b+0PmAq1JrLEYoLB9gGhDZiNFwxyAg=;
-	b=rMCKswJmZv+FpshaDrpPyLa5JjQOPUcUxyBtKqrQySL1DnMzvwr2H7Vts1yEM4YbPv4qjy
-	um+3HZnTRasIDYDw==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Tamir Duberstein <tamird@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Kees Cook <kees@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-Subject: Re: [RFC PATCH] kbuild: Make --build-id linker flag configurable
-Message-ID: <20260203074853-7e380585-f7d6-47e7-94b1-cf16bbfb7a08@linutronix.de>
-References: <20260202110631.978412-1-namjain@linux.microsoft.com>
- <20260202151101-d5558a6f-88d0-41dd-8816-18957a029ce8@linutronix.de>
- <6eadf05f-21bf-47d7-abd8-e4694a21e6da@linux.microsoft.com>
+	s=arc-20240116; t=1770106706; c=relaxed/simple;
+	bh=5rqqjsLuw5JA2sTQ/3twqQMctI8v/ml7Q4w1kuVcdd4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qaZ9fDW77OPbPj2B6V2rwkOyraI8MyK3EB7LqXBfk0OzoUHKpHFP32CJw+lT33dfcw8dFl9kr0I4F1IAO3ky5dSrmFuGGXw7jJtyvCPxuXMLntFFnqx2dxW43RcEH+3kWjNZ5MdDVpxbyYNFnqbZexPJrp0TIZGaM9oliewnAcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=n/vfRxg6; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1770106696;
+	bh=5rqqjsLuw5JA2sTQ/3twqQMctI8v/ml7Q4w1kuVcdd4=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=n/vfRxg6Mx5/kpRzWSjV+TvC+W8NSHQJEUS/jKVzgxv6MW9uqbaBEj7SdXD6bINIY
+	 a2cT8EgsdnGD4uvVSlmp3OchX1UaNyCxsecs9F0V0WeT0cCPuturmPv7d6VYPZCPZj
+	 84hzM8xKoedT9KUlynJg5BXImWAwfOvukxNdWCFY=
+Received: from [10.10.7.5] (unknown [51.52.16.146])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 83D871C02EC;
+	Tue, 03 Feb 2026 03:18:11 -0500 (EST)
+Message-ID: <8b12f1d28d3859467c3b5f6bc352038ce7627e54.camel@HansenPartnership.com>
+Subject: Re: [PATCH v4 00/17] module: Introduce hash-based integrity checking
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: David Howells <dhowells@redhat.com>, Mihai-Drosi =?ISO-8859-1?Q?C=E2ju?=
+	 <mcaju95@gmail.com>
+Cc: linux@weissschuh.net, arnd@arndb.de, arnout@bzzt.net,
+ atomlin@atomlin.com,  bigeasy@linutronix.de, chleroy@kernel.org,
+ christian@heusel.eu, corbet@lwn.net,  coxu@redhat.com, da.gomez@kernel.org,
+ da.gomez@samsung.com,  dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+ f.gruenbichler@proxmox.com,  jmorris@namei.org, kpcyrd@archlinux.org,
+ linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
+ linux-integrity@vger.kernel.org,  linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org,  linuxppc-dev@lists.ozlabs.org,
+ lkp@intel.com, maddy@linux.ibm.com,  mattia@mapreri.org, mcgrof@kernel.org,
+ mpe@ellerman.id.au, nathan@kernel.org,  naveen@kernel.org,
+ nicolas.bouchinet@oss.cyber.gouv.fr, nicolas.schier@linux.dev, 
+ npiggin@gmail.com, nsc@kernel.org, paul@paul-moore.com,
+ petr.pavlu@suse.com,  roberto.sassu@huawei.com, samitolvanen@google.com,
+ serge@hallyn.com,  xiujianfeng@huawei.com, zohar@linux.ibm.com
+Date: Tue, 03 Feb 2026 08:18:09 +0000
+In-Reply-To: <2316630.1769965788@warthog.procyon.org.uk>
+References: <20260131073636.65494-1-mcaju95@gmail.com>
+	 <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+	 <2316630.1769965788@warthog.procyon.org.uk>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6eadf05f-21bf-47d7-abd8-e4694a21e6da@linux.microsoft.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	DMARC_POLICY_ALLOW(-0.50)[hansenpartnership.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[hansenpartnership.com:s=20151216];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-10988-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,arm.com,redhat.com,alien8.de,linux.intel.com,zytor.com,gmail.com,goodmis.org,vger.kernel.org,lists.infradead.org,linux.microsoft.com];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-10989-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[redhat.com,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[44];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[weissschuh.net,arndb.de,bzzt.net,atomlin.com,linutronix.de,kernel.org,heusel.eu,lwn.net,redhat.com,samsung.com,gmail.com,oracle.com,proxmox.com,namei.org,archlinux.org,vger.kernel.org,lists.ozlabs.org,intel.com,linux.ibm.com,mapreri.org,ellerman.id.au,oss.cyber.gouv.fr,linux.dev,paul-moore.com,suse.com,huawei.com,google.com,hallyn.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[linutronix.de:+];
+	FROM_NEQ_ENVFROM(0.00)[James.Bottomley@HansenPartnership.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[hansenpartnership.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:mid,linutronix.de:dkim,reproducible-builds.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E6789D5854
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,HansenPartnership.com:mid,hansenpartnership.com:dkim]
+X-Rspamd-Queue-Id: EBE17D6304
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 11:58:11AM +0530, Naman Jain wrote:
-> On 2/2/2026 7:45 PM, Thomas Weißschuh wrote:
-> > Hi Naman,
-> > 
-> > On Mon, Feb 02, 2026 at 11:06:31AM +0000, Naman Jain wrote:
-> > > Build ID hashes include file paths, so building the same source from
-> > > different directories produces different binaries. This breaks
-> > > reproducible builds.
-> > > 
-> > > Add KBUILD_BUILD_ID variable (default: sha1) to allow overriding:
-> > > 
-> > >      make KBUILD_BUILD_ID=none
-> > > 
-> > > The variable is exported to VDSO Makefiles which also include a
-> > > fallback default for standalone invocation.
-> > > 
-> > > Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
-> > > ---
-> > > Hi,
-> > > Sending this change for RFC, as it is quite possible that this is a
-> > > generic problem and I may be missing something.
-> > > 
-> > > I am trying to implement reproducible builds for one of my product
-> > > kernel. I referred https://reproducible-builds.org/docs/build-path/
-> > > and tried to use both -fdebug-prefix-map=OLD=NEW and
-> > > -fmacro-prefix-map=OLD=NEW, but still could not achieve bit by bit
-> > > binary reproducibility without overwriting build-id to none.
-> > > If I move the kernel to same path in other setup, I was able to create
-> > > same binary hash, however, without it, there is some difference in
-> > > build-id hash values.
-> > 
-> 
-> Hi Thomas,
-> Thanks for looking into this and sharing your inputs.
-> 
-> 
-> > Can you force the same build path during package building?
-> > That should avoid this issue.
-> 
-> Since we can't control where the user would clone their kernel, I was
-> initially skeptical to copy the kernel to a same build path like
-> /tmp/kernel/src directory due to uncertainties related to free space,
-> permissions, but I tried it now and it works fine. It should be OK for my
-> use-case.
-> 
-> I am currently using NixOS for reproducible build environment.
+On Sun, 2026-02-01 at 17:09 +0000, David Howells wrote:
+> Mihai-Drosi C=C3=A2ju <mcaju95@gmail.com> wrote:
+>=20
+> > > The current signature-based module integrity checking has some
+> > > drawbacks
+> > in combination with reproducible builds. Either the module signing
+> > key is generated at build time, which makes the build
+> > unreproducible, or a static signing key is used, which precludes
+> > rebuilds by third parties and makes the whole build and packaging
+> > process much more complicated.
+>=20
+> There is another issue too: If you have a static private key that you
+> use to sign modules (and probably other things), someone will likely
+> give you a GPL request to get it.
 
-So users are already forced to use a specific distribution for rebuilding.
-Also requiring a specific build path doesn't look like a big step then.
+The SFC just lost that exact point in the Vizio trial, so I think
+you're wrong on this under US law at least.  There's no general ability
+under GPLv2 to demand long lived signing keys.
 
-> > > Reproducibility wiki says "In most cases however, post-processing is
-> > > required to either remove the build path or to normalize it to a
-> > > predefined value.". I have tried that, and it works, but wanted to
-> > > conclude if that is my last option here.
-> > 
-> > I am not a fan of this aproach. The build id should stay usable.
-> > Can you figure out where the build paths are used?
-> > You may need to also compare the debug symbols.
-> > 
-> > > Thanks.
-> 
-> I agree.
-> We did not have any use of these build paths, but some vendors may be using
-> it to fetch the build information from the binaries.
-> If your comment was about in-kernel usage of these build paths, I'll look
-> into it.
+Regards,
 
-I'd like to know where the build paths in the binary are coming from.
-So we can fix the issue properly instead of working around it.
-You said you are using -fmacro-prefix-map and -fdebug-prefix-map to avoid them.
-(There is also -ffile-prefix-map which should be more robust and easy to use)
+James
 
-> > > ---
-> > >   Makefile                          | 8 ++++++--
-> > >   arch/arm64/kernel/vdso/Makefile   | 5 ++++-
-> > >   arch/arm64/kernel/vdso32/Makefile | 5 ++++-
-> > >   arch/x86/entry/vdso/Makefile      | 5 ++++-
-> > >   4 files changed, 18 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/Makefile b/Makefile
-> > > index 3373308d2217c..3fcff4af200d7 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -1132,8 +1132,12 @@ KBUILD_AFLAGS   += $(KAFLAGS)
-> > >   KBUILD_CFLAGS   += $(KCFLAGS)
-> > >   KBUILD_RUSTFLAGS += $(KRUSTFLAGS)
-> > > -KBUILD_LDFLAGS_MODULE += --build-id=sha1
-> > > -LDFLAGS_vmlinux += --build-id=sha1
-> > > +# Can be overridden for reproducible builds by using "make KBUILD_BUILD_ID=none"
-> > > +KBUILD_BUILD_ID ?= sha1
-> > > +export KBUILD_BUILD_ID
-> > > +
-> > > +KBUILD_LDFLAGS_MODULE += --build-id=$(KBUILD_BUILD_ID)
-> > > +LDFLAGS_vmlinux += --build-id=$(KBUILD_BUILD_ID)
-> > >   KBUILD_LDFLAGS	+= -z noexecstack
-> > >   ifeq ($(CONFIG_LD_IS_BFD),y)
-> > > diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
-> > > index 7dec05dd33b70..b3ee5982b4676 100644
-> > > --- a/arch/arm64/kernel/vdso/Makefile
-> > > +++ b/arch/arm64/kernel/vdso/Makefile
-> > > @@ -9,6 +9,9 @@
-> > >   # Include the generic Makefile to check the built vdso.
-> > >   include $(srctree)/lib/vdso/Makefile.include
-> > > +# Fallback for standalone builds, normally inherited from top-level Makefile
-> > > +KBUILD_BUILD_ID ?= sha1
-> > > +
-> > 
-> > What kind of standalone builds?
-> > This doesn't look like it belongs into this patch.
-> > 
-> > (...)
-> 
-> The case I was trying to cover here was when we try to compile
-> arch/x86/entry/vdso/ separately, without the KBUILD_BUILD_ID coming from
-> main build scripts, "--build-id=" would be left empty, while we may want to
-> retain original value i.e. sha1.
-> 
->     make ARCH=x86_64 arch/x86/entry/vdso/
-
-I don't think this is or should be supported.
-
-> arch/x86/entry/vdso/Makefile:
-> -VDSO_LDFLAGS = -shared --hash-style=both --build-id=sha1 --no-undefined \
-> +VDSO_LDFLAGS = -shared --hash-style=both --build-id=$(KBUILD_BUILD_ID)
-> --no-undefined \
-> 
-> Anyways, this may not be required now.
-
-
-Thomas
 
