@@ -1,145 +1,148 @@
-Return-Path: <linux-kbuild+bounces-11027-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11028-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oMZlMzAKg2k+hAMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11027-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 09:58:24 +0100
+	id qJyBFk8Og2k+hAMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11028-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 10:15:59 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30117E367B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 09:58:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02980E3B11
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 10:15:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8EBB93028EC5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 08:54:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 772DE30D1351
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 09:10:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED99639A81E;
-	Wed,  4 Feb 2026 08:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A36493A1CF3;
+	Wed,  4 Feb 2026 09:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqB3LJ5R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nLvsdkiU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEFA214A9B
-	for <linux-kbuild@vger.kernel.org>; Wed,  4 Feb 2026 08:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAF139C659;
+	Wed,  4 Feb 2026 09:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770195288; cv=none; b=bOs069FLbNrLT5r+s5ouVVq7U09nbGR2BLzl9TS3qIirJZws+idSb1wlMIJ6+4zeHIbXK46ekxfDVOk0rm0JBTYLuUxD4oIDoDWqZL/dlnBz+rPweeSxJn2/Xy3ltVwTNEu6GW1ModYGLJQxEymByJHI+gL4zVH1VCbHn0s6jzk=
+	t=1770196245; cv=none; b=LpBx+LuzNPrJq43w1a6hjNkCj0Ckp7wNIjipo4g8blZe1OyJVAditbqNWXnr5XCyYy0SuHoczIhqtynnXMt9w7g0BZ8CJ9edV2VnpTddd/GV5PXoKdXcVp9nfdEPfztq9H2x2SnKVzlvt/CJbnVXiGbpJ8MbI5ntmYyJ3wr+jgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770195288; c=relaxed/simple;
-	bh=R5mja2gOlOuVT8fDcPXItAXnFanLcrP6joW/cVhdHmU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o+E6KfTSTfBEQroqaouj5g6bXdSpaGR60m6gXYQW4COKUuCJJPsXy5u11kp8UJm4f1pqwDWsE87z6oAoyYGeFfN5IMh5v5uhP+6vDJiEie39BA8vFQ5HkNq4QDogUFnJoeYlIk/3IH39Kb5u9vhgJzPU0KOzPqCkUWFNtj2ExqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqB3LJ5R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630BFC4AF09
-	for <linux-kbuild@vger.kernel.org>; Wed,  4 Feb 2026 08:54:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770195288;
-	bh=R5mja2gOlOuVT8fDcPXItAXnFanLcrP6joW/cVhdHmU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=UqB3LJ5RY+gb8yYobzTMCcRKbowxzhpkpQ63TRcPp9e1dfSohSISPHetTSrN/+4Hc
-	 96pZo65OBHLq7CvO17IQhx5zI+XPpP5GH7hX+oEstSA3ehnuke7MhUd0OUAEWQ2Kky
-	 k2WOu3EHagAdGKr7e375B8BiObKFLRMucBKxGxox8GQ+GCvsrKjSwY5UOjX5+iHt3o
-	 isDEHhOjiYA/UotE3xEbUBfqVfeJlET4GZLHswlAG5lUhjJVMUHFZtNK01dHMRlPL8
-	 F2lv4ROtFv4zj5ziniZMUAYtlQ4kRYh3kM2vTAqhuci2YW+KR1RZI5OVS8/vj2EChc
-	 g+a1Tm9reNe0A==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38320cd563aso5124721fa.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 04 Feb 2026 00:54:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXn61A+Lz26d430RN3Z4A+VkJPw3GyTjQmZNCTxK5Q71bdZ0VkeV2qjsdy45inT1KP7Hfe2C7YxNsPPu2E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzta8HwFU0gL2Wp4J7/9OM4W/jBmQG8JECKMy98n0PchwUDNTrG
-	xyrYS0K+hA2jo0o9zLJalqK+mKtEapW1xARrB5jWgbXBKs9ZS+wmMOo/dzpCk0CNdgFe+VHbHYQ
-	6L+tMKuLKV6fEEBWixpSf2vYO4QDzAag=
-X-Received: by 2002:a05:651c:3259:b0:385:bc69:fc5 with SMTP id
- 38308e7fff4ca-38691d5b13emr11291341fa.20.1770195287069; Wed, 04 Feb 2026
- 00:54:47 -0800 (PST)
+	s=arc-20240116; t=1770196245; c=relaxed/simple;
+	bh=k1hCD3sRLb1bgoyDYd8m0cN3T2po12B5Nj6OjrVvrV4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=O7If7J/qC9Xy5i1soPz0/Fm1fbwfkWZ1M4pX7QOE9GM43HbMVLcg8WeVB5vwSPV3HJArUS5D1RsQlVbJXnGiyDoSuuf5NUd1fTy1PNeb8iYoDWLhwhtsTd1veNaIviZdm3BIQKSEprZjURlHc2jV64VT0llTT97FAN+BFQcKtAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nLvsdkiU; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770196245; x=1801732245;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=k1hCD3sRLb1bgoyDYd8m0cN3T2po12B5Nj6OjrVvrV4=;
+  b=nLvsdkiUj2en0AdIPzr3OdTGCfgEScEw508cbfZ4cMOFxcDNNpeb3SwE
+   nrfT1z38Hfawd22zVP6YhkmuY4DfqH2yTmcdaiChXffRsf2CxXXWQ3DXW
+   vEsgGFpXKmrmPkkkR5RL6oZd86phMqdysMBqNR0qGYMcLRa6tMN8QJsOO
+   4bOhoQz6/EqRjCACO+Mw0o5WQAxV6tezssegclVL1Ap24RtvX2zR0210q
+   w720w3XTYB0+Cv3c60gCalZjXm8zuzGAo0+IjC2dVNEPFYNcmtbSzyPfd
+   UQ/6e8iSgbN99XnJJ3VFYee60uJLd7qrNAaNpIoIsqTudvxVSKQ6tHNcL
+   A==;
+X-CSE-ConnectionGUID: U+7mFVSNRoy8AAf0JGrbTw==
+X-CSE-MsgGUID: b4R9L/+RRS2819FBhXFt/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="73982251"
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="73982251"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 01:10:44 -0800
+X-CSE-ConnectionGUID: DxIIet9IQQSBQ3hM4ZzwcA==
+X-CSE-MsgGUID: 8dpVCxvAREOtK7ii3IlhtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="210172735"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.7])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 01:10:40 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rong Zhang
+ <i@rong.moe>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
+ modules
+In-Reply-To: <CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
+ <176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
+ <CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
+Date: Wed, 04 Feb 2026 11:10:37 +0200
+Message-ID: <6387ba7b99fb952a59932c3a851dfd0ecc4dfb2c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260122-scripts-container-ruff-fixes-v1-0-fd1b928c3f10@kernel.org>
-In-Reply-To: <20260122-scripts-container-ruff-fixes-v1-0-fd1b928c3f10@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 4 Feb 2026 17:54:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARZnMdSS-ObiNp1tQt8MX4jZZ3P3ibTjAfD2k1kj+K4NA@mail.gmail.com>
-X-Gm-Features: AZwV_QhQ8vM7KUFY025Xp7nVLu32uD8lpcnoPf2_6JLSQ5NS88nXTV9OA9hXL4c
-Message-ID: <CAK7LNARZnMdSS-ObiNp1tQt8MX4jZZ3P3ibTjAfD2k1kj+K4NA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] scripts/container: Minor fixups suggested by ruff
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Guillaume Tucker <gtucker@gtucker.io>, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-11027-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[masahiroy@kernel.org,linux-kbuild@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11028-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[jani.nikula@linux.intel.com,linux-kbuild@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 30117E367B
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,huawei];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 02980E3B11
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 8:27=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Hi all,
->
-> This series fixes a few warnings that I see when running
->
->   $ ruff check --select C4,RUF scripts/container
->
-> which were the few warnings from my personal ruff.toml that seemed most
-> interesting.
->
-> I will apply these on top of the initial scripts/container change.
->
-> ---
-> Nathan Chancellor (3):
->       scripts/container: Turn runtimes class variable into a tuple
->       scripts/container: Use list comprehension in get_names()
->       scripts/container: Use iterable unpacking for _get_opts()
->
->  scripts/container | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+On Wed, 04 Feb 2026, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> Since kernel-doc is a part of Kbuild,
+> all dependent libraries should exist under scripts/.
+
+Huh. I've always wondered why all the Kbuild makefiles are placed in
+scripts/, which appears to be a haphazard collection of, well, scripts
+and tools. But then you also have tools/.
+
+I've followed the kernel-doc refactoring from the sidelines, commenting
+on some things, but it never crossed my mind the build shouldn't depend
+on something outside of scripts/. (That's what I'm inferring here
+anyway.) And apparently that thought didn't occur to a lot of other
+people either, with even more kernel experience than myself.
+
+Sounds like the kernel config and build system would deserve a top-level
+directory like build/ or kbuild/, which collects everything needed for
+the build, nothing more, nothing less. Because scripts/ is not *that*.
+
+I understand all of this may be a historical accident, and possibly too
+painful to fix now, but is any of this documented anywhere either?
 
 
-scripts/container is written in a generic way.
-
-In my understanding, this runs an arbitrary
-command in a container, and that's it.
-Nothing is related to Kbuild.
-
-$ scripts/container  -i debian:trixie  echo hello
-hello
-
-If this script is really useful,
-why don't you keep this outside the kernel code
-so that non-kernel developers can use it?
+BR,
+Jani.
 
 
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Jani Nikula, Intel
 
