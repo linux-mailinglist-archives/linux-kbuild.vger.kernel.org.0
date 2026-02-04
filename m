@@ -1,195 +1,182 @@
-Return-Path: <linux-kbuild+bounces-11033-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11034-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QEmvNTsqg2kxigMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11033-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 12:15:07 +0100
+	id uE0jImVKg2m0kwMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11034-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 14:32:21 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449E2E4F66
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 12:15:05 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DF5E6720
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 14:32:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4F3B33054D15
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 11:12:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BB6A6300D9D8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 13:32:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951D93E95A7;
-	Wed,  4 Feb 2026 11:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B9A02417D9;
+	Wed,  4 Feb 2026 13:32:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHh0lm+T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cvqKVw8F"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CECA3D1CCC;
-	Wed,  4 Feb 2026 11:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC66335BA
+	for <linux-kbuild@vger.kernel.org>; Wed,  4 Feb 2026 13:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770203572; cv=none; b=iD1dwrDyQAFhh2FIdXegq2JSAB08JqI4NpRvNx90Oj3lFcOp/M6V6V+XefIOg/KY7KSpifhhfEoZAMiCtuPrad/Frd5NhDTLaKoAT0bbJbST6lFCzlvpKzGUyAFST9uekfHpYaCNwLpewpVh7qz743KWeRoa/oDGs+bMlZUkEU8=
+	t=1770211930; cv=none; b=OqIDARHykX2LBMKIl85pAoXbbyrokyPUXQY2T7BCnTaJmm8+mpwYN4xyo/L0Iwcgk3XLQOaKHrtI130AlTBIrrPCgKAVQJT4m5UZYUtsDR1VDMjldgBRI4SpYOgrrrgU3VQl7+xQeZK1lM1mvP68WE6TjEbInmE3qgYtV1xEJPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770203572; c=relaxed/simple;
-	bh=TKftG8kJFVas8V4VIQs0V1/DPoOwdE3BUWnQnjnqKQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r28nKABt6i7wu4iQcAs8AedZebl2Z0gJnMONWeuypwoYv5/QzBft0Sntu6uwIl3wU7MrWoycSkoT6WsVvF9y6fBJHrKwO/KzVbMzhMU7YO0KHgziFHOOcl4YXmWNbRwlHDzFP0g9wUGiuUXWfEPDyPs+rq9kBT2VBg33dquMkf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHh0lm+T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E46C9C16AAE;
-	Wed,  4 Feb 2026 11:12:51 +0000 (UTC)
+	s=arc-20240116; t=1770211930; c=relaxed/simple;
+	bh=Pq6UEhrJGx8+x2d0JVw7opgY4dyWUbUN1cqSbXcoGkQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cPOKXICQpAdb/gRj8Zk/PDYGnRoZxR78oQDjZkCt/OwF6rF9r85hxaFmKinBF+OXg2Ye0WwDGCFoHEgHKftcDGD8W6PrUZpNNmpFo2u/Ijn+B4ms+NZLyGsM09lOiAWUPVK45oRRysunRXHxjCAHeouktNcrM17eWmk3OpUVeU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cvqKVw8F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95136C2BCAF
+	for <linux-kbuild@vger.kernel.org>; Wed,  4 Feb 2026 13:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770203572;
-	bh=TKftG8kJFVas8V4VIQs0V1/DPoOwdE3BUWnQnjnqKQE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MHh0lm+TNiO0Rq8Cxqdd8JorUylnEv0sN8bu6s6GONXydfg4mpEijgIKpNrHtD8Tl
-	 zDcq/0xrk3UUvrJATxVQhHrd1GoauTwjQ2QbFFY/WdrVMwG7rfIfsf7VYJbAOTPkT3
-	 1RGZhVwg6q0aPhFyOEmTbO1CdMPxTcOcAuomB5P15edWrEeaL/Uy4kjMuMFdLaBA2m
-	 LP1QvV0iTze8L2nx7lZuad3nHlho2tQXVban72PdlfbGZs8Eana6Xfw1BIxgZ083kK
-	 cqpD5sAg8NxhQBoS7FHLDx/mYNfBUfXWeHzYL+1xqDHp4ri8KAvv3u48N2O3sTchmj
-	 WLy3cxRcX8mkA==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vnaoT-00000004xiO-1f6f;
-	Wed, 04 Feb 2026 12:12:49 +0100
-Date: Wed, 4 Feb 2026 12:12:47 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Nicolas Schier <nsc@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rong Zhang
- <i@rong.moe>
-Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
- modules
-Message-ID: <20260204121247.0ee0eac4@localhost>
-In-Reply-To: <dc38c823832997bc5f15dd9020e2e80c526f1b8a@intel.com>
-References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
-	<176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
-	<CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
-	<6387ba7b99fb952a59932c3a851dfd0ecc4dfb2c@intel.com>
-	<aYMbVcNvJPlLPaaG@derry.ads.avm.de>
-	<dc38c823832997bc5f15dd9020e2e80c526f1b8a@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1770211930;
+	bh=Pq6UEhrJGx8+x2d0JVw7opgY4dyWUbUN1cqSbXcoGkQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cvqKVw8FLXj6Y7r9/TUmsfdxWvSZF34aAWLLSmbzD0Pee1OHNdGVSLyNNIq/vM2k9
+	 C7UpNeZ0xuspBror64OJqYJiiqHcgzcmv7OKYpeWpN0cwAKawOdDv7ibSJW7GoNxHT
+	 vfI5+HMoXuLHZqgZ/iylqUGqvE2GPOsG+NtEH28Emd07ZUHE+75eVQPTt/5B6IaZsm
+	 8qWb3CVOxxAR8BU0OHttTSFoiut6z3GFaO45IWJeaJ9L7phJwX8IEU4DoxKuTb9NX8
+	 62rDa+eWAynCiOcdsDcCEDe6sV2PfeSmdzpc1Um7CT1DLZCR7JULIR6TdLe+/fL/Pl
+	 DvvWzDU24uwQA==
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64b9dfc146fso1478298a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 Feb 2026 05:32:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXJkdb2bQyWEQd6YIt5WtZN6LSR1RqB6JmYaxnJQK403lnOn6wyPmHNkiZT9LFYwvogqkzqcOP29I8YiTo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMVIjkyoUYpL1+9lOAG33fFCsRqz258HX0D4YwVrsQz2rpXQ+F
+	kAWfNpXJ3vtBRVjuPdOh+lw1/NqEKq1HLBW3cR8OeRC3BT44sUsqyEFl/22IXTpF0uW5HX0nNVU
+	bwzraeeq3HBwpzVL/gr79I68v95xLHg==
+X-Received: by 2002:a05:6402:5208:b0:658:bd60:43de with SMTP id
+ 4fb4d7f45d1cf-6594aa326d3mr2019451a12.13.1770211929106; Wed, 04 Feb 2026
+ 05:32:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260201130259.2906768-1-zhengxingda@iscas.ac.cn>
+ <20260204021603.GA2646832@ax162> <fc757c51cf9412e03df6e379266ae43bad77a5bf.camel@icenowy.me>
+ <ed9cd9a5d1f51b83c46ada7adb942e611c0c8a41.camel@icenowy.me> <20260204084517.GA3900164@ax162>
+In-Reply-To: <20260204084517.GA3900164@ax162>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 4 Feb 2026 07:31:57 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJdS77S8VD-smpBi_mSZ6s3C66mvh5OCzQNhWMTyvjp-w@mail.gmail.com>
+X-Gm-Features: AZwV_QiKOw3uITKc60sbhZpliAa-2DuV16x0HaNs9Zf9egNmPHLoP-jjsAKLTUs
+Message-ID: <CAL_JsqJdS77S8VD-smpBi_mSZ6s3C66mvh5OCzQNhWMTyvjp-w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: install-extmod-build: do not exclude scripts/dtc/libfdt/
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>, Nicolas Schier <nsc@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
+	Mingcong Bai <jeffbai@aosc.io>, WangYuli <wangyuli@uniontech.com>, 
+	Inochi Amaoto <inochiama@gmail.com>, James Le Cuirot <chewi@gentoo.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Rong Zhang <i@rong.moe>, 
+	Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11033-lists,linux-kbuild=lfdr.de,huawei];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11034-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[icenowy.me,kernel.org,aosc.io,uniontech.com,gmail.com,gentoo.org,vger.kernel.org,rong.moe];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 449E2E4F66
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: F2DF5E6720
 X-Rspamd-Action: no action
 
-On Wed, 04 Feb 2026 12:39:22 +0200
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Wed, Feb 4, 2026 at 2:45=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> On Wed, Feb 04, 2026 at 11:27:24AM +0800, Icenowy Zheng wrote:
+> > =E5=9C=A8 2026-02-04=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 11:26 +0800=EF=
+=BC=8CIcenowy Zheng=E5=86=99=E9=81=93=EF=BC=9A
+> > > =E5=9C=A8 2026-02-03=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 19:16 -0700=
+=EF=BC=8CNathan Chancellor=E5=86=99=E9=81=93=EF=BC=9A
+> > > > + Rob, Saravana, and devicetree@ since this concerns files they
+> > > > own.
+> > > >
+> > > > On Sun, Feb 01, 2026 at 09:02:59PM +0800, Icenowy Zheng wrote:
+> > > > > There exists a header file in include/linux/ called libfdt.h that
+> > > > > is
+> > > > > just a wrapper for libfdt header file in scripts/dtc/libfdt/.
+> > > > > This
+> > > > > makes
+> > > > > the headers inside libfdt copy at scripts/dtc/libfdt/ part of the
+> > > > > kernel
+> > > > > headers for building external modules.
+> > > > >
+> > > > > Do not exclude them, otherwise modules that include
+> > > > > <linux/libfdt.h>
+> > > > > will fail to build externally.
+> > > > >
+> > > > > Fixes: aaed5c7739be ("kbuild: slim down package for building
+> > > > > external modules")
+> > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > >
+> > > > This does indeed bring back scripts/dtc/libfdt back into the
+> > > > headers
+> > > > package that I examined. However, how does including libfdt.h in an
+> > > > external module actually work, even with this change? libfdt
+> > > > appears
+> > > > to
+> > > > be built into vmlinux IIUC and I do not see any EXPORT_SYMBOLs in
+> > > > the
+> > > > list, so how can you actually use any of the functions from libfdt
+> > > > within the module? Would you just build and link the pieces that
+> > > > your
+> > > > module needs using the other source files?
+> > >
+> > > To be honest what I met is quite weird -- my module [1] does not use
+> > > libfdt at all. However, as a MIPS platform-specific module, it
+> > > includes
+> > > arch/mips/include/asm/bootinfo.h, which pulls in libfdt.h.
+> > >
+> > > Or maybe I should prevent libfdt.h inclusion from other kernel
+> > > headers?
+> > > It looks like only two headers in MIPS architecture-specific code
+> > > includes libfdt.h, asm/bootinfo.h and asm/machine.h .
+>
+> Ah, thanks for that information. Moving the libfdt.h bits out of
+> bootinfo.h does not seem like it would be too difficult but I am less
+> sure about asm/machine.h. Alternatively, maybe this could be avoided by
+> separating out what you would need from bootinfo.h into its own header
+> but I did not look too hard.
 
-> On Wed, 04 Feb 2026, Nicolas Schier <nsc@kernel.org> wrote:
-> > Well, sounds straight forward at first, but where should we make the
-> > cut between kbuild and non-kbuild?  
-> 
-> I'll reply hypothetically, just for the sake of discussion, because
-> realistically, I don't think any of this is going to happen.
-> 
-> IMO the cut should be, "Is this required for configuring and building
-> the kernel"?
+There shouldn't be that many locations using libfdt functions. Add the
+header where it is used. IWYU
 
-Agreed. Going further, maybe the best would be to define it per make
-target, placing them on 3 groups:
+> As for a solution within install-extmod-build, maybe the libfdt headers
+> could be included so that inadvertent inclusions of libfdt.h do not
+> break the build but the link fails if the module actually tries to use
+> any libfdt functions?
 
-- kbuild - make targets related to actually build the kernel;
-- docs-build - make targets related to build docs;
-- non-kbuild - the remaining random stuff over there.
+You do this and then we get to keep the work-around forever as no one
+will care. MIPS is a mess that needs to be cleaned up.
 
-To properly define what should be there, maybe the best would be to
-look at "make help" and define what belongs to each group:
-
-
-Cleaning targets:
-- mostly kbuild (documentation is also part of cleaning targets)
-
-Configuration targets:
-- kbuild
-
-Configuration topic targets:
-- kbuild (I guess)
-
-Other generic targets:
-- kbuild: all, vmlinux, modules, modules_install, vdso_install, dir/*
-- There is a grey area here with targets like cscope, gtags, tags/TAGS.
-  I would consider those as non-kbuild.
-
-Static analysers, Tools, Kernel selftest:
-- I would also consider those as no-kbuild
-
-Rust targets:
-- dir/*: kbuild
-- the other ones seem ancillary tooling. Probably, non-kbuild
-
-Userspace tools targets:
-- for sure no-kbuild
-
-Kernel packaging:
-- no-kbuild
-
-Documentation targets:
-- docs-build
-
-Architecture-specific targets:
-- kbuild
-
-> 
-> scripts/ just sounds like a dumping ground for random scripts, and
-> kbuild should be somewhere else. And let scripts/ be the dumping ground
-> that it is. If kbuild was under kbuild/, nobody in their right mind
-> would suggest adding random unrelated scripts there.
-> 
-> If kbuild depends on some things like objtool from somewhere else, so be
-> it, but at least don't pollute kbuild with unrelated things.
-
-Agreed. Yet, better to document it somewhere.
-
-> 
-> > I admit that there are some scripts below scripts/ that I'd rather
-> > label as "contrib", but I don't think that these are too much.  
-> 
-> I've got to disagree there. I think there's so much that it's hard to
-> follow what is and isn't actually required for build.
-> 
-> At a *very* quick glance, there are things like checkpatch.pl,
-> get_maintainer.pl, anything coccinelle, bash-completion, Lindent,
-> macro_checker.py, bloat-o-meter, bootgraph.pl, etc, etc.
-
-So true. on its current state, scripts/ is a place where people
-ended adding random stuff over time.
-
--- 
-Thanks,
-Mauro
+Rob
 
