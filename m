@@ -1,194 +1,145 @@
-Return-Path: <linux-kbuild+bounces-11026-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11027-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0PDULScIg2lLgwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11026-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 09:49:43 +0100
+	id oMZlMzAKg2k+hAMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11027-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 09:58:24 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209D5E3549
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 09:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30117E367B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 09:58:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 25E14301A704
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 08:46:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8EBB93028EC5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 08:54:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E1C399001;
-	Wed,  4 Feb 2026 08:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED99639A81E;
+	Wed,  4 Feb 2026 08:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDeJ+4Wj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqB3LJ5R"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C252D39525A;
-	Wed,  4 Feb 2026 08:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEFA214A9B
+	for <linux-kbuild@vger.kernel.org>; Wed,  4 Feb 2026 08:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770194783; cv=none; b=RWE/Cv97hSWoKREnD5R91kl2x7K5tehkh6R1vQxNdEf+8yEGgjg0uSOXHhUHAQx7LppdRpd9kuVYB73txRgZiVaSyqhXh8pK8MBNkdQDr28sRlu5fV+VYmcESr+cqeU1mSAbPQhcsauymAUBmKNKIaJeMrxvMXPubJNXTrgrC+8=
+	t=1770195288; cv=none; b=bOs069FLbNrLT5r+s5ouVVq7U09nbGR2BLzl9TS3qIirJZws+idSb1wlMIJ6+4zeHIbXK46ekxfDVOk0rm0JBTYLuUxD4oIDoDWqZL/dlnBz+rPweeSxJn2/Xy3ltVwTNEu6GW1ModYGLJQxEymByJHI+gL4zVH1VCbHn0s6jzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770194783; c=relaxed/simple;
-	bh=gmNMCCI5NZOsnSxNVmd/K1kyzXPGn2eU/LmGenWiOGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OR5ipXP/M72eCrIx0DmBviosotzSRxnaGomGMySxaQUdMhIJShSGeZ8U3QCTQXsz7JfvaCF75JPioyitRRUIxdaJODWupk2+V8PkPmwVQdCz59NMxbM01/PgYoyYtWCinXfCCt8ZO2HgdDNVK5GiQv7QsBf8bUcegfnxYgehZ8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDeJ+4Wj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3EF5C16AAE;
-	Wed,  4 Feb 2026 08:46:20 +0000 (UTC)
+	s=arc-20240116; t=1770195288; c=relaxed/simple;
+	bh=R5mja2gOlOuVT8fDcPXItAXnFanLcrP6joW/cVhdHmU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o+E6KfTSTfBEQroqaouj5g6bXdSpaGR60m6gXYQW4COKUuCJJPsXy5u11kp8UJm4f1pqwDWsE87z6oAoyYGeFfN5IMh5v5uhP+6vDJiEie39BA8vFQ5HkNq4QDogUFnJoeYlIk/3IH39Kb5u9vhgJzPU0KOzPqCkUWFNtj2ExqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqB3LJ5R; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630BFC4AF09
+	for <linux-kbuild@vger.kernel.org>; Wed,  4 Feb 2026 08:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770194783;
-	bh=gmNMCCI5NZOsnSxNVmd/K1kyzXPGn2eU/LmGenWiOGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fDeJ+4Wj2yC+G7JFjFrm9qnaVc17U5liGPQcgKgvVyxnC2eVJYKT0iw1vJQosft8Y
-	 OxvJsG9JLhlbOQkZlX6RLlru8JJfdTcXYMrOa0YUT0NA22q/3Dguk+OV3t3cfj2GmO
-	 od/e51+k+o4iChCys4sGUQHGW/LCGjL4g+wgCGcn43yCeBe3+6DhYrTsopqtkgqx2L
-	 3DxN4tqyUGBeL3NY2WpWaSzfXz6JpEV1Y8XalvqcAUUvcoThbie7WdqGyvbXq+5E6Z
-	 wX4NEC9UUD4XJfkwF/c0moOUWfvCrvnjKEHTK7+/Aj3xhPtxEUW/OkPp39wM1hXF5j
-	 6xCdLeefW55Yw==
-Date: Wed, 4 Feb 2026 01:46:17 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Nicolas Schier <nsc@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>, Mingcong Bai <jeffbai@aosc.io>,
-	WangYuli <wangyuli@uniontech.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	James Le Cuirot <chewi@gentoo.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Rong Zhang <i@rong.moe>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH] kbuild: install-extmod-build: do not exclude
- scripts/dtc/libfdt/
-Message-ID: <20260204084617.GB3900164@ax162>
-References: <20260201130259.2906768-1-zhengxingda@iscas.ac.cn>
- <20260204021603.GA2646832@ax162>
- <fc757c51cf9412e03df6e379266ae43bad77a5bf.camel@icenowy.me>
- <ed9cd9a5d1f51b83c46ada7adb942e611c0c8a41.camel@icenowy.me>
- <20260204084517.GA3900164@ax162>
+	s=k20201202; t=1770195288;
+	bh=R5mja2gOlOuVT8fDcPXItAXnFanLcrP6joW/cVhdHmU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=UqB3LJ5RY+gb8yYobzTMCcRKbowxzhpkpQ63TRcPp9e1dfSohSISPHetTSrN/+4Hc
+	 96pZo65OBHLq7CvO17IQhx5zI+XPpP5GH7hX+oEstSA3ehnuke7MhUd0OUAEWQ2Kky
+	 k2WOu3EHagAdGKr7e375B8BiObKFLRMucBKxGxox8GQ+GCvsrKjSwY5UOjX5+iHt3o
+	 isDEHhOjiYA/UotE3xEbUBfqVfeJlET4GZLHswlAG5lUhjJVMUHFZtNK01dHMRlPL8
+	 F2lv4ROtFv4zj5ziniZMUAYtlQ4kRYh3kM2vTAqhuci2YW+KR1RZI5OVS8/vj2EChc
+	 g+a1Tm9reNe0A==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38320cd563aso5124721fa.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 Feb 2026 00:54:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXn61A+Lz26d430RN3Z4A+VkJPw3GyTjQmZNCTxK5Q71bdZ0VkeV2qjsdy45inT1KP7Hfe2C7YxNsPPu2E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzta8HwFU0gL2Wp4J7/9OM4W/jBmQG8JECKMy98n0PchwUDNTrG
+	xyrYS0K+hA2jo0o9zLJalqK+mKtEapW1xARrB5jWgbXBKs9ZS+wmMOo/dzpCk0CNdgFe+VHbHYQ
+	6L+tMKuLKV6fEEBWixpSf2vYO4QDzAag=
+X-Received: by 2002:a05:651c:3259:b0:385:bc69:fc5 with SMTP id
+ 38308e7fff4ca-38691d5b13emr11291341fa.20.1770195287069; Wed, 04 Feb 2026
+ 00:54:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260204084517.GA3900164@ax162>
+References: <20260122-scripts-container-ruff-fixes-v1-0-fd1b928c3f10@kernel.org>
+In-Reply-To: <20260122-scripts-container-ruff-fixes-v1-0-fd1b928c3f10@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 4 Feb 2026 17:54:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARZnMdSS-ObiNp1tQt8MX4jZZ3P3ibTjAfD2k1kj+K4NA@mail.gmail.com>
+X-Gm-Features: AZwV_QhQ8vM7KUFY025Xp7nVLu32uD8lpcnoPf2_6JLSQ5NS88nXTV9OA9hXL4c
+Message-ID: <CAK7LNARZnMdSS-ObiNp1tQt8MX4jZZ3P3ibTjAfD2k1kj+K4NA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] scripts/container: Minor fixups suggested by ruff
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Guillaume Tucker <gtucker@gtucker.io>, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11026-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,aosc.io,uniontech.com,gmail.com,gentoo.org,vger.kernel.org,rong.moe];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-11027-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[masahiroy@kernel.org,linux-kbuild@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 209D5E3549
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 30117E367B
 X-Rspamd-Action: no action
 
-On Wed, Feb 04, 2026 at 01:45:23AM -0700, Nathan Chancellor wrote:
-> On Wed, Feb 04, 2026 at 11:27:24AM +0800, Icenowy Zheng wrote:
-> > 在 2026-02-04星期三的 11:26 +0800，Icenowy Zheng写道：
-> > > 在 2026-02-03星期二的 19:16 -0700，Nathan Chancellor写道：
-> > > > + Rob, Saravana, and devicetree@ since this concerns files they
-> > > > own.
-> > > > 
-> > > > On Sun, Feb 01, 2026 at 09:02:59PM +0800, Icenowy Zheng wrote:
-> > > > > There exists a header file in include/linux/ called libfdt.h that
-> > > > > is
-> > > > > just a wrapper for libfdt header file in scripts/dtc/libfdt/.
-> > > > > This
-> > > > > makes
-> > > > > the headers inside libfdt copy at scripts/dtc/libfdt/ part of the
-> > > > > kernel
-> > > > > headers for building external modules.
-> > > > > 
-> > > > > Do not exclude them, otherwise modules that include
-> > > > > <linux/libfdt.h>
-> > > > > will fail to build externally.
-> > > > > 
-> > > > > Fixes: aaed5c7739be ("kbuild: slim down package for building
-> > > > > external modules")
-> > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> > > > 
-> > > > This does indeed bring back scripts/dtc/libfdt back into the
-> > > > headers
-> > > > package that I examined. However, how does including libfdt.h in an
-> > > > external module actually work, even with this change? libfdt
-> > > > appears
-> > > > to
-> > > > be built into vmlinux IIUC and I do not see any EXPORT_SYMBOLs in
-> > > > the
-> > > > list, so how can you actually use any of the functions from libfdt
-> > > > within the module? Would you just build and link the pieces that
-> > > > your
-> > > > module needs using the other source files?
-> > > 
-> > > To be honest what I met is quite weird -- my module [1] does not use
-> > > libfdt at all. However, as a MIPS platform-specific module, it
-> > > includes
-> > > arch/mips/include/asm/bootinfo.h, which pulls in libfdt.h.
-> > > 
-> > > Or maybe I should prevent libfdt.h inclusion from other kernel
-> > > headers?
-> > > It looks like only two headers in MIPS architecture-specific code
-> > > includes libfdt.h, asm/bootinfo.h and asm/machine.h .
-> 
-> Ah, thanks for that information. Moving the libfdt.h bits out of
-> bootinfo.h does not seem like it would be too difficult but I am less
-> sure about asm/machine.h. Alternatively, maybe this could be avoided by
-> separating out what you would need from bootinfo.h into its own header
-> but I did not look too hard.
-> 
-> As for a solution within install-extmod-build, maybe the libfdt headers
-> could be included so that inadvertent inclusions of libfdt.h do not
-> break the build but the link fails if the module actually tries to use
-> any libfdt functions?
-> 
-> > Ah, forgot to place the [1] reference link, although I doubt whether
-> > it's really related to the context:
-> > 
-> > [1] https://github.com/Icenowy/mips-loong-3nod-laptop-driver
-> 
-> This was helpful for testing the following diff, so thanks for providing
-> it still.
-> 
-> Cheers,
-> Nathan
+On Fri, Jan 23, 2026 at 8:27=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> Hi all,
+>
+> This series fixes a few warnings that I see when running
+>
+>   $ ruff check --select C4,RUF scripts/container
+>
+> which were the few warnings from my personal ruff.toml that seemed most
+> interesting.
+>
+> I will apply these on top of the initial scripts/container change.
+>
+> ---
+> Nathan Chancellor (3):
+>       scripts/container: Turn runtimes class variable into a tuple
+>       scripts/container: Use list comprehension in get_names()
+>       scripts/container: Use iterable unpacking for _get_opts()
+>
+>  scripts/container | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 
-Of course forgot to provide said diff...
 
-diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-index 2576cf7902db..45cc3863e8a7 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -25,6 +25,9 @@ mkdir -p "${destdir}"
- 	find "arch/${SRCARCH}" -name Kbuild.platforms -o -name Platform
- 	find include \( -name config -o -name generated \) -prune -o \( -type f -o -type l \) -print
- 	find_in_scripts
-+	echo scripts/dtc/libfdt/fdt.h
-+	echo scripts/dtc/libfdt/libfdt.h
-+	echo scripts/dtc/libfdt/libfdt_env.h
- ) | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${destdir}"
- 
- {
+scripts/container is written in a generic way.
+
+In my understanding, this runs an arbitrary
+command in a container, and that's it.
+Nothing is related to Kbuild.
+
+$ scripts/container  -i debian:trixie  echo hello
+hello
+
+If this script is really useful,
+why don't you keep this outside the kernel code
+so that non-kernel developers can use it?
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
