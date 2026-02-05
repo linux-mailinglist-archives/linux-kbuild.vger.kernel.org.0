@@ -1,158 +1,224 @@
-Return-Path: <linux-kbuild+bounces-11037-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11040-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aG1rKNqbg2nppwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11037-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 20:19:54 +0100
+	id UPMPEVxThGkx2gMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11040-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Feb 2026 09:22:52 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E647EC05A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Feb 2026 20:19:53 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E452EFD5B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Feb 2026 09:22:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7A1E030055F7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Feb 2026 19:19:50 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 56E133008626
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Feb 2026 08:22:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4781734AB16;
-	Wed,  4 Feb 2026 19:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C4A36212B;
+	Thu,  5 Feb 2026 08:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Q376kZR8"
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="nFwvjlpD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
+Received: from sender4-pp-g123.zoho.com (sender4-pp-g123.zoho.com [136.143.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECBD37F0FB;
-	Wed,  4 Feb 2026 19:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770232788; cv=none; b=P5ZuoMFgdGTWl234Iom5r+4k2jybtwa/hwfsyZ7aQtXmiXrEer2gJC6SF7kT824oWb6oPLP5lc7yjoU9br81Pc3qUeYpe6HFPl/LptY6bn3wvL0Kl+MqtuwpBM8aGoGsvmd2PaoduGAptTYi/fqMoPB5SqaJ0zLVEnMGhmg7gwo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770232788; c=relaxed/simple;
-	bh=dx/n2ZSnVbr5KLV93z31YExmyUZ4EQEgGgGeMkJk0wo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=axOrC59i2eIt4a2xF6tFsq3WYQ70zxSM+4Z4ttjxUMERxt4b2hsOcwgp/+XbjE5WeMk7fTxT24raONo+YS7oU8qVSu5KW+AUzZcjIcmaiZRxOcK5iuGGzjqGheuo+2vQD4Ug/mQWWnALB41+8v+Lvsuev4/dlMECRsemYY385js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=Q376kZR8; arc=none smtp.client-ip=85.9.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1770232778; x=1770491978;
-	bh=xt/M6F0af0Aewj/HTy9bWBamZzfKiE3bbOG01o2uFtM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Q376kZR8Pto71tvnj6n7GjgscdCs98sLMqjUgRQmz9oAx5a8WwuDDn655K2JU1/3d
-	 1lMyY7iBcsrKZHLByNeh4kVrYx30qm7/xA/xsxMWjZajX5jn8vPtm410ZakXeZOLaw
-	 Ze935eM/LjnMXgNX7dBQ12NTbWpSBCfrM8816cZ6L0oKa37a8AVJGSu64pldMMJjoe
-	 7wN047NUvVO51ok7tpvhmhsiBOhrSJ7rlesDsanEpDeOK8wOsBfmN6xh76pzz8gpkg
-	 zydmErghLTkxQgzLSmB/NZJttJzrCRmrWQWWN4hpag/EUbtp/feJsVr/CdHNp7YH5C
-	 4TulsISPmxZJw==
-Date: Wed, 04 Feb 2026 19:19:34 +0000
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: m.wieczorretman@pm.me, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH v10 03/13] kasan: Fix inline mode for x86 tag-based mode
-Message-ID: <2ee8abb956de90ce843a3fb7b971377887fe7a79.1770232424.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1770232424.git.m.wieczorretman@pm.me>
-References: <cover.1770232424.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 4be30621188735452b609f7e3a4c7ebd98176383
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8386D361DC5;
+	Thu,  5 Feb 2026 08:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.123
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770279758; cv=pass; b=mho+W1oawrKerDvUz447yxN7+7vf6otivTXJXgmyK8PIH87s2YBgKLkCFujnz0EArK3dLcr/0pV9dQ236mPdrDs7ahABn5NlJMfNKJJeC8tTaXkBoTt5Fz3FGnYJwX8Hor6hJmUe4iOQq869efTrzFBb8UzB+QXgdXqrgFuvH0Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770279758; c=relaxed/simple;
+	bh=KX8SoHLXFD+hXBQkIr9EhsKDttDXNItNDBV6BxC2Dwg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=B6eBfGur/7M4Oxyr7HXt4k3o11gqF91Wy5yG7V5tx4WbAb3jo9/cOOtAi2fqEZzw6fDGXteNsyjTzhOcFu8OtZ/ESkRXusnd5wtIOS48htIVsBHow0SNLz+TBbpQvvHnyLJR+c5YCYYo9RGvz0ylP1A0xk3Cz7ty4SY/BLxe79M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=nFwvjlpD; arc=pass smtp.client-ip=136.143.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+ARC-Seal: i=1; a=rsa-sha256; t=1770279736; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=e37DTfkJ5CFlNkQV2jmeQgmAaLK+Wu/w+T/8XkMR7+BeKbYcD8GEPyzfzKHByB5TS+sU5rk7MNir1VyS9ILOhM2K9hU0L+HD0vXm+MTIvtmS0qPB07bEJ5255sXfEip51tFSHrs8WTAVFhmTIznSqE0xQSSXPF4cfvLHd0ewMJ4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770279736; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=KX8SoHLXFD+hXBQkIr9EhsKDttDXNItNDBV6BxC2Dwg=; 
+	b=bFwUgMlD7h8KF6uAuI6aZSSGiB1+yVuItKYw8Z8ePTG1eAemQqGdmVHAcWiBV+YWC5AsmRBKBG90mcUDVow599kwNQZtdaeREVGifGamQQwStm1EBIBBfz7b169vOxAZ0mq1wZ9WUyb0BeAZr2f+SJKcsuiZyVA0RosM+94X9cQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770279736;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=KX8SoHLXFD+hXBQkIr9EhsKDttDXNItNDBV6BxC2Dwg=;
+	b=nFwvjlpDQIXov2TtG2ZnW9GzbymC1jve4QkUrf31DWW0VUGpH7TYw8xI4R8wvIOU
+	/Blh7/2Pv2Xfhfs820Q3eJB0rd01FDRRj4OKUQD+8+clCYubC46odpBD4q6WXYX8Wz0
+	rtfIziSo2ctmgtY6lSn4jv/wRcuYJpEQ00KmQWX0DuIym+FZFkNStLnZiRI+i2L7Zad
+	UHA00gU13/wRC/DL2WLxmcqoCpSXZkvdwEAPU9up6UeDdrvj8bGxieluLybnnGYUZDW
+	och4++42H5FVnUp9NRXC30ySuy3CIti3ChWyPlXChf5bM93LBT1Xnr/RGBWbVZifJTi
+	sCJqbzYRCg==
+Received: by mx.zohomail.com with SMTPS id 1770279733473580.7790868083038;
+	Thu, 5 Feb 2026 00:22:13 -0800 (PST)
+Message-ID: <f630f4b595027fbd60d440eb90c3e332c2b52def.camel@icenowy.me>
+Subject: Re: [PATCH] kbuild: install-extmod-build: do not exclude
+ scripts/dtc/libfdt/
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+  Abel Vesa <abelvesa@kernel.org>, Mingcong Bai <jeffbai@aosc.io>, WangYuli
+ <wangyuli@uniontech.com>,  Inochi Amaoto <inochiama@gmail.com>, James Le
+ Cuirot <chewi@gentoo.org>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Rong Zhang <i@rong.moe>, Rob Herring
+ <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+ devicetree@vger.kernel.org
+Date: Thu, 05 Feb 2026 16:22:05 +0800
+In-Reply-To: <20260204084517.GA3900164@ax162>
+References: <20260201130259.2906768-1-zhengxingda@iscas.ac.cn>
+	 <20260204021603.GA2646832@ax162>
+	 <fc757c51cf9412e03df6e379266ae43bad77a5bf.camel@icenowy.me>
+	 <ed9cd9a5d1f51b83c46ada7adb942e611c0c8a41.camel@icenowy.me>
+	 <20260204084517.GA3900164@ax162>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
-	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[icenowy.me,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[icenowy.me:s=zmail2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11037-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	TAGGED_FROM(0.00)[bounces-11040-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,aosc.io,uniontech.com,gmail.com,gentoo.org,vger.kernel.org,rong.moe];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,arm.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[pm.me:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.wieczorretman@pm.me,linux-kbuild@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[uwu@icenowy.me,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[icenowy.me:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,pm.me:mid,pm.me:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9E647EC05A
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5E452EFD5B
 X-Rspamd-Action: no action
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+=E5=9C=A8 2026-02-04=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 01:45 -0700=EF=BC=
+=8CNathan Chancellor=E5=86=99=E9=81=93=EF=BC=9A
+> On Wed, Feb 04, 2026 at 11:27:24AM +0800, Icenowy Zheng wrote:
+> > =E5=9C=A8 2026-02-04=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 11:26 +0800=EF=
+=BC=8CIcenowy Zheng=E5=86=99=E9=81=93=EF=BC=9A
+> > > =E5=9C=A8 2026-02-03=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 19:16 -0700=
+=EF=BC=8CNathan Chancellor=E5=86=99=E9=81=93=EF=BC=9A
+> > > > + Rob, Saravana, and devicetree@ since this concerns files they
+> > > > own.
+> > > >=20
+> > > > On Sun, Feb 01, 2026 at 09:02:59PM +0800, Icenowy Zheng wrote:
+> > > > > There exists a header file in include/linux/ called libfdt.h
+> > > > > that
+> > > > > is
+> > > > > just a wrapper for libfdt header file in scripts/dtc/libfdt/.
+> > > > > This
+> > > > > makes
+> > > > > the headers inside libfdt copy at scripts/dtc/libfdt/ part of
+> > > > > the
+> > > > > kernel
+> > > > > headers for building external modules.
+> > > > >=20
+> > > > > Do not exclude them, otherwise modules that include
+> > > > > <linux/libfdt.h>
+> > > > > will fail to build externally.
+> > > > >=20
+> > > > > Fixes: aaed5c7739be ("kbuild: slim down package for building
+> > > > > external modules")
+> > > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > >=20
+> > > > This does indeed bring back scripts/dtc/libfdt back into the
+> > > > headers
+> > > > package that I examined. However, how does including libfdt.h
+> > > > in an
+> > > > external module actually work, even with this change? libfdt
+> > > > appears
+> > > > to
+> > > > be built into vmlinux IIUC and I do not see any EXPORT_SYMBOLs
+> > > > in
+> > > > the
+> > > > list, so how can you actually use any of the functions from
+> > > > libfdt
+> > > > within the module? Would you just build and link the pieces
+> > > > that
+> > > > your
+> > > > module needs using the other source files?
+> > >=20
+> > > To be honest what I met is quite weird -- my module [1] does not
+> > > use
+> > > libfdt at all. However, as a MIPS platform-specific module, it
+> > > includes
+> > > arch/mips/include/asm/bootinfo.h, which pulls in libfdt.h.
+> > >=20
+> > > Or maybe I should prevent libfdt.h inclusion from other kernel
+> > > headers?
+> > > It looks like only two headers in MIPS architecture-specific code
+> > > includes libfdt.h, asm/bootinfo.h and asm/machine.h .
+>=20
+> Ah, thanks for that information. Moving the libfdt.h bits out of
+> bootinfo.h does not seem like it would be too difficult but I am less
+> sure about asm/machine.h. Alternatively, maybe this could be avoided
+> by
+> separating out what you would need from bootinfo.h into its own
+> header
+> but I did not look too hard.
 
-The LLVM compiler uses hwasan-instrument-with-calls parameter to setup
-inline or outline mode in tag-based KASAN. If zeroed, it means the
-instrumentation implementation will be pasted into each relevant
-location along with KASAN related constants during compilation. If set
-to one all function instrumentation will be done with function calls
-instead.
+A bad joke -- the driver seems to require no bootinfo.h now. It's a
+stale inclusion (because it's taken from some downstream tree and
+rewritten to use mainline i8042 lock). Sorry for this...
 
-The default hwasan-instrument-with-calls value for the x86 architecture
-in the compiler is "1", which is not true for other architectures.
-Because of this, enabling inline mode in software tag-based KASAN
-doesn't work on x86 as the kernel script doesn't zero out the parameter
-and always sets up the outline mode.
+Although I do think the libfdt.h inclusion should be removed from MIPS
+headers.
 
-Explicitly zero out hwasan-instrument-with-calls when enabling inline
-mode in tag-based KASAN.
+For testing this any stub module can work with `#include
+<asm/bootinfo.h>` (or machine.h) injected...
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
-Reviewed-by: Andrey Ryabinin <ryabinin.a.a@gmail.com>
----
-Changelog v9:
-- Add Andrey Ryabinin's Reviewed-by tag.
+>=20
+> As for a solution within install-extmod-build, maybe the libfdt
+> headers
+> could be included so that inadvertent inclusions of libfdt.h do not
+> break the build but the link fails if the module actually tries to
+> use
+> any libfdt functions?
 
-Changelog v7:
-- Add Alexander's Reviewed-by tag.
+I don't think it proper either.
 
-Changelog v6:
-- Add Andrey's Reviewed-by tag.
+By the way, should include/linux/libfdt.h be removed from extmod build
+installations? As it's not going to work...
 
-Changelog v3:
-- Add this patch to the series.
-
- scripts/Makefile.kasan | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-index 0ba2aac3b8dc..e485814df3e9 100644
---- a/scripts/Makefile.kasan
-+++ b/scripts/Makefile.kasan
-@@ -76,8 +76,11 @@ CFLAGS_KASAN :=3D -fsanitize=3Dkernel-hwaddress
- RUSTFLAGS_KASAN :=3D -Zsanitizer=3Dkernel-hwaddress \
- =09=09   -Zsanitizer-recover=3Dkernel-hwaddress
-=20
-+# LLVM sets hwasan-instrument-with-calls to 1 on x86 by default. Set it to=
- 0
-+# when inline mode is enabled.
- ifdef CONFIG_KASAN_INLINE
- =09kasan_params +=3D hwasan-mapping-offset=3D$(KASAN_SHADOW_OFFSET)
-+=09kasan_params +=3D hwasan-instrument-with-calls=3D0
- else
- =09kasan_params +=3D hwasan-instrument-with-calls=3D1
- endif
---=20
-2.53.0
-
+>=20
+> > Ah, forgot to place the [1] reference link, although I doubt
+> > whether
+> > it's really related to the context:
+> >=20
+> > [1] https://github.com/Icenowy/mips-loong-3nod-laptop-driver
+>=20
+> This was helpful for testing the following diff, so thanks for
+> providing
+> it still.
+>=20
+> Cheers,
+> Nathan
 
 
