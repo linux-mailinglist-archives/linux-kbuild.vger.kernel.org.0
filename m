@@ -1,169 +1,177 @@
-Return-Path: <linux-kbuild+bounces-11071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11072-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CPJ5GL9Ph2k7WQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11071-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Feb 2026 15:44:15 +0100
+	id VnA6KsVYh2lnXAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11072-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Feb 2026 16:22:45 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B836D1063F9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Feb 2026 15:44:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FFD1065A0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Feb 2026 16:22:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5D338301778D
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Feb 2026 14:44:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 098423013D4F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Feb 2026 15:22:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8522E34F495;
-	Sat,  7 Feb 2026 14:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3516F3542DD;
+	Sat,  7 Feb 2026 15:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="srNNUUnT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvmOTq18"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC3C285CB6;
-	Sat,  7 Feb 2026 14:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770475452; cv=none; b=OfQlhug6OkJ1vJkutKT6Ut1Wgh1ElPvbaZzvPeOFWfFM8kOvaM4+QVjOW8xUGZ+plUdvKA8qK0y+RAn/YuF+jarR3fEnnK5uQiUiJZ6AwMLJgOaZl7quKMtmTWZBwJpUOhvjV8PlIGg78wQ0h2u+RJd7c3y6A0W8WKwUADzjAEs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770475452; c=relaxed/simple;
-	bh=GRB53qmLbtIgjt4JBhRaCv1A2w2EobofQS0l4E+aASI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mJyqzsxYnzbLrNlkeezLpku0tsl+Doa4LJh/fjkefAJYJNuiTw7Eo8VbbJDrGCupG+bpR15/tbV6TuDwsLKqW9oIxU8hJa1teKdcsy6cRh3UTpmdgT41hdR38Wbeoc/HQFtx2D6w0v9wfW93L32l45tP6ztAYT2IX2Juy7FU5nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=srNNUUnT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09DB5C116D0;
-	Sat,  7 Feb 2026 14:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770475451;
-	bh=GRB53qmLbtIgjt4JBhRaCv1A2w2EobofQS0l4E+aASI=;
-	h=From:To:Cc:Subject:Date:Reply-To:From;
-	b=srNNUUnT5xDRBR3rHAnL6nMS2A5O77eUlyg/Uyavg4saTKYCELlV+EZChf6Jju/Vy
-	 IdZEQ3OUdfU2oYZVaTjv0KGOezGT1xj9FLV36Tk7v5ZD2YCGE1T8dnRZzFo7E7Zcwn
-	 hTBN+LeU8GZv16RZ6HxID01aVb2q41qfcUoijMZssgEJoKXq6qIHY9IwsXoCON/Oxu
-	 OGCZxaLOUULwW0xLeGDlYpdLpi/uAvpkl4RGzQw80T+YlYdgrj3vjtGUkni6OGbqyY
-	 uWi7gUHDy1JAzArBY+mPDbsjf5tzCfxltraAInQwsFV3Esf0oFXE4id2+uQGOVii7N
-	 FnRCEVQJLG7tQ==
-From: Gary Guo <gary@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: Janne Grunau <j@jannau.net>,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] rust: build: remap path to avoid absolute path
-Date: Sat,  7 Feb 2026 14:43:55 +0000
-Message-ID: <20260207144356.3063613-1-gary@kernel.org>
-X-Mailer: git-send-email 2.51.2
-Reply-To: Gary Guo <gary@garyguo.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F295F353ED4
+	for <linux-kbuild@vger.kernel.org>; Sat,  7 Feb 2026 15:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770477760; cv=pass; b=VZ/lGgXR0O8rKk+Q3KFQ+OwXEQxrnSsNSR9Ied9DE7TW4vgJYrFnA64tniEsDVy0Y9iSSuFYre1LEO+G9W9hPHL+7OLBPW4ic6XZrVAlryYzSsvLqV7yHMXKB3gwwkpgYR/dyNHp7culEuki745UKXs/9FM5IeAl7AXbY6t/0XA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770477760; c=relaxed/simple;
+	bh=WDZJqIG3WSFtF9/bJ5L1DSjSTILWykbHAEJcNCsu2+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qiXYldOErmd6azB0cjgimdOVrk7lVGM96xmTN1TaiByLOyDBsRnNFjyHlyALzk7j1Z/mtQ7ymV05N1YSKdnHGpTeDvLyW7VsW2LHrTe+oHSKSWpx1ZfC4tS+t2ncp/NwaHcgcPX36tcLDtrhLyUwSo+rrfGeTij34jeBZmFCpRo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvmOTq18; arc=pass smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1233ad1b4cdso222863c88.0
+        for <linux-kbuild@vger.kernel.org>; Sat, 07 Feb 2026 07:22:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770477759; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lOsVyaa+cxKeLzehgI09SMbhJzok8COYm2ZEb4BJOWTwNwSOl6BWpgss72cVUdI9TA
+         75a7g3O/a0+b1pU+xz/kreb4p616UTXQK9PeIL6/sGLqk9eXgytr904Dv7vV+EZ7JZQD
+         eUWlV5Bvm0sADFBhWMChF2Z9Lwi1TM+UKPBLkDDgsfS5975Knk2LWYYmQyJk4nUmBtfs
+         FEz0bkmO/22MnPIli3X7eyS/qQ8+R0m84FWXTmjv28NBTzFP4wTzMTPRNw3lMZ2HirQm
+         Sv9LrN7Ipnm7DEvr2jIg1RUS2LjZ5SOVtIJtXHt+gtXNtHxjSBeN+gGoTU6KfZM2ic9L
+         cI9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=clWv6MMAerLjp6KJnFnGBnvJGSBom/0zmYqwMTULdjU=;
+        fh=JxiUHLRbjj3rEroAFptUExcKC0yfkfU+AruFQVao/zg=;
+        b=DKijJSoVyuXefvUmpdQEyQXpED32wPvG/Q6Eq/JqjG0k0zdJY+EbYULA4997X/6EvC
+         sX+2VNyZx6cRqTxpPDEAxOqrAAPmbyhDvJzRCyWh4AYhWI4i73mH2H//4A+GrJMP3BkM
+         3CTl3RE4Pp6ncARK26+C9gT5HTPKiNlJ4yLv8p2bPL8mRRbq4U8R4n66lQr6dibQQwYR
+         Yo5jFrSdvEsB0xx+bmGXlkCdzuuw0Ig6qxDffg4B29zCrSJlDpSf9Wl0de+qsyG9W7su
+         pZu40lnmJy2z1ARwe+DH8+cwZv8qFRHrfp3BG8F6PPB/pmhajEX5XvnjtDf4xuLGK2VK
+         aczw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770477759; x=1771082559; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=clWv6MMAerLjp6KJnFnGBnvJGSBom/0zmYqwMTULdjU=;
+        b=cvmOTq18h95t0oaXfV6DtRcnpk58Rbh7ApjoLPDxjbQtql9hVMRE5TIpQKZ7a7IDAK
+         GpBKr4Zr3myotadw3ci8rC1ZTUZuINn6uYXKLFqZ28LIedORMDzcfaa2+YiNSLhcUzkP
+         yHMx1h5hMpIMqzzeC+5gX1AK98Jhh1OBpHP1C+1xGMWPlCAVBM3cE+IKbf6DPiLX4ZOB
+         vEnDQWIPYR/KjnIvqKM8fVkHFhVGY180TWuaI0YDkjfOnqgyAypptFoJ1qW3HLUbAuy9
+         pgpuMC5//lQV7XgMB6m9ZCUbuhEidlkE6ECY1JZNbYvCRnxebuRUYaT38VWvrSzOSVWO
+         R32Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770477759; x=1771082559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=clWv6MMAerLjp6KJnFnGBnvJGSBom/0zmYqwMTULdjU=;
+        b=eLhH2/qOX7hrp+ATBhSI6WF2KOqmDAYk+RmtoHkk0DyOcC+tKHkzbT9hmtP3Cn9ftH
+         lExtxZVYqiX5EZkhNLwccoRkmJ1WFJ9H1eb11wVMZkrdovYmV9WWEl3+e1u5A1Ier1z4
+         pq1o8meWzfZaiGhEzrin+N1XG96Um1RvqbJUZE+HtnFlLzQrnv/iE85W2OskpMNfZ5W6
+         nF6FW56AFXZ3MazjJ9OPheElU536D+EJ7V0rVeio/ekkPhRBCPV6K89rpNcHUSojZ8/v
+         9w+SiHsJqNofyQ0MflXguO011doZZ3SFVx857b0euC3IvNj6i9Jk4qxPGp6wJHnQk5+d
+         RsAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Y4dv28KTulKKmoqrv4N9DVAgphuFFIbr6lgSJ0GHB6phR0Z9Tw6df+T9qEA0P6QbOHcYAPDvuen9y5U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQjGHTvKGvr7VIFmVyyZK27lhTRh5xXeTWHiOM4CTM5epyJV4J
+	ESYJ0LP0KQFcqgAhqSp0c+OZ34bavcAIKx8HKw2cyEXf7CsEQLdPTFy3sggjE/PCgHXhI218K3N
+	MrChJ+09hUV9qMan+5jtfmc3dPU60qUQ=
+X-Gm-Gg: AZuq6aLh/hmxoj3bXPjos/59VOOgJIT4U1u6t//N3P7w5k4mlm2oQndh1d2f08endZt
+	P95jABsaTvjwFY4It6+uV03hfVvHmKQyekbsYn8PLU7Yh1W1/gZiBFJdZZZ8VpYgiMaB9jPTsR7
+	Z+I/qSP3HVs+BXIGNuXOudXHAg9lKBQecjy+RRztsY1Ac10zu9W4dmq2gZwXVFVL4N/RHEO32Rw
+	bJuwyah00t7ss5ySGKo60ZfC7SjHVIaXYgDbMjVAKJeFZRvTjRUBuDJX68vC4Eb7DML8GhiCtp6
+	HE+1F94R6OyD4EQh+9PtEYxYTy4NM/jr/QOBW652m/bNeFMhnyMz+re3snI3nxOxr7l8BCNtITZ
+	Q388BDOA6ofLraGd2OPVLlYFTgKzi+wmn4kc=
+X-Received: by 2002:a05:7301:2b87:b0:2ab:ca55:8940 with SMTP id
+ 5a478bee46e88-2b856c577d4mr1666254eec.7.1770477758946; Sat, 07 Feb 2026
+ 07:22:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260207144356.3063613-1-gary@kernel.org>
+In-Reply-To: <20260207144356.3063613-1-gary@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 7 Feb 2026 16:22:25 +0100
+X-Gm-Features: AZwV_Qh-JsCh-9gqmkPwE8cNcW2MhjKv6BPVBI2JdNpRu_vDXQpIgbQ4c7F3rAI
+Message-ID: <CANiq72mhhSKV=CecnZnqhKrt9tpGdMu1hePJtGDgRiD4JG902A@mail.gmail.com>
+Subject: Re: [PATCH] rust: build: remap path to avoid absolute path
+To: Gary Guo <gary@garyguo.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Janne Grunau <j@jannau.net>, Asahi Lina <lina+kernel@asahilina.net>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11071-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	HAS_REPLYTO(0.00)[gary@garyguo.net];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
-	FROM_NEQ_ENVFROM(0.00)[gary@kernel.org,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-11072-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,kernel];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_CC(0.00)[kernel.org,protonmail.com,google.com,umich.edu,jannau.net,asahilina.net,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[jannau.net:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B836D1063F9
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,kernel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 02FFD1065A0
 X-Rspamd-Action: no action
 
-From: Gary Guo <gary@garyguo.net>
+On Sat, Feb 7, 2026 at 3:44=E2=80=AFPM Gary Guo <gary@kernel.org> wrote:
+>
+> So, fix this by remap all absolute paths to srctree to relative path
+> instead.
 
-When building with a out directory (O=), absolute paths can end up in the
-file name in `#[track_caller]` or the panic message. This is not desirable
-as this leaks the exact path being used to build the kernel into the binary
-which is not very helpful to achieve reproducibility. It also means that
-the same location can appear in two forms (relative or absolute).
+In case it matters to Kbuild, we had a relatively recent revert
+related to this flag:
 
-This is reported by Asahi [1] and is being workaround in [2] previously to
-force everything to be absolute path. Using absolute path for everything
-sovles the inconsistency, however it does not address the reproducibility
-issue. So, fix this by remap all absolute paths to srctree to relative path
-instead.
+  dbdffaf50ff9 ("kbuild, rust: use -fremap-path-prefix to make paths relati=
+ve")
+  8cf5b3f83614 ("Revert "kbuild, rust: use -fremap-path-prefix to make
+paths relative"")
 
-This change can be validated by building a kernel with O=, strip debug info
-on vmlinux, and then check if the absolute path exists in `strings vmlinux`,
-e.g. `strings vmlinux |grep \/home`.
+  https://lore.kernel.org/rust-for-linux/20250511-kbuild-revert-file-prefix=
+-map-v1-0-9ba640c8411e@weissschuh.net/
 
-Reported-by: Janne Grunau <j@jannau.net>
-Reported-by: Asahi Lina <lina+kernel@asahilina.net>
-Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/Per-call-site.20data.20and.20lock.20class.20keys/near/572466559 [1]
-Link: https://github.com/AsahiLinux/linux/commit/54ab88878869036c9d6620101bfe17a81e88c2f9 [2]
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
- rust/Makefile          | 1 +
- scripts/Makefile.build | 1 +
- 2 files changed, 2 insertions(+)
+From what I see in the thread (but I didn't get a confirmation back
+then), the issue was some developers relying on invoking the debugger
+in a different working directory than the `srctree`.
 
-diff --git a/rust/Makefile b/rust/Makefile
-index 629b3bdd2b20..598d2efede32 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -582,6 +582,7 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
- 		--crate-type rlib -L$(objtree)/$(obj) \
- 		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
- 		--sysroot=/dev/null \
-+		--remap-path-prefix=$(abspath $(srctree))= \
- 		-Zunstable-options \
- 	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@) \
- 	$(cmd_objtool)
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 204e58dd1bb0..03dde30e953c 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -333,6 +333,7 @@ rust_common_cmd = \
- 	--crate-type rlib -L $(objtree)/rust/ \
- 	--crate-name $(basename $(notdir $@)) \
- 	--sysroot=/dev/null \
-+	--remap-path-prefix=$(abspath $(srctree))= \
- 	--out-dir $(dir $@) --emit=dep-info=$(depfile)
- 
- # `--emit=obj`, `--emit=asm` and `--emit=llvm-ir` imply a single codegen unit
+Thanks Gary!
 
-base-commit: 36896083ef4dbc302e406f01975a227784160cf8
--- 
-2.51.2
-
+Cheers,
+Miguel
 
