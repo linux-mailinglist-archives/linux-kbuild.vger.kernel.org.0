@@ -1,289 +1,209 @@
-Return-Path: <linux-kbuild+bounces-11077-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mlEqBh8miGmEjwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11077-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Feb 2026 06:58:55 +0100
+	id eCJ5FBhniGnepAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11078-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Feb 2026 11:36:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D36107F4D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Feb 2026 06:58:53 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA41C10861F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Feb 2026 11:36:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6431F3002D02
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Feb 2026 05:58:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9D10F30094F4
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Feb 2026 10:36:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B66026CE2C;
-	Sun,  8 Feb 2026 05:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF91120DE3;
+	Sun,  8 Feb 2026 10:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CzKh0FpP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WP0LvGkM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013050.outbound.protection.outlook.com [40.93.196.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4FB1F1534;
-	Sun,  8 Feb 2026 05:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998A53469E6
+	for <linux-kbuild@vger.kernel.org>; Sun,  8 Feb 2026 10:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770530327; cv=fail; b=dMtSUH+RRlCmh7rfKy2z55l9N/NCMn2vU96w9lujEolVMjjkQLH55rIj8XY3DD86tJq/OwnmfLX53j1YlOEs9BdxeC10Kqsni1qPyChZXWVoDSPSpxCjqPYfHlW47FWBboVLjxZ0zEM3qBDfrwHGtc+VgwUdV4i43kx/5xj2MdE=
+	t=1770546965; cv=pass; b=eX6lAeBdcbbjxBVOj68slZbNtlCkmXGsAwC6jL0/o69tt3mbVpZq0Bl8SvSOCgPAbTm4IC0U9zonyNSc476y7DyqiGju7qXalPhaWg06QZ4tufaV4QIYKfDn8W+RzwwsvBe+07jJtVNNAaLLPc68o7gNG/KWj47SBVHAP84Sfx8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770530327; c=relaxed/simple;
-	bh=SToerv4yBvjbBIoTJnkW/QiSYfuYxFvORkYHlKomJlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=S4YPVael++mz/OfWOQUsA1nzIeXiYvaHauGsI9KjH4DrZmFcBJ9/mvAXdXz603SzHbNB4QOukziIXGHlQzZePA0b3udf2ssmuBmTflKDpOO9laUo8PymbGnFCy96QqOQbvdykgJ1GSukfHfgKFflmqv+p43xu+sic6nOnw+XjTw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CzKh0FpP; arc=fail smtp.client-ip=40.93.196.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ie/kcnDrh47ubBq1KSm8Zdyf4gNkuXm3+8hfSni3zabsGWgpYLLNSFr82RKhNTZopUpE/k4jsJnH0WDagTp+rr+4QunRBzvL4vXcLDeahya+aeNqaaYAeDYhwwc7zvFkoSLhkn2DNdW+zqlNWVbzeHmqAoMqT6EDgEnYIP1XR/Ua/PDx1X6/lzuNwJ5c0KUT//Z9kcO6YFLCvtz5TtHWlCAf1ZwBLMbtHqgXFbXaJpjgvCJ55tojfbtZXk46uvNeT5/i/Q5p2fm0ytx10iJRO/5S87t2FBV5ezbedx8dmkPYqaswxxfEAGBZPfTXYLRLqpH08pLUfa+N50NjOwGuLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1MbdmY2hfxwDDrEQODAMZGiLpwgN1WdQ091+zydt7GQ=;
- b=fbndDaGtYN3VWtCFxY4mw/e1yjEXWjbUCWRGeXjItYfif9R5XaPkSOBVYkBlo8k2PjE+0Vfi23FdlABMdo/01Qotr09OfZzK/H1PtfHdLywMyHEWIZ04kGyx6FA5+HJ0nfFso9gnv9GcinNuyoUHT+PNisZUiZTXX1kTDp6UyjT2MFRdRecopt+jmpaRQUCamTL7xbrgBVgLL+WQStfXtc/eptgAT5yWTehwxCsc4JQ1LN3kqcexUfyrFVWMVi3HyDfc9bawm+4yf0w4MxoFjzIkMz4BrGw+wuHob5OZbZnEgPb0O7kOO+dSV3cDVaTz4gpyOoZFCbvi6nKdFnDhEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1MbdmY2hfxwDDrEQODAMZGiLpwgN1WdQ091+zydt7GQ=;
- b=CzKh0FpPZGjPjop/etZxbL4W8v5vvwUY4uvgjxkwkbL6eBgazRzl/DW/nOmMHFRzjDXIKJE3wSG1kA37O0OUsBt4MGlf3VkCMBhbOAEzZcY2Psm+GBWROVxgTtjf4qiiyj2FHbnZRalpOwkPp9dhZQLyXoZpIHbTNEH7jAxZf+K/pQxlGfbizqzaa4Ic+vs5IJUZGsHxC3uM9tOVdn4gi7+T6Tn1kCaArOl/Q/wBbt7PdmPgk35YuDcmsoxETsNR4Q/pKiSp0cNgTuJsWwLRNq2/Gq5ER0k0KKjrrjJfx4TFlFzCbnneBQ2McycFfKJTYLb/HcG7Ngn2zhh16uOffw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com (2603:10b6:510:26f::12)
- by PH7PR12MB5736.namprd12.prod.outlook.com (2603:10b6:510:1e3::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Sun, 8 Feb
- 2026 05:58:42 +0000
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::f79d:ddc5:2ad7:762d]) by PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::f79d:ddc5:2ad7:762d%4]) with mapi id 15.20.9587.013; Sun, 8 Feb 2026
- 05:58:42 +0000
-Date: Sun, 8 Feb 2026 00:58:40 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Benno Lossin <lossin@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/2] rust: add `const_assert!` macro
-Message-ID: <aYgmENPRTdD4wCVF@yury>
-References: <20260206171253.2704684-1-gary@kernel.org>
- <20260206171253.2704684-2-gary@kernel.org>
- <DG876SZYRBXB.CO3YI3HOE3FR@kernel.org>
- <DG87KRN75MKZ.1O0TZI77MLIBT@garyguo.net>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DG87KRN75MKZ.1O0TZI77MLIBT@garyguo.net>
-X-ClientProxiedBy: BN0PR04CA0200.namprd04.prod.outlook.com
- (2603:10b6:408:e9::25) To PH0PR12MB8800.namprd12.prod.outlook.com
- (2603:10b6:510:26f::12)
+	s=arc-20240116; t=1770546965; c=relaxed/simple;
+	bh=9O1wrWh3odojrrpWa3rmcifMg4603V9NZnEbcjcOIp0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BOTnJ/IOuVJPkIO5Kkq3QxrlZZOWrEl2wg80C1cMeX/5CEgi808b88QKLD1LBwSbd1mgBodvsHNI7v9FaLCJroaYOzQuWZED6nDH2XJtBIOSIMId8jzIGx6fHb1PTqCCig+mzF23sh7UIdGZ6QMdLVbqLItMPkrulm2xFy6wo6g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WP0LvGkM; arc=pass smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2ba716126f5so2243eec.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 08 Feb 2026 02:36:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770546965; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ezRWTObHGOTPVnaG24WssKYqnCAnFtw4PdS47IE6rNk0TfPUCLxYVzho7cqI0hQkLy
+         6vd8X4j+kp2Jfa2Liz66ia5A8oESUSPv7fgW2b6DxN7aUFBYbz6aqP906mYxXzv5qVGF
+         xy/y5bEEygvOWzZN7rgepHY90Q1jguNdW2BOYPEEmJg1lfRcaj63svn9VhZp9ahxrPit
+         w74PxWRqPNE16Zj/wFDSgFcIAd1sVvNPrKxP/dhjlcVV6UeCFJzF0aWIPBMAlRl3W7Kx
+         zO2uAGfduNJnYCI39X1+O3Q7fa6D1+Kcpjkr6/fSZ1Q5quoNz3OEN2GOmea88yugEjed
+         p5RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9O1wrWh3odojrrpWa3rmcifMg4603V9NZnEbcjcOIp0=;
+        fh=euXDDodO+dhrzLEQpRBhx+yqwO6h0zGYUNse/4aiS98=;
+        b=DJuf+GeJv2I3O2U19ot/UDI2N4QdOCQ/6+27FZKXX7iECg64gO31IDQECq1rMgV7/0
+         U6/C7UocEdPc2LWxgNXh78N8WklpDivPOdU7VT7DDyZT31BaRlM8r6HMustrgZRzI0W6
+         U9Anr/7xSuLaKE8O6yynO8XQe7r3MjbqEETY9uy9d0W9xwsYYb4dC38QQ8lw8anfUhSi
+         4WFnRzVl4ryHc86sA9rW8VoKIOqgA+862YVB9PHq/ks1yfKqp24Dy+eDCiqS246Wc545
+         kL3l9SNsDCd1kLOPG5HrNBjQ0eP6gPrD4Mk0YT8OYspN9aysfxXcx7BQuiJUNHnR+D1C
+         xVwQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770546965; x=1771151765; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9O1wrWh3odojrrpWa3rmcifMg4603V9NZnEbcjcOIp0=;
+        b=WP0LvGkMM7mVQRJhYIoXk1xKtuc467gglERL7CkEyKEZTdJk7O3QGPA+Rip8tHJXbb
+         y9FKCb9ED/o0LFKD+CQSwBIN2CckVgPagXTdWVx6a/EwFhkhuO/iDrzf4hKgFNP4OT3P
+         bR4X0YUgBAjAgRUd2QPXozHJ8taE3KMDXPiXHWIYv/+eiwoduHnTPkdiyPjCVh6E7ldc
+         1mt6sj02lxcux24QcXESd2z1TUTCkOxfYfwwDdLfE4b4VsD4KpVhCjPSMkoV1cvBGGnz
+         5a0M5LTL2txTgOHaYT87pmPP+NSa1B7XYMPgmxN7oN17QzE3eP61odYZ1m48zllAmhXz
+         t/0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770546965; x=1771151765;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9O1wrWh3odojrrpWa3rmcifMg4603V9NZnEbcjcOIp0=;
+        b=jMgxtlIV0oPWPUir0mdxY3Mo4e6XqESeHWuYlXV5rRzkDhbmmfCwfAuuekPvW9iZQw
+         CQCRbVRZ1+10QE2TBu6scG5PAxKJPRFbcczYONzBi1Ng9MfqO4SMH9heYI/pOdujhg6a
+         qcEh4YTpSh6y2+B+3Gc/jaPwUekDhlFgteSQ3mMfUc4dzRsHXd4VfXICxY5oVQM1VtXD
+         WoL0ec2Lb0DJ/Lu9pLdKZza8Wt7zq9T9To2/lNe4vj3g2+05qUocXQyZdVoWrKfaLr6J
+         2JSqpZEROkeqvxsJDrZApBnP0XyYSYCgHLBodwytVygWEEvXLS2vuE0MSwGipDgSw8zb
+         i2Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCWVX8k9VMP0ubnaskjbpUTgrp3nrmIMKQi4C+sWKQXoj63mg2lQ4Z0vBkvS6nRCKRvU3yt/4z+8TUNFobk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqsUizQkfynr7Kr8m+r7ccGMLlAKpyWhRv3rhFPjA5qWhKm6SJ
+	gy5Hu3iYYMT1gzSU5hiZDI+Z56xnM8pK85ZN2qojVIr0lRhkKCY3U7GTRp7TMFRxS8nNI2LW/1i
+	skSnQQggSgZbEXJIujAm71SB+OixRiFE=
+X-Gm-Gg: AZuq6aLSceQb2+KQwqstVHCsz/JlPPuvBN/lodohhZE/sYVpMt1B8q4W/R+w9S3Srsh
+	NPsDX3N85v4bD9MK/Wc3NNZml4iUH7K5YiKdWFL99Aic/wvAdCupYEcdal+1djjCXVNyFuYrHbL
+	HVJrHlet9ID7297cmRs2qeGZ+gJqDECvuNumleKrkC0BAN/ZFXT81+rv8736fqvfTCHyzzmdMwC
+	g3yTSQH4+Wc6oUHYO9foERz0r2g/4s4KiMulxnUdFKrCeGQnwRp5JP4QX5OdFzU73RoUeW7ofAQ
+	YYk46anByjKv262JbSVNo8fccGBSdBmIiHcMgBI1VheX4jt3bjJYNY507hIxd+c7LVBARSPLcvK
+	xSPlhCqPVk87x
+X-Received: by 2002:a05:7301:2f96:b0:2ba:705c:c8b5 with SMTP id
+ 5a478bee46e88-2ba705cdee0mr51988eec.0.1770546964617; Sun, 08 Feb 2026
+ 02:36:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB8800:EE_|PH7PR12MB5736:EE_
-X-MS-Office365-Filtering-Correlation-Id: abcd51dc-c20d-437c-76cb-08de66d71cb6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?y6W1CUnVI+lT7cTEhkD3DfHGTS4aF7NVGqMDP2AMD209mjL1c6Wy1gqog1Yo?=
- =?us-ascii?Q?VG+RgcyYkRB/yYlGhma9OJ3NDGYM4g86W5bfLzGWeqDi1JdXwKpHerVn0zBT?=
- =?us-ascii?Q?+9wn5nxw2kZ0iyTrWbsd+ARNlpPFATQPhtdlLGuGM/4lbyXc+WmenlFRAR/c?=
- =?us-ascii?Q?TTBOlxYcd4fT06hEXoQoBUWqQXya7HxgF3aBykhDBHEflw2HewhAN4AzsiJw?=
- =?us-ascii?Q?Wbd1YA/wznEb3KXF3qRzHToUol2f/ajvR3DrpDxZG6Igjq7OTuORixU8TNmy?=
- =?us-ascii?Q?CfLmSEQcxitb85wb1GH7Ke98KcS99eDAaMhgNavpd2sTIc2c4eyNQY3BrB6/?=
- =?us-ascii?Q?VjjQdnG3FdFZhgUgoeHIWwNJwlQaLzqAuc8DMwOBT+pOTtAQPduIAsgnD98I?=
- =?us-ascii?Q?kCizQSdValC05FUIvBJePwwXZ3hnHyLyjamEd05828KBca3eWLzTWGEG+GXf?=
- =?us-ascii?Q?dcTgEYt//1cJIVQCCoydVOROGeUBrfpFFIIB2K8BLtHszGn2sttnrQEBnbYG?=
- =?us-ascii?Q?l0F6m7zphUaM0Ml27crlzjDvtcTaLYBRSaDky6surUUXRXI8H/KfA1U++5xd?=
- =?us-ascii?Q?R7z19/ERh0eJXT9f5KO3J0Uga2hcl9uyaIISZ6SU3Cxg48Hbj5AjhraIeYik?=
- =?us-ascii?Q?31wXdc9CrWsOS59J9iI/D6Cm8t44Jxz2jZuZx08KzcHAziuAssmKIrx13rdN?=
- =?us-ascii?Q?PeJr1hduzqystcDjEsU/2gdelL+Nm5o2nuBsmDnrf0CcRUYk9eZQh/VHzyGH?=
- =?us-ascii?Q?zBFu8NZIg9hVaDgtwbeKArcm4Gz8+QjPWaO/k8BiERz4ISNTE0Undv1nGfMy?=
- =?us-ascii?Q?HWvXeD4Na8K8MlkjdDdDUgpw0WxiTexMudIOupG9iP+hbzwkrqOlPXyxTt5e?=
- =?us-ascii?Q?DFInm+41elw/fpsGKpZyksSlUe3jAfCGjoyFAP8m6C1Wy9iz5CHx0jE1K9QU?=
- =?us-ascii?Q?8NRUzGcgbbxj1eQgZYlKR9enl+7xkEKp+qNXuAgluz6wdULA18sym1gQruWI?=
- =?us-ascii?Q?fg0w+ynDglMWn4yIUpKJeCwK2J8ofJbdBcX/w0wl+A+ETSuzkUAGSWY9lj4R?=
- =?us-ascii?Q?9PDbI6sUiEHmYckGxSycVwGtomcLY3G+9MNIkRmPOH3zus2T8nTRTY79gfpV?=
- =?us-ascii?Q?5OLIjRG8qvrSMHNnOeZz67/KGpej7d4Kw87Cwi569b/+++O3be5tiUrMikZw?=
- =?us-ascii?Q?JI4/wawslR2ThGjMIA+C/DKTpvMbpdJpAwmmOz+6vfqxGodGPOW2LrgFUHez?=
- =?us-ascii?Q?QA+soPKhNJVT1jUiIO1MpYnyVgGrbLgOkUAuvmSAeIBvkZfJnZEepAN5qB3Z?=
- =?us-ascii?Q?cqMprNQiX0okqXEnC2zM6AFcnadJa8G0cFk5wbHDwvlv35JhN9xusx4XbZo+?=
- =?us-ascii?Q?RPCYH/KgMGYnBcR6pYUp8dTGz9Oue10E4RegpB7wdpS6L0eWNsnWKj8FqJfh?=
- =?us-ascii?Q?ALHdibPF9KteoPmyR9iMl0uUSIuYxFktOTsjpQzX4bNnLdW3TIochI4B8kFi?=
- =?us-ascii?Q?0DzxU+FB/Wd9l3cGKwqp86TW9s4/Vg2FSa3oZDZYhyXugnpjxmWc3I5Rhz+h?=
- =?us-ascii?Q?Hv5zOq/6RTB1A6KUVwY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB8800.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?83WD/74RhumDGz0h06r0ec5vWGrInoBJp11XuUMJEzcKptkoNXEI3+5A/Oag?=
- =?us-ascii?Q?pPwrZf+96k5XuH+e+m81vVk5Rpy+T5w74ZQxNzb2qdnekdIhJmEyMn2KpAeP?=
- =?us-ascii?Q?WYJtHNTA7p4xieiLAI+vKVNobTijQ9gyQF6eR/ZTkxnXvnKtVffTwV+926H7?=
- =?us-ascii?Q?qpYpJwIlE6/sHaH3S9WxGibGmGlYoYExdhGs4lNrE9QpijGDFapHEvpBUAHD?=
- =?us-ascii?Q?muYgRC5fS+V0K9GHEd3ThG2gm/l7xD2XZhBUBkWvodY2RMjkdcDYYfSQen4A?=
- =?us-ascii?Q?t0c4DK0mYGLnVedK6Pqn6OF5doAyCfrKvKi9lvx19hFXzIN+WOZ0NI3H+HTU?=
- =?us-ascii?Q?e4SyglTbgIY1Gmlb3qTqhQV3gP6dvAGzVUIkk9pXOkNlKS4SK+UqOY3YHU20?=
- =?us-ascii?Q?jJzL/0G2z21Byq4FtiAIWLGFLgOgo/QSCSbcdfs51wVgxgYRnTs3mR8MB5al?=
- =?us-ascii?Q?uW7ser0B5VQqPRcPz+XXKs4O8ivfsPJAT6EXLfT0XYymyAie8NcfE+/auP2Z?=
- =?us-ascii?Q?kfg/vb7Fld0nPSw862fEfFSIdYauFgq/FqsO9lBt/VzQz6cKKUUsa4xcdIHI?=
- =?us-ascii?Q?vjExGWsGoVyGsa/bb7NlTCe3+jr3gWQCb2hlObnI+TjMFdko4xqfjGMbR6ZV?=
- =?us-ascii?Q?6rFoUesbo6p4xkte938lFdKJB4G3pPPOhIOiD9dAwFRfW2VJdH+XLD0J0Sao?=
- =?us-ascii?Q?fTTkYVRzitEHzlZRgngsZ2kk4zhN1oXzT84tWxPn4ocIUSTRBrmRlfIlrCo9?=
- =?us-ascii?Q?/UpFG1FfzqxK+jDQ5ocWdht2SU+350Z/AvUQ/VIx9Ue7wKrmTBm5aP8cObvc?=
- =?us-ascii?Q?/PSpEr3olAFa9mCqi+KnJYYGcKSnZi6+gReYjAWxZR6NdciaK1Wl/1n28EIM?=
- =?us-ascii?Q?RZeNDKsorjtfCcKA5pPnvHGBZXCHuejb0dtlgal3H/0yv1S8BWxmKP6mXju9?=
- =?us-ascii?Q?Fz5dR2SaspSVuZD/+R15Umd4kr6c1eT91O6Ul/iRLGs+3fKj3cjy380G2lLt?=
- =?us-ascii?Q?Q2wjplcNkj3H6r1WiNgFKTWbrMxFcTVMxkyrbM89Zb9yq7SZVzeA8x2nR5a1?=
- =?us-ascii?Q?oEzBCnDnd13UbjkflQDwmart7QclFcXFlTQkCCxnAVrOtQk+fRWQYyhDawdO?=
- =?us-ascii?Q?naQnp/Gwfh39n17W8m6xup4k2GdzVgqasefHnbaETc/ObidtyM85jPLyBvMX?=
- =?us-ascii?Q?nvO170AKGA/gThVXfv8nOyeZAykQdSXWM5GG4NJPSvUP1g25uAW85wF7PiJT?=
- =?us-ascii?Q?pk3CE0BiTuwQfcSIGu0C2Jw0hpOKWgMIz6ej9YIl/6p1KUcMpP6MzSHMgaUi?=
- =?us-ascii?Q?uJ/Vw25kH3D2wGWSYiqa88k2u2rp8n0tFOc674MOzF46q1M216wydqjp6MQr?=
- =?us-ascii?Q?IlMvzVnnqYoy7ckoPTYF4WQa4FTI92jb//odIR3xweqPaqTUAfSqmRQDyIZj?=
- =?us-ascii?Q?TRwHdp4kKbgjNL7ePnYGMLxoU1NLVHr2sJ3f3SKOsJxeu0Xgq/LV5yRbeHje?=
- =?us-ascii?Q?sYyxFMwrbRXD9M8gHww7FFo9Bl/xBg3Ud1bOB/FL6J9xPW1ZtZ2Ax8TweXsL?=
- =?us-ascii?Q?NMjTpc6VcLyFbyAxvPZ7iI/iBTs3l2v/DN8LDFwT6MKLEqmUB+Yqu2lDgQVT?=
- =?us-ascii?Q?RWA/h8P9KW3mZnHk9fI+Mun+15s/ufBP2dJK3ge3aH4Hmpl3f3Egi/J4aStO?=
- =?us-ascii?Q?dkHMgmbuIqecoDCKvWN1QTSkGAJHalKySBhHQ+U3CWe/SxuaIItSUpxXv7qD?=
- =?us-ascii?Q?1BjfHVY+iQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abcd51dc-c20d-437c-76cb-08de66d71cb6
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB8800.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2026 05:58:42.1139
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ojqci2bzpPSHf/Eg82L4XcBYWU6kBgSi0e9qYPz6bviAL0nkcpEuLrUvkxGlStyG8RsL/i+QymKvo+uamEYdtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5736
+References: <20260206171253.2704684-1-gary@kernel.org> <20260206171253.2704684-2-gary@kernel.org>
+ <DG876SZYRBXB.CO3YI3HOE3FR@kernel.org> <DG87KRN75MKZ.1O0TZI77MLIBT@garyguo.net>
+ <aYgmENPRTdD4wCVF@yury>
+In-Reply-To: <aYgmENPRTdD4wCVF@yury>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 8 Feb 2026 11:35:51 +0100
+X-Gm-Features: AZwV_Qj9Du_jkMva36ZyaDnahvdaMWuW_Dr2E9c8WWpcJW3fs4Mc_FBQ-9Oqr3A
+Message-ID: <CANiq72k4D0ZPDzBCHY7xq=qOmERHk3e7P8CcKtVHjjjOQhJ+2w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: add `const_assert!` macro
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Yury Norov <yury.norov@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-11078-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11077-lists,linux-kbuild=lfdr.de];
 	SUBJECT_HAS_EXCLAIM(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ynorov@nvidia.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,protonmail.com,google.com,umich.edu,nvidia.com,gmail.com,vger.kernel.org];
-	NEURAL_HAM(-0.00)[-0.995];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu,nvidia.com,gmail.com,vger.kernel.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 26D36107F4D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nvidia.com:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: CA41C10861F
 X-Rspamd-Action: no action
 
-On Fri, Feb 06, 2026 at 09:48:59PM +0000, Gary Guo wrote:
-> On Fri Feb 6, 2026 at 9:30 PM GMT, Benno Lossin wrote:
-> > On Fri Feb 6, 2026 at 6:12 PM CET, Gary Guo wrote:
-> >> +/// Assertion during constant evaluation.
-> >> +///
-> >> +/// This is a more powerful version of `static_assert` that can refer to generics inside functions
-> >> +/// or implementation blocks. However, it also have a limitation where it can only appear in places
-> >> +/// where statements can appear; for example, you cannot use it as an item in the module.
-> >> +///
-> >> +/// [`static_assert!`] should be preferred where possible.
+On Sun, Feb 8, 2026 at 6:58=E2=80=AFAM Yury Norov <ynorov@nvidia.com> wrote=
+:
+>
+> This is confusing. You begin with "const_assert!() is more powerful",
+> and finally recommend to use a less powerful option.
 
-This is confusing. You begin with "const_assert!() is more powerful",
-and finally recommend to use a less powerful option.
+The goal is that users use the least powerful one that applies, not
+the other way around, because the least powerful ones fail earlier and
+are generally more robust.
 
-> >> +///
-> >> +/// # Examples
-> >> +///
-> >> +/// When the condition refers to generic parameters [`static_assert!`] cannot be used.
-> >> +/// Use `const_assert!` in this scenario.
-> >> +/// ```
-> >> +/// fn foo<const N: usize>() {
-> >> +///     // `static_assert!(N > 1);` is not allowed
-> >> +///     const_assert!(N > 1); // Compile-time check
-> >> +///     build_assert!(N > 1); // Build-time check
-> >
-> > I think having "Build-time check" here is a bit confusing, how about we
-> > change it to "Link-time check"? Since a "Compile-time check" also is
-> > done at "Build-time"
-> 
-> This is the intentional phrasing that I used for `build_assert!` when I created
-> it, for the reason that `build_assert!` ensure that it will fire, at latest,
-> link time. However, if you actually use such methods with CTFE, it will error
-> earlier. So it is "at latest link-time check", so I decided to just use
-> "build-time".
+I think the first example is intended to show the different ones, but
+I think the wording can be improved -- the one in the existing
+`build_assert!` docs is a bit clearer.
 
-I don't think this compiler implementation details should sneak into
-the kernel. The compiler may get changed, or whatever else, and this
-all will become just non-relevant.
+Gary: perhaps we could factor out the explanation/examples to the
+module-level docs, and then link to it from all the three asserts.
 
-So, can you once more explain when static_assert!() is preferable over
-const_assert!() over build_assert!(); strictly from a users' perspective?
+> I don't think this compiler implementation details should sneak into
+> the kernel. The compiler may get changed, or whatever else, and this
+> all will become just non-relevant.
 
-On the C side we've got similar statically_true() and const_true()
-macros, but they seemingly have a different meaning:
+How do they sneak into the kernel? Gary is explaining why it is not
+called "link time", precisely because that would expose more details,
+not less.
 
-  /*
-   * Useful shorthand for "is this condition known at compile-time?"
-   *
-   * Note that the condition may involve non-constant values,
-   * but the compiler may know enough about the details of the
-   * values to determine that the condition is statically true.
-   */
-  #define statically_true(x) (__builtin_constant_p(x) && (x))
-  
-  /*
-   * Similar to statically_true() but produces a constant expression
-   *
-   * To be used in conjunction with macros, such as BUILD_BUG_ON_ZERO(),
-   * which require their input to be a constant expression and for which
-   * statically_true() would otherwise fail.
-   *
-   * This is a trade-off: const_true() requires all its operands to be
-   * compile time constants. Else, it would always returns false even on
-   * the most trivial cases like:
-   *
-   *   true || non_const_var
-   *
-   * On the opposite, statically_true() is able to fold more complex
-   * tautologies and will return true on expressions such as:
-   *
-   *   !(non_const_var * 8 % 4)
-   *
-   * For the general case, statically_true() is better.
-   */
-  #define const_true(x) __builtin_choose_expr(__is_constexpr(x), x, false)
+Regardless, that "link-time" vs. "build-time" discussion is
+independent of this patch, because those docs already exist in the
+tree.
 
-Is it possible to maintain consistency with C on rust side? If not,
-can you take those C comments as the reference for what level of
-detalization is desired? Maybe pick different names then?
+> On the C side we've got similar statically_true() and const_true()
+> macros, but they seemingly have a different meaning:
 
-Thanks,
-Yury
+> Is it possible to maintain consistency with C on rust side? If not,
+> can you take those C comments as the reference for what level of
+> detalization is desired? Maybe pick different names then?
+
+Please explain what inconsistency you are seeing here.
+
+Also, please note that two of the three names have been for years in
+the kernel tree, and that standard C also uses `static_assert` as a
+name. `const_assert` fits the pattern and it literally expands to what
+it says.
+
+Moreover, `const` in C is not the same as `const` in Rust. `constexpr`
+in C is closer to `const` in Rust.
+
+By the way, I am not sure why you suggested `const_true` for the name
+of that C macro -- I think it should be `constexpr_true` instead,
+which is closer to what it does, and it fits the pattern on the C side
+better, too. So that would be more consistent.
+
+Cheers,
+Miguel
 
