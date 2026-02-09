@@ -1,94 +1,92 @@
-Return-Path: <linux-kbuild+bounces-11080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11081-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id o6UYJi/7iGk20AQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11080-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Feb 2026 22:07:59 +0100
+	id Lh8EBa5tiWnm8wQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11081-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Feb 2026 06:16:30 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71A310A28C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Feb 2026 22:07:58 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D92610BBB7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Feb 2026 06:16:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7273C3008D12
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Feb 2026 21:07:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E251230015A0
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Feb 2026 05:16:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79786344DA1;
-	Sun,  8 Feb 2026 21:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFDD24679C;
+	Mon,  9 Feb 2026 05:16:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WZXWT20P"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="MxuHyUQM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011071.outbound.protection.outlook.com [52.101.62.71])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021136.outbound.protection.outlook.com [52.101.95.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEC82D63F8;
-	Sun,  8 Feb 2026 21:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5EE220F2C;
+	Mon,  9 Feb 2026 05:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.136
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770584876; cv=fail; b=D5VHjRk7iZ++bTeH4JlFO04PL2KxlmM52eNyfVZEabg5iahpGt8jCHHLaZs4B+fLBBCNuZL5YqYhVcXSl3tpBTs0qxTfwdT6vKMJXndHo2EZdwQWN7eLnDJmIvL/ZgFUPYJXPOS+Wl8zFgsoNG3dsdEeyne9ITdKJtt4xwYeE7c=
+	t=1770614184; cv=fail; b=IBcZrF+1ddmMiUsgz7Ld5rUinGOSCcichhtTNeJ/PsVGRFSQYkMxSdxUWlxOKosFItwBktgE6zXGb1tebiuEST8nCfz0zyTL4flUoGXSy76DEEV6c1eOAHzgyZ/mqfTnvO+AZAlwzSJw9b8s68kQgDgx5McAeESzekklEt4GH7Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770584876; c=relaxed/simple;
-	bh=bEXaOhNatTpOTwgwoIizj3imJKGejyvBSw3mwWavpkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cvBSNOFcrFqxRNpSnw6d1m+hG5PPjlmDqHy9UXV5SMCFZ2TX+WTaUewSMEerxSnoNakPT3oZs3/8UP4vLsCgnow4Ed+Lly1CgLeE1RCThoiS/mP8rQX3IlY8fiEcQO2XdZNVHRJkdibAK40WnmcwXek/vkut8veJn0r1vmnRf98=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WZXWT20P; arc=fail smtp.client-ip=52.101.62.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1770614184; c=relaxed/simple;
+	bh=NMWzSwFT0/wR+BYsvEPUfDTjg8ObuKRbKugfweqsq+Y=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=ooCI9ZLNXQ2+ZhV/+WiPQ10QClglHlcp5tBGOGNZ7AAL8aTzfAvToG6NGA8p+y7/IRzqGPZwU6d/qwxtzlaKv7WhwiHsQxlgwSkg2MADCERaMwhM0M8lw0G7+FqEIVm5GzQaNhUeV6MvC7+FeaKsPNXki984De36KD1R1AWr/uc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=MxuHyUQM; arc=fail smtp.client-ip=52.101.95.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YGL9Oqj/24YWcpp8Eywq+YS9bKSDjnn54b200f8P7EL0Vyl/dcnIUeYOO92n4BHOInhc3tmqnV+cGXc7LP7rTD9cYrbqRnmoJxOo1gugnsprqIaVCGxXIvPoJ+x1cPqrFAln1eltFLXANx/WBN5CwB6nBRr+/TroTyvws95t+87u1d1mYN5QweX2bM/6yleqgrIYFm/yUi3ws0sEQ7UgN1UUD5LDt2s63qJi2TiHvctC2ZP2758zg6ROsWK7HGK0qjPWvPQXGi0L+w271+KiqF3Pd2kdloL3ICSxY3Z+z54NtA/nIQfbAca+yUR4yTWMsSXYSffpRYVZpTGt4FAlpg==
+ b=IbaSA45p4JcGAGSFCCBEfbaFgQoEvzHx4P9w95Wl5zAb4VKHhL3b01lvpUqG4BzaGu2vNs0ZJn3/9ElYfZYQzuJtHOdMtZh4FyIHYeVvdp6gV3mzWAAJy76pnzLNEpGD372zqT5K6QDFVkORX2ar6oc7U2z6SqFYv1ATXAEFlH0XjydERFEbyCWFDSpssq65gDF82K5fSHIh3YCQH0WEYvuuYMvWRHAB/ZvcS6iUWGS53HMh5sOQm85LujwUt/yfkmGeOXCS+8SD8qpz0HNFYo+HXkMWfI2uUJ9IzFYqRfFcQ6eX0YwS0iEBayWqev4aXluJJfWyjDPybNfzktBjTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MxB3kS0tYgml3llyvHfaqlMGeZQXYXSNQzLiP0WFRcM=;
- b=P4/fkwts7JPx3OIpWw3s05e84iAPKOd+hFYISNF1Z/25INEbvVElTJA5yOOvqJuFlJFXAT+ic4njog7BGofuHa0saAPBHZVusQpG7x6abOvrH1UJ0eDGi85GqUzu8VwAqOjOqKwODaTX3D/2dWgj5pQVM1J3eRwb3zXalpEQDznqadyS7ostQ7Rxo2TZ4QgpDpsDlSDqHDLZaHJfCgOAudSJ2lYJ0R4DkbJhzBanSM7Y9vgp0w6pB8666TFVqIaaVD0oB+8dMjdRsgUYpNrId2Z5VxQu49AcJY+rKbDulWR1Tyk14uEgm1O5jizwSqSAEdpQv/9tr/F6plYedVeRwQ==
+ bh=wqNmWm84hiNXpcgMJs4JmuoUJLlmhugNjHeTsBa23r0=;
+ b=IC6g8hnX8F0OHeUPbyzzJ9EyvYCuIXD+P3ihUfh++EcFLkkAuHvI6YnsMCBDUXUwtkNO0aqXU1ndSBlQAeeooggvNHhiD30jr3cWF+wDwrkLPcaq4OW4N+rMspM4Tjc9SoLcbZQzk4AalTH/y9d1Y0KUt/8AwMK0IHlWTsJHRO8b93f6k8xqA5Roal5ViNRI64muVCUZCHxZOxSS1vl555qzgHCAz5vztDOsCYK/j80s2s7qNBlhh4+XXxjMiCz5cW2DfehcQpTGOVFzysYId0rMJhEVm10q+vGZvGI0PzTYF0Ig4s1lrWhSN9hD8ixWjMysfnAWeh+IpizTw3OjYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MxB3kS0tYgml3llyvHfaqlMGeZQXYXSNQzLiP0WFRcM=;
- b=WZXWT20Pr8zg8Ws+4aIlph+zKXfXfN3fSC+XByQ3snODssRnteeqX3EkyrtWUVDQQMZf0zSF3pWQ1+PZxQ3/Q+3uhjlsj0uKoqRtf4x6yUloxND0QGKdMnp1ohc8lruLvxaWglLdiUgQJ5WVKy7UCckUoUwF6NvxaqVKitzZhIwH/uQDsB4Mx5lb0LCZWon9gj9w4ZEku5QLGZDXjNcdIYD11Lj+RlS6Tq3uCenWPHTqci7POv3lmrzG/qGa5GCgvmCFhmfLTvV9ARJJLT5ejzKKZx3YnT/sKt/cmPUZm1iBm9SdvZcWK/YdMDhkVZN2GFo0nlzF4xZnV809Mb0/vw==
+ bh=wqNmWm84hiNXpcgMJs4JmuoUJLlmhugNjHeTsBa23r0=;
+ b=MxuHyUQMvBVr0QCQLHtxseZw3NxabHPnl7zVExQs0VpHN0ok7grqT1kPDabXEkj6RVmZoQpjFIwdJP4laA2XIi/WxFUWDdRGa8veH9Abd0nNaARuhqIcvx2t7iplbULkRizVhLVwyj9YYtghZhpQiZStzKJXxS3j24dR8OGoZbI=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com (2603:10b6:510:26f::12)
- by MW6PR12MB7071.namprd12.prod.outlook.com (2603:10b6:303:238::8) with
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB5669.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1ad::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Sun, 8 Feb
- 2026 21:07:52 +0000
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::f79d:ddc5:2ad7:762d]) by PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::f79d:ddc5:2ad7:762d%4]) with mapi id 15.20.9587.017; Sun, 8 Feb 2026
- 21:07:52 +0000
-Date: Sun, 8 Feb 2026 16:07:51 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Mon, 9 Feb
+ 2026 05:16:20 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 05:16:20 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Feb 2026 05:16:11 +0000
+Message-Id: <DGA6C99D24FV.34J2JWKWY08LS@garyguo.net>
+Cc: "Gary Guo" <gary@garyguo.net>, "Benno Lossin" <lossin@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, "Yury Norov"
+ <yury.norov@gmail.com>, "Nathan Chancellor" <nathan@kernel.org>, "Nicolas
+ Schier" <nsc@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
 Subject: Re: [PATCH 2/2] rust: add `const_assert!` macro
-Message-ID: <aYj7J0yTJtYlxLt4@yury>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Yury Norov" <ynorov@nvidia.com>, "Miguel Ojeda"
+ <miguel.ojeda.sandonis@gmail.com>
+X-Mailer: aerc 0.21.0
 References: <20260206171253.2704684-1-gary@kernel.org>
  <20260206171253.2704684-2-gary@kernel.org>
  <DG876SZYRBXB.CO3YI3HOE3FR@kernel.org>
- <DG87KRN75MKZ.1O0TZI77MLIBT@garyguo.net>
- <aYgmENPRTdD4wCVF@yury>
+ <DG87KRN75MKZ.1O0TZI77MLIBT@garyguo.net> <aYgmENPRTdD4wCVF@yury>
  <CANiq72k4D0ZPDzBCHY7xq=qOmERHk3e7P8CcKtVHjjjOQhJ+2w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72k4D0ZPDzBCHY7xq=qOmERHk3e7P8CcKtVHjjjOQhJ+2w@mail.gmail.com>
-X-ClientProxiedBy: BN9PR03CA0488.namprd03.prod.outlook.com
- (2603:10b6:408:130::13) To PH0PR12MB8800.namprd12.prod.outlook.com
- (2603:10b6:510:26f::12)
+ <aYj7J0yTJtYlxLt4@yury>
+In-Reply-To: <aYj7J0yTJtYlxLt4@yury>
+X-ClientProxiedBy: SG2P153CA0011.APCP153.PROD.OUTLOOK.COM (2603:1096::21) To
+ LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -96,228 +94,321 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB8800:EE_|MW6PR12MB7071:EE_
-X-MS-Office365-Filtering-Correlation-Id: d31b0904-a1df-4829-4c6c-08de67561f80
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB5669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c506ad4-bc62-43c6-73f4-08de679a5c48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?c2pSL3Y0SmlFMjNvUWk4bFYzOHN6ZTBMc0xtOXhJSXZXbUxRVENEdEcwcHk4?=
- =?utf-8?B?MjFDUVg1WUs5TlhtZVF3ckdhelRjVVFuK0FDU2lmTmlkQVhHZE1MU0hUam5K?=
- =?utf-8?B?dlYvY29EYkp1SjVWQ1RhcGdrNElqa294YkExWndZd1dqZEFqQm05UVpwK2pv?=
- =?utf-8?B?bHhrSkY3TklHd1ZOeWpiU2paODhyeXRlUGg3L0ZlbnY3a0ZmM01sdmUydkp1?=
- =?utf-8?B?MVJwd0dibCtWS0U3UnBRbDJ6NFlKbUZZdVpRY1Z5NEsrUU9NeWt5Sm9DY1Z4?=
- =?utf-8?B?MDBTaXFlR01RV01nYjVyNUtSSkFBalltUTQwMVdaVGFQNUF0V3dNR0pPY1ls?=
- =?utf-8?B?L0cyK0lpdFI0YmovbE1Gb0tPUHFFQ01yTTF6WlR6NWd2ZktEL2JTdTlNcThT?=
- =?utf-8?B?T0hqcy9QemdxOHpUZHAwbExJSXhFb0ozKzlkNTRUb0VzM2dBUGtUUlJycDdq?=
- =?utf-8?B?OGl0cnA0ZmVVN0VFbW12bFJsd2xtYkQvQWVKOEFkQkVzak1GMks5MWRvWVhh?=
- =?utf-8?B?QXl1UUJHRUQycEVOTkpicGJSdUVkTjBncWZ4aXJ0ckFJV256YzE3OGxCbVlk?=
- =?utf-8?B?TU1KR0NlNXcrOFhDZmRhK0liMUpTai9yMzI0d0UxRGlZZW5hR3g0RzlNY2FL?=
- =?utf-8?B?dnZiTkkyZklNTGxrRG1SYWhhU2c0QnZBT3NDYkZQYlBZUTI2Q1YyV1BndEV1?=
- =?utf-8?B?WTFUWlViYS9maSs3OUNKeFZscUxES29aTFpIeTI0Q1pLWWdhOWJwTzJkayt6?=
- =?utf-8?B?d0JjWWJBZFhRNTIyYVg0TGd2b0Q2ZmZ0YjdrdjJ4dzR5S2cxcEYxUEU3UWhp?=
- =?utf-8?B?bUFWOHBMbUE0OEVQZGVxcmxtV1pDaXk1cGVRQkxrTXR6QXRGR0x4S1hQaVdE?=
- =?utf-8?B?ejJLdUcwZXMrSEJydGJIbVBrbjBOVDUzcHNWMjVaNU5TQzFydUlMM3NTNFl3?=
- =?utf-8?B?RlJCZHVkWW85aVZpSFBKMGtJZkJybG5aL1pHbmw1MjdZK3ZmQ0x5QzJBNnF3?=
- =?utf-8?B?MTdmZ2NIUzAvZnZqcHRiOUFwZ0FESDEyVUpvdzhQU0k1MGVwdTJRdDJmbTRp?=
- =?utf-8?B?QW9UTnQxQUlPZU5QRWMwK0JsSVQzQ2xWR1VmUkl0b3pCZUF6VlIyTXl3cGZk?=
- =?utf-8?B?MllWNTNjTDNrR296RURmWFJTZFlJTS9VSm5pZUdHcnhQdmNlVTkzOGV0VzhV?=
- =?utf-8?B?cmxUYWMwNEJkN2gvak8wT2I2ZEhtSlpMLytJb3pmU0swaTczMEZGRzZFZTZY?=
- =?utf-8?B?TGRMaGhnNE5QRkYvQzR6amtDQmxBTkdWY3dVQ1FvWTVVcEJrZ2RNVXJHbkQw?=
- =?utf-8?B?Ykt2TkVVTVNaeDRQSDNWeWpjUzNKclJmbXJJeFNRTStIdlNCMk0xTTZlMnlh?=
- =?utf-8?B?TEVBQUQ0ckpiQXdDVS9nV0Q0enpsVzRSSEFMV0k3WFU0WkdjMUI1eXFzQ2lV?=
- =?utf-8?B?Sk9QZHU3QnlRd25iTVZzc1J5MFd1TFBCR2E2K2p3THh2Y0M0NTdjaTk3QnM1?=
- =?utf-8?B?OXdYejlPVHVDK3llQ0FLcERFOTJuUU9CQzVVVjlJMmVXZGVzRVJwN090Wmow?=
- =?utf-8?B?QTF2dUFpTEcyMXFaUllNbCs5OGo0S01tUXdhM1NpWElHM2hIZnlQb1JDb2ZB?=
- =?utf-8?B?ZmhqOWlUZjR5bHNtZzRJRUU3UmZEdVBZVGdDWlIxdnpockwwZzFaSHFlcVlk?=
- =?utf-8?B?R0lINHRRbWdtaG5zMHg3VFVkWGNhZjFDamhldTZUZGdwMzhXNVBMdjVZSUNV?=
- =?utf-8?B?dUo2b1FwOWpnOXFaaEJDOFQ5elBKcHgzNFpacHV5QitRTEI2T24rc1JIdzFx?=
- =?utf-8?B?WE1qdk5sY2VYdFhMV3lqUkh2M200aG5EaWcyV2RldXFCQmFJdXJtYVJFSml5?=
- =?utf-8?B?bXRpTGM0TzNrbkdrdFVtVGV5MmY4aWw2SmRuWk01VUk4RzNqUStEdkw3V2ZM?=
- =?utf-8?B?bjlvdUdkaTNyTFp3Z0kya0IyRjcxckNDY0JCWWtra2Nab201eEorV2lZNXlz?=
- =?utf-8?B?YmRxNGQvUWpMSy9PRlhyc1RLUFNkM0w2NFhZdm9QUzUvMmdoTis3RnhGRDBy?=
- =?utf-8?B?eDZrVEZWQzRiZk5xRHIxVVRZb0RkNlZqR0JFcDYybWtldzBkNWVhNFVqK0hH?=
- =?utf-8?Q?grkM=3D?=
+	=?utf-8?B?OGxwUTF1YVozVEkzTUlWblN4TnJQWEF1d2NoYnFZYlZmUGtSRGhSSmd2UVQw?=
+ =?utf-8?B?Kzc0Vm5KL2ZxVWVMWE0rSnNkdEpCRVJOOEF0UVF1T0hKTTFRR3dSVndGeU9C?=
+ =?utf-8?B?cXQ5SUZ6b2JqMTJ2SVpSU3d0OSt4K0JUenA4L2JZNm5wR3Y0dkZpeUNVYzIx?=
+ =?utf-8?B?MVBRUkRFR1c4ZnlBR0NtdWhQZmIwZzV0cUJIRXZZN0JrWnlFTm1RbGF6T1Jp?=
+ =?utf-8?B?T2gwTENGZVZHbDZsbEY2QzhwT1BVcG9Zb1Zqbm1WcFZrbWhGaFdsMmpyOGh3?=
+ =?utf-8?B?d1lwQU16Q2ZFM1NQSTh0ZzFhZ01YU0JnQktiZEpTRktobTFYdnEwZFNzYkpZ?=
+ =?utf-8?B?amFkR1FJMDBPOTZmRXFtOXpXUVdVNXBEZ3I0eDVhL2hmallrTzRsRTlQd2hY?=
+ =?utf-8?B?S2FQWG5aU3pJdzBGYzN3SWZlazAzUVNpZ0dvUmM4ekdsZklmdS92YzFjcE0z?=
+ =?utf-8?B?empoQU1jR2Q1bDFJcmVMeE5kbzBpaldoRnNieFp6UmgyMmZ2bXZGUXhaN0xw?=
+ =?utf-8?B?L2grazd3blBjakVLR2ZYTmhld2V2OFJDUjU5cGtlOUdwS3lkL2tQNFdiYTUw?=
+ =?utf-8?B?S0xkbHJIc1pCelZhWCs4ZVY5RWJLV3p5Q1hBNkNiVER6cnJidFdpbU9kd2d6?=
+ =?utf-8?B?VjFmcGFlaUtqdXRmSDdZTmhBMEZTUjZFejVBaVBObjZJT1Q1Y2RZbExtcndK?=
+ =?utf-8?B?MmZLYjlqb0V2Q3pMNzRFWVEvaFZGZ08vMU1hRk5SZHFpRnZVcGZ1T2JwdTh5?=
+ =?utf-8?B?U3Bya2JMdnkzUW9VOHNHV3ZNSXpFd0ZZTGV2cUlwdkoxbHgySTJ6c2tWMms2?=
+ =?utf-8?B?TTBQbWFZLzNRN1pyYlV3ZllrbnREajAva016NXI4c3VFOEhVa3ZQVmt4RUVG?=
+ =?utf-8?B?c3NUSm9sSGJ2N2V0NG9sTkdoOWZmUkJma09ZQ2hTNWxQc1NzN2QvRXFKVnda?=
+ =?utf-8?B?QUIvWGdyU3A4NGJNN2QrcUZMdWw5SkVmalRtRnhENERnQXMxemI4cVQ5dWZO?=
+ =?utf-8?B?bDZOblV3UXAxMjZHbmplMzFBVngxQ01tcVhNenVMNFI5K0l2TFM4UkUxT2oy?=
+ =?utf-8?B?SjQ4S1d1b1dhZnBRL3d3OHpWeVZzdmgxYlF1dERreDN3RFFlVWc4dVN5VG1C?=
+ =?utf-8?B?dUV5YU95eURrWTdVcjdLbkpsQ3N3bjA3czM1RnNpc3pySGZTZmIzQ1lrL0Za?=
+ =?utf-8?B?Yk1ENlpmdnYrTkY1dCtXaHNrc3pSRE1XUVZhenpZcEJ0d2dCU3ZKczNWWi92?=
+ =?utf-8?B?V0FsdkhpMjdEdDcxdGs1N1Z4ZUFSamNFVGl6SU5Jc3hFNkkrLzhiZWpJL0dV?=
+ =?utf-8?B?UXVLendRalZIY3RWeHQydWttNVBHU3VxWmcyTytJTmZ2ZWV6Y2N4c3QrakJO?=
+ =?utf-8?B?dkVFd0l0OWk4WTE0aThWbmhuM21WdEVHREIzNHI2K1NPZVJ1bzVYbU02ME9z?=
+ =?utf-8?B?MUd1NGRvOVgxOFlyOEVSdDdETVU4dWdxZktOLzRrMUMvWDN1Uk9rakhwOXdD?=
+ =?utf-8?B?bjE4NWI5bm1Rc0ErN0cxQ1ZGQ0xpOEg2MUMxYjlZbm5IRmpyS0JzUGEvNjhD?=
+ =?utf-8?B?UzlEZ3I4c3VsajhOK2t3L3FYK3AzbXpycnNqb09JSGFvYkhYaVVNZzNPcXdn?=
+ =?utf-8?B?Z052Qmx6U3UzTFNZNEwwZWFzbitLSzhXTi9pUnZwUXdYdW1Oa2dHZ1J5RjBp?=
+ =?utf-8?B?L0hKMEtaMmk5aUlES1VxYlVraEdiZ0FJMVBOSnhYbWJzMVFzTWJQeXpRcGdU?=
+ =?utf-8?B?ajJjZE9mTHJ3MFJqb0I5NHVFRVl4aG5CbGJ2UWNNSnRhMGRDQ2dlNmZQc1Q5?=
+ =?utf-8?B?bkUzTzJSY1g5dmorUGc4VCszWUVBTHVVK3NZYzU5eG01TVBkZjY0WExIL1RM?=
+ =?utf-8?B?RnNMcEQzMVlQcFdKcFFaVElpam9ZR0I1azhpOEd2ZmpVQ2JiRUQ0WG42bWFB?=
+ =?utf-8?B?d2Q5S1Z6cXFpMXZjZnJ5c2xTdE5yRTBoSjZkOGNwSGZNOTRqNVQzNlRJZHZp?=
+ =?utf-8?B?c0ZUMlV2ajRQY2VTa2RNWHRHYXZxZndJTXJLSzUzRnpWdWNlVVhZbWViTGZo?=
+ =?utf-8?B?dnhoWDZaR3VqUERJZWVMc1pTNmUySlRXR1ZpN3lRdjFnTXg5NE1pbWhRelhH?=
+ =?utf-8?Q?vJEM=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB8800.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?KzQ4YlF0ckQwc3VHZU9xZmNtMGxMUnNaR0ZTcXBFOWRUTTdJdWNyOUIyczcv?=
- =?utf-8?B?c09GTVBHaDkrZGJmMm9hMkRxbGZPai96Sm5Ramw0ZlBWYWlUR0ltSkdHUlpD?=
- =?utf-8?B?TWVHYW1DMTExUjFxTWUrWkpseTdwalFGUWs1WVN0d3dYeGpqRHRxazh0bWJR?=
- =?utf-8?B?VXVUazU2eDVKdHNCMVJsNUxnMi8wQzR6dWtvZ2luOGJSbm1NWE5YNi8xSGNa?=
- =?utf-8?B?Y0kyM2p0d1phd2J0YUdLZVdmWm8vRTlTNlhGVXVQRDhTT3NzbldLOTI4MkZk?=
- =?utf-8?B?bnhVcWdkZFZOSXI4N1hvYzJhWHdyNlhHdG82QUF5RWZHQ21PZTZnRm5tZFps?=
- =?utf-8?B?cnM5SmhZZ0NQbWNuLy93bDZHaFhacE9LanhtYmZkZTFVRFZ1S1ZSR1lCdG56?=
- =?utf-8?B?eS9QUXF2YXVacjZsbmRFSjA0N1ppWnJicjRhOWoxeHlLNmF3cWYxdmwyckQw?=
- =?utf-8?B?aGR4NFRJczN6cnYzbDA1TTVFdmIvVlltMDl4YmJsQlBLSlBxSURlekxCeHRT?=
- =?utf-8?B?ZFA3NDVCYXNRendSVG1tRnBidm4vQkJYbGJLamRqK3lJdHA0WGVJNGttN0tK?=
- =?utf-8?B?MjlSN3BJcDZDWHFBNWQ1Z0d2cTIyaERvRVZvNHhCRDkxeTY1VzZwZFFQcDZa?=
- =?utf-8?B?ZlJuRzRFRDJjd0w2YlNrMkIvZ1BrSmNLb3o3TGdqYzNQOU1xY09YN2Vmc1Mw?=
- =?utf-8?B?ZUtnME41emwzNGhhMW5VOHlRT0J2UFNkODdXdzVLVFd0VjEyTXFtRk9FMS94?=
- =?utf-8?B?YUxiUXJsU295QUxUWWxrdld4bWlSa2FyWmJsMDFPOXkvQ1QvbnU1b0FkNjk5?=
- =?utf-8?B?eXc0ZHUvU3BjMzE1M2dicGV4SUxyK0hpbExZV0VFL211KzQwUlJlaENHb2M4?=
- =?utf-8?B?d1pDbW9OUzM0clNrSjhCcXRScXRYY21iTkFSbGFxNUdCb2k0aU5nb3hpd0Ri?=
- =?utf-8?B?M0tSQjhOU01pQVJycFpZdmZ1elQweXhmTlNoejNpU0pINnJOUlhqN3ZuVXVD?=
- =?utf-8?B?cnFDbTAxeENibVZpREFRdk9LWVZoQ0NNUWZyUk0ydjloZVR5WDU5NGJYWjZi?=
- =?utf-8?B?S09JZms3TzBYaFRGMndXNS9CQ0V5c3NrSHN2THYyL1F5cjBqUHovV29BZDl4?=
- =?utf-8?B?SWdLZjdkMVFQcHp0WFV4OVFWVUZTSDBLVkpvS21WWHBpN2psbnRCTldBa1NM?=
- =?utf-8?B?c3I2L1hrZGZvM2FqcDZyUm1NNmI5YVIwbDVRM2s0b2ovOVBzdC91aTZzcG5Z?=
- =?utf-8?B?OG0xNHdHcHUrZWVha3dJandFZWhnYThRT21GRGovaTRnN0dSQ3N3UHg3UzFO?=
- =?utf-8?B?b3FKZElzODNDcTIyZzYxRHB3Y3JoRnB1UmFTUnlxK1poYjVCbXVrTzFIR3E1?=
- =?utf-8?B?L1U3TXBIbWkzQ0gyMmN6RXZVNFhpUjc1VlFaZHhHM0M4RlBzaExhUE9mSUhV?=
- =?utf-8?B?dlRMOXduODB2TnpMaVgyVzhXL1JSZXVnbVMrcTdJN0xkckIzcVVKTU52Sjl4?=
- =?utf-8?B?VUhzb0FaUjVZcDJDNXh1cU44ZGF1S045Rm13dG81aS9Kd2x6Z0srRmhCRTlK?=
- =?utf-8?B?Z1VITjdVbGxRQnhWS0tiVDhsVkhxWVI1QkZzTEFrSGYyYVcvMFJRYlg3cGpD?=
- =?utf-8?B?RTZCNTFqUU9BMVZQa2FKY3JWOFN0SnplSGh2U0FVajdLZFczUnZGS3NRNkdp?=
- =?utf-8?B?dkphL1pxY09CbkVFc0E4aUh6UHhMeEZPODJHWXhiTit6OFBnVmZkS3g4NnRl?=
- =?utf-8?B?VmlVMjc2cDhBNXpaYnM2Wi9KMWZBTjVpVkJtOTJHOGptaGlUUEs2ZGJ5Y3Av?=
- =?utf-8?B?Ni96dXo4bkwxQzI5UVphTVg3azhWbHAxdmpTQk1yZTQ1Q1l4MHJwaEx1NkU1?=
- =?utf-8?B?MG52WktvY256WGNBU0lFTkZUS2U0Nzk1V2s1U055TkNEbzNTZU9FTnFvdFNF?=
- =?utf-8?B?Sk9NbWFRK0JJSEUrSUVaa0RaWGxsZXYwUnpIN2dHZFFwc1pYV0tVZUFHYzlI?=
- =?utf-8?B?WHdveXppWVNZaFZYRHc0VnNvaDgvcVNVZkhscTltK0I0bEtkNWZFOW1SWmg3?=
- =?utf-8?B?bVM5V1FvRXVHLzZkTW5GQU1zS3M2cVYyWW14ZVZoZktoQlFVb1grb0Z6UEx0?=
- =?utf-8?B?OFIxdmdQejJMdnM3RWw1dUU3dlhhb3R0TE5WckdJblp3UlNyK2MyNE1aTHhM?=
- =?utf-8?B?M05EVFB0TG9RYkZjL0NBWmVYQnhzb0lNZ1RhNlNtRTlxekkyb3FYQkJQbnRX?=
- =?utf-8?B?RDRqNTBzQlQ5b0U2WUJIK1BwdmtabGYvWWMrOVlUZUt0MGtodUNCSEdOY3U3?=
- =?utf-8?B?KzJERnlyZmNPK29CKzE4VkR5V3d0dmtWWDlDVEJNeUllRGRnTjRCUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d31b0904-a1df-4829-4c6c-08de67561f80
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB8800.namprd12.prod.outlook.com
+	=?utf-8?B?eWdFQ0RUbTRXSWNxbzltc1I1eUEvenA5ekNVT0RQZ1NuNXBpS0hKeEdtMzRY?=
+ =?utf-8?B?VVZUNkw0WXVWQnYvUDdnTWFJZXMwYzFlNTBDWmZOT3RvbXg5WGQrU3hwQU1p?=
+ =?utf-8?B?Q2ZlNGNTQitFbWFRenRiR0pmN3ErM1ZsR2E4ODF3NnQ1NXduVGo0VFVCTGFz?=
+ =?utf-8?B?anZKRnVNVFAwOGlHV3BkNE1DdytIdURGZ0UwSmkyMjBlR1F2M1ZjaHlaZVZv?=
+ =?utf-8?B?b2huSzVPb1F2Vlp1UDNOcGxnSUliYXdOVWk4ZHFWTGJpMk1QWTg2RkJubzdo?=
+ =?utf-8?B?MURsblRCcERHRUZ5V014dk9IVXczS3lVSnJ6ZFBjWnZmN2lEbjVoQjltYjdn?=
+ =?utf-8?B?T2p1VzVWNUhLeUdxUWpqRHVMSTVWMDA5aFRDbUpXSWZ2WHIyOWFiay9pNUhE?=
+ =?utf-8?B?ZERFUVFpSkxjRWdicXB6QTUvL3haQ0N6TnZOb1MyZjVZY0NyTWlOaHNUUnQy?=
+ =?utf-8?B?TnlkWU5NUW1BS0lVWDZkak1LWURsYmsrcmczK0ZXS25HUmhCYzg4dWhlRFdz?=
+ =?utf-8?B?bVM5Mkp0eXdBR0pnMERZY2tFNUY1eko2TWs4QTVRUURxVllkb1RvQlFYT2Fq?=
+ =?utf-8?B?VkpSUXpLcCtDZW8xeWt4ZEx5dmtZb1RKRi9iamJwZmZ5UW4raEFHS1JST0h3?=
+ =?utf-8?B?b05BTllRdTdUUHQ4bXZLUW4xbGVGYUlEUUVnUHI3bEgxeXRpVDBpTTVhRjdJ?=
+ =?utf-8?B?U2ovazJySDd1UTZ4K3BHRUtOcnBTbmpNTFhmaE9QaCtTdTN6c0wyQ3JoUTdI?=
+ =?utf-8?B?eDBrbDNVNmZBcUptTXBVQzhLUStrd2N2bGRDRkZqRXhEMnBETEJBY0hzblpx?=
+ =?utf-8?B?V05tcXRvbko2aG8wWE9mV3Vkcnp1VDhwekRSZ2ZCd3MyYWJsSjdrQ01MR3FN?=
+ =?utf-8?B?MStxNDhCMWRUWTZsdXpxSW5IL3JodkwvalcwODJmOVN5MG44bkxHUDBRYjVl?=
+ =?utf-8?B?ZEU0WTlSZFBPVnJlWFY5VmNNekhyTk5kMlozdWUvejVCZ2FhVU5kakYzTlpM?=
+ =?utf-8?B?M3Z3MStURHoxNFJFQis0RVdVdFFUaDZBZTU2SHFlaXdxb0VYZ3ZaVzZZSTI5?=
+ =?utf-8?B?dzNxcmRmcndMVExRMWpmczI3cFdmWTdubXlCQnVRUTgrVUJoalA0ams2MVF0?=
+ =?utf-8?B?WGl5VXJQci8ybXZxWlpqSjhSMEVxZmZoQXV4aGp1dDhzSzdPS0xkQ3JYYm01?=
+ =?utf-8?B?Q1FmVDAvL0lZL1BrVUlDOUJST0YvYUZxNVNIZDA2KyszYkJ2dHBINkhmM1N2?=
+ =?utf-8?B?QjMveXh2cTJ1OFd3NlNkVWVvYllXbm1jeWt4bGxBVWFFYnY3ZGNBWFNBRUNa?=
+ =?utf-8?B?YkFMaHkyVVpxbGx1akU1N3o0ZFJhcWkxWXd6V3dKQzBXdHViOFlZZGJiZUlx?=
+ =?utf-8?B?NFYyNlB2dEJSZmthUXN5RGtwcXFLQURyV0lmU0xFSTlHTVFNUHlJcUpLKzdX?=
+ =?utf-8?B?dEo3NkljWXNxMzVQNjJyY215RzlPaTFrWTFIb0lMZC95MzlJbEZ4S016enk5?=
+ =?utf-8?B?SlIraVNRZDhqSy9nUWFPaUt0N0NHOVBweEZZai9VNTNlbXBUdytqb1RxVDd4?=
+ =?utf-8?B?cDVTUHdhMDZHNUl6UXZhWThpVTdKbGdkOWJRaVZxWEZ5Y3BJeG8zTGhlcjRQ?=
+ =?utf-8?B?bk1ZR0ZUTm90QmZEN1dFb3I2NWRzb1ZaUUR0aGhKa0hPVXpCM3dwUkpCdkQw?=
+ =?utf-8?B?R2NmaUtXU0ZLR0ltdm9SdnEwejF0Q2tST1l6Z2poa3FUdWo0S2VwOGJTdlpX?=
+ =?utf-8?B?SjIzVUNmSmtPMXBGK01KdWNvdGZ3d09RSlVXU0RJOWwrZHNQci8zeUhMVTNW?=
+ =?utf-8?B?Vnd4TnZUMTJZL2RHQ25YQ282aXYvbVg3VTVOeFVuekI3QzhIM3lNSWtNNnFp?=
+ =?utf-8?B?NVBoM1VjM2NaRWloSE14UW1sNjJFaXhQYmt6WWdIN3VGREh5dHFTUG5tQlJy?=
+ =?utf-8?B?MEtyMVFpTVB0VzBnUk5zTmF6OHJjc2hlUXZOb0VUa253bHo0OEwvKzQvMjhl?=
+ =?utf-8?B?VUNKbEgwVHFnQW9wU0xLSXNGRXVIOUo3TkNyWWNkTGxjRnZvUWN6alJEVmtN?=
+ =?utf-8?B?V1FOcmhPK0t1dGxjcnhsbkZSWjRod1h1TmpKZTVhb0NVNWJncDZMZ1Y5eVBW?=
+ =?utf-8?B?aVNHRVdCem1HQmpwSXFNSDVkV09lM2tnRS9SZUJyeG9sUTlicVM0NUk1ZkQy?=
+ =?utf-8?B?bkx4Y2hqeE5iTzhiNExhbGFCY3VTckRNLzhTN2psTXdrdXlBazBKMEVubmlQ?=
+ =?utf-8?B?b0dlcXdVNlQ4UjdVek1RenZMS0paY0JNaVBYaEowUWxRMDlTcWM1S1RxZWgw?=
+ =?utf-8?Q?2a4KXAVvXGvkadOufG?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c506ad4-bc62-43c6-73f4-08de679a5c48
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2026 21:07:52.8095
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 05:16:20.4854
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lXEiUMHlXIOpEDYomsmC/PRNrk8/3ys6N0ygEQOUQ/Yi4DKh8QnIRpJPCNrQkp6tOonlVHZMwN4pn92Gzwu5ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7071
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2+DHyEelkqWY/D5CzthTOI4HbfUTTxvbFMe35bXd/vFT8j7r+GJV+uNPp/0E7+DqrG7y2u/Lk2ruLW+wIAIQIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5669
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11080-lists,linux-kbuild=lfdr.de];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11081-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[nvidia.com,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[garyguo.net:+];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.995];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ynorov@nvidia.com,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,linux-kbuild@vger.kernel.org];
 	FREEMAIL_CC(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu,nvidia.com,gmail.com,vger.kernel.org];
+	NEURAL_HAM(-0.00)[-0.997];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:email]
-X-Rspamd-Queue-Id: E71A310A28C
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4D92610BBB7
 X-Rspamd-Action: no action
 
-On Sun, Feb 08, 2026 at 11:35:51AM +0100, Miguel Ojeda wrote:
-> On Sun, Feb 8, 2026 at 6:58 AM Yury Norov <ynorov@nvidia.com> wrote:
-> >
-> > This is confusing. You begin with "const_assert!() is more powerful",
-> > and finally recommend to use a less powerful option.
-> 
-> The goal is that users use the least powerful one that applies, not
-> the other way around, because the least powerful ones fail earlier and
-> are generally more robust.
-> 
-> I think the first example is intended to show the different ones, but
-> I think the wording can be improved -- the one in the existing
-> `build_assert!` docs is a bit clearer.
+On Sun Feb 8, 2026 at 9:07 PM GMT, Yury Norov wrote:
+> On Sun, Feb 08, 2026 at 11:35:51AM +0100, Miguel Ojeda wrote:
+>> On Sun, Feb 8, 2026 at 6:58=E2=80=AFAM Yury Norov <ynorov@nvidia.com> wr=
+ote:
+>> >
+>> > This is confusing. You begin with "const_assert!() is more powerful",
+>> > and finally recommend to use a less powerful option.
+>>=20
+>> The goal is that users use the least powerful one that applies, not
+>> the other way around, because the least powerful ones fail earlier and
+>> are generally more robust.
+>>=20
+>> I think the first example is intended to show the different ones, but
+>> I think the wording can be improved -- the one in the existing
+>> `build_assert!` docs is a bit clearer.
+>
+> Can you please keep more context? It would be easier to refer to an
+> example if I have it on hand.
+> =20
+>> Gary: perhaps we could factor out the explanation/examples to the
+>> module-level docs, and then link to it from all the three asserts.
+>>=20
+>> > I don't think this compiler implementation details should sneak into
+>> > the kernel. The compiler may get changed, or whatever else, and this
+>> > all will become just non-relevant.
+>>=20
+>> How do they sneak into the kernel? Gary is explaining why it is not
+>> called "link time", precisely because that would expose more details,
+>> not less.
+>>=20
+>> Regardless, that "link-time" vs. "build-time" discussion is
+>> independent of this patch, because those docs already exist in the
+>> tree.
+>
+> Again, more context would help. So this is the original comment from
+> Benno, and Gary's reply:
+>
+>   > I think having "Build-time check" here is a bit confusing, how about =
+we
+>   > change it to "Link-time check"? Since a "Compile-time check" also is
+>   > done at "Build-time"
+>  =20
+>   This is the intentional phrasing that I used for `build_assert!` when I=
+ created
+>   it, for the reason that `build_assert!` ensure that it will fire, at la=
+test,
+>   link time. However, if you actually use such methods with CTFE, it will=
+ error
+>   earlier. So it is "at latest link-time check", so I decided to just use
+>   "build-time".
+>
+> I agree with ""Build-time check" here is a bit confusing", and the
+> following indeed looks like a compiler implementation discussion. So
+> I concluded that the difference between build_assert and const_assert
+> is not visible from programmer's POV. Please correct me if I'm wrong.
+>
+>> > On the C side we've got similar statically_true() and const_true()
+>> > macros, but they seemingly have a different meaning:
+>>=20
+>> > Is it possible to maintain consistency with C on rust side? If not,
+>> > can you take those C comments as the reference for what level of
+>> > detalization is desired? Maybe pick different names then?
+>>=20
+>> Please explain what inconsistency you are seeing here.
+>
+> OK, maybe it's just me, but this is how I build a map between rust and C:
+>
+>  - Plain BUG_ON() matches plain assert!();
+>  - BUILD_BUG_ON() is compiletime_assert() and matches build_assert!();
 
-Can you please keep more context? It would be easier to refer to an
-example if I have it on hand.
- 
-> Gary: perhaps we could factor out the explanation/examples to the
-> module-level docs, and then link to it from all the three asserts.
-> 
-> > I don't think this compiler implementation details should sneak into
-> > the kernel. The compiler may get changed, or whatever else, and this
-> > all will become just non-relevant.
-> 
-> How do they sneak into the kernel? Gary is explaining why it is not
-> called "link time", precisely because that would expose more details,
-> not less.
-> 
-> Regardless, that "link-time" vs. "build-time" discussion is
-> independent of this patch, because those docs already exist in the
-> tree.
+These two are correct.
 
-Again, more context would help. So this is the original comment from
-Benno, and Gary's reply:
+Notably, `build_assert!` uses the same mechanism as `BUILD_BUG_ON`, i.e.
+generating a undefined symbol reference is it failed to be optimized out.
 
-  > I think having "Build-time check" here is a bit confusing, how about we
-  > change it to "Link-time check"? Since a "Compile-time check" also is
-  > done at "Build-time"
-  
-  This is the intentional phrasing that I used for `build_assert!` when I created
-  it, for the reason that `build_assert!` ensure that it will fire, at latest,
-  link time. However, if you actually use such methods with CTFE, it will error
-  earlier. So it is "at latest link-time check", so I decided to just use
-  "build-time".
+>  - BUILD_BUG_ON_ZERO() - same as BUILD_BUG_ON(), but can be used in
+>    initialization constructions, like GENMASK(), i.e. rvalue. No direct
+>    analogue in Rust;
+>  - BUILD_BUG_ON(statically_true()) - allows runtime conditions, like
+>    "true || runtime_cond", and matches static_assert!() in rust;
 
-I agree with ""Build-time check" here is a bit confusing", and the
-following indeed looks like a compiler implementation discussion. So
-I concluded that the difference between build_assert and const_assert
-is not visible from programmer's POV. Please correct me if I'm wrong.
+`static_assert!(expr)` in Rust is equivalent to `static_assert(expr)` in C.=
+ This
+means that the expression is evaluated by the compiler.
 
-> > On the C side we've got similar statically_true() and const_true()
-> > macros, but they seemingly have a different meaning:
-> 
-> > Is it possible to maintain consistency with C on rust side? If not,
-> > can you take those C comments as the reference for what level of
-> > detalization is desired? Maybe pick different names then?
-> 
-> Please explain what inconsistency you are seeing here.
+There's no equivalent construct of `statically_true` and `const_true` in Ru=
+st.
+Rust intentionally avoid providing the ability to observe different behavio=
+ur in
+compile time and runtime. These macros simply return `false` if the
+evaluatability is not met; Rust's `static_assert!()` (and C's `static_asser=
+t!`
+and the `const_assert!()` will fail the compilation with a compiler error (=
+not
+an assertion failure) if the expression cannot be evaluated at compile time=
+.
 
-OK, maybe it's just me, but this is how I build a map between rust and C:
+>  - BUILD_BUG_ON(const_true()) - doesn't allow runtime conditions.
+>
+> I expected that const_assert!() would be an analogue for
+> BUILD_BUG_ON(const_true()), but it is seemingly a different thing. Or
+> am I wrong?
+> =20
 
- - Plain BUG_ON() matches plain assert!();
- - BUILD_BUG_ON() is compiletime_assert() and matches build_assert!();
- - BUILD_BUG_ON_ZERO() - same as BUILD_BUG_ON(), but can be used in
-   initialization constructions, like GENMASK(), i.e. rvalue. No direct
-   analogue in Rust;
- - BUILD_BUG_ON(statically_true()) - allows runtime conditions, like
-   "true || runtime_cond", and matches static_assert!() in rust;
- - BUILD_BUG_ON(const_true()) - doesn't allow runtime conditions.
+Let me give a summary of the three assertions in Rust:
 
-I expected that const_assert!() would be an analogue for
-BUILD_BUG_ON(const_true()), but it is seemingly a different thing. Or
-am I wrong?
- 
-> Also, please note that two of the three names have been for years in
-> the kernel tree, and that standard C also uses `static_assert` as a
-> name. `const_assert` fits the pattern and it literally expands to what
-> it says.
-> 
-> Moreover, `const` in C is not the same as `const` in Rust. `constexpr`
-> in C is closer to `const` in Rust.
-> 
-> By the way, I am not sure why you suggested `const_true` for the name
-> of that C macro -- I think it should be `constexpr_true` instead,
-> which is closer to what it does, and it fits the pattern on the C side
-> better, too. So that would be more consistent.
+`static_assert!(expr)` is equivalent to `static_assert` in C. It requires `=
+expr`
+to be a constant expression. This expression cannot refer to any generics.
+When you write a `static_assert!(expr)` in a program, it is always evaluate=
+d,
+regardless if the function it appears in is used or not.
 
-I suggested const_true() over the original underscored _statically_true(),
-and this is an obvious improvement. If you think that 'constexpr_true()'
-would add to explainability, please submit a patch. I have a weakly
-negative opinion on that.
+`const_assert!()` has no equivalent in C, because C does not have generics.
+However, you can treat it as a more powerful version of `static_assert!()`.=
+ We
+need it because it has the ability to refer to generics. It also requires t=
+he
+expression to be constant expression. *However*, because it can refer to
+generics, it is inherently tied to a specific instance of a function. So if=
+ you
+use it in a generic function and the function is not used, the assertion wi=
+ll
+not be performed. `static_assert!` is recommend over `const_assert!` if pos=
+sible
+for this reason. It also has a limitation that it is only usable inside a
+function (strictly speaking in Rust term, bodies).
 
-Thanks,
-Yury
+`build_assert!()` is equivalent to our `BUILD_BUG_ON`. It is even more powe=
+rful
+than `const_assert!()` because it is supposed to be able to check tautologi=
+es
+that depend on runtime value (similar to C). However, as the assertion fail=
+ure
+mechanism is undefined symbol and linker error, it is not developer friendl=
+y so
+it is recommend to avoid it and prefer other two assertions where possible.
+
+In summary:
+`static_assert!()`, `const_assert!()` and `build_assert!()` in that order h=
+as
+increasing expressiveness, but decreasing robustness and the checks are
+performed later in the pipeline. Hence, the suggestion to use the least pow=
+erful
+one that still works.
+
+Regarding the name:
+
+`const_assert!()` has it's name because it is literally
+
+    const { assert!() }
+
+where `const {}` is a construct in Rust which says "this must be a constant
+expression and evaluated at compile time". The names here refer to related =
+Rust
+constructs rather than `statically_true` and `const_true` in the C side.
+
+Best,
+Gary
+
+
+
+>> Also, please note that two of the three names have been for years in
+>> the kernel tree, and that standard C also uses `static_assert` as a
+>> name. `const_assert` fits the pattern and it literally expands to what
+>> it says.
+>>=20
+>> Moreover, `const` in C is not the same as `const` in Rust. `constexpr`
+>> in C is closer to `const` in Rust.
+>>=20
+>> By the way, I am not sure why you suggested `const_true` for the name
+>> of that C macro -- I think it should be `constexpr_true` instead,
+>> which is closer to what it does, and it fits the pattern on the C side
+>> better, too. So that would be more consistent.
+>
+> I suggested const_true() over the original underscored _statically_true()=
+,
+> and this is an obvious improvement. If you think that 'constexpr_true()'
+> would add to explainability, please submit a patch. I have a weakly
+> negative opinion on that.
+
+
+
+>
+> Thanks,
+> Yury
+
 
