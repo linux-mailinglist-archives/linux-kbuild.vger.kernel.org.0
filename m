@@ -1,286 +1,214 @@
-Return-Path: <linux-kbuild+bounces-11088-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11089-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIFSG6mfiWlU/wQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11088-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Feb 2026 09:49:45 +0100
+	id 2NTVIgDbiWndCgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11089-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Feb 2026 14:02:56 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD5A10D33E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Feb 2026 09:49:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C9810F5DD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Feb 2026 14:02:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8545B30039B6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Feb 2026 08:49:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ECC05303A8C8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Feb 2026 11:44:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96253242D91;
-	Mon,  9 Feb 2026 08:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C948371063;
+	Mon,  9 Feb 2026 11:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="fF1AoKqL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ggkT0y2i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC402DC77E;
-	Mon,  9 Feb 2026 08:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770626982; cv=none; b=CYskoenMyceQxItBNdnSKOTs5ysCoodbKNesrDnRUj69encrfyCq0svuuVqWFloqgAh24T9ErGynStbZG3QsGmAbmK6/tkwd45O/kHJMttcSRahAMAfIMAaFEIGycHnr3Awbb1cgsk9okM27aRDJPEzKEmXghpgZ2ECuFoA+2HI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770626982; c=relaxed/simple;
-	bh=3IuTcTExlcru3YTsk+SAa46ZIl8gDT/yEaK1io4hJcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mtQI5InLiTqedQnUjIUh3rtAWi94Nn4+hnEb8J92DLtOnSiBDcxmSB8Q1a4kbujmaM5d8bSDePzSSV5FnKJhpHnuXqjpr7gpwer6tFUntumZBLFgCKTF2aU9Nm6uPml8APU0G+QiQk81JFSS1O9dNC7YzS3s0cmXz23GhKILbpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=fF1AoKqL; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 618MsFKb369791;
-	Mon, 9 Feb 2026 08:49:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=swzmicMpwiMbx8mDS
-	bwNndtctxSKq8Ub8sOhW5HI1og=; b=fF1AoKqLfdckc6vWgvjkz+PHgASRx8aRT
-	kq7waiXEZ3Fm+TipOyUA9tnie5ar1mRydD+O2H6D7ugu7a+lDTfrRs0jq6PD1MA6
-	FltUBiKh0gWkGZhctJolKtuxhFBdt9w88ZrYxO0hAKURpw0XNV1yGwv6ylMHazuw
-	K+8NWNkxEpNyuKZLZI4DhTOMXzuTEhChNIDh7Y0Zc0HfCZ6htnR0uoHyMCdgMx2v
-	BPuQZ/yFE4r3T8fToa50w2tQU2sSlvLmbI4X4DNej6RmkHUdIWEhrOE4DnaLG/uU
-	WSpses+2nSPa4jveyXFFiO71aP6tkV4hoJFCpA1XluCUmiLcQ4q6w==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c696wn121-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Feb 2026 08:49:19 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6193F7Ef012996;
-	Mon, 9 Feb 2026 08:49:19 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4c6h7k4bc8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Feb 2026 08:49:19 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6198nE9129557040
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 9 Feb 2026 08:49:14 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 159FA2005A;
-	Mon,  9 Feb 2026 08:49:14 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1DEB320043;
-	Mon,  9 Feb 2026 08:49:10 +0000 (GMT)
-Received: from li-2fa77bcc-2701-11b2-a85c-cd621c23b6bd.in.ibm.com (unknown [9.79.195.233])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  9 Feb 2026 08:49:09 +0000 (GMT)
-From: Sathvika Vasireddy <sv@linux.ibm.com>
-To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-Cc: nathan@kernel.org, masahiroy@kernel.org, kees@kernel.org,
-        naveen@kernel.org, jpoimboe@kernel.org, peterz@infradead.org,
-        npiggin@gmail.com, maddy@linux.ibm.com, segher@kernel.crashing.org,
-        christophe.leroy@csgroup.eu, mingo@kernel.org, mpe@ellerman.id.au,
-        sv@linux.ibm.com, nsc@kernel.org
-Subject: [RFC PATCH v3 6/6] powerpc: Enable build-time feature fixup processing by default
-Date: Mon,  9 Feb 2026 14:18:20 +0530
-Message-ID: <20260209084820.57298-7-sv@linux.ibm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260209084820.57298-1-sv@linux.ibm.com>
-References: <20260209084820.57298-1-sv@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553AC36F43C
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Feb 2026 11:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770637473; cv=pass; b=fCzK0FfPvNCPmoujBZGtD0vNG4YchdEEesHU+lRLZh1v3Au2WTnUCU9d8HveC2I7QgH6bfqPswDLzkggeVcbk08xIcyPfhpR7AVsk91CrQ9eM6Fi/ojnoNPgVWI3peCL0XyNg6q7QeWG7sn8G5PjHkHb9YoPpVVHv4rnzTgY0mY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770637473; c=relaxed/simple;
+	bh=jWBAlxFqxUcmgAMzCHbAefvq4Ks9vhDZ55bi6/80ghc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BgTykCZH2IazasLH80gx3Tn6yxiEadj16YAvKOK/h+OOIb6/2MK0daIqol2t/8/PcZ42BdWtBK5enW20t4qwOSur5ISCUJS2Z8/v4IRFukMO/jQ1s1OGDWCMWB8M3vHUJf4lQSzUc1mVIh0zR1+/A2Bc4zd130fCNC8ZkN3GN+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ggkT0y2i; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1270fde1739so97109c88.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Feb 2026 03:44:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770637472; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BTNs7a5iiHeyFAspxGQJRwMMKSN7AYzXp1JGYsSMDTS04E/x2AuiFtH8Gadm1Md2uN
+         h5R8X6kaPlFvIL4VMLKSXd1Tf89VBPN3L3AiOWOQNUObmQexGOSe2k0Ty6ReDCw6TMGb
+         ZJnO8WDKJyZ7KKmkCHdbyQ6fe307RWPM0b/4dk4N2B3jan2PIYuGpMvymJdzjiN+D0tp
+         kqeQMWPwB5JLNA0M3qmBFRdPBk87NJD9QYGc1qJDLKTG9PrR/lr8AV1QsUlTTnFzH/kK
+         zUKteUeYiJrHJBOjwPI/dZP1n8HWigG8blb5KDUj2525UOhaRc/bh/FQcPmR7Xy8Bjjt
+         8krA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=z463P7NbcGqbKV1tdT+mMP9zQ1Yf803ptUYTvGcTtAo=;
+        fh=61MphGeCxTaQMAJYv98IO52ZCe+YPuNMNCkRNSOr0F0=;
+        b=FGH9GMK7LjFRxDriCMI6r1friWlsUFsd9RI1V5RrFWIeTiNdyNzrt0rJ2bHU6rK3To
+         FP5HcnHqoJfQwxG/z8cCIRX+BEevor72oO7OEuhOuU+uyfVD4lu96wa/1n7vAUoC44QC
+         dxenHnx96lEZoqQNqPCDMwWXRR3j3LPrdmeb5T0UgWlHv3YY1hhmieVKyXJTK2OUcGUR
+         1ELlcEys9jrfZulNzmXGZs04bPJW/cS+rDOJpJRlT4EfKdCQVA7LQX2xuYsluVDwpxv7
+         5z5VUcJlJx71bIJxEifRLmb3pY4gTN77rtLMLpgjvW5Dpqnt3USWXkbSo4bbgDbw2+A5
+         wueA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770637472; x=1771242272; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z463P7NbcGqbKV1tdT+mMP9zQ1Yf803ptUYTvGcTtAo=;
+        b=ggkT0y2iP+yRzBj16ba6g5TLobVqaElRZ6/L4nBCQa9qqS+Mm7ZF6EqjNp00AZojJq
+         f5Twwdl87Ju5ttwJTw8eJamSxEQs3FdExk2O9FXJtCWAgmcLOVobeEG8akbRQ5b7zoaL
+         zqxBroX5On7R7Sp1Bd24QWVOjWlPlpRIb+/YddjMgEldATMFYGEBnrIAc20mjH/H1kNK
+         L1GJjEcpqbVx18Slo9BXh7tNRZWgoUMNTeMILQNqSpT8isbw1oX+37DRgO2NDXBgH+dr
+         U5K7h6GlG9DYMJaqiLO9rlTqqYzU+u5GC04wXhAns0RBAfOLIPs9rOKY44V5dP7sgQWk
+         3XXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770637472; x=1771242272;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=z463P7NbcGqbKV1tdT+mMP9zQ1Yf803ptUYTvGcTtAo=;
+        b=aWBgSsGRb2u8tA/JceDPQkJCNYs8Es/WFx/R0alTJcpg/z8RVvLKe9Mw6acCzAoJBw
+         y10KUEDlA/+6DWcXfGlK09eXGyT0jfoNn/vjsPUdruwUvrfXACACSHx2JsKuKwWAkZ6K
+         MdTAbN15Tx52seUEbHOEs7yzYUt8RmIdnd8n5aCpZC6b65oWHFoQDLbqTquFhqAGT07Z
+         9OCukijzWC5OIBE5sTANCCgcTKk4wsuD/CgQ7FDCvbJ8rnRuUz0O28mHxMVAQlktnlM8
+         Lq9PNwVpx+b3hJOCN2aA8t1HmQPiQnPPAOSsF5KyBob+VPpkwwyG1aGEMrVJqzepcsgn
+         8D2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXKsf33ZIRFpcFFM/u1pdETSJvrznLAYBXDITBcfqxUunLd/LcPeXJTeLR71dX5WJDstPmhyguqRyeJNhE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0PeoN9T7FSFW3eXpfRUwXeAwAvqhJRfZEjzgRHiFIxyErFVNG
+	7vX/79gdcHkatU9qXKc5/g9DNs6EocuU7eU7z/fGzr0HBD6Owpe+i2qQjiwzRdNa6wSnL9VlZNb
+	KGfa/bgYNCce1SCV5hQjmbhXPJP1WsHI=
+X-Gm-Gg: AZuq6aIGqD2zaLj+Nya4TnIKhD3y/oZGLRgVe7KXOYxCTiD4laHbWeC4uTZC610AtL/
+	BqLu35HNSmRjAu4mq5q1/F52S83bSARgwoCD6BdnHSmbyFZW9UnlxmToZ82zy1EpAZqIb5Ypd3i
+	vLqrZ71BchtLAXYZYcpZl2FbHApWFnGzKfkli912k4l3bP0BIHjhrglHPiE8Ph5MxzedKPhva40
+	fqcAVtdlitQZkGlxCGc+HaGAk351xY/DcuVlbaklDPQ0oKUxy7MhB1uhc7JU/1NjUdEC00mMkUl
+	Q7SbpTMFZX98pQ6xn3QyomdI4oJ1cFSnHiVz5FfqdKAEvPYPaqyalpOWr5Q4jFGJLEhhUZ+oHrt
+	qcEzG3tJvMnRV
+X-Received: by 2002:a05:7022:458e:b0:11b:ad6a:6e39 with SMTP id
+ a92af1059eb24-12703fce96amr2786239c88.5.1770637472388; Mon, 09 Feb 2026
+ 03:44:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=WZYBqkhX c=1 sm=1 tr=0 ts=69899f90 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=CCpqsmhAAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8
- a=VskAbI2hzQZqgVltqkQA:9 a=ul9cdbp4aOFLsgKbc677:22
-X-Proofpoint-GUID: OKeoAZ_qGQIChqA9D9J6OY22ZY98-8Pe
-X-Proofpoint-ORIG-GUID: _e2wpXSxv9mlaPRqxf5o3pOZrAJ7h1if
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA5MDA3MiBTYWx0ZWRfX4sKG2cWTbN0G
- aAfUTY1xWxqWq89QeCu8Jv3K7bEYb0FFWTMsLcY6U6xxy37EsVI5LUC3mAk+407DqyOy+8Nv07K
- uYccfshHtpMRJe/aJ4VdXi64BG+waABEFT65T2m6Xq8Mnv1xGc7dhQWxW8WuT5IqPjwRY3eMeUT
- LQN+JSbKAXIWTQq0+9GrJURg29Q6cel16U17Txck3+8IDgFzWHw13Rm4zsv94AtJyoDFP7zEie9
- Z4BFF/NTOw7B2y0O+gweRBw/Nt5tLUfRaVgydPGRZsU2fzSd/oNzH1SKmhx4fWBiSHEKLS2TuU2
- zqNEg/wMVUlss9bacH1O2ozdaT1jLvFiygq8OWSpkdlAg9Ny1rUaTUh1ZQ0Mh3ju5xqewOF4b5G
- M5EMsPjuekHjZjJFSsWDwOR/7R6Im23bVIjwF+TCXsPJNCYLWW4NbhtNdtLARVz1NtABjh9prxb
- vke6nj6QTp48jeHXxeA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-08_05,2026-02-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 phishscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 impostorscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602090072
+References: <20260206171253.2704684-1-gary@kernel.org> <20260206171253.2704684-2-gary@kernel.org>
+ <DG876SZYRBXB.CO3YI3HOE3FR@kernel.org> <DG87KRN75MKZ.1O0TZI77MLIBT@garyguo.net>
+ <aYgmENPRTdD4wCVF@yury> <CANiq72k4D0ZPDzBCHY7xq=qOmERHk3e7P8CcKtVHjjjOQhJ+2w@mail.gmail.com>
+ <aYj7J0yTJtYlxLt4@yury>
+In-Reply-To: <aYj7J0yTJtYlxLt4@yury>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 9 Feb 2026 12:44:19 +0100
+X-Gm-Features: AZwV_Qg7nUV6rtPfWlG_LGfIqT8Y7Mi6NVOXBREtudXwxjELntn5qaYrZ-_btT4
+Message-ID: <CANiq72kkLe-to9hO9+Q6kk-xpfAUZTCEBug05USruPymE4GkeA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: add `const_assert!` macro
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Yury Norov <yury.norov@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11088-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,infradead.org,gmail.com,linux.ibm.com,kernel.crashing.org,csgroup.eu,ellerman.id.au];
-	TO_DN_NONE(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[sv@linux.ibm.com,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sourceware.org:url];
-	DKIM_TRACE(0.00)[ibm.com:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_COUNT_SEVEN(0.00)[11]
-X-Rspamd-Queue-Id: 1BD5A10D33E
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11089-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu,nvidia.com,gmail.com,vger.kernel.org];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: D3C9810F5DD
 X-Rspamd-Action: no action
 
-Enable HAVE_OBJTOOL_FTR_FIXUP by default on PowerPC architecture.
+On Sun, Feb 8, 2026 at 10:07=E2=80=AFPM Yury Norov <ynorov@nvidia.com> wrot=
+e:
+>
+> Can you please keep more context? It would be easier to refer to an
+> example if I have it on hand.
 
-- Remove runtime branch translation logic from patch_alt_instruction()
-- Add --emit-relocs linker flags for post-link fixup processing
-- Update ftr_alt section attributes to include executable flag
-- Strip the --emit-relocs relocation sections (.rel*) from the final
-  vmlinux after processing
+The existing docs for `build_assert!` have a couple examples that may help:
 
-Co-developed-by: Nicholas Piggin <npiggin@gmail.com>
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Signed-off-by: Sathvika Vasireddy <sv@linux.ibm.com>
----
- arch/powerpc/Kconfig                      |  3 +++
- arch/powerpc/Makefile                     |  5 +++++
- arch/powerpc/include/asm/feature-fixups.h |  2 +-
- arch/powerpc/kernel/vmlinux.lds.S         |  8 ++++++--
- arch/powerpc/lib/feature-fixups.c         | 12 ------------
- scripts/Makefile.vmlinux                  |  5 +++++
- 6 files changed, 20 insertions(+), 15 deletions(-)
+  https://rust.docs.kernel.org/kernel/macro.build_assert.html
 
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index b8d36a261009..aedb11912672 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -23,6 +23,9 @@ config 64BIT
- 	bool
- 	default y if PPC64
- 
-+config HAVE_OBJTOOL_FTR_FIXUP
-+        def_bool y
-+
- config LIVEPATCH_64
- 	def_bool PPC64
- 	depends on LIVEPATCH
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index a58b1029592c..8e1dab5f3c9a 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -105,6 +105,11 @@ LDFLAGS_vmlinux-$(CONFIG_RELOCATABLE) := -pie --no-dynamic-linker
- LDFLAGS_vmlinux-$(CONFIG_RELOCATABLE) += -z notext
- LDFLAGS_vmlinux	:= $(LDFLAGS_vmlinux-y)
- 
-+# --emit-relocs required for post-link fixup of alternate feature
-+# text section relocations.
-+LDFLAGS_vmlinux        += --emit-relocs
-+KBUILD_LDFLAGS_MODULE += --emit-relocs
-+
- ifdef CONFIG_PPC64
- ifndef CONFIG_PPC_KERNEL_PCREL
- 	# -mcmodel=medium breaks modules because it uses 32bit offsets from
-diff --git a/arch/powerpc/include/asm/feature-fixups.h b/arch/powerpc/include/asm/feature-fixups.h
-index 756a6c694018..d6ae92a292ec 100644
---- a/arch/powerpc/include/asm/feature-fixups.h
-+++ b/arch/powerpc/include/asm/feature-fixups.h
-@@ -32,7 +32,7 @@
- 
- #define FTR_SECTION_ELSE_NESTED(label)			\
- label##2:						\
--	.pushsection __ftr_alt_##label,"a";		\
-+	.pushsection __ftr_alt_##label, "ax";		\
- 	.align 2;					\
- label##3:
- 
-diff --git a/arch/powerpc/kernel/vmlinux.lds.S b/arch/powerpc/kernel/vmlinux.lds.S
-index 15850296c0a9..70a4de464b34 100644
---- a/arch/powerpc/kernel/vmlinux.lds.S
-+++ b/arch/powerpc/kernel/vmlinux.lds.S
-@@ -99,8 +99,8 @@ SECTIONS
- 	.text : AT(ADDR(.text) - LOAD_OFFSET) {
- 		ALIGN_FUNCTION();
- #endif
--		/* careful! __ftr_alt_* sections need to be close to .text */
--		*(.text.hot .text.hot.* TEXT_MAIN .text.fixup .text.unlikely .text.unlikely.* .fixup __ftr_alt_* .ref.text);
-+		*(.text.hot .text.hot.* TEXT_MAIN .text.fixup .text.unlikely
-+			.text.unlikely.* .fixup .ref.text);
- 		*(.tramp.ftrace.text);
- 		NOINSTR_TEXT
- 		SCHED_TEXT
-@@ -267,6 +267,10 @@ SECTIONS
- 		_einittext = .;
- 	} :text
- 
-+	.__ftr_alternates.text : AT(ADDR(.__ftr_alternates.text) - LOAD_OFFSET) {
-+		*(__ftr_alt*);
-+	}
-+
- 	/* .exit.text is discarded at runtime, not link time,
- 	 * to deal with references from __bug_table
- 	 */
-diff --git a/arch/powerpc/lib/feature-fixups.c b/arch/powerpc/lib/feature-fixups.c
-index 587c8cf1230f..269e992b1631 100644
---- a/arch/powerpc/lib/feature-fixups.c
-+++ b/arch/powerpc/lib/feature-fixups.c
-@@ -53,22 +53,10 @@ static u32 *calc_addr(struct fixup_entry *fcur, long offset)
- 
- static int patch_alt_instruction(u32 *src, u32 *dest, u32 *alt_start, u32 *alt_end)
- {
--	int err;
- 	ppc_inst_t instr;
- 
- 	instr = ppc_inst_read(src);
- 
--	if (instr_is_relative_branch(ppc_inst_read(src))) {
--		u32 *target = (u32 *)branch_target(src);
--
--		/* Branch within the section doesn't need translating */
--		if (target < alt_start || target > alt_end) {
--			err = translate_branch(&instr, dest, src);
--			if (err)
--				return 1;
--		}
--	}
--
- 	raw_patch_instruction(dest, instr);
- 
- 	return 0;
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index e3dd7fc62f20..3d2a203b8908 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -88,6 +88,11 @@ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*' '!.rel*.dyn'
- # https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=c12d9fa2afe7abcbe407a00e15719e1a1350c2a7
- remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel.*'
- 
-+# --emit-relocs produces .rela.* sections needed by objtool --ftr-fixup;
-+# strip them from vmlinux after fixup processing is complete.
-+remove-section-$(CONFIG_HAVE_OBJTOOL_FTR_FIXUP)    += '.rel*' '!.rel*.dyn'
-+remove-section-$(CONFIG_HAVE_OBJTOOL_FTR_FIXUP)    += '.rel.*'
-+
- remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
- 
- # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
--- 
-2.43.0
+(Those are the kind of examples I would like to have in the module
+level docs, I think they help a lot to quickly see for what each one
+is used for, even if one may not know the exact Rust terminology
+etc.).
 
+> I agree with ""Build-time check" here is a bit confusing", and the
+> following indeed looks like a compiler implementation discussion. So
+> I concluded that the difference between build_assert and const_assert
+> is not visible from programmer's POV. Please correct me if I'm wrong.
+
+Gary has also nicely explained in detail the three Rust ones -- what I
+was suggesting is to take something like that and put it in a single
+explanation in the module docs, with the examples we have (or others).
+
+In any case, to reply to this bit above: `build_assert!` allows way
+more expressions than `const_assert!` does -- the ones you call
+"runtime conditions". So it is very visible to the programmer.
+
+(Not sure if I would call them "runtime conditions" though, i.e. that
+sounds like a normal condition that gets checked at runtime. Hopefully
+the optimizer also deleted as much code as it could...)
+
+By the way, in C, `compiletime_assert` (if the compiler supports the
+attribute, which GCC and Clang do nowadays) fails in the actual
+compiler rather than the linker, so I guess it is a fair name, even if
+post-optimizations. But the fallback still fails later, so in general
+it isn't always at compilation time (and the docs use wording like
+"break build"). I guess we could eventually rename the Rust one
+`compiletime_assert` to match, especially if we get support in the
+Rust compiler for something like the attribute (there are already more
+`build_assert` calls than `compiletime_assert` ones in the tree,
+funnily... :)
+
+> I suggested const_true() over the original underscored _statically_true()=
+,
+> and this is an obvious improvement. If you think that 'constexpr_true()'
+> would add to explainability, please submit a patch. I have a weakly
+> negative opinion on that.
+
+Thanks for that context. Hmm... In that case, given the current name
+was meant as an improvement over the underscored one, rather than
+other reason (i.e. perhaps I was missing something), then yeah, I
+think I may submit the patch. It is not important obviously, but it
+never hurts to try to align these things to reduce confusion, and it
+is just a few callers unlike other macros...
+
+Cheers,
+Miguel
 
