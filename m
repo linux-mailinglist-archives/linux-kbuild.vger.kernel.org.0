@@ -1,250 +1,268 @@
-Return-Path: <linux-kbuild+bounces-11097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2C9ICvRsi2l2UQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11097-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 18:37:56 +0100
+	id kDa8HYSbi2k3XAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11098-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 21:56:36 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA7C11E03A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 18:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C547211F2AA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 21:56:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EFD74303674B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 17:37:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA07C3007F63
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 20:55:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C7A38A728;
-	Tue, 10 Feb 2026 17:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123D33346A6;
+	Tue, 10 Feb 2026 20:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qte6o8FY"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="JBlKex/i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.zimbra-vnc.de (mailgw01.zimbra-vnc.de [148.251.101.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798D413D638
-	for <linux-kbuild@vger.kernel.org>; Tue, 10 Feb 2026 17:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C6A332ECC;
+	Tue, 10 Feb 2026 20:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.101.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770745072; cv=none; b=dJncOBYVmES3Yr+bhzCW0BugFdt8MwuFabDuIQ0CDIBWnKA8lPMVbQX/uGJiooRwSaP1onIWSRJ01AaK8dtUft0k8qfTbXpsOxv4MSNk8zblKB5MZ1hYD2J9cl0m/OB7AoOR4HYa+h1TaxIbc03gjsxbKr9b/oNlDGQTIZqRzCI=
+	t=1770756912; cv=none; b=onqwMcWgwn74bGRgplqGMuD1HFUyd8t0OqDQfFj4zhbc+lCR4YFt/+cNBVmdsTuGQ3Yd9ctOcvr8smY2oin9IAKPYQrg16J2a+bwLx84/d/0JnKgie0M+eK5n7gBQHUs+AttoQzBwSn8h72ISUP0GhIdD2K0z02B+gWuLp9P1Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770745072; c=relaxed/simple;
-	bh=3szwt70BMoxuffnqEgGMSIgDpYN7gakbZvdzoElSNIk=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YHrwBLQ/JJXehNnRuhZgZLF+40kkzpo+C+OfZhn1BNwJ9I/6wPFP31MCJbx45cahN6bIiA1w8CRo5JA0XDpRYPbgpaonrIbFIm1W/AAXOP/Oo8MLqtMQUkOT/+E3+KHzBOGOpGojucz61YNfWIlSW7Tq8IKmDyXH3ozkafnM3t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qte6o8FY; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43767807cf3so1979504f8f.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Feb 2026 09:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770745070; x=1771349870; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=kcajNkZvqw0N/nfY61jD2BzncjCpqz5WyjJmeEDaRC8=;
-        b=Qte6o8FYNQ2i3sNtBjU6SSVLP2SF+U+j+3C+mtnr7F9q7PWo2Q9/is3Dmbc4++jXEE
-         uSX3deV5yEVExN4PPX33ri25FzFfpaKtlVCQ5qgMEVnLGtuZnEcsAuiG7BVM9sHNEDyt
-         54oDaIdCEM+VHjKPFYniPvRJy0J7p2NLc6aNnbkWSWVAjsIAs4KQso0KLdrey0SS9Ony
-         eRsPiQiUQxwj3nIubFe+ATFTg/rXqerTk0+xNWx3Zqr/YYlD119Ncq4HEalo3PtQkKm9
-         qtVeLKgi2T6q7gfLbiIzKtmg3s2zknQ/T/CkNkK18lXjbbacG8SfJfdpYHjjittq4rlQ
-         tHYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770745070; x=1771349870;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kcajNkZvqw0N/nfY61jD2BzncjCpqz5WyjJmeEDaRC8=;
-        b=uLFySR8RxEsq0FLLswehhYWojd4KjW6xuWYz5YI7B2BMAWKDs158jAeHEaar4v98H4
-         HQfXbFZrWFUn181rah0VFc3MhGlw5gE1lWFogxvr6z1qERw4R3OOWUfLUNhrwo1cTcMe
-         wZr+JF+uQjDfoWnmLUQEcJazA1qJnudqPo0OHCerUZ6C/963ZjJLx9l/d4F8ssc+KT/7
-         y+ZE0z3VBMG4V7zww8USq+LISSLSCRzEuRBsQncB7+OLORPkerUE4fdaPjk1XZryRZS4
-         o2QV0KPwssEk8QuMNF739kwPN4EHnMhPwLanqkMU1lFkyy2eVXgF65BUndi9h5QLqhl9
-         2Qdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsyoTXeEMiw2yG1bxCoF/KF4rRm9JTi4HtTw6UwirOWUl3zusilEcv1lVmsYxf83JRPfa0S9oZTOh/KYA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2ZRwvn/Leh6YqkAqVKpe+hPiZkRk34ThbOsB1rCr7QMXkBjof
-	QkR9bEgM5e/BTQ5hcp0RbVJG5SmtmN0EstyJlDKm6OoB8iOWusb9QwqC
-X-Gm-Gg: AZuq6aLt+fbBgjj6yzOWey1WsZo45ukLqaheiCZhdiS88oTjtYtTClfyNaT6pcGdJYc
-	hjKtcceZs3KKAOkeBTjshmU8WcqqG7juS+1m+MITsBh9giLE5/5l3ruwg59WsU4RFnw34d2vJ+O
-	no6i6ZBsdhxTx+9aF6wQVMWWOyMnb7f+BdVi2DQSSYA1FsFG+b1He0m9uLEbmX2JF9sv8nuhRUS
-	ZRodIMpacSSxEiqVQNStyoW7b8o4//eDS7DvqOlc7iHlyfk4YAPUeudRkdT8ybGqNiH3axveANu
-	xoy8mmJBc88n4LJE7xWKNTABhzAn4nyVvWBriMDG081Tw5FbK5qYKP5mrz60jVa0XLDd7w7OSY+
-	4vtnmkwSLe5dRBtlSbfmFO0hfcVGjbE/zGoiDCdwqyqSJR5x4i9ts8uTQ0tJ0JgQNhuNIlDvAO/
-	Gx6LneEh9ICx74y9DHN8YWzG+yLk8Kh7Ig2HkWYMubHRh+QYMDJ7bSJofKLVFEb3m9
-X-Received: by 2002:a05:6000:1843:b0:437:711c:8750 with SMTP id ffacd0b85a97d-437711c8a40mr10998758f8f.46.1770745069651;
-        Tue, 10 Feb 2026 09:37:49 -0800 (PST)
-Received: from Ansuel-XPS. (93-34-90-125.ip49.fastwebnet.it. [93.34.90.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43637e31a01sm27353103f8f.27.2026.02.10.09.37.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 09:37:49 -0800 (PST)
-Message-ID: <698b6ced.050a0220.9e34a.3e08@mx.google.com>
-X-Google-Original-Message-ID: <aYts6ElcQf9XlGuH@Ansuel-XPS.>
-Date: Tue, 10 Feb 2026 18:37:44 +0100
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: David Disseldorp <ddiss@suse.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-	Dmitry Safonov <0x7f454c46@gmail.com>, linux-kbuild@vger.kernel.org,
+	s=arc-20240116; t=1770756912; c=relaxed/simple;
+	bh=QAT9DZf0dFr/FiOCeDWfY8YmIs4sDybTYbtyzNNt6ag=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K7Wg3cCGFpaVkPezBLgOu0RPdW/vtMj8/V1tpzT983pJPIfOKyEEc6TstDvFz7L3ahIS2bC9FxnDlSRbNNmn5B8MNH00e+dnNz6H+NOQNuQmRs9B9PHsv/49/PmPy30mHwysZnfD24Ku6xrQ8odrTwYcS8mx3snGu+anC9nO2Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=JBlKex/i; arc=none smtp.client-ip=148.251.101.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
+Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
+	by mailgw01.zimbra-vnc.de (Postfix) with ESMTPS id 560393FAEF;
+	Tue, 10 Feb 2026 21:55:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id EFFF51FA864;
+	Tue, 10 Feb 2026 21:55:01 +0100 (CET)
+Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
+ by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id xi_mVSyP6Myn; Tue, 10 Feb 2026 21:55:01 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 4188A1FA8CD;
+	Tue, 10 Feb 2026 21:55:01 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 4188A1FA8CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1770756901;
+	bh=s9J3CbPo9Mf5sbC0li5Hzn0x2iTmlo/7CSoDa0RQa9M=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=JBlKex/iQmr6sWwRpXS0o4K3IUup00cVue6Z52Ry900lfnxvDJYALxB5B5udKRN/k
+	 Jlo5URGZsIijhb/JLGWHHl7yoOkmCcSNjc1+k25QZHkuEE20CY6yfGfzqR3QAcKQw8
+	 bKmaWTbwR95axuKWjMoArLN6u5iWVFQmizZXDjuzpWuxMJ7b+tVE1mD5R/owZeE5iL
+	 oFk7c43RTebU55xRkzxkJsjdMDvVdy9M8oLXo84N8ZanbTVK+GAQAEctmxevlcO2o9
+	 iXzWP0WUWxPlei3TjFUtBgk1g6ikwTehoNCR6eJ0riPZ0ZgvwDHJudIPZ23tGdC//z
+	 bghrBw/xP1Jmg==
+X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
+Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
+ by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id N9OmW1oipTwo; Tue, 10 Feb 2026 21:55:01 +0100 (CET)
+Received: from DESKTOP-0O0JV6I.localdomain (ipservice-092-208-231-176.092.208.pools.vodafone-ip.de [92.208.231.176])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id CBFD71FA864;
+	Tue, 10 Feb 2026 21:55:00 +0100 (CET)
+From: Luis Augenstein <luis.augenstein@tngtech.com>
+To: nathan@kernel.org,
+	nsc@kernel.org
+Cc: linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [RFC PATCH] initramfs: correctly handle space in path on cpio
- list generation
-References: <20260209153800.28228-1-ansuelsmth@gmail.com>
- <20260210223431.6bf63673.ddiss@suse.de>
+	akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org,
+	kstewart@linuxfoundation.org,
+	maximilian.huber@tngtech.com,
+	Luis Augenstein <luis.augenstein@tngtech.com>
+Subject: [PATCH v4 00/15] add SPDX SBOM generation script
+Date: Tue, 10 Feb 2026 21:54:09 +0100
+Message-Id: <20260210205424.11195-1-luis.augenstein@tngtech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260210223431.6bf63673.ddiss@suse.de>
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-11097-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11098-lists,linux-kbuild=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tngtech.com:mid,tngtech.com:dkim,tngtech.com:email];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ansuelsmth@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[tngtech.com:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mx.google.com:mid,gen_initramfs.sh:url]
-X-Rspamd-Queue-Id: 7BA7C11E03A
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: C547211F2AA
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 10:34:31PM +1100, David Disseldorp wrote:
-> [cc'ing fsdevel]
-> 
-> On Mon,  9 Feb 2026 16:37:58 +0100, Christian Marangi wrote:
-> 
-> > The current gen_initramfs.sh and gen_init_cpio.c tools doesn't correctly
-> > handle path or filename with space in it. Although highly discouraged,
-> 
-> "highly discouraged" isn't really appropriate here; the kernel generally
-> doesn't care whether or not a filename carries whitespace.
-> The limitation here is specifically the gen_init_cpio manifest format,
-> which is strictly space-separated.
->
+This patch series introduces a Python-based script for generating SBOM
+documents in the SPDX 3.0.1 format for kernel builds.
 
-Yes but the value space-separated was done only out of simplicity also with the
-parsing in the .c tool not strictly a requirement for the actual cpio blob that
-is then generated. The problem is in the intermediate file and I feel it should
-be fixed or handled.
- 
-> > Linux also supports filename or path with whiespace and currently this
-> > will produce error on generating and parsing the cpio_list file as the
-> > pattern won't match the expected variables order. (with gid or mode
-> > parsed as string)
-> > 
-> > This was notice when creating an initramfs with including the ALSA test
-> > files and configuration that have whitespace in both some .conf and even
-> > some symbolic links.
-> > 
-> > Example error:
-> 
-> The error messages don't really add any value here.
-> <snip>
-> 
+A Software Bill of Materials (SBOM) describes the individual components
+of a software product. For the kernel, the goal is to describe the
+distributable build outputs (typically the kernel image and modules),
+the source files involved in producing these outputs, and the build
+process that connects the source and output files.
 
-It was really to give output of what happen when file with whitespace are used.
-The shell is not so chatty with this so these error are really just the mode gid
-and other values that gets parsed with the filename whitespace.
+To achieve this, the sbom script generates three SPDX documents:
 
-> > To correctly handle this problem, rework the gen_initramfs.sh and
-> > gen_init_cpio.c to guard all the path with "" to handle all kind of
-> > whitespace for filename/path.
-> > 
-> > The default_cpio_list is also updated to follow this new pattern.
-> > 
-> > Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> > ---
-> >  usr/default_cpio_list |  6 +++---
-> >  usr/gen_init_cpio.c   | 10 +++++-----
-> >  usr/gen_initramfs.sh  | 27 +++++++++++++++++++--------
-> >  3 files changed, 27 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/usr/default_cpio_list b/usr/default_cpio_list
-> > index 37b3864066e8..d4a66b4aa7f7 100644
-> > --- a/usr/default_cpio_list
-> > +++ b/usr/default_cpio_list
-> > @@ -1,6 +1,6 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  # This is a very simple, default initramfs
-> >  
-> > -dir /dev 0755 0 0
-> > -nod /dev/console 0600 0 0 c 5 1
-> > -dir /root 0700 0 0
-> > +dir "/dev" 0755 0 0
-> > +nod "/dev/console" 0600 0 0 c 5 1
-> > +dir "/root" 0700 0 0
-> > diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
-> > index b7296edc6626..ca5950998841 100644
-> > --- a/usr/gen_init_cpio.c
-> > +++ b/usr/gen_init_cpio.c
-> > @@ -166,7 +166,7 @@ static int cpio_mkslink_line(const char *line)
-> >  	int gid;
-> >  	int rc = -1;
-> >  
-> > -	if (5 != sscanf(line, "%" str(PATH_MAX) "s %" str(PATH_MAX) "s %o %d %d", name, target, &mode, &uid, &gid)) {
-> > +	if (5 != sscanf(line, "\"%" str(PATH_MAX) "[^\"]\" \"%" str(PATH_MAX) "[^\"]\" %o %d %d", name, target, &mode, &uid, &gid)) {
-> 
-> This breaks parsing of existing manifest files, so is unacceptable
-> IMO. If we really want to go down the route of having gen_init_cpio
-> support space-separated paths, then perhaps a new --field-separator
-> parameter might make sense. For your specific workload it seems that
-> simply using an external cpio archiver with space support (e.g. GNU
-> cpio --null) would make sense. Did you consider going down that
-> path?
-> 
+- sbom-output.spdx.json
+  Describes the final build outputs together with high-level
+  build metadata.
 
-This is mostly why this is posted as RFC. I honestly wants to fix this in the
-linux tool instead of using external tools.
+- sbom-source.spdx.json
+  Describes all source files involved in the build, including
+  licensing information and additional file metadata.
 
-So is there an actual use of manually passing the cpio list instead of
-generating one with the script? (just asking not saying that there isn't one)
+- sbom-build.spdx.json
+  Describes the entire build process, linking source files
+  from the source SBOM to output files in the output SBOM.
 
-One case I have (the scenario here is OpenWrt) is when a base cpio_list is
-provided and then stuff is appended to it.
+The sbom script is optional. It can be invoked via the `make sbom` target=
+.
+This target depends on `all` and triggers a standard kernel build. Once a=
+ll
+output artifacts have been generated, starting from the kernel image and
+modules as root nodes, the script reconstructs the dependency graph up
+to the original source files. Build dependencies are primarily derived fr=
+om
+the `.cmd` files generated by Kbuild, which record the full command used
+to build each output file.
 
-In such case yes there is a problem since the format changed.
+Currently, the script only supports x86 and arm64 architectures.
 
-My solution to this would be introduce new type that will have the new pattern.
-This way we can keep support for the old list and still handle whitespace files.
+This series was developed with assistance from AI tools, namely Cursor
+with Claude Sonnet 4.5 and OpenCode with GLM-4.7. The AI was used for
+documentation, exploring the repository, and iterating on design
+questions and implementation details such as regex patterns.
 
-An idea might be to have the file type with capital letter to differenciate with
-the old one.
+Assisted-by: Claude Sonnet 4.5
+Assisted-by: GLM-4.7
+Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
+Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
+Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
+---
+Changes in v4:
+- move sbom script from tools/ to scripts/ and simplify Makefile
+- use $(Q), $(PYTHON3) in scripts/sbom/Makefile
+- replace README with Documentation/tools/sbom/sbom.rst
+- add Assisted-by tags to document usage of AI tools
+---
+Luis Augenstein (15):
+  scripts/sbom: add documentation
+  scripts/sbom: integrate script in make process
+  scripts/sbom: setup sbom logging
+  scripts/sbom: add command parsers
+  scripts/sbom: add cmd graph generation
+  scripts/sbom: add additional dependency sources for cmd graph
+  scripts/sbom: add SPDX classes
+  scripts/sbom: add JSON-LD serialization
+  scripts/sbom: add shared SPDX elements
+  scripts/sbom: collect file metadata
+  scripts/sbom: add SPDX output graph
+  scripts/sbom: add SPDX source graph
+  scripts/sbom: add SPDX build graph
+  scripts/sbom: add unit tests for command parsers
+  scripts/sbom: add unit tests for SPDX-License-Identifier parsing
 
-Something like 
+ .gitignore                                    |   1 +
+ Documentation/tools/index.rst                 |   1 +
+ Documentation/tools/sbom/sbom.rst             | 206 ++++++
+ MAINTAINERS                                   |   6 +
+ Makefile                                      |  11 +-
+ scripts/sbom/Makefile                         |  40 ++
+ scripts/sbom/sbom.py                          | 129 ++++
+ scripts/sbom/sbom/__init__.py                 |   0
+ scripts/sbom/sbom/cmd_graph/__init__.py       |   7 +
+ scripts/sbom/sbom/cmd_graph/cmd_file.py       | 149 ++++
+ scripts/sbom/sbom/cmd_graph/cmd_graph.py      |  46 ++
+ scripts/sbom/sbom/cmd_graph/cmd_graph_node.py | 142 ++++
+ scripts/sbom/sbom/cmd_graph/deps_parser.py    |  52 ++
+ .../sbom/cmd_graph/hardcoded_dependencies.py  |  83 +++
+ scripts/sbom/sbom/cmd_graph/incbin_parser.py  |  42 ++
+ .../sbom/sbom/cmd_graph/savedcmd_parser.py    | 664 ++++++++++++++++++
+ scripts/sbom/sbom/config.py                   | 335 +++++++++
+ scripts/sbom/sbom/environment.py              | 168 +++++
+ scripts/sbom/sbom/path_utils.py               |  11 +
+ scripts/sbom/sbom/sbom_logging.py             |  88 +++
+ scripts/sbom/sbom/spdx/__init__.py            |   7 +
+ scripts/sbom/sbom/spdx/build.py               |  17 +
+ scripts/sbom/sbom/spdx/core.py                | 182 +++++
+ scripts/sbom/sbom/spdx/serialization.py       |  56 ++
+ scripts/sbom/sbom/spdx/simplelicensing.py     |  20 +
+ scripts/sbom/sbom/spdx/software.py            |  71 ++
+ scripts/sbom/sbom/spdx/spdxId.py              |  36 +
+ scripts/sbom/sbom/spdx_graph/__init__.py      |   7 +
+ .../sbom/sbom/spdx_graph/build_spdx_graphs.py |  82 +++
+ scripts/sbom/sbom/spdx_graph/kernel_file.py   | 310 ++++++++
+ .../sbom/spdx_graph/shared_spdx_elements.py   |  32 +
+ .../sbom/sbom/spdx_graph/spdx_build_graph.py  | 317 +++++++++
+ .../sbom/sbom/spdx_graph/spdx_graph_model.py  |  36 +
+ .../sbom/sbom/spdx_graph/spdx_output_graph.py | 188 +++++
+ .../sbom/sbom/spdx_graph/spdx_source_graph.py | 126 ++++
+ scripts/sbom/tests/__init__.py                |   0
+ scripts/sbom/tests/cmd_graph/__init__.py      |   0
+ .../tests/cmd_graph/test_savedcmd_parser.py   | 383 ++++++++++
+ scripts/sbom/tests/spdx_graph/__init__.py     |   0
+ .../sbom/tests/spdx_graph/test_kernel_file.py |  32 +
+ 40 files changed, 4081 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/tools/sbom/sbom.rst
+ create mode 100644 scripts/sbom/Makefile
+ create mode 100644 scripts/sbom/sbom.py
+ create mode 100644 scripts/sbom/sbom/__init__.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/__init__.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_file.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_graph.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_graph_node.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/deps_parser.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/hardcoded_dependencies.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/incbin_parser.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/savedcmd_parser.py
+ create mode 100644 scripts/sbom/sbom/config.py
+ create mode 100644 scripts/sbom/sbom/environment.py
+ create mode 100644 scripts/sbom/sbom/path_utils.py
+ create mode 100644 scripts/sbom/sbom/sbom_logging.py
+ create mode 100644 scripts/sbom/sbom/spdx/__init__.py
+ create mode 100644 scripts/sbom/sbom/spdx/build.py
+ create mode 100644 scripts/sbom/sbom/spdx/core.py
+ create mode 100644 scripts/sbom/sbom/spdx/serialization.py
+ create mode 100644 scripts/sbom/sbom/spdx/simplelicensing.py
+ create mode 100644 scripts/sbom/sbom/spdx/software.py
+ create mode 100644 scripts/sbom/sbom/spdx/spdxId.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/__init__.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/build_spdx_graphs.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/kernel_file.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/shared_spdx_elements.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/spdx_build_graph.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/spdx_graph_model.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/spdx_output_graph.py
+ create mode 100644 scripts/sbom/sbom/spdx_graph/spdx_source_graph.py
+ create mode 100644 scripts/sbom/tests/__init__.py
+ create mode 100644 scripts/sbom/tests/cmd_graph/__init__.py
+ create mode 100644 scripts/sbom/tests/cmd_graph/test_savedcmd_parser.py
+ create mode 100644 scripts/sbom/tests/spdx_graph/__init__.py
+ create mode 100644 scripts/sbom/tests/spdx_graph/test_kernel_file.py
 
-FILE "path" "location" ...
-SLINK "name" "target" ...
-NODE ...
-
-What do you think?
-
-The option of --field-separator might also work but it might complicate stuff in
-the .c tool as a more ""manual"" tokenizer will be needed than the simple
-implementation currently present.
-
-I'm open to both solution. Lets just agree on one of the 2.
-
--- 
-	Ansuel
+--=20
+2.34.1
 
