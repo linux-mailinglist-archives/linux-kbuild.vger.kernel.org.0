@@ -1,189 +1,223 @@
-Return-Path: <linux-kbuild+bounces-11095-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WA6xEJDvimmwOwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11095-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 09:42:56 +0100
+	id 0N+HIggYi2ljPgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11096-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 12:35:36 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8A311850E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 09:42:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D985111A4C7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 12:35:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 98730303DD6D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 08:42:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 03D52301FA4B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Feb 2026 11:34:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A590C33D516;
-	Tue, 10 Feb 2026 08:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B60F2E764D;
+	Tue, 10 Feb 2026 11:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g86YfLjH"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gixFV//b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PVwc0Ufl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gixFV//b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PVwc0Ufl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F0033A71E
-	for <linux-kbuild@vger.kernel.org>; Tue, 10 Feb 2026 08:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770712968; cv=pass; b=R56I5Udr/NGZLl765fkhj2p1ZL/YkH/4o4CfTWFRi1cxOWMbl1thUPTd1ocXKVy1oTecV6OfjdQdVii7g2PpTUJ3oFd3aJ4/mSv/jWwnx9Ue71/KJJx4XXupVLxdW74ykCJG8ekthF9ol7V568AB5Em9oIJgIiwFD9tIoaD4698=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770712968; c=relaxed/simple;
-	bh=pzj9Ny1KxKgyvqZwK3YaJvtJxyNcZudeF2U8bB6Rm+I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MaGe69ISx4FPAGcZjXvMyaAVMgO6tZt1JVQuhrhEMZINWnQQ3FAotzPWOcoRstX5+Tmf2z19B9aMDa+4M1U7WLXdOF0aG/wzaEKRjy8nI2MVFE9usUka2NN0msD+q2hLa2ftIcpM9y4iZZHVE35m8zmaMptZ5R3RiV5JsUOhyIk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g86YfLjH; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2ba6737fafbso71310eec.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Feb 2026 00:42:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770712966; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Gsgn1QpNK/m3577oFBXZ4TE8zkyNvmUfgCYk9o9tvnNRzjpVzLa5SpMgp6VabhFoC6
-         6fmgq/bkyqZEGVqa/ZmU7xKlJbd/m+If/y8RSM/8mmxufF48hbSaifjZ7e07gmEbgl/c
-         cKOCyS2CC34zs1yF9HuMvikOS86f1llUrz0mLl0VXEpBy1KqIqwto8mjdYzYbENx5xH1
-         gRe7Xqz3qEM1y8znFQhw1/0QATMRV5yfVtG2bPRRmgf3xAC51XfFrK2Nm1VmJtTPzQuV
-         gJONKGV3k6QjTArYP3D7H/iibPB5ogicea2CAhQMsOtf3ZuNSkCr0l3EoBfzfzq1zbp0
-         Fj+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eRd5nGkK/uJsiW/OSeGHF4f73KvZkDNQmuEV0hYZwB0=;
-        fh=nUH+3sURVT+8nxPN6FL84uyyIEKjlJ3nkkXZdRHWN/E=;
-        b=JSWxKND2Il/BWdtgJK1SIxkbfxe6zXRFyS/k+1xS7s//ZWZsToOJw/Z5/whkszs4/c
-         hJpeOlwip5C2ZatC3mLgSAoxN/IYvYBy2PdtxM4apDYevQL2alq/QYWq9VhvVfCjN2Vy
-         1k4C+LNqYoz657kYceKKbKa6YIZ8NM7zx0qiYvlNy4IqINqWX6+nU3WtjJLttDbmIRUZ
-         u6LdgkFgcNz8NBh8kN15LK/6CHnbHZR8pX8Snw0MRCHT+VBHtmiHIk/nIvRjQT2R4+wX
-         40ErJbCoG8w7fhKfP8fc+bNP7yokkESRpgydI6Pq+XmwQHdLiniwa0wDh0D7d8KtYVJ8
-         50Vw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770712966; x=1771317766; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eRd5nGkK/uJsiW/OSeGHF4f73KvZkDNQmuEV0hYZwB0=;
-        b=g86YfLjHLLROwQ2kshoDhTX3jqvWN9mGJHSO/ArVZzzwmHv3dc5RjEV3XuioS9oK+i
-         2023y40IxKLhkr7WTc7eQ4UG3v7ZwfYhUp2ovmyTq3LnrovQ5Ar9sU61cYhaK7GQzjCm
-         +EVJwa3guOqKJnwnB8iaM2uq9RzJSH7cAw5oAHYlylzxM1QAZncDhSZW27EtflWDtyeE
-         NtO1f3fymHVUbXyxLwgL/GHJnAcjz6dvkLXJ6Fd/34IQlrkf2GrcIF6uUfr+xOPoOeg8
-         QkxDi0ViaMJRH8RwfmOvCD/W1Q/fgpZkCj4fC/f1xix4UES2MuZ5oR7VH9gq8rVs/WeB
-         XLGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770712966; x=1771317766;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eRd5nGkK/uJsiW/OSeGHF4f73KvZkDNQmuEV0hYZwB0=;
-        b=PbHpBUxLXI7HIZlOX3mHivMVF0qfshyiox1JPggqcGSUG5v6jeCHvCylg+aW9XDOtR
-         9ggtywmjwNOmvUw1d+HAEFkxkPOuomMa8F4sbMu7fDmyNiJVcaHBkljRZ3ORYKa5sm9q
-         iyQISImhVaeqWCntoPGtclBswiaWKgOEHHULVvtgTlC5Sjs1qW3b9Mar7XxA22yomstH
-         bn/v/9WC4zzlsabZYqlEOGruothb9AX3BqDiCIJwIqFr+Tsfs8HnbYDzYr8unBfjEQpN
-         DjCPcuHyghC+ngGxrDMa+d1JdYSyJKkOgkIK6zSpKmwPfD73h1b1oG+Dz2cvKHLX8D6r
-         twFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVgvMzt+Djm0q44hbPl5FjNHvU6HBwUyZCyrijdY+xHPv8sGaAcZCLAK7k3KX0r6+Eclt1GzpvT2J7K/J4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6XYnYiimBN/fo1YhWelrNwuQxircaiSo9KI5z0GlLpAJRdlg4
-	+zU3TvZXe3wuCUsF30oWMYMW3ngCP5HQT7SkGGeofP2Bv3B+4RqCteRyck4A3MOz/llEbQcN+Pm
-	4HhxAV+5NpxTN38ZpzxzMhhqwgCrRE90=
-X-Gm-Gg: AZuq6aKfapXUJ6048MdmH+HoqX3Img7GuZC8ltuyXDN21bGrx4rBkRq1ztIfI5OjlrN
-	5fHkgzGHe2a5Q0g4leEWJQRupH9BkLw4mkH0UdSQ62BHoAosqmmQnoWD6TGUkB9JcXjQ1KZQj82
-	Tq7GDdD4VmJNghDKKxYtoAzXlSEELk4FMLrQPe3SjopjXl+A9do3RzRr3FYxjtolnzVDMIF30J2
-	+HTfqyR/d9z9OWNi1K0/Ud82Snl4Fy0rlQRCkWQzcn29EqJz4M/AOxESm+X/H7f5gwfzVccTgsO
-	LLVixVsMeuQXYEBvjEy/haA0QxK9Fa5M6+7dGUdWOr956KNpRHSH9caWF/reXR3WceUCMMZxRqD
-	37tys9IHQ1wpyHAFyxQ18YKyf
-X-Received: by 2002:a05:7300:3721:b0:2ba:7322:6bcd with SMTP id
- 5a478bee46e88-2ba8cc89047mr187606eec.3.1770712966327; Tue, 10 Feb 2026
- 00:42:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF5B319859
+	for <linux-kbuild@vger.kernel.org>; Tue, 10 Feb 2026 11:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770723287; cv=none; b=JCCoUxCN2qUosfB9i8sDgQ3prNPMjA3lJAGfTuB4USaY1GNY1igP/Wzy2UY5qAJF4BJUBUJaPkT/TLFrtluYZKXpLtJZW6Xz6sATMFpZ/JHx4o8Vg+7DIgo/64mtc6yW0UGb5Mkj4O9c4kOFGnoaFTj+OnGsG++wMPVSEZqvR8I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770723287; c=relaxed/simple;
+	bh=LIZGLVzAtKY4eG08TLkoHF3u8fpfEzdGlD00SWSZZRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X5xbKUbxJliM/FMQ8RJo3cT4xbKnUExyx3l1ZmfyrU+Orf5Kfy/wVuLoz8X4tylEGA/FMP4LYlwH2L2xavSPQxDppCAvz6TAT9fiLwmIy0GgPU5LvY9ZsGFdM1ACriGs45679jFCJ4ukv4Db8rOF1UqwOjtCX0PMDsK11OUCiOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gixFV//b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PVwc0Ufl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gixFV//b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PVwc0Ufl; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 393805BD45;
+	Tue, 10 Feb 2026 11:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770723284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bfn2qjL1D8vXXgggI0IUON3J0sqZ4k9eIkuYo3kYIws=;
+	b=gixFV//bAGobWLq1KIPX6Xlq46VQ5gCQ7bw7u3V5XGU3xVgt0jX4VbrUu2vSbpgxh+df7f
+	oDA1ipDmThOsVe0QIhgnGO+5KVzNoARsTiAakdxc/qjI0rPWyUGrHIyhTjHmae3mmidvpr
+	6PUsjEMUgXEtMk8fWJmQhMeFsxoBH7c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770723284;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bfn2qjL1D8vXXgggI0IUON3J0sqZ4k9eIkuYo3kYIws=;
+	b=PVwc0UflLaNH3Axqd8dUReYaoMdwolFcEk96sDVhSkZ9GY6RDmdy1kr8zRR7JZv+MQdNcQ
+	vyq7PsBHv9cbGmBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770723284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bfn2qjL1D8vXXgggI0IUON3J0sqZ4k9eIkuYo3kYIws=;
+	b=gixFV//bAGobWLq1KIPX6Xlq46VQ5gCQ7bw7u3V5XGU3xVgt0jX4VbrUu2vSbpgxh+df7f
+	oDA1ipDmThOsVe0QIhgnGO+5KVzNoARsTiAakdxc/qjI0rPWyUGrHIyhTjHmae3mmidvpr
+	6PUsjEMUgXEtMk8fWJmQhMeFsxoBH7c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770723284;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bfn2qjL1D8vXXgggI0IUON3J0sqZ4k9eIkuYo3kYIws=;
+	b=PVwc0UflLaNH3Axqd8dUReYaoMdwolFcEk96sDVhSkZ9GY6RDmdy1kr8zRR7JZv+MQdNcQ
+	vyq7PsBHv9cbGmBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81A3D3EA62;
+	Tue, 10 Feb 2026 11:34:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XRmBDtEXi2lXFAAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Tue, 10 Feb 2026 11:34:41 +0000
+Date: Tue, 10 Feb 2026 22:34:31 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>
+Subject: Re: [RFC PATCH] initramfs: correctly handle space in path on cpio
+ list generation
+Message-ID: <20260210223431.6bf63673.ddiss@suse.de>
+In-Reply-To: <20260209153800.28228-1-ansuelsmth@gmail.com>
+References: <20260209153800.28228-1-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260206204535.39431-1-ojeda@kernel.org>
-In-Reply-To: <20260206204535.39431-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 10 Feb 2026 09:42:33 +0100
-X-Gm-Features: AZwV_Qg-hW3f7kkxtTxv49a5tYvs160zPEvUI7XxUzESxFFA_J56CIIMLUIrGT0
-Message-ID: <CANiq72=15XC6QT2KucsBhzLOdp=rLtCgC__ncLPwWK44583S+g@mail.gmail.com>
-Subject: Re: [PATCH] rust: kbuild: pass `-Zunstable-options` for Rust 1.95.0
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, David Wood <david@davidtw.co>, 
-	Wesley Wiser <wwiser@gmail.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11095-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11096-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,fjasle.eu,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,davidtw.co];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,davidtw.co:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AF8A311850E
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ddiss@suse.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,suse.de:mid,suse.de:dkim,gen_initramfs.sh:url]
+X-Rspamd-Queue-Id: D985111A4C7
 X-Rspamd-Action: no action
 
-On Fri, Feb 6, 2026 at 9:45=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wrot=
-e:
->
-> Custom target specifications are unstable, but starting with Rust 1.95.0,
-> `rustc` requires to explicitly pass `-Zunstable-options` to use them [1]:
->
->     error: error loading target specification: custom targets are unstabl=
-e and require `-Zunstable-options`
->       |
->       =3D help: run `rustc --print target-list` for a list of built-in ta=
-rgets
->
-> David (Rust compiler team lead), writes:
->
->    "We're destabilising custom targets to allow us to move forward with
->     build-std without accidentally exposing functionality that we'd like
->     to revisit prior to committing to. I'll start a thread on Zulip to
->     discuss with the RfL team how we can come up with an alternative
->     for them."
->
-> Thus pass it.
->
-> Cc: David Wood <david@davidtw.co>
-> Cc: Wesley Wiser <wwiser@gmail.com>
-> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
-n older LTSs).
-> Link: https://github.com/rust-lang/rust/pull/151534 [1]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+[cc'ing fsdevel]
 
-Applied to `rust-fixes` -- thanks!
+On Mon,  9 Feb 2026 16:37:58 +0100, Christian Marangi wrote:
 
-This is so that Gary gets it soon in linux-next for Klint -- I may or
-may not need to rebase this one, though.
+> The current gen_initramfs.sh and gen_init_cpio.c tools doesn't correctly
+> handle path or filename with space in it. Although highly discouraged,
 
-Cheers,
-Miguel
+"highly discouraged" isn't really appropriate here; the kernel generally
+doesn't care whether or not a filename carries whitespace.
+The limitation here is specifically the gen_init_cpio manifest format,
+which is strictly space-separated.
+
+> Linux also supports filename or path with whiespace and currently this
+> will produce error on generating and parsing the cpio_list file as the
+> pattern won't match the expected variables order. (with gid or mode
+> parsed as string)
+> 
+> This was notice when creating an initramfs with including the ALSA test
+> files and configuration that have whitespace in both some .conf and even
+> some symbolic links.
+> 
+> Example error:
+
+The error messages don't really add any value here.
+<snip>
+
+> To correctly handle this problem, rework the gen_initramfs.sh and
+> gen_init_cpio.c to guard all the path with "" to handle all kind of
+> whitespace for filename/path.
+> 
+> The default_cpio_list is also updated to follow this new pattern.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>  usr/default_cpio_list |  6 +++---
+>  usr/gen_init_cpio.c   | 10 +++++-----
+>  usr/gen_initramfs.sh  | 27 +++++++++++++++++++--------
+>  3 files changed, 27 insertions(+), 16 deletions(-)
+> 
+> diff --git a/usr/default_cpio_list b/usr/default_cpio_list
+> index 37b3864066e8..d4a66b4aa7f7 100644
+> --- a/usr/default_cpio_list
+> +++ b/usr/default_cpio_list
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  # This is a very simple, default initramfs
+>  
+> -dir /dev 0755 0 0
+> -nod /dev/console 0600 0 0 c 5 1
+> -dir /root 0700 0 0
+> +dir "/dev" 0755 0 0
+> +nod "/dev/console" 0600 0 0 c 5 1
+> +dir "/root" 0700 0 0
+> diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
+> index b7296edc6626..ca5950998841 100644
+> --- a/usr/gen_init_cpio.c
+> +++ b/usr/gen_init_cpio.c
+> @@ -166,7 +166,7 @@ static int cpio_mkslink_line(const char *line)
+>  	int gid;
+>  	int rc = -1;
+>  
+> -	if (5 != sscanf(line, "%" str(PATH_MAX) "s %" str(PATH_MAX) "s %o %d %d", name, target, &mode, &uid, &gid)) {
+> +	if (5 != sscanf(line, "\"%" str(PATH_MAX) "[^\"]\" \"%" str(PATH_MAX) "[^\"]\" %o %d %d", name, target, &mode, &uid, &gid)) {
+
+This breaks parsing of existing manifest files, so is unacceptable
+IMO. If we really want to go down the route of having gen_init_cpio
+support space-separated paths, then perhaps a new --field-separator
+parameter might make sense. For your specific workload it seems that
+simply using an external cpio archiver with space support (e.g. GNU
+cpio --null) would make sense. Did you consider going down that
+path?
+
+Thanks, David
 
