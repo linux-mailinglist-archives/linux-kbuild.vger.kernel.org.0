@@ -1,222 +1,184 @@
-Return-Path: <linux-kbuild+bounces-11119-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11120-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IK2eJULUi2njbgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11119-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Feb 2026 01:58:42 +0100
+	id SOZNJDLsi2nEdQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11120-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Feb 2026 03:40:50 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C65D120655
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Feb 2026 01:58:41 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0124120CCD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Feb 2026 03:40:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 58D1230547F1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Feb 2026 00:58:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CE73F301113C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Feb 2026 02:40:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89BA8239E9D;
-	Wed, 11 Feb 2026 00:58:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 992C633FE07;
+	Wed, 11 Feb 2026 02:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Akfn2is4"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A6IdvQcP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5luqw0c7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A6IdvQcP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5luqw0c7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4390238C3A
-	for <linux-kbuild@vger.kernel.org>; Wed, 11 Feb 2026 00:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6751A2EC541
+	for <linux-kbuild@vger.kernel.org>; Wed, 11 Feb 2026 02:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770771517; cv=none; b=oBPHdjsGU4DHIhx/1spnO4EmVBYGUBn7CUVC1mLRcQZLAEIoJBSE0KNlTz0cKsrbBLzOXMcYoEjb8rU6EhjcGNjEHqiSMePfWqoQfui9VIioilei0CvvltBwxQG+dZCdQymBMwx/YWEQo2Fcp+qhlGeaXgzzKR+uwRi80RmRoTk=
+	t=1770777645; cv=none; b=rvc8Dq3hUd1D04kqelQZm3+GuU8AlAwao6HS+6bco8l1udq4PMbsGNQi6WPY9glCc8dwoQNTActQKN+dJl0AFJNPBhlvFvqLOi1Vjk8ULJ57iA+/iFEDqAJgLhVdE/f7vvSoEWZqeBZFh/8C0iAEYLbK6E5A3rhr4OlBTN/YIwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770771517; c=relaxed/simple;
-	bh=LPkENCCP9Iv6HhXNQjJR1VmZFQn/KyEBDTPnLHglPbw=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WNACtERejFQxrokrObqMMYxaj83x3qwWNybU7mAmVSJtRoowDG9N3jOuUvCnszlA+8mHddhmn1hkz/tL0ydbSYbaG5bL9urv7PswEkvj02mDlsAsBAE5blnkiE0jAdbh1p4lW+3cNzOR+UmfcXHB2zoc6tD61FpRdYf9wL7Xwnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Akfn2is4; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so16739655e9.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Feb 2026 16:58:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770771514; x=1771376314; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=saJTqKZgiPh9XrzB25Qr60CmTdAWHKEeFeS9gn6orw4=;
-        b=Akfn2is4k+a/B6dkDnutvK/7shZRpZiimwru1J5NtkoXoUZqyNNMyxszt2JcHZa3A+
-         zdy7NLwXJhp1qXH4OraSD4rylrVpF+kfb+jgTX96R9pmm86zPVPHGiien/mv9MSxjnO4
-         aPPJ+9OpT76BlNm0zskwzbux5l3QVXXXWH3QC0qs6QXw0TpvHOfWpKd2UQGGlXgN6f1S
-         I0NBKwe9lKLSwmOrbLeP8+X0IFZ7pniULMtHOXPoL13tMWnVCEES5109mAQ8+6Upbag+
-         q95HWgmyY5OjKEv4udE8uaYuVpx7toxT/NqgYUEp9PutuGGewaBy+bi8auYzMWNNPG7+
-         gowg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770771514; x=1771376314;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=saJTqKZgiPh9XrzB25Qr60CmTdAWHKEeFeS9gn6orw4=;
-        b=P/fYEuQCnxjIZNgtag5KObGeWxp1XzxZcJ8FKgXNld9tFTxe2zJm2GFj8W2n/1TCsi
-         lQhUD8jaGAwOElL7rVaYYfrLDKh7FSKbLg2BUoGiaQrHsFbAF2MxHp42gX1lfGzPwHd6
-         4V9ilrS/DUADMn3yxOY6BJw2dWXFGhqUF7DdjWx9+LXlyQ5XtfUz1B4KB93zmeSGXXHn
-         btQakKp5ZxaxFMgBEPAunRYdHAQpCY8QyUiEYuQTyZsxmU3LKE7Y7bcmPy2y38LryZa7
-         76BQIsIJtGYfHGQL5roOYo5UKCUpqq8Hm3eCuIDtDrUDN2R/sjq9u7+CLSedOhMNtsH/
-         6Pnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFFyT2xI2bK2lgdx+MMuw18ss3ek3aGVicRPwvKFLIauFP/vo8F8MA0qZUVUWHe2TnLeWgVR0C9vRnSS8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKROaLME75F1UjOMlXaHNJf820RZCgU6jI0LBXfoTDus9VDb6I
-	YRHe3qg8zlHcg422PSEp0ebvYo5R8Wo3m2ah0AcJ5FtVnq4RBSnGckRZ
-X-Gm-Gg: AZuq6aKQKI+pgIyVNziigjUS7Ub+mU70AH4aE72A+j9N4nMYQyoJnyovyZCcUTA7A+o
-	1ubztkj2SIPBUbqdJcD45J+sj/+6JiP4XyGUUYJhAfyoXlfVyQowfgIqvzDM7dz6Q3T0ezVH1HZ
-	t/17L2p6C4PJLniVuuq4bGY0F0IRTvzfn4dYExWFxvBbzGlkjbrVp+28KIJxnzQghN73AOouNnG
-	Pf7yTgmT2g6GhaxQ3/R/R0jhuUsJdSozXzbsPv643mOc5JWHYVo7J4Mr1lwYFoppPb9qcGR9Ppy
-	+KjfXvGEv61c7yvSjDOCB5g+GmevCMQmOeK9bUgL9UG4m7+i7dxE7yobsK3KAjkgL1obId8bZG0
-	Sw8DonTbnuI6/YBXsFV0Yl2Dj/E75fGRoumGJWorTbl5YvKtOrvg+vntPTXTG8matVjU7tKh2xc
-	Pqle4ZxG5+GIV+0Xpp/7kR+QV8VttOPbWOHA7X6NBHOI5mC0Sop+N8+A==
-X-Received: by 2002:a05:600c:c4a7:b0:47f:b737:5ce0 with SMTP id 5b1f17b1804b1-48320231161mr210550075e9.23.1770771513861;
-        Tue, 10 Feb 2026 16:58:33 -0800 (PST)
-Received: from Ansuel-XPS. (93-34-90-125.ip49.fastwebnet.it. [93.34.90.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835bc7bd3fsm4806675e9.18.2026.02.10.16.58.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 16:58:33 -0800 (PST)
-Message-ID: <698bd439.050a0220.38f6b4.a251@mx.google.com>
-X-Google-Original-Message-ID: <aYvUM4J9anl2Bpkc@Ansuel-XPS.>
-Date: Wed, 11 Feb 2026 01:58:27 +0100
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: David Disseldorp <ddiss@suse.de>
+	s=arc-20240116; t=1770777645; c=relaxed/simple;
+	bh=LcY6J49s4myOjU615R/O1NvQ01KDK3N7Pq+rLOwdpN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nbcgbpIaMTKcFEqdV48EAnyVt/XNDJ1vuSv/w2TpIPaxIwQB+zEeoptQLDopb/EUy5ESV1m6K4alGYJkj5Gh4zID7KG4TLxlJULISgBctXDgLswDzmVrZsWHq80njoK47xL2I+SUJWzEoDdn3yirxbhFTJ+IuID4wdhIGILCDc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A6IdvQcP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5luqw0c7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A6IdvQcP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5luqw0c7; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8D2D63E724;
+	Wed, 11 Feb 2026 02:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770777642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XpAZh4J9N2AyiI8wFEX/VZ91FOS1QAchLtumN9R7uN8=;
+	b=A6IdvQcPl6pGAQ7Tupc9q64d9j0TOiE0q84ApfYD9ukWTLZbwe+htRGujugZzYs2i0ggN7
+	GO9UJxELkT2yVumZnHCPTBy9pjEB/jT7nAmR270vxosz9u6iVYHKr948RX4K4ED1JyNJHh
+	0hrUzP4xgyYBqmdUlUqyuoWjOjycv7s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770777642;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XpAZh4J9N2AyiI8wFEX/VZ91FOS1QAchLtumN9R7uN8=;
+	b=5luqw0c76RTwSzepKruW5tuefEBYxfvkO3adNegel7by2WVYl51sUVyZfFsshhBQNI1c3X
+	K5Y2gD+xN+HIzyCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=A6IdvQcP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5luqw0c7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770777642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XpAZh4J9N2AyiI8wFEX/VZ91FOS1QAchLtumN9R7uN8=;
+	b=A6IdvQcPl6pGAQ7Tupc9q64d9j0TOiE0q84ApfYD9ukWTLZbwe+htRGujugZzYs2i0ggN7
+	GO9UJxELkT2yVumZnHCPTBy9pjEB/jT7nAmR270vxosz9u6iVYHKr948RX4K4ED1JyNJHh
+	0hrUzP4xgyYBqmdUlUqyuoWjOjycv7s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770777642;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XpAZh4J9N2AyiI8wFEX/VZ91FOS1QAchLtumN9R7uN8=;
+	b=5luqw0c76RTwSzepKruW5tuefEBYxfvkO3adNegel7by2WVYl51sUVyZfFsshhBQNI1c3X
+	K5Y2gD+xN+HIzyCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D46D33EA62;
+	Wed, 11 Feb 2026 02:40:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BsUfIifsi2m6KgAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Wed, 11 Feb 2026 02:40:39 +0000
+Date: Wed, 11 Feb 2026 13:40:25 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: Christian Marangi <ansuelsmth@gmail.com>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-	Dmitry Safonov <0x7f454c46@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+ Dmitry Safonov <0x7f454c46@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>
 Subject: Re: [RFC PATCH] initramfs: correctly handle space in path on cpio
  list generation
+Message-ID: <20260211134025.57a4d249.ddiss@suse.de>
+In-Reply-To: <698bd439.050a0220.38f6b4.a251@mx.google.com>
 References: <20260209153800.28228-1-ansuelsmth@gmail.com>
- <20260210223431.6bf63673.ddiss@suse.de>
- <698b6ced.050a0220.9e34a.3e08@mx.google.com>
- <20260211113308.4c5b0b82.ddiss@suse.de>
+	<20260210223431.6bf63673.ddiss@suse.de>
+	<698b6ced.050a0220.9e34a.3e08@mx.google.com>
+	<20260211113308.4c5b0b82.ddiss@suse.de>
+	<698bd439.050a0220.38f6b4.a251@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260211113308.4c5b0b82.ddiss@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11120-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-11119-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ansuelsmth@gmail.com,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ddiss@suse.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1C65D120655
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C0124120CCD
 X-Rspamd-Action: no action
 
-On Wed, Feb 11, 2026 at 11:43:10AM +1100, David Disseldorp wrote:
-> On Tue, 10 Feb 2026 18:37:44 +0100, Christian Marangi wrote:
-> ...
-> > > > diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
-> > > > index b7296edc6626..ca5950998841 100644
-> > > > --- a/usr/gen_init_cpio.c
-> > > > +++ b/usr/gen_init_cpio.c
-> > > > @@ -166,7 +166,7 @@ static int cpio_mkslink_line(const char *line)
-> > > >  	int gid;
-> > > >  	int rc = -1;
-> > > >  
-> > > > -	if (5 != sscanf(line, "%" str(PATH_MAX) "s %" str(PATH_MAX) "s %o %d %d", name, target, &mode, &uid, &gid)) {
-> > > > +	if (5 != sscanf(line, "\"%" str(PATH_MAX) "[^\"]\" \"%" str(PATH_MAX) "[^\"]\" %o %d %d", name, target, &mode, &uid, &gid)) {  
-> > > 
-> > > This breaks parsing of existing manifest files, so is unacceptable
-> > > IMO. If we really want to go down the route of having gen_init_cpio
-> > > support space-separated paths, then perhaps a new --field-separator
-> > > parameter might make sense. For your specific workload it seems that
-> > > simply using an external cpio archiver with space support (e.g. GNU
-> > > cpio --null) would make sense. Did you consider going down that
-> > > path?
-> > >   
-> > 
-> > This is mostly why this is posted as RFC. I honestly wants to fix this in the
-> > linux tool instead of using external tools.
-> > 
-> > So is there an actual use of manually passing the cpio list instead of
-> > generating one with the script? (just asking not saying that there isn't one)
+On Wed, 11 Feb 2026 01:58:27 +0100, Christian Marangi wrote:
+
+> > What happens when someone wants support for filenames containing spaces
+> > and quotes?
+> >   
 > 
-> Absolutely. As a simple example, consider an unprivileged user wishing
-> to add a device node to their initramfs image. A manifest entry (as
-> opposed to staging area mknod=EPERM) is ideal for this.
+> I mean... it's a less common case where filename start to have almost invalid
+> char but yes it's a valid point.
 > 
-> > One case I have (the scenario here is OpenWrt) is when a base cpio_list is
-> > provided and then stuff is appended to it.
+> > > I'm open to both solution. Lets just agree on one of the 2.  
 > > 
-> > In such case yes there is a problem since the format changed.
-> > 
-> > My solution to this would be introduce new type that will have the new pattern.
-> > This way we can keep support for the old list and still handle whitespace files.
-> > 
-> > An idea might be to have the file type with capital letter to differenciate with
-> > the old one.
-> > 
-> > Something like 
-> > 
-> > FILE "path" "location" ...
-> > SLINK "name" "target" ...
-> > NODE ...
-> > 
-> > What do you think?
+> > I don't think any of the options will be particularly simple, but
+> > nul-byte delimited field support might be the most straightforward.
+> >   
 > 
-> Introducing a new type to handle space-containing filenames isn't a bad
-> idea, but using capital letters to signify the API change is confusing.
->
-
-The problem of a new type is that other tool might not support that but no idea
-if it would be really that relevant. After all it's all intermediate file to
-generate the final cpio.
- 
-> > The option of --field-separator might also work but it might complicate stuff in
-> > the .c tool as a more ""manual"" tokenizer will be needed than the simple
-> > implementation currently present.
+> Yes that was the initial idea but was quickly scrapped as major work is needed
+> in the .c tool to handle NULL separated entry.
 > 
-> What happens when someone wants support for filenames containing spaces
-> and quotes?
+> Can you by chance point to me how the GNU tool work with --null ?
 > 
-
-I mean... it's a less common case where filename start to have almost invalid
-char but yes it's a valid point.
-
-> > I'm open to both solution. Lets just agree on one of the 2.
 > 
-> I don't think any of the options will be particularly simple, but
-> nul-byte delimited field support might be the most straightforward.
-> 
+> They also create a cpio_list file with entry NULL separated?
 
-Yes that was the initial idea but was quickly scrapped as major work is needed
-in the .c tool to handle NULL separated entry.
+E.g. dracut uses the GNU cpio --null alongside find -print0:
 
-Can you by chance point to me how the GNU tool work with --null ?
-
-
-They also create a cpio_list file with entry NULL separated?
-
-
--- 
-	Ansuel
+  cd "$initdir"
+  find . -print0 | sort -z \
+      | cpio ${CPIO_REPRODUCIBLE:+--reproducible} --null ${cpio_owner:+-R "$cpio_owner"} -H newc -o --quiet \
+      | $compress >> "${DRACUT_TMPDIR}/initramfs.img"
 
