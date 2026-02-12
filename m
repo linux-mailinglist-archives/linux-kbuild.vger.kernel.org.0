@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11209-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11210-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +MNSNydDjWkK0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11209-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:04:07 +0100
+	id YPEYIjVDjWkK0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11210-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:04:21 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD70129AF7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:04:07 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EA0129B0C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:04:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C29CB3045AAD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:04:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E252630120FF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:04:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30D0E2222D1;
-	Thu, 12 Feb 2026 03:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFFCF223DEF;
+	Thu, 12 Feb 2026 03:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="gV6uApSp"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="IFCmjIIy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A7819006B;
-	Thu, 12 Feb 2026 03:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CBF4414;
+	Thu, 12 Feb 2026 03:04:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770865444; cv=none; b=k8eQza5jOg+ZsNO8PLxL++e8uZ7h7Xj5s0mODN2sBc5g3m2bVocR0Vea75MpBtgxx/+cUvQuKIHa/+xVMlgPWHDz6OmcfWtRgfC2IlkEMZ9jchetLbdBiB7EnVypchx9ypDiX+35S1+ODsdNXUyLAMblcE0ozYll9q1xvu6daxo=
+	t=1770865457; cv=none; b=pnye6uBoyIUnWsDX0iYckHq7v+Py24EuEdzNvSyZkeDyAbL1tZSgVam8GFapQUGFy0Bc42MVwvCJAccV2WjjiG5HfYcuaZXirQFD2ax9JH/BeF2l8Z+/Jhdwym7oaBol5B5O2G5V7m9WBY65jeKm2ZLc4u7DEFBP+nDTQLqPlO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770865444; c=relaxed/simple;
-	bh=w1d9fxSgNSM/WSwemhZxBrbxokTQR5y1jIqRAxwj31w=;
+	s=arc-20240116; t=1770865457; c=relaxed/simple;
+	bh=cbQxqyepFcK64B+JoYsB+WVWuji+kKvBh9o+Gesy6xs=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mjlCKpJRL4vsLvEYZhm+ns0V3q3gckpjX5DBf94KP3HHrU3umVYEua8R2xQZuVdgoqsYgwtdth7tTV6OixePvsaA1G6edMUHFa6gdfmuyda80mtM4In5vBRPfcuzi4emqV+ck/Jw9nBd0Z+xKq1OSpvJ++kuA2nJVYGoc1bwxVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=gV6uApSp; arc=none smtp.client-ip=44.246.1.125
+	 MIME-Version:Content-Type; b=komp+vMDE0WzPF7a+yfllfR9lv2erT588tW2a37r9YJOdik1+EiKCxcUTgu+nMiO27uuEFMr8DoXRtttnfnEUJkyC9cAfbIA/pMNufZqaBtjqo0hbR5XBxYDvJD+ISzkzzjrrINUNVMr9thAy3xeJrVsfL+CNCH0fK20kordKbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=IFCmjIIy; arc=none smtp.client-ip=44.246.1.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770865442; x=1802401442;
+  t=1770865456; x=1802401456;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5rlSwtRN3//9bGbY8pLd6FsunXhmy/i2ZD1cSmdvPns=;
-  b=gV6uApSpkEU+ZTKObxJS8rz1m1peBzBFC81cmAgdit0YODZEF3aOB+Em
-   eaHAGAbw06Dzt5tPu2evPDzFc/nnsit5Nx/CygWmfAbQEZoHeUI7BlXfm
-   7yd4DyJgfEiqwL0JUl07+ZwCIO/LhdN+UOTyU57/UJ23JmKjuwHJBzV7u
-   gL6QrYBuk8emPz3/+9bCnAm1AUCP8Wts08k9LKlubDjcASuD74nOqYpTM
-   56eVE6vq1e7vg8IyXwd2a9u9Nw45OObSbKPrXJ5OL82NcqZpnxOn/J+ER
-   TfdNnjGAjUfaekTHDLYxj3RSQLt7bGYXwYOTG+e93yKPrj73G1ZXrrVMo
-   Q==;
-X-CSE-ConnectionGUID: 1Acg/V4aT/69pD1RDORiDQ==
-X-CSE-MsgGUID: hEWWcQueSNuaUMDSpjlhNg==
+  bh=EINF0r05fCGdozwxSs69xlxZRcrWOWG5viZG7pISjz8=;
+  b=IFCmjIIyk3PPCT36dsXvjwPTd2VM1nU5D5si/6U8LC1UHU2AU+X9zgwM
+   L6sWMIoqwbB/WvP7cI1tgAPuat+lPoMfhzzjEieUv2F7LMKRnwyWwzPGi
+   O3HHmWs7qw3WTNjPB0OByK2ILEJ2LX5tiqlnMhaeOgUUXi3pujcktQfme
+   ulZqlObfH1TzmWNMc3053dQnXXH3EENNlfz/LPZ+CDZ4im1mrwflIZM/R
+   ee9d1y1f7AjQ1NrwRbDbc0i83j9IhKINp7ZdZo7LbEZyUJVrLEo14PHU7
+   tk2J4Czys4r/bE251YWNIs0XEt6Kr6tvqUUhw9Jw4lmLDctOauHPzCnba
+   g==;
+X-CSE-ConnectionGUID: EkBT6euZSVe2RipQC++zSA==
+X-CSE-MsgGUID: bpCS/gvoRQiibzFiuMZiyA==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12919339"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:04:02 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:30733]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.3.19:2525] with esmtp (Farcaster)
- id da222334-da56-4877-aa78-33be49e59f70; Thu, 12 Feb 2026 03:04:02 +0000 (UTC)
-X-Farcaster-Flow-ID: da222334-da56-4877-aa78-33be49e59f70
+   d="scan'208";a="12919372"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:04:16 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.51:5587]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.39.165:2525] with esmtp (Farcaster)
+ id 9ec3b2db-7f8f-4dc3-8c1c-6ee7ffdafc15; Thu, 12 Feb 2026 03:04:16 +0000 (UTC)
+X-Farcaster-Flow-ID: 9ec3b2db-7f8f-4dc3-8c1c-6ee7ffdafc15
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:04:00 +0000
+ Thu, 12 Feb 2026 03:04:15 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:03:59 +0000
+ Thu, 12 Feb 2026 03:04:15 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 064/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_SM4 and CONFIG_CRYPTO_SM4_GENERIC crypto
-Date: Thu, 12 Feb 2026 02:46:40 +0000
-Message-ID: <20260212024725.11264-65-wanjay@amazon.com>
+Subject: [PATCH 065/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_TWOFISH and CONFIG_CRYPTO_TWOFISH_COMMON crypto
+Date: Thu, 12 Feb 2026 02:46:41 +0000
+Message-ID: <20260212024725.11264-66-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212024725.11264-1-wanjay@amazon.com>
 References: <20260212024725.11264-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D044UWA003.ant.amazon.com (10.13.139.43) To
+X-ClientProxiedBy: EX19D042UWB002.ant.amazon.com (10.13.139.175) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -101,7 +101,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11209-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11210-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -119,131 +119,99 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	DKIM_TRACE(0.00)[amazon.com:+];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gnu.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,gnu.org:url];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3AD70129AF7
+X-Rspamd-Queue-Id: 04EA0129B0C
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_CRYPTO_SM4- and CONFIG_CRYPTO_SM4_GENERIC-related crypto to
-convert them into pluggable interface.
+CONFIG_CRYPTO_TWOFISH- and CONFIG_CRYPTO_TWOFISH_COMMON-related crypto
+to convert them into pluggable interface.
 
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
  crypto/Makefile              |  4 ++--
- crypto/fips140/fips140-api.c | 18 ++++++++++++++++++
- crypto/sm4_generic.c         |  4 ++--
- include/crypto/sm4.h         | 22 ++++++++++++++++------
- 4 files changed, 38 insertions(+), 10 deletions(-)
+ crypto/fips140/fips140-api.c | 11 +++++++++++
+ crypto/twofish_generic.c     |  4 ++--
+ include/crypto/twofish.h     | 11 ++++++++---
+ 4 files changed, 23 insertions(+), 7 deletions(-)
 
 diff --git a/crypto/Makefile b/crypto/Makefile
-index 795c76357bff..326b37002e3d 100644
+index 326b37002e3d..e93edc49840a 100644
 --- a/crypto/Makefile
 +++ b/crypto/Makefile
-@@ -135,8 +135,8 @@ obj-$(CONFIG_CRYPTO_TWOFISH_COMMON) += twofish_common.o
+@@ -130,8 +130,8 @@ crypto-objs-$(CONFIG_CRYPTO_DES) += des_generic.o
+ crypto-objs-$(CONFIG_CRYPTO_FCRYPT) += fcrypt.o
+ crypto-objs-$(CONFIG_CRYPTO_BLOWFISH) += blowfish_generic.o
+ crypto-objs-$(CONFIG_CRYPTO_BLOWFISH_COMMON) += blowfish_common.o
+-obj-$(CONFIG_CRYPTO_TWOFISH) += twofish_generic.o
+-obj-$(CONFIG_CRYPTO_TWOFISH_COMMON) += twofish_common.o
++crypto-objs-$(CONFIG_CRYPTO_TWOFISH) += twofish_generic.o
++crypto-objs-$(CONFIG_CRYPTO_TWOFISH_COMMON) += twofish_common.o
  obj-$(CONFIG_CRYPTO_SERPENT) += serpent_generic.o
  CFLAGS_serpent_generic.o := $(call cc-option,-fsched-pressure)  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=79149
  crypto-objs-$(CONFIG_CRYPTO_AES) += aes.o
--obj-$(CONFIG_CRYPTO_SM4) += sm4.o
--obj-$(CONFIG_CRYPTO_SM4_GENERIC) += sm4_generic.o
-+crypto-objs-$(CONFIG_CRYPTO_SM4) += sm4.o
-+crypto-objs-$(CONFIG_CRYPTO_SM4_GENERIC) += sm4_generic.o
- obj-$(CONFIG_CRYPTO_CAMELLIA) += camellia_generic.o
- obj-$(CONFIG_CRYPTO_CAST_COMMON) += cast_common.o
- obj-$(CONFIG_CRYPTO_CAST5) += cast5_generic.o
 diff --git a/crypto/fips140/fips140-api.c b/crypto/fips140/fips140-api.c
-index 61f7884d0f34..5b0ae8476ce7 100644
+index 5b0ae8476ce7..9ad530743d1f 100644
 --- a/crypto/fips140/fips140-api.c
 +++ b/crypto/fips140/fips140-api.c
-@@ -654,3 +654,21 @@ DEFINE_CRYPTO_API_STUB(cryptd_free_aead);
- DEFINE_CRYPTO_API_STUB(blowfish_setkey);
+@@ -672,3 +672,14 @@ DEFINE_CRYPTO_API_STUB(sm4_expandkey);
+ DEFINE_CRYPTO_API_STUB(sm4_crypt_block);
  
  #endif
 +/*
-+ * crypto/sm4.c
++ * crypto/twofish_common.c
 + */
-+#if IS_BUILTIN(CONFIG_CRYPTO_SM4)
++#if IS_BUILTIN(CONFIG_CRYPTO_TWOFISH_COMMON)
 +
-+#include <crypto/sm4.h>
++#include <crypto/twofish.h>
 +
-+#undef crypto_sm4_fk
-+#undef crypto_sm4_ck
-+#undef crypto_sm4_sbox
-+DEFINE_CRYPTO_VAR_STUB(crypto_sm4_fk);
-+DEFINE_CRYPTO_VAR_STUB(crypto_sm4_ck);
-+DEFINE_CRYPTO_VAR_STUB(crypto_sm4_sbox);
-+
-+DEFINE_CRYPTO_API_STUB(sm4_expandkey);
-+DEFINE_CRYPTO_API_STUB(sm4_crypt_block);
++DEFINE_CRYPTO_API_STUB(__twofish_setkey);
++DEFINE_CRYPTO_API_STUB(twofish_setkey);
 +
 +#endif
-diff --git a/crypto/sm4_generic.c b/crypto/sm4_generic.c
-index d57444e8428c..aba3e3271d37 100644
---- a/crypto/sm4_generic.c
-+++ b/crypto/sm4_generic.c
-@@ -83,8 +83,8 @@ static void __exit sm4_fini(void)
- 	crypto_unregister_alg(&sm4_alg);
+diff --git a/crypto/twofish_generic.c b/crypto/twofish_generic.c
+index 368018cfa9bf..0d9cefa3350b 100644
+--- a/crypto/twofish_generic.c
++++ b/crypto/twofish_generic.c
+@@ -187,8 +187,8 @@ static void __exit twofish_mod_fini(void)
+ 	crypto_unregister_alg(&alg);
  }
  
--module_init(sm4_init);
--module_exit(sm4_fini);
-+crypto_module_init(sm4_init);
-+crypto_module_exit(sm4_fini);
+-module_init(twofish_mod_init);
+-module_exit(twofish_mod_fini);
++crypto_module_init(twofish_mod_init);
++crypto_module_exit(twofish_mod_fini);
  
- MODULE_DESCRIPTION("SM4 Cipher Algorithm");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/crypto/sm4.h b/include/crypto/sm4.h
-index 9656a9a40326..10cb9c379357 100644
---- a/include/crypto/sm4.h
-+++ b/include/crypto/sm4.h
-@@ -9,6 +9,7 @@
- #ifndef _CRYPTO_SM4_H
- #define _CRYPTO_SM4_H
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION ("Twofish Cipher Algorithm");
+diff --git a/include/crypto/twofish.h b/include/crypto/twofish.h
+index f6b307a58554..4695480f5d44 100644
+--- a/include/crypto/twofish.h
++++ b/include/crypto/twofish.h
+@@ -2,6 +2,7 @@
+ #ifndef _CRYPTO_TWOFISH_H
+ #define _CRYPTO_TWOFISH_H
  
 +#include <crypto/api.h>
  #include <linux/types.h>
- #include <linux/crypto.h>
  
-@@ -21,9 +22,15 @@ struct sm4_ctx {
- 	u32 rkey_dec[SM4_RKEY_WORDS];
+ #define TF_MIN_KEY_SIZE 16
+@@ -18,8 +19,12 @@ struct twofish_ctx {
+ 	u32 s[4][256], w[8], k[32];
  };
  
--extern const u32 crypto_sm4_fk[];
--extern const u32 crypto_sm4_ck[];
--extern const u8 crypto_sm4_sbox[];
-+DECLARE_CRYPTO_VAR(CONFIG_CRYPTO_SM4, crypto_sm4_fk, const u32, [4]);
-+DECLARE_CRYPTO_VAR(CONFIG_CRYPTO_SM4, crypto_sm4_ck, const u32, [32]);
-+DECLARE_CRYPTO_VAR(CONFIG_CRYPTO_SM4, crypto_sm4_sbox, const u8, [256]);
+-int __twofish_setkey(struct twofish_ctx *ctx, const u8 *key,
+-		     unsigned int key_len);
+-int twofish_setkey(struct crypto_tfm *tfm, const u8 *key, unsigned int key_len);
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_TWOFISH_COMMON, __twofish_setkey, int,
++	(struct twofish_ctx *ctx, const u8 *key, unsigned int key_len),
++	(ctx, key, key_len));
 +
-+#if defined(CONFIG_CRYPTO_FIPS140_EXTMOD) && !defined(FIPS_MODULE) && IS_BUILTIN(CONFIG_CRYPTO_SM4)
-+#define crypto_sm4_fk (((const u32*)CRYPTO_VAR_NAME(crypto_sm4_fk)))
-+#define crypto_sm4_ck (((const u32*)CRYPTO_VAR_NAME(crypto_sm4_ck)))
-+#define crypto_sm4_sbox (((const u8*)CRYPTO_VAR_NAME(crypto_sm4_sbox)))
-+#endif
- 
- /**
-  * sm4_expandkey - Expands the SM4 key as described in GB/T 32907-2016
-@@ -34,8 +41,9 @@ extern const u8 crypto_sm4_sbox[];
-  * Returns 0 on success. The function fails only if an invalid key size (or
-  * pointer) is supplied.
-  */
--int sm4_expandkey(struct sm4_ctx *ctx, const u8 *in_key,
--			  unsigned int key_len);
-+DECLARE_CRYPTO_API(CONFIG_CRYPTO_SM4, sm4_expandkey, int,
-+	(struct sm4_ctx *ctx, const u8 *in_key, unsigned int key_len),
-+	(ctx, in_key, key_len));
- 
- /**
-  * sm4_crypt_block - Encrypt or decrypt a single SM4 block
-@@ -43,6 +51,8 @@ int sm4_expandkey(struct sm4_ctx *ctx, const u8 *in_key,
-  * @out:	Buffer to store output data
-  * @in: 	Buffer containing the input data
-  */
--void sm4_crypt_block(const u32 *rk, u8 *out, const u8 *in);
-+DECLARE_CRYPTO_API(CONFIG_CRYPTO_SM4, sm4_crypt_block, void,
-+	(const u32 *rk, u8 *out, const u8 *in),
-+	(rk, out, in));
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_TWOFISH_COMMON, twofish_setkey, int,
++	(struct crypto_tfm *tfm, const u8 *key, unsigned int key_len),
++	(tfm, key, key_len));
  
  #endif
 -- 
