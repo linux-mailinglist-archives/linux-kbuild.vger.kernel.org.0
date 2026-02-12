@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11257-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11258-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +J1aFB1GjWlj0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11257-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:16:45 +0100
+	id AEveDS1GjWlj0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11258-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:17:01 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E710B129FA1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:16:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78B9129FB8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:17:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 672FC30305F1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:16:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 03EAC304E0F6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:16:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A01F23D2B2;
-	Thu, 12 Feb 2026 03:16:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235A3219A8E;
+	Thu, 12 Feb 2026 03:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="o3N1yYp5"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="s7Tr99oZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
+Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF6219A8E;
-	Thu, 12 Feb 2026 03:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5011D5146;
+	Thu, 12 Feb 2026 03:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.34.181.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770866201; cv=none; b=ZrYBEDkVpLuYRAi0D+VO47qjsugquOcRUnDN22WL3ObmLSlwjQDCIQg1CR+fDiSaSnfeDvzVAXqL10b4+S/y7hNxaqMcgcEmtVisGFXtCb63aBTRvYx5FcxVbgojngDjKKQaYHsAzwqPXqTTDRyVWWeSpEzGKHBV3gBSEaDj+F4=
+	t=1770866217; cv=none; b=tRdXs6YpVP8UOju/J1gvqRd/5mQWn8QmS9ky+LW9irSNDJMJ1HKvY2euk7NkPCeiFcwjSRl+CFkZLl1kfJJJeyta8NY613eGKbtk9T1sv/+QU2uiuLonmiNzCq7bs234DXlzbsVrv3TnD56l5o+nFTJzIXf/OxA8SccpOCMn+/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770866201; c=relaxed/simple;
-	bh=BqAyetzFYGs9TFMrQYC/kbUPcZCVJ7SV5wlyvD9XmmM=;
+	s=arc-20240116; t=1770866217; c=relaxed/simple;
+	bh=79MoBJwMF5M6gty6q5NxVze+1ccaSQL+95OUeBgm5pM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DdaOya7+1itcMmBgyU9HU3hBVSJDYxRs5BCnkKPqcK6+b+sD2GhtHl3yBjXiYcIwpKdeYCQHhUySXUy4j5+jgsI7+QojK5uTx2nDAUReRxA8jARn5rBm1I/WdVq8Y0O/eEaK7chADzTwk/oECgc9XkedwKYWI/bCFVMONCIPH1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=o3N1yYp5; arc=none smtp.client-ip=52.35.192.45
+	 MIME-Version:Content-Type; b=hu5wXg1rU0qRyuhyzaeGDu1g4lGufIcn+RO5cLdLPKn57SJlHxW7yGSPUdVAs7/7fWU2ZlPIqvwtk3iWvu2tIV753CuKHkFll76Rjq+r166gDxciXuuh82JTj9bZJ8gC5YO9Ce7Yutnh4gYcIPAXge9lGu/JoDMEkJfX+LTAqcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=s7Tr99oZ; arc=none smtp.client-ip=52.34.181.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770866200; x=1802402200;
+  t=1770866215; x=1802402215;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=C9xVZl3sdeGF6Ya902sDlUVvmuvw7uaw3NmZceFV1g0=;
-  b=o3N1yYp5yvWSeGbEpxI21FiorcTTS0eYpZn3MrCxydPiiwIjrMSvUrk7
-   syf1cbvsnmbA+/wZyvZW2gFfjsuCwZf0AbNiU+2tQr+qnkgEEXLHrn81t
-   iPn7tANXUDNS3m33JygxZ2cukDOPCWzaBA0OZZ6BODuVUc8ZuyJAFHB+Y
-   O6HJ96k+bvaN6iyhyMGi+eTSsh4VntpkxT3SxtKU9kIleAzKETL3+aG7O
-   JzYgO7l4wFNt5el4X+clRQQRloClpM6pwa/+LdT4is+S2W6VXtTC6rID6
-   vWM8n3vHFfzogJ4ZJZEp7FDXJfrXi8vnnai81QVCTkGKVgTfGttq7sVkS
+  bh=e3V4quBbOIFG09t6y5Tgt1YSCmqXUpYhT3hsnForu/4=;
+  b=s7Tr99oZSnJVW/Qw1f5eLd5/nUo6ZVnTTy1iyuId2tzXZ8QVo8qV0zjq
+   ZElqYGTcCM42WAn8SibmG7qml86Gk6r/aoVsd17lAVlHGAdY9dn1UiRWe
+   o5efF//QAZB72+t/p4juyEIz17BdfUnF1B6hTy5b4nFA1xfnk+hBmzg61
+   5loBRjtH2/kuU5kEF07mOZxiMhEyPI9FOzziirKlsnkEX7aBY48vq0MAy
+   QKw0+522ikGs8SFoFl5a/hwOdPBZK+zKsjisADow50fEYVDXqp8v/sK9z
+   8DhHwURjRxSlrqy7bv33IaoXKV6g8oTC6Pdy5yZEaOYdqm6Fde+FIUYm3
    Q==;
-X-CSE-ConnectionGUID: RglpM7AJQkGzp0DYzHYivg==
-X-CSE-MsgGUID: nWLJa0aHTce18tyZmGBIkQ==
+X-CSE-ConnectionGUID: +80tQamRSW2Boz3oyW592w==
+X-CSE-MsgGUID: t0DrpEIQQFObMDEguCI/PA==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12699062"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:16:40 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.234:26714]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.0.85:2525] with esmtp (Farcaster)
- id eb866636-a431-4b16-a96b-8a686dda8811; Thu, 12 Feb 2026 03:16:39 +0000 (UTC)
-X-Farcaster-Flow-ID: eb866636-a431-4b16-a96b-8a686dda8811
+   d="scan'208";a="12920612"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:16:55 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:4426]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.40.228:2525] with esmtp (Farcaster)
+ id c682c964-50de-491a-ac4a-8edf5074c1ac; Thu, 12 Feb 2026 03:16:55 +0000 (UTC)
+X-Farcaster-Flow-ID: c682c964-50de-491a-ac4a-8edf5074c1ac
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:16:39 +0000
+ Thu, 12 Feb 2026 03:16:55 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:16:39 +0000
+ Thu, 12 Feb 2026 03:16:54 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 05/21] x86: crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_SERPENT_SSE2_X86_64 crypto
-Date: Thu, 12 Feb 2026 03:15:03 +0000
-Message-ID: <20260212031521.2124-6-wanjay@amazon.com>
+Subject: [PATCH 06/21] x86: crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_SERPENT_AVX_X86_64 crypto
+Date: Thu, 12 Feb 2026 03:15:04 +0000
+Message-ID: <20260212031521.2124-7-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212031521.2124-1-wanjay@amazon.com>
 References: <20260212031521.2124-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D046UWB001.ant.amazon.com (10.13.139.187) To
+X-ClientProxiedBy: EX19D045UWA004.ant.amazon.com (10.13.139.91) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11257-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11258-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -122,46 +122,105 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E710B129FA1
+X-Rspamd-Queue-Id: A78B9129FB8
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_CRYPTO_SERPENT_SSE2_X86_64-related crypto to convert them into pluggable
+CONFIG_CRYPTO_SERPENT_AVX_X86_64-related crypto to convert them into pluggable
 interface.
 
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
- arch/x86/crypto/Makefile            | 2 +-
- arch/x86/crypto/serpent_sse2_glue.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ arch/x86/crypto/Makefile              |  2 +-
+ arch/x86/crypto/fips140/fips140-api.c | 13 +++++++++++++
+ arch/x86/crypto/serpent-avx.h         | 17 ++++++++++-------
+ arch/x86/crypto/serpent_avx_glue.c    |  4 ++--
+ 4 files changed, 26 insertions(+), 10 deletions(-)
 
 diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
-index c1236012784d..986ed1d64b51 100644
+index 986ed1d64b51..8be124f5e05d 100644
 --- a/arch/x86/crypto/Makefile
 +++ b/arch/x86/crypto/Makefile
-@@ -13,7 +13,7 @@ twofish-avx-x86_64-y := twofish-avx-x86_64-asm_64.o twofish_avx_glue.o
- 
- obj-$(CONFIG_CRYPTO_SERPENT_SSE2_586) += serpent-sse2-i586.o
+@@ -15,7 +15,7 @@ obj-$(CONFIG_CRYPTO_SERPENT_SSE2_586) += serpent-sse2-i586.o
  serpent-sse2-i586-y := serpent-sse2-i586-asm_32.o serpent_sse2_glue.o
--obj-$(CONFIG_CRYPTO_SERPENT_SSE2_X86_64) += serpent-sse2-x86_64.o
-+crypto-objs-$(CONFIG_CRYPTO_SERPENT_SSE2_X86_64) += serpent-sse2-x86_64.o
+ crypto-objs-$(CONFIG_CRYPTO_SERPENT_SSE2_X86_64) += serpent-sse2-x86_64.o
  serpent-sse2-x86_64-y := serpent-sse2-x86_64-asm_64.o serpent_sse2_glue.o
- obj-$(CONFIG_CRYPTO_SERPENT_AVX_X86_64) += serpent-avx-x86_64.o
+-obj-$(CONFIG_CRYPTO_SERPENT_AVX_X86_64) += serpent-avx-x86_64.o
++crypto-objs-$(CONFIG_CRYPTO_SERPENT_AVX_X86_64) += serpent-avx-x86_64.o
  serpent-avx-x86_64-y := serpent-avx-x86_64-asm_64.o serpent_avx_glue.o
-diff --git a/arch/x86/crypto/serpent_sse2_glue.c b/arch/x86/crypto/serpent_sse2_glue.c
-index 80ee17ec21b4..0091c88d26cf 100644
---- a/arch/x86/crypto/serpent_sse2_glue.c
-+++ b/arch/x86/crypto/serpent_sse2_glue.c
-@@ -116,8 +116,8 @@ static void __exit serpent_sse2_exit(void)
+ obj-$(CONFIG_CRYPTO_SERPENT_AVX2_X86_64) += serpent-avx2.o
+ serpent-avx2-y := serpent-avx2-asm_64.o serpent_avx2_glue.o
+diff --git a/arch/x86/crypto/fips140/fips140-api.c b/arch/x86/crypto/fips140/fips140-api.c
+index a1a207fa34cd..15a60258d4ee 100644
+--- a/arch/x86/crypto/fips140/fips140-api.c
++++ b/arch/x86/crypto/fips140/fips140-api.c
+@@ -21,4 +21,17 @@ DEFINE_CRYPTO_API_STUB(__twofish_enc_blk_3way);
+ DEFINE_CRYPTO_API_STUB(twofish_dec_blk_3way);
+ DEFINE_CRYPTO_API_STUB(twofish_dec_blk_cbc_3way);
+ 
++#endif
++
++/*
++ * arch/x86/crypto/serpent_avx_glue.c
++ */
++#if IS_BUILTIN(CONFIG_CRYPTO_SERPENT_AVX_X86_64)
++
++#include <arch/x86/crypto/serpent-avx.h>
++
++DEFINE_CRYPTO_API_STUB(serpent_ecb_enc_8way_avx);
++DEFINE_CRYPTO_API_STUB(serpent_ecb_dec_8way_avx);
++DEFINE_CRYPTO_API_STUB(serpent_cbc_dec_8way_avx);
++
+ #endif
+\ No newline at end of file
+diff --git a/arch/x86/crypto/serpent-avx.h b/arch/x86/crypto/serpent-avx.h
+index 23f3361a0e72..8e7f285273ca 100644
+--- a/arch/x86/crypto/serpent-avx.h
++++ b/arch/x86/crypto/serpent-avx.h
+@@ -2,6 +2,7 @@
+ #ifndef ASM_X86_SERPENT_AVX_H
+ #define ASM_X86_SERPENT_AVX_H
+ 
++#include <crypto/api.h>
+ #include <crypto/b128ops.h>
+ #include <crypto/serpent.h>
+ #include <linux/types.h>
+@@ -10,12 +11,14 @@ struct crypto_skcipher;
+ 
+ #define SERPENT_PARALLEL_BLOCKS 8
+ 
+-asmlinkage void serpent_ecb_enc_8way_avx(const void *ctx, u8 *dst,
+-					 const u8 *src);
+-asmlinkage void serpent_ecb_dec_8way_avx(const void *ctx, u8 *dst,
+-					 const u8 *src);
+-
+-asmlinkage void serpent_cbc_dec_8way_avx(const void *ctx, u8 *dst,
+-					 const u8 *src);
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_SERPENT_AVX_X86_64, serpent_ecb_enc_8way_avx, asmlinkage void,
++	(const void *ctx, u8 *dst, const u8 *src),
++	(ctx, dst, src));
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_SERPENT_AVX_X86_64, serpent_ecb_dec_8way_avx, asmlinkage void,
++	(const void *ctx, u8 *dst, const u8 *src),
++	(ctx, dst, src));
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_SERPENT_AVX_X86_64, serpent_cbc_dec_8way_avx, asmlinkage void,
++	(const void *ctx, u8 *dst, const u8 *src),
++	(ctx, dst, src));
+ 
+ #endif
+diff --git a/arch/x86/crypto/serpent_avx_glue.c b/arch/x86/crypto/serpent_avx_glue.c
+index 9c8b3a335d5c..43c877a2fc7e 100644
+--- a/arch/x86/crypto/serpent_avx_glue.c
++++ b/arch/x86/crypto/serpent_avx_glue.c
+@@ -117,8 +117,8 @@ static void __exit serpent_exit(void)
  	crypto_unregister_skciphers(serpent_algs, ARRAY_SIZE(serpent_algs));
  }
  
--module_init(serpent_sse2_init);
--module_exit(serpent_sse2_exit);
-+crypto_module_init(serpent_sse2_init);
-+crypto_module_exit(serpent_sse2_exit);
+-module_init(serpent_init);
+-module_exit(serpent_exit);
++crypto_module_init(serpent_init);
++crypto_module_exit(serpent_exit);
  
- MODULE_DESCRIPTION("Serpent Cipher Algorithm, SSE2 optimized");
+ MODULE_DESCRIPTION("Serpent Cipher Algorithm, AVX optimized");
  MODULE_LICENSE("GPL");
 -- 
 2.47.3
