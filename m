@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11230-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0AQbBmtEjWlj0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11230-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:09:31 +0100
+	id WHQzN3xEjWkK0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11231-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:09:48 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85035129CFF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:09:30 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0D0129D16
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:09:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F6BD30692FF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:09:29 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E1F27301DF59
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:09:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AB9423184A;
-	Thu, 12 Feb 2026 03:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E8B232785;
+	Thu, 12 Feb 2026 03:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="a+WI1tgj"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="JOYYT8U9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
+Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6860122E3E7;
-	Thu, 12 Feb 2026 03:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.218.115.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9351F12E0;
+	Thu, 12 Feb 2026 03:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770865768; cv=none; b=ZWzyE6gY3NRK1YsnxtkvJB6OPaDjsyYt0KOUGCekl6Euju1cBBOPM/gBSSm2Hb8MX7iNTJqMTET/QYcHnpm1w3lzyU+QP4HNaVW2uq/c5Kh1BDEJOPlnrDSK5jGFMzQ4KF2CEHj6UDqBCRt+n4J91f1kpgStixKari2KRamGyyA=
+	t=1770865786; cv=none; b=Eh4awOAVSagBlfhZ+P6zFx3AJXzHvgb7b62Fo1OXGDiplNGKhxfmWNdEGQyB8LGNSLaMcsVGX5q2FhAS3tsqOBSTGYFBJbocorAJQZnfaADAvLv0VhquIoGf0C3E4C7DrxAKfMYkGvycdABSYpPBe6SL39PMgqmztowiowjYz08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770865768; c=relaxed/simple;
-	bh=Epus6VJUgfCmqYxecreN4xPl3vIF9DDvTcQtYb8t+io=;
+	s=arc-20240116; t=1770865786; c=relaxed/simple;
+	bh=4qNHha6kbYNoaJz9FsVNHCWb9D8XmB2P+kzZuljIl9s=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ivlQIYZciZz3gfWnt992G1RkZTM+pxhH0gqDAdJGdnNRlBuy5CriIcud73VTLNkUSh5haw5loBF0/iXh6JETFVnluFpeYXWu9Gas9jAcHoUhd1vj5r4yO2JoG+0TOojr/V2Xv757ih+BHTzhccT5yq5TMx20FgeSHB1/LmIMQqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=a+WI1tgj; arc=none smtp.client-ip=34.218.115.239
+	 MIME-Version:Content-Type; b=UHuhai7x3rFdmraD9EZhQTEoyKcedl5so4N86bDsQpsXemPAGn/6fLAn2UFPVApHpb0IgVI8r+rRJLdoywC6EASggmEZizhq6egSKwtPNPSYgz8YSnyntGF6IHmsXjtHF/MJHyaSSYR9dNPdwmTxyyU3Dd2QERQbBYYirO9oiU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=JOYYT8U9; arc=none smtp.client-ip=35.162.73.231
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770865767; x=1802401767;
+  t=1770865785; x=1802401785;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TrLtHs3Gar8lgcr4eK93mcSTRyJrUxd7swl42zHzYFU=;
-  b=a+WI1tgjRR1Nla0LN4MXlpTyEVCQ8PU9eZpVnkwiekiR6etMmd9fXS0E
-   G5cRFD2WAQaL/ScEYX8qIoJ6kUc3BvPcn4xxfG7Z8XPw5GZGY+OoVKGvj
-   ORxGEr53HGCXMzlaUeC7GFkipDI2i0hQkqQ/yqbTqjuteMVN3mpiU/hll
-   QtZ2m9QBcdzPSVO/USpSWD2bSV5xAJ+sFnG+KwBvbiMg5nZJXB7CV1GXa
-   5L6onyV6wCQ6X4XuWn5IvfcZT5xoWl1B1I3CWQ/JdcA2oMXdT/8PkIN6Z
-   4DG5VSbKkjkDP8p9HmeKDbk7mpxMgPpKSRdFY3rXjqdOlSyr7JrMSM/Kg
-   Q==;
-X-CSE-ConnectionGUID: 3n4HXWlTR524CX6NFJVECg==
-X-CSE-MsgGUID: pn2b5jHoSXCouOoUO0q6rw==
+  bh=tUzJ8aK1Uq53ZYDUBh4IkKALfInFWeWEiHBeEV75MNs=;
+  b=JOYYT8U97YQ7dyZOZZVxzkBJyIZIeDqrRAe3x8ROzK7SRmaPLWTQjsR+
+   PrqGLylbMPBJh/EBDcXP2nQ06ZvX67QnI3hL5dyfItRLccMZ2/Uh3GuPP
+   lFizk8CL3LUI05U6A7Z/Jd4v8njMfMnqlQrJERntUksRCsU517lAOb5v6
+   sSl0O2GRIHJRMJm+6Q1mFA58UWE6s1TUPNkXglzFHSkmzBXT+70ROK8Qk
+   qB4sMEW8oGYl2aEL3hzI9GRWm9irQJsALJ5vbjHzAKOvf/uZ9347i99Dt
+   D71rRDSVTh33NzukWiSt3gPNwz7t3dEXnLknt8Us+VsL9o4V6PaOGgREL
+   w==;
+X-CSE-ConnectionGUID: NP6Ha8QjQKmpY66UOBtDGA==
+X-CSE-MsgGUID: mMaRphw+S3SBNcb6MoaMpw==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12727551"
+   d="scan'208";a="12722247"
 Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:09:27 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:31509]
+  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:09:45 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:12565]
  by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.54.219:2525] with esmtp (Farcaster)
- id ae28385a-d363-4298-bbe2-55f4098db7ac; Thu, 12 Feb 2026 03:09:26 +0000 (UTC)
-X-Farcaster-Flow-ID: ae28385a-d363-4298-bbe2-55f4098db7ac
+ id b8126939-da4a-48c1-a430-d0997f1c5823; Thu, 12 Feb 2026 03:09:45 +0000 (UTC)
+X-Farcaster-Flow-ID: b8126939-da4a-48c1-a430-d0997f1c5823
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:09:26 +0000
+ Thu, 12 Feb 2026 03:09:42 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:09:26 +0000
+ Thu, 12 Feb 2026 03:09:41 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 085/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_BENCHMARK crypto
-Date: Thu, 12 Feb 2026 02:47:01 +0000
-Message-ID: <20260212024725.11264-86-wanjay@amazon.com>
+Subject: [PATCH 086/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_USER_API_HASH crypto
+Date: Thu, 12 Feb 2026 02:47:02 +0000
+Message-ID: <20260212024725.11264-87-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212024725.11264-1-wanjay@amazon.com>
 References: <20260212024725.11264-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D040UWB003.ant.amazon.com (10.13.138.8) To
+X-ClientProxiedBy: EX19D039UWA003.ant.amazon.com (10.13.139.49) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -101,7 +101,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11230-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11231-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -119,50 +119,49 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	DKIM_TRACE(0.00)[amazon.com:+];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 85035129CFF
+X-Rspamd-Queue-Id: 7D0D0129D16
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_CRYPTO_BENCHMARK-related crypto to convert them into pluggable
+CONFIG_CRYPTO_USER_API_HASH-related crypto to convert them into pluggable
 interface.
 
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
- crypto/Makefile | 2 +-
- crypto/tcrypt.c | 4 ++--
+ crypto/Makefile     | 2 +-
+ crypto/algif_hash.c | 4 ++--
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/crypto/Makefile b/crypto/Makefile
-index d1db3a1e3b3b..39b42843d321 100644
+index 39b42843d321..13d0ee856885 100644
 --- a/crypto/Makefile
 +++ b/crypto/Makefile
-@@ -170,7 +170,7 @@ KASAN_SANITIZE_jitterentropy.o = n
- UBSAN_SANITIZE_jitterentropy.o = n
- jitterentropy_rng-y := jitterentropy.o jitterentropy-kcapi.o
- crypto-objs-$(CONFIG_CRYPTO_JITTERENTROPY_TESTINTERFACE) += jitterentropy-testing.o
--obj-$(CONFIG_CRYPTO_BENCHMARK) += tcrypt.o
-+crypto-objs-$(CONFIG_CRYPTO_BENCHMARK) += tcrypt.o
+@@ -173,7 +173,7 @@ crypto-objs-$(CONFIG_CRYPTO_JITTERENTROPY_TESTINTERFACE) += jitterentropy-testin
+ crypto-objs-$(CONFIG_CRYPTO_BENCHMARK) += tcrypt.o
  crypto-objs-$(CONFIG_CRYPTO_GHASH) += ghash-generic.o
  crypto-objs-$(CONFIG_CRYPTO_USER_API) += af_alg.o
- obj-$(CONFIG_CRYPTO_USER_API_HASH) += algif_hash.o
-diff --git a/crypto/tcrypt.c b/crypto/tcrypt.c
-index 62fef100e599..1f3b6c1922cb 100644
---- a/crypto/tcrypt.c
-+++ b/crypto/tcrypt.c
-@@ -2840,8 +2840,8 @@ static int __init tcrypt_mod_init(void)
-  */
- static void __exit tcrypt_mod_fini(void) { }
+-obj-$(CONFIG_CRYPTO_USER_API_HASH) += algif_hash.o
++crypto-objs-$(CONFIG_CRYPTO_USER_API_HASH) += algif_hash.o
+ crypto-objs-$(CONFIG_CRYPTO_USER_API_SKCIPHER) += algif_skcipher.o
+ obj-$(CONFIG_CRYPTO_USER_API_RNG) += algif_rng.o
+ obj-$(CONFIG_CRYPTO_USER_API_AEAD) += algif_aead.o
+diff --git a/crypto/algif_hash.c b/crypto/algif_hash.c
+index 4d3dfc60a16a..b5ec5cfb2ae8 100644
+--- a/crypto/algif_hash.c
++++ b/crypto/algif_hash.c
+@@ -464,7 +464,7 @@ static void __exit algif_hash_exit(void)
+ 	BUG_ON(err);
+ }
  
--late_initcall(tcrypt_mod_init);
--module_exit(tcrypt_mod_fini);
-+crypto_late_initcall(tcrypt_mod_init);
-+crypto_module_exit(tcrypt_mod_fini);
- 
- module_param(alg, charp, 0);
- module_param(type, uint, 0);
+-module_init(algif_hash_init);
+-module_exit(algif_hash_exit);
++crypto_module_init(algif_hash_init);
++crypto_module_exit(algif_hash_exit);
+ MODULE_DESCRIPTION("Userspace interface for hash algorithms");
+ MODULE_LICENSE("GPL");
 -- 
 2.47.3
 
