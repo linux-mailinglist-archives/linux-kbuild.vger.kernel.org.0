@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11280-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11281-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4J1rNJZHjWlj0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11280-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:23:02 +0100
+	id sOz3M6BHjWlj0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11281-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:23:12 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393D712A1E8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:23:02 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE20512A20E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:23:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C8FC0302883D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:23:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 97264300A5A1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A701D5146;
-	Thu, 12 Feb 2026 03:23:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB8D2417FB;
+	Thu, 12 Feb 2026 03:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="WgtXy9SF"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="roFrWUeN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
+Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1DE17ADE0;
-	Thu, 12 Feb 2026 03:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E4F24290D;
+	Thu, 12 Feb 2026 03:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770866580; cv=none; b=SY3XBzcifmUab7roQtomh+HFqAf7+qiV7iNf3jqfofZRu6qNRxLPDsgYZ0Uz0SBY6xcTR23EaZUZy+CT9V02DkfJCLtKGnAH0IiqsYq++ygwP6goKqsClxcmJLcBoDUZYfcBFmgUSvozsnSOMGqRO0te3yQJA+7OmB4E+eRu2vs=
+	t=1770866588; cv=none; b=fPSdP6HXUCQCIcv+kS7j4PU0CgbCGAvMsYSCRN5lxKhdvDbBMpWC+pQCfQ2YddcTMhpL3o5bEejh6kwFuMrIn1pGYqnjg7vtfl7Hyx5RcIBbU28/kqEzg/UXgmtV3bOF9ohGtzOkISOT1u8HSiyITuJ6TOa/96JIxHrfWzm9cP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770866580; c=relaxed/simple;
-	bh=d4jj4CrtbIE1XFqxBYoELDqnnhf8N1hv4aZagLuLN8o=;
+	s=arc-20240116; t=1770866588; c=relaxed/simple;
+	bh=t5KRbS9uZbJvFtFEW2M7213bIlx2CM0GWiH5BV0PMdk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PcXj2x4GP0SmiomXbZ5EFGTlJuUhRqZRcVYNQKgbxHt9xApWp71400nOqOtfY7CCTrfmSjVN/bP5jAE9YYG+QJp3hacfvLZ44vcXvr9rtKq2kPcrZVelNoLQpPva14p0c8tTQjfisbB+2M4Oe32qN9/WI9s6esA5PSp4uHd/g9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=WgtXy9SF; arc=none smtp.client-ip=35.162.73.231
+	 MIME-Version:Content-Type; b=iHAv6VgBpnjs+1uObL5aA0RJA1dmSm4QOCGfp28ngLadbShaXWbHKerb8rT5zmLUSJJ8d6ZLjvududWHh1AVvN4e8yDn/dggKVmg6yi/ZMfLTmzEO7RDjNIp7OQ6oWYG4d+kt8UCPXdR1TVLfFQ0tmyIMkDXFw0vDuIBzip6j/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=roFrWUeN; arc=none smtp.client-ip=52.12.53.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770866579; x=1802402579;
+  t=1770866587; x=1802402587;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TnQwo3Um018FPJIg9k+ov4Uh85owfHKUsr3QUGtoJN8=;
-  b=WgtXy9SF55kusQZifTiHe/G+ch9k278GfUvPd1Hud/LptzAL/pxke6q1
-   Vg6VxHqYKoY4qi+HooY90h4kVS1FPZEHksZeF4qpHSBcjupqSg2OSnqJi
-   7oGOYxOCt10OCvl2DnYgzqyWIWhKqZIQKCQa7oO0lXfZ4doK3qjVh3b5w
-   JIq/T3YNR9bduGPlD1M2Zy+a/wJIu5hpfTVBiLlboJISMzkQX3nsXNd0S
-   2qwzeztAVobn//3hyeU93njhEBN97/GhYUnnh2tXkxq+VGMYErmmG+SU4
-   HlXZHyZxX+qt0RjwoYfw0TEUnws6+2/QcP8Ya5JEcd5n99wcQn6sC/uOx
-   Q==;
-X-CSE-ConnectionGUID: /sQR0vqHRKyHJJn1eWFpkg==
-X-CSE-MsgGUID: iOrC9wgmQ1SzHeJbk+uedg==
+  bh=Hk8aIeqQVvLJ0nmwJ0daEeASLXAHH3hxvdDrvQ89TGg=;
+  b=roFrWUeNiJOlZIXLJPJzjAPWONyZop7/iF1YtPVbNuLuULyEbS60k9QT
+   3UbiGPrLmtYxcTezjciz8Wyot+oaULplbfEjDDX4cVKUjecL+wKAZtGCJ
+   8HnpfLUMxuNMjVPjOXQhnhIBhNoVe9mY0cdGhk3SejfiP8vW4GyvryxJj
+   0B//tRv29Qq+2bhncwwG+1ckkPhSZj05R1Kyk2V0a0DUT8j0A51qLdx11
+   7rcUroIOpJF773DoA4rvNwoSXCGEHjdsmWfOdLXHo3to5lqHkRkVEdiRq
+   xNf0sxVvblW9tVpF+YRf+KbCAJ9/LhXvKg4CuUxACm+atezSgrli5PkB8
+   w==;
+X-CSE-ConnectionGUID: PMspcWGkT2+/tqKzK78s/g==
+X-CSE-MsgGUID: TnrUv36MRnCTr6cWo4AVjA==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12722719"
+   d="scan'208";a="12794560"
 Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:22:51 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.51:32165]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.3.19:2525] with esmtp (Farcaster)
- id 08cd4dc4-bc1d-49a8-b475-0e28abbf9977; Thu, 12 Feb 2026 03:22:51 +0000 (UTC)
-X-Farcaster-Flow-ID: 08cd4dc4-bc1d-49a8-b475-0e28abbf9977
+  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:23:06 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.51:25222]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.238:2525] with esmtp (Farcaster)
+ id 029c520c-8ed9-4e17-959b-244389c4057b; Thu, 12 Feb 2026 03:23:06 +0000 (UTC)
+X-Farcaster-Flow-ID: 029c520c-8ed9-4e17-959b-244389c4057b
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:22:50 +0000
+ Thu, 12 Feb 2026 03:23:06 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:22:50 +0000
+ Thu, 12 Feb 2026 03:23:06 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 06/12] arm64: crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_SM4_ARM64_CE_GCM crypto
-Date: Thu, 12 Feb 2026 03:21:06 +0000
-Message-ID: <20260212032117.9166-7-wanjay@amazon.com>
+Subject: [PATCH 07/12] arm64: crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_SM4_ARM64_NEON_BLK crypto
+Date: Thu, 12 Feb 2026 03:21:07 +0000
+Message-ID: <20260212032117.9166-8-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212032117.9166-1-wanjay@amazon.com>
 References: <20260212032117.9166-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D041UWB002.ant.amazon.com (10.13.139.179) To
+X-ClientProxiedBy: EX19D039UWB003.ant.amazon.com (10.13.138.93) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -101,7 +101,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11280-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11281-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -119,50 +119,50 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	DKIM_TRACE(0.00)[amazon.com:+];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 393D712A1E8
+X-Rspamd-Queue-Id: EE20512A20E
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_CRYPTO_SM4_ARM64_CE_GCM-related crypto to convert them into pluggable
+CONFIG_CRYPTO_SM4_ARM64_NEON_BLK-related crypto to convert them into pluggable
 interface.
 
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
- arch/arm64/crypto/Makefile          | 2 +-
- arch/arm64/crypto/sm4-ce-gcm-glue.c | 4 ++--
+ arch/arm64/crypto/Makefile        | 2 +-
+ arch/arm64/crypto/sm4-neon-glue.c | 4 ++--
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm64/crypto/Makefile b/arch/arm64/crypto/Makefile
-index f17d35591ab2..807994fa9a3f 100644
+index 807994fa9a3f..48042cf5bb13 100644
 --- a/arch/arm64/crypto/Makefile
 +++ b/arch/arm64/crypto/Makefile
-@@ -20,7 +20,7 @@ sm4-ce-y := sm4-ce-glue.o sm4-ce-core.o
- crypto-objs-$(CONFIG_CRYPTO_SM4_ARM64_CE_CCM) += sm4-ce-ccm.o
- sm4-ce-ccm-y := sm4-ce-ccm-glue.o sm4-ce-ccm-core.o
- 
--obj-$(CONFIG_CRYPTO_SM4_ARM64_CE_GCM) += sm4-ce-gcm.o
-+crypto-objs-$(CONFIG_CRYPTO_SM4_ARM64_CE_GCM) += sm4-ce-gcm.o
+@@ -23,7 +23,7 @@ sm4-ce-ccm-y := sm4-ce-ccm-glue.o sm4-ce-ccm-core.o
+ crypto-objs-$(CONFIG_CRYPTO_SM4_ARM64_CE_GCM) += sm4-ce-gcm.o
  sm4-ce-gcm-y := sm4-ce-gcm-glue.o sm4-ce-gcm-core.o
  
- obj-$(CONFIG_CRYPTO_SM4_ARM64_NEON_BLK) += sm4-neon.o
-diff --git a/arch/arm64/crypto/sm4-ce-gcm-glue.c b/arch/arm64/crypto/sm4-ce-gcm-glue.c
-index ef06f4f768a1..256a66905241 100644
---- a/arch/arm64/crypto/sm4-ce-gcm-glue.c
-+++ b/arch/arm64/crypto/sm4-ce-gcm-glue.c
-@@ -253,8 +253,8 @@ static const struct cpu_feature __maybe_unused sm4_ce_gcm_cpu_feature[] = {
- };
- MODULE_DEVICE_TABLE(cpu, sm4_ce_gcm_cpu_feature);
+-obj-$(CONFIG_CRYPTO_SM4_ARM64_NEON_BLK) += sm4-neon.o
++crypto-objs-$(CONFIG_CRYPTO_SM4_ARM64_NEON_BLK) += sm4-neon.o
+ sm4-neon-y := sm4-neon-glue.o sm4-neon-core.o
  
--module_cpu_feature_match(SM4, sm4_ce_gcm_init);
--module_exit(sm4_ce_gcm_exit);
-+crypto_module_cpu_feature_match(SM4, sm4_ce_gcm_init);
-+crypto_module_exit(sm4_ce_gcm_exit);
+ obj-$(CONFIG_CRYPTO_GHASH_ARM64_CE) += ghash-ce.o
+diff --git a/arch/arm64/crypto/sm4-neon-glue.c b/arch/arm64/crypto/sm4-neon-glue.c
+index e944c2a2efb0..b18a6b11b3a8 100644
+--- a/arch/arm64/crypto/sm4-neon-glue.c
++++ b/arch/arm64/crypto/sm4-neon-glue.c
+@@ -235,8 +235,8 @@ static void __exit sm4_exit(void)
+ 	crypto_unregister_skciphers(sm4_algs, ARRAY_SIZE(sm4_algs));
+ }
  
- MODULE_DESCRIPTION("Synchronous SM4 in GCM mode using ARMv8 Crypto Extensions");
- MODULE_ALIAS_CRYPTO("gcm(sm4)");
+-module_init(sm4_init);
+-module_exit(sm4_exit);
++crypto_module_init(sm4_init);
++crypto_module_exit(sm4_exit);
+ 
+ MODULE_DESCRIPTION("SM4 ECB/CBC/CTR using ARMv8 NEON");
+ MODULE_ALIAS_CRYPTO("sm4-neon");
 -- 
 2.47.3
 
