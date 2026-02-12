@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11178-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11179-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2LrwOkdBjWn00QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11178-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:56:07 +0100
+	id YAtzNVJBjWkK0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11179-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:56:18 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F671297F5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:56:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA3B129806
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:56:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7D6E0308E497
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 02:56:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B4C58308A867
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 02:56:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B349D221FA0;
-	Thu, 12 Feb 2026 02:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281D3221FA0;
+	Thu, 12 Feb 2026 02:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="apifc5bu"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="PiNKIzB2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AE88C1F;
-	Thu, 12 Feb 2026 02:56:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE485221290;
+	Thu, 12 Feb 2026 02:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.34.181.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770864964; cv=none; b=Jg5Kj1WjDPdXrlAz0QNhW6PylUtMTQvg1CMHDR57p66Vi6qJz0RalhpSdnP5N4hzowdTjQk9fGxbvgtWozltS9/cXSsrR7V+3I/RoHOWPrzSQvdrlHmGg9mwtPscRGcPaNsug30rPa+thGaPomto2R163TkTQeNZTzCuOrlG9cM=
+	t=1770864976; cv=none; b=RWq4aW5JGDjvamjlw9sAlVDZ4Z71mHUewCYX3DnR7vmACL4rpD7aROVKoLpp4xrdjXqjyRUzEgctQYXtKYzHPLaZGmEYVDm7vv86bkClyZq026GQEHR0EwZLI14mi+5/5VO1M7Rsf8ZQShLWid0UUp0Ge/uQ+gCplzTsX2I8Jx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770864964; c=relaxed/simple;
-	bh=dR+sw2dUv6EZ32pY9zP73IB3CPd0BflbR6AAqcHBVhA=;
+	s=arc-20240116; t=1770864976; c=relaxed/simple;
+	bh=Ib5VqEqGrU4PFBLn3ltWnFodw7JUdhJ175BEn6kPkX8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cszwHkd/RIW+DmcOPZ7j9O9Bf3JFO1Qs2okuRqWwSi8FjDWUDuKT7eoIBWLrU1gVlSketkld65VDNZ9eb0YEmKFk53Dg+yNW/7cXoZLOBlTNa3TcWUCBOFjIgrnUtjbzvV6vyYx+j5bSwYKRgLZnOaM5CbyFekbLBFrFd1KHO2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=apifc5bu; arc=none smtp.client-ip=52.34.181.151
+	 MIME-Version:Content-Type; b=QOq8T3FLg/B/VTUESHYB0iwmky+/6lEeJp0SJ1fQNPEPgfnTsEAzY7ai52xx2pF6Ap8TwSoJ22hwMcMmnkLpWi16E0R1vKGvSH0BG+bV47xCJakcrQOBDF4SpOcGjB7DSnDzFgGBiUpMuMmZbZgd77uzjtGBRpnE28qq0fY+lJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=PiNKIzB2; arc=none smtp.client-ip=52.34.181.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770864963; x=1802400963;
+  t=1770864974; x=1802400974;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Y4yK8WicVdE8ixC2fqu9NxvZYG/kMokZid0aN9xc718=;
-  b=apifc5buI5XbaKA+jOkPi2dugvH+WgQ5i/i2i/XpFa+REqYQEnak9H03
-   rk0RyLv+YgOaCpglOA494sexhYMMK2zQoHOP8q8QYzggtFuh2NxDuibTD
-   ZfBKq9mdMUu+PmGiFlwhs+94CbcFBudAAV3ZIAEkqt4k5QdmYeSV489Vs
-   LvRoaJLD7DquAsasCMSrFBX3pxr4UjmP1+8cMSImlq4EK0GBTa7M3+lXt
-   9FyINlSlvrs76BTY2vldyRWqK8b+U73nrKL5/Xw8OBq3WTXfl1QL8EHqN
-   V2ISTeK4HNQYmU0FkVR2mge9CZLBK38WgDDAWAh8QdunwV0nGT3QEf2N6
+  bh=V9uqEHT0wjXC+bQxH8T137ezoZZBdhvIZ8Goy0vY9qE=;
+  b=PiNKIzB2rGXNEfZ5/f+KzHzzW3BMIb17RXPVpNU2kYtG07T4uR3hGT1A
+   c9wIfm5X8yk8AIaByhp8WcuAYEV5cb6BdMRtyhmD/417zC7UtpDylp274
+   Q+ZGYzdJmnIRSSneffBOdAPXCzEo+LngNCCa0kRK8v48NUaJ7/ewIdnaE
+   an0a+FYobylJF73zOga514+uknIcDEc3jhYCl+oxZU4pdVQugZ9Ah6ks1
+   mLuA6CEQiu2M5vCH+bMpqh0PEvBnvOysh2gBPTYKfRh+UeXLlyOuE5RB+
+   MQmGgbro/aptbLFiFRHX7Mk/HI5eph+RgfMd74nYEJSzg12zPc7p4g3pS
    A==;
-X-CSE-ConnectionGUID: CUld7qZWT3ehwR5Iwrnu6g==
-X-CSE-MsgGUID: z3Jc180zR26kxXm3G8Fa1A==
+X-CSE-ConnectionGUID: nbeHQWtLTkSpS7JV7CbRJQ==
+X-CSE-MsgGUID: 6Ax4YZHcQQuY9DMvkNcNYw==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12919570"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 02:56:03 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.51:7273]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.54.219:2525] with esmtp (Farcaster)
- id 21bc2199-4b92-424a-8288-a9a4cc86a0eb; Thu, 12 Feb 2026 02:56:03 +0000 (UTC)
-X-Farcaster-Flow-ID: 21bc2199-4b92-424a-8288-a9a4cc86a0eb
+   d="scan'208";a="12919599"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 02:56:14 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:7172]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.0.85:2525] with esmtp (Farcaster)
+ id a06caf46-592c-4caa-8698-c9bd61ee5fa9; Thu, 12 Feb 2026 02:56:14 +0000 (UTC)
+X-Farcaster-Flow-ID: a06caf46-592c-4caa-8698-c9bd61ee5fa9
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 02:55:58 +0000
+ Thu, 12 Feb 2026 02:56:14 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 02:55:58 +0000
+ Thu, 12 Feb 2026 02:56:14 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 033/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE crypto
-Date: Thu, 12 Feb 2026 02:46:09 +0000
-Message-ID: <20260212024725.11264-34-wanjay@amazon.com>
+Subject: [PATCH 034/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_X509_CERTIFICATE_PARSER crypto
+Date: Thu, 12 Feb 2026 02:46:10 +0000
+Message-ID: <20260212024725.11264-35-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212024725.11264-1-wanjay@amazon.com>
 References: <20260212024725.11264-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D038UWC002.ant.amazon.com (10.13.139.238) To
+X-ClientProxiedBy: EX19D035UWA004.ant.amazon.com (10.13.139.109) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11178-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11179-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -122,11 +122,11 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oracle.com:email];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 96F671297F5
+X-Rspamd-Queue-Id: 2DA3B129806
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE-related crypto to convert them into
+CONFIG_X509_CERTIFICATE_PARSER-related crypto to convert them into
 pluggable interface.
 
 This patch is partially based on work by Vegard Nossum, with
@@ -139,86 +139,122 @@ module.
 Co-developed-by: Vegard Nossum <vegard.nossum@oracle.com>
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
- crypto/asymmetric_keys/Makefile |  2 +-
- crypto/fips140/fips140-api.c    | 14 ++++++++++++++
- include/crypto/public_key.h     | 15 +++++++++++----
- 3 files changed, 26 insertions(+), 5 deletions(-)
+ crypto/asymmetric_keys/Makefile          |  2 +-
+ crypto/asymmetric_keys/x509_parser.h     | 15 ++++++++++-----
+ crypto/asymmetric_keys/x509_public_key.c |  4 ++--
+ crypto/fips140/fips140-api.c             | 22 ++++++++++++++++++++++
+ include/keys/asymmetric-type.h           |  5 +++--
+ 5 files changed, 38 insertions(+), 10 deletions(-)
 
 diff --git a/crypto/asymmetric_keys/Makefile b/crypto/asymmetric_keys/Makefile
-index 252536153d73..4f29401016f1 100644
+index 4f29401016f1..b42c48d973d3 100644
 --- a/crypto/asymmetric_keys/Makefile
 +++ b/crypto/asymmetric_keys/Makefile
-@@ -10,7 +10,7 @@ asymmetric_keys-y := \
- 	restrict.o \
- 	signature.o
- 
--obj-$(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE) += public_key.o
-+crypto-objs-$(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE) += public_key.o
- 
+@@ -15,7 +15,7 @@ crypto-objs-$(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE) += public_key.o
  #
  # X.509 Certificate handling
+ #
+-obj-$(CONFIG_X509_CERTIFICATE_PARSER) += x509_key_parser.o
++crypto-objs-$(CONFIG_X509_CERTIFICATE_PARSER) += x509_key_parser.o
+ x509_key_parser-y := \
+ 	x509.asn1.o \
+ 	x509_akid.asn1.o \
+diff --git a/crypto/asymmetric_keys/x509_parser.h b/crypto/asymmetric_keys/x509_parser.h
+index b7aeebdddb36..53bfc5f807bb 100644
+--- a/crypto/asymmetric_keys/x509_parser.h
++++ b/crypto/asymmetric_keys/x509_parser.h
+@@ -5,6 +5,7 @@
+  * Written by David Howells (dhowells@redhat.com)
+  */
+ 
++#include <crypto/api.h>
+ #include <linux/cleanup.h>
+ #include <linux/time.h>
+ #include <crypto/public_key.h>
+@@ -46,13 +47,17 @@ struct x509_certificate {
+ /*
+  * x509_cert_parser.c
+  */
+-extern void x509_free_certificate(struct x509_certificate *cert);
++DECLARE_CRYPTO_API(CONFIG_X509_CERTIFICATE_PARSER, x509_free_certificate, void,
++	(struct x509_certificate *cert),
++	(cert));
+ DEFINE_FREE(x509_free_certificate, struct x509_certificate *,
+ 	    if (!IS_ERR(_T)) x509_free_certificate(_T))
+-extern struct x509_certificate *x509_cert_parse(const void *data, size_t datalen);
+-extern int x509_decode_time(time64_t *_t,  size_t hdrlen,
+-			    unsigned char tag,
+-			    const unsigned char *value, size_t vlen);
++DECLARE_CRYPTO_API(CONFIG_X509_CERTIFICATE_PARSER, x509_cert_parse, struct x509_certificate *,
++	(const void *data, size_t datalen),
++	(data, datalen));
++DECLARE_CRYPTO_API(CONFIG_X509_CERTIFICATE_PARSER, x509_decode_time, int,
++	(time64_t *_t, size_t hdrlen, unsigned char tag, const unsigned char *value, size_t vlen),
++	(_t, hdrlen, tag, value, vlen));
+ 
+ /*
+  * x509_public_key.c
+diff --git a/crypto/asymmetric_keys/x509_public_key.c b/crypto/asymmetric_keys/x509_public_key.c
+index 27b4fea37845..e840bd8019be 100644
+--- a/crypto/asymmetric_keys/x509_public_key.c
++++ b/crypto/asymmetric_keys/x509_public_key.c
+@@ -258,8 +258,8 @@ static void __exit x509_key_exit(void)
+ 	unregister_asymmetric_key_parser(&x509_key_parser);
+ }
+ 
+-module_init(x509_key_init);
+-module_exit(x509_key_exit);
++crypto_module_init(x509_key_init);
++crypto_module_exit(x509_key_exit);
+ 
+ MODULE_DESCRIPTION("X.509 certificate parser");
+ MODULE_AUTHOR("Red Hat, Inc.");
 diff --git a/crypto/fips140/fips140-api.c b/crypto/fips140/fips140-api.c
-index 100f50ad7b43..6dce18f81e91 100644
+index 6dce18f81e91..d08a001bb0db 100644
 --- a/crypto/fips140/fips140-api.c
 +++ b/crypto/fips140/fips140-api.c
-@@ -457,3 +457,17 @@ DEFINE_CRYPTO_API_STUB(restrict_link_by_signature);
- DEFINE_CRYPTO_API_STUB(restrict_link_by_digsig);
+@@ -471,3 +471,25 @@ DEFINE_CRYPTO_API_STUB(public_key_verify_signature);
+ DEFINE_CRYPTO_VAR_STUB(public_key_subtype);
  
  #endif
 +/*
-+ * crypto/asymmetric_keys/public_key.c
++ * crypto/asymmetric_keys/x509_cert_parser.c
 + */
-+#if IS_BUILTIN(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE)
++#if IS_BUILTIN(CONFIG_X509_CERTIFICATE_PARSER)
 +
-+#include <crypto/public_key.h>
++#include <crypto/asymmetric_keys/x509_parser.h>
 +
-+DEFINE_CRYPTO_API_STUB(public_key_free);
-+DEFINE_CRYPTO_API_STUB(public_key_verify_signature);
-+
-+#undef public_key_subtype
-+DEFINE_CRYPTO_VAR_STUB(public_key_subtype);
++DEFINE_CRYPTO_API_STUB(x509_free_certificate);
++DEFINE_CRYPTO_API_STUB(x509_cert_parse);
++DEFINE_CRYPTO_API_STUB(x509_decode_time);
 +
 +#endif
-diff --git a/include/crypto/public_key.h b/include/crypto/public_key.h
-index be789854fdcb..b0e737d1dc1a 100644
---- a/include/crypto/public_key.h
-+++ b/include/crypto/public_key.h
-@@ -36,7 +36,9 @@ struct public_key {
- #define KEY_EFLAG_KEYCERTSIGN	2	/* set if the keyCertSign usage is set */
- };
++/*
++ * crypto/asymmetric_keys/x509_loader.c
++ */
++#if IS_BUILTIN(CONFIG_X509_CERTIFICATE_PARSER)
++
++#include <keys/asymmetric-type.h>
++
++DEFINE_CRYPTO_API_STUB(x509_load_certificate_list);
++
++#endif
+diff --git a/include/keys/asymmetric-type.h b/include/keys/asymmetric-type.h
+index 96e718a550a3..dd5b4d9980c1 100644
+--- a/include/keys/asymmetric-type.h
++++ b/include/keys/asymmetric-type.h
+@@ -88,8 +88,9 @@ DECLARE_CRYPTO_API(CONFIG_ASYMMETRIC_KEY_TYPE, find_asymmetric_key, struct key *
+ 	(struct key *keyring, const struct asymmetric_key_id *id_0, const struct asymmetric_key_id *id_1, const struct asymmetric_key_id *id_2, bool partial),
+ 	(keyring, id_0, id_1, id_2, partial));
  
--extern void public_key_free(struct public_key *key);
-+DECLARE_CRYPTO_API(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE, public_key_free, void,
-+	(struct public_key *key),
-+	(key));
+-int x509_load_certificate_list(const u8 cert_list[], const unsigned long list_size,
+-			       const struct key *keyring);
++DECLARE_CRYPTO_API(CONFIG_X509_CERTIFICATE_PARSER, x509_load_certificate_list, int,
++	(const u8 cert_list[], const unsigned long list_size, const struct key *keyring),
++	(cert_list, list_size, keyring));
  
  /*
-  * Public key cryptography signature data
-@@ -58,7 +60,11 @@ DECLARE_CRYPTO_API(CONFIG_ASYMMETRIC_KEY_TYPE, public_key_signature_free, void,
- 	(struct public_key_signature *sig),
- 	(sig));
- 
--extern struct asymmetric_key_subtype public_key_subtype;
-+DECLARE_CRYPTO_VAR(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE, public_key_subtype, struct asymmetric_key_subtype, );
-+
-+#if defined(CONFIG_CRYPTO_FIPS140_EXTMOD) && !defined(FIPS_MODULE) && IS_BUILTIN(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE)
-+#define public_key_subtype (*((struct asymmetric_key_subtype*)CRYPTO_VAR_NAME(public_key_subtype)))
-+#endif
- 
- struct key;
- struct key_type;
-@@ -113,8 +119,9 @@ DECLARE_CRYPTO_API(CONFIG_ASYMMETRIC_KEY_TYPE, verify_signature, int,
- 	(arg1, arg2));
- 
- #if IS_REACHABLE(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE)
--int public_key_verify_signature(const struct public_key *pkey,
--				const struct public_key_signature *sig);
-+DECLARE_CRYPTO_API(CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE, public_key_verify_signature, int,
-+	(const struct public_key *pkey, const struct public_key_signature *sig),
-+	(pkey, sig));
- #else
- static inline
- int public_key_verify_signature(const struct public_key *pkey,
+  * The payload is at the discretion of the subtype.
 -- 
 2.47.3
 
