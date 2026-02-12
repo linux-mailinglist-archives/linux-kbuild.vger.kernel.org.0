@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11235-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11236-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mPGPLLhEjWlj0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11235-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:10:48 +0100
+	id uCYPHMhEjWkK0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11236-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:11:04 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7CD129D72
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBBE129D89
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:11:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DEAF1306FF58
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:10:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 912AD306FF63
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:11:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AEE5233128;
-	Thu, 12 Feb 2026 03:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 066BB23184A;
+	Thu, 12 Feb 2026 03:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="mAnnpgaf"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="H4Tsp3/4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.83.148.184])
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A64E55C;
-	Thu, 12 Feb 2026 03:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.83.148.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FA5E55C;
+	Thu, 12 Feb 2026 03:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770865846; cv=none; b=VE8QT8VVfHQwdfpkajmSAVDxm3efznYOkMzbXucct7p0gcSbFG8zSEyJ7ZUMXzNiLQNtKUP6HlAThily+SPKeo1UmLeKHmD90dlkdgoSwm3PDIP0dcp7z92eShGzDNFzlRG6jIQZlUGSdXnFUsqb6PnomEDLa7Bn8IaYIheHxEc=
+	t=1770865861; cv=none; b=HPm3bsiCVfCCMWt+ic2WiJ+dz99K1cVdksgZdnsTO0oduZTEZjAVI2c0GrxfI7li2bJCmVjxh91EK83LKyKWQLzNz29+ASGH8KxHU3nLlVJ2TwlGWNpqxbTt62joLbo6Dz7MscDfcqteY3ozpFL/cYlJF0ecTqEKViXOtyD/cr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770865846; c=relaxed/simple;
-	bh=7F8hldvYR/AYFnzAkslUwUHJn4jLBbgw6KUf3xfaEoU=;
+	s=arc-20240116; t=1770865861; c=relaxed/simple;
+	bh=ctChQyQpkoGFd//uh9Z05NooxiUkc7yV8IHn2dE2zNw=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XszdIMQczHMrVEc3jRizqEZM75hU8WT6xHkA6yt6v6bc4JVJ7/wziF8NiEcN9JG1N+w/CAoi++lpYWbfbMRT105apXH329z2y3SdyqTuE5Tp04lVdRLFV9WGSl0jAedrk4arUJiAFc8JvMQ7NYU8pmU+J0MoY1Wv8Ylsk6jp4YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=mAnnpgaf; arc=none smtp.client-ip=35.83.148.184
+	 MIME-Version:Content-Type; b=elw0G8KTjc7RK1Q0t+JgybDxRTr9rhbu4tnXYPkVgPsreylPSU/yZHA5BJceSNJGSRMatHMP1fbRJ3EMnunZSG3LA3W5GsoHKK5hL1KJxmRyzXY7Om519ARK1VVPRL6ZCMRzHVq2stuP4OBtajw94dljqwYVJZBZ939nu8epzDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=H4Tsp3/4; arc=none smtp.client-ip=52.26.1.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770865845; x=1802401845;
+  t=1770865860; x=1802401860;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WebAd8ZfZh59r/og+/x6xPoxpPJTiWqB/2oQVhSiDRQ=;
-  b=mAnnpgafNxcZml+zMu9E8tq73Mdxbd5diSXcNtRj+aWxs+uyD1NCCSCU
-   Ee2ZBhnDTh4YnYjpwWZOmwJViFNqYX8JejyonIEvVe7nO1S7OiONWYZM0
-   TXhnsTlC/um9e81AMT8BU9bkPYHWWIttH1MfawrWIHLv1VM1vMTwLev74
-   CcP+RzrMsDRu/tvsiLQPnJUHAbjp1WRdhRUtRo93Uc+SMch+gKLNSuE2x
-   HyxV8UYMtRQxj1KSfZA/hOPQaxcajYzRn8Mw+DuzxwPUHlYo5B1thv4wH
-   uSjNr3uDTMbyFt0JnS0IWfYq5YZww5Ui1BZ+HMfwv/FqArxwY/4LbgD1F
-   g==;
-X-CSE-ConnectionGUID: VAJK1QSWRxGag43g3nY5TQ==
-X-CSE-MsgGUID: xmtkpD24TiOYq/UaJVGmQg==
+  bh=D8bcaqST4sT4ka4W2kdwlqwU26a79PQUu0UVPZFgKms=;
+  b=H4Tsp3/4tWMbZdYau58I51wH38A/UiIG3ovBGQ2mQpUdlbi1UUcpV61Y
+   9SJUYeG79rUSw1ujyqyLLzk2/BP/Oer0xs4y/30Bf5pibvWBaymXsY+mi
+   C0jJlU6b1BKM7zwJVU+xkKygU6juaDFp3C9Q5ZDIXG90GLgLV9LnZrTBu
+   MhjSO55qBT2pJs7B9/YXafR9/9OoHnIvao/7bHbP/kwOljz5MDWMzU3Dx
+   pNKId0BZE6d9WS72PV7hd1ZZgQ1KaIlgpmrv9KiD7fzHx3RLWmFHGn4Q7
+   kBqzUI0w7IRdlycPIpSWmCBM6cWfMsoFtH0M48xLmLBFGzUmJyDZ16bZQ
+   Q==;
+X-CSE-ConnectionGUID: /MRZWbgRRSeXxs1knJCqwA==
+X-CSE-MsgGUID: L/0FLelGS0CSfdWWfo/LRA==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12697327"
+   d="scan'208";a="12918811"
 Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:10:45 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:12283]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.0.85:2525] with esmtp (Farcaster)
- id ba555cae-571b-489b-b04b-3b4080f45ca8; Thu, 12 Feb 2026 03:10:44 +0000 (UTC)
-X-Farcaster-Flow-ID: ba555cae-571b-489b-b04b-3b4080f45ca8
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:11:00 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:14512]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.61.62:2525] with esmtp (Farcaster)
+ id 3015654e-2db3-4441-95bf-57da6a2d7a1a; Thu, 12 Feb 2026 03:11:00 +0000 (UTC)
+X-Farcaster-Flow-ID: 3015654e-2db3-4441-95bf-57da6a2d7a1a
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:10:44 +0000
+ Thu, 12 Feb 2026 03:11:00 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:10:44 +0000
+ Thu, 12 Feb 2026 03:10:59 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 090/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_ESSIV crypto
-Date: Thu, 12 Feb 2026 02:47:06 +0000
-Message-ID: <20260212024725.11264-91-wanjay@amazon.com>
+Subject: [PATCH 091/106] crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_ECDH crypto
+Date: Thu, 12 Feb 2026 02:47:07 +0000
+Message-ID: <20260212024725.11264-92-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212024725.11264-1-wanjay@amazon.com>
 References: <20260212024725.11264-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D039UWB002.ant.amazon.com (10.13.138.79) To
+X-ClientProxiedBy: EX19D033UWA003.ant.amazon.com (10.13.139.42) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11235-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11236-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -119,50 +119,126 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	DKIM_TRACE(0.00)[amazon.com:+];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 2E7CD129D72
+X-Rspamd-Queue-Id: CFBBE129D89
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_CRYPTO_ESSIV-related crypto to convert them into pluggable
+CONFIG_CRYPTO_ECDH-related crypto to convert them into pluggable
 interface.
 
+This patch is partially based on work by Vegard Nossum, with
+modifications. Unlike the original, we do not include
+DEFINE_CRYPTO_API since only one copy of the crypto symbols is
+kept, either in the crypto module or in the main kernel, and we ensure
+such wrapper do not have impact on crypto already chosen built as
+module.
+
+Co-developed-by: Vegard Nossum <vegard.nossum@oracle.com>
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
- crypto/Makefile | 2 +-
- crypto/essiv.c  | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ crypto/Makefile              |  2 +-
+ crypto/ecdh.c                |  4 ++--
+ crypto/fips140/fips140-api.c | 12 ++++++++++++
+ include/crypto/ecdh.h        | 14 +++++++++++---
+ 4 files changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/crypto/Makefile b/crypto/Makefile
-index c4516e1943a7..3247d53c1fc6 100644
+index 3247d53c1fc6..cdc74dcea2f1 100644
 --- a/crypto/Makefile
 +++ b/crypto/Makefile
-@@ -179,7 +179,7 @@ crypto-objs-$(CONFIG_CRYPTO_USER_API_RNG) += algif_rng.o
- crypto-objs-$(CONFIG_CRYPTO_USER_API_AEAD) += algif_aead.o
- crypto-objs-$(CONFIG_CRYPTO_ZSTD) += zstd.o
- crypto-objs-$(CONFIG_CRYPTO_ECC) += ecc.o
--obj-$(CONFIG_CRYPTO_ESSIV) += essiv.o
-+crypto-objs-$(CONFIG_CRYPTO_ESSIV) += essiv.o
+@@ -183,7 +183,7 @@ crypto-objs-$(CONFIG_CRYPTO_ESSIV) += essiv.o
  
  ecdh_generic-y += ecdh.o
  ecdh_generic-y += ecdh_helper.o
-diff --git a/crypto/essiv.c b/crypto/essiv.c
-index a47a3eab6935..859486b9b063 100644
---- a/crypto/essiv.c
-+++ b/crypto/essiv.c
-@@ -639,8 +639,8 @@ static void __exit essiv_module_exit(void)
- 	crypto_unregister_template(&essiv_tmpl);
+-obj-$(CONFIG_CRYPTO_ECDH) += ecdh_generic.o
++crypto-objs-$(CONFIG_CRYPTO_ECDH) += ecdh_generic.o
+ 
+ $(obj)/ecrdsa_params.asn1.o: $(obj)/ecrdsa_params.asn1.c $(obj)/ecrdsa_params.asn1.h
+ $(obj)/ecrdsa_pub_key.asn1.o: $(obj)/ecrdsa_pub_key.asn1.c $(obj)/ecrdsa_pub_key.asn1.h
+diff --git a/crypto/ecdh.c b/crypto/ecdh.c
+index 9f0b93b3166d..32c98cebfda6 100644
+--- a/crypto/ecdh.c
++++ b/crypto/ecdh.c
+@@ -240,8 +240,8 @@ static void __exit ecdh_exit(void)
+ 	crypto_unregister_kpp(&ecdh_nist_p384);
  }
  
--module_init(essiv_module_init);
--module_exit(essiv_module_exit);
-+crypto_module_init(essiv_module_init);
-+crypto_module_exit(essiv_module_exit);
+-module_init(ecdh_init);
+-module_exit(ecdh_exit);
++crypto_module_init(ecdh_init);
++crypto_module_exit(ecdh_exit);
+ MODULE_ALIAS_CRYPTO("ecdh");
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("ECDH generic algorithm");
+diff --git a/crypto/fips140/fips140-api.c b/crypto/fips140/fips140-api.c
+index 70b57939c753..298ab496a395 100644
+--- a/crypto/fips140/fips140-api.c
++++ b/crypto/fips140/fips140-api.c
+@@ -785,3 +785,15 @@ DEFINE_CRYPTO_API_STUB(aria_decrypt);
+ DEFINE_CRYPTO_API_STUB(crypto_krb5enc_extractkeys);
  
- MODULE_DESCRIPTION("ESSIV skcipher/aead wrapper for block encryption");
- MODULE_LICENSE("GPL v2");
+ #endif
++/*
++ * crypto/ecdh_helper.c
++ */
++#if IS_BUILTIN(CONFIG_CRYPTO_ECDH)
++
++#include <crypto/ecdh.h>
++
++DEFINE_CRYPTO_API_STUB(crypto_ecdh_key_len);
++DEFINE_CRYPTO_API_STUB(crypto_ecdh_encode_key);
++DEFINE_CRYPTO_API_STUB(crypto_ecdh_decode_key);
++
++#endif
+\ No newline at end of file
+diff --git a/include/crypto/ecdh.h b/include/crypto/ecdh.h
+index 9784ecdd2fb4..03d54f531ca2 100644
+--- a/include/crypto/ecdh.h
++++ b/include/crypto/ecdh.h
+@@ -8,6 +8,8 @@
+ #ifndef _CRYPTO_ECDH_
+ #define _CRYPTO_ECDH_
+ 
++#include <crypto/api.h>
++
+ /**
+  * DOC: ECDH Helper Functions
+  *
+@@ -49,7 +51,9 @@ struct ecdh {
+  *
+  * Return: size of the key in bytes
+  */
+-unsigned int crypto_ecdh_key_len(const struct ecdh *params);
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_ECDH, crypto_ecdh_key_len, unsigned int,
++	(const struct ecdh *params),
++	(params));
+ 
+ /**
+  * crypto_ecdh_encode_key() - encode the private key
+@@ -64,7 +68,9 @@ unsigned int crypto_ecdh_key_len(const struct ecdh *params);
+  *
+  * Return:	-EINVAL if buffer has insufficient size, 0 on success
+  */
+-int crypto_ecdh_encode_key(char *buf, unsigned int len, const struct ecdh *p);
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_ECDH, crypto_ecdh_encode_key, int,
++	(char *buf, unsigned int len, const struct ecdh *p),
++	(buf, len, p));
+ 
+ /**
+  * crypto_ecdh_decode_key() - decode a private key
+@@ -78,6 +84,8 @@ int crypto_ecdh_encode_key(char *buf, unsigned int len, const struct ecdh *p);
+  *
+  * Return:	-EINVAL if buffer has insufficient size, 0 on success
+  */
+-int crypto_ecdh_decode_key(const char *buf, unsigned int len, struct ecdh *p);
++DECLARE_CRYPTO_API(CONFIG_CRYPTO_ECDH, crypto_ecdh_decode_key, int,
++	(const char *buf, unsigned int len, struct ecdh *p),
++	(buf, len, p));
+ 
+ #endif
 -- 
 2.47.3
 
