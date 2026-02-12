@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-11269-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UKPrNNxGjWlj0gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11269-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:19:56 +0100
+	id MDiCLrZGjWlj0gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11266-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:19:18 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794D712A0D7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:19:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D2C12A08B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 04:19:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CF3BC3053772
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:19:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D59B6302E423
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Feb 2026 03:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1480C23EAB0;
-	Thu, 12 Feb 2026 03:19:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 666D223D2B2;
+	Thu, 12 Feb 2026 03:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="M7bP0WjW"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="IGqhPuEC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+Received: from pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.245.243.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40FA22301;
-	Thu, 12 Feb 2026 03:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA9C21CC7B;
+	Thu, 12 Feb 2026 03:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.245.243.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770866392; cv=none; b=fR2RTEp1veolwvn9YqIJaYbgXxKdeWNBwEPJ+UbcNLYAU8v/nK3LSy1lkxPo8uHFRJVo6rt1sOpqTJE/mtpnW0xf7N93MjDCkQhRfgDTvaVb0KT9OFM3nGietTxYio9FojhkYzk3OrvUcNJjbnmfg+YPxn94JZHLBiDpHT8UOKo=
+	t=1770866356; cv=none; b=e9DYyciMvDhBuOGzwdCHM8YfHPCNTjChjsf33k8tg4/LmRLABTtvEmWI16d9VZxyG3OmNCshoMH21evRgovkwm1WRroMR6hZgW1KcE8jGONahf+tyrJirq7iDHU7ZpTxsan991TvLCxjIjDGIW8MKgm5So3pt1vGxm75W/5vJno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770866392; c=relaxed/simple;
-	bh=QoHlvSW9Y5+yrCfHeHyjv54ZBqG3ejLq/wFZVErrQnY=;
+	s=arc-20240116; t=1770866356; c=relaxed/simple;
+	bh=XciVuV2IZ72U/fNsq3ULUnjDFQFScQbjMmL9HW2gpK4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nR6gbemQoErhI85Q1bC4U4GH5dVwoHEKL9D9OWYA+AA5OTq06jJe5MJjNfxa8rZ/Spx2a+xxjwnSmsca1XVetaYmPHHbpJy0p97DYdtBiKHtZeNnmRqcCBUkPsIB/HsysCCHEHT71TD8679jd6n50NwvR9Q1pGOMfBqzvorOdRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=M7bP0WjW; arc=none smtp.client-ip=44.246.1.125
+	 MIME-Version:Content-Type; b=IfKqqjYXyRe+EShpTE0AKsk3rCy051pi2Q22k/4R6OqRyj5YsctKb/z7WZL7gTVkszDk+aAayHBoA1hLM73cl5dbu5tSUyiplSHcRODsKwsBxc8Qa3ZLvt5psZJ7WWur+eMv9I8Q4ffn1AnTyS9MJz6y51tNGabvqj1/UxZBZ9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=IGqhPuEC; arc=none smtp.client-ip=44.245.243.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770866391; x=1802402391;
+  t=1770866355; x=1802402355;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cL9NzQyA16DZUbwUdyV+/q3IWCQzLQmp592jssBRRYU=;
-  b=M7bP0WjWcpMLqndV25C0ylivw1tAMCKG3ASkOgSzPl3gm5KZLpzdxpGX
-   eox+D0xuUd+UgbGuJZx7GzaACUYpmUnhC3UY2R1egYAfBpb/B3IPaBH3e
-   okeNhcPM68vqBMbCy8XyM+pTkAz+0r4N/Zy2NstPMzCO+DtVL9CFmhMnA
-   Rwyf58EEhc44T6qmpJJlRzN+QPt3f0G+zalgTwCc4N9zYWTL2hVKKNDqF
-   jZCHPmBcD+v34NFd5oFkN6c4rO89r1ieiLN73yjX8/Ce1bbZMAQwcffOf
-   D40wwKvkHmPSIU73ZlhDCn530SxkIl9hxxUkPyW2Sj00UQ8iMsLxUK88N
+  bh=1XeDfYrq0hOTcBCf2HrS8kRzGovR+lou0alnynujV+4=;
+  b=IGqhPuECX2k+wvjeeQi4oii0r7E6SCheqeCjZVAmTrViT6rtrMe6h9jZ
+   aC6XBRcOoF67Fce2/ltSMvPqwXz7RybDe6kXr3qH1wM24/6mhL9LqUPIa
+   dW6XwDOdWEq2bsqOYGGsSoL+fvg8iH797ukdhhTemN/FcZ/6bXTHSxUsx
+   NptHsJcCgSY+hm5f8e651Uh2MqQt5Mjnd+eBEC3I24VwMvuKtvOiWERNj
+   8KNgnY4we35HAjIheQXkwpg1vC7Jlrg/Yq18xZuXT02n5Jp8BfIoGfdmD
+   kVXLrmve+nw/AEvggs4YuzwPzXIPCNp7rQwHv8G9HMTf3BJAfE1nCMCct
    w==;
-X-CSE-ConnectionGUID: crx28WnYT4WEv5Isqf77rQ==
-X-CSE-MsgGUID: k+zLX5WdR6iIbbtaoLBtPQ==
+X-CSE-ConnectionGUID: DhQbE13mT1WKtdhiOCuAOw==
+X-CSE-MsgGUID: 4n/P123+QS+PclXJZZ4w3g==
 X-IronPort-AV: E=Sophos;i="6.21,285,1763424000"; 
-   d="scan'208";a="12920113"
+   d="scan'208";a="12456010"
 Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:19:00 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:26795]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.61.62:2525] with esmtp (Farcaster)
- id d0d5fdba-0d81-4cc5-b75b-3d0421c0abee; Thu, 12 Feb 2026 03:19:00 +0000 (UTC)
-X-Farcaster-Flow-ID: d0d5fdba-0d81-4cc5-b75b-3d0421c0abee
+  by internal-pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 03:19:15 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:7031]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.39.165:2525] with esmtp (Farcaster)
+ id ffbcda7a-381a-4f66-a172-049b77184616; Thu, 12 Feb 2026 03:19:14 +0000 (UTC)
+X-Farcaster-Flow-ID: ffbcda7a-381a-4f66-a172-049b77184616
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:18:59 +0000
+ Thu, 12 Feb 2026 03:19:14 +0000
 Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 12 Feb 2026 03:18:58 +0000
+ Thu, 12 Feb 2026 03:19:14 +0000
 From: Jay Wang <wanjay@amazon.com>
 To: Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
 	<davem@davemloft.net>, <linux-crypto@vger.kernel.org>
@@ -77,9 +77,9 @@ CC: Jay Wang <jay.wang.upstream@gmail.com>, Vegard Nossum
 	<nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
 	<linux-kbuild@vger.kernel.org>, <linux-modules@vger.kernel.org>
-Subject: [PATCH 14/21] x86: crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_AEGIS128_AESNI_SSE2 crypto
-Date: Thu, 12 Feb 2026 03:15:12 +0000
-Message-ID: <20260212031521.2124-15-wanjay@amazon.com>
+Subject: [PATCH 15/21] x86: crypto: convert exported crypto symbol into pluggable interface for CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL crypto
+Date: Thu, 12 Feb 2026 03:15:13 +0000
+Message-ID: <20260212031521.2124-16-wanjay@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260212031521.2124-1-wanjay@amazon.com>
 References: <20260212031521.2124-1-wanjay@amazon.com>
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D040UWB003.ant.amazon.com (10.13.138.8) To
+X-ClientProxiedBy: EX19D043UWA004.ant.amazon.com (10.13.139.41) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-6.16 / 15.00];
@@ -101,7 +101,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11269-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11266-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -120,49 +120,49 @@ X-Spamd-Result: default: False [-6.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 794D712A0D7
+X-Rspamd-Queue-Id: 27D2C12A08B
 X-Rspamd-Action: no action
 
 Apply Crypto API wrappers to the exported crypto symbol in
-CONFIG_CRYPTO_AEGIS128_AESNI_SSE2-related crypto to convert them into pluggable
+CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL-related crypto to convert them into pluggable
 interface.
 
 Signed-off-by: Jay Wang <wanjay@amazon.com>
 ---
- arch/x86/crypto/Makefile              | 2 +-
- arch/x86/crypto/aegis128-aesni-glue.c | 4 ++--
+ arch/x86/crypto/Makefile                   | 2 +-
+ arch/x86/crypto/ghash-clmulni-intel_glue.c | 4 ++--
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
-index cfef8fbfba8f..601e4c8a9e7c 100644
+index 601e4c8a9e7c..b65f66577ffe 100644
 --- a/arch/x86/crypto/Makefile
 +++ b/arch/x86/crypto/Makefile
-@@ -39,7 +39,7 @@ cast5-avx-x86_64-y := cast5-avx-x86_64-asm_64.o cast5_avx_glue.o
- crypto-objs-$(CONFIG_CRYPTO_CAST6_AVX_X86_64) += cast6-avx-x86_64.o
- cast6-avx-x86_64-y := cast6-avx-x86_64-asm_64.o cast6_avx_glue.o
+@@ -50,7 +50,7 @@ aesni-intel-$(CONFIG_64BIT) += aes-ctr-avx-x86_64.o \
+ 			       aes-gcm-vaes-avx512.o \
+ 			       aes-xts-avx-x86_64.o
  
--obj-$(CONFIG_CRYPTO_AEGIS128_AESNI_SSE2) += aegis128-aesni.o
-+crypto-objs-$(CONFIG_CRYPTO_AEGIS128_AESNI_SSE2) += aegis128-aesni.o
- aegis128-aesni-y := aegis128-aesni-asm.o aegis128-aesni-glue.o
+-obj-$(CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL) += ghash-clmulni-intel.o
++crypto-objs-$(CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL) += ghash-clmulni-intel.o
+ ghash-clmulni-intel-y := ghash-clmulni-intel_asm.o ghash-clmulni-intel_glue.o
  
- crypto-objs-$(CONFIG_CRYPTO_AES_NI_INTEL) += aesni-intel.o
-diff --git a/arch/x86/crypto/aegis128-aesni-glue.c b/arch/x86/crypto/aegis128-aesni-glue.c
-index f1adfba1a76e..b3f2e99f02b1 100644
---- a/arch/x86/crypto/aegis128-aesni-glue.c
-+++ b/arch/x86/crypto/aegis128-aesni-glue.c
-@@ -277,8 +277,8 @@ static void __exit crypto_aegis128_aesni_module_exit(void)
- 	crypto_unregister_aead(&crypto_aegis128_aesni_alg);
+ obj-$(CONFIG_CRYPTO_SM3_AVX_X86_64) += sm3-avx-x86_64.o
+diff --git a/arch/x86/crypto/ghash-clmulni-intel_glue.c b/arch/x86/crypto/ghash-clmulni-intel_glue.c
+index aea5d4d06be7..02301df7fef3 100644
+--- a/arch/x86/crypto/ghash-clmulni-intel_glue.c
++++ b/arch/x86/crypto/ghash-clmulni-intel_glue.c
+@@ -155,8 +155,8 @@ static void __exit ghash_pclmulqdqni_mod_exit(void)
+ 	crypto_unregister_shash(&ghash_alg);
  }
  
--module_init(crypto_aegis128_aesni_module_init);
--module_exit(crypto_aegis128_aesni_module_exit);
-+crypto_module_init(crypto_aegis128_aesni_module_init);
-+crypto_module_exit(crypto_aegis128_aesni_module_exit);
+-module_init(ghash_pclmulqdqni_mod_init);
+-module_exit(ghash_pclmulqdqni_mod_exit);
++crypto_module_init(ghash_pclmulqdqni_mod_init);
++crypto_module_exit(ghash_pclmulqdqni_mod_exit);
  
  MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Ondrej Mosnacek <omosnacek@gmail.com>");
+ MODULE_DESCRIPTION("GHASH hash function, accelerated by PCLMULQDQ-NI");
 -- 
 2.47.3
 
