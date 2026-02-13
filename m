@@ -1,174 +1,179 @@
-Return-Path: <linux-kbuild+bounces-11299-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11300-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IGfbAV38jmmOGwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11299-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Feb 2026 11:26:37 +0100
+	id wHtsAikxj2mhLwEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11300-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Feb 2026 15:11:53 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5EB13510F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Feb 2026 11:26:36 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E034136F7D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Feb 2026 15:11:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 60EED301681C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Feb 2026 10:26:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 078AE300C0E2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Feb 2026 14:11:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56BB5212554;
-	Fri, 13 Feb 2026 10:26:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D64E135F8DD;
+	Fri, 13 Feb 2026 14:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jl8DMBhW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XQ7qIbOH";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="I8rC6LkC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BD234F481
-	for <linux-kbuild@vger.kernel.org>; Fri, 13 Feb 2026 10:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770978391; cv=pass; b=BzVR/KEif+j2nA86DlaoAhu/HB3qbskAkchy1hGWY3G2hVlqK4XkfrQN6cUCMpHRqIx4TTcjQUqpYJiSFqbNDXR8/kip8E40ggEwkz55pwAK7CGjQoYwJC7mC4TvT6tHv5ErARTzZHj2DmPERqVJZBE8IDeQxcb+cq81mmgLhaY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770978391; c=relaxed/simple;
-	bh=B9wil/U0sbCCZ00shUgxFC/v9GLpNMK8+4AwVbToHoI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FjSV/uTjQUFAbzuDKd7TI+LFMxItTbedQjG67m8BbOpXM5plpQgl8chLzMDeh17ZqcQI125s31K2VQqpJ4N7Yos4rEVEq6OSUqENiRc7BjRWhMXte57SnjfubllRuVfXFo2x3VwmA/4eJcXkc/2rgSvZ0frHbroIA+2VhFSQdc0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jl8DMBhW; arc=pass smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2ba4f9df1b4so65664eec.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Feb 2026 02:26:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770978389; cv=none;
-        d=google.com; s=arc-20240605;
-        b=R9yYrXbqhVx4T9+ZBrK2LFvGYi0EWjvXwW+aeMAkdGRB+it/npZ5vk2ZAwXz7xgYYn
-         a9KSaurANE0LHl5QL9PIRcKc+ZNIekl01R+d1cjVJuaRAdMV9LWGary8+/gHDZghlflh
-         6aWrLjbMpsi+E/njTiDQT+sww0FsIv/dG3Zx1gOrfAHPduusW30mTFbRNAz7KHl29Udt
-         fLhPPfNQpF4wZlIfDHK4bD45to+CTnBmaoxmWLaHeb43qb6KY8DD+ozA9WAWTTUhRiB/
-         Q75QJj+qqU/0VFCwIdN89MNAapItq7F8XJKGABrYzQyJXgBOXft9okZ6bKb0CcEMhP9/
-         vhJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tWwbEaWZswTY3OTEgaDFet626t18kJ8WzoooQK8KyRA=;
-        fh=S7N3aTSWER33F4g1s4vxE1x2mDH4gopS2SJg73wmdhs=;
-        b=KHuc+M9Crn9h/CAmoevPtBoWOyzcvzJ9SSTvcAsBt6suBeug8FiiAc7/bYW8c5Pp9S
-         TCkpk3FfkgGb2pAzKNaMLVFJJzAET1H34XEW/Fv3SCHHg1gC7iIyP78UkDY/mqP+bYw4
-         v8ULa1BSmqS+CZXZcFjxOYtfMooFhJXERgILECBwK+cx4Nlv8KGrmk1p9cR/Uqu/RU7v
-         7tZg8MGx1jxWmBCo9lqCN3d1DcvpqJ2bm+R8oy3gf4oTs+Cc0S0TWKqCa+wbsxrpgZhA
-         keKY50UF3Y40orwtzoCCBVNCyuhmKiBj7ztAYBDVd4JmqFN8C1NVZi08yscOvtAbinZB
-         5u8g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984D035D5FA
+	for <linux-kbuild@vger.kernel.org>; Fri, 13 Feb 2026 14:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770991910; cv=none; b=ACnCbTeIm/1TRUnakUSuY+CcQ2Uemco/MerhGumfHloknGvmo8mqOtoMakA6CZPuYG+0Hs7qmbF71xc6WHoAihh8ljTTe7uoIjgnCvDB4sNZ11p9q6wpwWZVzem82/uE4sQS0rXRQowWouW5eXvbMYHL+9NthlugBBjrDPIYVno=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770991910; c=relaxed/simple;
+	bh=6cLnfUZAs+yk7KbeeS6F+Pq5kNHB19xTX2baVXfcN5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=olZIE6Wb3ibxOK5Iw409mqnXpZg1DT/5HKi/inN9/WqDsf2OcVZGFRyRx7XXPhPcCtN6AJKbCiIuV1IwtQ4JH0gaHJah9vMkDoaiM0G2xKBYcxagrbpGxUuZy8iRFNcsz+PUzcO+f4s0gseQSbB+6R8vVeVNTCNNpTc6pcv5IyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XQ7qIbOH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=I8rC6LkC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770991908;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ii0g1jv8fE87XK8ACC94JMMkpOuPMvHxDIekJymNWR4=;
+	b=XQ7qIbOHGc94J7o5FmHuWloBlj6M/4cyo5LnePgwTpWtZ+3HBnDHrnW3ParLZ7Rf3Wqrbk
+	0mjmPEmZE5cibe+zaRKm1yVxqn78x0SshCk5GGHnWX5F8fOjyF3BQONaAUfs1a2hXfNX4r
+	MYcMBLP9oMPDanMg9zysb7LGMH2dX0M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-472-x3b3TzD5MmOWJh2kE-oANQ-1; Fri, 13 Feb 2026 09:11:47 -0500
+X-MC-Unique: x3b3TzD5MmOWJh2kE-oANQ-1
+X-Mimecast-MFC-AGG-ID: x3b3TzD5MmOWJh2kE-oANQ_1770991906
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4376e25bb4dso1209549f8f.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Feb 2026 06:11:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770978389; x=1771583189; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tWwbEaWZswTY3OTEgaDFet626t18kJ8WzoooQK8KyRA=;
-        b=Jl8DMBhWIXAvmRdDmZhrSXfzjrO5REzme6/jvshb/AJ8yhQRyZv6k1JW4W8srFwE82
-         jLpHvM6V380v+Sngtbs+ft9WuWmjqmnfWEa5Qa3N2Dc/7XL+eyaSpaeoA2OQdjAixaX2
-         RNkxh8w4pdYKzdt86FKR/LOoKCo/5ZQ3XfzLP/IvcSn2zS90vshiyABu9twrbwbx2bXQ
-         lg1EScODvjJfMSokoZ6yXo7qvztyWgnqqY3Wi6o6Gbj7s7aZt8Z9AdkWPzPrD4nva3NN
-         eHMCXyJTMUC/UWLjhKriLFR4SLWuMuO/BljEuuN6r2sSpDUdlJsmlSefSDFV2vmf8Qsl
-         atFA==
+        d=redhat.com; s=google; t=1770991906; x=1771596706; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ii0g1jv8fE87XK8ACC94JMMkpOuPMvHxDIekJymNWR4=;
+        b=I8rC6LkC2sPSgHkgqIFQhe+yBWyn37Nj3Hkgm4CqNIvsDOL9qgjFSlXmYBH2083YEw
+         ZnWR15jrT5CDG34pfPZEvvw5xArWEtO3yjg01sBUP1tGeakO7OIjGRfXchyrSVu4kx+c
+         ogwx/SIiv2Im1FDC4eRcfvcIf47Tg9GEI117saJAd5TX0ELXNFq1+qYkhgMwzUHPTh5P
+         ulpysba4Vnbi6+VEH5wGIfo/axR64P0yld0lXoVniZVVCfxK1HjyDGfCpbru/wLTZCdx
+         CNIeZND4yZtQgtVQj6JUQamrsm3leS34yqoTD5u8KgFUj9u72T3sTAwCCPHmP8vsmRSB
+         KOng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770978389; x=1771583189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tWwbEaWZswTY3OTEgaDFet626t18kJ8WzoooQK8KyRA=;
-        b=d4MLsZrkRIGc2DZTQIAzsBxsm3znDRRBtZZqTCMbq2jsf2qzS4AtlqZDXiv+h6dBYy
-         WSEdh1nz71xl+IgL1+fJfhb/c1duKNn0GaTDJdTGuClZlcciqLQKc1cIr5uATxlMVOQp
-         Td/W3+ByNQIuZ2WSrSiixo7kuN3AtW1IGv9N6ci3t3H0maidvtxOKXtUUXpxHwT0VmOo
-         Zom1D0vnMZSugsWH0fncy4HcbyMN0NGKnAbPusXrpmlrM1WPDJYNS1+iubnHJFDH/N9E
-         dhGW2q/SVdqbG037UcP4F7yt7R75BjTqT9bR+JQ0H0/yIflqlV/2/V59xQwCldzdJppP
-         an9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUBbNmp2AGgrQHv4Cxgk6hc3k8WL4IFeJzlHGHydCN60KuC7bwHMV0j67/sDYQg/E81nn/CZCgdyqE7HHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywu/CE8T5RD0qizFS5HyzYYOlIEX7yutuefl+lkFOyVywiwyiwS
-	zqFzgf2CGOQm31tH+zYptH3LJXRq7k38+Pm/hHIQFcDMwHNLXvYIcarnVeYTrf2Dxk9+BHCHHuE
-	lY7eygKlwcwQAA7WaNqnoxq/j9VK79n0=
-X-Gm-Gg: AZuq6aKMsRLXJJXy5V//vei8GxVsrvGG5DD5xCGh9CkRsqap2ed7Wsg4A3UoSvZ17Se
-	j7EXsPAoSo43Te95dt4a7A65O/4Zn6KlQWGCi0aueyP0ZNCWcXl0HT3B7su3HHW8fezEGRcUfL2
-	65qfw0MuDMMaguDOI+fYffLPhQw9xlPQVQD3SGUH+oekYdhROolakKI6shIVj4moowVFpJtrvOA
-	WlYeZWtoDsMQZZDjNcEim1PIiDUe07OpqX6X1YChIqs6u6sxKxp7bg0ZwMiED7BMHKzVXKHGKf7
-	fgMQNRs6kV/4zdAaQar5JePnlfSqSomMPrLviQMA2C2ye5fL1YTIB6kuM575/mcoalBiIakjWHf
-	u27eS+r01WqBF/6LoYbryu4dd
-X-Received: by 2002:a05:7300:c618:b0:2b7:f145:a66 with SMTP id
- 5a478bee46e88-2bab9fdaf65mr426129eec.2.1770978389157; Fri, 13 Feb 2026
- 02:26:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770991906; x=1771596706;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ii0g1jv8fE87XK8ACC94JMMkpOuPMvHxDIekJymNWR4=;
+        b=FlCbOnk6qevb/QRgnKVRkFHC7fxN4S4QsjN/mVjDzHAnjT8nvTN4csK/cd1J+Eh6ru
+         y1KL7FmXIat/a0917Nbr7ORZ95osB3ocQBORBCh68W3DBhQHu9KInHdYXT0QnvZFsBSg
+         EOoI9kWtjbxTBlfMkWg4hVnNRd+rELfYUbWbSG4G5x2FulX83RFIJ5XbDLjqxdQTHuQa
+         MuwHFAsLPQnowC7fREXt8lQBt+bxmH+fUUzHH/MKzNXPh/HCXuMd8CwUL3dgqVF9Sy6X
+         UlZMw58xmT/nT/T0S4489JcnnekjP7gqmObdZp4erMOP7OUhaUe8+/PPhKc/OaWUKiz5
+         BPZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYeB9MV90uCcft3y11tnR15xwOL0NuslcCClEmKmhpoufVK7tIuBUX2T3QUMDAbzdM8HSzmY2rkJ+FuFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwC9LtyTEFEJ5uBWKiKSwp8HU9YJ+6C1c3Zo83sL/vnGKTzqbcc
+	Az+Bv11PsSHUMHpryxUmoDYdAQISqmV0jOWTNxOZhso4EdIzPx30YF6RhsHeCkHpnGTR7AYO8Tk
+	MNKapY4DuOTUdrN/qJZXACxEwt1WjfQhLWb3Qnv+hoE8Jv7w38eiF9RrQY4MZo83GFw==
+X-Gm-Gg: AZuq6aIKoTz+pFJh+OGjwHZxd6ZVg7/etegzMiCiJ0PPY1EyYgmjnsCIRuT0I1DAdvH
+	QpAZaGbRqqPLgKjRZod9Ju5NccmLDUq4gcm7CeFyv6VGVXp9qcU5jl66Im/VclsME/85mLTZx4j
+	1nf7DsbJQUGkDoITqubHV9xRUtw8HOqwWXzOlMcJmFyZ9yoG8hRGPqqMHBk02q+7Qs8d+i2mXiM
+	glurhtbyNN0WATpgsyR7qcTTZifjOJacE83+u/OJSpNan5LmcZ07/GU/SfRitpb25DFu9mDv7vk
+	9QckcRybbWSXEGdPlpRR7BBIyrHSBoy6hXi9prGfrVgiuPMa0JtsBT49aSr1QlZiHV5uyACm5Tg
+	KjDv95zn8XMwYbbA/gRIJCsbDbeH8VK9RwMH1zbtn2IBCWkHiW/QR5q7Dqsz7rUlkxBM2emo=
+X-Received: by 2002:a05:6000:220d:b0:436:d824:620b with SMTP id ffacd0b85a97d-43796aefa84mr4107131f8f.39.1770991905741;
+        Fri, 13 Feb 2026 06:11:45 -0800 (PST)
+X-Received: by 2002:a05:6000:220d:b0:436:d824:620b with SMTP id ffacd0b85a97d-43796aefa84mr4107073f8f.39.1770991905184;
+        Fri, 13 Feb 2026 06:11:45 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a6ba57sm4915369f8f.15.2026.02.13.06.11.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Feb 2026 06:11:42 -0800 (PST)
+Date: Fri, 13 Feb 2026 15:11:38 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, Steve French <smfrench@gmail.com>
+Subject: Re: [PATCH 0/2] kbuild: rpm-pkg: Address -debuginfo build regression
+ with RPM < 4.20.0
+Message-ID: <aY8wyR572eZYWVJY@sgarzare-redhat>
+References: <20260210-kbuild-fix-debuginfo-rpm-v1-0-0730b92b14bc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260206171253.2704684-1-gary@kernel.org> <20260206171253.2704684-2-gary@kernel.org>
- <aY57Y9WorBLiJR8E@yury> <DGDPR33UQJVR.2HABXQ4SFAGVA@garyguo.net>
-In-Reply-To: <DGDPR33UQJVR.2HABXQ4SFAGVA@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 13 Feb 2026 11:26:16 +0100
-X-Gm-Features: AZwV_QjnC60VDimHgNkweprxDvtzaN3Jw9j5IHjtNSeyBlRlAAJi5S81AX-ZSr0
-Message-ID: <CANiq72=qOJPHJ1w-gtF+uK-DG5oHSHNhaY+FMxotbynMbkGf3w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: add `const_assert!` macro
-To: Gary Guo <gary@garyguo.net>
-Cc: Yury Norov <ynorov@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Yury Norov <yury.norov@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260210-kbuild-fix-debuginfo-rpm-v1-0-0730b92b14bc@kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11299-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11300-lists,linux-kbuild=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[nvidia.com,kernel.org,protonmail.com,google.com,umich.edu,gmail.com,vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 4F5EB13510F
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sgarzare@redhat.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[find-debuginfo.sh:url]
+X-Rspamd-Queue-Id: 9E034136F7D
 X-Rspamd-Action: no action
 
-On Fri, Feb 13, 2026 at 10:07=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
+On Tue, Feb 10, 2026 at 12:04:47AM -0700, Nathan Chancellor wrote:
+>Steve reported a build issue with commit 62089b804895 ("kbuild: rpm-pkg:
+>Generate debuginfo package manually") on RHEL9, which has an older
+>version of RPM than what I tested. Turns out that RPM 4.20.0 fixed an
+>issue with specifying %files for a -debuginfo subpackage.
 >
-> The reason that I want to omit "link-time" is that our `build_assert!()` =
-*can*
-> still be checked before link-time. Again with example above, user can wri=
-te
->
->     static_assert!(foo(0) =3D=3D 0);
->
-> which means that now `foo` is evaluated by the compiler. When this happen=
-s,
-> `build_assert!()` also abort the build during compilation time, not link-=
-time.
+>The first patch restricts the new -debuginfo package generation process
+>to CONFIG_MODULE_SIG=y and RPM >= 4.20.0 to ensure it is actually
+>necessary and working. The second patch restores the original -debuginfo
+>package generation process from commit a7c699d090a1 ("kbuild: rpm-pkg:
+>build a debuginfo RPM") when CONFIG_MODULE_SIG is disabled to keep the
+>-debuginfo package around for older versions of RPM.
 
-Another reason would be that, ideally/eventually, Rust could perhaps
-provide something like GCC/Clang `error`/`warning` attributes, and
-thus it could fail earlier like the C side one (perhaps still at the
-end of LLVM, but not as late as linking).
+Yeah, I had similar issue on Fedora 42 (RPM version 4.20.1) and this 
+series fixed my issue.
 
-Cheers,
-Miguel
+>
+>---
+>Nathan Chancellor (2):
+>      kbuild: rpm-pkg: Restrict manual debug package creation
+>      kernel: rpm-pkg: Restore find-debuginfo.sh approach to -debuginfo package
+>
+> scripts/package/kernel.spec | 57 +++++++++++++++++++++++++++++++++++++++------
+> scripts/package/mkspec      | 38 +++++++++++++++++++++++++++---
+> 2 files changed, 85 insertions(+), 10 deletions(-)
+>---
+>base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+>change-id: 20260209-kbuild-fix-debuginfo-rpm-718f81dbcaa6
+
+Tested-by: Stefano Garzarella <sgarzare@redhat.com>
+
+Thanks,
+Stefano
+
 
