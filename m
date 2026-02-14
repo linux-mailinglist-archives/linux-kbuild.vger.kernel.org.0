@@ -1,188 +1,323 @@
-Return-Path: <linux-kbuild+bounces-11311-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11312-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cJTPHDA+kGmJXwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11311-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 10:19:44 +0100
+	id bmxGLTpGkGmwYAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11312-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 10:54:02 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD1E13B8EE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 10:19:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1BE13B972
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 10:54:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 77AC53017268
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 09:19:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6A3D03022695
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 09:54:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0107C261B71;
-	Sat, 14 Feb 2026 09:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1AC0381AF;
+	Sat, 14 Feb 2026 09:53:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kepPKtwN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cp8Fh3uC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5D91E5B63
-	for <linux-kbuild@vger.kernel.org>; Sat, 14 Feb 2026 09:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4F73EBF3D;
+	Sat, 14 Feb 2026 09:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771060780; cv=none; b=TYY/EpSUbMvsn56KK5D7KR9LsCuKYaFZOOqCUVT/cx5xqHM2OWy25fxc3k7a+vOeGRBsH+1azAm+Qs0CFpMRDtYmRH1QUOLp8nW7MBmZoBAidqlBf7xyH2y+7JBwBCZ9Aj6/zv2GFZIxgsnrZBClMHOeMdG/Haef3vVCGlvtI+0=
+	t=1771062839; cv=none; b=lOHdkog9JgWLxdngeWvPxK1r7pOIaMlHXO3qJfb+x5X+gEZjNISJk/WRHfwXAmEay2yIVdrxTsMzO7Z2c9Wmby3io5BBR+Ondu4DsKH1kiPPrmUt6EuaSYnvhn/GQUwHGMWYnmgcieDGftyfLp5cwkqPP5v0GsOT+QCl001U+kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771060780; c=relaxed/simple;
-	bh=iTQT/f63/NTG2n1qHyZZ0DDibc+pJuT6de7hffhTxC0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nqe6kWn8Tqxe4J9k7xRISGwCbz5Cm9XRlTd6GsQiCRGso5qF5/LihYgJY82o6M8Bkur5kOOlgGkur906ZAlEUu9SLtMt1Fw46xCHjODO/gsYwfLj1EyK4sDz04BvT1rI9UVr4ND+gIlsR2sDJy64ZRJ9YQEeurkRYiIEMwJ8ukA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kepPKtwN; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ad21f437eeso36875ad.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Feb 2026 01:19:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771060779; x=1771665579; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xXmyU6/9u89ynx9eUjaTgPkrkBGrULDbWy2mJj9y3Dc=;
-        b=kepPKtwNXZOt3TpjA6qfoxxqRSMY+ffZSWOiWdmWa11G+3sSTbGQBDzutz2riWod2t
-         2K4c2Y4KFgos0IXqvxwXUv72R4EmTEMAuR6hzeOk9KdSEyI6YvUxgVtiwoL/U7YySJ7A
-         eF/5w4WCA7qni1qCpR0C9j+sN+zc2oQ9MsjRD1yt9hd56bLn2K+t56B53fhbCfUZMLJv
-         rn/lNLTi4wkRlyhqDQthtO+DQ2ZUjzJk7SUxCffat5j3jXcnC8oySSZjHUwVgSndDove
-         F5iKUaXbHRoOPwBTUAxOsRkHpsqn99l1KcOiArAs8Mp0hY6wmWYd8nAVBNoKNNZWYHre
-         fZKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771060779; x=1771665579;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xXmyU6/9u89ynx9eUjaTgPkrkBGrULDbWy2mJj9y3Dc=;
-        b=Y3Jl62YQu9iLDpmMLaN8vpwTh4H/LSnp5rKyjayFqDmBZuGOpdKw1+5o/eTSeSR6hi
-         L6OWHjAqmZdtDWLjyaMQC1YHZ/QQx5guAvTZzqqgkCV2BsIoPget7Mdcn/8DU8xdGLVo
-         CTOrbtHbIdkLrf5HdqI627zOoqF42oKnik4f8KzXHxlsfsnpx5Cio7J9Y5gKUcZQfbdZ
-         mx2ip2ps6hT7i/2KElvSa8wel6B3mATOyJDaDCSxhkwJUUdBChT4i7GLoGBdHB8D2cYL
-         TF+j6NgOhPV0DwfL7pTguRtP2PUnz88hIYDvPU5FOOmdAysxxdHp8H1icDqQaTo4YVQE
-         +qiA==
-X-Forwarded-Encrypted: i=1; AJvYcCXswC2ygfHIBdFSABZagFzIlpfbNI3m81BLkuAAaOBxifPQmJOXGsWdPJ6LSt12KIdI4zckKt4uFBwweUg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLW4PmiHtTAmhYuM0b863clZdf8GvYTWmkuBTBelqhD550cpw+
-	pp7Z2gr4APyoysxSgpVby+hlbsMDha/C8ISh4rnkkcXeS2HbwI1Ex7hv
-X-Gm-Gg: AZuq6aK1ocJFA+OGZaF5+EPnQyGAx7Q9ueFFMrgt6WrpIu8P5th/Ag/HvVu05T4BJNI
-	G57nrkVhsA/HGr1LJroi8YVA3lQJW3Xi5uWnO5B3JwoyF18z0LGu+DyjXvFPg+7i/v6zlb5wMhq
-	oo0ZcQOZdKNTmrQj17bEOnRysuIafIFw+QFs2qZJ6prn04WcSBWYCgaSd0/9R+ajuLowztZgjCm
-	uLi1tp3fdAKq5MfetV+aEywByYtDfuCAGlI/i63p2UR1O3kiKXoDgUnKUK60RGpoUKAlQ+U0vge
-	74rrL+aYu3apj+ggPBh3/XpRlff7Dyz2n2p8nEEY5dN/6sWhULWyw7TH9r0LW0nO7kfUcw4vCE/
-	yt7gcPyhPzc/0cH68FN32PFbqWonJCWka2u8DG5q4qQiVvZ6HUmvL8fdBMoKLbTxKnYu3BVTjY0
-	HC7rmDDrkstF+4hMGrPm/1RjQp3VjPQlpFBVk/a322J7xy/DLzgkWi5I+tcjVnfU2f0Oo3jXTVY
-	O5t3Hs2lkWRY2CaDmdn3E8eJg+s29v+
-X-Received: by 2002:a17:903:b46:b0:2aa:e9f0:146c with SMTP id d9443c01a7336-2acba4a11aamr33267525ad.29.1771060778911;
-        Sat, 14 Feb 2026 01:19:38 -0800 (PST)
-Received: from rishabh-QEMU-Virtual-Machine (firewall3.vnrvjiet.ac.in. [103.248.208.100])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a9d595fsm13265395ad.43.2026.02.14.01.19.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Feb 2026 01:19:38 -0800 (PST)
-From: Rishabh <rishabhssap@gmail.com>
-To: rishabhssap@gmail.com
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Kees Cook <keescook@chromium.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] Makefile: Globally enable fall-through warning
-Date: Sat, 14 Feb 2026 14:49:31 +0530
-Message-ID: <20260214091931.3519-1-rishabhssap@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1771062839; c=relaxed/simple;
+	bh=TLh6+wk1NgMXYkWfewhFDSAdVPFIq44wbSntJJq8xyU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=ngpPbdwx+jHlMt4PlFr7K9FQwXxY0cY9FCXqHVr3RSfAWNNmjP1ik/bPk+ZVCN+jaNJxyEiwYMB4n+0lPoKp5Eb71Z1V1blsK2oQelqzTItTreCAi/e705cxMvIvQn+4LpSuA7QvGvkGHjSPfcQxVWNmhbWp0fbHd2Xx7bFlVx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cp8Fh3uC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88674C16AAE;
+	Sat, 14 Feb 2026 09:53:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771062839;
+	bh=TLh6+wk1NgMXYkWfewhFDSAdVPFIq44wbSntJJq8xyU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cp8Fh3uCFdBqYOhyzBtROyVR3rvD/GwKUF5snIb+h5IMXm9ANiu8WxKdg8RNI/UL/
+	 S81zAoVc2hKfgeTN6bxRi9v+Sw3ctm/KCdwe3CcZti2/Y9j0mhyUSKhMt/HUFOcSs0
+	 pfjkyFzWQZAmpJ9TV0va1+pQpo6zHPmPNxVtPdCuXxDGs8hMVmZyMjpQEc172CeEoM
+	 I5E6fhcNEpkB3NR0F1wXw5Dkxxwp0r5BdU9R4lQI1LQHvV8OoGh6KHbqzT6gThUHzJ
+	 r8e7E4Fi3U0uoKHulUudeWjeTvOByLARHvlqX4fFQDmNBSjzmVllXK00RjPDTU8UWA
+	 ZgjxKjSdlHYwQ==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 14 Feb 2026 10:53:54 +0100
+Message-Id: <DGELDM5523KS.3EY7C7X5PC1V4@kernel.org>
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH 1/4] rust: add projection infrastructure
+X-Mailer: aerc 0.21.0
+References: <20260214053344.1994776-1-gary@garyguo.net>
+ <20260214053344.1994776-2-gary@garyguo.net>
+In-Reply-To: <20260214053344.1994776-2-gary@garyguo.net>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11311-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rishabhssap@gmail.com,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-11312-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lossin@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:email]
-X-Rspamd-Queue-Id: CAD1E13B8EE
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,garyguo.net:email]
+X-Rspamd-Queue-Id: 0E1BE13B972
 X-Rspamd-Action: no action
 
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+On Sat Feb 14, 2026 at 6:33 AM CET, Gary Guo wrote:
+> Add a generic infrastructure for performing field and index projections o=
+n
+> raw pointers. This will form the basis of performing I/O projections.
+>
+> Pointers manipulations are intentionally using the safe wrapping variants
+> instead of the unsafe variants, as the latter requires pointers to be
+> inside an allocation which is not necessarily true for I/O pointers.
+>
+> This projection macro protects against rogue `Deref` implementation, whic=
+h
+> can causes the projected pointer to be outside the bounds of starting
+> pointer. This is extremely unlikely and Rust has a lint to catch this, bu=
+t
+> is unsoundness regardless. The protection works by inducing type inferenc=
+e
+> ambiguity when `Deref` is implemented.
+>
+> The projection macro supports both fallible and infallible index
+> projections. These are described in detail inside the documentation.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
-Now that all the fall-through warnings have been addressed in the
-kernel, enable the fall-through warning globally.
+Cool work!
 
-Also, update the deprecated.rst file to include implicit fall-through
-as 'deprecated' so people can be pointed to a single location for
-justification.
+I was wondering how you'd make this safe and general, but just having a
+primitive pointer projection macro makes a lot of sense. We'll have lots
+of projection macros that use this under the hood instead of a single
+one. I like this as a stop-gap solution until we have projections in the
+language.
 
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- Documentation/process/deprecated.rst | 14 ++++++++++++++
- Makefile                             |  3 +++
- 2 files changed, 17 insertions(+)
+I have a few comments, with those addressed:
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..053b24a6dd38 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
- lead to a crash, possible overwriting sensitive contents at the end of the
- stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
- memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
-+
-+Implicit switch case fall-through
-+---------------------------------
-+The C language allows switch cases to "fall through" when
-+a "break" statement is missing at the end of a case. This,
-+however, introduces ambiguity in the code, as it's not always
-+clear if the missing break is intentional or a bug. As there
-+have been a long list of flaws `due to missing "break" statements
-+<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
-+"implicit fall-through". In order to identify an intentional fall-through
-+case, we have adopted the marking used by static analyzers: a comment
-+saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
-+is more widely handled by C compilers, static analyzers, and IDEs, we can
-+switch to using that instead.
-diff --git a/Makefile b/Makefile
-index 9be5834073f8..bdf8eac51b07 100644
---- a/Makefile
-+++ b/Makefile
-@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
- # warn about C99 declaration after statement
- KBUILD_CFLAGS += -Wdeclaration-after-statement
- 
-+# Warn about unmarked fall-throughs in switch statement.
-+KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
-+
- # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
- KBUILD_CFLAGS += -Wvla
- 
--- 
-2.51.0
+Reviewed-by: Benno Lossin <lossin@kernel.org>
 
+> ---
+>  rust/kernel/lib.rs        |   5 +
+>  rust/kernel/projection.rs | 269 ++++++++++++++++++++++++++++++++++++++
+>  scripts/Makefile.build    |   4 +-
+>  3 files changed, 277 insertions(+), 1 deletion(-)
+>  create mode 100644 rust/kernel/projection.rs
+
+> +// SAFETY: `proj` invokes `f` with valid allocation.
+> +unsafe impl<T> ProjectField<false> for T {
+> +    #[inline(always)]
+> +    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut=
+ F) -> *mut F {
+> +        // Create a valid allocation to start projection, as `base` is n=
+ot necessarily so.
+> +        let mut place =3D MaybeUninit::uninit();
+> +        let place_base =3D place.as_mut_ptr();
+> +        let field =3D f(place_base);
+> +        // SAFETY: `field` is in bounds from `base` per safety requireme=
+nt.
+> +        let offset =3D unsafe { field.byte_offset_from(place_base) };
+> +        base.wrapping_byte_offset(offset).cast()
+> +    }
+
+There are several limitations with this impl. I don't think we can do
+anything about them, but it's probably good to list them somewhere:
+1. We do not support projecting fields of unsized types, so `MyStruct<dyn T=
+rait>`.
+   (note that slices are supported with `ProjectIndex`)
+2. Since this creates a `MaybeUninit<T>` on the stack, only small `T`
+   are supported. I'm not sure how much of this will be optimized away,
+   but it might be the case that it is not. Projecting in the same
+   function call stack multiple times might result in overrunning the
+   stack pretty quickly.
+3. The `wrapping_byte_offset` function generates potentially worse
+   codegen when `base` points into a real allocation.
+
+> +}
+> +
+> +// SAFETY: vacuously satisfied.
+> +unsafe impl<T: Deref> ProjectField<true> for T {
+> +    #[inline(always)]
+> +    unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F)=
+ -> *mut F {
+> +        build_error!("this function is a guard against `Deref` impl and =
+is never invoked");
+> +    }
+> +}
+> +
+> +/// Create a projection from a raw pointer.
+> +///
+
+I'd add a paragraph that explains that the pointer does not need to be
+valid in any way. It should also explain that the returned pointer is
+only valid when the original pointer was valid.
+
+> +/// Supported projections include field projections and index projection=
+s.
+> +/// It is not allowed to project into types that implement custom `Deref=
+` or `Index`.
+> +///
+> +/// The macro has basic syntax of `kernel::project_pointer!(ptr, project=
+ion)`, where `ptr` is an
+> +/// expression that evaluates to a raw pointer which serves as the base =
+of projection. `projection`
+> +/// can be a projection expression of form `.field` (normally identifer,=
+ or numeral in case of
+> +/// tuple structs) or of form `[index]`.
+> +///
+> +/// If mutable pointer is needed, the macro input can be prefixed with `=
+mut` keyword, i.e.
+> +/// `kernel::project_pointer!(mut ptr, projection)`. By default, a const=
+ pointer is created.
+> +///
+> +/// `project_pointer!` macro can perform both fallible indexing and buil=
+d-time checked indexing.
+> +/// `[index]` form performs build-time bounds checking; if compiler fail=
+s to prove `[index]` is in
+> +/// bounds, compilation will fail. `[index]?` can be used to perform run=
+time bounds checking;
+> +/// `OutOfBound` error is raised via `?` if the index is out of bounds.
+> +///
+> +/// # Examples
+> +///
+> +/// Field projections are performed with `.field_name`:
+> +/// ```
+> +/// struct MyStruct { field: u32, }
+> +/// let ptr: *const MyStruct =3D core::ptr::dangling();
+
+I would only include one example that uses `dangling` and for the rest
+just define a function that projects a raw pointer.
+
+> +/// let field_ptr: *const u32 =3D kernel::project_pointer!(ptr, .field);
+> +///
+> +/// struct MyTupleStruct(u32, u32);
+> +/// let ptr: *const MyTupleStruct =3D core::ptr::dangling();
+> +/// let field_ptr: *const u32 =3D kernel::project_pointer!(ptr, .1);
+> +/// ```
+> +///
+> +/// Index projections are performed with `[index]`:
+> +/// ```
+> +/// let ptr: *const [u8; 32] =3D core::ptr::dangling();
+> +/// let field_ptr: *const u8 =3D kernel::project_pointer!(ptr, [1]);
+> +/// // This will fail the build.
+> +/// // kernel::project_pointer!(ptr, [128]);
+> +/// // This will raise an `OutOfBound` error (which is convertable to `E=
+RANGE`).
+> +/// // kernel::project_pointer!(ptr, [128]?);
+> +/// ```
+> +///
+> +/// If you need to match on the error instead of propagate, put the invo=
+cation inside a closure:
+> +/// ```
+> +/// let ptr: *const [u8; 32] =3D core::ptr::dangling();
+> +/// let field_ptr: Result<*const u8> =3D (|| -> Result<_> {
+> +///     Ok(kernel::project_pointer!(ptr, [128]?))
+> +/// })();
+> +/// assert!(field_ptr.is_err());
+> +/// ```
+> +///
+> +/// For mutable pointers, put `mut` as the first token in macro invocati=
+on.
+> +/// ```
+> +/// let ptr: *mut [(u8, u16); 32] =3D core::ptr::dangling_mut();
+> +/// let field_ptr: *mut u16 =3D kernel::project_pointer!(mut ptr, [1].1)=
+;
+> +/// ```
+> +#[macro_export]
+> +macro_rules! project_pointer {
+> +    (@gen $ptr:ident, ) =3D> {};
+> +    // Field projection. `$field` needs to be `tt` to support tuple inde=
+x like `.0`.
+> +    (@gen $ptr:ident, .$field:tt $($rest:tt)*) =3D> {
+> +        // SAFETY: the provided closure always return in bounds pointer.
+> +        let $ptr =3D unsafe {
+> +            $crate::projection::ProjectField::proj($ptr, #[inline(always=
+)] |ptr| {
+> +                // SAFETY: `$field` is in bounds, and no implicit `Deref=
+` is possible (if the
+> +                // type implements `Deref`, Rust cannot infer the generi=
+c parameter `DEREF`).
+> +                &raw mut (*ptr).$field
+> +            })
+> +        };
+> +        $crate::project_pointer!(@gen $ptr, $($rest)*)
+> +    };
+> +    // Fallible index projection.
+> +    (@gen $ptr:ident, [$index:expr]? $($rest:tt)*) =3D> {
+> +        let $ptr =3D $crate::projection::ProjectIndex::get($index, $ptr)
+> +            .ok_or($crate::projection::OutOfBound)?;
+> +        $crate::project_pointer!(@gen $ptr, $($rest)*)
+> +    };
+> +    // Build-time checked index projection.
+> +    (@gen $ptr:ident, [$index:expr] $($rest:tt)*) =3D> {
+> +        let $ptr =3D $crate::projection::ProjectIndex::index($index, $pt=
+r);
+> +        $crate::project_pointer!(@gen $ptr, $($rest)*)
+> +    };
+> +    (mut $ptr:expr, $($proj:tt)*) =3D> {{
+> +        let ptr =3D $ptr;
+
+I'd add a type ascription `let ptr: *mut _ =3D $ptr;`
+
+> +        $crate::project_pointer!(@gen ptr, $($proj)*);
+> +        ptr
+> +    }};
+> +    ($ptr:expr, $($proj:tt)*) =3D> {{
+> +        let ptr =3D $ptr.cast_mut();
+
+This allows `$ptr` to be a random type with a `cast_mut` function. How
+about:
+
+    let ptr: *const _ =3D $ptr;
+    let ptr: *mut _ =3D ::core::ptr::cast_mut(ptr);
+
+Cheers,
+Benno
+
+> +        // We currently always project using mutable pointer, as it is n=
+ot decided whether `&raw
+> +        // const` allows the resulting pointer to be mutated (see docume=
+ntation of `addr_of!`).
+> +        $crate::project_pointer!(@gen ptr, $($proj)*);
+> +        ptr.cast_const()
+> +    }};
+> +}
 
