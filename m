@@ -1,156 +1,202 @@
-Return-Path: <linux-kbuild+bounces-11316-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Fdc8Kqv7kGnaeAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11316-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 23:48:11 +0100
+	id cBxfMqg1kWkXggEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11317-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Feb 2026 03:55:36 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC56C13DBBE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 23:48:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A1413DEFD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Feb 2026 03:55:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 676C6301A91F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Feb 2026 22:48:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9CEDE3019539
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Feb 2026 02:55:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C77274B59;
-	Sat, 14 Feb 2026 22:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F5723D7DB;
+	Sun, 15 Feb 2026 02:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ap1zvP/c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0q7gCE5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E92081AA8
-	for <linux-kbuild@vger.kernel.org>; Sat, 14 Feb 2026 22:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9063923815D
+	for <linux-kbuild@vger.kernel.org>; Sun, 15 Feb 2026 02:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771109287; cv=none; b=Z8Fm9ilkhbfIZ+EBb6tfTq0hQU53tHU6sqvW2AKn3DSLdD3u0H3p5ER7k7XhI64mMtWmRAP+6Ie+P4bU7aiZGU/W4iCW1J5bD/mnU+w62NLlPKd8UFEgRFW1MavWUT5ED1kGPQ2NKZu9MoblVZSqh8gx45d5jJOxx3vtpee5P+Y=
+	t=1771124100; cv=none; b=B39gMkHmXkMBVmX+lCYJT+Gg9/zKMJS69G7C5HWo1jG4VhJu6WqgxAUCwOAhlxa2u5gWaDP6knOLSrW1duhZ1VM38f+kOHZxBBvKdGTWMd/u8M7hvMMUbPo3so8fgudEdsJtMle6Z2L/5XeFQsRz2LhMN+cPbgbgA3WGuMEoNo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771109287; c=relaxed/simple;
-	bh=LbE5Z72PD3MPJ43Bce1pDWGIiyWmIGts/W+3nAK+cjs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N2jpRua79tj0OAQRst40k/kmJGy3S4WLPBRIbIi5nv3kzAm8lLiqo9Mp0xpcfV/myJ0uXtRwJSyxEjHwJV0l8dIqZC08Q/oT5Ry2tryVJdvixVY0NNfqchDbwuo4dxdjn5A9hiuGOiKCnBXWCCnbmj1FTTnP9PH44mUOawRkWFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ap1zvP/c; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65940221f7eso3512190a12.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Feb 2026 14:48:06 -0800 (PST)
+	s=arc-20240116; t=1771124100; c=relaxed/simple;
+	bh=fK7ZZkyiK48dzgBWcXdpx7b+6/1w/6JcjME1eC3IhS8=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VtVQxVxi28fmdE5n9HPD3HTqoIS3wd2G7UUg0Z6qw8hvt9x2j8r2/Zur15rU/MNtwuSJj/qfS2ftBFfAY/f346mRDHWCiwIxV7vLbKBReysaUH7WSWJau5NXoeEVc7+1aV8iJzOLyd5lMHsc3vqpPQiY78rW9nNfeLO9yXj6gOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0q7gCE5; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4327790c4e9so1530032f8f.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 14 Feb 2026 18:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1771109284; x=1771714084; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mYkdhtRoL4GjkDCyjPYy3UUZTydOkdf7syWKV5f5AgY=;
-        b=ap1zvP/co68pfYmG+93DgHX4MimyvyH5mdFE4b0VoWKuhRCnbyn2gkjyazIleQKXE9
-         IACJ9A25sGHHn80gc+VwbQPWGTaupw3W83rjJtv+qxnCW6e6UL8SChwpb8IqcyLSeviT
-         IPjk42byPpDGm1/ZdfrOT0nJoHjMs7f3E5ue8=
+        d=gmail.com; s=20230601; t=1771124098; x=1771728898; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=2kMHVC9R3KhgqSgxiiKxf3157ayrLaqEXto3EAyfgiY=;
+        b=J0q7gCE5coePngduF6fpVLNYehkVDZ8JkK0Ycoo5IwxxhwUrPNkpIyyViDjnBUXXi5
+         eIP7bZZ5mg6KTgZIx4kiGcUvmFT0u8PgVhlN9wZxL4qIetEY4X/jlL7Sd0Mq9GwoJ6kV
+         mNe7ooMlPQsuT+TE5EknVMUkdQXwxiLg1i1ilr4MwLIAp1fU+WXwpCHcLLKFbroO6qsg
+         K6hd1zXlQ+9hcE3wdnGow9Mr00FpReINrWup0sYJn2XzSDKmG1tpXZbe3Bbi4yM2c2Gb
+         FOht6CwBKzrMvp+w77gRUhS94JBeRNg6FXyiaaGImGiwhb5+oHRUayMdOpRdQ2Z4b69Y
+         0eDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771109284; x=1771714084;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mYkdhtRoL4GjkDCyjPYy3UUZTydOkdf7syWKV5f5AgY=;
-        b=suD7TxLJXcNk4rbfd5Oc0QAevLNdZjPN8kvbKeAL18Vhh/73r3KgEZyvL85jpP7qmy
-         0QEPCfayTjjPm6yBnSL5nB9BrYrdneO9zdGk4y1LD+cJTJTAVo6Zt4RfY6oUHAveVXCo
-         83pic1zximlN1sp7v4rH7FXnMVN+LaXF9gmmDvaNzPAeisY+sOOqkk1jGC4SmEW4vnyW
-         NZ9uOYTFAW6eaM4Sa0iN3Xh3VXEgDeG0mUrgNy4ryFkHnYAEBxU6y/AvtbUd11RJhkcQ
-         kGdYJuuoQtCHW3VDHXKA9yzfvS2MyUIzIJersNMpjpvXgkLVlOP+RqfAQCoL+gibQ1Ba
-         ImKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjGlqwaLX/Z2ydsKb6LDxrvITekSKPSpZzPxApuf5xt08XuY0hqDlxTZNEB8i9mGJG1hAky1B+r8y6YNs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzYsUId5+dNZOg4hyjfS9l/CSN5poklTPA1lYwPgifi3MZa1/i
-	123PASzmdU62+wDvOkYR7DvfGLNAvLLA4915jOCXDqoXhuZXOMe+ceVVeYNl6kUmiy5Ac80kstk
-	jvCX4BdI=
-X-Gm-Gg: AZuq6aI6skzwpYWGWJKF8LrbY0gHDOa13vTY2RC8TeKu6jLNgPy2nNldYqVWxXzfw8K
-	ZIsMV7TjJN0VizkJZt+zuJkn92/dnir7a0UyXdLPK0jxKMKjUkWD0fRiHKlZ9SJx8ObXQs3uVJM
-	TtDb1F8pPs4pprOWvKgXXQGAaYxMZXLHf1zkfjnUY28CPDwD3MDLRP5khbiGeuk6/cQqHbfmhtu
-	5Mq7LXOExSPCcBf29w9xHwUfWQpaQ0FbPMRfaaLyfjEOmWFD8NsYrhO2LK7akVZZ2LOKMYcTU3W
-	T5QZ+SUxdKHJV7T0jUoQPOqdXagN0j/5U4vmPgfohjwH6OHUAB4iXJ3t2kZK8p3Atne+PRLrP+S
-	H8VuyfujzC7aq4sGVSy1XTNxw8OV72Lu1DajUU6bP0R0y5t9p8fKziJ3QagZ/kjJ9PwwGKhhvdG
-	7esisyodlCj/C0Bu2KjiUe2EwGdMM6DqvMfUJK6nsHaYTmB7eOvirujbQgQ+49gLMrNpxT+5+9
-X-Received: by 2002:a17:907:9409:b0:b87:3174:9bbe with SMTP id a640c23a62f3a-b8facf9849bmr399569866b.61.1771109284144;
-        Sat, 14 Feb 2026 14:48:04 -0800 (PST)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com. [209.85.208.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc735e579sm110440166b.9.2026.02.14.14.48.03
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Feb 2026 14:48:03 -0800 (PST)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-65be78011c8so151026a12.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Feb 2026 14:48:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUwUUQYLOmVVdbq4HP1g0YMztZwLxFEPJtFXKXcjDoUPCJpLDkcUYr7q2dYMucszQCEjU7I4FEhXLhA6Qc=@vger.kernel.org
-X-Received: by 2002:a17:906:7303:b0:b8f:6f75:f9e with SMTP id
- a640c23a62f3a-b8facca23a8mr343042466b.1.1771109283474; Sat, 14 Feb 2026
- 14:48:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771124098; x=1771728898;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2kMHVC9R3KhgqSgxiiKxf3157ayrLaqEXto3EAyfgiY=;
+        b=IwhOiBm79Cmn3DqwkzW7X94uKr6zZp5VKWyuocmGzU9PGgOSFRBthmyda4nGZdXUYx
+         o1KoljKxz1zcrcpA+0R80JtE6QU3b2mj6zWojJajHxm1EMW6nCXlqVinKZrR2KM7ajGs
+         X2QsW+mCaAX9aNz/C3A+3JiKco5NZjDOAAGDuvBnLB7Q5m6AMyRhl8feCm5nS0Wcku2Q
+         600P9DgVqG5O9/c1iZNBnLh+Od1iSah5tyZI03BKUXN3yz+M07ttsG1o52pRXSJ5/IBn
+         ZKvGQAluTnq5c9F0N44YMAhr0uNTejdCImeKthfEWEAspZRVeh5CZKvMny7heXNX9HdR
+         nG9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVzhz95BCMn8Y1g1G/HKk5FBl295HjHTlFn1B8CWa/e9GQihqjKgmIvJ7YYTgqA7dBEU2QHVxyD9qgsmr0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQQM3t4G/A25npW1OpoFI+zoJX1/24iP/86Mo2xAlX3xBvySdu
+	BvqZTgt4+M4fTJSXRL7AQg1+tCCXjUEwpOUJKRvjl3OZlu0838xzUnzT
+X-Gm-Gg: AZuq6aIvlwNOJmIJJb84RmlxgW17WggJNI5mh6F+MP4Hn1I/5SwhQlgBsnJ7/gATZqm
+	uYGC34UPF27kTNwvMPrq5/xmT0Svc6Jfbcfe8j/i+oWu1V8w1iKKVvayaY8aqvI4cvnLXvS61UY
+	RhANs5EMp+BG2pR4EyxPspZEhW1d1yD/osrsYekGY30g9MHrtRlW6NqyaUl3R2kEZs/e94dYOCa
+	7rgqMat3yrOpUx68KBCO1jAs7aVSXEYm/LllEZSf053D4km41cjYgnjQ6yFyfUNGQxprIAzWE0L
+	wr3UzZKyRDvFnIIt781Frdok+HYgToNXKpqSU0O8W6ObB3Ww3MOUQRJ7Sz800teCPM9n9eSDa45
+	9hZd9Ja04O1p6GDmAmV7mXRVL5PraSkAFE3HKhy0qE9WBv7WT+cCtqpqh6/7eBa05XlAnL57zXE
+	pOQGh72sCLyBJXCUpZl77ULP0/uYNgmajuXN/HlOPoMOys+oA+94owxw==
+X-Received: by 2002:a05:6000:1842:b0:437:6d8c:c08a with SMTP id ffacd0b85a97d-43796af9dc8mr13792216f8f.45.1771124097834;
+        Sat, 14 Feb 2026 18:54:57 -0800 (PST)
+Received: from Ansuel-XPS. (93-34-90-125.ip49.fastwebnet.it. [93.34.90.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5ac92sm16579708f8f.1.2026.02.14.18.54.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Feb 2026 18:54:57 -0800 (PST)
+Message-ID: <69913581.5d0a0220.340e.3d3e@mx.google.com>
+X-Google-Original-Message-ID: <aZE1focZ0vshBHIV@Ansuel-XPS.>
+Date: Sun, 15 Feb 2026 03:54:54 +0100
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: David Disseldorp <ddiss@suse.de>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Dmitry Safonov <0x7f454c46@gmail.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [RFC PATCH] initramfs: correctly handle space in path on cpio
+ list generation
+References: <20260209153800.28228-1-ansuelsmth@gmail.com>
+ <20260210223431.6bf63673.ddiss@suse.de>
+ <698b6ced.050a0220.9e34a.3e08@mx.google.com>
+ <20260211113308.4c5b0b82.ddiss@suse.de>
+ <698bd439.050a0220.38f6b4.a251@mx.google.com>
+ <20260211134025.57a4d249.ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aZBlTsIwTzS0tqBD@carbonx1> <177110244909.2897141.11184148040863874004.pr-tracker-bot@kernel.org>
- <aZDpCUcIXLmuydoF@carbonx1>
-In-Reply-To: <aZDpCUcIXLmuydoF@carbonx1>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 14 Feb 2026 14:47:47 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj03hLzK2D=+OYmjgcmGM+XYymp8GyaEs=C0=rXG2nb7w@mail.gmail.com>
-X-Gm-Features: AaiRm50HHjVAcxBlyn1res84hJ74BQRuPE9I7BE6WlfzWIM12HlM8cBqswuaZQA
-Message-ID: <CAHk-=wj03hLzK2D=+OYmjgcmGM+XYymp8GyaEs=C0=rXG2nb7w@mail.gmail.com>
-Subject: Re: [GIT PULL] fbdev fixes and updates for v7.0-rc1
-To: Helge Deller <deller@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260211134025.57a4d249.ddiss@suse.de>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11316-lists,linux-kbuild=lfdr.de];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-11317-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[ansuelsmth@gmail.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-foundation.org:dkim,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: EC56C13DBBE
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mx.google.com:mid]
+X-Rspamd-Queue-Id: 50A1413DEFD
 X-Rspamd-Action: no action
 
-[ Adding Kconfig maintainers and linux-kbuild list ]
+On Wed, Feb 11, 2026 at 01:40:25PM +1100, David Disseldorp wrote:
+> On Wed, 11 Feb 2026 01:58:27 +0100, Christian Marangi wrote:
+> 
+> > > What happens when someone wants support for filenames containing spaces
+> > > and quotes?
+> > >   
+> > 
+> > I mean... it's a less common case where filename start to have almost invalid
+> > char but yes it's a valid point.
+> > 
+> > > > I'm open to both solution. Lets just agree on one of the 2.  
+> > > 
+> > > I don't think any of the options will be particularly simple, but
+> > > nul-byte delimited field support might be the most straightforward.
+> > >   
+> > 
+> > Yes that was the initial idea but was quickly scrapped as major work is needed
+> > in the .c tool to handle NULL separated entry.
+> > 
+> > Can you by chance point to me how the GNU tool work with --null ?
+> > 
+> > 
+> > They also create a cpio_list file with entry NULL separated?
+> 
+> E.g. dracut uses the GNU cpio --null alongside find -print0:
+> 
+>   cd "$initdir"
+>   find . -print0 | sort -z \
+>       | cpio ${CPIO_REPRODUCIBLE:+--reproducible} --null ${cpio_owner:+-R "$cpio_owner"} -H newc -o --quiet \
+>       | $compress >> "${DRACUT_TMPDIR}/initramfs.img"
 
-On Sat, 14 Feb 2026 at 13:30, Helge Deller <deller@kernel.org> wrote:
->
-> Linus, I'm really sorry, but I messed up drivers/gpu/drm/Kconfig while
-> trying to fix a merge conflict.
-> My patch series should not have touched drivers/gpu/drm/Kconfig at all.
-> That's purely my fault and not the fault of the patch author.
+Ok I finished developing this and while testing it I had an interesting idea...
+What if the delimiter is auto detected by checking the very next char after the
+file type?
 
-Humm. Funky how the Kconfig parts never complained about the
-duplication of all those source lines, so the problem was basically
-entirely hidden and things still "worked" even though that Kconfig
-file had been so messed up.
+This way we can support a number of different format without having to update
+any file...
 
-I'm not sure if the Kconfig tools could perhaps warn about this kind
-of duplication - we might have some of it intentionally - but it does
-make me go "Hmm".
+The .c file had to be reworked for the tokenizer conversion so this
+autodetection feature is litterally disabling the format validation of the
+string and make the delimiter dynamic for the string based on the next char
 
-Nathan, Nicolas, comments? See that commit ca4ee40bf13d for the
-partial revert, and notice how Kconfig is entirely happy both before
-and after that..
 
-                Linus
+For example in one file we can have these kind of thing without having to
+support any additional arg.
+
+nod /dev/tty0 660 0 0 c 4 0
+nod /dev/tty1 660 0 0 c 4 1
+nod /dev/random 666 0 0 c 1 8
+nod /dev/urandom 666 0 0 c 1 9
+# dir /dev/pts 755 0 0
+
+nod|/dev/pts|755|0|0|c|0|9
+
+dir\0/bin\755\01000\01000
+
+(the \0 are NULL char, it's here to display in the actual file they are zero
+char)
+
+Wonder if this might be interesting or I should just stick to the current idea
+of adding a -0 option and enforce the NULL delimiter.
+
+
+
+-- 
+	Ansuel
 
