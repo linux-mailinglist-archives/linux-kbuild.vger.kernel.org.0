@@ -1,160 +1,149 @@
-Return-Path: <linux-kbuild+bounces-11323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11324-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SN3CMHyok2nI7QEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11323-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Feb 2026 00:30:04 +0100
+	id 0L2kLGQllGnXAAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11324-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Feb 2026 09:23:00 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B62A14814E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Feb 2026 00:30:04 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 599C1149E66
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Feb 2026 09:23:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8B4D8300DDC8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Feb 2026 23:30:02 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 953303005A84
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Feb 2026 08:22:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6FD2F12DB;
-	Mon, 16 Feb 2026 23:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC942DB7BD;
+	Tue, 17 Feb 2026 08:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnFEokJW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iETzEx0F"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD0A2EB87D;
-	Mon, 16 Feb 2026 23:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8312367D5
+	for <linux-kbuild@vger.kernel.org>; Tue, 17 Feb 2026 08:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771284602; cv=none; b=SWKIJWGYweX8eiq77AowXwT++5f7j8vzUonClEYMXTcp3fTSTPB97YkZKf7YzaKHJaoxrAwMUZYEcgLCOfKXpthf4jOA49nRp8hZwr46V/5s6vDQSAxEZ8dFyA5HQgOMSGtQeezg4/qjkBSuREUVdsYM+q7vXblf/MVPdValeFU=
+	t=1771316578; cv=none; b=nKVETa4Rn5PSA0J1Iq5J0N1uoQa5rx2fwiuo3tkM5RGjwNKvoLF8nroznJDvbF8zsgk9m5aDNf4K68PfbVIWVqGANDMaTl41nkkQYEBuAKN0yJmg2gwsc645KWEXHQguURXFt+5hmm/vfqBNeAmdFy5JGNAaDM2AWpcM/lNMWJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771284602; c=relaxed/simple;
-	bh=zJni9qH/aXdFgGEL8tygAGQGCbtksHU+HEbi5M5fT7Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ysh4kxIaqr54QfxUPf9WmsAK4tWsSjFNCou6KLwMns2r33BZhcvbzw9cvkM3rqiGTBzP0911XfKnTxjvWfjgSGwRDkBLyefh85FlS7r7/3jATH9ZuhXYDFK0omgxY6/FySyWwIfJCzpmCnQ3GZh5Z6xkh8l2UzaSn6EfW9X47wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnFEokJW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2192FC116C6;
-	Mon, 16 Feb 2026 23:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771284601;
-	bh=zJni9qH/aXdFgGEL8tygAGQGCbtksHU+HEbi5M5fT7Y=;
-	h=From:Date:Subject:To:Cc:From;
-	b=bnFEokJWobDiDZXIc48kqdT7LLlAchC14mQP3yNjJx1EzCW+D9GS7jy4dSrxBqMYB
-	 sEtqQVfvWBQjBgf6uyJYTNY2kyqzEK/Bd/X8wX9G7sGpR0MMLqXp2Lo16gR219sVeQ
-	 7bGhCgznvKChlq0FMdvIsSqWC4/dZA472uIDsIAy9QymW9tEpx9FN5N+zeFgrmUe2b
-	 hZmutSxbl3vl3XmDWzKWlUlM7YaqjGzqLYho5O5TnaXYCjRGPEB8mVc9Z8iKNN5OFa
-	 7zGfbCqyx5FS3Xcw7chxHU8s13SqHNXSjGhQdVSRUm5wZA4E6BmNZglz10DJNu7JT5
-	 1DVTvKIWdN8HQ==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Mon, 16 Feb 2026 16:29:54 -0700
-Subject: [PATCH] kbuild: rpm-pkg: Disable automatic requires for manual
- debuginfo package
+	s=arc-20240116; t=1771316578; c=relaxed/simple;
+	bh=j9YvxgBnTjVJotxsZaz59b64frSQ5OWTlyiLqZ4fyTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oLK1jeAYcJqAMcaA9gMLAvgB6DWaUQq7h32fu48GcJ3IYA6lMuzaF3E4a1NHxxmc1MYcGzIhuOnJZGusRWs2Os5LgVzN98C0oIbLUWgo+HMDDsGW17kmdsg05IxntoCyGt0ZdziTRG1VIXkudBLOvLKP0osiKzwOmTBBCmEHVXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iETzEx0F; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b884d5c787bso523352866b.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Feb 2026 00:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771316576; x=1771921376; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j9YvxgBnTjVJotxsZaz59b64frSQ5OWTlyiLqZ4fyTQ=;
+        b=iETzEx0FcOsuVVzz8mVK1eDqkUxZyB5ytUJQuyQkplTJGVpUvyiLbQax0p9Tsbz7I5
+         tywFAq2G2Jd9jaRPBvV+ipvpOkJxput82HpEV8dL0W2I6i+Z5SirXDHvhktQaWx6UYGW
+         vVtTLqU9BmYTFlBGgRHcZyJXpTJ59Ei3M/CinQLa5ZU1X9vDpIgk6TLMOPxOac+abEAP
+         5TECHq8jV/lCTGvxok3M5HesgJjLA7qqJHGInD5CQYz9pQY9OA+LQdQsSlQurioN59i9
+         QH/LDeViMKabCHiy3p41867iBoVlX0zzicaSnDi7nc6YDp5902yggszVMR1hYUNPiBhN
+         M1xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771316576; x=1771921376;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j9YvxgBnTjVJotxsZaz59b64frSQ5OWTlyiLqZ4fyTQ=;
+        b=blkVdZlDizAhnXXV8EaU8Z7V8m8DBd6nF0M86nT9WwnsYauyslYJ36g6/yz9k5gBVg
+         SdrrVOnsX3V+9yuoIqW6mnSpxDDYtjRgdPo41cH2aLhhHM8093sHybYSjEmMLHcNJ/4R
+         Wxxv2WNDpaStr/bjHs1L2ACpijd5u5cQMT5OFkn6Bv86XNXE/M0AO/3C3+ED4Az6D88K
+         Y2gXkxaUFoGBUdMwPf5VLISjzZIg/MAn8+NFq4m5MI+dTsENZiP9Jllvkku+la6h2GnQ
+         5iucLKIi9Oa6phWBtQihsVAjWk4q/MvZVZFDiZ34j04eusD8xZBs4DWqYWx+HJvRsTRf
+         THag==
+X-Forwarded-Encrypted: i=1; AJvYcCVtZhabr71gFROehu7NB2c+gmz8C+mSKFwRx0R4MmpDkbjnToLhTmrtMpMFEl+f3cwa6mRq8Fl1jhnbcnc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK+jDY60exCyh7W/K543SyW7UwcamrJaEVbB+rXMT2qDUB9RWA
+	GXS6y+7NKMlBhPzEgVai2lVnm8WREkBZCYfOhK2AbrTIwt3mSmyakLIY
+X-Gm-Gg: AZuq6aLf1IjUfLL62JM0w3noF/yYVyR051qSX2c088TXErJRei+OftSZPdB9mi/XRS+
+	4j8P+JsyOW4JibpdJ/tMiwRc+r4bLhF+wM1gaePGT62cM+x788JQAHX/DEYSIr49XCp70tBR8zB
+	Z111QWpQX8shmkCfg0GThm2DdZQsiDpLryoNW3DwwznP0vgaxbYCIv0veFfY6TJmS/UIc2TukCZ
+	N7+vWRsq54ohOZPeLHteyIhR14vWTMH2q3BE/B82zb56OS1CpZMLldqo7X48MSJWvuSbC20iybS
+	VqGBFjsWsBYiaoluPgzq3oFjKLCtno78i/io5+F4hDV5O862+767RHm22QktnU+YK5xKV53krx1
+	1RmDyAroeBRtGpTHSvLXWK3+WHQGgt7Zkuc2OHWe04h8h3p3AKEUH4eDJacWwU/elh0E8dYbjMB
+	bk7KBnbWan0IKlHJlS1RlL3jhg95co57z5HoPN+6+Hphyu9AETu1Gxz6RF/RuZy09XSSoVDh06n
+	qgH/W1b9lYSKSQUOPnsSE9KF9RAetJXlkXX
+X-Received: by 2002:a17:907:7fa4:b0:b88:241e:693c with SMTP id a640c23a62f3a-b8fc3c7fa23mr672213466b.31.1771316575433;
+        Tue, 17 Feb 2026 00:22:55 -0800 (PST)
+Received: from ddolgov-thinkpadt14sgen1.rmtde.csb (dslb-002-207-075-089.002.207.pools.vodafone-ip.de. [2.207.75.89])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc7385d80sm325883366b.16.2026.02.17.00.22.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 00:22:54 -0800 (PST)
+Date: Tue, 17 Feb 2026 09:22:52 +0100
+From: Dmitry Dolgov <9erthalion6@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: linux-perf-users@vger.kernel.org, Ian Rogers <irogers@google.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, rust-for-linux <rust-for-linux@vger.kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Subject: Re: [PATCH v1] tools build: Fix rust cross compilation
+Message-ID: <nebqi6txwrsgztbsx5g7npptbsoyocbn6r2ebmzmwtigt2z27w@nh2xbmk3bp2e>
+References: <20260213191212.33328-1-9erthalion6@gmail.com>
+ <CANiq72n3FPOBVbR83-Vp6uetu8RnazMuu6MhzG_hA=_j18_BTA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260216-improve-manual-debuginfo-template-v1-1-e584b3f8d3be@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNywrCMBBA0V8ps3agjVLEXxEXmXRSR5oHeRSh9
- N+N7fJs7t0gcxLO8Og2SLxKluAbhksH5q39zChTM6hejb0aRhQXU1gZnfZVLzgx1Vm8DVjYxUU
- XRrJ0tbe7MooMtE5MbOV7PJ6v07nSh035h2Hff0Ae0ImFAAAA
-X-Change-ID: 20260216-improve-manual-debuginfo-template-bfb3f482c2bc
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Stefano Garzarella <sgarzare@redhat.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2467; i=nathan@kernel.org;
- h=from:subject:message-id; bh=zJni9qH/aXdFgGEL8tygAGQGCbtksHU+HEbi5M5fT7Y=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJmTV5RXaJo+3DlFSfEl18NaTr7bxnEirB33XE9f8H3p0
- PxwlfzxjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRpL0M/0wqXs/I7ZiXsY5f
- NSlaxCPLkvlkurGD5fMNArfTXf5/OsXIsHx+8ZSJmu3XDOplxQ4J3o2YkxWoWcpmsOL41r01PzJ
- OMAMA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiq72n3FPOBVbR83-Vp6uetu8RnazMuu6MhzG_hA=_j18_BTA@mail.gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11324-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11323-lists,linux-kbuild=lfdr.de];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 1B62A14814E
+	FROM_NEQ_ENVFROM(0.00)[9erthalion6@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 599C1149E66
 X-Rspamd-Action: no action
 
-Stefano reports that after commit 62089b804895 ("kbuild: rpm-pkg:
-Generate debuginfo package manually"), building with an rpm package
-using rpm 4.20.0 fails with:
+> On Mon, Feb 16, 2026 at 09:41:34PM +0100, Miguel Ojeda wrote:
+> I think this was meant to v2.
 
-  RPM build errors:
-      Dependency tokens must begin with alpha-numeric, '_' or '/': #�) = 0x0d000002
-      Dependency tokens must begin with alpha-numeric, '_' or '/': �) = 0x0d000000
-      Dependency tokens must begin with alpha-numeric, '_' or '/': ) = 0x7c0e000000
-      Unknown rich dependency op 'Hat': (Red Hat 15.2.1-7)) = 0x3130363230322000
-      Unknown rich dependency op 'Hat': (Red Hat 15.2.1-7)) = 0x4728203a43434800
-      Unknown rich dependency op 'Hat': (Red Hat 15.2.1-7)) = 0x3130363230322000
-      Unknown rich dependency op 'Hat': (Red Hat 15.2.1-7)) = 0x4728203a43434800
+Yep, I forgot to change the version (it was a bad idea to send it out
+Friday evenig).
 
-This error comes from the automatic requirements feature of rpm. The
--debuginfo subpackage has no dependencies, so disable this feature with
-'AutoReq: 0' for this subpackage, avoiding the error. This matches the
-official %_debug_template macro that rpm provides. While automatic
-provides should be default enabled, be explicit like %_debug_template
-does.
+> By the way, should this have a Fixes: tag? i.e. since it sounds like
+> this fixes an issue. Perhaps to 6a32fa5ccd33 ("tools build: Add a
+> feature test for rust compiler"), or something else? I also usually
+> recommend showing the error message in the commit message.
 
-Additionally, while in the area, add the manual debug information
-package to the Development/Debug group, further aligning with
-%_debug_template.
+Right, I can add an example what happens.
 
-Cc: stable@vger.kernel.org
-Fixes: 62089b804895 ("kbuild: rpm-pkg: Generate debuginfo package manually")
-Reported-by: Stefano Garzarella <sgarzare@redhat.com>
-Closes: https://lore.kernel.org/CAGxU2F7FFNgb781_A7a1oL63n9Oy8wsyWceKhUpeZ6mLk=focw@mail.gmail.com/
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- scripts/package/kernel.spec | 3 +++
- 1 file changed, 3 insertions(+)
+> (Also, you can use "Link: ... [1]" for the link.)
 
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index bccf58bdd45f..b3c956205af0 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -48,6 +48,9 @@ against the %{version} kernel package.
- %if %{with_debuginfo_manual}
- %package debuginfo
- Summary: Debug information package for the Linux kernel
-+Group: Development/Debug
-+AutoReq: 0
-+AutoProv: 1
- %description debuginfo
- This package provides debug information for the kernel image and modules from the
- %{version} package.
-
----
-base-commit: afdfb71c018e9a0aa2e51fb8186d3fb1acdd3f0e
-change-id: 20260216-improve-manual-debuginfo-template-bfb3f482c2bc
-
-Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
-
+Got it, thanks!
 
