@@ -1,79 +1,81 @@
-Return-Path: <linux-kbuild+bounces-11339-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11340-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICM3OsB6l2m6zAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11339-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 22:04:00 +0100
+	id 8Fl0Mg97l2m7zAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11340-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 22:05:19 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E453162885
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 22:04:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED4216291A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 22:05:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E2A7A3006102
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 21:03:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2C4E13051AAE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 21:04:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF572324B1E;
-	Thu, 19 Feb 2026 21:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85DC232692A;
+	Thu, 19 Feb 2026 21:04:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SHn0rmsF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ku3YBzA+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98743302779
-	for <linux-kbuild@vger.kernel.org>; Thu, 19 Feb 2026 21:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9EB325486
+	for <linux-kbuild@vger.kernel.org>; Thu, 19 Feb 2026 21:04:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771535038; cv=none; b=qm6U51Jn1lsXh1Xuj8RYzZUInLmryIdT+zV3kSCL7+y+02c5E9csA0IpEVcsNAU1ZYMDxGh3K0d+Ju9sUh5hUgz4jMniZm+ob1pDPreyqo9xZT23GiYGBFb3yKtHn0NoMJDxAYUWTI6Wo6+DHGaZWgSKNldd1yeTjqYWA2UgtT8=
+	t=1771535063; cv=none; b=OMAJAvsA63kvT4wMwzqW/ga1z9mKZFHZ7buiRKm8CA0xbBDVv7ICebKP0fggMBKIdI9nIlkVDohCZ7ehymzeJe5QH+pRqsIItO5CT7OSm/tj477s6FdTIqYgQlbIv57+UuxERZ90bI5arypNF9ADWNOk3a3SuCFG04Y2Vpb+r8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771535038; c=relaxed/simple;
-	bh=pNvvwCxaWteDSrjz3ya2LND8dS5HAFVN2gK9oksO2ms=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mIV8gfaQPawFaOsNRQ4wAzCR5B0cAUjjaK+Eak8Qb+CaHn+vLGn3WS4K+OmZBts9V1O9fl9UImgK6eeYstH+S3AmAZMy1+Lh1Mj21YkJb/RZa44nZEh109GIoomiy6MHqFVY5408lrKJ26NX9RFs0AEh6br+TZA9rY8pIzlyPHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SHn0rmsF; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1771535063; c=relaxed/simple;
+	bh=NWOHX4wJiydvQJAKSbMHFM5RZCjj3ncDHBlFzgCjT4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Kbp4HLK2CZnld9LlyCRr+irdKv5903SZTgp1elkPSxUtLOjYzKCNNoDjolGXvfvlhaElzTFpnhNX5k+2YZLEkXOyns3j5U1x3PrTN5WFmZrf9aT3FQEicMeaWy58PhMWn0Ig72qT7HZVHaIK7VbB0DyhNclGbFtqlvk2llCkIAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ku3YBzA+; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-480706554beso15459485e9.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Feb 2026 13:03:57 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48336a6e932so9345835e9.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Feb 2026 13:04:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771535036; x=1772139836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lAxExF3Bh85aqNqMomIsLZH79MhB2KBo6F6PX7ObPew=;
-        b=SHn0rmsF50AYxL4vve23IsSI5TPwEOCPsbTgctziEi8TBxzvPbyCGWvjnoUCetMzrV
-         jSzRs1BRKVpJOaxnBLxzmUmpVLMbhdpq4DWjKSfWW7JLPzq3qJoJGThg/02SkE3dFaza
-         6ig3x6jxtVk8RzxLJjSCI01ugjq0jy3Qa0JVE9cj65LVI54z7ol5Jaf4P3jc7wpvJlJT
-         r7fgE+LeHQlwlRsNS77HC0GtBGaKMTaP5o1NRQp5gEwlMLEccyLOQX5200TWJhsY7ve+
-         fNPftuwq/ZosU1BJj/SDQbxYNP9GmQiWcx2FV+syM23YMrgUSQk6QZNNT8QqDidizHjo
-         Evxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771535036; x=1772139836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1771535059; x=1772139859; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lAxExF3Bh85aqNqMomIsLZH79MhB2KBo6F6PX7ObPew=;
-        b=KVAMvbdo2og0iUR6EPncC452h5QBBcg1cSfqBfP8JjetT6Q9oNXgMoQVc/doYc9Dqy
-         qPYQ8/YMH3+2pA7uK83doSQOze8Vmf0jfx+aUCVzMSQfVP1deAuB7lHkxoQc/cICSV06
-         XOnxu5rL6UUEmZAuBSShLsKLYXcSlNMnj39qQgeJZBLQXUhD/I61pKdJQQSmRdpI1htH
-         vzb99/JvGsqXBrQUofaWDXQrc2mTnzUrIzt9NHWvgliRJqKTulF+JyquhUzuxgK+FyxD
-         gmwNvzgfhDbh8yN4REHcqEBR2unvF5IQ4nc+fWwsCn7RiCGKQVz/wafI4PDwmNfWT9Xp
-         YkuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZOqNAhT1DEbYafml1z5xaWE22CXR3FYrtaGo0fVXZZNklKe2QSZfisTEYQK+sblOt0vwIAbbDJ6k2bi8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8TJC2EQRnYcV+0VYcKL44ZKMdN/QfxcX7IfUjqpD8urVUTAPD
-	Ct/iJp9UKCoCj6d8e/vVqn8jLLskockp6h4oKZaVAylzwQh4+sSTbcqY
-X-Gm-Gg: AZuq6aJJmoR8Td1+exC9wXOUY5PNHlNmp2q+knENp/1PPOVcsGhtwo5WcgWpjxLa42X
-	s5LGqhfcqx4ixtXjRP9jMTyaNEHBQQnnDZDMQKIWHo3BkjZDTlyHKViaffedD8RYxOXtkypR9XQ
-	5P5cIhgdVtKheQQ27KnDwTiTJNlYdqZ3rNNC8NhMMhcebLPx9NgKLSfqmJORSbx6p601NAa8Hsi
-	6U3wbDnw1MUHEW4rWDlePUFx5QUTTs1+q3uDQg5mcVsWiaKYSKpsfr9dYbrbhRyVaamET928NF9
-	UzM48JprvjdfJzxtym8IoOHK0GACK5QeV+StfYRxu5GbfG1BKM9/alcs3KSv4aKd2DqQpTP+PaQ
-	GjsFnNJx058QlLUBXNYgviZWStRv1o0XX7WtbujgYvty1pLHF7xwwVw1FOBKXkcNjqLYqW/rmrJ
-	Viaw+OteJaY7zYjfuda3U=
-X-Received: by 2002:a05:600c:848a:b0:483:aa2:6bce with SMTP id 5b1f17b1804b1-48379c00bf9mr264391715e9.30.1771535035717;
-        Thu, 19 Feb 2026 13:03:55 -0800 (PST)
+        bh=XVSm2WaUuTGgvAJIQjX14NypR0jZFeVYy3dn1Snm/v8=;
+        b=Ku3YBzA+OxzLMBBCY3BJvtOM96Bmlx7j33jJTXmk8CAR4/Y49QX+NTASHjFYLppcG9
+         JObsimfqs1z/ALayEwJpjQ9S/vbms5VKuGPWETskqcP1GqNzipcV6telAL64WpvgI8L9
+         amy4Ma68b7MyF7C6obhDU6+yP/lFlw61xxmPYcpR32tCJqGMTvIgxKVOMSy1UczbJZHR
+         leI2C/WkuNB4r1C1zrp72O7Er5Gq+3t/eqQ1oQQgoMeMB0dj5JcWwxGHKbhusgj9gaDg
+         UOLcyTX3BLN3bN9eKAGfgbPH+yg5Jbchfl3ol6yTFKzOk4fr8LItHMgFTLs3yb1B+NS8
+         ZedQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771535059; x=1772139859;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XVSm2WaUuTGgvAJIQjX14NypR0jZFeVYy3dn1Snm/v8=;
+        b=DMNN0uFGZD9wOQI4KL1dlL9pUcA3hUuJ25dZUTYwq6apHPoCVl6RqNfyflgLhEW/pM
+         p5Hz7X9CIPUEl1xB3Crfyo+s+bnid5JinTVS0QOwRJnk4fsdMm3V+EamjMYKkthYrJ/2
+         wMja3H3CbO8aG+Kk2JMCOf8gKL80QZJTafrz4x0xjld5dSXvQnGx0gJ2jdiWLQ6AeTrj
+         go3/TtWrDfhabpK57GdpKG5SbrG9l5ZOhdF4fgMocKLvSPLA8qknc07+KHYYQd4LRFsC
+         DB9GS19iYbpWTTI5t0K3jJSEZ6jwjAKl2oQPFDLX4v848VCjFgAOUZV7vbrOH+kNix9g
+         X/7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUikjlpR+w6ZjJyRmeEVJZmj25W4kMPQZAcsj0twmoS/xhMHGxS7/0Sl3IIHqOMw6lYz0iBXYhbtTmBLrc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzghB1GHdrVURKwrUhfbTF0A6u9NE8/BjzudGXv6pz1WXBbPyaJ
+	8Qdm/NCVtbfj9jhsEirEeJZGNK9TXwlPR0z4vuoSe7KKroMjwneXr5r9
+X-Gm-Gg: AZuq6aII6esxFvDHS3E6F17t2gadq+uGngtd5Xqx3ljfOTacZbKfWRZ5W3EMsqHzXzs
+	oNfjd9qf+Wu1BxVpLDyvFyPxfTpTiSo4AOInaDsLgDRNFOre8uYQeHsXq7zf6NenLkHZLj6lkSl
+	hLxjPofdROpl6HCi/xVhRcfUNHI0Wi86Pg32o0AT75GUg9RsrIQN1UT77UrXMlxPZRJMlPtzkdK
+	8ikJbDtuyu4R77pJowCIbhokMC2qeJH08+5otkAo2ui+/REit+Obi6IAc7lVzIaFeKoKHtVC9H9
+	JLVxVrA102ZxL08RTToqmPiRaw9E2meH3F6N0mlRN0Lmt2Nma1KwhC49cERv7ZNNZC2K0H/1f9B
+	KGal+bdqAEJ58X7+N/sT3UAQgneY3qpFi4xVM+RP07yQqLHRFSUPO2or/KWWH2pNd99nJvgbH7d
+	s7LIeVir6UwsmyW5Lfoi8=
+X-Received: by 2002:a05:600c:1c19:b0:483:5310:dc67 with SMTP id 5b1f17b1804b1-48379be817cmr365806455e9.20.1771535058446;
+        Thu, 19 Feb 2026 13:04:18 -0800 (PST)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-483a316eb08sm30113295e9.0.2026.02.19.13.03.54
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-483a3dd3391sm7201895e9.1.2026.02.19.13.04.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Feb 2026 13:03:55 -0800 (PST)
+        Thu, 19 Feb 2026 13:04:18 -0800 (PST)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
@@ -88,10 +90,12 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nsc@kernel.org>,
 	patches@lists.linux.dev
-Subject: [PATCH 0/2] init: ensure that /dev/console and /dev/null are (nearly) always available in initramfs
-Date: Thu, 19 Feb 2026 21:03:10 +0000
-Message-ID: <20260219210312.3468980-1-safinaskar@gmail.com>
+Subject: [PATCH 1/2] init: ensure that /dev/console is (nearly) always available in initramfs
+Date: Thu, 19 Feb 2026 21:03:11 +0000
+Message-ID: <20260219210312.3468980-2-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260219210312.3468980-1-safinaskar@gmail.com>
+References: <20260219210312.3468980-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -106,12 +110,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11339-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11340-lists,linux-kbuild=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
@@ -126,32 +130,220 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8E453162885
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nxp.com:email]
+X-Rspamd-Queue-Id: 0ED4216291A
 X-Rspamd-Action: no action
 
-This patchset is for VFS.
+If we generate external initramfs as normal user using "cpio"
+command, then we cannot put /dev/console there.
 
-See commit messages for motivation and details.
+Fortunately, in this case default builtin initramfs will
+contain /dev/console (before this commit).
 
-Askar Safin (2):
-  init: ensure that /dev/console is (nearly) always available in
-    initramfs
-  init: ensure that /dev/null is (nearly) always available in initramfs
+But if we generate builtin initramfs instead, then we will
+not have /dev/console at all. Thus the kernel will be unable to
+open /dev/console, and PID 1 will have stdin, stdout and stderr
+closed.
 
+This problem can be solved by using gen_init_cpio.
+
+But I think that proper solution is to ensure that /dev/console
+is always available, no matter what. This is quality-of-implementation
+feature. This will reduce number of possible failure modes. And
+this will make easier for developers to get early boot right.
+(Early boot issues are very hard to debug.)
+
+So I put to the beginning of function "do_populate_rootfs" a code, which
+creates nodes /dev, /dev/console and /root. This ensures that
+they are always available even if both builtin and external
+initramfses don't contain them.
+
+The kernel itself relies on presence of these nodes. It uses
+/dev/console in "console_on_rootfs" and /root in "do_mount_root".
+So, ensuring that they are always available is right thing to do.
+
+But then code in the beginning of "do_populate_rootfs" becomes
+very similar to the code in "default_rootfs". So I extract
+a common helper named "create_basic_rootfs".
+
+Also I replace S_IRUSR | S_IWUSR with 0600 (suggested by checkpatch.pl).
+
+Then nodes in usr/default_cpio_list become not needed,
+so I make this file empty.
+
+(In fact, this patch doesn't ensure that /dev/console is truly
+always available. You can still break it if you create
+bad /dev/console in builtin or external initramfs. So I
+update comment on "console_on_rootfs".)
+
+This patch makes default builtin initramfs truly empty.
+This happens to match description in ramfs-rootfs-initramfs.rst.
+But that description says that size of this initramfs is 134 bytes.
+This is wrong. I checked: its size is 512 bytes (and default
+builtin initramfs is always uncompressed). So I just remove that
+number. While I'm there, I remove word "gzipped",
+because builtin initramfs may be also uncompressed or compressed
+using different algorithm.
+
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
+---
  .../filesystems/ramfs-rootfs-initramfs.rst    |  4 +--
- init/do_mounts.c                              | 11 ++++++++
+ init/do_mounts.c                              |  8 ++++++
  init/do_mounts.h                              |  2 ++
  init/initramfs.c                              |  2 ++
  init/main.c                                   |  6 +++-
  init/noinitramfs.c                            | 28 +++----------------
  usr/Makefile                                  |  2 +-
  usr/default_cpio_list                         |  6 +---
- 8 files changed, 28 insertions(+), 33 deletions(-)
+ 8 files changed, 25 insertions(+), 33 deletions(-)
 
-
-base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122 (mainline)
+diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.rst b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+index 165117a721ce..c6451692294f 100644
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.rst
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+@@ -133,9 +133,9 @@ All this differs from the old initrd in several ways:
+ Populating initramfs:
+ ---------------------
+ 
+-The 2.6 kernel build process always creates a gzipped cpio format initramfs
++The kernel build process always creates a cpio format initramfs
+ archive and links it into the resulting kernel binary.  By default, this
+-archive is empty (consuming 134 bytes on x86).
++archive is empty.
+ 
+ The config option CONFIG_INITRAMFS_SOURCE (in General Setup in menuconfig,
+ and living in usr/Kconfig) can be used to specify a source for the
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 55ed3ac0b70f..f911280a348e 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -519,3 +519,11 @@ void __init init_rootfs(void)
+ 			is_tmpfs = true;
+ 	}
+ }
++
++void __init create_basic_rootfs(void)
++{
++	WARN_ON_ONCE(init_mkdir("/dev", 0755) != 0);
++	WARN_ON_ONCE(init_mknod("/dev/console", S_IFCHR | 0600,
++			new_encode_dev(MKDEV(5, 1))) != 0);
++	WARN_ON_ONCE(init_mkdir("/root", 0700) != 0);
++}
+diff --git a/init/do_mounts.h b/init/do_mounts.h
+index a386ee5314c9..907e9af77464 100644
+--- a/init/do_mounts.h
++++ b/init/do_mounts.h
+@@ -16,6 +16,8 @@ void  mount_root_generic(char *name, char *pretty_name, int flags);
+ void  mount_root(char *root_device_name);
+ extern int root_mountflags;
+ 
++void __init create_basic_rootfs(void);
++
+ static inline __init int create_dev(char *name, dev_t dev)
+ {
+ 	init_unlink(name);
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 6ddbfb17fb8f..678b5050a7ac 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -717,6 +717,8 @@ static void __init populate_initrd_image(char *err)
+ 
+ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ {
++	create_basic_rootfs();
++
+ 	/* Load the built in initramfs */
+ 	char *err = unpack_to_rootfs(__initramfs_start, __initramfs_size);
+ 	if (err)
+diff --git a/init/main.c b/init/main.c
+index 1cb395dd94e4..76f5320d3d4c 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -1645,7 +1645,11 @@ static int __ref kernel_init(void *unused)
+ 	      "See Linux Documentation/admin-guide/init.rst for guidance.");
+ }
+ 
+-/* Open /dev/console, for stdin/stdout/stderr, this should never fail */
++/*
++ * Open /dev/console, for stdin/stdout/stderr, this should never fail,
++ * unless you intentionally make it fail, for example, by supplying
++ * wrong /dev/console in initramfs
++ */
+ void __init console_on_rootfs(void)
+ {
+ 	struct file *file = filp_open("/dev/console", O_RDWR, 0);
+diff --git a/init/noinitramfs.c b/init/noinitramfs.c
+index d1d26b93d25c..00bcf59cf05d 100644
+--- a/init/noinitramfs.c
++++ b/init/noinitramfs.c
+@@ -6,37 +6,17 @@
+  * Author: Jean-Paul Saman <jean-paul.saman@nxp.com>
+  */
+ #include <linux/init.h>
+-#include <linux/stat.h>
+-#include <linux/kdev_t.h>
+-#include <linux/syscalls.h>
+-#include <linux/init_syscalls.h>
+ #include <linux/umh.h>
+ 
++#include "do_mounts.h"
++
+ /*
+- * Create a simple rootfs that is similar to the default initramfs
++ * Create a simple rootfs
+  */
+ static int __init default_rootfs(void)
+ {
+-	int err;
+-
+ 	usermodehelper_enable();
+-	err = init_mkdir("/dev", 0755);
+-	if (err < 0)
+-		goto out;
+-
+-	err = init_mknod("/dev/console", S_IFCHR | S_IRUSR | S_IWUSR,
+-			new_encode_dev(MKDEV(5, 1)));
+-	if (err < 0)
+-		goto out;
+-
+-	err = init_mkdir("/root", 0700);
+-	if (err < 0)
+-		goto out;
+-
++	create_basic_rootfs();
+ 	return 0;
+-
+-out:
+-	printk(KERN_WARNING "Failed to create a rootfs\n");
+-	return err;
+ }
+ rootfs_initcall(default_rootfs);
+diff --git a/usr/Makefile b/usr/Makefile
+index e8f42478a0b7..de1ee4e78ef4 100644
+--- a/usr/Makefile
++++ b/usr/Makefile
+@@ -22,7 +22,7 @@ ramfs-input := $(CONFIG_INITRAMFS_SOURCE)
+ cpio-data :=
+ 
+ # If CONFIG_INITRAMFS_SOURCE is empty, generate a small initramfs with the
+-# default contents.
++# contents, specified in default_cpio_list, which is currently empty.
+ ifeq ($(ramfs-input),)
+ ramfs-input := $(src)/default_cpio_list
+ endif
+diff --git a/usr/default_cpio_list b/usr/default_cpio_list
+index 37b3864066e8..1df1ef08e504 100644
+--- a/usr/default_cpio_list
++++ b/usr/default_cpio_list
+@@ -1,6 +1,2 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-# This is a very simple, default initramfs
+-
+-dir /dev 0755 0 0
+-nod /dev/console 0600 0 0 c 5 1
+-dir /root 0700 0 0
++# Default initramfs is empty
 -- 
 2.47.3
 
