@@ -1,167 +1,156 @@
-Return-Path: <linux-kbuild+bounces-11343-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11344-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aq43Ly+ql2lV5AIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11343-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 01:26:23 +0100
+	id ODY+Egzfl2ni9gIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11344-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 05:11:56 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CA9163D9B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 01:26:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2932A1648D7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 05:11:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 70F15301227F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 00:26:21 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3EDE6301CCBD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 04:11:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBAAB3A1C9;
-	Fri, 20 Feb 2026 00:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8B9D30EF6B;
+	Fri, 20 Feb 2026 04:10:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kc+pCR9A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhlWl2uR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kc+pCR9A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhlWl2uR"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVx2kUNS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8400B1B86C7
-	for <linux-kbuild@vger.kernel.org>; Fri, 20 Feb 2026 00:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DBF30CD92;
+	Fri, 20 Feb 2026 04:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771547180; cv=none; b=MiKvfeh4c9egzQaWILWJJHGqZEkyIvGiHXtEXjtI32hCZGuXIM5jEBy1bHMdo3CkiHpyxvGsn/0uPv741fwUfeOoU4MFKsWligOolvtgoIK7Enf4UbgltUEzYx1KE68O9RblNquasRCl81AdTaVKhmFdlykGsUfrOpV2A5JK1x0=
+	t=1771560639; cv=none; b=Om1/XpFvHd3l49rUEzZr2YLx7IJEG9TeCn1gk2Xecp/S72qHNhM8knmhD4nQd7vmaPiwLLJamIA9q+mT1I4BWXVJzv68xOJJjxL0r74OiJsmE5UsIwkJtFg4IkWCG3WngZgFudXCEicq583ybyHi9FPmwNOuL/KO9652Y1vuqMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771547180; c=relaxed/simple;
-	bh=/NLpKxGCG/FJdLzlZ+PXHLNTdM1REhMrNq6sp83Ij38=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MxV4IFNrCy2EIghj1VojdY3+5e56rmiWEtbnomLe4UNjjZ8oKjtsy+sjDHTJmfdFvQbjLFBSxnETpUbof/uLB8ztSbTgc6Wg751BlB8kSgpmz5tjbkmXgyCPJoB6QeBNaWz7waDKfi5tZi2mdAujXXJKWnld00IqGK21sQuvcY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kc+pCR9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhlWl2uR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kc+pCR9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhlWl2uR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8DFB75BCEC;
-	Fri, 20 Feb 2026 00:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771547177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
-	b=kc+pCR9A1nYdJpkUTYId9QHSEktFjpnJHioQ48x3h24LE/zJlrgok2emgp3q0rw7a+jLlV
-	/djKMzrDPRVNlOKG/DGESaGCLglF6Dzox3gTs7h4Mf8tMXzICdyWIY6WOvAfGuEQJk0Y+R
-	XtmK2359thUcIib2sEsFsxKzhmCFQo4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771547177;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
-	b=zhlWl2uR/lbcC95WJR6e489kQ0pnk6vd05eOizXuj/6EHcoulabLsTug3j8UxrnWsbLNqm
-	37nMsR1wu8egxWBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kc+pCR9A;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zhlWl2uR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771547177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
-	b=kc+pCR9A1nYdJpkUTYId9QHSEktFjpnJHioQ48x3h24LE/zJlrgok2emgp3q0rw7a+jLlV
-	/djKMzrDPRVNlOKG/DGESaGCLglF6Dzox3gTs7h4Mf8tMXzICdyWIY6WOvAfGuEQJk0Y+R
-	XtmK2359thUcIib2sEsFsxKzhmCFQo4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771547177;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
-	b=zhlWl2uR/lbcC95WJR6e489kQ0pnk6vd05eOizXuj/6EHcoulabLsTug3j8UxrnWsbLNqm
-	37nMsR1wu8egxWBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1FE83EA65;
-	Fri, 20 Feb 2026 00:26:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 59X2GySql2l+TgAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Fri, 20 Feb 2026 00:26:12 +0000
-Date: Fri, 20 Feb 2026 11:26:06 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Randy
- Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org, Rob Landley
- <rob@landley.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nsc@kernel.org>, patches@lists.linux.dev
-Subject: Re: [PATCH 2/2] init: ensure that /dev/null is (nearly) always
- available in initramfs
-Message-ID: <20260220112606.551099f5.ddiss@suse.de>
-In-Reply-To: <20260219210312.3468980-3-safinaskar@gmail.com>
-References: <20260219210312.3468980-1-safinaskar@gmail.com>
-	<20260219210312.3468980-3-safinaskar@gmail.com>
+	s=arc-20240116; t=1771560639; c=relaxed/simple;
+	bh=0PM3EvHMCr8BvaAe9tsZy3ke/nSbfi2Vm8wcUfyZoLQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=HQd+K4fJbr/z3Obf2oGeXBzGN/1eoK+kO8csfZsTPivRyf10tsMbPg6McnXyufWP5X3Ww1v427PNUKYqNVTwofsJfpDzg1ML1E/a2UO/Kqw8uSVT3faq5v12dPOvxdUU9jp/eHA0kHYwAakUbfniaCexNRFUAWajGQ9OZfyntf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVx2kUNS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B270C2BCB0;
+	Fri, 20 Feb 2026 04:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771560639;
+	bh=0PM3EvHMCr8BvaAe9tsZy3ke/nSbfi2Vm8wcUfyZoLQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=IVx2kUNSxwdn74f3azX658a2kTXvhnAo2uYJ0bpEMr+c6aO+cz8pL8626VIS81zgm
+	 Hm3ohw27VvABIpU01I09pS6tpRkCKzGBFkizfiQXloXkQcFj535JY1NtJlcUUz/yQz
+	 zI76CKiCR6bQjllggKkYdueNsdTPXwg+xKkV36RH19CiBgxQu7xPPz0+xBQu5qw0M6
+	 vwGsQ+XlvFXFuRYrufowmz9SeyWMjUvTD8CENbNArppvg1nbNfcMdcv3TryDcEhFlz
+	 q/Og6P925mDm6YJX8HiVuSIqJEiyiW79umNtOcgxrYOC5QBWJMXHsx+jot4W3TOkKB
+	 m8Y5bX+jeVa3A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FE3B3809A88;
+	Fri, 20 Feb 2026 04:10:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/10] kbuild: userprogs: introduce
+ architecture-specific CC_CAN_LINK and userprog flags
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <177156064779.189817.8600732238018283033.git-patchwork-notify@kernel.org>
+Date: Fri, 20 Feb 2026 04:10:47 +0000
+References: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
+In-Reply-To: <20251014-kbuild-userprogs-bits-v2-0-faeec46e887a@linutronix.de>
+To: =?utf-8?q?Thomas_Wei=C3=9Fschuh_=3Cthomas=2Eweissschuh=40linutronix=2Ede=3E?=@codeaurora.org
+Cc: linux-riscv@lists.infradead.org, nathan@kernel.org,
+ nicolas.schier@linux.dev, nsc@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, alex@ghiti.fr, hca@linux.ibm.com, gor@linux.ibm.com,
+ agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+ christophe.leroy@csgroup.eu, tsbogend@alpha.franken.de, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, davem@davemloft.net, andreas@gaisler.com,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ masahiroy@kernel.org, linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-mips@vger.kernel.org,
+ sparclinux@vger.kernel.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+X-Spamd-Result: default: False [1.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:subspace.kernel.org:reject}];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11343-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linux.dev,dabbelt.com,eecs.berkeley.edu,ghiti.fr,linux.ibm.com,ellerman.id.au,gmail.com,csgroup.eu,alpha.franken.de,linutronix.de,redhat.com,alien8.de,linux.intel.com,zytor.com,davemloft.net,gaisler.com,vger.kernel.org,lists.ozlabs.org];
+	R_DKIM_REJECT(0.00)[kernel.org:s=k20201202];
+	NEURAL_SPAM(0.00)[0.379];
+	TAGGED_FROM(0.00)[bounces-11344-lists,linux-kbuild=lfdr.de,linux-riscv];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[kernel.org:-];
+	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-kbuild@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ddiss@suse.de,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,android.com:url]
-X-Rspamd-Queue-Id: 03CA9163D9B
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_NO_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,gaisler.com:email]
+X-Rspamd-Queue-Id: 2932A1648D7
 X-Rspamd-Action: no action
 
-On Thu, 19 Feb 2026 21:03:12 +0000, Askar Safin wrote:
+Hello:
 
-> Binaries linked with bionic libc require /dev/null to be present,
-> otherwise they will crash before entering "main", as explained
-> in https://landley.net/toybox/faq.html#cross3 .
+This series was applied to riscv/linux.git (fixes)
+by Andreas Larsson <andreas@gaisler.com>:
 
-It looks as though Bionic has extra logic to handle missing /dev/null
-during early boot, although it's dependent on !is_AT_SECURE:
-  https://cs.android.com/android/platform/superproject/main/+/main:bionic/libc/bionic/libc_init_common.cpp;drc=a7637a8f06f103c53d61a400a6b66f48f2da32be;l=400
+On Tue, 14 Oct 2025 15:05:15 +0200 you wrote:
+> The current logic to inherit -m32/-m64 from the kernel build only works
+> for a few architectures. It does not handle byte order differences,
+> architectures using different compiler flags or different kinds of ABIs.
+> 
+> Introduce a per-architecture override mechanism to set CC_CAN_LINK and
+> the flags used for userprogs.
+> 
+> [...]
 
-I think this would be better addressed via documentation (e.g. in Bionic
-or ramfs-rootfs-initramfs.rst).
+Here is the summary with links:
+  - [v2,01/10] kbuild: don't enable CC_CAN_LINK if the dummy program generates warnings
+    (no matching commit)
+  - [v2,02/10] init: deduplicate cc-can-link.sh invocations
+    (no matching commit)
+  - [v2,03/10] kbuild: allow architectures to override CC_CAN_LINK
+    (no matching commit)
+  - [v2,04/10] riscv: Implement custom CC_CAN_LINK
+    (no matching commit)
+  - [v2,05/10] s390: Implement custom CC_CAN_LINK
+    (no matching commit)
+  - [v2,06/10] powerpc: Implement custom CC_CAN_LINK
+    (no matching commit)
+  - [v2,07/10] MIPS: Implement custom CC_CAN_LINK
+    (no matching commit)
+  - [v2,08/10] x86/Kconfig: Implement custom CC_CAN_LINK
+    (no matching commit)
+  - [v2,09/10] sparc: Implement custom CC_CAN_LINK
+    https://git.kernel.org/riscv/c/dc2f4d41a6b6
+  - [v2,10/10] kbuild: simplify CC_CAN_LINK
+    (no matching commit)
 
-Thanks, David
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
