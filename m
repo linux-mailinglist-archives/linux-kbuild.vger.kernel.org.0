@@ -1,308 +1,261 @@
-Return-Path: <linux-kbuild+bounces-11346-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11347-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sP/VCzCumGl4KwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11346-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 19:55:44 +0100
+	id EIFmKxmymGntKwMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11347-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 20:12:25 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513EE16A342
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 19:55:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6B916A4B7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 20:12:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B4A30300517E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 18:55:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 04EB5300B45C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 19:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5654136683E;
-	Fri, 20 Feb 2026 18:55:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 113E5366DA7;
+	Fri, 20 Feb 2026 19:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEZoQ23c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XeURJjEP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D1B2E7BB4;
-	Fri, 20 Feb 2026 18:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72752365A1C
+	for <linux-kbuild@vger.kernel.org>; Fri, 20 Feb 2026 19:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771613738; cv=none; b=L5KzfH61TBforemfeWqswH3Snu8JSAtdYpt0zQMqYi18BxrvGaeRlRoO5c3lMcId8U725bTKTb+lDNDmMhljq2q/eO3ZuCPxgGYxFsMOLfOumrsojofk4C5Q8TZmNun5nNFMZQbsxNZuaYXuAFdx3CZqBBG3Q5naMfDirZNu7u8=
+	t=1771614721; cv=none; b=NeFVNku2OJvOYH86oJQFXlVM99r/Gru1NtvbP0kkOl3FAgVTSJ+sh8UVca1oPMXa7cSEVVpuFOvYvsI04WK0LBti6RugYgEs9lBrsCix77S4pM9/2VLfSYKMlc1SoSBea3SJ9UEsaOIYLHcxQS9MYCBpB3YWoeK9G+i+kNCw7sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771613738; c=relaxed/simple;
-	bh=FdeBw+GkKyfMPGBzU2J2ct/CitZJF7jfK3sr8FmzTew=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Qo2b8EuruluFl1wWGD6qBfstB8hixrP7fcMoSVLbputpy2w4BDlxwHT2C154D6piR2XMI7AaWqZem7qiGgg2i45igXuM15L5f2VH2EZNbzTlSfMRGnbsQXwwYJL5bOsQmc47ntFezC2sQ7TJwbAxapwQAV4SmSOTFd7U+F16XDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEZoQ23c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F0FC116C6;
-	Fri, 20 Feb 2026 18:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771613737;
-	bh=FdeBw+GkKyfMPGBzU2J2ct/CitZJF7jfK3sr8FmzTew=;
-	h=From:Date:Subject:To:Cc:From;
-	b=JEZoQ23c6GclxhrQsMPxgD8R5pXv/hg0mxG4E1lHOpmdhuCm+wY/s6UJlhTT+5J92
-	 bTdeEybDlSixvhW620Lc+iGMwy3qg38DolhtgHb0lEc7YcAfbrmbbbOIEmff6mUtRA
-	 9FP0brV7YdUvy6OzBmKg2OmUkikjnXWqmfcK5WdTC4pR8U4J0Z/X4M0j+gW7sQKtVJ
-	 xh+Guw83c9zRFcrmzptWxgEAi+ieQ36UHdIapFvcVcjeVzJwIdRjpHW82y4dxAGQh0
-	 Lasd7GAOZk8Oi7a2hccI04GAa0PZHw54dRK4gTIji8M3rYp2yJtJ6K32dBF8gUEMg5
-	 8EN8Sn0QYlDVg==
-From: Nicolas Schier <nsc@kernel.org>
-Date: Fri, 20 Feb 2026 19:55:19 +0100
-Subject: [PATCH] kconfig: Error out on duplicated kconfig inclusion
+	s=arc-20240116; t=1771614721; c=relaxed/simple;
+	bh=M8P+BbQ1YqZa4ng6H3k/8o1frpPX12XdeZj5ECuK2xs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AnFgfkRXKwqTlIcbQdoaAjExa9j4SDG9Kt3zmPCWIJUTjOpXVTdipJoGc7nZKkTebDvMLf66wKwQCcWrtyIpA7Z38yJVirJQo3ixGw4A6eQ3U2RWuWkxuKQ+qAq2WcIGfuWVZYrbRyPrgTUt06jmSWw6sbX8v1pWCkliNusEHCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XeURJjEP; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-480706554beso27351435e9.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Feb 2026 11:11:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771614718; x=1772219518; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zp4Hmr4tnrGJtnxnP1S6eBYh/Nilm6oZrfuoKYFMN2U=;
+        b=XeURJjEPAhhsPz8gwaYzwl8B171cOhVK1QrAju+c45qH0I/E7RF3hSgmwVhCgw/g7R
+         umW/c8CcInLV7DGnspPCOzaZh8IlctKLK3xx/VR+79sYJnswdy6HNXQUdbreUWw9kYzA
+         YsgRq/9UvZWYPx7n2DodWrNIDXDUUVrjU9Q7xnNPy6vzdjiiQP5jIEl00rO+sLebmlum
+         FmYrYuWL6Ia/4QWgk2+woZvH2hLL62go09TzukFizZbP/46i1WigYjU+7KI0zSriFcwx
+         wGwy0CTwl8bYLKZYNWzNOdm76rNcL2IHp9IAYOwMh8lc+NqpgU/BllAuYibUnsTebnwx
+         wwXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771614718; x=1772219518;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zp4Hmr4tnrGJtnxnP1S6eBYh/Nilm6oZrfuoKYFMN2U=;
+        b=PxFBqBXBzytRHxQ5P9D6ipefSaGBAgoc/n/v+2X9cgoLxx5t3iawxsbQ25G457akHA
+         ci4jB5jFxaBv9ysyimKec1W2vOoJn7KrhG2wGptOVhqlYNVx/eW42N1QzIPLgYr+f8Nh
+         WBE7aFT8ayc8pOUdFD74BgHI1bdVss3DqVQdIJNeJrmWu5xUHK93bv+uC4VSFc9vHeEG
+         uXJAi74DXg5iaVF5+8fB47Y82R97gvYBCtx7nOhcHlmMSDEuZOCg5ADF0Rermaen/hjG
+         hYVvwXV/UHS+sOyuA8smA8hEdOwdTs7pS1N0m4cIoTcdEnzdF8sOp8ycePW7GXQQPGq5
+         p+kw==
+X-Forwarded-Encrypted: i=1; AJvYcCVoMYVDSt40GP7lepqN+cTFalGOB//FTOmf9hrauh7WYXV4XMq8cnEe3XECfoH4oeFrCd/pLagp1tAdoNU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRVqFCCuiKrtnreQuTrx7J1A85Y7+zM6Ie/ivQSltqAU0vzGNA
+	BGL5YhuNZLXm610S/n//0EzVi48KOAjX99XDJKs1cdV+/Li4Tpv2vt8o
+X-Gm-Gg: AZuq6aKEb9kt3bZ11gg5KEeeOOzkK0JlAGQZPV2kExunXDjX1r3IPmPsv6S33z/DWmY
+	Wvtz6shMTnvE7olS5w4OmWUgkW5pMjAC56kOXd102FiYzjeUjFYaCreBvcEg7fH3WrHCZJkwGuH
+	xv7I56NN73h+iIxvZIlDp+xFfFvToGgQPuLKejZv5aR62NrGScwlAM3pP8Intxh8ERodQ12Cdnx
+	EpEYAkhTiGA4VF7OUxkfdzLZ1CygSpf9hr2gI6baUUXgvvZ64ZnKM16KOgIPeyYvwqeY9J1l/GS
+	f9V3VQZ+CX+uT0K4DsJJLWL+EM7EP87bXeLVurjTwJWk3K4DE2/k1OeD45DgL9OKlNhDNIkyMmX
+	IccNJEGtpoGisdTBvmYTny54FBS/lbnQcD4YUbnZ8dZKASSJmdHuMvti9Fh2Oz9ceoYLvGF2ULU
+	t5on6jiEO0ZmTai2xTT1dh6qvXQTsJIw==
+X-Received: by 2002:a05:600c:3516:b0:483:a21:7744 with SMTP id 5b1f17b1804b1-483a9637590mr8799125e9.26.1771614717583;
+        Fri, 20 Feb 2026 11:11:57 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-483a9b21ceasm3704985e9.0.2026.02.20.11.11.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Feb 2026 11:11:56 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: ddiss@suse.de
+Cc: brauner@kernel.org,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nathan@kernel.org,
+	nsc@kernel.org,
+	patches@lists.linux.dev,
+	rdunlap@infradead.org,
+	rob@landley.net,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH 1/2] init: ensure that /dev/console is (nearly) always available in initramfs
+Date: Fri, 20 Feb 2026 22:11:50 +0300
+Message-ID: <20260220191150.244006-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260220105913.4b62e124.ddiss@suse.de>
+References: <20260220105913.4b62e124.ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260220-kconfig-error-out-on-duplicated-inclusion-v1-1-be78aa241a53@kernel.org>
-X-B4-Tracking: v=1; b=H4sIABaumGkC/x3NTQqDMBBA4avIrDugwaY/VyldaDKxQ2VGJqYI4
- t2bdvk239shkzFluDc7GH04s0qN7tRAeA0yEXKsDa51vnXdFd9BJfGEZKaGWlZUwViWmcOwUkS
- WMJefgme6+ejHC6W+h+otRom3/+vxPI4vm5s+bnsAAAA=
-X-Change-ID: 20260218-kconfig-error-out-on-duplicated-inclusion-5e96d6b7ef44
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- Nicolas Schier <nsc@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7131; i=nsc@kernel.org;
- s=20250924; h=from:subject:message-id;
- bh=FdeBw+GkKyfMPGBzU2J2ct/CitZJF7jfK3sr8FmzTew=;
- b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpmK4dQ9zKBGLSEJ0xiReonxdnL1jHrSZ/GMk9O
- yvc4nWKH3qJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCaZiuHQAKCRAHUgpwFiYS
- aeORD/9U6uDPGSXNbvzQtBEeCEppuyHFzRYKQnZ/LVgL54TzzoJ3vxfpKqoA1ftthtHwcpjKqxF
- Ih0SJ3C9yu8tLJleFCoUJFjrfC83j8k02o0o0qwIksAyval+xF8AN/VVED73o0/T5anWhNk7q+n
- iMLM0NX2WkgO1PqvuG+zyLnNObf+FUg0wDfY2Xflhg/a2vTAW7QuUykknhQ+MEOUASl9OYcPJyy
- qDvem7t8MHirxAWYu8/K/H3aqsrWDNs0B7QzKCgEuFEDcC9q6lvVV/T0wVwDxJahEsohw69I5+4
- siwCGKd6kmkXFgOAQHEUW8alWErUrzafVuTxPYW7I9SJgMCjxOVgw+OMvBfgilA0EXudaRzyYnq
- pyl1bRQCRsxjZ00B0qMUSVnwI4xIR4ncNubze9UOj85eN7E18wKHdvPwuS4viKXFwaSXOT8slpl
- tiMW0hL6muhUcyQUqBU78IRYUYTWGJypC+yPfMu8WSQ7YuUuoLxltAZaQJhb4LKQIG5/dWdxqNk
- +l7+tGIUuyzfzbSYyyldkI5Mvi6ehZY1o5EM/Jw997wszjaTEjLGOUuaguOamJ6eLfCKso5L7UI
- uFk0huuiT5Lc7DEiWFWq+h0HeEHO0SwXrtgoKdjTX6FsJxuM9GYHnmJ/8+WH5wXMXNA2H4DFMIS
- 1tJ5VZ8wyd5QhpA==
-X-Developer-Key: i=nsc@kernel.org; a=openpgp;
- fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11346-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11347-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-foundation.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 513EE16A342
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0F6B916A4B7
 X-Rspamd-Action: no action
 
-Let kconfig exit with error on duplicated Kconfig file inclusion.
+David Disseldorp <ddiss@suse.de>:
+> I'd prefer not to go down this path:
+> - I think it's reasonable to expect that users who override the default
+>   internal initramfs know what they're doing WRT /dev/console creation.
+> - initramfs can be made up of concatenated cpio archives, so tools which
+>   insist on using GNU cpio and run into mknod EPERM issues could append
+>   the nodes via gen_init_cpio, while continuing to use GNU cpio for
+>   everything else.
 
-Repeated inclusion of Kbuild files are considered bad-practise with
-regard to maintenance; and Kconfig language is rich enough that there
-should be no need for that.
+This cannot be done in proper way.
 
-If repeated inclusion of Kconfig files is detected, error out with
-messages like:
+Let's assume we want to build *builtin* initramfs using GNU cpio and
+then concatenate to it an archive made by gen_init_cpio.
 
-    Kconfig.inc1:4: error: Repeated inclusion of Kconfig.inc3
-    Kconfig.inc2:3: note: Location of first inclusion of Kconfig.inc3
+Then we want CONFIG_INITRAMFS_SOURCE to accept already existing cpio
+archive AND file in gen_init_cpio format. But, according to
+CONFIG_INITRAMFS_SOURCE docs in usr/Kconfig, this is not possible
+(I didn't check whether this is true, I just have read the docs.)
 
-While commit f094f8a1b273 ("kconfig: allow multiple inclusion of the
-same file") introduced detection of recursive inclusions of Kconfig
-files, it explicitly allowed repeated inclusions, unfortunately w/o
-reasoning.
+This means that we should do this:
 
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Closes: https://lore.kernel.org/all/CAHk-=wj03hLzK2D=+OYmjgcmGM+XYymp8GyaEs=C0=rXG2nb7w@mail.gmail.com/
-Signed-off-by: Nicolas Schier <nsc@kernel.org>
----
- scripts/kconfig/lexer.l                            |  4 +--
- scripts/kconfig/lkc.h                              |  3 ++-
- scripts/kconfig/tests/err_repeated_inc/Kconfig     |  3 +++
- .../kconfig/tests/err_repeated_inc/Kconfig.inc1    |  4 +++
- .../kconfig/tests/err_repeated_inc/Kconfig.inc2    |  3 +++
- .../kconfig/tests/err_repeated_inc/Kconfig.inc3    |  1 +
- scripts/kconfig/tests/err_repeated_inc/__init__.py | 10 +++++++
- .../kconfig/tests/err_repeated_inc/expected_stderr |  2 ++
- scripts/kconfig/util.c                             | 31 +++++++++++++++++++---
- 9 files changed, 55 insertions(+), 6 deletions(-)
+1. Generate an archive by invoking gen_init_cpio and concatenate it to
+our preexisting archive
+2. Create kernel config, while specifying resulting archive in
+CONFIG_INITRAMFS_SOURCE
+3. Build the kernel
 
-diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-index 6d2c92c6095dd8c247e6c2dd5dd0b56b8ea6a769..a6155422b4a688070a40a88edfedbcacb251da76 100644
---- a/scripts/kconfig/lexer.l
-+++ b/scripts/kconfig/lexer.l
-@@ -402,7 +402,7 @@ void zconf_initscan(const char *name)
- 		exit(1);
- 	}
- 
--	cur_filename = file_lookup(name);
-+	cur_filename = file_lookup(name, NULL, 0);
- 	yylineno = 1;
- }
- 
-@@ -443,7 +443,7 @@ void zconf_nextfile(const char *name)
- 	}
- 
- 	yylineno = 1;
--	cur_filename = file_lookup(name);
-+	cur_filename = file_lookup(name, cur_filename, cur_lineno);
- }
- 
- static void zconf_endfile(void)
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index 79898596121563350d2fa63fcf879743b756d003..7e6f6ca299cf1a74e4aed704972bc098616a94b0 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -51,7 +51,8 @@ static inline void xfwrite(const void *str, size_t len, size_t count, FILE *out)
- }
- 
- /* util.c */
--const char *file_lookup(const char *name);
-+const char *file_lookup(const char *name,
-+			const char *parent_name, int parent_lineno);
- 
- /* lexer.l */
- int yylex(void);
-diff --git a/scripts/kconfig/tests/err_repeated_inc/Kconfig b/scripts/kconfig/tests/err_repeated_inc/Kconfig
-new file mode 100644
-index 0000000000000000000000000000000000000000..09a88fd29cb5a90f50585c9381a3f1b2f64a6087
---- /dev/null
-+++ b/scripts/kconfig/tests/err_repeated_inc/Kconfig
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+source "Kconfig.inc1"
-diff --git a/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc1 b/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc1
-new file mode 100644
-index 0000000000000000000000000000000000000000..495dc38314a1ac0303f9ce23500af8b009eaad3d
---- /dev/null
-+++ b/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc1
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+source "Kconfig.inc2"
-+source "Kconfig.inc3"
-diff --git a/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc2 b/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc2
-new file mode 100644
-index 0000000000000000000000000000000000000000..2b630eec2e99163cd04bc9d3e55393c70f8a886c
---- /dev/null
-+++ b/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc2
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+source "Kconfig.inc3"
-diff --git a/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc3 b/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc3
-new file mode 100644
-index 0000000000000000000000000000000000000000..a4e40e534e6a84db241abfe5076962a90f8a71bd
---- /dev/null
-+++ b/scripts/kconfig/tests/err_repeated_inc/Kconfig.inc3
-@@ -0,0 +1 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-diff --git a/scripts/kconfig/tests/err_repeated_inc/__init__.py b/scripts/kconfig/tests/err_repeated_inc/__init__.py
-new file mode 100644
-index 0000000000000000000000000000000000000000..129d740a874b30e73acde797bd00e9f160c7a7ef
---- /dev/null
-+++ b/scripts/kconfig/tests/err_repeated_inc/__init__.py
-@@ -0,0 +1,10 @@
-+# SPDX-License-Identifier: GPL-2.0
-+"""
-+Detect repeated inclusion error.
-+
-+If repeated inclusion is detected, it should fail with error message.
-+"""
-+
-+def test(conf):
-+    assert conf.oldaskconfig() != 0
-+    assert conf.stderr_contains('expected_stderr')
-diff --git a/scripts/kconfig/tests/err_repeated_inc/expected_stderr b/scripts/kconfig/tests/err_repeated_inc/expected_stderr
-new file mode 100644
-index 0000000000000000000000000000000000000000..95d90d6a93c52ec886a6309600c8c88205253497
---- /dev/null
-+++ b/scripts/kconfig/tests/err_repeated_inc/expected_stderr
-@@ -0,0 +1,2 @@
-+Kconfig.inc1:4: error: Repeated inclusion of Kconfig.inc3
-+Kconfig.inc2:3: note: Location of first inclusion of Kconfig.inc3
-diff --git a/scripts/kconfig/util.c b/scripts/kconfig/util.c
-index 5cdcee144b58126dcfab50fd709be9fc40e99423..1b69dd9e1872a0671a70e24b45a30e449dd2c75e 100644
---- a/scripts/kconfig/util.c
-+++ b/scripts/kconfig/util.c
-@@ -18,25 +18,50 @@ static HASHTABLE_DEFINE(file_hashtable, 1U << 11);
- 
- struct file {
- 	struct hlist_node node;
-+	struct {
-+		const char *name;
-+		int lineno;
-+	} parent;
- 	char name[];
- };
- 
-+static void die_duplicated_include(struct file *file,
-+				   const char *parent, int lineno)
-+{
-+	fprintf(stderr,
-+		"%s:%d: error: Repeated inclusion of %s\n"
-+		"%s:%d: note: Location of first inclusion of %s\n",
-+		parent, lineno, file->name,
-+		file->parent.name, file->parent.lineno, file->name);
-+	exit(1);
-+}
-+
- /* file already present in list? If not add it */
--const char *file_lookup(const char *name)
-+const char *file_lookup(const char *name,
-+			const char *parent_name, int parent_lineno)
- {
-+	const char *parent = NULL;
- 	struct file *file;
- 	size_t len;
- 	int hash = hash_str(name);
- 
-+	if (parent_name)
-+		parent = file_lookup(parent_name, NULL, 0);
-+
- 	hash_for_each_possible(file_hashtable, file, node, hash)
--		if (!strcmp(name, file->name))
--			return file->name;
-+		if (!strcmp(name, file->name)) {
-+			if (!parent_name)
-+				return file->name;
-+			die_duplicated_include(file, parent, parent_lineno);
-+		}
- 
- 	len = strlen(name);
- 	file = xmalloc(sizeof(*file) + len + 1);
- 	memset(file, 0, sizeof(*file));
- 	memcpy(file->name, name, len);
- 	file->name[len] = '\0';
-+	file->parent.name = parent;
-+	file->parent.lineno = parent_lineno;
- 
- 	hash_add(file_hashtable, &file->node, hash);
- 
+Unfortunately, this will not work, because to invoke gen_init_cpio you
+should build it first. And you cannot build it if there is no config
+(I checked this).
 
----
-base-commit: ca4ee40bf13dbd3a4be3b40a00c33a1153d487e5
-change-id: 20260218-kconfig-error-out-on-duplicated-inclusion-5e96d6b7ef44
+So, we should do this:
 
-Best regards,
+1. Create kernel config, while specifying an archive in
+CONFIG_INITRAMFS_SOURCE, which *DOES NOT EXISTS YET*
+2. Build gen_init_cpio by invoking "make usr/gen_init_cpio"
+3. Create an archive by invoking gen_init_cpio and concatenate it to
+our preexisting archive. Put resulting archive to the path specified in
+CONFIG_INITRAMFS_SOURCE
+4. Build the kernel
+
+Unfortunately, this will not work, either, because command
+"make usr/gen_init_cpio" doesn't work in clean kernel tree even if
+config exists (I checked this).
+
+This means that the only remaining way is this:
+
+1. Create *fake* kernel config
+2. Build whole kernel (!!!)
+3. Create an archive by invoking gen_init_cpio and concatenate it to
+our preexisting archive
+4. Create config, this time for real. Specify archive created in previous
+step as CONFIG_INITRAMFS_SOURCE
+5. Build the kernel, this time for real
+
+I hope you agree that this is totally insane.
+
+So, there is no proper way to create builtin initramfs by concatenating
+archives created by GNU cpio and gen_init_cpio.
+
+I think this is a bug in kbuild, and it probably needs to be fixed.
+
+But I think that my patchset is a better approach. My patchset simply
+ensures that /dev/console and /dev/null are always available, no matter
+what. And thus my patchset side steps the whole issue.
+
+Here are additional arguments in favor of my patchset.
+
+* The kernel itself relies on presence of /dev/console in console_on_rootfs.
+There is even comment there that currently says that opening of /dev/console
+should never fail. (The comment is wrong, and this patchset fixes it.) So, if you
+happen to supply builtin initramfs without /dev/console, then you will
+build kernel, which violates its own assumptions. This will not be
+detected until we actually try to boot the kernel. And even then it will
+be hard to understand what exactly went wrong.
+
+Why should we allow this failure mode? Let's instead ensure that this will
+never happen. I. e. let's make sure that the kernel's asssumptions are always
+true!
+
+* My patchset makes the kernel not more complex, but more simple!
+(28 insertions(+), 33 deletions(-).) Moreover, my patchset makes it
+simpler not only in LoC sense, but in conceptual sense, too!
+Currently codes in usr/default_cpio_list and init/noinitramfs.c are
+very similar. It is possible that they will be out of sync in
+some point of future.
+
+By the way, noticing that they are out of sync is *very* hard. Consider
+this scenario: usr/default_cpio_list contains this line:
+
+nod /dev/null 0666 0 0 c 1 3
+
+and init/noinitramfs.c contains this line:
+
+init_mknod("/dev/null", S_IFCHR | 0666,
+                        new_encode_dev(MKDEV(1, 3)));
+
+Are these lines equivalent? You may think they are, but they are not.
+
+init_mknod function above in fact creates node with different rights
+due to umask of kernel thread. (And thus unprivileged users will be unable
+to write to /dev/null...)
+
+My patchset merges both codes into a single helper, thus making sure they
+will never be out of sync. And thus my patchset reduces complexity of
+the kernel.
+
+* Currently it is okay not to put /dev/console to external initramfs.
+But it is not okay not to put it to builtin initramfs. Why creating
+builtin initramfs is harder than creating external initramfs? Why we make
+lifes of developers in one of these cases harder without any reason?
+
+Consider this scenario: somebody built kernel and external initramfs.
+Everything works. Now they make this initramfs to be builtin.
+Of course, they expect that everything will continue to work as before.
+But it doesn't work. PID 1 doesn't print anything to console,
+and you cannot even debug this, because it doesn't print anything to
+console and you cannot see your debug printfs!
+
+This clearly violates principle of least surprise.
+
 -- 
-Nicolas
-
+Askar Safin
 
