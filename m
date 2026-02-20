@@ -1,98 +1,98 @@
-Return-Path: <linux-kbuild+bounces-11342-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11343-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKZ4OPajl2mf3wIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11342-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 00:59:50 +0100
+	id aq43Ly+ql2lV5AIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11343-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 01:26:23 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7091F163BFE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 00:59:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CA9163D9B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 01:26:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 35E87302E856
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Feb 2026 23:59:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 70F15301227F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Feb 2026 00:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50BBA32ABFE;
-	Thu, 19 Feb 2026 23:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBAAB3A1C9;
+	Fri, 20 Feb 2026 00:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DbF8Broz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mNEqWp7W";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DbF8Broz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mNEqWp7W"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kc+pCR9A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhlWl2uR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kc+pCR9A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zhlWl2uR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E80C326D63
-	for <linux-kbuild@vger.kernel.org>; Thu, 19 Feb 2026 23:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8400B1B86C7
+	for <linux-kbuild@vger.kernel.org>; Fri, 20 Feb 2026 00:26:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771545576; cv=none; b=sC2y56p0vf2gc/PQHEF2FzC0WA2DhwO0TmKh6LiUqEJfnOev7lLk7G0RiwjjnXV/aJ8CtVWZfM+qJQXKWSMwQh5L5OyuEy8j74orIZy6WYkw5l5i5wQDsqKSdauBtX7Qo/R7H/WoXgYdnHYBcsrTlcotlGqWRkQUWSMGXnN8pgQ=
+	t=1771547180; cv=none; b=MiKvfeh4c9egzQaWILWJJHGqZEkyIvGiHXtEXjtI32hCZGuXIM5jEBy1bHMdo3CkiHpyxvGsn/0uPv741fwUfeOoU4MFKsWligOolvtgoIK7Enf4UbgltUEzYx1KE68O9RblNquasRCl81AdTaVKhmFdlykGsUfrOpV2A5JK1x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771545576; c=relaxed/simple;
-	bh=/sMVd6t/ySVPo+xYFCuqRKNAdXXwIh8XQ0cpYIdZPPI=;
+	s=arc-20240116; t=1771547180; c=relaxed/simple;
+	bh=/NLpKxGCG/FJdLzlZ+PXHLNTdM1REhMrNq6sp83Ij38=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MPNKmxptqCqS3LyF/s3jVlgv1JaYN/D+2f2iiDti3BpmuNesZSUBKgksvdefgCASBFNMzKZB3UIQJrmvJM5MztskGyQJfblidcdXu1928zt8ES2WpKpTbnoAVDBsw4BbGW6CMFA6Dc5Fo6ly4ITBrr9qKv2XYpb1JfiFBA+TXb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DbF8Broz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mNEqWp7W; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DbF8Broz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mNEqWp7W; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=MxV4IFNrCy2EIghj1VojdY3+5e56rmiWEtbnomLe4UNjjZ8oKjtsy+sjDHTJmfdFvQbjLFBSxnETpUbof/uLB8ztSbTgc6Wg751BlB8kSgpmz5tjbkmXgyCPJoB6QeBNaWz7waDKfi5tZi2mdAujXXJKWnld00IqGK21sQuvcY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kc+pCR9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhlWl2uR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kc+pCR9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zhlWl2uR; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 429AB3E709;
-	Thu, 19 Feb 2026 23:59:33 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8DFB75BCEC;
+	Fri, 20 Feb 2026 00:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771545573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771547177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aZD03gpmbjzf0OFyLhz08rHF0+1Tr1YE3QGG0eHm078=;
-	b=DbF8Brozji/Gnlo86j5STnf3x3t1w/OuGydFZxJ5nWv7SETPQ/qVhS90RgrIgmrAB0l5yH
-	xelF8QLcGsauhT8ubJonaoFetIwO/kdgWqUj32mxazzJ1zODhlmsAf/kcFidtmKF9QSs+C
-	C42EyH+LwoGDBujDSG7xspkXB83Aids=
+	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
+	b=kc+pCR9A1nYdJpkUTYId9QHSEktFjpnJHioQ48x3h24LE/zJlrgok2emgp3q0rw7a+jLlV
+	/djKMzrDPRVNlOKG/DGESaGCLglF6Dzox3gTs7h4Mf8tMXzICdyWIY6WOvAfGuEQJk0Y+R
+	XtmK2359thUcIib2sEsFsxKzhmCFQo4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771545573;
+	s=susede2_ed25519; t=1771547177;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aZD03gpmbjzf0OFyLhz08rHF0+1Tr1YE3QGG0eHm078=;
-	b=mNEqWp7Wy2+OGLKVxlN2vVuPD0pVjSs9GATulwuCv78j/9Nhxn3oyzVN8Z05tR6kuXOvLE
-	fA/Txza0ZEAl0uDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DbF8Broz;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mNEqWp7W
+	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
+	b=zhlWl2uR/lbcC95WJR6e489kQ0pnk6vd05eOizXuj/6EHcoulabLsTug3j8UxrnWsbLNqm
+	37nMsR1wu8egxWBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kc+pCR9A;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zhlWl2uR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771545573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771547177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aZD03gpmbjzf0OFyLhz08rHF0+1Tr1YE3QGG0eHm078=;
-	b=DbF8Brozji/Gnlo86j5STnf3x3t1w/OuGydFZxJ5nWv7SETPQ/qVhS90RgrIgmrAB0l5yH
-	xelF8QLcGsauhT8ubJonaoFetIwO/kdgWqUj32mxazzJ1zODhlmsAf/kcFidtmKF9QSs+C
-	C42EyH+LwoGDBujDSG7xspkXB83Aids=
+	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
+	b=kc+pCR9A1nYdJpkUTYId9QHSEktFjpnJHioQ48x3h24LE/zJlrgok2emgp3q0rw7a+jLlV
+	/djKMzrDPRVNlOKG/DGESaGCLglF6Dzox3gTs7h4Mf8tMXzICdyWIY6WOvAfGuEQJk0Y+R
+	XtmK2359thUcIib2sEsFsxKzhmCFQo4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771545573;
+	s=susede2_ed25519; t=1771547177;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aZD03gpmbjzf0OFyLhz08rHF0+1Tr1YE3QGG0eHm078=;
-	b=mNEqWp7Wy2+OGLKVxlN2vVuPD0pVjSs9GATulwuCv78j/9Nhxn3oyzVN8Z05tR6kuXOvLE
-	fA/Txza0ZEAl0uDQ==
+	bh=Ti6/Un1bwWRUUOHHY8uRk2oc0+xJnmBZdcBUvJxFcM4=;
+	b=zhlWl2uR/lbcC95WJR6e489kQ0pnk6vd05eOizXuj/6EHcoulabLsTug3j8UxrnWsbLNqm
+	37nMsR1wu8egxWBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76C8F3EA65;
-	Thu, 19 Feb 2026 23:59:28 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1FE83EA65;
+	Fri, 20 Feb 2026 00:26:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IzI+CuCjl2ntMwAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Thu, 19 Feb 2026 23:59:28 +0000
-Date: Fri, 20 Feb 2026 10:59:13 +1100
+	id 59X2GySql2l+TgAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Fri, 20 Feb 2026 00:26:12 +0000
+Date: Fri, 20 Feb 2026 11:26:06 +1100
 From: David Disseldorp <ddiss@suse.de>
 To: Askar Safin <safinaskar@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
@@ -101,12 +101,12 @@ Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
  linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org, Rob Landley
  <rob@landley.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
  <nsc@kernel.org>, patches@lists.linux.dev
-Subject: Re: [PATCH 1/2] init: ensure that /dev/console is (nearly) always
+Subject: Re: [PATCH 2/2] init: ensure that /dev/null is (nearly) always
  available in initramfs
-Message-ID: <20260220105913.4b62e124.ddiss@suse.de>
-In-Reply-To: <20260219210312.3468980-2-safinaskar@gmail.com>
+Message-ID: <20260220112606.551099f5.ddiss@suse.de>
+In-Reply-To: <20260219210312.3468980-3-safinaskar@gmail.com>
 References: <20260219210312.3468980-1-safinaskar@gmail.com>
-	<20260219210312.3468980-2-safinaskar@gmail.com>
+	<20260219210312.3468980-3-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -123,13 +123,13 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11342-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11343-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
@@ -145,39 +145,23 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7091F163BFE
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,android.com:url]
+X-Rspamd-Queue-Id: 03CA9163D9B
 X-Rspamd-Action: no action
 
-On Thu, 19 Feb 2026 21:03:11 +0000, Askar Safin wrote:
+On Thu, 19 Feb 2026 21:03:12 +0000, Askar Safin wrote:
 
-> If we generate external initramfs as normal user using "cpio"
-> command, then we cannot put /dev/console there.
-> 
-> Fortunately, in this case default builtin initramfs will
-> contain /dev/console (before this commit).
-> 
-> But if we generate builtin initramfs instead, then we will
-> not have /dev/console at all. Thus the kernel will be unable to
-> open /dev/console, and PID 1 will have stdin, stdout and stderr
-> closed.
-> 
-> This problem can be solved by using gen_init_cpio.
-> 
-> But I think that proper solution is to ensure that /dev/console
-> is always available, no matter what. This is quality-of-implementation
-> feature. This will reduce number of possible failure modes. And
-> this will make easier for developers to get early boot right.
-> (Early boot issues are very hard to debug.)
+> Binaries linked with bionic libc require /dev/null to be present,
+> otherwise they will crash before entering "main", as explained
+> in https://landley.net/toybox/faq.html#cross3 .
 
-I'd prefer not to go down this path:
-- I think it's reasonable to expect that users who override the default
-  internal initramfs know what they're doing WRT /dev/console creation.
-- initramfs can be made up of concatenated cpio archives, so tools which
-  insist on using GNU cpio and run into mknod EPERM issues could append
-  the nodes via gen_init_cpio, while continuing to use GNU cpio for
-  everything else.
+It looks as though Bionic has extra logic to handle missing /dev/null
+during early boot, although it's dependent on !is_AT_SECURE:
+  https://cs.android.com/android/platform/superproject/main/+/main:bionic/libc/bionic/libc_init_common.cpp;drc=a7637a8f06f103c53d61a400a6b66f48f2da32be;l=400
+
+I think this would be better addressed via documentation (e.g. in Bionic
+or ramfs-rootfs-initramfs.rst).
 
 Thanks, David
 
