@@ -1,203 +1,200 @@
-Return-Path: <linux-kbuild+bounces-11355-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11356-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MMx3CRJpm2kYzQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11355-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 21:37:38 +0100
+	id le3iOpN+m2nO0QMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11356-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 23:09:23 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658BC170570
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 21:37:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B471708D4
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 23:09:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 687CA3008D26
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 20:37:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A1E4300CC19
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 22:09:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E32F01C862E;
-	Sun, 22 Feb 2026 20:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7FEF1EFF8D;
+	Sun, 22 Feb 2026 22:09:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m6CoXrjR"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="RjscmW0c"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12301C2324
-	for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 20:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771792654; cv=pass; b=GGEUM/JYqknYDTUg+Yhj5YnXLIDtMkbWRQtxM36dJDudV61HMgPyolDMXMXJNNeeMPBtCRdXxZR1uGa3l6L3rOIfdE+K5TTtL1QWKUWk9E0maraGXZT+6QaFeVLtoNu70tU9wYbicZcgCpdpz9kYY+iXDkHig+vICHE7ZR9cuGs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771792654; c=relaxed/simple;
-	bh=1G1jnbq5K9n0GAuKV6cRNt1hZT8uLflms8262MRJ0ZY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=peFBubxetIhxvZvcwVv2BqzAQuQ/j8Z1kUStYchJUSWskfwFEfdqGRryKhmSF3RtmQrIjrGst+YLBtl5ac3WHl8CcX8Elxh0d/yepNwGhWySc3KXhrs6wQtDnw7p1qeo6oRle3HRxxhWz6Wi4DyY8D8DRyWKn44+kimRQDo20iI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m6CoXrjR; arc=pass smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ad4d639db3so17468785ad.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 12:37:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771792653; cv=none;
-        d=google.com; s=arc-20240605;
-        b=b0NqStNTwxf27zGrmNlP7RG2qtIimrlPEchzU1fAAehCRjLDoflrBHzV89eHZXYY2L
-         XMAgkXZ70ZA2HqNjZJmBnk1VHfZit6upc7T6hS6HVWum7LXRV7Fh5n10S/w48vTdWwNK
-         Efe89tFCFvsGBG0Asw32Gpxh9WwHj1t80DIR+piTZJUx/VoiKxxvKUyoYUWcdWRXgLi8
-         xHxnivMSHTwl7j8mZbbjDiSi+sfKUWf+cxcL38fE3E6QBdR9l/8znnj90ijY7a77IYcS
-         4umXdzJCysPVMrLQR8T0oQ+WQYdAyWwsidyVOJ8jaUw5BVC0oZu1ftRadvu16qRXsiQc
-         rNwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Bq49wJw0ViM8IeW4KF1JyMB68EAXhB/pnLvq7XyKVcw=;
-        fh=Xr2Qdi4mgn1fqZ6HBMPdLbeY3xyjoC7fr4yTYg4JTJI=;
-        b=cEvg5pk6mNqKcjIZvBjxZ+1RZXpGkr0d0dAAGuKccU41OHiaPFEpoU6PEO0J5mC48v
-         0J5OvbsYHoZOIuWLrrCVcVXkTDodhIcieVfWmgcqLupuzYLighGx44mgm1ZkwAVPOBxi
-         oK7Ivp8J4gEuwPEsnxQ3mjxrB6x+XdxblNFgHCG7O34k3DbkWfmwtswSK/YR10qVE4ZE
-         BF+jly8MqtBIJRRUb+LYVzdA5GB/cgOFOu8Wp2HGwc8qrAlSzkR7peOK4fsEHYnC5v3/
-         IkOwy7Yfc6eVpHGPA6ic8/Ytj37C8/7OjsfZRQGPzFJy5iIFLbuYXcKEh9LMG4GsrbkW
-         gmXA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0885542A96
+	for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 22:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771798159; cv=none; b=I/kBVKYtB/M+jWocs3lZfICu3bl5fEck9EKqoPYvvtk50BE35hbR+Eg7QZ9Qc/DV13sGc28uEq+7dwTAXXcq6VmcK2KIcnd1baShRxvI8q3TSVFDqJAB/gQGofblsCRVZTDAwsiFeQCONveuAmmutANyaMmLv96LgGeFMWNXq9w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771798159; c=relaxed/simple;
+	bh=gg2PGH5N2PSMcSrIj+okaGRyO9G+QKZikbs5CPWZtd4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=gw/HrEC1hNaz/65S0lIaAzkcHUClpYzhCsTr8qf7k0nbZH8mXPNKb0wwCUTOhlh2cMgei4S7Mds8DhvlhRLqF2d3LMh3PLlSLBuMngz1Ba/hpUa3nAbt/6Nlo06TQHvMLJfVp+48aHFEuXIEoB45FR9q9C3ud6NNaAED/26lUZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=RjscmW0c; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8845cb5862so614266666b.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 14:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771792653; x=1772397453; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bq49wJw0ViM8IeW4KF1JyMB68EAXhB/pnLvq7XyKVcw=;
-        b=m6CoXrjRpLcB9jEqZPXevl5MIOKg+L43APARViJwyGszLechSchJiFvzkh7PSnq7yh
-         vv6rSCIBBP79AmxfVTFN/LtRPwHlhJ20uATfjh3RmcP6oyV1b+Pamgdcvn0YDq9fjYww
-         uMKYtewsLQAnZYtfDdlpZhTGuxaav1L0mAb8sHysFqwEem0WO6NTvGAil3zM2KfqV9Je
-         2DqwrV449hHF0RavV7MBXUX/maNSc2vWIJpBfbl5lgjxtF2qXrIzJ3Jburz4fWr5ty9b
-         KLsREOL4fT7sKWTpiD6cnya0l2l8QSyRWzDVFxz5DSnTRz0QTLinGRK5VwJJvjCtnp6h
-         lqYw==
+        d=linux-foundation.org; s=google; t=1771798156; x=1772402956; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0ux4ZEvZJ4hcsLckkohrc2GXPqcYNCw8BHTj7ezbd7U=;
+        b=RjscmW0cWvfYjyqZbEPV6igcncbpXxQx7v0HunRA3/pXYmKvSlVs51SyT5jjq0cxPz
+         AfLvWtXtLy0Yuc21qQciwUIUQBj2DIlEVB9LrB7cIpXjWyaOHviI4fEV2y2Onj9RHPoJ
+         L3txiki1J8yQck3sjZGrtpIF2EEni1DJ3KazI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771792653; x=1772397453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bq49wJw0ViM8IeW4KF1JyMB68EAXhB/pnLvq7XyKVcw=;
-        b=lFal/qMm3ERcAXWBNbLl/V+kCA6J1KhCDt2FgDMhVQeDD6qqsy74oxOrtnHLfR8sHK
-         +tg4oFwHjg0Y5MZYWVPZCIv9dQUUb3w8s9+sutHC9rf5sksWFi8wGre3QnZRYMCemCk3
-         pQnyl/jKwlIeHPOeKNExt0m5evbZ+MbKm/SSywLpSNZ8alr4vPs2mEVRSPU+e2C7fm70
-         t8jVsfzTJ2Kl9UfxV6+V+9j/vKl0ThDnqluIEwsDhfhBS0fMsUJ29tJO5x+Jb1Q1CLZ5
-         PGM5eCXVrWHwqhCmMEcd9xNHZfjL/jP+1gzTVaO9QyXpyA3fqKjOJa1yD15jl2pkS4rN
-         6HQg==
-X-Gm-Message-State: AOJu0Yx9RndbBkLCXKnZp/3YPuO3NagqsGmeIYx5nP9XSYhJYoAUVcC9
-	D1wAQSdler/6GeZAVIrqYgWyszNehHZz79TyLmH5LQI3JaqhbLMGvOYB0gh25h+DFmbDqaaWBOD
-	+3/PnCZtMBuP5AYTmGhKdBhja/U8vRkc=
-X-Gm-Gg: AZuq6aJwWkmxfJUd72oCyqZXQT9dHCWEW3fMNbag4gcxDpFozTwRiFMbGDAwXoHjL2M
-	I8ElXClnnA0EC+al3pd9HcyTi9jCyOYukNQAXXxKK5XUTokiyZZ38KSfIflSODCH02cFKc8eLd+
-	3aoIkJ30AY0U2r2F4BLiTHVcu38aw+JWmTV6yqPcVPP2TZQu6kDVWRlRRBP08/bpZc2h62eEKuw
-	bZkV8PWzPgGNBCu5OlYg+fQxwZcYWYHnt/swrrUtqma0S9h3s4Weoa6tv/kVjV0zLL61g30C3xl
-	iVd3Q3NPjECooDuMNx+g+8rgN3zbVyy4joz/qImw/O+NEzDCWy82CSibQFTfn3M=
-X-Received: by 2002:a17:903:985:b0:2a9:4666:530b with SMTP id
- d9443c01a7336-2ad74463c1cmr52145465ad.16.1771792653027; Sun, 22 Feb 2026
- 12:37:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771798156; x=1772402956;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ux4ZEvZJ4hcsLckkohrc2GXPqcYNCw8BHTj7ezbd7U=;
+        b=fofat1aKxcHpq9eBM+z4IG2CWECISNupVm7dC4owbQ5m1+GpYPXSOocCUs1sJGIX76
+         rUn1mY0B0/ZSODRroxyV9p6T4fEu08o7W+qL8x0MSkQSs3/xpKv8PrNElZN+0kL4QZRr
+         fpwk51lE77sIeV2wlXVBiDBgXzhnBVDnlaCxkB1MWeLMJ5LftlQin8XCASlcCIlMJiuY
+         Ut/na/pzM7W0i3+aLJl+XeusfcQPPFi7+UtNZNZ+VaYp6WoyoL60wD6QQs+gGyikT9n5
+         fExSWVlDpF/e9+x3mP6hN5anNfPKIsPMEt9STdnFwJJHv6KwytcqwnMyGU2cLczdiVDU
+         7jrw==
+X-Forwarded-Encrypted: i=1; AJvYcCVc1VD4QirzphlTNzcW0Y7T3uDn9ddvn3JAtZUclNgQJ/38DXW00NfRM9TDTKl4Z4CDguR0tCE6QLdVz3g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSHhTJkfOchL8sYymZFMDFx1/Wr2Xy/waf89va4oDz4wjIb50/
+	uERWNt6U4Bi+yRTTsZ6M4WtyZCQsPEyXWO2rnuwW+oRHNIBBZY2qao7fCf/VtBgJSUXp/aXuwWz
+	GOcOU1E4=
+X-Gm-Gg: AZuq6aJ8SyDrixI+/JydmihmGzYb0xtC0xr6KgcpK78szxaL/nfbg+LK45MsCSJj2rK
+	y9a/WIQoLhUblhNzYVMrUz6BFo7U7jU7HI9bS7v7FYpHvYsSOWjNugTY5P4FCjEb++xfJEpYrF8
+	zfK2xctMaeTBLOWzN+FL77GjdRHSS8tx4n912NLnTndFBAXRxBF7B3Q03P2HPXxtmDk7pc3eUur
+	yyVun6DTl559j72UoPoAa4PDQMb4hYYKwUakTNSeH2fTux+asGSz9u9m3UvFOQuGyVZYdq9ZTP9
+	pxNM5+JR4v5daNTP6NJNS/vgBMW6qBHaQEXFbkiyzdrj7Vjzo4G4O2vmWO5z6EySkASiAplJ6/p
+	iwBmxxmjvwM9nU+EYIJK8XaKuUoeVOsE8Rcbn/Lt5Vldz7SD1eF63LTbKhxEStjF14dvsP624U3
+	7XRq5PVbycwZW8qQ8CD1HzWZ4sEjaLH3vwEIXugAFoWW7UqpmDlPQSUy+2OY0VDYMZpHgCGA+8
+X-Received: by 2002:a17:906:f586:b0:b8e:4790:d7c7 with SMTP id a640c23a62f3a-b908196f539mr411428966b.6.1771798155863;
+        Sun, 22 Feb 2026 14:09:15 -0800 (PST)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9084e4c38esm256293466b.34.2026.02.22.14.09.15
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Feb 2026 14:09:15 -0800 (PST)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b8845cb5862so614265366b.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 14:09:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVYfXXU+sxT+UP1DCrL0nRAYczbuE4XOisk7vLIFQzBUstTaOmgt0Xb4t6bLzscOvpBKd2J64jY6dZwbGI=@vger.kernel.org
+X-Received: by 2002:a17:907:1c18:b0:b8f:6699:a036 with SMTP id
+ a640c23a62f3a-b9081a2bfa6mr362521766b.19.1771798155202; Sun, 22 Feb 2026
+ 14:09:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CACT+mvZJo4ZdWbwY1=MpJqJg=Xf3y4QCiSy9APvMZaCh4GBBKw@mail.gmail.com>
- <fd7a58ed-e8d2-4101-b89b-297190b41813@infradead.org>
-In-Reply-To: <fd7a58ed-e8d2-4101-b89b-297190b41813@infradead.org>
-From: Bogdan Metla <edistuo.revresbo@gmail.com>
-Date: Sun, 22 Feb 2026 23:37:21 +0300
-X-Gm-Features: AaiRm52xb8BFKunJogc-HkrnElhdZ7Q500lh6CFF05aYlFYQ4Uekhl8oLY7sbtk
-Message-ID: <CACT+mvYktZ3ryF2ceHGFREwF3=pCR9LsYoo6fBgBdN+Od4crLQ@mail.gmail.com>
-Subject: Re: tools-support-relr.sh segfaults when NM is empty
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kbuild@vger.kernel.org
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 22 Feb 2026 14:08:59 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgz_YNXErcC7FSr5kKAONTZC=SKLsbu6gFN1hCEE5JsKg@mail.gmail.com>
+X-Gm-Features: AaiRm51pe-pZJq1a42X16T9P_h744eGU2QVVjHutBMEgrO5wd9RpWJw7MNOYKjI
+Message-ID: <CAHk-=wgz_YNXErcC7FSr5kKAONTZC=SKLsbu6gFN1hCEE5JsKg@mail.gmail.com>
+Subject: Rust build speed-ups - please?
+To: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: rust-for-linux <rust-for-linux@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWO(0.00)[2];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11355-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[edistuorevresbo@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11356-lists,linux-kbuild=lfdr.de];
+	TO_DN_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[linux-foundation.org];
+	DKIM_TRACE(0.00)[linux-foundation.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-kbuild@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 658BC170570
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 49B471708D4
 X-Rspamd-Action: no action
 
-Thanks for pointing to the similar fix in check-function-names.sh! I
-tested ${NM:-nm} in tools-support-relr.sh and it solves the segfault
-when NM is empty. Here's a minimal patch: ---
-a/scripts/tools-support-relr.sh +++ b/scripts/tools-support-relr.sh @@
--16,6 +16,6 @@ # Despite printing an error message, GNU nm still exits
-with exit code 0 if it # sees a relr section. So we need to check that
-nothing is printed to stderr. -test -z "$($NM $tmp_file 2>&1
->/dev/null)" +test -z "$(${NM:-nm} $tmp_file 2>&1 >/dev/null)"
-$OBJCOPY -O binary $tmp_file $tmp_file.bin Perhaps it would be good to
-apply a similar fix to tools-support-relr.sh in the kernel. -- Bogdan
+So this is not new - in fact I think it goes back to the original Rust
+code merge, but it's been grating on me for a while, and it *really*
+ended up annoying me this merge window.
 
-=D0=B2=D1=81, 22 =D1=84=D0=B5=D0=B2=D1=80. 2026=E2=80=AF=D0=B3. =D0=B2 21:5=
-1, Randy Dunlap <rdunlap@infradead.org>:
->
-> Hi,
->
-> On 2/22/26 9:19 AM, Bogdan Metla wrote:
-> > Hello
-> >
-> > Problem:
-> > When NM is unset or empty, tools-support-relr.sh executes a temporary
-> > file as a program, causing a segfault:
-> >
-> >   test -z "$($NM $tmp_file ...)" =E2=86=92 test -z "$($tmp_file ...)" =
-=E2=86=92 segfault!
-> >
-> > Root cause:
-> > The script uses #!/bin/sh -eu, but -u only catches unset variables,
-> > not empty strings. When NM=3D"", the command becomes `$tmp_file`, which
-> > tries to execute the temporary object file.
-> >
-> > Reproduction:
-> >   unset NM
-> >   export srctree=3D. SRCARCH=3Dx86 CC=3Dgcc LD=3Dld
-> >   python3 -c "from kconfiglib import Kconfig; Kconfig('Kconfig', warn=
-=3DFalse)"
-> >   dmesg | grep -i segfault  # Shows segfault in tmp.XXXXXX
-> >
-> > Expected behavior:
-> > Clear error message like "NM must be set" instead of segfault.
-> >
-> > Fix:
-> > Add explicit check at start of tools-support-relr.sh:
-> >   : "${NM:?NM must be set}"
-> >
->
-> or it needs a change similar to a recent one in
-> check-function-names.sh:
-> ${NM:-nm}
-> (see https://lore.kernel.org/linux-kbuild/20251219214252.GD1407372@ax162/=
-)
-> or the top-level Makefile needs that (although several of the
-> scripts in scripts/ are run directly, without using Makefile),
-> so each script might need its own protection.
->
-> thanks.
-> --
-> ~Randy
->
+IOW, I wish somebody would look  into it. I just don't know if it's a
+Rust person or a Kbuild person (or both) that should do so.
+
+So I'm just cc'ing everybody in the hope that somebody will step up.
+
+Anyway, the annoyance is the initial part of the build, which is
+pretty much entirely single-threaded, and as a result takes a
+relatively long time for many simple builds which just shouldn't take
+that long.
+
+I haven't looked into it very much, but I'm pretty sure it's all due
+to this in our main Makefile:
+
+  # All the preparing..
+  prepare: prepare0
+  ifdef CONFIG_RUST
+      +$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh
+      $(Q)$(MAKE) $(build)=rust
+  endif
+
+and that just means that the real meat of the kernel build is all
+gated on that annoying initial rust infrastructure build.
+
+Here's a test-case that I wish people would look at:
+
+    git clean -dqfx
+    make allmodconfig
+    time make init/main.o
+
+because for me it takes OVER ONE MINUTE !!! to just build that single
+object file due to all the excessive prep stuff.
+
+Or - after doing the above - do something like this (imagine I've done
+a big merge, and want to compile-test the *one* file that had
+conflicts in it):
+
+    touch rust/kernel/faux.rs
+    make init/main.o
+
+and notice how that empty build that doesn't even build 'main.o'
+(because it's all up-to-date!) takes 5+ seconds just because the
+kernel build insists on updating those entirely irrlevant rust files
+that have nothing to do with what I asked it to build?
+
+Yes, yes, those are artificial examples, but they are examples based
+on real issues: me wanting to do build checks on certain files, and
+then being held up by entirely pointless other builds that shouldn't
+be in the way.
+
+Now, we have other annoying prep in there too - I absolutely hate the
+HDRINST phase, and it would be lovely if that would be fixed as well -
+but the rust part is the one that triggers most easily by small
+changes elsewhere (iow - those "test-build during merge conflict
+resolution" kind of situations), and really stands out like a sore
+thumb in what fro me are normal circumstances.
+
+Can somebody who knows the rust build requirements better please move
+all of that into proper build *dependencies*, so that 'make' can just
+do it all in parallel with other things - or not do it at all when
+they aren't required - that don't actually require the generated rust
+headers etc?
+
+Yes, the actual "check that rust is available" part makes sense as a
+prepare phase. The rest? Not so much. Why the heck does it build that
+'rust/core.o' file when I want to do a test-build of a totally
+unrelated file?
+
+          Linus
 
