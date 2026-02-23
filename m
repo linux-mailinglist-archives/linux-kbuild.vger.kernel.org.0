@@ -1,200 +1,188 @@
-Return-Path: <linux-kbuild+bounces-11356-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11357-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id le3iOpN+m2nO0QMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11356-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 23:09:23 +0100
+	id 8eysFo2em2nP3gMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11357-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 01:25:49 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B471708D4
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 23:09:23 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95170170EC9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 01:25:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2A1E4300CC19
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Feb 2026 22:09:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 458983017049
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 00:25:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7FEF1EFF8D;
-	Sun, 22 Feb 2026 22:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D8971A9F82;
+	Mon, 23 Feb 2026 00:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="RjscmW0c"
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="KAdio8I+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fennec.ash.relay.mailchannels.net (fennec.ash.relay.mailchannels.net [23.83.222.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0885542A96
-	for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 22:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771798159; cv=none; b=I/kBVKYtB/M+jWocs3lZfICu3bl5fEck9EKqoPYvvtk50BE35hbR+Eg7QZ9Qc/DV13sGc28uEq+7dwTAXXcq6VmcK2KIcnd1baShRxvI8q3TSVFDqJAB/gQGofblsCRVZTDAwsiFeQCONveuAmmutANyaMmLv96LgGeFMWNXq9w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771798159; c=relaxed/simple;
-	bh=gg2PGH5N2PSMcSrIj+okaGRyO9G+QKZikbs5CPWZtd4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=gw/HrEC1hNaz/65S0lIaAzkcHUClpYzhCsTr8qf7k0nbZH8mXPNKb0wwCUTOhlh2cMgei4S7Mds8DhvlhRLqF2d3LMh3PLlSLBuMngz1Ba/hpUa3nAbt/6Nlo06TQHvMLJfVp+48aHFEuXIEoB45FR9q9C3ud6NNaAED/26lUZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=RjscmW0c; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8845cb5862so614266666b.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 14:09:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1771798156; x=1772402956; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0ux4ZEvZJ4hcsLckkohrc2GXPqcYNCw8BHTj7ezbd7U=;
-        b=RjscmW0cWvfYjyqZbEPV6igcncbpXxQx7v0HunRA3/pXYmKvSlVs51SyT5jjq0cxPz
-         AfLvWtXtLy0Yuc21qQciwUIUQBj2DIlEVB9LrB7cIpXjWyaOHviI4fEV2y2Onj9RHPoJ
-         L3txiki1J8yQck3sjZGrtpIF2EEni1DJ3KazI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771798156; x=1772402956;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ux4ZEvZJ4hcsLckkohrc2GXPqcYNCw8BHTj7ezbd7U=;
-        b=fofat1aKxcHpq9eBM+z4IG2CWECISNupVm7dC4owbQ5m1+GpYPXSOocCUs1sJGIX76
-         rUn1mY0B0/ZSODRroxyV9p6T4fEu08o7W+qL8x0MSkQSs3/xpKv8PrNElZN+0kL4QZRr
-         fpwk51lE77sIeV2wlXVBiDBgXzhnBVDnlaCxkB1MWeLMJ5LftlQin8XCASlcCIlMJiuY
-         Ut/na/pzM7W0i3+aLJl+XeusfcQPPFi7+UtNZNZ+VaYp6WoyoL60wD6QQs+gGyikT9n5
-         fExSWVlDpF/e9+x3mP6hN5anNfPKIsPMEt9STdnFwJJHv6KwytcqwnMyGU2cLczdiVDU
-         7jrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVc1VD4QirzphlTNzcW0Y7T3uDn9ddvn3JAtZUclNgQJ/38DXW00NfRM9TDTKl4Z4CDguR0tCE6QLdVz3g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSHhTJkfOchL8sYymZFMDFx1/Wr2Xy/waf89va4oDz4wjIb50/
-	uERWNt6U4Bi+yRTTsZ6M4WtyZCQsPEyXWO2rnuwW+oRHNIBBZY2qao7fCf/VtBgJSUXp/aXuwWz
-	GOcOU1E4=
-X-Gm-Gg: AZuq6aJ8SyDrixI+/JydmihmGzYb0xtC0xr6KgcpK78szxaL/nfbg+LK45MsCSJj2rK
-	y9a/WIQoLhUblhNzYVMrUz6BFo7U7jU7HI9bS7v7FYpHvYsSOWjNugTY5P4FCjEb++xfJEpYrF8
-	zfK2xctMaeTBLOWzN+FL77GjdRHSS8tx4n912NLnTndFBAXRxBF7B3Q03P2HPXxtmDk7pc3eUur
-	yyVun6DTl559j72UoPoAa4PDQMb4hYYKwUakTNSeH2fTux+asGSz9u9m3UvFOQuGyVZYdq9ZTP9
-	pxNM5+JR4v5daNTP6NJNS/vgBMW6qBHaQEXFbkiyzdrj7Vjzo4G4O2vmWO5z6EySkASiAplJ6/p
-	iwBmxxmjvwM9nU+EYIJK8XaKuUoeVOsE8Rcbn/Lt5Vldz7SD1eF63LTbKhxEStjF14dvsP624U3
-	7XRq5PVbycwZW8qQ8CD1HzWZ4sEjaLH3vwEIXugAFoWW7UqpmDlPQSUy+2OY0VDYMZpHgCGA+8
-X-Received: by 2002:a17:906:f586:b0:b8e:4790:d7c7 with SMTP id a640c23a62f3a-b908196f539mr411428966b.6.1771798155863;
-        Sun, 22 Feb 2026 14:09:15 -0800 (PST)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9084e4c38esm256293466b.34.2026.02.22.14.09.15
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Feb 2026 14:09:15 -0800 (PST)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b8845cb5862so614265366b.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 Feb 2026 14:09:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVYfXXU+sxT+UP1DCrL0nRAYczbuE4XOisk7vLIFQzBUstTaOmgt0Xb4t6bLzscOvpBKd2J64jY6dZwbGI=@vger.kernel.org
-X-Received: by 2002:a17:907:1c18:b0:b8f:6699:a036 with SMTP id
- a640c23a62f3a-b9081a2bfa6mr362521766b.19.1771798155202; Sun, 22 Feb 2026
- 14:09:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0FA3EBF06;
+	Mon, 23 Feb 2026 00:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.222.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771806345; cv=pass; b=dMi7qmW/O+Pw/oyghpnMV31pLadTsEcRi9TcZn9s+T4ZRDH68EkUpBmW/ljfZ2x7+tY5/hwdRgCvX7Am8lOTrbNk2BZH1JD/Z+QgjN/0iDnvuM11CD4knVAyQhHbd4NkWnvgp+2bWoRl4zlqu4t1Kcugcy3/ajnp7Cy+Z3yO8LA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771806345; c=relaxed/simple;
+	bh=vnl3n6hiLRbYTraiOMb+bVU+YKg9dIaxSlm6mpPCZuE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kjrGX7uh0eHjOT7SKxRVrb8/s1u5lo9w2y31+qxzazfl0fX8wYNiQ98aEc2wCFCHvtXqnAQzXUgw7dv2ouKWf18APIb+eoIFQWL5uGQD0CN3WY2cl7k+VeOULni5emHX1QYR/OAxf9NFCf/c/J/BU0o/JBQ0BMFdPXqjnTxuS7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=KAdio8I+; arc=pass smtp.client-ip=23.83.222.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id CB9EA78323A;
+	Mon, 23 Feb 2026 00:17:06 +0000 (UTC)
+Received: from pdx1-sub0-mail-a220.dreamhost.com (100-97-187-78.trex-nlb.outbound.svc.cluster.local [100.97.187.78])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 5F91078320C;
+	Mon, 23 Feb 2026 00:17:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1771805826;
+	b=nS39JAZZ1x7GEi8kd6hBEb0VddJIjmIN1ih8vqTrOPa3KljmW925tQ/jr4GcJMBeloTIhs
+	2kF6rAvjwWm53D80pv1bzQlek8Ta6Ru6m2tsnx2Jw9Aq0pyp+3EA9cyIarJ7KJXFNThDqS
+	gHA7adwCWLFiXr/Agcn3YmoVwQqXuODCKAICZ0n9N6aXLrM8UBnH6lZzGw1O+OTYEP+SYO
+	tH7dlHcjVVmxCgh+PzmJ3Wh/HWtT4NOmpUn2m2H79CWJlDZPFQzWod1MdMBs6YTs/RjWsb
+	+30P2A1y3daOsjUb1QNGD+BF0Oppuze9E00ZDYlj/tHNOEw5i5yL/ApJnEHIRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1771805826;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=ejC93Nu7XMWnzidBneVNGHhfI3IKdCvyfDvNoCmZe5o=;
+	b=cKGwSgB0vfBiNtu1dFyo1LGfvIgzprANNnIF+iIunOUk4fNzzMDALACUhLTb1jGPBhZJBR
+	W2JA5L2C2mTbl93uGWAuQc5GCFDq3bGhEwzIiQ9pnc8Oi/WRHuT0JD/jSkUzI8KXGLvi3+
+	K+73V0R8ajEb//hJJqySV2YXrfMY9T355DReIMR+5HOAN+hIUuf3RYPSzno8m7CgwofQOB
+	rUcuEOAUKDC/OlrWxrCZHhB19EHB0bvfYNUljUlAZqjFDBs8BNp0J8DlXazYzeqQvAw9mN
+	DJk0ELFjp+CzTBMZCpThq47u2x263zzgvkao57C/94UROTEjh/6vxh5/KWhZMA==
+ARC-Authentication-Results: i=1;
+	rspamd-7f65b64645-s74qj;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Descriptive-Shrill: 1a594b3400788975_1771805826688_2785434387
+X-MC-Loop-Signature: 1771805826688:3386891487
+X-MC-Ingress-Time: 1771805826686
+Received: from pdx1-sub0-mail-a220.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.97.187.78 (trex/7.1.3);
+	Mon, 23 Feb 2026 00:17:06 +0000
+Received: from [192.168.14.155] (unknown [209.81.127.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a220.dreamhost.com (Postfix) with ESMTPSA id 4fK1cx3K7JzQf;
+	Sun, 22 Feb 2026 16:17:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1771805826;
+	bh=ejC93Nu7XMWnzidBneVNGHhfI3IKdCvyfDvNoCmZe5o=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=KAdio8I+4ZC3SZr9noEGXA1dPIra+K58gvG05zU5jOQZkc0RirZwaZxLAoBlCIsR/
+	 c/HYyZhksRxOjmA8bw7SkM0NKHnGPwCAim9zuZMkqYdU1Sj4eC2kp9L85o5ZlHDSqE
+	 jZd+rhCiIKRWNeoOt3KDAQEWKhY4ojUDOuMVy8pqiF0FRHsChUdb3wGkvguzfQGDEn
+	 CGoc96VpC250tJ29hiSWU9d+igRn0BddbJ/5zIcbamM87+zxhnLyoCxQ0w/vee33Sy
+	 V1AbEj4Xyuh7ZQv6jJYUVwmxcaO578FIEOrRq8JHSkdkovJct2YP/a9rGJOYfnvoBf
+	 sQhnrkDENDYAQ==
+Message-ID: <a7cb199d-928d-4158-8f16-db7ae5309082@landley.net>
+Date: Sun, 22 Feb 2026 18:17:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 22 Feb 2026 14:08:59 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgz_YNXErcC7FSr5kKAONTZC=SKLsbu6gFN1hCEE5JsKg@mail.gmail.com>
-X-Gm-Features: AaiRm51pe-pZJq1a42X16T9P_h744eGU2QVVjHutBMEgrO5wd9RpWJw7MNOYKjI
-Message-ID: <CAHk-=wgz_YNXErcC7FSr5kKAONTZC=SKLsbu6gFN1hCEE5JsKg@mail.gmail.com>
-Subject: Rust build speed-ups - please?
-To: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>
-Cc: rust-for-linux <rust-for-linux@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] init: ensure that /dev/console and /dev/null are
+ (nearly) always available in initramfs
+To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org,
+ David Disseldorp <ddiss@suse.de>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, patches@lists.linux.dev
+References: <20260219210312.3468980-1-safinaskar@gmail.com>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <20260219210312.3468980-1-safinaskar@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_DKIM_ALLOW(-0.20)[landley.net:s=dreamhost];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11356-lists,linux-kbuild=lfdr.de];
-	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11357-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
+	DMARC_NA(0.00)[landley.net];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,kernel.org,zeniv.linux.org.uk,suse.cz];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,linux-kbuild@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	DKIM_TRACE(0.00)[landley.net:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 49B471708D4
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,landley.net:mid,landley.net:url,landley.net:dkim];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rob@landley.net,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 95170170EC9
 X-Rspamd-Action: no action
 
-So this is not new - in fact I think it goes back to the original Rust
-code merge, but it's been grating on me for a while, and it *really*
-ended up annoying me this merge window.
+On 2/19/26 15:03, Askar Safin wrote:
+> This patchset is for VFS.
+> 
+> See commit messages for motivation and details.
 
-IOW, I wish somebody would look  into it. I just don't know if it's a
-Rust person or a Kbuild person (or both) that should do so.
+FYI I've been using (and occasionally posting) variants of 
+https://landley.net/bin/mkroot/0.8.13/linux-patches/0003-Wire-up-CONFIG_DEVTMPFS_MOUNT-to-initramfs.patch 
+since 2017.
 
-So I'm just cc'ing everybody in the hope that somebody will step up.
+What needs /dev/null? I haven't encountered that.
 
-Anyway, the annoyance is the initial part of the build, which is
-pretty much entirely single-threaded, and as a result takes a
-relatively long time for many simple builds which just shouldn't take
-that long.
+The problem with no /dev/console is init launches with no 
+stdin/stdout/stderr (which is what happens for static initramfs made 
+with normal user mode cpio, no easy way to insert /dev nodes into the 
+filesystem you're archiving up and most cpio tools don't offer an easy 
+way to hallucinate nodes). The problem with having no stderr when init 
+launches is if anything goes wrong you can't get debug messages.
 
-I haven't looked into it very much, but I'm pretty sure it's all due
-to this in our main Makefile:
+I have a shell script I run as PID 1 that mounts devtmpfs and then 
+redirects stdin/out/err ala 
+https://codeberg.org/landley/toybox/src/branch/master/mkroot/mkroot.sh#L111 
+but THAT's fiddly because when the shell is opening the file it 
+_becomes_ stderr (with the script _itself_ usually having been opened as 
+stdin because first available filehandle) so the shell needs plumbing to 
+dup2() them up to a high filehandle and close the original one and that 
+tends not to get regression tested when anything changes because "we ran 
+with no stdin/stdout/stderr is not a common case...
 
-  # All the preparing..
-  prepare: prepare0
-  ifdef CONFIG_RUST
-      +$(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh
-      $(Q)$(MAKE) $(build)=rust
-  endif
+Having the kernel auto-mount devtmpfs (which it already has a config 
+option for and all my patch does is make it work for initramfs) fixes 
+this, because /dev/console is then available before launching /init.
 
-and that just means that the real meat of the kernel build is all
-gated on that annoying initial rust infrastructure build.
+How is manually editing initramfs _less_ awkward that automounting 
+devtmpfs when the config symbol requests it?
 
-Here's a test-case that I wish people would look at:
-
-    git clean -dqfx
-    make allmodconfig
-    time make init/main.o
-
-because for me it takes OVER ONE MINUTE !!! to just build that single
-object file due to all the excessive prep stuff.
-
-Or - after doing the above - do something like this (imagine I've done
-a big merge, and want to compile-test the *one* file that had
-conflicts in it):
-
-    touch rust/kernel/faux.rs
-    make init/main.o
-
-and notice how that empty build that doesn't even build 'main.o'
-(because it's all up-to-date!) takes 5+ seconds just because the
-kernel build insists on updating those entirely irrlevant rust files
-that have nothing to do with what I asked it to build?
-
-Yes, yes, those are artificial examples, but they are examples based
-on real issues: me wanting to do build checks on certain files, and
-then being held up by entirely pointless other builds that shouldn't
-be in the way.
-
-Now, we have other annoying prep in there too - I absolutely hate the
-HDRINST phase, and it would be lovely if that would be fixed as well -
-but the rust part is the one that triggers most easily by small
-changes elsewhere (iow - those "test-build during merge conflict
-resolution" kind of situations), and really stands out like a sore
-thumb in what fro me are normal circumstances.
-
-Can somebody who knows the rust build requirements better please move
-all of that into proper build *dependencies*, so that 'make' can just
-do it all in parallel with other things - or not do it at all when
-they aren't required - that don't actually require the generated rust
-headers etc?
-
-Yes, the actual "check that rust is available" part makes sense as a
-prepare phase. The rest? Not so much. Why the heck does it build that
-'rust/core.o' file when I want to do a test-build of a totally
-unrelated file?
-
-          Linus
+Rob
 
