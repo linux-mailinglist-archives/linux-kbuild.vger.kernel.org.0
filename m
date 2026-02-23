@@ -1,327 +1,186 @@
-Return-Path: <linux-kbuild+bounces-11376-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11377-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2DJ4NgvKnGlHKQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11376-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 22:43:39 +0100
+	id QEFRN8LVnGkJLAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11377-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 23:33:38 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0243017DAF3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 22:43:38 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E6A17E661
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 23:33:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4C39B300A588
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 21:43:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5AF3E3028F7A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 22:33:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45A1A3793A4;
-	Mon, 23 Feb 2026 21:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 704F237B407;
+	Mon, 23 Feb 2026 22:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DtNafl26"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J983x/DU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5A437881C;
-	Mon, 23 Feb 2026 21:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49750379982;
+	Mon, 23 Feb 2026 22:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771883015; cv=none; b=E2nMgB4w8hch24c6olU98JA5Z7yiYIBxokDuOygNfT3Ka184xSOR8CsUheA3EfKW39c7i2J8GzAZPN6e0bY0K1VAC8Ovl5g+vOsX+zs0TVQGVc1HDzpbndreX6BhQ9H+s7iivWqO7cVQeHh3nIaOLaTVS99oGdJGIjvfdp3l0mI=
+	t=1771886016; cv=none; b=oPmr8ygmg53vL15qVwPGGjGm5WhqUxG5jrpu6IXGqjIxuw91HaH0eXWd+UfO5M4JzK8G1VoSZrS45EPtqROp02YLIFzNeEBKyrJPl0QJ4MtBv1WoaFjUR1auT4vkQgWijHlf8f546sAAulNR4sP0U/3oQOTUP+YgxfMNYuJCKGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771883015; c=relaxed/simple;
-	bh=f/RGyyEjxiTV1HAvGsXVhUhx0QauEA+D4aTLJ9rlFUY=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eRrsUiW8FOeSFiwNooKAceXfJyKZ3mfpxO97Xf3Dba1qZ7m6LHmB64kFfnfOTQH+HX0R54taKipg7aBaaGi8Jn9gMmX+d77Wd32inYY9ZBn3yq/1elk0desqj/JfJLRQqkPU+E6p/RUS4q7kgE/jZ5YNLpLY9X6SHsT6arrcNNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DtNafl26; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1771883011;
-	bh=f/RGyyEjxiTV1HAvGsXVhUhx0QauEA+D4aTLJ9rlFUY=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=DtNafl26QWwqrEhxfMVJt7qi0VOQ+517xajhYFHcF+PGQBS3hyDAm0AZBdaYhEIV0
-	 BPTveOVyjJh7AzZ2ede0B0Zo9hAemmvCqhanqT/ftLkbYfKvroulfGOCMEty+YjZ/s
-	 N4rhaBsvNOn/4HeDhUervVSBgCJam9Inr6UpFbdI=
-Date: Mon, 23 Feb 2026 22:43:30 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Daniel Gomez <da.gomez@kernel.org>, 
-	Aaron Tomlin <atomlin@atomlin.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Xiu Jianfeng <xiujianfeng@huawei.com>, 
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
-	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <06054e9a-2b7a-4063-98b8-7d6c539e543f@t-8ch.de>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <aZol1Rsa2tX-WNaZ@derry.ads.avm.de>
- <0d70db8d-702b-46ec-a010-298fe6515aab@t-8ch.de>
- <aZyfcDCWOBJJztQ2@levanger>
+	s=arc-20240116; t=1771886016; c=relaxed/simple;
+	bh=6luMqdKSuq9XRD6Jc4ImEhLDZ+nlkl7La9U57PIctFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TNs8tpeJ2M9mdNf1J3pWtyV7iWPI0qMEXs0iNttYJnA9tBJ7rnzYuQOEG1Eskr5A0uCJGK8Xn+/+9h4DMySKPnarZwkUZQEfOu4MGe7AJ/pylSpcZfDdoEvaqLjAReqcOXTUEYLSDMPV6o6kEiNidI0zWzSuR9mpZbF5Xp/fa8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J983x/DU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAEB5C116C6;
+	Mon, 23 Feb 2026 22:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771886015;
+	bh=6luMqdKSuq9XRD6Jc4ImEhLDZ+nlkl7La9U57PIctFw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J983x/DUXe3wWA3l+3Y64rA0CyNpkzQkwiWNeGpfi4mVEVqwUoxLSa6SgDkizaiuU
+	 kyf+CQXTpoeB+BorC0kiHBzbL7iajtQVbKZostEWGW0GTy+zMQ2EO0UAxWNsXvZSC3
+	 pYwsPqARByxjspf6jCgBrNJRjb+aVsM3582OK2Z86dHZ4/AT3JjWfCQ7qzfd8TdDO3
+	 HYeH2KFUSJokM4IASGtQF+43uR5nJAj3Me2nQddduKJWxtNjoQfmxUNtzNPpVAXvwE
+	 LXapQT/2pi7TKjubvmD9ZBhqaEtpqEdZ/k1WaiC8FlfJvMknXYqOOUyAsPpsR2WUfK
+	 Z3GgEPZNO4NJQ==
+Date: Mon, 23 Feb 2026 14:33:35 -0800
+From: Kees Cook <kees@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+	linux-efi@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/2] kbuild: Use '-fms-anonymous-structs' if it is
+ available
+Message-ID: <202602231432.20F3F0CF@keescook>
+References: <20260223-fms-anonymous-structs-v1-0-8ee406d3c36c@kernel.org>
+ <20260223-fms-anonymous-structs-v1-2-8ee406d3c36c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aZyfcDCWOBJJztQ2@levanger>
+In-Reply-To: <20260223-fms-anonymous-structs-v1-2-8ee406d3c36c@kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11376-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11377-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[kernel.org,arndb.de,suse.com,google.com,samsung.com,paul-moore.com,namei.org,hallyn.com,lwn.net,linux.ibm.com,ellerman.id.au,gmail.com,huawei.com,oracle.com,atomlin.com,oss.cyber.gouv.fr,proxmox.com,bzzt.net,mapreri.org,archlinux.org,heusel.eu,linutronix.de,vger.kernel.org,lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,arm.com,xen0n.name,hansenpartnership.com,gmx.de,linux.ibm.com,ellerman.id.au,gmail.com,redhat.com,alien8.de,linux.intel.com,zytor.com,linaro.org,google.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[weissschuh.net:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[weissschuh.net:email,weissschuh.net:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0243017DAF3
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,gnu.org:url]
+X-Rspamd-Queue-Id: 68E6A17E661
 X-Rspamd-Action: no action
 
-On 2026-02-23 19:41:52+0100, Nicolas Schier wrote:
-> On Mon, Feb 23, 2026 at 08:53:29AM +0100, Thomas Weißschuh wrote:
-> > On 2026-02-21 22:38:29+0100, Nicolas Schier wrote:
-> > > On Tue, Jan 13, 2026 at 01:28:59PM +0100, Thomas Weißschuh wrote:
-> > > > The current signature-based module integrity checking has some drawbacks
-> > > > in combination with reproducible builds. Either the module signing key
-> > > > is generated at build time, which makes the build unreproducible, or a
-> > > > static signing key is used, which precludes rebuilds by third parties
-> > > > and makes the whole build and packaging process much more complicated.
-> > > > 
-> > > > The goal is to reach bit-for-bit reproducibility. Excluding certain
-> > > > parts of the build output from the reproducibility analysis would be
-> > > > error-prone and force each downstream consumer to introduce new tooling.
-> > > > 
-> > > > Introduce a new mechanism to ensure only well-known modules are loaded
-> > > > by embedding a merkle tree root of all modules built as part of the full
-> > > > kernel build into vmlinux.
-> > > > 
-> > > > Non-builtin modules can be validated as before through signatures.
-> > > > 
-> > > > Normally the .ko module files depend on a fully built vmlinux to be
-> > > > available for modpost validation and BTF generation. With
-> > > > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
-> > > > to build a merkle tree. This introduces a dependency cycle which is
-> > > > impossible to satisfy. Work around this by building the modules during
-> > > > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
-> > > > but before the final module hashes are
-> > > > 
-> > > > The PKCS7 format which is used for regular module signatures can not
-> > > > represent Merkle proofs, so a new kind of module signature is
-> > > > introduced. As this signature type is only ever used for builtin
-> > > > modules, no compatibility issues can arise.
-> > > > 
-> > > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > > > ---
-> > > >  .gitignore                                   |   1 +
-> > > >  Documentation/kbuild/reproducible-builds.rst |   5 +-
-> > > >  Makefile                                     |   8 +-
-> > > >  include/asm-generic/vmlinux.lds.h            |  11 +
-> > > >  include/linux/module_hashes.h                |  25 ++
-> > > >  include/linux/module_signature.h             |   1 +
-> > > >  kernel/module/Kconfig                        |  21 +-
-> > > >  kernel/module/Makefile                       |   1 +
-> > > >  kernel/module/hashes.c                       |  92 ++++++
-> > > >  kernel/module/hashes_root.c                  |   6 +
-> > > >  kernel/module/internal.h                     |   1 +
-> > > >  kernel/module/main.c                         |   4 +-
-> > > >  scripts/.gitignore                           |   1 +
-> > > >  scripts/Makefile                             |   3 +
-> > > >  scripts/Makefile.modfinal                    |  11 +
-> > > >  scripts/Makefile.modinst                     |  13 +
-> > > >  scripts/Makefile.vmlinux                     |   5 +
-> > > >  scripts/link-vmlinux.sh                      |  14 +-
-> > > >  scripts/modules-merkle-tree.c                | 467 +++++++++++++++++++++++++++
-> > > >  security/lockdown/Kconfig                    |   2 +-
-> > > >  20 files changed, 685 insertions(+), 7 deletions(-)
-> > > > 
-> > > [...]
-> > > 
-> > > > diff --git a/kernel/module/hashes_root.c b/kernel/module/hashes_root.c
-> > > > new file mode 100644
-> > > > index 000000000000..1abfcd3aa679
-> > > > --- /dev/null
-> > > > +++ b/kernel/module/hashes_root.c
-> > > > @@ -0,0 +1,6 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > > +
-> > > > +#include <linux/module_hashes.h>
-> > > > +
-> > > > +/* Blank dummy data. Will be overridden by link-vmlinux.sh */
-> > > > +const struct module_hashes_root module_hashes_root __module_hashes_section = {};
-> > > > diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-> > > > index e2d49122c2a1..e22837d3ac76 100644
-> > > > --- a/kernel/module/internal.h
-> > > > +++ b/kernel/module/internal.h
-> > > > @@ -338,6 +338,7 @@ void module_mark_ro_after_init(const Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
-> > > >  			       const char *secstrings);
-> > > >  
-> > > >  int module_sig_check(struct load_info *info, const u8 *sig, size_t sig_len);
-> > > > +int module_hash_check(struct load_info *info, const u8 *sig, size_t sig_len);
-> > > >  
-> > > >  #ifdef CONFIG_DEBUG_KMEMLEAK
-> > > >  void kmemleak_load_module(const struct module *mod, const struct load_info *info);
-> > > > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > > > index 2a28a0ece809..fa30b6387936 100644
-> > > > --- a/kernel/module/main.c
-> > > > +++ b/kernel/module/main.c
-> > > > @@ -3362,8 +3362,10 @@ static int module_integrity_check(struct load_info *info, int flags)
-> > > >  
-> > > >  	if (IS_ENABLED(CONFIG_MODULE_SIG) && sig_type == PKEY_ID_PKCS7) {
-> > > >  		err = module_sig_check(info, sig, sig_len);
-> > > > +	} else if (IS_ENABLED(CONFIG_MODULE_HASHES) && sig_type == PKEY_ID_MERKLE) {
-> > > > +		err = module_hash_check(info, sig, sig_len);
-> > > >  	} else {
-> > > > -		pr_err("module: not signed with expected PKCS#7 message\n");
-> > > > +		pr_err("module: not signed with signature mechanism\n");
-> > > >  		err = -ENOPKG;
-> > > 
-> > > To prevent others from running into the same issue:
-> > > 
-> > > My first test got stuck here, as I tested with virtme-ng, which symlinks
-> > > modules from build tree to /lib/modules/$(uname -r)/..., resulting in
-> > > 
-> > >     [   15.956855] module: not signed with signature mechanism
-> > >     modprobe: ERROR: could not insert 'efivarfs': Package not installed
-> > > 
-> > > As the modules_install step was missing, modules were not being signed.
-> > 
-> > Currently the signing is deferred to installation time to keep in sync
-> > with regular module signing and to keep the logic simpler by not having
-> > to gracefully handle previously-signed files.
-> > But this could be changed.
+On Mon, Feb 23, 2026 at 12:10:29PM -0700, Nathan Chancellor wrote:
+> Clang recently added '-fms-anonymous-structs' [1] to specifically enable
+> the Microsoft tagged anonymous structure / union extension, for which
+> the kernel added '-fms-extensions' in commit c4781dc3d1cf ("Kbuild:
+> enable -fms-extensions"). Switch to this more narrow option if it is
+> available, which would have helped avoid the issue addressed by
+> commit a6773e6932cb ("jfs: Rename _inline to avoid conflict with clang's
+> '-fms-extensions'"). GCC has talked about adding a similar flag [2] as
+> well but potentially naming it differently.
 > 
-> I did not want to suggest changing the behaviour, that would make things
-> more complicated to prevent needless rebuilds.  I just wanted to mention
-> it here to prevent others from burning time.
-
-Understood.
-
-> > > [...]
-> > > > diff --git a/scripts/modules-merkle-tree.c b/scripts/modules-merkle-tree.c
-> > > > new file mode 100644
-> > > > index 000000000000..a6ec0e21213b
-> > > > --- /dev/null
-> > > > +++ b/scripts/modules-merkle-tree.c
-> > > > @@ -0,0 +1,467 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > > +/*
-> > > > + * Compute hashes for modules files and build a merkle tree.
-> > > > + *
-> > > > + * Copyright (C) 2025 Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
-> > > > + * Copyright (C) 2025 Thomas Weißschuh <linux@weissschuh.net>
-> > > > + *
-> > > > + */
-> > > > +#define _GNU_SOURCE 1
-> > > > +#include <arpa/inet.h>
-> > > > +#include <err.h>
-> > > > +#include <unistd.h>
-> > > > +#include <fcntl.h>
-> > > > +#include <stdarg.h>
-> > > > +#include <stdio.h>
-> > > > +#include <string.h>
-> > > > +#include <stdbool.h>
-> > > > +#include <stdlib.h>
-> > > > +
-> > > > +#include <sys/stat.h>
-> > > > +#include <sys/mman.h>
-> > > > +
-> > > > +#include <openssl/evp.h>
-> > > > +#include <openssl/err.h>
-> > > > +
-> > > > +#include "ssl-common.h"
-> > > > +
-> > > > +static int hash_size;
-> > > > +static EVP_MD_CTX *ctx;
-> > > > +
-> > > > +struct module_signature {
-> > > > +	uint8_t		algo;		/* Public-key crypto algorithm [0] */
-> > > > +	uint8_t		hash;		/* Digest algorithm [0] */
-> > > > +	uint8_t		id_type;	/* Key identifier type [PKEY_ID_PKCS7] */
-> > > > +	uint8_t		signer_len;	/* Length of signer's name [0] */
-> > > > +	uint8_t		key_id_len;	/* Length of key identifier [0] */
-> > > > +	uint8_t		__pad[3];
-> > > > +	uint32_t	sig_len;	/* Length of signature data */
-> > > > +};
-> > > > +
-> > > > +#define PKEY_ID_MERKLE 3
-> > > > +
-> > > > +static const char magic_number[] = "~Module signature appended~\n";
-> > > 
-> > > This here will be the forth definition of struct module_signature,
-> > > increasing the risk of unwanted diversion.  I second Petr's suggestion
-> > > to reuse a _common_ definition instead.
-> > 
-> > Ack.
-> > 
-> > > (Here, even include/linux/module_signature.h could be included itself.)
-> > 
-> > I'd like to avoid including internal headers from other components.
-> > We could move it to an UAPI header. Various other subsystems use those
-> > for not-really-UAPI but still ABI definitions.
+> Move the selection of the flag to Kconfig to make it easier to use
+> cc-option (as CC_FLAGS_DIALECT may be used in arch Makefiles, which may
+> be too early for cc-option in Kbuild) and customize based on compiler
+> flag names.
 > 
-> Yeah, ack.
-
-What exactly is the 'ack' for?
-* Avoiding to include internal headers?
-* Moving the definition to UAPI headers?
-
-(...)
-
-> > > Can you verify if I get the mechanics roughly correct?
-> > > 
-> > >   * Modules are merkle tree leaves.  Modules are built and logically
-> > >     paired by the order from modules.order; a single left-over module is
-> > >     paired with itself.
-> > > 
-> > >   * Hashes of paired modules are hashed again (branch node hash);
-> > >     hashes of pairs of branch nodes' hashes are hashed again;
-> > >     repeat until we reach the single merkle tree root hash
-> > > 
-> > >   * The final merkle tree root hash (and the count of tree levels) is
-> > >     included in vmlinux
-> > 
-> > The merkle tree code was written by Sebastian so he will have the best
-> > knowledge about it. But this is also my understanding.
+> Link: https://github.com/llvm/llvm-project/commit/c391efe6fb67329d8e2fd231692cc6b0ea902956 [1]
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=123623 [2]
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  Makefile     | 2 +-
+>  init/Kconfig | 5 +++++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
 > 
-> I'd like to see some (rough) description in Documentation or in a commit
-> message at least, otherwise future me will have to ask that again.
+> diff --git a/Makefile b/Makefile
+> index 06ff3032a6bc..1d5c0ab9ed5c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -791,7 +791,7 @@ endif
+>  
+>  CC_FLAGS_DIALECT := -std=gnu11
+>  # Allow including a tagged struct or union anonymously in another struct/union.
+> -CC_FLAGS_DIALECT += -fms-extensions
+> +CC_FLAGS_DIALECT += $(CONFIG_CC_MS_EXTENSIONS)
+>  # Clang enables warnings about GNU and Microsoft extensions by default, disable
+>  # them because this is expected with the above options.
+>  ifdef CONFIG_CC_IS_CLANG
+> diff --git a/init/Kconfig b/init/Kconfig
+> index c25869cf59c1..c4282d049463 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -960,6 +960,11 @@ config CC_IMPLICIT_FALLTHROUGH
+>  	default "-Wimplicit-fallthrough=5" if CC_IS_GCC && $(cc-option,-Wimplicit-fallthrough=5)
+>  	default "-Wimplicit-fallthrough" if CC_IS_CLANG && $(cc-option,-Wunreachable-code-fallthrough)
+>  
+> +config CC_MS_EXTENSIONS
+> +	string
+> +	default "-fms-anonymous-structs" if $(cc-option,-fms-anonymous-structs)
+> +	default "-fms-extensions"
+> +
+>  # Currently, disable gcc-10+ array-bounds globally.
+>  # It's still broken in gcc-13, so no upper bound yet.
+>  config GCC10_NO_ARRAY_BOUNDS
 
-Ack in general. I'd prefer to document it in a source code comment,
-though. That feels like the best fit to me.
+Series looks good to me. One style question, why go the round-trip with
+Kconfig instead of doing it all with a fallback in the Makefile:
+
+CC_FLAGS_DIALECT += $(call cc-option,-fms-anonymous-structs,-fms-extensions)
 
 
-Thomas
+-- 
+Kees Cook
 
