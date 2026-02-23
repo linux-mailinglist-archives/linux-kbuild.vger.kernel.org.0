@@ -1,101 +1,101 @@
-Return-Path: <linux-kbuild+bounces-11357-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11359-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8eysFo2em2nP3gMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11357-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 01:25:49 +0100
+	id +IjGDYWsm2kH4gMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11359-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 02:25:25 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95170170EC9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 01:25:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5320D1714F5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 02:25:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 458983017049
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 00:25:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A457F3007AE4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 01:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D8971A9F82;
-	Mon, 23 Feb 2026 00:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30DD199E89;
+	Mon, 23 Feb 2026 01:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="KAdio8I+"
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="vZtnMJ+N"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fennec.ash.relay.mailchannels.net (fennec.ash.relay.mailchannels.net [23.83.222.58])
+Received: from bumble.birch.relay.mailchannels.net (bumble.birch.relay.mailchannels.net [23.83.209.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0FA3EBF06;
-	Mon, 23 Feb 2026 00:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.222.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F65D54763;
+	Mon, 23 Feb 2026 01:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.209.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771806345; cv=pass; b=dMi7qmW/O+Pw/oyghpnMV31pLadTsEcRi9TcZn9s+T4ZRDH68EkUpBmW/ljfZ2x7+tY5/hwdRgCvX7Am8lOTrbNk2BZH1JD/Z+QgjN/0iDnvuM11CD4knVAyQhHbd4NkWnvgp+2bWoRl4zlqu4t1Kcugcy3/ajnp7Cy+Z3yO8LA=
+	t=1771809921; cv=pass; b=vFeoR1QR1sC3wU/uEiLU0TJZxFNSvxX/Yds22rbD+NcVm5i2rFIdlEevYAdA+6KrMWXEdeLMM8GH4qqkl5buJbJSffOP/tBCOoImXQCKHkrWK4XWg6iGvNYt9PUsi+s3fVbGP/A+Z/J6DANxamQt7InHRUYCv+q7gbeOxFtf/Vk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771806345; c=relaxed/simple;
-	bh=vnl3n6hiLRbYTraiOMb+bVU+YKg9dIaxSlm6mpPCZuE=;
+	s=arc-20240116; t=1771809921; c=relaxed/simple;
+	bh=ya6JK5QpUEwhNPlRYYcgwO8/Mxw3gnYEeCTotxgTMU0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kjrGX7uh0eHjOT7SKxRVrb8/s1u5lo9w2y31+qxzazfl0fX8wYNiQ98aEc2wCFCHvtXqnAQzXUgw7dv2ouKWf18APIb+eoIFQWL5uGQD0CN3WY2cl7k+VeOULni5emHX1QYR/OAxf9NFCf/c/J/BU0o/JBQ0BMFdPXqjnTxuS7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=KAdio8I+; arc=pass smtp.client-ip=23.83.222.58
+	 In-Reply-To:Content-Type; b=nng0rBJSRBfhaPypDJAL2kTE42Bo4lXeSaoNyyaQ3qLI6T8QUkZL8gFS3PuybCPlC+vRw/0sHzP7sezanMF8PYD/uBwAuO5U8u4s4SnrXnBdyDIXDkwz1qY1QRzqnNtOF5od7wIK0ldhCkbHMj/SAhJs0MnwSm/LhfjbwHW0D9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=vZtnMJ+N; arc=pass smtp.client-ip=23.83.209.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
 X-Sender-Id: dreamhost|x-authsender|rob@landley.net
 Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id CB9EA78323A;
-	Mon, 23 Feb 2026 00:17:06 +0000 (UTC)
-Received: from pdx1-sub0-mail-a220.dreamhost.com (100-97-187-78.trex-nlb.outbound.svc.cluster.local [100.97.187.78])
+	by relay.mailchannels.net (Postfix) with ESMTP id 372D91617D9;
+	Mon, 23 Feb 2026 01:15:51 +0000 (UTC)
+Received: from pdx1-sub0-mail-a220.dreamhost.com (100-106-196-237.trex-nlb.outbound.svc.cluster.local [100.106.196.237])
 	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 5F91078320C;
-	Mon, 23 Feb 2026 00:17:06 +0000 (UTC)
+	by relay.mailchannels.net (Postfix) with ESMTPA id ACA07161929;
+	Mon, 23 Feb 2026 01:15:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1771805826;
-	b=nS39JAZZ1x7GEi8kd6hBEb0VddJIjmIN1ih8vqTrOPa3KljmW925tQ/jr4GcJMBeloTIhs
-	2kF6rAvjwWm53D80pv1bzQlek8Ta6Ru6m2tsnx2Jw9Aq0pyp+3EA9cyIarJ7KJXFNThDqS
-	gHA7adwCWLFiXr/Agcn3YmoVwQqXuODCKAICZ0n9N6aXLrM8UBnH6lZzGw1O+OTYEP+SYO
-	tH7dlHcjVVmxCgh+PzmJ3Wh/HWtT4NOmpUn2m2H79CWJlDZPFQzWod1MdMBs6YTs/RjWsb
-	+30P2A1y3daOsjUb1QNGD+BF0Oppuze9E00ZDYlj/tHNOEw5i5yL/ApJnEHIRA==
+	t=1771809350;
+	b=D5yB3HeM5MidXwq26kPQy1I/QzNs9TALf1vh236Lj8ONELIuFGUUQkX0GbQpT3TzgzKAcI
+	XuEK7OeSfQZgJKICrUK7f+77nu22yePPggbNgATKImdncJroPIDoo11c0P3/gNtMDnpo1M
+	BTM82yU6ro9MqcUFcHy0NAkfcaKBsjY6Rk3u5YiEoGKJV3l7jSz7pzWI3srijUrBIDnynq
+	TmE0Umgx8CrOeuy1ZFzz09kRmucWeRKaJ7u0MGdBs2RW5GRwZHqOStNG2HyyvRxtmxLkC5
+	erzkaZTYa4QWRBUWtY7u/efmtbtUNdZlaKQCkVQRgx6b/jcCYZ5GXzfl/RewMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
  d=mailchannels.net;
-	s=arc-2022; t=1771805826;
+	s=arc-2022; t=1771809350;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=ejC93Nu7XMWnzidBneVNGHhfI3IKdCvyfDvNoCmZe5o=;
-	b=cKGwSgB0vfBiNtu1dFyo1LGfvIgzprANNnIF+iIunOUk4fNzzMDALACUhLTb1jGPBhZJBR
-	W2JA5L2C2mTbl93uGWAuQc5GCFDq3bGhEwzIiQ9pnc8Oi/WRHuT0JD/jSkUzI8KXGLvi3+
-	K+73V0R8ajEb//hJJqySV2YXrfMY9T355DReIMR+5HOAN+hIUuf3RYPSzno8m7CgwofQOB
-	rUcuEOAUKDC/OlrWxrCZHhB19EHB0bvfYNUljUlAZqjFDBs8BNp0J8DlXazYzeqQvAw9mN
-	DJk0ELFjp+CzTBMZCpThq47u2x263zzgvkao57C/94UROTEjh/6vxh5/KWhZMA==
+	bh=3nv7pEazH1QjXd2mYdHZhHpxrx3ZA5FYW4d+2tDCmiQ=;
+	b=trSgABybJjbzwODRd5DdG5hlTIAOhO8Q8dpjpHL0QyDzIO/kFT2zhDmoHkiRHDo/RoQYIm
+	0O3MdQKGaFTyGgYwDYQAHztvSNLy5c5jMIfoFN8eGvmTKpr1v4FMFwgGNpgh8bGpjG7XdY
+	hEMvjEyiQ5r+vQ5ivYaEk56zWSbddEEo+GxtHi/qldMvIcO2Z6fRFLuaSaCC3BN6FnuGB6
+	MPWvu4Gel3+sHQ/diFCZLTfqDlI5pDQz8giAqEBJNLqu8y+OA8Pi6sBeuznHw4FCV2bM14
+	KQWOMsWL77GkIcvzspGWvveamYg36IzUCr3U1cGFnUTvwzoWfLkuoC2qRcxukA==
 ARC-Authentication-Results: i=1;
-	rspamd-7f65b64645-s74qj;
+	rspamd-6fbd58c58b-w75sr;
 	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
 X-Sender-Id: dreamhost|x-authsender|rob@landley.net
 X-MC-Relay: Neutral
 X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
 X-MailChannels-Auth-Id: dreamhost
-X-Descriptive-Shrill: 1a594b3400788975_1771805826688_2785434387
-X-MC-Loop-Signature: 1771805826688:3386891487
-X-MC-Ingress-Time: 1771805826686
+X-Irritate-Reign: 76e2e42052ea090d_1771809351010_1604037466
+X-MC-Loop-Signature: 1771809351010:1092579335
+X-MC-Ingress-Time: 1771809351008
 Received: from pdx1-sub0-mail-a220.dreamhost.com (pop.dreamhost.com
  [64.90.62.162])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.97.187.78 (trex/7.1.3);
-	Mon, 23 Feb 2026 00:17:06 +0000
+	by 100.106.196.237 (trex/7.1.3);
+	Mon, 23 Feb 2026 01:15:51 +0000
 Received: from [192.168.14.155] (unknown [209.81.127.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: rob@landley.net)
-	by pdx1-sub0-mail-a220.dreamhost.com (Postfix) with ESMTPSA id 4fK1cx3K7JzQf;
-	Sun, 22 Feb 2026 16:17:05 -0800 (PST)
+	by pdx1-sub0-mail-a220.dreamhost.com (Postfix) with ESMTPSA id 4fK2wj5tGwzSH;
+	Sun, 22 Feb 2026 17:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
-	s=dreamhost; t=1771805826;
-	bh=ejC93Nu7XMWnzidBneVNGHhfI3IKdCvyfDvNoCmZe5o=;
+	s=dreamhost; t=1771809350;
+	bh=3nv7pEazH1QjXd2mYdHZhHpxrx3ZA5FYW4d+2tDCmiQ=;
 	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
-	b=KAdio8I+4ZC3SZr9noEGXA1dPIra+K58gvG05zU5jOQZkc0RirZwaZxLAoBlCIsR/
-	 c/HYyZhksRxOjmA8bw7SkM0NKHnGPwCAim9zuZMkqYdU1Sj4eC2kp9L85o5ZlHDSqE
-	 jZd+rhCiIKRWNeoOt3KDAQEWKhY4ojUDOuMVy8pqiF0FRHsChUdb3wGkvguzfQGDEn
-	 CGoc96VpC250tJ29hiSWU9d+igRn0BddbJ/5zIcbamM87+zxhnLyoCxQ0w/vee33Sy
-	 V1AbEj4Xyuh7ZQv6jJYUVwmxcaO578FIEOrRq8JHSkdkovJct2YP/a9rGJOYfnvoBf
-	 sQhnrkDENDYAQ==
-Message-ID: <a7cb199d-928d-4158-8f16-db7ae5309082@landley.net>
-Date: Sun, 22 Feb 2026 18:17:04 -0600
+	b=vZtnMJ+N8NMTPnIkaZZU3a136hChZ78xb25P52LF4mQbflfEREk7p6//gCcHUbe21
+	 x2I2FssrGuuREHU4invWfhxuVzckVMU/mbFPWulpnJ9Tx8PqMhcA2mS91eib3vZoEz
+	 zV4eltIm5F98h5o5hPh6r4oot88nG0Hqn7K/iCfWVMjuJDBEyDOi38i44bY9uZf9Bj
+	 Kccwn4SwmFn7nMN20xKvLV4Gzc/aVr/rFmrZXuyjgqfpj/IYq+m7O18RsNwN1Gy4tu
+	 W2cfGlJNwBJ2GP0sLxcH0+R9FlP9N9giMvAEH8P/Ly0OrbVilUqvFu9htYQbjFOn+K
+	 SPxyL7HGHCeOg==
+Message-ID: <e67898f6-4e33-428b-8498-b8b28f817bd9@landley.net>
+Date: Sun, 22 Feb 2026 19:15:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -103,8 +103,8 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] init: ensure that /dev/console and /dev/null are
- (nearly) always available in initramfs
+Subject: Re: [PATCH 2/2] init: ensure that /dev/null is (nearly) always
+ available in initramfs
 To: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
  Christian Brauner <brauner@kernel.org>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
@@ -113,20 +113,21 @@ Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
  David Disseldorp <ddiss@suse.de>, Nathan Chancellor <nathan@kernel.org>,
  Nicolas Schier <nsc@kernel.org>, patches@lists.linux.dev
 References: <20260219210312.3468980-1-safinaskar@gmail.com>
+ <20260219210312.3468980-3-safinaskar@gmail.com>
 Content-Language: en-US
 From: Rob Landley <rob@landley.net>
-In-Reply-To: <20260219210312.3468980-1-safinaskar@gmail.com>
+In-Reply-To: <20260219210312.3468980-3-safinaskar@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[landley.net:s=dreamhost];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11357-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11359-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[landley.net];
 	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,kernel.org,zeniv.linux.org.uk,suse.cz];
@@ -135,54 +136,83 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,landley.net:mid,landley.net:url,landley.net:dkim];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iu.edu:url,landley.net:mid,landley.net:url,landley.net:dkim];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[rob@landley.net,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 95170170EC9
+X-Rspamd-Queue-Id: 5320D1714F5
 X-Rspamd-Action: no action
 
 On 2/19/26 15:03, Askar Safin wrote:
-> This patchset is for VFS.
-> 
-> See commit messages for motivation and details.
+> Binaries linked with bionic libc require /dev/null to be present,
 
-FYI I've been using (and occasionally posting) variants of 
-https://landley.net/bin/mkroot/0.8.13/linux-patches/0003-Wire-up-CONFIG_DEVTMPFS_MOUNT-to-initramfs.patch 
-since 2017.
+Elliott fixed that one back in 2021:
 
-What needs /dev/null? I haven't encountered that.
+http://lists.landley.net/pipermail/toybox-landley.net/2021-October/028766.html
 
-The problem with no /dev/console is init launches with no 
-stdin/stdout/stderr (which is what happens for static initramfs made 
-with normal user mode cpio, no easy way to insert /dev nodes into the 
-filesystem you're archiving up and most cpio tools don't offer an easy 
-way to hallucinate nodes). The problem with having no stderr when init 
-launches is if anything goes wrong you can't get debug messages.
+https://android-review.googlesource.com/c/platform/bionic/+/1869594
 
-I have a shell script I run as PID 1 that mounts devtmpfs and then 
-redirects stdin/out/err ala 
-https://codeberg.org/landley/toybox/src/branch/master/mkroot/mkroot.sh#L111 
-but THAT's fiddly because when the shell is opening the file it 
-_becomes_ stderr (with the script _itself_ usually having been opened as 
-stdin because first available filehandle) so the shell needs plumbing to 
-dup2() them up to a high filehandle and close the original one and that 
-tends not to get regression tested when anything changes because "we ran 
-with no stdin/stdout/stderr is not a common case...
+Are you saying it's reoccurred, or that you plan to run a 5 year old 
+userspace with a current kernel?
 
-Having the kernel auto-mount devtmpfs (which it already has a config 
-option for and all my patch does is make it work for initramfs) fixes 
-this, because /dev/console is then available before launching /init.
+> otherwise they will crash before entering "main", as explained
+> in https://landley.net/toybox/faq.html#cross3 .
 
-How is manually editing initramfs _less_ awkward that automounting 
-devtmpfs when the config symbol requests it?
+Oops, my documentation is out of date. Sorry. Added to the todo heap.
+
+(Although I can't say I've regression tested an init task statically 
+linked against bionic launching itself in an empty chroot recently 
+either. last I checked I still hadn't convinced the android guys to use 
+initramfs at all, and then they had those 12k layoffs (apparently 
+copying twitter's mass layoffs) and I largely gave up on the idea of 
+turning Android into a self-hosting development environment any time soon.)
+
+> So we should put /dev/null to initramfs, but this is impossible
+> if we create initramfs using "cpio" and we are running as normal
+> user.
+
+You could just automount devtmpfs using the existing plumbing (and 
+touching far fewer files, and having common behavior between the static 
+and initrd loader codepaths).
+
+I've been using this trick since 2015:
+
+https://landley.net/notes-2015.html#01-01-2015
+
+And first submitted it to linux-kernel in 2016:
+
+https://lkml.org/lkml/2016/6/22/686
+
+And resubmitted a half-dozen times since then. I linked to my most 
+recent one (tested against 6.17) last message, it's generally at 
+https://landley.net/bin/mkroot/latest/linux-patches/
+
+Debian had a bug back in something like 2017 (when its initramfs 
+script's attempt to mount devtmpfs on /dev failed -- because it was 
+already there -- the untested error path would rm -rf everything) but 
+they said they were fixing it ~8 years ago, so...
+
+I added workarounds to my reposts for a while (so new kernels could work 
+with old debians):
+
+https://lkml.org/lkml/2020/5/14/1584
+
+I don't remember if there's a newer post to this list than 
+https://lkml.iu.edu/2201.2/00174.html but nobody else ever seemed to 
+care. Oh well. I've posted new ones on my website every mkroot release, 
+regression tested against the then-current kernel.
+
+It would be great if I didn't have to worry about 
+https://github.com/landley/toybox/commit/0b2d5c2bb3f1 again, but special 
+case code instead of using an existing generic mechanism? Eh, I suppose 
+that _is_ the modern Linux way...
 
 Rob
 
