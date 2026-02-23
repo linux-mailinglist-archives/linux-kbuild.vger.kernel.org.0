@@ -1,345 +1,185 @@
-Return-Path: <linux-kbuild+bounces-11363-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11364-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gGRSFIEHnGmO/AMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11363-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 08:53:37 +0100
+	id 8I9OIiaKnGl8JQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11364-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 18:11:02 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA918172D73
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 08:53:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA5A17A6EC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 18:11:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EA2463012BF0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 07:53:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 16260301A706
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Feb 2026 17:07:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A789D34B697;
-	Mon, 23 Feb 2026 07:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D638F329E56;
+	Mon, 23 Feb 2026 17:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UBLlbx6r"
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="E7yTKFH6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from beige.elm.relay.mailchannels.net (beige.elm.relay.mailchannels.net [23.83.212.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C3734B669;
-	Mon, 23 Feb 2026 07:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771833214; cv=none; b=r0rYKA1ySAR2Hmvs6XoaJxBe3HCGdOL4VU7udVVBEZdnW/g8d570uFjGu/e0bL79cPaqBkBO/qU9VLEFc0ZghY0M5nBJli97SdnNBOchuOXY0I2PgQ5Xa/V6PKmXksZNE7mwai7ONkg7ZMx0hIo8YQvQ1xhSefCgp7bpjzD4f2Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771833214; c=relaxed/simple;
-	bh=nYV9JeJzQ3cvBQGeC5/lhY69NNQylLWUFgiVvFPfShg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JYzGIks1ANjKJYpW10zUfQpeCln/a0CXSeC+A5AoKvd3AADBQHgVyoNdIR+uChAMpIBqoNroJX3pwyN4bHyFNQhKXtG884aA/mBrDPgM6vAroFGhXBm9n3BQx5MbK9ly1on4WKEIVCeqOeF7I9KrQA/OLBokbUaNMzANgB2ermE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UBLlbx6r; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1771833210;
-	bh=nYV9JeJzQ3cvBQGeC5/lhY69NNQylLWUFgiVvFPfShg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UBLlbx6rGRzhB0lc8jmUhiwdOSlc22ZND7JHZWW4sRNkp+NBvBnncnMPS1yVQbgOV
-	 DymrASfqtlntMVz/GvTCjMNRdBah/OWyHZRmpdBJ/j56Uf6K1XZArBL2sV3NTKngvN
-	 Lufi5ad54jpSd2BodXC8KOcnZyRYF4fvDZt5qkc4=
-Date: Mon, 23 Feb 2026 08:53:29 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Naveen N Rao <naveen@kernel.org>, 
-	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
-	Xiu Jianfeng <xiujianfeng@huawei.com>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
-	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
-	kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
-	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <0d70db8d-702b-46ec-a010-298fe6515aab@t-8ch.de>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <aZol1Rsa2tX-WNaZ@derry.ads.avm.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2094B32939C;
+	Mon, 23 Feb 2026 17:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771866431; cv=pass; b=uPSwl/3YdX+s2sRDixxIIbtdNfZJBYhEPD4hHQTDmUxWgA6ACyakJgPDuKLQNWcySxt1Q6PwIfKnssThiJ1YXQlIkmCesPFdG4WFWmKdrgYsISUIjTOt7FOvXbtdUjmNBEtaZBUGY4ChDJcrRr+ifXy1W+zylWaIiZ4vvWAAg6c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771866431; c=relaxed/simple;
+	bh=QmuNg1tBtzwmz+wkhgiXHLezpaCUDOCDyd8P/htnkvc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PuyuPB6eaRFsjLx/5JKE8UESFFnafWugjypXOn77c0+dVK1EN4++Y4W8zdpX9yQSX1OhXqm0mhLLi9IB0sQ9rCll5PVmuE/XZN07mSioryMTFQM+utpgoxUw7i5eClWEsTvRJ6nal87R4/+u+IXOLF/yeOWLLaedzBzxZvqchwU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=E7yTKFH6; arc=pass smtp.client-ip=23.83.212.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 96639160C57;
+	Mon, 23 Feb 2026 16:11:12 +0000 (UTC)
+Received: from pdx1-sub0-mail-a229.dreamhost.com (100-103-37-158.trex-nlb.outbound.svc.cluster.local [100.103.37.158])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 13DC4163A9E;
+	Mon, 23 Feb 2026 16:11:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1771863070;
+	b=D10lQ/C9uKN0awKaoY1DJbyw883z2sXTh1CP2yS9BDRhSH58rsf1CoH5LujX2k7UdyXoBD
+	t1bhwmCoGJUp9Vlj46sIobRvYohwXZMku0zgzlMBomVvtklhx9MTfMCq18nqt7BfSfv5sy
+	JVyRXMl+RWIB9TE/S+JSDtdPUzvkDAid+ovXQx2YKRnNJmpm5dGpxNqaSlaH32r3Q7Bgj8
+	Df91LPvo+OF+8/1j3YKIG3yfMANeWaohaeRJukOVHk0/p9XDuYaSP7vRB736CZPbK9+1uR
+	Q5fyNplw8uWgFHsNE6fxqfshimehi1AB1J9EDCVb/DyMbdGOH2nQUoa/y2CAhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1771863070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=XuD6XCjlTOuLfHYtXzVsTlp4WOA/ge30qcw+P5i9Neg=;
+	b=J4JKNO/Aq56Qgvep1jBeLGTX0W4LsZYTzravitWIiHbtcBK53abXlKnP3aSwFPPxC8WCdU
+	2HKgwjMY25lyHqUUf86/lzeAksAERcKa5INoAEp/MKbQs0d2mcu9Vh7PZdoezJ3mJP05lD
+	9YgRxaG/As8lvZTDA3Ry3nd2hF4QVxeimG3XC4CAgaSbTC3J7Y1U6NJowVojfIyx2Ds9Dw
+	JldXum/9uH/Pg/DjU6owlT5lDyq1K7rZYtfgNDqXZbFJf3u6vf8yNkQzu+9oPmutrcJdcE
+	eMdaySlElaVd84WcD02Igp0Re0WMlbkG4IY++BztF09xTyEHTrW2wno/ZJNfTw==
+ARC-Authentication-Results: i=1;
+	rspamd-6fbd58c58b-q6pqj;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Glossy-Stupid: 51eb68441b29b606_1771863072406_1607851710
+X-MC-Loop-Signature: 1771863072406:3925674246
+X-MC-Ingress-Time: 1771863072404
+Received: from pdx1-sub0-mail-a229.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.103.37.158 (trex/7.1.3);
+	Mon, 23 Feb 2026 16:11:12 +0000
+Received: from [IPV6:2607:fb90:9a0f:889c:175:8594:632c:fd9c] (unknown [172.56.10.34])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a229.dreamhost.com (Postfix) with ESMTPSA id 4fKQnm4c9Yz6N;
+	Mon, 23 Feb 2026 08:11:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1771863069;
+	bh=XuD6XCjlTOuLfHYtXzVsTlp4WOA/ge30qcw+P5i9Neg=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=E7yTKFH61K6Rf3nyxMlL5gJn8Vu7IRd1pAZWYgnNR9pCVRRJUpvhMLFsUk6Xig3sX
+	 d6NWEP3DpNrj+DxqHNetE2uHwz9ZJUf/MP/SxA4TNEVqYNX1XyMQxsMbqnOItaYmhx
+	 kMG9i8DHBsDuwQZ/6swAy5TFwwx11Zc5Ry3lX1XRq5mq4C6CTDl7cGtAYkgBgq25SO
+	 fh7Lt1Up1B6KsjeaobDjAYsrfx59zhVGH+ott0uRMP1JJ71tbhFsbxkxnwXEXqRvlu
+	 t7uZaYSEx+P719OVfP3zRy8hYDm/Xq10VI5hBE26ZbFU1tWk0vFK0xtefoKtamHS2O
+	 AcHbh4zCO+A7w==
+Message-ID: <7e309fc3-7d55-4e95-8dea-f164a7a96b6c@landley.net>
+Date: Mon, 23 Feb 2026 10:11:05 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aZol1Rsa2tX-WNaZ@derry.ads.avm.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] init: ensure that /dev/console is (nearly) always
+ available in initramfs
+To: David Disseldorp <ddiss@suse.de>
+Cc: Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ patches@lists.linux.dev
+References: <20260219210312.3468980-1-safinaskar@gmail.com>
+ <20260219210312.3468980-2-safinaskar@gmail.com>
+ <20260220105913.4b62e124.ddiss@suse.de>
+ <6d34c95a-a2ea-46a4-b491-45e7cb86049b@landley.net>
+ <20260223133357.0c3b8f8e.ddiss@suse.de>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <20260223133357.0c3b8f8e.ddiss@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[landley.net:s=dreamhost];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11363-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11364-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,zeniv.linux.org.uk,suse.cz,infradead.org,lists.linux.dev];
+	DMARC_NA(0.00)[landley.net];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	FREEMAIL_CC(0.00)[kernel.org,arndb.de,suse.com,google.com,samsung.com,paul-moore.com,namei.org,hallyn.com,lwn.net,linux.ibm.com,ellerman.id.au,gmail.com,huawei.com,oracle.com,atomlin.com,oss.cyber.gouv.fr,proxmox.com,bzzt.net,mapreri.org,archlinux.org,heusel.eu,linutronix.de,vger.kernel.org,lists.ozlabs.org];
+	DKIM_TRACE(0.00)[landley.net:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,landley.net:mid,landley.net:url,landley.net:dkim];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[weissschuh.net:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[rob@landley.net,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[t-8ch.de:mid,weissschuh.net:email,weissschuh.net:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EA918172D73
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: AEA5A17A6EC
 X-Rspamd-Action: no action
 
-On 2026-02-21 22:38:29+0100, Nicolas Schier wrote:
-> On Tue, Jan 13, 2026 at 01:28:59PM +0100, Thomas Weißschuh wrote:
-> > The current signature-based module integrity checking has some drawbacks
-> > in combination with reproducible builds. Either the module signing key
-> > is generated at build time, which makes the build unreproducible, or a
-> > static signing key is used, which precludes rebuilds by third parties
-> > and makes the whole build and packaging process much more complicated.
-> > 
-> > The goal is to reach bit-for-bit reproducibility. Excluding certain
-> > parts of the build output from the reproducibility analysis would be
-> > error-prone and force each downstream consumer to introduce new tooling.
-> > 
-> > Introduce a new mechanism to ensure only well-known modules are loaded
-> > by embedding a merkle tree root of all modules built as part of the full
-> > kernel build into vmlinux.
-> > 
-> > Non-builtin modules can be validated as before through signatures.
-> > 
-> > Normally the .ko module files depend on a fully built vmlinux to be
-> > available for modpost validation and BTF generation. With
-> > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
-> > to build a merkle tree. This introduces a dependency cycle which is
-> > impossible to satisfy. Work around this by building the modules during
-> > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
-> > but before the final module hashes are
-> > 
-> > The PKCS7 format which is used for regular module signatures can not
-> > represent Merkle proofs, so a new kind of module signature is
-> > introduced. As this signature type is only ever used for builtin
-> > modules, no compatibility issues can arise.
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> >  .gitignore                                   |   1 +
-> >  Documentation/kbuild/reproducible-builds.rst |   5 +-
-> >  Makefile                                     |   8 +-
-> >  include/asm-generic/vmlinux.lds.h            |  11 +
-> >  include/linux/module_hashes.h                |  25 ++
-> >  include/linux/module_signature.h             |   1 +
-> >  kernel/module/Kconfig                        |  21 +-
-> >  kernel/module/Makefile                       |   1 +
-> >  kernel/module/hashes.c                       |  92 ++++++
-> >  kernel/module/hashes_root.c                  |   6 +
-> >  kernel/module/internal.h                     |   1 +
-> >  kernel/module/main.c                         |   4 +-
-> >  scripts/.gitignore                           |   1 +
-> >  scripts/Makefile                             |   3 +
-> >  scripts/Makefile.modfinal                    |  11 +
-> >  scripts/Makefile.modinst                     |  13 +
-> >  scripts/Makefile.vmlinux                     |   5 +
-> >  scripts/link-vmlinux.sh                      |  14 +-
-> >  scripts/modules-merkle-tree.c                | 467 +++++++++++++++++++++++++++
-> >  security/lockdown/Kconfig                    |   2 +-
-> >  20 files changed, 685 insertions(+), 7 deletions(-)
-> > 
-> [...]
+On 2/22/26 20:33, David Disseldorp wrote:
+>> It's an archive format. There are tools that create that archive format
+>> from a directory.
+>>
+>> The kernel itself had a fairly generic one one built-in, which you
+>> _could_ use to create cpio archives with /dev/console as a regular
+>> user... until the kernel guys decided to break it. I carried a patch to
+>> fix that for a little while myself:
+>>
+>> https://landley.net/bin/mkroot/0.8.10/linux-patches/0011-gen_init_cpio-regression.patch
 > 
-> > diff --git a/kernel/module/hashes_root.c b/kernel/module/hashes_root.c
-> > new file mode 100644
-> > index 000000000000..1abfcd3aa679
-> > --- /dev/null
-> > +++ b/kernel/module/hashes_root.c
-> > @@ -0,0 +1,6 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +
-> > +#include <linux/module_hashes.h>
-> > +
-> > +/* Blank dummy data. Will be overridden by link-vmlinux.sh */
-> > +const struct module_hashes_root module_hashes_root __module_hashes_section = {};
-> > diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-> > index e2d49122c2a1..e22837d3ac76 100644
-> > --- a/kernel/module/internal.h
-> > +++ b/kernel/module/internal.h
-> > @@ -338,6 +338,7 @@ void module_mark_ro_after_init(const Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
-> >  			       const char *secstrings);
-> >  
-> >  int module_sig_check(struct load_info *info, const u8 *sig, size_t sig_len);
-> > +int module_hash_check(struct load_info *info, const u8 *sig, size_t sig_len);
-> >  
-> >  #ifdef CONFIG_DEBUG_KMEMLEAK
-> >  void kmemleak_load_module(const struct module *mod, const struct load_info *info);
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index 2a28a0ece809..fa30b6387936 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -3362,8 +3362,10 @@ static int module_integrity_check(struct load_info *info, int flags)
-> >  
-> >  	if (IS_ENABLED(CONFIG_MODULE_SIG) && sig_type == PKEY_ID_PKCS7) {
-> >  		err = module_sig_check(info, sig, sig_len);
-> > +	} else if (IS_ENABLED(CONFIG_MODULE_HASHES) && sig_type == PKEY_ID_MERKLE) {
-> > +		err = module_hash_check(info, sig, sig_len);
-> >  	} else {
-> > -		pr_err("module: not signed with expected PKCS#7 message\n");
-> > +		pr_err("module: not signed with signature mechanism\n");
-> >  		err = -ENOPKG;
-> 
-> To prevent others from running into the same issue:
-> 
-> My first test got stuck here, as I tested with virtme-ng, which symlinks
-> modules from build tree to /lib/modules/$(uname -r)/..., resulting in
-> 
->     [   15.956855] module: not signed with signature mechanism
->     modprobe: ERROR: could not insert 'efivarfs': Package not installed
-> 
-> As the modules_install step was missing, modules were not being signed.
+> This seems like a helpful feature to me.
 
-Currently the signing is deferred to installation time to keep in sync
-with regular module signing and to keep the logic simpler by not having
-to gracefully handle previously-signed files.
-But this could be changed.
+It was, but I want mkroot to at least be _able_ to build with vanilla 
+kernels, so couldn't depend on a feature upstream had abandoned.
 
-> [...]
-> > diff --git a/scripts/modules-merkle-tree.c b/scripts/modules-merkle-tree.c
-> > new file mode 100644
-> > index 000000000000..a6ec0e21213b
-> > --- /dev/null
-> > +++ b/scripts/modules-merkle-tree.c
-> > @@ -0,0 +1,467 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * Compute hashes for modules files and build a merkle tree.
-> > + *
-> > + * Copyright (C) 2025 Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
-> > + * Copyright (C) 2025 Thomas Weißschuh <linux@weissschuh.net>
-> > + *
-> > + */
-> > +#define _GNU_SOURCE 1
-> > +#include <arpa/inet.h>
-> > +#include <err.h>
-> > +#include <unistd.h>
-> > +#include <fcntl.h>
-> > +#include <stdarg.h>
-> > +#include <stdio.h>
-> > +#include <string.h>
-> > +#include <stdbool.h>
-> > +#include <stdlib.h>
-> > +
-> > +#include <sys/stat.h>
-> > +#include <sys/mman.h>
-> > +
-> > +#include <openssl/evp.h>
-> > +#include <openssl/err.h>
-> > +
-> > +#include "ssl-common.h"
-> > +
-> > +static int hash_size;
-> > +static EVP_MD_CTX *ctx;
-> > +
-> > +struct module_signature {
-> > +	uint8_t		algo;		/* Public-key crypto algorithm [0] */
-> > +	uint8_t		hash;		/* Digest algorithm [0] */
-> > +	uint8_t		id_type;	/* Key identifier type [PKEY_ID_PKCS7] */
-> > +	uint8_t		signer_len;	/* Length of signer's name [0] */
-> > +	uint8_t		key_id_len;	/* Length of key identifier [0] */
-> > +	uint8_t		__pad[3];
-> > +	uint32_t	sig_len;	/* Length of signature data */
-> > +};
-> > +
-> > +#define PKEY_ID_MERKLE 3
-> > +
-> > +static const char magic_number[] = "~Module signature appended~\n";
-> 
-> This here will be the forth definition of struct module_signature,
-> increasing the risk of unwanted diversion.  I second Petr's suggestion
-> to reuse a _common_ definition instead.
+The real problem isn't cpio, it's that the kernel interface for 
+statically linking a cpio into the kernel wants you to point it at a 
+directory of files for _it_ to cpio up, and when you do that you need 
+root access (or fakeroot) to mknod.
 
-Ack.
+You used to be able to point it at one of those generated files (and 
+thus edit the file yourself to add the extra nodes), but that went away 
+the same time they broke the rest of the interface.
 
-> (Here, even include/linux/module_signature.h could be included itself.)
+> Thanks, David
 
-I'd like to avoid including internal headers from other components.
-We could move it to an UAPI header. Various other subsystems use those
-for not-really-UAPI but still ABI definitions.
-
-(...)
-
-> > +static inline char *xasprintf(const char *fmt, ...)
-> > +{
-> > +	va_list ap;
-> > +	char *strp;
-> > +	int ret;
-> > +
-> > +	va_start(ap, fmt);
-> > +	ret = vasprintf(&strp, fmt, ap);
-> > +	va_end(ap);
-> > +	if (ret == -1)
-> > +		err(1, "Memory allocation failed");
-> > +
-> > +	return strp;
-> > +}
-> 
-> Please consider moving these x* functions into scripts/include/xalloc.h
-> for reuse.  (I am sure someone else wrote this already, but I can't find
-> it...)
-
-Petr suggested it somewhere, it is done for the next revision.
-
-> thanks for all your efforts for reproducibility!
-> 
-> As I have no clue about that:  Is the patent for merkle trees [1] a
-> problem when integrating that here?
-
-That should have expired a long time ago [2].
-And fs-verity is also using merkle trees.
-
-> Can you verify if I get the mechanics roughly correct?
-> 
->   * Modules are merkle tree leaves.  Modules are built and logically
->     paired by the order from modules.order; a single left-over module is
->     paired with itself.
-> 
->   * Hashes of paired modules are hashed again (branch node hash);
->     hashes of pairs of branch nodes' hashes are hashed again;
->     repeat until we reach the single merkle tree root hash
-> 
->   * The final merkle tree root hash (and the count of tree levels) is
->     included in vmlinux
-
-The merkle tree code was written by Sebastian so he will have the best
-knowledge about it. But this is also my understanding.
-
-> 'make && find . -name '*.ko' -exec rm {} \; && make' does not rebuild
-> the in-tree modules.  Shifting the module-hashes support from
-> scripts/link-vmlinux.sh to scripts/Makefile.vmlinux might (make it
-> easier) to fix this again.
-
-I'll take a look at it.
-
-> [1]: https://worldwide.espacenet.com/patent/search/family/022107098/publication/US4309569A?q=pn%3DUS4309569
-
-[2] https://patents.stackexchange.com/questions/17901/validity-of-patent-on-merkle-trees
-
-
-Thomas
+Rob
 
