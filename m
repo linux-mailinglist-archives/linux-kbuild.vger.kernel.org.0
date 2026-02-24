@@ -1,302 +1,187 @@
-Return-Path: <linux-kbuild+bounces-11409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11410-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UN0qG4bcnWmuSQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11409-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:14:46 +0100
+	id QPFIAwDenWmuSQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11410-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:21:04 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5BB18A639
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:14:45 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B98318A79C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:21:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C5223048099
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 16:42:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CC9643020FD4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 17:20:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D670D3A7F6B;
-	Tue, 24 Feb 2026 16:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D6727F195;
+	Tue, 24 Feb 2026 17:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0R+JxOSh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LT1jlzz8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A033A7F55
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 16:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771951332; cv=pass; b=pzRc9l1+BoW220et/Qw6MhfZjhhRbi/nltEFGkPpNAmVS624DkgvfRY3LTi+OnYzwoQa+If56PO+XxOQtuGYaF07BDpMS1xPhwzcaDs5G9ow7lEhQCRNFkFJJtPcBfql4PDsrsJ7g/BktzasuvbyPWLtw21bB3bUMr7SC3So8ak=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771951332; c=relaxed/simple;
-	bh=NcSXw2HJsJraWVfV0B2TsfnQhljzimFsSoywmgza1gI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tHi4VdxmlyxPxKSleWhppStDjSF2BlJJH6vO3I98F5hHSRI1tBAVw1WhwOwWb0u18TpE5TDfdvfs2nN6aGU6ud2UV30foydvyNQMvaE38AOirQ+GvcwS6Hsv891StAx5ya5aqiPBNgX1h2lxQqxfoKEJ+GNkvZCYTabNdsJK2fw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0R+JxOSh; arc=pass smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-126ea4e9697so1116c88.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 08:42:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771951331; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Q6egc5t/i0wyPax9eyXVoXuLoKi4vI4cXxM3cMWEsUske6MwOxERKdJiJKoOz2sNcg
-         hUcMik8xLj1V4fYYRMrN6NUuozIw7qXeIcr/mC9ydHXsb6AMj01qSQCSFhjadWUmAQzl
-         oDPznqUvF2eFD7ig/f1JEkRTSMwmqwuUEhsK+E+Vs9acu2MQaW+QZ/bnd4NPO7tX+1lj
-         ONv4miW6Zfi+XCtOkL75zAbgk1DLkJp+U86ukct26Xw5sL07lEo+FcxLanu4TuX/8wvq
-         Vd4NhUHtp5SlgADsTWsx8QT1L9AVlN+687BOWdhYn+TKAM7nx05C92KPJM9EoLZLHTdH
-         gxRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Kgwg6ZY+UwlSzzQ1IYs4ifU8gB4nY+Z3oaeaPRk66as=;
-        fh=YacEMDQmgI8blU7Grc0uj93dUWplxjFVzgee+Mku4nE=;
-        b=dEFZqFkHoCC8DBwQHoLeCREJI3XrZHdJbouQ5VQKGUtTDYoc4AFCzIJ1aROi6WqY07
-         WMAButz+gaG7guuvngGtUxREI+XgHkS7cTW8JGe70IW7QqNW7qnpWP2i44BzUeSG7XJh
-         opFf1UHk9pREbKqhvIBcSsxAMX81+dYyNmgI3ZLZlQZaO0auNqjRT4EzunHBYcdPEoke
-         1kbtd2CPRZPQ5lRWjdYF80XA0ggGuHQYyzflsSaix0J0G9q12uPDUoTjWX0mkBbZkjhh
-         lHLtt/TpeGXwR5ufjQK6o8cEFObWOszYPcb4hI3HQoJYTrCsKtw+XjBOlSR2fWzUFCEW
-         IYpA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771951331; x=1772556131; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kgwg6ZY+UwlSzzQ1IYs4ifU8gB4nY+Z3oaeaPRk66as=;
-        b=0R+JxOShw4GlFbZkmUvJX5R0JviYF+CIDxWTK3iU95wXV5uxBOdTxCbdPoGYjBwIZF
-         EgvEoGZZyfMLU0c3ntChn2dEwpjYGgdn4MRITHU1i8TA/AUg5ImzOVAhSUTxwy3dNYBF
-         rwwjKNpcuYzoKLkxmQaoPQqEzisAh2+XwQJs39RMabB0MFnxJVct/RtKoYTOL1dXfc2K
-         /4xNX1ufQnIGKX4SWezhgpQuCRyZgZo/GDGiT+FP4tSsMGgtjpycENturKlRlcV4ohru
-         1fhhzkA0ZxghJ1GyG4H0kndWwA0c7z4oeoEqiS5tAhe9DXPrqtkiEs6RdIaT4rGEDPQG
-         OZKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771951331; x=1772556131;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Kgwg6ZY+UwlSzzQ1IYs4ifU8gB4nY+Z3oaeaPRk66as=;
-        b=i2WOzRUX8Ppf/axHm21ESUAUz8WdIa1w9sqmBbAluYMttzYhR5qdJyoFkUrtu05rC4
-         9knMSuNcNxThVI/OIjwbGKq0p0zpCavhaWT/xBeHKz95Flxivsu61wh43S2j3OFpsXet
-         h3RuHF1+EIpeoAHVNjWuk3X3n+jOeDTLw2T/159NGeBbwQPtQth7m2XNEADirdWA7umg
-         /Z4vjaIS78hFfaVfPUEeamXpTGZTEIwGXdnFsB+VyQbh56sccNZ/73Gmf2MCQp4CfRhb
-         IWEEJ98Ts+jx4vE5NEqJo2Lelr3IVZ9aEx/ZFZEDftkM8baFrD50J02mGSBp6hhQaFiv
-         Jdyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVP92zvF6clIkfkfXs2HdVMf0rLtkMX0FvbAoGp42dt05WWdxUEjhmwtgXVnlUnkVV5/i0eOm/hH3OWFWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHNEJROd9Aidwdjia5QYi+9MMLzNQjny9arRfVHoJEXhjJBn39
-	QfsDvK70oluPUdUGZPZ5z3R/b/XDOGMzYYjQdjo6Ok4fb+oDa62kIkRNOmlZUWrlsP52TJxxWhf
-	T2C8mL1Br+zv+xG/n9c9MXEPKnrAReG6eAm8iXWux
-X-Gm-Gg: AZuq6aIyPtSkprk2eHJXmjPpveCYXta5wSBjoj0AphMhzIODrq489gGEYFh4RQACINr
-	L4NYush3vWaeAaM7D1fAVEDr3dIjKaxeOmHRGRYveSTZto5hVzrgBD4OMbZmAjmbAMflag8/4nP
-	++QUMsYdBlcKyQCrXcciVNjvFm3FJa31mchi4+ItkoFBNYg59T7NMXtswDOr5jg4ixxXjD3/H+5
-	+wuaRrB+bp+wjlQW5kyhJ8g5ZIz71qfTepokWb2JzGBedJHymmr+0/3srbk/al/pBBgKcXKSkqC
-	K9y9d3+KKWsiEZJ5LyvVYMw4/ztyOM5D/qYY
-X-Received: by 2002:a05:7022:1e10:b0:119:e55a:8087 with SMTP id
- a92af1059eb24-12779ca1e66mr162200c88.4.1771951329849; Tue, 24 Feb 2026
- 08:42:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5C723E346;
+	Tue, 24 Feb 2026 17:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771953602; cv=none; b=RH0GL68C4jY5UM/54MIDEHKgNByYVUx3rvzkqs6PG4RABRqHHgI9MhSx4FveKUSmaubc9EIZ1/ti4L3+/LJBbO1k2vFZ+zDHLd87bimzl4bVNnGoh1C/Clbcz5zHhdgxPRJ3VAdY1a5VfMTJImor1GVMxH7wkVqiOW599DuKG6A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771953602; c=relaxed/simple;
+	bh=ZWmfjVGC04RsemPbN0f/c2oGaGmUqF6JaCPx4KMrvSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iQmCjOtJPcCoq41+gsZ5GeASuyl0mVOHkdQ69W67ATFqYMx5uflQwYH6Cia0UKjLQ+HdhMOz+UKxu5gHQ4DfPB+x9TXx2QR2r3Z0ilgaE+HhJYYjWK01ptTr/bfP6cyloLmCdt3b17EVT2HNftRb44lfc1RmuYl6Au7HmMuJEto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LT1jlzz8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAA4C19422;
+	Tue, 24 Feb 2026 17:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771953602;
+	bh=ZWmfjVGC04RsemPbN0f/c2oGaGmUqF6JaCPx4KMrvSo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LT1jlzz8Ovy0fZgn7VU5yJ2vrBl1LBAT/NbaIp/XLdsYoYTCv4JZ0WNhGYInhOhvv
+	 i0fXsnC6SvWbsY6z6dhGhTU83NyZyF3l+/DvFSjqY+ny0cC0H3SahpD4dV5NLFJubT
+	 HD6giHh6dkNxqRYMR0rQ3sAfVcpk3fRmQmy/mnc+tvtUG4/6tMnbLi1Fww1RPPue+C
+	 wLMA5gNwdxBNsBDqPRLZAEiW899kHFmzTZNgpw93u0Gnsg1lA0MSckHK8AAw6FVYRH
+	 r5UBp6R0ATxu/3NbXoO4eiBaekqOOKsI5bYFsaTtKh7GxPHhsthu+rjOzhrIZUiyl+
+	 UuPFkzYIeehuw==
+Date: Tue, 24 Feb 2026 10:19:56 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Leo Yan <leo.yan@arm.com>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>,
+	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH RESEND v2] tools build: Use -fzero-init-padding-bits=all
+Message-ID: <20260224171956.GA639152@ax162>
+References: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260218154800.367720-1-9erthalion6@gmail.com>
-In-Reply-To: <20260218154800.367720-1-9erthalion6@gmail.com>
-From: Ian Rogers <irogers@google.com>
-Date: Tue, 24 Feb 2026 08:41:57 -0800
-X-Gm-Features: AaiRm51usgiRE1d1KtF1udatehmVlkbDM9zzDjPMxJJwgnnXlY4zfmGsIkXNl18
-Message-ID: <CAP-5=fXLNybYv08dDfAqAsDBzbOPzQY4EZQvdY0WZsfrMu9Yyg@mail.gmail.com>
-Subject: Re: [PATCH v4] tools build: Fix rust cross compilation
-To: Dmitrii Dolgov <9erthalion6@gmail.com>
-Cc: linux-perf-users@vger.kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Levi Zim <i@kxxt.dev>, 
-	Namhyung Kim <namhyung@kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	rust-for-linux <rust-for-linux@vger.kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [7.34 / 15.00];
-	URIBL_BLACK(7.50)[perfwiki.github.io:url];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	R_DKIM_ALLOW(0.00)[google.com:s=20230601];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11409-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11410-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	GREYLIST(0.00)[pass,body];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_POLICY_ALLOW(0.00)[google.com,reject];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-0.992];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[irogers@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	R_SPF_ALLOW(0.00)[+ip6:2600:3c0a:e001:db::/64:c];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	NEURAL_SPAM(0.00)[0.872];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,perfwiki.github.io:url]
-X-Rspamd-Queue-Id: BD5BB18A639
-X-Rspamd-Action: add header
-X-Spam: Yes
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,gnu.org:url]
+X-Rspamd-Queue-Id: 1B98318A79C
+X-Rspamd-Action: no action
 
-On Wed, Feb 18, 2026 at 7:48=E2=80=AFAM Dmitrii Dolgov <9erthalion6@gmail.c=
-om> wrote:
->
-> Currently no target is specified to compile rust code when needed, which
-> breaks cross compilation. E.g. for arm64:
->
->       LD      /tmp/build/tests/workloads/perf-test-in.o
->     aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(cod=
-e_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in g=
-eneric ELF (EM: 62)
->     aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(cod=
-e_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in g=
-eneric ELF (EM: 62)
->     [...repeated...]
->     aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(cod=
-e_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in g=
-eneric ELF (EM: 62)
->     aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(cod=
-e_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in g=
-eneric ELF (EM: 62)
->     aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a: er=
-ror adding symbols: file in wrong format
->     make[5]: *** [/perf/tools/build/Makefile.build:162: /tmp/build/tests/=
-workloads/perf-test-in.o] Error 1
->     make[4]: *** [/perf/tools/build/Makefile.build:156: workloads] Error =
-2
->     make[3]: *** [/perf/tools/build/Makefile.build:156: tests] Error 2
->     make[2]: *** [Makefile.perf:785: /tmp/build/perf-test-in.o] Error 2
->     make[2]: *** Waiting for unfinished jobs....
->     make[1]: *** [Makefile.perf:289: sub-make] Error 2
->     make: *** [Makefile:76: all] Error 2
->
-> Detect required target and pass it via rust_flags to the compiler.
->
-> Note that CROSS_COMPILE might be different from what rust compiler
-> expects, since it may omit the target vendor value, e.g.
-> "aarch64-linux-gnu" instead of "aarch64-unknown-linux-gnu". Thus
-> explicitly map supported CROSS_COMPILE values to corresponding Rust
-> versions, as suggested by Miguel Ojeda.
->
-> Tested using arm64 cross-compilation example from [1].
->
-> Fixes: 2e05bb52a12 ("perf test workload: Add code_with_type test workload=
-")
-> Link: https://perfwiki.github.io/main/arm64-cross-compilation-dockerfile/=
- [1]
-> Signed-off-by: Dmitrii Dolgov <9erthalion6@gmail.com>
+Hi Leo,
+
+On Tue, Feb 24, 2026 at 12:16:40PM +0000, Leo Yan wrote:
+> GCC-15 release claims [1]:
+> 
+>   {0} initializer in C or C++ for unions no longer guarantees clearing
+>   of the whole union (except for static storage duration initialization),
+>   it just initializes the first union member to zero. If initialization
+>   of the whole union including padding bits is desirable, use {} (valid
+>   in C23 or C++) or use -fzero-init-padding-bits=unions option to
+>   restore old GCC behavior.
+> 
+> As a result, this new behaviour might cause unexpected data when we
+> initialize a union with using the '{ 0 }' initializer.
+> 
+> Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
+> the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
+> in unions and structures.  This commit applies the same option for tools
+> building.
+> 
+> The option is not supported neither by any version older than GCC 15 and
+> is also not supported by LLVM, this patch adds the cc-option function to
+> dynamically detect the compiler option.
+> 
+> [1] https://gcc.gnu.org/gcc-15/changes.html
+> 
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
 > ---
-> Changes in v4
-> - Fixed incorrect target name for riscv
->
-> Changes in v3
-> - Improved commit message, add an example of the compilation failure
->
-> Changes in v2:
-> - Map supported CROSS_COMPILE values to corresponding Rust targets
->
->
->  tools/build/Build.include  |  9 +++++++++
->  tools/perf/Makefile.config | 14 ++++++++++++++
->  tools/perf/Makefile.perf   |  2 +-
->  3 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/build/Build.include b/tools/build/Build.include
-> index e45b2eb0d24..cd0baa7a168 100644
-> --- a/tools/build/Build.include
-> +++ b/tools/build/Build.include
-> @@ -98,6 +98,15 @@ c_flags_2 =3D $(filter-out $(CFLAGS_REMOVE_$(basetarge=
-t).o), $(c_flags_1))
->  c_flags   =3D $(filter-out $(CFLAGS_REMOVE_$(obj)), $(c_flags_2))
->  cxx_flags =3D -Wp,-MD,$(depfile) -Wp,-MT,$@ $(CXXFLAGS) -D"BUILD_STR(s)=
-=3D\#s" $(CXXFLAGS_$(basetarget).o) $(CXXFLAGS_$(obj))
->
-> +###
-> +# Rust flags to be used on rule definition, includes:
-> +# - global $(RUST_FLAGS)
-> +# - per target Rust flags
-> +# - per object Rust flags
-> +rust_flags_1 =3D $(RUST_FLAGS) $(RUST_FLAGS_$(basetarget).o) $(RUST_FLAG=
-S_$(obj))
-> +rust_flags_2 =3D $(filter-out $(RUST_FLAGS_REMOVE_$(basetarget).o), $(ru=
-st_flags_1))
-> +rust_flags   =3D $(filter-out $(RUST_FLAGS_REMOVE_$(obj)), $(rust_flags_=
-2))
+> Resent to linux-kbuild mailing list.
+
+Kbuild does not maintain/touch tools/. This should go via another tree
+like perf or something. It does not look like
+tools/scripts/Makefile.include has a clear owner, perf and bpf tend to
+be the ones who touch it the most.
+
+> ---
+>  tools/scripts/Makefile.include | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
+> index b5ecf137febcae59f506e107a7f2e2ad72f4bef4..73f6aef4f3fda0cda7ee8f4b9a3b7ff7d956070d 100644
+> --- a/tools/scripts/Makefile.include
+> +++ b/tools/scripts/Makefile.include
+> @@ -40,6 +40,30 @@ EXTRA_WARNINGS += -Wwrite-strings
+>  EXTRA_WARNINGS += -Wformat
+>  EXTRA_WARNINGS += -Wno-type-limits
+>  
+> +# output directory for tests below
+> +TMPOUT = .tmp_$$$$
 > +
->  ###
->  ## HOSTCC C flags
->
-> diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
-> index a8dc72cfe48..214d8f6d9b8 100644
-> --- a/tools/perf/Makefile.config
-> +++ b/tools/perf/Makefile.config
-> @@ -1163,6 +1163,20 @@ ifndef NO_RUST
->      CFLAGS +=3D -DHAVE_RUST_SUPPORT
->      $(call detected,CONFIG_RUST_SUPPORT)
->    endif
+> +# try-run
+> +# Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
+> +# Exit code chooses option. "$$TMP" serves as a temporary file and is
+> +# automatically cleaned up.
+> +try-run = $(shell set -e;		\
+> +	TMP=$(TMPOUT)/tmp;		\
+> +	trap "rm -rf $(TMPOUT)" EXIT;	\
+> +	mkdir -p $(TMPOUT);		\
+> +	if ($(1)) >/dev/null 2>&1;	\
+> +	then echo "$(2)";		\
+> +	else echo "$(3)";		\
+> +	fi)
 > +
-> +  ifneq ($(CROSS_COMPILE),)
-> +    RUST_TARGET_FLAGS_arm      :=3D arm-unknown-linux-gnueabi
-> +    RUST_TARGET_FLAGS_arm64    :=3D aarch64-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_m68k     :=3D m68k-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_mips     :=3D mipsel-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_powerpc  :=3D powerpc64le-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_riscv    :=3D riscv64gc-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_s390     :=3D s390x-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_x86      :=3D x86_64-unknown-linux-gnu
-> +    RUST_TARGET_FLAGS_x86_64   :=3D x86_64-unknown-linux-gnu
+> +# cc-option
+> +# Usage: CFLAGS += $(call cc-option,-march=winchip-c6,-march=i586)
+> +cc-option = $(call try-run, \
+> +	$(CC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
 > +
-> +    RUST_FLAGS +=3D --target=3D$(RUST_TARGET_FLAGS_$(ARCH))
-
-I'm wondering about lesser tested platforms like loongarch, csky,
-xtensa but I don't know how to concoct a triple for these. I wonder if
-there should be a test for a missing string like:
-
-  ifeq($(RUST_TARGET_FLAGS_$(ARCH)),)
-    $(error Unknown rust cross compilation architecture $(ARCH))
-  endif
-
-other than this:
-
-Reviewed-by: Ian Rogers <irogers@google.com>
-
-Thanks,
-Ian
-
-> +  endif
->  endif
->
->  # Among the variables below, these:
-> diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-> index 11b63bafdb2..f7b936deeaa 100644
-> --- a/tools/perf/Makefile.perf
-> +++ b/tools/perf/Makefile.perf
-> @@ -274,7 +274,7 @@ ifeq ($(PYLINT),1)
->    PYLINT :=3D $(shell which pylint 2> /dev/null)
->  endif
->
-> -export srctree OUTPUT RM CC CXX RUSTC LD AR CFLAGS CXXFLAGS V BISON FLEX=
- AWK
-> +export srctree OUTPUT RM CC CXX RUSTC LD AR CFLAGS CXXFLAGS RUST_FLAGS V=
- BISON FLEX AWK
->  export HOSTCC HOSTLD HOSTAR HOSTCFLAGS SHELLCHECK MYPY PYLINT
->
->  include $(srctree)/tools/build/Makefile.include
->
-> base-commit: dbf0108347bdb5d4ccef8910555b16c1f1a505f8
-> --
-> 2.52.0
->
+> +# Explicitly clear padding bits with the initializer '{ 0 }'
+> +CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
+> +
+>  # Makefiles suck: This macro sets a default value of $(2) for the
+>  # variable named by $(1), unless the variable has been set by
+>  # environment or command line. This is necessary for CC and AR
+> 
+> ---
+> base-commit: 7dff99b354601dd01829e1511711846e04340a69
+> change-id: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
+> 
+> Best regards,
+> -- 
+> Leo Yan <leo.yan@arm.com>
+> 
 
