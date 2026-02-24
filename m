@@ -1,143 +1,177 @@
-Return-Path: <linux-kbuild+bounces-11411-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11412-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2PZIATDvnWkHSwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11411-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 19:34:24 +0100
+	id mLa6I+H1nWlzSwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11412-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 20:02:57 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC7418B73C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 19:34:23 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F8618BA49
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 20:02:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D8F6B30087C6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:34:20 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 55B14301E9BC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 19:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E34BC3AA1B8;
-	Tue, 24 Feb 2026 18:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E02402E7BD3;
+	Tue, 24 Feb 2026 19:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2PxMZRMk"
+	dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b="ZlK/Uv01"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from siberian.tulip.relay.mailchannels.net (siberian.tulip.relay.mailchannels.net [23.83.218.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56A637F75D
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 18:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771958049; cv=none; b=ZxrogVF74YUHuHGiMDkWUPfHSwJXAmwUjYAYkMn4UCcfjbMqroAF3Xe03DyKW9AdZrtgwUqNZ9umHKfPzQ+kMD6dvLl7SSre2UIm47MQUJFY3zM/vQmfK3CDFqFzZ45H3SzboL2WubjmCUu7EPBQ4qKqBo0xbiS5cYsRIISAQYI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771958049; c=relaxed/simple;
-	bh=J11iK2XwIj2+zXIcYCQZxiKQs/qMUnRO89klT0AGl1I=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=bMfQl8fI1QEpyV+UP90EDq81Gxpay3c5AQHsuBOTNkzFZJAzngYPQ/iuD6ztEyVgOjQ/5BNM+X4eklpcYn7doIwi7S0E+taqnQHdScGSHXIkkYVoZ4qtriaYMylpagk737ETlrRba7QehW2R9YeeQ2xKGztRL8fFzJ/HpFeVuyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2PxMZRMk; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2bdbe1bd565so238923eec.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 10:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771958048; x=1772562848; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QrjBvSrm8JFCEhJvVydTf7Q6kCsOJiDnm0ZLRH2yvhY=;
-        b=2PxMZRMkvwdPT6xmoQWt26Bz7LxYouErxHbvwHpyCRpyKkAEiMZw8KBiIBg284l0UR
-         rtByLaeejleh76tViNccPtvMoMwjDzGLrD8GMB6spm/oT7ULoRjp1sJEIDvccw+AM5f0
-         mL5Owi6Pjy/3hz5snmZIlMTcB4gQMBt2Qw3ti9ulThlUP93RHkgKVKk+otIiSlsSaPQU
-         /c4AwOHIwI9Ojy63pFWM1uUZTr/9Ytq610yfVjDwuk0RhrulAAvSttVQOXYCPxn776E+
-         rGOG3KK/FH14b2fU5OqogoRGcN7f8Lkuq5lIa6icsKjV1Bw+UkgETMBU2Tdilub01cme
-         OFgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771958048; x=1772562848;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QrjBvSrm8JFCEhJvVydTf7Q6kCsOJiDnm0ZLRH2yvhY=;
-        b=dvT+owESOnIqXAvd3uLS8wIP+ys8PnGweTtRGqKK0j/cxfrJcyXXEdgAWaV7329Mdb
-         cynWpFSIK0LQLZJdVW3cw5LNgOpEd7yRBSgOYjcxf9QJlVVia93QXaG8j/LjwiMicIJo
-         394y9D26zwgIIgLgjotChZED0dkeQMAdDWoaID6f/1gRNh0h33lZ62pEwUrIzTrSI0lO
-         Bx6ct56P7Mdf5DPn545Oi3sM10rMMWrSZmQ73Arpg9T0i2/204o0hFCcejsn75eZJjX6
-         51InUGYuMW1k/DdtTpE4kRMp5oi0w32mV7OEUvFEcQ9Ify4Juw20oVB7LWhO4Sct3lmC
-         TeuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVNcV81NKeQ/mE2Zeme2CyfBoFWGHz00kdFYrSy8YH9uDwpcojy8c1epObY8ZGIooeG/Sx2tXkKv65yObE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC0PujPy41prsI/IY3uPFwMQ0n4k51QQY4VxBFlbkhjiHcjQAA
-	1cdW01ANrZByMEhX17ULjCykIIx+Do6bEJvm5C3g0VIWQ3UGjkikX/NmCk6t4HL7hS3b+nOsHfr
-	NS+d04Vl4rAYLKR6/VoG0AoQOd8TsHQ==
-X-Received: from dycng10.prod.google.com ([2002:a05:7300:ce0a:b0:2ba:963b:54da])
- (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:d718:b0:2ba:6ffe:450 with SMTP id 5a478bee46e88-2bd7bd3aa44mr4531030eec.33.1771958047807;
- Tue, 24 Feb 2026 10:34:07 -0800 (PST)
-Date: Tue, 24 Feb 2026 18:34:06 +0000
-In-Reply-To: <20251230183208.1317279-1-ihor.solodrai@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923B11D5170;
+	Tue, 24 Feb 2026 19:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.246
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771959773; cv=pass; b=XpyqOJLJWmT01efYL7StfDCyKvS33fzJ8jxW8fLDUDjmbBzsU9kBaHT+Vsn1b8Yr3jBn4vHnGTAwz8ChutrPig/OJ/Glf9azhaiZ6EBMNWr9ZAPtSnflhjX5xfqeNNaeUCGfJKopuFN6h146AHDtBSoN77NPdAh1tuLjLv3Mcf8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771959773; c=relaxed/simple;
+	bh=Jr/PDVnNKvKlpq+USPz3dMI/D1o2FqG9PRfJXdMbzxQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PNKb33NAL5409R7xjIQ7Dp/+0s2WY4bCBTUfAUzKDK26ToUUZaIiuDE7PDVC0JxI06Hti29LBPJYST/CQi6ZJ5dPgAOzSfC+Hs/GE/F2LN4r7zanGpudlZaqrVKNHjIXomnKp873Mz+Z7/dy3RurZuY8p2iSunzmpGXHj/erTT0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net; spf=pass smtp.mailfrom=landley.net; dkim=pass (2048-bit key) header.d=landley.net header.i=@landley.net header.b=ZlK/Uv01; arc=pass smtp.client-ip=23.83.218.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=landley.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id C9EE6181FB5;
+	Tue, 24 Feb 2026 19:02:47 +0000 (UTC)
+Received: from pdx1-sub0-mail-a209.dreamhost.com (100-99-12-80.trex-nlb.outbound.svc.cluster.local [100.99.12.80])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 468A218277C;
+	Tue, 24 Feb 2026 19:02:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
+	t=1771959767;
+	b=pvB/qBHCxCT0aHmBMwVI5e+2bMlJq8Cj+GFdb+Sox00GZWxo5WXxg+DhMdvEQGGAwviO2/
+	Q+PxTOLTcm5iM5iw+FAz+JpT14a0XQdwGRxsry+6TOERxrwrCredRnM70ZOmHqermKw/pk
+	KLyPHjCmVaBs/TbhTsmyq8NXgu9fXRSI+PH8MsLr8ykhi+57Eoe/f/wt3+wWq723G/W6pJ
+	WiiCSyzF+ov17/F1PYHyHAzilQBTY9/1GtJbFuhB6C2YjEyoLYLDrzI8DmWmBWSB1Nad7+
+	9n1rvsee4KUhrNX1tHyyKggC1sFcrVr178CzTkJZqWItIzI8Qoi4cGfbqgvnBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1771959767;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=BKJGCewKEjcg+ipjOOUMSQ1gSJ8lDiWlCzg0lPxp+p8=;
+	b=bJQjHP5OPsK78libaOkE8diCp0+pfQ1K0djQ3GdAQQPTDPPXNV48+h/ZxdoB+H0c8pA6QU
+	uqloVPhDfsxBhwZOZ97iyKZGzCr6tjRTMqRMwR7B/4DM774XhKAoHQeIJG60a4bkKJ/pXe
+	ms49778XHbWt0KHRwuQcBtCEiofzoBdzzUlDcn/DZQ7B3fgh+S2s6gSR48q6Yi8l8BHPSn
+	SuKK3xijAApfyEW1Wdi9pR7yurwRST8hOG8dtoERHqqQkk8PUEN6hY1YnbPmzae4DWBJDJ
+	ZBpIF84pNoooSxRInfrwtsNmlfjy5krcuP4Dxw80YZHgJ2obEOoj31yudui+bg==
+ARC-Authentication-Results: i=1;
+	rspamd-7f65b64645-pztnx;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
+X-Sender-Id: dreamhost|x-authsender|rob@landley.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
+X-MailChannels-Auth-Id: dreamhost
+X-Fearful-Lettuce: 4ec8746d1357a7d7_1771959767655_491962063
+X-MC-Loop-Signature: 1771959767655:2667290202
+X-MC-Ingress-Time: 1771959767654
+Received: from pdx1-sub0-mail-a209.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.99.12.80 (trex/7.1.3);
+	Tue, 24 Feb 2026 19:02:47 +0000
+Received: from [192.168.88.6] (unknown [209.81.127.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: rob@landley.net)
+	by pdx1-sub0-mail-a209.dreamhost.com (Postfix) with ESMTPSA id 4fL6YK4QY7zTC;
+	Tue, 24 Feb 2026 11:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
+	s=dreamhost; t=1771959767;
+	bh=BKJGCewKEjcg+ipjOOUMSQ1gSJ8lDiWlCzg0lPxp+p8=;
+	h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
+	b=ZlK/Uv01G4CStwmTz++hMmyuEPPue6aqD3QQmJmKX61oV8Mc1a91AZfjp8H1Ro7dq
+	 0xU54vLor8XgZzFwEGghruMb0kbafUwQgai7nlI4muNOgg7OephR/snaicxNn/0LMY
+	 3b4Nvo0brV2P9bgfO6jNno/UJO7tARXrIjdyilRLWHWAu/ovsXRNZZFaxEkAOvbt4A
+	 py0RuSV1BsL2/o7bMkRIvvwgnC7/9M/NHf6yN0YKqEEr+yGaEEwpMLrQn7tB4klxqH
+	 oMHi33bHek9jPgWCsGrs9g3Ty7GW0EptpcXDkzGP3Hnt5MmcMcSZ9m0+jgGVbTAUnw
+	 45uzkY8a0rfIQ==
+Message-ID: <bd45c86c-e1ea-4995-bb00-df83cc873105@landley.net>
+Date: Tue, 24 Feb 2026 13:02:44 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251230183208.1317279-1-ihor.solodrai@linux.dev>
-X-Mailer: b4 0.14.3
-Message-ID: <177195804671.1905199.15508123005606240406.b4-ty@google.com>
-Subject: Re: [PATCH] module: Fix kernel panic when a symbol st_shndx is out of bounds
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] init: ensure that /dev/console and /dev/null are
+ (nearly) always available in initramfs
+To: Askar Safin <safinaskar@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, initramfs@vger.kernel.org,
+ David Disseldorp <ddiss@suse.de>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, patches@lists.linux.dev
+References: <20260219210312.3468980-1-safinaskar@gmail.com>
+ <a7cb199d-928d-4158-8f16-db7ae5309082@landley.net>
+ <CAPnZJGAw9o8BetWs_wO2B6YD7mYuOopP0CwD=KCfOJXw2QU4Gg@mail.gmail.com>
+Content-Language: en-US
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <CAPnZJGAw9o8BetWs_wO2B6YD7mYuOopP0CwD=KCfOJXw2QU4Gg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_DKIM_ALLOW(-0.20)[landley.net:s=dreamhost];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-11412-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[landley.net];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11411-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,suse.com,iogearbox.net,linux.dev,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[landley.net:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[samitolvanen@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	NEURAL_HAM(-0.00)[-1.000];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,landley.net:mid,landley.net:dkim,landley.net:url,landley.net:email];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8CC7418B73C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rob@landley.net,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: E9F8618BA49
 X-Rspamd-Action: no action
 
-On Tue, 30 Dec 2025 10:32:08 -0800, Ihor Solodrai wrote:
-> The module loader doesn't check for bounds of the ELF section index in
-> simplify_symbols():
+On 2/23/26 14:58, Askar Safin wrote:
+> On Mon, Feb 23, 2026 at 3:17 AM Rob Landley <rob@landley.net> wrote:
+>> FYI I've been using (and occasionally posting) variants of
+>> https://landley.net/bin/mkroot/0.8.13/linux-patches/0003-Wire-up-CONFIG_DEVTMPFS_MOUNT-to-initramfs.patch
+>> since 2017.
 > 
->        for (i = 1; i < symsec->sh_size / sizeof(Elf_Sym); i++) {
-> 		const char *name = info->strtab + sym[i].st_name;
+> drivers/base/Kconfig says on CONFIG_DEVTMPFS_MOUNT:
+>> This option does not affect initramfs based booting
 > 
-> 		switch (sym[i].st_shndx) {
-> 		case SHN_COMMON:
-> 
-> [...]
+> So CONFIG_DEVTMPFS_MOUNT works as documented.
 
-Applied to modules-next, thanks!
+I.E. they added that instead of merging any of my patches. Doubling down 
+on "initramfs isn't a REAL root filesystem"...
 
-[1/1] module: Fix kernel panic when a symbol st_shndx is out of bounds
-      commit: f9d69d5e7bde2295eb7488a56f094ac8f5383b92
+*shrug*
 
-Best regards,
+> (But I am not against your CONFIG_DEVTMPFS_MOUNT approach
+> if it helps you fix your problem.)
 
-	Sami
+Oh I've been patching it locally for years. I'm only replying because I 
+was cc'd.
 
-
+Rob
 
