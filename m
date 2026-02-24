@@ -1,187 +1,143 @@
-Return-Path: <linux-kbuild+bounces-11410-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11411-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPFIAwDenWmuSQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11410-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:21:04 +0100
+	id 2PZIATDvnWkHSwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11411-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 19:34:24 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B98318A79C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:21:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC7418B73C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 19:34:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CC9643020FD4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 17:20:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D8F6B30087C6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 18:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D6727F195;
-	Tue, 24 Feb 2026 17:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E34BC3AA1B8;
+	Tue, 24 Feb 2026 18:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LT1jlzz8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2PxMZRMk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5C723E346;
-	Tue, 24 Feb 2026 17:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56A637F75D
+	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 18:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771953602; cv=none; b=RH0GL68C4jY5UM/54MIDEHKgNByYVUx3rvzkqs6PG4RABRqHHgI9MhSx4FveKUSmaubc9EIZ1/ti4L3+/LJBbO1k2vFZ+zDHLd87bimzl4bVNnGoh1C/Clbcz5zHhdgxPRJ3VAdY1a5VfMTJImor1GVMxH7wkVqiOW599DuKG6A=
+	t=1771958049; cv=none; b=ZxrogVF74YUHuHGiMDkWUPfHSwJXAmwUjYAYkMn4UCcfjbMqroAF3Xe03DyKW9AdZrtgwUqNZ9umHKfPzQ+kMD6dvLl7SSre2UIm47MQUJFY3zM/vQmfK3CDFqFzZ45H3SzboL2WubjmCUu7EPBQ4qKqBo0xbiS5cYsRIISAQYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771953602; c=relaxed/simple;
-	bh=ZWmfjVGC04RsemPbN0f/c2oGaGmUqF6JaCPx4KMrvSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQmCjOtJPcCoq41+gsZ5GeASuyl0mVOHkdQ69W67ATFqYMx5uflQwYH6Cia0UKjLQ+HdhMOz+UKxu5gHQ4DfPB+x9TXx2QR2r3Z0ilgaE+HhJYYjWK01ptTr/bfP6cyloLmCdt3b17EVT2HNftRb44lfc1RmuYl6Au7HmMuJEto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LT1jlzz8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAA4C19422;
-	Tue, 24 Feb 2026 17:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771953602;
-	bh=ZWmfjVGC04RsemPbN0f/c2oGaGmUqF6JaCPx4KMrvSo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LT1jlzz8Ovy0fZgn7VU5yJ2vrBl1LBAT/NbaIp/XLdsYoYTCv4JZ0WNhGYInhOhvv
-	 i0fXsnC6SvWbsY6z6dhGhTU83NyZyF3l+/DvFSjqY+ny0cC0H3SahpD4dV5NLFJubT
-	 HD6giHh6dkNxqRYMR0rQ3sAfVcpk3fRmQmy/mnc+tvtUG4/6tMnbLi1Fww1RPPue+C
-	 wLMA5gNwdxBNsBDqPRLZAEiW899kHFmzTZNgpw93u0Gnsg1lA0MSckHK8AAw6FVYRH
-	 r5UBp6R0ATxu/3NbXoO4eiBaekqOOKsI5bYFsaTtKh7GxPHhsthu+rjOzhrIZUiyl+
-	 UuPFkzYIeehuw==
-Date: Tue, 24 Feb 2026 10:19:56 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Leo Yan <leo.yan@arm.com>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>,
-	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH RESEND v2] tools build: Use -fzero-init-padding-bits=all
-Message-ID: <20260224171956.GA639152@ax162>
-References: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
+	s=arc-20240116; t=1771958049; c=relaxed/simple;
+	bh=J11iK2XwIj2+zXIcYCQZxiKQs/qMUnRO89klT0AGl1I=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=bMfQl8fI1QEpyV+UP90EDq81Gxpay3c5AQHsuBOTNkzFZJAzngYPQ/iuD6ztEyVgOjQ/5BNM+X4eklpcYn7doIwi7S0E+taqnQHdScGSHXIkkYVoZ4qtriaYMylpagk737ETlrRba7QehW2R9YeeQ2xKGztRL8fFzJ/HpFeVuyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2PxMZRMk; arc=none smtp.client-ip=74.125.82.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2bdbe1bd565so238923eec.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 10:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771958048; x=1772562848; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QrjBvSrm8JFCEhJvVydTf7Q6kCsOJiDnm0ZLRH2yvhY=;
+        b=2PxMZRMkvwdPT6xmoQWt26Bz7LxYouErxHbvwHpyCRpyKkAEiMZw8KBiIBg284l0UR
+         rtByLaeejleh76tViNccPtvMoMwjDzGLrD8GMB6spm/oT7ULoRjp1sJEIDvccw+AM5f0
+         mL5Owi6Pjy/3hz5snmZIlMTcB4gQMBt2Qw3ti9ulThlUP93RHkgKVKk+otIiSlsSaPQU
+         /c4AwOHIwI9Ojy63pFWM1uUZTr/9Ytq610yfVjDwuk0RhrulAAvSttVQOXYCPxn776E+
+         rGOG3KK/FH14b2fU5OqogoRGcN7f8Lkuq5lIa6icsKjV1Bw+UkgETMBU2Tdilub01cme
+         OFgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771958048; x=1772562848;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QrjBvSrm8JFCEhJvVydTf7Q6kCsOJiDnm0ZLRH2yvhY=;
+        b=dvT+owESOnIqXAvd3uLS8wIP+ys8PnGweTtRGqKK0j/cxfrJcyXXEdgAWaV7329Mdb
+         cynWpFSIK0LQLZJdVW3cw5LNgOpEd7yRBSgOYjcxf9QJlVVia93QXaG8j/LjwiMicIJo
+         394y9D26zwgIIgLgjotChZED0dkeQMAdDWoaID6f/1gRNh0h33lZ62pEwUrIzTrSI0lO
+         Bx6ct56P7Mdf5DPn545Oi3sM10rMMWrSZmQ73Arpg9T0i2/204o0hFCcejsn75eZJjX6
+         51InUGYuMW1k/DdtTpE4kRMp5oi0w32mV7OEUvFEcQ9Ify4Juw20oVB7LWhO4Sct3lmC
+         TeuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNcV81NKeQ/mE2Zeme2CyfBoFWGHz00kdFYrSy8YH9uDwpcojy8c1epObY8ZGIooeG/Sx2tXkKv65yObE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC0PujPy41prsI/IY3uPFwMQ0n4k51QQY4VxBFlbkhjiHcjQAA
+	1cdW01ANrZByMEhX17ULjCykIIx+Do6bEJvm5C3g0VIWQ3UGjkikX/NmCk6t4HL7hS3b+nOsHfr
+	NS+d04Vl4rAYLKR6/VoG0AoQOd8TsHQ==
+X-Received: from dycng10.prod.google.com ([2002:a05:7300:ce0a:b0:2ba:963b:54da])
+ (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7300:d718:b0:2ba:6ffe:450 with SMTP id 5a478bee46e88-2bd7bd3aa44mr4531030eec.33.1771958047807;
+ Tue, 24 Feb 2026 10:34:07 -0800 (PST)
+Date: Tue, 24 Feb 2026 18:34:06 +0000
+In-Reply-To: <20251230183208.1317279-1-ihor.solodrai@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
+Mime-Version: 1.0
+References: <20251230183208.1317279-1-ihor.solodrai@linux.dev>
+X-Mailer: b4 0.14.3
+Message-ID: <177195804671.1905199.15508123005606240406.b4-ty@google.com>
+Subject: Re: [PATCH] module: Fix kernel panic when a symbol st_shndx is out of bounds
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11410-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11411-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,suse.com,iogearbox.net,linux.dev,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.992];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,gnu.org:url]
-X-Rspamd-Queue-Id: 1B98318A79C
+	FROM_NEQ_ENVFROM(0.00)[samitolvanen@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8CC7418B73C
 X-Rspamd-Action: no action
 
-Hi Leo,
+On Tue, 30 Dec 2025 10:32:08 -0800, Ihor Solodrai wrote:
+> The module loader doesn't check for bounds of the ELF section index in
+> simplify_symbols():
+> 
+>        for (i = 1; i < symsec->sh_size / sizeof(Elf_Sym); i++) {
+> 		const char *name = info->strtab + sym[i].st_name;
+> 
+> 		switch (sym[i].st_shndx) {
+> 		case SHN_COMMON:
+> 
+> [...]
 
-On Tue, Feb 24, 2026 at 12:16:40PM +0000, Leo Yan wrote:
-> GCC-15 release claims [1]:
-> 
->   {0} initializer in C or C++ for unions no longer guarantees clearing
->   of the whole union (except for static storage duration initialization),
->   it just initializes the first union member to zero. If initialization
->   of the whole union including padding bits is desirable, use {} (valid
->   in C23 or C++) or use -fzero-init-padding-bits=unions option to
->   restore old GCC behavior.
-> 
-> As a result, this new behaviour might cause unexpected data when we
-> initialize a union with using the '{ 0 }' initializer.
-> 
-> Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
-> the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
-> in unions and structures.  This commit applies the same option for tools
-> building.
-> 
-> The option is not supported neither by any version older than GCC 15 and
-> is also not supported by LLVM, this patch adds the cc-option function to
-> dynamically detect the compiler option.
-> 
-> [1] https://gcc.gnu.org/gcc-15/changes.html
-> 
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
-> Resent to linux-kbuild mailing list.
+Applied to modules-next, thanks!
 
-Kbuild does not maintain/touch tools/. This should go via another tree
-like perf or something. It does not look like
-tools/scripts/Makefile.include has a clear owner, perf and bpf tend to
-be the ones who touch it the most.
+[1/1] module: Fix kernel panic when a symbol st_shndx is out of bounds
+      commit: f9d69d5e7bde2295eb7488a56f094ac8f5383b92
 
-> ---
->  tools/scripts/Makefile.include | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
-> index b5ecf137febcae59f506e107a7f2e2ad72f4bef4..73f6aef4f3fda0cda7ee8f4b9a3b7ff7d956070d 100644
-> --- a/tools/scripts/Makefile.include
-> +++ b/tools/scripts/Makefile.include
-> @@ -40,6 +40,30 @@ EXTRA_WARNINGS += -Wwrite-strings
->  EXTRA_WARNINGS += -Wformat
->  EXTRA_WARNINGS += -Wno-type-limits
->  
-> +# output directory for tests below
-> +TMPOUT = .tmp_$$$$
-> +
-> +# try-run
-> +# Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
-> +# Exit code chooses option. "$$TMP" serves as a temporary file and is
-> +# automatically cleaned up.
-> +try-run = $(shell set -e;		\
-> +	TMP=$(TMPOUT)/tmp;		\
-> +	trap "rm -rf $(TMPOUT)" EXIT;	\
-> +	mkdir -p $(TMPOUT);		\
-> +	if ($(1)) >/dev/null 2>&1;	\
-> +	then echo "$(2)";		\
-> +	else echo "$(3)";		\
-> +	fi)
-> +
-> +# cc-option
-> +# Usage: CFLAGS += $(call cc-option,-march=winchip-c6,-march=i586)
-> +cc-option = $(call try-run, \
-> +	$(CC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
-> +
-> +# Explicitly clear padding bits with the initializer '{ 0 }'
-> +CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
-> +
->  # Makefiles suck: This macro sets a default value of $(2) for the
->  # variable named by $(1), unless the variable has been set by
->  # environment or command line. This is necessary for CC and AR
-> 
-> ---
-> base-commit: 7dff99b354601dd01829e1511711846e04340a69
-> change-id: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
-> 
-> Best regards,
-> -- 
-> Leo Yan <leo.yan@arm.com>
-> 
+Best regards,
+
+	Sami
+
+
 
