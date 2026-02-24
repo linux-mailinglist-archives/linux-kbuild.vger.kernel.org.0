@@ -1,168 +1,191 @@
-Return-Path: <linux-kbuild+bounces-11403-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11404-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIoWMqODnWlsQQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11403-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 11:55:31 +0100
+	id uG/cHmqVnWnKQgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11404-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 13:11:22 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F82185B47
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 11:55:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCCA186BDE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 13:11:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C7E6D3063AEA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 10:54:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4C68E30333C9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 12:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741D637AA77;
-	Tue, 24 Feb 2026 10:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BD23803F8;
+	Tue, 24 Feb 2026 12:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M6pgoeDG"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="a0pignQz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [185.244.194.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA0F378D91
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 10:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968B92405E1;
+	Tue, 24 Feb 2026 12:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.244.194.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771930477; cv=none; b=Jgc+PJrU4XXnvunoURznwozn7XFWymzqyXwqFF5waKNkYeyd1LvsO9Zt5ZO2S5rRujMziSgOwMYDMi6et4CEWLObNlX7Zogx2s6ZhQOos6bSMWUSQJ0fIoqanlh2n72pXSu9VqTMC6EXY3PcfSJ8kRfNMSA+BAAscslWZCNo+5s=
+	t=1771935078; cv=none; b=e5KdsO1jlW+6fwhIblR4my1avtJFp9b+r5O1bPTIByxaDef+TzzkNe2mLicAHE7Hxv8guczRtNOvS+bzwEj7QQJlXJQ2hkJ3PhZoKZc4n7FNYywfasGwmlPPqz3dkvehUzVG4pGKXRIqXVG9d74PQmyd1TjJCqODcxdn1TsRS0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771930477; c=relaxed/simple;
-	bh=Ar8h4pwA1NDtg967Id6YIJ0hbFJ+kyEH685q68t02QU=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hje48D6xkvNCiaVmSmOrMg/mBvLD/0SJCVHfXKFefscADm7HAcmRB1H2F3AqN+pS15RczMfHrDmdJ8N7ppOtZNpfUbO8q+C/C/MIyCyqQm4c7zobM9QtfUdNtpFPCuTR02RYlxlRGAaSrYVupIAJr7xrke1caMI8Ut2J9fjt2pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M6pgoeDG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E639C2BCB2
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 10:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771930477;
-	bh=Ar8h4pwA1NDtg967Id6YIJ0hbFJ+kyEH685q68t02QU=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=M6pgoeDGL67rxGCyufC4jL6jDjmdisqXHbWqNCPcw6GOAHDURfGTlBlbEMGfJPoiT
-	 VybiFBRSJIoDHfXqPhzQ/0+quhEKQ9qk58BiOCZ8L/4dHMv8XjxpQNOyT6sp+KwcMg
-	 QJBbn2plHMVRDm7Pbiu4U7Y5NblmauZOc6xZnKZmlcp/lKkDCNOQOqSGG4NaoGrIoJ
-	 iahNexx6alWPwSLgdrsL0m/jVM3hbim8HvEnKVAE2pWTYJAOCzzInR545iXunE5ofm
-	 OmtWVGhSeIzxg2vyv+VqQoZCeYhs1meV02dKq8b4pja1URbLNhaMBGxWGpinv1/ei/
-	 JOQlA32OyuS8w==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-385d9fb297dso57621341fa.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 02:54:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWXODFeAHx1cuUDznbyh07ugb6HRZZvWMhdYiP/2DzBdOrLVoaPqfkYG8XGQhKXWjuHMuqO3CAPe6utick=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKsrb8QwtF1iqJLhW37lcAkKNrwYjQm0lXVlNYFzRox9pVhy0k
-	x8Q4WruXu5orqgli8/T+PyybmvMCJtX1uOxUgvo7zeNgHlI9z/OHJ8kpvSfLzyOn2RBb4sWW35M
-	HI4B2sAMpeOrWR2/fZ9u+oca5xkuMgNSNHVHG2FhmHw==
-X-Received: by 2002:a05:651c:1602:b0:385:beca:f6d2 with SMTP id
- 38308e7fff4ca-389a5c92b9bmr38250061fa.1.1771930475771; Tue, 24 Feb 2026
- 02:54:35 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 24 Feb 2026 04:54:34 -0600
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 24 Feb 2026 04:54:34 -0600
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <aZ19kFCv_3QUkvPL@smile.fi.intel.com>
+	s=arc-20240116; t=1771935078; c=relaxed/simple;
+	bh=5IFTXhltXmX0IsmlhDUIauXf6FhFAacrrKlyaxSk8Rk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=Q2QduEy6xcsRcRRV32G4GMXJMsa9I88uQg0+179zcOM2fCUldwjGDA/63XulvLR8v3cxyPajrD5ZQQ+wpTnGWvh2a/73GGmQ6DEOv87MmsWgOktJ4VMMpspEzKo5f1HzG+z29b5zMQRL6mdKpWrUdh9SvTCMMrW3bbtWt0H42g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=a0pignQz; arc=none smtp.client-ip=185.244.194.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from relay01-mors.netcup.net (localhost [127.0.0.1])
+	by relay01-mors.netcup.net (Postfix) with ESMTPS id 4fKxQN01q0z98c3;
+	Tue, 24 Feb 2026 13:11:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1771935068;
+	bh=5IFTXhltXmX0IsmlhDUIauXf6FhFAacrrKlyaxSk8Rk=;
+	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+	b=a0pignQzyeGS3CsCCnjHbn4LVCMN7Rfrmfd6kfE9qZ1nvziWwQBkC698Skz2N9L1m
+	 DL8jHlRTJ/JATDqDUvxAMUBF65TDwR9KzO5VASWCKoOpS1bha2GjodR0G7OlRUlAkL
+	 mWEdR5vuCfV89TdG6IDWkFJ51R/5Uyw94iA1lrJPwStBkuWfwReAMCZAoYmmLepOAw
+	 PB0RvvSPPkKp46sxVXh+DNA+gEDI4IHlgIuyxRtchMQ3deyjL/INwF14DibY4LOwBO
+	 slT4WcPv9zunK/vrdJX0vERheqVfpOv/4OfT6313QB/wYUwKhBWJajk7IZrvQpBmfo
+	 braziIF66Y9Iw==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by relay01-mors.netcup.net (Postfix) with ESMTPS id 4fKxQM6RL4z7vJt;
+	Tue, 24 Feb 2026 13:11:07 +0100 (CET)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4fKxQM1YhSz8sZP;
+	Tue, 24 Feb 2026 13:11:07 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 2C14A672E4;
+	Tue, 24 Feb 2026 13:11:06 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <3ac876ca-0038-41e8-a1a0-3d5434f30473@leemhuis.info>
+Date: Tue, 24 Feb 2026 13:11:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260224-pci-m2-e-v5-0-dd9b9501d33c@oss.qualcomm.com>
- <20260224-pci-m2-e-v5-2-dd9b9501d33c@oss.qualcomm.com> <CAMRc=MethnZu_GrujadpBZwj4SpgdNXEnTfEikSvPkO2f9MJjg@mail.gmail.com>
- <aZ19kFCv_3QUkvPL@smile.fi.intel.com>
-Date: Tue, 24 Feb 2026 04:54:34 -0600
-X-Gmail-Original-Message-ID: <CAMRc=Md5K=qPbbjSX6eX7EUwgPHpPkUhOPF7RsqD5gejXK2rnQ@mail.gmail.com>
-X-Gm-Features: AaiRm50PZNtQU10kvSbt1uPfme98Sm6BHfpF2pr5K4ZzyNi38Xb-W4BKtnbBLf4
-Message-ID: <CAMRc=Md5K=qPbbjSX6eX7EUwgPHpPkUhOPF7RsqD5gejXK2rnQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/9] serdev: Add an API to find the serdev controller
- associated with the devicetree node
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: manivannan.sadhasivam@oss.qualcomm.com, 
-	Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>, 
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	Hans de Goede <johannes.goede@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: extlinux can't boot kernel after commit "kbuild: keep .modinfo
+ section in vmlinux.unstripped"
+To: Ed W <lists@wildgooses.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ masahiroy@kernel.org, nathan@kernel.org
+References: <587f25e0-a80e-46a5-9f01-87cb40cfa377@wildgooses.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+Cc: Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
+In-Reply-To: <587f25e0-a80e-46a5-9f01-87cb40cfa377@wildgooses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <177193506651.2973788.9122005200268033841@mxe9fb.netcup.net>
+X-NC-CID: kwOXViOdelraZOT6zXRj7//q/XWqTKIBcTO6PG5gQEOTMFs5Y8g=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11403-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,vger.kernel.org,linaro.org,linuxfoundation.org,linux.dev,linux.intel.com,squebb.ca,gmail.com,holtmann.org,bgdev.pl];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[leemhuis.info:+];
+	TAGGED_FROM(0.00)[bounces-11404-lists,linux-kbuild=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,leemhuis.info:mid,leemhuis.info:dkim];
+	DMARC_NA(0.00)[leemhuis.info];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,manivannan.sadhasivam.oss.qualcomm.com,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 44F82185B47
+X-Rspamd-Queue-Id: 6CCCA186BDE
 X-Rspamd-Action: no action
 
-On Tue, 24 Feb 2026 11:29:36 +0100, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Tue, Feb 24, 2026 at 02:16:17AM -0800, Bartosz Golaszewski wrote:
->> On Tue, 24 Feb 2026 06:30:48 +0100, Manivannan Sadhasivam via B4 Relay
->> <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> said:
->> >
->> > Add of_find_serdev_controller_by_node() API to find the serdev controller
->> > device associated with the devicetree node.
->
-> ...
->
->> > +struct serdev_controller *of_find_serdev_controller_by_node(struct device_node *node)
->> > +{
->> > +	struct device *dev = bus_find_device_by_of_node(&serdev_bus_type, node);
->> > +
->> > +	return (dev && dev->type == &serdev_ctrl_type) ? to_serdev_controller(dev) : NULL;
->> > +}
->> > +EXPORT_SYMBOL_GPL(of_find_serdev_controller_by_node);
->>
->> I'm not sure if I commented on it before but there's no reason for this to be
->> OF-centric. It would work equally well as (I think the same should keep the
->> "serdev" prefix too for correct namespacing):
->>
->> struct serdev_controller *serdev_find_controller_by_fwnode(struct
->> fwnode_handle *fwnode)
->> {
->> 	struct device *dev = bus_find_device_by_fwnode();
->>
->> 	...
->> }
->>
->> It would be more flexible and users can always use to_of_node().
->
-> IIRC it was discussed already and the fact of use only in DT overlays and
-> absence of the user for all this time makes it feel like solving non-existing
-> problem. So OF-centric in this case seems to be fine.
->
+On 2/17/26 20:24, Ed W wrote:
+> Hi, I wonder if I can get some help debugging a problem post the following commit. After trying to
+> upgrade to a newer kernel build I encountered boot failures on my amd64 machine, booting via
+> extlinux and git bisect narrowed it down to this commit:
 
-Ok then.
+Thx for the report. Adding a few more recipients to this.
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Two things are likely worth checking:
+
+* Is 7.0-rc1 still affected?
+* If it's possible to revert the culprit in 7.0-rc1, does it fix the
+problem?
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=v6.19.2&id=3e86e4d74c0490e5fc5a7f8de8f29e7579c9ffe5
+> kbuild: keep .modinfo section in vmlinux.unstripped
+
+FWIW: Masahiro Yamada, that's a change of yours.
+
+Ciao, Thorsten
+
+> Keep the .modinfo section during linking, but strip it from the final vmlinux. 
+> Adjust scripts/mksysmap to exclude modinfo symbols from kallsyms. 
+> This change will allow the next commit to extract the .modinfo section from the vmlinux.unstripped
+> intermediate.
+> 
+> 
+> The symptoms are that prior to this commit I can boot a kernel built using gcc-15 and binutils
+> 2.45.1, however, adding that commit, or trying kernels up to 6.18.12, all fail to boot the bzImage file.
+>  
+> Extlinux apparently won't read (or otherwise rejects as invalid) the resulting bzImage kernel with
+> error:
+>     failed: I/O error
+> So it doesn't even try to run the kernel, it appears to fail reading from disk (and presumably
+> locating the entry point for execution?)
+> 
+> Kernel is relocatable and hence ends up being built with 
+> VMLINUX_NEEDS_RELOCS=y
+> 
+> Curiously, if I build with clang then the resulting kernels all seem to work without a problem??
+> 
+> System is one of a cluster of Ryzen 9 5950X, but similar errors appear with older Ryzen 9 3900
+> boxes. Underlying OS is gentoo, so packages approximately as per latest releases with that.
+> 
+> I'm not sure how to narrow down what precisely triggers the boot failure though. For example I see
+> similar results to the following on both a working 6.17.0 and a broken 6.18.12
+> 
+> # readelf -l vmlinux | grep -A3 LOAD
+>   LOAD           0x0000000000200000 0xffffffff81000000 0x0000000001000000
+>                  0x0000000002a8b4d0 0x0000000002a8b4d0  R E    0x200000
+>   LOAD           0x0000000002e00000 0xffffffff83c00000 0x0000000003c00000
+>                  0x0000000001a00000 0x0000000001a00000  RW     0x200000
+>   NOTE           0x0000000002c8b47c 0xffffffff83a8b47c 0x0000000003a8b47c
+>                  0x0000000000000054 0x0000000000000054         0x4
+> 
+> On the non working 6.18.12 I see:
+> # readelf -S vmlinux.unstripped | grep modinfo
+>   [70] .modinfo          PROGBITS         ffffffff85600000  04800000
+> # readelf -S vmlinux | grep modinfo
+> 
+> So it seems as though the modinfo sectors ARE being stripped?!
+> 
+> My guess is that something has moved or become re-ordered such that the extlinux is rejecting the
+> image?? 
+> 
+> At this point I'm honestly not quite sure what I am doing, so would some kind soul please help me
+> figure out what is happening? I apologise in advance that I've likely not given enough information
+> about the problem, please be gentle...
+> 
+> Ed W
+> 
+
 
