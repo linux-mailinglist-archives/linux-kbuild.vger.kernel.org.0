@@ -1,97 +1,97 @@
-Return-Path: <linux-kbuild+bounces-11398-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QNLNBtNxnWmAQAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11398-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 10:39:31 +0100
+	id gD/fAetxnWmAQAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11399-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 10:39:55 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72F9184C51
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 10:39:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EC5184C6E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 10:39:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EEF3C30B5036
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 09:38:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 36B4B30C0266
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Feb 2026 09:38:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40DAC26E6E1;
-	Tue, 24 Feb 2026 09:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D58A136D501;
+	Tue, 24 Feb 2026 09:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mV+6Pf3n"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QDqfC4Nn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117219B5B1
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 09:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A5836CE17
+	for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 09:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771925924; cv=none; b=F/2nAsUrQfhfFZ6T9M3af8mfvrdSnqAcgCPfequ6gtkoQwwmlBB3RZS3sEG7j11Jhi1X3x2ZkKpMZhDPkLTQm7ahGO9uubY68Nan0lahkQJljMqbF+I2ocZtxLfxPyNxzHAgFRMlEn8nMrtarHDi29+GpGc3h0qD4FDXbVJTHd8=
+	t=1771925926; cv=none; b=qlPFMW7tDMToVjOB+wTAj1k4rfHgAZCNECdq+98aw286euuQLOxS182WGu4VJe6wPzAxr8hrx6dUwUZMP0YdC6W98tQcHtBWuU5MxdC9lpEID8TFyG12cYbRI6eP9nTUwg8QZnbAmUQWoqCmIfkrc2m0wXBndYVpjpn2b7mWb2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771925924; c=relaxed/simple;
-	bh=/Pd5qdMoC8dai1US2WNMLW9PKQDRgsuslw1OCghlh8E=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=SxPoRSE3jOTsWbAvebGNVN3+Nbz2SOA1jWt7eu5Fvl4Z+z42zlzmBeFkeD+PcDydB5DubQkRiLOoR34czse5Y01K+bkKLrWWFGdP9YOUfkRSXakZi7wEJHj9zJ2aqKPOALrZ5LtR9AcFVB3HSCgOr5T4wK1fOKP7zVqPhfSmE7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mV+6Pf3n; arc=none smtp.client-ip=209.85.208.74
+	s=arc-20240116; t=1771925926; c=relaxed/simple;
+	bh=oBt0IdxnnhkZ0g5np5ZbxHi8G2tHQUQMowfTi1g3uy4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=QSJdTVHLKORfDtDysfqTVWWQkZ6VQAp9riQkMOHsW9Oi+s3C4Vt45uEX1mpnpyl/odxgo1h1vjuw4I4vb4/ADIfeK1xX4/rbYTJhX7pXm1olKiSvL30CocOAtFz1xrijeLXu3DYe0+UND2lZM6irctpptvD7Dqm0gxp3beYybHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QDqfC4Nn; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-65b93ec5a43so4056866a12.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 01:38:42 -0800 (PST)
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-4363333c102so4038032f8f.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Feb 2026 01:38:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771925921; x=1772530721; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=2nBTYgewDD+k/FZqoLYv40zZF4/giLnf5sajOtxAWog=;
-        b=mV+6Pf3nUBSJoLykIGfS4Ium4wRs62Q7H4Hl9z0aE+xCXv+yQuC1xjuiKBPFd7EWUd
-         m5a5WRdHoBkZMARC82KAy3J/MYKfdHtl0iLMfm8E81tALkYf4lNB+KSM0aQpd2IQVWy3
-         3IGcGyoxGY7bvVUgDASzYy8/Smh9lMSbW3vi6v6WMhA2oKbq+OI2YUMlyi4Q7iV/ClyH
-         RR1hYU69RyxZg6iM5sfySzo4cEOi1vscxeH+h6WM/fmt1lqWsfVSYAcYTKY0n2S2u1su
-         I4phzdjnl/XI5A0HyQBixa7XVbyclaRrZ1okKgdv7Nfrbwc1KZgABfLUm4+HeWe9+W4s
-         XCUQ==
+        d=google.com; s=20230601; t=1771925924; x=1772530724; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmoyykDD/w79A51QbLaUJSobDaeNleJFCFG+lFijE94=;
+        b=QDqfC4Nn+T8qXCY+QJGyl55/R7khA95shBOFwkwXThS9tZ043fY8hn0h6Mw6qOGkuL
+         dLxpI+jnajcfvfZKHXOaS9zm+CNGqxTd2XwFQW/NRa4QXbSFRPiiC6M6LBC4vL+l9LDK
+         p5rXhY9Umf1pB+pS+5aczfbeH3IiUKjsC6SlzPFK8JfI34t73nZLRzmPntsEM3/SW+lX
+         yLeCVg8Ww6NkBuGkJC31e6kQPppbJQny9o0Z4h615vAKlsC0OQwhrlg5aR9rtlmVKdFW
+         3myKBAvjL6MaYvPtJ4B8kz8gzWUjmShIRmJF+6E1U81nprKVCnATxr57Euho3QxSZBxQ
+         wtNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771925921; x=1772530721;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2nBTYgewDD+k/FZqoLYv40zZF4/giLnf5sajOtxAWog=;
-        b=QU9DHe+9QG+cbrZnWfEcect7rwpTdEQEAaFxJHTePRnnCtTejnaO4CmlLn9Q37KFfw
-         Xwi+ibRvCcU/GhT/0sVWP/hWtUQtya68att30yBaHUgsE/yeC07pdlPQgiEI0a7GKTlN
-         tfAe/L1FBkTjgSWlQVd3uy5vkaiwEuz2bu0ceEIwew+b9xn8pIaRQtTfBxl0LH9GL/+e
-         3XiqGT4IBYWTCgTShwtEG3wche+rRQGJz60nx+z7hOsDY67HkQ4e/1h1Oc9NZO5FHruG
-         dANIkR6rpEkVgt9k5ld2b5f5VzZnY+IFhwJLE6o4SMH0jIvOn9N3K1pA8OEAuDKR/v2v
-         dkpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVwPedoSyIy2eAenXYGUWlewvl/zq+65+rmNg4xnXOiwSpSn7XiBIldFXRwPzNssD6ouKy39ZQ8/FeGLrA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxoq61To95laI83JcUnWlEP5nYqumR1bB9+N6BFUYBsvlVySNwz
-	YyhI6aePepAhyB/BT6wEoKo0kIl9VX4Ih9hqv3n9qesJq4hI/WW0MO8euSsgeuxwxAHMTwa6rRE
-	Luy5kTtY9hdAgC0V/OA==
-X-Received: from edub7.prod.google.com ([2002:aa7:dc07:0:b0:65b:a997:6209])
+        d=1e100.net; s=20230601; t=1771925924; x=1772530724;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmoyykDD/w79A51QbLaUJSobDaeNleJFCFG+lFijE94=;
+        b=GzQqo+YOV8kofI1GltGVVFc/ntmCEjM+JmtsmoPFXfAkJdXsYOcjuI1EkwvIhaEVcF
+         p2IR9zCssCEViA9iGELU0KmLuNznrlwtEf5NTxdlglzODl02s+DHRwbbICjvYN4yrT+8
+         ADM2XTm6ihKK+oHluZa30VcVpoMNInSPhfuTBo2KKYowZc2hVzhIoEWwvwypvc/y/bbT
+         zbF2D0lwXK7Vuz1jX1BN8KfnxZ3g6S4Dvp+g4CsHUVIK3ts9qSBM1+EnDEuU6ThdXMzQ
+         ooLq470JjnzflNW8poAySl7YgN7nkQ+0zB+msDMe5it/c+dn6Q0FlrGmqXheNUn4QHMx
+         Mk0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUho8uzZ7L8X5L6+HVEQXZoXLeIaOus6IULfklsn43VXLX5kalRSNsS9CwVtTMO3ClbCND7+8Fd3pKjqqE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxs+W8odrmAk522k6sATHoEtFHXpulXFDeRiUzjc9EHRgY4zMWU
+	7Srhmv9fRo0Y/axrxyjKsoQOrlkam3dNnAN9D/PV79EJoq78kEfykztxlQJiP0hJubI4CluZ6qb
+	KSvoprL5VKNsVsRez3A==
+X-Received: from wrs7.prod.google.com ([2002:a05:6000:647:b0:437:6efb:7aeb])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:f25:b0:65b:f5fa:afdd with SMTP id 4fb4d7f45d1cf-65ea4ebf12cmr6015503a12.5.1771925921333;
- Tue, 24 Feb 2026 01:38:41 -0800 (PST)
-Date: Tue, 24 Feb 2026 09:38:33 +0000
+ 2002:a05:6000:2f86:b0:437:6efe:94d2 with SMTP id ffacd0b85a97d-4396f153ad3mr21312440f8f.4.1771925923605;
+ Tue, 24 Feb 2026 01:38:43 -0800 (PST)
+Date: Tue, 24 Feb 2026 09:38:34 +0000
+In-Reply-To: <20260224-binder-crate-name-v1-0-7dfc1289abbd@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAJlxnWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDIyMT3aTMvJTUIt3kosSSVN28xNxUXUPTNEOTVENjk7TkRCWgvoKi1LT MCrCZ0bG1tQCU8p44YwAAAA==
-X-Change-Id: 20260224-binder-crate-name-15f14e134fca
+References: <20260224-binder-crate-name-v1-0-7dfc1289abbd@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1047; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=/Pd5qdMoC8dai1US2WNMLW9PKQDRgsuslw1OCghlh8E=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpnXGcTowwOY0+D/3ZA6Rc6yffPQLTWTkhQohV6
- gsaYY84vLeJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaZ1xnAAKCRAEWL7uWMY5
- RpbtD/0Vn7ZCfpNguz42ozcDRQybhPFFkFIA9aDElyEshf5R23cijhhaW0YylZK2wE9jbngkWUj
- RiclyGj/LiznMrmT5vmoAjCku3Qs9/dCEq09iOg+W4Dnenhh07dNhiZjGL+G//8hmHTkN+POnHK
- bgfg6zdaDQlQw7ovZ4pnOrn05u5sPWooq7X6HfbMH7OrOU1XfMaETRKFY5+YaGZnXcx3aUxc7UB
- fHcaNrB08Q/1ko318a0Xpseg7pXvmesEIQAMnrZnDquuW4Uq/jzKqDwDdA1K/g3p5hhEuHAfiQ9
- CgHD57m7G/66pVMdiNOmyUKRBkJzuXrzZsGjvkFAazAzAq1JBTwYbRk5Xe0U7a93Bdkacn1mSNa
- NR6v/U8jUDuaVzCA9pmQinelFMjCtk2ozWf6gkiaRw6DyPjPSZftivsulhzME+btUjDD5PqAByp
- cWcNa6tzRfTeJYc8vxoYOLoLNXPkyGSoMIKvcEKXgIStCBu9FcCMMwf8RlNmUjwpxHjCXgcawKz
- hB87aPbA/7oxf2j0EAT2J9NaQPtml7FjshvY+6+3gTKPoP1TKN6SK+AVCx2E2nt3ZDMzWm9nfXu
- ZJuqgKrc7dp8dJRR3xqFMWE97ca3dOyuhg/+dI7JrQbGg6MDfbPc8Ist5BuXXtvUHNuf/puJTMB td/N6cCi7s+EeaQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3626; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=oBt0IdxnnhkZ0g5np5ZbxHi8G2tHQUQMowfTi1g3uy4=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpnXGg+OFAFDTnKGgsZqWB1MwWC8UuwCbFwr/ts
+ WNfNaPSF3uJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaZ1xoAAKCRAEWL7uWMY5
+ Rh1GD/wNg0UPr1FuQf+jaIunm5aG6ARiukRF5Na8zpJCOCV1zXRCShTNJdm8gRhUCVw07pvhRYw
+ ub7bN3BYYpewPWP7EbRujQ9iIejp/WInXwiszB1hwJBOiCG7ENB/SN6kFm3Djrx4NlUfvCYPOs0
+ 8SsLS4o2Sv0NOl5KjKfaR+FKBGPCqJQzEDJ15txwBeve1g7/TAK6cEk/Z3zU7WbCdq1Jz7JuP3S
+ r+Rw6IhwKnFrjU6/t0p1GBsqSg3LAkXO89l5RXTRYiIHPf2pCs0w/erSIcEJZ7J6kNQCB8DYNsG
+ uZRp8Hi3MrUzDR+W/0OGtnZnkrxmMX9MWY4axsTnQzkEv4jwa7nIDrUyf30O+wTh83tK9IKnBY/
+ wCHlrJULnlN8fQ6sy4qAHsemDvs9pSyzi7f68pjYzZNwU8B679WY1nt/T7Rq9m7CMGC4J8S2wRN
+ o/bcUMb/xvrtJ/AhR1C0aRe7US7Z3fBuHQldUEm/5mo3N6cXkLe4MVzcb8Mp66ACd2Vpdc49xP3
+ KOTBcPjddmEmdGc3Un7FAgITm5OPXxu20uKoFze2GNGAyLUbrzGcAMg5FF1HWiOAn1AH2RR77WC
+ 5HxUPGMiKVoIeaECC7UwrhYnSPDYy5KK6S8mhtLrTVqfY1lBUmSyzYtzPTOSVXPA4Pl3LOX8i14 Lv8PbsTxdB8ERXg==
 X-Mailer: b4 0.14.3
-Message-ID: <20260224-binder-crate-name-v1-0-7dfc1289abbd@google.com>
-Subject: [PATCH 0/2] Change Rust Binder crate name to rust_binder
+Message-ID: <20260224-binder-crate-name-v1-1-7dfc1289abbd@google.com>
+Subject: [PATCH 1/2] rust: support overriding crate_name
 From: Alice Ryhl <aliceryhl@google.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
 Cc: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
@@ -114,7 +114,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11398-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11399-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -130,36 +130,100 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A72F9184C51
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,generate_rust_analyzer.py:url]
+X-Rspamd-Queue-Id: 73EC5184C6E
 X-Rspamd-Action: no action
 
-Currently the crate name of the Rust Binder driver is rust_binder_main,
-but I'd like it to be called rust_binder instead. This affects e.g.
-symbol names in stack traces.
+Currently you cannot filter out the crate-name argument
+RUSTFLAGS_REMOVE_stem.o because the Rust filter-out invocation does not
+include that particular argument. Since --crate-name is an argument that
+can't be passed multiple times, this means that it's currently not
+possible to override the crate name. Thus, add a RUST_CRATENAME_ option
+to make this possible.
 
-Thus, introduce a RUST_CRATENAME_stem.o parameter, and set it for Rust
-Binder. I tried just using RUSTFLAGS_stem.o and RUSTFLAGS_REMOVE_stem.o,
-but RUSTFLAGS_REMOVE_ is incapable of removing the --crate-name
-argument. (Even after changing --crate-name to be passed with = instead
-of space as the separator to the name.)
+The logic for getting the crate name in generate_rust_analyzer.py is a
+bit hacky, but I'm not sure how to do it otherwise.
 
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
-Alice Ryhl (2):
-      rust: support overriding crate_name
-      rust_binder: override crate name to rust_binder
-
- drivers/android/binder/Makefile   |  1 +
  scripts/Makefile.build            |  4 +++-
  scripts/generate_rust_analyzer.py | 21 ++++++++++++++++++---
- 3 files changed, 22 insertions(+), 4 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260224-binder-crate-name-15f14e134fca
+ 2 files changed, 21 insertions(+), 4 deletions(-)
 
-Best regards,
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 32e209bc7985..dea8320e5bde 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -324,6 +324,8 @@ rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,of
+ # `--out-dir` is required to avoid temporaries being created by `rustc` in the
+ # current working directory, which may be not accessible in the out-of-tree
+ # modules case.
++rust_cratename = $(if $(RUST_CRATENAME_$(target-stem).o),$(RUST_CRATENAME_$(target-stem).o),$(basename $(notdir $@)))
++
+ rust_common_cmd = \
+ 	OBJTREE=$(abspath $(objtree)) \
+ 	RUST_MODFILE=$(modfile) $(RUSTC_OR_CLIPPY) $(rust_flags) \
+@@ -332,7 +334,7 @@ rust_common_cmd = \
+ 	-Zcrate-attr='feature($(rust_allowed_features))' \
+ 	-Zunstable-options --extern pin_init --extern kernel \
+ 	--crate-type rlib -L $(objtree)/rust/ \
+-	--crate-name $(basename $(notdir $@)) \
++	--crate-name $(rust_cratename) \
+ 	--sysroot=/dev/null \
+ 	--out-dir $(dir $@) --emit=dep-info=$(depfile)
+ 
+diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
+index f9b545104f21..4126acdc03ec 100755
+--- a/scripts/generate_rust_analyzer.py
++++ b/scripts/generate_rust_analyzer.py
+@@ -8,6 +8,7 @@ import json
+ import logging
+ import os
+ import pathlib
++import re
+ import subprocess
+ import sys
+ 
+@@ -194,6 +195,16 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, core_edit
+         except FileNotFoundError:
+             return False
+ 
++    def get_crate_name(build_file, target):
++        try:
++            contents = build_file.read_text()
++            match = re.search(rf'RUST_CRATENAME_{target}\.o\s*[:=]+\s*(\w+)', contents)
++            if match:
++                return match.group(1)
++        except FileNotFoundError:
++            pass
++        return target
++
+     # Then, the rest outside of `rust/`.
+     #
+     # We explicitly mention the top-level folders we want to cover.
+@@ -206,13 +217,17 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, core_edit
+             name = path.name.replace(".rs", "")
+ 
+             # Skip those that are not crate roots.
+-            if not is_root_crate(path.parent / "Makefile", name) and \
+-               not is_root_crate(path.parent / "Kbuild", name):
++            makefile = path.parent / "Makefile"
++            kbuild = path.parent / "Kbuild"
++            if not is_root_crate(makefile, name) and \
++               not is_root_crate(kbuild, name):
+                 continue
+ 
+             logging.info("Adding %s", name)
++            crate_name = get_crate_name(makefile, name)
++
+             append_crate(
+-                name,
++                crate_name,
+                 path,
+                 ["core", "kernel", "pin_init"],
+                 cfg=cfg,
+
 -- 
-Alice Ryhl <aliceryhl@google.com>
+2.53.0.371.g1d285c8824-goog
 
 
