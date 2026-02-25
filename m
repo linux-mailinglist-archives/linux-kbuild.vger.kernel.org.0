@@ -1,98 +1,99 @@
-Return-Path: <linux-kbuild+bounces-11441-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11442-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0J0PI2aAn2ldcgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11441-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 00:06:14 +0100
+	id GBINGYSJn2mmcgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11442-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 00:45:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1375619E935
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 00:06:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E6D19EFC6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 00:45:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A8B023026156
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 23:06:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B4E0F3007C88
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 23:44:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C78CF37472D;
-	Wed, 25 Feb 2026 23:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3479B277C81;
+	Wed, 25 Feb 2026 23:44:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=enakta-com.20230601.gappssmtp.com header.i=@enakta-com.20230601.gappssmtp.com header.b="dJ67xo4I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5yBgpzO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D62037473D
-	for <linux-kbuild@vger.kernel.org>; Wed, 25 Feb 2026 23:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45332C3244
+	for <linux-kbuild@vger.kernel.org>; Wed, 25 Feb 2026 23:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772060769; cv=pass; b=VMNh+8af+oigaWXFxQGQIcYTTydACqBcO+rdCrlDgc9KOF1qZIl2eGtKOVk72Q6Ui+ruEAfKruvnooySzVt89LyCkSgDhaobZqJK5WTthDPPRATcZ2ThHwqURsz2Rn/dZMN0spmHGzOIe0DX6agOp0fE9ySwnf5/XM9BtUcSDv8=
+	t=1772063067; cv=pass; b=J6JlnPewxaDT/OnSdxwlamStDHzB7/+lyx20o5X8qukLTX+I/HLsLyia9UvpFEmMmffkdRKdDAz3to7Am3/XVp6IKycZEHqYPvE1TMNjZu+U5vemOE5SB3k6G3+rXaBkbNHffz/AxW7coo3mnF5P6xT9DVliuo44AiiiAOrj34I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772060769; c=relaxed/simple;
-	bh=slOEbYemEfCyMn9kbsAqfk2eTY1SotE7lLrt0UcwR50=;
+	s=arc-20240116; t=1772063067; c=relaxed/simple;
+	bh=XdKE3yy8wq2vvQgm9uACWKk0p0lqSdkMYrlPacxCtKk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FSC/lSjG7uuUolvUgYrlArdnG+fjAiP1PJPwuOZpW1IB+zXyDiMWkpbkPMNfoOgd8m/vsTUtbwISUNCsnCHnPnXqqCuZPopR7RsQ+BFitTSfe3EllkiWWl9vGPwZ4Z59a+bYfuHtDc1PftTHhxxQ7MM0lwhW1XdhP9+3sOZBXu8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enakta.com; spf=pass smtp.mailfrom=enakta.com; dkim=pass (2048-bit key) header.d=enakta-com.20230601.gappssmtp.com header.i=@enakta-com.20230601.gappssmtp.com header.b=dJ67xo4I; arc=pass smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enakta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enakta.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-35621aa8c7fso42623a91.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Feb 2026 15:06:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772060768; cv=none;
+	 To:Cc:Content-Type; b=LetvzYbZU2BfXrLZsp5I/vExsGvZqeOYO2B5AdZhYWs6XRxki+7godcBE8LIS/5ySrPjmIXyWtJNq26Qni4s3AKSfaEFSqlL4z1185wHnBGMoHa5p0upR/yuqK9aW5U7Lt4WUNQl8RP2fRUHUom+3pX247EU3FU2M0lqRGojM7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5yBgpzO; arc=pass smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-899a615825fso3421226d6.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Feb 2026 15:44:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772063065; cv=none;
         d=google.com; s=arc-20240605;
-        b=ih8Q2rjBfGN8DArfRtE0wcN+DEoBw2UN/3sjJGXBKOQpemuNmd5TDG4TX4c9wmyxId
-         9LD4vUaFTcE2ZTcx5l2AOiJGqiqNpxWZTEk21UbHzwXlGEiLIV9p/O//f27dJSTmFriK
-         JsdeBbQt5Q21Yja2o3hZrrrGYCi8RCAm34ZCmV/AlgPOd9GvSQkcxUGQwtnvkUe9Zza9
-         IFoNXpEWF/YZvfU2aNU75HRWT90GflHDimNYIHeT4fLxCfaNArIQAaUng7Qk6ooeNCed
-         VFo5oFd7abFFeuoESTcqDdgHmE2jp36JHXQJFOsm1/4s2jdAvxwcRKOLKc7OQBL8XIf4
-         i2zw==
+        b=Efgv6H6PKNtNpcVYkncdC5MigF2jpmudqzYzekzV+6xrkTUIDMr3z/a3AW90ZNMhR6
+         66QMXMj3HXSNgZFTOTL1kHmVNE9SKECPtbqKydRMr7dcUsUD/YZow71dTIMUgXmIIuCE
+         rr3GwiYTmTwfulfr0UUdU4qCuoT9z6DQf1wzGX+rRmBK9GE+86hgIL9t8YgCCI414QJ3
+         XVgOW4rAk9HeTVlrHJSAHp/0MMZ9tuKP9ejs2Qgr7zUi8aaqTgg/RzAGGmHXPQtL5Khv
+         z0TUTyfLowmo6p3qvbyuUL3/GVHnvaPb2zds3LLbiPxiLFcGs87IpbCAl0v+4xOVVFyI
+         8nmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=1oR+2sKSuT8g7i9hudQ+Z3EzBJ2PNv6gfLnbNBcE9rM=;
-        fh=ZaXQ5g8rsRJJuosXMAgpnAAgKSbjLK68IovcNxjzRmY=;
-        b=h2JzIwNtmgGtQP2WNB411+1TWVoh4FhcKywJ6OqwNL764ejw2wOOEf10EogSFz0C1f
-         j5Rma/OjXjwjXKqz5v6CcafRNTYzVL9gNGYBnHyyZw1khnRxsWlKqX71Wck25pDv5+zJ
-         6ZHESa9+ZbWBAxledzVhLpvOxwIeROh8Qv2rKzvdMP+B5aINLC0LtmM5wuO9HKTMia7B
-         1rN1xdpeKKGaTqRAIrR0esq0c6YBYFm0LwrLe0NPbikoWF2B/GV9t7RwsBcNTrvSdpM4
-         tHvavnie75y1Zxz57xj9dKc3hjIF7Z53vv3XwYNxpeN8T7iakVPOsA55pSLxaHT56OiV
-         fY4g==;
+        bh=aX/9nbCzmF+1Y2euIFT278sMLN+4qQZ+ZIeORha/tRY=;
+        fh=ELldkQ1ZI7yFqOobzV/pDHLkynPxLgNzLkiE/I62wLQ=;
+        b=MW1gLbfcQDtUfMBS6160tnw2qZERttL9Ee2T/LNmNYvtd7f5y+U2E9pAWY3CjGvVZI
+         k14RFOTMP0lKrFER9wOb8v6amNWOAx/UOfnauG7H88ymHLL1385SONdjIvI5DgKrV6IM
+         VB9jzJ/o0KlHrK7meVvOp/Ol2l2Lw7NMrlrl0Dkeuw1HCTeqo3n4ZF+qYKpn8K32LgeK
+         X40sxQ642Nu3T62tyGMxeNsr8/rj9yryrR8Of6eVkcCP6h9yoEDTB21oPmpTZloDlEgb
+         rtHQ8O61UGkZ8BhFE7Hm8jzreXfe2dydP74kE1YSjUhgIS1cFXBgofF4iNG59/fMdFtL
+         Kqqg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=enakta-com.20230601.gappssmtp.com; s=20230601; t=1772060768; x=1772665568; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772063065; x=1772667865; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1oR+2sKSuT8g7i9hudQ+Z3EzBJ2PNv6gfLnbNBcE9rM=;
-        b=dJ67xo4Ix5OXglF8bSKyzDMM9t8Gob1brdzQfbnmYQD+/zTCpTFFDHL+LEDzW4I9hp
-         xExrrcWuKQT1sVuUccUXFnh7RKjQLqXuYRE41SRNwbaxAabFJIOJBRNHuCIjIqH3pMDq
-         O9u2LuYm+lM1mEH0AoGBg71ew3y/WQegdmdPCutU2FxU2OKvJuiFYIJKzWUUmr7tC5z/
-         42osESDVdYN2YtwXATskrV1Ah1qgrwGH6uNwGN2/26dKG6wHBAkLjIyfAzMnucaULNNi
-         rjwqqhzVPXV6FLYrnzEV/xKr8mJ3qY8D+UadC4n61KM1SjqB6E4P/JYFOBC3G+GXMLJV
-         DU2Q==
+        bh=aX/9nbCzmF+1Y2euIFT278sMLN+4qQZ+ZIeORha/tRY=;
+        b=k5yBgpzOiSKajjVkj4aLuVhyNW7n2gViJDsqNCi+q2u5LJq1X+uOHuzIZ1laInCQQn
+         AOEih7Tls1MNmz/NTmtKxIk36Qfm3jZYLGPo+Wq/45l7MFIbNOFCnXkQeRXkYTK8eBsF
+         EU+o9hNjo1hTQBpl1q9HOgmU1JWDYKAi4A59eWkLKx4VOVBrVdP/gynrg/65laBUkag/
+         YlOH8FViDZ92HxDwIQO9QYV1Kxr6kAHuO+Rl5+f8AXYYuujLDcanF+qVAR/TuADY3uUa
+         pqr+e/xjiD1mhI2/I2izfpahiVophWK8jtp3Td7MufOK1K4SwMvcPVdAWJdZ/WRLbfw8
+         28zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772060768; x=1772665568;
+        d=1e100.net; s=20230601; t=1772063065; x=1772667865;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1oR+2sKSuT8g7i9hudQ+Z3EzBJ2PNv6gfLnbNBcE9rM=;
-        b=xGMYO/EWekiq3AQdUdITwtN5Sw1j+fGoxPmokXz2t4YRoKrUNYR4AT091g/euMIsnn
-         YfNc9iHVi2ezebwA3xz7Oy84/uCgCfjqrfzSNU7BZ8kxSE7EOq9YFt5rb3mBgqefXBkd
-         PhZ3Cde3NfGOGDVT0saLXOkmYdfC+Zxygf8w/A3THiw19G4VvqWQWkozfOXOtV+In8XM
-         aVgy5uXFX+NV+rW301UWaqQuVzMiLdYv+pihDQQHOVtKu51KtvVp/5DCBMoglXKCKmhC
-         A4AoNgPJODigftTwBFvoSZ0ezFlrRMoJLQj09rNQychmTCfsvvrnmmT3N8eSpK9Am/nm
-         qF4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWRYzJpvYkpNg2Wzogkv6qaGJMVAwgKD35hNN186HV+00ydHlYPhgOh7UGvOnioXLrLFqlTqv7ZuhLUPWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwR8Sxx1IpletGPyL1lLYcGZZRVWdAnB+aRqYtVz5QAYdlafVyi
-	YRpNf8f09dsxTTGUztK546qd5QMfECpB5EtUiqK+saePoMmfUjbzDueZFwQ7tAYL7dUW4UJvQMI
-	acGHT3JvFvF9ACCGsLMPPuHu04idFu+8lk2yflqgeZA==
-X-Gm-Gg: ATEYQzydqfBgoBIFzk4gNdmX7nTKtMp0i6iK/wclcpz9puXsJmcVRpbch9GV26VCayW
-	nee4HKzebLghMvKtMxRaCTe3PXGUOAIyRz2UYe7FK/xLkRJXTIRA4Oz2aoh8UxkGegN60DDjVl9
-	A6iV3TlsXbdOFh6LFwW1s7hQz80995CVOeWE22zX614qrRgIV2/ZJ7+5A7+g9ehsLpyTNF1Kacz
-	GHzzqO3jCFd4tieurHAtETvfk56zkChC3AQmJS6q6VH2sDt4vT976/YYMh42wTCsIvRfaFCSYHv
-	kt/ScsV2FKsX7MnOWEUvBsO+Xv+zdCwpcP4+cVHq8Z/7Z85cSpdtlWf8cdwtlsRzmlDS
-X-Received: by 2002:a17:90a:fc46:b0:358:ee2d:df2d with SMTP id
- 98e67ed59e1d1-35928a916afmr1434473a91.8.1772060767806; Wed, 25 Feb 2026
- 15:06:07 -0800 (PST)
+        bh=aX/9nbCzmF+1Y2euIFT278sMLN+4qQZ+ZIeORha/tRY=;
+        b=ltFnLqbdDk5Ob8u8Dfl6SEC+958Lnce0h+eSCG9mqoTb8vH7t0nSYq78KsjTAVZpJg
+         tCEOxN9/pI92GKbzHsHFTfDWemFhdDw0OEeBNzZYGAemk406GRka30iUwnKS8ylIPyUE
+         royb/i8YZwuWy51sXaAm2gCAeddANzX7JfDLAXGk3NQmF4Edv5bO39LZC3m5wkb0XioW
+         EUhzAKU9PhXMY3CWil/rce3urisa6QPxK9JtYAYClN14kyVImLAH7OvxmS/T83ujLlZ1
+         9kyIz7H1Hu1UaXZemteaoGkYPbaLUP1HYvV+G39bDhAVDjSz3zYBbQpONX0u4bHVDV8L
+         MIzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVU4k5GU822SpC8Eaxt0DQ9DXAh6Ia0AAmU6S8WkCKOnxUrRG9+Gw7JlGWgoXM1UJFZn+pxKzfUwlsyhQY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2+zUMPFNTcmNKU6IiGejRlta14ZNfXf+Xpav6XYET/6r5bpTU
+	klWZX6yA9Inu9K1xUbcX17Tv4mEn6+MHIucomTM/j1MAPqHgj9rH6lknGZIfeSHu6jlqHGo+AtO
+	y2u7l3MYwgfn26OeQjlYfnKj2s7iVvjxvI7GB
+X-Gm-Gg: ATEYQzyLtjlMlf20+LHuN2hh7YOCJRJzUXHpIE5oOlgEVqDBUhivo4SNucrZ+Upb36a
+	OS1kZ2hkkBo4AfOB9Xtv3U23hQNvvOGU+XflcWqNHmo8JFJE4Bhs5z1+APhHfK2iKFA2tkJ3063
+	m4PKFXRT3zvI3qiFlMmFFwLlKp7sm1MT1x+padikNCkwLnFiPGPqlNmkpnOYeJnSO4TwZt8SelH
+	ehPUd5SSi55JNP8LzdpznkIdvMKPsgm2hAoiiA10GdIRBB+O8IA6+vhJF8rYgNODBhOOZDGwDkB
+	FVqlJDROmUBA8eLTkgUkJodJucQSCIE18i/zIvU18m6sGSqvipYIR7wxOR7A0xYvp5poUYdby0h
+	wIq4dKrNKbFFo5ADQWjIylolAd5FEooH8RUctHZ7BSs0Ch+wYlliS5MDjiKKVPZk=
+X-Received: by 2002:a05:6214:c2e:b0:895:4b79:83a5 with SMTP id
+ 6a1803df08f44-89979e1bb72mr255943186d6.5.1772063064749; Wed, 25 Feb 2026
+ 15:44:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -100,186 +101,173 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CAGk60SF8WxDMpx1ALrne40qycg5J-hxdBniFnoYG=QhvnX5ktQ@mail.gmail.com>
- <2cb12a60-32f1-4656-8a9f-305bd0be069e@infradead.org> <c7fda6fb-5095-4fd5-ad1a-22319bdf0d4b@infradead.org>
-In-Reply-To: <c7fda6fb-5095-4fd5-ad1a-22319bdf0d4b@infradead.org>
-From: Denis Nuja <dnuja@enakta.com>
-Date: Wed, 25 Feb 2026 23:05:56 +0000
-X-Gm-Features: AaiRm52kXr0tv3uCvUgiWWAiKPcU3fFLlyvqaZ5yFoGa8Q9BieQpuGf7F-857kM
-Message-ID: <CAGk60SEw7xgSLc5+5EhgOnZkC6PTx-N98R94t5jQZ4wZKRVfkg@mail.gmail.com>
+ <CAH2r5mvcrt3T9x-Wqpz_OXVr9cWtBSft=JpASsFDT25CYtXJmw@mail.gmail.com>
+In-Reply-To: <CAH2r5mvcrt3T9x-Wqpz_OXVr9cWtBSft=JpASsFDT25CYtXJmw@mail.gmail.com>
+From: Steve French <smfrench@gmail.com>
+Date: Wed, 25 Feb 2026 17:44:13 -0600
+X-Gm-Features: AaiRm506jZKxMy5M-FfXTya2AEiZlvM5b9TBUAOlxpKMdmSwkWkP6Pu_5WC8u1I
+Message-ID: <CAH2r5msOakDTcskvxWEy19Z9N3OaR91qtDDfPQWRTVbizjDR3g@mail.gmail.com>
 Subject: Re: Kconfig: CONFIG_CIFS_SMB_DIRECT bool option silently dropped when
  CIFS=m and INFINIBAND=m
-To: Randy Dunlap <rdunlap@infradead.org>
+To: Denis Nuja <dnuja@enakta.com>
 Cc: linux-cifs@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	stfrench@microsoft.com, Ned Pyle <ned.pyle@tuxera.com>
+	Ned Pyle <ned.pyle@tuxera.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.56 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[enakta-com.20230601.gappssmtp.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[enakta.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11442-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11441-lists,linux-kbuild=lfdr.de];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dnuja@enakta.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[enakta-com.20230601.gappssmtp.com:+];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[smfrench@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,infradead.org:email]
-X-Rspamd-Queue-Id: 1375619E935
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smfrench-thinkpad-p16s-gen-2:email,enakta.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B9E6D19EFC6
 X-Rspamd-Action: no action
 
-This was tested on kernel tree of SLES 15 SP7 running
-6.4.0-150700.53.31-default.
+Are you sure you are grepping for the right thing?
 
-Randy could you please confirm what is in your config for :
+> grep SMBDIRECT .config   # empty =E2=80=94 option was dropped.
 
-CONFIG_CIFS
-CONFIG_INFINIBAND
-CONFIG_INFINIBAND_ADDR_TRANS
+You grepped for the server, not the client config option.  Can you
+repro the problem?
 
-in default builds of SUSE (and probably ubuntu i will check) it is :
+/cifs-2.6$ grep SMB_DIRECT .config
+CONFIG_CIFS_SMB_DIRECT=3Dy
 
-CONFIG_INFINIBAND_ADDR_TRANS=3Dy
-CONFIG_INFINIBAND=3Dm
-CONFIG_CIFS=3Dm
-
-Cheers
-Denis
-
-On Wed, 25 Feb 2026 at 22:02, Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed, Feb 25, 2026 at 10:48=E2=80=AFAM Steve French <smfrench@gmail.com> =
+wrote:
 >
+> It didn't repro with 7.0-rc1 when I tried it. Any ideas?
 >
+> smfrench@smfrench-ThinkPad-P16s-Gen-2:~/smb3-kernel$ ./scripts/config
+> --enable CONFIG_CIFS_SMB_DIRECT
+> smfrench@smfrench-ThinkPad-P16s-Gen-2:~/smb3-kernel$ make olddefconfig
+> #
+> # No change to .config
+> #
+> smfrench@smfrench-ThinkPad-P16s-Gen-2:~/smb3-kernel$ grep SMBDIRECT .conf=
+ig
+> CONFIG_SMB_SERVER_SMBDIRECT=3Dy
 >
-> On 2/25/26 1:53 PM, Randy Dunlap wrote:
-> > Hi,
+> On Wed, Feb 25, 2026 at 10:24=E2=80=AFAM Denis Nuja <dnuja@enakta.com> wr=
+ote:
 > >
-> > On 2/25/26 8:08 AM, Denis Nuja wrote:
-> >> Hi everyone
-> >>
-> >> CONFIG_CIFS_SMB_DIRECT cannot be enabled when CONFIG_CIFS=3Dm and
-> >> CONFIG_INFINIBAND=3Dm, despite all declared dependencies being
-> >> satisfied. The option is silently dropped by olddefconfig and
-> >> menuconfig refuses to save it, even though menuconfig displays it as
-> >> [*] (enabled).
-> >>
-> >> Kernel version: 6.4.0
-> >>
-> >> File: fs/smb/client/Kconfig
-> >>
-> >> Current dependency:
-> >>
-> >> if CIFS
-> >> config CIFS_SMB_DIRECT
-> >>     bool "SMB Direct support"
-> >>     depends on CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS || CIFS=
+> > Hi everyone
+> >
+> > CONFIG_CIFS_SMB_DIRECT cannot be enabled when CONFIG_CIFS=3Dm and
+> > CONFIG_INFINIBAND=3Dm, despite all declared dependencies being
+> > satisfied. The option is silently dropped by olddefconfig and
+> > menuconfig refuses to save it, even though menuconfig displays it as
+> > [*] (enabled).
+> >
+> > Kernel version: 6.4.0
+> >
+> > File: fs/smb/client/Kconfig
+> >
+> > Current dependency:
+> >
+> > if CIFS
+> > config CIFS_SMB_DIRECT
+> >     bool "SMB Direct support"
+> >     depends on CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS || CIFS=
 =3Dy
-> >> && INFINIBAND=3Dy && INFINIBAND_ADDR_TRANS=3Dy
-> >>
-> >> Root cause:
-> >>
-> >> CIFS_SMB_DIRECT is declared as bool (values: n or y only). With CIFS=
-=3Dm
-> >> and INFINIBAND=3Dm, the left side of the || expression evaluates to:
-> >>
-> >> CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS
-> >> =3D m && m && y =3D m
+> > && INFINIBAND=3Dy && INFINIBAND_ADDR_TRANS=3Dy
 > >
-> > Where do you get the last "y =3D m" part?
+> > Root cause:
 > >
-> > xconfig says: (This is 7.0-rc1. Guess I'll check 6.4.0 also.)
+> > CIFS_SMB_DIRECT is declared as bool (values: n or y only). With CIFS=3D=
+m
+> > and INFINIBAND=3Dm, the left side of the || expression evaluates to:
 > >
-> > Prompt: SMB Direct support
-> > Depends on: NETWORK_FILESYSTEMS [=3Dy] && CIFS [=3Dm] && (CIFS [=3Dm]=
-=3Dm [=3Dm] && INFINIBAND [=3Dm] && INFINIBAND_ADDR_TRANS [=3Dy] || CIFS [=
-=3Dm]=3Dy [=3Dy] && INFINIBAND [=3Dm]=3Dy [=3Dy] && INFINIBAND_ADDR_TRANS [=
-=3Dy])
+> > CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS
+> > =3D m && m && y =3D m
 > >
-> > so my .config has:
-> > CONFIG_CIFS=3Dm
-> > CONFIG_CIFS_STATS2=3Dy
-> > CONFIG_CIFS_ALLOW_INSECURE_LEGACY=3Dy
-> > # CONFIG_CIFS_UPCALL is not set
-> > # CONFIG_CIFS_XATTR is not set
-> > CONFIG_CIFS_DEBUG=3Dy
-> > # CONFIG_CIFS_DEBUG2 is not set
-> > # CONFIG_CIFS_DEBUG_DUMP_KEYS is not set
-> > # CONFIG_CIFS_DFS_UPCALL is not set
-> > # CONFIG_CIFS_SWN_UPCALL is not set
-> > CONFIG_CIFS_SMB_DIRECT=3Dy
-> > # CONFIG_CIFS_COMPRESSION is not set
+> > The result is m (tristate), but since CIFS_SMB_DIRECT is a bool, the
+> > Kconfig engine coerces m to n and silently drops the option. The right
+> > side of the || requires CIFS=3Dy && INFINIBAND=3Dy which forces both to=
+ be
+> > built-in =E2=80=94 an unnecessarily restrictive requirement.
 > >
-> > Working in 7.0-rc1.
-> > What am I missing?
+> > Additionally, the CIFS=3Dm/y conditions inside the depends on are
+> > redundant since the option is already inside an if CIFS block, which
+> > handles that guard.
+> >
+> > Observed behaviour:
+> >
+> > menuconfig shows [*] SMB Direct support (appears enabled)
+> > Saving from menuconfig does not write CONFIG_CIFS_SMB_DIRECT=3Dy to .co=
+nfig
+> > olddefconfig emits warning: override: reassigning to symbol
+> > CIFS_SMB_DIRECT and drops it
+> > scripts/config --enable CONFIG_CIFS_SMB_DIRECT silently has no effect
+> >
+> > Proposed fix:
+> >
+> > Since the option is inside if CIFS, the CIFS=3Dm/y conditions are
+> > redundant. The dependency should simply be:
+> >
+> > - depends on CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS || CIFS=3D=
+y
+> > && INFINIBAND=3Dy && INFINIBAND_ADDR_TRANS=3Dy
+> > + depends on INFINIBAND && INFINIBAND_ADDR_TRANS
+> >
+> > This correctly expresses the intent (RDMA stack must be present)
+> > without the tristate/bool coercion problem, and is consistent with how
+> > the surrounding if CIFS block already guards the option.
+> >
+> > The same issue affects CONFIG_CIFS_FSCACHE on line 191 with an
+> > identical pattern:
+> >
+> > depends on CIFS=3Dm && FSCACHE || CIFS=3Dy && FSCACHE=3Dy
+> >
+> > which should also be simplified to:
+> >
+> > depends on FSCACHE
+> >
+> > To reproduce:
+> >
+> > # Start with a config where CONFIG_CIFS=3Dm, CONFIG_INFINIBAND=3Dm
+> > scripts/config --enable CONFIG_CIFS_SMB_DIRECT
+> > make olddefconfig
+> > grep SMBDIRECT .config   # empty =E2=80=94 option was dropped
 > >
 > >
-> >> The result is m (tristate), but since CIFS_SMB_DIRECT is a bool, the
-> >> Kconfig engine coerces m to n and silently drops the option. The right
-> >> side of the || requires CIFS=3Dy && INFINIBAND=3Dy which forces both t=
-o be
-> >> built-in =E2=80=94 an unnecessarily restrictive requirement.
-> >>
-> >> Additionally, the CIFS=3Dm/y conditions inside the depends on are
-> >> redundant since the option is already inside an if CIFS block, which
-> >> handles that guard.
-> >>
-> >> Observed behaviour:
-> >>
-> >> menuconfig shows [*] SMB Direct support (appears enabled)
-> >> Saving from menuconfig does not write CONFIG_CIFS_SMB_DIRECT=3Dy to .c=
-onfig
-> >> olddefconfig emits warning: override: reassigning to symbol
-> >> CIFS_SMB_DIRECT and drops it
-> >> scripts/config --enable CONFIG_CIFS_SMB_DIRECT silently has no effect
-> >>
-> >> Proposed fix:
-> >>
-> >> Since the option is inside if CIFS, the CIFS=3Dm/y conditions are
-> >> redundant. The dependency should simply be:
-> >>
-> >> - depends on CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS || CIFS=
-=3Dy
-> >> && INFINIBAND=3Dy && INFINIBAND_ADDR_TRANS=3Dy
-> >> + depends on INFINIBAND && INFINIBAND_ADDR_TRANS
-> >>
-> >> This correctly expresses the intent (RDMA stack must be present)
-> >> without the tristate/bool coercion problem, and is consistent with how
-> >> the surrounding if CIFS block already guards the option.
-> >>
-> >> The same issue affects CONFIG_CIFS_FSCACHE on line 191 with an
-> >> identical pattern:
-> >>
-> >> depends on CIFS=3Dm && FSCACHE || CIFS=3Dy && FSCACHE=3Dy
-> >>
-> >> which should also be simplified to:
-> >>
-> >> depends on FSCACHE
-> >>
-> >> To reproduce:
-> >>
-> >> # Start with a config where CONFIG_CIFS=3Dm, CONFIG_INFINIBAND=3Dm
-> >> scripts/config --enable CONFIG_CIFS_SMB_DIRECT
-> >> make olddefconfig
-> >> grep SMBDIRECT .config   # empty =E2=80=94 option was dropped
+> > Cheers
+> > Denis
+> > Enakta Labs
+> >
 >
-> I also have no problem enabling CIFS_SMB_DIRECT on kernel version
-> 6.4.0 using menuconfig or nconfig.
-> Or using scripts/config.
 >
 > --
-> ~Randy
+> Thanks,
 >
+> Steve
+
+
+
+--=20
+Thanks,
+
+Steve
 
