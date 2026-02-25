@@ -1,134 +1,217 @@
-Return-Path: <linux-kbuild+bounces-11423-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11424-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yBrlGYQCn2mZYgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11423-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 15:09:08 +0100
+	id YBAdHa0fn2lcZAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11424-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 17:13:33 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27374198832
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 15:09:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA63319A54F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 17:13:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D1224301BF76
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 14:09:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9524730F9CC5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 16:09:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB873AEF51;
-	Wed, 25 Feb 2026 14:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 714DE3D7D86;
+	Wed, 25 Feb 2026 16:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HiRxEFd7"
+	dkim=pass (2048-bit key) header.d=enakta-com.20230601.gappssmtp.com header.i=@enakta-com.20230601.gappssmtp.com header.b="u6Ym15Cy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB24284880;
-	Wed, 25 Feb 2026 14:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772028543; cv=none; b=CgiVf9vhDzI7HvKhkVpAuCADxJBqG2eG45XauZun5HjqhoYZzmsCO0WuP+SlNGOVRdboLj3h3FsdQxhLQLOJwvFiffiirHyGkHD8GH/EaSrbi+XqnttuzMHQXbE5bCpXY1cVytO0hZrCKfZzW5tbMQJ6ub+/MKjN7/Eu5fP+z/g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772028543; c=relaxed/simple;
-	bh=najeskeSGaMowgnuBVZaa8lrbJEgO/ZS8Nq1D58P5LE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DadvxCggtdxjzAjqZmXaRfhUrm+ZbDHOyMnp0dIH/Ey0HUnQ0siQhvaSC/zSLy43vgpSIlFbPi60DZD0BurVr3SMP2Qs/EVKD2pFCWLJQBd/qLgON5jyDmtbqln4LnwmJPnWwJTd6jbJWEfJmCSAb+4Au5wLnAKqEatuKE1p6iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HiRxEFd7; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=XWRvKSrVzQxumCJr/FJXMqnLK+ok9RFugzOcVZ5aYRY=; b=HiRxEFd7f+eEHFsntm7SMlUNB1
-	c4AbjTQ3piGQdRYpSHk5q14C/THBE2f4pSP7LePeXBUybbnnTzy6Dby15D3pa0iM5POQ59cNB5cRH
-	fyidvvGLYHpfM+mkOkn8LhcIZHaEC2oIzXwGkV5aFX6h3Y7jD6Q60R8HQh1sSif6y3VSnhUlS3exW
-	LOJdm6i77zrXeiqWO2j2tQ+YDyYd/aNW3LdG0Y1IJ+UTpUbft7YWYoMAWbVhBBZ1AHHr294qm7me3
-	SqEh2KyPQJkdERVVceI7J7H85do0NBqCWH+BnIEGQloCUCVB9yJCOTPkHmVF3b28lZZkdYD1/gbtY
-	0xPcmI+Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvFZO-00000004AMD-2PsX;
-	Wed, 25 Feb 2026 14:08:54 +0000
-Date: Wed, 25 Feb 2026 06:08:54 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Jay Wang <wanjay@amazon.com>, Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	linux-crypto@vger.kernel.org,
-	Jay Wang <jay.wang.upstream@gmail.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Nicolai Stange <nstange@suse.de>,
-	Ilia Okomin <ilya.okomin@oracle.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH 17/17] Add standalone crypto kernel module technical
- documentation
-Message-ID: <aZ8Cdq2doSHlPG9-@infradead.org>
-References: <20260212024228.6267-1-wanjay@amazon.com>
- <20260212024228.6267-18-wanjay@amazon.com>
- <20260225015517.GA162634@quark>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278064315F
+	for <linux-kbuild@vger.kernel.org>; Wed, 25 Feb 2026 16:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772035741; cv=pass; b=UkVCPc4hCZJ3C3XVICHyfw3RL24VTmrHvTdN4/vkWeLg8AvbzIUF+YaH+pgsOU5BhRKm75ukk74eTy8aG9LL5d/zxzmJux44yoiUAro7yn+jp3pARnjCBTGMJwi2Jpz5dESK5QHcoh04AW85oQl9438+t4lOR5rV4DQEXfK3Jds=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772035741; c=relaxed/simple;
+	bh=OJR/Na+jj1LB/h3u5D1eUBs8kCJXr6Kb/poWvQIYOXY=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JMaquxZ8KbyGqrKujLLK2kRtAV2anJBP1088xzfFUIa5MSe/iGhWq8Q+f1vXcsu4uKR36pNdFvd9Xy8zlfnxhx4zBP5XXlbFGLDeISwQM/483pB75z5oe6ZBWPro3EUkQM00suqJgHAoobKF9cCY/dido0YhuSYt/YOFtmwDmKk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enakta.com; spf=pass smtp.mailfrom=enakta.com; dkim=pass (2048-bit key) header.d=enakta-com.20230601.gappssmtp.com header.i=@enakta-com.20230601.gappssmtp.com header.b=u6Ym15Cy; arc=pass smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enakta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enakta.com
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3590c295150so466628a91.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Feb 2026 08:08:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772035739; cv=none;
+        d=google.com; s=arc-20240605;
+        b=C9bdpL14SCKEdmUOqULOJ2nczoXgBdoesgCeRvyrESHURoBidW2gU67eJSr+QwoM0x
+         zOWX+IWRO+Vw4l8KM8gBQuF5zmsrO1chl9hvgoh7/iFZpxw3SJc0IJB7SzqHi/TkMYLE
+         zE7EJi5DUMtCL/eqfRdW63us9n23nCBYUfF1z/6FcE0gAhvAVRPMqfpB0YBU7DAhjYYa
+         gSgIwf7ndxHMX5DsKT+lpso5haqvsO1jZqRC49FRouFpA/GHsQJYiS+2Zg8Q0Q5ngc9Z
+         gLsk05KGN/PAwD0ZF9iokc10o0bwe2cuIi+hnvYISeCX9Dv7SjfTgr0B/0ldLyrNd/3X
+         6r5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=ah0/yq8Nlk6MI5dpLakiuQu8LX7seLqUlMO4deqe/88=;
+        fh=GDqh/0K3v9Y9Wx90O3CIZberl/XG8kl+NaULbeuiC6g=;
+        b=cy9t9o3nRHqp/jYJ08MFDmVvox3PdeuifiuIgnFGXHqkmoPVCYtBbf+9qR6LDzRZQZ
+         gZBu9U4XTXWsBEYgR5ZOMJ3f8pQn91Fn00ptFdm2tDXCDEIffO8NoLaZdh4eaao1Mnny
+         cKoQhsTuDSrG754tpl6CGMzLGWEFfzUn4rmx5OlX12pGjUXquH0tSppRk70NmYcWPGsT
+         ViueoN+4WVznSzCsh+3XoHzYvO9mMRfPNtQ5b26YIFACSyeChA1qjaDUVnIbGo0zPF1o
+         ZYOMhqJAgzBguu0d9ICzIPRCS/7SSatLC4enu9LY5M6utAgT3j706nxiDSK6+sSVbxa7
+         tniA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=enakta-com.20230601.gappssmtp.com; s=20230601; t=1772035739; x=1772640539; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ah0/yq8Nlk6MI5dpLakiuQu8LX7seLqUlMO4deqe/88=;
+        b=u6Ym15Cyc13P5a1HHm40nlLeXKLnyxGUxPYwBMe+iumHPfeQcQm8YZKyihjvzoOfjH
+         vlb19Xb5gJNhe9sJAtf+CnLdYa+ZJg/4UcelP9dqezKfIRslTqScQTLS92iALVjbNbfS
+         mVHBvyvpFtQjVs40d6hYGzYelrXprz0JzYB3v6TYN8PrWpzKP3wOB2zz4nkMKTrmdaiO
+         Uqe4KO6ixYle5N0VesSJU6pRZLKPivVZgCBs20zvB9FH0CshhP+NnhpaSVz5V8NX2gDB
+         C6KHVRFeOf/Vqs9cLTw5eFmQ2hmfb4Vkm9EpjS0gQs0ehtM84cI/ehCIrR3NDC8iRjEe
+         Gk8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772035739; x=1772640539;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ah0/yq8Nlk6MI5dpLakiuQu8LX7seLqUlMO4deqe/88=;
+        b=jpbHf6SQtla/A8eMoqcTj1+MFAA2OarW397W0qP1fTttvj5k5Xx2eqmsHFxr0Fw3Wn
+         R6p6UU53AMlt+e8U4GRep+Esxlh4hHPTzu/Y0Jx7WgONYHUgNDW0YMKfzMVKKVWtk9fQ
+         DwpxeUo1mIy5jVVGgm0pG+9PDcf+H3Py8qDfzlFsoytFoZFJu2KqbzeeK5Okkn76YWd0
+         pbGNNEMP0S7j/tGuisuBtimRTdFtpXFqpFMIyQbvUT+gnj7cwgsub7fV3ryd5kVbV8b7
+         okQrH2FL6s9eanWsAtwcnotkQE+SE2b5bN0UPW0PHLV+d5Skm6ScK0LBA1c7D/1yydH9
+         oxpg==
+X-Gm-Message-State: AOJu0YzAXZRzX0Y8hytsttbeV0vAqkLcdPTbDdJk2+uqDJd0sGJQSWUM
+	gxEI5vXiJlQjFGpiTKmMkVJgNbqR/XN2Kc64OQ3IKplU1FlwFI+1s3sMgUAXb+4UWULOSKlrsDs
+	3X/MfCCBTHkaoZ1yw+n7x8wNR/nSNRM8NDFZrNXPlYw==
+X-Gm-Gg: ATEYQzzyH/M+25M4+j8epRZsOvTjGUQ50fu3BY/kSodeN3mKcnG3O7d1j9qs/GrqHnz
+	MhpFz2v/POcIaTdL9wxM4+1sKBcFaRUoVQqNr/xMfn2zvXp6gBXXuHEQSS0wmQOJiwNjsHh7tf9
+	dmCPeFeu2pW2KWKlFFlVLNgmKKdBy3j5wdge4xVSIkdXonPmi9vhRF0MIVcXa9s+KiqMPKVbTZd
+	gH6bJFovZteS1RyT3SYdI0oky9j+Rcq+2kc3xqDBcVc12SW6Tt88rdQja6o5XU1CF+Libnhpc7d
+	d5OuNsdftlf1Fdy2AKbW1/8Uz0kpuA+/9kyxp6mv+rrKN+/1mcs+YWvZvmcOYfSS3fOo
+X-Received: by 2002:a17:90b:2c85:b0:34c:c514:ee1f with SMTP id
+ 98e67ed59e1d1-358ae7fad35mr16348915a91.11.1772035739446; Wed, 25 Feb 2026
+ 08:08:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260225015517.GA162634@quark>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+From: Denis Nuja <dnuja@enakta.com>
+Date: Wed, 25 Feb 2026 16:08:48 +0000
+X-Gm-Features: AaiRm50bgAoWq_guOYBnqprlZlHDx8z0DldaUjaWF61VHeQDHWcCHk45cLgbluA
+Message-ID: <CAGk60SF8WxDMpx1ALrne40qycg5J-hxdBniFnoYG=QhvnX5ktQ@mail.gmail.com>
+Subject: Kconfig: CONFIG_CIFS_SMB_DIRECT bool option silently dropped when
+ CIFS=m and INFINIBAND=m
+To: linux-cifs@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org, stfrench@microsoft.com, 
+	Ned Pyle <ned.pyle@tuxera.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-1.56 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[enakta-com.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[enakta.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11423-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[amazon.com,gondor.apana.org.au,davemloft.net,vger.kernel.org,gmail.com,oracle.com,suse.de,arm.com,kernel.org,redhat.com,alien8.de,suse.com,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.995];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hch@infradead.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	TAGGED_FROM(0.00)[bounces-11424-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[enakta-com.20230601.gappssmtp.com:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:mid,infradead.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 27374198832
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dnuja@enakta.com,linux-kbuild@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: CA63319A54F
 X-Rspamd-Action: no action
 
-On Tue, Feb 24, 2026 at 05:55:17PM -0800, Eric Biggers wrote:
-> Let's be clear: this is possible only when the kernel has a stable ABI
-> to the crypto module, which realistically isn't something that is going
-> to be supported upstream.  The Linux kernel is well-known for not
-> maintaining a stable in-kernel ABI, for good reasons.
-> 
-> So, the only case where this feature would have a benefit over the
-> kernel's existing approach to FIPS 140 is in downstream kernels that
-> maintain a stable in-kernel ABI.  There would be no benefit to direct
-> users of the mainline kernel or even the stable release series.
-> 
-> For this to be considered for upstream there would need to be some level
-> of consensus in the community to support this feature despite this.
+Hi everyone
 
-That's a very nice way to say this goes against all the established
-principles for kernel development.
+CONFIG_CIFS_SMB_DIRECT cannot be enabled when CONFIG_CIFS=3Dm and
+CONFIG_INFINIBAND=3Dm, despite all declared dependencies being
+satisfied. The option is silently dropped by olddefconfig and
+menuconfig refuses to save it, even though menuconfig displays it as
+[*] (enabled).
 
+Kernel version: 6.4.0
+
+File: fs/smb/client/Kconfig
+
+Current dependency:
+
+if CIFS
+config CIFS_SMB_DIRECT
+    bool "SMB Direct support"
+    depends on CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS || CIFS=3Dy
+&& INFINIBAND=3Dy && INFINIBAND_ADDR_TRANS=3Dy
+
+Root cause:
+
+CIFS_SMB_DIRECT is declared as bool (values: n or y only). With CIFS=3Dm
+and INFINIBAND=3Dm, the left side of the || expression evaluates to:
+
+CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS
+=3D m && m && y =3D m
+
+The result is m (tristate), but since CIFS_SMB_DIRECT is a bool, the
+Kconfig engine coerces m to n and silently drops the option. The right
+side of the || requires CIFS=3Dy && INFINIBAND=3Dy which forces both to be
+built-in =E2=80=94 an unnecessarily restrictive requirement.
+
+Additionally, the CIFS=3Dm/y conditions inside the depends on are
+redundant since the option is already inside an if CIFS block, which
+handles that guard.
+
+Observed behaviour:
+
+menuconfig shows [*] SMB Direct support (appears enabled)
+Saving from menuconfig does not write CONFIG_CIFS_SMB_DIRECT=3Dy to .config
+olddefconfig emits warning: override: reassigning to symbol
+CIFS_SMB_DIRECT and drops it
+scripts/config --enable CONFIG_CIFS_SMB_DIRECT silently has no effect
+
+Proposed fix:
+
+Since the option is inside if CIFS, the CIFS=3Dm/y conditions are
+redundant. The dependency should simply be:
+
+- depends on CIFS=3Dm && INFINIBAND && INFINIBAND_ADDR_TRANS || CIFS=3Dy
+&& INFINIBAND=3Dy && INFINIBAND_ADDR_TRANS=3Dy
++ depends on INFINIBAND && INFINIBAND_ADDR_TRANS
+
+This correctly expresses the intent (RDMA stack must be present)
+without the tristate/bool coercion problem, and is consistent with how
+the surrounding if CIFS block already guards the option.
+
+The same issue affects CONFIG_CIFS_FSCACHE on line 191 with an
+identical pattern:
+
+depends on CIFS=3Dm && FSCACHE || CIFS=3Dy && FSCACHE=3Dy
+
+which should also be simplified to:
+
+depends on FSCACHE
+
+To reproduce:
+
+# Start with a config where CONFIG_CIFS=3Dm, CONFIG_INFINIBAND=3Dm
+scripts/config --enable CONFIG_CIFS_SMB_DIRECT
+make olddefconfig
+grep SMBDIRECT .config   # empty =E2=80=94 option was dropped
+
+
+Cheers
+Denis
+Enakta Labs
 
