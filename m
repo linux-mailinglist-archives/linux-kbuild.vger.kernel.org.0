@@ -1,208 +1,134 @@
-Return-Path: <linux-kbuild+bounces-11422-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11423-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cFVOFNvjnmnQXgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11422-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 12:58:19 +0100
+	id yBrlGYQCn2mZYgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11423-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 15:09:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29E7196EB6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 12:58:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27374198832
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 15:09:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9C7A43029A84
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 11:58:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D1224301BF76
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Feb 2026 14:09:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E743A1A48;
-	Wed, 25 Feb 2026 11:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CB873AEF51;
+	Wed, 25 Feb 2026 14:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wildgooses.com header.i=@wildgooses.com header.b="TQT4Mz3H"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HiRxEFd7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail1.nippynetworks.com (mail1.nippynetworks.com [91.220.24.129])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F8928C854;
-	Wed, 25 Feb 2026 11:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.220.24.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB24284880;
+	Wed, 25 Feb 2026 14:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772020695; cv=none; b=CHuJGCaAUJCA1w+wnObpYZNU2rHqyZ3vkSnTJJUvXtHWEm7K+l2QJUiKjbb6KX+QOiWPXOvIe5zKQ2unPW3dCnL1gW9S97YGmHS+L0tftAzqkxFaE2B1tSSnsT10y34WVxCBS46JgI5mhcatUjdjSvOMa5+4ppRQSpHS7gT/Cp0=
+	t=1772028543; cv=none; b=CgiVf9vhDzI7HvKhkVpAuCADxJBqG2eG45XauZun5HjqhoYZzmsCO0WuP+SlNGOVRdboLj3h3FsdQxhLQLOJwvFiffiirHyGkHD8GH/EaSrbi+XqnttuzMHQXbE5bCpXY1cVytO0hZrCKfZzW5tbMQJ6ub+/MKjN7/Eu5fP+z/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772020695; c=relaxed/simple;
-	bh=X3BSEY6AMfvsOuJKktRiDrIuSjEyA7gBe5/TNzodbaU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NWcYdxTcXNDbzZI8nA21nFQigN1Ef7/9Qwpc8dC8AOp8d8dalyl3ozclhMePLRFAOrmU9mzRBiDx7IBKeioCujdEiQcIXW7z0Jj+Qx1BSyMsAEjmfS5J1iD34lf+rWO7TgGxta8sjpuytuSJMNPRDeAWlsygCAm4nM19KFaVnuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wildgooses.com; spf=pass smtp.mailfrom=wildgooses.com; dkim=pass (1024-bit key) header.d=wildgooses.com header.i=@wildgooses.com header.b=TQT4Mz3H; arc=none smtp.client-ip=91.220.24.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wildgooses.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wildgooses.com
-Received: from [192.168.8.152] (unknown [94.228.36.46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ed@wildgooses.com)
-	by mail1.nippynetworks.com (Postfix) with ESMTPSA id 4fLY1R2Nkxzkd2v;
-	Wed, 25 Feb 2026 11:55:07 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wildgooses.com;
-	s=dkim; t=1772020507;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X3BSEY6AMfvsOuJKktRiDrIuSjEyA7gBe5/TNzodbaU=;
-	b=TQT4Mz3Hby5fnHSuZZ69KpI5/a4sxu7iVH1dvVYKbrjd/CNwofShcqtTFNJPjExZNiNei3
-	EveEcEQcAtH3Vval1zSRUCBNurpNBzTok8BgRcJdn5z+wT4Oq/GP7fzk4Dq44tuRiU1gQa
-	8Y4yCtiy8xtMPujx/3UzU5bIF2MASyE=
-Message-ID: <4ff9d8be-ba4c-4698-abe8-31fcf2717acf@wildgooses.com>
-Date: Wed, 25 Feb 2026 11:55:06 +0000
+	s=arc-20240116; t=1772028543; c=relaxed/simple;
+	bh=najeskeSGaMowgnuBVZaa8lrbJEgO/ZS8Nq1D58P5LE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DadvxCggtdxjzAjqZmXaRfhUrm+ZbDHOyMnp0dIH/Ey0HUnQ0siQhvaSC/zSLy43vgpSIlFbPi60DZD0BurVr3SMP2Qs/EVKD2pFCWLJQBd/qLgON5jyDmtbqln4LnwmJPnWwJTd6jbJWEfJmCSAb+4Au5wLnAKqEatuKE1p6iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HiRxEFd7; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=XWRvKSrVzQxumCJr/FJXMqnLK+ok9RFugzOcVZ5aYRY=; b=HiRxEFd7f+eEHFsntm7SMlUNB1
+	c4AbjTQ3piGQdRYpSHk5q14C/THBE2f4pSP7LePeXBUybbnnTzy6Dby15D3pa0iM5POQ59cNB5cRH
+	fyidvvGLYHpfM+mkOkn8LhcIZHaEC2oIzXwGkV5aFX6h3Y7jD6Q60R8HQh1sSif6y3VSnhUlS3exW
+	LOJdm6i77zrXeiqWO2j2tQ+YDyYd/aNW3LdG0Y1IJ+UTpUbft7YWYoMAWbVhBBZ1AHHr294qm7me3
+	SqEh2KyPQJkdERVVceI7J7H85do0NBqCWH+BnIEGQloCUCVB9yJCOTPkHmVF3b28lZZkdYD1/gbtY
+	0xPcmI+Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vvFZO-00000004AMD-2PsX;
+	Wed, 25 Feb 2026 14:08:54 +0000
+Date: Wed, 25 Feb 2026 06:08:54 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Jay Wang <wanjay@amazon.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	linux-crypto@vger.kernel.org,
+	Jay Wang <jay.wang.upstream@gmail.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Nicolai Stange <nstange@suse.de>,
+	Ilia Okomin <ilya.okomin@oracle.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org
+Subject: Re: [PATCH 17/17] Add standalone crypto kernel module technical
+ documentation
+Message-ID: <aZ8Cdq2doSHlPG9-@infradead.org>
+References: <20260212024228.6267-1-wanjay@amazon.com>
+ <20260212024228.6267-18-wanjay@amazon.com>
+ <20260225015517.GA162634@quark>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: extlinux can't boot kernel after commit "kbuild: keep .modinfo
- section in vmlinux.unstripped"
-To: Nathan Chancellor <nathan@kernel.org>,
- Thorsten Leemhuis <regressions@leemhuis.info>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- masahiroy@kernel.org,
- Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Linux kernel regressions list <regressions@lists.linux.dev>
-References: <587f25e0-a80e-46a5-9f01-87cb40cfa377@wildgooses.com>
- <3ac876ca-0038-41e8-a1a0-3d5434f30473@leemhuis.info>
- <20260224204632.GA3510750@ax162>
-From: Ed W <lists@wildgooses.com>
-Content-Language: en-GB
-In-Reply-To: <20260224204632.GA3510750@ax162>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260225015517.GA162634@quark>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[wildgooses.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[wildgooses.com:s=dkim];
+	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
+	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[wildgooses.com:+];
-	TAGGED_FROM(0.00)[bounces-11422-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11423-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[amazon.com,gondor.apana.org.au,davemloft.net,vger.kernel.org,gmail.com,oracle.com,suse.de,arm.com,kernel.org,redhat.com,alien8.de,suse.com,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lists@wildgooses.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_NEQ_ENVFROM(0.00)[hch@infradead.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[infradead.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A29E7196EB6
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:mid,infradead.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 27374198832
 X-Rspamd-Action: no action
 
-Hi Nathan (and Thorsten), thanks for replying! Appreciated
+On Tue, Feb 24, 2026 at 05:55:17PM -0800, Eric Biggers wrote:
+> Let's be clear: this is possible only when the kernel has a stable ABI
+> to the crypto module, which realistically isn't something that is going
+> to be supported upstream.  The Linux kernel is well-known for not
+> maintaining a stable in-kernel ABI, for good reasons.
+> 
+> So, the only case where this feature would have a benefit over the
+> kernel's existing approach to FIPS 140 is in downstream kernels that
+> maintain a stable in-kernel ABI.  There would be no benefit to direct
+> users of the mainline kernel or even the stable release series.
+> 
+> For this to be considered for upstream there would need to be some level
+> of consensus in the community to support this feature despite this.
 
-On 24/02/2026 20:46, Nathan Chancellor wrote:
-> So I will deal with this one, as I committed the series.
-
-
-Thanks so much!!
-
-
->>> My guess is that something has moved or become re-ordered such that t=
-he extlinux is rejecting the
->>> image??=C2=A0
->>>
->>> At this point I'm honestly not quite sure what I am doing, so would s=
-ome kind soul please help me
->>> figure out what is happening? I apologise in advance that I've likely=
- not given enough information
->>> about the problem, please be gentle...
-> I think you provided good information off the bat, so no worries on tha=
-t
-> front. I am not entirely positive that this is the root cause but now
-> that I am looking at it and have some additional context from a recent
-> 7.0-rc1 commit [1], I think 3e86e4d74c04 adding .modinfo to ELF_DETAILS=
-
-> and removing it from DISCARDS results in .modinfo appears in certain
-> places, namely arch/x86/boot/compressed/vmlinux, where it may not be
-> expected. Why that breaks this bootloader, not sure, but I don't really=
-
-> think it matters. I think we should move .modinfo from ELF_DETAILS
-> (which may be used in other non-vmlinux linker scripts) to its own
-> macro, add that to all vmlinux linker scripts, and discard it from
-> places where it used to be properly discarded. More code but I think
-> it will result in fewer problems. As far as I can tell, this is the
-> reason that commit d50f21091358 ("kbuild: align modinfo section for
-> Secureboot Authenticode EDK2 compat") was needed and that change needed=
-
-> a further follow up fix in commit a26a6c93edfe ("kbuild: Strip trailing=
-
-> padding bytes from modules.builtin.modinfo"), so we could have saved
-> some headache from doing it right from the beginning.
->
-> Ed, could you test the below patch with your setup (it should apply
-> cleanly to 6.18.13, 6.19.3, or 7.0-rc1) and see if it resolves your
-> issue?
->
-> [1] ddc6cbef3ef1 ("s390/boot/vmlinux.lds.S: Ensure bzImage ends with Se=
-cureBoot trailer")
->
-> Cheers,
-> Nathan
-
-
-Yes, your patch works fine against my 6.18.12 kernel on my AMD64 machine =
-and booting with extlinux
-(previously not working)
-
-I also played around a little with some variations and it seems as though=
- the adding in of the
-=2Emodinfo into the strip is the key, caveat that in my messing around (b=
-ased on inspiration from the
-commit [1] that you mention), I needed to reorder the macros to get it to=
- compile. Note, I'm not
-suggestion this as a solution, just illustrating some extra info:
-
---- arch/x86/boot/compressed/vmlinux.lds.S.orig=C2=A0 =C2=A0 2026-02-25 1=
-0:42:45.040655315 +0000
-+++ arch/x86/boot/compressed/vmlinux.lds.S=C2=A0 =C2=A0 2026-02-25 11:06:=
-32.907372114 +0000
-@@ -80,17 +80,18 @@
-=C2=A0 =C2=A0 =C2=A0. =3D ALIGN(PAGE_SIZE);=C2=A0 =C2=A0 /* keep ZO size =
-page aligned */
-=C2=A0 =C2=A0 =C2=A0_end =3D .;
-
--=C2=A0 =C2=A0 STABS_DEBUG
--=C2=A0 =C2=A0 DWARF_DEBUG
--=C2=A0 =C2=A0 ELF_DETAILS
--
-=C2=A0 =C2=A0 =C2=A0DISCARDS
-=C2=A0 =C2=A0 =C2=A0/DISCARD/ : {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*(.dynamic) *(.dynsym) *(.dynstr) *(.dy=
-nbss)
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*(.hash) *(.gnu.hash)
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*(.note.*)
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *(.modinfo)
-=C2=A0 =C2=A0 =C2=A0}
-
-+=C2=A0 =C2=A0 STABS_DEBUG
-+=C2=A0 =C2=A0 DWARF_DEBUG
-+=C2=A0 =C2=A0 ELF_DETAILS
-+
-=C2=A0 =C2=A0 =C2=A0.got.plt (INFO) : {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*(.got.plt)
-=C2=A0 =C2=A0 =C2=A0}
-
-
-Thanks for isolating the issue!
-
-Ed W
+That's a very nice way to say this goes against all the established
+principles for kernel development.
 
 
