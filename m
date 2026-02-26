@@ -1,68 +1,64 @@
-Return-Path: <linux-kbuild+bounces-11452-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11453-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aGRAJYeZoGlVlAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11452-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 20:05:43 +0100
+	id 8Ex/NM6YoGlVlAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11453-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 20:02:38 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067191AE294
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 20:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5722B1AE234
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 20:02:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8191631C020C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 18:33:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 04E0B307B215
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 18:38:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86463A0B35;
-	Thu, 26 Feb 2026 18:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51756304972;
+	Thu, 26 Feb 2026 18:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CQQM3soB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BER+/t05"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8550627F732;
-	Thu, 26 Feb 2026 18:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC352427A18;
+	Thu, 26 Feb 2026 18:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772130783; cv=none; b=h5oCd0tvLSujtIwf7ZkBdSKYhHHdymFIPiY/nCsWF+MsMaOTbpegoanehAf5NWQw3+7e0x/GMDv1qZiH2e85DrA0edBeex6AnsHsm50qpmxhlrp3qiIk6ya8zL+MSC+FXVWDXfiC//YriKpruCuACx4J5S7K0v9UGBORhNklUFE=
+	t=1772131085; cv=none; b=mHkHfT9xV4TfJjbqAj7SzDvOvA0Z5O/S7D4wSuv1WqVEa5r5jKDRtdPF+/S2W6wV2o8aPKN0eGYKaWJm9n16Pz0g5AGASGliM9XTLaGrD5IRo51SkfsymASu/dShG5QYz0vIFUMWOktwpquwo7ZWvBAtAcnsD7FU906wmTqlPuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772130783; c=relaxed/simple;
-	bh=VSeTKWpqHQ/xQAnBpFUGW6l3RlpfyjkXqHosrfzhgZY=;
+	s=arc-20240116; t=1772131085; c=relaxed/simple;
+	bh=KDiaZJs2Xk2JTGE/2+p9vMWxm3Q9coBcc/t0Mrz81SQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivTbPzHHt+bs+815TIjRz0hfkbxar/eoxFMnASXRD/VrpLzCCGZm/IY0N+gfbMWp5BJiyG+XHDrYjxjqRgoXr85zOrovUUsWNAQzg6/58uleawc+B4Xr6tFSqskzier/BwI90AH6fUVihG55EUImzQ4RkC2iO4Kkz8V5xhyHKS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CQQM3soB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FAD8C116C6;
-	Thu, 26 Feb 2026 18:33:02 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ANmG8hk78QiSjVJl7qVC3B/Rp3X8xbJasKFmQ7LfioNRhkvRV8jHqDGkPIgghr2+k/JaGn8vSmKqT5tl6KsSbmuwze7a/1zXJmppEg6EAv/aLf4MamEv1+9rTFj4J9rgOsKVPyAGZhfgSqTbYNU/d/AuPBHQdmYKvCHRq8RysfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BER+/t05; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88FC5C116C6;
+	Thu, 26 Feb 2026 18:38:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772130783;
-	bh=VSeTKWpqHQ/xQAnBpFUGW6l3RlpfyjkXqHosrfzhgZY=;
+	s=k20201202; t=1772131085;
+	bh=KDiaZJs2Xk2JTGE/2+p9vMWxm3Q9coBcc/t0Mrz81SQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CQQM3soBA3HATli5radoLC4J9n6+UpiXxlyOkuORCYj5pdddFoQskRZYORrR3G3JB
-	 GfAIKWgDkBvzdNVJ7WF+2lgjUKPp/q/dbE0YAW3ixvADk6DBkJE4zj/VOoJLbUhLNR
-	 s8/GIAC3Y2wl6RpxDvFYviVFlyG+21IkIxLxhejxuFcR5BvWZnLYxq8wg1bvmFhBkD
-	 UvqC4y+M7fVoqqdWKZAFTKH4cuqZB+nXtmy8+BSD4RQiTjIRWET8tdk8UAv8mYfpw1
-	 dRbWfxIfqGBCJKsl6rRAkVfd9Bx9nJSHP60Jx38MXvbg8H7VXXj6jdwAOCxG0RY+ly
-	 VtFehVk+deMBg==
-Date: Thu, 26 Feb 2026 10:33:00 -0800
+	b=BER+/t05nE8ccGJ5r3C6rbDaGXuzEzHx62f/9nRU2GHtixL9n3WVcjKvd2GG5zKvz
+	 5HopIEeDASsvQSe+zj5hkKat6c1j9N4v2rtfsg+p3dKrraVuDm6PGnEDFJ4ZgUG0oq
+	 Etd46mMlyGJQHfXq6L88uHsRSsx0GzTFEzPOfdnhrDmeHV/8fOy3tWlsNmA+oou2ys
+	 pRNSyPNudXvJqt0ogf7QhusduFLz4PljXQ3ncv3TOc1jXvcpgWTOSIm7+irZxL4HGg
+	 DpFeQpCLzheyyB+E5dFod3KgagD3xy5D6gXaU6FHJZdg+wYzjr3Eclg1rFMfyOG3iq
+	 x3P9R9FeFEmwg==
+Date: Thu, 26 Feb 2026 10:38:03 -0800
 From: Namhyung Kim <namhyung@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Leo Yan <leo.yan@arm.com>, Kees Cook <kees@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
+To: Leo Yan <leo.yan@arm.com>, Quentin Monnet <qmo@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
 	Justin Stitt <justinstitt@google.com>,
 	Arnaldo Carvalho de Melo <acme@kernel.org>,
 	Ian Rogers <irogers@google.com>,
-	James Clark <james.clark@linaro.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, bpf@vger.kernel.org
 Subject: Re: [PATCH RESEND v2] tools build: Use -fzero-init-padding-bits=all
-Message-ID: <aaCR3JcMKC56E0xq@google.com>
+Message-ID: <aaCTC86U9KjnmZmu@google.com>
 References: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
- <20260224171956.GA639152@ax162>
- <202602241310.C3641B97@keescook>
- <20260225092210.GC4184494@e132581.arm.com>
- <20260225192505.GC2755225@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -71,7 +67,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260225192505.GC2755225@ax162>
+In-Reply-To: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -83,16 +79,16 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11452-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11453-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
+	NEURAL_HAM(-0.00)[-0.993];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[namhyung@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -100,65 +96,85 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 067191AE294
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gnu.org:url,arm.com:email]
+X-Rspamd-Queue-Id: 5722B1AE234
 X-Rspamd-Action: no action
 
-Hello,
+Adding bpftool maintainer.
 
-On Wed, Feb 25, 2026 at 12:25:05PM -0700, Nathan Chancellor wrote:
-> On Wed, Feb 25, 2026 at 09:22:10AM +0000, Leo Yan wrote:
-> > On Tue, Feb 24, 2026 at 01:11:19PM -0800, Kees Cook wrote:
-> > > On Tue, Feb 24, 2026 at 10:19:56AM -0700, Nathan Chancellor wrote:
-> > > > Kbuild does not maintain/touch tools/. This should go via another tree
-> > > > like perf or something. It does not look like
-> > > > tools/scripts/Makefile.include has a clear owner, perf and bpf tend to
-> > > > be the ones who touch it the most.
-> > 
-> > This is a circular deadlock.  Namhyung (the perf maintainer) advised me
-> > to send patch to the linux-kbuild [1], for fixing an union init issue
-> > found recently.
+On Tue, Feb 24, 2026 at 12:16:40PM +0000, Leo Yan wrote:
+> GCC-15 release claims [1]:
 > 
-> The tools/ build system is not Kbuild, so I do not want to take patches
-> for it, sorry. Issues from patches I take become my responsibility to
-> deal with and I am not at all familiar with the tools build system
-> because I am not a consumer of it. Nicolas may feel differently but I am
-> going to assume not based on his level of expertise with tools/ [1]. I
-> am not trying to deadlock you though.
+>   {0} initializer in C or C++ for unions no longer guarantees clearing
+>   of the whole union (except for static storage duration initialization),
+>   it just initializes the first union member to zero. If initialization
+>   of the whole union including padding bits is desirable, use {} (valid
+>   in C23 or C++) or use -fzero-init-padding-bits=unions option to
+>   restore old GCC behavior.
 > 
-> Namhyung, I think this patch can reasonably go via the perf tree since
-> it will be a primary consumer of it.
-
-Sorry for the trouble.  I'm fine to take it to the perf tree once
-everyone involved is happy about it.  Let me CC the bpf list in the
-original patch.
-
-Thanks,
-Namhyung
-
+> As a result, this new behaviour might cause unexpected data when we
+> initialize a union with using the '{ 0 }' initializer.
 > 
-> > > You could claim it! ;)
+> Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
+> the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
+> in unions and structures.  This commit applies the same option for tools
+> building.
 > 
-> Heh, Kbuild and ClangBuiltLinux give me more than enough to do around
-> here ;)
+> The option is not supported neither by any version older than GCC 15 and
+> is also not supported by LLVM, this patch adds the cc-option function to
+> dynamically detect the compiler option.
 > 
-> > > Regardless, I like to see cc-option available here, as I doubt this will
-> > > be the last conditional option for tool builds. (Actually, are there
-> > > other conditional options that could use this today in the tools
-> > > Makefiles?)
-> > 
-> > Some subprojects in tools have their own conditional options.
-> > 
-> > This patch is ambitious that it changes the global Makefile.include file
-> > so it can propagate the '-fzero-init-padding-bits=all' option to
-> > projects that include it.  Why do we need to do this globally?  This is
-> > because Perf needs to build several subprojects (libperf and bpftool).
+> [1] https://gcc.gnu.org/gcc-15/changes.html
 > 
-> This seems like a great reason for it to go via the perf tree as noted
-> above.
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+> Resent to linux-kbuild mailing list.
+> ---
+>  tools/scripts/Makefile.include | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 > 
-> [1]: https://lore.kernel.org/aNhGp7NDCCrtwJqm@levanger/
+> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
+> index b5ecf137febcae59f506e107a7f2e2ad72f4bef4..73f6aef4f3fda0cda7ee8f4b9a3b7ff7d956070d 100644
+> --- a/tools/scripts/Makefile.include
+> +++ b/tools/scripts/Makefile.include
+> @@ -40,6 +40,30 @@ EXTRA_WARNINGS += -Wwrite-strings
+>  EXTRA_WARNINGS += -Wformat
+>  EXTRA_WARNINGS += -Wno-type-limits
+>  
+> +# output directory for tests below
+> +TMPOUT = .tmp_$$$$
+> +
+> +# try-run
+> +# Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
+> +# Exit code chooses option. "$$TMP" serves as a temporary file and is
+> +# automatically cleaned up.
+> +try-run = $(shell set -e;		\
+> +	TMP=$(TMPOUT)/tmp;		\
+> +	trap "rm -rf $(TMPOUT)" EXIT;	\
+> +	mkdir -p $(TMPOUT);		\
+> +	if ($(1)) >/dev/null 2>&1;	\
+> +	then echo "$(2)";		\
+> +	else echo "$(3)";		\
+> +	fi)
+> +
+> +# cc-option
+> +# Usage: CFLAGS += $(call cc-option,-march=winchip-c6,-march=i586)
+> +cc-option = $(call try-run, \
+> +	$(CC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
+> +
+> +# Explicitly clear padding bits with the initializer '{ 0 }'
+> +CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
+> +
+>  # Makefiles suck: This macro sets a default value of $(2) for the
+>  # variable named by $(1), unless the variable has been set by
+>  # environment or command line. This is necessary for CC and AR
 > 
-> Cheers,
-> Nathan
+> ---
+> base-commit: 7dff99b354601dd01829e1511711846e04340a69
+> change-id: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
+> 
+> Best regards,
+> -- 
+> Leo Yan <leo.yan@arm.com>
+> 
 
