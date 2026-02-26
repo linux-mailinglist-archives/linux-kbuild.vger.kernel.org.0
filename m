@@ -1,71 +1,96 @@
-Return-Path: <linux-kbuild+bounces-11449-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11450-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iB71BIxvoGkHjwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11449-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 17:06:36 +0100
+	id azwpFiSDoGkLkgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11450-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 18:30:12 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA061A99D3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 17:06:35 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 788481AC708
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 18:30:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6912631B8931
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 15:49:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D46A730C774C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 17:07:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 804E5426EDA;
-	Thu, 26 Feb 2026 15:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA5F429803;
+	Thu, 26 Feb 2026 17:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BZtBzCpi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IfCqnO6v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADE7426ECD;
-	Thu, 26 Feb 2026 15:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875154279E6
+	for <linux-kbuild@vger.kernel.org>; Thu, 26 Feb 2026 17:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772120869; cv=none; b=jryiwsfR6kT8CzVinsTMWg2Mn0doN7LRVCGS0uOTtvkQXDLNkjJMaBmCzm6x66MJEt9Xe5lDdnJIfX99bZfdifFnwdD1MpE9ZRP1+n5gfARK1gZDeyoioh09BNhSB3YNXYenPKZ+XALlKXovpbPcHTWRFALzCYAF9VgY01AxPCo=
+	t=1772125237; cv=none; b=MWlJLwyM4E3WlSyrileClLacSgNRepb4wgi8o+lI0yrnYdLvYg9SvZ4xiGun3WNsk2K/u7EnJtPZqyQBUF0Gj8kte4uvR0PlUgb4CrfGtcw6lqZTgYnWZe2bOWVlyeAJZfjTe4KvAnJhCyw1HRXosUwTg7oib6zs35WZhDZDOBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772120869; c=relaxed/simple;
-	bh=YuceOjX9Tg6LcTSRNcQsRatGW7WHLSoknGPACi/Sf7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sw92ph9jVolspz+YlnW8TsSvua6ldm1weH1wZl5RibkOeuKvtt1CNQIrFoZBEZOYgMb5GKYlHF2KMfpCcI7/beWnLm6DmbOCAa2m8AaX04ZK1ky1uIhHa1k2LizhvJC8aLatLHrGsw4t/PQCuFOZJsZtWhyRvn28f+CSuRyzf40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BZtBzCpi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BECC19423;
-	Thu, 26 Feb 2026 15:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772120868;
-	bh=YuceOjX9Tg6LcTSRNcQsRatGW7WHLSoknGPACi/Sf7U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-	b=BZtBzCpiZBYBqVO+SvIuYIQkCZNGFSx3tHZ4EVWMTSXrPUx7kww/h4ms+5aYyvBHE
-	 pccAfRiJ9X0lyGSnGHT6GtJ+zuoNMcNOSLo3r6ZUCH1FpqZVW5/YOpn6kGjjxJgrxF
-	 XJY1LLJW39k9aQWagioKxCGMRjiYN1oSgSMh5/sfMP0EHzY1q+yAUj8OcRY8i1+5Is
-	 yJW9N+vRLacZ2E7P0qUvXVdFOy0+9Uy2vR6kI6SFZhiNKKziIl/VbZHQVoPH5F8QgV
-	 tPrnim9QDYWfMgFfFnVop2WfD5mrYFjvk3lxEtpf9B/R6Hv6VmpTRpesqmy2Hkrdg6
-	 u4zti1Ui/fE5Q==
-From: Gary Guo <gary@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
+	s=arc-20240116; t=1772125237; c=relaxed/simple;
+	bh=aUmpyzSrby1qhl5sgoZlhWbu9bvueo80bPZ+F/4kLzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GIbBKoeRHhlLQ1BGH34lv+Ekpr5CRPB+Hxoueho+6at+6dkXn8aAWQqgFC1tGG/O8KqxtvFGKuD3lo5TOUJ/haN6MY1a40J/fdU5Xa/x9xf12NxjFuvqG0NY+Q6SO8pxSdZZUGpGRFuB2ohUX/946T4AIvnCkN/mw69JHDjPIjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IfCqnO6v; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b934f8ec6acso130588666b.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Feb 2026 09:00:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772125234; x=1772730034; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ALqBvDE1FO+pe4+Grs49xjYdZp5dzbvZUUI22o6rYDw=;
+        b=IfCqnO6vfhmLflYdiMHsOaSyjTm6lB4X9+UuCJfqLTQ14vkh+aRFUta5VUI45L33IO
+         X5Ts9D4whddgELe8593teHhtfioPSF3JOpJNZ/zYnlLotFp6yctZzYwc+YfpmA/6PZri
+         i7bpd1cfGssKnlZOJ9YY9Ds72DYpUEydm8HrCXWZlHTOzgv05IXZeRAlGS4R72qr+qNS
+         Qey28boiqFD+971y4TZxKF9fOXr9h+6o8+lp83gD9fFgEkVvny0dOfFrK2FsDUZc+hze
+         72nyJ9jGi4SwulRR2VXjbj7zXgWPW61eFQcDN6p7xV2Lcgh7KthcThnUsEGmA+eqh5+K
+         CRDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772125234; x=1772730034;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ALqBvDE1FO+pe4+Grs49xjYdZp5dzbvZUUI22o6rYDw=;
+        b=XkRCz6qkSG7Sk8aT+t9ze3ucPBRwvkKOVQEltQFzMYBLFCwfw122T4Pbg6Vo25bV1r
+         cbBCZsG6GL+oUECYL8hyy+Ksk7493Ul1vBEziqpQoza2r0BfivJ3KiCIpRAc7OVBQ01L
+         5LnbxzMwNhvMHTPwS3AEC1iO6lmsbu+Uwy1uxxw+iAhtJWDx1w1iARvGY4ox7lmD9p54
+         4dX+TTKHxYHP3AKLhb95f4032BmIHK/X3bzHW7ysdp6oLNqf4PzzwUVG6zVYjZNCfBSR
+         yB83PyKRA5hzo9XEmop2HMgAJkxlhuZ6SSIAsMcn58/m77fEtn0JZNVq1nJVsRx4bpD7
+         dwWA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0YAQSuLmUb7lW0NAtKhlQ77aA5Wy3w/EUR6xAQq5ahIAOdRAxyviYNof/BSbpki7aYbcVtRfw/Exu7Mc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfrTvdsfYOGD6E9Y1qO3uEKX2DkVrNnnJH4s1Mdwa/ffFhg4AE
+	lzc5pgaPqcgiie1nSa7E407WNhcF7VqLNPGAFhIOcZEpiMzNOjzmtQuo
+X-Gm-Gg: ATEYQzycx5gtoxc+PzpyWnxnSYTcUDLP7LeUmojhEPILarFhU+UF+7QK51Wzi4n/oUp
+	sWvbWWl6Ad7OQFWe6jj7gtYEMXp2KyEZwoAnjwHm1ML4sCtA+CQXXNTiid6uMZmesaEHgYNkV5j
+	Hn4kHLNX9eEszRMuJxQKY9xWPScMB+c3mjjoR450yjEg8IIl3Rkd+Aj+IVCet5De0Ad74c5XlKk
+	O38TTeCelyVOErB9J2ActU/OD5IMQtfMIPnX6UNSMixx/J5jS3nriJFw9BkMbilPCFJTBRWj+1w
+	7lAvvNnBmh0uKOnMUX7ZZTC2SR5owX3XtHy0HkJ4nGMpJ75CxuOCfYO+79epO6g+/iVHU+Q0uvL
+	yLzNN03pTcKtcnQQlesB9coItewxgq4dW9q5dx8wPVekdtDR4BXDVtSJkwKrE6f6fnFvTRoND2S
+	7aQkOf67euNaLY1cfRlRj9x6WbPwo0sc/uf6FIot0Cy9pvB7V8Q/GUPRsGoQ==
+X-Received: by 2002:a17:907:6d13:b0:b93:335f:18d5 with SMTP id a640c23a62f3a-b935b8ea035mr225250866b.36.1772125233377;
+        Thu, 26 Feb 2026 09:00:33 -0800 (PST)
+Received: from ddolgov-thinkpadt14sgen1.rmtde.csb ([2a00:20:6364:854a:4ce7:5ea2:2f05:232b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ac7371esm77838766b.24.2026.02.26.09.00.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Feb 2026 09:00:32 -0800 (PST)
+From: Dmitrii Dolgov <9erthalion6@gmail.com>
+To: linux-perf-users@vger.kernel.org,
+	Ian Rogers <irogers@google.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Levi Zim <i@kxxt.dev>
+Cc: Namhyung Kim <namhyung@kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+	rust-for-linux <rust-for-linux@vger.kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH v2 1/2] rust: add projection infrastructure
-Date: Thu, 26 Feb 2026 15:46:53 +0000
-Message-ID: <20260226154656.3241736-2-gary@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260226154656.3241736-1-gary@kernel.org>
-References: <20260226154656.3241736-1-gary@kernel.org>
-Reply-To: Gary Guo <gary@garyguo.net>
+	Nicolas Schier <nsc@kernel.org>,
+	Dmitrii Dolgov <9erthalion6@gmail.com>
+Subject: [PATCH v5] tools build: Fix rust cross compilation
+Date: Thu, 26 Feb 2026 17:59:59 +0100
+Message-ID: <20260226170025.517743-1-9erthalion6@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -77,415 +102,150 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-11450-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11449-lists,linux-kbuild=lfdr.de];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[gary@garyguo.net];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[gary@kernel.org,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:replyto,garyguo.net:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7CA061A99D3
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[9erthalion6@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 788481AC708
 X-Rspamd-Action: no action
 
-From: Gary Guo <gary@garyguo.net>
+Currently no target is specified to compile rust code when needed, which
+breaks cross compilation. E.g. for arm64:
 
-Add a generic infrastructure for performing field and index projections on
-raw pointers. This will form the basis of performing I/O projections.
+      LD      /tmp/build/tests/workloads/perf-test-in.o
+    aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(code_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in generic ELF (EM: 62)
+    aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(code_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in generic ELF (EM: 62)
+    [...repeated...]
+    aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(code_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in generic ELF (EM: 62)
+    aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a(code_with_type.code_with_type.d12f4324cb53c560-cgu.0.rcgu.o): Relocations in generic ELF (EM: 62)
+    aarch64-linux-gnu-ld: /tmp/build/tests/workloads/code_with_type.a: error adding symbols: file in wrong format
+    make[5]: *** [/perf/tools/build/Makefile.build:162: /tmp/build/tests/workloads/perf-test-in.o] Error 1
+    make[4]: *** [/perf/tools/build/Makefile.build:156: workloads] Error 2
+    make[3]: *** [/perf/tools/build/Makefile.build:156: tests] Error 2
+    make[2]: *** [Makefile.perf:785: /tmp/build/perf-test-in.o] Error 2
+    make[2]: *** Waiting for unfinished jobs....
+    make[1]: *** [Makefile.perf:289: sub-make] Error 2
+    make: *** [Makefile:76: all] Error 2
 
-Pointers manipulations are intentionally using the safe wrapping variants
-instead of the unsafe variants, as the latter requires pointers to be
-inside an allocation which is not necessarily true for I/O pointers.
+Detect required target and pass it via rust_flags to the compiler.
 
-This projection macro protects against rogue `Deref` implementation, which
-can causes the projected pointer to be outside the bounds of starting
-pointer. This is extremely unlikely and Rust has a lint to catch this, but
-is unsoundness regardless. The protection works by inducing type inference
-ambiguity when `Deref` is implemented.
+Note that CROSS_COMPILE might be different from what rust compiler
+expects, since it may omit the target vendor value, e.g.
+"aarch64-linux-gnu" instead of "aarch64-unknown-linux-gnu". Thus
+explicitly map supported CROSS_COMPILE values to corresponding Rust
+versions, as suggested by Miguel Ojeda.
 
-This projection macro also stops projecting into unaligned fields (i.e.
-fields of `#[repr(packed)]` structs), as misaligned pointers require
-special handling. This is implemented by attempting to create reference to
-projected field inside a `if false` block. Despite being unreachable, Rust
-still checks that they're not unaligned fields.
+Tested using arm64 cross-compilation example from [1].
 
-The projection macro supports both fallible and infallible index
-projections. These are described in detail inside the documentation.
-
-Signed-off-by: Gary Guo <gary@garyguo.net>
+Fixes: 2e05bb52a12 ("perf test workload: Add code_with_type test workload")
+Link: https://perfwiki.github.io/main/arm64-cross-compilation-dockerfile/ [1]
+Reviewed-by: Ian Rogers <irogers@google.com>
+Signed-off-by: Dmitrii Dolgov <9erthalion6@gmail.com>
 ---
- rust/kernel/lib.rs        |   5 +
- rust/kernel/projection.rs | 284 ++++++++++++++++++++++++++++++++++++++
- scripts/Makefile.build    |   4 +-
- 3 files changed, 292 insertions(+), 1 deletion(-)
- create mode 100644 rust/kernel/projection.rs
+Changes in v5
+- Error out if the target arch is not covered
 
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 3da92f18f4ee..50866b481bdb 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -20,6 +20,7 @@
- #![feature(generic_nonzero)]
- #![feature(inline_const)]
- #![feature(pointer_is_aligned)]
-+#![feature(slice_ptr_len)]
- //
- // Stable since Rust 1.80.0.
- #![feature(slice_flatten)]
-@@ -37,6 +38,9 @@
- #![feature(const_ptr_write)]
- #![feature(const_refs_to_cell)]
- //
-+// Stable since Rust 1.84.0.
-+#![feature(strict_provenance)]
-+//
- // Expected to become stable.
- #![feature(arbitrary_self_types)]
- //
-@@ -130,6 +134,7 @@
- pub mod prelude;
- pub mod print;
- pub mod processor;
-+pub mod projection;
- pub mod ptr;
- #[cfg(CONFIG_RUST_PWM_ABSTRACTIONS)]
- pub mod pwm;
-diff --git a/rust/kernel/projection.rs b/rust/kernel/projection.rs
-new file mode 100644
-index 000000000000..186ec194f2b8
---- /dev/null
-+++ b/rust/kernel/projection.rs
-@@ -0,0 +1,284 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Infrastructure for handling projections.
-+
-+use core::{
-+    mem::MaybeUninit,
-+    ops::Deref, //
-+};
-+
-+use crate::prelude::*;
-+
-+/// Error raised when a projection is attempted on array or slices out of bounds.
-+pub struct OutOfBound;
-+
-+impl From<OutOfBound> for Error {
-+    #[inline(always)]
-+    fn from(_: OutOfBound) -> Self {
-+        ERANGE
-+    }
-+}
-+
-+/// A helper trait to perform index projection.
-+///
-+/// This is similar to `core::slice::SliceIndex`, but operate on raw pointers safely and fallibly.
-+///
-+/// # Safety
-+///
-+/// `get` must return a pointer in bounds of the provided pointer.
-+#[diagnostic::on_unimplemented(message = "`{Self}` cannot be used to index `{T}`")]
-+#[doc(hidden)]
-+pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
-+    type Output: ?Sized;
-+
-+    /// Returns an index-projected pointer, if in bounds.
-+    fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
-+
-+    /// Returns an index-projected pointer; fail the build if it cannot be proved to be in bounds.
-+    #[inline(always)]
-+    fn index(self, slice: *mut T) -> *mut Self::Output {
-+        Self::get(self, slice).unwrap_or_else(|| build_error!())
-+    }
-+}
-+
-+// Forward array impl to slice impl.
-+// SAFETY: `get` returned pointers are in bounds.
-+unsafe impl<T, I, const N: usize> ProjectIndex<[T; N]> for I
-+where
-+    I: ProjectIndex<[T]>,
-+{
-+    type Output = <I as ProjectIndex<[T]>>::Output;
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T; N]) -> Option<*mut Self::Output> {
-+        <I as ProjectIndex<[T]>>::get(self, slice)
-+    }
-+
-+    #[inline(always)]
-+    fn index(self, slice: *mut [T; N]) -> *mut Self::Output {
-+        <I as ProjectIndex<[T]>>::index(self, slice)
-+    }
-+}
-+
-+// SAFETY: `get` returned pointers are in bounds.
-+unsafe impl<T> ProjectIndex<[T]> for usize {
-+    type Output = T;
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut T> {
-+        if self > slice.len() {
-+            None
-+        } else {
-+            Some(slice.cast::<T>().wrapping_add(self))
-+        }
-+    }
-+}
-+
-+// SAFETY: `get` returned pointers are in bounds.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::Range<usize> {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        let new_len = self.end.checked_sub(self.start)?;
-+        if self.end > slice.len() {
-+            return None;
-+        }
-+        Some(core::ptr::slice_from_raw_parts_mut(
-+            slice.cast::<T>().wrapping_add(self.start),
-+            new_len,
-+        ))
-+    }
-+}
-+
-+// SAFETY: `get` returned pointers are in bounds.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeTo<usize> {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        (0..self.end).get(slice)
-+    }
-+}
-+
-+// SAFETY: `get` returned pointers are in bounds.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeFrom<usize> {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        (self.start..slice.len()).get(slice)
-+    }
-+}
-+
-+// SAFETY: `get` returned pointers are in bounds.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeFull {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        Some(slice)
-+    }
-+}
-+
-+/// A helper trait to perform field projection.
-+///
-+/// This trait has a `DEREF` generic parameter so it can be implemented twice for types that
-+/// implement `Deref`. This will cause an ambiguity error and thus block `Deref` types being used
-+/// as base of projection, as they can inject unsoundness.
-+///
-+/// # Safety
-+///
-+/// `proj` should invoke `f` with valid allocation, as documentation described.
-+#[doc(hidden)]
-+pub unsafe trait ProjectField<const DEREF: bool> {
-+    /// Project a pointer to a type to a pointer of a field.
-+    ///
-+    /// `f` is always invoked with valid allocation so it can safely obtain raw pointers to fields
-+    /// using `&raw mut`.
-+    ///
-+    /// This is needed because `base` might not point to a valid allocation, while `&raw mut`
-+    /// requires pointers to be in bounds of a valid allocation.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `f` must returns a pointer in bounds of the provided pointer.
-+    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut F) -> *mut F;
-+}
-+
-+// NOTE: in theory, this API should work for `T: ?Sized` and `F: ?Sized`, too. However we cannot
-+// currently support that as we need to obtain a valid allocation that `&raw const` can operate on.
-+// SAFETY: `proj` invokes `f` with valid allocation.
-+unsafe impl<T> ProjectField<false> for T {
-+    #[inline(always)]
-+    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
-+        // Create a valid allocation to start projection, as `base` is not necessarily so. The
-+        // memory is never actually used so it will be optimized out, so it should work even for
-+        // very large `T` (`memoffset` crate also relies on this). To be extra certain, we also
-+        // annotate `f` closure with `#[inline(always)]` in the macro.
-+        let mut place = MaybeUninit::uninit();
-+        let place_base = place.as_mut_ptr();
-+        let field = f(place_base);
-+        // SAFETY: `field` is in bounds from `base` per safety requirement.
-+        let offset = unsafe { field.byte_offset_from(place_base) };
-+        // Use `wrapping_byte_offset` as `base` does not need to be of valid allocation.
-+        base.wrapping_byte_offset(offset).cast()
-+    }
-+}
-+
-+// SAFETY: vacuously satisfied.
-+unsafe impl<T: Deref> ProjectField<true> for T {
-+    #[inline(always)]
-+    unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
-+        build_error!("this function is a guard against `Deref` impl and is never invoked");
-+    }
-+}
-+
-+/// Create a projection from a raw pointer.
-+///
-+/// The projected pointer is within the memory region marked by the input pointer. There is no
-+/// requirement that the input raw pointer needs to be valid, so this macro may be used for
-+/// projecting pointers outside normal address space, e.g. I/O pointers. However, if the input
-+/// pointer is valid, the projected pointer is also valid.
-+///
-+/// Supported projections include field projections and index projections.
-+/// It is not allowed to project into types that implement custom `Deref` or `Index`.
-+///
-+/// The macro has basic syntax of `kernel::project_pointer!(ptr, projection)`, where `ptr` is an
-+/// expression that evaluates to a raw pointer which serves as the base of projection. `projection`
-+/// can be a projection expression of form `.field` (normally identifer, or numeral in case of
-+/// tuple structs) or of form `[index]`.
-+///
-+/// If mutable pointer is needed, the macro input can be prefixed with `mut` keyword, i.e.
-+/// `kernel::project_pointer!(mut ptr, projection)`. By default, a const pointer is created.
-+///
-+/// `project_pointer!` macro can perform both fallible indexing and build-time checked indexing.
-+/// `[index]` form performs build-time bounds checking; if compiler fails to prove `[index]` is in
-+/// bounds, compilation will fail. `[index]?` can be used to perform runtime bounds checking;
-+/// `OutOfBound` error is raised via `?` if the index is out of bounds.
-+///
-+/// # Examples
-+///
-+/// Field projections are performed with `.field_name`:
-+/// ```
-+/// struct MyStruct { field: u32, }
-+/// let ptr: *const MyStruct = core::ptr::dangling();
-+/// let field_ptr: *const u32 = kernel::project_pointer!(ptr, .field);
-+///
-+/// struct MyTupleStruct(u32, u32);
-+///
-+/// fn proj(ptr: *const MyTupleStruct) {
-+///     let field_ptr: *const u32 = kernel::project_pointer!(ptr, .1);
-+/// }
-+/// ```
-+///
-+/// Index projections are performed with `[index]`:
-+/// ```
-+/// fn proj(ptr: *const [u8; 32]) -> Result {
-+///     let field_ptr: *const u8 = kernel::project_pointer!(ptr, [1]);
-+///     // This will fail the build.
-+///     // kernel::project_pointer!(ptr, [128]);
-+///     // This will raise an `OutOfBound` error (which is convertable to `ERANGE`).
-+///     kernel::project_pointer!(ptr, [128]?);
-+///     Ok(())
-+/// }
-+/// ```
-+///
-+/// If you need to match on the error instead of propagate, put the invocation inside a closure:
-+/// ```
-+/// let ptr: *const [u8; 32] = core::ptr::dangling();
-+/// let field_ptr: Result<*const u8> = (|| -> Result<_> {
-+///     Ok(kernel::project_pointer!(ptr, [128]?))
-+/// })();
-+/// assert!(field_ptr.is_err());
-+/// ```
-+///
-+/// For mutable pointers, put `mut` as the first token in macro invocation.
-+/// ```
-+/// let ptr: *mut [(u8, u16); 32] = core::ptr::dangling_mut();
-+/// let field_ptr: *mut u16 = kernel::project_pointer!(mut ptr, [1].1);
-+/// ```
-+#[macro_export]
-+macro_rules! project_pointer {
-+    (@gen $ptr:ident, ) => {};
-+    // Field projection. `$field` needs to be `tt` to support tuple index like `.0`.
-+    (@gen $ptr:ident, .$field:tt $($rest:tt)*) => {
-+        // SAFETY: the provided closure always return in bounds pointer.
-+        let $ptr = unsafe {
-+            $crate::projection::ProjectField::proj($ptr, #[inline(always)] |ptr| {
-+                // Check unaligned field. Not all users (e.g. DMA) can handle unaligned
-+                // projections. (e.g. DMA).
-+                if false {
-+                    let _ = &(*ptr).$field;
-+                }
-+                // SAFETY: `$field` is in bounds, and no implicit `Deref` is possible (if the
-+                // type implements `Deref`, Rust cannot infer the generic parameter `DEREF`).
-+                &raw mut (*ptr).$field
-+            })
-+        };
-+        $crate::project_pointer!(@gen $ptr, $($rest)*)
-+    };
-+    // Fallible index projection.
-+    (@gen $ptr:ident, [$index:expr]? $($rest:tt)*) => {
-+        let $ptr = $crate::projection::ProjectIndex::get($index, $ptr)
-+            .ok_or($crate::projection::OutOfBound)?;
-+        $crate::project_pointer!(@gen $ptr, $($rest)*)
-+    };
-+    // Build-time checked index projection.
-+    (@gen $ptr:ident, [$index:expr] $($rest:tt)*) => {
-+        let $ptr = $crate::projection::ProjectIndex::index($index, $ptr);
-+        $crate::project_pointer!(@gen $ptr, $($rest)*)
-+    };
-+    (mut $ptr:expr, $($proj:tt)*) => {{
-+        let ptr: *mut _ = $ptr;
-+        $crate::project_pointer!(@gen ptr, $($proj)*);
-+        ptr
-+    }};
-+    ($ptr:expr, $($proj:tt)*) => {{
-+        let ptr = <*const _>::cast_mut($ptr);
-+        // We currently always project using mutable pointer, as it is not decided whether `&raw
-+        // const` allows the resulting pointer to be mutated (see documentation of `addr_of!`).
-+        $crate::project_pointer!(@gen ptr, $($proj)*);
-+        ptr.cast_const()
-+    }};
-+}
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 32e209bc7985..3652b85be545 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -310,16 +310,18 @@ $(obj)/%.lst: $(obj)/%.c FORCE
+Changes in v4
+- Fixed incorrect target name for riscv
+
+Changes in v3
+- Improved commit message, add an example of the compilation failure
+
+Changes in v2:
+- Map supported CROSS_COMPILE values to corresponding Rust targets
+
+ tools/build/Build.include  |  9 +++++++++
+ tools/perf/Makefile.config | 18 ++++++++++++++++++
+ tools/perf/Makefile.perf   |  2 +-
+ 3 files changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/tools/build/Build.include b/tools/build/Build.include
+index e45b2eb0d24..cd0baa7a168 100644
+--- a/tools/build/Build.include
++++ b/tools/build/Build.include
+@@ -98,6 +98,15 @@ c_flags_2 = $(filter-out $(CFLAGS_REMOVE_$(basetarget).o), $(c_flags_1))
+ c_flags   = $(filter-out $(CFLAGS_REMOVE_$(obj)), $(c_flags_2))
+ cxx_flags = -Wp,-MD,$(depfile) -Wp,-MT,$@ $(CXXFLAGS) -D"BUILD_STR(s)=\#s" $(CXXFLAGS_$(basetarget).o) $(CXXFLAGS_$(obj))
  
- # The features in this list are the ones allowed for non-`rust/` code.
- #
-+#   - Stable since Rust 1.79.0: `feature(slice_ptr_len)`.
- #   - Stable since Rust 1.81.0: `feature(lint_reasons)`.
- #   - Stable since Rust 1.82.0: `feature(asm_const)`,
- #     `feature(offset_of_nested)`, `feature(raw_ref_op)`.
-+#   - Stable since Rust 1.84.0: `feature(strict_provenance)`.
- #   - Stable since Rust 1.87.0: `feature(asm_goto)`.
- #   - Expected to become stable: `feature(arbitrary_self_types)`.
- #   - To be determined: `feature(used_with_arg)`.
- #
- # Please see https://github.com/Rust-for-Linux/linux/issues/2 for details on
- # the unstable features in use.
--rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,offset_of_nested,raw_ref_op,used_with_arg
-+rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,offset_of_nested,raw_ref_op,slice_ptr_len,strict_provenance,used_with_arg
++###
++# Rust flags to be used on rule definition, includes:
++# - global $(RUST_FLAGS)
++# - per target Rust flags
++# - per object Rust flags
++rust_flags_1 = $(RUST_FLAGS) $(RUST_FLAGS_$(basetarget).o) $(RUST_FLAGS_$(obj))
++rust_flags_2 = $(filter-out $(RUST_FLAGS_REMOVE_$(basetarget).o), $(rust_flags_1))
++rust_flags   = $(filter-out $(RUST_FLAGS_REMOVE_$(obj)), $(rust_flags_2))
++
+ ###
+ ## HOSTCC C flags
  
- # `--out-dir` is required to avoid temporaries being created by `rustc` in the
- # current working directory, which may be not accessible in the out-of-tree
+diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
+index a8dc72cfe48..15fbba9f4ca 100644
+--- a/tools/perf/Makefile.config
++++ b/tools/perf/Makefile.config
+@@ -1163,6 +1163,24 @@ ifndef NO_RUST
+     CFLAGS += -DHAVE_RUST_SUPPORT
+     $(call detected,CONFIG_RUST_SUPPORT)
+   endif
++
++  ifneq ($(CROSS_COMPILE),)
++    RUST_TARGET_FLAGS_arm	:= arm-unknown-linux-gnueabi
++    RUST_TARGET_FLAGS_arm64	:= aarch64-unknown-linux-gnu
++    RUST_TARGET_FLAGS_m68k	:= m68k-unknown-linux-gnu
++    RUST_TARGET_FLAGS_mips	:= mipsel-unknown-linux-gnu
++    RUST_TARGET_FLAGS_powerpc	:= powerpc64le-unknown-linux-gnu
++    RUST_TARGET_FLAGS_riscv	:= riscv64gc-unknown-linux-gnu
++    RUST_TARGET_FLAGS_s390	:= s390x-unknown-linux-gnu
++    RUST_TARGET_FLAGS_x86	:= x86_64-unknown-linux-gnu
++    RUST_TARGET_FLAGS_x86_64	:= x86_64-unknown-linux-gnu
++
++    ifeq ($(RUST_TARGET_FLAGS_$(ARCH)),)
++      $(error Unknown rust cross compilation architecture $(ARCH))
++    endif
++
++    RUST_FLAGS += --target=$(RUST_TARGET_FLAGS_$(ARCH))
++  endif
+ endif
+ 
+ # Among the variables below, these:
+diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
+index 11b63bafdb2..f7b936deeaa 100644
+--- a/tools/perf/Makefile.perf
++++ b/tools/perf/Makefile.perf
+@@ -274,7 +274,7 @@ ifeq ($(PYLINT),1)
+   PYLINT := $(shell which pylint 2> /dev/null)
+ endif
+ 
+-export srctree OUTPUT RM CC CXX RUSTC LD AR CFLAGS CXXFLAGS V BISON FLEX AWK
++export srctree OUTPUT RM CC CXX RUSTC LD AR CFLAGS CXXFLAGS RUST_FLAGS V BISON FLEX AWK
+ export HOSTCC HOSTLD HOSTAR HOSTCFLAGS SHELLCHECK MYPY PYLINT
+ 
+ include $(srctree)/tools/build/Makefile.include
+
+base-commit: c5a244bf17caf2de22f9e100832b75f72b31d3e6
 -- 
-2.51.2
+2.52.0
 
 
