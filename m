@@ -1,127 +1,126 @@
-Return-Path: <linux-kbuild+bounces-11459-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11461-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIZCK0a3oGnClwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11459-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:12:38 +0100
+	id iD0OO5u6oGnClwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11461-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:26:51 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A701AF848
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:12:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5170C1AFC0F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:26:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 519F13036045
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 21:11:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A26530D2D56
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 21:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C54973939B3;
-	Thu, 26 Feb 2026 21:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34EC9439000;
+	Thu, 26 Feb 2026 21:24:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D/OePFSz"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="gtY88Zhf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957EC35A3B4;
-	Thu, 26 Feb 2026 21:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1584E352F8E;
+	Thu, 26 Feb 2026 21:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772140298; cv=none; b=oO5YCYuDX5TwyZyrOuHFjUtMvlrgq2WsBIFzvnGYAz9PEyJzieAXMsIRGvXlKC0qjQ6ySlqfiiXDSFj24QWxjc9nhypGoNIfwCC21wWbGTT1GLffYSqBFtD6P+43LzhN5xxq0NNnYlg7iagTzdzlVKovO1DL8boXraNpcbpFIDY=
+	t=1772141044; cv=none; b=FU0vddmWyu+3/cauWY+nlKkSOwG8aaQ4ertgtKZuJPy/SgbshLCFBopc+LGZeInQ/VXa/Slulh4868AifWoWCVEzaYTF+sWZQ+blTr53kocdvgXKKjK9hVBNYA/Ve5sZg1La57EcFx7k5CbVivsSXRzSlYtJPe8iIKk2Zu+bSf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772140298; c=relaxed/simple;
-	bh=t78nYDNpbPrhvr8M0bwetsQVeWviwTUQh3AOS4tqkC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IjF4btVYx7KQwGteS2AIgjYsNnRRl36mfwf8RyyaBgpQ7T0C4um2OWfkDUmyNfe8AuUR7CL2WqVqtFPDjRqXgssDi248NnP4myQZuqrdsfy0IcuHmHPIQDWk15VbnzP41F3c+D3phAFIL7G28iTCQXcKTxFMaRmJHYfj6s1Lp04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D/OePFSz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21118C116C6;
-	Thu, 26 Feb 2026 21:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772140298;
-	bh=t78nYDNpbPrhvr8M0bwetsQVeWviwTUQh3AOS4tqkC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D/OePFSz5kbL3gMV9aSG8FOzOpl8AAmvFCrWmmIZEkUZ2KNYjyHNFlkG+jbX+VUhH
-	 FVythSbb/T/kQjzOGrQ+MLJxN16aL+pzLiMF/QFFZiFEQMRUX0lHEfjkwryDNTg57u
-	 4oBZnGe2olbQibO9AxszHRQaQ0F5snB1Na3LLhL3sjiDwprz4b6f5SFROVyFEOGwRJ
-	 LwwB7PBcQMLucHfc1VkunDA0+4rIqYUEmT4KIYhxEL9cDdoLExGr/+egevZX2QHqRf
-	 qeswc8EI/WxW10/UUPbbbIj0duF2PCOtqAlSy62w/N1dMkC5xuzCvAR+tfJWBFlhLu
-	 xAMhIz7m76NsQ==
-Date: Thu, 26 Feb 2026 21:47:39 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH] kbuild: install-extmod-build: Package resolve_btfids if
- necessary
-Message-ID: <aaCxa33uB2JvS9qg@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org
-References: <20260226-kbuild-resolve_btfids-v1-1-2bf38b93dfe7@linutronix.de>
- <20260226203758.GC3196155@ax162>
+	s=arc-20240116; t=1772141044; c=relaxed/simple;
+	bh=7nhCbx+WxSIG5JM5HldR/pn6Ks+0+YiL2SV34Hb71V4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=avBFygk53jw9H57gu6WSV7+ZIog9A5BLxhOSIpfwq1Vbro/VZFLyqW1YrKa3neFeLzKkNAp3GtJxwZifAJiR5pjO7wJSPGpqC/oKu/WeDNQ2oTTiBlxPMB4GIYyz56a2fg71kvO/1ncNUFTMmYB0BLdSYLZElBidDz00OkDVBlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=gtY88Zhf; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1772141040;
+	bh=7nhCbx+WxSIG5JM5HldR/pn6Ks+0+YiL2SV34Hb71V4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=gtY88Zhf1c8aiotvJlH70tuyuLY/Ogp7n3FD4p7CLyjDf7MENIRzfrME0uFvMiKtp
+	 M74F7ELqPLkLzoQLjhHHYlw1KMcT5o6Ve4ecPhOTgmFLna408SfHKXZGQiCQ+2GK/e
+	 EZTZ4VD4jwtEFfF8+PBI+0NugGc7k7RlF4wfzGww=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/2] kbuild: Follow-up to "Reject unexpected values for
+ LLVM="
+Date: Thu, 26 Feb 2026 22:23:56 +0100
+Message-Id: <20260226-kbuild-llvm-followup-v1-0-201cc2a492d9@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260226203758.GC3196155@ax162>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDIyMz3eyk0sycFN2cnLJc3bT8nJz88tICXdPEFDMjU+M0C9NkCyWg1oK
+ i1LTMCrCx0bG1tQBVIDTNZgAAAA==
+X-Change-ID: 20260226-kbuild-llvm-followup-5ad6253f85c8
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772141039; l=523;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=7nhCbx+WxSIG5JM5HldR/pn6Ks+0+YiL2SV34Hb71V4=;
+ b=3gnlGhkBt8C4AftkLHwcRAgB1Uyr9vEV8IkDayElDp8Hv0SbjrKUV4scML3fjavguFXaJwWxt
+ BEr3FFREeJPBD3o74UhnJiabR1HtSkoFkN0A0i26x6iQKwbXLTTYcMi
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-11461-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,lwn.net,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11459-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gen-btf.sh:url]
-X-Rspamd-Queue-Id: 09A701AF848
+	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[weissschuh.net:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5170C1AFC0F
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 01:37:58PM -0700, Nathan Chancellor wrote:
-> On Thu, Feb 26, 2026 at 08:41:48AM +0100, Thomas Weiﬂschuh wrote:
-> > When CONFIG_DEBUG_INFO_BTF_MODULES is enabled and vmlinux is available,
-> > Makefilefile.modfinal and gen-btf.sh will try to use resolve_btfids
-> > on the module .ko. install-extmod-build currently does not package
-> > resolve_btfids, so that step fails.
-> 
-> Heh, ironic that I was just looking in that area yesterday and I had
-> thought that this would be necessary if vmlinux is available but then
-> never followed up... Thanks for this.
-> 
-> > Also package resolve_btfids if it may get used.
-> > 
-> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> 
-> Nicolas, can I take this as a fix?
+Some cleanups.
 
-yes, please.
+Signed-off-by: Thomas Wei√üschuh <linux@weissschuh.net>
+---
+Thomas Wei√üschuh (2):
+      Documentation/llvm: drop note about LLVM=0
+      tools/build: Reject unexpected values for LLVM=
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+ Documentation/kbuild/llvm.rst  | 4 ----
+ tools/scripts/Makefile.include | 2 ++
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260226-kbuild-llvm-followup-5ad6253f85c8
 
+Best regards,
 -- 
-Nicolas
+Thomas Wei√üschuh <linux@weissschuh.net>
+
 
