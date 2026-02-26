@@ -1,148 +1,151 @@
-Return-Path: <linux-kbuild+bounces-11464-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11465-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBqVKyu/oGk1mQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11464-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:46:19 +0100
+	id sKiMJO7OoGmTmwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11465-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 23:53:34 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366941B0059
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:46:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D37C1B09D6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 23:53:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 79121303EF98
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 21:46:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E262E30C7309
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:52:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11EC847A0D4;
-	Thu, 26 Feb 2026 21:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF93E47B40F;
+	Thu, 26 Feb 2026 22:52:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9qEnpe6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlC+zjdG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDFD47278E;
-	Thu, 26 Feb 2026 21:46:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADCC4418E9;
+	Thu, 26 Feb 2026 22:52:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772142364; cv=none; b=aiymNc2U0U/BXp67/yPidKnV/4oING7DIPzxAmHZB4DWGsrFoC0u7NasZ9zb8yWpTJ5EosEj/UGo2SKF6tLlrrliNBLdVz4Aaxtvmn3Cm58plp2ihk8Nzt3uT4li2t9oNod7FjQojdHQ1y+jkuFag7cuSChwG/O+nJIGFivQrT4=
+	t=1772146326; cv=none; b=PPcQG7fLwac44V2u/6dGK4Ykk/tFHf0/+qoDr4gG7pXzqlkGR3jw+6Trs87F4JK76zSg1ZLrX5GE5BXD3nJajIVOANBMiIdSSTSZSnnMmJTXx3S25DF61A6wvYSnbXQ0t3ukONlImpQwXQ4i4xCy4siC26zmkx5V6hSAIEui8Bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772142364; c=relaxed/simple;
-	bh=9PUAqh4AmE3b4r8EskMUHbqu6i21zZmHDmBinHBDkVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kfaXiU3RHoyRUftxpcDBDUsQt+bgG9P3zIgqhcl+CQEyJUFui3cOgBGSgnu6kHBz6t+UeNYcXT3qMVOAFkeXyg2rL1t+2/mnK38ENaOVP0G0kRc8CyHS1CIJhLgo8imkFWsZD1HK7nA9kub0LNQEkPa14C6AYtxZDY/QBS0vF/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9qEnpe6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933E7C2BC9E;
-	Thu, 26 Feb 2026 21:46:01 +0000 (UTC)
+	s=arc-20240116; t=1772146326; c=relaxed/simple;
+	bh=2+gjNqN353ZDwdvuA5hCVDrTsV9/BiJ5JmUBZ7zBKJc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=JrXFL5dR88Z3yvtu0H1CEGhWHdF1QLqIuDB6E2nvsbDnr8Pw7ocLWjcMlajYoNS+WEfWytjzzDNyNcQsp64ZT7TK0mFlNTXde30SQrhP3o6Kv29Nh3lbrZm1X//CmsiILVjQqefTxenmWx7mjT90yyNoAS5olWPuz1YVKH2yBkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlC+zjdG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A8AC19423;
+	Thu, 26 Feb 2026 22:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772142363;
-	bh=9PUAqh4AmE3b4r8EskMUHbqu6i21zZmHDmBinHBDkVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y9qEnpe6wyp9sNLLCdn4T5h8SoQcb/MU6uOkZPNmjZc4CedA74AQ69hqPtgtEZJeX
-	 suJahMr/2vLRFjeAu14oSkgzEVGxPhZZt2D8BWYouEJXhAIdioAaNU3kKrYh8eci/R
-	 U4ixUCxYC+CFtkYDLaUZqpCz+IB7wocK+RDzpbIk2XXv9SDcRp2hRL+McmePw5VkUD
-	 zXJhBX/pJlS1d6aejSROFj0+EVLiRNqKUGU4fplxZuAD7/Xoao4n8lkZQvUDCPC37D
-	 SdDLreQiE1D8n+ccd9beokEfBq89+OS+JBY7fH9SWpw09wAGm9pY+00wNLe5LBpHhJ
-	 2Js7C7ODgLysw==
-Date: Thu, 26 Feb 2026 14:45:58 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] tools/build: Reject unexpected values for LLVM=
-Message-ID: <20260226214558.GB1534917@ax162>
-References: <20260226-kbuild-llvm-followup-v1-0-201cc2a492d9@weissschuh.net>
- <20260226-kbuild-llvm-followup-v1-2-201cc2a492d9@weissschuh.net>
+	s=k20201202; t=1772146326;
+	bh=2+gjNqN353ZDwdvuA5hCVDrTsV9/BiJ5JmUBZ7zBKJc=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=qlC+zjdGw0ga8OZLY2A7odZzzvnUdFryRcVETmxLLmuZ2oPvWpTXWM20+q/059k4f
+	 uRN8ZXazvLFsSGfaxofwAuiyYgSqHO+Hq2L6c9ZeGVAOuz2j6u2h5zQpWpMloK+Wqt
+	 tkksJ+/95IJdmnxBsxspOnlW6A9ulIhOiSOZ5nOjyRtCjJnd5ctS65RUlDlmKu3yu8
+	 ytwnl0XxYbq9C22c9zNCZgwS7ArfcpbIrx2QaV4zx8vnN60c2VdkdSxkDQvvwTwVUn
+	 Z2yaBD5YG3KJdkQ9g9igIv/rVKgt5as6CovmlTu4a3MlH1EAJfvLQTgNSjcgJ8m+Of
+	 13ljTSzRzd2uQ==
+Message-ID: <99e7fe4e-72de-4b55-9a9a-ae51718a0e73@kernel.org>
+Date: Thu, 26 Feb 2026 22:52:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260226-kbuild-llvm-followup-v1-2-201cc2a492d9@weissschuh.net>
+User-Agent: Mozilla Thunderbird
+From: Quentin Monnet <qmo@kernel.org>
+Subject: Re: [PATCH RESEND v2] tools build: Use -fzero-init-padding-bits=all
+To: Namhyung Kim <namhyung@kernel.org>, Leo Yan <leo.yan@arm.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Ian Rogers <irogers@google.com>,
+ James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, bpf@vger.kernel.org
+References: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
+ <aaCTC86U9KjnmZmu@google.com>
+Content-Language: en-GB
+In-Reply-To: <aaCTC86U9KjnmZmu@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11464-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11465-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,google.com,kernel.org,lwn.net,linuxfoundation.org,lists.linux.dev,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.989];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[qmo@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[weissschuh.net:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 366941B0059
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gnu.org:url,arm.com:email]
+X-Rspamd-Queue-Id: 0D37C1B09D6
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 10:23:58PM +0100, Thomas Weiﬂschuh wrote:
-> Since commit 502678b88cb3 ("kbuild: Reject unexpected values for LLVM=")
-> the regular kbuild rejects unexpected values of LLVM=1 instead of
-> silently treating them as LLVM=1.
+2026-02-26 10:38 UTC-0800 ~ Namhyung Kim <namhyung@kernel.org>
+> Adding bpftool maintainer.
 > 
-> Align the tools build to kbuild.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
-> 
-> ---
-> There is no formal maintainer for this file.
-> IMO this change should go through kbuild.
+> On Tue, Feb 24, 2026 at 12:16:40PM +0000, Leo Yan wrote:
+>> GCC-15 release claims [1]:
+>>
+>>   {0} initializer in C or C++ for unions no longer guarantees clearing
+>>   of the whole union (except for static storage duration initialization),
+>>   it just initializes the first union member to zero. If initialization
+>>   of the whole union including padding bits is desirable, use {} (valid
+>>   in C23 or C++) or use -fzero-init-padding-bits=unions option to
+>>   restore old GCC behavior.
+>>
+>> As a result, this new behaviour might cause unexpected data when we
+>> initialize a union with using the '{ 0 }' initializer.
+>>
+>> Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
+>> the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
+>> in unions and structures.  This commit applies the same option for tools
+>> building.
+>>
+>> The option is not supported neither by any version older than GCC 15 and
+>> is also not supported by LLVM, this patch adds the cc-option function to
+>> dynamically detect the compiler option.
+>>
+>> [1] https://gcc.gnu.org/gcc-15/changes.html
+>>
+>> Signed-off-by: Leo Yan <leo.yan@arm.com>
 
-Ironically I just rejected a tools/ patch going through Kbuild:
 
-  https://lore.kernel.org/20260225192505.GC2755225@ax162/
+Thank you Namhyung for the Cc.
 
-but since there is no formal maintainer, it is the same change done in
-Kbuild, and the risk of fallout is much less than that change, I think
-we can make an exception and take it.
+I built bpftool with the patch, with gcc 13 (which didn't get the flag,
+as expected) and gcc 15, and it's fine with both. As far as I can tell,
+bpftool does not initialise any union with "{0}" anyway.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+One potential concern (I didn't try) could be for cross-compilation:
+bpftool's Makefile sets HOST_CFLAGS based on $(CFLAGS), but $(HOSTCC)
+and $(CC) could be different versions of gcc, for example. The same
+concern could apply to perf with HOSTCFLAGS, by the way?
 
-> ---
->  tools/scripts/Makefile.include | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
-> index b5ecf137febc..41971a68972d 100644
-> --- a/tools/scripts/Makefile.include
-> +++ b/tools/scripts/Makefile.include
-> @@ -56,6 +56,8 @@ ifneq ($(filter %/,$(LLVM)),)
->  LLVM_PREFIX := $(LLVM)
->  else ifneq ($(filter -%,$(LLVM)),)
->  LLVM_SUFFIX := $(LLVM)
-> +else ifneq ($(LLVM),1)
-> +$(error Invalid value for LLVM, see Documentation/kbuild/llvm.rst)
->  endif
->  
->  $(call allow-override,CC,$(LLVM_PREFIX)clang$(LLVM_SUFFIX))
-> 
-> -- 
-> 2.53.0
-> 
+Best regards,
+Quentin
+
+
+Note: For fellow bpf@ readers, the original thread is at
+https://lore.kernel.org/linux-kbuild/aaCTC86U9KjnmZmu@google.com/T/#m700907de1a84c007bfda62981af590ad7aed0f11
 
