@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-11468-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11466-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOA1NNg7oWnqrQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11468-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 07:38:16 +0100
+	id daKECdE7oWnqrQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11466-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 07:38:09 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE941B34E8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 07:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B32B1B3494
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 07:38:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D2B2C3033F94
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 06:38:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EC69B302E79A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 06:38:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6911636A009;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34E41364943;
 	Fri, 27 Feb 2026 06:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="eSv9gs7p"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="HFkmz0WR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3426B3603F0;
-	Fri, 27 Feb 2026 06:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48D93603C5;
+	Fri, 27 Feb 2026 06:38:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772174286; cv=none; b=SL+g45u65aLFdltI6rCWnIlraE+r6/lQR0fQ2/WbOZvNwGE3OOEnCjPW2hzCMoofCTMvtkmEBvJ1Qz1fqpbuESgN6UZrJ1zh18ZRwMQbyM5j8TOJVIlKNtr6SvGzUUjISP0DnjkWwCU64DRqLMjiaRlmCPa48meArouSZgG/O2c=
+	t=1772174286; cv=none; b=EMeeVxr+TRr/poYsQUaHdeUZ1Ne16UXlt3Z7kwxpvEhPAexEkb1vzm9H3rbXhXAvzdpLBFFPyAIwUA2nskEzTakQxf+r1uAXwlQh03d74PI+gKr0g5Q6Qo6Fp/S2O7+lNdsoiDimRWpKm9FGoTvHyWLScLAilELMtuTLutU5VG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772174286; c=relaxed/simple;
-	bh=6diDtqP76C4bz7vahdMwZQipsDirHjMTmlGVgSTA9j0=;
+	bh=HPssK7+gGKc7Yv4nCoiB8PrNhJJvn3JdkcnAkho+spA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NlS99WvSxpR7AjMz/7jCJcjSe0gehLJAiFMerMyMkAOQspoI8pMEODlDEoMotrDeqZf6oJFRCBqo5uq5mTbTb7kmibpo10w1YFkMc0sArivz9PqkhLil9wx/D98I+uwGtftk1sGu7IbIGXO83m78GU1cGrLWeXIDtTlJcs1ij4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=eSv9gs7p; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=LnDX/47X4z3ZgeU+mKcZWHseJgybhTyGF4354s5itW0TJFBTgs9QeRTyBR0KHf3oyhoQgbrGZcjbYtrSsw83HtXlChLNdh1E+9k80+wMBz9DjiL78G5xGK+fyGcDne37n9U2gz/LCqTYYGLqYePGvTaPKINhbc3rQ4rEXtBO9M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=HFkmz0WR; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1772174282;
-	bh=6diDtqP76C4bz7vahdMwZQipsDirHjMTmlGVgSTA9j0=;
+	bh=HPssK7+gGKc7Yv4nCoiB8PrNhJJvn3JdkcnAkho+spA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eSv9gs7p/lZCPvoGnxndoMOVhc98L+FGjMH8NrPE662UHoDjrGS7HjSJRnWsTWVXt
-	 CHktg0wESJZC82QhEB/MlgjYt2i/53bFf+cwg+hh7VxSwmn3X8jIa++Qh+eR8UQJVN
-	 1Q7JjfYKrrP5SGEAC8WpTdbgrHnqmGaPMtIAyH24=
+	b=HFkmz0WRE6Vwez6AQ7fW6zP/c7q3CcHVxGDRXvovNpzdUMSi/Rd6y6906FfPDwECl
+	 BwmTkPjNFDuTbPlrCNNiTX+sbiFZ+CTQGZ9KKFCdB5oRSuONJSX3C3yx7ugAaK6eOG
+	 69s3RJhUBW/fkdB1Fn6siO/KfSktS4n5Jc4rAgMw=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Fri, 27 Feb 2026 07:37:59 +0100
-Subject: [PATCH 1/9] hexagon: uapi: Fix structure alignment attribute
+Date: Fri, 27 Feb 2026 07:38:00 +0100
+Subject: [PATCH 2/9] kbuild: uapi: test linux/bpf_perf_event.h on powerpc
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,21 +52,20 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260227-kbuild-uapi-libc-v1-1-c17de0d19776@weissschuh.net>
+Message-Id: <20260227-kbuild-uapi-libc-v1-2-c17de0d19776@weissschuh.net>
 References: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
 In-Reply-To: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
 To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
  Brian Cain <bcain@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Arnd Bergmann <arnd@arndb.de>, linux-hexagon@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772174282; l=753;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772174282; l=608;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=hO3aEDa72rKRx1PRZun2eaHfd644nVshBCoBoGCyGWY=;
- b=I4SH8uv7U74uSWwUxmrtdVXuy7xtDFBQUnMTJogHIoldXFI0oy99HggNVFTAw5owSyadcQJSr
- LbS02jR+YAjDeh0XzT398x8cQTkmMPFbd7Ksy5yRupgXIrUM5mx4cMp
+ bh=HPssK7+gGKc7Yv4nCoiB8PrNhJJvn3JdkcnAkho+spA=;
+ b=Ww+BrPFtwChLKvwb286tEK6HAq/M1dsX+1wdZKwZUxEZLEsm+Hnq54GTN6NCTl5GUW1mPiAaX
+ KWPRfwu2btmB+x/r7FuAIWGKkOyx7jcnqxdOyJwG0Q5JXbBwjU3yD3Q
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Rspamd-Server: lfdr
@@ -78,7 +77,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11468-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11466-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -91,37 +90,35 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arndb.de:email,weissschuh.net:mid,weissschuh.net:dkim]
-X-Rspamd-Queue-Id: 6BE941B34E8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,weissschuh.net:mid,weissschuh.net:dkim,weissschuh.net:email]
+X-Rspamd-Queue-Id: 6B32B1B3494
 X-Rspamd-Action: no action
 
-From: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+This header works now, so test it.
 
-__aligned() is a kernel macro, which is not available in UAPI headers.
-
-Use the compiler-provided alignment attribute directly.
-
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- arch/hexagon/include/uapi/asm/sigcontext.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ usr/include/Makefile | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/arch/hexagon/include/uapi/asm/sigcontext.h b/arch/hexagon/include/uapi/asm/sigcontext.h
-index 7171edb1b8b7..179a97041b59 100644
---- a/arch/hexagon/include/uapi/asm/sigcontext.h
-+++ b/arch/hexagon/include/uapi/asm/sigcontext.h
-@@ -29,6 +29,6 @@
-  */
- struct sigcontext {
- 	struct user_regs_struct sc_regs;
--} __aligned(8);
-+} __attribute__((aligned(8)));
+diff --git a/usr/include/Makefile b/usr/include/Makefile
+index 6d86a53c6f0a..595996eefcc6 100644
+--- a/usr/include/Makefile
++++ b/usr/include/Makefile
+@@ -56,10 +56,6 @@ ifeq ($(SRCARCH),openrisc)
+ no-header-test += linux/bpf_perf_event.h
+ endif
  
- #endif
+-ifeq ($(SRCARCH),powerpc)
+-no-header-test += linux/bpf_perf_event.h
+-endif
+-
+ ifeq ($(SRCARCH),sparc)
+ no-header-test += asm/uctx.h
+ no-header-test += asm/fbio.h
 
 -- 
 2.53.0
