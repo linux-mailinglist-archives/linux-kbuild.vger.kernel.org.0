@@ -1,166 +1,137 @@
-Return-Path: <linux-kbuild+bounces-11480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11481-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QDSOB5lioWnIsQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11480-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 10:23:37 +0100
+	id 4Aj4MhVmoWkCsgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11481-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 10:38:29 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC641B53FF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 10:23:36 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CA71B56FE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 10:38:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC6D530A004C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 09:19:27 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7CDF43011D50
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 09:38:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1F73624A3;
-	Fri, 27 Feb 2026 09:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DA638B7D4;
+	Fri, 27 Feb 2026 09:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="pFRgZ2S+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wEf5fadu"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="G6wxppZu";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NKxY/owD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0CD36A009;
-	Fri, 27 Feb 2026 09:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C5838E10A;
+	Fri, 27 Feb 2026 09:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772183967; cv=none; b=akLjv0DzSrdgyagqij/BDSbpPq2w2hQFI/OVxmrSxnxuYd7HTFkYqLBKGAxLNHaGH9Tjtql9BpjvWsmSY7jekpxg7AFFBEu2nKr5A4vaQUkw4DM3lZ8H+L9yRFe2SwM0Gu+9cTXYQ3sGdsnuVFUE+zrRAvzXkyKQtCiiDr9VtF4=
+	t=1772185105; cv=none; b=FCG1z61wwQ+cXJOt/P600w0GWy44OVDs5DpU4DlNJ6Crvhl4XD3vSH2pE6Sd1x/stosExR9BLu7t9D5jeAjNcwxZJZ4g1DZLqth3hAMg3fTMDIOvtbeedDLayGIxM320QkWkAowrIOmefjz+K6P5onL/8KjD4LBhpiNmSFXju9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772183967; c=relaxed/simple;
-	bh=14lIq3uIsoTUXmXeDVf8trioPIFd+HXq/khzmZE0brs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ce33+txE7+K4BIUOI694arr1bS+Bq6Uub0pgwJERAk8Sddq4AYavGa8m5oqZ+Tl18otHblcQ5FmQ8eLMqc/FDvER6sT2SeFY//sRlk/v9BSLj6xntwPW8amS1CwDPf0hQp+bHAbK6zCP5KdRgZ+H6rpmB3UVbNSAAQnTxtpBzWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=pFRgZ2S+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wEf5fadu; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4155B7A015B;
-	Fri, 27 Feb 2026 04:19:25 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Fri, 27 Feb 2026 04:19:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1772183965;
-	 x=1772270365; bh=JUOpQRrexySp/N8/7Xbn2hL60opnNztghRSTNtZVCfA=; b=
-	pFRgZ2S+66V4AEba7/PDWXhj/bc2oFfGU5KB4cZxnNEdyUtZqEwpQWML1vHTlYhO
-	3IX0O9DFP3BqW06/JFUZ6jus7/M682rbOi+V7JfKfJqArfuJtLiG7qSR3Iv45TY0
-	rLBsmsfqfz+9cJ0jfHbYIrxwdLyJ47LBu7odhPkbAhV/Q4wwko1BZ6Xiq2rtUY80
-	pnSjZ9oUuUWUADJrXSj2JLOZy/YNP6MPGJI3MTjjxkXIda7H2vl126X6TsjHW8Q3
-	A0gqHygUSYWpBO1PJ2PotzJ07hPniJj6r+9N8mWwAMwx/LM2C4eax/5KG+LhT1aR
-	fEWA/vBIaSeAZsB1hxwE3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1772183965; x=
-	1772270365; bh=JUOpQRrexySp/N8/7Xbn2hL60opnNztghRSTNtZVCfA=; b=w
-	Ef5faduaVmATnoE8irdpOJRm28k4vMHmdlL7e41XLQcdOhGBy06IQu146ncMpsC7
-	8PeuPI44LgGb68+pMfqh1Q6zqiUiUxcXcWpFUX/VOT4NTqoHRY/4cSHaMK2KBZFp
-	aNmzyPYuzRHJxMSNQaqvOFwXzUZD9yAbh3Hb+0OlplJPwHNKvoKcAXiLLgROCCqf
-	jW1yyhkrCn0BEUnXfF2wSyGHhKB+dQRdX0QXXElo9vDsibBPfqPKDFM96KAFztUP
-	bnEfOS3fcU8YnzqrG7EUTCkecOrKy3kt6qbG4VixJ3+Eo8DnibR48YRpHO10o0PL
-	SzeQk7vxbft9B5GC4Fnuw==
-X-ME-Sender: <xms:nGGhaaBT9g12G3SZQD4xogk0OkEAmDUynIvmF7zgT-HSDcXhQsGlGw>
-    <xme:nGGhafUuEvQ9pBVI7BJORPartZ10eXUjUTCcfNL6rxOhN27CxaE7NuZGjoNPZ4c2z
-    zSNKjNy_AGCVTggY31nbT_5v_fJh0WPisRcf8vqlVW69UhZeis2v2s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeekiedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleej
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepsggtrghinheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrth
-    hhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehthhhomhgrshdrfigvihhsshhstghhuhhhsehlihhnuhhtrhhonh
-    higidruggvpdhrtghpthhtoheplhhinhhugidqhhgvgigrghhonhesvhhgvghrrdhkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigseifvghishhsshgthhhuhhdrnh
-    gvth
-X-ME-Proxy: <xmx:nGGhaUy4xg3r8GId7bwe1nNiYECzU9wZxY9i84eIWZHCCEeV80FvPQ>
-    <xmx:nGGhaa2g9GcgvK3WLi9T6XX6pP14Euh43tnh8B23CEBCjqvZS-WW1g>
-    <xmx:nGGhaZ-sHbgUpFHNNQN5pBFmtz8-zAcXGuxq1YiNM0F0tdsL1kceXw>
-    <xmx:nGGhaSoP2h_UOv0i0fQGOvNxzwHdqKaTBB9owUVDoODNdvzqNPl8XA>
-    <xmx:nWGhaRE53ELuZk5_JT_B7LLXXsxNdLDccwwQpisrmN1mJZVK2jG6Bi6e>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B359A700065; Fri, 27 Feb 2026 04:19:24 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1772185105; c=relaxed/simple;
+	bh=FEW0hpIoi3auojzyGSZ+t87DvcLxl5nD6oUjVn6CqC4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ltYMFkvt+uloWlVYM+9ycxFbh2ZxCKmqkKlXucINfEdgJ7bEk8TkcZZMzyZ69o49VUl9lxwkW7PCT3Pq3wODsu6/NRO7wXKLrLCyMQFpfQNisC0Jd6o2PerPTrKMUUB+qW2sGHOp7GMYkVDt/JaIKVR36NnDgKYSo9Hqud5rthQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=G6wxppZu; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NKxY/owD; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Fri, 27 Feb 2026 10:38:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772185102;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UZWcOv5dS4W7eNWKDIFkwGDaCp2cjomVrR87OGzmqnY=;
+	b=G6wxppZuK3yXUT9z8pgJh/NB81h/iKjcmRcAaZ26Ei2m7Uyz60oE7pM04fVNdxqWcFaNJ7
+	1zwCtJLuAKECSaVuDoWy8CveRcRuszoDytif8Q8uFtxebL3fl7vUmcEmKvwTquUkTNfx43
+	Tp9ZLNM9yxB1k34fQOuKGuxEUo6RPzPvj2NJjIhCIhiR1uO1cxay9qkqnwUaBbd95e69ZB
+	70VKThLDD3hDxOEz2DrTvx+am+eLfF6pVx5HcxJ//kvT5fkeKmR0S/gbaAwgSABBqOunzn
+	QQzgmgQwzjwIQWMcEltG4Q4puRpAwb+4wOOuHfYhMNMk9BnMxLzEZB4ED/zeMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772185102;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UZWcOv5dS4W7eNWKDIFkwGDaCp2cjomVrR87OGzmqnY=;
+	b=NKxY/owDRVF9Gk/iW4li/rk9zl7xers1oe80gbLzD3/IUNgWvs9i9zRmpHeKeHTFZEH9Rk
+	MbtZoAC5L0JtpaAQ==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Brian Cain <bcain@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org
+Subject: Re: [PATCH 0/9] kbuild: uapi: remove usage of toolchain headers
+Message-ID: <20260227103449-a526a376-153c-4f86-bfc9-2eddbdde58fd@linutronix.de>
+References: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
+ <67674db4-4da2-484c-be59-c97144083179@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AxRtHzFcvrMk
-Date: Fri, 27 Feb 2026 10:18:41 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- "Brian Cain" <bcain@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hexagon@vger.kernel.org,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Message-Id: <67674db4-4da2-484c-be59-c97144083179@app.fastmail.com>
-In-Reply-To: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
-References: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
-Subject: Re: [PATCH 0/9] kbuild: uapi: remove usage of toolchain headers
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <67674db4-4da2-484c-be59-c97144083179@app.fastmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm3,messagingengine.com:s=fm3];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-11481-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[linutronix.de:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11480-lists,linux-kbuild=lfdr.de];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[app.fastmail.com:mid,arndb.de:email,arndb.de:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BCC641B53FF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,arndb.de:email,weissschuh.net:email,linutronix.de:mid,linutronix.de:dkim]
+X-Rspamd-Queue-Id: 06CA71B56FE
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026, at 07:37, Thomas Wei=C3=9Fschuh wrote:
-> Currently the test compilation of some UAPI headers requires a toolcha=
-in
-> libc headers. Remove that dependency.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+On Fri, Feb 27, 2026 at 10:18:41AM +0100, Arnd Bergmann wrote:
+> On Fri, Feb 27, 2026, at 07:37, Thomas Weiﬂschuh wrote:
+> > Currently the test compilation of some UAPI headers requires a toolchain
+> > libc headers. Remove that dependency.
+> >
+> > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> 
+> Nice work!
+> 
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> I had toyed around with a similar series, using a slightly different
+> approach of always using the in-kernel nolibc headers, and making
+> those compile across all architectures (using empty stubs for those
+> that are missing syscall entry functions).
+> 
+> I don't care much which way we do this as long as we can build test
+> the headers, but I wonder what your reason was for picking this
+> approach over the other.
 
-Nice work!
+My goal is to reduce the reliance of the UAPI headers on libc ones.
+Hopefully we can remove libc usages from the UAPI headers and then also
+drop the compatibility bits from the stub headers. If we use the full nolibc
+the message to UAPI authors would not be clear and new dependencies may be
+introduced again.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
 
-I had toyed around with a similar series, using a slightly different
-approach of always using the in-kernel nolibc headers, and making
-those compile across all architectures (using empty stubs for those
-that are missing syscall entry functions).
-
-I don't care much which way we do this as long as we can build test
-the headers, but I wonder what your reason was for picking this
-approach over the other.
-
-     Arnd
+Thomas
 
