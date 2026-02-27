@@ -1,165 +1,120 @@
-Return-Path: <linux-kbuild+bounces-11478-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11479-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GCHSFw1SoWkfsAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11478-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 09:13:01 +0100
+	id UOP/ITlWoWk+sQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11479-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 09:30:49 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219A41B44E5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 09:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0086D1B491D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 09:30:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9AA6930A7862
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 08:12:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8C06F30045B4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 08:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B39C3806C2;
-	Fri, 27 Feb 2026 08:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87ED318B93;
+	Fri, 27 Feb 2026 08:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MlIUj4t3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iCnD7jLb"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479972C859;
-	Fri, 27 Feb 2026 08:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F4138B7CF;
+	Fri, 27 Feb 2026 08:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772179939; cv=none; b=Vd8kpJXC4NQc3Iqh9OV4axbWYUmV9hI9Z8rhV01E7GwVUzFx/o9K0FZNuAE8HUho3CWDf9CEmM9XAm3L11P9XkD2OCLjCU/I1/B/QV8Lcb277XAHidV7UUTdP1QWyin4GCK+UO7A7uj40L9YkEj1kPNMyONov6kAfgqjd8E0cxs=
+	t=1772181022; cv=none; b=cQIDgJrsCsnJl/peNJb+pwV57mOCgF+GNCpDi6K+W1ayinr5SGoheZ0WfBWdijqU19dHM2vAjAD7Qzt8Jc9SphJ8XjgGNudwCiOi/AEX0tjgDLFH5ZX2WZH9qZQHnztW9MkbK9UMZmM/qwwTHrgr4rxsViu9faoogH12MEpU1vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772179939; c=relaxed/simple;
-	bh=2YW0xpQ35zi4SXo4K6Q76X9ID+4VIjZ33QUmae7hFaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R4UzlKYgZxqzBd4ENyb7wYo9RtIEDlaacS3Xjyb7pW8hWa2BxqKRIjMlu2Ol0CRgqU45dNNqk9wRhpJ1m9AhgxMude6nH9g1W8ulW4cOV7eiXHgcvklfyI1Kp/BmXv1UtXcQO+BUSk6cgfjX1Oof59SwPoZR475rclQJCuw23+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MlIUj4t3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A355CC116C6;
-	Fri, 27 Feb 2026 08:12:18 +0000 (UTC)
+	s=arc-20240116; t=1772181022; c=relaxed/simple;
+	bh=BdVEkr+wxlmfU9CJukl8zobsrn5y/zOn66YZl9EAAec=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YeOXAy8evVjz5ghCULPp9ercYsGCLJJ6BcVWSH6zwl/H9ixg2sNJB+p9bo2KhR3TSXJ95n6t6Wi+aktakVxGZhoumlELVLZEaIafELZF+570BkHlDHTPtVXRBA863Ov07nbxE94Wz+z5yK8elZWh3B0AtUKityp0Hknow1gIKkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iCnD7jLb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76700C116C6;
+	Fri, 27 Feb 2026 08:30:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772179939;
-	bh=2YW0xpQ35zi4SXo4K6Q76X9ID+4VIjZ33QUmae7hFaE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MlIUj4t3n0CNVMTVZwUEyn7o/MimM7l+gyNkLti/e8Z6sLYdqDEiWHbehYpGq6Ova
-	 26hOBmTO24VvWge1BXlPgk1qNW4zgZzXsb1Hp0ZbcX5eW21gs4brTbbbeWg1+D0qag
-	 4xi+O92e66aseou9kbAgIAApYIAG/jbFoYV8DafQAT6uDF0DkbNBRgHva/mST0YeMm
-	 bQ1p0jOKngAss/Munn3xc69nB+n/icgsAxITobuNEuSAt45BoexNKv4GSEOP504R2J
-	 5lZbi5YxxdyRccZllkk3kkG0ofVQEwk8KSF+kjIEnq1WgY5YY5jwHZaP8dq3tqLmW5
-	 RZZd68EdzpJMg==
-Date: Fri, 27 Feb 2026 09:10:27 +0100
+	s=k20201202; t=1772181021;
+	bh=BdVEkr+wxlmfU9CJukl8zobsrn5y/zOn66YZl9EAAec=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iCnD7jLbcxoqVuzqTSA8dekB6Hca6UHVZ5d/7YNl68HpUQ0V74IpfiuJJ7S6iIU9B
+	 KWg1JvVIrft31athOgWKtgf+7bBNKlI53b0yVqdvVDaAfArd3ITYBF6rNME6qqVmhJ
+	 P5q/LbIgN+6FXmGfM2+ofEgholGhY1GIY6G9g4uGDOFPO5tyB2cSAO9n/tXjQkNSbu
+	 qrCSvJ8z+QTU8rBsz9Yl8Kio/jMGajQ2qaidZaFVEPaSPmpKT2J+WCElJ3U1ll+AFZ
+	 HPRgeE6Dws6Y13KW/k4fmx4simZnIebuGN9ApeG700WKuCjDO+FtvkaPQ5mwWX7/jT
+	 SECLpVJTze8YA==
 From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation/llvm: drop note about LLVM=0
-Message-ID: <aaFRc0OR-NlPQcQ8@derry.ads.avm.de>
-References: <20260226-kbuild-llvm-followup-v1-0-201cc2a492d9@weissschuh.net>
- <20260226-kbuild-llvm-followup-v1-1-201cc2a492d9@weissschuh.net>
- <20260226214349.GA1534917@ax162>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] kconfig: Error out on duplicated kconfig inclusion
+Date: Fri, 27 Feb 2026 09:30:14 +0100
+Message-ID: <177218091819.983702.5846102504393394089.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260220-kconfig-error-out-on-duplicated-inclusion-v1-1-be78aa241a53@kernel.org>
+References: <20260220-kconfig-error-out-on-duplicated-inclusion-v1-1-be78aa241a53@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260226214349.GA1534917@ax162>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[weissschuh.net,gmail.com,google.com,lwn.net,linuxfoundation.org,lists.linux.dev,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11479-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-11478-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 219A41B44E5
+	RCPT_COUNT_FIVE(0.00)[5]
+X-Rspamd-Queue-Id: 0086D1B491D
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 02:43:49PM -0700, Nathan Chancellor wrote:
-> On Thu, Feb 26, 2026 at 10:23:57PM +0100, Thomas Weiﬂschuh wrote:
-> > Since commit 502678b88cb3 ("kbuild: Reject unexpected values for LLVM=")
-> > LLVM=0 generates an error instead of silently behaving unexpectedly.
-> > 
-> > Drop the now unnecessary note.
-> > 
-> > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+
+On Fri, 20 Feb 2026 19:55:19 +0100, Nicolas Schier wrote:
+> Let kconfig exit with error on duplicated Kconfig file inclusion.
 > 
-> It might be worth keeping the note about LLVM=0 not being the same as
-> omitting LLVM altogether, as neither the documentation nor the error
-> message will say why that is not a valid value. Maybe:
+> Repeated inclusion of Kbuild files are considered bad-practise with
+> regard to maintenance; and Kconfig language is rich enough that there
+> should be no need for that.
 > 
->   ``LLVM=0`` is not the same as omitting ``LLVM`` altogether. If you
->   only wish to use certain LLVM utilities, use their respective make
->   variables.
-
-Yeah, I think that would be a good thing to add, too.
-
-W/ or w/o:
-
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
-
-If nobody complains, I am going to add both patches to kbuild-next
-within a few days.
-
-Kind regards,
-Nicolas
-
-
-
-> I don't feel that strongly about it though. Regardless:
+> If repeated inclusion of Kconfig files is detected, error out with
+> messages like:
 > 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> 
-> > ---
-> >  Documentation/kbuild/llvm.rst | 4 ----
-> >  1 file changed, 4 deletions(-)
-> > 
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index bc8a283bc44b..441d8786fcbc 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -71,10 +71,6 @@ recommend::
-> >  
-> >  	PATH=/path/to/llvm/:$PATH make LLVM=-14
-> >  
-> > -``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
-> > -``LLVM=1``. If you only wish to use certain LLVM utilities, use their
-> > -respective make variables.
-> > -
-> >  The same value used for ``LLVM=`` should be set for each invocation of ``make``
-> >  if configuring and building via distinct commands. ``LLVM=`` should also be set
-> >  as an environment variable when running scripts that will eventually run
-> > 
-> > -- 
-> > 2.53.0
-> > 
+> [...]
 
+Nathan, thanks for spotting the upper case letters.  I fixed it locally.
+
+Applied, thanks!
+
+[1/1] kconfig: Error out on duplicated kconfig inclusion
+      https://git.kernel.org/kbuild/c/102d712d
+
+Best regards,
 -- 
 Nicolas
+
 
