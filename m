@@ -1,151 +1,144 @@
-Return-Path: <linux-kbuild+bounces-11465-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11467-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKiMJO7OoGmTmwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11465-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 23:53:34 +0100
+	id YIYuCdQ7oWnqrQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11467-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 07:38:12 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D37C1B09D6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 23:53:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C26C51B34BF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 07:38:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E262E30C7309
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Feb 2026 22:52:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5140F3042242
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Feb 2026 06:38:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF93E47B40F;
-	Thu, 26 Feb 2026 22:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE03364954;
+	Fri, 27 Feb 2026 06:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlC+zjdG"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="OuK/m4sw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADCC4418E9;
-	Thu, 26 Feb 2026 22:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4868265298;
+	Fri, 27 Feb 2026 06:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772146326; cv=none; b=PPcQG7fLwac44V2u/6dGK4Ykk/tFHf0/+qoDr4gG7pXzqlkGR3jw+6Trs87F4JK76zSg1ZLrX5GE5BXD3nJajIVOANBMiIdSSTSZSnnMmJTXx3S25DF61A6wvYSnbXQ0t3ukONlImpQwXQ4i4xCy4siC26zmkx5V6hSAIEui8Bk=
+	t=1772174286; cv=none; b=bgDr8PrXk08IVctPPrHEFZZYEh/esZF7iggAWTDhad77nnOR/z+j0wVl70Ueuq6yGGE6/Dxkp+BY7qhMd1t/skyDn7zoVgwzfRFVR/yCBbHi1cfbwQYrS3WTaphmAr68VJkaGmlZSXMZbQynOYTR4kYGxLGVUME9FdSu/Qa0fGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772146326; c=relaxed/simple;
-	bh=2+gjNqN353ZDwdvuA5hCVDrTsV9/BiJ5JmUBZ7zBKJc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=JrXFL5dR88Z3yvtu0H1CEGhWHdF1QLqIuDB6E2nvsbDnr8Pw7ocLWjcMlajYoNS+WEfWytjzzDNyNcQsp64ZT7TK0mFlNTXde30SQrhP3o6Kv29Nh3lbrZm1X//CmsiILVjQqefTxenmWx7mjT90yyNoAS5olWPuz1YVKH2yBkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlC+zjdG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A8AC19423;
-	Thu, 26 Feb 2026 22:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772146326;
-	bh=2+gjNqN353ZDwdvuA5hCVDrTsV9/BiJ5JmUBZ7zBKJc=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=qlC+zjdGw0ga8OZLY2A7odZzzvnUdFryRcVETmxLLmuZ2oPvWpTXWM20+q/059k4f
-	 uRN8ZXazvLFsSGfaxofwAuiyYgSqHO+Hq2L6c9ZeGVAOuz2j6u2h5zQpWpMloK+Wqt
-	 tkksJ+/95IJdmnxBsxspOnlW6A9ulIhOiSOZ5nOjyRtCjJnd5ctS65RUlDlmKu3yu8
-	 ytwnl0XxYbq9C22c9zNCZgwS7ArfcpbIrx2QaV4zx8vnN60c2VdkdSxkDQvvwTwVUn
-	 Z2yaBD5YG3KJdkQ9g9igIv/rVKgt5as6CovmlTu4a3MlH1EAJfvLQTgNSjcgJ8m+Of
-	 13ljTSzRzd2uQ==
-Message-ID: <99e7fe4e-72de-4b55-9a9a-ae51718a0e73@kernel.org>
-Date: Thu, 26 Feb 2026 22:52:01 +0000
+	s=arc-20240116; t=1772174286; c=relaxed/simple;
+	bh=usB6bXx3SPjQxGImjMdnt4YmHXfpd/eowhO9I68yKC8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DAgjfEJRENPrXZNoXgYofHqaHy5r0FKR4cEum8PFNdzlFuvpQDLVAf8HHEbVabf9YgXl88B6wIX9SYRbvbWw8IovAuZ2YB2kIz7MFoPddMgTeB4l0Rrih3fhBXFfxrylD5HmMgmR5ccnHwoEzSHW9k/Jae7ie2IwJ8A7iUvuP5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=OuK/m4sw; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1772174282;
+	bh=usB6bXx3SPjQxGImjMdnt4YmHXfpd/eowhO9I68yKC8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=OuK/m4swP1KkjD6q8Is8QPgMe+B/DciXyQygeQpGTE8msywPBmYWe38rMWsfZeynL
+	 I3O+/EjWUDe/NVN4tLSkfoEDULSl9H1CwJxsKztNVNd1zR8zoRisF+wd3H1rAVEhDW
+	 Dkhs79Ly5E8nlA5QIt0LkTha5fQ4/n92IIp1Xi1M=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/9] kbuild: uapi: remove usage of toolchain headers
+Date: Fri, 27 Feb 2026 07:37:58 +0100
+Message-Id: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Quentin Monnet <qmo@kernel.org>
-Subject: Re: [PATCH RESEND v2] tools build: Use -fzero-init-padding-bits=all
-To: Namhyung Kim <namhyung@kernel.org>, Leo Yan <leo.yan@arm.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Ian Rogers <irogers@google.com>,
- James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, bpf@vger.kernel.org
-References: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
- <aaCTC86U9KjnmZmu@google.com>
-Content-Language: en-GB
-In-Reply-To: <aaCTC86U9KjnmZmu@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avErBtIKbGuEi1MpxoSC6UIwrsnL
+ d/i/xcSRaYEQ/VCpJsTH6FA1BXYzYSVkF0xyEaqRsgW9/li7/AyJ6Pn2aLu1SI6abVwCkp2Rlr
+ 4+ZfjlPMHSeJLpWIAAAA=
+X-Change-ID: 20260124-kbuild-uapi-libc-896f152c81d6
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Brian Cain <bcain@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Arnd Bergmann <arnd@arndb.de>, linux-hexagon@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772174282; l=1956;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=usB6bXx3SPjQxGImjMdnt4YmHXfpd/eowhO9I68yKC8=;
+ b=rwAt58s2AmLrtBQSAoYYnNs4OYyK08fOW45mAnWNW7C7L2mW5BTg3u9Tw3PHccPi5LxmvX5Y5
+ 0alsPoZNdvBAUxAIpru76X/VS5aTnbllrZ7HZX9N72QvPscMHDG67Q+
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11465-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11467-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[weissschuh.net:+];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.989];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[qmo@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gnu.org:url,arm.com:email]
-X-Rspamd-Queue-Id: 0D37C1B09D6
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,weissschuh.net:mid,weissschuh.net:dkim,weissschuh.net:email]
+X-Rspamd-Queue-Id: C26C51B34BF
 X-Rspamd-Action: no action
 
-2026-02-26 10:38 UTC-0800 ~ Namhyung Kim <namhyung@kernel.org>
-> Adding bpftool maintainer.
-> 
-> On Tue, Feb 24, 2026 at 12:16:40PM +0000, Leo Yan wrote:
->> GCC-15 release claims [1]:
->>
->>   {0} initializer in C or C++ for unions no longer guarantees clearing
->>   of the whole union (except for static storage duration initialization),
->>   it just initializes the first union member to zero. If initialization
->>   of the whole union including padding bits is desirable, use {} (valid
->>   in C23 or C++) or use -fzero-init-padding-bits=unions option to
->>   restore old GCC behavior.
->>
->> As a result, this new behaviour might cause unexpected data when we
->> initialize a union with using the '{ 0 }' initializer.
->>
->> Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
->> the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
->> in unions and structures.  This commit applies the same option for tools
->> building.
->>
->> The option is not supported neither by any version older than GCC 15 and
->> is also not supported by LLVM, this patch adds the cc-option function to
->> dynamically detect the compiler option.
->>
->> [1] https://gcc.gnu.org/gcc-15/changes.html
->>
->> Signed-off-by: Leo Yan <leo.yan@arm.com>
+Currently the test compilation of some UAPI headers requires a toolchain
+libc headers. Remove that dependency.
 
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Thomas Weißschuh (9):
+      hexagon: uapi: Fix structure alignment attribute
+      kbuild: uapi: test linux/bpf_perf_event.h on powerpc
+      kbuild: uapi: deduplicate linux/bpf_perf_event.h exclusions
+      kbuild: uapi: completely exclude linux/bpf_perf_event.h on nios2
+      kbuild: uapi: only use dummy-include for headers which use libc
+      kbuild: uapi: provide stub includes for some libc headers
+      kbuild: uapi: use custom stub headers instead of libc ones
+      kbuild: uapi: simplify libc dependency logic
+      kbuild: uapi: remove now unneeded guard headers
 
-Thank you Namhyung for the Cc.
-
-I built bpftool with the patch, with gcc 13 (which didn't get the flag,
-as expected) and gcc 15, and it's fine with both. As far as I can tell,
-bpftool does not initialise any union with "{0}" anyway.
-
-One potential concern (I didn't try) could be for cross-compilation:
-bpftool's Makefile sets HOST_CFLAGS based on $(CFLAGS), but $(HOSTCC)
-and $(CC) could be different versions of gcc, for example. The same
-concern could apply to perf with HOSTCFLAGS, by the way?
+ arch/hexagon/include/uapi/asm/sigcontext.h |  2 +-
+ usr/dummy-include/endian.h                 |  0
+ usr/dummy-include/limits.h                 |  8 ++++++++
+ usr/dummy-include/netinet/if_ether.h       |  0
+ usr/dummy-include/netinet/in.h             |  0
+ usr/dummy-include/stdbool.h                |  7 -------
+ usr/dummy-include/stddef.h                 |  8 ++++++++
+ usr/dummy-include/stdint.h                 | 17 +++++++++++++++++
+ usr/dummy-include/stdlib.h                 |  7 -------
+ usr/dummy-include/string.h                 | 12 ++++++++++++
+ usr/dummy-include/sys/ioctl.h              |  0
+ usr/dummy-include/sys/socket.h             | 12 ++++++++++++
+ usr/dummy-include/sys/time.h               |  3 +++
+ usr/dummy-include/sys/types.h              |  0
+ usr/dummy-include/time.h                   |  0
+ usr/dummy-include/unistd.h                 |  0
+ usr/include/Makefile                       | 24 +++++-------------------
+ 17 files changed, 66 insertions(+), 34 deletions(-)
+---
+base-commit: 93e7204d4b0e7b69ebbceee0dc09092e975cece3
+change-id: 20260124-kbuild-uapi-libc-896f152c81d6
 
 Best regards,
-Quentin
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
-
-Note: For fellow bpf@ readers, the original thread is at
-https://lore.kernel.org/linux-kbuild/aaCTC86U9KjnmZmu@google.com/T/#m700907de1a84c007bfda62981af590ad7aed0f11
 
