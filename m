@@ -1,159 +1,229 @@
-Return-Path: <linux-kbuild+bounces-11510-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11511-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLaYDUiapWnxEgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11510-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 15:10:16 +0100
+	id yPNZEq6hpWmuCAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11511-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 15:41:50 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2D31DA6B1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 15:10:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66F21DB0C5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 15:41:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13AE5305364E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 14:04:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A84A4302BDE8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 14:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31DCA3FB07B;
-	Mon,  2 Mar 2026 14:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5C613FFABA;
+	Mon,  2 Mar 2026 14:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="U2nbza5U";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O0XwKXPg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zh1ZvKub"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A8D3FB057;
-	Mon,  2 Mar 2026 14:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF6A3FD13D;
+	Mon,  2 Mar 2026 14:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772460266; cv=none; b=E3yIbQK5XuarsrA6ZNijPhC8FkJQD6EZu/g+HffgsIDtnFoQ5kZcowy8T52vTuVpXeNCVGMtqAxzXL5UCsfN9xX6LJ4MIm2PjGH22LTi8HgLpckJ48ValcqN4Q2EgjsLG1B27Ayb0Lnjz5Vrzr78mJJH4HbVNXW3QCXYNP0nQVk=
+	t=1772462326; cv=none; b=rfP58Cq2mhNji/iMc02ppfV4n+f8l8/sILteUhU+j5M1jyR4QnXNiWmKJtCIxGZNIyRv7OgwF0bJnrau7gCR0x0xsl9jGgP5s8J3EW3a2Nu1utjFys5I1/DMRND5gWo2JCyrVNOnbr9o95cWx1cYi2uvV6EkFJnqcRJ0sKT6mWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772460266; c=relaxed/simple;
-	bh=w7DXo3mXh6DNkAzYU9MYWlzqO/9Orncv55I/eELK7uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QwR8AroBJOpiW9/Z+zWIDIFKttQYkJZ85xuqNreYzxrKHEJkaZuniPMiWPmrp6m4rIYYi8MOS0z8f7RjNyh9TZ9QEuLU2oAePyTprKdht7LGqiYIXU5FXRbPgevK8VWuge67UyFyKSDfpw3VPJ3s5aocW5M+gGDbYiKJLRP8wgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=U2nbza5U; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O0XwKXPg; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Mon, 2 Mar 2026 15:04:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772460261;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cRM2t72DmiN8sur4KC7kJvFl2g3W9LFFAmvpwZMN6BE=;
-	b=U2nbza5Uj3+v1Yz/7NFP1KJEEu3qCsr7TJmPGA7AG/w/PFx5cPc1n3W7rsEmErqOZ4KQnZ
-	UdxuiGENc2+EFgj42FJbMNjUVtRFJ/eqn7lvz517o7RfxxeptrK+1E7IhWU8U/EfnqWPhj
-	5k+iAJ6aEN/kHFgi/PlYX7z3ixlVOLPpEisZdOuJIO9RpmyRAIZKSDNWru3XIgnQN5iT/Z
-	oKatqMsKb6BNZZjY/bI/qPDPcoJj0X3J3HKrah6dzSwk6l79vbv6MGKSCaUPcHXpgwPtoB
-	ng9u0ZkYA1egSpy0969/In5pa2B+//+adSoG0dZEnKVEternS8rsoVnVtPTNkw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772460261;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cRM2t72DmiN8sur4KC7kJvFl2g3W9LFFAmvpwZMN6BE=;
-	b=O0XwKXPgKku1Br1+V/ezQXVmlbM/8IP4wwnZCgIuF89yo0/6aQDXPujJ+tjFwyLvfgYCyq
-	HND4ATOem2K4dHCQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: bot+bpf-ci@kernel.org
-Cc: dhowells@redhat.com, dwmw2@infradead.org, mcgrof@kernel.org, 
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com, 
-	atomlin@atomlin.com, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, 
-	borntraeger@linux.ibm.com, svens@linux.ibm.com, zohar@linux.ibm.com, 
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, nathan@kernel.org, 
-	nsc@kernel.org, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com, 
-	jolsa@kernel.org, shuah@kernel.org, keyrings@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, linux-s390@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	martin.lau@kernel.org, clm@meta.com, ihor.solodrai@linux.dev
-Subject: Re: [PATCH 6/8] tools uapi headers: add linux/module_signature.h
-Message-ID: <20260302150248-3bf0b0e6-ab1f-4808-905b-70c6ae1060e4@linutronix.de>
-References: <20260302-module-signature-uapi-v1-6-207d955e0d69@linutronix.de>
- <b6c00e7ecc633ab02ee8689f5647ce9090cf72d75f5bf9f2cc2c09983d963b58@mail.kernel.org>
+	s=arc-20240116; t=1772462326; c=relaxed/simple;
+	bh=Ma+tbm3Swk5p7vaN3gf3UtcVVSmda6CxEgG2w4jY3QU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=C8jZ1lmLp3We/AvzS1a+KcCtGOKYCnw37q6W4sGF+RmuwDZ/p6gMIDRhclkLf1ItmqpDJueNKAygCysyMtU3roQZZWLXVLRNGZ4iV3hxD6VfhFPcitW9DjAHOwSBSbd8+uH8KQLdkSWS4D9PMVGr39sOqlHuxuXn0qFKVYKBPSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zh1ZvKub; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E026C19423;
+	Mon,  2 Mar 2026 14:38:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772462326;
+	bh=Ma+tbm3Swk5p7vaN3gf3UtcVVSmda6CxEgG2w4jY3QU=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=Zh1ZvKubJ8FGubvf0ZCy+ZeswHs2f2/9mL/0q4TqRRIr3hfGMN7duSdhvsRTo/qYO
+	 qiOy1VSzUlFsD8gx+jodi/Khpu2jaNP7TRMxal0b4ipL47hvDMCMTrlCWD83JBOh5N
+	 jmvM6gCXgid8DpcW6281wEcgEqLNYkqxtaq6UsZ2nKcNxmDAPb0+d8UNa1YVe0vvZe
+	 Nkwdwdgd2EqU+cbuXg/WWuT8Wknnia92K+Grbd7hralGFqDMdWHJxUzpJmH6GT1pzJ
+	 +ewW/HlPfDab+elnghdsru3MPLcJUACTElLdg7apz4g2VgQYMSBbMI/HmHYsOphWzM
+	 ZzpVqPotpfsKA==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6c00e7ecc633ab02ee8689f5647ce9090cf72d75f5bf9f2cc2c09983d963b58@mail.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 02 Mar 2026 15:38:41 +0100
+Message-Id: <DGSDGDIVUHO0.P594H9B4LLO5@kernel.org>
+Cc: <rust-for-linux@vger.kernel.org>, "Aditya Rajan"
+ <adi.dev.github@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v3 1/2] rust: add projection infrastructure
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260302130223.134058-1-gary@kernel.org>
+ <20260302130223.134058-2-gary@kernel.org>
+In-Reply-To: <20260302130223.134058-2-gary@kernel.org>
+X-Rspamd-Queue-Id: B66F21DB0C5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[redhat.com,infradead.org,kernel.org,suse.com,google.com,atomlin.com,linux.ibm.com,huawei.com,gmail.com,oracle.com,paul-moore.com,namei.org,hallyn.com,iogearbox.net,linux.dev,fomichev.me,vger.kernel.org,meta.com];
-	TAGGED_FROM(0.00)[bounces-11510-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11511-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linutronix.de:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[47];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-kbuild,bpf-ci];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:mid,linutronix.de:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CB2D31DA6B1
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lossin@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 01:32:34PM +0000, bot+bpf-ci@kernel.org wrote:
-> > diff --git a/tools/include/uapi/linux/module_signature.h b/tools/include/uapi/linux/module_signature.h
-> > --- /dev/null
-> > +++ b/tools/include/uapi/linux/module_signature.h
-> 
-> [ ... ]
-> 
-> > +enum module_signature_type {
-> > +	MODULE_SIGNATURE_TYPE_PKCS7 = 2,	/* Signature in PKCS#7 message */
-> > +	MODULE_SIGNATURE_TYPE_MERKLE = 3,	/* Merkle proof for modules */
-> > +};
-> 
-> The source UAPI header at include/uapi/linux/module_signature.h does not
-> define MODULE_SIGNATURE_TYPE_MERKLE:
-> 
-> include/uapi/linux/module_signature.h:
->     enum module_signature_type {
->         MODULE_SIGNATURE_TYPE_PKCS7 = 2,
->     };
-> 
-> Was this value intentionally added here ahead of the kernel header?  It
-> appears to come from the CONFIG_MODULE_HASHES series referenced in the
-> cover letter, but no commit in this series adds it to the kernel UAPI
-> header, so the tools copy diverges from its source at creation time.
+On Mon Mar 2, 2026 at 2:02 PM CET, Gary Guo wrote:
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 3da92f18f4ee..50866b481bdb 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -20,6 +20,7 @@
+>  #![feature(generic_nonzero)]
+>  #![feature(inline_const)]
+>  #![feature(pointer_is_aligned)]
+> +#![feature(slice_ptr_len)]
 
-Indeed, this should only appear in the follow-up CONFIG_MODULE_HASHES series.
-I'll fix it for v2.
+This is missing a stability comment (stable since 1.79).
 
-> ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/22577240517
-> 
-> AI-authorship-score: low
-> AI-authorship-explanation: Straightforward mechanical UAPI header copy with terse commit message, consistent with experienced kernel developer style from a known Linutronix contributor.
-> issues-found: 1
-> issue-severity-score: low
-> issue-severity-explanation: The tools UAPI copy contains an enum value (MODULE_SIGNATURE_TYPE_MERKLE) not present in the kernel source header, creating a content mismatch that does not affect runtime behavior but violates the convention that tools copies mirror kernel UAPI headers.
+>  //
+>  // Stable since Rust 1.80.0.
+>  #![feature(slice_flatten)]
+...
+> +/// A helper trait to perform index projection.
+> +///
+> +/// This is similar to `core::slice::SliceIndex`, but operate on raw poi=
+nters safely and fallibly.
+> +///
+> +/// # Safety
+> +///
+> +/// `get` must return a pointer in bounds of the provided pointer.
 
+This only makes sense when the provided pointer already points at an
+allocation. But since the functions of this trait aren't `unsafe`, it
+must be sound to pass `ptr::null` to them.
+
+I first thought that we might be able to just use `mem::size_of_val_raw`
+[1] to give an upper and lower bound on the address of the returned
+pointer, but that is unsafe and cannot be called with an arbitrary
+pointer. Interestingly, `ptr::metadata` [2] can be called safely & with
+any pointer; I would expect them to be very similar (except of course
+for extern types).
+
+[1]: https://doc.rust-lang.org/std/mem/fn.size_of_val_raw.html
+[2]: https://doc.rust-lang.org/std/ptr/fn.metadata.html
+
+A pretty expensive solution would be to add a sealed trait `Indexable`
+that we implement for all things that `T` is allowed to be; and then we
+provide a safe function in that trait to query the maximum offset the
+`get` function is allowed to make.
+
+Alternatively, we could use something like this:
+
+    The implementation of `get` must:
+    - return a pointer obtained by offsetting the input pointer.
+    - ensure that when the input pointer points at a valid value of type
+      `T`, the offset must not be greater than [`mem::size_of_val_raw`]
+      of the input pointer.
+
+Or something simpler that says "if the input pointer is valid, then
+`get` must return a valid output pointer"?
+
+> +#[diagnostic::on_unimplemented(message =3D "`{Self}` cannot be used to i=
+ndex `{T}`")]
+> +#[doc(hidden)]
+> +pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
+> +    type Output: ?Sized;
+> +
+> +    /// Returns an index-projected pointer, if in bounds.
+> +    fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
+
+How about we name this `try_index` instead of the general `get`?
+
+> +
+> +    /// Returns an index-projected pointer; fail the build if it cannot =
+be proved to be in bounds.
+> +    #[inline(always)]
+> +    fn index(self, slice: *mut T) -> *mut Self::Output {
+> +        Self::get(self, slice).unwrap_or_else(|| build_error!())
+> +    }
+> +}
+...
+> +/// A helper trait to perform field projection.
+> +///
+> +/// This trait has a `DEREF` generic parameter so it can be implemented =
+twice for types that
+> +/// implement `Deref`. This will cause an ambiguity error and thus block=
+ `Deref` types being used
+> +/// as base of projection, as they can inject unsoundness.
+
+I think it's important to also say that the ambiguity error only happens
+when calling the function without specifying the `DEREF` constant.
+Essentially it is a load-bearing part of the macro that it does this.
+
+> +///
+> +/// # Safety
+> +///
+> +/// `proj` should invoke `f` with valid allocation, as documentation des=
+cribed.
+
+s/should invoke `f` with/may invoke `f` only with a/
+
+"should" sounds like only a suggestion. If it is a requirement, then the
+`build_error!` impl of the `DEREF =3D true` case would be violating it.
+
+> +#[doc(hidden)]
+> +pub unsafe trait ProjectField<const DEREF: bool> {
+> +    /// Project a pointer to a type to a pointer of a field.
+> +    ///
+> +    /// `f` is always invoked with valid allocation so it can safely obt=
+ain raw pointers to fields
+> +    /// using `&raw mut`.
+> +    ///
+> +    /// This is needed because `base` might not point to a valid allocat=
+ion, while `&raw mut`
+> +    /// requires pointers to be in bounds of a valid allocation.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `f` must returns a pointer in bounds of the provided pointer.
+
+Typo: "must returns" -> "must return"
+
+Cheers,
+Benno
+
+> +    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut=
+ F) -> *mut F;
+> +}
 
