@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-11518-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11519-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gIECJMTcpWkvHgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11518-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 19:53:56 +0100
+	id mLRhJLnepWkvHgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11519-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 20:02:17 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BDC1DE7E6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 19:53:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92821DE91F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 20:02:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 702CF30BFABD
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 18:49:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2E8C4302A6BA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 19:02:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC382319847;
-	Mon,  2 Mar 2026 18:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EFDF37702B;
+	Mon,  2 Mar 2026 19:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V89H1abG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uL9oa3Ep"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98771288D0;
-	Mon,  2 Mar 2026 18:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28E7359A8A;
+	Mon,  2 Mar 2026 19:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772477380; cv=none; b=SfOQz8zi8yyjWzf/ukdtRfbYmsqWjFNU/pXbwn0J1U6HgxulGRIznx76NaN8xwfXPp+7NxBoOz6XGOfLJf2eRwnfodqL7rhTKRLUJ7fSzA48fSo8rc4C2VefDOK95Kfbm5bNu2qTbK0kRrV6SP+aAQmojkQNrQ/RSGzMIxIbl14=
+	t=1772478131; cv=none; b=SVHsY//q9nFu1D/ui55qaFZtlxXAa205WIIyUt6W8f5MmMj9nu2oaOGrC6m319YVKHvdM3nBEAcFTOpM+usNVALciya30xhRy15Fho7Gynz1BiMbudp6MQgVQXIgWN9wavK+WvClZ/omQUxZwST//JRSCw9ZyY37ZAvZDl5LxtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772477380; c=relaxed/simple;
-	bh=BcsL79IJhwd7FAwX1EI2Imf/fcTXZ3d4XedyvqerWig=;
+	s=arc-20240116; t=1772478131; c=relaxed/simple;
+	bh=eDACkq+WhQ+eReuSdkI6buH3D3FbP8BKMGoSHQTq2pY=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=ePyMhTZo0NpAWAb9+UePAeO43vS+1Y2caoDEtOPN8s9Uvd3/IH4dK7PMaNvNR3jXC0jnwtVEKsXs4jIbvrFDUd1Cv/g0kWcbDf9la/DA3C4SdLugQ6A8IYO0uHqRAH4HSX7tdNAK75OFJhmfmDUOLgRJIWXFx7YBY06tppoiLlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V89H1abG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F1E8C19423;
-	Mon,  2 Mar 2026 18:49:37 +0000 (UTC)
+	 References:In-Reply-To; b=iyF0Iw4E5Wp/mpdGGoTpUor+0p4gH8V/4w1hUob5uFA/fs+pNMm9UBG59Urw6rw7zuUFS8jMRYKhbHYi+oTQ5ameOgtY7VEsgYjh8E3+HG7HYn/X24ypL00IGXv9y1L4etP1E61yZ0ZF9rNEG1Kyk6hDY0lT+sLzr0LJpCGkqC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uL9oa3Ep; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91635C2BC87;
+	Mon,  2 Mar 2026 19:02:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772477380;
-	bh=BcsL79IJhwd7FAwX1EI2Imf/fcTXZ3d4XedyvqerWig=;
+	s=k20201202; t=1772478131;
+	bh=eDACkq+WhQ+eReuSdkI6buH3D3FbP8BKMGoSHQTq2pY=;
 	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=V89H1abGuvTjVC76gSx6lPPJHo/OvCUZr2Rr6yWxV8QRydq9Pzubxq4Mlp+8By2rj
-	 R9GgAcWu3GIgZVcF0oNxJ3YDsRvxkbuHyADRy9EqVawVMJ0UGh3PAdEdwLAgSc3O6j
-	 u5hcr2L3PNnrdGNeBiMOiYNWvu5F1HpdhVHla6owLeWNKsr+bYYiSmVMh8mUNn0MLq
-	 +z+GSoqbZACowaRGtSomq5T3pySVWioTAJrnZeJpGmxR0SpWT28YYsVwjt7p6551S1
-	 Tbj3ShtcA/95ztgTAatbPJMm1IwQq7AKkRzkP5DQ/KtnXPSqvqDhnLyR8RNJBf62wW
-	 9BpuzVCQ5v3TQ==
+	b=uL9oa3EpXE6LptWFxCz7QFRqdS4Cky62A5u9kfwgiTdMLh6UjUIPuXjU2uotYsyID
+	 PYaPxqKlScmoymPqEHC81TGSYvalmjFj/uj5BTmyjyhcHET63DhDDfXonSsrDqFtq+
+	 P1sYaZDkNwCUMPV7HAFtThoatPmq96TNUxeRuO8na/x2OSU+4RBqU/uHbfUAe9PyOY
+	 iHzzVF1eKzD2oTbR9Ir2BJsx3FiXtWj3V3V9jWJljaMtvLXteIeel1B2fhsOborNZp
+	 oc9yRnWVvoBw44GOjS+MDWmPgMs2Exg2jr5RqJ2L9OUstuN/qTC1KbiehN49Nr6Nnl
+	 09MIoq3uO/ucg==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,29 +52,25 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 02 Mar 2026 19:49:35 +0100
-Message-Id: <DGSISHB3UDZZ.3U1OWYM0OQUJP@kernel.org>
-Cc: "Gary Guo" <gary@garyguo.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+Date: Mon, 02 Mar 2026 20:02:07 +0100
+Message-Id: <DGSJ22HTG3LE.3GD00J7KJHBPV@kernel.org>
+Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v4 2/3] rust: ptr: add projection infrastructure
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
  Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
  "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- <rust-for-linux@vger.kernel.org>, "Aditya Rajan"
- <adi.dev.github@gmail.com>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v3 1/2] rust: add projection infrastructure
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Danilo Krummrich" <dakr@kernel.org>
+ "Danilo Krummrich" <dakr@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
 X-Mailer: aerc 0.21.0
-References: <20260302130223.134058-1-gary@kernel.org>
- <20260302130223.134058-2-gary@kernel.org>
- <DGSDGDIVUHO0.P594H9B4LLO5@kernel.org>
- <DGSDNOH55CX8.CMGYO2OMDBJZ@kernel.org>
-In-Reply-To: <DGSDNOH55CX8.CMGYO2OMDBJZ@kernel.org>
-X-Rspamd-Queue-Id: F2BDC1DE7E6
+References: <20260302164239.284084-1-gary@kernel.org>
+ <20260302164239.284084-3-gary@kernel.org>
+In-Reply-To: <20260302164239.284084-3-gary@kernel.org>
+X-Rspamd-Queue-Id: E92821DE91F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MV_CASE(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
@@ -83,12 +79,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11518-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu,vger.kernel.org,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	TAGGED_FROM(0.00)[bounces-11519-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[garyguo.net,kernel.org,protonmail.com,google.com,umich.edu];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
@@ -97,23 +93,100 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lossin@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,rust-lang.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,garyguo.net:email]
 X-Rspamd-Action: no action
 
-On Mon Mar 2, 2026 at 3:48 PM CET, Danilo Krummrich wrote:
-> On Mon Mar 2, 2026 at 3:38 PM CET, Benno Lossin wrote:
->> [1]: https://doc.rust-lang.org/std/mem/fn.size_of_val_raw.html
+On Mon Mar 2, 2026 at 5:42 PM CET, Gary Guo wrote:
+> From: Gary Guo <gary@garyguo.net>
 >
-> I recently would have had a use-case for this as well, but besides the re=
-asons
-> you can't use it in this patch, I think it's also still unstable?
+> Add a generic infrastructure for performing field and index projections o=
+n
+> raw pointers. This will form the basis of performing I/O projections.
+>
+> Pointers manipulations are intentionally using the safe wrapping variants
+> instead of the unsafe variants, as the latter requires pointers to be
+> inside an allocation which is not necessarily true for I/O pointers.
+>
+> This projection macro protects against rogue `Deref` implementation, whic=
+h
+> can causes the projected pointer to be outside the bounds of starting
+> pointer. This is extremely unlikely and Rust has a lint to catch this, bu=
+t
+> is unsoundness regardless. The protection works by inducing type inferenc=
+e
+> ambiguity when `Deref` is implemented.
+>
+> This projection macro also stops projecting into unaligned fields (i.e.
+> fields of `#[repr(packed)]` structs), as misaligned pointers require
+> special handling. This is implemented by attempting to create reference t=
+o
+> projected field inside a `if false` block. Despite being unreachable, Rus=
+t
+> still checks that they're not unaligned fields.
+>
+> The projection macro supports both fallible and infallible index
+> projections. These are described in detail inside the documentation.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
-Oh yeah that's right.
+I have a naming concern with `ProjectIndex::get`, but that's only used
+from the module & macro and unlikely to be used from the outside. So
+renaming later should be easy.
+
+Reviewed-by: Benno Lossin <lossin@kernel.org>
+
+Great work :)
+
+Also found a typo below.
+
+> ---
+>  rust/kernel/lib.rs            |   3 +
+>  rust/kernel/ptr.rs            |   3 +
+>  rust/kernel/ptr/projection.rs | 294 ++++++++++++++++++++++++++++++++++
+>  scripts/Makefile.build        |   4 +-
+>  4 files changed, 303 insertions(+), 1 deletion(-)
+>  create mode 100644 rust/kernel/ptr/projection.rs
+
+> +/// A helper trait to perform field projection.
+> +///
+> +/// This trait has a `DEREF` generic parameter so it can be implemented =
+twice for types that
+> +/// implement `Deref`. This will cause an ambiguity error and thus block=
+ `Deref` types being used
+> +/// as base of projection, as they can inject unsoundness. Users therefo=
+re must not specify `DEREF`
+> +/// and should always leave it to be inferred.
+> +///
+> +/// # Safety
+> +///
+> +/// `proj` may only invoke `f` with a valid allocation, as documentation=
+ described.
+
+s/described/describes/
 
 Cheers,
 Benno
+
+> +#[doc(hidden)]
+> +pub unsafe trait ProjectField<const DEREF: bool> {
+> +    /// Project a pointer to a type to a pointer of a field.
+> +    ///
+> +    /// `f` may only be invoked with a valid allocation so it can safely=
+ obtain raw pointers to
+> +    /// fields using `&raw mut`.
+> +    ///
+> +    /// This is needed because `base` might not point to a valid allocat=
+ion, while `&raw mut`
+> +    /// requires pointers to be in bounds of a valid allocation.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `f` must return a pointer in bounds of the provided pointer.
+> +    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut=
+ F) -> *mut F;
+> +}
 
