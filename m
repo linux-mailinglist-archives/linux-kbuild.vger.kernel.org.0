@@ -1,168 +1,183 @@
-Return-Path: <linux-kbuild+bounces-11498-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11499-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CBWhFBQVpWmL2QUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11498-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 05:41:56 +0100
+	id 41aOAbyHpWmWDQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11499-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 13:51:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C04E1D2F72
-	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 05:41:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 732CC1D9259
+	for <lists+linux-kbuild@lfdr.de>; Mon, 02 Mar 2026 13:51:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1D288301224A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 04:41:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 66BB0308F8F7
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 12:43:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE63425F7A9;
-	Mon,  2 Mar 2026 04:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C729B383C72;
+	Mon,  2 Mar 2026 12:42:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIUGZZRs"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BLk/xXoG";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="75OfVh0a"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9068C1F0E25
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Mar 2026 04:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40268375AAE;
+	Mon,  2 Mar 2026 12:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772426507; cv=none; b=VSrg3Qrk6hCHlQ4EnALu8guEw4cV7mkc5f7aW6mh/UhWncrIv5of0U/SqrN4G5wBu0i8wXI8MMTUKkPUxuc7qRUjWNFp0pqdrsMq5m8IZ2lc+krufZpeM2I660nux48RXiJ6Jm43Y2YfqkXquOHOVK3GOxpjMLtL+d/o9L+YEhc=
+	t=1772455378; cv=none; b=I/jYEEUWSywuGBnKsJD5Xzv8WjHVSOeOhWyS5dK2NG67AkvqnfLoBx2t5zv2Jtyg2DdAy6323dcvkH+5Aw6N7O2JgZxSneSmlUbOKYepQAnwDxcaLBQUKFol4RDUUmnBJnLYBkNU2cqdFPXWa8+BysZ3QSS1m0+kBfcv8SFFSCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772426507; c=relaxed/simple;
-	bh=r12T0BHDr/VgtXY8OdzUiznMupH4NKfZsQudEcgivDw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Vq71WbYV1amlUXAQcgt8lDpsiuIIJaBvSjoZ2HMWTcgbNPyUtpllWWKDGLOMo7eOXEAYamLS7Pj16w2MEC3WJUDzD30ZVNtuHepAL4TelsTI448K+xwUHnF5bUfTLYWZz5hq+V6kQjlgfeErUh2ZOr05z2N2hF2I0hhVBBeAPG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIUGZZRs; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2bdfd129c52so976874eec.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 01 Mar 2026 20:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772426506; x=1773031306; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HEdFoO+0diFiw3WTsgvpxOU536f11KaeaBqMvGKLXBw=;
-        b=VIUGZZRsFK6sL2HIR5rLWAYfprMTYfUFVWOP0hivMJvVbWbyH8e/gqsm3GybXn7mZH
-         siE8KEzqjYUwrlZRDSyafJRNKux/m9S+50E0vJxWnr8EyZNhz2XEOhMm9RTDFhxKotmf
-         n/mIa8IhINupTZqmqz9fIGuHT5ZzVOWprcIlsDWHi9YVHrfDFGtJBLK7+7xArJGno+F/
-         6DlZWbYKTwZVFN89UjOUyMSQakxE+nn21eMqRhCBLTJCGSHp9OM8xvuvUpTEfRw8HDXF
-         WF7lLj8HX+vXGbpJlC5Kl5NJGm9SauVxVUHV04/vBOMNc5oF1MBVQUUV3gHpW1o/LSaA
-         1MHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772426506; x=1773031306;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HEdFoO+0diFiw3WTsgvpxOU536f11KaeaBqMvGKLXBw=;
-        b=D6nlAXwtXQqv373bEoNCR9CAeeOrHEGQ82gtXv3TffEuAe9tLqTNbN4v2Ibo9fdIgs
-         MZDrN/WRXBsxZWM+aa6MvHYvT/6YtPK84yFE9WatFvxfficdAcMMjDk9GTGvSb7PE4qC
-         9cWPz8dhsyuGOJMzhAnVKGLk5G1b5a6zpsC/te20DVTkHYI5Q8J9DgeWzYIUzC/pVPCi
-         E7AMW6wG9YGQRfLce6Qvv6LLAlbw8HuEKLW5LhQb8xTvOx265UyW03x3jk9U/+NlZyhW
-         a46muPtbDg8N1+IocBMsZj0kHDZRw9DPmidd1dAsi93Sub6EA9LN9HW3Usw5SC7DfEC5
-         CRxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVahc2Rl/0qzXg62XwmwEwf6tu8h1vJjbXWK7EXQidzeWT9WitL0RyJaJYA2mLw1fG6gPApm8gpGmlVAb8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCJKN4BiehJGRUieBCM7rOz2PgZwPPN7LFwHjSh57FlDDv03mC
-	pwrBqyHC5GkdQPLEJcOmf8BCTXg5wZzl2d/CWWIyRP1VfYjYmIsjXHUc
-X-Gm-Gg: ATEYQzwxU2jPyiSJ8jKiScjTt1SCueoLRBCxzFV6lfh1jNllUYWnL/8nGMLYlBjv/ec
-	gEIycttfMML0e/2y7Bz/nZ73XfHwWCJpSqRZBBZDcaDQFzzdA+V0lMqZaYDYBjcy9O8NEUVr3lw
-	XJ0yCyLho8nOoiC9O1M+wYtp07qmaJ5tuW/uq1NOWamtmepKH5JVwmuMCig+rMKrE58uAknM1+w
-	Jzm+6K2eH2IoGjo+iyg/DWK+wRxkPPLuWBgRZq/9u8NOrJCeKT9ViGAW4tVNfGMhguXJ1jGjVBX
-	e18wlcHw94Jy6uTJrYaLOMmMliqxShOvzPNexxsrdwANnO0XODShAbP3pDnGbKt5skai0n8WsHf
-	BwRysNzv2FlctDV11uBODevZGUpRYIjSn1BUKOjfkrJkcItNFiVDjfVdS3c+VmzrO/6YXjjLaEv
-	L8j9v6GcmixKjy912w8PsUnwcUzHfgyMPE6lscHVw92RTrpH6aRTcAS+A=
-X-Received: by 2002:a05:7300:ad2d:b0:2be:171c:5040 with SMTP id 5a478bee46e88-2be171c532emr263438eec.3.1772426505477;
-        Sun, 01 Mar 2026 20:41:45 -0800 (PST)
-Received: from localhost ([2603:8000:bb00:9b3f::18f6])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdfb3f898asm4442903eec.29.2026.03.01.20.41.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Mar 2026 20:41:45 -0800 (PST)
+	s=arc-20240116; t=1772455378; c=relaxed/simple;
+	bh=t3YEdFhievGgjPrh+JoyTF4MmrBNZ2JawZjvghP6A6s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=regC5WYGj3Sgh3ezg2jGJZAHK4WpNRH41BoXT8MG2b2v19F0zsQ+Kzm5WkK/m/DdLFKLBNV6FqOEMnKuf1P/I8fZGEpkfC0kCxsFPToLpew/OvW8IGBGKqbi5Whh2E0RpFAo5pX0yFmZkiHPTTmecc76YxqZeB6j9CDkcilWh7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BLk/xXoG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=75OfVh0a; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772455375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vgM4eUBuuvZTHQKnaRZR5N5ZJRxX5SYFZrT6cL/hA1w=;
+	b=BLk/xXoGh3U87DSepJi8SrRKVWfb2suh8pvZsc8e26vXdvF3NB57sBMHW5y6Sj7ZL6OQPB
+	/piRUc4wpvz6r3yNKdluSzdLqgftdi9TlHlUSgYy2S90mgWNOgO9nERj7QpzJRJARGqLrh
+	Mdyq5ygvu/bGjL6etZmtTYLN1us9QJezk6rlxnYQyno9eU5NotHKlY2a5xYO1ro9hnyyl9
+	o00NXTcAvVMYuuZtfrykBeKE6C8CYpBez9eI9GyK6wMn+6ZqUsZNtlOlW94TCoUU/cmeBQ
+	FCHNCy85z/bqr9KT6woxr3EGAHwyl+lP/qHD79ys9vXBA651gataUfgolUKUTg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772455375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vgM4eUBuuvZTHQKnaRZR5N5ZJRxX5SYFZrT6cL/hA1w=;
+	b=75OfVh0a9pOCuH2UiskTuOJogTd6GW0qviF6ubk8opfDLj3ebtZRT2NTqpCMljF0/RvKI+
+	LK9pNcyHd+daj/AA==
+Subject: [PATCH 0/8] modules: Move 'struct module_signature' to UAPI
+Date: Mon, 02 Mar 2026 13:42:36 +0100
+Message-Id: <20260302-module-signature-uapi-v1-0-207d955e0d69@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 01 Mar 2026 20:41:42 -0800
-Message-Id: <DGS0RADS6WDW.3L4MGITVFJRJI@gmail.com>
-Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] rust: add projection infrastructure
-From: "Aditya Rajan" <adi.dev.github@gmail.com>
-To: "Gary Guo" <gary@garyguo.net>, "Aditya Rajan"
- <adi.dev.github@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260226154656.3241736-1-gary@kernel.org>
- <20260226154656.3241736-2-gary@kernel.org>
- <DGQZOLAH72HC.2OE3REDD7M7U7@gmail.com>
- <DGRGYFHZF7PF.1Q3MZ7C1SBRL7@garyguo.net>
-In-Reply-To: <DGRGYFHZF7PF.1Q3MZ7C1SBRL7@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avErBtQA4muEi20RhsoC80IwrsnL
+ d/i/xcSRaYEQ/NCpJsTH6FCtg3MqwmekJdqUEJp0QmF+7HkjTCxD+bKkTCbk1FLZ3phJSlrobZ
+ nJMfP/x2nUj4UMfRaZwAAAA==
+X-Change-ID: 20260302-module-signature-uapi-61fa80b1e2bb
+To: David Howells <dhowells@redhat.com>, 
+ David Woodhouse <dwmw2@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>, 
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: keyrings@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-modules@vger.kernel.org, linux-s390@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772455374; l=2076;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=t3YEdFhievGgjPrh+JoyTF4MmrBNZ2JawZjvghP6A6s=;
+ b=azXYTOEJzMkpBdQiuEC4PqD09LRtjy4+KaXEptlK5L0aUGSg+NmrvC0KnaSWsP+/lyF6M/lPa
+ aqTkVbZMWmiCARJzA/TdMmTsgbGDeEN/pxlKznH6kaS6fmunqg1+RbX
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11498-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11499-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[redhat.com,infradead.org,kernel.org,suse.com,google.com,atomlin.com,linux.ibm.com,huawei.com,gmail.com,oracle.com,paul-moore.com,namei.org,hallyn.com,iogearbox.net,linux.dev,fomichev.me];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[garyguo.net,gmail.com,kernel.org,protonmail.com,google.com,umich.edu];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[44];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adidevgithub@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9C04E1D2F72
+	NEURAL_HAM(-0.00)[-0.997];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linutronix.de:mid,linutronix.de:dkim,linutronix.de:email]
+X-Rspamd-Queue-Id: 732CC1D9259
 X-Rspamd-Action: no action
 
-On Sun Mar 1, 2026 at 5:10 AM PST, Gary Guo wrote:
-> On Sat Feb 28, 2026 at 11:38 PM GMT, Aditya Rajan wrote:
->> On Thu Feb 26, 2026 at 7:46 AM PST, Gary Guo wrote:
->
-> Good catch!
->
-> The code below
->
->     if self.end > slice.len() {
->         return None;
->     }
->
-> is rightfully `>` as it's okay to have end being equal to the length. I s=
-uppose
-> this is what you mean by "somewhere else in the code"?
+This structure definition is used outside the kernel proper.
+For example in kmod and the kernel build environment.
 
-Yes the second check which i was referring belongs to `core::ops::Range<usi=
-ze>`, I agree with you
-it makes sense for `Range`.
+To allow reuse, move it to a new UAPI header.
 
-> This one though should indeed be `>=3D`, and I've obviously messed this o=
-ne up.
+While it is not a true UAPI, it is a common practice to have
+non-UAPI interface definitions in the kernel's UAPI headers.
 
-Patch looks good to me once this is fixed for `usize` :)
+This came up as part of my CONFIG_MODULE_HASHES series [0].
+But it is useful on its own and so we get it out of the way.
 
-Thanks
-Aditya
+[0] https://lore.kernel.org/lkml/aZ3OfJJSJgfOb0rJ@levanger/
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Thomas Weißschuh (8):
+      extract-cert: drop unused definition of PKEY_ID_PKCS7
+      module: Drop unused signature types
+      module: Give 'enum pkey_id_type' a more specific name
+      module: Give MODULE_SIG_STRING a more descriptive name
+      modules: Move 'struct module_signature' to UAPI
+      tools uapi headers: add linux/module_signature.h
+      sign-file: use 'struct module_signature' from the UAPI headers
+      selftests/bpf: verify_pkcs7_sig: Use 'struct module_signature' from the UAPI headers
+
+ arch/s390/kernel/machine_kexec_file.c              |  6 ++--
+ certs/extract-cert.c                               |  2 --
+ include/linux/module_signature.h                   | 30 +---------------
+ include/uapi/linux/module_signature.h              | 41 +++++++++++++++++++++
+ kernel/module/signing.c                            |  4 +--
+ kernel/module_signature.c                          |  2 +-
+ scripts/Makefile                                   |  1 +
+ scripts/sign-file.c                                | 19 +++-------
+ security/integrity/ima/ima_modsig.c                |  6 ++--
+ tools/include/uapi/linux/module_signature.h        | 42 ++++++++++++++++++++++
+ .../selftests/bpf/prog_tests/verify_pkcs7_sig.c    | 28 ++-------------
+ 11 files changed, 101 insertions(+), 80 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260302-module-signature-uapi-61fa80b1e2bb
+
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
 
