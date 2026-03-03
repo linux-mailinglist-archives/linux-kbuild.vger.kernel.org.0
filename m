@@ -1,121 +1,194 @@
-Return-Path: <linux-kbuild+bounces-11526-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11527-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4ElnN8QYpmmeKQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11526-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 00:09:56 +0100
+	id 8PYXEJo2pmlJMQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11527-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 02:17:14 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F061E65BD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 00:09:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9171E7965
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 02:17:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D1D39313497F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2026 22:29:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 762C4302D94E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2026 01:17:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77DDA2D7D2E;
-	Mon,  2 Mar 2026 22:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61532348865;
+	Tue,  3 Mar 2026 01:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rw+YzvVV"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rXzKTA+P"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5556F282F22;
-	Mon,  2 Mar 2026 22:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772490558; cv=none; b=mUs8JYexKaiYre/WyHqPrgua6/3HBLeE6bEZjOmjAJqSW6mmpBDl2Gr8RQsyCAN6DBMCIRN3n/tbrV+u0jc0ZURvEgHAaUC0d91Vj+X7DjOiHZJg+I3Ho106enpg0a4J/n7xdWHlc1P3rLJbcjDvzj/WxKRkp/W0kCayQIE7p9Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772490558; c=relaxed/simple;
-	bh=HJ1OG24xRAqMsZyg9iPUoOR2qTZCTeNclsBMZEvJBVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AeBKm6go3EFyGJugrraEXTykAr/7fUf2CgUntnVVjfL9vbRvnQiinT+ELusNP5AQKRDDaclxp1LzLHP9TkarlNxP+86IG3xyQ8a8gqatKZnN3it6QLed3vaNyAgvOSvexe2dOpEDm2xL4FZzrw3DmT0wgkgyg2m4fGQtId/9N2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rw+YzvVV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1632CC19423;
-	Mon,  2 Mar 2026 22:29:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772490558;
-	bh=HJ1OG24xRAqMsZyg9iPUoOR2qTZCTeNclsBMZEvJBVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rw+YzvVViv4ZeIWQf09JCqIOiqLhkKC+JZN/2SI3q+bdI/4u7UHj0nH/6A8p0F+4T
-	 UNa9ArzIzEyReZMdoQWc8CEsmzdTdE2q43dpI2LJIs6qTLc2BN0ZTooJCvY4Kt1Uql
-	 CEOQV6FcSx6bruFz7A7b7RVnLIeO4LvTUnjlcLPP9q4+VFthVuUtK2m6go32Nt55dI
-	 fWxHIy8XMO20X9GqT2NrcpWoYc1Thc+MxOO4kXefuLMJtFCXAZtRpHju+rBdwvvp0h
-	 ++cqEZHGUF1e3UfjPHn8CGrB34HVfVlzsFaaKchBsXYCIt+CiOdfGOKI0PlOv0oLSv
-	 GpdQmxzjOtFAA==
-Date: Mon, 2 Mar 2026 15:29:14 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Alexander Coffin <alex@cyberialabs.net>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: KCFLAGS vs KCPPFLAGS for -fdebug-prefix-map
-Message-ID: <20260302222914.GA3292653@ax162>
-References: <b8dfe7035d19fd611b9be55ee3145fdb@purelymail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AE9359A8C
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Mar 2026 01:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772500630; cv=pass; b=DA8mFNK5wwPHL4eBPIdKDjA09XkAizKEmtSQxv/If9ujfyMcT8Nx3LFBauEayc1T/Nq/XfMtLJtrOqLM0n0YwPzuRY8j870O+GhQcyFbPQ6niXw3wgxWkbLHFhkhB8kDpff0nmj3nKhdjt4RTi/XHFYu5d3ob7lIRGKB7PJKAEc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772500630; c=relaxed/simple;
+	bh=Bo5eBFPDxisPJDLCQ5T569sq5/MPMjMeBVQKOyOOwMc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oyj8hEP2a92vX2QVtOYfbZSApHLo9uAgE3SEN8heBBXBPZSnG/zzKmcPLOVt6WQrHWDhK/4W044eVtNgd5j0NFweAD1gsDSBTdjnQnWUb6v2ofjitHF81jUm/EK5BKnNMTDTcDc6YulSWaE3d6EiPe/wM3yhL88NwSzF/JAjMos=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rXzKTA+P; arc=pass smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899f27df3d1so19814046d6.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2026 17:17:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772500626; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XkguMfTIsx3IbhZjIAKVpSYGhi/1Z5PyiungXKntWbqWuuURhAj1Uq/NZ5BSXf7YTE
+         YAq6yUs5F7DKYXhxXgIK0qtgCRl89KAhu3qzVxmPvKDIllRBbla2/IxEm4j4dTf0mxwu
+         ytgTZQsQgSyTI+o7K6Nflq70uANAjqak8in/Fc2L5UNiLCM9+/aNjLR6I+jz0ghadTrI
+         7hZglMyN3KUva5LdImtB57vdWJZYs7Nj44j9GG309MFUEOB+OyXm9V8NDHtZixiq33bj
+         KA+DHGoEfEb6tgNzhBfpRx/tBTYZmo/SqTHNBYJXVmcS2FL3fktJ6OM0xmLDwW5vHJmU
+         MMLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2YfdyqXPY3aXxeRmVKZn4QiIqi7Db4ttPeHa4wKAW40=;
+        fh=vn8mHRF4VcR9/u2L/8bjSO0aBxF+1TIAgM2POwc7RLc=;
+        b=RBY6YQZTpSBJz8OjSkeXfhAsMXR9iO34OnVcfgPSvM6DB/umWoUihFho4EwaS/3UU0
+         1yXk7i/Wywv8dQJHK4096dOfvcF5sB1rZDV6TA60pcxWMjWmP7JeFsEBHyogTCkHKEKy
+         33HwFbTk/mhXtGHt3dgx7OTkNrjM6XYXvHyXdYdlUE5VB12KvhidPA1qfEwch5gwmvvg
+         LbR+vpuvTcBj2zn9Xxi8o0gajPquNg+a62SdfS5LDeAw4uTbdmO719bHK2camny2NCw3
+         Opc1uZMLOy1TEzu4Kh1ufUMumPcrLpL3hud5A37ZM/t2iwEtpxIRz2L/4ye8UzJMS22B
+         gbmg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772500626; x=1773105426; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2YfdyqXPY3aXxeRmVKZn4QiIqi7Db4ttPeHa4wKAW40=;
+        b=rXzKTA+PbWWyO9f2L/rAZAdTUAjD1SuGg4AgiWhi2VTFz5xidLJn6ecTYaaHkw7F5z
+         sZgEVZu3JUHEJWcq+d/c9YJSPlBPuxpaEPoQZavNaMqdFaYstyN0Ro8Rs/gljZGesPu3
+         zjBAT5k3S7tlU33XMc9kP30S5fboA4hPMkHmOwFwcNEiSCFzDo0THhdTF1OIldVQkowb
+         4b5UWz+kYpEeW9GTK396YnLO929mdFe3KAHsrtEaqCE99jqdZPzegahTyPUEAWIAlL4B
+         q1RgwItnufhNKTtJ+0f2Kq9T64gYPgszaAYmR7D2rZTx3t+R/V1My5pKrow36okdHsaC
+         6O5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772500626; x=1773105426;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2YfdyqXPY3aXxeRmVKZn4QiIqi7Db4ttPeHa4wKAW40=;
+        b=awwtjM3Wx1h+ZORVUlTs/zY1Stu360Vi1jIl5ViJ7aiLs+OMYv6y3hcecD2/4RP1up
+         C9EmfObp4BqN8XIozxglZvmy19ZrBd1OWYu5g+m1y4VeLMyQivWDe+tVkcaBGuh6d6/Z
+         U0prWp0BCDK4mAZH0Lj6FiWVtVQMy8hEzoMGoBWAelLP22ao39CQIOvKNM3qRftcUTUJ
+         SO2DfzOWPLNtBljNXBb88az8lIGGqTGW5FRR4z0XYDmXWXVqnLbdu5XwdRVHPTzdLHhd
+         h3SE4ZRUas+BfnYg2WPC+kcqnrLh8PWY+XkTrhFWxJ4bYlPiW/XiRuCK8kxX6G5UX2BU
+         jIkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVm0/o/GxwUO7hbvjuga9P++/nKp1Z9LF0vNZkJId3Zu9RsLWMs1r6GOLsFnaw78WIAYx6ZA3qFVKNVvaU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzvVrkCLB9wUcYedQjHVar7RcrDxXpbeL3yVRbffTBQ9wt/CSo
+	99d/W9NOu3jg762Ytu+MTd5x3Gt+zI/pyGchNknVvgL3Ih8mzo0x7izxWcaBpZqCj0PxK0WKN5H
+	/cnh9ohnAjlaL9TrCH8VZNA5UFvpBJWufMPKp/WG/
+X-Gm-Gg: ATEYQzze9JurOssb+Za/B3RckPM6LFG4ipey1Ht74mF3zpLs4yN3a+0JrROahoZxC50
+	3mndg8AoQSLV6XZnw/BS3uNxEjQ1JOrVPZUugANhHTZq7iz0qw2EihwcU0LBmEqk7cCLnjF6err
+	XwnNpappbsGalCv9CflzL8jcgGST0gPt8C15QOgTYLuJLtGOcmU+y8dGNpRSe74vB0bQwLhEFpJ
+	Pzr6f+CC/JUap3PV60jMUgnucCffNoTLImu8tiNy0orf7YEV4pAjOiCFtmto+a/KYm3mnPTBSfO
+	gogB5z0Pavo7IXKuqiV0CokZp7j6+v1XcvShUtuRf0tdtVnv9H4=
+X-Received: by 2002:a05:6214:2467:b0:899:fb4e:47a0 with SMTP id
+ 6a1803df08f44-899fb4e4cfdmr83390516d6.60.1772500625509; Mon, 02 Mar 2026
+ 17:17:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8dfe7035d19fd611b9be55ee3145fdb@purelymail.com>
-X-Rspamd-Queue-Id: 69F061E65BD
+References: <20260303010340.306164-1-elsk@google.com>
+In-Reply-To: <20260303010340.306164-1-elsk@google.com>
+From: "Hong, Yifan" <elsk@google.com>
+Date: Mon, 2 Mar 2026 17:16:29 -0800
+X-Gm-Features: AaiRm50kBLMCph6UcF6rktRMuwcn4MiSh3q7HNeIL-naxqDFnhMYS_CXzj39k8A
+Message-ID: <CAABy=s1DvQpq5O0WDH-OV+6=fCxcAH=zaKSKXYwAwZUB9yNQuw@mail.gmail.com>
+Subject: Re: [PATCH v1] objtool: HAVE_XXHASH test uses HOSTCFLAGS.
+To: Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: AD9171E7965
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11526-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11527-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[elsk@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Alex,
+On Mon, Mar 2, 2026 at 5:03=E2=80=AFPM HONG Yifan <elsk@google.com> wrote:
+>
+> Previously, HAVE_XXHASH is tested by invoking HOSTCC without HOSTCFLAGS.
+>
+> Consider the following scenario:
+>
+> - The host machine has libxxhash installed
+> - We build the kernel with HOSTCFLAGS containing a --sysroot that does
+>   not have xxhash.h (for hermetic builds)
+>
+> In this case, HAVE_XXHASH is set to y, but when it builds objtool with
+> HOSTCFLAGS, because the --sysroot does not contain xxhash.h, the
+> following error is raised:
+>
+> <...>/common/tools/objtool/include/objtool/checksum_types.h:12:10: fatal =
+error: 'xxhash.h' file not found
+>    12 | #include <xxhash.h>
+>       |          ^~~~~~~~~~
+>
+> To resolve the error, we test HAVE_XXHASH by invoking HOSTCC with
+> HOSTCFLAGS.
+>
+> Signed-off-by: HONG Yifan <elsk@google.com>
+> ---
+>  tools/objtool/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
+> index 6964175abdfd..b8b8529f8ea9 100644
+> --- a/tools/objtool/Makefile
+> +++ b/tools/objtool/Makefile
+> @@ -13,7 +13,7 @@ endif
+>
+>  ifeq ($(ARCH_HAS_KLP),y)
+>         HAVE_XXHASH =3D $(shell printf "$(pound)include <xxhash.h>\nXXH3_=
+state_t *state;int main() {}" | \
+> -                     $(HOSTCC) -xc - -o /dev/null -lxxhash 2> /dev/null =
+&& echo y || echo n)
+> +                     $(HOSTCC) $(HOSTCFLAGS) -xc - -o /dev/null -lxxhash=
+ 2> /dev/null && echo y || echo n)
+>         ifeq ($(HAVE_XXHASH),y)
+>                 BUILD_KLP        :=3D y
+>                 LIBXXHASH_CFLAGS :=3D $(shell $(HOSTPKG_CONFIG) libxxhash=
+ --cflags 2>/dev/null) \
+> --
+> 2.53.0.473.g4a7958ca14-goog
+>
 
-On Sat, Feb 28, 2026 at 08:34:37PM -0800, Alexander Coffin wrote:
-> From personally building the kernel a few months ago (reproducibly) one of
-> the parts that was incorrect in the docs was that is says to use KCFLAGS
-> when you should use KCPPFLAGS for the following. I had forgotten to report
-> this until now and I'm not sure exactly what is expected to make a patch to
-> the Kernel docs, so I am hoping someone else can do the probably one line
-> fix (or maybe 2 if you count the other reference to KCFLAGS in the file).
-> 
-> > When the kernel is built out-of-tree, debug information may include
-> > absolute filenames for the source files.  This must be overridden by
-> > including the ``-fdebug-prefix-map`` option in the `KCFLAGS`_ variable.
-> 
-> from `Documentation/kbuild/reproducible-builds.rst`.
-
-Thanks for bringing this up. I assume this is due to the debug
-information generated in assembler files. While the KCPPFLAGS suggestion
-works because it is included for both .c and .S compilation, I think it
-would be more proper to recommend applying '-fdebug-prefix-map' to
-KAFLAGS in addition to KCFLAGS to insure the flag is only added when
-truly needed, just as a defensive measure against compiler and Kbuild
-changes. I can send a patch for this later.
-
-Cheers,
-Nathan
+Sorry, I forgot to cc linux-kbuild@vger.kernel.org as well. Adding
+now. The original patch is at
+https://lore.kernel.org/lkml/20260303010340.306164-1-elsk@google.com
 
