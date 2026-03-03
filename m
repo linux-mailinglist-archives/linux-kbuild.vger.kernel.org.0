@@ -1,194 +1,223 @@
-Return-Path: <linux-kbuild+bounces-11527-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11528-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8PYXEJo2pmlJMQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11527-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 02:17:14 +0100
+	id OBvHMFV5pmnxQAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11528-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 07:01:57 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9171E7965
-	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 02:17:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A041E9620
+	for <lists+linux-kbuild@lfdr.de>; Tue, 03 Mar 2026 07:01:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 762C4302D94E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2026 01:17:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EE36C3014556
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2026 06:01:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61532348865;
-	Tue,  3 Mar 2026 01:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E5923183C;
+	Tue,  3 Mar 2026 06:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rXzKTA+P"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="FmdSp+nW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.61.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AE9359A8C
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Mar 2026 01:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772500630; cv=pass; b=DA8mFNK5wwPHL4eBPIdKDjA09XkAizKEmtSQxv/If9ujfyMcT8Nx3LFBauEayc1T/Nq/XfMtLJtrOqLM0n0YwPzuRY8j870O+GhQcyFbPQ6niXw3wgxWkbLHFhkhB8kDpff0nmj3nKhdjt4RTi/XHFYu5d3ob7lIRGKB7PJKAEc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772500630; c=relaxed/simple;
-	bh=Bo5eBFPDxisPJDLCQ5T569sq5/MPMjMeBVQKOyOOwMc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Oyj8hEP2a92vX2QVtOYfbZSApHLo9uAgE3SEN8heBBXBPZSnG/zzKmcPLOVt6WQrHWDhK/4W044eVtNgd5j0NFweAD1gsDSBTdjnQnWUb6v2ofjitHF81jUm/EK5BKnNMTDTcDc6YulSWaE3d6EiPe/wM3yhL88NwSzF/JAjMos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rXzKTA+P; arc=pass smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899f27df3d1so19814046d6.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2026 17:17:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772500626; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XkguMfTIsx3IbhZjIAKVpSYGhi/1Z5PyiungXKntWbqWuuURhAj1Uq/NZ5BSXf7YTE
-         YAq6yUs5F7DKYXhxXgIK0qtgCRl89KAhu3qzVxmPvKDIllRBbla2/IxEm4j4dTf0mxwu
-         ytgTZQsQgSyTI+o7K6Nflq70uANAjqak8in/Fc2L5UNiLCM9+/aNjLR6I+jz0ghadTrI
-         7hZglMyN3KUva5LdImtB57vdWJZYs7Nj44j9GG309MFUEOB+OyXm9V8NDHtZixiq33bj
-         KA+DHGoEfEb6tgNzhBfpRx/tBTYZmo/SqTHNBYJXVmcS2FL3fktJ6OM0xmLDwW5vHJmU
-         MMLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2YfdyqXPY3aXxeRmVKZn4QiIqi7Db4ttPeHa4wKAW40=;
-        fh=vn8mHRF4VcR9/u2L/8bjSO0aBxF+1TIAgM2POwc7RLc=;
-        b=RBY6YQZTpSBJz8OjSkeXfhAsMXR9iO34OnVcfgPSvM6DB/umWoUihFho4EwaS/3UU0
-         1yXk7i/Wywv8dQJHK4096dOfvcF5sB1rZDV6TA60pcxWMjWmP7JeFsEBHyogTCkHKEKy
-         33HwFbTk/mhXtGHt3dgx7OTkNrjM6XYXvHyXdYdlUE5VB12KvhidPA1qfEwch5gwmvvg
-         LbR+vpuvTcBj2zn9Xxi8o0gajPquNg+a62SdfS5LDeAw4uTbdmO719bHK2camny2NCw3
-         Opc1uZMLOy1TEzu4Kh1ufUMumPcrLpL3hud5A37ZM/t2iwEtpxIRz2L/4ye8UzJMS22B
-         gbmg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772500626; x=1773105426; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2YfdyqXPY3aXxeRmVKZn4QiIqi7Db4ttPeHa4wKAW40=;
-        b=rXzKTA+PbWWyO9f2L/rAZAdTUAjD1SuGg4AgiWhi2VTFz5xidLJn6ecTYaaHkw7F5z
-         sZgEVZu3JUHEJWcq+d/c9YJSPlBPuxpaEPoQZavNaMqdFaYstyN0Ro8Rs/gljZGesPu3
-         zjBAT5k3S7tlU33XMc9kP30S5fboA4hPMkHmOwFwcNEiSCFzDo0THhdTF1OIldVQkowb
-         4b5UWz+kYpEeW9GTK396YnLO929mdFe3KAHsrtEaqCE99jqdZPzegahTyPUEAWIAlL4B
-         q1RgwItnufhNKTtJ+0f2Kq9T64gYPgszaAYmR7D2rZTx3t+R/V1My5pKrow36okdHsaC
-         6O5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772500626; x=1773105426;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2YfdyqXPY3aXxeRmVKZn4QiIqi7Db4ttPeHa4wKAW40=;
-        b=awwtjM3Wx1h+ZORVUlTs/zY1Stu360Vi1jIl5ViJ7aiLs+OMYv6y3hcecD2/4RP1up
-         C9EmfObp4BqN8XIozxglZvmy19ZrBd1OWYu5g+m1y4VeLMyQivWDe+tVkcaBGuh6d6/Z
-         U0prWp0BCDK4mAZH0Lj6FiWVtVQMy8hEzoMGoBWAelLP22ao39CQIOvKNM3qRftcUTUJ
-         SO2DfzOWPLNtBljNXBb88az8lIGGqTGW5FRR4z0XYDmXWXVqnLbdu5XwdRVHPTzdLHhd
-         h3SE4ZRUas+BfnYg2WPC+kcqnrLh8PWY+XkTrhFWxJ4bYlPiW/XiRuCK8kxX6G5UX2BU
-         jIkw==
-X-Forwarded-Encrypted: i=1; AJvYcCVm0/o/GxwUO7hbvjuga9P++/nKp1Z9LF0vNZkJId3Zu9RsLWMs1r6GOLsFnaw78WIAYx6ZA3qFVKNVvaU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzvVrkCLB9wUcYedQjHVar7RcrDxXpbeL3yVRbffTBQ9wt/CSo
-	99d/W9NOu3jg762Ytu+MTd5x3Gt+zI/pyGchNknVvgL3Ih8mzo0x7izxWcaBpZqCj0PxK0WKN5H
-	/cnh9ohnAjlaL9TrCH8VZNA5UFvpBJWufMPKp/WG/
-X-Gm-Gg: ATEYQzze9JurOssb+Za/B3RckPM6LFG4ipey1Ht74mF3zpLs4yN3a+0JrROahoZxC50
-	3mndg8AoQSLV6XZnw/BS3uNxEjQ1JOrVPZUugANhHTZq7iz0qw2EihwcU0LBmEqk7cCLnjF6err
-	XwnNpappbsGalCv9CflzL8jcgGST0gPt8C15QOgTYLuJLtGOcmU+y8dGNpRSe74vB0bQwLhEFpJ
-	Pzr6f+CC/JUap3PV60jMUgnucCffNoTLImu8tiNy0orf7YEV4pAjOiCFtmto+a/KYm3mnPTBSfO
-	gogB5z0Pavo7IXKuqiV0CokZp7j6+v1XcvShUtuRf0tdtVnv9H4=
-X-Received: by 2002:a05:6214:2467:b0:899:fb4e:47a0 with SMTP id
- 6a1803df08f44-899fb4e4cfdmr83390516d6.60.1772500625509; Mon, 02 Mar 2026
- 17:17:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62D129994B;
+	Tue,  3 Mar 2026 06:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.61.103
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772517689; cv=none; b=RPbwuB1Qr63MKJZ7+CkaItvJ8lCms2/JN8PeeHJy0tCKSuTjrQSFYk+cMx73vAlIdH/0wOtXKt79K4uz87en/EItAulxgFGqa/ichRf6+C+VDanxQcCmzQTjrmvV6tYwoqR9ByYXtAP+XztIMWDiLjc7XYUQ70uZhOYyaY3Qkvw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772517689; c=relaxed/simple;
+	bh=qe9P40hHio4C5Hd2euN7jv8j1geM24aYm7G61d59zd0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F+4qjVZzAZjfpmPHJ85MMipIIVv6rHOqQRIlayi2i/ui1XorYxzH5H+KZ+PgqKX8F4MQZcaJZNhKy9Tkf57R+PaSO2n6KS1XjTbFwfouEU1rYQmb8nvLYUT7I8yMqddYiX7MiNBVcON8IatBUGD6aTTYe8OMQm4Fe7e+auqKwKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=FmdSp+nW; arc=none smtp.client-ip=188.68.61.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Received: from mors-relay-8403.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4fQ4ft5NNpz8CMm;
+	Tue,  3 Mar 2026 06:51:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1772517078;
+	bh=qe9P40hHio4C5Hd2euN7jv8j1geM24aYm7G61d59zd0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FmdSp+nWBMqwAvWybt2drjghQRkFHY6ReZTNUDWjFaG3cnK5ijNRa2j83bCtlbrSl
+	 L6uuCyt5sUXgt8ARK2CkBkq6CrWl1GGfpYJDAYfDNXK2BSDHBYSIjlDDlu/meOdztr
+	 PqYL8gtQ4YFmdcFf14xCUQqdTCTGPJTUAn476qiZt1aQ4wYf8ttiini2dmFjfWJIp5
+	 4SnWyRaLRwF6UbZ1Y5CURK299WtXcHMyyeJBWP5ZC/AT1dMXB/cx9JkA5nKXEuzYhP
+	 HCH9hwkrRryXN1tu6fTVCJUUWyFiFWg8zjeFvDh+AHALZ5shq1uRTvvmJmE6YhvUJU
+	 144srrwel468A==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4fQ4ft4gJQz8CMl;
+	Tue,  3 Mar 2026 06:51:18 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Flag: NO
+X-Spam-Score: -2.898
+X-Spam-Level: 
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4fQ4fr5rMyz8t4J;
+	Tue,  3 Mar 2026 06:51:15 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id CACDA6329E;
+	Tue,  3 Mar 2026 06:51:14 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=linux@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <d2fedf99-cae3-4071-b781-d100662a445a@leemhuis.info>
+Date: Tue, 3 Mar 2026 06:51:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260303010340.306164-1-elsk@google.com>
-In-Reply-To: <20260303010340.306164-1-elsk@google.com>
-From: "Hong, Yifan" <elsk@google.com>
-Date: Mon, 2 Mar 2026 17:16:29 -0800
-X-Gm-Features: AaiRm50kBLMCph6UcF6rktRMuwcn4MiSh3q7HNeIL-naxqDFnhMYS_CXzj39k8A
-Message-ID: <CAABy=s1DvQpq5O0WDH-OV+6=fCxcAH=zaKSKXYwAwZUB9yNQuw@mail.gmail.com>
-Subject: Re: [PATCH v1] objtool: HAVE_XXHASH test uses HOSTCFLAGS.
-To: Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>
-Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: AD9171E7965
+User-Agent: Mozilla Thunderbird
+Subject: Re: -next build error due to "kbuild: Leave objtool binary around
+ with 'make clean'"
+To: Nathan Chancellor <nathan@kernel.org>, =?UTF-8?Q?Michal_Such=C3=A1nek?=
+ <msuchanek@suse.de>
+Cc: Nicolas Schier <nsc@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Rainer Fiebig <jrf@mailbox.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: 
+ <20260227-avoid-objtool-binary-removal-clean-v1-1-122f3e55eae9@kernel.org>
+ <03045f41-fe4c-44ff-b01c-6e325d82255a@leemhuis.info>
+ <aaXofbe_5QGYYuMB@kitsune.suse.cz> <20260302204903.GA2007498@ax162>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: <20260302204903.GA2007498@ax162>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <177251707521.2147633.2558930100194810901@mxe9fb.netcup.net>
+X-NC-CID: 3KNLM+Upkk88ekiWwqt0aw1s4gKdNnbM4Me96bjrHwSdo85vu0M=
+X-Rspamd-Queue-Id: 26A041E9620
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11527-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elsk@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[leemhuis.info:+];
+	TAGGED_FROM(0.00)[bounces-11528-lists,linux-kbuild=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[leemhuis.info:dkim,leemhuis.info:mid];
+	DMARC_NA(0.00)[leemhuis.info];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FROM_NEQ_ENVFROM(0.00)[linux@leemhuis.info,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Mon, Mar 2, 2026 at 5:03=E2=80=AFPM HONG Yifan <elsk@google.com> wrote:
->
-> Previously, HAVE_XXHASH is tested by invoking HOSTCC without HOSTCFLAGS.
->
-> Consider the following scenario:
->
-> - The host machine has libxxhash installed
-> - We build the kernel with HOSTCFLAGS containing a --sysroot that does
->   not have xxhash.h (for hermetic builds)
->
-> In this case, HAVE_XXHASH is set to y, but when it builds objtool with
-> HOSTCFLAGS, because the --sysroot does not contain xxhash.h, the
-> following error is raised:
->
-> <...>/common/tools/objtool/include/objtool/checksum_types.h:12:10: fatal =
-error: 'xxhash.h' file not found
->    12 | #include <xxhash.h>
->       |          ^~~~~~~~~~
->
-> To resolve the error, we test HAVE_XXHASH by invoking HOSTCC with
-> HOSTCFLAGS.
->
-> Signed-off-by: HONG Yifan <elsk@google.com>
-> ---
->  tools/objtool/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+On 3/2/26 21:49, Nathan Chancellor wrote:
+> On Mon, Mar 02, 2026 at 08:43:57PM +0100, Michal Suchánek wrote:
+>> On Mon, Mar 02, 2026 at 08:18:17PM +0100, Thorsten Leemhuis wrote:
+>>> On 2/28/26 06:40, Nathan Chancellor wrote:
+>>>> The difference between 'make clean' and 'make mrproper' is documented in
+>>>> 'make help' as:
+>>> [...]
+>>> Thx for fixing this regression, sadly this caused my daily -next rpm
+>>> builds for Fedora to fail on x86_64 during a "make mrproper":
+>>>
+>>> ""
+>>> kernel.spec:2485: InitBuildVars: Copy files
+>>> + /usr/bin/make -s 'HOSTCFLAGS=-O2  -fexceptions -g -grecord-gcc-switches -pipe -Wall -Werror=format-security -Wp,-U_FORTIFY_SOURCE,-D_FORTIFY_SOURCE=3 -Wp,-D_GLIBCXX_ASSERTIONS -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -fstack-protector-strong -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1  -m64 -march=x86-64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -mtls-dialect=gnu2   ' 'HOSTLDFLAGS=-Wl,-z,relro -Wl,--as-needed  -Wl,-z,pack-relative-relocs -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1  -Wl,--build-id=sha1 -specs=/usr/lib/rpm/redhat/redhat-package-notes ' -j32 mrproper
+>>> find: cannot delete ‘/builddir/build/BUILD/kernel-7.0.0-build/kernel-next-20260302/linux-7.0.0-0.0.next.20260302.121.vanilla.fc42.x86_64/tools/objtool/.check.o.cmd’: No such file or directory
+>>> find: cannot delete ‘/builddir/build/BUILD/kernel-7.0.0-build/kernel-next-20260302/linux-7.0.0-0.0.next.20260302.121.vanilla.fc42.x86_64/tools/objtool/.elf.o.cmd’: No such file or directory
+>>> [and many more like these]
+>>> ""
+>>> For the full build log, see:
+>>> https://download.copr.fedorainfracloud.org/results/@kernel-vanilla/next/fedora-42-x86_64/10183736-next-next-all/builder-live.log.gz
+> [...]
+>> Or does the objtool_clean run multiple times in parallel, once through
+>> the clean target, and once as dependency of the mrproper target?
+> 
+> More than likely this based on my reading of the submake processes from
+> the build log. For what it's worth, I cannot reproduce this error on
+> either a really fast or really slow build machine but it should not be
+> hard to avoid by using 'xargs rm -f' like the rest of Kbuild does for
+> removing things, which should suppress the error if the file does not
+> exist. Thorsten, could you see if this diff makes a difference for you?
+
+Yeah, that makes things work again, thx!
+
+> If so, I'll squash it in with a note.
+
+Great, thx!
+
+Ciao, Thorsten
+
 > diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
-> index 6964175abdfd..b8b8529f8ea9 100644
+> index 50d3e38e6137..76bcd4e85de3 100644
 > --- a/tools/objtool/Makefile
 > +++ b/tools/objtool/Makefile
-> @@ -13,7 +13,7 @@ endif
->
->  ifeq ($(ARCH_HAS_KLP),y)
->         HAVE_XXHASH =3D $(shell printf "$(pound)include <xxhash.h>\nXXH3_=
-state_t *state;int main() {}" | \
-> -                     $(HOSTCC) -xc - -o /dev/null -lxxhash 2> /dev/null =
-&& echo y || echo n)
-> +                     $(HOSTCC) $(HOSTCFLAGS) -xc - -o /dev/null -lxxhash=
- 2> /dev/null && echo y || echo n)
->         ifeq ($(HAVE_XXHASH),y)
->                 BUILD_KLP        :=3D y
->                 LIBXXHASH_CFLAGS :=3D $(shell $(HOSTPKG_CONFIG) libxxhash=
- --cflags 2>/dev/null) \
-> --
-> 2.53.0.473.g4a7958ca14-goog
->
+> @@ -142,7 +142,7 @@ $(LIBSUBCMD)-clean:
+>  	$(Q)$(RM) -r -- $(LIBSUBCMD_OUTPUT)
+>  
+>  clean: $(LIBSUBCMD)-clean
+> -	$(Q)find $(OUTPUT) -name '*.o' -delete -o -name '\.*.cmd' -delete -o -name '\.*.d' -delete
+> +	$(Q)find $(OUTPUT) \( -name '*.o' -o -name '\.*.cmd' -o -name '\.*.d' \) -type f -print | xargs $(RM)
+>  	$(Q)$(RM) $(OUTPUT)arch/x86/lib/cpu-feature-names.c $(OUTPUT)fixdep
+>  	$(Q)$(RM) $(OUTPUT)arch/x86/lib/inat-tables.c $(OUTPUT)fixdep
+>  	$(Q)$(RM) -- $(OUTPUT)FEATURE-DUMP.objtool
 
-Sorry, I forgot to cc linux-kbuild@vger.kernel.org as well. Adding
-now. The original patch is at
-https://lore.kernel.org/lkml/20260303010340.306164-1-elsk@google.com
 
