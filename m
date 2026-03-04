@@ -1,214 +1,184 @@
-Return-Path: <linux-kbuild+bounces-11545-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11546-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGFtNuiMp2nliAAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11545-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Mar 2026 02:37:44 +0100
+	id wClsJ5ubp2ksigAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11546-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Mar 2026 03:40:27 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998E41F98CB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Mar 2026 02:37:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 056291F9F05
+	for <lists+linux-kbuild@lfdr.de>; Wed, 04 Mar 2026 03:40:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6352C3047605
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Mar 2026 01:35:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D081C30D81BD
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Mar 2026 02:40:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A8230BB91;
-	Wed,  4 Mar 2026 01:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5D2A261B8A;
+	Wed,  4 Mar 2026 02:40:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKItcNT2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUWgdfoy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF19A1A6825;
-	Wed,  4 Mar 2026 01:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772588106; cv=none; b=h+D9suxua1hu96aoaXXDcPoDjTUQExw3xuWN8dwHsES+7B0StEn2nvr3dXE8YCEHtssGzII85vcYfnHDlUBPoaNFJFKQ7YFcW7U2GHXkrouk+92M58DBu3YxuTd3T50nweG61a505G4Y66r7wpnP34cmrbjPtO5fauTc4Re1D/o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772588106; c=relaxed/simple;
-	bh=PWqQw6QkHOEToxV7Zpy3OPRtRc1QebdYN5ooe3pSOeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hw1xqtOpHxGuY4zjj85lzDSncUm+pqZcpm9EYc2FgIMxvms4k6kiKi5gBGxIw9ve40aUhIGq6nEh1JEqQ34rqcnGXw9gwZqDuKjtAryHBUhO5Wl3Ay/e3WsDrq8XluPjSBO5MmNmGHYF1yLrz3GT1JmfkE0R9KKYNDIMdXQtca0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKItcNT2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B32C116C6;
-	Wed,  4 Mar 2026 01:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772588106;
-	bh=PWqQw6QkHOEToxV7Zpy3OPRtRc1QebdYN5ooe3pSOeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nKItcNT2isfPirMIuyaBmc/eLBbLP3r2Qce8i86fifUGaozLyDIRkAPEF4PTYtN8W
-	 vAxNvQyu036666sZl7b6prIDZySssrmhXjfjym71KAjET10kYsWUqcG1dtdFKeZDhy
-	 ReF8t7Gw8YYiStL2xpNfv920MIo/SlmhiWm8SFBIkvIjNrNFPFEyVpFMIWgQkvLhDw
-	 JtAYUurPDkgfxgrH+EXJeUHYknvy953OMnI3STtfNNLGTKomRXe8Qs7xIoFKaIb6hk
-	 e0fceYL7BkQOaTRdH5jvkhA0s/M6J0ihxOAg1FyKlAG7etUHxp2LeLWPFvWUjj30nN
-	 PKz9UTTHl5EXQ==
-Date: Tue, 3 Mar 2026 17:35:04 -0800
-From: Namhyung Kim <namhyung@kernel.org>
-To: Quentin Monnet <qmo@kernel.org>
-Cc: Leo Yan <leo.yan@arm.com>, Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, bpf@vger.kernel.org
-Subject: Re: [PATCH RESEND v2] tools build: Use -fzero-init-padding-bits=all
-Message-ID: <aaeMSBW_K827ARYJ@google.com>
-References: <20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com>
- <aaCTC86U9KjnmZmu@google.com>
- <99e7fe4e-72de-4b55-9a9a-ae51718a0e73@kernel.org>
- <20260227103611.GA1098637@e132581.arm.com>
- <c886c8c9-d336-4ec3-94c0-c4869dee7e7f@kernel.org>
- <aaeHcL7vEhZ0LWth@google.com>
- <2ff9897c-3822-4e31-acfb-884690448af0@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987BF19CD0A
+	for <linux-kbuild@vger.kernel.org>; Wed,  4 Mar 2026 02:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772592003; cv=pass; b=U+w9SidLWTMgeiUd2+gj8+k+tQkqQaHT9BtUvG1qNsnqmzU/mxLm7AhhGiGDRgS4XsXSs5xUmVDRQVcLNtIVDooNaS0iqwa6XowvxRSDaYVfJtO4Sm2UeUY8quybI3N3OOGlgtRbuyucrwG5Z718wSrhc2bpBM2Mgthfg42fi/Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772592003; c=relaxed/simple;
+	bh=6u3WfzRtHs9u8vnunqqP00fx39IKEL4thU4xEicYcYs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lgb0ze6pIgsAbhEBBfUsA+YjzbtqtRtxfDvPkx27SAO5Ntj8pbwBxOJy9c4adneURRqaeEtqmZ2242AXzdhEFY0p2WilLnGQkaUzLg012HcURHkMz1AsesKVAS4uLMM+iDTYclF0DSl0KrknlUN66vo1osXDLwOYdNZTU9BimLE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUWgdfoy; arc=pass smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2be2425ad18so111902eec.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Mar 2026 18:40:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772592002; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B59ZVEdn6O3zWhRsX/PChq9c6vX06Z29VGpMPXIQo9U+/CzDA75Xzzpd+GzSiMnuHS
+         BiPpGRzZTynQyd44nRqxPQB1EHcJzqPCsuXV7MLDU3IH3jTNcfKwiLizcheUpHDGi1CL
+         6p8JiMNXirxwL86PiIgAU9R3dmn5UJcfLXz1RBzjVic2Jb8zKQHDui7nrKS0HVgVAJrY
+         9+ZvR/hY7Xmfe7uR6TLhjcDFNnDLlxACtb0w6zJzvmHnT1o5SXdnU5uH+iFLcrN0ZewV
+         YTULw0rpvQrDDk1zBts5r4M421vymbEGt3cQfLLmWg3K2hiO/7qgDkpricWk6QSVIPNs
+         45RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vDeFX6ART7B3BVdcaJ5X/veRzq62PjBspjay32pUUCA=;
+        fh=AITJ6qGingCRGb66mt4C7NPCc4XbTvd1UsPNX4KDGQQ=;
+        b=cpn3FofDkQX2w8HZxkGNQrXbMC3fKDqjIGOKgQLtu37fdutbS7P6fs56mvhHCzbmyg
+         //MhrCFw+z+0OIEx0fAVXI9QdjFp5b7W3bchxPUEWrEMpwmOjlFkcV5tvsaSyF1OqzSj
+         Rspk0jvUO5BTDSnMfAC9QgxVFKaNMak1mTlyCCHiqAXa1/ooGLFgrKIrKhmWKwfhFhk6
+         SuTBvalVpd9RSDABSS9Kv3jxKAaPqyEgeJ+GWCy2RPoB38aVhbS44gotMG2nW4O2Pus/
+         e3bFtB1vQij3hkqUWEdlIpm/JmnFiKMmea2361F+dRiTjBEPC22WUiuXFIA7KCnX6Vrc
+         2Q+w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772592002; x=1773196802; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDeFX6ART7B3BVdcaJ5X/veRzq62PjBspjay32pUUCA=;
+        b=AUWgdfoyqSuPqASadgM/9UEg6gGSKsklpXRr9tdkgM/I55NOT3/lzwT36uo3WOxVjJ
+         eZCOV7oZIF50ykNIw0FZYEcQG6Q/Q+S535qtJThS1J2VzhOfXKyz9EuvQM6KhscQkpko
+         DIi5xPex/w6kKGBd6d8M9mtrHay22Y6aEzyjAK0QdPYbUgCTxYx8NlzVIJ2M1SudZS+f
+         Q8X685LMTkXzgdTocD8Filgqd6v94sLaw+l8TAyNYwxbHCa0ocl9CPHQbPfu4BG1qh/C
+         bXx4zwd/Ntjofpg0blXa2tZyVoZlwc8o/LhrXWuYCsyU/3iGq62IwfhKNC0vB2dgz4gY
+         04lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772592002; x=1773196802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vDeFX6ART7B3BVdcaJ5X/veRzq62PjBspjay32pUUCA=;
+        b=WhAqBtPoYlEEdro5QgSmdv3eWnicI/4cjvxC5Zu3ODZ1SxPh8+kld90iihmUp76vYb
+         M76KYxgthmsBtMiIUlff7OUyX0ZwdHTqulrGBwvG11uzGkgrKV4eUtCbYDLP9IZJWWGu
+         cGvm0fmJZ6hTukiwpYHKt/yYCnzY4wdJuSoS8N2O3eOspCECQkOdDKhzXCd92BMKZPa9
+         VTjxJ7MyaqgDumLGBTnKTD02CXHlMBV9TkpWqGYItSaokTF0cT3hAacLqo4GaYlfJqk8
+         e02OhG0+d6AIK0o49dpApaKx7ekMa4gCV8Dno5w/XEGlBQaCe5OG6sLJXQiABEZA9iQA
+         lrgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPHGqG7pDdzUfREAy8y2JPyrteV4xx6fPrYcQIlyQCMCaso7B7ApnoRBRxZ4Eq1Knx6clsJ5qjekC5s1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH8zxikL/3D+BmxwqqpT/6Ym2FQra6kitNQ2QkCVKuEgWqI7zx
+	CikJLs/dcH2mndX82mgzNIn+HhHAjmeqc8uWXGeHE69ABcbFNKvsobMQkfbG6xwk6c7OiOI6uw3
+	2XMpx+pz1Ot1ZBzKB0LwyEUbHe1UGFzs=
+X-Gm-Gg: ATEYQzyFHgf7gf5SX88+DQNRcsnjKhdcKm5xv+6yFAYxCn2JZcf2kbBqy8FwVd3qxX2
+	AREXdJQC0zlTNXpoeq7QbLrWZm1PGG1IAoJnBwGDNdYvbWwjYHmZ04DZIjmL5wlWp3S89oCBsaf
+	Z61UWUWdGPXXbyYMp0Urq2TX4iOxIrcNOjU7gXaYzISuGexJ3mZFyIZFG23rhQpJHV+YNXrkpj4
+	YR507VYyGchkkoNpFuBs7EB6/MCUqvmJBp3yvWI5WEjw1MctLNbabP2aRlku7N5w8Hk2SvaI4Xi
+	lWtzubtUTy2XsPGCrtJkHrIPwBsVPG/ulXkckZV8p0hEh15IbXf2wQ593EX3xCe0Ea1SsHO2U53
+	nK4ha1GuRJoN+qMW7CZG/9dpT
+X-Received: by 2002:a05:7300:ec16:b0:2be:ca4:e136 with SMTP id
+ 5a478bee46e88-2be30fd10eemr113160eec.2.1772592001174; Tue, 03 Mar 2026
+ 18:40:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2ff9897c-3822-4e31-acfb-884690448af0@kernel.org>
-X-Rspamd-Queue-Id: 998E41F98CB
+References: <20260224072957.214979-1-gary@garyguo.net>
+In-Reply-To: <20260224072957.214979-1-gary@garyguo.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 4 Mar 2026 03:39:47 +0100
+X-Gm-Features: AaiRm50AQ1h-nlqQf5CDvJnD6CwsW_qLR96K0uS2KkMG7XY6Fo8_bKuyWFv3nqs
+Message-ID: <CANiq72n7untEAnjO7tEorU37eNBCrepn+q7vb+pOFYb0+Uw6oQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: kbuild: emit dep-info into $(depfile) directly
+To: Gary Guo <gary@garyguo.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 056291F9F05
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	SUBJECT_HAS_CURRENCY(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11545-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[arm.com,kernel.org,gmail.com,google.com,linaro.org,vger.kernel.org,lists.linux.dev];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11546-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,protonmail.com,google.com,umich.edu,vger.kernel.org,onurozkan.dev];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[namhyung@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TO_DN_SOME(0.00)[]
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,onurozkan.dev:email,zulipchat.com:url,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 02:28:05AM +0100, Quentin Monnet wrote:
-> 2026-03-03 17:14 UTC-0800 ~ Namhyung Kim <namhyung@kernel.org>
-> > Hello,
-> > 
-> > On Fri, Feb 27, 2026 at 11:52:38AM +0000, Quentin Monnet wrote:
-> >> 2026-02-27 10:36 UTC+0000 ~ Leo Yan <leo.yan@arm.com>
-> >>> On Thu, Feb 26, 2026 at 10:52:01PM +0000, Quentin Monnet wrote:
-> >>>> 2026-02-26 10:38 UTC-0800 ~ Namhyung Kim <namhyung@kernel.org>
-> >>>>> Adding bpftool maintainer.
-> >>>>>
-> >>>>> On Tue, Feb 24, 2026 at 12:16:40PM +0000, Leo Yan wrote:
-> >>>>>> GCC-15 release claims [1]:
-> >>>>>>
-> >>>>>>   {0} initializer in C or C++ for unions no longer guarantees clearing
-> >>>>>>   of the whole union (except for static storage duration initialization),
-> >>>>>>   it just initializes the first union member to zero. If initialization
-> >>>>>>   of the whole union including padding bits is desirable, use {} (valid
-> >>>>>>   in C23 or C++) or use -fzero-init-padding-bits=unions option to
-> >>>>>>   restore old GCC behavior.
-> >>>>>>
-> >>>>>> As a result, this new behaviour might cause unexpected data when we
-> >>>>>> initialize a union with using the '{ 0 }' initializer.
-> >>>>>>
-> >>>>>> Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
-> >>>>>> the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
-> >>>>>> in unions and structures.  This commit applies the same option for tools
-> >>>>>> building.
-> >>>>>>
-> >>>>>> The option is not supported neither by any version older than GCC 15 and
-> >>>>>> is also not supported by LLVM, this patch adds the cc-option function to
-> >>>>>> dynamically detect the compiler option.
-> >>>>>>
-> >>>>>> [1] https://gcc.gnu.org/gcc-15/changes.html
-> >>>>>>
-> >>>>>> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> >>>>
-> >>>>
-> >>>> Thank you Namhyung for the Cc.
-> >>>>
-> >>>> I built bpftool with the patch, with gcc 13 (which didn't get the flag,
-> >>>> as expected) and gcc 15, and it's fine with both. As far as I can tell,
-> >>>> bpftool does not initialise any union with "{0}" anyway.
-> >>>
-> >>> Thanks a lot for testing!
-> >>>
-> >>>> One potential concern (I didn't try) could be for cross-compilation:
-> >>>> bpftool's Makefile sets HOST_CFLAGS based on $(CFLAGS), but $(HOSTCC)
-> >>>> and $(CC) could be different versions of gcc, for example.
-> >>>
-> >>> To avoid confusion, we can use EXTRA_CFLAGS and HOST_EXTRACFLAGS instead
-> >>> in Makefile.include:
-> >>>
-> >>> -----
-> >>>
-> >>> # cc-option
-> >>> # Usage: CFLAGS += $(call cc-option,-march=winchip-c6,-march=i586)
-> >>> cc-option = $(call try-run, \
-> >>>        $(CC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
-> >>>
-> >>> host-cc-option = $(call try-run, \
-> >>>        $(HOSTCC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
-> >>>
-> >>> # Explicitly clear padding bits with the initializer '{ 0 }'
-> >>> EXTRA_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
-> >>> HOST_EXTRACFLAGS += $(call host-cc-option,-fzero-init-padding-bits=all)
-> >>>
-> >>> -----
-> >>>
-> >>> Then, in a project, its Makefile can append EXTRA_CFLAGS and
-> >>> HOST_EXTRACFLAGS to CFLAGS and HOSTCFLAGS respectively.
-> >>
-> >>
-> >> This sounds like it should work for bpftool as long as we += and don't
-> >> overwrite the EXTRA_CFLAGS passed from command line. In bpftool's
-> >> Makefile we'd have to move HOST_CFLAGS's CFLAGS-based defintion higher
-> >> up, before we add the EXTRA_CFLAGS to CFLAGS; and if anything needs to
-> >> be passed to the host binary, users will have to specify
-> >> HOST_EXTRACFLAGS (or HOST_EXTRA_CFLAGS?) independently, which is acceptable.
-> > 
-> > Quentin, do you want v2 with this or just ok for v1?
-> > 
-> > Thanks,
-> > Namhyung
-> 
-> 
-> Hi Namhyung
-> 
-> (I'm not entirely sure what v1/v2 refer to, this one was tagged v2 and I
-> suspect v1 was the first post before the resend - I suppose you mean
-> this one is v1 and a v2 would be with an additional host variable.)
+On Tue, Feb 24, 2026 at 8:30=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
+>
+> After commit 295d8398c67e ("kbuild: specify output names separately for
+> each emission type from rustc"), the preferred pattern is to ask rustc to
+> emit depedency information into $(depfile) directly, and after commit
+> 2185242faddd ("kbuild: remove sed commands after rustc rules"), the
+> post-processing to remove comments is no longer necessary as fixdep can
+> handle comments directly. Thus, emit dep-ifno into $(depfile) directly an=
+d
+> remove the mv and sed invocation.
+>
+> This fixes the issue where a non-ignored .d file is emitted during
+> compilation and removed shortly afterwards.
+>
+> Reported-by: Onur =C3=96zkan <work@onurozkan.dev>
+> Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-Gener=
+al/topic/syn.20artifact.20being.20tracked.20by.20git/with/575467879
+> Fixes: 7dbe46c0b11d ("rust: kbuild: add proc macro library support")
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
-Oops, right.  They should be v2 and v3.
+Applied to `rust-fixes` -- thanks everyone!
 
-> 
-> I don't want bpftool's HOST_CFLAGS to inherit
-> -fzero-init-padding-bits=all if the compiler doesn't support it, which
-> may happen with the current version of the patch. I'd prefer a version
-> with separate EXTRA_CFLAGS and HOST_EXTRA_CFLAGS, as proposed by Leo and
-> discussed above, to address the cross-compilation issue.
+    [ Like Gary mentioned in Zulip, this likely happened due to rebasing
+      the builds part of the old `syn` work I had. - Miguel ]
 
-Got it.  Leo, can you please update the patch?
+    [ Reworded for a couple of typos. - Miguel ]
 
-Thanks,
-Namhyung
+Also Cc: stable@vger.kernel.org
 
+Cheers,
+Miguel
 
