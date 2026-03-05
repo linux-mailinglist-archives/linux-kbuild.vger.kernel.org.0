@@ -1,65 +1,49 @@
-Return-Path: <linux-kbuild+bounces-11572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11574-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IHh7FDpOqWlp4QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11572-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 10:34:50 +0100
+	id ELQIGn5RqWkj4wAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11574-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 10:48:46 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7253420E856
-	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 10:34:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049E620EE8F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 10:48:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7A909301F6A2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Mar 2026 09:32:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC4CA301C881
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Mar 2026 09:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44DBB37C104;
-	Thu,  5 Mar 2026 09:31:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2281D31E823;
+	Thu,  5 Mar 2026 09:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="p9C5y9rw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/OGcQce9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1Pqemu9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A257137A492;
-	Thu,  5 Mar 2026 09:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F171A245031;
+	Thu,  5 Mar 2026 09:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703107; cv=none; b=uxXEMDETzc1xd8qlETYbVVf8JtGul4SPAmuF7WZPOPjoEACp5wJVca8iVEeIk9zwfGtxOuspUg4BFsn/j1vdGCVbcO6TeL5otV55DqifrYM8OU+d7i17eZpx6d8wAfNXHs5jcYreG2jEoRmXSeN+TsjmkcdvMeZQWMrDIB2OucQ=
+	t=1772703734; cv=none; b=ZYWy22AhUterUUWTUm6xuYXfND435zVSEoK4a5yPF/woinztrCT/zMWhevW2ZPuOm5nXSWWkf3/BPVp3/ntGzQVAEykaAhspfme4wS32MDkcVpklR3KrRpBxdejEPvj1s52wPJaeasrlUh5ZV/Lj8/nnLhfFQ6ck0gHK2YGxySI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703107; c=relaxed/simple;
-	bh=MilPBKT5qdBGv3KAqViaqGXVrPTSiq77sK756EO+4xk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fO1KKUIp2epjBtf92z8DplHqPs0jpVzBuNxYcVFBvuZluC94fe9WLYDV6sYISRxF35Cqlp0BuxZ2TqSsmNnDZHqcPlii9WS18VlVvTxBm0dA1pqHOsmrdUMpPDWUZR1P8mwVj4ITxxBsFnRuL76OFrXNw9/JKs/4XfGNnMiftas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=p9C5y9rw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/OGcQce9; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772703103;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+RqUxSzmka9uuI1Wx1AJs8zJfLvQqhjOS+vbWhu9tD0=;
-	b=p9C5y9rwFEmnAp2CGqAtFKMjnqIe1zdQ4+nOtpBSsamNDNzfKJgdqzAeQDDsLd4DJF+kgZ
-	6sNvKLC3RvhGMB3hVQwOQ6ekuINp+DWT3tlf4gywh84hFHdri/uBlqAJNeU8UFgPnlbnNW
-	EvtRJDgwGFT1FOe57Z5Ea3hK3zv4JW3VUCJ79ZXL9XpWUYFxehI00gpyoMxHx5fUbLqiOM
-	b1X+UVgjJ+fmT1tLUJ98b0nMgyhY5il29ACDOPkGI5fCRopEXXYwtoWpU5UeKzMtwr4rRm
-	bwezwyrPY9P3y/HIfrI1KsUx3TVUwMvGvdIxhHY5SxLrtqgRT7HzC5V4mr+1uQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772703103;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+RqUxSzmka9uuI1Wx1AJs8zJfLvQqhjOS+vbWhu9tD0=;
-	b=/OGcQce9mannqgNlVUhX9Q2OG9BZlxlgOuGhkqtIhPYabSxY7r4FrUr3NWSidwwpjnL85d
-	IQvqXwinNVdG3rCA==
-Date: Thu, 05 Mar 2026 10:31:44 +0100
-Subject: [PATCH v3 8/8] selftests/bpf: verify_pkcs7_sig: Use 'struct
- module_signature' from the UAPI headers
+	s=arc-20240116; t=1772703734; c=relaxed/simple;
+	bh=Wx2LogNDbns541SnFVUv93/3oIAkkkOiWLeIhqW3jiU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=u8iEdz0lhO4rK8VRIPCg6Xcm6QE9KucWOfZHX5+8AG50Q8R7RnIjvKXkvD29X6h80o0YkLIuq2CfEIxCa+BwhfueCcERxw85cTiSltGTln8dgF7S24VXouYbnmTw7N0nYKiqXBDltrCn8AHrQnsOK1TuQUeQHIA5tKkM96JQZpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1Pqemu9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D42BC116C6;
+	Thu,  5 Mar 2026 09:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772703733;
+	bh=Wx2LogNDbns541SnFVUv93/3oIAkkkOiWLeIhqW3jiU=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=A1Pqemu99Yfpw0QnYo8TB9yTHrR0fE2RDK9jTlVIN0EEeJ9kc/ThHQn3qrOSiVBD+
+	 8Dc7i2cY6yhupxUVvXmieUq1RNLqhjsB/T6lQu4x3vdMI6JSaJy/QeMZDZ320FAwfc
+	 tAa/hp/eLwBhINTBnXlcxHwqYaXcg0SIABHB5eARBlkdyTwNXfp9kcD1DFeKNUYg/J
+	 NJ8zpo86WEGlojPjbKfetcWgHiLXKLdJ49qGrboKbmI520xUAr7K5hJelqpA3vSuAN
+	 X/iDHVM4SEC552AwE/52wD9y1oTOb0sBdJQ/B/mthKQjTnx1/yzgVqRyZ7aGRpVk1+
+	 TyTSwmQIAXrwA==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -68,146 +52,79 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260305-module-signature-uapi-v3-8-92f45ea6028c@linutronix.de>
-References: <20260305-module-signature-uapi-v3-0-92f45ea6028c@linutronix.de>
-In-Reply-To: <20260305-module-signature-uapi-v3-0-92f45ea6028c@linutronix.de>
-To: David Howells <dhowells@redhat.com>, 
- David Woodhouse <dwmw2@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, 
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: keyrings@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-modules@vger.kernel.org, linux-s390@vger.kernel.org, 
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
+Subject: Re: [PATCH 0/9] kbuild: uapi: remove usage of toolchain headers
+From: Nicolas Schier <nsc@kernel.org>
+To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Brian Cain <bcain@kernel.org>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+ linux-hexagon@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772703098; l=2348;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=MilPBKT5qdBGv3KAqViaqGXVrPTSiq77sK756EO+4xk=;
- b=rKfAFWzdoNIT7gthnby0DUqAt4PvCm+Oyhh6b2OsiAR4IYV2cjqpGSAzej9eSAFHoarRyr7W8
- 1JYGHvD0QNQA34xWrSWMB2K3+eZa4zH/T3ZRUnvHW48bm8RU3tfyNrX
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
-X-Rspamd-Queue-Id: 7253420E856
+In-Reply-To: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
+References: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
+Date: Thu, 05 Mar 2026 10:41:55 +0100
+Message-Id: <177270371590.103031.6257749379376584635@derry.ads.avm.de>
+X-Mailer: b4 0.15-dev-363b9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=444; i=nsc@kernel.org;
+ s=20250924; h=from:subject:message-id;
+ bh=Wx2LogNDbns541SnFVUv93/3oIAkkkOiWLeIhqW3jiU=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpqU/qjDPfC5xvFortkyG0MKGDxmPaelRTIOk1e
+ ot9NlLEPwWJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCaalP6gAKCRAHUgpwFiYS
+ aY3mEACXuJeGoqWpxF9yVei8JmJpgRj9WMvVu4Hw0bLHKIdgUwr0DJRshynekgezYGyd+EFFalL
+ VyHmc+utk5ykVt6Sewnt7Eguf6fe6HbR/A9ZlfAQnSVvIQp2s7L8NamyO4Fu9jLc0FeFg+Fp+FQ
+ tASyB9h1c1syQ6Hg6fqbKUETQztomVhjNfsXmP7ALSSgzJB6UIUwc3Jf9kYgmKtBJDgMey3mETe
+ e6b6Fc4fk9Yk2lpwVyo7Nh39f7ZPJwnjg++x7hYzhbElJvASjPIqyrtKUC9OCmhjwzOM4FkRdgg
+ xPGZomBnFPkbe/PjYM8Ly3TevVO4xvWNdYYEASlq+LXKDt4/xNbCV0srGJgFRtf3sLy0PbTg0Q6
+ XwhSs6Har2eyMs/KI79tvSh77gD2qoTQLFeN0EfDqQv/NziOuU526D2Pdh1wKABK7sVwlfP8vNG
+ qNSq8eZhTlMlyBbaqKbzFFLQG/j5VgvkK3DKGs5dceDgcuTb9fEpD8qeNEmZabV4KurgBmwlEtU
+ 0B2G9BdLriUFOoEGx8i8OG2qMsM4eSszExtNt5/Q0Iwn9gMdNjpr6OvZEAPLLsRlS2rR0qs4zcT
+ pe2G1r3GlNEgnOtR78MfD3Vcb8SQh4Jc3mRlhPOMbcpc8rROqH7W5vAeflb7smDiofeVJdMSzDi
+ SV3bXk6tN5CD6hg==
+X-Developer-Key: i=nsc@kernel.org; a=openpgp;
+ fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
+X-Rspamd-Queue-Id: 049E620EE8F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
-	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-11574-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11572-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_TO(0.00)[redhat.com,infradead.org,kernel.org,suse.com,google.com,atomlin.com,linux.ibm.com,huawei.com,gmail.com,oracle.com,paul-moore.com,namei.org,hallyn.com,iogearbox.net,linux.dev,fomichev.me];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[44];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[linutronix.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:dkim,linutronix.de:email,linutronix.de:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,suse.com:email]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Now that the UAPI headers provide the required definitions, use those.
-Some symbols have been renamed, adapt to those.
+On Fri, 27 Feb 2026 07:37:58 +0100, Thomas Weißschuh <linux@weissschuh.net> wrote:
+> Currently the test compilation of some UAPI headers requires a toolchain
+> libc headers. Remove that dependency.
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
----
- .../selftests/bpf/prog_tests/verify_pkcs7_sig.c    | 28 +++-------------------
- 1 file changed, 3 insertions(+), 25 deletions(-)
+Thanks a lot for the highly appreciated clean up!  Having -nostdinc in
+UAPI header tests is good thing!
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/verify_pkcs7_sig.c b/tools/testing/selftests/bpf/prog_tests/verify_pkcs7_sig.c
-index 4d69d9d55e17..f327feb8e38c 100644
---- a/tools/testing/selftests/bpf/prog_tests/verify_pkcs7_sig.c
-+++ b/tools/testing/selftests/bpf/prog_tests/verify_pkcs7_sig.c
-@@ -18,6 +18,7 @@
- #include <linux/keyctl.h>
- #include <sys/xattr.h>
- #include <linux/fsverity.h>
-+#include <linux/module_signature.h>
- #include <test_progs.h>
- 
- #include "test_verify_pkcs7_sig.skel.h"
-@@ -33,29 +34,6 @@
- #define SHA256_DIGEST_SIZE      32
- #endif
- 
--/* In stripped ARM and x86-64 modules, ~ is surprisingly rare. */
--#define MODULE_SIG_STRING "~Module signature appended~\n"
--
--/*
-- * Module signature information block.
-- *
-- * The constituents of the signature section are, in order:
-- *
-- *	- Signer's name
-- *	- Key identifier
-- *	- Signature data
-- *	- Information block
-- */
--struct module_signature {
--	__u8	algo;		/* Public-key crypto algorithm [0] */
--	__u8	hash;		/* Digest algorithm [0] */
--	__u8	id_type;	/* Key identifier type [PKEY_ID_PKCS7] */
--	__u8	signer_len;	/* Length of signer's name [0] */
--	__u8	key_id_len;	/* Length of key identifier [0] */
--	__u8	__pad[3];
--	__be32	sig_len;	/* Length of signature data */
--};
--
- struct data {
- 	__u8 data[MAX_DATA_SIZE];
- 	__u32 data_len;
-@@ -215,7 +193,7 @@ static int populate_data_item_mod(struct data *data_item)
- 		return 0;
- 
- 	modlen = st.st_size;
--	marker_len = sizeof(MODULE_SIG_STRING) - 1;
-+	marker_len = sizeof(MODULE_SIGNATURE_MARKER) - 1;
- 
- 	fd = open(mod_path, O_RDONLY);
- 	if (fd == -1)
-@@ -228,7 +206,7 @@ static int populate_data_item_mod(struct data *data_item)
- 	if (mod == MAP_FAILED)
- 		return -errno;
- 
--	if (strncmp(mod + modlen - marker_len, MODULE_SIG_STRING, marker_len)) {
-+	if (strncmp(mod + modlen - marker_len, MODULE_SIGNATURE_MARKER, marker_len)) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
+Kind regards,
+Nicolas
+
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
+Tested-by: Nicolas Schier <nsc@kernel.org>
 
 -- 
-2.53.0
+Nicolas
 
 
