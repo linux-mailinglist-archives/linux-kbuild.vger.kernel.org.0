@@ -1,134 +1,162 @@
-Return-Path: <linux-kbuild+bounces-11578-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11579-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oD5yBPFgqWnj6QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11578-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 11:54:41 +0100
+	id 8Nt4CyxiqWli6gAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11579-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 11:59:56 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127D6210180
-	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 11:54:39 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEABE21035E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 11:59:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D890B305027D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Mar 2026 10:52:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4FD34305BBAF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Mar 2026 10:53:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B525D21B1BF;
-	Thu,  5 Mar 2026 10:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED4A7382F12;
+	Thu,  5 Mar 2026 10:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gCKbRVmP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FPSKs0lr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6903937B018
-	for <linux-kbuild@vger.kernel.org>; Thu,  5 Mar 2026 10:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9155B37F8A3
+	for <linux-kbuild@vger.kernel.org>; Thu,  5 Mar 2026 10:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772707920; cv=none; b=H5pK8sOEUyDnT99wAyhvVfsyplVtVYy3g+Tw9DrJQM0MWTLEJ0/j8sXvDFAxnvr0rxS09iGvoe7AzV2JOs7KIlYjX5wxGYfZAy27p5jeVbsNNSmS8XevuUlV+DgtMZ6Ds67yPbjxnOVA2gUgyiR/llmjCFls136vrNXfE/NV0Os=
+	t=1772707995; cv=none; b=M7yQseRFfRlseocHeByJl98aQrKtckN8yDNqgO7KS7hNzHeYV6B9X80yh1xddJS1xX3nH/quzzjrEaalD5+/+icyQEiPJvN1ZjI7BJte8tMA51ZPanD9PyfWr/aoRqA6Z3UjLqlhFUS11NBvcaef6p8YgTjlQkvBUXfaLCXInS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772707920; c=relaxed/simple;
-	bh=zZqmM9VzOQ/O9cEt4xOeQgOy+8UiQys6mbbZHkCbCuo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=bdyq++jO1xJ5cnTy22Ptfe34OU8RKtACBkRYI0z6qptuVnY6amQ8qUNsDbUAKP4vO9iyF+hcemP/QmgBfYHo2JnXFw55JPCdkWnSXSSmHA5XkBTavOwa0ASt6nZmiYMnZetoSD5wgHlfWfL7HQ3mqbnaaSe8yPDW/cAnr3nQ23Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gCKbRVmP; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4836b7c302fso80530775e9.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 05 Mar 2026 02:51:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772707918; x=1773312718; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zZqmM9VzOQ/O9cEt4xOeQgOy+8UiQys6mbbZHkCbCuo=;
-        b=gCKbRVmPQJUQsCwGNNf+wn+JtMZnx5jEiMbfOmtImosRGBdtp+670FuqDi0rAwAaSD
-         Xr575kpJe+K1Dv4YxniU4cdqXarKXL+ZKl4zNg79U/W6kNLekXwMMuAC/IY8CrGEq4aF
-         r9UzaB6QXJcShgk42gSSvXNLSBB92qqHkDegEVfaF26I+ockWO6goiuneqhOGVV7UYXx
-         MfjWCXByJI17nYKNG4/sJLIxgXoi33Lxk7C22+lWNQNL5v+Sk/x2TT7gYywA8d8GgAyS
-         SfQtE5bQ9wQqgRCZtbT5HChpg8r8MnJ1+hYEoCjq4ll5LqoFMCOtVe7UdsCJ8c4TBlsl
-         48MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772707918; x=1773312718;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zZqmM9VzOQ/O9cEt4xOeQgOy+8UiQys6mbbZHkCbCuo=;
-        b=f640IfCsswdxGvnvtR9sthBSpKtwzT+JAtV3GMI8Ix3EZQLG2Df8Hn/8HoTvhG2Ucy
-         H7L1ANRlevSQRdrHq1z+Mszm1Snh3eHvy27Xp2ldVTd4Ji6oJxVCqUxxQbvDJ9ybuxKs
-         o2Ek5ZSYvEXgZ0iEPV0+EhKK/I5PnYVp5wXyXlNFCG9nxXPh+kzQQKNBPjsoirmEzs7n
-         lpciUGeVenJz2vBwCecdKXlS4QmdpJnC609t7137cZNfKYYTAG/pRk6S5hEDSZXWo/96
-         /Lt7Tud7FRkofPxF4eD80jC/fGHXJcTkhcPMC5Szdl2PMdH4O3nF2Pl7ad7MWYvQ9wGk
-         e/Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCmb+sXZB3xDqjIrTWDFo0+OWeKo9fDJfBCIh3dTh7ExJiVbT44cgNXcsJ7gmY/cd/7jFvDG8ogigW92o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL1tfJDVrAo3JB2iNtCJ7ux8n9cmS7lfQ079T0yBNJxxxBkbwe
-	RHIscsyVjAdsFFhJkgoutrJo5SKXhDNxyS1hV7E0XEtyTl6oZtgEWFZMLZSUslzHE8LMQqlG7rQ
-	NHTiWaWvQyRNZRsctPg==
-X-Received: from wmpb29.prod.google.com ([2002:a05:600c:4a9d:b0:480:4be7:3f3a])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c8a:b0:483:456a:5146 with SMTP id 5b1f17b1804b1-4851989fc75mr80019835e9.25.1772707917693;
- Thu, 05 Mar 2026 02:51:57 -0800 (PST)
-Date: Thu, 5 Mar 2026 10:51:33 +0000
-In-Reply-To: <177270557911.104478.12699746103670684667@derry.ads.avm.de>
+	s=arc-20240116; t=1772707995; c=relaxed/simple;
+	bh=rs3bg1xVBMOIHl8pwvkjraFExtOanyyrx+EFz99dEDs=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=g5GK7ySEEvwPkB1M1gEdHFdJXEPqQy1AxVMzQ+4i6RT7eSQg8CYERuQbGNSZqepTgbfTepkZ/myJ0olhuaZSD4oxKF/XXgQSBTrL7cAyCdEai3yP9eTxoeC6d2xW3Ceqog9kng5sAQ/aD0kF2fXZsicC1xYuG7zz9/t/6WuVuwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FPSKs0lr; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772707993;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YNU5NICRfpcxZgiMM9TUX/QSXZor0ct6JOqY4Ec4h94=;
+	b=FPSKs0lrLIxbruLsfWqr+VRPiCOcJhzMhcgp1jdkQkTbYpzFInstadXQxP5qa1cmBQsa/0
+	c3ITJR3o32bI0VwBCbCw6d8mTZ/MWgzCIzvSovR8iyyeRdF6MHhpXHWRy4/EtTO03A9yQO
+	6mXmKRIREAbH0aMbZXNovhkYhE7uP9c=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-391-G2eoyCM-MW29ZhCAlPKaPA-1; Thu,
+ 05 Mar 2026 05:53:08 -0500
+X-MC-Unique: G2eoyCM-MW29ZhCAlPKaPA-1
+X-Mimecast-MFC-AGG-ID: G2eoyCM-MW29ZhCAlPKaPA_1772707983
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6C35A1956089;
+	Thu,  5 Mar 2026 10:53:02 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.32.194])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 63BBD1800671;
+	Thu,  5 Mar 2026 10:52:49 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20260305-module-signature-uapi-v3-3-92f45ea6028c@linutronix.de>
+References: <20260305-module-signature-uapi-v3-3-92f45ea6028c@linutronix.de> <20260305-module-signature-uapi-v3-0-92f45ea6028c@linutronix.de>
+To: =?us-ascii?Q?=3D=3Futf-8=3Fq=3FThomas=5FWei=3DC3=3D9Fschuh=3F=3D?= <thomas.weissschuh@linutronix.de>
+Cc: David Howells <dhowells@redhat.com>,
+    David Woodhouse <dwmw2@infradead.org>,
+    Luis Chamberlain <mcgrof@kernel.org>,
+    Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>,
+    Sami Tolvanen <samitolvanen@google.com>,
+    Aaron Tomlin <atomlin@atomlin.com>,
+    Heiko Carstens <hca@linux.ibm.com>,
+    Vasily Gorbik <gor@linux.ibm.com>,
+    Alexander Gordeev <agordeev@linux.ibm.com>,
+    Christian Borntraeger <borntraeger@linux.ibm.com>,
+    Sven Schnelle <svens@linux.ibm.com>,
+    Mimi Zohar <zohar@linux.ibm.com>,
+    Roberto Sassu <roberto.sassu@huawei.com>,
+    Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+    Eric Snowberg <eric.snowberg@oracle.com>,
+    Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+    "Serge E.
+ Hallyn" <serge@hallyn.com>,
+    Nathan Chancellor <nathan@kernel.org>,
+    Nicolas Schier <nsc@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+    Daniel Borkmann <daniel@iogearbox.net>,
+    Andrii Nakryiko <andrii@kernel.org>,
+    Martin KaFai Lau <martin.lau@linux.dev>,
+    Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+    Yonghong Song <yonghong.song@linux.dev>,
+    John Fastabend <john.fastabend@gmail.com>,
+    KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+    Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+    Shuah Khan <shuah@kernel.org>, keyrings@vger.kernel.org,
+    linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+    linux-s390@vger.kernel.org, linux-integrity@vger.kernel.org,
+    linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
+    bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 3/8] module: Give 'enum pkey_id_type' a more specific name
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
- <20260203-inline-helpers-v2-1-beb8547a03c9@google.com> <177270557911.104478.12699746103670684667@derry.ads.avm.de>
-Message-ID: <aalgNO1gRJdrWm4p@google.com>
-Subject: Re: [PATCH v2 1/3] kbuild: rust: add `CONFIG_RUSTC_CLANG_LLVM_COMPATIBLE`
-From: Alice Ryhl <aliceryhl@google.com>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
-	Matthew Maurer <mmaurer@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: 127D6210180
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Mar 2026 10:52:47 +0000
+Message-ID: <287135.1772707967@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Rspamd-Queue-Id: DEABE21035E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	TO_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11578-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,infradead.org,arm.com,google.com,linux.dev,linux-foundation.org,vger.kernel.org,lists.linux.dev,kvack.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_FROM(0.00)[bounces-11579-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[44];
+	FREEMAIL_CC(0.00)[redhat.com,infradead.org,kernel.org,suse.com,google.com,atomlin.com,linux.ibm.com,huawei.com,gmail.com,oracle.com,paul-moore.com,namei.org,hallyn.com,iogearbox.net,linux.dev,fomichev.me,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
+	FROM_NEQ_ENVFROM(0.00)[dhowells@redhat.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email,warthog.procyon.org.uk:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Thu, Mar 05, 2026 at 11:12:59AM +0100, Nicolas Schier wrote:
-> Reviewed-by: Nicolas Schier <nsc@kernel.org>
-> Tested-by: Nicolas Schier <nsc@kernel.org>
 
-Thanks!
+Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de> wrote:
+
+> -enum pkey_id_type {
+> -	PKEY_ID_PKCS7 =3D 2,	/* Signature in PKCS#7 message */
+> +enum module_signature_type {
+> +	MODULE_SIGNATURE_TYPE_PKCS7 =3D 2,	/* Signature in PKCS#7 message */
+>  };
+
+It might be best to just kill the enum and replace it with a single #define.
+
+David
+
 
