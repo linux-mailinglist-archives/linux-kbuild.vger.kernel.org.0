@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-11574-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11575-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELQIGn5RqWkj4wAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11574-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 10:48:46 +0100
+	id MHEGDUNbqWkL6AAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11575-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 11:30:27 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049E620EE8F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 10:48:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 582D820FB98
+	for <lists+linux-kbuild@lfdr.de>; Thu, 05 Mar 2026 11:30:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AC4CA301C881
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Mar 2026 09:42:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2563231325F6
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Mar 2026 10:26:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2281D31E823;
-	Thu,  5 Mar 2026 09:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E3E37F01C;
+	Thu,  5 Mar 2026 10:26:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1Pqemu9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxKcrp1N"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F171A245031;
-	Thu,  5 Mar 2026 09:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C7B37D13C;
+	Thu,  5 Mar 2026 10:26:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703734; cv=none; b=ZYWy22AhUterUUWTUm6xuYXfND435zVSEoK4a5yPF/woinztrCT/zMWhevW2ZPuOm5nXSWWkf3/BPVp3/ntGzQVAEykaAhspfme4wS32MDkcVpklR3KrRpBxdejEPvj1s52wPJaeasrlUh5ZV/Lj8/nnLhfFQ6ck0gHK2YGxySI=
+	t=1772706369; cv=none; b=lcixBhUU0DIOqSYNQWBpo5wjH0clDXB02cWhnwyuNw7e+qrQinVEKXc6WUv5S+7ze9n2M4lRKz0eZDklvvEBU4r/sD1uvzjD+89JY36qbsL0YhPrlbfDuNtNE1iBA5MDE6UqzKXPyUtSo44cak3yNmCFhg1wm95xKVgvDC8MTtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703734; c=relaxed/simple;
-	bh=Wx2LogNDbns541SnFVUv93/3oIAkkkOiWLeIhqW3jiU=;
+	s=arc-20240116; t=1772706369; c=relaxed/simple;
+	bh=mopNjxyGlc1UwRsEKNs25RNJFEbs0dSzzcVn/5Lrcpc=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=u8iEdz0lhO4rK8VRIPCg6Xcm6QE9KucWOfZHX5+8AG50Q8R7RnIjvKXkvD29X6h80o0YkLIuq2CfEIxCa+BwhfueCcERxw85cTiSltGTln8dgF7S24VXouYbnmTw7N0nYKiqXBDltrCn8AHrQnsOK1TuQUeQHIA5tKkM96JQZpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1Pqemu9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D42BC116C6;
-	Thu,  5 Mar 2026 09:42:13 +0000 (UTC)
+	 References:Date:Message-Id; b=iAEDjZAenhPp7EQzpL+KE5yj2nJpN4PvU5e3pS4HIBgIhEPxOnl8uwSzjPAU70r5MM4KXwGcWRLvN+VrN7AutuQ6wRwFmeV6z7JBB0IGZqxo31IyVvxnmXTBTWHWot9suIC9nRfPPgleN5fD+1V61Ap8+SPv4WE1I1OkG6nrHPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxKcrp1N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D2BC116C6;
+	Thu,  5 Mar 2026 10:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772703733;
-	bh=Wx2LogNDbns541SnFVUv93/3oIAkkkOiWLeIhqW3jiU=;
+	s=k20201202; t=1772706368;
+	bh=mopNjxyGlc1UwRsEKNs25RNJFEbs0dSzzcVn/5Lrcpc=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=A1Pqemu99Yfpw0QnYo8TB9yTHrR0fE2RDK9jTlVIN0EEeJ9kc/ThHQn3qrOSiVBD+
-	 8Dc7i2cY6yhupxUVvXmieUq1RNLqhjsB/T6lQu4x3vdMI6JSaJy/QeMZDZ320FAwfc
-	 tAa/hp/eLwBhINTBnXlcxHwqYaXcg0SIABHB5eARBlkdyTwNXfp9kcD1DFeKNUYg/J
-	 NJ8zpo86WEGlojPjbKfetcWgHiLXKLdJ49qGrboKbmI520xUAr7K5hJelqpA3vSuAN
-	 X/iDHVM4SEC552AwE/52wD9y1oTOb0sBdJQ/B/mthKQjTnx1/yzgVqRyZ7aGRpVk1+
-	 TyTSwmQIAXrwA==
+	b=GxKcrp1NjpcJWIlYGOBMnLhrtZ6KW4d3Q0AsVsyUvzolHHPP6pu6s51wSMSIwgRS8
+	 yRiD27V16apOqOOtv2fOISUXuKvkHACUrrPlr6xBqZFHu5ciJuhbc9UhQ9orhkEWDf
+	 II0Y3z566YoYLMtSeEE9GRld5OIGUZcnuIdMzeiLhGWiIXEfNzNmYiMrI0B0EAL1Xk
+	 iINr1gmDzlK2m7I7Eiqkt2q86r0lyXIrXhW6Vrmbz/UKLfzkURGwvNibTBARbSaz8d
+	 /j1S3OI9ZMKfFUyrzCZbD+54Rz097Q/i7rTizm7UWSUaKwbdTfdVatnF8a2lHxsm+T
+	 DqI3xJSMJJdfQ==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -51,75 +51,127 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/9] kbuild: uapi: remove usage of toolchain headers
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 1/3] kbuild: rust: add
+ `CONFIG_RUSTC_CLANG_LLVM_COMPATIBLE`
 From: Nicolas Schier <nsc@kernel.org>
-To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Brian Cain <bcain@kernel.org>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
- linux-hexagon@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-In-Reply-To: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
-References: <20260227-kbuild-uapi-libc-v1-0-c17de0d19776@weissschuh.net>
-Date: Thu, 05 Mar 2026 10:41:55 +0100
-Message-Id: <177270371590.103031.6257749379376584635@derry.ads.avm.de>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
+ Matthew Maurer <mmaurer@google.com>
+In-Reply-To: <20260203-inline-helpers-v2-1-beb8547a03c9@google.com>
+References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
+ <20260203-inline-helpers-v2-1-beb8547a03c9@google.com>
+Date: Thu, 05 Mar 2026 11:12:59 +0100
+Message-Id: <177270557911.104478.12699746103670684667@derry.ads.avm.de>
 X-Mailer: b4 0.15-dev-363b9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=444; i=nsc@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1892; i=nsc@kernel.org;
  s=20250924; h=from:subject:message-id;
- bh=Wx2LogNDbns541SnFVUv93/3oIAkkkOiWLeIhqW3jiU=;
- b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpqU/qjDPfC5xvFortkyG0MKGDxmPaelRTIOk1e
- ot9NlLEPwWJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCaalP6gAKCRAHUgpwFiYS
- aY3mEACXuJeGoqWpxF9yVei8JmJpgRj9WMvVu4Hw0bLHKIdgUwr0DJRshynekgezYGyd+EFFalL
- VyHmc+utk5ykVt6Sewnt7Eguf6fe6HbR/A9ZlfAQnSVvIQp2s7L8NamyO4Fu9jLc0FeFg+Fp+FQ
- tASyB9h1c1syQ6Hg6fqbKUETQztomVhjNfsXmP7ALSSgzJB6UIUwc3Jf9kYgmKtBJDgMey3mETe
- e6b6Fc4fk9Yk2lpwVyo7Nh39f7ZPJwnjg++x7hYzhbElJvASjPIqyrtKUC9OCmhjwzOM4FkRdgg
- xPGZomBnFPkbe/PjYM8Ly3TevVO4xvWNdYYEASlq+LXKDt4/xNbCV0srGJgFRtf3sLy0PbTg0Q6
- XwhSs6Har2eyMs/KI79tvSh77gD2qoTQLFeN0EfDqQv/NziOuU526D2Pdh1wKABK7sVwlfP8vNG
- qNSq8eZhTlMlyBbaqKbzFFLQG/j5VgvkK3DKGs5dceDgcuTb9fEpD8qeNEmZabV4KurgBmwlEtU
- 0B2G9BdLriUFOoEGx8i8OG2qMsM4eSszExtNt5/Q0Iwn9gMdNjpr6OvZEAPLLsRlS2rR0qs4zcT
- pe2G1r3GlNEgnOtR78MfD3Vcb8SQh4Jc3mRlhPOMbcpc8rROqH7W5vAeflb7smDiofeVJdMSzDi
- SV3bXk6tN5CD6hg==
+ bh=mopNjxyGlc1UwRsEKNs25RNJFEbs0dSzzcVn/5Lrcpc=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpqVctnTqdxXgENccjqWqtvxCvG/SQspXXSTbSz
+ a0dBSGX4x+JAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCaalXLQAKCRAHUgpwFiYS
+ aSYjEAC16lSRDiDLSgS1R1i3F1HH9EHYStgMq9R4oaJFqofyb5aAQRP8jrKAFe1mp6cWxOA0IeB
+ mh5i++AsAHMpukhZv3VRXZLkHM0d2mDOuk+pbPy7aw0LoDEiyOlgbVVFsyj0kuKTBkuBIVKJTZK
+ fGE5bfqFJBo+MVbilCgJly6KhHcNxCAZXSSeI1It6+/NGO6HNGXferB8ZrS+DAAeTenWZSaGVYU
+ F3e905Fv3wZtrGgwiGOxvGrJcWVr0hLfCuKGbIcdDpcsN4OmSOdQwQHdE1b5PJgv2t9Q18rcpv+
+ XMZi6XKwTbymtUtRPAERCs/Pd6gBQAcXkjidQJ4wq2fAAr7gei5qkkU+XwWI1Z/RjSzFx0NrTdo
+ 7eFqBttsygDVM5ztwdUQZ/4bely1jDEISSokiyW+dNxfZnmtnxZhSWeObmg0/51QnFa5Kw7/gT2
+ VKiZcDFuH+jJ/OHm2glGJYJzfybNdorAtzoxBxDkG6jchRm92ljqGoAlfVXq9PHE89oTkQKnhdh
+ wOZDoD2nuxE+DkzXvIhyqA6FnrO40hUs2si+NP0diQ9AHyl9I7GuajKEqXyGv2JO7e7NDuBIuJ7
+ f4AlvYDcrwpdvCyr+bk3qp+MH+w9ChuQ/AycvODpM7aWG+KMFujj2LOmi97wm0m523zi825m5LX
+ jenBOCuvsxI9Oag==
 X-Developer-Key: i=nsc@kernel.org; a=openpgp;
  fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
-X-Rspamd-Queue-Id: 049E620EE8F
+X-Rspamd-Queue-Id: 582D820FB98
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11574-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11575-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,infradead.org,arm.com,google.com,linux.dev,linux-foundation.org,vger.kernel.org,lists.linux.dev,kvack.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, 27 Feb 2026 07:37:58 +0100, Thomas Weißschuh <linux@weissschuh.net> wrote:
-> Currently the test compilation of some UAPI headers requires a toolchain
-> libc headers. Remove that dependency.
-
-Thanks a lot for the highly appreciated clean up!  Having -nostdinc in
-UAPI header tests is good thing!
-
-Kind regards,
-Nicolas
+On Tue, 03 Feb 2026 11:34:08 +0000, Alice Ryhl <aliceryhl@google.com> wrote:
+> This config detects if Rust and Clang have matching LLVM major version.
+> All IR or bitcode operations (e.g. LTO) rely on LLVM major version to be
+> matching, otherwise it may generate errors, or worse, miscompile
+> silently due to change of IR semantics.
+> 
+> It's usually suggested to use the exact same LLVM version, but this can
+> be difficult to guarantee. Rust's suggestion [1] is also major-version
+> only, so I think this check is sufficient for the kernel.
+> 
+> Link: https://doc.rust-lang.org/rustc/linker-plugin-lto.html [1]
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> 
+> ---
+>  init/Kconfig | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index fa79feb8fe57..06f6b23c9fde 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -82,6 +82,21 @@ config RUSTC_LLVM_VERSION
+>  	int
+>  	default $(rustc-llvm-version)
+>  
+> +config RUSTC_LLVM_MAJOR_VERSION
+> +	int
+> +	default $(shell,expr $(rustc-llvm-version) / 10000)
+> +
+> +config RUSTC_CLANG_LLVM_COMPATIBLE
+> +	bool
+> +	default y if CC_IS_CLANG && RUSTC_LLVM_MAJOR_VERSION = $(shell,expr $(cc-version) / 10000)
+> +	help
+> +	  This indicates whether Rust and Clang use LLVM of the same major
+> +	  version.
+> +
+> +	  Operations involving handling LLVM IR or bitcode (e.g. cross-language
+> +	  LTO) requires the same LLVM major version to work properly. For best
+> +	  compatibility it is recommended that the exact same LLVM is used.
+> +
+>  config ARCH_HAS_CC_CAN_LINK
+>  	bool
+>
 
 Reviewed-by: Nicolas Schier <nsc@kernel.org>
 Tested-by: Nicolas Schier <nsc@kernel.org>
