@@ -1,183 +1,184 @@
-Return-Path: <linux-kbuild+bounces-11609-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11610-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kAm6KUU5qmnUNQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11609-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 03:17:41 +0100
+	id 8IOjKS1OqmluPAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11610-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 04:46:53 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189AE21A865
-	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 03:17:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0825721B4BD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 04:46:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9FADA3041A60
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Mar 2026 02:17:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 458A6300BC95
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Mar 2026 03:43:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F92E317715;
-	Fri,  6 Mar 2026 02:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BqmUrOVt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D482FC893;
+	Fri,  6 Mar 2026 03:43:39 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from 69-171-232-180.mail-mxout.facebook.com (69-171-232-180.mail-mxout.facebook.com [69.171.232.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D8B2FD1B6
-	for <linux-kbuild@vger.kernel.org>; Fri,  6 Mar 2026 02:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B6D36C0C4
+	for <linux-kbuild@vger.kernel.org>; Fri,  6 Mar 2026 03:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.171.232.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772763437; cv=none; b=NHcYmZksXIgeacMMrMDL7e8RgxFqYilfgjXHvJ8HUBgfZDyGzVoY69bdaCcNOJC4K9G9llKVPhSj9/OXtcKpYtFIrsY6eSVQZGxJG9llQ/llEHuoKja29FajcFGdaHgebezpEso6CXBNC+vBcqUFRMOqUI5YYqFNzBHZO42mJuw=
+	t=1772768619; cv=none; b=tcF357GDzJjEKC70j3BLrRPyR/sdM7MoRKEDF46mxxP5H8AsHlwNNhQDEW4k8j2xDTX12jTLWbGN3KUPUUiz45dhVvacm4piMGU9seTpIesw+ee4cscdb6xGTO/EsNlt2adEr9D4vozkGtsxOSpHCoINkYNvLoCuS5bWFmx0D/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772763437; c=relaxed/simple;
-	bh=j65gApWA27BQIdeGFn5i9iKCRaNJQ4DyC0qDkjxGBzk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TwdOD4968uE9Hxergl5G3F6Y/kvtHVtJHDJOY4QlyBC6GrjqYUxtmfr8XnYJCsHv84vRn5HsNWdmdbAyG/hF8mSnnLDaegnSApKB9QPJ1uhl3F3n7OzwAvVrshNDIdXTgC5C1hbLBZIrtCyN5i8MisDY6ZmBYDEqVjqiRZQd9bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BqmUrOVt; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ae46fc8ec1so36013305ad.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 05 Mar 2026 18:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772763435; x=1773368235; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aComa1aLtd4u5sNYHRHFrAGjjOKe8ZcDgb4RgBRD3SY=;
-        b=BqmUrOVtyCAo42bo0aq+dKCYa0jXo8iDY9zT+AFdmDoG5YYNrGzqGu/qPICb8t3/3J
-         y+zqiW1sUkbbi/Cbu1/nYc7u2mDNtodCc4dtMUxaoQhdG/MftZ17OLGkoJvzsDgujY/I
-         0RwNiBR0jo4h4zJ3U33aXka9hInl+Os+CCVY6xJhZfqWDnFg6ATxZDFZUpuDvjTZNEEc
-         oXlUGfwFYgjW/N0xqvJcIvc8zYaRFQHHe8rS7xkophMOZaCua2lSvAy0u7CUPwrugrCS
-         jOpUAhJwwMi1AMlAgLBThGZXM8ssQo2uIjQR72tJmKWvOZO5ICmy0EQEmS8OMoga6Tra
-         At9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772763435; x=1773368235;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aComa1aLtd4u5sNYHRHFrAGjjOKe8ZcDgb4RgBRD3SY=;
-        b=PXjgkKvfcuO4YtgMo4AkwyJaaHfMPwgTH8HrIQChNaePrcwjKAY+hBRO0gauHGPV19
-         0F8R5giJJwx9t0nzeD11qd23cqCUoXGH09CYcek58iMU2H3/kEdYLh+rkMnitmt/jf0Z
-         4CV5tykiS2wA5ZfRX+PJXxvX5wtX7rXbhwNu+bTK3kP6UcPtC7JbsdlfiZ+zXpjH5/W7
-         53jCzNagRY/hBF0nF19abf29XHgEEBlo0Ni6gDm1NT0iicWm6iephPB3qj7YQMBJ3eYj
-         Yg+9Ak+JN6TwUxOPvuvvR27Bdnos19SVL843eog7n4cNWoffgwmuJgwvZMHsv51KhLUK
-         n7mg==
-X-Gm-Message-State: AOJu0Yxh3/5lh0zg0UPeoJ2ZSQDdV+jArBYeaUn9NPKntzvgAOt435FQ
-	ppBeUbugk6fhuEql0t6fdFUhUMG6I4doXV/tYr3SD+4ptlR0N54YZCqNiRgoMonB
-X-Gm-Gg: ATEYQzxTduAYgvBYbb+FUJCPunY2cWPQ2Imczfi+O/w6t8kVKI9T6xBu6N1/J1j0pYO
-	aakdlTS1M0iDuCuxh/Nk2DL3IXF/dA1BpoM/y4PXD1X7ZQXAMFET75BXTRIEGES8mtMRw0PDl/5
-	Xcb8mnVWg4nEsevMfXP4zuGtGT3tBYD/LcvRzkYsTAZmacZrqdFXgpkVoPlXdLYfxRMfbpatWUT
-	vUl7MoRnp8UqA4nU5s2rYLSXuJBJ5coRy74wcpAqT7K8gKQ1mBuBsaeJ86fRsMXBS8WlIzwplsI
-	IMrfCwTj5yeHxNxCA5D6OsUYRT4wEfUDjFbIL5UG4rGcpU5dhedTMAIfFhwX2D1JfTh6BxMs6lR
-	gcdsN+oqDvS8TIZw52g+XFRgYvCvhbmjufoQfugZ/P4SzVPAZH/Nq06ZMGQFSGHq2QGbzasJyTY
-	Opv1r53bT41zQxbXuu10nwZAHxgBE4gdmzcrYu
-X-Received: by 2002:a17:903:40c5:b0:2ae:6779:c8bb with SMTP id d9443c01a7336-2ae82362cf5mr6309595ad.5.1772763435205;
-        Thu, 05 Mar 2026 18:17:15 -0800 (PST)
-Received: from localhost.localdomain ([111.202.175.108])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e57c1csm1134325ad.18.2026.03.05.18.17.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 18:17:14 -0800 (PST)
-From: Xingjing Deng <micro6947@gmail.com>
-To: nathan@kernel.org,
-	nsc@kernel.org,
-	rdunlap@infradead.org,
-	masahiroy@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xingjing Deng <micro6947@gmail.com>
-Subject: [PATCH v3] kconfig: fix potential NULL pointer dereference in conf_askvalue
-Date: Fri,  6 Mar 2026 02:17:09 +0000
-Message-Id: <20260306021709.27068-1-micro6947@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1772768619; c=relaxed/simple;
+	bh=XLF10N/BPmNrtU9Xp/CQSiynUMll3Pz+IJF3Ntemvbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O2AG5KjtsUm+caP30RxhDSuIMh0DLr6+xsz7Sxk3FRmpoXOfF5OzRJ9BUrxf+7iwM19nMvBwMREcNwS/VsjPMvtFJFDAxizUNpWWw519MX/WdHxT8RnrF9AHBD3nd1GdH0ZEHSK6ireBMtB+OecoPDYop55wPOlMqbO3rdBNEj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=fail smtp.mailfrom=linux.dev; arc=none smtp.client-ip=69.171.232.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=linux.dev
+Received: by devvm16039.vll0.facebook.com (Postfix, from userid 128203)
+	id 1A54A22BBCDDC; Thu,  5 Mar 2026 19:43:25 -0800 (PST)
+From: Yonghong Song <yonghong.song@linux.dev>
+To: linux-kbuild@vger.kernel.org,
+	live-patching@vger.kernel.org
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
+	kernel-team@fb.com,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Song Liu <song@kernel.org>
+Subject: [PATCH kbuild] kbuild: Allow to reduce the number of suffixes for clang thin-lto build
+Date: Thu,  5 Mar 2026 19:43:25 -0800
+Message-ID: <20260306034325.3605301-1-yonghong.song@linux.dev>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 189AE21A865
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 0825721B4BD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.14 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[linux.dev : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-11609-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-0.992];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[micro6947@gmail.com,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yonghong.song@linux.dev,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11610-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Action: no action
 
-In conf_askvalue(), the 'def' argument (retrieved via sym_get_string_value)
-can be NULL. While current call sites ensure that 'def' is valid,
-calling printf("%s\n", def) is technically undefined behavior and could
-lead to a segmentation fault on certain libc implementations if the
-function were called with a NULL pointer in the future.
+The current clang thin-lto build often produces lots of symbols with
+suffix. The following is a partial list of such function call symbols:
+    ...
+    ethnl_module_fw_flash_ntf.llvm.7631589765585346066
+    __nf_conntrack_alloc.llvm.6438426151906658917
+    tcp_can_early_drop.llvm.11937612064648250727
+    tcp_print_conntrack.llvm.11937612064648250727
+    ...
 
-Improve the robustness of conf_askvalue() by providing an empty string
-as a fallback.
+In my particular build with current bpf-next, the number of '*.llvm.<hash=
+>'
+function calls is 1212. Such symbols make kernel live patching
+difficult since
+  - a minor code change will change the hash and then the '*.llvm.<hash>'
+    symbol becomes another one with a different hash or no hash, and
+  - a previous source-level symbol may become an one with suffix after li=
+ve
+    patching code.
 
-Additionally, remove the redundant re-initialization of the 'line'
-buffer inside the !sym_is_changeable(sym) block, as it is already
-properly initialized at the function entry.
+In [1], Song Liu suggested to reduce the number of '*.llvm.<hash>' functi=
+ons
+to make live patch easier. In respond of this, I implemented this
+in llvm ([2]). The same thin-lto build with [2] only has two symbols with
+suffix:
+    m_stop.llvm.14460341347352036579
+    m_next.llvm.14460341347352036579
+This should make live patch much easier.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Xingjing Deng <micro6947@gmail.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+To support suffix symbol reduction, a new config
+    LTO_CLANG_THIN_SUFFIX_REDUCTION
+is introduced and the config depends on thin-lto and llvm23 or higher.
+
+Two lld flags are necessary to enable this feature in kernel:
+    - Flag '--lto-whole-program-visibility' is needed as it ensures that =
+all
+      modules are available in the same process, which is true for kernel=
+ at
+      thin-lto lld.
+    - Flag '-mllvm -always-rename-promoted-locals=3Dfalse' is needed to e=
+nable
+      suffix reduction. Currently in llvm [1], only process mode is suppo=
+rted.
+      There is another distributed mode (across different processes or ev=
+en
+      different machines) which is not supported yet ([2]).
+
+  [1] https://lpc.events/event/19/contributions/2212
+  [2] https://github.com/llvm/llvm-project/pull/178587
+
+Signed-off-by: Yonghong Song <yonghong.song@linux.dev>
 ---
-v3:
-- fix compile errors.
-- Link to v2: https://lore.kernel.org/all/20260301053035.1950087-1-micro6947@gmail.com/
+ Makefile     |  3 +++
+ arch/Kconfig | 15 +++++++++++++++
+ 2 files changed, 18 insertions(+)
 
-v2:
-- Change commit message and use fewer characters in modify.
-- Link to v1: https://lore.kernel.org/all/20260225072246.3475275-1-micro6947@gmail.com/
-
- scripts/kconfig/conf.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index a7b44cd8a..c368bec5a 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -297,9 +297,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
- 	line[1] = 0;
- 
- 	if (!sym_is_changeable(sym)) {
--		printf("%s\n", def);
--		line[0] = '\n';
--		line[1] = 0;
-+		printf("%s\n", def ?: "");
- 		return 0;
- 	}
- 
-@@ -307,7 +305,7 @@ static int conf_askvalue(struct symbol *sym, const char *def)
- 	case oldconfig:
- 	case syncconfig:
- 		if (sym_has_value(sym)) {
--			printf("%s\n", def);
-+			printf("%s\n", def ?: "");
- 			return 0;
- 		}
- 		/* fall through */
--- 
-2.25.1
+diff --git a/Makefile b/Makefile
+index e944c6e71e81..9d6033595615 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1034,6 +1034,9 @@ endif
+ ifdef CONFIG_LTO_CLANG
+ ifdef CONFIG_LTO_CLANG_THIN
+ CC_FLAGS_LTO	:=3D -flto=3Dthin -fsplit-lto-unit
++ifdef CONFIG_LTO_CLANG_THIN_SUFFIX_REDUCTION
++KBUILD_LDFLAGS +=3D --lto-whole-program-visibility -mllvm -always-rename=
+-promoted-locals=3Dfalse
++endif
+ else
+ CC_FLAGS_LTO	:=3D -flto
+ endif
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 102ddbd4298e..e1db64a3284e 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -861,8 +861,23 @@ config LTO_CLANG_THIN
+ 	    https://clang.llvm.org/docs/ThinLTO.html
+=20
+ 	  If unsure, say Y.
++
+ endchoice
+=20
++config LTO_CLANG_THIN_SUFFIX_REDUCTION
++	bool "Clang ThinLTO Suffix Reduction (EXPERIMENTAL)"
++	depends on LTO_CLANG_THIN
++	depends on CLANG_VERSION >=3D 230000
++	default y
++	help
++	  This option allows to reduce the number of symbols with
++	  '.llvm.<hash' suffixes. This can help KLP (kernel living
++	  patch) as symbol name can stay stable in most cases.
++
++	  See https://github.com/llvm/llvm-project/pull/178587
++
++	  If unsure, say N.
++
+ config ARCH_SUPPORTS_AUTOFDO_CLANG
+ 	bool
+=20
+--=20
+2.47.3
 
 
