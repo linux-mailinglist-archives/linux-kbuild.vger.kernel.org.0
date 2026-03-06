@@ -1,124 +1,136 @@
-Return-Path: <linux-kbuild+bounces-11615-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MBwQJi/FqmnVWwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11615-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 13:14:39 +0100
+	id OEnlBykDq2nDZQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11616-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 17:39:05 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816DB220547
-	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 13:14:39 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDD722540B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 06 Mar 2026 17:39:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C038830351F0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Mar 2026 12:14:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C1D7B3039312
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Mar 2026 16:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8291D38E5CB;
-	Fri,  6 Mar 2026 12:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 225C830F7F2;
+	Fri,  6 Mar 2026 16:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tikwap/P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tCqkocIR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C36136605E;
-	Fri,  6 Mar 2026 12:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92BA36A029
+	for <linux-kbuild@vger.kernel.org>; Fri,  6 Mar 2026 16:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772799254; cv=none; b=mEMFthXKbe1SVc7sOdvXPfBqjLNpCUgUagcgfEGq1CfUaN8S89h0vpz7D7P/8DRt6J4dnxEF3O8iz/HhDRBwJ1POeeBa+gDQO6+Kk6QRkYGQvNifLMaY5B6aQGcwDgxdIRgWNbv/iQ8mKpJwX57KX67E56ztFPE0MH461Yk72hc=
+	t=1772814800; cv=none; b=rKW4t3+w1wPMXw3VuodA4iicnhRdY+aUS1E2UzfWwarmbC71Jq7hz1DdoLmwD6hf8ANDgQHo4gphZCvE3qZ7cYossWyum4z8yyCirkbQHiCiCLtFNH1v4Chtj4TJrCp9nNS577tJzI+8w3hMSEqqFRPBD/CM8zlBiJku//oI9Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772799254; c=relaxed/simple;
-	bh=5t30S803mEvjtVilgSEzN5GxW7zIgmWcX4xvG/iYpEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f4i6X5gdSuIRfyB1rxvudLqQ7yYCJ55Frj63q3NWxjyN9PpyjD7YAarZGe5bXcYSnQ48Kvi4j6+LuPZRVYDl5e5niovd3NLQAB+c9PqVBcNFq00kXmxiGtBXhjVzGDzizuILxb8KA3W9S6aU+eCirZ6IO4868VLsk17cJcaFQZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tikwap/P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9619BC4CEF7;
-	Fri,  6 Mar 2026 12:14:13 +0000 (UTC)
+	s=arc-20240116; t=1772814800; c=relaxed/simple;
+	bh=Os7mTkihUOkI9LVMXSiyTjNwHSnrKvzytxZMwfXYZ38=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ME7VfIGKwova3r9Fucd1jlH/3zfrla/whTjV8TJDqDED3/+Zg+7H9cizKvNBqJJ64pOux+7A0d3DrDTc9ivkK8hhr3r6cYtZlnV6v3hb1RFlnJhXXThLxF+JgmlMRkX0Uf2kdoWnRxouchXqD6gNG+NfderH6P7fPKr55eFClCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tCqkocIR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66408C4CEF7;
+	Fri,  6 Mar 2026 16:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772799254;
-	bh=5t30S803mEvjtVilgSEzN5GxW7zIgmWcX4xvG/iYpEA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tikwap/PqsX9qW68z0L9B8oWZgam0G9WL8rSIaX6RHMebxquMVwmvncWcFyyU1PJj
-	 QM/5u6MuSO+BaITuU803peUdwK/FjZvFCSjC+6sZmGwMKZ20ybLaW5/2GDB92mA4n9
-	 q28nqC6KTws3Xp0Xd0Zgi+n58yz5esdmu33xGkjdC2G4dvMFcCL/jDqegI/J7JnRDt
-	 crDwbLMS4DGohguTog5JexO5yV2hnz3RVnBi2p3BYJmM++cOIPWON4a/x/5j0iIgqy
-	 IzJ9YveW0SS7gwS7EZwitbjIMZ85fh4aeD1MCJdMM7/2ADDIF/XFo0TJt78RQmV8Gf
-	 tXRxKn9w1vnUA==
-Date: Fri, 6 Mar 2026 09:14:10 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Ian Rogers <irogers@google.com>, Dmitrii Dolgov <9erthalion6@gmail.com>,
-	linux-perf-users@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	Levi Zim <i@kxxt.dev>, Namhyung Kim <namhyung@kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	rust-for-linux <rust-for-linux@vger.kernel.org>,
+	s=k20201202; t=1772814800;
+	bh=Os7mTkihUOkI9LVMXSiyTjNwHSnrKvzytxZMwfXYZ38=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tCqkocIRrV32Wi4wrIBAv0Ov6Y+SmKRBnSwEPp9MaFIbFHI/G3fBHq+BM2foIDHLo
+	 sbgqxJHWdL1xzvLKFpnVa6YfDGtBob6jwkHi9yCDuxsF6ytyrQQwbajCiGuFaxV3oQ
+	 /iX2cEfsUOC1Q95/64qmVydlp8AZrYyEBSREUBhjW/M2d8Yh+6clMgc9U1Wu4HdodF
+	 BXQ8YN4oKWCc5D5bj3ruJayznxPO83x6Vy2OI3dRfNuJDQ28XoD2jxAbUzu0IPn1kf
+	 qb82pyL5GdV4psQx+Fm/U0EGjxBR4s/4/LatqrDNjbckAcj/gJg1lsIXHo4wR4sfI5
+	 lkIlSuJe8dXxQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Dodji Seketeli <dodji@seketeli.org>,
+	John Moon <john@jmoon.dev>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Subject: Re: [PATCH v4] tools build: Fix rust cross compilation
-Message-ID: <aarFEjqKs4pT48mF@x1>
-References: <20260218154800.367720-1-9erthalion6@gmail.com>
- <CAP-5=fXLNybYv08dDfAqAsDBzbOPzQY4EZQvdY0WZsfrMu9Yyg@mail.gmail.com>
- <aahEEkHP5g-T_tFg@x1>
- <CANiq72mdo3TFS=t=t05Qc4RZ7a6DNayaDkXMUHBhBFixRjCVYQ@mail.gmail.com>
+	Nicolas Schier <nsc@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	libabigail@sourceware.org
+Subject: [PATCH 0/3] check-uapi: improve portability for testing headers
+Date: Fri,  6 Mar 2026 17:33:06 +0100
+Message-Id: <20260306163309.2015837-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72mdo3TFS=t=t05Qc4RZ7a6DNayaDkXMUHBhBFixRjCVYQ@mail.gmail.com>
-X-Rspamd-Queue-Id: 816DB220547
+X-Rspamd-Queue-Id: 8DDD722540B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11615-lists,linux-kbuild=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-11616-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[acme@kernel.org,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[google.com,gmail.com,vger.kernel.org,kernel.org,kxxt.dev];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arnd@kernel.org,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	NEURAL_HAM(-0.00)[-0.940];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,jmoon.dev:email,arndb.de:email,weissschuh.net:email]
 X-Rspamd-Action: no action
 
-On Fri, Mar 06, 2026 at 01:01:00AM +0100, Miguel Ojeda wrote:
-> On Wed, Mar 4, 2026 at 3:39 PM Arnaldo Carvalho de Melo <acme@kernel.org> wrote:
-> > Thanks, applied to perf-tools, for v7.0.
- 
-> I think v5 (the latest one) was applied (to tmp.perf-tools -- not sure
-> if that is the right place), but this reply was to v4 -- I mentioned
-> it just in case.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Thanks, that is b4 picking the latest one, which is what we wanted,
-right?
- 
-> I hope that helps!
+While working on a series to clean up some uapi headers, I needed
+to check the that the actual ABI remains unchanged. I found that
+scripts/check-uapi.sh works well enough for architectures that have a
+full toolchain installed, but not with the nolibc compilers I provide
+on kernel.org.
 
-Thanks!
+I ended up with a series addressing three separate issues here, but in
+the end I can now validate ABI changes across all supported architectures
+and ABIs.
 
-- Arnaldo
+The third patch depends on a series from Thomas Weißschuh that was
+just merged into the kbuild-for-next tree, the other ones could
+also apply to older kernels. I have marked the second patch for
+backports to stable kernels, this one is what caused me the most
+work in debugging.
+
+    Arnd
+
+Arnd Bergmann (3):
+  check-uapi: link into shared objects
+  check-uapi: honor ${CROSS_COMPILE} setting
+  check-uapi: use dummy libc includes
+
+ scripts/check-uapi.sh | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
+
+-- 
+2.39.5
+Cc: Dodji Seketeli <dodji@seketeli.org>
+Cc: John Moon <john@jmoon.dev>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>
+Cc: Thomas Weißschuh <linux@weissschuh.net>
+Cc: libabigail@sourceware.org
+Cc: linux-kbuild@vger.kernel.org
+
+
 
