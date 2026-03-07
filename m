@@ -1,154 +1,122 @@
-Return-Path: <linux-kbuild+bounces-11638-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11639-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cGemFWe0q2klfwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11638-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 06:15:19 +0100
+	id yNqWGxvdq2nOhQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11639-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 09:08:59 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B230022A302
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 06:15:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B264122AB64
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 09:08:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A2909301C174
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Mar 2026 05:15:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4CEBF301983F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Mar 2026 08:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43104371CEC;
-	Sat,  7 Mar 2026 05:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D73378803;
+	Sat,  7 Mar 2026 08:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lIifXCwu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gt7tnGrc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9679311597
-	for <linux-kbuild@vger.kernel.org>; Sat,  7 Mar 2026 05:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD922224AF0;
+	Sat,  7 Mar 2026 08:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772860513; cv=none; b=mbGQKaK3R3AK2nmU2NAqFq3mN/TM+FKFfK7fyRArLOah4505gP/KztgnkYgAPnyWymoD8AOiXnosuOktOTH1Y0yhux4C3BDRSHELIz6aOLS1zwj7m2mg/wnZ56udZYWLgPTh5YpYA8N6dClUTGQGY6BOTon5nKdLv9iBs7lwxks=
+	t=1772870936; cv=none; b=WKL6gubMCJ5QV2Act86G8QGvkFmyYPHleEMU6W4YTYmpRDTjM5AVI7NGoExB+MQXqIVu6FsfSk/oj3P54YZM6QNY7fw4RbNdzIP2wqxFTIZQqVtiAy3oB6d1kT+2iRmACNtFT4frNPxxnlUwA0/uMTs+DkHlKz05u3Y1I1HeWYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772860513; c=relaxed/simple;
-	bh=h+CX0JJ0tUyfPPria3ogYiqLcW/imvT4cgeJbLA69lk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gi7ZrDQuOf+sfmmwo6FaQcgnPTgVLU5nBqCpMExOQvqUrJGWR5z5fqwn5k8UDjhpG+YlbFy8LGB56eGsHivcoQpd5iyigvePsd9ruhaQRndhKbgYXMmO8jDGAUmkeuWnlh50GIlBfWx+gKl55Yz0FiYbZvqyffQQfn6sIP1kiTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lIifXCwu; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <22f5c641-f472-4fe9-aec5-a660efbfdd5e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772860506;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oVeP2T6JpMBn5IOWgrXjDxvTzJ0Ym2WSlHNkgDf+DoQ=;
-	b=lIifXCwuAJ2DciDp8vw6wNT10UlQ/oC/piwkNzlvQYR/nlHCqfCgAVaf9CcKcZI9C5mtBi
-	mdECe/aPrXuqAHnf0siVsiy8bi/h3moP0rYal02yUMPZFD/qjGDNFju9OhOK38gKokkiQl
-	tb1CbDDm/dDLrkCLattKYQyz0lnjxR4=
-Date: Fri, 6 Mar 2026 21:14:56 -0800
+	s=arc-20240116; t=1772870936; c=relaxed/simple;
+	bh=WzysFsYagwwRxUbpcTA6UymBVSjxX8+jkf+RySyrOpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B6bts1d38vFyzG+c9IMPjLTwrAv1YcrN2jIgVPUK/w0a5f8VT9zXkorkLSmFgtsi7HmRAbosFzOSLbz9cPqa9a3UJO+3J2NhSDqlFIaee9YGdSleyTpNLIio8MytaoGnN4ugTHI9zYtw56cOr8JjKK1fKgSnXm9OdTWoPpHGtZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gt7tnGrc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3E7C19422;
+	Sat,  7 Mar 2026 08:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772870936;
+	bh=WzysFsYagwwRxUbpcTA6UymBVSjxX8+jkf+RySyrOpY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gt7tnGrcqEImzzWTntGZrAyqSwT9I3svMXmC3NNC4+bISmEy39xWjcuV6NB5F7+f3
+	 IppzPY5X3RAPjFDLZKgSVl6n9Det//Sz+F8YMHDWqC/UnTiO2XMkWTHhOoM9uzD3Lm
+	 //EcKQJMY7y50QrtJ1RmTe0HeW8USDJUYCxEZueu05DLWgV5udHHNSZtMVcD8nc8Bp
+	 V4Mb4CYY4wu6RBAj1o67LC5773S68FG1yqLPyKL1ttT55TfJeXPM6yLtcAmxw7dlt7
+	 qYBGBR00U8sFk3jReaHMLCAPzg8nUcpECr3vZWbniodTOhUn4HwN/KX7RDRYP9bcqq
+	 rS4ShkYt3NDyw==
+Date: Sat, 7 Mar 2026 01:08:52 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
+Message-ID: <20260307080852.GA2685454@ax162>
+References: <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
+ <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
+ <20251028174541.GA1548965@ax162>
+ <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
+ <20251031220732.GA2254630@ax162>
+ <CAMj1kXF2kKyEOc6KSBfbdUMf5m4o=DLZXk4++C3q-utA_9g4DA@mail.gmail.com>
+ <CAB95QARrcOc6h9=YTzLKkNE0dEaivtiLfK0kEQ1jNp+v1w4yzA@mail.gmail.com>
+ <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com>
+ <CAB95QAS__YYYBLc3KFjBUg_QqC3AOB0y6kvhSqZFR9fx7BDKvg@mail.gmail.com>
+ <CAB95QAQyzYTrnGrkrcwXJ7Za37v7VsvwsmUezb1Z4VsF_RdLMQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH kbuild] kbuild: Allow to reduce the number of suffixes for
- clang thin-lto build
-Content-Language: en-GB
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, linux-kbuild@vger.kernel.org,
- live-patching@vger.kernel.org, kernel-team@fb.com,
- Nicolas Schier <nsc@kernel.org>, Song Liu <song@kernel.org>
-References: <20260306034325.3605301-1-yonghong.song@linux.dev>
- <pat2b5nibiik6nua6ls7cu7eqy5qgrugo4gnel32bz6vpcrmz3@f7ynsbvnxcaj>
- <f1afe1e8-0dfd-47b0-8ca4-f09d4fda13eb@linux.dev>
- <bt7t2452h27o7bf27f7ljs2xhn7venhvslynq3a77jbtwi7hqk@cgobhbhi5y2r>
- <lmj53l5djuipucmuxwr563n6ty7hobduzg4vvy4pjnw4yz5t56@he3wiioegzhy>
- <f0c037e6-d498-41c3-8d71-0597a2e1d68d@linux.dev>
- <20260306224522.GA2746259@ax162>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260306224522.GA2746259@ax162>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: B230022A302
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAB95QAQyzYTrnGrkrcwXJ7Za37v7VsvwsmUezb1Z4VsF_RdLMQ@mail.gmail.com>
+X-Rspamd-Queue-Id: B264122AB64
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11638-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11639-lists,linux-kbuild=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.976];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yonghong.song@linux.dev,linux-kbuild@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.939];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:mid]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
+Hi Eugene,
 
+On Sat, Nov 08, 2025 at 10:06:20AM +0100, Eugene Shalygin wrote:
+> I've got no response from the rEFInd author yet, but another user
+> reported (https://bugzilla.kernel.org/show_bug.cgi?id=220731) a very
+> similar problem with GRUB and ZSTD compression.
 
-On 3/6/26 2:45 PM, Nathan Chancellor wrote:
-> On Fri, Mar 06, 2026 at 02:12:44PM -0800, Yonghong Song wrote:
->> So you mean we do not need a new config. Should just check clang and
->> clang versionn like below?
->>
->> diff --git a/Makefile b/Makefile
->> index e944c6e71e81..9bd3990024c5 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -1034,6 +1034,11 @@ endif
->>   ifdef CONFIG_LTO_CLANG
->>   ifdef CONFIG_LTO_CLANG_THIN
->>   CC_FLAGS_LTO   := -flto=thin -fsplit-lto-unit
->> +ifdef CONFIG_CC_IS_CLANG
->> +ifeq ($(shell test $(CONFIG_CLANG_VERSION) -ge 230000; echo $$?),0)
-> This is the same as
->
->    ifeq ($(call clang-min-version,230000),y)
->
-> That being said, could we not just do a dynamic check so that it always
-> works when these flags are supported?
+Small necro bump: I think this might be fixed in mainline now with
+commit 8678591b4746 ("kbuild: Split .modinfo out from ELF_DETAILS"). It
+should apply relatively cleanly to stable versions (and should make its
+way there in due time due to the stable tag).
 
-Thanks for the suggestion! What you had below with 'call ld-option' is perfect
-to satisfy this requirement: <= llvm22, two flags will be ignored, and
->= llvm23, two flags will be used.
-
-v2: https://lore.kernel.org/linux-kbuild/20260307050250.3767489-1-yonghong.song@linux.dev/
-
->
->> +KBUILD_LDFLAGS += --lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false
->    KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
->
->> +endif
->> +endif
->>   else
->>   CC_FLAGS_LTO   := -flto
->>   endif
->>
->> I think this should work. In rare case, renaming the function should
->> solve the problem.
-> I agree with Josh that having this be the default behavior with the
-> workarounds that we have available to us to avoid problems from it is
-> worth it. Thanks for chasing this after the discussions at LPC.
->
-> Cheers,
-> Nathan
-
+Cheers,
+Nathan
 
