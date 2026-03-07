@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-11643-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11644-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MG5cHpherGl/pAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11643-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 18:21:28 +0100
+	id yG5xKqherGl/pAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11644-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 18:21:44 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6D022CE8E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 18:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D7B22CEAF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 18:21:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 24F6C303C625
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Mar 2026 17:20:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B383E3047E4D
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Mar 2026 17:20:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9556930BB8D;
-	Sat,  7 Mar 2026 17:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6750A3101A9;
+	Sat,  7 Mar 2026 17:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rOlgYjmR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KzaTqqjP"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BE9253340;
-	Sat,  7 Mar 2026 17:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0A02E1746;
+	Sat,  7 Mar 2026 17:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772904032; cv=none; b=aUv7LwaJxKaL8PtEvd0RkKk8KTUGwxCm4+RiDPPBcVrCQZJ9Up8LLhUPpIcBE9JevLgTpnwColrGhnI4dEmsDhQvkSXKdoQID7ay2mBnSLlXkxGku28qRnd/9l4BIRtIfdpC5oTrOLPGGXPb78gtwUzyKnHGrFmX/TooWFWiPH8=
+	t=1772904035; cv=none; b=B52ewGSPeNkn/7jJ9aWz8Q5TgWOpvbyht9Ud7Ik/joDya3Y9kJ8JnmYwZ5DTZsCHY2QdpxNv4epcm0fBrPjCYHQY/gmkHfhyIje8A3qXXCtFpxwIbzENMzhLxOY/nkbQTEQK2WQNpcBlO5G/+WuBIqZk/m+U3uXv0/TwDhqKc4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772904032; c=relaxed/simple;
-	bh=aaWbiONtGcSbq4NjQfoEv3blSN0zLzg0yBhe0gOZ7f4=;
+	s=arc-20240116; t=1772904035; c=relaxed/simple;
+	bh=V3WVZbhzwSfBFqjhgS2PSG/k3Zh/Mcurv+nl9c9WPeA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o04ERhIyLn6F+2y4o9pRyWAiYg33b9kTFXOmMkL0rRjPxj7lOJQMte/lHLnkDACNXbdzZHbpmjjRZYG8ceshOEhPwkOSErl7fT8yYw/p2EX9rKIs3En66bWT+ucTgSoBVQL0lyfjgpA1mm2nUwy37c9W5FATxIoKVbHC2vTlWCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rOlgYjmR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CFA5C2BC9E;
-	Sat,  7 Mar 2026 17:20:29 +0000 (UTC)
+	 MIME-Version; b=B6wjwJxWxTbV3fqNpPrxhTAT58Uzi53mi6IOnp9RV/gCS5RghB+RTqOf+ohwmzqYw2x5yB4gCLxDRm6US4EDI6yDfJFq8ARJhCZxfuK1oBL15x416Y1WLiAkMR8LYXSoFcj02PPiWo85jqlfd/uS5iSlt/wNgcupiVfIkg6Y17k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KzaTqqjP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E38BC19422;
+	Sat,  7 Mar 2026 17:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772904032;
-	bh=aaWbiONtGcSbq4NjQfoEv3blSN0zLzg0yBhe0gOZ7f4=;
+	s=k20201202; t=1772904034;
+	bh=V3WVZbhzwSfBFqjhgS2PSG/k3Zh/Mcurv+nl9c9WPeA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rOlgYjmRvCVlN5U8hdND1ktp2BzAHoXY/NWYAIHNvHPmAqSqnBwxav3tvt2kW0ggj
-	 SsSdFCsePCsUExGy6GtIkfwjqSW6Xpmb+Pp2Ln4ARKG9Wa5bXskCG7baErKMaKp+8W
-	 DsZhxAU4uW0+4RbjtMWqOUZYRwZqk8s3enaGLfuZjZZoU20xmOgC4FAQTP6Bq+KV4u
-	 QCoGXCWrgcliTdA4pctEC07x/mMhj1nTe12b6sSozWvSOZq93yT1CjMKMTgaBSi4C1
-	 sWQG1y2vz+TafQ/VXRw1nvuIAz6t+UgbRJJSw4WKqCsEclIge+GuRNvDuxL2cGpEVK
-	 ITlPEBfL2mnmA==
+	b=KzaTqqjPPSsCPDKFggI6z6/q6U/FsZqRR0c5Xl64BCJv7MxGwmIJT4uIApSGzHW9A
+	 c/zQWDuTpzCpxuFnUgJ3DkgbfP3k6nB+KOg0cabTuMlXQMuzNh2UptCvWl6rrP5Yve
+	 RA3LmsqJJ4N4feejVMUuGMEf9GqbZQnRihgGbq1j+WacmabbZKDFHu3uRCN9q6RhAy
+	 r/V94FjhFV2DZmQhF5Qr8O1q5xdV+F/Ig8+D+aWuh1Ppel3pXs80Z7c+GFePkvS7Uo
+	 iTFEpedNDikr+QK63Oyr93e7KboUCnAXwZ6+wCw9tBprV3aQwYG6ciJvZyeA2Xl4JV
+	 rC8VVNHTUyPGA==
 From: Sasha Levin <sashal@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
@@ -73,9 +73,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	rdunlap@infradead.org,
 	laurent.pinchart@ideasonboard.com,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v2 2/4] kallsyms: extend lineinfo to loadable modules
-Date: Sat,  7 Mar 2026 12:20:19 -0500
-Message-ID: <20260307172022.460402-3-sashal@kernel.org>
+Subject: [PATCH v2 3/4] kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+Date: Sat,  7 Mar 2026 12:20:20 -0500
+Message-ID: <20260307172022.460402-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260307172022.460402-1-sashal@kernel.org>
 References: <20260307172022.460402-1-sashal@kernel.org>
@@ -85,957 +85,910 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1C6D022CE8E
+X-Rspamd-Queue-Id: 52D7B22CEAF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[lwn.net,kernel.org,suse.com,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,vger.kernel.org,gmx.de,ideasonboard.com];
-	TAGGED_FROM(0.00)[bounces-11643-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lwn.net,kernel.org,suse.com,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,vger.kernel.org,gmx.de,ideasonboard.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11644-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[28];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.968];
+	NEURAL_HAM(-0.00)[-0.991];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gen-btf.sh:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sourceware.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Add CONFIG_KALLSYMS_LINEINFO_MODULES, which extends the
-CONFIG_KALLSYMS_LINEINFO feature to loadable kernel modules.
+Replace the flat uncompressed parallel arrays (lineinfo_addrs[],
+lineinfo_file_ids[], lineinfo_lines[]) with a block-indexed,
+delta-encoded, ULEB128 varint compressed format.
 
-At build time, each .ko is post-processed by scripts/gen-mod-lineinfo.sh
-(modeled on gen-btf.sh) which runs scripts/gen_lineinfo --module on the
-.ko, generates a .mod_lineinfo section containing a compact binary table
-of .text-relative offsets, file IDs, line numbers, and filenames, and
-embeds it back into the .ko via objcopy.
+The sorted address array has small deltas between consecutive entries
+(typically 1-50 bytes), file IDs have high locality (delta often 0,
+same file), and line numbers change slowly.  Delta-encoding followed
+by ULEB128 varint compression shrinks most values from 4 bytes to 1.
 
-At runtime, module_lookup_lineinfo() performs a binary search on the
-module's .mod_lineinfo section, and __sprint_symbol() calls it for
-addresses that fall within a module.  The lookup is NMI/panic-safe
-(no locks, no allocations) — the data lives in read-only module memory
-and is freed automatically when the module is unloaded.
+Entries are grouped into blocks of 64.  A small uncompressed block
+index (first addr + byte offset per block) enables O(log(N/64)) binary
+search, followed by sequential decode of at most 64 varints within the
+matching block.  All decode state lives on the stack -- zero
+allocations, still safe for NMI/panic context.
 
-The gen_lineinfo tool gains --module mode which:
- - Uses .text section address as base (ET_REL files have no _text symbol)
- - Filters entries to .text-only (excludes .init.text/.exit.text)
- - Handles libdw's ET_REL path-doubling quirk in make_relative()
- - Outputs a flat binary-format section instead of named global symbols
+Measured on a defconfig+debug x86_64 build (3,017,154 entries, 4,822
+source files, 47,144 blocks):
 
-Per-module overhead is approximately 10 bytes per DWARF line entry.
+  Before (flat arrays):
+    lineinfo_addrs[]    12,068,616 bytes (u32 x 3.0M)
+    lineinfo_file_ids[]  6,034,308 bytes (u16 x 3.0M)
+    lineinfo_lines[]    12,068,616 bytes (u32 x 3.0M)
+    Total:              30,171,540 bytes (28.8 MiB, 10.0 bytes/entry)
 
+  After (block-indexed delta + ULEB128):
+    lineinfo_block_addrs[]    188,576 bytes (184 KiB)
+    lineinfo_block_offsets[]  188,576 bytes (184 KiB)
+    lineinfo_data[]        10,926,128 bytes (10.4 MiB)
+    Total:                 11,303,280 bytes (10.8 MiB, 3.7 bytes/entry)
+
+  Savings: 18.0 MiB (2.7x reduction)
+
+Booted in QEMU and verified with SysRq-l that annotations still work:
+
+  default_idle+0x9/0x10 (arch/x86/kernel/process.c:767)
+  default_idle_call+0x6c/0xb0 (kernel/sched/idle.c:122)
+  do_idle+0x335/0x490 (kernel/sched/idle.c:191)
+  cpu_startup_entry+0x4e/0x60 (kernel/sched/idle.c:429)
+  rest_init+0x1aa/0x1b0 (init/main.c:760)
+
+Suggested-by: Juergen Gross <jgross@suse.com>
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../admin-guide/kallsyms-lineinfo.rst         |  40 +-
- MAINTAINERS                                   |   2 +
- include/linux/mod_lineinfo.h                  |  68 ++++
- include/linux/module.h                        |  19 +
- init/Kconfig                                  |  13 +
- kernel/kallsyms.c                             |  22 +-
- kernel/module/kallsyms.c                      |  91 +++++
- kernel/module/main.c                          |   4 +
- scripts/Makefile                              |   1 +
- scripts/Makefile.modfinal                     |   6 +
- scripts/gen-mod-lineinfo.sh                   |  48 +++
- scripts/gen_lineinfo.c                        | 349 ++++++++++++++++--
- 12 files changed, 622 insertions(+), 41 deletions(-)
- create mode 100644 include/linux/mod_lineinfo.h
- create mode 100755 scripts/gen-mod-lineinfo.sh
+ .../admin-guide/kallsyms-lineinfo.rst         |   7 +-
+ include/linux/mod_lineinfo.h                  | 106 ++++++++--
+ init/Kconfig                                  |   8 +-
+ kernel/kallsyms.c                             |  83 ++++++--
+ kernel/kallsyms_internal.h                    |   8 +-
+ kernel/module/kallsyms.c                      | 104 +++++++--
+ scripts/gen_lineinfo.c                        | 199 ++++++++++++++----
+ scripts/kallsyms.c                            |   7 +-
+ scripts/link-vmlinux.sh                       |  20 +-
+ 9 files changed, 438 insertions(+), 104 deletions(-)
 
 diff --git a/Documentation/admin-guide/kallsyms-lineinfo.rst b/Documentation/admin-guide/kallsyms-lineinfo.rst
-index c8ec124394354..5cae995eb118e 100644
+index 5cae995eb118e..dd264830c8d5b 100644
 --- a/Documentation/admin-guide/kallsyms-lineinfo.rst
 +++ b/Documentation/admin-guide/kallsyms-lineinfo.rst
-@@ -51,22 +51,46 @@ With ``CONFIG_KALLSYMS_LINEINFO``::
- Note that assembly routines (such as ``entry_SYSCALL_64_after_hwframe``) are
- not annotated because they lack DWARF debug information.
- 
-+Module Support
-+==============
-+
-+``CONFIG_KALLSYMS_LINEINFO_MODULES`` extends the feature to loadable kernel
-+modules.  When enabled, each ``.ko`` is post-processed at build time to embed
-+a ``.mod_lineinfo`` section containing the same kind of address-to-source
-+mapping.
-+
-+Enable in addition to the base options::
-+
-+    CONFIG_MODULES=y
-+    CONFIG_KALLSYMS_LINEINFO_MODULES=y
-+
-+Stack traces from module code will then include annotations::
-+
-+    my_driver_func+0x30/0x100 [my_driver] (drivers/foo/bar.c:123)
-+
-+The ``.mod_lineinfo`` section is loaded into read-only module memory alongside
-+the module text.  No additional runtime memory allocation is required; the data
-+is freed when the module is unloaded.
-+
- Memory Overhead
+@@ -76,10 +76,11 @@ Memory Overhead
  ===============
  
--The lineinfo tables are stored in ``.rodata`` and typically add approximately
--44 MiB to the kernel image for a standard configuration (~4.6 million DWARF
--line entries, ~10 bytes per entry after deduplication).
-+The vmlinux lineinfo tables are stored in ``.rodata`` and typically add
-+approximately 44 MiB to the kernel image for a standard configuration
-+(~4.6 million DWARF line entries, ~10 bytes per entry after deduplication).
-+
-+Per-module lineinfo adds approximately 10 bytes per DWARF line entry to each
-+``.ko`` file.
+ The vmlinux lineinfo tables are stored in ``.rodata`` and typically add
+-approximately 44 MiB to the kernel image for a standard configuration
+-(~4.6 million DWARF line entries, ~10 bytes per entry after deduplication).
++approximately 10-15 MiB to the kernel image for a standard configuration
++(~4.6 million DWARF line entries, ~2-3 bytes per entry after delta
++compression).
+ 
+-Per-module lineinfo adds approximately 10 bytes per DWARF line entry to each
++Per-module lineinfo adds approximately 2-3 bytes per DWARF line entry to each
+ ``.ko`` file.
  
  Known Limitations
- =================
- 
--- **vmlinux only**: Only symbols in the core kernel image are annotated.
--  Module symbols are not covered.
--- **4 GiB offset limit**: Address offsets from ``_text`` are stored as 32-bit
--  values.  Entries beyond 4 GiB from ``_text`` are skipped at build time with
--  a warning.
-+- **4 GiB offset limit**: Address offsets from ``_text`` (vmlinux) or
-+  ``.text`` base (modules) are stored as 32-bit values.  Entries beyond
-+  4 GiB are skipped at build time with a warning.
- - **65535 file limit**: Source file IDs are stored as 16-bit values.  Builds
-   with more than 65535 unique source files will fail with an error.
- - **No assembly annotations**: Functions implemented in assembly that lack
-   DWARF ``.debug_line`` data are not annotated.
-+- **No init text**: For modules, functions in ``.init.text`` are not annotated
-+  because that memory is freed after module initialization.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f061e69b6e32a..535e992ca5a20 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13732,6 +13732,8 @@ KALLSYMS LINEINFO
- M:	Sasha Levin <sashal@kernel.org>
- S:	Maintained
- F:	Documentation/admin-guide/kallsyms-lineinfo.rst
-+F:	include/linux/mod_lineinfo.h
-+F:	scripts/gen-mod-lineinfo.sh
- F:	scripts/gen_lineinfo.c
- 
- KASAN
 diff --git a/include/linux/mod_lineinfo.h b/include/linux/mod_lineinfo.h
-new file mode 100644
-index 0000000000000..d62e9608f0f82
---- /dev/null
+index d62e9608f0f82..d00fb2937968c 100644
+--- a/include/linux/mod_lineinfo.h
 +++ b/include/linux/mod_lineinfo.h
-@@ -0,0 +1,68 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * mod_lineinfo.h - Binary format for per-module source line information
+@@ -8,13 +8,20 @@
+  *
+  * Section layout (all values in target-native endianness):
+  *
+- *   struct mod_lineinfo_header     (16 bytes)
+- *   u32 addrs[num_entries]         -- offsets from .text base, sorted
+- *   u16 file_ids[num_entries]      -- parallel to addrs
+- *   <2-byte pad if num_entries is odd>
+- *   u32 lines[num_entries]         -- parallel to addrs
++ *   struct mod_lineinfo_header     (24 bytes)
++ *   u32 block_addrs[num_blocks]    -- first addr per block, for binary search
++ *   u32 block_offsets[num_blocks]  -- byte offset into compressed data stream
++ *   u8  data[data_size]            -- ULEB128 delta-compressed entries
++ *   (0-3 bytes padding to 4-byte alignment)
+  *   u32 file_offsets[num_files]    -- byte offset into filenames[]
+  *   char filenames[filenames_size] -- concatenated NUL-terminated strings
 + *
-+ * This header defines the layout of the .mod_lineinfo section embedded
-+ * in loadable kernel modules.  It is dual-use: included from both the
-+ * kernel and the userspace gen_lineinfo tool.
-+ *
-+ * Section layout (all values in target-native endianness):
-+ *
-+ *   struct mod_lineinfo_header     (16 bytes)
-+ *   u32 addrs[num_entries]         -- offsets from .text base, sorted
-+ *   u16 file_ids[num_entries]      -- parallel to addrs
-+ *   <2-byte pad if num_entries is odd>
-+ *   u32 lines[num_entries]         -- parallel to addrs
-+ *   u32 file_offsets[num_files]    -- byte offset into filenames[]
-+ *   char filenames[filenames_size] -- concatenated NUL-terminated strings
-+ */
-+#ifndef _LINUX_MOD_LINEINFO_H
-+#define _LINUX_MOD_LINEINFO_H
-+
-+#ifdef __KERNEL__
-+#include <linux/types.h>
-+#else
-+#include <stdint.h>
-+typedef uint32_t u32;
-+typedef uint16_t u16;
-+#endif
-+
-+struct mod_lineinfo_header {
-+	u32 num_entries;
-+	u32 num_files;
-+	u32 filenames_size;	/* total bytes of concatenated filenames */
-+	u32 reserved;		/* padding, must be 0 */
-+};
-+
-+/* Offset helpers: compute byte offset from start of section to each array */
-+
-+static inline u32 mod_lineinfo_addrs_off(void)
-+{
-+	return sizeof(struct mod_lineinfo_header);
-+}
-+
-+static inline u32 mod_lineinfo_file_ids_off(u32 num_entries)
-+{
-+	return mod_lineinfo_addrs_off() + num_entries * sizeof(u32);
-+}
-+
-+static inline u32 mod_lineinfo_lines_off(u32 num_entries)
-+{
-+	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
-+	u32 off = mod_lineinfo_file_ids_off(num_entries) +
-+		  num_entries * sizeof(u16);
-+	return (off + 3) & ~3u;
-+}
-+
-+static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
-+{
-+	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
-+}
-+
-+static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
-+{
-+	return mod_lineinfo_file_offsets_off(num_entries) +
-+	       num_files * sizeof(u32);
-+}
-+
-+#endif /* _LINUX_MOD_LINEINFO_H */
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 14f391b186c6d..1c5840e736ec7 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -508,6 +508,10 @@ struct module {
- 	void *btf_data;
- 	void *btf_base_data;
++ * Compressed stream format (per block of LINEINFO_BLOCK_ENTRIES entries):
++ *   Entry 0: file_id (ULEB128), line (ULEB128)
++ *            addr is in block_addrs[]
++ *   Entry 1..N: addr_delta (ULEB128),
++ *               file_id_delta (zigzag-encoded ULEB128),
++ *               line_delta (zigzag-encoded ULEB128)
+  */
+ #ifndef _LINUX_MOD_LINEINFO_H
+ #define _LINUX_MOD_LINEINFO_H
+@@ -25,44 +32,109 @@
+ #include <stdint.h>
+ typedef uint32_t u32;
+ typedef uint16_t u16;
++typedef uint8_t  u8;
  #endif
-+#ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
-+	void *lineinfo_data;		/* .mod_lineinfo section in MOD_RODATA */
-+	unsigned int lineinfo_data_size;
-+#endif
- #ifdef CONFIG_JUMP_LABEL
- 	struct jump_entry *jump_entries;
- 	unsigned int num_jump_entries;
-@@ -1021,6 +1025,21 @@ static inline unsigned long find_kallsyms_symbol_value(struct module *mod,
  
- #endif  /* CONFIG_MODULES && CONFIG_KALLSYMS */
- 
-+#ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
-+bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
-+			    unsigned long sym_start,
-+			    const char **file, unsigned int *line);
-+#else
-+static inline bool module_lookup_lineinfo(struct module *mod,
-+					  unsigned long addr,
-+					  unsigned long sym_start,
-+					  const char **file,
-+					  unsigned int *line)
-+{
-+	return false;
-+}
-+#endif
++#define LINEINFO_BLOCK_ENTRIES 64
 +
- /* Define __free(module_put) macro for struct module *. */
- DEFINE_FREE(module_put, struct module *, if (_T) module_put(_T))
+ struct mod_lineinfo_header {
+ 	u32 num_entries;
+ 	u32 num_files;
+ 	u32 filenames_size;	/* total bytes of concatenated filenames */
++	u32 num_blocks;
++	u32 data_size;		/* total bytes of compressed data stream */
+ 	u32 reserved;		/* padding, must be 0 */
+ };
  
+ /* Offset helpers: compute byte offset from start of section to each array */
+ 
+-static inline u32 mod_lineinfo_addrs_off(void)
++static inline u32 mod_lineinfo_block_addrs_off(void)
+ {
+ 	return sizeof(struct mod_lineinfo_header);
+ }
+ 
+-static inline u32 mod_lineinfo_file_ids_off(u32 num_entries)
++static inline u32 mod_lineinfo_block_offsets_off(u32 num_blocks)
+ {
+-	return mod_lineinfo_addrs_off() + num_entries * sizeof(u32);
++	return mod_lineinfo_block_addrs_off() + num_blocks * sizeof(u32);
+ }
+ 
+-static inline u32 mod_lineinfo_lines_off(u32 num_entries)
++static inline u32 mod_lineinfo_data_off(u32 num_blocks)
+ {
+-	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
+-	u32 off = mod_lineinfo_file_ids_off(num_entries) +
+-		  num_entries * sizeof(u16);
+-	return (off + 3) & ~3u;
++	return mod_lineinfo_block_offsets_off(num_blocks) +
++	       num_blocks * sizeof(u32);
+ }
+ 
+-static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
++static inline u32 mod_lineinfo_file_offsets_off(u32 num_blocks, u32 data_size)
+ {
+-	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
++	u32 off = mod_lineinfo_data_off(num_blocks) + data_size;
++
++	return (off + 3) & ~(u32)3;	/* align to 4 bytes for u32[] */
+ }
+ 
+-static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
++static inline u32 mod_lineinfo_filenames_off(u32 num_blocks, u32 data_size,
++					     u32 num_files)
+ {
+-	return mod_lineinfo_file_offsets_off(num_entries) +
++	return mod_lineinfo_file_offsets_off(num_blocks, data_size) +
+ 	       num_files * sizeof(u32);
+ }
+ 
++/* Zigzag encoding: map signed to unsigned so small magnitudes are small */
++static inline u32 zigzag_encode(int32_t v)
++{
++	return ((u32)v << 1) ^ (u32)(v >> 31);
++}
++
++static inline int32_t zigzag_decode(u32 v)
++{
++	return (int32_t)((v >> 1) ^ -(v & 1));
++}
++
++/*
++ * Read a ULEB128 varint from a byte stream.
++ * Returns the decoded value and advances *pos past the encoded bytes.
++ * If *pos would exceed 'end', returns 0 and sets *pos = end (safe for
++ * NMI/panic context -- no crash, just a missed annotation).
++ */
++static inline u32 lineinfo_read_uleb128(const u8 *data, u32 *pos, u32 end)
++{
++	u32 result = 0;
++	unsigned int shift = 0;
++
++	while (*pos < end) {
++		u8 byte = data[*pos];
++		(*pos)++;
++		result |= (u32)(byte & 0x7f) << shift;
++		if (!(byte & 0x80))
++			return result;
++		shift += 7;
++		if (shift >= 32) {
++			/* Malformed -- skip remaining continuation bytes */
++			while (*pos < end && (data[*pos] & 0x80))
++				(*pos)++;
++			if (*pos < end)
++				(*pos)++;
++			return result;
++		}
++	}
++	return result;
++}
++
++/* Write a ULEB128 varint -- build tool only */
++#ifndef __KERNEL__
++static inline unsigned int lineinfo_write_uleb128(u8 *buf, u32 value)
++{
++	unsigned int len = 0;
++
++	do {
++		u8 byte = value & 0x7f;
++
++		value >>= 7;
++		if (value)
++			byte |= 0x80;
++		buf[len++] = byte;
++	} while (value);
++	return len;
++}
++#endif /* !__KERNEL__ */
++
+ #endif /* _LINUX_MOD_LINEINFO_H */
 diff --git a/init/Kconfig b/init/Kconfig
-index c39f27e6393a8..bf53275bc405a 100644
+index bf53275bc405a..6e3795b3dbd62 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
-@@ -2070,6 +2070,19 @@ config KALLSYMS_LINEINFO
+@@ -2065,8 +2065,9 @@ config KALLSYMS_LINEINFO
+ 	    anon_vma_clone+0x2ed/0xcf0 (mm/rmap.c:412)
+ 
+ 	  This requires elfutils (libdw-dev/elfutils-devel) on the build host.
+-	  Adds approximately 44MB to a typical kernel image (10 bytes per
+-	  DWARF line-table entry, ~4.6M entries for a typical config).
++	  Adds approximately 10-15MB to a typical kernel image (~2-3 bytes
++	  per entry after delta compression, ~4.6M entries for a typical
++	  config).
  
  	  If unsure, say N.
  
-+config KALLSYMS_LINEINFO_MODULES
-+	bool "Embed source file:line information in module stack traces"
-+	depends on KALLSYMS_LINEINFO && MODULES
-+	help
-+	  Extends KALLSYMS_LINEINFO to loadable kernel modules.  Each .ko
-+	  gets a lineinfo table generated from its DWARF data at build time,
-+	  so stack traces from module code include (file.c:123) annotations.
-+
-+	  Requires elfutils (libdw-dev/elfutils-devel) on the build host.
-+	  Increases .ko sizes by approximately 10 bytes per DWARF line entry.
-+
-+	  If unsure, say N.
-+
- # end of the "standard kernel features (expert users)" menu
+@@ -2079,7 +2080,8 @@ config KALLSYMS_LINEINFO_MODULES
+ 	  so stack traces from module code include (file.c:123) annotations.
  
- config ARCH_HAS_MEMBARRIER_CALLBACKS
+ 	  Requires elfutils (libdw-dev/elfutils-devel) on the build host.
+-	  Increases .ko sizes by approximately 10 bytes per DWARF line entry.
++	  Increases .ko sizes by approximately 2-3 bytes per DWARF line
++	  entry after delta compression.
+ 
+ 	  If unsure, say N.
+ 
 diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index c94d8f332c5df..4ae0e9501da1a 100644
+index 4ae0e9501da1a..bbc4d59243dd4 100644
 --- a/kernel/kallsyms.c
 +++ b/kernel/kallsyms.c
-@@ -546,13 +546,27 @@ static int __sprint_symbol(char *buffer, unsigned long address,
- 	}
+@@ -468,13 +468,20 @@ static int append_buildid(char *buffer,   const char *modname,
+ #endif /* CONFIG_STACKTRACE_BUILD_ID */
  
  #ifdef CONFIG_KALLSYMS_LINEINFO
--	if (!modname) {
-+	{
- 		const char *li_file;
- 		unsigned int li_line;
- 		unsigned long sym_start = address - offset;
--
--		if (kallsyms_lookup_lineinfo(address, sym_start,
--					     &li_file, &li_line))
-+		bool found = false;
-+
-+		if (!modname)
-+			found = kallsyms_lookup_lineinfo(address, sym_start,
-+							 &li_file, &li_line);
-+#ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
-+		else {
-+			struct module *mod = __module_address(address);
-+
-+			if (mod)
-+				found = module_lookup_lineinfo(mod, address,
-+							      sym_start,
-+							      &li_file,
-+							      &li_line);
-+		}
-+#endif
-+		if (found)
- 			len += snprintf(buffer + len, KSYM_SYMBOL_LEN - len,
- 					" (%s:%u)", li_file, li_line);
- 	}
-diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
-index 0fc11e45df9b9..4bfb6707fb8a5 100644
---- a/kernel/module/kallsyms.c
-+++ b/kernel/module/kallsyms.c
-@@ -494,3 +494,94 @@ int module_kallsyms_on_each_symbol(const char *modname,
- 	mutex_unlock(&module_mutex);
- 	return ret;
- }
-+
-+#ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
 +#include <linux/mod_lineinfo.h>
 +
-+/*
-+ * Look up source file:line for an address within a loaded module.
-+ * Uses the .mod_lineinfo section embedded in the .ko at build time.
-+ *
-+ * Safe in NMI/panic context: no locks, no allocations.
-+ * Caller must hold RCU read lock (or be in a context where the module
-+ * cannot be unloaded).
-+ */
-+bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
-+			    unsigned long sym_start,
-+			    const char **file, unsigned int *line)
-+{
-+	const struct mod_lineinfo_header *hdr;
-+	const void *base;
-+	const u32 *addrs, *lines, *file_offsets;
-+	const u16 *file_ids;
-+	const char *filenames;
-+	u32 num_entries, num_files, filenames_size;
-+	unsigned long text_base;
-+	unsigned int offset;
-+	unsigned long long raw_offset;
-+	unsigned int low, high, mid;
-+	u16 file_id;
+ bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
+ 			      const char **file, unsigned int *line)
+ {
+ 	unsigned long long raw_offset;
+-	unsigned int offset, low, high, mid, file_id;
+-
+-	if (!lineinfo_num_entries)
++	unsigned int offset, low, high, mid, block;
++	unsigned int cur_addr, cur_file_id, cur_line;
++	unsigned int best_file_id = 0, best_line = 0;
++	unsigned int block_entries, data_end;
++	bool found = false;
++	u32 pos;
 +
-+	base = mod->lineinfo_data;
-+	if (!base)
-+		return false;
++	if (!lineinfo_num_entries || !lineinfo_num_blocks)
+ 		return false;
+ 
+ 	/* Compute offset from _text */
+@@ -486,12 +493,12 @@ bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
+ 		return false;
+ 	offset = (unsigned int)raw_offset;
+ 
+-	/* Binary search for largest entry <= offset */
++	/* Binary search on block_addrs[] to find the right block */
+ 	low = 0;
+-	high = lineinfo_num_entries;
++	high = lineinfo_num_blocks;
+ 	while (low < high) {
+ 		mid = low + (high - low) / 2;
+-		if (lineinfo_addrs[mid] <= offset)
++		if (lineinfo_block_addrs[mid] <= offset)
+ 			low = mid + 1;
+ 		else
+ 			high = mid;
+@@ -499,18 +506,70 @@ bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
+ 
+ 	if (low == 0)
+ 		return false;
+-	low--;
++	block = low - 1;
 +
-+	if (mod->lineinfo_data_size < sizeof(*hdr))
-+		return false;
++	/* How many entries in this block? */
++	block_entries = LINEINFO_BLOCK_ENTRIES;
++	if (block == lineinfo_num_blocks - 1) {
++		unsigned int remaining = lineinfo_num_entries - block * LINEINFO_BLOCK_ENTRIES;
 +
-+	hdr = base;
-+	num_entries = hdr->num_entries;
-+	num_files = hdr->num_files;
-+	filenames_size = hdr->filenames_size;
-+
-+	if (num_entries == 0)
-+		return false;
-+
-+	/* Validate section is large enough for all arrays */
-+	if (mod->lineinfo_data_size <
-+	    mod_lineinfo_filenames_off(num_entries, num_files) + filenames_size)
-+		return false;
-+
-+	addrs = base + mod_lineinfo_addrs_off();
-+	file_ids = base + mod_lineinfo_file_ids_off(num_entries);
-+	lines = base + mod_lineinfo_lines_off(num_entries);
-+	file_offsets = base + mod_lineinfo_file_offsets_off(num_entries);
-+	filenames = base + mod_lineinfo_filenames_off(num_entries, num_files);
-+
-+	/* Compute offset from module .text base */
-+	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
-+	if (addr < text_base)
-+		return false;
-+
-+	raw_offset = addr - text_base;
-+	if (raw_offset > UINT_MAX)
-+		return false;
-+	offset = (unsigned int)raw_offset;
-+
-+	/* Binary search for largest entry <= offset */
-+	low = 0;
-+	high = num_entries;
-+	while (low < high) {
-+		mid = low + (high - low) / 2;
-+		if (addrs[mid] <= offset)
-+			low = mid + 1;
-+		else
-+			high = mid;
++		if (remaining < block_entries)
++			block_entries = remaining;
 +	}
 +
-+	if (low == 0)
++	/* Determine end of this block's data in the compressed stream */
++	if (block + 1 < lineinfo_num_blocks)
++		data_end = lineinfo_block_offsets[block + 1];
++	else
++		data_end = lineinfo_data_size;
++
++	/* Decode entry 0: addr from block_addrs, file_id and line from stream */
++	pos = lineinfo_block_offsets[block];
++	if (pos >= data_end)
 +		return false;
-+	low--;
++	cur_addr = lineinfo_block_addrs[block];
++	cur_file_id = lineinfo_read_uleb128(lineinfo_data, &pos, data_end);
++	cur_line = lineinfo_read_uleb128(lineinfo_data, &pos, data_end);
 +
-+	file_id = file_ids[low];
-+	if (file_id >= num_files)
++	/* Check entry 0 */
++	if (cur_addr <= offset) {
++		best_file_id = cur_file_id;
++		best_line = cur_line;
++		found = true;
++	}
++
++	/* Decode entries 1..N */
++	for (unsigned int i = 1; i < block_entries; i++) {
++		unsigned int addr_delta;
++		int32_t file_delta, line_delta;
++
++		addr_delta = lineinfo_read_uleb128(lineinfo_data, &pos, data_end);
++		file_delta = zigzag_decode(lineinfo_read_uleb128(lineinfo_data, &pos, data_end));
++		line_delta = zigzag_decode(lineinfo_read_uleb128(lineinfo_data, &pos, data_end));
+ 
+-	file_id = lineinfo_file_ids[low];
+-	*line = lineinfo_lines[low];
++		cur_addr += addr_delta;
++		cur_file_id = (unsigned int)((int32_t)cur_file_id + file_delta);
++		cur_line = (unsigned int)((int32_t)cur_line + line_delta);
++
++		if (cur_addr > offset)
++			break;
++
++		best_file_id = cur_file_id;
++		best_line = cur_line;
++		found = true;
++	}
++
++	if (!found)
++		return false;
+ 
+-	if (file_id >= lineinfo_num_files)
++	if (best_file_id >= lineinfo_num_files)
+ 		return false;
+ 
+-	if (lineinfo_file_offsets[file_id] >= lineinfo_filenames_size)
++	if (lineinfo_file_offsets[best_file_id] >= lineinfo_filenames_size)
+ 		return false;
+ 
+-	*file = &lineinfo_filenames[lineinfo_file_offsets[file_id]];
++	*file = &lineinfo_filenames[lineinfo_file_offsets[best_file_id]];
++	*line = best_line;
+ 	return true;
+ }
+ #endif /* CONFIG_KALLSYMS_LINEINFO */
+diff --git a/kernel/kallsyms_internal.h b/kernel/kallsyms_internal.h
+index 982557aeff28d..a11d61a34f593 100644
+--- a/kernel/kallsyms_internal.h
++++ b/kernel/kallsyms_internal.h
+@@ -17,10 +17,12 @@ extern const u8 kallsyms_seqs_of_names[];
+ 
+ #ifdef CONFIG_KALLSYMS_LINEINFO
+ extern const u32 lineinfo_num_entries;
+-extern const u32 lineinfo_addrs[];
+-extern const u16 lineinfo_file_ids[];
+-extern const u32 lineinfo_lines[];
+ extern const u32 lineinfo_num_files;
++extern const u32 lineinfo_num_blocks;
++extern const u32 lineinfo_block_addrs[];
++extern const u32 lineinfo_block_offsets[];
++extern const u32 lineinfo_data_size;
++extern const u8  lineinfo_data[];
+ extern const u32 lineinfo_file_offsets[];
+ extern const u32 lineinfo_filenames_size;
+ extern const char lineinfo_filenames[];
+diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
+index 4bfb6707fb8a5..52a839ca61bd9 100644
+--- a/kernel/module/kallsyms.c
++++ b/kernel/module/kallsyms.c
+@@ -512,15 +512,19 @@ bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
+ {
+ 	const struct mod_lineinfo_header *hdr;
+ 	const void *base;
+-	const u32 *addrs, *lines, *file_offsets;
+-	const u16 *file_ids;
++	const u32 *blk_addrs, *blk_offsets, *file_offsets;
++	const u8 *data;
+ 	const char *filenames;
+-	u32 num_entries, num_files, filenames_size;
++	u32 num_entries, num_files, filenames_size, num_blocks, data_size;
+ 	unsigned long text_base;
+ 	unsigned int offset;
+ 	unsigned long long raw_offset;
+-	unsigned int low, high, mid;
+-	u16 file_id;
++	unsigned int low, high, mid, block;
++	unsigned int cur_addr, cur_file_id, cur_line;
++	unsigned int best_file_id = 0, best_line = 0;
++	unsigned int block_entries, data_end;
++	bool found = false;
++	u32 pos;
+ 
+ 	base = mod->lineinfo_data;
+ 	if (!base)
+@@ -533,20 +537,24 @@ bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
+ 	num_entries = hdr->num_entries;
+ 	num_files = hdr->num_files;
+ 	filenames_size = hdr->filenames_size;
++	num_blocks = hdr->num_blocks;
++	data_size = hdr->data_size;
+ 
+-	if (num_entries == 0)
++	if (num_entries == 0 || num_blocks == 0)
+ 		return false;
+ 
+ 	/* Validate section is large enough for all arrays */
+ 	if (mod->lineinfo_data_size <
+-	    mod_lineinfo_filenames_off(num_entries, num_files) + filenames_size)
++	    mod_lineinfo_filenames_off(num_blocks, data_size, num_files) +
++	    filenames_size)
+ 		return false;
+ 
+-	addrs = base + mod_lineinfo_addrs_off();
+-	file_ids = base + mod_lineinfo_file_ids_off(num_entries);
+-	lines = base + mod_lineinfo_lines_off(num_entries);
+-	file_offsets = base + mod_lineinfo_file_offsets_off(num_entries);
+-	filenames = base + mod_lineinfo_filenames_off(num_entries, num_files);
++	blk_addrs = base + mod_lineinfo_block_addrs_off();
++	blk_offsets = base + mod_lineinfo_block_offsets_off(num_blocks);
++	data = base + mod_lineinfo_data_off(num_blocks);
++	file_offsets = base + mod_lineinfo_file_offsets_off(num_blocks, data_size);
++	filenames = base + mod_lineinfo_filenames_off(num_blocks, data_size,
++						      num_files);
+ 
+ 	/* Compute offset from module .text base */
+ 	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
+@@ -558,12 +566,12 @@ bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
+ 		return false;
+ 	offset = (unsigned int)raw_offset;
+ 
+-	/* Binary search for largest entry <= offset */
++	/* Binary search on block_addrs[] to find the right block */
+ 	low = 0;
+-	high = num_entries;
++	high = num_blocks;
+ 	while (low < high) {
+ 		mid = low + (high - low) / 2;
+-		if (addrs[mid] <= offset)
++		if (blk_addrs[mid] <= offset)
+ 			low = mid + 1;
+ 		else
+ 			high = mid;
+@@ -571,17 +579,71 @@ bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
+ 
+ 	if (low == 0)
+ 		return false;
+-	low--;
++	block = low - 1;
+ 
+-	file_id = file_ids[low];
+-	if (file_id >= num_files)
++	/* How many entries in this block? */
++	block_entries = LINEINFO_BLOCK_ENTRIES;
++	if (block == num_blocks - 1) {
++		unsigned int remaining = num_entries - block * LINEINFO_BLOCK_ENTRIES;
++
++		if (remaining < block_entries)
++			block_entries = remaining;
++	}
++
++	/* Determine end of this block's data in the compressed stream */
++	if (block + 1 < num_blocks)
++		data_end = blk_offsets[block + 1];
++	else
++		data_end = data_size;
++
++	/* Decode entry 0: addr from block_addrs, file_id and line from stream */
++	pos = blk_offsets[block];
++	if (pos >= data_end)
 +		return false;
 +
-+	if (file_offsets[file_id] >= filenames_size)
++	cur_addr = blk_addrs[block];
++	cur_file_id = lineinfo_read_uleb128(data, &pos, data_end);
++	cur_line = lineinfo_read_uleb128(data, &pos, data_end);
++
++	/* Check entry 0 */
++	if (cur_addr <= offset) {
++		best_file_id = cur_file_id;
++		best_line = cur_line;
++		found = true;
++	}
++
++	/* Decode entries 1..N */
++	for (unsigned int i = 1; i < block_entries; i++) {
++		unsigned int addr_delta;
++		int32_t file_delta, line_delta;
++
++		addr_delta = lineinfo_read_uleb128(data, &pos, data_end);
++		file_delta = zigzag_decode(lineinfo_read_uleb128(data, &pos, data_end));
++		line_delta = zigzag_decode(lineinfo_read_uleb128(data, &pos, data_end));
++
++		cur_addr += addr_delta;
++		cur_file_id = (unsigned int)((int32_t)cur_file_id + file_delta);
++		cur_line = (unsigned int)((int32_t)cur_line + line_delta);
++
++		if (cur_addr > offset)
++			break;
++
++		best_file_id = cur_file_id;
++		best_line = cur_line;
++		found = true;
++	}
++
++	if (!found)
 +		return false;
 +
-+	*file = &filenames[file_offsets[file_id]];
-+	*line = lines[low];
-+	return true;
-+}
-+#endif /* CONFIG_KALLSYMS_LINEINFO_MODULES */
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 2bac4c7cd019a..7b6ff9f7411b0 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -2648,6 +2648,10 @@ static int find_module_sections(struct module *mod, struct load_info *info)
- 	mod->btf_base_data = any_section_objs(info, ".BTF.base", 1,
- 					      &mod->btf_base_data_size);
- #endif
-+#ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
-+	mod->lineinfo_data = any_section_objs(info, ".mod_lineinfo", 1,
-+					      &mod->lineinfo_data_size);
-+#endif
- #ifdef CONFIG_JUMP_LABEL
- 	mod->jump_entries = section_objs(info, "__jump_table",
- 					sizeof(*mod->jump_entries),
-diff --git a/scripts/Makefile b/scripts/Makefile
-index ffe89875b3295..651df2a867ffb 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -5,6 +5,7 @@
++	if (best_file_id >= num_files)
+ 		return false;
  
- hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
- hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
-+hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
- hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
- hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
- hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index adcbcde16a071..3941cf624526b 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -46,6 +46,9 @@ quiet_cmd_btf_ko = BTF [M] $@
- 		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vmlinux $@; \
- 	fi;
+-	if (file_offsets[file_id] >= filenames_size)
++	if (file_offsets[best_file_id] >= filenames_size)
+ 		return false;
  
-+quiet_cmd_lineinfo_ko = LINEINFO [M] $@
-+      cmd_lineinfo_ko = $(CONFIG_SHELL) $(srctree)/scripts/gen-mod-lineinfo.sh $@
-+
- # Same as newer-prereqs, but allows to exclude specified extra dependencies
- newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
- 
-@@ -59,6 +62,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- 	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
-+endif
-+ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
-+	+$(if $(newer-prereqs),$(call cmd,lineinfo_ko))
- endif
- 	+$(call cmd,check_tracepoint)
- 
-diff --git a/scripts/gen-mod-lineinfo.sh b/scripts/gen-mod-lineinfo.sh
-new file mode 100755
-index 0000000000000..fa8a914b8363b
---- /dev/null
-+++ b/scripts/gen-mod-lineinfo.sh
-@@ -0,0 +1,48 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# gen-mod-lineinfo.sh - Embed source line info into a kernel module (.ko)
-+#
-+# Reads DWARF from the .ko, generates a .mod_lineinfo section, and
-+# embeds it back into the .ko.  Modeled on scripts/gen-btf.sh.
-+
-+set -e
-+
-+if [ $# -ne 1 ]; then
-+	echo "Usage: $0 <module.ko>" >&2
-+	exit 1
-+fi
-+
-+KO="$1"
-+
-+cleanup() {
-+	rm -f "${KO}.lineinfo.S" "${KO}.lineinfo.o" "${KO}.lineinfo.bin"
-+}
-+trap cleanup EXIT
-+
-+case "${KBUILD_VERBOSE}" in
-+*1*)
-+	set -x
-+	;;
-+esac
-+
-+# Generate assembly from DWARF -- if it fails (no DWARF), silently skip
-+if ! ${objtree}/scripts/gen_lineinfo --module "${KO}" > "${KO}.lineinfo.S" 2>/dev/null; then
-+	exit 0
-+fi
-+
-+# Compile assembly to object file
-+${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
-+	${KBUILD_AFLAGS} ${KBUILD_AFLAGS_MODULE} \
-+	-c -o "${KO}.lineinfo.o" "${KO}.lineinfo.S"
-+
-+# Extract raw section content
-+${OBJCOPY} -O binary --only-section=.mod_lineinfo \
-+	"${KO}.lineinfo.o" "${KO}.lineinfo.bin"
-+
-+# Embed into the .ko with alloc,readonly flags
-+${OBJCOPY} --add-section ".mod_lineinfo=${KO}.lineinfo.bin" \
-+	--set-section-flags .mod_lineinfo=alloc,readonly \
-+	"${KO}"
-+
-+exit 0
+-	*file = &filenames[file_offsets[file_id]];
+-	*line = lines[low];
++	*file = &filenames[file_offsets[best_file_id]];
++	*line = best_line;
+ 	return true;
+ }
+ #endif /* CONFIG_KALLSYMS_LINEINFO_MODULES */
 diff --git a/scripts/gen_lineinfo.c b/scripts/gen_lineinfo.c
-index 37d5e84971be4..5ced6897cbbee 100644
+index 5ced6897cbbee..13f8bbd66f23c 100644
 --- a/scripts/gen_lineinfo.c
 +++ b/scripts/gen_lineinfo.c
-@@ -23,8 +23,16 @@
- #include <gelf.h>
- #include <limits.h>
+@@ -8,6 +8,9 @@
+  * file containing sorted lookup tables that the kernel uses to annotate
+  * stack traces with source file:line information.
+  *
++ * The output uses a block-indexed, delta-encoded, ULEB128-compressed format
++ * for ~3-4x size reduction compared to flat arrays.
++ *
+  * Requires libdw from elfutils.
+  */
  
-+#include "../include/linux/mod_lineinfo.h"
-+
-+static int module_mode;
-+
- static unsigned int skipped_overflow;
+@@ -53,6 +56,15 @@ static struct file_entry *files;
+ static unsigned int num_files;
+ static unsigned int files_capacity;
  
-+/* .text range for module mode (keep only runtime code) */
-+static unsigned long long text_section_start;
-+static unsigned long long text_section_end;
++/* Compressed output */
++static unsigned char *compressed_data;
++static unsigned int compressed_size;
++static unsigned int compressed_capacity;
 +
- struct line_entry {
- 	unsigned int offset;	/* offset from _text */
- 	unsigned int file_id;
-@@ -148,27 +156,25 @@ static const char *make_relative(const char *path, const char *comp_dir)
++static unsigned int *block_addrs;
++static unsigned int *block_offsets;
++static unsigned int num_blocks;
++
+ #define FILE_HASH_BITS 13
+ #define FILE_HASH_SIZE (1 << FILE_HASH_BITS)
+ 
+@@ -550,6 +562,93 @@ static void deduplicate(void)
+ 	num_entries = j + 1;
+ }
+ 
++static void compressed_ensure(unsigned int need)
++{
++	if (compressed_size + need <= compressed_capacity)
++		return;
++	compressed_capacity = compressed_capacity ? compressed_capacity * 2 : 1024 * 1024;
++	while (compressed_capacity < compressed_size + need)
++		compressed_capacity *= 2;
++	compressed_data = realloc(compressed_data, compressed_capacity);
++	if (!compressed_data) {
++		fprintf(stderr, "out of memory\n");
++		exit(1);
++	}
++}
++
++static void compress_entries(void)
++{
++	unsigned int i, block;
++
++	if (num_entries == 0) {
++		num_blocks = 0;
++		return;
++	}
++
++	num_blocks = (num_entries + LINEINFO_BLOCK_ENTRIES - 1) / LINEINFO_BLOCK_ENTRIES;
++	block_addrs = calloc(num_blocks, sizeof(*block_addrs));
++	block_offsets = calloc(num_blocks, sizeof(*block_offsets));
++	if (!block_addrs || !block_offsets) {
++		fprintf(stderr, "out of memory\n");
++		exit(1);
++	}
++
++	for (block = 0; block < num_blocks; block++) {
++		unsigned int base = block * LINEINFO_BLOCK_ENTRIES;
++		unsigned int count = num_entries - base;
++		unsigned int prev_addr, prev_file_id, prev_line;
++		unsigned char buf[10]; /* max 5 bytes per ULEB128 */
++
++		if (count > LINEINFO_BLOCK_ENTRIES)
++			count = LINEINFO_BLOCK_ENTRIES;
++
++		block_addrs[block] = entries[base].offset;
++		block_offsets[block] = compressed_size;
++
++		/* Entry 0: file_id (ULEB128), line (ULEB128) */
++		compressed_ensure(20);
++		compressed_size += lineinfo_write_uleb128(
++			compressed_data + compressed_size,
++			entries[base].file_id);
++		compressed_size += lineinfo_write_uleb128(
++			compressed_data + compressed_size,
++			entries[base].line);
++
++		prev_addr = entries[base].offset;
++		prev_file_id = entries[base].file_id;
++		prev_line = entries[base].line;
++
++		/* Entries 1..N: deltas */
++		for (i = 1; i < count; i++) {
++			unsigned int idx = base + i;
++			unsigned int addr_delta;
++			int32_t file_delta, line_delta;
++			unsigned int n;
++
++			addr_delta = entries[idx].offset - prev_addr;
++			file_delta = (int32_t)entries[idx].file_id - (int32_t)prev_file_id;
++			line_delta = (int32_t)entries[idx].line - (int32_t)prev_line;
++
++			compressed_ensure(15);
++			n = lineinfo_write_uleb128(buf, addr_delta);
++			memcpy(compressed_data + compressed_size, buf, n);
++			compressed_size += n;
++
++			n = lineinfo_write_uleb128(buf, zigzag_encode(file_delta));
++			memcpy(compressed_data + compressed_size, buf, n);
++			compressed_size += n;
++
++			n = lineinfo_write_uleb128(buf, zigzag_encode(line_delta));
++			memcpy(compressed_data + compressed_size, buf, n);
++			compressed_size += n;
++
++			prev_addr = entries[idx].offset;
++			prev_file_id = entries[idx].file_id;
++			prev_line = entries[idx].line;
++		}
++	}
++}
++
+ static void compute_file_offsets(void)
  {
- 	const char *p;
+ 	unsigned int offset = 0;
+@@ -593,28 +692,46 @@ static void output_assembly(void)
+ 	printf("lineinfo_num_files:\n");
+ 	printf("\t.long %u\n\n", num_files);
  
--	/* If already relative, use as-is */
--	if (path[0] != '/')
--		return path;
--
--	/* comp_dir from DWARF is the most reliable method */
--	if (comp_dir) {
--		size_t len = strlen(comp_dir);
--
--		if (!strncmp(path, comp_dir, len) && path[len] == '/') {
--			const char *rel = path + len + 1;
--
--			/*
--			 * If comp_dir pointed to a subdirectory
--			 * (e.g. arch/parisc/kernel) rather than
--			 * the tree root, stripping it leaves a
--			 * bare filename.  Fall through to the
--			 * kernel_dirs scan so we recover the full
--			 * relative path instead.
--			 */
--			if (strchr(rel, '/'))
--				return rel;
-+	if (path[0] == '/') {
-+		/* Try comp_dir prefix from DWARF */
-+		if (comp_dir) {
-+			size_t len = strlen(comp_dir);
+-	/* Sorted address offsets from _text */
+-	printf("\t.globl lineinfo_addrs\n");
++	/* Number of blocks */
++	printf("\t.globl lineinfo_num_blocks\n");
+ 	printf("\t.balign 4\n");
+-	printf("lineinfo_addrs:\n");
+-	for (unsigned int i = 0; i < num_entries; i++)
+-		printf("\t.long 0x%x\n", entries[i].offset);
++	printf("lineinfo_num_blocks:\n");
++	printf("\t.long %u\n\n", num_blocks);
 +
-+			if (!strncmp(path, comp_dir, len) && path[len] == '/') {
-+				const char *rel = path + len + 1;
-+
-+				/*
-+				 * If comp_dir pointed to a subdirectory
-+				 * (e.g. arch/parisc/kernel) rather than
-+				 * the tree root, stripping it leaves a
-+				 * bare filename.  Fall through to the
-+				 * kernel_dirs scan so we recover the full
-+				 * relative path instead.
-+				 */
-+				if (strchr(rel, '/'))
-+					return rel;
-+			}
- 		}
- 
- 		/*
-@@ -194,9 +200,45 @@ static const char *make_relative(const char *path, const char *comp_dir)
- 		return p ? p + 1 : path;
- 	}
- 
--	/* Fall back to basename */
--	p = strrchr(path, '/');
--	return p ? p + 1 : path;
-+	/*
-+	 * Relative path — check for duplicated-path quirk from libdw
-+	 * on ET_REL files (e.g., "a/b.c/a/b.c" → "a/b.c").
-+	 */
-+	{
-+		size_t len = strlen(path);
-+
-+		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
-+			size_t prefix = p - path;
-+			size_t rest = len - prefix - 1;
-+
-+			if (rest == prefix && !memcmp(path, p + 1, prefix))
-+				return p + 1;
-+		}
-+	}
-+
-+	/*
-+	 * Bare filename with no directory component — try to recover the
-+	 * relative path using comp_dir.  Some toolchains/elfutils combos
-+	 * produce bare filenames where comp_dir holds the source directory.
-+	 * Construct the absolute path and run the kernel_dirs scan.
-+	 */
-+	if (!strchr(path, '/') && comp_dir && comp_dir[0] == '/') {
-+		static char buf[PATH_MAX];
-+
-+		snprintf(buf, sizeof(buf), "%s/%s", comp_dir, path);
-+		for (p = buf + 1; *p; p++) {
-+			if (*(p - 1) == '/') {
-+				for (unsigned int i = 0; i < sizeof(kernel_dirs) /
-+				     sizeof(kernel_dirs[0]); i++) {
-+					if (!strncmp(p, kernel_dirs[i],
-+						     strlen(kernel_dirs[i])))
-+						return p;
-+				}
-+			}
-+		}
-+	}
-+
-+	return path;
- }
- 
- static int compare_entries(const void *a, const void *b)
-@@ -248,6 +290,159 @@ static unsigned long long find_text_addr(Elf *elf)
- 	exit(1);
- }
- 
-+static void find_text_section_range(Elf *elf)
-+{
-+	Elf_Scn *scn = NULL;
-+	GElf_Shdr shdr;
-+	size_t shstrndx;
-+
-+	if (elf_getshdrstrndx(elf, &shstrndx) != 0)
-+		return;
-+
-+	while ((scn = elf_nextscn(elf, scn)) != NULL) {
-+		const char *name;
-+
-+		if (!gelf_getshdr(scn, &shdr))
-+			continue;
-+		name = elf_strptr(elf, shstrndx, shdr.sh_name);
-+		if (name && !strcmp(name, ".text")) {
-+			text_section_start = shdr.sh_addr;
-+			text_section_end = shdr.sh_addr + shdr.sh_size;
-+			return;
-+		}
-+	}
-+}
-+
-+/*
-+ * Apply .rela.debug_line relocations to a mutable copy of .debug_line data.
-+ *
-+ * elfutils libdw (through at least 0.194) does NOT apply relocations for
-+ * ET_REL files when using dwarf_begin_elf().  The internal libdwfl layer
-+ * does this via __libdwfl_relocate(), but that API is not public.
-+ *
-+ * For DWARF5, the .debug_line file name table uses DW_FORM_line_strp
-+ * references into .debug_line_str.  Without relocation, all these offsets
-+ * resolve to 0 (or garbage), causing dwarf_linesrc()/dwarf_filesrc() to
-+ * return wrong filenames (typically the comp_dir for every file).
-+ *
-+ * This function applies the relocations manually so that the patched
-+ * .debug_line data can be fed to dwarf_begin_elf() and produce correct
-+ * results.
-+ *
-+ * See elfutils bug https://sourceware.org/bugzilla/show_bug.cgi?id=31447
-+ * A fix (dwelf_elf_apply_relocs) was proposed but not yet merged as of
-+ * elfutils 0.194: https://sourceware.org/pipermail/elfutils-devel/2024q3/007388.html
-+ */
-+/*
-+ * Determine the relocation type for a 32-bit absolute reference
-+ * on the given architecture.  Returns 0 if unknown.
-+ */
-+static unsigned int r_type_abs32(unsigned int e_machine)
-+{
-+	switch (e_machine) {
-+	case EM_X86_64:		return 10;	/* R_X86_64_32 */
-+	case EM_386:		return 1;	/* R_386_32 */
-+	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
-+	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
-+	case EM_RISCV:		return 1;	/* R_RISCV_32 */
-+	case EM_S390:		return 4;	/* R_390_32 */
-+	case EM_MIPS:		return 2;	/* R_MIPS_32 */
-+	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
-+	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
-+	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
-+	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
-+	default:		return 0;
-+	}
-+}
-+
-+static void apply_debug_line_relocations(Elf *elf)
-+{
-+	Elf_Scn *scn = NULL;
-+	Elf_Scn *debug_line_scn = NULL;
-+	Elf_Scn *rela_debug_line_scn = NULL;
-+	Elf_Scn *symtab_scn = NULL;
-+	GElf_Shdr shdr;
-+	GElf_Ehdr ehdr;
-+	unsigned int abs32_type;
-+	size_t shstrndx;
-+	Elf_Data *dl_data, *rela_data, *sym_data;
-+	GElf_Shdr rela_shdr, sym_shdr;
-+	size_t nrels, i;
-+
-+	if (gelf_getehdr(elf, &ehdr) == NULL)
-+		return;
-+
-+	abs32_type = r_type_abs32(ehdr.e_machine);
-+	if (!abs32_type)
-+		return;
-+
-+	if (elf_getshdrstrndx(elf, &shstrndx) != 0)
-+		return;
-+
-+	/* Find the relevant sections */
-+	while ((scn = elf_nextscn(elf, scn)) != NULL) {
-+		const char *name;
-+
-+		if (!gelf_getshdr(scn, &shdr))
-+			continue;
-+		name = elf_strptr(elf, shstrndx, shdr.sh_name);
-+		if (!name)
-+			continue;
-+
-+		if (!strcmp(name, ".debug_line"))
-+			debug_line_scn = scn;
-+		else if (!strcmp(name, ".rela.debug_line"))
-+			rela_debug_line_scn = scn;
-+		else if (shdr.sh_type == SHT_SYMTAB)
-+			symtab_scn = scn;
-+	}
-+
-+	if (!debug_line_scn || !rela_debug_line_scn || !symtab_scn)
-+		return;
-+
-+	dl_data = elf_getdata(debug_line_scn, NULL);
-+	rela_data = elf_getdata(rela_debug_line_scn, NULL);
-+	sym_data = elf_getdata(symtab_scn, NULL);
-+	if (!dl_data || !rela_data || !sym_data)
-+		return;
-+
-+	if (!gelf_getshdr(rela_debug_line_scn, &rela_shdr))
-+		return;
-+	if (!gelf_getshdr(symtab_scn, &sym_shdr))
-+		return;
-+
-+	nrels = rela_shdr.sh_size / rela_shdr.sh_entsize;
-+
-+	for (i = 0; i < nrels; i++) {
-+		GElf_Rela rela;
-+		GElf_Sym sym;
-+		unsigned int r_type;
-+		size_t r_sym;
-+		uint32_t value;
-+
-+		if (!gelf_getrela(rela_data, i, &rela))
-+			continue;
-+
-+		r_type = GELF_R_TYPE(rela.r_info);
-+		r_sym = GELF_R_SYM(rela.r_info);
-+
-+		/* Only handle the 32-bit absolute reloc for this arch */
-+		if (r_type != abs32_type)
-+			continue;
-+
-+		if (!gelf_getsym(sym_data, r_sym, &sym))
-+			continue;
-+
-+		/* Relocated value = sym.st_value + addend */
-+		value = (uint32_t)(sym.st_value + rela.r_addend);
-+
-+		/* Patch the .debug_line data at the relocation offset */
-+		if (rela.r_offset + 4 <= dl_data->d_size)
-+			memcpy((char *)dl_data->d_buf + rela.r_offset,
-+			       &value, sizeof(value));
-+	}
-+}
-+
- static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
- {
- 	Dwarf_Off off = 0, next_off;
-@@ -295,6 +490,16 @@ static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
- 			if (addr < text_addr)
- 				continue;
- 
-+			/*
-+			 * In module mode, keep only .text addresses.
-+			 * In ET_REL .ko files, .init.text/.exit.text may
-+			 * overlap with .text address ranges, so we must
-+			 * explicitly check against the .text bounds.
-+			 */
-+			if (module_mode && text_section_end > text_section_start &&
-+			    (addr < text_section_start || addr >= text_section_end))
-+				continue;
-+
- 			{
- 				unsigned long long raw_offset = addr - text_addr;
- 
-@@ -440,6 +645,63 @@ static void output_assembly(void)
- 	printf("\n");
- }
- 
-+static void output_module_assembly(void)
-+{
-+	unsigned int filenames_size = 0;
-+
-+	for (unsigned int i = 0; i < num_files; i++)
-+		filenames_size += strlen(files[i].name) + 1;
-+
-+	printf("/* SPDX-License-Identifier: GPL-2.0 */\n");
-+	printf("/*\n");
-+	printf(" * Automatically generated by scripts/gen_lineinfo --module\n");
-+	printf(" * Do not edit.\n");
-+	printf(" */\n\n");
-+
-+	printf("\t.section .mod_lineinfo, \"a\"\n\n");
-+
-+	/* Header: num_entries, num_files, filenames_size, reserved */
++	/* Block first-addresses for binary search */
++	printf("\t.globl lineinfo_block_addrs\n");
 +	printf("\t.balign 4\n");
-+	printf("\t.long %u\n", num_entries);
-+	printf("\t.long %u\n", num_files);
-+	printf("\t.long %u\n", filenames_size);
-+	printf("\t.long 0\n\n");
++	printf("lineinfo_block_addrs:\n");
++	for (unsigned int i = 0; i < num_blocks; i++)
++		printf("\t.long 0x%x\n", block_addrs[i]);
+ 	printf("\n");
+ 
+-	/* File IDs, parallel to addrs (u16 -- supports up to 65535 files) */
+-	printf("\t.globl lineinfo_file_ids\n");
+-	printf("\t.balign 2\n");
+-	printf("lineinfo_file_ids:\n");
+-	for (unsigned int i = 0; i < num_entries; i++)
+-		printf("\t.short %u\n", entries[i].file_id);
++	/* Block byte offsets into compressed stream */
++	printf("\t.globl lineinfo_block_offsets\n");
++	printf("\t.balign 4\n");
++	printf("lineinfo_block_offsets:\n");
++	for (unsigned int i = 0; i < num_blocks; i++)
++		printf("\t.long %u\n", block_offsets[i]);
+ 	printf("\n");
+ 
+-	/* Line numbers, parallel to addrs */
+-	printf("\t.globl lineinfo_lines\n");
++	/* Compressed data size */
++	printf("\t.globl lineinfo_data_size\n");
+ 	printf("\t.balign 4\n");
+-	printf("lineinfo_lines:\n");
+-	for (unsigned int i = 0; i < num_entries; i++)
+-		printf("\t.long %u\n", entries[i].line);
++	printf("lineinfo_data_size:\n");
++	printf("\t.long %u\n\n", compressed_size);
 +
-+	/* addrs[] */
-+	for (unsigned int i = 0; i < num_entries; i++)
-+		printf("\t.long 0x%x\n", entries[i].offset);
-+	if (num_entries)
-+		printf("\n");
-+
-+	/* file_ids[] */
-+	for (unsigned int i = 0; i < num_entries; i++)
-+		printf("\t.short %u\n", entries[i].file_id);
-+
-+	/* Padding to align lines[] to 4 bytes */
-+	if (num_entries & 1)
-+		printf("\t.short 0\n");
-+	if (num_entries)
-+		printf("\n");
-+
-+	/* lines[] */
-+	for (unsigned int i = 0; i < num_entries; i++)
-+		printf("\t.long %u\n", entries[i].line);
-+	if (num_entries)
-+		printf("\n");
-+
-+	/* file_offsets[] */
-+	for (unsigned int i = 0; i < num_files; i++)
-+		printf("\t.long %u\n", files[i].str_offset);
-+	if (num_files)
-+		printf("\n");
-+
-+	/* filenames[] */
-+	for (unsigned int i = 0; i < num_files; i++)
-+		print_escaped_asciz(files[i].name);
-+	if (num_files)
-+		printf("\n");
-+}
-+
- int main(int argc, char *argv[])
++	/* Compressed data stream */
++	printf("\t.globl lineinfo_data\n");
++	printf("lineinfo_data:\n");
++	for (unsigned int i = 0; i < compressed_size; i++) {
++		if ((i % 16) == 0)
++			printf("\t.byte ");
++		else
++			printf(",");
++		printf("0x%02x", compressed_data[i]);
++		if ((i % 16) == 15 || i == compressed_size - 1)
++			printf("\n");
++	}
+ 	printf("\n");
+ 
+ 	/* File string offset table */
+@@ -660,36 +777,42 @@ static void output_module_assembly(void)
+ 
+ 	printf("\t.section .mod_lineinfo, \"a\"\n\n");
+ 
+-	/* Header: num_entries, num_files, filenames_size, reserved */
++	/* Header: num_entries, num_files, filenames_size, num_blocks, data_size, reserved */
+ 	printf("\t.balign 4\n");
+ 	printf("\t.long %u\n", num_entries);
+ 	printf("\t.long %u\n", num_files);
+ 	printf("\t.long %u\n", filenames_size);
++	printf("\t.long %u\n", num_blocks);
++	printf("\t.long %u\n", compressed_size);
+ 	printf("\t.long 0\n\n");
+ 
+-	/* addrs[] */
+-	for (unsigned int i = 0; i < num_entries; i++)
+-		printf("\t.long 0x%x\n", entries[i].offset);
+-	if (num_entries)
++	/* block_addrs[] */
++	for (unsigned int i = 0; i < num_blocks; i++)
++		printf("\t.long 0x%x\n", block_addrs[i]);
++	if (num_blocks)
+ 		printf("\n");
+ 
+-	/* file_ids[] */
+-	for (unsigned int i = 0; i < num_entries; i++)
+-		printf("\t.short %u\n", entries[i].file_id);
+-
+-	/* Padding to align lines[] to 4 bytes */
+-	if (num_entries & 1)
+-		printf("\t.short 0\n");
+-	if (num_entries)
++	/* block_offsets[] */
++	for (unsigned int i = 0; i < num_blocks; i++)
++		printf("\t.long %u\n", block_offsets[i]);
++	if (num_blocks)
+ 		printf("\n");
+ 
+-	/* lines[] */
+-	for (unsigned int i = 0; i < num_entries; i++)
+-		printf("\t.long %u\n", entries[i].line);
+-	if (num_entries)
++	/* compressed data[] */
++	for (unsigned int i = 0; i < compressed_size; i++) {
++		if ((i % 16) == 0)
++			printf("\t.byte ");
++		else
++			printf(",");
++		printf("0x%02x", compressed_data[i]);
++		if ((i % 16) == 15 || i == compressed_size - 1)
++			printf("\n");
++	}
++	if (compressed_size)
+ 		printf("\n");
+ 
+-	/* file_offsets[] */
++	/* file_offsets[] -- align after variable-length compressed data */
++	printf("\t.balign 4\n");
+ 	for (unsigned int i = 0; i < num_files; i++)
+ 		printf("\t.long %u\n", files[i].str_offset);
+ 	if (num_files)
+@@ -777,10 +900,11 @@ int main(int argc, char *argv[])
+ 			skipped_overflow);
+ 
+ 	deduplicate();
++	compress_entries();
+ 	compute_file_offsets();
+ 
+-	fprintf(stderr, "lineinfo: %u entries, %u files\n",
+-		num_entries, num_files);
++	fprintf(stderr, "lineinfo: %u entries, %u files, %u blocks, %u compressed bytes\n",
++		num_entries, num_files, num_blocks, compressed_size);
+ 
+ 	if (module_mode)
+ 		output_module_assembly();
+@@ -796,6 +920,9 @@ int main(int argc, char *argv[])
+ 	for (unsigned int i = 0; i < num_files; i++)
+ 		free(files[i].name);
+ 	free(files);
++	free(compressed_data);
++	free(block_addrs);
++	free(block_offsets);
+ 
+ 	return 0;
+ }
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 42662c4fbc6c9..94fbdad3df7c6 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -80,11 +80,12 @@ static bool is_ignored_symbol(const char *name, char type)
  {
- 	int fd;
-@@ -447,12 +709,23 @@ int main(int argc, char *argv[])
- 	Dwarf *dwarf;
- 	unsigned long long text_addr;
- 
-+	if (argc >= 2 && !strcmp(argv[1], "--module")) {
-+		module_mode = 1;
-+		argv++;
-+		argc--;
-+	}
-+
- 	if (argc != 2) {
--		fprintf(stderr, "Usage: %s <vmlinux>\n", argv[0]);
-+		fprintf(stderr, "Usage: %s [--module] <ELF file>\n", argv[0]);
- 		return 1;
- 	}
- 
--	fd = open(argv[1], O_RDONLY);
-+	/*
-+	 * For module mode, open O_RDWR so we can apply debug section
-+	 * relocations to the in-memory ELF data.  The modifications
-+	 * are NOT written back to disk (no elf_update() call).
-+	 */
-+	fd = open(argv[1], module_mode ? O_RDWR : O_RDONLY);
- 	if (fd < 0) {
- 		fprintf(stderr, "Cannot open %s: %s\n", argv[1],
- 			strerror(errno));
-@@ -460,7 +733,7 @@ int main(int argc, char *argv[])
- 	}
- 
- 	elf_version(EV_CURRENT);
--	elf = elf_begin(fd, ELF_C_READ, NULL);
-+	elf = elf_begin(fd, module_mode ? ELF_C_RDWR : ELF_C_READ, NULL);
- 	if (!elf) {
- 		fprintf(stderr, "elf_begin failed: %s\n",
- 			elf_errmsg(elf_errno()));
-@@ -468,7 +741,22 @@ int main(int argc, char *argv[])
- 		return 1;
- 	}
- 
--	text_addr = find_text_addr(elf);
-+	if (module_mode) {
-+		/*
-+		 * .ko files are ET_REL after ld -r.  libdw does NOT apply
-+		 * relocations for ET_REL files, so DW_FORM_line_strp
-+		 * references in .debug_line are not resolved.  Apply them
-+		 * ourselves so that dwarf_linesrc() returns correct paths.
-+		 *
-+		 * DWARF addresses include the .text sh_addr.  Use .text
-+		 * sh_addr as the base so offsets are .text-relative.
-+		 */
-+		apply_debug_line_relocations(elf);
-+		find_text_section_range(elf);
-+		text_addr = text_section_start;
-+	} else {
-+		text_addr = find_text_addr(elf);
-+	}
- 
- 	dwarf = dwarf_begin_elf(elf, DWARF_C_READ, NULL);
- 	if (!dwarf) {
-@@ -494,7 +782,10 @@ int main(int argc, char *argv[])
- 	fprintf(stderr, "lineinfo: %u entries, %u files\n",
- 		num_entries, num_files);
- 
--	output_assembly();
-+	if (module_mode)
-+		output_module_assembly();
-+	else
-+		output_assembly();
- 
- 	dwarf_end(dwarf);
- 	elf_end(elf);
+ 	/* Ignore lineinfo symbols for kallsyms pass stability */
+ 	static const char * const lineinfo_syms[] = {
+-		"lineinfo_addrs",
+-		"lineinfo_file_ids",
++		"lineinfo_block_addrs",
++		"lineinfo_block_offsets",
++		"lineinfo_data",
+ 		"lineinfo_file_offsets",
+ 		"lineinfo_filenames",
+-		"lineinfo_lines",
++		"lineinfo_num_blocks",
+ 		"lineinfo_num_entries",
+ 		"lineinfo_num_files",
+ 	};
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 9222659806700..db36c27e23444 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -235,12 +235,20 @@ lineinfo_num_entries:
+ 	.balign 4
+ lineinfo_num_files:
+ 	.long 0
+-	.globl lineinfo_addrs
+-lineinfo_addrs:
+-	.globl lineinfo_file_ids
+-lineinfo_file_ids:
+-	.globl lineinfo_lines
+-lineinfo_lines:
++	.globl lineinfo_num_blocks
++	.balign 4
++lineinfo_num_blocks:
++	.long 0
++	.globl lineinfo_block_addrs
++lineinfo_block_addrs:
++	.globl lineinfo_block_offsets
++lineinfo_block_offsets:
++	.globl lineinfo_data_size
++	.balign 4
++lineinfo_data_size:
++	.long 0
++	.globl lineinfo_data
++lineinfo_data:
+ 	.globl lineinfo_file_offsets
+ lineinfo_file_offsets:
+ 	.globl lineinfo_filenames_size
 -- 
 2.51.0
 
