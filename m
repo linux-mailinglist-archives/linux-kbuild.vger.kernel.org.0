@@ -1,179 +1,144 @@
-Return-Path: <linux-kbuild+bounces-11634-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11635-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MJjRMzZ8q2lUdgEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11634-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 02:15:34 +0100
+	id 0ARzITWaq2nYegEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11635-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 04:23:33 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390902294B3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 02:15:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE887229D8C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 07 Mar 2026 04:23:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9976F303A12D
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Mar 2026 01:12:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D64DC304300A
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Mar 2026 03:23:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1835E29ACC0;
-	Sat,  7 Mar 2026 01:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0821309DC4;
+	Sat,  7 Mar 2026 03:23:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2cUXOzm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJT1t/r7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EDC28BA95;
-	Sat,  7 Mar 2026 01:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC7330AD1C
+	for <linux-kbuild@vger.kernel.org>; Sat,  7 Mar 2026 03:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772845973; cv=none; b=Cn6fMhY+iFoDzZrUk1zN2QeEmndYOPf5aatM4Wv4LF2i2jwjUAR5b0PzMIzBtACH+685OjoKw7TT7YbvvgiBtpD0ByYMKwG7uQnVh2ejsS4bear6M7bD6D+fReFXrSjktNo62orrNju0isymrCh5M32rUj+NC3tpitehlEfn5Cg=
+	t=1772853789; cv=none; b=A2Qt4jFoHJLEB1guR3FU1sV6mesaiviMmyGDw0rWhgLreh8DvQCRKR/lnHCpsQLLZ+UBYceCa09kadT7xzzq2ri9yvwx7v0BOSymdlhXF6Tx7wHQ9zKv6jJdKtGTC/xhIIDsErY5Go7HwXTUsFtkAKc0CaZMBMSwIkfDUXpwvPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772845973; c=relaxed/simple;
-	bh=wqk8k7Vt9qq1nNERcAIYCPZzARPydojrpFXFB2KInlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F5VPCSlo+jR4CRAZkvb8FC1PPVhxwX6VP3QJwnrii9KphIU0f/c22QNzmdY1RG+S8ShbGuRKwtvVpL12nl9leCmuxYGnVTXkjRXlTT7BBdfsYRZAi/5ulOE8q/8Yt1jrrPMHWNjJRRBNqt2jKTjds5NsmzBgJgSd70w1gScXhrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2cUXOzm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BEEFC4CEF7;
-	Sat,  7 Mar 2026 01:12:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772845972;
-	bh=wqk8k7Vt9qq1nNERcAIYCPZzARPydojrpFXFB2KInlY=;
-	h=Date:From:To:Cc:Subject:From;
-	b=U2cUXOzm2D1oQMR2cSrK92btOD3EwUKtcmQhLJ56z6S+2hcxeF5fo7wKnJBTobwCG
-	 O+mx3RKyuLFqWHuATFovEGcelv4IpkaTTZ+FUtMuz8SIppK/Yuy3ku+G+vuMHT6/+o
-	 cKQtawhbZWInPtGiN137McfkgsQ8Im9Rb4lq4uNBeP0khNSOkPSzkBD9S2Zpy4as9a
-	 zuKQB8w7waQmrljrHRcE3GNb0iULko932438Yp6yfvemH/XNrqFKgbVQVkl1zsIQ8k
-	 ay3bje86iYXH3sWu0IkGaIDoV6bob6a/ygblpryjIOQzeur1WHzp45lzzZ7aHIfI+6
-	 czLmdQbu/C93A==
-Date: Fri, 6 Mar 2026 18:12:49 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [GIT PULL] Kbuild fixes for 7.0 #2
-Message-ID: <20260307011249.GA748682@ax162>
+	s=arc-20240116; t=1772853789; c=relaxed/simple;
+	bh=yl/5Y/nXTvOWLCUjZ9vsmgVgWr8lK//l1u24qGNKCsA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mJFcpH+rP1qt1C6OFtv1Lgj2hMsV2kxO0I6Z+j1GJMTMoHjoKSVEpghIGho079SD5zYIfdPMJCnNBxS0/gSXsndXAN1F84tN21LPaa8bjCcuy/dzsiKv3IMC7No0pJtzN20Yc+D5fQqRTBbkgTZ/KKkQm2vg7PdwkFxgQYcTTHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FJT1t/r7; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso90668125e9.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Mar 2026 19:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772853787; x=1773458587; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/JIeptY94fGiMe9NnDArQDFW08JE5xRTT4JTPEDHqCQ=;
+        b=FJT1t/r7ZGEZWYv9QimsR4un2BxAIZ84HvnR0KpLYNvlicYTsB6VHmeTGMrBwGEW4c
+         uz5VOwYsKoT26N1XvPzaN27LIC542UoF06G+By5jqhpiD5hhnZCoh4sr3PFblePYXsbN
+         INkXbyVzjbsaK30pKz2ErK2MkbIGSgOQQUo9LElYZNmYiPfqdbwUuN8wmdVED3asyh+Q
+         M0rHDBToGRaz/uMcibguC0agiQEJw6FCNktfWtXH2r1q2uPFy4wdX/GU2vcPEjGb0VA7
+         VfR7F8tewWWRVdCjZELBRqpLqYOG9KX8V2PJ0ZbNVR9mS6YEjsMobBoiKq5shxt3U4yz
+         A/uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772853787; x=1773458587;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/JIeptY94fGiMe9NnDArQDFW08JE5xRTT4JTPEDHqCQ=;
+        b=YpODfr9LFOBokHAcNcSm/Un2MpeIU5y4/MeYy2SFip4/37WaG056N+1GwL1FTt9KUn
+         v7Onx7MFm56TuXHnFmHfycEsNFF7HTJFtB4q6NKah5bR38L9U3FtDy7ifRdqUUP04MYl
+         711rfvjE1JBOG62iliqQ1i4g2uBY4Itd8tF7FwpnNkr4iIvYkL85opFoGm9DO5p7+dsn
+         2b7X17mfzzyDf4/r6b3DwACxMlpA/EmVi2ngr6Vuv7MHYofYfuAJSsBAha6nZ6jni9Dx
+         9z8ex8EyeiqExnN0FdkrkfWnZMt20moTm/Bzt/DU1OTUhFTQ9itrZrmok1RnY0gmJr4f
+         hKkA==
+X-Forwarded-Encrypted: i=1; AJvYcCXM1iEdLy/2brW/kaulz7RHRHjg4EYsixhnpxWTDVJkEvFlWNEgQTG5zHQiZPeoDpP7fSPKFT9xWrD4Kzk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8izTMu+rzXLjxF/czP6IHl4GMkFzPf6nJtJDBRK1tssIqLw6c
+	2OwAHqKc+XyAZACAUGgt0m18axs911Jk4yYSsllYOlY+r3ojrSFhT43F
+X-Gm-Gg: ATEYQzxkDtM825cA7uhwBTgXPT1woJaq2pp68QHga0sU2+YL5bCkPRDgnHrgt9ik+vZ
+	1qB4tgu6/3UwtADS7Ibt4MQdpL20zmWfdgZ4WyeuuijrS9ihg6AlivHDL8DaSsobW6mPnDmeSeQ
+	HRNB+hrGFXIYYImfQkzS8pAgHv1BLLphfhX59gnLjpZ9ncEcm5KNqB+AYmlaN42WxiHAEyJY+Js
+	/Oho2c7dE2wCCP2No1nUKem+tUdj6luga5o5eK64F02K5lcAiVhyHT0nGDmdMa/56lLdNe2eV6H
+	xQ9EUocgFaxNnxKgLmgPQuRD1k0jY6+z8QjWkbkngkno3Jib3acbBeSnP8P5A83a/BvW3iKwM8O
+	uh5yQiZ8POJiSUe05Xb41QlDiI0zIHztZeq9ryie3n0URkTu7NqY97Ks43uoxlJC4+PoO1y6X4H
+	Mj6dpd0bHmqQlTg/1jkzYuNiGMF0X5Jw==
+X-Received: by 2002:a05:600c:5250:b0:485:3025:162 with SMTP id 5b1f17b1804b1-48530250228mr2832345e9.35.1772853786749;
+        Fri, 06 Mar 2026 19:23:06 -0800 (PST)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4851fae538bsm202029975e9.7.2026.03.06.19.23.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Mar 2026 19:23:05 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: rob@landley.net
+Cc: brauner@kernel.org,
+	ddiss@suse.de,
+	initramfs@vger.kernel.org,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nathan@kernel.org,
+	nsc@kernel.org,
+	patches@lists.linux.dev,
+	rdunlap@infradead.org,
+	viro@zeniv.linux.org.uk
+Subject: Re: [PATCH 0/2] init: ensure that /dev/console and /dev/null are (nearly) always available in initramfs
+Date: Sat,  7 Mar 2026 06:22:58 +0300
+Message-ID: <20260307032258.2857157-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <bd45c86c-e1ea-4995-bb00-df83cc873105@landley.net>
+References: <bd45c86c-e1ea-4995-bb00-df83cc873105@landley.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 390902294B3
+X-Rspamd-Queue-Id: DE887229D8C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11634-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-0.952];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11635-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.996];
+	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Linus,
+Rob, I kindly ask you to test this solution to your problems:
 
-Please pull this second round of Kbuild fixes for 7.0. While the number
-of files changed might look kind of scary for a fixes pull request, it
-is due to having to modify individual architecture vmlinux linker
-scripts to move .modinfo out of the ELF_DETAILS macro, so the actual
-change is fairly minimal (just dropping .modinfo from compressed kernel
-images and the like).
+https://lore.kernel.org/all/CAPnZJGDDonspVK1WxDac2omkLJVX=_1Tybn4ne+sf3KyaAuofA@mail.gmail.com/
 
-If there are any issues, please let me know.
-
-Cheers,
-Nathan
-
-The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
-
-  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.0-2
-
-for you to fetch changes up to fdb12c8a24a453bdd6759979b6ef1e04ebd4beb4:
-
-  kbuild: Leave objtool binary around with 'make clean' (2026-03-02 14:22:39 -0700)
-
-----------------------------------------------------------------
-Second round of Kbuild fixes for 7.0
-
-- Split out .modinfo section from ELF_DETAILS macro, as that macro may
-  be used in other areas that expect to discard .modinfo, breaking
-  certain image layouts
-
-- Adjust genksyms parser to handle optional attributes in certain
-  declarations, necessary after commit 07919126ecfc ("netfilter:
-  annotate NAT helper hook pointers with __rcu")
-
-- Include resolve_btfids in external module build created by
-  scripts/package/install-extmod-build when it may be run on
-  external modules
-
-- Avoid removing objtool binary with 'make clean', as it is required for
-  external module builds
-
-----------------------------------------------------------------
-Nathan Chancellor (3):
-      kbuild: Split .modinfo out from ELF_DETAILS
-      genksyms: Fix parsing a declarator with a preceding attribute
-      kbuild: Leave objtool binary around with 'make clean'
-
-Thomas Weiﬂschuh (1):
-      kbuild: install-extmod-build: Package resolve_btfids if necessary
-
- Makefile                                  | 8 ++++----
- arch/alpha/kernel/vmlinux.lds.S           | 1 +
- arch/arc/kernel/vmlinux.lds.S             | 1 +
- arch/arm/boot/compressed/vmlinux.lds.S    | 1 +
- arch/arm/kernel/vmlinux-xip.lds.S         | 1 +
- arch/arm/kernel/vmlinux.lds.S             | 1 +
- arch/arm64/kernel/vmlinux.lds.S           | 1 +
- arch/csky/kernel/vmlinux.lds.S            | 1 +
- arch/hexagon/kernel/vmlinux.lds.S         | 1 +
- arch/loongarch/kernel/vmlinux.lds.S       | 1 +
- arch/m68k/kernel/vmlinux-nommu.lds        | 1 +
- arch/m68k/kernel/vmlinux-std.lds          | 1 +
- arch/m68k/kernel/vmlinux-sun3.lds         | 1 +
- arch/mips/kernel/vmlinux.lds.S            | 1 +
- arch/nios2/kernel/vmlinux.lds.S           | 1 +
- arch/openrisc/kernel/vmlinux.lds.S        | 1 +
- arch/parisc/boot/compressed/vmlinux.lds.S | 1 +
- arch/parisc/kernel/vmlinux.lds.S          | 1 +
- arch/powerpc/kernel/vmlinux.lds.S         | 1 +
- arch/riscv/kernel/vmlinux.lds.S           | 1 +
- arch/s390/kernel/vmlinux.lds.S            | 1 +
- arch/sh/kernel/vmlinux.lds.S              | 1 +
- arch/sparc/kernel/vmlinux.lds.S           | 1 +
- arch/um/kernel/dyn.lds.S                  | 1 +
- arch/um/kernel/uml.lds.S                  | 1 +
- arch/x86/boot/compressed/vmlinux.lds.S    | 2 +-
- arch/x86/kernel/vmlinux.lds.S             | 1 +
- include/asm-generic/vmlinux.lds.h         | 4 +++-
- scripts/genksyms/parse.y                  | 4 ++--
- scripts/package/install-extmod-build      | 4 ++++
- tools/objtool/Makefile                    | 8 +++++---
- 31 files changed, 44 insertions(+), 11 deletions(-)
+-- 
+Askar Safin
 
