@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-11665-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +FqwC5iprWmE5gEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11665-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:53:44 +0100
+	id +Kx3LtOprWmE5gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11667-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:54:43 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8843D2313C8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3CC231403
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:54:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D80B53079646
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:49:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A31CF30848C5
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:50:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A25F3563F8;
-	Sun,  8 Mar 2026 16:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50224347FC3;
+	Sun,  8 Mar 2026 16:49:18 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4817D3537FD;
-	Sun,  8 Mar 2026 16:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 622BA34BA2E;
+	Sun,  8 Mar 2026 16:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772988540; cv=none; b=GgYcYQeZmrTNqGuhLSJ7R4D37G6oKfsxjsbA0OIiNy/wL4m8P1U+x2cRMfasROmf0652azkky7Y1ktF5VFo8E/LUbowsMlX6l6Urxgvj17RWXYzVkDmUBGSdEF43wscBglIfWe7s68mf6IyrIX92GjZ5K7EcxIXjXCscwAVDWi8=
+	t=1772988557; cv=none; b=NGrcUjJ0H8kMsW5HqaYxBAONn0D9uwaj4a5kULOJqQipDc+AIRgjpFL61eOxsiH4UattMLYOIuxVnWejPPUoomep4JC5drnlJ/MIiO/iH55P5PKuMiCjkEIBYm9Bwn3LwnEMaVMfzQOAocCD46x5hGSK2OtWpIShBfMN4omxRvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772988540; c=relaxed/simple;
-	bh=1TwTJl4Yin1l8YyO5tM8kMrq8QWHQKEtmwUYKJD+IYY=;
+	s=arc-20240116; t=1772988557; c=relaxed/simple;
+	bh=+1eHuPUMvMgXuyMN6uOdzIYIpwsuKuiu5gQn19TAlZ8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h8BX6OKD2sJXAg8F+t4UK47/LZqm6dSLKdSDyfe64RTvh9rbLl5HIC59h+/ChoQkZG9HEYolNANpUyMVDmMoj0zrCy97wdUcMj7CEAkH1XThCPEE3lktPzMnSyPvaK3b6bkFT7K+4AW0/IAkXutGHrF8MIDoyVEWZkjMwJxBRTY=
+	 In-Reply-To:To:Cc; b=CUW3Y9hWfvhkyOmPYKWBgZS/2OADDH/wLGykf7ktjyakufK36GaMHl5LEixIE+YpcEf45mohD3Gv/KlQ0ClT5KtCyBjAUqjDr0ncHBideCmKoke/4FDePJFLCIWmR0j4QJhAJCkUeAINoBjF83BuesM0u+tnF5KTqWg58Rth4sY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3F17E1C01;
-	Sun,  8 Mar 2026 09:48:47 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 841AD1C01;
+	Sun,  8 Mar 2026 09:49:00 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F6853F694;
-	Sun,  8 Mar 2026 09:48:45 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B21AB3F694;
+	Sun,  8 Mar 2026 09:48:53 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Sun, 08 Mar 2026 16:46:22 +0000
-Subject: [PATCH v3 17/30] tools: mm: Append extra cflags
+Date: Sun, 08 Mar 2026 16:46:23 +0000
+Subject: [PATCH v3 18/30] tools: nolibc: Append extra cflags
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260308-tools_build_fix_zero_init-v3-17-6477808123b7@arm.com>
+Message-Id: <20260308-tools_build_fix_zero_init-v3-18-6477808123b7@arm.com>
 References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 In-Reply-To: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -93,14 +93,14 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
  Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=634;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=823;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=1TwTJl4Yin1l8YyO5tM8kMrq8QWHQKEtmwUYKJD+IYY=;
- b=cPicB8vZufyyYnQ7lD7ggIGeMJa/Z0LLVlpwCck2MYQVvqGgm7R6pPnt5PjujYmCM11FXbfP9
- ZvfQiiEaFZ7DUjr9XMS4rLx/XQeZM/8I4PbOFA7T5yC5/nk/IwIk64D
+ bh=+1eHuPUMvMgXuyMN6uOdzIYIpwsuKuiu5gQn19TAlZ8=;
+ b=WVHp/PVSA93B9ZiuYlKmtT4hgVNbkqIJUIpqBiwlUqYW2amEgF5cFgVMyzaMw2tpfvRIFp5aW
+ hj1eTUzNXdDDlguovhxMNUTNyUfqraHhlmZQUxMLehV3vNO7MXHg88G
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: 8843D2313C8
+X-Rspamd-Queue-Id: 5D3CC231403
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11665-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11667-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -125,10 +125,10 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[70];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.127];
+	NEURAL_HAM(-0.00)[-0.061];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,arm.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
 Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
@@ -136,21 +136,22 @@ the compiler.
 
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/mm/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ tools/include/nolibc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/mm/Makefile b/tools/mm/Makefile
-index f5725b5c23aa261994b5b42f37c443bee2edebf2..742c1639db0a6f7aee59cf8f4634cb40eacd49b2 100644
---- a/tools/mm/Makefile
-+++ b/tools/mm/Makefile
-@@ -9,6 +9,7 @@ INSTALL_TARGETS = $(BUILD_TARGETS) thpmaps
- LIB_DIR = ../lib/api
- LIBS = $(LIB_DIR)/libapi.a
+diff --git a/tools/include/nolibc/Makefile b/tools/include/nolibc/Makefile
+index 1958dda988954d8a604b28f5feb75ebb67ee2e14..b7f0385ccba14fdaa08aab6192acf0296b47cdbc 100644
+--- a/tools/include/nolibc/Makefile
++++ b/tools/include/nolibc/Makefile
+@@ -105,7 +105,7 @@ headers_standalone: headers
+ 	$(Q)$(MAKE) -C $(srctree) headers_install INSTALL_HDR_PATH=$(OUTPUT)sysroot
  
-+CFLAGS += $(EXTRA_CFLAGS)
- CFLAGS += -Wall -Wextra -I../lib/ -pthread
- LDFLAGS += $(LIBS) -pthread
+ CFLAGS_s390 := -m64
+-CFLAGS := $(CFLAGS_$(ARCH))
++CFLAGS := $(CFLAGS_$(ARCH)) $(EXTRA_CFLAGS)
  
+ headers_check: headers_standalone
+ 	$(Q)for header in $(filter-out crt.h std.h,$(all_files)); do \
 
 -- 
 2.34.1
