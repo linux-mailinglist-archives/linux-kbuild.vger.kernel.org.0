@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-11655-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11656-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFmCFcyorWmE5gEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11655-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:50:20 +0100
+	id oP8lCO6orWmE5gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11656-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:50:54 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBDC231306
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEE8231324
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:50:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6E15F3056E66
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:47:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D2B6B302F6A2
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:47:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C171345749;
-	Sun,  8 Mar 2026 16:47:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45B39345CA6;
+	Sun,  8 Mar 2026 16:47:41 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7750323E35F;
-	Sun,  8 Mar 2026 16:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ECC73382E6;
+	Sun,  8 Mar 2026 16:47:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772988453; cv=none; b=ipPcrmzmLKZDaaFis7QBMEBnmJYhx2PFlXdLq5dKGQ5p9tHHS49FvJF37Mv+w43c6n/s3It1sY2nHZUaLp51spL+EkYgg+4d9TGIohY6gOGluyF514sH8dAWAs41+goiSNkdLMeE/czDJdGn5ZnjVj+EYGXnXXmJmW5l4T/TfKs=
+	t=1772988461; cv=none; b=bj6/uhYvkoXyuK2wzt0AjKmzVsqhR5w6/TffCkMTeINnxEpBiIke+llnt2xkDBqK8W5S/qPReDLgCzpu71btYQBqmrjRwCYl/ptl+SJ3hsF3IUJznRIcLAfLmeUynoXDJkCbJ2igt+n7fEKIF4IoCbqu7lScKWKU1sK2DUHJ+cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772988453; c=relaxed/simple;
-	bh=UN0Max7qbwkYOGlwk9cg0egNBdEm8uSkyaEHFi5qcp8=;
+	s=arc-20240116; t=1772988461; c=relaxed/simple;
+	bh=9xh+XmLdxjnZ2EwCgGTIJoMqt8bQwMAFGKapk2sC+nY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B1YGpxdPzfbRfaIUvk7JKNZsrXnsLWgPzd3Vrpxg+2xqiYE5d09e5/q6FUW8CMP9bHeW5k3G+rzuGP1OKer5EeZBYX59GtTRwNwbGdwzlGOY2OyoeG5a6jR+MU2En+TEDgN+DFSZolYH++KBqx6HxyKkc1f2nQ4WGJkUb1yJee8=
+	 In-Reply-To:To:Cc; b=Wd13/cSpjenKoi2EBwkamgJZQ2PiecB7dqffO7qG9n3B6nXHlWL6l1YhJ7Kk7dY4Y+3B2mzwgy+ol/NXwQZohJcB0Wo5v6KFDKpQJvqumxwjmFDEq1EAnGHCJYhAYZaNfFHAsloqqDLDycFrjlcXIhxoRWjVAskK3buME1VcCrQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9943E1CE2;
-	Sun,  8 Mar 2026 09:47:24 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC6ED1CE2;
+	Sun,  8 Mar 2026 09:47:32 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA48E3F694;
-	Sun,  8 Mar 2026 09:47:22 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17AF33F694;
+	Sun,  8 Mar 2026 09:47:30 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Sun, 08 Mar 2026 16:46:12 +0000
-Subject: [PATCH v3 07/30] perf build: Append extra host flags
+Date: Sun, 08 Mar 2026 16:46:13 +0000
+Subject: [PATCH v3 08/30] tools/bpf: build: Append extra cflags
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260308-tools_build_fix_zero_init-v3-7-6477808123b7@arm.com>
+Message-Id: <20260308-tools_build_fix_zero_init-v3-8-6477808123b7@arm.com>
 References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 In-Reply-To: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -93,14 +93,14 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
  Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=1040;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=637;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=UN0Max7qbwkYOGlwk9cg0egNBdEm8uSkyaEHFi5qcp8=;
- b=CySC+X2BeSvoumQf8fEihm0nmcdGGomOJuy15TwsPAAipcrRWfEg52dGF+VCAODYyQSs2D0an
- /DBqyyR8REXCbAebdBefQ5abEq2itkzImIiOuYMbKECeC4F0eYx7eCx
+ bh=9xh+XmLdxjnZ2EwCgGTIJoMqt8bQwMAFGKapk2sC+nY=;
+ b=YJWRLoK7QDxWDlGkUHbfhkd+aNPLLj1MlyEqu0TQAGGsvL95zPdtB9a8uEos/WqzJJ6m6+sNk
+ fY0imK4h+elA9WwLLOzVsjnQ/e+Qg/TCtvFW8dQv3nN8qHjnc0xYqrq
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: EFBDC231306
+X-Rspamd-Queue-Id: 8DEE8231324
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11655-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11656-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -125,33 +125,32 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[70];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.098];
+	NEURAL_HAM(-0.00)[-0.130];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,arm.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-Append HOST_EXTRACFLAGS to HOST_CFLAGS so that additional flags can be
-applied to the host compiler.
+Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
+the compiler.
 
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/perf/Makefile.config | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/bpf/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
-index a8dc72cfe48eec52bd9e2352c46c88f5d8047765..f4004ec148a19c784bfe3ee9b5cc3901a3db25a3 100644
---- a/tools/perf/Makefile.config
-+++ b/tools/perf/Makefile.config
-@@ -17,7 +17,7 @@ detected     = $(shell echo "$(1)=y"       >> $(OUTPUT).config-detected)
- detected_var = $(shell echo "$(1)=$($(1))" >> $(OUTPUT).config-detected)
+diff --git a/tools/bpf/Makefile b/tools/bpf/Makefile
+index fd2585af1252669c59228af3a77320e449e1a1ab..f7d7978b4e2c1e592f980c2b8153608b9d821d89 100644
+--- a/tools/bpf/Makefile
++++ b/tools/bpf/Makefile
+@@ -8,6 +8,7 @@ YACC = bison
+ MAKE = make
+ INSTALL ?= install
  
- CFLAGS := $(EXTRA_CFLAGS) $(filter-out -Wnested-externs,$(EXTRA_WARNINGS))
--HOSTCFLAGS := $(filter-out -Wnested-externs,$(EXTRA_WARNINGS))
-+HOSTCFLAGS := $(HOST_EXTRACFLAGS) $(filter-out -Wnested-externs,$(EXTRA_WARNINGS))
- 
- # This is required because the kernel is built with this and some of the code
- # borrowed from kernel headers depends on it, e.g. put_unaligned_*().
++CFLAGS += $(EXTRA_CFLAGS)
+ CFLAGS += -Wall -O2
+ CFLAGS += -D__EXPORTED_HEADERS__ -I$(srctree)/tools/include/uapi \
+ 	  -I$(srctree)/tools/include
 
 -- 
 2.34.1
