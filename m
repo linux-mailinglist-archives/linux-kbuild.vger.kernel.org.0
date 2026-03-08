@@ -1,45 +1,45 @@
-Return-Path: <linux-kbuild+bounces-11651-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11652-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WDwPB0iorWmE5gEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11651-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:48:08 +0100
+	id mK0RNWWorWmE5gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11652-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:48:37 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CE7231234
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CFC231260
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:48:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2B5D2301947F
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:47:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2372E303F551
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA271345743;
-	Sun,  8 Mar 2026 16:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ACEC344031;
+	Sun,  8 Mar 2026 16:47:08 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E3BA344029;
-	Sun,  8 Mar 2026 16:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9663C33F8C5;
+	Sun,  8 Mar 2026 16:47:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772988419; cv=none; b=IUlPp0DoncUqjc1gmQQsrQ732TP9ZMowAceXIDSb+vEnO6/l3k9v1HlxQc+B3pG4CAK/+aoy1bnYtMl2aeFQVjDW+k++Qy1XHHZsgSec0WL0dkbO/adXFYWVX9i6H/GAimCnpg71O/wLpAudxEA1WFIaVLcy7qYYWhHc92x8zfM=
+	t=1772988428; cv=none; b=HmkVu9BUTEvdltZ9dbYaFzDgHQoBYsltFEs0XSFDGJRZ50YkAQlBTIwJJ1DnYnbBw1/v9x4vT1k+ND61afGtpv0jLvGFDWinlLaB4Z9HOys0IX2b/FttfKR71k5Sb02c2dFNyevlLNlch2zSRgd1dD7LucrdN3iWqCxYqIW+GLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772988419; c=relaxed/simple;
-	bh=ywVnBzn6WHB3T3G0T1ohQS9k98+GxSpF7WQOHmbiUGg=;
+	s=arc-20240116; t=1772988428; c=relaxed/simple;
+	bh=RIH6wVGThbXpVTTaDLWXu9z2nLMDSOIbv+7lqfbbiSg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mtpq+E789ZSQm336PGeEOCcB3FEZ1CaWZFyNLRgTfFttQko6pHQM06XP7wov8otv3qjLhHxVmiyoKijUaCASR/Z+PyMisHtjc9BGAIRHo5NFYWRUsxtndt2n/vOdnJMQlMVtDopxeaiOxuO6TkfynYw9/IuuoiN2Y9unXnanIFk=
+	 In-Reply-To:To:Cc; b=gN4+1uumkBeh3kkw7hVjKgV/2CueNbuJazrHrqcAZsiBSgSpw0MHXJUpINbazIB5DFtZx9dX8SlcXMAql6iwDr8fTt/e4NqRFHgA5x9Gl3hYCyst+zdecOFaUDe+FX7TKoa3CcG6EPXKZUSbieDaLGfn0oNV/OATCoT1mdSPhuo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E23D1D13;
-	Sun,  8 Mar 2026 09:46:51 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C06CC1D14;
+	Sun,  8 Mar 2026 09:46:59 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF7373F694;
-	Sun,  8 Mar 2026 09:46:49 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0FA03F694;
+	Sun,  8 Mar 2026 09:46:57 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Sun, 08 Mar 2026 16:46:08 +0000
-Subject: [PATCH v3 03/30] tools: lib: thermal: Initialize CFLAGS before
- including Makefile.include
+Date: Sun, 08 Mar 2026 16:46:09 +0000
+Subject: [PATCH v3 04/30] tools/thermal: Initialize CFLAGS before including
+ Makefile.include
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260308-tools_build_fix_zero_init-v3-3-6477808123b7@arm.com>
+Message-Id: <20260308-tools_build_fix_zero_init-v3-4-6477808123b7@arm.com>
 References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 In-Reply-To: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -94,14 +94,14 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
  Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=1678;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=1635;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=ywVnBzn6WHB3T3G0T1ohQS9k98+GxSpF7WQOHmbiUGg=;
- b=KYteRcPL4z+A9CIKXnphWMNiTfQ7er/Vz6CXNlckJJCrry7WnnCWeMrHLbmcN72foPTxXhBZ0
- yu1LTfjKPuTCnWwmQJS4BBSF/xT0TCuXt9hR6j6o0HgGwHueqjVamR4
+ bh=RIH6wVGThbXpVTTaDLWXu9z2nLMDSOIbv+7lqfbbiSg=;
+ b=1qFR9b6wY57q/NLfTbAum5N+MWmuJwKQ1TpHAPHwYWSv8XVQHjF49S/JsoZFpt1pUoGabtkkI
+ vrvZi6lpkYGBqWraC2Od5B3G32KhlEo8qLWcMJOmBOJf9eqfjADW/RJ
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: 92CE7231234
+X-Rspamd-Queue-Id: 55CFC231260
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -113,7 +113,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11651-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11652-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -126,7 +126,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[70];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.112];
+	NEURAL_HAM(-0.00)[-0.109];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
@@ -140,13 +140,13 @@ Makefile.include, as it may extend EXTRA_CFLAGS in the future.
 
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/lib/thermal/Makefile | 16 +++++++++-------
+ tools/thermal/lib/Makefile | 16 +++++++++-------
  1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/tools/lib/thermal/Makefile b/tools/lib/thermal/Makefile
-index 41aa7a324ff4d76351b89d7d7cf382df3fc14052..50efa97163fc089455161d6b81db13aa0ae41af6 100644
---- a/tools/lib/thermal/Makefile
-+++ b/tools/lib/thermal/Makefile
+diff --git a/tools/thermal/lib/Makefile b/tools/thermal/lib/Makefile
+index 056d212f25cf51cd8c02260fbe2ef28dda5e4acb..1890779f1574ebd9015f3001b9bb31d4bc0ae5ce 100644
+--- a/tools/thermal/lib/Makefile
++++ b/tools/thermal/lib/Makefile
 @@ -23,6 +23,14 @@ INSTALL = install
  DESTDIR ?=
  DESTDIR_SQ = '$(subst ','\'',$(DESTDIR))'
@@ -173,10 +173,10 @@ index 41aa7a324ff4d76351b89d7d7cf382df3fc14052..50efa97163fc089455161d6b81db13aa
 -  CFLAGS := -g -Wall
 -endif
 -
- NL3_CFLAGS = $(shell pkg-config --cflags libnl-3.0 2>/dev/null)
- ifeq ($(NL3_CFLAGS),)
- NL3_CFLAGS = -I/usr/include/libnl3
-@@ -60,6 +61,7 @@ INCLUDES = \
+ INCLUDES = \
+ -I/usr/include/libnl3 \
+ -I$(srctree)/tools/lib/thermal/include \
+@@ -56,6 +57,7 @@ INCLUDES = \
  -I$(srctree)/tools/include/uapi
  
  # Append required CFLAGS
