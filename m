@@ -1,45 +1,44 @@
-Return-Path: <linux-kbuild+bounces-11653-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11654-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aK7/EYmorWmn5gEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11653-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:49:13 +0100
+	id MPV+H6qorWmE5gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11654-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:49:46 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17AF231295
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F522312D1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:49:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8C25E304810D
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:47:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 21296304F4A2
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83ED5344D99;
-	Sun,  8 Mar 2026 16:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3757344DB6;
+	Sun,  8 Mar 2026 16:47:24 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC3FC26B756;
-	Sun,  8 Mar 2026 16:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E375344D99;
+	Sun,  8 Mar 2026 16:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772988436; cv=none; b=ZW7xFiTQr4ZSqdb03hgu1VeAmsskKF7UNf1VzgncGQHJR9dXBa2uEZ3x9Sk+yOga1qpPtT9NqdmrjcLqiFotV1dH210LPzw5uSQ4avHhlQ6uROi2X8glIXUQVmwzoCPZE4VLiytWf4xCFzVtdyaUv7IU4G7/87g6CHYdcY5Nwh0=
+	t=1772988444; cv=none; b=qScbCuMaCex0KvExkz5zqkrrmBSJWUvVXhdPASNCeJl2vq3VhR+9a3oUUNymEW5ZmOtmTcYnC2D8ysMan/0V2TCGKhuru52ot4D57E8Xq6IQAueh+Ii+0AjmttQRaHZ7Licdh0nyHd6EO7GOu6unyeIt3e/7RJsiJgRvSJjBCMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772988436; c=relaxed/simple;
-	bh=u84NALfBSobnsJTJKqp6l5ztMxP7TuXpdDrlEVbD0Ek=;
+	s=arc-20240116; t=1772988444; c=relaxed/simple;
+	bh=rXMLOw9cShxQAuhRPB11QPHRB7y4+mx9Jy5MYdWVjzw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EYWPjxoaPLN74VHFlHv0P6zcBnZZtZ/op7ppVmzR05mclEjp69Iq85pBP8zJaDChPaMGaKvpWGfflOawCyAXNKfx1I0cYS2j6nt+dn9M2LwlN0CnqcaMcNySoXxRUSGjuZVNoG/UsEcOJg3Sr/dUhLFYK/6jW2aPH0ABHgdUc+s=
+	 In-Reply-To:To:Cc; b=LBh620PDRCzu0B9dWUWfmRXOELHZabi/V3pamNdkGEH3ekyWORepmdGRTh7zke7OHrXoskcuhq/KSGP9LduftIFD373GScSdMlqQEGnMRzpcekNa+QhWCv9PXbSRPj4VAWZDAqrJFniIvqMHJJByMPdFd3ZXa/EKs/Fv72r2RUI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10EBD1D34;
-	Sun,  8 Mar 2026 09:47:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 579911CDD;
+	Sun,  8 Mar 2026 09:47:16 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3F7933F694;
-	Sun,  8 Mar 2026 09:47:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81ACA3F694;
+	Sun,  8 Mar 2026 09:47:14 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Sun, 08 Mar 2026 16:46:10 +0000
-Subject: [PATCH v3 05/30] tools build: Append -fzero-init-padding-bits=all
- to extra cflags
+Date: Sun, 08 Mar 2026 16:46:11 +0000
+Subject: [PATCH v3 06/30] bpftool: Append extra host flags
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -48,7 +47,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260308-tools_build_fix_zero_init-v3-5-6477808123b7@arm.com>
+Message-Id: <20260308-tools_build_fix_zero_init-v3-6-6477808123b7@arm.com>
 References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 In-Reply-To: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -94,14 +93,14 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
  Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=2628;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=781;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=u84NALfBSobnsJTJKqp6l5ztMxP7TuXpdDrlEVbD0Ek=;
- b=l3MJx9CI6SeHZ8V6/9hNvvIAUhGbH3e/Bu9fTUpMyHupA24V3i8wkE4W9iv0ZsaD2dzHI9UBW
- GZcUmX7pha+BFni6fymzbrTYdBaYNZ75mwkXJhudmKDfQdc5+6il7WR
+ bh=rXMLOw9cShxQAuhRPB11QPHRB7y4+mx9Jy5MYdWVjzw=;
+ b=cbtlct9goaPn9IVU1qmJj6Kx9P+2gzUqpJ+AjVww+wJ9hEi50ZLtJKfxkCpZUnIPpOpOc5tw3
+ 5b7k0WKHpwKBSV70hMD+REKhCEcRlko1ZT0noupK6C5kPca3Fu2s8sb
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: D17AF231295
+X-Rspamd-Queue-Id: 30F522312D1
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -113,7 +112,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11653-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11654-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -126,80 +125,32 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[70];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.138];
+	NEURAL_HAM(-0.00)[-0.116];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,gnu.org:url,arm.com:mid,arm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,arm.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-GCC-15 release claims [1]:
-
-  {0} initializer in C or C++ for unions no longer guarantees clearing
-  of the whole union (except for static storage duration initialization),
-  it just initializes the first union member to zero. If initialization
-  of the whole union including padding bits is desirable, use {} (valid
-  in C23 or C++) or use -fzero-init-padding-bits=unions option to
-  restore old GCC behavior.
-
-As a result, this new behaviour might cause unexpected data when we
-initialize a union with using the '{ 0 }' initializer.
-
-Since commit dce4aab8441d ("kbuild: Use -fzero-init-padding-bits=all"),
-the kernel has enabled -fzero-init-padding-bits=all to zero padding bits
-in unions and structures.  This commit applies the same option for tools
-building.
-
-The option is not supported by any version older than GCC 15, nor is it
-supported by LLVM.  This patch adds the cc-option and host-cc-option
-functions to dynamically detect compiler option and append it to the
-EXTRA_CFLAGS and HOST_EXTRACFLAGS respectively.
-
-[1] https://gcc.gnu.org/gcc-15/changes.html
+Append HOST_EXTRACFLAGS to HOST_CFLAGS so that additional flags can be
+applied to the host compiler.
 
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/scripts/Makefile.include | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ tools/bpf/bpftool/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
-index b5ecf137febcae59f506e107a7f2e2ad72f4bef4..bab3174565f0d1e40ec574a360a0fddcee641f7e 100644
---- a/tools/scripts/Makefile.include
-+++ b/tools/scripts/Makefile.include
-@@ -137,6 +137,34 @@ else
- EXTRA_WARNINGS += -Wshadow
- endif
+diff --git a/tools/bpf/bpftool/Makefile b/tools/bpf/bpftool/Makefile
+index 3e7d8359e1b2a81a29a47544be8539e3b191a0e8..762fcf0e62a189625053798dddeaf17d409fe248 100644
+--- a/tools/bpf/bpftool/Makefile
++++ b/tools/bpf/bpftool/Makefile
+@@ -86,6 +86,7 @@ endif
+ # including flags that are not applicable to the host compiler.
+ HOST_CFLAGS := $(subst -I$(LIBBPF_INCLUDE),-I$(LIBBPF_BOOTSTRAP_INCLUDE),\
+ 		$(subst $(CLANG_CROSS_FLAGS),,$(CFLAGS)))
++HOST_CFLAGS += $(HOST_EXTRACFLAGS)
  
-+# output directory for tests below
-+TMPOUT = .tmp_$$$$
-+
-+# try-run
-+# Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
-+# Exit code chooses option. "$$TMP" serves as a temporary file and is
-+# automatically cleaned up.
-+try-run = $(shell set -e;		\
-+	TMP=$(TMPOUT)/tmp;		\
-+	trap "rm -rf $(TMPOUT)" EXIT;	\
-+	mkdir -p $(TMPOUT);		\
-+	if ($(1)) >/dev/null 2>&1;	\
-+	then echo "$(2)";		\
-+	else echo "$(3)";		\
-+	fi)
-+
-+# cc-option
-+# Usage: CFLAGS += $(call cc-option,-march=winchip-c6,-march=i586)
-+cc-option = $(call try-run, \
-+	$(CC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
-+
-+host-cc-option = $(call try-run, \
-+	$(HOSTCC) -Werror $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
-+
-+# Explicitly clear padding bits with the initializer '{ 0 }'
-+override EXTRA_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
-+override HOST_EXTRACFLAGS += $(call host-cc-option,-fzero-init-padding-bits=all)
-+
- ifneq ($(findstring $(MAKEFLAGS), w),w)
- PRINT_DIR = --no-print-directory
- else
+ ifneq ($(EXTRA_CFLAGS),)
+ CFLAGS += $(EXTRA_CFLAGS)
 
 -- 
 2.34.1
