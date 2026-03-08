@@ -1,158 +1,163 @@
-Return-Path: <linux-kbuild+bounces-11678-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11679-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EIwfOlqqrWmE5gEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11678-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:56:58 +0100
+	id OGRPACq5rWk+6gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11679-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 19:00:10 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C01823148E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 17:56:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA69231804
+	for <lists+linux-kbuild@lfdr.de>; Sun, 08 Mar 2026 19:00:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2071A3030FD7
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 16:53:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B10E2301494B
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2026 17:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8F538A288;
-	Sun,  8 Mar 2026 16:50:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C92385522;
+	Sun,  8 Mar 2026 17:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKCPe0gv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58C3389456;
-	Sun,  8 Mar 2026 16:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772988647; cv=none; b=hC/fPOsYN7IEkfMFvJq7Hxi+aZ89nd0GN8F8AJB1XPj9gYLvNhatVxUuiFCaz3mPluFXyl7eXaBI2dTD+mmTvEvZE/ipcjoI4lDujM4Vls9RNrqwuykn8+alq1VL3pCDdsB3DeA/CepDOR2a9xE3GbgylBnjxUoq5eqojJB+M2Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772988647; c=relaxed/simple;
-	bh=6fa1hK+r0aPhZL3fayi+LxFYmgJr6kdDCoMOrNXGWCA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Flmuhq2waeTQgoD5RyErTrGmiba/pgsiGpGAFdaq8I/HPrgT02HxDvirzw01tZvWOtBC6PsqUS1NXwpzHa1iI6R9uHnDclhZzLTpBs5aqhNzdsQCcEreM66PYpREqLs/dK0iH9yuRWR9bhSkuwoc385T7nNPhn4jnOePUTvwvY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8E551E2F;
-	Sun,  8 Mar 2026 09:50:34 -0700 (PDT)
-Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 087133F694;
-	Sun,  8 Mar 2026 09:50:32 -0700 (PDT)
-From: Leo Yan <leo.yan@arm.com>
-Date: Sun, 08 Mar 2026 16:46:35 +0000
-Subject: [PATCH v3 30/30] selftests/sched_ext: Append extra cflags
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EBC3939BC
+	for <linux-kbuild@vger.kernel.org>; Sun,  8 Mar 2026 17:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772992794; cv=pass; b=JpnMEjnAuKrhyQngutFDVl/ZOlqVklZ8/kPbNUsa3A75QSNQEzJcBv9EyQvZtHqBxKUiDEK7MUVBORiQO+ommbLsEXCdqasHPlZRhlEcIl46wgPLwjQcvetzoSB974R7I5eLOdXCn7nIBWroOnlA1oQ4Yg8N0kjwLucbNzgbQ5s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772992794; c=relaxed/simple;
+	bh=+zlVKH89gfjeRUlJZEVKdTi58Q9rgr+fXJ3dbeicI44=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GRS5wNi0w8CpDikj6UGneGCuQQrlsKrf4M3b0eQxTiVWEWz/6vkHsE2l8xXXU0+6h7UqJATnXZ7wy1yApJ+XMrW4kLJ0YiqwgvT1gV1RCxtNX5RLWx9dONTT+jmSpJgWOXbiXJ9SxEMjmZilzY6qW5HenbVffAiSicY0CXghZTM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKCPe0gv; arc=pass smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c06cb8004e8so4211797a12.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 08 Mar 2026 10:59:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1772992792; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kUsAmnSGtmcSwUoyjgZTstvNjK650ImQ33QYH59DVezVxQgzg+Hb7+fbyregEOxVzW
+         TrnymEeLBcmF1Dm/+Nuf/XAOFOuASlRDtyIITrz6DnZFBnA5EhJXidVNdX+Ivkfi40i9
+         DHKRbVoJH5srqxc6sYBVj083v34gOM7HgyUjje40q0paxJY7OLOqnk6UysoZ3Oa7y9hj
+         r20qFMYxAc25sCRbmjBcu5q4phOLptPovNUQmAFnBg6D5175Wt2pFzOlSAR0iT6Ao+OU
+         zv2gzCMYh20sY0+eX9WVPI0GjnFc6ftuHa0q44OVJR8ud1MAHJZfmoUJEcXMdJtIuwJL
+         IRGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+zlVKH89gfjeRUlJZEVKdTi58Q9rgr+fXJ3dbeicI44=;
+        fh=/YG45wILX2NA6nks23mRo+rBjwGh75HIlWFrRYNs7M8=;
+        b=XWA1eOxAnrZLX/6z+h7oPpsaFBDNReE7w2OVz+PFd42Je0UyovjL3JJ6S8fUHYJ/MC
+         Ktnbro+egq+Zq+IQpkjGH1euIEQ9ZPuoH/0abkzuPlqiZ80myXTPDPYxTk3RTc50rTfh
+         iQ8HKjM0orLjHBilCQF1OeeM0aec4vJ7OD9Yjhnzi8PBfr+RwJPVqpjbubmspg3ZFIgI
+         sHtsMSrRIwUmWBUhtmK4aJZ90K8IW4w10elMsmGxb/SfuFBfF64449yfESq8wdBqDcdS
+         dthMA1EtNDC0tXdxXhJ7EqnkEIXHgUT+RHEccjXAZBm8asA6ySV/F4kADarx/tqvh90m
+         W7wQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772992792; x=1773597592; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+zlVKH89gfjeRUlJZEVKdTi58Q9rgr+fXJ3dbeicI44=;
+        b=mKCPe0gvI6lwCT149S+a2dyTCi90ltC1fWtJ+sM21Ggs5lYerPfqK2ZgfwHSa/mFBn
+         eNgbK2GuLWaaMttSIQRwZS4luHgGM0NkjKZ2wHwmSvqM/VBrCgWu86apKPGNKu8/+IZE
+         fb/1L8YzosB1JCTnzP0HdAnCvJVKFJ6udN+vFbUQs34lcxPErjnI4GrjxNXUcXNAgDlb
+         3RifC37Mm6mPWIelZggnSVe8N0Y7aPPhBs9Mwkyu68UQXXyr743nKSLooRLWlKvHO23L
+         ck2ffselLIlnaHpyixR4Fv5jpNwHYluuiuCtZndrhsBt3P0fosUgRGvy5xrM0FLo2DIA
+         skOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772992792; x=1773597592;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+zlVKH89gfjeRUlJZEVKdTi58Q9rgr+fXJ3dbeicI44=;
+        b=NJrE/decf0iYsk6gyyhGg2orjVJ1P4SoyRZuFsz5xOj1FcS2Sy/AviBMg+EXp4qIMJ
+         iwiIZg+Q5lwjMoa7xy+IhkoWmKEt7QG3FUiWmMTd9VtnSbo+h1ImGYZiCQE54MHcrqX1
+         tikE6cfz6vuR0i6ZPasbTnt4by9Pzi0c/LZEWU+53GjUeXaRRhgF3wnnyTRjqS8u5CCF
+         RJzYC6scTQAhVoDO2Zuy/vrPxDbqQktuiqcg5EfEHvPcbKvdY3ZkUGTG3HFnpRCvm9QT
+         erfNe7z+Mx18MsCy9ts8AisHpv86wAcJmYILW2cJTqXMVX//LFRnGBloLXcph3j+4zUA
+         hIvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8KaGCkHp62NiFkXp5XloROHnZhOE5a6fT+ypAL2GeYoKfckR+UN2CxAKLZh6Lg4DP1TQe3sn+l5GeDso=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+Ln762XDjDylYxbIj84PRMZVvb1+Xvnc2uSRwN2n5jdy5dQjH
+	QBxYYOh+cTREu/lPBXUSWnLA6T2sSmTtKMDHJNNA+9FwlfS4IG73oql9ZCkQun6q05tk3rz7rSL
+	oJmHwQLFP4U4i5UbCKKVtDgXg4JKymVQ=
+X-Gm-Gg: ATEYQzwsRN1USsKeJg8LmyCZ4XKKhXUik2bdXE+lcURgFPaRILTLW+jxE08vvwcXn3P
+	d2r2fZXX7/aDMns8uSfTZAahMxx2O6mxR0nCNKua379gD7dF6tsruIJUZHCny8ytkIpTvSgbKye
+	DpuBuEpD6160/TX6Vq+IaG2QJf5z36Q40ap+3xQ65WCJouyBVRfD5Tbnpjbi31kMSHl3JzBEuEN
+	D6yEHdD1A5pJ1xvEinfk0qr5vChzVqaBfAtd+4ZJ5LiOtd5q+/EzVwMfsUSCFqCQJ8g7nKLvVS9
+	Z5xcqH3bedtHto5WFNMcVrfB5lTfre1Z6YXfMo3l
+X-Received: by 2002:a05:6a21:7a8c:b0:395:1511:7221 with SMTP id
+ adf61e73a8af0-398590b3e55mr8164874637.59.1772992792474; Sun, 08 Mar 2026
+ 10:59:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260308-tools_build_fix_zero_init-v3-30-6477808123b7@arm.com>
-References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
-In-Reply-To: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>, 
- James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
- Quentin Monnet <qmo@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, 
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, 
- Qinxin Xia <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>, 
- Kent Gibson <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>, 
- Len Brown <lenb@kernel.org>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>, 
- Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, 
- Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, 
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
- Leo Yan <leo.yan@arm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772988384; l=850;
- i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=6fa1hK+r0aPhZL3fayi+LxFYmgJr6kdDCoMOrNXGWCA=;
- b=gAKVQy5T5THX3Hwb3o86ZTGlxfO0FDVQewHiIZIpOeEtI72L0rRLygt1lC+DnZSWfq3gAPTdN
- o9UY9Ce/uECCLY7rgjJFBrY2hYVd1Og7K56s1ikShRDPd+Ni2V//V9/
-X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
- pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: 8C01823148E
+References: <CAB95QASG1pZJT7HyqxM90_FExhSVjoHmPqYHeQWXnrAzCNErmA@mail.gmail.com>
+ <CAB95QARmr9b-jVdgDLpA4Qq=3WN7CYS46YEH4Ok4gpSdZHpq5A@mail.gmail.com>
+ <20251028174541.GA1548965@ax162> <CAB95QARtzDWensRzui3d-7+jhymcFBOBi78ev9LMy=ZFJMDCTA@mail.gmail.com>
+ <20251031220732.GA2254630@ax162> <CAMj1kXF2kKyEOc6KSBfbdUMf5m4o=DLZXk4++C3q-utA_9g4DA@mail.gmail.com>
+ <CAB95QARrcOc6h9=YTzLKkNE0dEaivtiLfK0kEQ1jNp+v1w4yzA@mail.gmail.com>
+ <CAMj1kXG_kPx5=3Qbn6ZTpKqOYh-mehwrH+d6Bw8QEPqvhZy1nw@mail.gmail.com>
+ <CAB95QAS__YYYBLc3KFjBUg_QqC3AOB0y6kvhSqZFR9fx7BDKvg@mail.gmail.com>
+ <CAB95QAQyzYTrnGrkrcwXJ7Za37v7VsvwsmUezb1Z4VsF_RdLMQ@mail.gmail.com> <20260307080852.GA2685454@ax162>
+In-Reply-To: <20260307080852.GA2685454@ax162>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Sun, 8 Mar 2026 18:59:41 +0100
+X-Gm-Features: AaiRm51Q-mwFFzcCYcQ0gGBweDAd_ZH2ze6fBzsV79svmwP8WlpkqP_KrpQPNQ4
+Message-ID: <CAB95QASTAG2nTJxN7CRDD65hhNKnbHky_Fjj5O4JExMobtaMAA@mail.gmail.com>
+Subject: Re: Can't boot kernel 6.17.4+ via rEFInd
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 5EA69231804
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.14 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11678-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11679-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.909];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[70];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.087];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,arm.com:mid,arm.com:email]
+	FROM_NEQ_ENVFROM(0.00)[eugeneshalygin@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
-the compiler.
+Hi Nathan,
 
-Signed-off-by: Leo Yan <leo.yan@arm.com>
----
- tools/testing/selftests/sched_ext/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+On Sat, 7 Mar 2026 at 09:08, Nathan Chancellor <nathan@kernel.org> wrote:
+> Small necro bump: I think this might be fixed in mainline now with
+> commit 8678591b4746 ("kbuild: Split .modinfo out from ELF_DETAILS"). It
+> should apply relatively cleanly to stable versions (and should make its
+> way there in due time due to the stable tag).
 
-diff --git a/tools/testing/selftests/sched_ext/Makefile b/tools/testing/selftests/sched_ext/Makefile
-index 006300ac6dff88a48104977398d8517753e7e385..81d8f4a184245d8c330cf45b75bd868b2a7aa7dc 100644
---- a/tools/testing/selftests/sched_ext/Makefile
-+++ b/tools/testing/selftests/sched_ext/Makefile
-@@ -53,6 +53,7 @@ ifneq ($(wildcard $(GENHDR)),)
-   GENFLAGS := -DHAVE_GENHDR
- endif
- 
-+CFLAGS += $(EXTRA_CFLAGS)
- CFLAGS += -g -O2 -rdynamic -pthread -Wall -Werror $(GENFLAGS)			\
- 	  -I$(INCLUDE_DIR) -I$(GENDIR) -I$(LIBDIR)				\
- 	  -I$(TOOLSINCDIR) -I$(APIDIR) -I$(CURDIR)/include -I$(SCXTOOLSINCDIR)
+Thank you, I will try rEFInd again, although the project looks abandoned.
 
--- 
-2.34.1
-
+Cheers,
+Eugene
 
