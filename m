@@ -1,139 +1,148 @@
-Return-Path: <linux-kbuild+bounces-11708-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11709-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sAO9FqfrrmkWKQIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11708-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 16:47:51 +0100
+	id UOHDMsPvrmkWKQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11709-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 17:05:23 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE2C23C024
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 16:47:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C69623C67D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 17:05:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5522730340A8
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 15:44:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2EB0C3092D48
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 15:58:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A2683DA7D4;
-	Mon,  9 Mar 2026 15:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ED233E0C5A;
+	Mon,  9 Mar 2026 15:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="AXcToXOu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222EC3DA7D0;
-	Mon,  9 Mar 2026 15:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659AE3DA7FD;
+	Mon,  9 Mar 2026 15:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773071073; cv=none; b=WODci/g61V+8mkl6wrc0+Q99z9ggBaD6PsAT/WQ/N/AJvu71qaNYahfcguBuv4aYSiJ2+NSE3iaRUbWRqzOSkOCk8YCq89kVJ1oSOcrjBkE2iJ2nN0CVN6mgSfJT7G8/vajpjpc2tEP1kJP63F67lbG3KAkTB7HLzncwVy26hqU=
+	t=1773071899; cv=none; b=VC2VUXuGm5a5dhXti2QDGzzGnjF41kZnJDu5JTd8Ev4GFsqYuf8Nyz0+2gs5iNVd06OJzy/Aw16ZRLWINNjiYPTUyhTh+dwId7zEdBYyXrNqn9ixDumaiyFSpKrO1ROzT2kixb9VXRCp8/pZzcd/gh2Tfw4cXLQbieRm4QItKBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773071073; c=relaxed/simple;
-	bh=6kD1xtE1WWvb8q5Sgj38ZAiQ3VqGPX0njcNklX6dX5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z+fzkkJ4w7JIIjWq9Kub9+OKumAPtU61kTctx0LvSHlaH2s56tcfve5jeTAhBC+0odM2eRlbJqqjT3nGg9HXfs9qgNhxF0w29YYHry220SJPCpOGsU7Co63g5f/hLxC4Ji8FFWW01vC4qeTmLZptfNVOnPd82VmE4J4CsBuvJk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 9473EB734D;
-	Mon,  9 Mar 2026 15:44:29 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id 5F1FF20033;
-	Mon,  9 Mar 2026 15:44:05 +0000 (UTC)
-Date: Mon, 9 Mar 2026 11:44:13 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Leo Yan <leo.yan@arm.com>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Ian Rogers
- <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>, James Clark
- <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, Quentin Monnet
- <qmo@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nsc@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill
- Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
- <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
- <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
- <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Adrian Hunter
- <adrian.hunter@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>, William
- Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, Qinxin Xia
- <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>, Kent Gibson
- <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang
- Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>, Long Li <longli@microsoft.com>, Jonathan Cameron
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, Thomas
- =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>, Len Brown
- <lenb@kernel.org>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Tejun Heo <tj@kernel.org>, David
- Vernet <void@manifault.com>, Andrea Righi <arighi@nvidia.com>, Changwoo Min
- <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>, Gabriele Monaco
- <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v3 24/30] tools: tracing: Append extra cflags
-Message-ID: <20260309114413.09e05127@gandalf.local.home>
-In-Reply-To: <20260308-tools_build_fix_zero_init-v3-24-6477808123b7@arm.com>
-References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
-	<20260308-tools_build_fix_zero_init-v3-24-6477808123b7@arm.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1773071899; c=relaxed/simple;
+	bh=U+5smVL/wbYmKd9t1E5k7w/AHjE+U7oHani9WoutarY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IEQ1077zZAK9iA4wk+dxFM6ewHoX3b1QxY+B454y0/4GKtt26MCKDE54ePIjeTGrPS1sIoq8o382Rbub2EdOnxdBanolDZVb56jEw9en5vzkHSxq9JwlaEX1Jdowu5LcRBOk+cHxAhqd7x6leA7YTaANQhAgCZqUpEtbHG63vSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=AXcToXOu; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1773071894;
+	bh=U+5smVL/wbYmKd9t1E5k7w/AHjE+U7oHani9WoutarY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=AXcToXOu9A7lCngPqjBEcdKfk3qH20nGxwnqdeccZU0BYRqlyZNoVFvsbD6HMs9S3
+	 ynf/SbgDXpFFbKB3AfqQly1XAHSoYiLgFp/2fg6GAFkid6rU36op4BFNJs1r3is78/
+	 i6OMEoanC5HafGFeULlnsOZtAYsTd+p1rsF97IOk=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 09 Mar 2026 16:58:11 +0100
+Subject: [PATCH] scripts: headers_install.sh: Normalize __ASSEMBLY__ to
+ __ASSEMBLER__
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: eafrht6xkmsqqmd9cnu6ar9xapr1638s
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19rLbmrZoPaL0P3RR5YEAAcY/f/FTBjLlw=
-X-HE-Tag: 1773071045-495839
-X-HE-Meta: U2FsdGVkX18hYXf7K7ag/ax7Ts7l3Hno4V18G/TB3MoiJMt9J0UTBoWMbzCp847Is7JqEhDwYsa6RkhNVAj4HOjhz5B/q6HVutoXc50QRvze1HSHvgRmarYDaR89e13hcutkSur3qPJpb3WQFSh1kdMUPCjB2b9DrVsIeUUknDfC/QNDPoZ7dvLdsgAow4a1fKz845hKI16eOggjPm7NDBP6AlYzhvNte5IIqplnI5az3vz5xKL2rkARtnKqaf6MXyrlcHqNY6XkzrFZIQd+O8sxRIgW8+eDV6GtbJbCez+kywyEICXzGrVsrMmhLwpiud6RJloP8vMv+rRkU2DqAfIR8yWgoyU+kF5+JrXiNgyBGYPMzAUyWhyEeZZHpvBu+fhbJbFXvHWuECsbvAzeB/VloY8v8OcBTStcXIOjMjwqxrXqBaVCdaist9Q8JiqOCKevNg2BnurmQ+kFgTqqWQ==
-X-Rspamd-Queue-Id: DDE2C23C024
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260309-uapi-assembly-v1-1-a7ebfbf14309@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwMj3dLEgkzdxOLi1NyknEpdg6QkcyND4yQTwzRDJaCegqLUtMwKsHn
+ RsbW1ANrPph5fAAAA
+X-Change-ID: 20260302-uapi-assembly-0bb7213b41f1
+To: Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nsc@kernel.org>
+Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, Nick Huang <sef1548@gmail.com>, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773071894; l=1831;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=U+5smVL/wbYmKd9t1E5k7w/AHjE+U7oHani9WoutarY=;
+ b=RisQhd4P8Zxn/1OzLNbDuXV43bksvz56GYITP5nh4iWVpX6gDmUANgcV+PM4BZos1tSzlGxJA
+ /xTSfLfW68LDSnS+SSZwXt8neZgWX7b+DX+/za3j0mCANQJig946PJi
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-Rspamd-Queue-Id: 3C69623C67D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.14 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,vger.kernel.org,lists.linux.dev];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[orcam.me.uk,gmail.com,vger.kernel.org,weissschuh.net];
+	TAGGED_FROM(0.00)[bounces-11709-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11708-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[weissschuh.net:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-0.484];
-	RCPT_COUNT_GT_50(0.00)[69];
-	R_DKIM_NA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,arm.com:email,goodmis.org:email]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.975];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,weissschuh.net:dkim,weissschuh.net:email,weissschuh.net:mid]
 X-Rspamd-Action: no action
 
-On Sun, 08 Mar 2026 16:46:29 +0000
-Leo Yan <leo.yan@arm.com> wrote:
+There is an ongoing effort to replace the usage of __ASSEMBLER__ with
+__ASSEMBLY__ throughout the kernel tree, see for example
+commit 287d163322b7 ("arm64: Replace __ASSEMBLY__ with __ASSEMBLER__ in
+non-uapi headers"). The latter is automatically provided by all compilers
+and preprocessors supported by the kernel, so the explicit definitions
+of __ASSEMBLER__ can be removed.
 
-> Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
-> the compiler.
-> 
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
+However the UAPI headers might be used with older (< GCC 3.0) or
+non-GCC-compatible compilers, which do not define __ASSEMBLY__
+automatically. So this migration may brake users.
+Also during the migration phase, the UAPI headers will use a mix of
+*both* __ASSEMBLY__ and __ASSEMBLER__ at the same time, which is ugly.
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+For now make sure that the exported UAPI headers consistently use
+__ASSEMBLER__ as before.
 
--- Steve
+Link: https://lore.kernel.org/lkml/164baf81-2824-4943-bbc1-4ae8a160c0cc@t-8ch.de/
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+This should go either through kbuild or asm-generic, I think.
+---
+ scripts/headers_install.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
+index 9c15e748761c..2f1d1767ca26 100755
+--- a/scripts/headers_install.sh
++++ b/scripts/headers_install.sh
+@@ -36,6 +36,7 @@ sed -E -e '
+ 	s/(^|[^a-zA-Z0-9])__packed([^a-zA-Z0-9_]|$)/\1__attribute__((packed))\2/g
+ 	s/(^|[[:space:](])(inline|asm|volatile)([[:space:](]|$)/\1__\2__\3/g
+ 	s@#(ifndef|define|endif[[:space:]]*/[*])[[:space:]]*_UAPI@#\1 @
++	s/__ASSEMBLY__/__ASSEMBLER__/g
+ ' $INFILE > $TMPFILE || exit 1
+ 
+ scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
+
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260302-uapi-assembly-0bb7213b41f1
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
 
