@@ -1,111 +1,111 @@
-Return-Path: <linux-kbuild+bounces-11726-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11727-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qCQvJxcKr2lzMQIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11726-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 18:57:43 +0100
+	id 8JnFANMKr2lzMQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11727-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 19:00:51 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0010823E130
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 18:57:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B08D823E1F1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 19:00:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1768A3038F7E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 17:53:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C59C0302EFBA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 17:59:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 956CD3B895F;
-	Mon,  9 Mar 2026 17:53:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FCC4411610;
+	Mon,  9 Mar 2026 17:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y/fO9i+E"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U11uiaOy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D523A7853
-	for <linux-kbuild@vger.kernel.org>; Mon,  9 Mar 2026 17:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23D640F8F8
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Mar 2026 17:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773078811; cv=pass; b=D48BmKj2pjadAALTLWmnRP/GPEhNWfMFSDxNseWUAeGdR0MaVlYRXSuVmhbtxy5xPqaKgcYmzrIH0h1+c9Ey0Z8juO6Fg+61oB0hPu4Uzvm5jJ2n03RscP6wuLJWM6X8rybwNSVbQPoRTday9K9ucvEVhRNPNaDls0sdMHxvakw=
+	t=1773078972; cv=pass; b=PSCbxMmxXCyNwVGiBVCESvJSlJquskhvnFAGpofN1zHhXRBZ0oMh9StOSpIE5ZhJtR/nU5PCq/LaN16RMTwi8IAYFusGTOceTE6+PHz8zzop7U5fOhzM/xev562Bhgy26WDdmR7wd1RF5rA7+BcAV+SLK9tMpD8b8vIME350UPs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773078811; c=relaxed/simple;
-	bh=SeWt//XSlE7FH97wAOv/MRdhXb4yjQFM3ji/K8xaQqU=;
+	s=arc-20240116; t=1773078972; c=relaxed/simple;
+	bh=h+/4DZvdFjdZvTikaC3AlhbGhNWEZcA48r6UYxyTE/0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tgz1xHAf9l+7XaAD9AlfyF0qKXeoq9Y0A42Tu+47V3b7FrIzrxfEiDRobmRjxmiB3Q/n+8EqJEnwWyknnalehbkHVnSOvkyzArQsrObrbwcUEfVJK1Uk+JZzOfnUY57tzn/408RMGNABx9vAe+w0b2h1dDVL9YV4tFwx2cXGUcA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y/fO9i+E; arc=pass smtp.client-ip=209.85.214.169
+	 To:Cc:Content-Type; b=kRr4ct04ReZRoTzDvIIM+cW0tOWYjhlfoCevFa97Q/C78St+pNBLn8VK+C+qfH51QHzKVgA9D/KCFMCD/FTUcWm4THdGCNSm8IqcYE1bf6b23eLU+4VyY1KKCUcVlZYY/P78+SafrUuwnU9KZVRoCBIt+7ZZ3Zi6JlhZmb2Tnfg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U11uiaOy; arc=pass smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ae49120e97so15525ad.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 Mar 2026 10:53:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773078805; cv=none;
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ae523d54d2so13465ad.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Mar 2026 10:56:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773078968; cv=none;
         d=google.com; s=arc-20240605;
-        b=KpHapxUwgzw+d51yp51/J9LNy5VrMyUeted/Kvi6dE6Q97Bt9RZcB+CfiGip7dneLo
-         iVI70A0TIIvCkWIaX5MkOfkansNrivVOsUmPudPQSXdzKXKDvz23NzW6mv8xU3z0iLJz
-         gXLXXU3PJw45qZu/WdEg1ic88d1Ug0UNZqlurkg7R5dtcNKd7BW7S3ZKKU+23EAy4PNd
-         zIFPQUMy3ubtnLev3EG9YCv7blah/jVuaveX2SFa1nK2wP3UlgT5S9P3ZWWC/x0rmR7A
-         P5sCz/UWTE7NQig+442iLZLrkGAhexOxFtXPsXZ20x7KOHAFF35N4eKhkvdUDlGFw/Ht
-         dCtA==
+        b=gNlpNybd/EcAOKkgEx2J17NC/MDxaisfJRK47CLqRboxjMBJl7j346Z2ffhR05Q0ZW
+         gCXr5imTiADnXqy7oU50ZMEA2Hdi9T7hQq7fOYLvvtAAkX1XmXCpGIMhjR67pDAVjVsE
+         UQO7j6szEqmsmVQCfxKblND/SkIyu3jvIMJ1q6SPxhINC06z+rGVJkFY4H/7YxkdSfWp
+         4LtW6/Cf9mwPdvAlcrK6XzrB+GtQNM/l7oF9xIppXbGtAQprjFmjAX3bJavIkFvdu8BB
+         QTWmdZvcPnoTxUDjFFWlxlW9a0VjhP+kqUtKYWvciUye3R3LG2P6SSywXs49Kabr3Lk2
+         3bLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZPvt17sBw48Uy9b6qgDNm1YzVe8WydV5Zk9wwY2Hrr0=;
-        fh=0erh+kVZmnb1bk/PJUMtv+Wc7zotKmBDAT0/GE5J4Hs=;
-        b=HXjAfFIF3+fAh7jzzkgSmywykq+1Ox6ImEBLBs24vfRBd9IVOwCWSKJuqomfPLJ/fQ
-         Eq2IKySLvEopbLKxrNKiRxK7S35HGCD+eZPW6eVUVSu3cvUkwkSp2CW0C0B7FPrhdrDo
-         KL6zBxod0Hz7ep1emNRZvn0DvcwgaiVUrnU8NSZSCmmEFgEaK2bpuDZXaBePg8NZ0CbP
-         qVejrVbXev83V4Jil81lfRBeez2/aI9HtBFpjo87ztbURjjPaxKjPURNavVK4PqE11RW
-         WqH7KkWcLKyD0b6fELhUHbKYmsacv8afx7UrZfPm+uun/aAZSLy33pJ50FpfZ7w1Cfwb
-         R9cQ==;
+        bh=sEzDXhUVFO4MvSKwYYet5FlMfGg8jYj3MEwBCZj/ctI=;
+        fh=ixp81FjDNU+/+2TeNXHKQTGx9EPlZ30Wmvvo2fhIrCc=;
+        b=YCEnCsHm6hvVMtxQC5gsjKJeAL/RjgeTWSSb+6b1/+YvVhZ9Vy0v3ESQq0DhuDT7Xr
+         KTfWMVfKzvDyIFILmRAKFcwWfRCPpS5HRkUWEo3P2DBhBmYkUN9rRKDsBhbsD5Y71NRC
+         1x+XdiExl5lT/cGhNcNJXUsW1moTrFex7Pt2Vsewrk1ii4fQD/MrG1gHKwuXg13IYRe2
+         XNArhCDjm15/IJYDmzZXhF/gVKZsVhzFVKQYjdbbo1HFr/hngyV8/d7XMXP5p+GuGl6d
+         PN+Dch3OKjb1OySMNNOw4yIktLKhTkx6ka9Ud8uLumva6x36DEV3Qn2RAd3/dG0MLmqj
+         UxzQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773078805; x=1773683605; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1773078968; x=1773683768; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZPvt17sBw48Uy9b6qgDNm1YzVe8WydV5Zk9wwY2Hrr0=;
-        b=Y/fO9i+EVobtRUdlgy12NnwkYs07I3cNqZngk7kvG97Pl1b7nN1wezhs1qvbQqE7sT
-         L0bxgyrgsfbRgROFZZzZfUTWwEA68BsPXAA5lspoOfhNiNNzBhRGh/0cUPEfqZj5TNIn
-         GZWsReZH4o9W6qFuZUD4Z+t5Rd4bSR1sG++UKRqdRZ+L/VQKwpbeHnw8ih9q4SNcr76Q
-         3SPDBFWELMERQMNsXSAlWsv04sLE1C9tWGdz1bcbphex84NmSaYEn68W78p1kC8SPz6/
-         G/QJ/FnCdfk9ePA17+IHT78XC3iC56as2tLtNMDT/r6qSpWNpf/d+w1+a0MdIIzvP8/6
-         6LLg==
+        bh=sEzDXhUVFO4MvSKwYYet5FlMfGg8jYj3MEwBCZj/ctI=;
+        b=U11uiaOy/jBHE//aNF4E6kzY4MDJjBnaRpkoB7CCpgQ/0iyDEpsr5a1GWNDeVO+d/b
+         jwU2txSbFsSlUnpe4P9zQfSMnjyyRA0jqucMrG/wq/N+9u9PKpH15QuFhRjE0FkYy5LQ
+         4kCk5XZy7yKebPFSSXyLwsxh2KCFNxi4tqj6yYRWPzv2h8qoM7GKNunt05pHMVIDzoOR
+         Ej4SwuTGIecayImrmWIAWqZWpA42WOCw006hMKOrONeZaRGKuHrHM1HnxEB4KDUAQfM8
+         lgfXqi5CNtLOlMo6sdzq8gYqcOSORZyBCkEAOUM8z/vV3tK61VdtNhsXIaZCYn2pBR+d
+         WptQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773078805; x=1773683605;
+        d=1e100.net; s=20230601; t=1773078968; x=1773683768;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZPvt17sBw48Uy9b6qgDNm1YzVe8WydV5Zk9wwY2Hrr0=;
-        b=H3SzNSwZgJqFf1gSnUfs4WcaW0IaEY+4dniSXVJzQMNPfV2OJvBVO8h9xzMu5wL4Oh
-         lG/a2AI33pkTa7TGGeV3q4EHTqWCpnre1n9zbVxHRHcwxNdswQtMf+C8yxaY3YsEOOQI
-         Ut5YwyRmxsFO3ovKK1foyJDYKREEQm44MPV7q65BDKrvgGvXdnJpWK+4ijOh4EcS22rZ
-         3aT5DSv7+q15HFSCHqDgyNPDPh093/4bCBDsMciHIpOLriP+7mLmPglSXqJqLPJQ+Y8H
-         KvVDDMz8NvPWUjceLakWnGlNiq0idR0iZmNW23ITTCSPAnLYNZPPlSOBWGvE52DECu/k
-         Hztw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgYcJb84TGbhPcqQY5H6ONs6tWGd0NIIVgZs6UXZLNKYe4oOUlI5CAkbl0wkFaicJdrJAk87NWzyAb/fI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKOZMEsH6yeI3uczAEaHj7gxyXvlWc6+7IBocHz73ljWC1LC1C
-	wK2ojUtDDvBjK4EXzqqpYH7yuZG/fz9T05/7kRot2Wcn0RAXWvhdizhZID0IU/Qz7QTRpkXo4Ty
-	vcjpWX1klotCYzEQWC4+UWca4JMRDJy6JvZO6pWAx
-X-Gm-Gg: ATEYQzzxEp8NTJcudjmnLgsLtSm4f/mERIftiu3R7PwVyUhPYi52P9+loAmtVNXKX1P
-	kRnqmBfdzibARKZV9f9dvQd3heag1pTZU3L9QlfOM799YrCzT0bPiPEN5j9wMzLhkz7yFRvnuin
-	7PTWtz1yKvDIBa4OsBYXTboQbdDA2OW7I3CAJHLOEPuzlFK9CqYJSGywSvMX2RmlFDxKdyw5Bb+
-	C3sY3XuoF5JBmLypHRCoBE4/m6so8+AYRe+c9d5Stn8JJLgkkFIt7pfEloPFssMB0mIUenXZhZn
-	gEDs0Z08m/YwN9hfOl37CfzuVMlpsMb3EOo=
-X-Received: by 2002:a17:903:37cc:b0:2ae:46c6:e4e1 with SMTP id
- d9443c01a7336-2aea30cfc85mr220315ad.18.1773078804518; Mon, 09 Mar 2026
- 10:53:24 -0700 (PDT)
+        bh=sEzDXhUVFO4MvSKwYYet5FlMfGg8jYj3MEwBCZj/ctI=;
+        b=Sy36mUHD+sGaViMNL7Q7S7gznOCrraM+go7CZ5IMzkiO1LBza+asSnDEMFfLsi9YtI
+         Vu3fNeQqvQYcRcvgD/ndXBl9nCDCB+7fO8YBhbNheULEfaLO+juzw+7o6uYcMJG5rZrb
+         zpD40F/quAXPMAT16klvW1vRGBiCwPynwlJ6z8ZYVNOw/u3NZSnII1p8MuEv1cVHi4gI
+         JBUZiSvdq9M7P5L3lMdjhdHeiOFvm1I7RBjhRKKDGdYzi6c0e0hbP6XIuKLIFd4KhvPE
+         DZXNj0Mv54loqteTooIl/LQhnzJgLwgicP/Ax9S8K32N+AVHZVT0n85hQpHz1yHoQapr
+         Z/CA==
+X-Forwarded-Encrypted: i=1; AJvYcCUzc6DYiwEwvnhEDr4obi4YmxO4n+qRmTlgp66/F+clZUqPsMOkAqwqsKzmjtTXipDwsBXRFkvoe/mmfJs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt6ewj0Wjlsl2+U1g2En9jUg8YgTLXAF62zQzVSNilGkk7A180
+	9s6EDgUc7ZDjTKSruX76inJgMi0BxLYisRG3VbZZ1bkpZgMDHBxqafsuG9Vb9pZYJh4s3htgKb4
+	hLuhwsUDNfRuBMR+DLTgZojvsIakiBPO8vwg63RuJ
+X-Gm-Gg: ATEYQzxYrlIo18ldwryPOD8B1RfVxhxdRUTEwkleZZ7eOlM16dQVZBJFsFPR9ZIjjWE
+	2mJnUJAjDtj5aCHhV9LoPSKYXwV4ajrvBOSEdtPohmc57vTI7uaqlfRxgo9kWHkHICls7iigV2J
+	Q6RokaX9PFxqywdPwP6d46Y/TxSp41IAOQIV/yY2le7mLfgL40seAxmgDbuLBXqAUpKahC0s4nT
+	eausDKGTOXSRWXbg++1VdX1C7T7gJhARQYrXlXXEk+3nx6okiH0Sk5U92U09cEHig78CWb9MWhH
+	LYUPlP/1Q3tFWkVmpYdVGPvlEiJZLEUI2nY=
+X-Received: by 2002:a17:903:22ca:b0:2ad:6f9b:3b2e with SMTP id
+ d9443c01a7336-2aea32bfe3fmr148395ad.23.1773078967464; Mon, 09 Mar 2026
+ 10:56:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com> <20260308-tools_build_fix_zero_init-v3-11-6477808123b7@arm.com>
-In-Reply-To: <20260308-tools_build_fix_zero_init-v3-11-6477808123b7@arm.com>
+References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com> <20260308-tools_build_fix_zero_init-v3-12-6477808123b7@arm.com>
+In-Reply-To: <20260308-tools_build_fix_zero_init-v3-12-6477808123b7@arm.com>
 From: Ian Rogers <irogers@google.com>
-Date: Mon, 9 Mar 2026 10:53:12 -0700
-X-Gm-Features: AaiRm51jJv0K2rf94QzPgrcYebl4loRMt-0YaQXZssGW2-L2HjxaFLVTS-jTCdg
-Message-ID: <CAP-5=fWHe0JaJ0FPm7jKfL4YMb8y+o0YcnOfSs=DCgHyNsyYyw@mail.gmail.com>
-Subject: Re: [PATCH v3 11/30] tools: bootconfig: Append extra cflags
+Date: Mon, 9 Mar 2026 10:55:56 -0700
+X-Gm-Features: AaiRm51Xb31ugKo9S_MPmrA2EHDpcWCZuqysgwYrJ9m0CLzFNaO2kRL95jSSXGo
+Message-ID: <CAP-5=fXyH=AZO9XEhXG_X0D+ikAyBmHBUXvDB8ivoJVF2ccjBA@mail.gmail.com>
+Subject: Re: [PATCH v3 12/30] tools: counter: Append extra cflags
 To: Leo Yan <leo.yan@arm.com>
 Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
 	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
@@ -140,13 +140,13 @@ Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.or
 	linux-perf-users@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 0010823E130
+X-Rspamd-Queue-Id: B08D823E1F1
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -154,7 +154,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,google.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-11726-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11727-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -165,10 +165,10 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[irogers@google.com,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,arm.com:email,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,arm.com:email]
 X-Rspamd-Action: no action
 
 On Sun, Mar 8, 2026 at 9:48=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
@@ -178,29 +178,28 @@ On Sun, Mar 8, 2026 at 9:48=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
 >
 > Signed-off-by: Leo Yan <leo.yan@arm.com>
 > ---
->  tools/bootconfig/Makefile | 1 +
+>  tools/counter/Makefile | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/tools/bootconfig/Makefile b/tools/bootconfig/Makefile
-> index 90eb47c9d8de67b0ccc74a8de0af3a7e0b97feeb..6bbf4dfdb5b56fcb2a43ccda1=
-8b59a270778267b 100644
-> --- a/tools/bootconfig/Makefile
-> +++ b/tools/bootconfig/Makefile
-> @@ -10,6 +10,7 @@ srctree :=3D $(patsubst %/,%,$(dir $(srctree)))
->  endif
+> diff --git a/tools/counter/Makefile b/tools/counter/Makefile
+> index d82d35a520f610260abb43f6ae28e56d73268231..c0628677af3807bdc331ce2db=
+a92b4e5f1a25b68 100644
+> --- a/tools/counter/Makefile
+> +++ b/tools/counter/Makefile
+> @@ -12,6 +12,7 @@ endif
+>  # (this improves performance and avoids hard-to-debug behaviour);
+>  MAKEFLAGS +=3D -r
 >
->  LIBSRC =3D $(srctree)/lib/bootconfig.c $(srctree)/include/linux/bootconf=
-ig.h
 > +override CFLAGS +=3D $(EXTRA_CFLAGS)
->  override CFLAGS +=3D -Wall -g -I$(CURDIR)/include
+>  override CFLAGS +=3D -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include \
+>          -I$(srctree)/tools/include
 
-Should the EXTRA_CFLAGS be appended last so that the user can override
-the default CFLAGS (e.g. switching off warnings) ?
+The append should probably happen last to allow the default values to
+be overridden.
 
 Thanks,
 Ian
 
->  ALL_TARGETS :=3D bootconfig
 >
 > --
 > 2.34.1
