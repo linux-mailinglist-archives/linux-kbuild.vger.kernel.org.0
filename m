@@ -1,111 +1,111 @@
-Return-Path: <linux-kbuild+bounces-11735-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11736-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBgPKJ8Mr2lzMQIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11735-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 19:08:31 +0100
+	id yJatEeUMr2nHMwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11736-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 19:09:41 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACA923E450
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 19:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E625023E4B8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 19:09:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 92A6930ABD6F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 18:06:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A850330EF620
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 18:06:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738672FE560;
-	Mon,  9 Mar 2026 18:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2BA83EF0A7;
+	Mon,  9 Mar 2026 18:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xuFlBHVB"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RUjjNeD2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4654628CF6F
-	for <linux-kbuild@vger.kernel.org>; Mon,  9 Mar 2026 18:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672A92BEC45
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Mar 2026 18:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773079376; cv=pass; b=iyoBB7+8sMNyNYjrre6zUS/d1zhNKSnu14rCkMQoJf/u2+fIBaovU8gPIfZANTMUFOmE1hKy1CB8DiDv2XxCPr6xJT/BOJKIdcJT1cd4mOTHu+Omr9SG82hOvzy2tkOcFMlit0z2l07LzFJzH7XlLFTL1kqi3tQI7iE+gz71UXM=
+	t=1773079412; cv=pass; b=CvBWdoSz7UFXuomhxPNtbbEVSpmlc1VbpKrJ3s1NjK/MgHVIeSObd9WVOjk4FjoQkBj1v0t/LnM0GbnatRyibagrx5T2k4LR6jB30O73kWlWKdYMllxfeXikRwZ6RF11dRqfrcrjqXwAEvQx7clcYJHNQk9DuuWw9QVK1ScW1wk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773079376; c=relaxed/simple;
-	bh=enJJBtiy6q9G9zGlhNtJO7VBcncRme179U9y2TQsR+M=;
+	s=arc-20240116; t=1773079412; c=relaxed/simple;
+	bh=Jmh6F1HA1/DHwO4+8wWz0TgE1rMuRLMuCBybYeE2lhg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jGlhJPY8ZOyRGWkjyyk+2Ts7wOVZ8gB/bsE3Eb/WUrRytu0/WXD7rpRPB4BBjApfP6gGsg8pj4BeOMHZf8mJrG7Q6/VUbrTSoba5Ae/oHpYA1FSKECc2bK2IXSDcuYQNwBZwPV1ddB36toNwOS75aiy8J2YDMIuwoAXoBUw1j8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xuFlBHVB; arc=pass smtp.client-ip=209.85.214.182
+	 To:Cc:Content-Type; b=CpEu9VDEngzHWpJJ44K+8kWAw5CZv3MvjttHbbEtBc8KeR3jjoa8mTYaLxgOhike3Tl7imODV4PQDzO9NkKzSznaQ1uh9ydA/ZT6JdEGEUJ5aXvbMtQRfRR3bEG3TW6UUTRKMBQEnIzScr30hiQO6Qgb2GklKnY2YEWqjW9rZew=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RUjjNeD2; arc=pass smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ae4b40999bso16255ad.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 Mar 2026 11:02:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773079374; cv=none;
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ae523d54d2so15475ad.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Mar 2026 11:03:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773079411; cv=none;
         d=google.com; s=arc-20240605;
-        b=Ssevoo8JvbHnH4jZ5Q2nnLiytirAqDDt+GnfoKQCL3TPQZbsAKQTdE5uUY2JCQF54t
-         eTifrWYUXkDADUx3ZRSr9009KAthBvtR5yHBXtVOaCjLAqJG5PU2miFGWoelpToad4tC
-         D8USP7YwISR8YpsTkCYvMyVWCwyBRiHSOtcG6vJM0qu2S+0o89G98FUQiM0pM8+oYeqF
-         1X2VsAPM3YQbdQC5glzW8r0YLv1XoaDKjnETGP51dbmYmUgQNQ2+XFOS2Daph1bkwHZp
-         8ZsXckN5wkbWtYgiUlJUuWs1CBq5TBSRa6JYmiJZmWI/E912pz90dsZUOO1tfx6oIUe7
-         xIpA==
+        b=gI+DGqLdZEOG9/AvYW9Mjjv73BtyPtRFuq8O/LSaGscYfxJ+/XbLafO7TB9z0BdRH8
+         XpSkB7gRafm9Z+AqkXvLcNOFc2hSsFY5e1XxIqglWL/fywR7do+g1MXnc4C6h6WjShKG
+         5o4GOC3T614JdmlmdCUVY4dO9mc0gSf115ZwnjMNVwGEMjPYTTssNj9JjcV9vgj2oU8Z
+         o38N3SmN6EgNxWnPTresyR9c50CWWUF/IVXqKkKJ2/ugw6iOgKBWE6IdwdO9x5ZAFA7F
+         3neZE9qMTAq/dawfGXfoHKr+arIVlxLhcLiY2/tAcK4GBb6hJzubdeltl+q47QXpLCrz
+         jupw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=0DTQx0tSE71UMF6lY+qr4IIE8EQg8d4wRW0tM3/p9E4=;
-        fh=ssK0X6GN68sndjJLN3ARiy58GpQAf9A93XYTppbqMzs=;
-        b=hpPB3NiciBTeeMPur0m6tbdSdQ82KZWmNzukVE0UbASDUkRQzniwmrutEcEUl12DcQ
-         VKrZVa53T7LhmyAtfwtzaLCCyK3z2GK1pZgxkh9Fe9AuL+H3BZEtu9OpCb2wFF1yRjl8
-         nCb+1vqv79O3fhk4uE4Uk8rSX4V+pt+UKrfTgvwBOEmGKx6HkcaAiAwpLV5Tl5XSn9z/
-         f1AGjQEyGVGLxmlhPBMBZ4rhDcpAWXf2OJJy1nvN2M4k2eN+2kwsNj9DugeA3EGzEWzr
-         s5G7i54BeBuK03SpooV5A9QtHD0m6yyzpzV72NK22fY59GLvM4dzk7jNz9N17NKLTn15
-         pS/g==;
+        bh=/2Fq8jDmUYvdwrz/G2ys/Pt5cbewWsQscS8yZEetyac=;
+        fh=KEI6+CUzXlK+Wxkcoenf3WkwX3nq7DbZcwIqEvk1JSA=;
+        b=O7zWLB7J2d9K3o/wEPg+ao1PuPiNKcKKqzwGSKda2o9EuesmC9KUyvjBy3D4Is6I70
+         WcO3/Ftv0MNEb1LnoyPvJB2Fo44E7Lp4kZUKsQCj4S/UpfDKyRtyz+g/vWn0HvHl8aku
+         87mGx+dV82oVnx/YNa3DTzGC+udnNM0ALlixsXv3+4GZZrqxFcvMLTLtU52qXBSmT8KD
+         8vAe6bPK3kkzX+rr2y0usvigV/u7nW8hrGbUxc7eC+rxCmyY89PwJzuD0cy5bYNVSjbZ
+         98lB78yAE/yL2QqokZGAQKtc1kYC+yYQhoo6fomj3G7ud1LgDgQG6HP9FrCQg7FjaEfh
+         iOkA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773079374; x=1773684174; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1773079411; x=1773684211; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0DTQx0tSE71UMF6lY+qr4IIE8EQg8d4wRW0tM3/p9E4=;
-        b=xuFlBHVBhwnf2PB/LiW8ezsJnKscU4kL4gTml4DaRPuOcXiwuUrMFxlxiT+LMY8Jez
-         +jLXIuHnLfmeeyG1JHvwO+TOWWpg7wMuSGK3qVeMSAl7xSk5bM7WCK42I1To/Q/VFFhz
-         DdPFLhD6As4cRpRkVp5hKWJ81G7HKZqRBNdszKkC3VgYO1XLeCtN7FfeQkAKUE9bdaa3
-         9j+nkj3nOC5J6srcscioMFmVpvCMo0wcq3A1RsgjVMsArf95wvON1uiGnZWxC+shMU+R
-         ig8O5OFN74oaIIt2x9E7YJKaPp27yzSFlJy9gqSpIVCzXouIbfE+YKWuKBvQMf+ZBikt
-         +1oA==
+        bh=/2Fq8jDmUYvdwrz/G2ys/Pt5cbewWsQscS8yZEetyac=;
+        b=RUjjNeD2SpN/Wi/gR3CMXFebTmihJt693tZdqo3VxVkdHF/Rb4xG1sEICozrGFwQJR
+         5nQE3VTVUX4i7K+i9qBeEgtO03I+LUEYQyhmHXn65F9RSC3luYlr4TI4c9NSdID+a5Cm
+         YZUIPrKHvrJ4rkzWdNbDT5++N4CQYwBOpIbbvNHlQ8JRyrdn7eLv7a73BD44xlr2LPYl
+         +WNFKaCs243gGIPM2ZweNXs2McugQ06ufUdrFsMnQpYwsypJ/GLW5aKW21l5BFzM1uZR
+         WAaetNV0Fa55fEvnMSQ3CE6tf07+fZN8CM7TYlu1Ki8VNjLW7EC3CC7pL4V/gcKpftw2
+         dp8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773079374; x=1773684174;
+        d=1e100.net; s=20230601; t=1773079411; x=1773684211;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0DTQx0tSE71UMF6lY+qr4IIE8EQg8d4wRW0tM3/p9E4=;
-        b=oE5Rkktn9XUBNsfvwez64OGAZf5zTPagCZlqPJtD8WMTtdXw/Agh3eNkqI87yic8+C
-         KdXg7NDCnRBjeOrZOQTcnJ3Yk60d5KCSep1bKV4yhKHk0LX1H2Dkf2DbAxwm/U2SghUL
-         sz6Ye5cAAWWV0geiFdQjME5Pnc52bTmLW8GU3bo74rR5Kp5Lj1bAwd2k+YK7aQ7tuApb
-         0v/MuwrhER//v+gOVxue+UInOzSDb6oXEjs7HwnP0YCoYbDpEXx5cuKOQMZcNcpfkBO2
-         Q3qf6mIfz/hLCvVpyw6tqx86ZXUCXvsjHkpbLWWB9/5CIjbsBWZAI+fd58jmjNa/3C41
-         Y2rA==
-X-Forwarded-Encrypted: i=1; AJvYcCWmP6W4gCwYsDza2zpgUTB2YoCIeWAxdJeeno9YdNxtTNJpERhXj5swoHJH70ifmbSEBpjcSK/bnZxEsfg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYDofRuWiy72ww83DAg8iALpf3olpszq26Lsvshj7TlFP/AiA4
-	9DDHXpIXd4iLlcjVj1tGcm1y6TMBfe+GRXzIfoX/t3SFF/S6xMxukecC94mrDD4dysncT8lyRDc
-	7MfagDB8wv0Z4IlCeT8spIY0zbcOCBxWTPZKdhC3U
-X-Gm-Gg: ATEYQzxoFbFr19asYDa8aYEgI/RlhLrEiEIYdGXxNgnvvujS7wVV3bqyOa28NuG/uOx
-	NIsH69v6M6gVw2p0RxCgSFha4QaqcMPOrkruvZ9Civ+OxMuZWyuTxNIdnHhrhgj3xkDw7DzAF47
-	Jkr71U6ooSJ2jhs1ilCR2llv8qL9bxKiEdXqbyOtTnxm0OOC2TkKsw/YBg9po00LVFQSB/ZkiYP
-	OjfGjyJ9rI0gokLCj7XUhscaZ7LbUbGsOlXbZ/FGOiPKOKwz6hhmyRNqQ88W1rZAJtwpMCd4ltm
-	skgrYQT40NuKFswLg7k+UocqnhqrPSEi4vyKvCyZDAp8Vg==
-X-Received: by 2002:a17:902:ecc4:b0:2a7:d266:d84a with SMTP id
- d9443c01a7336-2aea325870fmr266715ad.17.1773079373978; Mon, 09 Mar 2026
- 11:02:53 -0700 (PDT)
+        bh=/2Fq8jDmUYvdwrz/G2ys/Pt5cbewWsQscS8yZEetyac=;
+        b=aNCEY3Ukd7H9TIy8uS4pcmd/TJyCU/VV0aQt0Nmch00FzEDNSPH5l0219LJs3B1VHk
+         ByWjJCMdk6/dImGYsiqltmeNj52YoHZl+sIs25qwJIDarYXaUB0DYQpydUI2gOgxgcNm
+         4ahZBT7t7wAQOPKq6uWmSeUWdZp1wEMOVA2O7lnNtp+Gr0pkV6Egg2adDSL8QEUf7+EY
+         ulVgZcX0TWK6tPvgkOhhDRBNoXaWFmyfQp0PXhiv/aydnD8g0YU8Ad5sKDn5FlQEnbqa
+         zuJKAUvEMz8V9tBnhqTp15yBaY8jqCMo4NIS5jXRJ8xE8GsScuG7NkPu5p4ef+LYMstz
+         JsWA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7bm1Zj43ychSMDhbyQf4lvuWywCrNRHHakAPNIS8G5/+EItZrC24f3wjq4DFndIecd0psoQHsMrqN9M4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydD1jklkBHWGYH2eYphwI1+GNMtC/z+IcI4h1CAoX+PmIDbkHj
+	c9QopglVeMfUxYDntCakVeyUgN83i9GmU0KW/DqWI84pPu3CbfJD0zVDFPUOSkxIWdaWxBZ247X
+	k1K3e0mQ94nh5BMUd9n9plGPk+3zsFmRNzXa4mhTT
+X-Gm-Gg: ATEYQzxq3duD/P4ofJoDY8WfgBnUf/NkEzvlMdFsHEHpb845fkG08r72ooNFBi6JdEt
+	nzri2CBOCT9AnqO7r7fXjTsyu+2HMiXo9Ht4yyxKavckmsFB1Az3jLPUxE+Cx99+95e2gpRmASb
+	5k0L0FhqMDm9tPb9eR3RQx/sBZP1Anf6Re5gNqgJXODz82JBt7xupd3/AF8xQsveZYXCelopFQM
+	08Ch/RiA2OfclPI+V976X+CHAxLs7hZbKCGcxbTzTk+zOYzyJhDQAmgeRBZn+zeeOKWx7SKKW92
+	7Dr4vHCyeoVuvXbCkvpBq2y8tpbBF+q1CMM=
+X-Received: by 2002:a17:902:f546:b0:2ae:575f:3755 with SMTP id
+ d9443c01a7336-2aea30d24bamr264685ad.20.1773079410195; Mon, 09 Mar 2026
+ 11:03:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com> <20260308-tools_build_fix_zero_init-v3-30-6477808123b7@arm.com>
-In-Reply-To: <20260308-tools_build_fix_zero_init-v3-30-6477808123b7@arm.com>
+References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com> <20260308-tools_build_fix_zero_init-v3-23-6477808123b7@arm.com>
+In-Reply-To: <20260308-tools_build_fix_zero_init-v3-23-6477808123b7@arm.com>
 From: Ian Rogers <irogers@google.com>
-Date: Mon, 9 Mar 2026 11:02:40 -0700
-X-Gm-Features: AaiRm53fepCChw8O6Lh_i9zc0Lx_aXs0tJ85eByc_82LQ2DVnvOinKgsctHPHWQ
-Message-ID: <CAP-5=fW+8BXLMXKyZ6GLUq2it1VTVpCg61qCqpfSMDjHeOJfXw@mail.gmail.com>
-Subject: Re: [PATCH v3 30/30] selftests/sched_ext: Append extra cflags
+Date: Mon, 9 Mar 2026 11:03:18 -0700
+X-Gm-Features: AaiRm51m4nYl0m8tFtQlOB_PU4q1W2JI6UKS4mgMHQi7Hrouc_6G7mzkDrAVHLM
+Message-ID: <CAP-5=fWzFtZbXK4DrUOCFBtD9e2_e3BG3Em8O84C=Zhfjyf5nA@mail.gmail.com>
+Subject: Re: [PATCH v3 23/30] tools: spi: Append extra cflags
 To: Leo Yan <leo.yan@arm.com>
 Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
 	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
@@ -140,7 +140,7 @@ Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.or
 	linux-perf-users@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 4ACA923E450
+X-Rspamd-Queue-Id: E625023E4B8
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -154,7 +154,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,google.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-11735-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11736-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -171,33 +171,27 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,arm.com:email]
 X-Rspamd-Action: no action
 
-On Sun, Mar 8, 2026 at 9:50=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
+On Sun, Mar 8, 2026 at 9:49=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
 >
 > Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
 > the compiler.
 >
 > Signed-off-by: Leo Yan <leo.yan@arm.com>
 > ---
->  tools/testing/selftests/sched_ext/Makefile | 1 +
+>  tools/spi/Makefile | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/tools/testing/selftests/sched_ext/Makefile b/tools/testing/s=
-elftests/sched_ext/Makefile
-> index 006300ac6dff88a48104977398d8517753e7e385..81d8f4a184245d8c330cf45b7=
-5bd868b2a7aa7dc 100644
-> --- a/tools/testing/selftests/sched_ext/Makefile
-> +++ b/tools/testing/selftests/sched_ext/Makefile
-> @@ -53,6 +53,7 @@ ifneq ($(wildcard $(GENHDR)),)
->    GENFLAGS :=3D -DHAVE_GENHDR
->  endif
+> diff --git a/tools/spi/Makefile b/tools/spi/Makefile
+> index 7fccd245a53515ab019529c8e5e91a044eaaa68b..1e3b3f91634cc2561c434c02f=
+812942fa881685f 100644
+> --- a/tools/spi/Makefile
+> +++ b/tools/spi/Makefile
+> @@ -12,6 +12,7 @@ endif
+>  # (this improves performance and avoids hard-to-debug behaviour);
+>  MAKEFLAGS +=3D -r
 >
 > +CFLAGS +=3D $(EXTRA_CFLAGS)
->  CFLAGS +=3D -g -O2 -rdynamic -pthread -Wall -Werror $(GENFLAGS)         =
-         \
->           -I$(INCLUDE_DIR) -I$(GENDIR) -I$(LIBDIR)                       =
-       \
->           -I$(TOOLSINCDIR) -I$(APIDIR) -I$(CURDIR)/include -I$(SCXTOOLSIN=
-CDIR)
+>  CFLAGS +=3D -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
 
 The append should probably happen last to allow the default values to
 be overridden.
@@ -205,6 +199,8 @@ be overridden.
 Thanks,
 Ian
 
+>  ALL_TARGETS :=3D spidev_test spidev_fdx
+>
 > --
 > 2.34.1
 >
