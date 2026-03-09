@@ -1,47 +1,47 @@
-Return-Path: <linux-kbuild+bounces-11745-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11746-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFR0GEhIr2m9TQIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11745-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 23:23:04 +0100
+	id IMiiLsdIr2krTgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11746-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 23:25:11 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFBB242297
-	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 23:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D14242317
+	for <lists+linux-kbuild@lfdr.de>; Mon, 09 Mar 2026 23:25:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A7F2C3097E9C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 22:21:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CA95D308956D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2026 22:25:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C4638E5FF;
-	Mon,  9 Mar 2026 22:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2114A38F23D;
+	Mon,  9 Mar 2026 22:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="l4FtqkE2"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DNnwbMj8"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407D238E5D2;
-	Mon,  9 Mar 2026 22:20:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9919F38F227;
+	Mon,  9 Mar 2026 22:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773094861; cv=none; b=jy45Q6/f3aasdN2qrVo3GKb8Nt2eitgkbSBqxtUgYHfvMKFHU78GmUWqQuHgr9oYzkYx08T1N4Yfyhr2Lab61A/ACJguYd29zA/gUqHmDgcTGxjM37ma4G/3xk8bRwKTREpDnDfA0OgGV+v/61BcXFTIky3lKoGFQdTxpcO/tdk=
+	t=1773095103; cv=none; b=KyquryRFW9a0TSMNmt/9MbWvDZ2+0jrUI8O8dFwl238tNknUxmGZo3vWoIqhncTmfSTTbDw8Lyagb2b0OPdO7uYXRQRjmZeGgB7XrCWq2mKPLz+PGSyHu1hk8m94d4voc9RJKkB0dUvCNyd4ZKxQwE+JhKeIrIhX9NzJCg4BcfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773094861; c=relaxed/simple;
-	bh=cPpaWJQ80q+Lffa6Wa0Eh87ldCBLbEMQduRkLHgrlQY=;
+	s=arc-20240116; t=1773095103; c=relaxed/simple;
+	bh=hckjB5g7I975zcOJXmp99aNgILQkqpDbFrtrSs5y1ss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWkc1b8JrfMkgddzPyJleBl1dAXFP0y8jfSR7UsxWHJF50NKY6RzeQoGp3q6J6UYd2QKEwpDICnf+O0SwOla2OomeLe5moiOqECTD7s0ubX/IfpfHYr4BZi/sX/jM0XJ4a9qxJA2dVxrenpeC+Jfrh+za2DUPQM/uGLYqotytw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=l4FtqkE2; arc=none smtp.client-ip=159.69.126.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=XQ2gJdt0oswoiJY9nLlRVCx+JIr1R82H5Hs0lalM94KOdmxpw0dcLn6gTR69+W7t5BMK/HPJBDHi89nd53rhSbYHZQxuEZKmGyRNranaAls561bSPTctItw2cWdWIDA8hpiOmdnxz1uFOKDkCxRjQs7zBDDEa61S8iwT479flrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DNnwbMj8; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1773094851;
-	bh=cPpaWJQ80q+Lffa6Wa0Eh87ldCBLbEMQduRkLHgrlQY=;
+	s=mail; t=1773095099;
+	bh=hckjB5g7I975zcOJXmp99aNgILQkqpDbFrtrSs5y1ss=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l4FtqkE2r3xNDU+YNU5fDpID5U4KhRcECi077BNVvuAQ7eHjVs7AGtsG5ppDmyH2R
-	 DsU/qkDlIZ7U0BC9t2/AyTsfKeE2mUMLWGDZ8kcUnHC8pjcPnPoo0goxIom0ZuZtIG
-	 McB7anzqo30tlykekx0wC1giSfEHW6i5oc5PPb7s=
-Date: Mon, 9 Mar 2026 23:20:51 +0100
+	b=DNnwbMj8/YlrOnNot42II5y3J+kOlgf+2d9k8gQbFW8RyvLveEvR8wYqBQQNIPPWb
+	 kEsJ2r8b/s/7vm0V2qc0k+wZZDlXBiuOpfdX3L8uRLUcdOTUYhV8THqEjm36QqQmoa
+	 cVs14cUf10GuiVi2YmsxnHTgo2ReV3vKTNtHegP4=
+Date: Mon, 9 Mar 2026 23:24:58 +0100
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 To: Leo Yan <leo.yan@arm.com>
 Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -75,10 +75,10 @@ Cc: Arnaldo Carvalho de Melo <acme@kernel.org>,
 	Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
 	Benjamin Tissoires <bentiss@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v3 18/30] tools: nolibc: Append extra cflags
-Message-ID: <a23c078e-e057-4e2e-8c85-945cb61a4f88@t-8ch.de>
+Subject: Re: [PATCH v3 29/30] selftests/nolibc: Append extra cflags
+Message-ID: <bb278652-8654-4473-b12e-b24b36ec3845@t-8ch.de>
 References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
- <20260308-tools_build_fix_zero_init-v3-18-6477808123b7@arm.com>
+ <20260308-tools_build_fix_zero_init-v3-29-6477808123b7@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -87,8 +87,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260308-tools_build_fix_zero_init-v3-18-6477808123b7@arm.com>
-X-Rspamd-Queue-Id: BFFBB242297
+In-Reply-To: <20260308-tools_build_fix_zero_init-v3-29-6477808123b7@arm.com>
+X-Rspamd-Queue-Id: 22D14242317
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-11745-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11746-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -116,37 +116,49 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,weissschuh.net:dkim,arm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,t-8ch.de:mid,weissschuh.net:dkim]
 X-Rspamd-Action: no action
 
 Hi Leo,
 
-On 2026-03-08 16:46:23+0000, Leo Yan wrote:
+On 2026-03-08 16:46:34+0000, Leo Yan wrote:
 > Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
 > the compiler.
 > 
 > Signed-off-by: Leo Yan <leo.yan@arm.com>
 > ---
->  tools/include/nolibc/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tools/testing/selftests/nolibc/Makefile.nolibc | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/tools/include/nolibc/Makefile b/tools/include/nolibc/Makefile
-> index 1958dda988954d8a604b28f5feb75ebb67ee2e14..b7f0385ccba14fdaa08aab6192acf0296b47cdbc 100644
-> --- a/tools/include/nolibc/Makefile
-> +++ b/tools/include/nolibc/Makefile
-> @@ -105,7 +105,7 @@ headers_standalone: headers
->  	$(Q)$(MAKE) -C $(srctree) headers_install INSTALL_HDR_PATH=$(OUTPUT)sysroot
+> diff --git a/tools/testing/selftests/nolibc/Makefile.nolibc b/tools/testing/selftests/nolibc/Makefile.nolibc
+> index f5704193038f7da935d57e0f894970b6e29b78da..e58b2f5eb2b231bb1c194db7365fff7b4e244e5d 100644
+> --- a/tools/testing/selftests/nolibc/Makefile.nolibc
+> +++ b/tools/testing/selftests/nolibc/Makefile.nolibc
+> @@ -252,6 +252,9 @@ endif
+>  # Modify CFLAGS based on LLVM=
+>  include $(srctree)/tools/scripts/Makefile.include
 >  
->  CFLAGS_s390 := -m64
-> -CFLAGS := $(CFLAGS_$(ARCH))
-> +CFLAGS := $(CFLAGS_$(ARCH)) $(EXTRA_CFLAGS)
+> +# Append EXTRA_CFLAGS if it is set in tools/scripts/Makefile.include
+> +CFLAGS  += $(EXTRA_CFLAGS)
 
-I don't think we need additional cflags in tools/include/nolibc.
-The only thing this Makefile does is to test-compile some headers.
+Makefile.nolibc here is completely self-contained. It is not expected to
+inherit any flags from the regular selftests. So I don't think this makes
+sense. There is a similar, custom "CFLAGS_EXTRA" variable, which could
+be aligned, but probably not as part of this series.
 
->  headers_check: headers_standalone
->  	$(Q)for header in $(filter-out crt.h std.h,$(all_files)); do \
+There is a regular 'Makefile' in this directory which *is* integrated
+with the regular selftest build system. If you could make sure that
+it works correctly with what you are doing, that would be great.
 
 
 Thomas
+
+> +
+>  REPORT  ?= awk '/\[OK\][\r]*$$/{p++} /\[FAIL\][\r]*$$/{if (!f) printf("\n"); f++; print;} /\[SKIPPED\][\r]*$$/{s++} \
+>  		/^Total number of errors:/{done++} \
+>  		END{ printf("\n%3d test(s): %3d passed, %3d skipped, %3d failed => status: ", p+s+f, p, s, f); \
+> 
+> -- 
+> 2.34.1
+> 
 
