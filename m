@@ -1,146 +1,185 @@
-Return-Path: <linux-kbuild+bounces-11772-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11773-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qAu5KQYDsGnOeQIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11772-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 12:39:50 +0100
+	id 2JS2Iq8HsGlregIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11773-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 12:59:43 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B15124B3DB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 12:39:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B7024BF75
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 12:59:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 38096319CFEE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 11:37:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6904F3100BE1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 11:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 763033876A7;
-	Tue, 10 Mar 2026 11:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPCtfgpx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D36B1389E09;
+	Tue, 10 Mar 2026 11:48:44 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5257B387587;
-	Tue, 10 Mar 2026 11:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 295F2384236;
+	Tue, 10 Mar 2026 11:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773142636; cv=none; b=i4oG0nDGk0giKqgatUinDddNCcc7F1y1Y2/JfrtdmI5iUjFDIHIbMatPhHlmh5n357l2sZRy2qRTGbIPLjLXo3ZwNKHzF9VL/Pn1bpBCCo3xbjIweaoXEcvzmoY0/jgrw/cIYyqVx0NEEt6G/9Yx87DR7sYeN/PdOWkzvIUNk4M=
+	t=1773143324; cv=none; b=PvzO6ePC+INk1UrGH3gzGH9JJ/qDfGlqpNhnUQIB/7LVwUd9kaF0w5eFrMD44zadBdbUITT3MW/9kikzweEY5sZIWy8DcnUvo4oZuTLcYrgg8bY+jHcaY81KR5sxOyxj/WuJTAiYvn0Gyyt6G91hBACD8MD3U2gsAqRQNPk5K+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773142636; c=relaxed/simple;
-	bh=pNPj+CQUFq/2lLo6Iv5trRQxElH3NL/xE39oCnsD2Ic=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MAsYFcbESq4cuLd/Qs5u+9aQylPtIA9lFcNXG7Gw+gKjT9wpitCL8tXJ7hUEcdhX21JGL6bDkRnXlQ76OAo1VTPKcNVSBt2++xfZTXyatss3SQQwfiWSKuSVCH7BS1jpns52ZLubSzT+SkWdldrsFMZEDpBSKhaTTOZdhSxduEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPCtfgpx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B247C19423;
-	Tue, 10 Mar 2026 11:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773142636;
-	bh=pNPj+CQUFq/2lLo6Iv5trRQxElH3NL/xE39oCnsD2Ic=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=BPCtfgpxAe1wJq35rfB2a7eMMIExUzHia6Kv9IwEEa3GovjvcaMkNPT0VJKr2zcKE
-	 xLVOpQ5yg2vMyUS+BBlOclGQoYdAcIzd+A+v/ENjCTz9crVstgghxGuh22nUdvZ7rz
-	 hWK1VTSy59VlljcaLeT8qODSqU1XELc+KwrrIIHR3FNCZSET4/QsYjQnlTVDvyyYUz
-	 OsAugQeEG5TZoxK7VR2Kun51uhXvieIADF/fTRZHBCGTgaiS6YTP9TOHBgrVRta3ne
-	 r25+f35i9oc+X9PS/V3Ar9KDpJDfCbnpIvBaWQh5qsvOeFVOBcs5E0Zadx+kw//CYV
-	 pmDp8ku3iMVBg==
-From: Daniel Gomez <da.gomez@kernel.org>
-Date: Tue, 10 Mar 2026 12:36:25 +0100
-Subject: [PATCH 3/3] scripts: kconfig: merge_config.sh: use POSIX test
- operator
+	s=arc-20240116; t=1773143324; c=relaxed/simple;
+	bh=wmnudj8wOvC5q2tPSSZ1fMwaPxqqty8WnEeN4Tgn5pE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PMSt2zJoqdev5CWL5tjEh0HLO2ftQWAhskEdzH1Dxaz8bvzTh6DzDrhRImNlMrZk0FKxgNGFWviO25WejWblOAVxXC6Z8E5xkJFqENNNix7lg6y+CJOKgZVWQ/IM/kT4vfHREvSDWahlG55a0EDuSEkothIhuDHvxprCAJC9x7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5B4716A3;
+	Tue, 10 Mar 2026 04:48:34 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B93203F73B;
+	Tue, 10 Mar 2026 04:48:40 -0700 (PDT)
+Date: Tue, 10 Mar 2026 11:48:38 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Ian Rogers <irogers@google.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+	Quentin Monnet <qmo@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	William Breathitt Gray <wbg@kernel.org>,
+	Barry Song <baohua@kernel.org>, Qinxin Xia <xiaqinxin@huawei.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Kent Gibson <warthog618@gmail.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>,
+	Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, bpf@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v3 24/30] tools: tracing: Append extra cflags
+Message-ID: <20260310114838.GA4153946@e132581.arm.com>
+References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
+ <20260308-tools_build_fix_zero_init-v3-24-6477808123b7@arm.com>
+ <20260309114413.09e05127@gandalf.local.home>
+ <CAP-5=fU4JF6=aocKhgyZqyqm0NOKpAKEmruFj2mgBHfkqbN2yw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-fixes-merge-config-v1-3-beaeeaded6bd@samsung.com>
-References: <20260310-fixes-merge-config-v1-0-beaeeaded6bd@samsung.com>
-In-Reply-To: <20260310-fixes-merge-config-v1-0-beaeeaded6bd@samsung.com>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Anders Roxell <anders.roxell@linaro.org>, 
- Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Daniel Gomez <da.gomez@samsung.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1000; i=da.gomez@samsung.com;
- h=from:subject:message-id; bh=UIrcoyCOf6s8kTl47Htq1HmrnxyQ8s21AmPB08roK+U=;
- b=owEBbQKS/ZANAwAIAUCeo8QfGVH7AcsmYgBpsAJiLefCQEg/mjww7V1B+UbOK8XfDrMMNJrP3
- O7x6/YUE32JAjMEAAEIAB0WIQTvdRrhHw9z4bnGPFNAnqPEHxlR+wUCabACYgAKCRBAnqPEHxlR
- +z74EACEIERQtLr3IEZCROlB5BjPsott18Gp5EB5qhRbro04Ydyt+Dv3ERqfRZWIMOCb1GyzYV+
- H0b831gRKx0bfUwUrpzO+X7mz40kp+VgEUFl7mSF1+vmPKJp7tKx1Fc6rNVh6T61dQ/1EH6THOO
- iZ1XkQ2WtL9G1cKuhpC6Yu48tgAC2LmCgD82z2A025NTLc6BwPD8Mnz/zNPUjUydtvRbGfI5j9L
- S4BFq52XLs9wkicQyh/aGm/WbF+p9d6fdrohAfoOeYiA2ztpTXoUtyQbzLWDJ10RYOvF1C43juy
- Z8b1H4gAFr41Giz6mJvfZabJO0gdi5/jGDqmQgeNkehs36I1pUoAQE9+GR3FXTlwtiDe5ua8sUi
- qM1PeEw3kbqSGzyiGaeWmWgR2RWBxk2JL9LfDJedkRG80d9N+0Os1lzQnwV3xLuehHZrLxTmp7U
- g7VsmUSOFv2AWpm2a6BAjUHeup+UBbKzmsDKgKlI2rXlysFVCrkUmCTBMnuVNcEdl0MDYXHiz9O
- RXeySwPQlmkuNiuPqh8oyLI6tJO42SVtovL7rSOViO745K52tW1c8h23mHqZQD+dTrFvdSgbqxW
- Ig/ICrrni9ArEX+kfXW3k1rUf4+NcmqK80+LXibogIVi8VOg+OkuS9FdhDSrsHUjIF3Dovjv+uW
- wsDW9TrdvmzcNbw==
-X-Developer-Key: i=da.gomez@samsung.com; a=openpgp;
- fpr=B2A7A9CFDD03B540FF58B27185F56EA4E9E8138F
-X-Rspamd-Queue-Id: 2B15124B3DB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fU4JF6=aocKhgyZqyqm0NOKpAKEmruFj2mgBHfkqbN2yw@mail.gmail.com>
+X-Rspamd-Queue-Id: 06B7024BF75
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11772-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[goodmis.org,kernel.org,linaro.org,gmail.com,google.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,vger.kernel.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-11773-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[da.gomez@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,samsung.com:mid,samsung.com:email]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[69];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.946];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-From: Daniel Gomez <da.gomez@samsung.com>
+On Mon, Mar 09, 2026 at 09:37:07AM -0700, Ian Rogers wrote:
+> On Mon, Mar 9, 2026 at 8:44 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+> >
+> > On Sun, 08 Mar 2026 16:46:29 +0000
+> > Leo Yan <leo.yan@arm.com> wrote:
+> >
+> > > Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
+> > > the compiler.
+> > >
+> > > Signed-off-by: Leo Yan <leo.yan@arm.com>
+> >
+> > Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> 
+> Not a problem with the change but running this patch through an AI
+> agent brought up:
+> 
+>   Should CFLAGS be initialized with default optimization and warning flags
+>   (e.g., -g -O2 -Wall)?
+> 
+>   Currently, latency-collector is built without these standard compilation
+>   flags because they are missing from the Makefile. In other commits in this
+>   series (like for libbpf and thermal), CFLAGS was explicitly initialized to
+>  -g -O2 or -g -Wall when EXTRA_CFLAGS is not set.
+> 
+>   Additionally, should EXTRA_WARNINGS (provided by
+>   tools/scripts/Makefile.include) be appended to CFLAGS here, similar to
+>   how it is done for other tools?
 
-The script uses #!/bin/sh but == for string comparison, which is a bash
-extension. This causes an error on systems where /bin/sh is not bash:
+Thanks for sharing this, Ian.
 
-    ./scripts/kconfig/merge_config.sh: 380: [: false: unexpected operator
+I would like to keep the scope of this series focused on appending the
+-fzero-init-padding-bits=all option.  The comment above from AI is not
+relevant to this purpose, I'd leave it to the project maintainer for
+further refactoring.
 
-Use = instead, as used in the rest of the script.
+As you suggested in other reples, I will update to append EXTRA_CFLAGS
+at the last so that it can override the default values.  I will also
+collect Steven's ACK tag.
 
-Fixes: dfc97e1c5da5b ("scripts: kconfig: merge_config.sh: use awk in checks too")
+If there are any concerns, please let me know.
 
-Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
----
- scripts/kconfig/merge_config.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index 95f090b88e8d..f08e0863b712 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -377,7 +377,7 @@ END {
- 	STRICT_MODE_VIOLATED=true
- fi
- 
--if [ "$STRICT" == "true" ] && [ "$STRICT_MODE_VIOLATED" == "true" ]; then
-+if [ "$STRICT" = "true" ] && [ "$STRICT_MODE_VIOLATED" = "true" ]; then
- 	echo "Requested and effective config differ"
- 	exit 1
- fi
-
--- 
-2.53.0
-
+Leo
 
