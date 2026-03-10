@@ -1,169 +1,165 @@
-Return-Path: <linux-kbuild+bounces-11795-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11796-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOIBJ2dtsGmNjAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11795-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 20:13:43 +0100
+	id iLUaDBVvsGmNjAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11796-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 20:20:53 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE5C256EB7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 20:13:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89930256FC2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 20:20:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3558A3078A2F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 19:13:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0B66930C49D9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 19:18:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5C43B4EB9;
-	Tue, 10 Mar 2026 19:13:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9180A3491C2;
+	Tue, 10 Mar 2026 19:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YCX6aZ6w"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="rR9gSYkh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-244122.protonmail.ch (mail-244122.protonmail.ch [109.224.244.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ACA2D1F44
-	for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2026 19:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773170015; cv=pass; b=JIFww/EegWo+JVk4iDZwt591cCqCcY4LMrUI/75EsBeeDEOfyFlvVyG36eRi0j8kbNY9X+8foxh3IN9rMoA69qLNSpUffwxrKXHEOi6sFXlYEvLcl5c+66g+LaQjbVtAVIDXJVKujod3edU71wdA6TLQKLVIYKHTmvOYbbRDG2A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773170015; c=relaxed/simple;
-	bh=ELjFNUMy8+s7K5MZsIwaa5SHuun4uAi5d7KQ2v+LWf0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HGG8EYfU0WW60JUc91Y/KE3fh0YY7ID33Oh0wjcMnlpFDhfU/fF6o1GE2YlItsoAHE1SfEz5o9qYWXn5sOWr9wJiNg1Kk9ZZIiMt9rFgFHsmkga74iFsv0hlpXC2gK26Of9wAhmhd8A263a33Tw6E8IdvnttfY/yP8zBQePE2Kc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YCX6aZ6w; arc=pass smtp.client-ip=74.125.82.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2be2425ad18so461048eec.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2026 12:13:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773170013; cv=none;
-        d=google.com; s=arc-20240605;
-        b=g7hnAX3ZZr1JQCn44djJnDoHTUEl1p0CsiPcXcLnxWGE8orUvF1MTuSyI92/Fu/EFH
-         0esycZufQV4EmpAjPw3yfwap4jtQsRbRBPGRA2CIinf617YoygATotbYp1Fz+zQT9hWk
-         8krcisZQX64r1+iX0hl6xPGcq7+SIxCgYYFnn/idPDaCzunf9YtoGj+rLBj1lewvIBgV
-         WEuLJ55sHf5YaxZZWSr6gkMSj1q86c2BJSslnreZ2/zGLBPttjpn1GTi/hVaHSra6dd1
-         XA0qhBGUdExXgdFl3YFukIVzAZiiWO77DM0gRUO80R+24jz35cLIOQ0I3wcc6vQBjACp
-         FMew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ELjFNUMy8+s7K5MZsIwaa5SHuun4uAi5d7KQ2v+LWf0=;
-        fh=VSO3ndAYyRDl7AO/rAYUdznMTKRMp7u4HU6WUjoiQ8U=;
-        b=KRI0qQsmeBQKclOGnGgE0rRPpaLsIasfO3mh6SBttJ2+NI3hnb1rYln8gFpIMpydsX
-         d43as9BDAOv91LfSJZirzcLdRSOMYIEVEAwpXdtzCx1QFyXLtWwdmegMCIbV4Pp/esPO
-         e0zmT9TQjDl6WLhr/lUWTHXUrcNeBSM2orfu3ycPtYd0GIG9wod+qkO6f5Hpqwghh5DC
-         P6lTlOP41h2yp1VopWGaotRORtbbfMF9eyyJYObwbSIN61gBwIBjagi2YmZddHH428mr
-         9yv3suFE7enOA/EvukYZxZ3L2OC/B6K5YphCbKZKdkIBhynucmCG7x/It2vUv3t9+PgV
-         vrCQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773170013; x=1773774813; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ELjFNUMy8+s7K5MZsIwaa5SHuun4uAi5d7KQ2v+LWf0=;
-        b=YCX6aZ6wA6p49wTesWmY9opPIlNItf9f8/I8rgOdgMTKbjwCJvHWlySKhpnqb9BOU0
-         cTJYi2eKA1Yo/74z/TteUmDb5w+XHiIu7BZvd5zMXWgi9Rhfv319g7VQIeFkqjpXsnNZ
-         mqsoGx66ft4oiQGhGvcXZiCK/w5Lck6YlV1KzgzF8/sdI37xDzHVwoSHBgmYF35KRycA
-         4Q/Plocry9dMo9oiVRQAJKDj/iIv5vFFsvWribvT86F7FMThtJbWPTaFkT4/VrAiA2FB
-         bWGd89NzTPDYEC1IyZlJegX4V/r9lzDB4DJHhSxQ8qYlYCiiqrjWSL4nUpPFAuzZDB0i
-         5hUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773170013; x=1773774813;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ELjFNUMy8+s7K5MZsIwaa5SHuun4uAi5d7KQ2v+LWf0=;
-        b=f6CjqEpguvVKx98teaRvqulIuXniuOoXWcHbv8lnimQbFR1smVK90kqkVftD5uQJwm
-         eSHbP21glmSdLYvmUmJrW9lJR1OPhoE93ezStQbySHVbMYe7O8cnGLLHTaqvt9qukfpQ
-         ISFUO617FuZWoGdbajwt5P6UM3sP2RLJb/fhnhEpyMomkUF2m74ForlAdJGfTIipqCzG
-         xBl0cky9720QG7OiJ4O+Qx9f5bOwA4Jj3DEQpqTIr3P6h8DYLLAsJ71YbzPyYlcnM8Hc
-         dDvQKrudYEmx+7cGHDRu1im5OfQudT+S88lAtpr9SGzm/jwTtT0QO+1I9Vumc/+xgb/S
-         KTLg==
-X-Forwarded-Encrypted: i=1; AJvYcCU5BEkir+4VStne/fwsoIvMosC2HCMamN4KCTiAq9AsIpnh1wsfZEPlGcFlWZRnwuMcSAwVqw/r8HWHuh8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/inQI6KHhelOp7RbFfO2nJkLs/YJKxgMi9ZNaMjUlQTGDnFSh
-	Rm65zNmnkWXUzvEeYWd5OiExEG+n73IYk1DFLnak5CKPEKXAoImDK737AepXAawYyig6HgBk0+X
-	7fsD/Vlv6eWR1oTyRfCumMuDV6XltheE=
-X-Gm-Gg: ATEYQzwVi7c3gwjmmFtDl7guWjJ8qXxtoGkc7BLygq87X2GitrM6/d8PbjrUIPvGEax
-	STGn/bD3+lLl4DCTVFjj0R7iNwIWZITjQW3GtMCTefT6sXRMqhRYITkt8yIjqfhlnYtwepwVfjE
-	KwDSi3gWDYWCAcMxcezgf4lGpyGIse4GTk+qwwm4FiO5Req9PwNX3E473dOUe68TUxO1wkV+irm
-	eSVLfTe9gqgXMSNA0ApjjD+O3I9Zc8b0fhOnFz7VGWlRjMebCv5QGNl2POQt+kn4NEPoXt8qek/
-	QPvn7w8/VMpKMGPTr5BHXlnH8OtBeYHAIv1ykMaWTqtzzfjwmr+IsxIYZD1u3VPqMQ2JDfAnY09
-	gh4GsAPbPW67r3dVcFXCG/wQ=
-X-Received: by 2002:a05:7301:fa13:b0:2be:80c4:2c60 with SMTP id
- 5a478bee46e88-2be80c43508mr633066eec.8.1773170013040; Tue, 10 Mar 2026
- 12:13:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C107E34A3A7
+	for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2026 19:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.122
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773170282; cv=none; b=Emxweshb67/epGy118b6x8RvQnnb3zuYRadwuy7PeXiVRkySPeTo83EAxZ8fwnhBMV4kE8S27n+kt85fs/xgq/kwb8v3mFRmjjyqvWusAh43+2gkOrA/8XSr7Ys5/xxDWKaBg4BjiRK0lPTYCC0dHDdBA0Hwzke3c7WWW8+GLjo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773170282; c=relaxed/simple;
+	bh=yNkjvj8zK3UszVO/pQmPPu8PEirskW7YGxcg6RWvrOA=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ms4eR5YGALMf0XFAUavJGGfHMQYHKI1T8imNNYwyDDlZV79K6TrVz7CV7/KSXBfWF5QTabU8GK4JJK1EzDpybv1NM4xriSJoIf98nFcQqLNSFtIDGmbUF5amAtqGTvXM/sLsw9IcYD2DIDUydTINBTCqUzN1+1ytW8dUTyu3LBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=rR9gSYkh; arc=none smtp.client-ip=109.224.244.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1773170277; x=1773429477;
+	bh=qoHZk/OhrSl6MrxG5Mj/wzOQ+Ag6/K1R4s+ErDzpvw0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=rR9gSYkhvunRslGRTcO93zUtjG4S9QPohyc7ONkvqctlqRe5PAr6eHvbGcQDs36n3
+	 33yQN5T+ps4YqoZEpt+gLyhdwBysz/a2OO5acn6s5y8CxSR9RWbUEH0PIVT6p2UtCC
+	 +uztI4Plu+Gmk2sFw6yDf1p441e0Y4cmuh6BD8HOGwl+MQRtA42Sm5SodKs90+7Td2
+	 wlE34NSb2zzCAQpxCfImaeT7NnWInHxaoALO26ADLN7txCDcMhSVsLhxaqpIcUfY1l
+	 2ik5c5wMsrTJTnUVu9RSRaIDQtui9rXEXNSCN8Gl9GupewNhLmIv1OHtkTl1zTwqU0
+	 2OvHHg0vin3Mw==
+Date: Tue, 10 Mar 2026 19:17:43 +0000
+To: Andrew Morton <akpm@linux-foundation.org>
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: urezki@gmail.com, ryan.roberts@arm.com, kevin.brodsky@arm.com, samuel.holland@sifive.com, dave.hansen@linux.intel.com, jeremy.linton@arm.com, peterz@infradead.org, weixugc@google.com, ljs@kernel.org, ryabinin.a.a@gmail.com, rppt@kernel.org, bp@alien8.de, luto@kernel.org, jan.kiszka@siemens.com, mingo@redhat.com, david@kernel.org, mhocko@suse.com, andreas@gaisler.com, kas@kernel.org, Liam.Howlett@oracle.com, morbo@google.com, thuth@redhat.com, catalin.marinas@arm.com, ankur.a.arora@oracle.com, kbingham@kernel.org, nick.desaulniers+lkml@gmail.com, andreyknvl@gmail.com, dvyukov@google.com, corbet@lwn.net, leitao@debian.org, hpa@zytor.com, tglx@kernel.org, yuanchu@google.com, ardb@kernel.org, vincenzo.frascino@arm.com, tabba@google.com, joey.gouly@arm.com, nsc@kernel.org, will@kernel.org, yeoreum.yun@arm.com, nathan@kernel.org, maciej.wieczor-retman@intel.com, skhan@linuxfoundation.org, axelrasmussen@google.com, osandov@fb.com, surenb@google.com, justinstitt@google.com,
+	kees@kernel.org, vbabka@kernel.org, hsj0512@snu.ac.kr, trintaeoitogc@gmail.com, jackmanb@google.com, maz@kernel.org, glider@google.com, linux-doc@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org, llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v11 00/15] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <abBpbS3tplFSlVgx@wieczorr-mobl1.localdomain>
+In-Reply-To: <20260310112421.8ceb7415e14b49cbd86db715@linux-foundation.org>
+References: <cover.1773164688.git.m.wieczorretman@pm.me> <20260310112421.8ceb7415e14b49cbd86db715@linux-foundation.org>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 0e6fddfcfa9693d70ed9e03b42a5ca69edab13d7
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-binder-crate-name-v2-0-0f7c97900d36@google.com>
- <20260310-binder-crate-name-v2-1-0f7c97900d36@google.com> <abAzTFLYsUxK7VJ6@google.com>
- <177315751568.96522.7020199079773666163@1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa>
-In-Reply-To: <177315751568.96522.7020199079773666163@1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 10 Mar 2026 20:13:19 +0100
-X-Gm-Features: AaiRm53DDGVgL5CoTpBeNVWwk6s_QxgxPeVBI4q2KZlUk1l4wOd7Dh6PfVBh49Y
-Message-ID: <CANiq72nM6ECBE+iiKrBRzCwOyd7BtQ4w6o9AH4+o5rcrcY30kQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] rust: support overriding crate_name
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Jesung Yang <y.j3ms.n@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 1BE5C256EB7
+X-Rspamd-Queue-Id: 89930256FC2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11795-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,arm.com,sifive.com,linux.intel.com,infradead.org,google.com,kernel.org,alien8.de,siemens.com,redhat.com,suse.com,gaisler.com,oracle.com,lwn.net,debian.org,zytor.com,intel.com,linuxfoundation.org,fb.com,snu.ac.kr,vger.kernel.org,googlegroups.com,lists.linux.dev,lists.infradead.org,kvack.org];
+	TAGGED_FROM(0.00)[bounces-11796-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,garyguo.net,protonmail.com,umich.edu,gmail.com,linuxfoundation.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[64];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.wieczorretman@pm.me,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[pm.me:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pm.me:dkim,pm.me:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,wieczorr-mobl1.localdomain:mid]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 4:45=E2=80=AFPM Tamir Duberstein <tamird@kernel.org=
-> wrote:
+On 2026-03-10 at 11:24:21 -0700, Andrew Morton wrote:
+>On Tue, 10 Mar 2026 17:51:19 +0000 Maciej Wieczor-Retman <m.wieczorretman@=
+pm.me> wrote:
 >
-> Did you want me to take this part through rust-analyzer-next? There's a
-> significant rewrite there that adds type annotations to this file, so it
-> would be better if this patch could apply on top (with annotations).
+>>
+>> [1] Currently inline mode doesn't work on x86 due to things missing in
+>> the compiler. I have written a patch for clang that seems to fix the
+>> inline mode and I was able to boot and check that all patches regarding
+>> the inline mode work as expected. My hope is to post the patch to LLVM
+>> once this series is completed, and then make inline mode available in
+>> the kernel config.
+>>
+>> [2] While I was able to boot the inline tag-based kernel with my
+>> compiler changes in a simulated environment, due to toolchain
+>> difficulties I couldn't get it to boot on the machine I had access to.
+>> Also boot time results from the simulation seem too good to be true, and
+>> they're much too worse for the generic case to be believable. Therefore
+>> I'm posting only results from the physical server platform.
+>>
+>> =3D=3D=3D=3D=3D=3D=3D Compilation
+>> Clang was used to compile the series (make LLVM=3D1) since gcc doesn't
+>> seem to have support for KASAN tag-based compiler instrumentation on
+>> x86. Patchset does seem to compile with gcc without an issue but doesn't
+>> boot afterwards.
+>
+>So LLVM works partially and gcc doesn't work at all?
 
-We should ideally avoid breaking it between commits, so we could apply
-it after I merge your future PR, with your Acked-by. Another way is
-next cycle, through rust-analyzer-next.
+The non-working options are disabled in Kconfig so right now only outline K=
+ASAN
+with LLVM works fully.
 
-Cheers,
-Miguel
+>Do we know which compiler people are using?  Google tells me that
+>Android, ChromeOS, and OpenMandriva use LLVM.  That's pretty thin.
+
+I don't have any numbers on this matter, from working on this I only got th=
+at
+there is much more KASAN traffic around clang. So I thought that most KASAN
+users prefer LLVM.
+
+>This is all rather problematic and it isn't clear (to me) how to
+>proceed at this time.  Do we have any projections on when all this will
+>be fixed up?
+
+My understanding is that there is something off in gcc support. I recall An=
+drey
+Konovalov mentioning that gcc also doesn't work well with arm64's KASAN
+tag-based mode. As for LLVM inline support I do know the codebase a bit so =
+I got
+some WIP patches there. But I wanted to see where this review process goes
+before posting to LLVM.
+
+>> The series is based on mm-new.
+>
+>I actually carry kexec patches in the mm-nonmm-[un]stable branches.
+>But the series applies OK anyway.
+
+Should I base this patchset on top of mm-nonmm-stable in the future? I was =
+after
+one patch by Andrey Ryabinin that was in mm-new and I needed to rebase on t=
+op of
+it.
+
+--=20
+Kind regards
+Maciej Wiecz=C3=B3r-Retman
+
 
