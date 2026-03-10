@@ -1,183 +1,143 @@
-Return-Path: <linux-kbuild+bounces-11757-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11758-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qFb4Er+Ur2kragIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11757-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 04:49:19 +0100
+	id mDoFFHmer2l8bAIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11758-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 05:30:49 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0A1245038
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 04:49:18 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45523245436
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 05:30:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2BA1A303F7F7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 03:49:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0701430197D4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 04:30:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A896F320A04;
-	Tue, 10 Mar 2026 03:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34F522C0294;
+	Tue, 10 Mar 2026 04:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMg+xNvf"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="GN9xIYF2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857921547C0;
-	Tue, 10 Mar 2026 03:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C11413D503;
+	Tue, 10 Mar 2026 04:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773114556; cv=none; b=uLGF+ZLbtREKZWxHeTxStGMy7M8HetlmIw6c5fe+gRNmDQLnrUrg4ve1sTXs1CQiMwYCNy81txo6Mpo1YpLQRsZS76iJExdy5i1sVeLzKGDLvsHgo17j4sV3cRwwkiGa/jlCKSfbuMod0SEfS/LaqAxmIP/JbSxy5G+ZAzRSAaE=
+	t=1773117042; cv=none; b=fNH66FBaW6u6HjjGo6NelJ1z/P87NfQtbG0Pq3rz8zZlP19elvJb5CMeYco+hkxgTSjT2SPcPPIEhdxFZkpTXka3rE+4LL4dywavvQwsCRSmkuDYAMwwff/YgW4B3fongzi8PbNBNIPWRBggxKOSpt7NyC6+8e1rahQpTRLPM0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773114556; c=relaxed/simple;
-	bh=NFxovYa1E5E9XiC3eox80OUbokzGqYY+zZvvEMOuk/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AMcqA2s9mN9Xjc/MQE7RxSbRspxvZy8PM1RYO2Yc/Zbgz0EpO/UrY/vQb/Uh1YxzHU2FQvCz+TJYkp7kM1merjTPp1P911P2rVeLTcWEz22UAuc2HMIb+v1F74xtMKH0A6XSeJgNisjS5MS+5WB5ReHT//R31qF54Prg9JkU/Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMg+xNvf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4527C19423;
-	Tue, 10 Mar 2026 03:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773114556;
-	bh=NFxovYa1E5E9XiC3eox80OUbokzGqYY+zZvvEMOuk/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lMg+xNvf5l8hqv/jLsqbzkITt0w00uRfq38nHdAsP5Z3mkJgtKQoDArju5yS8Xo0D
-	 ZOBZpOJtnYrn8Iw4+uDeTZ1zw8GWLqyhEzFYhIDMHrJCYx6UdBXMSTczTZ/nw8juzO
-	 vy3KeR+KnYfqgqnuyV0d6m4KjnPEAT/WDa37+LdYJhKL6qORfg2WDFilgLeUYUE2gJ
-	 tqAdurqcEBXT1dxi1y9v4/6HQhZNS7XeQ+VrolVMBJe9clKRejCIZEYcY4HQKWFgrL
-	 lOSDt3/kr0acsy9uOzrhXPuvBl7jIjMExmotoZwwqneOnNjfhBVvAKtDvkOawz+KKg
-	 ntZFAAUIZKBxA==
-Date: Mon, 9 Mar 2026 20:49:14 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Yonghong Song <yonghong.song@linux.dev>
-Cc: linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org, 
-	kernel-team@fb.com, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Song Liu <song@kernel.org>
-Subject: Re: [PATCH kbuild v2] kbuild: Reduce the number of
- compiler-generated suffixes for clang thin-lto build
-Message-ID: <r3cg6mdciwbjybnjjly7znam4xhslb2pnb5fhoafzz4tcui4cy@eyqzma6osi5z>
-References: <20260307050250.3767489-1-yonghong.song@linux.dev>
+	s=arc-20240116; t=1773117042; c=relaxed/simple;
+	bh=UdKMMY6l5tRhLsXLDOlXyBZfiGFBbADixixWV/vsMyI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=RxDz8HkmsIF1OqQ8cwo91JxHmvXCtWW32OU55LCSqV1GxIBM9ueZQComDsqm3/8x10djSxzFFcs2+VwaUjxoKkN/kaEPiLFcf1P9wL9fhloX+FIatxCc9EchG1GF8oojDBivQBF0Ky2CR1wFsRkSztSfntlyZHw4DDpjK34/iXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=GN9xIYF2; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 62A4UYfK1107931
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 9 Mar 2026 21:30:35 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 62A4UYfK1107931
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026022301; t=1773117035;
+	bh=UdKMMY6l5tRhLsXLDOlXyBZfiGFBbADixixWV/vsMyI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=GN9xIYF2nSkpDsF7cND0ENEeduy89gNxPa/Vzh8f4YaFKsRj3rM0DZ4/dYiOaQeG2
+	 6OlddoPeJAPs2iKga4To61xW16zRU+/1wLBvAo+WtYAj2uzarSP/A02UiVBB2SaIAw
+	 pD6TwA76LQyPwI8xwQlkqt3UHd4X69xzKpyGJT7nnJfQzIu99mnznewnJogoSu/ibG
+	 vzBChekWBbuQoygFV8CVXHNd3owXMD9qe+VpZOIYcmNaqamynefKtlKvhwWcEGOW15
+	 oceLAkD+35CcY3iZ4+T8EDYSE30EFimA1mVgUS+d/3F9XM02wy0tf9YhoYu6CXbpa5
+	 ++Cp0ZMteegCA==
+Date: Mon, 09 Mar 2026 21:30:29 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Askar Safin <safinaskar@gmail.com>, nsc@kernel.org
+CC: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        nathan@kernel.org, safinaskar@gmail.com, Rob Landley <rob@landley.net>
+Subject: Re: [PATCH 0/2] Move tool for generating initramfs cpio to scripts/
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20260310015416.3034078-1-safinaskar@gmail.com>
+References: <20260309-move-gen_init_cpio-to-scripts-v1-0-0c5059b1ec5b@kernel.org> <20260310015416.3034078-1-safinaskar@gmail.com>
+Message-ID: <F0129D94-2B47-4F2A-AA5F-D3F7F2017C05@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260307050250.3767489-1-yonghong.song@linux.dev>
-X-Rspamd-Queue-Id: 9B0A1245038
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 45523245436
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[zytor.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[zytor.com:s=2026022301];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-11758-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11757-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,landley.net];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jpoimboe@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hpa@zytor.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[zytor.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,lpc.events:url]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, Mar 06, 2026 at 09:02:50PM -0800, Yonghong Song wrote:
-> The current clang thin-lto build often produces lots of symbols with
-> suffix. The following is a partial list of such function call symbols:
->     ...
->     ethnl_module_fw_flash_ntf.llvm.7631589765585346066
->     __nf_conntrack_alloc.llvm.6438426151906658917
->     tcp_can_early_drop.llvm.11937612064648250727
->     tcp_print_conntrack.llvm.11937612064648250727
->     ...
-> 
-> In my particular build with current bpf-next, the number of '*.llvm.<hash>'
-> function calls is 1212. As the side effect of cross-file inlining,
-> some static variables may be promoted with '*.llvm.<hash>' as well.
-> In my same setup, the number of variables with such suffixes is 9.
-> 
-> Such symbols make kernel live patching difficult since
->   - a minor code change will change the hash and then the '*.llvm.<hash>'
->     symbol becomes another one with a different hash. Sometimes, maybe
->     the suffix is gone.
->   - a previous source-level symbol may become a one with suffix after live
->     patching code.
-> 
-> In [1], Song Liu suggested to reduce the number of '*.llvm.<hash>' functions
-> to make live patch easier. In respond of this, I implemented this
-> in llvm ([2]). The same thin-lto build with [2] only has two symbols with
-> suffix:
->     m_stop.llvm.14460341347352036579
->     m_next.llvm.14460341347352036579
-> This should make live patch much easier.
-> 
-> To support suffix symbol reduction, two lld flags are necessary to enable
-> this feature in kernel:
->     - Flag '--lto-whole-program-visibility' is needed as it ensures that all
->       non-assembly files are available in the same thin-lto lld, which is true
->       for kernel.
->     - Flag '-mllvm -always-rename-promoted-locals=false' is needed to enable
->       suffix reduction. Currently in llvm [1], only process mode is supported.
->       There is another distributed mode (across different processes or even
->       different machines) which is not supported yet ([2]). The kernel uses
->       process mode so it should work.
-> 
-> The assembly files may have some global functions/data which may potentially
-> conflict with thin-lto global symbols after the above two flags. But such assembly
-> global symbols are limited and tend to be uniquely named for its context.
-> Hence the conflict with globals in non-assembly codes is rare. If indeed the
-> conflict happens, we can rename either of them to avoid conflicts.
-> 
-> Nathan Chancellor suggested the following under thin-lto:
->   KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
-> The '-mllvm -always-rename-promoted-locals=false' flag is only available for llvm23.
-> So for llvm22 or earlier, the above KBUILD_LDFLAGS will ignore those two flags.
-> For llvm23 and later, two flags will be added to KBUILD_LDFLAGS.
-> 
->   [1] https://lpc.events/event/19/contributions/2212
->   [2] https://github.com/llvm/llvm-project/pull/178587
-> 
-> Signed-off-by: Yonghong Song <yonghong.song@linux.dev>
-> ---
->  Makefile | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> Changelog:
->   v1 -> v2:
->     - v1: https://lore.kernel.org/linux-kbuild/20260306034325.3605301-1-yonghong.song@linux.dev/
->     - Removed the new config option and use ld-option to check whether new flags
->       will be used or not.
-> 
-> diff --git a/Makefile b/Makefile
-> index e944c6e71e81..e4385af16985 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1034,6 +1034,7 @@ endif
->  ifdef CONFIG_LTO_CLANG
->  ifdef CONFIG_LTO_CLANG_THIN
->  CC_FLAGS_LTO	:= -flto=thin -fsplit-lto-unit
-> +KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
->  else
->  CC_FLAGS_LTO	:= -flto
->  endif
+On March 9, 2026 6:54:16 PM PDT, Askar Safin <safinaskar@gmail=2Ecom> wrote=
+:
+>I like this patchset=2E
+>
+>Rob (CC'd), does this solve your problem?
+>
+>Also, in [1] I said:
+>> command
+>> "make usr/gen_init_cpio" doesn't work in clean kernel tree even if
+>> config exists (I checked this)
+>
+>Now I tested this again, and I see that "make usr/gen_init_cpio" indeed
+>doesn't work in current mainline in that scenario, but
+>"cd usr; make gen_init_cpio" works (how I supposed to know this?)=2E
+>So, problems in [1] are not as big as I thought=2E You don't need to buil=
+d
+>whole kernel two times in that scenario=2E But still I like this your
+>new patchset=2E
+>
+>Also, I think that top-level "usr" directory exists as a placeholder for
+>klibc-init project (this is merely my hypothesis, I don't know for sure)=
+=2E
+>I=2E e=2E it was supposed to contain source for userspace init program, w=
+hich
+>was supposed to be put into default initramfs=2E
+>
+>But klibc-init project, unfortunately, seems to fail=2E So, I think we sh=
+ould
+>remove whole top level "usr" directory and move its contents to other pla=
+ces=2E
+>
+>[1] https://lore=2Ekernel=2Eorg/all/20260220191150=2E244006-1-safinaskar@=
+gmail=2Ecom
+>
+>
+>
 
-Thanks, this will help a lot with livepatch module generation.
-
-Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
-
--- 
-Josh
+Well, it worked, but got vetoed=2E It is still maintained out of tree=2E
 
