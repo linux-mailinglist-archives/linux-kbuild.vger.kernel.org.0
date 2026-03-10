@@ -1,268 +1,190 @@
-Return-Path: <linux-kbuild+bounces-11809-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11810-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ADRnHg+dsGnwlAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11809-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 23:37:03 +0100
+	id eLPhECafsGkwlQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11810-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 23:45:58 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50B2258FDB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 23:37:02 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 406DB2590BB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 23:45:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9F7553038149
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 22:37:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 829243025E35
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 22:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFC03AEF30;
-	Tue, 10 Mar 2026 22:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56553BE62C;
+	Tue, 10 Mar 2026 22:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="pBi2KuFT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JIkxt3pp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022113.outbound.protection.outlook.com [52.101.101.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3338A1F0991;
-	Tue, 10 Mar 2026 22:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D502FE042
+	for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2026 22:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773182220; cv=fail; b=fxNsSnqGd7H+MlED/1y7kxFVDusuPST4yL+yqfxTOgAxyT9Y0Z/xctyr8+GKL8Kx1zmChBXKhCndrCVvPHnffIre2l2/WuVVji7o7bwo252lWMJ88gDJNoCCow3fsvDbtInaBI5voomfrMc4Ey68ZQTCnDyzR5zHC2LCYVO2KbE=
+	t=1773182747; cv=pass; b=mN04ItLP/IXrAAmDAASu6UpPI9kjvU+bJvN4j7bl7O69VT8B97aJwV2SbRGArIHxKvCzr5J4pgyiLFOrbbCw3dCciujliKElM7XfsIHh8taQqXe4t51epnhcrnO/H2KcRI5P1lXG6V3NczNpcXEV4w0hmSUevYNJ9w5Jg3/avu8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773182220; c=relaxed/simple;
-	bh=xxLn1iwMQy9mdGkxN9mwbN3ZRZeiIFKs9bWe2GRNwUw=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=l1W5Ly9D34h0GoqXjRPH1mqvKobC7zQJpN2ynteP46Ff36dnrH2AjrOHAmQ+ktmJYwpK/nMIzJbcdWZ0RkfuphoBRuigWcBFDlmTyz6h3z1plkeS5a/dLos0A0xVn95pzNvkKJUD/V+DiiszABj46J8HOeliSV4J8e5z14w3Uec=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=pBi2KuFT; arc=fail smtp.client-ip=52.101.101.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fHG2K/wkIdWzyJjMtUN1Gp2w7++lYCyODIMPfC3ElY3w4pTKbWsS166tSrXDdaq6JbSMyC50bw7ZEfOToJQrvmMslM60qyPkVP1ITElgczDhNjuxfPF6eVvdwKlSCKj8sfev58r9qtkx+cvMEorxRgnDSSChduIIglzyWjqE3pmEYLkX14cqfXku8VwyrBLFrl97YRRG5bWQU3W3//n53s+da2W+e9eGen2gdQCedlAdSDiPQuZ2+XCpZ9QFuaAmRYemRCmCuC3wnu1ToABhQn7AI4IXagzfeFo9t0pZoIZtP3jPVWmVdZvKMdSH1UUPdKUA8qv98eElP3WeJWFP9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v6oEcnWzX+B1zMr+4BQYSRJ/2m72Tiwyqp4AcdyvLd0=;
- b=wNFiv3zfU14iUR/cDNe42+fQvW2aMNV8aJzOtLdpWdLZxw1kQKsl3piVqq9OV6lhNBeYtirj2mrNVBTP9uB1iyEy5VKvmJARKEgWTYJU5k2LNG4Wy7zEOMFmnB9BUANJgx+x+ZMU/s3R+1Hmyay/lECeDuHUA2mVb3/nmBLtge+cvus8ykwmovdfbFTuGoKzQkMwTi5CJDGnNv4UUrCNiLb5iRhF+fgA4BOo779B3PLXzBVNYaHJZ34opAWSbx8meiIheQ0MsOPN0CgDSRAxs7JxLlugc+op3rTTnFuVZb81lKX9Ihw+6eXoC35FNjr8su2rz+Ko141A5P/JVQ6UDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v6oEcnWzX+B1zMr+4BQYSRJ/2m72Tiwyqp4AcdyvLd0=;
- b=pBi2KuFTtUT3DZ1zxSRWAb9e8eFQ511NK/EJ+F+eaujmcnuH3f9bJe0kEqvwBzDK6nEJk1EKFoxe4Eyl/9SjkRIyGBuYc/MAbJX/kd/bHp4TkMdsIZHWOBnI3zOqiw/XgVwqiOJJXYsvyL060sz/n0Hd3g5eSsZZooM8remqFTg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB2071.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:86::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Tue, 10 Mar
- 2026 22:36:56 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
- 22:36:56 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Mar 2026 22:36:55 +0000
-Message-Id: <DGZGMWASD35M.4Z0SYXHS15Y3@garyguo.net>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>, "Jesung
- Yang" <y.j3ms.n@gmail.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Carlos Llamas" <cmllamas@google.com>,
- <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] rust: support overriding crate_name
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alice Ryhl" <aliceryhl@google.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Tamir Duberstein" <tamird@kernel.org>, "Nathan Chancellor"
- <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260310-binder-crate-name-v2-0-0f7c97900d36@google.com>
- <20260310-binder-crate-name-v2-1-0f7c97900d36@google.com>
-In-Reply-To: <20260310-binder-crate-name-v2-1-0f7c97900d36@google.com>
-X-ClientProxiedBy: LO4P123CA0249.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a7::20) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	s=arc-20240116; t=1773182747; c=relaxed/simple;
+	bh=NwwXHeQBm0xRS2zYJadsYZWaw82EYyPo5w3EDKS9vp0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=i8s09B6KbcOwD1Bmq+ql9pP5MWG50OoNjh51vS+gL8QzFShgYLtOJXcgOl1hfO4wP0IC93YpCD2wolrUKGqi0d9n0ImgpSjJpX77mURNj7QRE1CIQ23WiQTCvyZvn2Z3nbvG9GLoTAxUIL5LQhBLq5U/UIL+gsUId0icNvRnOvo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JIkxt3pp; arc=pass smtp.client-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bd5658b901so947388eec.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2026 15:45:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773182745; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hGgphxK86/Sv0wWPzzbkcAmrfp0vCQ2euAyhWKTtcI/0hUBgookIviEA4UgTvW2gCY
+         2W7Z8G9j+hParwhhpb2Bbmihcb6MxCiBRUd9r6KPEEOaGqiFhlL7N/7NAwkoWWJBRo77
+         VjcOLuOOKA92UKeUPeVEaRXujLtvAgZaCpm/z0c2qnBygx7+X3nnaC6e3rURSs58mlqM
+         3uk8dnNyGJqOTKrW3oQlOTlENXtk2TIA7B0XNiYYC28HIG7fuDacQkQqMeMBbeTzaHI7
+         7YjGmnE/S3+PzUqRfmFQo5vQRABfaXoY7RJJh+XLew7bxOw6RsQ/fTxngUf2uXJ6ytoH
+         GTYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AcppTpjnVFhwx13Ei2/3uaCsu4NJqsetsGA5pNmZ6VM=;
+        fh=7LubV0KRQH/IVCW+ep4EVtaZZOROfSNzCrLKl59krws=;
+        b=SZB0izdGfji+EM8k3L2RGfL7H16Jns4wS8NRR+lecXerppKM2gA/5Gp4gAVlys3r7q
+         vgdlHCuZ12nzp8gKS6G5Os9siFDdbw8Il2IHgERyo2/5SC+EeFtOzcg0BsNRmKTgZF/A
+         rfscpaD0LkYEyPrgUbfGQVuomnYNpbN5F1aI/OS11ZzdUgnrHBx/p/lpDq0eOiz68anG
+         5ZPJP+lSZ3tbI0lyAlNyGwisZcSPzFipqNe6UROCHBZfQ7zSlExNSUI9j7eUU0NL68+r
+         EfFnQIanHDaqroKnzJx5SE6fQ6MAnqDxwPkIUBDvjvBWhXeWPnR6FMvRKmYG8by3cltb
+         PxFw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773182745; x=1773787545; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AcppTpjnVFhwx13Ei2/3uaCsu4NJqsetsGA5pNmZ6VM=;
+        b=JIkxt3pp3CLOTQqhAFNxefuFPdiS2it8Up4l96I8OJHdXhDWcgEev4/os3tOee73zP
+         P2pV/pv2tTXFlt4VZByLmwvD/VncXBozBRgi7EeFuqKrCqgd1s1bk2IFi56ilA+Zd0CG
+         r/O3951dFGhc4crweV6247RJBXeNSHeY+Q7oIn3RLQ37/O3Slr/lwTNGPNuxCCn1V8UP
+         Ke8t6cVagVf5YVaQDJh28dV6fFGcEkSVXSjIbvbLKF5ECSmUxkwt490c++kumccQRa1H
+         cUBjr8q+aEAlxsAvnncuz9F/k+tYCkUf7TDaUAG6t/4vEl4lMWTh7d4NcunXbnY0wX8q
+         /5Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773182745; x=1773787545;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AcppTpjnVFhwx13Ei2/3uaCsu4NJqsetsGA5pNmZ6VM=;
+        b=LoukALbGbYtqSPvGdl/X3aTFDUfwH2+pQ5hpKZ4X8hsuKPX/TzUCUF3NQTUrQAwjkJ
+         irKi1YRpnc13Ret1XYsK77KQzL0rST4WqKJZGxWvmFqUHl6BgCPxy/cfU2votgHL1n5B
+         bCyPAyDWlu0fL9hKzAllmyean/IFiwSN8o0JMa0KHGhAIkR6G/O+GzAzx+yuJeDcRaO6
+         jPbPzPn9X4JVLyhBV+5DwCaBKHw69P2PKfh4FZ0i7wAY4NdtAbHGkCR8q0GgGgVFWhm1
+         LVf/oUTDQv9UTpN1RzD7P/UOn0oNMUqyDBCk12/EY++PGd232UUpS0SEdyYEuwoE+HcK
+         HkxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXXaomqUyii6ix8nx59O5RegBo4KNwdCgG80k84H0eH3OBfMz1fyehXV5aG9nUggW1idYaMQ8UX6YHgP7A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBB5/blZY62lRUv/zbKVhfFbj82FE8R3D8Cglw8sXxsv90IM1M
+	aL3oJtuMlZZSARaiBkRWt/7tfPHACisI4ZUPsAqsRoD/kWjTRZQO4Y309TfJ5D83jR3uQE9brtx
+	VwD2xCefDGCIHT4AuQ4i7P7R5q3f+XAc=
+X-Gm-Gg: ATEYQzyWXFUeGVKRTE/DrMaCcnrb7arDVHoSvaB4QPBf5I7NVbsyA2bggOT5OilaHm5
+	OJU6C5THa0h2eJ3gKFVxvrUtQQtFmpQsA8GREzSjFK8Nm6MpSpJW6JciJbJtVwZ0++VW9G2r+cd
+	gwKx+3zLhuxToHqJLxkQhRjqKXk/Gj/XtCo5otbiMNg8WkEwgdcPB3VBMIrh8uE5Ja2svAMMeb5
+	ncC2aIEoJfgD7g02wK+p0x2JD//lworVOkAbUIFtrjEVyud4AdLMoXNLSZ7Nd4tojvc5frrUoQs
+	uNrm3jJpieRmLNEhZqmds7DW03l/6CY+gCOgKoArqXtMoLN0QCG2kp1Ecg0osaG6s0DRzwY+H3c
+	xq34vjM9QHUtTatReW4iqU2M=
+X-Received: by 2002:a05:7300:3253:b0:2bd:d111:cf18 with SMTP id
+ 5a478bee46e88-2be8a589a62mr79976eec.8.1773182745139; Tue, 10 Mar 2026
+ 15:45:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 069b8283-ce76-485d-fa18-08de7ef588c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016|7053199007|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	zTuNhqcuckV2Wi6e3mtPSRVlRw8w1n42Pz9Ys1BRRsGLY7rZ4QZ/YXFMWX5wOp+idOGnGp3NEo1QM6kWOHslAWFwgs3hJd7Df8GfwTSVcncyoCr85CWu6pFhqnt2uPlyygfeDGERLF9SUJ960A2vqMxwsL4kophJ8fA4Eb5r/UfshjkKnDlP8TKI+l3WI4430Vr859QKUpRhHcekdhZ0RmSYtJsda5oNyYDycahhlov9ZKqjKjvGD0EQyF3m5bh9jMatptfl9zkKFLz/bCuzT72YvRnhjE+7sPui8oi1HZQ0UF4X4yTeKhNMQbY4tno0mJLyq3v7c7Nckt+alFhQ8lF2bDOvjp8LboRgF4sTcbHHUENsQ8X7PB8ZNR6x1b1jzCnhNwAD6IWrvQxGSAmw5MZfEJQP6P/2u8uG/9xctSh+vOvte7+IRmaODgmouW6m19o/KU7CPIGuBaFYB+T6U1LobduMqfaupNH/CZtonSGJP64Krub9Giw8/37wo/DyBmbLbn8B2mADJr970X7t9WdfKESjK1g5hzNpjay3fgpi0vn5aqklVKQl6OkB5iijUuGbMGGx39AqgVKWLzVDOGGLICWgCz0qricDQ9oKiJJ8LVBh7ijAJNm5f1wVRK/8Ll2TnjIpAisSHzmMkyG5oTeKa6XKqNx95ateJaRpGhT99JtfRoiKPzKYUc7ZZCV1/aFcNjYrxYVhb0uuev5og9aIF1/ldmx8TCWpGCLEe2s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(7053199007)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TlRWUklzbE9FSWc3YldPR01mUjdhMVgvdlFBZTBlZjlZZXpYbnZmSU9jMnpt?=
- =?utf-8?B?MDFJZU51MEpBdXNWMUdMMytjbUxlSFpnWlFWZGpBODI5Z2dxYnQxTG8wUjNo?=
- =?utf-8?B?OEwzVEJib1BIdXoxMTljTHN2YmZYRlhNUW8weXRjOVVGd1d0N0dvY0VCK1BX?=
- =?utf-8?B?ZlQ4QWVDbnRlV1JyK2hPak1ZT0lDSVZaWXkzNW9vbWhUN1FSNlJDanZSUjND?=
- =?utf-8?B?cmdmcnAyRWVwWWx0c3FiSEJOY0xyRDFrWkF2V3Q3cDhySkpNMmVaU0pBRTZv?=
- =?utf-8?B?Tk9mdmRGSmhPMWlGYnduV0tTYjBLUlJGb0FRTzV5alorcnRVc2pkSG1HdXNs?=
- =?utf-8?B?c0VvU2lHdHBoWWFpUmZyR0xzZmJIUWdzTy81SFZYMzhCWnVpbGFzaHRHcnhW?=
- =?utf-8?B?Y2hlTUQ1VDE1ZXRYbU0rNUU5RlcwaURDVEVtQ0lSMWNGY2QwSWVlRW5zZFd2?=
- =?utf-8?B?SXJ4STh6VkZIMFpHYitySmtYeW13QnJFUTB2Qzd4WEN6N01pMXo5SlI5T0Yx?=
- =?utf-8?B?ZW5kb2ZNQVRGWkZ3TFR1aTJIOFBZV3FMZG96U2FDTDhWV3hIQUxTbnhtSXVv?=
- =?utf-8?B?YlhPVE5pM2dMSDcvOFFNdnF5Q1dDQ0s0VlJJb2JXRndRVlI2dXlJQVljMjBG?=
- =?utf-8?B?cUw0c3Q1T3F3cW5MTzV2YndNckZ6eFV2eENwMDVBUmxRM0lCM1MvZXY3QWs5?=
- =?utf-8?B?MkduVWFPWE9LSGRwTU5uOEEycTZFMjJOREx2dndlT2VtS3F5d3QyeEVwN2JE?=
- =?utf-8?B?Q3ovQUl5RXVkREd0Wk14OWVZWHkxdHZsTlpJSmJxcm10aWhFZ1MxOXBCUzl4?=
- =?utf-8?B?RHRxdXRVanRIR1dRaGQvZGZsMWttMjBEVGVJaTh2a0M0WGl3SkhyWmNzRWh6?=
- =?utf-8?B?RTQ4YndRYWpjdnJPcEtFcytjdnFYYnRCbjlqK2R6cjZUOFlEdDVFaktNNGIv?=
- =?utf-8?B?MWdVRmxlbTh4TEN5eDV5eDhvMHBCb0VxcEx3Q2Fmb2htUVFqRXRUVm9TYmh1?=
- =?utf-8?B?azl5WWMxbjlOR0xzaitISzdHZkhhMjFpUk9vMXVxYkE4WCtqMnJiTWMxbXY5?=
- =?utf-8?B?ZkZqRnBLZ1NiajhkUHRSOFdySjl3MytHWmxYcFlXdzhOK0dyQ09sSHorU3h6?=
- =?utf-8?B?TzFERFRqMnpmNnE0Z28xQXA4NnB6bm1zNDMrbTg0TXM5dkVKamRNSVo0YnBZ?=
- =?utf-8?B?VTIvcldPc2hoRWJJTy9aaWRmSnRZcTNDUEVpQ29JKzJsa0ZxYjZGQzFaL1JR?=
- =?utf-8?B?UTYwSjVnVTJqTWxna2pFUUN6eERsc0NBMkpydTlJazZ2Q1FMSm5Bd29QUGlY?=
- =?utf-8?B?NjI3UXVxM05tYnZTKzZ3ZnBwekZ5Q3V5dndVbW1GZm94S1QrV2FUK0V2cnRj?=
- =?utf-8?B?ZGIvMndTV1JBbDBzZGVuNlpVSzNDdHAzMXBIemF1WWhCczBFSVVuUEZGRG5h?=
- =?utf-8?B?UVVzeHp2MVdWcmgrTkpEMjhjcHFoN2dFdUd5bjJxUWFiMTZ6QjBqNmRsODdy?=
- =?utf-8?B?QVdsYlY0VktPb3BCSjgxMS9HMWpqekZmSjhKUVNreTRNN2FaVE16ZVN0VHZo?=
- =?utf-8?B?aHdlcE9ya3JYQ1pocmJJeGJZZ0Erejk4R3pVb2hoaWNNcURvS2V2QkpMMk02?=
- =?utf-8?B?MVZxUnF3L0NqdkdYcGQ2Q2xMMythTUFmVGRzL0lka1NGMFZoV3NLRHVPZFRE?=
- =?utf-8?B?L050YW9vQjBmcVdacFY0Nk1Yc0pxb29nY0JkTURwd1M0V0E4d3FmVjhPYnNl?=
- =?utf-8?B?WTNFUmIzZk5ScjNzaUFKS3JlWHB1YTNaR0xVSHEzejlzTGFMYWFQclo0VUt5?=
- =?utf-8?B?c1VyKzBnUmxTc092TVpjK3JLNEFiQ1RCdm5GdVVSK2FacjhTcjh3SFBSNnpi?=
- =?utf-8?B?QTIwNlkzK0hCdkkxc2JOOWtYeWdIcXcxQ3NTcmk4SldnR3Qyam9KOEJTc2lx?=
- =?utf-8?B?OXF1LzREZHE4RWR4cFJjUHA1RnpkK2I0NVR3d2xoUkRpNmhaSEJ6SXNNK29X?=
- =?utf-8?B?SWwyUGVPcXRKc0NUbTBTdCt3Y0FZSG8vWlBXRUNDQVBHeHlrb3pNdCtDSU1w?=
- =?utf-8?B?bGtmRXdjRmFxYWZwRVlNaFdqY0JTUHh6aThPcnhDSXFNVWZJclRQdG1UUi9r?=
- =?utf-8?B?WXNBK3p4MHNaV1pJQmRNUUxNZ0VVSTRlVExBRG45Y28yVzRhbXBENTFIbHQx?=
- =?utf-8?B?S3NDdzlmb1FIaTAycEdOQ0Q1eU5qMnR1QjZ0azVCVEVDbGFlUjdmNjRTcHN1?=
- =?utf-8?B?WXFacWVCTCtXNE9hTG95TzFVOEFLNlRLd1FLcFdEUjdJNjd3dk5zQjVaeUlw?=
- =?utf-8?B?K29qU2doSkYvd1RhNU1KVlJNWEowVmliRnN0ajhsQkxWbzU4dGRmQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 069b8283-ce76-485d-fa18-08de7ef588c2
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 22:36:56.0492
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w5a6iPVxfAKRsIA2+gDS+V61+2TRr5Lovo++2p0TcGC//Z8jCoVrmmGNVp8puqUUq/49UlOLMvPaBdgqdgZZbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2071
-X-Rspamd-Queue-Id: D50B2258FDB
+References: <20260203221224.GA2703490@ax162> <20260205131815.2943152-1-mlksvender@gmail.com>
+ <aYS9bRugxr1rUvA3@levanger>
+In-Reply-To: <aYS9bRugxr1rUvA3@levanger>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 10 Mar 2026 23:45:32 +0100
+X-Gm-Features: AaiRm515Nd5QLPcAZuOPkqTuJziLIjbUrquMksP3iOdIj6zJC7o4W4g4PWJLZlo
+Message-ID: <CANiq72n-z0v_deUVPWeg1h0c6KQ+r6xfNDf72o29_0yy6KbqGA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] kbuild: add rustc-max-version macro
+To: Nicolas Schier <nsc@kernel.org>, HeeSu Kim <mlksvender@gmail.com>, nathan@kernel.org, 
+	a.hindborg@kernel.org, aliceryhl@google.com, bjorn3_gh@protonmail.com, 
+	boqun@google.com, charmitro@posteo.net, dakr@kernel.org, gary@garyguo.net, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, lossin@kernel.org, 
+	miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org, 
+	rust-for-linux@vger.kernel.org, stable@vger.kernel.org, tmgross@umich.edu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 406DB2590BB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11809-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,gmail.com,linuxfoundation.org,google.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-11810-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,protonmail.com,posteo.net,garyguo.net,vger.kernel.org,umich.edu];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:dkim,garyguo.net:email,garyguo.net:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Tue Mar 10, 2026 at 2:53 PM GMT, Alice Ryhl wrote:
-> Currently you cannot filter out the crate-name argument
-> RUSTFLAGS_REMOVE_stem.o because the Rust filter-out invocation does not
-> include that particular argument. Since --crate-name is an argument that
-> can't be passed multiple times, this means that it's currently not
-> possible to override the crate name. Thus, remove the --crate-name
-> argument for drivers. This allows them to override the crate name using
-> the #![crate_name] annotation.
-
-Could you add a line about the fact that crate name have no impact on outpu=
-t
-locations as we always use fixed emit paths, as we discussed in v1?
-
-With that change:
-
-Acked-by: Gary Guo <gary@garyguo.net>
-
+On Thu, Feb 5, 2026 at 4:55=E2=80=AFPM Nicolas Schier <nsc@kernel.org> wrot=
+e:
 >
-> The --crate-name argument is kept for the crates under rust/ for
-> simplicity and to avoid changing many of them by adding #![crate_name].
+> For readability, a less-than version check might be easier to read; and
+> that would probably better match the suggested version range check:
 >
-> The rust analyzer script is updated to use rustc to obtain the crate
-> name of the driver crates, which picks up the right name when it is
-> configured via #![crate_name] or not.
+>     rustc-lt-version =3D $(if $(call rustc-min-version, $(1)),,y)
+>     rustc-version-range =3D $(and $(call rustc-lt-version,$(2)), $(call r=
+ustc-min-version,$(1)))
 >
-> Note that the crate name in the python script is not actually that
-> important - the only place where the name actually affects anything is
-> in the 'deps' array which specifies an index and name for each
-> dependency, and determines what that dependency is called in *this*
-> crate. (The same crate may be called different things in each
-> dependency.) Since driver crates are leaf crates, this doesn't apply and
-> the rustc invocation only affects the 'display_name' parameter.
+> so that the actual version check could become
 >
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> ---
->  scripts/Makefile.build            | 1 -
->  scripts/generate_rust_analyzer.py | 8 +++++++-
->  2 files changed, 7 insertions(+), 2 deletions(-)
+>     # The bug was fixed in Rust 1.90.0, so only apply for 1.88.x to < 1.9=
+0.0
+>     rustdoc_modifiers_workaround :=3D $(if $(call rustc-version-range, 10=
+8800, 109000), \
+>                 -Cunsafe-allow-abi-mismatch=3Dfixed-x18)
 >
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 32e209bc7985..adc3e2d1ac78 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -332,7 +332,6 @@ rust_common_cmd =3D \
->  	-Zcrate-attr=3D'feature($(rust_allowed_features))' \
->  	-Zunstable-options --extern pin_init --extern kernel \
->  	--crate-type rlib -L $(objtree)/rust/ \
-> -	--crate-name $(basename $(notdir $@)) \
->  	--sysroot=3D/dev/null \
->  	--out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile)
-> =20
-> diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_an=
-alyzer.py
-> index f9b545104f21..d25bc3d7e719 100755
-> --- a/scripts/generate_rust_analyzer.py
-> +++ b/scripts/generate_rust_analyzer.py
-> @@ -194,6 +194,12 @@ def generate_crates(srctree, objtree, sysroot_src, e=
-xternal_src, cfgs, core_edit
->          except FileNotFoundError:
->              return False
-> =20
-> +    def get_crate_name(path):
-> +        return subprocess.check_output(
-> +            [os.environ["RUSTC"], "--print", "crate-name", path],
-> +            stdin=3Dsubprocess.DEVNULL,
-> +        ).decode('utf-8').strip()
-> +
->      # Then, the rest outside of `rust/`.
->      #
->      # We explicitly mention the top-level folders we want to cover.
-> @@ -212,7 +218,7 @@ def generate_crates(srctree, objtree, sysroot_src, ex=
-ternal_src, cfgs, core_edit
-> =20
->              logging.info("Adding %s", name)
->              append_crate(
-> -                name,
-> +                get_crate_name(path),
->                  path,
->                  ["core", "kernel", "pin_init"],
->                  cfg=3Dcfg,
+> or:
+>
+>     ifeq ($(call rustc-version-range, 108800, 109000),y)
+>     rustdoc_modifiers_workaround :=3D -Cunsafe-allow-abi-mismatch=3Dfixed=
+-x18
+>     endif
 
+Yeah, exactly, I think the range check looks simpler for readers.
+
+I would say let's do it as an improvement on top, and to simplify the
+delta needed later on and to avoid the `99`, I will change the patch
+on apply to be `rustc-lt-version`.
+
+If no one shouts, I will do that, keeping the Acked-bys. Then we can
+easily add the range check on top.
+
+Thanks!
+
+Cheers,
+Miguel
 
