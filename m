@@ -1,178 +1,160 @@
-Return-Path: <linux-kbuild+bounces-11787-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11788-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HEqFAZIsGnFhgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11787-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:34:14 +0100
+	id YBKxJ8hYsGmMiQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11788-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 18:45:44 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD55A254E06
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:34:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF2C255D30
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 18:45:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C749A316B3B3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 16:06:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3004A309E297
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFC83BF686;
-	Tue, 10 Mar 2026 16:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77E703D47BA;
+	Tue, 10 Mar 2026 17:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU6ukDu/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD963BF675;
-	Tue, 10 Mar 2026 16:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5464B33A717;
+	Tue, 10 Mar 2026 17:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773158802; cv=none; b=ulVeHXy68WUiBMm9grCCOrEKEByqFzoYrWJ3xyLJ6qB28mCbw4N607qMFOUr2rVkK8CT9WctWLF8Ie614vT/B99h209SeV3gNctqUNLISd5en2A4nLU/HRyiHOGpdA3Ue+QQz1vzHwGrRCEUP76t1+zPSRyHbYJKuBcz3ovuVxk=
+	t=1773164435; cv=none; b=GajNEKGxyFAuJeZU12K1ICucZqEABgGlQDet3lyGYvJhHIG12TUpEoaZpYmmU4/E86vwVK5Q3/kZNWkAIbw6ry64AbtcQ2XSPFzLmyO3xwxjUZ0U34uL+bKhsnwQZBfian8kFUH0R1oBPKGf+bJYg6xG8mYh/yuqVlj4zO1F6fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773158802; c=relaxed/simple;
-	bh=pFTE7f4sOuYyaW3cEsKIhXjgl8+epJV62o4SfIfOkEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u4sWZa6C63fhcUkoZsdTv0Zb9CUAYytQbjzA4ZUZklxuDCIppLBeRjwCOjUKLAaxE1L2j4BaM4uZVoijrLcDQKAu5CAXJPyRB1Ztyq8RAy1S11Yhpty1NDApEQfEi4ESuF/uLInCCITIh7tAeAg74MvMD007Vn7Xws9fHSULxPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 499781596;
-	Tue, 10 Mar 2026 09:06:34 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E69A3F73B;
-	Tue, 10 Mar 2026 09:06:40 -0700 (PDT)
-Date: Tue, 10 Mar 2026 16:06:38 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>,
-	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
-	Quentin Monnet <qmo@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	William Breathitt Gray <wbg@kernel.org>,
-	Barry Song <baohua@kernel.org>, Qinxin Xia <xiaqinxin@huawei.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Kent Gibson <warthog618@gmail.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
-	Andrea Righi <arighi@nvidia.com>,
-	Changwoo Min <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v3 29/30] selftests/nolibc: Append extra cflags
-Message-ID: <20260310160638.GD4153946@e132581.arm.com>
-References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
- <20260308-tools_build_fix_zero_init-v3-29-6477808123b7@arm.com>
- <bb278652-8654-4473-b12e-b24b36ec3845@t-8ch.de>
+	s=arc-20240116; t=1773164435; c=relaxed/simple;
+	bh=dZcsL0fWmyyyT+dQAR3Tw27jgu+4nBjdpMoWNfXiRGE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=o8tpO5Ds1SZTCGl0LSk7wUR/wJH0Pw4U6ETFUXzWW8bIRtEdCGGs+0LbNFvCCwQL61Q8Td5U4kcbZx/Sm+RmaCRMpW9sqsPHwbZim3YNAvhhjy63ZOxM/ITkeqWqGx3vDZID7fuTf7RPpYRMmJnm8AcNofF4eyAH1SzUvoU8jTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU6ukDu/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93826C19423;
+	Tue, 10 Mar 2026 17:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773164435;
+	bh=dZcsL0fWmyyyT+dQAR3Tw27jgu+4nBjdpMoWNfXiRGE=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=IU6ukDu/7o3EsXY4ZbhK5KDzIDLwThH1lDsx5GEybwp0pY4JtE+FqnjeTXLapyu70
+	 f6b/+h80mFDLbb9oEuxyxCqCGPzxmPQS4uBmAF9nbFcT4+APDum+cBkozCm6OW72eL
+	 vWiaomYoj/Mn4OtvuNbv4Z0FS19z652Dqq4SpYm2MCYsvdOiUdIeA544+6sbHYMXRG
+	 akqOK+rUEWkHw4KjvBvGGOuMs1j9tjWoUeXEsM3bTqwaicly4Ul2eldP71Plh1vDCS
+	 18xiQLe0ebXJYGo6uRbM2az2OZuHgvOjFsF5rNVVVsEQlLIu3cXa9K1xn9sQiS7jYo
+	 Ffx0ONT0DD1gg==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bb278652-8654-4473-b12e-b24b36ec3845@t-8ch.de>
-X-Rspamd-Queue-Id: CD55A254E06
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 10 Mar 2026 18:40:28 +0100
+Message-Id: <DGZABX6ABLN8.SBT6J72KH8YH@kernel.org>
+Subject: Re: [PATCH v4 4/4] gpu: nova-core: fix stack overflow in GSP memory
+ allocation
+Cc: <tim.kovalenko@proton.me>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "Alice Ryhl" <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Boqun Feng" <boqun@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nsc@kernel.org>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>, <driver-core@lists.linux.dev>
+To: "Tim Kovalenko via B4 Relay"
+ <devnull+tim.kovalenko.proton.me@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
+ <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
+In-Reply-To: <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
+X-Rspamd-Queue-Id: 0BF2C255D30
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.14 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-11787-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11788-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[proton.me,nvidia.com,google.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,protonmail.com,umich.edu,collabora.com,arm.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_GT_50(0.00)[69];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.947];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,arm.com:email,e132581.arm.com:mid]
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,tim.kovalenko.proton.me];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[proton.me:email,nvidia.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,msgid.link:url,zulipchat.com:url,garyguo.net:email]
 X-Rspamd-Action: no action
 
-On Mon, Mar 09, 2026 at 11:24:58PM +0100, Thomas Weißschuh wrote:
-> Hi Leo,
-> 
-> On 2026-03-08 16:46:34+0000, Leo Yan wrote:
-> > Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
-> > the compiler.
-> > 
-> > Signed-off-by: Leo Yan <leo.yan@arm.com>
-> > ---
-> >  tools/testing/selftests/nolibc/Makefile.nolibc | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/tools/testing/selftests/nolibc/Makefile.nolibc b/tools/testing/selftests/nolibc/Makefile.nolibc
-> > index f5704193038f7da935d57e0f894970b6e29b78da..e58b2f5eb2b231bb1c194db7365fff7b4e244e5d 100644
-> > --- a/tools/testing/selftests/nolibc/Makefile.nolibc
-> > +++ b/tools/testing/selftests/nolibc/Makefile.nolibc
-> > @@ -252,6 +252,9 @@ endif
-> >  # Modify CFLAGS based on LLVM=
-> >  include $(srctree)/tools/scripts/Makefile.include
-> >  
-> > +# Append EXTRA_CFLAGS if it is set in tools/scripts/Makefile.include
-> > +CFLAGS  += $(EXTRA_CFLAGS)
-> 
-> Makefile.nolibc here is completely self-contained. It is not expected to
-> inherit any flags from the regular selftests. So I don't think this makes
-> sense. There is a similar, custom "CFLAGS_EXTRA" variable, which could
-> be aligned, but probably not as part of this series.
-> 
-> There is a regular 'Makefile' in this directory which *is* integrated
-> with the regular selftest build system. If you could make sure that
-> it works correctly with what you are doing, that would be great.
+On Mon Mar 9, 2026 at 5:34 PM CET, Tim Kovalenko via B4 Relay wrote:
+> From: Tim Kovalenko <tim.kovalenko@proton.me>
+>
+> The `Cmdq::new` function was allocating a `PteArray` struct on the stack
+> and was causing a stack overflow with 8216 bytes.
+>
+> Modify the `PteArray` to calculate and write the Page Table Entries
+> directly into the coherent DMA buffer one-by-one. This reduces the stack
+> usage quite a lot.
+>
+> Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
 
-Sure, I will update the regular Makefile.
+Applied to drm-rust-fixes, thanks!
 
-As you suggested, I also will drop patch 18 in new version.
+--- commit ---
 
-Thanks for suggestions!
+commit c7940c8bf215b9dc6211781c77ce80e76982a723
+Author: Tim Kovalenko <tim.kovalenko@proton.me>
+Date:   Mon Mar 9 12:34:21 2026 -0400
+
+    gpu: nova-core: fix stack overflow in GSP memory allocation
+
+    The `Cmdq::new` function was allocating a `PteArray` struct on the stac=
+k
+    and was causing a stack overflow with 8216 bytes.
+
+    Modify the `PteArray` to calculate and write the Page Table Entries
+    directly into the coherent DMA buffer one-by-one. This reduces the stac=
+k
+    usage quite a lot.
+
+    Reported-by: Gary Guo <gary@garyguo.net>
+    Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/509436-Nov=
+a/topic/.60Cmdq.3A.3Anew.60.20uses.20excessive.20stack.20size/near/57037554=
+9
+    Link: https://lore.kernel.org/rust-for-linux/CANiq72mAQxbRJZDnik3Qmd4ph=
+vFwPA01O2jwaaXRh_T+2=3DL-qA@mail.gmail.com/
+    Fixes: f38b4f105cfc ("gpu: nova-core: Create initial Gsp")
+    Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+    Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
+    Link: https://patch.msgid.link/20260309-drm-rust-next-v4-4-4ef485b19a4c=
+@proton.me
+    [ * Use PteArray::entry() in LogBuffer::new(),
+      * Add TODO comment to use IoView projections once available,
+      * Add PTE_ARRAY_SIZE constant to avoid duplication.
+
+        - Danilo ]
+    Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
