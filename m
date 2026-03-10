@@ -1,194 +1,159 @@
-Return-Path: <linux-kbuild+bounces-11785-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11786-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLTVAy5DsGlLhgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11785-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:13:34 +0100
+	id EHRsGYBGsGnFhgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11786-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:27:44 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC47254655
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:13:33 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4504254B9B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 17:27:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 228AC3169844
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 15:47:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2E97932274C9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2026 15:59:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E71B63AF662;
-	Tue, 10 Mar 2026 15:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fs0AlLQH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179553BAD93;
+	Tue, 10 Mar 2026 15:59:03 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D7439C019;
-	Tue, 10 Mar 2026 15:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57DAD3B960F;
+	Tue, 10 Mar 2026 15:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773157522; cv=none; b=fmktnAG5EGpUdG/LubPQ+5zh1qqsZ4ruErt3OPa6TgvAmlfyoCEOuH9Tde6MovbpbTZoweOjcz7hqKeKVHOR0ZgZVMhtSmKbFmxwPQT7NxO9vTuE8voVbO4rH/v+trKVJkIAP17fTprhgnTByW4uPW1GmMJS5Pie61r2JZY/N4A=
+	t=1773158343; cv=none; b=fuvlGnn8TKn6VWcXDxAoAucYKFzbuN/IBf2t2WFNk3RisV6+PUaIOyN+wdcNrIey+KYv4DOG8qwz4t3hXXLArsNbG6+/a7IxlE8nz0EcLJe2mZEahj/c24zmZctdM0VLVHKtN2CoDSC9KLoJxHRLpYamWfY/RPuUfor0bl/nYfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773157522; c=relaxed/simple;
-	bh=WAaHhyzoG5PZZQyATwfwHJX7fiydFxMz2tRgIzm86w8=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=qOpALMkrUchAiAcNNMrpjugUiWz8QlpSEiXddwjJE4zmPmBkZRi5ydetIRDH868GAtw8INefKgpURZ0msNI75LuhmNAjv+kQnC/mhiPCT3JyXXv9CQWkGTah9Fk2pk1/OdzVuKjWYS5x4jJ1mq4pIPyohHrDk06eEcmc8FGs3r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fs0AlLQH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2590C19425;
-	Tue, 10 Mar 2026 15:45:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773157522;
-	bh=WAaHhyzoG5PZZQyATwfwHJX7fiydFxMz2tRgIzm86w8=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=Fs0AlLQHxOdvOz0IaWDyD9MmbmQ3m8vRJh1NciO7exglEA+Zi1SsY9F1lrjgGKquN
-	 1tg9mQ9est/sETWfr+edU15T7ZIiESDvXFwrwdOvh2T/E5yaXvgATO96RRA4Pm2H4h
-	 RfW/YCXMqDUM8IFfHsxXPqaqTlegLw2LQSDip0qyuUvgGfq/r5+nmycpaRm1Ab3tBK
-	 O6qcQ1lrEAXo3Z7YWRprX8L1SFPyEEWERzQOsLIDmZcGFohBqZ28gz5d2d9ROK10LU
-	 LBWx3+0mk0GhQ+7WIMPQ7if9jh/sZ2qFAGzzGC8djv6sedfZOsAFC0h+0fn/0WMALl
-	 Ln2AURiLtuAdw==
+	s=arc-20240116; t=1773158343; c=relaxed/simple;
+	bh=xYyjm4nRyBmfWe/YNYoAxak2KTVExUZ8/pbqLPyxwHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cwb1b+ew0JNsjv6XCFB11XKt1l8FYOXdCRq1pPtsmJE2hqYhiY9uzS0006lQQ+EWSZU2oQUMsiMOH7p9MlbGuHQZj8MScTJHzQJ6PU1cwL0WBFQ8TQ+a4mslDaZFAM2S7L1wfZ88UOTGYIzqMPYUnowJpVRYzp/OmhCZYhXi5gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7FD271BA8;
+	Tue, 10 Mar 2026 08:58:54 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 60FF43F836;
+	Tue, 10 Mar 2026 08:59:00 -0700 (PDT)
+Date: Tue, 10 Mar 2026 15:58:58 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>,
+	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+	Quentin Monnet <qmo@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	William Breathitt Gray <wbg@kernel.org>,
+	Barry Song <baohua@kernel.org>, Qinxin Xia <xiaqinxin@huawei.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Kent Gibson <warthog618@gmail.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Shuah Khan <shuah@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, bpf@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH v3 26/30] tools: verification: Append extra cflags
+Message-ID: <20260310155858.GC4153946@e132581.arm.com>
+References: <20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com>
+ <20260308-tools_build_fix_zero_init-v3-26-6477808123b7@arm.com>
+ <9cb773f5209fc21a3842abe9e60a27b6130c7fd4.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 1/2] rust: support overriding crate_name
-From: Tamir Duberstein <tamird@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Tamir Duberstein <tamird@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Jesung Yang <y.j3ms.n@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Carlos Llamas <cmllamas@google.com>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-In-Reply-To: <abAzTFLYsUxK7VJ6@google.com>
-References: <20260310-binder-crate-name-v2-0-0f7c97900d36@google.com>
- <20260310-binder-crate-name-v2-1-0f7c97900d36@google.com>
- <abAzTFLYsUxK7VJ6@google.com>
-Date: Tue, 10 Mar 2026 11:45:15 -0400
-Message-Id: <177315751568.96522.7020199079773666163@1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3705; i=tamird@kernel.org;
- h=from:subject:message-id; bh=WAaHhyzoG5PZZQyATwfwHJX7fiydFxMz2tRgIzm86w8=;
- b=owGbwMvMwCV2wYdPVfy60HTG02pJDJkbbHp2Ht1d1jrt3oEetes9qXzz9x0u3//ui1qmiuTuA
- i7jhycXd5SyMIhxMciKKbIkih7am556e49s5rvjMHNYmUCGMHBxCsBEymIY/sfHlcunPRFdwec1
- r6UjbseTmbxMkae2TZmivIe16bj4hDcM/9SaGIK++JcnGv9Mqt/O52f+K/AuX+7l2RVC65U1ijk
- /MQIA
-X-Developer-Key: i=tamird@kernel.org; a=openpgp;
- fpr=5A6714204D41EC844C50273C19D6FF6092365380
-X-Rspamd-Queue-Id: 7DC47254655
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9cb773f5209fc21a3842abe9e60a27b6130c7fd4.camel@redhat.com>
+X-Rspamd-Queue-Id: D4504254B9B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11785-lists,linux-kbuild=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-11786-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,gmail.com,linuxfoundation.org,google.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa:mid]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[69];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.963];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,arm.com:email]
 X-Rspamd-Action: no action
 
-On 2026-03-10 15:05:48+00:00, Alice Ryhl wrote:
-> On Tue, Mar 10, 2026 at 02:53:40PM +0000, Alice Ryhl wrote:
+On Mon, Mar 09, 2026 at 07:26:16AM +0100, Gabriele Monaco wrote:
+> On Sun, 2026-03-08 at 16:46 +0000, Leo Yan wrote:
+> > Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
+> > the compiler.
+> > 
+> > Signed-off-by: Leo Yan <leo.yan@arm.com>
 > 
-> > Currently you cannot filter out the crate-name argument
-> > RUSTFLAGS_REMOVE_stem.o because the Rust filter-out invocation does not
-> > include that particular argument. Since --crate-name is an argument that
-> > can't be passed multiple times, this means that it's currently not
-> > possible to override the crate name. Thus, remove the --crate-name
-> > argument for drivers. This allows them to override the crate name using
-> > the #![crate_name] annotation.
-> > 
-> > The --crate-name argument is kept for the crates under rust/ for
-> > simplicity and to avoid changing many of them by adding #![crate_name].
-> > 
-> > The rust analyzer script is updated to use rustc to obtain the crate
-> > name of the driver crates, which picks up the right name when it is
-> > configured via #![crate_name] or not.
-> > 
-> > Note that the crate name in the python script is not actually that
-> > important - the only place where the name actually affects anything is
-> > in the 'deps' array which specifies an index and name for each
-> > dependency, and determines what that dependency is called in *this*
-> > crate. (The same crate may be called different things in each
-> > dependency.) Since driver crates are leaf crates, this doesn't apply and
-> > the rustc invocation only affects the 'display_name' parameter.
-> > 
-> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> > ---
-> >  scripts/Makefile.build            | 1 -
-> >  scripts/generate_rust_analyzer.py | 8 +++++++-
-> >  2 files changed, 7 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 32e209bc7985..adc3e2d1ac78 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -332,7 +332,6 @@ rust_common_cmd = \
-> >  	-Zcrate-attr='feature($(rust_allowed_features))' \
-> >  	-Zunstable-options --extern pin_init --extern kernel \
-> >  	--crate-type rlib -L $(objtree)/rust/ \
-> > -	--crate-name $(basename $(notdir $@)) \
-> >  	--sysroot=/dev/null \
-> >  	--out-dir $(dir $@) --emit=dep-info=$(depfile)
-> >  
-> > diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
-> > index f9b545104f21..d25bc3d7e719 100755
-> > --- a/scripts/generate_rust_analyzer.py
-> > +++ b/scripts/generate_rust_analyzer.py
-
-Did you want me to take this part through rust-analyzer-next? There's a
-significant rewrite there that adds type annotations to this file, so it
-would be better if this patch could apply on top (with annotations).
-
-> > @@ -194,6 +194,12 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, core_edit
-> >          except FileNotFoundError:
-> >              return False
-> >  
-> > +    def get_crate_name(path):
-> > +        return subprocess.check_output(
-> > +            [os.environ["RUSTC"], "--print", "crate-name", path],
-> > +            stdin=subprocess.DEVNULL,
-> > +        ).decode('utf-8').strip()
-
-It would be good to extract shelling out to rustc into a helper, now
-that we have two instances of this pattern.
-
-> > +
-> >      # Then, the rest outside of `rust/`.
-> >      #
-> >      # We explicitly mention the top-level folders we want to cover.
-> > @@ -212,7 +218,7 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs, core_edit
-> >  
-> >              logging.info("Adding %s", name)
+> Thanks, for the patch, however I don't think this is necessary for RV as
+> EXTRA_CFLAGS are already appended to CFLAGS elsewhere [1].
 > 
-> Actually I guess we might want get_crate_name(path) here (or just path).
-> But the other uses of 'name' should stay as-is.
+> Makefile.rv is included after the various Makefile.include, so I presume that's
+> good to go for the new flags you're appending in this series.
+> I did a quick check and I see -fzero-init-padding-bits=all by just adding 05/30
+> of this series.
+> 
+> [1] -
+> https://elixir.bootlin.com/linux/v6.19.3/source/tools/verification/rv/Makefile.rv#L29
 
-It would probably be good to rename `name` to reduce some of this
-confusion.
-
+Thanks!  I will drop this one in next spin.
 
