@@ -1,144 +1,177 @@
-Return-Path: <linux-kbuild+bounces-11855-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11856-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AIWFNqIvsWkVrwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11855-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 10:02:26 +0100
+	id YALMHFczsWm0rwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11856-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 10:18:15 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4F825FE6E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 10:02:20 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B92260278
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 10:18:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9B59D302C354
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:02:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 136A7304202F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:17:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB003C5DC9;
-	Wed, 11 Mar 2026 09:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4gegN5L"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E893C73FA;
+	Wed, 11 Mar 2026 09:16:07 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D90A3C553D;
-	Wed, 11 Mar 2026 09:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5C993A169D;
+	Wed, 11 Mar 2026 09:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773219735; cv=none; b=oS9BeJNexqDbg8kHl6ndElqmGgi8P5wu+bNPLdrwhAmtGkAlFymY15n/pWV1y+ju8z8mofglGBeqrQimwXkOd1qc+s4w/7X4weF2CVBbLjRREuUVylC/LIkxSm3ajL0cdO9NLpLVLGFUNB5vhGqINhPAiscwIDoNzDmME8b4A70=
+	t=1773220567; cv=none; b=YnjFdgtCHNiFBwgdrHaKHbBpfhyKnUX8L/G2LORZlTQhKPiGNwIpGMrwAyTGyjFFD1Nji1AOMUm1YPPZ+e0tJJ9z/7+pBvI0SGhHLHe3GnTCJ/jPDbTMkE72ehy3hL1L5U8kJElRvUUzptCUP7wOaxfkdw1Xp7/R/P5oxRwJN0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773219735; c=relaxed/simple;
-	bh=TgPeQ4e/omI8XDsH8vHgKd+kHDz1IvHHcdNPYPwy95g=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=O4skeglgs8HVWBswtY8fKQnTkILHtmWOfpIJN4D7mKUarxMGmQaL6MdkOZB1ubVcQh3xFDW/sImER7nMTA3hF04ZtDHpHn5ob+C6veBTV+8BPX+SNfE1g6V66W2+DtgBcDIp7oNy8Dor1rAk403G9URjqhIcILiG07oK7u8bMdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4gegN5L; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D96D3C4CEF7;
-	Wed, 11 Mar 2026 09:02:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773219734;
-	bh=TgPeQ4e/omI8XDsH8vHgKd+kHDz1IvHHcdNPYPwy95g=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=G4gegN5LQ2I68ICOzOISh+4ibgqG8lj5224Zb2OzEs/KbBhB7mpnHNws78YD38V1K
-	 q+PcqzYkOZ4umMp0ZzJ6zo4dDKmyIcIPLX8KqkgZ8550cfre7iRERiO0cAVX4TZ8CV
-	 ZatRcS/QWsW0cws7G4vNYVtt2bRhvxGoX2coi03wwHlNankByUWRGZiPIicqegc5ql
-	 rEthHABws8QE6pXSJbpl1cL2jPmhIKSVh8To/GEvvYnzk7ciwoOEK10TfnB+PFSeKH
-	 T87tKINU/NeD7j69DaTTx5lyntnEu5pXpNWC71o9NlWjVFPyF3Xn8CvrBu5fnHp4a5
-	 M6ph8Y7OvUFgA==
-Content-Type: multipart/mixed; boundary="===============6467356410034622491=="
+	s=arc-20240116; t=1773220567; c=relaxed/simple;
+	bh=uHnK/2BgJQZqQxP4TdFCBAsxYefW+BFRldYNcFj5Q2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RDLPOC6lgS71CmtqDjl3jYhJYbaszSYQgV5tzeRr5tupSgbd9gPTxlm8JWZlVMeWqYbADCOiS0sQa29gYAsOnW3Vjj+rVM1QJqe9a3TSazm9GAqzmLP/QiT4qRf1eZBLiCwOJ6JVq16EJ03+IuF5AomAr1fu0jtOWEI8p8oucsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F3C3169C;
+	Wed, 11 Mar 2026 02:15:51 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D3E03F73B;
+	Wed, 11 Mar 2026 02:15:57 -0700 (PDT)
+Date: Wed, 11 Mar 2026 09:15:55 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>,
+	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+	Quentin Monnet <qmo@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	William Breathitt Gray <wbg@kernel.org>,
+	Barry Song <baohua@kernel.org>, Qinxin Xia <xiaqinxin@huawei.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Kent Gibson <warthog618@gmail.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Changwoo Min <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, bpf@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v4 00/30] tools build: Append
+ -fzero-init-padding-bits=all option
+Message-ID: <20260311091555.GF4153946@e132581.arm.com>
+References: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
+ <6707888c-a31a-4d38-a99a-86ae42351561@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <00482d80980f713b27b422ec1ea2d17d0f1daed19243b597c5954e470cc09c92@mail.kernel.org>
-In-Reply-To: <20260311-tools_build_fix_zero_init-v4-6-9e35bdb99cb3@arm.com>
-References: <20260311-tools_build_fix_zero_init-v4-6-9e35bdb99cb3@arm.com>
-Subject: Re: [PATCH v4 06/30] libbpf: Remove duplicate $(CLANG_CROSS_FLAGS)
-From: bot+bpf-ci@kernel.org
-To: leo.yan@arm.com,acme@kernel.org,irogers@google.com,namhyung@kernel.org,james.clark@linaro.org,kees@kernel.org,qmo@kernel.org,nathan@kernel.org,nsc@kernel.org,nick.desaulniers+lkml@gmail.com,morbo@google.com,justinstitt@google.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,rafael@kernel.org,daniel.lezcano@kernel.org,rui.zhang@intel.com,lukasz.luba@arm.com,peterz@infradead.org,mingo@redhat.com,mark.rutland@arm.com,alexander.shishkin@linux.intel.com,adrian.hunter@intel.com,mhiramat@kernel.org,wbg@kernel.org,baohua@kernel.org,xiaqinxin@huawei.com,brgl@kernel.org,warthog618@gmail.com,kys@microsoft.com,haiyangz@microsoft.com,wei.liu@kernel.org,decui@microsoft.com,longli@microsoft.com,jic23@kernel.org,dlechner@baylibre.com,nuno.sa@analog.com,andy@kernel.org,akpm@linux-foundation.org,w@1wt.eu,linux@weisssc
- huh.net,jpoimboe@kernel.org,robert.moore@intel.com,lenb@kernel.org,srinivas.pandruvada@linux.intel.com,tj@kernel.org,void@manifault.com,arighi@nvidia.com,changwoo@igalia.com,broonie@kernel.org,rostedt@goodmis.org,gmonaco@redhat.com,shuah@kernel.org,jikos@kernel.org,bentiss@kernel.org
-Cc: linux-kbuild@vger.kernel.org,linux-kernel@vger.kernel.org,llvm@lists.linux.dev,bpf@vger.kernel.org,linux-perf-users@vger.kernel.org,leo.yan@arm.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Wed, 11 Mar 2026 09:02:13 +0000 (UTC)
-X-Rspamd-Queue-Id: 1A4F825FE6E
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6707888c-a31a-4d38-a99a-86ae42351561@oss.qualcomm.com>
+X-Rspamd-Queue-Id: 12B92260278
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.54 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	SUBJECT_HAS_CURRENCY(1.00)[];
-	CTYPE_MIXED_BOGUS(1.00)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:subspace.kernel.org:reject}];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	R_DKIM_REJECT(0.00)[kernel.org:s=k20201202];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,arm.com,kernel.org,iogearbox.net,gmail.com,linux.dev,meta.com];
-	MIME_TRACE(0.00)[0:+,1:+];
-	TAGGED_FROM(0.00)[bounces-11855-lists,linux-kbuild=lfdr.de,bpf-ci];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[arm.com,kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weisssc,manifault.com,nvidia.com,igalia.com,goodmis.org];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	FROM_NEQ_ENVFROM(0.00)[bot@kernel.org,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[79];
-	NEURAL_HAM(-0.00)[-0.867];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:-];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN_FAIL(0.00)[1.2.3.5.c.f.2.1.0.0.0.0.0.0.0.0.c.6.3.0.1.0.0.e.4.0.c.3.0.0.6.2.asn6.rspamd.com:query timed out];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev,oss.qualcomm.com];
+	TAGGED_FROM(0.00)[bounces-11856-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[71];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.939];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,e132581.arm.com:mid]
 X-Rspamd-Action: no action
 
---===============6467356410034622491==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Hi Daniel,
 
-> diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-> index 168140f8e646..b1fbd0211c5e 100644
-> --- a/tools/lib/bpf/Makefile
-> +++ b/tools/lib/bpf/Makefile
-> @@ -84,7 +84,6 @@ override CFLAGS += -Werror -Wall
->  override CFLAGS += $(INCLUDES)
->  override CFLAGS += -fvisibility=hidden
->  override CFLAGS += -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-> -override CFLAGS += $(CLANG_CROSS_FLAGS)
+On Wed, Mar 11, 2026 at 09:44:16AM +0100, Daniel Lezcano wrote:
 
-At this commit, doesn't this removal lose CLANG_CROSS_FLAGS entirely
-from the libbpf build?
+[...]
 
-The libbpf Makefile includes Makefile.include at the top, which does
-append CLANG_CROSS_FLAGS to CFLAGS. But then the libbpf Makefile
-overwrites CFLAGS with :=
+> > In this version, the changes are organized into three parts:
+> > 
+> >    Patches 01 – 07: Preparation before adding the new compiler option.
+> >                     Fix typos, adjust Makefiles to ensure the newly
+> >                     introduced option does not cause regressions.
+> >    Patch 08:        Propagate -fzero-init-padding-bits=all to
+> >                     EXTRA_CFLAGS and HOST_EXTRACFLAGS for the
+> >                     CC and HOSTCC compilers, respectively.
+> >    Patches 09 – 30: Apply EXTRA_CFLAGS and HOST_EXTRACFLAGS in
+> >                     project Makefiles.
+> > 
+> Through which tree do you expect these patch to be picked up ? Each
+> maintainer picks the patches related to their subsystem ?
 
-    CFLAGS := -g -O2
+I can propose a pickup sequence, but this may need confirmation from the
+tools maintainers (especially perf, bpftool, BPF).
 
-which destroys everything Makefile.include appended. The removed line
-above was the only thing that re-added the cross-compile flags after
-that overwrite.
+I expect patches 01-08 can be merged in one go, as this would be safe
+not break anything.  Afterwards, patches 09–30 can be picked up
+separately by subsystem maintainers, or merged together.
 
-The next commit in the series (233d70853154 "libbpf: Initialize CFLAGS
-before including Makefile.include") fixes this by moving the CFLAGS
-initialization before the include, so Makefile.include's addition
-survives. But at this commit, cross-compilation with Clang appears
-broken.
+So far, IIUC, there are no maintainers for the tools build.  If no
+objection from maintainers to merge in one go, I think we have chance
+via perf-tools-next tree.  Arnaldo, Namhyung, how about you think ?
+(sorry this might introduce extra efforts for you).
 
-Could these two patches be squashed or reordered so that the
-initialization move comes first?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/22943905432
---===============6467356410034622491==--
+Thanks,
+Leo
 
