@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-11822-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11823-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAMoLekpsWkBrgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11822-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:38:01 +0100
+	id gFq9OvgpsWkBrgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11823-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:38:16 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B86425F765
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:38:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD7C25F782
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:38:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 80AAA30B8617
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 08:31:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 305C732D476E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 08:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B863B892E;
-	Wed, 11 Mar 2026 08:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A8913B52FE;
+	Wed, 11 Mar 2026 08:30:16 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29240374739;
-	Wed, 11 Mar 2026 08:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA2453B6340;
+	Wed, 11 Mar 2026 08:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773217807; cv=none; b=pAUE0TS4XgvTbRsnuXwxNmphrw9GQaQ7pjZ0ZvMF9K/MBxxbDp+2JZwLmaQm6ciTwwJnZ2qiJowCtpvFisMHkifXmes7bfVDFCEDg9qoJzY4gOmjfv7jIJUKdHHS7UC/g3aQaowb8+7bl0izqObpms3R9S05jceYm9GI3Sld2/c=
+	t=1773217816; cv=none; b=kA70I2RqnoNeloEKwwdQ6wK1lUhAgOYYjvbbRuo1SuljkocDuBdCNpBwUhqosWETSxziozmKMJOvG/OG6YSmzAEk+D121dA8zhch39wcun4Mng2ZHruoDenUM1LKdpcb4tOs+3LL5CRHvR5k3LdWlr8mCAFbZh/thqq1hyDV+JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773217807; c=relaxed/simple;
-	bh=8ymoW4HHQoUtYOFJa+6mY7ccDMk6/HOaddOLgnwOTic=;
+	s=arc-20240116; t=1773217816; c=relaxed/simple;
+	bh=ohdWzHaQ3kzQcv0Ygt+2e5uE+m+KR3HcpWZZjFWxBlo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=btNKuRJK5uX2vepjvmRq1OJtgFxSDmcDW4Hr0DJQm97fQyM+2xkqlnjYhDg8NwOgOqClN6fMSf7vucuKYOWFSllkC+RRA96EPSOdx7CdRMmkvnjNN/4x7BXzpJhLf3pdId4KBW1Fw0QuRfTj2c8RdmlxkqHDGT5n7X5JnpN/s+4=
+	 In-Reply-To:To:Cc; b=pUqqSm9hf/L7GJDRdHOa4KErZ/nO4lEXIpSbzRpOUPqQl6z6rH7TCZxJ1DNSZzl/V/Cg4qbitKXKrys5OHqwBufkSLGpCpRaTRordXX1LkFvjjgeOim+Vh9vkvwE0fywFcSN9obOKOPl5wJFmBfunD2xqFP+Y+1KFGQter+uo4Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5562D165C;
-	Wed, 11 Mar 2026 01:29:59 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2A33204C;
+	Wed, 11 Mar 2026 01:30:06 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 187EF3F73B;
-	Wed, 11 Mar 2026 01:29:57 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAEE23F73B;
+	Wed, 11 Mar 2026 01:30:05 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Wed, 11 Mar 2026 08:29:26 +0000
-Subject: [PATCH v4 01/30] tools: lib: thermal: Fix typo
+Date: Wed, 11 Mar 2026 08:29:27 +0000
+Subject: [PATCH v4 02/30] tools/thermal: Fix typo
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-tools_build_fix_zero_init-v4-1-9e35bdb99cb3@arm.com>
+Message-Id: <20260311-tools_build_fix_zero_init-v4-2-9e35bdb99cb3@arm.com>
 References: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
 In-Reply-To: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -93,28 +93,28 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
  Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773217789; l=766;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773217789; l=755;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=8ymoW4HHQoUtYOFJa+6mY7ccDMk6/HOaddOLgnwOTic=;
- b=cvedBwezyVxz3woz/mFMPU1/oGrXh8ose15WeulRq3YItL1fn/zM11RUvC6hEaDB5F3xZMcpU
- f1JSZ7IFq34CoOmgnW1hWfu7e2TF7IPPuG4XqEx0fYPisOU3IgUc5zR
+ bh=ohdWzHaQ3kzQcv0Ygt+2e5uE+m+KR3HcpWZZjFWxBlo=;
+ b=FJqxegSrNqNtDnY6jdZzx610+RrtAC5xYp8tEvdouZcNlQ+egr6xx2/3dRU063hvj4BNGrteX
+ /mlqzlsIvKlBGn67wpGdAzO7kiGmE/fsjgipwFhT8qhJ9ifLeWg6Gy4
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: 6B86425F765
+X-Rspamd-Queue-Id: 4DD7C25F782
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11822-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11823-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
 	FROM_HAS_DN(0.00)[];
@@ -125,28 +125,28 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[70];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.919];
+	NEURAL_HAM(-0.00)[-0.920];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,arm.com:mid,arm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,arm.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
 s/CFGLAS/CFLAGS
 
-Fixes: 47c4b0de080a ("tools/lib/thermal: Add a thermal library")
+Fixes: 3b7c5e8adf9c ("tools/thermal: Add util library")
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/lib/thermal/Makefile | 4 ++--
+ tools/thermal/lib/Makefile | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/lib/thermal/Makefile b/tools/lib/thermal/Makefile
-index 41aa7a324ff4d76351b89d7d7cf382df3fc14052..09d8f4ba6a0ab7ab9c99ac7f64d52d0268bee340 100644
---- a/tools/lib/thermal/Makefile
-+++ b/tools/lib/thermal/Makefile
-@@ -66,8 +66,8 @@ override CFLAGS += -fPIC
- override CFLAGS += $(NL3_CFLAGS)
+diff --git a/tools/thermal/lib/Makefile b/tools/thermal/lib/Makefile
+index 056d212f25cf51cd8c02260fbe2ef28dda5e4acb..8c9a37f999b826855dad11c0d9574b41d5b24244 100644
+--- a/tools/thermal/lib/Makefile
++++ b/tools/thermal/lib/Makefile
+@@ -60,8 +60,8 @@ override CFLAGS += $(EXTRA_WARNINGS)
+ override CFLAGS += -Werror -Wall
+ override CFLAGS += -fPIC
  override CFLAGS += $(INCLUDES)
- override CFLAGS += -fvisibility=hidden
 -override CFGLAS += -Wl,-L.
 -override CFGLAS += -Wl,-lthermal
 +override CFLAGS += -Wl,-L.
