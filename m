@@ -1,229 +1,260 @@
-Return-Path: <linux-kbuild+bounces-11820-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11821-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QI1XJksjsWmFrQIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11820-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:09:47 +0100
+	id SPYyL9wpsWkBrgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11821-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:37:48 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF3525EAFD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:09:47 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B25F25F756
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:37:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6B84D3061D92
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 08:06:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5C3A030B33CB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 08:31:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A69C634A3D6;
-	Wed, 11 Mar 2026 08:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0YS7QPV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AAA53B38B6;
+	Wed, 11 Mar 2026 08:30:00 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E23334B663;
-	Wed, 11 Mar 2026 08:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7265F35B127;
+	Wed, 11 Mar 2026 08:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773216411; cv=none; b=kcLDcuAxm9RiCRliP+e2ZPWBCw86C25KS4fp16gvdyoeUbvN2PV5SXbUKxpDnQe/GG072v4V9XYJO32vBFTxHXIoFqiU7pRwWHEwlOxqIOtuulRWTdx12Q//pnEmBc+f0LzUK1dFtVkiYSMZ5vnTMe6lCpuBqbYVItwJyfLgY7A=
+	t=1773217800; cv=none; b=Kp/9A+WXxnZpeAQAlT4mEB5M85m8dlKYd2q0Dty/bBmIVFc0lXgFLMAnhajR2n/L65GMtJDDOlR1mbdNFyahE0R1UwHpicLHUT3eJkOW1nHeKXVO2kBKrVcdnKiPiLGUcMl/EfE2OUdTVBWDBRhzwtX0HuioN6y7CCEt0lSQoto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773216411; c=relaxed/simple;
-	bh=dVEH6w6A2ru6wvApMC4aSElWkR/TFzmlhS1C9lEPXbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=luBsKiBpLWtwWfJUKPeMeMGqvQCx/xxHfgzS2ynHFmn2WIoi8Euvezc+Bzj6wxXJuxld3an3AaaTb6rWbx1/a4cMcksNq2CTo71K56OR5F6gWD4NmxaWfEpdk1QgsKxhSToCjXrVlo6tw7tXcpUZdI2B030Oxy+SVVD/B9f11N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0YS7QPV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E249C4CEF7;
-	Wed, 11 Mar 2026 08:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773216411;
-	bh=dVEH6w6A2ru6wvApMC4aSElWkR/TFzmlhS1C9lEPXbI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f0YS7QPVkOH607lM76aLFMmSumjt0Of0A0d4z+MQ7kBskP6mZZaJpSKjbxJHsjj/1
-	 wFTO3exIeXQWhdfCt2e3Q+tcHR69ooaxaXv0OXWmAtSQC/YruMn7Dni+AYjAlOyPc6
-	 Lbryy0ceS1snZPxx2UsF5Nxrdkp4ntuFoqzsv88M0+SbfD5ljo1b4Q3qIUiLG0R1Pz
-	 HlXou7vXIQn+nL2S8ONlpTkyHTnXAq43mu025S9Z9bMFU+b7OSXHYulPOY/u98iCb9
-	 uZNYABgBGn0KGD0cvDhN+cML/aMAe/bKbASvnqdljde098YLluGDc0qElXIv1zbF1+
-	 TVTN2BKE1jOHw==
-Date: Wed, 11 Mar 2026 01:06:45 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Daniel Gomez <da.gomez@samsung.com>
-Subject: Re: [PATCH] Documentation/kbuild: fix empty string
- KBUILD_BUILD_TIMESTAMP
-Message-ID: <20260311080645.GC1996626@ax162>
-References: <20260310-fix-llvm-docs-v1-1-234878874762@samsung.com>
+	s=arc-20240116; t=1773217800; c=relaxed/simple;
+	bh=ORDb4rz7pkZEG/AYr4fm0X3yvNxV+D8HlxcMfkqWYUQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mz2I/eo81TRDn7kc3eHu+F1O3X4OpRHu5cYTWrOKs4KcqznOljX6dDKeMb5ES2PVL008VZvfbOvrTEdNqpyyVig3avCLu1/B5oB2vI7opLieNQ8m7EuoPZ7VSoxJAwZHRFSUnCHE50y56zfRIrk0r0q8Ep5oVOilwVRa/a8bQls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5F07165C;
+	Wed, 11 Mar 2026 01:29:51 -0700 (PDT)
+Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B5153F73B;
+	Wed, 11 Mar 2026 01:29:50 -0700 (PDT)
+From: Leo Yan <leo.yan@arm.com>
+Subject: [PATCH v4 00/30] tools build: Append -fzero-init-padding-bits=all
+ option
+Date: Wed, 11 Mar 2026 08:29:25 +0000
+Message-Id: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260310-fix-llvm-docs-v1-1-234878874762@samsung.com>
-X-Rspamd-Queue-Id: 3CF3525EAFD
+X-B4-Tracking: v=1; b=H4sIAOYnsWkC/43NSw6CMBCA4auYrq1ppwiNK+9hTNOXMglQ02KjE
+ u5uYcPOuPwnM99MJPmIPpHTbiLRZ0wYhhLVfkdsq4e7p+hKE2BQM4CKjiF0SZkndk7d8KU+Pga
+ FA47U2SPU3DhppCHl/hF9WVjty7V0i2kM8b2+yrBM/1EzUE4N19ZK3mjG/VnH/mBDTxYzi80RT
+ P5yBGW0rppGMslBmGZz5nn+Aqkb8J8IAQAA
+X-Change-ID: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
+To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>, 
+ James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
+ Quentin Monnet <qmo@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nsc@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, 
+ Qinxin Xia <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Kent Gibson <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Josh Poimboeuf <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>, 
+ Len Brown <lenb@kernel.org>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>, 
+ Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, 
+ Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ Leo Yan <leo.yan@arm.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773217789; l=5405;
+ i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
+ bh=ORDb4rz7pkZEG/AYr4fm0X3yvNxV+D8HlxcMfkqWYUQ=;
+ b=X80GbJ7tnZIC7IHU6/vKMszPB9MrKUsFSWnAJMY+OLOA7fs4SHLoVzHgMSMIvpQj6gSJZICzM
+ +DBCkDMg0uGAaGXCe0UdWaynWRs/BI0omjcq4WROjAw6ROjHob0d9KM
+X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
+ pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
+X-Rspamd-Queue-Id: 6B25F25F756
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11820-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,google.com,kernel.org,lwn.net,linuxfoundation.org,linux.dev,hust.edu.cn,lists.linux.dev,vger.kernel.org,samsung.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-11821-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	RCPT_COUNT_GT_50(0.00)[71];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.900];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,arm.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 12:48:43PM +0100, Daniel Gomez wrote:
-> From: Daniel Gomez <da.gomez@samsung.com>
-> 
-> The ccache example in llvm.rst uses KBUILD_BUILD_TIMESTAMP='' but the
-> text says "should be set to a deterministic value". An empty string is
-> not deterministic because init/Makefile uses $(or) which treats empty
-> as false and falls through to $(shell LC_ALL=C date), embedding the
-> current time:
-> 
-> 	cat /tmp/test-or.mk
-> 	build-timestamp-auto = fallback
-> 	build-timestamp = $(or $(KBUILD_BUILD_TIMESTAMP),$(build-timestamp-auto))
-> 	all:
-> 	        @echo "[$(build-timestamp)]"
-> 
-> 	make --file=/tmp/test-or.mk
-> 	[fallback]
-> 
-> 	KBUILD_BUILD_TIMESTAMP='' make --file=/tmp/test-or.mk
-> 	[fallback]
-> 
-> 	KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" \
-> 		make --file=/tmp/test-or.mk
-> 	[Sun Aug 25 20:57:08 UTC 1991]
-> 
-> The same applies to a real kernel build:
-> 
-> 	make O=../build LLVM=1 CC="ccache clang" tinyconfig
-> 	make O=../build LLVM=1 CC="ccache clang" \
-> 		KBUILD_BUILD_TIMESTAMP='' --jobs=$(nproc)
-> 	cat ../build/include/generated/utsversion.h
-> 	#define UTS_VERSION "#2 Wed Mar  4 12:13:43 CET 2026"
-> 
-> Replace the empty string with an actual date, matching the pattern
-> in kbuild.rst and reproducible-builds.rst. Use the first public Linux
-> announcement as example date.
-> 
-> 	make O=../build LLVM=1 CC="ccache clang" tinyconfig
-> 	make O=../build LLVM=1 CC="ccache clang" \
-> 		KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" \
-> 		--jobs=$(nproc)
-> 	cat ../build/include/generated/utsversion.h
-> 	#define UTS_VERSION "#4 Sun Aug 25 20:57:08 UTC 1991"
-> 
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> ---
-> Do not use an empty KBUILD_BUILD_TIMESTAMP Makefile variable.
-> ---
->  Documentation/kbuild/llvm.rst                    | 2 +-
->  Documentation/translations/zh_CN/kbuild/llvm.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index bc8a283bc44b..ef46533d785f 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -128,7 +128,7 @@ Ccache
->  KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
->  in order to avoid 100% cache misses, see Reproducible_builds_ for more info)::
+Thank you for reviewing v3 and I appreciate much Ian's suggestions, most
+of which have been adopted into this series.
 
-To be entirely honest, I don't think this is quite valid anymore, at
-least not with fairly modern ccache versions.
+For anyone new to the series, the reason for appending this compiler
+option is described in v3 (see "Link to v3" below).
 
-  $ ccache --version | head -1
-  ccache version 4.12.3
+In this version, the changes are organized into three parts:
 
-  $ ccache -C
+  Patches 01 – 07: Preparation before adding the new compiler option.
+                   Fix typos, adjust Makefiles to ensure the newly
+                   introduced option does not cause regressions.
+  Patch 08:        Propagate -fzero-init-padding-bits=all to
+                   EXTRA_CFLAGS and HOST_EXTRACFLAGS for the
+                   CC and HOSTCC compilers, respectively.
+  Patches 09 – 30: Apply EXTRA_CFLAGS and HOST_EXTRACFLAGS in
+                   project Makefiles.
 
-  $ make -skj"$(nproc)" ARCH=arm64 CC="ccache clang" HOSTCC="ccache clang" LLVM=1 mrproper defconfig all
+The change has been verified:
 
-  $ ccache -z
-  Statistics zeroed
+Test 1: Cross compiling perf
+	host: gcc 15.2.0 (x86_64), target: aarch64-linux-gnu-gcc
 
-  $ make -skj"$(nproc)" ARCH=arm64 CC="ccache clang" HOSTCC="ccache clang" LLVM=1 clean all
+  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LDFLAGS="-static" \
+	    -C tools/perf VF=1 CORESIGHT=1 NO_JEVENTS=1 DEBUG=1
 
-  $ ccache -s
-  Cacheable calls:   10497 / 10554 (99.46%)
-    Hits:            10496 / 10497 (99.99%)
-      Direct:        10488 / 10496 (99.92%)
-      Preprocessed:      8 / 10496 ( 0.08%)
-    Misses:              1 / 10497 ( 0.01%)
-  Uncacheable calls:    57 / 10554 ( 0.54%)
-  Local storage:
-    Cache size (GB):   1.2 / 100.0 ( 1.21%)
-    Hits:            10496 / 10497 (99.99%)
-    Misses:              1 / 10497 ( 0.01%)
+Test 2: Cross compiling selftest bpf and sched_ext
+	host: gcc 15.2.0 (x86_64), target: aarch64-linux-gnu-gcc
 
-I think we should just remove mention of KBUILD_BUILD_TIMESTAMP all together.
+  export ARCH=arm64
+  export CROSS_COMPILE=aarch64-linux-gnu-
+  make -C tools/testing/selftests/ TARGETS="bpf sched_ext" SKIP_TARGETS=""
 
-Ccache
-------
+Test 3: Native compiling selftest bpf and sched_ext
+	host: gcc 15.2.0 (x86_64)
 
-``ccache`` can be used with ``clang`` to improve subsequent builds::
+  make -C tools/testing/selftests/ TARGETS="bpf sched_ext" SKIP_TARGETS=""
 
-	make LLVM=1 CC="ccache clang"
+Signed-off-by: Leo Yan <leo.yan@arm.com>
+---
+Changes in v4:
+- Placed EXTRA_CFLAGS last so it can override the default options (Ian).
+- Cached evaluated values to avoid invoking cc-option when each
+  reference EXTRA_CFLAGS/HOST_EXTRACFLAGS (Ian).
+- Dropped useless patches for feature, verification and nolibc
+  (Gabriele / Ian / Thomas).
+- Fixed typos for thermal (Ian).
+- Removed duplicate $(CLANG_CROSS_FLAGS) in libbpf (Ian).
+- Collected maintainers' reviewed and ACK tags.
+- Link to v3: https://lore.kernel.org/r/20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com
 
-> -	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
-> +	KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" make LLVM=1 CC="ccache clang"
->  
->  .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
->  .. _Reproducible_builds: reproducible-builds.html#timestamps
-> diff --git a/Documentation/translations/zh_CN/kbuild/llvm.rst b/Documentation/translations/zh_CN/kbuild/llvm.rst
-> index f87e0181d8e7..c68fd395f64c 100644
-> --- a/Documentation/translations/zh_CN/kbuild/llvm.rst
-> +++ b/Documentation/translations/zh_CN/kbuild/llvm.rst
-> @@ -116,7 +116,7 @@ Ccache
->  KBUILD_BUILD_TIMESTAMP_ 应设置为同一确定值，以避免 100% 的缓存未命中，
->  详见 Reproducible_builds_ 获取更多信息）::
->  
-> -	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
-> +	KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" make LLVM=1 CC="ccache clang"
->  
->  .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
->  .. _Reproducible_builds: reproducible-builds.html#timestamps
-> 
-> ---
-> base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
-> change-id: 20260310-fix-llvm-docs-1f91c1ec7608
-> 
-> Best regards,
-> --  
-> Daniel Gomez <da.gomez@samsung.com>
-> 
+Changes in v3:
+- Extended to support cross compilation (Quentin).
+- Link to v2: https://lore.kernel.org/r/20260224-tools_build_fix_zero_init-v2-1-b1acc817a01e@arm.com
+
+---
+Leo Yan (30):
+      tools: lib: thermal: Fix typo
+      tools/thermal: Fix typo
+      tools: lib: thermal: Initialize CFLAGS before including Makefile.include
+      tools/thermal: Initialize CFLAGS before including Makefile.include
+      bpftool: Avoid adding EXTRA_CFLAGS to HOST_CFLAGS
+      libbpf: Remove duplicate $(CLANG_CROSS_FLAGS)
+      libbpf: Initialize CFLAGS before including Makefile.include
+      tools build: Append -fzero-init-padding-bits=all to extra cflags
+      bpftool: Append extra host flags
+      perf build: Append extra host flags
+      tools/bpf: build: Append extra cflags
+      tools build: Append extra host cflags
+      tools: bootconfig: Append extra cflags
+      tools: counter: Append extra cflags
+      tools: dma: Append extra cflags
+      tools: gpio: Append extra cflags
+      tools: hv: Append extra cflags
+      tools: iio: Append extra cflags
+      tools: mm: Append extra cflags
+      tools: objtool: Append extra host cflags
+      tools: power: acpi: Append extra cflags
+      tools: power: x86/intel-speed-select: Append extra cflags
+      tools: sched_ext: Append extra cflags
+      tools: spi: Append extra cflags
+      tools: tracing: Append extra cflags
+      tools: usb: Append extra cflags
+      selftests/bpf: Append extra cflags
+      selftests/hid: Append extra cflags
+      selftests/nolibc: Append extra cflags
+      selftests/sched_ext: Append extra cflags
+
+ tools/bootconfig/Makefile                   |  1 +
+ tools/bpf/Makefile                          |  1 +
+ tools/bpf/bpftool/Makefile                  |  9 +++++++--
+ tools/build/Makefile                        |  6 ++++--
+ tools/counter/Makefile                      |  1 +
+ tools/dma/Makefile                          |  1 +
+ tools/gpio/Makefile                         |  1 +
+ tools/hv/Makefile                           |  1 +
+ tools/iio/Makefile                          |  1 +
+ tools/lib/bpf/Makefile                      | 17 ++++++++--------
+ tools/lib/thermal/Makefile                  | 20 ++++++++++---------
+ tools/mm/Makefile                           |  1 +
+ tools/objtool/Makefile                      |  2 ++
+ tools/perf/Makefile.config                  |  2 +-
+ tools/power/acpi/Makefile.config            |  1 +
+ tools/power/x86/intel-speed-select/Makefile |  1 +
+ tools/sched_ext/Makefile                    |  1 +
+ tools/scripts/Makefile.include              | 30 +++++++++++++++++++++++++++++
+ tools/spi/Makefile                          |  1 +
+ tools/testing/selftests/bpf/Makefile        | 10 ++++++++--
+ tools/testing/selftests/hid/Makefile        |  1 +
+ tools/testing/selftests/nolibc/Makefile     |  6 ++----
+ tools/testing/selftests/sched_ext/Makefile  |  1 +
+ tools/thermal/lib/Makefile                  | 20 ++++++++++---------
+ tools/tracing/latency/Makefile              |  1 +
+ tools/usb/Makefile                          |  1 +
+ 26 files changed, 101 insertions(+), 37 deletions(-)
+---
+base-commit: 4ae12d8bd9a830799db335ee661d6cbc6597f838
+change-id: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
+
+Best regards,
+-- 
+Leo Yan <leo.yan@arm.com>
+
 
