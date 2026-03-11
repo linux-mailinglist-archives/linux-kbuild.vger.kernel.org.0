@@ -1,167 +1,184 @@
-Return-Path: <linux-kbuild+bounces-11868-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11869-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gODvJ0rbsWlPFwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11868-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 22:14:50 +0100
+	id EBy2HY7rsWmSHAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11869-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 23:24:14 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DA126A533
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 22:14:50 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714D326ADED
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 23:24:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2907D303C515
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 21:14:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 117B6301488B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 22:24:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C036235DA66;
-	Wed, 11 Mar 2026 21:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F187B3909B3;
+	Wed, 11 Mar 2026 22:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nB1ceOIT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QGfaYwB5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9943231F9AB;
-	Wed, 11 Mar 2026 21:14:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE38A35DA66
+	for <linux-kbuild@vger.kernel.org>; Wed, 11 Mar 2026 22:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773263677; cv=none; b=ruTruuBqqZwORMt6erWJEAqBJ/GQbbmkTE/W9A3JxvbQ1D8F/l+BsplEKzP4IbsMYA51PKQV+PkM5tdj3lJKQKjARJa5X7Jk22TmoXod028VCrwhw5kk5BYrzmyyaadg0KL4abx2BhkZqcwhlvdhDmxgu/39FC/1EHCr7D7E/cQ=
+	t=1773267847; cv=none; b=j/YnyKKWiwQfc7C/TAL0mIjAm17j1byBSe44L2NtBH9MioF7nH68aZlABv3RXfQqE0rEW123kK5x0zu4U2Z5mf0N4JjGivwWjw5k0Un/UAfZBHjprndk63qqSvicC6bpzjQIiWTh69DByCYVYNNlXiTSae8F++QbngqG6wECy00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773263677; c=relaxed/simple;
-	bh=4AK1rqDz6/A4qjK/w9x6JibTYdqI2D5USa9Uljlor+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G8Ba+jORxSVzx09M0OAT2/hugqsjaGtZXcbsQvktFn1MG4d1e6XYyP/pMxeq6LPHyU6x0IzprbFX6WZaf7ACKc0jvpzCy+iy0+XnPnCiANChwwp+I2nt06ai4GIQB0jjdGNu/fdhavmooleb3IiBKVw37puQ31G63V8su6bv7ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nB1ceOIT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB722C4CEF7;
-	Wed, 11 Mar 2026 21:14:35 +0000 (UTC)
+	s=arc-20240116; t=1773267847; c=relaxed/simple;
+	bh=ZLFVU5eapEktBKzOoBgi0i5NSJUcQ2q4Vyl8Jvb9E1Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F+W65mYIhB0nnTF5OpdtQygmJKCC6AAuqxl9XGjA7BX30CmUKgwj0dlR6bSEq/XnFhdD1uzUfAUvU5XLl8ETcPP/IYoa76GDnmc+ERUD97c7NhGrmeoZJZuZgef8Eg0EA2jLz6LS0jz+Dbx4MggBCpKBpXUWiUTTG4X+sNn5fPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QGfaYwB5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D048C4AF0B
+	for <linux-kbuild@vger.kernel.org>; Wed, 11 Mar 2026 22:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773263677;
-	bh=4AK1rqDz6/A4qjK/w9x6JibTYdqI2D5USa9Uljlor+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nB1ceOIToPCiG2Ga6fYFvAKYgRMq4rBLUcUJz61ILzyuOdXns1FvKE63ZPdgZQHZl
-	 Sb4nNTfsbw0QQI5n6wXKZka0cIrk//AuTKoo0ISRoDGLOBcwr8YHsLLIUfXs3ewVur
-	 Y//Sw9zR3uoc7l0O5LZdS/vroMKyuP4eog+uvpPQG9u86rx9FDtkb5kBULGBJiQpKA
-	 ykMX0LdNVLH7xwVNGKzNvHSeT8rR69Tat3JUo29pWbE2YUJJsafK9N2xB5JCRpAIUo
-	 okDFx5h1iJaRVeUidyBXYGIr+WO3tVsGNN7BB1kj1hqBJl5sHNlsdHbQV7Px/yDwRA
-	 t4r5txKCfn75g==
-Date: Wed, 11 Mar 2026 21:14:34 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <20260311211434.GA4173404@google.com>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <20260311011218.GA212983@quark>
- <5726fc65-7d24-4353-b341-81b785f2575c@t-8ch.de>
+	s=k20201202; t=1773267847;
+	bh=ZLFVU5eapEktBKzOoBgi0i5NSJUcQ2q4Vyl8Jvb9E1Q=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QGfaYwB53cQvAke/lXZIySX+qGdO8r/IMsNYe+qC5rhNiywcUTxbgUZrsqlu4Ixzd
+	 e+yj0+tiVcDpuHiESnhMX7rlnMeUtiFZ5ZK2+C8LV2JfHJCXwClRcdmoWuaShWP7lk
+	 zl8B/u2p21Bl7+uV4q6DBnvWXj7k9qEiEz4LfJDvcvkUzKpHLXHzJrMA9V2FypQDlx
+	 b7f7b4ZaWZO4xy7H7AJzODJxvdGcOOXvitIYsQItLa6Ctqmw8qJHAFXeK889flpIFO
+	 jtCJSDf3ffsrUs51SsrcWbhftO7yotlUvrK3H6NmrcIXtmrOUzUmH+yrKhFfmdk6SD
+	 kU2Nx9XND1L8Q==
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-89a14be4733so4522456d6.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Mar 2026 15:24:07 -0700 (PDT)
+X-Gm-Message-State: AOJu0YybJq3LYXicIxNX2qwgkFRzHIc9myxmKHyDA3ZyPuQWv7ICdN2D
+	6lnUWiJAYnfIVMUUaoFhA8E0d/EN6Mhl+QxjI+dEJdUhRzj+JQYQB2MlVEAqnVzR6r6bwANXG9C
+	96/OMD/qK6jDiUY+8jGWepilOd92rGLE=
+X-Received: by 2002:a05:6214:62b:b0:89a:73c:babd with SMTP id
+ 6a1803df08f44-89a66a6c92emr56326186d6.27.1773267846694; Wed, 11 Mar 2026
+ 15:24:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5726fc65-7d24-4353-b341-81b785f2575c@t-8ch.de>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+References: <20260307050250.3767489-1-yonghong.song@linux.dev>
+In-Reply-To: <20260307050250.3767489-1-yonghong.song@linux.dev>
+From: Song Liu <song@kernel.org>
+Date: Wed, 11 Mar 2026 15:23:55 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW6NVTTE8m8OWEaiWhdL14GqkWSZMeOOrAo0FKsry2jrFA@mail.gmail.com>
+X-Gm-Features: AaiRm51QMHljYY2EirQncO_nM0tq77sPO79debvbSjmaWoHa-3d5kYlw5Ix15-U
+Message-ID: <CAPhsuW6NVTTE8m8OWEaiWhdL14GqkWSZMeOOrAo0FKsry2jrFA@mail.gmail.com>
+Subject: Re: [PATCH kbuild v2] kbuild: Reduce the number of compiler-generated
+ suffixes for clang thin-lto build
+To: Yonghong Song <yonghong.song@linux.dev>
+Cc: linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, kernel-team@fb.com, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11868-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,arndb.de,suse.com,google.com,samsung.com,paul-moore.com,namei.org,hallyn.com,lwn.net,linux.ibm.com,ellerman.id.au,gmail.com,huawei.com,oracle.com,linux.dev,atomlin.com,oss.cyber.gouv.fr,proxmox.com,bzzt.net,mapreri.org,archlinux.org,heusel.eu,linutronix.de,vger.kernel.org,lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[41];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ebiggers@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11869-lists,linux-kbuild=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 60DA126A533
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[song@kernel.org,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lpc.events:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linux.dev:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 714D326ADED
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 11, 2026 at 02:19:02PM +0100, Thomas Weißschuh wrote:
-> > > diff --git a/include/linux/module_signature.h b/include/linux/module_signature.h
-> > > index a45ce3b24403..3b510651830d 100644
-> > > --- a/include/linux/module_signature.h
-> > > +++ b/include/linux/module_signature.h
-> > > @@ -18,6 +18,7 @@ enum pkey_id_type {
-> > >  	PKEY_ID_PGP,		/* OpenPGP generated key ID */
-> > >  	PKEY_ID_X509,		/* X.509 arbitrary subjectKeyIdentifier */
-> > >  	PKEY_ID_PKCS7,		/* Signature in PKCS#7 message */
-> > > +	PKEY_ID_MERKLE,		/* Merkle proof for modules */
-> > 
-> > I recommend making the hash algorithm explicit:
-> > 
-> >         PKEY_ID_MERKLE_SHA256,	/* SHA-256 merkle proof for modules */
-> > 
-> > While I wouldn't encourage the addition of another hash algorithm
-> > (specifying one good algorithm for now is absolutely the right choice),
-> > if someone ever does need to add another one, we'd want them to be
-> > guided to simply introduce a new value of this enum rather than hack it
-> > in some other way.
-> 
-> The idea here was that this will only ever be used for module built as
-> part of the kernel build. So the actual implementation could change freely
-> without affecting anything.
-> 
-> But I don't have hard feelings about it.
+On Fri, Mar 6, 2026 at 9:03=E2=80=AFPM Yonghong Song <yonghong.song@linux.d=
+ev> wrote:
+>
+> The current clang thin-lto build often produces lots of symbols with
+> suffix. The following is a partial list of such function call symbols:
+>     ...
+>     ethnl_module_fw_flash_ntf.llvm.7631589765585346066
+>     __nf_conntrack_alloc.llvm.6438426151906658917
+>     tcp_can_early_drop.llvm.11937612064648250727
+>     tcp_print_conntrack.llvm.11937612064648250727
+>     ...
+>
+> In my particular build with current bpf-next, the number of '*.llvm.<hash=
+>'
+> function calls is 1212. As the side effect of cross-file inlining,
+> some static variables may be promoted with '*.llvm.<hash>' as well.
+> In my same setup, the number of variables with such suffixes is 9.
+>
+> Such symbols make kernel live patching difficult since
+>   - a minor code change will change the hash and then the '*.llvm.<hash>'
+>     symbol becomes another one with a different hash. Sometimes, maybe
+>     the suffix is gone.
+>   - a previous source-level symbol may become a one with suffix after liv=
+e
+>     patching code.
+>
+> In [1], Song Liu suggested to reduce the number of '*.llvm.<hash>' functi=
+ons
+> to make live patch easier. In respond of this, I implemented this
+> in llvm ([2]). The same thin-lto build with [2] only has two symbols with
+> suffix:
+>     m_stop.llvm.14460341347352036579
+>     m_next.llvm.14460341347352036579
+> This should make live patch much easier.
+>
+> To support suffix symbol reduction, two lld flags are necessary to enable
+> this feature in kernel:
+>     - Flag '--lto-whole-program-visibility' is needed as it ensures that =
+all
+>       non-assembly files are available in the same thin-lto lld, which is=
+ true
+>       for kernel.
+>     - Flag '-mllvm -always-rename-promoted-locals=3Dfalse' is needed to e=
+nable
+>       suffix reduction. Currently in llvm [1], only process mode is suppo=
+rted.
+>       There is another distributed mode (across different processes or ev=
+en
+>       different machines) which is not supported yet ([2]). The kernel us=
+es
+>       process mode so it should work.
+>
+> The assembly files may have some global functions/data which may potentia=
+lly
+> conflict with thin-lto global symbols after the above two flags. But such=
+ assembly
+> global symbols are limited and tend to be uniquely named for its context.
+> Hence the conflict with globals in non-assembly codes is rare. If indeed =
+the
+> conflict happens, we can rename either of them to avoid conflicts.
+>
+> Nathan Chancellor suggested the following under thin-lto:
+>   KBUILD_LDFLAGS +=3D $(call ld-option,--lto-whole-program-visibility -ml=
+lvm -always-rename-promoted-locals=3Dfalse)
+> The '-mllvm -always-rename-promoted-locals=3Dfalse' flag is only availabl=
+e for llvm23.
+> So for llvm22 or earlier, the above KBUILD_LDFLAGS will ignore those two =
+flags.
+> For llvm23 and later, two flags will be added to KBUILD_LDFLAGS.
+>
+>   [1] https://lpc.events/event/19/contributions/2212
+>   [2] https://github.com/llvm/llvm-project/pull/178587
+>
+> Signed-off-by: Yonghong Song <yonghong.song@linux.dev>
 
-Ah, okay.  That's even better then: if someone adds another algorithm it
-would simply be a kconfig option.
+Acked-by: Song Liu <song@kernel.org>
 
-It seems 'struct module_signature' itself is intended to be a stable
-ABI, though.  So I think there's an opportunity for confusion here.  It
-might be worth leaving a note somewhere that the format of the
-PKEY_ID_MERKLE portion of the struct does not need to be kept stable and
-can freely change in each kernel build.
-
-- Eric
+Thanks for making this improvement happen!
 
