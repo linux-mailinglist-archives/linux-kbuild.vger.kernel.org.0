@@ -1,186 +1,174 @@
-Return-Path: <linux-kbuild+bounces-11816-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11817-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +AeiITDssGmRogIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11816-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 05:14:40 +0100
+	id qC1sJyQEsWmFpwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11817-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 06:56:52 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F50325BDF9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 05:14:40 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 405AF25C9C1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 06:56:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F130F3063B76
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 04:14:37 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A5AD430244DF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 05:56:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0EF4253B42;
-	Wed, 11 Mar 2026 04:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0D0A345757;
+	Wed, 11 Mar 2026 05:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jRRn/fur"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216A1156F45;
-	Wed, 11 Mar 2026 04:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773202476; cv=none; b=ukzMMZTvDMIlZcbn08gSUUpsdRTcEbY+krK1AxTz6EMA1stpjgtuGLBEmSN/77wZ0GXTKxh+jYrDz3Au8i4RAqkbM4GjZEE2T6A5P9FxlxkbfOYip8adjo9NC2JuVfEWkXYmIKYuFcbcpwzT0hU/g+O/bC+Tc9c8a0iI7bctG8I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773202476; c=relaxed/simple;
-	bh=nndBuIvvvc8s3P+94WWplXSwKQrlkxY1Dk02gVlifk4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QYgr0UO9edWsqXwa9hWyKoy0fbwsxY3/uY0ZyRtkIMmLqd9f2wqGkVHVKrEnuU8nSmq41NcrbeCw1wAIMeFnhR9IxOKWA13iZibUNa3XFaL4wM/WBSOGU+NeSpeOpaN+vVTrtnLi1UTAt1Xjpy/u1tzw3B9e1EQcGwKz+umQc1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [10.213.22.86] (unknown [210.73.43.101])
-	by APP-01 (Coremail) with SMTP id qwCowABH8WwC7LBpnxu4CQ--.2041S2;
-	Wed, 11 Mar 2026 12:13:55 +0800 (CST)
-Message-ID: <37d9cd62-da72-4dc4-bc08-48d6e26c5222@iscas.ac.cn>
-Date: Wed, 11 Mar 2026 12:13:54 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F1634752B
+	for <linux-kbuild@vger.kernel.org>; Wed, 11 Mar 2026 05:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773208608; cv=pass; b=f8PaKmcUp7d6G9Pa7x2bQJiGf7JMe2sIPmGrHS7s26xa6c29T04ooXlZdaw9fhC68bxBdd1pwslszbtNKmKsLF8/uJZ0S8Thwr+0WcVh4I+Ts3ZzPlge5jlpxHkWX3caFuMjxH/3FHNuasb9bSTVrcDJ2YN3GXFEU2tXPAZsxBI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773208608; c=relaxed/simple;
+	bh=IfAF5ftZwI5PNKitbUmyPKz3OSE/YAHHlOqkWEEgBRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cUMavGGzNFgWDnn8rezt60/JVht+otcVDOdheoczUzKdVjj5PnU6aUf4PQ3S9BaIqpLfryge5jo/9/Htwr/gnnQE81DarVLvB2C6WE+FO8x/hS2W3R7GmAtQWWVA71zPJH6QQOB0hFFouCwmsJa1unC6ZEMLGT9mif9B0oLxlLQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jRRn/fur; arc=pass smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2be2425ad18so474342eec.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2026 22:56:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773208606; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Gt5j/wlmXfwLU7oXn+2VZ7CHaBIIeSWMCJsfoB7u8wTY5AhRCZ5G9vB64asa1Hw5oP
+         e+JmQQ1hu6R3/Dy6iwGXTzDlLEH/Y+ihoJpcMj+fWmfj45JxpWIAAfaBIHPxplz6Pd12
+         q20vMk6xmobDxh40d48dw6CbS8ScWlgI4BBdJtDeal+Gu1Bn4YCP+4XPMO4twbFvPzoV
+         1YFydbTMBPBDQS/ZBIZ20zb3Ypc+rc1MD7fAfWMTd/+F/VGjD8g5KII4UrCOR/sa0xwG
+         4Jqaj2wBENqdoGtoYfJkl/WfsxY1/V1N7SNoXcbbFD/oiZoayJU14weKC1vPlNNamqCd
+         n/aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=IfAF5ftZwI5PNKitbUmyPKz3OSE/YAHHlOqkWEEgBRs=;
+        fh=SRoyVerdlEcSv+nw0hPWq+KSM/NDCyLX5yA9FHH8P9Y=;
+        b=cxcdPaaAXX1s/7PULNntmZTQV5fxqyx3l2o84C/MbLAtWk9bbZcoL47u0xZTYEXnss
+         Tdo5ZaumuFDdy1xdSb2EKFr0LpoET35OqFcLn/qwQHV1WBhts0HHcML6S/r20SHaeQVf
+         b0bX0E2ex8klSpD653A3uae511Wd6rBNE95km3Ix/mmZt9vgqcVWFp+Zru/SVuw12FaT
+         FggAp44q6pr1E1hoTCHl008Efpf/eTjgN9chRDImJ7sYW+0o/6ZxgJYfvnmdcVF/P3ba
+         62tM9OC7nTn8eB39kNyfYvvanBKgHdLxgnPTR3A4j7G5R6IvDkeKXhwa6xad1kw1ZuzO
+         JBzA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773208606; x=1773813406; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IfAF5ftZwI5PNKitbUmyPKz3OSE/YAHHlOqkWEEgBRs=;
+        b=jRRn/furqfT0Hb/2s9/5TcMXwGpdrXMTq8uShYbNl0TbEWeVPKGJ+73M9H46uDD8AS
+         ESjz1jIEej6k+1bDI+l0bcaCa9W5QEEK2a0Lx+TyogHcTj54iwAcinG483pcVavDcBEN
+         T1DSZpQ/PBAPEAVx+0bKrWd5WnI40rg8EqfMfPJwabVmCBsNy59ek6bbt2Ld+pyq60e4
+         axn1AxAyyiFT6kkT4RCu6FaveOBTjpkCLM8+9VfmGibzrC4ZXWHwV9hqorafkmOklPmR
+         /epS1xgvoKIOfV4tCxTWxvclK+Sd4OynJOc7JHmBHWc0XDERj30yUUVoFr4blQWJIASz
+         zolQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773208606; x=1773813406;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IfAF5ftZwI5PNKitbUmyPKz3OSE/YAHHlOqkWEEgBRs=;
+        b=kar/IMCaXLP72PlJc48xjHzN9SRlQQmEgt1yWK/A12Nk3Y4BvK0GQDSYpcb7yfbmdK
+         ubT5lE/L6EIP+gnyM2vxiJNGbYnfmnEXMrc3YCtNS8eEDk4q8af9sDHtx0IYlSUro6XZ
+         6aZdMD5N93jpEzqcrin+VHX80biBYyxDsh5Y2sn5kWxGhP90hij/u3N4sXcMrpEY8DSj
+         CwtdgYUNL+Qa9QY/IHeiJv4LPFcQDYHyMXyqTv2j22sOOaqtOY7t8ipMxwT/SQuQ9S86
+         zeYpU8jndyd7B+5gX7xcdQXjJuSFpAW8imRqtoZB7yOIrMQhOzD/j1CtGIdw6ORiaw9K
+         Uuag==
+X-Forwarded-Encrypted: i=1; AJvYcCWVqXX5hRYoDiwSyYPy3ahg5ppgSG1aOpGBzN5EUxJ9t1vmDr4I5dipsOEVF5X2Q+nk5qZCDdZov1s5Cl8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVD/81lpQYqVliWZPoOOmMEXvM4FjiJI2niW8ifn2LUQBMjapt
+	UXIEqzZuTTNPMM58fXe7q/H9iJH+zpVqJbdyp6mu7T7zo4A8ViLmpZTQnSTE3L1+LLljQVbIvjq
+	vOwxmuEOLvHZ6I0jgDiOs+fDB2E1hKVYOcitPzexN5w==
+X-Gm-Gg: ATEYQzwmiG5l7DzNw8StNHzjzpfZ9LNUifB+nSXTTkboV7454OOr/A1rtjpwk4P0iP2
+	kCt/A1lNO+MLvKv0I2bMqgJNcX9va4WWvTD/ITZGH+Cu33uGXcQe7qMLZM77H+QjmLKo65BhQo9
+	QpK3z6yEN29lyYpPqsWhVhj28SMn9ymZ21bvcyg1w1KgxCNn5RowV4AaTTd/LdwIBRbAu149P+V
+	rodwfEPEp7S37HEzBGULo8pbc2JlPURxkT7rGO/u9/QAtQZYSv0CkIdV1yOIrNpmncdKV7aMq7E
+	XXythLXbw8LGdKyY2VSbQxhfCV2YAiriBw8C+DraPsIunqqr+W4qz1VyFz9iqJ0y153tnlway1+
+	SQDbug7kCYtp/DK66jjigqDs=
+X-Received: by 2002:a05:7301:688a:b0:2be:1f56:ed0d with SMTP id
+ 5a478bee46e88-2be8a56adfcmr283199eec.6.1773208606293; Tue, 10 Mar 2026
+ 22:56:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] kallsyms: delta-compress lineinfo tables for ~2.7x
- size reduction
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-To: Sasha Levin <sashal@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil Babka
- <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260303182103.3523438-1-sashal@kernel.org>
- <20260303182103.3523438-4-sashal@kernel.org>
- <e393e07f-368f-4b38-b2ed-937ddcc0a217@iscas.ac.cn>
-Content-Language: en-US
-In-Reply-To: <e393e07f-368f-4b38-b2ed-937ddcc0a217@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
+References: <20260225102819.16553-1-mo@sdhn.cc> <20260227132713.23106-1-mo@sdhn.cc>
+In-Reply-To: <20260227132713.23106-1-mo@sdhn.cc>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 11 Mar 2026 06:56:34 +0100
+X-Gm-Features: AaiRm50nK5auv5AgoYCnff3sOr39v0ZCLalsa928K5d6pnGRtrjHnMIXMdLmuSc
+Message-ID: <CANiq72krbKir91s-sVLt4v9k9qV8PQTLrH2uhMdByb882CXZ8w@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: host: use single executable for rustc -C linker
+To: Mohamad Alsadhan <mo@sdhn.cc>
+Cc: nathan@kernel.org, nsc@kernel.org, ojeda@kernel.org, gary@garyguo.net, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Yoann Congal <yoann.congal@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:qwCowABH8WwC7LBpnxu4CQ--.2041S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWFWfZF48ZF4UGryUWw4kWFg_yoW5XryUpr
-	98Kr1DCr48Jw4fA34Svrn8Zay8uw4kGa43Jr97Zrn8AF40gF4ktFySqF429r1DKr9YkFyx
-	Xw4qkFWDK34kJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvvb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
-	8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
-	c7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
-	IFyTuYvjxU9ebkUUUUU
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
-X-Rspamd-Queue-Id: 2F50325BDF9
+X-Rspamd-Queue-Id: 405AF25C9C1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.572];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wangruikang@iscas.ac.cn,linux-kbuild@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,iscas.ac.cn:mid];
+	TAGGED_FROM(0.00)[bounces-11817-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11816-lists,linux-kbuild=lfdr.de];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 3/11/26 11:34, Vivian Wang wrote:
-> Hi Sasha,
+On Fri, Feb 27, 2026 at 2:27=E2=80=AFPM Mohamad Alsadhan <mo@sdhn.cc> wrote=
+:
 >
-> I've been trying this out and AFAICT this does work perfectly.=C2=A0Tha=
-nk you
-> for this.
->
-> There are a few oddities I found:
->
-> Firstly I've been building with something like O=3D_riscv out of
-> convenience, and the file names have an extra ../ in the front. (This i=
-s
-> just me exiting out of init=3D/bin/sh.)
->
-> [    2.317268] Kernel panic - not syncing: Attempted to kill init! exit=
-code=3D0x00000000
-> [    2.320283] CPU: 0 UID: 0 PID: 1 Comm: sh Not tainted 7.0.0-rc3-0000=
-4-g8ad18f1a1a2f #31 PREEMPTLAZY=20
-> [    2.322048] Hardware name: riscv-virtio,qemu (DT)
-> [    2.323220] Call Trace:
-> [    2.324465] [<ffffffff800172a8>] dump_backtrace+0x1c/0x24 (../arch/r=
-iscv/kernel/stacktrace.c:150)
-> [    2.329061] [<ffffffff8000241e>] show_stack+0x2a/0x34 (../arch/riscv=
-/kernel/stacktrace.c:156)
-> [    2.330334] [<ffffffff8000fe32>] dump_stack_lvl+0x4a/0x68 (../lib/du=
-mp_stack.c:122)
-> [    2.331462] [<ffffffff8000fe64>] dump_stack+0x14/0x1c (../lib/dump_s=
-tack.c:130)
-> [    2.332571] [<ffffffff80002a88>] vpanic+0x108/0x2bc (../kernel/panic=
-=2Ec:651)
-> [    2.333674] [<ffffffff80002c6e>] panic+0x32/0x34 (../kernel/panic.c:=
-787)
-> [    2.334427] [<ffffffff8002e97a>] do_exit+0x7ee/0x7f4 (../kernel/exit=
-=2Ec:930)
-> [    2.335194] [<ffffffff8002eade>] do_group_exit+0x1a/0x88 (../kernel/=
-exit.c:1099)
-> [    2.335945] [<ffffffff8002eb62>] __riscv_sys_exit_group+0x16/0x18 (.=
-=2E/kernel/exit.c:1129)
-> [    2.336763] [<ffffffff80b3e868>] do_trap_ecall_u+0x260/0x45c (../arc=
-h/riscv/include/asm/syscall.h:112)
-> [    2.337765] [<ffffffff80b4c034>] handle_exception+0x168/0x174 (../ar=
-ch/riscv/kernel/entry.S:233)
->
-> This is fine by me, but I've seen mentions of O=3D builds but I'm not s=
-ure
-> if it's expected.
->
-> Also, toggling CONFIG_KALLSYMS_LINEINFO seems to rebuild every single
-> file. I haven't debugged why, but is this expected?
->
-> I have a few ideas about the code as well. Since this patch 3 touches
-> most of the files involved, I'll just dump my thoughts on the whole
-> series here. I want to note that I haven't read the RFC thread too
-> carefully, but I don't think there were many comments on the implementa=
-tion.
+> Acked-by: Nathan Chancellor <nathan@kernel.org>
 
-Uh, oops, I just realized I was replying on v1 not v2.
+Since v2 is fairly different than v1, I would probably have dropped this ta=
+g.
 
-Most of my idea should still apply. One notable idea was the module
-lineinfo header offset/size one. I see that one of the things addressed
-in v2 was the alignment after compressed data. If we'd been using
-offset/size in the header it would be just, code-wise, one extra .balign
-4 and done. No need to fiddle with alignment when decoding in
-mod_lineinfo_file_offsets_off().
+> +ifneq ($(words $(HOSTRUSTC_LD)),1)
+> +ifneq ($(filter command\ line environment,$(origin HOSTRUSTC_LD)),)
+> +$(error HOSTRUSTC_LD must be a single executable for rustc -C linker=3D.=
+ Got: "$(HOSTRUSTC_LD)")
+> +endif
+> +HOSTRUSTC_LD :=3D $(lastword $(HOSTCC))
+> +$(warning HOSTCC expands to multiple arguments. Trying HOSTRUSTC_LD=3D"$=
+(HOSTRUSTC_LD)" for rustc. Set HOSTRUSTC_LD to override.)
+> +endif
 
-Sorry for the inconvenience.
+It is good that this gives diagnostics, but do we want to make the
+logic so involved?
 
+Did you try what Gary suggested (a wrapper script) and it didn't work?
+
+Thanks!
+
+Cheers,
+Miguel
 
