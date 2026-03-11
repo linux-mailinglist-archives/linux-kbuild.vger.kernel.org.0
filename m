@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-11830-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11831-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GJ29Ht4ssWkVrwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11830-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:50:38 +0100
+	id 0PyEOnMqsWkBrgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11831-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:40:19 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3A225FB81
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:50:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A5525F83D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 09:40:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7A9A13336C5E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 08:33:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6162B320BE18
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2026 08:33:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374DB3BF663;
-	Wed, 11 Mar 2026 08:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E39173C0625;
+	Wed, 11 Mar 2026 08:31:16 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8249A3BED43;
-	Wed, 11 Mar 2026 08:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288523C060B;
+	Wed, 11 Mar 2026 08:31:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773217869; cv=none; b=e0KZiS8ABvDA9+imtifPuKv1y/MyhbovACWv5yKeWhz4F8DCGHPxsw1tUcGYcFahesTSyq5dBpo5Wg0xM8wXGXNZk4uoPVyBNCxN/bvo1EeMmWZOhIwVvq/LOZlcp2HuCCim1lVsOsUxEIYHVs7KKN03X2y8z3Kojm4HqhRWp20=
+	t=1773217876; cv=none; b=OByIYD+VjJP9miMts31l3O1rwX+k+9gHB5DO6X2s9uigrXtEFEM0hCqO7muXvkbna3+SHGRa8fWVLSIP+x+7vTYc1cvAkVSjOFfLz3rpjR0BBwD/3oQk0M1+OLp9FkyGiWmpDH5yZAWUiZXRarFnm2F+uhIJPNwHi808iDWOtM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773217869; c=relaxed/simple;
-	bh=7+wT4XqOtfZrTnarTeuayBt59FLu6mtAfaIIVesnRow=;
+	s=arc-20240116; t=1773217876; c=relaxed/simple;
+	bh=UN0Max7qbwkYOGlwk9cg0egNBdEm8uSkyaEHFi5qcp8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QqVFMgUXgENWgMDsj8NXfEfh1DsOjVvZFTUuhIUGnUDJQb8w2UQowQjcvjO8+IcUGlAdYmwEZqE+rkqpFA4HSbzy3Rif2Wsr7IrwrFiGDNey+fD551V7Wo7FANY6vkj4MiXDBlC3PDLZ4SO1s7S+Nr5mtXWZ7hAFsB03wj5ANH0=
+	 In-Reply-To:To:Cc; b=VPnQJPFBZ+TsSLUjUZNeP1n8fnpAFv35Snzu2qESmCp4EVsoUauqmoUGqmAq/24OW2xBkFor2c4a8v9OJRSyiP4mSgEN0s6nk8CH03N7RO8q6Yi5KlLANPgN/sDpLCP9cQNnPfIVddhgb+5iEn90TKpv1JFsj+jWy6XWPehKfu4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB586165C;
-	Wed, 11 Mar 2026 01:31:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5992F204C;
+	Wed, 11 Mar 2026 01:31:08 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6DE983F73B;
-	Wed, 11 Mar 2026 01:30:59 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1BF623F73B;
+	Wed, 11 Mar 2026 01:31:07 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Wed, 11 Mar 2026 08:29:34 +0000
-Subject: [PATCH v4 09/30] bpftool: Append extra host flags
+Date: Wed, 11 Mar 2026 08:29:35 +0000
+Subject: [PATCH v4 10/30] perf build: Append extra host flags
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-tools_build_fix_zero_init-v4-9-9e35bdb99cb3@arm.com>
+Message-Id: <20260311-tools_build_fix_zero_init-v4-10-9e35bdb99cb3@arm.com>
 References: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
 In-Reply-To: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -93,28 +93,28 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
  Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773217789; l=824;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773217789; l=1040;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=7+wT4XqOtfZrTnarTeuayBt59FLu6mtAfaIIVesnRow=;
- b=o8V1UhLif7/3n1E41IGWqzeAhSiroao04VGZxLJqJy2NvVXcbmsqlbrQToK6bXTdXNceWPZjR
- m6EVf8ZLQjJD6CUvd0YQ/ijGoI5EtkzwcxivSCPUWfNCtXgqSAkDWm9
+ bh=UN0Max7qbwkYOGlwk9cg0egNBdEm8uSkyaEHFi5qcp8=;
+ b=tyLt7u8N/XQ5XNMFAn1gVNdusZVnOCnohFRDx9Dg2ztoFoYyhu/wzwwDMsAvtweA1a6PzH/N6
+ 8dUS4dT2jzIDFLDWr2GE9XE24iuoGoH+53PKFub8kvDwd9mljGHhrgZ
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
-X-Rspamd-Queue-Id: DB3A225FB81
+X-Rspamd-Queue-Id: 55A5525F83D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11830-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11831-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
 	FROM_HAS_DN(0.00)[];
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[70];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.926];
+	NEURAL_HAM(-0.00)[-0.921];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
@@ -134,24 +134,24 @@ X-Rspamd-Action: no action
 Append HOST_EXTRACFLAGS to HOST_CFLAGS so that additional flags can be
 applied to the host compiler.
 
-Acked-by: Quentin Monnet <qmo@kernel.org>
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/bpf/bpftool/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ tools/perf/Makefile.config | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/bpf/bpftool/Makefile b/tools/bpf/bpftool/Makefile
-index 3e7d8359e1b2a81a29a47544be8539e3b191a0e8..762fcf0e62a189625053798dddeaf17d409fe248 100644
---- a/tools/bpf/bpftool/Makefile
-+++ b/tools/bpf/bpftool/Makefile
-@@ -86,6 +86,7 @@ endif
- # including flags that are not applicable to the host compiler.
- HOST_CFLAGS := $(subst -I$(LIBBPF_INCLUDE),-I$(LIBBPF_BOOTSTRAP_INCLUDE),\
- 		$(subst $(CLANG_CROSS_FLAGS),,$(CFLAGS)))
-+HOST_CFLAGS += $(HOST_EXTRACFLAGS)
+diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
+index a8dc72cfe48eec52bd9e2352c46c88f5d8047765..f4004ec148a19c784bfe3ee9b5cc3901a3db25a3 100644
+--- a/tools/perf/Makefile.config
++++ b/tools/perf/Makefile.config
+@@ -17,7 +17,7 @@ detected     = $(shell echo "$(1)=y"       >> $(OUTPUT).config-detected)
+ detected_var = $(shell echo "$(1)=$($(1))" >> $(OUTPUT).config-detected)
  
- ifneq ($(EXTRA_CFLAGS),)
- CFLAGS += $(EXTRA_CFLAGS)
+ CFLAGS := $(EXTRA_CFLAGS) $(filter-out -Wnested-externs,$(EXTRA_WARNINGS))
+-HOSTCFLAGS := $(filter-out -Wnested-externs,$(EXTRA_WARNINGS))
++HOSTCFLAGS := $(HOST_EXTRACFLAGS) $(filter-out -Wnested-externs,$(EXTRA_WARNINGS))
+ 
+ # This is required because the kernel is built with this and some of the code
+ # borrowed from kernel headers depends on it, e.g. put_unaligned_*().
 
 -- 
 2.34.1
