@@ -1,135 +1,205 @@
-Return-Path: <linux-kbuild+bounces-11890-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11891-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id tSkgIxvKsmk9PwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11890-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 15:13:47 +0100
+	id GA9pKffJsmmvPAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11891-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 15:13:11 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A13273246
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 15:13:46 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2837273215
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 15:13:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EE2E6305FD8F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 14:12:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 98B0F30069BE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 14:13:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197083603D2;
-	Thu, 12 Mar 2026 14:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6470834D4CB;
+	Thu, 12 Mar 2026 14:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tzbpDLF3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sojfnhlo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE9640DFD5;
-	Thu, 12 Mar 2026 14:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773324770; cv=none; b=d+YKRKKpF6LVebijbbbx90X6KwYqzNQsObro0P+RQd8obG7VIHqugOe+3w+WwOASyvFPF/Tk4/yca/x6o4z1V8cIug7YbeNzBaB/W6q1qCMvK6nbDhwyCr7/B0JAqPA9ScLsnyHUMOhkUuzG6j045dU1EGmkJrYBfCOE0kGd4ek=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773324770; c=relaxed/simple;
-	bh=JUNNBRHYqAlI90eVN92Ye3wzh5o69+j3AKe0pIbjTr4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rltjz7MUl1GqDA4tSFecOCCVdwPJkC8Rv3FKfiyi88dSfkvg7cPB9Q6JE4utCe9RRk5gFmMOG9w2sgdELeQEeV1j+BhsWsTXlFSEwXRH757G5tlOzor/B/7PHKnatnoCldSRzzb38TMtbgIFfcx/ZubPfnfw6/Qj5hPjn7VmsA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tzbpDLF3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F339CC4CEF7;
-	Thu, 12 Mar 2026 14:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773324769;
-	bh=JUNNBRHYqAlI90eVN92Ye3wzh5o69+j3AKe0pIbjTr4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tzbpDLF352DZo8kyJ8wujuZ3MzRPcZcr3Bwhj7BTReIFDFWjwhgaep3va6mEfBXG2
-	 QsTH81aXUkiRtTJ6BZM0aIpST1pDxkvw4hihtxnxGfl0cVCU02aMLA9ANc0hUqzSN4
-	 PWzELtT8n6W7aFGjNuPeu6RHgViAtADqZegyW1iYRH7MCx0km7J4OcS9na/pPRvaOU
-	 amd3vjGbX0QNjbxR8QZm/V8LKeTk9R7vPaLuXGBhf/nss+GJRjVgK6dTntFSkcPFDj
-	 4rWvMLZ9Uw+qYDc3gRQqKLsVYBuSzhrWZaqj3wd2VS+XEzO/E/MX3k4+yThZEaeJSD
-	 P41YKGCaULBzQ==
-From: Nicolas Schier <nsc@kernel.org>
-To: linux-kbuild@vger.kernel.org,
-	live-patching@vger.kernel.org,
-	Yonghong Song <yonghong.song@linux.dev>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	kernel-team@fb.com,
-	Nathan Chancellor <nathan@kernel.org>,
-	Song Liu <song@kernel.org>
-Subject: Re: [PATCH kbuild v2] kbuild: Reduce the number of compiler-generated suffixes for clang thin-lto build
-Date: Thu, 12 Mar 2026 15:12:24 +0100
-Message-ID: <177332462174.82802.2344537821152391518.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260307050250.3767489-1-yonghong.song@linux.dev>
-References: <20260307050250.3767489-1-yonghong.song@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEE035F188
+	for <linux-kbuild@vger.kernel.org>; Thu, 12 Mar 2026 14:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773324779; cv=pass; b=uMCEcHkjipAu/VsG3oLU3lcXzBNlpUQFPFhCcnxuCI3Orm7WLssAowviUop9W5PzmDMW0dYOykCWH8dbeKckh28QvI5mq8bB+vfHVf/Lk9VYvOn9jFKTtNjSR0bCBw5cKuyP6papWkhmIZQb3BSNHdkLrVQL6IGVZYDCXIO+TIY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773324779; c=relaxed/simple;
+	bh=crp4nXRTSnQxu5DrXrn4okeAwkLZ7jy6iVWODJy4Gjg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hnx6jRj4qaATAzRF0ilWadv1oMXVZA+isWLq9ZFgL7xVcZh+r7sfXnAIVfqzGQFL3PwiPX6sicTrJ29OhaHJmxOhdzLH7puf2Uy8JadBOOURaCfhmFvFKvAyXCHebKAV/3XNpB4dG5ecZX5mXDRA7epgbEcYRJ/r3dug7XRxnEk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sojfnhlo; arc=pass smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2bda3b4318dso68200eec.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Mar 2026 07:12:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773324776; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fCF7fwMvMMSOku70qe0xbNdEYgdeucxI5Cflko/1823ddkryamFy7qcgSbIra1Apck
+         pZxRuYGwMrb2lPKMi5LhbBEY7v79351NyR7ZbCvEmErqikJdR6ZIVLKR4IqCoH5c5hZc
+         SCqSa6t49wf2YdMN1EyGxqojdwJ+O/ss3tdaaJc3MQwL+7sEGe+KaK3T61om2GWTBe58
+         4w6e4iKTum76WGA2LBINYkVeen7LXQYaMDAJpcahabmMH9aMhmY+4wKOfBSnHJrJnJee
+         N25kNNINCbzNwmqyl8Gqy1URCY3T9p28jrNXxu+e1EdPyYqb0/eXzCfbPEknidAzuW3y
+         OfVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6eOWrX69/YZe4aFBkH+waBiPUXBOMXCfZ8Ty7gGvlRg=;
+        fh=2wXDC+ueJaeZzZ7kvg4syODLpHDs/SmV8oI0DhJjtP8=;
+        b=cwCBlj1ANgU4mZD/UgwYoMPuWi8SZ/cpbgWFIgCQ4OznerT1GErePM3Ax5Y2XdgM6J
+         xFJP22LIIe0ryF647Rl84DvQ+HxI8/8tDfZa2jy1wjwByZA9qhzTqMvwPYhKnX2kYGjy
+         LeQ5byNizWVhmZknpfbJua28jwHt+jlLtxLTQ5gTjxxB5BpPaPmsQwawvYfwxg0Hfyp6
+         MzGBrSnnULFGzDdur9klljxKDQJeP2kgw5ZPz/3s3K03ffJtIhCFCUOxXScyOZlAZrjB
+         p/gFIVLPOlRFSSWSvoAd91AImxZO5Rv2QRmH6Bm+Eic7axpBfRJr5YODgbquqadiYuKq
+         AQdw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773324776; x=1773929576; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6eOWrX69/YZe4aFBkH+waBiPUXBOMXCfZ8Ty7gGvlRg=;
+        b=SojfnhlosruICIDHrT34kuOviz5EgoPYCimgfL8Pibf58jQovTKT04SFv8kWWaaqvF
+         9L0qrCqSGeM2brfXliScUcPXBiXAS9YKx2MtaMdBftp0yHDxwG9E8ojQiZtDnmNnYhRN
+         OHvdfG1zqSl2yRjCiv07Prj7sELdH1bTVRg5Xvm9w63y2Srhosl4wsHPMOn/Jtpra5za
+         hL+Tn2MhochJfuWwG6WbBs1+1fK6lQoCSTCK05qbuQpula78nMjvNOB9zmZDwzlPQ85u
+         Gl/pOnzxrG+levfU0CjGCKCu81Sfo+zs4Eu1EZxWbxDkmDQz62SZxSDjjWdytcn5IlXq
+         3GVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773324776; x=1773929576;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6eOWrX69/YZe4aFBkH+waBiPUXBOMXCfZ8Ty7gGvlRg=;
+        b=bSWLdIcdRNEKGjtX9O9mRRrOCi75oMZ6ecw702RsS7V3l1vJAMIHP6if89z4bPQm0B
+         X0+Ns39qmdQXgSQxYL7R2rv750WeAJVUTHDU7kzF31I5Vwj/AO1Ik1F24XnYfb50Xg+H
+         9JICcAxX7WgA11eV0jkVReJsSjimVkon3Nlk+aflahREZWez87yuodgrkVjk7FG6jp5f
+         pJgebMZ9WfTeYMppWtk/LopSEQHVvEoiARAD8BuhqfKp+2py1Ya5XvgeoMe1xoPlegTp
+         HGEa0Utxkncd1iBBpQI+HJ3kgCrKnddN7pmtMfd1WjQ93cC7KYvE3V/jr6Z0wGt9Tvat
+         MENA==
+X-Forwarded-Encrypted: i=1; AJvYcCVo0vq/ZiRGd6RT89EVHW9USAhhwHV4xFu7Rx8xmpMDfToaui0EzubB90sQp8DWBywZoUpJ0WfFl5e7TvA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMu/v5WenbOmHJxhQi6A26WvqXLyYjE5eCvOhtvKpftvWLTUqP
+	9IeBr0w/iYKNqMTjNkffcPNn3esE+YmzWVBB1mLqc116gWIGTa9Jh61tF/dlCmzJKnL3LhCxUqk
+	UcO8PyfXUrHQhNVguOEEi99X2bpVqxgg=
+X-Gm-Gg: ATEYQzzcpi2SRGBthQJS7fewQ1hfSlp1qGXOIx4IJW2UR92JcvEnUBw8LFlFbzL3J/Z
+	zBy0X0of+Ih2KDEIG5jOiU/hAUXeZ8swJZhYPnojEdBomBdyk6TQD/o1NLb2y9iVAQuue3TMfGA
+	lULsR5/m8oS+xp8EbLSV59Bv/6lwVP/XGhGI/ZGwe0OEMWWY+DAEFCUi2UxnOuz67DBfGlYblon
+	VMhcSmPZ47q0BBB6CLVq2yFJZJiqOziucPuflmFmC/QsRsWNmPFwc98BM3ceuiDpGJcnNPsok+D
+	Mv5v5qeSLPMLfj/3/aIdlioGsbKHP8HOWD7a951mG4rOyF4VcloUVrhsV1YqBxDmqJc/FmX+ST2
+	SV5+0vrjfHxDvF3TlDQUiLRg=
+X-Received: by 2002:a05:7301:3d18:b0:2bd:d17c:b0aa with SMTP id
+ 5a478bee46e88-2be99a92ca7mr517960eec.6.1773324776231; Thu, 12 Mar 2026
+ 07:12:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260203221224.GA2703490@ax162> <20260205131815.2943152-1-mlksvender@gmail.com>
+ <20260205131815.2943152-2-mlksvender@gmail.com>
+In-Reply-To: <20260205131815.2943152-2-mlksvender@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 12 Mar 2026 15:12:43 +0100
+X-Gm-Features: AaiRm51IHWWN5UTrr_5ZnPWocBFehwqVL5SrUFu_N1GxcI2hhpEBsuGv-tlBNm8
+Message-ID: <CANiq72nnuKJaKrxrut6+noR13PUiSoWWyyp-pGx-fe_2O6ayFA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] rust: Makefile: bound rustdoc workaround to
+ affected versions
+To: HeeSu Kim <mlksvender@gmail.com>
+Cc: nathan@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com, 
+	bjorn3_gh@protonmail.com, boqun@google.com, charmitro@posteo.net, 
+	dakr@kernel.org, gary@garyguo.net, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, lossin@kernel.org, nsc@kernel.org, 
+	ojeda@kernel.org, rust-for-linux@vger.kernel.org, stable@vger.kernel.org, 
+	tmgross@umich.edu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-11890-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-11891-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,protonmail.com,posteo.net,garyguo.net,vger.kernel.org,umich.edu];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 07A13273246
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: C2837273215
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 06 Mar 2026 21:02:50 -0800, Yonghong Song wrote:
-> The current clang thin-lto build often produces lots of symbols with
-> suffix. The following is a partial list of such function call symbols:
->     ...
->     ethnl_module_fw_flash_ntf.llvm.7631589765585346066
->     __nf_conntrack_alloc.llvm.6438426151906658917
->     tcp_can_early_drop.llvm.11937612064648250727
->     tcp_print_conntrack.llvm.11937612064648250727
->     ...
-> 
-> [...]
+On Thu, Feb 5, 2026 at 5:18=E2=80=AFAM HeeSu Kim <mlksvender@gmail.com> wro=
+te:
+>
+>  # Similarly, for doctests (https://github.com/rust-lang/rust/issues/1464=
+65).
+>  doctests_modifiers_workaround :=3D $(rustdoc_modifiers_workaround)$(if $=
+(call rustc-min-version,109100),$(comma)sanitizer)
 
-Note: Due to application of [1] to kbuild-next-unstable, I had to update the
-      patch context.
+So I was merrily going to apply this, but sadly, this is not so
+simple: the patch doesn't work because the doctests (the variable
+quoted above, no the one that the patch modifies) need to take into
+account the other one, which appends the sanitizer case using a comma.
 
-[1]: https://lore.kernel.org/linux-kbuild/20251028182822.3210436-1-xur@google.com/
+For instance, for Rust 1.94.0, this would expand to just `,sanitizer`.
 
+And it is not as simple as adding the flag there -- please see what I
+wrote in commit fad472efab0a ("rust: kbuild: workaround `rustdoc`
+doctests modifier bug"):
 
+    By the way, the `-Cunsafe-allow-abi-mismatch` flag overwrites previous
+    ones rather than appending, so it needs to be all done in the same flag=
+.
+    Moreover, unknown modifiers are rejected, and thus we have to gate base=
+d
+    on the version too.
 
-Applied to kbuild/kbuild-next.git (kbuild-next-unstable), thanks!
+I would suggest we take the chance to introduce the range version
+check, and also to gate the doctests check up to 1.92, since it should
+be fixed in that version.
 
-[1/1] kbuild: Reduce the number of compiler-generated suffixes for clang thin-lto build
-      https://git.kernel.org/kbuild/c/b7a7ce34
+And perhaps it is simpler if we split (expand) the cases explicitly
+version by version for each variable using conditionals with the
+version check. That is way more verbose, but it is way easier to see
+what is going on in each case and to later on remove the cases when we
+upgrade etc.:
 
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped,
-reverted or modified (e.g. trailers). Patches applied to the
-kbuild-next-unstable branch are accepted pending wider testing in
-linux-next and any post-commit review; they will generally be moved
-to the kbuild-next branch in about a week if no issues are found.
+    ifeq ($(call rustc-version-range,108800,109000),y)
+    rustdoc_modifiers_workaround :=3D -Cunsafe-allow-abi-mismatch=3Dfixed-x=
+18
+    doctests_modifiers_workaround :=3D -Cunsafe-allow-abi-mismatch=3Dfixed-=
+x18
+    else ifeq ($(call rustc-version-range,109000,109100),y)
+    doctests_modifiers_workaround :=3D -Cunsafe-allow-abi-mismatch=3Dfixed-=
+x18
+    else ifeq ($(call rustc-version-range,109100,109200),y)
+    doctests_modifiers_workaround :=3D
+-Cunsafe-allow-abi-mismatch=3Dfixed-x18,sanitizer
+    endif
 
-Best regards,
--- 
-Nicolas
-
+Cheers,
+Miguel
 
