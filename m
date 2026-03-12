@@ -1,304 +1,337 @@
-Return-Path: <linux-kbuild+bounces-11873-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11874-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oD4uOZQismnlIwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11873-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 03:19:00 +0100
+	id 0KPSLNgtsmmzJQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11874-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 04:07:04 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823A226C266
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 03:19:00 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E4826C96D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 04:07:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 77573306585B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 02:18:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C5E6E300C341
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Mar 2026 03:07:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8A433F8C4;
-	Thu, 12 Mar 2026 02:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28FA6374E5A;
+	Thu, 12 Mar 2026 03:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLM2wnaF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eC+RHtFL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360E433F39C;
-	Thu, 12 Mar 2026 02:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052CA3290C4;
+	Thu, 12 Mar 2026 03:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773281904; cv=none; b=BnHvNg+kNva9q58BYx10GdZWDHDYQ34Y3Wl79buKX1LeZUKCf//PQ3DMpN+Syf7VWWTzQ3tLxrchoFUY7LoaU7ELiEL8oFO68LsSNHaqRd3Q4h/pBp8XMLyn/DzPWvkX9DFNoWib38J3g3e8omBCvPfNMJAFKfkStk7QXYApLrM=
+	t=1773284818; cv=none; b=RGIE4QPQPsiT7f8xhy7u8tl9gJv5PwrANDb2XaIMgb25v9NZdySZjTA/vqC1bTQeB1FkJ5RtAOz6U/uUxKfaKSaADlgN9mTrXxd8R9SG+nAKACDN4rRZ2JoaSQ9fyhOKkU4OvPyHhiAJQvlZSbKr5VVsL7CFz5vv5NCSlQcqKvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773281904; c=relaxed/simple;
-	bh=wJRNGLgBDv9oro+nAnU2bDCWCxixiUzUxLN0YtCkQLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ml1h7rEubuINYHzL6zpDfry1lr8Tf/2E2sZxucLpNI+mlHW4DOUl99MT0scGH7QXts69/Ho8v1k1EWB+tv+SFJ2AahbieV1vZz1TxQeTk9mYqE7SHuG0RHVRm8zoPGTDHGiRQAQSN1waMShWsdN0axBocMRNAfEBvzF8G7E/7o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLM2wnaF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819F3C4CEF7;
-	Thu, 12 Mar 2026 02:18:23 +0000 (UTC)
+	s=arc-20240116; t=1773284818; c=relaxed/simple;
+	bh=hXSLb0sz9FleQVK2i/05bazjKtyRjpsQ9DUiStbKFIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AioxP32FrzXxVXenvYHCGW2nQbLzPMy+ZsO4XooIosupJ7PhQFO+Jx3J/ypy0MM6dtFWA9/huZKXZF69KgyaAfzbxRBYeOTgOOXK+7VtbOIWsyRNwqG0U+UlaOSE/XI9omcVnWPztOlXnc7iRqU6TAIpgOlscJCOUR/8tBswNZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eC+RHtFL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D3EC4CEF7;
+	Thu, 12 Mar 2026 03:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773281903;
-	bh=wJRNGLgBDv9oro+nAnU2bDCWCxixiUzUxLN0YtCkQLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MLM2wnaFvrliAjpMpXLqcidlLlx/Mt6c7GH2rDY9DvwBsKqm0UE3Xnsokh641fyf4
-	 ra4lTkOmcBHYSu9saXHoXowx7EdJEPHscv7wqMCZlz24CUpgnIc1yKBvBkSA6xctW5
-	 3wFECBec42I/yP+2ooiy8vtCXsD3bV89mppPBETKcElRlYc6suIo3H5W+qtnAvI//v
-	 tj5Y5F3nvKeelVwgVjmNLt+lQiMa/tg6PF6+TRq9vqWS+/xfnyx5iSKWDYTPFhmJ/W
-	 M29oE2ncEw/isL0ZqlwQvdeBenS8agaKgvkZVTB0u2+UAXJFaZJj1qHWYpAYtaV8e9
-	 Cw6XJ68lIYUvQ==
-Date: Wed, 11 Mar 2026 22:18:22 -0400
+	s=k20201202; t=1773284817;
+	bh=hXSLb0sz9FleQVK2i/05bazjKtyRjpsQ9DUiStbKFIY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eC+RHtFLyVKqtJvzlrP8mcl8lZ0r675pIFO7icSsZu/WLpsjKXMULACzlzK0o47xd
+	 XYP7JZu7tV+wuaw95R/K8MXZxmBzFNDQQ7WEDXGbbxDlt0wj94OdO99j+xRLFNvQA9
+	 PXPAKEoBO3/ZCK+h8s5v/IqcgCEDOYGSe2ZCzhZ5/yiu+q976WI1zFLb577dPFwWW6
+	 8ZgMTQdwYorUBctebxj8VJNJSHECRUmxXMzSeAKLaT6z/FpW8wlc+RFHV3fk0xzU5L
+	 WwPbGiohNcBeFYv0/5H4We9ZDrbIFsiGPPZu8rVj04yGnZdMNDr2B+w5FFmrKbl1LM
+	 VMb2ekhhRZOAQ==
 From: Sasha Levin <sashal@kernel.org>
-To: Vivian Wang <wangruikang@iscas.ac.cn>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+To: Andrew Morton <akpm@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Richard Weinberger <richard@nod.at>,
 	Juergen Gross <jgross@suse.com>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
 	Daniel Gomez <da.gomez@kernel.org>,
 	Greg KH <gregkh@linuxfoundation.org>,
 	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] kallsyms: delta-compress lineinfo tables for ~2.7x
- size reduction
-Message-ID: <abIiboWICm309vVd@laps>
-References: <20260303182103.3523438-1-sashal@kernel.org>
- <20260303182103.3523438-4-sashal@kernel.org>
- <e393e07f-368f-4b38-b2ed-937ddcc0a217@iscas.ac.cn>
- <abGBA0QhAI-kf0mq@laps>
- <b4b8d277-f6af-4207-ac1f-9c352b05995c@iscas.ac.cn>
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v3 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Wed, 11 Mar 2026 23:06:44 -0400
+Message-ID: <20260312030649.674699-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b4b8d277-f6af-4207-ac1f-9c352b05995c@iscas.ac.cn>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[lwn.net,kernel.org,suse.com,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,gmx.de,ideasonboard.com,iscas.ac.cn,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-11874-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11873-lists,linux-kbuild=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 823A226C266
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B5E4826C96D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 12, 2026 at 10:03:55AM +0800, Vivian Wang wrote:
->Hi Sasha,
->
->On 3/11/26 22:49, Sasha Levin wrote:
->> Thanks for the review!
->>
->> On Wed, Mar 11, 2026 at 11:34:24AM +0800, Vivian Wang wrote:
->>> Hi Sasha,
->>>
->>> I've been trying this out and AFAICT this does work perfectly. Thank you
->>> for this.
->>>
->>> There are a few oddities I found:
->>>
->>> Firstly I've been building with something like O=_riscv out of
->>> convenience, and the file names have an extra ../ in the front. (This is
->>> just me exiting out of init=/bin/sh.) 
->>> [    2.317268] Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000000
->>> [    2.320283] CPU: 0 UID: 0 PID: 1 Comm: sh Not tainted 7.0.0-rc3-00004-g8ad18f1a1a2f #31 PREEMPTLAZY
->>> [    2.322048] Hardware name: riscv-virtio,qemu (DT)
->>> [    2.323220] Call Trace:
->>> [    2.324465] [<ffffffff800172a8>] dump_backtrace+0x1c/0x24 (../arch/riscv/kernel/stacktrace.c:150)
->>> [    2.329061] [<ffffffff8000241e>] show_stack+0x2a/0x34 (../arch/riscv/kernel/stacktrace.c:156)
->>> [    2.330334] [<ffffffff8000fe32>] dump_stack_lvl+0x4a/0x68 (../lib/dump_stack.c:122)
->>> [    2.331462] [<ffffffff8000fe64>] dump_stack+0x14/0x1c (../lib/dump_stack.c:130)
->>> [    2.332571] [<ffffffff80002a88>] vpanic+0x108/0x2bc (../kernel/panic.c:651)
->>> [    2.333674] [<ffffffff80002c6e>] panic+0x32/0x34 (../kernel/panic.c:787)
->>> [    2.334427] [<ffffffff8002e97a>] do_exit+0x7ee/0x7f4 (../kernel/exit.c:930)
->>> [    2.335194] [<ffffffff8002eade>] do_group_exit+0x1a/0x88 (../kernel/exit.c:1099)
->>> [    2.335945] [<ffffffff8002eb62>] __riscv_sys_exit_group+0x16/0x18 (../kernel/exit.c:1129)
->>> [    2.336763] [<ffffffff80b3e868>] do_trap_ecall_u+0x260/0x45c (../arch/riscv/include/asm/syscall.h:112)
->>> [    2.337765] [<ffffffff80b4c034>] handle_exception+0x168/0x174 (../arch/riscv/kernel/entry.S:233)
->>> This is fine by me, but I've seen mentions of O= builds but I'm not sure
->>> if it's expected.
->>
->> Could you try v2 and see if it makes it prettier? I tried to tackle
->> this :)
->
->Thanks, I'll try it out and see.
->
->>
->>> Also, toggling CONFIG_KALLSYMS_LINEINFO seems to rebuild every single
->>> file. I haven't debugged why, but is this expected?
->>
->> I think that this is because we increase KSYM_SYMBOL_LEN when lineinfo is
->> enabled. I suppose we can just increase the size irregardless of whether
->> lineinfo is enabled and ignore the waste?
->>
->> Or, folks really won't be toggling this option too often for the
->> rebuilds to
->> matter too much, so we can just enjoy the savings? 
->
->Yeah I understand now. The size affects some fundamental headers.
->
->I just thought it was odd. The current situation is fine by me - if I'm
->building a kernel and toggling configs, it means I have the vmlinux file
->and can use scripts/decode_stacktrace.sh :)
->
->>> I have a few ideas about the code as well. Since this patch 3 touches
->>> most of the files involved, I'll just dump my thoughts on the whole
->>> series here. I want to note that I haven't read the RFC thread too
->>> carefully, but I don't think there were many comments on the
->>> implementation.
->>>
->>> On 3/4/26 02:21, Sasha Levin wrote:
->>>> Replace the flat uncompressed parallel arrays (lineinfo_addrs[],
->>>> lineinfo_file_ids[], lineinfo_lines[]) with a block-indexed,
->>>> delta-encoded, ULEB128 varint compressed format.
->>>>
->>>> The sorted address array has small deltas between consecutive entries
->>>> (typically 1-50 bytes), file IDs have high locality (delta often 0,
->>>> same file), and line numbers change slowly.  Delta-encoding followed
->>>> by ULEB128 varint compression shrinks most values from 4 bytes to 1.
->>>>
->>>> Entries are grouped into blocks of 64.  A small uncompressed block
->>>> index (first addr + byte offset per block) enables O(log(N/64)) binary
->>>> search, followed by sequential decode of at most 64 varints within the
->>>> matching block.  All decode state lives on the stack -- zero
->>>> allocations, still safe for NMI/panic context.
->>>>
->>>> Measured on a defconfig+debug x86_64 build (3,017,154 entries, 4,822
->>>> source files, 47,144 blocks):
->>>>
->>>>   Before (flat arrays):
->>>>     lineinfo_addrs[]    12,068,616 bytes (u32 x 3.0M)
->>>>     lineinfo_file_ids[]  6,034,308 bytes (u16 x 3.0M)
->>>>     lineinfo_lines[]    12,068,616 bytes (u32 x 3.0M)
->>>>     Total:              30,171,540 bytes (28.8 MiB, 10.0 bytes/entry)
->>>>
->>>>   After (block-indexed delta + ULEB128):
->>>>     lineinfo_block_addrs[]    188,576 bytes (184 KiB)
->>>>     lineinfo_block_offsets[]  188,576 bytes (184 KiB)
->>>>     lineinfo_data[]        10,926,128 bytes (10.4 MiB)
->>>>     Total:                 11,303,280 bytes (10.8 MiB, 3.7 bytes/entry)
->>>>
->>>>   Savings: 18.0 MiB (2.7x reduction)
->>>>
->>>> Booted in QEMU and verified with SysRq-l that annotations still work:
->>>>
->>>>   default_idle+0x9/0x10 (arch/x86/kernel/process.c:767)
->>>>   default_idle_call+0x6c/0xb0 (kernel/sched/idle.c:122)
->>>>   do_idle+0x335/0x490 (kernel/sched/idle.c:191)
->>>>   cpu_startup_entry+0x4e/0x60 (kernel/sched/idle.c:429)
->>>>   rest_init+0x1aa/0x1b0 (init/main.c:760)
->>>>
->>>> Suggested-by: Juergen Gross <jgross@suse.com>
->>>> Assisted-by: Claude:claude-opus-4-6
->>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>>> ---
->>>>  .../admin-guide/kallsyms-lineinfo.rst         |   7 +-
->>>>  include/linux/mod_lineinfo.h                  | 103 ++++++++--
->>>>  init/Kconfig                                  |   8 +-
->>>>  kernel/kallsyms.c                             |  91 +++++++--
->>>>  kernel/kallsyms_internal.h                    |   7 +-
->>>>  kernel/module/kallsyms.c                      | 107 +++++++---
->>>>  scripts/gen_lineinfo.c                        | 192 ++++++++++++++----
->>>>  scripts/kallsyms.c                            |   7 +-
->>>>  scripts/link-vmlinux.sh                       |  16 +-
->>>>  9 files changed, 423 insertions(+), 115 deletions(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/kallsyms-lineinfo.rst b/Documentation/admin-guide/kallsyms-lineinfo.rst
->>>> index 21450569d5324..fe92c5dde16b3 100644
->>>> --- a/Documentation/admin-guide/kallsyms-lineinfo.rst
->>>> +++ b/Documentation/admin-guide/kallsyms-lineinfo.rst
->>>> @@ -76,10 +76,11 @@ Memory Overhead
->>>>  ===============
->>>>
->>>>  The vmlinux lineinfo tables are stored in ``.rodata`` and typically add
->>>> -approximately 44 MiB to the kernel image for a standard configuration
->>>> -(~4.6 million DWARF line entries, ~10 bytes per entry after deduplication).
->>>> +approximately 10-15 MiB to the kernel image for a standard configuration
->>>> +(~4.6 million DWARF line entries, ~2-3 bytes per entry after delta
->>>> +compression).
->>>>
->>>> -Per-module lineinfo adds approximately 10 bytes per DWARF line entry to each
->>>> +Per-module lineinfo adds approximately 2-3 bytes per DWARF line entry to each
->>>>  ``.ko`` file.
->>>
->>> Maybe this could be given in terms of percentages? It wasn't obvious to
->>> me what 10-15 MiB amounts to.
->>>
->>> On riscv64, I'm seeing a 24.2 MiB to 30.2 MiB increase in
->>> arch/riscv/boot/Image size on an approximately defconfig+mod2noconfig
->>> build, which is about a 25% increase. I haven't checked yet, but if 25%
->>> is similar to what other archs get, that's a more useful figure than
->>> 10-15 MiB, given that the size increase is correlated to the total
->>> amount of code linked into the kernel/module.
->>
->> I ended up giving an example instead of percentages because it seemed
->> to vary
->> wildly between configs and archs. For example, defconfig on x86 yields
->> a 15%
->> increase compared to the 25% you see with your config on riscv,
->> compared to a
->> 39% increase with defconfig on riscv. 
->
->That's fair. I guess it also depends on arch code density and compiler
->codegen.
->
->[...]
->
->>>> +/*
->>>> + * Read a ULEB128 varint from a byte stream.
->>>> + * Returns the decoded value and advances *pos past the encoded bytes.
->>>> + * If *pos would exceed 'end', returns 0 and sets *pos = end (safe for
->>>> + * NMI/panic context -- no crash, just a missed annotation).
->>>
->>> What does that last bit mean...?
->>
->> This goes back to your previous point about correctness and checks in the
->> lineinfo code :)
->>
->> It just means that this function never faults or allocates. On bad
->> input it
->> returns 0, so the worst case is a missing annotation, not a crash. 
->
->Ah, right, it didn't occur to me it was "annotation" as in the lineinfo
->annotation in the stack trace. I thought it was something like noinstr
->or lockdep stuff at first. This checks out.
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-Thanks again for the review! I'll send a v3 :)
+Motivation
+==========
+
+The recent "slowly decommission bugzilla?" thread surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact. Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF. Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution. But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
+
+Problems with scripts/decode_stacktrace.sh
+==========================================
+
+- Requires debug symbols: the script needs vmlinux with DWARF debug
+  info. Many distros don't retain debug symbols for older or security
+  kernels, and even when available, asking users to obtain matching
+  debuginfo packages is a significant hurdle.
+
+- Requires toolchain: users need addr2line and nm installed.
+
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
+
+What this series does
+=====================
+
+Patch 1: CONFIG_KALLSYMS_LINEINFO
+
+At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux, extracts address-to-file:line mappings, and
+embeds them as sorted lookup tables in .rodata. At runtime,
+kallsyms_lookup_lineinfo() binary-searches the table and
+__sprint_symbol() appends "(file:line)" to each stack frame. NMI/panic-
+safe (no locks, no allocations), KASLR-compatible.
+
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
+
+Extends lineinfo to loadable modules. Each .ko gets a .mod_lineinfo
+section embedded at build time. The module loader picks it up at load
+time. Same zero-allocation, NMI-safe lookup.
+
+Patch 3: delta compression
+
+Block-indexed delta-encoding with LEB128 varints, implementing the
+approach suggested by Juergen Gross in the RFC review. Reduces overhead
+from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the primary size
+concern from the RFC.
+
+Patch 4: KUnit tests
+
+30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
+boundary conditions, and integration with the backtrace formatting APIs.
+
+Example output
+==============
+
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+
+Size impact
+===========
+
+Measured with a Debian kernel config:
+
+- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
+- Runtime memory: +5.9 MiB (text+data+bss)
+- Code overhead: +5.0 KiB (.text, lookup functions only)
+- Data overhead: +5.9 MiB (.data, lineinfo tables)
+
+Lineinfo data breakdown:
+
+- lineinfo_data (delta-compressed): 5,728 KiB (97%)
+- lineinfo_block_addrs: 99 KiB
+- lineinfo_block_offsets: 99 KiB
+- lineinfo_filenames: 111 KiB
+- lineinfo_file_offsets: 17 KiB
+
+The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
+~16 MiB. This is a fraction of the cost of shipping full DWARF debug
+info (hundreds of MiB), which distros must store and serve for every
+kernel version.
+
+For distros, maintaining debug symbol repositories is expensive: storage,
+mirrors, and CDN bandwidth for hundreds of MiB per kernel build add up
+quickly. A ~5.9 MiB increase in the kernel image itself is a modest cost
+that eliminates the need for users to find, download, and version-match
+debuginfo packages just to make a crash report useful.
+
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
+
+Changes since v2
+=================
+
+- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
+  so the compiler checks the code for syntax errors regardless of
+  configuration. (Suggested by Helge Deller)
+
+- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
+  removing the unnecessary zigzag transform layer.
+  (Suggested by Vivian Wang)
+
+- Deduplicate the binary search and delta-decode logic: extract shared
+  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
+  instead of maintaining near-identical copies in kernel/kallsyms.c and
+  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
+
+- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
+  instead of encoding varints in C and emitting .byte hex literals.
+  (Suggested by Vivian Wang)
+
+- Redesign module mod_lineinfo_header to use explicit (offset, size)
+  pairs for each sub-array, similar to flattened devicetree layout.
+  This makes bounds validation straightforward: offset + size <=
+  section_size. (Suggested by Vivian Wang)
+
+- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
+  module_lookup_lineinfo().
+
+Changes since v1
+=================
+
+- Fix path stripping regression on architectures where DWARF comp_dir is
+  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
+  root: paths now correctly show "kernel/traps.c:212" instead of bare
+  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
+  recovery via comp_dir. (Reported by Helge Deller)
+
+- Fix RST heading: overline/underline must be at least as long as the
+  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
+
+- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
+  before KASAN. (Reported by Randy Dunlap)
+
+- Fix arch-portability of .debug_line relocation handling: replace
+  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
+  riscv, s390, mips, ppc, loongarch, and parisc.
+
+- Fix vmlinux compressed-path data_end for the last block: use
+  lineinfo_data_size instead of UINT_MAX.
+
+- Add file_offsets[] and filenames_size bounds checks in vmlinux lookup
+  path (the module path already had them).
+
+- Add alignment padding for file_offsets[] in module .mod_lineinfo
+  binary format (data[] is variable-length u8, followed by u32[]).
+
+- Remove sym_start cross-validation check that incorrectly rejected
+  valid lineinfo entries for assembly-adjacent functions.
+
+- Add KUnit test suite (new patch 4/4): 30 tests covering vmlinux
+  lookup, module lookup, delta decode, boundary conditions, and
+  backtrace formatting integration.
+
+Changes since RFC
+==================
+
+- Added module support (patch 2)
+- Added delta compression (patch 3), reducing size from ~44 MiB to
+  ~11 MiB, addressing the primary concern from RFC review
+- Added documentation (Documentation/admin-guide/kallsyms-lineinfo.rst)
+- Added MAINTAINERS entry
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |  97 ++
+ MAINTAINERS                                   |   9 +
+ include/linux/kallsyms.h                      |  30 +-
+ include/linux/mod_lineinfo.h                  | 243 +++++
+ include/linux/module.h                        |  16 +
+ init/Kconfig                                  |  35 +
+ kernel/kallsyms.c                             |  59 ++
+ kernel/kallsyms_internal.h                    |  13 +
+ kernel/module/kallsyms.c                      |  75 ++
+ kernel/module/main.c                          |   4 +
+ lib/Kconfig.debug                             |  10 +
+ lib/tests/Makefile                            |   3 +
+ lib/tests/lineinfo_kunit.c                    | 813 +++++++++++++++++
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   4 +
+ scripts/Makefile.modfinal                     |   6 +
+ scripts/empty_lineinfo.S                      |  38 +
+ scripts/gen-mod-lineinfo.sh                   |  48 +
+ scripts/gen_lineinfo.c                        | 850 ++++++++++++++++++
+ scripts/kallsyms.c                            |  17 +
+ scripts/link-vmlinux.sh                       |  43 +-
+ 22 files changed, 2411 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100755 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
 
 -- 
-Thanks,
-Sasha
+2.51.0
+
 
