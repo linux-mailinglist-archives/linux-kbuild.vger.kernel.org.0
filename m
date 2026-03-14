@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-11931-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11932-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OMVSI0tutWlz0QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11931-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 15:18:51 +0100
+	id yIgaHDtutWlz0QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11932-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 15:18:35 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0892528D789
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 15:18:51 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 500A828D76A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 15:18:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5D7013028EFA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 14:18:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BA91C30175CA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 14:18:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46F8137997A;
-	Sat, 14 Mar 2026 14:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554B7379EE2;
+	Sat, 14 Mar 2026 14:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZGseERTq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBJOagMD"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E443793D2;
-	Sat, 14 Mar 2026 14:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31779379EDA;
+	Sat, 14 Mar 2026 14:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773497911; cv=none; b=ozvGM2EvMlJtKKZj5O2a1JwW9y8c9gZ2svN1NU8jQzeXeCkpqDlf3YWZbKb087G0t8ZlYUUkqdcyGeo/ige8ZjAhkbBuae2UVqX9b6iy2w4JN98hddGzsutJDP76QrQpuepH4oKaIs32klnx3StYimpFKt8ZQahwvr4Q+4+tPkU=
+	t=1773497912; cv=none; b=h5efcFFPAR7ghO80QAr/OfuVKLtbVEikZ0hv0NXXfEXtogQZK+IL6Bg8jQRQk4mXxp9Y9Z4cbHuBkr6Dw/fHPqehsTzPsdChc8E6+lBPMNeaoi4BI28O7P64koZNslARjT1olHfXnoeKiyHAD0L4Z8v8xsJ/i3gSPxgJ+Ko06ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773497911; c=relaxed/simple;
-	bh=AXumW6HXOmazXM7FvHVA3w8Ta2j/RD3IL+MZjJT8dsA=;
+	s=arc-20240116; t=1773497912; c=relaxed/simple;
+	bh=RgrUA5TJU4QzuOsX9G//7Vx9Q7W7ExiHVFw2qC39ujU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MgLwwOlGrunxalSX4Vi3kSpG4G7M1Ca2GbmFIMpkBxI2mpnpYsWv+oQVaDEJTnMp9CBZshlbGoO+snKVQALFILg0j6lioa0dkEfU7UQ3hQqoNtzhi4G+UqLNq0qXzkuZx7sh7+hTpFs4K4Ngs+aLh+o/nl0blNbn8MSWOSbHDtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZGseERTq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4BD6C19424;
-	Sat, 14 Mar 2026 14:18:29 +0000 (UTC)
+	 MIME-Version; b=enmiKwipsAbKeWdHBfNFue0TyzkCtYV2GrzAGkeZQyzSOMIvmWSDNSPjIjH7uLHaPqJfNImglUxo7kykEd+Hm4KuAu8ydvXjEOsXo82x52Y1Ks+NQA+WKiOehI9tnW0B/j1odmecjxaub0MCTWyb/SShHjUQfdMc4XrpBZfHM/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBJOagMD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C153C116C6;
+	Sat, 14 Mar 2026 14:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773497910;
-	bh=AXumW6HXOmazXM7FvHVA3w8Ta2j/RD3IL+MZjJT8dsA=;
+	s=k20201202; t=1773497911;
+	bh=RgrUA5TJU4QzuOsX9G//7Vx9Q7W7ExiHVFw2qC39ujU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZGseERTqZP+tt0Q8PxEyLv1q8B0SVG+WOUeX3RsgUemLWzFIo7WbKsgrvxUGYnYxV
-	 v7U4aBZKcZ0IUN476ddbPMz4IWLPB26G/M1d+jhRjAzOBMwiRMmu9rgTYhmrgWU+Zh
-	 WQZZJ5eCrLjipA+nJKZlvyTayy5ZYNvTRMxjptBcqSxe5j7o3deVMO7zb5UpBR8XV8
-	 t6AzoyzKwAMBdrwu7sGkkLnd5w7FJnayDvtf73slFU441mHQhBZgIIWG/yohDKfy5B
-	 A4TDcaZk0cAMeSqc76KvR2nLf9Eao8tAmc+O7Ed5kJ3hUi0W8rNzhI6WuDP4jUQtGL
-	 hOVwCgYq41WXw==
+	b=uBJOagMDgJtOPruL8phc3IYViyRGJ00R671+/t2u+72aE7B4UA0l8E5+bIUtGDgqG
+	 lv3LvW7jrmeYSs+nFg2Z1m4EcsPY+P+bZ3xi1kPNT+TfFTfZ5Z18nQrur3qe1K7x7V
+	 QToBUOrshtqRXw3MHpofoGekwVFAy4xfhNiQQH0GL46VuWnmRRiVx4H291vz0qhcQe
+	 HIS/DzRsOQIGCJBbTDe4E3qNVKUPyg+GJvOQr7NQ3zupJU2HJ8xF7wskLm7JpTxLm9
+	 /GjtOi4r+elBw81GzMeUnICWAKZaCW4eV9a1dVKfLKA0K2KMp6xIwFGsDtmodE2B1W
+	 UMd0BDTCkvovA==
 From: Sasha Levin <sashal@kernel.org>
 To: oberpar@linux.ibm.com
 Cc: corbet@lwn.net,
@@ -53,9 +53,9 @@ Cc: corbet@lwn.net,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 1/4] gcov: fix gcov_info_add() merge semantics for IOR counters
-Date: Sat, 14 Mar 2026 10:17:46 -0400
-Message-ID: <20260314141749.3382679-2-sashal@kernel.org>
+Subject: [PATCH 2/4] kconfig: add CC_HAS_CONDITION_COVERAGE for MC/DC support detection
+Date: Sat, 14 Mar 2026 10:17:47 -0400
+Message-ID: <20260314141749.3382679-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260314141749.3382679-1-sashal@kernel.org>
 References: <20260314141749.3382679-1-sashal@kernel.org>
@@ -71,7 +71,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -79,10 +79,10 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11931-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11932-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
@@ -92,78 +92,34 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 0892528D789
+X-Rspamd-Queue-Id: 500A828D76A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-gcov_info_add() unconditionally uses += to merge all counter types.
-This is wrong for counters that use IOR merge semantics (bitwise OR),
-such as GCOV_COUNTER_IOR and GCC 14's GCOV_COUNTER_CONDS (MC/DC
-condition coverage). These counters store bitsets that must be merged
-with |=, not accumulated with +=.
+Add a Kconfig symbol to detect compiler support for -fcondition-coverage,
+which enables MC/DC (Modified Condition/Decision Coverage) instrumentation.
+This flag is available since GCC 14.
 
-Detect IOR merge semantics by comparing the merge function pointer
-against __gcov_merge_ior, matching how GCC's own libgcov identifies
-merge semantics. This fixes the pre-existing bug for GCOV_COUNTER_IOR
-and also enables correct merging for MC/DC condition coverage data.
-
-Fixes: 5f41ea0386a5 ("gcov: add support for gcc 4.7 gcov format")
 Assisted-by: Claude:claude-opus-4-6
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/gcov/gcc_4_7.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ init/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/kernel/gcov/gcc_4_7.c b/kernel/gcov/gcc_4_7.c
-index 8fa22ababd943..923cfb34966b2 100644
---- a/kernel/gcov/gcc_4_7.c
-+++ b/kernel/gcov/gcc_4_7.c
-@@ -18,6 +18,8 @@
- #include <linux/mm.h>
- #include "gcov.h"
+diff --git a/init/Kconfig b/init/Kconfig
+index 444ce811ea674..38c8e06ad6d08 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -132,6 +132,9 @@ config CC_HAS_ASSUME
+ config CC_HAS_NO_PROFILE_FN_ATTR
+ 	def_bool $(success,echo '__attribute__((no_profile_instrument_function)) int x();' | $(CC) -x c - -c -o /dev/null -Werror)
  
-+extern void __gcov_merge_ior(gcov_type *, unsigned int);
++config CC_HAS_CONDITION_COVERAGE
++	def_bool $(cc-option,-fcondition-coverage)
 +
- #if (__GNUC__ >= 15)
- #define GCOV_COUNTERS			10
- #elif (__GNUC__ >= 14)
-@@ -187,6 +189,15 @@ static int counter_active(struct gcov_info *info, unsigned int type)
- 	return info->merge[type] ? 1 : 0;
- }
- 
-+/*
-+ * Determine whether a counter uses IOR merge semantics (bitwise OR of
-+ * bitsets). Used for condition coverage (MC/DC) and other IOR-based counters.
-+ */
-+static bool counter_is_ior(struct gcov_info *info, unsigned int type)
-+{
-+	return info->merge[type] == __gcov_merge_ior;
-+}
-+
- /* Determine number of active counters. Based on gcc magic. */
- static unsigned int num_counter_active(struct gcov_info *info)
- {
-@@ -259,9 +270,17 @@ void gcov_info_add(struct gcov_info *dst, struct gcov_info *src)
- 			if (!counter_active(src, ct_idx))
- 				continue;
- 
--			for (val_idx = 0; val_idx < sci_ptr->num; val_idx++)
--				dci_ptr->values[val_idx] +=
--					sci_ptr->values[val_idx];
-+			if (counter_is_ior(src, ct_idx)) {
-+				for (val_idx = 0; val_idx < sci_ptr->num;
-+				     val_idx++)
-+					dci_ptr->values[val_idx] |=
-+						sci_ptr->values[val_idx];
-+			} else {
-+				for (val_idx = 0; val_idx < sci_ptr->num;
-+				     val_idx++)
-+					dci_ptr->values[val_idx] +=
-+						sci_ptr->values[val_idx];
-+			}
- 
- 			dci_ptr++;
- 			sci_ptr++;
+ config CC_HAS_COUNTED_BY
+ 	bool
+ 	# clang needs to be at least 20.1.0 to avoid potential crashes
 -- 
 2.51.0
 
