@@ -1,148 +1,120 @@
-Return-Path: <linux-kbuild+bounces-11934-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11935-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AAogK6xutWlz0QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11934-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 15:20:28 +0100
+	id wMyQGXamtWkh3AAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11935-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 19:18:30 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E76B28D7D4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 15:20:28 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B5028E63F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 19:18:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 056653051468
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 14:18:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7C726300DF64
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 18:18:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF2C37AA6C;
-	Sat, 14 Mar 2026 14:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9E6932C94A;
+	Sat, 14 Mar 2026 18:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4p/LfWl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljmQoDo6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9604C377EBA;
-	Sat, 14 Mar 2026 14:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823A72F851;
+	Sat, 14 Mar 2026 18:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773497914; cv=none; b=NkUmrcTpErtXamnOK4ig/FI6Xl63/xRTNjBa1kYMTG+ADcqfoauCoBm+c0p700dP/xObtpYowHEVDKuFQjDobIyS6Gy15NGsjgjOMFnb7hIIOjvv1k+jly4q+aIVlXxuedGf7eudjcyGPoxJ3pv218llUWQ+hpEqljzkzJXOohQ=
+	t=1773512304; cv=none; b=GwULPmlR3pl6Y4vCIHYxY0eMr8hzMmlwb+wXn2DMyAWcd5uDPWb8VighXw1QARQYZNFoTGPWbCB5E6Rkw902ZWKHDfBomDCplJ8wqVEwXQykr+ME8cYqkjLHvTY2UsKdPTlNwBhsROVH5CHl0LQjhoC8pXZ+JxxPkVHX2Xn5Ac8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773497914; c=relaxed/simple;
-	bh=cI+kSXFXn30p+LMwB0/AK36QZVSloLPjESbeCuBih94=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ViVjx8YGzrG4fFV/z2UUXYtdm7eOGR7wAm+IqAUbd/cl8O0lseD1JBCGOwSBBLxpkeF6wu76/9sVh5R2u41NODnhLdrEps5kxfZwTEJrIYkJRYlqJpjmtnXfsaimLDza9WpUtKe30pz3sKamatgiCPZXjTcC0wiIhD9JQI6ZTwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4p/LfWl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64D17C116C6;
-	Sat, 14 Mar 2026 14:18:33 +0000 (UTC)
+	s=arc-20240116; t=1773512304; c=relaxed/simple;
+	bh=68Bjyoi3gtdErelVO/sN0br35R51BTPCrE2rCbJxO44=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H1L36lQA72nGGy59SXGouwXW1OguRaAIcZaplBGYWLrYzhw53qGv6b7AnS7vKmR6loksuSnw1XVxDGq/2nHjbMTlFINOubTZAGNobFEZnaMFFidr1pCKWvjkUAuH+Quj/cjRybjzFhxM/PmOZT4Jo5NIAJa29QZEIQIUs2SmpI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljmQoDo6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00466C116C6;
+	Sat, 14 Mar 2026 18:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773497914;
-	bh=cI+kSXFXn30p+LMwB0/AK36QZVSloLPjESbeCuBih94=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H4p/LfWlHMy3AKoJMvno1mFyoiirZTQoEF3RTU+QWjYt1labE+zD9RHkcaRjTJoHW
-	 fJXnClziyP0RxhfVpG3Tmr8QVoWXemj/pv8QdAl5O+hQYxbIj9RMjJ0wWtqtHjKu/6
-	 WVM9ME+qWo1cG1XGYrGvc/0dJVChqgV4utM8hNl+HIVF55QwD6j4swUitSevLULGk5
-	 2xKFsWXxnhHlyb2I9KVkAQfO85CuaXLNtpYDgXb+h2S5KflovLqH4YBC1MZiE3Y/nh
-	 cnjAOtsHR6l2Vfjw0cSvsYNdBVTRrT9Q+/bJUavM4Z4WMq587sJnd+twoD2PwgBZQr
-	 eF+ggmPuyGFBg==
-From: Sasha Levin <sashal@kernel.org>
-To: oberpar@linux.ibm.com
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	nathan@kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4/4] Documentation: gcov: document MC/DC condition coverage support
-Date: Sat, 14 Mar 2026 10:17:49 -0400
-Message-ID: <20260314141749.3382679-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260314141749.3382679-1-sashal@kernel.org>
-References: <20260314141749.3382679-1-sashal@kernel.org>
+	s=k20201202; t=1773512304;
+	bh=68Bjyoi3gtdErelVO/sN0br35R51BTPCrE2rCbJxO44=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ljmQoDo6+8N5qariNMP+lxBxK9JyF7T0M+fUn2PH5u1KxLF9wwqV4xeYeOD9teSUI
+	 0vRosx7dOI9CiCAb440Az7+OWWQgJXPXB9o73UyHwNLk7jTd7Kvb44zSI5Yg+eqMih
+	 Z4tqWM39rhUqviuVVfoBB7EyeE0f3aG67KuYz81hK+3HV3pD1sKJ9fHwr2ySEXA8Dt
+	 YZd9LQ+Y+G938tznqGltVQiP8SgiEHeMISaghcdU4Wy2FDoHlP0RKyN7bgzEngnDGT
+	 XqYkaEvqCd3epEpoGm0D8oEqQJV/9aal++4UMS4E34uFBDZgv/yPrLkytWT8aFAwbH
+	 iemdxGuEO1zJQ==
+Date: Sat, 14 Mar 2026 11:18:22 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
+ Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook
+ <kees@kernel.org>, Jake Edge <jake@lwn.net>, David Laight
+ <david.laight.linux@gmail.com>, Askar Safin <safinaskar@zohomail.com>,
+ Gabriele Paoloni <gpaoloni@redhat.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <20260314111822.63a2ba4a@kernel.org>
+In-Reply-To: <20260313150928.2637368-1-sashal@kernel.org>
+References: <20260313150928.2637368-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11934-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11935-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linuxfoundation.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 4E76B28D7D4
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 42B5028E63F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add a section documenting MC/DC support, including the GCC 14
-requirement, how to view condition coverage data with gcov --conditions,
-and the 64-condition-per-expression limitation.
+On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
+> This enables static analysis tools to verify userspace API usage at compile
+> time, test generation based on formal specifications, consistent error handling
+> validation, automated documentation generation, and formal verification of
+> kernel interfaces.
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/gcov.rst | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-index 075df6a4598d8..57b9345060c5e 100644
---- a/Documentation/dev-tools/gcov.rst
-+++ b/Documentation/dev-tools/gcov.rst
-@@ -180,6 +180,31 @@ b) gcov is run on the BUILD machine
-       [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
- 
- 
-+MC/DC Coverage
-+--------------
-+
-+When using GCC 14 or later with ``CONFIG_GCOV_CONDITION_COVERAGE=y``,
-+Modified Condition/Decision Coverage (MC/DC) data is collected alongside
-+standard branch coverage. MC/DC verifies that each condition in a
-+decision independently affects the decision's outcome.
-+
-+To view MC/DC data, use::
-+
-+    gcov --conditions -o /sys/kernel/debug/gcov/path/to/dir file.c
-+
-+MC/DC coverage is required by safety standards such as DO-178C
-+(avionics) and ISO 26262 (automotive).
-+
-+GCC's condition coverage implementation has a limit of 64 conditions per
-+boolean expression, due to the use of 64-bit bitmasks internally.
-+Expressions exceeding this limit cannot be instrumented and will produce
-+a compiler warning. This does not affect the correctness of the kernel;
-+those expressions simply will not have MC/DC coverage data.
-+
-+Note that MC/DC instrumentation increases binary size and execution
-+overhead compared to standard gcov profiling.
-+
-+
- Note on compilers
- -----------------
- 
--- 
-2.51.0
-
+Could you give some examples? We have machine readable descriptions for
+Netlink interfaces, we approached syzbot folks and they did not really
+seem to care for those.
 
