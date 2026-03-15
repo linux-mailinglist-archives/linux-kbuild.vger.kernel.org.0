@@ -1,169 +1,104 @@
-Return-Path: <linux-kbuild+bounces-11936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11937-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 3/fAJd/ktWla6gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11936-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 23:44:47 +0100
+	id 8E50GkQ5tmm5+wAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11937-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Mar 2026 05:44:52 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2BB28F5DE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 23:44:46 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6982028FF5B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Mar 2026 05:44:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8621730214D2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2026 22:44:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1B83A300B9C0
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Mar 2026 04:44:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7F1F37F8C9;
-	Sat, 14 Mar 2026 22:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0BDC221F20;
+	Sun, 15 Mar 2026 04:44:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUHvKzBF"
+	dkim=pass (2048-bit key) header.d=cyberialabs.net header.i=@cyberialabs.net header.b="y0Y1Oocr";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="bqSn7Igk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E173358BF
-	for <linux-kbuild@vger.kernel.org>; Sat, 14 Mar 2026 22:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3924919539F
+	for <linux-kbuild@vger.kernel.org>; Sun, 15 Mar 2026 04:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773528284; cv=none; b=Qa/VCeC3LdRLkQRgPfXPXIdCjHdqpPiJaehHDVC5qajkimqxer29L4vnmVc+QgZsZVHC7hUpZUZZdJ1QFCTqfaBdddrJLhtrP2UZ8zF34WHai4iq6IJYHLSTnwdNsPBnmLWRCvUMQH80qfjo19YyvfI988G6yYdwYH579zPCD3k=
+	t=1773549886; cv=none; b=ZzRecYrn0t/i/e7sovIaCwcxY4AdRcMHiWTvEnUV8QJODexY31igbJDWo+/XYx/JN6PY666cntqnr/SOaoiyz4cCdJXzS1QNj551H4a5z9cPARiI2jNv1sRGSjdo7oNRYTsMEsYJfA6fjnT+15XKkzT66T5ymzTUgMRo4mszQv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773528284; c=relaxed/simple;
-	bh=+BzfWIbWutBn9FVLenIu2cDO6fBukYew6iGg+YJ9bLU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b0Se4qNJsku1BqBzC7omxBxo09Hnw0pA2qj/RoVIQmzV7nqQ+bo/tjVmJEyyhmmrhy6IXBpcLMsbUd2/y1aCVHjSLRx5FpKkfkwNXi6n7NbvoQV63TYp1a5KEFg92nZhwS7kAnhAN1rBUXr4xpAXzJW6PBN/MJB65bxsZHODdHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUHvKzBF; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-89a09ef1e3aso44892506d6.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Mar 2026 15:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773528282; x=1774133082; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nuJUhym4M/ZFIJ+HRVLrIiZVMxaVq6Aogwi4UFclA/I=;
-        b=HUHvKzBF5hhX4JfsIma2dg7iVHahQVXvhnXj8AsIHtXNbMgTUuSYsPwy8VLT9xnEzF
-         EeX7jt9RC7YfoK+BU25zJMWlMfztSjsh3LnnNpj0z0DyMWJqPXNAXYzgXzCr8TyUV0E8
-         QwN8SbxvwIoa1lZiVk+/ugNlZzDW5T1SeilDNtenbONU4IVtyDb5jrAkYPnnyjoXawjR
-         Eox8mi29T0lZpOE9gmj0Fedk5acbLbj8L20uDD9X1MIqxRUUFgjHdJj4pPZRH+cX/WKG
-         FVAixQnIPaGULYn/1rQ5NgpgG4pP3cblsCvSepBTlhftfQ/CD85LZ15xbYP44UzQuVmT
-         HPzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773528282; x=1774133082;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nuJUhym4M/ZFIJ+HRVLrIiZVMxaVq6Aogwi4UFclA/I=;
-        b=j2wHEQEaDyjn1P0lW2aFKiQdlr6x59lG1D4xOteqyCeYyPo0TVh86OWHxSJfBo9S1I
-         tWIa+CWy4YJGiOF8i/V8xQMJtq6/duU9kKPE9gPhF+pOBb1TTZaW9ufbIy1lkEm17bzg
-         7kbq0DWCzZhCXDNRe2RZC9SwW1Y5N+gaOsbrhsD6Kqwl86Wi0ww8OhCej+h/9yJKtVei
-         JGmgd2dmUDk2I2N7u15ryC6cYfZzO/zrbdk0vWQ5QRU66JPc9pXcwmZggMFk8pBYoh7d
-         QqSxzoMcB4kuaQjhMOi4709CHl9+IvzdDho1DLAhnT+KUe3xRe8+EzUpQDn8xUBHB9fG
-         aT1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXytat8uNMIhbYrgiTZsiqP9g4M0rVlcBtbaads9sUElzvsZmsB5SEZMXftul+VMsFOGnkstq11ArwIOxc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfgWJ3tA6FF9NvNgaxBDOQNdIsmxWQbPofZtoF27Pr1ycEtvOl
-	YBl9beGwjQE7A75heasakoPVY4r+g/rptcFwugCnCjUYz/E1rgzLIxdO
-X-Gm-Gg: ATEYQzyrNIHx6sTYZeimYdMpqcgqfZMhWtAtS2oLcZY/cS6uDkMzBDfotQ0yXS3PdhS
-	z8FBxuR3OiwIl0F6wZ3MGTZAjvUaGwk5lLtmhrjwVIJahNHHenBLUOqXRsjKTH/UWJxeGZtTL8S
-	TezYM05lWPRInQbuxmTUm5SMql/GjGLdB6REPbnaTuFzPKdvniI7cex4pZVCqEElWmeJKrHe2S8
-	T3AAX6RAN7y/Lyngn5/GWk0toNqbUtLjodKLpRBBboKKc+cXkL1rrf7T3BoSGFgG9TNh2bRbJo3
-	UC8n6e//9HFxt8LijEa+cCXxcMnXCRHvL95kigSUj1TCDVZx/mANW5nP8zGYOzhGX761vOVsI1K
-	vTHK2G2QlFDYAkCYzm/Z1TI1i+n5540H7Nei7FL7YiGaZwFzqMDbOmbExf+zU7hFbY3/pSk0Pk4
-	0lLX2PAXXoG/lP/JUEg6MHVxj9EoE21Jg4uzHVVOwRyEp1sK55PsYlvwh5Ec9hZwZH
-X-Received: by 2002:a05:6214:529d:b0:89a:173d:9c54 with SMTP id 6a1803df08f44-89a81cb9be9mr117730886d6.8.1773528282565;
-        Sat, 14 Mar 2026 15:44:42 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c43bb47c3sm11296526d6.14.2026.03.14.15.44.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 15:44:41 -0700 (PDT)
-Date: Sat, 14 Mar 2026 22:44:35 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
- E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Dmitry
- Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril
- Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
- <jake@lwn.net>, Askar Safin <safinaskar@zohomail.com>, Gabriele Paoloni
- <gpaoloni@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Christian Brauner <brauner@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
- <arnd@arndb.de>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-Message-ID: <20260314224435.35465615@pumpkin>
-In-Reply-To: <20260314111822.63a2ba4a@kernel.org>
-References: <20260313150928.2637368-1-sashal@kernel.org>
-	<20260314111822.63a2ba4a@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1773549886; c=relaxed/simple;
+	bh=GUGXum2nqhCVs3VZdM1TKA46YirczaWn6gnaDBhw3HI=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=YKVHChaU+/65d7ZDOgryPDHx5d3A+CvCut4YNurpwNkePPAGIITUD7htqUolrvjIu0VmOAsIQ8sum6k7VuaUb7iZGHAZiSTfeVyeJxH7CzPnCqILQYlj8kaxHBe7fkwnX2CvWSIkzcGx6QOxhBKjNAOrOlw/fi0X1mP/fkmiwtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberialabs.net; spf=pass smtp.mailfrom=cyberialabs.net; dkim=pass (2048-bit key) header.d=cyberialabs.net header.i=@cyberialabs.net header.b=y0Y1Oocr; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=bqSn7Igk; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberialabs.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberialabs.net
+DKIM-Signature: a=rsa-sha256; b=y0Y1Oocr3S7FgOmEhvb29qAW5qnqqElhbW4Fa0dTQzy8yu7Dowg13Z4KJLQhllmnkoWH/1ePvf5PBFKhLKRBz8xeT/zOO7aoE/VabzSwsvGOwvfBk9MllLwKVeipLyWkqk06m9DEpcnLaTDWbghedgwQu6IhZ8ES8txMg7v4wmX5Krtv/NYTZT2jsOIiCilGRKSNhNmL8LifqrStSOgPCXHIX31hZW4PFmznbWsWtVPO7TovWs+XCIg4Zn14kwcCdU/00wQliW/FAB4Y4olTfxDJUXDXgX2soGg8fobuR5FeVMUXtYuqdlZcRtCtlUY2da2W0Id2y9mNHo1pWlJ1tw==; s=purelymail2; d=cyberialabs.net; v=1; bh=GUGXum2nqhCVs3VZdM1TKA46YirczaWn6gnaDBhw3HI=; h=Received:Date:From:To:Subject;
+DKIM-Signature: a=rsa-sha256; b=bqSn7Igk2/p+ATZXB4jy34kwgjLcqUNs4Ma3F9OxBpogJXJ6w079cjNCESgulDGDekB5iU6tsRzuqE1tEmWqguUmKOlz9y02OGGaYS23HFj3O//fq3zsXV1nUseb2qRXTHunDy6NhQ1HuNegJxAk3jmnMsrpVe5D501L+z0DoFD81xoIftUT7tg/v5r9Eatc7EJTQaWMmJuR1ROgTg2pl9yivui5UyJj5ChEb8vOBdjZUCScIl2X8Yy1KrK1k0ABkEUHQlhdMUNhIhqWOvHsA+2+SQoY9H4Yd1dhrG2TWPnhw4RcX6XOLqm9lrV++ek8hCHHh8l+JGBnLX52p1FWlA==; s=purelymail2; d=purelymail.com; v=1; bh=GUGXum2nqhCVs3VZdM1TKA46YirczaWn6gnaDBhw3HI=; h=Feedback-ID:Received:Date:From:To:Subject;
+Feedback-ID: 6229:1532:null:purelymail
+X-Pm-Original-To: linux-kbuild@vger.kernel.org
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPA id 1342528512;
+          Sun, 15 Mar 2026 04:44:31 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Date: Sat, 14 Mar 2026 21:44:31 -0700
+From: Alexander Coffin <alex@cyberialabs.net>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-kbuild@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: Update the debug information notes
+ in reproducible-builds.rst
+In-Reply-To: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
+References: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
+User-Agent: Purely Mail via Roundcube/1.6.11
+Message-ID: <54c081d15d727c87a6e6fce35f2ba561@purelymail.com>
+X-Sender: alex@cyberialabs.net
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[cyberialabs.net,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[cyberialabs.net:s=purelymail2,purelymail.com:s=purelymail2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-11937-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[cyberialabs.net:+,purelymail.com:+];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-11936-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DE2BB28F5DE
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alex@cyberialabs.net,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[purelymail.com:dkim,purelymail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,cyberialabs.net:dkim]
+X-Rspamd-Queue-Id: 6982028FF5B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, 14 Mar 2026 11:18:22 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+Hi Nathan,
 
-> On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
-> > This enables static analysis tools to verify userspace API usage at compile
-> > time, test generation based on formal specifications, consistent error handling
-> > validation, automated documentation generation, and formal verification of
-> > kernel interfaces.  
-> 
-> Could you give some examples? We have machine readable descriptions for
-> Netlink interfaces, we approached syzbot folks and they did not really
-> seem to care for those.
+I finally got around to reviewing the reproducible builds again and I'm 
+pretty sure it is supposed to be `-ffile-prefix-map` (not just 
+`-fdebug-prefix-map`) with KCPPFLAGS to also handle macros, but I could 
+be mistaken. I can try to build the kernel reproducibly again, but it 
+has been a while since I did this (sorry).
 
-The whole thing reminds me of doxygen comment blocks.
-They tend to make it hard to read the source files, hard to search
-the source files (due to all the extra matches) and are pretty much
-always out of date.
-
-The kerndoc comment blocks for trivial helper functions are hard enough
-to keep up to date.
-
-The only way even parameter descriptions are going to stay correct is if the
-compiler is using the definition and only the comment part is extra.
-For error returns you'll need the documentation to be at the return site.
-
-	David
+- Alex
 
