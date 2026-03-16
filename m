@@ -1,178 +1,203 @@
-Return-Path: <linux-kbuild+bounces-11949-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11951-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAXjCemrt2nkUAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11949-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 08:06:17 +0100
+	id 0MAYJA/ct2mcWAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11951-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 11:31:43 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204422955FE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 08:06:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BD2297F1E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 11:31:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3061D3004D11
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 07:06:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 73FF33044658
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 10:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8C25269B1C;
-	Mon, 16 Mar 2026 07:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C2938F643;
+	Mon, 16 Mar 2026 10:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rrvNm/sp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y+47v3iI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554F434A3DC
-	for <linux-kbuild@vger.kernel.org>; Mon, 16 Mar 2026 07:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773644769; cv=pass; b=YJ5Uy79wXEh5Ahz8gzeXBaRL3eSZS8t+fMbhJBgItc9hdDygMpknp1X/qYGLLhskQ2ME9rbHoJ/PSQ0LIFpN0yafbcb9NXGdgBY0Drh2a0z1qnYdrNeF28VrINNjOrjtpT+TrmaAYnqsLTzlfVDsY2fGGTPGP7q1zHEeNTY11Rs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773644769; c=relaxed/simple;
-	bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MGxDwCfQnDggsFARzItD5A7X6ZUezKxEf/JE38rINShInrXpI/Y5Nz8AnbVmereSE4iofY94MmZGt1O6ooEFre3mG/NPiqNrrnhDDM7oCq5uGKLfBaY7Uw4HvUyJ3UjyNS7t2t92gZBhPxqt97YuIE3iUYYyjZhr3b1st5KvYqc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rrvNm/sp; arc=pass smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38a3fd333eeso33992081fa.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Mar 2026 00:06:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773644766; cv=none;
-        d=google.com; s=arc-20240605;
-        b=I8CJ+F/NLZZgw+APjmqOy3zoOrXxorrjL14l3w2vHG4WZxK+wXAMZ8pE8lJW36T/N+
-         5ZfkZDY2C7CkNArOhR76KPKlGvWTeRtzCTg2lajOcdCSxklLCTLxt0D7jCljlQjYHLFv
-         xiBQBEWHqE48+EXuCGY9xZdaCqdOTYC0kVceMq5Mj9c7t1uEh+Yn/LhqR1CJD8xvk1rG
-         60fHMC8bPvUXgMD8JQbqBGadCWR1xKFHOhpo0gr+6OF0bhWmzbcYO9lTWKpfd+AkBqJX
-         bjWJauOR5+yWzP3McqUkiBKhbmISzCIZCLKT06Hi+HWaUWPGX6oTDPLrEWhfVeCDYfNm
-         PXdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
-        fh=ilEwYtsiJxfiz8Ulo6DSplBqVOPOHPoLSoM6gOnjuOM=;
-        b=BX55EPcYFqHEZ3vx4gsox7YzfL1rTVNz789d5p+8ta0OlN+ZVmQidvnAxWif2S8w0Z
-         XTyxsWZdC5+38htTKJIOoVj++Zh1XrvZi1Wsor7Wo8N9KzHYWilJLZ84//beAWZccCu3
-         Rmfap19WWI7jj7mQ8S663PEvjcffgGZUDi7SsnzPd+SaH+ZIus5EyOT+JpZ/XmAa0bOz
-         bRBNHvKvJrULONsfazn7uCd7JeqtNp4EnRSbUoCSMXsiMukSvVBlpLIuU5f9Yq4Px4Cf
-         j/GykjnPfjhYIpuALUi3bQzmMxv52GjVVN02AJ9/s5AWk5IlGeUrHoFKjBYFtTEWaAp6
-         lCOQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773644766; x=1774249566; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
-        b=rrvNm/sp0ejqtQpts4YJvKIZJai0U7h6SimZ1+626FCi7l4L6Dzs/D5AfC15pRBoWr
-         kv/dIm7CfHnm9HMv/wH+hAenKg7VAAA/E7tVULHXPbxFq6YGS4qlbY3FPnHscS4jfzMo
-         D3dH3ecOve/eQGzSnAb4Ojy44wq5Nw/0FFYtscPxcItm710bCdD1kjJ/hOB3448XZy8f
-         K4xi4VdbUD1F+Vo4MhfBcbKbgnUdds5xx8LCHziC6xxbqHA6MvyjhOKbbiisyPVocwZ3
-         KxoLuACxgOlrc3AY0BNPbelvSOBLVO9w1iQzbOC3uVjI5svhEljwS33qC/sFSOyzUjaG
-         pJow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773644766; x=1774249566;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
-        b=rmRVxZpU0KqszBX0I0lbpHeVL5zV3Xk44iU8Oqhfve3ZB04yqkCuaG84sxW46FEixE
-         +QsEDPtzJ8b3sK3lIcwitmY+q5p3y9D/uRQRTPuBrIY2nd5b/KHLt4vWiq3uKWtWDOxt
-         6Ek37AkG2qsCDs53zfG/mc+JAjVSzji4wYokjeFMnAjx72Py8+AVEoQ3ZB+Odl2g7mQU
-         ez/9ijdu513AmV01abPWbWTQITja7nV4SvYCyHdfBDMPEgYS2+atv3PlguhS2q5nCyEv
-         k+7d7I7OatBDvXB0O7yrhQwmp64ivDJROP39Vtlm3CJg3zVifAm7PpAgH9jinBhKuZY/
-         sWnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXaon7p7WlrWwsKghBahr9iZDGp8q5/nAjzsUlJCkRsAmKOAZVh2rvao8SeQS/9TxnnkNs+7yjiSa1OLJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3Slx1weh6HIjGjDELiOrknaNV2MkGs1tvVJAEHNv/yeReXlbC
-	hI6rDRDu7wWm1gfM/iGTxtwtg2WKmeeSw2eM9WzFRG8gsohicmHPYCzMeEdYw2weakpWe0C2chV
-	8Yp7tsIT7ihHREM6DUlhRB15lA2KwJ6aMki/pyQ/M
-X-Gm-Gg: ATEYQzxh1JMI3VcucGtqtWdRLQQ7qsLfbrPkrz9evbciZOi7TAd9qmdLCzuOawmpCcs
-	WkM4Adp8zcu19IpJ0yzKDS8JlAOiLJK55qG76/a+d0j/mfX1QN8cEu4ACAwPOJNPt1zG/TUpjIZ
-	V0d0jpUoAXNU10/bH6lF3K9jgGMG9wATxTs+I88RPuE2mY8G48W8cb69eAh4tBZQn45tAZnBYB5
-	/D95sQ0ZeZ1+/speegFayfSsdiM26IFU+2LuZKiyWy3etSgIGCftIh273gWkPka6tuQqZRksmcs
-	RvDRg5P1iICuK5h0vl2CykpcsI87Va6ThWhLBArKkMRTUCD+gF8YFsznXGxyULPtZDdpyg==
-X-Received: by 2002:a05:651c:4356:10b0:38a:2db9:eb72 with SMTP id
- 38308e7fff4ca-38a8864c94amr30667511fa.16.1773644766146; Mon, 16 Mar 2026
- 00:06:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACF838F24A;
+	Mon, 16 Mar 2026 10:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773656976; cv=none; b=LAdIBxIFqbxeB54plh9V1J5pUmYMUeS4P08oRbZPYvZsuAVo6PR2McSX/yrtwlvOIMaVGeZ7+epGuq3A2UgoSy0ZNPEJHYFoZaix2hCfeYaKGkWg97B9lDKoJy4wA0zJQnHZM1Z0sELU4d52QsGHLEoBCCcpR6YASDFItDL3JqE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773656976; c=relaxed/simple;
+	bh=aEX4QN5c8CL9OE1RZp1PM5q0rNqVRA4KwIpl/cQoysE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPoGhiZvVbcsITC9UBQonbWRKnYwWkZ2z7nVLA1rXBroVnClqkBlhhNk0R6fnNfkFnXSEh8r0TLz6CL5CE7Ct1DaAvIu6lXsSU9njhaALiB1rULA1KIvhuhlh690B8r4kzqZFOBcH6ala4zquLSBaNTlOFprNrdvBixGDrRTSo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y+47v3iI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A96DC19421;
+	Mon, 16 Mar 2026 10:29:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773656976;
+	bh=aEX4QN5c8CL9OE1RZp1PM5q0rNqVRA4KwIpl/cQoysE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y+47v3iI+4kvn42T2jWbqKBDm43CcCm6M3z5QDiSOmlTsamspBVtd3yX2bACVWUu4
+	 /Yuwg2ImBDxJ+tEegQfsKt4mXCi21MBaF8MBRYPQ/thEBI6vB2o7UWp2q5iA3A4S1/
+	 934sREUs6YqhCclcetk/rVDltko00dxm4TehNayHbw12QEs4JZA2DGlS/PQ6foSDOT
+	 gZHWLC3bog7hy/78OrhGuznn9DasnzOnVM+CrIKKq7Ptj18LlHbp6pfXq/M+En9ZWg
+	 MhGM8I3cu40pLVyGg3Ed/XI019FTfL8QlYtmdiWMDaNgUd2i6ttLzX16rR8xNmzvJi
+	 uF8cViMdYxzRQ==
+Date: Mon, 16 Mar 2026 08:07:29 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Yonghong Song <yonghong.song@linux.dev>
+Cc: linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@kernel.org>, kernel-team@fb.com,
+	Nathan Chancellor <nathan@kernel.org>, Song Liu <song@kernel.org>
+Subject: Re: [PATCH kbuild v2] kbuild: Reduce the number of
+ compiler-generated suffixes for clang thin-lto build
+Message-ID: <abesMbRN2PFkobxY@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@kernel.org>, kernel-team@fb.com,
+	Nathan Chancellor <nathan@kernel.org>, Song Liu <song@kernel.org>
+References: <20260307050250.3767489-1-yonghong.song@linux.dev>
+ <177332462174.82802.2344537821152391518.b4-ty@kernel.org>
+ <044bebc0-d996-4be3-9330-a64195c19a84@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260313150928.2637368-1-sashal@kernel.org> <20260314111822.63a2ba4a@kernel.org>
-In-Reply-To: <20260314111822.63a2ba4a@kernel.org>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Mon, 16 Mar 2026 08:05:53 +0100
-X-Gm-Features: AaiRm53tuutFjpddzDm8MgJQk_X6I9zzb6Uz-8-_BFX3BICSXZm9HxgKcE0xoPQ
-Message-ID: <CACT4Y+arWePyxnV3hWk5RanWZpoc7=ALQ6DV_2MCuQkNoTtJUw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-To: Jakub Kicinski <kuba@kernel.org>, syzkaller <syzkaller@googlegroups.com>
-Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org, tools@kernel.org, 
-	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, 
-	Jake Edge <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, 
-	Askar Safin <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <044bebc0-d996-4be3-9330-a64195c19a84@linux.dev>
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-11949-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-11951-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linuxfoundation.org,lwn.net,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dvyukov@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,raw.githubusercontent.com:url]
-X-Rspamd-Queue-Id: 204422955FE
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 31BD2297F1E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, 14 Mar 2026 at 19:18, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
-> > This enables static analysis tools to verify userspace API usage at compile
-> > time, test generation based on formal specifications, consistent error handling
-> > validation, automated documentation generation, and formal verification of
-> > kernel interfaces.
->
-> Could you give some examples? We have machine readable descriptions for
-> Netlink interfaces, we approached syzbot folks and they did not really
-> seem to care for those.
+On Sun, Mar 15, 2026 at 09:37:22AM -0700, Yonghong Song wrote:
+> 
+> 
+> On 3/12/26 7:12 AM, Nicolas Schier wrote:
+> > On Fri, 06 Mar 2026 21:02:50 -0800, Yonghong Song wrote:
+> > > The current clang thin-lto build often produces lots of symbols with
+> > > suffix. The following is a partial list of such function call symbols:
+> > >      ...
+> > >      ethnl_module_fw_flash_ntf.llvm.7631589765585346066
+> > >      __nf_conntrack_alloc.llvm.6438426151906658917
+> > >      tcp_can_early_drop.llvm.11937612064648250727
+> > >      tcp_print_conntrack.llvm.11937612064648250727
+> > >      ...
+> > > 
+> > > [...]
+> > Note: Due to application of [1] to kbuild-next-unstable, I had to update the
+> >        patch context.
+> > 
+> > [1]: https://lore.kernel.org/linux-kbuild/20251028182822.3210436-1-xur@google.com/
+> > 
+> > 
+> > 
+> > Applied to kbuild/kbuild-next.git (kbuild-next-unstable), thanks!
+> > 
+> > [1/1] kbuild: Reduce the number of compiler-generated suffixes for clang thin-lto build
+> >        https://git.kernel.org/kbuild/c/b7a7ce34
+> > 
+> > Please look out for regression or issue reports or other follow up
+> > comments, as they may result in the patch/series getting dropped,
+> > reverted or modified (e.g. trailers). Patches applied to the
+> > kbuild-next-unstable branch are accepted pending wider testing in
+> > linux-next and any post-commit review; they will generally be moved
+> > to the kbuild-next branch in about a week if no issues are found.
+> 
+> Thanks, Nicolas,
+> 
+> I looked at the patch [1] and find that my patch needs some change.
+> The current change is
+> 
+> @@ -1047,6 +1047,7 @@ CC_FLAGS_LTO := -flto
+> else
+> CC_FLAGS_LTO := -flto=thin -fsplit-lto-unit
+> +KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm
+> -always-rename-promoted-locals=false)
+> endif
+> CC_FLAGS_LTO += -fvisibility=hidden Due to [1], the above change should be
+> @@ -1047,6 +1047,7 @@ CC_FLAGS_LTO := -flto
+> else
+> CC_FLAGS_LTO := -flto=thin -fsplit-lto-unit
+> +if CONFIG_LTO_CLANG_THIN
+> +KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm
+> -always-rename-promoted-locals=false)
+> +endif
+> endif
+> CC_FLAGS_LTO += -fvisibility=hidden
+> 
+> The reason likes below:
+> 
+> The patch [1] introduced CONFOG_LTO_CLANG_THIN_DIST and in Makefile, for the following change:
+> 
+>  ifdef CONFIG_LTO_CLANG
+> -ifdef CONFIG_LTO_CLANG_THIN -CC_FLAGS_LTO := -flto=thin -fsplit-lto-unit
+> -else +ifdef CONFIG_LTO_CLANG_FULL  CC_FLAGS_LTO	:= -flto
+> +else +CC_FLAGS_LTO := -flto=thin -fsplit-lto-unit  endif
+>  CC_FLAGS_LTO	+= -fvisibility=hidden
+> 
+> The else branch 'CC_FLAGS_LTO := -flto=thin -fsplit-lto-unit' will support both CONFIG_LTO_CLANG_THIN and CONFIG_LTO_CLANG_THIN_DIST.
+> 
+> My patch commit message mentioned that the new flag won't support
+> thinlto distributed mode yet. So The new ldflags
+>   $(call ld-option,--lto-whole-program-visibility -mllvm
+> -always-rename-promoted-locals=false) needs under LTO_CLANG_THIN but not
+> LTO_CLANG_THIN_DIST. There will be some effort in llvm to support
+> distributed thin-lto as well for suffix reduction. But it may take a little
+> bit time as llvm needs some infrastructure change before supporting
+> distributed thin-lto. Thanks!
 
-I think our reasoning wrt syzkaller was that not all interfaces in all
-relevant kernels are described with netlink yml descriptions, so we
-need to continue using the extraction of interfaces from the source
-code. And if we have that code, then using yml as an additional data
-source only adds code/complexity. Additionally, we may extract some
-extra constraints/info from code that are not present in yml.
+Thanks a lot!  I changed the commit as instructed:
 
-Realistically system call descriptions may have the same problem for
-us at this point, since we extract lots of info from the source code
-already:
-https://raw.githubusercontent.com/google/syzkaller/refs/heads/master/sys/linux/auto.txt
-(and LLMs obviously can allow us to extract more)
+$ git range-diff b7a7ce345daa...6a76b3c06a1d
+1:  b7a7ce345daa ! 1:  6a76b3c06a1d kbuild: Reduce the number of compiler-generated suffixes for clang thin-lto build
+    @@ Makefile: ifdef CONFIG_LTO_CLANG_FULL
+      CC_FLAGS_LTO      := -flto
+      else
+      CC_FLAGS_LTO      := -flto=thin -fsplit-lto-unit
+    ++if CONFIG_LTO_CLANG_THIN
+     +KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
+    ++endif
+      endif
+      CC_FLAGS_LTO      += -fvisibility=hidden
+
+
+and it is pushed to kbuild/kbuild-next-unstable
+https://git.kernel.org/kbuild/c/6a76b3c06a1d359a3e84c37bc0fead370f6ccfc0
+
+
+-- 
+Nicolas
 
