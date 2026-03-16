@@ -1,166 +1,146 @@
-Return-Path: <linux-kbuild+bounces-11985-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-11986-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6KJfC+aDuGltfAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-11985-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 23:27:50 +0100
+	id GIkxKP2KuGmJfgEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-11986-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 23:58:05 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80312A1752
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 23:27:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A5C2A1C63
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 23:58:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B2AB1302DE18
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 22:27:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 07FE33017258
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2026 22:58:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D39C372666;
-	Mon, 16 Mar 2026 22:27:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 021EE377EBC;
+	Mon, 16 Mar 2026 22:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="m4uk2Nex"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYytfHIU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557A4368291;
-	Mon, 16 Mar 2026 22:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8FA35028C;
+	Mon, 16 Mar 2026 22:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773700065; cv=none; b=BBipaTLh8+EcBHn8Wif3xF0cqF7RefoA2Ueneo7n+BiztxrYQLoVBhCq9lELkB4f9TZvVL5ojBF/kb0RqK21wT/+WQ+CtTsqoi1MbQCvDeaQX5Ofj3YMOw3ZHG3f91bH0NI7OtDZX9S055SFAeTkackgF0m1ReExH8ubWmVRKFU=
+	t=1773701878; cv=none; b=AjUNFH2jvGq8l3EzeX4JN+2Ffh2gMxrj46EKp7Il2z8ZAhMFG+EIh4S0p3DORtu7+hMh0rrU5P8qij1c51JyYO/7CRTCYzXuCeBkcKduO36LoIlqroT2voapv7XoStZaLu2/Qwj86FkXnGsbBQgDisUYX2j+OgvbPYbGkONb1Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773700065; c=relaxed/simple;
-	bh=OJlcpQpHkNiFDHBKElKokhr6lSjmnGtG6ejDF5GDiko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qbFvQd0r41fCKjkYnuMP0wOxjufSrTwAG60rHS+5OzlCSMaFRnWaqCGSuedobtqkVRDIt++b2czZxMtzxoe3bJV2QbPylCsE4HTozWUf2pm2e51R+McDxIeMXLsiI1nGHJShO1wnBxyYymZuJRsYR+O1j7+/BJynFgTErXIC7u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=m4uk2Nex; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1773700062;
-	bh=OJlcpQpHkNiFDHBKElKokhr6lSjmnGtG6ejDF5GDiko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m4uk2Nex3xyIREXtespm+kOv3CAz3sfNvC1O1sjYFKn9tgTAdBreqEaPKVoehtg6C
-	 4eOUxGWjxYznoAJZ8QN4yABHlOZgj6kHqKd39ttdiecKPW6ycTZN5++6RFMjxJz37U
-	 CXfNsEPClShOsReniYlLhZmWzXfCNXg9ci4slqEE=
-Date: Mon, 16 Mar 2026 23:27:41 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Leo Yan <leo.yan@arm.com>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>, 
-	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, Quentin Monnet <qmo@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, 
-	Qinxin Xia <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Kent Gibson <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Long Li <longli@microsoft.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, Len Brown <lenb@kernel.org>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>, 
-	Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, 
-	Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v4 29/30] selftests/nolibc: Append extra cflags
-Message-ID: <aacd52ed-4ef6-49f1-90a4-0affeea908e6@t-8ch.de>
-References: <20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com>
- <20260311-tools_build_fix_zero_init-v4-29-9e35bdb99cb3@arm.com>
+	s=arc-20240116; t=1773701878; c=relaxed/simple;
+	bh=mEnlDtD+uMXBaY3t2IfkmLKFopSN2YDt1ilz6+WKW4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vu7xdIW5UxGQMMrJ5XOdy27SluBTkn49II5s8nY7NNTlOJ8Dru7UVX0sPPy9La+DlsEEHByA6rCZtAzGsRMn697SSIRvM8q2zxtN/MLCAXgEBHXlN7K8T7JhT7HkMIBWGk3hdINK/E3XNteVgHo2bhQjenwT9ssO2qxooowO2fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYytfHIU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16B5CC19421;
+	Mon, 16 Mar 2026 22:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773701878;
+	bh=mEnlDtD+uMXBaY3t2IfkmLKFopSN2YDt1ilz6+WKW4U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dYytfHIUOzat5FH4iDWFKQ+0LqEBB/CopaYZWcxqPfMn6TDVJ5aH2m7e7b6i2uI+G
+	 njfJqsJHJEfJczHdFp+9mf+HI3bQ1IsCULV7Za2wDaYAEj9Fo0kh8Pi7OuDertqPRS
+	 Rl0/jJqSngDaNVj6stP+jWC41xXtSehkjltX63SMWOlUwrzAnPwCmSA2iV+L1CjHhA
+	 LnNsPapvzaV6qITwziVvpn7+IND6I895QjO8R0ZPpEt5pxkemP75Fgna1R/Tbpw178
+	 fu0AaoYy8JiT2wSC0G1wnhYdgF9IahedQfdKYUX95VoEM5I5nt2m650V/+QJ3gT5aZ
+	 kaEqPojDY5xFA==
+Date: Mon, 16 Mar 2026 15:57:56 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: syzkaller <syzkaller@googlegroups.com>, Sasha Levin <sashal@kernel.org>,
+ linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
+ Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis
+ <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>,
+ David Laight <david.laight.linux@gmail.com>, Askar Safin
+ <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
+ Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <20260316155756.25b985f5@kernel.org>
+In-Reply-To: <CACT4Y+arWePyxnV3hWk5RanWZpoc7=ALQ6DV_2MCuQkNoTtJUw@mail.gmail.com>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+	<20260314111822.63a2ba4a@kernel.org>
+	<CACT4Y+arWePyxnV3hWk5RanWZpoc7=ALQ6DV_2MCuQkNoTtJUw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311-tools_build_fix_zero_init-v4-29-9e35bdb99cb3@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
-	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	URIBL_MULTI_FAIL(0.00)[arm.com:server fail,t-8ch.de:server fail,weissschuh.net:server fail,tor.lore.kernel.org:server fail,lib.mk:server fail];
+	TAGGED_FROM(0.00)[bounces-11986-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-11985-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[googlegroups.com,kernel.org,vger.kernel.org,linuxfoundation.org,lwn.net,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[69];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[weissschuh.net:+];
 	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: C80312A1752
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[raw.githubusercontent.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 44A5C2A1C63
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2026-03-11 08:29:54+0000, Leo Yan wrote:
-> Include tools/scripts/Makefile.include, which may provide additional
-> flags in EXTRA_CFLAGS, and append to CFLAGS.
+On Mon, 16 Mar 2026 08:05:53 +0100 Dmitry Vyukov wrote:
+> On Sat, 14 Mar 2026 at 19:18, Jakub Kicinski <kuba@kernel.org> wrote:
+> > On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:  
+> > > This enables static analysis tools to verify userspace API usage at compile
+> > > time, test generation based on formal specifications, consistent error handling
+> > > validation, automated documentation generation, and formal verification of
+> > > kernel interfaces.  
+> >
+> > Could you give some examples? We have machine readable descriptions for
+> > Netlink interfaces, we approached syzbot folks and they did not really
+> > seem to care for those.  
 > 
-> Since Makefile.include already defines cc-option, remove the redundant
-> definition and include.
+> I think our reasoning wrt syzkaller was that not all interfaces in all
+> relevant kernels are described with netlink yml descriptions, so we
+> need to continue using the extraction of interfaces from the source
+> code. And if we have that code, then using yml as an additional data
+> source only adds code/complexity. Additionally, we may extract some
+> extra constraints/info from code that are not present in yml.
 > 
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->  tools/testing/selftests/nolibc/Makefile | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/nolibc/Makefile b/tools/testing/selftests/nolibc/Makefile
-> index 0370489d938b540721a4fb814ebb68c463760e73..d1a9c1d5988bdc6a8778ef418aaa4c5ac1d26a10 100644
-> --- a/tools/testing/selftests/nolibc/Makefile
-> +++ b/tools/testing/selftests/nolibc/Makefile
-> @@ -3,15 +3,13 @@
->  TEST_GEN_PROGS := nolibc-test libc-test
->  
->  include ../lib.mk
-> -include $(top_srcdir)/scripts/Makefile.compiler
-> -
-> -cc-option = $(call __cc-option, $(CC),,$(1),$(2))
-> +include $(top_srcdir)/tools/scripts/Makefile.include
->  
->  include Makefile.include
->  
->  $(OUTPUT)/nolibc-test: CFLAGS = -nostdlib -nostdinc -static \
->  	 -isystem $(top_srcdir)/tools/include/nolibc -isystem $(top_srcdir)/usr/include \
-> -	 $(CFLAGS_NOLIBC_TEST)
-> +	 $(CFLAGS_NOLIBC_TEST) $(EXTRA_CFLAGS)
->  $(OUTPUT)/nolibc-test: LDLIBS = $(if $(LLVM),,-lgcc)
->  $(OUTPUT)/nolibc-test: nolibc-test.c nolibc-test-linkage.c | headers
+> Realistically system call descriptions may have the same problem for
+> us at this point, since we extract lots of info from the source code
+> already:
+> https://raw.githubusercontent.com/google/syzkaller/refs/heads/master/sys/linux/auto.txt
 
-The rule for "libc-test", which uses the standard $(LINK.c) to invoke
-the compiler, does not respect $(EXTRA_CFLAGS) automatically.
-Is this intentional? It also affects all other users of lib.mk which
-don't have any custom cflags handling.
+yup! we haven't tried to make the yml spec super useful to syzbot 
+to be fair. I'm just flagging that example because in our case we
+quickly went from "this will obviously be useful to syzbot" to
+"although we could, it may not be super practical"
 
-If so, there should be an override for the "libc-test" target, too.
-But if I am supposed to pick up this patch, I can fix it up when applying.
+> (and LLMs obviously can allow us to extract more)
 
-
-Thomas
+Didn't even think of that. LLMs should make short work of this sort of
+extraction of information from source code..
 
