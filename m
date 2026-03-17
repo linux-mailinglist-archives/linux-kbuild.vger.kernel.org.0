@@ -1,51 +1,51 @@
-Return-Path: <linux-kbuild+bounces-12016-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12017-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uBBBN+c6uWmKwAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12016-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2026 12:28:39 +0100
+	id EJs6AQg8uWkowQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12017-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2026 12:33:28 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1D42A8B1E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2026 12:28:39 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2262A8DE9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2026 12:33:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C1454305093F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2026 11:28:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 098973072452
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2026 11:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A113AA50B;
-	Tue, 17 Mar 2026 11:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5FD3ACA72;
+	Tue, 17 Mar 2026 11:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a8y+VDO0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eb5SnXCu"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E5E3AA507;
-	Tue, 17 Mar 2026 11:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B596834F486;
+	Tue, 17 Mar 2026 11:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773746907; cv=none; b=GXrRJ3oy7B15QgwhMt6WGGRTLSwWgy2mjucf+4oPzKGbKi+1U7mFFaooSKK8iq57JS2NXOk89XvyWUoJIIZ9Z93tl+lAa8zK+mdzPE276kzsjrjxQCG0t/mfpuIl5Un6sUDNeGLXV1/DdQ0yr+23pyo+BVy0cJt7MjiWoQ7gVao=
+	t=1773747091; cv=none; b=J8w7PX2zrBNood4lm9EMfwK2UxbU1cdonYdY5NQbqoLS38qeYIMPuLzloCLObCzhZJoA1S4w952FRm9kjvnoE2V+uqyjPY+AXU1oHm2aT2buydOlcW51n1fVb+uMn1yVV1z4lRk4cEQsNTukidExCn1G6p2xj32nHssC8+JQtBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773746907; c=relaxed/simple;
-	bh=P4yW063VV47SeXm+tGH5KqP4Bsamp7Vs0r8UFNcQ2hk=;
+	s=arc-20240116; t=1773747091; c=relaxed/simple;
+	bh=RJu7zzI8G2XAcsirv31BLb2C0/yXDjhzALY+IvHEbkY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u1WBYO1v7+7QdcNfQxhmUsZ3hTYooB2FUf6Hd5mODYDXoa+aP1ZBs8ppO/jy13UIjzBqe+TwLiGUrVWE9//rBKBVTXa7P77IIJIa+WEU/dszElgz5nu+JEwfuTk57xdMmt9oFPWCa9KGhDtZh76M9UMjhGvltLFwp/Zm49UZzzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a8y+VDO0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1FC6C19425;
-	Tue, 17 Mar 2026 11:28:08 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Zjd9xfQllKFQjXn+0m+HIncXLXXcOLeEzXwwaPot1JvLziNoAbDbLLSb1X7NlNpxU9NYeqcxmFXtviMRRwXAyUj+65SG6ZwU24nW5t0QyEPDh+VVzPPoMwn93xEA8yfu/DPmo6ntbGDk7G0UJh6kAf/BJ9bxfeYk8TG9LoTzbPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eb5SnXCu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DDAAC2BC9E;
+	Tue, 17 Mar 2026 11:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773746907;
-	bh=P4yW063VV47SeXm+tGH5KqP4Bsamp7Vs0r8UFNcQ2hk=;
+	s=k20201202; t=1773747091;
+	bh=RJu7zzI8G2XAcsirv31BLb2C0/yXDjhzALY+IvHEbkY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a8y+VDO0Xgfr+lNQvyfY1xPuBKQrwVKzn+uW1LOWDl6SKD2cf/wPkwMVBct13/PEf
-	 NjtztpRZ0OvapQpUah3oS8DgsfxoD9ExU3Oyn/tCb/1nrrZulmcxhhtuGOnVMJGXFC
-	 DhLvUWnNlS1C6Dhu5vi73BGYhEiANrZuCLdAOOBCvbO+gRR1Okk7P8txt5gnVQUvM9
-	 XXSKbFIOgOKIjhaCsMR/7mp7MIjGFXCSn+6UrpKW/Pv70PvzlY6F1OGe4hnRY3xpO2
-	 EtkPG0mT7eRk81EMbFApmG9taYShtvE9KOLYMCSaqrpHZ2hnw9yqTWjULbYgggUZlF
-	 VywYxCJGj5P3g==
-Message-ID: <febd0f7e-59f3-4ba4-8706-53c7353e3fe5@kernel.org>
-Date: Tue, 17 Mar 2026 12:28:05 +0100
+	b=eb5SnXCuUQnP8d0L07gffJ3SV/5BEcg6P3S3fL1M2UY3Q2528A/haRhahOSV8is6P
+	 TONPUH2RBrqaJGxGNMn1mkNSs7HIKCo2fojP7HEiBf+TsFdSsFEo2YSvOvGgRaY6n+
+	 9uWgcmgj9aX8+mpe7mXytJPOfTaVuD97zsAMgBJMZjw3Of86duPWAVSkByYe+cUyVW
+	 wydncZ34pX5zLfSkyBDihOTH4f7BRFON5ZHkj5zS8LeDX/OGViw3bQ9YDV7eaiOpOJ
+	 F1H9fgJEHA6tRttMXB4Q+IfbNR3R5pOVPKSWlQPNTbhUbn5xwYhplaEtSDTLo9wQP4
+	 bWUEGwhbgi0dQ==
+Message-ID: <ff697bee-2173-4311-9089-0875114d54d8@kernel.org>
+Date: Tue, 17 Mar 2026 12:31:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] arm: configs: remove obsolete assignments to
- SND_SOC_ROCKCHIP
+Subject: Re: [PATCH 7/9] arm64: defconfig: remove incorrect assignment to
+ IPQ_APSS_5018
 To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>,
  Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Mikko Rapeli <mikko.rapeli@linaro.org>,
@@ -122,7 +122,7 @@ Cc: Alexandre Gonzalo <alexandre.gonzalo@arm.com>,
  linux-renesas-soc@vger.kernel.org, linux-parisc@vger.kernel.org,
  openbmc@lists.ozlabs.org
 References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org>
- <20260317-arm_defconf_cleanup-v1-5-8eecb7fdd24d@kernel.org>
+ <20260317-arm_defconf_cleanup-v1-7-8eecb7fdd24d@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -168,7 +168,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260317-arm_defconf_cleanup-v1-5-8eecb7fdd24d@kernel.org>
+In-Reply-To: <20260317-arm_defconf_cleanup-v1-7-8eecb7fdd24d@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -176,11 +176,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12016-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12017-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[kernel.org,linaro.org,gmail.com,armlinux.org.uk,iki.fi,kemnade.info,baylibre.com,atomide.com,xen0n.name,alpha.franken.de,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,users.sourceforge.jp,libc.org,physik.fu-berlin.de,redhat.com,alien8.de,linux.intel.com,zytor.com,linutronix.de,goodmis.org,netfilter.org,samsung.com,nxp.com,pengutronix.de,mleia.com,timesys.com,arm.com,glider.be,mobileye.com,bootlin.com,HansenPartnership.com,gmx.de,gmx.net,zankel.net,suse.de,arndb.de,sntech.de,renesas.com,quicinc.com,roeck-us.net,oss.qualcomm.com,linuxfoundation.org,oracle.com];
@@ -188,7 +188,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[97];
 	PRECEDENCE_BULK(0.00)[];
@@ -199,36 +199,30 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5E1D42A8B1E
+X-Rspamd-Queue-Id: 8A2262A8DE9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 17/03/2026 10:13, Vincent Mailhol (Arm) wrote:
-> CONFIG_SND_SOC_ROCKCHIP was removed in commit cae3cc435db5 ("ASoC:
-> rockchip: Standardize ASoC menu"). However it is still referenced in
-> some defconfigs.
+> CONFIG_IPQ_APSS_5018 does not exist and never existed. Remove it.
 > 
-> Remove any references to CONFIG_SND_SOC_ROCKCHIP.
-> 
-> FYI, the suppressions were done using:
-> 
->   git ls-files -z 'arch/*/configs/*defconfig' |\
->     xargs -0 sed -i -E '/^CONFIG_SND_SOC_ROCKCHIP/d'
-> 
-> Fixes: cae3cc435db5 ("ASoC: rockchip: Standardize ASoC menu")
+> Fixes: 7f0c87348fb5 ("arm64: defconfig: Enable IPQ5018 SoC base configs")
 > Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
 > ---
->  arch/arm/configs/multi_v7_defconfig | 1 -
->  arch/arm64/configs/defconfig        | 1 -
 
-This was already posted:
-https://lore.kernel.org/all/20260313-rockchip-snd-cleanup-v1-1-77d9a953fd1b@schnwalter.eu/
-but just like that patch you did not send it to soc@ (if I am not
-mistaken... CC list is enormous).
+Just like try one year ago:
+https://lore.kernel.org/all/20240104133241.2030193-1-ross.burton@arm.com/
 
-I think you are mixing here independent works, like kconfig and per-arch
-defconfig changes. Please split these per arch defconfig maintainers -
-patches and patchset, so you won't be Cc-ing 50 addresses.
+No one will apply it if you do not send the patch to right people.
+multi_vx and arm64 defconfig fall outside of get_maintainers thus policy
+from maintainer soc profile applies.
+
+This one should be send to platform maintainers, so to qcom.
+
+Other ones: please send all arm and arm64 defconfig changes in one
+patchset to soc folks. Here, at least provide credits with Reported-by
+to Ross.
+
 
 Best regards,
 Krzysztof
