@@ -1,398 +1,361 @@
-Return-Path: <linux-kbuild+bounces-12027-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12028-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eNqiD1QdumlURwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12027-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 04:34:44 +0100
+	id EAPiBaU/umlqTQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12028-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 07:01:09 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDFC2B57BD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 04:34:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F7B2B619C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 07:01:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8DAC23056E40
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 03:34:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0239301D049
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 06:01:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA563314D9;
-	Wed, 18 Mar 2026 03:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D111835F196;
+	Wed, 18 Mar 2026 06:01:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZB9Q99Ul"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X8v+oRE3"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D792AEF5;
-	Wed, 18 Mar 2026 03:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A760B27456;
+	Wed, 18 Mar 2026 06:01:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773804877; cv=none; b=Q4IuCanYJv1fHlHyoycZY08YL6Lb/q22aFSFz0c+INMb1eAniGT7s5wMml1yLvrl4ory0jey5vrvbOu/pMTpdRmM6CQAdIgdltf3QDJaiyhgwbVSysywByPloRr0PETISyaZkXCwmZ6qaOdoBQO4fT1fGIVBoAyifZWpTp//q5g=
+	t=1773813664; cv=none; b=YtJ7oRzpnfW5REsz1vESjqrgYVWcmb5Sj85lJKgJhQiGQnyylEJa8Urr8Opw9JbLpwczITO95Ad15+nM7RIrNuCn6msP2ptQwgzccVXIyv4SSy/H+HSSPi9otvs13VSDTeO8XZQdhZWWc2mUz/rEwbRUImQ4Yb8TiGvXFVvslJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773804877; c=relaxed/simple;
-	bh=/2/SBIzIdR3PZ4M8jjOi91iS4jaETueAP3+eBIV8ysM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JcbO2COTLABQRCkXEJuedXwrjaVt4d6ijSwayESkiRcxc7tbEHaEGqGbRwbBHrAawq03GQYE+ZrMvtxzp0pBQGoo64TTxUqsa+cwx2A1y0/c+mIAeb7IIIt3h+mVQT7Z2t1jq/E68+sToDJGcejsqpx/EP/+YoCi8j+NvqLNq74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZB9Q99Ul; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C11DCC19421;
-	Wed, 18 Mar 2026 03:34:28 +0000 (UTC)
+	s=arc-20240116; t=1773813664; c=relaxed/simple;
+	bh=rMROIzV9bRqUzrcYakjh5WuCieIdwd/xKsodgkFDVNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eYBiK3ddZ84xLpjbIpHoqVkceWzvxq7hLJoKNlYbroDsR+/bWvmhT8RzCWXZ8pBWYLvvCbe+fk0HfIwfYj1fHad7zl5PuTxOLE/Uu/YfrQ40+t+B+hQd3431ATw8YORuPCYSUz4iheFsLL6sYUUmPIZMMpg7U5bv+zPevP8/Jjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X8v+oRE3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69A3C19421;
+	Wed, 18 Mar 2026 06:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773804877;
-	bh=/2/SBIzIdR3PZ4M8jjOi91iS4jaETueAP3+eBIV8ysM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZB9Q99UlzL+AgiMYGkaJQYJc6Tsqk4VzkVmWkpanuHFytqx63D6uHxRXQjNk2r1fe
-	 o158Y+icpZPAk1WWAPebopTfXaDSl13TGoENld0PK4AIZUi8FhfyoMXD6FwsVCKXyt
-	 dJySRTaX8v19FFXj6K0TrRKI44LPalAwwAYnWJXdBjjhvKFugnfFm3uylVPgwXAB0/
-	 D5UHgDUpML1ykLNmD4tC2FrVIoJDMwBGJq87ad4y73t6ZYpMESdds2yYwUi8ivFFAx
-	 7zCkq4I+OgM5MpxT0MVjoEYItXK/wbxnb4bBHrPM3mPsLKF4basmwFjf5fDJkoVn4Q
-	 Fp67c+axrxPEA==
-Date: Wed, 18 Mar 2026 09:04:24 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: manivannan.sadhasivam@oss.qualcomm.com, 
-	Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	Hans de Goede <johannes.goede@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v6 9/9] power: sequencing: pcie-m2: Create serdev device
- for WCN7850 bluetooth
-Message-ID: <aikoyhpzukxgiupdche55er4iddtdckc44kxkrqrzqid6hcptl@qtjbtg7drgpb>
-References: <20260317-pci-m2-e-v6-0-9c898f108d3d@oss.qualcomm.com>
- <20260317-pci-m2-e-v6-9-9c898f108d3d@oss.qualcomm.com>
- <CAMRc=MeNZGr=zDVQYd1YgeUNdaenpbDEgmT6h7CuU89sHQuMcA@mail.gmail.com>
+	s=k20201202; t=1773813664;
+	bh=rMROIzV9bRqUzrcYakjh5WuCieIdwd/xKsodgkFDVNI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=X8v+oRE3pAOSEuTZjHr3Oh2Z90dWfnHsJQFNulFAQ7hMIthNoAunZdyZRb5sZKniy
+	 ngr35Qzru8Zw228d/5ms2ZOTo/LOEvhUZeyp+dSJycdHqdCW/Sa77oJPO5geAs81vs
+	 EfRIhPsBzneWimQ5B3/iCgflUbUgW2eLJlTTE+odf0kly6dVlRdUF7wQIdsLiGWSJl
+	 QoqCMBaYVBMENWG/+wnRZZXCx3IkGynxtsV8sCiC28Zjau3gQjWUz4/yRNcEsfy7Lu
+	 4Cm8GfYHzT0DBh9bG3TcCcjDLflUKriHcrKma2+9xwoGNxtMG+Z+NyJltTuZkGtV1U
+	 V5pI5HHyzW1iw==
+Date: Wed, 18 Mar 2026 07:00:55 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
+ E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dmitry Vyukov <dvyukov@google.com>, Randy
+ Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook
+ <kees@kernel.org>, Jake Edge <jake@lwn.net>, David Laight
+ <david.laight.linux@gmail.com>, Askar Safin <safinaskar@zohomail.com>,
+ Gabriele Paoloni <gpaoloni@redhat.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <20260318070055.39f1af80@foz.lan>
+In-Reply-To: <87h5qe9wig.fsf@trenco.lwn.net>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+	<20260313150928.2637368-2-sashal@kernel.org>
+	<87h5qe9wig.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MeNZGr=zDVQYd1YgeUNdaenpbDEgmT6h7CuU89sHQuMcA@mail.gmail.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12027-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12028-lists,linux-kbuild=lfdr.de,huawei];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[31];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,vger.kernel.org,linaro.org,linuxfoundation.org,linux.dev,linux.intel.com,squebb.ca,gmail.com,holtmann.org,bgdev.pl];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linuxfoundation.org,google.com,infradead.org,suse.cz,lwn.net,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild,manivannan.sadhasivam.oss.qualcomm.com,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EDDFC2B57BD
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lwn.net:email]
+X-Rspamd-Queue-Id: B2F7B2B619C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 17, 2026 at 09:06:20AM -0400, Bartosz Golaszewski wrote:
-> On Tue, 17 Mar 2026 05:29:59 +0100, Manivannan Sadhasivam via B4 Relay
-> <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> said:
-> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> >
-> > For supporting bluetooth over the non-discoverable UART interface of
-> > WCN7850, create the serdev device after enumerating the PCIe interface.
-> > This is mandatory since the device ID is only known after the PCIe
-> > enumeration and the ID is used for creating the serdev device.
-> >
-> > Since by default there is no OF or ACPI node for the created serdev,
-> > create a dynamic OF 'bluetooth' node with the 'compatible' property and
-> > attach it to the serdev device. This will allow the serdev device to bind
-> > to the existing bluetooth driver.
-> >
-> > Tested-by: Hans de Goede <johannes.goede@oss.qualcomm.com> # ThinkPad T14s gen6 (arm64)
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > ---
-> >  drivers/power/sequencing/Kconfig          |   3 +-
-> >  drivers/power/sequencing/pwrseq-pcie-m2.c | 178 +++++++++++++++++++++++++++++-
-> >  2 files changed, 177 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/power/sequencing/Kconfig b/drivers/power/sequencing/Kconfig
-> > index f5fff84566ba..55aeef125e6f 100644
-> > --- a/drivers/power/sequencing/Kconfig
-> > +++ b/drivers/power/sequencing/Kconfig
-> > @@ -37,7 +37,8 @@ config POWER_SEQUENCING_TH1520_GPU
-> >
-> >  config POWER_SEQUENCING_PCIE_M2
-> >  	tristate "PCIe M.2 connector power sequencing driver"
-> > -	depends on OF || COMPILE_TEST
-> > +	depends on (PCI && OF) || COMPILE_TEST
-> > +	select OF_DYNAMIC
-> >  	help
-> >  	  Say Y here to enable the power sequencing driver for PCIe M.2
-> >  	  connectors. This driver handles the power sequencing for the M.2
-> > diff --git a/drivers/power/sequencing/pwrseq-pcie-m2.c b/drivers/power/sequencing/pwrseq-pcie-m2.c
-> > index 3507cdcb1e7b..77357439ba81 100644
-> > --- a/drivers/power/sequencing/pwrseq-pcie-m2.c
-> > +++ b/drivers/power/sequencing/pwrseq-pcie-m2.c
-> > @@ -12,9 +12,11 @@
-> >  #include <linux/of.h>
-> >  #include <linux/of_graph.h>
-> >  #include <linux/of_platform.h>
-> > +#include <linux/pci.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pwrseq/provider.h>
-> >  #include <linux/regulator/consumer.h>
-> > +#include <linux/serdev.h>
-> >  #include <linux/slab.h>
-> >
-> >  struct pwrseq_pcie_m2_pdata {
-> > @@ -30,6 +32,9 @@ struct pwrseq_pcie_m2_ctx {
-> >  	struct notifier_block nb;
-> >  	struct gpio_desc *w_disable1_gpio;
-> >  	struct gpio_desc *w_disable2_gpio;
-> > +	struct serdev_device *serdev;
-> > +	struct of_changeset *ocs;
-> > +	struct device *dev;
-> >  };
-> >
-> >  static int pwrseq_pcie_m2_vregs_enable(struct pwrseq_device *pwrseq)
-> > @@ -172,13 +177,176 @@ static int pwrseq_pcie_m2_match(struct pwrseq_device *pwrseq,
-> >  	return PWRSEQ_NO_MATCH;
-> >  }
-> >
-> > -static void pwrseq_pcie_m2_free_regulators(void *data)
-> > +static void pwrseq_pcie_m2_free_resources(void *data)
-> >  {
-> >  	struct pwrseq_pcie_m2_ctx *ctx = data;
-> >
-> > +	serdev_device_remove(ctx->serdev);
-> > +	bus_unregister_notifier(&pci_bus_type, &ctx->nb);
-> > +	of_changeset_revert(ctx->ocs);
-> > +	of_changeset_destroy(ctx->ocs);
-> >  	regulator_bulk_free(ctx->num_vregs, ctx->regs);
-> >  }
-> >
-> > +static int pwrseq_m2_pcie_create_bt_node(struct pwrseq_pcie_m2_ctx *ctx,
-> > +					struct device_node *parent)
-> > +{
-> > +	struct device *dev = ctx->dev;
-> > +	struct device_node *np;
-> > +	int ret;
-> > +
-> > +	ctx->ocs = devm_kzalloc(dev, sizeof(*ctx->ocs), GFP_KERNEL);
-> > +	if (!ctx->ocs)
-> > +		return -ENOMEM;
-> > +
-> > +	of_changeset_init(ctx->ocs);
-> > +
-> > +	np = of_changeset_create_node(ctx->ocs, parent, "bluetooth");
-> > +	if (!np) {
-> > +		dev_err(dev, "Failed to create bluetooth node\n");
-> > +		ret = -ENODEV;
-> > +		goto err_destroy_changeset;
-> > +	}
-> > +
-> > +	ret = of_changeset_add_prop_string(ctx->ocs, np, "compatible", "qcom,wcn7850-bt");
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to add bluetooth compatible: %d\n", ret);
-> > +		goto err_destroy_changeset;
-> > +	}
-> > +
-> > +	ret = of_changeset_apply(ctx->ocs);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to apply changeset: %d\n", ret);
-> > +		goto err_destroy_changeset;
-> > +	}
-> > +
-> > +	ret = device_add_of_node(&ctx->serdev->dev, np);
-> > +	if (ret) {
-> > +		dev_err(dev, "Failed to add OF node: %d\n", ret);
-> > +		goto err_revert_changeset;
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +err_revert_changeset:
-> > +	of_changeset_revert(ctx->ocs);
-> > +err_destroy_changeset:
-> > +	of_changeset_destroy(ctx->ocs);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int pwrseq_m2_pcie_notify(struct notifier_block *nb, unsigned long action,
-> > +			      void *data)
-> > +{
-> > +	struct pwrseq_pcie_m2_ctx *ctx = container_of(nb, struct pwrseq_pcie_m2_ctx, nb);
-> > +	struct pci_dev *pdev = to_pci_dev(data);
-> > +	struct serdev_controller *serdev_ctrl;
-> > +	struct device *dev = ctx->dev;
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Check whether the PCI device is associated with this M.2 connector or
-> > +	 * not, by comparing the OF node of the PCI device parent and the Port 0
-> > +	 * (PCIe) remote node parent OF node.
-> > +	 */
-> > +	struct device_node *pci_parent __free(device_node) =
-> > +			of_graph_get_remote_node(dev_of_node(ctx->dev), 0, 0);
-> > +	if (!pci_parent || (pci_parent != pdev->dev.parent->of_node))
-> > +		return NOTIFY_DONE;
-> > +
-> > +	switch (action) {
-> > +	case BUS_NOTIFY_ADD_DEVICE:
-> > +		/* Create serdev device for WCN7850 */
-> > +		if (pdev->vendor == PCI_VENDOR_ID_QCOM && pdev->device == 0x1107) {
-> > +			struct device_node *serdev_parent __free(device_node) =
-> > +				of_graph_get_remote_node(dev_of_node(ctx->dev), 1, 1);
-> > +			if (!serdev_parent)
-> > +				return NOTIFY_DONE;
-> > +
-> > +			serdev_ctrl = of_find_serdev_controller_by_node(serdev_parent);
-> > +			if (!serdev_ctrl)
-> > +				return NOTIFY_DONE;
-> > +
-> > +			/*
-> > +			 * Bail out if the device was already attached to this
-> > +			 * controller.
-> > +			 */
-> > +			if (serdev_ctrl->serdev)
-> > +				return NOTIFY_DONE;
-> > +
-> > +			ctx->serdev = serdev_device_alloc(serdev_ctrl);
-> > +			if (!ctx->serdev)
-> > +				return NOTIFY_BAD;
-> 
-> If you bail out here, on driver unbind you'll call serdev_device_remove() which
-> uncoditionally dereferences the serdev pointer.
-> 
-> > +
-> > +			ret = pwrseq_m2_pcie_create_bt_node(ctx, serdev_parent);
-> 
-> If this doesn't succeed, ctx->ocs remains set to NULL (correct me if I'm wrong)
-> and you end up calling of_changeset_revert() which will unconditionally
-> dereference the of_changeset pointer in __of_changeset_entry_invert().
-> 
-> > +			if (ret) {
-> > +				serdev_device_put(ctx->serdev);
-> > +				return notifier_from_errno(ret);
-> > +			}
-> > +
-> > +			ret = serdev_device_add(ctx->serdev);
-> > +			if (ret) {
-> > +				dev_err(dev, "Failed to add serdev for WCN7850: %d\n", ret);
-> > +				of_changeset_revert(ctx->ocs);
-> > +				of_changeset_destroy(ctx->ocs);
-> > +				serdev_device_put(ctx->serdev);
-> > +				return notifier_from_errno(ret);
-> > +			}
-> > +		}
-> > +		break;
-> > +	case BUS_NOTIFY_REMOVED_DEVICE:
-> > +		/* Destroy serdev device for WCN7850 */
-> > +		if (pdev->vendor == PCI_VENDOR_ID_QCOM && pdev->device == 0x1107) {
-> > +			serdev_device_remove(ctx->serdev);
-> > +			of_changeset_revert(ctx->ocs);
-> > +			of_changeset_destroy(ctx->ocs);
-> > +		}
-> > +		break;
-> > +	}
-> > +
-> > +	return NOTIFY_OK;
-> > +}
-> > +
-> > +static bool pwrseq_pcie_m2_check_remote_node(struct device *dev, u8 port, u8 endpoint,
-> > +					     const char *node)
-> > +{
-> > +	struct device_node *remote __free(device_node) =
-> > +			of_graph_get_remote_node(dev_of_node(dev), port, endpoint);
-> > +
-> > +	if (remote && of_node_name_eq(remote, node))
-> > +		return true;
-> > +
-> > +	return false;
-> > +}
-> > +
-> > +/*
-> > + * If the connector exposes a non-discoverable bus like UART, the respective
-> > + * protocol device needs to be created manually with the help of the notifier
-> > + * of the discoverable bus like PCIe.
-> > + */
-> > +static int pwrseq_pcie_m2_register_notifier(struct pwrseq_pcie_m2_ctx *ctx, struct device *dev)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Register a PCI notifier for Key E connector that has PCIe as Port
-> > +	 * 0/Endpoint 0 interface and Serial as Port 3/Endpoint 0 interface.
-> > +	 */
-> > +	if (pwrseq_pcie_m2_check_remote_node(dev, 3, 0, "serial")) {
-> > +		if (pwrseq_pcie_m2_check_remote_node(dev, 0, 0, "pcie")) {
-> > +			ctx->dev = dev;
-> > +			ctx->nb.notifier_call = pwrseq_m2_pcie_notify;
-> > +			ret = bus_register_notifier(&pci_bus_type, &ctx->nb);
-> > +			if (ret)
-> > +				return dev_err_probe(dev, ret,
-> > +						     "Failed to register notifier for serdev\n");
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int pwrseq_pcie_m2_probe(struct platform_device *pdev)
-> >  {
-> >  	struct device *dev = &pdev->dev;
-> > @@ -218,7 +386,7 @@ static int pwrseq_pcie_m2_probe(struct platform_device *pdev)
-> >
-> >  	ctx->num_vregs = ret;
-> >
-> > -	ret = devm_add_action_or_reset(dev, pwrseq_pcie_m2_free_regulators, ctx);
-> > +	ret = devm_add_action_or_reset(dev, pwrseq_pcie_m2_free_resources, ctx);
-> >  	if (ret)
-> >  		return ret;
-> >
-> > @@ -233,7 +401,11 @@ static int pwrseq_pcie_m2_probe(struct platform_device *pdev)
-> >  		return dev_err_probe(dev, PTR_ERR(ctx->pwrseq),
-> >  				     "Failed to register the power sequencer\n");
-> 
-> If you bail out here, you will call bus_unregister_notifier() before your
-> registered it. Kernel docs are not clear on whether that's a bug but it still
-> looks fishy to me.
-> 
-> Am I not seeing something or is the error path broken? I'm doubting myself
-> here. :)
-> 
+On Tue, 17 Mar 2026 11:49:27 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-No, it was me who has gone bonkers with the error path. I was so delusional to
-assume that these APIs handle NULL ptrs :/
-
-> This is why I advised to split pwrseq_pcie_m2_free_resources() and only schedule
-> individual devres actions after their allocation succeeds.
+> Sasha Levin <sashal@kernel.org> writes:
 > 
-> As it is now, you're better off providing a remove() callback with NULL checks.
+> > Add a framework for formally documenting kernel APIs with inline
+> > specifications. This framework provides:
+> >
+> > - Structured API documentation with parameter specifications, return
+> >   values, error conditions, and execution context requirements
+> > - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
+> > - Export of specifications via debugfs for tooling integration
+> > - Support for both internal kernel APIs and system calls  
 > 
+> So I'll confess I have only scanned over the implementation, but I have
+> some thoughts on the earlier stuff.
+> 
+> [...]
+> 
+> > diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
+> > new file mode 100644
+> > index 0000000000000..7c0c1694f1f4a
+> > --- /dev/null
+> > +++ b/Documentation/dev-tools/kernel-api-spec.rst
+> > @@ -0,0 +1,482 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +======================================
+> > +Kernel API Specification Framework
+> > +======================================
+> > +
+> > +:Author: Sasha Levin <sashal@kernel.org>
+> > +:Date: June 2025  
+> 
+> Has it not changed since then?
+> 
+> > +.. contents:: Table of Contents
+> > +   :depth: 3
+> > +   :local:
+> > +
+> > +Introduction
+> > +============  
+> 
+> [...]
+> 
+> > +Usage Guide
+> > +===========
+> > +
+> > +Basic API Specification
+> > +-----------------------
+> > +
+> > +API specifications are written as KAPI-annotated kerneldoc comments directly in
+> > +the source file, immediately preceding the function implementation. The ``kapi``
+> > +tool extracts these annotations to produce structured specifications.
+> > +
+> > +.. code-block:: c
+> > +
+> > +    /**
+> > +     * kmalloc - allocate kernel memory
+> > +     * @size: Number of bytes to allocate
+> > +     * @flags: Allocation flags (GFP_*)  
+> 
+> Given that the text thus far has talked about user-space API validation,
+> it's a bit surprising to see an internal function used as an example.
+> 
+> Also, maybe it should be kmalloc_obj()?  <runs away>
+> 
+> > +     * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SOFTIRQ | KAPI_CTX_HARDIRQ
+> > +     * param-count: 2  
+> 
+> param-count is two, but you only document one of them?
+> 
+> > +     * param: size
+> > +     *   type: KAPI_TYPE_UINT
+> > +     *   flags: KAPI_PARAM_IN
+> > +     *   constraint-type: KAPI_CONSTRAINT_RANGE
+> > +     *   range: 0, KMALLOC_MAX_SIZE
+> > +     *
+> > +     * error: ENOMEM, Out of memory
+> > +     *   desc: Insufficient memory available for the requested allocation.
+> > +     */  
+> 
+> Honest question: can this be made a bit easier for people to create,
+> with less shift-key wear?  My biggest worry with a system like this is
+> that people won't take the time to create and maintain the entries, so
+> anything that would ease the task would help.  Is there an impediment to
+> something like:
+> 
+>   contexts: process, softirq, hardirq
+> 
+>   param: size
+>     type: uint, input
+>     constraint: range(0, KMALLOC_MAX_SIZE)
+> 
+> See what I'm getting at?  ISTM that your DSL could be made a bit less
+> verbose and shouty while being just as well defined, but perhaps I'm
+> missing something?
+> 
+> Even better, of course, would be to add a "description" field for each
+> parameter, and allow that rather than the @param description that
+> kerneldoc currently uses.  That would keep all the information together,
+> at the minor cost of adding another significant complication to the
+> kernel-doc script.  Mauro won't mind :)
 
-Makes sense. I'll fix them all in next version.
+No, I won't ;-) 
 
-- Mani
+It sounds a lot better to use kernel-doc also for kAPI than to have an
+independent tool.
 
--- 
-மணிவண்ணன் சதாசிவம்
+It is also very confusing if we end with a kernel-doc-like format
+that it is not parsed by kernel-doc.
+
+> 
+> > +    void *kmalloc(size_t size, gfp_t flags)
+> > +    {
+> > +        /* Implementation */
+> > +    }
+> > +
+> > +Alternatively, specifications can be defined using the ``DEFINE_KERNEL_API_SPEC``
+> > +macro for compiled-in specs that are stored in the ``.kapi_specs`` ELF section:
+> > +
+> > +.. code-block:: c
+> > +
+> > +    #include <linux/kernel_api_spec.h>
+> > +
+> > +    DEFINE_KERNEL_API_SPEC(sys_open)
+> > +    KAPI_DESCRIPTION("Open or create a file")
+> > +    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+> > +    /* ... parameter, error, constraint definitions ... */
+> > +    KAPI_END_SPEC  
+> 
+> So the reason for two completely separate mechanisms is not entirely
+> clear to me.  The kerneldoc variant is essentially documentation, while
+> the macro stuff is to be built into the executable?  What if you want
+> both?
+
+You can easily add support at kernel-doc to output such macros.
+
+All you need is to create a new class derived from OutputFormat and
+make it produce any different output format, including:
+
+    #include <linux/kernel_api_spec.h>
+
+    DEFINE_KERNEL_API_SPEC(sys_open)
+    KAPI_DESCRIPTION("Open or create a file")
+    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+    /* ... parameter, error, constraint definitions ... */
+    KAPI_END_SPEC  
+
+I'd say that converting from such output to `.kapi_specs`` ELF section
+itself and/or to sysfs/debugfs - e.g. something that would require to
+compile or be linked with Kernel's compiled binaries should be done by a
+separate tool, but we should aim to have a singe tool to process 
+kernel documentation markups.
+
+It is hard enough to maintain just one tool - and to have people actually
+writing documentation. Having a second one to handle it, with a different
+format will likely increase a lot the documentation burden.
+
+> It would be nice to only have one way if at all possible; I'm sure that
+> crossed your mind at some point :)  If there have to be two, having both
+> examples describe the same function would make the parallels more clear.
+> 
+> > +System Call Specification
+> > +-------------------------
+> > +
+> > +System calls are documented inline in the implementation file (e.g., ``fs/open.c``)
+> > +using KAPI-annotated kerneldoc comments. When ``CONFIG_KAPI_RUNTIME_CHECKS`` is
+> > +enabled, the ``SYSCALL_DEFINEx`` macros automatically look up the specification
+> > +and validate parameters before and after the syscall executes.
+> > +
+> > +IOCTL Specification
+> > +-------------------
+> > +
+> > +IOCTLs use the same annotation approach with additional structure field
+> > +specifications  
+> 
+> This might be a really good place for an example
+> 
+> [...]
+> 
+> > +Usage Examples
+> > +--------------
+> > +
+> > +Query specific API::
+> > +
+> > +    $ cat /sys/kernel/debug/kapi/apis/kmalloc/specification
+> > +    API: kmalloc
+> > +    Version: 3.0
+> > +    Description: Allocate kernel memory
+> > +
+> > +    Parameters:
+> > +      [0] size (size_t, in): Number of bytes to allocate
+> > +          Range: 0 - 4194304
+> > +      [1] flags (flags, in): Allocation flags (GFP_*)
+> > +          Mask: 0x1ffffff  
+> 
+> Ah, you do document that second parameter somewhere :)
+> 
+> > +    Returns: pointer - Pointer to allocated memory or NULL
+> > +
+> > +    Errors:
+> > +      ENOMEM: Out of memory
+> > +
+> > +    Context: process, softirq, hardirq
+> > +
+> > +    Side Effects:
+> > +      - Allocates memory from kernel heap  
+> 
+> That part wasn't in your example
+> 
+> > +Export all specifications::
+> > +
+> > +    $ cat /sys/kernel/debug/kapi/export/all.json > kernel-apis.json
+> > +
+> > +Enable validation for specific API::
+> > +
+> > +    $ echo 1 > /sys/kernel/debug/kapi/apis/kmalloc/validate
+> > +
+> > +Performance Considerations
+> > +==========================
+> > +
+> > +Memory Overhead
+> > +---------------
+> > +
+> > +Each API specification consumes approximately 400-450KB of memory due to the
+> > +fixed-size arrays in ``struct kernel_api_spec``. With the current 4 syscall
+> > +specifications, total memory usage is approximately 1.7MB. Consider:  
+> 
+> Ouch.
+> 
+> > +Documentation Generation
+> > +------------------------
+> > +
+> > +The framework exports specifications via debugfs that can be used
+> > +to generate documentation. Tools for automatic documentation generation
+> > +from specifications are planned for future development.  
+> 
+> Documentation always comes last :)
+> 
+> Interesting stuff.
+> 
+> jon
+
+
+
+Thanks,
+Mauro
 
