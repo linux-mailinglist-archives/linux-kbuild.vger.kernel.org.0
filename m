@@ -1,160 +1,152 @@
-Return-Path: <linux-kbuild+bounces-12063-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12064-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GAOaNpG+umkGbgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12063-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 16:02:41 +0100
+	id MLM7LMa+umkGbgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12064-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 16:03:34 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A562BDC44
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 16:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BBC2BDCE5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 16:03:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E07C2309968F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 14:53:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2D115301A2A8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 14:56:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E556C3DDDB0;
-	Wed, 18 Mar 2026 14:53:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4450A3D9042;
+	Wed, 18 Mar 2026 14:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMbtNwkb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YdqkKYVY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE08A3DA7F9;
-	Wed, 18 Mar 2026 14:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2058D3B7B63;
+	Wed, 18 Mar 2026 14:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845596; cv=none; b=T4PezzOunG4LsgIp8xGtPoUKYj0ar/qLddB54FP5SeLPzbDlpQ1BxGFITTcRzfAsqiS36g+qTQaL/VD2VHVwJ0EmcMS622Xacu7bvNOqw5D74vod/slgHBDlK67Wou9V1MplpJbPk/+JgdpFDXJ3lpkxanDqsKC2zIxODLvekPQ=
+	t=1773845796; cv=none; b=c7uB+336Qlov0TQUweSir1scmGIA2reBp8+wZxtJfSrKET49aGPSc+T4Fh2kXibrkly5Oqf00az+S/qn46PtjmKilgvV5gq28yujMraPjEvyG4t99eMMRkxGxPEnrBWZdFFZ4NRGDxfU6XmhzVGu6+K/o26m2saagMERPFT+PVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845596; c=relaxed/simple;
-	bh=P3RmEfeVl5rB1RolpuEMWoYT1Rcb+L0pzJIV0hoByz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JnR3tHnxcWIsvMci8/ZA7sqxZ8MMELKGvexir3hypxvEGl2biWlvDr/X4ztPK+2x2YpAf1zNh2J7hnqs7EEtbW4dYU5QTtOUQImp5h8GoIAzMT56QCo+gc19JaL0Mh8W/E5XsqwvcLjFIks55CR+RmVszHjG9XCE3xzPvQFRT+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMbtNwkb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D76BC2BC87;
-	Wed, 18 Mar 2026 14:53:16 +0000 (UTC)
+	s=arc-20240116; t=1773845796; c=relaxed/simple;
+	bh=+xGCZNVwRSPgYMfwlZW6YaW6apKt2VT7iSyY2kDE7tI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dry4/rafc+BwYcXkdC1Pm/YZfVGTipNUevFqR3Me4P3GgK0+6JvYuA1CSU3RDSJLPavGoWGJGM2z/s/5prOIKK3CCl63sUBy0C61DnLcVGda1l42LkvCbYZcBaplfZwBPcvgLlCwrkIfv0k2Vq1hLv158VClReLmRn4A+98Kn+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YdqkKYVY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B03FEC19421;
+	Wed, 18 Mar 2026 14:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773845596;
-	bh=P3RmEfeVl5rB1RolpuEMWoYT1Rcb+L0pzJIV0hoByz0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nMbtNwkbW+OUuU+yZQ/XPWW5ssKtSEb4Ak7q/TSWFTi1wWOwPNs4+4ISaQx6iagfz
-	 SkjanjkVNtPWbP0meWOJ7lP8DKAX82gAY7qP/HO0qgwANKwBEaLX+UKQbaJw+D6C4l
-	 cR7MNfb7Ps3FMv0WCCEcuE7F6ICzla5fkKL5ZwacsE/BHx5ZsfODCGaESSn5M/1m9Y
-	 Iy0rqm72AtdPHXAKQKIj3JK0t2PTMahvgBoriZKu9XfHjus3xtxWEYsxtM+bB8/69G
-	 TbFSJHr6guXlhZ+mNEfKjW7nIs0+yBRKs+UvYe7qkKW6lSP3VJp0HT+Jq8r1Bu3hme
-	 l/qsqdQKh8ryg==
-Date: Wed, 18 Mar 2026 10:53:15 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-Message-ID: <abq8W0jDtwgSsUdT@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-2-sashal@kernel.org>
- <87h5qe9wig.fsf@trenco.lwn.net>
- <20260318070055.39f1af80@foz.lan>
+	s=k20201202; t=1773845795;
+	bh=+xGCZNVwRSPgYMfwlZW6YaW6apKt2VT7iSyY2kDE7tI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YdqkKYVYM3/GMca9zOrHVPm00/4TrqBbqxAAU344XrTTTrPV4G5cUitKMrcpS30iz
+	 bsu5tsYNBmPPUAYrszhTQno0yZKRYAw1gPGll53FnrpPTUrRqyafhZIX9FN73DY5r3
+	 sVFQMUdwwhUQ659Hd0nO3oEm5SpP6ufl85iqfx8U1KFVD09I77ZXY/emsgFUPQaENJ
+	 AV+YgYc+5FAGFl1HhcHLWl5F54J4mgdLOcgSybYcTUWLdP+8qkzz9+r/zRWFanFS1S
+	 8/sxkZcliYxus+fIFARcuos5Ktykie1OZn8xVw2NkEIwQXvWr0smHKKKbWOu091tjP
+	 aWU/qEkihrwLA==
+Message-ID: <8590eea2-8278-4cff-a6f2-f5fa404508bb@kernel.org>
+Date: Wed, 18 Mar 2026 14:56:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260318070055.39f1af80@foz.lan>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/26] tools build: Append -fzero-init-padding-bits=all
+ option
+To: Leo Yan <leo.yan@arm.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>,
+ James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>,
+ Qinxin Xia <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Kent Gibson <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>,
+ Len Brown <lenb@kernel.org>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>,
+ Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>,
+ Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260318-tools_build_fix_zero_init-v5-0-bbeffd8da199@arm.com>
+From: Quentin Monnet <qmo@kernel.org>
+Content-Language: en-GB
+In-Reply-To: <20260318-tools_build_fix_zero_init-v5-0-bbeffd8da199@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12063-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12064-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[30];
+	FREEMAIL_TO(0.00)[arm.com,kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[lwn.net,vger.kernel.org,kernel.org,linuxfoundation.org,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.967];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild,huawei];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[70];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[qmo@kernel.org,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,lwn.net:email]
-X-Rspamd-Queue-Id: 94A562BDC44
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,arm.com:email]
+X-Rspamd-Queue-Id: 33BBC2BDCE5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 18, 2026 at 07:00:55AM +0100, Mauro Carvalho Chehab wrote:
->On Tue, 17 Mar 2026 11:49:27 -0600
->Jonathan Corbet <corbet@lwn.net> wrote:
->> So the reason for two completely separate mechanisms is not entirely
->> clear to me.  The kerneldoc variant is essentially documentation, while
->> the macro stuff is to be built into the executable?  What if you want
->> both?
->
->You can easily add support at kernel-doc to output such macros.
->
->All you need is to create a new class derived from OutputFormat and
->make it produce any different output format, including:
->
->    #include <linux/kernel_api_spec.h>
->
->    DEFINE_KERNEL_API_SPEC(sys_open)
->    KAPI_DESCRIPTION("Open or create a file")
->    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
->    /* ... parameter, error, constraint definitions ... */
->    KAPI_END_SPEC
->
->I'd say that converting from such output to `.kapi_specs`` ELF section
->itself and/or to sysfs/debugfs - e.g. something that would require to
->compile or be linked with Kernel's compiled binaries should be done by a
->separate tool, but we should aim to have a singe tool to process
->kernel documentation markups.
->
->It is hard enough to maintain just one tool - and to have people actually
->writing documentation. Having a second one to handle it, with a different
->format will likely increase a lot the documentation burden.
+2026-03-18 09:16 UTC+0000 ~ Leo Yan <leo.yan@arm.com>
+> Thank you for reviewing and commenting on v4.
+> 
+> For anyone new to the series, the reason for appending this compiler
+> option is described in v3 (see "Link to v3" below).
+> 
+> In this version, the BPF related patches have been split out and will be
+> sent separately (note that I have kept the bpftool patches in this
+> series, as I have gathered Quentin's Acked-by tags).
 
-So this is exactly what happens under the hood :) kerneldoc outputs these
-macros and they get compiled ito the binary.
 
-I exposed the macros as an option since they're there anyway, but I'm happy to
-hide them as internal plumbing too.
+Hi Leo, if it's all the same to you, could bpftool patches go through
+the bpf-next tree as well, please? (You can keep my tags, of course.)
 
--- 
 Thanks,
-Sasha
+Quentin
 
