@@ -1,181 +1,260 @@
-Return-Path: <linux-kbuild+bounces-12029-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12031-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CZwJRtFumlTTgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12029-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 07:24:27 +0100
+	id kE09NcttumnRWQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12031-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 10:18:03 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18EA2B64DD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 07:24:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 680E42B8CD2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 10:18:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D34773027117
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 06:24:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9386F3015D24
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2026 09:17:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EFA6366064;
-	Wed, 18 Mar 2026 06:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0T+Bes8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA5F3A4F58;
+	Wed, 18 Mar 2026 09:17:22 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B3736493A;
-	Wed, 18 Mar 2026 06:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE0839C625;
+	Wed, 18 Mar 2026 09:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773815060; cv=none; b=EogV22PWhGsGIAEjhgbe/+qEXbt9Q+Yx/4xDYtZDpWhEaTE2fF+OZ8wLDFk/4nrfcLn7MoghOzOKCq12b+coZYEc0uIZuhTDDFIu4UnXmGAb/8G54wIMIJU7Wjq4GARJjf7GhWpxH8F86T9qwBlojrcYIbD8WrQAyzbYGFTosqs=
+	t=1773825442; cv=none; b=B8cGBv7TxHXBA5zSQwA62LGiKyPzt6fPJe4jY1bzljXljv1Tlm4gpMXdOE7e1xYgULBaJ9lbKFt1udvvZYu2SDtRdKbYCpRkubNabO7YjesT2ogF0Ill2iwCLV8jU0VbD9pBU9oxlGvipWrkxl+BG+8c84W0OaGOH45O4tBSoQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773815060; c=relaxed/simple;
-	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IcFajiegPqMGYuvfzNeMvJDsTuKk7xG0zKJUGxiFKCCHAOFPMKmHE17TfftxRFB/JUUg6GLOHE+5SyniyP0PNdF0Ew8mpdUjNmyK7UlteEyIOy+G1MezqLmVqQuVGtjSUiQHpZ+FQuAQjIK0vNIcK0lWhBoAasTDjtsE7aXutxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0T+Bes8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81047C19421;
-	Wed, 18 Mar 2026 06:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773815059;
-	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=f0T+Bes8xiS9A0l45/c+XTCgLFlaLmSNEwXKeV0UhdIKVqg8XHB5fceBVlEv1L3h5
-	 ogM6c3g4wlNPBR+yvkgm8A8pKuNDRxfsS2DyHMjjVq5LlSKC0I/5/HCqbK3bidn1T2
-	 9kN4AAzceTso+wOIn0s85hNexDCCoBN0KlvIen9wZQ1+51wtohABua4OOn6LHwT2Xc
-	 aPKny+zxfBx0fH6wjrs11SE5x5RQFA+ASX+tQdHP/741NgtTU70qGvXGqH0ZFzkmsu
-	 YPRTJksgl+A8mQGhr3aoEl9BA3Om+TOl0Lt4ezhL6yE745IFf2VAzrWGAQEU6iFTqp
-	 TArGYEojn3Fjg==
-Date: Wed, 18 Mar 2026 07:24:10 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
- E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Dmitry
- Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril
- Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
- <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-Message-ID: <20260318072410.72618011@foz.lan>
-In-Reply-To: <abZTg9ZwnE5J4qXa@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
-	<20260314111822.63a2ba4a@kernel.org>
-	<abZTg9ZwnE5J4qXa@laps>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1773825442; c=relaxed/simple;
+	bh=ZGKuPIwbdXR8s5su0qDzEXK8S9PgMd8yIP/evG69qcc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=B1lxV9nfVB+xqBkgL8+GaEbu3NrTsxsir347RW3BOcFz63yUJem5YGBIPcYu7zQFeNjthx3xyoJnmXYIjypl3wNPwIo9jqPQkgN/DnmGramURw4n6NVm5cz2bQuwhFrWGXZRVVaSfYKbF33/zQ2cPO5vWP0yb8NF69ZtR90zv9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C94121F37;
+	Wed, 18 Mar 2026 02:17:04 -0700 (PDT)
+Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A38223F73B;
+	Wed, 18 Mar 2026 02:17:01 -0700 (PDT)
+From: Leo Yan <leo.yan@arm.com>
+Subject: [PATCH v5 00/26] tools build: Append -fzero-init-padding-bits=all
+ option
+Date: Wed, 18 Mar 2026 09:16:44 +0000
+Message-Id: <20260318-tools_build_fix_zero_init-v5-0-bbeffd8da199@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHxtumkC/43NSw6CMBCA4auQrq3pg0dx5T2MIUxbZRKkpkWiE
+ u5uYYNuiMt/MvPNSIL1aAM5JCPxdsCArouR7RKim7q7WoomNhFM5EyIlPbOtaGCB7amuuCzelv
+ vKuywp0ZnIudgFCgg8f7ubVxY7NM5doOhd/61vBrEPP1HHQTlFHitteJFzbg91v621+5GZnOQq
+ yOZ2nIkZTRPi0IxxYWE4tdJvxzOt5w0OqWVGRgoSw1ydaZp+gCG67AuUAEAAA==
+X-Change-ID: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
+To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>, 
+ James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
+ Quentin Monnet <qmo@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nsc@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, 
+ Qinxin Xia <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Kent Gibson <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Josh Poimboeuf <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>, 
+ Len Brown <lenb@kernel.org>, 
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+ Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>, 
+ Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, 
+ Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, bpf@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ Leo Yan <leo.yan@arm.com>, 
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773825421; l=5318;
+ i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
+ bh=ZGKuPIwbdXR8s5su0qDzEXK8S9PgMd8yIP/evG69qcc=;
+ b=rCs4AS2t7Rahlxd/h549WaR1+JjUhUAud2CA403JALg1IPppakXeQRXDKgwXYZ97EQrnBIzSJ
+ CW7dqJDTNy6D0V52zCNmr050xXckAHKFB34mabWboySY9CApaGuGVY+
+X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
+ pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
+X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12029-lists,linux-kbuild=lfdr.de,huawei];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linuxfoundation.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12031-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[foz.lan:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F18EA2B64DD
+	RCPT_COUNT_GT_50(0.00)[71];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.968];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,arm.com:email,arm.com:mid]
+X-Rspamd-Queue-Id: 680E42B8CD2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, 15 Mar 2026 02:36:51 -0400
-Sasha Levin <sashal@kernel.org> wrote:
+Thank you for reviewing and commenting on v4.
 
-> On Sat, Mar 14, 2026 at 11:18:22AM -0700, Jakub Kicinski wrote:
-> >On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:  
-> >> This enables static analysis tools to verify userspace API usage at compile
-> >> time, test generation based on formal specifications, consistent error handling
-> >> validation, automated documentation generation, and formal verification of
-> >> kernel interfaces.  
-> >
-> >Could you give some examples? We have machine readable descriptions for
-> >Netlink interfaces, we approached syzbot folks and they did not really
-> >seem to care for those.  
-> 
-> Once the API is in a machine-readable format, we can write formatters to
-> output whatever downstream tools need. 
+For anyone new to the series, the reason for appending this compiler
+option is described in v3 (see "Link to v3" below).
 
-Kernel-doc already does that. The way it works is that it handles 
-kernel-doc markups on two steps:
+In this version, the BPF related patches have been split out and will be
+sent separately (note that I have kept the bpftool patches in this
+series, as I have gathered Quentin's Acked-by tags).
 
-- first step: parse kernel-doc markups, function prototypes and data
-  types for variables, typedefs, structs, unions, enums.
+The changes are organized into three parts:
 
-  This is done inside tools/lib/python/kdoc/kdoc_parser.py.
+  Patches 01 – 05: Preparation before adding the new compiler option.
+                   Fix typos, adjust Makefiles to ensure the newly
+                   introduced option does not cause regressions.
+  Patch 06:        Propagate -fzero-init-padding-bits=all to
+                   EXTRA_CFLAGS and HOST_EXTRACFLAGS for the
+                   CC and HOSTCC compilers, respectively.
+  Patches 07 – 26: Apply EXTRA_CFLAGS and HOST_EXTRACFLAGS in
+                   project Makefiles.
 
-  The documentation is stored in memory as a list of documentation
-  entries. Each element there belongs to class KdocItem.
+The change has been verified:
 
-  It is trivial to output its content in JSON or YAML format. I
-  submitted a path series a while ago doing exactly that, aiming to help
-  writing unittests for first step:
+Test 1: Cross compiling perf
+	host: gcc 15.2.0 (x86_64), target: aarch64-linux-gnu-gcc
 
-	https://lore.kernel.org/linux-doc/7648cb5f5a1b501d9ae9a57b4d8dbeb7273d9097.1770128540.git.mchehab+huawei@kernel.org/
+  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LDFLAGS="-static" \
+	    -C tools/perf VF=1 CORESIGHT=1 NO_JEVENTS=1 DEBUG=1
 
-  I'm planing to rebase such patch series on the top of my latest
-  kernel-doc patch series.
+Test 2: Cross compiling selftest bpf and sched_ext
+	host: gcc 15.2.0 (x86_64), target: aarch64-linux-gnu-gcc
 
-- second step: output generation. There is an abstract class named
-  OutputFormat which contains the following output methods:
+  export ARCH=arm64
+  export CROSS_COMPILE=aarch64-linux-gnu-
+  make -C tools/testing/selftests/ TARGETS="bpf sched_ext" SKIP_TARGETS=""
 
-    def out_doc(self, fname, name, args):
-        """Outputs a DOC block."""
+Test 3: Native compiling selftest bpf and sched_ext
+	host: gcc 15.2.0 (x86_64)
 
-    def out_function(self, fname, name, args):
-        """Outputs a function."""
+  make -C tools/testing/selftests/ TARGETS="bpf sched_ext" SKIP_TARGETS=""
 
-    def out_enum(self, fname, name, args):
-        """Outputs an enum."""
+Signed-off-by: Leo Yan <leo.yan@arm.com>
+---
+Changes in v5:
+- Gathered Acked tags (thanks Daniel, Namhyung, Benjamin!)
+- Appended HOST_EXTRACFLAGS after KBUILD_HOSTCFLAGS (Ian)
+- Appended CFLAGS for libc-test (Thomas)
+- Left out BPF patches and will send out separately (Alexei)
+- Rebase on v7.0.0-rc4
+- Link to v4: https://lore.kernel.org/r/20260311-tools_build_fix_zero_init-v4-0-9e35bdb99cb3@arm.com
 
-    def out_var(self, fname, name, args):
-        """Outputs a variable."""
+Changes in v4:
+- Placed EXTRA_CFLAGS last so it can override the default options (Ian).
+- Cached evaluated values to avoid invoking cc-option when each
+  reference EXTRA_CFLAGS/HOST_EXTRACFLAGS (Ian).
+- Dropped useless patches for feature, verification and nolibc
+  (Gabriele / Ian / Thomas).
+- Fixed typos for thermal (Ian).
+- Removed duplicate $(CLANG_CROSS_FLAGS) in libbpf (Ian).
+- Collected maintainers' reviewed and ACK tags.
+- Link to v3: https://lore.kernel.org/r/20260308-tools_build_fix_zero_init-v3-0-6477808123b7@arm.com
 
-    def out_typedef(self, fname, name, args):
-        """Outputs a typedef."""
+---
+Leo Yan (26):
+      tools: lib: thermal: Fix typo
+      tools/thermal: Fix typo
+      tools: lib: thermal: Initialize CFLAGS before including Makefile.include
+      tools/thermal: Initialize CFLAGS before including Makefile.include
+      bpftool: Avoid adding EXTRA_CFLAGS to HOST_CFLAGS
+      tools build: Append -fzero-init-padding-bits=all to extra cflags
+      bpftool: Append extra host flags
+      perf build: Append extra host flags
+      tools build: Append extra host cflags
+      tools: bootconfig: Append extra cflags
+      tools: counter: Append extra cflags
+      tools: dma: Append extra cflags
+      tools: gpio: Append extra cflags
+      tools: hv: Append extra cflags
+      tools: iio: Append extra cflags
+      tools: mm: Append extra cflags
+      tools: objtool: Append extra host cflags
+      tools: power: acpi: Append extra cflags
+      tools: power: x86/intel-speed-select: Append extra cflags
+      tools: sched_ext: Append extra cflags
+      tools: spi: Append extra cflags
+      tools: tracing: Append extra cflags
+      tools: usb: Append extra cflags
+      selftests/hid: Append extra cflags
+      selftests/nolibc: Append extra cflags
+      selftests/sched_ext: Append extra cflags
 
-    def out_struct(self, fname, name, args):
-        """Outputs a struct."""
+ tools/bootconfig/Makefile                   |  1 +
+ tools/bpf/bpftool/Makefile                  |  9 +++++++--
+ tools/build/Makefile                        |  6 ++++--
+ tools/counter/Makefile                      |  1 +
+ tools/dma/Makefile                          |  1 +
+ tools/gpio/Makefile                         |  1 +
+ tools/hv/Makefile                           |  1 +
+ tools/iio/Makefile                          |  1 +
+ tools/lib/thermal/Makefile                  | 20 ++++++++++---------
+ tools/mm/Makefile                           |  1 +
+ tools/objtool/Makefile                      |  2 ++
+ tools/perf/Makefile.config                  |  2 +-
+ tools/power/acpi/Makefile.config            |  1 +
+ tools/power/x86/intel-speed-select/Makefile |  1 +
+ tools/sched_ext/Makefile                    |  1 +
+ tools/scripts/Makefile.include              | 30 +++++++++++++++++++++++++++++
+ tools/spi/Makefile                          |  1 +
+ tools/testing/selftests/hid/Makefile        |  1 +
+ tools/testing/selftests/nolibc/Makefile     |  7 +++----
+ tools/testing/selftests/sched_ext/Makefile  |  1 +
+ tools/thermal/lib/Makefile                  | 20 ++++++++++---------
+ tools/tracing/latency/Makefile              |  1 +
+ tools/usb/Makefile                          |  1 +
+ 23 files changed, 84 insertions(+), 27 deletions(-)
+---
+base-commit: a989fde763f4f24209e4702f50a45be572340e68
+change-id: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
 
-  Producing a different output is as easy as doing:
+Best regards,
+-- 
+Leo Yan <leo.yan@arm.com>
 
-	class MyFormat(OutputFormat):
-	...
-	    def out_var(self, fname, name, args):
-        	self.data =+ f"whatever {name}"
-	...
-
-
-Thanks,
-Mauro
 
