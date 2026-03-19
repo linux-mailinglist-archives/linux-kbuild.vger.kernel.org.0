@@ -1,448 +1,260 @@
-Return-Path: <linux-kbuild+bounces-12083-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12084-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cFUFNWoqvGn4twIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12083-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2026 17:55:06 +0100
+	id CGPsL/JJvGknwgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12084-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2026 20:09:38 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8062CF311
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2026 17:55:06 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E542D18C8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2026 20:09:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 10CB232851C4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2026 16:43:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 07157300186A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2026 19:09:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61F562C21C5;
-	Thu, 19 Mar 2026 16:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE0835C1BF;
+	Thu, 19 Mar 2026 19:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGYxvByH"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="b/BKnRbn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020083.outbound.protection.outlook.com [52.101.196.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98EF3EE1C1;
-	Thu, 19 Mar 2026 16:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773938622; cv=none; b=MiVFezGho297odAIEx/EDWDeG4L6qDLaptin38Q7apleUKRrmKvJlSxpItNmnn0lIS8WdnMzaw3sXkEZ87P7QdWoS5H7CGRcDpXVMA25Oatp1S6xasBLOIJ9xQRxFsmdozGQQjwQNMY9gfZWa7Za69C3eyCTYouqLtfNa4fbIUI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773938622; c=relaxed/simple;
-	bh=foBUrcbmXINTonPyjYsnHAi+9wmraBkIDrk1yWtnsHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ej9oz1x6h6CExt8HFgQsZMDdLjT7jWrSK4YRpQJwcVLvBIE3v7ZN5Tpja4g0oX2tk2BeGMKXtHhsz/tbz5+oDHvkntH62bZBDTx9bl+GCYCezkzrW9V0aoN+5PhIDXt7Q6QWH/PkRHrKog1vJMUUE9F2eo7gsbYxTErJq8vcP4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGYxvByH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469AAC19424;
-	Thu, 19 Mar 2026 16:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773938622;
-	bh=foBUrcbmXINTonPyjYsnHAi+9wmraBkIDrk1yWtnsHo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eGYxvByHR8IMCBbE9lLP8SI9qKS5gE9a/ge4KGQlf2AePTC7OrgSr0mA+iYehVUwL
-	 5+t81zao17yDB4cqp+Rds62nIQWtHEm+DPwbUqnVI38ANbgc/cgTzxaGiU03viLzNa
-	 WXvO5zJ0eNT9Tx4eGjHlyRxzEpPPtX9HxCKEJ+dgS+6xZAjVRRNhj9qOB3ZW679e87
-	 yr4ZDeJpUT7sXZPqw29rekm1R4pcQrFNN9APQukJ4mt4zTYZo1ds90NdSUvPEtDt9A
-	 HMyzfLzWWzqryREHu4C5bGP74SgfZfhre+Dbglyn7Sg8JaxbHRR5PQgymGb+a9+DfB
-	 N1qmt7E7DgAiA==
-Date: Thu, 19 Mar 2026 12:43:41 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vivian Wang <wangruikang@iscas.ac.cn>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] kallsyms: extend lineinfo to loadable modules
-Message-ID: <abwnvdbu4kjx7esJ@laps>
-References: <20260312030649.674699-1-sashal@kernel.org>
- <20260312030649.674699-3-sashal@kernel.org>
- <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17B2345CC0;
+	Thu, 19 Mar 2026 19:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773947368; cv=fail; b=CbvsULSViME+3TZFDZMTWbUmV4GdHT9mGUcElT2x7ztASLgwxyLdJkP+9iUVwUWOqJOdsdO5oVDOiTl8S66wXAIMq4N6edxF7zGg3LSnmPbN3NU6wsPkTLIs2QWNzWzxwHHdmphnKClYrJLECZAYGW1xShtcnSWfffHSNBWFylA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773947368; c=relaxed/simple;
+	bh=w40pFCk8DK6WCm34RnkHl1DeqQSmSeD+6g+Is+OjcVI=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=s4+2A4mD+4zkVC5qBIbVFUloWBOf856mqrpizXx+1jgZt2Q/R5wGkqwuM4+kVC2Rk/Nzvw/I0phme4Ixi560z4rgOuoSBDnv7rb0KL48sz7HyufcxZLhNuR0LGeuaHLtC6G69lus8TL1cbIMYR3TfrQNX5HXG3OYh+LydMLALFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=b/BKnRbn; arc=fail smtp.client-ip=52.101.196.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LX917pFDt/7r3UYGfl/KDqEFiH27Ev4qju4w8J3FS/3oJ9wfzhqyCU6GVRj0mogLIXRXUAjVrV9nUkVp0OIZ33QwxPLX1r/p/aOqvs8hzGsc+SKsjrwQm0NUb+Tb/uK5Rpman2bYGDiadcwbAUdtqfEPYo6Dw2gZq7tiaKceMU+qjBiACFRBwadhVXpMaiNKPsS/ClgmMyunLm+d7UhqNgU475c7eQ31QY5BTVeNKlc7763RdkHMZdZ/QbLf5sidE9fHu76PMhKM4jUuf/on01n8tFU8OkmEY0yb8iCWRrO947A3T6v4PikjZD/+W5ggU+6fs/khViKi7fKBQ8ZcQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pUq5se4j1I2tg7+6arxFzKgLjJ9oy/uyP8K+K9gXfcA=;
+ b=IVopjaFQ/R5CrTGhomTJCIv5uOSh9/MfiqAKLk7/sGXGw64c9xSaY3JMp4DGpEdmwl/wKbnBDXL+zvJUYgsGM5rj9CPbIyPrqiUEfoq6Ar+Nuc5EiZg0fA91XgQFFJz/so3KeJ0AXJksB4GwGuNKTHCPTAw6cuCsD/gBcDgseYQIP53jR+3/qIbiuFLH92j4iaU2lREyojb/EL3mv77RD8cRYXIUUQVspdmAisD5XkPWqI5nT6aUaABUdnAJWe1DVTekhV/Q2J5jpO7m4CWiOfHT6ev1/BD6/FoV6a9MwAd25ds4bzT2FZ0FINjLb+nfs3InC0qIMX2IUiaJKGYKHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pUq5se4j1I2tg7+6arxFzKgLjJ9oy/uyP8K+K9gXfcA=;
+ b=b/BKnRbnIuLOAcECWJmzYfx275KJhsvWq5DuUWOWb2Qqd9K0mvtpx/HvDm5V7FUb9kj9nq2c1B4dD8kCDfFGfsY8cEV7y87q0UBw6w7jTOd8ZQXvQ/vjgU/Wr+kbIEpZ+7vitB3qprZJECNNVWcu3Hu94CKgC4/7+jORVrv38lM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO9P265MB7835.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:39d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.18; Thu, 19 Mar
+ 2026 19:09:23 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.019; Thu, 19 Mar 2026
+ 19:09:23 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Mar 2026 19:09:22 +0000
+Message-Id: <DH6ZUW2WRTNM.3B6SWJS4I3DE4@garyguo.net>
+To: "Alice Ryhl" <aliceryhl@google.com>, "Gary Guo" <gary@garyguo.net>
+Cc: "Rong Xu" <xur@google.com>, "Han Shen" <shenhan@google.com>, "Nathan
+ Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>, "Matthew
+ Maurer" <mmaurer@google.com>, <linux-kbuild@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: rust: add AutoFDO support
+From: "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260319-autofdo-v1-1-51ee2a7290cd@google.com>
+ <DH6Q43ROSJTN.3MDECF42EKQY1@garyguo.net>
+ <CAH5fLggvkVvgP1pvBjNQ4XQz9=RtTTXhf0JCVDLfq-xX971D5g@mail.gmail.com>
+ <DH6QGQDMPLDY.1H3RLPD1X8CGL@garyguo.net>
+ <CAH5fLghkK76Od1AxSH_NgrxOr2pt2XOoVBuLD6ZovzcLoxNwQQ@mail.gmail.com>
+In-Reply-To: <CAH5fLghkK76Od1AxSH_NgrxOr2pt2XOoVBuLD6ZovzcLoxNwQQ@mail.gmail.com>
+X-ClientProxiedBy: LO4P123CA0289.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:196::6) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO9P265MB7835:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4c61242-737c-4143-f359-08de85eb0817
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|10070799003|376014|7416014|366016|56012099003|22082099003|18002099003|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	v5ykQWg8IQ7PFl2SGn50Toy5v9tw+BKMNQrbyDxXe/PpjkAFZ0aAyNL9ZFCi1ppXktxtvXZeibnRxtEazhFKMmxEeAPUeybjRl68HuND1MMUGbL+K5PrFA/yH95ebt06CdiWaevAsWublpsOs3F1XrPZHc4hii9KDaQ/cjE9YX4a593i1vwe+xIlnqJ60Lyvj7ZdEFdyP74R/kmCYJ51CQBRlSC+Y+VEV1aojDvLiNFg33B5nr7pSNqSlthuSENA8POReIe7imipaZqqbScg65TV/fm+yjqWePHzeXgPPt/q+99+gGqdcuU/PXj4ixceqvFmUrQ410JGEyMKYREDjieeIQL8+vh/C5cMI8W4vhx2h73KnmHAr+2qQFAWbg0mkyGZJLlDz98Dz6DCaxJAlLa1VIvTcPIqdAPtSt6oy6EngsVQBr7EUaWjb2qU0D6dwz8wFui6RtQv2GYQeNFYVJwSeYt2X5znboAnmz1z97hX/BWWjbcopmyh3wPcQ/6xnmZ/25L4I3b366rr8ROw21ILdjI+wHSC1lpTyKXScaDKi+k07u/yAvbe62UJXidJLnz1C9dQtJM8yH6xBw5YpAWgvs86Sr0/MgLNqUHc+rU/gPnhsXhuMdwGqDMqL0NqEYaAD5dgGg/oNmlS5YsS330ba8rGhZdT8ydDC/mFKbeOqbAeN212s03RaBswsWwHf+OCDCWBYgHtmkhqhET41Tjm+5Xf+0Mag/+AUuAWdIw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cEJteHNqc1BweUZqWW1MUUdpNlhEb3lNMXU4UnA3clhPUldDR2x6LzE4OFlS?=
+ =?utf-8?B?MHk1bm96Ymd5cmp4WEZ4OUM0QWFxWkVMcVVpRWFCNW1jRHVnY2JBQ3gzTE1I?=
+ =?utf-8?B?RzBHTGFmUWpra3YyL2JZNUpGMjI5NXpDUElSZWljdGwwU0kraTFPWW5RMkZ2?=
+ =?utf-8?B?eUpjVE9CWU5yQ0JpS3dnakF1UnhIS256WGNqcVVlT3BtU0VCU1hzc3pHZkM2?=
+ =?utf-8?B?YWMxcTFPeG5qRFJqNUI4UHAybGxqMzVsL2d5cWtJazNSVzUvdThnZm43OTB2?=
+ =?utf-8?B?aUdXaXl3TGJZRnVLUTNtYnU0Rm5RcTF2VENEbFhmb2V0aUc3VFplVmU1cklh?=
+ =?utf-8?B?MVFFTURVY2VkSW1rREtlNi9rQ2hUcEdaUHRpWTRUM0pmZVlpTmJmTEFCWldS?=
+ =?utf-8?B?SldNbjJ4ZzlJWGdvTURKL2hqVSswcnlScnROa2wzM2lZdWtFVi9qTUQvQUZ4?=
+ =?utf-8?B?T3dEdzlZVE8vR0ZqRFpEN0Ywc0s1MlpXaytidnhuL0xIV2FNYzg1RHIySGxL?=
+ =?utf-8?B?Q0c4MWRoNS9GUFB0UGVMdDdsN09YaW9aRWZRaXBlc0xlOXhpYy9ZYzRxVnVE?=
+ =?utf-8?B?S3o5SDloN1hqSFVkekdkTHFXa3BTeGNwUDM2bnRORWsxbU4zOTB1akFLMjR5?=
+ =?utf-8?B?elVBWkZvbUYyeFRPWGNyMmlvcHB5RktTVVpCQk8rd2MzOG9iOXNsUzZBUXFT?=
+ =?utf-8?B?VXpoWkZvSDJwTHp3aDRsZUJmNjdGb1hyTFNLdDFHRGZqd21lZlB4dEJWUTEz?=
+ =?utf-8?B?clJSMk14YU0ydHhQV2h6MnFxTHhmdEVPa3ZQeW9ZZEpPM21TWUFxWE1kUGpk?=
+ =?utf-8?B?b0lEdTdmUXNXMTBncDJHWW5xWi9QOHdub1NRNVdUckVtN21jckNuVGdoNCtr?=
+ =?utf-8?B?dEluWTUrYjFQWTNiUldRSkJ0TnFTTXNNV1JWZ2JSQXR5NzJVTlFFeGxlY2wy?=
+ =?utf-8?B?V2lnNXVtQ21LWjMxR20yN3FTdkc0T1M4MytETS9LQ3c1NmVJdGZHSVByMVhV?=
+ =?utf-8?B?dEpHalUxRXI3c2ZxQTcwU1UyOEpBcWZOMk96OE05a0hVQStvb1lTZFk4eUdP?=
+ =?utf-8?B?cmNwb0xZS0syQnFLUWNSaWxwQWlKTHRNVFhFcWJObTdXRzBWL1o0S3lKRWhZ?=
+ =?utf-8?B?L2QwTFBlSnJOM3RCaTVCTFBQRmNKKzZ1QkxSZ09LNW1FZFVGamlGM0Fpb0xp?=
+ =?utf-8?B?bUhBVEEvU004aENjcndFb0hVWmlXaEpPbFFKbXZFWDloUTEwMkZ0L0k4RUg4?=
+ =?utf-8?B?Z2p2VC9hbDEvOTQwWjZGSWhLenVYb3JGcXMzeTRTVmJZZjdtY0Z5cDhjcS9R?=
+ =?utf-8?B?NHZqL1gvSm1wUkw2Z3RJcldtRURYRHdlUnlOVEdJdDdMS3RPTFFFN0loS21l?=
+ =?utf-8?B?YjgxRWFmdXRWU2t1L1Q3UXkyM2VHSVNXbExSZXEvNjU4V0hFTHZDVXlYMktJ?=
+ =?utf-8?B?ckNCbFVGdDl6VFFyMkF1bmhLVlVZR3BDL3o2NGVoNkFadWFpN2lpSXM3cUxL?=
+ =?utf-8?B?SzdIbWtpMEN0ZStoeFg0RXgwTDhBVXdqOWhlR2x5dGJiZ1haMS9XbDB6UVNY?=
+ =?utf-8?B?djMrblRIdTFoYmpnazNjOUwxdVN5Z0YyUHFwSVNMT0VDb1BDOWNBMmV0aHBS?=
+ =?utf-8?B?SURHVlVnTEFLcVUwVjNseExIOEh6Q0gwM2x0dkwzU082TUdVSEpXTHlMaVQ0?=
+ =?utf-8?B?amR2MTJXclZTUS9tOVV4d3N0bVI2dzFaTW9VRzlRUVhJdGREVC9lSGdoV0Ju?=
+ =?utf-8?B?WmhGYWd5WnJEekZlMUZIbFdjakxjaWxSRFBJcU1aMmcxU0ZMWURtbEdSSW1m?=
+ =?utf-8?B?OW5obXdwWXR1NFNLNTFGR25PczhKNFNWc1kxZXBVdVR1NXZLeGIrZmwvVmEv?=
+ =?utf-8?B?bDNUajRmdG0wc1FzWGluRFBJRDk5eGZqbER3Q3JvK1VuUlV3ODNjZy83dXZm?=
+ =?utf-8?B?TytPWUR4eWFFdlJScFQ0Z3JDcSt1M2VVYTdhbk5iSnpYMUFSOHorUTQ3VlBZ?=
+ =?utf-8?B?dVRkaEFmQSswb2U3VUNGVm9MWm5hbXVOeUtmaUVObHppalBpMzV1MHlrc3la?=
+ =?utf-8?B?a0VDMU9iNjY1TnEzc0o5TEVGbVM3Wm5HeGgxTXU0Z1prTlFsMW5ieVBtd1Zl?=
+ =?utf-8?B?bnRBamt3QndSSWE0aVFvTmFlMkEwZUdLZlJrVXJDMzdNc0kvdGZmSHN0Q2Zo?=
+ =?utf-8?B?Nzg1WGpVWDJKWjVOMFEzaEpUbmx0bHdRZUNIWmRxeVNMdFhHc1BmcXZjODNx?=
+ =?utf-8?B?dFV6NDVtNDAvV3hqR3hiOHAzdmxiZU5USmFTRUdpbHdvSDRJZkFEVW5FT29x?=
+ =?utf-8?B?alVkR1dONkw2QzNudnpuU0xHS1R0VGlxMk5XM212eXNHTXRybFZhZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4c61242-737c-4143-f359-08de85eb0817
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 19:09:23.4220
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sRFMZRQl7huOSvLJ1s4L7hzd29XPr5CgcW0VCsenW8kDExAnb5hP+MDwIMMEWxqK0L02CC5ZgwlhnaihDBDNRA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P265MB7835
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12083-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,nod.at,suse.com,linux-m68k.org,hansenpartnership.com,lwn.net,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,gmx.de,ideasonboard.com,iscas.ac.cn,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-12084-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,protonmail.com,umich.edu,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.987];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[garyguo.net:+];
+	NEURAL_HAM(-0.00)[-0.994];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5E8062CF311
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:dkim,garyguo.net:email,garyguo.net:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C5E542D18C8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thanks for the great review!
-
-On Thu, Mar 19, 2026 at 11:37:18AM +0100, Petr Pavlu wrote:
->On 3/12/26 4:06 AM, Sasha Levin wrote:
->> +- **No init text**: For modules, functions in ``.init.text`` are not annotated
->> +  because that memory is freed after module initialization.
->
->A second table .init.mod_lineinfo could be added to provide the
->necessary information for .init sections, which would be dropped along
->with all the other init code+data.
-
-Sure, it's something we can look at it later. For this series I'd like to keep
-scope to runtime .text, since init code runs briefly and rarely appears in
-stack traces that need debugging. Adding a second section would require module
-loader changes for loading and freeing it alongside init memory.
-
->> --- /dev/null
->> +++ b/include/linux/mod_lineinfo.h
->> @@ -0,0 +1,68 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * mod_lineinfo.h - Binary format for per-module source line information
->> + *
->> + * This header defines the layout of the .mod_lineinfo section embedded
->> + * in loadable kernel modules.  It is dual-use: included from both the
->> + * kernel and the userspace gen_lineinfo tool.
->> + *
->> + * Section layout (all values in target-native endianness):
->> + *
->> + *   struct mod_lineinfo_header     (16 bytes)
->> + *   u32 addrs[num_entries]         -- offsets from .text base, sorted
->
->Modules are relocatable objects. The typical way to express a reference
->from one section to data in another section is to use relocations.
->Choosing to use an implicit base and resolved offsets means that the
->code has trouble correctly referencing the .text section and can't
->express line information data for other sections, such as .exit.text.
-
-I agree, which is why I scoped this just to .text :)
-
-My thinking was that using ELF relocations would add significant complexity to
-both the build tool and the runtime lookup path, which must remain NMI-safe and
-allocation-free.
-
->> + *   u16 file_ids[num_entries]      -- parallel to addrs
->> + *   <2-byte pad if num_entries is odd>
->> + *   u32 lines[num_entries]         -- parallel to addrs
->> + *   u32 file_offsets[num_files]    -- byte offset into filenames[]
->> + *   char filenames[filenames_size] -- concatenated NUL-terminated strings
->
->Nit: The description could be a bit easier to navigate if the
->mod_lineinfo_header struct was expanded, so it is clear where
->num_entries, num_files and filenames_size come from.
-
-Makes sense
-
->> + */
->> +#ifndef _LINUX_MOD_LINEINFO_H
->> +#define _LINUX_MOD_LINEINFO_H
->> +
->> +#ifdef __KERNEL__
->> +#include <linux/types.h>
->> +#else
->> +#include <stdint.h>
->> +typedef uint32_t u32;
->> +typedef uint16_t u16;
->> +#endif
->> +
->> +struct mod_lineinfo_header {
->> +	u32 num_entries;
->> +	u32 num_files;
->> +	u32 filenames_size;	/* total bytes of concatenated filenames */
->
->An alternative would be to say that the filenames data extends to the
->end of the section, without requiring an explicit filenames_size.
-
-I'd prefer to keep filenames_size explicit: it allows lineinfo_search() to
-validate filename offsets without knowing the section size. This keeps the
-search function reusable between vmlinux (where data comes from linker globals
-with no "section size") and modules (where it comes from a section). The cost
-is 4 bytes per module.
-
->> +	u32 reserved;		/* padding, must be 0 */
->
->I believe the format should remain internal to the kernel, so there is
->no need for such a reserved member.
-
-The format is indeed internal and we don't generally concern ourselves with
-out-of-tree modules. I've originally added it as a minimal safety net: if the
-format ever changes and a stale .ko with an old-format .mod_lineinfo gets
-loaded, the kernel would silently misparse lineinfo data.
-
-I don't feel too strongly about it either way, but 4 bytes felt a pretty cheap
-price to pay for this safety net :)
-
->> +static inline u32 mod_lineinfo_lines_off(u32 num_entries)
->> +{
->> +	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
->> +	u32 off = mod_lineinfo_file_ids_off(num_entries) +
->> +		  num_entries * sizeof(u16);
->> +	return (off + 3) & ~3u;
->> +}
->> +
->> +static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
->> +{
->> +	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
->> +}
->> +
->> +static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
->> +{
->> +	return mod_lineinfo_file_offsets_off(num_entries) +
->> +	       num_files * sizeof(u32);
->> +}
->
->These helpers are used only from kernel/module/kallsyms.c. I assume they
->are present in this header file to stay close to the description of the
->format.
->
->I personally find them quite verbose. The module_lookup_lineinfo()
->function needs an intimate knowledge of the data format anyway. The code
->in module_lookup_lineinfo() could be replaced with just:
->
->	addrs = base + sizeof(struct mod_lineinfo_header);
->	file_ids = addrs + num_entries * sizeof(u32);
->	lines = (file_ids + num_entries * sizeof(u16) + 3) & ~3u;
->	file_offsets = lines + num_entries * sizeof(u32);
->	filenames = file_offsets + num_files * sizeof(u32);
-
-They are very verbose mostly to make it easy for me to understand :)
-
-Note that the next patch which adds compression rewrites these completely.
-
-I kept these here just to make it easier to understand what's happening during
-my development work as well as reviews.
-
->> +
->> +#endif /* _LINUX_MOD_LINEINFO_H */
->> diff --git a/include/linux/module.h b/include/linux/module.h
->> index 14f391b186c6d..d23e0cd9c7210 100644
->> --- a/include/linux/module.h
->> +++ b/include/linux/module.h
->> @@ -508,6 +508,8 @@ struct module {
->>  	void *btf_data;
->>  	void *btf_base_data;
->>  #endif
->> +	void *lineinfo_data;		/* .mod_lineinfo section in MOD_RODATA */
->> +	unsigned int lineinfo_data_size;
->
->The lineinfo-specific members should be enclosed within the `#ifdef
->CONFIG_KALLSYMS_LINEINFO_MODULES`.
->
->This will require module_lookup_lineinfo() to be conditionally compiled
->based on CONFIG_KALLSYMS_LINEINFO_MODULES, with a dummy version provided
->otherwise. Alternatively, accessors to module::lineinfo_data and
->module::lineinfo_data_size that handle CONFIG_KALLSYMS_LINEINFO_MODULES
->could be introduced in include/linux/module.h. For example, see
->module_buildid() or is_livepatch_module.
-
-The struct members were deliberately left without #ifdef guards following Helge
-Deller's suggestion in the v1 review[1]. I don't really mind either way, but
-I'd prefer to have a consensus before flipping it back and forth.
-
-Helge?
-
-[1] https://lore.kernel.org/all/3ab0cad6-bf55-4ae5-afb7-d9129ac2032e@gmx.de/
-
->> +	addrs = base + mod_lineinfo_addrs_off();
->> +	file_ids = base + mod_lineinfo_file_ids_off(num_entries);
->> +	lines = base + mod_lineinfo_lines_off(num_entries);
->> +	file_offsets = base + mod_lineinfo_file_offsets_off(num_entries);
->> +	filenames = base + mod_lineinfo_filenames_off(num_entries, num_files);
->> +
->> +	/* Compute offset from module .text base */
->> +	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
->
->The module::mem[] covers module memory regions. One can think of them as
->ELF segments, except they are created dynamically by the module loader.
->The code conflates the .text section and the TEXT segment. I'm not aware
->of any guarantee that the .text section will be always placed as the
->first section in this segment.
-
-You're right that this conflates section and segment. In practice, .text is
-always first in MOD_TEXT because __layout_sections() processes SHF_EXECINSTR
-sections in ELF order, and .text is conventionally first.  But I agree this
-shouldn't be an implicit assumption.
-
-We can add a validation check at module load time to verify the assumption
-for now, and address it better when ...
-
->Relocations can be used to accurately reference the .text section.
-
-... we add full relocation support.
-
->> +	if (addr < text_base)
->> +		return false;
->> +
->> +	raw_offset = addr - text_base;
->> +	if (raw_offset > UINT_MAX)
->
->The offsets in the addrs array are of the u32 type, so this should be
->strictly speaking checked against U32_MAX.
-
-Right
-
->> --- a/scripts/Makefile
->> +++ b/scripts/Makefile
->> @@ -5,6 +5,7 @@
+On Thu Mar 19, 2026 at 4:33 PM GMT, Alice Ryhl wrote:
+> On Thu, Mar 19, 2026 at 12:47=E2=80=AFPM Gary Guo <gary@garyguo.net> wrot=
+e:
 >>
->>  hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
->>  hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
->> +hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
->
->This line is unnecessary because CONFIG_KALLSYMS_LINEINFO_MODULES
->depends on CONFIG_KALLSYMS_LINEINFO.
-
-It is. I mostly left it here for clarity's sake. I'll drop it. 
-
->> @@ -59,6 +62,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
->>  	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
->>  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
->>  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
->> +endif
->> +ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
->> +	+$(if $(newer-prereqs),$(call cmd,lineinfo_ko))
->
->Should this be 'if_changed_except.. vmlinux'?
-
-Lineinfo generation doesn't depend on vmlinux - it reads DWARF directly from
-the .ko file itself. Unlike BTF (which uses vmlinux as a base for
-deduplication), there's no vmlinux prerequisite to exclude.
-
->> @@ -194,9 +200,45 @@ static const char *make_relative(const char *path, const char *comp_dir)
->>  		return p ? p + 1 : path;
->>  	}
+>> On Thu Mar 19, 2026 at 11:44 AM GMT, Alice Ryhl wrote:
+>> > On Thu, Mar 19, 2026 at 12:31=E2=80=AFPM Gary Guo <gary@garyguo.net> w=
+rote:
+>> >>
+>> >> On Thu Mar 19, 2026 at 11:22 AM GMT, Alice Ryhl wrote:
+>> >> > This patch enables AutoFDO build support for Rust code within the L=
+inux
+>> >> > kernel. This allows Rust code to be profiled and optimized based on=
+ the
+>> >> > profile.
+>> >> >
+>> >> > This was verified by inspecting the object files and confirming tha=
+t
+>> >> > they look correct. It was also verified in conjuction with my helpe=
+rs
+>> >> > inlining series, and it also appears to have worked correctly when
+>> >> > combined with that series once one missing thing [1] was fixed in t=
+he
+>> >> > helpers inlining series.
+>> >> >
+>> >> > Link: https://lore.kernel.org/all/aasPsbMEsX6iGUl8@google.com/ [1]
+>> >> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+>> >> > ---
+>> >> >  scripts/Makefile.autofdo | 6 +++++-
+>> >> >  scripts/Makefile.lib     | 3 +++
+>> >> >  2 files changed, 8 insertions(+), 1 deletion(-)
+>> >> >
+>> >> > diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
+>> >> > index 1caf2457e585..3f08acab4549 100644
+>> >> > --- a/scripts/Makefile.autofdo
+>> >> > +++ b/scripts/Makefile.autofdo
+>> >> > @@ -3,14 +3,18 @@
+>> >> >  # Enable available and selected Clang AutoFDO features.
+>> >> >
+>> >> >  CFLAGS_AUTOFDO_CLANG :=3D -fdebug-info-for-profiling -mllvm -enabl=
+e-fs-discriminator=3Dtrue -mllvm -improved-fs-discriminator=3Dtrue
+>> >> > +RUSTFLAGS_AUTOFDO_CLANG :=3D -Zdebug-info-for-profiling -Cllvm-arg=
+s=3D-enable-fs-discriminator=3Dtrue -Cllvm-args=3D-improved-fs-discriminato=
+r=3Dtrue
+>> >>
+>> >> I get that it's currently named as AUTOFDO_CLANG, but this really oug=
+ht to be
+>> >> AUTOFDO_LLVM...
+>> >>
+>> >> The flag translations look correct to me.
+>> >
+>> > Do you think it's worth having Rust not match the CFLAGS here?
+>> >
 >>
->> -	/* Fall back to basename */
->> -	p = strrchr(path, '/');
->> -	return p ? p + 1 : path;
->> +	/*
->> +	 * Relative path — check for duplicated-path quirk from libdw
->> +	 * on ET_REL files (e.g., "a/b.c/a/b.c" → "a/b.c").
->> +	 */
+>> I think the C flags should probably be renamed AUTOFDO_LLVM too. After c=
+all, all
+>> the perf tools involved here are called llvm-foobar as well.
 >
->When does this quirk occur? Is it a bug in libdw?
+> But isn't it just called this because the config option is
+> CONFIG_AUTOFDO_CLANG? So it's the CFLAGS or RUSTFLAGS related to that
+> particular config option. It may make sense to rename
+> CONFIG_AUTOFDO_CLANG to CONFIG_AUTOFDO, but that's out-of-scope for
+> this change, in my opinion.
 
-This occurs with elfutils libdw when processing ET_REL .ko files.  libdw
-constructs source paths by concatenating DW_AT_comp_dir with DW_AT_name from
-the compilation unit. For modules where both are relative paths with the same
-prefix, this can produce doubled results like "net/foo/bar.c/net/foo/bar.c". It
-appears to be a libdw quirk with ET_REL DWARF handling.
+I get that it's an existing config name, but previously it is a correct
+description, while after this change it is no longer accurate.
 
->> +	{
->> +		size_t len = strlen(path);
->> +
->> +		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
->> +			size_t prefix = p - path;
->> +			size_t rest = len - prefix - 1;
->> +
->> +			if (rest == prefix && !memcmp(path, p + 1, prefix))
->> +				return p + 1;
->> +		}
->
->Isn't this loop same as:
->
->size_t mid = len / 2;
->if (path[mid] == '/' && !memcmp(path, path + mid + 1, mid - 1))
->	return path + mid + 1;
+I don't know if there's an established practice on renaming CONFIG options =
+when
+this sort thing happens though. Perhaps one way is to have add
+CONFIG_AUTOFDO_CLANG that selects CONFIG_AUTOFDO.
 
-I think so! For a true duplication "X/X", the split is always at the exact
-midpoint (len/2), so the loop over every '/' is unnecessary. I'll adopt this
-approach with the memcmp length as `mid` rather than `mid - 1` to compare the
-full second half.
-
->> +static unsigned int r_type_abs32(unsigned int e_machine)
->> +{
->> +	switch (e_machine) {
->> +	case EM_X86_64:		return 10;	/* R_X86_64_32 */
->> +	case EM_386:		return 1;	/* R_386_32 */
->> +	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
->> +	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
->> +	case EM_RISCV:		return 1;	/* R_RISCV_32 */
->> +	case EM_S390:		return 4;	/* R_390_32 */
->> +	case EM_MIPS:		return 2;	/* R_MIPS_32 */
->> +	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
->> +	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
->> +	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
->> +	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
->> +	default:		return 0;
->
->The source file already includes elf.h from elfutils. Is it necessary to
->hardcode these relocation values here?
-
-Right!
-
->>  static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
->>  {
->>  	Dwarf_Off off = 0, next_off;
->> @@ -295,6 +490,16 @@ static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
->>  			if (addr < text_addr)
->>  				continue;
->>
->> +			/*
->> +			 * In module mode, keep only .text addresses.
->> +			 * In ET_REL .ko files, .init.text/.exit.text may
->> +			 * overlap with .text address ranges, so we must
->> +			 * explicitly check against the .text bounds.
->> +			 */
->
->Nit: The use of "may" in this comment seems strange. It is fully
->expected that .text, .init.text, .exit.text or any other section will
->have their sh_addr set to 0 in relocatable objects and therefore the
->sections have overlapping address ranges.
-
-I guess I wasn't sure if it's really always the case. We can adjust the comment.
-
->> +			if (module_mode && text_section_end > text_section_start &&
->> +			    (addr < text_section_start || addr >= text_section_end))
->> +				continue;
->> +
->
->The current code is very specific to the .text section. It would be good
->to cover all sections in the future. I think it will naturally require
->use of relocations to refer to individual sections.
-
-Yup, we can definitely give it a go in the future.
-
--- 
-Thanks,
-Sasha
+Best,
+Gary
 
