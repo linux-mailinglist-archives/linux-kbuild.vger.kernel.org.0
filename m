@@ -1,132 +1,132 @@
-Return-Path: <linux-kbuild+bounces-12108-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12109-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UPRAL5OzvWlBAgMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12108-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 21:52:35 +0100
+	id ACg6EbK5vWnyAwMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12109-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 22:18:42 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287DD2E1079
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 21:52:35 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 569DB2E13F5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 22:18:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D3CF9302E910
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 20:52:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 366EE3012823
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 21:18:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670A4318EFA;
-	Fri, 20 Mar 2026 20:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B44347534;
+	Fri, 20 Mar 2026 21:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tXD3XN/e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXZ776M6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B6E2FDC27
-	for <linux-kbuild@vger.kernel.org>; Fri, 20 Mar 2026 20:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7599E342CB0;
+	Fri, 20 Mar 2026 21:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774039935; cv=none; b=YAh6x4RZGRh5ImgAXwsKlPy8/D+KGF0tOteSKlmDUMBsJvTcm7ZhF0cvoCoypNvadCqy+E349slbxaxH83qTI3Hzma+QTYILAjfzSBUSmlur2Db2Oy0d1aGHHPSP7+iCAcFuNfXPuDa/1EDAyNwtVnAJDJ1nPXSuSlcMaHqxYHM=
+	t=1774041493; cv=none; b=BI0zLRHUOZ2P0dunx0Z7niEulhiIoWV9Abz9+9GwalWFOTZXZA703CAyT9syZQ8jM2fVBdVx3NTh6MiwYnjy7II3W1pdbfJGqww6PQ/tbICviQFclwra81x9ISkHEeXWNebfhyyCtmkSSLkkjM2Igh1VfWE5LiAGbji+3DQUlZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774039935; c=relaxed/simple;
-	bh=OZHe55AmyL8ptcKDjAek619Us0XLOCvXap/JYHbicis=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VSfbC3eVAX8/DtsHLy1VwLFv5ey5qF53t579ApXV5P8l87w1FyNDWu8zfUwggBP7hQFpkWc9Kx2Jzk66yeXFZD47Q7l9GC35js+eEeLT91Z+gTwrq/8FHjN+nT7yUEwWioMWFTgWAVsALJNoCC3NswXI5LmnEPEK/z9okpu+dAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tXD3XN/e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CFADC4CEF7;
-	Fri, 20 Mar 2026 20:52:14 +0000 (UTC)
+	s=arc-20240116; t=1774041493; c=relaxed/simple;
+	bh=gPisEgDJe0zpyTp4fWKzmOXq9Wul6KnaL7QEOqwJrjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NiCJgDk/j7Z/E1zwSkUfbVXWcPtQkQ5ZQD0iH4m2ThfEj7Iw4BBbfE0OQ76SV7mzSedhIDwhryC0WqFReXVm2LpDKsDiHl5rHb5xl3ClkrSMCkj64buGjNsOqHLuRdTPTyPW2grY0p8bo7tOQ4CJPr4PpGpGadbiUVApWWoJ2gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXZ776M6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A63C4CEF7;
+	Fri, 20 Mar 2026 21:18:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774039934;
-	bh=OZHe55AmyL8ptcKDjAek619Us0XLOCvXap/JYHbicis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tXD3XN/eSqdB2T/tEKAnScAK2zuKnK4ad24q04R65pRUXMkxK7pXk2J3eFLiwIXb+
-	 l60cgGRmdYtr7AzlalTkoURwmMSFI/C0cLTyC2IdvRYqHyv7qkJTYoHzjOHDdkHiN8
-	 DgdxfbypiM+P2+wnUX2Kau/TaIdKhBjW6oLBLYH3ON4Jb6gTlfingp6p6f2a1DR0N6
-	 8jtePkMgEeZPRgaGBEwpdZwMZgrS5X18+jv800R42KgO9HznowaijDERgbvx9ZHG4E
-	 3g/QcNOxPmdDlcWUojIuMyypbB/aI/kDlatSa2YKsI3RC76sZS6Cwo6RtvJM/+Hs2W
-	 6Mv11Ds6F+I7A==
-From: Nicolas Schier <nsc@kernel.org>
-To: linux-kbuild@vger.kernel.org,
-	Arnd Bergmann <arnd@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dodji Seketeli <dodji@seketeli.org>,
-	John Moon <john@jmoon.dev>,
-	Nathan Chancellor <nathan@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	libabigail@sourceware.org
-Subject: Re: [PATCH 0/3] check-uapi: improve portability for testing headers
-Date: Fri, 20 Mar 2026 21:51:47 +0100
-Message-ID: <177403977331.3231081.5258137128681521532.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260306163309.2015837-1-arnd@kernel.org>
-References: <20260306163309.2015837-1-arnd@kernel.org>
+	s=k20201202; t=1774041493;
+	bh=gPisEgDJe0zpyTp4fWKzmOXq9Wul6KnaL7QEOqwJrjg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nXZ776M6F+p+JioW/4jJa0rcok8oqAg9raEiMjXJ8R6QjtkOzOQmTK4HQv9UpAz4j
+	 fUZW94EDuNt6Pmm0wbS9TqpyCL+mssy8/+dQ8d+0XFjfA3Lswkr4cY95RsVQ93CSWV
+	 rXjvTR9DZ90VsvSfu3Y60bgD+tRi87gqdyaF14mZzpBCuFrxFUScntJxiojRxGU0g8
+	 OJt6NoNIpT0TLpG7t+D1g8ToZH40r69qcFXFu4/J5qVHOqJKJ4Tmgmhyx4iSC2rebH
+	 r1ycRMdU1itYurdzpqJyJjX0ce1ipFUyCfpAmjGrc2OREJfEoV2lNDW44CMxjdEbH5
+	 u7YAjTvlcIoKg==
+Date: Fri, 20 Mar 2026 14:18:07 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Gary Guo <gary@garyguo.net>, Rong Xu <xur@google.com>,
+	Han Shen <shenhan@google.com>, Nicolas Schier <nsc@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Matthew Maurer <mmaurer@google.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH] kbuild: rust: add AutoFDO support
+Message-ID: <20260320211807.GA3990088@ax162>
+References: <20260319-autofdo-v1-1-51ee2a7290cd@google.com>
+ <DH6Q43ROSJTN.3MDECF42EKQY1@garyguo.net>
+ <CAH5fLggvkVvgP1pvBjNQ4XQz9=RtTTXhf0JCVDLfq-xX971D5g@mail.gmail.com>
+ <DH6QGQDMPLDY.1H3RLPD1X8CGL@garyguo.net>
+ <CAH5fLghkK76Od1AxSH_NgrxOr2pt2XOoVBuLD6ZovzcLoxNwQQ@mail.gmail.com>
+ <DH6ZUW2WRTNM.3B6SWJS4I3DE4@garyguo.net>
+ <20260319235443.GB769346@ax162>
+ <abztachY5pOvwM1Q@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abztachY5pOvwM1Q@google.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12108-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12109-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_CC(0.00)[garyguo.net,google.com,kernel.org,protonmail.com,umich.edu,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 287DD2E1079
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 569DB2E13F5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 06 Mar 2026 17:33:06 +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Mar 20, 2026 at 06:47:05AM +0000, Alice Ryhl wrote:
+> How about we just call them:
 > 
-> While working on a series to clean up some uapi headers, I needed
-> to check the that the actual ABI remains unchanged. I found that
-> scripts/check-uapi.sh works well enough for architectures that have a
-> full toolchain installed, but not with the nolibc compilers I provide
-> on kernel.org.
+> * CFLAGS_AUTOFDO_CLANG
+> * RUSTFLAGS_AUTOFDO
 > 
-> [...]
+> then? For cflags, clarify that they are clang flags. For rustc, there is
+> no such distinction to make (yet).
 
-Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
+Yes, that seems reasonable to me (although CFLAGS_AUTOFDO_CLANG is
+already the name so I assume you mean just keeping it as it is).
 
-[1/3] check-uapi: link into shared objects
-      https://git.kernel.org/kbuild/c/a261f6df
-[2/3] check-uapi: honor ${CROSS_COMPILE} setting
-      https://git.kernel.org/kbuild/c/9940ec38
-[3/3] check-uapi: use dummy libc includes
-      https://git.kernel.org/kbuild/c/bb25b563
+> Another option:
+> * CFLAGS_AUTOFDO_CLANG
+> * RUSTFLAGS_AUTOFDO_RUSTC
 
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped,
-reverted or modified (e.g. trailers). Patches applied to the
-kbuild-next-unstable branch are accepted pending wider testing in
-linux-next and any post-commit review; they will generally be moved
-to the kbuild-next branch in about a week if no issues are found.
+I don't see much of a reason to make this distinction until the rest of
+the kernel's Rust code can be built with a different Rust compiler.
 
-Best regards,
--- 
-Nicolas
-
+Cheers,
+Nathan
 
