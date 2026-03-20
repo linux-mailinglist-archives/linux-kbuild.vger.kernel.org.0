@@ -1,194 +1,224 @@
-Return-Path: <linux-kbuild+bounces-12090-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12091-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0MnROZzuvGme4gIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12090-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 07:52:12 +0100
+	id sMDJLhhavWkA9QIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12091-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 15:30:48 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84DA2D6588
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 07:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE10A2DBD15
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 15:30:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EC30F3010810
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 06:52:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C01E0300C3A7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2026 14:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64CAF355F59;
-	Fri, 20 Mar 2026 06:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A59013783CB;
+	Fri, 20 Mar 2026 14:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKolX9RI"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="bHouhGx9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="t2LG8ZLL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B79355F57;
-	Fri, 20 Mar 2026 06:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8652D3739;
+	Fri, 20 Mar 2026 14:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773989526; cv=none; b=utx7FBC8nPqLHCifhWp10kf9kVGkvedk5I1s4h3h70fzacXTw1Je65+1vEk6To3w2BPX7WyDh/IDTmZEcf8JNVioY9TwVUJ3Kc+qGuV5IGRnJ6z9O2saLr+dDsoqLx+MqnSnCcAPsTqEyBrPKJfyszvC00aSC0I4q2GMSCrXnMc=
+	t=1774017042; cv=none; b=F5UKmjIkEbXAIWdE0MG5z+TwrkefjnKTdc9n5epT4RB/UM3k4+AkRMniCKTcjcXl5TqFSYw3Sx99QHoCUk+/MRinBTe6+l54S4ARnmaSxC6BRx6TOchgtiz0HU2kbdMdJzuf/N7vqxhox42kMeuMImX0OQTi0niVlOEhBxGpHmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773989526; c=relaxed/simple;
-	bh=PT9jhy2Kt4EJGgFgWPJaP53AWaiDA1WBvOIWWUQBsEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gaPqH9WQVTxAX3jcGt6i1tRid/1AQHmByiV70Uh/xHIVrOoPdNiybVBAKiUj+x0ieFseE02eOS4rphHoNJjIzqR/iv4kWYXwHxgs5EFYjTlmHeyAEfvlb0gkaPTGzQM5ZrbHCpZ7iRyM6LsUBqt3rnnFST8Jr1hnE1axMOLdbYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKolX9RI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B06DC4CEF7;
-	Fri, 20 Mar 2026 06:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773989525;
-	bh=PT9jhy2Kt4EJGgFgWPJaP53AWaiDA1WBvOIWWUQBsEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kKolX9RIvOfwFehFVzNVtuRvknQv2WWsLdzndY4R8AV5KPleTPsMQML5+JK5MZanm
-	 KVOrx+L6l5YIGgRXWL6V1W38fP5gGtaVqzTS+HnRoSESQ0fSggHpg32yikQBbfq9v1
-	 Ocp36ThwO1JKy3gEOXCYknDI0yX1BcqXBqd9J3yoCmdU9GJPXHA4lR5Zi2bDL3zk8Z
-	 yEvaahDVmk2LZCD8J/wkGTkOQCWgatJtCEYW+rdXVFdmMhovV/rPkSfHVTOXdSi+N/
-	 Y5Q1yzotre5vmTbAP7xHt1J9Y4vGrqV2If7yF3pWUEoNzW12y939YbIJWtBogxheUH
-	 vKGzlx59+IUdg==
-Date: Fri, 20 Mar 2026 07:51:44 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Mohamad Alsadhan <mo@sdhn.cc>
-Cc: nathan@kernel.org, ojeda@kernel.org, gary@garyguo.net,
-	miguel.ojeda.sandonis@gmail.com, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: Re: [PATCH v4] kbuild: host: use single executable for rustc -C
- linker
-Message-ID: <abzuCFiO3mB3nUM_@derry.ads.avm.de>
-References: <20260312002852.11292-1-mo@sdhn.cc>
- <20260317112021.14353-1-mo@sdhn.cc>
+	s=arc-20240116; t=1774017042; c=relaxed/simple;
+	bh=th7jiaWJogm/ZnIOT5IKTJwCuvSQKxIp+ESdiDiJTGw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SRnvMKpsiaonexLFRmaSAe6cohF04f62wcm28wGlMFjbaDvsXBzcK1i+YWJwqRLwna7D/lGYYFa/j/aY8a3Yr/EtaG8VPVuF5E0xCBXGi3Ue7fcoPFuuAa9rqkphIY+ShzUVmV4m+AUv6yLeIE8TGmkfatINZ891sD2MT5IqBX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=bHouhGx9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=t2LG8ZLL; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id B8AC5EC01E5;
+	Fri, 20 Mar 2026 10:30:39 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Fri, 20 Mar 2026 10:30:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1774017039; x=1774103439; bh=e0
+	RQhll4GKDFFZjpQ5q/z8fBbw0Yxn1Jjye5KE0zrvE=; b=bHouhGx9FarP2GUjbo
+	UaVFNZzUwLcOl1HtEnT/rKu0EZPEh+/cTlJ8kOZSHUoldolpFSYvMSAhVcNnBS2x
+	uuw4gX2Fn6Abc6lZgcQdz5bD9H2XNcLU12mRA+ZlsXYrQyo1OgsNX7DIppooUpXn
+	yktT0xCra/ALU+ne2irggSZF4pGGqd9Tp+ZdqRuj/5les5dsm4gOMzqE3u8OSiT3
+	uaZfYex2NVFfUoI5a0ATOq0LBZ0MhYN/0ntfqjBx0p0Hvoid8HhwLc1BZmivC3gN
+	Z0oweWEERpqcjnA8UYklVKRGa5VwWBUkrKZYzERtnZl2bp/yjPMo63lxxERzYxHE
+	733A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1774017039; x=1774103439; bh=e0RQhll4GKDFFZjpQ5q/z8fBbw0Y
+	xn1Jjye5KE0zrvE=; b=t2LG8ZLLW7fXErWKx+kcp9xO9+jQIL6BnhjrTKwztDEz
+	kiZ4HnXH8QB1lMUXJm/6G3ARFIfQmuocdPx1biszCYr/9VnbtKJujJkYgYIApt7B
+	Qs69+i4EB0OhwPOvyBKAuPOflOwfONs+Z7eJa5FUkV5S/hBAWCg2yrb4wSimwFYX
+	xhitUkPJ5Z9QWc76MiIfuZgRqUDYFmZkzkSfh9nEPpt0y64XB2BTCYHU++84jCOl
+	k11CdXUB7RByxDz8LGF2oTAotE3PIJk2BBV55Tyl8Pa7nQhTCKPIYUJs3Nq+yGDk
+	1F7Q7eP4xjuWMKDJ0717gB6kSXVvIp1xWQN4UGjxTg==
+X-ME-Sender: <xms:D1q9aTlT0UF-bU6MMRcgvy19wNxoRxD7qEpzBI9Uh2LTVDH5FiC-QA>
+    <xme:D1q9abxa_koN6IiYa47ssZE_P1yCK58Be2hrtWKAhuc-bUkEZKAgkEXttPO2RLz9j
+    FVn2FF9iQ_aYxyjM0C9BqasG2c58mz29HWDzMlNIEIfZupWJZMfgug>
+X-ME-Received: <xmr:D1q9ad65oaITboor3zsEqG5yhjpxNhuYpo06QuGYjpR6q4zdpLvQ1A5UhzVfnvueYHK3VZIGsHywwJNYBcvJyLnOnvjaATuFIBMbIg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefuddtudehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepvedvhe
+    eujeehvdduueejudelvddvgfelveekjeehgfdtjeetheetueeftdektdegnecuffhomhgr
+    ihhnpehshihsthgvmhgurdhiohenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepledp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrdhhrg
+    huvghrsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehlihhnuhigqdhksghu
+    ihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrdhfrghtohhumh
+    esphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhjghestghhrhhomhhiuhhm
+    rdhorhhgpdhrtghpthhtohepthhhohhmrghsrdifvghishhsshgthhhuhheslhhinhhuth
+    hrohhnihigrdguvgdprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:D1q9abVNI3q5eU-WF_8-AuEaGOPCBXIce5w0T5T7qzh_0JWyDhkBVw>
+    <xmx:D1q9aVKwuxqVaekJQyTzfEtJRrZ_u1h2LoF2LfyBswyKlFfkwAwoDQ>
+    <xmx:D1q9adultyHILyj1T8d5PRe9tZMag9xbvgG78BsNKqbd0bJQMgBgHg>
+    <xmx:D1q9aSKZvp1OU2b6-LODtTgy8krk16prXmfc1Q8TgAn1IPeYMx2viA>
+    <xmx:D1q9adOpglCrNiSocXhtd7fnVYI9Sma6zZ78-QlHQH5-m4uRpWlU9PZ1>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Mar 2026 10:30:38 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Date: Fri, 20 Mar 2026 15:30:32 +0100
+Subject: [PATCH] kbuild: modules-cpio-pkg: Respect INSTALL_MOD_PATH
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317112021.14353-1-mo@sdhn.cc>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260320-kbuild-modules-cpio-pkg-usr-merge-v1-1-cee1ad1bb7cb@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAAdavWkC/x2NywqDMBAAf0X27EK6lVD6K8WDTVZdfCTsklIQ/
+ 93gcQ4zc4CxChu8mwOUf2KS9gqPtoEwD/vEKLEykCPvnuRw+RZZI24plpUNQ5aEeZmwmOLGWoW
+ OvB867+hFAWonK4/yvx+f/jwv0k6nBHMAAAA=
+X-Change-ID: 20260320-kbuild-modules-cpio-pkg-usr-merge-4266a460282c
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+ Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Simon Glass <sjg@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3061; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=th7jiaWJogm/ZnIOT5IKTJwCuvSQKxIp+ESdiDiJTGw=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsy9UTxHrgWoMT5onMC6RbmTK0ng2YRND57Wid4p4LKWF
+ JNqvZTUUcrCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCJJKowMX//lna+11bnbudHi
+ l8K03vzY+1UV7X5p91kEWyrvf5W2Zfgfe/dhnNiaBfuNZiksUZB6WvrM5E2h+H37LWduFbk7CaX
+ wAAA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[jannau.net:s=fm3,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12090-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,gmail.com,vger.kernel.org,smile.fr];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[jannau.net:+,messagingengine.com:+];
+	TAGGED_FROM(0.00)[bounces-12091-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[jannau.net];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.945];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smile.fr:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,derry.ads.avm.de:mid]
-X-Rspamd-Queue-Id: E84DA2D6588
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[j@jannau.net,linux-kbuild@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[jannau.net:dkim,jannau.net:email,jannau.net:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BE10A2DBD15
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 17, 2026 at 02:20:21PM +0300, Mohamad Alsadhan wrote:
-> rustc's -C linker= option expects a single executable path. When
-> HOSTCC contains a wrapper (e.g. "ccache gcc"), passing
-> `-Clinker=$(HOSTCC)` results in the shell splitting the value into
-> multiple words, and rustc interprets the additional word as an
-> input filename:
-> 
->   error: multiple input filenames provided ...
-> 
-> Generate a small wrapper script and pass it to -Clinker e.g.
-> ```
-> exec sh -c 'exec "$0" "$@"' ccache gcc "$@"
-> ```
-> 
-> This fix should be general enough to address most if not all cases
-> (incl. wrappers or subcommands) and avoids surprises of simpler fixes
-> like just defaulting to gcc.
-> 
-> This avoids passing the user command as an environment variable as
-> that would be more challenging to trace and debug shell expansions.
-> 
-> Link: https://github.com/Rust-for-Linux/linux/issues/1224
-> Suggested-by: Yoann Congal <yoann.congal@smile.fr>
-> Signed-off-by: Mohamad Alsadhan <mo@sdhn.cc>
-> ---
-> v3 -> v4:
->   - Use filechk instead of if_changed macro to regenerate script
->   - Remove trailing space at EOL
-> 
-> v2 -> v3:
->   - Scrap previous hacky approaches (e.g. using lastword) and go with
->     a proper fix which turned out not that complex to implement.
->     Apologies Gary, I should have listened to you earlier :/
-> 
-> v1 -> v2:
->   - Rename HOSTRUSTC_LINKER to HOSTRUSTC_LD for consistency
->   - Introduce explicit HOSTRUSTC_LD override
->   - Warn when falling back due to multi-argument HOSTCC
->   - Error out if a user-specified HOSTRUSTC_LD is not an executable
-> 
-> v1: https://lore.kernel.org/all/20260225102819.16553-1-mo@sdhn.cc/
-> v2: https://lore.kernel.org/all/20260227132713.23106-1-mo@sdhn.cc/
-> v3: https://lore.kernel.org/all/20260312002852.11292-1-mo@sdhn.cc/
-> ---
->  scripts/Makefile.host | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> index c1dedf646..e41753828 100644
-> --- a/scripts/Makefile.host
-> +++ b/scripts/Makefile.host
-> @@ -87,11 +87,29 @@ hostcxx_flags  = -Wp,-MMD,$(depfile) \
->                   $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
->                   $(HOSTCXXFLAGS_$(target-stem).o)
->  
-> +# rustc's `-Clinker=` expects a single executable path, not a command line.
-> +# `HOSTCC` may be a multi-word command when wrapped (e.g. "ccache gcc"), which
-> +# would otherwise be split by the shell and mis-parsed by rustc.
-> +# To work around this, we generate a wrapper script that forwards arguments to
-> +# `HOSTRUSTC_LD` so that such commands can be used safely.
-> +#
-> +# Set `HOSTRUSTC_LD` for a different rustc linker command than `HOSTCC`
-> +HOSTRUSTC_LD ?= $(HOSTCC)
-> +define filechk_rustc-wrapper
-> +	printf "%s\n" \
-> +		'#!/bin/sh' \
-> +		'exec sh -c '\''exec "$$0" "$$@"'\'' $(HOSTRUSTC_LD) "$$@"'
-> +endef
+The modules-cpio-pkg target added in commit 2a9c8c0b59d3 ("kbuild: add
+target to build a cpio containing modules") is incompatible with
+initramfs with merged /lib and /usr/lib directories [1]. "/lib" cannot
+be a link and directory at the same time.
+Respect a non-empty INSTALL_MOD_PATH in the modules-cpio-pkg target so
+that `make INSTALL_MOD_PATH=/usr modules-cpio-pkg` results in the same
+module install location as `make INSTALL_MOD_PATH=/usr modules_install`.
 
-This printf-based solution needs some more tweaking to also support
-complex commands in HOSTRUSTC_LD with quoted spaces.  A straight forward
-way could be:
+Tested with Fedora distribution initramfs produced by dracut.
 
-	'exec sh -c '\''exec "$$0" "$$@"'\'' $(call escsq,$(HOSTRUSTC_LD)) "$$@"'
+Link: https://systemd.io/THE_CASE_FOR_THE_USR_MERGE/ [1]
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Hej,
 
-to escape single quotes within HOSTRUSTC_LD.  Then the complex example
-from v3 works again (make HOSTRUSTC_LD="env 'CCACHE_DIR=/tmp/my cache' ccache gcc").
+this patch allows to produce modules-cpio initramfs which are compatible
+with initramfs with merged /lib and /usr/lib (/lib as symlink to
+/usr/lib). I expect initramfs of distributions with merged /usr to have
+a merged /usr as well. This is at least true for Fedora initramfs built
+with dracut.
 
-With the quoting fixed:
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
-Tested-by: Nicolas Schier <nsc@kernel.org>
+I'm not sure whether the trickery to avoid repeated '/' is justified. It
+is necessary to add a slash between "$@" and a non empty
+$(INSTALL_MOD_PATH) to avoid make failures due to non existing
+.tmp_modules_cpio when INSTALL_MOD_PATH without leading slash is used.
+modules-cpio-pkg`.
 
+Better or shorter ways to document this not completely obvious behavior
+would be appreciated.
 
+Janne
+---
+ scripts/Makefile.package | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I am still not seeing a benefit in calling usage of 'exec' and 'sh -c'.
-If we'd skip both, there would be no need to use 'env' for environment
-updates:
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 0ec946f9b905f74f8698d8d6967d22f5b76f64e0..ab18cf81622ae319380528c401f9aeb6d32070c6 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -195,7 +195,9 @@ tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
+ .tmp_modules_cpio: FORCE
+ 	$(Q)$(MAKE) -f $(srctree)/Makefile
+ 	$(Q)rm -rf $@
+-	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
++	$(Q)$(MAKE) -f $(srctree)/Makefile \
++		INSTALL_MOD_PATH=$@$(if $(INSTALL_MOD_PATH),/$(INSTALL_MOD_PATH:/%=%)) \
++		modules_install
+ 
+ quiet_cmd_cpio = CPIO    $@
+       cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
+@@ -263,7 +265,7 @@ help:
+ 	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
+ 	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
+ 	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
+-	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
++	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive (modules installed in INSTALL_MOD_PATH (default: /))'
+ 	@echo '  perf-tar-src-pkg    - Build the perf source tarball with no compression'
+ 	@echo '  perf-targz-src-pkg  - Build the perf source tarball with gzip compression'
+ 	@echo '  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression'
 
-	'$(call escsq,$(HOSTRUSTC_LD)) "$$@"'
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260320-kbuild-modules-cpio-pkg-usr-merge-4266a460282c
 
-But I may be missing something here.
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
-Kind regards,
-Nicolas
 
