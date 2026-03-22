@@ -1,1241 +1,157 @@
-Return-Path: <linux-kbuild+bounces-12126-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12127-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gEKNGTTdv2m69QMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12126-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Mar 2026 13:14:44 +0100
+	id UPzzCjDmv2nh/AMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12127-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Mar 2026 13:53:04 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248C92E915B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Mar 2026 13:14:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D502E9519
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Mar 2026 13:53:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 822B4303AF0A
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Mar 2026 12:11:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 716FD3004219
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Mar 2026 12:51:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D62963806DA;
-	Sun, 22 Mar 2026 12:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EEDCA6B;
+	Sun, 22 Mar 2026 12:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvV8yHdU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ilpcCUl3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5C93806CD;
-	Sun, 22 Mar 2026 12:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774181459; cv=none; b=Pc08e4uXm5qeQJARNJ0G5apA3iUSeISXqhkjpPMXU/CrcWSAuuV3oHYjxFfD50Sawpy3jeiiM87o41FzaW1Unp1r/pO+lC9AKhXD3BRFINAQ3S154gBzMDutD2AypCe8zuluVrPC7Oe7VbqLFaZphXGkOb4PjPu+2zCp6QFwnkU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774181459; c=relaxed/simple;
-	bh=BHNSFlZ7pywja28XP4dGz5qmOZD03vVETtKJiK4LiKA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qvCHNMwgfEQXPLeR/x4CmRaBn0mtXjrITNe4PdBV1O+TQuVuPxizocd58uHcksnZwyyNAIrEvuobUk47pakcu+sezSq1y/uZEURuipSjpLrA0+bL/V48OqnpJsY0SuvxNJZB1hJp3pAYyMkcH2qqC3UgNjskyg/nKg5S0rVxg50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvV8yHdU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F99C2BCB1;
-	Sun, 22 Mar 2026 12:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774181459;
-	bh=BHNSFlZ7pywja28XP4dGz5qmOZD03vVETtKJiK4LiKA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MvV8yHdUhUpKdRXhuyMIN917TzA0Kmxr8tiBQMnRQ3/SKXVp2MpgbJK00NBmecLsM
-	 iow2o9s0An8L5UI+5qUnme2sd9XYNemJuLSXGKcBXD2Yxag6i2KUzxjq5gz96Cjq6S
-	 s/dX+rBCUIm9YHtDp+LpGj7Fr4InJ3XGP04qKZt8jaqTKx3yZb+TtcuCKTLVMWW1sO
-	 dXO8aa59FaNpouNqWjQS22vhWxlW8aHFcXP8RcqKARzhUcLe52wtR4vL1q5JyQl+NN
-	 xHOyWFXlE5ZHjEvVtflDZjtTficV3HNgIOfZCZhB8cBd7A599FL8rF48S6fB9AzkMA
-	 EuEroKCGloQvQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	tools@kernel.org,
-	x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v2 9/9] kernel/api: add runtime verification selftest
-Date: Sun, 22 Mar 2026 08:10:23 -0400
-Message-ID: <20260322121026.869758-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260322121026.869758-1-sashal@kernel.org>
-References: <20260322121026.869758-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B187F4414
+	for <linux-kbuild@vger.kernel.org>; Sun, 22 Mar 2026 12:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774183862; cv=pass; b=ND7bsLXTT4xHjJwz4SxeUPljtU1RhE2x6fNAft3dsXNcSPsM7BPvOI0VAMZxut5I60OF/Vc6uQO4Q/42wpR7ZiCN8CmdoVGBibjf6BtVEsSyFYFaocZk6fh53VJoDbdQ+du6CMvGKNHwk9jizkoGOBwCjZKcWj4c5LRqqIIDMdU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774183862; c=relaxed/simple;
+	bh=aHfGFbP1HvWC9cpLHGpZTxMk3l6xRMeWbKHpxTTPO3I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ltbhifriv9IunDCqEffcZOTR8KZXlqyapo53Y9N4tnjOsZRAPxq5WZmydhhsy/1Xv1H+vTODItEwKcT+SUsvK+rGR45HEXCnKVw3V+B3AFU8W6zkksROaof2NTa44AZPIiSE6z4pCrJ6IGJv6DBryhCkmUK4HiuIYZjxeBTyNAU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ilpcCUl3; arc=pass smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64ae2ce2fe1so3481885d50.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 22 Mar 2026 05:51:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774183861; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IgFWx1mIAa3H0kNUWwrF24LPMteySVBPJqckpaWrsUhkfNuiHznJ+qzdEWey2cTqPs
+         1BxPgGqpa+H39kA6qkw7LJgHbsfad3nlww1knc1qZQvpokMpzSJbD8wsjCpQHoHX1wVt
+         jQeKmxC77O1c1pVWWeO2EHEr0SjCkyEVLeNUmlKIt+c71E1jQIrAIQUr6PeoH+R+OVvV
+         vDfCL2A89v3ux77F4voAy8lTmOlHK8l6TWQ+KhijO7YqlSdygQ+t2DWXEDEHXkd1PjyZ
+         73ZrGZlespfmSM74FqfqkTYFy/gigEO4Mdwc7TTLpWKXn/LZ+aLoi9+7adDEuXmQo2Ux
+         YJyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aHfGFbP1HvWC9cpLHGpZTxMk3l6xRMeWbKHpxTTPO3I=;
+        fh=cukueT93kb4EqAQh/m43SQq1ALgp3Y770FMXB+Y7kOs=;
+        b=Pi/RxWQBa0shXTru5Qiquk5Bmw2V6Fyxn56+iJXRUIQPPTr8T0+jS5LYZwLVrW8rVo
+         zPogyqYTSGdJ3OtuQi9xweFgy3g233ljq18z5GH79tgt/d3lEQHyY5/swwkDiNiQop0Y
+         cYYxHyY+GIflQ0QDZ4GtqcnRrmChKtXd/j0eXgGAlX+SwFan7Hb9H9vgvw9/JT99dFv8
+         4JLG+B9kaCIY+mGxpG6cP04SgNpiQMKpNZaKhRjkrpj7aOQEqICFxt3wC1AXlzdIy2B2
+         C9x7igUDXxs9ZixV8KpNV9Kl3e7iFZM9B/Wbk4lUaJmvDvOk0RedUzn/SUd5xdQsFMEM
+         Lilg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774183861; x=1774788661; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aHfGFbP1HvWC9cpLHGpZTxMk3l6xRMeWbKHpxTTPO3I=;
+        b=ilpcCUl3Ha0uuIsdeYhp10YVmrfTpek8DlHuaf20nYcII4315ZyABidg++/wpH94xL
+         KNQYCcxQxVt0oAOV562IDMpcv01aqjVearHptAm3lGGT6uTSqDT91z21TlFCkLSQlyZE
+         RXd/WlDw/WI9ksTj6A4LRT5IJjUiVSVy7Kwk/An/dBiTol/Bzte/BUaC9aQ4zAIil+n9
+         gORims9ygX6jy8DSd8roBWmjd/G1cwCuANvnZPqb4wLRkX/NrhCFhImj8GZ76i3k6zH5
+         a3Qksurzn79YO7+mm5m21/qdmcPM2XpMZFWxRu8lWnHzjUIwGA5CywwDSwxQG3Iwsova
+         Mjfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774183861; x=1774788661;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aHfGFbP1HvWC9cpLHGpZTxMk3l6xRMeWbKHpxTTPO3I=;
+        b=PJ2MxbiH04kdmnLGBPS69pxObbbEIrsyzGBwIOrtA8jMIqZ4Vg4QqxrSGoE3OJRThy
+         /a83Yoft8E4NYPfKYotGnOJzqzLBO96ljsTVY1zRoCVxQaP9lxTa0HfvOC8+Eo2u2mVr
+         wsC8DNBLfDMDGUm60aJ5rNe4Gsm5mdIPF7Xdp7gNnUqC6xBsBN0VjvzLWTIrTFrHWIzz
+         ahOKe+/tlNwW3l8XnJrY3oBjxBii4xjCjz2yJNBO7pN+RM83tVUc0mfQGQZz6gJ0RlrY
+         iDQ4GVRPTi3ffKIN+1HDz6osIKXZgOLjj3dxMh6YPnsGX3lxeGgnhYvjB2gKHNRQ73pr
+         JhFQ==
+X-Gm-Message-State: AOJu0YyWIFfGOerCJZrfUBxWQHZeZGY6Z1/dYn5BqHjuAHJDhJZEwoDd
+	GuGPGjlmBO8wCNqwA6uyBbK4w5MjXbkXAxlaNnE1kVVla6U4DrUPf7y6KJkmdIhGbByjPItDwVM
+	RtApZa+0A9rICEsz0s2LpzM10bYXySeEthA==
+X-Gm-Gg: ATEYQzxiNKsA9hu94/jw2Y5EyqibQjBS6+foBwkzdqqgEgPylGiSrnUpy1Djw1SoolE
+	EbVP+Kob+vjfeKG9gMQUoriHgOe4jGuVBcBhrPkRttckos0bQsnH8S2I3DXtDOeSx/2+HKnN6Tn
+	1xjcqyN0Q4fm2cx6QHX5LFOHlxnxbUDlbDeU3mV4THJ+jtJyD3fItwBR6Lb1k+4FOreJEYvU78g
+	GdIqs0aHXDZIRB8UZjpCUEOKKkQFKhJ0fk6Epryfj+T7hTymbDXHgDlP41HgXXdK9itKW8G1zrD
+	Q9hszqu2aCvkW2rC1Q==
+X-Received: by 2002:a05:690c:1d:b0:79a:8fa0:85f9 with SMTP id
+ 00721157ae682-79a90c54523mr91531937b3.61.1774183860677; Sun, 22 Mar 2026
+ 05:51:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+References: <20260309-move-gen_init_cpio-to-scripts-v1-2-0c5059b1ec5b@kernel.org>
+ <20260310014912.3023668-1-safinaskar@gmail.com> <aa-5IhUnf4CBKOuN@derry.ads.avm.de>
+In-Reply-To: <aa-5IhUnf4CBKOuN@derry.ads.avm.de>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Sun, 22 Mar 2026 15:50:24 +0300
+X-Gm-Features: AaiRm53_Y6x108qyspvhmQvjDcaoHm1bC4DQaXewPaLam8d7VVhw8IYwdRTDSNM
+Message-ID: <CAPnZJGBkFcqLML0MG9_wc5Tp4508HZSRhBQV2ukhBd2wxaGshg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: Move gen_init_cpio and gen_initramfs.sh to scripts/
+To: Nicolas Schier <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nathan@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linuxfoundation.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	TAGGED_FROM(0.00)[bounces-12126-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12127-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[themaw.net:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 248C92E915B
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 81D502E9519
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add a selftest for CONFIG_KAPI_RUNTIME_CHECKS that exercises
-sys_open/sys_read/sys_write/sys_close through raw syscall() and
-verifies KAPI pre-validation catches invalid parameters while
-allowing valid operations through.
+On Tue, Mar 10, 2026 at 10:15=E2=80=AFAM Nicolas Schier <nsc@kernel.org> wr=
+ote:
+> Therefore I chose to add the comment to usr/.gitignore to prevent
+> accidental removal of the '/gen_init_cpio' before the time has come.
+>
+> Does that match for you?
 
-Test cases (TAP output):
-  1-4: Valid open/read/write/close succeed
-  5-7: Invalid flags, mode bits, NULL path rejected with EINVAL
-  8:   dmesg contains expected KAPI warning strings
+Yes
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- MAINTAINERS                                   |    1 +
- tools/testing/selftests/kapi/Makefile         |    7 +
- tools/testing/selftests/kapi/kapi_test_util.h |   33 +
- tools/testing/selftests/kapi/test_kapi.c      | 1023 +++++++++++++++++
- 4 files changed, 1064 insertions(+)
- create mode 100644 tools/testing/selftests/kapi/Makefile
- create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
- create mode 100644 tools/testing/selftests/kapi/test_kapi.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index db2ba9a596eef..430a23994b314 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13814,6 +13814,7 @@ F:	include/linux/syscall_api_spec.h
- F:	kernel/api/
- F:	tools/kapi/
- F:	tools/lib/python/kdoc/kdoc_apispec.py
-+F:	tools/testing/selftests/kapi/
- 
- KERNEL AUTOMOUNTER
- M:	Ian Kent <raven@themaw.net>
-diff --git a/tools/testing/selftests/kapi/Makefile b/tools/testing/selftests/kapi/Makefile
-new file mode 100644
-index 0000000000000..5f3fdeddcae41
---- /dev/null
-+++ b/tools/testing/selftests/kapi/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+TEST_GEN_PROGS := test_kapi
-+
-+CFLAGS += -static -Wall -O2 $(KHDR_INCLUDES)
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/kapi/kapi_test_util.h b/tools/testing/selftests/kapi/kapi_test_util.h
-new file mode 100644
-index 0000000000000..e097c370542ad
---- /dev/null
-+++ b/tools/testing/selftests/kapi/kapi_test_util.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2026 Sasha Levin <sashal@kernel.org>
-+ *
-+ * Compatibility helpers for KAPI selftests.
-+ *
-+ * __NR_open is not defined on aarch64 and riscv64 (only __NR_openat exists).
-+ * Provide a wrapper that uses __NR_openat with AT_FDCWD to achieve the same
-+ * behavior as __NR_open on architectures that lack it.
-+ */
-+#ifndef KAPI_TEST_UTIL_H
-+#define KAPI_TEST_UTIL_H
-+
-+#include <fcntl.h>
-+#include <sys/syscall.h>
-+
-+#ifndef __NR_open
-+/*
-+ * On architectures without __NR_open (e.g., aarch64, riscv64),
-+ * use openat(AT_FDCWD, ...) which is equivalent.
-+ */
-+static inline long kapi_sys_open(const char *pathname, int flags, int mode)
-+{
-+	return syscall(__NR_openat, AT_FDCWD, pathname, flags, mode);
-+}
-+#else
-+static inline long kapi_sys_open(const char *pathname, int flags, int mode)
-+{
-+	return syscall(__NR_open, pathname, flags, mode);
-+}
-+#endif
-+
-+#endif /* KAPI_TEST_UTIL_H */
-diff --git a/tools/testing/selftests/kapi/test_kapi.c b/tools/testing/selftests/kapi/test_kapi.c
-new file mode 100644
-index 0000000000000..3d9a3a05186d2
---- /dev/null
-+++ b/tools/testing/selftests/kapi/test_kapi.c
-@@ -0,0 +1,1023 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Sasha Levin <sashal@kernel.org>
-+ *
-+ * Userspace selftest for KAPI runtime verification of syscall parameters.
-+ *
-+ * Exercises sys_open, sys_read, sys_write, and sys_close through raw
-+ * syscall() to ensure KAPI pre-validation wrappers interact correctly
-+ * with normal kernel error handling.
-+ *
-+ * Requires CONFIG_KAPI_RUNTIME_CHECKS=y for full coverage; many tests
-+ * also pass without it.
-+ *
-+ * TAP output format.
-+ */
-+
-+#define _GNU_SOURCE
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <signal.h>
-+#include <sys/syscall.h>
-+#include <sys/stat.h>
-+#include <linux/limits.h>
-+#include "kapi_test_util.h"
-+
-+#define NUM_TESTS 29
-+
-+static int test_num;
-+static int failures;
-+static volatile sig_atomic_t got_sigpipe;
-+
-+static void tap_ok(const char *desc)
-+{
-+	printf("ok %d - %s\n", ++test_num, desc);
-+}
-+
-+static void tap_fail(const char *desc, const char *reason)
-+{
-+	printf("not ok %d - %s # %s\n", ++test_num, desc, reason);
-+	failures++;
-+}
-+
-+static void sigpipe_handler(int sig)
-+{
-+	(void)sig;
-+	got_sigpipe = 1;
-+}
-+
-+/* ---- Valid operation tests ---- */
-+
-+/*
-+ * Test 1: open a readable file
-+ * Returns fd on success.
-+ */
-+static int test_open_valid(void)
-+{
-+	errno = 0;
-+	long fd = kapi_sys_open("/etc/hostname", O_RDONLY, 0);
-+
-+	if (fd >= 0) {
-+		tap_ok("open valid file");
-+	} else {
-+		/* /etc/hostname might not exist; try /etc/passwd */
-+		errno = 0;
-+		fd = kapi_sys_open("/etc/passwd", O_RDONLY, 0);
-+		if (fd >= 0)
-+			tap_ok("open valid file (fallback /etc/passwd)");
-+		else
-+			tap_fail("open valid file", strerror(errno));
-+	}
-+	return (int)fd;
-+}
-+
-+/*
-+ * Test 2: read from fd
-+ */
-+static void test_read_valid(int fd)
-+{
-+	char buf[256];
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, fd, buf, sizeof(buf));
-+
-+	if (ret > 0)
-+		tap_ok("read from valid fd");
-+	else if (ret == 0)
-+		tap_ok("read from valid fd (EOF)");
-+	else
-+		tap_fail("read from valid fd", strerror(errno));
-+}
-+
-+/*
-+ * Test 3: write to /dev/null
-+ */
-+static void test_write_valid(void)
-+{
-+	errno = 0;
-+	long devnull = kapi_sys_open("/dev/null", O_WRONLY, 0);
-+
-+	if (devnull < 0) {
-+		tap_fail("write to /dev/null (open failed)", strerror(errno));
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, (int)devnull, "hello", 5);
-+
-+	if (ret == 5)
-+		tap_ok("write to /dev/null");
-+	else
-+		tap_fail("write to /dev/null",
-+			 ret < 0 ? strerror(errno) : "short write");
-+
-+	syscall(__NR_close, (int)devnull);
-+}
-+
-+/*
-+ * Test 4: close fd
-+ */
-+static void test_close_valid(int fd)
-+{
-+	errno = 0;
-+	long ret = syscall(__NR_close, fd);
-+
-+	if (ret == 0)
-+		tap_ok("close valid fd");
-+	else
-+		tap_fail("close valid fd", strerror(errno));
-+}
-+
-+/* ---- KAPI parameter rejection tests ---- */
-+
-+/*
-+ * Test 5: open with invalid flag bits
-+ * 0x10000000 is outside the valid O_* mask, KAPI should reject.
-+ */
-+static void test_open_invalid_flags(void)
-+{
-+	errno = 0;
-+	long ret = kapi_sys_open("/tmp/kapi_test", 0x10000000, 0);
-+
-+	if (ret == -1 && errno == EINVAL) {
-+		tap_ok("open with invalid flags returns EINVAL");
-+	} else if (ret >= 0) {
-+		tap_fail("open with invalid flags", "expected EINVAL, got success");
-+		syscall(__NR_close, (int)ret);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EINVAL, got %s",
-+			 strerror(errno));
-+		tap_fail("open with invalid flags", msg);
-+	}
-+}
-+
-+/*
-+ * Test 6: open with invalid mode bits
-+ * 0xFFFF has bits outside S_IALLUGO (07777), KAPI should reject.
-+ */
-+static void test_open_invalid_mode(void)
-+{
-+	errno = 0;
-+	long ret = kapi_sys_open("/tmp/kapi_test_mode",
-+			   O_CREAT | O_WRONLY, 0xFFFF);
-+
-+	if (ret == -1 && errno == EINVAL) {
-+		tap_ok("open with invalid mode returns EINVAL");
-+	} else if (ret >= 0) {
-+		tap_fail("open with invalid mode", "expected EINVAL, got success");
-+		syscall(__NR_close, (int)ret);
-+		unlink("/tmp/kapi_test_mode");
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EINVAL, got %s",
-+			 strerror(errno));
-+		tap_fail("open with invalid mode", msg);
-+	}
-+}
-+
-+/*
-+ * Test 7: open with NULL path
-+ * KAPI USER_PATH constraint should reject NULL.
-+ */
-+static void test_open_null_path(void)
-+{
-+	errno = 0;
-+	long ret = kapi_sys_open(NULL, O_RDONLY, 0);
-+
-+	if (ret == -1 && errno == EINVAL) {
-+		tap_ok("open with NULL path returns EINVAL");
-+	} else if (ret == -1 && errno == EFAULT) {
-+		/* Kernel may catch this as EFAULT before KAPI */
-+		tap_ok("open with NULL path returns EFAULT (acceptable)");
-+	} else if (ret >= 0) {
-+		tap_fail("open with NULL path", "expected error, got success");
-+		syscall(__NR_close, (int)ret);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "got %s", strerror(errno));
-+		tap_fail("open with NULL path", msg);
-+	}
-+}
-+
-+/*
-+ * Test 8: open with flag bit 30 set (0x40000000)
-+ * This bit is outside the valid O_* mask, KAPI should reject with EINVAL.
-+ */
-+static void test_open_flag_bit30(void)
-+{
-+	errno = 0;
-+	long ret = kapi_sys_open("/dev/null", 0x40000000, 0);
-+
-+	if (ret == -1 && errno == EINVAL)
-+		tap_ok("open with flag bit 30 (0x40000000) returns EINVAL");
-+	else if (ret >= 0) {
-+		tap_fail("open with flag bit 30 (0x40000000) returns EINVAL",
-+			 "expected EINVAL, got success");
-+		syscall(__NR_close, (int)ret);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EINVAL, got %s",
-+			 strerror(errno));
-+		tap_fail("open with flag bit 30 (0x40000000) returns EINVAL",
-+			 msg);
-+	}
-+}
-+
-+/* ---- Boundary condition and error path tests ---- */
-+
-+/*
-+ * Test 9: read with fd=-1 should return an error.
-+ * With CONFIG_KAPI_RUNTIME_CHECKS=y, KAPI validates the fd first and
-+ * rejects negative fds (other than AT_FDCWD) with EINVAL.  Without
-+ * KAPI, the kernel returns EBADF.  Accept either.
-+ */
-+static void test_read_bad_fd(void)
-+{
-+	char buf[16];
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, -1, buf, sizeof(buf));
-+
-+	if (ret == -1 && (errno == EBADF || errno == EINVAL))
-+		tap_ok("read with fd=-1 returns error");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EBADF/EINVAL, got %s",
-+			 ret >= 0 ? "success" : strerror(errno));
-+		tap_fail("read with fd=-1 returns error", msg);
-+	}
-+}
-+
-+/*
-+ * Test 10: read with count=0 should return 0
-+ */
-+static void test_read_zero_count(void)
-+{
-+	char buf[1];
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_RDONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("read with count=0 returns 0",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, (int)fd, buf, 0);
-+
-+	if (ret == 0)
-+		tap_ok("read with count=0 returns 0");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected 0, got %ld (errno=%s)",
-+			 ret, strerror(errno));
-+		tap_fail("read with count=0 returns 0", msg);
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+}
-+
-+/*
-+ * Test 11: write with count=0 should return 0
-+ */
-+static void test_write_zero_count(void)
-+{
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_WRONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("write with count=0 returns 0",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, (int)fd, "x", 0);
-+
-+	if (ret == 0)
-+		tap_ok("write with count=0 returns 0");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected 0, got %ld (errno=%s)",
-+			 ret, strerror(errno));
-+		tap_fail("write with count=0 returns 0", msg);
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+}
-+
-+/*
-+ * Test 12: open with a path longer than PATH_MAX should fail
-+ * Expect ENAMETOOLONG or EINVAL.
-+ */
-+static void test_open_long_path(void)
-+{
-+	char *longpath;
-+	size_t len = PATH_MAX + 256;
-+
-+	longpath = malloc(len);
-+	if (!longpath) {
-+		tap_fail("open with path > PATH_MAX", "malloc failed");
-+		return;
-+	}
-+
-+	memset(longpath, 'A', len - 1);
-+	longpath[0] = '/';
-+	longpath[len - 1] = '\0';
-+
-+	errno = 0;
-+	long ret = kapi_sys_open(longpath, O_RDONLY, 0);
-+
-+	if (ret == -1 && (errno == ENAMETOOLONG || errno == EINVAL))
-+		tap_ok("open with path > PATH_MAX returns ENAMETOOLONG/EINVAL");
-+	else if (ret >= 0) {
-+		tap_fail("open with path > PATH_MAX",
-+			 "expected error, got success");
-+		syscall(__NR_close, (int)ret);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg),
-+			 "expected ENAMETOOLONG/EINVAL, got %s",
-+			 strerror(errno));
-+		tap_fail("open with path > PATH_MAX", msg);
-+	}
-+
-+	free(longpath);
-+}
-+
-+/*
-+ * Test 13: read with unmapped user pointer should return EFAULT or EINVAL.
-+ * Use a pipe with data so the kernel actually tries to copy to the buffer.
-+ */
-+static void test_read_unmapped_buf(void)
-+{
-+	int pipefd[2];
-+
-+	if (pipe(pipefd) < 0) {
-+		tap_fail("read with unmapped buffer returns EFAULT/EINVAL",
-+			 "pipe() failed");
-+		return;
-+	}
-+
-+	/* Write some data so read has something to copy */
-+	(void)write(pipefd[1], "hello", 5);
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, pipefd[0], (void *)0xDEAD0000, 16);
-+
-+	if (ret == -1 && (errno == EFAULT || errno == EINVAL))
-+		tap_ok("read with unmapped buffer returns EFAULT/EINVAL");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg),
-+			 "expected EFAULT/EINVAL, got %s",
-+			 ret >= 0 ? "success" : strerror(errno));
-+		tap_fail("read with unmapped buffer returns EFAULT/EINVAL",
-+			 msg);
-+	}
-+
-+	close(pipefd[0]);
-+	close(pipefd[1]);
-+}
-+
-+/*
-+ * Test 14: write with unmapped user pointer should return EFAULT or EINVAL.
-+ * Use a pipe so the kernel actually tries to copy from the buffer.
-+ */
-+static void test_write_unmapped_buf(void)
-+{
-+	int pipefd[2];
-+
-+	if (pipe(pipefd) < 0) {
-+		tap_fail("write with unmapped buffer returns EFAULT/EINVAL",
-+			 "pipe() failed");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, pipefd[1], (void *)0xDEAD0000, 16);
-+
-+	if (ret == -1 && (errno == EFAULT || errno == EINVAL))
-+		tap_ok("write with unmapped buffer returns EFAULT/EINVAL");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg),
-+			 "expected EFAULT/EINVAL, got %s",
-+			 ret >= 0 ? "success" : strerror(errno));
-+		tap_fail("write with unmapped buffer returns EFAULT/EINVAL",
-+			 msg);
-+	}
-+
-+	close(pipefd[0]);
-+	close(pipefd[1]);
-+}
-+
-+/*
-+ * Test 15: close an already-closed fd should return EBADF
-+ */
-+static void test_close_already_closed(void)
-+{
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_RDONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("close already-closed fd returns EBADF",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	/* Close it once - should succeed */
-+	syscall(__NR_close, (int)fd);
-+
-+	/* Close it again - should fail with EBADF */
-+	errno = 0;
-+	long ret = syscall(__NR_close, (int)fd);
-+
-+	if (ret == -1 && errno == EBADF)
-+		tap_ok("close already-closed fd returns EBADF");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EBADF, got %s",
-+			 ret == 0 ? "success" : strerror(errno));
-+		tap_fail("close already-closed fd returns EBADF", msg);
-+	}
-+}
-+
-+/*
-+ * Test 16: open /dev/null with O_RDONLY|O_CLOEXEC should succeed
-+ */
-+static void test_open_valid_cloexec(void)
-+{
-+	errno = 0;
-+	long fd = kapi_sys_open("/dev/null", O_RDONLY | O_CLOEXEC, 0);
-+
-+	if (fd >= 0) {
-+		tap_ok("open /dev/null with O_RDONLY|O_CLOEXEC succeeds");
-+		syscall(__NR_close, (int)fd);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected success, got %s",
-+			 strerror(errno));
-+		tap_fail("open /dev/null with O_RDONLY|O_CLOEXEC succeeds",
-+			 msg);
-+	}
-+}
-+
-+/*
-+ * Test 17: write 0 bytes to /dev/null should return 0
-+ */
-+static void test_write_zero_devnull(void)
-+{
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_WRONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("write 0 bytes to /dev/null returns 0",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, (int)fd, "", 0);
-+
-+	if (ret == 0)
-+		tap_ok("write 0 bytes to /dev/null returns 0");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected 0, got %ld (errno=%s)",
-+			 ret, strerror(errno));
-+		tap_fail("write 0 bytes to /dev/null returns 0", msg);
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+}
-+
-+/*
-+ * Test 18: read from a write-only fd should return EBADF
-+ */
-+static void test_read_writeonly_fd(void)
-+{
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_WRONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("read from write-only fd returns EBADF",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	char buf[16];
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, (int)fd, buf, sizeof(buf));
-+
-+	if (ret == -1 && errno == EBADF)
-+		tap_ok("read from write-only fd returns EBADF");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EBADF, got %s",
-+			 ret >= 0 ? "success" : strerror(errno));
-+		tap_fail("read from write-only fd returns EBADF", msg);
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+}
-+
-+/*
-+ * Test 19: write to a read-only fd should return EBADF
-+ */
-+static void test_write_readonly_fd(void)
-+{
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_RDONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("write to read-only fd returns EBADF",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, (int)fd, "hello", 5);
-+
-+	if (ret == -1 && errno == EBADF)
-+		tap_ok("write to read-only fd returns EBADF");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EBADF, got %s",
-+			 ret >= 0 ? "success" : strerror(errno));
-+		tap_fail("write to read-only fd returns EBADF", msg);
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+}
-+
-+/*
-+ * Test 20: close fd 9999 (likely invalid) should return EBADF
-+ */
-+static void test_close_fd_9999(void)
-+{
-+	errno = 0;
-+	long ret = syscall(__NR_close, 9999);
-+
-+	if (ret == -1 && errno == EBADF)
-+		tap_ok("close fd 9999 returns EBADF");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EBADF, got %s",
-+			 ret == 0 ? "success" : strerror(errno));
-+		tap_fail("close fd 9999 returns EBADF", msg);
-+	}
-+}
-+
-+/*
-+ * Test 21: read from pipe after write end is closed returns 0 (EOF)
-+ */
-+static void test_read_closed_pipe(void)
-+{
-+	int pipefd[2];
-+
-+	if (pipe(pipefd) < 0) {
-+		tap_fail("read from closed pipe returns 0 (EOF)",
-+			 "pipe() failed");
-+		return;
-+	}
-+
-+	/* Close write end */
-+	close(pipefd[1]);
-+
-+	char buf[16];
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, pipefd[0], buf, sizeof(buf));
-+
-+	if (ret == 0)
-+		tap_ok("read from closed pipe returns 0 (EOF)");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected 0, got %ld (errno=%s)",
-+			 ret, ret < 0 ? strerror(errno) : "n/a");
-+		tap_fail("read from closed pipe returns 0 (EOF)", msg);
-+	}
-+
-+	close(pipefd[0]);
-+}
-+
-+/*
-+ * Test 22: write to pipe after read end is closed returns EPIPE + SIGPIPE
-+ */
-+static void test_write_closed_pipe(void)
-+{
-+	int pipefd[2];
-+	struct sigaction sa, old_sa;
-+
-+	if (pipe(pipefd) < 0) {
-+		tap_fail("write to closed pipe returns EPIPE + SIGPIPE",
-+			 "pipe() failed");
-+		return;
-+	}
-+
-+	/* Install SIGPIPE handler */
-+	memset(&sa, 0, sizeof(sa));
-+	sa.sa_handler = sigpipe_handler;
-+	sigemptyset(&sa.sa_mask);
-+	sigaction(SIGPIPE, &sa, &old_sa);
-+
-+	got_sigpipe = 0;
-+
-+	/* Close read end */
-+	close(pipefd[0]);
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, pipefd[1], "hello", 5);
-+
-+	if (ret == -1 && errno == EPIPE && got_sigpipe)
-+		tap_ok("write to closed pipe returns EPIPE + SIGPIPE");
-+	else if (ret == -1 && errno == EPIPE)
-+		tap_ok("write to closed pipe returns EPIPE (SIGPIPE not caught)");
-+	else {
-+		char msg[128];
-+
-+		snprintf(msg, sizeof(msg),
-+			 "expected EPIPE, got %s (sigpipe=%d)",
-+			 ret >= 0 ? "success" : strerror(errno),
-+			 got_sigpipe);
-+		tap_fail("write to closed pipe returns EPIPE + SIGPIPE", msg);
-+	}
-+
-+	/* Restore SIGPIPE handler */
-+	sigaction(SIGPIPE, &old_sa, NULL);
-+	close(pipefd[1]);
-+}
-+
-+/*
-+ * Test 23: open with O_DIRECTORY on a regular file returns ENOTDIR
-+ */
-+static void test_open_directory_on_file(void)
-+{
-+	errno = 0;
-+	long ret = kapi_sys_open("/dev/null", O_RDONLY | O_DIRECTORY, 0);
-+
-+	if (ret == -1 && errno == ENOTDIR)
-+		tap_ok("open O_DIRECTORY on regular file returns ENOTDIR");
-+	else if (ret >= 0) {
-+		tap_fail("open O_DIRECTORY on regular file",
-+			 "expected ENOTDIR, got success");
-+		syscall(__NR_close, (int)ret);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected ENOTDIR, got %s",
-+			 strerror(errno));
-+		tap_fail("open O_DIRECTORY on regular file", msg);
-+	}
-+}
-+
-+/*
-+ * Test 24: open nonexistent file without O_CREAT returns ENOENT
-+ */
-+static void test_open_nonexistent(void)
-+{
-+	errno = 0;
-+	long ret = kapi_sys_open(
-+			   "/tmp/kapi_nonexistent_file_12345", O_RDONLY, 0);
-+
-+	if (ret == -1 && errno == ENOENT)
-+		tap_ok("open nonexistent file without O_CREAT returns ENOENT");
-+	else if (ret >= 0) {
-+		tap_fail("open nonexistent file",
-+			 "expected ENOENT, got success (file exists?)");
-+		syscall(__NR_close, (int)ret);
-+	} else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected ENOENT, got %s",
-+			 strerror(errno));
-+		tap_fail("open nonexistent file", msg);
-+	}
-+}
-+
-+/*
-+ * Test 25: close stdin (fd 0) should succeed
-+ * We dup it first so we can restore it.
-+ */
-+static void test_close_stdin(void)
-+{
-+	int saved_stdin = dup(0);
-+
-+	if (saved_stdin < 0) {
-+		tap_fail("close stdin succeeds", "cannot dup stdin");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_close, 0);
-+
-+	if (ret == 0)
-+		tap_ok("close stdin (fd 0) succeeds");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected success, got %s",
-+			 strerror(errno));
-+		tap_fail("close stdin (fd 0) succeeds", msg);
-+	}
-+
-+	/* Restore stdin */
-+	dup2(saved_stdin, 0);
-+	close(saved_stdin);
-+}
-+
-+/*
-+ * Test 26: read after close returns EBADF
-+ */
-+static void test_read_after_close(void)
-+{
-+	long fd;
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_RDONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("read after close returns EBADF",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+
-+	char buf[16];
-+
-+	errno = 0;
-+	long ret = syscall(__NR_read, (int)fd, buf, sizeof(buf));
-+
-+	if (ret == -1 && errno == EBADF)
-+		tap_ok("read after close returns EBADF");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected EBADF, got %s",
-+			 ret >= 0 ? "success" : strerror(errno));
-+		tap_fail("read after close returns EBADF", msg);
-+	}
-+}
-+
-+/*
-+ * Test 27: write with large count
-+ * Without KAPI: the kernel clamps count to MAX_RW_COUNT and succeeds.
-+ * With KAPI: KAPI validates the buffer against the count and may
-+ * return EFAULT/EINVAL since the buffer is smaller than count.
-+ * Accept either success or EFAULT/EINVAL.
-+ */
-+static void test_write_large_count(void)
-+{
-+	long fd;
-+	char buf[64] = "test data";
-+
-+	errno = 0;
-+	fd = kapi_sys_open("/dev/null", O_WRONLY, 0);
-+	if (fd < 0) {
-+		tap_fail("write with large count handled correctly",
-+			 "cannot open /dev/null");
-+		return;
-+	}
-+
-+	errno = 0;
-+	long ret = syscall(__NR_write, (int)fd, buf, (size_t)0x7ffff000UL);
-+
-+	if (ret > 0)
-+		tap_ok("write with large count succeeds (clamped, no KAPI)");
-+	else if (ret == -1 && (errno == EFAULT || errno == EINVAL))
-+		tap_ok("write with large count returns EFAULT/EINVAL (KAPI validates buffer)");
-+	else {
-+		char msg[64];
-+
-+		snprintf(msg, sizeof(msg), "expected success or EFAULT, got %s",
-+			 ret == 0 ? "zero" : strerror(errno));
-+		tap_fail("write with large count handled correctly", msg);
-+	}
-+
-+	syscall(__NR_close, (int)fd);
-+}
-+
-+/* ---- Integration tests ---- */
-+
-+/*
-+ * Test 28: full normal syscall path - open, read, write, close
-+ * Verify KAPI does not interfere with normal operations.
-+ */
-+static void test_normal_path(void)
-+{
-+	long rd_fd, wr_fd;
-+	char buf[128];
-+	int ok = 1;
-+	char reason[128] = "";
-+
-+	/* Open a readable file */
-+	errno = 0;
-+	rd_fd = kapi_sys_open("/etc/hostname", O_RDONLY, 0);
-+	if (rd_fd < 0) {
-+		errno = 0;
-+		rd_fd = kapi_sys_open("/etc/passwd", O_RDONLY, 0);
-+	}
-+	if (rd_fd < 0) {
-+		snprintf(reason, sizeof(reason), "open readable file: %s",
-+			 strerror(errno));
-+		ok = 0;
-+	}
-+
-+	/* Read from it */
-+	if (ok) {
-+		errno = 0;
-+		long n = syscall(__NR_read, (int)rd_fd, buf, sizeof(buf));
-+
-+		if (n < 0) {
-+			snprintf(reason, sizeof(reason), "read: %s",
-+				 strerror(errno));
-+			ok = 0;
-+		}
-+	}
-+
-+	/* Open /dev/null for writing */
-+	wr_fd = -1;
-+	if (ok) {
-+		errno = 0;
-+		wr_fd = kapi_sys_open("/dev/null", O_WRONLY, 0);
-+		if (wr_fd < 0) {
-+			snprintf(reason, sizeof(reason),
-+				 "open /dev/null: %s", strerror(errno));
-+			ok = 0;
-+		}
-+	}
-+
-+	/* Write to /dev/null */
-+	if (ok) {
-+		errno = 0;
-+		long n = syscall(__NR_write, (int)wr_fd, "test", 4);
-+
-+		if (n != 4) {
-+			snprintf(reason, sizeof(reason), "write: %s",
-+				 n < 0 ? strerror(errno) : "short write");
-+			ok = 0;
-+		}
-+	}
-+
-+	/* Close both fds */
-+	if (rd_fd >= 0) {
-+		errno = 0;
-+		if (syscall(__NR_close, (int)rd_fd) != 0 && ok) {
-+			snprintf(reason, sizeof(reason), "close read fd: %s",
-+				 strerror(errno));
-+			ok = 0;
-+		}
-+	}
-+
-+	if (wr_fd >= 0) {
-+		errno = 0;
-+		if (syscall(__NR_close, (int)wr_fd) != 0 && ok) {
-+			snprintf(reason, sizeof(reason), "close write fd: %s",
-+				 strerror(errno));
-+			ok = 0;
-+		}
-+	}
-+
-+	if (ok)
-+		tap_ok("normal syscall path (open/read/write/close) works");
-+	else
-+		tap_fail("normal syscall path (open/read/write/close) works",
-+			 reason);
-+}
-+
-+/*
-+ * Test 29: verify dmesg contains KAPI warnings for the invalid tests
-+ */
-+static void test_dmesg_warnings(void)
-+{
-+	int kmsg_fd = open("/dev/kmsg", O_RDONLY | O_NONBLOCK);
-+
-+	if (kmsg_fd < 0) {
-+		tap_ok("dmesg check skipped (cannot open /dev/kmsg)");
-+		return;
-+	}
-+
-+	/* Read all available kmsg messages from the start */
-+	lseek(kmsg_fd, 0, SEEK_DATA);
-+
-+	char line[4096];
-+	int found_invalid_bits = 0;
-+	int found_null = 0;
-+	ssize_t n;
-+
-+	while ((n = read(kmsg_fd, line, sizeof(line) - 1)) > 0) {
-+		line[n] = '\0';
-+		if (strstr(line, "contains invalid bits"))
-+			found_invalid_bits++;
-+		if (strstr(line, "NULL") && strstr(line, "not allowed"))
-+			found_null++;
-+	}
-+
-+	close(kmsg_fd);
-+
-+	if (found_invalid_bits >= 2 && found_null >= 1)
-+		tap_ok("dmesg contains expected KAPI warnings");
-+	else if (found_invalid_bits >= 1 || found_null >= 1) {
-+		char msg[128];
-+
-+		snprintf(msg, sizeof(msg),
-+			 "partial: invalid_bits=%d null=%d",
-+			 found_invalid_bits, found_null);
-+		tap_ok(msg);
-+	} else {
-+		tap_fail("dmesg KAPI warnings",
-+			 "no KAPI warnings found in dmesg");
-+	}
-+}
-+
-+int main(void)
-+{
-+	printf("TAP version 13\n");
-+	printf("1..%d\n", NUM_TESTS);
-+
-+	/* Valid operations (1-4) */
-+	int fd = test_open_valid();
-+
-+	if (fd >= 0)
-+		test_read_valid(fd);
-+	else
-+		tap_fail("read from valid fd", "no fd from open");
-+
-+	test_write_valid();
-+
-+	if (fd >= 0)
-+		test_close_valid(fd);
-+	else
-+		tap_fail("close valid fd", "no fd from open");
-+
-+	/* KAPI parameter rejection (5-8) */
-+	test_open_invalid_flags();
-+	test_open_invalid_mode();
-+	test_open_null_path();
-+	test_open_flag_bit30();
-+
-+	/* Boundary conditions and error paths (9-20) */
-+	test_read_bad_fd();
-+	test_read_zero_count();
-+	test_write_zero_count();
-+	test_open_long_path();
-+	test_read_unmapped_buf();
-+	test_write_unmapped_buf();
-+	test_close_already_closed();
-+	test_open_valid_cloexec();
-+	test_write_zero_devnull();
-+	test_read_writeonly_fd();
-+	test_write_readonly_fd();
-+	test_close_fd_9999();
-+
-+	/* Pipe and lifecycle tests (21-27) */
-+	test_read_closed_pipe();
-+	test_write_closed_pipe();
-+	test_open_directory_on_file();
-+	test_open_nonexistent();
-+	test_close_stdin();
-+	test_read_after_close();
-+	test_write_large_count();
-+
-+	/* Integration (28-29) */
-+	test_normal_path();
-+	test_dmesg_warnings();
-+
-+	if (failures)
-+		fprintf(stderr, "# %d test(s) failed\n", failures);
-+	else
-+		fprintf(stderr, "# All tests passed\n");
-+
-+	return failures ? 1 : 0;
-+}
--- 
-2.51.0
-
+--=20
+Askar Safin
 
