@@ -1,167 +1,176 @@
-Return-Path: <linux-kbuild+bounces-12142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wDF2Mwi4wGmpKQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12142-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 04:48:24 +0100
+	id CIQgHN3qwGl6OQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12143-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 08:25:17 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B562EC43A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 04:48:24 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D85D2ED841
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 08:25:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4BBF5300A8E9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 03:48:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 726C73001FEE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 07:25:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF4F299948;
-	Mon, 23 Mar 2026 03:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 433E735F182;
+	Mon, 23 Mar 2026 07:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRKnIKUq"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jx+o0ZDc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F6E1D9663
-	for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 03:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774237700; cv=pass; b=JhCEZ5XKhpP4yTbyQvXmiORMy9znlYuIjltwe1WbqKaoVVjNRc+gVLJ0haR0RwwoXdnMNiMdWO7jxKVUz75ljLlDo2BCC/8Oi1BY8iGfmrlZ8Rdnj5wp7rKnyOWXIQye0pNvpfVjmccifCsc3myYG5LwvMpaYqtRHm1ndLJFZCg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774237700; c=relaxed/simple;
-	bh=Q0mI2TwYycM5sgLrcd1zuOS4TrakRSO20fAXPQ2Ywts=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rTM3QRj4iX+Ygktz5QpBskvDLrJoTZFZl5jo/6Gg76lnM/MOnF5a5DMG5g7bWfkslUfQ6VaEJVLWz5xmkIQJlTY7sH4fzpEVM5w3n+kKxDE4KeDzonmTHJgonq8g5YPGOQSJuFFF3djH8uY6LNFXMed9KvrokQBObMFYYwfkxNM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRKnIKUq; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64c9a6d7f81so1995159d50.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 22 Mar 2026 20:48:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774237698; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VkLg2aGVFjU0gnKRcVHThNzAGdXcynVMZ1XXRjW0eA7s6t5epuSVzoMOVwMwS3SVny
-         xMg+GUyK1LvQgyiY044sG34PEjDJEubpCmA6WT+WIKXREPRKV4W/HsMxqeK9BWxD8akd
-         lgedbJisW/gn2/XkPJe7Yyr9CyogEsFMON6lWvFmPr0U3tJpKmehVSNAr9WoArT6Fzss
-         KpM3XMvnMx0vU+MNJLsBvvsLtwtGkAcfAW1SAJr2ebirg3SazVJjAXaTgPCo6v62kj6p
-         9Nqu6J7rpIh8jIqDwaxc7EBRf4n3MSFRucE5fQG6ZuZj7woNh95IJZkxSSOb8u0YHCE4
-         yXbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Q0mI2TwYycM5sgLrcd1zuOS4TrakRSO20fAXPQ2Ywts=;
-        fh=1wpteKu+1Jdcug7vlU6DxzI1BzSee74hgAxyg0AOZj4=;
-        b=V5Xm3DAYjpLrJVVF8ak/JcfI1rYG1S2pzUPqN10Y7ZibFm89AO1rS8M0qRzNN71RIb
-         shd2wqjKV3Ph+pJRAlb1jkjUoyGiwA+qZl3s0gBkp0LyVAADHgFp353EXKU/Htr+4kkb
-         JgpwEufFMcr0spSY5NW3ziKCKqAEYGXkc4l0DYJ10GfpBbWd0RmRp4W+hPfiHGwGnE9o
-         zQfw5zXMN4pOikHFMSOg4ZQGnAJm+9TFAk8jIdo7ZrnaZONo8tF9JGuZGT4OUEupG/oI
-         ziRbpwOuX7kvVSWzxxh3drIawltSY1TgXClY2uWkfW9+pnWFyyj9ygS+l8mN70IWuI1N
-         KKzQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774237698; x=1774842498; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q0mI2TwYycM5sgLrcd1zuOS4TrakRSO20fAXPQ2Ywts=;
-        b=ZRKnIKUqHlbu9S4/u3j72jUfqdIoL18PVg5Gmli8BuuuKRm2xQKLnConJjZ1oFlk3Y
-         xGs1kNsepaYHj5wv7m0TsRAyRPGrVz9SGMLsB+Lj5tYpR4yjT2LdeJNcNOhJlMmyR1Kj
-         Po0s5IilZHVTbFvR0vgnUUDHbbDcEK6I7yZPXW1kpSe313JkD34rhMbCgTSCrACZbzSp
-         eIjNLhNUsvr8vNQ6JVbOJoBuymfDGbIOT0W26KE1nbWwwVwvH8L0X8/dZvbpsNqI10A2
-         tgJESBzL5i5r/iwAyvU5VlDcNlu16pshZV4YgDeSfA8KGNv3Pn3OY8q+Mw2OYX+9WDac
-         YNbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774237698; x=1774842498;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Q0mI2TwYycM5sgLrcd1zuOS4TrakRSO20fAXPQ2Ywts=;
-        b=qCu12hpe+8Rw6uLry6SUuxdIWVFXwwhIKLCv/3vikZeDtJcZq67NJfG7qJeCFuYofB
-         pShlllG+3wuNTIij9bekdpsFBtXDfwMMpLycYHbmmwOh//JyCyTO+9WCqLx75FUpLrr4
-         86oLTuy2ryy0ZSgSsIWcVGzgTEwbFAxeSCtvdSqThQwqNOTsEjp3lEWs2QRwxKL1IkuF
-         DSjwic/WFCe2nYcJUfFR88vg59LzlXI5SJ1DQ5fFbyom6Ud/e/BWn5NPoMoywTY0NEQs
-         ANnsglNRwxJBRGmhZ6QjV2shhdFSD5hjIexIoEUG4rq7pN09rSaoSmO3psNGLYyJSQ4E
-         z7zg==
-X-Forwarded-Encrypted: i=1; AJvYcCWiUuutiZ0b6kkbKfh3yeBaYWVXm/B8xwWz+bJj9hl+mDmldML0vzjdJ2PinIRMo5emwXwzCNqzotpkeoY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4242Rcfn3oU1m/V44CVDm6JGpx6dGbca67DlVhG/EkHwFz6DL
-	OEpVgKK0dWGggln0M8kcGdnFeZqiCubRi8CSkKBhMALE+0IuX8MhueiiwJTXI/tv38Cj2Ls8uqx
-	4UkjzDf69BhAVldf1dFF5d0GDW9Z3Oak=
-X-Gm-Gg: ATEYQzzGtW0R3h19rRYpHuflnhFj5Xp2sm2V6k9jun8OPsUE0l0wirmupxSnvugv06n
-	Q4B0iVoqC5spWTe6M6TD77vFsMhTleQ8wlhdC9B3dEuFbbC2qK5fUWVOXbc39ikNowOI2jwA3ui
-	RXyagdi/AUylJctvKGgAk5QFvZ/yCZmsRW175Ol5uOSaQjo+781CJ+YwrWFnu1eK8Q5dWQEJ8DS
-	OYzmHTO1EkZyP8BXvLhFcRvd6mC3lWal/6pzqhNEg9wKMkBsC681NLsRYpooH7bkrkNfJ3Q/LRW
-	GLZJ+FA=
-X-Received: by 2002:a05:690e:429b:10b0:64a:ec39:dd4b with SMTP id
- 956f58d0204a3-64eaa7deab5mr8770494d50.43.1774237698447; Sun, 22 Mar 2026
- 20:48:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CF9217F33;
+	Mon, 23 Mar 2026 07:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774250713; cv=none; b=KgY0LFxQBudY1HqxJhCKkuBHjcXSFMincoQ9phHDbKxRLMZNDlH/OlxqBkjrGYN3berPFhUZmLbhuEOCM5hJcH5KB7mrdA1FOdDIFzAAvi+RNSBgn0lnub1AIDaaRyomxdKJDgnmgJhqATUs9lEgE7UmwiTwaRj02xxe6Hjj1c0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774250713; c=relaxed/simple;
+	bh=jE7CXzjIhYsrMQZQTnyURMk/tHpDDdx8oW2yXMIAGfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bI4vp4oZxxjIPauRU6cVKEDaZRZa1EmzUGOuti0DsPFTu3XOyVadF8ezFK2cs2kWPUum2/JCi5YSMIVamh3f41rvY+D4EO5A6I2/7DEolg3K1K76XgbxQfw8D6R4fVS/nCN8R38CK7AXhiOLgemhf1wAdybJYUUE6ZiG9qqZh6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jx+o0ZDc; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62MB0K4o3743898;
+	Mon, 23 Mar 2026 07:24:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=jAO59f310du7QormdyuLxv3apotxnRlrU6xoEvAIX
+	r8=; b=jx+o0ZDcFg1AlC9LpBRt9rF3So2ZwVvjFn73OdrJB7f4nfFGLX6SngQ7P
+	E7B+NB+ytbBXaHjY1R1AMSuHkv7DcYEzLA2sUvZdf2y0OcxehirJE5/NUHDqySC7
+	+vCaksidPvjqXELkHbj6ENVvcsaKc8amxwS2+V0wVbNhsvqsCxjTipqBVH8/s9s1
+	Uu+YQ8GYY5CvnQAEU79omJJfPk7M5izU0zpZJ/wrooiZodJAHjjAda8pI/cyD+Ob
+	3PupuwebZwM6HqN31QFCRyANQotk6z81UDV7AQENf/gcuJE8qDOdobPm4uTFOEA9
+	6mFa332LxXX+cWz02gnURPr8YpPBw==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1kxq5swq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Mar 2026 07:24:41 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62N7ItZr008749;
+	Mon, 23 Mar 2026 07:24:40 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d26nncdxa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Mar 2026 07:24:40 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62N7OawB22086016
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Mar 2026 07:24:36 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43EE92004E;
+	Mon, 23 Mar 2026 07:24:36 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A483020040;
+	Mon, 23 Mar 2026 07:24:27 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.61.247.60])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 23 Mar 2026 07:24:27 +0000 (GMT)
+From: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+To: arnd@arndb.de, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, nathan@kernel.org, nsc@kernel.org,
+        ojeda@kernel.org, masahiroy@kernel.org, linux@weissschuh.net,
+        tamird@kernel.org, rostedt@goodmis.org, ihor.solodrai@linux.dev,
+        ritesh.list@gmail.com, maddy@linux.ibm.com, peterz@infradead.org,
+        venkat88@linux.ibm.com
+Subject: [PATCH] char: nvram: Remove unused nvram_mutex to fix -Wunused-variable warning
+Date: Mon, 23 Mar 2026 12:54:22 +0530
+Message-ID: <20260323072422.25730-1-venkat88@linux.ibm.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <bd45c86c-e1ea-4995-bb00-df83cc873105@landley.net>
- <20260307032258.2857157-1-safinaskar@gmail.com> <54f06055-c5ca-4b8f-9aed-065755e7c1b2@landley.net>
-In-Reply-To: <54f06055-c5ca-4b8f-9aed-065755e7c1b2@landley.net>
-From: Askar Safin <safinaskar@gmail.com>
-Date: Mon, 23 Mar 2026 06:47:42 +0300
-X-Gm-Features: AQROBzB-PQlqF6OH6A_aRUOwM_KQYLR0utQ15-12H2PLD6u8em4oEuDUzIPNaAM
-Message-ID: <CAPnZJGAOPV26Owic+MoMUFaJVoofhLOjfmtVi2fi2GwtrVssYA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] init: ensure that /dev/console and /dev/null are
- (nearly) always available in initramfs
-To: Rob Landley <rob@landley.net>
-Cc: brauner@kernel.org, ddiss@suse.de, initramfs@vger.kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nathan@kernel.org, nsc@kernel.org, 
-	patches@lists.linux.dev, rdunlap@infradead.org, viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: 7EOGw3xU-fF7FPWBWLwp8g_3yTZxUJat
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDA1NCBTYWx0ZWRfXwtVcgvRfCMLi
+ 0BfkRj+clU+sJN9YBDTvMWimUa6YHaFe6EFWb1TLaTiD8xVd//sATAiUymq98oIQ9trSTp9gOk4
+ 4wy6Rvf1iFWRkP/p99VYKxKigHU5Rldc5K/nbq0JMDrxnw0/gDFQGGjYR9V5FeQ6RlZuK7X151s
+ rOSkjuz4fiymmocmIamRm+QGnMUHpR+1J6ZC3b6/fPoEnoedEdM2uJ9iO3Wk51WQr4eBzuYKqfr
+ e3ZV4SD9ud0gGpwjhH6HkHWYBjW+xnCP0VE7r74VIrrqB4PtZLRMSsQfoinj3e86xuo3BaAFtT7
+ 0WRFvgcKomKGFGk1lohR2XXEnmPfiCBB9/mo4iR586jY+bmMQcDToi+DP6NR4dnTr1K4UdanvbH
+ XoSKmjlzG1AqKMBuqQ53yHlkb0686eoziIspB+ITz/5qB4xII2YDZgLjdZV29uEcvmJJARU/RwY
+ GYAdZ6oZqAUna9zAYvg==
+X-Authority-Analysis: v=2.4 cv=bLEb4f+Z c=1 sm=1 tr=0 ts=69c0eaba cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=iQ6ETzBq9ecOQQE5vZCe:22 a=VnNF1IyMAAAA:8 a=HSj1x6wVMASIhtUHg4AA:9
+ a=zZCYzV9kfG8A:10
+X-Proofpoint-GUID: _M4EmJC2Qippd94GV-49dPGM0g5gFrUc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-23_02,2026-03-20_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 clxscore=1011 phishscore=0 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603230054
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-12143-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.ozlabs.org,kernel.org,weissschuh.net,goodmis.org,linux.dev,gmail.com,linux.ibm.com,infradead.org];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-12142-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[safinaskar@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[venkat88@linux.ibm.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ibm.com:+];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 41B562EC43A
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_COUNT_SEVEN(0.00)[11]
+X-Rspamd-Queue-Id: 0D85D2ED841
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 10, 2026 at 3:51=E2=80=AFPM Rob Landley <rob@landley.net> wrote=
-:
->
-> On 3/6/26 21:22, Askar Safin wrote:
-> > Rob, I kindly ask you to test this solution to your problems:
-> >
-> > https://lore.kernel.org/all/CAPnZJGDDonspVK1WxDac2omkLJVX=3D_1Tybn4ne+s=
-f3KyaAuofA@mail.gmail.com/
->
-> Your earlier suggestion that at some point they fixed the kernel build
-> so I can go "/path/to/dir /path/to/file.txt" (which didn't _used_ to
-> work, I tested it way back when) would presumably solve my problem
-> without kernel patches.
+drivers/char/nvram.c defines a static mutex 'nvram_mutex' which is never
+used. This results in a compiler warning on linux-next builds:
 
-Cool! Please, write me when you actually test this.
+  warning: 'nvram_mutex' defined but not used [-Wunused-variable]
 
---=20
-Askar Safin
+Remove the unused definition to avoid the warning.
+
+Signed-off-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+---
+ drivers/char/nvram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/char/nvram.c b/drivers/char/nvram.c
+index 9eff426a9286..2ce3307663ed 100644
+--- a/drivers/char/nvram.c
++++ b/drivers/char/nvram.c
+@@ -53,7 +53,7 @@
+ #include <asm/nvram.h>
+ #endif
+ 
+-static DEFINE_MUTEX(nvram_mutex);
++static __maybe_unused DEFINE_MUTEX(nvram_mutex);
+ static DEFINE_SPINLOCK(nvram_state_lock);
+ static int nvram_open_cnt;	/* #times opened */
+ static int nvram_open_mode;	/* special open modes */
+-- 
+2.45.2
+
 
