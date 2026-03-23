@@ -1,164 +1,266 @@
-Return-Path: <linux-kbuild+bounces-12208-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12209-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YJQUBnqTwWnuTwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12208-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 20:24:42 +0100
+	id mGlwLv2ZwWlNUAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12209-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 20:52:29 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AAA2FC2B7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 20:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF7E2FCA41
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 20:52:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CA0E832138C4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 18:42:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9B5FB315BF55
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 19:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1FED30DD3C;
-	Mon, 23 Mar 2026 18:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 503A339446F;
+	Mon, 23 Mar 2026 19:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZoiSn7UK"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="f4tkw1r7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB1F2F8BEE
-	for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 18:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4B435AC05;
+	Mon, 23 Mar 2026 19:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774291341; cv=none; b=df/osoRXS62tQLFN4S7UtcvPit3adZ0eEO18p+Iz0pKn5Qd6i1Gll7SYNWkiTo6M5WeTl1fCSZf3zUpqn5hfrvsvndIf/GOQaFOJQm59I9cuUw/5SDsGAhLISFu0bVGSvdHMbNSmQ+YOUz4iRanKN3gqPl5tJsgw11OYddKnU7c=
+	t=1774293959; cv=none; b=XNpQ8xrXGsD4E+SW56ExdJlw5mPH8+bX9b8LqoiO+/tQO2uAABTQGHmxv8OYZjGylRUjP0PfXeiQE3KPg8aV4IX6VDaqg3JpLj4e0X+ujWw+QcYHBDpbxwRB7LNC81rdhaJedrdrtWqmbpqTsHDiVxmDS4LP1aUo/VzZn45KqHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774291341; c=relaxed/simple;
-	bh=HaY7bKz1vH12gbhp1PtTn4vwQY93r9ABoNwuu9whDoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUBObV/GShFaFuSgj62YHC4LOYBdrqbIMaAV4ntUOz/2TiyCmGnVRdmOiZ9c7vqnxsdAmQcpu/WbomVobhK15WBP2R0Mgyhmdq6RGdzlUy/BrBUEEh/gzrLcCF68u02kaMk6n03LDFvukHsSoq5CUb8PXvlvYqNIBiNc6+xFYH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZoiSn7UK; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43b7ffed973so267633f8f.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 11:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774291339; x=1774896139; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9dxdEUh4IB/1SO39Kw7tCUT3zJPN5Zqv8A5orXaxobs=;
-        b=ZoiSn7UKh45Xs8DemRyGQkX6wg1wi/xB/mh0Nk2gb3C0VptpGXBRR0BljC4CxB3Uf4
-         S1vWhmeInbmq+8TJAK8UBffc9uqtwCHdi/Mv7cuxYgVBxOcWqb8+N092P53um60emiOa
-         EEr4Ioz8w1WW7Axoq7gIyfT/99VI8c8JUIFhFALos/DLk0YK57w38IuU6tC9uJevpLfo
-         f2x/i6OetBO63uhtqt6pY4r07kuz92kUgVVbBh0iIL7kXy4ygg0Pukdjw9Uz03C+Xl6F
-         Uj4feDBujI8Gr6TKnUoE+x6IT8oxhb1mS2SAx0ac3B1xt4TQDlcQn8TF9+hLAu81qyWW
-         KVVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774291339; x=1774896139;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9dxdEUh4IB/1SO39Kw7tCUT3zJPN5Zqv8A5orXaxobs=;
-        b=YuJlgNT9O4wkOxVgtKWauZ6U48xY+47AtY6UBjfJmFhsjipchmtqJbkOB02uGZCznv
-         c/txgh0cb0N2Istlzx98ubxjlLEo1SxlMjZ08xKC0AIBNU0JNXW59Hz4mAxYj7CXqkJl
-         JDSoHZ+XWtVSu5cSyCf4m08QANfUpfoPkrv4DkRfhfHQMrvvp9ibh/tdwTCLaB9a0j4n
-         xJtSRnTNwI0LSnqll4Se+KHF+kejIkgY46RjLwW/I1tzsXK1xZz3nqCF/kELk4LNyqfN
-         h5n1rqX8aoU1tgqJBW1BsbeVKWT/JFBwJjx9j+jtGT3fC96MW7QpWULzKJHvjCLrORTd
-         Nq4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUiOJo/MS2sXIwejTXOz53U3902zATtWnRsXc7jyqasiSTp1rXMBmQOoupYsHyg93uWbTRJnGn6Wksu4h0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1JyupcbZ7/H987Blh/puniT2SgagCEowpBDZhQ4FyNuYYa6Tt
-	1j7g3CptFJroz2Sba+EEMIBXrIZdzP7sRWNoWLlsrxnQGvOZSAz+eDw=
-X-Gm-Gg: ATEYQzxQieAknBvhntjReWJbTdK6k6aMCMc3p/x2++xyoSmBFFpq6zXs7NWMUMGUB3c
-	pB3z+GoYeoDDvalnV61FZ6lUM5rHgMOxSzk01hmecitlr3wEU1KWHbf27UNopNFpzCEyOY1yqSc
-	UkIocwiHTWRyHBZEb7GWalGOU1/h9ak7FnCIXSE4GH0iFR+8tH4gYpD/nX6uHTS+WkVXOoW9WG+
-	eLYcfvo72Uyy9nc4MMJ7HOWTMI6JDiXubmASIZ9ahAOew3IYeUpEB2d5c6dNahCU+66JuhlvIz/
-	p2Ju0VOWFB5iVNYMTRZj2ULkpFI7Ibl2FpCXCgBe/NB9E71zbzi/jX6ciYJUaJgu8qYFQkHR6Kp
-	75Sy7AlGV61OBBvzTQr9GnpOcrZuM3hgUi2Tnjs6/ye4XzPiLOpCJKZb7tNfNcoSPxYP2vkvw56
-	XzoiYCYJ1yq5gBoMnZJ2Lc99YSRj3U3gSuV5lOEFaGZriMNOKnEerRY0Mh8L/MiIkoCQg=
-X-Received: by 2002:a05:6000:290b:b0:43b:576b:5dca with SMTP id ffacd0b85a97d-43b642442f9mr20708049f8f.16.1774291338529;
-        Mon, 23 Mar 2026 11:42:18 -0700 (PDT)
-Received: from p183 (dynamic-vpdn-brest-46-53-134-188.brest.telecom.by. [46.53.134.188])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470b243sm32081677f8f.26.2026.03.23.11.42.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 11:42:17 -0700 (PDT)
-Date: Mon, 23 Mar 2026 21:43:59 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
+	s=arc-20240116; t=1774293959; c=relaxed/simple;
+	bh=pRVwcjWbGZOMkMxCgyb3wrPsEMkf/bME02y11ek+PBY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=kkEK+jDLmwM9bJ1I5fRaSWdjo7NFvwLROpn2V784Z6uA2sv6aasjni9nohECvAu2qDY+nlK+pF+uFGihvZfNY9Lqu6qawrG2nlheSccekVIpG702mpJFAPbq2EXDHDeAd4ogJVaYdpqHyeFMFf8SzS98562RMGhE/Pco3a+5Q7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=f4tkw1r7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F156EC4CEF7;
+	Mon, 23 Mar 2026 19:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774293958;
+	bh=pRVwcjWbGZOMkMxCgyb3wrPsEMkf/bME02y11ek+PBY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=f4tkw1r7yCmiIt3fIzSU21Bfp5TOVStZzHX6uyHlxTKAvxTTD2+o9fSiS7kBmu9gG
+	 airEsJ4osNi/vKFGX/JVHen33a1O9MJgHfmS8piqFGL8JXf8bywLfK1W16lFbnip6h
+	 mtpENkWsVlgrn9HCAqyv5vQKDdeCjtPLsOEGsjcw=
+Date: Mon, 23 Mar 2026 12:25:57 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
 To: Sasha Levin <sashal@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Juergen Gross <jgross@suse.com>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Petr Pavlu <petr.pavlu@suse.com>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH 0/2] kallsyms: show typed function parameters in
- oops/WARN dumps
-Message-ID: <cdd61497-8d50-4fc5-aec8-47286e23d537@p183>
-References: <20260323164858.1939248-1-sashal@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, James Bottomley
+ <James.Bottomley@HansenPartnership.com>, Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Greg
+ KH <gregkh@linuxfoundation.org>, Petr Mladek <pmladek@suse.com>, Steven
+ Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil
+ Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>, Randy Dunlap
+ <rdunlap@infradead.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Vivian Wang <wangruikang@iscas.ac.cn>,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] kallsyms: embed source file:line info in kernel
+ stack traces
+Message-Id: <20260323122557.3e0ef47671a0eea7c3d89253@linux-foundation.org>
+In-Reply-To: <20260322131543.971079-1-sashal@kernel.org>
+References: <20260322131543.971079-1-sashal@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260323164858.1939248-1-sashal@kernel.org>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12208-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,infradead.org,suse.com,lwn.net,google.com,linuxfoundation.org,goodmis.org,gmx.de,linux-m68k.org,HansenPartnership.com,ideasonboard.com,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[34];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12209-lists,linux-kbuild=lfdr.de];
+	DMARC_NA(0.00)[linux-foundation.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,nod.at,suse.com,linux-m68k.org,HansenPartnership.com,lwn.net,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,gmx.de,ideasonboard.com,iscas.ac.cn,vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adobriyan@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux-foundation.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B2AAA2FC2B7
+X-Rspamd-Queue-Id: 3DF7E2FCA41
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 23, 2026 at 12:48:55PM -0400, Sasha Levin wrote:
->  Function parameters (paraminfo_demo_crash):
->   uts      (struct new_utsname *) = 0xffffffffb8ca8d00
->    .sysname = "Linux"                        .nodename = "localhost"
->    .release = "7.0.0-rc2-00006-g3190..."     .version = "#45 SMP PRE"
->   file     (struct file *       ) = 0xffffa0a3c250acc0
->    .f_mode = (fmode_t)67993630               .f_op = (struct file_operations *)0xffffffffb7237620
->    .f_flags = (unsigned int)32769            .f_cred = (struct cred *)0xffffa0a3c2e06a80
->    .dentry = (struct dentry *)0xffffa0a3c0978cc0
+On Sun, 22 Mar 2026 09:15:39 -0400 Sasha Levin <sashal@kernel.org> wrote:
 
-Should this be in crash's format?
+> This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+> information directly in the kernel image so that stack traces annotate
+> every frame with the originating source location - no external tools, no
+> debug symbols at runtime, and safe to use in NMI/panic context.
 
-	struct dentry ffffffffffff0000
+Thanks, I've updated mm.git's mm-nonmm-unstable branch to this version.
+
+> Changes since v3
+> =================
+> 
+> - Remove redundant gen_lineinfo entry in scripts/Makefile for
+>   CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
+>   which already builds it). (Reported by Petr Pavlu)
+> 
+> - Use R_* constants from <elf.h> instead of hardcoded relocation type
+>   values in r_type_abs32(). (Reported by Petr Pavlu)
+> 
+> - Simplify duplicated-path detection in make_relative(): replace loop
+>   over every '/' with a direct midpoint check, since true path
+>   duplication always splits at len/2. (Suggested by Petr Pavlu)
+> 
+> - Fix comment in process_dwarf(): sections in ET_REL objects have
+>   sh_addr == 0 and therefore overlapping address ranges; this is
+>   expected behavior, not a "may" situation. (Reported by Petr Pavlu)
+> 
+> - Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
+>   check, matching the u32 type of the addrs array.
+>   (Reported by Petr Pavlu)
+> 
+> - Document the assumption that .text is at the start of the MOD_TEXT
+>   segment in module_lookup_lineinfo(). A proper fix using ELF
+>   relocations is planned for a future series.
+>   (Reported by Petr Pavlu)
+> 
+> - Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
+>   clang compatibility. Clang does not support this GCC-specific flag;
+>   the noinline attribute is sufficient.
+
+Here's how v3 altered mm.git:
+
+
+ kernel/module/kallsyms.c |    8 +++++--
+ lib/tests/Makefile       |    2 -
+ scripts/Makefile         |    1 
+ scripts/gen_lineinfo.c   |   40 +++++++++++++++++--------------------
+ 4 files changed, 26 insertions(+), 25 deletions(-)
+
+--- a/kernel/module/kallsyms.c~b
++++ a/kernel/module/kallsyms.c
+@@ -547,13 +547,17 @@ bool module_lookup_lineinfo(struct modul
+ 	if (hdr->files_size < hdr->num_files * sizeof(u32))
+ 		return false;
+ 
+-	/* Compute offset from module .text base */
++	/*
++	 * Compute offset from module .text base.
++	 * NOTE: This assumes .text is at the start of the MOD_TEXT segment.
++	 * A proper fix would use ELF relocations to reference .text directly.
++	 */
+ 	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
+ 	if (addr < text_base)
+ 		return false;
+ 
+ 	raw_offset = addr - text_base;
+-	if (raw_offset > UINT_MAX)
++	if (raw_offset > U32_MAX)
+ 		return false;
+ 
+ 	tbl.blk_addrs	= base + hdr->blocks_offset;
+--- a/lib/tests/Makefile~b
++++ a/lib/tests/Makefile
+@@ -36,7 +36,7 @@ obj-$(CONFIG_LIVEUPDATE_TEST) += liveupd
+ CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
+ obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
+ 
+-CFLAGS_lineinfo_kunit.o += -fno-inline-functions-called-once
++CFLAGS_lineinfo_kunit.o += $(call cc-option,-fno-inline-functions-called-once)
+ obj-$(CONFIG_LINEINFO_KUNIT_TEST) += lineinfo_kunit.o
+ 
+ obj-$(CONFIG_MEMCPY_KUNIT_TEST) += memcpy_kunit.o
+--- a/scripts/gen_lineinfo.c~b
++++ a/scripts/gen_lineinfo.c
+@@ -206,14 +206,11 @@ static const char *make_relative(const c
+ 	 */
+ 	{
+ 		size_t len = strlen(path);
++		size_t mid = len / 2;
+ 
+-		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
+-			size_t prefix = p - path;
+-			size_t rest = len - prefix - 1;
+-
+-			if (rest == prefix && !memcmp(path, p + 1, prefix))
+-				return p + 1;
+-		}
++		if (len > 1 && path[mid] == '/' &&
++		    !memcmp(path, path + mid + 1, mid))
++			return path + mid + 1;
+ 	}
+ 
+ 	/*
+@@ -340,17 +337,17 @@ static void find_text_section_range(Elf
+ static unsigned int r_type_abs32(unsigned int e_machine)
+ {
+ 	switch (e_machine) {
+-	case EM_X86_64:		return 10;	/* R_X86_64_32 */
+-	case EM_386:		return 1;	/* R_386_32 */
+-	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
+-	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
+-	case EM_RISCV:		return 1;	/* R_RISCV_32 */
+-	case EM_S390:		return 4;	/* R_390_32 */
+-	case EM_MIPS:		return 2;	/* R_MIPS_32 */
+-	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
+-	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
+-	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
+-	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
++	case EM_X86_64:		return R_X86_64_32;
++	case EM_386:		return R_386_32;
++	case EM_AARCH64:	return R_AARCH64_ABS32;
++	case EM_ARM:		return R_ARM_ABS32;
++	case EM_RISCV:		return R_RISCV_32;
++	case EM_S390:		return R_390_32;
++	case EM_MIPS:		return R_MIPS_32;
++	case EM_PPC64:		return R_PPC64_ADDR32;
++	case EM_PPC:		return R_PPC_ADDR32;
++	case EM_LOONGARCH:	return R_LARCH_32;
++	case EM_PARISC:		return R_PARISC_DIR32;
+ 	default:		return 0;
+ 	}
+ }
+@@ -492,9 +489,10 @@ static void process_dwarf(Dwarf *dwarf,
+ 
+ 			/*
+ 			 * In module mode, keep only .text addresses.
+-			 * In ET_REL .ko files, .init.text/.exit.text may
+-			 * overlap with .text address ranges, so we must
+-			 * explicitly check against the .text bounds.
++			 * In ET_REL .ko files, .text, .init.text and
++			 * .exit.text all have sh_addr == 0 and therefore
++			 * overlapping address ranges.  Explicitly check
++			 * against the .text bounds.
+ 			 */
+ 			if (module_mode && text_section_end > text_section_start &&
+ 			    (addr < text_section_start || addr >= text_section_end))
+--- a/scripts/Makefile~b
++++ a/scripts/Makefile
+@@ -5,7 +5,6 @@
+ 
+ hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
+ hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
+-hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
+ hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+ hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
+_
+
 
