@@ -1,111 +1,111 @@
-Return-Path: <linux-kbuild+bounces-12210-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12211-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKcELiW2wWlyUwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12210-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 22:52:37 +0100
+	id 0IF5IGC4wWm/UwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12211-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 23:02:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D582FDF4F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 22:52:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6562FE03B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 23:02:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0E2B53040025
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 21:52:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E0A5030C818C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 21:57:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9835A381AF6;
-	Mon, 23 Mar 2026 21:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80148381AFE;
+	Mon, 23 Mar 2026 21:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wWZ9n5NB"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DjlHRmO4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF55330650
-	for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 21:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B073815C7
+	for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 21:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774302754; cv=pass; b=gPv/YZwt3EYS1WuKLyg+vGLprlqOWm8C5NCQdqNv8VhBcYY8wTREyNUA/iI0i0UhZWlAm3lgKRyXAUP41HAxVLOWMRvpDrh1X3hXMk/ZX9orSV4Q4rEtuAOQSRJEoJGG5tH/vMcHWrpKlSnqWD+kN1d5kby1R+Xfyo3m6y2+PUI=
+	t=1774303031; cv=pass; b=jo2tGUR+iYIiPnxCC0xWgWlha5lmkuzuOvUkz+RyE+ZnMC5HtC/maalP/s1GkAJAy4AGikRG765QbO6NatxJ3S/5Gk9nfVNGFJeN33cTUnNkWU5iSCdK0vcLlofkf6ZD+qUphJh0S8I7TssiKiYaXN+1opkjfeVj41KzWZVYePs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774302754; c=relaxed/simple;
-	bh=sBpt4JBKJwVjXuMXplkOgOFupV3EsudH585P0A/BF6o=;
+	s=arc-20240116; t=1774303031; c=relaxed/simple;
+	bh=3HDKDC0lIjXTJkZf5wCHM5TLTGOaJOrpuDL9QRVrxN0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kvdlbnAx0LBmve8yOIpKQiVRmaOSIqiGOf5yZkN5DH1D6bELhAOTOQjrVdvXLC4A/B3od/EGgL9A6PERgkgzJqVtYq3WAs6Rqplh3uf5D68IrLSyKTZ6stz8xgaDJdBZTZLH2FdTpBvLlGWXKnbgOjpS3R7rkiu+KynAP0LLTFw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wWZ9n5NB; arc=pass smtp.client-ip=209.85.214.179
+	 To:Cc:Content-Type; b=dWm8IHuKSpLRRpc5i+pVVphD/RH9WNFdDk6DM2feT8X/R58MzdIH5/kamxokBcPo64YYjnBlsy9Wimk71XewDyT16wkduVK6aXJmV7ruw5Xx0DQwCjNMkMD6XchOVgRT3rpDqHbd5R8sXg06LdnS8hiXoqpjCIjy8ybWalnuyiw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DjlHRmO4; arc=pass smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2aeab6ff148so13795ad.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 14:52:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774302752; cv=none;
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b052ec7176so13315ad.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 14:57:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774303029; cv=none;
         d=google.com; s=arc-20240605;
-        b=BQTlmQDHuuimpNhk5LiwFFeZzYzaEyQbRQ3jV/599uxfA+Eq408IelI/dEKFA8BpIV
-         lzJHAZWhxxcBBY/kYwq+pUVTCmybRF/54TD+uO7pyJJBP0i1WC6jKgWdK0zbdSO/zqbN
-         +jeCeExeDYPnvtzEMUZbNT2F/QJT+M9gatCj2gYqniUpbcwhyy4fX9G0SkSezWKvk5ni
-         523cQ85VskKAqUSZLwe+S/vl03sTuaM+aAH/IAhfK8u1/H8gsK+dwVwIhmvcYR0XAuPE
-         dvR0y0tg0/zn3BzULQp191tK7WUFrmc5/FKTUqOL9xU9X1OzffwU4Vd1Q65idbhxPiwm
-         K8Yg==
+        b=aeVmikS6FUuszdpDfdRn6hQ/zOGsNDBLKjPPc+1qAYSjiAt0c3Ljoe8DrYrCgPh2hZ
+         BQ+BL6J2Cpfm1bIxKDmuws80gbAH1pSKneaCNG+BBk1ywV1G/jD0VhqD7l9rLI8cG+w1
+         MkL0FBywspGEGqKlWMJJBrt+3QjToWgt/MUC1VZFRvlOuCuZ98SFcWG98bTJOYAOB1uC
+         FQrd4zSTdlLZfFZoSXDGc8QwH6e6zquhfyM9TmrplxixM98cE1Uy99heT6KQ3h1NeIAu
+         vMWFrQNKINIyahgF8iZSxmp9ek8Ps7bknOYmPkC5cFzpVfr7Y6I81ta3LinSPcxXY7s5
+         IFAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=YmKAfG81GUfLojTL2WV0FfXjre1ys9QeKFFeiwGpR3k=;
-        fh=U3ciDx3ODPXOraY9Y9j0kRpT2qap6f8WsQuOZu7ajcs=;
-        b=QzpOc+4mz9WLdKZWUvLl7HUpbhmqSEik5vX9elt1PyrYTkglzDgaX2/N/Jfl1rKn7F
-         MF+nw9B9q4b9SwHpKDKFqaTcDfTPr0tEwttIfAfRNGwaaFi2w0RoT+28mLDsROqmSp0i
-         1Bf2aRfJv4aeBFfnY4k9UCPv7PAgvvx5CRY8/JIYh7Gc+jftYdDUC2tVt5tE8HLmNJSQ
-         7SJYjCWUTdm12N9DIrm3oR9iPI/6SlOF/Vo0L2rdKraKiivbsR0Sng4lhhUpcq75qI4v
-         a35ghicGJT5FbY41d19pX/NvE+VUg6HEVlnkrq8+Rc1lfv01ZjPBWP0uJPq610QQk2KA
-         a2/Q==;
+        bh=GPXQMzfpmnH00CqVoNsc4m4ItRTdzOmQSngWvXhXTrU=;
+        fh=S7KMRJqllm17jGq5Y5wicKnIU16Dl3E5z/jovVKUkYk=;
+        b=IJ5/nsydO40PknInncw6EvwBRiuNmjmnCcYoXPbi3Mi33alXLhQpIxTAE3CTP9Oy3K
+         ZzIFcw3B+9NNH3SjreRwxIbyNq4G7qPZ6gxAIWvlcHUkQpJzkyT/311uOIhPCDxu3c0N
+         ZV5KzGDpiM49oOcR4JwIob5M+FjsDz89XDaFGM83eSouBufGItO70CUfj6i4qKlCdmEj
+         PHCp8gCjri1L+yRx9KQznWPESFM6QUKuOB03hwvdlZ0zMhXuBaDlqjVGvApqkxaWG7oJ
+         0qyVdVBPkV4F+KsX9PQmKyCzHF45eocT/Rqao/qfnTCcnJ9rbrxLwx/DQK+cIOYr4W6w
+         ngIw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774302752; x=1774907552; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774303029; x=1774907829; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YmKAfG81GUfLojTL2WV0FfXjre1ys9QeKFFeiwGpR3k=;
-        b=wWZ9n5NBS/9RCgwHRU84wAit0QohoiXmzck4EmORp5UPYtEkCanBTWrcF6oya97kAm
-         CoODxVpD/jMmRZvpuu5PotLHvpunW+JpwcxFZQ3UwksEKZViQSYy4YSiddM+m/DDZSF4
-         R3wKVWoegqLyuWu9wjtgEJn35p7vo6DSVw5YNtNoqNDs553jlI19Da8Nr/RaY2FtVwfS
-         p0l+FbPuMJV6Xb6YAGxCMGADFd4M/0XNGju5Y02DFh7k6kq1YYATXMKZnEz97w7dfFwH
-         k46r1vi454I6pOWTxwMG1SQxr9XKIOTHbDmeT+eQtLfvESGLh6ncjTlx1XM1601Ni+0K
-         DJbg==
+        bh=GPXQMzfpmnH00CqVoNsc4m4ItRTdzOmQSngWvXhXTrU=;
+        b=DjlHRmO4Ok1xXyLmfTZMSJvZxrLD3ZblANZgK3fl0rav6lzSpSWK8Hlqa6kVK0cAvR
+         wvahYRsPIk617zjVP267eQ4XTiwM75eV4UdEs0xvjb4m84dcTV0Pp88NW32m3JRN3c0B
+         aj8k0Ecs+mNQxPUok5y/2+fRUsqIUZi7vC+MU3k2SdxkM/z0VXH6Cc6cpf82PxYxK5AE
+         gjfTi3Eaush+F1EUmCMBpRWxaL9thgHdWzvtIo5B1I/BxxdmyUzoJ3iLx5D9B2uw6rDN
+         1hfbI54sntlJl/JAI6arm2aYRDnEzz8WE2/pBWScek9jch52l/i/neir2rK0smFqYps3
+         m1Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774302752; x=1774907552;
+        d=1e100.net; s=20251104; t=1774303029; x=1774907829;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YmKAfG81GUfLojTL2WV0FfXjre1ys9QeKFFeiwGpR3k=;
-        b=GVV/IM69FM6E4g6IW777aibNFtwAvfZ/ZM73Mpno8ERAe/2OXNg3dwIQ/eAbulnRi6
-         PRKEtlh4QnkigPbGiU5BwRrJl7/+I4PiwyJQnypIzmdercZC9bkJaN+52brWw9feS0NS
-         imYxd0pey139e8VKZ7YO7Qh/xOzHCvquVTi41cVZFmbPUPijcsbJxn9LlEC9TmL2xXow
-         gW1siBKVOamCRlhSEtmjqxk/RRJCfCHwKMWUExHpG456hrZWY8NYVBJQYBaul9uvcWfX
-         yO58GvT1LwphM1VUQhc8Dl5AewSOpBFcJ9923iNRmTdfwj+NazKT0Jl1ypSQr4pmdblH
-         Jdvw==
-X-Forwarded-Encrypted: i=1; AJvYcCX4AiR3p4CwQcqtVqKWsGhdBRNq1K34U4O/kYb0qB6X7tXKvY4VMrwslAgs0fAFue6ENrF6XkioF7ZX34o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5KOmLM/cM/If/yIHn4wKFzg9cqgfET5aH6Q9hgn8OS4YD/Re/
-	fGoy3mHZ+v/2h2m3RoiPyYLjcKxwyvpwaVqZrwDbRALA4a/QV1bESKctUrMCR9LHC7kgszJavu9
-	/XMdTwJ/X7xbqZqTIM8dPm4x6jvzk5QrSYZxwKpvP
-X-Gm-Gg: ATEYQzzdHOoXdnDx0I9j9bTn9yzTqWtp2raR2TGL4BPtyRMSeGI6ShMjE7iBAqAtSlZ
-	GxeVKdmJSG9RRD7tPqNRb/uaneWjZO5XiKgxS9VGlp7WzaSmzzCzGRG03bvx2bP2Z+EsYGw/i65
-	QyW05EFM92qJI6T7Grea0IQAJMeAYKZWcwPNde3l/5DWO5lwDJhWmDDOKQpRC1+KFw69t5ylnBn
-	tQ4pWeSqa/01sAspKFsXC/NGSNcG5GJ33A6bbm+qK+BNxO0smUYP4azdi5dZtFFccVB2aYulx3e
-	LvvzDGcvuGR1W4VqH0zsqORfqUBFLcIs4Vb8cw==
-X-Received: by 2002:a17:903:166e:b0:2b0:5cc5:9405 with SMTP id
- d9443c01a7336-2b0a664d289mr425965ad.1.1774302751322; Mon, 23 Mar 2026
- 14:52:31 -0700 (PDT)
+        bh=GPXQMzfpmnH00CqVoNsc4m4ItRTdzOmQSngWvXhXTrU=;
+        b=HetEEEvJsoubG2/xjZOkFjd68WVDV3maOePeuca7ScYz15PtpCY/LLE5R7KnK5JvKW
+         xKfLeKDvbT/oFWCK66e31wYGBGB9k+MJB1xYSSBpRzNWRTsfiVpVYNDnMBTDms/0MHTB
+         o/r+fscjMujyfn2dsJ7e8qiF1GgUCZAn5sNfI7tymAjkCsA8BCpd5eifSEqo4ygGhgVu
+         dNhQBNZz0CbNPUO0kBV9W/OMqnYMVXVf3WeW4lxm/YX4H7T6fir3qjsw386UwDY8Nl9z
+         ffG5EkoquABTLzeBT9chVNeW+q+9jAbPnC5rafoLfPwzuz+wsvUpG6/AJsTXzyg9z2M/
+         cWZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHunCeuaprKhKapj71a/PpFyDgbTz5Gy5eDPevzi8ON/Ul8zzCWgeijqlHh/dSIteWn5czo5//gbZY3xs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6evtf+N26K7tvvyYYCJJLgZo9IlAi5d10KFsMsUDxgH33rgqb
+	vXRcD9AIVX3g/oknBRUKn25m1s7kZgt+ZEqQT2bwPxSSFKwN/8ycO54v0kaiwqDS1vJRxJFjqHh
+	V+Gks45KfrC7YY0cChGcQTlsDZJYONyzyTqa7Ubca
+X-Gm-Gg: ATEYQzx/+tmJBsIs8mH5lIMZb2TJsZOSt0gsQxZGa68mdZAJo1I7TED6XiV/zS12g/b
+	XrJU6MZM/nBgGBTOp7kZOhr6wtvQGyg85L/rcXo2yCEk7jjkM+eFIQmSHZQOdoDsVQfGXFk6Gpn
+	sipUS/bumTdzAgzQ09H36eoSRG2PTfX6p2mIlmQJpo1VkKlAgNfF5ZNnpYuJ6/OWqKnxsk2KJoq
+	Ns1c50ZXdM+XNxzLPr36bVtR7AVIyq0/GntbLJOyKkxth3hlf7Wx9cgXuuyy6QASbH5NHlSJ3FH
+	7RDvlgfOyGI3vyTDFsznDCbgWaoPFVziXUl6Eg==
+X-Received: by 2002:a17:903:120a:b0:2ad:6f9b:3b2e with SMTP id
+ d9443c01a7336-2b0a68b2e39mr495165ad.23.1774303027835; Mon, 23 Mar 2026
+ 14:57:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260323-tools_build_fix_zero_init-v6-0-235858c51af9@arm.com> <20260323-tools_build_fix_zero_init-v6-15-235858c51af9@arm.com>
-In-Reply-To: <20260323-tools_build_fix_zero_init-v6-15-235858c51af9@arm.com>
+References: <20260323-tools_build_fix_zero_init-v6-0-235858c51af9@arm.com>
+In-Reply-To: <20260323-tools_build_fix_zero_init-v6-0-235858c51af9@arm.com>
 From: Ian Rogers <irogers@google.com>
-Date: Mon, 23 Mar 2026 14:52:19 -0700
-X-Gm-Features: AaiRm50yylCAkONRByCnsK3y21H-MAkFVEhgsvCDA9ssNccOFZGUuoIYZZ9MJLg
-Message-ID: <CAP-5=fW9h2qJK5owk9WNohDTvkUX=Of__nunBsRpjrq6VXT8eQ@mail.gmail.com>
-Subject: Re: [PATCH v6 15/24] tools: objtool: Append extra host cflags
+Date: Mon, 23 Mar 2026 14:56:56 -0700
+X-Gm-Features: AaiRm53Mbi7zqSsMY0cu3Z1F6OSpsSyLgKtXFt41Q7y5VHPGKQjwCjs0jV7idMM
+Message-ID: <CAP-5=fWzqV6fSr1XX9azDKkvu=a3C4k3qDYFFcKh0MpPYK8tUA@mail.gmail.com>
+Subject: Re: [PATCH v6 00/24] tools build: Append -fzero-init-padding-bits=all option
 To: Leo Yan <leo.yan@arm.com>
 Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
 	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
@@ -136,106 +136,189 @@ Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.or
 	Changwoo Min <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>, 
 	Steven Rostedt <rostedt@goodmis.org>, Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, 
 	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,google.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-12210-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,google.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org,oss.qualcomm.com];
+	TAGGED_FROM(0.00)[bounces-12211-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[67];
+	RCPT_COUNT_GT_50(0.00)[69];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[irogers@google.com,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,arm.com:email,sashiko.dev:url]
-X-Rspamd-Queue-Id: 35D582FDF4F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:email,mail.gmail.com:mid,sashiko.dev:url,gnu.org:url]
+X-Rspamd-Queue-Id: DD6562FE03B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 23, 2026 at 8:15=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
+On Mon, Mar 23, 2026 at 8:13=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
 >
-> Append HOST_EXTRACFLAGS to HOSTCFLAGS so that additional flags can be
-> applied to the host compiler.
+> GCC-15 doesn't guarantee that a {0} initializer clears the whole union [1=
+].
+> This may cause bugs if data is not intialized properly.
 >
-> Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
+> The kernel enabld the -fzero-init-padding-bits=3Dall option to tackle the
+> issue, which was merged in commit dce4aab8441d ("kbuild: Use
+> -fzero-init-padding-bits=3Dall").
+>
+> This series propagates the same flag to the tools build.  It uses
+> tools/scripts/Makefile.include as the central place to add the
+> option to EXTRA_CFLAGS and HOST_EXTRACFLAGS for the CC and HOSTCC
+> compilers.  Each project under tools/ appends the variables as needed.
+>
+> BPF/bpftool related patches will be sent separately, as maintainers
+> prefer them to go via the BPF tree.
+>
+> The changes are organized into three parts:
+>
+>   Patches 01 =E2=80=93 04: Fixes for thermal build.
+>   Patch 05:        Propagate -fzero-init-padding-bits=3Dall to
+>                    EXTRA_CFLAGS and HOST_EXTRACFLAGS for the
+>                    CC and HOSTCC compilers, respectively.
+>   Patches 06 =E2=80=93 24: Apply EXTRA_CFLAGS and HOST_EXTRACFLAGS in
+>                    project Makefiles.
+>
+> The change has been verified:
+>
+> Test 1: Cross compiling perf
+>         host: gcc 15.2.0 (x86_64), target: aarch64-linux-gnu-gcc
+>
+>   make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu- LDFLAGS=3D"-static=
+" \
+>             -C tools/perf VF=3D1 CORESIGHT=3D1 NO_JEVENTS=3D1 DEBUG=3D1
+>
+> Test 2: Cross compiling selftest bpf and sched_ext
+>         host: gcc 15.2.0 (x86_64), target: aarch64-linux-gnu-gcc
+>
+>   export ARCH=3Darm64
+>   export CROSS_COMPILE=3Daarch64-linux-gnu-
+>   make -C tools/testing/selftests/ TARGETS=3D"bpf sched_ext" SKIP_TARGETS=
+=3D""
+>
+> Test 3: Native compiling selftest bpf and sched_ext
+>         host: gcc 15.2.0 (x86_64)
+>
+>   make -C tools/testing/selftests/ TARGETS=3D"bpf sched_ext" SKIP_TARGETS=
+=3D""
+>
+> Test 4: BPF CI test (with BPF patches sent separately)
+>
+>   https://github.com/kernel-patches/bpf/actions/runs/23439834394
+>
+> [1] https://gcc.gnu.org/gcc-15/changes.html
+>
 > Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->  tools/objtool/Makefile | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
-> index b71d1886022e9b3d9fde52bf73bd502aa20d173e..a41fb2a46217bb14fcd8d0941=
-c99d102945c3f2d 100644
-> --- a/tools/objtool/Makefile
-> +++ b/tools/objtool/Makefile
-> @@ -60,6 +60,8 @@ INCLUDES :=3D -I$(srctree)/tools/include \
->             -I$(srctree)/tools/objtool/arch/$(SRCARCH)/include \
->             -I$(LIBSUBCMD_OUTPUT)/include
->
-> +HOSTCFLAGS      +=3D $(HOST_EXTRACFLAGS)
 
-Sashiko noted here (sharing just for common information, not because I
-feel this is necessarily making thigs worse) that:
+Acked-by: Ian Rogers <irogers@google.com>
+
+At some point the AI reviews appear to be increasingly off in the
+weeds. I believe the nolibc stuff, read-only file system things, etc.
+in:
 https://sashiko.dev/#/patchset/20260323-tools_build_fix_zero_init-v6-0-2358=
 58c51af9%40arm.com
-
-Will this late addition of HOST_EXTRACFLAGS cause a regression by missing t=
-he
-feature detection checks that run earlier in the Makefile?
-
-The HAVE_XXHASH feature check uses HOSTCFLAGS inside a shell command:
-
-ifeq ($(ARCH_HAS_KLP),y)
-  HAVE_XXHASH =3D $(shell printf "$(pound)include
-<xxhash.h>\nXXH3_state_t *state;int main() {}" | \
-    $(HOSTCC) $(HOSTCFLAGS) -xc - -o /dev/null -lxxhash 2> /dev/null
-&& echo y || echo n)
-  ifeq ($(HAVE_XXHASH),y)
-
-Because this check is evaluated immediately by the ifeq ($(HAVE_XXHASH),y)
-conditional, the shell command executes during the Makefile parsing phase.
-
-Since HOST_EXTRACFLAGS is appended here after the feature checks, the earli=
-er
-tests will run without these extra flags. If a user provides necessary incl=
-ude
-paths via HOST_EXTRACFLAGS to locate xxhash.h, the feature test will fail a=
-nd
-silently disable Kernel Live Patching (BUILD_KLP) support.
-
-Could HOSTCFLAGS be updated earlier in the Makefile, before the feature che=
-cks
-are evaluated?
+are not a major concern. Thanks for humoring them, they were able to
+consider a far wider impact than I could from a snippet of Makefile.
 
 Thanks,
 Ian
 
-> +
->  OBJTOOL_CFLAGS  :=3D -std=3Dgnu11 -fomit-frame-pointer -O2 -g $(WARNINGS=
-)  \
->                    $(INCLUDES) $(LIBELF_FLAGS) $(LIBXXHASH_CFLAGS) $(HOST=
-CFLAGS)
+> ---
+> Changes in v6:
+> - Gathered Acked tags (thanks Jonathan!)
+> - Left out bpftool patches and will send together with other BPF patches =
+(Quentin)
+> - Added back complete info in cover (Peter.Z)
+> - Link to v5: https://lore.kernel.org/r/20260318-tools_build_fix_zero_ini=
+t-v5-0-bbeffd8da199@arm.com
 >
+> Changes in v5:
+> - Gathered Acked tags (thanks Daniel, Namhyung, Benjamin!)
+> - Appended HOST_EXTRACFLAGS after KBUILD_HOSTCFLAGS (Ian)
+> - Appended CFLAGS for libc-test (Thomas)
+> - Left out BPF patches and will send out separately (Alexei)
+> - Rebase on v7.0.0-rc4
+> - Link to v4: https://lore.kernel.org/r/20260311-tools_build_fix_zero_ini=
+t-v4-0-9e35bdb99cb3@arm.com
 >
+> ---
+> Leo Yan (24):
+>       tools: lib: thermal: Fix typo
+>       tools/thermal: Fix typo
+>       tools: lib: thermal: Initialize CFLAGS before including Makefile.in=
+clude
+>       tools/thermal: Initialize CFLAGS before including Makefile.include
+>       tools build: Append -fzero-init-padding-bits=3Dall to extra cflags
+>       perf build: Append extra host flags
+>       tools build: Append extra host cflags
+>       tools: bootconfig: Append extra cflags
+>       tools: counter: Append extra cflags
+>       tools: dma: Append extra cflags
+>       tools: gpio: Append extra cflags
+>       tools: hv: Append extra cflags
+>       tools: iio: Append extra cflags
+>       tools: mm: Append extra cflags
+>       tools: objtool: Append extra host cflags
+>       tools: power: acpi: Append extra cflags
+>       tools: power: x86/intel-speed-select: Append extra cflags
+>       tools: sched_ext: Append extra cflags
+>       tools: spi: Append extra cflags
+>       tools: tracing: Append extra cflags
+>       tools: usb: Append extra cflags
+>       selftests/hid: Append extra cflags
+>       selftests/nolibc: Append extra cflags
+>       selftests/sched_ext: Append extra cflags
+>
+>  tools/bootconfig/Makefile                   |  1 +
+>  tools/build/Makefile                        |  6 ++++--
+>  tools/counter/Makefile                      |  1 +
+>  tools/dma/Makefile                          |  1 +
+>  tools/gpio/Makefile                         |  1 +
+>  tools/hv/Makefile                           |  1 +
+>  tools/iio/Makefile                          |  1 +
+>  tools/lib/thermal/Makefile                  | 20 ++++++++++---------
+>  tools/mm/Makefile                           |  1 +
+>  tools/objtool/Makefile                      |  2 ++
+>  tools/perf/Makefile.config                  |  2 +-
+>  tools/power/acpi/Makefile.config            |  1 +
+>  tools/power/x86/intel-speed-select/Makefile |  1 +
+>  tools/sched_ext/Makefile                    |  1 +
+>  tools/scripts/Makefile.include              | 30 +++++++++++++++++++++++=
+++++++
+>  tools/spi/Makefile                          |  1 +
+>  tools/testing/selftests/hid/Makefile        |  1 +
+>  tools/testing/selftests/nolibc/Makefile     |  7 +++----
+>  tools/testing/selftests/sched_ext/Makefile  |  1 +
+>  tools/thermal/lib/Makefile                  | 20 ++++++++++---------
+>  tools/tracing/latency/Makefile              |  1 +
+>  tools/usb/Makefile                          |  1 +
+>  22 files changed, 77 insertions(+), 25 deletions(-)
+> ---
+> base-commit: bfec8e88ff6022b056615ec71506703e7e54de82
+> change-id: 20260224-tools_build_fix_zero_init-dc5261bd8b8b
+>
+> Best regards,
 > --
-> 2.34.1
+> Leo Yan <leo.yan@arm.com>
 >
 
