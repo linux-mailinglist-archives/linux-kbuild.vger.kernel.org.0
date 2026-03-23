@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-12181-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12182-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yLgvLMRfwWmHSgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12181-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 16:44:04 +0100
+	id cEdWGnpwwWkQTQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12182-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 17:55:22 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6CB2F6CA2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 16:44:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DCD2F91A1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 17:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6AD203156E86
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 15:19:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 866BB34A19CB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 15:20:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994E53BD22B;
-	Mon, 23 Mar 2026 15:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F9583BD62F;
+	Mon, 23 Mar 2026 15:14:51 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83A83BC69A;
-	Mon, 23 Mar 2026 15:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A6D3B47E6;
+	Mon, 23 Mar 2026 15:14:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774278882; cv=none; b=i3agjAjouAzO4FVPUyrGfo4Pz/wYeCNlDLmFcw7CeOAwdQ8wM9TwKop6qESIORA+2sdp5DN4cy0vFgjC3OHzba5sVmB6tee5K109K4aud2g5+IWIOYljWZ1taJzGlNNIEOZfPcopp4B67z/xL1y0a3K+TFAm+MojpaFs3RDTw08=
+	t=1774278891; cv=none; b=peQFuSykKr+7GJgmuK4hi+A/1wMkQIB8Lfjv0j4Jwyqzvj4PIqDNkzTjmlm5uCP3UQ3IcY/bNgXp+sfBnIoCuNNHduJxKlPKEbepMMx1u6oyO8VrOBTW7BLtZeGr6wzIbrwc6SmyxywVljIsumfsJHupxUfYAqbNyrA7y6/n7W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774278882; c=relaxed/simple;
-	bh=G2cI6gno4ym5dTpFGJCwLPZT6MUzcUe+/hvBAAojmWk=;
+	s=arc-20240116; t=1774278891; c=relaxed/simple;
+	bh=k31Kk/i0K4ZvTRnARLSwM6pAc2QmOSVp+PsTzUqEpMA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H9yuov2MkYQzP32KmK2YvEETPcWyPxJ2yByqg3mvMxQC9KlXrdvq7ysXsjG1P7c8zFlMuXIo31+9XlHABUQeF0+tBbhgF4JSkh2IVgJJ59VEQzmIKi2D4liABwvy/ZdWEH2utx3BBUks+PCsY39rkrpGqY4zJf6zzpGobvRNRG0=
+	 In-Reply-To:To:Cc; b=VNNvEDmOF1SH9gXUmFGA1mLXBKuFa8Q4jrx2vr/YXOSYL6BPkYgZStZCUWLbX/TMP4s5Q7sKkRsD62Y9eScyBaHWvBmD2HEOpcYRD8715KSXQQ+fIk6XiICzzlhE6jV8hZuH23X0rC1bVZ/FeFUIYhoatsbsGBskrz7yZhmIoEE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52B44169C;
-	Mon, 23 Mar 2026 08:14:34 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C5A20169E;
+	Mon, 23 Mar 2026 08:14:41 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155923F694;
-	Mon, 23 Mar 2026 08:14:32 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89E163F694;
+	Mon, 23 Mar 2026 08:14:40 -0700 (PDT)
 From: Leo Yan <leo.yan@arm.com>
-Date: Mon, 23 Mar 2026 15:13:28 +0000
-Subject: [PATCH v6 07/24] tools build: Append extra host cflags
+Date: Mon, 23 Mar 2026 15:13:29 +0000
+Subject: [PATCH v6 08/24] tools: bootconfig: Append extra cflags
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260323-tools_build_fix_zero_init-v6-7-235858c51af9@arm.com>
+Message-Id: <20260323-tools_build_fix_zero_init-v6-8-235858c51af9@arm.com>
 References: <20260323-tools_build_fix_zero_init-v6-0-235858c51af9@arm.com>
 In-Reply-To: <20260323-tools_build_fix_zero_init-v6-0-235858c51af9@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -92,27 +92,27 @@ To: Arnaldo Carvalho de Melo <acme@kernel.org>,
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-perf-users@vger.kernel.org, Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774278819; l=1108;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774278819; l=793;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=G2cI6gno4ym5dTpFGJCwLPZT6MUzcUe+/hvBAAojmWk=;
- b=5QKebDBeAZ/pc2accguDTj5Sfm0RY13rOKw4uq6t7UVkkEvooa460dzl2DMYhTZBmGqvxqe28
- x4ISV3PEB4oCUXW8jVN5Y4pPA1urohAOAaiBQAL1Z+j+lBN3vyXF1s6
+ bh=k31Kk/i0K4ZvTRnARLSwM6pAc2QmOSVp+PsTzUqEpMA=;
+ b=Qxb4b3llxk7sNKxlk/t16DkoxFOqQI3hmIGKJxRiyaB6Nnn+vNZnmeXLXu1rvK+gRy/hUhEiE
+ 1mOZH/W4Ei0BSMCg7EG2P/pMrIcJ2Eg2XuQdCvq8uOBxG0Qftser+uT
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
 X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
-	TAGGED_FROM(0.00)[bounces-12181-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12182-lists,linux-kbuild=lfdr.de];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
@@ -125,41 +125,31 @@ X-Spamd-Result: default: False [0.14 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 2B6CB2F6CA2
+X-Rspamd-Queue-Id: E9DCD2F91A1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Append HOST_EXTRACFLAGS to HOSTCFLAGS so that additional flags can be
-applied to the host compiler.
+Append EXTRA_CFLAGS to CFLAGS so that additional flags can be applied to
+the compiler.
 
+Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/build/Makefile | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ tools/bootconfig/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/build/Makefile b/tools/build/Makefile
-index 3a5a3808ab2a1dedd40f35ea322913e8a0788130..44e50a7c182484e18ff80f4205c49a77e8c8abd9 100644
---- a/tools/build/Makefile
-+++ b/tools/build/Makefile
-@@ -40,14 +40,16 @@ endif
- FIXDEP		:= $(OUTPUT)fixdep
- FIXDEP_IN	:= $(OUTPUT)fixdep-in.o
+diff --git a/tools/bootconfig/Makefile b/tools/bootconfig/Makefile
+index 90eb47c9d8de67b0ccc74a8de0af3a7e0b97feeb..4490df707585acf356153b78cb87760f622a6190 100644
+--- a/tools/bootconfig/Makefile
++++ b/tools/bootconfig/Makefile
+@@ -11,6 +11,7 @@ endif
  
-+HOSTCFLAGS	:= $(KBUILD_HOSTCFLAGS) $(HOST_EXTRACFLAGS)
-+
- # To track fixdep's dependencies properly, fixdep needs to run on itself.
- # Build it twice the first time.
- $(FIXDEP_IN): FORCE
- 	$(Q)if [ ! -f $(FIXDEP) ]; then						\
--		$(MAKE) $(build)=fixdep HOSTCFLAGS="$(KBUILD_HOSTCFLAGS)";	\
-+		$(MAKE) $(build)=fixdep HOSTCFLAGS="$(HOSTCFLAGS)";		\
- 		rm -f $(FIXDEP).o;						\
- 	fi
--	$(Q)$(MAKE) $(build)=fixdep HOSTCFLAGS="$(KBUILD_HOSTCFLAGS)"
-+	$(Q)$(MAKE) $(build)=fixdep HOSTCFLAGS="$(HOSTCFLAGS)"
+ LIBSRC = $(srctree)/lib/bootconfig.c $(srctree)/include/linux/bootconfig.h
+ override CFLAGS += -Wall -g -I$(CURDIR)/include
++override CFLAGS += $(EXTRA_CFLAGS)
  
- 
- $(FIXDEP): $(FIXDEP_IN)
+ ALL_TARGETS := bootconfig
+ ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
 
 -- 
 2.34.1
