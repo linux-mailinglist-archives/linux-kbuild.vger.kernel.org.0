@@ -1,266 +1,241 @@
-Return-Path: <linux-kbuild+bounces-12209-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12210-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mGlwLv2ZwWlNUAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12209-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 20:52:29 +0100
+	id qKcELiW2wWlyUwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12210-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 22:52:37 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF7E2FCA41
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 20:52:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D582FDF4F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 22:52:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B5FB315BF55
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 19:26:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0E2B53040025
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2026 21:52:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 503A339446F;
-	Mon, 23 Mar 2026 19:25:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9835A381AF6;
+	Mon, 23 Mar 2026 21:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="f4tkw1r7"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wWZ9n5NB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4B435AC05;
-	Mon, 23 Mar 2026 19:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774293959; cv=none; b=XNpQ8xrXGsD4E+SW56ExdJlw5mPH8+bX9b8LqoiO+/tQO2uAABTQGHmxv8OYZjGylRUjP0PfXeiQE3KPg8aV4IX6VDaqg3JpLj4e0X+ujWw+QcYHBDpbxwRB7LNC81rdhaJedrdrtWqmbpqTsHDiVxmDS4LP1aUo/VzZn45KqHQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774293959; c=relaxed/simple;
-	bh=pRVwcjWbGZOMkMxCgyb3wrPsEMkf/bME02y11ek+PBY=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=kkEK+jDLmwM9bJ1I5fRaSWdjo7NFvwLROpn2V784Z6uA2sv6aasjni9nohECvAu2qDY+nlK+pF+uFGihvZfNY9Lqu6qawrG2nlheSccekVIpG702mpJFAPbq2EXDHDeAd4ogJVaYdpqHyeFMFf8SzS98562RMGhE/Pco3a+5Q7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=f4tkw1r7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F156EC4CEF7;
-	Mon, 23 Mar 2026 19:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774293958;
-	bh=pRVwcjWbGZOMkMxCgyb3wrPsEMkf/bME02y11ek+PBY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=f4tkw1r7yCmiIt3fIzSU21Bfp5TOVStZzHX6uyHlxTKAvxTTD2+o9fSiS7kBmu9gG
-	 airEsJ4osNi/vKFGX/JVHen33a1O9MJgHfmS8piqFGL8JXf8bywLfK1W16lFbnip6h
-	 mtpENkWsVlgrn9HCAqyv5vQKDdeCjtPLsOEGsjcw=
-Date: Mon, 23 Mar 2026 12:25:57 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
- Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>, Geert
- Uytterhoeven <geert@linux-m68k.org>, James Bottomley
- <James.Bottomley@HansenPartnership.com>, Jonathan Corbet <corbet@lwn.net>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Greg
- KH <gregkh@linuxfoundation.org>, Petr Mladek <pmladek@suse.com>, Steven
- Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil
- Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>, Randy Dunlap
- <rdunlap@infradead.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Vivian Wang <wangruikang@iscas.ac.cn>,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] kallsyms: embed source file:line info in kernel
- stack traces
-Message-Id: <20260323122557.3e0ef47671a0eea7c3d89253@linux-foundation.org>
-In-Reply-To: <20260322131543.971079-1-sashal@kernel.org>
-References: <20260322131543.971079-1-sashal@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF55330650
+	for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 21:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774302754; cv=pass; b=gPv/YZwt3EYS1WuKLyg+vGLprlqOWm8C5NCQdqNv8VhBcYY8wTREyNUA/iI0i0UhZWlAm3lgKRyXAUP41HAxVLOWMRvpDrh1X3hXMk/ZX9orSV4Q4rEtuAOQSRJEoJGG5tH/vMcHWrpKlSnqWD+kN1d5kby1R+Xfyo3m6y2+PUI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774302754; c=relaxed/simple;
+	bh=sBpt4JBKJwVjXuMXplkOgOFupV3EsudH585P0A/BF6o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kvdlbnAx0LBmve8yOIpKQiVRmaOSIqiGOf5yZkN5DH1D6bELhAOTOQjrVdvXLC4A/B3od/EGgL9A6PERgkgzJqVtYq3WAs6Rqplh3uf5D68IrLSyKTZ6stz8xgaDJdBZTZLH2FdTpBvLlGWXKnbgOjpS3R7rkiu+KynAP0LLTFw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wWZ9n5NB; arc=pass smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2aeab6ff148so13795ad.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Mar 2026 14:52:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774302752; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BQTlmQDHuuimpNhk5LiwFFeZzYzaEyQbRQ3jV/599uxfA+Eq408IelI/dEKFA8BpIV
+         lzJHAZWhxxcBBY/kYwq+pUVTCmybRF/54TD+uO7pyJJBP0i1WC6jKgWdK0zbdSO/zqbN
+         +jeCeExeDYPnvtzEMUZbNT2F/QJT+M9gatCj2gYqniUpbcwhyy4fX9G0SkSezWKvk5ni
+         523cQ85VskKAqUSZLwe+S/vl03sTuaM+aAH/IAhfK8u1/H8gsK+dwVwIhmvcYR0XAuPE
+         dvR0y0tg0/zn3BzULQp191tK7WUFrmc5/FKTUqOL9xU9X1OzffwU4Vd1Q65idbhxPiwm
+         K8Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YmKAfG81GUfLojTL2WV0FfXjre1ys9QeKFFeiwGpR3k=;
+        fh=U3ciDx3ODPXOraY9Y9j0kRpT2qap6f8WsQuOZu7ajcs=;
+        b=QzpOc+4mz9WLdKZWUvLl7HUpbhmqSEik5vX9elt1PyrYTkglzDgaX2/N/Jfl1rKn7F
+         MF+nw9B9q4b9SwHpKDKFqaTcDfTPr0tEwttIfAfRNGwaaFi2w0RoT+28mLDsROqmSp0i
+         1Bf2aRfJv4aeBFfnY4k9UCPv7PAgvvx5CRY8/JIYh7Gc+jftYdDUC2tVt5tE8HLmNJSQ
+         7SJYjCWUTdm12N9DIrm3oR9iPI/6SlOF/Vo0L2rdKraKiivbsR0Sng4lhhUpcq75qI4v
+         a35ghicGJT5FbY41d19pX/NvE+VUg6HEVlnkrq8+Rc1lfv01ZjPBWP0uJPq610QQk2KA
+         a2/Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774302752; x=1774907552; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YmKAfG81GUfLojTL2WV0FfXjre1ys9QeKFFeiwGpR3k=;
+        b=wWZ9n5NBS/9RCgwHRU84wAit0QohoiXmzck4EmORp5UPYtEkCanBTWrcF6oya97kAm
+         CoODxVpD/jMmRZvpuu5PotLHvpunW+JpwcxFZQ3UwksEKZViQSYy4YSiddM+m/DDZSF4
+         R3wKVWoegqLyuWu9wjtgEJn35p7vo6DSVw5YNtNoqNDs553jlI19Da8Nr/RaY2FtVwfS
+         p0l+FbPuMJV6Xb6YAGxCMGADFd4M/0XNGju5Y02DFh7k6kq1YYATXMKZnEz97w7dfFwH
+         k46r1vi454I6pOWTxwMG1SQxr9XKIOTHbDmeT+eQtLfvESGLh6ncjTlx1XM1601Ni+0K
+         DJbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774302752; x=1774907552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YmKAfG81GUfLojTL2WV0FfXjre1ys9QeKFFeiwGpR3k=;
+        b=GVV/IM69FM6E4g6IW777aibNFtwAvfZ/ZM73Mpno8ERAe/2OXNg3dwIQ/eAbulnRi6
+         PRKEtlh4QnkigPbGiU5BwRrJl7/+I4PiwyJQnypIzmdercZC9bkJaN+52brWw9feS0NS
+         imYxd0pey139e8VKZ7YO7Qh/xOzHCvquVTi41cVZFmbPUPijcsbJxn9LlEC9TmL2xXow
+         gW1siBKVOamCRlhSEtmjqxk/RRJCfCHwKMWUExHpG456hrZWY8NYVBJQYBaul9uvcWfX
+         yO58GvT1LwphM1VUQhc8Dl5AewSOpBFcJ9923iNRmTdfwj+NazKT0Jl1ypSQr4pmdblH
+         Jdvw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4AiR3p4CwQcqtVqKWsGhdBRNq1K34U4O/kYb0qB6X7tXKvY4VMrwslAgs0fAFue6ENrF6XkioF7ZX34o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5KOmLM/cM/If/yIHn4wKFzg9cqgfET5aH6Q9hgn8OS4YD/Re/
+	fGoy3mHZ+v/2h2m3RoiPyYLjcKxwyvpwaVqZrwDbRALA4a/QV1bESKctUrMCR9LHC7kgszJavu9
+	/XMdTwJ/X7xbqZqTIM8dPm4x6jvzk5QrSYZxwKpvP
+X-Gm-Gg: ATEYQzzdHOoXdnDx0I9j9bTn9yzTqWtp2raR2TGL4BPtyRMSeGI6ShMjE7iBAqAtSlZ
+	GxeVKdmJSG9RRD7tPqNRb/uaneWjZO5XiKgxS9VGlp7WzaSmzzCzGRG03bvx2bP2Z+EsYGw/i65
+	QyW05EFM92qJI6T7Grea0IQAJMeAYKZWcwPNde3l/5DWO5lwDJhWmDDOKQpRC1+KFw69t5ylnBn
+	tQ4pWeSqa/01sAspKFsXC/NGSNcG5GJ33A6bbm+qK+BNxO0smUYP4azdi5dZtFFccVB2aYulx3e
+	LvvzDGcvuGR1W4VqH0zsqORfqUBFLcIs4Vb8cw==
+X-Received: by 2002:a17:903:166e:b0:2b0:5cc5:9405 with SMTP id
+ d9443c01a7336-2b0a664d289mr425965ad.1.1774302751322; Mon, 23 Mar 2026
+ 14:52:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
+MIME-Version: 1.0
+References: <20260323-tools_build_fix_zero_init-v6-0-235858c51af9@arm.com> <20260323-tools_build_fix_zero_init-v6-15-235858c51af9@arm.com>
+In-Reply-To: <20260323-tools_build_fix_zero_init-v6-15-235858c51af9@arm.com>
+From: Ian Rogers <irogers@google.com>
+Date: Mon, 23 Mar 2026 14:52:19 -0700
+X-Gm-Features: AaiRm50yylCAkONRByCnsK3y21H-MAkFVEhgsvCDA9ssNccOFZGUuoIYZZ9MJLg
+Message-ID: <CAP-5=fW9h2qJK5owk9WNohDTvkUX=Of__nunBsRpjrq6VXT8eQ@mail.gmail.com>
+Subject: Re: [PATCH v6 15/24] tools: objtool: Append extra host cflags
+To: Leo Yan <leo.yan@arm.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
+	Quentin Monnet <qmo@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, Qinxin Xia <xiaqinxin@huawei.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Kent Gibson <warthog618@gmail.com>, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>, 
+	Len Brown <lenb@kernel.org>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>, Andrea Righi <arighi@nvidia.com>, 
+	Changwoo Min <changwoo@igalia.com>, Mark Brown <broonie@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,google.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12210-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12209-lists,linux-kbuild=lfdr.de];
-	DMARC_NA(0.00)[linux-foundation.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,nod.at,suse.com,linux-m68k.org,HansenPartnership.com,lwn.net,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,gmx.de,ideasonboard.com,iscas.ac.cn,vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[67];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
+	FROM_NEQ_ENVFROM(0.00)[irogers@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3DF7E2FCA41
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,arm.com:email,sashiko.dev:url]
+X-Rspamd-Queue-Id: 35D582FDF4F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, 22 Mar 2026 09:15:39 -0400 Sasha Levin <sashal@kernel.org> wrote:
+On Mon, Mar 23, 2026 at 8:15=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
+>
+> Append HOST_EXTRACFLAGS to HOSTCFLAGS so that additional flags can be
+> applied to the host compiler.
+>
+> Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>  tools/objtool/Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
+> index b71d1886022e9b3d9fde52bf73bd502aa20d173e..a41fb2a46217bb14fcd8d0941=
+c99d102945c3f2d 100644
+> --- a/tools/objtool/Makefile
+> +++ b/tools/objtool/Makefile
+> @@ -60,6 +60,8 @@ INCLUDES :=3D -I$(srctree)/tools/include \
+>             -I$(srctree)/tools/objtool/arch/$(SRCARCH)/include \
+>             -I$(LIBSUBCMD_OUTPUT)/include
+>
+> +HOSTCFLAGS      +=3D $(HOST_EXTRACFLAGS)
 
-> This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
-> information directly in the kernel image so that stack traces annotate
-> every frame with the originating source location - no external tools, no
-> debug symbols at runtime, and safe to use in NMI/panic context.
+Sashiko noted here (sharing just for common information, not because I
+feel this is necessarily making thigs worse) that:
+https://sashiko.dev/#/patchset/20260323-tools_build_fix_zero_init-v6-0-2358=
+58c51af9%40arm.com
 
-Thanks, I've updated mm.git's mm-nonmm-unstable branch to this version.
+Will this late addition of HOST_EXTRACFLAGS cause a regression by missing t=
+he
+feature detection checks that run earlier in the Makefile?
 
-> Changes since v3
-> =================
-> 
-> - Remove redundant gen_lineinfo entry in scripts/Makefile for
->   CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
->   which already builds it). (Reported by Petr Pavlu)
-> 
-> - Use R_* constants from <elf.h> instead of hardcoded relocation type
->   values in r_type_abs32(). (Reported by Petr Pavlu)
-> 
-> - Simplify duplicated-path detection in make_relative(): replace loop
->   over every '/' with a direct midpoint check, since true path
->   duplication always splits at len/2. (Suggested by Petr Pavlu)
-> 
-> - Fix comment in process_dwarf(): sections in ET_REL objects have
->   sh_addr == 0 and therefore overlapping address ranges; this is
->   expected behavior, not a "may" situation. (Reported by Petr Pavlu)
-> 
-> - Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
->   check, matching the u32 type of the addrs array.
->   (Reported by Petr Pavlu)
-> 
-> - Document the assumption that .text is at the start of the MOD_TEXT
->   segment in module_lookup_lineinfo(). A proper fix using ELF
->   relocations is planned for a future series.
->   (Reported by Petr Pavlu)
-> 
-> - Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
->   clang compatibility. Clang does not support this GCC-specific flag;
->   the noinline attribute is sufficient.
+The HAVE_XXHASH feature check uses HOSTCFLAGS inside a shell command:
 
-Here's how v3 altered mm.git:
+ifeq ($(ARCH_HAS_KLP),y)
+  HAVE_XXHASH =3D $(shell printf "$(pound)include
+<xxhash.h>\nXXH3_state_t *state;int main() {}" | \
+    $(HOSTCC) $(HOSTCFLAGS) -xc - -o /dev/null -lxxhash 2> /dev/null
+&& echo y || echo n)
+  ifeq ($(HAVE_XXHASH),y)
 
+Because this check is evaluated immediately by the ifeq ($(HAVE_XXHASH),y)
+conditional, the shell command executes during the Makefile parsing phase.
 
- kernel/module/kallsyms.c |    8 +++++--
- lib/tests/Makefile       |    2 -
- scripts/Makefile         |    1 
- scripts/gen_lineinfo.c   |   40 +++++++++++++++++--------------------
- 4 files changed, 26 insertions(+), 25 deletions(-)
+Since HOST_EXTRACFLAGS is appended here after the feature checks, the earli=
+er
+tests will run without these extra flags. If a user provides necessary incl=
+ude
+paths via HOST_EXTRACFLAGS to locate xxhash.h, the feature test will fail a=
+nd
+silently disable Kernel Live Patching (BUILD_KLP) support.
 
---- a/kernel/module/kallsyms.c~b
-+++ a/kernel/module/kallsyms.c
-@@ -547,13 +547,17 @@ bool module_lookup_lineinfo(struct modul
- 	if (hdr->files_size < hdr->num_files * sizeof(u32))
- 		return false;
- 
--	/* Compute offset from module .text base */
-+	/*
-+	 * Compute offset from module .text base.
-+	 * NOTE: This assumes .text is at the start of the MOD_TEXT segment.
-+	 * A proper fix would use ELF relocations to reference .text directly.
-+	 */
- 	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
- 	if (addr < text_base)
- 		return false;
- 
- 	raw_offset = addr - text_base;
--	if (raw_offset > UINT_MAX)
-+	if (raw_offset > U32_MAX)
- 		return false;
- 
- 	tbl.blk_addrs	= base + hdr->blocks_offset;
---- a/lib/tests/Makefile~b
-+++ a/lib/tests/Makefile
-@@ -36,7 +36,7 @@ obj-$(CONFIG_LIVEUPDATE_TEST) += liveupd
- CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
- obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
- 
--CFLAGS_lineinfo_kunit.o += -fno-inline-functions-called-once
-+CFLAGS_lineinfo_kunit.o += $(call cc-option,-fno-inline-functions-called-once)
- obj-$(CONFIG_LINEINFO_KUNIT_TEST) += lineinfo_kunit.o
- 
- obj-$(CONFIG_MEMCPY_KUNIT_TEST) += memcpy_kunit.o
---- a/scripts/gen_lineinfo.c~b
-+++ a/scripts/gen_lineinfo.c
-@@ -206,14 +206,11 @@ static const char *make_relative(const c
- 	 */
- 	{
- 		size_t len = strlen(path);
-+		size_t mid = len / 2;
- 
--		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
--			size_t prefix = p - path;
--			size_t rest = len - prefix - 1;
--
--			if (rest == prefix && !memcmp(path, p + 1, prefix))
--				return p + 1;
--		}
-+		if (len > 1 && path[mid] == '/' &&
-+		    !memcmp(path, path + mid + 1, mid))
-+			return path + mid + 1;
- 	}
- 
- 	/*
-@@ -340,17 +337,17 @@ static void find_text_section_range(Elf
- static unsigned int r_type_abs32(unsigned int e_machine)
- {
- 	switch (e_machine) {
--	case EM_X86_64:		return 10;	/* R_X86_64_32 */
--	case EM_386:		return 1;	/* R_386_32 */
--	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
--	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
--	case EM_RISCV:		return 1;	/* R_RISCV_32 */
--	case EM_S390:		return 4;	/* R_390_32 */
--	case EM_MIPS:		return 2;	/* R_MIPS_32 */
--	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
--	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
--	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
--	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
-+	case EM_X86_64:		return R_X86_64_32;
-+	case EM_386:		return R_386_32;
-+	case EM_AARCH64:	return R_AARCH64_ABS32;
-+	case EM_ARM:		return R_ARM_ABS32;
-+	case EM_RISCV:		return R_RISCV_32;
-+	case EM_S390:		return R_390_32;
-+	case EM_MIPS:		return R_MIPS_32;
-+	case EM_PPC64:		return R_PPC64_ADDR32;
-+	case EM_PPC:		return R_PPC_ADDR32;
-+	case EM_LOONGARCH:	return R_LARCH_32;
-+	case EM_PARISC:		return R_PARISC_DIR32;
- 	default:		return 0;
- 	}
- }
-@@ -492,9 +489,10 @@ static void process_dwarf(Dwarf *dwarf,
- 
- 			/*
- 			 * In module mode, keep only .text addresses.
--			 * In ET_REL .ko files, .init.text/.exit.text may
--			 * overlap with .text address ranges, so we must
--			 * explicitly check against the .text bounds.
-+			 * In ET_REL .ko files, .text, .init.text and
-+			 * .exit.text all have sh_addr == 0 and therefore
-+			 * overlapping address ranges.  Explicitly check
-+			 * against the .text bounds.
- 			 */
- 			if (module_mode && text_section_end > text_section_start &&
- 			    (addr < text_section_start || addr >= text_section_end))
---- a/scripts/Makefile~b
-+++ a/scripts/Makefile
-@@ -5,7 +5,6 @@
- 
- hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
- hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
--hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
- hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
- hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
- hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
-_
+Could HOSTCFLAGS be updated earlier in the Makefile, before the feature che=
+cks
+are evaluated?
 
+Thanks,
+Ian
+
+> +
+>  OBJTOOL_CFLAGS  :=3D -std=3Dgnu11 -fomit-frame-pointer -O2 -g $(WARNINGS=
+)  \
+>                    $(INCLUDES) $(LIBELF_FLAGS) $(LIBXXHASH_CFLAGS) $(HOST=
+CFLAGS)
+>
+>
+> --
+> 2.34.1
+>
 
