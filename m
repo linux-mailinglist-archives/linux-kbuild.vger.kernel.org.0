@@ -1,202 +1,119 @@
-Return-Path: <linux-kbuild+bounces-12236-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12237-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GML0OkbdwmkqnAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12236-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 19:51:50 +0100
+	id aE5pA7ntwmkdnQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12237-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 21:02:01 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AD131B161
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 19:51:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EA831C07F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 21:02:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D47B33039BBA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 18:51:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6ABC13080C18
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 19:58:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE3C40823C;
-	Tue, 24 Mar 2026 18:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30AC13090F4;
+	Tue, 24 Mar 2026 19:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj5MLm82"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="CqcN2uaj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4076408258;
-	Tue, 24 Mar 2026 18:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919DF2FBDE0;
+	Tue, 24 Mar 2026 19:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774378302; cv=none; b=Vu7puVQHQG0oNmSDwOkCwVQQEI/xjQ9NfDU2AO4f/5PxaIEB9kfk4HG0EaBSBihbBv+IFf0gCH363C8oGw1FN+zoe3P7VKj6F0GeezTTYVLvX1Kdn+tH/OuGvE3lXfWdcgPdrs6i9jYUKOPWEzJlr33Red+thbL1Nh2mobhkce8=
+	t=1774382292; cv=none; b=m5p66mu2mxoGNLvUM0tdeCoaUInRcqEf4bEDG/WyoJ45mibRIMhKjG2nP0AO13j+Xpalm3nfpY/vL1UL5JjUSCu76QmJkL1UPwgHIqT/LebUwuxNepx56DaPCzLd0aXHTaAGUcufr6l94EK+me273lMZdMeC1iNmu+pB6Q+byqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774378302; c=relaxed/simple;
-	bh=wtRzYnIH+bMH7Ye72CQ2Kv9676KwiVZQu06Yl7jdjr0=;
+	s=arc-20240116; t=1774382292; c=relaxed/simple;
+	bh=6AqOo83XzzkbSYELummVClzb4z9wSjjyOIot1veFHKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AVXakbsvbPkXjxdQK1EMRY6zQgsz8VMwzSM7ePp1eiZM48Un33UVoc4LUOBy53u8sbcLTkgFTfqx3kAFo+dSPFl+R5zVL54tE6MceXxwtqKJGdLa4+wq+yR5vPNH/2PKF2wL2e9ixdlXvsbioeygNip+zUcRnCQcnJgaCRN7yhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj5MLm82; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21EDC19424;
-	Tue, 24 Mar 2026 18:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774378302;
-	bh=wtRzYnIH+bMH7Ye72CQ2Kv9676KwiVZQu06Yl7jdjr0=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=QBbQp5+v/XVNUu3+uIMlYhA46fGYaMDO5tf68ORNQBnAXyj8FkR78+tg94Zivq/cbHdJjTeLdj09v86pn/5cbmLwrO+7SDyVd5FRURTZzBqRkrD7C24acms4eQ8oMlwMxWoCrA1yoYPHvyzgH05HNWPVJDBiaiwcq9651pkRiA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=CqcN2uaj; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1774382288;
+	bh=6AqOo83XzzkbSYELummVClzb4z9wSjjyOIot1veFHKI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nj5MLm820D8jXHlqIW13S77Dxa/WXF6aR4rqmdgRqf+Llxz2eXskd9y7mH/tR2sMQ
-	 LjOGcPEop83DcjXRCbya6BgyoBuSMzFDMwaqv3ImJnCkzMkRfzUf/VL247rGvzkHUk
-	 beQn6cXTn4t/aE7Z3iwSP38fq87xYhrRY0E3pELUwN8N1IxLGCMmK3s46xzFO8/4ZY
-	 rHVT1HUDflcJg4mX10tyHOL79mJmu1r6atkuGzBk9kEcXrQOxaWC+F/M9Hu4p/slIw
-	 C011knvbK4VIpiTEQHAFXsfGleDFA9iyqO1Xw8rL7mv4FNWC0adN9sz/NCl5sky3E5
-	 B0Sg17maltdqg==
-Date: Tue, 24 Mar 2026 14:51:40 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Juergen Gross <jgross@suse.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Petr Pavlu <petr.pavlu@suse.com>, X86 ML <x86@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	linux-modules@vger.kernel.org, bpf <bpf@vger.kernel.org>
-Subject: Re: [PATCH 1/2] kallsyms: show function parameter info in oops/WARN
- dumps
-Message-ID: <acLdPAlB0y3kCcBj@laps>
-References: <20260323164858.1939248-1-sashal@kernel.org>
- <20260323164858.1939248-2-sashal@kernel.org>
- <CAADnVQJjJwRtUQNZAhLoXF7DYprhU97xJReZg9izV7n3f7=uJQ@mail.gmail.com>
- <acK1M_CvbYCtq7im@laps>
- <cbeb9f50-9398-4afb-9fb7-243d2841187e@oracle.com>
+	b=CqcN2uaj+1Ph6r8eDU/X26qScPa0DUTbn8SIT5Sx+HccZP2mH0ECnWoR3wifdXVUX
+	 oAlK2zJGHrBmPh47pMqkpkhJBU12kQ2hklum37/eVxOXqoquPCSzODNOKYAORQ+S54
+	 7RyOl6xnep64pA+b5VnQmU5fTqZqCbchcc9OTr0U=
+Date: Tue, 24 Mar 2026 20:58:08 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nsc@kernel.org>, 
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, Nick Huang <sef1548@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] scripts: headers_install.sh: Normalize __ASSEMBLY__ to
+ __ASSEMBLER__
+Message-ID: <a31f2655-2ce8-4029-a63d-321c849730f7@t-8ch.de>
+References: <20260309-uapi-assembly-v1-1-a7ebfbf14309@weissschuh.net>
+ <20260313235618.GA4171564@ax162>
+ <3d6608fe-be15-497a-85a3-e6af2dbded0a@t-8ch.de>
+ <20260324183501.GA3704429@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cbeb9f50-9398-4afb-9fb7-243d2841187e@oracle.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <20260324183501.GA3704429@ax162>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12236-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[arndb.de,kernel.org,orcam.me.uk,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12237-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[36];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,linux-foundation.org,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,infradead.org,suse.com,lwn.net,google.com,linuxfoundation.org,goodmis.org,gmx.de,linux-m68k.org,hansenpartnership.com,ideasonboard.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[weissschuh.net:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 89AD131B161
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,t-8ch.de:mid]
+X-Rspamd-Queue-Id: 79EA831C07F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 24, 2026 at 05:34:06PM +0000, Alan Maguire wrote:
->On 24/03/2026 16:00, Sasha Levin wrote:
->> On Tue, Mar 24, 2026 at 08:03:30AM -0700, Alexei Starovoitov wrote:
->>> On Mon, Mar 23, 2026 at 9:49 AM Sasha Levin <sashal@kernel.org> wrote:
->>>>
->>>> Embed DWARF-derived function parameter name and type information in the
->>>> kernel image so that oops and WARN dumps display the crashing function's
->>>> register-passed arguments with their names, types, and values.
->>>>
->>>> A new build-time tool (scripts/gen_paraminfo.c) parses DW_TAG_subprogram
->>>> and DW_TAG_formal_parameter entries from DWARF .debug_info, extracting
->>>> parameter names and human-readable type strings. The resulting tables are
->>>> stored in .rodata using the same two-phase link approach as lineinfo.
->>>>
->>>> At runtime, kallsyms_show_paraminfo() performs a binary search on the
->>>> paraminfo tables, maps parameters to x86-64 calling convention registers
->>>> (RDI, RSI, RDX, RCX, R8, R9), and prints each parameter's name, type,
->>>> and value from pt_regs. If a parameter value matches the page fault
->>>> address (CR2), it is highlighted with "<-- fault address".
->>>>
->>>> Integration at show_regs() means this works for both oops and WARN()
->>>> automatically, since both paths provide full pt_regs at the exception
->>>> point.
->>>>
->>>> Example output:
->>>>
->>>>   Function parameters (ext4_readdir):
->>>>     file     (struct file *)         = 0xffff888123456000
->>>>     ctx      (struct dir_context *)  = 0x0000000000001234  <-- fault address
->>>>
->>>> Gated behind CONFIG_KALLSYMS_PARAMINFO (depends on CONFIG_KALLSYMS_LINEINFO).
->>>> Adds approximately 1-2 MB to the kernel image for ~58K functions.
->>>>
->>>> Assisted-by: Claude:claude-opus-4-6
->>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>>
->>> Nack.
->>>
->>> You asked claude to reinvent pahole and BTF and it did it
->>> completely missing years of fine tuning that pahole does.
->>
->> Let's keep this on the technical side please.
->>
->>> dwarf cannot be trusted as-is. pahole converts it carefully
->>> by analyzing optimized out arguments and dropping signatures
->>
->> Fair point about pahole and optimized-out args. The problem is that BTF depends
->> on BPF_SYSCALL, and the environments I care about can't enable either.
->> Automotive, robotics, and safety configs all have DWARF and KALLSYMS but no
->> path to BTF.
->>
->
->Curious what the blockers are to BTF adoption? Hopefully we can tackle some
->of these or get them on a roadmap at least. I know some embedded folks want
->vmlinux BTF as a module instead of directly contained in the vmlinux binary
->to minimize vmlinux size; is this the problem you run into? Are there other
->issues? Any info you could provide would be great as the aim is to make BTF
->feasible in as many environments as possible. Thanks!
+On 2026-03-24 11:35:01-0700, Nathan Chancellor wrote:
+> On Tue, Mar 24, 2026 at 06:05:34PM +0100, Thomas Weißschuh wrote:
+> > On 2026-03-13 16:56:18-0700, Nathan Chancellor wrote:
+> > > It sounds like the "< GCC 3.0" part of that might not be true based on
+> > > Maciej's research?
+> > > 
+> > >   https://lore.kernel.org/alpine.DEB.2.21.2603101412520.63708@angie.orcam.me.uk/
+> > 
+> > Yes, indeed. In my opinion the consistency aspect is still sufficient
+> > to have this change. What do you think?
+> 
+> Yes, I think so. Will you keep it as going from __ASSEMBLY__ to
+> __ASSEMBLER__? It probably makes more sense that way given there should
+> be no regressions on the compiler side and that is the intended end
+> result?
 
-So the biggest reason I'm aware of is that those systems do not want to enable
-BPF, and BTF is hidden behind BPF.
+I would have stuck to the old name '__ASSEMBLY__', just for robustness
+and because we are late in the cycle.
+Then we can switch it early in the next cycle.
 
-Other than that:
 
-  1. Toolchain qualifications for safety uses (we'd need to get pahole safety
-certified).
-  2. On the ecosystem side, from what I saw, BTF isn't part of most BSPs that
-vendors produce.
-  3. I saw concerns in the past about interactions with PREEMPT_RT, but I'm not
-sure if it's still a thing.
-
--- 
-Thanks,
-Sasha
+Thomas
 
