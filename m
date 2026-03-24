@@ -1,127 +1,132 @@
-Return-Path: <linux-kbuild+bounces-12227-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wO/UJfDFwmmIlgQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12227-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 18:12:16 +0100
+	id AJwHOZDJwmmIlgQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12231-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 18:27:44 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7E8319C98
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 18:12:09 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2889C31A003
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 18:27:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 509763085300
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 17:05:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2618F3072F59
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 17:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CF3639E198;
-	Tue, 24 Mar 2026 17:05:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB20407571;
+	Tue, 24 Mar 2026 17:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="F2M3w0ag"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZgAj9cfl"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AE8342CA2;
-	Tue, 24 Mar 2026 17:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A973FEB01;
+	Tue, 24 Mar 2026 17:16:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774371939; cv=none; b=s6yNZ8dLsRX8jbzzTt+DBkl5Drsl0URKZ6qOlN9Mf7m7tlbLt0QmCrU83KODQ0mY6UbZnt36hrUm+hCmOwjD3YaEHVYCM0bJPM88hxq0hK6tGYJOc8ckAe2s++uOp8CW+niL4x2/WXQuiWVxQ7IvCB2zW7aqpzD/vNwtJ2oPwbs=
+	t=1774372615; cv=none; b=G+8PtNtTEsfbHPmRWC5wMw6G/RD/IhE9UMGnwqvKu/fhEHqiPaJUomLZqjMH9QXEQhuHlkbc7vBLGT7EwCwMwTHBllvDWGdIXsmpCSbDT3a4E04yS+eRjfrWXq6keah5Y69uuJlJCYGtR74j8yht27b2Otejy5rUSw1MBWDtr/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774371939; c=relaxed/simple;
-	bh=+FmG+m+F+/0Dg1Ps29Is+I+2rhF1mrGBY+bR705CsXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o8rvT4++au/oHXiMCW6AcptT6t4wiIr2p+CrMT4hc9oacV6bpxWECYCsOwkMhxfBS6fYchQgadZgXR3Ld7mZwgrx9ndYHO0SxGVvCY2lEFLoXonAbZ9JE3Pa+xRQ0ZovwrMKCN99va7wa5w8ilc5BrT8wW9qPSxCxk4+Kj+OSsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=F2M3w0ag; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1774372615; c=relaxed/simple;
+	bh=sVe9WgjkD5UnEghpp5kXIoL4zB3qrw9OGrMSEjhy8bo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nXY4zZkJufxAgo/tDkIsCKiXDnwy0AJjdd74UtIXWsnDzjYp+MVx253/+mx8f6desEo4fuX7qBY0Z8G20bUVmL18R7UnjQJyfdh4GqTo8tnm6xlumTcvZIBrd/RVp8K5+5gjTX0n03blhsCtfdZbe139AInqWngfuFhAPA6rQCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ZgAj9cfl; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1774371935;
-	bh=+FmG+m+F+/0Dg1Ps29Is+I+2rhF1mrGBY+bR705CsXs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F2M3w0agRT+3Jz042qU24xK8WW+V4UUFtjxIRCjn+KUaTvaOcD7X0Y2hTgiJ+M6NI
-	 rnNfX8xMYntCKd28GRSLFhjoWFr7qxG3yZvhxX687Iqo5ZNEW2F9timitnO0UmXdu4
-	 CNq7GndGffbsbF5BpEfVtjDvAMVE50poTZHi5FnM=
-Date: Tue, 24 Mar 2026 18:05:34 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nsc@kernel.org>, 
-	"Maciej W. Rozycki" <macro@orcam.me.uk>, Nick Huang <sef1548@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] scripts: headers_install.sh: Normalize __ASSEMBLY__ to
- __ASSEMBLER__
-Message-ID: <3d6608fe-be15-497a-85a3-e6af2dbded0a@t-8ch.de>
-References: <20260309-uapi-assembly-v1-1-a7ebfbf14309@weissschuh.net>
- <20260313235618.GA4171564@ax162>
+	s=mail; t=1774372611;
+	bh=sVe9WgjkD5UnEghpp5kXIoL4zB3qrw9OGrMSEjhy8bo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ZgAj9cflFm/ooqqtYFqiNdSyb2+Ljt5FFIHLch7X3BxXcrFLJz4myCXzazb1Ioctx
+	 c/NPNyDb8IUN9ma5KoaPDCrBloFkHHZEJ9alNITEUBrrVPsooj3qWT2QUMOU8b82E1
+	 0MfKlYPFCb1JiM61h76JPN+Ye2zA98dFysqSNT5s=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v2 0/3] checksyscalls: only run when necessary
+Date: Tue, 24 Mar 2026 18:16:44 +0100
+Message-Id: <20260324-kbuild-missing-syscalls-v2-0-651b8beb0bfd@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260313235618.GA4171564@ax162>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQ6CMBBEf8Xs2ZrSAqIn/8NwoO1KN2IxXUAJ4
+ d+tePb4JjNvFmCMhAzn3QIRJ2LqQwK134H1TWhRkEsMSqpSqkyJuxmpc+JBzBRawTPbputYoFa
+ VQ21zU+SQ1s+IN3pv5mud2BMPfZy3oyn7pj+nlvqvc8qEFNrkrjyZsrLH4vLC1GHrR38IOEC9r
+ usHg6t6i8MAAAA=
+X-Change-ID: 20260212-kbuild-missing-syscalls-e328de3c4b54
+To: Arnd Bergmann <arnd@arndb.de>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774372608; l=977;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=sVe9WgjkD5UnEghpp5kXIoL4zB3qrw9OGrMSEjhy8bo=;
+ b=6wYhoPfWgmJbgbPbq9xbvGKA0W1lRrhWqqG2D4zreLAqb8uqzIhAy2Yd9JKNeKjQ9QQdJn1/N
+ JQJu2HBJxzODehOC7yhHfFa+woxOMXXCp5yaC6HGgcfFkDX2Ss6C/RL
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[arndb.de,kernel.org,orcam.me.uk,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-12227-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-12231-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[weissschuh.net:+];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,t-8ch.de:mid,weissschuh.net:dkim]
-X-Rspamd-Queue-Id: 1D7E8319C98
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,checksyscalls.sh:url,weissschuh.net:dkim,weissschuh.net:email,weissschuh.net:mid]
+X-Rspamd-Queue-Id: 2889C31A003
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Nathan,
+Currently checksyscalls.sh is unconditionally executed during each build.
+Most of these executions are unnecessary.
 
-sorry for the late response, this seems to have fallen through the
-cracks.
+Only run checksyscalls.sh if one of its inputs have changed.
 
-On 2026-03-13 16:56:18-0700, Nathan Chancellor wrote:
-> On Mon, Mar 09, 2026 at 04:58:11PM +0100, Thomas Weißschuh wrote:
-> > There is an ongoing effort to replace the usage of __ASSEMBLER__ with
-> > __ASSEMBLY__ throughout the kernel tree, see for example
-> 
-> I think __ASSEMBLER__ and __ASSEMBLY__ are swapped here?
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Also send to kbuild maintainers
+- Link to v1: https://patch.msgid.link/20260303-kbuild-missing-syscalls-v1-0-3b4d69b68c75@weissschuh.net
 
-Indeed.
+---
+Thomas Weißschuh (3):
+      checksyscalls: move path to reference table to a variable
+      checksyscalls: only run when necessary
+      checksyscalls: move instance functionality into generic code
 
-(Also all the other cases)
+ Kbuild                   | 14 ++++++++++----
+ arch/mips/Makefile       |  6 ++----
+ scripts/checksyscalls.sh |  9 ++++++++-
+ 3 files changed, 20 insertions(+), 9 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260212-kbuild-missing-syscalls-e328de3c4b54
 
-(...)
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
-> > automatically. So this migration may brake users.
-> 
-> It sounds like the "< GCC 3.0" part of that might not be true based on
-> Maciej's research?
-> 
->   https://lore.kernel.org/alpine.DEB.2.21.2603101412520.63708@angie.orcam.me.uk/
-
-Yes, indeed. In my opinion the consistency aspect is still sufficient
-to have this change. What do you think?
-
-(...)
-
-
-Thomas
 
