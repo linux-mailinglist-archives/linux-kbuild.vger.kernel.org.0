@@ -1,81 +1,82 @@
-Return-Path: <linux-kbuild+bounces-12220-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12221-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cIjEM053wmnqdAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12220-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 12:36:46 +0100
+	id 8NzMOBd5wmnqdAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12221-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 12:44:23 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409E730761E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 12:36:46 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1A03077EA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 12:44:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0C1C8300B9E8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 11:33:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2B2AD3049588
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2026 11:41:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E88C03EC2D0;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5470E3F0A91;
+	Tue, 24 Mar 2026 11:39:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2qWxv6K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olXoGqqK"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CD3E2755;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C643A3EF0B6;
+	Tue, 24 Mar 2026 11:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352004; cv=none; b=tmJDR9e4+T1lIOnX6qwdyAOrXvI0hMCUKjAkEPx6wMBGLXGoWoMfUfMRYWck69m+VZ9Iw2eWPcjoLD7RpxjWMYze+Kfty1svvzDAtsQeJcwSYDwLg2i6bm8IZP+pdZQ3K9xjWPeovIxQ+zEc7H45S5jjRWZ6q3XhjW8iSDGZ4gs=
+	t=1774352381; cv=none; b=bWB8xXRFWQL0gInkQNXNRYrojvIHiX9wwKn+TZtTlgMGF1nQ6VISKF6YgfSM+63YIqsv6lUSFPhMjWhCLHcrMFVEzmoksCAW2Kn3WcLg8rQuBpUUOQ0Py956tEcQFQXBNV06/JJ97RIkiqZ7WgkoTzyvEbv3JFfVAGqCA7t6PU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352004; c=relaxed/simple;
-	bh=ePPalIgg9PA9MCfjCpp8oHYfR8UicQpTOa+6XnR0aI8=;
+	s=arc-20240116; t=1774352381; c=relaxed/simple;
+	bh=UknkrSuNDYtTn/8MeNcb6hXJiGQu0qdkPOIQvTQmQ2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxn2U50pLxJN8c8ckp+3pilKmutCTCFALS4j1u21a5jlxA285LlkI42J7nHBFhNeT8BuuFa51XuLJE84iApOfLLZEyMU7n9r8B1h0i52r/1NUPwzqJT6pfrbbFYIUl8IUki6qx8/TOHF0e4idx2vyFJ0tjHrRnHCMUBgb+Zhagc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2qWxv6K; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13859C19424;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=cY72cCSg/ES/VQQ98/cWlEbzZXAE3sQ0WAKV6G56P9h+fd7Y9pviS4TMD0yGTZm1JBIFAYSJeNJN2hv+xA3aU4mNXgzvx5LU7UAGrFgbcNZt+4X1v7sFMKKZjuhaOEV1In6xL4+ayzOVIn3pATBh2bV6KBjLny3869wtQMMCI4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olXoGqqK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDDDC2BCB2;
+	Tue, 24 Mar 2026 11:39:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774352004;
-	bh=ePPalIgg9PA9MCfjCpp8oHYfR8UicQpTOa+6XnR0aI8=;
+	s=k20201202; t=1774352381;
+	bh=UknkrSuNDYtTn/8MeNcb6hXJiGQu0qdkPOIQvTQmQ2I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P2qWxv6K0w5Xbm53d2TWqvQIthrkpHsbYVZ6Z9sWjeq4Bbn79xA3u1A1gQJkAoXsW
-	 z80rpTUWyJzQAf4CAtWj8YIqd6AlcGMTlZUVep7sW2iQTTVzJF49cz4NxnFqlc/JPr
-	 YWC/NhMBBXhPgY0MfSIMjC346ciyg26qn+oM1mrX4yPtfdxpX6IqKvE0KcXuNulk7C
-	 +0staUq/7YmkMUd7t3MNJ3adKH/68nBDba9sTOIUHCA/PV/i0oG1FcJ9o8WX0x4iii
-	 /317o9eYcsgYa2k1z4Oh9Lpu9ehuZEXIx3bPTRNi/UOYmiCfFRy5TnCTTmoWCi0OB/
-	 Jp4A7svm/HrHQ==
-Date: Tue, 24 Mar 2026 07:33:22 -0400
+	b=olXoGqqKINrHT9MBi6UPkYfU0ZKw58C6sHbsrU3gtf4636xlcN++qk0VzQMXWxDWR
+	 RjmJ6XKhs+g0WIzxddkigtIvUu+JTdZJmWQpVScLIGjGk0mgOeCa+oLzslnceDcKaG
+	 XXMNYxhQZ4u0C2UbNsSUt6nVjTWuayrXcjW28BiZtmw09XeLaoHQPh8+CSoYBV3J1F
+	 ceqOX7ceZiuusH8+vqKDrtdVJRVMM5uTfwyA3Yrf1xnC7RPx00LjSDTHzcok7q9KoA
+	 aKiz3rbo7ie/MbZ/8nW8jnV0gjc+LVYjGUP16XWI8MdzgJtY6FED24yR2nsYTR6sCz
+	 8YBc+94F/v0Rw==
+Date: Tue, 24 Mar 2026 07:39:39 -0400
 From: Sasha Levin <sashal@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <acJ2gnnA9MP1wO_Z@laps>
-References: <20260322121026.869758-1-sashal@kernel.org>
- <20260322121026.869758-4-sashal@kernel.org>
- <2026032309-jargon-stalling-28c2@gregkh>
- <acHTupVGxJR3gmFT@laps>
- <2026032411-paramount-lapdog-41e6@gregkh>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Juergen Gross <jgross@suse.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Petr Pavlu <petr.pavlu@suse.com>, x86@kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH 0/2] kallsyms: show typed function parameters in
+ oops/WARN dumps
+Message-ID: <acJ3-2o0yxsFWwGJ@laps>
+References: <20260323164858.1939248-1-sashal@kernel.org>
+ <acJR51EAjn-7EOPm@krava>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -84,68 +85,54 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <2026032411-paramount-lapdog-41e6@gregkh>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <acJR51EAjn-7EOPm@krava>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12220-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12221-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,infradead.org,suse.com,lwn.net,google.com,linuxfoundation.org,goodmis.org,gmx.de,linux-m68k.org,hansenpartnership.com,gmail.com,ideasonboard.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,linuxfoundation.org,arndb.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 409E730761E
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: AA1A03077EA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 24, 2026 at 09:20:01AM +0100, Greg Kroah-Hartman wrote:
->On Mon, Mar 23, 2026 at 07:58:50PM -0400, Sasha Levin wrote:
->> > But this only works if the kabi stuff is built into the kernel image,
->> > right?  This doesn't work if any of these abi sections are in a module
->> > or am I missing that logic here?
->>
->> That is correct, for now.
->>
->> I'm only trying to tackle syscalls to begin with, and since no syscalls live in
->> modules, we have no need for module support.
+On Tue, Mar 24, 2026 at 09:57:11AM +0100, Jiri Olsa wrote:
+>On Mon, Mar 23, 2026 at 12:48:55PM -0400, Sasha Levin wrote:
+>> Building on the lineinfo series, this adds typed function parameter
 >
->We used to support syscalls in modules, but thankfully that is now gone.
->But, how will this work for stuff like usbfs ioctls?  That is a module,
->and our uapi is, by far, in drivers through ioctl "hell" and that would
->be great to be able to document through all of this.  Will that just not
->be in the debugfs api?
+>hi,
+>could you please specify the exact tree/commit and point to the
+>series this patchset is based on?
 
-It will. I see it working just like how BTF or trace events do it now.
+Yup, sorry, I should have noted that. This series is based on Andrew Morton's
+mm-nonmm-unstable branch (git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+mm-nonmm-unstable) since he took the base lineinfo patches and these build on
+code adjacent to it.
 
-When a module loads, find_module_sections() extracts the .kapi_specs section
-pointer and element count into new struct module fields. The COMING notifier
-then iterates those specs, registers each via the existing kapi_register_spec()
-dynamic registration path, and creates per-spec debugfs files under the
-existing /sys/kernel/debug/kapi/specs/ directory. The kapi_list_show() function
-is extended to also walk the dynamic_api_specs list (currently it only iterates
-the static __start_kapi_specs..__stop_kapi_specs range). On GOING, all specs
-owned by that module are removed from the list and their debugfs entries
-cleaned up via debugfs_remove().
+There's no direct dependency between the two, but they touch the same parts of
+the code.
 
 -- 
 Thanks,
