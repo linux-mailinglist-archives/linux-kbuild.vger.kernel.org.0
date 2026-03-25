@@ -1,246 +1,226 @@
-Return-Path: <linux-kbuild+bounces-12257-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12258-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iLPNCln5w2kxvQQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12257-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 16:03:53 +0100
+	id OGl0Evz7w2k/vQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12258-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 16:15:08 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FDD3276F9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 16:03:52 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF64C327AA5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 16:15:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1D8A232A9695
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:54:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 220C130185ED
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 15:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D722C3EDAA5;
-	Wed, 25 Mar 2026 14:48:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EDDD3F54BB;
+	Wed, 25 Mar 2026 14:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="SxNfTh8Z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2VFyPLGA"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="KhSIP6Q0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ixOuxX03"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3613EDAA4;
-	Wed, 25 Mar 2026 14:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0213F27702D;
+	Wed, 25 Mar 2026 14:57:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774450111; cv=none; b=abdlH5aUvJE9/HBWm0rU3MYVhz4ef/GEOR9t+VJ7iWxlzuA4d4sBUbTvgNoxeT6lEeLStHByRymofcyubtUeF9A4AEgt90bbbPWcl5wzQnbiNSYXBRYU38k3pN+KsghAH4BMnmEV1YOsAtco0qD6iBc/nuq/AQQ8n8T6Jw2fJQ0=
+	t=1774450650; cv=none; b=YQVLPnkmdj1ZZZeISNGduKgmmUKt+96Z6Te389/9sSZCLGOfuiFqsFzktNSBqI0EOpsqbwF3nK0cvp7nhXA5GLEIzeNVsDNK6N5g1X3yhhyqN9zGyagKUxdgIGICZhMeC6RbtLdgTZFUKULctJ9Xz75NiOOlB2F4KfeHWU3zB2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774450111; c=relaxed/simple;
-	bh=TDzhfhyTp/262lNODLpUml/v+J801pwk4JGI64fkrV4=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sqhJ3FLjR3+H9cb8bg/bVJpw4DzuhkvhM1wE1nCBujSlxH77lk7xF6h5kgSkBLAS1crlwsflnJghu+rcZNJCWUuOl5HDARrhxr6Q2aa+0TuuCA9TGxdStgoQUbAh28TfKk1pSiGkHAx7JNBbCy7c5NHOrMSlEqFSDyPbk2l4o1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=SxNfTh8Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=2VFyPLGA; arc=none smtp.client-ip=103.168.172.145
+	s=arc-20240116; t=1774450650; c=relaxed/simple;
+	bh=ttO5AMEAYh/Sdd9vgNGtHMrfAZFeabvd3Zj4pgA3fUQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bn+nFug8o6grxJgKUP0qkq3p5J4fHd22IFRcFRjY+6/yLmQAQg0lrpVCimOFxXmznMduUrWa51OCMnsjP1g4xMXTsp7TvbBDpG/+3RPYrBl+nwy7wjkzVA6b2uVlRXlDKgMB4W19nJhMHeXvvQ/+s+IkIq4NCSpnRZOxcsuCQtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=KhSIP6Q0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ixOuxX03; arc=none smtp.client-ip=103.168.172.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id B6836EC0276;
-	Wed, 25 Mar 2026 10:48:28 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 25 Mar 2026 10:48:28 -0400
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2EF47EC0274;
+	Wed, 25 Mar 2026 10:57:27 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 25 Mar 2026 10:57:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1774450108; x=1774536508; bh=t+4aDi00V9
-	A0AOTTZWe7F8ddfx8iFgH3+qtpkTiAfRg=; b=SxNfTh8ZhzR1146kREz6NJzfj6
-	P+AaIXoehugnmBMRNuBSqKnA7XmA3ZY+7s9oc/XVCp4/0+MqKN4jn72IkNGiYvjX
-	RwBe7IEv+fxcTF6x2zyJ7tPCt4Fdhse6wadUA431xWiKKPKSzLivybajLpu8tmW5
-	bLlDhyadm7Au62qjew4MAlexDTkSr5/+1nYK/yBmL6gpIy9mpOxxgdwXBB1WKXR6
-	FTkigC5zKXE0mciFYYOU/h4m7ZE7ZX39DS42Cg7yvwibcaZs6LQAUylfb9j7jVRf
-	lLfMPJLpmrz4+9XWqd2qcYzfQ3J08LfZokTOOaMl3whJcubBwzvAjU2o0tqA==
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1774450647; x=1774537047; bh=EM
+	sfC+C8hkjlML1/d6QGXe1eGqdhJRkZw8/j30OlXS0=; b=KhSIP6Q0YowfzwKXHV
+	8A9C2InD+dT1JPQocDyEdPlCjkeW1DRju6WNlL89aV8Mx/H8XVKg9tnT1pYEEsmh
+	MOxH7e8aGrbjFbqc/GGDTEoQPsewZr7D2ilPvvaXNUWlV+3H6vnwRq+CcsEWKW2/
+	Q1uXPj3eCa8MdsWhBJtMR4+1PbuKpnLGy4i8Rl+mPvcP7z2UfQAlxiP3L2R09+va
+	oH+KApIA9YtnC4st+gCryz38t/cNc9GXgvNQ4TVMzW5srKc1N9j+EZWTHY8yFbuY
+	MrqxPZ3o+HcMEFFfTbcgyVKjrQpVa48kJgNhNmjwRgFY170s0ett9gGVGhtMamf+
+	btYA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774450108; x=1774536508; bh=t+4aDi00V9A0AOTTZWe7F8ddfx8iFgH3+qt
-	pkTiAfRg=; b=2VFyPLGAkDOSJaWwjyl8uDfQwbHMJml7BiQgdWPG/9eCPFgrFJg
-	O/+jCWR6uxKCY4BuGVZKUroRDXk1XM9V7rEar/V0kbaJzIkkQJlXOtyg4sFD3XSQ
-	H4IoXorAKq+0OHXG+1nSD5nBm5uLa+hN2pP9V7gbuU69A2ot7XXzJRTSNjqONwil
-	dXcOvGMYpbJY+XtX9rmjl2NInyp/d6Z9Ozzg5SmPJvXk4fWtmvh39mkymdbHfuy3
-	Mg7HK5LK++leEf/Mr0kwySWhrnSOp8txR1zLENfEHojayMwmdWg6tF30awAUZqYU
-	BGTMC3flHOLisLXl53IxsxZc0NArrkOe3Ng==
-X-ME-Sender: <xms:vPXDaQJxFxW9qHb-QARX_1DpsXK8aelHQ70beaG2IZls7XWUQY-CiQ>
-    <xme:vPXDaaIHRGlvUbPle42m1xGHr5F0LsUuPLdom0zz9dedSGN_KDY8wBOUt-W3DZ1C6
-    DfgM10iagWf4GbdxnuzQ827TpZsih6Mp__e7vgHSf2cv-2f-4YLhpI>
-X-ME-Received: <xmr:vPXDaXVaaZ7xCEQDlvCGODFoW3gu0SF7LZ9X3JzbWxIf3xlWOe_IdF3f9w5B0cJ7PrsgUhPnmDimIiUWrr464CYGeWmWXGe7UVg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdegjeegucetufdoteggodetrf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1774450647; x=1774537047; bh=EMsfC+C8hkjlML1/d6QGXe1eGqdh
+	JRkZw8/j30OlXS0=; b=ixOuxX03SCwXdw8aNLNR+yo7cTNavMD4G30+1Zz9ueJH
+	WEAUR6DqJgMQcjWSzi4HvaL4DBw7cQ9pw2MMt22esMG6+GTA3Mo/9TlXTmTgZTpp
+	Uwi7etGq39tUUzBSNCTIQoy6XItWYagARKfRLzKEI0bXeG9avGQjutLbT7s+o90J
+	prBgiBazyViiabxnTl6NZ+pQLJ1LXGvN8yNhxrGjp03YT0dqbFoN+3V8xxkbrpl2
+	esTssYaWe/hWQlBljrf0jA+oo0Fyogm58PBS+VSrav1Z1372YvhKm2pw8zHPm5kM
+	1wfjn0yZlE3QTi4fs0/ADT/c9lsSObv0pvVSK/CEDQ==
+X-ME-Sender: <xms:1vfDade9mXiXBpB76t6UDd6BjH1jirocOkdKVx4xO_u-AMp1RDpwGw>
+    <xme:1vfDaRN2O8f0VxtobVOT9VfB1-4auNtFRQr7y1Or0du8ELne93uTplpU495rJI1yL
+    aPHzlFn_yhpwuRTqrI-nwH8LTuDlRVANoIABI-n7eANxmFJ5IBN0eW3>
+X-ME-Received: <xmr:1vfDaRXBqif8gAbdjj40ClKINnrXJufaTgU3fIgXSqLHb0E-6_A_PzWca-lIEl0vZSHRbUq0aN2SiKuCP8icY3_AEJhXaF1mgMmGFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdegjeeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepleefge
-    evleffudegtdelgfejjeejheekieegueeivdeihfeljefhkeevieevtedtnecuffhomhgr
-    ihhnpehshihsthgvmhgurdhiohdpohhpvghnghhrohhuphdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
-    thdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnh
-    hstgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopegrrdhfrghtohhumhesphgvnhhguhhtrhhonhhigidruggvpd
-    hrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthht
-    ohepshhjghestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdifvg
-    hishhsshgthhhuhheslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehlihhnuhig
-    qdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
-    igqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:vPXDabmftNTnluZ0tRrhF0dBgW3DYyjMlUqYQIPcVIPGo-7Ar-wF8w>
-    <xmx:vPXDaVmItwcQRUNtfYxsKdF1REPwTvh0FRVPPlIMEhKhI-cVbJeE4g>
-    <xmx:vPXDaTbkZEAKsf6VTu5GnuNsPP1T6P8-3urXu9q5rrIZUV6Ix_ZIew>
-    <xmx:vPXDafSD48yh5BiTnlZHmtQNU9vXRRBao0naKWEAvPkhqQLx8OgNAw>
-    <xmx:vPXDabNntFl6rJfZgdQRelSO12vwbCOE22DGKW8s2DgzfrBSLNc6rmm7>
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepueehve
+    ehveeugfettedufeegveejjedvgfdugffhgfdtveduhfevueevtdejheeinecuffhomhgr
+    ihhnpehshihsthgvmhgurdhiohdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhn
+    sggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhhoh
+    hmrghsrdifvghishhsshgthhhuhheslhhinhhuthhrohhnihigrdguvgdprhgtphhtthho
+    pehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegrrdhfrghtohhumhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhj
+    ghestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrdhhrghuvg
+    hrsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehlihhnuhigqdhksghuihhl
+    ugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:1vfDaZwk-0RLkBl8EreqRhRE6_V2LZG8hKBqTgPHU5AftMQR_Ohd_A>
+    <xmx:1vfDaY-AHZPhW8WkyETTPPVCMsknn1fS3bj19oBuOW-uOOdRELuL8w>
+    <xmx:1vfDae-8XA2ya3knQfYo1ONUGbD1Aj7OJMmUBQoLou9Bb-cptUHPMQ>
+    <xmx:1vfDaXVv3WfPSNoDhxPiNUSDZZ35ZEP-keiMPDZfWym7HSH_Nn_YbQ>
+    <xmx:1_fDaf5ZOS6o5saKIrUFu_Zj-zoGhZseKAduAkJ4browV1Dc5df1j0-F>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Mar 2026 10:48:28 -0400 (EDT)
-Date: Wed, 25 Mar 2026 15:48:26 +0100
+ 25 Mar 2026 10:57:26 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Simon Glass <sjg@chromium.org>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: modules-cpio-pkg: Respect INSTALL_MOD_PATH
-Message-ID: <20260325144826.GA2137845@robin.jannau.net>
-References: <20260320-kbuild-modules-cpio-pkg-usr-merge-v1-1-cee1ad1bb7cb@jannau.net>
- <ab621gToQqSAGHsw@levanger>
+Date: Wed, 25 Mar 2026 15:57:25 +0100
+Subject: [PATCH v2] kbuild: modules-cpio-pkg: Respect INSTALL_MOD_PATH
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ab621gToQqSAGHsw@levanger>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260325-kbuild-modules-cpio-pkg-usr-merge-v2-1-339ac87d82ea@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WNSw6CMBRFt0I69pm2kmocuQ/CoJ8nPIGWtJRoC
+ Hu3sgOH5yb3nI0ljISJ3auNRVwpUfAF5Klitte+QyBXmEkuFb9IDoPJNDqYgssjJrAzBZiHDnK
+ KMGEsh1oqpWvF5U1aVjxzxCe9j0bTFu4pLSF+juQqfus/9lWAAIsotBPGXK15vLT3Op89Lqzd9
+ /0L+PsQw9MAAAA=
+X-Change-ID: 20260320-kbuild-modules-cpio-pkg-usr-merge-4266a460282c
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+ Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Simon Glass <sjg@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3092; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=ttO5AMEAYh/Sdd9vgNGtHMrfAZFeabvd3Zj4pgA3fUQ=;
+ b=kA0DAAoWoRs8240vZWYByyZiAGnD99WiYfXbqNmx/kD64PcdtXeEfKHXzrtyLm2i1oevz5DFf
+ 4h1BAAWCgAdFiEEYivpiACrfCFcfeBWoRs8240vZWYFAmnD99UACgkQoRs8240vZWZd7gEAkDF0
+ 5w+nizOVQKx5rvo/bCG3tCjVNcEUELPDeQTYLOsBAODgBkXdRdGFAYHEiB1eNHmWnm7zfhS6iHg
+ 8MGghHwEP
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	R_DKIM_ALLOW(-0.20)[jannau.net:s=fm3,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[jannau.net:+,messagingengine.com:+];
-	TAGGED_FROM(0.00)[bounces-12257-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12258-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[jannau.net];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[j@jannau.net,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim,jannau.net:dkim,jannau.net:email,opengroup.org:url,robin.jannau.net:mid]
-X-Rspamd-Queue-Id: 74FDD3276F9
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,messagingengine.com:dkim,systemd.io:url,chromium.org:email]
+X-Rspamd-Queue-Id: DF64C327AA5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 21, 2026 at 04:18:46PM +0100, Nicolas Schier wrote:
-> On Fri, Mar 20, 2026 at 03:30:32PM +0100, Janne Grunau wrote:
-> > The modules-cpio-pkg target added in commit 2a9c8c0b59d3 ("kbuild: add
-> > target to build a cpio containing modules") is incompatible with
-> > initramfs with merged /lib and /usr/lib directories [1]. "/lib" cannot
-> > be a link and directory at the same time.
-> > Respect a non-empty INSTALL_MOD_PATH in the modules-cpio-pkg target so
-> > that `make INSTALL_MOD_PATH=/usr modules-cpio-pkg` results in the same
-> > module install location as `make INSTALL_MOD_PATH=/usr modules_install`.
-> > 
-> > Tested with Fedora distribution initramfs produced by dracut.
-> > 
-> > Link: https://systemd.io/THE_CASE_FOR_THE_USR_MERGE/ [1]
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > ---
-> > Hej,
-> > 
-> > this patch allows to produce modules-cpio initramfs which are compatible
-> > with initramfs with merged /lib and /usr/lib (/lib as symlink to
-> > /usr/lib). I expect initramfs of distributions with merged /usr to have
-> > a merged /usr as well. This is at least true for Fedora initramfs built
-> > with dracut.
-> > 
-> > I'm not sure whether the trickery to avoid repeated '/' is justified. It
-> > is necessary to add a slash between "$@" and a non empty
-> > $(INSTALL_MOD_PATH) to avoid make failures due to non existing
-> > .tmp_modules_cpio when INSTALL_MOD_PATH without leading slash is used.
-> > modules-cpio-pkg`.
-> > 
-> > Better or shorter ways to document this not completely obvious behavior
-> > would be appreciated.
-> > 
-> > Janne
-> > ---
-> >  scripts/Makefile.package | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> > index 0ec946f9b905f74f8698d8d6967d22f5b76f64e0..ab18cf81622ae319380528c401f9aeb6d32070c6 100644
-> > --- a/scripts/Makefile.package
-> > +++ b/scripts/Makefile.package
-> > @@ -195,7 +195,9 @@ tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
-> >  .tmp_modules_cpio: FORCE
-> >  	$(Q)$(MAKE) -f $(srctree)/Makefile
-> >  	$(Q)rm -rf $@
-> > -	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
-> > +	$(Q)$(MAKE) -f $(srctree)/Makefile \
-> > +		INSTALL_MOD_PATH=$@$(if $(INSTALL_MOD_PATH),/$(INSTALL_MOD_PATH:/%=%)) \
-> > +		modules_install
-> 
-> Thanks for the patch along with its detailed description!
-> 
-> For completeness: I'd rather use $(addprefix):
-> 
->     INSTALL_MOD_PATH=$@$(addprefix /,$(INSTALL_MOD_PATH:/%=%))
-> 
-> but as POSIX states:
-> 
-> | Multiple successive <slash> characters are considered to be the same
-> | as one <slash>, except it is implementation-defined whether the case
-> | of exactly two leading <slash> characters is treated specially.
-> https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/
+The modules-cpio-pkg target added in commit 2a9c8c0b59d3 ("kbuild: add
+target to build a cpio containing modules") is incompatible with
+initramfs with merged /lib and /usr/lib directories [1]. "/lib" cannot
+be a link and directory at the same time.
+Respect a non-empty INSTALL_MOD_PATH in the modules-cpio-pkg target so
+that `make INSTALL_MOD_PATH=/usr modules-cpio-pkg` results in the same
+module install location as `make INSTALL_MOD_PATH=/usr modules_install`.
 
-argh, I did read this but confused myself by the second part to think it
-was only for leading slashes.
+Tested with Fedora distribution initramfs produced by dracut.
 
-> there is no need for handling possible repeated slashes here.  So, from
-> my point of view we can keep it as simple as:
-> 
->     INSTALL_MOD_PATH=$@/$(INSTALL_MOD_PATH)
-> 
-> as a trailing slash in INSTALL_MOD_PATH should not be a problem here.
+Link: https://systemd.io/THE_CASE_FOR_THE_USR_MERGE/ [1]
+Fixes: 2a9c8c0b59d3 ("kbuild: add target to build a cpio containing modules")
+Cc: stable@vger.kernel.org
+Reviewed-by: Simon Glass <sjg@chromium.org>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Hej,
 
-ack, I'll just do that and I would have sent it if I did not confuse
-myself with the POSIX wording.
+this patch allows to produce modules-cpio initramfs which are compatible
+with initramfs with merged /lib and /usr/lib (/lib as symlink to
+/usr/lib). I expect initramfs of distributions with merged /usr to have
+a merged /usr as well. This is at least true for Fedora initramfs built
+with dracut.
 
-> 
-> >  
-> >  quiet_cmd_cpio = CPIO    $@
-> >        cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
-> > @@ -263,7 +265,7 @@ help:
-> >  	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
-> >  	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
-> >  	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
-> > -	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
-> > +	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive (modules installed in INSTALL_MOD_PATH (default: /))'
-> 
-> Please break that line, e.g.:
-> 
-> 	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
-> 	@echo '                        (modules installed in INSTALL_MOD_PATH (default: /))'
-> 
-> 
-> Fixes: 2a9c8c0b59d3 (\"kbuild: add target to build a cpio containing modules\")
-
-I saw it more as an additional thing but without the complications of
-suppressing repeated slashes the change is easy enough
-
-thanks,
 Janne
+---
+Changes in v2:
+- drop pointless avoidance of repeated slashes
+- comment the changed Makefile rule
+- break long modles-cpio-pkg help text to 2 lines
+- imported Simon's Rb:
+- add fixes tag for commit 2a9c8c0b59d3 ("kbuild: add target to build a cpio containing modules")
+- Link to v1: https://lore.kernel.org/r/20260320-kbuild-modules-cpio-pkg-usr-merge-v1-1-cee1ad1bb7cb@jannau.net
+---
+ scripts/Makefile.package | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 0ec946f9b905f74f8698d8d6967d22f5b76f64e0..c19b88b346d0632cc99e74617d79b07d81d48635 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -195,7 +195,8 @@ tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
+ .tmp_modules_cpio: FORCE
+ 	$(Q)$(MAKE) -f $(srctree)/Makefile
+ 	$(Q)rm -rf $@
+-	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
++	# Prepend INSTALL_MOD_PATH inside the staging dir
++	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@/$(INSTALL_MOD_PATH) modules_install
+ 
+ quiet_cmd_cpio = CPIO    $@
+       cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
+@@ -264,6 +265,7 @@ help:
+ 	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
+ 	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
+ 	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
++	@echo '                        (uses INSTALL_MOD_PATH inside the archive)'
+ 	@echo '  perf-tar-src-pkg    - Build the perf source tarball with no compression'
+ 	@echo '  perf-targz-src-pkg  - Build the perf source tarball with gzip compression'
+ 	@echo '  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression'
+
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260320-kbuild-modules-cpio-pkg-usr-merge-4266a460282c
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
 
