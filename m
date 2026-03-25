@@ -1,274 +1,246 @@
-Return-Path: <linux-kbuild+bounces-12256-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12257-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sGLqOTbyw2lZvAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12256-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 15:33:26 +0100
+	id iLPNCln5w2kxvQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12257-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 16:03:53 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CCC326D0B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 15:33:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FDD3276F9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 16:03:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B49B4307D4C3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:25:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1D8A232A9695
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:54:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A413257844;
-	Wed, 25 Mar 2026 14:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D722C3EDAA5;
+	Wed, 25 Mar 2026 14:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=smile.fr header.i=@smile.fr header.b="Fcyma1Cr"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="SxNfTh8Z";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="2VFyPLGA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1C43E0C77
-	for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2026 14:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3613EDAA4;
+	Wed, 25 Mar 2026 14:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774448714; cv=none; b=e44mlPyM1NtVG1zlWbRDdli/j/B4Cb4/VrF+EARxdZ+sZerjgmcr+FVac5eID77Fnvuul4pTBcACFe46L1BTBuacjkwyHm6pgI6K2zr6XkeclE2XKvWvSSnSR0kpVVcoK8xv3cGLb3Yf1maZKQStAagjaA8RSmVzRbGXt4u9GvU=
+	t=1774450111; cv=none; b=abdlH5aUvJE9/HBWm0rU3MYVhz4ef/GEOR9t+VJ7iWxlzuA4d4sBUbTvgNoxeT6lEeLStHByRymofcyubtUeF9A4AEgt90bbbPWcl5wzQnbiNSYXBRYU38k3pN+KsghAH4BMnmEV1YOsAtco0qD6iBc/nuq/AQQ8n8T6Jw2fJQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774448714; c=relaxed/simple;
-	bh=KeIOzKBhU62G/u5cZ3gJ8+XPcO7J7CGnTPeue6bXdMQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:From:Cc:
-	 References:In-Reply-To; b=UgrXiS/XZSSd3Rzu8FAzqQOeDhv4NRodckHozMORX2KH73vk6lSmLDBwW8tgF6hFvixOWPtGdQiSLw32rE8Ta81tmlseI0gJ//B+Kpx6i6KnblDB8134ROuHXLlfRXDAdd7729ZTJMnjWnP8KZtcOCKqzTEHd2yfPhxdhFOE/rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (1024-bit key) header.d=smile.fr header.i=@smile.fr header.b=Fcyma1Cr; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smile.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-486ff3a0fc1so44944305e9.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2026 07:25:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1774448705; x=1775053505; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xsxBp0FI4f/EC09mqgJEiJLgATjdt2ORoT6797B+Cpc=;
-        b=Fcyma1CrkkUgSJh+Rt7Y/Y9GRRYq3jThgvTK/uyQOF9UAiqVknxKbd697JvKrOGWNi
-         mbo/CA9ebzBoqkY3LWh1tgngvFOt98IeZQTImROP+9XRRyaUGjZ/Eli1E7MSNXXWJ2iv
-         XUCkgNk3aKM4im1i2V/z0LOfkhcshP74YLvbI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774448705; x=1775053505;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xsxBp0FI4f/EC09mqgJEiJLgATjdt2ORoT6797B+Cpc=;
-        b=plP8H8Ve3BfFjHYRD7kDuvjXiZ5V2H3k3513Yw2xiuXhI9XHFLtEnE18G+NmL6DNdc
-         8RUJiZtZ7wH4bctDf8wzkmpS6kl87ohI6drfW81SVrjTh4D3XKR0O3YFzTP1ctn1s5HN
-         t+jYDGYimnqkAEORwAKkmnc+qq13dmutRlquVRcdnHfhNegi1+lTSO8CMs1NnjCwZIYT
-         AIZMu4JbUIghpMbIoahXiXO3HfSwB6fDAtyoBuzKe0JEY5mlumrahJ0LSQTMiLu4oFOH
-         IxNmJq1HDrZemXqirVXi64GR2bwrBPABfrRkCqGWqNiQFoUoTMREmKdz/FavG+RF1XTm
-         eOsg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYoMkQMfB6zC5Qpa+/5QMpc9IWq6cZEKNzgofAs4VKhHYxY+OZfqnkYHOzYcboQTSgwPBJEYmF5ivImKs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySLH8qnb7jjrsKzXozHBKW6aPjQM2fblufhoeEXZrxRkQ+eGaq
-	CDRF9TzRQhbM8bUucgKLNXHBdzWq/rqPCoZJrk4BEPmvv8GgnDVCAwJcQp5elmUps9w=
-X-Gm-Gg: ATEYQzx/lPBft0WPUeWs7ldLeJxzmZhKUgF3x2HW0uo1DNvInGGGAE7t+mVCwSt8zDf
-	KkEvsR4OzUv3NaLAVbMrmlGM6RI2YuM6rOHhSV6MJmpakc/619Kbs2ouLUfFj3mgAm8otpotib4
-	rYhJxPscNlCbqk2GGFjRRksn29C3lvjzXmRROQPbaeyLgkE2YRpgwxe7fzPndcoqalbf9fRCmpA
-	717eIlw0OC43Jh21qxiZApMvp9HI5/pcc3KqV4iXqbQE0s6jakX3QktINRejNN5vyULmMCReZ8l
-	Q/q/TgbjUngWVNXIFFIDhASRNtH1INs0Fx1Xsx42FdFzqfAz4Z8sfX5XVVtlpKPrVOEbVHnjBq1
-	HSXiW79PwzOM80abWDFPNrP8MMxDhpon6os4TT0HL3Bna2jlNFXtoXMbRgWsZOvon8u6xlYPOC+
-	U4ouCTk113pIAC9aDgOUiAdzc4OV9G+DmofWF5Q+kXkq4eloEKkGxSoEKS2w9XhgXiCCtcj9Ain
-	SqrSBO2sSxAnSs=
-X-Received: by 2002:a05:600c:8b0a:b0:487:1114:d431 with SMTP id 5b1f17b1804b1-48716039d36mr58720685e9.18.1774448705431;
-        Wed, 25 Mar 2026 07:25:05 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48717337fa3sm33382655e9.9.2026.03.25.07.25.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 07:25:05 -0700 (PDT)
+	s=arc-20240116; t=1774450111; c=relaxed/simple;
+	bh=TDzhfhyTp/262lNODLpUml/v+J801pwk4JGI64fkrV4=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sqhJ3FLjR3+H9cb8bg/bVJpw4DzuhkvhM1wE1nCBujSlxH77lk7xF6h5kgSkBLAS1crlwsflnJghu+rcZNJCWUuOl5HDARrhxr6Q2aa+0TuuCA9TGxdStgoQUbAh28TfKk1pSiGkHAx7JNBbCy7c5NHOrMSlEqFSDyPbk2l4o1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=SxNfTh8Z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=2VFyPLGA; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id B6836EC0276;
+	Wed, 25 Mar 2026 10:48:28 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 25 Mar 2026 10:48:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1774450108; x=1774536508; bh=t+4aDi00V9
+	A0AOTTZWe7F8ddfx8iFgH3+qtpkTiAfRg=; b=SxNfTh8ZhzR1146kREz6NJzfj6
+	P+AaIXoehugnmBMRNuBSqKnA7XmA3ZY+7s9oc/XVCp4/0+MqKN4jn72IkNGiYvjX
+	RwBe7IEv+fxcTF6x2zyJ7tPCt4Fdhse6wadUA431xWiKKPKSzLivybajLpu8tmW5
+	bLlDhyadm7Au62qjew4MAlexDTkSr5/+1nYK/yBmL6gpIy9mpOxxgdwXBB1WKXR6
+	FTkigC5zKXE0mciFYYOU/h4m7ZE7ZX39DS42Cg7yvwibcaZs6LQAUylfb9j7jVRf
+	lLfMPJLpmrz4+9XWqd2qcYzfQ3J08LfZokTOOaMl3whJcubBwzvAjU2o0tqA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1774450108; x=1774536508; bh=t+4aDi00V9A0AOTTZWe7F8ddfx8iFgH3+qt
+	pkTiAfRg=; b=2VFyPLGAkDOSJaWwjyl8uDfQwbHMJml7BiQgdWPG/9eCPFgrFJg
+	O/+jCWR6uxKCY4BuGVZKUroRDXk1XM9V7rEar/V0kbaJzIkkQJlXOtyg4sFD3XSQ
+	H4IoXorAKq+0OHXG+1nSD5nBm5uLa+hN2pP9V7gbuU69A2ot7XXzJRTSNjqONwil
+	dXcOvGMYpbJY+XtX9rmjl2NInyp/d6Z9Ozzg5SmPJvXk4fWtmvh39mkymdbHfuy3
+	Mg7HK5LK++leEf/Mr0kwySWhrnSOp8txR1zLENfEHojayMwmdWg6tF30awAUZqYU
+	BGTMC3flHOLisLXl53IxsxZc0NArrkOe3Ng==
+X-ME-Sender: <xms:vPXDaQJxFxW9qHb-QARX_1DpsXK8aelHQ70beaG2IZls7XWUQY-CiQ>
+    <xme:vPXDaaIHRGlvUbPle42m1xGHr5F0LsUuPLdom0zz9dedSGN_KDY8wBOUt-W3DZ1C6
+    DfgM10iagWf4GbdxnuzQ827TpZsih6Mp__e7vgHSf2cv-2f-4YLhpI>
+X-ME-Received: <xmr:vPXDaXVaaZ7xCEQDlvCGODFoW3gu0SF7LZ9X3JzbWxIf3xlWOe_IdF3f9w5B0cJ7PrsgUhPnmDimIiUWrr464CYGeWmWXGe7UVg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdegjeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepleefge
+    evleffudegtdelgfejjeejheekieegueeivdeihfeljefhkeevieevtedtnecuffhomhgr
+    ihhnpehshihsthgvmhgurdhiohdpohhpvghnghhrohhuphdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
+    thdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnh
+    hstgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopegrrdhfrghtohhumhesphgvnhhguhhtrhhonhhigidruggvpd
+    hrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthht
+    ohepshhjghestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdifvg
+    hishhsshgthhhuhheslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehlihhnuhig
+    qdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
+    igqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:vPXDabmftNTnluZ0tRrhF0dBgW3DYyjMlUqYQIPcVIPGo-7Ar-wF8w>
+    <xmx:vPXDaVmItwcQRUNtfYxsKdF1REPwTvh0FRVPPlIMEhKhI-cVbJeE4g>
+    <xmx:vPXDaTbkZEAKsf6VTu5GnuNsPP1T6P8-3urXu9q5rrIZUV6Ix_ZIew>
+    <xmx:vPXDafSD48yh5BiTnlZHmtQNU9vXRRBao0naKWEAvPkhqQLx8OgNAw>
+    <xmx:vPXDabNntFl6rJfZgdQRelSO12vwbCOE22DGKW8s2DgzfrBSLNc6rmm7>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Mar 2026 10:48:28 -0400 (EDT)
+Date: Wed, 25 Mar 2026 15:48:26 +0100
+From: Janne Grunau <j@jannau.net>
+To: Nicolas Schier <nsc@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Simon Glass <sjg@chromium.org>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: modules-cpio-pkg: Respect INSTALL_MOD_PATH
+Message-ID: <20260325144826.GA2137845@robin.jannau.net>
+References: <20260320-kbuild-modules-cpio-pkg-usr-merge-v1-1-cee1ad1bb7cb@jannau.net>
+ <ab621gToQqSAGHsw@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Mar 2026 15:25:04 +0100
-Message-Id: <DHBXKH7PG0NH.1KU2M9L2IMLJ5@smile.fr>
-To: "Mohamad Alsadhan" <mo@sdhn.cc>, <nathan@kernel.org>, <nsc@kernel.org>,
- <ojeda@kernel.org>
-Subject: Re: [PATCH v5] kbuild: host: use single executable for rustc -C
- linker
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <gary@garyguo.net>, <linux-kbuild@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20260317112021.14353-1-mo@sdhn.cc>
- <20260321150034.9915-1-mo@sdhn.cc>
-In-Reply-To: <20260321150034.9915-1-mo@sdhn.cc>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ab621gToQqSAGHsw@levanger>
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[smile.fr,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[smile.fr:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[jannau.net:s=fm3,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[smile.fr:+];
-	TAGGED_FROM(0.00)[bounces-12256-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[jannau.net:+,messagingengine.com:+];
+	TAGGED_FROM(0.00)[bounces-12257-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yoann.congal@smile.fr,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	DMARC_NA(0.00)[jannau.net];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sdhn.cc:email,smile.fr:dkim,smile.fr:email,smile.fr:mid]
-X-Rspamd-Queue-Id: 47CCC326D0B
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[j@jannau.net,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim,jannau.net:dkim,jannau.net:email,opengroup.org:url,robin.jannau.net:mid]
+X-Rspamd-Queue-Id: 74FDD3276F9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat Mar 21, 2026 at 4:00 PM CET, Mohamad Alsadhan wrote:
-> rustc's -C linker=3D option expects a single executable path. When
-> HOSTCC contains a wrapper (e.g. "ccache gcc"), passing
-> `-Clinker=3D$(HOSTCC)` results in the shell splitting the value into
-> multiple words, and rustc interprets the additional word as an
-> input filename:
->
->   error: multiple input filenames provided ...
->
-> Generate a small wrapper script and pass it to -Clinker e.g.
->
->   ```
->   #!/bin/sh
->   ccache gcc "$@"
->   ```
->
-> This fix should be general enough to address most if not all cases
-> (incl. wrappers or subcommands) and avoids surprises of simpler fixes
-> like just defaulting to gcc.
->
-> This avoids passing the user command as an environment variable as
-> that would be more challenging to trace and debug shell expansions.
->
-> Link: https://github.com/Rust-for-Linux/linux/issues/1224
-> Suggested-by: Yoann Congal <yoann.congal@smile.fr>
-> Signed-off-by: Mohamad Alsadhan <mo@sdhn.cc>
+On Sat, Mar 21, 2026 at 04:18:46PM +0100, Nicolas Schier wrote:
+> On Fri, Mar 20, 2026 at 03:30:32PM +0100, Janne Grunau wrote:
+> > The modules-cpio-pkg target added in commit 2a9c8c0b59d3 ("kbuild: add
+> > target to build a cpio containing modules") is incompatible with
+> > initramfs with merged /lib and /usr/lib directories [1]. "/lib" cannot
+> > be a link and directory at the same time.
+> > Respect a non-empty INSTALL_MOD_PATH in the modules-cpio-pkg target so
+> > that `make INSTALL_MOD_PATH=/usr modules-cpio-pkg` results in the same
+> > module install location as `make INSTALL_MOD_PATH=/usr modules_install`.
+> > 
+> > Tested with Fedora distribution initramfs produced by dracut.
+> > 
+> > Link: https://systemd.io/THE_CASE_FOR_THE_USR_MERGE/ [1]
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> > Hej,
+> > 
+> > this patch allows to produce modules-cpio initramfs which are compatible
+> > with initramfs with merged /lib and /usr/lib (/lib as symlink to
+> > /usr/lib). I expect initramfs of distributions with merged /usr to have
+> > a merged /usr as well. This is at least true for Fedora initramfs built
+> > with dracut.
+> > 
+> > I'm not sure whether the trickery to avoid repeated '/' is justified. It
+> > is necessary to add a slash between "$@" and a non empty
+> > $(INSTALL_MOD_PATH) to avoid make failures due to non existing
+> > .tmp_modules_cpio when INSTALL_MOD_PATH without leading slash is used.
+> > modules-cpio-pkg`.
+> > 
+> > Better or shorter ways to document this not completely obvious behavior
+> > would be appreciated.
+> > 
+> > Janne
+> > ---
+> >  scripts/Makefile.package | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> > index 0ec946f9b905f74f8698d8d6967d22f5b76f64e0..ab18cf81622ae319380528c401f9aeb6d32070c6 100644
+> > --- a/scripts/Makefile.package
+> > +++ b/scripts/Makefile.package
+> > @@ -195,7 +195,9 @@ tar%-pkg: linux-$(KERNELRELEASE)-$(ARCH).tar.% FORCE
+> >  .tmp_modules_cpio: FORCE
+> >  	$(Q)$(MAKE) -f $(srctree)/Makefile
+> >  	$(Q)rm -rf $@
+> > -	$(Q)$(MAKE) -f $(srctree)/Makefile INSTALL_MOD_PATH=$@ modules_install
+> > +	$(Q)$(MAKE) -f $(srctree)/Makefile \
+> > +		INSTALL_MOD_PATH=$@$(if $(INSTALL_MOD_PATH),/$(INSTALL_MOD_PATH:/%=%)) \
+> > +		modules_install
+> 
+> Thanks for the patch along with its detailed description!
+> 
+> For completeness: I'd rather use $(addprefix):
+> 
+>     INSTALL_MOD_PATH=$@$(addprefix /,$(INSTALL_MOD_PATH:/%=%))
+> 
+> but as POSIX states:
+> 
+> | Multiple successive <slash> characters are considered to be the same
+> | as one <slash>, except it is implementation-defined whether the case
+> | of exactly two leading <slash> characters is treated specially.
+> https://pubs.opengroup.org/onlinepubs/9799919799.2024edition/
 
-Hello,
+argh, I did read this but confused myself by the second part to think it
+was only for leading slashes.
 
-First, thank you for working on this. This is appreciated :-)
+> there is no need for handling possible repeated slashes here.  So, from
+> my point of view we can keep it as simple as:
+> 
+>     INSTALL_MOD_PATH=$@/$(INSTALL_MOD_PATH)
+> 
+> as a trailing slash in INSTALL_MOD_PATH should not be a problem here.
 
-> ---
-> v4 -> v5:
->   - Fix word splitting issues
->   - Remove unnecessary `exec sh -c` and simplify generated script
->
-> v3 -> v4:
->   - Use filechk instead of if_changed macro to regenerate script
->   - Remove trailing space at EOL
->
-> v2 -> v3:
->   - Scrap previous hacky approaches (e.g. using lastword) and go with
->     a proper fix which turned out not that complex to implement.
->     Apologies Gary, I should have listened to you earlier :/
->
-> v1 -> v2:
->   - Rename HOSTRUSTC_LINKER to HOSTRUSTC_LD for consistency
->   - Introduce explicit HOSTRUSTC_LD override
->   - Warn when falling back due to multi-argument HOSTCC
->   - Error out if a user-specified HOSTRUSTC_LD is not an executable
->
-> v1: https://lore.kernel.org/all/20260225102819.16553-1-mo@sdhn.cc/
-> v2: https://lore.kernel.org/all/20260227132713.23106-1-mo@sdhn.cc/
-> v3: https://lore.kernel.org/all/20260312002852.11292-1-mo@sdhn.cc/
-> v4: https://lore.kernel.org/all/20260317112021.14353-1-mo@sdhn.cc/
-> ---
->  scripts/Makefile.host | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> index c1dedf646..2d2429ca0 100644
-> --- a/scripts/Makefile.host
-> +++ b/scripts/Makefile.host
-> @@ -87,11 +87,29 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
->                   $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
->                   $(HOSTCXXFLAGS_$(target-stem).o)
-> =20
-> +# rustc's `-Clinker=3D` expects a single executable path, not a command =
-line.
-> +# `HOSTCC` may be a multi-word command when wrapped (e.g. "ccache gcc"),=
- which
-> +# would otherwise be split by the shell and mis-parsed by rustc.
-> +# To work around this, we generate a wrapper script that forwards argume=
-nts to
-> +# `HOSTRUSTC_LD` so that such commands can be used safely.
-> +#
-> +# Set `HOSTRUSTC_LD` for a different rustc linker command than `HOSTCC`
-> +HOSTRUSTC_LD ?=3D $(HOSTCC)
-> +define filechk_rustc-wrapper
-> +	printf "%s\n" \
-> +		'#!/bin/sh' \
-> +		'$(call escsq,$(HOSTRUSTC_LD)) "$$@"'
-> +endef
-> +
-> +$(obj)/rustc-wrapper: FORCE
-> +	$(call filechk,rustc-wrapper)
-> +	$(Q)chmod +x $@
-> +
->  # `--out-dir` is required to avoid temporaries being created by `rustc` =
-in the
->  # current working directory, which may be not accessible in the out-of-t=
-ree
->  # modules case.
->  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) \
-> -		 -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
-> +		 -Clinker-flavor=3Dgcc -Clinker=3D$(obj)/rustc-wrapper \
+ack, I'll just do that and I would have sent it if I did not confuse
+myself with the POSIX wording.
 
-Shouldn't this fix be also applied to rust/Makefile?
-It also contains a "-Clinker=3D$(HOSTCC)" argument for rustc[0].
+> 
+> >  
+> >  quiet_cmd_cpio = CPIO    $@
+> >        cmd_cpio = $(CONFIG_SHELL) $(srctree)/usr/gen_initramfs.sh -o $@ $<
+> > @@ -263,7 +265,7 @@ help:
+> >  	@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed tarball'
+> >  	@echo '  tarxz-pkg           - Build the kernel as a xz compressed tarball'
+> >  	@echo '  tarzst-pkg          - Build the kernel as a zstd compressed tarball'
+> > -	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
+> > +	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive (modules installed in INSTALL_MOD_PATH (default: /))'
+> 
+> Please break that line, e.g.:
+> 
+> 	@echo '  modules-cpio-pkg    - Build the kernel modules as cpio archive'
+> 	@echo '                        (modules installed in INSTALL_MOD_PATH (default: /))'
+> 
+> 
+> Fixes: 2a9c8c0b59d3 (\"kbuild: add target to build a cpio containing modules\")
 
-With something like the following (On a 6.18.19), it does compile:
-diff --git a/rust/Makefile b/rust/Makefile
-index d4618f646b05..516fc1ea872d 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -422,7 +422,7 @@ $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORC=
-E
- quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
-       cmd_rustc_procmacro =3D \
- 	$(RUSTC_OR_CLIPPY) $(rust_common_flags) $(rustc_target_flags) \
--		-Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
-+		-Clinker-flavor=3Dgcc -Clinker=3Dscripts/rustc-wrapper \
- 		-Clink-args=3D'$(call escsq,$(KBUILD_PROCMACROLDFLAGS))' \
- 		--emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --extern proc_macro \
- 		--crate-type proc-macro \
+I saw it more as an additional thing but without the complications of
+suppressing repeated slashes the change is easy enough
 
-Note that I did not use the same patch: scripts/rustc-wrapper instead of
-$(obj)/rustc-wrapper.
-$(obj)/rustc-wrapper did not work (the wrapper was searched in rust/ and
-not found) when I tried it.
-
-[0]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/rust/Makefile#n553
-
-Regards,
-
->  		 -Clink-args=3D'$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
->                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
->                   $(HOSTRUSTFLAGS_$(target-stem))
-> @@ -153,7 +171,7 @@ $(host-cxxobjs): $(obj)/%.o: $(obj)/%.cc FORCE
->  quiet_cmd_host-rust	=3D HOSTRUSTC $@
->        cmd_host-rust	=3D \
->  	$(HOSTRUSTC) $(hostrust_flags) --emit=3Dlink=3D$@ $<
-> -$(host-rust): $(obj)/%: $(src)/%.rs FORCE
-> +$(host-rust): $(obj)/%: $(src)/%.rs $(obj)/rustc-wrapper FORCE
->  	+$(call if_changed_dep,host-rust)
-> =20
->  targets +=3D $(host-csingle) $(host-cmulti) $(host-cobjs) \
-
-
---=20
-Yoann Congal
-Smile ECS
+thanks,
+Janne
 
 
