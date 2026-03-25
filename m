@@ -1,51 +1,84 @@
-Return-Path: <linux-kbuild+bounces-12254-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12255-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gAaYBBbgw2kgugQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12254-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:16:06 +0100
+	id ON+DKIzgw2kgugQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12255-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:18:04 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151B73258C1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:16:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99AD1325912
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 14:18:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 74B47311A15A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 12:44:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 82922300F2B6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 12:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0704F3D564B;
-	Wed, 25 Mar 2026 12:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AA6818C933;
+	Wed, 25 Mar 2026 12:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWUiB70l"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QsQTBQ2R"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5D73D47A7;
-	Wed, 25 Mar 2026 12:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD953D1717
+	for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2026 12:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442664; cv=none; b=mG/il6SUwn7XjVbyDmsg/ELDD7Dn/h67IVUFYLpEnW5BDSQwKsAPfCeBnw6k4mN5xSKMahrAQNtbdcmHUbO0qZojeA3WUghCCDkwEmJdWWRyxmwa46UG6AMhOfT14VZgWGSn9g3sOBVvBFqaOcZw++uk+S2FiZ2HXHel5I3sckk=
+	t=1774442973; cv=none; b=gynvEjEtsflyRlvNB2tqZmM4A80cbzxQbDVIH3ndaSkhddIymBKE84ZYpNmxlvRrdXVLikO/f/b0xJOcBifIuL5DzKK5ZOxB8nCh/B/UHd4sVXI6dl3OoXp86xgsGPrB1k4K+8ZWPvj2bUbrKJq4y9l5+mVSjCQlZIlatBRGICw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442664; c=relaxed/simple;
-	bh=38j766JVLWUVIfHDcaPtLgkhnG/XuRx89Jd0+IxYN6A=;
+	s=arc-20240116; t=1774442973; c=relaxed/simple;
+	bh=0jbWB3FjVQp+P8Ybiw1JdATIo1RfpVsEkcvfvEH0fIQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U58RYBrkT95Ntljb+SlLYTblx8QICR6nfgF5BAhguGlzzCwiGFJRvkP95J7+BeU1fV/7J7PwLbXYtUeNK7wPmaulVFcLdUwirKfNGv20s3ZxbqiYezLZvlV7nwiVAQL4HEOLEl4mgqwcRRqqjx13JHhVly4/yctP5LBFGO5CWQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWUiB70l; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED05C2BCB0;
-	Wed, 25 Mar 2026 12:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774442664;
-	bh=38j766JVLWUVIfHDcaPtLgkhnG/XuRx89Jd0+IxYN6A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RWUiB70lJFQ/lpRX5ksJCMQaC56Th+eO7hm7aEUDuy8Ob3y3O7RE3g6phJID+Lfs6
-	 jJoNnBN0IEh0AGkpcqImx42ObH5KMT847+f9FuhtO2tu7w6ZBVEnYvtsx8zYc0tSnz
-	 rCpd3E2bWxETBccTKvwfETKakB/9HkkiB3MOerBfdXxIdKLMxPsINHg0m0uAZzuToA
-	 pL904zdxnfHpI7n0laL8d4SLqpVJNkflxG6B5rx+JMm/Dr2U5xLknl4TT1rvYIe+tX
-	 NYS6ubeQS63LL1C8hS6xb+4klYgl6SgyxzxX2QiYY2Mln941/2SsK8/iuNHMI7qpT2
-	 7mY4W/DCGAH+w==
-Message-ID: <98a7e267-4162-42a1-9f4e-557897700e1b@kernel.org>
-Date: Wed, 25 Mar 2026 13:44:03 +0100
+	 In-Reply-To:Content-Type; b=cdi9rQmP6okhycaXqcUbZH5UM6K9DS46djxiqaf120pdKnbaeHnCfj2OO90B+a+Na2UQ1e28fLpwEtsbDgJp/p+eEUvHAva/0MgzQj5SwwOtymEFwcFsLa0chVVQlQKAZi9gq9Sa25/KPL17QSjxymsBnbDiNA7HmNrSR7jSD44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QsQTBQ2R; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b6d9c981so609330f8f.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2026 05:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1774442970; x=1775047770; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BJ4RwDdYC7l5LX4+kxPiqchKwdT0zRAfuYVx8dHTGTI=;
+        b=QsQTBQ2RkrQE7IMnUQFMVZf91MzfH5VhYOdj1f6Kc0qHkUjbpodcFhfNqvP7j00lIL
+         7+0NS3ce2sJFLeV0zP1vFfjxIhzEfBOaUThEj56njyTJBz08hVYC3GsWPreyMX0/s+SI
+         bqiSjb8e/MteSBDYDfZ88BtS+5N4oP3+lCjFDol0aDha2po5mM/macY7Gqc9+Qj7BF1Q
+         Q9kC8G6jUxbYVPT/E3pXanzVD1QenpTOeoh5HahyBpCrlKLC34dPfa3dBGd4ozO0YZsi
+         7nw+Vgi2bbhvnadrOePJ2jhdU86tkN+eJJiNDLdUr890bBTyvTbkDcI5FEOSvJZkri2v
+         oHGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774442970; x=1775047770;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BJ4RwDdYC7l5LX4+kxPiqchKwdT0zRAfuYVx8dHTGTI=;
+        b=lupOzn18YBwFgm35bRsnZ+m2N0CX4lIyZOCHXLNFfF+PXGQ+uzYCHLgJRRA6cMJUrU
+         T1+HmdVKGQQ83BOsvBfDsJFVK/43Rp4bh8m2SPEAAbuoUMiDUog5MqC5pvILja10wVpQ
+         GtVRbRq05NGUe8HZaY9HfrmBAqiD+YfVOMRIVs3oqGOVfkMdpbY0ZhKINN/oWBKJ95XK
+         oRE0OJ7PgbThXM3ChAtCDiDoEOdDt3TkGuADKbN5kYJThooZx6XvX23FCGWd0/cd+8i+
+         i+BfCMG7rF/2V958C7e9YKPiikBvhsryLTNmNh9m2ubxx4ApdAYwPT/DkEmpZWcq4Z9E
+         b4cA==
+X-Forwarded-Encrypted: i=1; AJvYcCV41Y3O5fIJwgKQNPB2qWjDTSOhLwZDyi+9Z5KoaXcDfzNQFUnedueYfvfNGOKyxNhiPf9wAoRHyFtWE64=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR51Gl0B9ILqtwbMkNh4BDgeEj5CNISFtxByqU49kgf4IQVXvr
+	7FfyK4ZRF17Wm5MRuhAlwDeu3G3ZgFMqZLlapyArnJRXyTrgb8rh1uP81xLF2UC4qlo=
+X-Gm-Gg: ATEYQzz/LOZLSfw9Jq6VqL1AewJ2qF3mWRH+5mkGlVWBoIURO3llUlxAUdADo5FWtM5
+	OFi95GWhd+zA4ji93Eo9mNdq4uqfvq8e6xutXxS3Jx07GVmiDafIlBYqyI7m1lNf713R2ACuTYb
+	Un0nLsc6SQ/oNc877PswmRBYhFvDxvh9QBN29ZqMlgwctCYUlu2EZrURebAgdXESIXWrUh3IAbi
+	2oQkWt3t05hyqg5pMNVhJR9QtwQH/f5ZSPInd9ed76Ha6uno/PeHu+RgAsD/kHLnjtsw9Ehmn0S
+	b/dgtMXpecNgiXqhVTxM0oxb+6xcblSXjnspsY+8DnzpbvbNBh51RTsN6YN1q5ss6F5qePJLusY
+	rou/oyGO73eTZ44YSHWWGb/c7PtEyFGntEiblcNzRJh16Ed0QUcoGqluJczTf4JC9Kul73PUZVa
+	ZslOJ80ZR39RG8ETDbruPEKEPSL5M+MEpM9heVFTP7247D
+X-Received: by 2002:a05:6000:228a:b0:43b:4909:203c with SMTP id ffacd0b85a97d-43b883c881dmr5791312f8f.21.1774442970332;
+        Wed, 25 Mar 2026 05:49:30 -0700 (PDT)
+Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b8508285esm13445921f8f.19.2026.03.25.05.49.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Mar 2026 05:49:30 -0700 (PDT)
+Message-ID: <b83c9524-13df-47dd-a597-bebab93288d8@suse.com>
+Date: Wed, 25 Mar 2026 13:49:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,172 +86,78 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] arm64: defconfig: remove obsolete assignment to
- SLIM_QCOM_CTRL
-To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
-Cc: Alexandre Gonzalo <alexandre.gonzalo@arm.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-parisc@vger.kernel.org,
- openbmc@lists.ozlabs.org, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Mikko Rapeli <mikko.rapeli@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>,
- Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Pablo Neira Ayuso <pablo@netfilter.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
- Gregory CLEMENT <gregory.clement@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Heiko Stuebner <heiko@sntech.de>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>,
- Sricharan Ramabadhran <quic_srichara@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- "Rob Herring (Arm)" <robh@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anna Schumaker <anna.schumaker@oracle.com>
-References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org>
- <20260317-arm_defconf_cleanup-v1-9-8eecb7fdd24d@kernel.org>
- <9545b66c-f223-48a3-96fe-c906d2307654@kernel.org>
- <d7ba53bd-e484-4ea1-b90b-e44321eef4c3@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v4 0/8] scalable symbol flags with __kflagstab
+To: Siddharth Nayyar <sidnayyar@google.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ maennich@google.com, gprocida@google.com
+References: <20260305-kflagstab-v4-0-6a76bf8b83c7@google.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <d7ba53bd-e484-4ea1-b90b-e44321eef4c3@kernel.org>
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260305-kflagstab-v4-0-6a76bf8b83c7@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[arm.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org,kernel.org,linaro.org,gmail.com,armlinux.org.uk,iki.fi,kemnade.info,baylibre.com,atomide.com,xen0n.name,alpha.franken.de,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,users.sourceforge.jp,libc.org,physik.fu-berlin.de,redhat.com,alien8.de,linux.intel.com,zytor.com,linutronix.de,goodmis.org,netfilter.org,samsung.com,nxp.com,pengutronix.de,mleia.com,timesys.com,glider.be,mobileye.com,bootlin.com,HansenPartnership.com,gmx.de,gmx.net,zankel.net,suse.de,arndb.de,sntech.de,renesas.com,quicinc.com,roeck-us.net,oss.qualcomm.com,linuxfoundation.org,oracle.com];
-	TAGGED_FROM(0.00)[bounces-12254-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-12255-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[97];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-kbuild@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild,renesas];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 151B73258C1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,suse.com:dkim,suse.com:email,suse.com:mid]
+X-Rspamd-Queue-Id: 99AD1325912
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 25/03/2026 12:31, Vincent Mailhol (Arm) wrote:
->>
->> Exactly that case also encouraged me to document this, since we do not
->> know how to fix get_maintainers. See commit
->> 6efe5322f060099c8bc51aaee83b857394e42dd5
-> I read the thread in which you posted that patch. Thanks for updating
-> the documentation, but as people anticipated, as long as the tool
-> doesn't do the right thing, there will be people like me who will mess
-> up the recipient list.
-> 
-> Anyway, sorry for that.
+On 3/5/26 5:55 PM, Siddharth Nayyar wrote:
+> This patch series implements a mechanism for scalable exported symbol
+> flags using a separate section called __kflagstab. The series introduces
+> __kflagstab support, removes *_gpl sections in favor of a GPL flag,
+> simplifies symbol resolution during module loading.
 
-No worries. I wished the tool was improved because I believe in the
-toolset, not remembering thousand rules of different subsystems...
+I noticed that the series has a bisecting issue. The module loader
+doesn't see any GPL-only exports after patch #4. I think you'll need to
+squash patches #4 and #5 to fix this. Alternatively, the patches could
+be swapped, with the caveat that GPL-only symbols would lose their GPL
+property for one commit.
 
-Best regards,
-Krzysztof
+Nit: Please use simply the "module" prefix in commit subjects:
+
+#1: module: define ksym_flags enumeration to represent kernel symbol flags
+#2: module: add kflagstab section to vmlinux and modules
+#4: module: use kflagstab instead of *_gpl sections
+#6: module: deprecate usage of *_gpl sections
+#7: module: remove *_gpl sections from vmlinux and modules
+
+The changes look otherwise ok to me. With the above fixed, feel free to
+add:
+
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+
+-- 
+Thanks,
+Petr
 
