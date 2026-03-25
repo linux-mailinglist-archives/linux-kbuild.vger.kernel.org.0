@@ -1,173 +1,176 @@
-Return-Path: <linux-kbuild+bounces-12243-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12244-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INtaNjKow2nAtAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12243-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 10:17:38 +0100
+	id iDF9FISsw2nAtAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12244-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 10:36:04 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B917322025
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 10:17:38 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA7C3224DA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 10:36:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7186B3013DEB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 09:17:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E2BF830BBD09
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2026 09:31:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C135C3043BE;
-	Wed, 25 Mar 2026 09:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06AD7351C07;
+	Wed, 25 Mar 2026 09:31:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="egVCFxAj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCNQphXg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E960303CA0;
-	Wed, 25 Mar 2026 09:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF523337BA4
+	for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2026 09:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774430254; cv=none; b=b9TmMS20JOTRp8E8mss8oPDY8KG7mk6N1Pt1EW/7jXyeRmkx8do4CpHsZH5xGePEiyU0edN/r8iN44lSy7ffiXUPq16OyNvPs+5yiY6RSPoBGHw2sOCC9RsS9ukHrnxONKlE96JPczFp7JM09Fcm8flZAhyPrBOHaDS//RWbmGw=
+	t=1774431118; cv=none; b=aMTWxGwaa4s2+s6Ej0f6dm2YOSLDwWafVCqlCHT7o4OLstPehC1Nv6CiRIwq4gZd0lyO/B4iQ1kdty39IgQKuFseY7wXCfESCrBm4VrmLze46AaLXuzSEmOG7ijlwz48rC2ogHFMq8XZ9z54HWDvi7dQ4Bc5gpF/v/lKkBmG2ZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774430254; c=relaxed/simple;
-	bh=4ScwFqn171HX1Hi0UuginrgxA6UZYGvppnqNjJyOGIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZazeAyFLm7zYcGCi+McukqKnPtODi/WW/UNOhxFsDnYSyukLh+FH/WX4o39qK6E95+3bth8HjrJSS4MHuDIFMNIHTu5pgIEPWhEvz0Ldk5soP8ZPm8tvmirLwx4I6V3k87y66Cf8ri0P3z0HwXHR02DoHIczbJsH5wkweQARwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=egVCFxAj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1EB8C4CEF7;
-	Wed, 25 Mar 2026 09:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774430254;
-	bh=4ScwFqn171HX1Hi0UuginrgxA6UZYGvppnqNjJyOGIM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=egVCFxAj2i8/RJNz5i78aEfTQAFC0JOdptowRn7Ru9l50SIS/yGSNKzbfvorwVJbU
-	 zCxPBAxEZhwRFBavx+FfJZhgPwtFTQ6f+wHVtMhszsjzFZ+ylCqh9wb4WVIF0486iG
-	 MWs8Uqg93VWC/KU9eNeRDr8imS7jHhaliKMdtyvJ6UvSUOUXl4QQubFx6RTuRVPDjE
-	 NtxH9f6Z+x1fTJwKsNj4lVVL2h73NuDcMD/qV+NWkOvWxVP6p+K0fbdNqMDViAVXow
-	 b0olsaDb9R1FvjZbtSvje1GjQaaCjC5p3uM7lU6g2cIXz7UX1eTZEIFibaFXv6xTJ2
-	 HqefLbPXb+xjg==
-Date: Wed, 25 Mar 2026 09:45:05 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Mohamad Alsadhan <mo@sdhn.cc>
-Cc: nathan@kernel.org, ojeda@kernel.org, gary@garyguo.net,
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: Re: [PATCH v5] kbuild: host: use single executable for rustc -C
- linker
-Message-ID: <acOgkfn-cOOy2YNG@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Mohamad Alsadhan <mo@sdhn.cc>, nathan@kernel.org, ojeda@kernel.org,
-	gary@garyguo.net, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Yoann Congal <yoann.congal@smile.fr>
-References: <20260317112021.14353-1-mo@sdhn.cc>
- <20260321150034.9915-1-mo@sdhn.cc>
+	s=arc-20240116; t=1774431118; c=relaxed/simple;
+	bh=w/hbKaEAf5xMVRyhYMppeW+IYPZFDrFUwVxsZEc+SsE=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-version:Content-type; b=dLvGt6BGY8NEP0VZcflRyVbp0QAH4tG7VvP/gqgYZ+umG6iUwPK1Svqyhf2BEqGqL7nYhlCO3SWyfcvLTKHVedhsQ1CAgE21pAvvvfZAllymOMMkey55q+7FqUU0zP1WfpNHlVT7mRPvn4x6GaEfAGkMFDxT3qZd7Z+AC0WWR8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCNQphXg; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-358d80f60ccso1264501a91.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2026 02:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774431117; x=1775035917; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TF/+cxtFW65/t3CsODFg6Eg+Msha9EyFtJo/8aQf58o=;
+        b=MCNQphXgbc8EpPzAuqYR8djm6txUWJstcMPwRNfsTZk6b22vUePuvsml+PJUK3mm76
+         Lkow+Z82dj75WBS7/AA5c8i+Tr5QWwCvO3rRAZAhYLZ983FdJi/h8SQV9O7JB+SaQcAg
+         CwkiIgU1OWgGBovJCAhscMIfL/QNgLZ+Q5VAArKhAMVlaRHXUjSBtNSsQKFEMUymHf8y
+         kDYmx8nd7ephwuINvgjtBDyMaSYzZDpS/wIJOB7MzwDhWQzFKBHjCjduwobnkanxLXs5
+         aI1q19ZknrG3abF/C91ofTS62I+Q4OIWQZQ5XoOX6yO6ya5BppJUWdkzGTnTptZzBtTO
+         rOPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774431117; x=1775035917;
+        h=content-transfer-encoding:mime-version:references:message-id:date
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TF/+cxtFW65/t3CsODFg6Eg+Msha9EyFtJo/8aQf58o=;
+        b=d8gQpeGdkAQM8IdJzGhsl6QtCo5L/b5QmH46eVC4EvGjrCyoSSs79rzFtw9MqoI590
+         ofUTp8c2rZ/TT8HlJK3laQLxq75lllnVhHlR7HK3PIYrbVnWKabINRiI1sM/53R7AaZD
+         2eLtt8Jt18oitzNMKn1c6Wp23ePprRNQ44v5hq/Hg0/NVZeFGfIqcI3brMO5A+1gtyeE
+         1Qf6HnBV/f7mpGgEGds8J1ffjPCLtEw+8kGxmwfEWVRJQVDrngzOyHEooeWAed3MKNXr
+         dJIBGPmUyyP1vGQhe+4e8irkLnDiOMMqNzO9jE/5Qy46wZ0LdPVZXHK7iYg1nWT6F6t/
+         pSwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWvDT8VDlcm7Xz5IteAW9a+OC9sYU3lirkHLkEkBXOeVpt/eikEqziQKMbaBW1+sW6zgqF/3NFfkUqIZU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGroV4SfNQNtjgq98GHEBusOr/HHwSZ6BgRotGKPhFEAFpT/PO
+	teEjBLTJwo3eJz+uPj++2Pupn21Mrg67CHFPovYAlfiRKJ3WmYqQVddq
+X-Gm-Gg: ATEYQzx8bM83B1ORHfmNRRIHoJJCKLeHS97vCOGKxGCr969FPgfO2ZyIP6Bo1ONgmNF
+	jwEyi4BjeLmzkxGYFjda2sC0zZinoIwh4OvPeoLtT6N2ApVnSKg8AU0w6gpQGeBJU231cFUg0/q
+	n5gvZilt3ngk2Qjpw/Be4AIX89tdCsOgSSaO3TxzEhIFYfLuTUefmFj4/fA3t5/akH6+ukpgAZ1
+	CqikyZ+Zddg5OSDWC/7Lew5AOfQyFmhgLy9pwSW/WFF+AKTrgCOW68sGIuprAKqNumy+0J/XqWQ
+	3GV1jStm8/qXxhwgggA5pBSY9d+2JacbrW5+bE3vQtVUEwFaBjIsXnVtLeS8ykMxVgGSC++eMUL
+	SQ3hGKxb0XeZxdVFzuL2gt7l+dNzasoTh3OdjgLOPw0h5EDdRRqP5I9kg+UywXFEGaUdmpOVN4K
+	JTpLoYaLRxVctDTPp6Fy67VP+FyLc66mnR
+X-Received: by 2002:a17:903:37cf:b0:2b0:41bf:ca83 with SMTP id d9443c01a7336-2b0b0a48b14mr30087295ad.23.1774431117028;
+        Wed, 25 Mar 2026 02:31:57 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0b0129905sm25660755ad.27.2026.03.25.02.31.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 02:31:56 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Venkat Rao Bagalkote <venkat88@linux.ibm.com>, arnd@arndb.de, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, nathan@kernel.org, nsc@kernel.org, ojeda@kernel.org, masahiroy@kernel.org, linux@weissschuh.net, tamird@kernel.org, rostedt@goodmis.org, ihor.solodrai@linux.dev, maddy@linux.ibm.com, peterz@infradead.org
+Subject: Re: [PATCH v2] char: nvram: Remove unused nvram_mutex to fix -Wunused-variable warning
+In-Reply-To: <e6db8617-6b12-4f90-967d-85c9f7805823@kernel.org>
+Date: Wed, 25 Mar 2026 14:34:04 +0530
+Message-ID: <7br0nuuz.ritesh.list@gmail.com>
+References: <20260323073220.25798-1-venkat88@linux.ibm.com> <e6db8617-6b12-4f90-967d-85c9f7805823@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260321150034.9915-1-mo@sdhn.cc>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+MIME-version: 1.0
+Content-type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12243-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12244-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[riteshlist@gmail.com,linux-kbuild@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,smile.fr:email,sdhn.cc:email]
-X-Rspamd-Queue-Id: 6B917322025
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0EA7C3224DA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Mohamad,
+"Christophe Leroy (CS GROUP)" <chleroy@kernel.org> writes:
 
-On Sat, Mar 21, 2026 at 06:00:34PM +0300, Mohamad Alsadhan wrote:
-> rustc's -C linker= option expects a single executable path. When
-> HOSTCC contains a wrapper (e.g. "ccache gcc"), passing
-> `-Clinker=$(HOSTCC)` results in the shell splitting the value into
-> multiple words, and rustc interprets the additional word as an
-> input filename:
-> 
->   error: multiple input filenames provided ...
-> 
-> Generate a small wrapper script and pass it to -Clinker e.g.
-> 
->   ```
->   #!/bin/sh
->   ccache gcc "$@"
->   ```
-> 
-> This fix should be general enough to address most if not all cases
-> (incl. wrappers or subcommands) and avoids surprises of simpler fixes
-> like just defaulting to gcc.
-> 
-> This avoids passing the user command as an environment variable as
-> that would be more challenging to trace and debug shell expansions.
-> 
-> Link: https://github.com/Rust-for-Linux/linux/issues/1224
-> Suggested-by: Yoann Congal <yoann.congal@smile.fr>
-> Signed-off-by: Mohamad Alsadhan <mo@sdhn.cc>
-> ---
+> Le 23/03/2026 à 08:32, Venkat Rao Bagalkote a écrit :
+>> v2:
+>>    - Added missing Suggested-by tag from Ritesh Harjani (IBM)
+>> 
+>
+> Patch history must go _after_ the --- below, otherwise it will appear in 
+> the commit message when applied, which is pointless.
+>
+>> drivers/char/nvram.c defines a static mutex 'nvram_mutex' which is never
+>> used. This results in a compiler warning on linux-next builds:
+>
+> It is probably not only linux-next builds, I think the problem exists 
+> since 20e07af71f34 ("powerpc: Adopt nvram module for PPC64")
+>
+>> 
+>>    warning: 'nvram_mutex' defined but not used [-Wunused-variable]
+>> 
+>> Remove the unused definition to avoid the warning.
+>
+> It is not what you are doing.
+>
+> You are just hiding the probleme by saying 'maybe it is used, maybe it 
+> is not used, I don't know I don't care".
 
-Thanks!
+Venkat, do cares about this warning, and hence he sent the patch in trying to fix it ;)
+I think, I missed seeing the upper #ifdef block of PPC, and hence
+suggested him to use __maybe_unused, instead of complicating it
+further with...  #if defined(CONFIG_PPC32) || defined(CONFIG_X86) || defined(CONFIG_M68K),
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
-Tested-by: Nicolas Schier <nsc@kernel.org>
+> Please properly fix the problem instead.
+>
 
-Unfortunately, I overlooked the missing entries for 'clean'/'mrproper'
-and scripts/.gitignore.  Is it ok for you if I the following diff to
-your patch?
+I agree, make sense.
 
+> I think the fix is probably to remove the #ifdef CONFIG_PPC32 around 
+> IOC_NVRAM_SYNC.
+> If you think it is important to return -ENOTTY on CONFIG_PPC64, just add:
+>
 
-diff --git a/Makefile b/Makefile
-index a8d8ed711f9b..69fa18565219 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1676,7 +1676,8 @@ MRPROPER_FILES += include/config include/generated          \
- 		  vmlinux-gdb.py \
- 		  rpmbuild \
- 		  rust/libmacros.so rust/libmacros.dylib \
--		  rust/libpin_init_internal.so rust/libpin_init_internal.dylib
-+		  rust/libpin_init_internal.so rust/libpin_init_internal.dylib \
-+		  scripts/rustc-wrapper
- 
- # clean - Delete most, but leave enough to build external modules
- #
-diff --git a/scripts/.gitignore b/scripts/.gitignore
-index 4215c2208f7e..b3948b148c4b 100644
---- a/scripts/.gitignore
-+++ b/scripts/.gitignore
-@@ -6,6 +6,7 @@
- /kallsyms
- /module.lds
- /recordmcount
-+/rustc-wrapper
- /rustdoc_test_builder
- /rustdoc_test_gen
- /sign-file
+That make sense and I should have thought of that.
 
+However, I looked at the suggestions from Arnd, and I too agree that all
+underneath function operations already do their own locking, so I agree
+that we could just kill this nvram_mutex lock itself.
 
-Kind regards,
-Nicolas
+-ritesh
+
 
