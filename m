@@ -1,167 +1,189 @@
-Return-Path: <linux-kbuild+bounces-12267-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12268-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cHnXEZOmxGmZ1wQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12267-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 04:22:59 +0100
+	id EOWvI+rGxGl33gQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12268-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 06:40:58 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9291832EBF5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 04:22:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C585532F764
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 06:40:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5B63B300E710
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 03:19:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6FF8A3026175
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 05:40:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 429E837996B;
-	Thu, 26 Mar 2026 03:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E768F3A3E8B;
+	Thu, 26 Mar 2026 05:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGj9pC7U"
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="dLRebvcn";
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="ldcLAgFv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45892F362B;
-	Thu, 26 Mar 2026 03:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BEE39E183;
+	Thu, 26 Mar 2026 05:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774495162; cv=none; b=XsevCfLZI4ZYE1/cw9xYH1+k6Knn7DmBEtdkc1H47DiZaj885vssQC85RbBDYGolcGRjHcxOPrC44JJNF8ZBHZWLD/Fs2TrVDXPOhtkIltCfa2aVxmhOgCezz1xC3oRUIjj8ASxIBFy0ec3EMPVsj1MgTuTb5gz9ygLqixgdYOQ=
+	t=1774503652; cv=none; b=m6hw5+pBVYiZ/V0htOWZARXsDD1F1AQV8DQg0T3Lyha8n5OLema9EbZFGxe729eftfalpRoLTRH8izeMJtVQVKcuhQPyeCsKXJQehmdvIrWcUai4+rknACgc4fY+C6tt1iQvubeaT2vyjDGUcOcM03NyEUKQd7JH5/4FkEF9EtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774495162; c=relaxed/simple;
-	bh=wyMUop065AGEuXj2FUPnIZ9Ayur7IMuk6aXC0UUeYtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t54VDJXXcobvbdT69HYkIxGiPBxfCo91+hTDGv0/8OnKalL3uhJMCrmGY418c51my9vr2aSdSzDbOINupNU61mnVwZQhbPHJsy6SQTck2DpW4qADJfheY/Ny2MQW9psGMZf9GnHKviElTrqfUsIhboeTko/GJqUAGD+XAPDtbUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGj9pC7U; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774495161; x=1806031161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wyMUop065AGEuXj2FUPnIZ9Ayur7IMuk6aXC0UUeYtg=;
-  b=fGj9pC7UL/rOc9cWiayatt3V2YK9kdf/Mz1IshxS9pQECwNM7/2AtBpL
-   aaxfeW85SiR8PYW2haaXt7vCsfEQqTZSJKRLMe+nbDPNWRkQRJng8unqR
-   qsugpukSKfVpSTAIumLr+r3xy+F6qL3VnQ5j5V3MUPOHf3qBFYVogUbVd
-   H7IXoSgufQlxsPZBQBFft4zbtbbIU2Dopthd1bqbgGAlpBiL2owTXWfyS
-   HoD+I22YKylapsk3gnzSGZho+Z5l+3sZvilrOohPSfTjfDVJgDvQpFOJ6
-   oTKPXvo3mNI1RqcIni16wJkOZRJT+FPV1hFigCNfhMTFlvNYUhDPXk1Ky
-   Q==;
-X-CSE-ConnectionGUID: X2Hn36NDQSezOgDP6ZDrVA==
-X-CSE-MsgGUID: QdJuH5hXSY+llfwQpA/tmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75659312"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="75659312"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 20:19:10 -0700
-X-CSE-ConnectionGUID: v2UdeSH2QIirO/MLDO7XvQ==
-X-CSE-MsgGUID: FpZkpFQ+QoWXD2rce+lMuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="224896195"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Mar 2026 20:18:56 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5bFD-0000000083B-3TlK;
-	Thu, 26 Mar 2026 03:18:51 +0000
-Date: Thu, 26 Mar 2026 11:18:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>,
-	Christian Brauner <christian@brauner.io>,
-	Carlos Llamas <cmllamas@google.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
-	Aaron Ballman <aaron@aaronballman.com>,
-	Cole Nixon <nixontcole@gmail.com>,
-	Connor Kuehl <cipkuehl@gmail.com>, Fangrui Song <i@maskray.me>,
-	James Foster <jafosterja@gmail.com>,
-	Jeff Takahashi <jeffrey.takahashi@gmail.com>,
-	Jordan Cantrell <jordan.cantrell@mail.com>
-Subject: Re: [PATCH v2] rust: allow Clang-native `RANDSTRUCT` configs
-Message-ID: <202603261112.bLTUmUGa-lkp@intel.com>
-References: <20260323130224.165738-1-ojeda@kernel.org>
+	s=arc-20240116; t=1774503652; c=relaxed/simple;
+	bh=n9xjHtpRhSH9ix3QmcQLv0kr4+Yq4N4rwcbqb/HE28g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sPEMhpQZAsJbJ8B+6QTavi3lgxV5/iQifvv7HMgx25nNsHo9LjPIhg6GPVgDNmSFipQrAmFfz20oMiLLU9hj4wRy8LeQq4PYQ9ZTm+mW4OpMSAbpXNIEqjuOuRhrOPYIV4S6KhpBN9EezJWLt6LHPRUZlyvowh7IFe/TlTOk92A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=dLRebvcn; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=ldcLAgFv; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1774503291;
+	bh=n9xjHtpRhSH9ix3QmcQLv0kr4+Yq4N4rwcbqb/HE28g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dLRebvcntzwFpH7dQ1ezEtnqDQrnfqOEkALvx6okdHaLJcFTIf99TajN5GORbPKWZ
+	 pzWUXjjlB85klCEskTlHka1vHn7UFo+4kN8yYmLjwhKdVxjR4Tx2pGLccU7OvWX91b
+	 vsVM1JEIvYiMZ8cgOGZCAopB4/OvjyRL//b49SKEgkYEILkZFH2sp9LmdVYPOelCP2
+	 P3Gft+GBYKZhwaVAddIXCBfwhTOlTRmoUUVsHAIOWmcBtj1QThwprO68PNS7mPnUJU
+	 dB+kjJ3+HtQy8CY4JmT7OeAfYlkpL2BlkbRK+AgDNs+oyCtz1E7ThssjRv15wNYTKc
+	 yQDTb44BrW7mfb4RDB095TPbgIv/8jYehe+/2A5zby9SFR5rpsa2HHaj4OrqVBiLI/
+	 wACG+VnA1eEkKTXyCe0CaoqARO1hv1p00DHneWvEhK3puX587so1qBVLqmzoeWJj9K
+	 WIGHsIz/xlDwv4HGZ9ayBgbxsX7QP9cDGjA5v9KXYoh6HvtoRk9Pd1JjXD8034zc11
+	 OwKwVmvhTy/14T0Qe/HagRLXKImMZDTaD3fA8MIOfweIIasKRlAR3+mxHTbtFzswDi
+	 +K3+ydlywGLxNurwWrMCSL+96gafwB0a6Q07wosQxDoM9zEuKQuBeIo8yRLYCDIdDx
+	 xFWMC4LRykuiwsrXV2HLMueA=
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id 2C2471E833E; Thu, 26 Mar 2026 13:34:51 +0800 (AWST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1774503287;
+	bh=n9xjHtpRhSH9ix3QmcQLv0kr4+Yq4N4rwcbqb/HE28g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ldcLAgFv276uo5NW6LPy7yICCVgujhSzmWWh6jq+0as7zdXji4UzHT6jmt4Pz/+33
+	 S3izhb/lP9G6bwJL2/2H1qTs2LUaVuCj/ABRbszrZp4q62JjEXq55nTfRp2SvLuI9R
+	 fm906bBysocD7LOT3MwsI7/Yswz4Tiu7PEgJoKZ1suCr2uP3hzygBpq9Y/uHrCvnlV
+	 hL320KohBE1/nJw3XzMRLlA2C6A8q7IH7kiC+wl1eGgKbZUpqeffPGP1oYo0M96OJC
+	 b7+eOTWzv4JyqwtBOF8ElsXU3R7ytXb6QQaJ6JxxljEQwj2nIYkCAf94e9nYx5u4JE
+	 4903DdFW1gSuzq8xO+jxBKsA7ZEGlu1on8XW++IES/3QjXnfMvh/tT99aAmzDk70mK
+	 Q12zsoXnahHRQZEKsNXsV7IS8i6e64DETF7+FG/6LFPOLnJzdxuyTYZMWVs6YLIIDG
+	 aFSeffc9zYPYLL5KHnYpKyLYtJTLbeBA1SbKt6JO1LkMj8NOUC7hfwUzjxN/oHDv2z
+	 3/L5hJqEG8WzvGUCwLtLeVT2cCVUWYkRhKzxdIUzYLENGP4vUxvX5aCNKe1wTm38eG
+	 Uoepqbm42xqept2Sy0Ah2AWCkqIRpUM2alnyL+hUrW0AW3Nejd9c4XWG434jAvhFQB
+	 SI3cbpjzbw15rKzFZT3TjCdA=
+Received: from [IPV6:2001:8003:8824:9e00:6d16:7ef9:c827:387c] (unknown [IPv6:2001:8003:8824:9e00:6d16:7ef9:c827:387c])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id DC56A1E737C;
+	Thu, 26 Mar 2026 13:34:46 +0800 (AWST)
+Message-ID: <e6bcf016-4739-4ba4-a46c-c0416c07400f@davidgow.net>
+Date: Thu, 26 Mar 2026 13:34:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323130224.165738-1-ojeda@kernel.org>
-X-Spamd-Result: default: False [0.34 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
+To: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Russell King <linux@armlinux.org.uk>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>, aliceryhl@google.com
+Cc: linux-um@lists.infradead.org, llvm@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+ a.hindborg@kernel.org, acourbot@nvidia.com, akpm@linux-foundation.org,
+ bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org,
+ gary@garyguo.net, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ lossin@kernel.org, mark.rutland@arm.com, mmaurer@google.com,
+ nicolas.schier@linux.dev, peterz@infradead.org,
+ rust-for-linux@vger.kernel.org, tmgross@umich.edu, urezki@gmail.com,
+ will@kernel.org
+References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
+ <20260322192159.88138-1-ojeda@kernel.org>
+Content-Language: fr
+From: David Gow <david@davidgow.net>
+In-Reply-To: <20260322192159.88138-1-ojeda@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[davidgow.net,none];
+	R_DKIM_ALLOW(-0.20)[davidgow.net:s=201606];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,gmail.com,google.com,aaronballman.com,maskray.me,mail.com];
-	TAGGED_FROM(0.00)[bounces-12267-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12268-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com,armlinux.org.uk,nod.at,cambridgegreys.com,sipsolutions.net];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.infradead.org,lists.linux.dev,vger.kernel.org,kernel.org,nvidia.com,linux-foundation.org,protonmail.com,gmail.com,garyguo.net,kvack.org,arm.com,google.com,linux.dev,infradead.org,umich.edu];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FROM_NEQ_ENVFROM(0.00)[david@davidgow.net,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[davidgow.net:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid]
-X-Rspamd-Queue-Id: 9291832EBF5
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C585532F764
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Miguel,
+Le 23/03/2026 à 3:21 AM, Miguel Ojeda a écrit :
+> On Tue, 03 Feb 2026 11:34:07 +0000 Alice Ryhl <aliceryhl@google.com> wrote:
+>>
+>> To get rid of these helper symbols, provide functionality to inline
+>> helpers into Rust using llvm-link. This option complements full LTO, by
+>> being much cheaper and avoiding incompatibility with BTF.
+> 
+> I have been testing this. I think we can go ahead with it, with a few
+> notes.
+> 
+> I will reply to a couple other bindings in separate emails to avoid
+> spamming people too much.
+> 
+>    - I will mark the Kconfig option as "(EXPERIMENTAL)", since that is
+>      what the commit message says and it allows us to be a bit
+>      conservative.
+> 
+> 
+>    - Clang passes `-Werror=unused-command-line-argument`, which means
+>      under arm (i.e. 32-bit) we get:
+> 
+>        clang: error: argument unused during compilation: '-U arm' [-Werror,-Wunused-command-line-argument]
+> 
+>      And under UML I see:
+> 
+>        clang: error: argument unused during compilation: '-I ./arch/um/include/shared' [-Werror,-Wunused-command-line-argument]
+>        clang: error: argument unused during compilation: '-I ./arch/x86/um/shared' [-Werror,-Wunused-command-line-argument]
+>        clang: error: argument unused during compilation: '-I ./arch/um/include/shared/skas' [-Werror,-Wunused-command-line-argument]
+> 
+>      So we would need e.g. `-Wno-unused-command-line-argument` there
+>      close to the `-Wno-override-module` one, unless Kbuild or
+>      ClangBuiltLinux thinks it is important to keep it for this case.
+> 
+>      On the other hand, regardless of whether we fix this (and another
+>      issue in a separate email found thanks to the UML build), we could
+>      instead add `depends on` listing explicitly the architectures where
+>      this is going to be actually tested. That way maintainers can decide
+>      whether they want to support it when they are ready. Thoughts?
+> 
+>      Cc'ing Nathan, Nicolas, Nick, Bill, Justin, David, UML, ARM.
+I'm quite happy personally to just have 
+-Wno-unused-command-line-argument here, given that it otherwise is 
+working pretty well on UML and 32-bit UML.
 
-kernel test robot noticed the following build errors:
+That being said, I expect it won't get a lot of testing (regardless of 
+architecture) while it's hidden behind CONFIG_EXPERT.
 
-[auto build test ERROR on bf074eb6891be799174ff42e0051492681fdc045]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miguel-Ojeda/rust-allow-Clang-native-RANDSTRUCT-configs/20260325-210001
-base:   bf074eb6891be799174ff42e0051492681fdc045
-patch link:    https://lore.kernel.org/r/20260323130224.165738-1-ojeda%40kernel.org
-patch subject: [PATCH v2] rust: allow Clang-native `RANDSTRUCT` configs
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260326/202603261112.bLTUmUGa-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260326/202603261112.bLTUmUGa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603261112.bLTUmUGa-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error: kernel-address sanitizer is not supported for this target
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+-- David
 
