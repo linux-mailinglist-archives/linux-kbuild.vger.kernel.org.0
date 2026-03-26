@@ -1,174 +1,164 @@
-Return-Path: <linux-kbuild+bounces-12279-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12280-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CHZJbf2xGmC5QQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12279-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 10:04:55 +0100
+	id sAc0CtkLxWma5wQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12280-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 11:35:05 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877D3331E3A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 10:04:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7329E33373F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 11:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 14FEF3042395
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 08:54:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5B877326DB21
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 10:10:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17CDB35DA6D;
-	Thu, 26 Mar 2026 08:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F222A3914F9;
+	Thu, 26 Mar 2026 10:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TV/SLegR"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Gtxwl7/R"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2E53385B2
-	for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 08:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DF836DA06
+	for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 10:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774515286; cv=none; b=U2OpKfscOyFpPwlsJSh2aWswNtFHnoWBesogSmD7J6RrPNdb03DifKWuvFARG+SFQx+z7VQ1qjuc+IOswfsynjZZjX0xaRBTaeZo/0qfHdMhTKS5gtuurmxTIKDTVswGMGi4zrAG9/zzz6s9nrlTwhpRC6s3oNt7fPfuZ19+LH0=
+	t=1774519814; cv=none; b=OLFtPuO1yTOI0+nsbmhdMR/uDXOhH7aSrZIZHQCXeEbK6GYoGOrQg0JEsMZ67hFBy2xogUAhuWt4UuqRrzXmiB2pImaOmJKsrKAXBSe4nqT/3gszmjJrhZ+0Gx+ubzqoLY/tXJlcikYgSk3Jk0GrL7LODMTzgk68vUFzlBqEbuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774515286; c=relaxed/simple;
-	bh=pVOvWW6/8RbPMOuNt3in1cuWQXC6AAst+EwzEiwLSEg=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZqI1R5d1FzfcNqe2vI/TQ37vDGJDwnjGm0HIFgp69O7F8yRkxm4VS28hB28dZj1MK0FRm4cxUHVLc5BfnFAlYYCbm9lUB2pV+7DB8rGX+95LxDI0XJzfMPj//DgToKYtKr3dDMKP8m/XkwTZhPGEm0n3uqWz+rcE8vkGREBg/EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TV/SLegR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD08C2BCB2
-	for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 08:54:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774515286;
-	bh=pVOvWW6/8RbPMOuNt3in1cuWQXC6AAst+EwzEiwLSEg=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=TV/SLegRcizv12x0IPKzeUfFQMf/dB5JF4rfekrIVqdFxc1pV3wJFX09vTg9axUIf
-	 HRmdBRmn/vr/bMZrXHq9PP1CwSpuBXn1xMa5MA6FApmSWD2WTTEO4pvtMjPcQoEFHY
-	 yT8wNkSsgjShxxZKrv43HGqPR/CYirdJnlCt+/Nr2zGXQI/du1BF42mbn3JSG5EHRV
-	 8BnD94NZlKhwewW8f0gI/fRQKvpToaiRfFN8q7la93cx3LB0fdwZJWIyfarmBIMZtU
-	 D7aM3iq0qJBwONhxvqF2/aXh0y94jrdJvjD941VUGT9FpNCMEMI9uBTphlpQ49esNn
-	 q9GyByiYDeJbQ==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a27daa652fso933643e87.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 01:54:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWORKTcTp2H/c6DuMsV30+vjEGTLKrS+g5r3IScHEZp9rtI6ZwFb76HQoOgYlxFDwaqrYQSx3IlOAafD9E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIgyr8+A531zrSqdmd4k4N1idSFk6sqO7L6qaeraphnwVMWLl9
-	gMGMFv8dd08mJ9U0HTAy174iw1ahRkFq7D5W/uby9D620b2FeySpZv3B/u8S3cWowcpJVgGX3O5
-	cIBuncYu17YXbSRoZRKkebkQwHs/+6UuBX4LJ3/OquQ==
-X-Received: by 2002:ac2:46f4:0:b0:5a2:a024:e6c2 with SMTP id
- 2adb3069b0e04-5a2a024e734mr805672e87.44.1774515285384; Thu, 26 Mar 2026
- 01:54:45 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 26 Mar 2026 01:54:44 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 26 Mar 2026 01:54:44 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com>
+	s=arc-20240116; t=1774519814; c=relaxed/simple;
+	bh=uTL56eo9X2lUBgWDNCn1Tquwax2vc9PBJBXL6+0eRfU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=oZKUKXjTA+JbYoaez+SNfmD7ejEDGalR85DnSFWUqdkKgVTOmxd/VII33dOhJQsWFIc+WcpOlXK9y2iwptXbXtemJ3BfyVGIi/tkEgjrIucZBxbAqfdjxo7P4DxyofQUzGhtqEctWS4QgvZ8IZSbHrSNfJNNYJa4iXzsBCotMNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Gtxwl7/R; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-439bcec86dfso893144f8f.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 03:10:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774519812; x=1775124612; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lBGicU27laianFvyzY656GHLSJPIgkYXNKTwZ0wPpek=;
+        b=Gtxwl7/RO9OKVWl14OP7PbEfqvIiZCsYGYPHYoynzBc8T7xnL21pKakUBZYRwPGhVJ
+         OGCKjQKOPK6RFHRdnp4kagvoPS4jC+WKZgixIaxiOohpnobHr0NbHQ3VnVBM8B7kRnBE
+         RFQq0vXbpSYYIyHqGvwf0q23RkJ25iyoUkTy+SgNLBorzeur1m4xujZHHVq7yA6ycbVJ
+         8pXRd4Ic8LXab36dJ1Z+SF9WxLSh33aGbiQFpqDh3kNAJFJpvuBtHoJMI04RAgNaeAsS
+         BISdBA/54hEa652ORLSDI6xVVh5/nftXvRH0IFM5w76Gm4V9ZZc0fTgXWlLCJrc7x4hh
+         8Shw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774519812; x=1775124612;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lBGicU27laianFvyzY656GHLSJPIgkYXNKTwZ0wPpek=;
+        b=s3pJnasAOnz/jt/aQBLuNNiePTUzVjJyVK2jbGQx3VrWQwCcmKAvDzpQK9nqaOxWDY
+         WvbwaV+jSB3ttNBF0WU8b3ml8MI+CT+4lzQzUF3gDP8nnjeA4j6ePI5wZbgPKrK6EE5V
+         aVNNz88pT7HmUjqw6lU7fS6zBcWcibG/cHOEfGqbko1aIhKTm0CtSahMXZf3whCHwgZj
+         KqpEKOREXU1vwrhr/kLcRbXTKBCcO4S21DyZAolSYu0sPwI05itRu27YP4RjbyQRH8Of
+         eVycnGv9V4oJqCEJ0ZpytJ1JO7PS3asQJcH5Bq46kFrPScqfxp3B+xAskV1Kkq3Gudv1
+         MJ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVPsH/coZHVGh+rVWwDA1U6UZTZ1m8gtRtee1Z0RPjBcDc2KntOyBmxdgPveNxCidkHsbhmdBCmvx6r08Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM9jpnjL6Wco6c6QiLSA9sVeVbNbwCNYlhSGkPmF2Eo3gnggeT
+	7AwWN4Jc9RtU7SLWjASsPadUHsoSNy7qqrEpYEPp9DhElaqn8FMeshfRt6gBZqZPRcm0i62IaHZ
+	s6v3fWWn8WotKuF4iVA==
+X-Received: from wmoo2.prod.google.com ([2002:a05:600d:102:b0:47d:5bef:a379])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:890b:b0:485:6ec7:2df with SMTP id 5b1f17b1804b1-48715fd50abmr80350625e9.8.1774519811752;
+ Thu, 26 Mar 2026 03:10:11 -0700 (PDT)
+Date: Thu, 26 Mar 2026 10:10:10 +0000
+In-Reply-To: <acEP7tl8pqFA3tK8@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com>
-Date: Thu, 26 Mar 2026 01:54:44 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MeFPpO77ew4pbPjqo0E3fjos_B=t1AgooB7xrF5CWPeJA@mail.gmail.com>
-X-Gm-Features: AQROBzCb320XuFwbgeojakGVPIHtnFnx1cQ_VrqUrXaxSXRJoOgSnNC2mrU3j3w
-Message-ID: <CAMRc=MeFPpO77ew4pbPjqo0E3fjos_B=t1AgooB7xrF5CWPeJA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/8] Add support for handling PCIe M.2 Key E connectors
- in devicetree
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>, 
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	Hans de Goede <johannes.goede@oss.qualcomm.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Mime-Version: 1.0
+References: <20260322192159.88138-1-ojeda@kernel.org> <20260323000327.111235-1-ojeda@kernel.org>
+ <acEP7tl8pqFA3tK8@shell.armlinux.org.uk>
+Message-ID: <acUGAsjYvNvTEO92@google.com>
+Subject: Re: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
+From: Alice Ryhl <aliceryhl@google.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Miguel Ojeda <ojeda@kernel.org>, a.hindborg@kernel.org, acourbot@nvidia.com, 
+	akpm@linux-foundation.org, anton.ivanov@cambridgegreys.com, 
+	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, dakr@kernel.org, 
+	david@davidgow.net, gary@garyguo.net, johannes@sipsolutions.net, 
+	justinstitt@google.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-um@lists.infradead.org, llvm@lists.linux.dev, 
+	lossin@kernel.org, mark.rutland@arm.com, mmaurer@google.com, morbo@google.com, 
+	nathan@kernel.org, nick.desaulniers+lkml@gmail.com, nicolas.schier@linux.dev, 
+	nsc@kernel.org, peterz@infradead.org, richard@nod.at, 
+	rust-for-linux@vger.kernel.org, tmgross@umich.edu, urezki@gmail.com, 
+	will@kernel.org
+Content-Type: text/plain; charset="utf-8"
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12279-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linaro.org,oss.qualcomm.com,linuxfoundation.org,linux.dev,linux.intel.com,squebb.ca,gmail.com,holtmann.org,bgdev.pl];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12280-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,linux-foundation.org,cambridgegreys.com,protonmail.com,gmail.com,davidgow.net,garyguo.net,sipsolutions.net,google.com,lists.infradead.org,vger.kernel.org,kvack.org,lists.linux.dev,arm.com,linux.dev,infradead.org,nod.at,umich.edu];
 	RCPT_COUNT_TWELVE(0.00)[33];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,manivannan.sadhasivam.oss.qualcomm.com,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 877D3331E3A
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,uaccess.rs:url]
+X-Rspamd-Queue-Id: 7329E33373F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 26 Mar 2026 09:06:28 +0100, Manivannan Sadhasivam via B4 Relay
-<devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org> said:
-> Hi,
->
-> This series is the continuation of the series [1] that added the initial support
-> for the PCIe M.2 connectors. This series extends it by adding support for Key E
-> connectors. These connectors are used to connect the Wireless Connectivity
-> devices such as WiFi, BT, NFC and GNSS devices to the host machine over
-> interfaces such as PCIe/SDIO, USB/UART and NFC. This series adds support for
-> connectors that expose PCIe interface for WiFi and UART interface for BT. Other
-> interfaces are left for future improvements.
->
-> Serdev device support for BT
-> ============================
->
-> Adding support for the PCIe interface was mostly straightforward and a lot
-> similar to the previous Key M connector. But adding UART interface has proved to
-> be tricky. This is mostly because of the fact UART is a non-discoverable bus,
-> unlike PCIe which is discoverable. So this series relied on the PCI notifier to
-> create the serdev device for UART/BT. This means the PCIe interface will be
-> brought up first and after the PCIe device enumeration, the serdev device will
-> be created by the pwrseq driver. This logic is necessary since the connector
-> driver and DT node don't describe the device, but just the connector. So to make
-> the connector interface Plug and Play, the connector driver uses the PCIe device
-> ID to identify the card and creates the serdev device. This logic could be
-> extended in the future to support more M.2 cards. Even if the M.2 card uses SDIO
-> interface for connecting WLAN, a SDIO notifier could be added to create the
-> serdev device.
->
-> Testing
-> =======
->
-> This series, together with the devicetree changes [2] was tested on the
-> Qualcomm X1e based Lenovo Thinkpad T14s Laptop which has the WCN7850 WLAN/BT
-> 1620 LGA card connected over PCIe and UART.
->
-> Merge Strategy
-> ==============
->
-> Due to the API dependency, both the serdev and pwrseq patches need to go through
-> a single tree, maybe through pwrseq tree. So the serdev patches need Ack from
-> Greg. But Bluetooth patch can be merged separately.
+On Mon, Mar 23, 2026 at 10:03:26AM +0000, Russell King (Oracle) wrote:
+> On Mon, Mar 23, 2026 at 01:03:27AM +0100, Miguel Ojeda wrote:
+> > On Sun, 22 Mar 2026 20:21:59 +0100 Miguel Ojeda <ojeda@kernel.org> wrote:
+> > >
+> > >     On the other hand, regardless of whether we fix this (and another
+> > >     issue in a separate email found thanks to the UML build), we could
+> > >     instead add `depends on` listing explicitly the architectures where
+> > >     this is going to be actually tested. That way maintainers can decide
+> > >     whether they want to support it when they are ready. Thoughts?
+> > 
+> > Another one for arm 32-bit:
+> > 
+> >       LD      .tmp_vmlinux1
+> >     ld.lld: error: undefined symbol: __aeabi_read_tp
+> >     >>> referenced by uaccess.rs:349 (rust/kernel/uaccess.rs:349)
+> >     >>>               samples/rust/rust_misc_device.o:(<rust_misc_device::RustMiscDevice as kernel::miscdevice::MiscDevice>::ioctl) in archive vmlinux.a
+> >     >>> referenced by uaccess.rs:543 (rust/kernel/uaccess.rs:543)
+> >     >>>               samples/rust/rust_misc_device.o:(<rust_misc_device::RustMiscDevice as kernel::miscdevice::MiscDevice>::ioctl) in archive vmlinux.a
+> >     >>> referenced by uaccess.rs:543 (rust/kernel/uaccess.rs:543)
+> >     >>>               drivers/android/binder/rust_binder_main.o:(rust_binder_main::rust_binder_ioctl) in archive vmlinux.a
+> >     >>> referenced 36 more times
+> 
+> Why is Rust generating code for userspace thread accessors for kernel
+> space, where userspace threads are meaningless. This is totally wrong.
+> The kernel must not reference __aeabi_read_tp().
+> 
+> Note: I know nothing about Rust, but I know enough to say the above is
+> pointing to a fundamental issue in Rust for 32-bit ARM.
 
-I think Rob Herring is the man in charge here. The power sequencing parts look
-good to me now so with an Ack on the serdev changes I can queue them for v7.1.
-I can also put it on an immutable branch if needed.
+I noticed that the Makefile currently uses the arm-unknown-linux-gnueabi
+target. It should probably not be -linux target to avoid this? Probably
+it should just be armv7a-none-eabi, right? We gate HAVE_RUST on
+CPU_32v7, so we should not need to consider the other variants.
 
-Bart
+Alice
 
