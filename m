@@ -1,133 +1,130 @@
-Return-Path: <linux-kbuild+bounces-12286-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12287-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOh+HFhpxWl1+AQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12286-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 18:14:00 +0100
+	id SPQ4NfduxWkB+QQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12287-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 18:37:59 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7A2338F88
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 18:13:59 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA425339412
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 18:37:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1969E3028431
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 17:13:59 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7310330308A7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2026 17:30:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBB4D2BE641;
-	Thu, 26 Mar 2026 17:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1122033BBCB;
+	Thu, 26 Mar 2026 17:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CK4UL+8e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ovcmo0sw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819CF1CEAC2
-	for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 17:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F91F4218B3
+	for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 17:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774545237; cv=pass; b=EvXvpRnfBXRBFIuZVci3uAZs4+vPq3JtcygorC9MliZB2sJZxdfXzR7iHt4FsD8glrSgqckDZGH4spxhcO8n6hX43Vy5Rxf+wExKWyVbQsdgAOejhnqZeE7oNL3IXJTDSBIqL0ZTXE7e3joG62QdN3q61eIuRxs6/Q2tJK9h8p4=
+	t=1774546228; cv=pass; b=lqYecod29RPep5C/CFA0fzFQF0oiVHIxFNyC2OHwmiyR8XYfaaw0Q38MYC2bokzQeJgrnCB8T8UFQUfKKdD+MX1wbup9ydVNVp5VYws0o61OWYnXZG8eR+cy3PLgnOSQA0DYvCKcyeTofnlMi82uBANQyUk8kd+0crcIsC2q7FM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774545237; c=relaxed/simple;
-	bh=6by8ax6LVBtJzT2zeIYIiNytwNlMq82fUxqHhZGAH/g=;
+	s=arc-20240116; t=1774546228; c=relaxed/simple;
+	bh=OpxH2sJ/fBqNWjY82rtfpbqgi+6tguV8c1lJED4a7JM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NzCg194DlJbFSSlxAYRe7DGJ9aWoTNgBiswtNRy81NtX1v7IFFCPCwFNt4WhGfQT8uFYcKcNKsugZsWqkSWvkRhmv0ImlW/TdN0N7iEemZCfc5+h6wcacFpJeXS3RafI/27gTNbyHGvWW8Wv4/+ouIpzg/Wl+YSoxV7dMS4D59o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CK4UL+8e; arc=pass smtp.client-ip=74.125.82.174
+	 To:Cc:Content-Type; b=DhR2crtZmu+Kf8yOHbHB7giR92yGDvJhQZkDxnQ2dOsRsxXkI4KMfOlthXfljy9wrTLUq8hMK2QkxrTebJASwY1IxqxraFL44nQWffclY2prdXW1kS8hCbQhIDxjbaGePXY20hV8uXwYEFF5wewpu7mnyDNHxOsjH8bjQgfl434=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ovcmo0sw; arc=pass smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2c153272250so152320eec.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 10:13:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774545236; cv=none;
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12736a0147cso94941c88.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2026 10:30:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774546225; cv=none;
         d=google.com; s=arc-20240605;
-        b=k0LPAwLxdvZ72oolMtqG3G3/+CI3rQTTjl8prv8o24tLKGlk36/YXid7ZGM3YSPeBM
-         rDX8NMPGv+XV0nUU3/SH9HV53ZyA/OBeJH6wwuK9mQlUbhHSUS/vVlZYP5iWFjWs/YG5
-         8TqmLOhdkY2d6g203rUFTCWIjjCScIItcORcvmRu94kjYP8vDa0ZzxRlxvEbSqJEkJon
-         bqsPH5xhVbU/uauY2aPM1ZJQAeXd9jOAx+24wb3MopSbMBFgvn4xCyrPMuEjdfxLGpRU
-         XWhzSRZJzV/4Op/Rg90r0cjPiZxhbnhyQIeD4UITNEzSXbavj3fNrWl+iqNOQmxzS/jN
-         8Ydg==
+        b=X6WU0qD4WQDZwnn1MigFksTgAO9W7vAdXq82alZJUYAEupLxWciMcpGRt9H7JmcJ69
+         +hDx/9xf6ns/56iuiKACZwlJWLmO/3NhAeGII72IHNCWri5NKWgmkqXASAPXvXAj0gVg
+         ssRHC7S6Ymupg5TzFkyOm7T2vscB4+/3dcX1bd/+VIFliMg5p+7pDy8Fz/LDOgJyXMVR
+         lhfoeb1aOYBQ+0nYcA+6wT1g1vSLEnFRBtn3yuqiw9LFpNN2BNT2DJwDy9H8DtR4hQz8
+         9xUWDDs5l/qN+Fp0PC9ruN2tmUS09HGWYrdPJhRwurlg4Yo3PiD0DXEzy2kn1i1W1vZe
+         nHsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=q9olrJwKlMERMQc61vOT8vZB7QpsPZJixmRhhkJf9iI=;
-        fh=hOjPif0BMhREvMLg2dkolJVx7PLXHG1M5X+GY17c8kE=;
-        b=T+jxsunEdB93YJABIz3LKGZjEHl/pr+xFLaCheGudnl7YHcyusZOXrMBhOnteMuBkT
-         JsOjna27ZLuav6CzShlLv1V0kn56dT4Wy6jQRb1SxGbuJtswkTSPef2iJMODxpyg5UGw
-         aU46ALtVlL58CmsyyDCyCvbdTj+OpiT8U2QZ5xMKtuxgSbKWs+4SNkgnoCZlxtc+5Lsp
-         7nBZSDH8f1v6fZYkM1WIZ5kFzd+Qep5Y2B0+tSf4LWIq+Asr7a8dDRAUXJdf8rd0hVkS
-         wfi4uIMncQ856RwGrDoWRoLL6u1k30frDw2v4CUdlwxdey1LDkoXWzWGkLfZaQHsumoX
-         GUDg==;
+        bh=wEHEk0yDT5R/njghDq/hVwJN3s1AoJzI3r+2gD7Cnqg=;
+        fh=dZyBDwxFB8mfkPtkyNzBAqeinC+/SbymhteR6XUiWvI=;
+        b=V63Q/S6q973185tretmKXGwQaKPJNvs4FT1A2lQzNCN0/i/OnXPpuaioQrFE4A2Z7y
+         7jwtEmGD/rooetpLGJzkzkpEBLQPoH5qA8Wuv1UycvfcQ5AKBS9RJyzSnPbsCsO3GEOu
+         7T94cBL/dspWkmG2/lGGz93+FoOiITpEemitNJXpzjX3ZfYDildhvH2ImDwLIEm+BMw8
+         MmmLgafuMGuQ+cKeaAXS3SNv4x29nbWfjyDDyD53/3VWhCU0ntYfK/UcX8WyqcYjUN8+
+         y2E0/7k8K95PJ8QcGIFPSavo1IaoAbe7C7dK85WcD+/NrJqrgBiMHvdsE/eKPV4/KQAs
+         pTnQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774545236; x=1775150036; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774546225; x=1775151025; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q9olrJwKlMERMQc61vOT8vZB7QpsPZJixmRhhkJf9iI=;
-        b=CK4UL+8e12gPQDtYaxpXtAkHxqglT8MNtTBLATtjesAMdOVSFdfSFsAMlZhsByvT2S
-         OVzIyRub/J3wsgfeGHTbe/ZeBjstIea/k/bSEMALoxmDt7mmQKxpoe3gFxXhACLRn85T
-         YXlhQep1SmJOb02AeDNyZEk6tvRIdDp1CwCLI0FilvcZFAk0qoNzZrO8qzDpfFVdw65Q
-         R8SkOxWeWr3k1SG3SXBKKdUFz5UEobNguXLBkua50iwp1+DX4BHwcrlJ2f9j+50p+s/V
-         HFL1uPhtP4443x8u/QU9GqmmvxWrAaLsl8TZJeWvlgALKGJJVI0Lg0WM+F7+nmySACmw
-         thgA==
+        bh=wEHEk0yDT5R/njghDq/hVwJN3s1AoJzI3r+2gD7Cnqg=;
+        b=ovcmo0swYn2ww/v3EbGztb/HEA/UUck+jbS/EhUiG466KgsHi3Km1RdxMTkhlBaTZS
+         /BuPekdnW/23Qx44eCEMnvTg/Rvhao3MvVyWlAtMx4TphlsN1XJv6yp6s4UlTzJypJO6
+         bPPVgbWLMUziPOV+DheBhgOmTks/JuUtC//apKgmIF2uHPW2Z9nvVvPiNcZTsfvG9pAe
+         FITJfz2/YnhwdySHCGOhFCyhdG/jUTh9LO3V7CRpQLHUOTk1BjR0uGFr664fUqbQs/el
+         /CuqjROJwcLjVk6IjsZVYOxSJSbvTk3NIi6bkOVhwrOBP/2PMi7mhO/L1CO0WsGRckDA
+         eU3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774545236; x=1775150036;
+        d=1e100.net; s=20251104; t=1774546225; x=1775151025;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=q9olrJwKlMERMQc61vOT8vZB7QpsPZJixmRhhkJf9iI=;
-        b=VHlXau9IuxsalZNphVnLJLWmfslp2O6Fxv6PTu++uVCHCjZxPAM6iVbJygaXi9GulL
-         phNNpo57kZiSmiUvie4ySXnDZMFJL/vpOsgN4c+JuUhw6NT7uvXFxQefxDCUzy9nMBUO
-         pXKqakRWFtklUBSq+H9KUipRBgaOAb1JW3G3ygrXYNaFDnNmJ24keg3N1fnyA3DY1xjt
-         n+8+/AdX8qPyoLf3T19Vq0Lv5nrb58fXZV0iSnt0L4zf+J2psOV3l9kJgOVBYra9bCP2
-         Uhf+cQK25Ygkdyaqy72HAvRH4S7bOgCPU6jKE5W93VM2yHjc1ESnE2fuuF1urf1Yx5i6
-         g87Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVBJG68tmvlWpZd/9Opc3usjThiI3EKcckC5rjBA+/ZyVhGbzin7O12vjJSu+3N22jiWI0kOUcyfWRJvhk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5qL0fiY9eevChI3fIwIWQk9e0ZIUKnJr8ztQdF9BRnRB/W852
-	68siOTrmRI3J1rLjbF0nhKJEPVtcsiVaWsCiab3REeDkMfTtzgtDY0RlPTORwmrC7Jf6aDkbV6H
-	KMGShKbit6xGJ/yDGeiXnyMmhSCvsWE8=
-X-Gm-Gg: ATEYQzwC/HYjijYOVIztYsqhPxIiHxELqt3qVchtRKynQuNAoXkliajOOrg+s4TR3Tr
-	7vkU3pCpF4+343UALrbM7J4tGeRjkvvymybUuR8kVHGiHxOqv8UkJB4Mx6SIPYDjVH7TugGcXqy
-	R92bFXZAAG2SBVSOLNwzvPqYCnV0MWEsQ03we/xWVF55BcF30mzJIphAgLNmU+6CZfwCLLn645d
-	e4b3nafg1Obk+CwsVksqRHtr/8sXqgnIE2qgffTQtaJd4bmqShFqszKVfhjSqe50IajVtEwkrdX
-	H9Q6tmf65wcGcz+9uKYm6EAs/0uedyI4scf3DPWJjRiOdvRzQ9k39Sakgdf0V3c4YRk1ySs5Osj
-	acA+QJzQdKXNsza8bqmJbcpA=
-X-Received: by 2002:a05:7301:5f8a:b0:2be:140c:bc2b with SMTP id
- 5a478bee46e88-2c15d282067mr2407895eec.2.1774545235402; Thu, 26 Mar 2026
- 10:13:55 -0700 (PDT)
+        bh=wEHEk0yDT5R/njghDq/hVwJN3s1AoJzI3r+2gD7Cnqg=;
+        b=jBaQM6mcwTbMC8p4X+mDsLaNrgGHCLWyWzMrNk+0LEixl69+JbPikaFOdLbaz8owSM
+         RsN2sJIPqanjndSL/l1dUnjbNMHM5O9CNyw5wW5YJTohz4EteWc6V2q67KzRyOm953NR
+         IS4XKrF90SrqJ/mZdk+Whb1URLgviUEXGAZECDtj2waJ8GDxfM2XqAYSBKPxQmnGgCC9
+         lFGVxIzqGwdMeCtgTb6DmrnQrzQKBe7ciPyn2EdYSKEhqht9Ex6E3xGLjF3TCBbkY8Vz
+         AYckgbIuZcJZerpXzmiA+bOYkUEAxyeYDjFpBMUURdHtiG45fMN/jZNmKAdjuzYp05H+
+         URng==
+X-Forwarded-Encrypted: i=1; AJvYcCWwfKU3wkpKT4/dvfyhV912zKhIoFZjqoogXhVZ8c33rnAE/2gOb2u6jg9jzB1Izzt6Id6ESASB4WGTyrM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoEshzTsXfBIm6mDQZKFeGb/YvaOJnmmZGnV5AKAq7JylGN3sf
+	26nufD4j9PUK0vhNzQSJFdO7V+/NTmuvnx282C4NcFqnnFn3HS35jXqy6E3L4LOj9lTxuqIO45i
+	EN8GLz3bdnPiQ2qaMrbtorqcI76Ke2YM=
+X-Gm-Gg: ATEYQzzByivCVs1DIeJjwHcOZbRl0SMMVzURvTcPXvENW1X48JpmXBoa6SWtOP4Ffrv
+	DJGNaph0QrcUvD/7OseKdmDqNUZ/bxI6TDes/lZwxRaz/5xNQMust5qRY+GHKD7+J1qidAma+d0
+	PselY1KzHniGErXHFJLgjNQQX7BW+Qz/EDTjJzzdGi4hIkpv2/ZECXDr4b8KOJGLiG1F7K9E4fs
+	E2fLXJqfQB370EmUXrgaCYC4wBVtjk4NqyoQLiJhAAwNe9RcpKwpcaoR6ztyIIurx9bUgQYPKrT
+	LILsQzDnDTliZU71MEmvK8bmkNIq/sxFpyq38nIlomlLVxbkwIzpWwjqbPhRikk+8MkURvSBSWq
+	o6s479JNe4buwpv2XRN6dU10=
+X-Received: by 2002:a05:7300:d50c:b0:2c1:6416:2a07 with SMTP id
+ 5a478bee46e88-2c164162eaemr1927580eec.4.1774546224910; Thu, 26 Mar 2026
+ 10:30:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
- <20260322192159.88138-1-ojeda@kernel.org> <20260326024226.GB2302780@ax162>
-In-Reply-To: <20260326024226.GB2302780@ax162>
+References: <20260322192159.88138-1-ojeda@kernel.org> <20260323000327.111235-1-ojeda@kernel.org>
+ <acEP7tl8pqFA3tK8@shell.armlinux.org.uk> <acUGAsjYvNvTEO92@google.com>
+ <CANiq72mzPpkELXis1CiSbKUmBXNQYMiMmjj-7-sYiLh4T_JSOQ@mail.gmail.com>
+ <9cf5a94c-0f37-446c-b63d-ddac5674d220@gmail.com> <acVOL5Psz6kHlhq2@shell.armlinux.org.uk>
+In-Reply-To: <acVOL5Psz6kHlhq2@shell.armlinux.org.uk>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 26 Mar 2026 18:13:41 +0100
-X-Gm-Features: AQROBzCjsVmkmyxhYBQlcnjNfjk1drusXCGXl2NpoBVYAfyx4urVLgdrjE0kdQk
-Message-ID: <CANiq72kyFu4StTPbobkPBSMYxNa5T0uErkLj-6mRvwOquEsgSA@mail.gmail.com>
+Date: Thu, 26 Mar 2026 18:30:12 +0100
+X-Gm-Features: AQROBzD8mk75r53XPOqmRDfmWXx9t0jf0bYbL_Ww497XzqV4mLKwGQ6QIr12vEg
+Message-ID: <CANiq72=b+cr7Stxph_hXQTmD5crCvwWTqdaGKOJ7W1-66v4i_w@mail.gmail.com>
 Subject: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
-To: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, soc@lists.linux.dev, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, 
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, David Gow <david@davidgow.net>, 
-	Russell King <linux@armlinux.org.uk>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	aliceryhl@google.com, linux-um@lists.infradead.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, a.hindborg@kernel.org, acourbot@nvidia.com, 
-	akpm@linux-foundation.org, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, 
-	dakr@kernel.org, gary@garyguo.net, linux-mm@kvack.org, lossin@kernel.org, 
-	mark.rutland@arm.com, mmaurer@google.com, nicolas.schier@linux.dev, 
-	peterz@infradead.org, rust-for-linux@vger.kernel.org, tmgross@umich.edu, 
-	urezki@gmail.com, will@kernel.org
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Christian Schrefl <chrisi.schrefl@gmail.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Jamie Cunliffe <Jamie.Cunliffe@arm.com>, Will Deacon <will@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Miguel Ojeda <ojeda@kernel.org>, a.hindborg@kernel.org, 
+	acourbot@nvidia.com, akpm@linux-foundation.org, 
+	anton.ivanov@cambridgegreys.com, bjorn3_gh@protonmail.com, 
+	boqun.feng@gmail.com, dakr@kernel.org, david@davidgow.net, gary@garyguo.net, 
+	johannes@sipsolutions.net, justinstitt@google.com, 
+	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-um@lists.infradead.org, llvm@lists.linux.dev, lossin@kernel.org, 
+	mark.rutland@arm.com, mmaurer@google.com, morbo@google.com, nathan@kernel.org, 
+	nick.desaulniers+lkml@gmail.com, nicolas.schier@linux.dev, nsc@kernel.org, 
+	peterz@infradead.org, richard@nod.at, rust-for-linux@vger.kernel.org, 
+	tmgross@umich.edu, urezki@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -135,19 +132,19 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12286-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12287-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[46];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,davidgow.net,armlinux.org.uk,nod.at,cambridgegreys.com,sipsolutions.net,lists.infradead.org,lists.linux.dev,vger.kernel.org,nvidia.com,linux-foundation.org,protonmail.com,garyguo.net,kvack.org,arm.com,linux.dev,infradead.org,umich.edu];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	FREEMAIL_CC(0.00)[gmail.com,google.com,kernel.org,arm.com,nvidia.com,linux-foundation.org,cambridgegreys.com,protonmail.com,davidgow.net,garyguo.net,sipsolutions.net,lists.infradead.org,vger.kernel.org,kvack.org,lists.linux.dev,linux.dev,infradead.org,nod.at,umich.edu];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
@@ -155,77 +152,42 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0F7A2338F88
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,armlinux.org.uk:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: DA425339412
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 26, 2026 at 3:42=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+On Thu, Mar 26, 2026 at 4:18=E2=80=AFPM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
 >
-> I do agree with some of the concerns that adding an architecure
-> dimension to this is a little complicated. I would rather try to flush
-> out those build problems with patches and keep it enabled for all
-> architectures. At the same time though, I understand that enabling it
-> for the "tier 1" architectures is a low barrier of entry for getting the
-> feature upstream, validated, and distributed to the majority of people
-> that would actually use and depend on it, so I ultimately leave that
-> call up to you.
+> I'm not sure if this is still true, but I believe it used to be the case
+> that the -linux-gnueabi target has one behaviour for enums (fixed size)
+> whereas -none-eabi, the size of the type depends on the range of values
+> included in the enum.
+>
+> Certianly, when Arm Ltd were proposing EABI, EABI had the latter
+> behaviour, and I think there were cases where Linux used "enum" in
+> its UAPI.
 
-Thanks! I agree that it would be ideal to get it clean everywhere, but
-given it is experimental and that arch maintainers should likely known
-about this, I think it is best to start simple first.
+Short enums? I see `c-enum-min-bits` in the armv7a-none-eabi built-in
+`rustc` target, and indeed:
 
-In fact, let me Cc the x86 and arm64 maintainers so that they are aware.
+    #![no_std]
 
-My current thinking is that I will add:
+    #[repr(C)]
+    enum T {
+        A,
+        B,
+    }
 
-  depends on ARM64 || X86_64
+    pub static S: usize =3D core::mem::size_of::<T>();
 
-and try to land it this cycle.
+is 1 for that one, and 4 for the other.
 
-My understanding is that this will be used at least by Google, mostly
-for Android (and mostly arm64, but possibly x86_64 too), so I think at
-least arm64 will see some actual users on an ongoing basis, i.e. apart
-from the "synthetic" testing I was doing.
-
-> No real concern on that front but .gitignore has a command to run when
-> modifying it, which will require a !timeconst.bc in a
-> kernel/time/.gitignore file.
-
-Yeah, that is the exception I mentioned. Initially I thought about
-putting it in a local `.gitignore`, because local is best. But another
-option, with a different kind of locality, is keeping the exception
-close to the rule, i.e. in the global one, which has the advantage of
-showing us all the exceptions easily (and being able to write a
-comment for all of them at once).
-
-I am not sure what is best clearer, but I am happy to do either:
-
-    diff --git a/.gitignore b/.gitignore
-    index 3a7241c941f5..3044b9590f05 100644
-    --- a/.gitignore
-    +++ b/.gitignore
-    @@ -13,6 +13,7 @@
-     .*
-     *.a
-     *.asn1.[ch]
-    +*.bc
-     *.bin
-     *.bz2
-     *.c.[012]*.*
-    @@ -184,3 +185,6 @@ sphinx_*/
-
-     # Rust analyzer configuration
-     /rust-project.json
-    +
-    +# bc language scripts (not LLVM bitcode)
-    +!kernel/time/timeconst.bc
-
-Thanks again!
+Thanks!
 
 Cheers,
 Miguel
