@@ -1,224 +1,162 @@
-Return-Path: <linux-kbuild+bounces-12323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12324-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0CKrAnUFx2nWRgUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12323-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2026 23:32:21 +0100
+	id SGUAKs4sx2nlTwUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12324-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 02:20:14 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F0A34BF82
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2026 23:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FA6734CE02
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 02:20:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C8A29300B9F6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2026 22:29:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AF7143038522
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 01:19:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC3FD390CBA;
-	Fri, 27 Mar 2026 22:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2D4332D452;
+	Sat, 28 Mar 2026 01:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y8KHMIeT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o/8UFSyE"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FD6371D0E
-	for <linux-kbuild@vger.kernel.org>; Fri, 27 Mar 2026 22:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774650571; cv=pass; b=PvBh71b2Q9+PDfmcjzAQ8jMf3S8ZvRqRFEDF74tCxnJ/ZvlN1dh15SFdrYB1zeXno3GIaWiORFrM03pJUV075rJqUyGNA9F1VewwnUBBAuGeCHCVeq2/mrQNEKAh+vsCV/ASmiNarW5OQp/vOhuSde9u0TLYTSvPy22PtS7oUzg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774650571; c=relaxed/simple;
-	bh=+zK/IjuErEG0mSVkQ2Ixds0Bt/74frZ/HefXmED2JbM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TNLvPEOWYNY/ipJN45D5UcTAzm6K7FzAT2Y7v99kwTPq+0znDDthZYxI/N0zeQuSolAVtMfyTtDl+PxDrhCayof43QIyKCpaX2W6jh2hkZSzkP43AfYtq2PybIrubN8MJNMw2zNmuQ1j+HVU9Won24ZLxFSOCnliEGN/ADOC4eQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y8KHMIeT; arc=pass smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7DD322C67
+	for <linux-kbuild@vger.kernel.org>; Sat, 28 Mar 2026 01:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774660775; cv=none; b=A6rhyVu5ph9j3Jnb4cT5rhy0y3GqePiA00kCiuqg+d6a/w6QGyQfy2OFrIXxKVw6GnzydkCab3FpxzvTGO9MSwWaNIHYqAOhAbYTTy8D9gmdQKRWBOehfiTcyksO5bkNIiaDqeERe1U1Ly+nwmv2SM/L1CKnDcH68GxMBZBcWpI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774660775; c=relaxed/simple;
+	bh=HDqV0Py005zQIsbLeQfUi8Qe3O2XbyV3pJb2YvqFjZ8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=lxrcEzW8Uqe4+nzMpsY+96ru2TPAnrrvNRK48YB/9GGh/0YaXK6YZzX0//sMbmE82H4MjMQ+x2GozsJbaeoBZjj4Hmuun930IWOyF8Gr1bghrMktpnqpRBS0gp+8JXKwyBs6XByDrAqOp/sn670xgWrJ4ij4VQAPFtowlL+GhXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o/8UFSyE; arc=none smtp.client-ip=74.125.82.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9539b80db32so97095241.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 27 Mar 2026 15:29:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774650569; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CfXqVpVBlOrhukDJBETCsamLv//vaH/XCxpfy9HIUyILHtQwxvWnCXK0l8GAq27aBj
-         G8ezBcXp5wGULWkJyX78tmtzbDR7hLNKfzl8QMjFZojd2WDjN5o7bnH+gl+pzRscqjQc
-         3t05Grp6ATTVXdcBlaaV3Xlo2pWuoMFrj7+cLeK8Vrgx3IMCKeau+o1xR0Lmt3XG8V0z
-         If5vkEuOT5uXkWa7RwaNmA120ptZT6R9rd2mLhVJVUI01oaHBoystwnO5/tlGQfuLvF+
-         KnRuwYhK9ql2mMXUw9MT+zo+V9Ni2l7vE7ZoDLvBA41h1R+UEIhmXhmzrklUpm9d3BMB
-         WAcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7DmvSXyuF97zXrdEx+TZcwBI74PTPGa+q4rDT1NiLTo=;
-        fh=AGrlKJ7gj+rjHw/AaZZ38e16pnu8KtFGSs0y+Rr39hA=;
-        b=bLFJVW1HJGWQ7w/lTBH0vVfpnHPlsThTneImu+6EOw2dOdBNWYEBz3yrymUuYxoB/Z
-         StABasN4m0PoTq5nzmckeOVmR72igAPTePldzWjzhJmlTT2mg/fL3vfElm2R5Ylf8VU+
-         BPVGq1FA6AXhLKtvfrnrDazUBkE9Wn16EZAtfgiLy8owydTg2o6dKYNmaUgB/KYYdaJ9
-         drvjBggc7u/cDYczy75yUu+RhBxgvcJ6gUe1BabRKNUvt98tJemQJgCdgfvVtPhOO9nB
-         dbWKbh7lw1hBFOLlhYHjXwr0zkO+qzbAQj6tqsfBpZpamTEyCztKZSvPq2+j4rFXxrUP
-         c85w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
+Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-2c17c6b6711so819713eec.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 Mar 2026 18:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774650569; x=1775255369; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7DmvSXyuF97zXrdEx+TZcwBI74PTPGa+q4rDT1NiLTo=;
-        b=Y8KHMIeTI1krvqe+NzoU0Uopi3ynp0ohW77iOwOgaIImAIFpuKS15lVKmvdSkrE8v/
-         YHmXsAHowehL3GcufChcDX41kr6qav6MRAY2QGiay1ELmf6GYfCmHdt2uZQLaOj9iKJL
-         M/KE//Cjc7r9ZBnrsS29b3bDy5OPNx3CYZZa9QVegdPx3HjPyVg/vWyCB4oZY7WF/t0k
-         pTwGFBXck3f1CYlBw/guZHbhmBh9zlFBDsBuZfUxUpcWJYf7GHOIYQw7poeXx5xGsspm
-         UUNdqioH6NDfL/CiugWy1KYWdl4lJK30Oxe6RgIhbxCoZk8NaM0YbsnFlHklOMg15yPT
-         ImUw==
+        d=google.com; s=20251104; t=1774660771; x=1775265571; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9Y8qoX2i2pgK07/S9R6C/ITZShbzZ0BOZvH25QidFt8=;
+        b=o/8UFSyEi3MgmsVaGIFkcKF9Xb624CDp/Bg3DWhpbSxRFxmA1Xwsir8GpZ9lNCci5z
+         1clkpPKFXUTNebADFcrWTfeULasQEzC+UtsEGvlrKuRIQ5HABTXKTCDeDrwsS1qR1S2o
+         +TEXaPtqTguMwfpEk263IHGFDPChy6iPgk294MemmFYGSfa16U3kuARcn3cBwFjtEdCu
+         uyz6Ha6YaQgvRuNivZ/Upcgqh2DNWonFGj5pZywm3YRZfW+Tkr9awymm8CPlx7p2V3MV
+         9o5+MUKEcMw/0YQMuJcXbwNmmHoq55l+ZwlGHIJXTiatgXrAaKVzWYeFMh17RaF1iJC7
+         cT5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774650569; x=1775255369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7DmvSXyuF97zXrdEx+TZcwBI74PTPGa+q4rDT1NiLTo=;
-        b=AwKff9i5iqDDFk9xZhTpt8QWMtZL7bgnZ+SjaediFpeNSNvIcQk9WoLIKaKfx+HZsz
-         x/euQ7rx5nzgMqUdZhe2zFeGkHMDICjFBiAJ/bsWfTSxdvYLrU4WBkJPHXFAjhbNSAe/
-         cAiGjCo0Xs0zAKxIm4FTYvCH+DwqxgHDC//vV3NERg+xWAk3gdELq++ozrsG8al4J0X0
-         C0cTL+h58iYqrK+WUlaN+a9vi+Z1aMqKAYa1LKIHu8QmkAPUTR7Ox1IEg0u7troog8hY
-         z7c23q8yHBITQR3TMvPCQIhFtGOq5ci7V8SDRTd4nPYfxVRKhR7wJyeneNn80BN9inrL
-         WrVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMERnMxIYOjVL0QRXiBLQQAXY82VTsUBJfamAczKWVGBbavAV5dzZSKgYl7ziUxseLKXS5lPz1vX9Lx4c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4EIyj3Ig1yJfLIVjNks56puLG609c1NV6rrrQiIM83y3oCt67
-	NP019yweBEfRXHUPrh5jMpWBubf0X3UYXHA+e00le7KMaW7hV6G1OjfEIR0yWS/Kg7PvQuqO/2l
-	KwwPJSZPAJpFWbw6zN97W/tac8DtJGelzU9ZUUqJK
-X-Gm-Gg: ATEYQzwVr819uS+OI6kIkMsTGClXyZUF+PD1EsFXNmAPEKH06fECJH/KJ3uSUfdZfRI
-	QRyJDZy9IWwp73TpmW3rEZBc7fcQadCEU1w0yApQqBKbWisziBlpI7nM7hEFJvw+JkqROYL3tcM
-	rrtjpYKjHtNHbpxXKi5EPHew+4O3OguZpawQ/t/TIPBzGBJpujJsa6GAIy2LTgp3dkSZP/v4FQr
-	8K/PvIqCXFjv/hrteSd7cdZsgsCA1JkTaT3sj5vxv+pZGL8nJScJCZC43hA4LFsAFPR67UHf9G9
-	Wz9qBH6r1c3LRMtTrA==
-X-Received: by 2002:a05:6102:6047:b0:5ff:2569:cfe7 with SMTP id
- ada2fe7eead31-604f9082af7mr1815817137.10.1774650569160; Fri, 27 Mar 2026
- 15:29:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774660771; x=1775265571;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9Y8qoX2i2pgK07/S9R6C/ITZShbzZ0BOZvH25QidFt8=;
+        b=HHuJAlfdRSxkQmPLEjLs4roHX0T2Y7oCwCfBB5efEZH/8R18tqDPMde5IwcBb9PYqS
+         ga8i/0ovbKdzZnP9ik9gRi1EELvYtptcJpEU8GWVlua8xVpV1MrpYIw+viqPy/faKw4x
+         UKTK3tctSCryebZ/EL9yr2DVIV6iEne0BmDvDMpEalTtbBKyUL2eoInSvaM4duYRktSo
+         WmzhGbutBZJvcNcj7EmGkOShhxJJtSV89sKf8q5TSlqo8AvefavGg4GSR1OKxa07ymdM
+         6C3e/usO20FZvOo+/gRWC/I3oZ5Bocz69fHcF/30iFjK0ny9dBVbB2Na0KKDDC1qNOi8
+         Flow==
+X-Forwarded-Encrypted: i=1; AJvYcCW8JJJZYWRwpZHz1oNLg42lEOW4Zz1bk5WRL2i6WcAsTmnslgQrPslazZCiQn3jw1uDinbv8GGV9b0lerA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUHpUDhAsJbKHs9oog8Q9YhMCSfI7A4g6np1o6E0zpVPFHd0Mc
+	ctVJiquTlnlxxg8oExl5aHqcOoqIb/d3/HBD8dOnb0ofiHpIRVRH7cWcOxRBuP+gmKck7Q==
+X-Received: from dlbsj11.prod.google.com ([2002:a05:7022:f90b:b0:128:dfaf:10ac])
+ (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:670d:b0:128:cdb7:76e1
+ with SMTP id a92af1059eb24-12ab3029ebfmr1892234c88.13.1774660770853; Fri, 27
+ Mar 2026 18:19:30 -0700 (PDT)
+Date: Sat, 28 Mar 2026 01:19:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260327-kbuild-show-inlining-v1-1-730ac2cae571@google.com> <20260327221837.GA3622500@ax162>
-In-Reply-To: <20260327221837.GA3622500@ax162>
-From: Justin Stitt <justinstitt@google.com>
-Date: Fri, 27 Mar 2026 15:29:18 -0700
-X-Gm-Features: AQROBzDBMJYR007qSz1FH4Yl2MRm5BJFykXdmb0qHAOvrPorltKgcSvxgsAtd-0
-Message-ID: <CAFhGd8pWwbjjLt=FSaDtFysqRU5k_YozDgBFMJBN4YmnAEaktw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add -fdiagnostics-show-inlining-chain for FORTIFY_SOURCE
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Kees Cook <kees@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
+Message-ID: <20260328011927.3569802-1-xur@google.com>
+Subject: [PATCH v7 0/3] kbuild: distributed build support for Clang ThinLTO
+From: xur@google.com
+To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Piotr Gorski <piotrgorski@cachyos.org>, Rong Xu <xur@google.com>, 
+	Venkat Rao Bagalkote <venkat88@linux.ibm.com>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Teresa Johnson <tejohnson@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MV_CASE(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-12323-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[xur@google.com,linux-kbuild@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[justinstitt@google.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_TO(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12324-lists,linux-kbuild=lfdr.de];
 	DKIM_TRACE(0.00)[google.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 64F0A34BF82
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0FA6734CE02
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+From: Rong Xu <xur@google.com>
 
-On Fri, Mar 27, 2026 at 3:18=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> On Fri, Mar 27, 2026 at 02:59:20PM -0700, Justin Stitt wrote:
-> > Clang recently added -fdiagnostics-show-inlining-chain [1] to improve
-> > the visibility of inlining chains in diagnostics. This is particularly
-> > useful for CONFIG_FORTIFY_SOURCE where detections can happen deep in
-> > inlined functions.
-> >
-> > Add this flag to KBUILD_CFLAGS when CONFIG_FORTIFY_SOURCE is enabled
-> > and the compiler supports it.
-> >
-> > Link: https://github.com/llvm/llvm-project/pull/174892 [1]
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1571
-> > Signed-off-by: Justin Stitt <justinstitt@google.com>
-> > ---
-> >  Makefile | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index e1279c4d5b24..978726aeb1ef 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -973,6 +973,12 @@ KBUILD_CFLAGS    +=3D $(call cc-option, -fno-stack=
--clash-protection)
-> >  # Get details on warnings generated due to GCC value tracking.
-> >  KBUILD_CFLAGS        +=3D $(call cc-option, -fdiagnostics-show-context=
-=3D2)
-> >
-> > +# Show inlining chain notes for FORTIFY_SOURCE-related diagnostics.
-> > +# GCC does this by default while Clang 23+ supports a flag.
-> > +ifdef CONFIG_FORTIFY_SOURCE
->
-> While this is indeed particularly useful for CONFIG_FORTIFY_SOURCE, this
-> impacts the warning and error attributes, which can be used anywhere
-> (see __bad_copy_from() for example). Is this being wrapped due to the
-> potential compile time impact? Can we use something like hyperfine to
-> quantify it and see if the impact is worth the trade off of always
-> having it enabled for friendlier diagnostics?
+ChangeLog:
 
-The compile time impact is not measurable (within expected noise). The
-peak memory usage may increase by somewhere in the 0.5% to 1.5% range
-depending on build configuration.
+V7: (1) Resolved a conflict by rebasing to kbuild/kbuild-next-unstable.
+    (2) Separated the '--thin' to 'T' change into its own patch to
+        preserve Masahiro's original version.
+V6: Change '--thin' back to 'T' in Makefile.vmlinux_a to fix
+    reported the build error from old ar.
+V5: Handle single quote escaping in echo _c_flags to fix
+    Piotr Gorski's reported error.
 
-I bundled this under fortify to limit initial impact as its had
-virtually no real-world testing and may produce unhelpful diagnostic
-notes under its heuristic mode. I don't expect folks to use `-g1` in
-the kernel (which would enable full-proof diagnostic notes).
+V4: This is based on the reimplementation provided by Masahiro Yamada
+on May 26. The difference is that this version now saves the compiler
+flags (_c_flags) from the Front-End (FE) compilation and re-uses them
+for the subsequent Back-End (BE) compilation.
 
-> If not, maybe worth adding a Kconfig option that is force selected by FOR=
-TIFY_SOURCE with
-> clang or can be optionally enabled by a user?
+Rong Xu (3):
+  kbuild: move vmlinux.a build rule to scripts/Makefile.vmlinux_a
+  kbuild: change --thin back to 'T' in $(AR)
+  kbuild: distributed build support for Clang ThinLTO
 
-I'll defer to you on this one. We could add
-CONFIG_SHOW_INLINING_CHAIN_NOTES or something similar?
+ .gitignore                 |  2 +
+ Makefile                   | 25 +++++-------
+ arch/Kconfig               | 19 +++++++++
+ scripts/Makefile.lib       |  7 ++++
+ scripts/Makefile.thinlto   | 40 ++++++++++++++++++
+ scripts/Makefile.vmlinux_a | 83 ++++++++++++++++++++++++++++++++++++++
+ scripts/mod/modpost.c      | 15 +++++--
+ 7 files changed, 174 insertions(+), 17 deletions(-)
+ create mode 100644 scripts/Makefile.thinlto
+ create mode 100644 scripts/Makefile.vmlinux_a
 
->
-> > +KBUILD_CFLAGS        +=3D $(call cc-option, -fdiagnostics-show-inlinin=
-g-chain)
-> > +endif
-> > +
-> >  # Clear used registers at func exit (to reduce data lifetime and ROP g=
-adgets).
-> >  ifdef CONFIG_ZERO_CALL_USED_REGS
-> >  KBUILD_CFLAGS        +=3D -fzero-call-used-regs=3Dused-gpr
-> >
-> > ---
-> > base-commit: 7df48e36313029e4c0907b2023905dd7213fd678
-> > change-id: 20260327-kbuild-show-inlining-557d31d2293a
-> >
-> > Best regards,
-> > --
-> > Justin Stitt <justinstitt@google.com>
-> >
 
-Justin
+base-commit: dcc99abebfa1e9ca70f8af8695b6682ad7597bf2
+-- 
+2.53.0.1018.g2bb0e51243-goog
+
 
