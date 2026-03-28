@@ -1,71 +1,71 @@
-Return-Path: <linux-kbuild+bounces-12325-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12326-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QAXGOtosx2nlTwUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12325-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 02:20:26 +0100
+	id CHTcC+Esx2nlTwUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12326-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 02:20:33 +0100
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81ED534CE0B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 02:20:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACDE34CE12
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 02:20:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D2A4304209D
+	by sea.lore.kernel.org (Postfix) with ESMTP id 65B2D3047AE4
 	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 01:19:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BA6322C67;
-	Sat, 28 Mar 2026 01:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DF5A31B80D;
+	Sat, 28 Mar 2026 01:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H+XAHEi4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h2ua+E8g"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-dl1-f73.google.com (mail-dl1-f73.google.com [74.125.82.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7845231B833
-	for <linux-kbuild@vger.kernel.org>; Sat, 28 Mar 2026 01:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5CA3264CD
+	for <linux-kbuild@vger.kernel.org>; Sat, 28 Mar 2026 01:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774660779; cv=none; b=qW1vvyq6JG+rh5T7c6Mr3sjI4igHgXk+O8qN7rpCfu9fqugXjyhlUt48fp70BISSrZyckwtAPwQ2GIj0VNJX1IetbJJqNiJwIwVvqczYSWr60uvx5o1jld1e/elRRmN9ckN7u57lHXqzU3Sy4MrtOOsvGpRS6PF6RcNhM0T6a0M=
+	t=1774660781; cv=none; b=BvfYG/ydzpiQLCxpUKtIXrCxL0Xnrqdw80z/Z/jMyPJ6SmmuOMPFSV8oGTbaitSYxnMxtbgeSdfOIp0NY5nmw/D+9JABalIpHJf+9YwJ9/5Ai/T/iixPkm1NIUN8+grvXWUdjcC9x0G62SQaaA2tDHBwPHjrrnhfXB+zDAWmtwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774660779; c=relaxed/simple;
-	bh=pLb70nUROcDCtC8MsDxGNVPoPBV2zge0oM7aB3yEADQ=;
+	s=arc-20240116; t=1774660781; c=relaxed/simple;
+	bh=1dn6wx0kE3uz2URoABPgvTVUTzuMBnxMjei6SlfoEfk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ueVhSni761QUWBF5ICZ0o6FFA6qhrmFRpftXfZDqrw2zAbiOa/5IkLaItd6HzteRUeg8hQUnUKQgwJ63PRcGkpNsZb9vLhTDwXjsdYZX9oMf9nOSPBbD7d4KaU8lNue2R0w1k/euwcPaCUyQ9UuJGauU2f2a7z34F3D/y+Tht5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H+XAHEi4; arc=none smtp.client-ip=74.125.82.73
+	 To:Cc:Content-Type; b=aD53PUT2rUqFj+tdeSOlnk37FJi0AHiNQbwWwh0d8bHEWGQqthCSvfaXRhUHVrLgL5X0pHsurn63hslKqloW5XX51uP4fUMm5SMgPl04RRqzuRXu9FxSwaiE/Q3dkCAB0YSDFdRaB8BVaDlcXZJekTjRE/xtznxrj5HboNt1Ans=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h2ua+E8g; arc=none smtp.client-ip=74.125.82.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
-Received: by mail-dl1-f73.google.com with SMTP id a92af1059eb24-12a7755623cso922159c88.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 27 Mar 2026 18:19:34 -0700 (PDT)
+Received: by mail-dl1-f73.google.com with SMTP id a92af1059eb24-12721cd1a2aso3465618c88.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 Mar 2026 18:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774660773; x=1775265573; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774660774; x=1775265574; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=77Ac1GrJdreMNETx1ERKI8GGaFAhTfW3lT0AoWZDZpU=;
-        b=H+XAHEi48nEBCGCZFocFTrqbnMlbvl4ky9TExpBw3+lKKVNQ+NEWCFEq50jBNOE+rQ
-         G7GnwdoQLjMqwPoReBjGsKYXwadjLaWjxc9jwcWfXgKAElQ4ThNgXt4FyRkTEoPWGreQ
-         JA3wYGYqygHRyVh8iwASj7jkQg2gQ8diQ5M8Va+dsEqeQ/i6+7tmOCE0+GCWKzxZps9t
-         ZgvfJgMGwpcoaA4766MBJ6y5kNrXZZ7UOAEgCwrTVZLwdWSNl8HZSgxcFUBWk1b4l9tA
-         E/SuLr74/du8oHPuFPj4Sd+NmkOkJVOtVveL9Zqc4blqFHtlvCsC/PeG6GIv/0cmzInO
-         Ysug==
+        bh=LVbuFhtmsLe2EwKEnKkn8YIdx3PwrexQLmQHP24bifI=;
+        b=h2ua+E8gFbXMBfrRsdEeyUM47RjQtAIztjV3lhVUeTDOc0r9ob1FxicEpwet1UDndw
+         nyNVDUupMeT/BqGmLE6ivQU8KCxjwvtu6pSpdgECd1YItQI1EInTTeK4wtvORo6c3UtB
+         x9hWDnh90o5GIDWoZaKKFvCEccfXlny4EQtoHKLOpIF+nPafchpTx4sP4KHjwit9sQa+
+         v2ij7aybUTz8QoyI7boQBLtL1s2MJioPHrgyKIiddihFij8ZcKyma2z1eQxBZieGpdO9
+         D6MOMAgwaPgOsrX8lP5+fGy8F+8kHM8SEtREyDKyFQOcVw32+RZrPLcz4SJVBZS1ghd5
+         0oJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774660773; x=1775265573;
+        d=1e100.net; s=20251104; t=1774660774; x=1775265574;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=77Ac1GrJdreMNETx1ERKI8GGaFAhTfW3lT0AoWZDZpU=;
-        b=qsUhB6OOtBohVF8ZLxcQFchvyxWcDBbS9XaP65S18hVRU9JpzZTjysO+OJZ1ln55G4
-         4/owN29gLxmGmK/128Tpa1zA11U7KBZeCGcwYdxaqLEBGKdF1e0dD1TVTP1ssflPckny
-         Qy5q8X3YxvOuiV940EDam86xEO/6Hy6kb1pvsVpGDSBiv9u6gJE1HRBCw9pdZu6VoX6e
-         h/RcEaoNVAtnb43fW03OZ70IWpEHA3nXG9nJhg5Iam354MJQ9oyiBouSbMsFYMAC3QUC
-         FsAb6vsJr//gwxvJ0UrYRn92NA5akE2ZXexGx3QlAmbWSij0jYmOKpfshaRqahKPDOhJ
-         DxrA==
-X-Forwarded-Encrypted: i=1; AJvYcCXclpXo+Fxylw7oT+VZwhtO7tQs3g3lBjw3G0zbge2zBW6Z7JwAo1nEydZNqZWjL1+VdKfnAGBNC+orwpw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRnyyq67zLmDOlctveR6Ie0mfouJxH4Qct+GkP9kk9Wu1wtG9W
-	V9kV/so/Vxddu+gtWZuOW0HBjjee1KilUGoZQuIqAQStul9pWAViHEDJM7v0j6L4Gx2Z+w==
-X-Received: from dleb17-n2.prod.google.com ([2002:a05:701b:4251:20b0:128:e734:a2bd])
- (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:b8a:b0:123:330b:3a0
- with SMTP id a92af1059eb24-12ab28617bamr2690906c88.14.1774660772475; Fri, 27
- Mar 2026 18:19:32 -0700 (PDT)
-Date: Sat, 28 Mar 2026 01:19:25 +0000
+        bh=LVbuFhtmsLe2EwKEnKkn8YIdx3PwrexQLmQHP24bifI=;
+        b=kWgqM8LN9mHIPrfb7THmPeAdz+pG62JcRLACTKMoQOyANf1pd1ey/0vc1JQPAtlrmu
+         2AFYgqvolnmGMKD+KdNqWbK0025z+1YJ0GI/E+b38UdMUfgptbMiTjA6u6n7duZCy12M
+         D6oCnOWEei+E3jdB6r/HJyhXlyAngNYvE1brOT04fkBNwNp4Ybo5lXExcPBCdfCOwu3s
+         ECLNRF5NMyPBPRRsQG7GxVg8E/VvkKaaRoFliEeScvWTAU9Fo206PB7AkQsckQsnNC6g
+         AyCHigtDgvHMMkmYUq17lWkz7g6D/qK/1H/jJbqQA7ElFa2cm+qrJlIziciprL8O6Sc1
+         BQeg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPLNRZ1oza2RK+NjebelKTSH7yblM7dRgv7N4dsnEwLS8XqN7UDAys8K0SSFQhkLJQ7gLkr5vWpwLc6lU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyg5AMQu9Np7dbo7mf6VDAREA/rQyW/sWHsNbn5PAnoRsvcDS8w
+	kswmTo+VV8Iv1oTv8eHWMEhKlNb7gxT0aZW8Xfoi7hDF6jY2jpO610M2VHv19jwqNowqKg==
+X-Received: from dlec5-n2.prod.google.com ([2002:a05:701b:4285:20b0:12a:ba56:cfe4])
+ (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:ec1:b0:128:d51a:5143
+ with SMTP id a92af1059eb24-12ab28ef2bamr2473080c88.31.1774660773994; Fri, 27
+ Mar 2026 18:19:33 -0700 (PDT)
+Date: Sat, 28 Mar 2026 01:19:26 +0000
 In-Reply-To: <20260328011927.3569802-1-xur@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -75,8 +75,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260328011927.3569802-1-xur@google.com>
 X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
-Message-ID: <20260328011927.3569802-2-xur@google.com>
-Subject: [PATCH v7 1/3] kbuild: move vmlinux.a build rule to scripts/Makefile.vmlinux_a
+Message-ID: <20260328011927.3569802-3-xur@google.com>
+Subject: [PATCH v7 2/3] kbuild: change --thin back to 'T' in $(AR)
 From: xur@google.com
 To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas.schier@linux.dev>, 
@@ -92,141 +92,75 @@ To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
 	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
+	SUBJECT_HAS_CURRENCY(1.00)[];
+	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
 	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FROM_NEQ_ENVFROM(0.00)[xur@google.com,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com];
 	RCPT_COUNT_TWELVE(0.00)[23];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-12325-lists,linux-kbuild=lfdr.de];
-	DKIM_TRACE(0.00)[google.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12326-lists,linux-kbuild=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	FROM_NO_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 81ED534CE0B
+X-Rspamd-Queue-Id: 8ACDE34CE12
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Rong Xu <xur@google.com>
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+The '-T' flag in $(AR) is no longer problematic since the minimum
+requirement for LLVM has been updated to version 15. As of LLVM 14
+and onward, the '-T' flag functions identically to the '--thin' flag.
 
-Move the build rule for vmlinux.a to a separate file in preparation
-for supporting distributed builds with Clang ThinLTO.
+Fixed the issue seen on IBM Power11 System:
+  ar: unrecognized option '--thin'
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Tested-by: Rong Xu <xur@google.com>
+Reported-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Closes: https://lore.kernel.org/linux-next/476507c9-a371-4864-9e87-572c1ecae82d@linux.ibm.com/
 Signed-off-by: Rong Xu <xur@google.com>
 ---
- Makefile                   | 16 +++++--------
- scripts/Makefile.vmlinux_a | 46 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+), 10 deletions(-)
- create mode 100644 scripts/Makefile.vmlinux_a
+ scripts/Makefile.vmlinux_a | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index a8d8ed711f9b..69ccf9b8507d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1264,7 +1264,7 @@ export ARCH_DRIVERS	:= $(drivers-y) $(drivers-m)
- KBUILD_VMLINUX_OBJS := built-in.a $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)))
- KBUILD_VMLINUX_LIBS := $(filter-out %/, $(libs-y))
- 
--export KBUILD_VMLINUX_LIBS
-+export KBUILD_VMLINUX_OBJS KBUILD_VMLINUX_LIBS
- export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
- 
- ifdef CONFIG_TRIM_UNUSED_KSYMS
-@@ -1273,16 +1273,12 @@ ifdef CONFIG_TRIM_UNUSED_KSYMS
- KBUILD_MODULES := y
- endif
- 
--# '$(AR) mPi' needs 'T' to workaround the bug of llvm-ar <= 14
--quiet_cmd_ar_vmlinux.a = AR      $@
--      cmd_ar_vmlinux.a = \
--	rm -f $@; \
--	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
--	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
-+PHONY += vmlinux_a
-+vmlinux_a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt FORCE
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux_a
- 
--targets += vmlinux.a
--vmlinux.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt FORCE
--	$(call if_changed,ar_vmlinux.a)
-+vmlinux.a: vmlinux_a
-+	@:
- 
- PHONY += vmlinux_o
- vmlinux_o: vmlinux.a $(KBUILD_VMLINUX_LIBS)
 diff --git a/scripts/Makefile.vmlinux_a b/scripts/Makefile.vmlinux_a
-new file mode 100644
-index 000000000000..9774f02b43b2
---- /dev/null
+index 9774f02b43b2..650d44330d1f 100644
+--- a/scripts/Makefile.vmlinux_a
 +++ b/scripts/Makefile.vmlinux_a
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+PHONY := __default
-+__default: vmlinux.a
-+
-+include include/config/auto.conf
-+include $(srctree)/scripts/Kbuild.include
-+include $(srctree)/scripts/Makefile.lib
-+
-+# Link of built-in-fixup.a
-+# ---------------------------------------------------------------------------
-+
-+# '$(AR) mPi' needs --thin to workaround the bug of llvm-ar <= 14
-+quiet_cmd_ar_builtin_fixup = AR      $@
-+      cmd_ar_builtin_fixup = \
-+	rm -f $@; \
-+	$(AR) cDPrS --thin $@ $(KBUILD_VMLINUX_OBJS); \
-+	$(AR) mPi --thin $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
-+
-+targets += built-in-fixup.a
-+built-in-fixup.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt FORCE
-+	$(call if_changed,ar_builtin_fixup)
-+
-+# vmlinux.a
-+# ---------------------------------------------------------------------------
-+
-+targets += vmlinux.a
-+vmlinux.a: built-in-fixup.a FORCE
-+	$(call if_changed,copy)
-+
-+# Add FORCE to the prerequisites of a target to force it to be always rebuilt.
-+# ---------------------------------------------------------------------------
-+
-+PHONY += FORCE
-+FORCE:
-+
-+# Read all saved command lines and dependencies for the $(targets) we
-+# may be building above, using $(if_changed{,_dep}). As an
-+# optimization, we don't need to read them if the target does not
-+# exist, we will rebuild anyway in that case.
-+
-+existing-targets := $(wildcard $(sort $(targets)))
-+
-+-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
-+
-+.PHONY: $(PHONY)
+@@ -10,12 +10,12 @@ include $(srctree)/scripts/Makefile.lib
+ # Link of built-in-fixup.a
+ # ---------------------------------------------------------------------------
+ 
+-# '$(AR) mPi' needs --thin to workaround the bug of llvm-ar <= 14
++# '$(AR) mPi' needs 'T' to workaround the bug of llvm-ar <= 14
+ quiet_cmd_ar_builtin_fixup = AR      $@
+       cmd_ar_builtin_fixup = \
+ 	rm -f $@; \
+-	$(AR) cDPrS --thin $@ $(KBUILD_VMLINUX_OBJS); \
+-	$(AR) mPi --thin $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
++	$(AR) cDPrST $@ $(KBUILD_VMLINUX_OBJS); \
++	$(AR) mPiT $$($(AR) t $@ | sed -n 1p) $@ $$($(AR) t $@ | grep -F -f $(srctree)/scripts/head-object-list.txt)
+ 
+ targets += built-in-fixup.a
+ built-in-fixup.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt FORCE
 -- 
 2.53.0.1018.g2bb0e51243-goog
 
