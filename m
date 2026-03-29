@@ -1,170 +1,199 @@
-Return-Path: <linux-kbuild+bounces-12332-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12333-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id jSSCC8PGyGkaqgUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12332-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 08:29:23 +0200
+	id 4NoRKSbxyGlEsgUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12333-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 11:30:14 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63930350F04
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 08:29:22 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA1C3515F3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 11:30:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9BC0A30156EC
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 06:29:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0585C300695B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 09:29:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4A729AAFA;
-	Sun, 29 Mar 2026 06:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321642E7F3A;
+	Sun, 29 Mar 2026 09:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HZ3LbAw0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NBGfVh9o";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QYtFRxwl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6781A257423;
-	Sun, 29 Mar 2026 06:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7F70218821
+	for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 09:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774765756; cv=none; b=gm//YGBs6WVHWpMqlk+NTClUqFhWjMJEH8JG6grkXy20iLeB/27AvuJ6ifBJ0us+ciFGW8mKi1RSSHCnv+4FcrE9+YipiG5PIFqUvqgzvSEN9ZRz8iuBbkT6vwvUwu8/cArb3xZvQwXUrnBd9pRiloxQZ4g9GyTXnjOiTSdm3Ug=
+	t=1774776570; cv=none; b=pp1lTOADwAwedtvgb31+2kcQe3e6UIn7pCrVTbkwXiezc+dORNPZ6TeTk7gbtpkqBZ7Klzt2VBK8sJKmeoT2LqKdtNISDnNzJK6fGAv2v65XffR44u8bOb+udIgut+JlZJvQjyaWH/ivxlQeMdXoOdqkPLnk9vqh/+PVcdyA1VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774765756; c=relaxed/simple;
-	bh=3uwxF1/ATXC7GSf7z4iiSVaRcMkkIs4uDfwSgvs0mv4=;
+	s=arc-20240116; t=1774776570; c=relaxed/simple;
+	bh=IUqBfh3kiiNzJ1Gj/LBXuhisIBbQ9zTjjW5Tk1XT5zc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z8KXZtqq7e2s6Al17008cwOQ5o90UFDx0CQHO7U0Ps2Qzg7E0Jf7ncKVd0qUaiqLGbpyVAdgOJYbXeghYaAB87CeapkacHw96syWOtIk3hD3DlSoCKWAdXHjzj0M/Y7k755jYEXMUwOHxsndGDqBxJElSWRmSc2ySGSnrRH2t+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HZ3LbAw0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58222C116C6;
-	Sun, 29 Mar 2026 06:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774765756;
-	bh=3uwxF1/ATXC7GSf7z4iiSVaRcMkkIs4uDfwSgvs0mv4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HZ3LbAw0GtMRhLI9BCBeYtSr6Dr034GiVRrTLh+til/omMY2XMdMhMTbZaG6K5fgV
-	 pLEkfJFTFxF9utHSVQJizXrWT7S3tWJ7OfzIX11UEc09lxiuiOH0YueLpzOZgSttD4
-	 T3HF9NLJVQdxE2GGKdgxRqxiWnYnYJVcGz9mlyOY=
-Date: Sun, 29 Mar 2026 08:29:12 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Luis Augenstein <luis.augenstein@tngtech.com>
-Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	kstewart@linuxfoundation.org, maximilian.huber@tngtech.com
-Subject: Re: [PATCH v4 00/15] add SPDX SBOM generation script
-Message-ID: <2026032913-unable-marbling-473f@gregkh>
-References: <20260210205424.11195-1-luis.augenstein@tngtech.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUHukEv9gfDIIhfzP2Z+GuIbqVf/w75eFGXZn/Ospm9bpKgv+beWqJ0aQ0bgzRVej6WRgHw5D+3FsklkC4l7w1Ont3UylzPXktN3o6smwVTOu7U3GKSBnSADhHsuZXAhvKz872KzqtJnfPX9UhtEs+b+N6QiuBzsYxFL3MBLpis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NBGfVh9o; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QYtFRxwl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774776567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GMdypUfl/C9CntHYXbdkJ1JwbkesNU0zPkvlKNLNROc=;
+	b=NBGfVh9oeoyw3pGKGQ1GP+sVW84VZNcDbARGsycVRWZNQGkZ9XXS2Gs0Dz152A63nr2J+E
+	2Pzw2nXcbJmOYqcVebUwGfPyMLQZou9zn2PBQhhLImFYfFuTSaocS7yqmN7SPZOlwPkaMH
+	ZeDczBYJnE4SD8vI5zlVNzDwWj9c7ZA=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-9-638xm0VNN2ir3PW3ng-tyA-1; Sun, 29 Mar 2026 05:29:26 -0400
+X-MC-Unique: 638xm0VNN2ir3PW3ng-tyA-1
+X-Mimecast-MFC-AGG-ID: 638xm0VNN2ir3PW3ng-tyA_1774776565
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-82c245a88a5so2441339b3a.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 02:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1774776564; x=1775381364; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GMdypUfl/C9CntHYXbdkJ1JwbkesNU0zPkvlKNLNROc=;
+        b=QYtFRxwlGOQ4xrcgTXAzLJPQiHa45Q7+5s3bCBcoZ/6AapeYNfGUD1q1RtCbps6X0D
+         Vj9zGlMEatN8SwEqWzgpGFg8H73s3/Q6cuGJrlYtyi1M/h5Q81pMoZzp+gSyi8iz1bM6
+         FO5Q+vT0vKy6AwwwmRLD3Xkyr4wDab4lPqil3LdaP63qCK/VQm7wF36s190vL0LN/Qtj
+         zX7qEldOFO/j3P3ef6OturMbValMIzYVG8zkkU3te2dcjS6z3uXsLHyd9IzvT268JRDW
+         yHm8AYE79A5Z3ECkVyzm+UTg1UwoXdQyJc4wMeXGJCgr5krqNu9DMTl7IgaJB055MM3E
+         Md4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774776564; x=1775381364;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GMdypUfl/C9CntHYXbdkJ1JwbkesNU0zPkvlKNLNROc=;
+        b=gbLnn5g2mQq180ZOlhmGUnZ+OKqZ98w13T47Q+OuyVg6X+IBF9DAuAmLFMg0EdbyPD
+         mw6HSbtKBXEnPbkrMT8Gs1L3fhYS8dOA1DHu5Yq4iggUgvgZU6jge4xD328xB1jUCrzK
+         pUgFUJA/muCAwTFz9KDuDiKEN9WLj64KEnjzxmO+ur1Ott/wKM03kIdcuW0VLMC4RM66
+         uxgS+E6hkuLV3i8/eZUP9B8rysFABMmmQZgxCYdZ5d0nDMkp6xnXyXcMJOmm+2cmPabz
+         OMZQy46CwB4AyOwzZXMBFtV0D2c63C48AVRGtAm10JvJaDSXkHsB2Os56FLg+ybr3RaW
+         PISQ==
+X-Gm-Message-State: AOJu0YyUqFiaw5Bg0/16O7juBibrEv5fljn/lv3Q/SzsyD8lNjrLdiKZ
+	hg1Vd+twtHMomz5IXn8ziiHWM93KNU/4bdBCj1Itg8uZ3eKp4fQzoqS9CYYQbNnFol5wZoGC1Av
+	Novb6BTtHotKJT0EW4QCyb58yXnvPePXUyul+jFxingM2FJ1fCUqNuPSF/UcQX7enI4xk3FlDGA
+	==
+X-Gm-Gg: ATEYQzwCHTA6QE8KVvNeQtLxBFabZvkIQ7vc44/qF2YvDpMHT88n3kKz0Gji+QiglkT
+	5HEj/nl1vxripHKaNTUEAX9UniwEsph2gK+YmLOiatO135iUESk3ZRU3VmyRzWQcOO5hzyePmSN
+	kzcMhl3U8xLd1kxUUvWUqs5X8qTgcuUtJxggy+mdaLRac1F1jcAJURv3Dlj8U2NGIbTaDQsf+vV
+	/rgstvvKfuyym3pzJTy8jgHs1yHn3rvMg47vQdG0o9eDEOGpQvQBiwC3JnCGIESEiWYWSoZOjGh
+	7O7LxEchjSL6JoL22c7rRvKEnlHzVSFF4VwcHmKKPUtsBUGQR7LLJf6m1mDLQRmsPdBVd41MBYA
+	fyi0TyXjkW7UetDQMOA==
+X-Received: by 2002:a05:6a00:330d:b0:82a:7b0b:f946 with SMTP id d2e1a72fcca58-82c869f89f7mr9625502b3a.24.1774776563946;
+        Sun, 29 Mar 2026 02:29:23 -0700 (PDT)
+X-Received: by 2002:a05:6a00:330d:b0:82a:7b0b:f946 with SMTP id d2e1a72fcca58-82c869f89f7mr9625477b3a.24.1774776563436;
+        Sun, 29 Mar 2026 02:29:23 -0700 (PDT)
+Received: from redhat.com ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82ca843e1desm4733804b3a.4.2026.03.29.02.29.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 02:29:22 -0700 (PDT)
+Date: Sun, 29 Mar 2026 17:29:20 +0800
+From: Li Wang <liwang@redhat.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: tools/testing/selftests
+Message-ID: <acjw8FQNrSSpEHqM@redhat.com>
+References: <20260327143234.40bb8a0119bd55670ddfeec6@linux-foundation.org>
+ <acc49s7jbI9Q3a4f@redhat.com>
+ <20260327210929.f3a714186aed347f90f71246@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260210205424.11195-1-luis.augenstein@tngtech.com>
-X-Spamd-Result: default: False [2.34 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260327210929.f3a714186aed347f90f71246@linux-foundation.org>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12332-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-12333-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 63930350F04
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[liwang@redhat.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,local_config.mk:url,check_config.sh:url]
+X-Rspamd-Queue-Id: 0AA1C3515F3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Feb 10, 2026 at 09:54:09PM +0100, Luis Augenstein wrote:
-> This patch series introduces a Python-based script for generating SBOM
-> documents in the SPDX 3.0.1 format for kernel builds.
+> > > d) within tools/testing/selftests/mm:
+> > > 
+> > > 	make clean
+> > > 	make -j100
+> > > 
+> > >    compiles 3-4 things then ends.
+> > > 
+> > >    A subsequent `make -j1' compiles nothing.
+> > 
+> > Sorry, I wan't able to reproduce it.
+> > Did you mean -j100 only build few source file but not the whole?
 > 
-> A Software Bill of Materials (SBOM) describes the individual components
-> of a software product. For the kernel, the goal is to describe the
-> distributable build outputs (typically the kernel image and modules),
-> the source files involved in producing these outputs, and the build
-> process that connects the source and output files.
+> Yes.
 > 
-> To achieve this, the sbom script generates three SPDX documents:
-> 
-> - sbom-output.spdx.json
->   Describes the final build outputs together with high-level
->   build metadata.
-> 
-> - sbom-source.spdx.json
->   Describes all source files involved in the build, including
->   licensing information and additional file metadata.
-> 
-> - sbom-build.spdx.json
->   Describes the entire build process, linking source files
->   from the source SBOM to output files in the output SBOM.
-> 
-> The sbom script is optional. It can be invoked via the `make sbom` target.
-> This target depends on `all` and triggers a standard kernel build. Once all
-> output artifacts have been generated, starting from the kernel image and
-> modules as root nodes, the script reconstructs the dependency graph up
-> to the original source files. Build dependencies are primarily derived from
-> the `.cmd` files generated by Kbuild, which record the full command used
-> to build each output file.
-> 
-> Currently, the script only supports x86 and arm64 architectures.
-> 
-> This series was developed with assistance from AI tools, namely Cursor
-> with Claude Sonnet 4.5 and OpenCode with GLM-4.7. The AI was used for
-> documentation, exploring the repository, and iterating on design
-> questions and implementation details such as regex patterns.
-> 
-> Assisted-by: Claude Sonnet 4.5
-> Assisted-by: GLM-4.7
-> Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
-> Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
-> Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
-> ---
-> Changes in v4:
-> - move sbom script from tools/ to scripts/ and simplify Makefile
-> - use $(Q), $(PYTHON3) in scripts/sbom/Makefile
-> - replace README with Documentation/tools/sbom/sbom.rst
-> - add Assisted-by tags to document usage of AI tools
-> ---
-> Luis Augenstein (15):
->   scripts/sbom: add documentation
->   scripts/sbom: integrate script in make process
->   scripts/sbom: setup sbom logging
->   scripts/sbom: add command parsers
->   scripts/sbom: add cmd graph generation
->   scripts/sbom: add additional dependency sources for cmd graph
->   scripts/sbom: add SPDX classes
->   scripts/sbom: add JSON-LD serialization
->   scripts/sbom: add shared SPDX elements
->   scripts/sbom: collect file metadata
->   scripts/sbom: add SPDX output graph
->   scripts/sbom: add SPDX source graph
->   scripts/sbom: add SPDX build graph
->   scripts/sbom: add unit tests for command parsers
->   scripts/sbom: add unit tests for SPDX-License-Identifier parsing
+> On my 128 core machine everything up to -j50 works.  -j51 and higher do
+> this.
 
-Nathan and Nicolas, any objection from me taking this through my
-char/misc tree, or is there something remaining to be done here that
-would require another respin, or do you want to take it through the
-kbuild tree?
+Could it be caused by line#262 of selftests/mm/Makefile:
 
-thanks,
+  local_config.mk local_config.h: check_config.sh
+  	CC="$(CC)" CFLAGS="$(CFLAGS)" ./check_config.sh
 
-greg k-h
+check_config.sh generates two files: local_config.mk and local_config.h.
+Makefile lets parallel make -j100 hit a timing race around that shared
+generation step. local_config.mk is also included, so if it’s being
+regenerated at the wrong moment, make may parse incomplete state and
+build only part of targets.
+
+Try this patch on your 128 core system:
+
+--- a/tools/testing/selftests/mm/Makefile
++++ b/tools/testing/selftests/mm/Makefile
+@@ -259,10 +259,13 @@ $(OUTPUT)/migration: LDLIBS += -lnuma
+
+ $(OUTPUT)/rmap: LDLIBS += -lnuma
+
+-local_config.mk local_config.h: check_config.sh
++local_config.stamp: check_config.sh
+        CC="$(CC)" CFLAGS="$(CFLAGS)" ./check_config.sh
+
+-EXTRA_CLEAN += local_config.mk local_config.h
++local_config.mk local_config.h: local_config.stamp
++
++EXTRA_CLEAN += local_config.mk local_config.h local_config.stamp
+
+ ifeq ($(IOURING_EXTRA_LIBS),)
+ all: warn_missing_liburing
+
+
+-- 
+Regards,
+Li Wang
+
 
