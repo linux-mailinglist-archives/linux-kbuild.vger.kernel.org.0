@@ -1,121 +1,118 @@
-Return-Path: <linux-kbuild+bounces-12333-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12334-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4NoRKSbxyGlEsgUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12333-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 11:30:14 +0200
+	id Y1PtCVL5yGnfswUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12334-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 12:05:06 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA1C3515F3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 11:30:13 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AB435182F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 12:05:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0585C300695B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 09:29:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D8C753009FBF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 10:05:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321642E7F3A;
-	Sun, 29 Mar 2026 09:29:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E20EA2DF138;
+	Sun, 29 Mar 2026 10:05:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NBGfVh9o";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QYtFRxwl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NFZeGaGq";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qQtcEWsW"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7F70218821
-	for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 09:29:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F863C07A
+	for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 10:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774776570; cv=none; b=pp1lTOADwAwedtvgb31+2kcQe3e6UIn7pCrVTbkwXiezc+dORNPZ6TeTk7gbtpkqBZ7Klzt2VBK8sJKmeoT2LqKdtNISDnNzJK6fGAv2v65XffR44u8bOb+udIgut+JlZJvQjyaWH/ivxlQeMdXoOdqkPLnk9vqh/+PVcdyA1VM=
+	t=1774778701; cv=none; b=J9Ya9TZEHQy6h+IeNbkfcERtJCgy0wXH98wWkBglYPSjijoRWrayPpgfhO/9J6zjS9phD1rcKjMcV9low0o/jYnYIekPi6qf0cys0PC5QTqVwPcbUyiXCalULn4t/tA/+Zc9aY3/jCr2PCgL0mg8w2zEoZNnxoXp69+XCTUvc2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774776570; c=relaxed/simple;
-	bh=IUqBfh3kiiNzJ1Gj/LBXuhisIBbQ9zTjjW5Tk1XT5zc=;
+	s=arc-20240116; t=1774778701; c=relaxed/simple;
+	bh=gvGHC1vYZBsOAAWNUlWuTZOWh+DVU+X7VvCKIF8RYmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eUHukEv9gfDIIhfzP2Z+GuIbqVf/w75eFGXZn/Ospm9bpKgv+beWqJ0aQ0bgzRVej6WRgHw5D+3FsklkC4l7w1Ont3UylzPXktN3o6smwVTOu7U3GKSBnSADhHsuZXAhvKz872KzqtJnfPX9UhtEs+b+N6QiuBzsYxFL3MBLpis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NBGfVh9o; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QYtFRxwl; arc=none smtp.client-ip=170.10.129.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=tO7q6TL2bJMo/jjscLiaehZwWQ8anuBujJCX2GYYKxqoiGpE/tCwzlwin0is0Dk0tbBJEBZTQqCM/ez+MFx1g+9CBja0PUum0A64PIdkvMDmhvBZ2FEWCNGN686G0RUx0mhEG726iEi7GJTiKFCliDOi02T0cw3bvP1N/0RSEOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NFZeGaGq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qQtcEWsW; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774776567;
+	s=mimecast20190719; t=1774778698;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GMdypUfl/C9CntHYXbdkJ1JwbkesNU0zPkvlKNLNROc=;
-	b=NBGfVh9oeoyw3pGKGQ1GP+sVW84VZNcDbARGsycVRWZNQGkZ9XXS2Gs0Dz152A63nr2J+E
-	2Pzw2nXcbJmOYqcVebUwGfPyMLQZou9zn2PBQhhLImFYfFuTSaocS7yqmN7SPZOlwPkaMH
-	ZeDczBYJnE4SD8vI5zlVNzDwWj9c7ZA=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=StPdatf65Kzl6nkGkBez3hMmnmGSSlFsSD2/9R1+ZUc=;
+	b=NFZeGaGqER1FxXvI85YhiKhSpaUKoMWV/kTJoFDLbJkhjKi5/rTC9dpW2gl6gwfOUR7L4G
+	ROlxBzwwe7/DRYYmN5/lMwsIwqJEkapnQlHujLrOdwiQpGW8kxRBF5OfczM09Ckwtuh4b9
+	ppNIyxFZx8rIVIpw4Nkz+JROuAmiHOA=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-9-638xm0VNN2ir3PW3ng-tyA-1; Sun, 29 Mar 2026 05:29:26 -0400
-X-MC-Unique: 638xm0VNN2ir3PW3ng-tyA-1
-X-Mimecast-MFC-AGG-ID: 638xm0VNN2ir3PW3ng-tyA_1774776565
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-82c245a88a5so2441339b3a.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 02:29:26 -0700 (PDT)
+ us-mta-295-bY2TgIj6OC6wnyhqwm9wDQ-1; Sun, 29 Mar 2026 06:04:57 -0400
+X-MC-Unique: bY2TgIj6OC6wnyhqwm9wDQ-1
+X-Mimecast-MFC-AGG-ID: bY2TgIj6OC6wnyhqwm9wDQ_1774778696
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2b0c92ff4ebso32154285ad.2
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 03:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774776564; x=1775381364; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GMdypUfl/C9CntHYXbdkJ1JwbkesNU0zPkvlKNLNROc=;
-        b=QYtFRxwlGOQ4xrcgTXAzLJPQiHa45Q7+5s3bCBcoZ/6AapeYNfGUD1q1RtCbps6X0D
-         Vj9zGlMEatN8SwEqWzgpGFg8H73s3/Q6cuGJrlYtyi1M/h5Q81pMoZzp+gSyi8iz1bM6
-         FO5Q+vT0vKy6AwwwmRLD3Xkyr4wDab4lPqil3LdaP63qCK/VQm7wF36s190vL0LN/Qtj
-         zX7qEldOFO/j3P3ef6OturMbValMIzYVG8zkkU3te2dcjS6z3uXsLHyd9IzvT268JRDW
-         yHm8AYE79A5Z3ECkVyzm+UTg1UwoXdQyJc4wMeXGJCgr5krqNu9DMTl7IgaJB055MM3E
-         Md4g==
+        d=redhat.com; s=google; t=1774778696; x=1775383496; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=StPdatf65Kzl6nkGkBez3hMmnmGSSlFsSD2/9R1+ZUc=;
+        b=qQtcEWsW3CfhblaNrJCYRI3oR/tmg5Lhk6LwPO+/igBnQKje6jgos14qeQ1guF82gj
+         dfOWQs6xI/ZgghGfBOD1LWL745V8GcAFISZrlrrCn2dWN8jI5vZfoGmBXFDVEfSPOEd7
+         SVGbokeo11K0AnY1fExMBswz26XovKMeY0NVKuFf7N3WfwfDSeA1L0pHpHcLOyqPYvg3
+         vaxOinskOB/+dnf2JT/Bu4wOtwQNp+PDjIpr3Qxmuk7PcbSIOCmrrOFvP0q1zyJgdE+J
+         Z6WE7iymFrE5rRrs7Oo36eDMQA6lGNdzfUOYJ1iV/QgO/u2n+Ij8cWMVNjKWDUvl00X5
+         in8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774776564; x=1775381364;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GMdypUfl/C9CntHYXbdkJ1JwbkesNU0zPkvlKNLNROc=;
-        b=gbLnn5g2mQq180ZOlhmGUnZ+OKqZ98w13T47Q+OuyVg6X+IBF9DAuAmLFMg0EdbyPD
-         mw6HSbtKBXEnPbkrMT8Gs1L3fhYS8dOA1DHu5Yq4iggUgvgZU6jge4xD328xB1jUCrzK
-         pUgFUJA/muCAwTFz9KDuDiKEN9WLj64KEnjzxmO+ur1Ott/wKM03kIdcuW0VLMC4RM66
-         uxgS+E6hkuLV3i8/eZUP9B8rysFABMmmQZgxCYdZ5d0nDMkp6xnXyXcMJOmm+2cmPabz
-         OMZQy46CwB4AyOwzZXMBFtV0D2c63C48AVRGtAm10JvJaDSXkHsB2Os56FLg+ybr3RaW
-         PISQ==
-X-Gm-Message-State: AOJu0YyUqFiaw5Bg0/16O7juBibrEv5fljn/lv3Q/SzsyD8lNjrLdiKZ
-	hg1Vd+twtHMomz5IXn8ziiHWM93KNU/4bdBCj1Itg8uZ3eKp4fQzoqS9CYYQbNnFol5wZoGC1Av
-	Novb6BTtHotKJT0EW4QCyb58yXnvPePXUyul+jFxingM2FJ1fCUqNuPSF/UcQX7enI4xk3FlDGA
-	==
-X-Gm-Gg: ATEYQzwCHTA6QE8KVvNeQtLxBFabZvkIQ7vc44/qF2YvDpMHT88n3kKz0Gji+QiglkT
-	5HEj/nl1vxripHKaNTUEAX9UniwEsph2gK+YmLOiatO135iUESk3ZRU3VmyRzWQcOO5hzyePmSN
-	kzcMhl3U8xLd1kxUUvWUqs5X8qTgcuUtJxggy+mdaLRac1F1jcAJURv3Dlj8U2NGIbTaDQsf+vV
-	/rgstvvKfuyym3pzJTy8jgHs1yHn3rvMg47vQdG0o9eDEOGpQvQBiwC3JnCGIESEiWYWSoZOjGh
-	7O7LxEchjSL6JoL22c7rRvKEnlHzVSFF4VwcHmKKPUtsBUGQR7LLJf6m1mDLQRmsPdBVd41MBYA
-	fyi0TyXjkW7UetDQMOA==
-X-Received: by 2002:a05:6a00:330d:b0:82a:7b0b:f946 with SMTP id d2e1a72fcca58-82c869f89f7mr9625502b3a.24.1774776563946;
-        Sun, 29 Mar 2026 02:29:23 -0700 (PDT)
-X-Received: by 2002:a05:6a00:330d:b0:82a:7b0b:f946 with SMTP id d2e1a72fcca58-82c869f89f7mr9625477b3a.24.1774776563436;
-        Sun, 29 Mar 2026 02:29:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774778696; x=1775383496;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=StPdatf65Kzl6nkGkBez3hMmnmGSSlFsSD2/9R1+ZUc=;
+        b=qYH0Zoc+9WQUakNHGIWndoVcv8G13RsH1tHg799MZTWEFkPu2agWwOgGO2kPtvqExF
+         QA7lKZrYJRo8k8BuzWwmOlf1pdsV64reoKhbzsa150V2RThKlxyWZGzWuUji/AfcDmkM
+         lnn7miqGKbx77uJN4/gwV69eB27ODszXepEqsHv2Q7mdN/69JTAkHi4omF4ArjuDizNB
+         6NOcw4b/X83NxL6Fga858eCG3umQAdVybvycmHUMJ35XkXqufxOTSIEn7SuU2AQfQdtY
+         EyRxGbmnZE8vJoq925lcXuYIFcLlJzxKEa+bwIJqs6DnGp5ecVRHT7IWXWZef4xwYLGa
+         JwBw==
+X-Gm-Message-State: AOJu0YwFrtd3O7VUDQI7JUJYAa5GP2w19p396Gote6cukb++DVo/bFKM
+	C+Ei4RvsibI7bPrIDDXdxlYFunU8R0Or2m19GUBWNg3Zwhi3mXFwkBgGWzE5ZTb+M267A+rKD6z
+	X2AbJ6gj6+02vF7hoACbRKJCkt46ggOc9hp1SkMCwzFzN2GRBNm5x+w0Z6T7UjBHyJQ==
+X-Gm-Gg: ATEYQzy54LixnpEpRlKu11oqjWr77RCwkdFIP0ZDuMt+fR8FLy8oSsjegrc3AJLATr2
+	gwyaPuoB2Spn/tcElM3Rr04MLKJxsdCm4bUm+Sc3SJDNE4OABSqRl1oBbfwY6kZ3gpB007jJwdR
+	TtFtUIm+WBJGLSo9DCdWeQSC23pVHlAxua/2Ksmkh0Cn/ksbnx7NgGntzHTCGtosQmICB4kpkvz
+	4Yoi/DBzz7CCGWUgXIdoB6UhjJLegxgkgxu4bHZTRcbiPIq2mdHPquiuA156Mlb17iZBg/WunU/
+	vL41I3Pthm6XWF5gpah79NIbhO7qiWg5kJVK3AhHiVoRqddd8QPlc9hzbal8KGbxzI06bgFog7U
+	NBqo8KSKzA3RxA/ly2w==
+X-Received: by 2002:a17:902:e885:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2b0cdc9b555mr90550945ad.13.1774778695932;
+        Sun, 29 Mar 2026 03:04:55 -0700 (PDT)
+X-Received: by 2002:a17:902:e885:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2b0cdc9b555mr90550785ad.13.1774778695455;
+        Sun, 29 Mar 2026 03:04:55 -0700 (PDT)
 Received: from redhat.com ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82ca843e1desm4733804b3a.4.2026.03.29.02.29.22
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b242766219sm44817195ad.53.2026.03.29.03.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 02:29:22 -0700 (PDT)
-Date: Sun, 29 Mar 2026 17:29:20 +0800
+        Sun, 29 Mar 2026 03:04:54 -0700 (PDT)
+Date: Sun, 29 Mar 2026 18:04:52 +0800
 From: Li Wang <liwang@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: tools/testing/selftests
-Message-ID: <acjw8FQNrSSpEHqM@redhat.com>
+Message-ID: <acj5RK3lze7o704Y@redhat.com>
 References: <20260327143234.40bb8a0119bd55670ddfeec6@linux-foundation.org>
  <acc49s7jbI9Q3a4f@redhat.com>
- <20260327210929.f3a714186aed347f90f71246@linux-foundation.org>
+ <20260328135650.435b415f8c00835b2fa471e0@linux-foundation.org>
+ <20260328140311.d6ce99302f93923b0cffb441@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260327210929.f3a714186aed347f90f71246@linux-foundation.org>
+In-Reply-To: <20260328140311.d6ce99302f93923b0cffb441@linux-foundation.org>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -124,7 +121,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	TAGGED_FROM(0.00)[bounces-12333-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12334-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -133,64 +130,54 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[liwang@redhat.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,local_config.mk:url,check_config.sh:url]
-X-Rspamd-Queue-Id: 0AA1C3515F3
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 65AB435182F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> > > d) within tools/testing/selftests/mm:
-> > > 
-> > > 	make clean
-> > > 	make -j100
-> > > 
-> > >    compiles 3-4 things then ends.
-> > > 
-> > >    A subsequent `make -j1' compiles nothing.
+On Sat, Mar 28, 2026 at 02:03:11PM -0700, Andrew Morton wrote:
+> On Sat, 28 Mar 2026 13:56:50 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+> > On Sat, 28 Mar 2026 10:12:06 +0800 Li Wang <liwang@redhat.com> wrote:
 > > 
-> > Sorry, I wan't able to reproduce it.
-> > Did you mean -j100 only build few source file but not the whole?
+> > > > from the top level?
+> > > 
+> > > Should use:
+> > > 
+> > >     make kselftest
+> > 
 > 
-> Yes.
+> I'm probably doing something wrong, but `make -j50 kselftest-all'
+> appears to have scribbled on my top-level Makefile, so now I'm getting
 > 
-> On my 128 core machine everything up to -j50 works.  -j51 and higher do
-> this.
+> ts:/usr/src/25> make kselftest-all 
+> /usr/src/25/Makefile:5: *** Too many open files.  Stop.
+> 
+> ts:/usr/src/25> cat Makefile
+> # Automatically generated by /usr/src/25/Makefile: don't edit
+> export KBUILD_OUTPUT = .
+> export KBUILD_EXTMOD = /usr/src/25
+> export KBUILD_EXTMOD_OUTPUT = /usr/src/25
+> include /usr/src/25/Makefile
+> 
+> I've done this twice in succession now.  Any suggestions where I should
+> look?
 
-Could it be caused by line#262 of selftests/mm/Makefile:
+When build selftests from the top-level, sub-makes entered via `-C` may
+still inherit the caller's PWD from the environment.
 
-  local_config.mk local_config.h: check_config.sh
-  	CC="$(CC)" CFLAGS="$(CFLAGS)" ./check_config.sh
+Some selftests use $(PWD) in recursive kbuild invocations, which can
+then incorrectly resolve to the kernel top directory instead of the
+current test directory.
 
-check_config.sh generates two files: local_config.mk and local_config.h.
-Makefile lets parallel make -j100 hit a timing race around that shared
-generation step. local_config.mk is also included, so if it’s being
-regenerated at the wrong moment, make may parse incomplete state and
-build only part of targets.
+Maybe try export PWD in the ../selftests/lib.mk?
 
-Try this patch on your 128 core system:
-
---- a/tools/testing/selftests/mm/Makefile
-+++ b/tools/testing/selftests/mm/Makefile
-@@ -259,10 +259,13 @@ $(OUTPUT)/migration: LDLIBS += -lnuma
-
- $(OUTPUT)/rmap: LDLIBS += -lnuma
-
--local_config.mk local_config.h: check_config.sh
-+local_config.stamp: check_config.sh
-        CC="$(CC)" CFLAGS="$(CFLAGS)" ./check_config.sh
-
--EXTRA_CLEAN += local_config.mk local_config.h
-+local_config.mk local_config.h: local_config.stamp
-+
-+EXTRA_CLEAN += local_config.mk local_config.h local_config.stamp
-
- ifeq ($(IOURING_EXTRA_LIBS),)
- all: warn_missing_liburing
-
+  export PWD := $(CURDIR)
 
 -- 
 Regards,
