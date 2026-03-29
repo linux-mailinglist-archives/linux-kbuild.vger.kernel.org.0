@@ -1,120 +1,136 @@
-Return-Path: <linux-kbuild+bounces-12330-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12331-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELnxNRNCyGlFjAUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12330-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 22:03:15 +0100
+	id /m5vGamKyGlEnQUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12331-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 04:12:57 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFD434FF6E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 22:03:15 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC623506E9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 04:12:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1512530038E9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Mar 2026 21:03:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C39623006219
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 02:12:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5488933D6FA;
-	Sat, 28 Mar 2026 21:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 202B82248B3;
+	Sun, 29 Mar 2026 02:12:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bFsA+8iz"
+	dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b="DDOwpLKC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.st.icloud.com (p-east2-cluster1-host9-snip4-2.eps.apple.com [57.103.76.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F66149C6F;
-	Sat, 28 Mar 2026 21:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05FE21C173
+	for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 02:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774731792; cv=none; b=sW6QorYBqN41G1D85xi68drUsxklBm9wzs/bD61dj03s27gSQMQYWHVBhS8u2LvBNGkzo0uDQMQQ2n+tbG3W9cuShrgU11SB7mq2MO22Zb1c3tuBCQKmyRlY9uIliJQh4hTPgMlBXXc1B6zjMwoR6fH6hfABONmmZRtkbJv/K60=
+	t=1774750369; cv=none; b=K8qtC/fgedCQ5axqZ3NTH8zdmYBG9813nG85F8ARc/8laNzDNbyioRasfJ7Wnwf5CoHFVsCcM14BhQzQkYLkfEn8rFdAhqHs7NdCaznpRsFpJ7b0UfWmeSRxu8GN3t7wCijCICB9MjENtyKyG6x6cTVb4cTsdEo2qi9dDK3zJ1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774731792; c=relaxed/simple;
-	bh=fASIccO/WUQzqpPRgf4C+i8dkWYgpGQO3RZFoS2eejc=;
-	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=VHBSEgNgIBKfaYt/n72ErP5ioz550b/yruid+stWVmMVAqe+jo+6iIK7GtDN0mUw+uA+cusTVFpEpnnLHHHAhW6qwZycqHK5hZUli9TpzuYXdlRsBCnpZ5caNMzBksGSMstwT72w5Oao4g6sz2NaEJkiVGN82Eok4onsw3ki2BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bFsA+8iz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B24C4CEF7;
-	Sat, 28 Mar 2026 21:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774731791;
-	bh=fASIccO/WUQzqpPRgf4C+i8dkWYgpGQO3RZFoS2eejc=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=bFsA+8izQRCwFFsAbpkIAI12l0+fZIKBanlnqUpFcy6XbQIkBLE3Sh48QAMFvRwki
-	 mLka7P/1zzsWx4qZnLUWwbvz4O5K9WlC3ufq8ktwxGjOZKxi3QFAorq9ls5PDHKabs
-	 RuoWsZGIUi1k/yIj1U/jJPbs1kYzFidKMMFbxajQ=
-Date: Sat, 28 Mar 2026 14:03:11 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Li Wang <liwang@redhat.com>, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: tools/testing/selftests
-Message-Id: <20260328140311.d6ce99302f93923b0cffb441@linux-foundation.org>
-In-Reply-To: <20260328135650.435b415f8c00835b2fa471e0@linux-foundation.org>
-References: <20260327143234.40bb8a0119bd55670ddfeec6@linux-foundation.org>
-	<acc49s7jbI9Q3a4f@redhat.com>
-	<20260328135650.435b415f8c00835b2fa471e0@linux-foundation.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1774750369; c=relaxed/simple;
+	bh=G4NI8qcFNsyigL4gtjDc3G+DgqLy1v2FNvfTTa16O3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hdiB0vBtPLXF7tRI7i25ndzVLBJ1ZdFy4ygW3uorptY40SHzuzP1+HVEYwBG9+48/EnCsc8Anma8bRC9BVUVMI9W1IXn8EwjfgDQ8/6S59V1MKRHzPMLpKqctrRcD+lwqGxKhSlqwBHnd+/0VeHDRF8jPArZZg/hfDUM5TOkOhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc; spf=pass smtp.mailfrom=sdhn.cc; dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b=DDOwpLKC; arc=none smtp.client-ip=57.103.76.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sdhn.cc
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-10-percent-1 (Postfix) with ESMTPS id 0D9D318000AD;
+	Sun, 29 Mar 2026 02:12:45 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sdhn.cc; s=sig1; t=1774750366; x=1777342366; bh=Q7gRQtRI4BUed2ZKylsfnAfjyn9+VyaMFUDh7obfvb0=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=DDOwpLKCADS1W1oqDBZU3hkcaiT6kyW3jNNcLN+zVSxETO2E8VBkxtHffk3tS99ungY3uKMNc/rYbDpezYjb5asUTF7qEKfZW1lqUAVrH6nQPgx2ZFXgxAa5WhYrGzuMbPsZjyGoaaA+q85HTba11uzzVkARWPC9GWHcS5eaROaoEo/treWnm1UhbIF2rDggvpIcVEi5hiW6d5PJUKUB1D6y/GI/OivnHp3kaFnBge7nyc6Sl24dfGkgWiL5ylZO2qMv8FLm4O/mVPV38GJnK1xL7lupBRKVXJnO96LhRYQwdFb6LJK51dcS2gHYPUJvJ44/4ce2rKnae2f71+OLmg==
+mail-alias-created-date: 1772007648188
+Received: from sdhn.cc (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-10-percent-1 (Postfix) with ESMTPSA id 1F8CD18001F3;
+	Sun, 29 Mar 2026 02:12:43 +0000 (UTC)
+Date: Sun, 29 Mar 2026 05:12:41 +0300
+From: Mohamad Alsadhan <mo@sdhn.cc>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: nathan@kernel.org, ojeda@kernel.org, gary@garyguo.net, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: Re: [PATCH v5] kbuild: host: use single executable for rustc -C
+ linker
+Message-ID: <v5gmt4ujqfr4xjxdzkmxo2qwehglc3btvhliyqcxr2npazhuwe@potf3itpqdzn>
+References: <20260317112021.14353-1-mo@sdhn.cc>
+ <20260321150034.9915-1-mo@sdhn.cc>
+ <acOgkfn-cOOy2YNG@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acOgkfn-cOOy2YNG@levanger>
+X-Proofpoint-ORIG-GUID: _fRyG605o8OVznpy8ePA6uyVovFA4B7q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI5MDAxNCBTYWx0ZWRfX1JfnKkPIfNRu
+ LVIieNTmgWQOtlLx9uVgxDkFro2Q/Rf2bGmHloc8A855sOeP3SITMgbm/sD3rcOsyewS2QJdUzu
+ POj/fOyx8jkWB3q8ASk+JADbI1lFV1CsZapXejRgbxuhzJRs6O5ccUu1PLpPlyqgcd0UPsv1ZMc
+ +xcGK+I5NO6hnY46lhk7+HatRrdA8Ar2eNvdn/pDW224mO9f9Q/WUJ+ytJ5Dta2bITXY0ZhVGCR
+ R5ZVvQlp6HfLAfXVUYZtaUlzpWawZwYEOf1qiTpecbIR2OrmKOyfAyN4l3mpSnOmkkr4DhdQs5I
+ HIuXC0IDko6fJqhG8WcOtVQEa+HmpYV4sI89ka1RD79v5NaYG/I6cT6ELJQQzw=
+X-Proofpoint-GUID: _fRyG605o8OVznpy8ePA6uyVovFA4B7q
+X-Authority-Info-Out: v=2.4 cv=deiNHHXe c=1 sm=1 tr=0 ts=69c88a9e
+ cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=kj9zAlcOel0A:10 a=MKtGQD3n3ToA:10
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=xoJtUOapyJQZxyFlaFgA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-28_03,2026-03-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ clxscore=1030 mlxlogscore=690 adultscore=0 spamscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 classifier=spam
+ authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2603290014
 X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[sdhn.cc:s=sig1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12330-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[sdhn.cc:+];
+	TAGGED_FROM(0.00)[bounces-12331-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
+	DMARC_NA(0.00)[sdhn.cc];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,linux-kbuild@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux-foundation.org:dkim,linux-foundation.org:email,linux-foundation.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3EFD434FF6E
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mo@sdhn.cc,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5DC623506E9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, 28 Mar 2026 13:56:50 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+Hello Nicolas,
 
-> On Sat, 28 Mar 2026 10:12:06 +0800 Li Wang <liwang@redhat.com> wrote:
-> 
-> > > from the top level?
-> > 
-> > Should use:
-> > 
-> >     make kselftest
-> 
+On 26/03/25 09:45am, Nicolas Schier wrote:
+> Unfortunately, I overlooked the missing entries for 'clean'/'mrproper'
+> and scripts/.gitignore.  Is it ok for you if I the following diff to
+> your patch?
 
-I'm probably doing something wrong, but `make -j50 kselftest-all'
-appears to have scribbled on my top-level Makefile, so now I'm getting
+Please go ahead, I missed those as well. Thanks for catching that!
 
-ts:/usr/src/25> make kselftest-all 
-/usr/src/25/Makefile:5: *** Too many open files.  Stop.
+I also missed another instance where the linker is passed to `RUSTC`,
+in `rust/Makefile`, as Yoann pointed out. So it's worth considering
+adding the fix in there too.
 
-ts:/usr/src/25> cat Makefile
-# Automatically generated by /usr/src/25/Makefile: don't edit
-export KBUILD_OUTPUT = .
-export KBUILD_EXTMOD = /usr/src/25
-export KBUILD_EXTMOD_OUTPUT = /usr/src/25
-include /usr/src/25/Makefile
+Happy to send an updated patch with the missing bits if you'd prefer,
+but I'm also fine with you folding it in.
 
-I've done this twice in succession now.  Any suggestions where I should
-look?
+Best,
+Mo
 
