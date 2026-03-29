@@ -1,186 +1,223 @@
-Return-Path: <linux-kbuild+bounces-12334-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12335-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Y1PtCVL5yGnfswUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12334-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 12:05:06 +0200
+	id yNKtOU9jyWlXxwUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12335-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 19:37:19 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AB435182F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 12:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507463535F1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 19:37:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D8C753009FBF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 10:05:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 19ABE302003D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2026 17:34:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E20EA2DF138;
-	Sun, 29 Mar 2026 10:05:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01CAE1FCFEF;
+	Sun, 29 Mar 2026 17:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NFZeGaGq";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qQtcEWsW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8gkz0ui"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F863C07A
-	for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 10:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774778701; cv=none; b=J9Ya9TZEHQy6h+IeNbkfcERtJCgy0wXH98wWkBglYPSjijoRWrayPpgfhO/9J6zjS9phD1rcKjMcV9low0o/jYnYIekPi6qf0cys0PC5QTqVwPcbUyiXCalULn4t/tA/+Zc9aY3/jCr2PCgL0mg8w2zEoZNnxoXp69+XCTUvc2k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774778701; c=relaxed/simple;
-	bh=gvGHC1vYZBsOAAWNUlWuTZOWh+DVU+X7VvCKIF8RYmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tO7q6TL2bJMo/jjscLiaehZwWQ8anuBujJCX2GYYKxqoiGpE/tCwzlwin0is0Dk0tbBJEBZTQqCM/ez+MFx1g+9CBja0PUum0A64PIdkvMDmhvBZ2FEWCNGN686G0RUx0mhEG726iEi7GJTiKFCliDOi02T0cw3bvP1N/0RSEOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NFZeGaGq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qQtcEWsW; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774778698;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=StPdatf65Kzl6nkGkBez3hMmnmGSSlFsSD2/9R1+ZUc=;
-	b=NFZeGaGqER1FxXvI85YhiKhSpaUKoMWV/kTJoFDLbJkhjKi5/rTC9dpW2gl6gwfOUR7L4G
-	ROlxBzwwe7/DRYYmN5/lMwsIwqJEkapnQlHujLrOdwiQpGW8kxRBF5OfczM09Ckwtuh4b9
-	ppNIyxFZx8rIVIpw4Nkz+JROuAmiHOA=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-295-bY2TgIj6OC6wnyhqwm9wDQ-1; Sun, 29 Mar 2026 06:04:57 -0400
-X-MC-Unique: bY2TgIj6OC6wnyhqwm9wDQ-1
-X-Mimecast-MFC-AGG-ID: bY2TgIj6OC6wnyhqwm9wDQ_1774778696
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2b0c92ff4ebso32154285ad.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 03:04:56 -0700 (PDT)
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71A0379ED6
+	for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 17:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774805639; cv=pass; b=M6hpHAuQ5mXYRsep/oW2VHfmcmVdVIUSaj3BxYK+5wKWsuTtVKD6fz5Y50bD/Aj3g+2518/Y1UOgAuN94inj7U0YZ9vrtjUHzqGh2ehq6ma5useCNnXkCSuF5UVrtn8Blv74xSB2X4pZn/CXQN0JKmha/p3mkj5c3ypbxCVwrjE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774805639; c=relaxed/simple;
+	bh=wH8d3KmUa0Vc2ojlkNpKwIlP5oooedUQAm8z4psgdIU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cvSXN8goMd2nyhidWwYKN8DXjonlDt6oexYOElsxvZqQhfBrHe/qsKHnosYNUYjPvhD8ki/dijyajWv1X4CN+JcJBCLRJHULJzhzigwgpKlhPM0aYJVQhUQIALWWDpuIu/MdCdKJY/lLhjfyQzdRodQfFE/gbhPW128+YpuCEYo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R8gkz0ui; arc=pass smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2c3d815778eso43405eec.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2026 10:33:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774805638; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EO6SN+LzAcU0CtXT7ZYZX/b/RKnQ//2xecpjziuIQ/yCe/ZTwEMTHjbRKvz0xCuXOv
+         xV3HbRz6bUsGe/8tiACxrG/vihGDeVYyvwdHEhUlFS8cxrGeu1RmwyqyvQDyUSzQzD1r
+         uXRpwbLaV8XtRsC/KVxTjJkMiq0o6CS4v+TEEiyT+z43hptCjn4r3vWWHAJhviuxi1lC
+         ACPauMKRXyIwGJkv76+ZvFZfkUbZckGY+E+p5fsiiJ7giV+ElvMBFrznkOlzgGZ/MVeA
+         ycQ1dbRhZfeR4tXphm26Gu7Jmwsb6IzLj4Zp+NMsfA6HEUUKs/tNd88FbAan9kV4/bqp
+         n2rQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=QkCmTI7yYjAJjvmfpeVl++cohGyuqaJEN8ofoKb3dzU=;
+        fh=Fyjdt8APXm4upffOk+HaRBe+m+9xxluHdloopYYKiFk=;
+        b=Z7MLWMOnIMGRj4+Gb6A4/xxNaVwz6Ywh/ws8A3DU9ksoyrKMyAnXz0SO6/o8d1mehM
+         RMwvUH2asTLVQx+JstKdUNLoqku/ShEyiQDMKooPE1qL2RQIbbIV/wzsIE8quH36z7rV
+         LxVsXdDhz87UVYpLswgKj5bLXjIETUB313bmPzIOXLndtqd+Dq47bFsT197qoudlKfXq
+         Zts0sFO4KuIfx94idds3J9HiFxlX0E6cx0UU20oBvbwvRlYXr3EOImWgTXUUgnW/EXpJ
+         afpb6ZY2i5vQy2jfwAUC161DdBeMHD0qiBA4mz10tFq3B228kJscOSaMzYuOGC0lhmf0
+         qP3w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774778696; x=1775383496; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=StPdatf65Kzl6nkGkBez3hMmnmGSSlFsSD2/9R1+ZUc=;
-        b=qQtcEWsW3CfhblaNrJCYRI3oR/tmg5Lhk6LwPO+/igBnQKje6jgos14qeQ1guF82gj
-         dfOWQs6xI/ZgghGfBOD1LWL745V8GcAFISZrlrrCn2dWN8jI5vZfoGmBXFDVEfSPOEd7
-         SVGbokeo11K0AnY1fExMBswz26XovKMeY0NVKuFf7N3WfwfDSeA1L0pHpHcLOyqPYvg3
-         vaxOinskOB/+dnf2JT/Bu4wOtwQNp+PDjIpr3Qxmuk7PcbSIOCmrrOFvP0q1zyJgdE+J
-         Z6WE7iymFrE5rRrs7Oo36eDMQA6lGNdzfUOYJ1iV/QgO/u2n+Ij8cWMVNjKWDUvl00X5
-         in8g==
+        d=gmail.com; s=20251104; t=1774805638; x=1775410438; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QkCmTI7yYjAJjvmfpeVl++cohGyuqaJEN8ofoKb3dzU=;
+        b=R8gkz0uifeOQrZ3VtI0b5MrFddR5tpPbEMV0EA8EqSxlycYShixhwCC2HPhWtkugWv
+         vJtnVqtMXUO6TCz2Ug/wo2yOgtAtSYlwluZ4/LCDdiDyacdIAQaFmczL/ASPAqDLPvc2
+         GZLu3sP9CK+5GAdwPNtTOcO7MgP/bxYbns/85j+vAICvXJfP3D68T1LjsWPyhLpXNjo8
+         bx9sLBZJGFHgX37rycwXVRoPZv65fWY/bTjh01VGg6ooOaTLLXABI44BH4dbLkcXPTjB
+         fPtVmCuSI3uBLJkC2UewNGj/XBO3q3/YN4NF0KKhxZI8b/w8Lu3mD+8vF6tA/TQ9pUvn
+         oSgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774778696; x=1775383496;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=StPdatf65Kzl6nkGkBez3hMmnmGSSlFsSD2/9R1+ZUc=;
-        b=qYH0Zoc+9WQUakNHGIWndoVcv8G13RsH1tHg799MZTWEFkPu2agWwOgGO2kPtvqExF
-         QA7lKZrYJRo8k8BuzWwmOlf1pdsV64reoKhbzsa150V2RThKlxyWZGzWuUji/AfcDmkM
-         lnn7miqGKbx77uJN4/gwV69eB27ODszXepEqsHv2Q7mdN/69JTAkHi4omF4ArjuDizNB
-         6NOcw4b/X83NxL6Fga858eCG3umQAdVybvycmHUMJ35XkXqufxOTSIEn7SuU2AQfQdtY
-         EyRxGbmnZE8vJoq925lcXuYIFcLlJzxKEa+bwIJqs6DnGp5ecVRHT7IWXWZef4xwYLGa
-         JwBw==
-X-Gm-Message-State: AOJu0YwFrtd3O7VUDQI7JUJYAa5GP2w19p396Gote6cukb++DVo/bFKM
-	C+Ei4RvsibI7bPrIDDXdxlYFunU8R0Or2m19GUBWNg3Zwhi3mXFwkBgGWzE5ZTb+M267A+rKD6z
-	X2AbJ6gj6+02vF7hoACbRKJCkt46ggOc9hp1SkMCwzFzN2GRBNm5x+w0Z6T7UjBHyJQ==
-X-Gm-Gg: ATEYQzy54LixnpEpRlKu11oqjWr77RCwkdFIP0ZDuMt+fR8FLy8oSsjegrc3AJLATr2
-	gwyaPuoB2Spn/tcElM3Rr04MLKJxsdCm4bUm+Sc3SJDNE4OABSqRl1oBbfwY6kZ3gpB007jJwdR
-	TtFtUIm+WBJGLSo9DCdWeQSC23pVHlAxua/2Ksmkh0Cn/ksbnx7NgGntzHTCGtosQmICB4kpkvz
-	4Yoi/DBzz7CCGWUgXIdoB6UhjJLegxgkgxu4bHZTRcbiPIq2mdHPquiuA156Mlb17iZBg/WunU/
-	vL41I3Pthm6XWF5gpah79NIbhO7qiWg5kJVK3AhHiVoRqddd8QPlc9hzbal8KGbxzI06bgFog7U
-	NBqo8KSKzA3RxA/ly2w==
-X-Received: by 2002:a17:902:e885:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2b0cdc9b555mr90550945ad.13.1774778695932;
-        Sun, 29 Mar 2026 03:04:55 -0700 (PDT)
-X-Received: by 2002:a17:902:e885:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2b0cdc9b555mr90550785ad.13.1774778695455;
-        Sun, 29 Mar 2026 03:04:55 -0700 (PDT)
-Received: from redhat.com ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b242766219sm44817195ad.53.2026.03.29.03.04.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 03:04:54 -0700 (PDT)
-Date: Sun, 29 Mar 2026 18:04:52 +0800
-From: Li Wang <liwang@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: tools/testing/selftests
-Message-ID: <acj5RK3lze7o704Y@redhat.com>
-References: <20260327143234.40bb8a0119bd55670ddfeec6@linux-foundation.org>
- <acc49s7jbI9Q3a4f@redhat.com>
- <20260328135650.435b415f8c00835b2fa471e0@linux-foundation.org>
- <20260328140311.d6ce99302f93923b0cffb441@linux-foundation.org>
+        d=1e100.net; s=20251104; t=1774805638; x=1775410438;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QkCmTI7yYjAJjvmfpeVl++cohGyuqaJEN8ofoKb3dzU=;
+        b=czKtHbCeFUhoE7axfCN8w2dZE7xinIqjTlbL5n8pcbkN79qTIPmLq88pst10ylxJZ3
+         VDSbuktw4ui3UDEVj+O2Rb+5S1f7MIS5Yjcqf5h9NUyxc6ZDdM7K/U0MfOU38+HQoP/M
+         iCnd1+GuixilJaFTgj+T0Sm6CFoFRQjf5wsCwNsX16KhwInAl6R17QQcwdFHOyqeK2+7
+         h0Y86LGGe1eaYprYmHLtbut1C+pczIwY3QeT+GtgMO4StDwOG9aPowASRV5kir8C+vni
+         KrBtqZrwniEBX/rjrMYoaNwrewUEj44me9IIs2fIPdz1OIER08tfHdfnCqWm0fe/upZh
+         JeFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXb9dzVS/4JrMLGfNtmRbiJr9KYj19Hgqa2sW5mdlCUw4r1Euoqs8tjOD2cM8QZXWEUHo4jcRuOShbe5Nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxduqXYKwXExBQYmvoR6j+pLZlJZUdQWwHDzAQWrdaWkIIPK8mQ
+	HO3ovUCgLaR8RgBk0ZqP67uU3Q2efTxXchogFcpNNiGBqYF8ScwXdlyB0SiKUIcd2IFk+xVjfnu
+	rP08CfEI6EQJKMq0155vCE9GnvWyMywM=
+X-Gm-Gg: ATEYQzzr4jJmwSnQUAh3yDQtve8silqdat2W7KTQnePVSQo3ATr3xBVNayjeNkuyLuJ
+	ccWTUF7IaIlG/rxc0Wz53rqd4cwO9qaTrFp+g6kQ3TBxPCawOaFvn8OXdcNeYnRw7LG7pctDlIe
+	c254nVNRzfLltWfS3P/UxWYEYnOT4ci8P/Kb/qnaWyGxcxDIDIahN/YI7wSfG/r+XmRH1Y88VQs
+	XEYWJqZvdDRdlRiKV33VWF0E+9xIftLQ9CQBqZS5zvx5ofKms1rxR9Nga/zvyntuWYnkM42jGXe
+	cuJCKzjLFL0ojS6D/1u48IkBA2XOgqXXwO+PZB2vxzX96lY1i/bGOvUgGZDbI5ID82sc5YjB5jd
+	eATAu2Atdj1QG3JHsxJlEl3s=
+X-Received: by 2002:a05:7301:129b:b0:2c1:7ca:cec2 with SMTP id
+ 5a478bee46e88-2c185f3463bmr2051760eec.8.1774805637680; Sun, 29 Mar 2026
+ 10:33:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260328140311.d6ce99302f93923b0cffb441@linux-foundation.org>
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+References: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
+In-Reply-To: <20260203-inline-helpers-v2-0-beb8547a03c9@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 29 Mar 2026 19:33:45 +0200
+X-Gm-Features: AQROBzAbWz3xOUBnSqR2d9NqgOZyOCJXfUW2zEO1m7L8IHXJSZ_QeR_z2lJXCRY
+Message-ID: <CANiq72=ns52NksGEj-5kBCkD0RxH12wKawr2pH_QvHshSsz6Kw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Will Deacon <will@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
+	Matthew Maurer <mmaurer@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	TAGGED_FROM(0.00)[bounces-12334-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12335-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,infradead.org,arm.com,google.com,linux.dev,linux-foundation.org,vger.kernel.org,lists.linux.dev,kvack.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.992];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[liwang@redhat.com,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 65AB435182F
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 507463535F1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 28, 2026 at 02:03:11PM -0700, Andrew Morton wrote:
-> On Sat, 28 Mar 2026 13:56:50 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
-> 
-> > On Sat, 28 Mar 2026 10:12:06 +0800 Li Wang <liwang@redhat.com> wrote:
-> > 
-> > > > from the top level?
-> > > 
-> > > Should use:
-> > > 
-> > >     make kselftest
-> > 
-> 
-> I'm probably doing something wrong, but `make -j50 kselftest-all'
-> appears to have scribbled on my top-level Makefile, so now I'm getting
-> 
-> ts:/usr/src/25> make kselftest-all 
-> /usr/src/25/Makefile:5: *** Too many open files.  Stop.
-> 
-> ts:/usr/src/25> cat Makefile
-> # Automatically generated by /usr/src/25/Makefile: don't edit
-> export KBUILD_OUTPUT = .
-> export KBUILD_EXTMOD = /usr/src/25
-> export KBUILD_EXTMOD_OUTPUT = /usr/src/25
-> include /usr/src/25/Makefile
-> 
-> I've done this twice in succession now.  Any suggestions where I should
-> look?
+On Tue, Feb 3, 2026 at 12:34=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+>
+> Currently the only way for Rust code to call a static inline function is
+> to go through a helper in rust/helpers/. This introduces performance
+> costs due to additional function calls and also clutters backtraces and
+> flame graphs with helper symbols.
+>
+> To get rid of these helper symbols, provide functionality to inline
+> helpers into Rust using llvm-link. This option complements full LTO, by
+> being much cheaper and avoiding incompatibility with BTF.
 
-When build selftests from the top-level, sub-makes entered via `-C` may
-still inherit the caller's PWD from the environment.
+Applied to `rust-next` -- thanks everyone!
 
-Some selftests use $(PWD) in recursive kbuild invocations, which can
-then incorrectly resolve to the kernel top directory instead of the
-current test directory.
+    [ Fixed typo. - Miguel ]
 
-Maybe try export PWD in the ../selftests/lib.mk?
+    [ Andreas writes:
 
-  export PWD := $(CURDIR)
+        For the rnull driver, enabling helper inlining with this patch
+        gives an average speedup of 2% over the set of 120 workloads that
+        we publish on [2].
 
--- 
-Regards,
-Li Wang
+        Link: https://rust-for-linux.com/null-block-driver [2]
 
+      This series also uncovered a pre-existing UB instance thanks to an
+      `objtool` warning which I noticed while testing the series (details
+      in the mailing list).
+
+          - Miguel ]
+
+    [ Some changes, apart from the rebase:
+
+      - Added "(EXPERIMENTAL)" to Kconfig as the commit mentions.
+
+      - Added `depends on ARM64 || X86_64` and `!UML` for now, since this i=
+s
+        experimental, other architectures may require other changes (e.g.
+        the issues I mentioned in the mailing list for ARM and UML) and the=
+y
+        are not really tested so far. So let arch maintainers pick this up
+        if they think it is worth it.
+
+      - Gated the `cmd_ld_single` step also into the new mode, which also
+        means that any possible future `objcopy` step is done after the
+        translation, as expected.
+
+      - Added `.gitignore` for `.bc` with exception for existing script.
+
+      - Added `part-of-*` for helpers bitcode files as discussed, and
+        dropped `$(if $(filter %_module.bc,$@),-DMODULE)` since `-DMODULE`
+        is already there (would be duplicated otherwise).
+
+      - Moved `LLVM_LINK` to keep binutils list alphabetized.
+
+      - Fixed typo in title.
+
+      - Dropped second `cmd_ld_single` commit message paragraph.
+
+          - Miguel ]
+
+...to boldly go where no Rust build has gone before.
+
+Cheers,
+Miguel
 
