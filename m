@@ -1,63 +1,65 @@
-Return-Path: <linux-kbuild+bounces-12381-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12382-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cB+ZCXqXy2mYJQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12381-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 11:44:26 +0200
+	id GOERHbGYy2mYJQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12382-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 11:49:37 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AE3367430
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 11:44:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6FA336757A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 11:49:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2F4C23022F61
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 09:44:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EF535309DB75
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 09:44:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE64B3ED5DE;
-	Tue, 31 Mar 2026 09:44:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 753663EDAD3;
+	Tue, 31 Mar 2026 09:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fkr+NC5F"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y9a813N2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C23A1EEA54
-	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 09:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D56239E6E4
+	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 09:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774950260; cv=none; b=bi0ym/Il6F2ZZE8S6krZQXx2CNlm9z0Smj7NOjBofltwYfS4W4OThWKYY4xsrE4+RpGH3W+KWXdSePpz6X02pSznnJWBYFz1pT4pz26CqqJG4M66qp9VOdY8awagVO9HBuA/rUnv1DZu96YdccHVuhtKwGiE2KNIJRrynYKoCwY=
+	t=1774950270; cv=none; b=iOaMRiKtS2wyAoqSFixZsqxQe2dJV379S91QxcEY/qSMMos/Qy778q82Bm1zNAsVOQrcy5mJ53gadvr5vzbIreCiBn0b1IkO/QE4mD8cvXUCkMrAuo+Q6yJMpMSWGyCt7X/AFbR4EWWsuNotvA2ScWRD8E0y5EQmrpsJVbiU16I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774950260; c=relaxed/simple;
-	bh=Y5HYmfo2hrjkYl2etfmR6FyOxfYHNvPpo+PR8dGDbSs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKuJ1SqtZbV02g7E2CviYjcDqhtwx8YOS6AFT+212SZrC9FALlu1HhnwpUZtDCj7Z3txmQVJNI/02wnzKUwmD8LtJ5mqMbiWV3hs+uedihSd53L2JJ1qG0fb7Qk9UMEh16SrJ66OCbHl3HYbLn8u0NLMFaYQGdD/Bek2AfXA8OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fkr+NC5F; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1774950270; c=relaxed/simple;
+	bh=mz1FaubjBLQ8shVEHdDn4BVHW1w0um8wdQYDocbA74E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KRtrql5KdaUdXwoRtoBX5EGcZui8n9A40QMQkMbeeI12m9Z7I5/FoMqIn1/eNUPati8iq2wa4n5iv8ArQyuYNXnlbY1f/COJl7V9UGq3n/6mINHU7gpZbaCJzrWQJzFe2m6qNnZIsCtAjdzVvQYMJTcz70lpLkwpY9ATPO9eE+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y9a813N2; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774950258;
+	s=mimecast20190719; t=1774950266;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=HApNsJMnQkGjRCw1G9QlTLRX0WXwGT8mBK0arH4RiRo=;
-	b=fkr+NC5FQnF9nmEGQ/75NEN3SxpWe/z6Ac1/dr1N1PMx2bdsJIXTMKpJuh0XPjUY4oNwkZ
-	U4+aYpEEqEOa6ql3NR0p1CqYfxWcmXn4u6C0K2mMNiFQYu/Kg7TE5Zf+IXvClF7/luI2CH
-	pIKShh8iHMgZhbnb19hTJl1TaLoHd2U=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62QxktDCjvLNB+7zU7T9t0KDFlRYYB3ZQ/FbFPCsVjA=;
+	b=Y9a813N2hFo3jGamFzG7X9nJhfFFrGtCJwP1TquGcOL7tHCNvJ4V+8izQ3duAQ1Ht/3b3r
+	vwAjsswTJTw4BI59HuiD2mTdhNrF2SSm1/rL/f0HSOE7srQg1udKYJiLcOPiRZvuY2A0pC
+	hO6KBQNPuF+YyI9Sti3FUzmqWUEQCqY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-638-9FjosW1CPO2exaI7I-bw2A-1; Tue,
- 31 Mar 2026 05:44:15 -0400
-X-MC-Unique: 9FjosW1CPO2exaI7I-bw2A-1
-X-Mimecast-MFC-AGG-ID: 9FjosW1CPO2exaI7I-bw2A_1774950253
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-583-FnlVuaCkOiKoGKM9c8FI2w-1; Tue,
+ 31 Mar 2026 05:44:22 -0400
+X-MC-Unique: FnlVuaCkOiKoGKM9c8FI2w-1
+X-Mimecast-MFC-AGG-ID: FnlVuaCkOiKoGKM9c8FI2w_1774950260
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0CBBF195608B;
-	Tue, 31 Mar 2026 09:44:13 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E013B1800345;
+	Tue, 31 Mar 2026 09:44:19 +0000 (UTC)
 Received: from fedora-laptop-x1.redhat.com (unknown [10.72.112.121])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9E08B30001A1;
-	Tue, 31 Mar 2026 09:44:06 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B27B630001A1;
+	Tue, 31 Mar 2026 09:44:13 +0000 (UTC)
 From: Li Wang <liwang@redhat.com>
 To: nathan@kernel.org,
 	nsc@kernel.org,
@@ -74,9 +76,11 @@ Cc: linux-mm@kvack.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH v2 0/2] selftests/mm: clean up build output and verbosity
-Date: Tue, 31 Mar 2026 17:44:00 +0800
-Message-ID: <20260331094402.144131-1-liwang@redhat.com>
+Subject: [PATCH v2 1/2] selftests/mm: respect build verbosity settings for 32/64-bit targets
+Date: Tue, 31 Mar 2026 17:44:01 +0800
+Message-ID: <20260331094402.144131-2-liwang@redhat.com>
+In-Reply-To: <20260331094402.144131-1-liwang@redhat.com>
+References: <20260331094402.144131-1-liwang@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -91,12 +95,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12381-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12382-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -109,43 +113,76 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCPT_COUNT_TWELVE(0.00)[15];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C2AE3367430
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux-foundation.org:email]
+X-Rspamd-Queue-Id: E6FA336757A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Currently, the mm selftests build process can be quite noisy.
+The 32-bit and 64-bit compilation rules invoke $(CC) directly, bypassing
+the $(Q) quiet prefix and $(call msg,...) helper used by the rest of the
+selftests build system. This causes these rules to always print the full
+compiler command line, even when V=0 (the default).
 
-First, it leaks raw compiler errors during the liburing feature probe if
-the headers are missing, which is confusing since the build system already
-handles this gracefully with a clear warning.
+Wrap the commands with $(Q) and $(call msg,CC,,$@) to match the
+convention used by lib.mk, so that quiet and verbose builds behave
+consistently across all targets.
 
-Second, the specific 32-bit and 64-bit compilation targets ignore the
-standard kbuild verbosity settings, always printing their full compiler
-commands even during a default quiet build.
+==== Build logs ====
+  ...
+  CC       merge
+  CC       rmap
+  CC       soft-dirty
+  gcc -Wall -O2 -I /usr/src/25/tools/testing/selftests/../../..
+                -isystem /usr/src/25/tools/testing/selftests/../../../usr/include
+                -isystem /usr/src/25/tools/testing/selftests/../../../tools/include/uapi
+                -Wunreachable-code -U_FORTIFY_SOURCE -no-pie -D_GNU_SOURCE=
+                -I/usr/src/25/tools/testing/selftests/../../../tools/testing/selftests
+                -m32 -mxsave  protection_keys.c vm_util.c thp_settings.c pkey_util.c
+                -lrt -lpthread -lm -lrt -ldl -lm
+                -o /usr/src/25/tools/testing/selftests/mm/protection_keys_32
+  gcc -Wall -O2 -I /usr/src/25/tools/testing/selftests/../../..
+                -isystem /usr/src/25/tools/testing/selftests/../../../usr/include
+                -isystem /usr/src/25/tools/testing/selftests/../../../tools/include/uapi
+                -Wunreachable-code -U_FORTIFY_SOURCE -no-pie -D_GNU_SOURCE=
+                -I/usr/src/25/tools/testing/selftests/../../../tools/testing/selftests
+                -m32 -mxsave  pkey_sighandler_tests.c vm_util.c thp_settings.c pkey_util.c
+                -lrt -lpthread -lm -lrt -ldl -lm
+                -o /usr/src/25/tools/testing/selftests/mm/pkey_sighandler_tests_32
+  ...
 
-Notes:
-  Andrew mentioned he hopes this patch merge into kbuild tree, so I resend
-  to linux-kbuild@vger.kernel.org.
+Reported-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Li Wang <liwang@redhat.com>
+Tested-by: Andrew Morton <akpm@linux-foundation.org>
+---
+ tools/testing/selftests/mm/Makefile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-V2:
-
- - Drop 2/4, 3/4 from v1 to v2, since Andrew wasn't able to confirm the
-   patch works for the rarely happening issue now, so I decided to just
-   hand on the process of the parallel issue.
-
- - Refine the 4/4 patch only to hide compiler errors when missing liburing.
-
-Li Wang (2):
-  selftests/mm: respect build verbosity settings for 32/64-bit targets
-  selftests/mm: suppress compiler error in liburing check
-
- tools/testing/selftests/mm/Makefile        | 9 ++++++---
- tools/testing/selftests/mm/check_config.sh | 2 +-
- 2 files changed, 7 insertions(+), 4 deletions(-)
-
+diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+index 7a5de4e9bf52..3b222cd6a048 100644
+--- a/tools/testing/selftests/mm/Makefile
++++ b/tools/testing/selftests/mm/Makefile
+@@ -215,7 +215,8 @@ ifeq ($(CAN_BUILD_I386),1)
+ $(BINARIES_32): CFLAGS += -m32 -mxsave
+ $(BINARIES_32): LDLIBS += -lrt -ldl -lm
+ $(BINARIES_32): $(OUTPUT)/%_32: %.c
+-	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(notdir $^) $(LDLIBS) -o $@
++	$(call msg,CC,,$@)
++	$(Q)$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(notdir $^) $(LDLIBS) -o $@
+ $(foreach t,$(VMTARGETS),$(eval $(call gen-target-rule-32,$(t))))
+ endif
+ 
+@@ -223,7 +224,8 @@ ifeq ($(CAN_BUILD_X86_64),1)
+ $(BINARIES_64): CFLAGS += -m64 -mxsave
+ $(BINARIES_64): LDLIBS += -lrt -ldl
+ $(BINARIES_64): $(OUTPUT)/%_64: %.c
+-	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(notdir $^) $(LDLIBS) -o $@
++	$(call msg,CC,,$@)
++	$(Q)$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(notdir $^) $(LDLIBS) -o $@
+ $(foreach t,$(VMTARGETS),$(eval $(call gen-target-rule-64,$(t))))
+ endif
+ 
 -- 
 2.53.0
 
