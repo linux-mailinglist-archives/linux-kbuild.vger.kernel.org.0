@@ -1,194 +1,211 @@
-Return-Path: <linux-kbuild+bounces-12398-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2PwtL3vsy2mlMgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12398-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:47:07 +0200
+	id oFVYIMPuy2m5MgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12399-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:56:51 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6ED36C07D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:47:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816E736C357
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:56:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 81D04307A32E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:38:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AB270303F83B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 975AB421EF3;
-	Tue, 31 Mar 2026 15:35:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C10F7411606;
+	Tue, 31 Mar 2026 15:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="K5C8Xa1K"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CSDuOvYZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47752423A79
-	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 15:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774971353; cv=none; b=QBkJmJCLG48PDtE3zlXIXz+ENqplyFPfntPc4SRAfPMjhpShoZ7yMPEtKTWzdN55rKkglfGrqIDStLswJV8oS/5S+9lHOn0xQPUTCdMxhsyE1KQ2pt68o95fkHCEAENjSLfVfCyfQmQ79obfSD0gX3lv2kjSzt1027JJm78mvW8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774971353; c=relaxed/simple;
-	bh=0WFog79zuDRJhn/p/fsZHmfoespawcmgR5YmcyH0GY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XDIfA3LuHAIyJJUiRUBghpkNOS9+G6YX2Gm2BQB5ukpgxtPai9rbHu8Rtf/XOdjSZZMMkfe2YlIkc98WDkyzddL1zacv2o9Padkgod7Fpc/i73+TNJy3z69hnPRVrBMnYGcZcSASxW8iyJHbc55wLwc/fkr3CT4zDNB6RjuVB9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=K5C8Xa1K; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d0deb7ad5so639965f8f.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 08:35:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A3A408239
+	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 15:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774971798; cv=pass; b=okVamVwYohW6bt0Kq7sepHD4xA5mr0euZpXuPuFhIE+8himy7GNg5Ry0j/yVWLeDq85uJefKQ/g3qEY+VPh1xoUc+ywqIHImNl6+CW+o+vv+aoW2VZeaEN8Rds9svVe3wW6TAQi2e9GNmqhLKJLlhxAV4ZhyWRNkSdf2vY76hbA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774971798; c=relaxed/simple;
+	bh=7B9guYqc9Km4EfytW8PmhqDNaZArc5NLcTO6VZFjf+A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ij1Imp0jP040MkA42DMynM812dxdQbSfzgbCjqHpG8sKQclHi1QmbiE3rItnF5RXFro4TgTUulHDCIC/KhLliiCtzZq5NH93CiFxAWFJ9BxpOBNB3S04fnIYKONsEXGQ8F4VpNWto8RvtNHXzcFLSRJScH7Pg5a1qCY8qNjs/QE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CSDuOvYZ; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-509069a7a7fso658261cf.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 08:43:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774971796; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XN7c7vk2/Wb9fZqge8K+6y7l7lS13ces3IR5+F0P4kGahMBYmp1NkEQORISGSVZKrz
+         6nO58jeBwXDJdeTi309TeTZXAPZZR+c12WalCSTf4FAGKlKPdeLV7fg8bunLrYcFJleW
+         qITW1e5CxuNYyb52fx9ruAavfXoKKXd3KzuZVjMlkdKx/GQyTEFdWUvow6WhXXEGhvQ9
+         S3xdcpHeYeOV7eTe3R7H2nwhdKpKwuICs+xEyyoH7R40OoMLeOt5AWpZ1EBMkAFECSAF
+         Og7w1JQDRiW43Gll+ZLQOM6Gzt2XUDohCwDTa7sjzXume8vTWzXyJBq+Pcs2Vou+NyYR
+         vrNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=W0esMwEn2vLErtLDITPF3oyt/KUc1Rilnuoy1Ok6WkA=;
+        fh=MKzj+U0FWSgedX9ezgOAgOlVc4nRw6HYGZDQ/8GpIM8=;
+        b=gW/nZ8SAZ/BoZ5vNWH12549WqngGyIPc98ZdwhXaM9mTdkOm3WbnvoKzX8uLFZsyOh
+         M8SeuJBvCmGRlKZ/j25ghFJziEC2nIngkBeXxq/fBHLBsYws0Wwc0SqUyG7I8rDtzZ24
+         wb8wmi5+JFBzDBNN2pCSgb8PH9Q+eC6vIs3rde6/CG3UwlNZLRuPosWabiXVINXqiB6s
+         GUBwEzonkj7+RZb9hWYY8wf8rh/ogqGbcsEbswLmnLFvqVCrCPSvezaimLhHwh3twpZb
+         jbW/VWvTqak7MSIRYFy/3Db0ZIz/Geq+zNlStOptbcEgYn1MT8MldlzXhxv/rPzN7Ii0
+         p9iA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1774971348; x=1775576148; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MiGvSf1cEKquv9AHWJHz+IKC+VcqOToPMsbHXtYmwWU=;
-        b=K5C8Xa1KWejcZCUQIt3T0/O+JBPN3KCcwDpAMoU6ePRO1ZKXzOYVJHG8p7aoJAFIx0
-         QFS6XToNcQtKJYlJdiPfxW6OFwoJFN2425pIorPD90+33JpuCEMhj3R/RLyz6ur5x2e8
-         X1GUbm9wdnqc1ND/tD7mXvRi50mTjc2BUA6TGVVW905yRP8g40fSEjG7iidOv70JJCEM
-         Ajr2cOz5rq+aaLf191KENgQZr27ouVCYl5ZEadY8LZZkmmDrAsVlb8VTDz8/g07x19y6
-         3A+aBKdcCvhaluS69CrdQoPut/CPs+49FOlv9Hl2KN0IVjadfUaDWoQtfr98ONQ3l9En
-         ttRg==
+        d=google.com; s=20251104; t=1774971796; x=1775576596; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W0esMwEn2vLErtLDITPF3oyt/KUc1Rilnuoy1Ok6WkA=;
+        b=CSDuOvYZIQBL4jWhYVjEN8LedqCGddGCjivauKupP1yZuWfYumIyGAUvtAiPVnzg0F
+         Q3p+MjeDrFdvCIt0iSpQpddQ3k9GInxNv1ezsLNaanDK4zXvatzOGKWNQ7cjbXMZwJzq
+         //MmrdNbHpWN733Xhm8FcIKhOVuvrCxM4xLKnqQjeF4GLPPEQD8wPmg7ys0yRXTqyZGu
+         urOWHW54fe39NvJiewDDFj8U7LegYYTREq7AC90oAChwWHwCr5ErNhoxeQ1gB05kUT2+
+         RlE1U1ZgXSUUmhAHsgC8+ax1rYpmPASlMt5KIUsxqgUC/vG0ryIoucrgh9bNV80IwVuS
+         TNYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774971348; x=1775576148;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MiGvSf1cEKquv9AHWJHz+IKC+VcqOToPMsbHXtYmwWU=;
-        b=GAEQs6J59faOfKidwDZyBZ93LznUOscX3OgKtwPFF8A7ZzQHRwKxWKr80E3dBgMXLS
-         SQ9dENkYFnKQ9ZCdDp8O2KpGGf4mIA09gbUj6QHia24O4TcpsWrtd2TC9YGp7I3PueW7
-         xse37bRMQfVlub6pkCU0mt8leLKZUWfR9YHOi4EYrSxACb8iVNZeCS/o0XC0w2f6KR19
-         1R4YOubA/L8+OkoLOMVIrJvLjwnLDsFAQp67+gtTZPpvzXUdPO2D9oe7N3FumruEPTJW
-         k8jbwo4hAGTNl1WKjUrQkCIwj8HMRJ0hhKnBhQF30m0bUVkACmmkVdfl8qiRU88JkqfI
-         iRZA==
-X-Forwarded-Encrypted: i=1; AJvYcCXPFldc7NO9XkHUwyiDn8C1Y8X78HnosvOnD3fi8uAeumu9FKczUteb4lcRgLhJ41PJEFTFo/O0Fh2dAUs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKiRh8DKXBf/HWs9AoBdKXatzIO76BNSzaLGHB+xAV2PBvb7sK
-	PKl7luD+bjv37iSNBv8KDuBpwc4c9ziLpmsn8VSn/K2ZJT/hwQnRDzsNDy7Dnakhz/s=
-X-Gm-Gg: ATEYQzxnHeSSW5hvlYFdvUOtgqlIcJbR0ma2Kyr+xESRHBhUvW5tQXZ9maF7kI3rsyC
-	Zao6kGWLt8zRE/62F9EArrDaMRB3/G5lmGpCW5dUHs/wee61rYUqxsw0GOmwPXNjmPe1dgg67pG
-	KXar6S/RSKW7U52MczCr6oYb5jijjrRwc7QjSaHisD+UtcU0Usvfe5oy7WcPio5T9zilSLG8cS1
-	BhDYklz8WdzKbOhy9RWKnB16QYGYReh01nAKKpm6oYKlUHtjF/4DEI6Gaxgb/iqtlLePAaXPujd
-	eXWn7mNZGnH2D0LENnMwbx7I6ZpH24t4AJfxvz3akcYmkygVH2jKwmC/fVXdgDnelOPswyQFJ70
-	NKsyk2BMHVS9r5n6Xbu4D+sid9cKUdIEgJfTj1PYbhnZNXD3pE4IMpj89ffeQzWW605lfnP+PUT
-	lSBpdG41n5gCF3fnMKwqH1trUBOA==
-X-Received: by 2002:a05:6000:4211:b0:439:be78:e1e9 with SMTP id ffacd0b85a97d-43d1507620bmr185363f8f.14.1774971348197;
-        Tue, 31 Mar 2026 08:35:48 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf90424fcsm23487555f8f.32.2026.03.31.08.35.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 08:35:47 -0700 (PDT)
-Date: Tue, 31 Mar 2026 17:35:44 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] init.h: discard exitcall symbols early
-Message-ID: <acvp0HFv3o_i9sa3@pathway.suse.cz>
-References: <20260331142846.3187706-1-arnd@kernel.org>
- <acvghO4glmZamFSZ@pathway.suse.cz>
- <82bc9a6f-2184-41fa-af8a-5cf50ac04f44@app.fastmail.com>
+        d=1e100.net; s=20251104; t=1774971796; x=1775576596;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W0esMwEn2vLErtLDITPF3oyt/KUc1Rilnuoy1Ok6WkA=;
+        b=WELznUhkyDLXUNAePyAP3gknYsRS/Aeujh8EgdBgMxC2o4tLaWvwxMRcCQAJlagSKa
+         GnsHH4G1WVva6x+fKYjcNxF9Kr9YiN4kBWbuTjSHWm63jV39lFKbKQRFSpS3W+hcUJLC
+         KiSgavZ8fnGQeVvlH3IQZMDtbV3l4EMxLP7Skt06ovWTCGW6vROA3gPi/PhFLtnRThxV
+         gH1fwBH6Q8QyE/CO7zNhpQGosTkcjPIoDQFehhOppCFAxNMmcXc9n8wOQodnqPwC67LB
+         Hi1r0CeLlY9ImfVav6cC9h3VvCc+4hTHDSI+eYPOAfOIRSP92hutEDINikpFTH/LfBuz
+         gB6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUqHEq5MZxkG2j5dcNlS2RgqnKKaGuBoLlspxqVu6tJGcsJsIT/ZhCGr9pO+4mW+sG4ZdIkhpId4pUBLe4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV4I9aghA/Nyaw/0mCCEPskZDC3Yj216rNlkx3+RIx4gp8fCPE
+	pDfz2DJLAbJciU+xSQoR9yWOpv5jKpY90b6OPGVVqbOiMRisXmstluvtDKdJoPVIgxKcN+18lw9
+	M3Zs0ew4r0J3OQmNVpUDsGjRVH+isD1qksIPrz7Mr
+X-Gm-Gg: ATEYQzzKqUuQjRWxOIf2dugkVZVRrQA9575Zx649D6eFM5hVaQ/i7mwimbHnTUm8bjs
+	aelywOLRpZr4tz7yJYRBjAG8rFfUUtNlSemPqTs6DAEeoZL0SBq/zhqPuLmZgaF4kEMrMqe94iY
+	P1CLXzDbCV5qDh111gjlxrp1esxp2Sw05oleZql4wgqlEoU0JbeaVMINGYUe2MNVza9I6WYPSdF
+	uc4Jz/2tQpxw6A7cYQBfk+S+vZmBPMki/X6RC3Qur0bTuW1CJfIBo4nFiDNyqmwlYayTy77AT5D
+	BqTdOmewwQv41mnF/z/3pE2WI8J81uAOfdxEoSntjPx3ag==
+X-Received: by 2002:a05:622a:684f:10b0:509:15b6:f69f with SMTP id
+ d75a77b69052e-50d3b726614mr608181cf.2.1774971795337; Tue, 31 Mar 2026
+ 08:43:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <82bc9a6f-2184-41fa-af8a-5cf50ac04f44@app.fastmail.com>
+References: <20260330171920.2026779-4-xur@google.com> <202603311739.cjetLeNT-lkp@intel.com>
+In-Reply-To: <202603311739.cjetLeNT-lkp@intel.com>
+From: Rong Xu <xur@google.com>
+Date: Tue, 31 Mar 2026 15:43:03 +0000
+X-Gm-Features: AQROBzCj5K3gmeJvf_anMTGWwniMI1Tm2F9Rl48CsSn4OuK6msMlbCTz-rYMEjA
+Message-ID: <CAF1bQ=RUUcs7ftHx+f-0DyPeCXBDa8pVt9cYaVPbxpkm8XkMEA@mail.gmail.com>
+Subject: Re: [PATCH v8 3/3] kbuild: distributed build support for Clang ThinLTO
+To: kernel test robot <lkp@intel.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Piotr Gorski <piotrgorski@cachyos.org>, Venkat Rao Bagalkote <venkat88@linux.ibm.com>, 
+	Teresa Johnson <tejohnson@google.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12398-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,vger.kernel.org,linux.intel.com,gmail.com,google.com,infradead.org,suse.com,atomlin.com];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-12399-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pmladek@suse.com,linux-kbuild@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com,lists.linux.dev,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[xur@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,arndb.de:email]
-X-Rspamd-Queue-Id: 4F6ED36C07D
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,intel.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 816E736C357
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue 2026-03-31 17:01:20, Arnd Bergmann wrote:
-> On Tue, Mar 31, 2026, at 16:56, Petr Mladek wrote:
-> > Adding module loader maintainers into Cc to make them aware of this
-> > change.
-> >
-> > On Tue 2026-03-31 16:28:38, Arnd Bergmann wrote:
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >> 
-> >> Any __exitcall() and built-in module_exit() handler is marked as __used,
-> >> which leads to the code being included in the object file and later
-> >> discarded at link time.
-> >
-> > Is this safe for dynamically loaded modules?
-> >
-> > Honestly, I am not sure what is the exact efect of this change.
-> > The dynamically loadded modules just came to my mind...
-> 
-> In a loadable module, using __exitcall() directly already discards
-> the function at link time, so there is no difference from built-in
-> code. Actually using __exitcall() here is a mistake regardless
-> of my patch.
-> 
-> Using module_exit() in a loadable module still behaves as before,
-> this uses a different macro, which already has __maybe_unused:
-> 
-> #define module_exit(exitfn)                                     \
->         static inline exitcall_t __maybe_unused __exittest(void)                \
->         { return exitfn; }                                      \
->         void cleanup_module(void) __copy(exitfn)                \
->                 __attribute__((alias(#exitfn)));                \
->         ___ADDRESSABLE(cleanup_module, __exitdata);
-> 
-> so this is also unchanged.
+Sorry. The patch was wrong.
+Let me send  the correct one.
 
-I see, I was confused because cscope pointed me to:
+-Rong
 
-/**
- * module_exit() - driver exit entry point
- * @x: function to be run when driver is removed
- *
- * module_exit() will wrap the driver clean-up code
- * with cleanup_module() when used with rmmod when
- * the driver is a module.  If the driver is statically
- * compiled into the kernel, module_exit() has no effect.
- * There can only be one per module.
- */
-#define module_exit(x)	__exitcall(x);
-
-and I missed that it was the variant for the built-in modules.
-
-Best Regards,
-Petr
+On Tue, Mar 31, 2026 at 3:10=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on dcc99abebfa1e9ca70f8af8695b6682ad7597bf2]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kbu=
+ild-move-vmlinux-a-build-rule-to-scripts-Makefile-vmlinux_a/20260331-012908
+> base:   dcc99abebfa1e9ca70f8af8695b6682ad7597bf2
+> patch link:    https://lore.kernel.org/r/20260330171920.2026779-4-xur%40g=
+oogle.com
+> patch subject: [PATCH v8 3/3] kbuild: distributed build support for Clang=
+ ThinLTO
+> config: x86_64-kexec (attached as .config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260331/202603311739.cjetLeNT-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202603311739.cjetLeNT-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> Makefile:2254: *** extraneous 'endif'.  Stop.
+> --
+> >> Makefile:2254: *** extraneous 'endif'.  Stop.
+> --
+> >> Makefile:2254: *** extraneous 'endif'.  Stop.
+> --
+> >> Makefile:2254: *** extraneous 'endif'.  Stop.
+>
+>
+> vim +/endif +2254 Makefile
+>
+> ^1da177e4c3f415 Linus Torvalds  2005-04-16  2251
+> 46b7c49254f89d5 SZ Lin (=E6=9E=97=E4=B8=8A=E6=99=BA  2020-03-01  2252) en=
+dif # config-build
+> 2042b5486bd311d Masahiro Yamada 2019-08-11  2253  endif # mixed-build
+> 688931a5ad4e55b Masahiro Yamada 2019-03-19 @2254  endif # need-sub-make
+> ^1da177e4c3f415 Linus Torvalds  2005-04-16  2255
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
