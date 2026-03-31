@@ -1,50 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12430-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12431-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id fKMrOEsKzGnGNgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12430-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:54:19 +0200
+	id qIN8G08KzGn+NQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12431-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:54:23 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69A036F751
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4940E36F75F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:54:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CA42A3061579
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:50:51 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0770630690B6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:50:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99F10449EBB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9401449EC4;
 	Tue, 31 Mar 2026 17:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Q2xfqREL"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="pW50rJoU"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F03441033;
-	Tue, 31 Mar 2026 17:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F96144104A;
+	Tue, 31 Mar 2026 17:50:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774979428; cv=none; b=C2FU7tuHRaQhyefpiaYlf52mNyj5sLBGjSLwzRVZCwRsgcldWiT7ftOugoCC9vVNv4B9gaUlZSVeaGjPCce+/72Q38Nb8/NJezfctZI0fkfj0EfJX9tyF0axbHCZbSvKciuarFkgcrb7ORqPRpzllGFXffhDQMXqjIjQEWzSGaE=
+	t=1774979428; cv=none; b=kzb/jbabi5Oqu+aR5zjcr4YFzBaqRURYQ6OuFs6pK8KREV0h/dn/00v4neFyDS1dGUNFZGCWQ6kyv4qhv7eBcXYGZhWQjhaipRDbOCYz4ZZMgnIO6DdmClBXu6+YKYUH7c/bnre0yVEDsABUJsvcqEEH9L3dvHU6YgxW+Y5CUD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774979428; c=relaxed/simple;
-	bh=1qGq8yAZBKS8WaUYW8r+1Gpfp8oh7+Ac/xavMKYPgKg=;
+	bh=XTirIw7OA61K/pbNm/EBjxlIXQQ7QLwfVEKluNH8ph8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T34q9c/POqZ0bd943MHhO1bYYfNmeusvxdoZT9dLmrPdVvIn9chgjx04DNFG8AtQkDLmKLQRxZ3gbcFDi61I2MJw/q4r1BvKTqQA3o4qRsyJ9mwVoQ4uT4yLThJwgUuufiEQYLtan3+eF4fSmK4sAkgrajVWeBVzUsfY4w39wYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Q2xfqREL; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=oHreDs3XGfqM8beDYRoHKMF7SOEkCCImL5Enu9HkrmV2yhATAVCHxpMAbAESbsvFqYhxW3m9rinFCXgJhcXcp9lVe8ot3IDH/RD6Wn8tg7KGKsIrmsPyXnMDBCXA2a7bduC5eiZVLHnqLiQcXS/8bBaYmcTB2G/57/FhDeJksTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=pW50rJoU; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1774979424;
-	bh=1qGq8yAZBKS8WaUYW8r+1Gpfp8oh7+Ac/xavMKYPgKg=;
+	bh=XTirIw7OA61K/pbNm/EBjxlIXQQ7QLwfVEKluNH8ph8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Q2xfqRELnxbF4bqYslNvLQ0QzvejDyFl1fvBlQAvZ5IjgCiAfidmWn5UWnTCsalUw
-	 b1CW5XghYypZXQ4EjIbx/tPRqMUn+MaF6eUOgOJW4lzCYJVmITMuH9BdXWsmf5fPCR
-	 CSp/XkYQ4/ug4va3WP75WZLfQpflBh32Yn8pKkUM=
+	b=pW50rJoU8Xi8TSHEDQHGLcfdT6TtmGyp7p5yXiQ7lbPioVWoiyqmcEGeFFp4kQwEi
+	 m2s2gJdhXMT+7D47kGqQzEIjnlA1AMO4AeziBEFwhRivJkmd0sv4XXMBxsQOZUUQIa
+	 NAX1fL6eIC7earB/Ij/rz4cj7i1A9czFmkQQka20=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 31 Mar 2026 19:50:19 +0200
-Subject: [PATCH v2 1/4] kbuild: vdso_install: split out the readelf
- invocation
+Date: Tue, 31 Mar 2026 19:50:20 +0200
+Subject: [PATCH v2 2/4] kbuild: vdso_install: hide readelf warnings
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,18 +52,18 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260331-kbuild-vdso-install-v2-1-606d0dc6beca@weissschuh.net>
+Message-Id: <20260331-kbuild-vdso-install-v2-2-606d0dc6beca@weissschuh.net>
 References: <20260331-kbuild-vdso-install-v2-0-606d0dc6beca@weissschuh.net>
 In-Reply-To: <20260331-kbuild-vdso-install-v2-0-606d0dc6beca@weissschuh.net>
 To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774979424; l=967;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774979424; l=1188;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=1qGq8yAZBKS8WaUYW8r+1Gpfp8oh7+Ac/xavMKYPgKg=;
- b=Vjq8UL4sRiUBc4lnU/060VPT5nzFYNPMKwztWpEHfihLf27+PVuiJ0eEiELjFJjZ7FPbRYg0x
- nEqllG2cEh3Am/9JV+Cr+WM5sjvyxea+xDdSqybROkMAFb3IIgMEmZr
+ bh=XTirIw7OA61K/pbNm/EBjxlIXQQ7QLwfVEKluNH8ph8=;
+ b=hxqP7wHXnv2iV/2tiMBULn/aCpu5wcwkT5lwnH6zfBoeXLSFIjvtJ2NvpyVbkkiO8hqjrMevI
+ RqADFn8rkmgCOA1XTjO1kkHcwowtR4PVF2UriftD2wXB2U+9jZN33Fb
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-Spamd-Result: default: False [-2.16 / 15.00];
@@ -77,7 +76,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12430-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12431-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -92,33 +91,38 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,weissschuh.net:dkim,weissschuh.net:email,weissschuh.net:mid]
-X-Rspamd-Queue-Id: C69A036F751
+X-Rspamd-Queue-Id: 4940E36F75F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Split up the logic as some upcoming changes to the readelf invocation
-would create a very long line otherwise.
+If 'readelf -n' encounters a note it does not recognize it emits a
+warning. This for example happens when inspecting a compat vDSO for
+which the main kernel toolchain was not used.
+However the relevant build ID note is always readable, so the
+warnings are pointless.
+
+Hide the warnings to make it possible to extract build IDs for more
+architectures in the future.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 Reviewed-by: Nicolas Schier <nsc@kernel.org>
 ---
- scripts/Makefile.vdsoinst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/Makefile.vdsoinst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/Makefile.vdsoinst b/scripts/Makefile.vdsoinst
-index ac85f9a4a569..214c561651cf 100644
+index 214c561651cf..aed153b3120b 100644
 --- a/scripts/Makefile.vdsoinst
 +++ b/scripts/Makefile.vdsoinst
-@@ -21,7 +21,8 @@ $$(dest): $(1) FORCE
+@@ -21,7 +21,7 @@ $$(dest): $(1) FORCE
  
  # Some architectures create .build-id symlinks
  ifneq ($(filter arm s390 sparc x86, $(SRCARCH)),)
--link := $(install-dir)/.build-id/$$(shell $(READELF) -n $(1) | sed -n 's@^.*Build ID: \(..\)\(.*\)@\1/\2@p').debug
-+build-id-file := $$(shell $(READELF) -n $(1) | sed -n 's@^.*Build ID: \(..\)\(.*\)@\1/\2@p')
-+link := $(install-dir)/.build-id/$$(build-id-file).debug
+-build-id-file := $$(shell $(READELF) -n $(1) | sed -n 's@^.*Build ID: \(..\)\(.*\)@\1/\2@p')
++build-id-file := $$(shell $(READELF) -n $(1) 2>/dev/null | sed -n 's@^.*Build ID: \(..\)\(.*\)@\1/\2@p')
+ link := $(install-dir)/.build-id/$$(build-id-file).debug
  
  __default: $$(link)
- $$(link): $$(dest) FORCE
 
 -- 
 2.53.0
