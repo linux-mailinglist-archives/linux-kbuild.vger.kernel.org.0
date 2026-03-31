@@ -1,232 +1,135 @@
-Return-Path: <linux-kbuild+bounces-12419-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12420-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0BfHDw4DzGljNQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12419-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:23:26 +0200
+	id CLORNXQJzGn+NQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12420-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:50:44 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80CA36E9A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:23:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 413F936F648
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 19:50:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6F1F7316CDE4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:11:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1ECAA33321E5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5D9333067C;
-	Tue, 31 Mar 2026 17:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ADF83101A7;
+	Tue, 31 Mar 2026 17:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L8BYpuSr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCvIO/HN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B0C326D55
-	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 17:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774976990; cv=pass; b=lap+Pc4Kym0Qrv3BAo4RVwvMS+g0YW4L6ZzHOhNEUuqFOTCIHIOMRQKXkh9bFHgrE4oFfZI8/9Ixg7d2cXCIQuctqY0OY33pEMKVWEkd5QhJ2iE2R4izEFjjhVB1IcJ2gNgfnOzEseIeLJfOl+4Dc1mIb59invTKpKK5a+mf/g8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774976990; c=relaxed/simple;
-	bh=8EmbocqF6Vdb3h0BM5UKxGb7Zum+nJE7yig8zb0/EBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ia8HnY94CaXXppbFEXClxmuzRaeyZuHkkXRyx7QiNeLYexrzOrpGaQqpsb4suu9WVvgtDqtgnpAavCY6bQZWaS770e1mXCNYC6JzdAb+n3xJHbx8lpcu52uNDiPaFgQRSWPlvkpEyn3eSsxeKGbvKlMRTKCjcPHOV5O2uH16TtI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L8BYpuSr; arc=pass smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-953a0431639so624873241.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 10:09:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774976986; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bsTaB6Os/rX+A9TdE+VVzesVr2TDODfnnQk4HPoVxxFcTxwFuCKT26z2cDZeKSESHv
-         Aw7ksLbjf2ADh95xiCvmcQdf5CkEdd0GNlEXXVBrs8+XezFi4c/YtKNQ5/rR/2/pjUV1
-         slEW6FUR8TBuoF0AYjk9KSSjUSmouN4WY+grPsxYzng+1GJ55Hnu5gIf19ADOTIPR9nR
-         tx5cnAcb/68UfllqjFP/dpREq+M3PAzmVDQYUy97nfFcRLUtUd1y36YSm/TUqpKb6TGF
-         9qySVTJgSGaMlreXmblMMn1qDR6H84DmkQGt/FuVxy9RLy+mlwy/oSUDc61gJuaDjlXJ
-         aItQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=N69dcykYCh53+bqwu3dyzBFgXRPQQLJXWFG4whULut8=;
-        fh=2vujxqUDR+/5pgh+CAZSD/4oCkaHtXYrMGt6IbCHPVE=;
-        b=OphDs15kNlCi22Wjhq3VTauOA4ThHE7jaQVTAuvetfT1dC4LYItIxaV9wKr7bCA6LF
-         pxyXiKsReEfGYcUEr12GGxOkes2WY2gtzvWuy5Fdl8EIISjCORkOEUOuFXT+BOTekVlF
-         iQ8o/3pPGghhkqBvpn88ieYe2hvsuWyJLDtjQokR8wZtOKMotJ4QmXoobqYKV1NEcF0X
-         6v8GQtUwh/9zuh0vQNXgXVCVOVQd4EF9HUxPyrlFrnchEC9Q0QX5+RsXKRRIuUkTRhd2
-         BBjy6nyPEtB7Tpnsp9Mczl6KiNhA9fA/QRLiFcQYtNxbl+ucUwNGXO9Nt1IEu36LpET/
-         8rdw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774976986; x=1775581786; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N69dcykYCh53+bqwu3dyzBFgXRPQQLJXWFG4whULut8=;
-        b=L8BYpuSrxCKO7vl2RHJQ2nJkDtNraPRvvjHo6hnF4Cwfzxg+6qE0iDNVFvt0bci5gD
-         r5IdPopZ9KfFTnPTfjOJ5Ai1yOUmxYiwwqWX15jmx6vVrw6qMzEKSSpMZC4EcaVT73Gp
-         i/wk9eiokYlTIG4oliekGAjaPmbtMeXcmXi3pDnmSN8tH2HXO8A8pbR/SXPuI0m+Q9zi
-         oG5L9bOb0HAqu8LXRfOQGFouq+jId7otLl17GjB/Mk+aOnm4GRiLxZTOxj9a3ZCkjT+H
-         AMscSiItcjRR4eKQKt6sNzHCjkQr5lLO+iXE+j/9nSWVEfqaWyjBfc41HrAp/gXZfv90
-         TR8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774976986; x=1775581786;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=N69dcykYCh53+bqwu3dyzBFgXRPQQLJXWFG4whULut8=;
-        b=G5/6ZtV/Ip91VYy4tW+JeboOhMX6ZoDxbdNglTmAK5aMXub/Dk0CMca3u/e6/gqoRo
-         ugB6JL1JzVNAxguVsmbqBoasIGESKCQxYL1uwIXnGlk24aiiCM8ffTG03mE5XTvjZ1EW
-         xxd93iQ0VxyiGXyecZlSpQ2KQ0ElU6NMc+BlVGNa8fA4SEf5S2GvwQlFPmjNhbkJs2ZG
-         KWSwAJHLJGrhrZLc6jpdwHvspmY54ziPExroFuk2yLsvOq9uYZc/mI26D9DQcnIC3kAV
-         nkA4ak7Vhw8SG0Al5hMw+VCaQQ+hsWNKS9w9T17Lqw8qBseLadMsjjD/9XMZBB1lCHfr
-         hr8w==
-X-Forwarded-Encrypted: i=1; AJvYcCV0u13EERVlTbkXymQOxUQtu5VIeZ10fYXrcUrxfIQ5Nd+EV3K3ySooAT22qiZzn2HKW/cMgCH7Y+rGcOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaHTDjlNc9lkZRzVlHA/wP0deP6OKjyENn20gGlN7zkxsVAO1w
-	6sYxabRqr508+80T8gz6DyxcVn2Nej88t7S03z/Tcu3SMQ2vxjd3IDRymESCFur1AEqzhwVLuFM
-	drZsIfn+hKNwESlP+17PDBmr14eGFvoEZ6dHsKjZv
-X-Gm-Gg: ATEYQzyV+Utr+1SEaLPfj6rFRmFOIVYxfGSv/ANDJmCztwS+YHLkv6+U2yg1QGRdFqy
-	RoERgbuP6/ZDL2qrFpPaX1IYiympiveEUp3OfPKsLShfNTs21EyniA6OzwlYjkFPl6fPyPWXpZT
-	3dLoyUX5XKNfhqdYm+Iad97xJ985H+uRJt5IKcFznFL6gCUtpTm0k9pAq7i0dWbR6cuF6q8vkfk
-	291plQ7AhQrf77V0zgmhpzdMZC2eJPDF6r33sjUyHb6r/AEPInHgoKJBZjdknA6GfWO6UUnb5L6
-	Po5OtAA=
-X-Received: by 2002:a05:6102:c92:b0:5db:dd12:3d16 with SMTP id
- ada2fe7eead31-60567cf5e34mr47219137.6.1774976985230; Tue, 31 Mar 2026
- 10:09:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F5330AD00;
+	Tue, 31 Mar 2026 17:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774977166; cv=none; b=Sl+vihLzFSN0yjSw/8NFrUA4l3WHmtL8OvQKBpEZ5/OJ3/6Y6uHggJFExXxJeQswl23/5kW+GFRJBlZ05Fx7W2R4gjIf7qalLr212kCo/5m84f+gnDqbu2vjJH5FNMK5U9+PqF/AC1kDSe7VeSdfISmdUYq0zzVOiIIyzu7fCvM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774977166; c=relaxed/simple;
+	bh=fxIRGe/y6mJunVbm18p1ceB7jmJCwYI+AEFtSL5ICuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BTHYyaSrh/cLxxsjiX0da7yFzGahqzItOkRqkByFaj4gX0muHFA4bmMqJJwqI/9SZzDRSiakf15vv6S/dBvdQ/f6f2HTxFL5pzq6s3O3uYiKlxVSiRV4VfmGkG4QDtW0TmuuzSiDYMtSQ9peZQjoivnP2O69h45evX/f8u0kZdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vCvIO/HN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A3FC19423;
+	Tue, 31 Mar 2026 17:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774977166;
+	bh=fxIRGe/y6mJunVbm18p1ceB7jmJCwYI+AEFtSL5ICuo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vCvIO/HN62hjl15rrsBUrjqm8WnkQSEdpyRLDpNqQBa+s1QxX8RZSB73CJNXqKZ8r
+	 EP8vk3p6B0ST7ctsU7ctfo2mnqZlU1hZ314h6N8qfgi4qPTr5Bs/JRV5UNlFqnFOO8
+	 LJdv5GidGN4Mw747xR5cszwVYa41nrdrTtyrej4gb7dpjhsmucU7IgLw+jf4D5rHcP
+	 tjOamKnObCFB7PyALmEfbWkv744YujFEAN6QFkvYMZMYEYQe6DcTNTOCInH+TpUv0B
+	 GMvsOtUfUAu5bVjHrzHXoisMCVd1XoPmVLdZef/ZE1Tw3cT4sAB8+cyWPdlbFNnVTO
+	 nO2XW1YAOBwWw==
+Date: Tue, 31 Mar 2026 19:09:46 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] kbuild: vdso_install: drop build ID architecture
+ allow-list
+Message-ID: <acv_2nZNmPPal05p@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260320-kbuild-vdso-install-v1-0-e2e8a0970889@weissschuh.net>
+ <177497336368.2732896.13736355342879030780.b4-ty@b4>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-3-kees@kernel.org>
- <CANiq72mK9fz6Spmgt4js3hScqhqvZb2YP2T7tDfR0fHPDFWJ7g@mail.gmail.com>
-In-Reply-To: <CANiq72mK9fz6Spmgt4js3hScqhqvZb2YP2T7tDfR0fHPDFWJ7g@mail.gmail.com>
-From: Justin Stitt <justinstitt@google.com>
-Date: Tue, 31 Mar 2026 10:09:33 -0700
-X-Gm-Features: AQROBzCWRSbSGajmdyoAKTTcnG8_jXsUZoBJguhEnhg_UEbHXmjODVo4uOcztkk
-Message-ID: <CAFhGd8paijFboDVr8rJDjScob047q+zgYAs038WuVozOG0aYaQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
- __ob_trap and __ob_wrap
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	llvm@lists.linux.dev, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <177497336368.2732896.13736355342879030780.b4-ty@b4>
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12419-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-12420-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.947];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[justinstitt@google.com,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,infradead.org,google.com,gmail.com,lwn.net,linuxfoundation.org,googlegroups.com,vger.kernel.org,lists.linux.dev,linux-foundation.org,arndb.de];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,llvm.org:url]
-X-Rspamd-Queue-Id: C80CA36E9A5
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 413F936F648
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+On Tue, Mar 31, 2026 at 06:09:39PM +0200, Nicolas Schier wrote:
+> On Fri, 20 Mar 2026 17:36:52 +0100, Thomas Weißschuh wrote:
+> > This list is incomplete. Instead of maintaining it manually,
+> > detect a vDSO with build ID automatically and handle it.
+> 
+> Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
+> 
+> [1/4] kbuild: vdso_install: split out the readelf invocation
+>       https://git.kernel.org/kbuild/c/9780cef0
+> [2/4] kbuild: vdso_install: hide readelf warnings
+>       https://git.kernel.org/kbuild/c/6ba86c59
+> [3/4] kbuild: vdso_install: gracefully handle images without build ID
+>       https://git.kernel.org/kbuild/c/5cd6177e
+> [4/4] kbuild: vdso_install: drop build ID architecture allow-list
+>       https://git.kernel.org/kbuild/c/80b1f3e6
+> 
+> Please look out for regression or issue reports or other follow up
+> comments, as they may result in the patch/series getting dropped,
+> reverted or modified (e.g. trailers). Patches applied to the
+> kbuild-next-unstable branch are accepted pending wider testing in
+> linux-next and any post-commit review; they will generally be moved
+> to the kbuild-next branch in about a week if no issues are found.
+> 
+> Best regards,
+> -- 
+> Nicolas
+> 
 
-On Tue, Mar 31, 2026 at 10:02=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Tue, Mar 31, 2026 at 6:37=E2=80=AFPM Kees Cook <kees@kernel.org> wrote=
-:
-> >
-> > +/*
-> > + * Optional: only supported by Clang with -Xclang -experimental-foverf=
-low-behavior-types
-> > + * passed via CONFIG_OVERFLOW_BEHAVIOR_TYPES. When not available, defi=
-ne empty macros for
-> > + * the trap/wrap annotations.
-> > + *
-> > + * clang: https://clang.llvm.org/docs/OverflowBehaviorTypes.html
-> > + */
-> > +#if !__has_attribute(overflow_behavior) || !defined(OVERFLOW_BEHAVIOR_=
-TYPES)
-> > +# define __ob_trap
-> > +# define __ob_wrap
-> > +#endif
->
-> Should that have `CONFIG_*`? i.e.
->
->      !defined(CONFIG_OVERFLOW_BEHAVIOR_TYPES)
->
-> In addition, since this depends on a `CONFIG_`, with the current setup
-> we would put them elsewhere instead of `compiler_attributes.h` until
-> they are promoted to be "unconditional" (i.e. without the compiler
-> flag):
->
->      * Any other "attributes" (i.e. those that depend on a configuration =
-option,
->      * on a compiler, on an architecture, on plugins, on other attributes=
-...)
->      * should be defined elsewhere (e.g. compiler_types.h or compiler-*.h=
-).
->      * The intention is to keep this file as simple as possible, as well =
-as
->      * compiler- and version-agnostic (e.g. avoiding GCC_VERSION checks).
->
-> However, thinking about it, why is the config needed?
->
-> i.e. if the compiler is not passed that flag, shouldn't the
-> `__has_attribute` simply return false?
->
-> Also, I am a bit confused -- does the compiler flag automatically
-> recognize the names like `__ob_trap`? i.e. I see the docs mention
-> using the attribute,
->
->     typedef unsigned int __attribute__((overflow_behavior(trap))) safe_ui=
-nt;
->     typedef unsigned int __attribute__((overflow_behavior(wrap))) wrappin=
-g_uint;
->
-> But then we don't actually use it?
+I didn't want to merge that already; please ignore.  Sorry for the
+noise.
 
-__ob_trap and __ob_wrap are defined by the compiler.
-
-There are some examples within the documentation additions of this patch.
-
-Kees, is it possible to make it more clear about what we expect of
-kernel developers in terms of style? Should they use keyword
-spellings? attribute spellings? only use custom types?
-
->
-> Or should this just be like the rest of the attributes, i.e. we
-> actually define them here?
->
-> Thanks!
->
-> Cheers,
-> Miguel
-
-Justin
+-- 
+Nicolas
 
