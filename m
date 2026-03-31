@@ -1,88 +1,88 @@
-Return-Path: <linux-kbuild+bounces-12450-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12451-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ADqtJwk4zGn7RQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12450-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:09:29 +0200
+	id ELZ6ADU4zGn7RQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12451-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:10:13 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4291D371640
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FAD37166F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:10:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3A0AC3055C06
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 21:07:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B3A083061544
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 21:07:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A1F3F787B;
-	Tue, 31 Mar 2026 21:07:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436E843DA35;
+	Tue, 31 Mar 2026 21:07:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="uChPHJWK"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="S2rvH5Yz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022090.outbound.protection.outlook.com [52.101.96.90])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022109.outbound.protection.outlook.com [52.101.96.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D173E3D6CBE;
-	Tue, 31 Mar 2026 21:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F6E3FB042;
+	Tue, 31 Mar 2026 21:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.109
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774991247; cv=fail; b=uLOmqbTn62oh1ODXiJrH+sYNkElVIloLsL9MDMYEF0r3/61kDeZIHbRiyeG8DIM734KiqdTrwWNrIicxy3ZqcVU/DVKgY74LVDPyzzaWhjziXqnDSiFMFiqpTIB5Sphe13DRM2oC5TiiGs3o3VZ+msu+pZHpzNGffJFt9aHw3G0=
+	t=1774991259; cv=fail; b=G+BD4sGntO1hajo0EsLoB0wtr08BWBzaLIgy9mx/Q4lw6eqw4Pv87HlZQsgGPuFO+ycWgLViZon7SVjQFWZZWrj5XY+WGeAAVniba1W6XcvIiF9f2uL3FLgAO2l4XpTTU5lwD/TSZJGhG7ng55Bu435e902k1l+R4v3bd0umyg8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774991247; c=relaxed/simple;
-	bh=1lgLWVwflkyNUhGkpR8atonESCL4oUa1kdXPm6ZVzEs=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=apKypRt6Uxqh39sfI9cKoZFiK66h25Gyier/hkmpy6x21qW8Q3EWNYGV2rDH+1101DwUovTs6v6nQIZ+LaFHXn85J9Kylvv2aXlYCXJjLV/Blcf3fvoCgkC7TFfronJ/8Qg+0Cz9/2WOivrXiGd+Ctwa38oa8bOCIMVQxvLbCNU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=uChPHJWK; arc=fail smtp.client-ip=52.101.96.90
+	s=arc-20240116; t=1774991259; c=relaxed/simple;
+	bh=xUpeAAHHv8yIdPZ8H82PoLXj1akeeUoGQLhUTkLr8GQ=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=gOLR4wCa6npqK83U6mc8Q9FhZKPJKQV1vOfyAyfjjSAn5qENiFPk56M237Boyx4nSRKi2G1ISB80oO+rMfG5O2bUBH11NFTcUBrj2rz8ADue1qcx81t26VRAlglUHWur8c8j4mKIK/gpkMZ3l5Wqy0YqK23pSXwltt7bQ41ieQw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=S2rvH5Yz; arc=fail smtp.client-ip=52.101.96.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zNtpWrE2Jp5/nURel55JIS45pUHbH278z37tC7nbPQsNvTwp+gehyR9JWsHMGn1hCg0xo5foT9p5DrXX1bmgo1jeibx1J8W0QauI+hYtoYAv02Ip+Jl8zd1SfXwgxBJxbICwE9YigN+HoLE5/kexcc4e06Xtx9X8tBk69mx3+Y96/XvgQDBeZ8qRVBUDflKFH/hmMjceNxU+SgFwnZ6D1T3/xnw+XKf2xnfzBTO/fSC42An4QpY5RSsAtV+F/JD+SGfvmSIsESpgUOwRPW26Tr79F5WBh862X5hwzXC6JttGKGXmR+nuV2OiUOYZ4RbBL1peEej8O8Hp3tPotRIZ3w==
+ b=tFYJ0dhqlVaLy13iudXqZOWnoNh/AEP1QWMqViDZPb149Yq0KKDfa4DULjPwB3G246024vrqvgYgDv2LAJnt3TfKN+qWsVFZ5w9sJqhiS07EHfWXZ1mK1dDlt3mqxFpkR4ESgEgfPq80RsFkQsYKkhc7Njbt0V9dnCCmsN8SUysmREXGRDYpGOQEDRTXVrt6Lw1zMwLdVud4WRxKr6Zij1VtRTCno8yKa/nxf8BqDJDXAsWrHThQoUAudjl0l0NqRYQfA6SPmRTtPgmvWIz/6oGKDypb2eoC8X2ye00Ycysjx2bWVKamQmbveowuCl10syf/swVuLbXkjcoPPKlhjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DokolR/ibShIit6LbJGIvre8QW66yAyZmVL3+hvZdAE=;
- b=i2hd6aQEIDMA6XDxPvGLdnHq36Reh/1KFzJ566yH9qB7cp7g75Zw1ZqXNV92bcYcmhfHrRzgIvI2PABXB9tApiFNxeGc2CYLqul/mDgwe36asnLkPe7/Hsw6w+I9eIwplpyDG1NRfWUT6JS2oGi70k3aKYPi6RE7MADm6Lb93yu0xjp4exHEpHgrCUnZuGjVt4c4d3bqW9OqBcssrwzyTVGEGLGIuNdC9+LNA2PAOT//YO2PH2X3lyhkvWIVe7Bu3ZhuSbUq1BS86m4UAphw9Rt6KuFzxUOv1OlWW9nSgK0TIXQt4afPytLU8o5rCvFFIi5WOTpK1IZDxFjNgrWAVg==
+ bh=wvOYrSzEDRX9aypP7iTgaOBaCXIUWYpdsTwcJK6PhUA=;
+ b=YLGpxXr+YZgI1yHQambl+WihVyHE8dCu0ghDOjgrcHUCKhXH9mkzCzJPsdYgQyinQ3OYLsTx5YX3Wg0wt1otAuSRY7fVa4jkIRm3Pm5PTZV6TYECoQsHlz+KVZFIKs8JrZq0u6pvhhQ8IngB/pREO9DjFV1RFJZUtCcEe4g8dwr2wzyfriMQigj8vYFkIFG8D+8Q96tLZLYDylrvP/tC2Zw6YyV9YXv5NcLflLm/cAg/THKPhuNMdzjHmoLem07KCXmN56hMNBAy6P9TnmJh7NaosC/mG5raEk/EAqnsfWQh9ztcIVekm5TFLxobYE6Z49AU+vZjsJFCiXKQ2BXQSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DokolR/ibShIit6LbJGIvre8QW66yAyZmVL3+hvZdAE=;
- b=uChPHJWKbh/Pwkn1h4HwmRy41ZKFxhjdPeF4Lix0gjhY14oxFB2+KeQfOtwSWnBq1qDS6QSIoyb0NIPy0aeNhSa+V/8AChrLrdVYRfyq1jWazJ/kLr2KSAj0edvHc2gn3TvguyprtAgbgkiEsKx0hEuwC1uHDD766FgrQ6XHF38=
+ bh=wvOYrSzEDRX9aypP7iTgaOBaCXIUWYpdsTwcJK6PhUA=;
+ b=S2rvH5YzNpX4qDjAgPcjBeGves7EavMJlwk7El1f1EhUK8UviBbVoRZWDSL2Cxnq1tqOeeaGkbU3ByVP8zWJUbXH56HF1lxzVbPX1gsr5kG1LcqLNZX45YSd1K9MaGdemsJz/rR/Exestc132Rz22BWG67/BHBdJ0qzXKRsN888=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
  by LO6P265MB6523.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2d2::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Tue, 31 Mar
- 2026 21:07:22 +0000
+ 2026 21:07:35 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Tue, 31 Mar 2026
- 21:07:22 +0000
+ 21:07:35 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 31 Mar 2026 22:07:21 +0100
-Message-Id: <DHH9VRFULJST.383BKVSWUTZ3E@garyguo.net>
-Subject: Re: [PATCH 1/2] kbuild: rust: allow `clippy::uninlined_format_args`
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <ojeda@kernel.org>, "Luis Chamberlain"
- <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
- <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Nathan
- Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
+Date: Tue, 31 Mar 2026 22:07:34 +0100
+Message-Id: <DHH9VXDSLIPE.10JBKMPZIPCUB@garyguo.net>
 Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
  <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
  Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
  Krummrich" <dakr@kernel.org>, <rust-for-linux@vger.kernel.org>, "Aaron
  Tomlin" <atomlin@atomlin.com>, <linux-modules@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
- <stable@vger.kernel.org>
+ <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH 2/2] rust: macros: simplify `format!` arguments
+From: "Gary Guo" <gary@garyguo.net>
+To: "Miguel Ojeda" <ojeda@kernel.org>, "Luis Chamberlain"
+ <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
+ <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Nathan
+ Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
 X-Mailer: aerc 0.21.0
 References: <20260331205849.498295-1-ojeda@kernel.org>
-In-Reply-To: <20260331205849.498295-1-ojeda@kernel.org>
-X-ClientProxiedBy: LO4P302CA0028.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c1::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ <20260331205849.498295-2-ojeda@kernel.org>
+In-Reply-To: <20260331205849.498295-2-ojeda@kernel.org>
+X-ClientProxiedBy: LO2P123CA0066.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1::30) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -92,66 +92,66 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49a31d52-e810-4f7a-0034-08de8f698073
+X-MS-Office365-Filtering-Correlation-Id: 7869f47e-392b-441c-7481-08de8f69882c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016|13003099007|56012099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016|56012099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	K5XfsQjqhol89hoj2E6rgN4/2zLUxyDB9lXBtsfEV39XfbPxTJGS+1Far1jv13wf6Z9D9e9BnJKlsIIk1Z7Is0W9FlF4AupUU0yXU52EulhP4i2B9uxVhDuDDj3H/ER0n1KHXgFvXhUEJByTaKqKKoeeH6Be87udRspn6mHEtTYATNgK98BKwjqJr3xqs6xqE5F2hPMuxa28AAA4S+zSoxDrfkeB8hCoDKHqkt+DqB1LdagFLS4MDBbkbif0bG/20i7gYBNVELYxuN9Ddy7KjupLWFz1ezSc0pBS7MFm7oMstKVXRoVkxJuOW1aOAw14TnQOEfcJq0DAVm4hbkLq8me7LzylSWOyPIehSlLLGFenuq4A49Myh2p5BxXeL2eYHT2J/RhCpKJrSYBy44j7QaaaAXSiaHuJBeiZxMErp14T+zcGTDvEW0Tg7fN9upFSJBJhEAwi+aoIshGq7eSYEgkeYQdDPOmvDRYmYOwXVyn7rcCePE/4nrUjpP9qz6B6f3YtHF6PJfghdVWP7BKwEdB50Y+08MlKRcqZ2yRc257y/yU2Y+gGWyR9bnRjx2IYA9QJetkaEPPPSbcQpGYYjIkEi1ior/ap0tJgpk8OYNmYJdVWmKrgak51bplW4Z2qvLXf+RK7fVFfwdKJrE0C1xnlU0DLqpgPG1vaCYZnWDYH5+LrZj2mQ0cFT78CxbFw
+	TiCFjSgK5VNlEy6TFpyKoVzUKVwl2d2XXSEdfbLUYJod845fjNAsL/gaX7vXnyGXREXuI+Vbxm1Di8nY6IB6ztUzkbvubMQnqQpj29ol583BuIUhY0oYW7C2ujrtRjrkVkjRxl5YaNXTsGzn+rPaKM2E9fPNO1shZ3ejMa4iTG4F9BqbTLJox9EmsqRyQeQ/p6om3rTCeD07uKmSLv6d/1485cKS5kVEw+YyTz6qSu6fztb3UR4c7xc0ec2CmUKDUrsV7enGIdGp+C462wr1zDXmjZ4ycfQW4uXrr4CLsaKwsAqguBUynGA5Mu527TMC7QFfZIBWXnfxAaWB1W3CDPgjflayv7gqrguV5NqLhk3z1VSniEPelrEktpZTRlztgVSLLbDu6yywwf5Mv4hWgHwIWVhACJWcWwaunn0lqKHbYBVeb99tCVJOvHKK1NRDtj8VPiNQSXoPS2yJiPnxdfcPE/IxRdoJFm/vphjNN75w1bO489W1hDHWCt3zZuzG6V8fRxo/vb6p+k/Rx3UWQO1vCxLqMWRfvrrIOT7EvrIePtvLxh830awHVYL4grNvt3oYGRueT/NN84pmQ1vCXDWXnzZvwI27p17vqaNHscmpjZB+9ArpIe6MsKtkQ5EkSSRBFzlYti8cM2cvFqlRTK05PbHs8grj3c9jP8NDJsDzc+MwYS369PL96wFDpJrd
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(13003099007)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?clZWQXU1RTRiQmN6TjYvbEpaWmVDZGNQai9PZ2ZYOTBVQmE5SlErRUp3Z3hX?=
- =?utf-8?B?KzJLV1VwNGtHcTh2VE51YkpjWmsyZnR5cjgzSDNaZFFCd3VmRU4rOTZRYW13?=
- =?utf-8?B?MXlKM3pPTEV5T2ZZK3VyTXZ4OG9BUWV3czNTMEhTalYzamdyb3dpbGhQVHZk?=
- =?utf-8?B?N3p2aTRsMFFudFFqNTFpYVMrMFcxR0pVL1F3U285VHc2b1ZiMXMycm5HTWlt?=
- =?utf-8?B?NTltcjJvR25TUllHZ2xBbkUrWmRsanZ1VGorSk9DQmlNUWVTcm9lYTJ1QWYz?=
- =?utf-8?B?eGVmeTNKQWl6RHFtWGFjYmlreGhjWndNSWhsdWx0TlRVNGlxQjE2TlZKTUVp?=
- =?utf-8?B?OTNGTWJwTUlPQkVuZDNnWjlJbmwxZXNhY1p0TTI1ZlUrdXJlQlpnOEJTdGVT?=
- =?utf-8?B?eVdtRjdrejRSdkxYVWJMeU8xMU1hcERxMVR3UnhsSng0ZVdNSWNQVU1wc29x?=
- =?utf-8?B?ZndVNFpnUTNvUytZZWl6eUF0RnQ0NVR6VmordzdsTFNOcEpJSUFrOVlpejNn?=
- =?utf-8?B?b2lhMlFwKzFKNkpvQ2ROMGlFYnZIKzJrMzFlNDgxY0NITnAyNkxPVUQ1M0Zx?=
- =?utf-8?B?WU80a3lGZWFPWUlNa0pzSUR3Zmx2WHpTTEZ2TXpwK1ZKbjFOdGtPaTFnbDJX?=
- =?utf-8?B?RWZWRWRIY2xVenZVYktxZU9sTXJVQ3pwZlFkbUI2QUMxZjlQMjVibGpxbW42?=
- =?utf-8?B?QjdJbkJxQnM2UWpJUG43ZlVFVEVlR0VwUzBXUXd5NWRGc1ZPc21JSUt4R0Vh?=
- =?utf-8?B?bGtLSkg3SVRmcnZSdUN4bjhYb2ZEa0lZb0RzMk1Nc0JOZVdJUFhqbGxlRTY2?=
- =?utf-8?B?NS9kbVYxSXcrV3IyRWRSekZmK0lSUmovSGxrRzV3NHpqVksraWFJVmpHZUpE?=
- =?utf-8?B?RUxFQzZQWWlLS2ZSZlRRb2lXUmI4aVUvVklNbmxPL1lJYXE5bVZ1SzhLTTA4?=
- =?utf-8?B?U0QvVFlGT2hrdTR1R1VpTHF4THBVK1Y0akZBNGNTYjEzTVdOeldFRUZvd0cx?=
- =?utf-8?B?eHhsK1JUUjYzSVZVaDJmNG9LQWVGL2ZPc3QwQVp5V3BXL3JONkZBajhyWTd0?=
- =?utf-8?B?c0hwaUJQeDNnR1dIbTczNDBxN2J4MVFXWG53RU5UOFN0RlBTUkt2KzVOVTMw?=
- =?utf-8?B?cGhIdXNYOGEyL3ZENklPTnJ6MlRFS3FoYjVTQkdjNG5lUzZGamFPcmF2VHNs?=
- =?utf-8?B?NHR5WndDTnhXbkxjeGhTd3RkTE56Wmx6R0tBQVpacHg5M1VwODRncTN0TVZP?=
- =?utf-8?B?SS91K2hZU2dPUTkxRm0zVkV2dWp2eVZVQ2hlVUdtaXVjOXJOUmxvcXVZWjJP?=
- =?utf-8?B?NW03bkJtK3ZGSlF1cEszYnhiVVRTRGR2TnhNMVRNbmoraDhidDUyVUQxeUpy?=
- =?utf-8?B?V0Rydk5hR0MyL2ZzWEFWWURwc3lCV3JSM1NiSFdRNGUwTmVRbEJTZ3hGRUxi?=
- =?utf-8?B?ZjYybUpFYXAxcHpZekVKYkEwd0FtMDV1QVUxMVhIaDdQMFdhTHVSNDFOcmlL?=
- =?utf-8?B?bmxZYVpoNVhLN2lnMkhDa3c1ZGhTQzE5MklTYWorbW1TdVAyb3ErUlRkeW1z?=
- =?utf-8?B?ODZoRGhyRWVvdUlzUGR1ZVRwWWIyd1g0Y3lHL0Q2VHE3RUtkaTcvL0Q4NUc4?=
- =?utf-8?B?dWFSVDhtSkdpYzVDcUF1Z3RoN29CSnZpK0p0WGJMVlpkbVdDSEVxWENsSFhI?=
- =?utf-8?B?Umt1dFI0c25JdTNXck9lakV2eDl2SEJvQ1Q4a1ZYZ2pKcTJZS0V4YXMrald6?=
- =?utf-8?B?MTcvRUZvWDFWYUNwdjBnLzlaSEFLa0VqY0taNFlLR2RFVjJZOHd6MnRxRWxO?=
- =?utf-8?B?M1VnclRhQWxpSFpuRmhud042bWZGMDlFY0lVNWRGL2ZNanB4bEtqYy9qUUZO?=
- =?utf-8?B?eFAzK1JMczRZQklyZHFGK2MwZ2U3UXZXRnk3cC9ZQklRL0tiaFQ2U3kzQ00z?=
- =?utf-8?B?RXc3bkdjNmw2RVpTYzF5dHY5Sk9jUm9sZ0dxZ3MrOGw3QldrUFFGcXBGUkpm?=
- =?utf-8?B?WkJUOUFqbnVEaFQyeGlVNkRMcUNPeGVhbElBLytLVzlsRDNZeTlienRzcXUr?=
- =?utf-8?B?YXg2TUxxU1ZKZUxFemxjQXgyMmZ4aEVCcmV4WDRqTmxjTlFpTGIzMzA5N3NP?=
- =?utf-8?B?SHIybXdSZDlhYzMwYUZ3RVhJN2ptbHA0UThYS2pYaUE3V0djUG9sWFZHeFBa?=
- =?utf-8?B?eEc3c2tPeE92SDVwT3FLWmFMOFNta2FZTXlzcm1GZ09vVE13djhkQW80TGZn?=
- =?utf-8?B?WWhOdlkyTmJENW5NNWVMVnFQRTMvcGMrTE1vRFNrY0JweE9vWS9nd3pjdFQ1?=
- =?utf-8?B?WE5pNU56d3NRL0t3blpCSUd1WS9yeDNNeGNxZmovNUpWMGVSVmk2Zz09?=
+	=?utf-8?B?WStMWjdhcHRWWjRDRUdTd2ZyYXZ2em9rYXp2M2ZZWEtub3k1MVQ5TDdhUC92?=
+ =?utf-8?B?VlltRXlSYXVHOFdNTDR0TkhlYWtpWDM1VXFjOXFwaXhMNFJFWVpNbGE5YTYy?=
+ =?utf-8?B?U2h5Vkd5NGE0azJXTTZEVFZVM0h3T2J5cUpKaGVtTG0zSW14T0o3dVlWczJQ?=
+ =?utf-8?B?cmxTdnViTkx3NFlVTUR6R1FGQVFhTE5VVDc3R0hRb1phSVg0QnBFZlFNMnNV?=
+ =?utf-8?B?WDBCTHRqODlXUHp6ZTJqU0pDbGsxNzBLYk1kUCtVVllOdXMrc1FpOCtrakJz?=
+ =?utf-8?B?YWhKRFo4MGZjNEFWaDJLUlZQU2xPYzEyMW5qL0NDOHVtMUxNZDhrU2ZpUlpw?=
+ =?utf-8?B?WnhMQkhlS3h1VTBXN2NHU0FOR3Zmd3pzOGs4d2NTM0d4c0hJMGlXUFJNbEtI?=
+ =?utf-8?B?OUNTeUkrOEgrTFpXb0F6c2FUMG1HS3pvaU1TdTFXZzRTUGlEY0E2KzVhbTRm?=
+ =?utf-8?B?dUdzSENSLzdHY1Z1NmtnNkMxcUNoYTFaQVIyTEJDazZpWk91VkNSY1NQbzVq?=
+ =?utf-8?B?RnpSejFFTzA1TFZUYlBHdWMzVXllR3NjSFIwcFRBUGkyWTJJQ3hHZmRUZmR0?=
+ =?utf-8?B?ajBCR003ak9yWGExei9RckpOczZZQlovY1EzczRHWU0vS25QVDEwbklHdWVJ?=
+ =?utf-8?B?b0dSQkcxbHdnbDYzSmwrZW5VN3BLZ0xuV3pXS3FkNFVhS0JnZlVtNkZjWXBF?=
+ =?utf-8?B?UmRKYXNnemkvT0JPMG9QYjQ2QXpQekMxNkEwaXU0REtnM1FWWU9hYjRnQVVD?=
+ =?utf-8?B?WGJ4dmk1dWt2MHRXdjVHYVpCQTMzTkN4aWpyQUIwRUpvVVNSbnNmejVKdTVK?=
+ =?utf-8?B?enNnQ1VNMnJHOUlsdE5BWiswVkdPTHloMis4UGs5d0szVUZBeHR6UmxRWE52?=
+ =?utf-8?B?dWJOMFpwcUZtelVoK0JNay9GbkU4ME9GbGh3UHNidVJqVUJYTU5zNHlQOGwz?=
+ =?utf-8?B?MGNmaU8rdkdoWWFaWkp5eG8yZGNmQlFCai9JNmhEMWttT0JuclI4QUxJV3ZT?=
+ =?utf-8?B?cFR1aEhCY0w1UC9oWWZ3aVZTRDVGNEhNUkd5aFdQTW5CaUtJS3JxWitVRjF4?=
+ =?utf-8?B?V2VtRGhOQjRqVTdBeXBLMXBkLzNWd0FETjNQOSt1dkVMMnJnOEtkVXhDSFow?=
+ =?utf-8?B?YjdySWVCSSt6UU9McUgyRm1aZS81QUVnNnZPd3N0Z1NGUjJDclA4eis3WjZ2?=
+ =?utf-8?B?VmFlMUhneENQNHhtOS9BWTcrckxaUCtoczg5U2d3UjNMYWk3UFM1RmxpUDQ5?=
+ =?utf-8?B?NUEwZkM3eGE5TW9vN2Mva2xFaXBYdWRUYTczMVZQUVZSbFpYT2RsT1V1S2pS?=
+ =?utf-8?B?aWtmYVlLTDB2MUwrdGZwbXpnSjBkQ3MxQS9YQ1VJTFUrNzBuWVErbkU3bG5w?=
+ =?utf-8?B?UVFNQnpkL2d1RzF1c09EV0xnVUxOVmVhNno5WFBTekVTSG5lTnV0bzU2Mkty?=
+ =?utf-8?B?cWhGcjNlNHMrY0hpV1VPNFlGamRZMmY4ZXFSZW9NamhJdVVmOHpwOVVPVnJ6?=
+ =?utf-8?B?bWxBSU1IUC9EYm0yeWg1RTZ1SnBnVzZNNHVCa0JDaHM2bVE0eDUwT01qRTNO?=
+ =?utf-8?B?Z1ZRZUlGNUc2clNWQ3A2V3JIWi9IWDdXUkx2R2xUdHQ3OEN0OUJaNXViclR0?=
+ =?utf-8?B?RnE2dlBHVGpRcnRvMnJ6TjEwZWtPTHZWNGMyNXg0bHJpelQ3MUxsN2NvSGl3?=
+ =?utf-8?B?RDVSN3p4RGpKVFJkdS9HOVVybG9KT3U4NUVGeGt5ZmtCOVYrMm9hL1BsdTRw?=
+ =?utf-8?B?SlBHQ3dFWm41QktFVlJvNmYxTEZYZzFtRzZJdDlBbml3bVk2MWVMTTFpWlNK?=
+ =?utf-8?B?VkgrRmREVlYwTWdObmRKamhPZmJZZXZZVlFXNUtjQkFMTCtZSWlTamlNZ1Ir?=
+ =?utf-8?B?SCtFMlFwT1pRbWVsMUI3dmlXaVhFMFQ5SjhrMDJFc1JmUmIxTHMyelVQTWJQ?=
+ =?utf-8?B?dHBQNWxnMEF4eUhIVkMwK1hRREEvUm9ZSmJXZVhVRTVJMkQvMUQ3WG4yQ2FK?=
+ =?utf-8?B?ZVJFWm45M3IzalZqRW1TazRXcWc0STVhVjc5by9KajhlNk1ld2N2ZDRJbVJl?=
+ =?utf-8?B?UHFrZFhtUWVmREdnRmdJbXRJTlNzTEJPdERrTXJ0dENRSXFzWENTWGduRnJs?=
+ =?utf-8?B?VVd2V3BvMFo3QVRMWlJQM3R6WTZLUHp0aE5CK3pGWEZQTHhycVdmRnNNVkIz?=
+ =?utf-8?B?SkZuRjJ5d0dOMGJiQzhDOUo1SDU1USttUGU0SGo4M0tlMkVvcm0xa3drdzEx?=
+ =?utf-8?B?SW9velhZdVdrcU5icG5tRVpLVHdzLzFiOVpmdHhuM0VnQ0tJenV0N3l4MWQr?=
+ =?utf-8?B?VmxObzVRNmgzT1JhaWNCMU9YcHdHOVJJNENzV2tzY0tGRE85TnhHQT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49a31d52-e810-4f7a-0034-08de8f698073
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7869f47e-392b-441c-7481-08de8f69882c
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 21:07:22.3497
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 21:07:35.2839
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /Cmrp8+DabVTOQPULJCY12r8/jK7qyz7OxIYMx0Kp+A5FfVIt/9hZ9rlnJXsyaRM8Yy/ndGeBWG+dgcWavEqjg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: WbR/imsy9VzFRsOz529hvG+1CYFSDlDQhm89l6qOY+o6dkvcvyRl9veNztwO5O7qM1ZTZtJ74TWYEAVsU4H75A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6523
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
@@ -161,12 +161,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	TAGGED_FROM(0.00)[bounces-12450-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12451-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,atomlin.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -178,14 +179,14 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rust-lang.github.io:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,garyguo.net:dkim,garyguo.net:mid]
-X-Rspamd-Queue-Id: 4291D371640
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,garyguo.net:dkim,garyguo.net:email,garyguo.net:mid,rust-lang.github.io:url]
+X-Rspamd-Queue-Id: B9FAD37166F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On Tue Mar 31, 2026 at 9:58 PM BST, Miguel Ojeda wrote:
-> Clippy in Rust 1.88.0 (only) reports [1]:
->
+> Clippy in Rust 1.88.0 (only) reported [1] up to the previous commit:
+>=20
 >     warning: variables can be used directly in the `format!` string
 >        --> rust/macros/module.rs:112:23
 >         |
@@ -205,66 +206,27 @@ ined_format_args)]`
 >     112 -         let content =3D format!("{param}:{content}", param =3D =
 param, content =3D content);
 >     112 +         let content =3D format!("{param}:{content}");
->
->     warning: variables can be used directly in the `format!` string
->        --> rust/macros/module.rs:198:14
->         |
->     198 |         t =3D> panic!("Unsupported parameter type {}", t),
->         |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->         |
->         =3D help: for further information visit https://rust-lang.github.=
-io/rust-clippy/master/index.html#uninlined_format_args
->         =3D note: `-W clippy::uninlined-format-args` implied by `-W clipp=
-y::all`
->         =3D help: to override `-W clippy::all` add `#[allow(clippy::uninl=
-ined_format_args)]`
->     help: change this to
->         |
->     198 -         t =3D> panic!("Unsupported parameter type {}", t),
->     198 +         t =3D> panic!("Unsupported parameter type {t}"),
->         |
->
+>=20
 > The reason it only triggers in that version is that the lint was moved
 > from `pedantic` to `style` in Rust 1.88.0 and then back to `pedantic`
 > in Rust 1.89.0 [2][3].
->
-> In the first case, the suggestion is fair and a pure simplification, thus
-> we will clean it up separately.
->
-> To keep the behavior the same across all versions, and since the lint
-> does not work for all macros (e.g. custom ones like `pr_info!`), disable
-> it globally.
-
-Does it produce a false positive, or it's a false negative? If it's the lat=
-ter,
-I think we don't need to disable the lint.
-
-Best,
-Gary
-
->
-> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
-n older LTSs).
+>=20
+> In this case, the suggestion is fair and a pure simplification, thus
+> just apply it.
+>=20
+> In addition, do the same for another place in the file that Clippy does
+> not report because it is multi-line.
+>=20
 > Link: https://lore.kernel.org/rust-for-linux/CANiq72=3DdrAtf3y_DZ-2o4jb6A=
 z9J3Yj4QYwWnbRui4sm4AJD3Q@mail.gmail.com/ [1]
 > Link: https://github.com/rust-lang/rust-clippy/pull/15287 [2]
 > Link: https://github.com/rust-lang/rust-clippy/issues/15151 [3]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+
+Reviewed-by: Gary Guo <gary@garyguo.net>
+
 > ---
->  Makefile | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Makefile b/Makefile
-> index 1a219bf1c771..a63684c36d60 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -494,6 +494,7 @@ export rust_common_flags :=3D --edition=3D2021 \
->  			    -Wclippy::ptr_cast_constness \
->  			    -Wclippy::ref_as_ptr \
->  			    -Wclippy::undocumented_unsafe_blocks \
-> +			    -Aclippy::uninlined_format_args \
->  			    -Wclippy::unnecessary_safety_comment \
->  			    -Wclippy::unnecessary_safety_doc \
->  			    -Wrustdoc::missing_crate_level_docs \
+>  rust/macros/module.rs | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 
 
