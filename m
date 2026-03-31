@@ -1,214 +1,194 @@
-Return-Path: <linux-kbuild+bounces-12393-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12398-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UO6DJBfpy2myMQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12393-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:32:39 +0200
+	id 2PwtL3vsy2mlMgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12398-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:47:07 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21B736BBA9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:32:38 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6ED36C07D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:47:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 98106302C0DA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:30:17 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 81D04307A32E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26902405AA0;
-	Tue, 31 Mar 2026 15:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 975AB421EF3;
+	Tue, 31 Mar 2026 15:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJKZh7d0"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="K5C8Xa1K"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FD040758B;
-	Tue, 31 Mar 2026 15:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47752423A79
+	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 15:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774971015; cv=none; b=qRRsXVAZH+tObQao4ie0GT6J1d8iW8YHDeh0oU3uVuxtdWnEYT1JjyChFvkKhbAeC3pCuBNgn/yIu8CueoAdRlgYw3E0WDrgxb5qqFeZ0Kq7N+fwODja3CFQz6XyyrVp00Umt28RG9MkuHnHB/fjWtJ06xKQ0m6Y7AeMx1drqeU=
+	t=1774971353; cv=none; b=QBkJmJCLG48PDtE3zlXIXz+ENqplyFPfntPc4SRAfPMjhpShoZ7yMPEtKTWzdN55rKkglfGrqIDStLswJV8oS/5S+9lHOn0xQPUTCdMxhsyE1KQ2pt68o95fkHCEAENjSLfVfCyfQmQ79obfSD0gX3lv2kjSzt1027JJm78mvW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774971015; c=relaxed/simple;
-	bh=njuWTh8CpT67Wac3qyvqBHHPqTXX9tvwfCgGLkQRVQA=;
+	s=arc-20240116; t=1774971353; c=relaxed/simple;
+	bh=0WFog79zuDRJhn/p/fsZHmfoespawcmgR5YmcyH0GY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihZ2gxCZZHO7HcJGjE1CU8xfJOwDBqRr82DY7BqUcezH22FTRJAh3SnhDJ+ohoeB6BBqkmfT9qeK3GzMgLjUiriJIaqVUlt+TIZgu+QUl9USzxxwyFNdspAE0xjv59nVTiUGvBM5EEDvc0CBsXWQbVos/g9NEIUloiyAmLOWXNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJKZh7d0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2115C19423;
-	Tue, 31 Mar 2026 15:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774971014;
-	bh=njuWTh8CpT67Wac3qyvqBHHPqTXX9tvwfCgGLkQRVQA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LJKZh7d0XYVqo8o89ooUTF3NOTK6mVdCySVMmEX1KPsWrQDHd5+qABSDxJpCCNiRq
-	 G3GNF9Kr83xL0NO2fJacdf+X73MMJd3dj3Ub4zLCz1cSf0dOXePLGe5vp6oOQV6JGS
-	 Vm2ucFMutdHu+U9k3jfKyYlzVoKtUCVrhIXFFhgK8oitIFUGAiRRRglgSGMcNUPMpG
-	 +ggkb3FaY7XMIZpCu/EI3ab967Zm3Pq59na92obc5N3C1PbNOgtYVmawghiKOPDJ6V
-	 XRGmfcjTKeTzV3OpEhiStKH38bTVXGcPiKhk0WZTfyp0W+aC9XVz7Ieirh67Qp0cW+
-	 rg8OtklTIk32w==
-Date: Tue, 31 Mar 2026 17:30:09 +0200
-From: Nathan Chancellor <nathan@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Luis Augenstein <luis.augenstein@tngtech.com>
-Cc: nsc@kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	kstewart@linuxfoundation.org, maximilian.huber@tngtech.com
-Subject: Re: [PATCH 02/15] scripts/sbom: integrate script in make process
-Message-ID: <20260331153009.GA1103611@ax162>
-References: <20260210205424.11195-1-luis.augenstein@tngtech.com>
- <20260210205424.11195-3-luis.augenstein@tngtech.com>
- <20260330095011.GA1458050@ax162>
- <9120907b-9568-4f0e-9757-c9e3b8d530f4@tngtech.com>
- <2026033111-bolt-verse-4505@gregkh>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XDIfA3LuHAIyJJUiRUBghpkNOS9+G6YX2Gm2BQB5ukpgxtPai9rbHu8Rtf/XOdjSZZMMkfe2YlIkc98WDkyzddL1zacv2o9Padkgod7Fpc/i73+TNJy3z69hnPRVrBMnYGcZcSASxW8iyJHbc55wLwc/fkr3CT4zDNB6RjuVB9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=K5C8Xa1K; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d0deb7ad5so639965f8f.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 08:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1774971348; x=1775576148; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MiGvSf1cEKquv9AHWJHz+IKC+VcqOToPMsbHXtYmwWU=;
+        b=K5C8Xa1KWejcZCUQIt3T0/O+JBPN3KCcwDpAMoU6ePRO1ZKXzOYVJHG8p7aoJAFIx0
+         QFS6XToNcQtKJYlJdiPfxW6OFwoJFN2425pIorPD90+33JpuCEMhj3R/RLyz6ur5x2e8
+         X1GUbm9wdnqc1ND/tD7mXvRi50mTjc2BUA6TGVVW905yRP8g40fSEjG7iidOv70JJCEM
+         Ajr2cOz5rq+aaLf191KENgQZr27ouVCYl5ZEadY8LZZkmmDrAsVlb8VTDz8/g07x19y6
+         3A+aBKdcCvhaluS69CrdQoPut/CPs+49FOlv9Hl2KN0IVjadfUaDWoQtfr98ONQ3l9En
+         ttRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774971348; x=1775576148;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MiGvSf1cEKquv9AHWJHz+IKC+VcqOToPMsbHXtYmwWU=;
+        b=GAEQs6J59faOfKidwDZyBZ93LznUOscX3OgKtwPFF8A7ZzQHRwKxWKr80E3dBgMXLS
+         SQ9dENkYFnKQ9ZCdDp8O2KpGGf4mIA09gbUj6QHia24O4TcpsWrtd2TC9YGp7I3PueW7
+         xse37bRMQfVlub6pkCU0mt8leLKZUWfR9YHOi4EYrSxACb8iVNZeCS/o0XC0w2f6KR19
+         1R4YOubA/L8+OkoLOMVIrJvLjwnLDsFAQp67+gtTZPpvzXUdPO2D9oe7N3FumruEPTJW
+         k8jbwo4hAGTNl1WKjUrQkCIwj8HMRJ0hhKnBhQF30m0bUVkACmmkVdfl8qiRU88JkqfI
+         iRZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPFldc7NO9XkHUwyiDn8C1Y8X78HnosvOnD3fi8uAeumu9FKczUteb4lcRgLhJ41PJEFTFo/O0Fh2dAUs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKiRh8DKXBf/HWs9AoBdKXatzIO76BNSzaLGHB+xAV2PBvb7sK
+	PKl7luD+bjv37iSNBv8KDuBpwc4c9ziLpmsn8VSn/K2ZJT/hwQnRDzsNDy7Dnakhz/s=
+X-Gm-Gg: ATEYQzxnHeSSW5hvlYFdvUOtgqlIcJbR0ma2Kyr+xESRHBhUvW5tQXZ9maF7kI3rsyC
+	Zao6kGWLt8zRE/62F9EArrDaMRB3/G5lmGpCW5dUHs/wee61rYUqxsw0GOmwPXNjmPe1dgg67pG
+	KXar6S/RSKW7U52MczCr6oYb5jijjrRwc7QjSaHisD+UtcU0Usvfe5oy7WcPio5T9zilSLG8cS1
+	BhDYklz8WdzKbOhy9RWKnB16QYGYReh01nAKKpm6oYKlUHtjF/4DEI6Gaxgb/iqtlLePAaXPujd
+	eXWn7mNZGnH2D0LENnMwbx7I6ZpH24t4AJfxvz3akcYmkygVH2jKwmC/fVXdgDnelOPswyQFJ70
+	NKsyk2BMHVS9r5n6Xbu4D+sid9cKUdIEgJfTj1PYbhnZNXD3pE4IMpj89ffeQzWW605lfnP+PUT
+	lSBpdG41n5gCF3fnMKwqH1trUBOA==
+X-Received: by 2002:a05:6000:4211:b0:439:be78:e1e9 with SMTP id ffacd0b85a97d-43d1507620bmr185363f8f.14.1774971348197;
+        Tue, 31 Mar 2026 08:35:48 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf90424fcsm23487555f8f.32.2026.03.31.08.35.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 08:35:47 -0700 (PDT)
+Date: Tue, 31 Mar 2026 17:35:44 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] init.h: discard exitcall symbols early
+Message-ID: <acvp0HFv3o_i9sa3@pathway.suse.cz>
+References: <20260331142846.3187706-1-arnd@kernel.org>
+ <acvghO4glmZamFSZ@pathway.suse.cz>
+ <82bc9a6f-2184-41fa-af8a-5cf50ac04f44@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2026033111-bolt-verse-4505@gregkh>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+In-Reply-To: <82bc9a6f-2184-41fa-af8a-5cf50ac04f44@app.fastmail.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12393-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12398-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,vger.kernel.org,linux.intel.com,gmail.com,google.com,infradead.org,suse.com,atomlin.com];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DKIM_TRACE(0.00)[suse.com:+];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[pmladek@suse.com,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C21B736BBA9
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,arndb.de:email]
+X-Rspamd-Queue-Id: 4F6ED36C07D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 31, 2026 at 07:15:35AM +0200, Greg KH wrote:
-> On Mon, Mar 30, 2026 at 10:32:00PM +0200, Luis Augenstein wrote:
-> > Hi Nathan,
-> > 
-> > thanks a lot for your recommendations.
-> > 
-> > > Does sbom-roots.txt need to be cleaned up as well?
-> > 
-> > This file is only required to pass the roots into the python script.
-> > We could also use a tmp file. Then we don't need to worry about clean
-> > up. Together with your other suggested changes something like this
-> > should work:
-> > 
-> > # Script to generate .spdx.json SBOM documents describing the build
-> > #
-> > ---------------------------------------------------------------------------
-> > 
-> > ifdef building_out_of_srctree
-> > sbom_targets := sbom-source.spdx.json
-> > endif
-> > sbom_targets += sbom-build.spdx.json sbom-output.spdx.json
-> > quiet_cmd_sbom = GEN     $(notdir $(sbom_targets))
-> >       cmd_sbom = roots_file=$$(mktemp); \
-
-I think I would rather have a named file in objtree instead of one in
-/tmp, as we want all output to remain in the build folder.
-
-> >                  printf "%s\n" "$(KBUILD_IMAGE)" >"$$roots_file"; \
-> >                  $(if $(CONFIG_MODULES),sed 's/\.o$$/.ko/'
-> > $(objtree)/modules.order >> "$$roots_file";) \
-> >                  $(PYTHON3) $(srctree)/scripts/sbom/sbom.py \
-> >                      --src-tree $(abspath $(srctree)) \
-> >                      --obj-tree $(abspath $(objtree)) \
-> >                      --roots-file "$$roots_file" \
-> >                      --output-directory $(abspath $(objtree)) \
-> >                      --generate-spdx \
-> >                      --package-license "GPL-2.0 WITH Linux-syscall-note" \
-> >                      --package-version "$(KERNELVERSION)" \
-> >                      --write-output-on-error;
-> >                  rm -f "$$roots_file"
-
-The cmd macro uses 'set -e', so consider moving this up and making it
-
-    trap  "rm -rf $$roots_file" EXIT; \
-
-like try-run in scripts/Makefile.compiler does to ensure it is always
-cleaned up.
-
-> > PHONY += sbom
-> > sbom: $(notdir $(KBUILD_IMAGE)) include/generated/autoconf.h $(if
-> > $(CONFIG_MODULES),modules modules.order)
-> > 	$(call cmd,sbom)
-> > 
-> > Note, I will also add the --write-output-on-error flag by default such
-> > that the .spdx.json documents are generated as much as possible even if
-> > some build commands are unknown to the parser.
-
-Seems reasonable to me.
-
-> > > FWIW, I get errors like
-> > >
-> > >   $ make -kj"$(nproc)" ARCH=arm64 CROSS_COMPILE=aarch64-linux- O=build
-> > mrproper defconfig sbom
-> > >   ...
-> > >     GEN     sbom-source.spdx.json sbom-build.spdx.json
-> > sbom-output.spdx.json
-> > >   [ERROR] File "/src/scripts/sbom/sbom/cmd_graph/savedcmd_parser.py",
-> > line 630, in log_error_or_warning
-> > >   Skipped parsing command ccache aarch64-linux-gcc ... -o init/main.o
-> > /src/init/main.c because no matching parser was found
-> > >   [ERROR] File "/src/scripts/sbom/sbom/cmd_graph/savedcmd_parser.py",
-> > line 630, in log_error_or_warning
-> > >   Skipped parsing command ccache aarch64-linux-gcc ... -o
-> > arch/arm64/kernel/asm-offsets.s /src/arch/arm64/kernel/asm-offsets.c
-> > because no matching parser was found
-> > >   [ERROR] File "/src/scripts/sbom/sbom/cmd_graph/savedcmd_parser.py",
-> > line 630, in log_error_or_warning
-> > >   Skipped parsing command ccache aarch64-linux-gcc ... -o
-> > kernel/bounds.s /src/kernel/bounds.c because no matching parser was found
-> > >   ... (Found 10435 more instances of this error)
-> > >
-> > > when testing the whole series without any modifications, am I doing
-> > > something wrong?
-> > 
-> > I was not aware of ccache. If you rebuild without using ccache the gcc
-> > commands should be parsed correctly.
-> > 
-> > The parser expects gcc commands to be of the form
-> > 	"^([^\s]+-)?(gcc|clang)\b"
-> > When using tools like ccache this breaks. I will update the parser to
-> > look for
-> > 	"^(ccache\s+)?([^\s]+-)?(gcc|clang)\b"
-> > instead.
-> > 
-> > Feedback like this is very helpful—thanks! Do you know of any other
-> > commonly used tools that modify build commands in a similar way and
-> > should be considered?
+On Tue 2026-03-31 17:01:20, Arnd Bergmann wrote:
+> On Tue, Mar 31, 2026, at 16:56, Petr Mladek wrote:
+> > Adding module loader maintainers into Cc to make them aware of this
+> > change.
+> >
+> > On Tue 2026-03-31 16:28:38, Arnd Bergmann wrote:
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >> 
+> >> Any __exitcall() and built-in module_exit() handler is marked as __used,
+> >> which leads to the code being included in the object file and later
+> >> discarded at link time.
+> >
+> > Is this safe for dynamically loaded modules?
+> >
+> > Honestly, I am not sure what is the exact efect of this change.
+> > The dynamically loadded modules just came to my mind...
 > 
-> Ick, this might get messy as you can modify the compiler with the CC=
-> option to be anything.  There are other build tools out there that do
-> much the same as ccache does (which I should have caught this as I use
-> ccache on my build systems), like distcc and friends, so this might just
-> want to look at the result of "CC" instead?
+> In a loadable module, using __exitcall() directly already discards
+> the function at link time, so there is no difference from built-in
+> code. Actually using __exitcall() here is a mistake regardless
+> of my patch.
+> 
+> Using module_exit() in a loadable module still behaves as before,
+> this uses a different macro, which already has __maybe_unused:
+> 
+> #define module_exit(exitfn)                                     \
+>         static inline exitcall_t __maybe_unused __exittest(void)                \
+>         { return exitfn; }                                      \
+>         void cleanup_module(void) __copy(exitfn)                \
+>                 __attribute__((alias(#exitfn)));                \
+>         ___ADDRESSABLE(cleanup_module, __exitdata);
+> 
+> so this is also unchanged.
 
-Yeah, it would be much more robust to just look at $(CC) directly if it
-is set (i.e., running within Kbuild) vs. having a separate parser like
-this. If you want to keep a fallback for standalone usage for
-development and such, that's fine, but we should use the information we
-have available to be as accurate as possible.
+I see, I was confused because cscope pointed me to:
 
-Cheers,
-Nathan
+/**
+ * module_exit() - driver exit entry point
+ * @x: function to be run when driver is removed
+ *
+ * module_exit() will wrap the driver clean-up code
+ * with cleanup_module() when used with rmmod when
+ * the driver is a module.  If the driver is statically
+ * compiled into the kernel, module_exit() has no effect.
+ * There can only be one per module.
+ */
+#define module_exit(x)	__exitcall(x);
+
+and I missed that it was the variant for the built-in modules.
+
+Best Regards,
+Petr
 
