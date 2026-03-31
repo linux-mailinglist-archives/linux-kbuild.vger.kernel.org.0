@@ -1,200 +1,178 @@
-Return-Path: <linux-kbuild+bounces-12373-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12375-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OnDCKrQSy2nsDgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12373-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 02:17:56 +0200
+	id UKfIF1ksy2n8EQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12375-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 04:07:21 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062AF36299D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 02:17:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 253EB36343B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 04:07:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A2018300FEDC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 00:17:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 06A5030358B4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 02:07:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B64819CD19;
-	Tue, 31 Mar 2026 00:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAA46364948;
+	Tue, 31 Mar 2026 02:07:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sdfycjZm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gKgGC5x0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B608815C14F
-	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 00:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774916274; cv=pass; b=iV/6a+uctB3pD/+Jp1vUwbr2ILt3KHmSoqC2UrklnnsooRUlS011EujXFFoLavgc+pFNNr77a4aeskOrqS77jnY5GPm9ugl1sjG1G9vuR7T3nMMyXQfKLtsW8/S3q35U6M402LYccTWW6CVDRYfhS9Uda/T62LVS2WRmjbwJkhg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774916274; c=relaxed/simple;
-	bh=n0+3yt8ogyNgCzzLsaG2fLhsr37EqQgBrSZLNfws7pk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uFvbh+5O+AhqjEPADMV1ByRxw6ri4vFkrXbdcDbOxG3iyKHStYQHkociTrWT2SJdxe4u/NnkRU41HkQDYU0A9g1InFAeVxN5S9XHG7KIpBG3R5o1my2tMAaowROsZW+eOJg0qvtHnUE/fDgguW+n8PEm4FG0cnb3o3J0cfVQKHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sdfycjZm; arc=pass smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56cf45deb45so3833455e0c.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Mar 2026 17:17:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774916272; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DeemCukllm0IsQJsO+BZ1+XBClAMwgqmhVv2taaRUGmvHIUNrHNJHv6p8IRL1xKADq
-         YE/UmfjVZCmyFpff8dWxTy+kt5jygknoWGQICmI7+iaiX51U+t1XAoBIAXlBV2FfInn2
-         djNjR0jkbRfSCjif4LHjh+cNCKwxVo+TZZTYR+GQt8rSNzqRlMWRG4VCXTeFypovDyKQ
-         PMyTbUjPHuSNArBFeDETKeKQv5BPpsyvmfqpTLZy8uXEuSjeV/8E5NxjVjIetVlQJ04L
-         HkE1PCVrchsMYpFTpW9BOlUdZBqmSahehZwi5dswP2RLaoWnisSNabITYVeDsDQBzd9P
-         J0Zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=n0+3yt8ogyNgCzzLsaG2fLhsr37EqQgBrSZLNfws7pk=;
-        fh=OYqpIHIwl3HNS4/qeBq12KKmiJWkQkbxPGsZuMuVQgY=;
-        b=QBIR0z1MXM3PH4lhVF/cr/RHnIWXPwdyj5VNDxZD5K9g+RFgSuOM56LddXjcAP6hwf
-         PTr8MQ2Z18n58mTvyW59h8ousLLwRhorPt7/I/lu7eGOtc7NJ7emRp9w+WX026qLtr3i
-         3SGlcNOG8EhtkomkH7Rqdl85bu7yLxFs0GD74X/YW8GpUdMOe7Cg6mr0MyMbMVCtnX96
-         xG5J5MpJqDDhr6ylYow6Ub7IkZWlbzaN9XLU2WYFl8RgXdt3ckt+yBEX3qk47pKSuFek
-         x0x0X7h3/nYMWY+OMu59uug+U4ZRE8ou5nWi+GAxJ8T1oAxSt8UEslvO2N6c38mEQN4B
-         bwyw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848372233A
+	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 02:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774922837; cv=none; b=VIpKm86XYK6A/YR/2ML35F61/sb1zkDNkY6sxPdkkw4P3kLNrVs0jKX6Ty76DX8LFo/ATKMDbY1z6LnLvVH/BqxUWDleWcpyfvatCvhd46zuED68LrFRiKM73b3C+CIHRRn+pLC56WvW4ONCg0oiZGtLHW4BidIsWjoz3RNPDGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774922837; c=relaxed/simple;
+	bh=NzmQHwb3DbgXOf7m7zELxwBshVRaHQ8Qfu7nuXCO/24=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=BWIG0hl8X7MXHI9u3zzeFYOCCe4bbswUK38sGph6ip/xIZIYM9mada1B5kIQN+/tKpp+rJJvnpQvELkdEJH3GcAvA3nZlV+IiKDbh8glMXJimdMSVsUdac/GAdi1BhpstvoJRASLvX21aQwWDPoXRDet2cnvSiQoc4h6mdtp2Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gKgGC5x0; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2b24fdac394so18515375ad.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 30 Mar 2026 19:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774916272; x=1775521072; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n0+3yt8ogyNgCzzLsaG2fLhsr37EqQgBrSZLNfws7pk=;
-        b=sdfycjZmq5SpSoSgo9zMzeS6RA+u9rqVE0wFOTVCfakew9Xk/k7qqmh+YEluowm+L6
-         tARsdd2PmPDVnRkNT+jbvaIjxl+yB5KUwl+sCqxJ7W1sZnCpugw8if/Ft23bvNHoER6F
-         rSW0W9cZozXGaD8hTQRKGw4GLLHKmlD8TI4tRcJryh6rg3+5sjw8XluG8qC0J4jdZcsU
-         eD9Mzj5FLY+YxHmuvlEVCwWN6IqicsG8vAhTBj+VmZu0I0zL+xRNGx25U5Cr0zpBM2UR
-         ECs1BiLlI1pSF84zRGLyij9cikKRRr9cKNOjtxMQNjUSPpBB1Ihc+IA0VEQAxhHjI+4b
-         jCwg==
+        d=gmail.com; s=20251104; t=1774922836; x=1775527636; darn=vger.kernel.org;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Q7OinmlPHVygQxvfDVFJvK0ZY1pvhoxnbxOEnZnjSoM=;
+        b=gKgGC5x0CegKFVleHEoHftXYrluyoNtECxQz8JJ1cbRIHU0SFA6caBBseHdjzuDpf0
+         W+7m9OHFfHm7j7l/V2oeQz4muDgNy9oKWxSYNCx8o9m2X/pNsbzQPqihZtEaWPXLvZdi
+         i2qgNelQieYYqFvQWyq4fqBovHH35piZi7LfPYY01f3fDf3qJQ0eOaidxeXmAi6muZo3
+         EYs5z4tniecsz1rmwfq50rN+/kac9BP3uhfbsgH81rMAigoQLpLmGO4jayMkD6TK8eNN
+         5VizO4lFJ488kiTJ8zH66UI7f2drwA+FTDJ7l4DnBFv/d33g761BHuyXaKt2yCVWRuO/
+         2FLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774916272; x=1775521072;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=n0+3yt8ogyNgCzzLsaG2fLhsr37EqQgBrSZLNfws7pk=;
-        b=DmVATsG19YF3DsEjHA+pjMT4wYUpLCFgT6/MLy90HIEWlz4/mM/vooy0x6LhCKFzF8
-         WUx9oW5gmLf+WQay28X6EHauIDMzbvXdv/IqWe0CcdcznJ82WV+OHkvpZ4jk040cKne+
-         x/7rOOCYcFG2sysUUKu6uGdecmGVJcnyxsY/m/PJzLjBv64HLSnT6HdeuSMBDdSfql9N
-         XodEDluxNOk2dc/QHat47GLGPLICCUyveEubs6v0RkfNDBGXcmUGij2f1tnd5NTTm6AP
-         1EBL3ABIi5DOGuhcQsorLPIwa9xZW+NyeKB80kEgSjcoS9XoUMIUm3d6EjlrQ/QtmTCh
-         7GgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVpA3KFYAmC8pkA6qEh/Em1UKMino7fsryxj15yN7XRTvuT/R00BHTHlaDSCApaneXtJjph9jQUWdnKagA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh6pKVEe+FEALaZsfMrQnnSfyd9YZyFEJZDMbDmD0qO5G3hU5X
-	oCdC+Nv8cAmpKMuZmmvWrtanyHlFEv0Q37kZGaZ6qbbePzjZEyAJknEgbNcDnEdT/IPZWbu/0yS
-	3tJhpE4lXt5radBufvL0jMLY9LdMwOW5bbNDCx9Ra
-X-Gm-Gg: ATEYQzxGJ+WhckmCH7CaTxUIzjUavTM28zvAlYAW2kl0xNXM1oDVf1iBApMkso+DcX/
-	afu2yb1EVUarQXsOYTQ2/vWJ2eT8amhviMvAtdEdG6kXwGUEvOZMxE0VJZh6GLb74gQxPYeIkl3
-	c/41UvFW4lxls/9gAxR+PCKgVZmtxny8GRKtsTZxbZ3ie+BM8TeBIapOkKv0GNx/ePFuvC+/T9j
-	qZCL1/KKbXtiwqbCjUsG5dR61GOC/sbavDr3AIEBK1lR/CsdU85SZo8RmQcXE7axJhuxP9e7Fpu
-	zM/brrY=
-X-Received: by 2002:a05:6122:4698:b0:56a:ef51:4cae with SMTP id
- 71dfb90a1353d-56d4a4cab86mr6574629e0c.4.1774916271243; Mon, 30 Mar 2026
- 17:17:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774922836; x=1775527636;
+        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q7OinmlPHVygQxvfDVFJvK0ZY1pvhoxnbxOEnZnjSoM=;
+        b=Tv7KNwa+gjJ4G1JinUB0Ctu8Phu2iVserb47JQ8dXbJ+7RpOMWCTN+QCJbtfnCFSTS
+         CdOOL8pDKGotydFGNM6F9zEbfb1Ej7l8tFIWJwMfalMRmtxGMojPlgTkIdGDa1tSZwpG
+         iwaOm2/C54n4hWX3tB4dPA9e+1efwaIhlNm4vQfbFsIkMUraqfhWkm0euteY29pt51kS
+         SXwDTIZXrjPsRGQaTZ3XiptjxyxiwxJojludcNDI9GqUfxZkqMUxBB3zFdYz/dnyPlTc
+         SodP2ych/HLkhusKa7oCnZG4SsTKNoTMsgIUO/WA0cbFLFHfpbHizbK4r3XWle2NWGlS
+         eV7Q==
+X-Gm-Message-State: AOJu0Yx2Nex82QF2IFU9EhYNfS5ZJXdH2EIciKiNR1B0Lz/1bzo0Paly
+	aBiiUANYgyQLSpakDMf/qYP+Kx2LHMdtxTcp6eTZRKk6WYVHtp/k0K3X
+X-Gm-Gg: ATEYQzzMUFat0RMfYRCC6K5y9uRrhUOw73rFZrbVgh6v33P7Tipjd9O+uVdjSO14eDO
+	rnlwfZ6pPhcm4KTDTiXkh4uz+dsjlXVXH2XrjidxgIjZZh/I6MrK/aTaci/XKIcYN2aWNYocJg/
+	I6ktZGnxlLFR3twqBhFRm0OFFq2dVuwzq3Ot5eniwBKjs01M0rqvQZyUlnjIGjtNXuxRAKDDkN2
+	iv+vBsUr+ktcbxgnsBGakKph3ENwZZW0Up9VPp4Pl9UMDWmdfc5UxypRC6otW1k//nk6cea+zI5
+	Rf69JL9FkJIF7nMTvepIBHNCtUEZAsAr+ibpfKhjt2OsxY4ZE9OFgKtwInLYOnJdVeszUMLn7Wi
+	/1qjZ6eayiDGdqPK/gVvNkcnFtGNEHyedwsELFpzSjrI+z/x5TxCoqpDv05TZnoabt8XlFT9qY8
+	lWgYbXDI2t8NZYX/QYpAkTtA==
+X-Received: by 2002:a17:902:e809:b0:2ae:4150:3118 with SMTP id d9443c01a7336-2b0cdc3b9d9mr146889945ad.12.1774922835833;
+        Mon, 30 Mar 2026 19:07:15 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24264256asm93998405ad.13.2026.03.30.19.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 19:07:15 -0700 (PDT)
+From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+To: Venkat Rao Bagalkote <venkat88@linux.ibm.com>, linux-kernel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, maddy@linux.ibm.com, arnd@arndb.de, Christophe Leroy <chleroy@kernel.org>, Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Subject: Re: [PATCH v4] char/nvram: Remove redundant nvram_mutex
+In-Reply-To: <20260330103530.6873-1-venkat88@linux.ibm.com>
+Date: Tue, 31 Mar 2026 07:19:54 +0530
+Message-ID: <qzp0n4xp.ritesh.list@gmail.com>
+References: <20260330103530.6873-1-venkat88@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260327-kbuild-show-inlining-v1-1-730ac2cae571@google.com>
- <20260327221837.GA3622500@ax162> <CAFhGd8pWwbjjLt=FSaDtFysqRU5k_YozDgBFMJBN4YmnAEaktw@mail.gmail.com>
- <202603292059.01A4CB14F2@keescook> <20260330053604.GA879042@ax162> <202603301156.19EEEBE@keescook>
-In-Reply-To: <202603301156.19EEEBE@keescook>
-From: Justin Stitt <justinstitt@google.com>
-Date: Mon, 30 Mar 2026 17:17:37 -0700
-X-Gm-Features: AQROBzDfJ75j20Pt0fiuvNJg-VsI_kuMnBSed2bUkXNP6__lPP5g9i7kLDwy34I
-Message-ID: <CAFhGd8qUoYnpfMcaUy8=Xde1hkch50MD6WMSsmc7BJqNXz1FyQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add -fdiagnostics-show-inlining-chain for FORTIFY_SOURCE
-To: Kees Cook <kees@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-12373-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.987];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[justinstitt@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 062AF36299D
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12375-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[riteshlist@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 253EB36343B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+Venkat Rao Bagalkote <venkat88@linux.ibm.com> writes:
 
-On Mon, Mar 30, 2026 at 11:56=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+> The global nvram_mutex in drivers/char/nvram.c is redundant and unused,
+> and this triggers compiler warnings on some configurations.
 >
-> On Mon, Mar 30, 2026 at 07:36:04AM +0200, Nathan Chancellor wrote:
-> > On Sun, Mar 29, 2026 at 08:59:51PM -0700, Kees Cook wrote:
-> > > On Fri, Mar 27, 2026 at 03:29:18PM -0700, Justin Stitt wrote:
-> > > > On Fri, Mar 27, 2026 at 3:18=E2=80=AFPM Nathan Chancellor <nathan@k=
-ernel.org> wrote:
-> > > > The compile time impact is not measurable (within expected noise). =
-The
-> > > > peak memory usage may increase by somewhere in the 0.5% to 1.5% ran=
-ge
-> > > > depending on build configuration.
-> > > >
-> > > > I bundled this under fortify to limit initial impact as its had
-> > > > virtually no real-world testing and may produce unhelpful diagnosti=
-c
-> > > > notes under its heuristic mode. I don't expect folks to use `-g1` i=
-n
-> > > > the kernel (which would enable full-proof diagnostic notes).
-> > > >
-> > > > > If not, maybe worth adding a Kconfig option that is force selecte=
-d by FORTIFY_SOURCE with
-> > > > > clang or can be optionally enabled by a user?
-> > > >
-> > > > I'll defer to you on this one. We could add
-> > > > CONFIG_SHOW_INLINING_CHAIN_NOTES or something similar?
-> > >
-> > > I would prefer to just unconditionally enable this when it is support=
-ed.
-> >
-> > Agreed. It cannot possibly be worse than the status quo, right? :) This
-> > feels very similar to -fdiagnostics-show-context=3D2, so maybe add it n=
-ear
-> > there?
+> All platform-specific nvram operations already provide their own internal
+> synchronization, meaning the wrapper-level mutex does not provide any
+> additional safety.
 >
-> Yeah, similar. That'd be a good place for it. :)
-
-Thanks both of you for the suggestion:
-
-Here's [v2] :)
-
+> Remove the nvram_mutex definition along with all remaining lock/unlock
+> users across PPC32, x86, and m68k code paths, and rely entirely on the
+> per-architecture nvram implementations for locking.
 >
-> --
-> Kees Cook
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+> ---
+> v4:
+>   - Remove all remaining nvram_mutex call sites, completing the mutex removal
+>
 
-[v2]: https://lore.kernel.org/all/20260330-kbuild-show-inlining-v2-1-c0c481=
-a4ea7b@google.com/
+Let me cut paste the review from Sashiko here..
 
-Justin
+    Does this removal expose the underlying raw spinlock to concurrent userspace
+    contention?
+    Looking at ppc_md.nvram_sync() implementations like core99_nvram_sync() on
+    PowerMac, the code acquires a raw spinlock (nv_lock) and performs hardware
+    flash memory operations with polling loops and udelay() calls that can take
+    hundreds of milliseconds to complete.
+    Because IOC_NVRAM_SYNC does not require CAP_SYS_ADMIN, any user with access
+    to the device can call this ioctl.
+    Previously, nvram_mutex provided a sleepable barrier for concurrent
+    IOC_NVRAM_SYNC callers. Without it, won't secondary callers spin on the raw
+    spinlock with interrupts disabled for the entire duration of the first
+    caller's slow flash I/O?
+    Could this prolonged spinning with IRQs disabled completely freeze the
+    waiting CPUs and trigger NMI watchdog timeouts or system lockups?
+
+First of all the above problem is only being talked about PowerMAC and
+not for x86 / m68k. In there I think, we just read/write few bytes under
+the spinlock.
+
+On PowerMac too, I don't think the above problem gives a reason, to keep
+a redundant locking at a generic wrapper layer which can affects other
+platforms/archs. And the comment in PowerMac code above nv_lock says:
+    // XXX Turn that into a sem
+    static DEFINE_RAW_SPINLOCK(nv_lock);
+
+So, it looks like Sashiko review comment can be ignored, and the patch
+looks right to me, which kills the redundant mutex lock from here. So as
+for this patch please feel free to add...
+
+Reviewed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+
+... But I would also let Chrisptophe comment from ppc32 / PowerMac perspective.
+
+-ritesh
+
 
