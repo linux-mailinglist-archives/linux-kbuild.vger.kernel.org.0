@@ -1,61 +1,72 @@
-Return-Path: <linux-kbuild+bounces-12404-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12405-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oK2vFnfwy2m5MgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12404-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:04:07 +0200
+	id eB0kChj0y2lwMwYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12405-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:19:36 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD2F36C512
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:04:06 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C43D36C7C1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:19:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1AD323057B17
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:55:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CEAF8300185C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 16:05:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3985E401496;
-	Tue, 31 Mar 2026 15:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBABA3DEAE6;
+	Tue, 31 Mar 2026 16:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E86X1NAi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RP4MBAdD"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151A83E1D15;
-	Tue, 31 Mar 2026 15:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89693D8110;
+	Tue, 31 Mar 2026 16:05:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774972536; cv=none; b=uzRH6/Zsgy2765itq3WzhZB6ZgpfNW3Se1vr7vfwepu16w8yCIbYEk3NEIN1v5tN/Cjc+5fOhVL6OENAkZlE/1AazhZVojpRuWmOIsKzFGowTzlUx9p1u3JpbdSmTghMzNw91J3uJep+rULPkMtEIlrrCp0ALdis5nRRkYmEDtA=
+	t=1774973157; cv=none; b=YiNFmEWqeltOE0NPXTBdut7P5VnPvK2zOSRRxRghELWS2uFJLaJCuuxcZIsPh5CnsftR7r0aGqKyqkxlQ0R1D18Dk6sOCTHDJMt7gtf7e5xQai4AC/K4p7g/B9GUGxYXw83o3Aqx/0d15sZfoRLwyqucFlE7w/Z3jY0SJkntlz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774972536; c=relaxed/simple;
-	bh=YAVCqs+iKM3va+HanHaYLnT7coslqWkOv6oKzf+5HG8=;
+	s=arc-20240116; t=1774973157; c=relaxed/simple;
+	bh=GdVL5YkhiBlfrbkgoasYODaIsvdKuLBZEppm175CMj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FySc/YNtbDIRJyA27aTrBcIRjjBePdkQ6vyTIIvFspeX1bUZlwC8Go28APaJKz/XX3zwo6b/FQQ01tDraNlXSuPb8kX4uL9l3OZpMYl64EBF1dGL7+IwuRt0Zpxe/IzT2/AdqybGof1ipbULTs9qtKXmdUa9dvFSn952pAtT/Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E86X1NAi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05042C19423;
-	Tue, 31 Mar 2026 15:55:33 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=jWad7FQkHaajy7am6rlzxsSFwlv2fHU9eZPwblIq4Nc7FLV6r8Tz8nDabugLeoFNERgkZ6Ex8vKbk8rq8lvUYvBwnwHPHzlzT8nxtlEwkcbv6ok4SvrMVsyk1HFJe9+ETHxw9k45F1bVWm5CDiGW6zvS0+xHa7Iqo6Wl7R3I+II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RP4MBAdD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09C57C19424;
+	Tue, 31 Mar 2026 16:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774972535;
-	bh=YAVCqs+iKM3va+HanHaYLnT7coslqWkOv6oKzf+5HG8=;
+	s=k20201202; t=1774973157;
+	bh=GdVL5YkhiBlfrbkgoasYODaIsvdKuLBZEppm175CMj0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E86X1NAifKBcMbNzdSCMD+R/Ghrw22Vz2KNxf2jHlvnOPvGCYDvGtYTaqnefDWqy/
-	 1ecFvlznfWzETGtepJJj/MEqgw2OcV6sF2x8SlrO+EZC660E99ZT9Yh3hDRtQyw5lD
-	 MOI4srx70Hu2KGwD44yeExVARPkInyJlf3b08ODqLZIq3fIuXnOWjVaD0Qoe9bBuu0
-	 RZvNheA96OtCUWk1wjHvXzS7JC4ik6l4no0TrMQ27shY3MQQnizY9M4l9MmM1AGSif
-	 B7VNb7CS6O6510kfpOuSATc8LFdd99lV8nYEt9M/6QjFCAekbTyna+PaqIluEWcFlj
-	 cNxlpXx89GBjQ==
-Date: Tue, 31 Mar 2026 17:55:31 +0200
-From: Nathan Chancellor <nathan@kernel.org>
-To: Justin Stitt <justinstitt@google.com>
-Cc: Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>, Kees Cook <kees@kernel.org>,
+	b=RP4MBAdDzMeDh9UTHnKCnkGbRlZml7jXVBMilcY0ydty9GRPI8Rp6UPCoH2uCvS7A
+	 9f3R2IaHiiZeD1UqWWA+kFN24UaZcBFG2J4Aa0rgtx9Ph2qVk6fjgMp+5DibwDshna
+	 3jIz4fo4kIzH6XZSMnzLMd8P4FvIiTtdg4g2LvYRMCmjTvuSjCybdeikwqlZmU6FfI
+	 E3qBRw/5DdwCgkHspw0SwS2nCoj303JtZPBaPlDCcNtuY7e6+yx+3xHvztIJphXwDU
+	 1IyxP3bb3sfaSb86RGwzlqr9bZSReKG+InnEiZ5BDAv8b+zkN2ORu/8Xjywy2iQcsR
+	 enrc7ZUCvYMpQ==
+Date: Tue, 31 Mar 2026 18:04:54 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Luis Augenstein <luis.augenstein@tngtech.com>,
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2] kbuild: expand inlining hints with
- -fdiagnostics-show-inlining-chain
-Message-ID: <20260331155531.GA2004441@ax162>
-References: <20260330-kbuild-show-inlining-v2-1-c0c481a4ea7b@google.com>
+	akpm@linux-foundation.org, kstewart@linuxfoundation.org,
+	maximilian.huber@tngtech.com
+Subject: Re: [PATCH 02/15] scripts/sbom: integrate script in make process
+Message-ID: <acvwpv7ISJoYSttX@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Luis Augenstein <luis.augenstein@tngtech.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, kstewart@linuxfoundation.org,
+	maximilian.huber@tngtech.com
+References: <20260210205424.11195-1-luis.augenstein@tngtech.com>
+ <20260210205424.11195-3-luis.augenstein@tngtech.com>
+ <20260330095011.GA1458050@ax162>
+ <9120907b-9568-4f0e-9757-c9e3b8d530f4@tngtech.com>
+ <2026033111-bolt-verse-4505@gregkh>
+ <20260331153009.GA1103611@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -64,89 +75,121 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260330-kbuild-show-inlining-v2-1-c0c481a4ea7b@google.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <20260331153009.GA1103611@ax162>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12405-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-12404-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,vger.kernel.org,lists.linux.dev];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EBD2F36C512
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,sbom.py:url]
+X-Rspamd-Queue-Id: 2C43D36C7C1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 30, 2026 at 05:09:08PM -0700, Justin Stitt wrote:
-> Clang recently added -fdiagnostics-show-inlining-chain [1] to improve
-> the visibility of inlining chains in diagnostics. This is particularly
-> useful for CONFIG_FORTIFY_SOURCE where detections can happen deep in
-> inlined functions.
+On Tue, Mar 31, 2026 at 05:30:09PM +0200, Nathan Chancellor wrote:
+> On Tue, Mar 31, 2026 at 07:15:35AM +0200, Greg KH wrote:
+> > On Mon, Mar 30, 2026 at 10:32:00PM +0200, Luis Augenstein wrote:
+> > > Hi Nathan,
+> > > 
+> > > thanks a lot for your recommendations.
+> > > 
+> > > > Does sbom-roots.txt need to be cleaned up as well?
+> > > 
+> > > This file is only required to pass the roots into the python script.
+> > > We could also use a tmp file. Then we don't need to worry about clean
+> > > up. Together with your other suggested changes something like this
+> > > should work:
+> > > 
+> > > # Script to generate .spdx.json SBOM documents describing the build
+> > > #
+> > > ---------------------------------------------------------------------------
+> > > 
+> > > ifdef building_out_of_srctree
+> > > sbom_targets := sbom-source.spdx.json
+> > > endif
+> > > sbom_targets += sbom-build.spdx.json sbom-output.spdx.json
+> > > quiet_cmd_sbom = GEN     $(notdir $(sbom_targets))
+> > >       cmd_sbom = roots_file=$$(mktemp); \
 > 
-> Add this flag to KBUILD_CFLAGS under a cc-option so it is enabled if the
-> compiler supports it. Note that GCC does not have an equivalent flag as
-> it supports a similar diagnostic structure unconditionally.
-> 
-> Link: https://github.com/llvm/llvm-project/pull/174892 [1]
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1571
-> Signed-off-by: Justin Stitt <justinstitt@google.com>
+> I think I would rather have a named file in objtree instead of one in
+> /tmp, as we want all output to remain in the build folder.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
++1
 
-> ---
-> Changes in v2:
-> - Move to always enable option if compiler supports it (thanks Nathan,
->   Kees)
-> - Change commit title and message
-> - Link to v1: https://lore.kernel.org/r/20260327-kbuild-show-inlining-v1-1-730ac2cae571@google.com
-> ---
->  Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
+The common way in kbuild is using '$(tmp-target)'.
+
 > 
-> diff --git a/Makefile b/Makefile
-> index e1279c4d5b24..4972b23fb77f 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -973,6 +973,10 @@ KBUILD_CFLAGS	+= $(call cc-option, -fno-stack-clash-protection)
->  # Get details on warnings generated due to GCC value tracking.
->  KBUILD_CFLAGS	+= $(call cc-option, -fdiagnostics-show-context=2)
->  
-> +# Show inlining notes for __attribute__((warning/error)) call chains.
-> +# GCC supports this unconditionally while Clang 23+ provides a flag.
-> +KBUILD_CFLAGS	+= $(call cc-option, -fdiagnostics-show-inlining-chain)
-> +
->  # Clear used registers at func exit (to reduce data lifetime and ROP gadgets).
->  ifdef CONFIG_ZERO_CALL_USED_REGS
->  KBUILD_CFLAGS	+= -fzero-call-used-regs=used-gpr
+> > >                  printf "%s\n" "$(KBUILD_IMAGE)" >"$$roots_file"; \
+> > >                  $(if $(CONFIG_MODULES),sed 's/\.o$$/.ko/'
+> > > $(objtree)/modules.order >> "$$roots_file";) \
+> > >                  $(PYTHON3) $(srctree)/scripts/sbom/sbom.py \
+> > >                      --src-tree $(abspath $(srctree)) \
+> > >                      --obj-tree $(abspath $(objtree)) \
+> > >                      --roots-file "$$roots_file" \
+> > >                      --output-directory $(abspath $(objtree)) \
+> > >                      --generate-spdx \
+> > >                      --package-license "GPL-2.0 WITH Linux-syscall-note" \
+> > >                      --package-version "$(KERNELVERSION)" \
+> > >                      --write-output-on-error;
+> > >                  rm -f "$$roots_file"
 > 
-> ---
-> base-commit: 7df48e36313029e4c0907b2023905dd7213fd678
-> change-id: 20260327-kbuild-show-inlining-557d31d2293a
+> The cmd macro uses 'set -e', so consider moving this up and making it
 > 
-> Best regards,
-> -- 
-> Justin Stitt <justinstitt@google.com>
+>     trap  "rm -rf $$roots_file" EXIT; \
 > 
+> like try-run in scripts/Makefile.compiler does to ensure it is always
+> cleaned up.
+
+hm, well.  Yes, this should do as expected, but please be aware that
+this also kills the $(delete-on-interrupt) which is part of $(cmd) and
+removes $@ in case of error or interruption by installing a trap --
+which will be overwritten.  See also below.
+
+I think it might become a bit cleaner if the roots file is a separate
+target and the 'sbom' target simply depends on it.  But we can defer
+that.
+
 > 
+> > > PHONY += sbom
+> > > sbom: $(notdir $(KBUILD_IMAGE)) include/generated/autoconf.h $(if
+> > > $(CONFIG_MODULES),modules modules.order)
+> > > 	$(call cmd,sbom)
+> > > 
+> > > Note, I will also add the --write-output-on-error flag by default such
+> > > that the .spdx.json documents are generated as much as possible even if
+> > > some build commands are unknown to the parser.
+> 
+> Seems reasonable to me.
+
+If sbom.py is unable to parse the build commands, does it exit with a
+non-zero exit code, correct?  As 'cmd_sbom' is run within a 'set -e'
+shell environment, the $(delete-on-interrupt) will delete $@, thus there
+should be _no_ output on error, regardless of --write-output-on-error.
+So, it might make sense to kill $(delete-on-interrupt) by intention; but
+that doesn't feel good to me, as the intention of 'cmd' will be
+intransparently.
+
+Kind regards,
+Nicolas
 
