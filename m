@@ -1,178 +1,126 @@
-Return-Path: <linux-kbuild+bounces-12392-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12396-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iMxmF47ly2myMQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12392-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:17:34 +0200
+	id 4PY8KLfry2l6MgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12396-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:43:51 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29BD36B8A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:17:33 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 622A136BF87
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 17:43:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 57C1B30A676C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:10:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DDAEE3096D44
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 15:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 952FB401A0D;
-	Tue, 31 Mar 2026 15:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E4041C2E2;
+	Tue, 31 Mar 2026 15:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERdeWHm0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1411tNI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41873FF890;
-	Tue, 31 Mar 2026 15:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046A8411624;
+	Tue, 31 Mar 2026 15:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774969854; cv=none; b=WTskC/54/tdsuC4pDEDXs3RJWLoZfCT2wDSuDpH4XqfytJv5Dysw+iJiVH1/xQEN1BkF0SjuT8yC+kEGv/tDeKHJPHX88S91eoHQD6itsdXSF0WfzQumTIl/lIRypd+saABcmXZGS8WkXGFVItpkgVXRfh/mCXCZLSvKbGR/0Rw=
+	t=1774971176; cv=none; b=f2a2LMnl7DaUYcx2qYHCLLs3KTR27ocs3AMVdfQdUFblqwI1jxVNuDWZukg6GdPb3eBXsxFVqiAR42G/junkALfSiEMH/E3wWtmWqVI46/Xd0paT7S8LNyz8N8GP/VFaX+Ptfq61KU1JZ5oPx6zpuYJEwu5NdypY5S/LysRIlJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774969854; c=relaxed/simple;
-	bh=J/vxD+W2Iis6zAcIQC0ZcGjV/9uRNeadS16aYX0r18I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sFxtDZu/TBOrrBHG2fkJjEvXLiB+921x4Vbn6/iv9CS3k+QhYgoWhxe59x5z3Uacw+QdhsvR3jOOcriVKkZYq/iF7nKzzZ+t67OnpoVgGP/lr5vHcwCDiMqtGXV967/r/fRC3bOxBwcb6PR1BbNbaV7ZKwvHFlhHsgSyoTia7W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERdeWHm0; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774969853; x=1806505853;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=J/vxD+W2Iis6zAcIQC0ZcGjV/9uRNeadS16aYX0r18I=;
-  b=ERdeWHm076S4Tj6s6aK4R5O/IxJIQevJui+z/Tg1LkX5MVIaZRp3SrUn
-   tFKOeFA+hlfxCJMOE01Dvme5bfBeIUZw3KX+RpffoCGV6yR0Z/BcfaH/4
-   mk29TcNYOIizYexTvk2g8ZToqfhmPI+hHHwaj9CPy226r5BzIh5UsG2+t
-   e9AZbLz0szRvPl9thRrGp3msp8ZMVh+8zhnwHiNK0RHjsR4OzwSEeHdXP
-   YjfpB0COigiiWUMfCS+IcBN90EnXlr/l/k5pResgPsltw1mu1sk9Fekbj
-   Xr1kIzmKVx9Az/gaUqbUcHg7mKVsVyimvQaGdzejFkfAZ4IRA2gkbEORU
-   A==;
-X-CSE-ConnectionGUID: r6iQ07OdSuWTsGwU3WKZ2w==
-X-CSE-MsgGUID: ccqnBq6LSOyqZBcLdaEAYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="86683716"
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="86683716"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 08:10:52 -0700
-X-CSE-ConnectionGUID: 7Vol1Sp7QgiMm+3TOLhVhQ==
-X-CSE-MsgGUID: D88CbPKvQaq5ukI+YvYfyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="226649384"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 31 Mar 2026 08:10:47 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w7ajs-000000008RR-2O5I;
-	Tue, 31 Mar 2026 15:10:44 +0000
-Date: Tue, 31 Mar 2026 17:10:39 +0200
-From: kernel test robot <lkp@intel.com>
-To: xur@google.com, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Stafford Horne <shorne@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Piotr Gorski <piotrgorski@cachyos.org>,
-	Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	Teresa Johnson <tejohnson@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v8 3/3] kbuild: distributed build support for Clang
- ThinLTO
-Message-ID: <202603311739.cjetLeNT-lkp@intel.com>
-References: <20260330171920.2026779-4-xur@google.com>
+	s=arc-20240116; t=1774971176; c=relaxed/simple;
+	bh=aGjLeD+Un0VE8ssvCrTUeSr+Kf52CZBZsLw4CtomiD8=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=M61kFQ0JIVFfz9XE0A66oExFmE8igf7KMo1h1RLqZXaS7qfNgmuUaBi+tqNQuCV2dMIS7vVoLkgrfr49SMczPU4lBch40z+rEsBSfMXIf54lvl2ZEkV++2K/q3H17uurDXULIIOb99NjmvsV6/islNRjPQw1s9eHX3oti906c1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1411tNI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79AF3C2BCB1;
+	Tue, 31 Mar 2026 15:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774971173;
+	bh=aGjLeD+Un0VE8ssvCrTUeSr+Kf52CZBZsLw4CtomiD8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=F1411tNIIvCeXJdGwxKYhALVX7eTn9n6VwmUaDU/TCEGfL3GoZO3WjeWNQok4AZNB
+	 0a0x4BVYyUdzAMpnzQP1c4+8szm5HwKnDPnoRH0QpjfzBYh7w4GQD87wjxn4MaHZX5
+	 R9JlSRc3IKSHQj7OBuRWmR2pLamN+qnLnsRW3o6mPsR4DQlp7w5unCnOxHaP7lY6MI
+	 fhAv1HXAMuwuDRuNiH7ZNq7iFZH1c52PdHQ8B+zwmnmPNOnFMYjrBbAx/5OWQDDG6s
+	 hdRLaufTZwbRQVi/b1wXsBckwutG93PzI1UTv1xJjA6HrbdueYyYk9Z/BtsGAQqbwZ
+	 sV2iQAkFV74aw==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260330171920.2026779-4-xur@google.com>
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Subject: Re: [PATCH 1/4] kbuild: vdso_install: split out the readelf
+ invocation
+From: Nicolas Schier <nsc@kernel.org>
+To: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260320-kbuild-vdso-install-v1-1-e2e8a0970889@weissschuh.net>
+References: <20260320-kbuild-vdso-install-v1-0-e2e8a0970889@weissschuh.net>
+ <20260320-kbuild-vdso-install-v1-1-e2e8a0970889@weissschuh.net>
+Date: Tue, 31 Mar 2026 17:15:33 +0200
+Message-Id: <177497013326.2338582.14860758111770120240.b4-review@b4>
+X-Mailer: b4 0.16-dev-ad80c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=353; i=nsc@kernel.org;
+ s=20250924; h=from:subject:message-id;
+ bh=aGjLeD+Un0VE8ssvCrTUeSr+Kf52CZBZsLw4CtomiD8=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpy+UXBqFA+UejxsliP85OlMEjkvB4yVvoYVCMi
+ tf7tg1y6qOJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCacvlFwAKCRAHUgpwFiYS
+ abS2D/9LvB+hZPSH4L+07OY2Uq4rAwQjxW7M5MSAfUo7Fq3bU/WoS99Qfqz7ilqMKGazcL5GVmA
+ 49OoL6XjD7Iho9wW7w1Aohdry6mN81KBrg5Y1CBc16YnjMSgcu3ZEQEzarE1boXan6JB08pZ/gW
+ 0LeVMeBqtvn14cZ0sUfeU12m2qA9yLiWZcdmI+K9ZFdyBobjvJIDUrbqVv7vQJpfwTA5MYv7E5H
+ 3NDHWF9prDXRx13fg7Gjg/uQoD2NB0Fbpr/I6THtOmPt2+boU98yo1IP0H34tY+UtuI4YZ5TD41
+ s7K6Rfg6H4cd1WcOstOeRnBKqGmeZZQm2WZ0DerCZnZeApBXgOmfTzwNSlbOEV/GZ2RpeRmrM7C
+ epAcQ/PaxjE6MFJ33QHBX2Z9z85W1vVS4yp6j3BS+1OGaxU2TPUF82EZjez0WtTMhLezHSCusVm
+ VcFGkpZUXxW2Jz9K7spZG+yv2fIugoZvBmsceWs/nyKzaXjFYWwifAFf0mJujxzdgL3OoR6eVdx
+ h4K4V7fEeUudlFeYdjIHrS8Bz6WfFHNchCPdWROk801+7iJxXbb7pIUSDzgVdmBuKumtsuk4Kir
+ YM5BaTEeEgv/VEg812aAxbnAch3jR3JT5nk8F5VyPvSNRpgwS5LphfwB1QoPQFR+lKIRyDNkUmf
+ M8RTmo8FU1ehL5Q==
+X-Developer-Key: i=nsc@kernel.org; a=openpgp;
+ fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12392-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_TO(0.00)[google.com,kernel.org,linux.dev,gmail.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	TAGGED_FROM(0.00)[bounces-12396-lists,linux-kbuild=lfdr.de];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid,01.org:url]
-X-Rspamd-Queue-Id: D29BD36B8A5
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,weissschuh.net:email]
+X-Rspamd-Queue-Id: 622A136BF87
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+On Fri, 20 Mar 2026 17:36:53 +0100, Thomas Weißschuh <linux@weissschuh.net> wrote:
+> Some upcoming changes to the readelf invocation would create a
+> very long line otherwise.
 
-kernel test robot noticed the following build errors:
+(I get confused frequently if commit description is not self-contained
+but only completing the subject.)
 
-[auto build test ERROR on dcc99abebfa1e9ca70f8af8695b6682ad7597bf2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/xur-google-com/kbuild-move-vmlinux-a-build-rule-to-scripts-Makefile-vmlinux_a/20260331-012908
-base:   dcc99abebfa1e9ca70f8af8695b6682ad7597bf2
-patch link:    https://lore.kernel.org/r/20260330171920.2026779-4-xur%40google.com
-patch subject: [PATCH v8 3/3] kbuild: distributed build support for Clang ThinLTO
-config: x86_64-kexec (attached as .config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260331/202603311739.cjetLeNT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603311739.cjetLeNT-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> Makefile:2254: *** extraneous 'endif'.  Stop.
---
->> Makefile:2254: *** extraneous 'endif'.  Stop.
---
->> Makefile:2254: *** extraneous 'endif'.  Stop.
---
->> Makefile:2254: *** extraneous 'endif'.  Stop.
-
-
-vim +/endif +2254 Makefile
-
-^1da177e4c3f415 Linus Torvalds  2005-04-16  2251  
-46b7c49254f89d5 SZ Lin (林上智  2020-03-01  2252) endif # config-build
-2042b5486bd311d Masahiro Yamada 2019-08-11  2253  endif # mixed-build
-688931a5ad4e55b Masahiro Yamada 2019-03-19 @2254  endif # need-sub-make
-^1da177e4c3f415 Linus Torvalds  2005-04-16  2255  
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nicolas
+
 
