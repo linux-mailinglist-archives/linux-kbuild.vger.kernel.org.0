@@ -1,217 +1,226 @@
-Return-Path: <linux-kbuild+bounces-12454-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12455-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eEzAB3NBzGm+RgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12454-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:49:39 +0200
+	id QJWdKC1CzGm+RgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12455-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:52:45 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744343722BB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D70937235D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 23:52:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD6E4300DDF7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 21:43:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D8C353026A9D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 21:50:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DF2A3ACA72;
-	Tue, 31 Mar 2026 21:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAD34657CC;
+	Tue, 31 Mar 2026 21:50:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="OxRM67bx"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ULwZTnZw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020103.outbound.protection.outlook.com [52.101.196.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CF4199D8;
-	Tue, 31 Mar 2026 21:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CE7451076
+	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 21:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774993413; cv=fail; b=B26I4HMXTGVCtvpJvBpj8G+5OELzC8aAYJ24nexp7FJTVpqOQAHhVye6k+DoKh6vVfkpBHDQJYg3d6dSqfZuEAOFQ71z9lI+Q3e0UAu/2evHC0QoeyispNb3YNqa/ZAs1NXzWtQU6h1xJF+/nSgo2JdirDMrwSfgFdYIcEyos50=
+	t=1774993854; cv=pass; b=aSSp/Jkuce0R2IqOb11oAfaXBPjPTYiTj8YVWWWfW8dzYUtKPThvKKyE48FBQb5MlQeLaCtDbtSt/t1HFm5zpCQrTNkNKhhjch2nG5caHKkaJLw9oNaY5E07BHhquaNlvBjPSoHcOu/rpC7Sg6nBmvZYAA6uVX3bkxt5eMuTv88=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774993413; c=relaxed/simple;
-	bh=57NyT85keEhZ5s7rf0g2AOYrupB7GbgfhsUn2FpQuZg=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=cUQuc/EaO0pQ2qkJ5RZDBSabDiq3RH+oG9qESBvj6RNL6ttiwoOUQBtUK9+rgEJ4/KDVw99lh9TO9/nDYpthNCU0rIuqZUQGkXApbGdhS2pq4Dj4VK3/VNbVdD1Q6R4MIiOHhLlApRWJ/W9vzQ4YACTwUqUvhtTBiMD6DJpV8N0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=OxRM67bx; arc=fail smtp.client-ip=52.101.196.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QY+fbFPSuP6RxOJjhNEO6/bflPQ9Kr7xVdVgSItWZGB+f7OwW+KKGyVlDlbXLA0F4enz6qQ+7Vg+MnvWyHXLtImURGyXMo6CXgJMwsYEqpusOT225nteSkhWsB4IPrJfhlM+hd3wNb2GCaq/1EvOe9eFppzv0vTP0FQSevrkiGRw7gZlIDdBSgWrEjvX6UqZ94gyH0kBYhqmzT34e0LeURFyNf4PKECmacMZYV2uM7rjQCwcIkxr0Ntw+6zqojGX78wO78ME5z6s//hZeEtd80TP4Gj56c9QBGsm8+RoPSQCTWu4L8WmVd0R7aI0GLfBjXWIxnXRLGqN201e+t8teQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=57NyT85keEhZ5s7rf0g2AOYrupB7GbgfhsUn2FpQuZg=;
- b=p8Aytf5aBFXq3RekFVbMlylcOEvglkW1YyX7o5tTfPszeEdJkvlQwmIVgG5wXPvM64idrAwV+GPxtfrF8bpUE8KvW4LRQ/mZq62v5KiWSJtb4LH4Z2WFdKPMvOFahGwt3LSgel1EpoaU1ek23wXI4UbLpsr3SQbaxuACXzPj2SEKrdTOxbw5RAv/x8+wSXkZf2NbBJBOsLbZYFEOArhV8JFSAGatjyWeN1wE693GrZzAhoCQ+VP4zOwgCjti5AgGKJROUcp0pVzZtIsPjyMzNTIrzGCkayIpJeax+HM50VOQOsI9XRjJBvOTR7Lnc6UUuNnwFs7qcguLeS2dpg1RMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=57NyT85keEhZ5s7rf0g2AOYrupB7GbgfhsUn2FpQuZg=;
- b=OxRM67bxdtugpPigd+9A3K+iNccpe1JFqqaswz8mOJGJrUN6u2CPbBLVQKDa5tIwpedzJcDk+fPKx3aXNGzFT+VsuS9kGiO5tryuy2vdIJcJ8fZZIxLGG5wPaCnXrUEUaavvnZAyX8/QXrrIjiTAY4jjsn3cfCSOCr7EcKVF5k8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB7712.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:205::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Tue, 31 Mar
- 2026 21:43:28 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Tue, 31 Mar 2026
- 21:43:28 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 31 Mar 2026 22:43:27 +0100
-Message-Id: <DHHANEJI7LQ0.3PGBQH34QK0DJ@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Gary Guo"
- <gary@garyguo.net>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Luis Chamberlain"
- <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
- <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Nathan
- Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- <rust-for-linux@vger.kernel.org>, "Aaron Tomlin" <atomlin@atomlin.com>,
- <linux-modules@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, <stable@vger.kernel.org>
-Subject: Re: [PATCH 1/2] kbuild: rust: allow `clippy::uninlined_format_args`
-X-Mailer: aerc 0.21.0
-References: <20260331205849.498295-1-ojeda@kernel.org>
- <DHH9VRFULJST.383BKVSWUTZ3E@garyguo.net>
- <CANiq72=wsdJf1_qwAADhmKA2i7y9U+3WOm+9utE2rv52_eqnpQ@mail.gmail.com>
-In-Reply-To: <CANiq72=wsdJf1_qwAADhmKA2i7y9U+3WOm+9utE2rv52_eqnpQ@mail.gmail.com>
-X-ClientProxiedBy: LO4P265CA0226.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:315::7) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	s=arc-20240116; t=1774993854; c=relaxed/simple;
+	bh=wV2XHf4d1mRiH6xWNqUuoF9pM1xd5tcDK3VA/1dQDZ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EUJsg19P7u1nXqXxJKfxCHrdXB6v5BeC7qr4MecJ0n9a4fwpcXvPGs/Xo4sdK4CIeXcJgEX9mY0+1wXdgjcawS+Imci+hrtMQ8sWe9GtHXYKWZxcisPM1/GJzNvocsOG1z5ZRfs+KxDcw695n8yr/al18mMG1shnv+vnUHumTyo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ULwZTnZw; arc=pass smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-951c5ac6253so1888525241.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 14:50:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774993852; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gltWKJ356zkdSUuUhSD0IN1wV36o3DMeZGIr+YF/f8wUpFwobcGDUjT/WmKUax0ZU5
+         2g58jrbRByqrZMh4e2vub/Jk5mA1O9Nyak+sDQ/czC7W3QpfRqu7QyboNzZkO3tTZ+6Y
+         d8vIpw4VpO9KOZ5rMV/3ykUDCGSmr9ErjQxAGI1wzWJkomG7DI2SschA0YwIRAQRQj7j
+         f4mzE+hzATkYhGQ1f4wyIRFY/Jcuo8/3rYlvzSM1zr7+vIw5Blq6hQAp1PO1yo+CS0NQ
+         CBGKFhpKVHGEeOw96gi1tK7+PT4NRGnig2jtoWOBxzfVKEusiL7dMjhNTDKhlm1PyD9J
+         Oh3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fvGGAAIkJYXYlK2HRa+mui/7ZxP8IFY7+ERdHeXnYJQ=;
+        fh=qKWM8PzepwYgksnK8HS81zDYr6cjFe1sDHdcnWucMjU=;
+        b=L/kXDmo4i9bnqS9qNUjRxD9cLRkSKMvrFxWgaNUh5yvBMse0U9rvJe2usouJrnZ8cT
+         oXNttDPR5QJRGasIrbeHHCyIEpcVhl/Nm+CJPVtWS4FfctzWtAjZPRIwWOzuWuOLy2th
+         rjVQdcTStyDv9nbW1XLOkpfb3hvygkwIQuOSklLgQBaM0hOPnyDKilO8v0Y5/pbih8HD
+         EA/b213gJ6pOK9odPNy+0E7qlvQTcHI1vWbIwiYAVpr8sYNdrOJxJfy6DkbLk/EZNUWF
+         oTXbBZ0DJCc62nA6Z6m3bh3rchh2OrlgQPL2gge6Z3tcNtNCZ4PB3C0KfxLS0pb1mbS9
+         Qg/A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774993852; x=1775598652; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fvGGAAIkJYXYlK2HRa+mui/7ZxP8IFY7+ERdHeXnYJQ=;
+        b=ULwZTnZwYpEALX6nYfAZF+FT/TisjHVclbRPF18BSgBSej64+DQ91M+9Bw8kEootcv
+         EKnB/kCkqPVag1udxVN1dXVt3PDmt4LlyctpUdpZ+bzfGwWhNXD+qpjSpHVGEx+udmZr
+         kYVX5FPfL8GKwkLr9fkbk/kzF/HsXC4zkbqgGHIcxAACsr5r3Iqx7rWTGBG/8UjKtk2N
+         9jTv0A6N8cCJSO0KuHhQq+Dg1fWk89vvnYBYn0Z61TOxGDqO7yLfnuHVTDg7/2zdzoLs
+         cn6+piLytbtRb9XiHAUBz1RK14sB1/tWNHV+luKZRT7PuPzSG0jv0/dnYNDSef1+8aJD
+         b+rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774993852; x=1775598652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fvGGAAIkJYXYlK2HRa+mui/7ZxP8IFY7+ERdHeXnYJQ=;
+        b=hCTKyYm6gUrHLaGrGuXqQB4M2Fglg0pX9EYmz339JlxKrvph8Syo54TMp/XLYFbsJJ
+         9ZTVN8p7rM+nvMUX8gFTewgz8IESFXrzPT6x79AptuERB9ih8lGMKO+hmlD6Sm9tUXgB
+         UsFTQsN613qpVIrNHs+inZm+OcDal3lhnt9tyJX7FfK3ytarqbHZq/lacLc+nbkqfJNN
+         kjGLdTqEFaWj987a14vfHLxsJAQp+56Cp8NgH2azUd5QlYD34u+XjZdFn28mUp1SylC8
+         MelnZeQ/g3bVoB75WVUBe/MATpANjWnxGRgWmI17budzvM1q7/mmta9oFLVvPO9Z3FQo
+         nSVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWfmywYlXOINZL5obl5U5Va1n7cyJbqhUOD28XUdLUmxEDTzr/e20x54UYurv9xkghVGAxuaUwJJxC4Foo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxw3n8pfH0qVmHichXkooAoxFZGcjBhsvUdL04X1A+8z3YKmx5c
+	bcpKC7sp9MotVtli2EackiJhde/WK53/sSyEZvuZ3wNhZWdWWtXkMhwQD9rvUsyTjvNllPF8dza
+	yP1FlFBF3qYue2o4ijm+f+ehA3um2v0uP06Won/UZ
+X-Gm-Gg: ATEYQzztWQnQgEdRsC0o8XlWajfyzIk2QWGBiyRBl6iD56JjarQR7K+U7MQc3gRHLqe
+	rwLef7oVY90PmCkyX00J1HpnjT/8/fcy1gcmGvr6M/Uq3kZjCvV0v9ErmApNd2nN9Qz4jQ3Sgyx
+	K7ZgIF0opwdwVyQKFBn53SuODcQudPMncTkuh6LbyZLzbUGHgTXz5KcBZVvugJjzK50UiOJXH4L
+	IvTlHDukSPrbl8Q1wtjhsGNEkIaEGAUirUFGyrNlkklG4s1p/gUxs98HfkWJ7SzszVYNIYg8Us9
+	GpuC9E8=
+X-Received: by 2002:a05:6102:2920:b0:5f5:40ab:2d65 with SMTP id
+ ada2fe7eead31-60567fb080emr381935137.22.1774993851331; Tue, 31 Mar 2026
+ 14:50:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB7712:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f200d0b-2759-4138-afe1-08de8f6e8b99
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|10070799003|1800799024|376014|7416014|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	dHy1Kz5Dnx+RD00yvUm4fkQ21IDPzCxiNReqgE9Iu+aVNoRFystt/BLd245g7rRT6LjoNgKUMmK7HwNktQhS7LH2oYoGwBYo9TPyzstO8NoULo3ZC2RSThIxiZPbj1v6EG+Ymd56FZqxSlESPuJ0+3AaRp5vgmwiPblNsY3q5C3Ji3KoDrhfjM31SeR1bLaGvbq0xsFcQ8kaVVD625FqkHr0bJ3w+UiJaKsd9DqsUvTCXTs/oJYGTwDAoNsRbzMdqycXQfnphB+utD2uitkq29UWPwshhf7k4o2F5f0saqXetwnq7VmCrtIB56XpGQTpvTt8q378rMywaxlGNOrkM4ifP1Um3fnzWzNW846NhJ7xHQ8Fl7CmZ36Dxnwr22xu503E4ALZj4yPZiVql31CSZj4u/jYMZCZBd9S8emga6LwVbuwfKySIEtfn4zNPgKRvM/zbRKGGaTQPxVstIDeqAOR81gxKhbJDgz5kEgMSFA7VSfIBXwJBFv473FXazWHut2P3JPDzbU/HT6V2+BrI0Y9PxNRH1uj6iiy49FDc0nGBZgiX19W6ZRVh9ynwp0H7ehOfMHfVcd6wsjQuYJcYPMVM+vtIwGLr1348hXTBH8iAHsck6vKNzk/Q7dN89VeZ9nJnoclDE9mijQpLKwmT5rHcFDwkdxDSikzG80KqD7Dyogn5pPfrDiRBfPYR6cds6+IPg4XtMQ8r9VzJTDD7ff49bDckZmvpMbaWngr/qE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(7416014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?THVRYjNOMWlJRHczcWcvR0F3Z0ROUWlOOGxWZkZYNWtIWm5qUFZvUllWK1No?=
- =?utf-8?B?VTVValFLTlBxcFF6THA3aU5kdXN0R1pDekw4WWFNc2Q0Mk50TmhhWUx4MGNR?=
- =?utf-8?B?TVZvV1JUcTEwTHlFanBzOTg4cndHOUp2SVVzdFdPSy9aU0ZsT2gzL1hxUVcr?=
- =?utf-8?B?VVU4a0hMUDZmSlNRVytIMSs1RnZuUXlrYUNOMVZzUzFlWFZ4dkxaemhVOFFa?=
- =?utf-8?B?cUUrY2VwOStOZHlCMDJEUTc4c294a3BZZVlBY1FqSGJGcGlJZEZsWmJnanB4?=
- =?utf-8?B?WlJPWTc4YVg0OXhRN045YnFVRTE4bjdIaHZ1dmJHOFdMcjIzNWs1K2k5SkNI?=
- =?utf-8?B?WktsVjJFbXc2b0l3Y3IvajlMU3BvYUpTdDl5Qk1RWDEzWDAvYTNXYWZMUnFT?=
- =?utf-8?B?Qm0wNnpIa3JjSFVRem9WcnYwa1RpKytyTFBuNmxkY3pPWTF0SDJlUDhDd0tl?=
- =?utf-8?B?VHkwSURFL2o1KzhmRUVXWE9NTWR0MlJuTkpGSUxJV3gwQ2FCOWRvemZOSUM2?=
- =?utf-8?B?U3d1VGpZdU1PNkJrbjRmeWsya25vMDltTzFtUmNjQzA2MkFEN0lDN3V5b3Yx?=
- =?utf-8?B?cVZQeUZRYUg4MWI3ZlY2TG9xWnd3QjBtWXpKQlhSOXpGNkVYOEtDd3JsOTFS?=
- =?utf-8?B?ZHV3YlNsUmhRTlRKWWdZaTFybDNZNG5FRlRyckkxSXhhMDVnT0l5bGlaT3FD?=
- =?utf-8?B?bll4VHI0UG1uYUZ1MHM4M2h3QUQzWnZsWGRxSENkWmk1aDVsY3ZzU2pzZFdw?=
- =?utf-8?B?SVYyZGxGa0N2R0l2OHlvKzFITitVejZSdmNDelNscGwrMGZqdGtVS3IrVzdh?=
- =?utf-8?B?dnh5TjQ1RG9SVW9IRjhmZ0ErTnJzVVoxQWc1aGtMTkVsL0JiUFkrOWRKRzNj?=
- =?utf-8?B?ZnVsTTl2ZEUxRTQ2dkZxZWgrd3JBOWIzWk1nV25vRFZPeFY2ZlArRzdCaHQ4?=
- =?utf-8?B?RTUrRVNnZC8zWE9CcFZDREtPQ3VHdnhBRDk0Y0w4OWJXS3VxWWZTcTQyaGZK?=
- =?utf-8?B?Z3MyS0U4OGhyUU9FMldMQXZqWit6OEpEY25kWnhqN054aWphUVRTWVA2WFdQ?=
- =?utf-8?B?b2hEQ2hKWTY0QmFVZVFlUWdqSTdXc3lpejdHNElSZEhYMUxuT2hwUTBJOWVy?=
- =?utf-8?B?Vk1McjFac0VQQVREZGltLzVVNXF1K2h3dUl0OHNJV2hNbHJXTDFNZ0g1TUYz?=
- =?utf-8?B?Ui9jNzRaZGYyb0dldHp4YmYrTnpmUEpiZllNSExLVmxhUThMS3NmVUtabmJQ?=
- =?utf-8?B?SlhIZ3JFL0NyZ2V6T0toUjJzQzNvcDZHQUoxWU9GQ2ltbHAzeFJtd3UwUkZ3?=
- =?utf-8?B?R2xwMlFHc0NjMkVMUWhVY2J3bjFiYjVNbVkxdTg2YVZXWHpCL0RVNE1zZytV?=
- =?utf-8?B?VlJiY0J4YkowbEJyUVJvUTRZWlNoTEVlQzZVWnZRSm9WdU1zbytRanBVSWFZ?=
- =?utf-8?B?WXB3cFc5M0hZMENLV1JlRUJiaURPVVZ1YnB6RjV1UndNTmNNNlJ5QTRZWXBH?=
- =?utf-8?B?NjA5S1RZdCsyeVBtbmxYOVd1ek1ta1gwd25JOGtkcDhvazFkczJHTEl6b3lo?=
- =?utf-8?B?cWpuYkVEcGw0dUlOOTJGY2k0YmRSTWdGbW1lS2NHUjNEUG9uRHNCNEJuc1Fl?=
- =?utf-8?B?UWZlU1RJM1NmTEpBMC9wcHUzMXRXMmNza0ZKN3RLamttZVlBbFNpalhJamJ4?=
- =?utf-8?B?R2xOU21RODludUhhV1ZUNmV6d0gyNlA3K1FYYllLY0lvRW1URnJJd3ZOd1FX?=
- =?utf-8?B?VENOQnExYlZlYWtUejA1TzF3SU9nczlRZEQ1RGUreTlZamhqVldnYmJwUm1q?=
- =?utf-8?B?VWI4Uk43dnl0NzBoTmRCemw1dUxVd2doMVA0RXdKYk1GNGlIOW9wcDJJSTlH?=
- =?utf-8?B?UEFzRnZtd3UvdG0rWThiQ1BGYnIyajNRcDFEbG9QUVFPQUFGTUJPOGZYam9W?=
- =?utf-8?B?NkR1ZFk1RnhzRFY3enlZQVhaWmJpSmw1L0NKSXFraHJrQkZLRWkrN0dRNGYz?=
- =?utf-8?B?N29sMUNUN2FEOVhvOHhFZkpHZnZueHhCVjBhcXhQNEZIZlBFNWhDdVdTMmVz?=
- =?utf-8?B?Mk5uWGVnSWI2amdvQ08wa1IxOFhjVUxPMmQ1VlVzblF2VSttQjROMDNJcUhE?=
- =?utf-8?B?c1o5bUhxOFp5anJvOGIzNkluTlRXcHZNQTFkTlNHWDAyMGtMVHlBRk5GOTJH?=
- =?utf-8?B?dnVrenF3QWpMbGdQbzRNZE1VT3R4dnJ3WUxkTHloN3lGMjJvbG1kRTVEV0tW?=
- =?utf-8?B?dkNhcVhqUzB6cGNiOW5LaDhFUXErYW5lRjFySFhJVmpFdWJiMDhPNHRUbUwv?=
- =?utf-8?B?SGZYSVZJTENXemdacUFJYkg0UmF6Rmd3YXhOd3FyQkV3UDNnV0QwZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f200d0b-2759-4138-afe1-08de8f6e8b99
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 21:43:28.5479
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7gVt/8V8ALy58PMwejrd215AVvRRCwUNdgUwhpu4Z/AkqsANMKz/cG9Gphwj40sqz6A5M/RGZftCUFAi9hHloA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7712
-X-Spamd-Result: default: False [1.34 / 15.00];
+References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-5-kees@kernel.org>
+ <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
+ <202603311253.95C54588E@keescook> <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
+ <202603311321.4EE9FEA@keescook> <CAHk-=wj9pWsgsbrLDOk7ipKnHbz3JvuqsmQ3DhGg-OKgKS9DUA@mail.gmail.com>
+In-Reply-To: <CAHk-=wj9pWsgsbrLDOk7ipKnHbz3JvuqsmQ3DhGg-OKgKS9DUA@mail.gmail.com>
+From: Justin Stitt <justinstitt@google.com>
+Date: Tue, 31 Mar 2026 14:50:39 -0700
+X-Gm-Features: AQROBzCZD3X4CkUD9sEd-qirDA1mrMa-OH7YNrOM0p4tLkqwVMQeCLGoKwyIRLE
+Message-ID: <CAFhGd8rE+ggYghcwUphSRc2ftQMaX7LbKKPwQZzsw43bg9VVmA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar types
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Mark Rutland <mark.rutland@arm.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>, Finn Thain <fthain@linux-m68k.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	llvm@lists.linux.dev, Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nicolas Schier <nsc@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12454-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,garyguo.net];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-12455-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,suse.com,google.com,protonmail.com,umich.edu,vger.kernel.org,atomlin.com];
-	DKIM_TRACE(0.00)[garyguo.net:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[justinstitt@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 744343722BB
+	TAGGED_RCPT(0.00)[linux-kbuild,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux-foundation.org:email]
+X-Rspamd-Queue-Id: 4D70937235D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue Mar 31, 2026 at 10:14 PM BST, Miguel Ojeda wrote:
-> On Tue, Mar 31, 2026 at 11:07=E2=80=AFPM Gary Guo <gary@garyguo.net> wrot=
-e:
->>
->> Does it produce a false positive, or it's a false negative? If it's the =
-latter,
->> I think we don't need to disable the lint.
->
-> If you mean for custom macros, then I think it is just that it doesn't
-> take those into account at all. So I guess you could say false
-> negative if you consider that it should.
->
-> In any case, originally I just cleaned it, because it wasn't a big
-> deal either way, but then I thought it would be best to keep the
-> behavior the same. So either we disable or enable everywhere.
->
-> Cheers,
-> Miguel
+Hi,
 
-I mean the lint is kinda useful, and I don't want to disable it just becaus=
-e
-it doesn't exist in older versions of rustc.
+On Tue, Mar 31, 2026 at 2:05=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Tue, 31 Mar 2026 at 13:31, Kees Cook <kees@kernel.org> wrote:
+> >
+> > (Isn't this just an implicit "try"?)
+>
+> Yes. And I think that's ok.
+>
+> I think try/catch is broken for a few reasons, but the fact that catch
+> and try are tied together so closely is the main one. You can't "try"
+> inside a scope without having the "catch" inside the same scope.
+>
+> So then the solution is to just move the try to the outermost layer,
+> and I think that's pretty much what everybody does.
+>
+> But at that point, why not just move it *all* the way out, and make it
+> implicit and invisible?
 
-Best,
-Gary
+How do we feel about type-defined labels? We can specify sane default
+handlers where we define the types:
 
+        typedef int __attribute__((overflow_behavior(trap, __handle_me)));
+
+... and define specialized handlers later on
+
+int func()
+{
+        ...
+        u8 __attribute__((overflow_behavior(trap, __BOOOOM))) product =3D 5=
+;
+        ...
+        product =3D a * b; // if store is truncated, goto __overflow
+        ...
+        return product;
+
+__BOOOOM:
+        pr_info("%u\n", product); // shows "5"
+        return -1;
+}
+
+We would then probably want a kernel shorthand to avoid long type definitio=
+ns.
+
+        #define __TRAP(handler) __attribute__((overflow_behavior(trap,
+handler)))
+
+
+At least this way the label is always defined somewhere in-source
+rather than by a magic -fhandle-my-overflow-at=3D__overflow
+
+
+>
+> Which is kind of exactly what your suggestion is all about, and that's
+> why I like it so much.
+>
+> It *literally* fixes try/catch. It makes the only really valid usage
+> model just work better.
+>
+> (There are other reasons I dislike try/catch too, the whole
+> "exceptions across function boundaries" being another one that your
+> model avoids).
+>
+>                 Linus
+
+Justin
 
