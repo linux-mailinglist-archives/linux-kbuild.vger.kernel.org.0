@@ -1,188 +1,290 @@
-Return-Path: <linux-kbuild+bounces-12369-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12370-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4LPTKZzmymloBAYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12369-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Mar 2026 23:09:48 +0200
+	id 6KPdMcoQy2lCDgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12370-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 02:09:46 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFA2361480
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Mar 2026 23:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35B3362936
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 02:09:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 67145300EFA2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Mar 2026 21:09:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D6C3A300E3BA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 00:09:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2F0F39D6C5;
-	Mon, 30 Mar 2026 21:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27F23149C7B;
+	Tue, 31 Mar 2026 00:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cyPd92f7"
+	dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b="OfH9/Eml"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ms.icloud.com (p-west3-cluster3-host11-snip4-7.eps.apple.com [57.103.72.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F54A3A0B2E
-	for <linux-kbuild@vger.kernel.org>; Mon, 30 Mar 2026 21:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8010040DFA6
+	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 00:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.72.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774904958; cv=none; b=WT+v0qb//SJAYQop9HFBZOhas+TOhUjuN859SV6n+zrupSHfCvrmy6fhWlk/kpsGzOWTi/sh+LN94ZZY+zuuuL9IFPXKTNWTMRkIIEjlZ8w0QgUf/RQIbG5nh9O02DbsAqSGHiatWxnVGmYjmBJQD/tBBKtd2Hn1Y6lhqEBDOTM=
+	t=1774915753; cv=none; b=oUFNvtF+RDPHLMBlrpvyWzX8WI2wG3r9Miu5YYj9Xn5jqErJSRF3uJ7MrvMqsF8IgFIua/aknMmf42sBGwbHyp2qS1tIvumQGeU5/6Gzpbwri6iFZg7qJFRmNlfQmUIEonJv5126S3JA72cpkZYDKGyqnLUg5CVflwGaTqjaRqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774904958; c=relaxed/simple;
-	bh=IMhQOsjCudR6+sxrPIeCmFwxdNjsHtb9hubGsjZ+tdQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lGmKRXoeBMVwBLY9qOzwCMtAkokYGmmk7nKBm9j+bI1bBsR1Rnucg9EJTQZM+iuS8XEJ7Hc10Lr4ornQE/uX1Zm7EWWISBDHEQw9xU95Yo5PvTtYfsGsWC9ItFkJ0C0Ro3HBgGqdCRJMDEsN8P6twjVopbPP1kyt0t8g76EpDXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cyPd92f7; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56cde757d3dso1662587e0c.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Mar 2026 14:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774904956; x=1775509756; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zlsVcWSeeIpbPnsSYMwOt0k3yfDPRs+s8ihr0jHypXY=;
-        b=cyPd92f72mVkOHnyJOupvn/nr+MHOXYDyT9jm+BMbOfAneyNkjZB7exQZ4o/6LJgTw
-         Rq4a8+M+wagQspoja3Uf2WIhSOzAKOAYxIl6j4dEOqELrCEukKZRj/QAyKkGmz25UiF0
-         dbJKPhh1boJqbJ1vnheKV5wYLhq+pWumN7gOKRfRBf2E3RBMphTa5xugNPI+D1ymIqSF
-         JyJKeD71EbVJjgcUITF2/efjogftzTfrTmozr8sy5iFYDm/nIPhj/OCv5nQ7u+eNXyR7
-         p8z+tXR9ZvPWR+d1ptYWzfrY0A7qlX4hrkccXSMASq2YLJU7Ctlug8cfXBxXkWzgw15g
-         CL3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774904956; x=1775509756;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zlsVcWSeeIpbPnsSYMwOt0k3yfDPRs+s8ihr0jHypXY=;
-        b=oZIytBw6045Bf7nedZZBbG1YWC8tXWDvxQITCYIMYS/7cTO2c/fKR4Ju8IkC+vMJ0n
-         A/QqYwoveRduRBjuYwrra2pQ2+MnmHi63W4uloJol3uL4ZQrOrNtFNRxxiKkX8DeFUBf
-         /t3fA/kRhGcSrNhuuNVIW09zh001W1KXglyUD80WEePE/gXOSkhgE/bxP4sOklWqa8oI
-         XWXfrQm+ZIxIQum2M8ZKcBKnRAX9mWS2B27GgdPN+gdNfIYJujDyCVHootFVyLBs+N7N
-         rOSqejVJcHcculZkzJtBYAmpp+e7JTM401iR8LctTD2Y0oLGLhmfpaSTfkLAdZZenQnX
-         yUEg==
-X-Forwarded-Encrypted: i=1; AJvYcCX21Ae+87bRL84e1Psc0t5dPK8aeX4srLtFm2YFq66x99mrIuyYATlw0UvoLiI9kEzpMLG0S2jIpAlm47k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUvkCOxvz/2bTf9MBVbXaASMu27BNdGnnLLIiMPVBnO2MUAfr8
-	HZ8CzSbF+5QrSoPueSIuiTSC5UfgBrQ4Yl54Q40lRoeed8UsaUMwFniQ
-X-Gm-Gg: ATEYQzwHKmC2V3+kxkv/ACVvD++RtJZcRfefit5+9YbNZfAQv8M3866bch1iyENkL/V
-	ppfd7B/dZazDOl33wwnD0ykBMczjrk94PKg7UvSlOoNeLWXQh3pKb2QZO+3IehTVR8dmpo3ABbA
-	lrfMsKi3IKH/s1h4MGWitKedIcsaXUZd0ELNTn9IvhcoDuIs5ocIWSg0ASFupUq5ny3+IvuHHQb
-	TO3+JJxPfghtw2UJKKAPZ75op37bvOmGWNUPN7hZcLhtNjwE501u10uBJjCONDLNLgkaGencUMg
-	Eq0wyZW4GMoyP4BgIysD6IJhT5d0NCbM/ZByGWAlnu5JBAaLVK7x/YlndegYAexmfGaPRT6g5ur
-	721q5rtEtjZNOsHhoA5KlXLKXVjCq/jZHyhdpmCRs6Mo9EJGSTVR786V3LWlr8z7u7/Gk/ljZLV
-	zE8dPE0uo8E2oqnKcOCYC6SecydFzESzOZnlDv
-X-Received: by 2002:a05:6122:3c44:b0:56b:9ba4:1372 with SMTP id 71dfb90a1353d-56d4a5f8c0emr5672211e0c.9.1774904956234;
-        Mon, 30 Mar 2026 14:09:16 -0700 (PDT)
-Received: from ?IPV6:2001:871:22a:d2a7::cebd? ([2001:871:22a:d2a7::cebd])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d58a333c9sm9989448e0c.13.2026.03.30.14.09.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Mar 2026 14:09:15 -0700 (PDT)
-Message-ID: <f159850d-5fe6-4329-9703-b355305fd106@gmail.com>
-Date: Mon, 30 Mar 2026 23:09:06 +0200
+	s=arc-20240116; t=1774915753; c=relaxed/simple;
+	bh=dnnbJV0sTXh2CPBUsaI+ZkS6JT3vt2EoY+zkLPsiGYI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bRr85j+f4WDx5Yk3P5zgH72jUuZ5agdezyRTG75xOZSjVBmkgyNQyx3Vwlc6VDs8U1fuRG8Yi60Je2QcocM+M6Bw1WA3EaAFJcJ5fEM3EckfjJym8DFPB0tNWbLKDapv9xUqJFTqDHkxN7dLg1I1ia9tRPSbgvT5ihifQc9KKCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc; spf=pass smtp.mailfrom=sdhn.cc; dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b=OfH9/Eml; arc=none smtp.client-ip=57.103.72.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sdhn.cc
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-9 (Postfix) with ESMTPS id 5487D18000AC;
+	Tue, 31 Mar 2026 00:09:08 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sdhn.cc; s=sig1; t=1774915750; x=1777507750; bh=Smne3kvEeW3OhPwYneVv7rprnRqi1ClwLKoCrpKcW6E=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=OfH9/EmldTD+p2bHHOgkNDKHiczX3APswqEe6M6BK/D5TIqUF6ljT92NYDayWtwg8J0BuSOfziW2a6vjbPevUyGOSrYbN0t9/XhG26iKZ2y7lJsmwU+DAawBu+9DW5bAoL9HEg20kd7UwjJ9nVhncCeYkbHgCniL7imT0ZYv8akDVJ831Be4K7bxzmEpc9lz41XoCeHXFhhLzdiOlHvHfODBp6uC4brGmbyCTubeMHjO/3Ax5SEoBgBO4kb+Oi1l5oVJWJvBZRPCxSS1SLxPQRqSuGYXvzjeYD6Iz3QO4VW2ArHvCjoHoojf+9+mLEO8k9qGopNqKxClqwd30GKPDg==
+mail-alias-created-date: 1772007648188
+Received: from localhost.localdomain (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-9 (Postfix) with ESMTPSA id B2224180013D;
+	Tue, 31 Mar 2026 00:09:03 +0000 (UTC)
+From: Mohamad Alsadhan <mo@sdhn.cc>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Mohamad Alsadhan <mo@sdhn.cc>,
+	Yoann Congal <yoann.congal@smile.fr>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v6] kbuild: host: use single executable for rustc -C linker
+Date: Tue, 31 Mar 2026 03:08:01 +0300
+Message-ID: <20260331000802.380-1-mo@sdhn.cc>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Alice Ryhl <aliceryhl@google.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>, Jamie Cunliffe
- <Jamie.Cunliffe@arm.com>, Will Deacon <will@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Miguel Ojeda <ojeda@kernel.org>,
- a.hindborg@kernel.org, acourbot@nvidia.com, akpm@linux-foundation.org,
- anton.ivanov@cambridgegreys.com, bjorn3_gh@protonmail.com,
- boqun.feng@gmail.com, dakr@kernel.org, david@davidgow.net, gary@garyguo.net,
- johannes@sipsolutions.net, justinstitt@google.com,
- linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-um@lists.infradead.org, llvm@lists.linux.dev, lossin@kernel.org,
- mark.rutland@arm.com, mmaurer@google.com, morbo@google.com,
- nathan@kernel.org, nick.desaulniers+lkml@gmail.com,
- nicolas.schier@linux.dev, nsc@kernel.org, peterz@infradead.org,
- richard@nod.at, rust-for-linux@vger.kernel.org, tmgross@umich.edu,
- urezki@gmail.com
-References: <20260322192159.88138-1-ojeda@kernel.org>
- <20260323000327.111235-1-ojeda@kernel.org>
- <acEP7tl8pqFA3tK8@shell.armlinux.org.uk> <acUGAsjYvNvTEO92@google.com>
- <CANiq72mzPpkELXis1CiSbKUmBXNQYMiMmjj-7-sYiLh4T_JSOQ@mail.gmail.com>
- <9cf5a94c-0f37-446c-b63d-ddac5674d220@gmail.com>
- <acVOL5Psz6kHlhq2@shell.armlinux.org.uk>
- <CANiq72=b+cr7Stxph_hXQTmD5crCvwWTqdaGKOJ7W1-66v4i_w@mail.gmail.com>
-Content-Language: en-US, de-DE
-From: Christian Schrefl <chrisi.schrefl@gmail.com>
-In-Reply-To: <CANiq72=b+cr7Stxph_hXQTmD5crCvwWTqdaGKOJ7W1-66v4i_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Proofpoint-ORIG-GUID: seOAf2rxlFGUM32eJhcnyXWZcOsUjtRx
+X-Authority-Info-Out: v=2.4 cv=W4E1lBWk c=1 sm=1 tr=0 ts=69cb10a5
+ cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=MKtGQD3n3ToA:10
+ a=1oJP67jkp3AA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=1jKZnVWUeMPpqZDTVXkA:9
+X-Proofpoint-GUID: seOAf2rxlFGUM32eJhcnyXWZcOsUjtRx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMxMDAwMCBTYWx0ZWRfXyS9yr4hSqkMV
+ 8iLsV3EeAVX+6Gb/ySDchja6l+HFsQhmbwpEWuowA3peZWsoEu8zD4FUaes+R5vOqOqOZKMnFn5
+ dEM1BlEaIEatcC2wAwBTjJ22WiG4BnVezNP8/l+cKFZH4M2NUL2rsZoshi21Yd6i2dGhoueKdrl
+ 0JRyQVhqQrnFjJuVYcmFyDmxozzx+bKuazMixLulLIfHigBJCgrBGi4eUUippQlOkudXU9Yi+EH
+ eUGtb7Z5LDThniEuHngy2y+vpOUGAyTTz6CeQapLfvYtNsadXum5idV4i53A5TsZXm9vCeOXS28
+ pSOTZoo6bz67ou3AbV74nsSxtRdD7VMX/DxpfMy+GCGMbF+o4t/gAj8/I/BL9c=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-30_01,2026-03-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 clxscore=1030 suspectscore=0 mlxlogscore=999 spamscore=0
+ bulkscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 classifier=spam
+ authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2603310000
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sdhn.cc:s=sig1];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12369-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,armlinux.org.uk,google.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,arm.com,nvidia.com,linux-foundation.org,cambridgegreys.com,protonmail.com,gmail.com,davidgow.net,garyguo.net,sipsolutions.net,google.com,lists.infradead.org,vger.kernel.org,kvack.org,lists.linux.dev,linux.dev,infradead.org,nod.at,umich.edu];
-	RCPT_COUNT_TWELVE(0.00)[38];
+	TAGGED_FROM(0.00)[bounces-12370-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[sdhn.cc];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
+	DKIM_TRACE(0.00)[sdhn.cc:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mo@sdhn.cc,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chrisischrefl@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[armlinux.org.uk:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0BFA2361480
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,o.map:url]
+X-Rspamd-Queue-Id: E35B3362936
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/26/26 6:30 PM, Miguel Ojeda wrote:
-> On Thu, Mar 26, 2026 at 4:18 PM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
->>
->> I'm not sure if this is still true, but I believe it used to be the case
->> that the -linux-gnueabi target has one behaviour for enums (fixed size)
->> whereas -none-eabi, the size of the type depends on the range of values
->> included in the enum.
->>
->> Certianly, when Arm Ltd were proposing EABI, EABI had the latter
->> behaviour, and I think there were cases where Linux used "enum" in
->> its UAPI.
-> 
-> Short enums? I see `c-enum-min-bits` in the armv7a-none-eabi built-in
-> `rustc` target, and indeed:
-> 
->     #![no_std]
-> 
->     #[repr(C)]
->     enum T {
->         A,
->         B,
->     }
-> 
->     pub static S: usize = core::mem::size_of::<T>();
-> 
-> is 1 for that one, and 4 for the other.
+rustc's -C linker= option expects a single executable path. When
+HOSTCC contains a wrapper (e.g. "ccache gcc"), passing
+`-Clinker=$(HOSTCC)` results in the shell splitting the value into
+multiple words, and rustc interprets the additional word as an
+input filename:
 
-I guess we could use a custom target spec, but I'm not
-sure if that is worth the hassle of adding another one.
+  error: multiple input filenames provided ...
 
-Cheers,
-Christian
+Generate a small wrapper script and pass it to -Clinker e.g.
+
+  ```
+  #!/bin/sh
+  exec ccache gcc "$@"
+  ```
+
+This fix should be general enough to address most if not all cases
+(incl. wrappers or subcommands) and avoids surprises of simpler fixes
+like just defaulting to gcc.
+
+This avoids passing the user command as an environment variable as
+that would be more challenging to trace and debug shell expansions.
+
+Link: https://github.com/Rust-for-Linux/linux/issues/1224
+Suggested-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Mohamad Alsadhan <mo@sdhn.cc>
+---
+v5 -> v6:
+  - Add fix to `rust/Makefile` as well (Yoann)
+  - Include script to `.gitignore` and make clean (Nicolas)
+  - Add back the outer `exec` to the command
+
+v4 -> v5:
+  - Fix word splitting issues
+  - Remove unnecessary `exec sh -c` and simplify generated script
+
+v3 -> v4:
+  - Use filechk instead of if_changed macro to regenerate script
+  - Remove trailing space at EOL
+
+v2 -> v3:
+  - Scrap previous hacky approaches (e.g. using lastword) and go with
+    a proper fix (Gary) which turned out not that complex to
+    implement.
+
+v1 -> v2:
+  - Rename HOSTRUSTC_LINKER to HOSTRUSTC_LD for consistency
+  - Introduce explicit HOSTRUSTC_LD override
+  - Warn when falling back due to multi-argument HOSTCC
+  - Error out if a user-specified HOSTRUSTC_LD is not an executable
+
+v1: https://lore.kernel.org/all/20260225102819.16553-1-mo@sdhn.cc/
+v2: https://lore.kernel.org/all/20260227132713.23106-1-mo@sdhn.cc/
+v3: https://lore.kernel.org/all/20260312002852.11292-1-mo@sdhn.cc/
+v4: https://lore.kernel.org/all/20260317112021.14353-1-mo@sdhn.cc/
+v5: https://lore.kernel.org/all/20260321150034.9915-1-mo@sdhn.cc/
+---
+ Makefile              |  3 ++-
+ rust/Makefile         |  8 +++++---
+ scripts/.gitignore    |  1 +
+ scripts/Makefile.host | 23 +++++++++++++++++++++--
+ 4 files changed, 29 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 1a219bf1c..5ebeef67f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1651,7 +1651,8 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
+ 	       modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
+ 	       compile_commands.json rust/test \
+ 	       rust-project.json .vmlinux.objs .vmlinux.export.c \
+-               .builtin-dtbs-list .builtin-dtb.S
++               .builtin-dtbs-list .builtin-dtb.S \
++	       scripts/rustc-wrapper
+ 
+ # Directories & files removed with 'make mrproper'
+ MRPROPER_FILES += include/config include/generated          \
+diff --git a/rust/Makefile b/rust/Makefile
+index 5eca6a817..6bc761a31 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -565,7 +565,7 @@ $(obj)/libsyn.rlib: $(src)/syn/lib.rs $(obj)/libquote.rlib FORCE
+ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
+       cmd_rustc_procmacro = \
+ 	$(RUSTC_OR_CLIPPY) $(rust_common_flags) $(rustc_target_flags) \
+-		-Clinker-flavor=gcc -Clinker=$(HOSTCC) \
++		-Clinker-flavor=gcc -Clinker=scripts/rustc-wrapper \
+ 		-Clink-args='$(call escsq,$(KBUILD_PROCMACROLDFLAGS))' \
+ 		--emit=dep-info=$(depfile) --emit=link=$@ --extern proc_macro \
+ 		--crate-type proc-macro -L$(objtree)/$(obj) \
+@@ -576,12 +576,14 @@ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
+ $(obj)/$(libmacros_name): private rustc_target_flags = \
+     --extern proc_macro2 --extern quote --extern syn
+ $(obj)/$(libmacros_name): $(src)/macros/lib.rs $(obj)/libproc_macro2.rlib \
+-    $(obj)/libquote.rlib $(obj)/libsyn.rlib FORCE
++    $(obj)/libquote.rlib $(obj)/libsyn.rlib \
++    scripts/rustc-wrapper FORCE
+ 	+$(call if_changed_dep,rustc_procmacro)
+ 
+ $(obj)/$(libpin_init_internal_name): private rustc_target_flags = $(pin_init_internal-flags)
+ $(obj)/$(libpin_init_internal_name): $(src)/pin-init/internal/src/lib.rs \
+-    $(obj)/libproc_macro2.rlib $(obj)/libquote.rlib $(obj)/libsyn.rlib FORCE
++    $(obj)/libproc_macro2.rlib $(obj)/libquote.rlib $(obj)/libsyn.rlib \
++    scripts/rustc-wrapper FORCE
+ 	+$(call if_changed_dep,rustc_procmacro)
+ 
+ # `rustc` requires `-Zunstable-options` to use custom target specifications
+diff --git a/scripts/.gitignore b/scripts/.gitignore
+index 4215c2208..b3948b148 100644
+--- a/scripts/.gitignore
++++ b/scripts/.gitignore
+@@ -6,6 +6,7 @@
+ /kallsyms
+ /module.lds
+ /recordmcount
++/rustc-wrapper
+ /rustdoc_test_builder
+ /rustdoc_test_gen
+ /sign-file
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index c1dedf646..77a76c1d1 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -87,11 +87,30 @@ hostcxx_flags  = -Wp,-MMD,$(depfile) \
+                  $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
+                  $(HOSTCXXFLAGS_$(target-stem).o)
+ 
++# rustc's `-Clinker=` expects a single executable path, not a command line.
++# `HOSTCC` may be a multi-word command when wrapped (e.g. "ccache gcc"), which
++# would otherwise be split by the shell and mis-parsed by rustc.
++# To work around this, we generate a wrapper script that forwards arguments to
++# `HOSTRUSTC_LD` so that such commands can be used safely.
++#
++# Set `HOSTRUSTC_LD` for a different rustc linker command than `HOSTCC`
++HOSTRUSTC_LD ?= $(HOSTCC)
++
++define filechk_rustc-wrapper
++	printf "%s\n" \
++		'#!/bin/sh' \
++		'exec $(call escsq,$(HOSTRUSTC_LD)) "$$@"'
++endef
++
++$(obj)/rustc-wrapper: FORCE
++	$(call filechk,rustc-wrapper)
++	$(Q)chmod +x $@
++
+ # `--out-dir` is required to avoid temporaries being created by `rustc` in the
+ # current working directory, which may be not accessible in the out-of-tree
+ # modules case.
+ hostrust_flags = --out-dir $(dir $@) --emit=dep-info=$(depfile) \
+-		 -Clinker-flavor=gcc -Clinker=$(HOSTCC) \
++		 -Clinker-flavor=gcc -Clinker=scripts/rustc-wrapper \
+ 		 -Clink-args='$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
+                  $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+                  $(HOSTRUSTFLAGS_$(target-stem))
+@@ -153,7 +172,7 @@ $(host-cxxobjs): $(obj)/%.o: $(obj)/%.cc FORCE
+ quiet_cmd_host-rust	= HOSTRUSTC $@
+       cmd_host-rust	= \
+ 	$(HOSTRUSTC) $(hostrust_flags) --emit=link=$@ $<
+-$(host-rust): $(obj)/%: $(src)/%.rs FORCE
++$(host-rust): $(obj)/%: $(src)/%.rs $(obj)/rustc-wrapper FORCE
+ 	+$(call if_changed_dep,host-rust)
+ 
+ targets += $(host-csingle) $(host-cmulti) $(host-cobjs) \
+-- 
+2.52.0
 
 
