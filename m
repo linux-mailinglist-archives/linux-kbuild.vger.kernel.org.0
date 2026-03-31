@@ -1,267 +1,182 @@
-Return-Path: <linux-kbuild+bounces-12410-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12413-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0NzdM4/4y2kXNAYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12410-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:38:39 +0200
+	id MCswAfn7y2mwNAYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12413-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:53:13 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA5236CE35
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:38:39 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FE136D535
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 18:53:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0548331AA0A8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 16:30:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0C77D313CB5A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2026 16:38:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF605425CC7;
-	Tue, 31 Mar 2026 16:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B57B0426EA6;
+	Tue, 31 Mar 2026 16:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dTSD6t0c"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmZnTkWs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAF0250C06
-	for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 16:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77374425CE7;
+	Tue, 31 Mar 2026 16:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774974608; cv=none; b=GvledysHG3D2kx25g9G9RlZqMS8Boel/kPDWG3yNJmOBPybIc2nxyOEirdBli3Lub3SnQikR/fxr/0WDIw0aSporeal3NP9RO6IESsTmTxDXUZjblqDj1XpkXAbqf0YJ9wtOduzcA0fA9dIdBUgBhOcehi4Q3iQciq5zC6XgiOs=
+	t=1774975046; cv=none; b=rYHAE3MSHgJvhfJINYvHqXxwwwY7WEKqjURr1sK2HVrFqheOUZP2qeCdOastYfUOoE5+Y9SvsMqaRgFFyJnvWfLXzbJy5+XhME9invWLOMmDWtQyD0QqUW9U17fSL73j0079XTbSZFhf9L8tko3YiGOJgJ7BBOk9+3pJHZA+tKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774974608; c=relaxed/simple;
-	bh=gRS3YG1pr3ibnZKjf/71FJl6wBB9Cgbl3KE/lAnEraw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ik2BErURSdl/+wZGxY7QzISFU2NJQOmuN8B0aqpz/e5zxRko7yfyrzqT2TWxSk+eNEu0+HesRotv1zZqFE/mdkkOhH5NqKVAKCucFsti4ImtPk4cL+DKzqdZCfps4gz0DYraBBeXj9VAWtZoooODU4T6G3pG2mxReVX0e4wsACw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dTSD6t0c; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d02a71526so1197313f8f.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2026 09:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774974605; x=1775579405; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=05T17Gt7zJJTuhvPKMku3wBY947ddWSwqLLasltmOi4=;
-        b=dTSD6t0cNjOU5XQfbf0Gvdqi67J2ZS6/QRo4sGkOy57+ZGgiEuSmbS04k95w9AIL4U
-         9Ec1WbJSiYysFd7vBlIhZi+fFlm/p/kz7MThVLDSsJ9MdpSvcxlPCav9WCnrN+UVX6LX
-         gF+BysODJ7zsZ5HKLpOGEAnvPqc09UbSDvV3u/+9Bg/HBx1LKLZvoUKmADuwCSa0oydp
-         9J3BHroLTiXBm1+jV9K1opvczZjSnAfbC98+MjA3ayziorkbXV6KO/0EKWsylayrbkwE
-         VZxTW84SoVCgM/K6QZBta7bdXtm51nx/nltSglAtdqk6iwBv1YxhFris4Y8x6ohuZvcp
-         NRHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774974605; x=1775579405;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=05T17Gt7zJJTuhvPKMku3wBY947ddWSwqLLasltmOi4=;
-        b=GZbmrRNyaQbRalDxYcGTG2u8EWPl4pEYA/vBEjIHH5w/OyYhmCU48z2Y9MfuME0Z3y
-         JYOz1kf6CMH9hmOQ2gXF0O5QjcEr9xbyAQ38D/qA2JxBBLVIDVxsBuLZMnd1EEHoaDIS
-         +jOkAUW1Ewd6Ku09dMlsC07NUc4i6NjA+c/BRtbODOhFInZG9nOM6A2VI3erCkB2ekOL
-         T/wrq1bWQH1YhKKp1+ygqKtZIB8BtM1DqeQp2dMdLLIGbQ5Pg4xlyppd/kA66aOBl7fR
-         mZ/vm1tj2Yw+lhJ+g1qdAtvVZfdvw9I5gVdma4xoshERFn4Ggworc/vrJBSIHQxotcHY
-         sU0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXN9/9tRSi21OohFj1tZ9+SvRvO+sGt1rdmcpu2jPhi70uL59zSOSYfHZk0h9SETmuYzHi7dIdu0MDh/oo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDCeJ2uLYAjaI29jGeepOfnEGotv1pdLGMt61F8hCvUHyBlc0i
-	ReXV4/ZlRh1ziHdOT3sMvQeI2/3PM5BgQeh6epig3VBNPNlcjehl6+G4r0uH9uNGgLE=
-X-Gm-Gg: ATEYQzwp+8npijNb8xg2rEH0QP9YmXnDp9aUumF+NGqb/7cG39T/dY90oRCClnSMK3S
-	hN5iPo9/J1fbRqLmHRnFo+4ZPqgov2Y1m/jCGQs3MgRTp9/7k/wfi7WLqsoGkij6/fjVBrLmg6Q
-	hr+emsNz7Ko+BLfZ2jESxOZ2RuF2S7Hg8YMDRUruZsrfNojedoJhPnIhPeIQuS+3/f2lZJLFTFG
-	jatgsE6TqAZJPHfG8cnrbNrQ9SWHX0JXRqDxTCxBQHu6/NUopkIY9TpvmFeYjX36u6O/eHzNa+5
-	Irxf348I/p2tOtgJd1w9qP8PhEgpyVOH81qyk5ahXsziwLINHrcy81G7m2pdw4u5+IbU1P/WSIw
-	2DrM8R4FUokjC4uxT+iSnobBQkET/6CE9y3gXM/VjB26amQY8xaWLmwAghjP5Au1kVs3rjrbDs0
-	C9nL7i3cxzqrc1AVfz4tnabnPmWAZgBg==
-X-Received: by 2002:a5d:5f53:0:b0:43c:f66e:f31 with SMTP id ffacd0b85a97d-43d150ddb4bmr483415f8f.27.1774974604559;
-        Tue, 31 Mar 2026 09:30:04 -0700 (PDT)
-Received: from linaro.org ([92.206.122.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21e9e24sm27279076f8f.10.2026.03.31.09.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 09:30:03 -0700 (PDT)
-Date: Tue, 31 Mar 2026 18:29:51 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Herring <robh@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
+	s=arc-20240116; t=1774975046; c=relaxed/simple;
+	bh=mtI7hYxtLGh8UYHmT3w/ULXqZgCHpOOamGGALDedBw8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=gpCXM1Ix/4O0SCvFNT6bpKFT02xjFksghviQR5FQJANDDxcMyqMq72kWr/Uo/bjVnY2cMNLjEPp2gXa94QU5oz4kBcJeEPqtlCS2Sul0C9pFDeQq1OTOIIsb9//BJvS3myIPpAy5wiumJIbiBxHJl+Ui21sKD3bFxcd0+jOpcEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmZnTkWs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2028AC19423;
+	Tue, 31 Mar 2026 16:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774975046;
+	bh=mtI7hYxtLGh8UYHmT3w/ULXqZgCHpOOamGGALDedBw8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FmZnTkWstD2V+gR2UzIZnHqkagf3anT+Co3aUDxpDncrU/mgjU9GseCg8wynmU5K2
+	 ulKRQ6+7+vRzuDrCNt1QjFCz85Z3PiKMPDIbKvnvRC09zWXwztpuJoLHfHXW9dPRP4
+	 zXc5wDir/E19xBVk7LLLNHoWyoSBneHvueL/SQUhkGtg6M+glmrUXsJyaSUio21ASZ
+	 9hZbeYbdZtLknfxe8II4GUf0PypQbk3s2NuE5fBRhKu4m+31ztDXQRa4B+++3LTBbs
+	 eQbpZKDToSwy0jOfIHlGAdRVpe/TfftrP64Ww4UbeqHtS82SfOQpluBmJHhx1vJZfn
+	 uPzdEP3ZKdc+g==
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH v6 6/9] dt-bindings: connector: m2: Add M.2 1620 LGA
- soldered down connector
-Message-ID: <acv2f1qbqu4PlSL1@linaro.org>
-References: <20260322233713.GA98177-robh@kernel.org>
- <to2mrizprc3hjufqbiplpqyek7f4uutqtn4hx4gkmdgv2rykbc@ybwwjhdec4nm>
- <CAL_JsqJXrHCJt770bJkMmAUhirSF3kHjYwSzkG7cXp7-eys8Rg@mail.gmail.com>
- <6aef3xxjjd4nbgrfx6jc6jt6rpqmttoui6hil5zqgdpas2j6gj@ie6j72orenou>
- <fsvmmgoe5wslmxebhrrwmdg2ldcmhzvj53gjkdfnfg2m2rz2lw@dcfboaakz7ae>
- <bguhzabwryayyqkv4ilzwr3ixwv6bzxncblo3ircz2wm3fs52k@66zvcrfcb4oe>
- <blhm4csjyw6r667cleljgzd6rpwagttjo5rau7wjrlnjakq2qm@ekyhc4jvwmwf>
- <m44mupdmg7kgco62n4evcviagqo7wwgyt3gybugbxwesd4ekjz@o24r6v4tpezc>
- <3faffec9-dc9d-4eec-a652-a84d30d85c96@app.fastmail.com>
- <cvqdbqnzjmzoowxkvz2lyv4avropu5jw7h2r6zng3ecf245hgg@fsysjqflqd35>
+	Nicolas Schier <nsc@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH 0/5] Introduce Overflow Behavior Types
+Date: Tue, 31 Mar 2026 09:37:18 -0700
+Message-Id: <20260331163716.work.696-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3413; i=kees@kernel.org; h=from:subject:message-id; bh=mtI7hYxtLGh8UYHmT3w/ULXqZgCHpOOamGGALDedBw8=; b=owGbwMvMwCVmps19z/KJym7G02pJDJmnfzjcUr9ReWh+xYJi1fjngUz3+2+fc1h6TLTsmKYj9 04uu0qvjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIkYxzIy3DPkb369yE/4zOsj p+RuXpp69bV03u2pS6pVXgj4nNjYx8XwP4C5pZApbvL1T5PFOTI9GDMOsPK2XSrts13n8ue+6L0 iRgA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cvqdbqnzjmzoowxkvz2lyv4avropu5jw7h2r6zng3ecf245hgg@fsysjqflqd35>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[squebb.ca,oss.qualcomm.com,kernel.org,linuxfoundation.org,linux.dev,linux.intel.com,gmail.com,holtmann.org,bgdev.pl,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	TAGGED_FROM(0.00)[bounces-12410-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12413-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[stephan.gerhold@linaro.org,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.994];
+	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sparklan.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
-X-Rspamd-Queue-Id: 2BA5236CE35
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 20FE136D535
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 25, 2026 at 05:36:08PM +0530, Manivannan Sadhasivam wrote:
-> On Mon, Mar 23, 2026 at 01:23:07PM -0400, Mark Pearson wrote:
-> > On Mon, Mar 23, 2026, at 12:52 PM, Manivannan Sadhasivam wrote:
-> > > On Mon, Mar 23, 2026 at 06:45:15PM +0200, Dmitry Baryshkov wrote:
-> > >> On Mon, Mar 23, 2026 at 09:26:04PM +0530, Manivannan Sadhasivam wrote:
-> > >> > On Mon, Mar 23, 2026 at 05:14:30PM +0200, Dmitry Baryshkov wrote:
-> > >> > > On Mon, Mar 23, 2026 at 07:14:25PM +0530, Manivannan Sadhasivam wrote:
-> > >> > > > On Mon, Mar 23, 2026 at 08:39:55AM -0500, Rob Herring wrote:
-> > >> > > > > On Mon, Mar 23, 2026 at 7:16 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
-> > >> > > > > >
-> > >> > > > > > On Sun, Mar 22, 2026 at 06:37:13PM -0500, Rob Herring wrote:
-> > >> > > > > > > On Tue, Mar 17, 2026 at 09:59:56AM +0530, Manivannan Sadhasivam wrote:
-> > >> > > > > > > > Lenovo Thinkpad T14s is found to have a soldered down version of M.2 1620
-> > >> > > > > > > > LGA connector. Though, there is no 1620 LGA form factor defined in the M.2
-> > >> > > > > > > > spec, it looks very similar to the M.2 Key E connector. So add the
-> > >> > > > > > > > "pcie-m2-1620-lga-connector" compatible with "pcie-m2-e-connector" fallback
-> > >> > > > > > > > to reuse the Key E binding.
-> > >> > > > > > >
-> > >> > > > > > > What is LGA?
-> > >> > > > > > >
-> > >> > > > > >
-> > >> > > > > > Land Grid Array
-> > >> > > > > >
-> > >> > > > > > > If not in the spec, is it really something generic?
-> > >> > > > > > >
-> > >> > > > > >
-> > >> > > > > > Good question. Yes and No! LGA is not something that Lenovo only uses. Other
-> > >> > > > > > vendors may also use this form factor. PCIe connectors are full of innovation as
-> > >> > > > > > the spec gives room for hardware designers to be as innovative as possible to
-> > >> > > > > > save the BOM cost.
-> > >> > > > > 
-> > >> > > > > innovation == incompatible changes
-> > >> > > > > 
-> > >> > > > 
-> > >> > > > Yes, I was trying to sound nice :)
-> > >> > > > 
-> > >> > > > > > This is why I do not want to make it Lenovo specific. But if you prefer that, I
-> > >> > > > > > can name it as "lenovo,pcie-m2-1620-lga-connector".
-> > >> > > > > 
-> > >> > > > > Depends if you think that s/w needs to know the differences. Hard to
-> > >> > > > > say with a sample size of 1.
-> > >> > > > > 
-> > >> > > > 
-> > >> > > > Sure. Will add the 'lenovo' prefix then.
-> > >> > > 
-> > >> > > Is it really Lenovo? Or is it some other module vendor, whose LGAs are
-> > >> > > being used by Lenovo?
-> > >> > > 
-> > >> > > I remember that DB820c also used some kind of a module for the WiFi card
-> > >> > > (which might be M.2 compatible or might not, I can't find exact docs at
-> > >> > > this point).
-> > >> > > 
-> > >> > 
-> > >> > I don't know. These kind of designs might be reused by several vendors. But
-> > >> > considering that we should not make it generic, I'd go with Lenovo as that's
-> > >> > the only vendor we know as of now.
-> > >> 
-> > >> ... and later we learn that other vendors use the same idea /pinout,
-> > >> then nothing stops us from still telling that it's a
-> > >> "lenovo,pcie-m2-something-lga". 
-> > >> 
-> > >
-> > > How do you possibly know whether a single vendor has introduced this form factor
-> > > or reused by multiple ones? Atleast, I don't have access to such a source to
-> > > confirm.
-> > >
-> > I've not really been following this thread/patchset in detail; but want me to try and check with the T14s platform team if this device is specifically made for us (Lenovo) or not?
-> > I doubt it is - we just don't do that usually, but I can go and ask the question if it will help resolve this (with the caveat that it could hold up the review for a bit and I may not be able to get a straight answer)
-> > 
-> 
-> I can drop this specific patch in the meantime.
-> 
-> > My vote (for what little it's worth) would be to make it non-Lenovo specific. Then when the same part causes issues on another vendors platform I won't get asked questions about why Lenovo is breaking <other vendor> :)
-> > 
-> 
-> Even if Lenovo prefix is used, it won't break other vendors. Just that we will
-> end up adding more compatibles.
-> 
-> Anyhow, I'll wait for your reply and drop this patch for next revision.
-> 
+Hi,
 
-If you need a vendor prefix, I think "qcom," would be more appropriate
-than Lenovo. This form factor is used by most vendors for recent
-soldered Qualcomm-based wireless cards, not just Lenovo:
+This is the spiritual successor to the "Mitigating unexpected arithmetic
+overflow" thread from 2024[1]. After a long discussion there, and
+subsequent discussions with Peter at Linux Plumbers, Justin went off to
+build a type-based solution. After more than a year of RFCs and feedback
+from compiler folks and with an eye toward potentially making this part
+of the C Standard in the future, what has evolved is Overflow Behavior
+Types[2], which are first-class native types that mirror the existing
+native scalar types in C. They are created using a type qualifier
+("__ob_trap" and "__ob_wrap"), but they are their own distinct
+types. e.g. "int" and "int __ob_trap" are different types, though
+they are mostly interchangable (e.g. format strings, implicit casts,
+etc), with some specific instrumentation in cases where wrap-around or
+truncation is possible.
 
- - Dell XPS 13 9345 has exactly the same soldered M.2 card, I assume
-   there are several other vendors as well.
+This series provides support for building with them enabled, adds
+documentation, adds tests, and proposes the new typedefs (see the last
+patch in the series) for the corresponding kernel scalar types. With this,
+we can start converting variables (and types) that are never supposed
+to overflow/underflow to these new types[3]. (Or types that are always
+supposed to overflow/underflow.)
 
- - https://www.sparklan.com/product/wnsq-290be/ is a third-party
-   (Qualcomm-based) M.2 LGA 1620 card, in the block diagram the
-   pinout is called "QM.2 1620 LGA 168pin".
+Enjoy! :)
 
- - If you press F9 while booting the ThinkPad T14s, you should get to a
-   screen with "Regulatory Information". For the T14s, this screen says
-   "Contains FCC ID: J9C-QCNCM825". This is the WiFi/BT module in the
-   soldered form factor. If you look that up on the FCC website, the
-   applicant for this module is "Qualcomm Technologies, Inc.". This
-   seems to be some kind of "modular certification" that vendors can
-   reuse/adapt without going through the whole process again.
+-Kees
 
-Perhaps you should ask around inside Qualcomm? :-)
+Link: https://lore.kernel.org/lkml/202404291502.612E0A10@keescook/ [1]
+Link: https://clang.llvm.org/docs/OverflowBehaviorTypes.html [2]
 
-Thanks,
-Stephan
+
+Justin Stitt (2):
+  hardening: Introduce Overflow Behavior Types support
+  compiler_attributes: Add overflow_behavior macros __ob_trap and
+    __ob_wrap
+
+Kees Cook (3):
+  refcount: Remove unused __signed_wrap function annotations
+  lkdtm/bugs: Add basic Overflow Behavior Types test
+  types: Add standard __ob_trap and __ob_wrap scalar types
+
+ lib/Kconfig.ubsan                             |  18 -
+ security/Kconfig.hardening                    |  50 ++-
+ Makefile                                      |   1 +
+ scripts/basic/Makefile                        |   2 +-
+ scripts/Makefile.lib                          |   7 +-
+ scripts/Makefile.obt                          |  28 ++
+ scripts/Makefile.ubsan                        |  10 -
+ scripts/Makefile.warn                         |   7 +
+ scripts/integer-wrap-ignore.scl               |   3 +-
+ Documentation/dev-tools/ubsan.rst             |  13 +
+ Documentation/process/arithmetic-overflow.rst | 323 ++++++++++++++++++
+ Documentation/process/deprecated.rst          |  39 +++
+ Documentation/process/index.rst               |   1 +
+ include/linux/compiler-version.h              |   2 +-
+ include/linux/compiler_attributes.h           |  12 +
+ include/linux/compiler_types.h                |   9 +-
+ include/linux/refcount.h                      |  10 +-
+ include/linux/sched.h                         |   3 +-
+ include/linux/types.h                         |  24 ++
+ include/linux/ubsan.h                         |  12 +-
+ drivers/misc/lkdtm/bugs.c                     | 253 ++++++++++++++
+ lib/ubsan.c                                   |  17 +-
+ MAINTAINERS                                   |  10 +
+ kernel/configs/hardening.config               |   1 -
+ tools/testing/selftests/lkdtm/tests.txt       |  10 +
+ 25 files changed, 807 insertions(+), 58 deletions(-)
+ create mode 100644 scripts/Makefile.obt
+ create mode 100644 Documentation/process/arithmetic-overflow.rst
+
+-- 
+2.34.1
+
 
