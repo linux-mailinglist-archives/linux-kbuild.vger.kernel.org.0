@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12482-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12483-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QHm1CeYKzWnhZgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12482-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:09:10 +0200
+	id uE7qJ+oKzWnhZgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12483-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:09:14 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9345337A2CF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632B737A2E7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:09:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E8E61317F7DB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:49:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A96E93183D27
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:49:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3638A40243D;
-	Wed,  1 Apr 2026 11:48:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4CCD3E4C85;
+	Wed,  1 Apr 2026 11:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7RUQV2H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BctafedQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFBB3E7172;
-	Wed,  1 Apr 2026 11:48:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF76E3A380D;
+	Wed,  1 Apr 2026 11:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044081; cv=none; b=cEoXMp62PKRfyd7itFESuIoRLQSM3ANfIv1Hh55L/rGkkMUUgFOF4Tix1mEVJxq7UiWh4MdJT6ZTpVDb/7+3YNQTpZ8tYNEcTJqJ9z3FFnRjwXpijCbpfr//kQHwvI28zEaQ7xU04OYeaeudtIosdINX+bAvDb2gyI6ygde37S8=
+	t=1775044093; cv=none; b=A4bu9C2gLhlnnYfmejohDl5Ab+A9mPPCv8J8f2LB+P/O/ZALDztu3eIRiALygZYSRnHbYPdEzUg0gOIdAM4Ar4JZu4FvDrBS3ETmnhUhSWeH1joeXLjBpWcAfyynigSbjJudWs28UK8GJZ6zqSySrTtXRTX0i33hGNgmt8JPg6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044081; c=relaxed/simple;
-	bh=adABYvIqd3NTguvnrLCuC9umM1YlmwtHIfAtv/sMMlY=;
+	s=arc-20240116; t=1775044093; c=relaxed/simple;
+	bh=Pc5ewSafnPFxKHksepcgeyeiYuBuOzddWiUYOLo44fc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P0JZ/AD/SsFuKmpexO+ddzZi8dOdM/UFwVWuyjJwYLQRdViN1KkSvqKQzCYsvb8l1gzoQqt+d24yDK+G/SDWOX0cclHmjBjd9HoeXFlbtZ2EmdskZjxPko6LVxJpnzAh5xpziFHfKOpMghepUnGQ+sD8hQ7ZxDO9ccxGNiq81h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7RUQV2H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60409C4CEF7;
-	Wed,  1 Apr 2026 11:47:50 +0000 (UTC)
+	 MIME-Version; b=hZnusRmSCoAsNr09RvlbEP22aLd4/SqFoQbAPvl/+07rFvu825GPmfL55HSVV4Gbh39W7iOG/5l1N1yAW0mvmAq5NpOui2Q4VTMmHiNXqzgq2ttli9QuC9ZgCJac5Tx6pT7sy7CissEoEG8CyhWnrQB3EVRN9rz5pNXnUsRlnf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BctafedQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F73C4CEF7;
+	Wed,  1 Apr 2026 11:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775044081;
-	bh=adABYvIqd3NTguvnrLCuC9umM1YlmwtHIfAtv/sMMlY=;
+	s=k20201202; t=1775044093;
+	bh=Pc5ewSafnPFxKHksepcgeyeiYuBuOzddWiUYOLo44fc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W7RUQV2HZDvpt7cb2QLkpsSjIXygeJXHzglkI2wvWnPnI2M1b6re/EbnmI0XwokyF
-	 wrrwYxN+/b+ugyMYmH9z5Umd525lrDMMtI1jgyazypmGOGTbjEKg2Uf67p5z3f9Bmg
-	 c6SqSWS5dXNcFVk9QuiGQs+D+hKuqndvN5lUWvCrCbINYOm3WsPZfDOtxulUNeWqbM
-	 y89bDoxVl41VBEb3zkJMUAunBi8T9StVC/clbVAz8kgUAUUzxcNf8AJj/euaS7+TKs
-	 GxDpNxLDh92OcnV4pmrI+T0sPk26QqFNokBc1fpaibHISln0xBEqZ/Iba9ePZXRZ+o
-	 QQE6E4BNPh56g==
+	b=BctafedQl739LjER8MXut5f/UHQmwOMgY8eiBY9GPjZTa6UhwF33xTqKAsv/k9Jpr
+	 UXZVhOtcmmlzZOYf7Vb8QT5b+Sj/g3QrIBGXZxTM3uNlk/xWwz3doBmOs5UrfpKtV3
+	 BYeIBH88Jfn81A8lOQUe/b7L+LFkxTKWrdN5PeuA4bvB3G5atuDiVtTQLpJHRcGIi8
+	 078hXEr/7kYFNT7XsI7KvwhnIDxnv/Nf9IHI6ZwVq+LPtCR1GNMcpgdXOerf3ytBI9
+	 Tm7z4+ydsRwNHDCQkzUS7eKrnLuo9suwO47RZoBJZ7m1nD1AfOYKE0TTcQdbVpDSUj
+	 Rk7BTlqek9WZw==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 10/33] rust: transmute: simplify code with Rust 1.80.0 `split_at_*checked()`
-Date: Wed,  1 Apr 2026 13:45:17 +0200
-Message-ID: <20260401114540.30108-11-ojeda@kernel.org>
+Subject: [PATCH 11/33] rust: alloc: simplify with `NonNull::add()` now that it is stable
+Date: Wed,  1 Apr 2026 13:45:18 +0200
+Message-ID: <20260401114540.30108-12-ojeda@kernel.org>
 In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
 Precedence: bulk
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12482-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12483-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -131,89 +131,48 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9345337A2CF
+X-Rspamd-Queue-Id: 632B737A2E7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-`feature(split_at_checked)` [1] has been stabilized in Rust 1.80.0 [2],
-which is beyond our new minimum Rust version (Rust 1.85.0).
+Currently we need to go through raw pointers and then re-create the
+`NonNull` from the result of offsetting the raw pointer.
 
-Thus simplify the code using `split_at_*checked()`.
+Thus, now that we bump the Rust minimum version, simplify using
+`NonNull::add()` and clean the TODO note.
 
-Link: https://github.com/rust-lang/rust/issues/119128 [1]
-Link: https://github.com/rust-lang/rust/pull/124678 [2]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/kernel/transmute.rs | 33 ++++++---------------------------
- 1 file changed, 6 insertions(+), 27 deletions(-)
+ rust/kernel/alloc/allocator/iter.rs | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/rust/kernel/transmute.rs b/rust/kernel/transmute.rs
-index b9e6eadc08f5..654b5ede2fe2 100644
---- a/rust/kernel/transmute.rs
-+++ b/rust/kernel/transmute.rs
-@@ -66,16 +66,9 @@ fn from_bytes_prefix(bytes: &[u8]) -> Option<(&Self, &[u8])>
-     where
-         Self: Sized,
-     {
--        if bytes.len() < size_of::<Self>() {
--            None
--        } else {
--            // PANIC: We checked that `bytes.len() >= size_of::<Self>`, thus `split_at` cannot
--            // panic.
--            // TODO: replace with `split_at_checked` once the MSRV is >= 1.80.
--            let (prefix, remainder) = bytes.split_at(size_of::<Self>());
-+        let (prefix, remainder) = bytes.split_at_checked(size_of::<Self>())?;
+diff --git a/rust/kernel/alloc/allocator/iter.rs b/rust/kernel/alloc/allocator/iter.rs
+index 5759f86029b7..e0a70b7a744a 100644
+--- a/rust/kernel/alloc/allocator/iter.rs
++++ b/rust/kernel/alloc/allocator/iter.rs
+@@ -42,15 +42,9 @@ fn next(&mut self) -> Option<Self::Item> {
+             return None;
+         }
  
--            Self::from_bytes(prefix).map(|s| (s, remainder))
--        }
-+        Self::from_bytes(prefix).map(|s| (s, remainder))
-     }
+-        // TODO: Use `NonNull::add()` instead, once the minimum supported compiler version is
+-        // bumped to 1.80 or later.
+-        //
+         // SAFETY: `offset` is in the interval `[0, (self.page_count() - 1) * page::PAGE_SIZE]`,
+         // hence the resulting pointer is guaranteed to be within the same allocation.
+-        let ptr = unsafe { self.buf.as_ptr().add(offset) };
+-
+-        // SAFETY: `ptr` is guaranteed to be non-null given that it is derived from `self.buf`.
+-        let ptr = unsafe { NonNull::new_unchecked(ptr) };
++        let ptr = unsafe { self.buf.add(offset) };
  
-     /// Converts a mutable slice of bytes to a reference to `Self`.
-@@ -108,16 +101,9 @@ fn from_bytes_mut_prefix(bytes: &mut [u8]) -> Option<(&mut Self, &mut [u8])>
-     where
-         Self: AsBytes + Sized,
-     {
--        if bytes.len() < size_of::<Self>() {
--            None
--        } else {
--            // PANIC: We checked that `bytes.len() >= size_of::<Self>`, thus `split_at_mut` cannot
--            // panic.
--            // TODO: replace with `split_at_mut_checked` once the MSRV is >= 1.80.
--            let (prefix, remainder) = bytes.split_at_mut(size_of::<Self>());
-+        let (prefix, remainder) = bytes.split_at_mut_checked(size_of::<Self>())?;
- 
--            Self::from_bytes_mut(prefix).map(|s| (s, remainder))
--        }
-+        Self::from_bytes_mut(prefix).map(|s| (s, remainder))
-     }
- 
-     /// Creates an owned instance of `Self` by copying `bytes`.
-@@ -147,16 +133,9 @@ fn from_bytes_copy_prefix(bytes: &[u8]) -> Option<(Self, &[u8])>
-     where
-         Self: Sized,
-     {
--        if bytes.len() < size_of::<Self>() {
--            None
--        } else {
--            // PANIC: We checked that `bytes.len() >= size_of::<Self>`, thus `split_at` cannot
--            // panic.
--            // TODO: replace with `split_at_checked` once the MSRV is >= 1.80.
--            let (prefix, remainder) = bytes.split_at(size_of::<Self>());
-+        let (prefix, remainder) = bytes.split_at_checked(size_of::<Self>())?;
- 
--            Self::from_bytes_copy(prefix).map(|s| (s, remainder))
--        }
-+        Self::from_bytes_copy(prefix).map(|s| (s, remainder))
-     }
- }
- 
+         // SAFETY:
+         // - `ptr` is a valid pointer to a `Vmalloc` allocation.
 -- 
 2.53.0
 
