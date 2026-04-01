@@ -1,51 +1,51 @@
-Return-Path: <linux-kbuild+bounces-12542-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12543-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJ0qIf1BzWkkbAYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12542-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 18:04:13 +0200
+	id 4AuRD/Q9zWkkbAYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12543-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 17:47:00 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3B837DA62
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 18:04:13 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A6337D698
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 17:46:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 61C7D3187E43
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 15:39:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1994C305E425
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 15:40:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E9553D565B;
-	Wed,  1 Apr 2026 15:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14AED3BED08;
+	Wed,  1 Apr 2026 15:40:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qr3SSI6o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtWc7kSB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E742D0C82;
-	Wed,  1 Apr 2026 15:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24123A9DB2;
+	Wed,  1 Apr 2026 15:40:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775057941; cv=none; b=GfSC8PlWgSJtoVvVsefcuP0dmDfCsohUpnfglsJnGNWAsyC7vdsrP8YalVx5QqtqONv4uv4Y1Ts60n3wcwqbICcguqc4UX21elzXH2Mqw40NyXh4eoLnRI7RoVqui365Vl/t/H/DwAhX0p8DmGmhfW7xSAGnSWx/hKXKO+m7nLk=
+	t=1775058001; cv=none; b=rmFOYfvOQeHILxC2ef//IlxHhPsNkjOzzK83fdprfBE7U8f9qJlQbaB6vjOqB/b1GPU+Ait1rkE77hna7tWMqORMzPWM0zh1kSHQIZI4OXamDtWfg8+E5hByLj0oJDJ2yBqQnHBskJtTwgVn/BEhnMB6KOJvGs2U4b6asjJk9sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775057941; c=relaxed/simple;
-	bh=fJdFksYvhu2QBW2xM51tNuc3BCiB5YiBhlwDrUJiUZk=;
+	s=arc-20240116; t=1775058001; c=relaxed/simple;
+	bh=qluaTkvREC5+yG58ljxsV6cqHwaNZiO+EKP753RRYcg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2oPprA3WKr4ZpEW/pq6cZrdfMr2IWnSf/cgkjuLqIK3rglcis9pYFJ1XKucMR9pegc60Eh1hso7dWB5zyROfhAj/WquDN5I0nXUxfRAYNIiE638WM2l6YKIX+0lW1RTjoaQrvtayTdmfH0cJDPoePEwWujheWmF0X42HXjyPBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qr3SSI6o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46536C4CEF7;
-	Wed,  1 Apr 2026 15:38:52 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=fVRdlrQ/qBo0QrBLsNyFe/elpG0c8TJimoxAWhn+nxqFFvZzHE3FCQ/fUZyMTzCd1yk+hXYG8YPSKFo+xesErbuuOAFlX8zHMINB2N/XYOU88yv9GLEIzhP4m1wHaRYFfDL6F6H70dJ+nsgbxH/ra4A3IwbT4sjws9U8LXfBRdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtWc7kSB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2904BC4CEF7;
+	Wed,  1 Apr 2026 15:39:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775057940;
-	bh=fJdFksYvhu2QBW2xM51tNuc3BCiB5YiBhlwDrUJiUZk=;
+	s=k20201202; t=1775058000;
+	bh=qluaTkvREC5+yG58ljxsV6cqHwaNZiO+EKP753RRYcg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qr3SSI6oBvZ+JpJTYcUXaAZU4g6rvIYySeCjiEK8in3tDiXKQOwN9w9IL7MV0KfHr
-	 VDj7jDg2y+ZEbMEPm58bDK0HBWdunouxBWnX/uEhokekEjMfPAfx/mgiAYSs361378
-	 vesh0G4OfMCBIJSWzUZP190/CSoWuGdO/ZLsZovBbn5oGwM56T7tGXH1I2+YiQEGv9
-	 7RALUg9V6caWS7Z1FWU8E+XllK8kNKPYaZaRLpq42UvvjNXEvxqdhZQhqVHotZNlvd
-	 qCKhuASrauwkg82oTq6DRtUHC0wtKP145B0lkKILpqf6FQdYOVSEf0A2873+txIRkd
-	 olz30NccPaUEw==
-Message-ID: <1f88e7ff-eb91-4601-a549-cddcb06b87e7@kernel.org>
-Date: Wed, 1 Apr 2026 17:38:50 +0200
+	b=XtWc7kSBpczDhOeDzctojUGhjkDX9yLOncrss4xMBiCV/aNAFElErs7mbZxhOzBFj
+	 IjIntWeGJXpFhKhS/f3AB+fYVKP1SKYagi5+a2LPJgthzcivJeg5Rz9GV4Rw4eFXw7
+	 fIPUmcXhywGnFMLSWkC3nbdoxcr1E/+qjOIUMtmLmnJBEAZi4KMImfvb1v0eym+x2e
+	 9qqygeFi0bxup5RxJ5c78WULUV35EpKtPMYapo3WLjNS865aTrEt2qKUl6WScPk4JE
+	 NEJW+MxF0alErQ/CFCZjckq9jlMzUYvZTb0k9w4o2IO9WAfLDuQWKDcTRbseeV3Jom
+	 THPMVL/ytMNMQ==
+Message-ID: <51bffefb-395f-4ece-90ba-588b2bdadaac@kernel.org>
+Date: Wed, 1 Apr 2026 17:39:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/33] rust: remove `RUSTC_HAS_COERCE_POINTEE` and
- simplify code
+Subject: Re: [PATCH 02/33] rust: bump Clippy's MSRV and clean
+ `incompatible_msrv` allows
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Andreas Hindborg <a.hindborg@kernel.org>,
@@ -85,10 +85,10 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
  Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
 References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-6-ojeda@kernel.org>
+ <20260401114540.30108-3-ojeda@kernel.org>
 From: Danilo Krummrich <dakr@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20260401114540.30108-6-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-3-ojeda@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -96,11 +96,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12542-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12543-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -117,14 +117,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1F3B837DA62
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E9A6337D698
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 4/1/26 1:45 PM, Miguel Ojeda wrote:
->  rust/kernel/alloc/kbox.rs | 29 ++---------------------------
+>  drivers/gpu/nova-core/gsp/cmdq.rs | 6 +-----
 
 Acked-by: Danilo Krummrich <dakr@kernel.org>
 
