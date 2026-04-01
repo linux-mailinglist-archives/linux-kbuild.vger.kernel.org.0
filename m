@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ADOyFZcMzWnhZgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12501-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:16:23 +0200
+	id rD89LcAMzWlHZwYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12502-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:17:04 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1F937A4C1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A82237A4D0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:17:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AD87F311DBCB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:54:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 94DA9329B9A2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:54:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90067402437;
-	Wed,  1 Apr 2026 11:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29781410D2C;
+	Wed,  1 Apr 2026 11:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rzw1kaCE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2tJ6c9W"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1C23DCDA9;
-	Wed,  1 Apr 2026 11:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F73405AC3;
+	Wed,  1 Apr 2026 11:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044306; cv=none; b=NWeRN6PMdF2YG0s9CnKwsR5Xx06tMl/dw7k0pQJ9jh+ZIQcnYRDVNmgnjvUafinL/PzdLYigN+6fGMzybuBSkKEgdM64S093lF+aZblreHTAUpwVqwbhg8UtaYjCgVqUJ1xoKqH8Kpp2PcBn88J8WHhoPr84dU4WlhP7Sl29V+o=
+	t=1775044318; cv=none; b=u9bQTyffptzxZKt0zmhZS3/zRg4LFFEKG6YNoQbSBXbrTLLaFzthuH6Wv9P4cnBKTH24HxeSos9AjJahk1CPC9XkckXC5sFniVb24uDrpDuIThnKzYv/CkyCxIblc5Zj0cy2wYGCIenqO9Gbx7x++7cCOerut0q+pNry8KJcu7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044306; c=relaxed/simple;
-	bh=hwrpFVeGAL5GC09atZjTVNJE6Ow3imO9X2morwqR56Y=;
+	s=arc-20240116; t=1775044318; c=relaxed/simple;
+	bh=aZ7CkV02m73TgymHW6id2ohHebQcMp+UooNV/WCpxYw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PgL3rUAkoMhV2AHwPKwpJgkyMOE7uWBZrFK+OxoQFpmHQIjgkcd8enrt10bkcSkrVMmFXt4jEY2sm5vicDXDdtgrRXsfmuT18yuEQEH3Ox+blpU5qsKI+suULakQ50S09jYmgyxWmcXWIkOt0ZkLD3xzYNV5YWmA6Hx9m0n7PjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rzw1kaCE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC33FC4CEF7;
-	Wed,  1 Apr 2026 11:51:34 +0000 (UTC)
+	 MIME-Version; b=CdS8WhRNmtJAJbcJDluWrJq2vCj0GWpsvDSHlnNqWxwWZ7/gxoaGRLfYuETBSG6d9jRf8kE82snsq/vIYLQmxD30oFIZyVprgUQyjn6DEPZ5C90R2rbA2gcg8oHrz0B2eJvcmPSBfMs7iZk3WKAbt30GY1FCTUiipxorXvQ0MCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2tJ6c9W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C070C4CEF7;
+	Wed,  1 Apr 2026 11:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775044306;
-	bh=hwrpFVeGAL5GC09atZjTVNJE6Ow3imO9X2morwqR56Y=;
+	s=k20201202; t=1775044317;
+	bh=aZ7CkV02m73TgymHW6id2ohHebQcMp+UooNV/WCpxYw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Rzw1kaCEQHUMV8e2JhQRZ0slowyGy7FMm4tP6h9JKv2f1/pjKA/CgbLPmqJSfwYW9
-	 XpjqdVAQSA7tGhxbEGXHSOp/b4ykgFgY9+afWac2nDN+7rfydkcDZpWR8hxb/XS02j
-	 LNBRkTa0ZCJ8Ct7VSdEoSy0AjoAeVUdW2NIf9cHqHXqPRJVw10D2vW/WD8KAcd4+X9
-	 adeYuW0+L8tLudnViZX5MEfIqqFc301C2pW4Ki+5taOqHHUTBnQwc2GJaFeET7o+/8
-	 HquRyfA0XF2MWJo5hgtDXCWTUfmcnrUxW/us7Td3H6gTg1P4obsqnA35gxHSgJmIa7
-	 NPNA/tvRJKfsA==
+	b=a2tJ6c9W9iABHNjYNfL/0mBtFgGwAUtGo9jT4oJbjkTLOc0Yo+AEpPKIParMZ1LNj
+	 0sANrmLte5HVlY/RSowfUU1n6HJVpsbzGcrRxFYwfBYM+mr5AsX8sQv1gk5sj4H7wt
+	 Dw7M4GzLoUzHr41RJA4HSozfVBTZlvmb01WCmT7Cpg4oqA0MoM9u8F3rYEJ84ZlHa/
+	 l6ZHQwkSMoXTmsP6WHnxky2MzbKxBsA9VRTh/QtS8r/wLVDjLYI1nc1ywv3yacbrWe
+	 OUhyb3YotIxHBUCZq8fmNmrB8uzKk1sfz69jzjTz+KCMR7GzlinoB3zsZ7EklUMIKY
+	 cppDn06YQZSHg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 29/33] docs: rust: general-information: simplify Kconfig example
-Date: Wed,  1 Apr 2026 13:45:36 +0200
-Message-ID: <20260401114540.30108-30-ojeda@kernel.org>
+Subject: [PATCH 30/33] docs: rust: general-information: use real example
+Date: Wed,  1 Apr 2026 13:45:37 +0200
+Message-ID: <20260401114540.30108-31-ojeda@kernel.org>
 In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
 Precedence: bulk
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12501-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12502-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -137,33 +137,47 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BA1F937A4C1
+X-Rspamd-Queue-Id: 0A82237A4D0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-There is no need to use `def_bool y if <expr>` -- one can simply write
-`def_bool <expr>`.
+Currently the example in the documentation shows a version-based name
+for the Kconfig example:
 
-In fact, the simpler form is how we actually use them in practice in
-`init/Kconfig`.
+    RUSTC_VERSION_MIN_107900
 
-Thus simplify the example.
+The reason behind it was to possibly avoid repetition in case several
+features used the same minimum.
+
+However, we ended up preferring to give them a descriptive name for each
+feature added even if that could lead to some repetition. In practice,
+the repetition has not happened so far, and even if it does at some point,
+it is not a big deal.
+
+Thus replace the example in the documentation with one of our current
+examples (after removing previous ones from the bump), to show how they
+actually look like, and in case someone `grep`s for it.
+
+In addition, it has the advantage that it shows the `RUSTC_HAS_*`
+pattern we follow in `init/Kconfig`, similar to the C side.
 
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- Documentation/rust/general-information.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/rust/general-information.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/rust/general-information.rst b/Documentation/rust/general-information.rst
-index 6146b49b6a98..91535b2306ed 100644
+index 91535b2306ed..09234bed272c 100644
 --- a/Documentation/rust/general-information.rst
 +++ b/Documentation/rust/general-information.rst
-@@ -158,4 +158,4 @@ numerical comparisons, one may define a new Kconfig symbol:
+@@ -157,5 +157,5 @@ numerical comparisons, one may define a new Kconfig symbol:
+ 
  .. code-block:: kconfig
  
- 	config RUSTC_VERSION_MIN_107900
--		def_bool y if RUSTC_VERSION >= 107900
-+		def_bool RUSTC_VERSION >= 107900
+-	config RUSTC_VERSION_MIN_107900
+-		def_bool RUSTC_VERSION >= 107900
++	config RUSTC_HAS_SPAN_FILE
++		def_bool RUSTC_VERSION >= 108800
 -- 
 2.53.0
 
