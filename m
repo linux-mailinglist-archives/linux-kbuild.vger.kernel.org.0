@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12586-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12575-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MHQJAvWmzWmvfgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12586-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:15:01 +0200
+	id eHe6LTGmzWmvfgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12575-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:11:45 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9979B38186F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:15:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C32838178B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:11:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 77A5430B374B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:07:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D9BEE30FDA92
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:04:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BCED481AA7;
-	Wed,  1 Apr 2026 23:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 457E547B40D;
+	Wed,  1 Apr 2026 23:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXyGeWKi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nUrzfe8N"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A948481AA2;
-	Wed,  1 Apr 2026 23:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D917D4779B2;
+	Wed,  1 Apr 2026 23:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775084523; cv=none; b=q7A0lN/1FZ8w6cMTRiyvF/ud37/xrzYoy44eQWoMpm3aRoCDqsw2Ck0Z/gEE3KKyOIeJsrIwytelqrjBOClVau2roCmJS2BqyHkTUeMK9vn5mMh2zyN3jZn+mL95zqTxE3WqasgnSAOFl0Zp6CMNHOjVvaBskqVogloU1tZVsO8=
+	t=1775084467; cv=none; b=SanRsjR++UJBkhMAavtyg0aNdITvuv7TyQp0pA1alYRbIvxPE+LvMuqBgLDWUVoOgerIku3qs9j637sry/SahHnLcfEFJthpUbJy1h60pXVL/jToA8eQ2r46uDom6VuzH0fml2cTncjgYoWN4QLmuTtJ/B2X5R4Na3/4hyuqe/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775084523; c=relaxed/simple;
-	bh=mIoLqdGB6FEaivDOYbSVC5sMk8eFMcAZ8xp8MdTnV0k=;
+	s=arc-20240116; t=1775084467; c=relaxed/simple;
+	bh=LzgaJ83Rv9pU4dQmi5pVMrmBrHvBC5e78go2tjHZcUw=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=EnUueJXsbNkT5FuDlfIP18VERE38VEVHSIjRB0uqM619OnSvXCWEZ1iLj0FA/QQZnvkSifBGINvwkE41KvWrSFV9WxWvhnIu9EdTwMT0IARsv6Xph/+cRG0/UaEQgkLDyx1FbDQoVH58Iwq7CUAGr73PlScOrFNyfRYt36BVYvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXyGeWKi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03BBFC2BCB0;
-	Wed,  1 Apr 2026 23:01:57 +0000 (UTC)
+	 References:Date:Message-Id; b=okz+EwiQNr9WLw1NzrUYlaTsAGqoRAkGYRfMMgj2BHh0vVtSgpn3kw2fCmpKYKViwoQCQ+B5Y3EA2OtVeCeOD29FVSdmbG83jO53g7Z5/9SppgDNNwzwvW7MZiqrc7yWo7QeArmdUxK6R+HLh9/SSQ/L2Kct4NlMYn28C4wkaaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nUrzfe8N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75B37C2BC9E;
+	Wed,  1 Apr 2026 23:01:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775084522;
-	bh=mIoLqdGB6FEaivDOYbSVC5sMk8eFMcAZ8xp8MdTnV0k=;
+	s=k20201202; t=1775084466;
+	bh=LzgaJ83Rv9pU4dQmi5pVMrmBrHvBC5e78go2tjHZcUw=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=ZXyGeWKi13Ct8X9D0547XxKoA9LfoDtpV+LhRj3iXOQd+bnjQ22veAr1KWQzEnIDA
-	 kCTGsTKkVr/gscyEmrZwOvWOWJ7En260oBqHLZzHIzEAlkTuiEm6eUc5UILdqgZy+H
-	 HXAequvu6ZpIY4U3LMW8wzpcshrEKczrtsPGEnHRqS7XkcXKcwcDDz47C4fWwDAXKO
-	 OIQVKkdK/nf9H0jRFaReCDhlcyWz4+4QQtQPnKMye0CMmsL4cTMnrf7NbrpD+fnPzG
-	 ktDfNcL8YfxyQiu9pd7SwNmlkrwL9bKsRyvSsH9EF8GOZzd/XyeyosIPxWhon0MbUH
-	 E+D3sywT0mp+Q==
+	b=nUrzfe8NhDQtpCvFinZVfgnt+tjQMOtFRIGAge4DLGYxrMoQoEQ86XmqX8MSuc5Ud
+	 txs3xwHIDwocyZXQNb8jfz80mh53Jd3wusB05jFNLe2fZYgGPLD3nUtGFreumspUTm
+	 IAjMDmuiHUSjuwSg00b5B+WSMN62p00RXD9mocBhaqNA3Z+o7B4jWYwGDTUpQeGfbU
+	 PfL9deFZ1hdxZ037QHqHZwJAwprww4p/wwBhY1w9e1tRkHHwxiuYOLMQPqidV4AVLZ
+	 uqzeLbgTQ+ENe3R61hPcesdN9JHCGklBcMT6RDuu6hjy6GsrjpcDvSx2HJMRbK4sqB
+	 EqCJGUn9bUPPg==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,8 +52,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 33/33] rust: kbuild: allow `clippy::precedence` for
- Rust < 1.86.0
+Subject: Re: [PATCH 21/33] gpu: nova-core: bindings: remove unneeded
+ `cfg_attr`
 From: Tamir Duberstein <tamird@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
@@ -85,18 +85,18 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-In-Reply-To: <20260401114540.30108-34-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-22-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-34-ojeda@kernel.org>
+ <20260401114540.30108-22-ojeda@kernel.org>
 Date: Wed, 01 Apr 2026 18:59:04 -0400
-Message-Id: <177508434476.73816.11744805605122440072.b4-review@b4>
+Message-Id: <177508434461.73816.5410904852576871478.b4-review@b4>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=490; i=tamird@kernel.org;
- h=from:subject:message-id; bh=mIoLqdGB6FEaivDOYbSVC5sMk8eFMcAZ8xp8MdTnV0k=;
- b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7s6hUfb+jyd9vbK0ZWKNtIml3vZzdZu5eWV+2r4r
- rMtuaq8YyILgxgXg6WYIkui6KG96am398hmvjsOM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
- GukY6BgzcHEKwFSr3mdk+LXi1KaghwuXvXvryuIh3xizmzukzafohmvWRgutvqoD3IwMq9NSuvc
- +cVOd5nUvf9cfyV0no/Naz6wyyv7a/lP08aU4HgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=497; i=tamird@kernel.org;
+ h=from:subject:message-id; bh=LzgaJ83Rv9pU4dQmi5pVMrmBrHvBC5e78go2tjHZcUw=;
+ b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7tI1RtVf7/3VF2vMEx1i8aDGZv9ug9+b7OYN+Fqj
+ 7LpjPMnOiayMIhxMViKKbIkih7am556e49s5rvjMHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
+ oZGOgY4xAxenAEz10/cM/yP3ruBYcveqWSf7c9aSQN+rd7vL/k1+czI4vmvCx2fH6/IYGQ4vurz
+ s3Km+wk3Xq9Kzd2z6cj3qyOaHxU6TS+sf5DBwT2AAAA==
 X-Developer-Key: i=tamird@kernel.org; a=openpgp;
  fpr=5A6714204D41EC844C50273C19D6FF6092365380
 X-Spamd-Result: default: False [-0.16 / 15.00];
@@ -104,12 +104,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12586-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12575-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -123,21 +123,24 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
 	FREEMAIL_CC(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,lists.linux.dev];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9979B38186F
+X-Rspamd-Queue-Id: 1C32838178B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 01 Apr 2026 13:45:40 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
-> The Clippy `precedence` lint was extended in Rust 1.85.0 to include
-> bitmasking and shift operations [1]. However, because it generated
-> many hits, in Rust 1.86.0 it was split into a new `precedence_bits`
-> lint which is not enabled by default [2].
-
-Might be good to retain some of this in a code comment.
+On Wed, 01 Apr 2026 13:45:28 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
+> These were likely copied from the `bindings` and `uapi` crates, but are
+> unneeded since there are no `cfg(test)`s in the bindings.
+> 
+> In addition, the issue that triggered the addition in those crates
+> originally is also fixed in `bindgen` (please see the previous commit).
+> 
+> Thus remove them.
+> 
+> [...]
 
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 
