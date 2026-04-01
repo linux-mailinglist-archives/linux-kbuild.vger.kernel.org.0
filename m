@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12477-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12478-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Dc+HtcOzWnhZgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12477-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:25:59 +0200
+	id IFeuAk4JzWm3ZgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12478-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:02:22 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B62737A6B0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:25:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4FD37A0E3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:02:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5CA733178431
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:47:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 100173015E1F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:47:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451D93FBEA3;
-	Wed,  1 Apr 2026 11:47:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D81E3402432;
+	Wed,  1 Apr 2026 11:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ugWT6S5R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ht/pJf8b"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F366324B16;
-	Wed,  1 Apr 2026 11:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BCB324B16;
+	Wed,  1 Apr 2026 11:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044023; cv=none; b=PKfjfAZT7V1qjQ5LRVHztJME0uajZXBqFW4LsRLvm5A28Ap+WvR/UubCUkIKalYarn1/PK6Ctwv6bMsmdnbDeJVstpJHMBNEpiKR4ZOHXUc/t6BuJSTtx3PBmACLV6l3v03OoC08kC0o01nGDQ8BGVGi8WOEMSs/65ZYY+76mFM=
+	t=1775044034; cv=none; b=XLBOFgl6jTGu/dzASG7SJ/Z59j+ZOcpVy7KAlzFwYys6GWjX88vMj3+NBZD3Z8dzHZEyh6GzUp1hluqVtnqM60sNIcMtmPGc6+rAO3BCWfB+pVDfYE/zHh27lUhz8EwHt7KqHjWRoUpkzeq6NXGC9r6mdn+DhyCP/MmDb3jZoHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044023; c=relaxed/simple;
-	bh=Mw52drxgGUxVV9g2ax+bN00+Y+DwaOQAPKLe9BmgAy4=;
+	s=arc-20240116; t=1775044034; c=relaxed/simple;
+	bh=4gM8Ng4dI5voGspd2MW/G8qAzYExygP7OS8buaoRZDg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F8Cc8z0CZ4zM37MExkDCppZ05hU0EOfG4zPxFtH/6cRaIUCE7symOyEosLqkiLVxhEvPuHH9wY1WYPMm1bTdGvTYdONUt7MtZTgJBtJFv/KMxlBYfE9gruDj3zztZcSwgEsLW7IDLNbeRZgu3hv3XU7dcaKUJzIWK0CL51tkX7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ugWT6S5R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74DC6C4CEF7;
-	Wed,  1 Apr 2026 11:46:51 +0000 (UTC)
+	 MIME-Version; b=rsekS2W0BRtVHZky3zdzksU1FFSS/kBPfpb0bv072yDRl8bdc8ovCaG3vLrxbKygp+hnc4I3ao6aB71E54DDthVM04vaHCO2OEjA+AUwIeJPqzI9kkVqKUeuYg2Dkskx8iGxOsKIN+VBqW0vfY12CWEUGyn7Z6R0WFXU/Fof9VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ht/pJf8b; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439C6C4CEF7;
+	Wed,  1 Apr 2026 11:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775044022;
-	bh=Mw52drxgGUxVV9g2ax+bN00+Y+DwaOQAPKLe9BmgAy4=;
+	s=k20201202; t=1775044034;
+	bh=4gM8Ng4dI5voGspd2MW/G8qAzYExygP7OS8buaoRZDg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ugWT6S5Rks7JPny9Cbv3J54JQDqN0ZafIZl0tQRG/BsxkABfq5N56hz+HGTTf4QwF
-	 WiRyg2jtIsN33RPoZYMpId+EKAU/CCVoqlxQN7bAyCsVHubJ+dATwyolmxDU4YviB4
-	 CD485eQ2RG865GItyQC+jO2K13LW0xStFtW/2mDspeDXwll7+7RMFrp7wAJVqIvOPB
-	 3yxUZk54m4wYSUVjV/ZpEBfRxXXEMB2aVcfp87afwcWiqgJaFe1PFleNMQyyYcnIuO
-	 K6iyTtLE89a2gaj8ngxnXrUkrvnmoIUYwXrtSpIRfgZzJ33g4NEK+z4JXxJ7jUr7kd
-	 C+bsywMkeukpg==
+	b=ht/pJf8bo8MwxgismJjbcH0DxRn7Lj//fl6ay0HnlmCjRYtIgG8EVgO1pndmfJvmX
+	 knXYuXYh9VlrrWlM4STAZn3sQOBumFGD85l8NUcLqK6B4M8x67BxO2fXILzhN4B2BU
+	 awW9tkXIImmGo6T6kf3CMLsydwKRFrCShSbshmJZdMTwdZlS8hx070+c6T0k/sjoJA
+	 qrli+3YzdEjOuYYWmi7/eX+fS3nR0X9qLxqa7lkA0sqbxR7ZpQRP16hFBijOa7+Glw
+	 UKfSOaXg7JBTS7dRCgMgcJxLilLRa8EraZkF2TMfGDuB2LngUIWnuMKHmQ5S0tMkkv
+	 QSVzdTlSUbKJw==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 05/33] rust: remove `RUSTC_HAS_COERCE_POINTEE` and simplify code
-Date: Wed,  1 Apr 2026 13:45:12 +0200
-Message-ID: <20260401114540.30108-6-ojeda@kernel.org>
+Subject: [PATCH 06/33] rust: kbuild: remove skipping of `-Wrustdoc::unescaped_backticks`
+Date: Wed,  1 Apr 2026 13:45:13 +0200
+Message-ID: <20260401114540.30108-7-ojeda@kernel.org>
 In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
 Precedence: bulk
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12477-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12478-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -131,202 +131,50 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.983];
+	NEURAL_HAM(-0.00)[-0.997];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0B62737A6B0
+X-Rspamd-Queue-Id: 5B4FD37A0E3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-With the Rust version bump in place, the `RUSTC_HAS_COERCE_POINTEE`
-Kconfig (automatic) option is always true.
+Back in Rust 1.82.0, I cleaned the `rustdoc::unescaped_backticks` lint in
+upstream Rust and added tests so that hopefully it would not regress [1].
 
-Thus remove the option and simplify the code.
+Thus we can remove it from our side given the Rust minimum version bump.
 
-In particular, this includes removing our use of the predecessor unstable
-features we used with Rust < 1.84.0 (`coerce_unsized`, `dispatch_from_dyn`
-and `unsize`).
-
+Link: https://github.com/rust-lang/rust/pull/128307 [1]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- init/Kconfig              |  3 ---
- rust/kernel/alloc/kbox.rs | 29 ++---------------------------
- rust/kernel/lib.rs        |  8 +-------
- rust/kernel/list/arc.rs   | 22 +---------------------
- rust/kernel/sync/arc.rs   | 21 ++-------------------
- 5 files changed, 6 insertions(+), 77 deletions(-)
+ rust/Makefile | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index c38f49228157..f9fac458e4d4 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -178,9 +178,6 @@ config LD_CAN_USE_KEEP_IN_OVERLAY
- 	# https://github.com/llvm/llvm-project/pull/130661
- 	def_bool LD_IS_BFD || LLD_VERSION >= 210000
+diff --git a/rust/Makefile b/rust/Makefile
+index 5eca6a817966..212759b5eb7d 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -75,8 +75,7 @@ core-edition := $(if $(call rustc-min-version,108700),2024,2021)
  
--config RUSTC_HAS_COERCE_POINTEE
--	def_bool RUSTC_VERSION >= 108400
--
- config RUSTC_HAS_SPAN_FILE
- 	def_bool RUSTC_VERSION >= 108800
+ core-skip_flags := \
+     --edition=2021 \
+-    -Wunreachable_pub \
+-    -Wrustdoc::unescaped_backticks
++    -Wunreachable_pub
  
-diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
-index 622b3529edfc..bd6da02c7ab8 100644
---- a/rust/kernel/alloc/kbox.rs
-+++ b/rust/kernel/alloc/kbox.rs
-@@ -77,33 +77,8 @@
- /// `self.0` is always properly aligned and either points to memory allocated with `A` or, for
- /// zero-sized types, is a dangling, well aligned pointer.
- #[repr(transparent)]
--#[cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, derive(core::marker::CoercePointee))]
--pub struct Box<#[cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, pointee)] T: ?Sized, A: Allocator>(
--    NonNull<T>,
--    PhantomData<A>,
--);
--
--// This is to allow coercion from `Box<T, A>` to `Box<U, A>` if `T` can be converted to the
--// dynamically-sized type (DST) `U`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T, U, A> core::ops::CoerceUnsized<Box<U, A>> for Box<T, A>
--where
--    T: ?Sized + core::marker::Unsize<U>,
--    U: ?Sized,
--    A: Allocator,
--{
--}
--
--// This is to allow `Box<U, A>` to be dispatched on when `Box<T, A>` can be coerced into `Box<U,
--// A>`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T, U, A> core::ops::DispatchFromDyn<Box<U, A>> for Box<T, A>
--where
--    T: ?Sized + core::marker::Unsize<U>,
--    U: ?Sized,
--    A: Allocator,
--{
--}
-+#[derive(core::marker::CoercePointee)]
-+pub struct Box<#[pointee] T: ?Sized, A: Allocator>(NonNull<T>, PhantomData<A>);
+ core-flags := \
+     --edition=$(core-edition) \
+@@ -213,8 +212,6 @@ rustdoc-macros: $(src)/macros/lib.rs rustdoc-clean rustdoc-proc_macro2 \
+     rustdoc-quote rustdoc-syn FORCE
+ 	+$(call if_changed,rustdoc)
  
- /// Type alias for [`Box`] with a [`Kmalloc`] allocator.
- ///
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 621cae75030c..66a09d77a2c4 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -39,17 +39,11 @@
- //
- // Expected to become stable.
- #![feature(arbitrary_self_types)]
-+#![feature(derive_coerce_pointee)]
- //
- // To be determined.
- #![feature(used_with_arg)]
- //
--// `feature(derive_coerce_pointee)` is expected to become stable. Before Rust
--// 1.84.0, it did not exist, so enable the predecessor features.
--#![cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, feature(derive_coerce_pointee))]
--#![cfg_attr(not(CONFIG_RUSTC_HAS_COERCE_POINTEE), feature(coerce_unsized))]
--#![cfg_attr(not(CONFIG_RUSTC_HAS_COERCE_POINTEE), feature(dispatch_from_dyn))]
--#![cfg_attr(not(CONFIG_RUSTC_HAS_COERCE_POINTEE), feature(unsize))]
--//
- // `feature(file_with_nul)` is expected to become stable. Before Rust 1.89.0, it did not exist, so
- // enable it conditionally.
- #![cfg_attr(CONFIG_RUSTC_HAS_FILE_WITH_NUL, feature(file_with_nul))]
-diff --git a/rust/kernel/list/arc.rs b/rust/kernel/list/arc.rs
-index e1082423909c..a9a2b0178f65 100644
---- a/rust/kernel/list/arc.rs
-+++ b/rust/kernel/list/arc.rs
-@@ -160,7 +160,7 @@ fn try_new_list_arc(&self) -> bool {
- ///
- /// [`List`]: crate::list::List
- #[repr(transparent)]
--#[cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, derive(core::marker::CoercePointee))]
-+#[derive(core::marker::CoercePointee)]
- pub struct ListArc<T, const ID: u64 = 0>
- where
-     T: ListArcSafe<ID> + ?Sized,
-@@ -443,26 +443,6 @@ fn as_ref(&self) -> &Arc<T> {
-     }
- }
- 
--// This is to allow coercion from `ListArc<T>` to `ListArc<U>` if `T` can be converted to the
--// dynamically-sized type (DST) `U`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T, U, const ID: u64> core::ops::CoerceUnsized<ListArc<U, ID>> for ListArc<T, ID>
--where
--    T: ListArcSafe<ID> + core::marker::Unsize<U> + ?Sized,
--    U: ListArcSafe<ID> + ?Sized,
--{
--}
--
--// This is to allow `ListArc<U>` to be dispatched on when `ListArc<T>` can be coerced into
--// `ListArc<U>`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T, U, const ID: u64> core::ops::DispatchFromDyn<ListArc<U, ID>> for ListArc<T, ID>
--where
--    T: ListArcSafe<ID> + core::marker::Unsize<U> + ?Sized,
--    U: ListArcSafe<ID> + ?Sized,
--{
--}
--
- /// A utility for tracking whether a [`ListArc`] exists using an atomic.
- ///
- /// # Invariants
-diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs
-index 921e19333b89..18d6c0d62ce0 100644
---- a/rust/kernel/sync/arc.rs
-+++ b/rust/kernel/sync/arc.rs
-@@ -128,7 +128,7 @@
- /// # Ok::<(), Error>(())
- /// ```
- #[repr(transparent)]
--#[cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, derive(core::marker::CoercePointee))]
-+#[derive(core::marker::CoercePointee)]
- pub struct Arc<T: ?Sized> {
-     ptr: NonNull<ArcInner<T>>,
-     // NB: this informs dropck that objects of type `ArcInner<T>` may be used in `<Arc<T> as
-@@ -182,15 +182,6 @@ unsafe fn container_of(ptr: *const T) -> NonNull<ArcInner<T>> {
-     }
- }
- 
--// This is to allow coercion from `Arc<T>` to `Arc<U>` if `T` can be converted to the
--// dynamically-sized type (DST) `U`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T: ?Sized + core::marker::Unsize<U>, U: ?Sized> core::ops::CoerceUnsized<Arc<U>> for Arc<T> {}
--
--// This is to allow `Arc<U>` to be dispatched on when `Arc<T>` can be coerced into `Arc<U>`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T: ?Sized + core::marker::Unsize<U>, U: ?Sized> core::ops::DispatchFromDyn<Arc<U>> for Arc<T> {}
--
- // SAFETY: It is safe to send `Arc<T>` to another thread when the underlying `T` is `Sync` because
- // it effectively means sharing `&T` (which is safe because `T` is `Sync`); additionally, it needs
- // `T` to be `Send` because any thread that has an `Arc<T>` may ultimately access `T` using a
-@@ -547,20 +538,12 @@ fn from(item: Pin<UniqueArc<T>>) -> Self {
- /// # Ok::<(), Error>(())
- /// ```
- #[repr(transparent)]
--#[cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, derive(core::marker::CoercePointee))]
-+#[derive(core::marker::CoercePointee)]
- pub struct ArcBorrow<'a, T: ?Sized + 'a> {
-     inner: NonNull<ArcInner<T>>,
-     _p: PhantomData<&'a ()>,
- }
- 
--// This is to allow `ArcBorrow<U>` to be dispatched on when `ArcBorrow<T>` can be coerced into
--// `ArcBorrow<U>`.
--#[cfg(not(CONFIG_RUSTC_HAS_COERCE_POINTEE))]
--impl<T: ?Sized + core::marker::Unsize<U>, U: ?Sized> core::ops::DispatchFromDyn<ArcBorrow<'_, U>>
--    for ArcBorrow<'_, T>
--{
--}
--
- impl<T: ?Sized> Clone for ArcBorrow<'_, T> {
-     fn clone(&self) -> Self {
-         *self
+-# Starting with Rust 1.82.0, skipping `-Wrustdoc::unescaped_backticks` should
+-# not be needed -- see https://github.com/rust-lang/rust/pull/128307.
+ rustdoc-core: private skip_flags = $(core-skip_flags)
+ rustdoc-core: private rustc_target_flags = $(core-flags)
+ rustdoc-core: $(RUST_LIB_SRC)/core/src/lib.rs rustdoc-clean FORCE
 -- 
 2.53.0
 
