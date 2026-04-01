@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12580-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12574-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eDJLN42nzWmvfgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12580-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:17:33 +0200
+	id cMEBCdSlzWmvfgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12574-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:10:12 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81410381941
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F9381704
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:10:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4FBA8308F3C1
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:06:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AB2BE3062FA8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:04:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBA8480DF9;
-	Wed,  1 Apr 2026 23:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 349C148032C;
+	Wed,  1 Apr 2026 23:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqBr1Jat"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dTmUdMFx"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB83480DEC;
-	Wed,  1 Apr 2026 23:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3A23F0A83;
+	Wed,  1 Apr 2026 23:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775084492; cv=none; b=K+l0HwoKCk/pEZq/NHqhYLuxPqmFFdxmCGUXNZ7+sUmuGdcgekBAGEuZiplMgBLDZXbqTp3+kbkqYXIuKiP9lLnJv6ee9VQ04hxTwN7fJ8folZeTZgP1XnWiszXheQ7wlu4pW8D71LXESSv0voBWG2cnF6zAKYp+ZH+6tU4zRfI=
+	t=1775084461; cv=none; b=lw8R4csh5FIfXrCh/jE4UOQVqpCjeFa+NBwlQWBFPKSs4HPj5Wnki19iRbfcYtwdHM/jRbW1XCtgiSq6QaECGJWuU4SMEjlOMioNk0wQhQimXRkZo5Z6gWMQP1E5EF6u4EVtbUpcR9PC/D5vJAP9qZfLeftbwIHDc2S8obSBMLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775084492; c=relaxed/simple;
-	bh=eMEeyEmMsSEJqm/VBl3vGWpBMChoVMgzinIBBgfTPlE=;
+	s=arc-20240116; t=1775084461; c=relaxed/simple;
+	bh=1OJuineu8PClHjPsG3fYTbGnqTeEga0zV2kTfSmawb4=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=ChLKVJxnQCaq0l2w/XsFWt/WkvYElMM4ib9p6ZrTwvmJAmR1nw5PQLSg9x0u3ebx+e8iihT98PHmQACvPcpFaAJfwZ3JlLvWuunmeOv2wTW95KAObRBc93JVoQybQ3WkQfHlSGCf36Udkb0oywCjIDA9BktB9WoZPxuDCYhS0MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqBr1Jat; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E053C116C6;
-	Wed,  1 Apr 2026 23:01:27 +0000 (UTC)
+	 References:Date:Message-Id; b=sa3MVwPaKt6idpmXkjQ/T8uWhGoSQXF5GlFbA4sjiWiorr1JW/Tl11ASnXzR3EL2rXJmSg3nYGbDcGgqU+DwXx5W4z/r/DRrmHw1gAjkR3GAT5xijy2GnSk8dtpHa22309X2HIPrzda9ABfryTS21g9MOFN+vmReaxz7edQ4BG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dTmUdMFx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C13C2BCAF;
+	Wed,  1 Apr 2026 23:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775084492;
-	bh=eMEeyEmMsSEJqm/VBl3vGWpBMChoVMgzinIBBgfTPlE=;
+	s=k20201202; t=1775084461;
+	bh=1OJuineu8PClHjPsG3fYTbGnqTeEga0zV2kTfSmawb4=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=OqBr1JatdiUb2SuylVZI06g081Th5A5y+SBKA3HDmkQQ97vI3JEwhrSxvGwmRYfcT
-	 gIgZiBk86U6zFl2xeAM5XAcNIndwN1BmcEoaR5ZvJYM7rqzMFz+1YsE+cz7axIJl2F
-	 X039vepaYXzaeHv3h/+ZjOkTeUE+OJDVFelUi2CljqpO1nCMphf/t+AimoE63wwItA
-	 oicrQfUBsr7nzOMQMl4np1MASYv6HNnj7KFB/AEG/OmevrCXcdXrzdV6/QynJ6W0qp
-	 YB9ROCeUG7CfHzwZ7tLmPMeRsXJJ6hXMQDecGejA+SExP6VmmpiJ41ojKql7BZVzvj
-	 qYYbOof6fOpDg==
+	b=dTmUdMFxsYkxPmis09F9SPtnKde28cmwByv3QEYGqto19XeOKoBzECtJ/lACxN34o
+	 88cXDP+3MbErZiAQc5mmtQiNg1UibFr5dZcsHtaVz7SACwXHa0Hz4qkUtgQ6Yj+mPJ
+	 na3+ajNfZzKUWCzK7omgbHWSsEQLkWDQzNS0oDSRq40Fkh/Q3f8cakwVWBCC/hkOMN
+	 lFx1nv4C5gF/8FZsKBZaRqQIaPHAqv/Ph8wIC9QGk4mAiJWsfqXJc5ra05aJUvmSG2
+	 HkdNeJ7zsD0cgvxHfL7v26+nTHRtEd/OY/QYivMFyvEYSqf6Eastw5n6akb7nFjP3+
+	 hpnbteA57SHZA==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,8 +52,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 26/33] docs: rust: quick-start: remove Gentoo "testing"
- note
+Subject: Re: [PATCH 20/33] rust: kbuild: remove unneeded old `allow`s for
+ generated layout tests
 From: Tamir Duberstein <tamird@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
@@ -85,18 +85,18 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-In-Reply-To: <20260401114540.30108-27-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-21-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-27-ojeda@kernel.org>
+ <20260401114540.30108-21-ojeda@kernel.org>
 Date: Wed, 01 Apr 2026 18:59:04 -0400
-Message-Id: <177508434468.73816.14590171380654521174.b4-review@b4>
+Message-Id: <177508434460.73816.4231801886718165891.b4-review@b4>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=345; i=tamird@kernel.org;
- h=from:subject:message-id; bh=eMEeyEmMsSEJqm/VBl3vGWpBMChoVMgzinIBBgfTPlE=;
- b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7uuLFn5ysG844m+YOzU32yT5q2ddFFGwjjYK7z0s
- IHllYmrOyayMIhxMViKKbIkih7am556e49s5rvjMHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
- oZGOgY4xAxenAEx1cxYjw/WVXWtWXt19ZdneHTnhLd/eMl7yEJ8655tqxfdHppWHvysx/PdbySo
- az7fibtaeiJbGk/N2qotN1tyw6K2c2vSuyp4IYx4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=536; i=tamird@kernel.org;
+ h=from:subject:message-id; bh=1OJuineu8PClHjPsG3fYTbGnqTeEga0zV2kTfSmawb4=;
+ b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7v8ELVZvm0Ot+b2nHSn4DXRbVG6lwIVBPeIfpVdF
+ WNTtDGsYyILgxgXg6WYIkui6KG96am398hmvjsOM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6BgzcHEKwFTPOM7I8CSkokjo+uZ/i/c/aufXnXUv/2TrD5PYeo0MiXjP+Nj5kxgZ3u/emnr
+ vtdKxsy1q5tqh4RX8Ap/yk8PKcre53zn59dIRPgA=
 X-Developer-Key: i=tamird@kernel.org; a=openpgp;
  fpr=5A6714204D41EC844C50273C19D6FF6092365380
 X-Spamd-Result: default: False [-0.16 / 15.00];
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12580-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12574-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -127,15 +127,18 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 81410381941
+X-Rspamd-Queue-Id: B72F9381704
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 01 Apr 2026 13:45:33 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
-> Gentoo does not need the "testing" note, since its packages are recent
-> enough even in the stable branch [1][2].
-> 
-> Thus remove it to simplify the documentation.
+On Wed, 01 Apr 2026 13:45:27 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
+> The issue that required `allow`s for `cfg(test)` code generated by
+> `bindgen` for layout testing was fixed back in `bindgen` 0.60.0 [1],
+> so it could have been removed even before the version bump, but it does
+> not hurt.
+
+How about ordering this, the previous patch, and the next patch ahead of
+the version bump to avoid the need to mention it here?
 
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 
