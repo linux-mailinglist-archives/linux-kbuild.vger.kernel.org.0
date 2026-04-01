@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12481-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gIy3CSgHzWkjZgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12480-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:53:12 +0200
+	id KAveL6cIzWl/ZgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12481-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:59:35 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BC2379E58
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:53:11 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAF337A014
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:59:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 99553301E5ED
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:48:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5BD0F3174947
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70AB83FE648;
-	Wed,  1 Apr 2026 11:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 655853FCB2B;
+	Wed,  1 Apr 2026 11:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sflZSueu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bw0XQFM9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0C73F9F30;
-	Wed,  1 Apr 2026 11:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FACE3FB7FA;
+	Wed,  1 Apr 2026 11:47:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044058; cv=none; b=W5rTyHohFGfOqc0DioDa3NjHAQx3Vs2/9NnoSPiQlRQS+FEw3qqwVbtfHIjF44vURSr7DE2rUfq/AkmArvn+VHgiY0bj+EuWCpQKEWPFsuc/I8OjoFJlDy6EKp1fAAT0B4k0hv2JGW+1+2a05vA+DEliIxVoO2cO7ox2p2fIud0=
+	t=1775044070; cv=none; b=sFFWUAF7BJLIobcne8p0MvEL4cRzN31UDZ3zck4aDuUn27Btoh5VL19MYh8e81V7WMpTuIPnrBeo2mW6GcKhqjYxPboS4YibVixj/KJVQk95TmJQszIheZJxBPfDLVyQYlqrxGy/jcfODyi9dXK6iccqKr5e/a1n+I3c8THvCYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044058; c=relaxed/simple;
-	bh=ry8aHALQKoUAVgl8vkVGGnGKhW3biqQ3zE20M4qwJgI=;
+	s=arc-20240116; t=1775044070; c=relaxed/simple;
+	bh=xsU9IffmhOUWeURxd1cBn+xx+oWcdYdxyuUvVgPmku0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bx8u+0CMZ/X8hgDO4r3rfkxnQJ63a/WuV+iCJSIPfSyQJeMUI5yaCJbvM8jtRWl38aRr5T0rcizTLUwbaqB3GPDbMINMUKRD+OazZDzTWGKL5u5fzFsEQqxokV0b4RyRTvqxGxamoZMfgDS1bwLhtOFUxRWbjKVqmUnZQuithrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sflZSueu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0309C4CEF7;
-	Wed,  1 Apr 2026 11:47:26 +0000 (UTC)
+	 MIME-Version; b=c6o9KKC2CcZ3PhTyWIsjzpe3Y41onXsf70y6PioLlt2p96E7JyPT24cdHCzVFQ4U7+N+se68aN5xjTof5Q4eRpaXm/dwzplTN05tccnhifS1IZ0PnuKJJ6QVaUy3CN5llxjH/xvZkeqvBHtfAbINef/NMMJNVAAwP+Jet84gD/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bw0XQFM9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98766C116C6;
+	Wed,  1 Apr 2026 11:47:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775044058;
-	bh=ry8aHALQKoUAVgl8vkVGGnGKhW3biqQ3zE20M4qwJgI=;
+	s=k20201202; t=1775044069;
+	bh=xsU9IffmhOUWeURxd1cBn+xx+oWcdYdxyuUvVgPmku0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sflZSueuLuu1bWL2KEvq3OCBI7g2AOgQPjJLOPksg31c1MoUcPjU3PoOhqsrY78NL
-	 qLTZ5oOs5TEYly4ggal/VwhAsfF451NsyaNr6GAdAbOY/JzOwZeaDZ9elT0AfNQS7D
-	 mARg0SQMYwQv2vNVOe3YsrTYDZEK2B9QqRmx5l0suW3yJQKno/WpxtQkmgksvMwzck
-	 Ma796ZKDd5Ou4YuvDUAv86QHFr3dqOr1gMbbh0EOfUXAbhTkB6IantJJ9aOIrNopN8
-	 GeHT6XQFerRjV/gPrSVDV7wN8GmQU1oXsIBd7ARAcLgUwzDJtoq//xQFaYbBbif1av
-	 AKvnVswAymJZg==
+	b=bw0XQFM9BtXzltVVfX1cRyS5Ny7916Ny6Nrc3TLq9KJZYh0JtBh+ukTFEyx8Z85t8
+	 /vt7Jbc/zq1y9bQ1shJhG3VR8TxOtBZF4NjJHMa7mU/xZAlefh37LD+NPTu+Ydfi49
+	 JZ53a+OUpRjXBEozckaDoUhJgDDxIg+j6uv+ZggEvUq3It6rUqjdZ6bh+lQmBq+fnd
+	 qgyPYo7kcXdNsMmw1yjq21a8J89cwAmGQvzQVu5nFumVK/lfkLoYnqg7V/B3EDnv2S
+	 Uy6UH8O6mHui9UIcrilZWtiKbbK/WhNF71Bx912WmOVg7CuvV4vNq3M2vlDeu6Xlr9
+	 RAOV3bDFHx0ZA==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 08/33] rust: kbuild: simplify `--remap-path-prefix` workaround
-Date: Wed,  1 Apr 2026 13:45:15 +0200
-Message-ID: <20260401114540.30108-9-ojeda@kernel.org>
+Subject: [PATCH 09/33] rust: kbuild: make `--remap-path-prefix` workaround conditional
+Date: Wed,  1 Apr 2026 13:45:16 +0200
+Message-ID: <20260401114540.30108-10-ojeda@kernel.org>
 In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
 Precedence: bulk
@@ -112,14 +112,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12480-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12481-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -131,68 +131,51 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F0BC2379E58
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3AAF337A014
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-With the minimum version bump in place, `rustdoc` now always recognizes
-the `--remap-path-prefix` flag.
+The Internal Compiler Error that the comment mentions [1] was fixed in
+Rust 1.87.0 [2]. And, for other workarounds, we plan on limiting where
+we apply them [3].
 
-In addition, the Internal Compiler Error that the comment mentions [1]
-was fixed in Rust 1.87.0 [2], so we still need to skip the flag for
-the normal `rustdoc` case, but not for `--test` since the ICE does not
-reproduce there -- please see commit 2c8725c1dca3 ("rust: kbuild: skip
-`--remap-path-prefix` for `rustdoc`").
+Thus limit the ICE one too.
 
-Thus update the comment and remove the skipping of the flag for the
-`--test` case.
-
-Note that commit dda135077ecc ("rust: build: remap path to avoid
-absolute path") re-landed the `--remap-path-prefix` flag (together with
-`--remap-path-scope`), so we keep the workaround, i.e. an alternative
-could have been to simply delete the skip entirely, but since we still
-have it and it will be needed when this gets merged, let's keep it.
+This will help to make sure the workaround is not needed anymore on
+newer versions.
 
 Link: https://github.com/rust-lang/rust/issues/138520 [1]
 Link: https://github.com/rust-lang/rust/pull/138556 [2]
+Link: https://lore.kernel.org/rust-for-linux/20260205131815.2943152-2-mlksvender@gmail.com/ [3]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/Makefile | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ rust/Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rust/Makefile b/rust/Makefile
-index 193cf06eea64..708530ee3613 100644
+index 708530ee3613..163d2258e93f 100644
 --- a/rust/Makefile
 +++ b/rust/Makefile
-@@ -142,10 +142,9 @@ rustdoc_modifiers_workaround := $(if $(call rustc-min-version,108800),-Cunsafe-a
- # Similarly, for doctests (https://github.com/rust-lang/rust/issues/146465).
- doctests_modifiers_workaround := $(rustdoc_modifiers_workaround)$(if $(call rustc-min-version,109100),$(comma)sanitizer)
- 
--# `rustc` recognizes `--remap-path-prefix` since 1.26.0, but `rustdoc` only
--# since Rust 1.81.0. Moreover, `rustdoc` ICEs on out-of-tree builds since Rust
--# 1.82.0 (https://github.com/rust-lang/rust/issues/138520). Thus workaround both
--# issues skipping the flag. The former also applies to `RUSTDOC TK`.
-+# `rustdoc` ICEs on out-of-tree builds in Rust < 1.87.0
-+# (https://github.com/rust-lang/rust/issues/138520). Thus workaround the
-+# issue skipping the flag.
+@@ -145,10 +145,12 @@ doctests_modifiers_workaround := $(rustdoc_modifiers_workaround)$(if $(call rust
+ # `rustdoc` ICEs on out-of-tree builds in Rust < 1.87.0
+ # (https://github.com/rust-lang/rust/issues/138520). Thus workaround the
+ # issue skipping the flag.
++rustdoc_remap_workaround := $(if $(call rustc-min-version,108700),,--remap-path-prefix=%)
++
  quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
        cmd_rustdoc = \
  	OBJTREE=$(abspath $(objtree)) \
-@@ -333,7 +332,7 @@ quiet_cmd_rustdoc_test_kernel = RUSTDOC TK $<
- 	rm -rf $(objtree)/$(obj)/test/doctests/kernel; \
- 	mkdir -p $(objtree)/$(obj)/test/doctests/kernel; \
- 	OBJTREE=$(abspath $(objtree)) \
--	$(RUSTDOC) --test $(filter-out --remap-path-prefix=%,$(rust_flags)) \
-+	$(RUSTDOC) --test $(rust_flags) \
- 		-L$(objtree)/$(obj) --extern ffi --extern pin_init \
- 		--extern kernel --extern build_error --extern macros \
- 		--extern bindings --extern uapi \
+-	$(RUSTDOC) $(filter-out $(skip_flags) --remap-path-prefix=%,$(if $(rustdoc_host),$(rust_common_flags),$(rust_flags))) \
++	$(RUSTDOC) $(filter-out $(skip_flags) $(rustdoc_remap_workaround),$(if $(rustdoc_host),$(rust_common_flags),$(rust_flags))) \
+ 		$(rustc_target_flags) -L$(objtree)/$(obj) \
+ 		-Zunstable-options --generate-link-to-definition \
+ 		--output $(rustdoc_output) \
 -- 
 2.53.0
 
