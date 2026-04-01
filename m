@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12557-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCnHLfmjzWmvfgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12557-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:02:17 +0200
+	id IK3xLP+lzWmvfgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12572-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:10:55 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3855338150F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CA5381749
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B1F55304994C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:00:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1EDD130E5948
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:03:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F2B3CAE76;
-	Wed,  1 Apr 2026 22:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D060D47F2F2;
+	Wed,  1 Apr 2026 23:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3ZOfAO/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XQSUAheh"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B66337CD3C;
-	Wed,  1 Apr 2026 22:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE0547F2CE;
+	Wed,  1 Apr 2026 23:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775084373; cv=none; b=iYXuqWuVvJH6FhbooHZ235GJ3U3XWpLPk+eXhoioQFNm1585IVvj6k5AjIJNcdxwyGy/MhkUZX75nmxpWH3YEC31vNY1ijm3pV1xPsNwbF0Y8WIJLTZ16yJG6o9xf554Gtrt/cRACjaMbd2sgQgRwp7jl4u8fqbIY2lx728+1wU=
+	t=1775084451; cv=none; b=FHmYj/aCuJ0qqw6ivUBCospPsYVGXLQ0y5fg8YBLhaBhidtuzjrWsAgHYvDIA5a64ujYGxRcTj0Danb7ASPI5suQSjTivjmQfh36TJP1NaAgbqzu3AvNnzWHFyqsw2R7ULxLza8FOQMJz9d0ITThrnvGSXCr1gjW0VrBtycgtMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775084373; c=relaxed/simple;
-	bh=Ii64UohOmGa9D7Nk9W6Cz5l63ShstMt6K7vL/J9HNQA=;
+	s=arc-20240116; t=1775084451; c=relaxed/simple;
+	bh=L8JME5DgePBPrx4n+T2YtWB9P6u86oez5ABp2z3CNBA=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=dvw+a7qETvAsjKIBLa0rEk02nMJwltTOlJgSJXFTEbfoALuYloN4jV0h9yYUF3hAaCNPlieBuKZz4X+B48074AEOlBM4rRlph3jWXWmuH3B8Lglxj02kM1R93cp1wsSKXsZ92AqIO6qb1M5l1VSOk4cwjU4VY5a5yqsjNfjlqHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3ZOfAO/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65428C4CEF7;
-	Wed,  1 Apr 2026 22:59:28 +0000 (UTC)
+	 References:Date:Message-Id; b=rDZg7SJx0o4TFxhU7u1bwvBHBcneEVH4GA7XOPn9MjN+l69bLRVTbpcLDABMLR/SUWmRYXLJAmFcSXD/bQs1nuifaWPdbrrgXlLKefG+415hlzkYQuahiE5vznc9K6Jp9t+fsdajMHCAxkBbQkz09zP5uy49DHcgD77/R8oBSpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XQSUAheh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F8BC2BCB3;
+	Wed,  1 Apr 2026 23:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775084373;
-	bh=Ii64UohOmGa9D7Nk9W6Cz5l63ShstMt6K7vL/J9HNQA=;
+	s=k20201202; t=1775084450;
+	bh=L8JME5DgePBPrx4n+T2YtWB9P6u86oez5ABp2z3CNBA=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=b3ZOfAO/k2lp320CDk3qpRMJS05zjn/afZ2IotR/pNa9pvO8jqoTFabvaRGWwjSrV
-	 afI1aMc6CVXX6wjn76mwbBs3jWHoWB3LvE9ieXeMM09JLcTdQD63xZobaCgRt9gagC
-	 T4+ovLivvAMWeywP9DE1NWQs7WrRBwmmoXZrUEt5B5PWnxDjT8oCVPV8TvfZLgTpl/
-	 qyNiZabsz4Rjnc4DvPKAAgyl6CvLkHjVG3I85YPHu/iRYNHBkH9j/Tt9G2bSzGkLyW
-	 ZQ3WV8fVX2jKsNsVBk08tu1kHvyWkZOpJR2eMMt01r2FfBbmWwsZ6AI7/ziE33NiIW
-	 O8pZatbWprVuA==
+	b=XQSUAhehK0geqbt+sp4fwR2MHzqQqgmyyza2UnqK99FLKtZPX8PbhFgagoLwnWdAi
+	 A9uW7qhg1C+WKQNNQJ4vNBoC8JXS68HsTSryHtezbW548hEJOquK/PM01kl/j89c/f
+	 ih8g3oNWTWFO1MaLODitg52leiBGTbkxz6aYWXplYU8puqoYtpqPyG7/ywmv6jdkg4
+	 AyB4hcxDwgZeGNJgnI9m68RvOZW/AzDoZ8pLjYB1WsSkifuvQnIeNfN/pFZtBdF4K6
+	 0PalwENmSLkuvFHYnm6l5DnOL2jZ9sMtoZUArx9XSiQcwfnoLzFHlQYB3YabNlWmEO
+	 jrlC7XHARUJRw==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,8 +52,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 03/33] rust: simplify `RUSTC_VERSION` Kconfig
- conditions
+Subject: Re: [PATCH 18/33] rust: kbuild: remove "dummy parameter"
+ workaround for `bindgen` < 0.71.1
 From: Tamir Duberstein <tamird@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
@@ -85,18 +85,18 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-In-Reply-To: <20260401114540.30108-4-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-19-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-4-ojeda@kernel.org>
+ <20260401114540.30108-19-ojeda@kernel.org>
 Date: Wed, 01 Apr 2026 18:59:04 -0400
-Message-Id: <177508434434.73816.3787660440846251925.b4-review@b4>
+Message-Id: <177508434456.73816.17651402081142880831.b4-review@b4>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=514; i=tamird@kernel.org;
- h=from:subject:message-id; bh=Ii64UohOmGa9D7Nk9W6Cz5l63ShstMt6K7vL/J9HNQA=;
- b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnFzt9md2tHTAj4WOoTNzX20a/Xhyf8/tK8zeF/6JL/
- mq6R/352zGRhUGMi8FSTJElUfTQ3vTU23tkM98dh5nDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
- DI10DHSMGbg4BWCq2TUZGWY/+B+slXnaqd07eMq5YFYnE9/e7BitD2eXLuc5Vr27/CHD/9DiPXc
- 0reYKqWbbLrgwyXNO3X6Xowze0tyBEarPNty5xAoA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=315; i=tamird@kernel.org;
+ h=from:subject:message-id; bh=L8JME5DgePBPrx4n+T2YtWB9P6u86oez5ABp2z3CNBA=;
+ b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7tsuPi/M7kgl+fS9lvTjjNurz7ibmbL2VVoZaIdt
+ un9n7tMHRNZGMS4GCzFFFkSRQ/tTU+9vUc2891xmDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
+ 0EjHQMeYgYtTAKb6VCgjw4v/PZN5Nk0NjzqeHyr4dklm/dxVmTFP/8cu6j8cxxydxMHI8DJEqva
+ J+w4L6+f+33+wndDmXuhZ3uDQ1f5l0UW7+TdO8QIA
 X-Developer-Key: i=tamird@kernel.org; a=openpgp;
  fpr=5A6714204D41EC844C50273C19D6FF6092365380
 X-Spamd-Result: default: False [-0.16 / 15.00];
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12557-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12572-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -127,21 +127,15 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3855338150F
+X-Rspamd-Queue-Id: 21CA5381749
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 01 Apr 2026 13:45:10 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
-> With the Rust version bump in place, several Kconfig conditions based on
-> `RUSTC_VERSION` are always true.
+On Wed, 01 Apr 2026 13:45:25 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
+> Until the version bump of `bindgen`, we needed to pass a dummy parameter
+> to avoid failing the `--version` call.
 > 
-> Thus simplify them.
-> 
-> The minimum supported major LLVM version by our new Rust minimum version
-> is now LLVM 18, instead of LLVM 16. However, there are no possible
-> cleanups for `RUSTC_LLVM_VERSION`.
-> 
-> [...]
+> Thus remove it.
 
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 
