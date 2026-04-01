@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12578-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12583-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4DH6NHOnzWmvfgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12578-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:17:07 +0200
+	id MNQnJMGnzWmvfgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12583-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:18:25 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464EF38191B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:17:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CFD38198E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 01:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B22BA3084AD9
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:05:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4069831A9237
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 23:07:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2CB3480DC2;
-	Wed,  1 Apr 2026 23:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBEFF48164F;
+	Wed,  1 Apr 2026 23:01:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnZUWOir"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qd+wRJd3"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB06480978;
-	Wed,  1 Apr 2026 23:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223FE48125D;
+	Wed,  1 Apr 2026 23:01:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775084482; cv=none; b=GVcVfeA+kqiSE0zKc2tfS52uMbh7koOsejM1hr5dSnPCvOF6huKDf1RVwe8Lmd7fKJIn7wRS4FoIksxI7xRwO6qbBj/D02LxF8X2S9AHEFJwLPA9X7LL6jao4m4XdklUmS3XMNr3GOi3OWIFlhJtoYobLHvAY/BX0P7t6A+Zj54=
+	t=1775084508; cv=none; b=ZPc3ZICf+PRMeod4qOAR1AdBWCVYSzMrmqXdzScdXH0jcb/d6Uvr4/gPrwyZWHIjKXbqPluG+U5+ohyaSxssISescn7bm0nA1RoxCU/hMaLeME58XsNDgcVOPYNbyQ1Ohr77UH6ybzKMxN8u1BnVBwGva6PLepLMgR/Y6DdWbjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775084482; c=relaxed/simple;
-	bh=6656iS8Z953zXAk/bn8KpSt1Oh4C8fXwc0OPqmLk+Wg=;
+	s=arc-20240116; t=1775084508; c=relaxed/simple;
+	bh=EHz4n5YTSN6LWX8eGfRMr5/Bcb1koBvR3pe++ElzTzY=;
 	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=H6oiCU8dCdKRLq+eEgp2azymStObej3kqEwbctfCpomTiQNxJEbLpXPTCrJq1pO3CdjvaBW58tsTacfPyvGvyYGCYIqLF44ZiLKWk6e5IfVFtRwhUC+26WR+so1HKwe/B8vAsHDRI4OthMKcva5yJ+8i2eP5maIqgd0GSxXWLGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnZUWOir; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2E7BC2BCAF;
-	Wed,  1 Apr 2026 23:01:16 +0000 (UTC)
+	 References:Date:Message-Id; b=RR3Si16QLa7LJIoCDkdBaN2Ps7Ty/La/2++5ijXbVkz6fZ8XZxzm4Iu8qdEvZge2pjbc88kHf1MvMlEdjeBa9k6CJ2RWrAuGTlKPHvrTIipeTSg2yF5hmBOBymK0MaQyaX9N93nqugsv6xjRFY7WXTnN9jvL0034TI0Qzi5/0a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qd+wRJd3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 846E1C116C6;
+	Wed,  1 Apr 2026 23:01:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775084481;
-	bh=6656iS8Z953zXAk/bn8KpSt1Oh4C8fXwc0OPqmLk+Wg=;
+	s=k20201202; t=1775084507;
+	bh=EHz4n5YTSN6LWX8eGfRMr5/Bcb1koBvR3pe++ElzTzY=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=RnZUWOirA715kbUPApG8z/29huJIEsdvuiYpn4e51BGl8Ih9SKFkc8mSpA7VTChiB
-	 x9CVKCriNZkE9qjuaipqjo+nCQVG45LC+x9BJfMr26Ka2UW9mJ3orbH1f+2MVf8rKs
-	 g5Zxd3sc+h9Awoqdt/jrZcCCNplpoC8xYVYMJ5lSdUcmrwD+FiH36uWGgU4rjiWVNO
-	 ugNNPXvHlZzVsQ58hUHNyoop8UyO3R2aa7bYcrnxq//E7woWnwm2eFwJwJ/08jWKAM
-	 uYP7EZaf1nmiAP00xNPx4xm9mZO8bt0go7da8uTuzQNPOnpLq+/734ONfHKrXmysCf
-	 jJVgMm6it7WKw==
+	b=Qd+wRJd3wir6TeK3EAz5gzl2NHC2qbwNimuevll/SRy4V4IoVSdIPJ/4HIkcpVXiG
+	 GtFfzJ0Uj6ddY9J5/w6tj9QSfgXupx/UhHog42BcNvzDhUgr5spzGF1QfWVaUZH+fb
+	 iF5k9s/ftekDdHeJsmoNNIvFYVjAEC4x1SXaEzy3EaO/cC9QWPOuxMq1vA1eNHEtRS
+	 +Y+i6OT6GC5jocuqRICw6v3JGQnV5THSARnBCOWMrYgtgZCxzfaKzcO9IWLOzr+reU
+	 u60yz8JAUjGkHwq1N23g+F4zbOlB149p/HY9HjKqGTpPtUqsCuPwugHxQp0kDHY9I6
+	 FGWcAxJITh2Ug==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,8 +52,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 24/33] docs: rust: quick-start: update minimum Ubuntu
- version
+Subject: Re: [PATCH 29/33] docs: rust: general-information: simplify
+ Kconfig example
 From: Tamir Duberstein <tamird@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
@@ -85,18 +85,18 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-In-Reply-To: <20260401114540.30108-25-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-30-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-25-ojeda@kernel.org>
+ <20260401114540.30108-30-ojeda@kernel.org>
 Date: Wed, 01 Apr 2026 18:59:04 -0400
-Message-Id: <177508434466.73816.13717819961434434560.b4-review@b4>
+Message-Id: <177508434471.73816.15753382261308172951.b4-review@b4>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=430; i=tamird@kernel.org;
- h=from:subject:message-id; bh=6656iS8Z953zXAk/bn8KpSt1Oh4C8fXwc0OPqmLk+Wg=;
- b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7vYT5udIq//NWh3249c6Zw3aa2uE1ildkhcKim49
- Glpsf7MjoksDGJcDJZiiiyJoof2pqfe3iOb+e44zBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
- aKRjoGPMwMUpAFMtfoaRYYZs6f3+qpndGzVXCi3h9u8KjP8wX+SNtVZRiJHZvG0PrRn+yr6UuBJ
- UWq+RY6pw/fwCn9/Xfx5LiJtkZDJlt7jYZ7ZpfAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=412; i=tamird@kernel.org;
+ h=from:subject:message-id; bh=EHz4n5YTSN6LWX8eGfRMr5/Bcb1koBvR3pe++ElzTzY=;
+ b=owGbwMvMwCV2wYdPVfy60HTG02pJDJlnF7ver/2//ckbsVnLfatPrvglsc9eXG7+eRe/fdsr7
+ t1q97Gf3DGRhUGMi8FSTJElUfTQ3vTU23tkM98dh5nDygQyRFqkgQEIWBj4chPzSo10jPRMtQ31
+ DI10DHSMGbg4BWCqOfUYGRYmxl4TfflIb2K2ycHjlVO+/Z6+c57fBwNzU4O9vCKKM+8y/LPI/Sc
+ h4bDDddL1t1ukjFU25JvonNtgcyE3XqZH4qBrCBMA
 X-Developer-Key: i=tamird@kernel.org; a=openpgp;
  fpr=5A6714204D41EC844C50273C19D6FF6092365380
 X-Spamd-Result: default: False [-0.16 / 15.00];
@@ -104,12 +104,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12578-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12583-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -123,22 +123,22 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
 	FREEMAIL_CC(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,lists.linux.dev];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 464EF38191B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 66CFD38198E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 01 Apr 2026 13:45:31 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
-> Ubuntu 25.04 is out of support [1], and Ubuntu 25.10 is the latest
-> supported one.
+On Wed, 01 Apr 2026 13:45:36 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
+> There is no need to use `def_bool y if <expr>` -- one can simply write
+> `def_bool <expr>`.
 > 
-> Moreover, Ubuntu 25.10 is the first that provides a recent enough Rust
-> given the minimum bump -- they provide 1.85.1 [2].
+> In fact, the simpler form is how we actually use them in practice in
+> `init/Kconfig`.
 > 
-> Thus update it.
+> Thus simplify the example.
 > 
 > [...]
 
