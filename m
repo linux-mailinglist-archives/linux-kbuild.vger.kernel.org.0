@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12473-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12474-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cChBDYcIzWl/ZgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12473-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:59:03 +0200
+	id KOIMEQUIzWl/ZgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12474-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:56:53 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FECD379FEF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:59:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E10379F75
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 13:56:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AB2EC315333D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:46:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2AADA3132ACB
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:46:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B583E7146;
-	Wed,  1 Apr 2026 11:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D883DCDA8;
+	Wed,  1 Apr 2026 11:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRqDupu+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hL4sHbvE"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74EF324B16;
-	Wed,  1 Apr 2026 11:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC59346ADE;
+	Wed,  1 Apr 2026 11:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775043975; cv=none; b=s3UgFMSLAF6O4xEm71hbAT7gz5+IS6jZkhdcNdlyO6jC0mRPl38ITChOyO2xcRLZnrRNGJxGUx1vSFNFwk4U1hCYEIBl+5EtGyRx78TXK25boMzUCG+DK+yXudhsCo/COJHhuKZeCyKHl0V/oFtCqVFcbfaAa70m4DIH3tAUmUM=
+	t=1775043987; cv=none; b=RTDRlFU+Fc4wfrL1cT+HECNcxgj+NPQ59P1t+UHQGGV747eYcXCF1zv/tU5ICifALKBHvgoDNHllKr9TI4V0w7iOaJ+SRLUx7mZ9JVoRpG7DfpsSuyyN4vo3OvsvUnq945wv9iEnt8+WRyKZdnSqqd3KjqJGLmc55Ugdbn/9Xoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775043975; c=relaxed/simple;
-	bh=ee9ui+LCdpJHl0TldbW+Hj1cIbucU9apUqrPLbY+gwA=;
+	s=arc-20240116; t=1775043987; c=relaxed/simple;
+	bh=bANzQfGdC4IAbhvKXuBQNZWwfHWEIkonTSD/l3eSFWo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s+sCX8EtTW6ef9bu1G5Ixyxh9LMkXepSqOdhZheUrcFr4HFscDibKGS0Ygy97o4Wm5yDxg1bteH/i54Zzwt/03zxDkVO7RInukdMb4JlWyque8u2pWhaRSzZAzYr9rP/NvcXXG45yXcGQg63jWSHgVDzttgJ64BBBPEwmogTlbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRqDupu+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314CBC4CEF7;
-	Wed,  1 Apr 2026 11:46:03 +0000 (UTC)
+	 MIME-Version; b=t/k/rfH0kBJqnxDHZkufsDt/BKzcvNRsG1DqMebejY/fr7YKBHv9AoEGmePKLGJIcNOWnL37kw3h/MGfSYBzgrTzD1gjEA0p8yge1eGMl8Elt1BtmBrwPs51ueoqmiZAGQQpkLVJBPsYl20Km4aoNUNhnmRCj6rhWVwk0+lSaoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hL4sHbvE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 065A7C4CEF7;
+	Wed,  1 Apr 2026 11:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775043975;
-	bh=ee9ui+LCdpJHl0TldbW+Hj1cIbucU9apUqrPLbY+gwA=;
+	s=k20201202; t=1775043987;
+	bh=bANzQfGdC4IAbhvKXuBQNZWwfHWEIkonTSD/l3eSFWo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KRqDupu+DKvNmwW+4j5ymsnMQyV8FjWKLKLMuRfJUaFNjjRl8TChFt1O49A4LriR4
-	 aCxNadQPRYWuZCjWbo1G44JNcreCgipEpTp25HG8+WRGEQpYq7kENnhi95ZvkothfB
-	 1r+PascAFPeFUZ3UdnavVyKxTrY5sFckDghBLAV95wFV/7g0t8aY2T6Fli7cVnPYN5
-	 rkQQwfKcvN45XkZT1HU8FQsC/R0ookEadJs+Fu2CukxnkXqGoBe7jjSw5pUxfGmltp
-	 jaO17kwZAxx2dXVmEEDxPcOzWr8F1PnIUzJ/2t3S/iYg3yjijoVzP0yNPKxQ0FAq8T
-	 OxPArPyTGQbbQ==
+	b=hL4sHbvEsNWJiay38u1aNlo7H43VBJ1sQkn95Zz3Zvo78hQs4urrxoY3PVbkzKt0l
+	 lwmTMIaJi+qiU2KMGU6vLKoGsiBAHAkiLOEOtbt9u9OHlSIILM04QabgoVY8JAqGM2
+	 ktOh+LvLdSPlD4TAGMErsb3sfuWdamUxchSdksVBIJ38zHPuP7Z3j73xQdW7tKiEjL
+	 3P1B2oMo9xQQOERf8nSXdYHlAeXuO4SJJzjQaIXxzPUJD3XBzD1RAtErQhOQJcGTnV
+	 k195Z2x0u87K/wOQvxUzbhoRq0DOWDo6GjE0Ys09MiK0M4d5vrYQEjsZvmtaKni/FB
+	 Nn2gr6YtVmP8w==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 01/33] rust: bump Rust minimum supported version to 1.85.0 (Debian Trixie)
-Date: Wed,  1 Apr 2026 13:45:08 +0200
-Message-ID: <20260401114540.30108-2-ojeda@kernel.org>
+Subject: [PATCH 02/33] rust: bump Clippy's MSRV and clean `incompatible_msrv` allows
+Date: Wed,  1 Apr 2026 13:45:09 +0200
+Message-ID: <20260401114540.30108-3-ojeda@kernel.org>
 In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
 Precedence: bulk
@@ -112,14 +112,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12473-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12474-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -131,81 +131,97 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ubuntu.com:url,launchpad.net:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lwn.net:url]
-X-Rspamd-Queue-Id: 7FECD379FEF
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B0E10379F75
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-As proposed in the past in e.g. LPC 2025 and the Maintainers Summit [1],
-we are going to follow Debian Stable's Rust versions as our minimum
-supported version.
+Following the Rust compiler bump, we can now update Clippy's MSRV we
+set in the configuration, which will improve the diagnostics it generates.
 
-Debian Trixie was released with a Rust 1.85.0 toolchain [2], which it
-still uses to this day [3] (i.e. no update to Rust 1.85.1).
+Thus do so and clean a few of the `allow`s that are not needed anymore.
 
-Debian Trixie's release happened on 2025-08-09 [4], which means that a
-fair amount of time has passed since its release for kernel developers
-to upgrade.
-
-Thus bump the minimum to the new version.
-
-Then, in later commits, clean up most of the workarounds and other bits
-that this upgrade of the minimum allows us.
-
-pin-init was left as-is since the patches come from upstream. And the
-vendored crates are unmodified, since we do not want to change those.
-
-Note that the minimum LLVM major version for Rust 1.85.0 is LLVM 18 (the
-Rust upstream binaries use LLVM 19.1.7), thus e.g. `RUSTC_LLVM_VERSION`
-tests can also be updated, but there are no suitable ones to simplify.
-
-Ubuntu 25.10 also has a recent enough Rust toolchain [5], and they also
-provide versioned packages with a Rust 1.85.1 toolchain even back to
-Ubuntu 22.04 LTS [6].
-
-Link: https://lwn.net/Articles/1050174/ [1]
-Link: https://www.debian.org/releases/trixie/release-notes/whats-new.en.html#desktops-and-well-known-packages [2]
-Link: https://packages.debian.org/trixie/rustc [3]
-Link: https://www.debian.org/releases/trixie/ [4]
-Link: https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=rustc [5]
-Link: https://launchpad.net/ubuntu/+source/rustc-1.85 [6]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- Documentation/process/changes.rst | 2 +-
- scripts/min-tool-version.sh       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .clippy.toml                      | 2 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs | 6 +-----
+ rust/kernel/ptr.rs                | 1 -
+ rust/kernel/transmute.rs          | 2 --
+ 4 files changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 6b373e193548..474594bd4831 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -31,7 +31,7 @@ you probably needn't concern yourself with pcmciautils.
- ====================== ===============  ========================================
- GNU C                  8.1              gcc --version
- Clang/LLVM (optional)  15.0.0           clang --version
--Rust (optional)        1.78.0           rustc --version
-+Rust (optional)        1.85.0           rustc --version
- bindgen (optional)     0.65.1           bindgen --version
- GNU make               4.0              make --version
- bash                   4.2              bash --version
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index 99b5575c1ef7..a270ec761f64 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -31,7 +31,7 @@ llvm)
- 	fi
- 	;;
- rustc)
--	echo 1.78.0
-+	echo 1.85.0
- 	;;
- bindgen)
- 	echo 0.65.1
+diff --git a/.clippy.toml b/.clippy.toml
+index a51de9a46380..b0a78cc8be20 100644
+--- a/.clippy.toml
++++ b/.clippy.toml
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-msrv = "1.78.0"
++msrv = "1.85.0"
+ 
+ check-private-items = true
+ 
+diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+index 46819a82a51a..d9f69366642a 100644
+--- a/drivers/gpu/nova-core/gsp/cmdq.rs
++++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+@@ -281,7 +281,6 @@ fn allocate_command(&mut self, size: usize) -> Result<GspCommand<'_>> {
+         let (slice_1, slice_2) = {
+             let (slice_1, slice_2) = self.driver_write_area();
+ 
+-            #[allow(clippy::incompatible_msrv)]
+             (slice_1.as_flattened_mut(), slice_2.as_flattened_mut())
+         };
+ 
+@@ -572,10 +571,7 @@ fn wait_for_msg(&self, timeout: Delta) -> Result<GspMessage<'_>> {
+             Delta::from_millis(1),
+             timeout,
+         )
+-        .map(|(slice_1, slice_2)| {
+-            #[allow(clippy::incompatible_msrv)]
+-            (slice_1.as_flattened(), slice_2.as_flattened())
+-        })?;
++        .map(|(slice_1, slice_2)| (slice_1.as_flattened(), slice_2.as_flattened()))?;
+ 
+         // Extract the `GspMsgElement`.
+         let (header, slice_1) = GspMsgElement::from_bytes_prefix(slice_1).ok_or(EIO)?;
+diff --git a/rust/kernel/ptr.rs b/rust/kernel/ptr.rs
+index 512e2eabe3ad..bd669e74e1cc 100644
+--- a/rust/kernel/ptr.rs
++++ b/rust/kernel/ptr.rs
+@@ -81,7 +81,6 @@ pub const fn new_checked(align: usize) -> Option<Self> {
+     /// This is equivalent to [`align_of`], but with the return value provided as an [`Alignment`].
+     #[inline(always)]
+     pub const fn of<T>() -> Self {
+-        #![allow(clippy::incompatible_msrv)]
+         // This cannot panic since alignments are always powers of two.
+         //
+         // We unfortunately cannot use `new` as it would require the `generic_const_exprs` feature.
+diff --git a/rust/kernel/transmute.rs b/rust/kernel/transmute.rs
+index 5711580c9f9b..b9e6eadc08f5 100644
+--- a/rust/kernel/transmute.rs
++++ b/rust/kernel/transmute.rs
+@@ -49,7 +49,6 @@ fn from_bytes(bytes: &[u8]) -> Option<&Self>
+         let slice_ptr = bytes.as_ptr().cast::<Self>();
+         let size = size_of::<Self>();
+ 
+-        #[allow(clippy::incompatible_msrv)]
+         if bytes.len() == size && slice_ptr.is_aligned() {
+             // SAFETY: Size and alignment were just checked.
+             unsafe { Some(&*slice_ptr) }
+@@ -92,7 +91,6 @@ fn from_bytes_mut(bytes: &mut [u8]) -> Option<&mut Self>
+         let slice_ptr = bytes.as_mut_ptr().cast::<Self>();
+         let size = size_of::<Self>();
+ 
+-        #[allow(clippy::incompatible_msrv)]
+         if bytes.len() == size && slice_ptr.is_aligned() {
+             // SAFETY: Size and alignment were just checked.
+             unsafe { Some(&mut *slice_ptr) }
 -- 
 2.53.0
 
