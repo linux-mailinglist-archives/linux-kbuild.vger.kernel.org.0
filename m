@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12483-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12484-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uE7qJ+oKzWnhZgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12483-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:09:14 +0200
+	id UKR+GT8KzWnhZgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12484-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:06:23 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632B737A2E7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:09:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055FB37A1E2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 01 Apr 2026 14:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A96E93183D27
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:49:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A8CE730CA6C8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2026 11:49:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4CCD3E4C85;
-	Wed,  1 Apr 2026 11:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9593FA5EB;
+	Wed,  1 Apr 2026 11:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BctafedQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GoxIk+02"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF76E3A380D;
-	Wed,  1 Apr 2026 11:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E4B3F9F3E;
+	Wed,  1 Apr 2026 11:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044093; cv=none; b=A4bu9C2gLhlnnYfmejohDl5Ab+A9mPPCv8J8f2LB+P/O/ZALDztu3eIRiALygZYSRnHbYPdEzUg0gOIdAM4Ar4JZu4FvDrBS3ETmnhUhSWeH1joeXLjBpWcAfyynigSbjJudWs28UK8GJZ6zqSySrTtXRTX0i33hGNgmt8JPg6c=
+	t=1775044105; cv=none; b=dZxTOiEb55/zwAun2oqZUe0UBH3vLDshCazDn+pDhiBYnPMWkzk6/ZHv7sECidNQR30RX6cRK7N72vWiNHNNT6VGuJlr4Thg6SgBEJOhJ0GqwZThbFEy3Zeep6xY26NCKoT40KwG9xV1O40beJdauFT32Pg3SL4p1lW/7rd98f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044093; c=relaxed/simple;
-	bh=Pc5ewSafnPFxKHksepcgeyeiYuBuOzddWiUYOLo44fc=;
+	s=arc-20240116; t=1775044105; c=relaxed/simple;
+	bh=oCOOGcyyszcaXC31455V0be0QqdPMZoxWheuEK3ZCSA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hZnusRmSCoAsNr09RvlbEP22aLd4/SqFoQbAPvl/+07rFvu825GPmfL55HSVV4Gbh39W7iOG/5l1N1yAW0mvmAq5NpOui2Q4VTMmHiNXqzgq2ttli9QuC9ZgCJac5Tx6pT7sy7CissEoEG8CyhWnrQB3EVRN9rz5pNXnUsRlnf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BctafedQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F73C4CEF7;
-	Wed,  1 Apr 2026 11:48:01 +0000 (UTC)
+	 MIME-Version; b=GchUD7l6Wy2cMsWhAGfSUiw8wsHXN3/eae8quDR822vjnlUVaAodPcV2p45K3VSL9fvd8grpQb6iSl5InRqYlD5dOYhZBjsWMAPR2jlIAhDZfgbzC8T7x+pP6zCzJxEWct2plw4gscXKiZSBH+rFb0I9XGIpe0TMj+5L8KlQNLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GoxIk+02; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04AFC4CEF7;
+	Wed,  1 Apr 2026 11:48:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775044093;
-	bh=Pc5ewSafnPFxKHksepcgeyeiYuBuOzddWiUYOLo44fc=;
+	s=k20201202; t=1775044105;
+	bh=oCOOGcyyszcaXC31455V0be0QqdPMZoxWheuEK3ZCSA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BctafedQl739LjER8MXut5f/UHQmwOMgY8eiBY9GPjZTa6UhwF33xTqKAsv/k9Jpr
-	 UXZVhOtcmmlzZOYf7Vb8QT5b+Sj/g3QrIBGXZxTM3uNlk/xWwz3doBmOs5UrfpKtV3
-	 BYeIBH88Jfn81A8lOQUe/b7L+LFkxTKWrdN5PeuA4bvB3G5atuDiVtTQLpJHRcGIi8
-	 078hXEr/7kYFNT7XsI7KvwhnIDxnv/Nf9IHI6ZwVq+LPtCR1GNMcpgdXOerf3ytBI9
-	 Tm7z4+ydsRwNHDCQkzUS7eKrnLuo9suwO47RZoBJZ7m1nD1AfOYKE0TTcQdbVpDSUj
-	 Rk7BTlqek9WZw==
+	b=GoxIk+02vJe18xjAgrD81txVK4wtRlTfUWrhHLGDRSQiV+me/fjnLC+7phHDlesuL
+	 J7Hq1xhTdOPfCfF8DlMkdOt8rrbVHMirjmXItItYHfBPD25cX4fMo/GBYwdrbRu7fZ
+	 0AkU4tct54K8WMu16YFOTGOQcGE3qx2fKQnsmkDzl/vyf61S0QPF9vcb0C1gkRPnMR
+	 e+5uOE14VQelGq2Cq0xHw4LUMkQ9WlkXANUH0HKCMdNXt3l1xPhuNuUmuYpg9lJb/A
+	 TRD5Link8UuZH9tLBuJ6KDPuIvaQ52PV5omvSLGJvk5BLHki1ajJnBJ5vuJsGi1ltQ
+	 c73r0TDlYXWnA==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 11/33] rust: alloc: simplify with `NonNull::add()` now that it is stable
-Date: Wed,  1 Apr 2026 13:45:18 +0200
-Message-ID: <20260401114540.30108-12-ojeda@kernel.org>
+Subject: [PATCH 12/33] rust: macros: update `extract_if` MSRV TODO comment
+Date: Wed,  1 Apr 2026 13:45:19 +0200
+Message-ID: <20260401114540.30108-13-ojeda@kernel.org>
 In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
 References: <20260401114540.30108-1-ojeda@kernel.org>
 Precedence: bulk
@@ -112,14 +112,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12483-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12484-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -131,48 +131,41 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.986];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 632B737A2E7
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 055FB37A1E2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Currently we need to go through raw pointers and then re-create the
-`NonNull` from the result of offsetting the raw pointer.
+`feature(extract_if)` was stabilized in Rust 1.87.0 [1].
 
-Thus, now that we bump the Rust minimum version, simplify using
-`NonNull::add()` and clean the TODO note.
+Thus update the comment to reflect that.
 
+Alternatively, we could use it unstably already.
+
+Link: https://github.com/rust-lang/rust/pull/137109 [1]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/kernel/alloc/allocator/iter.rs | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ rust/macros/kunit.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/kernel/alloc/allocator/iter.rs b/rust/kernel/alloc/allocator/iter.rs
-index 5759f86029b7..e0a70b7a744a 100644
---- a/rust/kernel/alloc/allocator/iter.rs
-+++ b/rust/kernel/alloc/allocator/iter.rs
-@@ -42,15 +42,9 @@ fn next(&mut self) -> Option<Self::Item> {
-             return None;
-         }
+diff --git a/rust/macros/kunit.rs b/rust/macros/kunit.rs
+index 6be880d634e2..6f6d746b8dbb 100644
+--- a/rust/macros/kunit.rs
++++ b/rust/macros/kunit.rs
+@@ -87,7 +87,7 @@ pub(crate) fn kunit_tests(test_suite: Ident, mut module: ItemMod) -> Result<Toke
+             continue;
+         };
  
--        // TODO: Use `NonNull::add()` instead, once the minimum supported compiler version is
--        // bumped to 1.80 or later.
--        //
-         // SAFETY: `offset` is in the interval `[0, (self.page_count() - 1) * page::PAGE_SIZE]`,
-         // hence the resulting pointer is guaranteed to be within the same allocation.
--        let ptr = unsafe { self.buf.as_ptr().add(offset) };
--
--        // SAFETY: `ptr` is guaranteed to be non-null given that it is derived from `self.buf`.
--        let ptr = unsafe { NonNull::new_unchecked(ptr) };
-+        let ptr = unsafe { self.buf.add(offset) };
- 
-         // SAFETY:
-         // - `ptr` is a valid pointer to a `Vmalloc` allocation.
+-        // TODO: Replace below with `extract_if` when MSRV is bumped above 1.85.
++        // TODO: Replace with `extract_if` when MSRV is >= 1.87.0.
+         let before_len = f.attrs.len();
+         f.attrs.retain(|attr| !attr.path().is_ident("test"));
+         if f.attrs.len() == before_len {
 -- 
 2.53.0
 
