@@ -1,261 +1,200 @@
-Return-Path: <linux-kbuild+bounces-12616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WN8lJfGTzmkBowYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12616-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 18:06:09 +0200
+	id 4JjEDRWjzmlZpAYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12617-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 19:10:45 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEC238BA45
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 18:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBC138C65F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 19:10:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 94F7A30B8483
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 16:03:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B765030CA93B
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 17:05:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BA332FFF8F;
-	Thu,  2 Apr 2026 16:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CBA93DC4BE;
+	Thu,  2 Apr 2026 17:05:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="fPkDpKLW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WjLk+B+S"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB722D47F1;
-	Thu,  2 Apr 2026 16:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B2D3D904B
+	for <linux-kbuild@vger.kernel.org>; Thu,  2 Apr 2026 17:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775145831; cv=none; b=Ya65sXfHHxziu9Kz1Yto/vE2jwgLq1GZVmcMGguBVXuqOldZkDHzdhj7bq01ba53F7mSKkHq3b68dLx4GN+bjXKlELUeehr+URpMWV0M80ZSQVrq5iuXpgthYwFXkV6PTRa4Dci+MENgAimvCwM6JShxMw2gsMsF53eYQTg0uZk=
+	t=1775149544; cv=none; b=m4FwcI82MHazqFYoxweX9C8ZD+Z8DKn9Dx71+u0Ii67sJCy2h5cQFnhZ2JNaMM+615nGwivnGHmPb1k7DXVcyjyiCIufC3koNyXrDsD9mOkJRWNPRcPyE5DC3oMinSLqcKrA+uPihWyDG5+2YoIjffXSSEjKHDJk/VBUwL9tDbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775145831; c=relaxed/simple;
-	bh=VD6J081UfLde1fvRpIkparzwow9B9vi4WyMPytA1gbg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CK71VTTHo6VTVaQdAj0W0VS2I+aIOdQrMo6EuDKcLxL3siLrr4XZsPduluC2YJkZ5Km1K5ZklPi0+snki0i/3HUuQy+pB/RHwerluvSlqFQB77q92G3N/ZNVTwLz3U0YKtN1AICKgw4/sfu/ivyVVAiAzVU0ODaK59+vMqKzKQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=fPkDpKLW; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6329HUPA3113759;
-	Thu, 2 Apr 2026 16:03:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Y5KHWz
-	NNVdjfo5yutPVu9X2EtDB1q4HXdRoq7gh/TLU=; b=fPkDpKLWjvDBupgtFU0rWx
-	mnQuVcUyy+GyexqJMHrbvA9I3fsjrTUTDKYR6CZDwQzQHa1jwEGSe2ITDxGzPEva
-	wClkDaDJNhsyWVSHO0DrIsLt+zQDhhIV+316pnI4wv8Bra8NCli8e6Ro7Vm2WV1t
-	NqdMgZFdV01e5umBOV90zIb5IjNydjf/gD9VDJQa3WuywCxSI47fffG001Mp43Jb
-	nRrQeti9NQR7GzGNIUxQeTS3WoL6FDISbsFYvIxReaYyc6WwjUi3HI8ZygDMBEvQ
-	W55ExhlZLaMtIQX6BSwRY1ENfNF1JudXx7NV/AzUqjkXgEDfGa2ApfADFLHcWoCg
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d66nnwg98-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Apr 2026 16:03:40 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 632BEjBv013919;
-	Thu, 2 Apr 2026 16:03:39 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d6ttktkmq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Apr 2026 16:03:39 +0000
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 632G3b9H17367754
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 2 Apr 2026 16:03:37 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 65F135805E;
-	Thu,  2 Apr 2026 16:03:37 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B81F45805C;
-	Thu,  2 Apr 2026 16:03:34 +0000 (GMT)
-Received: from [9.123.2.252] (unknown [9.123.2.252])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu,  2 Apr 2026 16:03:34 +0000 (GMT)
-Message-ID: <68e9ca6a-c53b-4f15-85b3-7ae9639f9528@linux.ibm.com>
-Date: Thu, 2 Apr 2026 21:33:30 +0530
+	s=arc-20240116; t=1775149544; c=relaxed/simple;
+	bh=Zo8OAngOh0P8c1OR78bqc8BgST7jOqfQbaCLKvgsal8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PGy8kNffJl4PfBXRoarvXvrHPwNjpgDp/mlmqNBwiQTpq5vM9RoKIHLgmfTwFIsmB3WFUtAUHC6LvnPSq2L4ObCwX9ZYHpfpKrD/tE0X4UwkU50OTWreAqQsnKW2bIpQKk4g2DG4c8k5w6p5ZeLwlIx6ia7vZAL9MaAFEam9KJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WjLk+B+S; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4887ca8e529so8439415e9.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2026 10:05:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775149534; x=1775754334; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IJ96XmrvwmNmdc1Ry2/PJXAWh8krLD6ljIYp6nVbJmg=;
+        b=WjLk+B+SlJ46EL88K6CreuBSgDMyUHEBeWLKd2Bi+PUN/iHaMS6QtCdarA0ZfH+Zrq
+         Srrl1ifH5TtI7OMW3xrj0qN6E4VndG5nokYMSN1eYIZcJ8jkvuPJNdNKGhB3z5O/TrR8
+         ii9DG3rPWF0mIBkR4PqjXOw5HwYEBlF3zfafHabMyjCSYh3eAasYrx/8+u6SR60lJZPY
+         WKWC5aNcthE83iUpuHi6baRXcT6iBxFfaXSyIayqtSBZlDKLWowZwYcirMS1p/MrgBN4
+         TlavIYBFG/nTd2AtAp2bHVTvVAFcDB9Yq9AiD/4XLqRpRCp7TqBtHGCVo7QqHxvdZXs7
+         IgQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775149534; x=1775754334;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IJ96XmrvwmNmdc1Ry2/PJXAWh8krLD6ljIYp6nVbJmg=;
+        b=Pehss84VkqV25EKjEoAw+KBOsKI9POvCGBZOMyTbgBiKkpQPmjFFp5906WU6ALhN8t
+         mRgDKPDS13BUa1Os7DQmudhf5hT/sBruL+vwCwZfraaksy4n/4Rt0azuzs+fEwoWCRu9
+         TT95gPYa/iENBFhCM7I7nkpwf3dBhmfYpcu9CAQ+i7jUj63vAAx0786Dok6CCY/+Wy4D
+         UYt9UeXOYGghcueWGLQdzXcCy/kjvAGWxcCB63f0RnAnoSoy7pqor9FRml07OFDBVubM
+         lw0wXo607kUnrQlK1jh06HYXJ5Uo2K+zPUdfR0Lu3Rt8hmDe3bBhXgBrqeMV73MDCd5z
+         hqUw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8r/s20x05OflNdiY/d+Mm/Nb8LCg1IuV7s3cq8lQx+N/VndxjapndrbguLucUECZ31Aae7ykMlNV/G6Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7iXJuiaZY711VlKVjlPFzVQPkO1sKwc6CVjwgV7m56pcC6xWT
+	4Mr6TPqQx8XwhLRKyKHKTA5DUVttSZZS79Jejbi1ozAzxfHX+V3INToC
+X-Gm-Gg: ATEYQzwjp8PHwG7Y55gyR5RyikgitBKu666FGQflDZ1WoQsQh0yyzfMY09OdjwnoG4h
+	Zt8HIOtXzNSt/M/1e93NIwp9CYxwNn+gSwdHZQRkgAdewt6eBmuV3Ma9thprnUCOZzsMCqaJ/VK
+	nFlas7Sh1do4UWEsJoBrIDUjR+pykMLsqwYRRYdKtMbHG3JLXz+w/f6zW/k6CIDTPZXKU24jFTx
+	nOyQtW6Cg52dgLtUB6TQj3CiyigdaPODcNB8ZIgMe7WV9KXS926GMttr95ypm45kdz3NFaqE1TB
+	eqLB0lN2IIyA7yOrX+vKUISYhESiUkVpA3IQc4YmOW6Rnfbck1d0XRTWuc8HliVXAl9Xs6LDCay
+	odb9y2Jocp6GETKb3lpBqSS5yZnmcXwcTC71+R9bUU18qI62dTi5fZNPFR2+duqL5Di8jAA/X2Q
+	lhic67JwJ0sKjt9SoLUgE=
+X-Received: by 2002:a05:600c:3b0a:b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-4888e09ba82mr46503895e9.10.1775149534150;
+        Thu, 02 Apr 2026 10:05:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e80a63esm265992305e9.3.2026.04.02.10.05.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 10:05:33 -0700 (PDT)
+Date: Thu, 2 Apr 2026 20:05:30 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Marco Elver <elver@google.com>
+Cc: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Harry Yoo <harry.yoo@oracle.com>, Hao Li <hao.li@linux.dev>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Subject: Re: [PATCH v1] slab: support for compiler-assisted type-based slab
+ cache partitioning
+Message-ID: <ac6h2jF-KJ5pm1WM@stanley.mountain>
+References: <20260331111240.153913-1-elver@google.com>
+ <202604020400.jEq32K95-lkp@intel.com>
+ <CANpmjNOsM1e8jMvRKtEizMmZgPCCZ9YqpuZKad61Zg7PAGW7RA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] char/nvram: Remove redundant nvram_mutex
-To: linux-kernel@vger.kernel.org,
-        Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-Cc: linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        maddy@linux.ibm.com, ritesh.list@gmail.com, arnd@arndb.de,
-        Christophe Leroy <chleroy@kernel.org>
-References: <20260330103530.6873-1-venkat88@linux.ibm.com>
-Content-Language: en-US
-From: Tellakula Yeswanth Krishna <yeswanth@linux.ibm.com>
-In-Reply-To: <20260330103530.6873-1-venkat88@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: EE_WTIvePXvXV0R-X_Ii85cZQA63lFue
-X-Authority-Analysis: v=2.4 cv=KslAGGWN c=1 sm=1 tr=0 ts=69ce935c cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=XyCmtHQiREEm-KVZo3UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDE0MiBTYWx0ZWRfX8gsYTM+8UAcv
- f0/wueSUmdQ1N6/9gzMtRyQDK60mw8O2RMeDlpWhiemm2lJY7x2gIpl/ri9+dZ3v84Ysn56pitF
- k+GKq5CGtvM00RWH/iNqybcFWrLZI1u4bwN/WrWHcbkaPpMGEkc3OqHhYHMkf5p/TZ1FhHWeYLq
- e1mXcGsTM915SGsCHYfH6HbGF11xO29QllhLInGG3s4RUa6lqF6c3t9FME4zhetDlzUprXBN6pe
- U38Q6pPT539+9m/b0KCU38cLO2ZhLCrUKh9/7HrzKTBZ1+YxqphgGg9P8E8xseqsJkm0T4kiiO5
- i69QJbVonnfLEy7Axt3WuC91pxAQPo5cSElKn84pLdeq55oj2qbZ3fzb1rYtRJow79gvSlptVUO
- EYnP/ji7p8cGaMqZVeBc7tjXzHOouehx8SygwQzeo7JzXuFqImJuIccVsW4VN0wc8O53aIFzh9w
- 4GiJjpYNJJCoX8mxyuQ==
-X-Proofpoint-ORIG-GUID: Dg1k1KckGNmFoIGhYUd_YRKeJOefvVvn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-02_02,2026-04-02_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 clxscore=1011
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2604020142
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOsM1e8jMvRKtEizMmZgPCCZ9YqpuZKad61Zg7PAGW7RA@mail.gmail.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
-	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.ozlabs.org,linux.ibm.com,gmail.com,arndb.de,kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[ibm.com:+];
-	TAGGED_FROM(0.00)[bounces-12616-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12617-lists,linux-kbuild=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,arndb.de:email];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yeswanth@linux.ibm.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,linux-foundation.org,intel.com,kvack.org,oracle.com,linux.dev,google.com,suse.com,gmail.com,vger.kernel.org,googlegroups.com];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCVD_COUNT_SEVEN(0.00)[11]
-X-Rspamd-Queue-Id: ECEC238BA45
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,git-scm.com:url,intel.com:email]
+X-Rspamd-Queue-Id: 3CBC138C65F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Thu, Apr 02, 2026 at 03:48:20PM +0200, Marco Elver wrote:
+> On Thu, 2 Apr 2026 at 15:33, Dan Carpenter <error27@gmail.com> wrote:
+> >
+> > Hi Marco,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Elver/slab-support-for-compiler-assisted-type-based-slab-cache-partitioning/20260401-035608
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > patch link:    https://lore.kernel.org/r/20260331111240.153913-1-elver%40google.com
+> > patch subject: [PATCH v1] slab: support for compiler-assisted type-based slab cache partitioning
+> > config: um-randconfig-r072-20260401
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > smatch: v0.5.0-9004-gb810ac53
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202604020400.jEq32K95-lkp@intel.com/
+> >
+> > New smatch warnings:
+> > drivers/misc/lkdtm/heap.c:118 lkdtm_READ_AFTER_FREE() warn: potential pointer math issue ('base' is a 32 bit pointer)
+> > drivers/misc/lkdtm/heap.c:169 lkdtm_KFENCE_READ_AFTER_FREE() warn: potential pointer math issue ('base' is a 32 bit pointer)
+> 
+> How is this related to the patch I sent? Did the <linux/slab.h> change
+> force rechecking of all these files and it found latent issues?
+> 
 
-On 30/03/26 4:05 pm, Venkat Rao Bagalkote wrote:
-> The global nvram_mutex in drivers/char/nvram.c is redundant and unused,
-> and this triggers compiler warnings on some configurations.
->
-> All platform-specific nvram operations already provide their own internal
-> synchronization, meaning the wrapper-level mutex does not provide any
-> additional safety.
->
-> Remove the nvram_mutex definition along with all remaining lock/unlock
-> users across PPC32, x86, and m68k code paths, and rely entirely on the
-> per-architecture nvram implementations for locking.
->
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-> ---
-Without Fix
-===============
-make -j 33 -s && make modules_install && make install
-In file included from ./include/linux/seqlock.h:20,
-                  from ./include/linux/mmzone.h:17,
-                  from ./include/linux/gfp.h:7,
-                  from ./include/linux/umh.h:4,
-                  from ./include/linux/kmod.h:9,
-                  from ./include/linux/module.h:18,
-                  from drivers/char/nvram.c:34:
-drivers/char/nvram.c:56:21: warning: 'nvram_mutex' defined but not used 
-[-Wunused-variable]
-    56 | static DEFINE_MUTEX(nvram_mutex);
-       |                     ^~~~~~~~~~~
-./include/linux/mutex.h:87:22: note: in definition of macro 'DEFINE_MUTEX'
-    87 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
-       |                      ^~~~~~~~~
+Oh, crud.  It turns out that for this check Smatch allows
+integer_array[sizeof()]so long as we know that the index is within
+bounds.  What happened is that your patch renamed the kmalloc()
+function so Smatch stopped knowing the size of the buffer.
 
+For these zero day bot warnings, the emails are automatically generated
+so I don't have any context outside what's in the email.  I saw that
+Kees wrote the code, but I figured maybe you forwarded it or something.
+Sorry about that.
 
+regards,
+dan carpenter
 
-
-With this patch issue is fixed
-
-
-Please add below tag
-
-yeswanth <yeswanth@linux.ibm.com>
-
-
-Thanks,
-
-Yeswanth Krishna
-
-> v4:
->    - Remove all remaining nvram_mutex call sites, completing the mutex removal
->
-> v3:
->    - Removed global nvram_mutex definition
->
->   drivers/char/nvram.c | 16 +++-------------
->   1 file changed, 3 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/char/nvram.c b/drivers/char/nvram.c
-> index 9eff426a9286..e89cc1f1c89e 100644
-> --- a/drivers/char/nvram.c
-> +++ b/drivers/char/nvram.c
-> @@ -53,7 +53,6 @@
->   #include <asm/nvram.h>
->   #endif
->   
-> -static DEFINE_MUTEX(nvram_mutex);
->   static DEFINE_SPINLOCK(nvram_state_lock);
->   static int nvram_open_cnt;	/* #times opened */
->   static int nvram_open_mode;	/* special open modes */
-> @@ -310,11 +309,8 @@ static long nvram_misc_ioctl(struct file *file, unsigned int cmd,
->   		break;
->   #ifdef CONFIG_PPC32
->   	case IOC_NVRAM_SYNC:
-> -		if (ppc_md.nvram_sync != NULL) {
-> -			mutex_lock(&nvram_mutex);
-> +		if (ppc_md.nvram_sync)
->   			ppc_md.nvram_sync();
-> -			mutex_unlock(&nvram_mutex);
-> -		}
->   		ret = 0;
->   		break;
->   #endif
-> @@ -324,11 +320,8 @@ static long nvram_misc_ioctl(struct file *file, unsigned int cmd,
->   		if (!capable(CAP_SYS_ADMIN))
->   			return -EACCES;
->   
-> -		if (arch_nvram_ops.initialize != NULL) {
-> -			mutex_lock(&nvram_mutex);
-> +		if (arch_nvram_ops.initialize)
->   			ret = arch_nvram_ops.initialize();
-> -			mutex_unlock(&nvram_mutex);
-> -		}
->   		break;
->   	case NVRAM_SETCKS:
->   		/* just set checksum, contents unchanged (maybe useful after
-> @@ -336,11 +329,8 @@ static long nvram_misc_ioctl(struct file *file, unsigned int cmd,
->   		if (!capable(CAP_SYS_ADMIN))
->   			return -EACCES;
->   
-> -		if (arch_nvram_ops.set_checksum != NULL) {
-> -			mutex_lock(&nvram_mutex);
-> +		if (arch_nvram_ops.set_checksum)
->   			ret = arch_nvram_ops.set_checksum();
-> -			mutex_unlock(&nvram_mutex);
-> -		}
->   		break;
->   #endif /* CONFIG_X86 || CONFIG_M68K */
->   	}
 
