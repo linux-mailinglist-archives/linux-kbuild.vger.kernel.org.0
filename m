@@ -1,98 +1,98 @@
-Return-Path: <linux-kbuild+bounces-12601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12602-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLZ2KvpjzmmXnQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12601-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 14:41:30 +0200
+	id SDuoJL1qzmmpngYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12602-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 15:10:21 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BA83892A6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 14:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E815738971E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 15:10:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D199C303F7F0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 12:34:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6D66C3122E27
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 12:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 473733BBA00;
-	Thu,  2 Apr 2026 12:34:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AEBB3AEF59;
+	Thu,  2 Apr 2026 12:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SIY+ZsOn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U/G00nu5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF3A3B5305
-	for <linux-kbuild@vger.kernel.org>; Thu,  2 Apr 2026 12:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4D63DF008
+	for <linux-kbuild@vger.kernel.org>; Thu,  2 Apr 2026 12:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775133247; cv=pass; b=O4UF96NlGTrjMWrApwvZS5u5PPp/o444Yzf4qIpHnHBEGz7h7UnMDNY7GMXllcWEmbnFxsEC9V7fSyaDQBtWhPSEoAxgPAnrYyd89jhThdCA11WjElmwAb4bGqu1tILqoADifkZtXstKI6hvDWFUkZFDMYmPT58advdjoOKpsMc=
+	t=1775134612; cv=pass; b=h8NRnjqabdxciqTh884yB4Ed7tyqS1Udr8m5AN0lMW+Uz81rJq0tCe4ViRvzuX3ReZ3ploI5tfs3pf+XIaIlv/cSHNyUsB0EwTCLKQ/ic4M0SSOmVewxaQiRJNw50Yx7AbuDZi5Yn+KasfTillGqJmBViVssnLca1dc/kt7CkjU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775133247; c=relaxed/simple;
-	bh=AiMIWPP9qpfp57E0slTWmjFd84uAske7ne/VU7eIGiU=;
+	s=arc-20240116; t=1775134612; c=relaxed/simple;
+	bh=Jg6nIajFfRH9vSJFLJsRzwFQUpKa295zG/zt5GLlZXk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=orTJBSvBisEDcK1wpoXwQz3lmmWuKfe9zCLVZg3MBJ3OdNTWgzcM6WGnIqasrHIx1mVOoUx2iNO66riJvV9ee9nqf6maQ8wlgImLeN9b8Brs7fjHAH9N2W2bYkxTBuYLbz2ga/ZAl/QKWbXyPOV5SLfeGbP2QW3aEVStUgN/Gjs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SIY+ZsOn; arc=pass smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4887eca00c4so5366595e9.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2026 05:34:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775133242; cv=none;
+	 To:Cc:Content-Type; b=oGVav3Pf4vkhn440coJ8aTpn1SxhfasH/Haq2Dr0jqoPPUJgbrpq8sWKv5fifHBrqUTrMk+stJIiUY9hViAvLMnwFIBlWYqqgYTrNx2j8rKHX4IOGthM80nvNA+/wduvuImHJo4ZNkr34AB90ptxNp/QXm01qqRvX97MuvoBb2I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U/G00nu5; arc=pass smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-67c20ed3076so502657eaf.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2026 05:56:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775134604; cv=none;
         d=google.com; s=arc-20240605;
-        b=HBRPJ6FLBXr9/3G2ssm7xjTMF28oVwQfir1N7jqKm6n3qiNLctY4EWGHnoBP8VJkOa
-         Ba3lbai/mxMRjbUos9hSTD1ay3RNZB/fQVZhphZkUzMP/BWf/7SqfB1Xi9ng+nw7OzhU
-         MZL7an3niQJuEjNGd2LEjl9gO8R2S5IPf5pMSnZdVIzwbPPol60m1ukAcVzHz5kEq6O9
-         mPSJG/t0GpYyExhp77xI+Ph/d6ELqXCkqUsxsFowjlJPjEx54XX27bkl6RYhvyTLMfy9
-         OkChVzUCBgDydD9D7Fv9pj4rlmudBC3ZHwSoEJXdmH0FngjJMspBdFzHjhePRoIr5QmU
-         Wckg==
+        b=SLvSL2sV37DrGx8XgI4XBQYiCf9fUws+vqFxeia1y/qBwYY6QpwIsKeiGyj4vuFi+9
+         0Ocjkhui4IFfLZTaCbOmDcDuVbLln9N8ERs4GiMwJhY5sLEMPLiO4ApHnHGI2Qv3uEPR
+         7i+OSeeqD1B/D316njbow1/UpFUfezGYcYKJAIt/xMtJUMMWCD31wgygOArBiA2PNCKm
+         9qL39GkGLK8HORv33AGf3ELM6niYaZzjZObD4aIysBhhhX4lKG+eFh4tO2UUzNTXDUBq
+         +5xyWuyhbwsVICwIsuxY/Zda4wv4g6Nos51/7UzydKaJifxzWvRjFUZAjpoGUBiZVQGD
+         Lu3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=H1DwJvkkLXh8IqTYYYFVMuXwsutUIrPuQJIHMRxgnTw=;
-        fh=9BCCWN74c503vtu4pku5bYOHoIUbJ4wkfVuHyBNcWBQ=;
-        b=Vy/0EiuIoqZxLquSMo9gR+kI/YbypP4oJk1mcWtrQ6dgcPq5EzUDmJhKYTrkWn6AcV
-         XWlk4bzUWVqCMnlHL/2fe4utOuU43V62An1rewBbJyUtqq4pPUVr/khucpfbwrFfPgJB
-         coq6wDuoyrSfi4fqk0RmJS0iq/XPPjnHvKH9e5Tr26Ldle7kuh/pSfKCKU2vIVCDHRbA
-         lmMyppAF8hjg42aBQvRigaeG1L/x0D6VVmdAum3CkY9dprIlVh/QAV7qBHlDqURCFLez
-         VO43w2DbSV684i4T6VVe93NiQ0tvBX2VWsd2DjnXkdfI8rvNtww6jpObT3ISUc5Wq5xC
-         N2hA==;
+        bh=/OydiP/AOYU5IADePHXxe+ZlFCsiBEsu0HT8Da/mHMA=;
+        fh=v+aRDpdhTb0Pr7tm2spQVtlMFnYZx5p2zhKKrJNY568=;
+        b=Jq5AWrxgzdHeWq/gsSn1B/6hcwagPbkZZf+PG65szLUnGr+PaOwZFPZies/Bf8rAvp
+         qFYzBekl1TEncPsZKSUUJPLyppMVwnrUn2vgzsy6iuz7Ul5Uq2gSfHHVVWv/wDnpNJrA
+         HkIZVhqt+BvF7uBpEJ2JX6LUpkvkkWntN8W3encWa48baBmgxs9R+faD2gGCYMSGBgK1
+         zFLk/K53iQI2JRlU3UEk2zwcadxZ7gQyh+eRlzUITU/i0KWCIK+RQinEJTpaOva69/dc
+         QIrYP4aBdb3XqmTf/RVSaeVd4UXtyHtmU8ZdsHm3MJqH2W0mqOMnJhdX3quFnYM72FKx
+         CPFw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775133242; x=1775738042; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775134604; x=1775739404; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H1DwJvkkLXh8IqTYYYFVMuXwsutUIrPuQJIHMRxgnTw=;
-        b=SIY+ZsOnXa7HWPBizbwyCj9Aj+wWDVDfdUpt7GIYvKYfg256yA7L46UJa6Mwl8Plma
-         0aB4WSuG7Q6Y066y05d+HDk4dozz+Td4opPXbdmhC7zzl55XkC2Ny3mgv1ZC3m5t5TGO
-         6W0nnNssYgM0cwPlDjfzCQdDRAzhkXa3ttW5XrSDVdIWGjGL6+0qltAY20NfdaW2e/8N
-         FHHQRz7F5ljfobUHWpyuIfM+X1vKgBUN7qCahVOQElgSyQScjL8cokUwddbp3EA+uU68
-         aFWG4wOoR3L2OcW3FQtX4Y4V9iaJtx+Ve2AGCNSwmNG4scN+HIybbtttGIzEza2nsPR3
-         I/HQ==
+        bh=/OydiP/AOYU5IADePHXxe+ZlFCsiBEsu0HT8Da/mHMA=;
+        b=U/G00nu5QEVCRxbM5ooBGWGROXS6k69z9kD6pght6f0Zxa+i+xgpdMH5BZBdCGCH36
+         sj12HmsTHmUHehFu3M7XvEWSd9lXen8cSR2uTqE4hYmAdCfczZ/9KCfT8MsFePhdYcgB
+         DDMz+lnePGKN+/esMiU6Op3AWR3Of3xuo55UkxEsKgERX+SOvmtU1ooy7ssoudLYClkd
+         rlR7tLh4UThFla7PrqBhr4hOGNSSBRmb6PSMjZv8y0iuC2/mATjpBHz0FzJ+5C+4NEA+
+         STKvHtRRUjcuDJ8LuM+KXeXaLlA1ycvs/YuiOo+FPpkB8CWlITi/jYndb+/Xz3GQ5bAo
+         6zNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775133242; x=1775738042;
+        d=1e100.net; s=20251104; t=1775134604; x=1775739404;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=H1DwJvkkLXh8IqTYYYFVMuXwsutUIrPuQJIHMRxgnTw=;
-        b=rAJgiN8rFNE3sdKaMqdFiv8ZyDD5S8WLIN7sSLiRXoJWdxhXBg8GO4iG/reLWS4efM
-         mFOaQ/Ou+lHvxYmgNgY1rB5nhiyvDDQKozCArQSR3yZFR7udgvL3ZaZm2A4vTg9Umncw
-         UnYvH3cZY2qUA8hk3koJUFKDtZdaUOIAqHwii3lKZ4vtfk8g4tXGloEe05zfUEvRUZTf
-         p8PKbRsDCjVQRy6imrqFQemNB/5+ZsjglibNwilI6r8to8qOhBnumjYpyyNIsIhiUx6H
-         tZpQvR1Z42qPAkYD7z/Y5aO603ftjyu8fbVjgeVY0LqEqI/ysHoChnLCH4xtWuU/pBMJ
-         ExOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVTmC2OHpJppCrGfbBqkxASAWbo2gQhWDng87jJg2n3pjlV2reVgA6mLQfi73U99tpp6srwYcXKW1EiNM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9DDzjrpyadR3Ha/vbA0uvnsHO7uiRMNxTNET0OC1GFW2t5vRn
-	3saAWp/TQCMLpASEDf25Ud6t8iC07qf09ye3FPBmtksBWr/hHiqqC+D24cMwyO5BOYdBh3O4OQz
-	lN6UkTorenQjPGi3mG+A1kdb7vJz3+sDSLGIvYdW2
-X-Gm-Gg: AeBDieusgvIUhX4grdUCHEWfwgSJqygVZJyp2XjvTyt6VRnPOpnJfUwiPpiMMKdIDgI
-	0HDhyoAeuYA/gr2aV13R5TlJKLybmUKsSRXF1tdKFTDjeLodumi7j6QHHcxI4ZtbIrt60jyqoyR
-	Y8paAOIbPCuSOhbhx5FSsfQelbaXwwmTuAW9hCz0rgurXi3d0OS+EZ9A2p6Zxygc53P5RWk8x/0
-	lFrGnPYyQCGQFJfC5b4lUwYbKCGwGPKjOGZQBeDIkG6HPLBgStoax12mgtqw3FVc6OoqWQc7TIN
-	95IaPv9lfY4ZLb/0ITqL7hBf6jiJEr9ygEINNQ==
-X-Received: by 2002:a5d:5d0b:0:b0:43a:580:f60d with SMTP id
- ffacd0b85a97d-43d150d7683mr14401984f8f.35.1775133241855; Thu, 02 Apr 2026
- 05:34:01 -0700 (PDT)
+        bh=/OydiP/AOYU5IADePHXxe+ZlFCsiBEsu0HT8Da/mHMA=;
+        b=oqD1I8zWWrvojAcrdcSGiaz7qwbBOuWs60rCp67CxX/jiaSZzDt51Fj4Y3SlFE6vds
+         Pvbo7FWTEIMyPH/CiMVXpFalUCUJg/fbnLjrdkdj7W9ZFsXg17bFpfsFYO6hcw/fDCVj
+         8IUduDm0IFLytbF4VsBz9vVPxHswj6RGJbygvjkd71yv0h46RoCj4j2LHykBFsRmd1Cm
+         PfXmi3SjoV88+OI48cd3Zj0DilkU0KqSYc6xg/ViaEZvZCit+TqYA00rxDcXFgKmziKR
+         XJSue8Mi/Lrh3R7VZVXfwKSZfzRZ3N+k90GhmAEKhLuB3QLxufsmVUBRHC0Ha0kJjq95
+         c8Bg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7M/+1o13a2bcqWaUR99+Yg3aHNf1B9sSAJK7STwMWq4wpQqIGbZ3u5cVU3a6RxKN9jBfb1gkx7shUJHI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/QTSphvYkRm/o2Jt4sZbrgrw2UtpwwyCcd4mnLAq3/Tewlwp8
+	2d6Bm6/xfxefVfiQ6cSjglf4U68Pdxlh1a3XfSltjrtSQrFgts4fREUeXrPea5vvMf7JA9aw02Z
+	E31/T3OegsjdDpY57c/beWgQuZvY69as=
+X-Gm-Gg: ATEYQzzlT6++5N9/A7uxvACZNQJ0IZ5sqO11EKDFvG0ZLMbzlzb6nCP8NTQFP3+N1eM
+	qTGYOu65xn4ie7WlFYjOomPDmNeOHPwkNHCL9d0kbpAS6zhUnOzgq7Q6Qjqj2Cb+amHqDPN52V1
+	+lNk5AGoxahcEoBo7Blt3Y9IUz7+d+BrpldeJhIQvI77h2NHNf6CVguvk/WY0KMT1UxdLIYF6JY
+	FWU8oUpmgzRc3beGfv/zCTEmwZ77AYe8laeeEnMAVxD/ziuB7ncJDG25O19UouqQO0iSp2H3PTJ
+	Ak6eyIs=
+X-Received: by 2002:a05:6820:6aca:b0:67e:d8c:9f88 with SMTP id
+ 006d021491bc7-67fabbd3504mr3869605eaf.14.1775134603941; Thu, 02 Apr 2026
+ 05:56:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -101,13 +101,14 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260402-binder-crate-name-v4-0-ec3919b87909@google.com>
  <20260402-binder-crate-name-v4-1-ec3919b87909@google.com> <CA+tqQ4+gzV0vA+u-05b3gQfcFAdNchjZjC4Y+D1pBWhHGVuZqg@mail.gmail.com>
-In-Reply-To: <CA+tqQ4+gzV0vA+u-05b3gQfcFAdNchjZjC4Y+D1pBWhHGVuZqg@mail.gmail.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 2 Apr 2026 14:33:49 +0200
-X-Gm-Features: AQROBzDvlygfPuIEFIbAhZTYc87iMuBM9B3lPsJrznB3Xz7EgcczyN5M32UUE48
-Message-ID: <CAH5fLggZd4+zZxVeDUjfTUDbBFwrt8ZzK4pQV7KGrMZezYSpJQ@mail.gmail.com>
+ <CAH5fLggZd4+zZxVeDUjfTUDbBFwrt8ZzK4pQV7KGrMZezYSpJQ@mail.gmail.com>
+In-Reply-To: <CAH5fLggZd4+zZxVeDUjfTUDbBFwrt8ZzK4pQV7KGrMZezYSpJQ@mail.gmail.com>
+From: Jesung Yang <y.j3ms.n@gmail.com>
+Date: Thu, 2 Apr 2026 12:56:32 +0000
+X-Gm-Features: AQROBzAPTlf7kltJfBPgGEkGGYBpTdo7e8jWVC60MWTQKD6NskR_jWXC9nL3suY
+Message-ID: <CA+tqQ4JAqVOhrXXr8+ed17dRcv0A+zPmesm4F2KmsLn=-1rM_g@mail.gmail.com>
 Subject: Re: [PATCH v4 1/2] rust: support overriding crate_name
-To: Jesung Yang <y.j3ms.n@gmail.com>
+To: Alice Ryhl <aliceryhl@google.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Tamir Duberstein <tamird@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
 	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
@@ -118,95 +119,103 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Tamir Duberstein <tamird@kernel.org>,
 	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12601-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12602-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,google.com,vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yj3msn@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 13BA83892A6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E815738971E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 2, 2026 at 2:23=E2=80=AFPM Jesung Yang <y.j3ms.n@gmail.com> wro=
-te:
->
-> On Thu, Apr 2, 2026 at 10:55=E2=80=AFAM Alice Ryhl <aliceryhl@google.com>=
- wrote:
-> [...]
-> > diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_=
-analyzer.py
-> > index b4a55344688d..de6ebf14e2b8 100755
-> > --- a/scripts/generate_rust_analyzer.py
-> > +++ b/scripts/generate_rust_analyzer.py
-> > @@ -12,6 +12,12 @@ import subprocess
-> >  import sys
-> >  from typing import Dict, Iterable, List, Literal, Optional, TypedDict
+On Thu, Apr 2, 2026 at 12:34=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+> On Thu, Apr 2, 2026 at 2:23=E2=80=AFPM Jesung Yang <y.j3ms.n@gmail.com> w=
+rote:
+> > On Thu, Apr 2, 2026 at 10:55=E2=80=AFAM Alice Ryhl <aliceryhl@google.co=
+m> wrote:
+> > [...]
+> > > diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rus=
+t_analyzer.py
+> > > index b4a55344688d..de6ebf14e2b8 100755
+> > > --- a/scripts/generate_rust_analyzer.py
+> > > +++ b/scripts/generate_rust_analyzer.py
+> > > @@ -12,6 +12,12 @@ import subprocess
+> > >  import sys
+> > >  from typing import Dict, Iterable, List, Literal, Optional, TypedDic=
+t
+> > >
+> > > +def invoke_rustc(args):
+> > > +    return subprocess.check_output(
+> > > +        [os.environ["RUSTC"]] + args,
+> > > +        stdin=3Dsubprocess.DEVNULL,
+> > > +    ).decode('utf-8').strip()
+> > > +
+> > >  def args_crates_cfgs(cfgs: List[str]) -> Dict[str, List[str]]:
+> > >      crates_cfgs =3D {}
+> > >      for cfg in cfgs:
+> > > @@ -69,6 +75,9 @@ def generate_crates(
+> > >      crates: List[Crate] =3D []
+> > >      crates_cfgs =3D args_crates_cfgs(cfgs)
+> > >
+> > > +    def get_crate_name(path):
+> > > +        return invoke_rustc(["--print", "crate-name", path])
+> > > +
 > >
-> > +def invoke_rustc(args):
-> > +    return subprocess.check_output(
-> > +        [os.environ["RUSTC"]] + args,
-> > +        stdin=3Dsubprocess.DEVNULL,
-> > +    ).decode('utf-8').strip()
-> > +
-> >  def args_crates_cfgs(cfgs: List[str]) -> Dict[str, List[str]]:
-> >      crates_cfgs =3D {}
-> >      for cfg in cfgs:
-> > @@ -69,6 +75,9 @@ def generate_crates(
-> >      crates: List[Crate] =3D []
-> >      crates_cfgs =3D args_crates_cfgs(cfgs)
+> > Could you add type hints to `invoke_rustc` and `get_crate_name`? You ca=
+n
+> > run the following command to verify if it's all good:
 > >
-> > +    def get_crate_name(path):
-> > +        return invoke_rustc(["--print", "crate-name", path])
-> > +
+> > mypy --strict scripts/generate_rust_analyzer.py --python-version 3.9
 >
-> Could you add type hints to `invoke_rustc` and `get_crate_name`? You can
-> run the following command to verify if it's all good:
+> This seems to work.
 >
-> mypy --strict scripts/generate_rust_analyzer.py --python-version 3.9
-
-This seems to work.
-
-def invoke_rustc(args: List[str]) -> str:
-    return subprocess.check_output(
-        [os.environ["RUSTC"]] + args,
-        stdin=3Dsubprocess.DEVNULL,
-    ).decode('utf-8').strip()
-
-and
-
-def get_crate_name(path: pathlib.Path) -> str:
-    return invoke_rustc(["--print", "crate-name", str(path)])
-
-Does that look ok to you? If so, perhaps Miguel can use these on apply?
-
-> Once that's done, for the script part:
+> def invoke_rustc(args: List[str]) -> str:
+>     return subprocess.check_output(
+>         [os.environ["RUSTC"]] + args,
+>         stdin=3Dsubprocess.DEVNULL,
+>     ).decode('utf-8').strip()
 >
-> Reviewed-by: Jesung Yang <y.jems.n@gmail.com>
+> and
+>
+> def get_crate_name(path: pathlib.Path) -> str:
+>     return invoke_rustc(["--print", "crate-name", str(path)])
+>
+> Does that look ok to you? If so, perhaps Miguel can use these on apply?
 
-Thanks!
+Looks good to me!
 
-Alice
+> > Once that's done, for the script part:
+> >
+> > Reviewed-by: Jesung Yang <y.jems.n@gmail.com>
+>
+> Thanks!
+
+You're welcome :)
+
+Best regards,
+Jesung
 
