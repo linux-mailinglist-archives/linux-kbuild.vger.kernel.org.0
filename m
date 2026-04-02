@@ -1,61 +1,61 @@
-Return-Path: <linux-kbuild+bounces-12620-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12621-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LhdMvzQzmmUqQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12620-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 22:26:36 +0200
+	id yMGuIRjRzmmUqQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12621-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 22:27:04 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4322738DF44
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 22:26:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4756738DF5A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 22:27:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 46444305DD19
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 20:22:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 07CAD306DCDD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 20:22:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47AA238839D;
-	Thu,  2 Apr 2026 20:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3762390C9E;
+	Thu,  2 Apr 2026 20:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SxnZv5nb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NbKXYSf6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227D82DCF57;
-	Thu,  2 Apr 2026 20:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE542DCF57;
+	Thu,  2 Apr 2026 20:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775161338; cv=none; b=jLYM+R0Piofnpy4FASpD7rtyoJidJ2RjeJkQfmm8/24WDEJSWoS5S+y5EF+uaSgiSVYrV5o5qNRCPINb4XyJjbYzkF+JTNzeect7tYCaG8hdDr0A9MtPRsddKLQux6y1NJcGQxzgD/zBl4KGT/ikOHLB590ESJU9TOmbdN65D5w=
+	t=1775161340; cv=none; b=pvBgU6UPYGpzURgh7o4AwkgD4g7YGLui3VwDLcd0hqRf2QPyn/amnaJMjeIGD1fCEtfm4UqBsQXVlR6wS322JS4LZJlwVJHzqcBQQ8EajAUmdU2s8By4fSRK4RV+P3UPR6TGu7UPbffjNG5ezxm1AWTh8CZJc2JVYngmHaB5Btw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775161338; c=relaxed/simple;
-	bh=RiqNzOGBsVxRSIwfexxZ3/Lo2YAhdKnqiPcvdaPUgbU=;
+	s=arc-20240116; t=1775161340; c=relaxed/simple;
+	bh=FkTwDWhRayTXO0erNRUzxsgYR1DUvin/r1s0inw7c3Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UJNMV+xAiZI97RsWLNII/1d19l53q8iO4s5M4FCnUdLCWCFtjCbZrIOC7MgaUNARh+dO1AZNcWt3gequMqYaPwnUkk0cmmYpVXrN9qHsMdCFHTEGIJlZrZW4/hvM+GY4HiFIC069kUK4Vz4FyA2YY9qZpCG69R10APGQDag3tr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SxnZv5nb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D33C116C6;
-	Thu,  2 Apr 2026 20:22:17 +0000 (UTC)
+	 MIME-Version:Content-Type; b=bLmP5L4OGD5HLyAjHqttJjySe86pnVLtBkmcudh7Z6lK1QoibmWvRpleogmXlxFs39TlE6w5puuqEiUkLWq1JTs8EWPym/o6ZkBEcn0YtXHHVcGIchKWPUFYun57frQE3TQmN7IJkFDjmMmCVpZFM22phjq+eQeKdHR//B9WLzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NbKXYSf6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 151F0C116C6;
+	Thu,  2 Apr 2026 20:22:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775161337;
-	bh=RiqNzOGBsVxRSIwfexxZ3/Lo2YAhdKnqiPcvdaPUgbU=;
+	s=k20201202; t=1775161340;
+	bh=FkTwDWhRayTXO0erNRUzxsgYR1DUvin/r1s0inw7c3Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SxnZv5nbg49WUbV6oaKzv5ASAa+00k7lOoLp5A8BTGWNPUkXaJO9gnCIVLMqU1hXc
-	 aqe4SeRHeMvTjGTRf+r3xcoECl9BjEmDBNTq/WJpTkc/Lk9t7WbckURwyI9SVZcrCt
-	 ji0qOstG5VT6GttIo/4O9U/v3cySHthbX5WnxKqG8f4Qa/6ocfBUHSBgKlafVvV0/N
-	 bSHpUKH/3Y3oaivzDxrPW2QzRxYS5Mbjg8nD/XnZyVopYy4H2nlCjFPFv/2nUIT4Dh
-	 ePPeDIa16ZrHE83obb05/gUB2q5ZdxHP77q3ilm30P5RoLQVs9j/qmnoD3BbE6FKFL
-	 upCVbYymTOg2g==
+	b=NbKXYSf60EXAiy9F0yCQdQZRdWWo+C1BuWK1c0YHZ7mO6gVYNHRBm6yGRC/+/V4ZM
+	 3PKvV+WpVWG9HyEAN7LWHHgMlxwN6Imnnxv6EY5eUeWK29eZsWyPMcxynlwYZT2ZZk
+	 oIGnOFbBXC/qzv3+P5EnJfHLixxWw8uGGfKeAxrcd7LhdhO2/kJQIiYGlX+fNKkQj/
+	 25dDxAqfwNo8IiEU70SZk37ceQlBhSvS8NzeqHDAzfWkd1EI1KFS4pe7e6qvdzy4/b
+	 PoQDQKo2Ti5qIvfyDAWE1hp69UimJAISHb5N3JpPYl91BD8hQ1OjKkRGdCh32UqCX9
+	 fFyFuhrj806mg==
 From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexander Coffin <alex@cyberialabs.net>
-In-Reply-To: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
-References: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
-Subject: Re: [PATCH] Documentation: kbuild: Update the debug information
- notes in reproducible-builds.rst
-Message-Id: <177516118643.3535668.18216827082404503813.b4-ty@b4>
-Date: Thu, 02 Apr 2026 22:19:46 +0200
+To: Arnd Bergmann <arnd@arndb.de>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-kbuild@vger.kernel.org
+In-Reply-To: <20260402-kbuild-missing-syscalls-v3-0-6641be1de2db@weissschuh.net>
+References: <20260402-kbuild-missing-syscalls-v3-0-6641be1de2db@weissschuh.net>
+Subject: Re: [PATCH v3 0/3] checksyscalls: only run when necessary
+Message-Id: <177516124052.3536083.11423413906699581332.b4-ty@b4>
+Date: Thu, 02 Apr 2026 22:20:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -63,23 +63,23 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.16-dev-ad80c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=788; i=nsc@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=nsc@kernel.org;
  s=20250924; h=from:subject:message-id;
- bh=RiqNzOGBsVxRSIwfexxZ3/Lo2YAhdKnqiPcvdaPUgbU=;
- b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpzs9t4y1LJQMiq9LLu91/MzX+A1n4Iakav09bf
- js1jITDXkKJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCac7PbQAKCRAHUgpwFiYS
- aUmOD/4zV/y7nOMbLPeEnVs19LY1ke+7lJMlRPO4MM47IR9E/TY1Oyc5lBoXjxmCglmQoeMeXb2
- TbaWhfLoE9jrHAZuyO+1JIavHVbaarDdAy78tTs7Wp2FQ+e3RegYUMaj+QQKVSsA7YBVyA3nKhe
- kvDTyGT6HuplGr2yYszE5KMFVn1AE8NjDdjq7iBWtx0zxRTRXhwSXKEOPiDq46w7CAONNznYf+Y
- uXVozQeFVeHzHglWqEVbO2pmMUpAgJFY3pi1b/Ade40DXzs+IjpT7l7tRKKu0I9nAUbpXQSMqNw
- tYwenu9jEuSijZlOPomwLEwpxEig/GPdMQj9yVgkVITcmMVFRpKkDVc3qPBnx5o9b/YgmfP1IkI
- 1zv5BkYds9OgV+67jbBX6MzEyazNa8mqq4psNaBO4NnngRD1SeODliSh6HhX7pw/JsKbAebDY5H
- hN98uc8SBF8ziNqKyRby+X/8C3z3PydXRndYZsRiL3iTu2Pvhx/ouw9SdusnbWdUJzMQOH71g8c
- 9eO5Xhf4letKSyODpEXZI7av2q09ZeFxxpqXy0c1ArKSi7MIBvaw0fBXu95IrsksHyKQaGmnjMV
- pg/US6FQFDBY12vNw29+KGfBvi7HdqoEx3oJKlKoSTTRGm66itxCs4aY0tesQ5IZXKkai3Jrul1
- o0yCfM5kooSwgMw==
+ bh=FkTwDWhRayTXO0erNRUzxsgYR1DUvin/r1s0inw7c3Q=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpzs+dnZQ/1i/sr2dvs159EDsN7oXPf/x92Uga2
+ DOwpgOWI+6JAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCac7PnQAKCRAHUgpwFiYS
+ aZ6vD/wPsiuHFbX0hfK8qRZ6Nr/jdfshBn/AbH+RExFFCXOrCfGqS93bghGl7BzNBBMbOpl+4oQ
+ NQXJX9o3ysNqfeX/4zwSytghT9GtIPHVySj+eTKU1MYAjDQVfzxCDc5DYfgPWzoCsPMds593xVG
+ nUVmqdf4DZCGkvRw6uCp9vSoe3P5ui3PAtsbus+Zd0BMXXl4Re4j/dZ+oBIy1Yv7vw3VRTpBh9S
+ q3mlYt3UkQJctqXiAGBrGreUd9uIrpbgVZQPTSKrpecYqEIA5tAVs9KMnLhMsJbKH7bqa2bi8Mk
+ xB2no+EUFUBjxeqwugl4Irrg/bCouDYg/tJr5jpT8zUGqyYS6nRZvkvaV5gnd2SPXgeH8Fme9hP
+ PeVHyqFxtSwX+i2mERIx+Ae5ipBpolRFUiV7+kLAXVBNazgoYHUE+dpbofHO5DQ7lKrY+3L1kSR
+ wrNNvq/rJSzvw2IAGgnyEXun8C9d63LFOqPxsBw5qM3nVSLdqdzTzC9mY0hspVLrnLWmHMvfSnA
+ CY9GexbKmqKix4FCN+7G3bs/8kX/UjvURsuXt4B0/DYM2G7qWFQPWpMAR7aQyWP1diESCiHl3Jo
+ DXGpcaVsk96sJESYdyV2D3PHus99acBx1EzIpQKcyloKAsP50eH9VRE95aLgl+NAmC/6Kh9c/Ue
+ vmO6CQt8+1uXY3A==
 X-Developer-Key: i=nsc@kernel.org; a=openpgp;
  fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
 X-Spamd-Result: default: False [-1.66 / 15.00];
@@ -87,38 +87,49 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12620-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12621-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4322738DF44
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checksyscalls.sh:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4756738DF5A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 13 Mar 2026 16:37:29 -0700, Nathan Chancellor wrote:
-> Documentation: kbuild: Update the debug information notes in reproducible-builds.rst
+On Thu, 02 Apr 2026 16:36:17 +0200, Thomas Weißschuh wrote:
+> checksyscalls: only run when necessary
+> 
+> Currently checksyscalls.sh is unconditionally executed during each build.
+> Most of these executions are unnecessary.
+> 
+> Only run checksyscalls.sh if one of its inputs have changed.
+> 
+> [...]
 
 Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
 
-[1/1] Documentation: kbuild: Update the debug information notes in reproducible-builds.rst
-      https://git.kernel.org/kbuild/c/d88af9ef
+[1/3] checksyscalls: move path to reference table to a variable
+      https://git.kernel.org/kbuild/c/263246f2
+[2/3] checksyscalls: only run when necessary
+      https://git.kernel.org/kbuild/c/a414e4ba
+[3/3] checksyscalls: move instance functionality into generic code
+      https://git.kernel.org/kbuild/c/a46f42c3
 
 Please look out for regression or issue reports or other follow up
 comments, as they may result in the patch/series getting dropped,
