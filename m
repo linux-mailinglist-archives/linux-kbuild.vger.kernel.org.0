@@ -1,169 +1,226 @@
-Return-Path: <linux-kbuild+bounces-12630-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12631-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIyyCHeRz2lqxQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12630-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 12:07:51 +0200
+	id sCTZBlmTz2nmxQYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12631-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 12:15:53 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4F7393281
-	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 12:07:50 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B11F639332C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 12:15:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7AADE3035782
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2026 10:06:46 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 286823016ACC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2026 10:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7163382F0D;
-	Fri,  3 Apr 2026 10:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4029389102;
+	Fri,  3 Apr 2026 10:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSDI/J47"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="djt6QZTR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB9E3876CC
-	for <linux-kbuild@vger.kernel.org>; Fri,  3 Apr 2026 10:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11054382F32
+	for <linux-kbuild@vger.kernel.org>; Fri,  3 Apr 2026 10:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775210760; cv=pass; b=V27JDIbYQwAzdRwQ0LPOeSiwkma71iVDbRSfSQ901ln4OwwAQZqrOabDLJqzWUr9aoJvohnHQuwV1MB5S9EsoUHEYaQd2SV9FKxpomoV5FvfTSNcE8z+3BEcsZhe7c8R5IBHiA8VbO4/9NqzMFVgNnkrXePoHYivdKHRZ49Jcjs=
+	t=1775210839; cv=pass; b=idI+58x7a5NTVEdnto7r5p4h4oDcBpFGmFcAxxyITANDtjrId7i6pxf3Oc2FNk5VFX5q2JWFnH++5l7h+gP9BuTOK1AUdHsdaSsoveD+C52at2VkpmNZ9OjauwtXF8emoYESoY+RODyLu4HT4u/U5YZvWKNUt0o4z9YMWxVzuIU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775210760; c=relaxed/simple;
-	bh=TkNHPhEzkYABSHJOXb7SAdPNsQYeQkyZZ0VQuJR8jrU=;
+	s=arc-20240116; t=1775210839; c=relaxed/simple;
+	bh=l6iFZzW+AWF3/QEU6LglpEwpw23G8B8xolbXTX0zh2s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xl5SS4qz/ruo3OYXR8vEnpT6bCGFqS9YNCS5RoE+UptQMf6mWs4RGlo7ZUn9hhiJkSXAQamPszJLFjQ4aliFQLHLZgHEk4f5YibelrwWxwe8U9Koh+PN/81qMsxcCAMgXCHf/JPPx62gkNIPMJCMHXPBHxmhXsmE0bZmckerlzE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSDI/J47; arc=pass smtp.client-ip=209.85.208.177
+	 To:Cc:Content-Type; b=TU4xSK3Y2rOepfNawIxy0jgvuWkVvxLdBAPoN/0ymEEMPKyD7eLXRJ05FVZ/7hd7enRXK4DSmQrFDRwcu1hoGpOTZ20qepaF2ANL9NYVJDrSDp+Wo+f0PXUAAXkHmzl1ngL11woDGnBWzrfxGAhU7NtFR6GF7f3WploTvNfGzCs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=djt6QZTR; arc=pass smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-38bd95f5784so2891121fa.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Apr 2026 03:05:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775210753; cv=none;
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a2c77b2157so147006e87.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 03 Apr 2026 03:07:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775210832; cv=none;
         d=google.com; s=arc-20240605;
-        b=QvEw8HrMGtiTEgr89F4hlWcoUNGvmCW7hXYY0jukZk3Z7RN7sS1KAIzQxSgryXZ896
-         zNlA3C8XW/6HJC+FIoyBNIa3IbX0U51PL+Iy88Xtk2qMSw1P+A6L46IclTKeHVzNcbsc
-         /lU4i06gVvb3F20jnT+DfEoj7t+Y/R9lRmQ1ctU4OH+FsVSrRKHlYttxL5lAAwg0d8yW
-         9bTgcwVEjqRPFz9CGS9C2nrSKEaNqMuRkVFkefavVcH6qTecUYLPzQ93o29yIZAGemG4
-         YSuMffo3F+GPT85DWkSKy0+s+j0fJHH6Fti9uMoo0zC/zQoFictG5hM3RMsUyXprLCNR
-         5d0A==
+        b=B8yWMWOn3uLG0yKP5CzzmJzqd17IMOcsspQtloXv776DKwdpcV/PL3MyrW1AN2Rfpi
+         YpPveWf/9bPxgKPrq77X3zhULDJZFCieWfrU2T0bvc78OffX1B0RTcWDVU6mImSR8fIi
+         t0IfRUGzmkj89YL1VktDhbmiZx5YjmRbM0HYIX03G4FYG/Go4VFny6LFsg243gP2N0Zk
+         KdAeqqKIp26mYO2uIj0+Qw7cpkpqAQ/LTuMlac/Dq9Tq77jwOkpCKZ1frs21KIsk6SM+
+         GC+hYu3NNj611oUIcd9pRAchimhkP2fOWn6s0juDjozh2Ie9r9oevtcrTyYjZCp+v8Pc
+         K0Xw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=YLbD9NBLa2cA8RkwMY9FXgR3GMGSqJQ4FhLm9zSjhgk=;
-        fh=nTwKvHIRpGjPOCI8YS6ukx05A9zC+pMVOlm+Gftm7eM=;
-        b=TxyopWYagxH2ZrAkeRYl+/LP3HNkTqnk6yn8oIekld4Tg/R0lrCQ3YqEmdNr2mpLH2
-         vE1OfBD+4JxC9WxHEJz4ZuzsIKndUoHK7n6cBy9AOpQv7F9C76V3as8/5yopgnnhfPuh
-         CUBRmqruKvb7tsJjBGwrSfROULLRor1GLFnOmgVWbpl9JSlExKpvCMyY+ul4CQtUMger
-         GBOc5xbtJ9Kbb/PR7Qd9yq92vAFpDZvRaEM9y9lCM+Wkh6J9aXMmT0zL/ODkPYdyifvs
-         OII+APKbTVNWCnX28kmTHpoSp8Z6H/rzrkHxVzRD1NrUWa6sYwTF9cCsqIAzTGMycpKC
-         jxkA==;
+        bh=oPJMJaHpZbFcRCyZeIIkk5jL0cCGPysTlsDPbLnYuac=;
+        fh=YqMtcaFD53CKroOklUL45E8lvee+CGgCeFQoZ+HQEcI=;
+        b=HzjW5Upy6gj2jY/lNdSO+IAxYJSo8Sik8y5Pp+buhJ7ASnrmt/evOTNdTF786dspQ+
+         O5k8dtW9yOVn2USelNi63SCPJd8yC7itTKI4Kv8jeCqnmYUP915O5KlP/3kMj+ZDzADx
+         i2Btw6ZqpuN3+UyTTg02BNCL3prhwi+NNYC+abda84AtUCULSPVhzOhjQvIcbVgduER9
+         ud7A8sFCbmZdqMWunDnzNyhOomkyIw9BeyUAe+lkRKiVSmPwSPmLbwf3dujttIfx3AeF
+         cZz8UdP6kp1nrRtV1HFCaWpKBO5IlWX+rQIUTWpXTCuzhy02jAlk3LDSQgzat5hUi/NP
+         aveg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775210753; x=1775815553; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775210832; x=1775815632; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YLbD9NBLa2cA8RkwMY9FXgR3GMGSqJQ4FhLm9zSjhgk=;
-        b=CSDI/J47bzw5ypL572cmdS0hUB6wuUXqxQ9ilVaJGFV+8pj8YU+Dw9c6azuiR3iXrq
-         3M5FGa/1vTv8jEXmFwQ8PSY2rdxZLZIhDz5DwtBA/M8C70hxbsNYg2vDz1vbN18R4wyy
-         XaRf+Ab7Tpduntv4jpw9t3HJ3fcRsgOnyql+i+Xihz6ZNlnbASufMc2aHl90CIdoOTSd
-         4jTL5iX4MW13wmJQUvKCqs4DQKgWTjg7GN4V44SZJvxmm/5m0Y+xShAzp1DzSCzvgybq
-         x6jNhnSDK+CdjoBh7Md9G9mb6dPxWJgIx8hck+6VZ7N0rCOd+r9hXOh8iNv1Qsh1nL70
-         pzHA==
+        bh=oPJMJaHpZbFcRCyZeIIkk5jL0cCGPysTlsDPbLnYuac=;
+        b=djt6QZTRfT+XcEa1NxzzaJE1gUQlCKaKO6cK/w6rS80EpPop3wYhW02DcP4gx/OMZ6
+         yMOvMJMI6seSsYr53wjzyZ5u3r4cd4EXtwf9wRNLRUpgxbDLwI8BNEH0tJG4zkPyX2am
+         5khpWbmWgBOe0AfPhHD1CirtkaPoet0ny8l9uSKSrHxiS+DHLiBZmVa41briIfrMxbP5
+         gRePp3b4PvkWE4FhUxRkDjnABs/c2zamHosaduIZbyFCb6sXEd5bNVeArrt8kIbLjSu9
+         1KazumvICrWNBZWF0T9eFIkwJTD4Bz3CP+qSwmJx2PRff/bUHuHf3QDKBc/iYdidY1il
+         UDpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775210753; x=1775815553;
+        d=1e100.net; s=20251104; t=1775210832; x=1775815632;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YLbD9NBLa2cA8RkwMY9FXgR3GMGSqJQ4FhLm9zSjhgk=;
-        b=mulNZQJdoo/qb1ZUWusTNlsCiVgGBvYOD0J8cVCjw0Eg30svX4QRked+X8rrPdqTR3
-         qkPV1+Aw+gy27di+XF5DbOMrhkCD6F3zbBkKEWd7CWfAEJmPMELkV2lqh1MBw0BUmbPz
-         2gVllDhJI1XBX2FRYboSpnT9tx8hW7ALU3x9SrdBE033PLjEgKGyeZLA1zWtq0vSaCWh
-         DnzftI+dbO/P+0YqAuFn/U4dVIcvoROvpFXDzhjvWO/gg3hHBjdGDXWkdO+rUYUlOVo2
-         le9+NX1AXQO3g46ByXy0Dsgm6oiOkXx2CWAbyfAzYFm8fbshQqFSoxLVLu8ba7NoE/Jk
-         xKBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTSK1GU0GKnwYsa/RuPHTyvbsWLKrlzStHtjmsTRa4iHGDzfdHrKNR9LShHrZAMpvr9o0XhhK//FrQ6kg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/r7nRsR03q/mhhLmkctW+4pn3225FmCxXulX9+spgBBQ2INmo
-	vADwxq3AJKTLJhTj2q+NiHEQH7NgRGbtpSuxfKzqvXfKPoy+LAH3xNQXOb61h+FyIphZXdjt80U
-	LchHJCcg4CocQ9X3jK0zCEy28dsChQhI=
-X-Gm-Gg: AeBDietaU4DXFigf8hY1HZtrV3fUc0OAfHvDXghbnvRs1kCpcXcMOSTC0HLaDjJ9sB4
-	AEs5yp0/NugHQFBlmiteiT7t6t5iWh/2kqfKVHN57xZHMyL1HXq7JMQlc2mRy+ur8huiZJ6KUNN
-	enAW8f8ALGh6UqHuG4N2cdcDMYfQD/jq0m/eSe24Ho59VrWv7X4WNf6HT6I4wwwaV0PFoO0/Dbe
-	EFLawn6XxHtjWC01NlqpS1eJ43+3H6gTxTnw9kZy+qwvoTi5N9yJsolNslaR0rAhyJJLFaNzLTT
-	Qz4D+r1TiZz3RRiW/jtLgdB2tWpmsQ5xnSuEaf8gxACkock/gbHJdTQcUES/95tlGuEFR/GvmRL
-	v98xQmg2o3zP2A7l63UESTBc=
-X-Received: by 2002:a05:6512:1393:b0:59e:5796:f6a with SMTP id
- 2adb3069b0e04-5a337593b79mr427224e87.7.1775210752684; Fri, 03 Apr 2026
- 03:05:52 -0700 (PDT)
+        bh=oPJMJaHpZbFcRCyZeIIkk5jL0cCGPysTlsDPbLnYuac=;
+        b=SoIfnG7rBOcjktTvI5YX17ESYNRNqIxN+l9YYutjx4yMdl484Mt+S88uYQKrNNM31B
+         sFYTed6c8j9Ouw9jVuskYQSYeoOBa7eoQfBFrZIWHYIdbYxKoIXfFJ8MHXT1Dp3tC06n
+         Lmp0VDCosK6s01wdUIhSphsrm1BwJadeYjJihy13l9jqEWjmMxynB7Uvh3Oi1KB5fcbs
+         NeshDcNphhjO5QzJx2Ci08JlzsbiVLdOrIvZ/NdwnlDy9SCrLkezjCtMTb0D05YyvgKB
+         6AMVUN6u+VlalXbf/XEIk2yD4Yarj7owIJwM6V5Za43sRPLTgF51Kt+iH2Ua9kmqbK2n
+         nEtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKMNsUaCibPUR4CUV+MGzh/P7vlFn6wVH5fdn9Uf9jHOOL/GHhjSfQHCwuDxdB9XKLcyj9Tjf/gIXPWV0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFM5cY/RUn5hb8XoqPGf1V25ztJoM9etice+ka8n3bD1seNW9Q
+	xrGbH81Gq/POcvbt1WfbPrbRSOAfChx2YtNMXpY2fTdh8m3+rpOB1po8qsVlz35qYv9F8UWpQ/m
+	IPEzzRMjOtS1aIkaRDLe+x9YEcchUW6k=
+X-Gm-Gg: AeBDieurRHtoRFSYZ2hFVjLp4Uh4nirhPyiD2Dz7G9GKcDy4dml9pqqDxvw+M8znMv/
+	I2OmlCziewz+K20Q3p1gIn6a+RG/EdVEOAT8jlLbNznaQHMRwad1I6+oJhmfj7Ao0Iuglkvj5TX
+	cDSjEuvf/BbiGEiF27bvrawTJPy+s/FRXDrXQwhDueWRpttfH+DJMCa5hHH9C5AX1okGEGBhv7x
+	z03l7yNTDfEqfabbUThmYh7ziwSdv+dHzfbBTCqMjCdN0IUQsXF8lcTemQ4Ui7R6NyONx3KjEaP
+	2YR2P0jSCXdN3lr01IB+nGf68rDIzuP9Di10XoOKCgbrCoT5FZunShde6nZAbHq4WNBFPIzCQcR
+	s+G205icI7u69IwFR9YC4e64=
+X-Received: by 2002:a05:6512:31d6:b0:5a1:4712:376a with SMTP id
+ 2adb3069b0e04-5a33759184amr467862e87.8.1775210832087; Fri, 03 Apr 2026
+ 03:07:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260402-binder-crate-name-v4-0-ec3919b87909@google.com>
-In-Reply-To: <20260402-binder-crate-name-v4-0-ec3919b87909@google.com>
+References: <20260331205849.498295-1-ojeda@kernel.org>
+In-Reply-To: <20260331205849.498295-1-ojeda@kernel.org>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 3 Apr 2026 12:05:33 +0200
-X-Gm-Features: AQROBzAnNIt6naIfeMeK2ac4VVmYdgIa33310K-kkQ3XQGTeDriWEK03F-TXqlA
-Message-ID: <CANiq72ng_gJpgbT9vV2=-t2k60fKvC89r22fk+_=ewRTqtHR9A@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Change Rust Binder crate name to rust_binder
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Tamir Duberstein <tamird@kernel.org>, 
+Date: Fri, 3 Apr 2026 12:06:56 +0200
+X-Gm-Features: AQROBzBBW7rQ85ZJif0nroczUc04Z6h0dVRy0ZiPuatyp9TJcZiZGUSTP9K1ZwE
+Message-ID: <CANiq72=-vxjqPPiAPrN8Oxcs8ExhHY2qvhN_Qd5JnxGGKEOOcw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: rust: allow `clippy::uninlined_format_args`
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
 	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Jesung Yang <y.j3ms.n@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	Aaron Tomlin <atomlin@atomlin.com>, linux-modules@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [7.34 / 15.00];
+	URIBL_BLACK(7.50)[rust-lang.github.io:url];
 	MAILLIST(-0.15)[generic];
+	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12630-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12631-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	R_DKIM_ALLOW(0.00)[gmail.com:s=20251104];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	GREYLIST(0.00)[pass,body];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,gmail.com,linuxfoundation.org,google.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[kernel.org,suse.com,google.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,atomlin.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	R_SPF_ALLOW(0.00)[+ip4:172.232.135.74:c];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	NEURAL_SPAM(0.00)[0.989];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: BC4F7393281
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,rust-lang.github.io:url,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: B11F639332C
+X-Rspamd-Action: add header
 X-Rspamd-Server: lfdr
+X-Spam: Yes
 
-On Thu, Apr 2, 2026 at 12:55=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
+On Tue, Mar 31, 2026 at 10:59=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wr=
+ote:
 >
-> Currently the crate name of the Rust Binder driver is rust_binder_main,
-> but I'd like it to be called rust_binder instead, matching the .ko file.
-> This affects e.g. symbol names in stack traces.
+> Clippy in Rust 1.88.0 (only) reports [1]:
 >
-> Thus, allow use of the #![crate_name] annotation, and set it for Rust
-> Binder.
+>     warning: variables can be used directly in the `format!` string
+>        --> rust/macros/module.rs:112:23
+>         |
+>     112 |         let content =3D format!("{param}:{content}", param =3D =
+param, content =3D content);
+>         |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^
+>         |
+>         =3D help: for further information visit https://rust-lang.github.=
+io/rust-clippy/master/index.html#uninlined_format_args
+>         =3D note: `-W clippy::uninlined-format-args` implied by `-W clipp=
+y::all`
+>         =3D help: to override `-W clippy::all` add `#[allow(clippy::uninl=
+ined_format_args)]`
+>     help: change this to
+>         |
+>     112 -         let content =3D format!("{param}:{content}", param =3D =
+param, content =3D content);
+>     112 +         let content =3D format!("{param}:{content}");
+>
+>     warning: variables can be used directly in the `format!` string
+>        --> rust/macros/module.rs:198:14
+>         |
+>     198 |         t =3D> panic!("Unsupported parameter type {}", t),
+>         |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>         |
+>         =3D help: for further information visit https://rust-lang.github.=
+io/rust-clippy/master/index.html#uninlined_format_args
+>         =3D note: `-W clippy::uninlined-format-args` implied by `-W clipp=
+y::all`
+>         =3D help: to override `-W clippy::all` add `#[allow(clippy::uninl=
+ined_format_args)]`
+>     help: change this to
+>         |
+>     198 -         t =3D> panic!("Unsupported parameter type {}", t),
+>     198 +         t =3D> panic!("Unsupported parameter type {t}"),
+>         |
+>
+> The reason it only triggers in that version is that the lint was moved
+> from `pedantic` to `style` in Rust 1.88.0 and then back to `pedantic`
+> in Rust 1.89.0 [2][3].
+>
+> In the first case, the suggestion is fair and a pure simplification, thus
+> we will clean it up separately.
+>
+> To keep the behavior the same across all versions, and since the lint
+> does not work for all macros (e.g. custom ones like `pr_info!`), disable
+> it globally.
+>
+> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
+n older LTSs).
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72=3DdrAtf3y_DZ-2o4jb6A=
+z9J3Yj4QYwWnbRui4sm4AJD3Q@mail.gmail.com/ [1]
+> Link: https://github.com/rust-lang/rust-clippy/pull/15287 [2]
+> Link: https://github.com/rust-lang/rust-clippy/issues/15151 [3]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Applied to `rust-next` -- thanks everyone!
+Applied series to `rust-next` -- thanks everyone!
 
-    [ Applied Python type hints. - Miguel ]
+(If wanted by modules, I can drop the top commit.)
 
 Cheers,
 Miguel
