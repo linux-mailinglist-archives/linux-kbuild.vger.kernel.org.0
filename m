@@ -1,187 +1,207 @@
-Return-Path: <linux-kbuild+bounces-12625-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12626-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qD81Bhnlzmk5rQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12625-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 23:52:25 +0200
+	id IN9mJh1Kz2m9uwYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12626-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 07:03:25 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01ED538E74E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 02 Apr 2026 23:52:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FFE391017
+	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 07:03:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 65FBE301DB83
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2026 21:52:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A2C6D3008A42
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2026 04:53:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF64C386426;
-	Thu,  2 Apr 2026 21:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E1CD3264D4;
+	Fri,  3 Apr 2026 04:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTB78iuK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ScgQv2X5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A39438237A;
-	Thu,  2 Apr 2026 21:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775166741; cv=none; b=jrV8Wi4AL68755IDZGL/yvQkqblhMeOnBa95fmp0I8w7p0a+uBoxSxj3J6eaoz4aFvMAKWADFJG7LiMFA8FQ10bL+nM+fnIZX/UBI/oHyJ4QKORoBCcrmrMw0TbDiEI/BOg37+sLVarolpZZYBD6zW5L5nS0hv6LyxQrIj04efY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775166741; c=relaxed/simple;
-	bh=v9zJEeNVmz7NcsMkpOPkdYk7q2EoPoCfcmjxBRbg/Gw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kST9lBUpPAwcUljsn4/TDzTuqhzA0G7DHv178sWvx+ViQBDLJO58/07ikIzQQjU7egA4SB5DqziBWqmHlR58m6mdSsrdMsMpnaSly7Ru75MvO01yTwSt7kca/3vGaN7p+nO3bbmHMeP/JdwSXwwPtl9wEgzczEUOXKquKdJzfnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTB78iuK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9D9C116C6;
-	Thu,  2 Apr 2026 21:52:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775166740;
-	bh=v9zJEeNVmz7NcsMkpOPkdYk7q2EoPoCfcmjxBRbg/Gw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=PTB78iuKGtB1jnCLkrdAAEbFdUBu6bIVdFt5Wka6j9T73o4DOPCGZwiNrnq4PiEr6
-	 mBFN0TFFR6noe6wbi63LOXrgXpdD106UW3pCqKSxrNzj8GxdtV8MQyp2Vy1SAsdp3d
-	 M6xKXlZbCh0YABGR2JZ5uus7RZzPqgGZDTd9cRTDxhbH89DrUCD35i7ucql2BdpP2E
-	 7ULjB46nbQkz0boFssqZvNz1786uWfD+aGTkjAGmooYiXv+ruQ7/oxb1SnuN7wMHKS
-	 dZy72w3QSkA4WUNCLllLtT+k1bSnFq6cedLa+/KrtjYL9V2SlHZOhBUsWcX1NjRLrv
-	 DcESm7m/FmPPA==
-Date: Thu, 2 Apr 2026 15:52:15 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
-cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-    Mikko Rapeli <mikko.rapeli@linaro.org>, 
-    Richard Henderson <richard.henderson@linaro.org>, 
-    Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
-    Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-    Andreas Kemnade <andreas@kemnade.info>, 
-    Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-    Tony Lindgren <tony@atomide.com>, Huacai Chen <chenhuacai@kernel.org>, 
-    WANG Xuerui <kernel@xen0n.name>, 
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-    Madhavan Srinivasan <maddy@linux.ibm.com>, 
-    Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-    "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-    Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-    Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-    Alexander Gordeev <agordeev@linux.ibm.com>, 
-    Christian Borntraeger <borntraeger@linux.ibm.com>, 
-    Sven Schnelle <svens@linux.ibm.com>, 
-    Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
-    John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Clark Williams <clrkwllms@kernel.org>, 
-    Steven Rostedt <rostedt@goodmis.org>, 
-    Pablo Neira Ayuso <pablo@netfilter.org>, 
-    Krzysztof Kozlowski <krzk@kernel.org>, 
-    Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>, 
-    Sascha Hauer <s.hauer@pengutronix.de>, 
-    Pengutronix Kernel Team <kernel@pengutronix.de>, 
-    Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-    Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-    Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-    Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-    Geert Uytterhoeven <geert+renesas@glider.be>, 
-    Magnus Damm <magnus.damm@gmail.com>, 
-    Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
-    Gregory CLEMENT <gregory.clement@bootlin.com>, 
-    =?ISO-8859-15?Q?Th=E9o_Lebrun?= <theo.lebrun@bootlin.com>, 
-    "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
-    Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
-    =?ISO-8859-15?Q?Jonathan_Neusch=E4fer?= <j.neuschaefer@gmx.net>, 
-    Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
-    Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>, 
-    Heiko Stuebner <heiko@sntech.de>, 
-    Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-    Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
-    Ard Biesheuvel <ardb@kernel.org>, 
-    Sricharan Ramabadhran <quic_srichara@quicinc.com>, 
-    Bjorn Andersson <andersson@kernel.org>, Michael Walle <mwalle@kernel.org>, 
-    Guenter Roeck <linux@roeck-us.net>, 
-    Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-    "Rob Herring (Arm)" <robh@kernel.org>, 
-    Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Anna Schumaker <anna.schumaker@oracle.com>, 
-    Alexandre Gonzalo <alexandre.gonzalo@arm.com>, 
-    linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-    linux-omap@vger.kernel.org, loongarch@lists.linux.dev, 
-    linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-    linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-    linux-sh@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-    linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
-    linux-renesas-soc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-    openbmc@lists.ozlabs.org
-Subject: Re: [PATCH 3/9] configs: remove obsolete assignments to
- CONFIG_NFS_V4_1
-In-Reply-To: <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
-Message-ID: <2a5bb9cf-3f0c-6069-6412-cd4c5c4e8b78@kernel.org>
-References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org> <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBC07081A
+	for <linux-kbuild@vger.kernel.org>; Fri,  3 Apr 2026 04:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775191997; cv=pass; b=Q77tLR+CR349osVT4mSbPzU1PWDcvfksS/i0NZu7v3XFpAoptH6RXC3WDiYAqG8ZrngXd7ckHGVvfomoklvWAoRjBV2hjg880T5bvWUvEEp5R7L7x62JaH3iNd0PlKg1iSL2RFqlIfHwJoPy4bFQ35Kkiw604ni0IXKJshYf1l8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775191997; c=relaxed/simple;
+	bh=yl2v4HCLZpTTCWiNSHezHoQggNNu2rh4MEf6BSYZ4xo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rTx/0G8dK2btzwKycYTV7/l6QRvUFQ57XcENcCcjHES9uv7VElLxYnGM6WD+MHko2gNLA8DDGsubISgL2SqWKQD/bBkHKMcBhLdtGXF10wAmu160LBv3VsTy5obJ2+ximy1q5mGUSnI6VG+zhnsugLfhOujeyMFLlIJMVDPLdHk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ScgQv2X5; arc=pass smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12734af2cdcso67093c88.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2026 21:53:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775191995; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GACo9mLojJ8qUiLWB0M43uksq0Kq4vMVdkNYaYLIZ4kt/QGrqHIQjr7Eyha3L3Z7yb
+         adPQzIPYxaeR8k/1v+OsegX6K3TNI24uzsEq/wrb+0Lzrofk4z0DSWDq3RJJnYN7wwO+
+         DpwHzKItUubMqIxNkJNLNVIx2KhYrpLehNMT2tcZgn2CxV1yflZBllvyEquSzOruuiHm
+         Gh/Vvhp9YATSvX9LM/P7Qeypa+IYT1NB3s2JY/jpz/WTxk4BlUm9bc7b9qPSCFSk9vo+
+         nY2xLB3j2Va3x4lNlqEA0d0cCU45twxCP+5WPRoK3FfOa7a8LTi/v/0VPgwkaj5FSrx4
+         JY6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BFl652h+zh7LQ70IxgsBAbSjGMJ2GOXvRo1wsMp6Q80=;
+        fh=C9i8zi45EPSBCnhSetlkxRfobxjdvkvP8m/0gg1yYa8=;
+        b=GjZuKsarTleiWWw9J7D7INU7gsMTdo3IGzrda7JUUq4SL1u3K6xUeC1HDHYUIFcgxx
+         GgdmCZRpn1UhZ2rMtzF7PStzdHEuk0obxHK2YgCT15dBbnLT6puBy3vMi8MR0O4inNfp
+         EPNhw/AE0pvjQ8zHifcrnfKoDz9Mi4y4yLRaqjZ3fNA0xRZBG7SvLLVsFkV9ZKg7FJSf
+         /ZXG/ZLxZASfOfj/vwtEeBvhpgHc+AwVhO8RQ/oRjpGMRAKJuM1CnUzdI1hTnXtzp7AA
+         D30cRJZ2MXhrFw3P8r63YpFhNGRDx4rfWLL7WgjI6cyKHYAVF22KbyHqjDcuqRXFd/tc
+         2FSw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775191995; x=1775796795; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BFl652h+zh7LQ70IxgsBAbSjGMJ2GOXvRo1wsMp6Q80=;
+        b=ScgQv2X5z/bPy2+z10wPDBjbAJjE3PoN74nC1/UvC8JtZrsNakh9CrdwIoI/YgeAZv
+         vPnuj3BDj0nN8pXYnK9uVgnS+bFJraVVqGHAKvAp43hVsAuo9JXI9HsRc7m/RruZY+vG
+         rk6zChqSM20v1riLHfqgMxA/BGVzxS2mQvBQsi/njNzqEKa+gFAhXxn7438rzumaCaM/
+         I9UCC8FnDWjbGb6klI9w9/Y6Dk4cGDccSFAOfqrlJfmKvW2sre73jo6S+2MGhHYQ2xxo
+         Asu1zybAk6UXgPIuDpPXjhff0bq+nGK829+7dFbpRs3XJupsBJS/81apoQjRSdwId/1b
+         rCCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775191995; x=1775796795;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BFl652h+zh7LQ70IxgsBAbSjGMJ2GOXvRo1wsMp6Q80=;
+        b=FGy1qb1fBiv0i1wCNPjANPr+KLK42nxo2mq8MOmDYSlP888ARjmqTiLO6W5R9UP/oY
+         fbzZz2RThvQ03m3T/uxs6ZVM25xAkLIoDRZQn/Mhu+eLWeCgQP7hIJ5HlPGZoAmCqB3D
+         G3kbrSM3UPv04rxp0QO1qj5z9WJ2O3dlxMYvWWWU+UrgZpHDOWsaB2MQJmvcGGkpRWSg
+         KOmcPba56/whKL0kgZskKw/00KA9FInteTUXxGcEtDTFJ7AJ8/r91ax1UGsGq3BbPwAs
+         iJ6ByjNcOHEjG6YCQOfPG7soCN0pvgw9sa88RNgirMFqFq2pBzIZdBP45noMuXuDDH4K
+         p9BQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCoQvui8trVUJqrYWEXOU8EuVJc597mN1jscBosRH0K7zDvbQNdWLf1WJ2thRtI5oGI6MNcJ4XUb1nMnE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmWkSDeKVW8l9KqqFwJH2b1MSAVSXn0kYd36/G6yTWwZZY+Ky6
+	zvSBHFIWmzhYdC0cJpwD9aWS6RNJTarNGB9qCEvL5ImrABLqc3IWFMskg+8XhzRwvYETBa+T9KW
+	XaD6oMoZ6fkyCCaooVI9OHpBnCgHYEF0=
+X-Gm-Gg: ATEYQzwUPSrdWRyQdtBI02cPQ3IZ+oB4ELNkJqTx/a4Aa43kQnOSc1nx6R0hmts4u55
+	eDAy4NPhfMS70cmw0zXJEB1j0kBoRps6wk79a7Y7db0I/xbOVSvu0OCj+ZyvVtgI0MamXVWDvul
+	E+YlNOgrBlk5hID/5P5O7pyfGavdyAZzpWeNupeduWdiEBcX5ecuInIovOhpTYtQUiGrOfyWkbU
+	XkjbXj7MZrx7juBipg8FtEsbB4GrgW3wMnDa+KNOiYV8spsZLK2exOESYG+EbWiz9m+o+R6tOON
+	ANPoVzVBE3JKhWAEXCk+w7gPU0nOtN16Y6yVvP0RCUAIZ6vkT4sYJpgNmqj97DkNibn+41wNamo
+	7Ej5NQG1CBUAxQfw0b0gsxAo=
+X-Received: by 2002:a05:7022:929:b0:128:d590:2947 with SMTP id
+ a92af1059eb24-12bfb740ef0mr367589c88.4.1775191994985; Thu, 02 Apr 2026
+ 21:53:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+References: <20260331205849.498295-1-ojeda@kernel.org> <20260331205849.498295-2-ojeda@kernel.org>
+In-Reply-To: <20260331205849.498295-2-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 3 Apr 2026 06:53:02 +0200
+X-Gm-Features: AQROBzDJbkOKUs3Pbx6-NjHKhuMni-H63EEyi2tvHo0-KK_56o32Fe31dKQRj3Y
+Message-ID: <CANiq72kNqmGpFurRy2X+a=9fHV_hxpfWBJ-+dEL_qj2daLM8ww@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: macros: simplify `format!` arguments
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	Aaron Tomlin <atomlin@atomlin.com>, linux-modules@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [7.34 / 15.00];
+	URIBL_BLACK(7.50)[rust-lang.github.io:url];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,armlinux.org.uk,iki.fi,kemnade.info,baylibre.com,atomide.com,xen0n.name,alpha.franken.de,linux.ibm.com,ellerman.id.au,dabbelt.com,eecs.berkeley.edu,ghiti.fr,users.sourceforge.jp,libc.org,physik.fu-berlin.de,redhat.com,alien8.de,linux.intel.com,zytor.com,linutronix.de,goodmis.org,netfilter.org,samsung.com,nxp.com,pengutronix.de,mleia.com,timesys.com,arm.com,glider.be,mobileye.com,bootlin.com,HansenPartnership.com,gmx.de,gmx.net,zankel.net,suse.de,arndb.de,sntech.de,renesas.com,quicinc.com,roeck-us.net,oss.qualcomm.com,linuxfoundation.org,oracle.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-12625-lists,linux-kbuild=lfdr.de];
+	R_DKIM_ALLOW(0.00)[gmail.com:s=20251104];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-12626-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	GREYLIST(0.00)[pass,body];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[98];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,suse.com,google.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,atomlin.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pjw@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 01ED538E74E
-X-Rspamd-Action: no action
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	NEURAL_SPAM(0.00)[0.961];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 40FFE391017
+X-Rspamd-Action: add header
 X-Rspamd-Server: lfdr
+X-Spam: Yes
 
-On Tue, 17 Mar 2026, Vincent Mailhol (Arm) wrote:
+On Tue, Mar 31, 2026 at 10:59=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wr=
+ote:
+>
+> Clippy in Rust 1.88.0 (only) reported [1] up to the previous commit:
+>
+>     warning: variables can be used directly in the `format!` string
+>        --> rust/macros/module.rs:112:23
+>         |
+>     112 |         let content =3D format!("{param}:{content}", param =3D =
+param, content =3D content);
+>         |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^
+>         |
+>         =3D help: for further information visit https://rust-lang.github.=
+io/rust-clippy/master/index.html#uninlined_format_args
+>         =3D note: `-W clippy::uninlined-format-args` implied by `-W clipp=
+y::all`
+>         =3D help: to override `-W clippy::all` add `#[allow(clippy::uninl=
+ined_format_args)]`
+>     help: change this to
+>         |
+>     112 -         let content =3D format!("{param}:{content}", param =3D =
+param, content =3D content);
+>     112 +         let content =3D format!("{param}:{content}");
+>
+> The reason it only triggers in that version is that the lint was moved
+> from `pedantic` to `style` in Rust 1.88.0 and then back to `pedantic`
+> in Rust 1.89.0 [2][3].
+>
+> In this case, the suggestion is fair and a pure simplification, thus
+> just apply it.
+>
+> In addition, do the same for another place in the file that Clippy does
+> not report because it is multi-line.
+>
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72=3DdrAtf3y_DZ-2o4jb6A=
+z9J3Yj4QYwWnbRui4sm4AJD3Q@mail.gmail.com/ [1]
+> Link: https://github.com/rust-lang/rust-clippy/pull/15287 [2]
+> Link: https://github.com/rust-lang/rust-clippy/issues/15151 [3]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-> CONFIG_NFS_V4_1 was revomed in commit 7537db24806f ("NFS: Merge
-> CONFIG_NFS_V4_1 with CONFIG_NFS_V4"). However, some defconfigs are
-> still referring the old configuration.
-> 
-> Clean-up all the leftover references to CONFIG_NFS_V4_1.
-> 
-> FYI, the suppressions were done using:
-> 
->   git grep -z -l '^CONFIG_NFS_V4=' -- 'arch/*/configs/*defconfig' |\
->     xargs -0 sed -i -E '/^CONFIG_NFS_V4_1=/d'
-> 
-> CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN and CONFIG_NFS_V4_1_MIGRATION
-> were not in scope of the renaming and still use V4_1 in their name, so
-> keep those two untouched.
-> 
-> Fixes: 7537db24806f ("NFS: Merge CONFIG_NFS_V4_1 with CONFIG_NFS_V4")
-> Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
+I will pick this one up together with the other one, but if someone
+prefers that I don't, please shout (e.g. if modules wants to pick it
+themselves).
 
-Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
+An Acked-by is also appreciated, thanks!
 
-
-- Paul
+Cheers,
+Miguel
 
