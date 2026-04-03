@@ -1,145 +1,123 @@
-Return-Path: <linux-kbuild+bounces-12635-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12636-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id NtLXIQ4H0GnB2gYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12635-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 20:29:34 +0200
+	id SBl9OhUS0GlQ2wYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12636-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 21:16:37 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075433974BC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 20:29:33 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536CC397954
+	for <lists+linux-kbuild@lfdr.de>; Fri, 03 Apr 2026 21:16:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 05C323006102
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2026 18:29:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AB3F2305022A
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2026 19:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A82361650;
-	Fri,  3 Apr 2026 18:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E16E3D47CB;
+	Fri,  3 Apr 2026 19:15:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JFfoe+Od"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rg7dpr2H"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8580B1F151C;
-	Fri,  3 Apr 2026 18:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE10B35E94F;
+	Fri,  3 Apr 2026 19:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775240971; cv=none; b=S4pxv01mxf322x+J7PRbs1u5TeE48cDW0UXlSG1xxpO8EoDbNqLxN2N2f8UoAC99IN2g6GjaqktXPLQu/gTmjXiY3ZXvLpT8hmhSGAtWwSEKMkFTQzA8u0snVP6a+HldB6nakPAajNAUkWADU+1NDURqIkcPqMGHNP4d3PdDw8c=
+	t=1775243726; cv=none; b=qcpl+/nGFtqDO2emE0y2vG9Ap3/587fAglE6H/r3/CXWxxpo6+TlyY74s2tWlbNW7erIKmX+quRCvl/FJ3rdm486ScSk7JyQVHmJzIN8xNPi8JXHr5H0wmnAj2ZUsdGV73nCPqsae+MdBkszRO4sR4CcacsZmj1wkpX0yp/vfug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775240971; c=relaxed/simple;
-	bh=2LaCesgEqKearbmEy0CIdH1OxXGy3hFRgnwk7wdkISs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AeEKAZycWT1fYhdm2ApqiXRlS+qq4RbNrtkGWcwi0+f04oNkUtZOSr/MlrnwPZxiyau+O+GrGVoIj6sB80lgpcBofrkPCH2hFF4yzCYY0NF1sAHduvEcTjNLZrRBQ4n8pDF6LE1fGYELHhhbMUMDzkN+KtjkgW44F0OHuk16PWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JFfoe+Od; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7854CC4CEF7;
-	Fri,  3 Apr 2026 18:29:24 +0000 (UTC)
+	s=arc-20240116; t=1775243726; c=relaxed/simple;
+	bh=6qecY3n6b9STq+m2/GR/COgE8ysHOSayppqsSevTHsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QlXsOzBGbM1V3aZ4zJE8iqP4kgwhcfeKfn+3s5VNoPdGitB1a9a5zOlHiKv4U41z6P+C72wku+Es2k2jduMwubQWbOhIWrHAJi9iyyWWFrUzcDZqY4gj1joshhB6ndbn7xgf4j+iaUT0HwyASQLcYWsEFqpdubtnqrbF4NLe0qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rg7dpr2H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F195C4CEF7;
+	Fri,  3 Apr 2026 19:15:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775240971;
-	bh=2LaCesgEqKearbmEy0CIdH1OxXGy3hFRgnwk7wdkISs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JFfoe+OdYtwOwBNifEpqm7IRcYHNx8GK/H/UXt4zENrJ40+pbi/suVM7tB5nwYUoz
-	 43CneCDysSjvSJwT+97osxUozGqQ+k5rrR2f4w2qfF4s2/ynhOqo4sYElxPb4UicWQ
-	 Cxamq9EAHCCoyEZydeL5mxRYYT6UjLxLmnLPyHwfsKR1qDviIVBuTYbLnjyXeef3pv
-	 eOVagQAWx/m+AoA6Y8ONDtRjXtl8nMq62cTqwkYwaJAFUYDxK/FKCjy+W25DGNIwUH
-	 s+We36PVVj6YWendwlyyYb0TQpiVfCOj+MvYwC5WWcCxerl2j/g3bwHB3jnNoFPC/W
-	 fYMAxj+aKPE2A==
-Message-ID: <d0fe363c-2e8f-44a4-9b64-3fa3ba9a5773@kernel.org>
-Date: Fri, 3 Apr 2026 20:29:22 +0200
+	s=k20201202; t=1775243725;
+	bh=6qecY3n6b9STq+m2/GR/COgE8ysHOSayppqsSevTHsk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Rg7dpr2HXjvSDR5w3cZ/+B4U4lq83NMxqiLsamEgHO943IE6QwLnI8GDCcyX6veHj
+	 c023JrqmYyguqtauhzOAWejwvD4+3WTtXq0zXw7I6ie0KLxYlQPQSWfgnm1IUm162W
+	 FcKjCk031Bzr+/cIWs8zYe+0OsK35wMl4CuVT6sI4eQ9dJffGoXPNnaniOn7VXTjDn
+	 4j7X77zZNbvF2CWHyQjoHztDBRvVfvmhWjcrM39/P7ONv+NNO2BY01THP9xWDp1SVM
+	 5VESXh24UkVT8eybDEtk280HAkp9ndbBvulyVUUwqZpSXkU5ywUQvvqr69mpi7IQel
+	 /I8CZxG/j72/g==
+From: Nicolas Schier <nsc@kernel.org>
+To: linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kconfig: forbid multiple entries with the same symbol in a choice
+Date: Fri,  3 Apr 2026 21:15:10 +0200
+Message-ID: <177524309498.3877153.5324055967603542099.b4-ty@b4>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260330115736.1559962-1-masahiroy@kernel.org>
+References: <20260330115736.1559962-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] slab: support for compiler-assisted type-based slab
- cache partitioning
-Content-Language: en-US
-To: "Harry Yoo (Oracle)" <harry@kernel.org>, Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@gentwo.org>, Hao Li <hao.li@linux.dev>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Alexander Potapenko <glider@google.com>,
- Dmitry Vyukov <dvyukov@google.com>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-hardening@vger.kernel.org,
- kasan-dev@googlegroups.com, llvm@lists.linux.dev,
- Andrey Konovalov <andreyknvl@gmail.com>, Florent Revest <revest@google.com>,
- GONG Ruiqi <gongruiqi@huaweicloud.com>, Jann Horn <jannh@google.com>,
- KP Singh <kpsingh@kernel.org>, Matteo Rizzo <matteorizzo@google.com>
-References: <20260331111240.153913-1-elver@google.com>
- <ac9d5O5XehnXRc5A@hyeyoo>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <ac9d5O5XehnXRc5A@hyeyoo>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev,huaweicloud.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-12635-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12636-lists,linux-kbuild=lfdr.de];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vbabka@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 075433974BC
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 536CC397954
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/3/26 08:27, Harry Yoo (Oracle) wrote:
->> diff --git a/include/linux/slab.h b/include/linux/slab.h
->> index 15a60b501b95..c0bf00ee6025 100644
->> --- a/include/linux/slab.h
->> +++ b/include/linux/slab.h
->> @@ -864,10 +877,10 @@ unsigned int kmem_cache_sheaf_size(struct slab_sheaf *sheaf);
->>   * with the exception of kunit tests
->>   */
->>  
->> -void *__kmalloc_noprof(size_t size, gfp_t flags)
->> +void *__kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
->>  				__assume_kmalloc_alignment __alloc_size(1);
->>  
->> -void *__kmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node)
->> +void *__kmalloc_node_noprof(DECL_BUCKET_PARAMS(size, b), gfp_t flags, int node, kmalloc_token_t token)
->>  				__assume_kmalloc_alignment __alloc_size(1);
+On Mon, 30 Mar 2026 20:57:35 +0900, Masahiro Yamada wrote:
+> Commit 6a859f1a19d1 ("powerpc: unify two CONFIG_POWERPC64_CPU entries
+> in the same choice block") removed the only occurrence of this tricky
+> use case.
 > 
-> So the @token parameter is unused when CONFIG_PARTITION_KMALLOC_CACHES is
-> disabled but still increases the kernel size by a few kilobytes...
-> but yeah I'm not sure if we can get avoid it without hurting readability.
+> Disallow this pattern in choice_check_sanity() and revert commit
+> 4d46b5b623e0 ("kconfig: fix infinite loop in sym_calc_choice()").
 > 
-> Just saying. (does anybody care?)
+> [...]
 
-Well we did care enough with CONFIG_SLAB_BUCKETS to hide the unused param
-using DECL_BUCKET_PARAMS(), so maybe extend that idea?
-I think it's not just kernel size, but increased register pressure etc.
+Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
 
+[1/1] kconfig: forbid multiple entries with the same symbol in a choice
+      https://git.kernel.org/kbuild/c/e967588a
+
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped,
+reverted or modified (e.g. trailers). Patches applied to the
+kbuild-next-unstable branch are accepted pending wider testing in
+linux-next and any post-commit review; they will generally be moved
+to the kbuild-next branch in about a week if no issues are found.
+
+Best regards,
+-- 
+Nicolas
 
 
