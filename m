@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12668-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HdyJvb30mnjcgcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12667-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:01:58 +0200
+	id MLVqMhL40mnjcgcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12668-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:02:26 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BAA3A0B05
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733423A0B28
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:02:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 612E13007AEF
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:57:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 941EB302AD2C
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:57:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28E5738551F;
-	Sun,  5 Apr 2026 23:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6345038553C;
+	Sun,  5 Apr 2026 23:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llFqKXX3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZa94a2g"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EA6385517;
-	Sun,  5 Apr 2026 23:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4DE385516;
+	Sun,  5 Apr 2026 23:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775433443; cv=none; b=WRECv2qym/gXUs74R/Ojm3flcxvEVNh7/c6+5hdPn07ApQcPUTrqCR+Dn9wCGohXFHfN4nyf3OFA/LMko9DoXFdVVGVhYcHcJXxMw0iScWVWXauoG6cPpw2+048MS8USK2+PeHMAkQ+8isaMdZvIbrNZPqjrhPRNuveAL5j3HPU=
+	t=1775433454; cv=none; b=jmACj63zlSwnXnZl6S7mdRvmtyHYQ0HdTTuWVV9sjCvIxCw+SWNgYZFaRiCeoq6bJHUj9qf7sPalGiD4qwHvZUr4b3Er9x5UkSrUP2TFPwPi7OSfqaLfe2Vfh6LdE129blH0VWwTYrOuNCnNQwrdHt4SRXPctbBT6L+ojlT2K7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775433443; c=relaxed/simple;
-	bh=XZyHv6AFE6cmv/ci+lWKAs2VwcRp1H9PWrMqDiQ41HQ=;
+	s=arc-20240116; t=1775433454; c=relaxed/simple;
+	bh=y0xktRKRs5ryJC+G01aE6htP3MJxSFsUvP6UYzkishw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z1yA+OC8FbCaccgKjmhie+DbZ0zytb2QWmOYpEB/mMh+0hp6lhpgx3fp57F0NskmjfLJEQGUJjI13148rdMri7pm5z5bQtsdvgsG7DqiRT9ObTeh9XRkS2QjOpmYw9y7r2WGlqWMEMdlkDJpCM84XODil6XXgVh4MML8PqI4ZIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llFqKXX3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10949C2BCB3;
-	Sun,  5 Apr 2026 23:57:11 +0000 (UTC)
+	 MIME-Version; b=ZTXSzMKtQfzVjXgvdy0Y6utus6jZ1jDTHlCBJv0OY0jxtE4E5KBu06cjq7ijtdbv8RGW2F1ua/AReBxl7If4A3iDJM3M9YjvTWtbDyE3FRVJPuhnc3vK/7boyWYKEsYTV80cqY2ugMxZY3Ks4GRHyPHEBN/q7AvPT4Ramt53OnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fZa94a2g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E412C116C6;
+	Sun,  5 Apr 2026 23:57:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775433442;
-	bh=XZyHv6AFE6cmv/ci+lWKAs2VwcRp1H9PWrMqDiQ41HQ=;
+	s=k20201202; t=1775433453;
+	bh=y0xktRKRs5ryJC+G01aE6htP3MJxSFsUvP6UYzkishw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=llFqKXX3BZhcl6VND0xHYadZ8I90nL/Woj5hHanZbnt3IKcLSOJsHvkq4HpI4Wt7r
-	 bZVadLLw+nnOLT+Z2kB4ju6MGNAxV0aRKH0P0af8CkwUh6tmO6LXNHSVs5GNb61qHF
-	 QSf81p6n8bjtPRo9I+2JrQqrY5n0gUQDEpxwa7TktFW2aRXbee3+U3ZbrFE0Swi4dh
-	 fPLZy9FLAI1gPwoqHIz4FoVb/FnJGCdo/fsjAJIgXd//f8g4wp69/OmOZNIf0VClpz
-	 e6MvHJFjTyYnZMvfpSV6wxeUhIliIUyz92jABICZcbEVHbnfcORnj/PLOyNgZUpnUX
-	 UXHG6CWkmko4g==
+	b=fZa94a2gUM+1/bUwa8Gk/haFENqG5HQ/kAPWfZKfoOpgs9LPvPn+5SYdTLlTrdqBN
+	 KhCyK2P/VjNgBuSBZRXH3t/NjrffsRCHyuBlWMIBQFw1QoF5qZOq0Fan1XeP/C9mwN
+	 mSmbpbCFTZr9ULdOVc2ZcG2LEkvGQJ8xFnLh+51z3NbAT8m8LjGsjXlDkeOe8MrFSS
+	 pua0Sbcn0dOpLzsRowI5EISEDL74bEj9qX5mI82scX4NoyYe3aG+R/HAcXyIsZeQm+
+	 9Z0TPjgH5LdiQErUVz5M6qCBLJlmLC7RcmmO+rD7FdR+Z/0Ev92RuP1DJXKaj2QiNp
+	 MCtFh4b1E1+eg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -95,9 +95,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	Tamir Duberstein <tamird@kernel.org>
-Subject: [PATCH v2 21/33] rust: kbuild: remove "dummy parameter" workaround for `bindgen` < 0.71.1
-Date: Mon,  6 Apr 2026 01:52:57 +0200
-Message-ID: <20260405235309.418950-22-ojeda@kernel.org>
+Subject: [PATCH v2 22/33] docs: rust: quick-start: openSUSE provides `rust-src` package nowadays
+Date: Mon,  6 Apr 2026 01:52:58 +0200
+Message-ID: <20260405235309.418950-23-ojeda@kernel.org>
 In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
 References: <20260405235309.418950-1-ojeda@kernel.org>
 Precedence: bulk
@@ -121,7 +121,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12667-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12668-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -137,62 +137,36 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 13BAA3A0B05
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,opensuse.org:url]
+X-Rspamd-Queue-Id: 733423A0B28
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Until the version bump of `bindgen`, we needed to pass a dummy parameter
-to avoid failing the `--version` call.
+Both openSUSE Tumbleweed and Slowroll provide the `rust-src` package
+nowadays [1].
 
-Thus remove it.
+Thus remove the version-specific one from the Quick Start guide.
 
+Link: https://software.opensuse.org/package/rust-src?search_term=rust-src [1]
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
-Reviewed-by: Gary Guo <gary@garyguo.net>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- init/Kconfig                 | 7 +------
- scripts/rust_is_available.sh | 8 +-------
- 2 files changed, 2 insertions(+), 13 deletions(-)
+ Documentation/rust/quick-start.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index f9fac458e4d4..d9b795f70a38 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2211,12 +2211,7 @@ config RUSTC_VERSION_TEXT
- config BINDGEN_VERSION_TEXT
- 	string
- 	depends on RUST
--	# The dummy parameter `workaround-for-0.69.0` is required to support 0.69.0
--	# (https://github.com/rust-lang/rust-bindgen/pull/2678) and 0.71.0
--	# (https://github.com/rust-lang/rust-bindgen/pull/3040). It can be removed
--	# when the minimum version is upgraded past the latter (0.69.1 and 0.71.1
--	# both fixed the issue).
--	default "$(shell,$(BINDGEN) --version workaround-for-0.69.0 2>/dev/null)"
-+	default "$(shell,$(BINDGEN) --version 2>/dev/null)"
+diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
+index 152289f0bed2..642efce04ee8 100644
+--- a/Documentation/rust/quick-start.rst
++++ b/Documentation/rust/quick-start.rst
+@@ -84,7 +84,7 @@ openSUSE
+ openSUSE Slowroll and openSUSE Tumbleweed provide recent Rust releases and thus
+ they should generally work out of the box, e.g.::
  
- #
- # Place an empty function call at each tracepoint site. Can be
-diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-index cefc456c2503..551f1ebd0dcb 100755
---- a/scripts/rust_is_available.sh
-+++ b/scripts/rust_is_available.sh
-@@ -121,14 +121,8 @@ fi
- # Check that the Rust bindings generator is suitable.
- #
- # Non-stable and distributions' versions may have a version suffix, e.g. `-dev`.
--#
--# The dummy parameter `workaround-for-0.69.0` is required to support 0.69.0
--# (https://github.com/rust-lang/rust-bindgen/pull/2678) and 0.71.0
--# (https://github.com/rust-lang/rust-bindgen/pull/3040). It can be removed when
--# the minimum version is upgraded past the latter (0.69.1 and 0.71.1 both fixed
--# the issue).
- rust_bindings_generator_output=$( \
--	LC_ALL=C "$BINDGEN" --version workaround-for-0.69.0 2>/dev/null
-+	LC_ALL=C "$BINDGEN" --version 2>/dev/null
- ) || rust_bindings_generator_code=$?
- if [ -n "$rust_bindings_generator_code" ]; then
- 	echo >&2 "***"
+-	zypper install rust rust1.79-src rust-bindgen clang
++	zypper install rust rust-src rust-bindgen clang
+ 
+ 
+ Ubuntu
 -- 
 2.53.0
 
