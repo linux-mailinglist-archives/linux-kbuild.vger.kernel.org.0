@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12668-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12669-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MLVqMhL40mnjcgcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12668-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:02:26 +0200
+	id QN47Hv/20mmzcgcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12669-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:57:51 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733423A0B28
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:02:26 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 575DC3A084F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:57:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 941EB302AD2C
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:57:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 013163004D03
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6345038553C;
-	Sun,  5 Apr 2026 23:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80ADC3859CD;
+	Sun,  5 Apr 2026 23:57:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZa94a2g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWajgKwf"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4DE385516;
-	Sun,  5 Apr 2026 23:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E5734253B;
+	Sun,  5 Apr 2026 23:57:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775433454; cv=none; b=jmACj63zlSwnXnZl6S7mdRvmtyHYQ0HdTTuWVV9sjCvIxCw+SWNgYZFaRiCeoq6bJHUj9qf7sPalGiD4qwHvZUr4b3Er9x5UkSrUP2TFPwPi7OSfqaLfe2Vfh6LdE129blH0VWwTYrOuNCnNQwrdHt4SRXPctbBT6L+ojlT2K7g=
+	t=1775433465; cv=none; b=d0ayqvefG24qBV9yB/LBYRILhJUYq5fK801XSDbyfbf02lmBaVDQmbiKhgkbi5YTZDWYq/AbJkSrcjCM0elm/VxLNqMomp0ADiTR9Ow8KJHUQqJ2StdM+DVb/wEtEmQUUOPK6aMks9nrdSxsi15kkJRkFkG2KrBUxE3FI8Y27lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775433454; c=relaxed/simple;
-	bh=y0xktRKRs5ryJC+G01aE6htP3MJxSFsUvP6UYzkishw=;
+	s=arc-20240116; t=1775433465; c=relaxed/simple;
+	bh=7mv52/ZG4QUnDcOB1zLib3ghxysM4SNZUNBkbqsCd6I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZTXSzMKtQfzVjXgvdy0Y6utus6jZ1jDTHlCBJv0OY0jxtE4E5KBu06cjq7ijtdbv8RGW2F1ua/AReBxl7If4A3iDJM3M9YjvTWtbDyE3FRVJPuhnc3vK/7boyWYKEsYTV80cqY2ugMxZY3Ks4GRHyPHEBN/q7AvPT4Ramt53OnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fZa94a2g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E412C116C6;
-	Sun,  5 Apr 2026 23:57:23 +0000 (UTC)
+	 MIME-Version; b=bvkdJJUNOeDiQlvilplXe4gpiIq6J2qTij9PpDNYhmGw7N+wihgsjYQxgGS4NKjSN/RlnUWpZHXSXtjiF4TBOI/lwMlEJnET7qzkNngg3Do4y1/j1bAwjRR6ulkxGKun+NAQ8o8GDXgZ0vvBvhm0L5RZktzJOQGokZ7EDZr322I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fWajgKwf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D085C116C6;
+	Sun,  5 Apr 2026 23:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775433453;
-	bh=y0xktRKRs5ryJC+G01aE6htP3MJxSFsUvP6UYzkishw=;
+	s=k20201202; t=1775433465;
+	bh=7mv52/ZG4QUnDcOB1zLib3ghxysM4SNZUNBkbqsCd6I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fZa94a2gUM+1/bUwa8Gk/haFENqG5HQ/kAPWfZKfoOpgs9LPvPn+5SYdTLlTrdqBN
-	 KhCyK2P/VjNgBuSBZRXH3t/NjrffsRCHyuBlWMIBQFw1QoF5qZOq0Fan1XeP/C9mwN
-	 mSmbpbCFTZr9ULdOVc2ZcG2LEkvGQJ8xFnLh+51z3NbAT8m8LjGsjXlDkeOe8MrFSS
-	 pua0Sbcn0dOpLzsRowI5EISEDL74bEj9qX5mI82scX4NoyYe3aG+R/HAcXyIsZeQm+
-	 9Z0TPjgH5LdiQErUVz5M6qCBLJlmLC7RcmmO+rD7FdR+Z/0Ev92RuP1DJXKaj2QiNp
-	 MCtFh4b1E1+eg==
+	b=fWajgKwfrkdSNkiYnAd9kVPK1GTxxVyj6J8fkBbJmrLEd8CgJanav/phR9AoL3ylx
+	 txfRsKu9RyJkL4rGC6RD3J1lxpa9C1fBSZzYpGbeXeZbD3guGiERO3kTGiCHAhtg92
+	 EgiGkmUZ+/W0GJ+7JzQjQgfMYPZT8BWyQe0qXfjMWmH6CabWhNT0oyMw9cRsUMhrb4
+	 4xmAOFIxtQwyfAcrhXC65dsH2AYzCrEmcwkeyxe2CLJSxNlqukCsRdgXYFRU6ozXdz
+	 4B+nAbib/RZGoGdyfYl4J/MgCruSgPuD1K/cXlZHR3jxvKX31DQGGowb/YmjIjlMaf
+	 nst7B8vwy2roQ==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -95,9 +95,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	Tamir Duberstein <tamird@kernel.org>
-Subject: [PATCH v2 22/33] docs: rust: quick-start: openSUSE provides `rust-src` package nowadays
-Date: Mon,  6 Apr 2026 01:52:58 +0200
-Message-ID: <20260405235309.418950-23-ojeda@kernel.org>
+Subject: [PATCH v2 23/33] docs: rust: quick-start: update Ubuntu versioned packages
+Date: Mon,  6 Apr 2026 01:52:59 +0200
+Message-ID: <20260405235309.418950-24-ojeda@kernel.org>
 In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
 References: <20260405235309.418950-1-ojeda@kernel.org>
 Precedence: bulk
@@ -114,14 +114,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12668-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12669-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -136,37 +136,81 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,opensuse.org:url]
-X-Rspamd-Queue-Id: 733423A0B28
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[launchpad.net:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ubuntu.com:url]
+X-Rspamd-Queue-Id: 575DC3A084F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Both openSUSE Tumbleweed and Slowroll provide the `rust-src` package
-nowadays [1].
+Now that the minimum supported Rust version is bumped, bump the versioned
+Rust packages [1][2][3][4] to that version for Ubuntu in the Quick
+Start guide.
 
-Thus remove the version-specific one from the Quick Start guide.
+In addition, add "may" to the `RUST_LIB_SRC` line since it does not look
+like it is needed from a quick test in a Ubuntu 24.04 LTS container.
 
-Link: https://software.opensuse.org/package/rust-src?search_term=rust-src [1]
+Link: https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=rustc [1]
+Link: https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=bindgen [2]
+Link: https://launchpad.net/ubuntu/+source/rustc-1.85 [3]
+Link: https://launchpad.net/ubuntu/+source/rust-bindgen-0.71 [4]
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- Documentation/rust/quick-start.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/rust/quick-start.rst | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-index 152289f0bed2..642efce04ee8 100644
+index 642efce04ee8..54fe491deb7d 100644
 --- a/Documentation/rust/quick-start.rst
 +++ b/Documentation/rust/quick-start.rst
-@@ -84,7 +84,7 @@ openSUSE
- openSUSE Slowroll and openSUSE Tumbleweed provide recent Rust releases and thus
- they should generally work out of the box, e.g.::
+@@ -112,33 +112,33 @@ Though Ubuntu 24.04 LTS and older versions still provide recent Rust
+ releases, they require some additional configuration to be set, using
+ the versioned packages, e.g.::
  
--	zypper install rust rust1.79-src rust-bindgen clang
-+	zypper install rust rust-src rust-bindgen clang
+-	apt install rustc-1.80 rust-1.80-src bindgen-0.65 rustfmt-1.80 \
+-		rust-1.80-clippy
+-	ln -s /usr/lib/rust-1.80/bin/rustfmt /usr/bin/rustfmt-1.80
+-	ln -s /usr/lib/rust-1.80/bin/clippy-driver /usr/bin/clippy-driver-1.80
++	apt install rustc-1.85 rust-1.85-src bindgen-0.71 rustfmt-1.85 \
++		rust-1.85-clippy
++	ln -s /usr/lib/rust-1.85/bin/rustfmt /usr/bin/rustfmt-1.85
++	ln -s /usr/lib/rust-1.85/bin/clippy-driver /usr/bin/clippy-driver-1.85
+ 
+ None of these packages set their tools as defaults; therefore they should be
+ specified explicitly, e.g.::
+ 
+-	make LLVM=1 RUSTC=rustc-1.80 RUSTDOC=rustdoc-1.80 RUSTFMT=rustfmt-1.80 \
+-		CLIPPY_DRIVER=clippy-driver-1.80 BINDGEN=bindgen-0.65
++	make LLVM=1 RUSTC=rustc-1.85 RUSTDOC=rustdoc-1.85 RUSTFMT=rustfmt-1.85 \
++		CLIPPY_DRIVER=clippy-driver-1.85 BINDGEN=bindgen-0.71
+ 
+-Alternatively, modify the ``PATH`` variable to place the Rust 1.80 binaries
++Alternatively, modify the ``PATH`` variable to place the Rust 1.85 binaries
+ first and set ``bindgen`` as the default, e.g.::
+ 
+-	PATH=/usr/lib/rust-1.80/bin:$PATH
++	PATH=/usr/lib/rust-1.85/bin:$PATH
+ 	update-alternatives --install /usr/bin/bindgen bindgen \
+-		/usr/bin/bindgen-0.65 100
+-	update-alternatives --set bindgen /usr/bin/bindgen-0.65
++		/usr/bin/bindgen-0.71 100
++	update-alternatives --set bindgen /usr/bin/bindgen-0.71
+ 
+-``RUST_LIB_SRC`` needs to be set when using the versioned packages, e.g.::
++``RUST_LIB_SRC`` may need to be set when using the versioned packages, e.g.::
+ 
+-	RUST_LIB_SRC=/usr/src/rustc-$(rustc-1.80 --version | cut -d' ' -f2)/library
++	RUST_LIB_SRC=/usr/src/rustc-$(rustc-1.85 --version | cut -d' ' -f2)/library
+ 
+ For convenience, ``RUST_LIB_SRC`` can be exported to the global environment.
+ 
+-In addition, ``bindgen-0.65`` is available in newer releases (24.04 LTS and
+-24.10), but it may not be available in older ones (20.04 LTS and 22.04 LTS),
++In addition, ``bindgen-0.71`` is available in newer releases (24.04 LTS),
++but it may not be available in older ones (20.04 LTS and 22.04 LTS),
+ thus ``bindgen`` may need to be built manually (please see below).
  
  
- Ubuntu
 -- 
 2.53.0
 
