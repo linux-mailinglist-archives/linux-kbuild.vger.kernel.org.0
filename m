@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12673-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CNhNJyn30mnjcgcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12672-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:58:33 +0200
+	id 8GyTFGT40mkXcwcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12673-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:03:48 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443BE3A0905
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:58:33 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF5B3A0B70
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:03:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 15A8E3007B81
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:58:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 85C613034E30
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:58:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A263859D7;
-	Sun,  5 Apr 2026 23:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66174386454;
+	Sun,  5 Apr 2026 23:58:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5+tm8No"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0Y52XzG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6433385507;
-	Sun,  5 Apr 2026 23:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB34D386439;
+	Sun,  5 Apr 2026 23:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775433499; cv=none; b=E2SQfa/L9huyakRBJdH/L4lKsj4gApW0aDWDTCic64Dc7QQUwz1PMB3rfLYTv2tJILOBeP9q+Uo1i/2/4j6OpR0imNWwOGYVFfI4XfhGJDy2Ywmvpix1BEgifllkMX9HVhJBFFpi/78eq2MG8avHYARQyQSc+0+OoVX6nwJp/jw=
+	t=1775433510; cv=none; b=KBAs9wqCQ7b1sclu6o7RY5DkStvSlwI5gZxAyfa495PBd/8KooY6HAROeBTQjVx7YEzGtooMU+QfF4xQBon/xgci3mIbayIebnqLZiwGGp7uq2gza7xAqj/ebwDZrF5O9PjNJYCR+irHh4cWgFXywEZJIOlgEk2DdRc1fFk1YSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775433499; c=relaxed/simple;
-	bh=vdRBSbeQ7FZbidrLn6kd8GSzb/7/fj0OaPu4ZFPJhzQ=;
+	s=arc-20240116; t=1775433510; c=relaxed/simple;
+	bh=+uAzwzhajFxAA8rib6hw5ihE6F38Ir1uk4Ke8nADAT8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M0jINZym8e17VTrVukauoEXcgpd/WvTL+AZ1pPsmLB2AtdBf35+KyYWH9Im1HQeRR6CXIfP97fwSWJARHnBec2jtZ7rwTWqWORCgRJZyfHjniWHJ3P0Ag+fsIzdintWsPd0S67U22jVDctCCHHzuLtTHPIVbgjjr7taiObPejpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r5+tm8No; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D037BC116C6;
-	Sun,  5 Apr 2026 23:58:07 +0000 (UTC)
+	 MIME-Version; b=uWqYI3l/in3TWG2nO+qwojS2Dgfh8tPjr5LKePmklZJ+eCvnege+/5+D4liDhaDZF6H7x95EnOlB6h4/AagIYiCWu8QC4uWWIMItS5MxYqky5gDAQnrwSi9Nz7UZqxO7tsPXmNmn0DzPmH4j5OTlHyzh2HnHtXBWXNohf2pvl84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0Y52XzG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F14A7C19425;
+	Sun,  5 Apr 2026 23:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775433498;
-	bh=vdRBSbeQ7FZbidrLn6kd8GSzb/7/fj0OaPu4ZFPJhzQ=;
+	s=k20201202; t=1775433509;
+	bh=+uAzwzhajFxAA8rib6hw5ihE6F38Ir1uk4Ke8nADAT8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r5+tm8NoxyoxTo2ZDOyvP8kkiJ3xBZ7hpfXauFNAXO3Gb6dCfsnC28848xcVhCO8D
-	 4MJxET9Ct/6oio+6ThvDRJjcrh2wzuEU9mUH/esqRrPSTcGpi/3FI9Z++KGpj7YrNK
-	 TD+tiMnVi+34Av9UaXTvChMfmmZUPOaoRABGimSG9n08BXDQMruFMCu4J4V3N1kWha
-	 agGV3cjkwGCFTajWicKrKACAKflS4H6PECxlavUTdQSjuqxxH/VvGlQW6sJXtflMH9
-	 klArCnRE0K3DkjBNNCLmxT9trMWtHo2pKGeYxJU33C6MyAN0X+zwDsaipBEN3i7dtg
-	 VKDwPUc8DDbcg==
+	b=S0Y52XzGRmB43RgfGDFkHin7pnQro38Xf89fl+vv/EjSwvic8hMveYt5cYlW3nycO
+	 deNzfkR1lB2hbs36DJMWohpvE5Oy0p3rMrKJ1hzNYsP/gFxDbBBrYqRDxxAVr9Klde
+	 3WaoLJ6wHtg3BzXSKCQFH0FMysZsko45cPJ05GTdm4/eJVVUxz2U6vcUEdF7Jth0tB
+	 8NGfw2aUbMBlX6YEVe7grn/ZP3D3jAqnEl24sS3j6ofBTvE4dTN8/Ng4Ox6Tmk8ku5
+	 WD8F1YUimCMA/13jnyecrGpIyYsoFKhMKg0YCGt/aA5dxGUmbZDigYCj1+BOErfqzu
+	 cHrUifwInMzJQ==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -95,9 +95,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	Tamir Duberstein <tamird@kernel.org>
-Subject: [PATCH v2 26/33] docs: rust: quick-start: remove Gentoo "testing" note
-Date: Mon,  6 Apr 2026 01:53:02 +0200
-Message-ID: <20260405235309.418950-27-ojeda@kernel.org>
+Subject: [PATCH v2 27/33] docs: rust: quick-start: remove Nix "unstable channel" note
+Date: Mon,  6 Apr 2026 01:53:03 +0200
+Message-ID: <20260405235309.418950-28-ojeda@kernel.org>
 In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
 References: <20260405235309.418950-1-ojeda@kernel.org>
 Precedence: bulk
@@ -114,14 +114,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12672-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12673-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -136,40 +136,41 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 443BE3A0905
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nixos.org:url,garyguo.net:email]
+X-Rspamd-Queue-Id: BCF5B3A0B70
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Gentoo does not need the "testing" note, since its packages are recent
-enough even in the stable branch [1][2].
+Nix does not need the "unstable channel" note, since its packages are
+recent enough even in the stable channel [1][2].
 
 Thus remove it to simplify the documentation.
 
-Link: https://packages.gentoo.org/packages/dev-lang/rust [1]
-Link: https://packages.gentoo.org/packages/dev-util/bindgen [2]
+Link: https://search.nixos.org/packages?channel=25.11&query=rust [1]
+Link: https://search.nixos.org/packages?channel=25.11&query=bindgen [2]
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
+Reviewed-by: Gary Guo <gary@garyguo.net>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
  Documentation/rust/quick-start.rst | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quick-start.rst
-index db08c3a03a4f..1518367324fe 100644
+index 1518367324fe..5bbe059a8fa3 100644
 --- a/Documentation/rust/quick-start.rst
 +++ b/Documentation/rust/quick-start.rst
-@@ -57,8 +57,8 @@ of the box, e.g.::
- Gentoo Linux
- ************
+@@ -68,8 +68,8 @@ of the box, e.g.::
+ Nix
+ ***
  
--Gentoo Linux (and especially the testing branch) provides recent Rust releases
--and thus it should generally work out of the box, e.g.::
-+Gentoo Linux provides recent Rust releases and thus it should generally work out
-+of the box, e.g.::
+-Nix (unstable channel) provides recent Rust releases and thus it should
+-generally work out of the box, e.g.::
++Nix provides recent Rust releases and thus it should generally work out of the
++box, e.g.::
  
- 	USE='rust-src rustfmt clippy' emerge dev-lang/rust dev-util/bindgen
- 
+ 	{ pkgs ? import <nixpkgs> {} }:
+ 	pkgs.mkShell {
 -- 
 2.53.0
 
