@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12677-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12678-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aGS3Jh350mkXcwcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12677-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:06:53 +0200
+	id sDgVNIb30mmzcgcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12678-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:00:06 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0144C3A0C29
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:06:52 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1ED83A0A71
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 02:00:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8E7FD3067431
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:59:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BA66A300599F
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:59:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 940463859EE;
-	Sun,  5 Apr 2026 23:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 431A13859F8;
+	Sun,  5 Apr 2026 23:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMqTAWOB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qT7JjEap"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C3723D290;
-	Sun,  5 Apr 2026 23:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C853381B15;
+	Sun,  5 Apr 2026 23:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775433554; cv=none; b=L0G6Nd3UiXS6n6GeaIs6UFnTc85j/egTqLwVDOM0H+8wkK0ZFgx3juLkPs6SReKSPG9981T60xZQ8G9FV9cdc0/YkMuXAfp1vyLTmcQztJB11/z00Ox3UfjZc4T4ttxHkF0vZfjMJ1L1WVCu5cn6hpfSIHuFX5nI0yP1EF31050=
+	t=1775433565; cv=none; b=EMJLxzPjx0V5q3MmgmHkX7Lbxh3Me8Rvol5+xhCagbjm0hoXi9iKQzbPn32id94ZJH+ixbms/B357EZ3ZN9JOM5eoglCwLLsednB7ztK11ExKatzf6UEJ/4f2F3KGlsAqnmezQI6zPNvC6NKow+KTJe+fLutuiXLIPHlbcUcFLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775433554; c=relaxed/simple;
-	bh=EC1VB1NES14FXvIITVND2HACtu2A9sWHbtpUrkEVsec=;
+	s=arc-20240116; t=1775433565; c=relaxed/simple;
+	bh=SkaD63e7WNKd6l91xAXN7lZ/j1nQk4rCvj18hUBSP2A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RMBSWCMobdnQ+/kw7NEvZ5onjX652E3OmdhTSBEcKbxJq4+2LkJg5ODYAqYiWO+vKxD7opaxjPoQxRVSeKUu4JQtpoh0+gRaxCEhzsMfO6g5ITXe2EtzmDGV+G8zHIeEpHfvEy0eSmR8BssWxgPo66AGQQBU3aLerj6JD3L7sDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMqTAWOB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9338AC116C6;
-	Sun,  5 Apr 2026 23:59:03 +0000 (UTC)
+	 MIME-Version; b=NX99vRt07xNion4aV6XgQG/tR3fjCBINq5T80jT9n9whnYJh3GUPUuCZZcZXVGE4PUHIBsJ4SrnOO12EwqXbJBi+xzcGS9eiRjoW5svvyWi0P6LiE75NCuURPUltWbQVUAAuGlMAPjmLp7lmJpyeA01NeUNJqk3tDTU7XzZzb/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qT7JjEap; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88702C19425;
+	Sun,  5 Apr 2026 23:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775433554;
-	bh=EC1VB1NES14FXvIITVND2HACtu2A9sWHbtpUrkEVsec=;
+	s=k20201202; t=1775433565;
+	bh=SkaD63e7WNKd6l91xAXN7lZ/j1nQk4rCvj18hUBSP2A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QMqTAWOBeSpPYcbAoAtCT6Zx9rr0Zx9H1IY1Pt9mwwKHjyRs3eukRIfpX6VkjAfJ+
-	 9DaTqYsAz7K83VFtR9brQaez4p7KXMGM+tCAGzNZqIiZVOssFFFEzFIl7u9lCvYVF1
-	 WaJgQ5+4XiiWhuqLGuIxVnqzu+8VY0MsmwISlvenX5mGXYAwjqBIAnUlbYj3Xef4+K
-	 HhATQggifzX8UTvi6AEy18/qA7LNbp/34iGj/xCZTDjgAxMSHId++kvizUeyCvAxzs
-	 IMNeKQNjRybFbCKNj2pVFN8dA6dFhOUZK/nNZEIkHfsefEqmE6kQ1zvrh/37qOKv0E
-	 gk30P5Wea910g==
+	b=qT7JjEapMwwAMStY/OKyLpjkMSWC7l6AOMUAZbTuYsHMIjvY52xXT85zs7eiB2Xgl
+	 AFDdh6mgB5Gydna3yU3wXgcpzwkDs4aSx6cNQNZ0e1dTpqYMIIMBkWAii7IHMnAqD8
+	 4ysIbgfHPEpw1hwGDIIPRcQLCBrALBijyFC5WmtB4fJ3hm8XzcF/O2djDlnQ/6Tq7T
+	 yydjpMBgbjPHzTZ4TFBHyMC9a19+nwOb4Oe5Oc5/Tu8VHIAq9E+LQPpOCzM3N3nhss
+	 Xv1nwHfD2DDvzNoVXZQOUwxdGXUViwDb3/t98q3LlFDEp7h4+87E6nc6Z94GB3nHAM
+	 SaHAgTLaFtuHg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v2 31/33] rust: declare cfi_encoding for lru_status
-Date: Mon,  6 Apr 2026 01:53:07 +0200
-Message-ID: <20260405235309.418950-32-ojeda@kernel.org>
+Subject: [PATCH v2 32/33] rust: kbuild: support global per-version flags
+Date: Mon,  6 Apr 2026 01:53:08 +0200
+Message-ID: <20260405235309.418950-33-ojeda@kernel.org>
 In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
 References: <20260405235309.418950-1-ojeda@kernel.org>
 Precedence: bulk
@@ -112,14 +112,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
-	TAGGED_FROM(0.00)[bounces-12677-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12678-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -135,202 +135,66 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,page_range.rs:url,msgid.link:url,garyguo.net:email]
-X-Rspamd-Queue-Id: 0144C3A0C29
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B1ED83A0A71
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Alice Ryhl <aliceryhl@google.com>
+Sometimes it is useful to gate global Rust flags per compiler version.
+For instance, we may want to disable a lint that has false positives in
+a single version [1].
 
-By default bindgen will convert 'enum lru_status' into a typedef for an
-integer. For the most part, an integer of the same size as the enum
-results in the correct ABI, but in the specific case of CFI, that is not
-the case. The CFI encoding is supposed to be the same as a struct called
-'lru_status' rather than the name of the underlying native integer type.
+We already had helpers like `rustc-min-version` for that, which we use
+elsewhere, but we cannot currently use them for `rust_common_flags`,
+which contains the global flags for all Rust code (kernel and host),
+because `rustc-min-version` depends on `CONFIG_RUSTC_VERSION`, which
+does not exist when `rust_common_flags` is defined.
 
-To fix this, tell bindgen to generate a newtype and set the CFI type
-explicitly. Note that we need to set the CFI attribute explicitly as
-bindgen is using repr(transparent), which is otherwise identical to the
-inner type for ABI purposes.
+Thus, to support that, introduce `rust_common_flags_per_version`,
+defined after the `include/config/auto.conf` inclusion (where
+`CONFIG_RUSTC_VERSION` becomes available), and append it to
+`rust_common_flags`, `KBUILD_HOSTRUSTFLAGS` and `KBUILD_RUSTFLAGS`.
 
-This allows us to remove the page range helper C function in Binder
-without risking a CFI failure when list_lru_walk calls the provided
-function pointer.
+In addition, move the expansion of `HOSTRUSTFLAGS` to the same place,
+so that users can also override per-version flags [2].
 
-The --with-attribute-custom-enum argument requires bindgen v0.71 or
-greater.
-
-[ In particular, the feature was added in 0.71.0 [1][2].
-
-  In addition, `feature(cfi_encoding)` has been available since
-  Rust 1.71.0 [3].
-
-  Link: https://github.com/rust-lang/rust-bindgen/issues/2520 [1]
-  Link: https://github.com/rust-lang/rust-bindgen/pull/2866 [2]
-  Link: https://github.com/rust-lang/rust/pull/105452 [3]
-
-    - Miguel ]
-
-My testing procedure was to add this to the android17-6.18 branch and
-verify that rust_shrink_free_page is successfully called without crash,
-and verify that it does in fact crash when the cfi_encoding is set to
-other values. Note that I couldn't test this on android16-6.12 as that
-branch uses a bindgen version that is too old.
-
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-Link: https://patch.msgid.link/20260223-cfi-lru-status-v2-1-89c6448a63a4@google.com
-Reviewed-by: Gary Guo <gary@garyguo.net>
-[ Rebased on top of the minimum Rust version bump series which provide
-  the required `bindgen` version. - Miguel ]
+Link: https://lore.kernel.org/rust-for-linux/CANiq72mWdFU11GcCZRchzhy0Gi1QZShvZtyRkHV2O+WA2uTdVQ@mail.gmail.com/ [1]
+Link: https://lore.kernel.org/rust-for-linux/CANiq72mTaA2tjhkLKf0-2hrrrt9rxWPgy6SfNSbponbGOegQvA@mail.gmail.com/ [2]
+Link: https://patch.msgid.link/20260307170929.153892-1-ojeda@kernel.org
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- drivers/android/binder/Makefile            |  3 +--
- drivers/android/binder/page_range.rs       |  6 +++---
- drivers/android/binder/page_range_helper.c | 24 ----------------------
- drivers/android/binder/page_range_helper.h | 15 --------------
- rust/bindgen_parameters                    |  4 ++++
- rust/bindings/bindings_helper.h            |  1 -
- rust/bindings/lib.rs                       |  1 +
- rust/uapi/lib.rs                           |  1 +
- 8 files changed, 10 insertions(+), 45 deletions(-)
- delete mode 100644 drivers/android/binder/page_range_helper.c
- delete mode 100644 drivers/android/binder/page_range_helper.h
+ Makefile | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/android/binder/Makefile b/drivers/android/binder/Makefile
-index 09eabb527fa0..7e0cd9782a8b 100644
---- a/drivers/android/binder/Makefile
-+++ b/drivers/android/binder/Makefile
-@@ -5,5 +5,4 @@ obj-$(CONFIG_ANDROID_BINDER_IPC_RUST) += rust_binder.o
- rust_binder-y := \
- 	rust_binder_main.o	\
- 	rust_binderfs.o		\
--	rust_binder_events.o	\
--	page_range_helper.o
-+	rust_binder_events.o
-diff --git a/drivers/android/binder/page_range.rs b/drivers/android/binder/page_range.rs
-index fdd97112ef5c..8e9f5c4819d0 100644
---- a/drivers/android/binder/page_range.rs
-+++ b/drivers/android/binder/page_range.rs
-@@ -642,15 +642,15 @@ fn drop(self: Pin<&mut Self>) {
-     unsafe {
-         bindings::list_lru_walk(
-             list_lru,
--            Some(bindings::rust_shrink_free_page_wrap),
-+            Some(rust_shrink_free_page),
-             ptr::null_mut(),
-             nr_to_scan,
-         )
-     }
- }
+diff --git a/Makefile b/Makefile
+index 78f5ee173eda..a305ae4be522 100644
+--- a/Makefile
++++ b/Makefile
+@@ -506,7 +506,7 @@ KBUILD_HOSTCFLAGS   := $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) \
+ KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS) \
+ 		       -I $(srctree)/scripts/include
+ KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
+-			-Zallow-features= $(HOSTRUSTFLAGS)
++			-Zallow-features=
+ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+ KBUILD_PROCMACROLDFLAGS := $(or $(PROCMACROLDFLAGS),$(KBUILD_HOSTLDFLAGS))
+@@ -836,6 +836,14 @@ endif # CONFIG_TRACEPOINTS
  
--const LRU_SKIP: bindings::lru_status = bindings::lru_status_LRU_SKIP;
--const LRU_REMOVED_ENTRY: bindings::lru_status = bindings::lru_status_LRU_REMOVED_RETRY;
-+const LRU_SKIP: bindings::lru_status = bindings::lru_status::LRU_SKIP;
-+const LRU_REMOVED_ENTRY: bindings::lru_status = bindings::lru_status::LRU_REMOVED_RETRY;
+ export WARN_ON_UNUSED_TRACEPOINTS
  
- /// # Safety
- /// Called by the shrinker.
-diff --git a/drivers/android/binder/page_range_helper.c b/drivers/android/binder/page_range_helper.c
-deleted file mode 100644
-index 496887723ee0..000000000000
---- a/drivers/android/binder/page_range_helper.c
-+++ /dev/null
-@@ -1,24 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--
--/* C helper for page_range.rs to work around a CFI violation.
-- *
-- * Bindgen currently pretends that `enum lru_status` is the same as an integer.
-- * This assumption is fine ABI-wise, but once you add CFI to the mix, it
-- * triggers a CFI violation because `enum lru_status` gets a different CFI tag.
-- *
-- * This file contains a workaround until bindgen can be fixed.
-- *
-- * Copyright (C) 2025 Google LLC.
-- */
--#include "page_range_helper.h"
--
--unsigned int rust_shrink_free_page(struct list_head *item,
--				   struct list_lru_one *list,
--				   void *cb_arg);
--
--enum lru_status
--rust_shrink_free_page_wrap(struct list_head *item, struct list_lru_one *list,
--			   void *cb_arg)
--{
--	return rust_shrink_free_page(item, list, cb_arg);
--}
-diff --git a/drivers/android/binder/page_range_helper.h b/drivers/android/binder/page_range_helper.h
-deleted file mode 100644
-index 18dd2dd117b2..000000000000
---- a/drivers/android/binder/page_range_helper.h
-+++ /dev/null
-@@ -1,15 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Copyright (C) 2025 Google, Inc.
-- */
--
--#ifndef _LINUX_PAGE_RANGE_HELPER_H
--#define _LINUX_PAGE_RANGE_HELPER_H
--
--#include <linux/list_lru.h>
--
--enum lru_status
--rust_shrink_free_page_wrap(struct list_head *item, struct list_lru_one *list,
--			   void *cb_arg);
--
--#endif /* _LINUX_PAGE_RANGE_HELPER_H */
-diff --git a/rust/bindgen_parameters b/rust/bindgen_parameters
-index 112ec197ef0a..6f02d9720ad2 100644
---- a/rust/bindgen_parameters
-+++ b/rust/bindgen_parameters
-@@ -19,6 +19,10 @@
- # warning. We don't need to peek into it anyway.
- --opaque-type spinlock
- 
-+# enums that appear in indirect function calls should specify a cfi type
-+--newtype-enum lru_status
-+--with-attribute-custom-enum=lru_status='#[cfi_encoding="10lru_status"]'
++# Per-version Rust flags. These are like `rust_common_flags`, but may
++# depend on the Rust compiler version (e.g. using `rustc-min-version`).
++rust_common_flags_per_version :=
 +
- # `seccomp`'s comment gets understood as a doctest
- --no-doc-comments
++rust_common_flags += $(rust_common_flags_per_version)
++KBUILD_HOSTRUSTFLAGS += $(rust_common_flags_per_version) $(HOSTRUSTFLAGS)
++KBUILD_RUSTFLAGS += $(rust_common_flags_per_version)
++
+ include $(srctree)/arch/$(SRCARCH)/Makefile
  
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 083cc44aa952..faf3ee634ced 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -149,5 +149,4 @@ const vm_flags_t RUST_CONST_HELPER_VM_NOHUGEPAGE = VM_NOHUGEPAGE;
- #if IS_ENABLED(CONFIG_ANDROID_BINDER_IPC_RUST)
- #include "../../drivers/android/binder/rust_binder.h"
- #include "../../drivers/android/binder/rust_binder_events.h"
--#include "../../drivers/android/binder/page_range_helper.h"
- #endif
-diff --git a/rust/bindings/lib.rs b/rust/bindings/lib.rs
-index e18c160dad17..854e7c471434 100644
---- a/rust/bindings/lib.rs
-+++ b/rust/bindings/lib.rs
-@@ -19,6 +19,7 @@
-     unreachable_pub,
-     unsafe_op_in_unsafe_fn
- )]
-+#![feature(cfi_encoding)]
- 
- #[allow(dead_code)]
- #[allow(clippy::cast_lossless)]
-diff --git a/rust/uapi/lib.rs b/rust/uapi/lib.rs
-index 821e286e0daa..b8a515de31ca 100644
---- a/rust/uapi/lib.rs
-+++ b/rust/uapi/lib.rs
-@@ -24,6 +24,7 @@
-     unsafe_op_in_unsafe_fn
- )]
- #![cfg_attr(CONFIG_RUSTC_HAS_UNNECESSARY_TRANSMUTES, allow(unnecessary_transmutes))]
-+#![feature(cfi_encoding)]
- 
- // Manual definition of blocklisted types.
- type __kernel_size_t = usize;
+ ifdef need-config
 -- 
 2.53.0
 
