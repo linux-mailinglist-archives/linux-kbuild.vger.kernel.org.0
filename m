@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-12649-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12650-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGoPJFP20mmLcgcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12649-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:54:59 +0200
+	id MEdIGCr20mmLcgcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12650-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:54:18 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEBC3A060F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:54:58 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 158653A0590
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 01:54:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7E35030034A8
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:54:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 79C1530022CF
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2026 23:54:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B994B3845BD;
-	Sun,  5 Apr 2026 23:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDFD33845B1;
+	Sun,  5 Apr 2026 23:54:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME0m/TLb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c10lWAwN"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9186638423D;
-	Sun,  5 Apr 2026 23:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98700264A65;
+	Sun,  5 Apr 2026 23:54:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775433242; cv=none; b=H4G7oy6YAn8osoaQdoQsoGdreJWAzi3SAJYcIcd2n2x7rFNjPrEG/Dn/hPH1xbXbJCAJ5Xr2XjPwKIQHNo/v+POV1uki9+ssTRCoFpnW5imdjvS8bmRgGmMhq5EwhMS/tnQTdtoQ/U6669AON7pfCpokWmQ24mIFm0SDnA40uwQ=
+	t=1775433253; cv=none; b=uvltLkT5JqZi7oVrg4vnTTKYaABbsZyCY9KJeKaOtAw61l1GItzPeq7y1XEziEaACRcGCFCFbPTdS863sHW6ZhNdqQwLQ2h9HebirRkjCSueTo2IAa+24uYsRz+us8OVPczobFWkX/cms9+Txa8lsi8se3atmj6D7kdqDM773EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775433242; c=relaxed/simple;
-	bh=WQ0oBITAbznQlvSGXpQS73br2HMX6Bl0r6ccv/0kOtQ=;
+	s=arc-20240116; t=1775433253; c=relaxed/simple;
+	bh=oJiEjRp/opaguJ4HhOa7BUALrmAHlwil3WnDUUwEFyg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=njbdsOety4evcdfAd+QoX20eNKtPL0rB6yE0f7t9gkz6gkAplnyxvVQHC2V2H7AV+8PVIb7limTiYa797Gaex3SJ/F0S6oiMtaDREkSSRYe9Ew8FmrimuoGRAccHpgpncrQyQspAyJnW8kIWAZnMMPWvUwNAsEoZyHG2b/CU/Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME0m/TLb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA5CC116C6;
-	Sun,  5 Apr 2026 23:53:51 +0000 (UTC)
+	 MIME-Version; b=BQe0b1Twgq2pjCtsf9FGFLw4ZVT6aBseZB1bXd05JeHi6Pr7i9m3yx1/1PxaHfhEXfd4/hrU/XyXX35DdBf+q/b3dCZoc25E50u5g9X+ZsPCGIF/qphmZfBiqqTlISs1NNU9mHWFwhlDuFurZgeRiUfAQsySv832qeeEVYrb6yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c10lWAwN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5734C19425;
+	Sun,  5 Apr 2026 23:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775433242;
-	bh=WQ0oBITAbznQlvSGXpQS73br2HMX6Bl0r6ccv/0kOtQ=;
+	s=k20201202; t=1775433253;
+	bh=oJiEjRp/opaguJ4HhOa7BUALrmAHlwil3WnDUUwEFyg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ME0m/TLbLLPkqVSK+iLGCx7Qa57ge0tZp/EzBj65jU7Gi+ERQSPKwf2Rr77wxXDNK
-	 RkuzSWWrTer5zZVSX7ZmfNpmGDHDw7AZNyURN5b/Ek393YiaAlqw2oFr05KY04oAsL
-	 +byIpV99QPfflerc2makyl1vZ5n/+4tGd3ni4/cv1L0w8FGwdTMh/La5YBban/5liF
-	 rXGoYtIzYujv6gOLZ0J7fGKgoDYlFWyFYbLrMQ922zNgC7RKaWG7Wpxf/bTSvu9QDC
-	 6GF9afyHuSpq7uqaF+5GL7UIb7V7T5KnR79NZsLE7/OJgSJegLBz9pdg1DjD/JZ7yQ
-	 d+gllyV3biqBg==
+	b=c10lWAwN7MLREejYSBh3vQLAgy//epBWc0tngWnnNsGINz8/8BlSPWfgahadGOvdg
+	 GJR/QGcckyY1VKHxNGRQhD/YyTL42GRWjDnY9CRlUt+Bx7rCq+inC36ss3LMkllx5C
+	 jCzn/1H+H3U2Udf/nYq4VGqSHLFJs5uBG1jN2j7ksPIuZQIwZS8T1ZqvFfTkCjXinf
+	 HwuRwkXS9MYDk6Pqlgm7p9mbcEhyyEKZ4di60v8j1CCV16s5WfaVl6n4/rqtJFA5Ag
+	 9rs7/6aurHA4leXQgoMVliGbwR86JVtRyVkjWqwpFzYYP2uH4d8JIwQ8pbaJ3B9UHq
+	 QUN1C/k9eWL2g==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -95,9 +95,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	Tamir Duberstein <tamird@kernel.org>
-Subject: [PATCH v2 03/33] rust: kbuild: remove unneeded old `allow`s for generated layout tests
-Date: Mon,  6 Apr 2026 01:52:39 +0200
-Message-ID: <20260405235309.418950-4-ojeda@kernel.org>
+Subject: [PATCH v2 04/33] gpu: nova-core: bindings: remove unneeded `cfg_attr`
+Date: Mon,  6 Apr 2026 01:52:40 +0200
+Message-ID: <20260405235309.418950-5-ojeda@kernel.org>
 In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
 References: <20260405235309.418950-1-ojeda@kernel.org>
 Precedence: bulk
@@ -114,14 +114,14 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,gmail.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,google.com,lists.linux.dev,linuxfoundation.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12649-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12650-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -136,58 +136,42 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9DEBC3A060F
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,garyguo.net:email]
+X-Rspamd-Queue-Id: 158653A0590
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The issue that required `allow`s for `cfg(test)` code generated by
-`bindgen` for layout testing was fixed back in `bindgen` 0.60.0 [1],
-so it could have been removed even before the version bump, but it does
-not hurt.
+These were likely copied from the `bindings` and `uapi` crates, but are
+unneeded since there are no `cfg(test)`s in the bindings.
 
-Thus remove it now.
+In addition, the issue that triggered the addition in those crates
+originally is also fixed in `bindgen` (please see the previous commit).
 
-Link: https://github.com/rust-lang/rust-bindgen/pull/2203 [1]
+Thus remove them.
+
 Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 Reviewed-by: Gary Guo <gary@garyguo.net>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/bindings/lib.rs | 4 ----
- rust/uapi/lib.rs     | 4 ----
- 2 files changed, 8 deletions(-)
+ drivers/gpu/nova-core/gsp/fw/r570_144.rs | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/rust/bindings/lib.rs b/rust/bindings/lib.rs
-index 19f57c5b2fa2..e18c160dad17 100644
---- a/rust/bindings/lib.rs
-+++ b/rust/bindings/lib.rs
-@@ -9,10 +9,6 @@
- //! using this crate.
+diff --git a/drivers/gpu/nova-core/gsp/fw/r570_144.rs b/drivers/gpu/nova-core/gsp/fw/r570_144.rs
+index e99d315ae74c..2e6f0d298756 100644
+--- a/drivers/gpu/nova-core/gsp/fw/r570_144.rs
++++ b/drivers/gpu/nova-core/gsp/fw/r570_144.rs
+@@ -7,9 +7,6 @@
+ //! This module may not be directly used. Please abstract or re-export the needed symbols in the
+ //! parent module instead.
  
- #![no_std]
--// See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
 -#![cfg_attr(test, allow(deref_nullptr))]
 -#![cfg_attr(test, allow(unaligned_references))]
 -#![cfg_attr(test, allow(unsafe_op_in_unsafe_fn))]
  #![allow(
+     dead_code,
      clippy::all,
-     missing_docs,
-diff --git a/rust/uapi/lib.rs b/rust/uapi/lib.rs
-index 1d5fd9efb93e..821e286e0daa 100644
---- a/rust/uapi/lib.rs
-+++ b/rust/uapi/lib.rs
-@@ -8,10 +8,6 @@
- //! userspace APIs.
- 
- #![no_std]
--// See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
--#![cfg_attr(test, allow(deref_nullptr))]
--#![cfg_attr(test, allow(unaligned_references))]
--#![cfg_attr(test, allow(unsafe_op_in_unsafe_fn))]
- #![allow(
-     clippy::all,
-     clippy::cast_lossless,
 -- 
 2.53.0
 
