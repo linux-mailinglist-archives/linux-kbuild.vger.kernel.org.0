@@ -1,400 +1,143 @@
-Return-Path: <linux-kbuild+bounces-12693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12694-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GH8EFEvN02lpmQcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12693-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 17:12:11 +0200
+	id UFT9DevR02nGmgcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12694-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 17:31:55 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43643A49B3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 17:12:10 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3ECE3A4C15
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 17:31:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EC0D2303814F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2026 15:10:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6B48F3019123
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2026 15:31:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 747D0386C3C;
-	Mon,  6 Apr 2026 15:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDFD26B764;
+	Mon,  6 Apr 2026 15:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nz1Rh1Kc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51CF31D72E;
-	Mon,  6 Apr 2026 15:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE18258EDA
+	for <linux-kbuild@vger.kernel.org>; Mon,  6 Apr 2026 15:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775488213; cv=none; b=YEBmQeptLCJh55VHe0IzSZjZKc41mDX9rMPd7evIYqBJp+HUNogWKOX2fEv82zrK1ZTw28+DQuyXAe8nkAJxboOxxQkNxQz2N5VGujfFxx6cdRGFTxiprx2I2ZAbB4uOFAOZ9L8YKip3k/GF+gBqnT4eMDbdfPTT1qAsHEk3974=
+	t=1775489464; cv=none; b=U9/4aOdbgsACxWPo+f3d3nrI4B/n9NVMrt1uD/OuA6hGXnRGDLHYAoh5hDp6xrfojW0hreWvXY+RtmLXQmFaHEKBMu8vjTLiMs2CPbD806hgK0jgvS/C6/45C8iklegX8Ze9sa4CvAzBX4hAT2tIipzKKuvM+hL9R899SLB05nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775488213; c=relaxed/simple;
-	bh=qrnUK0FyqMC+c73zjS9t0P8Jy8phnq04bV+haoZA5Jk=;
-	h=From:Date:Message-ID:To:Cc:Subject; b=o8u7W9ChbLecH7IHmxujbJDPebYyMaK258qYzhn4xu1q1ix3hAgRihEmk1VfueYiRqt+Xmg6kySeEwJYDAZQmFmyp8Op0PElr95ryipX2rqD+V5vntcKKpD+jwlKPYELO7V8pd0YUp+D1CxhhG6JZp5sRiEkR8DL9G2yvf1JeHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from 0001-kconfig-warn-changed-input.eml (unknown [111.196.245.197])
-	by APP-05 (Coremail) with SMTP id zQCowAC3Sg7EzNNpJ2W2DA--.36040S2;
-	Mon, 06 Apr 2026 23:09:57 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Date: Mon, 6 Apr 2026 23:06:19 +0800
-Message-ID: <20260406233001.1-kconfig-warn-changed-input-pengpeng@iscas.ac.cn>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Thomas Meyer <thomas@m3y3r.de>, Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, pengpeng@iscas.ac.cn
-Subject: [PATCH] kconfig: add optional warnings for changed input values
-X-CM-TRANSID:zQCowAC3Sg7EzNNpJ2W2DA--.36040S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Wr1rKrWDJFyxJFW3KF1xKrg_yoWftFWkpa
-	yrJ345KF4kJF1fta17tas7WF1rCrn7Wry5GF17Kw1UAF90y3yIyrsrKw1Yyr13ursFyFW5
-	AFyFgF4FkF1UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
-	04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUbGQ6JUUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+	s=arc-20240116; t=1775489464; c=relaxed/simple;
+	bh=upOPgQrKow7ScyuKD1WfCKj6976lQXmqW8HddZVDJoo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SuTA332HhwXlydruk2ARcwLgp804D1zPTMPgDKRYQObVQIWMlEfs1B4je3mLlEPvUE2Ag7wl9rYJ9wB3UD58e+Ol76Pdhk6uXDo6EDSdLkxeQrdpdFOjF6sVec85lVXBZ3Gb3MXV8thM9pX4sqgMv/eACVyt7Vwlz9QY+omdNEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nz1Rh1Kc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A772AC2BCB3
+	for <linux-kbuild@vger.kernel.org>; Mon,  6 Apr 2026 15:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775489463;
+	bh=upOPgQrKow7ScyuKD1WfCKj6976lQXmqW8HddZVDJoo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nz1Rh1KcyfBmOA0LZp9VrJQ/BYnS/7p2hMbcFpEOG8VKVFYg/j1PW3qm3srSjHmhj
+	 NJVicCHTHMtboyOwJZfRECfmpZ5+DFrT5FP9Eq2hAqwny42NV/4sFyqAv60tm5Vpm5
+	 6Ysh0MMg/3FaRG+HKDHo2y5ur/2yw0A4IPAd76XczLyFWNM2d/7TgJS6u30KP/bCa8
+	 F9YjZH9zPeObsU9M9MY95LohYIRNeRKABSzwk0/FtB0kEc1wkzDUCIIEkJmkx+CwfC
+	 FDlZLKrTAnEzIGFXgaGZsXniT2zCMwavFBX811nBLGCCfEgBOi1seqO2oq0E37xZJN
+	 yc+wjJttP9PNA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e0ef48ac0so2763591fa.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2026 08:31:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVX27B7etmtA27xs3uOjUm/2NxY4O3kMfEzlBVeX03qL46+UZln730K+cSl2PwC7vDEcGJLC2vbfy4UxjQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy69pbnPrYhmFzwOzz0VTiKtOMg5u7ntlajB8sSfBA0P8yIPdyW
+	KKYT1Vz8iZkT8/XJJphdPx8WTDlMzazwrB6s7dGDJxRA05DJAaYl3D01z2+jDml4WBhpTB4EmQg
+	EFaBnhs0rib/+4MNTOZPe8zVJdPQuHoA=
+X-Received: by 2002:a2e:80d3:0:b0:38a:f5a6:9173 with SMTP id
+ 38308e7fff4ca-38d91c092bamr32802941fa.27.1775489462303; Mon, 06 Apr 2026
+ 08:31:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [0.04 / 15.00];
+MIME-Version: 1.0
+References: <20260405235309.418950-1-ojeda@kernel.org> <20260405235309.418950-8-ojeda@kernel.org>
+ <177548573697.95472.13544191227699996309.b4-review@b4> <CANiq72ne_JYPodnROckyNto10ZF0PqadRxSrng5-mZyqVovxFg@mail.gmail.com>
+In-Reply-To: <CANiq72ne_JYPodnROckyNto10ZF0PqadRxSrng5-mZyqVovxFg@mail.gmail.com>
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Mon, 6 Apr 2026 11:30:26 -0400
+X-Gmail-Original-Message-ID: <CAJ-ks9kbHz_KYAXx02vgW1dN2pfb5MFoaSoU1HbJbJg2O8EUaw@mail.gmail.com>
+X-Gm-Features: AQROBzB1MuYM_2_U32IZvjJjOPHSscckixukkJGDNua3mGMOgh49W4AabPzp8YM
+Message-ID: <CAJ-ks9kbHz_KYAXx02vgW1dN2pfb5MFoaSoU1HbJbJg2O8EUaw@mail.gmail.com>
+Subject: Re: [PATCH v2 07/33] rust: allow globally `clippy::incompatible_msrv`
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
+	Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
+	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12693-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-12694-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.991];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,iscas.ac.cn:mid]
-X-Rspamd-Queue-Id: A43643A49B3
+	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	NEURAL_HAM(-0.00)[-0.997];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A3ECE3A4C15
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When reading .config input, Kconfig stores user-provided values first and
-then resolves the final value after applying dependencies, ranges, and
-other constraints.
+On Mon, Apr 6, 2026 at 10:38=E2=80=AFAM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Mon, Apr 6, 2026 at 4:29=E2=80=AFPM Tamir Duberstein <tamird@kernel.or=
+g> wrote:
+> >
+> > Could you add a reference to the upstream bug report [0] here?
+>
+> Of course, thanks for the tags!
 
-If the final value differs from the user's input, Kconfig already tracks
-that state internally, but it does not provide any focused diagnostic to
-show which explicit inputs were adjusted. This is particularly confusing
-for requested values that get forced down by unmet dependencies or clamped
-by ranges.
+You're welcome! Actually it seems the lint was already improved
+upstream, starting with 1.90.0.
 
-Add an opt-in diagnostic controlled by KCONFIG_WARN_CHANGED_INPUT.
-Emit the warnings from conf_write() and conf_write_defconfig() after
-value resolution and through the existing message callback path so the
-default behavior stays unchanged and interactive frontends remain usable.
-
-Document the new environment variable and add tests for both olddefconfig
-and savedefconfig.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- Documentation/kbuild/kconfig.rst         |  5 ++
- scripts/kconfig/confdata.c               | 94 +++++++++++++++++++++++++++++++-
- .../tests/warn_changed_input/Kconfig     | 27 +++++++++
- .../tests/warn_changed_input/__init__.py | 27 +++++++++
- .../tests/warn_changed_input/config      |  2 +
- .../warn_changed_input/expected_config   |  6 ++
- .../expected_defconfig                   |  1 +
- .../warn_changed_input/expected_stdout   |  3 +
- 8 files changed, 162 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index d213c4f599a4..e35dd1d5f9d3 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -59,6 +59,11 @@ Environment variables for ``*config``:
-     This environment variable makes Kconfig warn about all unrecognized
-     symbols in the config input.
- 
-+``KCONFIG_WARN_CHANGED_INPUT``
-+    If set to a non-blank value, Kconfig prints optional warnings for
-+    user-provided values that change after Kconfig resolves dependencies
-+    or applies other constraints such as ranges.
-+
- ``KCONFIG_WERROR``
-     If set, Kconfig treats warnings as errors.
- 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 9599a0408862..bcbac5a204e9 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -206,6 +206,72 @@ static void conf_message(const char *fmt, ...)
- 	va_end(ap);
- }
- 
-+static bool conf_warn_changed_input_enabled(void)
-+{
-+	const char *env = getenv("KCONFIG_WARN_CHANGED_INPUT");
-+
-+	return env && *env;
-+}
-+
-+static const char *sym_get_user_value_string(struct symbol *sym)
-+{
-+	switch (sym->type) {
-+	case S_BOOLEAN:
-+	case S_TRISTATE:
-+		switch (sym->def[S_DEF_USER].tri) {
-+		case yes:
-+			return "y";
-+		case mod:
-+			return "m";
-+		default:
-+			return "n";
-+		}
-+	default:
-+		return sym->def[S_DEF_USER].val ?: "";
-+	}
-+}
-+
-+static bool sym_user_value_changed(struct symbol *sym)
-+{
-+	if (!sym_has_value(sym) || sym->type == S_UNKNOWN)
-+		return false;
-+
-+	switch (sym->type) {
-+	case S_BOOLEAN:
-+	case S_TRISTATE:
-+		return sym->def[S_DEF_USER].tri != sym_get_tristate_value(sym);
-+	default:
-+		return strcmp(sym_get_user_value_string(sym),
-+			      sym_get_string_value(sym));
-+	}
-+}
-+
-+static void conf_clear_written_flags(void)
-+{
-+	struct symbol *sym;
-+
-+	for_all_symbols(sym)
-+		sym->flags &= ~SYMBOL_WRITTEN;
-+}
-+
-+static void conf_append_changed_input_warning(struct gstr *gs,
-+					      struct symbol *sym, bool *found)
-+{
-+	if (!sym_user_value_changed(sym))
-+		return;
-+
-+	if (!*found) {
-+		str_printf(gs,
-+			   "warning: user-provided values changed by Kconfig:\n");
-+		*found = true;
-+	}
-+
-+	str_printf(gs, "  %s%s: %s -> %s\n",
-+		   CONFIG_, sym->name,
-+		   sym_get_user_value_string(sym),
-+		   sym_get_string_value(sym));
-+}
-+
- const char *conf_get_configname(void)
- {
- 	char *name = getenv("KCONFIG_CONFIG");
-@@ -759,7 +825,10 @@ int conf_write_defconfig(const char *filename)
- {
- 	struct symbol *sym;
- 	struct menu *menu;
-+	struct gstr gs = str_new();
- 	FILE *out;
-+	bool warn_changed_input = conf_warn_changed_input_enabled();
-+	bool found = false;
- 
- 	out = fopen(filename, "w");
- 	if (!out)
-@@ -772,10 +841,13 @@ int conf_write_defconfig(const char *filename)
- 
- 		sym = menu->sym;
- 
--		if (!sym || sym_is_choice(sym))
-+		if (!sym || sym_is_choice(sym) || sym->flags & SYMBOL_WRITTEN)
- 			continue;
- 
- 		sym_calc_value(sym);
-+		if (warn_changed_input)
-+			conf_append_changed_input_warning(&gs, sym, &found);
-+		sym->flags |= SYMBOL_WRITTEN;
- 		if (!(sym->flags & SYMBOL_WRITE))
- 			continue;
- 		sym->flags &= ~SYMBOL_WRITE;
-@@ -798,6 +870,13 @@ int conf_write_defconfig(const char *filename)
- 		print_symbol_for_dotconfig(out, sym);
- 	}
- 	fclose(out);
-+
-+	conf_clear_written_flags();
-+
-+	if (found)
-+		conf_message("%s", str_get(&gs));
-+
-+	str_free(&gs);
- 	return 0;
- }
- 
-@@ -809,7 +888,10 @@ int conf_write(const char *name)
- 	const char *str;
- 	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
- 	char *env;
-+	struct gstr gs = str_new();
- 	bool need_newline = false;
-+	bool warn_changed_input = conf_warn_changed_input_enabled();
-+	bool found = false;
- 
- 	if (!name)
- 		name = conf_get_configname();
-@@ -859,6 +941,8 @@ int conf_write(const char *name)
- 		} else if (!sym_is_choice(sym) &&
- 			   !(sym->flags & SYMBOL_WRITTEN)) {
- 			sym_calc_value(sym);
-+			if (warn_changed_input)
-+				conf_append_changed_input_warning(&gs, sym, &found);
- 			if (!(sym->flags & SYMBOL_WRITE))
- 				goto next;
- 			if (need_newline) {
-@@ -892,8 +976,12 @@ int conf_write(const char *name)
- 	}
- 	fclose(out);
- 
--	for_all_symbols(sym)
--		sym->flags &= ~SYMBOL_WRITTEN;
-+	conf_clear_written_flags();
-+
-+	if (found)
-+		conf_message("%s", str_get(&gs));
-+
-+	str_free(&gs);
- 
- 	if (*tmpname) {
- 		if (is_same(name, tmpname)) {
-diff --git a/scripts/kconfig/tests/warn_changed_input/Kconfig b/scripts/kconfig/tests/warn_changed_input/Kconfig
-new file mode 100644
-index 000000000000..4b749eccbe28
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/Kconfig
-@@ -0,0 +1,27 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+config DEP
-+	bool "DEP"
-+	help
-+	  Test dependency symbol for Kconfig warning coverage.
-+	  This is used by the warn_changed_input selftest.
-+	  It intentionally stays unset in the input fragment.
-+	  The test checks how dependent user input is adjusted.
-+
-+config A
-+	bool "A"
-+	depends on DEP
-+	help
-+	  Test bool symbol for changed-input diagnostics.
-+	  The input fragment requests this symbol as built-in.
-+	  The unmet dependency on DEP forces the final value to n.
-+	  The warning should report that downgrade.
-+
-+config NUM
-+	int "NUM"
-+	range 10 20
-+	help
-+	  Test integer symbol for changed-input diagnostics.
-+	  The input fragment requests a value outside the allowed range.
-+	  Kconfig resolves it to the constrained in-range value.
-+	  The warning should report that adjustment.
-diff --git a/scripts/kconfig/tests/warn_changed_input/__init__.py b/scripts/kconfig/tests/warn_changed_input/__init__.py
-new file mode 100644
-index 000000000000..5a2b68fb1033
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/__init__.py
-@@ -0,0 +1,27 @@
-+# SPDX-License-Identifier: GPL-2.0
-+"""
-+Test optional warnings for user-provided values changed by Kconfig.
-+
-+Warnings should stay disabled by default, and should only appear when
-+KCONFIG_WARN_CHANGED_INPUT is enabled.
-+"""
-+
-+
-+def test(conf):
-+    assert conf.olddefconfig('config') == 0
-+    assert 'user-provided values changed by Kconfig' not in conf.stdout
-+
-+    assert conf._run_conf('--olddefconfig', dot_config='config',
-+                          extra_env={
-+                              'KCONFIG_WARN_CHANGED_INPUT': '1',
-+                          }) == 0
-+    assert conf.stdout_contains('expected_stdout')
-+    assert conf.config_matches('expected_config')
-+
-+    assert conf._run_conf('--savedefconfig=defconfig', dot_config='config',
-+                          out_file='defconfig',
-+                          extra_env={
-+                              'KCONFIG_WARN_CHANGED_INPUT': '1',
-+                          }) == 0
-+    assert conf.stdout_contains('expected_stdout')
-+    assert conf.config_matches('expected_defconfig')
-diff --git a/scripts/kconfig/tests/warn_changed_input/config b/scripts/kconfig/tests/warn_changed_input/config
-new file mode 100644
-index 000000000000..91156997e58d
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/config
-@@ -0,0 +1,2 @@
-+CONFIG_A=y
-+CONFIG_NUM=30
-diff --git a/scripts/kconfig/tests/warn_changed_input/expected_config b/scripts/kconfig/tests/warn_changed_input/expected_config
-new file mode 100644
-index 000000000000..fe8bbec66c53
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/expected_config
-@@ -0,0 +1,6 @@
-+#
-+# Automatically generated file; DO NOT EDIT.
-+# Main menu
-+#
-+# CONFIG_DEP is not set
-+CONFIG_NUM=20
-diff --git a/scripts/kconfig/tests/warn_changed_input/expected_defconfig b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
-new file mode 100644
-index 000000000000..af9e34851d2a
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/expected_defconfig
-@@ -0,0 +1 @@
-+CONFIG_NUM=20
-diff --git a/scripts/kconfig/tests/warn_changed_input/expected_stdout b/scripts/kconfig/tests/warn_changed_input/expected_stdout
-new file mode 100644
-index 000000000000..83ca08b7187f
---- /dev/null
-+++ b/scripts/kconfig/tests/warn_changed_input/expected_stdout
-@@ -0,0 +1,3 @@
-+warning: user-provided values changed by Kconfig:
-+  CONFIG_A: y -> n
-+  CONFIG_NUM: 30 -> 20
--- 
-2.50.1 (Apple Git-155)
-
-
+Link: https://github.com/rust-lang/rust-clippy/commit/c0dc3b61 [0]
 
