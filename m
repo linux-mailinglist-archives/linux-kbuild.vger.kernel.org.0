@@ -1,185 +1,149 @@
-Return-Path: <linux-kbuild+bounces-12687-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12690-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YMLhKF+z02kdkgcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12687-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 15:21:35 +0200
+	id MNlZH/PD02mqlgcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12690-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 16:32:19 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306503A37F3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 15:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284B93A41B0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 06 Apr 2026 16:32:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7D0263011BDB
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2026 13:21:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E6DB33043D33
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2026 14:29:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5F937267F;
-	Mon,  6 Apr 2026 13:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 667E93806BE;
+	Mon,  6 Apr 2026 14:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q3tAGxOy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRSvnYgZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956C93290C3
-	for <linux-kbuild@vger.kernel.org>; Mon,  6 Apr 2026 13:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775481690; cv=pass; b=sLDrjCAuLFnPjzTcpmis0V/1apcgIaooGKl49U6ug9VoEif6P0aCTdaMVNvw5zEjBK2SpIXlWrrhjkJhbapgNIJYSZVelhDzVEmH1uQqMWfBO7C3usBfqwL7iRvpRgDB7TVZO1DMBN0BjWvDNspKeWeVOCurFqdmkdJMF3xb3P8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775481690; c=relaxed/simple;
-	bh=Xy7FALhcYqLgXu4fKO0MtrrfIdEU0qZJHPfoz//MdsY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Od3Sl8y+EfuNZoKTasErAdkBA/FOiV3IxSZoya0HTYw0UtPDhFDnDOJ/KMSK5JO+qpeDC4G0zbRwLySXQIMPO4HNAJwUT1tkms9skAd8MNOZrbclNPVueDTd60sVUEm0ZefSgaGN8IM/gP55sNB/RUKKgjDdgbkngFkawaXWY0U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q3tAGxOy; arc=pass smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-124a7216c9cso161693c88.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2026 06:21:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775481689; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bs42Us5zN4M/yLfnAzKUL68b5Jru5QMRjqgndyEzoJko275fuyagQg+ssmRClnXiIq
-         Tqa4Z14QDzkzMPJgcCpZkI8S5wjSX0uYCIN0uiqipqzAQVWhVHxTUIkHIie2vk9wM34f
-         oY6rrnKyJPBmSIv/68KzoffkJ+xA9x+PvPkQ8CTM9UK0rCMWVy5VQcQhSfRBjXE39jhJ
-         mRwh/+eIjYmvBt5MM5JO4kOg39xOZ7K2vCjPTImSlWKNlSVkKblIw5yxHhy3HN0dHLk1
-         4tQNvLpYUsyU2wJ9AH7U6rT1Jy3fPko/i+Liib6vgJAu6C3n81Y6rnwmiC1scdx823Dc
-         czxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Xy7FALhcYqLgXu4fKO0MtrrfIdEU0qZJHPfoz//MdsY=;
-        fh=NRABJki91CD2/ZL9VWzcsLE8QEsNaJspSgYqaxxwPig=;
-        b=lhkJ197kC+FpFQ8J0k47f+eWz5gvZmMidov6fdYPYxudWItEv7qEjCoZA2grEKs/vN
-         6Iay1rrHi7iiQdq3PlwlGNk4gokwUKQrkeO1WLXfPKxuLUcyKK4GqsLr4cHnv7J8Igny
-         NG75EK+oTTKZd6NAaB5JWqxch07BxwJaip4qlQ90x3sNG2Mw/rOO9IHWua5bzuMYLVmy
-         bDVeOIJuyF4q69qTMwgggt83SUFIDhTta31/N81H8jqr3Zyro9FmGldlk9GNcNlr0In0
-         JJiZyLqGglYdNQiBlVAHXDCOenfuONIzlWx47qQ+IT8543huBXl9JtSkp+KPKOvxWocS
-         6sSQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775481689; x=1776086489; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xy7FALhcYqLgXu4fKO0MtrrfIdEU0qZJHPfoz//MdsY=;
-        b=q3tAGxOyAaMZ92oiBATu8FQ/6qRm0r9euxaNK8TPoIYKXv+sip60zW3/mf/067CojG
-         I91sgXn7EWKEojoel0sfV0c2x47kc1MhplILMewUkwkZaBCCr0pwNk93ApwnYy0wO6yk
-         wzk4NsK4gNw4WQ5HLxHU+akS5jt/VzZUPL7mw5Z8fzT8N/hLAXQzM5TXL+PsqtJbutvi
-         8uYoJs3WHDvwOVOtXEYQeWWHvCxe1gwgZnfpVYwrKTEHNlI01LkDdq0Wvn9M2UetAjbD
-         lUoBO1OKkgxrsLb7uoE6JiAt9LFTPTHQt2L5Jm/D7L6biFMlveXZMrm6ibprSlWxXpbe
-         +9PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775481689; x=1776086489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Xy7FALhcYqLgXu4fKO0MtrrfIdEU0qZJHPfoz//MdsY=;
-        b=q0ml0/8BT8cblp/miMO7czsqhhPSE1oEHnyePJUC/x0KFDZSOCljudl5m8A7AZC86+
-         F81c5lLSPBcXi1oWneZoTcFWusaKDvJCT3rQogOPz9/9qYm6s43qaJ+jEjeaNao9pJ28
-         bsUNK0vVmq0iEuWeBwzZrZoq/ibyJNgg8IWqIl30tcqZHwUKOUVXClivyIMIdE/rKphi
-         IYioz335gh8ZipW5dXXrI1AItPavNZfe36ZrRYFxA65vu7+GnWsHIL0BeiCXP03fKtMN
-         CNjdALipP/c6eDdn6cMiVmpnrEQSUgt4LbKf68FarB01yRZqp9h//qV22c1DWM8vn4iO
-         NTRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmvPftJOhaeHwPPLe4hj2g6W6nizI1lNanXclKk3Qt2OqzqnIP5/u4x3LjhE89lWkNAFEftCYjX0Pv6lA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVkuVwUhcAGxlTcBYXAHzN0D6tbI0afo/AxlKk8FIuZQ3SmSrZ
-	F5IdlG0qg0JictUG1KtMb+vc8OCb220yvgnW4FoS9jCuKF5sHZ/v5W+QmFsL78cQvccx/bA2ZBm
-	9Ed0oMIKRE7Ilpol87httaVyCFXKQX8c=
-X-Gm-Gg: AeBDiese17Z4CIzuwVexhaVkDnJT/M2VFRJB0ZGxA5ONc8fzfg3AHrbgQ+3k4ut+63y
-	KEBPrCOnHt5MBecXG/Zy+/hhXJUv3w3GsiIwgZWKBiGyhJI/zx+6qe7C45pPwm4TNuU6y8DT6S1
-	cOwHpOIAY8TUPZ7EDFqdD9ef8rsPjCvf2CVgidnm4iCXeJC8SFYU3VOx6bY1oxIYNlyN+mO03bg
-	VNn99/FRNcbUxds+/0TO7k6qrY+dN6V6ICx24NIMWtCysNT7hBPa+yWJJePee49y/SudRk2C/oF
-	5gG0rNCRBJSYsCDgYZBBtKnj70SBplHaD9T9bbnC13Sv18TompqTqt3WMlQFVzPbPWXvizDbHVc
-	gBcJp0fTSP30Qg51y4pCSsPc=
-X-Received: by 2002:a05:7301:1007:b0:2be:298c:a11 with SMTP id
- 5a478bee46e88-2cbfcf52a13mr2965052eec.3.1775481688630; Mon, 06 Apr 2026
- 06:21:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA083803EB;
+	Mon,  6 Apr 2026 14:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775485757; cv=none; b=EKYU3BdCEFUFkNJlR+EkJWuw51eGfE+xlxG+esQpAD1soEf83TJNdVpqHdH9NoKYpZIdReC998jzO8VMn+W3tXPZF/k0X351bYDCctF2XQqTO530YM8rIiV6CKK8/ZT9ctpFkh5a4D73mVx4reXfjQfHtp85lieN4nl1GmOfGhw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775485757; c=relaxed/simple;
+	bh=hQs1Tn9TC/fuoSSmmMaVRc8aMtneqBIGGyK2dnscFmo=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=PnU4xoTqzz98MStxasSqekVtzJIA95bxjXNX7hbqzYZoB3zw/R8ebyXRs9LxhDBPfBV9H1t8rY8+aEG/5w4U09+AQOfmV2hhjqnTHBmO8Pj8LCntXBLxxBNpb4SsUopAwBiltMfm0IOWBA1DOQYY+bhz18+cHMHc7yrd0yZoBpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRSvnYgZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976F9C2BC9E;
+	Mon,  6 Apr 2026 14:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775485756;
+	bh=hQs1Tn9TC/fuoSSmmMaVRc8aMtneqBIGGyK2dnscFmo=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=dRSvnYgZ8y+9NiMZOjUfwe4OjJV72M3gHcEolR8tMg0+XKG0e7wy8sJJa1vgsFLdw
+	 c5CFD3Xucwz/io7Rpsfq1thQFQcPIRkLYLUPP7Y1y4I9b9KPB/G7mQhVM5TuGcd6gm
+	 6j4o/t5E0/msw22ksl7ZTZX5i+G9zAy7YYwtPYx221YGT0Z9FD9uUy74kjVaXqtm3Y
+	 n2mq1cThIix8w3e/hkBH9UlVKC3bY2TG7D15bvqQZPmyIzlg6q00tW5pIHF305QHMZ
+	 T98GigKLXQQCyZiVCE86iP0fUgWjV2j28zjziqxOJTxW4KHZ7g2VhFATQ86+Kfh3KS
+	 phsh/0bbvPSlQ==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260401114540.30108-1-ojeda@kernel.org> <20260401114540.30108-34-ojeda@kernel.org>
- <177508434476.73816.11744805605122440072.b4-review@b4>
-In-Reply-To: <177508434476.73816.11744805605122440072.b4-review@b4>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 6 Apr 2026 15:21:15 +0200
-X-Gm-Features: AQROBzA0LUfPYuEZWH9uKj1KexaW3DTNKfQ_If4tWD7xnq1YUXDcYUMRbV47V4E
-Message-ID: <CANiq72=25GRao7NciojymdbZN_=f-U3hp2+2qBMjb4VCaOgR2w@mail.gmail.com>
-Subject: Re: [PATCH 33/33] rust: kbuild: allow `clippy::precedence` for Rust < 1.86.0
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
-	Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
-	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 15/33] rust: macros: simplify code using
+ `feature(extract_if)`
+From: Tamir Duberstein <tamird@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Courbot <acourbot@nvidia.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
+ Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, 
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+ Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
+ linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+In-Reply-To: <20260405235309.418950-16-ojeda@kernel.org>
+References: <20260405235309.418950-1-ojeda@kernel.org>
+ <20260405235309.418950-16-ojeda@kernel.org>
+Date: Mon, 06 Apr 2026 10:28:56 -0400
+Message-Id: <177548573698.95472.15531781806867412060.b4-review@b4>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=508; i=tamird@kernel.org;
+ h=from:subject:message-id; bh=hQs1Tn9TC/fuoSSmmMaVRc8aMtneqBIGGyK2dnscFmo=;
+ b=owGbwMvMwCV2wYdPVfy60HTG02pJDJmXD+u/jDBy4Oa9bJk4w2M9B7fk4YfP510ojuW9dtlDK
+ 8//gb11x0QWBjEuBksxRZZE0UN701Nv75HNfHccZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx0DFm4OIUgKnWM2JkmPtPyHGS6crEmrgGbgvtnyq6OeqXoizabv3atXTD0XW/fzEyfK7+xT2
+ 9UPeX0uOlbpUiO+eET1rG+2bCuhV3GffYBAk+5AMA
+X-Developer-Key: i=tamird@kernel.org; a=openpgp;
+ fpr=5A6714204D41EC844C50273C19D6FF6092365380
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12687-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12690-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[49];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[50];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,lists.infradead.org,ghiti.fr,lists.freedesktop.org,googlegroups.com,lists.linux.dev];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 306503A37F3
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 284B93A41B0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 2, 2026 at 1:02=E2=80=AFAM Tamir Duberstein <tamird@kernel.org>=
- wrote:
->
-> Might be good to retain some of this in a code comment.
+On Mon, 06 Apr 2026 01:52:51 +0200, Miguel Ojeda <ojeda@kernel.org> wrote:
+> `feature(extract_if)` [1] was stabilized in Rust 1.87.0 [2], and the last
+> significant change happened in Rust 1.85.0 [3] when the range parameter
+> was added.
+> 
+> That is, with our new minimum version, we can start using the feature.
+> 
+> Thus simplify the code using the feature and remove the TODO comment.
+> 
+> [...]
 
-Bah, I missed this note among the rest, sorry (I didn't reply to the
-ones where the commit went away due to the changes in v2) -- I agree
-it wouldn't hurt to remember why it is there, even if it is already in
-the Git log.
+Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 
-I will probably add it for tomorrow, especially if I have to rebase.
-
-Thanks!
-
-Cheers,
-Miguel
+-- 
+Tamir Duberstein <tamird@kernel.org>
 
