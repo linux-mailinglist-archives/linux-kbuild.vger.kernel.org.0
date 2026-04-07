@@ -1,172 +1,270 @@
-Return-Path: <linux-kbuild+bounces-12702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12703-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iHLVB7Js1GmatwcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12702-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 04:32:18 +0200
+	id uDvMMNCn1GmkwAcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12703-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 08:44:32 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77A23A918F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 04:32:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 430633AA689
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 08:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C462D3032069
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Apr 2026 02:31:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4D48F305C94B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Apr 2026 06:41:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35387364938;
-	Tue,  7 Apr 2026 02:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B0B37C0E1;
+	Tue,  7 Apr 2026 06:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aZYGtkOq";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZS1FUI2o"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="iT11maqj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEA536405D
-	for <linux-kbuild@vger.kernel.org>; Tue,  7 Apr 2026 02:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509B0389119;
+	Tue,  7 Apr 2026 06:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775529074; cv=none; b=j8+ovcPDK5SyW4VngF1KESmdBOLNB9EDA/5E5bUBi7+BbPmFUCs3FuBkWViU/i5EJF9JL20y+f5QmKIgyV0J3MssZFTbnb+HzMQ8nStnqi8Bg3SGdiQnV6W4DOp6Q+/19N0yo6c+1lNSlxhg/wW6L0sOjfC8xwklGgM1wDI3rF0=
+	t=1775544100; cv=none; b=K7ZWq8lGhkPbPgP+EBlHT//z3QZj9LAPxLuQzp7fEGQsuE+zgWuJx3szMgaJ3MmXu+wRto3ra7SSDoZtf6tEM3mflsFr9wu4Sj92P1Fl1eRShiaoQwM9ccVUe/sa6RAFNwei40e9CfwnaNGz84VHa0T/kHCjQv1pxxrWDTn+pKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775529074; c=relaxed/simple;
-	bh=AS7Co8RyS/RWpa1/YRQO4aU8nxHDrQCiF5/Dyfytx/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uk2vsJbspmIhVF4FV6HJ8fJZF3n9fI9cDLrNyKnGhOJd23dZSVxi4z0nBT83klzu0EWz0dopObAoua0imDXG1828zpBlhIIFpWXr4WG+foBM8RBfVIa3smOPlO6mb5jY3M9kyELht+zbMGwNc754cOu0Oxl6Th5Gh/WDVG0Rcys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aZYGtkOq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZS1FUI2o; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775529071;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+relXseHSDiLD/cBAI0rxB8yeQocHqRAcYJEZB5dGtk=;
-	b=aZYGtkOqx6MU2mPyIh8tcbZNM/Cnp2snKAi+6uosFgoFvBl+ccxbKJ/AvqS6RclkU30yMb
-	2MlD29dnNE6CSy++gkFqwW7mIii0hyk7p1DtTlgEnhG7ZYo2rn0SviLXxOd9ghZbnAoK2w
-	kS2Rhe6TftZus+moGZEE2nsZFETMcg0=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-691-8bRsmo-mMZmZppN-2fTmuQ-1; Mon, 06 Apr 2026 22:31:10 -0400
-X-MC-Unique: 8bRsmo-mMZmZppN-2fTmuQ-1
-X-Mimecast-MFC-AGG-ID: 8bRsmo-mMZmZppN-2fTmuQ_1775529069
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-82ce50e6e28so3184646b3a.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2026 19:31:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1775529069; x=1776133869; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+relXseHSDiLD/cBAI0rxB8yeQocHqRAcYJEZB5dGtk=;
-        b=ZS1FUI2o3t4uj08yvHjHVvugjxTc9AuFVUP6a8diSr6Ptt8JoqWJsu+QoppKTPBRgW
-         6GbkwYx2OH+limmPvpEi9SDZDLA1mXtogWDeyhI7aLf65bbEXKyCSV8ViPq4lJ0TG/tW
-         EC+C/Pj/cB+KStF0M4iBIAY0MZzB3mhBJarDimjLYiboke9Aud3JnXNLedbz78e30xNr
-         dU/tjMRKp0U8Km8Hqi34rsfFvokH6WL4TiE0wqN8yNRFTIhJC9gWSFGuBXCtuShxYdAh
-         SqaMbbinRIHXE77zm4htoNdWXSJ0jNYcdC4X849hKySnSpn1gkENhpsuYcvk6QFFMU5T
-         AZXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775529069; x=1776133869;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+relXseHSDiLD/cBAI0rxB8yeQocHqRAcYJEZB5dGtk=;
-        b=DiZSQKrJ1DzTDXMgmb86k7+DyMf6ExfOHlcVIPgOPJxwlCmswvbKxBz1Ukdx8BmQmm
-         Lka0dstbnZ4e9dMTiDf7FZ7gGANYh4qR1NnHjf2xIZO+kAbIF04plQnDtKavKDmHJ4AZ
-         lW28S+UIwoMwMdBsw1wwRjGD2GZI3W3bxwNjULQN7xKi67z0W5u8py0H+r27TYDxYe80
-         S46ztsEQp84/a2yJmOoGCP7uHXom/cZbu4oisS6G2JBnpHJx/WkW4pwycC8w9haeaYd0
-         y91aITEn9BQBjgEiWGrcQfE7IhfcJHSUWIh03JgI+Q2HSHusRR6amzQ5550YNC7MxTnW
-         sNfg==
-X-Forwarded-Encrypted: i=1; AJvYcCXU/t/xv2lTBVM4jN5DAlsA4CwszUIKHGgR6NTmj4OR+BvYv8A/Eplvi9hnaLrGD3tvYJrm/roWeJwkEHU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPH03vp7dz/sCbXI+dlroZdkfsAT/aQbLighuiU/hPA+DbKdFu
-	4Z8wtM1AGc446n/GKKrtZPy8WYdTNicMhp+veBrO8+sfliNVqD+cg1w9FVNeD00E4TtAKNDLrF6
-	JOaiVDnebc613/0Ge5vt3KNZ0/8DvEFXgcm973G41rXOl6e38bu/nSwYX2X3M7G7kHw==
-X-Gm-Gg: AeBDievBMSndhWeuC/jLM2qBdw7KkmCNOLLbLFCHNVN63O91nMMb8a0g8Q8cgx8AS8u
-	M8LsE1vbnIWxPPPkI/q6J065Zye8OmUU3GRY86QxRb9IjAUNWo3tPXnQ6+CZdD044rdUXndE7Hw
-	WgMl4Cf2kOd97kTf4TVRC/BIdMBfQ03TftjR2BNd1pvt0yyq+HthDTEj75QqHAGgzYnx37q0kjG
-	kJWi5btMPmXjQr2yoZAJpnqIloabaITymv1xJquYHifPjlCSRqVaouGujtV7FV4/6WPc0pX+blO
-	fpAg4GY/Za58mDifv2mhB3YuXk75l4xemcna1gew6Mr/9kgYT1VLFpnzXEyURAOp/Cj6idpFuRs
-	vuQtVUmbr3eBq0DchEQ==
-X-Received: by 2002:a05:6a00:3e19:b0:82c:d6d3:31a1 with SMTP id d2e1a72fcca58-82d0db4f938mr14513058b3a.29.1775529069372;
-        Mon, 06 Apr 2026 19:31:09 -0700 (PDT)
-X-Received: by 2002:a05:6a00:3e19:b0:82c:d6d3:31a1 with SMTP id d2e1a72fcca58-82d0db4f938mr14513020b3a.29.1775529068879;
-        Mon, 06 Apr 2026 19:31:08 -0700 (PDT)
-Received: from redhat.com ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c72967sm15221583b3a.49.2026.04.06.19.31.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 19:31:08 -0700 (PDT)
-Date: Tue, 7 Apr 2026 10:31:05 +0800
-From: Li Wang <liwang@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, nsc@kernel.org, david@kernel.org,
-	ljs@kernel.org, Liam.Howlett@oracle.com, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	shuah@kernel.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] selftests/mm: clean up build output and verbosity
-Message-ID: <adRsadO77aF3WcWm@redhat.com>
-References: <20260331094402.144131-1-liwang@redhat.com>
- <20260406193216.GA1319599@ax162>
- <20260406125133.eeb8efed993ae1faa2a9ad73@linux-foundation.org>
+	s=arc-20240116; t=1775544100; c=relaxed/simple;
+	bh=D9BCelmQcrtvQFlypD453B/euLQLN9dwA6K43KZVrJo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=G+BV23uJRYrPi5OLXNiQ2HJq9jEvTKdVUz+Pzd7cJMg38Hd1jXaioWPVc4id1me+omy/v/YeyWS+Ha1E7cWzxjhPjAreZHFc48dFV/E/fhDUZrY8q7RtIxG/MFTT+wBEwdQBxSZOdgL2fF4fwp7TMTduUl2h3Zl+LfpRSSPvERE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=iT11maqj; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 636LlngV2297436;
+	Tue, 7 Apr 2026 06:41:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=+dSSPJ
+	bkm3XofuIvcl4z06KTsP6JcRiszT9bw0oLBcw=; b=iT11maqj4mhsZp/0PvmJHo
+	pvjxoSX6v02x2XcyRou4brG3wMId2hjtPZO4iNWXwpSKNogbUL/MUARh+8dsbQ6K
+	+xzotO/rFzAUTEp9d7Vy+LwP3fxT0qVzZVk1uwkHKvkbHuemLH3LwI73zWHfbaJe
+	pfPHCmWXThIRvVGBhjAnjlcH4iJFy9pn4aRsZ3RZ1QlrNgxnNdbeJv0laqZZcIkB
+	sEojryqjqLx6OE18/mne8xa+MuzeHEwhmNAyfa6I2A7Z5wx+34nmJZXMZ0FyvQ25
+	GNDjJquZIw7w2sJfEnx4cKC1qyu8BvFf1e+ToWHNhuoFnS6XJR1TDyIn+lTIZQ3Q
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2fsbnw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Apr 2026 06:41:28 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6373MxG0014345;
+	Tue, 7 Apr 2026 06:41:27 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dcmg4hc03-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Apr 2026 06:41:27 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6376fQ7u10027524
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 7 Apr 2026 06:41:26 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F145E5805D;
+	Tue,  7 Apr 2026 06:41:25 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1AF5658059;
+	Tue,  7 Apr 2026 06:41:23 +0000 (GMT)
+Received: from [9.123.2.252] (unknown [9.123.2.252])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  7 Apr 2026 06:41:22 +0000 (GMT)
+Message-ID: <6c00b695-9e84-4dd8-abbb-306fd67d6f97@linux.ibm.com>
+Date: Tue, 7 Apr 2026 12:11:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260406125133.eeb8efed993ae1faa2a9ad73@linux-foundation.org>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] char/nvram: Remove redundant nvram_mutex
+From: Tellakula Yeswanth Krishna <yeswanth@linux.ibm.com>
+To: linux-kernel@vger.kernel.org,
+        Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Cc: linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        maddy@linux.ibm.com, ritesh.list@gmail.com, arnd@arndb.de,
+        Christophe Leroy <chleroy@kernel.org>
+References: <20260330103530.6873-1-venkat88@linux.ibm.com>
+ <68e9ca6a-c53b-4f15-85b3-7ae9639f9528@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <68e9ca6a-c53b-4f15-85b3-7ae9639f9528@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=KeridwYD c=1 sm=1 tr=0 ts=69d4a718 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=QJh7bQgzvTJllBY2U6YA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: Ku1_GqSXTU2Onkx9hfIyRKX2lmnhjZk8
+X-Proofpoint-GUID: JyBj8J5KI-uMVLKHg5FoI5WiOO96Z_Lm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA3MDA1NiBTYWx0ZWRfX6VduUmr1Vjd0
+ B1MncouLRrvl4oRAf4xW1L03KmivWqKtrutDcAyMYn+YDkjjFHKCqCsIlinUdzBVxbHoPl/xUFu
+ ih71dsUGV8qj8MIGOQiA++NJHfbsId/KaQPPXJqW6Cm7kra8wFLzqN4LIdaZCzbMrv/akqIEVOW
+ b2JH+NiO+/ZX5vRiGOlNYQQL5JhGbTkicJwYXBNWboxdfb0Xc0CMDRl9qkTQTavuCtDZIa4w4b4
+ 3x44+KlS7f1xNdzHLYO8v+Z4fP3guIv01kmeFHG7Prd20e2T7J+gOv+dpVA3tS/vSRGLOlNjQuA
+ 4PYTU+EXlcgMi/gXtJ4lXtv1dpTtXY6w2LUjsrPRxay1J6WB6w1KppxCzf8nVaaBe6m1G4LZN+s
+ 6GcluDr2CZLX3mAX7zZYlcLkO3cRMlR6OSt+Oext0euy3dxLZUlVFx+G+beT+XX7k7dZBHvlvMY
+ LxvghNMSHvQkw4KUPfg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-07_02,2026-04-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
+ clxscore=1015 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604070056
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
+	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-12702-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.ozlabs.org,linux.ibm.com,gmail.com,arndb.de,kernel.org];
 	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ibm.com:+];
+	TAGGED_FROM(0.00)[bounces-12703-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[liwang@redhat.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[yeswanth@linux.ibm.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.997];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B77A23A918F
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCVD_COUNT_SEVEN(0.00)[11]
+X-Rspamd-Queue-Id: 430633AA689
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Apr 06, 2026 at 12:51:33PM -0700, Andrew Morton wrote:
-> On Mon, 6 Apr 2026 12:32:16 -0700 Nathan Chancellor <nathan@kernel.org> wrote:
-> 
-> > > Second, the specific 32-bit and 64-bit compilation targets ignore the
-> > > standard kbuild verbosity settings, always printing their full compiler
-> > > commands even during a default quiet build.
-> > > 
-> > > Notes:
-> > >   Andrew mentioned he hopes this patch merge into kbuild tree, so I resend
-> > >   to linux-kbuild@vger.kernel.org.
-> > 
-> > Kbuild does not maintain anything in tools/, so this should go through
-> > either the mm tree or the kselftests tree.
-> 
-> No probs.  Li, please send it along after -rc1?
+Please add this tag
 
-Sure thing!
 
--- 
-Regards,
-Li Wang
+Tested-by: yeswanth <yeswanth@linux.ibm.com>
 
+On 02/04/26 9:33 pm, Tellakula Yeswanth Krishna wrote:
+>
+> On 30/03/26 4:05 pm, Venkat Rao Bagalkote wrote:
+>> The global nvram_mutex in drivers/char/nvram.c is redundant and unused,
+>> and this triggers compiler warnings on some configurations.
+>>
+>> All platform-specific nvram operations already provide their own 
+>> internal
+>> synchronization, meaning the wrapper-level mutex does not provide any
+>> additional safety.
+>>
+>> Remove the nvram_mutex definition along with all remaining lock/unlock
+>> users across PPC32, x86, and m68k code paths, and rely entirely on the
+>> per-architecture nvram implementations for locking.
+>>
+>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+>> Signed-off-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+>> ---
+> Without Fix
+> ===============
+> make -j 33 -s && make modules_install && make install
+> In file included from ./include/linux/seqlock.h:20,
+>                  from ./include/linux/mmzone.h:17,
+>                  from ./include/linux/gfp.h:7,
+>                  from ./include/linux/umh.h:4,
+>                  from ./include/linux/kmod.h:9,
+>                  from ./include/linux/module.h:18,
+>                  from drivers/char/nvram.c:34:
+> drivers/char/nvram.c:56:21: warning: 'nvram_mutex' defined but not 
+> used [-Wunused-variable]
+>    56 | static DEFINE_MUTEX(nvram_mutex);
+>       |                     ^~~~~~~~~~~
+> ./include/linux/mutex.h:87:22: note: in definition of macro 
+> 'DEFINE_MUTEX'
+>    87 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
+>       |                      ^~~~~~~~~
+>
+>
+>
+>
+> With this patch issue is fixed
+>
+>
+> Please add below tag
+>
+> yeswanth <yeswanth@linux.ibm.com>
+>
+>
+> Thanks,
+>
+> Yeswanth Krishna
+>
+>> v4:
+>>    - Remove all remaining nvram_mutex call sites, completing the 
+>> mutex removal
+>>
+>> v3:
+>>    - Removed global nvram_mutex definition
+>>
+>>   drivers/char/nvram.c | 16 +++-------------
+>>   1 file changed, 3 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/char/nvram.c b/drivers/char/nvram.c
+>> index 9eff426a9286..e89cc1f1c89e 100644
+>> --- a/drivers/char/nvram.c
+>> +++ b/drivers/char/nvram.c
+>> @@ -53,7 +53,6 @@
+>>   #include <asm/nvram.h>
+>>   #endif
+>>   -static DEFINE_MUTEX(nvram_mutex);
+>>   static DEFINE_SPINLOCK(nvram_state_lock);
+>>   static int nvram_open_cnt;    /* #times opened */
+>>   static int nvram_open_mode;    /* special open modes */
+>> @@ -310,11 +309,8 @@ static long nvram_misc_ioctl(struct file *file, 
+>> unsigned int cmd,
+>>           break;
+>>   #ifdef CONFIG_PPC32
+>>       case IOC_NVRAM_SYNC:
+>> -        if (ppc_md.nvram_sync != NULL) {
+>> -            mutex_lock(&nvram_mutex);
+>> +        if (ppc_md.nvram_sync)
+>>               ppc_md.nvram_sync();
+>> -            mutex_unlock(&nvram_mutex);
+>> -        }
+>>           ret = 0;
+>>           break;
+>>   #endif
+>> @@ -324,11 +320,8 @@ static long nvram_misc_ioctl(struct file *file, 
+>> unsigned int cmd,
+>>           if (!capable(CAP_SYS_ADMIN))
+>>               return -EACCES;
+>>   -        if (arch_nvram_ops.initialize != NULL) {
+>> -            mutex_lock(&nvram_mutex);
+>> +        if (arch_nvram_ops.initialize)
+>>               ret = arch_nvram_ops.initialize();
+>> -            mutex_unlock(&nvram_mutex);
+>> -        }
+>>           break;
+>>       case NVRAM_SETCKS:
+>>           /* just set checksum, contents unchanged (maybe useful after
+>> @@ -336,11 +329,8 @@ static long nvram_misc_ioctl(struct file *file, 
+>> unsigned int cmd,
+>>           if (!capable(CAP_SYS_ADMIN))
+>>               return -EACCES;
+>>   -        if (arch_nvram_ops.set_checksum != NULL) {
+>> -            mutex_lock(&nvram_mutex);
+>> +        if (arch_nvram_ops.set_checksum)
+>>               ret = arch_nvram_ops.set_checksum();
+>> -            mutex_unlock(&nvram_mutex);
+>> -        }
+>>           break;
+>>   #endif /* CONFIG_X86 || CONFIG_M68K */
+>>       }
 
