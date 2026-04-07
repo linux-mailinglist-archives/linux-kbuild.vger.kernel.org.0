@@ -1,62 +1,77 @@
-Return-Path: <linux-kbuild+bounces-12719-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12720-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8IjOOpNn1Wm05gcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12719-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 22:22:43 +0200
+	id cPm0NlJp1Wm96AcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12720-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 22:30:10 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9593B4835
-	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 22:22:42 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5899F3B4897
+	for <lists+linux-kbuild@lfdr.de>; Tue, 07 Apr 2026 22:30:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 95E45303719E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Apr 2026 20:20:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B58243011145
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Apr 2026 20:30:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D14377ECE;
-	Tue,  7 Apr 2026 20:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D95FA379ED5;
+	Tue,  7 Apr 2026 20:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzB5+OCt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRtYElU/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3573372B38
-	for <linux-kbuild@vger.kernel.org>; Tue,  7 Apr 2026 20:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB857379EE0;
+	Tue,  7 Apr 2026 20:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775593254; cv=none; b=AYyDLAspFZECBCI1h38D/su/lDct/k6X37nCegyszNFGb0oYOHMRruSmuu56KbL10v8ppoSIzBTDqm7HuaBnvaBAvp4anC4Vol0DfcZENAR4kYav+lClzA2MVigmYg9j0uCaLOAtZB2pVY3fmkI1jFQjZ4Bdy4emTkySV1zJRL0=
+	t=1775593808; cv=none; b=HYBdreDw4UF1GikfweyH2aO9oy4fBKNzZf56fhAOpO3HD/aKy7QgOtgNcFXHCgj/y7sHqUBbJiSzFa1fG0qc981N05mISJdrrPeHLJTWIFmjYkXcMtWEWKfe2GDZ2DRxgfv4nCTg6I+xfzSsX+pIJbrBzEFO1pTGpFy8Z6nz5so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775593254; c=relaxed/simple;
-	bh=/S7bmEQOah3HsW7h0oylmhMt2tbAb3oDYh/9HYGk7lE=;
+	s=arc-20240116; t=1775593808; c=relaxed/simple;
+	bh=6oU+KsmOg3FjvhpOlW6GWV5dIaB2gE3o/TwTmnU4JRQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQ+/PyThpcIt+DgQyHLElnYjTvr3zGwkfcXNEASmadmHXZ5DeM9u3hbAI2LMKuqpkSJpJ3CaG30X9aBNxe+8ixZUA9VeO/Euhxi5l0QUZIJUJ8hPRkwC6pMPIgyae6oNs1fMqmq7CMio8vOdh8MPbhPziVRy1Msr3QnHXZ1dQjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzB5+OCt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDC8C116C6;
-	Tue,  7 Apr 2026 20:20:53 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=cFcGpoXZ0icTY64JNuuBMdYiv/BdMllO22fbXypVf6bK9wAyZPE4IQI563qEvr7sYOkSrTLRyvFVNCk2m8Jq1b4EETE3L/IxLEtWNmWKajDad0wwJLUHl17uXsdEhX+tqHe90qPu8cKKoMV9n9AkmUwXRpSRHVLl8mtXVCXkB7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRtYElU/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA56C116C6;
+	Tue,  7 Apr 2026 20:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775593254;
-	bh=/S7bmEQOah3HsW7h0oylmhMt2tbAb3oDYh/9HYGk7lE=;
+	s=k20201202; t=1775593808;
+	bh=6oU+KsmOg3FjvhpOlW6GWV5dIaB2gE3o/TwTmnU4JRQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EzB5+OCtr+nzUGt0j+5rFeg7vuVZ+gQRSQDXneOZZ+d8N3oz0x98S3kF+mo/oEu+p
-	 A8EtLo5uoTxAv5QbKlAGc4X92hs2ZKl4enOfovr57+AnZ6Lgp4pVYCo6QQ+VBPEM+R
-	 gTpC9Q2u9+MFJNxaXtB6IVHYTUE44lLQ9xdZE5oQdJMPN70E7aMGrLhRdmncBRD8p5
-	 08Qq6LHXzEtcIcmj36repij1m8Nxl4nIwuKwLtwKvuxcn2+IreALcznTJe3q2u5s6y
-	 lwR0GEBoyKxjAJjKTJdt79Yi0OJXzpqxzjldLMBS5SMpDQ0n92QvZKdXmhq+THyW8M
-	 7Daecby8NRvZg==
-Date: Tue, 7 Apr 2026 22:20:37 +0200
+	b=FRtYElU/kXI+NioLUM3KfjiGZMhCOtfdxwGBPdAdW2CKA/uAaoFrzr5U3GvZYdGmT
+	 5dKoHzbUVPMlYqstQb7ZrfUzufSXowJXddRXgUFynC3KlTFlmIhICELlR0BxiFqNhK
+	 toT396TjEmgXIa8HNXYVh/shfFqPiA8pBvtuwo+4pqnV8T6g0zHf+GYepO0ASqW+cV
+	 mQQ3p023zCAUMLicQKQvGI2R0WaTg5vEnCjHgUW2Z8DtGeaeBCh6ViUbGneLQ3IA8V
+	 icKnLsvKK8xdr4FWiAl/0Krq2Oe5wTGKCNadFw1pynm+uyMg59/rd6JgoyoYEHuXUl
+	 /y/i85vuN7rbw==
+Date: Tue, 7 Apr 2026 22:29:55 +0200
 From: Nicolas Schier <nsc@kernel.org>
-To: Mathias Krause <minipli@grsecurity.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH] kbuild: builddeb - avoid recompiles for
- non-cross-compiles
-Message-ID: <adVnFdusbO_2nIEP@levanger>
+To: Mohamad Alsadhan <mo@sdhn.cc>
+Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v6] kbuild: host: use single executable for rustc -C
+ linker
+Message-ID: <adVpQ_ZvXTPUegig@levanger>
 Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Mathias Krause <minipli@grsecurity.net>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-References: <20260402145116.1010901-1-minipli@grsecurity.net>
+	Mohamad Alsadhan <mo@sdhn.cc>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20260331000802.380-1-mo@sdhn.cc>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,86 +80,72 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260402145116.1010901-1-minipli@grsecurity.net>
+In-Reply-To: <20260331000802.380-1-mo@sdhn.cc>
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12719-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12720-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,smile.fr,vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,grsecurity.net:email]
-X-Rspamd-Queue-Id: 0B9593B4835
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 5899F3B4897
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Apr 02, 2026 at 04:51:16PM +0200, Mathias Krause wrote:
-> Commit e2c318225ac1 ("kbuild: deb-pkg: add
-> pkg.linux-upstream.nokernelheaders build profile") changed how
-> install-extmod-build gets called, making it always rebuild the host
-> programs below scripts/ if HOSTCC wasn't specified with its full triplet
-> on the make command line. That is, apparently, needed to fix up commit
-> f1d87664b82a ("kbuild: cross-compile linux-headers package when
-> possible") for cross-compiles. However, in the much more common case of
-> non-cross-compile builds this will lead to unnecessary rebuilding of
-> host tools including gcc plugins. This, in turn, will lead to a full
-> kernel rebuild on the next 'make bindeb-pkg' which is unfortunate.
+On Tue, Mar 31, 2026 at 03:08:01AM +0300, Mohamad Alsadhan wrote:
+> rustc's -C linker= option expects a single executable path. When
+> HOSTCC contains a wrapper (e.g. "ccache gcc"), passing
+> `-Clinker=$(HOSTCC)` results in the shell splitting the value into
+> multiple words, and rustc interprets the additional word as an
+> input filename:
 > 
-> Avoid that by only triggering the rebuild of host tools for actual
-> cross-compile builds.
+>   error: multiple input filenames provided ...
 > 
-> Signed-off-by: Mathias Krause <minipli@grsecurity.net>
-> Fixes: e2c318225ac1 ("kbuild: deb-pkg: add pkg.linux-upstream.nokernelheaders build profile")
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Generate a small wrapper script and pass it to -Clinker e.g.
+> 
+>   ```
+>   #!/bin/sh
+>   exec ccache gcc "$@"
+>   ```
+> 
+> This fix should be general enough to address most if not all cases
+> (incl. wrappers or subcommands) and avoids surprises of simpler fixes
+> like just defaulting to gcc.
+> 
+> This avoids passing the user command as an environment variable as
+> that would be more challenging to trace and debug shell expansions.
+> 
+> Link: https://github.com/Rust-for-Linux/linux/issues/1224
+> Suggested-by: Yoann Congal <yoann.congal@smile.fr>
+> Signed-off-by: Mohamad Alsadhan <mo@sdhn.cc>
 > ---
->  scripts/package/builddeb | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 3627ca227e5a..ba1defc61652 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -139,7 +139,13 @@ install_kernel_headers () {
->  	pdir=debian/$1
->  	version=${1#linux-headers-}
->  
-> -	CC="${DEB_HOST_GNU_TYPE}-gcc" "${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
-> +	# Override $CC only for cross-compiles, to not unnecessarily rebuild
-> +	# scripts/ including plugins, which may lead to a full kernel rebuild.
-> +	if [ -n "${CROSS_COMPILE}" ]; then
-> +		CC="${DEB_HOST_GNU_TYPE}-gcc" "${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
-> +	else
-> +		"${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
-> +	fi
->  
->  	mkdir -p $pdir/lib/modules/$version/
->  	ln -s /usr/src/linux-headers-$version $pdir/lib/modules/$version/build
-> -- 
-> 2.47.3
-> 
+> v5 -> v6:
+>   - Add fix to `rust/Makefile` as well (Yoann)
+>   - Include script to `.gitignore` and make clean (Nicolas)
+>   - Add back the outer `exec` to the command
 
-Thanks!
+What is the reason for re-adding the 'exec'?
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
 -- 
 Nicolas
