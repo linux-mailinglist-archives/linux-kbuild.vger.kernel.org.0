@@ -1,198 +1,149 @@
-Return-Path: <linux-kbuild+bounces-12722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12723-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0/mJEoRb1mmNEggAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12722-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 08 Apr 2026 15:43:32 +0200
+	id sBh7FhrT1mn8IwgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12723-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Apr 2026 00:13:46 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00083BD170
-	for <lists+linux-kbuild@lfdr.de>; Wed, 08 Apr 2026 15:43:31 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC21B3C44CA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 09 Apr 2026 00:13:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6ED403012CE0
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Apr 2026 13:43:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 732D730414BD
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Apr 2026 22:13:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2107A3CF041;
-	Wed,  8 Apr 2026 13:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A7738E5CE;
+	Wed,  8 Apr 2026 22:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PDGxzH+O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQhgE2Uj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28F638D681
-	for <linux-kbuild@vger.kernel.org>; Wed,  8 Apr 2026 13:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D19388385
+	for <linux-kbuild@vger.kernel.org>; Wed,  8 Apr 2026 22:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775655808; cv=none; b=Wjl71WDs18wdVSnkpHoKyGhbTiMeAO5tVzcRKtprgHQtf3/YW70CVgBzLF1BOsax/2WtoQ3et091Go/AjAjJsQ3JyH8A0ucDReFgeLfql5Qh17I7gkK9C2gJl+GblxA+yFbNMAki4gBr6sIwATKZSnIYcYzZSV6HQBPbwQPh5GA=
+	t=1775686385; cv=none; b=rOBAqdk5hRYibF6+FhCzZofgpGm0G5pEY16M2S4L7KYqNJ+IsshJOI2zR7FDkwc3ZxQmD9kHqTp36zTADArlcJHzminY/IuzAjg6yuGLWSdXvwJa9wL7sborjADGlFRXa+u7o1Meb+O4+XeVwsP0+excKzKgYt456NQefJpvYEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775655808; c=relaxed/simple;
-	bh=aGBBqF82BfQwkwgHxlkI1N/8GUQz8/+5w8flepFuzok=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ahr/0vKXgCpC/78fiDRyz9GAtzInCmlC+5gcoW+I0MlWjk5dQ1EHb2dqAiaBYI7qkCaP38KNgRnF6J8eWuuPkvERH+BnOYdVvEDnSX73w4zKfpCZWo8NguGVTZR29oSfMeIXAaKFj8Ko6mhcnMwXq2AoRTggFN8hhKty+GPNNnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PDGxzH+O; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso48976195e9.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 08 Apr 2026 06:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1775655805; x=1776260605; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7oNmpe4d3hv2RrDET86MTy+CkexOZOZ7u5ulEsKdlgw=;
-        b=PDGxzH+O+Rmd9SO+r3SuZTpt5hD7GCO6IVZQCDmw8NCkr61pFnu7hgQrGG4i/4zc5m
-         ZdYfRDHcoymcWNdVx0kfhUlzspdm1as5UA76jorvvwrR6TNEJ+luZAlSDsU7CA+DpX24
-         Zps0ouQ6vfjDYMf9GytYaUIwO6clNWYQa6lyEts63sCt53hwfx5j5sy20jdfEoKhnXw1
-         sV1+xx+2qDOiHBJ1v9MMjjAufu+tmDDWy9uhG4/iHjuL42imyzQsQC7YUeqsuiV4f+Wr
-         GFaaJbrDymY7WkXxc0SWeHIqFZgfJCZWw4PFwNbczyeSj8/opCfpUG/ETo8JbPRQOx5Q
-         EwFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775655805; x=1776260605;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7oNmpe4d3hv2RrDET86MTy+CkexOZOZ7u5ulEsKdlgw=;
-        b=BkFE6XAKE5Ce/8SfxBMp1jnGpZz+q42rT0TukjKKBHOGSCmAG9IZDHMwXqtxJBAmYN
-         By4x+1aYbtQ84HRWOX7jouRTCg7yBEOcXNLlroHFJFeA4K6pZyzAdn/lan9sB1QlyS7w
-         SXenpq0Md56jPs4G77+a6KLa1+X0Qy41meeWqJa4BGIviK6F3ZvnSirLoEw1R+He3e95
-         5PbDFyjQ6Nt+N2e+584zSIGSBBjlxLKVTkqL9a5z4jFG87YbsxL2jFeh2IPms8XGm106
-         y0iHmNM6WiNMLsR7TO2qLXXyPISi8dY64fMMUH5ZKVFSoHZmsRT7pxDmjNSUY7crZjZz
-         KU3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVYpemry+gSMcBnk6HXCJmZ5GZyC5H7FXa9SamcKJ2usYOgP4iJBZHYnB63NQ/raoceRaS3M7jZwuDz+II=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4cBq3agZR2ftAnTbcpeXFJDJ8NPyvhrRMGwMUUn2WceKTfzw+
-	DhC0UF0p+5LCFwC+v6VyMCOOYWP1NQfXTbLroqHOFNw0Mmk98w5bCV5nbOe/95CmkK4=
-X-Gm-Gg: AeBDieuLyITAsHCLcxdT3gDboLBhM6abF361GSXBwU0eVcind2pysNU59qN4MRdoquJ
-	GJZojCk/bWwAi9p8XA3Zpy//Bet7Ge7DyJuPWREmHP83DssuRirEE8senQvqFB/E6cYhipvcazQ
-	sJ0E6HcjDdkLck87Dh1EL49gQbbvtaLagXlXPi6kNfCOLHBcuX8bc0NHy5IEKVzjf2g80F56Ke6
-	yc4EvQrmaLK6nTF6t076fj8zpaa0jylQV7W0DVFzfosC1HNQg7rti6zkCxfl5YlqOf1LIbFnA8c
-	J+veHK7a8QI252L9OUjRo8QN09s3492HQTj3t84zTXpQFg9hhsiKa9dXSUmQh0EifPUlmRtb4A9
-	veC1P6v1P/iBrBiKukzWkC8bEpkw1FVXI7PJakVa0z6ksy0xN6AWFGNZuJd7zjwEXIzpG6nzSxB
-	aCzzWgZr6Mc5p+mqxkCD43QgLZ+2dAKStnT3ke+/LExL/KT7LM/W+T04M=
-X-Received: by 2002:a05:600c:3b1a:b0:486:fc5f:1ab9 with SMTP id 5b1f17b1804b1-48899775d8emr271551155e9.14.1775655805038;
-        Wed, 08 Apr 2026 06:43:25 -0700 (PDT)
-Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e9630ddsm645561325e9.13.2026.04.08.06.43.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Apr 2026 06:43:24 -0700 (PDT)
-Message-ID: <81bee452-f3b9-4a65-a4ee-8a71e8bd265b@suse.com>
-Date: Wed, 8 Apr 2026 15:43:23 +0200
+	s=arc-20240116; t=1775686385; c=relaxed/simple;
+	bh=wt3d4Bh1PVHLxneK+AbY6vYBMXYKMDwSXyHRytWdXlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IjVlL6WWZMdrqQnK9IK3L1aJ0BQlh3HNahBw4xhhebhjVvFn5c2KGuBDezoSQ7xUhnwPdXJxd9S9V7u5TQUGUO8Ijnim4+srguIjxbg2qWeYr0D6rFPar1/c0uygQ7HsawZY9eOOwRnbk142fGTlu/XQp59V2EtHfwxjdoiqnlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQhgE2Uj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3601BC19421;
+	Wed,  8 Apr 2026 22:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775686385;
+	bh=wt3d4Bh1PVHLxneK+AbY6vYBMXYKMDwSXyHRytWdXlw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dQhgE2Ujo/KCh1/oeS6eTVWMmD/o98rhcCjHQFNpGLOx0ZdjxYtddfkpsp1vbkpe9
+	 FbZ+S6nRr5d8Zo6PoM5P6JeX48MfnvatQyIfNUenNBbQE89irJz0enGNi6qNwXYvpS
+	 Jqm2nM6tStW1I6RuTX0AmOQf2/UCHigz+xEuH2RjsCuEFqjul4drsfp03pKqKyOeMw
+	 0Hg17xPG8epV5en/zMN3zb3EHE7LAMnV+lp3GpphNchYsLaEGMmUDPLiDM+sH7a6eq
+	 bGP3FqkHSf6KzisQObCF/WkrQgn8uXvhGMpOSmYLBE6ogTDsfC8/or4BLK8xpI4/er
+	 tmu0YSgKX18Gg==
+Date: Wed, 8 Apr 2026 15:13:01 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mathias Krause <minipli@grsecurity.net>
+Cc: Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] kbuild: builddeb - avoid recompiles for
+ non-cross-compiles
+Message-ID: <20260408221301.GB3963285@ax162>
+References: <20260402145116.1010901-1-minipli@grsecurity.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kbuild/btf: Avoid relinking modules when only vmlinux
- changes
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
- bpf@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260402141911.1577711-1-petr.pavlu@suse.com>
- <dc3db54f-f95d-46aa-ad84-6258abd13fab@suse.com>
-Content-Language: en-US
-In-Reply-To: <dc3db54f-f95d-46aa-ad84-6258abd13fab@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260402145116.1010901-1-minipli@grsecurity.net>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.dev,gmail.com,kernel.org,fomichev.me,google.com,atomlin.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-12722-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12723-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B00083BD170
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,grsecurity.net:email]
+X-Rspamd-Queue-Id: CC21B3C44CA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/7/26 1:30 PM, Petr Pavlu wrote:
-> On 4/2/26 4:17 PM, Petr Pavlu wrote:
->> Commit 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled
->> and pahole supports it") in 2020 introduced CONFIG_DEBUG_INFO_BTF_MODULES
->> to enable generation of split BTF for kernel modules. This change required
->> the %.ko Makefile rule to additionally depend on vmlinux, which is used as
->> a base for deduplication. The regular ld_ko_o command executed by the rule
->> was then modified to be skipped if only vmlinux changes. This was done by
->> introducing a new if_changed_except command and updating the original call
->> to '+$(call if_changed_except,ld_ko_o,vmlinux)'.
->>
->> Later, commit 214c0eea43b2 ("kbuild: add $(objtree)/ prefix to some
->> in-kernel build artifacts") in 2024 updated the rule's reference to vmlinux
->> from 'vmlinux' to '$(objtree)/vmlinux'. This accidentally broke the
->> previous logic to skip relinking modules if only vmlinux changes. The issue
->> is that '$(objtree)' is typically '.' and GNU Make normalizes the resulting
->> prerequisite './vmlinux' to just 'vmlinux', while the exclusion logic
->> retains the raw './vmlinux'. As a result, if_changed_except doesn't
->> correctly filter out vmlinux. Consequently, with
->> CONFIG_DEBUG_INFO_BTF_MODULES=y, modules are relinked even if only vmlinux
->> changes.
->>
->> Additionally, commit 522397d05e7d ("resolve_btfids: Change in-place update
->> with raw binary output") in 2025 reworked the method for patching BTF data
->> into the resulting modules by using 'objcopy --add-section'. This command
->> fails if a section already exists.
->>
->> Fix the unnecessary relinking issue by also excluding the normalized form
->> 'vmlinux' when invoking ld_ko_o. Adjust embed_btf_data() to first use the
->> --remove-section option to remove the patched BTF section if it is already
->> present.
+On Thu, Apr 02, 2026 at 04:51:16PM +0200, Mathias Krause wrote:
+> Commit e2c318225ac1 ("kbuild: deb-pkg: add
+> pkg.linux-upstream.nokernelheaders build profile") changed how
+> install-extmod-build gets called, making it always rebuild the host
+> programs below scripts/ if HOSTCC wasn't specified with its full triplet
+> on the make command line. That is, apparently, needed to fix up commit
+> f1d87664b82a ("kbuild: cross-compile linux-headers package when
+> possible") for cross-compiles. However, in the much more common case of
+> non-cross-compile builds this will lead to unnecessary rebuilding of
+> host tools including gcc plugins. This, in turn, will lead to a full
+> kernel rebuild on the next 'make bindeb-pkg' which is unfortunate.
 > 
-> I noticed that sorting id+flags in BTF_SET8 by resolve_btfids doesn't
-> seem to be idempotent, so this requires additional work.
+> Avoid that by only triggering the rebuild of host tools for actual
+> cross-compile builds.
+> 
+> Signed-off-by: Mathias Krause <minipli@grsecurity.net>
+> Fixes: e2c318225ac1 ("kbuild: deb-pkg: add pkg.linux-upstream.nokernelheaders build profile")
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
 
-It is possible to make sorting id+flags in BTF_SET8 by resolve_btfids
-idempotent. One approach would be to also update the offsets (st_value)
-of the __BTF_ID__* symbols so that they reflect the result after
-sorting.
+Yeah, this seems like a reasonable workaround. I think this also helps
+avoid some weirdness I have noticed when building Debian packages with
+LLVM (as CC becomes gcc, always triggering the same logic since HOSTCC
+will be clang).
 
-However, I don't think this is worth doing. Since this logic would be
-relevant in specific cases when vmlinux changes and only the BTF data
-needs to be regenerated, it would have limited usage and testing.
-Importantly, always relinking the modules adds only about 6% to the
-rebuild time of the modules target on my system when vmlinux is touched.
-The work required for BTF and Makefile processing dominates this target.
-When developing the kernel locally, it's common to use a custom config
-with a limited amount of modules. In such a case, avoiding the relinking
-of modules saves very little.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-I plan to instead send a patch to replace the current condition that
-invokes ld_ko_o from if_changed_except to if_changed, and remove the
-if_changed_except logic.
-
--- Petr
+> ---
+>  scripts/package/builddeb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 3627ca227e5a..ba1defc61652 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -139,7 +139,13 @@ install_kernel_headers () {
+>  	pdir=debian/$1
+>  	version=${1#linux-headers-}
+>  
+> -	CC="${DEB_HOST_GNU_TYPE}-gcc" "${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
+> +	# Override $CC only for cross-compiles, to not unnecessarily rebuild
+> +	# scripts/ including plugins, which may lead to a full kernel rebuild.
+> +	if [ -n "${CROSS_COMPILE}" ]; then
+> +		CC="${DEB_HOST_GNU_TYPE}-gcc" "${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
+> +	else
+> +		"${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
+> +	fi
+>  
+>  	mkdir -p $pdir/lib/modules/$version/
+>  	ln -s /usr/src/linux-headers-$version $pdir/lib/modules/$version/build
+> -- 
+> 2.47.3
+> 
 
