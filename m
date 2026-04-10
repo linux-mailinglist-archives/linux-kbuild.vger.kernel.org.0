@@ -1,170 +1,231 @@
-Return-Path: <linux-kbuild+bounces-12742-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12743-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UOZVHnjK2GktiQgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12742-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 12:01:28 +0200
+	id 8CtZHEH42GmGkQgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12743-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 15:16:49 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493AB3D558A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 12:01:26 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0777F3D8098
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 15:16:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8A5063034559
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 09:51:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9EA6A302FEB6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 13:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0918633ADAC;
-	Fri, 10 Apr 2026 09:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 766D4397E6D;
+	Fri, 10 Apr 2026 13:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="EaWRdwuk"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SOssgENC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DD534EF0E;
-	Fri, 10 Apr 2026 09:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59F929AB02
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Apr 2026 13:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775814678; cv=none; b=JYIkre6NI8Nw0MpJZ1jQLL8sEk5enqy1qwamNnHmjIeyIMymf5QsxcDbjtnAgv1mpWIwrpULZ4etdxm7JN6vKpkITKoX93y45GONqJ6kgOMHjU8ldyH0CLlSZZIbAWuVKFkAZ6gtfz1hmUW4XQHNQZLWnwDiKkNf2CQ9zRBT+Wk=
+	t=1775826844; cv=none; b=ImbwGCs+Eatl+ZFmmzNEz/lSelmvX4xos4X0sa1cKn5Xk0qgmIBJxll+pZKZJ9dDhiNyYd0xdYkDCaVykMQPTNz0cKMlCoDYYp2Igg5/l5rLvaqUP/e4KOi06EJ8ZFETifBDL57dRFGxNTqSXguaDF94qrMU9qd485PKdTe+pTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775814678; c=relaxed/simple;
-	bh=2SwEKP0JRIcUT9VZfJQVDXhGVxwFzyl3yI/jYziHn3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Pqjm44frwdBrlnyupix/n4Sq0S/K63lT3GT7++bEn0+5Z2OecB3YJRlCi3AQ2kJYq/hnUTHsvXMxh7oflFvLWLeYmQa2LsNYmX2w2g6eoYIuYXeCtB5I90e8di+ARKtNt96ZaqPl/LMEM0hHIdhPJOqPcu1At+gCK1ABLml50Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=EaWRdwuk; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=9YC5+Ls1swOHaWJ8ErNBeIulZ4tAA8sac7Dx5bn0SAs=;
-	b=EaWRdwukgWLF/ovt/GfYhXVnX9klWxHa038NdZau8kzA8ZAxqerDxQ/8SzCc4u9aMJzey1Qda
-	2QXPpIswZbgspzkY/KgFpFHgDMv6EjcsNxAlP7CrMxlJJ1/+LSZc44wpRWJiouLTv9OUnyRr2Hi
-	NNMJD569jlD1cmiZFSW0wiw=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4fsX2q2BcwzLlVQ;
-	Fri, 10 Apr 2026 17:44:51 +0800 (CST)
-Received: from kwepemk100018.china.huawei.com (unknown [7.202.194.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id C8C3C40565;
-	Fri, 10 Apr 2026 17:51:05 +0800 (CST)
-Received: from [10.67.108.67] (10.67.108.67) by kwepemk100018.china.huawei.com
- (7.202.194.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 10 Apr
- 2026 17:51:04 +0800
-Message-ID: <69a902f1-3793-4c71-ac3c-27f8cd5eeef8@huawei.com>
-Date: Fri, 10 Apr 2026 17:50:59 +0800
+	s=arc-20240116; t=1775826844; c=relaxed/simple;
+	bh=976uIWqM+FAARkVCOlYC9MMYiaR61LoNWXMDyjXKX0c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CC3w+8wFGYQhghIT930qbptisB8zsJEbji9J01N7/i0cK163G9Clmo03XTaR/eXCihDO8L4bi/mR2Q3M2ivUiUEUURS/ja9CdAhSaqpbFmwZg0yFFnCXFEzVkfMrs+BHHwsEsz2P39nqC3EVnqHTpkDBv4oxhoBWuEX47U+9vgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SOssgENC; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b8982c2f4so1218977f8f.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Apr 2026 06:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1775826840; x=1776431640; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cj9MH/EknDN0OlocU9ytBdhpwEb+nE5xbjRi72XOo6g=;
+        b=SOssgENCYtFE8mMVtaMPc4Eoanim850Xwgv5AIOXTwp8WqM+VRz/jO9HfLl3Zpo62r
+         keKflhQXPsZFzzpxLmfd/0lQok7w8NW96ijMqf3HNKlXKxjv2LDkbEh3F5Jmb3kxTbfC
+         6wHGd/VZqMs1325dwNf8x0z4PXwL9Qre8fDXPHNye5r7Vd1t40lgy3xbhUh6ei0SVKZ4
+         l1ajlWnjdjIP+YRAOwI5SKUkJBxGjNnCaht2VjryD4yaBkoF4ZwuHMLlEvWPBKJskfTI
+         2538yxL1Oi+CNNXWjXNmPW+ozXC6LuZRpJy7ldrWcvGskS5pubm2t5yc8/dMKn+Zrc3x
+         Tcbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775826840; x=1776431640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cj9MH/EknDN0OlocU9ytBdhpwEb+nE5xbjRi72XOo6g=;
+        b=Lvt4G7NgaE1ifcN8e3yGBrwlMKJxAFYI8tPvcjXObdEX3ZYgGrjJLnsyc5HNFvYLoQ
+         cx0JYkyKITTOuDq562hRMG//SMzs0yZEmL1C0L/mBvSwAQpjTscuOif3WKSc24JJLc7b
+         lmxRSsI9K+ha1raXlzIFOf59n5DzMm7Ik6ub8j0dfMyg69LrAsQE7CcKXT3LwAWk+WYy
+         otrjXlM4ut1ZBvIAZVj3YbHDdixARnZxzWWEwluDpOnUeDTeQtYJ6lGwTpddie1LU1L4
+         A5e8wsK0mi+uhw+Uo5bJObf3ElZ2oUCNM86PMqsepU6m8wtVRw09TS1W0q3xHFLNwH1M
+         slyw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6eZv7MCTcbOcFkaEXklEHq/FMNCuZdl6n+ghoA4stf5Lqnld4v4UPHEE9PTZTaMLxa/F5Rp/ZnoOpkdE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQxYFQ2VukDj+RL79P6logGpi35Kc7T+cfe6C4H5z9fc0XiUM7
+	myDwpmOShAABzQ+T09iCudYBOqpYSUK7b00lEhl1jxYqIBSmrvrmhm0A286Qkr+KmaE=
+X-Gm-Gg: AeBDietBFNDD4cbaNYBibDmuUO+3CW95NMBMjcrl+h5t2Hv2xH2hz1RKjrZaJAxHv7c
+	RUxT02W1AJWSRCvjatKkJO5Ew+5ZMu6ceBRqbeXDKPeT9BAVJEclZkbWItglWoo4KIraV3KrM3l
+	CsDMtZl8Kbq4puSWeLrG02+H+7nVUguSCEovl8ETSckT1oaxbJY7qkGmki1yXQQcvkyII9pHPkN
+	0bWs9TFgIWp3Pve9LpcypeD1WgxvTSNcu2lIn3JPCC4OHspDWQchJa5zyGmiCAlhTZpmVdz5B4Z
+	j5eeVmUjXs7zTUEhfGhT95vJEeSDQzJdlvzohho0ki4OP2Dv7lYM4YscBSJGYqHJH/nu6z1yBCX
+	SDKpwUfDtEMMG8YCh4AC6HNHjKj0QGTlhkQQL9BjQK18DAwyGq0xSHdXXhfDzo8UvMKYTvXIqNl
+	TToGxlm7aZ7XFgoT3G9JTrrw1WY/npnSJ6YqbdLTt9iq2vrWRNryo=
+X-Received: by 2002:a05:6000:200f:b0:43b:8806:be32 with SMTP id ffacd0b85a97d-43d642552f3mr5071820f8f.7.1775826840140;
+        Fri, 10 Apr 2026 06:14:00 -0700 (PDT)
+Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63de3499sm6993731f8f.1.2026.04.10.06.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 06:13:59 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>
+Subject: [PATCH] kbuild/btf: Remove broken module relinking exclusion
+Date: Fri, 10 Apr 2026 15:13:29 +0200
+Message-ID: <20260410131343.2519532-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] slab: support for compiler-assisted type-based slab
- cache partitioning
-To: Marco Elver <elver@google.com>, Vlastimil Babka <vbabka@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-CC: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter
-	<cl@gentwo.org>, Harry Yoo <harry.yoo@oracle.com>, Hao Li <hao.li@linux.dev>,
-	David Rientjes <rientjes@google.com>, Roman Gushchin
-	<roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>, Lorenzo
- Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Alexander Potapenko <glider@google.com>, Dmitry
- Vyukov <dvyukov@google.com>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
- Stitt <justinstitt@google.com>, <linux-kbuild@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-hardening@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<llvm@lists.linux.dev>, Andrey Konovalov <andreyknvl@gmail.com>, Florent
- Revest <revest@google.com>, Jann Horn <jannh@google.com>, KP Singh
-	<kpsingh@kernel.org>, Matteo Rizzo <matteorizzo@google.com>
-References: <20260331111240.153913-1-elver@google.com>
-Content-Language: en-US
-From: GONG Ruiqi <gongruiqi1@huawei.com>
-In-Reply-To: <20260331111240.153913-1-elver@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk100018.china.huawei.com (7.202.194.66)
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[huawei.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[huawei.com:s=dkim];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[36];
+	FREEMAIL_CC(0.00)[linux.dev,gmail.com,kernel.org,fomichev.me,google.com,atomlin.com,vger.kernel.org,suse.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12742-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,gentwo.org,oracle.com,linux.dev,google.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12743-lists,linux-kbuild=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gongruiqi1@huawei.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[huawei.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,huawei.com:dkim,huawei.com:email,huawei.com:mid]
-X-Rspamd-Queue-Id: 493AB3D558A
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 0777F3D8098
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Commit 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled
+and pahole supports it") in 2020 introduced CONFIG_DEBUG_INFO_BTF_MODULES
+to enable generation of split BTF for kernel modules. This change required
+the %.ko Makefile rule to additionally depend on vmlinux, which is used as
+a base for deduplication. The regular ld_ko_o command executed by the rule
+was then modified to be skipped if only vmlinux changes. This was done by
+introducing a new if_changed_except command and updating the original call
+to '+$(call if_changed_except,ld_ko_o,vmlinux)'.
 
-On 3/31/2026 7:12 PM, Marco Elver wrote:
-> ...
-> @@ -662,9 +662,20 @@ extern kmem_buckets kmalloc_caches[NR_KMALLOC_TYPES];
->  	(IS_ENABLED(CONFIG_ZONE_DMA)   ? __GFP_DMA : 0) |	\
->  	(IS_ENABLED(CONFIG_MEMCG) ? __GFP_ACCOUNT : 0))
->  
-> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
->  extern unsigned long random_kmalloc_seed;
-> +typedef struct { unsigned long ip; } kmalloc_token_t;
-> +#define __kmalloc_token(...) ((kmalloc_token_t) { .ip = _RET_IP_ })
-> +#elif defined(CONFIG_TYPED_KMALLOC_CACHES)
-> +typedef struct { unsigned long v; } kmalloc_token_t;
-> +#define __kmalloc_token(...) ((kmalloc_token_t){ .v = __builtin_infer_alloc_token(__VA_ARGS__) })
+Later, commit 214c0eea43b2 ("kbuild: add $(objtree)/ prefix to some
+in-kernel build artifacts") in 2024 updated the rule's reference to vmlinux
+from 'vmlinux' to '$(objtree)/vmlinux'. This accidentally broke the
+previous logic to skip relinking modules if only vmlinux changes. The issue
+is that '$(objtree)' is typically '.' and GNU Make normalizes the resulting
+prerequisite './vmlinux' to just 'vmlinux', while the exclusion logic
+retains the raw './vmlinux'. As a result, if_changed_except doesn't
+correctly filter out vmlinux. Consequently, with
+CONFIG_DEBUG_INFO_BTF_MODULES=y, modules are relinked even if only vmlinux
+changes.
 
-One tiny suggestion: we could use the same name for kmalloc_token_t's
-member in both cases, which would make the code a bit more concise.
+It is possible to fix this Makefile issue. However, having the %.ko rule
+update the resulting file in place without starting from the original
+inputs is rather fragile. The logic is harder to debug if something breaks
+during a subsequent .ko update because the old input is lost due to the
+overwrite. Additionally, it requires that the BTF processing is idempotent.
+For example, sorting id+flags BTF_SET8 pairs in .BTF_ids by resolve_btfids
+currently doesn't have this property.
 
-Acked-by: GONG Ruiqi <gongruiqi1@huawei.com>
+One option is to split the %.ko target into two rules: the first for
+partial linking and the second one for generating the BTF data. However,
+this approach runs into an issue with requiring additional intermediate
+files, which increases the size of the build directory. On my system, when
+using a large distribution config with ~5500 modules, the size of the build
+directory with debuginfo enabled is already ~25 GB, with .ko files
+occupying ~8 GB. Duplicating these .ko files doesn't seem practical.
 
-> +#else
-> +/* no-op */
-> +typedef struct {} kmalloc_token_t;
-> +#define __kmalloc_token(...) ((kmalloc_token_t){})
-> +#endif
->  
-> -static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, unsigned long caller)
-> +static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, kmalloc_token_t token)
->  {
->  	/*
->  	 * The most common case is KMALLOC_NORMAL, so test for it
-> @@ -672,9 +683,11 @@ static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, unsigne
->  	 */
->  	if (likely((flags & KMALLOC_NOT_NORMAL_BITS) == 0))
->  #ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> -		/* RANDOM_KMALLOC_CACHES_NR (=15) copies + the KMALLOC_NORMAL */
-> -		return KMALLOC_RANDOM_START + hash_64(caller ^ random_kmalloc_seed,
-> -						      ilog2(RANDOM_KMALLOC_CACHES_NR + 1));
-> +		/* PARTITION_KMALLOC_CACHES_NR (=15) copies + the KMALLOC_NORMAL */
-> +		return KMALLOC_PARTITION_START + hash_64(token.ip ^ random_kmalloc_seed,
-> +							 ilog2(PARTITION_KMALLOC_CACHES_NR + 1));
-> +#elif defined(CONFIG_TYPED_KMALLOC_CACHES)
-> +		return KMALLOC_PARTITION_START + token.v;
->  #else
->  		return KMALLOC_NORMAL;
->  #endif
-> ...
+Measuring the speed of the %.ko processing shows that the link step is
+actually relatively fast. It takes about 20% of the overall rule time,
+while the BTF processing accounts for 80%. Moreover, skipping the link part
+becomes relevant only during local development. In such cases, developers
+typically use configs that enable a limited number of modules, so having
+the %.ko rule slightly slower doesn't significantly impact the total
+rebuild time. This is supported by the fact that no one has complained
+about this optimization being broken for the past two years.
+
+Therefore, remove the logic that prevents module relinking when only
+vmlinux changes and simplify Makefile.modfinal.
+
+Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+---
+My previous attempt to fix this logic can be found at
+https://lore.kernel.org/linux-modules/20260402141911.1577711-1-petr.pavlu@suse.com/
+---
+ scripts/Makefile.modfinal | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
+
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index adcbcde16a07..01a37ec872b9 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -46,17 +46,9 @@ quiet_cmd_btf_ko = BTF [M] $@
+ 		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vmlinux $@; \
+ 	fi;
+ 
+-# Same as newer-prereqs, but allows to exclude specified extra dependencies
+-newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
+-
+-# Same as if_changed, but allows to exclude specified extra dependencies
+-if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+-	$(cmd);                                                              \
+-	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+-
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+ %.ko: %.o %.mod.o .module-common.o $(objtree)/scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/vmlinux) FORCE
+-	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
++	+$(call if_changed,ld_ko_o)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+ endif
+
+base-commit: 591cd656a1bf5ea94a222af5ef2ee76df029c1d2
+-- 
+2.53.0
+
 
