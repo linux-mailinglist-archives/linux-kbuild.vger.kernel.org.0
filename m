@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-12747-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12748-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SNPREoxq2Wn5pQgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12747-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 23:24:28 +0200
+	id iHZDO49q2Wn5pQgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12748-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 23:24:31 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CA73DCE05
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 23:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708853DCE0C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 23:24:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0A2F1300DF77
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 21:23:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 42E82300F9C2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 21:23:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E45C83D5649;
-	Fri, 10 Apr 2026 21:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 831813D6462;
+	Fri, 10 Apr 2026 21:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="aF0uU90u"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="fOJVNeLr"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailgw01.zimbra-vnc.de (mailgw01.zimbra-vnc.de [148.251.101.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884A13B27DA;
-	Fri, 10 Apr 2026 21:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7CF3C7DF2;
+	Fri, 10 Apr 2026 21:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.101.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775856224; cv=none; b=u2XNAcRt2SxmKa+ra+rfzsF4SUmIVpWVCiFKhyCyd0O9j931gVwg3WmniUL58TKnEkWYdyfjm96va5h8gqNsjC7SjTXzrTz+UOpXpdEutptaLWZ0H5upM8MUb7N6tQ9rCsO74aO91JImAVbb/k2LOpUb2yoLIDQ4PYQcEu7gzW0=
+	t=1775856225; cv=none; b=Se1283FdSqDormKna3BvzJItEndgjFLbyj3jAGa3OCKzO4fdYl1XXbks8OqybSlv4liqkkQr6q/nE2FqESH8s9xv0lJr8gnTfA/Z7TVmWBkSJQlutuIxS49hcKspi7WOEMSxSt1RbrEjzQmBZSl4CuHVXBuNX14RDE9se5Ka6Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775856224; c=relaxed/simple;
-	bh=Md0/aPDECVHZyF2Ic4SQMBbECrvc7Uqf3HSSj1NEOpA=;
+	s=arc-20240116; t=1775856225; c=relaxed/simple;
+	bh=dMxScmmWvdV/DgvOlbwONaE917GIbGF2lZK3dey5El8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A4fWim9F4H1V0WxCOMsUUOwbkiFZZWg9dgqA/JKeBTJUjKQqQ10iYaCHTeNPoSayPC4HTM/AM9nVFaB3D8TFivpsSufHXO+FnKeJVXPiXoZeVY/4DPFsJhhC63QQd8tff6ycrhXpefHCHZzNry5V9PNm45ptSzU4MQNgIGUR84Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=aF0uU90u; arc=none smtp.client-ip=148.251.101.236
+	 MIME-Version; b=HmQqVD2CL5+t2w6rTdTKt6KN3Ut3xP8f0h90urmVIozaqQB4rmt7e8xQAtLlti0ASY0VIF8QizQmSdVdlY1hp1EUv4ej1Mxkce9tCuyhN1QzDQtMsSP3ms4YQ4U22sic51SjzPgjT/4TH2arNqLxU5VCAAFh9ZmjJaTwL2nzgSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=fOJVNeLr; arc=none smtp.client-ip=148.251.101.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
 Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw01.zimbra-vnc.de (Postfix) with ESMTPS id E68673FAF2;
-	Fri, 10 Apr 2026 23:23:35 +0200 (CEST)
+	by mailgw01.zimbra-vnc.de (Postfix) with ESMTPS id 700DB3FAF3;
+	Fri, 10 Apr 2026 23:23:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id BCB401F89B3;
-	Fri, 10 Apr 2026 23:23:35 +0200 (CEST)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 3A1851FA89E;
+	Fri, 10 Apr 2026 23:23:37 +0200 (CEST)
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id ML8eHHOZaXKm; Fri, 10 Apr 2026 23:23:34 +0200 (CEST)
+ with ESMTP id O8m-TwMEe-G7; Fri, 10 Apr 2026 23:23:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id EC6691FA89E;
-	Fri, 10 Apr 2026 23:23:33 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz EC6691FA89E
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id B81351FADEA;
+	Fri, 10 Apr 2026 23:23:35 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz B81351FADEA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1775856214;
-	bh=vuLjB1tgGLd3uI1WWcc1FcSnWeJOe78ZkpYPd6f1+bk=;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1775856215;
+	bh=Ec/NyMZ1LEwH8JGHpb6OE8SlGmGiPVfyghWL5EH+vBM=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=aF0uU90usjmr15WASpbSRTbow5W5x0F8/cAfTmaTDu44v3qkzWK8NMDYcoCwETp5z
-	 DCKtjOx/gvb+3gYY0ZxMhSxKNBL+vq4bQoVE3I1OyA+5RO/36tcty/xxrUZ8+Afyqb
-	 oTHF6uzzLpxztYtSVtm8VKRwduOMiZsuY/tIX58wjkutbmR/M0djNoXbZPs3kGh8ud
-	 4BFbhV53sNrJDyPqo++AFOa0c5i/mPsA48IF1lXrsnq+d/vbSBhia5d5w/1y7qvyVf
-	 XquVL0rBj/fHMF/ZEXUj0ehJm0NeLuCr2z/1bN4XGMMUGUcCNLMUsNmqs/Q+xS7VwI
-	 8o1Ldxq3uuzJg==
+	b=fOJVNeLrvYBnEkvw7T0aAIh57Sn2m+kl4vRnGf3EtthGlOhbmFQU7a8aTqrVM0R9o
+	 OwYucx2HvU1Y6n/odtYze5kxZHpH3fPR9zOA6rzY2VPCqgy8cvGW5jFKXXc08Uy3Be
+	 OpDZInOJjtwidbx7n2XUI6fvYQ2/4F71hbCSIvWogpoJdlp5r7PkBLBGs0c8x0lhkw
+	 h/tBFBK47BqfRq01tJ1N7PvgHCpiMQT6Ycttph6EhezBPyFqEztZ8JojFKwRPCi23x
+	 NT4stRtdIeJXkLEJdL36vdzz7Xo8dBzms4DxoEeT5lk82lxjXyiYawXF6pPETgFcZY
+	 eJ6Ku/G05uVAA==
 X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id FrCf9Vy5aPzR; Fri, 10 Apr 2026 23:23:33 +0200 (CEST)
+ with ESMTP id W6d8rO7HTu0M; Fri, 10 Apr 2026 23:23:35 +0200 (CEST)
 Received: from luis-Precision-5480.. (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 870791F89B3;
-	Fri, 10 Apr 2026 23:23:33 +0200 (CEST)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 35A921FADC9;
+	Fri, 10 Apr 2026 23:23:35 +0200 (CEST)
 From: Luis <luis.augenstein@tngtech.com>
 To: nathan@kernel.org,
 	nsc@kernel.org
@@ -74,9 +74,9 @@ Cc: linux-kbuild@vger.kernel.org,
 	kstewart@linuxfoundation.org,
 	maximilian.huber@tngtech.com,
 	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v5 04/15] scripts/sbom: add command parsers
-Date: Fri, 10 Apr 2026 23:22:44 +0200
-Message-ID: <20260410212255.9883-5-luis.augenstein@tngtech.com>
+Subject: [PATCH v5 05/15] scripts/sbom: add cmd graph generation
+Date: Fri, 10 Apr 2026 23:22:45 +0200
+Message-ID: <20260410212255.9883-6-luis.augenstein@tngtech.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260410212255.9883-1-luis.augenstein@tngtech.com>
 References: <20260410212255.9883-1-luis.augenstein@tngtech.com>
@@ -98,8 +98,8 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12747-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tngtech.com:dkim,tngtech.com:email,tngtech.com:mid];
+	TAGGED_FROM(0.00)[bounces-12748-lists,linux-kbuild=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tngtech.com:dkim,tngtech.com:email,tngtech.com:mid,target_path.name:url];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -115,14 +115,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 81CA73DCE05
+X-Rspamd-Queue-Id: 708853DCE0C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Luis Augenstein <luis.augenstein@tngtech.com>
 
-Implement savedcmd_parser module for extracting input files
-from kernel build commands.
+Implement command graph generation by parsing .cmd files to build a
+dependency graph.
+Add CmdGraph, CmdGraphNode, and .cmd file parsing.
+Supports generating a flat list of used source files via the
+--generate-used-files cli argument.
 
 Assisted-by: Cursor:claude-sonnet-4-5
 Assisted-by: OpenCode:GLM-4-7
@@ -130,1150 +133,804 @@ Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
 ---
- .../cmd_graph/savedcmd_parser/__init__.py     |   6 +
- .../command_parser_registry.py                | 474 ++++++++++++++++++
- .../savedcmd_parser/command_splitter.py       | 124 +++++
- .../savedcmd_parser/savedcmd_parser.py        |  68 +++
- .../cmd_graph/savedcmd_parser/tokenizer.py    |  94 ++++
- scripts/sbom/sbom/environment.py              | 192 +++++++
- 6 files changed, 958 insertions(+)
- create mode 100644 scripts/sbom/sbom/cmd_graph/savedcmd_parser/__init__.=
-py
- create mode 100644 scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_p=
-arser_registry.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_s=
-plitter.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/savedcmd_parser/savedcmd_=
-parser.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/savedcmd_parser/tokenizer=
-.py
- create mode 100644 scripts/sbom/sbom/environment.py
+ Makefile                                      |   6 +-
+ scripts/sbom/sbom.py                          |  39 +++++
+ scripts/sbom/sbom/cmd_graph/__init__.py       |   7 +
+ scripts/sbom/sbom/cmd_graph/cmd_file.py       | 149 ++++++++++++++++++
+ scripts/sbom/sbom/cmd_graph/cmd_graph.py      |  46 ++++++
+ scripts/sbom/sbom/cmd_graph/cmd_graph_node.py | 111 +++++++++++++
+ scripts/sbom/sbom/cmd_graph/deps_parser.py    |  52 ++++++
+ scripts/sbom/sbom/config.py                   | 147 ++++++++++++++++-
+ scripts/sbom/sbom/path_utils.py               |  11 ++
+ 9 files changed, 565 insertions(+), 3 deletions(-)
+ create mode 100644 scripts/sbom/sbom/cmd_graph/__init__.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_file.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_graph.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_graph_node.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/deps_parser.py
+ create mode 100644 scripts/sbom/sbom/path_utils.py
 
-diff --git a/scripts/sbom/sbom/cmd_graph/savedcmd_parser/__init__.py b/sc=
-ripts/sbom/sbom/cmd_graph/savedcmd_parser/__init__.py
-new file mode 100644
-index 00000000000..d13876af4df
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/__init__.py
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
+diff --git a/Makefile b/Makefile
+index 06d1ccd9b96..394ebd46e82 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2170,7 +2170,11 @@ sbom_targets +=3D sbom-build.spdx.json sbom-output=
+.spdx.json
+ quiet_cmd_sbom =3D GEN     $(sbom_targets)
+       cmd_sbom =3D printf "%s\n" "$(KBUILD_IMAGE)" >"$(tmp-target)"; \
+                  $(if $(CONFIG_MODULES),sed 's/\.o$$/.ko/' $(objtree)/mo=
+dules.order >> "$(tmp-target)";) \
+-                 $(PYTHON3) $(srctree)/scripts/sbom/sbom.py;
++                 $(PYTHON3) $(srctree)/scripts/sbom/sbom.py \
++                     --src-tree $(abspath $(srctree)) \
++                     --obj-tree $(abspath $(objtree)) \
++                     --roots-file "$(tmp-target)" \
++                     --output-directory $(abspath $(objtree));
+ PHONY +=3D sbom
+ sbom: $(notdir $(KBUILD_IMAGE)) include/generated/autoconf.h $(if $(CONF=
+IG_MODULES),modules modules.order)
+ 	$(call cmd,sbom)
+diff --git a/scripts/sbom/sbom.py b/scripts/sbom/sbom.py
+index c7f23d6eb30..25d912a282d 100644
+--- a/scripts/sbom/sbom.py
++++ b/scripts/sbom/sbom.py
+@@ -7,9 +7,13 @@ Compute software bill of materials in SPDX format descri=
+bing a kernel build.
+ """
+=20
+ import logging
++import os
+ import sys
++import time
+ import sbom.sbom_logging as sbom_logging
+ from sbom.config import get_config
++from sbom.path_utils import is_relative_to
++from sbom.cmd_graph import CmdGraph
+=20
+=20
+ def main():
+@@ -22,6 +26,36 @@ def main():
+         format=3D"[%(levelname)s] %(message)s",
+     )
+=20
++    # Build cmd graph
++    logging.debug("Start building cmd graph")
++    start_time =3D time.time()
++    cmd_graph =3D CmdGraph.create(config.root_paths, config)
++    logging.debug(f"Built cmd graph in {time.time() - start_time} second=
+s")
 +
-+from sbom.cmd_graph.savedcmd_parser.savedcmd_parser import parse_inputs_=
-from_commands
-+
-+__all__ =3D ["parse_inputs_from_commands"]
-diff --git a/scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_parser_r=
-egistry.py b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_parser_r=
-egistry.py
-new file mode 100644
-index 00000000000..baf0c34ae09
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_parser_registry=
-.py
-@@ -0,0 +1,474 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import re
-+import shlex
-+from typing import Callable, Iterator
-+
-+import sbom.sbom_logging as sbom_logging
-+from sbom.environment import Environment
-+from sbom.cmd_graph.savedcmd_parser.command_splitter import IfBlock, spl=
-it_commands
-+from sbom.cmd_graph.savedcmd_parser.tokenizer import (
-+    CmdParsingError,
-+    Positional,
-+    tokenize_single_command,
-+    tokenize_single_command_positionals_only,
-+)
-+from sbom.path_utils import PathStr
-+
-+CommandParser =3D Callable[[str], list[PathStr]]
-+CommandParserRegistryEntry =3D tuple[re.Pattern[str], CommandParser]
-+
-+
-+def _parse_dd_command(command: str) -> list[PathStr]:
-+    match =3D re.match(r"dd.*?if=3D(\S+)", command)
-+    if match:
-+        return [match.group(1)]
-+    return []
-+
-+
-+def _parse_cat_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["cat", input1, input2, ...]
-+    return [p for p in positionals[1:]]
-+
-+
-+def _parse_compound_command(command: str) -> list[PathStr]:
-+    compound_command_parsers: list[CommandParserRegistryEntry] =3D [
-+        (re.compile(r"dd\b"), _parse_dd_command),
-+        (re.compile(r"cat.*?\|"), lambda c: _parse_cat_command(c.split("=
-|")[0])),
-+        (re.compile(r"cat\b[^|>]*$"), _parse_cat_command),
-+        (re.compile(r"echo\b"), _parse_noop),
-+        (re.compile(r"\S+=3D"), _parse_noop),
-+        (re.compile(r"printf\b"), _parse_noop),
-+        (re.compile(r"sed\b"), _parse_sed_command),
-+        (
-+            re.compile(r"(.*/)scripts/bin2c\s*<"),
-+            lambda c: [input] if (input :=3D c.split("<")[1].strip()) !=3D=
- "/dev/null" else [],
-+        ),
-+        (re.compile(r"^:$"), _parse_noop),
-+    ]
-+
-+    match =3D re.match(r"\s*[\(\{](.*)[\)\}]\s*>", command, re.DOTALL)
-+    if match is None:
-+        raise CmdParsingError("No inner commands found for compound comm=
-and")
-+    input_files: list[PathStr] =3D []
-+    inner_commands =3D split_commands(match.group(1))
-+    for inner_command in inner_commands:
-+        if isinstance(inner_command, IfBlock):
-+            sbom_logging.error(
-+                "Skip parsing inner command {inner_command} of compound =
-command because IfBlock is not supported",
-+                inner_command=3Dinner_command,
++    # Save used files document
++    if config.generate_used_files:
++        if config.src_tree =3D=3D config.obj_tree:
++            logging.info(
++                f"Extracting all files from the cmd graph to {(config.us=
+ed_files_file_name,)} "
++                "instead of only source files because source files canno=
+t be "
++                "reliably classified when the source and object trees ar=
+e identical.",
 +            )
-+            continue
-+
-+        parser =3D next((parser for pattern, parser in compound_command_=
-parsers if pattern.match(inner_command)), None)
-+        if parser is None:
-+            sbom_logging.error(
-+                "Skip parsing inner command {inner_command} of compound =
-command because no matching parser was found",
-+                inner_command=3Dinner_command,
-+            )
-+            continue
-+        try:
-+            input_files +=3D parser(inner_command)
-+        except CmdParsingError as e:
-+            sbom_logging.error(
-+                "Skip parsing inner command {inner_command} of compound =
-command because of command parsing error: {error_message}",
-+                inner_command=3Dinner_command,
-+                error_message=3De.message,
-+            )
-+    return input_files
-+
-+
-+def _parse_objcopy_command(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(command, flag_options=3D["=
--S", "-w"])
-+    positionals =3D [part.value for part in command_parts if isinstance(=
-part, Positional)]
-+    # expect positionals to be ['objcopy', input_file] or ['objcopy', in=
-put_file, output_file]
-+    if not (len(positionals) =3D=3D 2 or len(positionals) =3D=3D 3):
-+        raise CmdParsingError(
-+            f"Invalid objcopy command format: expected 2 or 3 positional=
- arguments, got {len(positionals)} ({positionals})"
-+        )
-+    return [positionals[1]]
-+
-+
-+def _parse_link_vmlinux_command(command: str) -> list[PathStr]:
-+    """
-+    For simplicity we do not parse the `scripts/link-vmlinux.sh` script.
-+    Instead the `vmlinux.a` dependency is just hardcoded for now.
-+    """
-+    return ["vmlinux.a"]
-+
-+
-+def _parse_noop(command: str) -> list[PathStr]:
-+    """
-+    No-op parser for commands with no input files (e.g., 'rm', 'true').
-+    Returns an empty list.
-+    """
-+    return []
-+
-+
-+def _parse_ar_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ['ar', flags, output, input1, input2, ...=
-]
-+    flags =3D positionals[1]
-+    if "r" not in flags:
-+        # 'r' option indicates that new files are added to the archive.
-+        # If this option is missing we won't find any relevant input fil=
-es.
-+        return []
-+    return positionals[3:]
-+
-+
-+def _parse_ar_piped_xargs_command(command: str) -> list[PathStr]:
-+    printf_command, _ =3D command.split("|", 1)
-+    positionals =3D tokenize_single_command_positionals_only(printf_comm=
-and.strip())
-+    # expect positionals to be ['printf', '{prefix_path}%s ', input1, in=
-put2, ...]
-+    prefix_path =3D positionals[1].rstrip("%s ")
-+    return [f"{prefix_path}{filename}" for filename in positionals[2:]]
-+
-+
-+def _parse_gcc_or_clang_command(command: str) -> list[PathStr]:
-+    parts =3D shlex.split(command)
-+    # compile mode: expect last positional argument ending in a source f=
-ile extension to be the input file
-+    for part in reversed(parts):
-+        if not part.startswith("-") and any(part.endswith(suffix) for su=
-ffix in [".c", ".S", ".dts"]):
-+            return [part]
-+
-+    # linking mode: expect all .o files to be the inputs
-+    return [p for p in parts if p.endswith(".o")]
-+
-+
-+def _parse_rustc_command(command: str) -> list[PathStr]:
-+    parts =3D shlex.split(command)
-+    # expect last positional argument ending in `.rs` to be the input fi=
-le
-+    for part in reversed(parts):
-+        if not part.startswith("-") and part.endswith(".rs"):
-+            return [part]
-+    raise CmdParsingError("Could not find .rs input source file")
-+
-+
-+def _parse_rustdoc_command(command: str) -> list[PathStr]:
-+    parts =3D shlex.split(command)
-+    # expect last positional argument ending in `.rs` to be the input fi=
-le
-+    for part in reversed(parts):
-+        if not part.startswith("-") and part.endswith(".rs"):
-+            return [part]
-+    raise CmdParsingError("Could not find .rs input source file")
-+
-+
-+def _parse_syscallhdr_command(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(command.strip(), flag_opti=
-ons=3D["--emit-nr"])
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["sh", path/to/syscallhdr.sh, input, outp=
-ut]
-+    return [positionals[2]]
-+
-+
-+def _parse_syscalltbl_command(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(command.strip())
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["sh", path/to/syscalltbl.sh, input, outp=
-ut]
-+    return [positionals[2]]
-+
-+
-+def _parse_mkcapflags_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["sh", path/to/mkcapflags.sh, output, inp=
-ut1, input2]
-+    return [positionals[3], positionals[4]]
-+
-+
-+def _parse_orc_hash_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["sh", path/to/orc_hash.sh, '<', input, '=
->', output]
-+    return [positionals[3]]
-+
-+
-+def _parse_xen_hypercalls_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["sh", path/to/xen-hypercalls.sh, output,=
- input1, input2, ...]
-+    return positionals[3:]
-+
-+
-+def _parse_gen_initramfs_command(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(command)
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["sh", path/to/gen_initramfs.sh, input1, =
-input2, ...]
-+    return positionals[2:]
-+
-+
-+def _parse_vdso2c_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ['vdso2c', raw_input, stripped_input, out=
-put]
-+    return [positionals[1], positionals[2]]
-+
-+
-+def _parse_ld_command(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(
-+        command=3Dcommand.strip(),
-+        flag_options=3D[
-+            "-shared",
-+            "--no-undefined",
-+            "--eh-frame-hdr",
-+            "-Bsymbolic",
-+            "-r",
-+            "--no-ld-generated-unwind-info",
-+            "--no-dynamic-linker",
-+            "-pie",
-+            "--no-dynamic-linker--whole-archive",
-+            "--whole-archive",
-+            "--no-whole-archive",
-+            "--start-group",
-+            "--end-group",
-+        ],
-+    )
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["ld", input1, input2, ...]
-+    return positionals[1:]
-+
-+
-+def _parse_sed_command(command: str) -> list[PathStr]:
-+    command_parts =3D shlex.split(command)
-+    # expect command parts to be ["sed", *, input]
-+    input =3D command_parts[-1]
-+    if input =3D=3D "/dev/null":
-+        return []
-+    return [input]
-+
-+
-+def _parse_awk(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(command)
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["awk", input1, input2, ...]
-+    return positionals[1:]
-+
-+
-+def _parse_nm_piped_command(command: str) -> list[PathStr]:
-+    nm_command, _ =3D command.split("|", 1)
-+    command_parts =3D tokenize_single_command(
-+        command=3Dnm_command.strip(),
-+        flag_options=3D["p", "--defined-only"],
-+    )
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["nm", input1, input2, ...]
-+    return [p for p in positionals[1:]]
-+
-+
-+def _parse_pnm_to_logo_command(command: str) -> list[PathStr]:
-+    command_parts =3D shlex.split(command)
-+    # expect command parts to be ["pnmtologo", <options>, input]
-+    return [command_parts[-1]]
-+
-+
-+def _parse_relacheck(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["relachek", input, log_reference]
-+    return [positionals[1]]
-+
-+
-+def _parse_gen_hyprel_command(command: str) -> list[PathStr]:
-+    gen_hyprel_command, _ =3D command.split(">", 1)
-+    command_parts =3D shlex.split(gen_hyprel_command)
-+    # expect command_parts to be ["gen-hyprel", input]
-+    return [command_parts[1]]
-+
-+
-+def _parse_perl_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command.str=
-ip())
-+    # expect positionals to be ["perl", input]
-+    return [positionals[1]]
-+
-+
-+def _parse_strip_command(command: str) -> list[PathStr]:
-+    command_parts =3D tokenize_single_command(command, flag_options=3D["=
---strip-debug"])
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be ["strip", input1, input2, ...]
-+    return positionals[1:]
-+
-+
-+def _parse_mkpiggy_command(command: str) -> list[PathStr]:
-+    mkpiggy_command, _ =3D command.split(">", 1)
-+    positionals =3D tokenize_single_command_positionals_only(mkpiggy_com=
-mand)
-+    # expect positionals to be ["mkpiggy", input]
-+    return [positionals[1]]
-+
-+
-+def _parse_relocs_command(command: str) -> list[PathStr]:
-+    if ">" not in command:
-+        # Only consider relocs commands that redirect output to a file.
-+        # If there's no redirection, we assume it produces no output fil=
-e and therefore has no input we care about.
-+        return []
-+    relocs_command, _ =3D command.split(">", 1)
-+    command_parts =3D shlex.split(relocs_command)
-+    # expect command_parts to be ["relocs", options, input]
-+    return [command_parts[-1]]
-+
-+
-+def _parse_mk_elfconfig_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["mk_elfconfig", "<", input, ">", output]
-+    return [positionals[2]]
-+
-+
-+def _parse_flex_command(command: str) -> list[PathStr]:
-+    parts =3D shlex.split(command)
-+    # expect last positional argument ending in `.l` to be the input fil=
-e
-+    for part in reversed(parts):
-+        if not part.startswith("-") and part.endswith(".l"):
-+            return [part]
-+    raise CmdParsingError("Could not find .l input source file in comman=
-d")
-+
-+
-+def _parse_bison_command(command: str) -> list[PathStr]:
-+    parts =3D shlex.split(command)
-+    # expect last positional argument ending in `.y` to be the input fil=
-e
-+    for part in reversed(parts):
-+        if not part.startswith("-") and part.endswith(".y"):
-+            return [part]
-+    raise CmdParsingError("Could not find input .y input source file in =
-command")
-+
-+
-+def _parse_tools_build_command(command: str) -> list[PathStr]:
-+    positionals =3D tokenize_single_command_positionals_only(command)
-+    # expect positionals to be ["tools/build", "input1", "input2", "inpu=
-t3", "output"]
-+    return positionals[1:-1]
-+
-+
-+def _parse_extract_cert_command(command: str) -> list[PathStr]:
-+    command_parts =3D shlex.split(command)
-+    # expect command parts to be [path/to/extract-cert, input, output]
-+    input =3D command_parts[1]
-+    if not input:
-+        return []
-+    return [input]
-+
-+
-+def _parse_dtc_command(command: str) -> list[PathStr]:
-+    wno_flags =3D [command_part for command_part in shlex.split(command)=
- if command_part.startswith("-Wno-")]
-+    command_parts =3D tokenize_single_command(command, flag_options=3Dwn=
-o_flags)
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    # expect positionals to be [path/to/dtc, input]
-+    return [positionals[1]]
-+
-+
-+def _parse_bindgen_command(command: str) -> list[PathStr]:
-+    command_parts =3D shlex.split(command)
-+    header_file_input_paths =3D [part for part in command_parts if part.=
-endswith(".h")]
-+    return header_file_input_paths
-+
-+
-+def _parse_gen_header(command: str) -> list[PathStr]:
-+    command_parts =3D shlex.split(command)
-+    # expect command parts to be ["python3", path/to/gen_headers.py, ...=
-, "--xml", input]
-+    i =3D next(i for i, token in enumerate(command_parts) if token =3D=3D=
- "--xml")
-+    return [command_parts[i + 1]]
-+
-+
-+class CommandParserRegistry:
-+    """
-+    Registry mapping command patterns to their input-file parsers.
-+    """
-+
-+    def __init__(self, entries: list[CommandParserRegistryEntry]) -> Non=
-e:
-+        self._entries =3D entries
-+
-+    def __iter__(self) -> Iterator[CommandParserRegistryEntry]:
-+        return iter(self._entries)
-+
-+    @staticmethod
-+    def create() -> "CommandParserRegistry":
-+        def env_or_default_pattern(env_value: str | None, default_patter=
-n: str) -> str:
-+            if env_value is None or not env_value.strip():
-+                return default_pattern
-+            return rf"(?:{re.escape(env_value.strip())}|{default_pattern=
-})"
-+
-+        cc_pattern =3D env_or_default_pattern(Environment.CC(), r"([^\s]=
-+-)?(gcc|clang)")
-+        ld_pattern =3D env_or_default_pattern(Environment.LD(), r"([^\s]=
-+-)?ld")
-+        ar_pattern =3D env_or_default_pattern(Environment.AR(), r"([^\s]=
-+-)?ar")
-+        nm_pattern =3D env_or_default_pattern(Environment.NM(), r"([^\s]=
-+-)?nm")
-+        objcopy_pattern =3D env_or_default_pattern(Environment.OBJCOPY()=
-, r"([^\s]+-)?objcopy")
-+        strip_pattern =3D env_or_default_pattern(Environment.STRIP(), r"=
-([^\s]+-)?strip")
-+
-+        entries: list[CommandParserRegistryEntry] =3D [
-+            # Compound commands
-+            (re.compile(r"\(.*?\)\s*>", re.DOTALL), _parse_compound_comm=
-and),
-+            (re.compile(r"\{.*?\}\s*>", re.DOTALL), _parse_compound_comm=
-and),
-+            # Standard Unix utilities and system tools
-+            (re.compile(r"^rm\b"), _parse_noop),
-+            (re.compile(r"^mkdir\b"), _parse_noop),
-+            (re.compile(r"^touch\b"), _parse_noop),
-+            (re.compile(r"^cat\b.*?[\|>]"), lambda c: _parse_cat_command=
-(c.split("|")[0].split(">")[0])),
-+            (re.compile(r"^echo[^|]*$"), _parse_noop),
-+            (re.compile(r"^sed.*?>"), lambda c: _parse_sed_command(c.spl=
-it(">")[0])),
-+            (re.compile(r"^sed\b"), _parse_noop),
-+            (re.compile(r"^awk.*?<.*?>"), lambda c: [c.split("<")[1].spl=
-it(">")[0]]),
-+            (re.compile(r"^awk.*?>"), lambda c: _parse_awk(c.split(">")[=
-0])),
-+            (re.compile(r"^(/bin/)?true\b"), _parse_noop),
-+            (re.compile(r"^(/bin/)?false\b"), _parse_noop),
-+            (re.compile(r"^openssl\s+req.*?-new.*?-keyout"), _parse_noop=
-),
-+            # Compilers and code generators
-+            # (C/LLVM toolchain, Rust, Flex/Bison, Bindgen, Perl, etc.)
-+            (
-+                re.compile(rf"^{cc_pattern}\b"),
-+                lambda command: _parse_gcc_or_clang_command(re.sub(rf"^{=
-cc_pattern}\b", "gcc", command, count=3D1)),
-+            ),
-+            (
-+                re.compile(rf"^{ld_pattern}\b"),
-+                lambda command: _parse_ld_command(re.sub(rf"^{ld_pattern=
-}\b", "ld", command, count=3D1)),
-+            ),
-+            (
-+                re.compile(rf"^printf\b.*\| xargs {ar_pattern}\b"),
-+                lambda command: _parse_ar_piped_xargs_command(
-+                    re.sub(rf"xargs {ar_pattern}\b", "xargs ar", command=
-, count=3D1)
-+                ),
-+            ),
-+            (
-+                re.compile(rf"^{ar_pattern}\b"),
-+                lambda command: _parse_ar_command(re.sub(rf"^{ar_pattern=
-}\b", "ar", command, count=3D1)),
-+            ),
-+            (
-+                re.compile(rf"^{nm_pattern}\b.*?\|"),
-+                lambda command: _parse_nm_piped_command(re.sub(rf"^{nm_p=
-attern}\b", "nm", command, count=3D1)),
-+            ),
-+            (
-+                re.compile(rf"^{objcopy_pattern}\b"),
-+                lambda command: _parse_objcopy_command(re.sub(rf"^{objco=
-py_pattern}\b", "objcopy", command, count=3D1)),
-+            ),
-+            (
-+                re.compile(rf"^{strip_pattern}\b"),
-+                lambda command: _parse_strip_command(re.sub(rf"^{strip_p=
-attern}\b", "strip", command, count=3D1)),
-+            ),
-+            (re.compile(r".*?rustc\b"), _parse_rustc_command),
-+            (re.compile(r".*?rustdoc\b"), _parse_rustdoc_command),
-+            (re.compile(r"^flex\b"), _parse_flex_command),
-+            (re.compile(r"^bison\b"), _parse_bison_command),
-+            (re.compile(r"^bindgen\b"), _parse_bindgen_command),
-+            (re.compile(r"^perl\b"), _parse_perl_command),
-+            # Kernel-specific build scripts and tools
-+            (re.compile(r"^(.*/)?link-vmlinux\.sh\b"), _parse_link_vmlin=
-ux_command),
-+            (re.compile(r"sh (.*/)?syscallhdr\.sh\b"), _parse_syscallhdr=
-_command),
-+            (re.compile(r"sh (.*/)?syscalltbl\.sh\b"), _parse_syscalltbl=
-_command),
-+            (re.compile(r"sh (.*/)?mkcapflags\.sh\b"), _parse_mkcapflags=
-_command),
-+            (re.compile(r"sh (.*/)?orc_hash\.sh\b"), _parse_orc_hash_com=
-mand),
-+            (re.compile(r"sh (.*/)?xen-hypercalls\.sh\b"), _parse_xen_hy=
-percalls_command),
-+            (re.compile(r"sh (.*/)?gen_initramfs\.sh\b"), _parse_gen_ini=
-tramfs_command),
-+            (re.compile(r"sh (.*/)?checkundef\.sh\b"), _parse_noop),
-+            (re.compile(r"(.*/)?vdso2c\b"), _parse_vdso2c_command),
-+            (re.compile(r"^(.*/)?mkpiggy.*?>"), _parse_mkpiggy_command),
-+            (re.compile(r"^(.*/)?relocs\b"), _parse_relocs_command),
-+            (re.compile(r"^(.*/)?mk_elfconfig.*?<.*?>"), _parse_mk_elfco=
-nfig_command),
-+            (re.compile(r"^(.*/)?tools/build\b"), _parse_tools_build_com=
-mand),
-+            (re.compile(r"^(.*/)?certs/extract-cert"), _parse_extract_ce=
-rt_command),
-+            (re.compile(r"^(.*/)?scripts/dtc/dtc\b"), _parse_dtc_command=
-),
-+            (re.compile(r"^(.*/)?pnmtologo\b"), _parse_pnm_to_logo_comma=
-nd),
-+            (re.compile(r"^(.*/)?kernel/pi/relacheck"), _parse_relacheck=
-),
-+            (re.compile(r"^(.*/)?gen-hyprel\b"), _parse_gen_hyprel_comma=
-nd),
-+            (re.compile(r"^drivers/gpu/drm/radeon/mkregtable"), lambda c=
-: [c.split(" ")[1]]),
-+            (re.compile(r"(.*/)?genheaders\b"), _parse_noop),
-+            (re.compile(r"^(.*/)?mkcpustr\s+>"), _parse_noop),
-+            (re.compile(r"^(.*/)polgen\b"), _parse_noop),
-+            (re.compile(r"make -f .*/arch/x86/Makefile\.postlink"), _par=
-se_noop),
-+            (re.compile(r"^(.*/)?raid6/mktables\s+>"), _parse_noop),
-+            (re.compile(r"^(.*/)?objtool\b"), _parse_noop),
-+            (re.compile(r"^(.*/)?module/gen_test_kallsyms.sh"), _parse_n=
-oop),
-+            (re.compile(r"^(.*/)?gen_header.py"), _parse_gen_header),
-+            (re.compile(r"^(.*/)?scripts/rustdoc_test_gen"), _parse_noop=
-),
-+        ]
-+        return CommandParserRegistry(entries)
-diff --git a/scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_splitter=
-.py b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_splitter.py
-new file mode 100644
-index 00000000000..f105986213b
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/command_splitter.py
-@@ -0,0 +1,124 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import re
-+from dataclasses import dataclass
-+
-+
-+# If Block pattern to match a simple, single-level if-then-fi block. Nes=
-ted If blocks are not supported.
-+IF_BLOCK_PATTERN =3D re.compile(
-+    r"""
-+    ^if(.*?);\s*         # Match 'if <condition>;' (non-greedy)
-+    then(.*?);\s*        # Match 'then <body>;' (non-greedy)
-+    fi\b                 # Match 'fi'
-+    """,
-+    re.VERBOSE,
-+)
-+
-+
-+@dataclass
-+class IfBlock:
-+    condition: str
-+    then_statement: str
-+
-+
-+def _unwrap_outer_parentheses(s: str) -> str:
-+    s =3D s.strip()
-+    if not (s.startswith("(") and s.endswith(")")):
-+        return s
-+
-+    count =3D 0
-+    for i, char in enumerate(s):
-+        if char =3D=3D "(":
-+            count +=3D 1
-+        elif char =3D=3D ")":
-+            count -=3D 1
-+            # If count is 0 before the end, outer parentheses don't matc=
-h
-+            if count =3D=3D 0 and i !=3D len(s) - 1:
-+                return s
-+
-+    # outer parentheses do match, unwrap once
-+    return _unwrap_outer_parentheses(s[1:-1])
-+
-+
-+def _find_first_top_level_command_separator(
-+    commands: str, separators: list[str] =3D [";", "&&"]
-+) -> tuple[int | None, int | None]:
-+    in_single_quote =3D False
-+    in_double_quote =3D False
-+    in_curly_braces =3D 0
-+    in_braces =3D 0
-+    for i, char in enumerate(commands):
-+        if char =3D=3D "'" and not in_double_quote:
-+            # Toggle single quote state (unless inside double quotes)
-+            in_single_quote =3D not in_single_quote
-+        elif char =3D=3D '"' and not in_single_quote:
-+            # Toggle double quote state (unless inside single quotes)
-+            in_double_quote =3D not in_double_quote
-+
-+        if in_single_quote or in_double_quote:
-+            continue
-+
-+        # Toggle braces state
-+        if char =3D=3D "{":
-+            in_curly_braces +=3D 1
-+        if char =3D=3D "}":
-+            in_curly_braces -=3D 1
-+
-+        if char =3D=3D "(":
-+            in_braces +=3D 1
-+        if char =3D=3D ")":
-+            in_braces -=3D 1
-+
-+        if in_curly_braces > 0 or in_braces > 0:
-+            continue
-+
-+        # return found separator position and separator length
-+        for separator in separators:
-+            if commands[i : i + len(separator)] =3D=3D separator:
-+                return i, len(separator)
-+
-+    return None, None
-+
-+
-+def split_commands(commands: str) -> list[str | IfBlock]:
-+    """
-+    Splits a string of command-line commands into individual parts.
-+
-+    This function handles:
-+    - Top-level command separators (e.g., `;` and `&&`) to split multipl=
-e commands.
-+    - Conditional if-blocks, returning them as `IfBlock` instances.
-+    - Preserves the order of commands and trims whitespace.
-+
-+    Args:
-+        commands (str): The raw command string.
-+
-+    Returns:
-+        list[str | IfBlock]: A list of single commands or `IfBlock` obje=
-cts.
-+    """
-+    single_commands: list[str | IfBlock] =3D []
-+    remaining_commands =3D _unwrap_outer_parentheses(commands)
-+    while len(remaining_commands) > 0:
-+        remaining_commands =3D remaining_commands.strip()
-+
-+        # if block
-+        matched_if =3D IF_BLOCK_PATTERN.match(remaining_commands)
-+        if matched_if:
-+            condition, then_statement =3D matched_if.groups()
-+            single_commands.append(IfBlock(condition.strip(), then_state=
-ment.strip()))
-+            full_matched =3D matched_if.group(0)
-+            remaining_commands =3D remaining_commands.removeprefix(full_=
-matched).lstrip("; \n")
-+            continue
-+
-+        # command until next separator
-+        separator_position, separator_length =3D _find_first_top_level_c=
-ommand_separator(remaining_commands)
-+        if separator_position is not None and separator_length is not No=
-ne:
-+            single_commands.append(remaining_commands[:separator_positio=
-n].strip())
-+            remaining_commands =3D remaining_commands[separator_position=
- + separator_length :].strip()
-+            continue
-+
-+        # single last command
-+        single_commands.append(remaining_commands)
-+        break
-+
-+    return single_commands
-diff --git a/scripts/sbom/sbom/cmd_graph/savedcmd_parser/savedcmd_parser.=
-py b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/savedcmd_parser.py
-new file mode 100644
-index 00000000000..7062c23288b
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/savedcmd_parser.py
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+from typing import Any
-+import sbom.sbom_logging as sbom_logging
-+from sbom.cmd_graph.savedcmd_parser.command_splitter import IfBlock, spl=
-it_commands
-+from sbom.cmd_graph.savedcmd_parser.command_parser_registry import Comma=
-ndParserRegistry
-+from sbom.cmd_graph.savedcmd_parser.tokenizer import CmdParsingError
-+from sbom.path_utils import PathStr
-+
-+DEFAULT_COMMAND_PARSER_REGISTRY =3D CommandParserRegistry.create()
-+
-+
-+def parse_inputs_from_commands(
-+    commands: str,
-+    fail_on_unknown_build_command: bool,
-+    registry: CommandParserRegistry | None =3D None,
-+) -> list[PathStr]:
-+    """
-+    Extract input files referenced in a set of command-line commands.
-+
-+    Args:
-+        commands (str): Command line expression to parse.
-+        fail_on_unknown_build_command (bool): Whether to fail if an unkn=
-own build command is encountered. If False, errors are logged as warnings=
-.
-+        registry (CommandParserRegistry | None): Registry of single comm=
-and parsers.
-+
-+    Returns:
-+        list[PathStr]: List of input file paths required by the commands=
-.
-+    """
-+
-+    def log_error_or_warning(message: str, /, **kwargs: Any) -> None:
-+        if fail_on_unknown_build_command:
-+            sbom_logging.error(message, **kwargs)
++            used_files =3D [os.path.relpath(node.absolute_path, config.s=
+rc_tree) for node in cmd_graph]
++            logging.debug(f"Found {len(used_files)} files in cmd graph."=
+)
 +        else:
-+            sbom_logging.warning(message, **kwargs)
++            used_files =3D [
++                os.path.relpath(node.absolute_path, config.src_tree)
++                for node in cmd_graph
++                if is_relative_to(node.absolute_path, config.src_tree)
++                and not is_relative_to(node.absolute_path, config.obj_tr=
+ee)
++            ]
++            logging.debug(f"Found {len(used_files)} source files in cmd =
+graph")
++        if not sbom_logging.has_errors() or config.write_output_on_error=
+:
++            used_files_path =3D os.path.join(config.output_directory, co=
+nfig.used_files_file_name)
++            with open(used_files_path, "w", encoding=3D"utf-8") as f:
++                f.write("\n".join(str(file_path) for file_path in used_f=
+iles))
++            logging.debug(f"Successfully saved {used_files_path}")
 +
-+    if registry is None:
-+        registry =3D DEFAULT_COMMAND_PARSER_REGISTRY
-+
-+    input_files: list[PathStr] =3D []
-+    for single_command in split_commands(commands):
-+        if isinstance(single_command, IfBlock):
-+            inputs =3D parse_inputs_from_commands(single_command.then_st=
-atement, fail_on_unknown_build_command, registry)
-+            if inputs:
-+                log_error_or_warning(
-+                    "Skipped parsing command {then_statement} because in=
-put files in IfBlock 'then' statement are not supported",
-+                    then_statement=3Dsingle_command.then_statement,
-+                )
-+            continue
-+
-+        matched_parser =3D next((parser for pattern, parser in registry =
-if pattern.match(single_command)), None)
-+        if matched_parser is None:
-+            log_error_or_warning(
-+                "Skipped parsing command {single_command} because no mat=
-ching parser was found",
-+                single_command=3Dsingle_command,
+     # Report collected warnings and errors in case of failure
+     warning_summary =3D sbom_logging.summarize_warnings()
+     error_summary =3D sbom_logging.summarize_errors()
+@@ -30,6 +64,11 @@ def main():
+         logging.warning(warning_summary)
+     if error_summary:
+         logging.error(error_summary)
++        if not config.write_output_on_error:
++            logging.info(
++                "Use --write-output-on-error to generate output document=
+s even when errors occur. "
++                "Note that in this case the generated SPDX documents may=
+ be incomplete."
 +            )
-+            continue
-+        try:
-+            inputs =3D matched_parser(single_command)
-+            input_files.extend(inputs)
-+        except CmdParsingError as e:
-+            log_error_or_warning(
-+                "Skipped parsing command {single_command} because of com=
-mand parsing error: {error_message}",
-+                single_command=3Dsingle_command,
-+                error_message=3De.message,
-+            )
-+
-+    return [input.strip().rstrip("/") for input in input_files]
-diff --git a/scripts/sbom/sbom/cmd_graph/savedcmd_parser/tokenizer.py b/s=
-cripts/sbom/sbom/cmd_graph/savedcmd_parser/tokenizer.py
+         sys.exit(1)
+=20
+=20
+diff --git a/scripts/sbom/sbom/cmd_graph/__init__.py b/scripts/sbom/sbom/=
+cmd_graph/__init__.py
 new file mode 100644
-index 00000000000..09ae2d6e36c
+index 00000000000..9d661a5c3d9
 --- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/savedcmd_parser/tokenizer.py
-@@ -0,0 +1,94 @@
++++ b/scripts/sbom/sbom/cmd_graph/__init__.py
+@@ -0,0 +1,7 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++from .cmd_graph import CmdGraph
++from .cmd_graph_node import CmdGraphNode, CmdGraphNodeConfig
++
++__all__ =3D ["CmdGraph", "CmdGraphNode", "CmdGraphNodeConfig"]
+diff --git a/scripts/sbom/sbom/cmd_graph/cmd_file.py b/scripts/sbom/sbom/=
+cmd_graph/cmd_file.py
+new file mode 100644
+index 00000000000..d85ef5de0c2
+--- /dev/null
++++ b/scripts/sbom/sbom/cmd_graph/cmd_file.py
+@@ -0,0 +1,149 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++import os
++import re
++from dataclasses import dataclass, field
++from sbom.cmd_graph.deps_parser import parse_cmd_file_deps
++from sbom.cmd_graph.savedcmd_parser import parse_inputs_from_commands
++import sbom.sbom_logging as sbom_logging
++from sbom.path_utils import PathStr
++
++SAVEDCMD_PATTERN =3D re.compile(r"^(saved)?cmd_.*?:=3D\s*(?P<full_comman=
+d>.+)$")
++SOURCE_PATTERN =3D re.compile(r"^source.*?:=3D\s*(?P<source_file>.+)$")
++
++
++@dataclass
++class CmdFile:
++    cmd_file_path: PathStr
++    savedcmd: str
++    source: PathStr | None =3D None
++    deps: list[str] =3D field(default_factory=3Dlist[str])
++    make_rules: list[str] =3D field(default_factory=3Dlist[str])
++
++    @classmethod
++    def create(cls, cmd_file_path: PathStr) -> "CmdFile | None":
++        """
++        Parses a .cmd file.
++        .cmd files are assumed to have one of the following structures:
++        1. Full Cmd File
++            (saved)?cmd_<output> :=3D <command>
++            source_<output> :=3D <main_input>
++            deps_<output> :=3D \
++            <dependencies>
++            <output> :=3D $(deps_<output>)
++            $(deps_<output>):
++
++        2. Command Only Cmd File
++            (saved)?cmd_<output> :=3D <command>
++
++        3. Single Dependency Cmd File
++            (saved)?cmd_<output> :=3D <command>
++            <output> :=3D <dependency>
++
++        Args:
++            cmd_file_path (Path): absolute Path to a .cmd file
++
++        Returns:
++            cmd_file (CmdFile): Parsed cmd file.
++        """
++        with open(cmd_file_path, "rt") as f:
++            lines =3D [line.strip() for line in f.readlines() if line.st=
+rip() !=3D "" and not line.startswith("#")]
++
++        # savedcmd
++        match =3D SAVEDCMD_PATTERN.match(lines[0])
++        if match is None:
++            sbom_logging.error(
++                "Skip parsing '{cmd_file_path}' because no 'savedcmd_' c=
+ommand was found.", cmd_file_path=3Dcmd_file_path
++            )
++            return None
++        savedcmd =3D match.group("full_command")
++
++        # Command Only Cmd File
++        if len(lines) =3D=3D 1:
++            return CmdFile(cmd_file_path, savedcmd)
++
++        # Single Dependency Cmd File
++        if len(lines) =3D=3D 2:
++            dep =3D lines[1].split(":")[1].strip()
++            return CmdFile(cmd_file_path, savedcmd, deps=3D[dep])
++
++        # Full Cmd File
++        # source
++        line1 =3D SOURCE_PATTERN.match(lines[1])
++        if line1 is None:
++            sbom_logging.error(
++                "Skip parsing '{cmd_file_path}' because no 'source_' ent=
+ry was found.", cmd_file_path=3Dcmd_file_path
++            )
++            return CmdFile(cmd_file_path, savedcmd)
++        source =3D line1.group("source_file")
++
++        # deps
++        deps: list[str] =3D []
++        i =3D 3  # lines[2] includes the variable assignment but no actu=
+al dependency, so we need to start at lines[3].
++        while i < len(lines):
++            if not lines[i].endswith("\\"):
++                break
++            deps.append(lines[i][:-1].strip())
++            i +=3D 1
++
++        # make_rules
++        make_rules =3D lines[i:]
++
++        return CmdFile(cmd_file_path, savedcmd, source, deps, make_rules=
+)
++
++    def get_dependencies(
++        self: "CmdFile", target_path: PathStr, obj_tree: PathStr, fail_o=
+n_unknown_build_command: bool
++    ) -> list[PathStr]:
++        """
++        Parses all dependencies required to build a target file from its=
+ cmd file.
++
++        Args:
++            target_path: path to the target file relative to `obj_tree`.
++            obj_tree: absolute path to the object tree.
++            fail_on_unknown_build_command: Whether to fail if an unknown=
+ build command is encountered.
++
++        Returns:
++            list[PathStr]: dependency file paths relative to `obj_tree`.
++        """
++        input_files: list[PathStr] =3D [
++            str(p) for p in parse_inputs_from_commands(self.savedcmd, fa=
+il_on_unknown_build_command)
++        ]
++        if self.deps:
++            input_files +=3D [str(p) for p in parse_cmd_file_deps(self.d=
+eps)]
++        input_files =3D _expand_resolve_files(input_files, obj_tree)
++
++        cmd_file_dependencies: list[PathStr] =3D []
++        for input_file in input_files:
++            # input files are either absolute or relative to the object =
+tree
++            if os.path.isabs(input_file):
++                input_file =3D os.path.relpath(input_file, obj_tree)
++            if input_file =3D=3D target_path:
++                # Skip target file to prevent cycles. This is necessary =
+because some multi stage commands first create an output and then pass it=
+ as input to the next command, e.g., objcopy.
++                continue
++            cmd_file_dependencies.append(input_file)
++
++        return cmd_file_dependencies
++
++
++def _expand_resolve_files(input_files: list[PathStr], obj_tree: PathStr)=
+ -> list[PathStr]:
++    """
++    Expands resolve files which may reference additional files via '@' n=
+otation.
++
++    Args:
++        input_files (list[PathStr]): List of file paths relative to the =
+object tree, where paths starting with '@' refer to files
++                                     containing further file paths, each=
+ on a separate line.
++        obj_tree: Absolute path to the root of the object tree.
++
++    Returns:
++        list[PathStr]: Flattened list of all input file paths, with any =
+nested '@' file references resolved recursively.
++    """
++    expanded_input_files: list[PathStr] =3D []
++    for input_file in input_files:
++        if not input_file.startswith("@"):
++            expanded_input_files.append(input_file)
++            continue
++        with open(os.path.join(obj_tree, input_file.lstrip("@")), "rt") =
+as f:
++            resolve_file_content =3D [line_stripped for line in f.readli=
+nes() if (line_stripped :=3D line.strip())]
++        expanded_input_files +=3D _expand_resolve_files(resolve_file_con=
+tent, obj_tree)
++    return expanded_input_files
+diff --git a/scripts/sbom/sbom/cmd_graph/cmd_graph.py b/scripts/sbom/sbom=
+/cmd_graph/cmd_graph.py
+new file mode 100644
+index 00000000000..cad54243ff3
+--- /dev/null
++++ b/scripts/sbom/sbom/cmd_graph/cmd_graph.py
+@@ -0,0 +1,46 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++from collections import deque
++from dataclasses import dataclass, field
++from typing import Iterator
++
++from sbom.cmd_graph.cmd_graph_node import CmdGraphNode, CmdGraphNodeConf=
+ig
++from sbom.path_utils import PathStr
++
++
++@dataclass
++class CmdGraph:
++    """Directed acyclic graph of build dependencies primarily inferred f=
+rom .cmd files produced during kernel builds"""
++
++    roots: list[CmdGraphNode] =3D field(default_factory=3Dlist[CmdGraphN=
+ode])
++
++    @classmethod
++    def create(cls, root_paths: list[PathStr], config: CmdGraphNodeConfi=
+g) -> "CmdGraph":
++        """
++        Recursively builds a dependency graph starting from `root_paths`=
+.
++        Dependencies are mainly discovered by parsing the `.cmd` files.
++
++        Args:
++            root_paths (list[PathStr]): List of paths to root outputs re=
+lative to obj_tree
++            config (CmdGraphNodeConfig): Configuration options
++
++        Returns:
++            CmdGraph: A graph of all build dependencies for the given ro=
+ot files.
++        """
++        node_cache: dict[PathStr, CmdGraphNode] =3D {}
++        root_nodes =3D [CmdGraphNode.create(root_path, config, node_cach=
+e) for root_path in root_paths]
++        return CmdGraph(root_nodes)
++
++    def __iter__(self) -> Iterator[CmdGraphNode]:
++        """Traverse the graph in breadth-first order, yielding each uniq=
+ue node."""
++        visited: set[PathStr] =3D set()
++        node_stack: deque[CmdGraphNode] =3D deque(self.roots)
++        while len(node_stack) > 0:
++            node =3D node_stack.popleft()
++            if node.absolute_path in visited:
++                continue
++
++            visited.add(node.absolute_path)
++            node_stack.extend(node.children)
++            yield node
+diff --git a/scripts/sbom/sbom/cmd_graph/cmd_graph_node.py b/scripts/sbom=
+/sbom/cmd_graph/cmd_graph_node.py
+new file mode 100644
+index 00000000000..7a5279a1ba0
+--- /dev/null
++++ b/scripts/sbom/sbom/cmd_graph/cmd_graph_node.py
+@@ -0,0 +1,111 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++from dataclasses import dataclass, field
++import logging
++import os
++from typing import Iterator, Protocol
++
++from sbom import sbom_logging
++from sbom.cmd_graph.cmd_file import CmdFile
++from sbom.path_utils import PathStr, is_relative_to
++
++
++class CmdGraphNodeConfig(Protocol):
++    obj_tree: PathStr
++    src_tree: PathStr
++    fail_on_unknown_build_command: bool
++
++
++@dataclass
++class CmdGraphNode:
++    """A node in the cmd graph representing a single file and its depend=
+encies."""
++
++    absolute_path: PathStr
++    """Absolute path to the file this node represents."""
++
++    cmd_file: CmdFile | None =3D None
++    """Parsed .cmd file describing how the file at absolute_path was bui=
+lt, or None if not available."""
++
++    cmd_file_dependencies: list["CmdGraphNode"] =3D field(default_factor=
+y=3Dlist["CmdGraphNode"])
++
++    @property
++    def children(self) -> Iterator["CmdGraphNode"]:
++        seen: set[PathStr] =3D set()
++        for node in self.cmd_file_dependencies:
++            if node.absolute_path not in seen:
++                seen.add(node.absolute_path)
++                yield node
++
++    @classmethod
++    def create(
++        cls,
++        target_path: PathStr,
++        config: CmdGraphNodeConfig,
++        cache: dict[PathStr, "CmdGraphNode"] | None =3D None,
++        depth: int =3D 0,
++    ) -> "CmdGraphNode":
++        """
++        Recursively builds a dependency graph starting from `target_path=
+`.
++        Dependencies are mainly discovered by parsing the `.<target_path=
+.name>.cmd` file.
++
++        Args:
++            target_path: Path to the target file relative to obj_tree.
++            config: Config options
++            cache: Tracks processed nodes to prevent cycles.
++            depth: Internal parameter to track the current recursion dep=
+th.
++
++        Returns:
++            CmdGraphNode: cmd graph node representing the target file
++        """
++        if cache is None:
++            cache =3D {}
++
++        target_path_absolute =3D (
++            os.path.realpath(p)
++            if os.path.islink(p :=3D os.path.join(config.obj_tree, targe=
+t_path))
++            else os.path.normpath(p)
++        )
++
++        if target_path_absolute in cache:
++            return cache[target_path_absolute]
++
++        if depth =3D=3D 0:
++            logging.debug(f"Build node: {target_path}")
++
++        cmd_file_path =3D _to_cmd_path(target_path_absolute)
++        cmd_file =3D CmdFile.create(cmd_file_path) if os.path.exists(cmd=
+_file_path) else None
++        node =3D CmdGraphNode(target_path_absolute, cmd_file)
++        cache[target_path_absolute] =3D node
++
++        if not os.path.exists(target_path_absolute):
++            error_or_warning =3D (
++                sbom_logging.error
++                if is_relative_to(target_path_absolute, config.obj_tree)
++                or is_relative_to(target_path_absolute, config.src_tree)
++                else sbom_logging.warning
++            )
++            error_or_warning(
++                "Skip parsing '{target_path_absolute}' because file does=
+ not exist",
++                target_path_absolute=3Dtarget_path_absolute,
++            )
++            return node
++
++        # Search for dependencies to add to the graph as child nodes. Ch=
+ild paths are always relative to the output tree.
++        def _build_child_node(child_path: PathStr) -> "CmdGraphNode":
++            return CmdGraphNode.create(child_path, config, cache, depth =
++ 1)
++
++        if cmd_file is not None:
++            node.cmd_file_dependencies =3D [
++                _build_child_node(cmd_file_dependency_path)
++                for cmd_file_dependency_path in cmd_file.get_dependencie=
+s(
++                    target_path, config.obj_tree, config.fail_on_unknown=
+_build_command
++                )
++            ]
++
++        return node
++
++
++def _to_cmd_path(path: PathStr) -> PathStr:
++    name =3D os.path.basename(path)
++    return path.removesuffix(name) + f".{name}.cmd"
+diff --git a/scripts/sbom/sbom/cmd_graph/deps_parser.py b/scripts/sbom/sb=
+om/cmd_graph/deps_parser.py
+new file mode 100644
+index 00000000000..fb3ccdd415b
+--- /dev/null
++++ b/scripts/sbom/sbom/cmd_graph/deps_parser.py
+@@ -0,0 +1,52 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR MIT
 +# Copyright (C) 2025 TNG Technology Consulting GmbH
 +
 +import re
-+import shlex
-+from dataclasses import dataclass
-+from typing import Union
++import sbom.sbom_logging as sbom_logging
++from sbom.path_utils import PathStr
++
++# Match dependencies on config files
++# Example match: "$(wildcard include/config/CONFIG_SOMETHING)"
++CONFIG_PATTERN =3D re.compile(r"\$\(wildcard (include/config/[^)]+)\)")
++
++# Match dependencies on the objtool binary
++# Example match: "$(wildcard ./tools/objtool/objtool)"
++OBJTOOL_PATTERN =3D re.compile(r"\$\(wildcard \./tools/objtool/objtool\)=
+")
++
++# Match any Makefile wildcard reference
++# Example match: "$(wildcard path/to/file)"
++WILDCARD_PATTERN =3D re.compile(r"\$\(wildcard (?P<path>[^)]+)\)")
++
++# Match ordinary paths:
++# - ^(\/)?: Optionally starts with a '/'
++# - (([\w\-\., ]*)\/)*: Zero or more directory levels
++# - [\w\-\., ]+$: Path component (file or directory)
++# Example matches: "/foo/bar.c", "dir1/dir2/file.txt", "plainfile"
++VALID_PATH_PATTERN =3D re.compile(r"^(\/)?(([\w\-\., ]*)\/)*[\w\-\., ]+$=
+")
 +
 +
-+class CmdParsingError(Exception):
-+    def __init__(self, message: str):
-+        super().__init__(message)
-+        self.message =3D message
-+
-+
-+@dataclass
-+class Option:
-+    name: str
-+    value: str | None =3D None
-+
-+
-+@dataclass
-+class Positional:
-+    value: str
-+
-+
-+_SUBCOMMAND_PATTERN =3D re.compile(r"\$\$\(([^()]*)\)")
-+"""Pattern to match $$(...) blocks"""
-+
-+
-+def tokenize_single_command(command: str, flag_options: list[str] | None=
- =3D None) -> list[Union[Option, Positional]]:
++def parse_cmd_file_deps(deps: list[str]) -> list[PathStr]:
 +    """
-+    Parse a shell command into a list of Options and Positionals.
-+    - Positional: the command and any positional arguments.
-+    - Options: handles flags and options with values provided as space-s=
-eparated, or equals-sign
-+        (e.g., '--opt val', '--opt=3Dval', '--flag').
++    Parse dependency strings of a .cmd file and return valid input file =
+paths.
 +
 +    Args:
-+        command: Command line string.
-+        flag_options: Options that are flags without values (e.g., '--ve=
-rbose').
++        deps: List of dependency strings as found in `.cmd` files.
 +
 +    Returns:
-+        List of `Option` and `Positional` objects in command order.
++        input_files: List of input file paths
 +    """
++    input_files: list[PathStr] =3D []
++    for dep in deps:
++        dep =3D dep.strip()
++        match dep:
++            case _ if CONFIG_PATTERN.match(dep) or OBJTOOL_PATTERN.match=
+(dep):
++                # config paths like include/config/<CONFIG_NAME> should =
+not be included in the graph
++                continue
++            case _ if match :=3D WILDCARD_PATTERN.match(dep):
++                path =3D match.group("path")
++                input_files.append(path)
++            case _ if VALID_PATH_PATTERN.match(dep):
++                input_files.append(dep)
++            case _:
++                sbom_logging.error("Skip parsing dependency {dep} becaus=
+e of unrecognized format", dep=3Ddep)
++    return input_files
+diff --git a/scripts/sbom/sbom/config.py b/scripts/sbom/sbom/config.py
+index 3dc569ae0c4..39e556a4c53 100644
+--- a/scripts/sbom/sbom/config.py
++++ b/scripts/sbom/sbom/config.py
+@@ -3,15 +3,43 @@
+=20
+ import argparse
+ from dataclasses import dataclass
++import os
++from typing import Any
++from sbom.path_utils import PathStr
+=20
+=20
+ @dataclass
+ class KernelSbomConfig:
++    src_tree: PathStr
++    """Absolute path to the Linux kernel source directory."""
 +
-+    #  Wrap all $$(...) blocks in double quotes to prevent shlex from sp=
-litting them.
-+    command_with_protected_subcommands =3D _SUBCOMMAND_PATTERN.sub(lambd=
-a m: f'"$$({m.group(1)})"', command)
-+    tokens =3D shlex.split(command_with_protected_subcommands)
++    obj_tree: PathStr
++    """Absolute path to the build output directory."""
 +
-+    parsed: list[Option | Positional] =3D []
-+    i =3D 0
-+    while i < len(tokens):
-+        token =3D tokens[i]
++    root_paths: list[PathStr]
++    """List of paths to root outputs (relative to obj_tree) to base the =
+SBOM on."""
 +
-+        # Positional
-+        if not token.startswith("-"):
-+            parsed.append(Positional(token))
-+            i +=3D 1
-+            continue
++    generate_used_files: bool
++    """Whether to generate a flat list of all source files used in the b=
+uild.
++    If False, no used-files document is created."""
 +
-+        # Option without value (--flag)
-+        if (token.startswith("-") and i + 1 < len(tokens) and tokens[i +=
- 1].startswith("-")) or (
-+            flag_options and token in flag_options
-+        ):
-+            parsed.append(Option(name=3Dtoken))
-+            i +=3D 1
-+            continue
++    used_files_file_name: str
++    """If `generate_used_files` is True, specifies the file name for the=
+ used-files document."""
 +
-+        # Option with equals sign (--opt=3Dval)
-+        if "=3D" in token:
-+            name, value =3D token.split("=3D", 1)
-+            parsed.append(Option(name=3Dname, value=3Dvalue))
-+            i +=3D 1
-+            continue
++    output_directory: PathStr
++    """Path to the directory where the generated output documents will b=
+e saved."""
 +
-+        # Option with space-separated value (--opt val)
-+        if i + 1 < len(tokens) and not tokens[i + 1].startswith("-"):
-+            parsed.append(Option(name=3Dtoken, value=3Dtokens[i + 1]))
-+            i +=3D 2
-+            continue
+     debug: bool
+     """Whether to enable debug logging."""
+=20
++    fail_on_unknown_build_command: bool
++    """Whether to fail if an unknown build command is encountered in a .=
+cmd file."""
 +
-+        raise CmdParsingError(f"Unrecognized token: {token} in command {=
-command}")
++    write_output_on_error: bool
++    """Whether to write output documents even if errors occur."""
 +
-+    return parsed
+=20
+-def _parse_cli_arguments() -> dict[str, bool]:
++def _parse_cli_arguments() -> dict[str, Any]:
+     """
+     Parse command-line arguments using argparse.
+=20
+@@ -19,8 +47,49 @@ def _parse_cli_arguments() -> dict[str, bool]:
+         Dictionary of parsed arguments.
+     """
+     parser =3D argparse.ArgumentParser(
++        formatter_class=3Dargparse.RawTextHelpFormatter,
+         description=3D"Generate SPDX SBOM documents for kernel builds",
+     )
++    parser.add_argument(
++        "--src-tree",
++        default=3D"../linux",
++        help=3D"Path to the kernel source tree (default: ../linux)",
++    )
++    parser.add_argument(
++        "--obj-tree",
++        default=3D"../linux/kernel_build",
++        help=3D"Path to the build output directory (default: ../linux/ke=
+rnel_build)",
++    )
++    group =3D parser.add_mutually_exclusive_group(required=3DTrue)
++    group.add_argument(
++        "--roots",
++        nargs=3D"+",
++        default=3D"arch/x86/boot/bzImage",
++        help=3D"Space-separated list of paths relative to obj-tree for w=
+hich the SBOM will be created.\n"
++        "Cannot be used together with --roots-file. (default: arch/x86/b=
+oot/bzImage)",
++    )
++    group.add_argument(
++        "--roots-file",
++        help=3D"Path to a file containing the root paths (one per line).=
+ Cannot be used together with --roots.",
++    )
++    parser.add_argument(
++        "--generate-used-files",
++        action=3D"store_true",
++        default=3DFalse,
++        help=3D(
++            "Whether to create the sbom.used-files.txt file, a flat list=
+ of all "
++            "source files used for the kernel build.\n"
++            "If src-tree and obj-tree are equal it is not possible to re=
+liably "
++            "classify source files.\n"
++            "In this case sbom.used-files.txt will contain all files use=
+d for the "
++            "kernel build including all build artifacts. (default: False=
+)"
++        ),
++    )
++    parser.add_argument(
++        "--output-directory",
++        default=3D".",
++        help=3D"Path to the directory where the generated output documen=
+ts will be stored (default: .)",
++    )
+     parser.add_argument(
+         "--debug",
+         action=3D"store_true",
+@@ -28,6 +97,28 @@ def _parse_cli_arguments() -> dict[str, bool]:
+         help=3D"Enable debug logs (default: False)",
+     )
+=20
++    # Error handling settings
++    parser.add_argument(
++        "--do-not-fail-on-unknown-build-command",
++        action=3D"store_true",
++        default=3DFalse,
++        help=3D(
++            "Whether to fail if an unknown build command is encountered =
+in a .cmd file.\n"
++            "If set to True, errors are logged as warnings instead. (def=
+ault: False)"
++        ),
++    )
++    parser.add_argument(
++        "--write-output-on-error",
++        action=3D"store_true",
++        default=3DFalse,
++        help=3D(
++            "Write output documents even if errors occur. The resulting =
+documents "
++            "may be incomplete.\n"
++            "A summary of warnings and errors can be found in the 'comme=
+nt' property "
++            "of the CreationInfo element. (default: False)"
++        ),
++    )
++
+     args =3D vars(parser.parse_args())
+     return args
+=20
+@@ -42,6 +133,58 @@ def get_config() -> KernelSbomConfig:
+     # Parse cli arguments
+     args =3D _parse_cli_arguments()
+=20
++    # Extract and validate cli arguments
++    src_tree =3D os.path.realpath(args["src_tree"])
++    obj_tree =3D os.path.realpath(args["obj_tree"])
++    root_paths =3D []
++    if args["roots_file"]:
++        with open(args["roots_file"], "rt") as f:
++            root_paths =3D [root.strip() for root in f.readlines()]
++    else:
++        root_paths =3D args["roots"]
++    _validate_path_arguments(src_tree, obj_tree, root_paths)
++
++    generate_used_files =3D args["generate_used_files"]
++    output_directory =3D os.path.realpath(args["output_directory"])
+     debug =3D args["debug"]
+=20
+-    return KernelSbomConfig(debug=3Ddebug)
++    fail_on_unknown_build_command =3D not args["do_not_fail_on_unknown_b=
+uild_command"]
++    write_output_on_error =3D args["write_output_on_error"]
++
++    # Hardcoded config
++    used_files_file_name =3D "sbom.used-files.txt"
++
++    return KernelSbomConfig(
++        src_tree=3Dsrc_tree,
++        obj_tree=3Dobj_tree,
++        root_paths=3Droot_paths,
++        generate_used_files=3Dgenerate_used_files,
++        used_files_file_name=3Dused_files_file_name,
++        output_directory=3Doutput_directory,
++        debug=3Ddebug,
++        fail_on_unknown_build_command=3Dfail_on_unknown_build_command,
++        write_output_on_error=3Dwrite_output_on_error,
++    )
 +
 +
-+def tokenize_single_command_positionals_only(command: str) -> list[str]:
-+    command_parts =3D tokenize_single_command(command)
-+    positionals =3D [p.value for p in command_parts if isinstance(p, Pos=
-itional)]
-+    if len(positionals) !=3D len(command_parts):
-+        raise CmdParsingError(
-+            f"Invalid command format: expected positional arguments only=
- but got options in command {command}."
-+        )
-+    return positionals
-diff --git a/scripts/sbom/sbom/environment.py b/scripts/sbom/sbom/environ=
-ment.py
++def _validate_path_arguments(src_tree: PathStr, obj_tree: PathStr, root_=
+paths: list[PathStr]) -> None:
++    """
++    Validate that the provided paths exist.
++
++    Args:
++        src_tree: Absolute path to the source tree.
++        obj_tree: Absolute path to the object tree.
++        root_paths: List of root paths relative to obj_tree.
++
++    Raises:
++        argparse.ArgumentTypeError: If any of the paths don't exist.
++    """
++    if not os.path.exists(src_tree):
++        raise argparse.ArgumentTypeError(f"--src-tree {src_tree} does no=
+t exist")
++    if not os.path.exists(obj_tree):
++        raise argparse.ArgumentTypeError(f"--obj-tree {obj_tree} does no=
+t exist")
++    for root_path in root_paths:
++        if not os.path.exists(os.path.join(obj_tree, root_path)):
++            raise argparse.ArgumentTypeError(
++                f"path to root artifact {os.path.join(obj_tree, root_pat=
+h)} does not exist"
++            )
+diff --git a/scripts/sbom/sbom/path_utils.py b/scripts/sbom/sbom/path_uti=
+ls.py
 new file mode 100644
-index 00000000000..4304066fe97
+index 00000000000..d28d67b2539
 --- /dev/null
-+++ b/scripts/sbom/sbom/environment.py
-@@ -0,0 +1,192 @@
++++ b/scripts/sbom/sbom/path_utils.py
+@@ -0,0 +1,11 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR MIT
 +# Copyright (C) 2025 TNG Technology Consulting GmbH
 +
 +import os
 +
-+KERNEL_BUILD_VARIABLES_ALLOWLIST =3D [
-+    "AFLAGS_KERNEL",
-+    "AFLAGS_MODULE",
-+    "AR",
-+    "ARCH",
-+    "ARCH_CORE",
-+    "ARCH_DRIVERS",
-+    "ARCH_LIB",
-+    "AWK",
-+    "BASH",
-+    "BINDGEN",
-+    "BITS",
-+    "CC",
-+    "CC_FLAGS_FPU",
-+    "CC_FLAGS_NO_FPU",
-+    "CFLAGS_GCOV",
-+    "CFLAGS_KERNEL",
-+    "CFLAGS_MODULE",
-+    "CHECK",
-+    "CHECKFLAGS",
-+    "CLIPPY_CONF_DIR",
-+    "CONFIG_SHELL",
-+    "CPP",
-+    "CROSS_COMPILE",
-+    "CURDIR",
-+    "GNUMAKEFLAGS",
-+    "HOSTCC",
-+    "HOSTCXX",
-+    "HOSTPKG_CONFIG",
-+    "HOSTRUSTC",
-+    "INSTALLKERNEL",
-+    "INSTALL_DTBS_PATH",
-+    "INSTALL_HDR_PATH",
-+    "INSTALL_PATH",
-+    "KBUILD_AFLAGS",
-+    "KBUILD_AFLAGS_KERNEL",
-+    "KBUILD_AFLAGS_MODULE",
-+    "KBUILD_BUILTIN",
-+    "KBUILD_CFLAGS",
-+    "KBUILD_CFLAGS_KERNEL",
-+    "KBUILD_CFLAGS_MODULE",
-+    "KBUILD_CHECKSRC",
-+    "KBUILD_CLIPPY",
-+    "KBUILD_CPPFLAGS",
-+    "KBUILD_EXTMOD",
-+    "KBUILD_EXTRA_WARN",
-+    "KBUILD_HOSTCFLAGS",
-+    "KBUILD_HOSTCXXFLAGS",
-+    "KBUILD_HOSTLDFLAGS",
-+    "KBUILD_HOSTLDLIBS",
-+    "KBUILD_HOSTRUSTFLAGS",
-+    "KBUILD_IMAGE",
-+    "KBUILD_LDFLAGS",
-+    "KBUILD_LDFLAGS_MODULE",
-+    "KBUILD_LDS",
-+    "KBUILD_MODULES",
-+    "KBUILD_PROCMACROLDFLAGS",
-+    "KBUILD_RUSTFLAGS",
-+    "KBUILD_RUSTFLAGS_KERNEL",
-+    "KBUILD_RUSTFLAGS_MODULE",
-+    "KBUILD_USERCFLAGS",
-+    "KBUILD_USERLDFLAGS",
-+    "KBUILD_VERBOSE",
-+    "KBUILD_VMLINUX_LIBS",
-+    "KBZIP2",
-+    "KCONFIG_CONFIG",
-+    "KERNELDOC",
-+    "KERNELRELEASE",
-+    "KERNELVERSION",
-+    "KGZIP",
-+    "KLZOP",
-+    "LC_COLLATE",
-+    "LC_NUMERIC",
-+    "LD",
-+    "LDFLAGS_MODULE",
-+    "LEX",
-+    "LINUXINCLUDE",
-+    "LZ4",
-+    "LZMA",
-+    "MAKE",
-+    "MAKEFILES",
-+    "MAKEFILE_LIST",
-+    "MAKEFLAGS",
-+    "MAKELEVEL",
-+    "MAKEOVERRIDES",
-+    "MAKE_COMMAND",
-+    "MAKE_HOST",
-+    "MAKE_TERMERR",
-+    "MAKE_TERMOUT",
-+    "MAKE_VERSION",
-+    "MFLAGS",
-+    "MODLIB",
-+    "NM",
-+    "NOSTDINC_FLAGS",
-+    "O",
-+    "OBJCOPY",
-+    "OBJCOPYFLAGS",
-+    "OBJDUMP",
-+    "PAHOLE",
-+    "PATCHLEVEL",
-+    "PERL",
-+    "PYTHON3",
-+    "Q",
-+    "RCS_FIND_IGNORE",
-+    "READELF",
-+    "REALMODE_CFLAGS",
-+    "RESOLVE_BTFIDS",
-+    "RETHUNK_CFLAGS",
-+    "RETHUNK_RUSTFLAGS",
-+    "RETPOLINE_CFLAGS",
-+    "RETPOLINE_RUSTFLAGS",
-+    "RETPOLINE_VDSO_CFLAGS",
-+    "RUSTC",
-+    "RUSTC_BOOTSTRAP",
-+    "RUSTC_OR_CLIPPY",
-+    "RUSTC_OR_CLIPPY_QUIET",
-+    "RUSTDOC",
-+    "RUSTFLAGS_KERNEL",
-+    "RUSTFLAGS_MODULE",
-+    "RUSTFMT",
-+    "SRCARCH",
-+    "STRIP",
-+    "SUBLEVEL",
-+    "SUFFIXES",
-+    "TAR",
-+    "UTS_MACHINE",
-+    "VERSION",
-+    "VPATH",
-+    "XZ",
-+    "YACC",
-+    "ZSTD",
-+    "building_out_of_srctree",
-+    "cross_compiling",
-+    "objtree",
-+    "quiet",
-+    "rust_common_flags",
-+    "srcroot",
-+    "srctree",
-+    "sub_make_done",
-+    "subdir",
-+]
++PathStr =3D str
++"""Filesystem path represented as a plain string for better performance =
+than pathlib.Path."""
 +
 +
-+class Environment:
-+    """
-+    Read-only accessor for kernel build environment variables.
-+    """
-+
-+    @classmethod
-+    def KERNEL_BUILD_VARIABLES(cls) -> dict[str, str]:
-+        return {
-+            name: value.strip()
-+            for name in KERNEL_BUILD_VARIABLES_ALLOWLIST
-+            if (value :=3D os.getenv(name)) is not None and value.strip(=
-)
-+        }
-+
-+    @classmethod
-+    def ARCH(cls) -> str | None:
-+        return os.getenv("ARCH")
-+
-+    @classmethod
-+    def SRCARCH(cls) -> str | None:
-+        return os.getenv("SRCARCH")
-+
-+    @classmethod
-+    def CC(cls) -> str | None:
-+        return os.getenv("CC")
-+
-+    @classmethod
-+    def LD(cls) -> str | None:
-+        return os.getenv("LD")
-+
-+    @classmethod
-+    def AR(cls) -> str | None:
-+        return os.getenv("AR")
-+
-+    @classmethod
-+    def NM(cls) -> str | None:
-+        return os.getenv("NM")
-+
-+    @classmethod
-+    def OBJCOPY(cls) -> str | None:
-+        return os.getenv("OBJCOPY")
-+
-+    @classmethod
-+    def STRIP(cls) -> str | None:
-+        return os.getenv("STRIP")
++def is_relative_to(path: PathStr, base: PathStr) -> bool:
++    return os.path.commonpath([path, base]) =3D=3D base
 --=20
 2.43.0
 
