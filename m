@@ -1,191 +1,203 @@
-Return-Path: <linux-kbuild+bounces-12756-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOk4L1hr2Wn5pQgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12756-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 23:27:52 +0200
+	id CNEiHbd32WkkqAgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12762-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 00:20:39 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4462C3DCE7F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 23:27:52 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DE83DD2B9
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 00:20:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6D234305D5D7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 21:24:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4C78F3060AE4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 22:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AEDE3DEAD2;
-	Fri, 10 Apr 2026 21:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8351C3DFC86;
+	Fri, 10 Apr 2026 22:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="Wna3Gjtl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nH/J/hwS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailgw01.zimbra-vnc.de (mailgw01.zimbra-vnc.de [148.251.101.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F783DBD59;
-	Fri, 10 Apr 2026 21:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.101.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4786C3DF01E
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Apr 2026 22:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775856235; cv=none; b=YkL+afmtzDOIOveg7wJ2YxXwJK5dQwHogH8ZfX9TKWQKuzTpCrW5FXj9/+ZqarTxoj+MKlUhQGFZx158/yl6qGigN6hFdo6tg3dtuwbl6+f5SIzFDGNczeSr8TaI0gWkZNG+QLRfZJ6tnAEam6JZWmq7hxeohXrsq6EFpHrh+L0=
+	t=1775859188; cv=none; b=KHdlAWun6fPbQgBONqr6tPhuzt7ydkAh9c/3gF4d3c6spOVOvKJkpk1JqHhpJrQiUnZNMzcHjhtO8E435t+FymVjwOffdD4kAMKJaSgoSiJCdqRdbbj9c2HPQREhOoJeKKAseSCR0/PxI3XH+6RBWUPILQzHy6MoQgOJAIE2qWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775856235; c=relaxed/simple;
-	bh=uZYAV5rnm6Bnjyl/V05Hj9AP/xVFRUlXDXUTZMCG3Pg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UxncNURg9ALWr5jUkixMwX3mDox9RscjW+Ed/TCY5CjtuDz/BDWRmu8L16Zb8pTe+fxb4Qus8phmztnWkgFf/6wxDTpuZiq35oSciTtadzBi389LiBcIHSMI6fBlACmfRWkMWolfBtXyUHXjYg3Z3+ZjS8KVOfHEtU/sFy3t4IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=Wna3Gjtl; arc=none smtp.client-ip=148.251.101.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
-Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw01.zimbra-vnc.de (Postfix) with ESMTPS id A45E53FAFA;
-	Fri, 10 Apr 2026 23:23:49 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 7416C1FAEE8;
-	Fri, 10 Apr 2026 23:23:49 +0200 (CEST)
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id VgiFCQK8SJGR; Fri, 10 Apr 2026 23:23:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id D54A21FAEBF;
-	Fri, 10 Apr 2026 23:23:48 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz D54A21FAEBF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1775856228;
-	bh=jOd5RR3QdzyGzoaJEtl+35NCqPUWAP8mHCNjkzlpJ8k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Wna3GjtlykITPdvVP0Y1hJ3iIv/m2DuyWfECJj0eJOpgIKTRwDejTXMAl1u1Zkjpm
-	 CmrX5c0alNpE2xY+/e7VmWKZwdaoFVHnmxSF6jazfRPQE3L0zMhviTNmTTs9rDwJLU
-	 5AEZxoPdDD+mLafVP+MluEWcXgRPeMPXehkQcTu7hw1v+h3eMG2CH1+OL4HRVsHD8M
-	 3KWcy/I9S5O940vc91KBxtpXqocC9l/rFRndTI5zuNambX3h2sFfvXowQkebmtGh4Z
-	 b/wvcYfshj0aoNnmqEAloX4OG2o1d64Sr/SAYEsxI4twaRriouctRcDyWWDvEZD3Vl
-	 6R31Hzvp6iuzw==
-X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id Ipkj9F0JaNdE; Fri, 10 Apr 2026 23:23:48 +0200 (CEST)
-Received: from luis-Precision-5480.. (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 76FE91FAEBD;
-	Fri, 10 Apr 2026 23:23:48 +0200 (CEST)
-From: Luis <luis.augenstein@tngtech.com>
-To: nathan@kernel.org,
-	nsc@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org,
-	kstewart@linuxfoundation.org,
-	maximilian.huber@tngtech.com,
-	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v5 15/15] scripts/sbom: add unit tests for SPDX-License-Identifier parsing
-Date: Fri, 10 Apr 2026 23:22:55 +0200
-Message-ID: <20260410212255.9883-16-luis.augenstein@tngtech.com>
+	s=arc-20240116; t=1775859188; c=relaxed/simple;
+	bh=QaN/2PunQ1R3wJZyKqY2gbgYlHT6Ws9qlntemVaF0iM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bHVc64Goq+TERDqkJ0uaOBgKPbYENfdKJ3bFmfIDbTQTQq27+e7Fm9cml0UQwaOuZQ/KwUhIVph4hiRPLavdzPFomtbZqnCS5ZRwIleYBZRTeffapZgRgFd3rIyxnIHcq7MlLZkE+1U0tJTG92YrVpcVDMCLA9mZC01qfob4igA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nH/J/hwS; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c76b0cda2aeso1154206a12.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Apr 2026 15:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775859186; x=1776463986; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ReVkam/qzqCEjrr/EAV6/YLmHzvOoDol2op4AuX2BSQ=;
+        b=nH/J/hwS+KC0ItR9h/h0Bm0imy1ozDb5CEAmDHTY7nT6D28dBiV6WRgON+3hTbj+9g
+         WRiXRwRSAB8TRIwwV3YSgRKKSd/Ktu8003fMJCUU1pwsJ9QJjI1QNG4G/VgVhokPQN0e
+         /Wt3MASE1GKttcf9uW9PWyNPKvkSKaW+d7Nq97tqHiM6JbAe+VHURzNqV62AgHmx5klV
+         beMnuMIU07D1ayPks2D9EC5wFmBTSbOIggclkXWrb6wtmEm8ZRS8JSVVrJ/IUopn11PL
+         avtf6HydTF8yFV3ZxSt2LregX6EM21wNyc4gFXDd3g169lASiE48rErbT3QwPgf8RXIZ
+         aRwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775859186; x=1776463986;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ReVkam/qzqCEjrr/EAV6/YLmHzvOoDol2op4AuX2BSQ=;
+        b=H1pIE4oLiTIRAVzmcIYJgrZHKpcCXTwiwE8WwH3/wR/EnZvGv/g8mMjS0InLUIP5dA
+         NaNa65Djx7S1hGUVDemfNJMg/5++S9HBW3May+6sggsOMT1ocnSMCqSgHegg85LS8a5E
+         He6ob3yoBo2zK6Qs3L/D8uD2gXEUc3oC8IEufUnY7D8e6gorqld9lDBijWmus6EJcJzi
+         T6ob6wyBapFeOERU3iTrdSVTB6O+jQWDsrSVYjitqQCxuoDYyQ2fNMnYf9Vu+BYAQqTz
+         JvuxTUdYwyOOmz8TO+byyvuVgrKG+XSLWoYxU128+AQqCNohKYaHBW6DkW6nuhuDgNFL
+         +dKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXm5D4wLhOnSHHDeG2vm5Ajg5MOrVzox5pSH0n8hAjvgonQe79tGaJAXLgEifEcKbC56hzy08237/WK21k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2anEi9YFPc3V+gXtfJ2229cUFzUTjNkVhkpQZ5HGasgkRfFOv
+	mWqT0c4lb1JZpPswgc2i0Y/hMZLa8vhCCf1EakZ114IDwsqFIL+NuKB4
+X-Gm-Gg: AeBDietdB1AShYwpcSyEw1kFcHdAKHko5nmY9qApZPrY6NgQ2jAaZwC8F6SbUaT5pVr
+	BgCqdqbjALP3a2dXXAog3EQBYyXdK0HUD/TMhmRCm23wumEQ12Zr8tGf73oe+IdC7pHi45Gmn5y
+	V1OxqM4NTLWMUpa8mi7KJDXQHGERAgmm01GM3XAp9oZk149vUFgVxcJwIhmEnAOdCqQXY+FE9q6
+	rsCgHQQW++Y6deNL4rWYdHTHHg8o9ubrAodOfHfq4OG3T1MlyaY61ZdT+eR4GAEsSAalqsMpUhT
+	wztISDffsw8j7pJatztnilcKkt4YRIUcQid+Mn7dvGmOUL8zXleFGWjPEO5eeFVQpi0fR8bv5BS
+	KnExlnMiSOH9zEkySFVpRwa/Ssc6B4nDjUzjp9lIc4+jDEEQx5z0WyDulhI3QRbig7P0EPOv+CS
+	BsRFReDORUAk6+HrnP3EzdDccNIiHXnG2WiHbR2do4Ri06bXobZY0Sqf+oz0RI7WxRx/MgVBjDf
+	c/0ds/6ekVgs3eYgfjEhQdw9B92zAUwDcYGeVMo
+X-Received: by 2002:a05:6a20:4312:b0:398:b619:b624 with SMTP id adf61e73a8af0-39fe3f1d752mr5445939637.29.1775859186488;
+        Fri, 10 Apr 2026 15:13:06 -0700 (PDT)
+Received: from lord-daniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.. ([2405:201:31:d01f:a107:5c92:b303:910a])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79216ff41dsm3142863a12.2.2026.04.10.15.13.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 15:13:06 -0700 (PDT)
+From: Piyush Patle <piyushpatle228@gmail.com>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Chen Pei <cp0613@linux.alibaba.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: document generation of offset header files
+Date: Sat, 11 Apr 2026 03:42:54 +0530
+Message-ID: <20260410221257.191517-1-piyushpatle228@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260410212255.9883-1-luis.augenstein@tngtech.com>
-References: <20260410212255.9883-1-luis.augenstein@tngtech.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-12762-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12756-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,tngtech.com:dkim,tngtech.com:email,tngtech.com:mid];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[tngtech.com:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[piyushpatle228@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 4462C3DCE7F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ravnborg.org:email,gmx.de:email,ruhr-uni-bochum.de:email]
+X-Rspamd-Queue-Id: C0DE83DD2B9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Luis Augenstein <luis.augenstein@tngtech.com>
+Replace the placeholder reference with a description of how Kbuild
+generates offset header files such as include/generated/asm-offsets.h.
 
-Verify that SPDX-License-Identifier headers at the top of source files
-are parsed correctly.
+Remove the corresponding TODO entry now that this is documented.
 
-Assisted-by: Cursor:claude-sonnet-4-5
-Assisted-by: OpenCode:GLM-4-7
-Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
-Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
-Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
+Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
 ---
- scripts/sbom/tests/spdx_graph/__init__.py     |  0
- .../sbom/tests/spdx_graph/test_kernel_file.py | 32 +++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 scripts/sbom/tests/spdx_graph/__init__.py
- create mode 100644 scripts/sbom/tests/spdx_graph/test_kernel_file.py
+ Documentation/kbuild/makefiles.rst | 41 ++++++++++++++++++++++++------
+ 1 file changed, 33 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/sbom/tests/spdx_graph/__init__.py b/scripts/sbom/tes=
-ts/spdx_graph/__init__.py
-new file mode 100644
-index 00000000000..e69de29bb2d
-diff --git a/scripts/sbom/tests/spdx_graph/test_kernel_file.py b/scripts/=
-sbom/tests/spdx_graph/test_kernel_file.py
-new file mode 100644
-index 00000000000..bc44e7a97d2
---- /dev/null
-+++ b/scripts/sbom/tests/spdx_graph/test_kernel_file.py
-@@ -0,0 +1,32 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 24a4708d26e8..7521cae7d56f 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1285,8 +1285,39 @@ Example::
+ In this example, the file target maketools will be processed
+ before descending down in the subdirectories.
+ 
+-See also chapter XXX-TODO that describes how kbuild supports
+-generating offset header files.
++Generating offset header files
++------------------------------
 +
-+import unittest
-+from pathlib import Path
-+import tempfile
-+from sbom.spdx_graph.kernel_file import _parse_spdx_license_identifier  =
-# type: ignore
++The ``include/generated/asm-offsets.h`` header exposes C structure
++member offsets and other compile-time constants to assembly code. It
++is generated from ``arch/$(SRCARCH)/kernel/asm-offsets.c``.
 +
++The source file uses ``DEFINE()``, ``OFFSET()``, ``BLANK()`` and
++``COMMENT()`` from ``<linux/kbuild.h>``. These emit marker strings
++through inline asm that Kbuild extracts from the compiled assembly
++output.
 +
-+class TestKernelFile(unittest.TestCase):
-+    def setUp(self):
-+        self.tmpdir =3D tempfile.TemporaryDirectory()
-+        self.src_tree =3D Path(self.tmpdir.name)
++Example::
 +
-+    def tearDown(self):
-+        self.tmpdir.cleanup()
++  #include <linux/kbuild.h>
++  #include <linux/sched.h>
 +
-+    def test_parse_spdx_license_identifier(self):
-+        # REUSE-IgnoreStart
-+        test_cases: list[tuple[str, str | None]] =3D [
-+            ("/* SPDX-License-Identifier: MIT*/", "MIT"),
-+            ("// SPDX-License-Identifier: GPL-2.0-only", "GPL-2.0-only")=
-,
-+            ("/* SPDX-License-Identifier: GPL-2.0-or-later OR MIT */", "=
-GPL-2.0-or-later OR MIT"),
-+            ("/* SPDX-License-Identifier: Apache-2.0 */\n extra text", "=
-Apache-2.0"),
-+            ("int main() { return 0; }", None),
-+        ]
-+        # REUSE-IgnoreEnd
++  int main(void)
++  {
++          OFFSET(TSK_ACTIVE_MM, task_struct, active_mm);
++          DEFINE(THREAD_SIZE, THREAD_SIZE);
++          BLANK();
++          return 0;
++  }
 +
-+        for i, (file_content, expected_identifier) in enumerate(test_cas=
-es):
-+            file_path =3D self.src_tree / f"file_{i}.c"
-+            file_path.write_text(file_content)
-+            self.assertEqual(_parse_spdx_license_identifier(str(file_pat=
-h)), expected_identifier)
---=20
++The rules are defined in the top-level ``Kbuild`` and
++``scripts/Makefile.lib``. The header is built during Kbuild's
++``prepare`` phase, after ``archprepare`` and before descending into
++subdirectories.
++
++The same mechanism generates ``include/generated/bounds.h`` from
++``kernel/bounds.c`` and ``include/generated/rq-offsets.h`` from
++``kernel/sched/rq-offsets.c``.
+ 
+ List directories to visit when descending
+ -----------------------------------------
+@@ -1690,9 +1721,3 @@ Credits
+ - Updates by Kai Germaschewski <kai@tp1.ruhr-uni-bochum.de>
+ - Updates by Sam Ravnborg <sam@ravnborg.org>
+ - Language QA by Jan Engelhardt <jengelh@gmx.de>
+-
+-TODO
+-====
+-
+-- Generating offset header files.
+-- Add more variables to chapters 7 or 9?
+-- 
 2.43.0
 
 
