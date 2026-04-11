@@ -1,203 +1,183 @@
-Return-Path: <linux-kbuild+bounces-12762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CNEiHbd32WkkqAgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12762-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 00:20:39 +0200
+	id 03cNH2dD2mkDzggAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12763-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 14:49:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DE83DD2B9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 00:20:38 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id C85CA3DFF88
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 14:49:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C78F3060AE4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Apr 2026 22:13:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D94CB302EEC5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Apr 2026 12:49:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8351C3DFC86;
-	Fri, 10 Apr 2026 22:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 855A6262A6;
+	Sat, 11 Apr 2026 12:49:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nH/J/hwS"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GgR3QN9v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4786C3DF01E
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Apr 2026 22:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038421EB1AA
+	for <linux-kbuild@vger.kernel.org>; Sat, 11 Apr 2026 12:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775859188; cv=none; b=KHdlAWun6fPbQgBONqr6tPhuzt7ydkAh9c/3gF4d3c6spOVOvKJkpk1JqHhpJrQiUnZNMzcHjhtO8E435t+FymVjwOffdD4kAMKJaSgoSiJCdqRdbbj9c2HPQREhOoJeKKAseSCR0/PxI3XH+6RBWUPILQzHy6MoQgOJAIE2qWs=
+	t=1775911780; cv=none; b=kzkNil83kj4HiHk2hPQjt129UX0As3jELvaIiwIT5oOsmcNtVR/uM1x+RJxpK9ZfJqCXwYSfbq+F3x5SycBnAoSGwOwL9xBFFqKBC4ZyQxyS4KQchk0rcCgpDWcwlXqIYQJnK/wpThsnNdiiLHn5Z34YIZyE7oC76l/nqqUGljI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775859188; c=relaxed/simple;
-	bh=QaN/2PunQ1R3wJZyKqY2gbgYlHT6Ws9qlntemVaF0iM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bHVc64Goq+TERDqkJ0uaOBgKPbYENfdKJ3bFmfIDbTQTQq27+e7Fm9cml0UQwaOuZQ/KwUhIVph4hiRPLavdzPFomtbZqnCS5ZRwIleYBZRTeffapZgRgFd3rIyxnIHcq7MlLZkE+1U0tJTG92YrVpcVDMCLA9mZC01qfob4igA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nH/J/hwS; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c76b0cda2aeso1154206a12.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Apr 2026 15:13:07 -0700 (PDT)
+	s=arc-20240116; t=1775911780; c=relaxed/simple;
+	bh=Bmgif21JILxtKROQRrvBMcxSwdIEucVmx9w+2fEqPrs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K+1lSrMhjcAyXQ9Z8h0MP/Rs1GaE18NYxtw524yv0hggQNWGA7D2OnmVbtGq2ELPIPzA5Ul1Vzy48JMMRFTW3n/lDhLKzINmG0NMJF7EnRXJivlm6yRMWM9g2G56ET6XU0FYrZXHBI31W58epmj1ccnktWlPI+resH4LwWq/sbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GgR3QN9v; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so20719445e9.3
+        for <linux-kbuild@vger.kernel.org>; Sat, 11 Apr 2026 05:49:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775859186; x=1776463986; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ReVkam/qzqCEjrr/EAV6/YLmHzvOoDol2op4AuX2BSQ=;
-        b=nH/J/hwS+KC0ItR9h/h0Bm0imy1ozDb5CEAmDHTY7nT6D28dBiV6WRgON+3hTbj+9g
-         WRiXRwRSAB8TRIwwV3YSgRKKSd/Ktu8003fMJCUU1pwsJ9QJjI1QNG4G/VgVhokPQN0e
-         /Wt3MASE1GKttcf9uW9PWyNPKvkSKaW+d7Nq97tqHiM6JbAe+VHURzNqV62AgHmx5klV
-         beMnuMIU07D1ayPks2D9EC5wFmBTSbOIggclkXWrb6wtmEm8ZRS8JSVVrJ/IUopn11PL
-         avtf6HydTF8yFV3ZxSt2LregX6EM21wNyc4gFXDd3g169lASiE48rErbT3QwPgf8RXIZ
-         aRwQ==
+        d=suse.com; s=google; t=1775911777; x=1776516577; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OY+pUT3bAKsfuyssDABe7DVX4rqXH9Z4jNHxto2UUNc=;
+        b=GgR3QN9vPbErrAH5zrJ75nWsmZRez/SC7JYJsX1tQrhG2WhPz4FEZDyJEVsZgF+wQn
+         OYxwhUYTN1mDadGztLmGpNOR7Vu2jheneI+IgwkEMUMx4FuWEm6Bn9uOXTX3jjK+5tJN
+         bZie7XiKMtt9MLleLpRweBPFlt7REeHMmaY7o5EZ7u1ueuCJpgM6caw1SO8ZUj1rvC+L
+         kUUfkib8CJdgeHDtJRTpnvj8VjVo3GAZrLjGeLT/+/+huM8aRVUxcInkr6AgyJpzyLen
+         9wCwFsgflGytgYgxSNQ25GrgZSsPBZ/zKz+1sYgF6xxQxOQSQ8lxTh3NaZ2w1EmjcG3U
+         E7/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775859186; x=1776463986;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ReVkam/qzqCEjrr/EAV6/YLmHzvOoDol2op4AuX2BSQ=;
-        b=H1pIE4oLiTIRAVzmcIYJgrZHKpcCXTwiwE8WwH3/wR/EnZvGv/g8mMjS0InLUIP5dA
-         NaNa65Djx7S1hGUVDemfNJMg/5++S9HBW3May+6sggsOMT1ocnSMCqSgHegg85LS8a5E
-         He6ob3yoBo2zK6Qs3L/D8uD2gXEUc3oC8IEufUnY7D8e6gorqld9lDBijWmus6EJcJzi
-         T6ob6wyBapFeOERU3iTrdSVTB6O+jQWDsrSVYjitqQCxuoDYyQ2fNMnYf9Vu+BYAQqTz
-         JvuxTUdYwyOOmz8TO+byyvuVgrKG+XSLWoYxU128+AQqCNohKYaHBW6DkW6nuhuDgNFL
-         +dKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXm5D4wLhOnSHHDeG2vm5Ajg5MOrVzox5pSH0n8hAjvgonQe79tGaJAXLgEifEcKbC56hzy08237/WK21k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2anEi9YFPc3V+gXtfJ2229cUFzUTjNkVhkpQZ5HGasgkRfFOv
-	mWqT0c4lb1JZpPswgc2i0Y/hMZLa8vhCCf1EakZ114IDwsqFIL+NuKB4
-X-Gm-Gg: AeBDietdB1AShYwpcSyEw1kFcHdAKHko5nmY9qApZPrY6NgQ2jAaZwC8F6SbUaT5pVr
-	BgCqdqbjALP3a2dXXAog3EQBYyXdK0HUD/TMhmRCm23wumEQ12Zr8tGf73oe+IdC7pHi45Gmn5y
-	V1OxqM4NTLWMUpa8mi7KJDXQHGERAgmm01GM3XAp9oZk149vUFgVxcJwIhmEnAOdCqQXY+FE9q6
-	rsCgHQQW++Y6deNL4rWYdHTHHg8o9ubrAodOfHfq4OG3T1MlyaY61ZdT+eR4GAEsSAalqsMpUhT
-	wztISDffsw8j7pJatztnilcKkt4YRIUcQid+Mn7dvGmOUL8zXleFGWjPEO5eeFVQpi0fR8bv5BS
-	KnExlnMiSOH9zEkySFVpRwa/Ssc6B4nDjUzjp9lIc4+jDEEQx5z0WyDulhI3QRbig7P0EPOv+CS
-	BsRFReDORUAk6+HrnP3EzdDccNIiHXnG2WiHbR2do4Ri06bXobZY0Sqf+oz0RI7WxRx/MgVBjDf
-	c/0ds/6ekVgs3eYgfjEhQdw9B92zAUwDcYGeVMo
-X-Received: by 2002:a05:6a20:4312:b0:398:b619:b624 with SMTP id adf61e73a8af0-39fe3f1d752mr5445939637.29.1775859186488;
-        Fri, 10 Apr 2026 15:13:06 -0700 (PDT)
-Received: from lord-daniel-VivoBook-ASUSLaptop-K3502ZA-S3502ZA.. ([2405:201:31:d01f:a107:5c92:b303:910a])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79216ff41dsm3142863a12.2.2026.04.10.15.13.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 15:13:06 -0700 (PDT)
-From: Piyush Patle <piyushpatle228@gmail.com>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Chen Pei <cp0613@linux.alibaba.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: document generation of offset header files
-Date: Sat, 11 Apr 2026 03:42:54 +0530
-Message-ID: <20260410221257.191517-1-piyushpatle228@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1775911777; x=1776516577;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OY+pUT3bAKsfuyssDABe7DVX4rqXH9Z4jNHxto2UUNc=;
+        b=DqPjIgkfpOAYTkmAqn9W0a+ZiWLvJgY04U6eyKae/toZH6os8y/jU3iJrlBMcaeLoq
+         SIZUuSN80QuSJAWJNEhNwyPZHIhlwdK6bMEcoy05dHF6t2R/msk3+p+ZEczMYzP2leuK
+         j0z6ko+3Q6XdDQ97U4iwSwoFpG4YdM8AS7MpdmG2SGShuglJW6m4lg7vnzzK1yjtYTEc
+         detSIwh0TJwMTFxDR1a/V3KR6xGdDuGQ8q1zrzUA+mie4sToca6P+bpJhajEahJbuNEx
+         CBFVeLwNh4B0ogXxnl58SXv1AfopMpHTd+Z85nJcPqrW2opS978S5Vq2t06/9kmPbDg7
+         2uiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOOjM8G1aOvzEEUylfENzCXogqQ+kfiX19LpcNEhUaYFiRPYkFrpwaQf63GCg4wmyfhA11EOR+Gl6YU8E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTlYExjBHeOtJehB+SKKzCVva/UrWONjJ8sMrDiBpsd9CJJbU3
+	O3LotF3NNfgMzpVpv3hiTpqd97S6G89SsFNRX8i2IKA+gc7rbWwizmYwiiTShe5T+Eu59RDR0mM
+	3dcdF8EI=
+X-Gm-Gg: AeBDiesCp3xymG0PeqnMBy/G4S2y482Ngp6kBa1L6x3vJkNojsaOOXJI3WsSCKkPsq/
+	v9mtrXT6NctHfsXyunGPcFkH1GfmvAdg+hi/iajUSBeyqyWlkCNgwhh9cUqD2OXmOFsXU5t8wPp
+	uQkgicrce01TxClrwF0E7BFLVBwtvcR4HRmEWqkI8+rqneK+JXccVmlytyBFc7+a/WHw735kVV4
+	rrnjmK1xfzksRzNmhUGwzgaE+4zLRT7vktawcNhuXpwdrXg19InfbJ89mzjLaeLb03co/RQheYD
+	ILWZlelm4TrAjPCBe9IYIf43rqR2ljtOXp1H8DunMne6SYwXqP7IMoyofob0fj8GPaB+9zlwfgq
+	bAa50ck1zhPTLWWlWke02PhoWasHm1BM2KfiIqUup0/PYC8f4FFVlQMxhPB8xz2ciu7DIqTZd7v
+	yE+tOWqc/S/RbzWBvyCciHrwqKTa1hT4rrJN+k3j0eNMjz5cpQDB52KNUFbA==
+X-Received: by 2002:a05:600d:1:b0:488:8bdd:cfcc with SMTP id 5b1f17b1804b1-488d6772785mr78952175e9.0.1775911777328;
+        Sat, 11 Apr 2026 05:49:37 -0700 (PDT)
+Received: from ?IPV6:2804:7f0:b765:285:ce28:aaff:fe86:149c? ([2804:7f0:b765:285:ce28:aaff:fe86:149c])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-954bf112822sm3314511241.7.2026.04.11.05.49.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Apr 2026 05:49:35 -0700 (PDT)
+Message-ID: <227fd478-581e-462b-9579-afc5028abced@suse.com>
+Date: Sat, 11 Apr 2026 09:49:31 -0300
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] kbuild: remove kselftest output in mrproper
+To: Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
+ <20260320-selftests-fixes-v1-6-79144f76be01@suse.com>
+ <0db1075e-4273-4504-9c3e-1a9f35d37998@linuxfoundation.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>
+In-Reply-To: <0db1075e-4273-4504-9c3e-1a9f35d37998@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-12762-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[piyushpatle228@gmail.com,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	URIBL_MULTI_FAIL(0.00)[suse.com:server fail,vmlinux-gdb.py:server fail,sto.lore.kernel.org:server fail];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12763-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ravnborg.org:email,gmx.de:email,ruhr-uni-bochum.de:email]
-X-Rspamd-Queue-Id: C0DE83DD2B9
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rbm@suse.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,suse.com:dkim,suse.com:email,suse.com:mid]
+X-Rspamd-Queue-Id: C85CA3DFF88
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace the placeholder reference with a description of how Kbuild
-generates offset header files such as include/generated/asm-offsets.h.
+On 4/10/26 4:19 PM, Shuah Khan wrote:
+> On 3/20/26 12:29, Ricardo B. Marlière wrote:
+>> Selftests built with O= store generated files by default under
+>> $(objtree)/kselftest. Those files are not removed by mrproper today, so
+>> stale generated artifacts can survive across builds and be reused
+>> unexpectedly.
+>>
+>> Add kselftest to MRPROPER_FILES, so that the default kselftest output
+>> directory as part of mrproper target.
+>
+> Does this change remove kselftest build objects in-tree builds?
+> It didn't for me - also there is kselftest directory under
+> tools/selftests that has several scripts.
+>
+> Can you test this for in-tree builds - I would like this work
+> for both.
+>
+> I dropped this from my next for now. This can go through kbuild
+> tree.
 
-Remove the corresponding TODO entry now that this is documented.
+OK! But please also drop 
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=next&id=33880424308df3c2e39fa88ea74f051205ebb7b4
 
-Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
----
- Documentation/kbuild/makefiles.rst | 41 ++++++++++++++++++++++++------
- 1 file changed, 33 insertions(+), 8 deletions(-)
+Thanks!
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 24a4708d26e8..7521cae7d56f 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -1285,8 +1285,39 @@ Example::
- In this example, the file target maketools will be processed
- before descending down in the subdirectories.
- 
--See also chapter XXX-TODO that describes how kbuild supports
--generating offset header files.
-+Generating offset header files
-+------------------------------
-+
-+The ``include/generated/asm-offsets.h`` header exposes C structure
-+member offsets and other compile-time constants to assembly code. It
-+is generated from ``arch/$(SRCARCH)/kernel/asm-offsets.c``.
-+
-+The source file uses ``DEFINE()``, ``OFFSET()``, ``BLANK()`` and
-+``COMMENT()`` from ``<linux/kbuild.h>``. These emit marker strings
-+through inline asm that Kbuild extracts from the compiled assembly
-+output.
-+
-+Example::
-+
-+  #include <linux/kbuild.h>
-+  #include <linux/sched.h>
-+
-+  int main(void)
-+  {
-+          OFFSET(TSK_ACTIVE_MM, task_struct, active_mm);
-+          DEFINE(THREAD_SIZE, THREAD_SIZE);
-+          BLANK();
-+          return 0;
-+  }
-+
-+The rules are defined in the top-level ``Kbuild`` and
-+``scripts/Makefile.lib``. The header is built during Kbuild's
-+``prepare`` phase, after ``archprepare`` and before descending into
-+subdirectories.
-+
-+The same mechanism generates ``include/generated/bounds.h`` from
-+``kernel/bounds.c`` and ``include/generated/rq-offsets.h`` from
-+``kernel/sched/rq-offsets.c``.
- 
- List directories to visit when descending
- -----------------------------------------
-@@ -1690,9 +1721,3 @@ Credits
- - Updates by Kai Germaschewski <kai@tp1.ruhr-uni-bochum.de>
- - Updates by Sam Ravnborg <sam@ravnborg.org>
- - Language QA by Jan Engelhardt <jengelh@gmx.de>
--
--TODO
--====
--
--- Generating offset header files.
--- Add more variables to chapters 7 or 9?
--- 
-2.43.0
-
+>
+>>
+>> Signed-off-by: Ricardo B. Marlière <rbm@suse.com>
+>> ---
+>>   Makefile | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Makefile b/Makefile
+>> index c9b7bee102e8..91e6ec790a0f 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -1662,6 +1662,7 @@ MRPROPER_FILES += include/config 
+>> include/generated          \
+>>             debian snap tar-install PKGBUILD pacman \
+>>             .config .config.old .version \
+>>             Module.symvers \
+>> +          kselftest \
+>>             certs/signing_key.pem \
+>>             certs/x509.genkey \
+>>             vmlinux-gdb.py \
+>>
+>
+> thanks,
+> -- Shuah
 
