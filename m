@@ -1,125 +1,196 @@
-Return-Path: <linux-kbuild+bounces-12767-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12768-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AE9rJ4nH22lHGgkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12767-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Apr 2026 18:25:45 +0200
+	id sFc3Kt/m22laIgkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12768-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Apr 2026 20:39:27 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061953E4C6F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Apr 2026 18:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD2F3E5706
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Apr 2026 20:39:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 519633092DB5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Apr 2026 16:20:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 440913007F79
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Apr 2026 18:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EC92279358;
-	Sun, 12 Apr 2026 16:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11452D7398;
+	Sun, 12 Apr 2026 18:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cMFnQxim"
+	dkim=pass (2048-bit key) header.d=linux486.org header.i=@linux486.org header.b="Eiw93JJI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RC2jJ9Xe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B11C2765C4
-	for <linux-kbuild@vger.kernel.org>; Sun, 12 Apr 2026 16:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02F62E8B9B
+	for <linux-kbuild@vger.kernel.org>; Sun, 12 Apr 2026 18:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776010815; cv=none; b=T4hVDJiwFdrheBtZ0pw7lrSDRjDxf4jy+ZzfMUFa21TWWcUZjLO8gWXL7OFgh4a5CP/gFrOEJVR5FUhOsHP0ZHqkUs3b5mZrcko5HkPTTwfS7bTWpgXlxDeF5AA7IUSfWAvEDMbsuN87vPUczTMKQmJGrUr73cF+UvhA03uOcbs=
+	t=1776019000; cv=none; b=fFnIbrSuyO7sho8KWo+MtznIzpsobPCHdVWGCJHmmWzzu9fr5lXHCaMW8j46TvrwWENmFKSWGxRubzHMyQxbGTsoTc5z29G/bYsh8W5r0dxzr4tsaaQmcWHjk0mhjPkZHr6kZu1ISbS2cnQ7IBAasgdVj8vasIKOEql3BUBgoUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776010815; c=relaxed/simple;
-	bh=JitUAvb5HTIxzDp1I2YpHYJVJ5fKgLUL97jVxAZZ5KU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vGbFySjEPJYiOTvXmrqiJF4gfUHTBHwg4L2unxUN2w/BMy5xJKG4OI4FJcoUd1YDjmT6ebr7g15Q1teTcgIJ8CsDR1FufnsPfxbtrTgPKln/dH2G20YtWkMKLpvUtT90bxglE4bjQ0/fDxGG5CSY7qr7YMvKnpq62KHs6lXKrrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cMFnQxim; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 480FEC19425;
-	Sun, 12 Apr 2026 16:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776010812;
-	bh=JitUAvb5HTIxzDp1I2YpHYJVJ5fKgLUL97jVxAZZ5KU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cMFnQximGoEHH2u3r/9UMrhJLXNtO3BbEQnJ3MwSKdiMZ1yZ89nZLnZhAfOU7BQhk
-	 Wt64mn90LVxFPLe62rkDt7nF1p2Y/tt3oVRNFXLBWecHuYxccO9NMcl0yPRSdPg7YZ
-	 Zyav6bZfCM68NDewOZcZ/7kTgIO5yHvIv1TK/biMU3PxjzCkPVusOao9ZzLDLdiEjC
-	 /Zj34gai5yXngzySs16UadqWnzguWFoFWmg7ngRCXwyPmjJK5+khywKzPZtms1v2WZ
-	 iwQDtGDRsMmKH9LOp45yNqJXQ09uiJ9uTkt3xCyBZeMHwO32yxMCNvV9JHvGo3EtuE
-	 MkL+nzQ3LPqXw==
-Date: Sun, 12 Apr 2026 18:19:54 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Andrew Valencia <andy@linux486.org>
-Cc: linux-kbuild@vger.kernel.org
-Subject: Re: Kconfig olddefconfig nukes 32-bit
-Message-ID: <advGKvtLfEb1vwNK@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Andrew Valencia <andy@linux486.org>, linux-kbuild@vger.kernel.org
-References: <af3a3eea-ae34-4f94-b17c-43f154e80ff7@app.fastmail.com>
+	s=arc-20240116; t=1776019000; c=relaxed/simple;
+	bh=9UEoJLzKsw0xiPDU8e/PW5CiRc4iwLFNjttH4cHqKY4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Zgne1BF7QEtTKjYb/Un27/ticVBFXLgLDFGM3qASzqv/8jVSO47gtIVmb8DpjNGLRrUmHmwMo/Yp3NTxciUyJttMTgLHPLfittlbi+R6ZsAHls+oMRy1JZddUnYtQivvEqVnfDCayZMD+v/MU3GXvKgvePUB6GLuvifkFWfrFJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux486.org; spf=pass smtp.mailfrom=linux486.org; dkim=pass (2048-bit key) header.d=linux486.org header.i=@linux486.org header.b=Eiw93JJI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RC2jJ9Xe; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux486.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux486.org
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id D990E14000E7;
+	Sun, 12 Apr 2026 14:36:37 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Sun, 12 Apr 2026 14:36:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux486.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776018997;
+	 x=1776105397; bh=60LIK8WuEIzxFiQiMwS2jj9EravPfq1OCxAA2HSfE1c=; b=
+	Eiw93JJIWBNPFpknLJ9Vrtjvs942pOAk3xSa65IX/Hu0J+uJmX6fUwc02S1tr7zi
+	R/uMNlbgE4NjZnInCKB04jFS0sV71QCkAwgV79Dkt+DnDFxqZE/xRSh2pYkl4VkA
+	h9ckMxhJ5CE/aalynQ1323yLK9KLoaX7VBL3wKvgTvUe9mN+7y2JjsAsD+sKzo4O
+	lczJoJA/gZb/FxtG1VrXRREeQ3QKWUi0v3CdX/+ygESuBLLY/lZOs2t4AJQSPNSc
+	yMiCQQc+SwSKzV4eA0cCtkrGhw0vUK4hcRqNyHbwUvi3wpxFt045xjeK86px7Ris
+	wx9k338siP5DLkLuwN74iQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776018997; x=
+	1776105397; bh=60LIK8WuEIzxFiQiMwS2jj9EravPfq1OCxAA2HSfE1c=; b=R
+	C2jJ9XeHpQBZ9BXxyKFlg9XxceE1VcVMdPwIqYJ9ZgRN89FbG6hoVhVSHeb8EGox
+	5q/EoVOWy3s4U9ZJX29m05FB6eoYf6wrD/FSKleIHqw7L6K/Nvg4dpDPfydeL09E
+	HZDEbdYmxWWe6wiiATra4TiEvJexYg4hFr+4tJX39uhAIv+uADBLLHXUZT9OQaFX
+	nB5PkmnrU3ueOm+l5IWhDFH2QK9/ItDFOIDibmRaVR+pju6Sc+kqyxlBDn2ZzJ+K
+	mcom1SvMvGuVI2L5axDf1gGtfZryvuXjBKQZ7m4+GsyuUE5aYSKLg5XubR5GSJ3+
+	fjtiUCKJOHGmsHj5+TrVQ==
+X-ME-Sender: <xms:Nebbabxt11hnQDF5G01i06P3Rih9mZM9Wd6nGJHjj1z8lOydmC2WXw>
+    <xme:NebbaeF0L21NfH-JMI0uW0e9yQ88QL9x_qn2XSifZVnnuPSp0-K5KvgALkfNqfqwc
+    FVJ7fnmAi9hFXvX_mOYdKyBYmr_ypkH7ygV1SntWBSfT9Wm6M_Wc7k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefiedtiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetnhgurhgv
+    ficugggrlhgvnhgtihgrfdcuoegrnhguhieslhhinhhugiegkeeirdhorhhgqeenucggtf
+    frrghtthgvrhhnpeekgeeihfevheegieeghedvhfegleffieetjeeluddufeeileetueet
+    ledufeekteenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhvshhtrgdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhguhies
+    lhhinhhugiegkeeirdhorhhgpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpoh
+    huthdprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhn
+    uhigqdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:Nebbaee7CHIZYYfuvk1pPeH9-Uwh0fRudGMh6wYRNWYxwYK1w4NKnw>
+    <xmx:NebbaWLUVxlpu8OOoOJ9sLymBrbkA5Yu5A77uKvPS6yaFNSLeKwj8w>
+    <xmx:NebbaXH3U2NCDaKUg00gXxjH9NbnTh5-GHB6kyCWNC_iCf8rwjN_og>
+    <xmx:NebbaYrM03KRFqCM3xzcIOcYzqYydQ6k3vzuiuRNG1gj3IATNyes1A>
+    <xmx:NebbaRK_haIi8trEbeEVl_UFbzWtlGyE1T3eBDQmoXr2iwXnsiAF5gKo>
+Feedback-ID: ifbd64b11:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B9998700069; Sun, 12 Apr 2026 14:36:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <af3a3eea-ae34-4f94-b17c-43f154e80ff7@app.fastmail.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-ThreadId: AjK4HV-VrZTg
+Date: Sun, 12 Apr 2026 11:36:16 -0700
+From: "Andrew Valencia" <andy@linux486.org>
+To: "Nicolas Schier" <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Message-Id: <cc85769a-3f61-45bc-8773-322d3435bd83@app.fastmail.com>
+In-Reply-To: <advGKvtLfEb1vwNK@levanger>
+References: <af3a3eea-ae34-4f94-b17c-43f154e80ff7@app.fastmail.com>
+ <advGKvtLfEb1vwNK@levanger>
+Subject: Re: Kconfig olddefconfig nukes 32-bit
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [2.85 / 15.00];
+	SEM_URIBL_FRESH15(3.00)[linux486.org:dkim];
 	MAILLIST(-0.15)[generic];
+	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWO(0.00)[2];
-	TAGGED_FROM(0.00)[bounces-12767-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12768-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	R_DKIM_ALLOW(0.00)[linux486.org:s=fm1,messagingengine.com:s=fm2];
+	DMARC_NA(0.00)[linux486.org];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[linux486.org:+,messagingengine.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 061953E4C6F
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andy@linux486.org,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-0.979];
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 9CD2F3E5706
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Cc: linux-kbuild
+(Re-sending for rejection of an HTML part by the list management SW.)
 
-On Sat, Apr 11, 2026 at 10:55:15AM -0700, Andrew Valencia wrote:
-> Hi,
+Hi,
+
+This is for x86 32-bit target, built _on_ a x86 32-bit machine.
+
+The issue appears to be:
+
+config 64BIT
+        bool "64-bit kernel" if "$(ARCH)" = "x86"
+        default "$(ARCH)" != "i386"
+        help
+          Say yes to build a 64-bit kernel - formerly known as x86_64
+
+Which appears to say this config item is only enabled if ARCH is x86.  But this then makes the default value calculation invariant for any target with this config item--it is always true, and thus always 64-bit.
+
+So things like CONFIG_X86_32 go away, and CONFIG_OUTPUT_FORMAT switch away from elf32-i386.  Even if you're on a 32-bit build machine with a proper .config brought over from a previous 32-bit x86 build.
+
+When 64BIT is being introduced in olddefconfig, I'd hope it would key off of CONFIG_X86_32 or something like it.
+
+Thank you for giving this a look!
+Andy
+
+On Sun, Apr 12, 2026, at 9:19 AM, Nicolas Schier wrote:
+> Cc: linux-kbuild
 > 
-> I'm working over in the 6.19..12 world, and brought over a working
-> .config which I updated with olddefconfig.  Long story short, the
-> config was converted to a x86 64-bit config.
+> On Sat, Apr 11, 2026 at 10:55:15AM -0700, Andrew Valencia wrote:
+> > Hi,
+> > 
+> > I'm working over in the 6.19..12 world, and brought over a working
+> > .config which I updated with olddefconfig.  Long story short, the
+> > config was converted to a x86 64-bit config.
+> > 
+> > The issue is the new config entry 64BIT, which has a default value of
+> > ARCH != "i386".
 > 
-> The issue is the new config entry 64BIT, which has a default value of
-> ARCH != "i386".
+> yes, there is a 64BIT Kconfig symbol defined at arch/x86/Kconfig which
+> is true by default for non-i386 builds.  According to my git tree, the
+> corresponding lines did not change since v4.18 [1].
+> 
+> [1]: https://git.kernel.org/kbuild/c/104daea149c45
+> 
+> > On my 32-bit x86 build machine with its 32-bit .config, the default Y
+> > is being selected.  Is it possible i386 is not the correct name for
+> > ARCH on this target?
+> 
+> I guess, that you want to cross-build a 32bit-Linux on a 64bit-machine,
+> right?  How did you call olddefconfig (e.g. make ARCH=i386 olddefconfig)?
+> 
+> Kind regards
+> 
+> -- 
+> Nicolas
+> 
 
-yes, there is a 64BIT Kconfig symbol defined at arch/x86/Kconfig which
-is true by default for non-i386 builds.  According to my git tree, the
-corresponding lines did not change since v4.18 [1].
-
-[1]: https://git.kernel.org/kbuild/c/104daea149c45
-
-> On my 32-bit x86 build machine with its 32-bit .config, the default Y
-> is being selected.  Is it possible i386 is not the correct name for
-> ARCH on this target?
-
-I guess, that you want to cross-build a 32bit-Linux on a 64bit-machine,
-right?  How did you call olddefconfig (e.g. make ARCH=i386 olddefconfig)?
-
-Kind regards
-
--- 
-Nicolas
+--------------------------------
+Andy Valencia
+https://vsta.org/andy/
 
