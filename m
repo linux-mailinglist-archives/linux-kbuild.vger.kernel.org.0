@@ -1,197 +1,160 @@
-Return-Path: <linux-kbuild+bounces-12773-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12774-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBnNOhcR3WkOZQkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12773-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 17:51:51 +0200
+	id OHcYGqcU3WkOZQkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12774-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 18:07:03 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1413EE325
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 17:51:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B08F3EE53E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 18:07:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D915F3006832
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 15:51:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1A95B307C85C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 15:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7337D3B6345;
-	Mon, 13 Apr 2026 15:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BCC9340282;
+	Mon, 13 Apr 2026 15:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="CTGl5Ana";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fab+xdUH"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="H2HNf3MX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF83318EF4;
-	Mon, 13 Apr 2026 15:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D244537FF61
+	for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2026 15:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776095506; cv=none; b=l5mYBvgP81uzqmpASIbDkdorsFeua/wHGwHAW0jpODsvzw3+xyyz3f/00ZsBHauOavYqwulUtce6h7mKuXY2OD3gxmlP6cDSd/AubuPatmc8lAU6VQsI7pmNtSbx2cGxUZzzaLN1XbmZUmapu9FxmDygQR9uI6d4Ynk++KCGxOg=
+	t=1776095938; cv=none; b=rdDr6GNNdhfTvP00bLWVYB3N3koQJ64PQu15a009OU18tNHo2yLqsXHdOcMuQ+6bDYpzFSCgtjhMy1IFZPHBBa6KTGDR6kxf2gXlr7awwknk9zAffmtB7uinD/X7/8fGiwEmn+V6hnBCQEneRCk0vn2/KzPdYpEh58DOi++WB5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776095506; c=relaxed/simple;
-	bh=2pbCPsk1uAkNQ4bG4zTzChkfbTvx/nF1aRk6yx3549o=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=N02a2k2nenjfargnr9ytllgco7WJ9o4uaLnhK8pPLal8F/D8yVIzeNzALyiUfrQ6PNGMgjxYvGtpNa/yOfukwNqNRu6ggTLdMwtoWiDBCJl2cwd+PLdndF0c0eqOJCOtn88MJNxJjybAAcQe3+qqhRde/rmw1XcIxNQo7P8Rt2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=CTGl5Ana; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fab+xdUH; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4D0651D00168;
-	Mon, 13 Apr 2026 11:51:44 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Mon, 13 Apr 2026 11:51:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776095504;
-	 x=1776181904; bh=Mi1t5yTJ7BSsNOtqiw5PO/Gvmm+5EbskAhnRecllWew=; b=
-	CTGl5AnaNsPhlrIqsen0iiQcVJseNBgvfWI00At3ST102r0Uhf0o67h1a1g7B5Bz
-	Diaw8VbTx69vW1k3zsph6B8qeXBmCJOpgJ2htWQ+0zq/cE4hGRVGzD5zLwb2xlMD
-	Zo/nme0Oc723rGwFHVXn3XlRjK6wSQMr2EsIwgoH1J4LALRzGRi37R5pJkLee/51
-	yZHgByazW2Ws1zfvZCh5lQn/MoWqhmldujZOXNJpbi5WqiohFfKo1owkWsxPAVHv
-	TWxsOJ342FPPTNfeIyv0PDp/Oqq/MHdkLMclE6QEzwcFvZaM47fqqUxC9AVZQYD0
-	N12Y50C59YORmqUgUcsP8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776095504; x=
-	1776181904; bh=Mi1t5yTJ7BSsNOtqiw5PO/Gvmm+5EbskAhnRecllWew=; b=f
-	ab+xdUHXtn8qe+soKJoxxEksK6YpF19w8XLcxmu5DAFsMgITWQn4LkAFiABHwrWc
-	pQivcpTbbE8r9BI0Mjq3gydIkwXhcv+U6Dx5ucgpfNYG1qLh/7LDIivvzRGYuGGy
-	CCjcZcWzoAi6GbpN8NqtZmTLMY9q8Ob39nZ4e4/eYeBPNYlsnKg9hHckB6xBc26T
-	yt7nXHtQhBo/jMj8fHVtIR+K33ZwK5CaeHDddcWKnCyUtJL1KJLZbcTnLv62omCb
-	TX1hqrcd42FdT8b02mGfGiEgdZEpR1kjY8anCrNPPNGpiXWkGCuYe0rTxz7CCshQ
-	ABhQDT1Ya0q9Ec8OBTeDg==
-X-ME-Sender: <xms:DxHdaaic1MhpoOffJVqS-EEnJQNlqt58euKvGJbtLtyigA0W87QS8g>
-    <xme:DxHdaV13tH0GYG0lwsRmwYifZELqjsrLMYJjSsC176p1K1EQx2cKt6Wod0lvoe2MW
-    SCZ86JptRD5IrE_TD5Vx_JIAe6QSBrUN4uXVe05uBW-osyRsrta-w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdefkeeigecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpedvhfdvkeeuudevfffftefgvdevfedvleehvddvgeejvdefhedtgeegveehfeeljeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdp
-    rhgtphhtthhopehrihhtvghshhdrlhhishhtsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    eptghhlhgvrhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrugguhieslhhi
-    nhhugidrihgsmhdrtghomhdprhgtphhtthhopehvvghnkhgrthekkeeslhhinhhugidrih
-    gsmhdrtghomhdprhgtphhtthhopehlihhnuhigphhptgdquggvvheslhhishhtshdrohii
-    lhgrsghsrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgsuhhilhgusehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:DxHdaTglPYtYdHMyXTUIuwsDeqflRHGCzizIlsKhDfslAUHTtr7UTA>
-    <xmx:DxHdacAm0fjplbrcVt6c2Uai-D01m_as4jOhJs7D95tD6JqscYxESg>
-    <xmx:DxHdaVRQoZXQ0Ge7PZJBP-ybE3S13bU-E7ttfrJD-trk27WYAfMQdg>
-    <xmx:DxHdaRWM_rvKnRgD6Ek60Sak1MxfKiBkX0D8Q83owc9Va65g7NqERA>
-    <xmx:EBHdaYzKVBAfRKqc43g40qw9CdCtayuAMM8mpgtktC1UNDguKt-phLDj>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9227D700065; Mon, 13 Apr 2026 11:51:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1776095938; c=relaxed/simple;
+	bh=Tdp+mcITKsiIvySwDVpO5FTy5mQWlwJlxWX9gnP5yyg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JARaNzGNcfj1meYa/elBJHGhiJuy+DyNk3yZQsZsdLeqxOT3QkwO1aCyvfBkwFLAmw+y2zk6Owoj6sREf7+rmqHXbSAK+1gC4IRAh0/bQE17nxhpjbdOpOUH0lvOF38xWIv14fSqXY/Z6KLGSFvi67rtuYrYoqGKlh5nWycgGTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=H2HNf3MX; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-40423dbe98bso1765393fac.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2026 08:58:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1776095935; x=1776700735; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F0mLEqSJkZyHQgnOUF59T99Z8znx2jxsYBHcn5qzOMI=;
+        b=H2HNf3MXI34QGLk/inzZg/NJmrLbBzjh8eMfYTpo7NCaBYbmfnFyM8XeuqFau1/E3E
+         fBmYZdwbH6xVtPffM9LFT54aA3HW5/Fq/2GWUSOA3sH7u92BbweAySEXmEqsD1/7RKAr
+         oZLpLA0YBkexEP69b1BxuDz0u7pSS16Hg4xIc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776095935; x=1776700735;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F0mLEqSJkZyHQgnOUF59T99Z8znx2jxsYBHcn5qzOMI=;
+        b=LFUYr0eJRSGY33lgWpmv/FK0Knbt4TSVYfXW3d0sQ9usdFpQhFueukXqnZjh3RfW9b
+         alhBSkYbPfGo9R5ouTNG9WPPvWtKbZVv2D2lVbijAN/alQbeTIJJdM/MYzxfnAOKdrQI
+         DoFbOqvmjnvAFi04sWbHC2DfBXAc3G5LVZQQ0CAbfztjCVHbWMJfoDB2csa68dcwcjgz
+         wo0rK9bnMSr+rFE3PL3KeQkH8sTzj6gts+ZxioVytxQ+QDGEovBWJg5Nz9hNOz+6Po7P
+         GWw9fetzaIgJVfL+qkd/JNN+8fKpZvMmZtRD9d4UiRRKUGywt+5rKMy3VfAYWl2jJ8FS
+         yIeA==
+X-Forwarded-Encrypted: i=1; AFNElJ/9W7dg9s5gd/L59C5sYFM/7Pyo90o1fs6V2UPPmAlVMAQAp7W8BIDHKGU+HhcUP1+FZ5vJf9/Cg/7kl+0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpiA72Bu4XvvuEj8HNr2gz6zTDqNLywZ/dndlRTAyV3hmNGnve
+	D9/GVoofVjnhvIq/iy8SLdch3ydKNQ/Uh4ARePpKT3EXgZT9s6M6JkxRRAyJQsPMxa8=
+X-Gm-Gg: AeBDietC2OoQSlKf35nL8fdpj11o+rKMq8idWSdu+mKU5C612cnMhAP0eMwqdmhGkKe
+	S6kTr41IxsF8FTwSMFFURn2R8iRtULj6/coExoEuXbVzHlk58ychWoBbrqL6ZUkb3+/BH5+5+w6
+	5YsJElI8wqK/9b8KbCBsKO+1MNgKC3f6apka8jYP9MV4FEqVF5I7Uj3VhOzJKnP5rq2Z8mNComV
+	ARhvtIIEx3ESyedUMGxjLbH7KQnd2VfaUGkOfIpz9T/MbKwOPleaRXzhv0mAi+YfTShDPjZX1FD
+	bN3o+S/DdseuFmcYtY/dYiTOjIgRs5jmLonPYNRN+QXRKIpZsRpdkIIqm1Fret03yJfblakuWyM
+	7yKa9aKsWuiXLSHna57OZNZYOHCwdR8w/5T7CdPPIvCgQdbNAv/Bz1HdVZuYUqhe1JZ3onJBsXY
+	qWzWnFseqP3k5O2/iyfnb7f2Is5KDo04+v7JgOL0NejA==
+X-Received: by 2002:a05:6870:1604:b0:422:f3f3:5082 with SMTP id 586e51a60fabf-423e102d530mr6937269fac.21.1776095934648;
+        Mon, 13 Apr 2026 08:58:54 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42410ac4858sm4857171fac.7.2026.04.13.08.58.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Apr 2026 08:58:53 -0700 (PDT)
+Message-ID: <7287249f-3afb-487e-adec-8cf08ae7b1ad@linuxfoundation.org>
+Date: Mon, 13 Apr 2026 09:58:52 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Ab6DPzpUApkg
-Date: Mon, 13 Apr 2026 17:51:22 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Venkat Rao Bagalkote" <venkat88@linux.ibm.com>,
- "Madhavan Srinivasan" <maddy@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
- "Christophe Leroy" <chleroy@kernel.org>
-Message-Id: <929a3612-5d0f-4298-bb0f-b6cb0c215e85@app.fastmail.com>
-In-Reply-To: <E92E66BE-165B-4289-99B1-3F4E6B84CAAD@linux.ibm.com>
-References: <20260330103530.6873-1-venkat88@linux.ibm.com>
- <68e9ca6a-c53b-4f15-85b3-7ae9639f9528@linux.ibm.com>
- <6c00b695-9e84-4dd8-abbb-306fd67d6f97@linux.ibm.com>
- <E92E66BE-165B-4289-99B1-3F4E6B84CAAD@linux.ibm.com>
-Subject: Re: [PATCH v4] char/nvram: Remove redundant nvram_mutex
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.65 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] kbuild: remove kselftest output in mrproper
+To: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
+ <20260320-selftests-fixes-v1-6-79144f76be01@suse.com>
+ <0db1075e-4273-4504-9c3e-1a9f35d37998@linuxfoundation.org>
+ <227fd478-581e-462b-9579-afc5028abced@suse.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <227fd478-581e-462b-9579-afc5028abced@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm1,messagingengine.com:s=fm2];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.ozlabs.org,gmail.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12773-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12774-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[skhan@linuxfoundation.org,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,arndb.de:dkim,arndb.de:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,app.fastmail.com:mid]
-X-Rspamd-Queue-Id: EC1413EE325
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,linuxfoundation.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0B08F3EE53E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Apr 7, 2026, at 11:02, Venkat wrote:
->> On 7 Apr 2026, at 12:11=E2=80=AFPM, Tellakula Yeswanth Krishna <yeswa=
-nth@linux.ibm.com> wrote:
->>=20
->> Tested-by: yeswanth <yeswanth@linux.ibm.com>
->>=20
->> On 02/04/26 9:33 pm, Tellakula Yeswanth Krishna wrote:
->>>=20
->>> On 30/03/26 4:05 pm, Venkat Rao Bagalkote wrote:
->>>> The global nvram_mutex in drivers/char/nvram.c is redundant and unu=
-sed,
->>>> and this triggers compiler warnings on some configurations.
->>>>=20
->>>> All platform-specific nvram operations already provide their own in=
-ternal
->>>> synchronization, meaning the wrapper-level mutex does not provide a=
-ny
->>>> additional safety.
->>>>=20
->>>> Remove the nvram_mutex definition along with all remaining lock/unl=
-ock
->>>> users across PPC32, x86, and m68k code paths, and rely entirely on =
-the
->>>> per-architecture nvram implementations for locking.
->>>>=20
->>>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
->>>> Signed-off-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+On 4/11/26 06:49, Ricardo B. Marlière wrote:
+> On 4/10/26 4:19 PM, Shuah Khan wrote:
+>> On 3/20/26 12:29, Ricardo B. Marlière wrote:
+>>> Selftests built with O= store generated files by default under
+>>> $(objtree)/kselftest. Those files are not removed by mrproper today, so
+>>> stale generated artifacts can survive across builds and be reused
+>>> unexpectedly.
+>>>
+>>> Add kselftest to MRPROPER_FILES, so that the default kselftest output
+>>> directory as part of mrproper target.
+>>
+>> Does this change remove kselftest build objects in-tree builds?
+>> It didn't for me - also there is kselftest directory under
+>> tools/selftests that has several scripts.
+>>
+>> Can you test this for in-tree builds - I would like this work
+>> for both.
+>>
+>> I dropped this from my next for now. This can go through kbuild
+>> tree.
+> 
+> OK! But please also drop https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=next&id=33880424308df3c2e39fa88ea74f051205ebb7b4
+> 
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+I can do that - you didn't mention the reasons why you want me to drop
+this one. Do other patches in this series depend on this one?
 
-> Thanks for the earlier review and suggestion on this change.
->
-> I=E2=80=99m not entirely sure which tree would be the best home for th=
-is patch,=20
-> given that the change touches common NVRAM code used across multiple=20
-> architectures (PPC32, x86, and m68k).=20
->
-> If there are no further comments or objections from others, would you=20
-> be able to pick this up through your tree?
->
-> Please let me know if this should instead go via some other tree or ma=
-intainer.
-
-Greg manages the char-misc.git tree, while I mainly do reviews. Please
-resend the patch once 7.1-rc1 is out, with Greg as the recipient,
-and keeping the rest of the Cc list.
-
-       Arnd
+thanks,
+-- Shuah
 
