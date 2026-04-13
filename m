@@ -1,160 +1,174 @@
-Return-Path: <linux-kbuild+bounces-12774-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12775-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OHcYGqcU3WkOZQkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12774-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 18:07:03 +0200
+	id qAy9EN4X3WnNZwkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12775-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 18:20:46 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B08F3EE53E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 18:07:02 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A38C3EEA88
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 18:20:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A95B307C85C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 15:58:59 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2350630493E3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2026 16:09:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BCC9340282;
-	Mon, 13 Apr 2026 15:58:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E97F42D97B5;
+	Mon, 13 Apr 2026 16:08:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="H2HNf3MX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVzt9Sj5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D244537FF61
-	for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2026 15:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AC02D7DEF;
+	Mon, 13 Apr 2026 16:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776095938; cv=none; b=rdDr6GNNdhfTvP00bLWVYB3N3koQJ64PQu15a009OU18tNHo2yLqsXHdOcMuQ+6bDYpzFSCgtjhMy1IFZPHBBa6KTGDR6kxf2gXlr7awwknk9zAffmtB7uinD/X7/8fGiwEmn+V6hnBCQEneRCk0vn2/KzPdYpEh58DOi++WB5s=
+	t=1776096522; cv=none; b=rrhIMV6R9rp2xl34YuvNVNG98admKfHr3P6KlZDz+nj7O1VxviJECKzOwjvZ2fZbH8LrKIQiqkbVuaQ6TLJ1xWKEhm8EKZpQKXYl7/Q49DMEWWLF7h0dk5vidp8vpWQ8rhIn9bygsiZidr51gNB3IlXNJf78orDh71jtfuFNPW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776095938; c=relaxed/simple;
-	bh=Tdp+mcITKsiIvySwDVpO5FTy5mQWlwJlxWX9gnP5yyg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JARaNzGNcfj1meYa/elBJHGhiJuy+DyNk3yZQsZsdLeqxOT3QkwO1aCyvfBkwFLAmw+y2zk6Owoj6sREf7+rmqHXbSAK+1gC4IRAh0/bQE17nxhpjbdOpOUH0lvOF38xWIv14fSqXY/Z6KLGSFvi67rtuYrYoqGKlh5nWycgGTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=H2HNf3MX; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-40423dbe98bso1765393fac.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2026 08:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1776095935; x=1776700735; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F0mLEqSJkZyHQgnOUF59T99Z8znx2jxsYBHcn5qzOMI=;
-        b=H2HNf3MXI34QGLk/inzZg/NJmrLbBzjh8eMfYTpo7NCaBYbmfnFyM8XeuqFau1/E3E
-         fBmYZdwbH6xVtPffM9LFT54aA3HW5/Fq/2GWUSOA3sH7u92BbweAySEXmEqsD1/7RKAr
-         oZLpLA0YBkexEP69b1BxuDz0u7pSS16Hg4xIc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776095935; x=1776700735;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F0mLEqSJkZyHQgnOUF59T99Z8znx2jxsYBHcn5qzOMI=;
-        b=LFUYr0eJRSGY33lgWpmv/FK0Knbt4TSVYfXW3d0sQ9usdFpQhFueukXqnZjh3RfW9b
-         alhBSkYbPfGo9R5ouTNG9WPPvWtKbZVv2D2lVbijAN/alQbeTIJJdM/MYzxfnAOKdrQI
-         DoFbOqvmjnvAFi04sWbHC2DfBXAc3G5LVZQQ0CAbfztjCVHbWMJfoDB2csa68dcwcjgz
-         wo0rK9bnMSr+rFE3PL3KeQkH8sTzj6gts+ZxioVytxQ+QDGEovBWJg5Nz9hNOz+6Po7P
-         GWw9fetzaIgJVfL+qkd/JNN+8fKpZvMmZtRD9d4UiRRKUGywt+5rKMy3VfAYWl2jJ8FS
-         yIeA==
-X-Forwarded-Encrypted: i=1; AFNElJ/9W7dg9s5gd/L59C5sYFM/7Pyo90o1fs6V2UPPmAlVMAQAp7W8BIDHKGU+HhcUP1+FZ5vJf9/Cg/7kl+0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpiA72Bu4XvvuEj8HNr2gz6zTDqNLywZ/dndlRTAyV3hmNGnve
-	D9/GVoofVjnhvIq/iy8SLdch3ydKNQ/Uh4ARePpKT3EXgZT9s6M6JkxRRAyJQsPMxa8=
-X-Gm-Gg: AeBDietC2OoQSlKf35nL8fdpj11o+rKMq8idWSdu+mKU5C612cnMhAP0eMwqdmhGkKe
-	S6kTr41IxsF8FTwSMFFURn2R8iRtULj6/coExoEuXbVzHlk58ychWoBbrqL6ZUkb3+/BH5+5+w6
-	5YsJElI8wqK/9b8KbCBsKO+1MNgKC3f6apka8jYP9MV4FEqVF5I7Uj3VhOzJKnP5rq2Z8mNComV
-	ARhvtIIEx3ESyedUMGxjLbH7KQnd2VfaUGkOfIpz9T/MbKwOPleaRXzhv0mAi+YfTShDPjZX1FD
-	bN3o+S/DdseuFmcYtY/dYiTOjIgRs5jmLonPYNRN+QXRKIpZsRpdkIIqm1Fret03yJfblakuWyM
-	7yKa9aKsWuiXLSHna57OZNZYOHCwdR8w/5T7CdPPIvCgQdbNAv/Bz1HdVZuYUqhe1JZ3onJBsXY
-	qWzWnFseqP3k5O2/iyfnb7f2Is5KDo04+v7JgOL0NejA==
-X-Received: by 2002:a05:6870:1604:b0:422:f3f3:5082 with SMTP id 586e51a60fabf-423e102d530mr6937269fac.21.1776095934648;
-        Mon, 13 Apr 2026 08:58:54 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42410ac4858sm4857171fac.7.2026.04.13.08.58.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Apr 2026 08:58:53 -0700 (PDT)
-Message-ID: <7287249f-3afb-487e-adec-8cf08ae7b1ad@linuxfoundation.org>
-Date: Mon, 13 Apr 2026 09:58:52 -0600
+	s=arc-20240116; t=1776096522; c=relaxed/simple;
+	bh=qiSHxLPPIZVe0C4u4NCj88+quPA9WlsGUJ7L0/9iL+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E3yKGC8C6oyj4ws8u6pSN0kJnu1ukeFvKndWeA2l0D46zmXzzPOQOcrElmy0zleeOgoOJB1XMgAWPRWFthDiE+PRVRKcyOu92iG5sscvhOjbxAecGDeS4OBOdgrHmMqqWcnQGup5UI2+i48kScfe+1vvGzkUElrqsI4bsb30VvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVzt9Sj5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C0DC2BCB7;
+	Mon, 13 Apr 2026 16:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776096522;
+	bh=qiSHxLPPIZVe0C4u4NCj88+quPA9WlsGUJ7L0/9iL+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WVzt9Sj5x1vB5hUJ/ERGBDdbCHAA+xHGi+2Cab5YsuocOawxXcMHjs4QPVbmQMWHH
+	 LBVP3W79Mk5i8k7mOvaIbXJJjX1s1EJbszc7MXKtUayDh5//la22v9tXBGKoLN13tc
+	 eepA8AV6qgCa/rkuFtDGJ8EE/oTnnRWG43qYp5VgutsKmSxDuQlrIP9DLDsVqKeRSR
+	 LtaLyidytcrvLFb7blWPjXw55+6nQYlanM9PABi0VRX/P7CFYTh19ZL0Ok2+YnB8pl
+	 2FX3uftDhlsY8IDYJe1yV8chbX8VRNw3dXy4YHZRwsHp53Y0y/NTVPjB02cEI6vO+J
+	 c1kgvd9F1CbtA==
+Date: Mon, 13 Apr 2026 21:38:24 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Stephan Gerhold <stephan.gerhold@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
+	Hans de Goede <johannes.goede@oss.qualcomm.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v7 0/8] Add support for handling PCIe M.2 Key E
+ connectors in devicetree
+Message-ID: <eeytuhqpgdz4do4tgtbmfntub2femtyq7bij7svhodpyjwaylx@j3gmvq2a2zqc>
+References: <20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com>
+ <20260413075459.GA2626902@google.com>
+ <fpcs4p62f35a5qyqwgm5ysa73stbysxcr62tkmmkrrcvsuf4t4@4ivukyqjey57>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] kbuild: remove kselftest output in mrproper
-To: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
- Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
- <20260320-selftests-fixes-v1-6-79144f76be01@suse.com>
- <0db1075e-4273-4504-9c3e-1a9f35d37998@linuxfoundation.org>
- <227fd478-581e-462b-9579-afc5028abced@suse.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <227fd478-581e-462b-9579-afc5028abced@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+In-Reply-To: <fpcs4p62f35a5qyqwgm5ysa73stbysxcr62tkmmkrrcvsuf4t4@4ivukyqjey57>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12775-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12774-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[32];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[skhan@linuxfoundation.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux.dev,linux.intel.com,squebb.ca,gmail.com,holtmann.org,bgdev.pl,vger.kernel.org,linaro.org,oss.qualcomm.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,linuxfoundation.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0B08F3EE53E
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8A38C3EEA88
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/11/26 06:49, Ricardo B. Marlière wrote:
-> On 4/10/26 4:19 PM, Shuah Khan wrote:
->> On 3/20/26 12:29, Ricardo B. Marlière wrote:
->>> Selftests built with O= store generated files by default under
->>> $(objtree)/kselftest. Those files are not removed by mrproper today, so
->>> stale generated artifacts can survive across builds and be reused
->>> unexpectedly.
->>>
->>> Add kselftest to MRPROPER_FILES, so that the default kselftest output
->>> directory as part of mrproper target.
->>
->> Does this change remove kselftest build objects in-tree builds?
->> It didn't for me - also there is kselftest directory under
->> tools/selftests that has several scripts.
->>
->> Can you test this for in-tree builds - I would like this work
->> for both.
->>
->> I dropped this from my next for now. This can go through kbuild
->> tree.
-> 
-> OK! But please also drop https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/commit/?h=next&id=33880424308df3c2e39fa88ea74f051205ebb7b4
-> 
+[Resending as my previous reply got bounced]
 
-I can do that - you didn't mention the reasons why you want me to drop
-this one. Do other patches in this series depend on this one?
+On Mon, Apr 13, 2026 at 07:33:12PM +0530, Manivannan Sadhasivam wrote:
+> On Mon, Apr 13, 2026 at 03:54:59PM +0800, Chen-Yu Tsai wrote:
+> > Hi,
+> > 
+> > On Thu, Mar 26, 2026 at 01:36:28PM +0530, Manivannan Sadhasivam wrote:
+> > > Hi,
+> > > 
+> > > This series is the continuation of the series [1] that added the initial support
+> > > for the PCIe M.2 connectors. This series extends it by adding support for Key E
+> > > connectors. These connectors are used to connect the Wireless Connectivity
+> > > devices such as WiFi, BT, NFC and GNSS devices to the host machine over
+> > > interfaces such as PCIe/SDIO, USB/UART and NFC. This series adds support for
+> > > connectors that expose PCIe interface for WiFi and UART interface for BT. Other
+> > > interfaces are left for future improvements.
+> > 
+> > Thanks for working on this. I started playing with it now that it is in
+> > -next. The PCIe part works fine. I'm looking into how to fit the pwrseq
+> > 
+> > A couple questions:
+> > 
+> > - Given that this connector actually represents two devices, how do I
+> >   say I want the BT part to be a wakeup source, but not the WiFi part?
+> >   Does wakeup-source even work at this point?
+> > 
+> 
+> You can't use the DT property since the devices are not described in DT
+> statically. But you can still use the per-device 'wakeup' sysfs knob to enable
+> wakeup.
+> 
+> > - Are there plans to do the SDIO part?
+> > 
+> 
+> No, not at the moment. Feel free to take it up if you have the hardware and
+> motivation :)
+> 
+> > - The matching done in the M.2 connector driver for pwrseq_get() seems a
+> >   bit naive. It simply checks if the remote device in the OF graph is
+> >   the same as the requesting device.
+> > 
+> >   I think this would run into issues with USB hubs. If I have a USB hub
+> >   and two M.2 connectors, with both connectors connected to the same
+> >   hub, pwrseq_get() is going to always return only one of the instances.
+> >   This is because the USB hub has one device node with multiple OF graph
+> >   ports.
+> > 
+> 
+> Yeah, this is a known limitation. I'm trying to improve this part now and have
+> the WIP commits here: https://github.com/Mani-Sadhasivam/linux/tree/pwrseq-bt-en-fixes
+> 
+> Once the merge window closes, I'll submit these.
+> 
+> - Mani
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
 
-thanks,
--- Shuah
+-- 
+மணிவண்ணன் சதாசிவம்
 
