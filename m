@@ -1,103 +1,62 @@
-Return-Path: <linux-kbuild+bounces-12779-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12780-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aB4WJ6373WkRmAkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12779-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Apr 2026 10:32:45 +0200
+	id wD/fLwkN3mlfmgkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12780-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Apr 2026 11:46:49 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9593F75B6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Apr 2026 10:32:45 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCAB73F82AD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Apr 2026 11:46:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CAFD63019C8E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Apr 2026 08:28:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 9FC9B3015835
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Apr 2026 09:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EA633A6404;
-	Tue, 14 Apr 2026 08:28:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7893CA4A9;
+	Tue, 14 Apr 2026 09:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrqrQBvv"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="QQ24Ydph"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4574F394797;
-	Tue, 14 Apr 2026 08:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95E238F65A
+	for <linux-kbuild@vger.kernel.org>; Tue, 14 Apr 2026 09:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776155313; cv=none; b=G/Z5loJUJESfuxUTbwJLQYpytYgyiej3OEkFYEGKiXzElMaWTkwKJn30okYaTvjuRgBN/Q7rdpeWF/E47yPtw1YprlfNo+AYtnaG+S19Te+B1kquEbwjyAhd0TNqUwSUYgzW+EiYaMOnMMghFt/Hde2qPw46hfz09VkqK4QgBcM=
+	t=1776159987; cv=none; b=o5eTVzmUbqzvZRYhu70ZAKhiUhFd4+2RvgCKtbBjsWobildxsE0wMDLrm3/+eRwN2dV2kNWCsx4IWEKIf2c3CRFxGg/PZWDq0Qx7aU47phdzf35k0Vy1l/GZ7fCHrWxgeF+lLfVd/Bed9q+5qq1D6ahFNZQAri2MNCW2t3sNCkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776155313; c=relaxed/simple;
-	bh=E8vQKyt9MpxoC9XzgyedL1hL744D9xnu3AxzYNuYnlk=;
+	s=arc-20240116; t=1776159987; c=relaxed/simple;
+	bh=VCPvXFGr/aJNfeFnOM4zEEfuXlrNHdv576rJKjSF9Tg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gK7wQzdefrd/JnpAIqaPnjpkWj5rIpjMciOcTWIN5rAoixkwaAVC0q2MhXmRpmmg2Zy1s/9oGM47msC0aGkMSE+RHtwf6pkJaQd1g1mwBQTlzeLxW8ZSvNAu7LxiwnTwICqbQqQ3gVYv+FnwKUnicWKC2Ggkqjuly0h88urhEbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrqrQBvv; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776155311; x=1807691311;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=E8vQKyt9MpxoC9XzgyedL1hL744D9xnu3AxzYNuYnlk=;
-  b=nrqrQBvvTiXBx7uJRCIKr+aEfVCDIVpV7pbqWVDzXrJMc8ky3+iVLAkS
-   qEhhSVpI/KpE+TAPuD/Bea4SzphrKpJBgpHDY5LMkHEW4mT4SZ0wkdpmb
-   bJBzZEUb4KaRYYx6S9nmyCptWYjuOImXE9MEiXnfC/WX/5DbXqsV3Yzp8
-   jxvL2Y0mHVYzRDmS7eFl3tgBZ9Zs7e5jn4lcmIwl5jE5wPJ/YZ/hP3B0X
-   4HofToBWdlbuiDkKG/mdoUiFgKmfjcwfn/ujWTZcLezIaKKnS7cBhu3cG
-   8mFw46FyHoVgXHwHStOza2HcoDTGmLSAv1u1ODFSSwZ0ti5V3N3Oj8vFB
-   A==;
-X-CSE-ConnectionGUID: htvNGI4VRhWHr7IRHmz0vQ==
-X-CSE-MsgGUID: 2Iqbb7S3QpqjjhmNBDmj2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="87728045"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="87728045"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 01:28:30 -0700
-X-CSE-ConnectionGUID: +bVRXWnVTl+UbC1B5PjMKw==
-X-CSE-MsgGUID: 6AC0PQEOQUaj+1BKtE2xJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="230255689"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.106])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 01:28:23 -0700
-Date: Tue, 14 Apr 2026 11:28:20 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-acpi@vger.kernel.org,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v7 0/8] Add support for handling PCIe M.2 Key E
- connectors in devicetree
-Message-ID: <ad36pIu-0dutL7Nk@ashevche-desk.local>
-References: <20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com>
- <20260413075459.GA2626902@google.com>
- <fpcs4p62f35a5qyqwgm5ysa73stbysxcr62tkmmkrrcvsuf4t4@4ivukyqjey57>
- <eeytuhqpgdz4do4tgtbmfntub2femtyq7bij7svhodpyjwaylx@j3gmvq2a2zqc>
- <CAGXv+5E=tujhtZjwi6Qm7hk3Ks74UzTQHWq82NiTEw1+vYod5g@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MwIcXfSPUfGJbu8ObqsqK3ZJzbSGAvErrVh3sKyPZnrYktfKMDsjpq770EbezlcUP+O9tdnFEdshazuzDSULdm7w92vM/6f/irQrN3m81kOT5QVxT7GoMa6TrL0b7K3/zKRROmCWaBKj+IMU2+dr0/QRCmyuzGWOBqUU94eyHJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=QQ24Ydph; arc=none smtp.client-ip=212.42.244.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1776159658; bh=VCPvXFGr/aJNfeFnOM4zEEfuXlrNHdv576rJKjSF9Tg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QQ24Ydph2PLkqWXKE2sSDiqqBPySn4iw0SQy6sBKX7asjdH4GjPRVJfJMk0PxSIMY
+	 3O5YJ9wo4ey3H2jyBthKn+/kecvL8M4ZnwDFTZSurZvO+LcOPl1KgTkGrIYXKuIibE
+	 K9uoVvLmg7/KMwh5BW9e/ue2ABJ9asSdfKkmFLRg=
+Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.55.2)
+	(envelope-from <nschier-oss@avm.de>)
+	id 69de0baa-7cca-7f0000032729-7f000001a0d2-1
+	for <multiple-recipients>; Tue, 14 Apr 2026 11:40:58 +0200
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue, 14 Apr 2026 11:40:58 +0200 (CEST)
+Date: Tue, 14 Apr 2026 11:40:56 +0200
+From: Nicolas Schier <nschier-oss@avm.de>
+To: Andrew Valencia <andy@linux486.org>
+Cc: x86@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: Kconfig olddefconfig nukes 32-bit
+Message-ID: <20260414-inescapable-true-armadillo-1ab7f3@l-nschier-aarch64>
+References: <af3a3eea-ae34-4f94-b17c-43f154e80ff7@app.fastmail.com>
+ <advGKvtLfEb1vwNK@levanger>
+ <cc85769a-3f61-45bc-8773-322d3435bd83@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -106,72 +65,105 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5E=tujhtZjwi6Qm7hk3Ks74UzTQHWq82NiTEw1+vYod5g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+In-Reply-To: <cc85769a-3f61-45bc-8773-322d3435bd83@app.fastmail.com>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1776159658-5CD681B7-5D771457/0/0
+X-purgate-type: clean
+X-purgate-size: 2165
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[avm.de,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[avm.de:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linuxfoundation.org,linux.dev,linux.intel.com,squebb.ca,gmail.com,holtmann.org,bgdev.pl,vger.kernel.org,linaro.org];
-	TAGGED_FROM(0.00)[bounces-12779-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12780-lists,linux-kbuild=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-kbuild,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nschier-oss@avm.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[avm.de:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ashevche-desk.local:mid]
-X-Rspamd-Queue-Id: 5D9593F75B6
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BCAB73F82AD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Apr 14, 2026 at 01:03:19PM +0800, Chen-Yu Tsai wrote:
-> On Tue, Apr 14, 2026 at 12:08 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
-> > On Mon, Apr 13, 2026 at 07:33:12PM +0530, Manivannan Sadhasivam wrote:
-> > > On Mon, Apr 13, 2026 at 03:54:59PM +0800, Chen-Yu Tsai wrote:
-> > > > On Thu, Mar 26, 2026 at 01:36:28PM +0530, Manivannan Sadhasivam wrote:
+[ CC: x86 (x86 arch specific olddefconfig behaviour) ]
 
-...
+Hi Andrew,
 
-> > > > - Given that this connector actually represents two devices, how do I
-> > > >   say I want the BT part to be a wakeup source, but not the WiFi part?
-> > > >   Does wakeup-source even work at this point?
-> > >
-> > > You can't use the DT property since the devices are not described in DT
-> > > statically. But you can still use the per-device 'wakeup' sysfs knob to enable
-> > > wakeup.
+please reply in-line instead of top-posting.
+
+On Sun, Apr 12, 2026 at 11:36:16AM -0700, Andrew Valencia wrote:
+> (Re-sending for rejection of an HTML part by the list management SW.)
 > 
-> I see. I think not being able to specify generic properties for the devices
-> on the connector is going to be a bit problematic.
+> Hi,
+> 
+> This is for x86 32-bit target, built _on_ a x86 32-bit machine.
+> 
+> The issue appears to be:
+> 
+> config 64BIT
+>         bool "64-bit kernel" if "$(ARCH)" = "x86"
 
-This is nature of the open-connectors, especially on the busses that are
-hotpluggable, like PCIe. We never know what is connected there _ahead_.
+This makes 64BIT interactively selectable only if ARCH=x86.
+When using ARCH=i386 or ARCH=x86_64, the "64-bit kernel" Kconfig option
+is not available in 'make oldconfig' or 'make menuconfig' etc.
 
-In other words you can't describe in DT something that may not exist.
+>         default "$(ARCH)" != "i386"
 
-> requires specifying a bounce buffer / SWIOTLB for the PCIe WiFi card. The
-> PCIe controller does not have an IOMMU behind it.
+This sets the default value for CONFIG_64BIT to 'y' if ARCH is not 
+explicitly set to 'i386' -- thus for ARCH=x86 and ARCH=x86_64.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>         help
+>           Say yes to build a 64-bit kernel - formerly known as x86_64
+> 
+> Which appears to say this config item is only enabled if ARCH is x86.  
+> But this then makes the default value calculation invariant for any 
+> target with this config item--it is always true, and thus always 
+> 64-bit.
+> 
+> So things like CONFIG_X86_32 go away, and CONFIG_OUTPUT_FORMAT switch 
+> away from elf32-i386.  Even if you're on a 32-bit build machine with a 
+> proper .config brought over from a previous 32-bit x86 build.
+> 
+> When 64BIT is being introduced in olddefconfig, I'd hope it would key 
+> off of CONFIG_X86_32 or something like it.
 
+Running 'make olddefconfig' (w/o a specific x86 arch) lets 
+arch/x86/Makefile choose a defconfig file for reference (cp. head of 
+arch/x86/Makefile).  If ARCH=x86 (or unspecified on any x86 machine), 
+the output of `uname -m` is evaluated.  If ARCH=i386 is explicitly 
+given, the 32bit defconfig will be chosen, no matter what kind of x86 
+the build host is; and the other way around for ARCH=x86_64.
 
+Thus, if you build a 32bit kernel with your 32bit config file on a 
+x86_64 host, you have to use
+
+   make ARCH=i386 olddefconfig
+
+if you want to use 'olddefconfig' to let the config keep the 
+CONFIG_64BIT=n setting.
+
+Does that help?
+
+Kind regards,
+Nicolas
 
