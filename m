@@ -1,204 +1,200 @@
-Return-Path: <linux-kbuild+bounces-12796-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12797-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MO2oNPqx32lCXwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12796-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 17:42:50 +0200
+	id kKcwC6Sz32lCXwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12797-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 17:49:56 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFF1406097
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 17:42:50 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 152B6406170
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 17:49:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D54A83025716
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 15:42:48 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EC8AB300349E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 15:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42F9F3DC4A0;
-	Wed, 15 Apr 2026 15:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70CE03E316C;
+	Wed, 15 Apr 2026 15:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YgPMBjBI"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PHd987CT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5413DBD70
-	for <linux-kbuild@vger.kernel.org>; Wed, 15 Apr 2026 15:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD01334C3D;
+	Wed, 15 Apr 2026 15:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776267768; cv=none; b=bAZ9Ujpd0/m5enlAnxBMCthmYbQEuD8wgEmgCTNdt1/Qb8wUv9JBjbr1mIytV8kOyOUKqQw3gtmNdiLXPX9cbJqFkYF0+GXuZugVZ8IhSN4tjI4lyigkBfr6cvXgngPsUJIj1N5SVH2ZSBMHgOWQgY31xvcjmCHvCj9bzzyM+yc=
+	t=1776268104; cv=none; b=aSAwLzIm6EJPOgRG4Rwzje0K0pMr11P5Ps9dH6Jm/AIik8ekeK7JWHPHbrFBhERRkLLLW38oYndMbdvbfZSHiLy0NR0lgVgUdWWHqrhgUa5Vg7/IzXMcf76L/VRcNmdoDKuRM4W3yXONF9QpiP248GZH85zLpPKQ9CjR7CIU6pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776267768; c=relaxed/simple;
-	bh=dDijZuor1xvmTBogTjju/PAPbY/PQMGI1uljwU/belg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=XJYDT44br1x1qGKIpqft3DLUhIEjqSILgIumnmrPeWtScl/17H9Od6GDI8RVxs/+69CfjAtwJDTOJASsBeSeAqu7hGm4X7WOh+skeDJDCO3z+enZlR+qLlPLplkOOgB/G4ISn5zBbE++P+huzSl/37w6ybE9900YBnla8zsbCiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YgPMBjBI; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso84788345e9.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 15 Apr 2026 08:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1776267765; x=1776872565; darn=vger.kernel.org;
-        h=in-reply-to:references:to:cc:subject:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3BvjwjAzTjY/jU9mV6i6higD+5qPV14w0YtVebluUHw=;
-        b=YgPMBjBIzkwymkGdPggQLhS/aMLYFQ8XOej0VFMyFcxtyGqIdYxEnWEniUhpatV6gR
-         panPQL9RHnLe61uh5JUojJkZnxh+NXjImsl8gOkZJZQvDMJA7yQeMIYjB9QQY9wfqK7e
-         QpYotYfOjp+s5rHq1GsQSDr8htabVfnNaNaa1Pm+FYX7cSILPjyHO3fvxdE5c2I4IaiE
-         juS1tdY/uUOc04h2egRgiSI9x0fzRwCULqoeCIRg77uCMxY92OoXy2TcNZSxVO0A/kFm
-         kxlS9G1sx9oHw0EAUov3iD1fUchsvsaVSX2GsC6KDrYNDZ+MCgJWzP9i2YRaWV6tf8gO
-         21vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776267765; x=1776872565;
-        h=in-reply-to:references:to:cc:subject:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3BvjwjAzTjY/jU9mV6i6higD+5qPV14w0YtVebluUHw=;
-        b=I3+m1UzHTFY8CCbRLiMvxstTFONAYO0WqfmT/RuIMsd1pCeUE0Y0p4VFZ8izj1bVqs
-         ZfQU6e73pocU37FykToPxMrHAjQDRqcmka5xwaY/lSBES9swCqdS1Cc7l4JglSRja7zS
-         WzXzQs8oaRsu4a/01PVJJfX+S9bhpEbUZ2GMIe9V1r45/Ba93dDAcdP3MBwEIVHMOVF7
-         FRq/TczPLG7CXdgmCw4M13oJS+4StqTTtmDHx81p4C96i3mprTbaSEcHX9x6JPG+xdo5
-         M1xKq482my5sGrk4GNWnGchEwwtDwMsrDe8AMOe1argRpRHTg93m68pJK7t/OUKABVrT
-         Nljw==
-X-Forwarded-Encrypted: i=1; AFNElJ/a7DK3MH3ZyD0JGeLFjy5IuTSs/9WdmNXxKphjZJLUAnAn5eHN993/4xfgqS1EAQXWKclnet12L/EkGpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUB1+NvZqnpQhsJLcMndQrE/SGp08U/gdlIaN9NCDA6ESHXbF4
-	7TP+NwaN/y6+vLNmtTAR7BFZh0TvqMvcTqpM4/6p0TMda20D2Crf4p0/5QppDj75cus=
-X-Gm-Gg: AeBDietJtjSu0wmWjsHuKzI7tMZFY0Gzto7zcfDCajTwypWYgZTVFtTZGuev3fgne8G
-	Yv0fjFVyqwikrI/FzyyQBsHU9/8MTaxwS+SUt8ORHDlDzv7V5YntmgLkD7OeCEeG2vfxHGZbslF
-	Py1wOjL07iJjtvzqPl584Hfsmj9ea2mn/ZT6TvMJbBq+2IL+ryc3k3diujE+mF9oBOiN9pFGNo7
-	WohOCi2caeKwlZK5HaQ4IFh9EIrTLaV6tnChw5/FAkt9zqhjoRdK0tGuvl6DcrHyLL6s0NBUHJ8
-	u1BrWBo45tKSt2PxaOp1oTzDFCSOaSKg2Fld3GKT7WwFEYnrV8qFTrYdIo4NuMGONEhlzob9Sy4
-	vh5HcZOnsyIKXvlsKmUrLnuimLtrxQkk1iRsLJ8BkSPdc+F37kKYSFtSe2VUsOFFWnrY11McwRQ
-	NtYAVOhmAXDQ==
-X-Received: by 2002:a05:600c:19cd:b0:485:17a7:b9c7 with SMTP id 5b1f17b1804b1-488d67e3671mr305346955e9.10.1776267765033;
-        Wed, 15 Apr 2026 08:42:45 -0700 (PDT)
-Received: from localhost ([2804:7f0:b765:e41:8620:c31f:89a6:1fe0])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2de8c605883sm2995905eec.10.2026.04.15.08.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 08:42:43 -0700 (PDT)
+	s=arc-20240116; t=1776268104; c=relaxed/simple;
+	bh=+N13We6u1aTuDl065kI8NF7yQBpuUo5PFRNdhNo0bb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RJKXR89yoI9nY0D7NbLf7cpRkqXNPbnm69EExK5LLkNG4+8d8SRcQ1nt/W70TNcPf5cWpon/5R21sS5/L+V8YL39PZguoJ/MryPdYXezZ77mElbMdjgMqd0FwP/lNywaweZNzLH42ZWIigiXbfPc3ocIVv4XM/xEl2ry7Y428XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PHd987CT; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <15d50eb0-685f-49b8-986c-bd54262865d8@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776268087;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q0ir231c0MGV6mGNBlLaPWnwdLwfewiRnCNnLDv3p10=;
+	b=PHd987CTVEMNQ8ZUbkftc92HFo/CPILriZ61sNlfDKzl9YpQni4+xU+KdOPrAYVCo7gl6B
+	WEs8rD+RjL96mMhV3K1HTrnP4gMNRe/jSrlMzaoi9i97PoJRWh5+HVmDjOVh4YC5ZJrIZz
+	0oHWxv0N9Lflpco0WQZQEBY/Qch3IHc=
+Date: Wed, 15 Apr 2026 08:47:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Subject: Re: [PATCH] kbuild/btf: Remove broken module relinking exclusion
+To: Petr Pavlu <petr.pavlu@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
+ bpf@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260410131343.2519532-1-petr.pavlu@suse.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <20260410131343.2519532-1-petr.pavlu@suse.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Apr 2026 12:42:41 -0300
-Message-Id: <DHTUDCIYT34R.3VKGNDGUUKS84@suse.com>
-From: =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?= <rbm@suse.com>
-Subject: Re: [PATCH 5/6] selftests: Preserve subtarget failures in
- all/install
-Cc: "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier"
- <nsc@kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
- <Aishwarya.TCV@arm.com>, <ben.copeland@linaro.org>,
- <kernelci@lists.linux.dev>
-To: "Shuah Khan" <skhan@linuxfoundation.org>, "Mark Brown"
- <broonie@kernel.org>, =?utf-8?b?UmljYXJkbyBCLiBNYXJsacOocmU=?=
- <rbm@suse.com>, <torvalds@linux-foundation.org>, "Shuah Khan"
- <shuah@kernel.org>
-X-Mailer: aerc 0.21.0-120-g22b95d38161f
-References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
- <20260320-selftests-fixes-v1-5-79144f76be01@suse.com>
- <ad-ZdjzQZXNgkpwv@sirena.co.uk>
- <3cdf8e79-7c59-4831-9b38-e9c2cef97fe1@linuxfoundation.org>
-In-Reply-To: <3cdf8e79-7c59-4831-9b38-e9c2cef97fe1@linuxfoundation.org>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12796-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12797-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,gmail.com,kernel.org,fomichev.me,google.com,atomlin.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rbm@suse.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[ihor.solodrai@linux.dev,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.dev:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 2AFF1406097
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:dkim,linux.dev:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,suse.com:email]
+X-Rspamd-Queue-Id: 152B6406170
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed Apr 15, 2026 at 12:40 PM -03, Shuah Khan wrote:
-> On 4/15/26 07:58, Mark Brown wrote:
->> On Fri, Mar 20, 2026 at 03:29:20PM -0300, Ricardo B. Marli=C3=A8re wrote=
-:
->>> Track failures explicitly in the top-level selftests all/install loops.
->>>
->>> The current code multiplies `ret` by each sub-make exit status. For
->>> example, with `TARGETS=3Dnet`, the implicit `net/lib` dependency runs a=
-fter
->>> `net`, so a failed `net` build can be followed by a successful `net/lib=
-`
->>> build and reset the final result to success.
->>>
->>> Set `ret` to 1 on any non-zero sub-make exit code and keep it sticky, s=
-o
->>> the top-level make returns failure when any selected selftest target
->>> fails.
->>=20
->> This patch, which is now in mainline as 7e47389142b8, is breaking a
->> bunch of CI systems - at least KernelCI, our Arm internal CI and my
->> personal stuff.  It causes the equivalent of FORCE_TARGETS behaviour in
->> the top level Makefile, the prior behaviour where the exit status of the
->> top level Makefile ignores failures from individual directories is
->> desirable since by default we try to build almost all the selftests but
->> between quality issues and build time dependencies it's very common for
->> at least one of them to fail.  With this commit unless the user has
->> configured a more restricted set of selftests it would be surprising if
->> we manage to get a successful build and install.
->>=20
->> As well as being a poor default due to the very high likelyhood of build
->> failures this also has the undesirable effect of causing a build failure
->> in one selftest to cause the whole install target to fail, meaning that
->> the build failure is escallated to a complete lost of coverge for all
->> selftests in common CI usage.
->>=20
->> This wasn't showing up in my -next build tests since I set FORCE_TARGETS
->> and explicitly choose a restricted set of kselftests which actually
->> build with my system and configuration.  It was less obvious than it
->> should have been with the other systems since they did not expect there
->> to be a complete failure to generate a kselftest tarball and variously
->> masked the error or reported it in a manner that looked like an
->> infrastructure issue.
->
-> I didn't see it when I did test on linux-next and my repo. I did install
-> to catch problems.
->
-> Sorry for not catching this. We can drop this patch.
->
->>=20
->> It would be really nice to get to the point where we can reasonably do
->> this but we're simply not there at the current time.  At the moment if
->> people want to see build failures reported at the top level that really
->> needs to be opt in, we have FORCE_TARGETS for that.
->
-> Good point - I will go look and see if we document this in kselftest doc
-> and add it.
+On 4/10/26 6:13 AM, Petr Pavlu wrote:
+> Commit 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled
+> and pahole supports it") in 2020 introduced CONFIG_DEBUG_INFO_BTF_MODULES
+> to enable generation of split BTF for kernel modules. This change required
+> the %.ko Makefile rule to additionally depend on vmlinux, which is used as
+> a base for deduplication. The regular ld_ko_o command executed by the rule
+> was then modified to be skipped if only vmlinux changes. This was done by
+> introducing a new if_changed_except command and updating the original call
+> to '+$(call if_changed_except,ld_ko_o,vmlinux)'.
+> 
+> Later, commit 214c0eea43b2 ("kbuild: add $(objtree)/ prefix to some
+> in-kernel build artifacts") in 2024 updated the rule's reference to vmlinux
+> from 'vmlinux' to '$(objtree)/vmlinux'. This accidentally broke the
+> previous logic to skip relinking modules if only vmlinux changes. The issue
+> is that '$(objtree)' is typically '.' and GNU Make normalizes the resulting
+> prerequisite './vmlinux' to just 'vmlinux', while the exclusion logic
+> retains the raw './vmlinux'. As a result, if_changed_except doesn't
+> correctly filter out vmlinux. Consequently, with
+> CONFIG_DEBUG_INFO_BTF_MODULES=y, modules are relinked even if only vmlinux
+> changes.
+> 
+> It is possible to fix this Makefile issue. However, having the %.ko rule
+> update the resulting file in place without starting from the original
+> inputs is rather fragile. The logic is harder to debug if something breaks
+> during a subsequent .ko update because the old input is lost due to the
+> overwrite. Additionally, it requires that the BTF processing is idempotent.
+> For example, sorting id+flags BTF_SET8 pairs in .BTF_ids by resolve_btfids
+> currently doesn't have this property.
+> 
+> One option is to split the %.ko target into two rules: the first for
+> partial linking and the second one for generating the BTF data. However,
+> this approach runs into an issue with requiring additional intermediate
+> files, which increases the size of the build directory. On my system, when
+> using a large distribution config with ~5500 modules, the size of the build
+> directory with debuginfo enabled is already ~25 GB, with .ko files
+> occupying ~8 GB. Duplicating these .ko files doesn't seem practical.
+> 
+> Measuring the speed of the %.ko processing shows that the link step is
+> actually relatively fast. It takes about 20% of the overall rule time,
+> while the BTF processing accounts for 80%. Moreover, skipping the link part
+> becomes relevant only during local development. In such cases, developers
+> typically use configs that enable a limited number of modules, so having
+> the %.ko rule slightly slower doesn't significantly impact the total
+> rebuild time. This is supported by the fact that no one has complained
+> about this optimization being broken for the past two years.
+> 
+> Therefore, remove the logic that prevents module relinking when only
+> vmlinux changes and simplify Makefile.modfinal.
 
-It's not documented. It would have solved my issue, sorry for
-overlooking this!
+The change makes sense to me.
 
->
-> Mark, would you like to a revert for this?
->
-> thanks,
-> -- Shuah
+Acked-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+
+Thank you!
+
+> 
+> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+> ---
+> My previous attempt to fix this logic can be found at
+> https://lore.kernel.org/linux-modules/20260402141911.1577711-1-petr.pavlu@suse.com/
+> ---
+>  scripts/Makefile.modfinal | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
+> 
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index adcbcde16a07..01a37ec872b9 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -46,17 +46,9 @@ quiet_cmd_btf_ko = BTF [M] $@
+>  		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vmlinux $@; \
+>  	fi;
+>  
+> -# Same as newer-prereqs, but allows to exclude specified extra dependencies
+> -newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
+> -
+> -# Same as if_changed, but allows to exclude specified extra dependencies
+> -if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+> -	$(cmd);                                                              \
+> -	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+> -
+>  # Re-generate module BTFs if either module's .ko or vmlinux changed
+>  %.ko: %.o %.mod.o .module-common.o $(objtree)/scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/vmlinux) FORCE
+> -	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
+> +	+$(call if_changed,ld_ko_o)
+>  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+>  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+>  endif
+> 
+> base-commit: 591cd656a1bf5ea94a222af5ef2ee76df029c1d2
 
 
