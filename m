@@ -1,161 +1,150 @@
-Return-Path: <linux-kbuild+bounces-12809-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12810-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2LXkDy3/4Gk7oQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12809-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 17:24:29 +0200
+	id ED8xDBlO4WmargAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12810-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 23:01:13 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1552410A72
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 17:24:28 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 380DE414C2F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 23:01:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9E44C30693C8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 15:21:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0E69D3013724
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 21:01:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 398503E1CFA;
-	Thu, 16 Apr 2026 15:21:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B50131F981;
+	Thu, 16 Apr 2026 21:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UXD+qgWg"
+	dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b="YspsSGhp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.pv.icloud.com (pv-2005d-snip4-1.eps.apple.com [57.103.66.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2513E0C73
-	for <linux-kbuild@vger.kernel.org>; Thu, 16 Apr 2026 15:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CBE2DECCB
+	for <linux-kbuild@vger.kernel.org>; Thu, 16 Apr 2026 21:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.66.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776352874; cv=none; b=Cr0Z7tua083srdkERlPBjCbjNGv7Nfl1ZAR2hQViB5Iqyi9W4q4SgFxFGiu1zel7ysPMwxD0F3ogv8/c1WGZEcxQCNWXiN9DEVmUFWhKFu+BZVDoTQlbSxjPBni8xWknm/3VgMxYdO/O92jR1XZfLUwRzRMZlg0I/dhNpdsu2IA=
+	t=1776373267; cv=none; b=IyQ063aMXpgwUIIOZJhiycmAj/6EZcu1OHxTS+qrPDQYFTIoVDPtAUs4xJQj1gw4W1ZaRq9tCFFygf2aXNkt2ijaZ5Mu6XHGoH2/I9LHK+7k3D9VWgnW0a0MlqjC7M457fhbsPNqEs8jyZ3e6CTuRzTED1XSQ2mp3flhanOAxFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776352874; c=relaxed/simple;
-	bh=lY8KnyEnww1BaerqB9rUeouJcntcbdG7KfY4D4jc3hQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IaQnWVB2mPN5EM3CeKMwD6awL+zDFLwg9de9Kxy7ZRwzrbWri6OQscyVpjvp9m8MV0ge0eKQ8ZEeIbxkGZnOzKg7OlDu2zAud+7OA4J2Z762OzX+ZTxtb38MFBLQKZPVKmY2tWanZ/SL83ymWf2C4D/BalLC/tJ6L22OtrhTdmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UXD+qgWg; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-685013eb590so531442eaf.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 Apr 2026 08:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1776352872; x=1776957672; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7ED7Dtk/V7JNqL6bwm+6sfQAnzfjIa9OPc/3hBimeik=;
-        b=UXD+qgWgk/64Yt2GJgOpAU+SRkyuvWJaYd7Dy4XFvOUF+8y6zYAusyTKobEbIbGnva
-         3xGjwKXH5t4ooZsTk7WgeIoG7XrWBQInKdhGmjavoIW2OYFcDTdsFW5UtaF0uxyHvYj+
-         w/DTeAv6C+f6GYxKsZt5eefMY0G+6JtzOxA8I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776352872; x=1776957672;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ED7Dtk/V7JNqL6bwm+6sfQAnzfjIa9OPc/3hBimeik=;
-        b=nx/F6JJLDAPYKfYNq18AL//1/DXt0JLeOPn8mY8ylgZ+IYVTJ08z863rye/0ZdN1sc
-         VoK3cHWYkXU/uqM+qZFTyyOXj9JwwgDI+dMKbBTlu1k70QGbfejbnG0whDbyqFVzsCD/
-         NuGMqq1rxuT9GGxOF1BeKMCDSsf6aPN/zDA9uMkOMO0Vsl9MqgB+ujGSSxSExEpRdZVP
-         cyuDJR9QICeY5/l9qbPQkUbGus4E0K+wWBMEse1F1n3uFc1r08dW3x45jUV7m8Pp7AJH
-         SkjCgk8TFGDBDm55fkszGzuqdisCivePIFcWn9mSYg/zzHxI5144Cz6gQqn0kw45lHac
-         ZwJA==
-X-Forwarded-Encrypted: i=1; AFNElJ95snmnxgUStnUfOl/bs1plGly96SsnC3HFp6xj0rmRKPYxGFR1aZd2CnYnM9qKFoBfHuzv7SCBfpdw8v0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzVD5BZuOQtTxZ979DhZWiEkbxzGekISURMxpHYGgRiGoslW1m
-	2NX0+NYfIr7iiDtq3T8k755/ibBCWDkwbj+hfuYvIoEbV8MuYf72l6RffjcsBtUWLXI=
-X-Gm-Gg: AeBDiesVxQWOtTt/+T4xtEa+/JioerNtOqkjl9FQ14PZgpBaze8AcuYs5dYzGIEPmND
-	YgHGzD6uQDly9sviySfSq3715t34UQCPOXqPkrdEy03R33rdNatmw0i6Q3skWuo0OsKW5e+goaM
-	Uh/9yKE/k2nxstpUFEzyFTE+lyo3IHqkSRjpYrvdL9vD55cU4K7ns9IqlsywQEV3FbKuZnV4LBK
-	ZRxoEr1+mMV1ZCD92mhbDBOkdeIth5/Ch2NHuLN4GQav0h9/ZY/IXOjvqNXBLOuS2/68iuR89Gi
-	3VNILDgk4vLg6CO/NYxJJMkG3INQ76qluVmt4EBiZUgrdkh+TWGdgK9V76ttSrpmJHMoRrkrWxx
-	NDfUhSrgD58fwTxqE38NnPWuCgqj99V4QcD+Vcz3S2uolJDB5L/+mjEHQkewrwdWrk84Aoia1Dt
-	z3P3lTwxq62vBAfsA2vf2KCZ+vyD7YMZ0=
-X-Received: by 2002:a4a:e39a:0:b0:67b:b738:59b4 with SMTP id 006d021491bc7-694249766b9mr1880122eaf.32.1776352871649;
-        Thu, 16 Apr 2026 08:21:11 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42689699dc8sm4149132fac.14.2026.04.16.08.21.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Apr 2026 08:21:11 -0700 (PDT)
-Message-ID: <9c9f9851-5962-4281-9f34-a1f2e012b13e@linuxfoundation.org>
-Date: Thu, 16 Apr 2026 09:21:10 -0600
+	s=arc-20240116; t=1776373267; c=relaxed/simple;
+	bh=a0TqkyIxCKaNZFE+BPJXILAdoxPKdlxkhrujtT4KD1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GrSfsVG/NIWwjAJv0YyfxI/kvBWMBWSk8nfSVHn2ALJ2g1NUKsNVYCdmZmt6woaMDfNAPjJu+9q+2Oi30vnlcIUHMSaTTCVEUBf+uWhA3YRd9FFnEIAf7P0eIEu0vpJ3pBiDOguqdZfgaseM68t3pwBGhU2BwDKEoLcdRkAIe0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc; spf=pass smtp.mailfrom=sdhn.cc; dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b=YspsSGhp; arc=none smtp.client-ip=57.103.66.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sdhn.cc
+Received: from outbound.pv.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-1a-60-percent-8 (Postfix) with ESMTPS id DD751180015C;
+	Thu, 16 Apr 2026 21:01:04 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQtWC1UZWgNHF04KTVIPDx1WOEAJXwUcE1pYVQkKBl0wShxbAxkIUVBLGw5cAktaFVUXDgJCH1AfTBZXQ0cdHBlaFFwYU0VRH1RYQxlFVmlBC08dXRlbHEJkWFcJChhWGFdWUA4XBlsUBEReClgNShsKGVZYXAJCGEAKWRsBH1YWSBlCHVUMXxYNAkQdWF5ACgoKWBpRAVdDTQlfCndYUAVUDF8bUxhIHVRGExlOG1dNWg1AGVgGbRRWFVIEWQ==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sdhn.cc; s=sig1; t=1776373266; x=1778965266; bh=eSLfBHVnOmnvJiODw4DmKmxzVKTcd81Fo471+gKsY3o=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=YspsSGhplRVCVy55Iv16icjwEQF4HLgfHM5l7wOJi4SHHh2Aq58FcbQEvzzLW6CRaEjWWYijlfiEhSnzd7bTvdHFx8264I/5fmKte8M+miRUE3Nh9D6R1G2srSRYbDui7zeMgy9XwBFa5WYkI+gdI4d6lJf3iO4B2omUuJW6JdkQzn4URfQlDs3t4KGOVyZYmpZUQzPlWElA9bHeAXw3OB340DcFBNhMDxI0cOU2L7clWeTVn+dpw2X+DjRt+2dq5sw2bB5WmnmI+H2ypcH/Azflwiox9SAMtroPZQAO4MI+FpfbXEHbyAmXxfT6LPiMkOBcRusHD13hNlhOPHSz1Q==
+mail-alias-created-date: 1772007648188
+Received: from sdhn.cc (unknown [17.56.9.36])
+	by p00-icloudmta-asmtp-us-west-1a-60-percent-8 (Postfix) with ESMTPSA id BB0D51800158;
+	Thu, 16 Apr 2026 21:01:00 +0000 (UTC)
+Date: Fri, 17 Apr 2026 00:00:58 +0300
+From: Mohamad Alsadhan <mo@sdhn.cc>
+To: Yoann Congal <yoann.congal@smile.fr>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v6] kbuild: host: use single executable for rustc -C
+ linker
+Message-ID: <mgofxk3ae5kiphyrjv6tdfqaqpbgmf4zwpo5rz3rkwfje3tqlg@3bumtlvdszmm>
+References: <20260331000802.380-1-mo@sdhn.cc>
+ <DHHL2VVCVYHU.5RMX7GJ73MDR@smile.fr>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] selftests: Preserve subtarget failures in all/install
-To: Mark Brown <broonie@kernel.org>
-Cc: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
- torvalds@linux-foundation.org, Shuah Khan <shuah@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Aishwarya.TCV@arm.com,
- ben.copeland@linaro.org, kernelci@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
- <20260320-selftests-fixes-v1-5-79144f76be01@suse.com>
- <ad-ZdjzQZXNgkpwv@sirena.co.uk>
- <3cdf8e79-7c59-4831-9b38-e9c2cef97fe1@linuxfoundation.org>
- <ad-8BIkw_ijCLqcF@sirena.co.uk>
- <e4b82973-7d9e-454d-8f69-6d2a1a8ec7dc@sirena.org.uk>
- <c834846c-96d5-405c-97d9-f182b8fe1569@linuxfoundation.org>
- <a73aa838-d194-4867-86fb-42bc8d057fd9@sirena.org.uk>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <a73aa838-d194-4867-86fb-42bc8d057fd9@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DHHL2VVCVYHU.5RMX7GJ73MDR@smile.fr>
+X-Proofpoint-GUID: 44JzuJBtJ42ID8ny4_slM3_ioBctoLOP
+X-Proofpoint-ORIG-GUID: 44JzuJBtJ42ID8ny4_slM3_ioBctoLOP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDE5OSBTYWx0ZWRfX6eUQMZce1hBa
+ PuNgNHWAEU30Z4kmyR9Ar4bCE/qeRmQjfPRgSLdxjKqbNsBxLOFJGwl8TKjLl5tPoRheJBhMRiL
+ kNW6efvI/T1xGUmpozxqvic2XFfE3vZKZdpZd5B3a6MrzswsJ+QUWhwEpqlgeYGR+pvL+ilSy33
+ va2GUFSVNqAxodpAijsEdvC0c8cUTbNAfSUt6BLTZbsPkZLRAbE3wag8oyU+c9Rk7rg2MvcgLV5
+ IFnLa0pU9wPgsFM298vrAFvs5sDGvJMM1WLJRLPx3wCsWFIfiHV576wt3gM7YqLhMflZE5WXOyf
+ zATxcALllSnv8Pfws/5OhLyMkYo6/bPB32ejXmvY8PnRGh2KyXxpTHCGV5x7Do=
+X-Authority-Info-Out: v=2.4 cv=Wv4m8Nfv c=1 sm=1 tr=0 ts=69e14e11
+ cx=c_apl:c_pps:t_out a=azHRBMxVc17uSn+fyuI/eg==:117
+ a=azHRBMxVc17uSn+fyuI/eg==:17 a=kj9zAlcOel0A:10 a=MKtGQD3n3ToA:10
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z1zVT0qw5tCvtpFs8WsA:9
+ a=CjuIK1q_8ugA:10
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=google];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sdhn.cc:s=sig1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-12809-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[smile.fr,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
+	TAGGED_FROM(0.00)[bounces-12810-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DMARC_NA(0.00)[sdhn.cc];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[sdhn.cc:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[skhan@linuxfoundation.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[mo@sdhn.cc,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,runner.sh:url,run_kselftest.sh:url,ktap_helpers.sh:url,linuxfoundation.org:dkim,linuxfoundation.org:mid]
-X-Rspamd-Queue-Id: F1552410A72
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,sdhn.cc:dkim]
+X-Rspamd-Queue-Id: 380DE414C2F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/16/26 09:15, Mark Brown wrote:
-> On Thu, Apr 16, 2026 at 09:08:17AM -0600, Shuah Khan wrote:
->> On 4/16/26 07:16, Mark Brown wrote:
-> 
->>> Sending shortly, FWIW I'm also seeing a buch of issues with:
-> 
->>> ./run_kselftest.sh: 5: ./kselftest/runner.sh: Bad substitution
->>> ./run_kselftest.sh: 5: .: cannot open ./ktap_helpers.sh: No such file
-> 
->> I will take a look and isolate the two commits that changes
->> run_kselftest.sh - sorry for the trouble with CI this time
->> around.
-> 
-> Pretty sure it's 2964f6b816c2 (selftests: Use ktap helpers for
-> runner.sh) - I've just put together a fix for that one, will throw it at
-> my testing and send it later today all being well.  It uses readlink -e
-> which isn't implemented by busybox.
+Apologies for getting back to you late, I was busy with other things
+and I wanted to double-check things before replying.
 
-Yes 2964f6b816c2 is my first suspect with ktap_helpers.sh no such file.
-Thank you for fixing this. That way we can patch it and not revert it.
+On 26/04/01 07:53am, Yoann Congal wrote:
+> 
+> Does using "scripts/" without a $(obj)/$(srctree)/... prefix always works?
+> I know I've suggested this as a quick fix. But I did not think about it
+> a lot.
+> 
 
-thanks,
--- SHuah
+You're in fact correct, it's not always correct. Thanks for pointing
+it out :)
+
+I assumed it was fine since the top-level build runs the scripts pass
+before rust/, and existing Kbuild commands commonly refer to generated
+tools under scripts/ using paths relative to the object tree.
+
+That misses some cases:
+
+- On e.g. ARM64 with `CONFIG_RUST_KERNEL_DOCTESTS=n`, no Rust hostprog
+  may be built in `scripts/`, so `scripts/rustc-wrapper` may never be
+  generated before `rust/Makefile` needs it.
+
+- `scripts/Makefile.host` is also used outside `scripts/`. For example,
+  `samples/rust/hostprogs/` generates
+  `samples/rust/hostprogs/rustc-wrapper`, but the hardcoded path
+   made rustc look for `scripts/rustc-wrapper`.
+
+A v7 patch is on the way that should fix this issue, by always
+generating `scripts/rustc-wrapper` for `CONFIG_RUST=y` and using
+`$(obj)/rustc-wrapper` for generic host Rust builds (+ some little
+hardening and cleaning).
+
+Best regards,
+Mo
 
