@@ -1,163 +1,251 @@
-Return-Path: <linux-kbuild+bounces-12801-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12802-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OGDWNrG/32lOYgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12801-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 18:41:21 +0200
+	id WG2HAzef4GlukQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12802-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 10:35:03 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11710406708
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 18:41:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AEA40BA1B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 10:35:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A14B23011BDA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Apr 2026 16:39:51 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 547DB302FDED
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Apr 2026 08:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB9B31A04D;
-	Wed, 15 Apr 2026 16:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 255FD3932C7;
+	Thu, 16 Apr 2026 08:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qlt7PXFv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EI2+kHOe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602DE381AE0
-	for <linux-kbuild@vger.kernel.org>; Wed, 15 Apr 2026 16:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E95391E75;
+	Thu, 16 Apr 2026 08:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776271190; cv=none; b=kkGwNi5GIA7YRVyPiDUDO6372tnllJMMUkFIi84EQRgnCk/Ers1D345ZpXqVHT+BqYW819tx5TdH2ExU4E/vLgAjjLbfTZZf/Cj/gr3+Fr4mhHX7Y+2+BS6xEOwDzVDz6tyeP07QYTdtSE/1J0nJRVNQavJohE/XthWH/lgHlhs=
+	t=1776328496; cv=none; b=dxYCSUZe+DZDDHhv4D5rZD7BjBUCrBGYmmC4wlD0MdsOruK/yMkqGlbfvDXvteC7AlOvDhQnp6pCvbOBNRRPNrapoQRKokp1GrywJtWiyWT8/IDI+UY9nEXqeXvXapCnNW7kQIR5iDcAzgWD3Tk3pPL9aUp3hWflQIQ4Jj2v/c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776271190; c=relaxed/simple;
-	bh=f0Xhz36jloHzjGryaVb2w/X3cuD5tHkh/y9qkWJJBQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cSmB/cQBkgnB4Stb/59hmozZo6oTPUpxZjDpRM2sBGAOwL7q8+tAIQYoNxIHfQMoFwUf9beJsp219SbtBXELg7VHTIwzYI89CyaV6dwEuw2/zc/cV4s4fOkfF5VcA5nw3kWv4iZgJkkahy5LcL9VusJ2AdMaVzKuOgg8qrP6xlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qlt7PXFv; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7dbccb6ae20so3703138a34.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 15 Apr 2026 09:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1776271188; x=1776875988; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sI6SnmW4yH3OEitrbAs93gP+SdSOTHdc6LjUpuJ7Fnw=;
-        b=Qlt7PXFvw9FcmqNI0M5j4MkprnKnAPHjJApGeSzTW0tNwq/vfYPKbp8ZnLlVByAAvC
-         daH85kVHmxKMfv3h9Azk4Fxx0zH+vsiV1PLXC2iEhmgRq3rc19rl3tir1eh4G/I0Nnl1
-         STPjHmMadICWnenFos2h9RPv4bM4L4oG9+f/8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776271188; x=1776875988;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sI6SnmW4yH3OEitrbAs93gP+SdSOTHdc6LjUpuJ7Fnw=;
-        b=SKIB4KgFN89BxWT0q61PsYxRHz5IR9Po8qFZtNXJUBj5Vd66XDyAvzShpQlc69Pt1L
-         TLtxK3WBW0wDWPkrRcSxWRFg3NNNjvq1VO11t108jcJMWz07WIlvNkCO8upg4+GoJXJ7
-         2R60uLwuluTiC84pUuY3T8Yab4L5UGchaswNEEDDMrylCyYGfPTVknj8r1crahk9KLx8
-         slwzW6bScFsH9PjJrkk/h6UnP7g1ir28rIbUXRy/VgcSTpIDWJxhEuzPT6A/fSzWq0Zs
-         xKt9ZUYQizMOOX2KU5EAFGPgxaAmtXkNtl+pdbkit6EKaN7kIHumXynyoPnVLTLUEcvu
-         R4oQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+CI3/XwIMIwdCeoZ096WZRiEx3zdyeqx6QxRqH1L9kBf8L6nfqtNj3imkSaafG+5X16JF6dMgdw/X1NeE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhWcGcM1/Gk9mBy2DSS1NFyWQJKXevIQlPV1mplosxRgKfIKrt
-	qmN3AhlmZM7EkA/zObML4LLzNhVYI4r844rYCgXqBf5m+QhHjfFu+ZT9c7oeuIrQcVCNob2ZeOp
-	4IzuEcQw=
-X-Gm-Gg: AeBDiesTLPHJwlMIF+LOhLjxKfZKwwqHULWL1+RCSGKGiKVS48nNj+ffHBdw1Qpa8tt
-	tijkbtEullIgjC3TGstN1cZYpHvAbErl7MPzH+n9+62tH+q+nOroB2XW5p2wd87xQDzf+Otood6
-	Z0EO+xy300sWGvh98Lgtjs1Q/yuR9EVjCx7XmRPQgEzNr1aVPaYzFmg4q5F7S2T/PGrivX+4fRl
-	GywFxz282howcawJS3t+aXrhoqovOdF9OXWGc+OXZXihekaeCd5e16zVjTetfjD1kBLpAwARL82
-	w6Vsxd04UvhxrL73O1pg1z7E8xexkXAAFJ5HRe+OzUvu4Gdm5miVAxFBKpv4ku5Li66BxoLUK5E
-	IEvkzKxruKWB4yesF6OAnwVWIK2FU2ACUl/3WhcqOBaXyqCUvOg9tr/lnFGmeWCJfb39oh9JfQQ
-	qkQKNmqbdaQIwduf/rTBvQcMEEZt2jZ1M=
-X-Received: by 2002:a05:6830:61c1:b0:7d7:4a7d:fd40 with SMTP id 46e09a7af769-7dc27f23b8cmr12850964a34.22.1776271188347;
-        Wed, 15 Apr 2026 09:39:48 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc76b2dd7dsm1541449a34.17.2026.04.15.09.39.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2026 09:39:47 -0700 (PDT)
-Message-ID: <b35bc514-5def-4e0c-9260-79bb2ae9da94@linuxfoundation.org>
-Date: Wed, 15 Apr 2026 10:39:46 -0600
+	s=arc-20240116; t=1776328496; c=relaxed/simple;
+	bh=aM4+d7l5SobaIHWwosmsIax5/zWaIyefWpD4h8VccEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RfCi2DKV9pLA0D8ukdn0RngqAcPLWDRB/J1HPrAmJ9Y7TxpfHCbzgg5828TUv1KvGuwCBCaQs1F0MerKUvFHYtOjuZvhNlcjwY7iRhszjx61WB8CBK7IoUI0p/YqMGRsxM37jKFi1lzPODYGMsj9tAtOqiVUM+XHIsPwvgCryIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EI2+kHOe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A59AEC2BCB3;
+	Thu, 16 Apr 2026 08:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776328496;
+	bh=aM4+d7l5SobaIHWwosmsIax5/zWaIyefWpD4h8VccEg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EI2+kHOe/DSVW7CnFneR5MVopc93u+GXckFYs8+VSkPIcMFQWRZgP5q80n6iB1eiX
+	 aoNUEwlqhXD+o+H9Eh11VuiH+quE4tAbQTtlE80W7c2LYprKl/R7Qjni/yScZ14lDN
+	 Wvc1heA3ps2ph6X5y2R8R9fPI0wghozxYGHyPeDwvjLCQp0CS+CXJU7Cnh67pjqPQm
+	 xG53TF8arOZmLIP9mOWvsmIDxybYzZ+Lbj0Ug/slhEhOriwaIrC2pN0DQqauKZ7hdx
+	 MeMVb/IVzD9Jq2gRYN0O0zx/vHqqSqA30ro36X42rb6yE9cdu+ySyEC0vvg2SKuHBU
+	 FwYQLiWDwwJ8w==
+Date: Thu, 16 Apr 2026 14:04:38 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Bartosz Golaszewski <brgl@kernel.org>, 
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	linux-acpi@vger.kernel.org, Hans de Goede <johannes.goede@oss.qualcomm.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v7 0/8] Add support for handling PCIe M.2 Key E
+ connectors in devicetree
+Message-ID: <7kpwgrxgtrpavmm2aezv66csuumma6wzsqtwvmojwgrtiqasjf@gczv34l6pnma>
+References: <20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com>
+ <20260413075459.GA2626902@google.com>
+ <fpcs4p62f35a5qyqwgm5ysa73stbysxcr62tkmmkrrcvsuf4t4@4ivukyqjey57>
+ <eeytuhqpgdz4do4tgtbmfntub2femtyq7bij7svhodpyjwaylx@j3gmvq2a2zqc>
+ <CAGXv+5E=tujhtZjwi6Qm7hk3Ks74UzTQHWq82NiTEw1+vYod5g@mail.gmail.com>
+ <ad36pIu-0dutL7Nk@ashevche-desk.local>
+ <CAGXv+5EGe59nJctLweEdZjb3MNmMvjuCHngGSfptzN985OiLdg@mail.gmail.com>
+ <ad4tJN27opdEooA7@ashevche-desk.local>
+ <CAGXv+5EPA29G-fsH=wWOD8AK6TZFezFhsE0NHPYj_Pt3nT+d_w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] selftests: Preserve subtarget failures in all/install
-To: Mark Brown <broonie@kernel.org>
-Cc: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
- torvalds@linux-foundation.org, Shuah Khan <shuah@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Aishwarya.TCV@arm.com,
- ben.copeland@linaro.org, kernelci@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
- <20260320-selftests-fixes-v1-5-79144f76be01@suse.com>
- <ad-ZdjzQZXNgkpwv@sirena.co.uk>
- <3cdf8e79-7c59-4831-9b38-e9c2cef97fe1@linuxfoundation.org>
- <ad-8BIkw_ijCLqcF@sirena.co.uk>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <ad-8BIkw_ijCLqcF@sirena.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGXv+5EPA29G-fsH=wWOD8AK6TZFezFhsE0NHPYj_Pt3nT+d_w@mail.gmail.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=google];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-12801-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN_FAIL(0.00)[74.135.232.172.asn.rspamd.com:server fail];
+	RCPT_COUNT_TWELVE(0.00)[33];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12802-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[skhan@linuxfoundation.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[linux.intel.com,oss.qualcomm.com,kernel.org,linuxfoundation.org,linux.dev,squebb.ca,gmail.com,holtmann.org,bgdev.pl,vger.kernel.org,linaro.org,bootlin.com];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxfoundation.org:dkim,linuxfoundation.org:mid]
-X-Rspamd-Queue-Id: 11710406708
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E9AEA40BA1B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 4/15/26 10:25, Mark Brown wrote:
-> On Wed, Apr 15, 2026 at 09:40:37AM -0600, Shuah Khan wrote:
->> On 4/15/26 07:58, Mark Brown wrote:
+On Wed, Apr 15, 2026 at 04:31:24PM +0800, Chen-Yu Tsai wrote:
+> On Tue, Apr 14, 2026 at 8:03 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Tue, Apr 14, 2026 at 06:29:02PM +0800, Chen-Yu Tsai wrote:
+> > > On Tue, Apr 14, 2026 at 4:28 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Tue, Apr 14, 2026 at 01:03:19PM +0800, Chen-Yu Tsai wrote:
+> > > > > On Tue, Apr 14, 2026 at 12:08 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
+> > > > > > On Mon, Apr 13, 2026 at 07:33:12PM +0530, Manivannan Sadhasivam wrote:
+> > > > > > > On Mon, Apr 13, 2026 at 03:54:59PM +0800, Chen-Yu Tsai wrote:
+> > > > > > > > On Thu, Mar 26, 2026 at 01:36:28PM +0530, Manivannan Sadhasivam wrote:
+> >
+> > ...
+> >
+> > > > > > > > - Given that this connector actually represents two devices, how do I
+> > > > > > > >   say I want the BT part to be a wakeup source, but not the WiFi part?
+> > > > > > > >   Does wakeup-source even work at this point?
+> > > > > > >
+> > > > > > > You can't use the DT property since the devices are not described in DT
+> > > > > > > statically. But you can still use the per-device 'wakeup' sysfs knob to enable
+> > > > > > > wakeup.
+> > > > >
+> > > > > I see. I think not being able to specify generic properties for the devices
+> > > > > on the connector is going to be a bit problematic.
+> > > >
+> > > > This is nature of the open-connectors, especially on the busses that are
+> > > > hotpluggable, like PCIe. We never know what is connected there _ahead_.
+> > >
+> > > I believe what you mean by "hotpluggable" is "user replaceable".
+> >
+> > From the OS perspective it's the same. From platform perspective
+> > there is a difference, granted.
 > 
->>> This wasn't showing up in my -next build tests since I set FORCE_TARGETS
->>> and explicitly choose a restricted set of kselftests which actually
->>> build with my system and configuration.  It was less obvious than it
->>> should have been with the other systems since they did not expect there
->>> to be a complete failure to generate a kselftest tarball and variously
->>> masked the error or reported it in a manner that looked like an
->>> infrastructure issue.
+> Yes. I just wanted to clarify.
 > 
->> I didn't see it when I did test on linux-next and my repo. I did install
->> to catch problems.
+> > > > In other words you can't describe in DT something that may not exist.
+> > >
+> > > But this is actually doable with the PCIe slot representation. The
+> > > properties are put in the device node for the slot. If no card is
+> > > actually inserted in the slot, then no device is created, and the
+> > > device node is left as not associated with anything.
+> >
+> > But you need to list all devices in the world if you want to support this
 > 
->> Sorry for not catching this. We can drop this patch.
+> Why would I need to? The PCIe slot representation just describes a
+> PCIe bridge. Granted this might not be entirely correct, but it's
+> what we currently have.
 > 
-> Yeah, it's easy to miss if you're set up to build everything.
+> And even then, there are properties like memory-region or wakeup-source
+> that are generic and aren't tied to specific devices.
 > 
->> Mark, would you like to a revert for this?
+> > somehow. Yes, probably many of them (or majority) will be enumerated as is,
+> > but some may need an assistance via (dynamic) properties or similar mechanisms.
 > 
-> Yes, I'll massage the text from my report into a changelog send
-> something - it'll probably be tomorrow now.
+> Even if we wanted to add dynamic properties, there is currently no proper
+> device node to attach them to.
+> 
 
-Thank you Mark
+There are dynamic device nodes that we need to create for hotpluggable devices,
+if we need to pass the DT properties to the driver. Like how we do it for PCIe,
+serdev. You cannot describe static device nodes in DT for devices attached to
+swappable cards like M.2.
 
--- Shuah
+> > > It's just that for this new M.2 E-key connector, there aren't separate
+> > > nodes for each interface. And the system doesn't associate the device
+> > > node with the device, because it's no longer a child node of the
+> > > controller or hierarchy, but connected over the OF graph.
+> > >
+> > > Moving over to the E-key connector representation seems like one step
+> > > forward and one step backward in descriptive ability. We gain proper
+> > > power sequencing, but lose generic properties.
+> >
+> > The "key" is property of the connector. Hence if you have an idea what can be
+> > common for ALL "key":s, that's probably can be abstracted. Note, I'm not
+> > familiar with the connector framework in the Linux kernel, perhaps it's already
+> > that kind of abstraction.
+> 
+> I'm not arguing for a even more generic "M.2" connector. The "key" is
+> already described in the compatible. I'm saying we should have some way
+> of describing the individual interfaces (PCIe, SDIO, USB, UART, I2S, I2C)
+> on the connector so further nodes or properties can be attached to them,
+> either with overlays or dynamically within the kernel. Right now the
+> are only described as individual ports, but we can't actually tie a
+> device to a OF graph port.
+> 
+
+If there are properties that apply to the interfaces, *not devices*, then you
+can add them to the relevant endpoint node:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/connector/pcie-m2-e-connector.yaml#n167
+
+> But maybe I'm overthinking the representation part. AFAICT for Qualcomm's
+> UART-based BT bit part, Mani just had the driver create a device node
+> under the UART (by traversing the OF graph to find the UART). If that's
+> the desired way then the connector binding should mention it.
+
+What do you mean by 'connector binding should mention it'? You cannot hardcode
+the device node in the connector binding, because it is not part of the
+connector binding itself. For example, the UART device node that is created for
+the WCN7850, already has a binding:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/net/bluetooth/qcom,wcn7850-bt.yaml
+
+What the driver does is, just creating that node under the serdev controller as
+if the device was described statically in the DT.
+
+For the wakeup property you asked earlier, it depends on the interface. If the
+interface supports "in-band" wakeup like USB/SDIO, you can add the property in
+the relevant controller node statically itself. For example, with USB XHCI
+controller, you would know that the controller will support wakeup or not
+statically. So you will add that property to the controller node. Then, if the
+user has enabled the wakeup for a specific USB device like keyboard/mouse
+through sysfs, then wakeup will just work. Here, we don't need to create the
+USB device node at all.
+
+But if the interface supports physical wakeup, like UART_WAKE# in M.2 SDIO Key
+E, then based on the presence of that property, you would configure wakeup in
+the connector driver itself. But this is not present as of now.
+
+> And that
+> works for me. But I think it's messier and also we're missing an
+> opportunity to make the M.2 connector a standardized attachment point
+> for overlays.
+> 
+
+I don't envision using overlays for the M.2 connectors. It is not strictly
+needed, unless the connector is non-standard.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
