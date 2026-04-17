@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-12814-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12815-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKu8K/QN4mkg1AAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12814-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2026 12:39:48 +0200
+	id 8LkFLW824mm13QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12815-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2026 15:32:31 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356E941A4F8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2026 12:39:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 167DD41BAD3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2026 15:32:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 573EE300D313
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2026 10:36:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3149830F3505
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2026 13:30:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE4143B7763;
-	Fri, 17 Apr 2026 10:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E3373A5E7C;
+	Fri, 17 Apr 2026 13:30:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MAoNy6xF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXrrSmk6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97113B7757;
-	Fri, 17 Apr 2026 10:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2063A3E7F;
+	Fri, 17 Apr 2026 13:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776422185; cv=none; b=cLz65NTMMsNwESn52ge/wtccxaqH8BKRaTFzYc2kRQRX33srOTLqG3akJlT4hkKp2iMFOwllBkZP+XKQ0XQJgRI2LxEaoslOqIY2BLsewPPVDEXdUi2mZ28jy+TgDvWF+eYv8Bx+jympO6rdQlXRRJ22Mh7ItovykiCAQwerxEs=
+	t=1776432646; cv=none; b=eam8/0JIepWg6oZC22gt2ulbTnCsB7Ht7T84VXh5EAWJB8waKL34RYkgDpbTbrrTVVu6n3QrwvjiRx6IlbXp6t6LAamJFufmGTY5h081hVCnpfE+roYIWkiALv37w8rXm7yeQp/7CyAy2CDIzRCOfRMQWLRVESukvc9/L6XeN1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776422185; c=relaxed/simple;
-	bh=rvVNHidjO5cV52QcqTOC4HaikastdbVk16UEczL3Lgs=;
+	s=arc-20240116; t=1776432646; c=relaxed/simple;
+	bh=gODLVDoNdIu0aRnnS7D3RFNfqDLdhGeFRtSzDpXq3AY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oONPw4kN045yOCilZVLWfvX20WAdCQBbnTMamQBFO+44h0QLutAw4ZHhZ7lm9f9fhWQ0KL4mfhebSR8NDeHL1rsa9BOxq3A1YLcuV/jEnYXk79+rbI1+wmh8ms4di2TNP1fyqVnCxvVb4hl48iz5f8HT+r3uHBzHd6HDqAB12Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAoNy6xF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06BD2C19425;
-	Fri, 17 Apr 2026 10:36:22 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=tBdQsQXJJTt9Eh+YUquMMIKLT2kj8G+YSbJMQWfKLyznRSRcrGmnqjRQZTVBOwHV2AKqzEIsx7/dH2eX/ef5boWIwCbzdfl0PuGpO9qAR/iJLFNnM0pReHh8zeCbeb0dpz10B0eJCTnDO0FNyg1eimP8PevoRSn29xI0cRwwRMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXrrSmk6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 601A3C19425;
+	Fri, 17 Apr 2026 13:30:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776422185;
-	bh=rvVNHidjO5cV52QcqTOC4HaikastdbVk16UEczL3Lgs=;
+	s=k20201202; t=1776432645;
+	bh=gODLVDoNdIu0aRnnS7D3RFNfqDLdhGeFRtSzDpXq3AY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MAoNy6xFnyPluWovR96Cg/vY/bpyuQRY7vncy2LEZSmHbqmth+oKGcyidRdoTvVCe
-	 d429QUVavxOEqjPZRy5IInUCAn5Ovrsl6dqQZDkkkvCiFekmRZqUU49IY8fn4mUICa
-	 1PkAqfSl0DT/H/RV/kZYAtRS2L6idKtD3+jOZUNFnRacjfp5v7KEeAA21FVcXnmI/L
-	 3x1lemQcwLTrvjQTqoktelmYLFGtDlhwss7IXst6v7pqnq9wxMru5/3HIEQ8DIyAeC
-	 YSghaaLSC/Vnz9PSqX3JzWiwVup5gYnkmRYdAUgdjKzbs7nBGZtaI3Xb2CnGYybibF
-	 g3+qYsfgox39g==
-Date: Fri, 17 Apr 2026 11:36:20 +0100
+	b=QXrrSmk6IogDUOp9fs8s8OUg5tJy9+6BnwjdpMi4ZRyj7b3jNfjzuvDG4QFcOdCJs
+	 oPZTgF8IjVVdGqUrp7l0zwd6BGBU66SI+puqxJHprL+kUK1xM10sWokd+T3lE1g3ar
+	 jhzzmWIlCmH3QVh7cew8lYksVQcLu+oZMR79k49H9y/ktUDUKU2UNCLHAYmxnAjHoQ
+	 zDumMODlRxyhO2OuqOBigWn1ygvSWzKuvY1wrNjRok9oiwUg55U7JTM82cY2Y83EzL
+	 8Woe7/xUgKebHpp2HuoaJWRe/imI/1UOS2e8PrKmGcMxgaegsY629P1WFJg8TtmYfD
+	 ElxC2PiLBcRxQ==
+Date: Fri, 17 Apr 2026 14:30:40 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Shuah Khan <skhan@linuxfoundation.org>
 Cc: Ricardo =?iso-8859-1?Q?B=2E_Marli=E8re?= <rbm@suse.com>,
@@ -55,7 +55,7 @@ Cc: Ricardo =?iso-8859-1?Q?B=2E_Marli=E8re?= <rbm@suse.com>,
 	Aishwarya.TCV@arm.com, ben.copeland@linaro.org,
 	kernelci@lists.linux.dev
 Subject: Re: [PATCH 5/6] selftests: Preserve subtarget failures in all/install
-Message-ID: <798e6edb-1c56-4c68-ae3a-a9c4e1b022a5@sirena.org.uk>
+Message-ID: <e54a02b1-dd0b-4dd4-93aa-0484bb2cd8fe@sirena.org.uk>
 References: <20260320-selftests-fixes-v1-0-79144f76be01@suse.com>
  <20260320-selftests-fixes-v1-5-79144f76be01@suse.com>
  <ad-ZdjzQZXNgkpwv@sirena.co.uk>
@@ -73,7 +73,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KmZdBgDaIn46m5wC"
+	protocol="application/pgp-signature"; boundary="l8K65XbEJBIqZvnB"
 Content-Disposition: inline
 In-Reply-To: <0420ebf1-2598-4f4f-bd09-95774156b48b@linuxfoundation.org>
 X-Cookie: Uh-oh!!  I'm having TOO MUCH FUN!!
@@ -81,12 +81,12 @@ X-Spamd-Result: default: False [-4.26 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12814-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12815-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -94,7 +94,7 @@ X-Spamd-Result: default: False [-4.26 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-kbuild@vger.kernel.org];
@@ -103,41 +103,43 @@ X-Spamd-Result: default: False [-4.26 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 356E941A4F8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sirena.org.uk:mid]
+X-Rspamd-Queue-Id: 167DD41BAD3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---KmZdBgDaIn46m5wC
+--l8K65XbEJBIqZvnB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 On Thu, Apr 16, 2026 at 03:15:30PM -0600, Shuah Khan wrote:
-> On 4/16/26 09:21, Shuah Khan wrote:
-
-> > Yes 2964f6b816c2 is my first suspect with ktap_helpers.sh no such file.
-> > Thank you for fixing this. That way we can patch it and not revert it.
 
 > Just a quick note to say I applied all 3 patches and will send pr tomorrow.
 
-Thanks Shuah!  I'll try to confirm everything looks good when they're
-all merged together after today's -next.
+Confirmed that everything seems to be running fine in -next for me.  I
+am seeing the test number duplicated in the log messages from the
+wrapper:
 
---KmZdBgDaIn46m5wC
+  ok 59 59 selftests: arm64: syscall-abi
+
+which is confusing my parser a little but is less of an emergency, I'll
+take a look.
+
+--l8K65XbEJBIqZvnB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmniDSMACgkQJNaLcl1U
-h9As/Af/ciLF9Rtpujhy/dj0AC1stnb685JP5uhLDAEVJcb61RROlSFgVDwz4i/N
-EYRB59qPD/kFrI9y/8xv4ySJ+VNGDIa/dS+bnlGvMz6uuhVTy86a9oC3Gqc3MHdn
-Q8qyBckdfoBA47JaronYtuUxE/If7kiebzJQYRoRtZJ7A6eRqP2kdJBA9Ggzty4t
-W9SEAR32lSxI+BPPiZ4nKgrS3sDLE/Kyz283Pa/A9d5cZCT1J+L/Jb5GvwuMEVf6
-fLFAHQT3cUo4hTbP1xEMn/yxpFUCPxWCXy5nOaAIPt5eCHlPvsmfdMlkMVc/zv0s
-q0Tbf1oqtJ7A7MAiGRIWXu2X/o12Bg==
-=Xd1p
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmniNf8ACgkQJNaLcl1U
+h9B8Swf/VUIDQqa12mNHNUCII3JGnRQSTgbsZLNisQ4kkDdBzzF7Cxh3tfPruNlE
+KIxnW0HpJeegirn1Dd9rGLjCPDztCa1jOL+20r/mYRLNiedIT7r5ConwbhBnfo5a
+0IHAcxDt9bMR7eJGdWw84XaP3gysVHcsP1qsTEmTgvmmXR23O2MH4mKAvhtT6Am6
+FZNx3QtkoLzIVaTkZL75I2OHfBmye/bXvRt7adGq3d/0rVaI50SqgO2c3QGI1p+a
+H/Jwa0LWgbu5o5zCIhwgpJpFdg9k7A8681CCK1PYASibFiCf9NJUXRGPA6Xw9lWb
+REBlk10xyoRSDoBL/kDjxg7J5d1UyA==
+=Enxp
 -----END PGP SIGNATURE-----
 
---KmZdBgDaIn46m5wC--
+--l8K65XbEJBIqZvnB--
 
