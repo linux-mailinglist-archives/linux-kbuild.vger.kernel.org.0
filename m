@@ -1,128 +1,301 @@
-Return-Path: <linux-kbuild+bounces-12849-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12850-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLAjBd6852mu/wEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12849-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 20:07:26 +0200
+	id oDuYHXTM52nNAwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12850-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 21:13:56 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D32643E5F4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 20:07:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C610C43EE23
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 21:13:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 296683080E85
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 18:01:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DA2F8301F9B2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 19:13:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9174F3A9610;
-	Tue, 21 Apr 2026 18:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05CFB3AB281;
+	Tue, 21 Apr 2026 19:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kl9SbaBS"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gJb8Yplz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C83E39DBF3;
-	Tue, 21 Apr 2026 18:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776794460; cv=none; b=nlcPLP2Vd/lvbxc2NrmH7mBIQtturqnkzYxqCN0EW7sda/UusiN9Ec3Dwt5n4D1HgBjxxMwNfUq7pRc4Dbq1z6XJeJxGEyHx7U+fL6MRNeGvBgyvNi2UDhYFsz2yDBwIPc48AFbbyGFGqyjkwng32w0cOhmhNadamsXXOCONULI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776794460; c=relaxed/simple;
-	bh=ohE20d4eeeH1tdEUpFFkSXsdolQHC/2BDrYxZa0fezY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEXEo0u1tHCYlVT8tqy3eaq78ymszEFXUDa8GD19wWGZfBt4WNVdA5V1bkO4OOVx6uHCLzzsofVmt8uiaZfnR9GQU1EbkdMpO9rO8Fge4ZtwdPbrDreX0PXOv9yI9vpDA2iAKq896nPgh8xhxFiZo/2PdrtD6Lcc6bw5Dp0eDuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kl9SbaBS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5297AC2BCB0;
-	Tue, 21 Apr 2026 18:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776794459;
-	bh=ohE20d4eeeH1tdEUpFFkSXsdolQHC/2BDrYxZa0fezY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kl9SbaBSvl7EPS37KTbZ4kANODXAFlQZeLHoXKzcgQSlQKcDuaySdYhqOIZDcwOD9
-	 5BGcfRBTuci3+W+AXUD3ncIORh7suIbMHmhjmKcGEcbdVMMdtypRnryVxE/uSDUoKU
-	 jwsRDHlqp/VDtFHNQ9/rONw1moSiY4FwesR9s8Z0kF/ZrQXnBADxwpg0z1kISoAuFX
-	 1ijlucM/Jt5MQu5ZcvzRScunBmsnyjA7HkwHBAi989lIDCCfpVrzaWj8bWAi7eop7z
-	 ep6+yjT+ma7645xskCUHtV2Tx6U252GfAOYnNd6S6u0YJgBHQGGUEVGhQCcj2zeqfw
-	 TOjF1anlMnWDQ==
-Date: Tue, 21 Apr 2026 19:56:12 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Piyush Patle <piyushpatle228@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Chen Pei <cp0613@linux.alibaba.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: document generation of offset header files
-Message-ID: <aee6PKQlHxCeSS0z@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Piyush Patle <piyushpatle228@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Chen Pei <cp0613@linux.alibaba.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org
-References: <20260410221257.191517-1-piyushpatle228@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D9E284693
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Apr 2026 19:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776798829; cv=pass; b=mRrVD9/qucWhOOmt1TPctvwEFNqUPDvaGmFRc3F2HPoFmUcc6FscuFx5moys7LtyFkLsBm2Q6pIdQjsApzG2ohD0EL5q1VXfP2QN32hgFKRaDX4PD/3tbdyDI5WukqRQf4ctg4tHRNBdg4jhERremyxmRkJC9dm8dCdfj1lXTx0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776798829; c=relaxed/simple;
+	bh=X4Wq2yf0iLQmaCYexwPzuD8C38X8+peC49jk0V+3V8A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SoYIRxnlDmrqTGIG3uWGVXcr+P2/u4QP9UxLDUHnpRZ1WbeTLUvbMc/QhhD7dobxZg1uB733f9zW32J1BirqHOnesCJA+drs0LTxIUm18pMtINwE7kGjSZuKrnhqSmyysc9R6J21QX1G203AZcv+9Lzx0pDIOMgNVBfiH1YIEcQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gJb8Yplz; arc=pass smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c45281a06so6206040c88.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Apr 2026 12:13:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776798828; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hRty7DoO6VTzoJu+tCo9e/txn2I8sanJpvxsobBq2XyGk5+BPUgTFEOTcGZG1+kyWq
+         jzHFLEQigYQRcY4kjY5l18+VfeiYs/SKeVLzq73Q0IYjWZF7AsHB9waTm6w6k/J6bmdH
+         C+I6HGxFw+VddDc/wMz8ddm9Lc6o7R7WkOs4UEcOy7OnYiwmhVd5R0JsToSHFybhY0ax
+         odnAjtpAFD92Q9FkjPD/ALUDvgBII6q4pxWLSjf4N1RiFOLae0Wy4oCGwBva2YGHeFnC
+         bjTtKv5CxFCo+ig31g6cYuro22CjXvbqlxqsT2yYCyTn15kPfRGLwZMHP+D8zYSlh4Fm
+         jClw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=J+nBi8NMCSPfGIscPWxKFWQOBdlvlCfORQNm2QzRooQ=;
+        fh=fyJINfrqQIxGs12vtQEmX/VxB/ytkSaZbsBS5GIYpKM=;
+        b=QlyEr5nFdzhgNbBj8tc+OgflIA/1XUxKYNfXI2hLekntBP4y0fwJqlciRTUaghFVwB
+         +m3F6xOKsf6I80zcRGWNZPBFiJsffB4diwpLjJrno1rBbu6sbIRwr2dUOAzKkMj4fL/q
+         yDYtvMbHp7tR5vGJ6zA1rG7jq+nnvZR/7L0/i8hTwBFrk1XTDMgrZ30Y5PGySXbaBUKy
+         3byGlbk4LCMtaz1pmlDTOwzq3ELmUir79alRpJGutR1Lc1UjVY+7JNJOJiGlaabsKlt0
+         j+wcvfy+rEO0PNyuZaDLY4eZbkUdcW9qYhINYTsr+g8FCkSzxiU1x4sPZZOaRlva3rnx
+         e44A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1776798828; x=1777403628; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J+nBi8NMCSPfGIscPWxKFWQOBdlvlCfORQNm2QzRooQ=;
+        b=gJb8Yplz3OHDlZrxo8835UYgB7N/2/Sumn/MImSDNYEubTQrst5w8OUomPU4ZLfXyP
+         NZrXeEyKz6f+/62Olb0PBZ7rDxPVFLSSu9coBUZxMgnSkwmCQE79vmCcLBKON2h1G2gJ
+         xsO8GK9cHSR/9nBxjBpsvarVIzlFxXpNfvk/XvSXiuGYBTXw1Nl9/k9KtWEXf3EsEx2P
+         nQin5HyalvdcYpIFGClypw1dx5vKzSOJ/3NrPmtaoamM7rI1oMPB7iDGPGRR/lK+rZE/
+         KoXKyZNRVc6qGo8WCxRjDqnVPVlt9ZmjkQ54+lMpxNmxwgED0wmpXrQ8RTjA/4UaXt3/
+         8qZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776798828; x=1777403628;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J+nBi8NMCSPfGIscPWxKFWQOBdlvlCfORQNm2QzRooQ=;
+        b=U9TwFhLKJh7Fb7HkVwL7ZvppumUjfp3z5P3gb4F4mnVKHI37RKgsT6m1JUGhk36xV2
+         JcB2fKNohtyShB5u6qamjfuPPVRypecL114nyxSY5z3g+Esl1/URGmC0h63C140OC077
+         iPyiMd7XhDyPUB+c0knm5AnCoE19j5e4OrQPS89p2m1bseyIVWCECCtmId8/8GeS9DJw
+         EoB9IQczU5vgJn04TnSTyYY+oNqiA4q1oYi/TBDD5PqzhGBgyNSv9Y+GPstcG+aNYYGr
+         hZpwQ0QgEfU7PPQvlWqhH1IPrwoN1kwEleYx+n3IQFeFayrvUzM+QKfKMA6e9vrW9aTN
+         tT/A==
+X-Forwarded-Encrypted: i=1; AFNElJ/2UZoJq+us5Dm/ryfSWEhDPNzuSPePoyrIdqgjiDJMTWKj8jE0vUU2z5LJbfj7ORfnVjh7rvdyTWtiKcM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR0eMazMMY0SuIAzUcT7I9b/cLuaJdx5K+FSlnFmWiNJXCw+oW
+	IwNwJbHZH2FsbeCc1VWh75CyTtO9GFY/yrKTVALn2eZ1XnToZw44kL7HLmZXazDxZ8hmTHFmK7t
+	bTMHMOMU6RcDUONbjy7463rdtEg+LG3rEULeO7Z1v
+X-Gm-Gg: AeBDiesHCUO7W8E8TSPVx+pfp+stZAHtO+/USNOHexfFTF7d6YAhQZa50vITxpnMM0V
+	ULrD9+lhDg5qgp0HZPF21vi7grmyem5A+BehprcqCva6s2BoWYciXkR2lvF/AblNL+0xKW/IiDw
+	i7YTapj80bnpYI6gvEJBio0iHihHoAn+ko3Zn5z9qfq7Gh9J9r09bx5rNhVSukM4pmJvqgSUniq
+	GTMuGoZAAqsoNykENnFWxcZUtnB6vwhVUuh+clCOJz8ZSc/Tr946q0Plet4CYJImYfPToLe3odX
+	woH8bbDM7UNcwDdT3HuKMelW2a7IusoTdJuZcyL0+X7HeLj3/DiU1TJxb9CdzHG3xjKHN/E=
+X-Received: by 2002:a05:7022:4199:b0:12c:2cf8:2f30 with SMTP id
+ a92af1059eb24-12c73f83616mr10488523c88.15.1776798827054; Tue, 21 Apr 2026
+ 12:13:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260410221257.191517-1-piyushpatle228@gmail.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+References: <20260415143735.2974230-1-elver@google.com> <202604210954.84C57E5E0@keescook>
+In-Reply-To: <202604210954.84C57E5E0@keescook>
+From: Marco Elver <elver@google.com>
+Date: Tue, 21 Apr 2026 21:13:10 +0200
+X-Gm-Features: AQROBzBMsDbE7_dyhVt5xWTROldThQNRDRm_VJxxVveH1z3BL1b5nLG0UUHDDRE
+Message-ID: <CANpmjNO8CcR56LXAQf4GQhGcbU4MQkRCa7gVvwuAfvVrzEUhQg@mail.gmail.com>
+Subject: Re: [PATCH v2] slab: support for compiler-assisted type-based slab
+ cache partitioning
+To: Kees Cook <kees@kernel.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, 
+	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com, 
+	llvm@lists.linux.dev, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Florent Revest <revest@google.com>, Jann Horn <jannh@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Matteo Rizzo <matteorizzo@google.com>, GONG Ruiqi <gongruiqi1@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12849-lists,linux-kbuild=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-12850-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev,huawei.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[elver@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9D32643E5F4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,googlegroups.com:email]
+X-Rspamd-Queue-Id: C610C43EE23
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Apr 11, 2026 at 03:42:54AM +0530, Piyush Patle wrote:
-> Replace the placeholder reference with a description of how Kbuild
-> generates offset header files such as include/generated/asm-offsets.h.
-> 
-> Remove the corresponding TODO entry now that this is documented.
-> 
-> Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
-> ---
->  Documentation/kbuild/makefiles.rst | 41 ++++++++++++++++++++++++------
->  1 file changed, 33 insertions(+), 8 deletions(-)
+On Tue, 21 Apr 2026 at 19:22, 'Kees Cook' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
+>
+> On Wed, Apr 15, 2026 at 04:37:05PM +0200, Marco Elver wrote:
+> > The builtin __builtin_infer_alloc_token(<malloc-args>, ...) instructs
+> > the compiler to infer an allocation type from arguments commonly passed
+> > to memory-allocating functions and returns a type-derived token ID. The
+> > implementation passes kmalloc-args to the builtin: the compiler performs
+> > best-effort type inference, and then recognizes common patterns such as
+> > `kmalloc(sizeof(T), ...)`, `kmalloc(sizeof(T) * n, ...)`, but also
+> > `(T *)kmalloc(...)`. Where the compiler fails to infer a type the
+> > fallback token (default: 0) is chosen.
+> >
+> > Note: kmalloc_obj(..) APIs fix the pattern how size and result type are
+> > expressed, and therefore ensures there's not much drift in which
+> > patterns the compiler needs to recognize. Specifically, kmalloc_obj()
+> > and friends expand to `(TYPE *)KMALLOC(__obj_size, GFP)`, which the
+> > compiler recognizes via the cast to TYPE*.
+>
+> Great! I'm glad this gets deterministically handled for the kmalloc_obj*
+> cases.
+>
+> > Additionally, when I compile my kernel with -Rpass=alloc-token, which
+> > provides diagnostics where (after dead-code elimination) type inference
+> > failed, I see 186 allocation sites where the compiler failed to identify
+> > a type (down from 966 when I sent the RFC [4]). Some initial review
+> > confirms these are mostly variable sized buffers, but also include
+> > structs with trailing flexible length arrays.
+>
+> For the call-site-partitioning series[1] I sent before, I had
+> per-site caches for fixed-sized allocations and size bucket caches for
+> variably-sized allocations. I'd like to see something similar for this
+> series. Specifically, I replaced "kmalloc_slab" with "choose_slab" that
+> did O(1) to find the dedicated cache/bucket for the allocation[2].
+>
+> In this case, we now have a build-time-constant value that it should be
+> possible to use to look up a _single_ dedicated cache/bucket for the
+> given unique type: there is no need to do hashing.
 
-Looks good to me, thanks!
+That should be a separate series; I know what you're getting at, but
+it's a significant rework and a different design with different
+properties. This simpler patch is likely ready for the next merge
+window (once I send v3), and in light of recent developments, I'd like
+this to land sooner than later.
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+> > [...]
+> > -config RANDOM_KMALLOC_CACHES
+> > -     default n
+> > +config PARTITION_KMALLOC_CACHES
+> >       depends on !SLUB_TINY
+> > -     bool "Randomize slab caches for normal kmalloc"
+> > +     bool "Partitioned slab caches for normal kmalloc"
+> >       help
+> > -       A hardening feature that creates multiple copies of slab caches for
+> > -       normal kmalloc allocation and makes kmalloc randomly pick one based
+> > -       on code address, which makes the attackers more difficult to spray
+> > -       vulnerable memory objects on the heap for the purpose of exploiting
+> > -       memory vulnerabilities.
+> > +       A hardening feature that creates multiple isolated copies of slab
+> > +       caches for normal kmalloc allocations. This makes it more difficult
+> > +       to exploit memory-safety vulnerabilities by attacking vulnerable
+> > +       co-located memory objects. Several modes are provided.
+> >
+> >         Currently the number of copies is set to 16, a reasonably large value
+>
+> The "16" buckets seems to hold for TYPED_KMALLOC_CACHES too? My goal
+> with the earlier type-partitioning was to get _total_ isolation, not
+> simply bucketed: 1 cache (or sizes-bucket) for each type. The "16"
+> limitation from RANDOM_KMALLOC_CACHES was kind of arbitrary due to the
+> hashing.
 
+The token ID is also a hash, although it can be configured to be
+unbounded to effectively give unique hash per type. As-is, limiting to
+16 keeps it comparable to the RANDOM mode, albeit IMHO with better
+isolation properties with the same overheads. As-is, performance
+properties of RANDOM and TYPED are comparable, and the friction to
+switch between them is minimal.
 
+Unlike a completely new design, which will have comletely different
+performance and memory usage properties - and wouldn't be comparable.
+
+> >         that effectively diverges the memory objects allocated for different
+> >         subsystems or modules into different caches, at the expense of a
+> > -       limited degree of memory and CPU overhead that relates to hardware and
+> > -       system workload.
+> > +       limited degree of memory and CPU overhead that relates to hardware
+> > +       and system workload.
+> > +
+> > +choice
+> > +     prompt "Partitioned slab cache mode"
+> > +     depends on PARTITION_KMALLOC_CACHES
+> > +     default RANDOM_KMALLOC_CACHES
+>
+> I think this should be adjusted a bit:
+>
+> config CC_HAS_ALLOC_TOKEN
+>         def_bool $(cc-option,-falloc-token-max=123)
+>
+> ...
+> choice
+>         prompt "Partitioned slab cache mode"
+>         depends on PARTITION_KMALLOC_CACHES
+>         default TYPED_KMALLOC_CACHES if CC_HAS_ALLOC_TOKEN
+>         default RANDOM_KMALLOC_CACHES
+
+Sure.
+
+> And actually, perhaps a global rename of the options so the selection
+> naming is at the end of the CONFIG phrase, and bundle the on/off into
+> the choice:
+>
+>
+> choice
+>         prompt "Partitioned slab cache mode"
+>         depends on PARTITION_KMALLOC_CACHES
+>         default KMALLOC_PARTITION_TYPED if !SLUB_TINY && CC_HAS_ALLOC_TOKEN
+>         default KMALLOC_PARTITION_RANDOM if !SLUB_TINY
+>         default KMALLOC_PARTITION_NONE
+>
+> config KMALLOC_PARTITION_NONE
+> ...
+> config KMALLOC_PARTITION_RANDOM
+>         depends on !SLUB_TINY
+> ...
+> config KMALLOC_PARTITION_TYPED
+>         depends on !SLUB_TINY && CC_HAS_ALLOC_TOKEN
+
+There was a comment somewhere else that even introducing
+PARTITION_KMALLOC_CACHES might confuse users of RANDOM_KMALLOC_CACHES.
+I think completely getting rid of and renaming RANDOM_KMALLOC_CACHES
+has marginal benefit, and will cause friction for existing users (even
+moreso than already). I see little benefit here, and would prefer not
+to break user configs more than needed: configs that already set
+RANDOM_KMALLOC_CACHES, upon rebuild will be prompted to enable
+PARTITION_KMALLOC_CACHES; if user says Y, then their previous
+selection (RANDOM) would already be picked and they don't have to
+rediscover that it exists under a new name.
+
+I can make this change, but only if you're sure the benefit outweighs
+the downsides here.
+
+Thanks,
+-- Marco
 
