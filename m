@@ -1,60 +1,60 @@
-Return-Path: <linux-kbuild+bounces-12847-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12848-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALaMMNf/5WnVqAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12847-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2026 12:28:39 +0200
+	id IG5GK8ey52no/gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12848-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 19:24:23 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288CB4295A0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2026 12:28:38 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B15743DE87
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 19:24:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7FED23003309
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2026 10:28:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DEBEE300FC46
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2026 17:22:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5408D399341;
-	Mon, 20 Apr 2026 10:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EFFD2FE066;
+	Tue, 21 Apr 2026 17:22:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMJaDPvY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APakOZVU"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB3C214204;
-	Mon, 20 Apr 2026 10:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6142E6CCD;
+	Tue, 21 Apr 2026 17:22:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776680900; cv=none; b=Nrk9UhgFXAxvYOrR1HJBXrE1pfZS+1134dILIm/oTdl/dYFkJZ9/DPAnH0Lt4eKsGGYKN6O1zYlu6/iXPbldGJWtWljc00bXYGByKAqAblpOJ3V9ycv+jTElth2QgdfbEtLazJkO/OTN1/oIaalZ0R62e5GgO6yWOY6gTKrkSME=
+	t=1776792163; cv=none; b=a5OccQyLKzv617W90gioHWgx6LxNO8iqZawVuQcNCHYFXHog1DhKbZxmshpRVztwoalnMZ5tu3x3JbPZGf3EdD9Dwn4drAqUo/7M+D9awMYjiQGixAxWx2VbMGonR6FqhdG9V8vpLVqxo290/0RsDyArHNnUA1nM0zYtfrHSSGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776680900; c=relaxed/simple;
-	bh=Ndln9vQTZpiFLL6wQKrdieqa21z6eByrPd0QvS1gFb8=;
+	s=arc-20240116; t=1776792163; c=relaxed/simple;
+	bh=nNMDSilb+/zXGXVw/f0Wvgf6NfzWoClrWzQe893lPEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mHeLGRNi7oeKown54CB+v6F2T2U68e9gQNoHeuONJItfYQhYx5Qf2Ge4TGvJtEUZ/f7/fsMbxY67rkis5UxRSVS3NLTFcp8siUxmfzt5cqOsUuK6Y6mScGftBh7DDCAzvAmLpY/+PNCk/en7T/iC8wYcLFSLVxJbh4035w01WMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMJaDPvY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDECC19425;
-	Mon, 20 Apr 2026 10:28:19 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LoVrQXbpbNKmD6UPBoTE+bo5mXBmbGvImraPMQ1lqLs3JceOsnzZnWqTSrdJKtfbIdJ3qRNOM8CIxzS7KtiRaFhjtdj0wNQen/xqRPrmiwmorGFtZrbW+kfT12CthHgavfubmG4Bt8atF3ZEJ2KpSrw6KkjWVe3xEvoq47lcWbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APakOZVU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31EBAC2BCB0;
+	Tue, 21 Apr 2026 17:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776680900;
-	bh=Ndln9vQTZpiFLL6wQKrdieqa21z6eByrPd0QvS1gFb8=;
+	s=k20201202; t=1776792163;
+	bh=nNMDSilb+/zXGXVw/f0Wvgf6NfzWoClrWzQe893lPEs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mMJaDPvYVyO7t3gR6EGUpa7cpPBZiqH7/ywZCh9nANqephTKzNzCl+wZ+YoewhE+B
-	 W09n9eyGn0HdRCoh6LxwpixOa9UYgRcwU7GNhCNUdcnwLslShTO0IDNYI1Jxj2DoDo
-	 +t0GKNhemcX3iNy2sz7kAg4xLdcRWaGguwrTcnoLnwVfNiGcyf6lVONN5vx65N2sDU
-	 7LomD2dDKftkucHQ63ivJiRG3diRD7koZ9P961FAsFYlrt4/7NVnwd3+5a6TTZIGko
-	 FQGZJWWKYqIaARmVYEgOQySolBf8dX+qwpwHKT1V5HeG/4kF4RWS5aE19C4TJq1nG3
-	 BJU5+XXuV5s/Q==
-Date: Mon, 20 Apr 2026 19:28:17 +0900
-From: "Harry Yoo (Oracle)" <harry@kernel.org>
+	b=APakOZVU5qkL6vWUVTFAYa7wyo8CQ/+TvO3KSSP5ZRkDiG7GeNDpX9/D3iHleKfe1
+	 MLfTi0udDG+jOpm+5Xn4s1LPuyDV1GjPm5WyWeylmQcPRpTdUr4wN6Wphw9pRBWjvp
+	 AFg73IKKfpBPJxMEn0orz74mE/laLUKi9r0tIzNilLIjUUoRRx6ZmVFNLcpHJ2jhqO
+	 9u6201KZx3sh5Vh5HklBamSzUt8geRNlHbsS29kwq6LjTPzkRABmYgpIHbRj1EegtK
+	 3rpG+i7AR/Kg7ZinHcHxHHk8cKqG2KeeONe/KAX35msVFasIfncY2lD0aiM3rVQyVg
+	 VyqNHsIu0GGSQ==
+Date: Tue, 21 Apr 2026 10:22:42 -0700
+From: Kees Cook <kees@kernel.org>
 To: Marco Elver <elver@google.com>
 Cc: Vlastimil Babka <vbabka@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
 	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
-	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>,
+	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+	David Rientjes <rientjes@google.com>,
 	Roman Gushchin <roman.gushchin@linux.dev>,
-	Kees Cook <kees@kernel.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	David Hildenbrand <david@kernel.org>,
 	Lorenzo Stoakes <ljs@kernel.org>,
@@ -73,15 +73,11 @@ Cc: Vlastimil Babka <vbabka@kernel.org>,
 	Florent Revest <revest@google.com>, Jann Horn <jannh@google.com>,
 	KP Singh <kpsingh@kernel.org>,
 	Matteo Rizzo <matteorizzo@google.com>,
-	GONG Ruiqi <gongruiqi1@huawei.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Uladzislau Rezki <urezki@gmail.com>, rust-for-linux@vger.kernel.org
+	GONG Ruiqi <gongruiqi1@huawei.com>
 Subject: Re: [PATCH v2] slab: support for compiler-assisted type-based slab
  cache partitioning
-Message-ID: <aeX_wbOBX3l8PJqi@hyeyoo>
+Message-ID: <202604210954.84C57E5E0@keescook>
 References: <20260415143735.2974230-1-elver@google.com>
- <aeXU-wwGSwcx2dvy@hyeyoo>
- <CANpmjNN0dYD8MB3PpPoxpz4ey2U9xA0w6oVO9hambtRwzSSkiQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -90,164 +86,151 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANpmjNN0dYD8MB3PpPoxpz4ey2U9xA0w6oVO9hambtRwzSSkiQ@mail.gmail.com>
+In-Reply-To: <20260415143735.2974230-1-elver@google.com>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12847-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12848-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[39];
+	RCPT_COUNT_TWELVE(0.00)[36];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev,huawei.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[harry@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 288CB4295A0
+X-Rspamd-Queue-Id: 4B15743DE87
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Apr 20, 2026 at 11:30:23AM +0200, Marco Elver wrote:
-> On Mon, 20 Apr 2026 at 09:25, Harry Yoo (Oracle) <harry@kernel.org> wrote:
-> > [CC'ing RUST ALLOC folks for rust bindings]
-> > On Wed, Apr 15, 2026 at 04:37:05PM +0200, Marco Elver wrote:
-> > A few comments on V2:
-> >
-> > # comment 1
-> >
-> > I'm not a big fan of how k[v]realloc_node_align()
-> > and kmalloc_nolock() define and pass the token parameter.
-> >
-> > IMHO it'll be fine to use {DECL,PASS}_KMALLOC_PARAMS() in those
-> > functions, since SLAB_BUCKETS users already passes NULL bucket
-> > to most of __kmalloc*() calls anyway.
+On Wed, Apr 15, 2026 at 04:37:05PM +0200, Marco Elver wrote:
+> The builtin __builtin_infer_alloc_token(<malloc-args>, ...) instructs
+> the compiler to infer an allocation type from arguments commonly passed
+> to memory-allocating functions and returns a type-derived token ID. The
+> implementation passes kmalloc-args to the builtin: the compiler performs
+> best-effort type inference, and then recognizes common patterns such as
+> `kmalloc(sizeof(T), ...)`, `kmalloc(sizeof(T) * n, ...)`, but also
+> `(T *)kmalloc(...)`. Where the compiler fails to infer a type the
+> fallback token (default: 0) is chosen.
 > 
-> I'm not sure I agree. 2 reasons:
-> 
-> 1. Even though it's "just" k[v]realloc_node_align() and
-> kmalloc_nolock() - despite their relatively less frequent use - just
-> put one of them in a hot path and you're sacrificing performance even
-> further. There are only so many arguments that can be passed in
-> registers (depending on arch), and may cause more stack spilling.
-> 
-> 2. We'd misleadingly declare that these functions do something with
-> the bucket arg. This is wrong.
+> Note: kmalloc_obj(..) APIs fix the pattern how size and result type are
+> expressed, and therefore ensures there's not much drift in which
+> patterns the compiler needs to recognize. Specifically, kmalloc_obj()
+> and friends expand to `(TYPE *)KMALLOC(__obj_size, GFP)`, which the
+> compiler recognizes via the cast to TYPE*.
 
-Both are valid points. But it still feels wrong to have:
+Great! I'm glad this gets deterministically handled for the kmalloc_obj*
+cases.
 
-void *krealloc_node_align_noprof(const void *objp, size_t new_size,
-				 unsigned long align,
-				 gfp_t flags, int nid DECL_TOKEN_PARAM(token));
+> Additionally, when I compile my kernel with -Rpass=alloc-token, which
+> provides diagnostics where (after dead-code elimination) type inference
+> failed, I see 186 allocation sites where the compiler failed to identify
+> a type (down from 966 when I sent the RFC [4]). Some initial review
+> confirms these are mostly variable sized buffers, but also include
+> structs with trailing flexible length arrays.
 
-n = krealloc_node_align_noprof(p, size, align, kmalloc_gfp_adjust(flags, size), nid _PASS_TOKEN_PARAM(token));
+For the call-site-partitioning series[1] I sent before, I had
+per-site caches for fixed-sized allocations and size bucket caches for
+variably-sized allocations. I'd like to see something similar for this
+series. Specifically, I replaced "kmalloc_slab" with "choose_slab" that
+did O(1) to find the dedicated cache/bucket for the allocation[2].
 
-Actually the problem here is that some of parameters in
-DECL_KMALLOC_PARAMS() are not necessary in some functions.
+In this case, we now have a build-time-constant value that it should be
+possible to use to look up a _single_ dedicated cache/bucket for the
+given unique type: there is no need to do hashing.
 
-Perhaps we could have
+> [...]
+> -config RANDOM_KMALLOC_CACHES
+> -	default n
+> +config PARTITION_KMALLOC_CACHES
+>  	depends on !SLUB_TINY
+> -	bool "Randomize slab caches for normal kmalloc"
+> +	bool "Partitioned slab caches for normal kmalloc"
+>  	help
+> -	  A hardening feature that creates multiple copies of slab caches for
+> -	  normal kmalloc allocation and makes kmalloc randomly pick one based
+> -	  on code address, which makes the attackers more difficult to spray
+> -	  vulnerable memory objects on the heap for the purpose of exploiting
+> -	  memory vulnerabilities.
+> +	  A hardening feature that creates multiple isolated copies of slab
+> +	  caches for normal kmalloc allocations. This makes it more difficult
+> +	  to exploit memory-safety vulnerabilities by attacking vulnerable
+> +	  co-located memory objects. Several modes are provided.
+>  
+>  	  Currently the number of copies is set to 16, a reasonably large value
 
-DECL_KMALLOC_PARAMS(size, b, token) # declare size, bucket, token
+The "16" buckets seems to hold for TYPED_KMALLOC_CACHES too? My goal
+with the earlier type-partitioning was to get _total_ isolation, not
+simply bucketed: 1 cache (or sizes-bucket) for each type. The "16"
+limitation from RANDOM_KMALLOC_CACHES was kind of arbitrary due to the
+hashing.
 
-DECL_BUCKET_PARAMS(size, token) # declare size, bucket;
-				# but, actually, we don't need this!
+>  	  that effectively diverges the memory objects allocated for different
+>  	  subsystems or modules into different caches, at the expense of a
+> -	  limited degree of memory and CPU overhead that relates to hardware and
+> -	  system workload.
+> +	  limited degree of memory and CPU overhead that relates to hardware
+> +	  and system workload.
+> +
+> +choice
+> +	prompt "Partitioned slab cache mode"
+> +	depends on PARTITION_KMALLOC_CACHES
+> +	default RANDOM_KMALLOC_CACHES
 
-DECL_TOKEN_PARAMS(size, b) # declare size, token only;
-			   # for kmalloc_nolock and k[v]realloc_node_align()
+I think this should be adjusted a bit:
 
-and use DECL_TOKEN_PARAMS(), PASS_TOKEN_PARAMS() for those functions?
-(just like how DECL_BUCKET_PARAMS() worked before)
+config CC_HAS_ALLOC_TOKEN
+	def_bool $(cc-option,-falloc-token-max=123)
 
-What do you think?
+...
+choice
+	prompt "Partitioned slab cache mode"
+	depends on PARTITION_KMALLOC_CACHES
+	default TYPED_KMALLOC_CACHES if CC_HAS_ALLOC_TOKEN
+	default RANDOM_KMALLOC_CACHES
 
-> Both feels wrong, and would only make this change if you confirm both
-> are trade-offs that you strongly prefer.
-> 
-> > # comment 2
-> >
-> > This breaks Documentation/.
-> >
-> > Problems:
-> >
-> > - The document generator doesn't handle DECL_KMALLOC_PARAMS() well.
-> >
-> > - The signature of the function that users call (krealloc_node_align())
-> >   and the function that has kerneldoc (krealloc_node_align_noprof())
-> >   don't match.
-> >
-> > - Even worse, moving kerneldoc to the macro doesn't work because
-> >   it uses variable arguments (...)
-> 
-> Well, some were broken before, now it's just broken more. :-)
+And actually, perhaps a global rename of the options so the selection
+naming is at the end of the CONFIG phrase, and bundle the on/off into
+the choice:
 
-Ouch... ;-)
 
-> We could move the documentation to macros and switch to explicit args
-> instead of (...).
+choice
+	prompt "Partitioned slab cache mode"
+	depends on PARTITION_KMALLOC_CACHES
+	default KMALLOC_PARTITION_TYPED if !SLUB_TINY && CC_HAS_ALLOC_TOKEN
+	default KMALLOC_PARTITION_RANDOM if !SLUB_TINY
+	default KMALLOC_PARTITION_NONE
 
-That works for me!
+config KMALLOC_PARTITION_NONE
+...
+config KMALLOC_PARTITION_RANDOM
+	depends on !SLUB_TINY
+...
+config KMALLOC_PARTITION_TYPED
+	depends on !SLUB_TINY && CC_HAS_ALLOC_TOKEN
 
-> Otherwise, I don't see any way to fix this. Preferences?
-> 
-> > # comment 3
-> >
-> > Looking at how rust generates helper functions,
-> > in rust/helpers/slab.c:
-> > | // SPDX-License-Identifier: GPL-2.0
-> > |
-> > | #include <linux/slab.h>
-> > |
-> > | __rust_helper void *__must_check __realloc_size(2)
-> > | rust_helper_krealloc_node_align(const void *objp, size_t new_size, unsigned long align,
-> > |                               gfp_t flags, int node)
-> > | {
-> > |       return krealloc_node_align(objp, new_size, align, flags, node);
-> > | }
-> > |
-> > | __rust_helper void *__must_check __realloc_size(2)
-> > | rust_helper_kvrealloc_node_align(const void *p, size_t size, unsigned long align,
-> > |                                gfp_t flags, int node)
-> > | {
-> > |       return kvrealloc_node_align(p, size, align, flags, node);
-> > | }
-> >
-> > Rust code probably won't pass any meaningful token?
-> > (something you may want to address in the future)
-> 
-> Yes, it'll just pass '0' by default. We could force Rust's allocation
-> to be in the pointer-containing range - if we assume Rust code is less
-> prone to contain bugs, but the assumption is that such allocations
-> both originate and are confined to the Rust side. One easy way to do
-> this is to write:
-> 
->        return kvrealloc_node_align(p, size + 0 * sizeof(long*), align,
-> flags, node);
-> 
-> But I'd defer that for now, until we're sure the above assumption
-> holds (Rust originated + confined).
+-Kees
 
-Ack.
-
-By the way, since Allocator trait uses realloc() to allocate new memory,
-IIUC all k[v]malloc, k[v]realloc usage from Rust will be affected.
+[1] https://lore.kernel.org/lkml/20240809072532.work.266-kees@kernel.org/
+[2] https://lore.kernel.org/lkml/20240809073309.2134488-5-kees@kernel.org/
 
 -- 
-Cheers,
-Harry / Hyeonggon
+Kees Cook
 
