@@ -1,158 +1,113 @@
-Return-Path: <linux-kbuild+bounces-12878-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12879-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AOWbBmck7mn0qwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12878-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 16:42:47 +0200
+	id 8DZNNp1p7mkxtgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12879-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 21:38:05 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1455B46A5FA
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 16:42:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9ED46AF59
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 21:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A6A91300601F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 14:42:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BC6CD301C17C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E84C367F3D;
-	Sun, 26 Apr 2026 14:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9564738F65D;
+	Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="By1XQ8Dn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="feUI5768"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE54C2D781B;
-	Sun, 26 Apr 2026 14:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7150538F658;
+	Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777214543; cv=none; b=blKHqFZymVjdQa8J1iNqpkvq3oiuso7LNhG8ZeuUhjAEgpe9N27kzmk7b7f/zY9VKxtqQKQlvOa988cnC2LVAMzcUVwVmoiyvjuCh3tcTJCJN+EbFI9134Ps5cx8EtWK3MQqBsX0kji+GgTI9dM897qkfV5vyZ+2mppvN4ZsR38=
+	t=1777232180; cv=none; b=dhoy6SdFg/Iqw7LpkIpBaUqZ1q9hszv0N1CZVQgwJztyttVdxp2oV++w75PJznO7yzhanEUMEYGdZkLmRTBHRCWyjZflWN42yF/8O5UaCgXaDj6iskhL/Mhtho+5o9d2enqsmNv5Jia+BPXhwOLHknLQnSydktCUgmrREcKmFuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777214543; c=relaxed/simple;
-	bh=saau16NEjftuafvXPe1PUmRePrjs0Fiv6u3j/eddlTs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z9gMDAiusODi2MqBAYT61F3JOZvGEJV+AXiz32Mz4LB1UPEpguhriolst6pouitacp10A8wYDd11upiXdZZZ9ZkTcQnUuHyQjiUy5RHP/sUQ8NmTNpOrtzbZpeUuziYFIKPu2fwGdNV90tFRM8v6M/6NXt0SYzRC5w68ca7Epn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=By1XQ8Dn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339E8C2BCAF;
-	Sun, 26 Apr 2026 14:42:18 +0000 (UTC)
+	s=arc-20240116; t=1777232180; c=relaxed/simple;
+	bh=UWXeBCcE5RTdlJB/N26K8aGuY1laR13azhBIYhU8kdE=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=C1AZX05P1n8/WqmNw1wZiM5x9uxaj2oTLm1Oh00iOpYZaxBNb/AAcmYfl9A00A6h0zXh2W5MU/4LtxslTMbbBSqzQAW59E8kEnqE+DhNvGhJuHCWF8h8vs6Pd+ZN1cK//BYaJr3CCy9Wg2SGzqrU7WBeljNwW7hvGw6rHtuyaPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=feUI5768; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08474C2BCB4;
+	Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777214543;
-	bh=saau16NEjftuafvXPe1PUmRePrjs0Fiv6u3j/eddlTs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=By1XQ8DnKQ0f4pHxqRTkctJQeLEGhvlcB0ks7BG1bXBeF2U9jhjavSlS/4mxzJC8x
-	 aRHHs6zeyADwSNXpyqpem2Y0ugJpkSrVUVjYUW3IaMW9I9QxRqS+LE5h2IgnAGIz05
-	 VvCNpBx896z8agAHgeT1mICenPlSlxbEN/50xhdEWEuqRnQJuhsZKIEcFB5nHK3ipW
-	 Lw3KNb+WmzuxqJ2Qd0FQowuOzHXaf5bUsK4Qm/Kizdz96GgVxjwgsQGXiX7AUyrDDd
-	 SOdzgVQDntTZlMxioIntpJ/lnIwvy5JCmmoATiJnH3bYSIygpVNDqyMIRfrIpquHFR
-	 nL5L85Cn2a9Lg==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>,
-	Christian Brauner <christian@brauner.io>,
-	Carlos Llamas <cmllamas@google.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] rust: allow `clippy::collapsible_if` globally
-Date: Sun, 26 Apr 2026 16:42:01 +0200
-Message-ID: <20260426144201.227108-2-ojeda@kernel.org>
-In-Reply-To: <20260426144201.227108-1-ojeda@kernel.org>
-References: <20260426144201.227108-1-ojeda@kernel.org>
+	s=k20201202; t=1777232180;
+	bh=UWXeBCcE5RTdlJB/N26K8aGuY1laR13azhBIYhU8kdE=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=feUI5768nk+QyhWTpGvAIpwaqHCuPStvkRa5/N/RsP+4idR0Txz/KGXwwY5hPbgqB
+	 qfrEe4BE8uFlVVyhHVtRgmGc42dkOzfptrWDS2uEmRfGM0jjgTo/2qFlWC4WM4iZ7m
+	 vGxfcsb0Os7SsLKHTivi9qT5Lya6QK5PsQS27mby89oHGSUzsZXghLx2UdXXYQcLLS
+	 D2wG3aM8b43eHcqcT3Cnuo8GH5uTDedOV+gR3QieGFBXtG/jgm/E7/2NtCjUdEMHHp
+	 peBKGmkb0lgWQMORzRzyVrPVPd8S4xqTUiEDFc7EoNZ2/UGQa7upL8q5T86BFsLdPa
+	 RD2zuYwS1yeBw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B9FF038119E5;
+	Sun, 26 Apr 2026 19:35:39 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for 7.1 #1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260425192708.2283642-1-nsc@kernel.org>
+References: <20260425192708.2283642-1-nsc@kernel.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260425192708.2283642-1-nsc@kernel.org>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-1
+X-PR-Tracked-Commit-Id: 75f7c47ccd78c947cf1b6ddb18ea453ff0555716
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b935117fe6d1af576e39b1f18c9e875f44bd146f
+Message-Id: <177723213845.2364874.16643684062002064591.pr-tracker-bot@kernel.org>
+Date: Sun, 26 Apr 2026 19:35:38 +0000
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, Mathias Krause <minipli@grsecurity.net>, Nathan Chancellor <nathan@kernel.org>, =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1455B46A5FA
+X-Rspamd-Queue-Id: 3A9ED46AF59
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-12878-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_COUNT_THREE(0.00)[4];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12879-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,garyguo.net:email,rust-lang.github.io:url]
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_NO_DN(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Similar to `clippy::collapsible_match` (globally allowed in the previous
-commit), the `clippy::collapsible_if` lint [1] can make code harder to
-read in certain cases.
+The pull request you sent on Sat, 25 Apr 2026 21:27:02 +0200:
 
-Thus just let developers decide on their own.
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-1
 
-In addition, remove the existing `expect` we had.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b935117fe6d1af576e39b1f18c9e875f44bd146f
 
-Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned in older LTSs).
-Suggested-by: Gary Guo <gary@garyguo.net>
-Link: https://lore.kernel.org/rust-for-linux/DGROP5CHU1QZ.1OKJRAUZXE9WC@garyguo.net/
-Link: https://rust-lang.github.io/rust-clippy/master/index.html#collapsible_if [1]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- Makefile                                    | 1 +
- drivers/android/binder/range_alloc/array.rs | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+Thank you!
 
-diff --git a/Makefile b/Makefile
-index e2a810bc4409..d0a515b661a0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -486,6 +486,7 @@ export rust_common_flags := --edition=2021 \
- 			    -Wclippy::as_ptr_cast_mut \
- 			    -Wclippy::as_underscore \
- 			    -Wclippy::cast_lossless \
-+			    -Aclippy::collapsible_if \
- 			    -Aclippy::collapsible_match \
- 			    -Wclippy::ignored_unit_patterns \
- 			    -Aclippy::incompatible_msrv \
-diff --git a/drivers/android/binder/range_alloc/array.rs b/drivers/android/binder/range_alloc/array.rs
-index ada1d1b4302e..081d19b09d4b 100644
---- a/drivers/android/binder/range_alloc/array.rs
-+++ b/drivers/android/binder/range_alloc/array.rs
-@@ -204,7 +204,6 @@ pub(crate) fn reservation_abort(&mut self, offset: usize) -> Result<FreedRange>
-         // caller will mark them as unused, which means that they can be freed if the system comes
-         // under memory pressure.
-         let mut freed_range = FreedRange::interior_pages(offset, size);
--        #[expect(clippy::collapsible_if)] // reads better like this
-         if offset % PAGE_SIZE != 0 {
-             if i == 0 || self.ranges[i - 1].endpoint() <= (offset & PAGE_MASK) {
-                 freed_range.start_page_idx -= 1;
 -- 
-2.53.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
