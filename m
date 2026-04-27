@@ -1,113 +1,181 @@
-Return-Path: <linux-kbuild+bounces-12879-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12880-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DZNNp1p7mkxtgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12879-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 21:38:05 +0200
+	id aKRYO63a7mkPygAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12880-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Apr 2026 05:40:29 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9ED46AF59
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 21:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBF646C82A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Apr 2026 05:40:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC6CD301C17C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A62023023DF1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Apr 2026 03:38:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9564738F65D;
-	Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67E6835F192;
+	Mon, 27 Apr 2026 03:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="feUI5768"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ueDIdW2Q"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7150538F658;
-	Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69A35E92B;
+	Mon, 27 Apr 2026 03:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777232180; cv=none; b=dhoy6SdFg/Iqw7LpkIpBaUqZ1q9hszv0N1CZVQgwJztyttVdxp2oV++w75PJznO7yzhanEUMEYGdZkLmRTBHRCWyjZflWN42yF/8O5UaCgXaDj6iskhL/Mhtho+5o9d2enqsmNv5Jia+BPXhwOLHknLQnSydktCUgmrREcKmFuA=
+	t=1777261080; cv=none; b=f89MNaetJRwwFmN7SnJOmRFb+xGeheb77Qu7mk3lYmABCeGj+sIJhFeQgJ5KIDDdmOFBaWJyejX0yfZ3pyZHOYjwTOqqEaMC2AyjEw006IVhOCYk/u5aPWf58L1ugVQiWiHepdBYs18DOoxH00Lv7CcV+gYaG4ru1rySAbaA3Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777232180; c=relaxed/simple;
-	bh=UWXeBCcE5RTdlJB/N26K8aGuY1laR13azhBIYhU8kdE=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=C1AZX05P1n8/WqmNw1wZiM5x9uxaj2oTLm1Oh00iOpYZaxBNb/AAcmYfl9A00A6h0zXh2W5MU/4LtxslTMbbBSqzQAW59E8kEnqE+DhNvGhJuHCWF8h8vs6Pd+ZN1cK//BYaJr3CCy9Wg2SGzqrU7WBeljNwW7hvGw6rHtuyaPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=feUI5768; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08474C2BCB4;
-	Sun, 26 Apr 2026 19:36:20 +0000 (UTC)
+	s=arc-20240116; t=1777261080; c=relaxed/simple;
+	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=JM9WRBd4lay/DMsA2S74RCLPaCyq+mGzAS9Jog94uuZjSLM0cxErLw2sgm3d7on6Cs0Ek0kLp3yU7L/VCIvqmSNM9bNSdjfuTPC/dP23a47kDvpxOHHx/wOKkllDTWlos1UG5notr/0DvWsrb0gyhOj30J8CxD4E45PB04ylEag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ueDIdW2Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26B3C19425;
+	Mon, 27 Apr 2026 03:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777232180;
-	bh=UWXeBCcE5RTdlJB/N26K8aGuY1laR13azhBIYhU8kdE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=feUI5768nk+QyhWTpGvAIpwaqHCuPStvkRa5/N/RsP+4idR0Txz/KGXwwY5hPbgqB
-	 qfrEe4BE8uFlVVyhHVtRgmGc42dkOzfptrWDS2uEmRfGM0jjgTo/2qFlWC4WM4iZ7m
-	 vGxfcsb0Os7SsLKHTivi9qT5Lya6QK5PsQS27mby89oHGSUzsZXghLx2UdXXYQcLLS
-	 D2wG3aM8b43eHcqcT3Cnuo8GH5uTDedOV+gR3QieGFBXtG/jgm/E7/2NtCjUdEMHHp
-	 peBKGmkb0lgWQMORzRzyVrPVPd8S4xqTUiEDFc7EoNZ2/UGQa7upL8q5T86BFsLdPa
-	 RD2zuYwS1yeBw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B9FF038119E5;
-	Sun, 26 Apr 2026 19:35:39 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for 7.1 #1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260425192708.2283642-1-nsc@kernel.org>
-References: <20260425192708.2283642-1-nsc@kernel.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260425192708.2283642-1-nsc@kernel.org>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-1
-X-PR-Tracked-Commit-Id: 75f7c47ccd78c947cf1b6ddb18ea453ff0555716
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b935117fe6d1af576e39b1f18c9e875f44bd146f
-Message-Id: <177723213845.2364874.16643684062002064591.pr-tracker-bot@kernel.org>
-Date: Sun, 26 Apr 2026 19:35:38 +0000
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, Mathias Krause <minipli@grsecurity.net>, Nathan Chancellor <nathan@kernel.org>, =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+	s=k20201202; t=1777261080;
+	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=ueDIdW2QNALDTJ/C2+Pao0DLtIk/kUmxy2nFeMoFOMQSyhS2o72k/23L9IoqrjhQ+
+	 eqhnZW+rv6AklFPQbXcCcP+Ra2rzb5EXUrhSUHOn7/4GzJ/n5EjPxiQCPFX4XmJIgl
+	 YxVt1FGwO9KkqD0oEOIyDwqi6ShV5ZPOupOyJ0wnZ3ALzdo2D+8n2rA8d8Kkcgy8Zf
+	 Ceu6H4sb3xZmrZGWLAEND5rlnksFEL/BNJOcHA7m+V8EpsGjqrRXR4/NrasNa7QIs3
+	 IgBVuUGTdkaOD93o8vk5UvMfD5xZ/nJVd7hlni3sZCBTECxNdEiRlPuFBnuin+Upvm
+	 QeVDF4WHotxzA==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: 3A9ED46AF59
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification
+ framework
+From: Nathan Chancellor <nathan@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, 
+ Thomas Gleixner <tglx@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, 
+ Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>, 
+ David Laight <david.laight.linux@gmail.com>, 
+ Askar Safin <safinaskar@zohomail.com>, 
+ Gabriele Paoloni <gpaoloni@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnd Bergmann <arnd@arndb.de>
+In-Reply-To: <20260424165130.2306833-2-sashal@kernel.org>
+References: <20260424165130.2306833-1-sashal@kernel.org>
+ <20260424165130.2306833-2-sashal@kernel.org>
+Date: Sun, 26 Apr 2026 23:37:45 -0400
+Message-Id: <177726106581.2478607.12645653803520391071.b4-review@b4>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJnvbgm1r5pyv/K7x/Tv7+cZzqk2VsnvUDl6munyJTXvs
+ Koa+1qfjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR/UYMf0U11lj1XX7AtCjO
+ fXF2kv/PvgNKjmblB63e8+xfICtkfImRYVLPkjsTOQI7GiX0LqTO2iJ2suHBWkY15dq1Ir8eHhY
+ 8wA4A
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+X-Rspamd-Queue-Id: 7DBF646C82A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-12880-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12879-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-kbuild@vger.kernel.org];
-	FROM_NO_DN(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linuxfoundation.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-The pull request you sent on Sat, 25 Apr 2026 21:27:02 +0200:
+On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 6785982013dc..564315153643 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -59,6 +59,9 @@ obj-y += dma/
+>  obj-y += entry/
+>  obj-y += unwind/
+>  obj-$(CONFIG_MODULES) += module/
+> +obj-$(CONFIG_KAPI_SPEC) += api/
+> +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
+> +obj- += api/
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-1
+If $(CONFIG_KAPI_SPEC) is not set, shouldn't
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b935117fe6d1af576e39b1f18c9e875f44bd146f
+  obj-$(CONFIG_KAPI_SPEC) += api/
 
-Thank you!
+evaluate to
+
+  obj- += api/
+
+anyways? Why the duplication? This is the only place in the kernel where
+this would be needed?
+
+>
+> diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
+> new file mode 100644
+> index 000000000000..ca2f632621cf
+> --- /dev/null
+> +++ b/kernel/api/.gitignore
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +/generated_api_specs.c
+
+This appears unused?
+
+>
+> diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
+> new file mode 100644
+> index 000000000000..d1072728742a
+> --- /dev/null
+> +++ b/kernel/api/Kconfig
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Kernel API Specification Framework Configuration
+> +#
+> +
+> +config KAPI_SPEC
+> +	bool "Kernel API Specification Framework"
+> +	default n
+
+I think 'default n' is tautological since 'n' is the default for all
+bool symbols. Consider dropping it on all symbols throughtout this file.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Nathan Chancellor <nathan@kernel.org>
 
