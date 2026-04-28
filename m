@@ -1,210 +1,169 @@
-Return-Path: <linux-kbuild+bounces-12901-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12902-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFvhOMWy8GnsXQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12901-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 15:14:45 +0200
+	id QPUWJ2b38GkpbgEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12902-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 20:07:34 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C87485A34
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 15:14:45 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1EE48A6DF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 20:07:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4454D310D318
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 13:02:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EB34A30384A9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 17:01:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2354143CED6;
-	Tue, 28 Apr 2026 12:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E048733DED1;
+	Tue, 28 Apr 2026 17:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="WR2J7w3Y"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLrbqULd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021143.outbound.protection.outlook.com [52.101.100.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA9343E9F5;
-	Tue, 28 Apr 2026 12:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.143
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777381144; cv=fail; b=CTQ7zbvDfUSehxp6PXSSCYG+wKVDSsKGPDo2xOG6+YS3VtTrJtSUuoZkKSNuEyu1sKjKfdJOFQCa1lMDq4vq6PHxYcCBjmNqAAs+zJRwfXpj24R7+XTcriNKVtNZubPFnsXtBwJSH+OQepqVDgi4wy24tBmXEGbbEN+mAJ+8jcc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777381144; c=relaxed/simple;
-	bh=qXeXqp29lthl3n+m2XG3UHZrgMI1rtKJ00SGkBaLC9M=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=IfBH8SHxP4ig25ePW607Cq7+XY3TtgCiLJ25Bm3ZNiJk+R+2DuHMcQL0jeBVln8+ztnqHnvyyrWGCkh33rkvNxteZvyT0HuWVFIUgtVoO18pETw+CZvnOIcqw4Vcw13v2LdyqtUOvY6rye8WLzraWhkMqKHeJo8Fje8skp9Mz+U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=WR2J7w3Y; arc=fail smtp.client-ip=52.101.100.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=REtTe0gau8o1M1r97m/k+rAShVuF1p5eAoerIH0yyH02XSYeKqTuL2sXKRF9iAZ/QRFjfAWqeDc77CsHu2aaKcPTBhh8u9uZ+iXa2yTKS/qppVOgDd2fE2qNMeLzfOQA9/TtCIXCAkL7cZNJsMkuLHdrC58HNv+qiuSNQg+DPtU7pAIUqTlV6dzJDg0etsm3TAijVHACBJOKBoKHGXbvCRpnH+odUmxtB56PmqulrAOTBltbNxzyeGbopOWbx/QPqIFoRft/Xzr6XSQHQj8YDGuwT14st3C/PoiJyDen9AZYNkIO3SbVoK5rDq0uiiErbYa2eGqXga1xsu3HdMDc8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qXeXqp29lthl3n+m2XG3UHZrgMI1rtKJ00SGkBaLC9M=;
- b=DqTfoqFGvia2ZuX/mY631pF7fmeZWyj4bsIB39lt/v6FQzCfGFdiuSlbmuy6b9f5slE5nPtCN30WnTQJzlZu2Qg9Gwn3s7J2aLx9PIo6AMf0JDLKtYr7TCi7MBjvK92s9g3BWbwKijN9JPT98yM/A36lYhmZKbnBHFYLyl0Gznej5MQfo7RVQ8b/eqGVPnjAvUvd7/v/z5yIsFciiazEU+c8dtNRKr0ISApSazgd6TteiYYhSEqyJinHuNmJ4UD74h7o29dEENtxiyAe942Y7kuKshlaNYqEylFoxZcBEFGwKt2KFz0Ax1nUfAnPPc83zbBCFqpEbECPPR2nQu+LpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qXeXqp29lthl3n+m2XG3UHZrgMI1rtKJ00SGkBaLC9M=;
- b=WR2J7w3YztA/1FqjCkArfFsiILlbWgiHYYNECXpswy5XoP9ZVSWMzZTdT1zZv2vlO5RQGl/YijBmn3vl1az8cn+bJ5/A0FXtpPrePrxpvpZoj1GMEzJldB9ZHHtCSEGRYKtJhtHL//b+LtxlQbbD/TniYqJjejMbtuJFLB5IeJI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB1777.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:58::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 12:58:52 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 12:58:52 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Apr 2026 13:58:52 +0100
-Message-Id: <DI4T1009OWYM.97DRX8ZRWWP@garyguo.net>
-Cc: "Julian Braha" <julianbraha@gmail.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, <ljs@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
-Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Arnd Bergmann"
- <arnd@arndb.de>
-X-Mailer: aerc 0.21.0
-References: <20260427174429.779474-1-julianbraha@gmail.com>
- <20260427174429.779474-3-julianbraha@gmail.com>
- <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
- <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com>
- <CANiq72mEgpe-UGMQ_YWb8SKsY96Oc0b4sQ_MKvhMDVkNC9WvQA@mail.gmail.com>
-In-Reply-To: <CANiq72mEgpe-UGMQ_YWb8SKsY96Oc0b4sQ_MKvhMDVkNC9WvQA@mail.gmail.com>
-X-ClientProxiedBy: LO4P123CA0445.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a9::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEBA334C1D
+	for <linux-kbuild@vger.kernel.org>; Tue, 28 Apr 2026 17:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777395681; cv=none; b=OsRZrgVAsIfWV/1IGcj2wykHE2U11HfkoNIOOhZGV21f5Ct+E2uVzhcdtfyLGjj9I89zNF23UAo57EaXbZxaU28ssahtQBegprIhDalHDn3BGKh1+4dLkHuMulTmast0mLpT26eAm7tytyukRQ7b3+jCV+TolPCFc/yz3DvtsIM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777395681; c=relaxed/simple;
+	bh=24rly7mTR46SDbTB9/GpQSpB0zd1Sg4TfmU1mBbtSvw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TgnsroqugKhjbxT6dQ6Yaz26NTjlGLV1u4anKamF2OI/iUoBLKZ9qFuvxryACf5SSzrfVhrzPZsa+0e96E6r08fb08IhtuVTNRtxtWVj4C5RaXX+CujP1r2Wq58rbwx9/nImHwWcRdthdryD7VgGZzyd3JNTj+Cxrjf74UWe3s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLrbqULd; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d64313c39so9014559f8f.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Apr 2026 10:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777395679; x=1778000479; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=24rly7mTR46SDbTB9/GpQSpB0zd1Sg4TfmU1mBbtSvw=;
+        b=CLrbqULdQIzR8A8Zn7tf756a+u48fg7UF0UZ0JVC8xYnNxP71vYXEcGT+H6RvEGtTD
+         8jqfLKsIvz/GDJh8ZtwBvYOyDsa7wlD7g/HsGYI6HVdcgpl5STYh7+rcxb8cnhuvUFBE
+         ceVFsqfOSCyyjvbu1WPwKo3vpe93XhIva7slM8uonlUTbSzMPfvNP901ysdI9qE22yyx
+         FFZjhIhvxN97/EcZJwcZEv6Tom4Y6sx/L1Jxevipi1Nwwovdde9g2LM0jPOD1kb+5Ue9
+         W26KfXJw/SNvTmFRjE5ayrcdwY/MnejsKZ4aF1yO/UoZrM1k2yHnTgkEjQUOuvJ/RFAs
+         628g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777395679; x=1778000479;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=24rly7mTR46SDbTB9/GpQSpB0zd1Sg4TfmU1mBbtSvw=;
+        b=bcv6/Gp2m4bDDFx+3ejIWBJauWFJbXVUtgaqCpL/xa79V0hNlvAI1Edzp9WrRvxRAR
+         4UIIsT9CLPqUR8+kZikKK3o/l19DqwErd6nNv1ChoJWee7RvuqBxqmUYbcGfElM0jrfN
+         hW5L9FoC+VyrLwJM8mawQ/SiVw9o/KknOXtYpY6IG2Ix7UwDqZ0dSCYa6hHQbzIDM78I
+         InxOE47F3XT8moa3KZfsUxuTSLJ+WOdbzLqMrAGUzGToVDPDURWYaZBcxOmEIpR0gQOm
+         1JVNFljzHQWEXre5K3kol397DQ4azUO6/ee6QmHz9Zfxky6iidWYHr3xgCAs64oEIQ/3
+         QKmg==
+X-Forwarded-Encrypted: i=1; AFNElJ/P7KKu210RIAiuJ//BbuyB7aN8LFUrGx64kmrPtcdEIqAaEC4EVebghJTRdhQxdrMdx1a+JQoKya1OEdU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxjj5ciZwS2/QLMK9sqCDhZZSPrhTf4aokcRJDM2ATDGCsW8+xF
+	a6TLNgyuylUXPSnp1kGa75gSdV37OGZpM7mWCJdeTwMD1fGBuWVyloGg
+X-Gm-Gg: AeBDiesmGDGM5EcK2qjaEX/GJZIRyAbu5O2Aee37qA5FPaUZ5tz3LAMWs7LbWASoi4G
+	ACBKPYlB9QIqqfJPbDNekqFAEhji2BrU23/N7imuv3GJZgXN75e7No7+Bb6ejct8e8UgFhwrd0d
+	D6N3GG3gQ8tJiidYrzAo9s+E77K4tB1lVbWi3XTqiKrOKYE7G/uydMBZgsmPTs9XKmY7TWL8e2B
+	ugf61X7s8rjgkOE4S8Hm9zNqyMpwx5Yy7PET1NgS/OaGC/7Vz7FB3oKIgLxrnACumuw/vT3yt3f
+	WlCcp/6t8JnFZ3uXvjZlgDDk2KgGOiQXmOLNckENlWTk1zapMVb28aXrSFfh4Ndez9Pzrvn/E2g
+	SjcgqVJA0DFYx+JiY3uVQ9YIkcxAfAf9osujyNL9dn54ofm//g2yTxGfE83UTSMTW7OuoQmVGlF
+	2H48u0kp6KQyBG3ImYvLW0GS6KAbvoJCzWWDan6E9eNwacG3PTXgpq62f2X7EtE2tSj3St8g==
+X-Received: by 2002:a05:6000:2586:b0:441:1e8e:d8fd with SMTP id ffacd0b85a97d-44790753399mr154751f8f.29.1777395678473;
+        Tue, 28 Apr 2026 10:01:18 -0700 (PDT)
+Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463f5b50ccsm6953389f8f.24.2026.04.28.10.01.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 10:01:17 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <d72badf8-7d70-4caa-96a9-d77e00bbb536@gmail.com>
+Date: Tue, 28 Apr 2026 18:01:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB1777:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32c8ba46-6754-4f6e-68ba-08dea525e630
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|10070799003|376014|366016|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	cT70c13p3gpHAvOIbVHBTPRuQrT2CGjDz7MtP96nGoU5wKGniJUAcj9daJXKxxHzMjBSRZ7GfgiNn6KLI7WeHWr3PH6t0jucif5xzkBdFfdyKHV6ogLkp/Xg9NZQlMm9y8gQu7axerSJTyl6V3z/iTpx5UChC2rM4F1m5HHaIQfiG+TFjHvMNoFpCstH2UZpExvFx1unsF+w4DkP85UNWou/xoPHn1XmTKf+LihaJGXInbaiP0v1XZ7htrc824j3LdCzbaXG5NzhhjYM0DKXANhnhio3+ljZcH/vxunjbCYpWld1olbbA6vY46SmAGhwD+qWN16KEdyGVfOG5CTUY4zo8+MEuO3xbviMjo3vtlim3NqxktPEVvRf74Rm5eihVvkL9daHohYSJ0TIXCbDt80W2nDgDYw8t4E53z8ZglXUpQI8sSsCUnq+4uhEdl9pzmXMfN/u+fPMuvArllb3TV9iQlMS/40OA3kPHT6jfOUO3pQrV28auSS+cdqDXbhqgtsXDG954OaT0AmroBupEBs54ynLLqYlvYZg0qD1LDD959pgjIuuTpWsS3DWzKuqCB+yKOIHwezKYI2WDSX55V1wny06ZVVUdZk4Sf41vMfifGgBx9/pcJ0KFjidkf4wP2eXPMe7g7P3zn/BpG8QOqcseOT4raR7fEcH94MsWoM9IZajSlKy6TQQKfvyuUn+gRHa8UgAVu/p2Mi65lXkjEyqXt0h9fciiqSBJp1Oc0A=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(10070799003)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VW0zTnpSellvR2FNbnVLNFFDckpjWXpON2gvWkFieFNyamdSbG40UCtPN05R?=
- =?utf-8?B?MkxCSlVQd2hRMFcxUXAyS0JoeTNTL3A1Vkc3bWJIRWpTVzkxN0hHRVIrME9v?=
- =?utf-8?B?b3FuQUZ6WjNwcTNiK2dHbjhRRTJWUDlGc1ZCcWloWHhEWFBQZFQ0RWY3bS9Z?=
- =?utf-8?B?SytmM3IzaGxrWVAzclVxMHZJNnpnOWk3ODM2WTlRUE13dm1iS1JCYWF4UENw?=
- =?utf-8?B?Qjg1YkpZSjhGd2xaeXZKdTdXV2hhZGU4LzBZWlFoSzdzMXRicUl5SXQ5eTg1?=
- =?utf-8?B?S2dNMWY5WEdpWXVyaXFiRzMwRnJ5cEN5MGhHYkhQRFAzaU9ua1NWTEpnMTda?=
- =?utf-8?B?L0pkTjA4OWFDbVI2dnc4TitKaklGT050SitZL242UDNWYUNvcHkwTVVHcXNo?=
- =?utf-8?B?Slh1VXZuaEFjamgzTk1heTJOTzFPdFF2NzJwRVdxVlNVem9yN3VUZVhNaTJB?=
- =?utf-8?B?c1BJNmNEVlVTY1hZQ1RmQ2c1b1phTzYrS1JQNU9YcENmUnU3eGt6ZzZEMTNh?=
- =?utf-8?B?Qk5ib282R2pHWmNLMmtIOVFJZVFEclVpZGZsd0F6VHZxeXMwOThoaGk2RGV1?=
- =?utf-8?B?WXV5eDRaRUwzU2NYY3p0alpCVFVpTk82NXdUMEMySGxPNjlkK1FxcmR2WDkw?=
- =?utf-8?B?K3NnbkdYV1FWd0hvWXZiQTRQbUpiYXZwdWVFQWo2ZEw5QzFCcmxXTURjQVFJ?=
- =?utf-8?B?QnVTMlhLVmJ2VDJFMmVsb0kyNVJMVUtJcEs1UGVSTitYTjZOZmFYUVRWZnNP?=
- =?utf-8?B?QXQ4MS9VTnVRM1J2bGFkWlVtNjhhYmtBd3NPZUovNzUwdDE3c3RhMlBzOHpJ?=
- =?utf-8?B?SU56TDRFKzBiK1phTWdqUUw2N0F6alpUQ1l6Y0JuVEtzOGgyVFJRVTRkcHhY?=
- =?utf-8?B?VW1icWNXYVNpaEVEaUV5QU5wUEpQV1JSa1h5bjA3NkVmVGFXaFpRc2t3d29q?=
- =?utf-8?B?UU5tTnYvOTBXdjRWS0dCRHdxKzU3K0Y5cGlyZTlTQjcwT1lacTJSQ0gzdytT?=
- =?utf-8?B?ZXl4d2htMWtnaHpRQUlIeHdMTlRXa3kvamwxRHJMSlA1MmgwcjFodDBkVmhN?=
- =?utf-8?B?SHM3Uys2eVVsVHJDL1ZtRjdoV1lXRHBjUTJlRGFkYVFhY3NyVE9DNXZhOVhi?=
- =?utf-8?B?WGxoUUlIN21OOHZsMzZNRjJEOTh1eFFRT0dFcW9vbENNTVUyK1FHc0FtckVl?=
- =?utf-8?B?M1RFUnlkV1hjeE4ra1RWVyswWE16V0d0U3hXdmY3Y0t6N3JzL2N3bGdwNWpQ?=
- =?utf-8?B?VTlxZElJQnhPWEVtUllhQm1CUXhVZllkTFVPajJzR0Y3SFRUdjFwNHB2d21X?=
- =?utf-8?B?Q1hFWWpPZlhXNE90Z2FBQzUrWUZRcE4xWDI0d0psN3IyVWdQcmRDMWNsTUhW?=
- =?utf-8?B?VVNiY0FjeHluKytpaGwzSjhwTnlSRkxQTzNHSlhvOVZvTUxtd2ZvVXhEYmRj?=
- =?utf-8?B?ZWdkUkZjY1pVUmh1QUpMcnVNdnMwME9vdm83NjZtcEFWQWRmVHJPTnl0WE1j?=
- =?utf-8?B?bnIzZDJ4K1FlTnVzM0FpMW40ekQvYVZSTXZYb1NvZ1JMTnFEZ1JxbkFFQUhJ?=
- =?utf-8?B?b3JpWWR2UmtBK0FtYzJYdTZGRk1HekgvZUNCdVZScjN4R1AxL0RESW1ncmMr?=
- =?utf-8?B?T1ZRU2UrM3dHbEhob09RV0wyekJxRHN4dEhIck9xb2swSWtnTnUxTklPRSta?=
- =?utf-8?B?c2FXbmgxc1duOHNjRkZCUHg0R0txUDBCdWxhdUY2MUorYVB6NU41dXFCNDV1?=
- =?utf-8?B?MnBBS1pKc2hBRnAvMCtJNmdTWnJXT1kyY3l2UlJLTWVWWjg0Vkk0VzkzdmFN?=
- =?utf-8?B?YzRzRTdBZTk0U3gxM0NnTUR2UEJKSWxhSEF6SW9lUkxNSms2L1M5OGZOQ0RS?=
- =?utf-8?B?T3ZIbzNEK2pEcjdNUUZzZy9TK2Rhek9OSXk3MEQzcEw4ZGVFR3hEa1c1V29m?=
- =?utf-8?B?M2piY2hac3V3b2xScmw0dzFISTJmNTFvOGpxVE1yRk9RZ2hyYUJPS1ZNcG1m?=
- =?utf-8?B?aDVwNnBwak1GcGo1UXZLSG9jRGE4MzNaT1J6cnJXcjFmRFFhNER4MDg5S3do?=
- =?utf-8?B?M29wWmpFZXh1Yk1SSjV3OWFSUFl2dm1UdDVsYXBIRHB0SVUvcjJxWWNrSnQ5?=
- =?utf-8?B?b0l0TmpkKzBrbnZhcXVnaFQ4NEdqZ21PaWM5MDlaTDJhOFhyZTY1VkxLckth?=
- =?utf-8?B?dXlYUHVwZDZMRUJ6WlY0OHQ0aWxGRlloQzNwUVpRZ2xMdDJXLzF5UkYwK3ln?=
- =?utf-8?B?VWF4T2RUNE53R08ySVREUDVxU2pRRy84Y2Q5MzluSXMyQ1RZdjdZR01RYlNK?=
- =?utf-8?B?c2VoenpEWllCV3V4ZWswTE5ia2tyOVlDaWZxcXJKS3ZWcmRSNG14Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32c8ba46-6754-4f6e-68ba-08dea525e630
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 12:58:52.8233
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gz4m9T9DuMIbA2lndgL9RBWyVuK1/htC5dwCsSIrL2dPf7YukfTUrZFiZ82qSUiUpgkikoAkY9hqBTqzqQbh2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB1777
-X-Rspamd-Queue-Id: 96C87485A34
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
+To: Arnd Bergmann <arnd@arndb.de>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, ljs@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260427174429.779474-1-julianbraha@gmail.com>
+ <20260427174429.779474-3-julianbraha@gmail.com>
+ <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
+ <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9D1EE48A6DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12901-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,arndb.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-12902-lists,linux-kbuild=lfdr.de];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[arndb.de,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,linux-foundation.org,kernel.org,linuxfoundation.org,lwn.net,vger.kernel.org];
-	DKIM_TRACE(0.00)[garyguo.net:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,linux-kbuild@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,garyguo.net:dkim,garyguo.net:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-On Tue Apr 28, 2026 at 12:51 PM BST, Miguel Ojeda wrote:
+On Mon, Apr 27, 2026 at 9:34 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> It would also be helpful to reduce the number of hard dependencies
+> and ideally only rely on packages that are already shipping in common
+> distros.
 >
-> Then I thought if the same would apply to `clap` etc., but then again,
-> we may want to write more tools like this in Rust in the future (we
-> already felt the pain in the past the pain of not having a e.g. JSON
-> parser), and whether we could have a more general solution for this,
-> including perhaps even a kernel.org registry (either as primary or
-> not) etc.
+> From the dependency list, it appears that the majority of dependencies
+> here are only indirectly pulled in by 'reqwest'. I guess is only
+> required for dead-link checking, so maybe that part could be
+> made optional?
 
-Personally, I think if Internet access is needed, downloading from whatever
-registry doesn't really matter as long as we can guarantee that it doesn't
-download random packages. Cryptographic hashes would be sufficient for that=
-.
+Thanks Arnd, I've done a deep dive on this, and found a number of ways
+to reduce the size of the vendored dependencies:
 
-For the part of "not downloading random packages" but only those that are
-audited by kernel community -- it could be achieved by using cargo-vet and =
-we
-can maintain a shared list of vetted dependencies.
+1. replace the reqwest dependency with the smaller ureq,
+2. remove rustls as a dependency, and instead expect the user's system
+to have openssl,
+3. filter out unneeded artifacts (e.g. none of their tests or
+docs),
+4. filter out non-linux platform support
 
-Best,
-Gary
+With all of this, the size of the entire tool source with dependencies
+is under 50mb (about the same as the perf tool).
+
+And then an internet connection can be avoided when using Make.
+
+- Julian Braha
 
