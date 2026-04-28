@@ -1,158 +1,126 @@
-Return-Path: <linux-kbuild+bounces-12897-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12898-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UM0KBX9b8GlQSAEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12897-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 09:02:23 +0200
+	id 6O5FKYpb8GlJSQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12898-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 09:02:34 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB83E47E677
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 09:02:21 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E30347E687
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 09:02:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 936593008D34
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 06:58:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 96B5F302FA3B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2026 07:01:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B2E332A3EC;
-	Tue, 28 Apr 2026 06:58:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1E83793BD;
+	Tue, 28 Apr 2026 07:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kFi3RDb/"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U+/zQodY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552B534D91F;
-	Tue, 28 Apr 2026 06:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5165137267A;
+	Tue, 28 Apr 2026 07:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777359517; cv=none; b=iYPlFPsf2JZ7n79VmhjyBEGQlLscGzPliBz5/HZ25M4Ps6nRqFY9BIoDwI8uSst0iBWIB8pugIR1f286AkGcjjQcN20vyfK1bHP4dNp+VY7VHO0md2oi8Grp0GQSRCeJtEQcsikkkuH+EYL3qSKcGWSsa8dRnWEGcV+Iqzeozz4=
+	t=1777359695; cv=none; b=ket4O1A9ajFS4/GjmxpHdzoWofhJ0fFqfnS0W1GQJJQY+DhmNj2GXtlivBY6FHx/pf3dAnE/lg14sIlUxvd48OoiMSNanONSAk6yqOAfv9FJfZuXR1b4RrV/n5VTM3b4uHmjsyj4qMm7ch44cDW0SP6HxXqbxbckqkAiAGffR8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777359517; c=relaxed/simple;
-	bh=LEbnGzXladYGIydyxZvQ87P+79qkZN3mzdFcWmiwVbI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qS0tNwM0l4Z6/OvjrnNtqxGpSwEJmn5VgQDOyZE/LVyMpg2iD8t/UQXM/hWbNJbKyMIJRW6RAdCsucfa6n+I+LBpVZjziD7VQZY/VKpH3ss1EsfMP18IEvdxs6Y3XeISoM9xXy3zOrYZC8r//bvCGNr7rrit3NAgDevzE8iyCd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kFi3RDb/; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=reIysvNdteBbNK0NWfKGkvFXku9f3ftFx3lS4vxMDlU=; b=kFi3RDb/r7EaZ1yZP3KpFOrSVz
-	FfGnZRatxvwLER0B8d8+x9nhjmDFQq7nOgb7YIS2zi/TIHkUWQtXvM7tgI6XqDi/P9b66NbG3ThuR
-	fUuSNcZo8OnxEe6weS8yi88WbCfj+OEY3jnDdk9srqjzaUHChyUpW4nlsb9pJn23C+nWfW9h5f3ZZ
-	0zk8AqT3km2L+gxcIS/vUiU4IO/gUlsyo9NFa61jsYuHAt0Zw+dFYZAVdqd+8Pz5VnFBqUMyuuTPI
-	lBQAfD1X4yKb70LUI6zjj0KFN0FrpL4rZGcQWPZ/+urzPYIzUgg5VVA7fj8hzBgdOFrH4jp7xCke4
-	VgWZX6bA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHcOt-00000000ewZ-3TwR;
-	Tue, 28 Apr 2026 06:58:31 +0000
-Message-ID: <64dc18e9-f3db-4e66-a84f-9de784b621fa@infradead.org>
-Date: Mon, 27 Apr 2026 23:58:31 -0700
+	s=arc-20240116; t=1777359695; c=relaxed/simple;
+	bh=Qyfax9b2PWaORu+5g08cf0wvuZbpx4bQxHNJdxSztfk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nbZTqggYU0ylYz/jqc4wGPjUvKwGiQinjHugqWdEAkERTPcbE9QljzvvHnAUA1jGQ3Yd984iLBR395+tYDcLO/coHWpFfTMJYMupAB1ulpzxOkISLuPHcYY42KvKSeaOYt2EgSf3dNd2G0OIMGLwAmwq9IrcNxhmrRCbfJUZt2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U+/zQodY; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 24B0040B0C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777359693; bh=Qyfax9b2PWaORu+5g08cf0wvuZbpx4bQxHNJdxSztfk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=U+/zQodYv4dtWJpSq+X3pDYO989SyhtcnEIUaLEQ2AQNnXNEudHeIbW7jXTyN9jwy
+	 sR7/06C/tT7GR7tZvKZu9nrkA2Mip6yNyqNaxIRSAP2zCvWsQdXTcY6mu3DdOboalY
+	 UbCVdp3PrPZctrA9DRxHWtCED1T6I64kWti55YpwEN5DsGShWsk6MRMF180Rb8dEbJ
+	 g/ERGLUnDX/nFzVaDbTXejJT+qD5N1O210aLXo57YwC6ZQoKNOcw97JNMEFAIdxDys
+	 2vpSZRudmITmRZ5SvdbyQN825ExVUuP+iwEOd9i3GgA8bGY2KjLIjF/LRdNnmPJQw/
+	 7/KX5GM69T/PQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 24B0040B0C;
+	Tue, 28 Apr 2026 07:01:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Julian Braha <julianbraha@gmail.com>, akpm@linux-foundation.org,
+ ljs@kernel.org
+Cc: arnd@arndb.de, gregkh@linuxfoundation.org, masahiroy@kernel.org,
+ nathan@kernel.org, nsc@kernel.org, ojeda@kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, Julian Braha
+ <julianbraha@gmail.com>
+Subject: Re: [RFC PATCH 1/2] scripts: add kconfirm
+In-Reply-To: <20260427174429.779474-2-julianbraha@gmail.com>
+References: <20260427174429.779474-1-julianbraha@gmail.com>
+ <20260427174429.779474-2-julianbraha@gmail.com>
+Date: Tue, 28 Apr 2026 01:01:29 -0600
+Message-ID: <87mrynmuuu.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] modpost: prevent stack buffer overflow in
- do_input_entry() and do_dmi_entry()
-To: Hasan Basbunar <basbunarhasan@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260427204255.22117-1-basbunarhasan@gmail.com>
- <20260428062912.32918-1-basbunarhasan@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260428062912.32918-1-basbunarhasan@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: AB83E47E677
+Content-Type: text/plain
+X-Rspamd-Queue-Id: 1E30347E687
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
+	DMARC_POLICY_ALLOW(-0.50)[lwn.net,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[lwn.net:s=20201203];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[arndb.de,linuxfoundation.org,kernel.org,vger.kernel.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12898-lists,linux-kbuild=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org,kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12897-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[lwn.net:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MAILSPIKE_FAIL(0.00)[2600:3c04:e001:36c::12fc:5321:query timed out];
+	FROM_NEQ_ENVFROM(0.00)[corbet@lwn.net,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,lwn.net:dkim,trenco.lwn.net:mid]
 
+Julian Braha <julianbraha@gmail.com> writes:
 
+> Add kconfirm into scripts/ and modify the root Makefile and
+> scripts/Makefile accordingly so that it can be compiled and run with:
+> `make kconfirm`
+> from the root of the tree.
 
-On 4/27/26 11:29 PM, Hasan Basbunar wrote:
-> Several functions in scripts/mod/file2alias.c build the module alias
-> string by repeatedly appending into a fixed-size on-stack buffer:
-> 
-> 	char alias[256] = {};
-> 	...
-> 	sprintf(alias + strlen(alias), "%X,*", i);
-> 
-> This pattern is unbounded and silently corrupts the stack when the
-> formatted output exceeds the destination size. Two functions in this
-> file are realistically reachable with input that overflows their
-> buffer:
-> 
-[snip]
-> 
-> Fixes: 1d8f430c15b3 ("[PATCH] Input: add modalias support")
-> Signed-off-by: Hasan Basbunar <basbunarhasan@gmail.com>
+As Greg noted, it would be helpful if you said what this tool does in
+the changelog.
 
-LGTM. Thanks.
+Also, a nit, but I would really suggest putting it under tools/ rather
+than in the scripts/ dumping ground.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks,
 
-where testing means that modules.builtin.modinfo files before & after
-are the same.
-
-> ---
-> v1: https://lore.kernel.org/lkml/20260427204255.22117-1-basbunarhasan@gmail.com/
-> 
-> Changes since v1 (per Randy Dunlap's review):
-> - Audited the other do_*_entry() handlers; do_dmi_entry() has the same
->   unbounded-sprintf shape with a realistic 80-byte worst-case overflow,
->   and is fixed in v2 alongside do_input_entry(). The remaining
->   do_*_entry() handlers were verified bounded by their input field
->   types and do not need this treatment.
-> - Added a Fixes: tag pointing to the original do_input introduction
->   (commit 1d8f430c15b3, 2005).
-> - Reworded the alias_append() comment: replaced "cumulative
->   bookkeeping" with "remaining-space check", which is what the helper
->   actually does.
-> 
-> Randy: I have not carried forward your Reviewed-by/Tested-by from v1
-> because v2 expands scope to do_dmi_entry() (new code you have not seen
-> yet); please re-affirm if v2 looks good to you.
-> 
-> ---
->  scripts/mod/file2alias.c | 91 ++++++++++++++++++++++++++++------------
->  1 file changed, 65 insertions(+), 26 deletions(-)
-> 
-
--- 
-~Randy
+jon
 
