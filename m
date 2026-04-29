@@ -1,156 +1,189 @@
-Return-Path: <linux-kbuild+bounces-12926-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12927-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPlrLS+v8WmwjgEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12926-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2026 09:11:43 +0200
+	id aA4IDkHZ8WmLkwEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12927-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2026 12:11:13 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B763B490434
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2026 09:11:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA99492A95
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2026 12:11:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C583D30131F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2026 07:11:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3FF8D3014403
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2026 10:11:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 258A43A3813;
-	Wed, 29 Apr 2026 07:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED67440DFDF;
+	Wed, 29 Apr 2026 10:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLhV/SSY"
+	dkim=pass (2048-bit key) header.d=ingeniumdigital.com header.i=@ingeniumdigital.com header.b="Xz2UVnxa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F613596F8;
-	Wed, 29 Apr 2026 07:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAD8395259
+	for <linux-kbuild@vger.kernel.org>; Wed, 29 Apr 2026 10:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777446662; cv=none; b=EjQ4wp6Xl44dOQprUoBNwvmVk32v19i230twy2FlZR3YJUVM4RekqhZdMvwQht87Knt5K1nVD7xm9e4P9nhqxJmyeNQTXHzghprpkhCAbaUBda4QhNwKVos5ovWxOTqoPuEyQV6rxtHt2NbYLZIQaDPbb8pUW57n6bpiMvn4tgA=
+	t=1777457469; cv=none; b=rKIB0iPRKaC5KrofdpmHiCFXwBH2kQ0suh5czuZAx7yRLkOm7mhbsCzxTPaJso0aGour1ooi2F2GqGlEuVLTMNkWvfmr3oGyZCHsQx3gQT8e+sdVZgR0vluRzsZDj7Hly5kUgd8JDZ9oi/LpkXZGz1xizJA/Q922aoV57HRDetA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777446662; c=relaxed/simple;
-	bh=vgTKPi91ydquf4THtwCY3jKGdkghf/1QRqHyJugk684=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=MXvvhuRb9R6bGExET2EkaNTwOIOE1jRvFWwdDubuIpjSjAj4BynEbJDjNwWfkBkIuwd+FMGRSKUAd1/hikY20qJ3+ETS9LNfqZbrU2oKn2z0/5C/iNDI928P/zFkGNUyhq06hBTQ6yc2NLN6uupVw0TolNKSmOQPCvWCl31k0GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLhV/SSY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21CAC2BCC4;
-	Wed, 29 Apr 2026 07:11:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777446662;
-	bh=vgTKPi91ydquf4THtwCY3jKGdkghf/1QRqHyJugk684=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=ZLhV/SSYrplYwUFSPsbt9P5pz/R1WfgGrHIHZFXFLEGEyHngGcwdRZjxXodSqv5lm
-	 /njOgU7Tzz5IbdpXhJEBIeLxnKAo3KwXX7sCkOtGO5W9viRZ+rIo3I+NbuTBTby4hM
-	 n6lVP2onNeyecWdLqRX2giIkp6R5weSvfSoBvpfqdQXN2LjOQw8cANAXaiDMIWSupo
-	 RGCRbFAilI33/7Nau21uHcldqjzDXxNk9D0edMpyHtcggQvRqMcIWpNQwFiHTiAzrz
-	 quvOXvfaS7s7NVBvqXt4M45CCNOQJyEIVh96VvkxFwrhWJsSt8md5A633gCeWzF4Md
-	 RTxRalwOQkdlA==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id BD7D4F40073;
-	Wed, 29 Apr 2026 03:11:00 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Wed, 29 Apr 2026 03:11:00 -0400
-X-ME-Sender: <xms:BK_xabEs3CLjyMv3JDN7gzsO0l-HuThd0BpkzctwXA58YBDjhrzRqQ>
-    <xme:BK_xaTLhoDTjO4QTABZD3sDJzLWJgbQqJUcZL3FawS7HCRIL5YC7sxgFpU2Hyy49s
-    Nr-ijPW-uRPXyQbfriAccJv2G6q0zUp9QHjlQGWFtvK15ywur3tBGs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekfeektdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhguuceu
-    ihgvshhhvghuvhgvlhdfuceorghruggssehkvghrnhgvlhdrohhrgheqnecuggftrfgrth
-    htvghrnhepvdeuheeitdevtdelkeduudetgffftdelteefteevjeevjeeiheefhfejieej
-    fedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeijedthedttdejledq
-    feefvdduieegudehqdgrrhgusgeppehkvghrnhgvlhdrohhrghesfihorhhkohhfrghrug
-    drtghomhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopehnihgtkhdruggvshgruhhlnh
-    hivghrshdolhhkmhhlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhushhtihhnshht
-    ihhtthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepmhhorhgsohesghhoohhglhgvrd
-    gtohhmpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgruggvrggurdhorhhgpdhrtghp
-    thhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnshgtsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepgiekieeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:BK_xabTGIESLo2jXcjF0ZdFmaTn6k2nL1OrtsZWsz1j0yu13RBSi7w>
-    <xmx:BK_xaUpdFdUBup2gxR6GRgUadgOHw3onrKYPso9Z9dNADJSWmj5VbA>
-    <xmx:BK_xaQOU1MvdidLF5fiYR5Sh-76LzOtNXV5lOBGcAtW4k3qDrr3omg>
-    <xmx:BK_xaSw_k-fyNCjCIFmI61HDvEyD2SGDdPNGHcCm7CR_Cl4CK4K89g>
-    <xmx:BK_xacyriSh5l4wYA9tOTrZsDnvxjJnb4p7M1KusbgNwPKU89GkjjWKI>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9B347700065; Wed, 29 Apr 2026 03:11:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1777457469; c=relaxed/simple;
+	bh=KLwWf95QYlXqjTRiTI/nyMeghq1jIrTTG2Jrgoqqb/s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gkf4iHixUX7TyZPVCRKgfcfG/7KNysxs4IwAeNTxIAfcp7Xq1Y1JcP1y0uhQK8UOCJPJPEL9A9P/zDYieSxtCPALMMd/cM7DVDbLRsMWbRXOHg3DpadEZpzV3YFLUZGxiqSC9KDizkGk9hlS19TfgvEd8KzqyVD0XokmJrvm2R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ingeniumdigital.com; spf=pass smtp.mailfrom=ingeniumdigital.com; dkim=pass (2048-bit key) header.d=ingeniumdigital.com header.i=@ingeniumdigital.com header.b=Xz2UVnxa; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ingeniumdigital.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ingeniumdigital.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b7adb38d65so60598825ad.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Apr 2026 03:11:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ingeniumdigital.com; s=google; t=1777457466; x=1778062266; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0R26ySyVwseh0XvD0z3+P5speK5gk4CAVoAQ5oLCLJI=;
+        b=Xz2UVnxaW9LQPQuEHuaS4DHlIn2123lJZ8S5CmasIy2qoiy9XmPT6HLjx+Z9cQrrEd
+         WIOKPuS9RQ1SKTkVqf7qpbRG6KkODRAfmbR/K/omQ8AW7Oqrwnntza1CJAvcA2QCVB/3
+         ZWvOsLsvvHUs70jtPHoH0hliD5IyFVxxSDidasAac832y5wSn5R+UN3hkZkJ8W/jHhfy
+         JmRY1I6jD/pMYHJwbJ/1CwJJU86zzVpiwuDnHXRIspYH/6dO5x3RREuOgV2w8EQLCBB+
+         aKfzoa8Toie4zUM3RL4uj0AyuuKJXORDpq5QXTaVtwgXyETuo2OlZkteMb8wp6xGOErs
+         Dhyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777457466; x=1778062266;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0R26ySyVwseh0XvD0z3+P5speK5gk4CAVoAQ5oLCLJI=;
+        b=hqtAHCWRVuTIHayKAe4NHcDHFS/Hc7dsrzFBbLy8UJLt1rsPsCMcagLR6FUmEFDluq
+         ZvV0SLPsxsf5SWxh7O6T16fvwD+9kGl2LqYtlC/QINOila0s55ExfCK/6XDXCuLMmePl
+         WYK/SLdoqulgEg6ZKv34S0vSftdsRMTZ0ZmPpUptdxaiqR3KNQ4lOn7l8nV14ma1B+1B
+         O72fQuNmAY2xjBdy4s9x/LbumbZOehSU5LZb711PW66apxyQVaAJLoJdPhSzGYA7ZIZx
+         ocJCh0fsqYRHb13rJ3H46ZiGmMM8ATDngTAKC+Xpztriq94OKeHoP9QJBMl0JA4rAxxe
+         jTgA==
+X-Gm-Message-State: AOJu0YzMPYo4vmh3FM35bQ5y7mgRWOJRpFMmY4zHr9+/eZzFE2A10xaM
+	ew7bRtqsWz0pp51PjCDMT0a0N7w9rsJDaHwJhQ5xuqv9gJdeHWJ/ADJiyFQqf+dAlTMp2lbw+vE
+	JOxwNochE
+X-Gm-Gg: AeBDiev0NLBej2pdKUVoW4qWRlCEexslf7ar1ZUTyHillIuYctPk0fWVX3BtTqwCRF3
+	foZtWXLf8Ek56E4Qp1usTwd4p2Qok02nOp1J6sBpPws3wcVYoOoMMhzeDcqTURhatJHfV9QetZh
+	0WB3uVy7hYCKNrpQ4b9lWp+SacVTt7RF+j/Ygaor3dZrx2DBR37v7x97EdS4d4V6f0YLvPdLeib
+	QYreJDTGhPA/tP15vJlNqJ/Mo1cSa/o2NFuiYqVMvDkwPQCT0Yhh5WCoHUpTSJ/bNXW0g9lA+xS
+	JFL1I9IH9m6b5EYGwdXM0EQD2Cs49t6eRRbXufaFV0O27xSR1Mo01VlGAa0NuUqD9uNSFeC1h5+
+	8ZfMtie1Rk9BH7ys51n1HJ6p09Oh8AWykFW1VFDgMuADd4IGVRpQ3hYhpX8ewK5StxCY1NR1FGP
+	71FqfEXhhERCdCmmRxYsXmULtt8LioAlFwpmouYmpeRqlsgVg5myXH4TdohPR8yaM0+zcE98nQt
+	z6bTypUYvvNC0BNxnMW
+X-Received: by 2002:a17:903:3503:b0:2b2:ec00:7966 with SMTP id d9443c01a7336-2b97c462381mr77953125ad.21.1777457466448;
+        Wed, 29 Apr 2026 03:11:06 -0700 (PDT)
+Received: from ?IPV6:2001:8003:8810:ea00:ed87:ca88:5326:e11d? ([2001:8003:8810:ea00:ed87:ca88:5326:e11d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b988972dfasm17817855ad.72.2026.04.29.03.11.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2026 03:11:05 -0700 (PDT)
+Message-ID: <279a16dd-f98f-44ef-9685-44537eac2892@ingeniumdigital.com>
+Date: Wed, 29 Apr 2026 18:10:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 29 Apr 2026 09:10:40 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nsc@kernel.org>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>,
- "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
- linux-kbuild@vger.kernel.org, "Thomas Gleixner" <tglx@kernel.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Peter Zijlstra" <peterz@infradead.org>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>
-Message-Id: <e4dfd1f7-67fe-4690-8c2c-0f9d5a3ffed0@app.fastmail.com>
-In-Reply-To: 
- <20260428-bump-minimum-supported-llvm-version-to-17-v1-12-81d9b2e8ee75@kernel.org>
-References: 
- <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
- <20260428-bump-minimum-supported-llvm-version-to-17-v1-12-81d9b2e8ee75@kernel.org>
-Subject: Re: [PATCH 12/14] x86/module: Revert "Deal with GOT based stack cookie load on
- Clang < 17"
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: B763B490434
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] kunit: qemu_configs: Add or1k / openrisc
+ configuration
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>,
+ Rae Moar <raemoar63@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com
+References: <20260427-kunit-or1k-v1-0-9d3109e991e8@weissschuh.net>
+ <20260427-kunit-or1k-v1-2-9d3109e991e8@weissschuh.net>
+Content-Language: fr
+From: David Gow <david@ingeniumdigital.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+In-Reply-To: <20260427-kunit-or1k-v1-2-9d3109e991e8@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9EA99492A95
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.65 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[ingeniumdigital.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12926-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12927-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,app.fastmail.com:mid];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ardb@kernel.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_TO(0.00)[weissschuh.net,kernel.org,gmail.com,google.com,linux.dev,davidgow.net];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[ingeniumdigital.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ingeniumdigital.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@ingeniumdigital.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ingeniumdigital.com:dkim,ingeniumdigital.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
+Le 28/04/2026 à 12:04 AM, 'Thomas Weißschuh' via KUnit Development a écrit :
+> Add a basic configuration to run kunit tests on or1k / openrisc.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
 
-On Wed, 29 Apr 2026, at 04:59, Nathan Chancellor wrote:
-> Now that the minimum supported version of LLVM for building the kernel
-> has been raised to 17.0.1, the workaround added by
->
->   78c4374ef8b8 ("x86/module: Deal with GOT based stack cookie load on 
-> Clang < 17")
->
-> will never be included, as the final clause in the preprocessor
-> conditional is always false. Revert the change to clean up the dead
-> code.
->
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Thanks very much. This works well here (assuming 
+CONFIG_KUNIT_FAULT_TESTS=n, and either a long timeout, or slow tests 
+skipped, as qemu-or1k is not fast on my machine).
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Reviewed-by: David Gow <david@davidgow.net>
+
+Do we want to split the series and take this patch via kselftest/kunit, 
+and the generate_compile_commands one separately, or just pick both up 
+in the same tree?
+
+Cheers,
+-- David
+
+>   tools/testing/kunit/qemu_configs/or1k.py | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
+> diff --git a/tools/testing/kunit/qemu_configs/or1k.py b/tools/testing/kunit/qemu_configs/or1k.py
+> new file mode 100644
+> index 000000000000..dfbbad0f9076
+> --- /dev/null
+> +++ b/tools/testing/kunit/qemu_configs/or1k.py
+> @@ -0,0 +1,18 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +from ..qemu_config import QemuArchParams
+> +
+> +QEMU_ARCH = QemuArchParams(linux_arch='openrisc',
+> +			   kconfig='''
+> +CONFIG_SERIAL_8250=y
+> +CONFIG_SERIAL_8250_CONSOLE=y
+> +CONFIG_SERIAL_OF_PLATFORM=y
+> +CONFIG_POWER_RESET=y
+> +CONFIG_POWER_RESET_SYSCON=y
+> +''',
+> +			   qemu_arch='or1k',
+> +			   kernel_path='vmlinux',
+> +			   kernel_command_line='console=ttyS0',
+> +			   extra_qemu_params=[
+> +					    '-machine', 'virt',
+> +                        '-m', '512',
+> +			  ])
+> 
+
 
