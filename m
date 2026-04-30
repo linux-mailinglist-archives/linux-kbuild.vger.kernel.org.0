@@ -1,202 +1,285 @@
-Return-Path: <linux-kbuild+bounces-12950-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12953-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Baq4Eopg82ks2AEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12950-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 16:00:42 +0200
+	id kD0KNxhs82lf2gEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12953-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 16:50:00 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F338C4A3C85
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 16:00:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7694A43FA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 16:49:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1A3A330046B9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 14:00:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 67FC330684B3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 14:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBEC2429838;
-	Thu, 30 Apr 2026 14:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51A642E017;
+	Thu, 30 Apr 2026 14:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q0tQbm9B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiNgLKTI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEFE429823
-	for <linux-kbuild@vger.kernel.org>; Thu, 30 Apr 2026 14:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777557633; cv=pass; b=CQfOz4sIoED794JzmIvhHmLGze3JV/VYmx7hCg3yU1wMvSH7spYPQVL4kScoqu4egLTU2Pnz9KbtkCVRqV+raGPKSZjJf5GEJDh5T4fUqV/IfBQ7AkkT9BWw7AVF6JCdmwKZvFkVB2299EIu6QE0SuI5CzX6SbyI0X2ctfa9+ms=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777557633; c=relaxed/simple;
-	bh=q11TjLbVvV8woWQJHWB4Pgl2P7O1TL92s7zig4m0+0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e5yjbXcCAvO2HkQYxwYygZ/y0fjmRLCbq+5hnz/CDSL400XcAb7hggiYgeUaLwK4IXndgbjdq8F/NIiofCzruor6WWdkAKcbLJqCJnRqLQl1S9hqxTeUUEqlpqenS4sZDkr04PGUdWevRpXwg7nx1uHniMwxYVTj1psUQF/vpf0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q0tQbm9B; arc=pass smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c88e5f4aeso675501c88.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Apr 2026 07:00:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777557631; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eNrYbqjuw7xPAqgEL2LS5gohG78jA36LKF+AXZiOpeblYnL+6PRqF5e1yMBxr0RNkx
-         BsHeZHlEIxwavJW0VD/ifzNCThGC1Lc7AmcmPU8JAnp+/AiUdklj7izEy4nTffwfNQp+
-         ngvPLb2G0MF6s73LGiZh5qbYev85jO9id96XiazOgU5sdPezE9Vv7QvgzMJ3b1RFDW/D
-         7xn9z3NjJvWJ/Ow9zuXE0Mx/gwpx+9Q36FQpGuFlvEnV5B9wLjYyfymblOBP+sj2RY1l
-         wipP2ZETgLCb4p5t8M5B2l2hgkQ9lJZaDmBTsfo0mhIQTVaDC47mpvf5ifxYhw6YE9cW
-         so6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FWbWmLupSF1aasSwvHeKUZ8NUkzaQhzFHcG2dLXCb2Y=;
-        fh=fV6DDL4nqvRI+SkP6W7y4XSBOC05Too+yd1nakbbt+k=;
-        b=Tb2D/T360UmD1EtOeeng/nkbHvK6gtWVOg0wwa+PCF/E8WCNRYiuUV/lb5QrcPo2ve
-         V9qqsu+0JwucA0VWICSJSYK3mMBwP5EzHv3rjG0mfBTJxRILtyjeFUDcWwtEVMXLa7H6
-         eQrB2otEOi4mvXexRmG/Tdq3tWKHFxL+m1/6B4Qh+JYrdLUD5sKAjizYdrLHcNyELH46
-         5ROe96EqmkeksgF8NM6piCGHeHr+j3OwD91KNHGznPF2tyEToj5uTCWbvl+RcliCMc7/
-         dtz0ZoMSQzRVnoJywLZ3vDAUvrVnzxEqUqA2DdR8cJIcgQdS4RbmUTc8PNcoeubpwkmM
-         0LfQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777557631; x=1778162431; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FWbWmLupSF1aasSwvHeKUZ8NUkzaQhzFHcG2dLXCb2Y=;
-        b=Q0tQbm9B1MIVXGz9UCnrF0SQJ95ozItGtVjiGTiS8LAyMInqzXq4sP6hMkajQVrJKT
-         BABwlFUN7zcoeBZ8ig2iQsKaSXur2nZqzVvOqC7PsfHHFOs6PXGOvA58yS08/BiQaw72
-         QTWtcGgaM5k/L1EZNg+35Uwv4G6VdMRQqU6u4QZPNZ2YxHcxETOmUMdOa/9qZDRuRdz9
-         ayR/Johk0h9zNzequLgSDZ0W6NYfs0XxRLf8pcepoy3ZEslmYi3Q0FvwpvNundObdwUv
-         BU6q/+Iv04qC28O+Hou04sHmoErIkDKWdYVFFCsklSrGdvuMqkCrD2I2wADF9JEWLRbg
-         h0gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777557631; x=1778162431;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FWbWmLupSF1aasSwvHeKUZ8NUkzaQhzFHcG2dLXCb2Y=;
-        b=Ng4XXHECHAT4UU/Xcx0Dl6gawkHVp13EFq0EoQ7Z0I7HYZp4WqvhmWw5LWHT2Hl+Oc
-         7/bFV9D36mf3R8B7nq0hi5re0LCsbKc4WJnkEH3w3trghuxjALJFchZ+BtW6euKrW3YT
-         2Wa+0lwxiISyJJRW+WhX8ufsWPio/zeUCng5OFG2jPzIE/wMW6neRrXhzFETKqWqvZmI
-         zN0ertORfT0fhnGjINVahc0WCQTaJtaYCNhhTjLl+ANtPdDwGeM0TufdHoHzFB7kQMfr
-         SsKBeQywU/6Xo2hcuPsUil2frRCG97Pt4lazr/CeeDchGos1tTAk8Itbc0R8OHGKwklC
-         4t6g==
-X-Forwarded-Encrypted: i=1; AFNElJ+fxeYOoaxH+Q+9NCflWPrw6GJxpia5+XYqW+dsqQ60F1ZgCz7etbRj8I67ECZS8p6xFTxtA7C+pR/7KMI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY+flQpjAWvWUxF/8mM8yRXpqqfr0IrJLG3MY4qb+eeUdYhbjo
-	CURqD+zDV9f9t5xGz4PMQ1UvAG4y+YQVJ3onpoYJgJLtiwjio6NDHWKLZDlKBCGbYceopt0OQlM
-	SwBUwDFekmkQKS9x+u7OO1buCyHlqThMLBwcM2GiG
-X-Gm-Gg: AeBDiesGrkGUL64XViA+wquVqTrl9Xvy0i9Q66fqVGs5snrfimxe6MsE9WzqaU3XP6G
-	7t1/ceRQNO0gZeHLt9ho716//a9DzS4ikPo6RhtJMKIw2qoprVxJgeb6xysX+0jQo1HeoaL7ahA
-	uFQ4ohbzeyV4mUbNr91hHxmY0wYBRcCIfnEsuxoQkMZnlyNn9Jes5oyzsOfRHw2GUtUgx5bMEzD
-	uka2Mx6MjlAQymqsxmqxBAHGdaT87+lZ4DcTNC99k2pHpX3lvFyHz/xrc7fJyqtUn8yrD3q1hd8
-	XCbbevAmixENydb5BfwbdwwttFOsJ9wj5b7tSTPa7AZbty41UX6pg1sL2a4=
-X-Received: by 2002:a05:7022:92c:b0:129:1d25:f1da with SMTP id
- a92af1059eb24-12dec602250mr1294888c88.3.1777557630763; Thu, 30 Apr 2026
- 07:00:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B602641CA;
+	Thu, 30 Apr 2026 14:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777560445; cv=none; b=eUwNi+HT4055Dro8+Vcbv91g7+hDhgmnWXgTgjSu0iXjQp7k+2xGI84XgVuPPcV8tFZfKNVdWbbViUF+lp3bo5tI4cvHiODjWi/gDY98xrB4+9J8OAWHUHNA6+TjV4bpHbz5irV3RWlUunmNBKzRDvUcwMxIxZC72MY6VFr7/00=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777560445; c=relaxed/simple;
+	bh=264aTQoULBVWcUvPni2hxBum6EiIcWK0YAfHGvmCE2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Es2bJycCbVUDzwaXbASocqzaiIkJUSHECsOa7mWfvQM6qI34knTNJeI/Zl012xiffAEsHbWi5FEa2PASqNneCpeMAskogGMd1nwQvEcYUXftyDiRgolmeVZ5MYrREydcivtRTICyRrM5qrSyKzcmmYyaUTJ9NufNUvNjjqdwjjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiNgLKTI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 309DBC2BCB3;
+	Thu, 30 Apr 2026 14:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777560443;
+	bh=264aTQoULBVWcUvPni2hxBum6EiIcWK0YAfHGvmCE2E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YiNgLKTI0NC9lXL371WXRwAC3EKdkT/2mTAe3elDeEIcpos1O9ZYXg1ot3GHyxsIC
+	 1yFFlP2evF/7bdTL6EqkLDBecTePyowRBmZ7Hrf90yBaoN90bvLIyqVfB66wM1MvEf
+	 gjd6VeK79ytB2O4nxu5mUZ4g8FaO0wbVWP0DZasS60AU2avdPSBXA4fIWwlN27vzuT
+	 r6FXO4YRXHse8QNs4+MKzGldjLn/GSaOdCziJzeEujuibO4qwQne8mWoB1ohGn5SYM
+	 j1hYboR5eW/Nigs+HuJk6bOosot98kQl+0pOA53k9x9MYDad5vbEGCQxzIOgNdMsgu
+	 4zLQipgi6ol3g==
+Date: Thu, 30 Apr 2026 16:47:10 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v3 2/9] kernel/api: enable kerneldoc-based API
+ specifications
+Message-ID: <afNrbm8URHlClZ-8@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+References: <20260424165130.2306833-1-sashal@kernel.org>
+ <20260424165130.2306833-3-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260424132427.2703076-1-elver@google.com> <20260424132427.2703076-2-elver@google.com>
- <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
-In-Reply-To: <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
-From: Marco Elver <elver@google.com>
-Date: Thu, 30 Apr 2026 15:59:52 +0200
-X-Gm-Features: AVHnY4L3BCY_keL_qhcVurJjgr2ukKogo3SaEXX5idcPkTjREyzfeKAeC-ucDp0
-Message-ID: <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, 
-	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com, 
-	llvm@lists.linux.dev, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: F338C4A3C85
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424165130.2306833-3-sashal@kernel.org>
+X-Rspamd-Queue-Id: 3F7694A43FA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-12953-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12950-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,kernel.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linuxfoundation.org,lwn.net,google.com,infradead.org,suse.cz,gmail.com,zohomail.com,redhat.com,zeniv.linux.org.uk,linux-foundation.org,arndb.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elver@google.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,makefile.build:url,kdoc_apispec.py:url]
 
-On Thu, 30 Apr 2026 at 15:40, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
->
-> On 4/24/26 15:24, Marco Elver wrote:
-> > The mm-api kernel-doc comments have been broken for a while, as many
-> > documented symbols shifted from being direct function definitions to
-> > macros wrapping _noprof implementations during the introduction of
-> > allocation tagging (starting with commit 7bd230a26648 "mm/slab: enable
-> > slab allocation tagging for kmalloc and friends").
-> >
-> > When the kernel-doc block remains above the internal implementation
-> > function but uses the public API name, the documentation generator fails
-> > to associate the documented symbol and generates warnings and fails to
-> > emit the documentation.
-> >
-> > Fix this by:
-> >
-> > 1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
-> >    them directly above the user-facing macros.
-> >
-> > 2. Converting the variadic macros for the documented APIs to use
-> >    explicit arguments.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Marco Elver <elver@google.com>
->
-> +Cc Jon
->
-> I thought it was supposed to work because the kernel-doc scripts were at the
-> time taught by commit 51a7bf0238c2 ("scripts/kernel-doc: drop "_noprof" on
-> function prototypes") to handle _noprof. In the current form git grep finds:
->
-> tools/lib/python/kdoc/kdoc_parser.py:        suffixes = [ '_noprof' ]
-> tools/lib/python/kdoc/xforms_lists.py:        (KernRe("_noprof"), ""),
->
-> Doesn't it work for you then?
+On Fri, Apr 24, 2026 at 12:51:22PM -0400, Sasha Levin wrote:
+> This patch adds support for extracting API specifications from
+> kernel-doc comments and generating C macro invocations for the
+> kernel API specification framework.
+> 
+> Changes include:
+> - New kdoc_apispec.py module for generating API spec macros
+> - Updates to kernel-doc.py to support -apispec output format
+> - Build system integration in Makefile.build
+> - Generator script for collecting all API specifications
+> - Support for API-specific sections in kernel-doc comments
+> 
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/dev-tools/kernel-api-spec.rst |   11 +
+>  scripts/Makefile.build                      |   31 +
+>  scripts/Makefile.clean                      |    3 +
+>  tools/docs/kernel-doc                       |    5 +
+>  tools/lib/python/kdoc/kdoc_apispec.py       | 1249 +++++++++++++++++++
+>  tools/lib/python/kdoc/kdoc_output.py        |    9 +-
+>  tools/lib/python/kdoc/kdoc_parser.py        |   86 +-
+>  7 files changed, 1389 insertions(+), 5 deletions(-)
+>  create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+> 
+> diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
+> index 395c2294d5209..479bc78797ba8 100644
+> --- a/Documentation/dev-tools/kernel-api-spec.rst
+> +++ b/Documentation/dev-tools/kernel-api-spec.rst
+> @@ -239,6 +239,17 @@ execution context, and return values. Parameter violations are reported via
+>  ``pr_warn_ratelimited`` and return value violations via ``WARN_ONCE`` to avoid
+>  flooding the kernel log.
+>  
+> +.. warning::
+> +
+> +   Userspace errno is affected when this option is on. For syscalls that
+> +   violate their parameter specification, KAPI short-circuits the call and
+> +   returns ``-EINVAL`` from the validator **before** the real handler runs.
+> +   That errno can differ from what the real handler would have produced for
+> +   the same condition (for example, ``-ENOMEM`` from an allocation path or
+> +   ``-EFAULT`` from a deeper copy-in). ``CONFIG_KAPI_RUNTIME_CHECKS`` is a
+> +   debug-only option; do not enable it on production kernels or in
+> +   userspace-visible test environments where error-code fidelity matters.
+> +
+>  Custom Validators
+>  -----------------
+>  
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 3652b85be5459..ef203e490c797 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -174,6 +174,37 @@ ifneq ($(KBUILD_EXTRA_WARN),)
+>  endif
+>  endif
+>  
+> +# Generate API spec headers from kernel-doc comments
+> +ifeq ($(CONFIG_KAPI_SPEC),y)
+> +# Function to check if a file has API specifications
+> +has-apispec = $(shell grep -qE '^\s*\*\s*context-flags:' $(src)/$(1) 2>/dev/null && echo $(1))
+> +
+> +# Get base names without directory prefix
+> +c-objs-base := $(notdir $(real-obj-y) $(real-obj-m))
+> +# Filter to only .o files with corresponding .c source files
+> +c-files := $(foreach o,$(c-objs-base),$(if $(wildcard $(src)/$(o:.o=.c)),$(o:.o=.c)))
 
-Ah, I see. So it doesn't work anymore because we add the '_' prefix, too.
+Looks to me as if the two lines above are redundant, since 'find'
+(below) will find all files gathered in $(c-files).
 
-I guess the question is if we want to proliferate more kdoc parser
-special cases, or just move the docs to the macros. The downside of
-macros is that they lose the types in the displayed function
-signature.
 
-Preferences?
+> +# Also check for any additional .c files that contain API specs but are included
+> +extra-c-files := $(shell find $(src) -maxdepth 1 -name "*.c" -exec grep -l '^\s*\*\s*\(long-desc\|context-flags\|state-trans\):' {} \; 2>/dev/null | xargs -r basename -a)
+> +# Combine both lists and remove duplicates
+> +all-c-files := $(sort $(c-files) $(extra-c-files))
+> +# Only include files that actually have API specifications
+> +apispec-files := $(foreach f,$(all-c-files),$(call has-apispec,$(f)))
+> +# Generate apispec targets with proper directory prefix
+> +apispec-y := $(addprefix $(obj)/,$(apispec-files:.c=.apispec.h))
+
+To goal is to find any relevant C file in $(src)/ (but not deeper below)
+that holds KAPI documentation, right?
+
+I do not like the find call, as it picks up anything.  Might it make
+sense to evaluate $(obj-) along with $(obj-y) and $(obj-m) to pick up
+all C files that are references in kbuild?
+
+
+
+# in top definition block -- before 'include $(kbuild-file)' et al.
+obj- :=
+
+# below the definitions of real-obj-{y,m}
+real-obj-any := $(call real-search, $(obj-y) $(obj-m) $(obj-), .o, -objs -y -m -)
+
+has-apispec = $(shell grep -lE '^\s*\*\s*context-flags:' $(1) 2>/dev/null)
+apispec-y := $(patsubst $(src)/%.c, $(obj)/%.apispec.h, $(call has-apispec,
+		    $(patsubst $(obj)/%.o, $(src)/%.c, $(real-obj-any))))
+
+#...
+
+# Source files that include their own apispec.h need to depend on it
+$(apispec-y:.apispec.h=.o): $(obj)/%.o: $(obj)/%.apispec.h
+
+(untested)
+
+> +always-y += $(apispec-y)
+> +targets += $(apispec-y)
+> +
+> +quiet_cmd_apispec = APISPEC $@
+> +      cmd_apispec = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -apispec \
+> +                    $(KDOCFLAGS) $< > $@ || rm -f $@
+> +
+> +$(obj)/%.apispec.h: $(src)/%.c $(KERNELDOC) FORCE
+> +	$(call if_changed,apispec)
+> +
+> +# Source files that include their own apispec.h need to depend on it
+> +$(foreach f,$(apispec-files),$(eval $(obj)/$(f:.c=.o): $(obj)/$(f:.c=.apispec.h)))
+> +endif
+> +
+>  # Compile C sources (.c)
+>  # ---------------------------------------------------------------------------
+>  
+> diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
+> index 6ead00ec7313b..f78dbbe637f27 100644
+> --- a/scripts/Makefile.clean
+> +++ b/scripts/Makefile.clean
+> @@ -35,6 +35,9 @@ __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
+>  
+>  __clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
+>  
+> +# Also clean generated apispec headers (computed dynamically in Makefile.build)
+> +__clean-files   += $(wildcard $(obj)/*.apispec.h)
+
+We have a list of wildcard clean patterns in top-level Makefile
+(line 2114 ff.); please add '*.apispec.h' there instead.
+
+
+
+When I apply the series on top of v7.1, compilation fails with
+
+../fs/open.c:2148:10: fatal error: open.apispec.h: No such file or directory
+../fs/read_write.c:2519:10: fatal error: read_write.apispec.h: No such file or directory
+
+Kind regards,
+Nicolas
 
