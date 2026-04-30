@@ -1,49 +1,69 @@
-Return-Path: <linux-kbuild+bounces-12943-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12944-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QIV9Ehyq8mm8tQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12943-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 03:02:20 +0200
+	id sN7LGOeq8mnLtQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12944-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 03:05:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C4149BE44
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 03:02:19 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA5D49BEBD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 03:05:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 330E73004902
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 01:01:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7F4C03023324
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 01:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6A521ABC9;
-	Thu, 30 Apr 2026 01:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D93235045;
+	Thu, 30 Apr 2026 01:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSGlainc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZuI78Ri"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EAF12CDA5;
-	Thu, 30 Apr 2026 01:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58BB1A9FA4;
+	Thu, 30 Apr 2026 01:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777510890; cv=none; b=GggCwyv+R5fyyKXlFYSJqUUk/5r39IScV25qhWRvy4oI1hRED63y0L4uv5uQMZ3Vjkf0XhVG5m511gx3t/i11Ar7t7uEstzDwTUJCeggmxwlni4/1DDLnATWzfbxFD+cKtsoo0R2lxc2APgRp6455nhOsYfHSBqy2I62HQxpaog=
+	t=1777511069; cv=none; b=o2TXYQZ/MxTxE17paDhJxkgiZQ9v8UofWNGZkcZfffF/EQGSyGHBO6CFaHDaxpz3dEMGrTb5K6VDwU1N1Wd2nWIgsVoYotqXV5qM1AIt80YpZnI2DdW6rgEVIYSekRtHv0XGEwoP1u/Mqnv10yxcHlT5Na5mMqxBWyTYCprkTYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777510890; c=relaxed/simple;
-	bh=T4OHgsELEXa2CK7NDgcqvrDUgmG5EvKC0N5i88wbnHs=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=LYmhNG/NK7MEpsrRl2TzCg1qcbtAFqMcm6WRQcS7X4b44Fi/1xV74yGfot9ic5DTH8cLa7OfBYlIu3alP36ONKm7lbouhVT1bYUj1Aohj0mN7BbSD6vOLXSGQ6rZuD95Qdi5HhWiClrVoTc7DL/APMCPUTnpSIeqTQ4HllhGMsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSGlainc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50308C19425;
-	Thu, 30 Apr 2026 01:01:27 +0000 (UTC)
+	s=arc-20240116; t=1777511069; c=relaxed/simple;
+	bh=GTCGLKihTuWP1sORw8KOdgxbbzF/xjg0bkw+1zXWbZ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Rl8ErBAhnmGQOVYeTrUVsvx1VpNbCyk2ikohlVTFGyXAb7Y+LENf4HIK/cUvUFTmy8bY9C6vx/2Xvu2JtzDg1uP0lHzlfoUFQjW8eli9zq7V0irgN20jbLi8g4F6WxtU++kU127Emd1v9FLvNjoD42c/rYYdfA6Zw7VZWaDTADg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZuI78Ri; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D2CC19425;
+	Thu, 30 Apr 2026 01:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777510890;
-	bh=T4OHgsELEXa2CK7NDgcqvrDUgmG5EvKC0N5i88wbnHs=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=cSGlaincDbaNNb5OwOwqFkmhwQ6/6LL+nr6Pp2+dixi0n5NhdIZ9lpyxQEryopCrP
-	 GcLvfCHhV7ibidYkkoabbZV7nJ+obAPNhAUwhLB6htnlMeJlgdvgxEmhFah7UHsDxr
-	 98XP1G1Nr/uD503mEhLQaSHvvwGUzbqjh6qyFg/9vDYGM+S/Sp6tJIoyvmoxPtXHsy
-	 KHAasf++ieiPZjePhHljGp8I7ve/+cN03yhKqU0f7UjV9TBzBCH7ite/xvPLE/muCU
-	 kZVtWB5+Ixpe7UDgrT0/8D4wmNisPb/j39FNROIyGTIXLiPak+IMjhad/7V88h0Tku
-	 zuOvNb1DZeCLg==
+	s=k20201202; t=1777511068;
+	bh=GTCGLKihTuWP1sORw8KOdgxbbzF/xjg0bkw+1zXWbZ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=aZuI78Ri59Pc4kzgK5/4eUlf8+m67/uoB1Qi0Tz1nrdWj5fwbeo3h97oaBduS1Rrh
+	 xqENiEqmg4W0xH6SHjREnLOKXilrYzT3BVwSgAdWbAzAbOSa3yNOauycrg3Z85nNcc
+	 lpNwWQz+LsxxR4hIeA0IzwX7TglaRJ1q33tFnag0skOD8AjRihXzatWMOj7DIUAPGM
+	 L1ZXlSRfIvckwqhCsEECjnOi5pYO148Euz09bzQmygvVehZ83vagTphgC+a4Qv6jL2
+	 aez9J4pW3f98TtVJ/+pdAwaROtRUkNzugBjOGXIeD4Urk8TDXeO8663rJzfi6AcXq2
+	 ZkRZmfEhrxseA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nicolas Schier <nsc@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Aaron Tomlin <atomlin@atomlin.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Sasha Levin <sashal@kernel.org>, 
+ linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260410131343.2519532-1-petr.pavlu@suse.com>
+References: <20260410131343.2519532-1-petr.pavlu@suse.com>
+Subject: Re: [PATCH] kbuild/btf: Remove broken module relinking exclusion
+Message-Id: <177751104332.3341838.8867761635542688268.b4-ty@b4>
+Date: Wed, 29 Apr 2026 18:04:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,100 +72,69 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v7] kbuild: host: use single executable for rustc -C
- linker
-From: Nathan Chancellor <nathan@kernel.org>
-To: Mohamad Alsadhan <mo@sdhn.cc>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, Yoann Congal <yoann.congal@smile.fr>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org
-In-Reply-To: <20260416211525.13847-1-mo@sdhn.cc>
-References: <20260416211525.13847-1-mo@sdhn.cc>
-Date: Wed, 29 Apr 2026 18:01:16 -0700
-Message-Id: <177751087668.2042162.14581501251680231924.b4-review@b4>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1646; i=nathan@kernel.org;
- h=from:subject:message-id; bh=T4OHgsELEXa2CK7NDgcqvrDUgmG5EvKC0N5i88wbnHs=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJmfVj5r517lP6PmtbXq+j0nLrGUPV23Up7B6MSjXK4Dn
- hl6VjuOd5SyMIhxMciKKbJUP1Y9bmg45yzjjVOTYOawMoEMYeDiFICJxL5jZHh90FkzQXPtithG
- nQdHBZp8ZmvN0z8u2bfx9VzPKm99Dm+G/07bnHKnPb7+c/77ymmbGyqrV6mufBR7c0XYrTkRc3P
- +PGcAAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=727; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=GTCGLKihTuWP1sORw8KOdgxbbzF/xjg0bkw+1zXWbZ4=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJmfVk3fJVyddo9hysS2Haq37gjVnzu8v3HSiRMyHf4pt
+ x+ZBXFt6ihlYRDjYpAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQATyQ9kZLjA1bJlphKnd9nr
+ ha/mb3jqf/31/z25tg/cdvgtm5qYIS/IyNB9o3v1/C+eeTNS74hefVF7etO39KDbTJUW59dz773
+ w144ZAA==
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
-X-Rspamd-Queue-Id: 02C4149BE44
+X-Rspamd-Queue-Id: CEA5D49BEBD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12943-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-12944-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,smile.fr,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,gmail.com,kernel.org,fomichev.me,google.com,atomlin.com,vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On Fri, 17 Apr 2026 00:15:23 +0300, Mohamad Alsadhan <mo@sdhn.cc> wrote:
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 5eca6a817966..6bc761a31936 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -565,7 +565,7 @@ $(obj)/libsyn.rlib: $(src)/syn/lib.rs $(obj)/libquote.rlib FORCE
->  quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
->        cmd_rustc_procmacro = \
->  	$(RUSTC_OR_CLIPPY) $(rust_common_flags) $(rustc_target_flags) \
-> -		-Clinker-flavor=gcc -Clinker=$(HOSTCC) \
-> +		-Clinker-flavor=gcc -Clinker=scripts/rustc-wrapper \
+On Fri, 10 Apr 2026 15:13:29 +0200, Petr Pavlu wrote:
+> kbuild/btf: Remove broken module relinking exclusion
 
-I think this should use an explicit $(objtree)/ prefix to make it an
-absolute path.
+Applied to
 
->
-> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> index c1dedf646a39..84fd87a5301d 100644
-> --- a/scripts/Makefile.host
-> +++ b/scripts/Makefile.host
-> @@ -87,11 +87,30 @@ hostcxx_flags  = -Wp,-MMD,$(depfile) \
-> [ ... skip 22 lines ... ]
->  # `--out-dir` is required to avoid temporaries being created by `rustc` in the
->  # current working directory, which may be not accessible in the out-of-tree
->  # modules case.
->  hostrust_flags = --out-dir $(dir $@) --emit=dep-info=$(depfile) \
-> -		 -Clinker-flavor=gcc -Clinker=$(HOSTCC) \
-> +		 -Clinker-flavor=gcc -Clinker=$(obj)/rustc-wrapper \
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
 
-I have not been following this series too closely but it feels weird
-that multiple rustc-wrapper files would be generated when their contents
-should be the exact same. Would other host programs have to copy the
-changes you made to .gitignore and Makefile under samples/rust/hostprogs?
-What was the issue with attempting to unify these?
+Thanks!
 
+[1/1] kbuild/btf: Remove broken module relinking exclusion
+      https://git.kernel.org/kbuild/c/d9ba1abcccdae
+
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped or
+reverted. Patches applied to an "unstable" branch are accepted pending
+wider testing in -next and any post-commit review; they will generally
+be moved to the main branch in a week if no issues are found.
+
+Best regards,
 -- 
 Cheers,
 Nathan
+
 
 
