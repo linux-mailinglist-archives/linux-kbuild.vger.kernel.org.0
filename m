@@ -1,53 +1,93 @@
-Return-Path: <linux-kbuild+bounces-12946-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12947-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GFjwDQrM8mmWuQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12946-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 05:27:06 +0200
+	id gLdBGIIZ82nNxAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12947-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 10:57:38 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F2F49CD6D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 05:27:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B2549F88C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 10:57:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F3256303B5EC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 03:25:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 48A693009F9F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2026 08:55:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E598346771;
-	Thu, 30 Apr 2026 03:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 794363C9EE4;
+	Thu, 30 Apr 2026 08:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5dcZx5w"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L0QXqJ/X"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2F6344DBD;
-	Thu, 30 Apr 2026 03:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2735525A2A4
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 Apr 2026 08:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777519546; cv=none; b=ipkCa7dVbTX8kjEc/d1Nhw7m56VODeCR1S4NkFAFDp3htkU65m0E5IqGtPkBs1u95Dlc0GtAcQqHHVi/iMwrLyURnKsBXAhJxd6VhPGRaHkRSeGTbSImiB7uLNiePWTnBY7el8WLXkJg5TFRe7n0NoiPUYspeczSn2u28YQrGVg=
+	t=1777539318; cv=none; b=pxNHnHCWg+UwW1j7fyPkzESZ3DZuQTE8UHZsJ6aC2crI4ZsyrtvNYLJQD7kbE3EUaqFUevqKa28LyiNoakLempRTzfl1ttZWfsFp5ZNmlNPxXhjzzhmv3OgjLX2FoEDg9J9B3DDFxK1KgdoD4TpbCpRNGlC4jkn5FTBqPLdJrI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777519546; c=relaxed/simple;
-	bh=Ut5G69bc29PiPzWoT/741NVv5Kk/lOmdOdb5wKBmZHY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=oMJPoul8PNqJN8qxyXzoDt53j74wHJg6kb+2ZS0hgqpWdjZGNbOH1It4TJf2ivzRj3tb7vyNx2vyMDZNuY+0yONyH7UOzjDDXVpxGQ9PrY2dHQEyawfmOkUyKSBWQa1B3GsGLAZ5UOKFYciaQK/rWsrPoxF1IimFm8pwH1T2tAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5dcZx5w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEFFC2BCB9;
-	Thu, 30 Apr 2026 03:25:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777519545;
-	bh=Ut5G69bc29PiPzWoT/741NVv5Kk/lOmdOdb5wKBmZHY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=V5dcZx5w6ZsNbkLQRDMzB2RWL/aoneaFsqWWBCOjQU9YtIWRYDD+T+yLL0c1uuBhY
-	 qEq09wxP51HP2ucG5VcbFYEWu1xwrI3mLVWalChYNFLQKJVV2/uPNO5bNsVTmGtBYW
-	 y+MFexZXsUKBzIR9VcaG11CGAPdXCh5mrQ4ITyVmu2dzJeTpqYPZZKRQaFN8mTUumj
-	 qe1015WQ5bGNHETaFFAMkfQbXS+479tE5rufj5GTm7FfEY/F/wwiBzlApZyMLXQ7Xj
-	 eN4jVc9crSFreUj8YqywmtdyQ9MC4GHMaLaL9pIVAuwmWk3hGgC+ZxtKtJbApg/ERF
-	 YZVQLUUCYw1Pw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id DA1FF3809A07;
-	Thu, 30 Apr 2026 03:25:01 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1777539318; c=relaxed/simple;
+	bh=k+repuCid/29q5WexcHLmTRTBLtDByH5LzJcLpPbhWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=P7mVIp9HpfsByIFp3N3yhd3085loAhBzg9UWRDpIBYSyX4TyVk+CpH+Bmk0fqeYwjOB3NSamgw4RG/1X7rqNPP7b2ENLLx26yWmGUY56vxboZ6QmXNahnUe4BuW4djlYMlTEHpdUdPb12ddgl+YqbENZr9UpGXvhvbTCqpNtiUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L0QXqJ/X; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35fb16e56efso406097a91.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Apr 2026 01:55:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777539316; x=1778144116; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o7Kav7Rl3BLHZWXcdvNYD2yMsdiQpSzKe+3r5sVARL4=;
+        b=L0QXqJ/Xe10PxrbyW6QmHfu9Kx7HrDJKsq2uACHRrd6/dImCtWDWs7R6qLfg6IeSU1
+         pziOslAjqHUlNh+SUeFsNp6S+2Z3tyE2ZWO0w62ZtSHjskfqlQAfTAyy7XhzBZjRGPJs
+         9dR+Yng24acJkP/cMKatmc57a9p1wnVcf4PQaGkeCYY+PflYwBtenknSGVT5weHsMOkB
+         JV18btnDCuGxsJVqAeUsnakPCBwz1ybLCKzeFH/YTPvNskkiHf+DSe717OBVQvNahvBN
+         GXMvVTktWUPdsDG+uVl5LdZm4IcfbYQhjkB5GMBmILtwE8N6+/cYtbibzidO+Putuhir
+         ebww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777539316; x=1778144116;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=o7Kav7Rl3BLHZWXcdvNYD2yMsdiQpSzKe+3r5sVARL4=;
+        b=WsUCw2yfB+LI/y3UKBciLddf872Rmw1CSD3CwolNzThHafqAs5LwxZ4nrld5oIeKae
+         Kb8GwMxLck+YgNJbHP8CnyrMUStfBu3V9EVk9ioysdzkZ1xMhSMmMwYCPtExJtbFPLl7
+         eHO6sQZBGELdIQ+rh32heE9tqsCsR7IzVlYSDaHnFoMhB6rwGqZH0qKmHK7XwvgXkzhC
+         HLEB4XYRj6y6mjgXeD+6iOIrJHYndzybZz6pgNBwIT6oy53135+a+ypJ6ehKy9tW1/0F
+         fGj/WKo79wOWkOXXyQNwqq5kokwoRgSsH/MBtIohoMdcwsB/gtgmf5/Il9eERevZ6iIc
+         S6Cg==
+X-Gm-Message-State: AOJu0Yzf0Te7QOtY5nRFJzpG9By29NCEQ52GC4tg0fSeiX/pEwAbONak
+	1ZP+N5Rnx7wEIt5X4vBFcUj6j7/fsBMHoKrbVvZvfSCqyzkRGMx9ZrxiZ91yvovl
+X-Gm-Gg: AeBDieuTmq7mkJZeEGNLI+HfIdX3ZHv4dP9qHNSOv0Qj4mNmdOLado4dJR5SCQgnxoK
+	xejv3Dhopf63N8xxoDl4DahYxZ8NNCP3s6/0pjDXM2KVtXsMF5KLVc+WfpN7B09C734qUSix7YX
+	IXLtoi8TCBvTJ4kWeDQ22eTLPbJyQW6P5kS2n0vMoxueRDuzid9Dxk4MyDwKyfjKfm85lJDcchq
+	oNp0GWgALOflplXEcOP0iUM6opIFiC12/cKIDIejSwBDUXgaanOtzoo8xk0BA8pl7QM0s3+GnfT
+	B8K0JNIPKvhj1uYn67dwI1jLxCY/FssnSLTD0AqQbRStkXxKuJuIBJShLwpknC8gSfr7XQaQ8Xe
+	6/ZcZ70XMrWCWX9+iCTFBo8TpnFCFChlTJGeijxKjiANKQ3qOeZacnTMnvEUxSdvbw0XBk1AtIe
+	dyB/WOw2M7KCJFQxrQTOxP/EVVQav8D82RxJfP0VgTqaPmnmfweQLwWz6rt3MV2WUX6oT9pmjKn
+	7+J
+X-Received: by 2002:a05:6a20:72a8:b0:39c:126c:93b5 with SMTP id adf61e73a8af0-3a3cf6493e7mr2547377637.21.1777539316487;
+        Thu, 30 Apr 2026 01:55:16 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c1:203b:4e5a:69a9:1581:4a4b:2636])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fd5e6cf4asm4290255a12.2.2026.04.30.01.55.12
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 30 Apr 2026 01:55:15 -0700 (PDT)
+From: Jill Ravaliya <jillravaliya@gmail.com>
+To: masahiroy@kernel.org
+Cc: linux-kbuild@vger.kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	Jill Ravaliya <jillravaliya@gmail.com>
+Subject: [PATCH] kbuild: deb-pkg: propagate hook script failures in builddeb
+Date: Thu, 30 Apr 2026 14:24:42 +0530
+Message-ID: <20260430085442.35666-1-jillravaliya@gmail.com>
+X-Mailer: git-send-email 2.51.1
+In-Reply-To: <CAHr0PbumU-Y4G9rmuffd3crfOpqgxvQii0cVEYFC_sdjjNEZRw@mail.gmail.com>
+References: <CAHr0PbumU-Y4G9rmuffd3crfOpqgxvQii0cVEYFC_sdjjNEZRw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -55,152 +95,82 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 00/33] rust: bump minimum Rust and `bindgen` versions
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <177751950055.2274119.12088060080551439561.git-patchwork-notify@kernel.org>
-Date: Thu, 30 Apr 2026 03:25:00 +0000
-References: <20260405235309.418950-1-ojeda@kernel.org>
-In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: linux-riscv@lists.infradead.org, nathan@kernel.org, nsc@kernel.org,
- dakr@kernel.org, a.hindborg@kernel.org, catalin.marinas@arm.com,
- will@kernel.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- acourbot@nvidia.com, airlied@gmail.com, simona@ffwll.ch,
- brendan.higgins@linux.dev, david@davidgow.net, gregkh@linuxfoundation.org,
- arve@android.com, tkjos@android.com, christian@brauner.io,
- cmllamas@google.com, aliceryhl@google.com, corbet@lwn.net, boqun@kernel.org,
- gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org,
- linux-kbuild@vger.kernel.org, lorenzo.stoakes@oracle.com, vbabka@kernel.org,
- Liam.Howlett@oracle.com, urezki@gmail.com, linux-block@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, alex@ghiti.fr,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- raemoar63@gmail.com, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, nick.desaulniers+lkml@gmail.com,
- morbo@google.com, justinstitt@google.com, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
-X-Rspamd-Queue-Id: C8F2F49CD6D
+X-Rspamd-Queue-Id: C4B2549F88C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12946-lists,linux-kbuild=lfdr.de,linux-riscv];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,arm.com,dabbelt.com,eecs.berkeley.edu,nvidia.com,gmail.com,ffwll.ch,linux.dev,davidgow.net,linuxfoundation.org,android.com,brauner.io,google.com,lwn.net,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,oracle.com,ghiti.fr,lists.freedesktop.org,googlegroups.com,lists.linux.dev];
-	FROM_NEQ_ENVFROM(0.00)[patchwork-bot@kernel.org,linux-kbuild@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,fjasle.eu,gmail.com];
+	TAGGED_FROM(0.00)[bounces-12947-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FROM_NO_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jillravaliya@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,launchpad.net:url]
 
-Hello:
+The 'builddeb' script generates maintainer scripts for Debian-based
+distributions. Currently, it invokes post-installation hooks via
+run-parts but unconditionally exits with code 0. This masks failures
+from downstream hooks (e.g., initramfs generation or DKMS).
 
-This series was applied to riscv/linux.git (fixes)
-by Miguel Ojeda <ojeda@kernel.org>:
+On systems with modular storage drivers (CONFIG_BLK_DEV_NVME=m), an
+unnoticed failure in an early hook can prevent the initrd from being
+correctly updated, leading to a panic on reboot.
 
-On Mon,  6 Apr 2026 01:52:36 +0200 you wrote:
-> As proposed in the past in e.g. LPC 2025 and the Maintainers Summit [1],
-> we are going to follow Debian Stable's Rust versions as our minimum
-> supported version.
-> 
-> Debian Trixie was released with a Rust 1.85.0 toolchain [2], which it
-> still uses to this day [3] (i.e. no update to Rust 1.85.1).
-> 
-> [...]
+This patch ensures that failures in 'run-parts' are correctly
+propagated, allowing the package manager to abort the installation
+upon hook failure.
 
-Here is the summary with links:
-  - [v2,01/33] rust: kbuild: remove `--remap-path-prefix` workarounds
-    https://git.kernel.org/riscv/c/c8cbe2fc22e4
-  - [v2,02/33] rust: kbuild: remove "`try` keyword" workaround for `bindgen` < 0.59.2
-    https://git.kernel.org/riscv/c/518b9ad2fab3
-  - [v2,03/33] rust: kbuild: remove unneeded old `allow`s for generated layout tests
-    https://git.kernel.org/riscv/c/92cc022f044f
-  - [v2,04/33] gpu: nova-core: bindings: remove unneeded `cfg_attr`
-    https://git.kernel.org/riscv/c/341c51ee3293
-  - [v2,05/33] rust: bump Rust minimum supported version to 1.85.0 (Debian Trixie)
-    https://git.kernel.org/riscv/c/f32fb9c58a5b
-  - [v2,06/33] rust: bump Clippy's MSRV and clean `incompatible_msrv` allows
-    https://git.kernel.org/riscv/c/b6cfba436623
-  - [v2,07/33] rust: allow globally `clippy::incompatible_msrv`
-    https://git.kernel.org/riscv/c/7ed188605e1d
-  - [v2,08/33] rust: simplify `RUSTC_VERSION` Kconfig conditions
-    https://git.kernel.org/riscv/c/b28711ac98e8
-  - [v2,09/33] rust: remove `RUSTC_HAS_SLICE_AS_FLATTENED` and simplify code
-    https://git.kernel.org/riscv/c/9b398d056543
-  - [v2,10/33] rust: remove `RUSTC_HAS_COERCE_POINTEE` and simplify code
-    https://git.kernel.org/riscv/c/4ab22c543f18
-  - [v2,11/33] rust: kbuild: remove skipping of `-Wrustdoc::unescaped_backticks`
-    https://git.kernel.org/riscv/c/0f6e1e0705f0
-  - [v2,12/33] rust: kbuild: remove `feature(...)`s that are now stable
-    https://git.kernel.org/riscv/c/d1aa40daa777
-  - [v2,13/33] rust: transmute: simplify code with Rust 1.80.0 `split_at_*checked()`
-    https://git.kernel.org/riscv/c/f309a6edda53
-  - [v2,14/33] rust: alloc: simplify with `NonNull::add()` now that it is stable
-    https://git.kernel.org/riscv/c/161dd7b51e96
-  - [v2,15/33] rust: macros: simplify code using `feature(extract_if)`
-    https://git.kernel.org/riscv/c/42ec980024f0
-  - [v2,16/33] rust: block: update `const_refs_to_static` MSRV TODO comment
-    https://git.kernel.org/riscv/c/961b72d45ae4
-  - [v2,17/33] rust: bump `bindgen` minimum supported version to 0.71.1 (Debian Trixie)
-    https://git.kernel.org/riscv/c/c3a00a3f31ff
-  - [v2,18/33] rust: rust_is_available: remove warning for `bindgen` 0.66.[01]
-    https://git.kernel.org/riscv/c/41cfbb4295cf
-  - [v2,19/33] rust: rust_is_available: remove warning for `bindgen` < 0.69.5 && libclang >= 19.1
-    https://git.kernel.org/riscv/c/ae64324ad5c1
-  - [v2,20/33] rust: kbuild: update `bindgen --rust-target` version and replace comment
-    https://git.kernel.org/riscv/c/276ed30c558e
-  - [v2,21/33] rust: kbuild: remove "dummy parameter" workaround for `bindgen` < 0.71.1
-    https://git.kernel.org/riscv/c/93553d9922b0
-  - [v2,22/33] docs: rust: quick-start: openSUSE provides `rust-src` package nowadays
-    https://git.kernel.org/riscv/c/53c9647c0a48
-  - [v2,23/33] docs: rust: quick-start: update Ubuntu versioned packages
-    https://git.kernel.org/riscv/c/982e1aa6de73
-  - [v2,24/33] docs: rust: quick-start: update minimum Ubuntu version
-    https://git.kernel.org/riscv/c/6767147cb941
-  - [v2,25/33] docs: rust: quick-start: add Ubuntu 26.04 LTS and remove subsection title
-    https://git.kernel.org/riscv/c/780f847e1419
-  - [v2,26/33] docs: rust: quick-start: remove Gentoo "testing" note
-    https://git.kernel.org/riscv/c/99c672426aed
-  - [v2,27/33] docs: rust: quick-start: remove Nix "unstable channel" note
-    https://git.kernel.org/riscv/c/b69a14650009
-  - [v2,28/33] docs: rust: quick-start: remove GDB/Binutils mention
-    https://git.kernel.org/riscv/c/a4392ed1c8b9
-  - [v2,29/33] docs: rust: general-information: simplify Kconfig example
-    https://git.kernel.org/riscv/c/9375ea727d7e
-  - [v2,30/33] docs: rust: general-information: use real example
-    https://git.kernel.org/riscv/c/86c5d1c6740c
-  - [v2,31/33] rust: declare cfi_encoding for lru_status
-    https://git.kernel.org/riscv/c/9e5946de3a38
-  - [v2,32/33] rust: kbuild: support global per-version flags
-    https://git.kernel.org/riscv/c/b2aa1535ecdd
-  - [v2,33/33] rust: kbuild: allow `clippy::precedence` for Rust < 1.86.0
-    https://git.kernel.org/riscv/c/2e2f8b5a0656
+Signed-off-by: jillravaliya <jillravaliya@gmail.com>
+Link: https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/2141741
 
-You are awesome, thank you!
+---
+v2:
+  - Resending via git send-email to fix formatting issues.
+  - Refined commit message for clarity and professional tone.
+---
+ scripts/package/builddeb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 3627ca227..6ea768f08 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -98,7 +98,12 @@ install_maint_scripts () {
+ 			hookdirs="\$hookdirs \$dir/${script}.d"
+ 		done
+ 		hookdirs="\${hookdirs# }"
+-		test -n "\$hookdirs" && run-parts --arg="${KERNELRELEASE}" --arg="/${installed_image_path}" \$hookdirs
++		if [ -n "\$hookdirs" ]; then
++                    if ! run-parts --arg="\${KERNELRELEASE}" --arg="/\${installed_image_path}" \$hookdirs; then
++                         echo "E: Post-install hooks failed." >&2
++                         exit 1
++                    fi
++                fi
+ 		exit 0
+ 		EOF
+ 		chmod 755 "${pdir}/DEBIAN/${script}"
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.51.1
 
 
