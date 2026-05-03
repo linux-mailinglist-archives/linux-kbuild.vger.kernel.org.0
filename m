@@ -1,167 +1,188 @@
-Return-Path: <linux-kbuild+bounces-12974-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YCGBOWPH9GmPEgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12974-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 01 May 2026 17:31:47 +0200
+	id wM6hJPEK92kHbgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12975-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 03 May 2026 10:44:33 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F7C4AD905
-	for <lists+linux-kbuild@lfdr.de>; Fri, 01 May 2026 17:31:47 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5E24B4F11
+	for <lists+linux-kbuild@lfdr.de>; Sun, 03 May 2026 10:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E5D283018AFF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 May 2026 15:31:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DAEDA30038C7
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 May 2026 08:44:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C44543CFF41;
-	Fri,  1 May 2026 15:31:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2363803D2;
+	Sun,  3 May 2026 08:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="stKeNSxY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ar6Wv54G"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760FF301472
-	for <linux-kbuild@vger.kernel.org>; Fri,  1 May 2026 15:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777649504; cv=pass; b=oaoNrS/L1970I9Ltn/WdNvBKA4OdQiPSvQpYS6yY2O8NAYlUpJ1cUg/esYYCN3uMVzPfabEaKfSaOpU6zpuDSNGlLhpGdXr1EzNEzqmB5zVdbNQl4oABRzt4efkM+S30m7qwYglcEt+mVd46orjjRo/F0/MUHe0WqfI1buXWb0w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777649504; c=relaxed/simple;
-	bh=LQm9FlebjcspKv6fTqA1mawXQMaJDUpiIXw8pb4GJnQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nu08IrM527gsgKeE78m+3AspTbnLqd7POC/7ySV3zX7hti0pejRqbWBAbSooNkp8UBeHhQWE09mpiBB/BiPmNYA+KGBue4If3SpFLYJqqnAGIdd+7I9sxYHuKUywrKy8Pp8rrcEfYF1U4sY73Ep2JcZvwP9o0Ld8NeQs35GAzxA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=stKeNSxY; arc=pass smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2E839B971
+	for <linux-kbuild@vger.kernel.org>; Sun,  3 May 2026 08:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777797869; cv=none; b=IFX0lzWYDWvOyrGp5UMscomgNv2/2v7H3v6x8g71fMv3dNasiDoRRQUHYGc5XNLtqfiVqnpz0tuptpee6lkLdkME77agaSiBKhUgAzFLdHEcC/WkzjfW4yPwuwY2qlAQZmC62Z4HZefn8PPPtMRfuqed11qf0U0i/0e9CqOX3Vk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777797869; c=relaxed/simple;
+	bh=QfKkTLYMWzXxUWRmm/meHrS/pX3vkUb5T8BIkWe/yno=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E7VvDCcFE7mlu3zJjWjXMW0geyS835rOvcrFmMczqM/cJIep3GFCJKA0r5I8TYPei4qSDLgreaJvuA+n8Lw2v88gXdIN/+qyumwntJ/cDztd2mLi24fdtOS8MN7AZ7CYxyztQRGgt4VBOn3BZN3oiqnpdRoQX2iyACakbuOIKco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ar6Wv54G; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2e92c54ba73so215923eec.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 01 May 2026 08:31:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777649503; cv=none;
-        d=google.com; s=arc-20240605;
-        b=f6lFKZ7RG+UFUl+wyMJ5gA0AJrcKZ+e3IdG1aATeiJMUlZhQ8DPSkEtqM+HvD+7S2E
-         k3CBaaUlqSaFCVDXpiJnVuLUIjNxFNMDrAPBmcClwH8MTGc5HXZtz8SFVzcuVS2RGFuW
-         BdlZM+caCa32CcsmYR17o59sTe11xjl7BD78KyJgmMincHMF2L9UZBK1nt0D1Cr6YV1T
-         Y2k/Z4HKzWn+IO0vxkOzlWbPClR3FnB8X7UjXre9LlaY2N3RqMl9wLOO1/jLR6fzgDYr
-         ZsFr/f5TarCF8oH4fSj5jFcnKFywm7utqBNkKZ1bUgBlRJGwYpudfRYuHkUud3YJlI6x
-         qhhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LQm9FlebjcspKv6fTqA1mawXQMaJDUpiIXw8pb4GJnQ=;
-        fh=69PDTg4n71+dxHWyFNf4HpfNuGuF8WW3u77L9gAf6FQ=;
-        b=GDhVRuSXtkS/cILAPYqXcXde8nGzH4OXW3gfzuYH3CwZOgdVznufhkyCUFuvZfH9w0
-         4ZLcSeT8ueo/i1RIz1BH9G2HIhl5bS0N8thx8pFpnkOPEJGbaCnM2UvaI6q7Tz7Louad
-         8N6p81o4MJxCnwc4eHB40NB94aPODxAAmyZ9UGgME0m0qqMPJLzlf0Kl8o9BtZuL8Alj
-         EhFaEMTA6qLU1vAZcvWCjU+Yl2QsPlm9zIKGJK+QtbuiYE4G60Vj2aduIt82J6JR8inY
-         1AIQ3jiliMKtatUjonGNv2XFATvFQ08uUaH3YdOznK+hO74DaWqGDDFZ9VqmmffjrFLf
-         KiWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36505450d0dso1479466a91.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 03 May 2026 01:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777649503; x=1778254303; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQm9FlebjcspKv6fTqA1mawXQMaJDUpiIXw8pb4GJnQ=;
-        b=stKeNSxYCBOGjcBcEzN2Bqa40l2FTFHB+8U1np6POVtUUYiiZ1YZvYfYY6V5R9NEB7
-         /G0z24ahPq4XwqpkRCn1JCJN71GaPrcTLgBwNJ8XW+gnyMuSZH/Yw/o7pl0cO8EARarf
-         kXgmcXVMDU0k0eCRj7q+Gbhj5be815ji6gpXYba6C6Nw4GvQdrgBfDJkMFxfEizfWooj
-         MFMd+udaH5fPR5e81ZmkeItnq97/EwcPyn2d/hyFiLYrzKq63BiZViaKOjw0QwBXSeN+
-         7ThOWqasftZhb9SZPvYB2TUeKAxCh8yWuDri381RlU4sm2ZaXX9vCHxhXWry3Qfj9hPA
-         wisw==
+        d=gmail.com; s=20251104; t=1777797868; x=1778402668; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8wOqdenjzVxeKrDsCP/AxtwKtAi+H1v2ol1Mn/Odz4I=;
+        b=Ar6Wv54G53c1yEXo63gQ0uJ0ocG8LGu8AuetOf82cNhhVw3BEIEvq9byQwExN8K54e
+         clKjeuSsyF6xtwZToERb6/xei4/Tq8+K7t3G1EE5cHzMo2cjT9JllmO10ePiTkkuiH4Q
+         0REKhWN0+SJXUUyagiZZZon9+pGXLDubwS6/3tZgnjYfV5RLBsVSFqjF0Hp4HrBDmDAc
+         ISDMLmR4aoz2PMklH1re80/yhUIFLzJGFN72e9JvCOakKZoQwRGdGncj0MzoeMuRtqYc
+         t+ZRAkhs2viwn6UcA+LC+/yWBb1oKZJsIJlEcPjpomaUowkdAV3MxbzZRN8qH/E+gNiM
+         0vPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777649503; x=1778254303;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LQm9FlebjcspKv6fTqA1mawXQMaJDUpiIXw8pb4GJnQ=;
-        b=g5DS3kIjaQfzKUE/ciWcOAoHUcyxuROMcJduTh5ixAHQ2mo8tVbzAUBTlz3/5ACISx
-         pMYVzUM4Enj+/Ikyrrh0TBiNkdAS231YRy+R4t22zI3nGcagqfqny0dDMjCzuyp1K65k
-         3ehbll9XDpiMTPdaO6lJEa/X8qwT9hbt+ibUVWpwayHPzMqOvB6U9UovuImLLputhUbm
-         Rzpu+azXGC6W+fn1MUK2MlAfimWCJXEOyX1iYSWnxMdXjdYaU9glnbQ3skXq3cDqRwhw
-         pCnJoprCCnsmTC0ZJUDFDGiWii2FE78i1+JoclvwQUZRI3g6TzOwvNtmOHW4Nxc71huh
-         Uw7w==
-X-Forwarded-Encrypted: i=1; AFNElJ9H87S8j8/IgYqb8gxDKlPWJerd8iyUpQvPuSt7FYqOk0sLR064qvjBa3RGy0J9nNmcMShqk13d+LBEGCM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs4ohWpSOCiumcMw8lNnEKI7v7udsc2OoUEVaGRj6pmR3gybnI
-	8PPLjUbwP5VutQ2EXHJfeKiMlrWZGIgPcE/XQWSyc0ZURH6CMx7q2CEDy6LmErEoNHIButllRAy
-	HLWGt1Zmx4gtkabNXBgVJ9neOfLD2UYA=
-X-Gm-Gg: AeBDieuQKpKQjkx2MvYFptyO02z9jyQrqgF6yVsjlmUSkGi3K9Un+1oT8278uIKfRmh
-	BXvcZGGDEpXAfGZijhLUNvKgNJd+bCbqRCo+JRmkNyZMIf5/e9MwDdak7wJJTzkDU+gOxojrxdn
-	0+KPmVNklcWnzVHfK/WkMENuUiTA0JhBwhKdnsPAr8BCQr1mjQKIDRVsBG89BJIXQMfYUHNOVRD
-	kmzAj2Wo4c7vn/i/9Y57BbChfmq45zbw4XAa4D0XNe4ohTSauyjE/ptXlL6EPUOezmbFnStjzdg
-	eZmxTo0RWoc/TtPwIgCE9Mn2WylL5oB6eV8xNg0/4nkBTV4dUMyqFyxRYOpSml27YPOTozQzRXT
-	paK20i7HRlpZ6vlmvFE5jjWlvMWDynHk+2A==
-X-Received: by 2002:a05:7301:4190:b0:2d9:6373:ace6 with SMTP id
- 5a478bee46e88-2ed3ea69fb9mr1648901eec.5.1777649502468; Fri, 01 May 2026
- 08:31:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777797868; x=1778402668;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8wOqdenjzVxeKrDsCP/AxtwKtAi+H1v2ol1Mn/Odz4I=;
+        b=Nn0iQSOB7QnhQYBJ+cMmXvxRzVJkPjthLAJkaatD9wVzy5WDXKHU+EAiTFzrg7PA4c
+         ycnTNPYdY8osSf08ND5s8c6Rxt9W53jfMR2VsVSPVLXrP0FQK18sY0cNf/s/ghPU073C
+         Dss4X1PXdQBq05Dbi3MUZxbe5jZOMdJKJnxrRgg6T69DkEZLBilY6euS7lLDdALDWBMq
+         GbeF8ERMBg53cg3DIEdqFZ4jkHuBun5T6xKHXdQwv91wIf6FIGsSyl5sFjDJG35tRzBl
+         RYtQ8pizoo+6H+bbDUKvvtdB27VWUZDG9ZUI13ndnUFIpsA6ehh22A/vAQTFt0jvKYEg
+         GAZw==
+X-Forwarded-Encrypted: i=1; AFNElJ/TGZtiu4Tt7VXK/5rEKLq7E1AvvCyNN2STopBooVTXNptUBJqQgX8QwjlO8ux4Jnbh/8ex6uZ/2zhHICM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzy2fQhX97wNJt/NFczEg/x1bOuU2jqrLRyK5ZvStwV2C1wkD+L
+	uX8gpeEBFEOJweE4/AsH7YRPr+kdSKrlZQAEpCUvZf87g8jKwvkLVjSf
+X-Gm-Gg: AeBDieu5/DRa2mi4gxbg98qUiLmibHDEaNecE9uqbcs+hlS/m4AWvJtcQ0mit0uJbM0
+	r15vh7O+5WLNh4weug2IxfL5ywMKrEHTt682W285ibIa14ZEwoC/knMKYmKqMTx5l4YSgfHE6Cv
+	4x+VDtCcL0SogTUo+mkvlcsV7cBJOLEcHIIjwfe6tnn+SAW9a8qI5qiJdvLF5KRlXZ8DBP6qNBm
+	4MIUVC6GEfuvGfAStrQ4xnDAKgIm59/tF+XhIjQTOPZRxiZXh5vbNI3gALS9aFtAzGIc7fJoUJK
+	PVLZWATqAKAf55MnJGJhPpQAPFC/bD3NTR/+EatERq/7UwCmgDvno4vrdCFkOxFT5KxOiVuuwhD
+	+QWuD0XJ4Z7PGVJPfvzKYulfBN1ErulFDIYA3ZaMhG91ngE9vXaVLpoR1rw9uXjSY9OYyYEfJuU
+	RyLMu9WxLm5+7YU9uXWQVUssqGmb+lXsN3iJK+nc55oHLVO6a3VzGZPykWjnfPnQ==
+X-Received: by 2002:a17:90b:3b4f:b0:35e:3e86:e2d1 with SMTP id 98e67ed59e1d1-3650cdbaa39mr5540069a91.7.1777797867674;
+        Sun, 03 May 2026 01:44:27 -0700 (PDT)
+Received: from localhost ([111.223.189.110])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-364ebf0399dsm7557325a91.6.2026.05.03.01.44.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 May 2026 01:44:27 -0700 (PDT)
+From: Damika-Anupama <damikaanupama@gmail.com>
+To: anomaanupraba@gmail.com
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Michal Marek <michal.lkml@markovi.net>,
+	Kees Cook <keescook@chromium.org>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: Globally enable fall-through warning
+Date: Sun,  3 May 2026 08:44:16 +0000
+Message-ID: <20260503084417.18012-1-damikaanupama@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260430-nova-exports-v1-0-7ca31664e983@nvidia.com>
- <20260430-nova-exports-v1-2-7ca31664e983@nvidia.com> <DI7CZA3ISGOE.1CP5YEM3NNSH6@garyguo.net>
-In-Reply-To: <DI7CZA3ISGOE.1CP5YEM3NNSH6@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 1 May 2026 17:31:29 +0200
-X-Gm-Features: AVHnY4KtSS48VYj6LcLMSfxEHj79WIZaC9QZG7nspbiebeuoKBEVWk4DqsY8Ue8
-Message-ID: <CANiq72ncENCdGCjiC04Yup4i4jbY7S=k62fiT1RtQAYT=5wfzQ@mail.gmail.com>
-Subject: Re: [PATCH 2/7] scripts: modpost: increase buf_printf's buffer size
-To: Gary Guo <gary@garyguo.net>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
-	Eliot Courtney <ecourtney@nvidia.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 47F7C4AD905
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: EF5E24B4F11
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-12974-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[nvidia.com,kernel.org,protonmail.com,google.com,umich.edu,gmail.com,ffwll.ch,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-12975-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[damikaanupama@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[embeddedor.com:email,markovi.net:email,chromium.org:email]
 
-On Fri, May 1, 2026 at 3:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> The only case that I've been hit with very long symbol names so far is do=
-c tests.
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 
-Yeah, nowadays where I have seen them are doctests too, in particular
-for UML debug builds.
+Now that all the fall-through warnings have been addressed in the
+kernel, enable the fall-through warning globally.
 
-Cheers,
-Miguel
+Also, update the deprecated.rst file to include implicit fall-through
+as 'deprecated' so people can be pointed to a single location for
+justification.
+
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ Documentation/process/deprecated.rst | 14 ++++++++++++++
+ Makefile                             |  3 +++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64a3427..053b24a6dd38 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+ lead to a crash, possible overwriting sensitive contents at the end of the
+ stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+ memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
++
++Implicit switch case fall-through
++---------------------------------
++The C language allows switch cases to "fall through" when
++a "break" statement is missing at the end of a case. This,
++however, introduces ambiguity in the code, as it's not always
++clear if the missing break is intentional or a bug. As there
++have been a long list of flaws `due to missing "break" statements
++<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
++"implicit fall-through". In order to identify an intentional fall-through
++case, we have adopted the marking used by static analyzers: a comment
++saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
++is more widely handled by C compilers, static analyzers, and IDEs, we can
++switch to using that instead.
+diff --git a/Makefile b/Makefile
+index 9be5834073f8..bdf8eac51b07 100644
+--- a/Makefile
++++ b/Makefile
+@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+ # warn about C99 declaration after statement
+ KBUILD_CFLAGS += -Wdeclaration-after-statement
+ 
++# Warn about unmarked fall-throughs in switch statement.
++KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
++
+ # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+ KBUILD_CFLAGS += -Wvla
+ 
+-- 
+2.53.0
+
 
