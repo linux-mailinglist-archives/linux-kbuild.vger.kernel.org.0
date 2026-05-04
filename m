@@ -1,188 +1,348 @@
-Return-Path: <linux-kbuild+bounces-12975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12976-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wM6hJPEK92kHbgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12975-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 03 May 2026 10:44:33 +0200
+	id ANXMIQJo+GkSuQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12976-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 04 May 2026 11:33:54 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5E24B4F11
-	for <lists+linux-kbuild@lfdr.de>; Sun, 03 May 2026 10:44:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FFA4BAFBA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 04 May 2026 11:33:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DAEDA30038C7
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 May 2026 08:44:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 288AF3014543
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 May 2026 09:33:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2363803D2;
-	Sun,  3 May 2026 08:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6433237D10D;
+	Mon,  4 May 2026 09:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ar6Wv54G"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CkF4Ur92";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ne2XaM9e"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2E839B971
-	for <linux-kbuild@vger.kernel.org>; Sun,  3 May 2026 08:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B79F37CD36;
+	Mon,  4 May 2026 09:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777797869; cv=none; b=IFX0lzWYDWvOyrGp5UMscomgNv2/2v7H3v6x8g71fMv3dNasiDoRRQUHYGc5XNLtqfiVqnpz0tuptpee6lkLdkME77agaSiBKhUgAzFLdHEcC/WkzjfW4yPwuwY2qlAQZmC62Z4HZefn8PPPtMRfuqed11qf0U0i/0e9CqOX3Vk=
+	t=1777887216; cv=none; b=A3MR0mao+TMGifIYMXN+gkCF4m7sKssSYjzWnqzLkP5FXxAkaoOhOdE7MHc4XvZfPfN5jUnYxCOFoGz7OJ0sMDTOKvUHusixGwkSDe0xC6ExAY3ZaTo2U4jN2YKrtPzuY5x9kFRmSGp9+xaErEVuVso50vFhitgKb/O7vO/DXOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777797869; c=relaxed/simple;
-	bh=QfKkTLYMWzXxUWRmm/meHrS/pX3vkUb5T8BIkWe/yno=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E7VvDCcFE7mlu3zJjWjXMW0geyS835rOvcrFmMczqM/cJIep3GFCJKA0r5I8TYPei4qSDLgreaJvuA+n8Lw2v88gXdIN/+qyumwntJ/cDztd2mLi24fdtOS8MN7AZ7CYxyztQRGgt4VBOn3BZN3oiqnpdRoQX2iyACakbuOIKco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ar6Wv54G; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36505450d0dso1479466a91.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 03 May 2026 01:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777797868; x=1778402668; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8wOqdenjzVxeKrDsCP/AxtwKtAi+H1v2ol1Mn/Odz4I=;
-        b=Ar6Wv54G53c1yEXo63gQ0uJ0ocG8LGu8AuetOf82cNhhVw3BEIEvq9byQwExN8K54e
-         clKjeuSsyF6xtwZToERb6/xei4/Tq8+K7t3G1EE5cHzMo2cjT9JllmO10ePiTkkuiH4Q
-         0REKhWN0+SJXUUyagiZZZon9+pGXLDubwS6/3tZgnjYfV5RLBsVSFqjF0Hp4HrBDmDAc
-         ISDMLmR4aoz2PMklH1re80/yhUIFLzJGFN72e9JvCOakKZoQwRGdGncj0MzoeMuRtqYc
-         t+ZRAkhs2viwn6UcA+LC+/yWBb1oKZJsIJlEcPjpomaUowkdAV3MxbzZRN8qH/E+gNiM
-         0vPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777797868; x=1778402668;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8wOqdenjzVxeKrDsCP/AxtwKtAi+H1v2ol1Mn/Odz4I=;
-        b=Nn0iQSOB7QnhQYBJ+cMmXvxRzVJkPjthLAJkaatD9wVzy5WDXKHU+EAiTFzrg7PA4c
-         ycnTNPYdY8osSf08ND5s8c6Rxt9W53jfMR2VsVSPVLXrP0FQK18sY0cNf/s/ghPU073C
-         Dss4X1PXdQBq05Dbi3MUZxbe5jZOMdJKJnxrRgg6T69DkEZLBilY6euS7lLDdALDWBMq
-         GbeF8ERMBg53cg3DIEdqFZ4jkHuBun5T6xKHXdQwv91wIf6FIGsSyl5sFjDJG35tRzBl
-         RYtQ8pizoo+6H+bbDUKvvtdB27VWUZDG9ZUI13ndnUFIpsA6ehh22A/vAQTFt0jvKYEg
-         GAZw==
-X-Forwarded-Encrypted: i=1; AFNElJ/TGZtiu4Tt7VXK/5rEKLq7E1AvvCyNN2STopBooVTXNptUBJqQgX8QwjlO8ux4Jnbh/8ex6uZ/2zhHICM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzy2fQhX97wNJt/NFczEg/x1bOuU2jqrLRyK5ZvStwV2C1wkD+L
-	uX8gpeEBFEOJweE4/AsH7YRPr+kdSKrlZQAEpCUvZf87g8jKwvkLVjSf
-X-Gm-Gg: AeBDieu5/DRa2mi4gxbg98qUiLmibHDEaNecE9uqbcs+hlS/m4AWvJtcQ0mit0uJbM0
-	r15vh7O+5WLNh4weug2IxfL5ywMKrEHTt682W285ibIa14ZEwoC/knMKYmKqMTx5l4YSgfHE6Cv
-	4x+VDtCcL0SogTUo+mkvlcsV7cBJOLEcHIIjwfe6tnn+SAW9a8qI5qiJdvLF5KRlXZ8DBP6qNBm
-	4MIUVC6GEfuvGfAStrQ4xnDAKgIm59/tF+XhIjQTOPZRxiZXh5vbNI3gALS9aFtAzGIc7fJoUJK
-	PVLZWATqAKAf55MnJGJhPpQAPFC/bD3NTR/+EatERq/7UwCmgDvno4vrdCFkOxFT5KxOiVuuwhD
-	+QWuD0XJ4Z7PGVJPfvzKYulfBN1ErulFDIYA3ZaMhG91ngE9vXaVLpoR1rw9uXjSY9OYyYEfJuU
-	RyLMu9WxLm5+7YU9uXWQVUssqGmb+lXsN3iJK+nc55oHLVO6a3VzGZPykWjnfPnQ==
-X-Received: by 2002:a17:90b:3b4f:b0:35e:3e86:e2d1 with SMTP id 98e67ed59e1d1-3650cdbaa39mr5540069a91.7.1777797867674;
-        Sun, 03 May 2026 01:44:27 -0700 (PDT)
-Received: from localhost ([111.223.189.110])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-364ebf0399dsm7557325a91.6.2026.05.03.01.44.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 May 2026 01:44:27 -0700 (PDT)
-From: Damika-Anupama <damikaanupama@gmail.com>
-To: anomaanupraba@gmail.com
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Kees Cook <keescook@chromium.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] Makefile: Globally enable fall-through warning
-Date: Sun,  3 May 2026 08:44:16 +0000
-Message-ID: <20260503084417.18012-1-damikaanupama@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1777887216; c=relaxed/simple;
+	bh=jjFMDKdhbjQLZ+fcrbaCzSYxbFlqAxUmrc8TwIq24gA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Vg7iZNc4xcxU55Ils4CYSKQgWqtpbKZmb0anpeQNwgfwQFsoIqlWdnP54FzDzF3As3PrY1gawNzdJGb3+8BGDX1i5iuQVB96YndLcCVTs7WQgyjnTEzc6we8ZbyVcprHhgf/LTxdMYZB46LTvcF23ygmKti0WzxwM/IF5gTadis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CkF4Ur92; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ne2XaM9e; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1777887213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jiw5cliQjVOVd7Hg7M7qqHEcA53QLkykbCEMKUj9V/4=;
+	b=CkF4Ur92AwTZrXO/sv6QGR6uZ0gVg6WWgj6BnkXL6F5RbU98XwApIIYsadlvw5FwHBbUle
+	KCUF8wrjD1nFAaEC+LP7e3ieNZnEFRlj4rPux9WT4dGihNf7DTiGa4MzTqQ0qBuK90HVtb
+	eTTv5ceRJC+vx74zomg8a1zLuIIoDXNawlOsUXZJsJqVZHcfzOCyfqr7cmFOx0cqf2W1m3
+	9Ke/DHoO6Xun0TBR2CGg5bs3lgbv5gqf//6/upZusSDIqVi3uGPe6WMezvqZvUFMXdTag3
+	SM2WVhET9UGxbAAdANHBdE1hwKfbCD4LbHC9dK3KfulAGRKlA0V/mm/+OBxQzA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1777887213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jiw5cliQjVOVd7Hg7M7qqHEcA53QLkykbCEMKUj9V/4=;
+	b=Ne2XaM9eh1DjfbRR/wisAzh5vD9LeAq/Wx1SZRdaT2Nkb1bs9RWaUWN2krijC8nFY8z9Cq
+	hsCmlkBXoqVqPyDQ==
+Subject: [PATCH v6 00/11] kunit: Introduce UAPI testing framework
+Date: Mon, 04 May 2026 11:33:16 +0200
+Message-Id: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: EF5E24B4F11
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XQQWrDMBAF0KsErauiGc1Ypqveo2RhS+NGJDjBc
+ kxK8N0rhYJLqi6/4D8N/66STFGSetvd1SRLTPE85tC87JQ/dOOn6BhyVmiQwADr43WMsz4mOQ2
+ zpDlpbtDZ3pMhQpVrl0mGeHuQH/ucDzHN5+nr8cMC5bVgbBDsX2wBbXTXW2fbwB2DvJ/ieJ2n8
+ xhvr0GK/1N2/5QJe2Ikb3vTPZXLNQtuF5CpIVgQJgASbN0QaojdkAaggtiMMIsNQK3vfVND6Be
+ CTQWhcknrGsOWBhm4hvCGuOomXJA8igPwQfB50P26rt970M1eBQIAAA==
+X-Change-ID: 20241015-kunit-kselftests-56273bc40442
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
+ Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=9871;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=jjFMDKdhbjQLZ+fcrbaCzSYxbFlqAxUmrc8TwIq24gA=;
+ b=qOGf/9JYWpejLSdzdJlFIjDSwMfYxKdIYhfx+3gP9+i2EIhD8YSa1FSioTUt/I6UX+Q5JWZRD
+ LmSMw75cIUZA/0vVN9hOfjuYLJ0o3WWN/JB2wWfvSs0qp4L2PmW3rUL
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+X-Rspamd-Queue-Id: 04FFA4BAFBA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12975-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[damikaanupama@gmail.com,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[kernel.org,linux-foundation.org,1wt.eu,weissschuh.net,linux.dev,lwn.net,zeniv.linux.org.uk,suse.cz,lst.de,davidgow.net,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-12976-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.weissschuh@linutronix.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[embeddedor.com:email,markovi.net:email,chromium.org:email]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Currently testing of userspace and in-kernel API use two different
+frameworks. kselftests for the userspace ones and Kunit for the
+in-kernel ones. Besides their different scopes, both have different
+strengths and limitations:
 
-Now that all the fall-through warnings have been addressed in the
-kernel, enable the fall-through warning globally.
+Kunit:
+* Tests are normal kernel code.
+* They use the regular kernel toolchain.
+* They can be packaged and distributed as modules conveniently.
 
-Also, update the deprecated.rst file to include implicit fall-through
-as 'deprecated' so people can be pointed to a single location for
-justification.
+Kselftests:
+* Tests are normal userspace code
+* They need a userspace toolchain.
+  A kernel cross toolchain is likely not enough.
+* A fair amout of userland is required to run the tests,
+  which means a full distro or handcrafted rootfs.
+* There is no way to conveniently package and run kselftests with a
+  given kernel image.
+* The kselftests makefiles are not as powerful as regular kbuild.
+  For example they are missing proper header dependency tracking or more
+  complex compiler option modifications.
 
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+Therefore kunit is much easier to run against different kernel
+configurations and architectures.
+This series aims to combine kselftests and kunit, avoiding both their
+limitations. It works by compiling the userspace kselftests as part of
+the regular kernel build, embedding them into the kunit kernel or module
+and executing them from there. If the kernel toolchain is not fit to
+produce userspace because of a missing libc, the kernel's own nolibc can
+be used instead.
+The structured TAP output from the kselftest is integrated into the
+kunit KTAP output transparently, the kunit parser can parse the combined
+logs together.
+
+Further room for improvements:
+* Call each test in its completely dedicated namespace
+* Handle additional test files besides the test executable through
+  archives. CPIO, cramfs, etc.
+* Expose the blobs in debugfs
+* Provide some convience wrappers around compat userprogs
+* Figure out a migration path/coexistence solution for
+  kunit UAPI and tools/testing/selftests/
+
+Output from the kunit example testcase, note the output of
+"example_uapi_tests".
+
+$ ./tools/testing/kunit/kunit.py run --kunitconfig lib/kunit example
+...
+Running tests with:
+$ .kunit/linux kunit.filter_glob=example kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+[11:53:53] ================== example (10 subtests) ===================
+[11:53:53] [PASSED] example_simple_test
+[11:53:53] [SKIPPED] example_skip_test
+[11:53:53] [SKIPPED] example_mark_skipped_test
+[11:53:53] [PASSED] example_all_expect_macros_test
+[11:53:53] [PASSED] example_static_stub_test
+[11:53:53] [PASSED] example_static_stub_using_fn_ptr_test
+[11:53:53] [PASSED] example_priv_test
+[11:53:53] =================== example_params_test  ===================
+[11:53:53] [SKIPPED] example value 3
+[11:53:53] [PASSED] example value 2
+[11:53:53] [PASSED] example value 1
+[11:53:53] [SKIPPED] example value 0
+[11:53:53] =============== [PASSED] example_params_test ===============
+[11:53:53] [PASSED] example_slow_test
+[11:53:53] ======================= (4 subtests) =======================
+[11:53:53] [PASSED] procfs
+[11:53:53] [PASSED] userspace test 2
+[11:53:53] [SKIPPED] userspace test 3: some reason
+[11:53:53] [PASSED] userspace test 4
+[11:53:53] ================ [PASSED] example_uapi_test ================
+[11:53:53] ===================== [PASSED] example =====================
+[11:53:53] ============================================================
+[11:53:53] Testing complete. Ran 16 tests: passed: 11, skipped: 5
+[11:53:53] Elapsed time: 67.543s total, 1.823s configuring, 65.655s building, 0.058s running
+
 ---
- Documentation/process/deprecated.rst | 14 ++++++++++++++
- Makefile                             |  3 +++
- 2 files changed, 17 insertions(+)
+Changes in v6:
+- Use usermode helper framework
+- Trim now unnecessary new module exports
+- Report unhandled output line
+- Add SUPERH to ARCH_HAS_NOLIBC
+- Remove non-integral patches submitted elsewhere
+- Drop CC_CAN_LINK_STATIC support. It is based on CC_CAN_LINK which is
+  currently being reworked.
+- Use more cleanup helpers
+- Split stdout/stderr forwarding into its own patch
+- Link to v5: https://lore.kernel.org/r/20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index 49e0f64a3427..053b24a6dd38 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
- lead to a crash, possible overwriting sensitive contents at the end of the
- stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
- memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
-+
-+Implicit switch case fall-through
-+---------------------------------
-+The C language allows switch cases to "fall through" when
-+a "break" statement is missing at the end of a case. This,
-+however, introduces ambiguity in the code, as it's not always
-+clear if the missing break is intentional or a bug. As there
-+have been a long list of flaws `due to missing "break" statements
-+<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
-+"implicit fall-through". In order to identify an intentional fall-through
-+case, we have adopted the marking used by static analyzers: a comment
-+saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
-+is more widely handled by C compilers, static analyzers, and IDEs, we can
-+switch to using that instead.
-diff --git a/Makefile b/Makefile
-index 9be5834073f8..bdf8eac51b07 100644
---- a/Makefile
-+++ b/Makefile
-@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
- # warn about C99 declaration after statement
- KBUILD_CFLAGS += -Wdeclaration-after-statement
- 
-+# Warn about unmarked fall-throughs in switch statement.
-+KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
-+
- # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
- KBUILD_CFLAGS += -Wvla
- 
--- 
-2.53.0
+Changes in v5:
+- Initialize output variable of kernel_wait()
+- Fix .incbin with in-tree builds
+- Keep requirement of KTAP tests to have a number which was removed accidentally
+- Only synthesize KTAP subtest failure if the outer one is TestStatus.FAILURE
+- Use -I instead of -isystem in NOLIBC_USERCFLAGS to populate dependency files
+- +To filesystem developers to all patches
+- +To Luis Chamberlain for discussions about usage of usermodehelper
+  (see patches 6 and 12)
+- Link to v4: https://lore.kernel.org/r/20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de
+
+Changes in v4:
+- Move Kconfig.nolibc from tools/ to init/
+- Drop generic userprogs nolibc integration
+- Drop generic blob framework
+- Pick up review tags from David
+- Extend new kunit TAP parser tests
+- Add MAINTAINERS entry
+- Allow CONFIG_KUNIT_UAPI=m
+- Split /proc validation into dedicated UAPI test
+- Trim recipient list a bit
+- Use KUNIT_FAIL_AND_ABORT() over KUNIT_FAIL()
+- Link to v3: https://lore.kernel.org/r/20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de
+
+Changes in v3:
+- Reintroduce CONFIG_CC_CAN_LINK_STATIC
+- Enable CONFIG_ARCH_HAS_NOLIBC for m68k and SPARC
+- Properly handle 'clean' target for userprogs
+- Use ramfs over tmpfs to reduce dependencies
+- Inherit userprogs byte order and ABI from kernel
+- Drop now unnecessary "#ifndef NOLIBC"
+- Pick up review tags
+- Drop usage of __private in blob.h,
+  sparse complains and it is not really necessary
+- Fix execution on loongarch when using clang
+- Drop userprogs libgcc handling, it was ugly and is not yet necessary
+- Link to v2: https://lore.kernel.org/r/20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de
+
+Changes in v2:
+- Rebase onto v6.15-rc1
+- Add documentation and kernel docs
+- Resolve invalid kconfig breakages
+- Drop already applied patch "kbuild: implement CONFIG_HEADERS_INSTALL for Usermode Linux"
+- Drop userprogs CONFIG_WERROR integration, it doesn't need to be part of this series
+- Replace patch prefix "kconfig" with "kbuild"
+- Rename kunit_uapi_run_executable() to kunit_uapi_run_kselftest()
+- Generate private, conflict-free symbols in the blob framework
+- Handle kselftest exit codes
+- Handle SIGABRT
+- Forward output also to kunit debugfs log
+- Install a fd=0 stdin filedescriptor
+- Link to v1: https://lore.kernel.org/r/20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de
+
+To: Nathan Chancellor <nathan@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Willy Tarreau <w@1wt.eu>
+To: Thomas Weißschuh <linux@weissschuh.net>
+To: Brendan Higgins <brendan.higgins@linux.dev>
+To: David Gow <davidgow@google.com>
+To: Rae Moar <rmoar@google.com>
+To: Shuah Khan <shuah@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: linux-doc@vger.kernel.org
+Cc: workflows@vger.kernel.org
+To: Kees Cook <kees@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Nicolas Schier <n.schier@avm.de>
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
+---
+Thomas Weißschuh (11):
+      kbuild: doc: add label for userprogs section
+      exec: add dirfd parameter to kernel_execve()
+      umh: add dirfd parameter
+      mount: add support for __free(kern_unmount)
+      init: add nolibc build support
+      kunit: qemu_configs: loongarch: Enable LSX/LSAX
+      kunit: Introduce UAPI testing framework
+      kunit: uapi: Forward test executable output to KUnit log
+      kunit: uapi: Add example for UAPI tests
+      kunit: uapi: Introduce preinit executable
+      kunit: uapi: Validate usability of /proc
+
+ Documentation/dev-tools/kunit/api/index.rst   |   5 +
+ Documentation/dev-tools/kunit/api/uapi.rst    |  14 +
+ Documentation/kbuild/makefiles.rst            |   2 +
+ MAINTAINERS                                   |  11 +
+ fs/coredump.c                                 |   2 +-
+ fs/exec.c                                     |   4 +-
+ include/kunit/uapi.h                          |  77 ++++++
+ include/linux/binfmts.h                       |   2 +-
+ include/linux/mount.h                         |   2 +
+ include/linux/umh.h                           |   3 +-
+ init/Kconfig                                  |   2 +
+ init/Kconfig.nolibc                           |  16 ++
+ init/Makefile.nolibc                          |  13 +
+ init/main.c                                   |   2 +-
+ kernel/module/kmod.c                          |   2 +-
+ kernel/umh.c                                  |   9 +-
+ lib/kobject_uevent.c                          |   2 +-
+ lib/kunit/Kconfig                             |  16 ++
+ lib/kunit/Makefile                            |  26 ++
+ lib/kunit/kunit-example-test.c                |  15 ++
+ lib/kunit/kunit-example-uapi.c                |  22 ++
+ lib/kunit/kunit-test-uapi.c                   |  51 ++++
+ lib/kunit/kunit-test.c                        |  24 +-
+ lib/kunit/kunit-uapi.c                        | 351 ++++++++++++++++++++++++++
+ lib/kunit/uapi-preinit.c                      |  68 +++++
+ security/keys/request_key.c                   |   2 +-
+ tools/testing/kunit/qemu_configs/loongarch.py |   2 +
+ 27 files changed, 732 insertions(+), 13 deletions(-)
+---
+base-commit: 813d26ba48f9e3909d39966857421500faef508a
+change-id: 20241015-kunit-kselftests-56273bc40442
+
+Best regards,
+--  
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
 
