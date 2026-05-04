@@ -1,682 +1,387 @@
-Return-Path: <linux-kbuild+bounces-12989-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-12990-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mGBXKBu2+Gn1zAIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-12989-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 04 May 2026 17:07:07 +0200
+	id 2IqrMpO8+Gnh0AIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-12990-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 04 May 2026 17:34:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111CF4C06B1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 04 May 2026 17:07:06 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F5B4C0BCD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 04 May 2026 17:34:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DCF58305B2F6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 May 2026 15:01:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B7F7030078A7
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 May 2026 15:34:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73D443DFC84;
-	Mon,  4 May 2026 15:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07753DF000;
+	Mon,  4 May 2026 15:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bGIU6qDv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dfP3lJKy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0593DF000
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 May 2026 15:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB1C33F5BF;
+	Mon,  4 May 2026 15:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906860; cv=none; b=UQTZ0kIHKJNZ6Fis6P01wD65fNXHvNhccj9Y3nCPmh1CF52MiK6bLmJWeEE+GI3SSjvPF8x0mc9iqA//DfgMSapF288jDAtUbfzyucuixb7cioM8fevPapL6pCpELVLBn763Fg5SCck8kngLylzpzcPKlyZL4bUBJAvhM2E29ZM=
+	t=1777908881; cv=none; b=AVKmZrErq1WDVJ0JSD/2BH2FQ1sTAlT+ycdzSGF0G6yRD2HgYs+muh1TjaRxAq3JRqWMZ8vWWBIAPVNPp3YR2zVIJJgqqHfAFgzt+VcIvDSmDqWEwNmduVTxZHSvB62hEV1/uXMvc5m/VFLCMBy3URtfCIdNP30H3W8ctQnOrhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906860; c=relaxed/simple;
-	bh=L21YpP6bz13lgE+YYR4NaDUk+1y+U1PIYuL7V14KBa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tnZv0i94x/pktv2pCoXgzuH6Ib6dNPt5QO3O4ZziuALV231bxtkLvBFyEU+nDTBCL+KGyeqNI//WvPkq65n2nkwqzSiJe7VCAYzYpCHxqD7e2SzDB5/thRkhosyUDJ8c32rRHDS6rbe5O2InULer42NaPcotFsikC53bz7UuuCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bGIU6qDv; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48d102471a4so8346355e9.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 04 May 2026 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777906856; x=1778511656; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vihrjy6JWRaFYaKwFFp+zwam3K505oAzvsgkAqow4uE=;
-        b=bGIU6qDv0/SP7wwIb+UXB/k08aIkzVnS3YK6RDJkLGjzuhZjOFVcNVFSUjgdTdBWC2
-         mnTUXgUWrQmz92hRo4U9brBBLGpR0hOj67XPdoNWBBYF4irV2Ta5cn1rb0GPFnrKcqFd
-         6A2s482ATMrz75epXDv2l6fzzaRD55gpmAY0SKJDWdVChgtMmuNMbFutb5AotfxEJrIV
-         +2eo5u7cyZ5ErmCiaPvktaJUr9hbYUSGkUjj4zGH0KxFv+v38jGOc5Me82Wd7LPAfGkZ
-         4Ymfu8k1KcsKowMxMT7QXVelytdjTyp+pzkD5siNqVVR022g8ggvBaPpSmR0ppncB/mY
-         3OdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777906856; x=1778511656;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vihrjy6JWRaFYaKwFFp+zwam3K505oAzvsgkAqow4uE=;
-        b=PaMPt1eLL0msLOUnTIQWVvlZcFaUMvUNu76FHrrJn3FBqDXl1yzg0PfAxGvrzg6wlp
-         pMYc+lKo6yWemfthoMClU3HyxQ8LDJNCftIWFKyUnsuBEvNCAeD2P8DSEyURYuDgTB5j
-         5HnlMpNFJNg+f2n6ghM1qJaoFbxUWWCuVJj4zApXOsytNI7v/vedHtNY4/WUfD1jPX4G
-         vQy7SK2Hh5h/WHW0hiPWNVP9UeAXqQG6uShAOhwEp3Idreqwi0et4bvyDIHDRGjYpniU
-         wHUjG1dmAmTxhAp/JaaH8pRx7gaaL6VYbyAyMucUw344+oQvxtZdus65NJvAXYBKvfom
-         9ybA==
-X-Forwarded-Encrypted: i=1; AFNElJ89Ut+Kqd7Z6Qgk/qImBRkgbgnwgZzl6fXWdlYJprs5fsCo848c4NaqcvIx9nFAIKBZtvWm6EVRKS/4r2Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxp/CZWZFnpJYbESacH4gz+C1/I/yPOs0JkHnxTKlVI2v2pwaEC
-	uQvb7+ijck6MFckZZGVB4AzPjSI1G7P05kOsww5ee7eTQhCuZn8yQ5hU8wi2xjGTPg==
-X-Gm-Gg: AeBDiet+7ZlrPzdMaMtrRHwwD1/CZVKMYuflOiQ9Gf7UpSDj7euqpY7A72KMINbHfqX
-	xjzRaHLM8FWc0X46Mq5oq5e7qIbbppZ+tolf2qMFYCEeZvAcy7VdzJeGmhX+qWAkLh84xGwrhip
-	vcCPtnFyU1xIIN4abrK/rnMx5dAZ6Cn4e+gaVAFS0sKPRHxA/ZkGTtiE0pNaRQwaJ1Il+QSnNYJ
-	/wGkXhEimLjEBebp5/keMIsHa1Q8xHSYjsz5S4l3H2akVFJqczFjSXCgDd4n0fjeOlmACdvvx9k
-	YMb+R5P9cbDyLlffmXMd9mqnv7jcSXpc5KNngOwF/RphYxPm37tpbuaOFA3OvOFZaWvEwRr4dNs
-	VC3CrcVvzb5T/v7OJj2t/MOcJ7uFSiDwmrhJq/cw+kMPAYDMHWpuL5PBt7rfAuQHR0xbxMt6Xlt
-	gDe/1daOKDMlTnmUDpSwPOOEbYVGmd2FxCUCojBFUfvpghkIjeotoyWXsWXZL6wEhra7w3LMNUJ
-	GMubPK9yA==
-X-Received: by 2002:a05:600c:46d1:b0:489:1d74:56d with SMTP id 5b1f17b1804b1-48a988ca441mr162572375e9.29.1777906853078;
-        Mon, 04 May 2026 08:00:53 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:2834:9:fba5:1281:871d:3fd6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fe3cae3sm116897425e9.0.2026.05.04.08.00.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 08:00:52 -0700 (PDT)
-Date: Mon, 4 May 2026 17:00:45 +0200
-From: Marco Elver <elver@google.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	s=arc-20240116; t=1777908881; c=relaxed/simple;
+	bh=MJpBLss4fEIc35d/TjZrF2fM/uJyGpZo8ADNTF9uhzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZBi9jzhkSaRwuETy51YMbzkifhz7kdXH2pN6NXwkts5Kpy4yUOGF1TZJ/c+vhBjLvLh9DATlB1XxWKXAqP5RDy41KypHtdEscuBNebtaZhsDPnuejRSgSIzy4aYKn1ZYYvso90SeSU/AAY39ZE05G9IoFU7jr+65+tkiKDAqwgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dfP3lJKy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F087EC2BCB8;
+	Mon,  4 May 2026 15:34:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777908881;
+	bh=MJpBLss4fEIc35d/TjZrF2fM/uJyGpZo8ADNTF9uhzk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dfP3lJKyR0kvyMUJ1u/V7pRJxsdwbaG59USmou3F7p8jUSds+rUyVDrzuu64DJ9EN
+	 73sQNQlD9tkq3L2zDCbDXNiLBdXHPav7aaMD2xneZWPGZ8jumtGa8OyjhslEg9c+Qe
+	 pcgdRpsRxZcUE6sBXcxFh0oVTvsK7zPgYmqr9hCOODq9oHbUWmVmSKf1lOPBDfl0x7
+	 srO/xxT/BWcE7wh+W/y5ze7KrYXk0fnNIaUpPnkNYList/6xlqrP+p8Ez070ZwIlZA
+	 cQFB+s2Q1N/JLFaXo11IiJgkNzp8KCNn4lbeGnHTLVjmGEQsiocSJQR+0yl/WNfRa6
+	 c0qSmo65q6VSQ==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
-	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
-Message-ID: <afi0nQ84k1oz5RyH@elver.google.com>
-References: <20260424132427.2703076-1-elver@google.com>
- <20260424132427.2703076-2-elver@google.com>
- <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
- <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v5 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Mon,  4 May 2026 11:33:56 -0400
+Message-ID: <20260504153401.2416391-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
-User-Agent: Mutt/2.2.13 (2024-03-09)
-X-Rspamd-Queue-Id: 111CF4C06B1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 63F5B4C0BCD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lwn.net,kernel.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-12989-lists,linux-kbuild=lfdr.de];
-	DKIM_TRACE(0.00)[google.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[lwn.net,kernel.org,suse.com,linuxfoundation.org,goodmis.org,infradead.org,leemhuis.info,gmx.de,ideasonboard.com,iscas.ac.cn,huawei.com,google.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-12990-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elver@google.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[elver.google.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 
-On Thu, Apr 30, 2026 at 03:59PM +0200, Marco Elver wrote:
-> On Thu, 30 Apr 2026 at 15:40, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
-> >
-> > On 4/24/26 15:24, Marco Elver wrote:
-> > > The mm-api kernel-doc comments have been broken for a while, as many
-> > > documented symbols shifted from being direct function definitions to
-> > > macros wrapping _noprof implementations during the introduction of
-> > > allocation tagging (starting with commit 7bd230a26648 "mm/slab: enable
-> > > slab allocation tagging for kmalloc and friends").
-> > >
-> > > When the kernel-doc block remains above the internal implementation
-> > > function but uses the public API name, the documentation generator fails
-> > > to associate the documented symbol and generates warnings and fails to
-> > > emit the documentation.
-> > >
-> > > Fix this by:
-> > >
-> > > 1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
-> > >    them directly above the user-facing macros.
-> > >
-> > > 2. Converting the variadic macros for the documented APIs to use
-> > >    explicit arguments.
-> > >
-> > > No functional change intended.
-> > >
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> >
-> > +Cc Jon
-> >
-> > I thought it was supposed to work because the kernel-doc scripts were at the
-> > time taught by commit 51a7bf0238c2 ("scripts/kernel-doc: drop "_noprof" on
-> > function prototypes") to handle _noprof. In the current form git grep finds:
-> >
-> > tools/lib/python/kdoc/kdoc_parser.py:        suffixes = [ '_noprof' ]
-> > tools/lib/python/kdoc/xforms_lists.py:        (KernRe("_noprof"), ""),
-> >
-> > Doesn't it work for you then?
-> 
-> Ah, I see. So it doesn't work anymore because we add the '_' prefix, too.
-> 
-> I guess the question is if we want to proliferate more kdoc parser
-> special cases, or just move the docs to the macros. The downside of
-> macros is that they lose the types in the displayed function
-> signature.
-> 
-> Preferences?
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-How about the below, i.e. adding type decls that only the kernel-doc
-parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
-kernel-doc parser hacks for that looks pretty awful, so this is a lot
-cleaner.
+Motivation
+==========
 
------- >8 ------
+The recent "slowly decommission bugzilla?" thread surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact. Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF. Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution. But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
 
-From: Marco Elver <elver@google.com>
-Date: Tue, 21 Apr 2026 13:48:21 +0200
-Subject: [PATCH] slab: fix kernel-docs for mm-api
+Problems with scripts/decode_stacktrace.sh
+==========================================
 
-The mm-api kernel-docs have been disconnected from their symbols. While
-the scripts were previously taught to handle the _noprof suffix added by
-allocation tagging (in 51a7bf0238c2 "scripts/kernel-doc: drop "_noprof"
-on function prototypes"), this does not handle cases where the internal
-implementation function has an additional leading underscore. The added
-optional parameters (via DECL_KMALLOC_PARAMS) further complicate parsing
-the internal signatures.
+- Requires debug symbols: the script needs vmlinux with DWARF debug
+  info. Many distros don't retain debug symbols for older or security
+  kernels, and even when available, asking users to obtain matching
+  debuginfo packages is a significant hurdle.
 
-When the kernel-doc block remains above the internal implementation
-function but uses the public API name, the documentation generator fails
-to associate the documented symbol.
+- Requires toolchain: users need addr2line and nm installed.
 
-Simply moving the docs to the macros in slab.h fixes the association but
-causes loss of types in the generated documentation (rendering as e.g.
-untyped 'kmalloc(size, flags)' macro).
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
 
-Fix this by:
+What this series does
+=====================
 
-1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
-   them directly above the user-facing macros.
+Patch 1: CONFIG_KALLSYMS_LINEINFO
 
-2. Providing explicit, typed C prototypes for the documented APIs inside
-   '#if 0 /* kernel-doc */' blocks.
+At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux, extracts address-to-file:line mappings, and
+embeds them as sorted lookup tables in .rodata.  At runtime,
+kallsyms_lookup_lineinfo() binary-searches the table and
+sprint_backtrace() appends "(file:line)" to each stack frame.
+NMI/panic-safe (no locks, no allocations), KASLR-compatible.
 
-3. Converting the variadic macros for the documented APIs to use
-   explicit arguments to match the documentation.
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
 
-No functional change intended.
+Extends lineinfo to loadable modules.  Each .ko gets .mod_lineinfo and
+.init.mod_lineinfo sections embedded at build time, each carrying one
+or more per-section sub-tables identified by an ELF relocation against
+the covered text section's symbol.  The module loader's existing
+apply_relocations() pass resolves the anchor on load - no special-cased
+loader logic, no implicit MOD_TEXT-base assumption.  Coverage extends
+to .text, .exit.text, and .init.text; the init blob is freed alongside
+init memory.
 
-Signed-off-by: Marco Elver <elver@google.com>
----
-v4:
-* Provide typed C prototypes in '#if 0' blocks to properly render API.
----
- include/linux/slab.h | 216 +++++++++++++++++++++++++++++++++----------
- mm/slub.c            |  98 --------------------
- 2 files changed, 168 insertions(+), 146 deletions(-)
+Patch 3: delta compression
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index c232f8a10af6..5e1249e36b0d 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -530,7 +530,49 @@ void * __must_check krealloc_node_align_noprof(const void *objp,
- 					       unsigned long align,
- 					       gfp_t flags, int nid) __realloc_size(2);
- #define krealloc_noprof(_o, _s, _f)	krealloc_node_align_noprof(_o, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), 1, _f, NUMA_NO_NODE)
--#define krealloc_node_align(_o, _s, _a, _f, _n)	alloc_hooks(krealloc_node_align_noprof(_o, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _a, _f, _n))
-+#if 0 /* kernel-doc */
-+/**
-+ * krealloc_node_align - reallocate memory. The contents will remain unchanged.
-+ * @p: object to reallocate memory for.
-+ * @new_size: how many bytes of memory are required.
-+ * @align: desired alignment.
-+ * @flags: the type of memory to allocate.
-+ * @nid: NUMA node or NUMA_NO_NODE
-+ *
-+ * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-+ * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-+ *
-+ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-+ * Documentation/core-api/memory-allocation.rst for more details.
-+ *
-+ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-+ * initial memory allocation, every subsequent call to this API for the same
-+ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-+ * __GFP_ZERO is not fully honored by this API.
-+ *
-+ * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
-+ * size of an allocation (but not the exact size it was allocated with) and
-+ * hence implements the following semantics for shrinking and growing buffers
-+ * with __GFP_ZERO::
-+ *
-+ *           new             bucket
-+ *   0       size             size
-+ *   |--------|----------------|
-+ *   |  keep  |      zero      |
-+ *
-+ * Otherwise, the original allocation size 'orig_size' could be used to
-+ * precisely clear the requested size, and the new size will also be stored
-+ * as the new 'orig_size'.
-+ *
-+ * In any case, the contents of the object pointed to are preserved up to the
-+ * lesser of the new and old sizes.
-+ *
-+ * Return: pointer to the allocated memory or %NULL in case of error
-+ */
-+void *krealloc_node_align(const void *p, size_t new_size, unsigned long align, gfp_t flags, int nid);
-+#endif
-+#define krealloc_node_align(p, new_size, align, flags, nid) \
-+	alloc_hooks(krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(new_size, __kmalloc_token(new_size)), align, flags, nid))
- #define krealloc_node(_o, _s, _f, _n)	krealloc_node_align(_o, _s, 1, _f, _n)
- #define krealloc(...)			krealloc_node(__VA_ARGS__, NUMA_NO_NODE)
- 
-@@ -913,6 +955,23 @@ void *__kmalloc_large_noprof(size_t size, gfp_t flags)
- void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
- 				__assume_page_alignment __alloc_size(1);
- 
-+static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
-+{
-+	if (__builtin_constant_p(size) && size) {
-+		unsigned int index;
-+
-+		if (size > KMALLOC_MAX_CACHE_SIZE)
-+			return __kmalloc_large_noprof(size, flags);
-+
-+		index = kmalloc_index(size);
-+		return __kmalloc_cache_noprof(
-+				kmalloc_caches[kmalloc_type(flags, token)][index],
-+				flags, size);
-+	}
-+	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
-+}
-+#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
-+#if 0 /* kernel-doc */
- /**
-  * kmalloc - allocate kernel memory
-  * @size: how many bytes of memory are required.
-@@ -968,27 +1027,27 @@ void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
-  *	Try really hard to succeed the allocation but fail
-  *	eventually.
-  */
--static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
--{
--	if (__builtin_constant_p(size) && size) {
--		unsigned int index;
--
--		if (size > KMALLOC_MAX_CACHE_SIZE)
--			return __kmalloc_large_noprof(size, flags);
--
--		index = kmalloc_index(size);
--		return __kmalloc_cache_noprof(
--				kmalloc_caches[kmalloc_type(flags, token)][index],
--				flags, size);
--	}
--	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
--}
--#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define kmalloc(...)				alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-+void *kmalloc(size_t size, gfp_t flags);
-+#endif
-+#define kmalloc(size, flags)			alloc_hooks(kmalloc_noprof(size, flags))
- 
- void *_kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_flags, int node);
- #define kmalloc_nolock_noprof(_s, _f, _n)	_kmalloc_nolock_noprof(PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _f, _n)
--#define kmalloc_nolock(...)			alloc_hooks(kmalloc_nolock_noprof(__VA_ARGS__))
-+#if 0 /* kernel-doc */
-+/**
-+ * kmalloc_nolock - Allocate an object of given size from any context.
-+ * @size: size to allocate
-+ * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, __GFP_ZERO, __GFP_NO_OBJ_EXT
-+ * allowed.
-+ * @node: node number of the target node.
-+ *
-+ * Return: pointer to the new object or NULL in case of error.
-+ * NULL does not mean EBUSY or EAGAIN. It means ENOMEM.
-+ * There is no reason to call it again and expect !NULL.
-+ */
-+void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
-+#endif
-+#define kmalloc_nolock(size, gfp_flags, node)	alloc_hooks(kmalloc_nolock_noprof(size, gfp_flags, node))
- 
- /**
-  * __alloc_objs - Allocate objects of a given type using
-@@ -1115,23 +1174,40 @@ static __always_inline __alloc_size(1) void *_kmalloc_node_noprof(size_t size, g
- #define kmalloc_node_noprof(...)		_kmalloc_node_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc_node(...)			alloc_hooks(kmalloc_node_noprof(__VA_ARGS__))
- 
-+static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
-+{
-+	size_t bytes;
-+
-+	if (unlikely(check_mul_overflow(n, size, &bytes)))
-+		return NULL;
-+	return _kmalloc_noprof(bytes, flags, token);
-+}
-+#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
-+#if 0 /* kernel-doc */
- /**
-  * kmalloc_array - allocate memory for an array.
-  * @n: number of elements.
-  * @size: element size.
-  * @flags: the type of memory to allocate (see kmalloc).
-  */
--static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
-+void *kmalloc_array(size_t n, size_t size, gfp_t flags);
-+#endif
-+#define kmalloc_array(n, size, flags)		alloc_hooks(kmalloc_array_noprof(n, size, flags))
-+
-+static inline __realloc_size(2, 3) void * __must_check _krealloc_array_noprof(void *p,
-+								       size_t new_n,
-+								       size_t new_size,
-+								       gfp_t flags, kmalloc_token_t token)
- {
- 	size_t bytes;
- 
--	if (unlikely(check_mul_overflow(n, size, &bytes)))
-+	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
- 		return NULL;
--	return _kmalloc_noprof(bytes, flags, token);
--}
--#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define kmalloc_array(...)			alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
- 
-+	return krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(bytes, token), 1, flags, NUMA_NO_NODE);
-+}
-+#define krealloc_array_noprof(...)		_krealloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
-+#if 0 /* kernel-doc */
- /**
-  * krealloc_array - reallocate memory for an array.
-  * @p: pointer to the memory chunk to reallocate
-@@ -1149,20 +1225,9 @@ static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t si
-  * In any case, the contents of the object pointed to are preserved up to the
-  * lesser of the new and old sizes.
-  */
--static inline __realloc_size(2, 3) void * __must_check _krealloc_array_noprof(void *p,
--								       size_t new_n,
--								       size_t new_size,
--								       gfp_t flags, kmalloc_token_t token)
--{
--	size_t bytes;
--
--	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
--		return NULL;
--
--	return krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(bytes, token), 1, flags, NUMA_NO_NODE);
--}
--#define krealloc_array_noprof(...)		_krealloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define krealloc_array(...)			alloc_hooks(krealloc_array_noprof(__VA_ARGS__))
-+void *krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags);
-+#endif
-+#define krealloc_array(p, new_n, new_size, flags) alloc_hooks(krealloc_array_noprof(p, new_n, new_size, flags))
- 
- /**
-  * kcalloc - allocate memory for an array. The memory is set to zero.
-@@ -1214,17 +1279,20 @@ static inline __alloc_size(1, 2) void *_kmalloc_array_node_noprof(size_t n, size
-  */
- #define kmem_cache_zalloc(_k, _flags)		kmem_cache_alloc(_k, (_flags)|__GFP_ZERO)
- 
--/**
-- * kzalloc - allocate memory. The memory is set to zero.
-- * @size: how many bytes of memory are required.
-- * @flags: the type of memory to allocate (see kmalloc).
-- */
- static inline __alloc_size(1) void *_kzalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
- {
- 	return _kmalloc_noprof(size, flags | __GFP_ZERO, token);
- }
- #define kzalloc_noprof(...)			_kzalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define kzalloc(...)				alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-+#if 0 /* kernel-doc */
-+/**
-+ * kzalloc - allocate memory. The memory is set to zero.
-+ * @size: how many bytes of memory are required.
-+ * @flags: the type of memory to allocate (see kmalloc).
-+ */
-+void *kzalloc(size_t size, gfp_t flags);
-+#endif
-+#define kzalloc(size, flags)			alloc_hooks(kzalloc_noprof(size, flags))
- #define kzalloc_node(_size, _flags, _node)	kmalloc_node(_size, (_flags)|__GFP_ZERO, _node)
- 
- void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
-@@ -1233,7 +1301,29 @@ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long
- 	__kvmalloc_node_noprof(PASS_KMALLOC_PARAMS(_size, NULL, __kmalloc_token(_size)), _align, _flags, _node)
- #define kvmalloc_node_align(...)		\
- 	alloc_hooks(kvmalloc_node_align_noprof(__VA_ARGS__))
--#define kvmalloc_node(_s, _f, _n)		kvmalloc_node_align(_s, 1, _f, _n)
-+#if 0 /* kernel-doc */
-+/**
-+ * kvmalloc_node - attempt to allocate physically contiguous memory, but upon
-+ * failure, fall back to non-contiguous (vmalloc) allocation.
-+ * @size: size of the request.
-+ * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
-+ * @node: numa node to allocate from
-+ *
-+ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-+ * Documentation/core-api/memory-allocation.rst for more details.
-+ *
-+ * Uses kmalloc to get the memory but if the allocation fails then falls back
-+ * to the vmalloc allocator. Use kvfree for freeing the memory.
-+ *
-+ * GFP_NOWAIT and GFP_ATOMIC are supported, the __GFP_NORETRY modifier is not.
-+ * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
-+ * preferable to the vmalloc fallback, due to visible performance drawbacks.
-+ *
-+ * Return: pointer to the allocated memory of %NULL in case of failure
-+ */
-+void *kvmalloc_node(size_t size, gfp_t flags, int node);
-+#endif
-+#define kvmalloc_node(size, flags, node)	kvmalloc_node_align(size, 1, flags, node)
- #define kvmalloc_node_noprof(size, flags, node)	\
- 	kvmalloc_node_align_noprof(size, 1, flags, node)
- #define kvmalloc(...)				kvmalloc_node(__VA_ARGS__, NUMA_NO_NODE)
-@@ -1266,8 +1356,38 @@ _kvmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags, int node, kmallo
- 
- void *kvrealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(size, token), unsigned long align,
- 				  gfp_t flags, int nid) __realloc_size(2);
--#define kvrealloc_node_align(_p, _s, _a, _f, _n)	\
--	alloc_hooks(kvrealloc_node_align_noprof(_p, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _a, _f, _n))
-+#if 0 /* kernel-doc */
-+/**
-+ * kvrealloc_node_align - reallocate memory; contents remain unchanged
-+ * @p: object to reallocate memory for
-+ * @size: the size to reallocate
-+ * @align: desired alignment
-+ * @flags: the flags for the page level allocator
-+ * @nid: NUMA node id
-+ *
-+ * If @p is %NULL, kvrealloc() behaves exactly like kvmalloc(). If @size is 0
-+ * and @p is not a %NULL pointer, the object pointed to is freed.
-+ *
-+ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-+ * Documentation/core-api/memory-allocation.rst for more details.
-+ *
-+ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-+ * initial memory allocation, every subsequent call to this API for the same
-+ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-+ * __GFP_ZERO is not fully honored by this API.
-+ *
-+ * In any case, the contents of the object pointed to are preserved up to the
-+ * lesser of the new and old sizes.
-+ *
-+ * This function must not be called concurrently with itself or kvfree() for the
-+ * same memory allocation.
-+ *
-+ * Return: pointer to the allocated memory or %NULL in case of error
-+ */
-+void *kvrealloc_node_align(const void *p, size_t size, unsigned long align, gfp_t flags, int nid);
-+#endif
-+#define kvrealloc_node_align(p, size, align, flags, nid)	\
-+	alloc_hooks(kvrealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(size, __kmalloc_token(size)), align, flags, nid))
- #define kvrealloc_node(_p, _s, _f, _n)		kvrealloc_node_align(_p, _s, 1, _f, _n)
- #define kvrealloc(...)				kvrealloc_node(__VA_ARGS__, NUMA_NO_NODE)
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index ccb208cfbecd..dbc3c947e5be 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -5310,17 +5310,6 @@ void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
- }
- EXPORT_SYMBOL(__kmalloc_noprof);
- 
--/**
-- * kmalloc_nolock - Allocate an object of given size from any context.
-- * @size: size to allocate
-- * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, __GFP_ZERO, __GFP_NO_OBJ_EXT
-- * allowed.
-- * @node: node number of the target node.
-- *
-- * Return: pointer to the new object or NULL in case of error.
-- * NULL does not mean EBUSY or EAGAIN. It means ENOMEM.
-- * There is no reason to call it again and expect !NULL.
-- */
- void *_kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_flags, int node)
- {
- 	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
-@@ -6717,44 +6706,6 @@ __do_krealloc(const void *p, size_t new_size, unsigned long align, gfp_t flags,
- 	return ret;
- }
- 
--/**
-- * krealloc_node_align - reallocate memory. The contents will remain unchanged.
-- * @p: object to reallocate memory for.
-- * @new_size: how many bytes of memory are required.
-- * @align: desired alignment.
-- * @flags: the type of memory to allocate.
-- * @nid: NUMA node or NUMA_NO_NODE
-- *
-- * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-- * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-- *
-- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-- * Documentation/core-api/memory-allocation.rst for more details.
-- *
-- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-- * initial memory allocation, every subsequent call to this API for the same
-- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-- * __GFP_ZERO is not fully honored by this API.
-- *
-- * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
-- * size of an allocation (but not the exact size it was allocated with) and
-- * hence implements the following semantics for shrinking and growing buffers
-- * with __GFP_ZERO::
-- *
-- *           new             bucket
-- *   0       size             size
-- *   |--------|----------------|
-- *   |  keep  |      zero      |
-- *
-- * Otherwise, the original allocation size 'orig_size' could be used to
-- * precisely clear the requested size, and the new size will also be stored
-- * as the new 'orig_size'.
-- *
-- * In any case, the contents of the object pointed to are preserved up to the
-- * lesser of the new and old sizes.
-- *
-- * Return: pointer to the allocated memory or %NULL in case of error
-- */
- void *krealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(new_size, token), unsigned long align,
- 				 gfp_t flags, int nid)
- {
-@@ -6797,28 +6748,6 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
- 	return flags;
- }
- 
--/**
-- * __kvmalloc_node - attempt to allocate physically contiguous memory, but upon
-- * failure, fall back to non-contiguous (vmalloc) allocation.
-- * @size: size of the request.
-- * @b: which set of kmalloc buckets to allocate from.
-- * @token: allocation token.
-- * @align: desired alignment.
-- * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
-- * @node: numa node to allocate from
-- *
-- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-- * Documentation/core-api/memory-allocation.rst for more details.
-- *
-- * Uses kmalloc to get the memory but if the allocation fails then falls back
-- * to the vmalloc allocator. Use kvfree for freeing the memory.
-- *
-- * GFP_NOWAIT and GFP_ATOMIC are supported, the __GFP_NORETRY modifier is not.
-- * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
-- * preferable to the vmalloc fallback, due to visible performance drawbacks.
-- *
-- * Return: pointer to the allocated memory of %NULL in case of failure
-- */
- void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
- 			     gfp_t flags, int node)
- {
-@@ -6900,33 +6829,6 @@ void kvfree_sensitive(const void *addr, size_t len)
- }
- EXPORT_SYMBOL(kvfree_sensitive);
- 
--/**
-- * kvrealloc_node_align - reallocate memory; contents remain unchanged
-- * @p: object to reallocate memory for
-- * @size: the size to reallocate
-- * @align: desired alignment
-- * @flags: the flags for the page level allocator
-- * @nid: NUMA node id
-- *
-- * If @p is %NULL, kvrealloc() behaves exactly like kvmalloc(). If @size is 0
-- * and @p is not a %NULL pointer, the object pointed to is freed.
-- *
-- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-- * Documentation/core-api/memory-allocation.rst for more details.
-- *
-- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-- * initial memory allocation, every subsequent call to this API for the same
-- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-- * __GFP_ZERO is not fully honored by this API.
-- *
-- * In any case, the contents of the object pointed to are preserved up to the
-- * lesser of the new and old sizes.
-- *
-- * This function must not be called concurrently with itself or kvfree() for the
-- * same memory allocation.
-- *
-- * Return: pointer to the allocated memory or %NULL in case of error
-- */
- void *kvrealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(size, token), unsigned long align,
- 				  gfp_t flags, int nid)
- {
--- 
-2.54.0.545.g6539524ca2-goog
+Block-indexed delta-encoding with LEB128 varints, implementing the
+approach suggested by Juergen Gross in the RFC review.  Reduces
+overhead from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the
+primary size concern from the RFC.  Compression applies independently
+to each per-section table inside the module blobs.
 
+Patch 4: KUnit tests
+
+30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
+boundary conditions, the module-side multi-section format, and
+integration with the backtrace formatting APIs.
+
+Example output
+==============
+
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+
+Size impact
+===========
+
+Measured with a Debian kernel config:
+
+- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
+- Runtime memory: +5.9 MiB (text+data+bss)
+- Code overhead: +5.0 KiB (.text, lookup functions only)
+- Data overhead: +5.9 MiB (.data, lineinfo tables)
+
+The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
+~16 MiB.  This is a fraction of the cost of shipping full DWARF debug
+info (hundreds of MiB), which distros must store and serve for every
+kernel version.
+
+For distros, maintaining debug symbol repositories is expensive:
+storage, mirrors, and CDN bandwidth for hundreds of MiB per kernel
+build add up quickly.  A ~5.9 MiB increase in the kernel image itself
+is a modest cost that eliminates the need for users to find, download,
+and version-match debuginfo packages just to make a crash report
+useful.
+
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
+
+Changes since v4
+================
+
+- Replace mod->mem[MOD_TEXT].base derivation with an ELF relocation
+  against the covered section's symbol; resolved by the module loader
+  on load.  (Suggested by Petr Pavlu)
+
+- Cover .exit.text and .init.text in addition to .text.  Init code
+  lives in a parallel .init.mod_lineinfo blob (MOD_INIT_RODATA) that
+  is revoked and freed alongside init memory.
+
+- Switch the build step from objcopy --add-section to ld -r, so
+  .rela.mod_lineinfo / .rela.init.mod_lineinfo ride along into the .ko.
+
+- Pick up lineinfo sections via section_objs() (not any_section_objs)
+  to validate SHF_ALLOC and avoid dangling pointers into the temporary
+  load image.
+
+- Drop the unused "reserved" placeholder field from mod_lineinfo_root
+  and mod_lineinfo_header.  (Suggested by Petr Pavlu)
+
+- Guard the per-module fields with #ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
+  and expose them via inline reader accessors.  (Suggested by Petr Pavlu)
+
+- Update the per-section header layout comment to name struct fields.
+  (Suggested by Petr Pavlu)
+
+- Cap vmlinux-side captured DWARF addresses at _etext: sections placed
+  after .rodata shift as the real lineinfo replaces the empty stub
+  during the multi-pass link, so addresses outside the invariant .text
+  window become stale in the final image.
+
+- Append "(file:line)" only via sprint_backtrace*(), not plain
+  sprint_symbol*() (which backs %ps); many format strings already
+  follow %ps with literal "()" and would otherwise render as
+  "foo (file:line)()".  KUnit gains a sprint_with_lineinfo() helper.
+
+- Build-side fixes in scripts/gen_lineinfo: apply 64-bit absolute
+  relocations to .debug_line (libdw doesn't relocate ET_REL inputs);
+  endian-safe writes for cross-builds; declare empty
+  .text/.exit.text/.init.text stanzas so ld -r binds anchors to LOCAL
+  rather than GLOBAL UND symbols.
+
+Changes since v3
+=================
+
+- Remove redundant gen_lineinfo entry in scripts/Makefile for
+  CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
+  which already builds it). (Reported by Petr Pavlu)
+
+- Use R_* constants from <elf.h> instead of hardcoded relocation type
+  values in r_type_abs32(). (Reported by Petr Pavlu)
+
+- Simplify duplicated-path detection in make_relative(): replace loop
+  over every '/' with a direct midpoint check, since true path
+  duplication always splits at len/2. (Suggested by Petr Pavlu)
+
+- Fix comment in process_dwarf(): sections in ET_REL objects have
+  sh_addr == 0 and therefore overlapping address ranges; this is
+  expected behavior, not a "may" situation. (Reported by Petr Pavlu)
+
+- Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
+  check, matching the u32 type of the addrs array.
+  (Reported by Petr Pavlu)
+
+- Document the assumption that .text is at the start of the MOD_TEXT
+  segment in module_lookup_lineinfo(). A proper fix using ELF
+  relocations is planned for a future series.
+  (Reported by Petr Pavlu)
+
+- Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
+  clang compatibility. Clang does not support this GCC-specific flag;
+  the noinline attribute is sufficient.
+
+Changes since v2
+=================
+
+- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
+  so the compiler checks the code for syntax errors regardless of
+  configuration. (Suggested by Helge Deller)
+
+- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
+  removing the unnecessary zigzag transform layer.
+  (Suggested by Vivian Wang)
+
+- Deduplicate the binary search and delta-decode logic: extract shared
+  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
+  instead of maintaining near-identical copies in kernel/kallsyms.c and
+  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
+
+- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
+  instead of encoding varints in C and emitting .byte hex literals.
+  (Suggested by Vivian Wang)
+
+- Redesign module mod_lineinfo_header to use explicit (offset, size)
+  pairs for each sub-array, similar to flattened devicetree layout.
+  This makes bounds validation straightforward: offset + size <=
+  section_size. (Suggested by Vivian Wang)
+
+- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
+  module_lookup_lineinfo().
+
+Changes since v1
+=================
+
+- Fix path stripping regression on architectures where DWARF comp_dir is
+  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
+  root: paths now correctly show "kernel/traps.c:212" instead of bare
+  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
+  recovery via comp_dir. (Reported by Helge Deller)
+
+- Fix RST heading: overline/underline must be at least as long as the
+  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
+
+- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
+  before KASAN. (Reported by Randy Dunlap)
+
+- Fix arch-portability of .debug_line relocation handling: replace
+  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
+  riscv, s390, mips, ppc, loongarch, and parisc.
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |    1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |   97 ++
+ MAINTAINERS                                   |  114 +-
+ include/linux/kallsyms.h                      |   17 +-
+ include/linux/mod_lineinfo.h                  |  280 ++++
+ include/linux/module.h                        |   39 +
+ init/Kconfig                                  |   35 +
+ kernel/kallsyms.c                             |   78 +-
+ kernel/kallsyms_internal.h                    |   11 +
+ kernel/module/kallsyms.c                      |  171 +++
+ kernel/module/main.c                          |   26 +
+ lib/Kconfig.debug                             |   10 +
+ lib/tests/Makefile                            |    3 +
+ lib/tests/lineinfo_kunit.c                    |  870 +++++++++++
+ scripts/.gitignore                            |    1 +
+ scripts/Makefile                              |    3 +
+ scripts/Makefile.modfinal                     |    6 +
+ scripts/empty_lineinfo.S                      |   38 +
+ scripts/gen-mod-lineinfo.sh                   |   50 +
+ scripts/gen_lineinfo.c                        | 1322 +++++++++++++++++
+ scripts/kallsyms.c                            |   17 +
+ scripts/link-vmlinux.sh                       |   43 +-
+ 22 files changed, 3187 insertions(+), 45 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100644 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+--
+2.53.0
 
