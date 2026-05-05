@@ -1,235 +1,157 @@
-Return-Path: <linux-kbuild+bounces-13017-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13019-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YNsJMyW1+WnUAwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13017-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:15:17 +0200
+	id 4Gt0JvG0+WnUAwMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13019-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:14:25 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441BF4C9666
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC45D4C95F5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:14:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 67EA03067940
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 09:06:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 883CF307A8AC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 09:08:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE73C3F1677;
-	Tue,  5 May 2026 09:05:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E8F41C302;
+	Tue,  5 May 2026 09:05:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="bQ5agIzB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMb9118o"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705AF3E5EE6;
-	Tue,  5 May 2026 09:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7514D3F23A2;
+	Tue,  5 May 2026 09:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777971939; cv=none; b=tocO4Qttnx/kyOl10VN3a+ir4Qi0HzlVHOUoHqk8jTqzKKR9aDTqLqCS6hoEZZxbutRMxSdIqtd1KpEer2hq2vRg9besY1Hrbr/QopeyNu15/VVertytlp7VHLvZj3KY6qD39U2yVu8QdtdcDx4d4LsDXvuQSv9DBaDfu+V4obA=
+	t=1777971946; cv=none; b=jHolpN3ai4+mUQw7F7F1K2NcF2gXD/PcRTiMO9luxu0Z5nGtN/y5CeC4TwzXdBgbbjmw/t1p05Zpvz7El4Zwxru+JvOs0niJciH9Dm3tK9S/Yt90rNEsavrqw34s2ySgEixuk8aVPmaz7d1kkmusl5S1FybmZ03ZcvEF8SrT72o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777971939; c=relaxed/simple;
-	bh=elZqxqWASNPH02Zi8B2qimxrAyck+wx1GcCTAUaTf68=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pmqikKnc16AHEZ3vKNg1uI3EGlgC7xvoICcq0kSpOvver2JQ0aEo6Nvqm2vkqudeyN/mkwjGlil6D0tOzkmUffNSz+x7ilRO6k7kKQ+Ik90vinTEToR6TeUvs1mazg4ORtyj570Qqn3T7FVoXy0bad0umgAnWmUuXJnpYMaATC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=bQ5agIzB; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1777971923;
-	bh=elZqxqWASNPH02Zi8B2qimxrAyck+wx1GcCTAUaTf68=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bQ5agIzBPRuFL7JWUhX7aDRNPbRhYiMMw3NdQA1wwclDcc9afVYMsG/75i/WNqhAA
-	 hijo/UrDsuQnHCYS7acn94RhzsDs7Y51FfF3ckZNMmNlu5Jpy4KPF9/PiukPGcZcfg
-	 X9HSI5nDm5v9ZQqJggt0rWkhUIJPYhzeHojeyMw8=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 05 May 2026 11:05:18 +0200
-Subject: [PATCH v5 14/14] kbuild: make CONFIG_MODULE_HASHES compatible with
- module stripping
+	s=arc-20240116; t=1777971946; c=relaxed/simple;
+	bh=4UCQ3QN2QWNXrWHKBHRPi0SoBfJaK8yevcbCvXDwQRI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=b2oGQrT8SjO7s7UbpT3qIFJ+XHGUGsDK8TTy1YRhLlPEx0gI2/r6xUqTY5DS2IXxtnVSOFwrbuCGPvXLCx7ACy4BIIUibS1PcT8Ecc5k3NffwFWzSN5Y1yiwnEOc9Pqt6JYDXIPR7XMR8BPhx0lthn5mWloObNu8/ARFfC2FHk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMb9118o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50F0FC2BCC9;
+	Tue,  5 May 2026 09:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777971946;
+	bh=4UCQ3QN2QWNXrWHKBHRPi0SoBfJaK8yevcbCvXDwQRI=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=RMb9118oEn/g2hQTEza+TcqN7fPkdsI+GbNLQYi2lM1GOv21ELF6l+bC5+TntjDzH
+	 z8WagyI9GdPcttqqk7+L84RwC6zYv/Z6FreCuTwN/4IMpJ2GSegMnZSO6C56M7wsJa
+	 at05/XZ3+2/5Lp4WM6Pl2RO3l5wLuderbvA0cVxI3TEpFh/3Ot08pzI3vt0zenbhxE
+	 kUYkSg6Uk9x1HhJ5pnAX03SvxvnERm5cOs9CPSf+IIwE6uM45CRUn8wrpa3M7Hz7aq
+	 c7XYAkdSdkQbfJeVpGkwUNgK2kB4uSVsm9uneXL4M4ynU6lQhoZNuVdt9SGqDxmg0D
+	 9LZh2ZiC5KzTg==
+Message-ID: <c8249a6d-55ee-4ad2-83ac-c25f86759a46@kernel.org>
+Date: Tue, 5 May 2026 11:05:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/6] objtool: Fixup alternate feature relative
+ addresses
+To: Sathvika Vasireddy <sv@linux.ibm.com>, nathan@kernel.org, nsc@kernel.org,
+ maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+ jpoimboe@kernel.org, peterz@infradead.org, ojeda@kernel.org,
+ masahiroy@kernel.org, lossin@kernel.org, tamird@kernel.org,
+ thomas.weissschuh@linutronix.de, rostedt@goodmis.org,
+ ihor.solodrai@linux.dev, thuth@redhat.com, pmladek@suse.com,
+ aliceryhl@google.com, elver@google.com, kees@kernel.org, legion@kernel.org,
+ ardb@kernel.org, yuxuan.zuo@outlook.com, alexghiti@rivosinc.com,
+ alexandre.chartre@oracle.com, bp@alien8.de, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+References: <20260505084628.17940-1-sv@linux.ibm.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20260505084628.17940-1-sv@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260505-module-hashes-v5-14-e174a5a49fce@weissschuh.net>
-References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
-In-Reply-To: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
-To: Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
- Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
- Xiu Jianfeng <xiujianfeng@huawei.com>, 
- Christophe Leroy <chleroy@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
- bpf@vger.kernel.org, 
- =?utf-8?q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
- kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
- =?utf-8?q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>, 
- Eric Biggers <ebiggers@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org, 
- debian-kernel@lists.debian.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777971921; l=3316;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=elZqxqWASNPH02Zi8B2qimxrAyck+wx1GcCTAUaTf68=;
- b=VL/y6lxcfMaVVCAqnHqBHAsMZQRoRMAJFmErw+a7YjNMWb7GcK//q6XoNoKQXYhMyaE3gwwLJ
- is6WW72xVPJDMy3Dd1T+JiFrphn8xBMZBZ2NTjggWulGxg5uKuR6cHw
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
-X-Rspamd-Queue-Id: 441BF4C9666
+X-Rspamd-Queue-Id: EC45D4C95F5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13017-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[kernel.org,iogearbox.net,gmail.com,arndb.de,suse.com,google.com,samsung.com,paul-moore.com,namei.org,hallyn.com,lwn.net,linux.ibm.com,ellerman.id.au,huawei.com,oracle.com,linux.dev,atomlin.com,oss.cyber.gouv.fr];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,vger.kernel.org,proxmox.com,bzzt.net,mapreri.org,archlinux.org,heusel.eu,gmail.com,linutronix.de,lists.ozlabs.org,lists.debian.org,weissschuh.net];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linux.ibm.com,kernel.org,ellerman.id.au,gmail.com,infradead.org,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13019-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[54];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[weissschuh.net:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[weissschuh.net:email,weissschuh.net:dkim,weissschuh.net:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[chleroy@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ozlabs.org:url]
 
-CONFIG_MODULE_HASHES needs to process the modules at build time in the
-exact form they will be loaded at runtime. If the modules are stripped
-afterwards they will not be loadable anymore.
 
-Also evaluate INSTALL_MOD_STRIP at build time and build the hashes based
-on modules stripped this way.
 
-If users specify inconsistent values of INSTALL_MOD_STRIP between build
-and installation time, an error is reported.
+Le 05/05/2026 à 10:46, Sathvika Vasireddy a écrit :
+> This patch series implements build-time fixup of alternate feature
+> relative addresses for powerpc.
+> 
+> Previously, Nicholas Piggin proposed a build-time solution using a
+> custom PowerPC tool [1], which provided the foundation for this approach.
+> The current implementation leverages objtool's existing ELF parsing
+> infrastructure to do the same.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- .gitignore                | 1 +
- kernel/module/Kconfig     | 5 +++++
- scripts/Makefile.modfinal | 9 +++++++++
- scripts/Makefile.modinst  | 4 ++--
- scripts/Makefile.vmlinux  | 2 +-
- 5 files changed, 18 insertions(+), 3 deletions(-)
+What are the changes since last RFC 
+https://lore.kernel.org/linuxppc-dev/20260316062237.30948-1-sv@linux.ibm.com/
 
-diff --git a/.gitignore b/.gitignore
-index 78cf799401e6..6ce10623c5a3 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -30,6 +30,7 @@
- *.gz
- *.i
- *.ko
-+*.ko.stripped
- *.lex.c
- *.ll
- *.lst
-diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-index acbbda58e7c8..48be498a4452 100644
---- a/kernel/module/Kconfig
-+++ b/kernel/module/Kconfig
-@@ -423,6 +423,11 @@ config MODULE_HASHES
- 
- 	  Also see the warning in MODULE_SIG about stripping modules.
- 
-+# To validate the consistency of INSTALL_MOD_STRIP for MODULE_HASHES
-+config MODULE_INSTALL_STRIP
-+	string
-+	default "$(INSTALL_MOD_STRIP)"
-+
- config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
- 	bool "Allow loading of modules with missing namespace imports"
- 	help
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 44a382689a5a..9924a7bb73c5 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -64,7 +64,16 @@ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- endif
- 	+$(call cmd,check_tracepoint)
- 
-+%.ko.stripped: %.ko $(wildcard include/config/MODULE_INSTALL_STRIP)
-+	$(call cmd,install_mod)
-+	$(call cmd,strip_mod)
-+
-+ifneq ($(CONFIG_MODULE_INSTALL_STRIP),)
-+modules.order: $(modules:%.o=%.ko.stripped)
-+endif
-+
- targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) .module-common.o
-+targets += $(modules:%.o=%.ko.stripped)
- 
- # Update modules.order when a module is (re-)built.
- # Allow using it as target dependency.
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index b95f613e23c8..fd1fb89bb0bd 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -68,8 +68,8 @@ __modinst: $(install-y)
- 
- ifdef CONFIG_MODULE_HASHES
- ifeq ($(KBUILD_EXTMOD),)
--ifdef INSTALL_MOD_STRIP
--$(error CONFIG_MODULE_HASHES and INSTALL_MOD_STRIP are mutually exclusive)
-+ifneq ($(INSTALL_MOD_STRIP),$(CONFIG_MODULE_INSTALL_STRIP))
-+$(error Inconsistent values for INSTALL_MOD_STRIP between build and installation)
- endif
- endif
- endif
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index a0332c06bde1..a2d170241a2f 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -86,7 +86,7 @@ modules.order: vmlinux.unstripped FORCE
- 	$(Q)$(MAKE) -f $(srctree)/Makefile modules
- 
- quiet_cmd_modules_merkle_tree = MERKLE  $@
--      cmd_modules_merkle_tree = $< $@ .ko
-+      cmd_modules_merkle_tree = $< $@ $(if $(CONFIG_MODULE_INSTALL_STRIP),.ko.stripped,.ko)
- 
- targets += .tmp_module_hashes.c
- .tmp_module_hashes.c: $(objtree)/scripts/modules-merkle-tree modules.order FORCE
-
--- 
-2.54.0
+> 
+> This patchset applies atop powerpc/merge branch.
+> 
+> [1] Original PowerPC tool approach:
+>      http://patchwork.ozlabs.org/project/linuxppc-dev/patch/20170521010130.13552-1-npiggin@gmail.com/
+> 
+> Testing:
+> Build and Boot tested on ppc64le, ppc64be, and ppc32be configs.
+> 
+> Sathvika Vasireddy (6):
+>    objtool/powerpc: Add build-time fixup of alternate feature branch
+>      targets
+>    objtool: Set ELF_F_LAYOUT flag to preserve vmlinux segment layout
+>    objtool: Fix "can't find starting instruction" warnings on vmlinux
+>    objtool/powerpc: Skip jump destination analysis and unnanotated
+>      intra-function call warnings for --ftr-fixup
+>    kbuild: Add objtool integration for PowerPC feature fixups
+>    powerpc: Enable build-time feature fixup processing by default
+> 
+>   Makefile                                  |   7 +
+>   arch/powerpc/Kconfig                      |   3 +
+>   arch/powerpc/Makefile                     |   5 +
+>   arch/powerpc/include/asm/feature-fixups.h |   2 +-
+>   arch/powerpc/kernel/vmlinux.lds.S         |   8 +-
+>   arch/powerpc/lib/feature-fixups.c         |  12 -
+>   scripts/Makefile.lib                      |   4 +-
+>   scripts/Makefile.vmlinux                  |  11 +-
+>   tools/objtool/arch/powerpc/decode.c       |  15 +-
+>   tools/objtool/arch/powerpc/special.c      | 451 ++++++++++++++++++++++
+>   tools/objtool/builtin-check.c             |   2 +
+>   tools/objtool/check.c                     |  57 ++-
+>   tools/objtool/elf.c                       |   4 +
+>   tools/objtool/include/objtool/builtin.h   |   1 +
+>   tools/objtool/include/objtool/special.h   |  56 +++
+>   tools/objtool/special.c                   |  29 ++
+>   16 files changed, 637 insertions(+), 30 deletions(-)
+> 
 
 
