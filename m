@@ -1,173 +1,177 @@
-Return-Path: <linux-kbuild+bounces-13039-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13040-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8PfLLTY3+mnHKwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13039-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 20:30:14 +0200
+	id ELREEHqC+mngPQMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13040-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 01:51:22 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580DA4D2AB6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 20:30:14 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25594D4CEF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 01:51:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C6EF330E733D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 18:26:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 10A843019A36
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 23:51:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23B314A3416;
-	Tue,  5 May 2026 18:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B695633A02B;
+	Tue,  5 May 2026 23:51:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WXK5c2xU"
+	dkim=pass (2048-bit key) header.d=linux486.org header.i=@linux486.org header.b="ETqCCur5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nm6++EBa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32F44A2E27
-	for <linux-kbuild@vger.kernel.org>; Tue,  5 May 2026 18:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778005614; cv=pass; b=aNfP+1e4ca1zf8mN9rsi3EzV9ye5gVpYufrBrVWApy0ny7dqHucZ2LSZZlb0onRXKHcyKctzJYafySsc9C1p4HgU7HpJTqXb54I3bTE4GAbvzBCUHOfvEXekNzeIuggsvRwEZIBuOdG2Wyt2tCL8d9e898fTvcE8M4g8JTRGq5k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778005614; c=relaxed/simple;
-	bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ppwCsooaOE5TL0tnP222CvWMvQoyoULLlJhCQs5Ykjp9O09KpifM2klubu4k+PwAdwYXz/wbc6PKtvWLTuw3QMOwHNlx82Ge+PTRvTUgtOq7y+tOhHsrGmHxvSe2TbI8/OA+uSE6NscwG9IvjXZrxBrIRZOBzTsc/PcxNUBW4VU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WXK5c2xU; arc=pass smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7de4e6c5a30so4871122a34.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 May 2026 11:26:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778005612; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WsAwUwNapAgOmYoerU3V4ydCOWAYv8C/ah/RdJDfL9/ZypsA+BCMG/cE4WXlPbaV5r
-         //6r5LWx/uaejPA4CNDzc5Pac5wKStIUuG67pBzFl8XGNjlPI475jc9U3ZZqBWiF4LO8
-         ojDHGrjhJ5+UO4P3MQGyFGORGij0dmanKEZ24XTjynx+NxKRLrvUH9ptE8rFl6aQWX74
-         7jFsGMoJhIC8/n+Tk86PdbbpIZogL3YM7+58GX1TkJVSn9VYemkkevxNfZQhx9yg/YFX
-         0GGnyE8wqVW0Ys7Mhg7Ohsu1GO+qAm9eut3AhK8Jrfv73Gtw2y1z9H1p0Ni/9oTIUca7
-         AGuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-        fh=mXR4M/sbDy9O1uiYjQJWkHw1AZ7DVnSdKQqVvhWhCdc=;
-        b=MA6VehktdtYC2gV6sB5o8CgwTUc+CycXGaH0fyDkRU4OtWoHL7tVWDp1Z4D5Fy89N2
-         uIBiOAwwcii99LcRZb5pOVu7USzxBZh7GT69c7yiGCTtXgWILb93r1icsYYizr8f1kMb
-         tsDROEp7RQ1gUN7iGxXnfZwdgL8Ku6cMNPuhZ/evQCUHa2qmm4wQ48xZwviScJOfJuvg
-         JX0sS97Wd7Mv1EGQmT7MOpr7d0h6T4KLt2VB1dCXHIhejLgpdIlrh+aeeB6q1dTsEXMa
-         1C1emvZVe3SAEsRU+pFl/Dt8Uasp5pZGgb+Cc5EpXGAK/zRQZpD+s5Suvw+pDS32himY
-         IDNg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778005612; x=1778610412; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-        b=WXK5c2xUX1xo+RMVivqX3up4KZYapyVg+4+CPgNLKv63ds/ORhgCSMwLSBx2rG/Do5
-         dpkAhlGcPr9IdslXL0+OqqNreGKliFBrzP1fRZVmJIDxIAUdSKdNbwYfV7J8psMOOR4N
-         xStDo6EyPOCMDLD6ublGYL+36BAJkllVGYXeP2AUP9FQTfidkKoWSFop5XRqMGV//rL0
-         OVplLAFdoW6jmN6MxOR3xpgjUSntqWsQaqq8/aULEt6ILQ6frNGMeBkkeh7Isnua6xW/
-         fMhBk6Eox5daRjZcnuur93XcMiT+c4/AKgc//4nrTydmi5TDcDufZEUch4J95sLW2bhx
-         /ZKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778005612; x=1778610412;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-        b=kTyiqXC0O8/eQsDuuoj0P9jiMDpu1WSiMCV22yTZZWDIiZt/h5jXdVGf4Pwbqf/nf6
-         9mrDarepvRFYggN4PAlZBas4bkHHdNfL1IPkLDWuYKsfFhRZizmx41uxXMpyYvky8wYg
-         ZTMEakf8eHp4HGDakGnCH4K9Mpxdhieg4c8QNOU2wTZOC36OcZnZR98kMLtGGutlouCu
-         9cX8cRTuPIaTEopsXFp1FiYv4OiXySNPVjrBZjKCot8lXfIcA7AHdeePjy46+X3LZ+SK
-         Jaqfh6rK2QmOJTtVYdzua9wIe0xtVzlqjiUskJQGlHAopzGRVC2bqjeD9MONdQ6dCVf1
-         PIfw==
-X-Forwarded-Encrypted: i=1; AFNElJ9h/lAnpliVBuBJGfxShfKYU8epOYgxSF33htWPxp6TO3O+1y1Hm6glvDScpG0D05RtJZ3lxdDd0n7+2Bs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzstr/qmExQAlAXU9A57iunDAMSH/aEiTH8gvilIWmhZlnwGmrC
-	nZxC0cG2TulRbV74d2xHI2iAM7kGg+qwK4DCcqLcdh+i0QE6oNr/9Txox19fMilKfiKjfiibGhS
-	1SgX9DSb9JzpQb2tg+ee13ykVVfmynB4=
-X-Gm-Gg: AeBDievpqQovL5dqpAnEvmxqvJYdiGz/7K/qfNqh2AUJM6A4qxxwWgvUP3iI7LdRJtX
-	epiu4m8+mh5AYvr58qiyquiLxtebHpI8UlbkymOQXM3nszsFusavPqh/o1O+QuXZ3e+Lrxl9iDT
-	nNrVGCrAXItH4VJjcM8oTttozgmp8xF+uunwkEDdPjUhszpTp5Vhawl6WYVaZJw4NS8y1ZKXUHY
-	oRYLZwUV99Degip40UxP7P80gi1ajLBEZmb2CsbtkXxNrf/vMZdHMpPNs0kd7VnN3ZfS/RH/fwv
-	7h3IOmeGxb1/CRPo2LXlCkoduK8oDxjuEwrOLJ2UWt0eKhj9+Ctrel8ciW+vFehcJFZDl3jcV3O
-	zWIYmNvag
-X-Received: by 2002:a05:6820:4c17:b0:696:8b09:6c99 with SMTP id
- 006d021491bc7-699980a957bmr426610eaf.5.1778005611625; Tue, 05 May 2026
- 11:26:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B549033A9D1
+	for <linux-kbuild@vger.kernel.org>; Tue,  5 May 2026 23:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778025076; cv=none; b=hIk9Ks4niW8AzlZxnKdK6hiWPm1B+wVboUWRam+xHqsuZUbF6zSV0np4Nl/VbEbyMLw+nzSDAusNBi+ojy8S1/6187Hyal+YqheNcsfcWzr1C7DP0ddRuGhXkKPpIb8sZkDN9T3EIOa4DfBiAN4z0HO+QvTTRT9Fb5YAT4TwsgM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778025076; c=relaxed/simple;
+	bh=pBygMOIvcuEmJLrm4TLVkJJlAHBe4021GwpqcpfCYZE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=OXAamF+5Osrgnji1ErJLYL+jR15qjbJWEWJaj/IkNgms6LwGRocBrz2xqO8Cht8EiAX6YVhx4OtI0QNG/IPZm0MeawMUiIgCRxCGVNWPNgxdqUpO9K3yfgrnPFdvCQ636wlhOwk7IUuV3ieF4QfexczmSIQOZ6OQuWZ50eoraYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux486.org; spf=pass smtp.mailfrom=linux486.org; dkim=pass (2048-bit key) header.d=linux486.org header.i=@linux486.org header.b=ETqCCur5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nm6++EBa; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux486.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux486.org
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id D5A30EC001E;
+	Tue,  5 May 2026 19:51:13 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Tue, 05 May 2026 19:51:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux486.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778025073;
+	 x=1778111473; bh=DsdmlQBRl1WEYnbG+23DCmh6nqvhJEysjH+9kr4wIuw=; b=
+	ETqCCur5QDXXA3UTD+fLfBP42xott512QTO5ogf6NASObS2RjTCgzKTTrXvG9YlG
+	cay8Gi/zZbAv0trxTZVxhrdDQPsfGp4F1oxRYNxybD/FNi9bLhnHlERtfbOF+TWd
+	GS2KOgL2HkLNCu3tMeix+qe1I7p0hMF53QVwRIiOBUfXNyIpmOEDApPfNeiUL0YW
+	u4m5KJ1cVbBsBnbNhwDshji3EnP49J+8Ag9lMrsUQiQWMlqw0UPkrwDIJS7HrfLQ
+	sPnU3KBgmWZIDc3qrTmCR90cbIbMoo9pSSqiDw2HHnVfmyzcFapvW/YdCqjXdE6j
+	wcWiFJDss4ahDIwJqaG9oQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778025073; x=
+	1778111473; bh=DsdmlQBRl1WEYnbG+23DCmh6nqvhJEysjH+9kr4wIuw=; b=n
+	m6++EBa5UqIBJTrblO66Jk+mAKMIKXpXt/dVZqgLZdc+xCpkL74t07peKX4u5ce9
+	R3jyhs0lDSzOobESC4PXL0HMYoLYnZHN0u4xI2iOmy5SDlIz6A/9OYF767VWHkNC
+	/XbASNQkbaL9I8ph5QK8ydyVs2uKc6PbkS5KyL1bgmgKhE3Ai1iRy252j/m8mVrD
+	eQRBDO422U28fNFN3JkF1awGvl4cODxuV2JmNc33be1O7zgRI79nF2NJHCa81wSS
+	cCi9qecvFXOQV+bUoHdhDmO3+Oco3aMulvOqN9L9uhjNeggEJrEw2/pH3xxBLTd/
+	7b2Z7GKGKY7GIyDhQivqA==
+X-ME-Sender: <xms:cYL6aRvrKJKQmGXbVRffwH_wjfpqvDkIWJiqlTWuOlk2rpjq7bKRBQ>
+    <xme:cYL6aVQwGQGTTrcXsdgVNHbqrimWCbJe4nTruG-s1FlngcxkZi7G2IE4dvU9eOvA6
+    Awlq3h9N1H1eR3rUI3y8rN-ADTlydxFgsxNC4HgT5tcE7kHxU_sUhyr>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdeftdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefoggffhffvvefkjghfufgtgfesthejre
+    dtredttdenucfhrhhomhepfdetnhgurhgvficugggrlhgvnhgtihgrfdcuoegrnhguhies
+    lhhinhhugiegkeeirdhorhhgqeenucggtffrrghtthgvrhhnpeegtdffieffuddvuedtud
+    dtgeejheevvedutedtvedvgeffgeduhfegieevjeegveenucffohhmrghinheplhhinhhu
+    giegkeeirdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomheprghnugihsehlihhnuhiggeekiedrohhrghdpnhgspghrtghpthhtohepfedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhstghhihgvrhdqohhsshesrghvmh
+    druggvpdhrtghpthhtohepgiekieeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhi
+    nhhugidqkhgsuhhilhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:cYL6aVrOxfa9_U69fa8FI0oYr6qcSxb5wii2-okwYzGlxf-qqeQDZQ>
+    <xmx:cYL6afY7YPksQQswV7Qd3VKLH11o53DNejbGxc5zSlw7sICbKVPhWQ>
+    <xmx:cYL6aVQHAqlyVZh_GbULjotKZ0gevb3ME8ZDFPOKVNpgw0tKZRuIfA>
+    <xmx:cYL6ae4XdGyhY0HjgFCocyzaBzw9EdSBsBLRErBgBDhWm-4IovtDBg>
+    <xmx:cYL6aTSAfKm-vspk5gP4-LpP94uZa4MvZ7vpkJVxoFJjpci4QJIE29ce>
+Feedback-ID: ifbd64b11:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 5A9A3700065; Tue,  5 May 2026 19:51:13 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
- <20260428-bump-minimum-supported-llvm-version-to-17-v1-1-81d9b2e8ee75@kernel.org>
- <afoMRMnSQUwk1eaN@levanger>
-In-Reply-To: <afoMRMnSQUwk1eaN@levanger>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 5 May 2026 15:26:40 -0300
-X-Gm-Features: AVHnY4LyB1Xe5rlwokmTAGILipbZzP-_Kf8TGIx7tE8Zk3dE-DZnkJNK9pzsLsQ
-Message-ID: <CAMAsx6cPfPVDBpL6wwHeqzWLqPwQB15pKgvgVu-Ni3Sjjkdf4w@mail.gmail.com>
-Subject: Re: [PATCH 01/14] kbuild: Bump minimum version of LLVM for building
- the kernel to 17.0.1
-To: Nathan Chancellor <nathan@kernel.org>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 580DA4D2AB6
+X-ThreadId: AjK4HV-VrZTg
+Date: Tue, 05 May 2026 16:49:29 -0700
+From: "Andrew Valencia" <andy@linux486.org>
+To: "Nicolas Schier" <nschier-oss@avm.de>
+Cc: x86@kernel.org, linux-kbuild@vger.kernel.org
+Message-Id: <1b5a27d4-808c-45de-928a-2310c7e26857@app.fastmail.com>
+In-Reply-To: <20260414-marvellous-saffron-toad-8aaefb@l-nschier-aarch64>
+References: <af3a3eea-ae34-4f94-b17c-43f154e80ff7@app.fastmail.com>
+ <advGKvtLfEb1vwNK@levanger>
+ <cc85769a-3f61-45bc-8773-322d3435bd83@app.fastmail.com>
+ <20260414-inescapable-true-armadillo-1ab7f3@l-nschier-aarch64>
+ <20260414-marvellous-saffron-toad-8aaefb@l-nschier-aarch64>
+Subject: Re: Kconfig olddefconfig nukes 32-bit
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: E25594D4CEF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-1.65 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_DKIM_ALLOW(-0.20)[linux486.org:s=fm1,messagingengine.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13039-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,gmail.com,vger.kernel.org,lists.linux.dev,lwn.net,linuxfoundation.org];
+	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[linux486.org];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-13040-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linux486.org:+,messagingengine.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[danielmaraboo@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	FROM_NEQ_ENVFROM(0.00)[andy@linux486.org,linux-kbuild@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux486.org:dkim,linux486.org:url]
 
-On Tue, May 5, 2026 at 1:11=E2=80=AFPM Nicolas Schier <nsc@kernel.org> wrot=
-e:
->
->> FTR: The translations
->>Documentation/translations/{it\_IT,pt\_BR}/process/changes.rst become now
->>even more outdated.
->
->>Acked-by: Nicolas Schier <nsc@kernel.org>
->
+Hi, Nicolas.  Thanks for your helpful comments, I went off and read code and tried many scenarios based on your comments.
 
-Hi Nicolas,
+On Tue, Apr 14, 2026, at 3:04 AM, Nicolas Schier wrote:
+> > Running 'make olddefconfig' (w/o a specific x86 arch) lets 
+> > arch/x86/Makefile choose a defconfig file for reference (cp. head of 
+> > arch/x86/Makefile).  If ARCH=x86 (or unspecified on any x86 machine), 
+> > the output of `uname -m` is evaluated.  If ARCH=i386 is explicitly 
+> > given, the 32bit defconfig will be chosen, no matter what kind of x86 
+> > the build host is; and the other way around for ARCH=x86_64.
 
-Just confirming that I will make the necessary corrections to the
-changes.rst Portuguese translation (pt\_BR) in the next few days.
+All my comments which follow are for an existing 32-bit config, a new kernel.org source tree, on a 32-bit build machine.  The starting point config is from a Linux-libre project config, config-6.18.18-gnu:
 
-Thanks,
+https://linux486.org/pickup/olddefconfig/config-6.18.18-gnu.txt
 
-Daniel Pereira
-Linux Kernel Maintainer pt\_BR
+"make olddefconfig" results in a config with CONFIG_64BIT=y.  "make ARCH=i386 olddefconfig" results in a 32-bit config with no mention of CONFIG_64BIT at all.  "make ARCH=x86_64 olddefconfig" results in the same config as "make olddefconfig", as does "make ARCH=x86 olddefconfig"
+
+I propose to you that 64BIT be a proper config item for all x86en, 32-bit and 64-bit.  For 64-bit, "CONFIG_64BIT-y" and for 32-bit "# CONFIG_64BIT is not set".  This results in config files fully describing what they need to build--and guiding any future olddefconfig to stay with what has previously been selected.
+
+> > Thus, if you build a 32bit kernel with your 32bit config file on a 
+> > x86_64 host, you have to use
+> > 
+> >    make ARCH=i386 olddefconfig
+> > 
+> > if you want to use 'olddefconfig' to let the config keep the 
+> > CONFIG_64BIT=n setting.
+> > 
+> > Does that help?
+
+Very much so.  The remaining suggestion I make is that the default be selected so that an old 32-bit config, on a 32-bit build machine, by default (i.e., without explicitly setting ARCH) generate a 32-bit new config when olddefconfig is used.  This obviously would depend on the "uname -m" value.
+
+A small patch to (1) preserve the resolution of the 64BIT config item on all x86, plus (2) choose a default value guided by uname -m when ARCH is the general x86 value:
+
+https://linux486.org/pickup/olddefconfig/uarch.diff.txt
+
+Thank you for your help!
+Andy
 
