@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-13009-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13012-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iAw3OUu0+WnCAwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13009-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:11:39 +0200
+	id mHeGI9+z+Wly/QIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13012-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:09:51 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5427F4C94BD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:11:39 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA394C93F9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 11:09:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A2CDE30E1D5F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 09:06:12 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D5916303E619
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 09:06:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF553F211C;
-	Tue,  5 May 2026 09:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC143F7893;
+	Tue,  5 May 2026 09:05:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="l1HQpg72"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="hceqxvCT"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FE43DDDB2;
-	Tue,  5 May 2026 09:05:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17673F23AB;
+	Tue,  5 May 2026 09:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777971936; cv=none; b=cLLmS9TgjHAy/vtpAh+sdwi4JylHK9k6n9ZYitTVIptAZE18JTn6Mey/t0jdAZtVi4S6ButsfVFsjbgkvwwUezmL8CDKxnuI5sIA7jH7xDCUDsZz96hUC+YjGrx9jerHG/z0HktUpLFD+vGKx3WcJ+Gr1tFWzVPs+0ZIPSJczUM=
+	t=1777971938; cv=none; b=lJymORWA76gYuoUWSBzZQvpwN+m6XfPxNPqX9fl/6pwHPCHiieuywTn7CrqkL6w5JlefTTVGBw8E5xAY/CmwIWAMVFfv+2ObULbyD0kVxjWaw0T1pu0kR53vGMwwL2n0MiMFr4nJLOIqJYYmArhQMkJR/M5LFaDNp2vqtfmWhLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777971936; c=relaxed/simple;
-	bh=vw8mmyBT43HvPMolq0TpHePOUuR7RTOx6Ud0LgA5MD4=;
+	s=arc-20240116; t=1777971938; c=relaxed/simple;
+	bh=1JdBqz41kTdRxXQtXD0WlucfGsBSnYlrVmslcdqa4/k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZEEOA/RVuxyU2DbHy4qQ70vcyUUckTXwtEB82EGr2woyk2B9od7MK+3X/MzsZJV4Yt5/y0Gcl2IFayry5oERbQ+8Oa3a+uPMFrbm9US/K3UdfnuFnD1kKOQUzJnS8G73Ec+DyGdUokjeP10wvIwV2uvb6/EGn0nJwKxprwyf+PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=l1HQpg72; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=hQrZ6OnsipCLAiUfffRi5xTokgobi+8TRhd3RffoTSbZqorPocTAqNjNi0L4yGRY62dA99uOuwVfqedrOaB22K4JL6MQTuN3VJyzR3T9ujcy4P32RNqW1C8xBvOFeFVfPFiZUZY3a6AdU0fr0UbbHxtkLpZ1IG+fenlp6kj1lzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=hceqxvCT; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1777971922;
-	bh=vw8mmyBT43HvPMolq0TpHePOUuR7RTOx6Ud0LgA5MD4=;
+	bh=1JdBqz41kTdRxXQtXD0WlucfGsBSnYlrVmslcdqa4/k=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=l1HQpg727ayyAew6zE/8+4KeSD9/eY176fqNOl8FGSd4QoDzY74lG9Zoama5m7BhX
-	 5EtXnyLwL1UVaosAa/7pPCSfFDE1zsNRTeOdiXhXg+IHBcSwltBhO7xw0NiiW59OkQ
-	 lXncKpkeqmo/DBlCAVoem3iKRfqI7XoOEL7pTwyk=
+	b=hceqxvCTo7KzWPy3qLEp6+Bf8ZLZsXvy9Zdi17IfdrJ0f7TtrU2P7gxEPnWLeumex
+	 YcmnSqR2uXoMuRhMxwSZ/jHMOlGhFAqnIGNWeOcXQN9fmNIASNprFED4nuw7rfhNxz
+	 xPFd59w5ZXs8KO9qdxlAksPv3su3ooAfWyNHfXFo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 05 May 2026 11:05:05 +0200
-Subject: [PATCH v5 01/14] kbuild: generate module BTF based on
- vmlinux.unstripped
+Date: Tue, 05 May 2026 11:05:06 +0200
+Subject: [PATCH v5 02/14] lockdown: Make the relationship to MODULE_SIG a
+ dependency
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260505-module-hashes-v5-1-e174a5a49fce@weissschuh.net>
+Message-Id: <20260505-module-hashes-v5-2-e174a5a49fce@weissschuh.net>
 References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
 In-Reply-To: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
 To: Alexei Starovoitov <ast@kernel.org>, 
@@ -93,26 +93,26 @@ Cc: Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
  debian-kernel@lists.debian.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777971921; l=2327;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777971921; l=908;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=vw8mmyBT43HvPMolq0TpHePOUuR7RTOx6Ud0LgA5MD4=;
- b=uljsY9SHiTroukbScuvpJIHxWmUOPKF1Li5N+qi4PForcgFzxPQa9CcWjxWCEGeyur3gDIlFc
- Z0W8p94VZLqAoErAJy3AInjAguaLaf4rBiEebO3HJ/wS/1lChYp5oMo
+ bh=1JdBqz41kTdRxXQtXD0WlucfGsBSnYlrVmslcdqa4/k=;
+ b=6atGlLLix4ALQ4Bm6XKscxGhFEfh5z+AYZle3axHq87vuO7rZdULGTT3XcROp3hep0FNMg2ml
+ BENbqsRYpM3AKU121Q88x4JPeqLslbXSclc7rRA4Sctqz9h73F4bHRn
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
-X-Rspamd-Queue-Id: 5427F4C94BD
+X-Rspamd-Queue-Id: 9AA394C93F9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13009-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13012-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	FREEMAIL_TO(0.00)[kernel.org,iogearbox.net,gmail.com,arndb.de,suse.com,google.com,samsung.com,paul-moore.com,namei.org,hallyn.com,lwn.net,linux.ibm.com,ellerman.id.au,huawei.com,oracle.com,linux.dev,atomlin.com,oss.cyber.gouv.fr];
@@ -129,54 +129,34 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,weissschuh.net:email,weissschuh.net:dkim,weissschuh.net:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[weissschuh.net:email,weissschuh.net:dkim,weissschuh.net:mid,paul-moore.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 
-The upcoming module hashes functionality will build the modules in
-between the generation of the BTF data and the final link of vmlinux.
-At this point vmlinux is not yet built and therefore can't be used for
-module BTF generation. vmlinux.unstripped however is usable and
-sufficient for BTF generation.
+The new hash-based module integrity checking will also be able to
+satisfy the requirements of lockdown.
+Such an alternative is not representable with "select", so use
+"depends on" instead.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Acked-by: Paul Moore <paul@paul-moore.com>
 Reviewed-by: Nicolas Schier <nsc@kernel.org>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- scripts/Makefile.modfinal | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ security/lockdown/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index adcbcde16a07..b09040ccddd2 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -38,12 +38,14 @@ quiet_cmd_ld_ko_o = LD [M]  $@
- 		$(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)		\
- 		-T $(objtree)/scripts/module.lds -o $@ $(filter %.o, $^)
- 
-+btf-vmlinux := $(if $(KBUILD_EXTMOD),vmlinux,vmlinux.unstripped)
-+
- quiet_cmd_btf_ko = BTF [M] $@
-       cmd_btf_ko = 							\
--	if [ ! -f $(objtree)/vmlinux ]; then				\
--		printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" $@ 1>&2; \
-+	if [ ! -f $(objtree)/$(btf-vmlinux) ]; then				\
-+		printf "Skipping BTF generation for %s due to unavailability of $(btf-vmlinux)\n" $@ 1>&2; \
- 	else	\
--		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vmlinux $@; \
-+		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/$(btf-vmlinux) $@; \
- 	fi;
- 
- # Same as newer-prereqs, but allows to exclude specified extra dependencies
-@@ -55,8 +57,8 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
- 
- # Re-generate module BTFs if either module's .ko or vmlinux changed
--%.ko: %.o %.mod.o .module-common.o $(objtree)/scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/vmlinux) FORCE
--	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
-+%.ko: %.o %.mod.o .module-common.o $(objtree)/scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/$(btf-vmlinux)) FORCE
-+	+$(call if_changed_except,ld_ko_o,$(objtree)/$(btf-vmlinux))
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
+diff --git a/security/lockdown/Kconfig b/security/lockdown/Kconfig
+index e84ddf484010..155959205b8e 100644
+--- a/security/lockdown/Kconfig
++++ b/security/lockdown/Kconfig
+@@ -1,7 +1,7 @@
+ config SECURITY_LOCKDOWN_LSM
+ 	bool "Basic module for enforcing kernel lockdown"
+ 	depends on SECURITY
+-	select MODULE_SIG if MODULES
++	depends on !MODULES || MODULE_SIG
+ 	help
+ 	  Build support for an LSM that enforces a coarse kernel lockdown
+ 	  behaviour.
 
 -- 
 2.54.0
