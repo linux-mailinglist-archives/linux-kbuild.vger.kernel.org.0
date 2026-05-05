@@ -1,75 +1,75 @@
-Return-Path: <linux-kbuild+bounces-13004-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13005-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mLMQNZSv+Wk+/AIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13004-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 10:51:32 +0200
+	id 4EjzOMWu+Wky+wIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13005-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 10:48:05 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CB94C8EAC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 10:51:32 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FBC4C8D88
+	for <lists+linux-kbuild@lfdr.de>; Tue, 05 May 2026 10:48:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A4765308E6C9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 08:47:53 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BC6FA3017448
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2026 08:47:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D35D37700B;
-	Tue,  5 May 2026 08:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09EA730DECE;
+	Tue,  5 May 2026 08:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="K7LpyZe2"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mOjQRGVk"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98E8362120;
-	Tue,  5 May 2026 08:47:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC473A2553;
+	Tue,  5 May 2026 08:47:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777970873; cv=none; b=taaCaOgYA1fHPP1NZJaG3VdRl8P0YMmDfbPdNi+uEI5p8m+H14obebaeL36kJk2jieSjKnZOxNVCqJiMqX2FSTs9mHRDORgKfJTQulIhxfbYT+mNCraCh7bOAturricRUcmP9ujAuSbGSoA/KavJI4nHbNqy4fx6q5Mk9Wt+jc4=
+	t=1777970875; cv=none; b=YHxPf0mX1RnwfZUIYdaw4jlm8dZRTAEx9EZZEd1Tcya22+U8Ee8rV9cwqBg8e7vonudwiPy4ZEORCYZidIRVKA9OyY9r3ROTsdW4wjL1t77LZrwwSXWXV9BhrGnavrDsrQ0um2aloRvvpuM9vtweOm5QsXTVtAa5bQNcBUc79wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777970873; c=relaxed/simple;
-	bh=AdvkRDt5s54uVgAjz87SQAq4sT62kN7HUSUQtCj9CqM=;
+	s=arc-20240116; t=1777970875; c=relaxed/simple;
+	bh=a0zdWsXYrpxcV06UP0Vo7QMqva2l+TrCu9XkHlVtNP4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FvG3kIuMqDmU6/5Ue0J025DrMzWWCi0AsusSFrkA8jMBXTWs3tzapdBjlgTWQQMdgZjpQuFMWsQ+A8knrFWe24NKZtcA1Yx9BAbXYCRDv/g3ZpufvfVBFtvh4g7iZLQo7vi1MhITtYeu+VyYLRhXzQxZyRl5Je+lbNJc8JQYaEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=K7LpyZe2; arc=none smtp.client-ip=148.163.158.5
+	 MIME-Version; b=g3qsMJxD2V3m5LhSwL5572mpaAXxZPgO4sk30w2IRbNvdChBmHX4N+kwXl3HaaWcRBjHSy3GwJmY4C9kPtlKN2ALfT78uSRmwRAOm0gBrCoCbmaqTsVf9D9rKhmXsMTvEEEoxNIkgZGB4QWvqGIL9h6FVWBrYX9W+BshPuT298w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mOjQRGVk; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 644NDIGT2080466;
-	Tue, 5 May 2026 08:47:19 GMT
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6450eohI2062528;
+	Tue, 5 May 2026 08:47:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
 	content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=4spkt1jg5/bU5I7bc
-	LaEF/hABIhrs79MmG3fYK+3pnw=; b=K7LpyZe2BgmZvtXdFXxjGw/stPzla9VpF
-	veuq7mOe8lV1rN3BS5KzEFg+5U3XHZCQef6vmeyu0AqVb2ZkZkCn9k6HekdhJMTQ
-	bSCtR0mCfgd3QLIBspYwVT0vhwiwl6wWIGGBisbzJmRE1YPUq9equ1UqtXQisEX8
-	QLWKOzXne5Ir0XAseCm89V1eV4b2qg39d/kgq+e8Rqv3aOo8XCgJIelC9SQhYyTL
-	l7E2YPMky1InH0TOb+kEo+FSuCFf33+438uZzSmUSCwMRl0s7FLkQt6kZuNuNbeF
-	o+KFpmAAhzCJf9Cds3j5RDkSluJzRzTYwHnqBpG18YuEj+NXfD4ZQ==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9xxjdg1-1
+	:mime-version:references:subject:to; s=pp1; bh=e5ifK/It/v+dYOWMp
+	DHgwdUgvz/hsigtd85AqACBUto=; b=mOjQRGVkLc/5AbA34NliUi38SQpjCHW0z
+	tL5vC9aHszMe1R/OlSpPEw+vZ5JH/8sYLVuBLRLmCgU49uaEttd4gqzGW/tc5pr+
+	BG4DfIAEHRLsNdI66Kw7j4telybVpcv7m1awENPQLHcPQ0lp9LrNxRv1KkTEgche
+	UAOAl2piaAChj655RY79R22OY32kk6qv1XwsKRyl61wChVA70aYoeZ8Q86B7l1zf
+	Pa3OHiZfY39GTQxk5haEuM3wGsl7XwL0MgqlGILCa0sYnI5Dk9RMGdEXsyfJUbKI
+	qCnHXaMByc8MBDpkD4GAVNA++Op2JxAYG7fCtA3NUM02DBR0GLUsA==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9w6af7f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 May 2026 08:47:19 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6458dPUV030500;
-	Tue, 5 May 2026 08:47:18 GMT
+	Tue, 05 May 2026 08:47:25 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6458dSZL001389;
+	Tue, 5 May 2026 08:47:24 GMT
 Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwuyw0vye-1
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dwukq8xuw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 May 2026 08:47:18 +0000 (GMT)
+	Tue, 05 May 2026 08:47:24 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6458lEF342533334
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6458lLGe52625714
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 5 May 2026 08:47:14 GMT
+	Tue, 5 May 2026 08:47:21 GMT
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 39F8C2004F;
-	Tue,  5 May 2026 08:47:14 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 3B34320043;
+	Tue,  5 May 2026 08:47:21 +0000 (GMT)
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 615ED2004B;
-	Tue,  5 May 2026 08:47:08 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 8A6A92004E;
+	Tue,  5 May 2026 08:47:15 +0000 (GMT)
 Received: from li-2fa77bcc-2701-11b2-a85c-cd621c23b6bd.bl1-in.ibm.com (unknown [9.123.13.4])
 	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  5 May 2026 08:47:08 +0000 (GMT)
+	Tue,  5 May 2026 08:47:15 +0000 (GMT)
 From: Sathvika Vasireddy <sv@linux.ibm.com>
 To: nathan@kernel.org, nsc@kernel.org, maddy@linux.ibm.com, mpe@ellerman.id.au,
         npiggin@gmail.com, chleroy@kernel.org, jpoimboe@kernel.org,
@@ -82,9 +82,9 @@ To: nathan@kernel.org, nsc@kernel.org, maddy@linux.ibm.com, mpe@ellerman.id.au,
         alexandre.chartre@oracle.com, bp@alien8.de,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, sv@linux.ibm.com
-Subject: [PATCH v1 5/6] kbuild: Add objtool integration for PowerPC feature fixups
-Date: Tue,  5 May 2026 14:16:27 +0530
-Message-ID: <20260505084628.17940-6-sv@linux.ibm.com>
+Subject: [PATCH v1 6/6] powerpc: Enable build-time feature fixup processing by default
+Date: Tue,  5 May 2026 14:16:28 +0530
+Message-ID: <20260505084628.17940-7-sv@linux.ibm.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260505084628.17940-1-sv@linux.ibm.com>
 References: <20260505084628.17940-1-sv@linux.ibm.com>
@@ -97,31 +97,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDA3OSBTYWx0ZWRfXw4clIekf2zU5
- tl2yuTx8xdFPTcA2m968eoLvCFIDNZn/yAG1ldEB79sTgJfrNCr0rOGM0cjTTQa6Os4vf1Qgx+j
- VjnaRpmCtszxqitq4HV51hPV9ejZpxJagDtaLzOSwczH8RYSNyuZ44uoO+oIJXmumJPLH6T86e2
- RZ9m8hdyZ6BmJmMd6UCtWQqSzecYQoaNZkVSYjwSyOOIxdROihI5yyyhDg+KMNXcJlZ1RkfnE5Q
- x1vetrp8BacC5REkP3HEl+Bsy34FBmkovWm7YvL68INZC+ifkK4wk1QNr4ViyBxm+uPcnVwJS5z
- aQ/pahTFkkX7JZoddAkHZ71qA9eHzfJRTQwErWajDyvQzCX3GgCcmVfl0BScMd9RITPIfYc0yij
- Jgm22zXOcobCGfINGKKxW/1GCYnN9JEfNKfdXNzEArr5zQS+v4ZUA5cHfKuG7Anyv9zmDinJv/U
- r3tGYgICEP/gpvRwM8g==
-X-Proofpoint-ORIG-GUID: Z7cqhmyMOoiJMxjm3OfMv1vC4h2CzN55
-X-Proofpoint-GUID: 3t84d6iLD2PUGGdH1yCve10RJv9vnqYC
-X-Authority-Analysis: v=2.4 cv=ctWrVV4i c=1 sm=1 tr=0 ts=69f9ae97 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+X-Authority-Analysis: v=2.4 cv=XPQAjwhE c=1 sm=1 tr=0 ts=69f9ae9e cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
- a=k1iL6ZPSiERSBASioQUA:9
+ a=Y2IxJ9c9Rs8Kov3niI8_:22 a=CCpqsmhAAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8
+ a=-G-hYi3DffSlC2uomIIA:9 a=O8hF6Hzn-FEA:10 a=ul9cdbp4aOFLsgKbc677:22
+X-Proofpoint-ORIG-GUID: DlNH4ux-SCL4XmeyOW_AaBaIfUfhvfa-
+X-Proofpoint-GUID: yfRL53VgHSJeULy5jQR2p1q42CQHfQSD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDA3OSBTYWx0ZWRfX24wF2iXUa6nD
+ wd1MYPRLKPFTFTYBKhinAzT9rWpFDQhfZkPcLZSnefk6s1DcWxOKuN/jkLbIP/FoOg/9V9/Jf//
+ sVy5TsZq1P+jxkAiLjl3YZdqk6DUH2dtKD47xPjVKikzD6u5RQd+khEUnAgcXgHPBsvuRereWZf
+ b+a3dGUUXmopM+XUJ5Z+QyyALrG7goT2hJXQhfaksnoe3uXwZyxrLkfBedciIlH4dwLcUby4XZ3
+ YT2bHmGM5hLntvdRvtx9AntyVkvG5SBz+Iv8ghHKHFIEzjAC1cxN/W5JCNijEhmmp48Gw8nYXHS
+ iNxoM8OGc+ErGa0Bsujv29h/MfknodupT0YjVz68UuG2VmtH+PVzf/BjWDFOvEn5q8R0OMG0puV
+ FHfGvdNOcCIUgzpUrFUuLK7YXFualnOCLy4i/un7rdJTbKcMwAheFqjKP3hjpdk1mgw9HAlR2xV
+ h6NtaYoLy3ULpjeHOJw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-05_02,2026-04-30_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1015
- suspectscore=0 impostorscore=0 spamscore=0 malwarescore=0 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
- definitions=main-2605050079
-X-Rspamd-Queue-Id: 37CB94C8EAC
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605050079
+X-Rspamd-Queue-Id: 82FBC4C8D88
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
@@ -129,12 +128,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13004-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13005-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_NONE(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,linux.ibm.com,ellerman.id.au,gmail.com,infradead.org,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
@@ -144,78 +143,152 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sv@linux.ibm.com,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.ibm.com:mid];
+	NEURAL_HAM(-0.00)[-0.999];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,sourceware.org:url];
 	DKIM_TRACE(0.00)[ibm.com:+];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCPT_COUNT_TWELVE(0.00)[30];
 	RCVD_COUNT_SEVEN(0.00)[11]
 
-Add build system support for PowerPC feature fixup processing:
+Enable HAVE_OBJTOOL_FTR_FIXUP by default on PowerPC architecture.
 
-- Add HAVE_OBJTOOL_FTR_FIXUP config option for architectures that support
-  build-time feature fixup processing
-- Integrate objtool feature fixup processing into vmlinux build
+- Remove runtime branch translation logic from patch_alt_instruction()
+- Add --emit-relocs linker flags for post-link fixup processing
+- Update ftr_alt section attributes to include executable flag
+- Strip the --emit-relocs relocation sections (.rel*) from the final
+  vmlinux after processing
 
-Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+Co-developed-by: Nicholas Piggin <npiggin@gmail.com>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 Signed-off-by: Sathvika Vasireddy <sv@linux.ibm.com>
-Acked-by: Nicolas Schier <nsc@kernel.org>  # kbuild
 ---
- Makefile                 | 7 +++++++
- scripts/Makefile.lib     | 4 ++--
- scripts/Makefile.vmlinux | 3 ++-
- 3 files changed, 11 insertions(+), 3 deletions(-)
+ arch/powerpc/Kconfig                      |  3 +++
+ arch/powerpc/Makefile                     |  5 +++++
+ arch/powerpc/include/asm/feature-fixups.h |  2 +-
+ arch/powerpc/kernel/vmlinux.lds.S         |  8 ++++++--
+ arch/powerpc/lib/feature-fixups.c         | 12 ------------
+ scripts/Makefile.vmlinux                  |  8 ++++++--
+ 6 files changed, 21 insertions(+), 17 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 6b1d9fb1a6b4..f9a990036f3f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1478,6 +1478,13 @@ ifdef CONFIG_OBJTOOL
- prepare: tools/objtool
- endif
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 10240cb80904..6cc10927730d 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -23,6 +23,9 @@ config 64BIT
+ 	bool
+ 	default y if PPC64
  
-+# CONFIG_OBJTOOL and CONFIG_HAVE_OBJTOOL_FTR_FIXUP are unrelated, separate
-+# options. It was integrated in objtool in order to borrow the elf parser,
-+# but this is different from how the other objtool commands are used.
-+ifdef CONFIG_HAVE_OBJTOOL_FTR_FIXUP
-+prepare: tools/objtool
-+endif
++config HAVE_OBJTOOL_FTR_FIXUP
++        def_bool y
 +
- ifdef CONFIG_BPF
- ifdef CONFIG_DEBUG_INFO_BTF
- prepare: tools/bpf/resolve_btfids
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 0718e39cedda..fa72619e5bb0 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -179,10 +179,10 @@ cpp_flags      = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ config LIVEPATCH_64
+ 	def_bool PPC64
+ 	depends on LIVEPATCH
+diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+index a58b1029592c..8e1dab5f3c9a 100644
+--- a/arch/powerpc/Makefile
++++ b/arch/powerpc/Makefile
+@@ -105,6 +105,11 @@ LDFLAGS_vmlinux-$(CONFIG_RELOCATABLE) := -pie --no-dynamic-linker
+ LDFLAGS_vmlinux-$(CONFIG_RELOCATABLE) += -z notext
+ LDFLAGS_vmlinux	:= $(LDFLAGS_vmlinux-y)
  
- ld_flags       = $(KBUILD_LDFLAGS) $(ldflags-y) $(LDFLAGS_$(@F))
++# --emit-relocs required for post-link fixup of alternate feature
++# text section relocations.
++LDFLAGS_vmlinux        += --emit-relocs
++KBUILD_LDFLAGS_MODULE += --emit-relocs
++
+ ifdef CONFIG_PPC64
+ ifndef CONFIG_PPC_KERNEL_PCREL
+ 	# -mcmodel=medium breaks modules because it uses 32bit offsets from
+diff --git a/arch/powerpc/include/asm/feature-fixups.h b/arch/powerpc/include/asm/feature-fixups.h
+index 756a6c694018..d6ae92a292ec 100644
+--- a/arch/powerpc/include/asm/feature-fixups.h
++++ b/arch/powerpc/include/asm/feature-fixups.h
+@@ -32,7 +32,7 @@
  
--ifdef CONFIG_OBJTOOL
+ #define FTR_SECTION_ELSE_NESTED(label)			\
+ label##2:						\
+-	.pushsection __ftr_alt_##label,"a";		\
++	.pushsection __ftr_alt_##label, "ax";		\
+ 	.align 2;					\
+ label##3:
+ 
+diff --git a/arch/powerpc/kernel/vmlinux.lds.S b/arch/powerpc/kernel/vmlinux.lds.S
+index 8fc11d6565bf..1a2d7c2d32f1 100644
+--- a/arch/powerpc/kernel/vmlinux.lds.S
++++ b/arch/powerpc/kernel/vmlinux.lds.S
+@@ -99,8 +99,8 @@ SECTIONS
+ 	.text : AT(ADDR(.text) - LOAD_OFFSET) {
+ 		ALIGN_FUNCTION();
+ #endif
+-		/* careful! __ftr_alt_* sections need to be close to .text */
+-		*(.text.hot .text.hot.* TEXT_MAIN .text.fixup .text.unlikely .text.unlikely.* .fixup __ftr_alt_* .ref.text);
++		*(.text.hot .text.hot.* TEXT_MAIN .text.fixup .text.unlikely
++			.text.unlikely.* .fixup .ref.text);
+ 		*(.tramp.ftrace.text);
+ 		NOINSTR_TEXT
+ 		SCHED_TEXT
+@@ -267,6 +267,10 @@ SECTIONS
+ 		_einittext = .;
+ 	} :text
+ 
++	.__ftr_alternates.text : AT(ADDR(.__ftr_alternates.text) - LOAD_OFFSET) {
++		*(__ftr_alt*);
++	}
++
+ 	/* .exit.text is discarded at runtime, not link time,
+ 	 * to deal with references from __bug_table
+ 	 */
+diff --git a/arch/powerpc/lib/feature-fixups.c b/arch/powerpc/lib/feature-fixups.c
+index 587c8cf1230f..269e992b1631 100644
+--- a/arch/powerpc/lib/feature-fixups.c
++++ b/arch/powerpc/lib/feature-fixups.c
+@@ -53,22 +53,10 @@ static u32 *calc_addr(struct fixup_entry *fcur, long offset)
+ 
+ static int patch_alt_instruction(u32 *src, u32 *dest, u32 *alt_start, u32 *alt_end)
+ {
+-	int err;
+ 	ppc_inst_t instr;
+ 
+ 	instr = ppc_inst_read(src);
+ 
+-	if (instr_is_relative_branch(ppc_inst_read(src))) {
+-		u32 *target = (u32 *)branch_target(src);
 -
- objtool := $(objtree)/tools/objtool/objtool
+-		/* Branch within the section doesn't need translating */
+-		if (target < alt_start || target > alt_end) {
+-			err = translate_branch(&instr, dest, src);
+-			if (err)
+-				return 1;
+-		}
+-	}
+-
+ 	raw_patch_instruction(dest, instr);
  
-+ifdef CONFIG_OBJTOOL
-+
- objtool-args-$(CONFIG_HAVE_JUMP_LABEL_HACK)		+= --hacks=jump_label
- objtool-args-$(CONFIG_HAVE_NOINSTR_HACK)		+= --hacks=noinstr
- objtool-args-$(CONFIG_MITIGATION_CALL_DEPTH_TRACKING)	+= --hacks=skylake
+ 	return 0;
 diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index fcae1e432d9a..a1bef0638ecb 100644
+index a1bef0638ecb..66e5d58a6ce8 100644
 --- a/scripts/Makefile.vmlinux
 +++ b/scripts/Makefile.vmlinux
-@@ -65,7 +65,8 @@ ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
- # Final link of vmlinux with optional arch pass after final link
- cmd_link_vmlinux =							\
- 	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
--	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
-+	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true);	\
-+	$(if $(CONFIG_HAVE_OBJTOOL_FTR_FIXUP), $(objtool) --ftr-fixup --link $@, true)
+@@ -82,11 +82,15 @@ endif
+ # vmlinux
+ # ---------------------------------------------------------------------------
  
- targets += vmlinux.unstripped .vmlinux.export.o
- vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o .vmlinux.export.o $(KBUILD_LDS) FORCE
++# These configurations require vmlinux.unstripped to be linked with
++# '--emit-relocs', which need to be stripped from the final vmlinux.
++uses-emit-relocs := $(or $(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),$(CONFIG_HAVE_OBJTOOL_FTR_FIXUP))
++
+ remove-section-y                                   := .modinfo
+-remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*' '!.rel*.dyn'
++remove-section-$(uses-emit-relocs)                 += '.rel*' '!.rel*.dyn'
+ # for compatibility with binutils < 2.32
+ # https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=c12d9fa2afe7abcbe407a00e15719e1a1350c2a7
+-remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel.*'
++remove-section-$(uses-emit-relocs)                 += '.rel.*'
+ 
+ remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
+ 
 -- 
 2.43.0
 
