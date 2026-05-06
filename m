@@ -1,79 +1,66 @@
-Return-Path: <linux-kbuild+bounces-13050-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13051-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6DCaLhdR+2mSZQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13050-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:32:55 +0200
+	id cBMeCeZR+2mSZQMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13051-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:36:22 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA8C4DC3F9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:32:54 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD504DC4FF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:36:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 88F1331491B7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 14:22:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2A59F3006B08
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 14:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18FDD47ECF9;
-	Wed,  6 May 2026 14:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Lu5PJll/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3762BCF46;
+	Wed,  6 May 2026 14:30:11 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9940E48035B;
-	Wed,  6 May 2026 14:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B718480320;
+	Wed,  6 May 2026 14:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.228.1.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778077367; cv=none; b=r9q6ORmZy4gMZ25nupx8zMGnJ0sLJsUJHB7GKXd6Tl9OP8WF6ouAhK8Rp7atqc8XquMghnlSr0REIT2cdfHbnydF9PRgpqo0WITAbnke8tcL7kauaZwWkxUf6JE9pwoW72vDo6l7F7RNbbzgmazKMhrymSe46jYcXDGY6HZjkqs=
+	t=1778077811; cv=none; b=TdJVkhM960nny5jSKqQVOiUTJpvfRGWUll+9HudJhMOhyZr/S5q4DtRG4kRMR90/l0ERd162tOHkJC3P2LFS9PZRNjPexzMZ3SDFZ076diK5tEzUCXODgb7e4csxOxEViweI+ZK+JZUNXdkfuKjP1VAkwMwurZkB3JTGHGBH/zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778077367; c=relaxed/simple;
-	bh=dQUS6bl1S9/SlgE4tplGsaWuBdKxPm9PuxmQh4VjtE8=;
+	s=arc-20240116; t=1778077811; c=relaxed/simple;
+	bh=SERVxrWoC/AibqdeLUCiOyktDNd01Ca70maYmcqPMvo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=giQUjh4XkGrWQJM5epb3ASAzuBjQMKieNe3FxtuJwXsv48qKe/k9wRhI3s2xR1Wbpm0ztIJHGh5Wd/BtsIq6ALZAwXJPKibbVHvG8oZt/PxGol0ej6Lx1xKPUEXVj6o89fjzUsfns69vyeV/6RY9MDrol3hpBRBzRjC+IdeO2ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Lu5PJll/; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=VmAS648/kcaQ/LEkA2wqHc5ENPuoTr9ZPMlVRMOgdMY=; b=Lu5PJll/0x3f0vhnejQ21r0/JI
-	FbIt7A+P0Tw6TBmqd4g8bGojwQEL4FTJxc4UY5wDFvDhQG1+iF33oz4IgEgh9xJPSSvoDtWNY5H+Q
-	yWUMWHHPWyPJAnjvyFMcDu1y5YG5D1THIOcaNTr+78Qqa1a2ruLJwzN5VXF6E2hzOkw1MPCoqtykt
-	33ID+PToQX92vdgxv1K6pDsIwuepGjBPZiMsx/Jnr85oM1BadqoPv+s1dmmbSRHK9PcU925TDtIOk
-	nrCE/RJ9EdNE/fawOfcvKTynx57WQLWL1S61dwIB2VEmmItHVsZNNzAqdaUgpc7MDIbbAGdTwKUyI
-	PR1qB+EQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKd8h-00000001KYx-3ETU;
-	Wed, 06 May 2026 14:22:16 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id A91E2303011; Wed, 06 May 2026 16:22:14 +0200 (CEST)
-Date: Wed, 6 May 2026 16:22:14 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Segher Boessenkool <segher@kernel.crashing.org>
-Cc: Sathvika Vasireddy <sv@linux.ibm.com>, nathan@kernel.org,
-	nsc@kernel.org, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	npiggin@gmail.com, chleroy@kernel.org, jpoimboe@kernel.org,
-	ojeda@kernel.org, masahiroy@kernel.org, lossin@kernel.org,
-	tamird@kernel.org, thomas.weissschuh@linutronix.de,
-	rostedt@goodmis.org, ihor.solodrai@linux.dev, thuth@redhat.com,
-	pmladek@suse.com, aliceryhl@google.com, elver@google.com,
-	kees@kernel.org, legion@kernel.org, ardb@kernel.org,
-	yuxuan.zuo@outlook.com, alexghiti@rivosinc.com,
-	alexandre.chartre@oracle.com, bp@alien8.de,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3XutOUxzuDPrg/W27v3htw2P4U6jpcPBoYXv19IdYNvETLsQdZmBNpqUYfc6Nwb/F4H/pCW5FtdeY9VG3oZvYYv3tx8N7GGUxr+hrp4pId3qUZHhfHHsDZkjvr+Ft5rwAnXCCfsxONSjZB4uNjjPsKh947DZRepLt/6DgwmuO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org; spf=pass smtp.mailfrom=kernel.crashing.org; arc=none smtp.client-ip=63.228.1.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.crashing.org
+Received: from gate.crashing.org (localhost [127.0.0.1])
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 646ESaYa352811;
+	Wed, 6 May 2026 09:28:36 -0500
+Received: (from segher@localhost)
+	by gate.crashing.org (8.18.1/8.18.1/Submit) id 646ESUw9352806;
+	Wed, 6 May 2026 09:28:30 -0500
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date: Wed, 6 May 2026 09:28:30 -0500
+From: Segher Boessenkool <segher@kernel.crashing.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Sathvika Vasireddy <sv@linux.ibm.com>, nathan@kernel.org,
+        nsc@kernel.org, maddy@linux.ibm.com, mpe@ellerman.id.au,
+        npiggin@gmail.com, jpoimboe@kernel.org, ojeda@kernel.org,
+        masahiroy@kernel.org, lossin@kernel.org, tamird@kernel.org,
+        thomas.weissschuh@linutronix.de, rostedt@goodmis.org,
+        ihor.solodrai@linux.dev, thuth@redhat.com, pmladek@suse.com,
+        aliceryhl@google.com, elver@google.com, kees@kernel.org,
+        legion@kernel.org, ardb@kernel.org, yuxuan.zuo@outlook.com,
+        alexghiti@rivosinc.com, alexandre.chartre@oracle.com, bp@alien8.de,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
 Subject: Re: [PATCH v1 1/6] objtool/powerpc: Add build-time fixup of
  alternate feature branch targets
-Message-ID: <20260506142214.GD3126523@noisy.programming.kicks-ass.net>
+Message-ID: <aftQDiJBZ032-Oem@gate>
 References: <20260505084628.17940-1-sv@linux.ibm.com>
  <20260505084628.17940-2-sv@linux.ibm.com>
  <20260505144539.GX3126523@noisy.programming.kicks-ass.net>
- <afoTSvawD4CXCCy1@gate>
- <20260506070000.GZ3126523@noisy.programming.kicks-ass.net>
- <aftJIWxB70eNRX8l@gate>
+ <20260505144949.GO3102924@noisy.programming.kicks-ass.net>
+ <669fbc9a-a243-43e8-8888-93bfb9d6ee12@kernel.org>
+ <20260506071753.GA3126523@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -82,117 +69,81 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aftJIWxB70eNRX8l@gate>
-X-Rspamd-Queue-Id: 0DA8C4DC3F9
+In-Reply-To: <20260506071753.GA3126523@noisy.programming.kicks-ass.net>
+X-Rspamd-Queue-Id: 8FD504DC4FF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=desiato.20200630];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13050-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[linux.ibm.com,kernel.org,ellerman.id.au,gmail.com,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux.ibm.com,ellerman.id.au,gmail.com,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
+	DMARC_NA(0.00)[crashing.org];
 	RCPT_COUNT_TWELVE(0.00)[30];
+	TAGGED_FROM(0.00)[bounces-13051-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[peterz@infradead.org,linux-kbuild@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[noisy.programming.kicks-ass.net:mid,infradead.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	HAS_XAW(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[segher@kernel.crashing.org,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
-On Wed, May 06, 2026 at 08:58:57AM -0500, Segher Boessenkool wrote:
-> Hi!
-> 
-> On Wed, May 06, 2026 at 09:00:00AM +0200, Peter Zijlstra wrote:
-> > On Tue, May 05, 2026 at 10:56:58AM -0500, Segher Boessenkool wrote:
-> > > On Tue, May 05, 2026 at 04:45:39PM +0200, Peter Zijlstra wrote:
-> > > > On Tue, May 05, 2026 at 02:16:23PM +0530, Sathvika Vasireddy wrote:
-> > > > >  	switch (opcode) {
-> > > > > +	case 16:
-> > > > 
-> > > > Like case 18 below, this wants a comment describing which instruction
-> > > > this is; bclr ?
-> > > 
-> > > Yes.  It is 19/16, b[c]lr (primary opcode 19, secondary opcode 16).
-> > > 
-> > > Where is it described what INSN_RETURN actually means for objtool?  Not
-> > > in the header file :-(
+On Wed, May 06, 2026 at 09:17:53AM +0200, Peter Zijlstra wrote:
+> On Tue, May 05, 2026 at 05:48:32PM +0200, Christophe Leroy (CS GROUP) wrote:
+> > bclr (which is the return INSN_RETURN) has type 19
 > > 
-> > Yeah, nowhere much I'm afraid, it is very much organic growth that is
-> > firmly rooted in x86.
-> > 
-> > RETURN, along with sibling/tail CALLs validate things like the stack
-> > frame being in identical state as on function entry and a few other
-> > sanity checks (DF flag not set, no uaccess).
+> > By the way you can have a look at https://patchwork.ozlabs.org/project/linuxppc-dev/patch/bfa8364da047d8610a09458a1cd924a0566aedbb.1736955567.git.christophe.leroy@csgroup.eu/
 > 
-> Huh.
+> That is indeed more; isn't bcl something like COND_CALL ? (another one
+> of them things we don't have).
+
+Yeah, all of bc[l][a] are conditional branches.  "a" (AA=1) means the
+branch target is an absolute address (in the top or bottom 8kB of the
+address space), and "l" (LK=1) means set LR to the NIA ("next
+instruction address") before doing the branch.
+
+The BO field describes the condition.  0x14 means "always".  (But there
+also are primary opcodes for b[l][a], with a bigger target field, 24
+bits instead of the 14 bits of bc[l][a]; you do not have the BI and BO
+fields then of course) ("branch index" and "branch option" btw).
+
+> > That patch has all the objtool decoding. By the way objtool is missing a
+> > INSN_CONDITIONAL_RETURN, also see https://patchwork.ozlabs.org/project/linuxppc-dev/patch/537e5d8f181b1f1c2b8918f1aefa1dba3f972c03.1736955567.git.christophe.leroy@csgroup.eu/
 > 
-> On function entry, there is *no* accessible stack frame, on our ABIs
-> (typically you can still access your parent's frame of course, but then
-> you first need to find out who your parent is, etc.)  All stack frames
-> are always set up by separate store instructions.  We are a RISC
-> architecture after all (POWER means "Performance Optimisation With
-> Enhanced RISC").  So objtool checks if we actually tore down all
-> stack frames?  What a very useful thing to do.
-> 
-> Stack frames are a software concept in the first place, it has nothing
-> to do with the hardware, *at all*.  This is a bit different on archs
-> that *actually* have such a thing as a frame pointer, that don't emulate
-> it using a GPR (or something in memory!)
+> Right, that is not something x86 has, but I don't see a reason we can't
+> add that. With return thunks, Clang (and I've heard GCC is also
+> considering this) does something very close to conditional return.
 
-So, remember that objtool was born to generate ORC stack unwind data.
-It needs to track the stack state at every instruction to accomplish
-this.
+A conditional blr does not map well to most compiled languages.  It is
+nice for hand-written machine code though :-)
 
-One of the basic sanity checks it does is ensuring there is no lingering
-stack state on RETURN -- this would obviously cause the
-caller/returned-to context to get a wee bit upset.
+For compiled code you almost always want to make some of the associated
+stack frame maintenance conditional as well (because the ABIs require
+this, if nothing else!)
 
-And yes, I realize this might sound quite mad to a compiler person. But
-remember that we have a ton of ASM (inline and otherwise) mixed in with
-our C code. And while you can add DWARF CFI to ASM, this has
-historically been a bit of a trainwreck, not in the least because the
-annotations got wrong and nothing warned about it until the unwinder
-would explode.
+I guess we could add some special-case stuff for it, maybe a peephole,
+but we probably would have to write a whole new pass for it, stuff with
+branch instructions always requires special checks :-p
 
-Objtool solves all of that, by doing build time reconstruction of the
-control flow and stack state it guarantees everything is consistent at
-build time. Additionally it can deal with fun things like alternatives
-/ static branches etc.
+> That way we do the return checks, but don't terminate the control flow.
+> After all, when the condition is taken, we had better have the stack
+> frame in the same state etc.
 
-It can deal with both -fframe-pointer and -fomit-frame-pointer (on x86).
-When the frame pointer reg (BP) is used, it also validates this is done
-correctly.
+Ugh, mixed abstractions again :-(
 
-This has caught many whoopsies over the years.
 
-Then because this thing is parsing object files and decoding control
-flow, features were added, like the uaccess scope checks.
-
-> > There is also a pile of hacks around the whole return thunk mitigation
-> > thing. But that might be less relevant for other archs.
-> 
-> I don't really want to think about it :-)  Horrors!
-> 
-> There are many other archs where all (or almost all, "all normal", call/
-> return sequences use a "link register", often called exactly that.  It's
-> the modern consensus to design call/return around that, I'd say even.
-> It would be nice if this abstraction worked well ;-)
-
-Agreed. Its just that this thing has a very strong x86 flavour per its
-legacy ;-) We'll get it sorted.
+Segher
 
