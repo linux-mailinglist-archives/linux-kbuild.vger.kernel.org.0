@@ -1,49 +1,48 @@
-Return-Path: <linux-kbuild+bounces-13051-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13052-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cBMeCeZR+2mSZQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13051-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:36:22 +0200
+	id GA+GOUhU+2n+ZQMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13052-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:46:32 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD504DC4FF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:36:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9834DC843
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 16:46:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2A59F3006B08
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 14:30:14 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BC3FC30058F2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 14:44:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3762BCF46;
-	Wed,  6 May 2026 14:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1992481AB6;
+	Wed,  6 May 2026 14:43:59 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B718480320;
-	Wed,  6 May 2026 14:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52FD4481AA7;
+	Wed,  6 May 2026 14:43:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.228.1.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778077811; cv=none; b=TdJVkhM960nny5jSKqQVOiUTJpvfRGWUll+9HudJhMOhyZr/S5q4DtRG4kRMR90/l0ERd162tOHkJC3P2LFS9PZRNjPexzMZ3SDFZ076diK5tEzUCXODgb7e4csxOxEViweI+ZK+JZUNXdkfuKjP1VAkwMwurZkB3JTGHGBH/zk=
+	t=1778078639; cv=none; b=JyuKKasbY12eswmDh74cvEx/vq3H0BmQxG+MfiVRAiUBmFvuxBsWKTgHONs980IEyZ63VPnpvfHMBfVSTfiLn81NDe8LefJWjI693vxu8TtNZNuTdB9pkPMRhpNaw6+U+TdJgKSJI9x4euopkJio2LMkuuD9kRLBgFT/15fh4uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778077811; c=relaxed/simple;
-	bh=SERVxrWoC/AibqdeLUCiOyktDNd01Ca70maYmcqPMvo=;
+	s=arc-20240116; t=1778078639; c=relaxed/simple;
+	bh=8B6L7L5xVUZFI2Z+U+M20LmRHdQgho0IY2aiJdLqc8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3XutOUxzuDPrg/W27v3htw2P4U6jpcPBoYXv19IdYNvETLsQdZmBNpqUYfc6Nwb/F4H/pCW5FtdeY9VG3oZvYYv3tx8N7GGUxr+hrp4pId3qUZHhfHHsDZkjvr+Ft5rwAnXCCfsxONSjZB4uNjjPsKh947DZRepLt/6DgwmuO0=
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZzRwt40FXR/JnA7/pSPQM1K5tjzkwoeo5kl6vu9WbB2BJ7ZcwBEfzMnToDhiB0qR7Qe0E5PFdY53+oFPBgv6nABDtADsCD4E4GATTpXNkVzIsSe25VkqoKMHAvAD/P7BHu92c4w9Xhia/CGAHBYI6hWLF/KJ5EQvAVyuM/bVT7Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org; spf=pass smtp.mailfrom=kernel.crashing.org; arc=none smtp.client-ip=63.228.1.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.crashing.org
 Received: from gate.crashing.org (localhost [127.0.0.1])
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 646ESaYa352811;
-	Wed, 6 May 2026 09:28:36 -0500
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 646Eh2V8354877;
+	Wed, 6 May 2026 09:43:02 -0500
 Received: (from segher@localhost)
-	by gate.crashing.org (8.18.1/8.18.1/Submit) id 646ESUw9352806;
-	Wed, 6 May 2026 09:28:30 -0500
+	by gate.crashing.org (8.18.1/8.18.1/Submit) id 646Egtn5354867;
+	Wed, 6 May 2026 09:42:55 -0500
 X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date: Wed, 6 May 2026 09:28:30 -0500
+Date: Wed, 6 May 2026 09:42:55 -0500
 From: Segher Boessenkool <segher@kernel.crashing.org>
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Sathvika Vasireddy <sv@linux.ibm.com>, nathan@kernel.org,
-        nsc@kernel.org, maddy@linux.ibm.com, mpe@ellerman.id.au,
-        npiggin@gmail.com, jpoimboe@kernel.org, ojeda@kernel.org,
+Cc: Sathvika Vasireddy <sv@linux.ibm.com>, nathan@kernel.org, nsc@kernel.org,
+        maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+        chleroy@kernel.org, jpoimboe@kernel.org, ojeda@kernel.org,
         masahiroy@kernel.org, lossin@kernel.org, tamird@kernel.org,
         thomas.weissschuh@linutronix.de, rostedt@goodmis.org,
         ihor.solodrai@linux.dev, thuth@redhat.com, pmladek@suse.com,
@@ -54,13 +53,14 @@ Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
         linuxppc-dev@lists.ozlabs.org
 Subject: Re: [PATCH v1 1/6] objtool/powerpc: Add build-time fixup of
  alternate feature branch targets
-Message-ID: <aftQDiJBZ032-Oem@gate>
+Message-ID: <aftTbxYxnnfFr_rn@gate>
 References: <20260505084628.17940-1-sv@linux.ibm.com>
  <20260505084628.17940-2-sv@linux.ibm.com>
  <20260505144539.GX3126523@noisy.programming.kicks-ass.net>
- <20260505144949.GO3102924@noisy.programming.kicks-ass.net>
- <669fbc9a-a243-43e8-8888-93bfb9d6ee12@kernel.org>
- <20260506071753.GA3126523@noisy.programming.kicks-ass.net>
+ <afoTSvawD4CXCCy1@gate>
+ <20260506070000.GZ3126523@noisy.programming.kicks-ass.net>
+ <aftJIWxB70eNRX8l@gate>
+ <20260506142214.GD3126523@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -69,80 +69,92 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260506071753.GA3126523@noisy.programming.kicks-ass.net>
-X-Rspamd-Queue-Id: 8FD504DC4FF
+In-Reply-To: <20260506142214.GD3126523@noisy.programming.kicks-ass.net>
+X-Rspamd-Queue-Id: 8C9834DC843
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.ibm.com,ellerman.id.au,gmail.com,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
-	DMARC_NA(0.00)[crashing.org];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	TAGGED_FROM(0.00)[bounces-13051-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[linux.ibm.com,kernel.org,ellerman.id.au,gmail.com,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[crashing.org];
+	TAGGED_FROM(0.00)[bounces-13052-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	HAS_XAW(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[segher@kernel.crashing.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TO_DN_SOME(0.00)[]
 
-On Wed, May 06, 2026 at 09:17:53AM +0200, Peter Zijlstra wrote:
-> On Tue, May 05, 2026 at 05:48:32PM +0200, Christophe Leroy (CS GROUP) wrote:
-> > bclr (which is the return INSN_RETURN) has type 19
+Hi!
+
+On Wed, May 06, 2026 at 04:22:14PM +0200, Peter Zijlstra wrote:
+> On Wed, May 06, 2026 at 08:58:57AM -0500, Segher Boessenkool wrote:
+> > Huh.
 > > 
-> > By the way you can have a look at https://patchwork.ozlabs.org/project/linuxppc-dev/patch/bfa8364da047d8610a09458a1cd924a0566aedbb.1736955567.git.christophe.leroy@csgroup.eu/
+> > On function entry, there is *no* accessible stack frame, on our ABIs
+> > (typically you can still access your parent's frame of course, but then
+> > you first need to find out who your parent is, etc.)  All stack frames
+> > are always set up by separate store instructions.  We are a RISC
+> > architecture after all (POWER means "Performance Optimisation With
+> > Enhanced RISC").  So objtool checks if we actually tore down all
+> > stack frames?  What a very useful thing to do.
+> > 
+> > Stack frames are a software concept in the first place, it has nothing
+> > to do with the hardware, *at all*.  This is a bit different on archs
+> > that *actually* have such a thing as a frame pointer, that don't emulate
+> > it using a GPR (or something in memory!)
 > 
-> That is indeed more; isn't bcl something like COND_CALL ? (another one
-> of them things we don't have).
+> So, remember that objtool was born to generate ORC stack unwind data.
+> It needs to track the stack state at every instruction to accomplish
+> this.
 
-Yeah, all of bc[l][a] are conditional branches.  "a" (AA=1) means the
-branch target is an absolute address (in the top or bottom 8kB of the
-address space), and "l" (LK=1) means set LR to the NIA ("next
-instruction address") before doing the branch.
+Yup.
 
-The BO field describes the condition.  0x14 means "always".  (But there
-also are primary opcodes for b[l][a], with a bigger target field, 24
-bits instead of the 14 bits of bc[l][a]; you do not have the BI and BO
-fields then of course) ("branch index" and "branch option" btw).
-
-> > That patch has all the objtool decoding. By the way objtool is missing a
-> > INSN_CONDITIONAL_RETURN, also see https://patchwork.ozlabs.org/project/linuxppc-dev/patch/537e5d8f181b1f1c2b8918f1aefa1dba3f972c03.1736955567.git.christophe.leroy@csgroup.eu/
+> One of the basic sanity checks it does is ensuring there is no lingering
+> stack state on RETURN -- this would obviously cause the
+> caller/returned-to context to get a wee bit upset.
 > 
-> Right, that is not something x86 has, but I don't see a reason we can't
-> add that. With return thunks, Clang (and I've heard GCC is also
-> considering this) does something very close to conditional return.
+> And yes, I realize this might sound quite mad to a compiler person. But
 
-A conditional blr does not map well to most compiled languages.  It is
-nice for hand-written machine code though :-)
+It doesn't sound weird *at all*, we have to jump through many hoops in
+the compiler as well as in the ABIs to make this work at all.
 
-For compiled code you almost always want to make some of the associated
-stack frame maintenance conditional as well (because the ABIs require
-this, if nothing else!)
+> remember that we have a ton of ASM (inline and otherwise) mixed in with
+> our C code. And while you can add DWARF CFI to ASM, this has
+> historically been a bit of a trainwreck, not in the least because the
+> annotations got wrong and nothing warned about it until the unwinder
+> would explode.
 
-I guess we could add some special-case stuff for it, maybe a peephole,
-but we probably would have to write a whole new pass for it, stuff with
-branch instructions always requires special checks :-p
+Typically, someone who writes inline assembler code cannot write CFI
+statements properly *at all*, he/she just doesn't have all the necessary
+information!  Only the compiler does.  It can put all kinds of stuff on
+the stack for example.  Writing CFI statements manually is really forr
+ someone writing machine code, or actual assembler code perhaps.
 
-> That way we do the return checks, but don't terminate the control flow.
-> After all, when the condition is taken, we had better have the stack
-> frame in the same state etc.
+> > There are many other archs where all (or almost all, "all normal", call/
+> > return sequences use a "link register", often called exactly that.  It's
+> > the modern consensus to design call/return around that, I'd say even.
+> > It would be nice if this abstraction worked well ;-)
+> 
+> Agreed. Its just that this thing has a very strong x86 flavour per its
+> legacy ;-) We'll get it sorted.
 
-Ugh, mixed abstractions again :-(
+Thanks for the care!
 
 
 Segher
