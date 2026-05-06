@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-13044-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13045-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4FF0BED1+mk1UwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13044-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 10:01:04 +0200
+	id mJ9zLHYG+2mbVQMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13045-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 11:14:30 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9936A4D78E5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 10:00:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A69C4D86C1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 11:14:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 124A13005D33
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 08:00:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 70A9D300E166
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 09:14:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D133E1CE0;
-	Wed,  6 May 2026 08:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4502C3E869F;
+	Wed,  6 May 2026 09:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TwqzQxiI"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TlmuD/Sr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8F035F5E4;
-	Wed,  6 May 2026 08:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EAE3E1D17;
+	Wed,  6 May 2026 09:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778054407; cv=none; b=mQD0hRFGRtZOqvGlIklHRnONUcNX/oiWajUzK8dzlq/Z2dUNj3FtkovXHqtWbsW0QUBWSTMSp8ueGlgk9+BhuqfxvVYyttpO8p/A7lK3N/LJCRxjcziNckydHEcWJP6bxlLvoMt3ydwrzgzApLb1WRhnW18Z177y/cUrQolG4lg=
+	t=1778058861; cv=none; b=IzdgmzA8VrSsuNf73WKpp9IgkfvTSA8X0qnwKiBEISGWbnpPTwWU4ssvI6pQT1bjhemJcuoV4NVvH56/2PSWBPZxEmxkLnsmtvMzetTWIFb1WLg8HZOGU4KJqooTql8nyfT4UbBn8KaiZ94Q3ymcjm/w6vE4C2heTQf4rrpEtNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778054407; c=relaxed/simple;
+	s=arc-20240116; t=1778058861; c=relaxed/simple;
 	bh=V9uekpWqlzKjUl0+5Is5LbAAtFsqCxo7ltwPZaTwrYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsBLtQFfgL3LbcMmE4bUw2DaWYmq1BX+UZ36vrc2YsmEEbGYVLeJxlk8ZBlNAShPc/B3fYPc+MA/B2uerRaJCRR39KW9ixTx9cQzjMCUjLDtEZrzMXx4maV81sZ2FpTzjs/R9JQYdsXg/dlYstjG4+9ccKJKA8xsHWHFq3jGHPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TwqzQxiI; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYCAbh4oRDC8pWWEFKXwAj5lzJmCPsTkei8UGy0QLDGY4c0Mjw+9BBT/+VSoyPYwC9QJcU1jfZ8pBZ2gPDJiojSkNmTE5YnRFJHpZcOpjSyX22QFdsxw4wsAGkAnQsNVhsiuVdKzIKw3QHZ+/ucIwMAAOyp1imxguXdeRgzGtbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TlmuD/Sr; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Z7e5wfsQXAKmxK97eeb0+Cr3E/r0kMMdycxMwl8zRSI=; b=TwqzQxiIdy1vK3gzph4t1YyE9J
-	sQDQojBiOJiG5kpByBNTBnzK7h1BkmHTdKJ8yELp1413oMExLA49ZVMeJJzA1xElhfJH+plJxa9pu
-	zepCRCyYuCgAdAnr1XSUj+0roKu3uJuP+YAkxRKA0uwDyKjnXwOrpGzggjb49yh3FkKpeO1MCi5ry
-	Lsdfa/2SzpNlSRmVi9hkVq6P2GwvWONe1eF9XRLS2kj7kAESknbRyIyqRoDRT/KEQSmdrKfQgDHa/
-	dfrrllrLxFsUUheHY20ush0gqWymyC5libuMBxnRX1qAf6UmuvaZllkZ33x83REY8MACXjdQd9QG0
-	7s6A36gA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKXAV-00000000ukV-225f;
-	Wed, 06 May 2026 07:59:43 +0000
+	bh=Z7e5wfsQXAKmxK97eeb0+Cr3E/r0kMMdycxMwl8zRSI=; b=TlmuD/Srb10/Ddt7t/em+ZUPOj
+	K3ZDHkmdAimiAQjoheTnfsmpI70EVe0X9gTA8eu/O2iqCuOvOG6QY1iUR6NxMA6zspZDo+4E6AJ0Y
+	Dt2lem73UDpdBE9iXEgEUW+rAIE3w0N6XqOrAWR923Og5F27X2O8zLSFKA77Nici61LzTvIdLJ5Zp
+	yxSHJmsm1pJSd5kOELCzDocNNWRM3nfLHbYqNplXZh1f4/AraJaU2nJaZj816yGbWaD0Fwb9kr7b3
+	EJeSQIK1P7uosyOVfudOM7sZ5K2hmDw8DW9Os0VITpJcwxf3fcZlBMpPbcn03DXzLVrmOl2tfnJUa
+	hUPh+DjQ==;
+Received: from 2001-1c00-8d85-4b00-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:4b00:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKWfj-00000000kbT-2601;
+	Wed, 06 May 2026 07:40:00 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
 	id BB847302EC2; Wed, 06 May 2026 09:17:53 +0200 (CEST)
 Date: Wed, 6 May 2026 09:17:53 +0200
@@ -81,38 +81,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <669fbc9a-a243-43e8-8888-93bfb9d6ee12@kernel.org>
-X-Rspamd-Queue-Id: 9936A4D78E5
+X-Rspamd-Queue-Id: 3A69C4D86C1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=casper.20170209];
+	R_DKIM_ALLOW(-0.20)[infradead.org:s=desiato.20200630];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13045-lists,linux-kbuild=lfdr.de];
 	FREEMAIL_CC(0.00)[linux.ibm.com,kernel.org,ellerman.id.au,gmail.com,linutronix.de,goodmis.org,linux.dev,redhat.com,suse.com,google.com,outlook.com,rivosinc.com,oracle.com,alien8.de,vger.kernel.org,lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	ASN_FAIL(0.00)[1.2.3.5.c.f.2.1.0.0.0.0.0.0.0.0.b.d.0.0.1.0.0.e.a.0.c.3.0.0.6.2.asn6.rspamd.com:query timed out];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13044-lists,linux-kbuild=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	SEM_URIBL_UNKNOWN_FAIL(0.00)[infradead.org:query timed out];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[peterz@infradead.org,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[infradead.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RBL_SEM_IPV6_FAIL(0.00)[2600:3c0a:e001:db::12fc:5321:query timed out];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[peterz@infradead.org,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:dkim,noisy.programming.kicks-ass.net:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ozlabs.org:url]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ozlabs.org:url,infradead.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 
 On Tue, May 05, 2026 at 05:48:32PM +0200, Christophe Leroy (CS GROUP) wrote:
 
