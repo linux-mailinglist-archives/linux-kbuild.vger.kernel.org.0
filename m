@@ -1,297 +1,1249 @@
-Return-Path: <linux-kbuild+bounces-13053-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13054-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sGcuMnFe+2kuaQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13053-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 17:29:53 +0200
+	id sCQqOIiJ+2mWcQMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13054-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 20:33:44 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A854DD3C4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 17:29:52 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 314904DF5E2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 06 May 2026 20:33:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3D4AF308D199
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 15:19:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 14F92300342F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2026 18:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81C75305E32;
-	Wed,  6 May 2026 15:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79777481A84;
+	Wed,  6 May 2026 18:33:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="LGNAtf49"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NexQpO1J"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114AD2DAFA9;
-	Wed,  6 May 2026 15:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6CD3F0775;
+	Wed,  6 May 2026 18:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778080729; cv=none; b=auwNrLFObg1cFgthwNCK8jwLQqgKBhUnRsONNdXWrNepLSDNbIjWDgxFgqtkQ7oxHEJ6miXQ972a8icxejGotLl3C8oeYGHQVZ0cYfByq9jPxzgr0N+PWGCaY7eLETU+xiUqku/QOc4hlgDUxCJZktMTL4ev1OzyQN7ahWHQ1bs=
+	t=1778092420; cv=none; b=tmqofYrqeo8jxz7VF/zSStjqezCXtaIdVYlGr0yGsOgLnBKN4DxhiOAYWi9XXMq/69eXQsYA5eml08aDGLpTSgTJ+6yu+Fd+e56yVC3HP+dvjNZtSy+KYZkpQBfk+X9t9v98UExe8mY7UORJWck6hXzzaeQETle2k3pN0JWiWYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778080729; c=relaxed/simple;
-	bh=i63iJcNMaiE/p9LCMpi+AM/NzWKPRpu68nl4anQnFU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T/ot1AKlkydJRg58q7W31YVR+TM9fkh3IRdqIxOJIjIUFe1Baaibh2kPmX+D/0wnW2HSsx632IxOJOwB/1izbLGAUnQwwXg70C4pTksyvgdllB/1LOhbxPyxdkHtDfuM9OUVbD40CgpkbjS4Eq1od8rXnz36N8uKn/xjgfKCxkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=LGNAtf49; arc=none smtp.client-ip=148.251.102.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
-Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 04904200C9;
-	Wed,  6 May 2026 17:18:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 9E2081FAFEC;
-	Wed,  6 May 2026 17:18:44 +0200 (CEST)
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id dO2hIEJ7GYUk; Wed,  6 May 2026 17:18:42 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id DCAA51FB1B4;
-	Wed,  6 May 2026 17:18:41 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz DCAA51FB1B4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1778080721;
-	bh=i63iJcNMaiE/p9LCMpi+AM/NzWKPRpu68nl4anQnFU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=LGNAtf49z2YqBMZzoyZnoMuLn130eQc9WyL93LRLmWbPRbHSM9murfbUMsbU4l4Ph
-	 mkswjSGTIjNqyJx6LqYpsFD3lGAdkApgxaI/2eHHwe90PYmglz7sYAUukXwz7LscjM
-	 brb1eYCWNRtDT3b0ws5zI3Y4OCgg/ysf7Pnj8yuoSNOyKc8iMCP7/CMgCx8fgiWdPw
-	 s4oK7Vzn6PHyN/SlZebn2HNm90ccQLpRKZqKwQEfJDPMUyfA+R1f8XKAU1wJNBbe6I
-	 SlyPXhyMy2je4YEmIhnvSNIo0dILCa7rF3nvh7qZkEwXQ93wvcROVsU6hYWvKKDD6G
-	 fuQ0VufoJ6A1A==
-X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id F-g4AgVRoQPq; Wed,  6 May 2026 17:18:41 +0200 (CEST)
-Received: from [192.168.0.168] (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 40C501FB0C4;
-	Wed,  6 May 2026 17:18:41 +0200 (CEST)
-Message-ID: <5396a630-9b65-4455-9141-9f3fc520b3ec@tngtech.com>
-Date: Wed, 6 May 2026 17:18:39 +0200
+	s=arc-20240116; t=1778092420; c=relaxed/simple;
+	bh=EFVotZzfB5OQgpRWRGUtBcGVg4RGhuM7+SrI5ElxtZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gWnxP12s3zsA4VLrfAAb7sEj4jlGE+eNVZu4DwCZYlF6X0mSwiaM+ifvN0Pd/KaRyiF5S9v1qTBXfdrZv8glo/9io2qIUp1yAXF83Cm7QBMHXI0zc1/xBgPKNELAqhvnqHf39xfgkemGqKc6Bo+zSQfdwgf6IEBfTOHUtoKObrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NexQpO1J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A6EC2BCB0;
+	Wed,  6 May 2026 18:33:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778092420;
+	bh=EFVotZzfB5OQgpRWRGUtBcGVg4RGhuM7+SrI5ElxtZ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NexQpO1JXgVBzNHpqvqxBbO5KfBzAiTHTzhxyuCVQvQoIGXk+PEuFrUKfgf2VpVMj
+	 A06n8Nog2WX2jKExzX5P4p5x2EzCXCtGflJ8z2W1JrtD6IBUSuf8lbbfMlmsQYlqme
+	 J+LAZ0P4mIWpkLgrHJaqLteOt5HxnjSHNQ8ha6nsHKw1AIwZZMnn2LOyibby3M5nZ1
+	 ajzEHhIx7y4F+QB2mnTE9BNz9eSoQlnI4o9tRdfFDVa5xOB4x0YT+ocarrvNU6gibG
+	 9Bn1kz9tIdZcxnSdOgr+doYxljEIFGmbfj5pWoNUmHM4A/myk14FJU5T9eaHTu2kRy
+	 T4xrAKL50R8dA==
+Date: Wed, 6 May 2026 13:33:37 -0500
+From: Rob Herring <robh@kernel.org>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Aleksander Jan Bajkowski <olek2@wp.pl>,
+	Test User <test@example.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: add DTS style checker
+Message-ID: <20260506183337.GA2178335-robh@kernel.org>
+References: <cover.1777471439.git.daniel@makrotopia.org>
+ <0df091db9fde4095eab6957b9158663997b0a639.1777471439.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/15] add SPDX SBOM generation script
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: nsc@kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, kstewart@linuxfoundation.org,
- maximilian.huber@tngtech.com
-References: <20260410212255.9883-1-luis.augenstein@tngtech.com>
- <177750859587.2042162.11401905742333459790.b4-review@b4>
-Content-Language: en-US
-From: Luis Augenstein <luis.augenstein@tngtech.com>
-In-Reply-To: <177750859587.2042162.11401905742333459790.b4-review@b4>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------XhCcPIg8oBMdynTX8OlVbiVD"
-X-Rspamd-Queue-Id: C2A854DD3C4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0df091db9fde4095eab6957b9158663997b0a639.1777471439.git.daniel@makrotopia.org>
+X-Rspamd-Queue-Id: 314904DF5E2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-4.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
-	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
-	MIME_BASE64_TEXT(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[tngtech.com:+];
-	TAGGED_FROM(0.00)[bounces-13053-lists,linux-kbuild=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	HAS_ATTACHMENT(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,tngtech.com:email,tngtech.com:dkim,tngtech.com:mid];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,weissschuh.net,goodmis.org,roeck-us.net,wp.pl,example.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13054-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,checkpatch.pl:url,ex.map:url,args.jobs:url]
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XhCcPIg8oBMdynTX8OlVbiVD
-Content-Type: multipart/mixed; boundary="------------0dbQz1xdPDsrIRlCYm7cpWvX";
- protected-headers="v1"
-From: Luis Augenstein <luis.augenstein@tngtech.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: nsc@kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, kstewart@linuxfoundation.org,
- maximilian.huber@tngtech.com
-Message-ID: <5396a630-9b65-4455-9141-9f3fc520b3ec@tngtech.com>
-Subject: Re: [PATCH v5 00/15] add SPDX SBOM generation script
-References: <20260410212255.9883-1-luis.augenstein@tngtech.com>
- <177750859587.2042162.11401905742333459790.b4-review@b4>
-In-Reply-To: <177750859587.2042162.11401905742333459790.b4-review@b4>
-Autocrypt-Gossip: addr=maximilian.huber@tngtech.com; keydata=
- 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
- /5CE/Cgrmg==
+On Wed, Apr 29, 2026 at 03:21:24PM +0100, Daniel Golle wrote:
+> Add a Python tool that checks DTS coding style on examples in YAML
+> binding files and on .dts/.dtsi/.dtso source files. Rules are kept in
+> a small declarative registry, each tagged 'relaxed' (default; must be
+> zero-violation on the current tree) or 'strict' (opt-in for new
+> submissions). Promoting a rule from strict to relaxed is a one-line
+> edit once the tree is clean.
+> 
+> Relaxed mode covers trailing whitespace, tab characters in YAML
+> examples, mixed tab+space indents, and the per-input-type indent
+> character (1 tab for .dts/.dtsi/.dtso). Strict mode adds:
+> 
+>   - indent unit and depth consistency (4 spaces for YAML, 1 tab for
+>     DTS) plus a stricter YAML variant requiring exactly 4 spaces;
+>   - blank-line policy: no consecutive blanks or blanks at body
+>     edges; required blank line before each child node and before
+>     "status";
+>   - property ordering by canonical bucket (compatible, reg/reg-names,
+>     ranges, standard, vendor, status) with declarative within-bucket
+>     pairing rules (<x>-names follows <x>, pinctrl-names follows the
+>     last pinctrl-N) and natural-sort fallback;
+>   - sibling node ordering: by unit address when present, by natural-
+>     sort node name otherwise;
+>   - line length capped at 80 columns;
+>   - continuation alignment of multi-line property values under the
+>     first '<' or '"' after the '=' sign;
+>   - hex literals lowercase; unit addresses lowercase hex without
+>     leading zeros; single-spaced values inside <...>; closing brace
+>     on its own line;
+>   - unused-label detection (skipped for .dtsi/.dtso since labels
+>     there are exported to includers/applies-to).
+> 
+> Together these constrain a DT structure to a single canonical
+> rendering, modulo the author's choice of when to wrap a property
+> across lines for readability, and not covering comments.
+> 
+> The tool reads file paths from @argfile and parallelises across CPUs
+> via -j N. With no -j given it picks up $PARALLELISM (set by
+> scripts/jobserver-exec from the GNU make jobserver) and falls back to
+> os.cpu_count() otherwise. Running as one Python invocation amortises
+> the ruamel.yaml import across the whole tree -- ~2s on a 32-CPU host
+> vs ~28s sequential.
+> 
+> Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+> ---
+> Changes since v1:
+>  - renamed dt-check-example-style -> dt-check-style; tool now also
+>    accepts .dts/.dtsi/.dtso files directly (tab-indent variant) and
+>    distinguishes .dts/.dtsi/.dtso so unused-labels skips .dtsi/.dtso
+>    where labels are exported to includers/applies-to
+>  - rules declared in a registry tagged relaxed/strict; default
+>    relaxed mode is zero-violation on the current tree
+>  - added -j N with $PARALLELISM (jobserver) awareness
+>  - dropped node-name [a-z0-9-] check (Rob: better as a meta-schema)
+>  - property-order rebuilt around buckets + declarative pairing rules
+>    (<x>-names after <x>, pinctrl-names after last pinctrl-N) plus
+>    natural-sort fallback
+>  - added child-name-order, required-blank-lines, hex-case,
+>    unit-address-format, value-whitespace, node-close-alone,
+>    line-length and continuation-alignment to strict mode
+> 
+>  scripts/dtc/dt-check-style | 1063 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 1063 insertions(+)
+>  create mode 100755 scripts/dtc/dt-check-style
+> 
+> diff --git a/scripts/dtc/dt-check-style b/scripts/dtc/dt-check-style
+> new file mode 100755
+> index 000000000000..477d3e427fc1
+> --- /dev/null
+> +++ b/scripts/dtc/dt-check-style
+> @@ -0,0 +1,1063 @@
+> +#!/usr/bin/env python3
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Check DTS coding style on YAML binding examples and on
+> +# .dts/.dtsi/.dtso source files. Enforces rules from
+> +# Documentation/devicetree/bindings/dts-coding-style.rst.
+> +#
+> +# Two modes:
+> +#   --mode=relaxed (default)
+> +#     Only rules that produce zero warnings on the current tree.
+> +#     Suitable for dt_binding_check.
+> +#   --mode=strict
+> +#     All rules. Required for new submissions.
+> +#
+> +# Two input types (auto-detected by file extension):
+> +#   *.yaml             -- DT binding; check each example block
+> +#   *.dts/*.dtsi/*.dtso -- DTS source; whole file is one block
+> +#
+> +# Rules are declared in a registry (see RULES below); each rule is
+> +# tagged with the lowest mode that runs it. Promoting a rule from
+> +# 'strict' to 'relaxed' is a one-line change.
+> +
+> +import argparse
+> +import re
+> +import sys
+> +from enum import Enum, auto
+> +
+> +import ruamel.yaml
+> +
+> +
+> +# ---------------------------------------------------------------------------
+> +# Line classification
+> +# ---------------------------------------------------------------------------
+> +
+> +class LineType(Enum):
+> +    BLANK = auto()
+> +    COMMENT = auto()         # // ... or /* ... */ on one line
+> +    COMMENT_START = auto()   # /* without closing */
+> +    COMMENT_BODY = auto()    # inside a multi-line comment
+> +    COMMENT_END = auto()     # closing */
+> +    PREPROCESSOR = auto()    # #include / #define / #ifdef / ...
+> +    NODE_OPEN = auto()       # something { (with optional label/name/addr)
+> +    NODE_CLOSE = auto()      # };
+> +    PROPERTY = auto()        # name = value; or name;
+> +    CONTINUATION = auto()    # continuation of a multi-line property
+> +
+> +
+> +re_cpp_directive = re.compile(
+> +    r'^#\s*(include|define|undef|ifdef|ifndef|if|else|elif|endif|'
+> +    r'pragma|error|warning)\b')
+> +
+> +# label: name@addr {  -- label and addr optional; name can be "/"
+> +re_node_header = re.compile(
+> +    r'^(?:([a-zA-Z_][a-zA-Z0-9_]*):\s*)?'
+> +    r'([a-zA-Z][a-zA-Z0-9,._+-]*|/)'
+> +    r'(?:@([0-9a-fA-F,]+))?'
+> +    r'\s*\{$')
+> +
+> +re_ref_node = re.compile(
+> +    r'^&([a-zA-Z_][a-zA-Z0-9_]*)\s*\{$')
+> +
+> +
+> +def is_preprocessor(stripped):
+> +    """Tell C preprocessor directives apart from DTS '#'-prefixed props."""
+> +    return re_cpp_directive.match(stripped) is not None
+> +
+> +
+> +class DtsLine:
+> +    __slots__ = ('lineno', 'raw', 'linetype', 'indent_str', 'stripped',
+> +                 'prop_name', 'continuations',
+> +                 'node_name', 'node_addr', 'label', 'ref_name', 'depth')
+> +
+> +    def __init__(self, lineno, raw, linetype, indent_str, stripped):
+> +        self.lineno = lineno      # 1-based within the block
+> +        self.raw = raw
+> +        self.linetype = linetype
+> +        self.indent_str = indent_str  # leading whitespace as-is
+> +        self.stripped = stripped
+> +        self.prop_name = None
+> +        self.continuations = []
+> +        self.node_name = None
+> +        self.node_addr = None
+> +        self.label = None
+> +        self.ref_name = None
+> +        self.depth = 0            # filled in by classify_lines
+> +
+> +
+> +def classify_lines(text):
+> +    """Return a list of DtsLine. Tracks { } depth and groups
+> +    continuation lines onto their leading PROPERTY line."""
+> +    out = []
+> +    in_block_comment = False
+> +    prev_complete = True
+> +    depth = 0
+> +
+> +    # Split preserving the indent string verbatim
+> +    re_lead = re.compile(r'^([ \t]*)(.*)$')
+> +
+> +    for i, raw in enumerate(text.split('\n'), start=1):
+> +        m = re_lead.match(raw)
+> +        indent_str = m.group(1)
+> +        stripped = m.group(2)
+> +
+> +        if not stripped:
+> +            dl = DtsLine(i, raw, LineType.BLANK, '', '')
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            continue
+> +
+> +        if in_block_comment:
+> +            ltype = (LineType.COMMENT_END if '*/' in stripped
+> +                     else LineType.COMMENT_BODY)
+> +            if ltype == LineType.COMMENT_END:
+> +                in_block_comment = False
+> +            dl = DtsLine(i, raw, ltype, indent_str, stripped)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            continue
+> +
+> +        if stripped.startswith('/*'):
+> +            if '*/' in stripped:
+> +                ltype = LineType.COMMENT
+> +            else:
+> +                in_block_comment = True
+> +                ltype = LineType.COMMENT_START
+> +            dl = DtsLine(i, raw, ltype, indent_str, stripped)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            continue
+> +
+> +        if stripped.startswith('//'):
+> +            dl = DtsLine(i, raw, LineType.COMMENT, indent_str, stripped)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            continue
+> +
+> +        if stripped.startswith('#') and is_preprocessor(stripped):
+> +            dl = DtsLine(i, raw, LineType.PREPROCESSOR,
+> +                         indent_str, stripped)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            prev_complete = True
+> +            continue
+> +
+> +        if not prev_complete:
+> +            dl = DtsLine(i, raw, LineType.CONTINUATION,
+> +                         indent_str, stripped)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            prev_complete = (stripped.endswith(';') or
+> +                             stripped.endswith('{') or
+> +                             stripped.endswith('};'))
+> +            continue
+> +
+> +        if stripped == '};' or stripped == '}':
+> +            depth = max(depth - 1, 0)
+> +            dl = DtsLine(i, raw, LineType.NODE_CLOSE, indent_str, stripped)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            prev_complete = True
+> +            continue
+> +
+> +        if stripped.endswith('{'):
+> +            dl = DtsLine(i, raw, LineType.NODE_OPEN, indent_str, stripped)
+> +            parse_node_header(dl)
+> +            dl.depth = depth
+> +            out.append(dl)
+> +            depth += 1
+> +            prev_complete = True
+> +            continue
+> +
+> +        # Property (or first line of a multi-line property).
+> +        dl = DtsLine(i, raw, LineType.PROPERTY, indent_str, stripped)
+> +        parse_property_name(dl)
+> +        dl.depth = depth
+> +        out.append(dl)
+> +        prev_complete = stripped.endswith(';')
+> +
+> +    # Group continuation lines onto their leading PROPERTY.
+> +    last_prop = None
+> +    grouped = []
+> +    for dl in out:
+> +        if dl.linetype == LineType.CONTINUATION and last_prop is not None:
+> +            last_prop.continuations.append(dl)
+> +            continue
+> +        if dl.linetype == LineType.PROPERTY:
+> +            last_prop = dl
+> +        elif dl.linetype != LineType.BLANK and \
+> +                dl.linetype not in (LineType.COMMENT, LineType.COMMENT_BODY,
+> +                                    LineType.COMMENT_END,
+> +                                    LineType.COMMENT_START):
+> +            last_prop = None
+> +        grouped.append(dl)
+> +    return grouped
+> +
+> +
+> +def parse_node_header(dl):
+> +    m = re_node_header.match(dl.stripped)
+> +    if m:
+> +        dl.label = m.group(1)
+> +        dl.node_name = m.group(2)
+> +        dl.node_addr = m.group(3)
+> +        return
+> +    m = re_ref_node.match(dl.stripped)
+> +    if m:
+> +        dl.ref_name = m.group(1)
+> +
+> +
+> +def parse_property_name(dl):
+> +    m = re.match(r'^([a-zA-Z#][a-zA-Z0-9,._+#-]*)\s*[=;]', dl.stripped)
+> +    if m:
+> +        dl.prop_name = m.group(1)
+> +
+> +
+> +def collect_labels_and_refs(text):
+> +    """Return (defined_labels, referenced_labels) found anywhere outside
+> +    /* */ comments. Labels named fake_intc* (injected by
+> +    dt-extract-example) are skipped."""
+> +    # Strip block comments first so labels inside them don't count
+> +    stripped = re.sub(r'/\*.*?\*/', '', text, flags=re.DOTALL)
+> +    # Strip line comments
+> +    stripped = re.sub(r'//[^\n]*', '', stripped)
+> +    defined = set()
+> +    referenced = set()
+> +    for m in re.finditer(r'(?:^|[\s{])([a-zA-Z_][a-zA-Z0-9_]*):\s*[a-zA-Z/&]',
+> +                         stripped):
+> +        name = m.group(1)
+> +        if not name.startswith('fake_intc'):
+> +            defined.add(name)
+> +    for m in re.finditer(r'&([a-zA-Z_][a-zA-Z0-9_]*)', stripped):
+> +        referenced.add(m.group(1))
+> +    return defined, referenced
+> +
+> +
+> +# ---------------------------------------------------------------------------
+> +# Rule registry
+> +# ---------------------------------------------------------------------------
+> +
+> +class Ctx:
+> +    """Context passed to each rule check. Carries the parsed lines,
+> +    raw text, mode, and indent kind."""
+> +
+> +    def __init__(self, lines, text, mode, indent_kind):
+> +        self.lines = lines
+> +        self.text = text
+> +        self.mode = mode               # 'relaxed' or 'strict'
+> +        self.indent_kind = indent_kind  # 'spaces' or 'tab'
+> +
+> +
+> +class Rule:
+> +    __slots__ = ('name', 'mode', 'description', 'check', 'applies_to')
+> +
+> +    def __init__(self, name, mode, description, check,
+> +                 applies_to=('yaml', 'dts', 'dtsi', 'dtso')):
+> +        self.name = name
+> +        self.mode = mode               # 'relaxed' or 'strict'
+> +        self.description = description
+> +        self.check = check
+> +        self.applies_to = applies_to   # input types this rule covers
+> +
+> +
+> +# --- individual rule check functions --------------------------------------
+> +
+> +def check_trailing_whitespace(ctx):
+> +    for dl in ctx.lines:
+> +        if dl.raw != dl.raw.rstrip():
+> +            yield (dl.lineno, 'trailing whitespace')
+> +
+> +
+> +def check_tab_in_dts(ctx):
+> +    """Reject literal tabs in DTS lines when input is YAML.
+> +
+> +    For YAML examples, indent and content must use spaces. Tabs inside
+> +    a #define value are tolerated (those are CPP macros, not DTS).
+> +    For .dts files, this rule does not apply -- tabs are required.
+> +    """
+> +    if ctx.indent_kind != 'spaces':
+> +        return
+> +    for dl in ctx.lines:
+> +        if dl.linetype == LineType.PREPROCESSOR:
+> +            continue
+> +        if dl.linetype == LineType.BLANK:
+> +            continue
+> +        if '\t' in dl.raw:
+> +            yield (dl.lineno, 'tab character not allowed in DTS example')
+> +
+> +
+> +def check_mixed_indent_chars(ctx):
+> +    """Indent must be all-spaces or all-tabs, never mixed on one line."""
+> +    for dl in ctx.lines:
+> +        if not dl.indent_str:
+> +            continue
+> +        if dl.linetype == LineType.PREPROCESSOR:
+> +            continue
+> +        if ' ' in dl.indent_str and '\t' in dl.indent_str:
+> +            yield (dl.lineno, 'mixed tabs and spaces in indent')
+> +
+> +
+> +def detect_indent_unit(ctx):
+> +    """Find the indent unit used at depth 1 in this block.
+> +
+> +    Returns one of: '  ' (2 spaces), '    ' (4 spaces), '\\t' (tab),
+> +    or None if depth-1 is empty or ambiguous."""
+> +    for dl in ctx.lines:
+> +        if dl.depth != 1:
+> +            continue
+> +        if dl.linetype in (LineType.BLANK, LineType.PREPROCESSOR):
+> +            continue
+> +        if dl.linetype in (LineType.COMMENT_BODY, LineType.COMMENT_END):
+> +            continue
+> +        if not dl.indent_str:
+> +            continue
+> +        if dl.indent_str == '\t':
+> +            return '\t'
+> +        if dl.indent_str == '    ':
+> +            return '    '
+> +        if dl.indent_str == '  ':
+> +            return '  '
+> +        # Anything else at depth 1 is non-canonical; flag elsewhere.
+> +        return dl.indent_str
+> +    return None
+> +
+> +
+> +def check_indent_unit_relaxed(ctx):
+> +    """YAML examples: 2 or 4 spaces. Never tabs or other widths."""
+> +    unit = detect_indent_unit(ctx)
+> +    if unit is None:
+> +        return
+> +    if unit not in ('  ', '    '):
+> +        yield (1, 'indent unit must be 2 or 4 spaces, got %r' % unit)
+> +
+> +
+> +def check_indent_unit_dts(ctx):
+> +    """DTS files: 1 tab per level. Always required."""
+> +    unit = detect_indent_unit(ctx)
+> +    if unit is None:
+> +        return
+> +    if unit != '\t':
+> +        yield (1, 'indent unit must be 1 tab in DTS, got %r' % unit)
+> +
+> +
+> +def check_indent_unit_strict(ctx):
+> +    """YAML: must be exactly 4 spaces. DTS: 1 tab (same as relaxed)."""
+> +    unit = detect_indent_unit(ctx)
+> +    if unit is None:
+> +        return
+> +    if ctx.indent_kind == 'spaces':
+> +        if unit != '    ':
+> +            yield (1, 'indent unit must be 4 spaces in strict mode, '
+> +                   'got %r' % unit)
+> +
+> +
+> +def check_indent_consistent(ctx):
+> +    """All indented lines must be a multiple of the detected unit."""
+> +    unit = detect_indent_unit(ctx)
+> +    if unit is None:
+> +        return
+> +    if ctx.indent_kind == 'spaces':
+> +        if unit not in ('  ', '    '):
+> +            return  # let check_indent_unit_* report this
+> +    else:
+> +        if unit != '\t':
+> +            return
+> +
+> +    for dl in ctx.lines:
+> +        if dl.linetype in (LineType.BLANK, LineType.PREPROCESSOR):
+> +            continue
+> +        if dl.linetype == LineType.CONTINUATION:
+> +            continue   # continuations align to <, not to indent unit
+> +        if dl.linetype in (LineType.COMMENT_BODY, LineType.COMMENT_END):
+> +            continue
+> +        if not dl.indent_str:
+> +            continue
+> +        # The indent must be 'unit' repeated dl.depth times, exactly.
+> +        # NODE_CLOSE lines have depth equal to the post-decrement value,
+> +        # which matches the indent expected.
+> +        expected = unit * dl.depth
+> +        if dl.indent_str != expected:
+> +            yield (dl.lineno,
+> +                   'indent mismatch (expected depth %d * %r)' %
+> +                   (dl.depth, unit))
+> +
+> +
+> +def check_blank_lines(ctx):
+> +    """No two consecutive blank lines, no leading/trailing blank lines
+> +    in any node body."""
+> +    lines = ctx.lines
+> +    # Consecutive blanks
+> +    for i in range(1, len(lines)):
+> +        if lines[i].linetype == LineType.BLANK and \
+> +                lines[i - 1].linetype == LineType.BLANK:
+> +            yield (lines[i].lineno, 'consecutive blank lines')
+> +    # Blank right after { or right before }
+> +    for i, dl in enumerate(lines):
+> +        if dl.linetype != LineType.BLANK:
+> +            continue
+> +        prev = lines[i - 1] if i > 0 else None
+> +        nxt = lines[i + 1] if i + 1 < len(lines) else None
+> +        if prev is not None and prev.linetype == LineType.NODE_OPEN:
+> +            yield (dl.lineno, 'blank line at start of node body')
+> +        if nxt is not None and nxt.linetype == LineType.NODE_CLOSE:
+> +            yield (dl.lineno, 'blank line at end of node body')
+> +
+> +
+> +def _walk_bodies(lines):
+> +    """Yield lists of immediate-child NODE_OPEN lines for each node body
+> +    in the input. Skips ref-nodes (&label) since those don't have an
+> +    intrinsic ordering."""
+> +    body_stack = [[]]
+> +    for dl in lines:
+> +        if dl.linetype == LineType.NODE_OPEN:
+> +            body_stack[-1].append(dl)
+> +            body_stack.append([])
+> +            continue
+> +        if dl.linetype == LineType.NODE_CLOSE:
+> +            if len(body_stack) <= 1:
+> +                # Unbalanced; ignore to avoid crashing on malformed input
+> +                continue
+> +            yield body_stack.pop()
+> +            continue
+> +    while body_stack:
+> +        yield body_stack.pop()
+> +
+> +
+> +def _natural_sort_key(s):
+> +    """Split a string into a tuple of (kind, value) pairs that compares
+> +    numeric runs as ints, so 'foo10' sorts after 'foo2'."""
+> +    parts = []
+> +    for part in re.split(r'(\d+)', s):
+> +        if part.isdigit():
+> +            parts.append((0, int(part)))
+> +        else:
+> +            parts.append((1, part))
+> +    return tuple(parts)
+> +
+> +
+> +def check_child_address_order(ctx):
+> +    """Addressed siblings (foo@N) must appear in ascending address
+> +    order within their parent node body."""
+> +    for children in _walk_bodies(ctx.lines):
+> +        addressed = []
+> +        for c in children:
+> +            if c.node_addr is None:
+> +                continue
+> +            try:
+> +                parts = tuple(int(p, 16) for p in c.node_addr.split(','))
+> +            except ValueError:
+> +                continue
+> +            addressed.append((parts, c))
+> +        for i in range(1, len(addressed)):
+> +            if addressed[i][0] < addressed[i - 1][0]:
+> +                dl = addressed[i][1]
+> +                yield (dl.lineno,
+> +                       'child node @%s out of address order' %
+> +                       dl.node_addr)
+> +
+> +
+> +def check_child_name_order(ctx):
+> +    """Unaddressed siblings must appear in natural-sort order by node
+> +    name within their parent node body. Addressed children are scoped
+> +    by check_child_address_order; reference nodes (&label { ... }) and
+> +    the root node are skipped."""
+> +    for children in _walk_bodies(ctx.lines):
+> +        unaddressed = []
+> +        for c in children:
+> +            if c.node_addr is not None:
+> +                continue
+> +            if c.node_name in (None, '/'):
+> +                continue
+> +            if c.ref_name is not None:
+> +                continue
+> +            unaddressed.append((_natural_sort_key(c.node_name), c))
+> +        for i in range(1, len(unaddressed)):
+> +            if unaddressed[i][0] < unaddressed[i - 1][0]:
+> +                dl = unaddressed[i][1]
+> +                yield (dl.lineno,
+> +                       'child node %r out of name order' % dl.node_name)
+> +
+> +
+> +def _property_bucket(name):
+> +    """Return the canonical bucket index for a property:
+> +       0 compatible
+> +       1 reg / reg-names
+> +       2 ranges
+> +       3 standard properties (no vendor comma in #-stripped name)
+> +       4 vendor-specific properties
+> +       5 status
+> +    Plus a sub-key inside the bucket for fixed slots (compatible, reg,
+> +    reg-names, ranges, status). 'standard' and 'vendor' return None for
+> +    the sub-key, signalling that the within-bucket key is computed by
+> +    the pairing rules."""
+> +    stripped = name.lstrip('#')
+> +    if name == 'compatible':
+> +        return (0, 0)
+> +    if name == 'reg':
+> +        return (1, 0)
+> +    if name == 'reg-names':
+> +        return (1, 1)
+> +    if name == 'ranges':
+> +        return (2, 0)
+> +    if name == 'status':
+> +        return (5, 0)
+> +    return (4 if ',' in stripped else 3, None)
+> +
+> +
+> +# Declarative pairing rules: each is a callable
+> +#   (name, all_names) -> anchor_name_or_None
+> +# If a rule returns an anchor, the property sorts immediately after the
+> +# anchor. Rules are tried in order; the first match wins. If none
+> +# matches, the within-bucket key falls back to natural sort by the
+> +# #-stripped name.
+> +
+> +def _pair_pinctrl_names(name, all_names):
+> +    """pinctrl-names follows the highest pinctrl-N in the same node."""
+> +    if name != 'pinctrl-names':
+> +        return None
+> +    cands = [n for n in all_names if re.match(r'^pinctrl-\d+$', n)]
+> +    if not cands:
+> +        return None
+> +    return max(cands, key=_natural_sort_key)
+> +
+> +
+> +def _pair_x_names(name, all_names):
+> +    """Generic <x>-names follows its owning property. The owner is
+> +    usually plural (clocks/clock-names, dmas/dma-names,
+> +    resets/reset-names) but occasionally singular (reg/reg-names is
+> +    handled by the fixed slot above; this rule catches anything else)."""
+> +    if not name.endswith('-names'):
+> +        return None
+> +    base = name[:-len('-names')]
+> +    # Try plural and singular forms.
+> +    if (base + 's') in all_names:
+> +        return base + 's'
+> +    if base in all_names:
+> +        return base
+> +    return None
+> +
+> +
+> +PAIRING_RULES = (_pair_pinctrl_names, _pair_x_names)
+> +
+> +
+> +def _property_sort_key(name, all_names):
+> +    """Sort key for a property among its node-body siblings.
+> +
+> +    Format: (bucket, within_key, tiebreak). 'within_key' for
+> +    standard/vendor buckets follows pairing rules: a property paired
+> +    with anchor X sorts as if it were X with a higher tiebreak."""
+> +    bucket, fixed_sub = _property_bucket(name)
+> +    if fixed_sub is not None:
+> +        return (bucket, (), fixed_sub)
+> +
+> +    for rule in PAIRING_RULES:
+> +        anchor = rule(name, all_names)
+> +        if anchor is not None:
+> +            return (bucket, _natural_sort_key(anchor.lstrip('#')), 1)
+> +
+> +    return (bucket, _natural_sort_key(name.lstrip('#')), 0)
+> +
+> +
+> +def check_property_order(ctx):
+> +    """Properties within a node body must appear in canonical order:
+> +    compatible, reg(/reg-names), ranges, then the standard group, then
+> +    the vendor-specific group, then status. Inside the standard and
+> +    vendor groups, pairing rules apply (e.g. <x>-names follows <x>);
+> +    everything else falls back to natural sort by the #-stripped name."""
+> +    lines = ctx.lines
+> +    for i, dl in enumerate(lines):
+> +        if dl.linetype != LineType.NODE_OPEN:
+> +            continue
+> +        body_depth = dl.depth + 1
+> +        props = []
+> +        for j in range(i + 1, len(lines)):
+> +            d = lines[j]
+> +            if d.linetype == LineType.NODE_CLOSE and \
+> +                    d.depth == body_depth - 1:
+> +                break
+> +            if d.linetype == LineType.PROPERTY and d.depth == body_depth \
+> +                    and d.prop_name is not None:
+> +                props.append(d)
+> +        if len(props) < 2:
+> +            continue
+> +        all_names = [p.prop_name for p in props]
+> +        keyed = [(p, _property_sort_key(p.prop_name, all_names))
+> +                 for p in props]
+> +        for k in range(1, len(keyed)):
+> +            if keyed[k][1] < keyed[k - 1][1]:
+> +                p = keyed[k][0]
+> +                prev = keyed[k - 1][0]
+> +                yield (p.lineno,
+> +                       'property %r out of canonical order '
+> +                       '(should sort before %r)' %
+> +                       (p.prop_name, prev.prop_name))
+> +
+> +
+> +def _strip_strings_and_comments(text):
+> +    """Remove string literals and /* */ + // comments from a single
+> +    line, replacing them with empty strings. Used so syntactic checks
+> +    (whitespace, hex case, etc.) don't false-positive on contents of
+> +    quoted strings or comments."""
+> +    text = re.sub(r'"(?:[^"\\]|\\.)*"', '""', text)
+> +    text = re.sub(r'/\*.*?\*/', '', text)
+> +    text = re.sub(r'//.*$', '', text)
+> +    return text
+> +
+> +
+> +def check_required_blank_lines(ctx):
+> +    """A blank line must precede each child node and the 'status'
+> +    property within a node body, except when these are the first
+> +    substantive item in the body."""
+> +    lines = ctx.lines
+> +    for i, open_dl in enumerate(lines):
+> +        if open_dl.linetype != LineType.NODE_OPEN:
+> +            continue
+> +        body_depth = open_dl.depth + 1
+> +        prev_substantive = None
+> +        between_blanks = 0
+> +        depth_inside = 0
+> +        for j in range(i + 1, len(lines)):
+> +            d = lines[j]
+> +            if d.linetype == LineType.NODE_CLOSE and \
+> +                    d.depth == body_depth - 1 and depth_inside == 0:
+> +                break
+> +            # Track depth inside nested children so we only look at
+> +            # immediate-body items.
+> +            if d.linetype == LineType.NODE_OPEN and \
+> +                    d.depth >= body_depth and depth_inside > 0:
+> +                depth_inside += 1
+> +                continue
+> +            if d.linetype == LineType.NODE_CLOSE and depth_inside > 0:
+> +                depth_inside -= 1
+> +                continue
+> +            if depth_inside > 0:
+> +                continue
+> +            if d.linetype == LineType.BLANK:
+> +                if prev_substantive is not None:
+> +                    between_blanks += 1
+> +                continue
+> +            if d.linetype in (LineType.COMMENT, LineType.COMMENT_START,
+> +                              LineType.COMMENT_BODY, LineType.COMMENT_END,
+> +                              LineType.PREPROCESSOR):
+> +                continue
+> +            if d.linetype == LineType.CONTINUATION:
+> +                continue
+> +
+> +            needs_blank = False
+> +            if d.linetype == LineType.NODE_OPEN:
+> +                needs_blank = True
+> +                depth_inside = 1   # entered the child body
+> +            elif d.linetype == LineType.PROPERTY and d.prop_name == 'status':
+> +                needs_blank = True
+> +
+> +            if needs_blank and prev_substantive is not None and \
+> +                    between_blanks == 0:
+> +                if d.linetype == LineType.NODE_OPEN:
+> +                    yield (d.lineno,
+> +                           'child node must be preceded by a blank line')
+> +                else:
+> +                    yield (d.lineno,
+> +                           '"status" must be preceded by a blank line')
+> +
+> +            prev_substantive = d
+> +            between_blanks = 0
+> +
+> +
+> +def check_hex_case(ctx):
+> +    """Hex literals (0xN) must use lowercase digits and prefix."""
+> +    for dl in ctx.lines:
+> +        if dl.linetype in (LineType.BLANK, LineType.COMMENT,
+> +                           LineType.COMMENT_START, LineType.COMMENT_BODY,
+> +                           LineType.COMMENT_END, LineType.PREPROCESSOR):
+> +            continue
+> +        text = _strip_strings_and_comments(dl.raw)
+> +        for m in re.finditer(r'\b0[xX][0-9a-fA-F]+\b', text):
+> +            lit = m.group(0)
+> +            if any(c.isupper() for c in lit[2:]) or lit[1] == 'X':
+> +                yield (dl.lineno,
+> +                       'hex literal %r must be lowercase' % lit)
+> +
+> +
+> +def check_unit_address_format(ctx):
+> +    """Unit addresses must be lowercase hex without leading zeros.
+> +    For multi-cell addresses (comma-separated), each part is checked
+> +    independently. A single '0' is permitted (canonical zero)."""
+> +    for dl in ctx.lines:
+> +        if dl.linetype != LineType.NODE_OPEN:
+> +            continue
+> +        if dl.node_addr is None:
+> +            continue
+> +        addr = dl.node_addr
+> +        for part in addr.split(','):
+> +            if any(c in 'ABCDEF' for c in part):
+> +                yield (dl.lineno,
+> +                       'unit address %r must be lowercase hex' % addr)
+> +                break
+> +            if len(part) > 1 and part.startswith('0'):
+> +                yield (dl.lineno,
+> +                       'unit address %r has leading zeros' % addr)
+> +                break
+> +
+> +
+> +def check_value_whitespace(ctx):
+> +    """Inside a <...> cell list use single spaces between values; no
+> +    leading or trailing whitespace inside the brackets. Outside
+> +    strings and comments only."""
+> +    for dl in ctx.lines:
+> +        if dl.linetype not in (LineType.PROPERTY, LineType.CONTINUATION):
+> +            continue
+> +        text = _strip_strings_and_comments(dl.raw)
+> +        for m in re.finditer(r'<([^<>]*)>', text):
+> +            content = m.group(1)
+> +            if content != content.strip():
+> +                yield (dl.lineno,
+> +                       'extra whitespace inside <...>')
+> +                break
+> +            if re.search(r'[ \t]{2,}', content):
+> +                yield (dl.lineno,
+> +                       'multiple spaces inside <...>')
+> +                break
+> +
+> +
+> +def check_node_close_alone(ctx):
+> +    """The closing '};' of a node must be on its own line. The
+> +    classifier already accepts only `};` or `}` as NODE_CLOSE; any
+> +    other line that still contains `};` (in code, not in strings or
+> +    comments) is mixing a node close with something else."""
+> +    for dl in ctx.lines:
+> +        if dl.linetype in (LineType.BLANK, LineType.COMMENT,
+> +                           LineType.COMMENT_START, LineType.COMMENT_BODY,
+> +                           LineType.COMMENT_END, LineType.PREPROCESSOR,
+> +                           LineType.NODE_CLOSE):
+> +            continue
+> +        text = _strip_strings_and_comments(dl.raw)
+> +        if '};' in text:
+> +            yield (dl.lineno,
+> +                   'closing brace must be on its own line')
+> +
+> +
+> +def check_line_length(ctx):
+> +    """Lines must not exceed 80 characters. Trailing newlines do not
+> +    count. Tabs in DTS files are counted as 8 columns to match how
+> +    `printf` and most editors render them, matching the kernel-wide
+> +    line length convention."""
+> +    for dl in ctx.lines:
+> +        if dl.linetype == LineType.BLANK:
+> +            continue
+> +        # Compute display width: tabs count as 8 columns, advancing to
+> +        # the next multiple of 8.
+> +        cols = 0
+> +        for ch in dl.raw:
+> +            if ch == '\t':
+> +                cols = (cols // 8 + 1) * 8
+> +            else:
+> +                cols += 1
+> +        if cols > 80:
+> +            yield (dl.lineno,
+> +                   'line exceeds 80 columns (%d)' % cols)
+> +
+> +
+> +def check_continuation_alignment(ctx):
+> +    """A multi-line property's continuation lines must align their
+> +    first non-whitespace character to the column of the first '<' or
+> +    '"' after the '=' in the leading line."""
+> +    for dl in ctx.lines:
+> +        if dl.linetype != LineType.PROPERTY:
+> +            continue
+> +        if not dl.continuations:
+> +            continue
+> +        eq = dl.raw.find('=')
+> +        if eq < 0:
+> +            continue
+> +        # First '<' or '"' after '='
+> +        rest = dl.raw[eq + 1:]
+> +        m = re.search(r'[<"]', rest)
+> +        if not m:
+> +            continue
+> +        target_col = eq + 1 + m.start()
+> +        for cont in dl.continuations:
+> +            if len(cont.indent_str) != target_col:
+> +                yield (cont.lineno,
+> +                       'continuation should align to column %d '
+> +                       '(under "<" or \\")' % (target_col + 1))
+> +
+> +
+> +def check_unused_labels(ctx):
+> +    """Labels defined but never referenced are clutter."""
+> +    defined, referenced = collect_labels_and_refs(ctx.text)
+> +    for label in sorted(defined - referenced):
+> +        # Find the line where this label is defined for line-number
+> +        # reporting.
+> +        m = re.search(r'(?m)^.*\b' + re.escape(label) + r'\s*:', ctx.text)
+> +        lineno = ctx.text[:m.start()].count('\n') + 1 if m else 1
+> +        yield (lineno, 'label %r defined but never &-referenced' % label)
+> +
+> +
+> +# --- registry --------------------------------------------------------------
+> +
+> +RULES = [
+> +    # 'relaxed' is the default; rules in this group must produce zero
+> +    # output on a clean kernel tree (post the small prep-cleanup
+> +    # commit at the head of this series).
+> +    Rule('trailing-whitespace', 'relaxed',
+> +         'no trailing whitespace on any line',
+> +         check_trailing_whitespace),
+> +    Rule('tab-in-dts', 'relaxed',
+> +         'YAML examples may not contain tab characters',
+> +         check_tab_in_dts, applies_to=('yaml',)),
+> +    Rule('mixed-indent-chars', 'relaxed',
+> +         'indent must not mix tabs and spaces',
+> +         check_mixed_indent_chars),
+> +
+> +    # DTS files always use tabs; this is not negotiable per kernel
+> +    # coding style (.dts files are real source). Relaxed mode.
+> +    Rule('indent-unit-dts', 'relaxed',
+> +         'DTS files: 1 tab per nesting level',
+> +         check_indent_unit_dts,
+> +         applies_to=('dts', 'dtsi', 'dtso')),
+> +
+> +    # 'strict' rules are opt-in (e.g. for new submissions via
+> +    # checkpatch.pl in a follow-up series). They flag many existing
+> +    # files and can be promoted to relaxed once those are cleaned up.
+> +    Rule('indent-unit', 'strict',
+> +         'YAML: 2 or 4 spaces per level',
+> +         check_indent_unit_relaxed, applies_to=('yaml',)),
+> +    Rule('indent-unit-strict', 'strict',
+> +         'YAML: must be 4 spaces per level',
+> +         check_indent_unit_strict, applies_to=('yaml',)),
+> +    Rule('indent-consistent', 'strict',
+> +         'every line indented at depth * unit',
+> +         check_indent_consistent),
+> +    Rule('blank-lines', 'strict',
+> +         'no consecutive blanks; no blanks at node body edges',
+> +         check_blank_lines),
+> +    Rule('child-address-order', 'strict',
+> +         'addressed siblings must be in ascending address order',
+> +         check_child_address_order),
+> +    Rule('child-name-order', 'strict',
+> +         'unaddressed siblings must be in natural-sort name order',
+> +         check_child_name_order),
+> +    Rule('property-order', 'strict',
+> +         'canonical bucket + pairing + natural-sort order of properties',
+> +         check_property_order),
+> +    Rule('required-blank-lines', 'strict',
+> +         'blank line before child nodes and before "status"',
+> +         check_required_blank_lines),
+> +    Rule('hex-case', 'strict',
+> +         'hex literals must be lowercase',
+> +         check_hex_case),
+> +    Rule('unit-address-format', 'strict',
+> +         'unit addresses must be lowercase hex without leading zeros',
+> +         check_unit_address_format),
+> +    Rule('value-whitespace', 'strict',
+> +         'single-spaced values inside <...>',
+> +         check_value_whitespace),
+> +    Rule('node-close-alone', 'strict',
+> +         'closing brace must be on its own line',
+> +         check_node_close_alone),
+> +    Rule('line-length', 'strict',
+> +         'lines must not exceed 80 columns',
+> +         check_line_length),
+> +    Rule('continuation-alignment', 'strict',
+> +         'multi-line property continuations align under "<" or "\\""',
+> +         check_continuation_alignment),
+> +    Rule('unused-labels', 'strict',
+> +         'every label must be &-referenced in the same example/file '
+> +         '(skipped for .dtsi/.dtso since labels there are exported)',
+> +         check_unused_labels, applies_to=('yaml', 'dts')),
+> +]
+> +
+> +
+> +def select_rules(mode, input_kind):
+> +    """Return rules that apply to the given mode and input type."""
+> +    rank = {'relaxed': 0, 'strict': 1}
+> +    out = []
+> +    for r in RULES:
+> +        if rank[r.mode] > rank[mode]:
+> +            continue
+> +        if input_kind not in r.applies_to:
+> +            continue
+> +        out.append(r)
+> +    return out
+> +
+> +
+> +# ---------------------------------------------------------------------------
+> +# Block runner
+> +# ---------------------------------------------------------------------------
+> +
+> +def check_block(text, mode, indent_kind, input_type):
+> +    """Run all selected rules on a single block of DTS text. Returns a
+> +    list of (lineno, rule_name, message) tuples."""
+> +    lines = classify_lines(text)
+> +    ctx = Ctx(lines, text, mode, indent_kind)
+> +    rules = select_rules(mode, input_type)
+> +    findings = []
+> +    for r in rules:
+> +        for lineno, msg in r.check(ctx):
+> +            findings.append((lineno, r.name, msg))
+> +    findings.sort(key=lambda t: (t[0], t[1]))
+> +    return findings
+> +
+> +
+> +# ---------------------------------------------------------------------------
+> +# Input drivers (YAML examples vs raw DTS)
+> +# ---------------------------------------------------------------------------
+> +
+> +def _yaml_loader():
+> +    return ruamel.yaml.YAML()
+> +
+> +
+> +def iter_yaml_examples(filepath):
+> +    """Yield (example_text, base_lineno_in_file, example_index) tuples."""
+> +    yaml = _yaml_loader()
+> +    try:
+> +        with open(filepath, encoding='utf-8') as f:
+> +            data = yaml.load(f)
+> +    except Exception as e:
+> +        print('%s: error loading YAML: %s' % (filepath, e),
+> +              file=sys.stderr)
+> +        return
+> +    if not isinstance(data, dict) or 'examples' not in data:
+> +        return
+> +    examples = data['examples']
+> +    if not hasattr(examples, '__iter__'):
+> +        return
+> +    for i, ex in enumerate(examples):
+> +        if not isinstance(ex, str):
+> +            continue
+> +        try:
+> +            base = examples.lc.item(i)[0] + 2
+> +        except Exception:
+> +            base = 1
+> +        yield (str(ex), base, i)
+> +
+> +
+> +def iter_dts_file(filepath):
+> +    """Treat the whole file as a single block."""
+> +    try:
+> +        with open(filepath, encoding='utf-8') as f:
+> +            text = f.read()
+> +    except Exception as e:
+> +        print('%s: error reading: %s' % (filepath, e), file=sys.stderr)
+> +        return
+> +    yield (text, 1, None)
+> +
+> +
+> +# ---------------------------------------------------------------------------
+> +# Top-level processing
+> +# ---------------------------------------------------------------------------
+> +
+> +def input_kind(filepath):
+> +    p = filepath.lower()
+> +    if p.endswith('.yaml') or p.endswith('.yml'):
+> +        return 'yaml'
+> +    if p.endswith('.dts'):
+> +        return 'dts'
+> +    if p.endswith('.dtsi'):
+> +        return 'dtsi'
+> +    if p.endswith('.dtso'):
+> +        return 'dtso'
+> +    return None
+> +
+> +
+> +# All input types that use tab indentation and follow DTS coding style.
+> +DTS_FAMILY = ('dts', 'dtsi', 'dtso')
+> +
+> +
+> +def collect_findings(filepath, mode):
+> +    """Return a (lines, count) pair for filepath. lines is a list of
+> +    formatted output strings; count is the number of findings."""
+> +    kind = input_kind(filepath)
+> +    if kind == 'yaml':
+> +        indent_kind = 'spaces'
+> +        iterator = iter_yaml_examples(filepath)
+> +    elif kind in DTS_FAMILY:
+> +        indent_kind = 'tab'
+> +        iterator = iter_dts_file(filepath)
+> +    else:
+> +        return (['%s: unknown file type, skipping' % filepath], 0)
+> +
+> +    out = []
+> +    for text, base, idx in iterator:
+> +        for lineno, rule, msg in check_block(text, mode, indent_kind, kind):
+> +            abs_line = base + lineno - 1
+> +            ex_tag = '' if idx is None else ' example %d' % idx
+> +            out.append('%s:%d:%s [%s] %s' %
+> +                       (filepath, abs_line, ex_tag, rule, msg))
+> +    return (out, len(out))
+> +
+> +
+> +# Worker entry point for ProcessPoolExecutor.map(). Top-level so it is
+> +# picklable on every platform.
+> +def _worker(args):
+> +    filepath, mode = args
+> +    return collect_findings(filepath, mode)
+> +
+> +
+> +def main():
+> +    import os
+> +    ap = argparse.ArgumentParser(
+> +        description='Check DTS coding style on YAML examples and '
+> +        '.dts/.dtsi/.dtso files.',
+> +        fromfile_prefix_chars='@')
+> +    ap.add_argument('--mode', choices=('relaxed', 'strict'),
+> +                    default='relaxed',
+> +                    help='which rule set to apply (default: relaxed)')
+> +    ap.add_argument('-j', '--jobs', type=int, default=0,
+> +                    metavar='N',
+> +                    help='run N workers in parallel (default: respect '
+> +                    'the make jobserver via $PARALLELISM, otherwise '
+> +                    'os.cpu_count(); use 1 to disable multiprocessing)')
+> +    ap.add_argument('--list-rules', action='store_true',
+> +                    help='print all rules with their mode and exit')
+> +    ap.add_argument('files', nargs='*', metavar='file',
+> +                    help='YAML binding files or .dts/.dtsi/.dtso files; '
+> +                    'use @argfile to read paths from a file')
+> +    args = ap.parse_args()
+> +
+> +    if args.list_rules:
+> +        for r in RULES:
+> +            applies = ','.join(r.applies_to)
+> +            print('%-22s %-7s [%s] %s' %
+> +                  (r.name, r.mode, applies, r.description))
+> +        return 0
+> +
+> +    if not args.files:
+> +        ap.error('no input files')
+> +
+> +    if args.jobs > 0:
+> +        jobs = args.jobs
+> +    else:
+> +        # When invoked under scripts/jobserver-exec, $PARALLELISM
+> +        # holds the slot count make has reserved for us; this lets
+> +        # `make -j N dt_binding_check` constrain our worker pool to N.
+> +        try:
+> +            jobs = int(os.environ['PARALLELISM'])
+> +        except (KeyError, ValueError):
+> +            jobs = os.cpu_count() or 1
+> +    # Single-process path: keep import surface small for tests and
+> +    # easy debugging.
+> +    if jobs == 1 or len(args.files) == 1:
+> +        total = 0
+> +        for f in args.files:
+> +            lines, n = collect_findings(f, args.mode)
+> +            for line in lines:
+> +                print(line)
+> +            total += n
+> +        return 1 if total else 0
+> +
+> +    # Multi-process path. ex.map preserves input order so output is
+> +    # deterministic across runs.
+> +    from concurrent.futures import ProcessPoolExecutor
+> +    total = 0
+> +    work = [(f, args.mode) for f in args.files]
+> +    chunk = max(1, len(work) // (jobs * 8)) if work else 1
+> +    with ProcessPoolExecutor(max_workers=jobs) as ex:
+> +        for lines, n in ex.map(_worker, work, chunksize=chunk):
+> +            for line in lines:
+> +                print(line)
 
---------------0dbQz1xdPDsrIRlCYm7cpWvX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This needs to go to stderr. A quiet build has no output.
 
-T24gNC8zMC8yNiAwMjoyMywgTmF0aGFuIENoYW5jZWxsb3Igd3JvdGU6DQo+IE9uIEZyaSwg
-MTAgQXByIDIwMjYgMjM6MjI6NDAgKzAyMDAsIEx1aXMgPGx1aXMuYXVnZW5zdGVpbkB0bmd0
-ZWNoLmNvbT4gd3JvdGU6DQo+PiBUaGlzIHBhdGNoIHNlcmllcyBpbnRyb2R1Y2VzIGEgUHl0
-aG9uLWJhc2VkIHNjcmlwdCBmb3IgZ2VuZXJhdGluZyBTQk9NDQo+PiBkb2N1bWVudHMgaW4g
-dGhlIFNQRFggMy4wLjEgZm9ybWF0IGZvciBrZXJuZWwgYnVpbGRzLg0KPiANCj4gSSBzZWUg
-dGhlIGZvbGxvd2luZyBlcnJvciB3aGVuIGJ1aWxkaW5nIEFSQ0g9YXJtNjQgdmlydGNvbmZp
-ZyBzYm9tOg0KPiANCj4gICAgfCAkIG1ha2UgLXNraiIkKG5wcm9jKSIgQVJDSD1hcm02NCBD
-Uk9TU19DT01QSUxFPWFhcmNoNjQtbGludXgtIENST1NTX0NPTVBJTEVfQ09NUEFUPWFybS1s
-aW51eC1nbnVlYWJpLSBtcnByb3BlciB2aXJ0Y29uZmlnIHNib20NCj4gICAgfCBbRVJST1Jd
-IEZpbGUgIi9zcmMvc2NyaXB0cy9zYm9tL3Nib20vY21kX2dyYXBoL3NhdmVkY21kX3BhcnNl
-ci9zYXZlZGNtZF9wYXJzZXIucHkiLCBsaW5lIDMzLCBpbiBsb2dfZXJyb3Jfb3Jfd2Fybmlu
-Zw0KPiAgICB8IFNraXBwZWQgcGFyc2luZyBjb21tYW5kIGFyY2gvYXJtNjQva2VybmVsL3Zk
-c28zMi8uLi8uLi8uLi9hcm0vdmRzby92ZHNvbXVuZ2UgYXJjaC9hcm02NC9rZXJuZWwvdmRz
-bzMyL3Zkc28uc28ucmF3IGFyY2gvYXJtNjQva2VybmVsL3Zkc28zMi92ZHNvMzIuc28uZGJn
-IGJlY2F1c2Ugbm8gbWF0Y2hpbmcgcGFyc2VyIHdhcyBmb3VuZA0KPiAgICB8IC4uLg0KPiAg
-ICB8IG1ha2VbM106ICoqKiBbL3NyYy9NYWtlZmlsZToyMTg0OiBzYm9tXSBFcnJvciAxDQo+
-ICAgIHwgLi4uDQo+IA0KPiBJIHdvdWxkIGhpZ2hseSByZWNvbW1lbmQgcnVubmluZyBzb21l
-IHJhbmRjb25maWcgYnVpbGRzIHdpdGggQVJDSD1hcm02NA0KPiBhbmQgQVJDSD14ODZfNjQg
-aWYgeW91IGhhdmUgbm90IGFscmVhZHkgZG9uZSBzbyB0byBlbnN1cmUgeW91IGhhdmUNCj4g
-Y2F1Z2h0IGFsbCBjb3JuZXIgY2FzZXMuIFRoaXMgb25lIHdhcyB1bmRlcnN0YW5kYWJseSBt
-aXNzZWQgYmVjYXVzZSBHQ0MNCj4gYnVpbGRzIHJlcXVpcmUgYSBzZXBhcmF0ZSAzMi1iaXQg
-Y3Jvc3MgY29tcGlsZXIgKHNwZWNpZmllZCB3aXRoDQo+IENST1NTX0NPTVBJTEVfQ09NUEFU
-KSB0byBidWlsZCB0aGlzIGNvZGUuIFRlc3Rpbmcgd2l0aCBMTFZNPTEgd291bGQgaGVscA0K
-PiB3aXRoIHRoYXQgc2luY2UgdGhlIGJ1aWxkIHN5c3RlbSBoYW5kbGVzIGNyb3NzIGNvbXBp
-bGUgYXV0b21hdGljYWxseSBpbg0KPiB0aGF0IGNhc2UuDQoNClNvIGZhciwgSSBoYXZlIG1h
-aW5seSB0ZXN0ZWQgd2l0aCB0aW55Y29uZmlnLCBkZWZjb25maWcsIGFsbG1vZGNvbmZpZywg
-DQphbmQgdGhlIGNvbmZpZ3MgZnJvbSANCmh0dHBzOi8vZ2l0aHViLmNvbS9ncmVna2gvZ3Jl
-Z2toLWxpbnV4L3RyZWUvbWFzdGVyL3N0YWJsZS9jb25maWdzLg0KQWRkaXRpb25hbGx5LCBJ
-IGhhdmUgbm93IHRlc3RlZCBzb21lIHJhbmRjb25maWcgYnVpbGRzLiBTdGlsbCwgdGhlcmUg
-DQp3aWxsIG1vc3QgbGlrZWx5IGJlIGVkZ2UgY2FzZXMgdGhhdCB3ZSB3aWxsIG9ubHkgZGlz
-Y292ZXIgb3ZlciB0aW1lLiANCkhvd2V2ZXIsIHdoaWxlIHRoZSB0b29sIGlzIGRlc2lnbmVk
-IHRvIGV4aXQgd2l0aCBhIG5vbi16ZXJvIHN0YXR1cyBjb2RlIA0Kd2hlbiB1bmtub3duIGNv
-bW1hbmRzIGFyZSBlbmNvdW50ZXJlZCwgaXQgc3RpbGwgcHJvZHVjZXMgYSB2YWxpZCBTQk9N
-IA0KYmFzZWQgb24gdGhlIGluZm9ybWF0aW9uIGl0IHdhcyBhYmxlIHRvIGNvbGxlY3QuIFNv
-LCBkZXNwaXRlIG1pc3NpbmcgDQpjb21tYW5kIHBhcnNlciBlcnJvcnMgbGlrZSB0aGVzZSwg
-dGhlIHRvb2wgcmVtYWlucyB1c2FibGUuDQpUaGVyZSBpcyBhbHNvIHRoZSAtLWRvLW5vdC1m
-YWlsLW9uLXVua25vd24tYnVpbGQtY29tbWFuZCBvcHRpb24gdG8gbG9nIA0KbWlzc2luZyBj
-b21tYW5kIHBhcnNlciBlcnJvcnMgYXMgd2FybmluZ3MgYW5kIGV4aXQgd2l0aCBhIHplcm8g
-c3RhdHVzIA0KY29kZS4gSSBoYXZlIGRpc2FibGVkIHRoaXMgYnkgZGVmYXVsdCwgdGhvdWdo
-LCB0byBtYWtlIHBlb3BsZSBtb3JlIA0KbGlrZWx5IHRvIHJlcG9ydCBhbnkgbWlzc2luZyBj
-b21tYW5kIHBhcnNlciBpc3N1ZXMgdGhleSBlbmNvdW50ZXIuDQoNCj4+IG1vZHVsZXMgYXMg
-cm9vdCBub2RlcywgdGhlIHNjcmlwdCByZWNvbnN0cnVjdHMgdGhlIGRlcGVuZGVuY3kgZ3Jh
-cGggdXANCj4+IHRvIHRoZSBvcmlnaW5hbCBzb3VyY2UgZmlsZXMuIEJ1aWxkIGRlcGVuZGVu
-Y2llcyBhcmUgcHJpbWFyaWx5IGRlcml2ZWQgZnJvbQ0KPj4gdGhlIGAuY21kYCBmaWxlcyBn
-ZW5lcmF0ZWQgYnkgS2J1aWxkLCB3aGljaCByZWNvcmQgdGhlIGZ1bGwgY29tbWFuZCB1c2Vk
-DQo+PiB0byBidWlsZCBlYWNoIG91dHB1dCBmaWxlLg0KPj4NCj4+IEN1cnJlbnRseSwgdGhl
-IHNjcmlwdCBvbmx5IHN1cHBvcnRzIHg4NiBhbmQgYXJtNjQgYXJjaGl0ZWN0dXJlcy4NCj4g
-DQo+IFRoaXMgZG9lcyBub3QgYXBwZWFyIHRvIGJlIGNvZGlmaWVkIGFueXdoZXJlPyBJIGNh
-biBydW4gdGhlIHNib20gdGFyZ2V0DQo+IHdoZW4gdGFyZ2V0aW5nIEFSQ0g9YXJtIGZvciBl
-eGFtcGxlLCByZXN1bHRpbmcgaW46DQo+IA0KPiAgICB8IFtFUlJPUl0gRmlsZSAiL3NyYy9z
-Y3JpcHRzL3Nib20vc2JvbS9jbWRfZ3JhcGgvc2F2ZWRjbWRfcGFyc2VyL3NhdmVkY21kX3Bh
-cnNlci5weSIsIGxpbmUgMzMsIGluIGxvZ19lcnJvcl9vcl93YXJuaW5nDQo+ICAgIHwgU2tp
-cHBlZCBwYXJzaW5nIGNvbW1hbmQgc2ggL3NyYy9hcmNoL2FybS90b29scy9zeXNjYWxsbnIu
-c2ggL3NyYy9hcmNoL2FybS90b29scy9zeXNjYWxsLnRibCBhcmNoL2FybS9pbmNsdWRlL2dl
-bmVyYXRlZC9hc20vdW5pc3RkLW5yLmggYmVjYXVzZSBubyBtYXRjaGluZyBwYXJzZXIgd2Fz
-IGZvdW5kDQo+ICAgIHwgW0VSUk9SXSBGaWxlICIvc3JjL3NjcmlwdHMvc2JvbS9zYm9tL2Nt
-ZF9ncmFwaC9zYXZlZGNtZF9wYXJzZXIvc2F2ZWRjbWRfcGFyc2VyLnB5IiwgbGluZSAzMywg
-aW4gbG9nX2Vycm9yX29yX3dhcm5pbmcNCj4gICAgfCBTa2lwcGVkIHBhcnNpbmcgY29tbWFu
-ZCAuL2FyY2gvYXJtL3Zkc28vdmRzb211bmdlIGFyY2gvYXJtL3Zkc28vdmRzby5zby5yYXcg
-YXJjaC9hcm0vdmRzby92ZHNvLnNvLmRiZyBiZWNhdXNlIG5vIG1hdGNoaW5nIHBhcnNlciB3
-YXMgZm91bmQNCj4gICAgfCBbV0FSTklOR10gQ291bGQgbm90IGluZmVyIHByaW1hcnkgcHVy
-cG9zZSBmb3IgL3NyYy9hcmNoL2FybS90b29scy9tYWNoLXR5cGVzDQo+ICAgIHwgW1dBUk5J
-TkddIENvdWxkIG5vdCBpbmZlciBwcmltYXJ5IHB1cnBvc2UgZm9yIC9idWlsZC9hcmNoL2Fy
-bS9ib290L2NvbXByZXNzZWQvcGlnZ3lfZGF0YQ0KDQpZZXMsIHRoaXMgaXMgbm90IGNvZGlm
-aWVkIGluIHRoZSBzZW5zZSB0aGF0IHRoZSB0b29sIGRvZXMgbm90IHJlc3RyaWN0IA0KZXhl
-Y3V0aW9uIHRvIHNwZWNpZmljIGFyY2hpdGVjdHVyZXMuDQpTaG91bGQgaXQ/DQpBcyBzdGF0
-ZWQgYWJvdmUsIHRoZSB0b29sIGlzIGRlc2lnbmVkIHRvIGNvbGxlY3QgYXMgbXVjaCBvZiB0
-aGUgDQpkZXBlbmRlbmN5IGdyYXBoIGFzIHBvc3NpYmxlLiBGb3Igb3RoZXIgYXJjaGl0ZWN0
-dXJlcywgaXQgYmVoYXZlcyB0aGUgDQpzYW1lIHdheSwgaS5lLiwgYSB2YWxpZCBTQk9NIGlz
-IHByb2R1Y2VkLCBidXQgdGhlIG1pc3NpbmcgcGFyc2VyIGVycm9ycyANCmluZGljYXRlIHRo
-YXQgdGhlIFNCT00gaXMgbm90IGNvbXBsZXRlLiBJIHRoaW5rIHRoaXMgYmVoYXZpb3IgaXMg
-bW9yZSANCnVzZWZ1bCB0aGFuIGRlbnlpbmcgZXhlY3V0aW9uIGZvciBvdGhlciBhcmNoaXRl
-Y3R1cmVzIGVudGlyZWx5LCBidXQgd2UgDQpjb3VsZCBjaGFuZ2UgdGhhdCBpZiB5b3UgdGhp
-bmsgb3RoZXJ3aXNlLg0KDQo+IFNhc2hpa28gcG9pbnRzIG91dCBhIG51bWJlciBvZiB0aGlu
-Z3MgYXMgd2VsbDoNCj4gDQo+ICAgIGh0dHBzOi8vc2FzaGlrby5kZXYvIy9wYXRjaHNldC8y
-MDI2MDQxMDIxMjI1NS45ODgzLTEtbHVpcy5hdWdlbnN0ZWluQHRuZ3RlY2guY29tDQoNCkNv
-b2wsIHRoYW5rcy4gSSBkaWRuJ3Qga25vdyB0aGlzIGV4aXN0cy4NCkkgd29ya2VkIHRocm91
-Z2ggdGhlIGNvbW1lbnRzIGFuZCB3aWxsIHByb3ZpZGUgYWNjb3JkaW5nIGNoYW5nZXMgaW4g
-djYgDQpvZiB0aGUgcGF0Y2ggc2VyaWVzIHNvb24uDQoNCkJlc3QsDQpMdWlzDQoNCi0tIA0K
-THVpcyBBdWdlbnN0ZWluICogbHVpcy5hdWdlbnN0ZWluQHRuZ3RlY2guY29tICogKzQ5MTUy
-MjUyNzU3NjENClRORyBUZWNobm9sb2d5IENvbnN1bHRpbmcgR21iSCwgQmV0YS1TdHIuIDEz
-LCA4NTc3NCBVbnRlcmbDtmhyaW5nDQpHZXNjaMOkZnRzZsO8aHJlcjogSGVucmlrIEtsYWdn
-ZXMsIERyLiBSb2JlcnQgRGFobGtlLCBUaG9tYXMgRW5kcmVzDQpBdWZzaWNodHNyYXRzdm9y
-c2l0emVuZGVyOiBNb3JpdHogUHJpbnoNClNpdHo6IFVudGVyZsO2aHJpbmcgKiBBbXRzZ2Vy
-aWNodCBNw7xuY2hlbiAqIEhSQiAxMzUwODINCg0K
-
---------------0dbQz1xdPDsrIRlCYm7cpWvX--
-
---------------XhCcPIg8oBMdynTX8OlVbiVD
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEJzBrWn4qHw5a0jAXeVyKys3c+zQFAmn7W9AFAwAAAAAACgkQeVyKys3c+zQW
-pg//Xp9Dk8u2qO1O816H2l7mX+ON7zi5UmYnFVKdvMUq5+WzjiIWcmykbjzY9Ra5CPhoCKjQMicS
-a6ZUp0kOtIMBhSWzGqjUniRfFljp95OqAKza+PiskPD/CjpzBnpviXWV+6Ew+lnLPLOT2gz07YMq
-nQLal118Nrc4E0wp9ywDLbdQ4/g/9OlB9ahzm0aRtPOv320Vw5bwRc4OVhBNDDH4KK/Bzk1gK/cm
-jbDAMF2TKUVgdLB2K9Xxg0r1zJMvCiY3aq//HtV9nGewH/WuYXGIq08qEHWcpJYivXOCYHdKgZsL
-KkFWidK/J/8l+64vOjqsM/yKwfOj66e4PexUbpxUmU5HKZ7kYkkohpIP6z6evGmAeTfRlG74f+od
-YKJSckctN/j0iWJtpFp0xz7WdMVFcKabBrZDK/1O0qOKJ9dMv5cM+edxY/LL4p6WrnXCbqLuvgzd
-tcu+K2ZVr6SIxBdJicnfPgr35OnEVbDuxuBz5qCSA67pXy795Y1lPgreST69uZa0/Z+LvbPAbzIm
-vFhdZpueXODWmfJlSODH38ODzkJT6oDnbWLlEbTlt6sSTooX/WKFOaYCrJNThnb4ZglT6FCD5IGl
-LJb6TaCAAzDdd/VNm6HWOyz91DUcTJoqj8NKL3lgR3jOzC8T2zn3ZJk4bBMWpyiUkhkWDRC3La4T
-Bmg=
-=ZNZA
------END PGP SIGNATURE-----
-
---------------XhCcPIg8oBMdynTX8OlVbiVD--
+> +            total += n
+> +    return 1 if total else 0
+> +
+> +
+> +if __name__ == '__main__':
+> +    sys.exit(main())
+> -- 
+> 2.54.0
 
