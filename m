@@ -1,244 +1,229 @@
-Return-Path: <linux-kbuild+bounces-13060-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13061-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GGhqFTB0/GkEQQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13060-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 13:14:56 +0200
+	id ULNVFU6U/GmXRgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13061-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 15:31:58 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F35C4E74D3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 13:14:55 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 606334E94AF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 15:31:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 823DB300723E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2026 11:14:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 26D1330008A7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2026 13:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAA70371CE4;
-	Thu,  7 May 2026 11:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36E6B3C5DC5;
+	Thu,  7 May 2026 13:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BwFplp2E"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="nwiQbkzg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371BE3537E3
-	for <linux-kbuild@vger.kernel.org>; Thu,  7 May 2026 11:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A9036C0CB;
+	Thu,  7 May 2026 13:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778152488; cv=none; b=TEjuqlHM3qrJOLmi1/WYHPYpPVVRj3X63dhRtHcEDrEcGkVAiWdzddCaGSYtODauhrvWY7ObFFNRw2600+SsaMTM05pwFSQkQJSQu/ferrNU7xBNg16cQ3f7uMKdceASJtg7q/29hHz77hUhwNK2/DK3HFvAgvmCTvwxHRaVqeI=
+	t=1778160713; cv=none; b=rUComUcWP9Z9W503RrwjhxEsgQzUPZga5JM4UJLMeSqNtw0R1G2ZPZ96iTKqsGXc3gIsWkMxeV52/1eFF0phALn5jp+Ofm+ricnMudevScD/2s4o/zBlvV9Y4oFBsShokGn3kOa0AP/MkvBj1RFxpVmU2euBjSN5jF8t1X0YV+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778152488; c=relaxed/simple;
-	bh=HWhoVc+4Rva/8+60k6n5ob9z0H9Bu7MQOUUG91pVXaA=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=jCwZ+83MoHv92A+JsmGsshd2KRB6IEf450c0QszAsBdlCnhHgj+0ka9yIXYn1nzzIDCX33ewI5DFRTecN0u21rTAisexnSUbTDLULOAwTa9bk451FtwJGwnP0ml+JrHdfIZC0ZWF/m8kXnVbG7imoaDlCof6ymhG4FPvomrI2n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BwFplp2E; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-488dcaf2f2fso5421435e9.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 May 2026 04:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778152485; x=1778757285; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=W6me3rXlMz6Jb1wdHt367NiNHpWa4AAw7E9Agv71638=;
-        b=BwFplp2EcURG5hBhUuKD5f5lbae3c0XiHQme3YW7UTz0RZMmd80zxnmiHfNqOITJaP
-         HfXV89+2Xz4BjK4Y6OiyzJiqi0s+V+iBWK+EboTUPpIzXXEwDv7Nzqnr6+vYMDrFGWmh
-         vdQp5Gja6lJDM5mNkj7/JYFhAr+mpLpzAPinDIxOnVmD6BoFF0sNHqC3/DWmkdmcWYoC
-         bYGKYtS0itdZjQnJYPMN+UV91kiHOnVxiJK3NrUPaGcjDR9BrpFPHaZlNH4Njv/s3gDc
-         pUShbzMt4dJZO0A8rfCIBHD9ovS3pxaPyPbS5vf3O01jV8m4ejX5pc6gvLFH43OtuFx5
-         JfUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778152485; x=1778757285;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W6me3rXlMz6Jb1wdHt367NiNHpWa4AAw7E9Agv71638=;
-        b=OnmFMN3Ip1bc/4ho6qkMb+jgHtT6EE05Apvj2qk90l6RxeG8v87/v6UVxAPZjeFHOh
-         WwvU5SUjjmnM2e6yPdQaBpnSnnA9TuRi35nrf40951zixeDrNx7ULnE5X2po1RBV+F/+
-         xji6SIqaXlySx2kwZOdMjv8X+y0+UiN2UDKmzib8vEfNA9hRSUHw+78tAls6XvCr60OQ
-         aS4hScYvj4im3Rz9+wroTzQfu8YUnuO2rL/LxE2Mmy6wKFTTVItWMSOlbu/9RRx0TV6h
-         fLEJkc4kmoP+eeYfhBaNWE395EtNCnmIUYapNuBjTiCR5jsj3fPktQxdv78qSMAXrz3p
-         vAYw==
-X-Forwarded-Encrypted: i=1; AFNElJ8UK09vZKUc9BWEJRGja63bovj5KOeeL87SoWTPKBCHGTt0Pb7eJ17liQwjOhvBmdECKgu09WM7X+QNqCs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVwBVfAiYOp9rMCjY4N+fYheKzKYKyEQjY0xxsMIy+F4exvpwI
-	9RINXkb1+gruNoUCRHj4DiccDqmqBAtlnJeGhvSxLtw0Fs/1v580h1PQjs3ZGf8u6ix8ZUr3K8a
-	DZgcTJVH5UjTrwasdGA==
-X-Received: from wmgb4.prod.google.com ([2002:a05:600c:1504:b0:48a:52f3:38b5])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c494:b0:48a:592c:e632 with SMTP id 5b1f17b1804b1-48e51f42760mr117980115e9.16.1778152485104;
- Thu, 07 May 2026 04:14:45 -0700 (PDT)
-Date: Thu, 07 May 2026 11:14:42 +0000
+	s=arc-20240116; t=1778160713; c=relaxed/simple;
+	bh=tkHAlqBG6iGQNnMcaVfJtbUQLCrVdcFvOZ5NV6y/Uww=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iASw4XdV5G8EzU5tNqQBri7Q94z5g96pQOyVztoq7wdzVCWYdTZhnTbSEh8rvNBJDYahS1q5GdhbGbFHhCSuQoGY43t3HIZEWH3JiZIo08e84YReGUIdcgggDfEp8F390xTFMbK47gTuyKOp7DXnHaH1evcoTYIpjQ/witNVcVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=nwiQbkzg; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64780ma12204349;
+	Thu, 7 May 2026 13:31:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ldM3qn
+	eMzOUis+4SypaRw9h68ZEIxmziYPipb9iBjOg=; b=nwiQbkzgmIbiQtf3yAr+R6
+	9T6tvYwzZ1n3ov6AZgf8HYfOO6ZeU8vear+C1V1MZOn/ctGiStdAqB6tyag3jeek
+	NSsbtPgQxG/UkDJyWrmojnchCpUm0B5dLr6uy0mjKQdDB9Wdkghu6KtQUP9tOHc5
+	HEWEfSbhjZtNPHBzNw9CoMaJFAhIkXDjxkx/26b2W7JX29/r2w/iN3o+DIuTGzDz
+	ZKHg+xxIeLw2oBiadnjk5mcLIcFqjHqxEH53cn82ca4If+AXQKLZjoWd/VmAW95W
+	eHdWCGFyCdyuP/F5XSLNOOXvDsa51n3d+UYziRtb5OQ0MUQoT04DzYLh8wEcRj+A
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9w6nrvq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 May 2026 13:31:44 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647DOYxQ026207;
+	Thu, 7 May 2026 13:31:43 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwuywbtx8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 May 2026 13:31:43 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647DVhii64291126
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 7 May 2026 13:31:43 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 08C3B5805A;
+	Thu,  7 May 2026 13:31:43 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EF70658052;
+	Thu,  7 May 2026 13:31:40 +0000 (GMT)
+Received: from [9.111.207.41] (unknown [9.111.207.41])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  7 May 2026 13:31:40 +0000 (GMT)
+Message-ID: <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
+Date: Thu, 7 May 2026 15:31:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIACF0/GkC/32NQQ6CMBBFr0Jm7ZgyQkFX3sOwkNKWJsqQDhIN6
- d2tHMDl+/n//Q3ExmAFLsUG0a5BAk8Z6FCAGe+TtxiGzECKtKpVhfEli0Gel1xEE1kEm76mypl
- TXQ0t5OEcrQvvXXrrMo9BFo6f/WMtf+lf3VpiiersqCHd61a5q2f2D3s0/IQupfQFjiDaaLUAA AA=
-X-Change-Id: 20260504-rustc-option-cross-7b524fc354d8
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4614; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=HWhoVc+4Rva/8+60k6n5ob9z0H9Bu7MQOUUG91pVXaA=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/HQjD90XvhnpHPP8iRWZenChc0O8E8JQc0lu7
- AZykn+DnyeJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCafx0IwAKCRAEWL7uWMY5
- Ro1xEAC0Oj3V7JH9xkEW0CG+svLhrUx5BeYw3D6jd0UYzMumaGDqi2IbN2gKhqi8xhduCaP6idK
- x1B0c2V/lqYIGFdJq4sDvWyDscmQPH9RZgxam7ucbuJb8P4+0khCrG5eM9vmgXyE+BkrwB4h8jR
- 8hjR5y952y909Z1xdbh3RA77PzvDEdUmXTU/PaqywviWb1Dh1OaOSkg414Fruu3YBd8C50ebyli
- Jl+HNGmtQcYrYYCofwsutDhcxPDDRDyYt6Gsd5x+HL99Dvto2Vw3E7uXtKMd3OIlN0IWWQYPFjj
- WT/e8KFDSq0WaZjSwN24iJpFVFq1bXVd7ynR+Nqb137QsGjZrnvLmFQ6jR0ykiLHPT9jkGYlzhC
- 3BqMaVsD/RzvxrgqEM2tsXeMh1Lzf3/0TIW+wsfYka1iyMI8LMdIBB0ojKOGa1SbZVgMR2jUlCi
- Romz30AVa4hUkflZnBhtgk78/8xO5lSFgdhUJFZuKF2c9DguGl3bOZbXqYQkqDL9IjbGX7Ihp8E
- +EKHzmOMChEZlCH1nOd7wDF3xjCmFrq2H8G/NxJPXst2LNW8arDxNmfidOKLA2WqEsu6lKe3ZTZ
- nhGh/T6Jj7/LbG0/FCDcRiUaaHa7C9rAgpsP53cmWYeW2eTR/QdovpJhDZy14YcDGeAKeu+vEUO ucEsUM2XziXeh1Q==
-X-Mailer: b4 0.14.3
-Message-ID: <20260507-rustc-option-cross-v2-1-2f650a49c2b5@google.com>
-Subject: [PATCH v2] rust: kasan/kbuild: fix rustc-option when cross-compiling
-From: Alice Ryhl <aliceryhl@google.com>
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>
-Cc: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	stable@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: 4F35C4E74D3
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] gcov: use atomic counter updates to fix concurrent
+ access crashes
+To: Arnd Bergmann <arnd@arndb.de>,
+        Konstantin Khorenko <khorenko@virtuozzo.com>,
+        Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+Cc: Mikhail Zaslonko <zaslonko@linux.ibm.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+        Vasileios Almpanis <vasileios.almpanis@virtuozzo.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20260422125112.3583649-1-khorenko@virtuozzo.com>
+ <20260422125112.3583649-2-khorenko@virtuozzo.com>
+ <3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
+From: Peter Oberparleiter <oberpar@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=XPQAjwhE c=1 sm=1 tr=0 ts=69fc9440 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=_KuLfYfupffp7DzZp0kA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: hzjOT-mjMWdTowys9G6TyZGWFvpVYTQ7
+X-Proofpoint-GUID: hzjOT-mjMWdTowys9G6TyZGWFvpVYTQ7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDEzMSBTYWx0ZWRfX8p88ilzF+3AX
+ Yd1vfvph8/Oq3f/U2n8b1GnLfKGmIvrGl7axTI9z5JmKpdmrlG7SdysYgr46rtq/6LGt1OrabuD
+ 1thQ4xDtSR8ZI292PDlnEqQvYdVbEWqlecrYUuIqyQx94UhE/T5duGtbV65Viy8QkObqLBEgZo+
+ UrgqZ+ujMv3k8XBWbLrtwk4NEmWYbAarowUS9OT0Jd1aAg/LCXVcGo1eOtHlkpHD9U0zvY3y82C
+ eJ8TUIyaIXtf3LlTXELVXIaM7AMx5mwBNMnJGWcmwuI7R/WL4FaZGrc3svNvK/91tQ7Gi9dGUsK
+ aG0i6M75b/zrZaDgx9cPdOL5faZ9h/kG1ti23pTWX+TdYeg8d1nCUmY1+YigteqZEfIUIzZWHr1
+ ZlES09hf+bEJwpggcf7/pSYJNRXeIqMaIZNjBnJMn4yWaVANOnBEM+57zgGRO1W4kPI2BGYeZ0z
+ ZIZsivuOSXPHjLDI09A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070131
+X-Rspamd-Queue-Id: 606334E94AF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13060-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,gmail.com,google.com,arm.com,googlegroups.com,vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-13061-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ibm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[oberpar@linux.ibm.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCVD_COUNT_SEVEN(0.00)[11]
 X-Rspamd-Action: no action
 
-The Makefile version of rustc-option currently checks whether the option
-exists for the host target instead of the target actually being compiled
-for. It was done this way in commit 46e24a545cdb ("rust: kasan/kbuild:
-fix missing flags on first build") to avoid a circular dependency on
-target.json. However, because of this, rustc-option currently does not
-function when cross-compiling from x86_64 to aarch64 if
-CONFIG_SHADOW_CALL_STACK is enabled. This is because KBUILD_RUSTFLAGS
-contains -Zfixed-x18 under this configuration. Since that flag does not
-exist on the host target, rustc-option runs into a compilation failure
-every time, leading to all flags being rejected as unsupported.
+On 28.04.2026 22:56, Arnd Bergmann wrote:
+> On Wed, Apr 22, 2026, at 14:51, Konstantin Khorenko wrote:
+>> @@ -824,7 +824,7 @@ all: vmlinux
+>>
+>>  CFLAGS_GCOV	:= -fprofile-arcs -ftest-coverage
+>>  ifdef CONFIG_CC_IS_GCC
+>> -CFLAGS_GCOV	+= -fno-tree-loop-im
+>> +CFLAGS_GCOV	+= -fno-tree-loop-im -fprofile-update=prefer-atomic
+>>  endif
+>>  export CFLAGS_GCOV
+> 
+> Unfortunately, this causes link failures in a few files that
+> end up trying to use the libgcc atomic function calls. From
+> my randconfig builds with gcc-16, I have so far seen:
+> 
+> x86_64-linux-ld: io_uring/io_uring.o: in function `io_uring_fill_params':
+> io_uring.c:(.text+0x40): undefined reference to `__atomic_fetch_add_8'
+> 
+> aarch64-linux-ld: io_uring/io_uring.o: in function `io_req_sqe_copy':
+> io_uring.c:(.text+0x2c): undefined reference to `__aarch64_ldadd8_relax'
+> 
+> aarch64-linux-ld: kernel/trace/trace_selftest_dynamic.o: in function `trace_selftest_dynamic_test_func':
+> trace_selftest_dynamic.c:(.text.trace_selftest_dynamic_test_func+0x24): undefined reference to `__aarch64_ldadd8_relax'
+> 
+> aarch64-linux-ld: trace_clock.c:(.text.trace_clock_global+0x3c): undefined reference to `__aarch64_ldadd8_relax'
+> 
+> ERROR: modpost: "__atomic_fetch_add_8" [kernel/trace/ring_buffer_benchmark.ko] undefined!
+> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/preemptirq_delay_test.ko] undefined!
+> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/synth_event_gen_test.ko] undefined!
+> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/remote_test.ko] undefined!
+> 
+> ERROR: modpost: "__aarch64_ldadd8_relax" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+> 
+> Since I build only with CONFIG_COMPILE_TEST=y, it looks like these
+> are the files that explictly enable GCOV, and likely all others
+> would run into the same issue.
 
-To fix this, update rustc-option to pass a --target parameter so that
-the host target is not used. For targets using target.json, use a
-built-in target that is as close as possible to the target created with
-target.json to avoid the circular dependency on target.json.
+So the use of -fprofile-update=prefer-atomic in the kernel causes link
+errors on systems for which GCC does not support built-in atomic ops for
+the 64 bit profiling data type. Your test triggers this due to
+CONFIG_COMPILE_TEST but as you stated this would hit all GCOV users on
+such systems.
 
-One scenario where this causes a boot failure:
-* Cross-compiled from x86_64 to aarch64.
-* With CONFIG_SHADOW_CALL_STACK=y
-* With CONFIG_KASAN_SW_TAGS=y
-* With CONFIG_KASAN_INLINE=n
-Then the resulting kernel image will fail to boot when it first calls
-into Rust code with a crash along the lines of "Unable to handle kernel
-paging request at virtual address 0ffffffc08541796". This is because the
-call threshold is not specified, so rustc will inline kasan operations,
-but the kasan shadow offset is not specified, which leads to the inlined
-kasan instructions being incorrect.
+I can see multiple approaches to address this issue:
 
-Note that the -Zsanitizer=kernel-hwaddress parameter itself does not
-lead to a rustc-option failure despite being aarch64-specific because
-RUSTFLAGS_KASAN has not yet been added to KBUILD_RUSTFLAGS when
-rustc-option is evaluated by the kasan Makefile.
+1. Drop the patch
+   => not preferred - crash would still remain, and the consistency
+   improvements would be lost
+2. Make -fprofile-update dependent on !COMPILE_TEST
+   => would enable randconfig compiles with COMPILE_TEST=y
+3. Make -fprofile-update dependent on the result of a test-compile of a
+   user space test program (not sure if there is an easier way to
+   determine whether built-in atomic ops are available for the gcov
+   type)
+   => would enable fix + improvements for all environments, where
+   they are supported, but requires slightly more complex changes in
+   linux/Makefile
+4. Provide wrappers for GCC libatomic => kernel atomic functions
+   => would enable fix + improvements for GCOV users on all systems
+   But: bigger change + linker errors mentioned above suggest that
+   GCC libatomic function names may be arch specific which makes this
+   approach more complex
 
-Cc: stable@vger.kernel.org
-Fixes: 46e24a545cdb ("rust: kasan/kbuild: fix missing flags on first build")
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
-Changes in v2:
-- Fix inaccurate statement in commit message.
-- Link to v1: https://lore.kernel.org/r/20260504-rustc-option-cross-v1-1-09f2726b680f@google.com
----
- arch/x86/Makefile         | 4 ++++
- arch/x86/Makefile.um      | 8 ++++++++
- scripts/Makefile.compiler | 2 +-
- 3 files changed, 13 insertions(+), 1 deletion(-)
+I tend towards option 3 or 2, but I'm also open for other ideas.
 
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 46fec0b08487..1d526a5d2a83 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -77,6 +77,10 @@ KBUILD_CFLAGS += -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -mno-sse4a
- KBUILD_RUSTFLAGS += --target=$(objtree)/scripts/target.json
- KBUILD_RUSTFLAGS += -Ctarget-feature=-sse,-sse2,-sse3,-ssse3,-sse4.1,-sse4.2,-avx,-avx2
- 
-+# The target.json file is not available when invoking rustc-option, so use the
-+# built-in target when checking whether flags are supported instead.
-+KBUILD_RUSTFLAGS_OPTION_CHKS += --target=x86_64-unknown-none
-+
- #
- # CFLAGS for compiling floating point code inside the kernel.
- #
-diff --git a/arch/x86/Makefile.um b/arch/x86/Makefile.um
-index 19c13afa474e..9adecd65639f 100644
---- a/arch/x86/Makefile.um
-+++ b/arch/x86/Makefile.um
-@@ -14,6 +14,14 @@ endif
- 
- KBUILD_RUSTFLAGS += --target=$(objtree)/scripts/target.json
- 
-+# The target.json file is not available when invoking rustc-option, so use the
-+# built-in target when checking whether flags are supported instead.
-+ifeq ($(CONFIG_X86_32),y)
-+KBUILD_RUSTFLAGS_OPTION_CHKS += --target=i686-unknown-linux-gnu
-+else
-+KBUILD_RUSTFLAGS_OPTION_CHKS += --target=x86_64-unknown-linux-gnu
-+endif
-+
- ifeq ($(CONFIG_X86_32),y)
- START := 0x8048000
- 
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index ef91910de265..06bbe29c846c 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -80,7 +80,7 @@ ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
- # TODO: remove RUSTC_BOOTSTRAP=1 when we raise the minimum GNU Make version to 4.4
- __rustc-option = $(call try-run,\
- 	echo '$(pound)![allow(missing_docs)]$(pound)![feature(no_core)]$(pound)![no_core]' | RUSTC_BOOTSTRAP=1\
--	$(1) --sysroot=/dev/null $(filter-out --sysroot=/dev/null --target=%,$(2)) $(3)\
-+	$(1) --sysroot=/dev/null $(KBUILD_RUSTFLAGS_OPTION_CHKS) $(filter-out --sysroot=/dev/null --target=%target.json,$(2)) $(3)\
- 	--crate-type=rlib --out-dir=$(TMPOUT) --emit=obj=- - >/dev/null,$(3),$(4))
- 
- # rustc-option
+@Konstantin Khorenko: would you be willing to work on this as the author
+of the original fix?
 
----
-base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
-change-id: 20260504-rustc-option-cross-7b524fc354d8
 
-Best regards,
 -- 
-Alice Ryhl <aliceryhl@google.com>
-
+Peter Oberparleiter
+Linux on IBM Z Development - IBM Germany R&D
 
