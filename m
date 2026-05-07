@@ -1,229 +1,216 @@
-Return-Path: <linux-kbuild+bounces-13061-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13062-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ULNVFU6U/GmXRgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13061-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 15:31:58 +0200
+	id +GueEf+W/Gn3RQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13062-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 15:43:27 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606334E94AF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 15:31:56 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB4A4E972A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 15:43:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 26D1330008A7
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2026 13:31:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7856430039B9
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2026 13:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36E6B3C5DC5;
-	Thu,  7 May 2026 13:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 836583F0AB2;
+	Thu,  7 May 2026 13:43:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="nwiQbkzg"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="I8QbKEYN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WPsnMDgP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A9036C0CB;
-	Thu,  7 May 2026 13:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9659F36C0CB;
+	Thu,  7 May 2026 13:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778160713; cv=none; b=rUComUcWP9Z9W503RrwjhxEsgQzUPZga5JM4UJLMeSqNtw0R1G2ZPZ96iTKqsGXc3gIsWkMxeV52/1eFF0phALn5jp+Ofm+ricnMudevScD/2s4o/zBlvV9Y4oFBsShokGn3kOa0AP/MkvBj1RFxpVmU2euBjSN5jF8t1X0YV+o=
+	t=1778161404; cv=none; b=pbciLHMSyJlqS/TgbLJQs4lyG8Cp3qtKDQ47xQ7EmolQMkP6VXYILke01nV2zRMBd6UArr6v8ngTo09eGUF60kMFpcArRkSJ7M1Pb6qFAWbos2nDYTJg+X2AE6COS1nE06u6VHmtM+HBBOMll69AYxZNJukpKjenly9ithY0qas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778160713; c=relaxed/simple;
-	bh=tkHAlqBG6iGQNnMcaVfJtbUQLCrVdcFvOZ5NV6y/Uww=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iASw4XdV5G8EzU5tNqQBri7Q94z5g96pQOyVztoq7wdzVCWYdTZhnTbSEh8rvNBJDYahS1q5GdhbGbFHhCSuQoGY43t3HIZEWH3JiZIo08e84YReGUIdcgggDfEp8F390xTFMbK47gTuyKOp7DXnHaH1evcoTYIpjQ/witNVcVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=nwiQbkzg; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64780ma12204349;
-	Thu, 7 May 2026 13:31:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ldM3qn
-	eMzOUis+4SypaRw9h68ZEIxmziYPipb9iBjOg=; b=nwiQbkzgmIbiQtf3yAr+R6
-	9T6tvYwzZ1n3ov6AZgf8HYfOO6ZeU8vear+C1V1MZOn/ctGiStdAqB6tyag3jeek
-	NSsbtPgQxG/UkDJyWrmojnchCpUm0B5dLr6uy0mjKQdDB9Wdkghu6KtQUP9tOHc5
-	HEWEfSbhjZtNPHBzNw9CoMaJFAhIkXDjxkx/26b2W7JX29/r2w/iN3o+DIuTGzDz
-	ZKHg+xxIeLw2oBiadnjk5mcLIcFqjHqxEH53cn82ca4If+AXQKLZjoWd/VmAW95W
-	eHdWCGFyCdyuP/F5XSLNOOXvDsa51n3d+UYziRtb5OQ0MUQoT04DzYLh8wEcRj+A
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9w6nrvq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 13:31:44 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 647DOYxQ026207;
-	Thu, 7 May 2026 13:31:43 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dwuywbtx8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 May 2026 13:31:43 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 647DVhii64291126
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 7 May 2026 13:31:43 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 08C3B5805A;
-	Thu,  7 May 2026 13:31:43 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EF70658052;
-	Thu,  7 May 2026 13:31:40 +0000 (GMT)
-Received: from [9.111.207.41] (unknown [9.111.207.41])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  7 May 2026 13:31:40 +0000 (GMT)
-Message-ID: <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
-Date: Thu, 7 May 2026 15:31:39 +0200
+	s=arc-20240116; t=1778161404; c=relaxed/simple;
+	bh=3DjHDTS5xFkM+UG3vD77K+uAGDt02pfQuyhDqP5LP2w=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=WnroEk2gp3uURocgUL5DtHwNBwNLfMYcq2Ap1QTNIcXBtP0y+2cwkKU7Mwd72talD/lC3x4X+YwjycFJeOIFETbym6T0fRs0XsmTJf1SrZEisN1uC3zoON3IWvX2akA4AnhUwoCd1f9WuEO61AdrXxRplVTM2xtTsKO5L3gE80c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=I8QbKEYN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WPsnMDgP; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id CF8D3EC008C;
+	Thu,  7 May 2026 09:43:21 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-04.internal (MEProxy); Thu, 07 May 2026 09:43:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778161401;
+	 x=1778247801; bh=jtkRB6gplJ05mBAs5H/wb2XE0uk9al8gua7nMF6wRzA=; b=
+	I8QbKEYNYTCdjHsFRYJwtpNG1AkGYvHrOAjK1nEXjOUWICyFAAQkPuwXQXbQgSKE
+	uWIE6dL5nHZqB5u/+8F9eOXdEQPl5z7qrY7giV+Yxhf2U6TnheghE1IbY8MWtGkJ
+	pxlk6dIfUOeDp7O/dAP98lZWide1AYiLnPQDK5mg2KxCtulg85fmpa4zjmxtX0DL
+	mA2Fw8Xow6eaPfPJ/NGElLOA0S+tQyO8u9bf+rgch9IwNpjsbN+Zx8MeAvDegiJi
+	PnojRg8y757vIYNN8ks/yJUBehFNTwxb7rU51FEVjRPPBECNOoruNJOUDBiL7BU5
+	WdJ+aIqYcJ5BQJSlDKsQ3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778161401; x=
+	1778247801; bh=jtkRB6gplJ05mBAs5H/wb2XE0uk9al8gua7nMF6wRzA=; b=W
+	PsnMDgP1VKkXTtBtQIg5ZLF83jktjHsF0K11S7359DMhtgNluidvRlEHmpySJlVJ
+	/z0wrmWJKF+XTk+Ry4LsGjLkYC9nXBuIHBVqdjGdpTmzd1B6/7eDhX53gc4Nqw0P
+	G8ZUxzNnyKw3dmh0b5siQFGlSmjxZyjR5B7MQN0LR7Y35W2XbWdeKajDHGmiAkK9
+	gHW4lxrCkXyOg1ymPSlHwSQpsoEYfZpom00+5sv/4ez3P7ANBbGWs+psd3/rnlNu
+	OLUxXVC7RLuyAxAnZ/skt30Nm/OFpIwp6h4TvY55lWSf51i3KRFPi4UIJWde+6qu
+	6WPWI8A6vyVjccqyR9VwA==
+X-ME-Sender: <xms:-Zb8afITD7A_Y-cwa2F1ccYQ5l3UME7gjdRQJzfYLo9N5OZTx4c72g>
+    <xme:-Zb8ad-9_ZwUpowTj-FlOfk4w5PMynt__0YMksoE5iUk1EIF7MsZm65-C8IK7u9e9
+    4t2Q9E5iUX-cirKfg7NSSvQll7yhQcnHb3-OWGT-tf_0tbpFIudNt8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdejiedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhstgeskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthho
+    pehosggvrhhprghrsehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtohepiigrshhloh
+    hnkhhosehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgsuhhi
+    lhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrh
+    hnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:-Zb8aSF70mvBlJ95YudALOZ_DTJ50Lyq7iwtJeonVSfEvJdw7HfxHg>
+    <xmx:-Zb8aYhaKlRAUQegyR_a77bHs-f4pumGmzeexpesuu0R_FEivWPhWQ>
+    <xmx:-Zb8afhDKWhkhiT-IsfPjv8DaUYELSN2XH6QMCv4n_5z6zr75ivVpQ>
+    <xmx:-Zb8abn_YMOrv_8nrjId0bit1H5cJgXdHt3YJ5yL5THnNmkSTo1A-g>
+    <xmx:-Zb8aYdixTShNXr-rn-YTduMylbYZuo-H7rx2ssauGP4pfxM3y90-Am2>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 62BD11060065; Thu,  7 May 2026 09:43:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] gcov: use atomic counter updates to fix concurrent
- access crashes
-To: Arnd Bergmann <arnd@arndb.de>,
-        Konstantin Khorenko <khorenko@virtuozzo.com>,
-        Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-Cc: Mikhail Zaslonko <zaslonko@linux.ibm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-        Vasileios Almpanis <vasileios.almpanis@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>
+X-ThreadId: A6WLQDAqktbJ
+Date: Thu, 07 May 2026 15:43:01 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Peter Oberparleiter" <oberpar@linux.ibm.com>,
+ "Konstantin Khorenko" <khorenko@virtuozzo.com>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>
+Cc: "Mikhail Zaslonko" <zaslonko@linux.ibm.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ "Miguel Ojeda" <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Pavel Tikhomirov" <ptikhomirov@virtuozzo.com>,
+ "Vasileios Almpanis" <vasileios.almpanis@virtuozzo.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>
+Message-Id: <c66e6c37-2068-4adc-bd25-3f8aad9c5195@app.fastmail.com>
+In-Reply-To: <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
 References: <20260422125112.3583649-1-khorenko@virtuozzo.com>
  <20260422125112.3583649-2-khorenko@virtuozzo.com>
  <3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
-From: Peter Oberparleiter <oberpar@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
+ <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
+Subject: Re: [PATCH v2] gcov: use atomic counter updates to fix concurrent access
+ crashes
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=XPQAjwhE c=1 sm=1 tr=0 ts=69fc9440 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=_KuLfYfupffp7DzZp0kA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: hzjOT-mjMWdTowys9G6TyZGWFvpVYTQ7
-X-Proofpoint-GUID: hzjOT-mjMWdTowys9G6TyZGWFvpVYTQ7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDEzMSBTYWx0ZWRfX8p88ilzF+3AX
- Yd1vfvph8/Oq3f/U2n8b1GnLfKGmIvrGl7axTI9z5JmKpdmrlG7SdysYgr46rtq/6LGt1OrabuD
- 1thQ4xDtSR8ZI292PDlnEqQvYdVbEWqlecrYUuIqyQx94UhE/T5duGtbV65Viy8QkObqLBEgZo+
- UrgqZ+ujMv3k8XBWbLrtwk4NEmWYbAarowUS9OT0Jd1aAg/LCXVcGo1eOtHlkpHD9U0zvY3y82C
- eJ8TUIyaIXtf3LlTXELVXIaM7AMx5mwBNMnJGWcmwuI7R/WL4FaZGrc3svNvK/91tQ7Gi9dGUsK
- aG0i6M75b/zrZaDgx9cPdOL5faZ9h/kG1ti23pTWX+TdYeg8d1nCUmY1+YigteqZEfIUIzZWHr1
- ZlES09hf+bEJwpggcf7/pSYJNRXeIqMaIZNjBnJMn4yWaVANOnBEM+57zgGRO1W4kPI2BGYeZ0z
- ZIZsivuOSXPHjLDI09A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-07_01,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070131
-X-Rspamd-Queue-Id: 606334E94AF
+X-Rspamd-Queue-Id: 8EB4A4E972A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-13061-lists,linux-kbuild=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[ibm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[oberpar@linux.ibm.com,linux-kbuild@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13062-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCVD_COUNT_SEVEN(0.00)[11]
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 28.04.2026 22:56, Arnd Bergmann wrote:
-> On Wed, Apr 22, 2026, at 14:51, Konstantin Khorenko wrote:
->> @@ -824,7 +824,7 @@ all: vmlinux
->>
->>  CFLAGS_GCOV	:= -fprofile-arcs -ftest-coverage
->>  ifdef CONFIG_CC_IS_GCC
->> -CFLAGS_GCOV	+= -fno-tree-loop-im
->> +CFLAGS_GCOV	+= -fno-tree-loop-im -fprofile-update=prefer-atomic
->>  endif
->>  export CFLAGS_GCOV
-> 
-> Unfortunately, this causes link failures in a few files that
-> end up trying to use the libgcc atomic function calls. From
-> my randconfig builds with gcc-16, I have so far seen:
-> 
-> x86_64-linux-ld: io_uring/io_uring.o: in function `io_uring_fill_params':
-> io_uring.c:(.text+0x40): undefined reference to `__atomic_fetch_add_8'
-> 
-> aarch64-linux-ld: io_uring/io_uring.o: in function `io_req_sqe_copy':
-> io_uring.c:(.text+0x2c): undefined reference to `__aarch64_ldadd8_relax'
-> 
-> aarch64-linux-ld: kernel/trace/trace_selftest_dynamic.o: in function `trace_selftest_dynamic_test_func':
-> trace_selftest_dynamic.c:(.text.trace_selftest_dynamic_test_func+0x24): undefined reference to `__aarch64_ldadd8_relax'
-> 
-> aarch64-linux-ld: trace_clock.c:(.text.trace_clock_global+0x3c): undefined reference to `__aarch64_ldadd8_relax'
-> 
-> ERROR: modpost: "__atomic_fetch_add_8" [kernel/trace/ring_buffer_benchmark.ko] undefined!
-> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/preemptirq_delay_test.ko] undefined!
-> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/synth_event_gen_test.ko] undefined!
-> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/remote_test.ko] undefined!
-> 
-> ERROR: modpost: "__aarch64_ldadd8_relax" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
-> 
-> Since I build only with CONFIG_COMPILE_TEST=y, it looks like these
-> are the files that explictly enable GCOV, and likely all others
-> would run into the same issue.
+On Thu, May 7, 2026, at 15:31, Peter Oberparleiter wrote:
+> On 28.04.2026 22:56, Arnd Bergmann wrote:
+>> On Wed, Apr 22, 2026, at 14:51, Konstantin Khorenko wrote:
+>> 
+>> ERROR: modpost: "__atomic_fetch_add_8" [kernel/trace/ring_buffer_benchmark.ko] undefined!
+>> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/preemptirq_delay_test.ko] undefined!
+>> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/synth_event_gen_test.ko] undefined!
+>> ERROR: modpost: "__aarch64_ldadd8_relax" [kernel/trace/remote_test.ko] undefined!
+>> 
+>> ERROR: modpost: "__aarch64_ldadd8_relax" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> 
+>> Since I build only with CONFIG_COMPILE_TEST=y, it looks like these
+>> are the files that explictly enable GCOV, and likely all others
+>> would run into the same issue.
+>
+> So the use of -fprofile-update=prefer-atomic in the kernel causes link
+> errors on systems for which GCC does not support built-in atomic ops for
+> the 64 bit profiling data type. Your test triggers this due to
+> CONFIG_COMPILE_TEST but as you stated this would hit all GCOV users on
+> such systems.
+>
+> I can see multiple approaches to address this issue:
+>
+> 1. Drop the patch
+>    => not preferred - crash would still remain, and the consistency
+>    improvements would be lost
 
-So the use of -fprofile-update=prefer-atomic in the kernel causes link
-errors on systems for which GCC does not support built-in atomic ops for
-the 64 bit profiling data type. Your test triggers this due to
-CONFIG_COMPILE_TEST but as you stated this would hit all GCOV users on
-such systems.
+This might be an option for the moment, until we have a better
+solution though.
 
-I can see multiple approaches to address this issue:
+> 2. Make -fprofile-update dependent on !COMPILE_TEST
+>    => would enable randconfig compiles with COMPILE_TEST=y
 
-1. Drop the patch
-   => not preferred - crash would still remain, and the consistency
-   improvements would be lost
-2. Make -fprofile-update dependent on !COMPILE_TEST
-   => would enable randconfig compiles with COMPILE_TEST=y
-3. Make -fprofile-update dependent on the result of a test-compile of a
-   user space test program (not sure if there is an easier way to
-   determine whether built-in atomic ops are available for the gcov
-   type)
-   => would enable fix + improvements for all environments, where
-   they are supported, but requires slightly more complex changes in
-   linux/Makefile
-4. Provide wrappers for GCC libatomic => kernel atomic functions
-   => would enable fix + improvements for GCOV users on all systems
-   But: bigger change + linker errors mentioned above suggest that
-   GCC libatomic function names may be arch specific which makes this
-   approach more complex
+This would still leave the same build failure for any actual users
+on the affected systems (x86-64 and arm64 at least), right?
 
-I tend towards option 3 or 2, but I'm also open for other ideas.
+> 3. Make -fprofile-update dependent on the result of a test-compile of a
+>    user space test program (not sure if there is an easier way to
+>    determine whether built-in atomic ops are available for the gcov
+>    type)
+>    => would enable fix + improvements for all environments, where
+>    they are supported, but requires slightly more complex changes in
+>    linux/Makefile
 
-@Konstantin Khorenko: would you be willing to work on this as the author
-of the original fix?
+This seems fine to me, but I wonder which architectures actually
+support it at the moment. I assume you are successfully using it
+on s390, but if the two most commonly used architectures don't
+support it, it's not clear to me who else actually can.
 
+> 4. Provide wrappers for GCC libatomic => kernel atomic functions
+>    => would enable fix + improvements for GCOV users on all systems
+>    But: bigger change + linker errors mentioned above suggest that
+>    GCC libatomic function names may be arch specific which makes this
+>    approach more complex
 
--- 
-Peter Oberparleiter
-Linux on IBM Z Development - IBM Germany R&D
+The lack of libatomic support in the kernel has come up a few times
+before, when driver writers attempted to use standard C11 _Atomic
+variables. I think so far we have always reverted back to the kernel's
+own atomic_t implementation here, mostly because kernel developers
+are more comfortable with the existing memory model, which seems
+to have some subtle differences from the C11 semantics.
+
+      Arnd
 
