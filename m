@@ -1,192 +1,238 @@
-Return-Path: <linux-kbuild+bounces-13078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gL7eDyXP/GlhTwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13078-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 19:43:01 +0200
+	id aB7CNPoI/WmdWwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13080-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 23:49:46 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8E74ED018
-	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 19:43:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE594EF744
+	for <lists+linux-kbuild@lfdr.de>; Thu, 07 May 2026 23:49:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1D03F3096A12
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2026 17:40:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A4CFB3038A73
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2026 21:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E774657FA;
-	Thu,  7 May 2026 17:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E654347536;
+	Thu,  7 May 2026 21:49:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="EWdgNwyo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jwqqpn26"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DC64611C1;
-	Thu,  7 May 2026 17:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3B0345CAE;
+	Thu,  7 May 2026 21:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778175588; cv=none; b=rKS6G7HhwVxKaRFrDJBkY4gpk6nLjkXzC9UHSCT0vkYobSr8/MATPqEMOa33bhuzISk4XZFINPtSsZsAjKeRK92KD3w0KzyD2pGP+fWAnXMp6FOq+PFszcLHXdJbYzIUaG22hsZSCj72OPFFtDusDriUkBGbBhgPm72j0114ygU=
+	t=1778190579; cv=none; b=hi3VDuO1rtBz8DwRUO8uegxF1KUZ0Ur+BoMOFHUCEZJzBtaLkB1PqZhyAPLjBvHnknOdw9GJB7WLK/a9aXP2J00mycW57e0H2r0dEBCqt1XMKsLu4cmW9vJNCOQXquvZrIPjSWlXcltjnC75ZPRn8gBHTzAJ0m46E23KKRM03AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778175588; c=relaxed/simple;
-	bh=r7pkQ1cqhVPt9+cVKtjMlwc8dT+xsGwxa66E8WXxfHo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bwciCN6Xp0oiWOJ4xg/KCBLB8htYqmOkT08zVWjkCyGduhbL5y/EohQ8nHBOLeTNKQHVOCaiKPdaj2anRGucdHjsF6/Te8WwRrZf3ZsdBDu2O4jIe4R2ajBUrN2ZKPjUiSTjT/P55XKWqXaAmJdQ36yhJVFOibafgErNYyk1wYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=EWdgNwyo; arc=none smtp.client-ip=148.251.102.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
-Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id EA554200CD;
-	Thu,  7 May 2026 19:39:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id BF9D41FB198;
-	Thu,  7 May 2026 19:39:44 +0200 (CEST)
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id 4dve45RGOBMA; Thu,  7 May 2026 19:39:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 09C0F1FB1CB;
-	Thu,  7 May 2026 19:39:44 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 09C0F1FB1CB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1778175584;
-	bh=BceW3Fh3MHImnTJ6JrvTICjDOf5lIj/oeT8etM4ja7c=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=EWdgNwyoqTsaqGWjKGYJbShRqga6QBzvKinBqv8eKqITxY9cIMobXvgiREf7F6AhP
-	 b6+5kX/7YzJT00sNsNlAYbRTFNzPLNibVhPrDDuyW3gdIZ2c3rRKnl73VbWE7QF4rD
-	 4ppbTSoAWuzu2OG+6UBevC94PBrkGgyA1c5+uwIxUWLD4XaGFq69fpZ/tOzt1KlbUs
-	 ilsVXbKfEvNb89sazs8pkX1QzSjoLNOKU8/vHmoTF9lYtMvNt0K6z/cWo9SRf278Z7
-	 A1JXLnSVtgLOjBCspYfO4XQf2CHTBC+izZ4APVUAGpFa2CZuHK/DfbumU2E5sF610/
-	 tRh9yrWMenehA==
-X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id ACaiOg64C_OX; Thu,  7 May 2026 19:39:43 +0200 (CEST)
-Received: from luis-Precision-5480.. (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id A36D61FB198;
-	Thu,  7 May 2026 19:39:43 +0200 (CEST)
-From: Luis <luis.augenstein@tngtech.com>
-To: nathan@kernel.org,
-	nsc@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org,
-	kstewart@linuxfoundation.org,
-	maximilian.huber@tngtech.com,
-	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v6 15/15] scripts/sbom: add unit tests for SPDX-License-Identifier parsing
-Date: Thu,  7 May 2026 19:38:27 +0200
-Message-ID: <20260507173827.70949-16-luis.augenstein@tngtech.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260507173827.70949-1-luis.augenstein@tngtech.com>
-References: <20260507173827.70949-1-luis.augenstein@tngtech.com>
+	s=arc-20240116; t=1778190579; c=relaxed/simple;
+	bh=vDhx+qTlEIGongxfTbCi7izCbN5cvEC0zYIQ5cbMuOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UCqxAJUE5/GnUbw5866BYxcOlRtzLgH/H/HjSAJqjS2yKWr3MUbI83wIuj3AeO7keGOZa1Ihxulv9905jR+ask7Sp/hq40SUVPh0aytIDljlsVbBXt1DiwjVVw1yVMKss8mLYLIly++2ocmQMp2GMZ7/ZKlzsAQOZ9D7qd7Vy3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jwqqpn26; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16F9C2BCB2;
+	Thu,  7 May 2026 21:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778190579;
+	bh=vDhx+qTlEIGongxfTbCi7izCbN5cvEC0zYIQ5cbMuOs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jwqqpn26rDsSqSQ6iSY7WfIk8u1SsmwHBzioFfRMvR4e9N6oP0FBidey1y2T+Lzxi
+	 O6rdnRlS24/l9Q7ZH/qS9m9frAolUlZBJs+LQp2AHV42DQS5hI3PQU/zs5tC44FF4s
+	 MI5GYeR+oxtqLILIScpQQjcmFsykVrvqH6P/4+AMmOssMqiHNk626tOQ1rUgJd5JnJ
+	 ubNV1WnfwHzwmSPIZ+ktI1V+E6asZCmNNF4lKVnYxzX/EIAgbCNNqPdWYgqfwbU/7U
+	 xyaqLgvGNw1n0oR4CiJ1jyRQpVIisSYe+NJBD03tsVHW2DsiqukQdCz2TH4yBbi07k
+	 +G3+tqU2LJypw==
+Date: Thu, 7 May 2026 23:49:20 +0200
+From: "Harry Yoo (Oracle)" <harry@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com, 
+	llvm@lists.linux.dev, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Florent Revest <revest@google.com>, Jann Horn <jannh@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Matteo Rizzo <matteorizzo@google.com>, GONG Ruiqi <gongruiqi1@huawei.com>
+Subject: Re: [PATCH v3 1/2] slab: support for compiler-assisted type-based
+ slab cache partitioning
+Message-ID: <afz7pZADZPD4mKJr@MacBook-Air.tail10959e.ts.net>
+References: <20260424132427.2703076-1-elver@google.com>
+ <6f2bd63a-dc02-4631-a3a5-7ec8e58a4a4e@kernel.org>
+ <afkOMIPu1WNFE9MS@elver.google.com>
+ <CANpmjNM261J5qefMvmUXWZGBVz-KBs7GkbpdNMfTOvNJ-=LiZQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: AD8E74ED018
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNM261J5qefMvmUXWZGBVz-KBs7GkbpdNMfTOvNJ-=LiZQ@mail.gmail.com>
+X-Rspamd-Queue-Id: 5DE594EF744
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13078-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tngtech.com:email,tngtech.com:mid,tngtech.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tmpdir.name:url];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13080-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev,huawei.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[tngtech.com:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[harry@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,MacBook-Air.tail10959e.ts.net:mid]
 X-Rspamd-Action: no action
 
-From: Luis Augenstein <luis.augenstein@tngtech.com>
+On Wed, May 06, 2026 at 03:03:27PM +0100, Marco Elver wrote:
+> On Mon, 4 May 2026 at 23:23, Marco Elver <elver@google.com> wrote:
+> > On Thu, Apr 30, 2026 at 03:03PM +0200, Vlastimil Babka (SUSE) wrote:
+> > > On 4/24/26 15:24, Marco Elver wrote:
+> > > > @@ -948,14 +978,16 @@ static __always_inline __alloc_size(1) void *kmalloc_noprof(size_t size, gfp_t f
+> > > >
+> > > >             index = kmalloc_index(size);
+> > > >             return __kmalloc_cache_noprof(
+> > > > -                           kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+> > > > +                           kmalloc_caches[kmalloc_type(flags, token)][index],
+> > >
+> > > While reviewing this, it occured to me we might have been using _RET_IP_
+> > > here in a suboptimal way ever since this was introduced. Since this is all
+> > > inlined, shouldn't have we been using _THIS_IP_ to really randomize using
+> > > the kmalloc() callsite, and not its parent?
+> > >
+> > > And after this patch, we get the token passed to _kmalloc_noprof()...
+> > >
+> > > >                             flags, size);
+> > > >     }
+> > > > -   return __kmalloc_noprof(size, flags);
+> > > > +   return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
+> > >
+> > > ... and used also here for the non-constant-size, where previously
+> > > __kmalloc_noprof() (not inline function) would correctly use _RET_IP_ on its
+> > > own ...
+> > >
+> > > >  }
+> > > > +#define kmalloc_noprof(...)                        _kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+> > >
+> > > ... and the token comes from here. With random partitioning that's
+> > > #define __kmalloc_token(...) ((kmalloc_token_t){ .v = _RET_IP_ })
+> > >
+> > > so that AFAIK makes the situation worse as now the cases without constant
+> > > size also start randomizing by the parent callsite and not the kmalloc callsite.
+> > >
+> > > But there are many users of __kmalloc_token() and maybe some are corrent in
+> > > using _RET_IP_, I haven't checked, maybe we'll need two variants, or further
+> > > change things around.
+> >
+> > Good catch. I don't think we need multiple variants (otherwise the TYPED
+> > variant would be broken) - we're moving token generation to the callers
+> > (not even inlined anymore) with all this macro magic.
+> >
+> > I think this is all we need:
+> >
+> > --- a/include/linux/slab.h
+> > +++ b/include/linux/slab.h
+> > @@ -503,7 +503,7 @@ int kmem_cache_shrink(struct kmem_cache *s);
+> >  typedef struct { unsigned long v; } kmalloc_token_t;
+> >  #ifdef CONFIG_KMALLOC_PARTITION_RANDOM
+> >  extern unsigned long random_kmalloc_seed;
+> > -#define __kmalloc_token(...) ((kmalloc_token_t){ .v = _RET_IP_ })
+> > +#define __kmalloc_token(...) ((kmalloc_token_t){ .v = _THIS_IP_ })
+> >  #elif defined(CONFIG_KMALLOC_PARTITION_TYPED)
+> >  #define __kmalloc_token(...) ((kmalloc_token_t){ .v = __builtin_infer_alloc_token(__VA_ARGS__) })
+> >  #endif
+> >
+> > Plus a paragraph in the commit message.  Let me add that.
 
-Verify that SPDX-License-Identifier headers at the top of source files
-are parsed correctly.
+Err, I was like "yes, this is the way to go!"
 
-Assisted-by: Cursor:claude-sonnet-4-5
-Assisted-by: OpenCode:GLM-4-7
-Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
-Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
-Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
----
- scripts/sbom/tests/spdx_graph/__init__.py     |  0
- .../sbom/tests/spdx_graph/test_kernel_file.py | 33 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 scripts/sbom/tests/spdx_graph/__init__.py
- create mode 100644 scripts/sbom/tests/spdx_graph/test_kernel_file.py
+and then...
 
-diff --git a/scripts/sbom/tests/spdx_graph/__init__.py b/scripts/sbom/tes=
-ts/spdx_graph/__init__.py
-new file mode 100644
-index 00000000000..e69de29bb2d
-diff --git a/scripts/sbom/tests/spdx_graph/test_kernel_file.py b/scripts/=
-sbom/tests/spdx_graph/test_kernel_file.py
-new file mode 100644
-index 00000000000..87765670ec4
---- /dev/null
-+++ b/scripts/sbom/tests/spdx_graph/test_kernel_file.py
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import unittest
-+from pathlib import Path
-+import tempfile
-+from sbom.spdx_graph.kernel_file import _parse_spdx_license_identifier  =
-# type: ignore
-+
-+
-+class TestKernelFile(unittest.TestCase):
-+    def setUp(self):
-+        self.tmpdir =3D tempfile.TemporaryDirectory()
-+        self.src_tree =3D Path(self.tmpdir.name)
-+
-+    def tearDown(self):
-+        self.tmpdir.cleanup()
-+
-+    def test_parse_spdx_license_identifier(self):
-+        # REUSE-IgnoreStart
-+        test_cases: list[tuple[str, str | None]] =3D [
-+            ("/* SPDX-License-Identifier: MIT*/", "MIT"),
-+            ("// SPDX-License-Identifier: GPL-2.0-only", "GPL-2.0-only")=
-,
-+            ("/* SPDX-License-Identifier: GPL-2.0-or-later OR MIT */", "=
-GPL-2.0-or-later OR MIT"),
-+            ("/* SPDX-License-Identifier: Apache-2.0 */\n extra text", "=
-Apache-2.0"),
-+            ("<!-- SPDX-License-Identifier: GPL-2.0 -->", "GPL-2.0"),
-+            ("int main() { return 0; }", None),
-+        ]
-+        # REUSE-IgnoreEnd
-+
-+        for i, (file_content, expected_identifier) in enumerate(test_cas=
-es):
-+            file_path =3D self.src_tree / f"file_{i}.c"
-+            file_path.write_text(file_content)
-+            self.assertEqual(_parse_spdx_license_identifier(str(file_pat=
-h)), expected_identifier)
---=20
-2.43.0
+> Bah, this is why it doesn't work:
+> 
+> >> drivers/gpu/drm/msm/msm_gpu.c:272:4: error: cannot jump from this indirect goto statement to one of its possible targets
+>      272 |                         drm_exec_retry_on_contention(&exec);
+>          |                         ^
+>    include/drm/drm_exec.h:123:4: note: expanded from macro
+> 'drm_exec_retry_on_contention'
+>      123 |                         goto *__drm_exec_retry_ptr;             \
+>          |                         ^
+>    drivers/gpu/drm/msm/msm_gpu.c:304:16: note: possible target of
+> indirect goto statement
+>      304 |                 state->bos = kcalloc(submit->nr_bos,
+>          |                              ^
+>    include/linux/slab.h:1173:34: note: expanded from macro 'kcalloc'
+>     1173 | #define kcalloc(n, size, flags)         kmalloc_array(n,
+> size, (flags) | __GFP_ZERO)
+>          |                                         ^
+>    include/linux/slab.h:1133:42: note: expanded from macro 'kmalloc_array'
+>     1133 | #define kmalloc_array(...)
+> alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+>          |                                                             ^
+>    include/linux/slab.h:1132:71: note: expanded from macro
+> 'kmalloc_array_noprof'
+>     1132 | #define kmalloc_array_noprof(...)
+> _kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+>          |
+>                        ^
+>    include/linux/slab.h:506:55: note: expanded from macro '__kmalloc_token'
+>      506 | #define __kmalloc_token(...) ((kmalloc_token_t){ .v = _THIS_IP_ })
+>          |                                                       ^
+>    include/linux/instruction_pointer.h:10:41: note: expanded from
+> macro '_THIS_IP_'
+>       10 | #define _THIS_IP_  ({ __label__ __here; __here: (unsigned
+> long)&&__here; })
+>          |                                         ^
+>    drivers/gpu/drm/msm/msm_gpu.c:304:16: note: jump enters a statement
+> expression
+> 
+> Apparently using _THIS_IP_ creates a possible indirect jump target,
 
+Didn't even realize people use indirect gotos, heh :)
+
+> but because it's in a statement expression, it's invalid, so the
+> compiler complains. This is obviously nonsense, because the actual
+> indirect jump in this gpu driver code would never jump to the
+> _THIS_IP_ __here label, but that's what it is.
+
+Yeah, I guess it's quite tricky to handle when you don't know where
+it'd jump to as it's an indirect one, and there's an invalid jump
+label...
+
+> Given this pre-existing issue, we probably need to continue using
+> _RET_IP_, as before.
+
+Agreed!
+
+-- 
+Cheers,
+Harry / Hyeonggon
 
