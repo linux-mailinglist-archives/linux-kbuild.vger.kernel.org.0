@@ -1,88 +1,88 @@
-Return-Path: <linux-kbuild+bounces-13081-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13082-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDxEOI64/Wm4hwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13081-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 08 May 2026 12:18:54 +0200
+	id iIHbEI+6/Wm4hwAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13082-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 08 May 2026 12:27:27 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0584F4E55
-	for <lists+linux-kbuild@lfdr.de>; Fri, 08 May 2026 12:18:54 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE2D4F5027
+	for <lists+linux-kbuild@lfdr.de>; Fri, 08 May 2026 12:27:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0267B30078A4
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 May 2026 10:18:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E5F7F30071E9
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 May 2026 10:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE3039DBC9;
-	Fri,  8 May 2026 10:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A77AC38236A;
+	Fri,  8 May 2026 10:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUEAAqa3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rr22rpyj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126F9381AED
-	for <linux-kbuild@vger.kernel.org>; Fri,  8 May 2026 10:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F0D37C110
+	for <linux-kbuild@vger.kernel.org>; Fri,  8 May 2026 10:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778235531; cv=none; b=JcaUJd6LVY81OitfakXrDN/jMlyYWx9QsgOgTw5d4t4g1noOeQFCdmE1ZUa9+LlCHEK4D3wwX55gK4SgSwjUtDkJD3plB0wO5/Kxd/SUKhjtgTSeyUNzhC6Z/BmphZFnsgj9zHPU4fqupbrlGDd4wolGX4gTdl1hIZ9JETxeAyc=
+	t=1778236044; cv=none; b=IC6ZCHxNEw+VgIGz7x6TIzuJ5YFpHqboiEhHnnJJg5Etn53+v5sMbRH+dEHcXbjf7/QXmvAy0VKK8rCkSPod+xixrsLCfnBq++OYTq4A6MIWX92v/vuvP65FuqqfO4Ylp6YQK6qF/9xVK4aJclvq9GeP5LnVRy3peqtvtJoGIAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778235531; c=relaxed/simple;
+	s=arc-20240116; t=1778236044; c=relaxed/simple;
 	bh=r2KoCmoztaSvCNNFvMsvg10ZUzlTUEv67WMZk3NMvU4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tbGvG2sPnT/UXyU+N6mLjM6S2ihwS5YttlJAkALcBXSXdc3G3+LVNb8exZ9W9VAGqLgFjDkcSb9EGGMBxZp7JN002VI/KPszg5+E5HrDUVK8+w3M69dfPosp5quiz2asXMbfnfGgbaTXi8adqdjxWIksj8YUMcYrnh3KC3FGcj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUEAAqa3; arc=none smtp.client-ip=209.85.216.44
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uCUZTH73gVkmioL7gF34qr7Q5BsYha2nOFVoIs4/K0FslkEyG4BgRNfWozblpIuE5jyQH5DH2jq4vVCsdduIWBkrDr8Hy/l0ZNXXhDIqTJfJHc8dFbU7iF53aE/r2upRtPHdCuoiEjEd/iAXStZ2L17rIDFX2opzlEZ7Y6xqROQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rr22rpyj; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3665b67ed66so167973a91.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 08 May 2026 03:18:49 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-83538fbd0b2so761558b3a.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 08 May 2026 03:27:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778235529; x=1778840329; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778236043; x=1778840843; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=r2KoCmoztaSvCNNFvMsvg10ZUzlTUEv67WMZk3NMvU4=;
-        b=IUEAAqa3UXS0+eaOYeQoIJlvJBQAv0XiH4YNgzGKQ286hFwo5LfmCJbDhR2pOKgLi2
-         iFam79A8GBxVMYFbz81saqshQpoYaiCv+nNKsn8p6b2zSlLuToWd56IoBwn/N3NFXcD+
-         8YIlbw7cv760qpfJ8WYQ35dNiT4JkZ0C5yFqxTyw7W0Vhks58HDXGsKlOYvBlPoRoUqN
-         KZZc2oyiaCw6GX90UKhGOsMtuG1jyheFH4fORuLZ+HRdGLnYrBxGnvgbx8/Cu0MiC7mU
-         SxT4M01518r4sASJkUAracWZiz5nU3jqDtfK+wp8uFk1jAwS9izLOrYWGBoMyAUTeWI5
-         ZVZQ==
+        b=Rr22rpyjNKfec6xo2i/NuImYF2Ju9Wns9fEWUXurfM4HAG0rsc1smKx7j5waUnBNVA
+         LtvZ+4spuhEllHNQEpoFkgMCMz9fUcKJXpQa8G41R+JSKFK6+KCrpFpTRW3vlfZfdHS9
+         BfsCpP/o1cJEagw1a2ySQcjYAQqBJfiSfR/HdA4YI9fMJcSEGTv36yjGgrUsgpymVP2t
+         pAACLhjxdSWaaZwEqfqGGB7zpBdrh4k1aJwFQUaOi6KP9dhnrtgdQJRnMjUxh5ubac3v
+         bZh0VlOOFXyHK/7HZU3L2/bv9vxz3u5JTfTh3MCx8Fu7p5bi2/o2r4O+xr0oW55tLXdH
+         rM9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778235529; x=1778840329;
+        d=1e100.net; s=20251104; t=1778236043; x=1778840843;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=r2KoCmoztaSvCNNFvMsvg10ZUzlTUEv67WMZk3NMvU4=;
-        b=GIY+enyou5CjxMCZ2Vq5ZbmUtdES/ygdP+dMFFItOjWphE/laMjNGZTsXOcwbnIn6U
-         HKhknYv/C6FGWObfKbQE1EoKl9ikP6uRGDhkwwvTqeSgacX9slsuGZWsxM4NLBzh7Bnc
-         Lx+ODClKWUURaklnar1qPhM2BUYIIJrvscTG78/TBcKbQsFccp7WYlLIDTUjJZu7kBHC
-         6g62xYiV/0XlE9wyUs/Hq5A/ku6BrqpJp+qIDGY1VYqVtzBUxkDGPEfdNTaCv7wmFY+7
-         RrgkUQ5o2y4HwFxgIgfCubci10ZXgSxIymPYXxPpUlOobzpth73add3A3SSD6J92Dm08
-         oOCw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Hhod3qTXRsoTejnDB3NIwRUR5cBqgj6Pei5ufcolVKdXB46dfNzl86UFUuzqiGpk+iFiUS4MkYVpdCK8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYG8IoM50Qv6JIkyCPc7kBQ03AAjHQ21obxlZZp9yusl9A23vq
-	8UJmkm+iKsCfd/LF1MinuL5TVUMUfircJ+kGZw2f1zZVyIzTydKCtaBJvoveWw==
-X-Gm-Gg: Acq92OEdjKTruzWvwcdV6HTRoShnktXx05deXVvq8Dg4UzMFkcodKajVmHid5p/a77l
-	fw9rvyfZtJnKWKkWqWiU9r1LqnnAxWZDosWmw9C6iHMsYX5Iu/2HkddKQ9FXeTe6jSr3AfGsuAl
-	L32Z6r5gDhqjbfzTtp4TghLWteni5MB2KXwiAahZMTV4pWhXCiuJcrP8BykncTUVG2ja98gKocm
-	7EvDbW4QcNSFt3zQY7kva443T5z9XtRT5QksrpfiegmiPqUPJNqtwdjhuxrdjtio0TupIIC5Aj6
-	0bN3D/Tmr+F9iCt5JO+cHvAFXbNWXXRJPMg770fYctvUIDwgE1iwSF5KDO3h4DKcsnTr7OnLNMQ
-	v1ZtVlPVf0MePEK5U/chW5Dp5WQLYUgAMpU8rBLpHh6dEFAIdSDzjTQCwCFhPPVQDPBOyJiGgW8
-	f+6CwHDhmHAP8ERwAnuqJ8Wd0E+bvlgSkDPtxeJXFz2HJeVVsifUbsZdYAOTL9/aHLPVKoNvrz/
-	TbB
-X-Received: by 2002:a17:90a:d88d:b0:361:45df:102 with SMTP id 98e67ed59e1d1-365ac27037cmr12088432a91.17.1778235529310;
-        Fri, 08 May 2026 03:18:49 -0700 (PDT)
+        b=qSbnIzu/FASI5eCs7qk1zeuZi+cMpidzuinEoV4JCiH0ANKu+Pqx6lqoXoqRgdq6FS
+         Zu1AaZDops0aUe5uS2RQ7hp8NSqKGV6ky4wtMFy9oQMZ5qEpYjslE3zAanmxx2l9MYMK
+         793wxzndmSnMFFt72sH2XkRos5dorEh3A0pFA4l1Dcd+nt1EH3/N6zyR1vTRSlgN1e67
+         WvUWGE6offYMGkonQaL6KsM0zysxMQW7Xj8eju0ScdRJg61yArqlayLdmKLUPup9pbq7
+         abC1jBx8/WfdMAkiWJiFJBR8IbQPl5O2j96SVvNkHs6JXibdYqIoHaAG0EwFnOsLcv9P
+         stuQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+fky6SeTKT+tlyrb/r3UUwDBKN8HimH877qxbXbOdnNsbx3051HfaUJI1wEC8Gq3iMbN5YFSsH4VMkWOM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYaHR7W2PXoTSz96nXtzWnbOCTYg05Z6ITvRWD3ZYhmOaE7nYw
+	sita5dL64RwOzEjJ+82bZ97ezQu36pH7gQNtI+maJTUtj7wdTucx4ybh
+X-Gm-Gg: AeBDievKaaiyKR0m7Abg21aK69069icNorjJlDXu17dETbTEL0HpeJp8AvTqaFI/DZ0
+	RfVJXLyk4tHX5sDf5BB1OZx+UyLwaGnbC7jMrwgColRxwGkNyfNPkY9ocewfX/pTjgXdksPQrtv
+	3ThaNNGyvDAz1ejmmsgR1LKsmclSFJruwhrEWluZ9VwPemKy7l6Bti147i1swP9R4k1GJfy7h+/
+	DKDrpz6k1t622p2mb8IEYGode8tTQk1VMd5u1L1NOaS/zHLTX9G+8Aau85+3ww4fFP8XIug4XoA
+	AgF4djQJ80/IUIPb6wJaY83YCQmKB97qZiLifwG9kmX3ilChwEeMPCLIfncP8XiYi+o29hns+XE
+	9KxhHzQJjDySUzsiHK31sxdR90bnbnSCmqhUQidin/KOkfGmXabJ0dFmsp9Y0KAYAcb9fKxDkPv
+	Nk6mEoqGERxAQamsxhsokKoSRAI0MgDy9K2bYcbTrLXhyXe3Edi9FTfIAHvCWTqQyM39zsxKoHD
+	JtY
+X-Received: by 2002:a05:6a00:4508:b0:835:38fc:ba1 with SMTP id d2e1a72fcca58-83a5e84346dmr11501598b3a.46.1778236042647;
+        Fri, 08 May 2026 03:27:22 -0700 (PDT)
 Received: from localhost.localdomain ([2409:40c1:214c:f197:a90b:ecd5:8020:ab05])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3664da5d5fcsm1711404a91.5.2026.05.08.03.18.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbf67fsm12132659b3a.47.2026.05.08.03.27.19
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 08 May 2026 03:18:48 -0700 (PDT)
+        Fri, 08 May 2026 03:27:22 -0700 (PDT)
 From: Jill Ravaliya <jillravaliya@gmail.com>
-To: nathan.chancellor@kernel.org
+To: nathan@kernel.org
 Cc: Jill Ravaliya <jillravaliya@gmail.com>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] kbuild: deb-pkg: propagate hook script failures in builddeb
-Date: Fri,  8 May 2026 15:48:35 +0530
-Message-ID: <20260508101838.27567-1-jillravaliya@gmail.com>
+Date: Fri,  8 May 2026 15:57:08 +0530
+Message-ID: <20260508102713.27678-1-jillravaliya@gmail.com>
 X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -91,7 +91,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 8B0584F4E55
+X-Rspamd-Queue-Id: EDE2D4F5027
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.34 / 15.00];
 	FAKE_REPLY(1.00)[];
@@ -100,7 +100,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -110,7 +110,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13081-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13082-lists,linux-kbuild=lfdr.de];
 	RCPT_COUNT_THREE(0.00)[4];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
@@ -120,7 +120,7 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
