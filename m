@@ -1,248 +1,209 @@
-Return-Path: <linux-kbuild+bounces-13089-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13091-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4ATcG58f/2ky2gAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13089-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 13:50:55 +0200
+	id wPMCOshG/2mo4AAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13091-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 16:38:00 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A624FF80F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 13:50:54 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A8650018D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 16:38:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C92D300B10D
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 11:50:53 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 77F213003D1A
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 14:37:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3892836A6;
-	Sat,  9 May 2026 11:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D6439479F;
+	Sat,  9 May 2026 14:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="KpjEiaMG"
+	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="rjOcTWc3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020118.outbound.protection.outlook.com [52.101.84.118])
+Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD75826B74A;
-	Sat,  9 May 2026 11:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.118
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778327452; cv=fail; b=DVaM3U8upCgRSOE2pwFDJ61dyH93/orf/J9XdRGqhjYnHMEXfAjkFK5iDSj5b1hauv5GN9YHOwgMhBSTbuFOHQwQu8Q62DMiObHkNcCisUE69r8fC+8T3DnKalMAwniW98iAha/2tDJXsIsujP0XEqjPLsIFaUddbF1S5vgCJMk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778327452; c=relaxed/simple;
-	bh=bI2mxGfSVY2DQRokADmcisoph2HsEliMX5rEzwsfkhU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NNYzCDKw5zuB19kqBZgwdOBvlKx3eodz3eWU4KQqT2yD51Xz4b5PVqW+c4ueiCzsCMqVCsiVk8sIyaXn2Ad0BrotEozcgS+LzEa1WzpSRBd7/N5bToiV8j7FvPTukcfkTcdMAPwDLEoaCwJCYioLljqu2rBzHAAaIZdsWapclO0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=KpjEiaMG; arc=fail smtp.client-ip=52.101.84.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E782836606E;
+	Sat,  9 May 2026 14:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.117.225.111
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778337478; cv=none; b=FsWgSZUYUQk+mTwCR2VOiXgVYgYbxbnicAgoEzd0TxkRnjWBaJeb3ZHDlkzWOm3jKZ/wrMRhRZXEmEQM+/piU0QJIwjTx7UBR8d3PTMtmry3Wp69kPgTPHqBuuwQMzM/fXeg3lvrWbM5Atd958TXpEZ7KoOonU8UUJT7Cx/ZYJM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778337478; c=relaxed/simple;
+	bh=2QICU0Vzku11V94F5gcvrHsTRXDEyj//j013W3IZTlo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DBkoGu6mtbbOcEoVV/wVwHjMDcYI1LuSddff/jUHVH8k4dTSY/7V88+fxOqeMNY5ndWE1WgXwgBn00wZrLWmaVnksvgZrW/AIJUgfOwSFWeuk3rFPIrrX2jqHJYPFAnTJk25PD44Kjgf4hpfVomrHK/KZLRQs+QgZ4Ojip7E0ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=rjOcTWc3; arc=none smtp.client-ip=130.117.225.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x9q00etV4XyuxyTJOB0MaN4MF6pPt4sFL5w/7TiIN+0Z58T6wdY5OTCsfij+7cgFoo+3XoKgEiMiFMTEy1A73XxADBaDUPB3Ut0Gi6xYO/niIi7KMIDHzmeJptV+ZPGHZJOTlLpm0ST+AFo2GKLCk3KmNrAJgGn8J02uhqUpGJeAo7JlhqNAE+eBn/iz8KQSOiHaqDLbHaVYsJBsxZjmOHfcHBztMCRlB3dhbo4vL5l373pX6aklx45FUScfoSZWjBaA/fGVOL48yhEDLuyJUT8p2lfpd1eSJOso821OG1lWtlLLsJ+o1SFdNTFiwGVYMkGsvO41btpW9nmetLy5XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Scu2efPSq7NE/uZeyLpnEZ79c9CU4DtgEs/f/yBW/lg=;
- b=M0OYujL77ImpICCr+ePHhclDuoVh1AVcJGgM4aSwpWdwi2zPByDw3HpgBvCi7US9zG4VrDK6F93LBe7cucFRx1Cnv/ExCVwelO/ceghq+Gr8h3H3ruIKgRFhiaAmNM3AGcAT6BGqBcyWbG0gzRPEJ0OsQOVBoFVludkBaaw+APY9d4guEXYOZOevnYxZeAr3tKKAWkCsYBLvW5U+uJMPMobik40V6/4zP1ESe9MfvZzYqUBX4VolvMbbISuNH0PDS//PNNTUAZPYDjsetI0OIwrFSUUHtMta11eDvrynK9u67/fXdvudX0zlm5JAVQpzVJFikhO4KUVWOnwMlmDVZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Scu2efPSq7NE/uZeyLpnEZ79c9CU4DtgEs/f/yBW/lg=;
- b=KpjEiaMG8jH9i+wx/7qumm4mkLYLH8e5ZsQbaenoXqOoQMZwaU4pPskfqLIFunUBu54OZFTOGGLQnsw3k9FHnPxlldCQr4HBiaNpSNGO95kyPzDcGgPFfw1eTshTWUO/kAiFjalf/3enxkMC/2JcmCkb+iC+qVLglOZR5UGLjX61EOMlfSLY+jz6BD8c+nCjaRcI6dFw3jdVMZ6jTH1ll540DcwiDI6FxZvn/AaqqgyQRG7+iRjyOcP/IuQCzaL2AKFEAaTQJ2Xe9YgmZJ2Gstc5KWXTMJcL/fhi0tpQ4OX1huEytOzWExmu305GCBth2vejq3PQ5CDMicJx6L8+UQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PA6PR08MB10708.eurprd08.prod.outlook.com
- (2603:10a6:102:3c7::20) by GV1PR08MB9914.eurprd08.prod.outlook.com
- (2603:10a6:150:87::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.21; Sat, 9 May
- 2026 11:50:45 +0000
-Received: from PA6PR08MB10708.eurprd08.prod.outlook.com
- ([fe80::1999:c6db:dc55:494a]) by PA6PR08MB10708.eurprd08.prod.outlook.com
- ([fe80::1999:c6db:dc55:494a%6]) with mapi id 15.20.9891.020; Sat, 9 May 2026
- 11:50:44 +0000
-Message-ID: <dca5a1ce-feb3-420a-b452-52707373dd61@virtuozzo.com>
-Date: Sat, 9 May 2026 13:50:42 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] gcov: use atomic counter updates to fix concurrent
- access crashes
-To: Peter Oberparleiter <oberpar@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: Mikhail Zaslonko <zaslonko@linux.ibm.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
- Vasileios Almpanis <vasileios.almpanis@virtuozzo.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
-References: <20260422125112.3583649-1-khorenko@virtuozzo.com>
- <20260422125112.3583649-2-khorenko@virtuozzo.com>
- <3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
- <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
-Content-Language: en-US, ru, sr
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=virtuozzo.com; s=relay; h=MIME-Version:Message-ID:Date:Subject:From:
+	Content-Type; bh=PAgEcNvxGyyw50041uYA09OO6BOYSpnqy6MLsyuMNMY=; b=rjOcTWc30RS3
+	ZtW6KCoO1ci1o1dBsGpFa8xC5yFw2Zsj1/OLZstv0PWyh4zdthsvK3Ve506ePo7fDzYl1rsrV8HTi
+	wHcj+TPUlrZH7PqytN9lVwS/UNrLf+uqCYT+x4iEYMTNraHILYR1+h+Z+k6WodowJi8KlPKkcHtb3
+	k11emtL9ThPquM9s/0Nq0tG7iW3FGuJUcCm+5y/KbanxO/JP71YefIpsQblXJN2R2TZ3S+5BQHuHv
+	Hmo8NB7v5IOb0GSJ315sGvqAr5Kcq7MHn+q1mE17VXIk6WkIDfWpQnJHNDPN+hOXCvkadTw1DilZ9
+	5kvWRY2Yfr4uwrEGyQx+kQ==;
+Received: from ch-demo-asa.virtuozzo.com ([130.117.225.8] helo=f0.vzint.dev)
+	by relay.virtuozzo.com with esmtp (Exim 4.96)
+	(envelope-from <khorenko@virtuozzo.com>)
+	id 1wLiWJ-00DXIv-1A;
+	Sat, 09 May 2026 16:22:12 +0200
 From: Konstantin Khorenko <khorenko@virtuozzo.com>
-In-Reply-To: <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR0302CA0001.eurprd03.prod.outlook.com
- (2603:10a6:205:2::14) To PA6PR08MB10708.eurprd08.prod.outlook.com
- (2603:10a6:102:3c7::20)
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Mikhail Zaslonko <zaslonko@linux.ibm.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Vasileios Almpanis <vasileios.almpanis@virtuozzo.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Konstantin Khorenko <khorenko@virtuozzo.com>
+Subject: [PATCH v3 0/1] gcov: use -fprofile-update=prefer-atomic with compile-time guard
+Date: Sat,  9 May 2026 16:22:15 +0200
+Message-ID: <20260509142216.382205-1-khorenko@virtuozzo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA6PR08MB10708:EE_|GV1PR08MB9914:EE_
-X-MS-Office365-Filtering-Correlation-Id: f86c1437-e1f1-4c4f-d866-08deadc133f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	gR1Eul03uXYLf4wQWBUj/AfBgBWYilMTUTAfn10ZkfrmTIbNs1mGAGOifExgN7dndsRgvrsfFxwfBroxwufVZ4FDougI751eTM5BmDli3SUtKqE/woTdaAo7U2DWUtXfZ+s9FNT78CecmuddUmlpvtoSHMb9iqTkMjoCVIfBhj/tILDv12DuFmZREsClDyMSfSLPBrfeokR6OScvvQdJtqwYlDdBA9AYJsoWboJzhUDsdau4PwvEQNf/VszuMVRYqj7DetOZWXoTzFjq7MmcOlAxdx/f1pdBkxqzfNzLPVadsc3gRDJ+5qwZIsMWbm66CoDVUe2mwpv7tH1tw0pWPLIpvDwpDi9u/siydktJOHmp4ewle9cT2UtkRmG3eHlxeIk0foUpSDzWuZW495qp1YXum43fUg2devWbU3QAJKsGuEDAZr+gJka7sgF2+TMCqAQtT4x53S0TWXBnOjkFk1o91ViU6enw7L3KtNQ5QhmSuQWYcE5BqxiqJCqLuomhnq2HWQiXxjArH2qwND5EOcSFtSVEOwTCj8MrUl39yDigrHil2p2ewd7bcOmjuu+IrluF2Iy0TFuktRXx+w05zU4q1tfRO5JnrJRPMnEjbwhtRflFa6ats7kPfFGG5d6i4mveJufStIXpBLobnAPYnDs2EIYZHWIzmeHzlhJAI57laqlGMScNzZfPRXC4cZL2
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR08MB10708.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UXlFd0dEWUplM215RGk3VDFSUnpTK1Vwa09maFYreVlJKzAwTTgvdDZIQTFo?=
- =?utf-8?B?cURxdy9vZ3NGYnRHYnBDaSt1bkY3QXF4eS9FekdreEkreHFzL0xmSzA2bGo1?=
- =?utf-8?B?ZWQxRzNra3JqdFlQZWM1M2djVnhhMzlydUdaWk00TFhOR0dOcHlKaG0vUTAz?=
- =?utf-8?B?MiszL1F6RnhtN1BlbFF1WXdvd1ZXWW1SaEtoaE9MWG4xd2VoZDBpdElBTytz?=
- =?utf-8?B?RkVyenpHVWZCbVRUQnlkTTR4eGZVZmVzcVZwV2ZRUVQwOEQ5Q2V3RlczSTFF?=
- =?utf-8?B?MFJkeEQxSTVoeUdGOE9KZVJDd0YvY3JPcGJpbUVQeWpoTE1aVEd4T1RUWndJ?=
- =?utf-8?B?aFlZcXZGMG93RHc4b2liYXdoSXpVU1UxU2I5UzNpYU04dlVUZmYyQjVONXdU?=
- =?utf-8?B?Q0dnMXIramxQa3MyRTdYM2tBeUZnQmd0M2lMWFhuNmZiKzE0cHJHd0tsQ0VZ?=
- =?utf-8?B?VktMYWw2UzMvalFpY0k3ZE9abVNFRVpZYVB1bWRJdmNkeFlreGhPclF3RXhF?=
- =?utf-8?B?NlEyNVZhQnBhdUVDU3NBR2dwN1p3cFZYNCs0SGY1cmE5YU9Ed2J5eTdhOWI4?=
- =?utf-8?B?UjlZdGhGVnZPd3dadVlXYTR6K1R5TFJ2ZEgxNVdSRWp5ZVJ4bE16K0pLRlNL?=
- =?utf-8?B?eldYZWx6OTNOL0QvbWFUWDJpbmt3dGpTMlM5d0Z2K0JtQThZT3JxRUNIR254?=
- =?utf-8?B?c2MweFdKeUhzM3NvbFc3a2dFZTdQSzNJSjBldUhoZ1MwV1k1ellDamxSREwy?=
- =?utf-8?B?ek5JWm1iMkJoMG5hZ2pidDhhUEg1NHVWOVhGV2h6TlBnWElmZ3FmMU9UaHVz?=
- =?utf-8?B?Y20wQ3AvaG92UG5qUmJ5MGp3OERtaUtyb3o4UjMvT21DNWdDNkZOVW5ibStj?=
- =?utf-8?B?R1oxRFA4SVVsalhGUGw4Y2FZYVhWRjJlYVpsZjNoUGdia1NvNjhBVUhmTWhZ?=
- =?utf-8?B?TzQ4OHBkV3VZdXp5NTA3UCtzOHA0ZHJrZXJDMW9MenlRMXJQMTJibHNKY1FQ?=
- =?utf-8?B?aWF5WklFdGZRR0dyeGVkc05FbzZqRTdxZERMSVdWV2ZmUkVRY0NDQVZRd3NM?=
- =?utf-8?B?elZGaUc2ZStLT3lKYmpyZ0JFa3BmMVdzOTl3cy9VRm0ySnRXOVNvd2pkWVRq?=
- =?utf-8?B?UklacERGbFZ6M1B0TUJkUnM0U2plNnVPazNpU0JvU3FHelJyT1ZYckdnd1d1?=
- =?utf-8?B?RFArV3FVTGVrY05kS3M4UUlRODhkUmt5Mjc1VlpIbFJUSEdtRHd4V1RRU2sr?=
- =?utf-8?B?eXliKy9UNWRxS0RpWkZaZVUxVnhncEtqZXoxbG5mYkM4T0JvbkpRMXdxZ3NM?=
- =?utf-8?B?bFl6ZUlaU3lBa25KZERGd0JhNW1QZ3RHVGlWbDJlOU0yNElxWU1pV2N0b3Vk?=
- =?utf-8?B?cVh4L1k2UERwUFZzZHQ3R0RONXZjVUdGMFJuanVjV1A2R3Z4bnpYM2tWczRO?=
- =?utf-8?B?eTNVek5qUngrdXo1WDNpOVhaQVdNVFlWemhmWHZGZnIrbHdDQWtrSWZEdWU4?=
- =?utf-8?B?YzlOS2xXTEdsT21Pc3dhblRmcHM1dXNvRUQyUCtTYjhNdFltaUpZTGFSaitX?=
- =?utf-8?B?VlNVU0lSZ3l5SkptSnl2R3RYNjhva1JxeWZnRjNUUmxUME5XK2dPd1hkRFdG?=
- =?utf-8?B?R0Z5UDB1aTdXZFZYR2JuTUJ4MGZEdXJXWnZQMHljMTV1bHFydmM2YmFuMmpF?=
- =?utf-8?B?NWo0WTRXRk42b0NUYSs4aHh3dWtyczMwbDNZS2hUd1ozY0k1L3FtSkh1RFJ6?=
- =?utf-8?B?bzNRSXlSWTZOZzBQbkJIUkk1SnFjSTVSWG9Nbzd4VXpnMGUxby9DOWc1S2li?=
- =?utf-8?B?WUhwNmppeFR3eGxEakJ5aWloVWJMOUpYYlZ6TlFscUVPOTQwYnlXOVVmcGRn?=
- =?utf-8?B?d3dlTExLdnF2bW13TEVMbkRIZXhIRWg2S01RTytVeDB5eWR2NU5oN2hSbEg1?=
- =?utf-8?B?SWxiN2Zka1M0YWMrMzNWSXRodWVJR3B5WFRDdW1QZ1JUVUFJWkR6S3o1SEFs?=
- =?utf-8?B?aXBDWjVEdjVYdHBpWVczdlEzNXlZeW8zRFZ0U1ptNS8yVFhTMmZZVkE2QlpN?=
- =?utf-8?B?bTR2RXR0c3hLSGhHY3FYUFk4UkFHT3VZWmI3M2ZhRTBJTmdJTGFpNWlOWU0v?=
- =?utf-8?B?T0JCU1k1WkhuYm1lUlR3dEsyT0cwWGNkaE9NUUFiNmdIQXB6WFg0QlhQcVl0?=
- =?utf-8?B?U29TNHhOV2FZQjYrZjRRVGUxWnhPVld3ZFBTVGNiemJWQ2MyZ1R1bjhkWnJY?=
- =?utf-8?B?dnhnVjlWVnVBcGNObVVKcTEvUkRyT05mVW4yeTZKVlhKRkM4MzdySjZyWHVO?=
- =?utf-8?B?aUVSSW5sbGM2QjUzK2lVRGZnWjIyNzc0N1RUdVl1ZGhmRmg0SERXdz09?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f86c1437-e1f1-4c4f-d866-08deadc133f5
-X-MS-Exchange-CrossTenant-AuthSource: PA6PR08MB10708.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2026 11:50:44.7413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Omus2T0Zhv/JRylVAm8aXf94S9x0KESFFLRbjUKTzmxp3Tr5hEnW66i4gD5GBsyEstACcla0PEHc3Z7Rbg6XJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB9914
-X-Rspamd-Queue-Id: B9A624FF80F
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 87A8650018D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[virtuozzo.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[virtuozzo.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[virtuozzo.com:s=relay];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13089-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DKIM_TRACE(0.00)[virtuozzo.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[khorenko@virtuozzo.com,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13091-lists,linux-kbuild=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[khorenko@virtuozzo.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[virtuozzo.com:+];
+	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,virtuozzo.com:mid,virtuozzo.com:dkim]
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,virtuozzo.com:mid,virtuozzo.com:dkim]
 X-Rspamd-Action: no action
 
-On 5/7/26 15:31, Peter Oberparleiter wrote:
-> On 28.04.2026 22:56, Arnd Bergmann wrote:
-...
-> 
-> I can see multiple approaches to address this issue:
-> 
-> 1. Drop the patch
->     => not preferred - crash would still remain, and the consistency
->     improvements would be lost
-> 2. Make -fprofile-update dependent on !COMPILE_TEST
->     => would enable randconfig compiles with COMPILE_TEST=y
-> 3. Make -fprofile-update dependent on the result of a test-compile of a
->     user space test program (not sure if there is an easier way to
->     determine whether built-in atomic ops are available for the gcov
->     type)
->     => would enable fix + improvements for all environments, where
->     they are supported, but requires slightly more complex changes in
->     linux/Makefile
-> 4. Provide wrappers for GCC libatomic => kernel atomic functions
->     => would enable fix + improvements for GCOV users on all systems
->     But: bigger change + linker errors mentioned above suggest that
->     GCC libatomic function names may be arch specific which makes this
->     approach more complex
-> 
-> I tend towards option 3 or 2, but I'm also open for other ideas.
-> 
-> @Konstantin Khorenko: would you be willing to work on this as the author
-> of the original fix?
+This is v3 of the patch to add -fprofile-update=prefer-atomic to
+CFLAGS_GCOV.
 
+v2 was reported to cause link failures on some architecture/config
+combinations because GCC emits calls to libatomic runtime functions
+for 64-bit atomic counter increments, and the kernel does not link
+against libatomic:
 
-Peter, Arnd,
+  https://lore.kernel.org/all/ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com/
 
-Thank you very much for taking a look here.
+Arnd Bergmann hit this with GCC-16 randconfig builds:
 
-I'll work on option 3 (compile-time check).
+  x86_64:  undefined reference to `__atomic_fetch_add_8'
+  aarch64: undefined reference to `__aarch64_ldadd8_relax'
 
-If i understand this correctly the idea is to verify at build time
-whether the compiler actually inlines 64-bit atomic increments or
-emits calls to libatomic helpers, and only add
--fprofile-update=prefer-atomic when it's safe.
+The kernel test robot confirmed the same on i386-allmodconfig with
+GCC 14 (Debian):
 
-I did a quick test: with GCC 14.2.1 in -m32 mode (i386 target), 64-bit
-atomics are fully inlined via lock cmpxchg8b - no __atomic_fetch_add_8
-call is generated.
+  https://lore.kernel.org/all/202605030611.mBKmkPOF-lkp@intel.com/
 
-So this might actually be a GCC-16 regression in codegen rather than
-an inherent architecture limitation.
+v3 adds a compile-time try-run check that determines whether
+-fprofile-update=prefer-atomic is safe to use with the current
+compiler and architecture.
 
-I'm currently rebuilding GCC trunk to verify.
+=== Approach ===
 
-Arnd,
-could you please share the two .config files that triggered the link
-failures (the x86_64 one with __atomic_fetch_add_8 and the aarch64 one
-with __aarch64_ldadd8_relax)?
-That could make my life a bit easier. :)
+The check compiles a minimal test program twice using the full
+KBUILD_CFLAGS -- once without and once with -fprofile-update=prefer-atomic
+-- then compares the undefined symbols in both resulting .o files using
+nm.  If prefer-atomic introduces any NEW undefined symbols, the flag is
+not added.
 
+Several alternative approaches were considered and rejected:
 
-Thank you,
-Konstantin
+1) Grepping assembly output for known libatomic symbols
+   (__atomic_fetch_add, __aarch64_ldadd, etc):
+   Fragile -- requires maintaining a list of arch-specific symbol names.
+   New architectures or GCC versions may use different names.
 
+2) Checking nm output for any undefined symbol beyond __gcov_*:
+   Fails because KBUILD_CFLAGS adds kernel-specific instrumentation
+   (__fentry__, __x86_return_thunk, etc) that creates "expected"
+   undefined symbols unrelated to libatomic.
+
+3) Grepping only for "__atomic" in undefined symbols:
+   Misses aarch64 outline-atomics symbols (__aarch64_ldadd8_relax)
+   which do not contain "atomic" in their name.
+
+4) Filtering KBUILD_CFLAGS to pass only -m32/-m64/-march=* to try-run:
+   Brittle whitelist -- misses flags like -mno-outline-atomics on arm64
+   and will break when new relevant flags are added.
+
+The chosen diff-based approach is fully architecture-agnostic: it uses
+the real KBUILD_CFLAGS, does not depend on knowing libatomic symbol
+names, and will not break when new flags or architectures are added.
+The only assumption is that -fprofile-update=prefer-atomic should not
+introduce any new linker dependencies.
+
+Also, the CFLAGS_GCOV block is moved after the final KBUILD_CFLAGS
+assignments so the try-run test sees the complete set of compiler flags.
+
+=== Testing ===
+
+Verified on:
+  - x86_64, GCC 17.0.0 (trunk 2026-05-09): flag IS added, inline
+    lock addq for GCOV counters
+  - arm64 cross-compile, GCC 14.1.1 (aarch64-linux-gnu-gcc):
+    flag is NOT added (__aarch64_ldadd8_relax detected)
+
+arm64 example showing the try-run detection in action:
+
+  $ echo 'long long x; void f(void){x++;}' | \
+    aarch64-linux-gnu-gcc [KBUILD_CFLAGS] -fprofile-arcs \
+    -ftest-coverage -c -o base.o
+  $ nm base.o | grep ' U '
+                   U __gcov_exit
+                   U __gcov_init
+                   U __gcov_merge_add
+
+  $ echo 'long long x; void f(void){x++;}' | \
+    aarch64-linux-gnu-gcc [KBUILD_CFLAGS] -fprofile-arcs \
+    -ftest-coverage -fprofile-update=prefer-atomic -c -o test.o
+  $ nm test.o | grep ' U '
+                   U __aarch64_ldadd8_relax   <-- new, from libatomic
+                   U __gcov_exit
+                   U __gcov_init
+                   U __gcov_merge_add
+
+  The undefined symbols differ => try-run fails => flag not added.
+
+Changes since v2:
+  - Added try-run compile-time check (option 3 from Peter's proposal)
+  - Moved CFLAGS_GCOV definition after KBUILD_CFLAGS is finalized
+  - Split -fprofile-update=prefer-atomic from -fno-tree-loop-im
+
+Konstantin Khorenko (1):
+  gcov: use atomic counter updates to fix concurrent access crashes
+
+ Makefile | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
+
+-- 
+2.47.1
 
 
