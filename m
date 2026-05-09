@@ -1,50 +1,51 @@
-Return-Path: <linux-kbuild+bounces-13091-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13092-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wPMCOshG/2mo4AAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13091-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 16:38:00 +0200
+	id EMKmIs1G/2mo4AAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13092-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 16:38:05 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A8650018D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 16:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A850500194
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 16:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 77F213003D1A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 14:37:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D14B73003839
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 14:38:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D6439479F;
-	Sat,  9 May 2026 14:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C0563939DA;
+	Sat,  9 May 2026 14:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="rjOcTWc3"
+	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="Vau2fNvI"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E782836606E;
-	Sat,  9 May 2026 14:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D53947B8;
+	Sat,  9 May 2026 14:38:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.117.225.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778337478; cv=none; b=FsWgSZUYUQk+mTwCR2VOiXgVYgYbxbnicAgoEzd0TxkRnjWBaJeb3ZHDlkzWOm3jKZ/wrMRhRZXEmEQM+/piU0QJIwjTx7UBR8d3PTMtmry3Wp69kPgTPHqBuuwQMzM/fXeg3lvrWbM5Atd958TXpEZ7KoOonU8UUJT7Cx/ZYJM=
+	t=1778337483; cv=none; b=P2S8Q714KBttkUWvSP4uQbAuGXTiokwlcx87wz+tV6WGWmVTMvQq4BU/ap2242tlZcdA5c8vZ35FoOO96vMMMRQWKDjYn7kaCj1pzb1MzuYQ01jdmWUnk4MeTgfHa+E/jNirnKPHDND7pzxyPx4rgpYNEmWRWdAoqz0GeymEh9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778337478; c=relaxed/simple;
-	bh=2QICU0Vzku11V94F5gcvrHsTRXDEyj//j013W3IZTlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DBkoGu6mtbbOcEoVV/wVwHjMDcYI1LuSddff/jUHVH8k4dTSY/7V88+fxOqeMNY5ndWE1WgXwgBn00wZrLWmaVnksvgZrW/AIJUgfOwSFWeuk3rFPIrrX2jqHJYPFAnTJk25PD44Kjgf4hpfVomrHK/KZLRQs+QgZ4Ojip7E0ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=rjOcTWc3; arc=none smtp.client-ip=130.117.225.111
+	s=arc-20240116; t=1778337483; c=relaxed/simple;
+	bh=2wMOLABbPMl/NsjLpwl+kLN0NQfyK9hs8/exYla28b4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LjiXBIOFP4XrygDVhCUkXXYJdcduU69tnXaKN1PQ+yUk66s/sKTRqdXbdi2xJOrW6YnHlko2pcuMvvUxlbLg3Ly74DXwdwHb76yLdkt5x4VvNszAdEFMgVRcJaxuyHpfMeSh9jdsLlXC+9963qQZGi6cYV2GeOWczJV+c8CDk7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=Vau2fNvI; arc=none smtp.client-ip=130.117.225.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=virtuozzo.com; s=relay; h=MIME-Version:Message-ID:Date:Subject:From:
-	Content-Type; bh=PAgEcNvxGyyw50041uYA09OO6BOYSpnqy6MLsyuMNMY=; b=rjOcTWc30RS3
-	ZtW6KCoO1ci1o1dBsGpFa8xC5yFw2Zsj1/OLZstv0PWyh4zdthsvK3Ve506ePo7fDzYl1rsrV8HTi
-	wHcj+TPUlrZH7PqytN9lVwS/UNrLf+uqCYT+x4iEYMTNraHILYR1+h+Z+k6WodowJi8KlPKkcHtb3
-	k11emtL9ThPquM9s/0Nq0tG7iW3FGuJUcCm+5y/KbanxO/JP71YefIpsQblXJN2R2TZ3S+5BQHuHv
-	Hmo8NB7v5IOb0GSJ315sGvqAr5Kcq7MHn+q1mE17VXIk6WkIDfWpQnJHNDPN+hOXCvkadTw1DilZ9
-	5kvWRY2Yfr4uwrEGyQx+kQ==;
+	Content-Type; bh=6gLoQ82+25z66sdKJmj18h8T3AvqvyKMtMJBk4bTgV8=; b=Vau2fNvIwh0R
+	E2kvx0cajLv6OFct8AEJZOOYsOqvrzLDZWfyKRxpgHEKA6wk8CK3pML+tgYXvtDYWqChMb+93AKiI
+	kiWUEuqPoWIX8eMGts8p2PqH2x5nmEhDdzR3CcSGbSV8591hJ8pIADBxsC9Jrpm+46h+seF8IC6Hp
+	dRv6XAjm7gIzsd0JqOBEMnqO0URbWuq1jEGcTCpdUNVT7PQbi/L1w1NxPzeK8CHbobgd3JF2zZBWl
+	ESrDL0DXXrz2r2W0RWUSy+QIXf3qTjP7WP+8yHJcEKm4YmJkxQuTxWqXSKqmx6k2Gyqci1nn7Q1Ye
+	PJFuCUG4ALVT7dxT2n4VPw==;
 Received: from ch-demo-asa.virtuozzo.com ([130.117.225.8] helo=f0.vzint.dev)
 	by relay.virtuozzo.com with esmtp (Exim 4.96)
 	(envelope-from <khorenko@virtuozzo.com>)
-	id 1wLiWJ-00DXIv-1A;
+	id 1wLiWJ-00DXIv-2p;
 	Sat, 09 May 2026 16:22:12 +0200
 From: Konstantin Khorenko <khorenko@virtuozzo.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -61,10 +62,12 @@ Cc: Nathan Chancellor <nathan@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Konstantin Khorenko <khorenko@virtuozzo.com>
-Subject: [PATCH v3 0/1] gcov: use -fprofile-update=prefer-atomic with compile-time guard
-Date: Sat,  9 May 2026 16:22:15 +0200
-Message-ID: <20260509142216.382205-1-khorenko@virtuozzo.com>
+Subject: [PATCH v3 1/1] gcov: use atomic counter updates to fix concurrent access crashes
+Date: Sat,  9 May 2026 16:22:16 +0200
+Message-ID: <20260509142216.382205-2-khorenko@virtuozzo.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260509142216.382205-1-khorenko@virtuozzo.com>
+References: <20260509142216.382205-1-khorenko@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -72,7 +75,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 87A8650018D
+X-Rspamd-Queue-Id: 6A850500194
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -85,7 +88,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13091-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13092-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
@@ -97,112 +100,111 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[virtuozzo.com:+];
 	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,virtuozzo.com:mid,virtuozzo.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[virtuozzo.com:email,virtuozzo.com:mid,virtuozzo.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-This is v3 of the patch to add -fprofile-update=prefer-atomic to
-CFLAGS_GCOV.
+GCC's GCOV instrumentation can merge global branch counters with loop
+induction variables as an optimization.  In inflate_fast(), the inner
+copy loops get transformed so that the GCOV counter value is loaded
+multiple times to compute the loop base address, start index, and end
+bound.  Since GCOV counters are global (not per-CPU), concurrent
+execution on different CPUs causes the counter to change between loads,
+producing inconsistent values and out-of-bounds memory writes.
 
-v2 was reported to cause link failures on some architecture/config
-combinations because GCC emits calls to libatomic runtime functions
-for 64-bit atomic counter increments, and the kernel does not link
-against libatomic:
+The crash manifests during IPComp (IP Payload Compression) processing
+when inflate_fast() runs concurrently on multiple CPUs:
 
-  https://lore.kernel.org/all/ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com/
+  BUG: unable to handle page fault for address: ffffd0a3c0902ffa
+  RIP: inflate_fast+1431
+  Call Trace:
+   zlib_inflate
+   __deflate_decompress
+   crypto_comp_decompress
+   ipcomp_decompress [xfrm_ipcomp]
+   ipcomp_input [xfrm_ipcomp]
+   xfrm_input
 
-Arnd Bergmann hit this with GCC-16 randconfig builds:
+At the crash point, the compiler generated three loads from the same
+global GCOV counter (__gcov0.inflate_fast+216) to compute base, start,
+and end for an indexed loop.  Another CPU modified the counter between
+loads, making the values inconsistent - the write went 3.4 MB past a
+65 KB buffer.
 
-  x86_64:  undefined reference to `__atomic_fetch_add_8'
-  aarch64: undefined reference to `__aarch64_ldadd8_relax'
+Add -fprofile-update=prefer-atomic to CFLAGS_GCOV at the global level in
+the top-level Makefile, guarded by a try-run compile test.
+The test compiles a minimal program with and without
+-fprofile-update=prefer-atomic using the full KBUILD_CFLAGS, then
+compares undefined symbols in the resulting object files.
+If prefer-atomic introduces new undefined references (such as
+__atomic_fetch_add_8 on i386 or __aarch64_ldadd8_relax on arm64 with
+outline-atomics), the flag is not added -- the kernel does not link
+against libatomic.
 
-The kernel test robot confirmed the same on i386-allmodconfig with
-GCC 14 (Debian):
+On architectures where GCC inlines 64-bit atomic counter updates
+(x86_64, s390, ...) the test passes and the flag is enabled, preventing
+the compiler from merging counters with loop induction variables and
+fixing the observed concurrent-access crash.
 
-  https://lore.kernel.org/all/202605030611.mBKmkPOF-lkp@intel.com/
+On architectures where the flag would introduce libatomic dependencies,
+it is silently omitted and behaviour is no worse than before this patch.
 
-v3 adds a compile-time try-run check that determines whether
--fprofile-update=prefer-atomic is safe to use with the current
-compiler and architecture.
+Also move the CFLAGS_GCOV block after the final KBUILD_CFLAGS assignments
+so the try-run test sees the complete set of compiler flags.
 
-=== Approach ===
-
-The check compiles a minimal test program twice using the full
-KBUILD_CFLAGS -- once without and once with -fprofile-update=prefer-atomic
--- then compares the undefined symbols in both resulting .o files using
-nm.  If prefer-atomic introduces any NEW undefined symbols, the flag is
-not added.
-
-Several alternative approaches were considered and rejected:
-
-1) Grepping assembly output for known libatomic symbols
-   (__atomic_fetch_add, __aarch64_ldadd, etc):
-   Fragile -- requires maintaining a list of arch-specific symbol names.
-   New architectures or GCC versions may use different names.
-
-2) Checking nm output for any undefined symbol beyond __gcov_*:
-   Fails because KBUILD_CFLAGS adds kernel-specific instrumentation
-   (__fentry__, __x86_return_thunk, etc) that creates "expected"
-   undefined symbols unrelated to libatomic.
-
-3) Grepping only for "__atomic" in undefined symbols:
-   Misses aarch64 outline-atomics symbols (__aarch64_ldadd8_relax)
-   which do not contain "atomic" in their name.
-
-4) Filtering KBUILD_CFLAGS to pass only -m32/-m64/-march=* to try-run:
-   Brittle whitelist -- misses flags like -mno-outline-atomics on arm64
-   and will break when new relevant flags are added.
-
-The chosen diff-based approach is fully architecture-agnostic: it uses
-the real KBUILD_CFLAGS, does not depend on knowing libatomic symbol
-names, and will not break when new flags or architectures are added.
-The only assumption is that -fprofile-update=prefer-atomic should not
-introduce any new linker dependencies.
-
-Also, the CFLAGS_GCOV block is moved after the final KBUILD_CFLAGS
-assignments so the try-run test sees the complete set of compiler flags.
-
-=== Testing ===
-
-Verified on:
-  - x86_64, GCC 17.0.0 (trunk 2026-05-09): flag IS added, inline
-    lock addq for GCOV counters
-  - arm64 cross-compile, GCC 14.1.1 (aarch64-linux-gnu-gcc):
-    flag is NOT added (__aarch64_ldadd8_relax detected)
-
-arm64 example showing the try-run detection in action:
-
-  $ echo 'long long x; void f(void){x++;}' | \
-    aarch64-linux-gnu-gcc [KBUILD_CFLAGS] -fprofile-arcs \
-    -ftest-coverage -c -o base.o
-  $ nm base.o | grep ' U '
-                   U __gcov_exit
-                   U __gcov_init
-                   U __gcov_merge_add
-
-  $ echo 'long long x; void f(void){x++;}' | \
-    aarch64-linux-gnu-gcc [KBUILD_CFLAGS] -fprofile-arcs \
-    -ftest-coverage -fprofile-update=prefer-atomic -c -o test.o
-  $ nm test.o | grep ' U '
-                   U __aarch64_ldadd8_relax   <-- new, from libatomic
-                   U __gcov_exit
-                   U __gcov_init
-                   U __gcov_merge_add
-
-  The undefined symbols differ => try-run fails => flag not added.
-
-Changes since v2:
-  - Added try-run compile-time check (option 3 from Peter's proposal)
-  - Moved CFLAGS_GCOV definition after KBUILD_CFLAGS is finalized
-  - Split -fprofile-update=prefer-atomic from -fno-tree-loop-im
-
-Konstantin Khorenko (1):
-  gcov: use atomic counter updates to fix concurrent access crashes
-
+Signed-off-by: Konstantin Khorenko <khorenko@virtuozzo.com>
+---
  Makefile | 27 +++++++++++++++++++++------
  1 file changed, 21 insertions(+), 6 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index 9f88dcaae382..95afeecb09e4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -824,12 +824,6 @@ endif # KBUILD_EXTMOD
+ # Defaults to vmlinux, but the arch makefile usually adds further targets
+ all: vmlinux
+ 
+-CFLAGS_GCOV	:= -fprofile-arcs -ftest-coverage
+-ifdef CONFIG_CC_IS_GCC
+-CFLAGS_GCOV	+= -fno-tree-loop-im
+-endif
+-export CFLAGS_GCOV
+-
+ # The arch Makefiles can override CC_FLAGS_FTRACE. We may also append it later.
+ ifdef CONFIG_FUNCTION_TRACER
+   CC_FLAGS_FTRACE := -pg
+@@ -1183,6 +1177,27 @@ KBUILD_AFLAGS   += $(KAFLAGS)
+ KBUILD_CFLAGS   += $(KCFLAGS)
+ KBUILD_RUSTFLAGS += $(KRUSTFLAGS)
+ 
++CFLAGS_GCOV	:= -fprofile-arcs -ftest-coverage
++ifdef CONFIG_CC_IS_GCC
++CFLAGS_GCOV	+= -fno-tree-loop-im
++# Use atomic counter updates to avoid concurrent-access crashes in GCOV.
++# Only enable if -fprofile-update=prefer-atomic does not introduce new
++# undefined symbols (e.g. libatomic calls that the kernel cannot link).
++CFLAGS_GCOV	+= $(call try-run,\
++	echo 'long long x; void f(void){x++;}' | \
++	$(CC) $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -w -fprofile-arcs \
++	-ftest-coverage -x c - -c -o "$$TMP.base" && \
++	echo 'long long x; void f(void){x++;}' | \
++	$(CC) $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -w -fprofile-arcs \
++	-ftest-coverage -fprofile-update=prefer-atomic \
++	-x c - -c -o "$$TMP" && \
++	$(NM) "$$TMP.base" | grep ' U ' > "$$TMP.ubase" || true ; \
++	$(NM) "$$TMP" | grep ' U ' > "$$TMP.utest" || true ; \
++	cmp -s "$$TMP.ubase" "$$TMP.utest",\
++	-fprofile-update=prefer-atomic)
++endif
++export CFLAGS_GCOV
++
+ KBUILD_LDFLAGS_MODULE += --build-id=sha1
+ LDFLAGS_vmlinux += --build-id=sha1
+ 
+
+base-commit: 70390501d1944d4e5b8f7352be180fceb3a44132
 -- 
 2.47.1
 
