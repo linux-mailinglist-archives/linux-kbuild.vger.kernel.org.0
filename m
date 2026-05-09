@@ -1,79 +1,81 @@
-Return-Path: <linux-kbuild+bounces-13096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13094-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oDH0B2yb/2lQ8QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13096-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 22:39:08 +0200
+	id IMrSH0mb/2lQ8QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13094-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 22:38:33 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E39501613
-	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 22:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4C25015F6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 22:38:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 13FB2301707D
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 20:38:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AAC433010497
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 20:38:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 410EB372B58;
-	Sat,  9 May 2026 20:38:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EA1B37BE89;
+	Sat,  9 May 2026 20:38:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r07CIAME"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOcQa831"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8B630FC2E
-	for <linux-kbuild@vger.kernel.org>; Sat,  9 May 2026 20:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7877A347524
+	for <linux-kbuild@vger.kernel.org>; Sat,  9 May 2026 20:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778359117; cv=none; b=MiKDT1+GntqXK048MqYOasssimJ4jd/FnF9b0l7rHws1AnGtlLiH1vUyqPhnu5cQexL9Z8+7XkL0aaNXvzDhdqYUMJMbTlTABhs1iz3eXgzOoULeleTRyY4yUe57p/UbwYYkjQL2pHfuw7vYR30yAwzNsxOYNgNIH7cVn0ba5/Q=
+	t=1778359104; cv=none; b=PazwwPDnOcqtpo7uyXRD+LNXlsqogVaK4zivrtinxZkMX1elZoIgsSMtA6xvuH8KZMfO8vYGa6VunGKoMYStIGu6y4mDRguluek2ecXyflD7Bg3h+rph7IX1UhJUv/8qzknXoFetKOk79rAakcWrd63D0hjKVvxM6Vrjh0I84zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778359117; c=relaxed/simple;
-	bh=XNpm2O6E3dPq8e6iYlH9UBXEtoeqbzokJfN0aTYluvU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rSieQbOEIo9L3SO+3PTsCj3r1lvQpWXkza9HedSJOWCEATlBn+oyma67d9CUZZV4I0JrFqdPTNGjpooA0lmIdRxiUMOESMGyxtA8Lb/lznL+P9+gUaceBdhtydJs90032wEn7aInyxEig59pNhucNX84zJCy1weZuxHYgM11l9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r07CIAME; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1778359104; c=relaxed/simple;
+	bh=Rq91HdZhRkBj5JpG5iRrHQKQshlKeYA/rKt35K39adg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ACp2+roCpmvOVsO/KVvpEXz/axK/GZ1VsMZXjSKFEt653StV5vMcu8MUMPwKtBO5H7z2N9da0GiIymrRSSg16gVONWS+rYLD71ERPu+bj3peMcR6bNVLJxI7V4fGB3Nm/Ow3S51Z7LXCccKqy3lYt/+eo7bQxxXitwpvu74s6m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOcQa831; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-453903ee4adso2479470f8f.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 09 May 2026 13:38:16 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so17479845e9.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 09 May 2026 13:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778359095; x=1778963895; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=bjXqftRA66V8/fhe8wCndNGIn52e2HfWlliXd5BTs18=;
-        b=r07CIAMEj+vogb3EDIFs0SDPXTwZlfkqzUE3yXT2EMcwDhrw6rK5NSOZ5065eiZH+A
-         cnxXVrgSqsbBR5OroaL4hnQb4YCk7h4azNdiWLQV1x96kHdifoqFzxBBXy47nqPHz6so
-         gQeXhjtR2C/PuVJRX0hljrybfY6LA8ScOcl4i4IVdY1KLq2xuPXP7j3KtivHYyRIR54F
-         BVwlKvOd8Sk+v6woIwnyYWh+4BsO8UM5kcLO6b0TGuKIWMCKOX5cSMR+SeLbo4NcVQxO
-         0FCi3tbPs/AEsNLLEYJLnVzSrb8choLGZtPdbFXGMhKjdqjlT1278D8uJnPUAwAaPW+g
-         N85w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778359095; x=1778963895;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778359097; x=1778963897; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bjXqftRA66V8/fhe8wCndNGIn52e2HfWlliXd5BTs18=;
-        b=N9xpwIZEmziiEHMPAJYCm34Ozpky2CDa5cT+wxYIXfjd2dlHyM6nhLnKKQput8n2iG
-         2BBE/+eILOvCUN61/6QV2KT75IAqLbwdJK9i3qtNqhPKqzbft7a0X62iPjB3r8AkEoZ0
-         29sReuJhfzbaD1NLR5zoQjFda3wSaSYIhAtQFcg96iYGgVSZAVCoisFvaVdV2tKOmXET
-         ci7PR8IafgPIQuGNoUBKUIFKPAvC5mq0VPWc8LpWVW6Ant1IvvQYU5ZhjG1kDLp9yJlB
-         XiHk1n27ocVgYnGAqe15WAFps7l+XkBdJ5d1sos11COF61Yxg3w6YxpDGHH6HdWxegtq
-         5+3w==
-X-Forwarded-Encrypted: i=1; AFNElJ9mJqftIQ/NZ4JliUXeOXGKaRkdssXfoxzZ7d/Puxz2XBO+9W9cIyMTqkkChKrewlh6X0ojRHniw3+VOq0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhqmMoh29cqlFfz8ctpWPWa49NVRktLKL/9hoWX9d9gcjBIfep
-	8JqiOArDAHa6o2DIpceDlRiPA2IDRQ5COoyfHgitF4zXu+XLIl1kg7Kf
-X-Gm-Gg: Acq92OH6DOswvX/iSJItAvpWlPsUCFDHWm9dCWO/0p12SyxJ1FnCJ/S6fkX0G+8QMyf
-	93Gl6uLIHh+gP/JQ6H27pmwSZLTOe1YNdk9oO//BRZRUwi9L09bPG2IDzpMHTc1w/FbOFlTyZuU
-	jcWCVotd2jEIuGHqb8WUs9rLEA5ggtHRoJUQPmhy9sYv0cE59T87odtWQcR5C4e5V64juSOM8L1
-	aY8aiV6sXPKg+RNLa+XjQRUNdzRM3lDtGLZlEtvlN8yoYvDYbPBLs43lF6KGASJbDqc78q2Nd+m
-	oXFFqKz72c0T3egFwnsL3Hflg6TxdCLJ7LXqwulp4sBaxlNxRvc8Z3Fyixe8jmmqlz2+UfwrepD
-	Q5WKcTGktA/+iavi8nc2b31p0X0Fiz0H3oOJ5n5YSOD6YwvOPmYkE/tRtN9iHeopJDqLhP9kLvU
-	yTnvOO5C60Vn9ajmAmNrq/rnYKY1Roqoqy5So6JEETI3xuoA0QmAMNR7M=
-X-Received: by 2002:a05:600c:3e8f:b0:483:2c98:4368 with SMTP id 5b1f17b1804b1-48e706f3774mr61731685e9.18.1778359093400;
-        Sat, 09 May 2026 13:38:13 -0700 (PDT)
+        bh=IFTlsKpcBZ0lrHWxjvbhZkBDof6hXKwEnc2fK9CejnM=;
+        b=fOcQa831XksSFAzSSQsm7PcUJ+HZ9NdQlEjZ13WDr1jX5imTu8OrAqWxHQ+i7LkK2q
+         0B8/T6NKEsi/vADSEWi1R/g7jTkp/BMVViL8iFbftpqeEFnXb5SHFeU2HBAl16VKkNCA
+         8SpXG4io11fSzammhe3JL+xh3GCTiTKKia65AfZ//kAUen2zLhNxwS+upcC7lZQzlmYH
+         xd5tkAqpWQezz3t/GSy4R1lOtWoZBx3IzEc6trUjnno929h99cxaPIBom9obf5ddU8KM
+         C8NN27vk0m8zAIWYUFouIi9UvO3KJrisHAM6v7+4d9pgXVKfApTlQ56oZsUIzAxtJTgC
+         7b2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778359097; x=1778963897;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFTlsKpcBZ0lrHWxjvbhZkBDof6hXKwEnc2fK9CejnM=;
+        b=XPla6otewvU3GousBV2Fx2T7BzpL67ha+omjDj/1oM+UGIOXX/+3tVeT4fXppnskIF
+         Qp0pCdR5mQHZlTN5GI19JTRT+OetLx9ZVb+eH7Db+z+P20K3MJpquC/YfO1Z8zDyiVKn
+         hL3HmgxkcUJ/5ynjyTFIgzQjlovC6EZxNIg1NwuhCugzApxxLWmgW6JNifXShtqhVdoo
+         2CcUVpnlg1dYrs1VDpBnfyQ2GSCJUgL42vdBGZo9nxQ50B0q4rFUy/W8vZ9egOMlzSPP
+         mEoYGXiI4l528cu5iJLyriMUShgFnOnBsS5E6UeZRZoE9z9HKLYcS90reBb250olt9Df
+         cQlg==
+X-Forwarded-Encrypted: i=1; AFNElJ8OeKXQLl6y2LPK0k7ZgG8xaYDBZpicplorJYB1iyTgy6zp2JioJwuktuQmCCmVI4zN05DD+q8wW8qFsS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS6ubANdfj3BNl+Uk92GY9togtkKgqCuvX1wBUdaOX053n8iqP
+	QxfOMcjoxS8mCbM3mkqea33fWAvSAsoaThBfnjBwBRRCrh8sqN1SRpoV
+X-Gm-Gg: Acq92OGtVNF0uOt5ZZojkFepTF+LAEKTSpePJyJmNFe2gTte02Pq3+B7fq87TwBfgYy
+	2/TEqxI93E6FzFC/ZvK1s7xpP+PmM/qKgNNwu5NUOOCoMkMY9yn+Iy2Nx9k21qFUrqnPiJs2g8H
+	gnc/W2Au7u4Cw2vuTHy4i+Dh08i8ZFDRWV4vIE9iNxXjD0yXbFrbZX5FEO+JG4yICA/TI0fLVsD
+	HRMhzf1hSMo/6l/bJiBcx5ft9d6tn2wzkKFf5uQO56MVUVFRdKaxyi14xehD0HoNCs5jloPNtEK
+	emqrUSxzpXvLeRf7QWP4N7yiq9vrpSVLj+zdCn0w7PQGZQGaQPqR+MAH6sdG+Nfyx/XN6tOU1FW
+	0twaizWUYqbOtdh98i8YjqepYJ9vZYXVbSzGdYdrdPJo7cX5KL7VSBNjGW5U+mpfG/biJJe/1IR
+	3LKjgBAnugxcpkCRRfrixB85zSONw50HUHCBI2IuvIecT2Y8y4WYfFH2c=
+X-Received: by 2002:a05:600c:a305:b0:488:8bdd:cfcc with SMTP id 5b1f17b1804b1-48e51dd6025mr202617035e9.0.1778359096233;
+        Sat, 09 May 2026 13:38:16 -0700 (PDT)
 Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db0b95asm39394605e9.9.2026.05.09.13.38.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db0b95asm39394605e9.9.2026.05.09.13.38.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 13:38:12 -0700 (PDT)
+        Sat, 09 May 2026 13:38:15 -0700 (PDT)
 Sender: Julian Braha <julian.braha@gmail.com>
 From: Julian Braha <julianbraha@gmail.com>
 To: nathan@kernel.org,
@@ -93,10 +95,12 @@ Cc: jani.nikula@linux.intel.com,
 	linux-doc@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Julian Braha <julianbraha@gmail.com>
-Subject: [RFC v2 0/2] add kconfirm
-Date: Sat,  9 May 2026 21:38:06 +0100
-Message-ID: <20260509203808.1142311-1-julianbraha@gmail.com>
+Subject: [RFC PATCH v2 1/2] scripts: add kconfirm
+Date: Sat,  9 May 2026 21:38:07 +0100
+Message-ID: <20260509203808.1142311-2-julianbraha@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260509203808.1142311-1-julianbraha@gmail.com>
+References: <20260509203808.1142311-1-julianbraha@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -104,7 +108,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E8E39501613
+X-Rspamd-Queue-Id: AC4C25015F6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -118,7 +122,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[linux.intel.com,linux-foundation.org,garyguo.net,kernel.org,arndb.de,linuxfoundation.org,lwn.net,linux.dev,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-13096-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13094-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
@@ -131,3478 +135,77 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.995];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,module.lds:url]
 X-Rspamd-Action: no action
 
-Hi all,
+Add kconfirm into scripts/
 
-kconfirm is a tool to detect misusage of Kconfig. It detects dead code,
-constant conditions, and invalid (reverse) ranges. There are also optional
-checks to detect config options that select visible config options, and to
-check for dead links in the help texts.
+kconfirm is a static analysis tool with various checks for Kconfig, and
+intended to have zero false alarms by default. These default checks
+currently include dead code, constant conditions, and invalid (reverse)
+ranges.
 
-The full patchset (with the vendored dependencies) is available in my
-linux fork, git branch 'kconfirm_rfc2', and is based on linux v7.1-rc2:
+There are also optional checks for dead links in the help texts, and for
+config options that select visible config options.
+
+Checks are performed for all architectures, using a single thread. Alarms
+that are specific to one or multiple architectures are tagged using the
+architectures' config options, like so: [X86] or [X86, ARM].
+
+Each alarm gets a single line (deduplicated across architectures) and is
+formatted like this:
+[<SEVERITY>] [<ARCH_1>, <ARCH_2>] config <OPTION_NAME>: <alarm message>
+
+The tool source contains two Rust packages: kconfirm-lib and
+kconfirm-linux.
+
+kconfirm-lib is the underlying library that analyzes Kconfig code, and
+formats alarms for usability. It analyzes the entire Linux Kconfig spec,
+including all architectures. This package exposes the symbol table that it
+constructs so that other tools can import this library, and make use of it
+for their own Kconfig analyses.
+
+kconfirm-linux imports kconfirm-lib, and provides the CLI, which is
+intended for either manual usage, or integration with the Linux build
+system so that users can simply run `make kconfirm` from the root.
+kconfirm-linux also handles some of the specificities of how Kconfig is
+used in the Linux tree, in contrast to other open source software. E.g.
+the way that each architecture has its own Kconfig and Kconfig.debug
+files, rather than being sourced from the root Kconfig.
+
+The tool's dependencies are vendored in scripts/kconfirm/vendor/ so that
+kconfirm can be compiled without an internet connection.
+
+NOTE: the full size of kconfirm with vendored dependencies is too large
+for email (49mb), so the full patchset is available in my linux fork, git
+branch 'kconfirm_rfc2', and is based on linux v7.1-rc2:
 https://github.com/julianbraha/linux/tree/kconfirm_rfc2
 
-The patches sent here with the RFC include everything other than the
-vendored dependencies, including the tool's code, the documentation, and
-the makefile changes.
+This patch actually includes everything _but_ the vendored dependencies.
 
-Following this discussion:
-https://lore.kernel.org/all/20260405122749.4990dcb538d457769a3276e0@linux-foundation.org/
-in which Andrew brought up the possibility of moving kconfirm in-tree,
-I've prepared this RFC to do so. See also kconfirm's introduction to the
-mailing list:
-https://lore.kernel.org/all/6ec4df6d-1445-48ca-8f54-1d1a83c4716d@gmail.com/
-
-False Alarms:
-kconfirm aims for zero false-positives, which is currently true for the
-default checks (as far as I'm aware - but there are hundreds to go
-through); this is not really possible for dead link checks, as this
-depends on an internet connection, and we do not attempt to bypass bot
-blocks. For this reason, dead link checking is disabled by default, but
-I've provided an example below of how to enable it. Additionally, you can
-view my previous message to the mailing list with hand-verified dead links
-here:
-https://lore.kernel.org/all/6732bf08-41ee-40c4-83b2-4ae8bc0da7cf@gmail.com/
-
-Additionally, there is an optional check to detect config options that
-select visible config options, as requested by Jani during the review of
-the first version of this RFC:
-https://lore.kernel.org/all/dcb7439832f0bb35598fba653d922b5f6a4d0058@intel.com/
-
-Even after deduplicating across architectures, there are well over 1,000
-instances of these select-visible cases, and I suspect that, despite the
-Kconfig documentation saying select-visible should be avoided, some
-exceptions will be made. So, I have left this check disabled by default,
-keeping in line with the goal of having a low-noise checker. If interested
-in using it, I have included an example below of how to enable this check.
-
-Current State of Alarms:
-On Linux v7.1-rc2 (which this RFC is based), there are 489 alarms coming
-from the default set of checks, and an additional 1,789 alarms if enabling
-the optional select-visible check. These counts are with deduplication
-across architectures, a change that was made to the tool's CLI from RFC v1
-to RFC v2. The last time I checked linux-next (next-20260427), there were
-81 unique dead links.
-
-The most critical check is the dead default statements, which has surfaced
-a few misconfiguration bugs (fortunately, just for kunit tests), see
-examples:
-https://lore.kernel.org/all/20260323124118.1414913-1-julianbraha@gmail.com/
-and:
-https://lore.kernel.org/all/20260323123536.1413732-1-julianbraha@gmail.com/
-
-But hopefully kconfirm can ease maintenance and we can prevent more of
-these from making it into the tree in the future.
-
-Use it:
-You can test out kconfirm with this patch series by compiling and running
-kconfirm like this:
-
-`make kconfirm`
-
-To enable the select-visible check:
-`KCONFIRM_ARGS="--enable select_visible" make kconfirm`
-
-And to enable dead link checks in the help texts:
-`KCONFIRM_ARGS="--enable dead_links" make kconfirm`
-
-Note that it is not architecture-specific; it runs tree-wide. Any alarms
-that are specific to one or more architectures will have a tag using the
-config option(s) of the architecture(s), for example: [X86] or [X86, ARM]
-
-The dependencies are vendored in scripts/kconfirm/vendor so that no
-internet connection is needed to compile the code. The total size of the
-tool with dependencies is 49mb, making it a large amount of code, though
-still in the ballpark of perf, at 42mb. 
-
-I managed to reduce the size of the vendored dependencies from 264mb by
-taking multiple approaches:
-1. Removed 'rustls' for TLS and instead use the user's system OpenSSL
-2. Replaced the 'reqwest' crate with the smaller 'ureq' crate
-3. Disabled the default features of the dependencies, and only enabled
-   whatever is needed by kconfirm
-3. Filtered out various things from the vendored dependencies unneeded for
-   compilation (e.g. docs & tests for dependencies)
-4. Filtered out platform-specific code that isn't needed for linux
-developers (e.g. Nintendo 3DS)
-
-The script I ran to generate the vendored dependencies with filtering is
-available in scripts/kconfirm/vendor_dependencies.sh 
- 
-Requested feedback:
-1. I would like to know if anyone thinks that the select-visible check
-   should be enabled by default. 
-2. The only "person" that commented on `make clean` deleting the compiled
-kconfirm binary/artifacts was sashiko-bot. Now, there is just
-`make kconfirmclean` for deleting 'scripts/kconfirm/release/', and
-`make clean` no longer touches kconfirm. Please let me know if anyone has
-requested changes on the integration with Make.
-
-Thanks,
-Julian Braha
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
 ---
-Changes since v1:
-- vendored dependencies instead of requiring an internet connection
-- removed Cargo.lock
-- replaced reqwest dependency with smaller ureq
-- removed rustls, expect user to have openssl instead
-- added select-visible check based on Jani's feature request
-- added invalid (reverse) range check
-- deduplicating alarms that appear for multiple architectures
-- `make clean` no longer deletes kconfirm's build artifacts
-- typo fixes in documentation
-- added patch description for the main "add kconfirm" patch (patch 1/2)
-
-Link to v1:
-https://lore.kernel.org/all/20260427174429.779474-1-julianbraha@gmail.com/
----
-
-Julian Braha (2):
-  scripts: add kconfirm
-  Documentation: dev-tools: add kconfirm
-
- Documentation/dev-tools/index.rst             |     1 +
- Documentation/dev-tools/kconfirm.rst          |   196 +
- Makefile                                      |    11 +-
- scripts/Makefile                              |     2 +-
- scripts/kconfirm/.gitignore                   |     3 +
- scripts/kconfirm/Cargo.toml                   |    12 +
- scripts/kconfirm/LICENSE                      |   339 +
- scripts/kconfirm/Makefile                     |    29 +
- scripts/kconfirm/kconfirm-lib/Cargo.toml      |    16 +
- scripts/kconfirm/kconfirm-lib/src/analyze.rs  |   658 +
- scripts/kconfirm/kconfirm-lib/src/checks.rs   |   694 +
- .../kconfirm/kconfirm-lib/src/dead_links.rs   |    83 +
- scripts/kconfirm/kconfirm-lib/src/lib.rs      |    62 +
- scripts/kconfirm/kconfirm-lib/src/output.rs   |   114 +
- .../kconfirm/kconfirm-lib/src/symbol_table.rs |   228 +
- scripts/kconfirm/kconfirm-linux/Cargo.toml    |    12 +
- scripts/kconfirm/kconfirm-linux/src/lib.rs    |   119 +
- scripts/kconfirm/kconfirm-linux/src/main.rs   |    82 +
- scripts/kconfirm/vendor/aho-corasick/COPYING  |     3 +
- .../kconfirm/vendor/aho-corasick/Cargo.lock   |    39 +
- .../kconfirm/vendor/aho-corasick/Cargo.toml   |    80 +
- .../vendor/aho-corasick/Cargo.toml.orig       |    74 +
- .../kconfirm/vendor/aho-corasick/DESIGN.md    |   481 +
- .../kconfirm/vendor/aho-corasick/LICENSE-MIT  |    21 +
- .../kconfirm/vendor/aho-corasick/README.md    |   174 +
- .../kconfirm/vendor/aho-corasick/UNLICENSE    |    24 +
- .../kconfirm/vendor/aho-corasick/rustfmt.toml |     2 +
- .../vendor/aho-corasick/src/ahocorasick.rs    |  2789 ++++
- .../vendor/aho-corasick/src/automaton.rs      |  1608 ++
- .../kconfirm/vendor/aho-corasick/src/dfa.rs   |   835 ++
- .../kconfirm/vendor/aho-corasick/src/lib.rs   |   326 +
- .../vendor/aho-corasick/src/macros.rs         |    18 +
- .../vendor/aho-corasick/src/nfa/contiguous.rs |  1141 ++
- .../vendor/aho-corasick/src/nfa/mod.rs        |    40 +
- .../aho-corasick/src/nfa/noncontiguous.rs     |  1762 +++
- .../vendor/aho-corasick/src/packed/api.rs     |   687 +
- .../vendor/aho-corasick/src/packed/ext.rs     |    39 +
- .../vendor/aho-corasick/src/packed/mod.rs     |   120 +
- .../vendor/aho-corasick/src/packed/pattern.rs |   480 +
- .../aho-corasick/src/packed/rabinkarp.rs      |   168 +
- .../aho-corasick/src/packed/teddy/README.md   |   386 +
- .../aho-corasick/src/packed/teddy/builder.rs  |   792 +
- .../aho-corasick/src/packed/teddy/generic.rs  |  1382 ++
- .../aho-corasick/src/packed/teddy/mod.rs      |     9 +
- .../vendor/aho-corasick/src/packed/tests.rs   |   583 +
- .../vendor/aho-corasick/src/packed/vector.rs  |  1757 +++
- .../kconfirm/vendor/aho-corasick/src/tests.rs |  1664 +++
- .../vendor/aho-corasick/src/transducer.rs     |   270 +
- .../vendor/aho-corasick/src/util/alphabet.rs  |   409 +
- .../vendor/aho-corasick/src/util/buffer.rs    |   124 +
- .../aho-corasick/src/util/byte_frequencies.rs |   258 +
- .../vendor/aho-corasick/src/util/debug.rs     |    26 +
- .../vendor/aho-corasick/src/util/error.rs     |   259 +
- .../vendor/aho-corasick/src/util/int.rs       |   278 +
- .../vendor/aho-corasick/src/util/mod.rs       |    12 +
- .../vendor/aho-corasick/src/util/prefilter.rs |   924 ++
- .../aho-corasick/src/util/primitives.rs       |   759 +
- .../vendor/aho-corasick/src/util/remapper.rs  |   214 +
- .../vendor/aho-corasick/src/util/search.rs    |  1148 ++
- .../vendor/aho-corasick/src/util/special.rs   |    42 +
- scripts/kconfirm/vendor/anstream/Cargo.lock   |   709 +
- scripts/kconfirm/vendor/anstream/Cargo.toml   |   219 +
- .../kconfirm/vendor/anstream/Cargo.toml.orig  |    72 +
- .../kconfirm/vendor/anstream/LICENSE-APACHE   |   202 +
- scripts/kconfirm/vendor/anstream/LICENSE-MIT  |    19 +
- scripts/kconfirm/vendor/anstream/README.md    |    34 +
- .../vendor/anstream/examples/dump-stream.rs   |   130 +
- .../vendor/anstream/examples/query-stream.rs  |    22 +
- .../kconfirm/vendor/anstream/src/_macros.rs   |   364 +
- .../vendor/anstream/src/adapter/mod.rs        |    15 +
- .../vendor/anstream/src/adapter/strip.rs      |   511 +
- .../vendor/anstream/src/adapter/wincon.rs     |   378 +
- scripts/kconfirm/vendor/anstream/src/auto.rs  |   313 +
- .../kconfirm/vendor/anstream/src/buffer.rs    |    56 +
- scripts/kconfirm/vendor/anstream/src/fmt.rs   |    54 +
- scripts/kconfirm/vendor/anstream/src/lib.rs   |    90 +
- .../kconfirm/vendor/anstream/src/stream.rs    |   316 +
- scripts/kconfirm/vendor/anstream/src/strip.rs |   233 +
- .../kconfirm/vendor/anstream/src/wincon.rs    |   232 +
- .../kconfirm/vendor/anstyle-parse/Cargo.lock  |   784 +
- .../kconfirm/vendor/anstyle-parse/Cargo.toml  |   195 +
- .../vendor/anstyle-parse/Cargo.toml.orig      |    48 +
- .../vendor/anstyle-parse/LICENSE-APACHE       |   202 +
- .../kconfirm/vendor/anstyle-parse/LICENSE-MIT |    19 +
- .../kconfirm/vendor/anstyle-parse/README.md   |    33 +
- .../vendor/anstyle-parse/examples/parselog.rs |    72 +
- .../kconfirm/vendor/anstyle-parse/src/lib.rs  |   442 +
- .../vendor/anstyle-parse/src/params.rs        |   143 +
- .../vendor/anstyle-parse/src/state/codegen.rs |   218 +
- .../anstyle-parse/src/state/definitions.rs    |   171 +
- .../vendor/anstyle-parse/src/state/mod.rs     |    43 +
- .../vendor/anstyle-parse/src/state/table.rs   |   361 +
- .../kconfirm/vendor/anstyle-query/Cargo.lock  |    90 +
- .../kconfirm/vendor/anstyle-query/Cargo.toml  |   173 +
- .../vendor/anstyle-query/Cargo.toml.orig      |    30 +
- .../vendor/anstyle-query/LICENSE-APACHE       |   202 +
- .../kconfirm/vendor/anstyle-query/LICENSE-MIT |    19 +
- .../kconfirm/vendor/anstyle-query/README.md   |    25 +
- .../vendor/anstyle-query/examples/query.rs    |    26 +
- .../kconfirm/vendor/anstyle-query/src/lib.rs  |   163 +
- .../vendor/anstyle-query/src/windows.rs       |    79 +
- .../kconfirm/vendor/anstyle-wincon/Cargo.toml |   146 +
- .../kconfirm/vendor/anstyle-wincon/src/lib.rs |     0
- scripts/kconfirm/vendor/anstyle/Cargo.lock    |   240 +
- scripts/kconfirm/vendor/anstyle/Cargo.toml    |   176 +
- .../kconfirm/vendor/anstyle/Cargo.toml.orig   |    38 +
- .../kconfirm/vendor/anstyle/LICENSE-APACHE    |   202 +
- scripts/kconfirm/vendor/anstyle/LICENSE-MIT   |    19 +
- scripts/kconfirm/vendor/anstyle/README.md     |    42 +
- .../vendor/anstyle/examples/dump-style.rs     |   134 +
- scripts/kconfirm/vendor/anstyle/src/color.rs  |   685 +
- scripts/kconfirm/vendor/anstyle/src/effect.rs |   404 +
- scripts/kconfirm/vendor/anstyle/src/lib.rs    |    70 +
- scripts/kconfirm/vendor/anstyle/src/macros.rs |     5 +
- scripts/kconfirm/vendor/anstyle/src/reset.rs  |    47 +
- scripts/kconfirm/vendor/anstyle/src/style.rs  |   437 +
- scripts/kconfirm/vendor/anyhow/Cargo.toml     |    49 +
- scripts/kconfirm/vendor/anyhow/src/lib.rs     |     0
- scripts/kconfirm/vendor/base64/Cargo.lock     |  1515 ++
- scripts/kconfirm/vendor/base64/Cargo.toml     |    85 +
- .../kconfirm/vendor/base64/Cargo.toml.orig    |    60 +
- scripts/kconfirm/vendor/base64/LICENSE-APACHE |   201 +
- scripts/kconfirm/vendor/base64/LICENSE-MIT    |    21 +
- scripts/kconfirm/vendor/base64/README.md      |   154 +
- .../kconfirm/vendor/base64/RELEASE-NOTES.md   |   271 +
- .../vendor/base64/benches/benchmarks.rs       |   238 +
- scripts/kconfirm/vendor/base64/clippy.toml    |     1 +
- .../kconfirm/vendor/base64/examples/base64.rs |    81 +
- scripts/kconfirm/vendor/base64/icon_CLion.svg |    34 +
- .../kconfirm/vendor/base64/src/alphabet.rs    |   285 +
- .../vendor/base64/src/chunked_encoder.rs      |   172 +
- scripts/kconfirm/vendor/base64/src/decode.rs  |   386 +
- scripts/kconfirm/vendor/base64/src/display.rs |    88 +
- scripts/kconfirm/vendor/base64/src/encode.rs  |   492 +
- .../src/engine/general_purpose/decode.rs      |   357 +
- .../engine/general_purpose/decode_suffix.rs   |   162 +
- .../base64/src/engine/general_purpose/mod.rs  |   352 +
- .../kconfirm/vendor/base64/src/engine/mod.rs  |   478 +
- .../vendor/base64/src/engine/naive.rs         |   195 +
- .../vendor/base64/src/engine/tests.rs         |  1579 ++
- scripts/kconfirm/vendor/base64/src/lib.rs     |   277 +
- scripts/kconfirm/vendor/base64/src/prelude.rs |    20 +
- .../vendor/base64/src/read/decoder.rs         |   335 +
- .../vendor/base64/src/read/decoder_tests.rs   |   487 +
- .../kconfirm/vendor/base64/src/read/mod.rs    |     6 +
- scripts/kconfirm/vendor/base64/src/tests.rs   |   117 +
- .../vendor/base64/src/write/encoder.rs        |   407 +
- .../base64/src/write/encoder_string_writer.rs |   207 +
- .../vendor/base64/src/write/encoder_tests.rs  |   554 +
- .../kconfirm/vendor/base64/src/write/mod.rs   |    11 +
- scripts/kconfirm/vendor/base64ct/CHANGELOG.md |   208 +
- scripts/kconfirm/vendor/base64ct/Cargo.lock   |   212 +
- scripts/kconfirm/vendor/base64ct/Cargo.toml   |   101 +
- .../kconfirm/vendor/base64ct/Cargo.toml.orig  |    30 +
- .../kconfirm/vendor/base64ct/LICENSE-APACHE   |   201 +
- scripts/kconfirm/vendor/base64ct/LICENSE-MIT  |    26 +
- scripts/kconfirm/vendor/base64ct/README.md    |    87 +
- .../kconfirm/vendor/base64ct/benches/mod.rs   |    62 +
- .../kconfirm/vendor/base64ct/src/alphabet.rs  |   125 +
- .../vendor/base64ct/src/alphabet/bcrypt.rs    |    33 +
- .../vendor/base64ct/src/alphabet/crypt.rs     |    40 +
- .../vendor/base64ct/src/alphabet/pbkdf2.rs    |    33 +
- .../vendor/base64ct/src/alphabet/shacrypt.rs  |    69 +
- .../vendor/base64ct/src/alphabet/standard.rs  |    54 +
- .../vendor/base64ct/src/alphabet/url.rs       |    54 +
- .../kconfirm/vendor/base64ct/src/decoder.rs   |   635 +
- .../kconfirm/vendor/base64ct/src/encoder.rs   |   364 +
- .../kconfirm/vendor/base64ct/src/encoding.rs  |   376 +
- .../kconfirm/vendor/base64ct/src/errors.rs    |    81 +
- scripts/kconfirm/vendor/base64ct/src/lib.rs   |   108 +
- .../vendor/base64ct/src/line_ending.rs        |    53 +
- .../vendor/base64ct/src/test_vectors.rs       |    67 +
- scripts/kconfirm/vendor/bitflags/CHANGELOG.md |   660 +
- .../vendor/bitflags/CODE_OF_CONDUCT.md        |    73 +
- .../kconfirm/vendor/bitflags/CONTRIBUTING.md  |     9 +
- scripts/kconfirm/vendor/bitflags/Cargo.lock   |   325 +
- scripts/kconfirm/vendor/bitflags/Cargo.toml   |   120 +
- .../kconfirm/vendor/bitflags/Cargo.toml.orig  |    41 +
- .../kconfirm/vendor/bitflags/LICENSE-APACHE   |   201 +
- scripts/kconfirm/vendor/bitflags/LICENSE-MIT  |    25 +
- scripts/kconfirm/vendor/bitflags/README.md    |    88 +
- scripts/kconfirm/vendor/bitflags/SECURITY.md  |    13 +
- .../kconfirm/vendor/bitflags/benches/parse.rs |    96 +
- .../bitflags/examples/custom_bits_type.rs     |    97 +
- .../vendor/bitflags/examples/custom_derive.rs |    23 +
- .../kconfirm/vendor/bitflags/examples/fmt.rs  |    49 +
- .../vendor/bitflags/examples/macro_free.rs    |    61 +
- .../vendor/bitflags/examples/serde.rs         |    39 +
- scripts/kconfirm/vendor/bitflags/spec.md      |   556 +
- .../vendor/bitflags/src/example_generated.rs  |    65 +
- .../kconfirm/vendor/bitflags/src/external.rs  |   262 +
- .../vendor/bitflags/src/external/arbitrary.rs |    33 +
- .../vendor/bitflags/src/external/bytemuck.rs  |    19 +
- .../vendor/bitflags/src/external/serde.rs     |    94 +
- .../kconfirm/vendor/bitflags/src/internal.rs  |   125 +
- scripts/kconfirm/vendor/bitflags/src/iter.rs  |   182 +
- scripts/kconfirm/vendor/bitflags/src/lib.rs   |   995 ++
- .../kconfirm/vendor/bitflags/src/parser.rs    |   332 +
- .../kconfirm/vendor/bitflags/src/public.rs    |   580 +
- scripts/kconfirm/vendor/bitflags/src/tests.rs |   137 +
- .../kconfirm/vendor/bitflags/src/tests/all.rs |    23 +
- .../bitflags/src/tests/bitflags_match.rs      |    93 +
- .../vendor/bitflags/src/tests/bits.rs         |    36 +
- .../vendor/bitflags/src/tests/clear.rs        |    27 +
- .../vendor/bitflags/src/tests/complement.rs   |    53 +
- .../vendor/bitflags/src/tests/contains.rs     |   108 +
- .../vendor/bitflags/src/tests/difference.rs   |    92 +
- .../vendor/bitflags/src/tests/empty.rs        |    23 +
- .../kconfirm/vendor/bitflags/src/tests/eq.rs  |    10 +
- .../vendor/bitflags/src/tests/extend.rs       |    42 +
- .../vendor/bitflags/src/tests/flags.rs        |    46 +
- .../kconfirm/vendor/bitflags/src/tests/fmt.rs |    97 +
- .../vendor/bitflags/src/tests/from_bits.rs    |    45 +
- .../bitflags/src/tests/from_bits_retain.rs    |    38 +
- .../bitflags/src/tests/from_bits_truncate.rs  |    42 +
- .../vendor/bitflags/src/tests/from_name.rs    |    42 +
- .../vendor/bitflags/src/tests/insert.rs       |    91 +
- .../vendor/bitflags/src/tests/intersection.rs |    79 +
- .../vendor/bitflags/src/tests/intersects.rs   |    91 +
- .../vendor/bitflags/src/tests/is_all.rs       |    32 +
- .../vendor/bitflags/src/tests/is_empty.rs     |    31 +
- .../vendor/bitflags/src/tests/iter.rs         |   299 +
- .../vendor/bitflags/src/tests/known_bits.rs   |    47 +
- .../vendor/bitflags/src/tests/parser.rs       |   332 +
- .../vendor/bitflags/src/tests/remove.rs       |   100 +
- .../src/tests/symmetric_difference.rs         |   110 +
- .../vendor/bitflags/src/tests/truncate.rs     |    29 +
- .../vendor/bitflags/src/tests/union.rs        |    71 +
- .../vendor/bitflags/src/tests/unknown.rs      |    40 +
- .../vendor/bitflags/src/tests/unknown_bits.rs |    53 +
- .../kconfirm/vendor/bitflags/src/traits.rs    |   467 +
- scripts/kconfirm/vendor/bytecount/Cargo.lock  |   482 +
- scripts/kconfirm/vendor/bytecount/Cargo.toml  |    74 +
- .../kconfirm/vendor/bytecount/Cargo.toml.orig |    34 +
- .../kconfirm/vendor/bytecount/LICENSE.Apache2 |   201 +
- scripts/kconfirm/vendor/bytecount/LICENSE.MIT |    19 +
- scripts/kconfirm/vendor/bytecount/README.md   |    75 +
- .../vendor/bytecount/benches/bench.rs         |    90 +
- scripts/kconfirm/vendor/bytecount/ci/miri.sh  |    12 +
- .../vendor/bytecount/src/integer_simd.rs      |   121 +
- scripts/kconfirm/vendor/bytecount/src/lib.rs  |   185 +
- .../kconfirm/vendor/bytecount/src/naive.rs    |    47 +
- .../vendor/bytecount/src/simd/aarch64.rs      |   162 +
- .../vendor/bytecount/src/simd/generic.rs      |   140 +
- .../kconfirm/vendor/bytecount/src/simd/mod.rs |    24 +
- .../vendor/bytecount/src/simd/wasm.rs         |   208 +
- .../vendor/bytecount/src/simd/x86_avx2.rs     |   155 +
- .../vendor/bytecount/src/simd/x86_sse2.rs     |   173 +
- scripts/kconfirm/vendor/bytes/CHANGELOG.md    |   449 +
- scripts/kconfirm/vendor/bytes/Cargo.lock      |   444 +
- scripts/kconfirm/vendor/bytes/Cargo.toml      |   137 +
- scripts/kconfirm/vendor/bytes/Cargo.toml.orig |    45 +
- scripts/kconfirm/vendor/bytes/LICENSE         |    25 +
- scripts/kconfirm/vendor/bytes/README.md       |    73 +
- scripts/kconfirm/vendor/bytes/SECURITY.md     |     9 +
- scripts/kconfirm/vendor/bytes/benches/buf.rs  |   186 +
- .../kconfirm/vendor/bytes/benches/bytes.rs    |   120 +
- .../vendor/bytes/benches/bytes_mut.rs         |   266 +
- scripts/kconfirm/vendor/bytes/ci/miri.sh      |    13 +
- .../kconfirm/vendor/bytes/ci/panic-abort.sh   |     4 +
- .../kconfirm/vendor/bytes/ci/test-stable.sh   |    25 +
- scripts/kconfirm/vendor/bytes/ci/tsan.sh      |    13 +
- scripts/kconfirm/vendor/bytes/clippy.toml     |     1 +
- .../kconfirm/vendor/bytes/src/buf/buf_impl.rs |  2962 ++++
- .../kconfirm/vendor/bytes/src/buf/buf_mut.rs  |  1671 +++
- .../kconfirm/vendor/bytes/src/buf/chain.rs    |   240 +
- scripts/kconfirm/vendor/bytes/src/buf/iter.rs |   127 +
- .../kconfirm/vendor/bytes/src/buf/limit.rs    |    75 +
- scripts/kconfirm/vendor/bytes/src/buf/mod.rs  |    39 +
- .../kconfirm/vendor/bytes/src/buf/reader.rs   |    81 +
- scripts/kconfirm/vendor/bytes/src/buf/take.rs |   187 +
- .../vendor/bytes/src/buf/uninit_slice.rs      |   257 +
- .../vendor/bytes/src/buf/vec_deque.rs         |    40 +
- .../kconfirm/vendor/bytes/src/buf/writer.rs   |    88 +
- scripts/kconfirm/vendor/bytes/src/bytes.rs    |  1666 +++
- .../kconfirm/vendor/bytes/src/bytes_mut.rs    |  1941 +++
- .../kconfirm/vendor/bytes/src/fmt/debug.rs    |    40 +
- scripts/kconfirm/vendor/bytes/src/fmt/hex.rs  |    27 +
- scripts/kconfirm/vendor/bytes/src/fmt/mod.rs  |    15 +
- scripts/kconfirm/vendor/bytes/src/lib.rs      |   182 +
- scripts/kconfirm/vendor/bytes/src/loom.rs     |    33 +
- scripts/kconfirm/vendor/bytes/src/serde.rs    |    89 +
- scripts/kconfirm/vendor/cc/CHANGELOG.md       |   797 +
- scripts/kconfirm/vendor/cc/Cargo.lock         |   492 +
- scripts/kconfirm/vendor/cc/Cargo.toml         |    79 +
- scripts/kconfirm/vendor/cc/Cargo.toml.orig    |    59 +
- scripts/kconfirm/vendor/cc/LICENSE-APACHE     |   201 +
- scripts/kconfirm/vendor/cc/LICENSE-MIT        |    25 +
- scripts/kconfirm/vendor/cc/README.md          |    29 +
- scripts/kconfirm/vendor/cc/clippy.toml        |     7 +
- .../kconfirm/vendor/cc/src/command_helpers.rs |   482 +
- .../vendor/cc/src/detect_compiler_family.c    |    15 +
- scripts/kconfirm/vendor/cc/src/flags.rs       |   563 +
- scripts/kconfirm/vendor/cc/src/lib.rs         |  4505 ++++++
- .../vendor/cc/src/parallel/async_executor.rs  |   118 +
- .../vendor/cc/src/parallel/command_runner.rs  |   175 +
- .../vendor/cc/src/parallel/job_token.rs       |   262 +
- .../kconfirm/vendor/cc/src/parallel/mod.rs    |     6 +
- .../kconfirm/vendor/cc/src/parallel/stderr.rs |    91 +
- scripts/kconfirm/vendor/cc/src/target.rs      |    41 +
- .../kconfirm/vendor/cc/src/target/apple.rs    |    57 +
- .../vendor/cc/src/target/generated.rs         |   338 +
- scripts/kconfirm/vendor/cc/src/target/llvm.rs |   316 +
- .../kconfirm/vendor/cc/src/target/parser.rs   |   637 +
- scripts/kconfirm/vendor/cc/src/tempfile.rs    |    86 +
- scripts/kconfirm/vendor/cc/src/tool.rs        |   595 +
- scripts/kconfirm/vendor/cc/src/utilities.rs   |   160 +
- scripts/kconfirm/vendor/cfg-if/CHANGELOG.md   |    29 +
- scripts/kconfirm/vendor/cfg-if/Cargo.lock     |    16 +
- scripts/kconfirm/vendor/cfg-if/Cargo.toml     |    47 +
- .../kconfirm/vendor/cfg-if/Cargo.toml.orig    |    20 +
- scripts/kconfirm/vendor/cfg-if/LICENSE-APACHE |   201 +
- scripts/kconfirm/vendor/cfg-if/LICENSE-MIT    |    25 +
- scripts/kconfirm/vendor/cfg-if/README.md      |    56 +
- scripts/kconfirm/vendor/cfg-if/src/lib.rs     |   212 +
- scripts/kconfirm/vendor/clap/Cargo.lock       |   904 ++
- scripts/kconfirm/vendor/clap/Cargo.toml       |   636 +
- scripts/kconfirm/vendor/clap/Cargo.toml.orig  |   538 +
- scripts/kconfirm/vendor/clap/LICENSE-APACHE   |   202 +
- scripts/kconfirm/vendor/clap/LICENSE-MIT      |    19 +
- scripts/kconfirm/vendor/clap/README.md        |    49 +
- .../kconfirm/vendor/clap/examples/README.md   |    16 +
- .../clap/examples/cargo-example-derive.md     |    38 +
- .../clap/examples/cargo-example-derive.rs     |    31 +
- .../vendor/clap/examples/cargo-example.md     |    38 +
- .../vendor/clap/examples/cargo-example.rs     |    29 +
- scripts/kconfirm/vendor/clap/examples/demo.md |    17 +
- scripts/kconfirm/vendor/clap/examples/demo.rs |    22 +
- .../clap/examples/derive_ref/augment_args.rs  |    27 +
- .../derive_ref/augment_subcommands.rs         |    21 +
- .../examples/derive_ref/flatten_hand_args.rs  |    91 +
- .../examples/derive_ref/hand_subcommand.rs    |    80 +
- .../clap/examples/derive_ref/interop_tests.md |   248 +
- .../examples/escaped-positional-derive.md     |    60 +
- .../examples/escaped-positional-derive.rs     |    25 +
- .../clap/examples/escaped-positional.md       |    60 +
- .../clap/examples/escaped-positional.rs       |    32 +
- scripts/kconfirm/vendor/clap/examples/find.md |    79 +
- scripts/kconfirm/vendor/clap/examples/find.rs |   126 +
- .../vendor/clap/examples/git-derive.md        |   172 +
- .../vendor/clap/examples/git-derive.rs        |   165 +
- scripts/kconfirm/vendor/clap/examples/git.md  |   170 +
- scripts/kconfirm/vendor/clap/examples/git.rs  |   138 +
- .../vendor/clap/examples/multicall-busybox.md |    39 +
- .../vendor/clap/examples/multicall-busybox.rs |    47 +
- .../clap/examples/multicall-hostname.md       |    10 +
- .../clap/examples/multicall-hostname.rs       |    17 +
- .../kconfirm/vendor/clap/examples/pacman.md   |    83 +
- .../kconfirm/vendor/clap/examples/pacman.rs   |   110 +
- .../vendor/clap/examples/repl-derive.rs       |    67 +
- scripts/kconfirm/vendor/clap/examples/repl.rs |    92 +
- .../examples/tutorial_builder/01_quick.md     |    35 +
- .../examples/tutorial_builder/01_quick.rs     |    60 +
- .../tutorial_builder/02_app_settings.md       |    17 +
- .../tutorial_builder/02_app_settings.rs       |    18 +
- .../clap/examples/tutorial_builder/02_apps.md |    16 +
- .../clap/examples/tutorial_builder/02_apps.rs |    19 +
- .../examples/tutorial_builder/02_crate.md     |    16 +
- .../examples/tutorial_builder/02_crate.rs     |    18 +
- .../tutorial_builder/03_01_flag_bool.md       |    26 +
- .../tutorial_builder/03_01_flag_bool.rs       |    14 +
- .../tutorial_builder/03_01_flag_count.md      |    21 +
- .../tutorial_builder/03_01_flag_count.rs      |    14 +
- .../examples/tutorial_builder/03_02_option.md |    30 +
- .../examples/tutorial_builder/03_02_option.rs |     9 +
- .../tutorial_builder/03_02_option_mult.md     |    24 +
- .../tutorial_builder/03_02_option_mult.rs     |    20 +
- .../tutorial_builder/03_03_positional.md      |    20 +
- .../tutorial_builder/03_03_positional.rs      |     9 +
- .../tutorial_builder/03_03_positional_mult.md |    23 +
- .../tutorial_builder/03_03_positional_mult.rs |    15 +
- .../tutorial_builder/03_04_subcommands.md     |    62 +
- .../tutorial_builder/03_04_subcommands.rs     |    22 +
- .../tutorial_builder/03_05_default_values.md  |    20 +
- .../tutorial_builder/03_05_default_values.rs  |    18 +
- .../tutorial_builder/03_06_required.md        |    26 +
- .../tutorial_builder/03_06_required.rs        |    14 +
- .../examples/tutorial_builder/04_01_enum.md   |    47 +
- .../examples/tutorial_builder/04_01_enum.rs   |    66 +
- .../tutorial_builder/04_01_possible.md        |    27 +
- .../tutorial_builder/04_01_possible.rs        |    26 +
- .../examples/tutorial_builder/04_02_parse.md  |    29 +
- .../examples/tutorial_builder/04_02_parse.rs  |    17 +
- .../tutorial_builder/04_02_validate.md        |    29 +
- .../tutorial_builder/04_02_validate.rs        |    36 +
- .../tutorial_builder/04_03_relations.md       |    53 +
- .../tutorial_builder/04_03_relations.rs       |    78 +
- .../examples/tutorial_builder/04_04_custom.md |    52 +
- .../examples/tutorial_builder/04_04_custom.rs |    84 +
- .../examples/tutorial_builder/05_01_assert.rs |    25 +
- .../clap/examples/tutorial_derive/01_quick.md |    35 +
- .../clap/examples/tutorial_derive/01_quick.rs |    68 +
- .../tutorial_derive/02_app_settings.md        |    17 +
- .../tutorial_derive/02_app_settings.rs        |    18 +
- .../clap/examples/tutorial_derive/02_apps.md  |    16 +
- .../clap/examples/tutorial_derive/02_apps.rs  |    19 +
- .../clap/examples/tutorial_derive/02_crate.md |    16 +
- .../clap/examples/tutorial_derive/02_crate.rs |    17 +
- .../tutorial_derive/03_01_flag_bool.md        |    26 +
- .../tutorial_derive/03_01_flag_bool.rs        |    14 +
- .../tutorial_derive/03_01_flag_count.md       |    21 +
- .../tutorial_derive/03_01_flag_count.rs       |    14 +
- .../examples/tutorial_derive/03_02_option.md  |    36 +
- .../examples/tutorial_derive/03_02_option.rs  |    14 +
- .../tutorial_derive/03_02_option_mult.md      |    24 +
- .../tutorial_derive/03_02_option_mult.rs      |    14 +
- .../tutorial_derive/03_03_positional.md       |    26 +
- .../tutorial_derive/03_03_positional.rs       |    13 +
- .../tutorial_derive/03_03_positional_mult.md  |    23 +
- .../tutorial_derive/03_03_positional_mult.rs  |    13 +
- .../tutorial_derive/03_04_subcommands.md      |    61 +
- .../tutorial_derive/03_04_subcommands.rs      |    27 +
- .../tutorial_derive/03_04_subcommands_alt.rs  |    32 +
- .../tutorial_derive/03_05_default_values.md   |    20 +
- .../tutorial_derive/03_05_default_values.rs   |    14 +
- .../tutorial_derive/03_06_optional.md         |    20 +
- .../tutorial_derive/03_06_optional.rs         |    13 +
- .../examples/tutorial_derive/04_01_enum.md    |    47 +
- .../examples/tutorial_derive/04_01_enum.rs    |    32 +
- .../examples/tutorial_derive/04_02_parse.md   |    29 +
- .../examples/tutorial_derive/04_02_parse.rs   |    15 +
- .../tutorial_derive/04_02_validate.md         |    29 +
- .../tutorial_derive/04_02_validate.rs         |    34 +
- .../tutorial_derive/04_03_relations.md        |    53 +
- .../tutorial_derive/04_03_relations.rs        |    75 +
- .../examples/tutorial_derive/04_04_custom.md  |    52 +
- .../examples/tutorial_derive/04_04_custom.rs  |    91 +
- .../examples/tutorial_derive/05_01_assert.rs  |    20 +
- .../clap/examples/typed-derive/builtin.md     |    59 +
- .../clap/examples/typed-derive/builtin.rs     |    25 +
- .../clap/examples/typed-derive/custom.md      |    40 +
- .../clap/examples/typed-derive/custom.rs      |    83 +
- .../clap/examples/typed-derive/fn_parser.md   |    29 +
- .../clap/examples/typed-derive/fn_parser.rs   |    24 +
- .../examples/typed-derive/foreign_crate.rs    |    35 +
- .../clap/examples/typed-derive/implicit.md    |    97 +
- .../clap/examples/typed-derive/implicit.rs    |    62 +
- .../vendor/clap/examples/typed-derive/main.rs |    22 +
- scripts/kconfirm/vendor/clap/src/_concepts.rs |   108 +
- .../clap/src/_cookbook/cargo_example.rs       |     7 +
- .../src/_cookbook/cargo_example_derive.rs     |     7 +
- .../clap/src/_cookbook/escaped_positional.rs  |     7 +
- .../_cookbook/escaped_positional_derive.rs    |     7 +
- .../vendor/clap/src/_cookbook/find.rs         |     7 +
- .../kconfirm/vendor/clap/src/_cookbook/git.rs |     7 +
- .../vendor/clap/src/_cookbook/git_derive.rs   |     7 +
- .../kconfirm/vendor/clap/src/_cookbook/mod.rs |    63 +
- .../clap/src/_cookbook/multicall_busybox.rs   |     7 +
- .../clap/src/_cookbook/multicall_hostname.rs  |     7 +
- .../vendor/clap/src/_cookbook/pacman.rs       |     7 +
- .../vendor/clap/src/_cookbook/repl.rs         |     5 +
- .../vendor/clap/src/_cookbook/repl_derive.rs  |     4 +
- .../vendor/clap/src/_cookbook/typed_derive.rs |    35 +
- .../vendor/clap/src/_derive/_tutorial.rs      |   257 +
- .../kconfirm/vendor/clap/src/_derive/mod.rs   |   540 +
- scripts/kconfirm/vendor/clap/src/_faq.rs      |    95 +
- scripts/kconfirm/vendor/clap/src/_features.rs |    29 +
- scripts/kconfirm/vendor/clap/src/_tutorial.rs |   246 +
- .../vendor/clap/src/bin/stdio-fixture.rs      |   108 +
- scripts/kconfirm/vendor/clap/src/lib.rs       |   110 +
- .../kconfirm/vendor/clap_builder/Cargo.lock   |   484 +
- .../kconfirm/vendor/clap_builder/Cargo.toml   |   217 +
- .../vendor/clap_builder/Cargo.toml.orig       |    77 +
- .../vendor/clap_builder/LICENSE-APACHE        |   202 +
- .../kconfirm/vendor/clap_builder/LICENSE-MIT  |    19 +
- .../kconfirm/vendor/clap_builder/README.md    |    25 +
- .../vendor/clap_builder/src/builder/action.rs |   461 +
- .../clap_builder/src/builder/app_settings.rs  |    88 +
- .../vendor/clap_builder/src/builder/arg.rs    |  5159 +++++++
- .../clap_builder/src/builder/arg_group.rs     |   615 +
- .../clap_builder/src/builder/arg_predicate.rs |    19 +
- .../clap_builder/src/builder/arg_settings.rs  |    91 +
- .../clap_builder/src/builder/command.rs       |  5295 +++++++
- .../clap_builder/src/builder/debug_asserts.rs |   832 ++
- .../vendor/clap_builder/src/builder/ext.rs    |    46 +
- .../vendor/clap_builder/src/builder/mod.rs    |    71 +
- .../vendor/clap_builder/src/builder/os_str.rs |   364 +
- .../src/builder/possible_value.rs             |   235 +
- .../vendor/clap_builder/src/builder/range.rs  |   298 +
- .../clap_builder/src/builder/resettable.rs    |   212 +
- .../vendor/clap_builder/src/builder/str.rs    |   349 +
- .../clap_builder/src/builder/styled_str.rs    |   287 +
- .../clap_builder/src/builder/styling.rs       |   220 +
- .../vendor/clap_builder/src/builder/tests.rs  |    58 +
- .../clap_builder/src/builder/value_hint.rs    |    93 +
- .../clap_builder/src/builder/value_parser.rs  |  2699 ++++
- .../vendor/clap_builder/src/derive.rs         |   453 +
- .../vendor/clap_builder/src/error/context.rs  |   114 +
- .../vendor/clap_builder/src/error/format.rs   |   494 +
- .../vendor/clap_builder/src/error/kind.rs     |   365 +
- .../vendor/clap_builder/src/error/mod.rs      |   946 ++
- .../kconfirm/vendor/clap_builder/src/lib.rs   |    53 +
- .../vendor/clap_builder/src/macros.rs         |   603 +
- .../vendor/clap_builder/src/mkeymap.rs        |   188 +
- .../vendor/clap_builder/src/output/fmt.rs     |    83 +
- .../vendor/clap_builder/src/output/help.rs    |    39 +
- .../clap_builder/src/output/help_template.rs  |  1183 ++
- .../vendor/clap_builder/src/output/mod.rs     |    23 +
- .../clap_builder/src/output/textwrap/core.rs  |   158 +
- .../clap_builder/src/output/textwrap/mod.rs   |   122 +
- .../src/output/textwrap/word_separators.rs    |    92 +
- .../src/output/textwrap/wrap_algorithms.rs    |    68 +
- .../vendor/clap_builder/src/output/usage.rs   |   494 +
- .../clap_builder/src/parser/arg_matcher.rs    |   238 +
- .../vendor/clap_builder/src/parser/error.rs   |    66 +
- .../clap_builder/src/parser/features/mod.rs   |     1 +
- .../src/parser/features/suggestions.rs        |   178 +
- .../src/parser/matches/arg_matches.rs         |  2045 +++
- .../src/parser/matches/matched_arg.rs         |   221 +
- .../clap_builder/src/parser/matches/mod.rs    |    13 +
- .../src/parser/matches/value_source.rs        |    17 +
- .../vendor/clap_builder/src/parser/mod.rs     |    25 +
- .../vendor/clap_builder/src/parser/parser.rs  |  1685 +++
- .../clap_builder/src/parser/validator.rs      |   537 +
- .../vendor/clap_builder/src/util/any_value.rs |   127 +
- .../vendor/clap_builder/src/util/color.rs     |   103 +
- .../vendor/clap_builder/src/util/escape.rs    |    29 +
- .../vendor/clap_builder/src/util/flat_map.rs  |   259 +
- .../vendor/clap_builder/src/util/flat_set.rs  |   111 +
- .../vendor/clap_builder/src/util/graph.rs     |    49 +
- .../vendor/clap_builder/src/util/id.rs        |   195 +
- .../vendor/clap_builder/src/util/mod.rs       |    40 +
- .../clap_builder/src/util/str_to_bool.rs      |    21 +
- .../kconfirm/vendor/clap_derive/Cargo.lock    |    91 +
- .../kconfirm/vendor/clap_derive/Cargo.toml    |   166 +
- .../vendor/clap_derive/Cargo.toml.orig        |    49 +
- .../vendor/clap_derive/LICENSE-APACHE         |   202 +
- .../kconfirm/vendor/clap_derive/LICENSE-MIT   |    19 +
- scripts/kconfirm/vendor/clap_derive/README.md |    25 +
- .../kconfirm/vendor/clap_derive/src/attr.rs   |   214 +
- .../vendor/clap_derive/src/derives/args.rs    |   789 +
- .../clap_derive/src/derives/into_app.rs       |   117 +
- .../vendor/clap_derive/src/derives/mod.rs     |    23 +
- .../vendor/clap_derive/src/derives/parser.rs  |   127 +
- .../clap_derive/src/derives/subcommand.rs     |   675 +
- .../clap_derive/src/derives/value_enum.rs     |   133 +
- .../vendor/clap_derive/src/dummies.rs         |    99 +
- .../kconfirm/vendor/clap_derive/src/item.rs   |  1492 ++
- .../kconfirm/vendor/clap_derive/src/lib.rs    |   118 +
- .../kconfirm/vendor/clap_derive/src/macros.rs |    21 +
- .../clap_derive/src/utils/doc_comments.rs     |   410 +
- .../vendor/clap_derive/src/utils/error.rs     |    22 +
- .../vendor/clap_derive/src/utils/mod.rs       |    13 +
- .../vendor/clap_derive/src/utils/spanned.rs   |    89 +
- .../vendor/clap_derive/src/utils/ty.rs        |   165 +
- scripts/kconfirm/vendor/clap_lex/Cargo.lock   |    56 +
- scripts/kconfirm/vendor/clap_lex/Cargo.toml   |   165 +
- .../kconfirm/vendor/clap_lex/Cargo.toml.orig  |    36 +
- .../kconfirm/vendor/clap_lex/LICENSE-APACHE   |   202 +
- scripts/kconfirm/vendor/clap_lex/LICENSE-MIT  |    19 +
- scripts/kconfirm/vendor/clap_lex/README.md    |    19 +
- scripts/kconfirm/vendor/clap_lex/src/ext.rs   |   284 +
- scripts/kconfirm/vendor/clap_lex/src/lib.rs   |   526 +
- .../kconfirm/vendor/colorchoice/Cargo.lock    |     7 +
- .../kconfirm/vendor/colorchoice/Cargo.toml    |   162 +
- .../vendor/colorchoice/Cargo.toml.orig        |    27 +
- .../vendor/colorchoice/LICENSE-APACHE         |   202 +
- .../kconfirm/vendor/colorchoice/LICENSE-MIT   |    19 +
- scripts/kconfirm/vendor/colorchoice/README.md |    34 +
- .../kconfirm/vendor/colorchoice/src/lib.rs    |   115 +
- .../vendor/core-foundation-sys/Cargo.toml     |    30 +
- .../vendor/core-foundation-sys/src/lib.rs     |     0
- .../vendor/core-foundation/Cargo.toml         |    62 +
- .../vendor/core-foundation/src/lib.rs         |     0
- scripts/kconfirm/vendor/der/CHANGELOG.md      |   657 +
- scripts/kconfirm/vendor/der/Cargo.lock        |   485 +
- scripts/kconfirm/vendor/der/Cargo.toml        |   188 +
- scripts/kconfirm/vendor/der/Cargo.toml.orig   |    52 +
- scripts/kconfirm/vendor/der/LICENSE-APACHE    |   201 +
- scripts/kconfirm/vendor/der/LICENSE-MIT       |    25 +
- scripts/kconfirm/vendor/der/README.md         |    97 +
- scripts/kconfirm/vendor/der/src/asn1.rs       |    80 +
- scripts/kconfirm/vendor/der/src/asn1/any.rs   |   392 +
- .../vendor/der/src/asn1/application.rs        |    14 +
- .../vendor/der/src/asn1/bit_string.rs         |   746 +
- .../asn1/bit_string/allowed_len_bit_string.rs |    51 +
- .../vendor/der/src/asn1/bmp_string.rs         |   188 +
- .../kconfirm/vendor/der/src/asn1/boolean.rs   |    85 +
- .../kconfirm/vendor/der/src/asn1/choice.rs    |    26 +
- .../vendor/der/src/asn1/context_specific.rs   |   199 +
- .../vendor/der/src/asn1/general_string.rs     |    37 +
- .../vendor/der/src/asn1/generalized_time.rs   |   436 +
- .../vendor/der/src/asn1/ia5_string.rs         |   215 +
- .../kconfirm/vendor/der/src/asn1/integer.rs   |   171 +
- .../vendor/der/src/asn1/integer/int.rs        |   540 +
- .../vendor/der/src/asn1/integer/uint.rs       |   492 +
- .../vendor/der/src/asn1/internal_macros.rs    |   343 +
- scripts/kconfirm/vendor/der/src/asn1/null.rs  |   108 +
- .../vendor/der/src/asn1/octet_string.rs       |   580 +
- scripts/kconfirm/vendor/der/src/asn1/oid.rs   |   106 +
- .../kconfirm/vendor/der/src/asn1/optional.rs  |    70 +
- .../vendor/der/src/asn1/printable_string.rs   |   271 +
- .../kconfirm/vendor/der/src/asn1/private.rs   |    14 +
- scripts/kconfirm/vendor/der/src/asn1/real.rs  |   892 ++
- .../kconfirm/vendor/der/src/asn1/sequence.rs  |    91 +
- .../vendor/der/src/asn1/sequence_of.rs        |   310 +
- .../kconfirm/vendor/der/src/asn1/set_of.rs    |   639 +
- .../vendor/der/src/asn1/teletex_string.rs     |   239 +
- .../kconfirm/vendor/der/src/asn1/utc_time.rs  |   272 +
- .../vendor/der/src/asn1/utf8_string.rs        |   193 +
- .../vendor/der/src/asn1/videotex_string.rs    |   102 +
- scripts/kconfirm/vendor/der/src/bytes.rs      |   320 +
- scripts/kconfirm/vendor/der/src/datetime.rs   |   541 +
- scripts/kconfirm/vendor/der/src/decode.rs     |   247 +
- scripts/kconfirm/vendor/der/src/document.rs   |   416 +
- scripts/kconfirm/vendor/der/src/encode.rs     |   283 +
- scripts/kconfirm/vendor/der/src/encode_ref.rs |    73 +
- .../kconfirm/vendor/der/src/encoding_rules.rs |    87 +
- scripts/kconfirm/vendor/der/src/error.rs      |   412 +
- scripts/kconfirm/vendor/der/src/header.rs     |   195 +
- scripts/kconfirm/vendor/der/src/length.rs     |   500 +
- .../vendor/der/src/length/indefinite.rs       |   179 +
- scripts/kconfirm/vendor/der/src/lib.rs        |   382 +
- scripts/kconfirm/vendor/der/src/ord.rs        |   100 +
- scripts/kconfirm/vendor/der/src/reader.rs     |   266 +
- scripts/kconfirm/vendor/der/src/reader/pem.rs |    92 +
- .../vendor/der/src/reader/position.rs         |   150 +
- .../kconfirm/vendor/der/src/reader/slice.rs   |   234 +
- scripts/kconfirm/vendor/der/src/referenced.rs |    85 +
- scripts/kconfirm/vendor/der/src/string.rs     |   219 +
- scripts/kconfirm/vendor/der/src/tag.rs        |   884 ++
- scripts/kconfirm/vendor/der/src/tag/class.rs  |    77 +
- scripts/kconfirm/vendor/der/src/tag/mode.rs   |    40 +
- scripts/kconfirm/vendor/der/src/tag/number.rs |    99 +
- scripts/kconfirm/vendor/der/src/writer.rs     |    35 +
- scripts/kconfirm/vendor/der/src/writer/pem.rs |    55 +
- .../kconfirm/vendor/der/src/writer/slice.rs   |   166 +
- scripts/kconfirm/vendor/env_filter/Cargo.lock |   185 +
- scripts/kconfirm/vendor/env_filter/Cargo.toml |   178 +
- .../vendor/env_filter/Cargo.toml.orig         |    40 +
- .../kconfirm/vendor/env_filter/LICENSE-APACHE |   202 +
- .../kconfirm/vendor/env_filter/LICENSE-MIT    |    19 +
- scripts/kconfirm/vendor/env_filter/README.md  |     6 +
- .../vendor/env_filter/src/directive.rs        |    20 +
- .../kconfirm/vendor/env_filter/src/filter.rs  |   595 +
- .../vendor/env_filter/src/filtered_log.rs     |    45 +
- scripts/kconfirm/vendor/env_filter/src/lib.rs |    63 +
- scripts/kconfirm/vendor/env_filter/src/op.rs  |    42 +
- .../kconfirm/vendor/env_filter/src/parser.rs  |   521 +
- scripts/kconfirm/vendor/env_logger/Cargo.lock |   257 +
- scripts/kconfirm/vendor/env_logger/Cargo.toml |   238 +
- .../vendor/env_logger/Cargo.toml.orig         |   160 +
- .../kconfirm/vendor/env_logger/LICENSE-APACHE |   202 +
- .../kconfirm/vendor/env_logger/LICENSE-MIT    |    19 +
- scripts/kconfirm/vendor/env_logger/README.md  |   175 +
- .../examples/custom_default_format.rs         |    39 +
- .../env_logger/examples/custom_format.rs      |    53 +
- .../vendor/env_logger/examples/default.rs     |    37 +
- .../env_logger/examples/direct_logger.rs      |    47 +
- .../env_logger/examples/filters_from_code.rs  |    17 +
- .../vendor/env_logger/examples/in_tests.rs    |    53 +
- .../examples/syslog_friendly_format.rs        |    24 +
- .../vendor/env_logger/src/fmt/humantime.rs    |   134 +
- .../kconfirm/vendor/env_logger/src/fmt/kv.rs  |    69 +
- .../kconfirm/vendor/env_logger/src/fmt/mod.rs |  1002 ++
- scripts/kconfirm/vendor/env_logger/src/lib.rs |   296 +
- .../kconfirm/vendor/env_logger/src/logger.rs  |  1058 ++
- .../vendor/env_logger/src/writer/buffer.rs    |   175 +
- .../vendor/env_logger/src/writer/mod.rs       |   190 +
- .../vendor/env_logger/src/writer/target.rs    |    26 +
- scripts/kconfirm/vendor/equivalent/Cargo.toml |    19 +
- scripts/kconfirm/vendor/equivalent/src/lib.rs |     0
- scripts/kconfirm/vendor/errno/Cargo.toml      |    46 +
- scripts/kconfirm/vendor/errno/src/lib.rs      |     0
- scripts/kconfirm/vendor/fastrand/Cargo.toml   |    53 +
- scripts/kconfirm/vendor/fastrand/src/lib.rs   |     0
- .../vendor/find-msvc-tools/CHANGELOG.md       |    65 +
- .../vendor/find-msvc-tools/Cargo.lock         |     7 +
- .../vendor/find-msvc-tools/Cargo.toml         |    40 +
- .../vendor/find-msvc-tools/Cargo.toml.orig    |    18 +
- .../vendor/find-msvc-tools/LICENSE-APACHE     |   201 +
- .../vendor/find-msvc-tools/LICENSE-MIT        |    25 +
- .../kconfirm/vendor/find-msvc-tools/README.md |    30 +
- .../vendor/find-msvc-tools/src/com.rs         |   110 +
- .../vendor/find-msvc-tools/src/find_tools.rs  |  1606 ++
- .../vendor/find-msvc-tools/src/lib.rs         |    28 +
- .../vendor/find-msvc-tools/src/registry.rs    |   191 +
- .../find-msvc-tools/src/setup_config.rs       |   283 +
- .../vendor/find-msvc-tools/src/tool.rs        |    45 +
- .../find-msvc-tools/src/vs_instances.rs       |   199 +
- .../vendor/find-msvc-tools/src/winapi.rs      |   146 +
- .../find-msvc-tools/src/windows_link.rs       |    19 +
- .../vendor/find-msvc-tools/src/windows_sys.rs |   139 +
- scripts/kconfirm/vendor/foldhash/Cargo.toml   |    53 +
- scripts/kconfirm/vendor/foldhash/src/lib.rs   |     0
- .../vendor/foreign-types-shared/Cargo.toml    |    21 +
- .../foreign-types-shared/Cargo.toml.orig      |     9 +
- .../foreign-types-shared/LICENSE-APACHE       |   202 +
- .../vendor/foreign-types-shared/LICENSE-MIT   |    19 +
- .../vendor/foreign-types-shared/src/lib.rs    |    51 +
- .../kconfirm/vendor/foreign-types/Cargo.toml  |    22 +
- .../vendor/foreign-types/Cargo.toml.orig      |    11 +
- .../vendor/foreign-types/LICENSE-APACHE       |   202 +
- .../kconfirm/vendor/foreign-types/LICENSE-MIT |    19 +
- .../kconfirm/vendor/foreign-types/README.md   |    23 +
- .../kconfirm/vendor/foreign-types/src/lib.rs  |   306 +
- scripts/kconfirm/vendor/getrandom/Cargo.toml  |   121 +
- scripts/kconfirm/vendor/getrandom/src/lib.rs  |     0
- scripts/kconfirm/vendor/glob/Cargo.toml       |    29 +
- scripts/kconfirm/vendor/glob/src/lib.rs       |     0
- .../vendor/hashbrown-0.15.5/Cargo.toml        |    93 +
- .../vendor/hashbrown-0.15.5/src/lib.rs        |     0
- scripts/kconfirm/vendor/hashbrown/Cargo.toml  |   127 +
- scripts/kconfirm/vendor/hashbrown/src/lib.rs  |     0
- scripts/kconfirm/vendor/heck/CHANGELOG.md     |    25 +
- scripts/kconfirm/vendor/heck/Cargo.toml       |    34 +
- scripts/kconfirm/vendor/heck/Cargo.toml.orig  |    11 +
- scripts/kconfirm/vendor/heck/LICENSE-APACHE   |   201 +
- scripts/kconfirm/vendor/heck/LICENSE-MIT      |    25 +
- scripts/kconfirm/vendor/heck/README.md        |    53 +
- scripts/kconfirm/vendor/heck/src/kebab.rs     |    75 +
- scripts/kconfirm/vendor/heck/src/lib.rs       |   192 +
- .../kconfirm/vendor/heck/src/lower_camel.rs   |    88 +
- .../kconfirm/vendor/heck/src/shouty_kebab.rs  |    73 +
- .../kconfirm/vendor/heck/src/shouty_snake.rs  |    86 +
- scripts/kconfirm/vendor/heck/src/snake.rs     |   100 +
- scripts/kconfirm/vendor/heck/src/title.rs     |    75 +
- scripts/kconfirm/vendor/heck/src/train.rs     |    87 +
- .../kconfirm/vendor/heck/src/upper_camel.rs   |    88 +
- scripts/kconfirm/vendor/http/CHANGELOG.md     |   251 +
- scripts/kconfirm/vendor/http/Cargo.lock       |   276 +
- scripts/kconfirm/vendor/http/Cargo.toml       |    77 +
- scripts/kconfirm/vendor/http/Cargo.toml.orig  |    47 +
- scripts/kconfirm/vendor/http/LICENSE-APACHE   |   201 +
- scripts/kconfirm/vendor/http/LICENSE-MIT      |    25 +
- scripts/kconfirm/vendor/http/README.md        |    80 +
- scripts/kconfirm/vendor/http/src/byte_str.rs  |    91 +
- scripts/kconfirm/vendor/http/src/convert.rs   |    17 +
- scripts/kconfirm/vendor/http/src/error.rs     |   160 +
- .../kconfirm/vendor/http/src/extensions.rs    |   358 +
- .../kconfirm/vendor/http/src/header/map.rs    |  3972 +++++
- .../kconfirm/vendor/http/src/header/mod.rs    |   142 +
- .../kconfirm/vendor/http/src/header/name.rs   |  1895 +++
- .../kconfirm/vendor/http/src/header/value.rs  |   770 +
- scripts/kconfirm/vendor/http/src/lib.rs       |   210 +
- scripts/kconfirm/vendor/http/src/method.rs    |   500 +
- scripts/kconfirm/vendor/http/src/request.rs   |  1068 ++
- scripts/kconfirm/vendor/http/src/response.rs  |   781 +
- scripts/kconfirm/vendor/http/src/status.rs    |   596 +
- .../kconfirm/vendor/http/src/uri/authority.rs |   725 +
- .../kconfirm/vendor/http/src/uri/builder.rs   |   211 +
- scripts/kconfirm/vendor/http/src/uri/mod.rs   |  1117 ++
- scripts/kconfirm/vendor/http/src/uri/path.rs  |   676 +
- scripts/kconfirm/vendor/http/src/uri/port.rs  |   151 +
- .../kconfirm/vendor/http/src/uri/scheme.rs    |   361 +
- scripts/kconfirm/vendor/http/src/uri/tests.rs |   519 +
- scripts/kconfirm/vendor/http/src/version.rs   |    75 +
- scripts/kconfirm/vendor/httparse/Cargo.lock   |   688 +
- scripts/kconfirm/vendor/httparse/Cargo.toml   |    77 +
- .../kconfirm/vendor/httparse/Cargo.toml.orig  |    41 +
- .../kconfirm/vendor/httparse/LICENSE-APACHE   |   201 +
- scripts/kconfirm/vendor/httparse/LICENSE-MIT  |    20 +
- scripts/kconfirm/vendor/httparse/README.md    |    43 +
- .../kconfirm/vendor/httparse/benches/parse.rs |   242 +
- scripts/kconfirm/vendor/httparse/build.rs     |   133 +
- scripts/kconfirm/vendor/httparse/clippy.toml  |     1 +
- scripts/kconfirm/vendor/httparse/src/iter.rs  |   199 +
- scripts/kconfirm/vendor/httparse/src/lib.rs   |  2798 ++++
- .../kconfirm/vendor/httparse/src/macros.rs    |    68 +
- .../kconfirm/vendor/httparse/src/simd/avx2.rs |   206 +
- .../kconfirm/vendor/httparse/src/simd/mod.rs  |   153 +
- .../kconfirm/vendor/httparse/src/simd/neon.rs |   258 +
- .../vendor/httparse/src/simd/runtime.rs       |    57 +
- .../vendor/httparse/src/simd/sse42.rs         |   142 +
- .../kconfirm/vendor/httparse/src/simd/swar.rs |   235 +
- scripts/kconfirm/vendor/id-arena/Cargo.toml   |    31 +
- scripts/kconfirm/vendor/id-arena/src/lib.rs   |     0
- scripts/kconfirm/vendor/indexmap/Cargo.toml   |   112 +
- scripts/kconfirm/vendor/indexmap/src/lib.rs   |     0
- .../vendor/is_terminal_polyfill/Cargo.lock    |     7 +
- .../vendor/is_terminal_polyfill/Cargo.toml    |   154 +
- .../is_terminal_polyfill/Cargo.toml.orig      |   106 +
- .../is_terminal_polyfill/LICENSE-APACHE       |   202 +
- .../vendor/is_terminal_polyfill/LICENSE-MIT   |    19 +
- .../vendor/is_terminal_polyfill/README.md     |    26 +
- .../vendor/is_terminal_polyfill/src/lib.rs    |    50 +
- scripts/kconfirm/vendor/itoa/Cargo.lock       |   460 +
- scripts/kconfirm/vendor/itoa/Cargo.toml       |    66 +
- scripts/kconfirm/vendor/itoa/Cargo.toml.orig  |    33 +
- scripts/kconfirm/vendor/itoa/LICENSE-APACHE   |   176 +
- scripts/kconfirm/vendor/itoa/LICENSE-MIT      |    23 +
- scripts/kconfirm/vendor/itoa/README.md        |    65 +
- scripts/kconfirm/vendor/itoa/benches/bench.rs |    41 +
- scripts/kconfirm/vendor/itoa/src/lib.rs       |   466 +
- scripts/kconfirm/vendor/itoa/src/u128_ext.rs  |    22 +
- .../kconfirm/vendor/jiff-static/Cargo.toml    |    45 +
- .../kconfirm/vendor/jiff-static/src/lib.rs    |     0
- scripts/kconfirm/vendor/jiff/CHANGELOG.md     |  1498 ++
- scripts/kconfirm/vendor/jiff/COMPARE.md       |  1274 ++
- scripts/kconfirm/vendor/jiff/COPYING          |     3 +
- scripts/kconfirm/vendor/jiff/Cargo.lock       |  1094 ++
- scripts/kconfirm/vendor/jiff/Cargo.toml       |   237 +
- scripts/kconfirm/vendor/jiff/Cargo.toml.orig  |   299 +
- scripts/kconfirm/vendor/jiff/DESIGN.md        |   637 +
- scripts/kconfirm/vendor/jiff/LICENSE-MIT      |    21 +
- scripts/kconfirm/vendor/jiff/PLATFORM.md      |   422 +
- scripts/kconfirm/vendor/jiff/README.md        |   209 +
- scripts/kconfirm/vendor/jiff/UNLICENSE        |    24 +
- .../kconfirm/vendor/jiff/src/civil/date.rs    |  3991 +++++
- .../vendor/jiff/src/civil/datetime.rs         |  4538 ++++++
- .../vendor/jiff/src/civil/iso_week_date.rs    |   919 ++
- scripts/kconfirm/vendor/jiff/src/civil/mod.rs |   290 +
- .../kconfirm/vendor/jiff/src/civil/time.rs    |  3550 +++++
- .../kconfirm/vendor/jiff/src/civil/weekday.rs |   802 +
- scripts/kconfirm/vendor/jiff/src/duration.rs  |   146 +
- .../kconfirm/vendor/jiff/src/error/civil.rs   |    66 +
- .../vendor/jiff/src/error/duration.rs         |    36 +
- .../vendor/jiff/src/error/fmt/friendly.rs     |    82 +
- .../kconfirm/vendor/jiff/src/error/fmt/mod.rs |    87 +
- .../vendor/jiff/src/error/fmt/offset.rs       |   141 +
- .../vendor/jiff/src/error/fmt/rfc2822.rs      |   217 +
- .../vendor/jiff/src/error/fmt/rfc9557.rs      |   114 +
- .../vendor/jiff/src/error/fmt/strtime.rs      |   517 +
- .../vendor/jiff/src/error/fmt/temporal.rs     |   336 +
- .../vendor/jiff/src/error/fmt/util.rs         |   115 +
- scripts/kconfirm/vendor/jiff/src/error/mod.rs |   805 +
- .../vendor/jiff/src/error/signed_duration.rs  |    47 +
- .../kconfirm/vendor/jiff/src/error/span.rs    |    91 +
- .../vendor/jiff/src/error/timestamp.rs        |    34 +
- .../vendor/jiff/src/error/tz/ambiguous.rs     |    49 +
- .../vendor/jiff/src/error/tz/concatenated.rs  |   119 +
- .../kconfirm/vendor/jiff/src/error/tz/db.rs   |   141 +
- .../kconfirm/vendor/jiff/src/error/tz/mod.rs  |     8 +
- .../vendor/jiff/src/error/tz/offset.rs        |    98 +
- .../vendor/jiff/src/error/tz/posix.rs         |    35 +
- .../vendor/jiff/src/error/tz/system.rs        |   104 +
- .../vendor/jiff/src/error/tz/timezone.rs      |    40 +
- .../kconfirm/vendor/jiff/src/error/tz/zic.rs  |   323 +
- .../kconfirm/vendor/jiff/src/error/unit.rs    |   162 +
- .../kconfirm/vendor/jiff/src/error/util.rs    |   180 +
- .../kconfirm/vendor/jiff/src/error/zoned.rs   |    71 +
- .../kconfirm/vendor/jiff/src/fmt/buffer.rs    |  1353 ++
- .../vendor/jiff/src/fmt/friendly/mod.rs       |   712 +
- .../vendor/jiff/src/fmt/friendly/parser.rs    |  1363 ++
- .../jiff/src/fmt/friendly/parser_label.rs     |    90 +
- .../vendor/jiff/src/fmt/friendly/printer.rs   |  4173 ++++++
- scripts/kconfirm/vendor/jiff/src/fmt/mod.rs   |   470 +
- .../kconfirm/vendor/jiff/src/fmt/offset.rs    |  1063 ++
- .../kconfirm/vendor/jiff/src/fmt/rfc2822.rs   |  1973 +++
- .../kconfirm/vendor/jiff/src/fmt/rfc9557.rs   |  1028 ++
- scripts/kconfirm/vendor/jiff/src/fmt/serde.rs |  2179 +++
- .../vendor/jiff/src/fmt/strtime/mod.rs        |  3601 +++++
- .../vendor/jiff/src/fmt/strtime/parse.rs      |  2071 +++
- .../vendor/jiff/src/fmt/strtime/printer.rs    |  1728 +++
- .../vendor/jiff/src/fmt/temporal/mod.rs       |  2550 ++++
- .../vendor/jiff/src/fmt/temporal/parser.rs    |  2619 ++++
- .../vendor/jiff/src/fmt/temporal/pieces.rs    |  1727 +++
- .../vendor/jiff/src/fmt/temporal/printer.rs   |  1760 +++
- scripts/kconfirm/vendor/jiff/src/fmt/util.rs  |  1008 ++
- scripts/kconfirm/vendor/jiff/src/lib.rs       |   865 ++
- scripts/kconfirm/vendor/jiff/src/logging.rs   |   147 +
- scripts/kconfirm/vendor/jiff/src/now.rs       |   107 +
- .../vendor/jiff/src/shared/crc32/mod.rs       |    46 +
- .../vendor/jiff/src/shared/crc32/table.rs     |   796 +
- .../kconfirm/vendor/jiff/src/shared/mod.rs    |   529 +
- .../kconfirm/vendor/jiff/src/shared/posix.rs  |  3432 +++++
- .../kconfirm/vendor/jiff/src/shared/tzif.rs   |  1454 ++
- .../vendor/jiff/src/shared/util/array_str.rs  |   209 +
- .../vendor/jiff/src/shared/util/itime.rs      |  1040 ++
- .../vendor/jiff/src/shared/util/mod.rs        |     2 +
- .../vendor/jiff/src/signed_duration.rs        |  3366 +++++
- scripts/kconfirm/vendor/jiff/src/span.rs      |  7187 +++++++++
- scripts/kconfirm/vendor/jiff/src/timestamp.rs |  3729 +++++
- .../kconfirm/vendor/jiff/src/tz/ambiguous.rs  |  1277 ++
- .../vendor/jiff/src/tz/concatenated.rs        |  1091 ++
- .../vendor/jiff/src/tz/db/bundled/disabled.rs |    30 +
- .../vendor/jiff/src/tz/db/bundled/enabled.rs  |   151 +
- .../vendor/jiff/src/tz/db/bundled/mod.rs      |    20 +
- .../jiff/src/tz/db/concatenated/disabled.rs   |    44 +
- .../jiff/src/tz/db/concatenated/enabled.rs    |   571 +
- .../vendor/jiff/src/tz/db/concatenated/mod.rs |     8 +
- scripts/kconfirm/vendor/jiff/src/tz/db/mod.rs |   826 ++
- .../jiff/src/tz/db/zoneinfo/disabled.rs       |    44 +
- .../vendor/jiff/src/tz/db/zoneinfo/enabled.rs |   858 ++
- .../vendor/jiff/src/tz/db/zoneinfo/mod.rs     |     8 +
- scripts/kconfirm/vendor/jiff/src/tz/mod.rs    |   358 +
- scripts/kconfirm/vendor/jiff/src/tz/offset.rs |  2082 +++
- scripts/kconfirm/vendor/jiff/src/tz/posix.rs  |   359 +
- .../vendor/jiff/src/tz/system/android.rs      |   316 +
- .../kconfirm/vendor/jiff/src/tz/system/mod.rs |   287 +
- .../vendor/jiff/src/tz/system/unix.rs         |   117 +
- .../jiff/src/tz/system/wasm_emscripten.rs     |    76 +
- .../vendor/jiff/src/tz/system/wasm_js.rs      |    57 +
- .../vendor/jiff/src/tz/system/windows/mod.rs  |   144 +
- .../src/tz/system/windows/windows_zones.rs    |   143 +
- .../kconfirm/vendor/jiff/src/tz/testdata.rs   |   133 +
- .../kconfirm/vendor/jiff/src/tz/timezone.rs   |  3926 +++++
- scripts/kconfirm/vendor/jiff/src/tz/tzif.rs   |   786 +
- scripts/kconfirm/vendor/jiff/src/tz/zic.rs    |  2636 ++++
- .../vendor/jiff/src/util/array_str.rs         |     5 +
- scripts/kconfirm/vendor/jiff/src/util/b.rs    |  1152 ++
- .../kconfirm/vendor/jiff/src/util/borrow.rs   |   106 +
- .../kconfirm/vendor/jiff/src/util/cache.rs    |    48 +
- .../kconfirm/vendor/jiff/src/util/constant.rs |    25 +
- .../kconfirm/vendor/jiff/src/util/escape.rs   |   124 +
- scripts/kconfirm/vendor/jiff/src/util/fs.rs   |    70 +
- scripts/kconfirm/vendor/jiff/src/util/libm.rs |   104 +
- scripts/kconfirm/vendor/jiff/src/util/mod.rs  |    19 +
- .../kconfirm/vendor/jiff/src/util/parse.rs    |   214 +
- .../kconfirm/vendor/jiff/src/util/round.rs    |  1040 ++
- scripts/kconfirm/vendor/jiff/src/util/sync.rs |    48 +
- scripts/kconfirm/vendor/jiff/src/util/utf8.rs |   122 +
- scripts/kconfirm/vendor/jiff/src/zoned.rs     |  6209 ++++++++
- scripts/kconfirm/vendor/leb128fmt/Cargo.toml  |    23 +
- scripts/kconfirm/vendor/leb128fmt/src/lib.rs  |     0
- scripts/kconfirm/vendor/libc/.editorconfig    |     7 +
- scripts/kconfirm/vendor/libc/.rustfmt.toml    |     6 +
- scripts/kconfirm/vendor/libc/CHANGELOG.md     |  1034 ++
- scripts/kconfirm/vendor/libc/CONTRIBUTING.md  |   126 +
- scripts/kconfirm/vendor/libc/Cargo.lock       |    16 +
- scripts/kconfirm/vendor/libc/Cargo.toml       |   229 +
- scripts/kconfirm/vendor/libc/Cargo.toml.orig  |   218 +
- scripts/kconfirm/vendor/libc/LICENSE-APACHE   |   176 +
- scripts/kconfirm/vendor/libc/LICENSE-MIT      |    25 +
- scripts/kconfirm/vendor/libc/README.md        |   115 +
- scripts/kconfirm/vendor/libc/build.rs         |   346 +
- .../vendor/libc/src/fuchsia/aarch64.rs        |    69 +
- .../kconfirm/vendor/libc/src/fuchsia/mod.rs   |  4026 +++++
- .../vendor/libc/src/fuchsia/riscv64.rs        |    46 +
- .../vendor/libc/src/fuchsia/x86_64.rs         |   110 +
- scripts/kconfirm/vendor/libc/src/hermit.rs    |   562 +
- scripts/kconfirm/vendor/libc/src/lib.rs       |   168 +
- scripts/kconfirm/vendor/libc/src/macros.rs    |   654 +
- .../kconfirm/vendor/libc/src/new/aix/mod.rs   |     6 +
- .../vendor/libc/src/new/aix/unistd.rs         |     7 +
- .../vendor/libc/src/new/apple/libc/signal.rs  |     5 +
- .../vendor/libc/src/new/apple/libc/unistd.rs  |     7 +
- .../libc/src/new/apple/libpthread/mod.rs      |    20 +
- .../libpthread/pthread_/introspection.rs      |    36 +
- .../new/apple/libpthread/pthread_/pthread.rs  |    76 +
- .../apple/libpthread/pthread_/pthread_impl.rs |    12 +
- .../apple/libpthread/pthread_/pthread_spis.rs |    14 +
- .../src/new/apple/libpthread/pthread_/qos.rs  |    25 +
- .../new/apple/libpthread/pthread_/sched.rs    |     9 +
- .../new/apple/libpthread/pthread_/spawn.rs    |    16 +
- .../new/apple/libpthread/pthread_/stack_np.rs |    12 +
- .../libpthread/sys/_pthread/_pthread_types.rs |    79 +
- .../libc/src/new/apple/libpthread/sys/mod.rs  |    14 +
- .../libc/src/new/apple/libpthread/sys/qos.rs  |    22 +
- .../kconfirm/vendor/libc/src/new/apple/mod.rs |    20 +
- .../libc/src/new/apple/xnu/arm/_mcontext.rs   |    15 +
- .../libc/src/new/apple/xnu/i386/_mcontext.rs  |    15 +
- .../src/new/apple/xnu/mach/arm/_structs.rs    |    37 +
- .../src/new/apple/xnu/mach/i386/_structs.rs   |    92 +
- .../new/apple/xnu/mach/machine/_structs.rs    |    13 +
- .../vendor/libc/src/new/apple/xnu/mach/mod.rs |    20 +
- .../src/new/apple/xnu/machine/_mcontext.rs    |    11 +
- .../vendor/libc/src/new/apple/xnu/mod.rs      |    30 +
- .../src/new/apple/xnu/sys/_types/_ucontext.rs |    17 +
- .../vendor/libc/src/new/apple/xnu/sys/mod.rs  |    15 +
- .../libc/src/new/apple/xnu/sys/signal.rs      |     6 +
- .../vendor/libc/src/new/bionic_libc/mod.rs    |     7 +
- .../libc/src/new/bionic_libc/pthread.rs       |    42 +
- .../libc/src/new/bionic_libc/sys/mod.rs       |     3 +
- .../libc/src/new/bionic_libc/sys/socket.rs    |    51 +
- .../vendor/libc/src/new/bionic_libc/unistd.rs |     7 +
- .../vendor/libc/src/new/common/bsd.rs         |     1 +
- .../libc/src/new/common/freebsd_like.rs       |     1 +
- .../libc/src/new/common/linux_like/mod.rs     |     9 +
- .../libc/src/new/common/linux_like/pthread.rs |    25 +
- .../vendor/libc/src/new/common/mod.rs         |    39 +
- .../vendor/libc/src/new/common/netbsd_like.rs |     1 +
- .../vendor/libc/src/new/common/posix/mod.rs   |    15 +
- .../libc/src/new/common/posix/pthread.rs      |   322 +
- .../libc/src/new/common/posix/unistd.rs       |     9 +
- .../vendor/libc/src/new/common/solarish.rs    |     1 +
- .../vendor/libc/src/new/cygwin/mod.rs         |     5 +
- .../vendor/libc/src/new/cygwin/unistd.rs      |     7 +
- .../vendor/libc/src/new/dragonfly/mod.rs      |     6 +
- .../vendor/libc/src/new/dragonfly/unistd.rs   |     7 +
- .../vendor/libc/src/new/emscripten/mod.rs     |     7 +
- .../vendor/libc/src/new/emscripten/pthread.rs |    14 +
- .../vendor/libc/src/new/emscripten/sched.rs   |    38 +
- .../vendor/libc/src/new/emscripten/unistd.rs  |     7 +
- .../vendor/libc/src/new/espidf/mod.rs         |     2 +
- .../vendor/libc/src/new/freebsd/mod.rs        |     7 +
- .../vendor/libc/src/new/freebsd/sys/file.rs   |    46 +
- .../vendor/libc/src/new/freebsd/sys/mod.rs    |     5 +
- .../vendor/libc/src/new/freebsd/unistd.rs     |     7 +
- .../vendor/libc/src/new/fuchsia/mod.rs        |     4 +
- .../vendor/libc/src/new/fuchsia/unistd.rs     |     7 +
- .../kconfirm/vendor/libc/src/new/glibc/mod.rs |    31 +
- .../vendor/libc/src/new/glibc/posix/unistd.rs |     9 +
- .../libc/src/new/glibc/sysdeps/nptl/mod.rs    |     7 +
- .../src/new/glibc/sysdeps/nptl/pthread.rs     |    59 +
- .../src/new/glibc/sysdeps/unix/linux/mod.rs   |    10 +
- .../new/glibc/sysdeps/unix/linux/net/route.rs |    30 +
- .../libc/src/new/glibc/sysdeps/unix/mod.rs    |     6 +
- .../kconfirm/vendor/libc/src/new/haiku/mod.rs |     4 +
- .../vendor/libc/src/new/haiku/unistd.rs       |     7 +
- .../vendor/libc/src/new/hermit_abi/mod.rs     |     3 +
- .../vendor/libc/src/new/horizon/mod.rs        |     2 +
- .../kconfirm/vendor/libc/src/new/hurd/mod.rs  |     2 +
- .../vendor/libc/src/new/illumos/mod.rs        |     4 +
- .../vendor/libc/src/new/illumos/unistd.rs     |     7 +
- .../kconfirm/vendor/libc/src/new/l4re/mod.rs  |     3 +
- .../libc/src/new/linux_uapi/linux/can.rs      |   135 +
- .../libc/src/new/linux_uapi/linux/can/bcm.rs  |    52 +
- .../src/new/linux_uapi/linux/can/error.rs     |    73 +
- .../src/new/linux_uapi/linux/can/j1939.rs     |    60 +
- .../src/new/linux_uapi/linux/can/netlink.rs   |   125 +
- .../libc/src/new/linux_uapi/linux/can/raw.rs  |    15 +
- .../libc/src/new/linux_uapi/linux/keyctl.rs   |    69 +
- .../src/new/linux_uapi/linux/membarrier.rs    |    20 +
- .../libc/src/new/linux_uapi/linux/mod.rs      |     9 +
- .../libc/src/new/linux_uapi/linux/netlink.rs  |   136 +
- .../libc/src/new/linux_uapi/linux/pidfd.rs    |    59 +
- .../vendor/libc/src/new/linux_uapi/mod.rs     |     3 +
- scripts/kconfirm/vendor/libc/src/new/mod.rs   |   239 +
- .../libc/src/new/musl/arch/generic/mod.rs     |     7 +
- .../src/new/musl/arch/mips/bits/socket.rs     |     4 +
- .../vendor/libc/src/new/musl/arch/mips/mod.rs |     7 +
- .../src/new/musl/arch/mips64/bits/socket.rs   |     4 +
- .../libc/src/new/musl/arch/mips64/mod.rs      |     7 +
- .../vendor/libc/src/new/musl/arch/mod.rs      |    10 +
- .../kconfirm/vendor/libc/src/new/musl/mod.rs  |    33 +
- .../vendor/libc/src/new/musl/pthread.rs       |    62 +
- .../vendor/libc/src/new/musl/sched.rs         |    38 +
- .../vendor/libc/src/new/musl/sys/socket.rs    |    64 +
- .../vendor/libc/src/new/musl/unistd.rs        |     7 +
- .../vendor/libc/src/new/netbsd/mod.rs         |    14 +
- .../vendor/libc/src/new/netbsd/net/if_.rs     |   101 +
- .../vendor/libc/src/new/netbsd/sys/file.rs    |    16 +
- .../vendor/libc/src/new/netbsd/sys/ipc.rs     |    17 +
- .../vendor/libc/src/new/netbsd/sys/mod.rs     |    11 +
- .../vendor/libc/src/new/netbsd/sys/socket.rs  |    44 +
- .../vendor/libc/src/new/netbsd/sys/statvfs.rs |    47 +
- .../vendor/libc/src/new/netbsd/sys/time.rs    |    15 +
- .../vendor/libc/src/new/netbsd/sys/timex.rs   |    95 +
- .../vendor/libc/src/new/netbsd/sys/types.rs   |    16 +
- .../vendor/libc/src/new/netbsd/unistd.rs      |     7 +
- .../vendor/libc/src/new/netbsd/utmp_.rs       |    33 +
- .../vendor/libc/src/new/netbsd/utmpx_.rs      |    92 +
- .../vendor/libc/src/new/newlib/mod.rs         |     4 +
- .../vendor/libc/src/new/newlib/unistd.rs      |   159 +
- .../kconfirm/vendor/libc/src/new/nto/mod.rs   |     9 +
- .../vendor/libc/src/new/nto/net/bpf.rs        |    83 +
- .../vendor/libc/src/new/nto/net/if_.rs        |    32 +
- .../vendor/libc/src/new/nto/unistd.rs         |     7 +
- .../kconfirm/vendor/libc/src/new/nuttx/mod.rs |     4 +
- .../vendor/libc/src/new/nuttx/unistd.rs       |     7 +
- .../vendor/libc/src/new/openbsd/mod.rs        |     7 +
- .../vendor/libc/src/new/openbsd/sys/ipc.rs    |    17 +
- .../vendor/libc/src/new/openbsd/sys/mod.rs    |     5 +
- .../vendor/libc/src/new/openbsd/unistd.rs     |     7 +
- .../vendor/libc/src/new/qurt/dlfcn.rs         |    26 +
- .../vendor/libc/src/new/qurt/errno.rs         |   154 +
- .../vendor/libc/src/new/qurt/fcntl.rs         |    52 +
- .../vendor/libc/src/new/qurt/limits.rs        |    41 +
- .../kconfirm/vendor/libc/src/new/qurt/mod.rs  |   375 +
- .../vendor/libc/src/new/qurt/pthread.rs       |   129 +
- .../vendor/libc/src/new/qurt/semaphore.rs     |    13 +
- .../vendor/libc/src/new/qurt/signal.rs        |   117 +
- .../vendor/libc/src/new/qurt/stdio.rs         |    73 +
- .../vendor/libc/src/new/qurt/stdlib.rs        |    67 +
- .../vendor/libc/src/new/qurt/sys/mman.rs      |    55 +
- .../vendor/libc/src/new/qurt/sys/mod.rs       |     6 +
- .../vendor/libc/src/new/qurt/sys/sched.rs     |    24 +
- .../vendor/libc/src/new/qurt/sys/stat.rs      |    36 +
- .../vendor/libc/src/new/qurt/sys/types.rs     |     9 +
- .../kconfirm/vendor/libc/src/new/qurt/time.rs |    34 +
- .../vendor/libc/src/new/qurt/unistd.rs        |   248 +
- .../kconfirm/vendor/libc/src/new/redox/mod.rs |     3 +
- .../vendor/libc/src/new/relibc/mod.rs         |     5 +
- .../vendor/libc/src/new/relibc/unistd.rs      |     7 +
- .../kconfirm/vendor/libc/src/new/rtems/mod.rs |     2 +
- .../kconfirm/vendor/libc/src/new/sgx/mod.rs   |     1 +
- .../vendor/libc/src/new/sgx/unistd.rs         |     7 +
- .../vendor/libc/src/new/solaris/mod.rs        |     5 +
- .../vendor/libc/src/new/solaris/unistd.rs     |     7 +
- .../kconfirm/vendor/libc/src/new/solid/mod.rs |     2 +
- .../kconfirm/vendor/libc/src/new/teeos/mod.rs |     2 +
- .../vendor/libc/src/new/trusty/mod.rs         |     2 +
- .../vendor/libc/src/new/uclibc/mod.rs         |     7 +
- .../vendor/libc/src/new/uclibc/pthread.rs     |    66 +
- .../vendor/libc/src/new/uclibc/unistd.rs      |     7 +
- .../kconfirm/vendor/libc/src/new/ucrt/mod.rs  |     4 +
- .../kconfirm/vendor/libc/src/new/vita/mod.rs  |     2 +
- .../vendor/libc/src/new/vxworks/mod.rs        |     4 +
- .../vendor/libc/src/new/vxworks/unistd.rs     |     7 +
- .../kconfirm/vendor/libc/src/new/wasi/mod.rs  |     3 +
- .../kconfirm/vendor/libc/src/new/xous/mod.rs  |     2 +
- .../kconfirm/vendor/libc/src/primitives.rs    |    58 +
- scripts/kconfirm/vendor/libc/src/psp.rs       |  4131 ++++++
- scripts/kconfirm/vendor/libc/src/qurt/mod.rs  |    18 +
- scripts/kconfirm/vendor/libc/src/sgx.rs       |    15 +
- .../kconfirm/vendor/libc/src/solid/aarch64.rs |     1 +
- scripts/kconfirm/vendor/libc/src/solid/arm.rs |     1 +
- scripts/kconfirm/vendor/libc/src/solid/mod.rs |   865 ++
- scripts/kconfirm/vendor/libc/src/switch.rs    |    17 +
- scripts/kconfirm/vendor/libc/src/teeos/mod.rs |  1349 ++
- scripts/kconfirm/vendor/libc/src/trusty.rs    |    73 +
- scripts/kconfirm/vendor/libc/src/types.rs     |    67 +
- .../kconfirm/vendor/libc/src/unix/aix/mod.rs  |  3363 +++++
- .../vendor/libc/src/unix/aix/powerpc64.rs     |   427 +
- .../vendor/libc/src/unix/bsd/apple/b32/mod.rs |    73 +
- .../src/unix/bsd/apple/b64/aarch64/mod.rs     |    15 +
- .../vendor/libc/src/unix/bsd/apple/b64/mod.rs |    78 +
- .../libc/src/unix/bsd/apple/b64/x86_64/mod.rs |    77 +
- .../vendor/libc/src/unix/bsd/apple/mod.rs     |  5190 +++++++
- .../src/unix/bsd/freebsdlike/dragonfly/mod.rs |  1374 ++
- .../unix/bsd/freebsdlike/freebsd/aarch64.rs   |    42 +
- .../src/unix/bsd/freebsdlike/freebsd/arm.rs   |    27 +
- .../bsd/freebsdlike/freebsd/freebsd11/b32.rs  |    29 +
- .../bsd/freebsdlike/freebsd/freebsd11/b64.rs  |    28 +
- .../bsd/freebsdlike/freebsd/freebsd11/mod.rs  |   330 +
- .../bsd/freebsdlike/freebsd/freebsd12/mod.rs  |   366 +
- .../freebsdlike/freebsd/freebsd12/x86_64.rs   |     7 +
- .../bsd/freebsdlike/freebsd/freebsd13/mod.rs  |   410 +
- .../freebsdlike/freebsd/freebsd13/x86_64.rs   |     7 +
- .../bsd/freebsdlike/freebsd/freebsd14/mod.rs  |   411 +
- .../freebsdlike/freebsd/freebsd14/x86_64.rs   |    14 +
- .../bsd/freebsdlike/freebsd/freebsd15/mod.rs  |   413 +
- .../freebsdlike/freebsd/freebsd15/x86_64.rs   |    14 +
- .../src/unix/bsd/freebsdlike/freebsd/mod.rs   |  5189 +++++++
- .../unix/bsd/freebsdlike/freebsd/powerpc.rs   |    30 +
- .../unix/bsd/freebsdlike/freebsd/powerpc64.rs |    31 +
- .../unix/bsd/freebsdlike/freebsd/riscv64.rs   |    44 +
- .../src/unix/bsd/freebsdlike/freebsd/x86.rs   |    52 +
- .../bsd/freebsdlike/freebsd/x86_64/mod.rs     |   187 +
- .../libc/src/unix/bsd/freebsdlike/mod.rs      |  1986 +++
- .../kconfirm/vendor/libc/src/unix/bsd/mod.rs  |   897 ++
- .../libc/src/unix/bsd/netbsdlike/mod.rs       |   882 ++
- .../src/unix/bsd/netbsdlike/netbsd/aarch64.rs |   132 +
- .../src/unix/bsd/netbsdlike/netbsd/arm.rs     |    70 +
- .../src/unix/bsd/netbsdlike/netbsd/mips.rs    |    11 +
- .../src/unix/bsd/netbsdlike/netbsd/mod.rs     |  2487 ++++
- .../src/unix/bsd/netbsdlike/netbsd/powerpc.rs |    10 +
- .../src/unix/bsd/netbsdlike/netbsd/riscv64.rs |    97 +
- .../src/unix/bsd/netbsdlike/netbsd/sparc64.rs |     7 +
- .../src/unix/bsd/netbsdlike/netbsd/x86.rs     |     5 +
- .../src/unix/bsd/netbsdlike/netbsd/x86_64.rs  |    59 +
- .../unix/bsd/netbsdlike/openbsd/aarch64.rs    |    20 +
- .../src/unix/bsd/netbsdlike/openbsd/arm.rs    |     5 +
- .../src/unix/bsd/netbsdlike/openbsd/mips64.rs |     4 +
- .../src/unix/bsd/netbsdlike/openbsd/mod.rs    |  2105 +++
- .../unix/bsd/netbsdlike/openbsd/powerpc.rs    |     5 +
- .../unix/bsd/netbsdlike/openbsd/powerpc64.rs  |     5 +
- .../unix/bsd/netbsdlike/openbsd/riscv64.rs    |    25 +
- .../unix/bsd/netbsdlike/openbsd/sparc64.rs    |     4 +
- .../src/unix/bsd/netbsdlike/openbsd/x86.rs    |     5 +
- .../src/unix/bsd/netbsdlike/openbsd/x86_64.rs |    65 +
- .../vendor/libc/src/unix/cygwin/mod.rs        |  2389 +++
- .../vendor/libc/src/unix/haiku/b32.rs         |    18 +
- .../vendor/libc/src/unix/haiku/b64.rs         |    18 +
- .../vendor/libc/src/unix/haiku/bsd.rs         |   151 +
- .../vendor/libc/src/unix/haiku/mod.rs         |  1961 +++
- .../vendor/libc/src/unix/haiku/native.rs      |  1390 ++
- .../vendor/libc/src/unix/haiku/x86_64.rs      |    58 +
- .../kconfirm/vendor/libc/src/unix/hurd/b32.rs |    92 +
- .../kconfirm/vendor/libc/src/unix/hurd/b64.rs |    94 +
- .../kconfirm/vendor/libc/src/unix/hurd/mod.rs |  4564 ++++++
- .../src/unix/linux_like/android/b32/arm.rs    |   494 +
- .../src/unix/linux_like/android/b32/mod.rs    |   239 +
- .../unix/linux_like/android/b32/x86/mod.rs    |   568 +
- .../linux_like/android/b64/aarch64/mod.rs     |   473 +
- .../src/unix/linux_like/android/b64/mod.rs    |   218 +
- .../linux_like/android/b64/riscv64/mod.rs     |   384 +
- .../unix/linux_like/android/b64/x86_64/mod.rs |   620 +
- .../libc/src/unix/linux_like/android/mod.rs   |  3832 +++++
- .../src/unix/linux_like/emscripten/lfs64.rs   |   214 +
- .../src/unix/linux_like/emscripten/mod.rs     |  1455 ++
- .../libc/src/unix/linux_like/l4re/mod.rs      |   204 +
- .../linux_like/l4re/uclibc/aarch64/mod.rs     |   414 +
- .../src/unix/linux_like/l4re/uclibc/mod.rs    |   538 +
- .../unix/linux_like/l4re/uclibc/x86_64/mod.rs |   416 +
- .../unix/linux_like/linux/arch/generic/mod.rs |   336 +
- .../unix/linux_like/linux/arch/mips/mod.rs    |   335 +
- .../src/unix/linux_like/linux/arch/mod.rs     |    20 +
- .../unix/linux_like/linux/arch/powerpc/mod.rs |   282 +
- .../unix/linux_like/linux/arch/sparc/mod.rs   |   249 +
- .../unix/linux_like/linux/gnu/b32/arm/mod.rs  |   907 ++
- .../unix/linux_like/linux/gnu/b32/csky/mod.rs |   748 +
- .../unix/linux_like/linux/gnu/b32/m68k/mod.rs |   885 ++
- .../unix/linux_like/linux/gnu/b32/mips/mod.rs |   928 ++
- .../src/unix/linux_like/linux/gnu/b32/mod.rs  |   491 +
- .../unix/linux_like/linux/gnu/b32/powerpc.rs  |   895 ++
- .../linux_like/linux/gnu/b32/riscv32/mod.rs   |   811 ++
- .../linux_like/linux/gnu/b32/sparc/mod.rs     |   868 ++
- .../unix/linux_like/linux/gnu/b32/x86/mod.rs  |  1035 ++
- .../linux_like/linux/gnu/b64/aarch64/ilp32.rs |    54 +
- .../linux_like/linux/gnu/b64/aarch64/lp64.rs  |    57 +
- .../linux_like/linux/gnu/b64/aarch64/mod.rs   |   976 ++
- .../linux/gnu/b64/loongarch64/mod.rs          |   925 ++
- .../linux_like/linux/gnu/b64/mips64/mod.rs    |   934 ++
- .../src/unix/linux_like/linux/gnu/b64/mod.rs  |   213 +
- .../linux_like/linux/gnu/b64/powerpc64/mod.rs |  1062 ++
- .../linux_like/linux/gnu/b64/riscv64/mod.rs   |   918 ++
- .../unix/linux_like/linux/gnu/b64/s390x.rs    |   958 ++
- .../linux_like/linux/gnu/b64/sparc64/mod.rs   |   934 ++
- .../linux_like/linux/gnu/b64/x86_64/mod.rs    |   743 +
- .../linux/gnu/b64/x86_64/not_x32.rs           |   446 +
- .../linux_like/linux/gnu/b64/x86_64/x32.rs    |   398 +
- .../libc/src/unix/linux_like/linux/gnu/mod.rs |  1283 ++
- .../libc/src/unix/linux_like/linux/mod.rs     |  4436 ++++++
- .../unix/linux_like/linux/musl/b32/arm/mod.rs |   832 ++
- .../unix/linux_like/linux/musl/b32/hexagon.rs |   719 +
- .../linux_like/linux/musl/b32/mips/mod.rs     |   878 ++
- .../src/unix/linux_like/linux/musl/b32/mod.rs |    49 +
- .../unix/linux_like/linux/musl/b32/powerpc.rs |   835 ++
- .../linux_like/linux/musl/b32/riscv32/mod.rs  |   645 +
- .../unix/linux_like/linux/musl/b32/x86/mod.rs |   878 ++
- .../linux_like/linux/musl/b64/aarch64/mod.rs  |   689 +
- .../linux/musl/b64/loongarch64/mod.rs         |   643 +
- .../unix/linux_like/linux/musl/b64/mips64.rs  |   683 +
- .../src/unix/linux_like/linux/musl/b64/mod.rs |    88 +
- .../linux_like/linux/musl/b64/powerpc64.rs    |   730 +
- .../linux_like/linux/musl/b64/riscv64/mod.rs  |   649 +
- .../unix/linux_like/linux/musl/b64/s390x.rs   |   734 +
- .../linux_like/linux/musl/b64/wasm32/mod.rs   |   666 +
- .../linux_like/linux/musl/b64/wasm32/wali.rs  |   441 +
- .../linux_like/linux/musl/b64/x86_64/mod.rs   |   833 ++
- .../src/unix/linux_like/linux/musl/lfs64.rs   |   242 +
- .../src/unix/linux_like/linux/musl/mod.rs     |   914 ++
- .../unix/linux_like/linux/uclibc/arm/mod.rs   |   925 ++
- .../linux/uclibc/mips/mips32/mod.rs           |   695 +
- .../linux/uclibc/mips/mips64/mod.rs           |   204 +
- .../unix/linux_like/linux/uclibc/mips/mod.rs  |   312 +
- .../src/unix/linux_like/linux/uclibc/mod.rs   |   509 +
- .../linux_like/linux/uclibc/x86_64/mod.rs     |   346 +
- .../src/unix/linux_like/linux_l4re_shared.rs  |  1997 +++
- .../vendor/libc/src/unix/linux_like/mod.rs    |  2211 +++
- scripts/kconfirm/vendor/libc/src/unix/mod.rs  |  2500 ++++
- .../libc/src/unix/newlib/aarch64/mod.rs       |    56 +
- .../vendor/libc/src/unix/newlib/arm/mod.rs    |    58 +
- .../vendor/libc/src/unix/newlib/espidf/mod.rs |   137 +
- .../vendor/libc/src/unix/newlib/generic.rs    |    39 +
- .../libc/src/unix/newlib/horizon/mod.rs       |   281 +
- .../vendor/libc/src/unix/newlib/mod.rs        |   977 ++
- .../libc/src/unix/newlib/powerpc/mod.rs       |    18 +
- .../vendor/libc/src/unix/newlib/rtems/mod.rs  |   144 +
- .../vendor/libc/src/unix/newlib/vita/mod.rs   |   233 +
- .../vendor/libc/src/unix/nto/aarch64.rs       |    35 +
- .../kconfirm/vendor/libc/src/unix/nto/mod.rs  |  3216 ++++
- .../vendor/libc/src/unix/nto/neutrino.rs      |  1270 ++
- .../vendor/libc/src/unix/nto/x86_64.rs        |   111 +
- .../vendor/libc/src/unix/nuttx/mod.rs         |   594 +
- .../vendor/libc/src/unix/redox/mod.rs         |  1433 ++
- .../vendor/libc/src/unix/solarish/compat.rs   |   222 +
- .../vendor/libc/src/unix/solarish/illumos.rs  |   292 +
- .../vendor/libc/src/unix/solarish/mod.rs      |  3049 ++++
- .../vendor/libc/src/unix/solarish/solaris.rs  |   204 +
- .../vendor/libc/src/unix/solarish/x86.rs      |    31 +
- .../vendor/libc/src/unix/solarish/x86_64.rs   |   154 +
- .../libc/src/unix/solarish/x86_common.rs      |    69 +
- .../vendor/libc/src/vxworks/aarch64.rs        |     1 +
- .../kconfirm/vendor/libc/src/vxworks/arm.rs   |     1 +
- .../kconfirm/vendor/libc/src/vxworks/mod.rs   |  2477 ++++
- .../vendor/libc/src/vxworks/powerpc.rs        |     1 +
- .../vendor/libc/src/vxworks/powerpc64.rs      |     1 +
- .../vendor/libc/src/vxworks/riscv32.rs        |     1 +
- .../vendor/libc/src/vxworks/riscv64.rs        |     1 +
- .../kconfirm/vendor/libc/src/vxworks/x86.rs   |     1 +
- .../vendor/libc/src/vxworks/x86_64.rs         |     1 +
- scripts/kconfirm/vendor/libc/src/wasi/mod.rs  |  1098 ++
- scripts/kconfirm/vendor/libc/src/wasi/p2.rs   |   188 +
- .../vendor/libc/src/windows/gnu/mod.rs        |    35 +
- .../kconfirm/vendor/libc/src/windows/mod.rs   |   612 +
- .../vendor/libc/src/windows/msvc/mod.rs       |    14 +
- scripts/kconfirm/vendor/libc/src/xous.rs      |    18 +
- .../kconfirm/vendor/linux-raw-sys/Cargo.toml  |    73 +
- .../kconfirm/vendor/linux-raw-sys/src/lib.rs  |     0
- scripts/kconfirm/vendor/log/CHANGELOG.md      |   423 +
- scripts/kconfirm/vendor/log/Cargo.lock        |   283 +
- scripts/kconfirm/vendor/log/Cargo.toml        |   152 +
- scripts/kconfirm/vendor/log/Cargo.toml.orig   |    76 +
- scripts/kconfirm/vendor/log/LICENSE-APACHE    |   201 +
- scripts/kconfirm/vendor/log/LICENSE-MIT       |    25 +
- scripts/kconfirm/vendor/log/README.md         |   134 +
- scripts/kconfirm/vendor/log/benches/value.rs  |    27 +
- .../kconfirm/vendor/log/src/__private_api.rs  |   151 +
- scripts/kconfirm/vendor/log/src/kv/error.rs   |    94 +
- scripts/kconfirm/vendor/log/src/kv/key.rs     |   164 +
- scripts/kconfirm/vendor/log/src/kv/mod.rs     |   265 +
- scripts/kconfirm/vendor/log/src/kv/source.rs  |   515 +
- scripts/kconfirm/vendor/log/src/kv/value.rs   |  1396 ++
- scripts/kconfirm/vendor/log/src/lib.rs        |  2010 +++
- scripts/kconfirm/vendor/log/src/macros.rs     |   579 +
- scripts/kconfirm/vendor/log/src/serde.rs      |   397 +
- scripts/kconfirm/vendor/log/triagebot.toml    |     1 +
- scripts/kconfirm/vendor/memchr/COPYING        |     3 +
- scripts/kconfirm/vendor/memchr/Cargo.lock     |    80 +
- scripts/kconfirm/vendor/memchr/Cargo.toml     |    89 +
- .../kconfirm/vendor/memchr/Cargo.toml.orig    |    78 +
- scripts/kconfirm/vendor/memchr/LICENSE-MIT    |    21 +
- scripts/kconfirm/vendor/memchr/README.md      |   196 +
- scripts/kconfirm/vendor/memchr/UNLICENSE      |    24 +
- scripts/kconfirm/vendor/memchr/rustfmt.toml   |     2 +
- .../vendor/memchr/src/arch/aarch64/memchr.rs  |   137 +
- .../vendor/memchr/src/arch/aarch64/mod.rs     |     7 +
- .../memchr/src/arch/aarch64/neon/memchr.rs    |  1031 ++
- .../memchr/src/arch/aarch64/neon/mod.rs       |     6 +
- .../src/arch/aarch64/neon/packedpair.rs       |   236 +
- .../vendor/memchr/src/arch/all/memchr.rs      |  1022 ++
- .../vendor/memchr/src/arch/all/mod.rs         |   234 +
- .../src/arch/all/packedpair/default_rank.rs   |   258 +
- .../memchr/src/arch/all/packedpair/mod.rs     |   359 +
- .../vendor/memchr/src/arch/all/rabinkarp.rs   |   390 +
- .../vendor/memchr/src/arch/all/shiftor.rs     |    89 +
- .../vendor/memchr/src/arch/all/twoway.rs      |   877 ++
- .../vendor/memchr/src/arch/generic/memchr.rs  |  1214 ++
- .../vendor/memchr/src/arch/generic/mod.rs     |    14 +
- .../memchr/src/arch/generic/packedpair.rs     |   317 +
- .../kconfirm/vendor/memchr/src/arch/mod.rs    |    16 +
- .../vendor/memchr/src/arch/wasm32/memchr.rs   |   124 +
- .../vendor/memchr/src/arch/wasm32/mod.rs      |     7 +
- .../memchr/src/arch/wasm32/simd128/memchr.rs  |  1020 ++
- .../memchr/src/arch/wasm32/simd128/mod.rs     |     6 +
- .../src/arch/wasm32/simd128/packedpair.rs     |   228 +
- .../memchr/src/arch/x86_64/avx2/memchr.rs     |  1352 ++
- .../vendor/memchr/src/arch/x86_64/avx2/mod.rs |     6 +
- .../memchr/src/arch/x86_64/avx2/packedpair.rs |   272 +
- .../vendor/memchr/src/arch/x86_64/memchr.rs   |   335 +
- .../vendor/memchr/src/arch/x86_64/mod.rs      |     8 +
- .../memchr/src/arch/x86_64/sse2/memchr.rs     |  1077 ++
- .../vendor/memchr/src/arch/x86_64/sse2/mod.rs |     6 +
- .../memchr/src/arch/x86_64/sse2/packedpair.rs |   232 +
- scripts/kconfirm/vendor/memchr/src/cow.rs     |   109 +
- scripts/kconfirm/vendor/memchr/src/ext.rs     |    54 +
- scripts/kconfirm/vendor/memchr/src/lib.rs     |   221 +
- scripts/kconfirm/vendor/memchr/src/macros.rs  |    20 +
- scripts/kconfirm/vendor/memchr/src/memchr.rs  |   903 ++
- .../kconfirm/vendor/memchr/src/memmem/mod.rs  |   776 +
- .../vendor/memchr/src/memmem/searcher.rs      |  1030 ++
- .../vendor/memchr/src/tests/memchr/mod.rs     |   307 +
- .../vendor/memchr/src/tests/memchr/naive.rs   |    33 +
- .../vendor/memchr/src/tests/memchr/prop.rs    |   323 +
- .../kconfirm/vendor/memchr/src/tests/mod.rs   |    15 +
- .../vendor/memchr/src/tests/packedpair.rs     |   216 +
- .../vendor/memchr/src/tests/substring/mod.rs  |   232 +
- .../memchr/src/tests/substring/naive.rs       |    45 +
- .../vendor/memchr/src/tests/substring/prop.rs |   126 +
- scripts/kconfirm/vendor/memchr/src/vector.rs  |   501 +
- scripts/kconfirm/vendor/native-tls/Cargo.lock |   668 +
- scripts/kconfirm/vendor/native-tls/Cargo.toml |    94 +
- .../vendor/native-tls/Cargo.toml.orig         |    47 +
- .../kconfirm/vendor/native-tls/LICENSE-APACHE |   202 +
- .../kconfirm/vendor/native-tls/LICENSE-MIT    |    19 +
- scripts/kconfirm/vendor/native-tls/README.md  |   107 +
- scripts/kconfirm/vendor/native-tls/build.rs   |    29 +
- .../vendor/native-tls/src/imp/openssl.rs      |   521 +
- .../vendor/native-tls/src/imp/schannel.rs     |   579 +
- .../native-tls/src/imp/security_framework.rs  |   649 +
- scripts/kconfirm/vendor/native-tls/src/lib.rs |   747 +
- .../kconfirm/vendor/native-tls/src/test.rs    |   662 +
- .../kconfirm/vendor/nom-kconfig/CHANGELOG.md  |   221 +
- .../kconfirm/vendor/nom-kconfig/Cargo.lock    |  2355 +++
- .../kconfirm/vendor/nom-kconfig/Cargo.toml    |   157 +
- .../vendor/nom-kconfig/Cargo.toml.orig        |    65 +
- scripts/kconfirm/vendor/nom-kconfig/LICENSE   |    21 +
- scripts/kconfirm/vendor/nom-kconfig/README.md |    81 +
- .../kbuild/Kconfig.recursion-issue-01         |    57 +
- .../kbuild/Kconfig.recursion-issue-02         |    63 +
- .../Documentation/kbuild/Kconfig.select-break |    33 +
- .../linux-6.4.10/arch/alpha/Kconfig.debug     |    38 +
- .../linux-6.4.10/arch/arc/Kconfig.debug       |    10 +
- .../linux-6.4.10/arch/arm/Kconfig-nommu       |    66 +
- .../linux-6.4.10/arch/arm/Kconfig.assembler   |     6 +
- .../linux-6.4.10/arch/arm/Kconfig.debug       |  1854 +++
- .../arch/arm/mach-s3c/Kconfig.s3c64xx         |   144 +
- .../linux-6.4.10/arch/arm64/Kconfig.debug     |    23 +
- .../linux-6.4.10/arch/arm64/Kconfig.platforms |   355 +
- .../linux-6.4.10/arch/csky/Kconfig.debug      |     2 +
- .../linux-6.4.10/arch/csky/Kconfig.platforms  |     9 +
- .../linux-6.4.10/arch/hexagon/Kconfig.debug   |     2 +
- .../linux-6.4.10/arch/ia64/Kconfig.debug      |    55 +
- .../linux-6.4.10/arch/loongarch/Kconfig.debug |    29 +
- .../linux-6.4.10/arch/m68k/Kconfig.bus        |    61 +
- .../linux-6.4.10/arch/m68k/Kconfig.cpu        |   537 +
- .../linux-6.4.10/arch/m68k/Kconfig.debug      |    45 +
- .../linux-6.4.10/arch/m68k/Kconfig.devices    |   146 +
- .../linux-6.4.10/arch/m68k/Kconfig.machine    |   479 +
- .../arch/microblaze/Kconfig.debug             |     1 +
- .../arch/microblaze/Kconfig.platform          |    71 +
- .../linux-6.4.10/arch/mips/Kconfig.debug      |   166 +
- .../linux-6.4.10/arch/nios2/Kconfig.debug     |    12 +
- .../arch/nios2/platform/Kconfig.platform      |   148 +
- .../linux-6.4.10/arch/openrisc/Kconfig.debug  |     2 +
- .../linux-6.4.10/arch/parisc/Kconfig.debug    |    12 +
- .../linux-6.4.10/arch/powerpc/Kconfig.debug   |   393 +
- .../arch/powerpc/platforms/Kconfig.cputype    |   638 +
- .../linux-6.4.10/arch/riscv/Kconfig.debug     |     0
- .../linux-6.4.10/arch/riscv/Kconfig.errata    |    80 +
- .../linux-6.4.10/arch/riscv/Kconfig.socs      |   106 +
- .../linux-6.4.10/arch/s390/Kconfig.debug      |    22 +
- .../benches/linux-6.4.10/arch/sh/Kconfig.cpu  |   100 +
- .../linux-6.4.10/arch/sh/Kconfig.debug        |    78 +
- .../linux-6.4.10/arch/sparc/Kconfig.debug     |    16 +
- .../linux-6.4.10/arch/um/Kconfig.debug        |    38 +
- .../linux-6.4.10/arch/x86/Kconfig.assembler   |    26 +
- .../benches/linux-6.4.10/arch/x86/Kconfig.cpu |   519 +
- .../linux-6.4.10/arch/x86/Kconfig.debug       |   277 +
- .../linux-6.4.10/arch/xtensa/Kconfig.debug    |    40 +
- .../linux-6.4.10/block/Kconfig.iosched        |    47 +
- .../linux-6.4.10/drivers/cpufreq/Kconfig.arm  |   287 +
- .../drivers/cpufreq/Kconfig.powerpc           |    56 +
- .../linux-6.4.10/drivers/cpufreq/Kconfig.x86  |   324 +
- .../linux-6.4.10/drivers/cpuidle/Kconfig.arm  |   132 +
- .../linux-6.4.10/drivers/cpuidle/Kconfig.mips |    18 +
- .../drivers/cpuidle/Kconfig.powerpc           |    21 +
- .../drivers/cpuidle/Kconfig.riscv             |    15 +
- .../drivers/gpu/drm/i915/Kconfig.debug        |   241 +
- .../drivers/gpu/drm/i915/Kconfig.profile      |   139 +
- .../drivers/scsi/aic7xxx/Kconfig.aic79xx      |    86 +
- .../drivers/scsi/aic7xxx/Kconfig.aic7xxx      |    91 +
- .../drivers/scsi/megaraid/Kconfig.megaraid    |    87 +
- .../benches/linux-6.4.10/fs/Kconfig.binfmt    |   179 +
- .../linux-6.4.10/kernel/Kconfig.freezer       |     3 +
- .../benches/linux-6.4.10/kernel/Kconfig.hz    |    59 +
- .../benches/linux-6.4.10/kernel/Kconfig.locks |   261 +
- .../linux-6.4.10/kernel/Kconfig.preempt       |   136 +
- .../linux-6.4.10/kernel/rcu/Kconfig.debug     |   146 +
- .../benches/linux-6.4.10/lib/Kconfig.debug    |  2916 ++++
- .../benches/linux-6.4.10/lib/Kconfig.kasan    |   210 +
- .../benches/linux-6.4.10/lib/Kconfig.kcsan    |   257 +
- .../benches/linux-6.4.10/lib/Kconfig.kfence   |    99 +
- .../benches/linux-6.4.10/lib/Kconfig.kgdb     |   165 +
- .../benches/linux-6.4.10/lib/Kconfig.kmsan    |    63 +
- .../benches/linux-6.4.10/lib/Kconfig.ubsan    |   150 +
- .../benches/linux-6.4.10/mm/Kconfig.debug     |   286 +
- .../benches/linux-6.4.10/net/Kconfig.debug    |    26 +
- .../linux-6.4.10/scripts/Kconfig.include      |    65 +
- .../linux-6.4.10/security/Kconfig.hardening   |   358 +
- .../nom-kconfig/benches/my_benchmark.rs       |    69 +
- scripts/kconfirm/vendor/nom-kconfig/deny.toml |   235 +
- .../kconfirm/vendor/nom-kconfig/doc/tux.svg   |     1 +
- .../examples/download_and_parse.rs            |   143 +
- .../examples/kconfig-project/Dockerfile       |     9 +
- .../examples/kconfig-project/Makefile         |     7 +
- .../nom-kconfig/examples/parse_coreboot.rs    |    17 +
- .../vendor/nom-kconfig/examples/parse_file.rs |    51 +
- .../nom-kconfig/examples/parse_linux.rs       |    20 +
- .../nom-kconfig/examples/parse_linux_next.rs  |    51 +
- .../nom-kconfig/examples/parse_openwrt.rs     |    17 +
- .../nom-kconfig/examples/parse_uboot.rs       |    12 +
- .../vendor/nom-kconfig/examples/parsing.rs    |    94 +
- .../vendor/nom-kconfig/examples/read_file.rs  |    45 +
- .../examples/read_kernel_directory.rs         |    47 +
- .../vendor/nom-kconfig/examples/utils.rs      |    55 +
- .../nom-kconfig/src/attribute/default.rs      |    78 +
- .../nom-kconfig/src/attribute/default_test.rs |   165 +
- .../nom-kconfig/src/attribute/depends_on.rs   |    45 +
- .../src/attribute/depends_on_test.rs          |    94 +
- .../src/attribute/expression/atom.rs          |    52 +
- .../src/attribute/expression/compare.rs       |   118 +
- .../src/attribute/expression/mod.rs           |   142 +
- .../src/attribute/expression/mod_test.rs      |   443 +
- .../src/attribute/expression/term.rs          |    42 +
- .../nom-kconfig/src/attribute/function.rs     |   233 +
- .../src/attribute/function_test.rs            |   330 +
- .../vendor/nom-kconfig/src/attribute/help.rs  |   345 +
- .../nom-kconfig/src/attribute/help_test.rs    |   222 +
- .../vendor/nom-kconfig/src/attribute/imply.rs |    68 +
- .../nom-kconfig/src/attribute/imply_test.rs   |    42 +
- .../vendor/nom-kconfig/src/attribute/mod.rs   |   158 +
- .../nom-kconfig/src/attribute/mod_test.rs     |   243 +
- .../nom-kconfig/src/attribute/modules.rs      |    15 +
- .../nom-kconfig/src/attribute/modules_test.rs |     6 +
- .../nom-kconfig/src/attribute/option.rs       |    74 +
- .../nom-kconfig/src/attribute/option_test.rs  |    42 +
- .../nom-kconfig/src/attribute/optional.rs     |    15 +
- .../src/attribute/optional_test.rs            |     6 +
- .../nom-kconfig/src/attribute/prompt.rs       |    87 +
- .../nom-kconfig/src/attribute/prompt_test.rs  |    66 +
- .../vendor/nom-kconfig/src/attribute/range.rs |   116 +
- .../nom-kconfig/src/attribute/range_test.rs   |    81 +
- .../nom-kconfig/src/attribute/requires.rs     |    33 +
- .../src/attribute/requires_test.rs            |    39 +
- .../nom-kconfig/src/attribute/select.rs       |    68 +
- .../nom-kconfig/src/attribute/select_test.rs  |    59 +
- .../nom-kconfig/src/attribute/string.rs       |    49 +
- .../nom-kconfig/src/attribute/transitional.rs |    15 +
- .../src/attribute/transitional_test.rs        |     6 +
- .../vendor/nom-kconfig/src/attribute/type.rs  |   121 +
- .../nom-kconfig/src/attribute/type_test.rs    |   260 +
- .../nom-kconfig/src/attribute/visible.rs      |    19 +
- .../nom-kconfig/src/attribute/visible_test.rs |     6 +
- .../vendor/nom-kconfig/src/entry/choice.rs    |   107 +
- .../nom-kconfig/src/entry/choice_test.rs      |   168 +
- .../vendor/nom-kconfig/src/entry/comment.rs   |    36 +
- .../nom-kconfig/src/entry/comment_test.rs     |    39 +
- .../vendor/nom-kconfig/src/entry/config.rs    |    71 +
- .../nom-kconfig/src/entry/config_test.rs      |   169 +
- .../vendor/nom-kconfig/src/entry/function.rs  |    42 +
- .../nom-kconfig/src/entry/function_test.rs    |    19 +
- .../vendor/nom-kconfig/src/entry/if.rs        |    63 +
- .../vendor/nom-kconfig/src/entry/if_test.rs   |    70 +
- .../vendor/nom-kconfig/src/entry/main_menu.rs |    26 +
- .../nom-kconfig/src/entry/main_menu_test.rs   |    19 +
- .../vendor/nom-kconfig/src/entry/menu.rs      |    76 +
- .../vendor/nom-kconfig/src/entry/menu_test.rs |    68 +
- .../nom-kconfig/src/entry/menuconfig.rs       |    12 +
- .../nom-kconfig/src/entry/menuconfig_test.rs  |    31 +
- .../vendor/nom-kconfig/src/entry/mod.rs       |   102 +
- .../vendor/nom-kconfig/src/entry/mod_test.rs  |   223 +
- .../vendor/nom-kconfig/src/entry/source.rs    |   187 +
- .../nom-kconfig/src/entry/source_test.rs      |   134 +
- .../vendor/nom-kconfig/src/entry/variable.rs  |    89 +
- .../nom-kconfig/src/entry/variable_test.rs    |    97 +
- .../vendor/nom-kconfig/src/kconfig.rs         |    52 +
- .../vendor/nom-kconfig/src/kconfig_test.rs    |   134 +
- .../kconfirm/vendor/nom-kconfig/src/lib.rs    |   123 +
- .../vendor/nom-kconfig/src/lib_test.rs        |   238 +
- .../kconfirm/vendor/nom-kconfig/src/number.rs |    24 +
- .../kconfirm/vendor/nom-kconfig/src/string.rs |    65 +
- .../kconfirm/vendor/nom-kconfig/src/symbol.rs |   207 +
- .../vendor/nom-kconfig/src/symbol_test.rs     |   119 +
- .../vendor/nom-kconfig/src/tristate.rs        |    27 +
- .../kconfirm/vendor/nom-kconfig/src/util.rs   |   108 +
- .../vendor/nom-kconfig/src/util_test.rs       |    15 +
- scripts/kconfirm/vendor/nom/CHANGELOG.md      |  1607 ++
- scripts/kconfirm/vendor/nom/Cargo.lock        |   382 +
- scripts/kconfirm/vendor/nom/Cargo.toml        |   166 +
- scripts/kconfirm/vendor/nom/Cargo.toml.orig   |   149 +
- scripts/kconfirm/vendor/nom/LICENSE           |    20 +
- scripts/kconfirm/vendor/nom/README.md         |   345 +
- .../kconfirm/vendor/nom/doc/nom_recipes.md    |   401 +
- .../kconfirm/vendor/nom/src/bits/complete.rs  |   195 +
- scripts/kconfirm/vendor/nom/src/bits/mod.rs   |   174 +
- .../kconfirm/vendor/nom/src/bits/streaming.rs |   170 +
- scripts/kconfirm/vendor/nom/src/branch/mod.rs |   372 +
- .../kconfirm/vendor/nom/src/branch/tests.rs   |   178 +
- .../kconfirm/vendor/nom/src/bytes/complete.rs |   566 +
- scripts/kconfirm/vendor/nom/src/bytes/mod.rs  |  1044 ++
- .../vendor/nom/src/bytes/streaming.rs         |   499 +
- .../kconfirm/vendor/nom/src/bytes/tests.rs    |   646 +
- .../vendor/nom/src/character/complete.rs      |  1303 ++
- .../kconfirm/vendor/nom/src/character/mod.rs  |   402 +
- .../vendor/nom/src/character/streaming.rs     |  1256 ++
- .../vendor/nom/src/character/tests.rs         |    62 +
- .../kconfirm/vendor/nom/src/combinator/mod.rs |  1044 ++
- .../vendor/nom/src/combinator/tests.rs        |   284 +
- scripts/kconfirm/vendor/nom/src/error.rs      |   802 +
- scripts/kconfirm/vendor/nom/src/internal.rs   |   859 ++
- scripts/kconfirm/vendor/nom/src/lib.rs        |   460 +
- scripts/kconfirm/vendor/nom/src/macros.rs     |    23 +
- scripts/kconfirm/vendor/nom/src/multi/mod.rs  |  1870 +++
- .../kconfirm/vendor/nom/src/multi/tests.rs    |   859 ++
- .../vendor/nom/src/number/complete.rs         |  1970 +++
- scripts/kconfirm/vendor/nom/src/number/mod.rs |  1482 ++
- .../vendor/nom/src/number/streaming.rs        |  2066 +++
- .../kconfirm/vendor/nom/src/sequence/mod.rs   |   321 +
- .../kconfirm/vendor/nom/src/sequence/tests.rs |   283 +
- scripts/kconfirm/vendor/nom/src/str.rs        |   526 +
- scripts/kconfirm/vendor/nom/src/traits.rs     |  1681 +++
- .../kconfirm/vendor/nom_locate/CHANGELOG.md   |   141 +
- scripts/kconfirm/vendor/nom_locate/Cargo.lock |    40 +
- scripts/kconfirm/vendor/nom_locate/Cargo.toml |    60 +
- .../vendor/nom_locate/Cargo.toml.orig         |    31 +
- scripts/kconfirm/vendor/nom_locate/FAQ.md     |    24 +
- scripts/kconfirm/vendor/nom_locate/LICENSE    |    19 +
- scripts/kconfirm/vendor/nom_locate/README.md  |   134 +
- .../vendor/nom_locate/benches/benches.rs      |   157 +
- .../vendor/nom_locate/examples/position.rs    |    45 +
- scripts/kconfirm/vendor/nom_locate/src/lib.rs |   772 +
- .../kconfirm/vendor/nom_locate/src/tests.rs   |   583 +
- .../kconfirm/vendor/once_cell/CHANGELOG.md    |   263 +
- scripts/kconfirm/vendor/once_cell/Cargo.lock  |   179 +
- scripts/kconfirm/vendor/once_cell/Cargo.toml  |   119 +
- .../kconfirm/vendor/once_cell/Cargo.toml.orig |    92 +
- .../kconfirm/vendor/once_cell/LICENSE-APACHE  |   201 +
- scripts/kconfirm/vendor/once_cell/LICENSE-MIT |    23 +
- scripts/kconfirm/vendor/once_cell/README.md   |    57 +
- scripts/kconfirm/vendor/once_cell/bors.toml   |     2 +
- .../vendor/once_cell/examples/bench.rs        |    28 +
- .../once_cell/examples/bench_acquire.rs       |    39 +
- .../vendor/once_cell/examples/lazy_static.rs  |    36 +
- .../examples/reentrant_init_deadlocks.rs      |    14 +
- .../vendor/once_cell/examples/regex.rs        |    49 +
- .../examples/test_synchronization.rs          |    38 +
- .../kconfirm/vendor/once_cell/src/imp_cs.rs   |    78 +
- .../kconfirm/vendor/once_cell/src/imp_pl.rs   |   176 +
- .../kconfirm/vendor/once_cell/src/imp_std.rs  |   415 +
- scripts/kconfirm/vendor/once_cell/src/lib.rs  |  1422 ++
- scripts/kconfirm/vendor/once_cell/src/race.rs |   498 +
- .../vendor/once_cell_polyfill/Cargo.toml      |   137 +
- .../vendor/once_cell_polyfill/src/lib.rs      |     0
- .../kconfirm/vendor/openssl-macros/Cargo.toml |    30 +
- .../vendor/openssl-macros/Cargo.toml.orig     |    14 +
- .../vendor/openssl-macros/LICENSE-APACHE      |   202 +
- .../vendor/openssl-macros/LICENSE-MIT         |    19 +
- .../kconfirm/vendor/openssl-macros/src/lib.rs |    32 +
- .../kconfirm/vendor/openssl-probe/Cargo.lock  |     7 +
- .../kconfirm/vendor/openssl-probe/Cargo.toml  |    39 +
- .../vendor/openssl-probe/Cargo.toml.orig      |    17 +
- .../vendor/openssl-probe/LICENSE-APACHE       |   201 +
- .../kconfirm/vendor/openssl-probe/LICENSE-MIT |    25 +
- .../kconfirm/vendor/openssl-probe/README.md   |    35 +
- .../kconfirm/vendor/openssl-probe/deny.toml   |     2 +
- .../vendor/openssl-probe/examples/probe.rs    |     6 +
- .../kconfirm/vendor/openssl-probe/src/lib.rs  |   225 +
- .../kconfirm/vendor/openssl-sys/CHANGELOG.md  |   817 ++
- .../kconfirm/vendor/openssl-sys/Cargo.lock    |   395 +
- .../kconfirm/vendor/openssl-sys/Cargo.toml    |    87 +
- .../vendor/openssl-sys/Cargo.toml.orig        |    39 +
- .../kconfirm/vendor/openssl-sys/LICENSE-MIT   |    25 +
- scripts/kconfirm/vendor/openssl-sys/README.md |    22 +
- .../kconfirm/vendor/openssl-sys/build/cfgs.rs |   102 +
- .../vendor/openssl-sys/build/expando.c        |   158 +
- .../vendor/openssl-sys/build/find_normal.rs   |   288 +
- .../vendor/openssl-sys/build/find_vendored.rs |    25 +
- .../kconfirm/vendor/openssl-sys/build/main.rs |   551 +
- .../vendor/openssl-sys/build/run_bindgen.rs   |   441 +
- .../kconfirm/vendor/openssl-sys/src/aes.rs    |    10 +
- .../kconfirm/vendor/openssl-sys/src/asn1.rs   |    39 +
- .../kconfirm/vendor/openssl-sys/src/bio.rs    |   110 +
- scripts/kconfirm/vendor/openssl-sys/src/bn.rs |    15 +
- .../kconfirm/vendor/openssl-sys/src/cms.rs    |    24 +
- .../vendor/openssl-sys/src/core_dispatch.rs   |    11 +
- .../kconfirm/vendor/openssl-sys/src/crypto.rs |   125 +
- scripts/kconfirm/vendor/openssl-sys/src/dh.rs |    32 +
- .../kconfirm/vendor/openssl-sys/src/dsa.rs    |    21 +
- .../kconfirm/vendor/openssl-sys/src/dtls1.rs  |     9 +
- scripts/kconfirm/vendor/openssl-sys/src/ec.rs |    27 +
- .../kconfirm/vendor/openssl-sys/src/err.rs    |    66 +
- .../kconfirm/vendor/openssl-sys/src/evp.rs    |   368 +
- .../vendor/openssl-sys/src/handwritten/aes.rs |    43 +
- .../openssl-sys/src/handwritten/asn1.rs       |   120 +
- .../vendor/openssl-sys/src/handwritten/bio.rs |   134 +
- .../vendor/openssl-sys/src/handwritten/bn.rs  |   158 +
- .../openssl-sys/src/handwritten/cmac.rs       |    20 +
- .../vendor/openssl-sys/src/handwritten/cms.rs |    57 +
- .../openssl-sys/src/handwritten/conf.rs       |    13 +
- .../openssl-sys/src/handwritten/crypto.rs     |    76 +
- .../openssl-sys/src/handwritten/decoder.rs    |    53 +
- .../vendor/openssl-sys/src/handwritten/dh.rs  |    55 +
- .../vendor/openssl-sys/src/handwritten/dsa.rs |    77 +
- .../vendor/openssl-sys/src/handwritten/ec.rs  |   283 +
- .../openssl-sys/src/handwritten/encoder.rs    |    57 +
- .../vendor/openssl-sys/src/handwritten/err.rs |    59 +
- .../vendor/openssl-sys/src/handwritten/evp.rs |   883 ++
- .../openssl-sys/src/handwritten/hmac.rs       |    24 +
- .../vendor/openssl-sys/src/handwritten/kdf.rs |    35 +
- .../vendor/openssl-sys/src/handwritten/mod.rs |    87 +
- .../openssl-sys/src/handwritten/object.rs     |    28 +
- .../openssl-sys/src/handwritten/ocsp.rs       |    87 +
- .../openssl-sys/src/handwritten/params.rs     |    99 +
- .../vendor/openssl-sys/src/handwritten/pem.rs |   196 +
- .../openssl-sys/src/handwritten/pkcs12.rs     |    53 +
- .../openssl-sys/src/handwritten/pkcs7.rs      |   257 +
- .../openssl-sys/src/handwritten/poly1305.rs   |    23 +
- .../openssl-sys/src/handwritten/provider.rs   |    20 +
- .../openssl-sys/src/handwritten/rand.rs       |    15 +
- .../vendor/openssl-sys/src/handwritten/rsa.rs |   122 +
- .../openssl-sys/src/handwritten/safestack.rs  |     1 +
- .../vendor/openssl-sys/src/handwritten/sha.rs |   102 +
- .../openssl-sys/src/handwritten/srtp.rs       |    10 +
- .../vendor/openssl-sys/src/handwritten/ssl.rs |   814 ++
- .../openssl-sys/src/handwritten/stack.rs      |    47 +
- .../openssl-sys/src/handwritten/thread.rs     |     7 +
- .../openssl-sys/src/handwritten/tls1.rs       |    29 +
- .../openssl-sys/src/handwritten/types.rs      |   206 +
- .../openssl-sys/src/handwritten/x509.rs       |   666 +
- .../openssl-sys/src/handwritten/x509_vfy.rs   |   122 +
- .../openssl-sys/src/handwritten/x509v3.rs     |   169 +
- .../kconfirm/vendor/openssl-sys/src/lib.rs    |   204 +
- .../kconfirm/vendor/openssl-sys/src/macros.rs |   280 +
- .../vendor/openssl-sys/src/obj_mac.rs         |  1049 ++
- .../kconfirm/vendor/openssl-sys/src/ocsp.rs   |    35 +
- .../kconfirm/vendor/openssl-sys/src/pem.rs    |     3 +
- .../kconfirm/vendor/openssl-sys/src/pkcs7.rs  |    20 +
- .../kconfirm/vendor/openssl-sys/src/rsa.rs    |   119 +
- .../kconfirm/vendor/openssl-sys/src/sha.rs    |   104 +
- .../kconfirm/vendor/openssl-sys/src/srtp.rs   |    14 +
- .../kconfirm/vendor/openssl-sys/src/ssl.rs    |   719 +
- .../kconfirm/vendor/openssl-sys/src/ssl3.rs   |     5 +
- .../kconfirm/vendor/openssl-sys/src/tls1.rs   |   112 +
- .../kconfirm/vendor/openssl-sys/src/types.rs  |     9 +
- .../kconfirm/vendor/openssl-sys/src/x509.rs   |     7 +
- .../vendor/openssl-sys/src/x509_vfy.rs        |   138 +
- .../kconfirm/vendor/openssl-sys/src/x509v3.rs |   106 +
- scripts/kconfirm/vendor/openssl/CHANGELOG.md  |  1177 ++
- scripts/kconfirm/vendor/openssl/Cargo.lock    |   442 +
- scripts/kconfirm/vendor/openssl/Cargo.toml    |    79 +
- .../kconfirm/vendor/openssl/Cargo.toml.orig   |    38 +
- scripts/kconfirm/vendor/openssl/LICENSE       |    15 +
- .../kconfirm/vendor/openssl/LICENSE-APACHE    |   202 +
- scripts/kconfirm/vendor/openssl/README.md     |    22 +
- scripts/kconfirm/vendor/openssl/build.rs      |   167 +
- .../vendor/openssl/examples/mk_certs.rs       |   160 +
- scripts/kconfirm/vendor/openssl/src/aes.rs    |   391 +
- scripts/kconfirm/vendor/openssl/src/asn1.rs   |   934 ++
- scripts/kconfirm/vendor/openssl/src/base64.rs |   128 +
- scripts/kconfirm/vendor/openssl/src/bio.rs    |    84 +
- scripts/kconfirm/vendor/openssl/src/bn.rs     |  1553 ++
- scripts/kconfirm/vendor/openssl/src/cipher.rs |   590 +
- .../kconfirm/vendor/openssl/src/cipher_ctx.rs |  1319 ++
- scripts/kconfirm/vendor/openssl/src/cms.rs    |   479 +
- scripts/kconfirm/vendor/openssl/src/conf.rs   |    65 +
- scripts/kconfirm/vendor/openssl/src/derive.rs |   251 +
- scripts/kconfirm/vendor/openssl/src/dh.rs     |   438 +
- scripts/kconfirm/vendor/openssl/src/dsa.rs    |   602 +
- scripts/kconfirm/vendor/openssl/src/ec.rs     |  1647 +++
- scripts/kconfirm/vendor/openssl/src/ecdsa.rs  |   208 +
- .../kconfirm/vendor/openssl/src/encrypt.rs    |   532 +
- .../kconfirm/vendor/openssl/src/envelope.rs   |   181 +
- scripts/kconfirm/vendor/openssl/src/error.rs  |   431 +
- .../kconfirm/vendor/openssl/src/ex_data.rs    |    32 +
- scripts/kconfirm/vendor/openssl/src/fips.rs   |    21 +
- scripts/kconfirm/vendor/openssl/src/hash.rs   |   891 ++
- scripts/kconfirm/vendor/openssl/src/kdf.rs    |   541 +
- scripts/kconfirm/vendor/openssl/src/lib.rs    |   259 +
- .../kconfirm/vendor/openssl/src/lib_ctx.rs    |    22 +
- scripts/kconfirm/vendor/openssl/src/macros.rs |   270 +
- scripts/kconfirm/vendor/openssl/src/md.rs     |   247 +
- scripts/kconfirm/vendor/openssl/src/md_ctx.rs |   565 +
- scripts/kconfirm/vendor/openssl/src/memcmp.rs |    93 +
- scripts/kconfirm/vendor/openssl/src/nid.rs    |  1222 ++
- scripts/kconfirm/vendor/openssl/src/ocsp.rs   |   455 +
- .../kconfirm/vendor/openssl/src/ossl_param.rs |   191 +
- scripts/kconfirm/vendor/openssl/src/pkcs12.rs |   405 +
- scripts/kconfirm/vendor/openssl/src/pkcs5.rs  |   310 +
- scripts/kconfirm/vendor/openssl/src/pkcs7.rs  |   573 +
- scripts/kconfirm/vendor/openssl/src/pkey.rs   |  1535 ++
- .../kconfirm/vendor/openssl/src/pkey_ctx.rs   |  1425 ++
- .../kconfirm/vendor/openssl/src/provider.rs   |    81 +
- scripts/kconfirm/vendor/openssl/src/rand.rs   |    90 +
- scripts/kconfirm/vendor/openssl/src/rsa.rs    |   781 +
- scripts/kconfirm/vendor/openssl/src/sha.rs    |   463 +
- scripts/kconfirm/vendor/openssl/src/sign.rs   |   824 ++
- scripts/kconfirm/vendor/openssl/src/srtp.rs   |    66 +
- .../kconfirm/vendor/openssl/src/ssl/bio.rs    |   220 +
- .../vendor/openssl/src/ssl/callbacks.rs       |   663 +
- .../vendor/openssl/src/ssl/connector.rs       |   389 +
- .../kconfirm/vendor/openssl/src/ssl/error.rs  |   185 +
- .../kconfirm/vendor/openssl/src/ssl/mod.rs    |  4271 ++++++
- .../vendor/openssl/src/ssl/test/mod.rs        |  1850 +++
- .../vendor/openssl/src/ssl/test/server.rs     |   167 +
- scripts/kconfirm/vendor/openssl/src/stack.rs  |   380 +
- scripts/kconfirm/vendor/openssl/src/string.rs |    96 +
- scripts/kconfirm/vendor/openssl/src/symm.rs   |  1785 +++
- scripts/kconfirm/vendor/openssl/src/util.rs   |   119 +
- .../kconfirm/vendor/openssl/src/version.rs    |   126 +
- .../vendor/openssl/src/x509/extension.rs      |   568 +
- .../kconfirm/vendor/openssl/src/x509/mod.rs   |  2445 ++++
- .../kconfirm/vendor/openssl/src/x509/store.rs |   292 +
- .../kconfirm/vendor/openssl/src/x509/tests.rs |  1260 ++
- .../vendor/openssl/src/x509/verify.rs         |   209 +
- .../vendor/openssl/test/aia_bad_utf8_cert.pem |    17 +
- .../vendor/openssl/test/aia_test_cert.pem     |    22 +
- .../vendor/openssl/test/alt_name_cert.pem     |    22 +
- .../openssl/test/authority_key_identifier.pem |    19 +
- scripts/kconfirm/vendor/openssl/test/ca.crt   |    88 +
- scripts/kconfirm/vendor/openssl/test/cert.pem |    19 +
- .../kconfirm/vendor/openssl/test/certs.pem    |    40 +
- .../kconfirm/vendor/openssl/test/certv3.pem   |    23 +
- .../vendor/openssl/test/certv3_extfile        |     1 +
- scripts/kconfirm/vendor/openssl/test/cms.p12  |   Bin 0 -> 1709 bytes
- .../vendor/openssl/test/cms_pubkey.der        |   Bin 0 -> 688 bytes
- .../vendor/openssl/test/corrupted-rsa.pem     |    28 +
- .../kconfirm/vendor/openssl/test/crl-ca.crt   |    20 +
- scripts/kconfirm/vendor/openssl/test/csr.pem  |    62 +
- .../kconfirm/vendor/openssl/test/dhparams.pem |     8 +
- scripts/kconfirm/vendor/openssl/test/dsa.pem  |    12 +
- .../kconfirm/vendor/openssl/test/dsa.pem.pub  |    12 +
- .../kconfirm/vendor/openssl/test/dsaparam.pem |     9 +
- .../vendor/openssl/test/entry_extensions.crl  |    11 +
- .../kconfirm/vendor/openssl/test/identity.p12 |   Bin 0 -> 3386 bytes
- .../vendor/openssl/test/intermediate-ca.key   |    27 +
- .../vendor/openssl/test/intermediate-ca.pem   |    22 +
- scripts/kconfirm/vendor/openssl/test/key.der  |   Bin 0 -> 1193 bytes
- .../kconfirm/vendor/openssl/test/key.der.pub  |   Bin 0 -> 294 bytes
- scripts/kconfirm/vendor/openssl/test/key.pem  |    28 +
- .../kconfirm/vendor/openssl/test/key.pem.pub  |     9 +
- .../openssl/test/keystore-empty-chain.p12     |   Bin 0 -> 2514 bytes
- scripts/kconfirm/vendor/openssl/test/leaf.pem |    21 +
- .../vendor/openssl/test/nid_test_cert.pem     |    12 +
- .../vendor/openssl/test/nid_uid_test_cert.pem |    24 +
- .../vendor/openssl/test/ocsp_ca_cert.der      |   Bin 0 -> 694 bytes
- .../openssl/test/ocsp_resp_no_nextupdate.der  |   Bin 0 -> 1165 bytes
- .../vendor/openssl/test/ocsp_resp_revoked.der |   Bin 0 -> 1189 bytes
- .../vendor/openssl/test/ocsp_subject_cert.der |   Bin 0 -> 673 bytes
- .../vendor/openssl/test/pkcs1.pem.pub         |     8 +
- .../vendor/openssl/test/pkcs8-nocrypt.der     |   Bin 0 -> 1216 bytes
- .../kconfirm/vendor/openssl/test/pkcs8.der    |   Bin 0 -> 1298 bytes
- .../kconfirm/vendor/openssl/test/root-ca.key  |    27 +
- .../kconfirm/vendor/openssl/test/root-ca.pem  |    21 +
- .../vendor/openssl/test/rsa-encrypted.pem     |    30 +
- scripts/kconfirm/vendor/openssl/test/rsa.pem  |    27 +
- .../kconfirm/vendor/openssl/test/rsa.pem.pub  |     9 +
- .../kconfirm/vendor/openssl/test/subca.crt    |    88 +
- scripts/kconfirm/vendor/openssl/test/test.crl |   Bin 0 -> 469 bytes
- .../kconfirm/vendor/pem-rfc7468/CHANGELOG.md  |   127 +
- .../kconfirm/vendor/pem-rfc7468/Cargo.lock    |    16 +
- .../kconfirm/vendor/pem-rfc7468/Cargo.toml    |    78 +
- .../vendor/pem-rfc7468/Cargo.toml.orig        |    30 +
- .../vendor/pem-rfc7468/LICENSE-APACHE         |   201 +
- .../kconfirm/vendor/pem-rfc7468/LICENSE-MIT   |    25 +
- scripts/kconfirm/vendor/pem-rfc7468/README.md |   101 +
- .../vendor/pem-rfc7468/src/decoder.rs         |   297 +
- .../vendor/pem-rfc7468/src/encoder.rs         |   299 +
- .../kconfirm/vendor/pem-rfc7468/src/error.rs  |   109 +
- .../vendor/pem-rfc7468/src/grammar.rs         |   233 +
- .../kconfirm/vendor/pem-rfc7468/src/lib.rs    |   122 +
- .../vendor/percent-encoding/Cargo.lock        |     7 +
- .../vendor/percent-encoding/Cargo.toml        |    40 +
- .../vendor/percent-encoding/Cargo.toml.orig   |    18 +
- .../vendor/percent-encoding/LICENSE-APACHE    |   201 +
- .../vendor/percent-encoding/LICENSE-MIT       |    25 +
- .../vendor/percent-encoding/src/ascii_set.rs  |   213 +
- .../vendor/percent-encoding/src/lib.rs        |   481 +
- .../vendor/pin-project-lite/CHANGELOG.md      |   264 +
- .../vendor/pin-project-lite/Cargo.lock        |    23 +
- .../vendor/pin-project-lite/Cargo.toml        |   198 +
- .../vendor/pin-project-lite/Cargo.toml.orig   |    91 +
- .../vendor/pin-project-lite/LICENSE-APACHE    |   177 +
- .../vendor/pin-project-lite/LICENSE-MIT       |    23 +
- .../vendor/pin-project-lite/README.md         |   129 +
- .../vendor/pin-project-lite/src/lib.rs        |  1770 +++
- .../kconfirm/vendor/pkg-config/CHANGELOG.md   |   225 +
- scripts/kconfirm/vendor/pkg-config/Cargo.lock |    16 +
- .../vendor/pkg-config/Cargo.lock.msrv         |    14 +
- scripts/kconfirm/vendor/pkg-config/Cargo.toml |    43 +
- .../vendor/pkg-config/Cargo.toml.orig         |    18 +
- .../kconfirm/vendor/pkg-config/LICENSE-APACHE |   201 +
- .../kconfirm/vendor/pkg-config/LICENSE-MIT    |    25 +
- scripts/kconfirm/vendor/pkg-config/README.md  |    79 +
- scripts/kconfirm/vendor/pkg-config/src/lib.rs |  1217 ++
- .../vendor/portable-atomic-util/Cargo.toml    |   171 +
- .../vendor/portable-atomic-util/src/lib.rs    |     0
- .../vendor/portable-atomic/Cargo.toml         |   214 +
- .../vendor/portable-atomic/src/lib.rs         |     0
- .../kconfirm/vendor/prettyplease/Cargo.toml   |    58 +
- .../kconfirm/vendor/prettyplease/src/lib.rs   |     0
- .../kconfirm/vendor/proc-macro2/Cargo.lock    |   251 +
- .../kconfirm/vendor/proc-macro2/Cargo.toml    |   105 +
- .../vendor/proc-macro2/Cargo.toml.orig        |    67 +
- .../vendor/proc-macro2/LICENSE-APACHE         |   176 +
- .../kconfirm/vendor/proc-macro2/LICENSE-MIT   |    23 +
- scripts/kconfirm/vendor/proc-macro2/README.md |    94 +
- scripts/kconfirm/vendor/proc-macro2/build.rs  |   267 +
- .../vendor/proc-macro2/rust-toolchain.toml    |     2 +
- .../vendor/proc-macro2/src/detection.rs       |    75 +
- .../kconfirm/vendor/proc-macro2/src/extra.rs  |   151 +
- .../vendor/proc-macro2/src/fallback.rs        |  1279 ++
- .../kconfirm/vendor/proc-macro2/src/lib.rs    |  1527 ++
- .../vendor/proc-macro2/src/location.rs        |    29 +
- .../kconfirm/vendor/proc-macro2/src/marker.rs |    17 +
- .../kconfirm/vendor/proc-macro2/src/num.rs    |    17 +
- .../kconfirm/vendor/proc-macro2/src/parse.rs  |   991 ++
- .../kconfirm/vendor/proc-macro2/src/probe.rs  |    10 +
- .../proc-macro2/src/probe/proc_macro_span.rs  |    55 +
- .../src/probe/proc_macro_span_file.rs         |    19 +
- .../src/probe/proc_macro_span_location.rs     |    25 +
- .../kconfirm/vendor/proc-macro2/src/rcvec.rs  |   146 +
- .../proc-macro2/src/rustc_literal_escaper.rs  |   701 +
- .../vendor/proc-macro2/src/wrapper.rs         |   988 ++
- scripts/kconfirm/vendor/quote/Cargo.lock      |   256 +
- scripts/kconfirm/vendor/quote/Cargo.toml      |    70 +
- scripts/kconfirm/vendor/quote/Cargo.toml.orig |    39 +
- scripts/kconfirm/vendor/quote/LICENSE-APACHE  |   176 +
- scripts/kconfirm/vendor/quote/LICENSE-MIT     |    23 +
- scripts/kconfirm/vendor/quote/README.md       |   270 +
- scripts/kconfirm/vendor/quote/build.rs        |    32 +
- .../kconfirm/vendor/quote/rust-toolchain.toml |     2 +
- scripts/kconfirm/vendor/quote/src/ext.rs      |   138 +
- scripts/kconfirm/vendor/quote/src/format.rs   |   168 +
- .../vendor/quote/src/ident_fragment.rs        |    89 +
- scripts/kconfirm/vendor/quote/src/lib.rs      |  1477 ++
- scripts/kconfirm/vendor/quote/src/runtime.rs  |   506 +
- scripts/kconfirm/vendor/quote/src/spanned.rs  |    49 +
- .../kconfirm/vendor/quote/src/to_tokens.rs    |   281 +
- scripts/kconfirm/vendor/r-efi/Cargo.toml      |    30 +
- scripts/kconfirm/vendor/r-efi/src/lib.rs      |     0
- .../kconfirm/vendor/regex-automata/Cargo.lock |   372 +
- .../kconfirm/vendor/regex-automata/Cargo.toml |   215 +
- .../vendor/regex-automata/Cargo.toml.orig     |   135 +
- .../vendor/regex-automata/LICENSE-APACHE      |   201 +
- .../vendor/regex-automata/LICENSE-MIT         |    25 +
- .../kconfirm/vendor/regex-automata/README.md  |   117 +
- .../vendor/regex-automata/src/dfa/accel.rs    |   517 +
- .../regex-automata/src/dfa/automaton.rs       |  2260 +++
- .../vendor/regex-automata/src/dfa/dense.rs    |  5260 +++++++
- .../regex-automata/src/dfa/determinize.rs     |   599 +
- .../vendor/regex-automata/src/dfa/minimize.rs |   463 +
- .../vendor/regex-automata/src/dfa/mod.rs      |   360 +
- .../vendor/regex-automata/src/dfa/onepass.rs  |  3208 ++++
- .../vendor/regex-automata/src/dfa/regex.rs    |   870 ++
- .../vendor/regex-automata/src/dfa/remapper.rs |   242 +
- .../vendor/regex-automata/src/dfa/search.rs   |   644 +
- .../vendor/regex-automata/src/dfa/sparse.rs   |  2655 ++++
- .../vendor/regex-automata/src/dfa/special.rs  |   494 +
- .../vendor/regex-automata/src/dfa/start.rs    |    74 +
- .../vendor/regex-automata/src/hybrid/dfa.rs   |  4434 ++++++
- .../vendor/regex-automata/src/hybrid/error.rs |   241 +
- .../vendor/regex-automata/src/hybrid/id.rs    |   354 +
- .../vendor/regex-automata/src/hybrid/mod.rs   |   144 +
- .../vendor/regex-automata/src/hybrid/regex.rs |   895 ++
- .../regex-automata/src/hybrid/search.rs       |   802 +
- .../kconfirm/vendor/regex-automata/src/lib.rs |   651 +
- .../vendor/regex-automata/src/macros.rs       |    20 +
- .../vendor/regex-automata/src/meta/error.rs   |   241 +
- .../vendor/regex-automata/src/meta/limited.rs |   251 +
- .../vendor/regex-automata/src/meta/literal.rs |    81 +
- .../vendor/regex-automata/src/meta/mod.rs     |    62 +
- .../vendor/regex-automata/src/meta/regex.rs   |  3706 +++++
- .../regex-automata/src/meta/reverse_inner.rs  |   220 +
- .../vendor/regex-automata/src/meta/stopat.rs  |   212 +
- .../regex-automata/src/meta/strategy.rs       |  1905 +++
- .../regex-automata/src/meta/wrappers.rs       |  1336 ++
- .../vendor/regex-automata/src/nfa/mod.rs      |    55 +
- .../src/nfa/thompson/backtrack.rs             |  1908 +++
- .../src/nfa/thompson/builder.rs               |  1337 ++
- .../src/nfa/thompson/compiler.rs              |  2368 +++
- .../regex-automata/src/nfa/thompson/error.rs  |   182 +
- .../src/nfa/thompson/literal_trie.rs          |   528 +
- .../regex-automata/src/nfa/thompson/map.rs    |   296 +
- .../regex-automata/src/nfa/thompson/mod.rs    |    81 +
- .../regex-automata/src/nfa/thompson/nfa.rs    |  2098 +++
- .../regex-automata/src/nfa/thompson/pikevm.rs |  2359 +++
- .../src/nfa/thompson/range_trie.rs            |  1051 ++
- .../regex-automata/src/util/alphabet.rs       |  1139 ++
- .../regex-automata/src/util/captures.rs       |  2551 ++++
- .../src/util/determinize/mod.rs               |   682 +
- .../src/util/determinize/state.rs             |   907 ++
- .../vendor/regex-automata/src/util/empty.rs   |   265 +
- .../vendor/regex-automata/src/util/escape.rs  |    84 +
- .../vendor/regex-automata/src/util/int.rs     |   246 +
- .../regex-automata/src/util/interpolate.rs    |   576 +
- .../vendor/regex-automata/src/util/iter.rs    |  1022 ++
- .../vendor/regex-automata/src/util/lazy.rs    |   461 +
- .../vendor/regex-automata/src/util/look.rs    |  2547 ++++
- .../vendor/regex-automata/src/util/memchr.rs  |    93 +
- .../vendor/regex-automata/src/util/mod.rs     |    57 +
- .../vendor/regex-automata/src/util/pool.rs    |  1199 ++
- .../src/util/prefilter/aho_corasick.rs        |   149 +
- .../src/util/prefilter/byteset.rs             |    58 +
- .../src/util/prefilter/memchr.rs              |   186 +
- .../src/util/prefilter/memmem.rs              |    88 +
- .../regex-automata/src/util/prefilter/mod.rs  |   719 +
- .../src/util/prefilter/teddy.rs               |   160 +
- .../regex-automata/src/util/primitives.rs     |   776 +
- .../vendor/regex-automata/src/util/search.rs  |  1988 +++
- .../regex-automata/src/util/sparse_set.rs     |   239 +
- .../vendor/regex-automata/src/util/start.rs   |   479 +
- .../vendor/regex-automata/src/util/syntax.rs  |   482 +
- .../src/util/unicode_data/mod.rs              |    17 +
- .../src/util/unicode_data/perl_word.rs        |   806 +
- .../vendor/regex-automata/src/util/utf8.rs    |   191 +
- .../vendor/regex-automata/src/util/wire.rs    |   947 ++
- .../kconfirm/vendor/regex-syntax/Cargo.lock   |    65 +
- .../kconfirm/vendor/regex-syntax/Cargo.toml   |    97 +
- .../vendor/regex-syntax/Cargo.toml.orig       |    63 +
- .../vendor/regex-syntax/LICENSE-APACHE        |   201 +
- .../kconfirm/vendor/regex-syntax/LICENSE-MIT  |    25 +
- .../kconfirm/vendor/regex-syntax/README.md    |    96 +
- .../vendor/regex-syntax/benches/bench.rs      |    63 +
- .../vendor/regex-syntax/src/ast/mod.rs        |  1807 +++
- .../vendor/regex-syntax/src/ast/parse.rs      |  6377 ++++++++
- .../vendor/regex-syntax/src/ast/print.rs      |   577 +
- .../vendor/regex-syntax/src/ast/visitor.rs    |   522 +
- .../kconfirm/vendor/regex-syntax/src/debug.rs |   107 +
- .../vendor/regex-syntax/src/either.rs         |     8 +
- .../kconfirm/vendor/regex-syntax/src/error.rs |   311 +
- .../vendor/regex-syntax/src/hir/interval.rs   |   564 +
- .../vendor/regex-syntax/src/hir/literal.rs    |  3214 ++++
- .../vendor/regex-syntax/src/hir/mod.rs        |  3873 +++++
- .../vendor/regex-syntax/src/hir/print.rs      |   608 +
- .../vendor/regex-syntax/src/hir/translate.rs  |  3744 +++++
- .../vendor/regex-syntax/src/hir/visitor.rs    |   215 +
- .../kconfirm/vendor/regex-syntax/src/lib.rs   |   433 +
- .../vendor/regex-syntax/src/parser.rs         |   254 +
- .../kconfirm/vendor/regex-syntax/src/rank.rs  |   258 +
- .../vendor/regex-syntax/src/unicode.rs        |  1041 ++
- .../src/unicode_tables/LICENSE-UNICODE        |    57 +
- .../regex-syntax/src/unicode_tables/age.rs    |  1846 +++
- .../src/unicode_tables/case_folding_simple.rs |  2948 ++++
- .../src/unicode_tables/general_category.rs    |  6717 +++++++++
- .../unicode_tables/grapheme_cluster_break.rs  |  1420 ++
- .../regex-syntax/src/unicode_tables/mod.rs    |    57 +
- .../src/unicode_tables/perl_decimal.rs        |    84 +
- .../src/unicode_tables/perl_space.rs          |    23 +
- .../src/unicode_tables/perl_word.rs           |   806 +
- .../src/unicode_tables/property_bool.rs       | 12095 ++++++++++++++++
- .../src/unicode_tables/property_names.rs      |   281 +
- .../src/unicode_tables/property_values.rs     |   956 ++
- .../regex-syntax/src/unicode_tables/script.rs |  1300 ++
- .../src/unicode_tables/script_extension.rs    |  1718 +++
- .../src/unicode_tables/sentence_break.rs      |  2530 ++++
- .../src/unicode_tables/word_break.rs          |  1152 ++
- .../kconfirm/vendor/regex-syntax/src/utf8.rs  |   592 +
- scripts/kconfirm/vendor/regex/CHANGELOG.md    |  1755 +++
- scripts/kconfirm/vendor/regex/Cargo.lock      |   383 +
- scripts/kconfirm/vendor/regex/Cargo.toml      |   215 +
- scripts/kconfirm/vendor/regex/Cargo.toml.orig |   286 +
- scripts/kconfirm/vendor/regex/LICENSE-APACHE  |   201 +
- scripts/kconfirm/vendor/regex/LICENSE-MIT     |    25 +
- scripts/kconfirm/vendor/regex/README.md       |   336 +
- scripts/kconfirm/vendor/regex/UNICODE.md      |   258 +
- scripts/kconfirm/vendor/regex/bench/README.md |     2 +
- scripts/kconfirm/vendor/regex/src/builders.rs |  2539 ++++
- scripts/kconfirm/vendor/regex/src/bytes.rs    |    91 +
- scripts/kconfirm/vendor/regex/src/error.rs    |   101 +
- .../kconfirm/vendor/regex/src/find_byte.rs    |    17 +
- scripts/kconfirm/vendor/regex/src/lib.rs      |  1353 ++
- scripts/kconfirm/vendor/regex/src/pattern.rs  |    67 +
- .../kconfirm/vendor/regex/src/regex/bytes.rs  |  2722 ++++
- .../kconfirm/vendor/regex/src/regex/mod.rs    |     2 +
- .../kconfirm/vendor/regex/src/regex/string.rs |  2625 ++++
- .../vendor/regex/src/regexset/bytes.rs        |   728 +
- .../kconfirm/vendor/regex/src/regexset/mod.rs |     2 +
- .../vendor/regex/src/regexset/string.rs       |   724 +
- .../vendor/regex/testdata/anchored.toml       |   127 +
- .../kconfirm/vendor/regex/testdata/bytes.toml |   235 +
- .../kconfirm/vendor/regex/testdata/crazy.toml |   315 +
- .../kconfirm/vendor/regex/testdata/crlf.toml  |   117 +
- .../vendor/regex/testdata/earliest.toml       |    52 +
- .../kconfirm/vendor/regex/testdata/empty.toml |   113 +
- .../vendor/regex/testdata/expensive.toml      |    23 +
- .../kconfirm/vendor/regex/testdata/flags.toml |    68 +
- .../kconfirm/vendor/regex/testdata/iter.toml  |   143 +
- .../vendor/regex/testdata/leftmost-all.toml   |    25 +
- .../regex/testdata/line-terminator.toml       |   109 +
- .../kconfirm/vendor/regex/testdata/misc.toml  |    99 +
- .../vendor/regex/testdata/multiline.toml      |   845 ++
- .../vendor/regex/testdata/no-unicode.toml     |   222 +
- .../vendor/regex/testdata/overlapping.toml    |   280 +
- .../vendor/regex/testdata/regex-lite.toml     |    98 +
- .../vendor/regex/testdata/regression.toml     |   830 ++
- .../kconfirm/vendor/regex/testdata/set.toml   |   641 +
- .../vendor/regex/testdata/substring.toml      |    36 +
- .../vendor/regex/testdata/unicode.toml        |   517 +
- .../kconfirm/vendor/regex/testdata/utf8.toml  |   399 +
- .../regex/testdata/word-boundary-special.toml |   687 +
- .../vendor/regex/testdata/word-boundary.toml  |   781 +
- scripts/kconfirm/vendor/rustix/Cargo.toml     |   149 +
- scripts/kconfirm/vendor/rustix/src/lib.rs     |     0
- .../vendor/rustls-pki-types/Cargo.lock        |   195 +
- .../vendor/rustls-pki-types/Cargo.toml        |    86 +
- .../vendor/rustls-pki-types/Cargo.toml.orig   |    53 +
- .../vendor/rustls-pki-types/LICENSE-APACHE    |   201 +
- .../vendor/rustls-pki-types/LICENSE-MIT       |    25 +
- .../vendor/rustls-pki-types/README.md         |    53 +
- .../vendor/rustls-pki-types/src/alg_id.rs     |   395 +
- .../vendor/rustls-pki-types/src/base64.rs     |   750 +
- .../rustls-pki-types/src/data/README.md       |    21 +
- .../src/data/alg-ecdsa-p256.der               |     1 +
- .../src/data/alg-ecdsa-p256k1.der             |   Bin 0 -> 16 bytes
- .../src/data/alg-ecdsa-p384.der               |   Bin 0 -> 16 bytes
- .../src/data/alg-ecdsa-p521.der               |   Bin 0 -> 16 bytes
- .../src/data/alg-ecdsa-sha256.der             |     1 +
- .../src/data/alg-ecdsa-sha384.der             |     1 +
- .../src/data/alg-ecdsa-sha512.der             |     1 +
- .../rustls-pki-types/src/data/alg-ed25519.der |     1 +
- .../rustls-pki-types/src/data/alg-ed448.der   |     1 +
- .../src/data/alg-ml-dsa-44.der                |     1 +
- .../src/data/alg-ml-dsa-65.der                |     1 +
- .../src/data/alg-ml-dsa-87.der                |     1 +
- .../src/data/alg-rsa-encryption.der           |   Bin 0 -> 13 bytes
- .../src/data/alg-rsa-pkcs1-sha256.der         |   Bin 0 -> 13 bytes
- .../src/data/alg-rsa-pkcs1-sha384.der         |   Bin 0 -> 13 bytes
- .../src/data/alg-rsa-pkcs1-sha512.der         |   Bin 0 -> 13 bytes
- .../src/data/alg-rsa-pss-sha256.der           |   Bin 0 -> 65 bytes
- .../src/data/alg-rsa-pss-sha384.der           |   Bin 0 -> 65 bytes
- .../src/data/alg-rsa-pss-sha512.der           |   Bin 0 -> 65 bytes
- .../vendor/rustls-pki-types/src/lib.rs        |  1156 ++
- .../vendor/rustls-pki-types/src/pem.rs        |   562 +
- .../rustls-pki-types/src/server_name.rs       |  1214 ++
- scripts/kconfirm/vendor/schannel/Cargo.toml   |    33 +
- scripts/kconfirm/vendor/schannel/src/lib.rs   |     0
- .../vendor/security-framework-sys/Cargo.toml  |    71 +
- .../vendor/security-framework-sys/src/lib.rs  |     0
- .../vendor/security-framework/Cargo.toml      |   106 +
- .../vendor/security-framework/src/lib.rs      |     0
- scripts/kconfirm/vendor/semver/Cargo.toml     |    51 +
- scripts/kconfirm/vendor/semver/src/lib.rs     |     0
- scripts/kconfirm/vendor/serde/Cargo.lock      |    66 +
- scripts/kconfirm/vendor/serde/Cargo.toml      |    84 +
- scripts/kconfirm/vendor/serde/Cargo.toml.orig |    62 +
- scripts/kconfirm/vendor/serde/LICENSE-APACHE  |   176 +
- scripts/kconfirm/vendor/serde/LICENSE-MIT     |    23 +
- scripts/kconfirm/vendor/serde/README.md       |   114 +
- scripts/kconfirm/vendor/serde/build.rs        |    69 +
- scripts/kconfirm/vendor/serde/crates-io.md    |    65 +
- .../vendor/serde/src/core/crate_root.rs       |   171 +
- .../vendor/serde/src/core/de/ignored_any.rs   |   238 +
- .../vendor/serde/src/core/de/impls.rs         |  3173 ++++
- .../kconfirm/vendor/serde/src/core/de/mod.rs  |  2392 +++
- .../vendor/serde/src/core/de/value.rs         |  1895 +++
- .../kconfirm/vendor/serde/src/core/format.rs  |    30 +
- scripts/kconfirm/vendor/serde/src/core/lib.rs |   121 +
- .../kconfirm/vendor/serde/src/core/macros.rs  |   230 +
- .../vendor/serde/src/core/private/content.rs  |    39 +
- .../vendor/serde/src/core/private/doc.rs      |   165 +
- .../vendor/serde/src/core/private/mod.rs      |    21 +
- .../vendor/serde/src/core/private/seed.rs     |    20 +
- .../serde/src/core/private/size_hint.rs       |    30 +
- .../vendor/serde/src/core/private/string.rs   |    23 +
- .../kconfirm/vendor/serde/src/core/ser/fmt.rs |   170 +
- .../vendor/serde/src/core/ser/impls.rs        |  1045 ++
- .../vendor/serde/src/core/ser/impossible.rs   |   216 +
- .../kconfirm/vendor/serde/src/core/ser/mod.rs |  2010 +++
- .../vendor/serde/src/core/std_error.rs        |    48 +
- .../kconfirm/vendor/serde/src/integer128.rs   |    14 +
- scripts/kconfirm/vendor/serde/src/lib.rs      |   285 +
- .../kconfirm/vendor/serde/src/private/de.rs   |  3501 +++++
- .../kconfirm/vendor/serde/src/private/mod.rs  |    18 +
- .../kconfirm/vendor/serde/src/private/ser.rs  |  1382 ++
- scripts/kconfirm/vendor/serde_core/Cargo.lock |    63 +
- scripts/kconfirm/vendor/serde_core/Cargo.toml |    87 +
- .../vendor/serde_core/Cargo.toml.orig         |    70 +
- .../kconfirm/vendor/serde_core/LICENSE-APACHE |   176 +
- .../kconfirm/vendor/serde_core/LICENSE-MIT    |    23 +
- scripts/kconfirm/vendor/serde_core/README.md  |    28 +
- scripts/kconfirm/vendor/serde_core/build.rs   |   113 +
- .../vendor/serde_core/src/crate_root.rs       |   171 +
- .../vendor/serde_core/src/de/ignored_any.rs   |   238 +
- .../vendor/serde_core/src/de/impls.rs         |  3173 ++++
- .../kconfirm/vendor/serde_core/src/de/mod.rs  |  2392 +++
- .../vendor/serde_core/src/de/value.rs         |  1895 +++
- .../kconfirm/vendor/serde_core/src/format.rs  |    30 +
- scripts/kconfirm/vendor/serde_core/src/lib.rs |   121 +
- .../kconfirm/vendor/serde_core/src/macros.rs  |   230 +
- .../vendor/serde_core/src/private/content.rs  |    39 +
- .../vendor/serde_core/src/private/doc.rs      |   165 +
- .../vendor/serde_core/src/private/mod.rs      |    21 +
- .../vendor/serde_core/src/private/seed.rs     |    20 +
- .../serde_core/src/private/size_hint.rs       |    30 +
- .../vendor/serde_core/src/private/string.rs   |    23 +
- .../kconfirm/vendor/serde_core/src/ser/fmt.rs |   170 +
- .../vendor/serde_core/src/ser/impls.rs        |  1045 ++
- .../vendor/serde_core/src/ser/impossible.rs   |   216 +
- .../kconfirm/vendor/serde_core/src/ser/mod.rs |  2010 +++
- .../vendor/serde_core/src/std_error.rs        |    48 +
- .../kconfirm/vendor/serde_derive/Cargo.lock   |    77 +
- .../kconfirm/vendor/serde_derive/Cargo.toml   |    87 +
- .../vendor/serde_derive/Cargo.toml.orig       |    42 +
- .../vendor/serde_derive/LICENSE-APACHE        |   176 +
- .../kconfirm/vendor/serde_derive/LICENSE-MIT  |    23 +
- .../kconfirm/vendor/serde_derive/README.md    |   114 +
- .../kconfirm/vendor/serde_derive/crates-io.md |    65 +
- .../kconfirm/vendor/serde_derive/src/bound.rs |   410 +
- .../kconfirm/vendor/serde_derive/src/de.rs    |   973 ++
- .../vendor/serde_derive/src/de/enum_.rs       |    96 +
- .../serde_derive/src/de/enum_adjacently.rs    |   323 +
- .../serde_derive/src/de/enum_externally.rs    |   212 +
- .../serde_derive/src/de/enum_internally.rs    |   106 +
- .../serde_derive/src/de/enum_untagged.rs      |   135 +
- .../vendor/serde_derive/src/de/identifier.rs  |   477 +
- .../vendor/serde_derive/src/de/struct_.rs     |   697 +
- .../vendor/serde_derive/src/de/tuple.rs       |   283 +
- .../vendor/serde_derive/src/de/unit.rs        |    52 +
- .../vendor/serde_derive/src/deprecated.rs     |    56 +
- .../kconfirm/vendor/serde_derive/src/dummy.rs |    31 +
- .../vendor/serde_derive/src/fragment.rs       |    74 +
- .../vendor/serde_derive/src/internals/ast.rs  |   218 +
- .../vendor/serde_derive/src/internals/attr.rs |  1831 +++
- .../vendor/serde_derive/src/internals/case.rs |   200 +
- .../serde_derive/src/internals/check.rs       |   477 +
- .../vendor/serde_derive/src/internals/ctxt.rs |    68 +
- .../vendor/serde_derive/src/internals/mod.rs  |    28 +
- .../vendor/serde_derive/src/internals/name.rs |   113 +
- .../serde_derive/src/internals/receiver.rs    |   293 +
- .../serde_derive/src/internals/respan.rs      |    16 +
- .../serde_derive/src/internals/symbol.rs      |    71 +
- .../kconfirm/vendor/serde_derive/src/lib.rs   |   127 +
- .../vendor/serde_derive/src/pretend.rs        |   188 +
- .../kconfirm/vendor/serde_derive/src/ser.rs   |  1369 ++
- .../kconfirm/vendor/serde_derive/src/this.rs  |    32 +
- scripts/kconfirm/vendor/serde_json/Cargo.toml |    91 +
- scripts/kconfirm/vendor/serde_json/src/lib.rs |     0
- scripts/kconfirm/vendor/shlex/CHANGELOG.md    |    21 +
- scripts/kconfirm/vendor/shlex/Cargo.toml      |    35 +
- scripts/kconfirm/vendor/shlex/Cargo.toml.orig |    23 +
- scripts/kconfirm/vendor/shlex/LICENSE-APACHE  |    13 +
- scripts/kconfirm/vendor/shlex/LICENSE-MIT     |    21 +
- scripts/kconfirm/vendor/shlex/README.md       |    39 +
- scripts/kconfirm/vendor/shlex/src/bytes.rs    |   576 +
- scripts/kconfirm/vendor/shlex/src/lib.rs      |   358 +
- .../vendor/shlex/src/quoting_warning.md       |   365 +
- scripts/kconfirm/vendor/strsim/.editorconfig  |    13 +
- scripts/kconfirm/vendor/strsim/CHANGELOG.md   |   233 +
- scripts/kconfirm/vendor/strsim/Cargo.toml     |    40 +
- .../kconfirm/vendor/strsim/Cargo.toml.orig    |    17 +
- scripts/kconfirm/vendor/strsim/LICENSE        |    23 +
- scripts/kconfirm/vendor/strsim/README.md      |   102 +
- scripts/kconfirm/vendor/strsim/SECURITY.md    |    19 +
- .../kconfirm/vendor/strsim/benches/benches.rs |    95 +
- scripts/kconfirm/vendor/strsim/src/lib.rs     |  1307 ++
- scripts/kconfirm/vendor/syn/Cargo.lock        |  2305 +++
- scripts/kconfirm/vendor/syn/Cargo.toml        |   272 +
- scripts/kconfirm/vendor/syn/Cargo.toml.orig   |    95 +
- scripts/kconfirm/vendor/syn/LICENSE-APACHE    |   176 +
- scripts/kconfirm/vendor/syn/LICENSE-MIT       |    23 +
- scripts/kconfirm/vendor/syn/README.md         |   282 +
- scripts/kconfirm/vendor/syn/benches/file.rs   |    59 +
- scripts/kconfirm/vendor/syn/benches/rust.rs   |   193 +
- scripts/kconfirm/vendor/syn/src/attr.rs       |   841 ++
- scripts/kconfirm/vendor/syn/src/bigint.rs     |    68 +
- scripts/kconfirm/vendor/syn/src/buffer.rs     |   437 +
- scripts/kconfirm/vendor/syn/src/classify.rs   |   311 +
- .../kconfirm/vendor/syn/src/custom_keyword.rs |   260 +
- .../vendor/syn/src/custom_punctuation.rs      |   305 +
- scripts/kconfirm/vendor/syn/src/data.rs       |   425 +
- scripts/kconfirm/vendor/syn/src/derive.rs     |   260 +
- .../kconfirm/vendor/syn/src/discouraged.rs    |   225 +
- scripts/kconfirm/vendor/syn/src/drops.rs      |    58 +
- scripts/kconfirm/vendor/syn/src/error.rs      |   473 +
- scripts/kconfirm/vendor/syn/src/export.rs     |    73 +
- scripts/kconfirm/vendor/syn/src/expr.rs       |  4179 ++++++
- scripts/kconfirm/vendor/syn/src/ext.rs        |   180 +
- scripts/kconfirm/vendor/syn/src/file.rs       |   128 +
- scripts/kconfirm/vendor/syn/src/fixup.rs      |   773 +
- scripts/kconfirm/vendor/syn/src/gen/clone.rs  |  2267 +++
- scripts/kconfirm/vendor/syn/src/gen/debug.rs  |  3238 +++++
- scripts/kconfirm/vendor/syn/src/gen/eq.rs     |  2308 +++
- scripts/kconfirm/vendor/syn/src/gen/fold.rs   |  3906 +++++
- scripts/kconfirm/vendor/syn/src/gen/hash.rs   |  2878 ++++
- scripts/kconfirm/vendor/syn/src/gen/token.css |   737 +
- scripts/kconfirm/vendor/syn/src/gen/visit.rs  |  3941 +++++
- .../kconfirm/vendor/syn/src/gen/visit_mut.rs  |  3761 +++++
- scripts/kconfirm/vendor/syn/src/generics.rs   |  1482 ++
- scripts/kconfirm/vendor/syn/src/group.rs      |   294 +
- scripts/kconfirm/vendor/syn/src/ident.rs      |   109 +
- scripts/kconfirm/vendor/syn/src/item.rs       |  3518 +++++
- scripts/kconfirm/vendor/syn/src/lib.rs        |  1016 ++
- scripts/kconfirm/vendor/syn/src/lifetime.rs   |   155 +
- scripts/kconfirm/vendor/syn/src/lit.rs        |  1930 +++
- scripts/kconfirm/vendor/syn/src/lookahead.rs  |   350 +
- scripts/kconfirm/vendor/syn/src/mac.rs        |   225 +
- scripts/kconfirm/vendor/syn/src/macros.rs     |   182 +
- scripts/kconfirm/vendor/syn/src/meta.rs       |   427 +
- scripts/kconfirm/vendor/syn/src/op.rs         |   219 +
- scripts/kconfirm/vendor/syn/src/parse.rs      |  1420 ++
- .../vendor/syn/src/parse_macro_input.rs       |   128 +
- .../kconfirm/vendor/syn/src/parse_quote.rs    |   244 +
- scripts/kconfirm/vendor/syn/src/pat.rs        |   959 ++
- scripts/kconfirm/vendor/syn/src/path.rs       |   965 ++
- scripts/kconfirm/vendor/syn/src/precedence.rs |   210 +
- scripts/kconfirm/vendor/syn/src/print.rs      |    16 +
- scripts/kconfirm/vendor/syn/src/punctuated.rs |  1170 ++
- .../kconfirm/vendor/syn/src/restriction.rs    |   180 +
- scripts/kconfirm/vendor/syn/src/scan_expr.rs  |   268 +
- scripts/kconfirm/vendor/syn/src/sealed.rs     |     4 +
- scripts/kconfirm/vendor/syn/src/span.rs       |    63 +
- scripts/kconfirm/vendor/syn/src/spanned.rs    |   118 +
- scripts/kconfirm/vendor/syn/src/stmt.rs       |   488 +
- scripts/kconfirm/vendor/syn/src/thread.rs     |    60 +
- scripts/kconfirm/vendor/syn/src/token.rs      |  1094 ++
- scripts/kconfirm/vendor/syn/src/tt.rs         |    97 +
- scripts/kconfirm/vendor/syn/src/ty.rs         |  1275 ++
- scripts/kconfirm/vendor/syn/src/verbatim.rs   |    33 +
- scripts/kconfirm/vendor/syn/src/whitespace.rs |    65 +
- scripts/kconfirm/vendor/tempfile/Cargo.toml   |    54 +
- scripts/kconfirm/vendor/tempfile/src/lib.rs   |     0
- .../vendor/tracing-attributes/CHANGELOG.md    |   477 +
- .../vendor/tracing-attributes/Cargo.lock      |   589 +
- .../vendor/tracing-attributes/Cargo.toml      |   157 +
- .../vendor/tracing-attributes/Cargo.toml.orig |    67 +
- .../vendor/tracing-attributes/LICENSE         |    25 +
- .../vendor/tracing-attributes/README.md       |    91 +
- .../vendor/tracing-attributes/src/attr.rs     |   507 +
- .../vendor/tracing-attributes/src/expand.rs   |   848 ++
- .../vendor/tracing-attributes/src/lib.rs      |   717 +
- .../kconfirm/vendor/tracing-core/CHANGELOG.md |   613 +
- .../kconfirm/vendor/tracing-core/Cargo.lock   |    21 +
- .../kconfirm/vendor/tracing-core/Cargo.toml   |   106 +
- .../vendor/tracing-core/Cargo.toml.orig       |    49 +
- scripts/kconfirm/vendor/tracing-core/LICENSE  |    25 +
- .../kconfirm/vendor/tracing-core/README.md    |   121 +
- .../vendor/tracing-core/src/callsite.rs       |   618 +
- .../vendor/tracing-core/src/dispatcher.rs     |  1067 ++
- .../kconfirm/vendor/tracing-core/src/event.rs |   128 +
- .../kconfirm/vendor/tracing-core/src/field.rs |  1372 ++
- .../kconfirm/vendor/tracing-core/src/lazy.rs  |    76 +
- .../kconfirm/vendor/tracing-core/src/lib.rs   |   311 +
- .../vendor/tracing-core/src/metadata.rs       |  1122 ++
- .../vendor/tracing-core/src/parent.rs         |    11 +
- .../kconfirm/vendor/tracing-core/src/span.rs  |   343 +
- .../vendor/tracing-core/src/spin/LICENSE      |    21 +
- .../vendor/tracing-core/src/spin/mod.rs       |     7 +
- .../vendor/tracing-core/src/spin/mutex.rs     |   118 +
- .../vendor/tracing-core/src/spin/once.rs      |   158 +
- .../vendor/tracing-core/src/subscriber.rs     |   875 ++
- .../kconfirm/vendor/tracing-core/src/sync.rs  |    23 +
- scripts/kconfirm/vendor/tracing/CHANGELOG.md  |  1069 ++
- scripts/kconfirm/vendor/tracing/Cargo.lock    |   774 +
- scripts/kconfirm/vendor/tracing/Cargo.toml    |   252 +
- .../kconfirm/vendor/tracing/Cargo.toml.orig   |   115 +
- scripts/kconfirm/vendor/tracing/LICENSE       |    25 +
- scripts/kconfirm/vendor/tracing/README.md     |   469 +
- .../vendor/tracing/benches/baseline.rs        |    24 +
- .../tracing/benches/dispatch_get_clone.rs     |    15 +
- .../tracing/benches/dispatch_get_ref.rs       |    16 +
- .../vendor/tracing/benches/empty_span.rs      |    43 +
- .../vendor/tracing/benches/enter_span.rs      |    16 +
- .../kconfirm/vendor/tracing/benches/event.rs  |    12 +
- .../kconfirm/vendor/tracing/benches/shared.rs |   160 +
- .../vendor/tracing/benches/span_fields.rs     |    23 +
- .../vendor/tracing/benches/span_no_fields.rs  |    13 +
- .../vendor/tracing/benches/span_repeated.rs   |    20 +
- .../kconfirm/vendor/tracing/src/dispatcher.rs |   145 +
- scripts/kconfirm/vendor/tracing/src/field.rs  |   170 +
- .../kconfirm/vendor/tracing/src/instrument.rs |   429 +
- .../vendor/tracing/src/level_filters.rs       |   113 +
- scripts/kconfirm/vendor/tracing/src/lib.rs    |  1205 ++
- scripts/kconfirm/vendor/tracing/src/macros.rs |  3342 +++++
- scripts/kconfirm/vendor/tracing/src/span.rs   |  1615 +++
- .../kconfirm/vendor/tracing/src/subscriber.rs |    64 +
- .../tracing/test-macros/bin/macro-results.sh  |    21 +
- .../vendor/tracing/test-macros/tests/debug.rs |  1266 ++
- .../tracing/test-macros/tests/debug_n.rs      |  1266 ++
- .../tracing/test-macros/tests/debug_np.rs     |  1266 ++
- .../tracing/test-macros/tests/debug_nt.rs     |  1266 ++
- .../tracing/test-macros/tests/debug_ntp.rs    |  1266 ++
- .../tracing/test-macros/tests/debug_p.rs      |  1266 ++
- .../tracing/test-macros/tests/debug_t.rs      |  1266 ++
- .../tracing/test-macros/tests/debug_tp.rs     |  1266 ++
- .../vendor/tracing/test-macros/tests/error.rs |  1266 ++
- .../tracing/test-macros/tests/error_n.rs      |  1266 ++
- .../tracing/test-macros/tests/error_np.rs     |  1266 ++
- .../tracing/test-macros/tests/error_nt.rs     |  1266 ++
- .../tracing/test-macros/tests/error_ntp.rs    |  1266 ++
- .../tracing/test-macros/tests/error_p.rs      |  1266 ++
- .../tracing/test-macros/tests/error_t.rs      |  1266 ++
- .../tracing/test-macros/tests/error_tp.rs     |  1266 ++
- .../vendor/tracing/test-macros/tests/event.rs |  1266 ++
- .../tracing/test-macros/tests/event_n.rs      |  1266 ++
- .../tracing/test-macros/tests/event_np.rs     |  1266 ++
- .../tracing/test-macros/tests/event_nt.rs     |  1266 ++
- .../tracing/test-macros/tests/event_ntp.rs    |  1266 ++
- .../tracing/test-macros/tests/event_p.rs      |  1266 ++
- .../tracing/test-macros/tests/event_t.rs      |  1266 ++
- .../tracing/test-macros/tests/event_tp.rs     |  1266 ++
- .../vendor/tracing/test-macros/tests/info.rs  |  1266 ++
- .../tracing/test-macros/tests/info_n.rs       |  1266 ++
- .../tracing/test-macros/tests/info_np.rs      |  1266 ++
- .../tracing/test-macros/tests/info_nt.rs      |  1266 ++
- .../tracing/test-macros/tests/info_ntp.rs     |  1266 ++
- .../tracing/test-macros/tests/info_p.rs       |  1266 ++
- .../tracing/test-macros/tests/info_t.rs       |  1266 ++
- .../tracing/test-macros/tests/info_tp.rs      |  1266 ++
- .../vendor/tracing/test-macros/tests/trace.rs |  1266 ++
- .../tracing/test-macros/tests/trace_n.rs      |  1266 ++
- .../tracing/test-macros/tests/trace_np.rs     |  1266 ++
- .../tracing/test-macros/tests/trace_nt.rs     |  1266 ++
- .../tracing/test-macros/tests/trace_ntp.rs    |  1266 ++
- .../tracing/test-macros/tests/trace_p.rs      |  1266 ++
- .../tracing/test-macros/tests/trace_t.rs      |  1266 ++
- .../tracing/test-macros/tests/trace_tp.rs     |  1266 ++
- .../vendor/tracing/test-macros/tests/warn.rs  |  1266 ++
- .../tracing/test-macros/tests/warn_n.rs       |  1266 ++
- .../tracing/test-macros/tests/warn_np.rs      |  1266 ++
- .../tracing/test-macros/tests/warn_nt.rs      |  1266 ++
- .../tracing/test-macros/tests/warn_ntp.rs     |  1266 ++
- .../tracing/test-macros/tests/warn_p.rs       |  1266 ++
- .../tracing/test-macros/tests/warn_t.rs       |  1266 ++
- .../tracing/test-macros/tests/warn_tp.rs      |  1266 ++
- .../kconfirm/vendor/unicode-ident/Cargo.lock  |   781 +
- .../kconfirm/vendor/unicode-ident/Cargo.toml  |    84 +
- .../vendor/unicode-ident/Cargo.toml.orig      |    42 +
- .../vendor/unicode-ident/LICENSE-APACHE       |   176 +
- .../kconfirm/vendor/unicode-ident/LICENSE-MIT |    23 +
- .../vendor/unicode-ident/LICENSE-UNICODE      |    39 +
- .../kconfirm/vendor/unicode-ident/README.md   |   274 +
- .../vendor/unicode-ident/benches/xid.rs       |   126 +
- .../kconfirm/vendor/unicode-ident/src/lib.rs  |   281 +
- .../vendor/unicode-ident/src/tables.rs        |   653 +
- .../kconfirm/vendor/unicode-xid/Cargo.toml    |    33 +
- .../kconfirm/vendor/unicode-xid/src/lib.rs    |     0
- scripts/kconfirm/vendor/ureq-proto/Cargo.lock |    53 +
- scripts/kconfirm/vendor/ureq-proto/Cargo.toml |    68 +
- .../vendor/ureq-proto/Cargo.toml.orig         |    24 +
- .../vendor/ureq-proto/LICENSE-MIT.txt         |     7 +
- scripts/kconfirm/vendor/ureq-proto/README.md  |     9 +
- .../kconfirm/vendor/ureq-proto/src/body.rs    |   544 +
- .../kconfirm/vendor/ureq-proto/src/chunk.rs   |   249 +
- .../vendor/ureq-proto/src/client/amended.rs   |   318 +
- .../vendor/ureq-proto/src/client/await100.rs  |   112 +
- .../vendor/ureq-proto/src/client/mod.rs       |  1416 ++
- .../vendor/ureq-proto/src/client/prepare.rs   |   108 +
- .../vendor/ureq-proto/src/client/recvbody.rs  |   102 +
- .../vendor/ureq-proto/src/client/recvresp.rs  |   214 +
- .../vendor/ureq-proto/src/client/redirect.rs  |   127 +
- .../vendor/ureq-proto/src/client/sendbody.rs  |   104 +
- .../vendor/ureq-proto/src/client/sendreq.rs   |   272 +
- .../vendor/ureq-proto/src/client/test/mod.rs  |    27 +
- .../ureq-proto/src/client/test/scenario.rs    |   362 +
- .../src/client/test/state_await_100.rs        |   255 +
- .../src/client/test/state_cleanup.rs          |   157 +
- .../src/client/test/state_prepare.rs          |    39 +
- .../src/client/test/state_recv_body.rs        |   160 +
- .../src/client/test/state_recv_response.rs    |   302 +
- .../src/client/test/state_redirect.rs         |   434 +
- .../src/client/test/state_send_body.rs        |   143 +
- .../src/client/test/state_send_request.rs     |   104 +
- .../vendor/ureq-proto/src/close_reason.rs     |    45 +
- .../kconfirm/vendor/ureq-proto/src/error.rs   |   503 +
- scripts/kconfirm/vendor/ureq-proto/src/ext.rs |   151 +
- scripts/kconfirm/vendor/ureq-proto/src/lib.rs |    60 +
- .../kconfirm/vendor/ureq-proto/src/parser.rs  |   216 +
- .../vendor/ureq-proto/src/server/amended.rs   |   123 +
- .../vendor/ureq-proto/src/server/mod.rs       |  1039 ++
- .../vendor/ureq-proto/src/server/provres.rs   |    72 +
- .../vendor/ureq-proto/src/server/recvbody.rs  |    82 +
- .../vendor/ureq-proto/src/server/recvreq.rs   |   155 +
- .../vendor/ureq-proto/src/server/send100.rs   |    45 +
- .../vendor/ureq-proto/src/server/sendbody.rs  |   110 +
- .../vendor/ureq-proto/src/server/sendres.rs   |   136 +
- .../vendor/ureq-proto/src/server/test/mod.rs  |     9 +
- .../ureq-proto/src/server/test/scenario.rs    |   344 +
- .../src/server/test/state_cleanup.rs          |   148 +
- .../src/server/test/state_provide_response.rs |   194 +
- .../src/server/test/state_recv_body.rs        |   176 +
- .../src/server/test/state_recv_request.rs     |   190 +
- .../src/server/test/state_send_100.rs         |    64 +
- .../src/server/test/state_send_body.rs        |   293 +
- .../src/server/test/state_send_response.rs    |   179 +
- .../kconfirm/vendor/ureq-proto/src/util.rs    |   193 +
- scripts/kconfirm/vendor/ureq/CHANGELOG.md     |   547 +
- scripts/kconfirm/vendor/ureq/CONTRIBUTING.md  |    21 +
- scripts/kconfirm/vendor/ureq/Cargo.lock       |  1914 +++
- scripts/kconfirm/vendor/ureq/Cargo.toml       |   274 +
- scripts/kconfirm/vendor/ureq/Cargo.toml.orig  |   124 +
- scripts/kconfirm/vendor/ureq/LICENSE-APACHE   |   201 +
- scripts/kconfirm/vendor/ureq/LICENSE-MIT      |    21 +
- .../kconfirm/vendor/ureq/MIGRATE-2-to-3.md    |    59 +
- scripts/kconfirm/vendor/ureq/README.md        |   502 +
- scripts/kconfirm/vendor/ureq/README.tpl       |     5 +
- scripts/kconfirm/vendor/ureq/RELEASE.txt      |    63 +
- .../kconfirm/vendor/ureq/examples/cureq.rs    |    64 +
- .../vendor/ureq/examples/mpsc-transport.rs    |   237 +
- .../kconfirm/vendor/ureq/examples/proxy.rs    |    28 +
- scripts/kconfirm/vendor/ureq/src/agent.rs     |   404 +
- .../kconfirm/vendor/ureq/src/body/brotli.rs   |    27 +
- .../kconfirm/vendor/ureq/src/body/build.rs    |   128 +
- .../kconfirm/vendor/ureq/src/body/charset.rs  |   283 +
- scripts/kconfirm/vendor/ureq/src/body/gzip.rs |   142 +
- .../kconfirm/vendor/ureq/src/body/limit.rs    |    70 +
- .../kconfirm/vendor/ureq/src/body/lossy.rs    |   209 +
- scripts/kconfirm/vendor/ureq/src/body/mod.rs  |  1010 ++
- scripts/kconfirm/vendor/ureq/src/config.rs    |  1002 ++
- scripts/kconfirm/vendor/ureq/src/cookies.rs   |   346 +
- scripts/kconfirm/vendor/ureq/src/error.rs     |   371 +
- scripts/kconfirm/vendor/ureq/src/lib.rs       |  1402 ++
- .../kconfirm/vendor/ureq/src/middleware.rs    |   237 +
- scripts/kconfirm/vendor/ureq/src/multipart.rs |   721 +
- scripts/kconfirm/vendor/ureq/src/pool.rs      |   328 +
- scripts/kconfirm/vendor/ureq/src/proxy.rs     |  1067 ++
- scripts/kconfirm/vendor/ureq/src/query.rs     |   253 +
- scripts/kconfirm/vendor/ureq/src/request.rs   |   869 ++
- .../kconfirm/vendor/ureq/src/request_ext.rs   |   318 +
- scripts/kconfirm/vendor/ureq/src/response.rs  |    71 +
- scripts/kconfirm/vendor/ureq/src/run.rs       |   772 +
- scripts/kconfirm/vendor/ureq/src/send_body.rs |   446 +
- scripts/kconfirm/vendor/ureq/src/timings.rs   |   236 +
- scripts/kconfirm/vendor/ureq/src/tls/cert.rs  |   305 +
- scripts/kconfirm/vendor/ureq/src/tls/mod.rs   |   379 +
- .../vendor/ureq/src/tls/native_tls.rs         |   419 +
- .../kconfirm/vendor/ureq/src/tls/rustls.rs    |   342 +
- .../vendor/ureq/src/unversioned/mod.rs        |    17 +
- .../vendor/ureq/src/unversioned/resolver.rs   |   189 +
- .../ureq/src/unversioned/transport/buf.rs     |   151 +
- .../ureq/src/unversioned/transport/chain.rs   |   144 +
- .../ureq/src/unversioned/transport/connect.rs |   160 +
- .../ureq/src/unversioned/transport/io.rs      |    87 +
- .../ureq/src/unversioned/transport/mod.rs     |   519 +
- .../ureq/src/unversioned/transport/socks.rs   |   200 +
- .../ureq/src/unversioned/transport/tcp.rs     |   279 +
- .../ureq/src/unversioned/transport/test.rs    |   795 +
- .../ureq/src/unversioned/transport/time.rs    |   163 +
- scripts/kconfirm/vendor/ureq/src/util.rs      |   399 +
- scripts/kconfirm/vendor/utf8-zero/Cargo.lock  |     7 +
- scripts/kconfirm/vendor/utf8-zero/Cargo.toml  |    53 +
- .../kconfirm/vendor/utf8-zero/Cargo.toml.orig |    14 +
- .../kconfirm/vendor/utf8-zero/LICENSE-APACHE  |   176 +
- scripts/kconfirm/vendor/utf8-zero/LICENSE-MIT |    23 +
- scripts/kconfirm/vendor/utf8-zero/README.md   |    87 +
- scripts/kconfirm/vendor/utf8-zero/src/lib.rs  |   249 +
- .../kconfirm/vendor/utf8-zero/src/lossy.rs    |   116 +
- scripts/kconfirm/vendor/utf8-zero/src/read.rs |   200 +
- scripts/kconfirm/vendor/utf8parse/Cargo.toml  |    51 +
- .../kconfirm/vendor/utf8parse/Cargo.toml.orig |    15 +
- .../kconfirm/vendor/utf8parse/LICENSE-APACHE  |   176 +
- scripts/kconfirm/vendor/utf8parse/LICENSE-MIT |    25 +
- scripts/kconfirm/vendor/utf8parse/src/lib.rs  |   132 +
- .../kconfirm/vendor/utf8parse/src/types.rs    |   100 +
- scripts/kconfirm/vendor/vcpkg/CHANGELOG.md    |   112 +
- scripts/kconfirm/vendor/vcpkg/Cargo.toml      |    30 +
- scripts/kconfirm/vendor/vcpkg/Cargo.toml.orig |    21 +
- scripts/kconfirm/vendor/vcpkg/LICENSE-APACHE  |   202 +
- scripts/kconfirm/vendor/vcpkg/LICENSE-MIT     |    26 +
- scripts/kconfirm/vendor/vcpkg/README.md       |    23 +
- scripts/kconfirm/vendor/vcpkg/notes.md        |    81 +
- scripts/kconfirm/vendor/vcpkg/rustfmt.toml    |     2 +
- scripts/kconfirm/vendor/vcpkg/setup_vcp.sh    |    32 +
- scripts/kconfirm/vendor/vcpkg/src/lib.rs      |  1946 +++
- .../info/graphite2_1.3.10_x86-windows.list    |     0
- .../installed/vcpkg/updates/status            |     8 +
- .../boost-algorithm_1.67.0_x64-windows.list   |    98 +
- .../info/boost-any_1.67.0_x64-windows.list    |     7 +
- .../info/boost-array_1.67.0_x64-windows.list  |     7 +
- .../info/boost-assert_1.67.0_x64-windows.list |     8 +
- .../info/boost-atomic_1.67.0_x64-windows.list |   104 +
- .../info/boost-bimap_1.67.0_x64-windows.list  |   119 +
- .../info/boost-bind_1.67.0_x64-windows.list   |    25 +
- .../info/boost-build_1.67.0_x64-windows.list  |  1389 ++
- .../info/boost-chrono_1.67.0_x64-windows.list |    78 +
- ...oost-compatibility_1.67.0_x64-windows.list |    25 +
- ...oost-concept-check_1.67.0_x64-windows.list |    25 +
- .../info/boost-config_1.67.0_x64-windows.list |   115 +
- ...ost-container-hash_1.67.0_x64-windows.list |    21 +
- .../boost-container_1.67.0_x64-windows.list   |   120 +
- .../boost-conversion_1.67.0_x64-windows.list  |     9 +
- .../info/boost-core_1.67.0_x64-windows.list   |    45 +
- .../boost-date-time_1.67.0_x64-windows.list   |   125 +
- .../info/boost-detail_1.67.0_x64-windows.list |    31 +
- .../info/boost-endian_1.67.0_x64-windows.list |    19 +
- .../boost-exception_1.67.0_x64-windows.list   |    40 +
- .../boost-filesystem_1.67.0_x64-windows.list  |    30 +
- .../boost-foreach_1.67.0_x64-windows.list     |     8 +
- .../info/boost-format_1.67.0_x64-windows.list |    27 +
- ...ost-function-types_1.67.0_x64-windows.list |    93 +
- .../boost-function_1.67.0_x64-windows.list    |    30 +
- .../boost-functional_1.67.0_x64-windows.list  |    18 +
- .../info/boost-fusion_1.67.0_x64-windows.list |  1125 ++
- .../boost-geometry_1.67.0_x64-windows.list    |   986 ++
- .../info/boost-graph_1.67.0_x64-windows.list  |   216 +
- .../boost-integer_1.67.0_x64-windows.list     |    19 +
- .../boost-intrusive_1.67.0_x64-windows.list   |   100 +
- .../info/boost-io_1.67.0_x64-windows.list     |    11 +
- .../boost-iostreams_1.67.0-1_x64-windows.list |   151 +
- .../boost-iterator_1.67.0_x64-windows.list    |    48 +
- .../info/boost-lambda_1.67.0_x64-windows.list |    41 +
- ...boost-lexical-cast_1.67.0_x64-windows.list |    23 +
- .../info/boost-locale_1.67.0_x64-windows.list |    48 +
- .../info/boost-math_1.67.0_x64-windows.list   |   398 +
- ...r-build-helper_2018-05-14_x64-windows.list |     8 +
- .../info/boost-move_1.67.0_x64-windows.list   |    53 +
- .../info/boost-mpl_1.67.0_x64-windows.list    |  1093 ++
- .../boost-multi-index_1.67.0_x64-windows.list |    83 +
- ...ost-multiprecision_1.67.0_x64-windows.list |    68 +
- ...numeric-conversion_1.67.0_x64-windows.list |    36 +
- .../boost-optional_1.67.0_x64-windows.list    |    24 +
- .../boost-parameter_1.67.0_x64-windows.list   |    41 +
- .../boost-phoenix_1.67.0_x64-windows.list     |   393 +
- .../boost-polygon_1.67.0_x64-windows.list     |    71 +
- .../info/boost-pool_1.67.0_x64-windows.list   |    25 +
- .../info/boost-predef_1.67.0_x64-windows.list |   176 +
- ...boost-preprocessor_1.67.0_x64-windows.list |   318 +
- ...boost-property-map_1.67.0_x64-windows.list |    30 +
- ...oost-property-tree_1.67.0_x64-windows.list |    44 +
- .../info/boost-proto_1.67.0_x64-windows.list  |   169 +
- .../info/boost-qvm_1.67.0_x64-windows.list    |    87 +
- .../info/boost-random_1.67.0_x64-windows.list |    90 +
- .../info/boost-range_1.67.0_x64-windows.list  |   173 +
- .../info/boost-ratio_1.67.0_x64-windows.list  |    42 +
- .../boost-rational_1.67.0_x64-windows.list    |     7 +
- .../info/boost-regex_1.67.0_x64-windows.list  |    80 +
- ...oost-serialization_1.67.0_x64-windows.list |   220 +
- .../boost-smart-ptr_1.67.0_x64-windows.list   |   103 +
- .../info/boost-spirit_1.67.0_x64-windows.list |  1207 ++
- ...oost-static-assert_1.67.0_x64-windows.list |     7 +
- .../info/boost-system_1.67.0_x64-windows.list |    29 +
- .../info/boost-test_1.67.0-2_x64-windows.list |   195 +
- .../info/boost-thread_1.67.0_x64-windows.list |   197 +
- ...st-throw-exception_1.67.0_x64-windows.list |     9 +
- .../info/boost-timer_1.67.0_x64-windows.list  |    22 +
- .../boost-tokenizer_1.67.0_x64-windows.list   |     9 +
- .../info/boost-tti_1.67.0_x64-windows.list    |    51 +
- .../info/boost-tuple_1.67.0_x64-windows.list  |    12 +
- .../boost-type-index_1.67.0_x64-windows.list  |    24 +
- .../boost-type-traits_1.67.0_x64-windows.list |   190 +
- .../info/boost-typeof_1.67.0_x64-windows.list |    60 +
- .../boost-unordered_1.67.0_x64-windows.list   |    18 +
- .../boost-utility_1.67.0_x64-windows.list     |    33 +
- .../boost-variant_1.67.0_x64-windows.list     |    45 +
- .../boost-vcpkg-helpers_4_x64-windows.list    |     4 +
- .../info/boost-winapi_1.67.0_x64-windows.list |   126 +
- .../boost-xpressive_1.67.0_x64-windows.list   |   141 +
- .../vcpkg/info/bzip2_1.0.6-2_x64-windows.list |    21 +
- .../vcpkg/info/icu_61.1-1_x64-windows.list    |   217 +
- .../info/libevent_2.1.8-3_x64-windows.list    |    51 +
- .../info/liblzma_5.2.3-2_x64-windows.list     |    33 +
- .../info/libmysql_8.0.4-2_x64-windows.list    |    31 +
- .../vcpkg/info/lz4_1.8.2_x64-windows.list     |    19 +
- .../info/openssl_1.0.2o-3_x64-windows.list    |   105 +
- .../vcpkg/info/zlib_1.2.11-3_x64-windows.list |    19 +
- .../installed/vcpkg/updates/0000000000        |     6 +
- .../installed/vcpkg/updates/0000000001        |     6 +
- .../installed/vcpkg/updates/0000000002        |     7 +
- .../installed/vcpkg/updates/0000000003        |     7 +
- .../installed/vcpkg/updates/0000000004        |     7 +
- .../installed/vcpkg/updates/0000000005        |     7 +
- .../installed/vcpkg/updates/0000000006        |     7 +
- .../installed/vcpkg/updates/0000000007        |     7 +
- .../installed/vcpkg/updates/0000000008        |     5 +
- .../installed/vcpkg/updates/0000000009        |     5 +
- .../installed/vcpkg/updates/0000000010        |     7 +
- .../installed/vcpkg/updates/0000000011        |     7 +
- .../installed/vcpkg/updates/0000000012        |     7 +
- .../installed/vcpkg/updates/0000000013        |     7 +
- .../installed/vcpkg/updates/0000000014        |     7 +
- .../installed/vcpkg/updates/0000000015        |     7 +
- .../installed/vcpkg/updates/0000000016        |     7 +
- .../installed/vcpkg/updates/0000000017        |     7 +
- .../installed/vcpkg/updates/0000000018        |     7 +
- .../installed/vcpkg/updates/0000000019        |     7 +
- .../installed/vcpkg/updates/0000000020        |     7 +
- .../installed/vcpkg/updates/0000000021        |     7 +
- .../installed/vcpkg/updates/0000000022        |     7 +
- .../installed/vcpkg/updates/0000000023        |     7 +
- .../installed/vcpkg/updates/0000000024        |     7 +
- .../installed/vcpkg/updates/0000000025        |     7 +
- .../installed/vcpkg/updates/0000000026        |     7 +
- .../installed/vcpkg/updates/0000000027        |     7 +
- .../installed/vcpkg/updates/0000000028        |     7 +
- .../installed/vcpkg/updates/0000000029        |     7 +
- .../installed/vcpkg/updates/0000000030        |     6 +
- .../installed/vcpkg/updates/0000000031        |     6 +
- .../installed/vcpkg/updates/0000000032        |     7 +
- .../installed/vcpkg/updates/0000000033        |     7 +
- .../installed/vcpkg/updates/0000000034        |     7 +
- .../installed/vcpkg/updates/0000000035        |     7 +
- .../installed/vcpkg/updates/0000000036        |     6 +
- .../installed/vcpkg/updates/0000000037        |     6 +
- .../installed/vcpkg/updates/0000000038        |     7 +
- .../installed/vcpkg/updates/0000000039        |     7 +
- .../installed/vcpkg/updates/0000000040        |     7 +
- .../installed/vcpkg/updates/0000000041        |     7 +
- .../installed/vcpkg/updates/0000000042        |     7 +
- .../installed/vcpkg/updates/0000000043        |     7 +
- .../installed/vcpkg/updates/0000000044        |     7 +
- .../installed/vcpkg/updates/0000000045        |     7 +
- .../installed/vcpkg/updates/0000000046        |     7 +
- .../installed/vcpkg/updates/0000000047        |     7 +
- .../installed/vcpkg/updates/0000000048        |     7 +
- .../installed/vcpkg/updates/0000000049        |     7 +
- .../installed/vcpkg/updates/0000000050        |     7 +
- .../installed/vcpkg/updates/0000000051        |     7 +
- .../installed/vcpkg/updates/0000000052        |     7 +
- .../installed/vcpkg/updates/0000000053        |     7 +
- .../installed/vcpkg/updates/0000000054        |     7 +
- .../installed/vcpkg/updates/0000000055        |     7 +
- .../installed/vcpkg/updates/0000000056        |     7 +
- .../installed/vcpkg/updates/0000000057        |     7 +
- .../installed/vcpkg/updates/0000000058        |     7 +
- .../installed/vcpkg/updates/0000000059        |     7 +
- .../installed/vcpkg/updates/0000000060        |     7 +
- .../installed/vcpkg/updates/0000000061        |     7 +
- .../installed/vcpkg/updates/0000000062        |     7 +
- .../installed/vcpkg/updates/0000000063        |     7 +
- .../installed/vcpkg/updates/0000000064        |     7 +
- .../installed/vcpkg/updates/0000000065        |     7 +
- .../installed/vcpkg/updates/0000000066        |     7 +
- .../installed/vcpkg/updates/0000000067        |     7 +
- .../installed/vcpkg/updates/0000000068        |     7 +
- .../installed/vcpkg/updates/0000000069        |     7 +
- .../installed/vcpkg/updates/0000000070        |     7 +
- .../installed/vcpkg/updates/0000000071        |     7 +
- .../installed/vcpkg/updates/0000000072        |     7 +
- .../installed/vcpkg/updates/0000000073        |     7 +
- .../installed/vcpkg/updates/0000000074        |     7 +
- .../installed/vcpkg/updates/0000000075        |     7 +
- .../installed/vcpkg/updates/0000000076        |     7 +
- .../installed/vcpkg/updates/0000000077        |     7 +
- .../installed/vcpkg/updates/0000000078        |     7 +
- .../installed/vcpkg/updates/0000000079        |     7 +
- .../installed/vcpkg/updates/0000000080        |     7 +
- .../installed/vcpkg/updates/0000000081        |     7 +
- .../installed/vcpkg/updates/0000000082        |     6 +
- .../installed/vcpkg/updates/0000000083        |     6 +
- .../installed/vcpkg/updates/0000000084        |     7 +
- .../installed/vcpkg/updates/0000000085        |     7 +
- .../installed/vcpkg/updates/0000000086        |     7 +
- .../installed/vcpkg/updates/0000000087        |     7 +
- .../installed/vcpkg/updates/0000000088        |     7 +
- .../installed/vcpkg/updates/0000000089        |     7 +
- .../installed/vcpkg/updates/0000000090        |     7 +
- .../installed/vcpkg/updates/0000000091        |     7 +
- .../installed/vcpkg/updates/0000000092        |     7 +
- .../installed/vcpkg/updates/0000000093        |     7 +
- .../installed/vcpkg/updates/0000000094        |     7 +
- .../installed/vcpkg/updates/0000000095        |     7 +
- .../installed/vcpkg/updates/0000000096        |     7 +
- .../installed/vcpkg/updates/0000000097        |     7 +
- .../installed/vcpkg/updates/0000000098        |     7 +
- .../installed/vcpkg/updates/0000000099        |     7 +
- .../installed/vcpkg/updates/0000000100        |     7 +
- .../installed/vcpkg/updates/0000000101        |     7 +
- .../installed/vcpkg/updates/0000000102        |     7 +
- .../installed/vcpkg/updates/0000000103        |     7 +
- .../installed/vcpkg/updates/0000000104        |     7 +
- .../installed/vcpkg/updates/0000000105        |     7 +
- .../installed/vcpkg/updates/0000000106        |     7 +
- .../installed/vcpkg/updates/0000000107        |     7 +
- .../installed/vcpkg/updates/0000000108        |     6 +
- .../installed/vcpkg/updates/0000000109        |     6 +
- .../installed/vcpkg/updates/0000000110        |     6 +
- .../installed/vcpkg/updates/0000000111        |     6 +
- .../installed/vcpkg/updates/0000000112        |     7 +
- .../installed/vcpkg/updates/0000000113        |     7 +
- .../installed/vcpkg/updates/0000000114        |     7 +
- .../installed/vcpkg/updates/0000000115        |     7 +
- .../installed/vcpkg/updates/0000000116        |     7 +
- .../installed/vcpkg/updates/0000000117        |     7 +
- .../installed/vcpkg/updates/0000000118        |     7 +
- .../installed/vcpkg/updates/0000000119        |     7 +
- .../installed/vcpkg/updates/0000000120        |     7 +
- .../installed/vcpkg/updates/0000000121        |     7 +
- .../installed/vcpkg/updates/0000000122        |     7 +
- .../installed/vcpkg/updates/0000000123        |     7 +
- .../installed/vcpkg/updates/0000000124        |     7 +
- .../installed/vcpkg/updates/0000000125        |     7 +
- .../installed/vcpkg/updates/0000000126        |     7 +
- .../installed/vcpkg/updates/0000000127        |     7 +
- .../installed/vcpkg/updates/0000000128        |     7 +
- .../installed/vcpkg/updates/0000000129        |     7 +
- .../installed/vcpkg/updates/0000000130        |     7 +
- .../installed/vcpkg/updates/0000000131        |     7 +
- .../installed/vcpkg/updates/0000000132        |     7 +
- .../installed/vcpkg/updates/0000000133        |     7 +
- .../installed/vcpkg/updates/0000000134        |     7 +
- .../installed/vcpkg/updates/0000000135        |     7 +
- .../installed/vcpkg/updates/0000000136        |     7 +
- .../installed/vcpkg/updates/0000000137        |     7 +
- .../installed/vcpkg/updates/0000000138        |     7 +
- .../installed/vcpkg/updates/0000000139        |     7 +
- .../installed/vcpkg/updates/0000000140        |     7 +
- .../installed/vcpkg/updates/0000000141        |     7 +
- .../installed/vcpkg/updates/0000000142        |     7 +
- .../installed/vcpkg/updates/0000000143        |     7 +
- .../installed/vcpkg/updates/0000000144        |     7 +
- .../installed/vcpkg/updates/0000000145        |     7 +
- .../installed/vcpkg/updates/0000000146        |     6 +
- .../installed/vcpkg/updates/0000000147        |     6 +
- .../installed/vcpkg/updates/0000000148        |     7 +
- .../installed/vcpkg/updates/0000000149        |     7 +
- .../installed/vcpkg/updates/0000000150        |     7 +
- .../installed/vcpkg/updates/0000000151        |     7 +
- .../installed/vcpkg/updates/0000000152        |     7 +
- .../installed/vcpkg/updates/0000000153        |     7 +
- .../installed/vcpkg/updates/0000000154        |     7 +
- .../installed/vcpkg/updates/0000000155        |     7 +
- .../installed/vcpkg/updates/0000000156        |     7 +
- .../installed/vcpkg/updates/0000000157        |     7 +
- .../installed/vcpkg/updates/0000000158        |     7 +
- .../installed/vcpkg/updates/0000000159        |     7 +
- .../installed/vcpkg/updates/0000000160        |     7 +
- .../installed/vcpkg/updates/0000000161        |     7 +
- .../installed/vcpkg/updates/0000000162        |     7 +
- .../installed/vcpkg/updates/0000000163        |     7 +
- .../installed/vcpkg/updates/0000000164        |     7 +
- .../installed/vcpkg/updates/0000000165        |     7 +
- .../installed/vcpkg/updates/0000000166        |     7 +
- .../installed/vcpkg/updates/0000000167        |     7 +
- .../installed/vcpkg/updates/0000000168        |     7 +
- .../installed/vcpkg/updates/0000000169        |     7 +
- .../installed/vcpkg/updates/0000000170        |     7 +
- .../installed/vcpkg/updates/0000000171        |     7 +
- .../installed/vcpkg/updates/0000000172        |     7 +
- .../installed/vcpkg/updates/0000000173        |     7 +
- .../installed/vcpkg/updates/0000000174        |     6 +
- .../installed/vcpkg/updates/0000000175        |     6 +
- .../installed/vcpkg/updates/0000000176        |     7 +
- .../installed/vcpkg/updates/0000000177        |     7 +
- .../bin/boost_atomic-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_chrono-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_container-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_date_time-vc141-mt-x64-1_67.dll |     0
- .../boost_filesystem-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_graph-vc141-mt-x64-1_67.dll     |     0
- .../bin/boost_iostreams-vc141-mt-x32-1_67.dll |     0
- .../bin/boost_locale-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_math_c99-vc141-mt-x64-1_67.dll  |     0
- .../bin/boost_math_c99f-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_math_c99l-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_math_tr1-vc141-mt-x64-1_67.dll  |     0
- .../bin/boost_math_tr1f-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_math_tr1l-vc141-mt-x64-1_67.dll |     0
- ...ost_prg_exec_monitor-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_random-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_regex-vc141-mt-x64-1_67.dll     |     0
- .../boost_serialization-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_system-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_thread-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_timer-vc141-mt-x64-1_67.dll     |     0
- ..._unit_test_framework-vc141-mt-x64-1_67.dll |     0
- ...boost_wserialization-vc141-mt-x64-1_67.dll |     0
- .../installed/x64-windows/bin/icudt61.dll     |     0
- .../installed/x64-windows/bin/icuin61.dll     |     0
- .../installed/x64-windows/bin/icuio61.dll     |     0
- .../installed/x64-windows/bin/icutu61.dll     |     0
- .../installed/x64-windows/bin/icuuc61.dll     |     0
- .../installed/x64-windows/bin/libbz2.dll      |     0
- .../installed/x64-windows/bin/libeay32.dll    |     0
- .../installed/x64-windows/bin/libmysql.dll    |     0
- .../installed/x64-windows/bin/lz4.dll         |     0
- .../installed/x64-windows/bin/lzma.dll        |     0
- .../installed/x64-windows/bin/ssleay32.dll    |     0
- .../installed/x64-windows/bin/zlib1.dll       |     0
- .../x64-windows/lib/boost_atomic-vc140-mt.lib |     0
- .../x64-windows/lib/boost_chrono-vc140-mt.lib |     0
- .../lib/boost_container-vc140-mt.lib          |     0
- .../lib/boost_date_time-vc140-mt.lib          |     0
- .../lib/boost_exception-vc140-mt.lib          |     0
- .../lib/boost_filesystem-vc140-mt.lib         |     0
- .../x64-windows/lib/boost_graph-vc140-mt.lib  |     0
- .../lib/boost_iostreams-vc140-mt.lib          |     0
- .../x64-windows/lib/boost_locale-vc140-mt.lib |     0
- .../lib/boost_math_c99-vc140-mt.lib           |     0
- .../lib/boost_math_c99f-vc140-mt.lib          |     0
- .../lib/boost_math_c99l-vc140-mt.lib          |     0
- .../lib/boost_math_tr1-vc140-mt.lib           |     0
- .../lib/boost_math_tr1f-vc140-mt.lib          |     0
- .../lib/boost_math_tr1l-vc140-mt.lib          |     0
- .../x64-windows/lib/boost_random-vc140-mt.lib |     0
- .../x64-windows/lib/boost_regex-vc140-mt.lib  |     0
- .../lib/boost_serialization-vc140-mt.lib      |     0
- .../x64-windows/lib/boost_system-vc140-mt.lib |     0
- .../x64-windows/lib/boost_thread-vc140-mt.lib |     0
- .../x64-windows/lib/boost_timer-vc140-mt.lib  |     0
- .../boost_unit_test_framework-vc140-mt.lib    |     0
- .../lib/boost_wserialization-vc140-mt.lib     |     0
- .../installed/x64-windows/lib/bz2.lib         |     0
- .../installed/x64-windows/lib/event.lib       |     0
- .../installed/x64-windows/lib/event_core.lib  |     0
- .../installed/x64-windows/lib/event_extra.lib |     0
- .../installed/x64-windows/lib/icudt.lib       |     0
- .../installed/x64-windows/lib/icuin.lib       |     0
- .../installed/x64-windows/lib/icuio.lib       |     0
- .../installed/x64-windows/lib/icutu.lib       |     0
- .../installed/x64-windows/lib/icuuc.lib       |     0
- .../installed/x64-windows/lib/libeay32.lib    |     0
- .../installed/x64-windows/lib/libmysql.lib    |     0
- .../installed/x64-windows/lib/lz4.lib         |     0
- .../installed/x64-windows/lib/lzma.lib        |     0
- .../boost_prg_exec_monitor-vc140-mt.lib       |     0
- .../boost_test_exec_monitor-vc140-mt.lib      |     0
- .../installed/x64-windows/lib/ssleay32.lib    |     0
- .../installed/x64-windows/lib/zlib.lib        |     0
- .../x64-windows/tools/openssl/LIBEAY32.dll    |     0
- .../x64-windows/tools/openssl/SSLEAY32.dll    |     0
- ...t-algorithm_1.67.0_x64-windows-static.list |    98 +
- .../boost-algorithm_1.67.0_x64-windows.list   |    98 +
- .../boost-any_1.67.0_x64-windows-static.list  |     7 +
- .../info/boost-any_1.67.0_x64-windows.list    |     7 +
- ...boost-array_1.67.0_x64-windows-static.list |     7 +
- .../info/boost-array_1.67.0_x64-windows.list  |     7 +
- ...oost-assert_1.67.0_x64-windows-static.list |     8 +
- .../info/boost-assert_1.67.0_x64-windows.list |     8 +
- ...oost-atomic_1.67.0_x64-windows-static.list |    98 +
- .../info/boost-atomic_1.67.0_x64-windows.list |   104 +
- ...boost-bimap_1.67.0_x64-windows-static.list |   119 +
- .../info/boost-bimap_1.67.0_x64-windows.list  |   119 +
- .../boost-bind_1.67.0_x64-windows-static.list |    25 +
- .../info/boost-bind_1.67.0_x64-windows.list   |    25 +
- ...boost-build_1.67.0_x64-windows-static.list |  1389 ++
- .../info/boost-build_1.67.0_x64-windows.list  |  1389 ++
- ...oost-chrono_1.67.0_x64-windows-static.list |    72 +
- .../info/boost-chrono_1.67.0_x64-windows.list |    78 +
- ...mpatibility_1.67.0_x64-windows-static.list |    25 +
- ...oost-compatibility_1.67.0_x64-windows.list |    25 +
- ...ncept-check_1.67.0_x64-windows-static.list |    25 +
- ...oost-concept-check_1.67.0_x64-windows.list |    25 +
- ...oost-config_1.67.0_x64-windows-static.list |   115 +
- .../info/boost-config_1.67.0_x64-windows.list |   115 +
- ...tainer-hash_1.67.0_x64-windows-static.list |    21 +
- ...ost-container-hash_1.67.0_x64-windows.list |    21 +
- ...t-container_1.67.0_x64-windows-static.list |   114 +
- .../boost-container_1.67.0_x64-windows.list   |   120 +
- ...-conversion_1.67.0_x64-windows-static.list |     9 +
- .../boost-conversion_1.67.0_x64-windows.list  |     9 +
- .../boost-core_1.67.0_x64-windows-static.list |    45 +
- .../info/boost-core_1.67.0_x64-windows.list   |    45 +
- ...t-date-time_1.67.0_x64-windows-static.list |   119 +
- .../boost-date-time_1.67.0_x64-windows.list   |   125 +
- ...oost-detail_1.67.0_x64-windows-static.list |    31 +
- .../info/boost-detail_1.67.0_x64-windows.list |    31 +
- ...oost-endian_1.67.0_x64-windows-static.list |    19 +
- .../info/boost-endian_1.67.0_x64-windows.list |    19 +
- ...t-exception_1.67.0_x64-windows-static.list |    40 +
- .../boost-exception_1.67.0_x64-windows.list   |    40 +
- ...-filesystem_1.67.0_x64-windows-static.list |    24 +
- .../boost-filesystem_1.67.0_x64-windows.list  |    30 +
- ...ost-foreach_1.67.0_x64-windows-static.list |     8 +
- .../boost-foreach_1.67.0_x64-windows.list     |     8 +
- ...oost-format_1.67.0_x64-windows-static.list |    27 +
- .../info/boost-format_1.67.0_x64-windows.list |    27 +
- ...ction-types_1.67.0_x64-windows-static.list |    93 +
- ...ost-function-types_1.67.0_x64-windows.list |    93 +
- ...st-function_1.67.0_x64-windows-static.list |    30 +
- .../boost-function_1.67.0_x64-windows.list    |    30 +
- ...-functional_1.67.0_x64-windows-static.list |    18 +
- .../boost-functional_1.67.0_x64-windows.list  |    18 +
- ...oost-fusion_1.67.0_x64-windows-static.list |  1125 ++
- .../info/boost-fusion_1.67.0_x64-windows.list |  1125 ++
- ...st-geometry_1.67.0_x64-windows-static.list |   986 ++
- .../boost-geometry_1.67.0_x64-windows.list    |   986 ++
- ...boost-graph_1.67.0_x64-windows-static.list |   210 +
- .../info/boost-graph_1.67.0_x64-windows.list  |   216 +
- ...ost-integer_1.67.0_x64-windows-static.list |    19 +
- .../boost-integer_1.67.0_x64-windows.list     |    19 +
- ...t-intrusive_1.67.0_x64-windows-static.list |   100 +
- .../boost-intrusive_1.67.0_x64-windows.list   |   100 +
- .../boost-io_1.67.0_x64-windows-static.list   |    11 +
- .../info/boost-io_1.67.0_x64-windows.list     |    11 +
- ...iostreams_1.67.0-1_x64-windows-static.list |   145 +
- .../boost-iostreams_1.67.0-1_x64-windows.list |   151 +
- ...st-iterator_1.67.0_x64-windows-static.list |    48 +
- .../boost-iterator_1.67.0_x64-windows.list    |    48 +
- ...oost-lambda_1.67.0_x64-windows-static.list |    41 +
- .../info/boost-lambda_1.67.0_x64-windows.list |    41 +
- ...exical-cast_1.67.0_x64-windows-static.list |    23 +
- ...boost-lexical-cast_1.67.0_x64-windows.list |    23 +
- ...oost-locale_1.67.0_x64-windows-static.list |    42 +
- .../info/boost-locale_1.67.0_x64-windows.list |    48 +
- .../boost-math_1.67.0_x64-windows-static.list |   372 +
- .../info/boost-math_1.67.0_x64-windows.list   |   398 +
- ...-helper_2018-05-14_x64-windows-static.list |     8 +
- ...r-build-helper_2018-05-14_x64-windows.list |     8 +
- .../boost-move_1.67.0_x64-windows-static.list |    53 +
- .../info/boost-move_1.67.0_x64-windows.list   |    53 +
- .../boost-mpl_1.67.0_x64-windows-static.list  |  1093 ++
- .../info/boost-mpl_1.67.0_x64-windows.list    |  1093 ++
- ...multi-index_1.67.0_x64-windows-static.list |    83 +
- .../boost-multi-index_1.67.0_x64-windows.list |    83 +
- ...tiprecision_1.67.0_x64-windows-static.list |    68 +
- ...ost-multiprecision_1.67.0_x64-windows.list |    68 +
- ...-conversion_1.67.0_x64-windows-static.list |    36 +
- ...numeric-conversion_1.67.0_x64-windows.list |    36 +
- ...st-optional_1.67.0_x64-windows-static.list |    24 +
- .../boost-optional_1.67.0_x64-windows.list    |    24 +
- ...t-parameter_1.67.0_x64-windows-static.list |    41 +
- .../boost-parameter_1.67.0_x64-windows.list   |    41 +
- ...ost-phoenix_1.67.0_x64-windows-static.list |   393 +
- .../boost-phoenix_1.67.0_x64-windows.list     |   393 +
- ...ost-polygon_1.67.0_x64-windows-static.list |    71 +
- .../boost-polygon_1.67.0_x64-windows.list     |    71 +
- .../boost-pool_1.67.0_x64-windows-static.list |    25 +
- .../info/boost-pool_1.67.0_x64-windows.list   |    25 +
- ...oost-predef_1.67.0_x64-windows-static.list |   176 +
- .../info/boost-predef_1.67.0_x64-windows.list |   176 +
- ...reprocessor_1.67.0_x64-windows-static.list |   318 +
- ...boost-preprocessor_1.67.0_x64-windows.list |   318 +
- ...roperty-map_1.67.0_x64-windows-static.list |    30 +
- ...boost-property-map_1.67.0_x64-windows.list |    30 +
- ...operty-tree_1.67.0_x64-windows-static.list |    44 +
- ...oost-property-tree_1.67.0_x64-windows.list |    44 +
- ...boost-proto_1.67.0_x64-windows-static.list |   169 +
- .../info/boost-proto_1.67.0_x64-windows.list  |   169 +
- .../boost-qvm_1.67.0_x64-windows-static.list  |    87 +
- .../info/boost-qvm_1.67.0_x64-windows.list    |    87 +
- ...oost-random_1.67.0_x64-windows-static.list |    84 +
- .../info/boost-random_1.67.0_x64-windows.list |    90 +
- ...boost-range_1.67.0_x64-windows-static.list |   173 +
- .../info/boost-range_1.67.0_x64-windows.list  |   173 +
- ...boost-ratio_1.67.0_x64-windows-static.list |    42 +
- .../info/boost-ratio_1.67.0_x64-windows.list  |    42 +
- ...st-rational_1.67.0_x64-windows-static.list |     7 +
- .../boost-rational_1.67.0_x64-windows.list    |     7 +
- ...boost-regex_1.67.0_x64-windows-static.list |    74 +
- .../info/boost-regex_1.67.0_x64-windows.list  |    80 +
- ...rialization_1.67.0_x64-windows-static.list |   210 +
- ...oost-serialization_1.67.0_x64-windows.list |   220 +
- ...t-smart-ptr_1.67.0_x64-windows-static.list |   103 +
- .../boost-smart-ptr_1.67.0_x64-windows.list   |   103 +
- ...oost-spirit_1.67.0_x64-windows-static.list |  1207 ++
- .../info/boost-spirit_1.67.0_x64-windows.list |  1207 ++
- ...atic-assert_1.67.0_x64-windows-static.list |     7 +
- ...oost-static-assert_1.67.0_x64-windows.list |     7 +
- ...oost-system_1.67.0_x64-windows-static.list |    23 +
- .../info/boost-system_1.67.0_x64-windows.list |    29 +
- ...oost-test_1.67.0-2_x64-windows-static.list |   185 +
- .../info/boost-test_1.67.0-2_x64-windows.list |   195 +
- ...oost-thread_1.67.0_x64-windows-static.list |   191 +
- .../info/boost-thread_1.67.0_x64-windows.list |   197 +
- ...w-exception_1.67.0_x64-windows-static.list |     9 +
- ...st-throw-exception_1.67.0_x64-windows.list |     9 +
- ...boost-timer_1.67.0_x64-windows-static.list |    16 +
- .../info/boost-timer_1.67.0_x64-windows.list  |    22 +
- ...t-tokenizer_1.67.0_x64-windows-static.list |     9 +
- .../boost-tokenizer_1.67.0_x64-windows.list   |     9 +
- .../boost-tti_1.67.0_x64-windows-static.list  |    51 +
- .../info/boost-tti_1.67.0_x64-windows.list    |    51 +
- ...boost-tuple_1.67.0_x64-windows-static.list |    12 +
- .../info/boost-tuple_1.67.0_x64-windows.list  |    12 +
- ...-type-index_1.67.0_x64-windows-static.list |    24 +
- .../boost-type-index_1.67.0_x64-windows.list  |    24 +
- ...type-traits_1.67.0_x64-windows-static.list |   190 +
- .../boost-type-traits_1.67.0_x64-windows.list |   190 +
- ...oost-typeof_1.67.0_x64-windows-static.list |    60 +
- .../info/boost-typeof_1.67.0_x64-windows.list |    60 +
- ...t-unordered_1.67.0_x64-windows-static.list |    18 +
- .../boost-unordered_1.67.0_x64-windows.list   |    18 +
- ...ost-utility_1.67.0_x64-windows-static.list |    33 +
- .../boost-utility_1.67.0_x64-windows.list     |    33 +
- ...ost-variant_1.67.0_x64-windows-static.list |    45 +
- .../boost-variant_1.67.0_x64-windows.list     |    45 +
- ...st-vcpkg-helpers_4_x64-windows-static.list |     4 +
- .../boost-vcpkg-helpers_4_x64-windows.list    |     4 +
- ...oost-winapi_1.67.0_x64-windows-static.list |   126 +
- .../info/boost-winapi_1.67.0_x64-windows.list |   126 +
- ...t-xpressive_1.67.0_x64-windows-static.list |   141 +
- .../boost-xpressive_1.67.0_x64-windows.list   |   141 +
- .../vcpkg/info/bzip2_1.0.6-2_arm64-ios.list   |    15 +
- .../vcpkg/info/bzip2_1.0.6-2_x64-osx.list     |    15 +
- .../bzip2_1.0.6-2_x64-windows-static.list     |    15 +
- .../vcpkg/info/bzip2_1.0.6-2_x64-windows.list |    21 +
- .../vcpkg/info/bzip2_1.0.6-2_x86-windows.list |    21 +
- .../info/freetype_2.8.1-3_arm64-ios.list      |    71 +
- .../vcpkg/info/freetype_2.8.1-3_x64-osx.list  |    71 +
- .../info/freetype_2.8.1-3_x86-windows.list    |    76 +
- .../info/graphite2_1.3.10_x86-windows.list    |    29 +
- .../vcpkg/info/harfbuzz_1.8.4_arm64-ios.list  |    33 +
- .../vcpkg/info/harfbuzz_1.8.4_x64-osx.list    |    33 +
- .../info/harfbuzz_1.8.4_x86-windows.list      |    39 +
- .../info/icu_61.1-1_x64-windows-static.list   |   197 +
- .../vcpkg/info/icu_61.1-1_x64-windows.list    |   217 +
- .../vcpkg/info/icu_61.1-1_x86-windows.list    |   217 +
- .../vcpkg/info/icu_61.1-2_x64-osx.list        |   216 +
- .../libevent_2.1.8-3_x64-windows-static.list  |    51 +
- .../info/libevent_2.1.8-3_x64-windows.list    |    51 +
- .../liblzma_5.2.3-2_x64-windows-static.list   |    27 +
- .../info/liblzma_5.2.3-2_x64-windows.list     |    33 +
- .../libmysql_8.0.4-2_x64-windows-static.list  |    25 +
- .../info/libmysql_8.0.4-2_x64-windows.list    |    31 +
- .../vcpkg/info/libpng_1.6.35_arm64-ios.list   |    20 +
- .../vcpkg/info/libpng_1.6.35_x64-osx.list     |    20 +
- .../vcpkg/info/libpng_1.6.35_x86-windows.list |    24 +
- .../info/lz4_1.8.2_x64-windows-static.list    |    13 +
- .../vcpkg/info/lz4_1.8.2_x64-windows.list     |    19 +
- .../openssl_1.0.2o-3_x64-windows-static.list  |    92 +
- .../info/openssl_1.0.2o-3_x64-windows.list    |   105 +
- .../vcpkg/info/ragel_6.10-1_arm64-ios.list    |     6 +
- .../vcpkg/info/ragel_6.10-1_x64-osx.list      |     6 +
- .../vcpkg/info/ragel_6.10-1_x86-windows.list  |     6 +
- .../vcpkg/info/zlib_1.2.11-3_arm64-ios.list   |    13 +
- .../vcpkg/info/zlib_1.2.11-3_x64-osx.list     |    13 +
- .../zlib_1.2.11-3_x64-windows-static.list     |    13 +
- .../vcpkg/info/zlib_1.2.11-3_x64-windows.list |    19 +
- .../vcpkg/info/zlib_1.2.11-3_x86-windows.list |    19 +
- .../normalized/installed/vcpkg/updates/status |  1574 ++
- .../debug/lib/boost_atomic-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_chrono-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_container-vc140-mt-gd.lib |     0
- .../debug/lib/boost_date_time-vc140-mt-gd.lib |     0
- .../debug/lib/boost_exception-vc140-mt-gd.lib |     0
- .../lib/boost_filesystem-vc140-mt-gd.lib      |     0
- .../debug/lib/boost_graph-vc140-mt-gd.lib     |     0
- .../debug/lib/boost_iostreams-vc140-mt-gd.lib |     0
- .../debug/lib/boost_locale-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_math_c99-vc140-mt-gd.lib  |     0
- .../debug/lib/boost_math_c99f-vc140-mt-gd.lib |     0
- .../debug/lib/boost_math_c99l-vc140-mt-gd.lib |     0
- .../debug/lib/boost_math_tr1-vc140-mt-gd.lib  |     0
- .../debug/lib/boost_math_tr1f-vc140-mt-gd.lib |     0
- .../debug/lib/boost_math_tr1l-vc140-mt-gd.lib |     0
- .../debug/lib/boost_random-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_regex-vc140-mt-gd.lib     |     0
- .../lib/boost_serialization-vc140-mt-gd.lib   |     0
- .../debug/lib/boost_system-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_thread-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_timer-vc140-mt-gd.lib     |     0
- .../boost_unit_test_framework-vc140-mt-gd.lib |     0
- .../lib/boost_wserialization-vc140-mt-gd.lib  |     0
- .../x64-windows-static/debug/lib/bz2d.lib     |     0
- .../x64-windows-static/debug/lib/event.lib    |     0
- .../debug/lib/event_core.lib                  |     0
- .../debug/lib/event_extra.lib                 |     0
- .../x64-windows-static/debug/lib/icudtd.lib   |     0
- .../x64-windows-static/debug/lib/icuind.lib   |     0
- .../x64-windows-static/debug/lib/icuiod.lib   |     0
- .../x64-windows-static/debug/lib/icutud.lib   |     0
- .../x64-windows-static/debug/lib/icuucd.lib   |     0
- .../x64-windows-static/debug/lib/libeay32.lib |     0
- .../x64-windows-static/debug/lib/lz4d.lib     |     0
- .../x64-windows-static/debug/lib/lzma.lib     |     0
- .../boost_prg_exec_monitor-vc140-mt-gd.lib    |     0
- .../boost_test_exec_monitor-vc140-mt-gd.lib   |     0
- .../debug/lib/mysqlclient.lib                 |     0
- .../x64-windows-static/debug/lib/ssleay32.lib |     0
- .../x64-windows-static/debug/lib/zlibd.lib    |     0
- .../lib/boost_atomic-vc140-mt.lib             |     0
- .../lib/boost_chrono-vc140-mt.lib             |     0
- .../lib/boost_container-vc140-mt.lib          |     0
- .../lib/boost_date_time-vc140-mt.lib          |     0
- .../lib/boost_exception-vc140-mt.lib          |     0
- .../lib/boost_filesystem-vc140-mt.lib         |     0
- .../lib/boost_graph-vc140-mt.lib              |     0
- .../lib/boost_iostreams-vc140-mt.lib          |     0
- .../lib/boost_locale-vc140-mt.lib             |     0
- .../lib/boost_math_c99-vc140-mt.lib           |     0
- .../lib/boost_math_c99f-vc140-mt.lib          |     0
- .../lib/boost_math_c99l-vc140-mt.lib          |     0
- .../lib/boost_math_tr1-vc140-mt.lib           |     0
- .../lib/boost_math_tr1f-vc140-mt.lib          |     0
- .../lib/boost_math_tr1l-vc140-mt.lib          |     0
- .../lib/boost_random-vc140-mt.lib             |     0
- .../lib/boost_regex-vc140-mt.lib              |     0
- .../lib/boost_serialization-vc140-mt.lib      |     0
- .../lib/boost_system-vc140-mt.lib             |     0
- .../lib/boost_thread-vc140-mt.lib             |     0
- .../lib/boost_timer-vc140-mt.lib              |     0
- .../boost_unit_test_framework-vc140-mt.lib    |     0
- .../lib/boost_wserialization-vc140-mt.lib     |     0
- .../installed/x64-windows-static/lib/bz2.lib  |     0
- .../x64-windows-static/lib/event.lib          |     0
- .../x64-windows-static/lib/event_core.lib     |     0
- .../x64-windows-static/lib/event_extra.lib    |     0
- .../x64-windows-static/lib/icudt.lib          |     0
- .../x64-windows-static/lib/icuin.lib          |     0
- .../x64-windows-static/lib/icuio.lib          |     0
- .../x64-windows-static/lib/icutu.lib          |     0
- .../x64-windows-static/lib/icuuc.lib          |     0
- .../x64-windows-static/lib/libeay32.lib       |     0
- .../installed/x64-windows-static/lib/lz4.lib  |     0
- .../installed/x64-windows-static/lib/lzma.lib |     0
- .../boost_prg_exec_monitor-vc140-mt.lib       |     0
- .../boost_test_exec_monitor-vc140-mt.lib      |     0
- .../x64-windows-static/lib/mysqlclient.lib    |     0
- .../x64-windows-static/lib/ssleay32.lib       |     0
- .../installed/x64-windows-static/lib/zlib.lib |     0
- .../bin/boost_atomic-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_chrono-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_container-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_date_time-vc141-mt-x64-1_67.dll |     0
- .../boost_filesystem-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_graph-vc141-mt-x64-1_67.dll     |     0
- .../bin/boost_iostreams-vc141-mt-x32-1_67.dll |     0
- .../bin/boost_locale-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_math_c99-vc141-mt-x64-1_67.dll  |     0
- .../bin/boost_math_c99f-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_math_c99l-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_math_tr1-vc141-mt-x64-1_67.dll  |     0
- .../bin/boost_math_tr1f-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_math_tr1l-vc141-mt-x64-1_67.dll |     0
- ...ost_prg_exec_monitor-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_random-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_regex-vc141-mt-x64-1_67.dll     |     0
- .../boost_serialization-vc141-mt-x64-1_67.dll |     0
- .../bin/boost_system-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_thread-vc141-mt-x64-1_67.dll    |     0
- .../bin/boost_timer-vc141-mt-x64-1_67.dll     |     0
- ..._unit_test_framework-vc141-mt-x64-1_67.dll |     0
- ...boost_wserialization-vc141-mt-x64-1_67.dll |     0
- .../installed/x64-windows/bin/icudt61.dll     |     0
- .../installed/x64-windows/bin/icuin61.dll     |     0
- .../installed/x64-windows/bin/icuio61.dll     |     0
- .../installed/x64-windows/bin/icutu61.dll     |     0
- .../installed/x64-windows/bin/icuuc61.dll     |     0
- .../installed/x64-windows/bin/libbz2.dll      |     0
- .../installed/x64-windows/bin/libeay32.dll    |     0
- .../installed/x64-windows/bin/libmysql.dll    |     0
- .../installed/x64-windows/bin/lz4.dll         |     0
- .../installed/x64-windows/bin/lzma.dll        |     0
- .../installed/x64-windows/bin/ssleay32.dll    |     0
- .../installed/x64-windows/bin/zlib1.dll       |     0
- .../bin/boost_atomic-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_chrono-vc141-mt-gd-x64-1_67.dll |     0
- .../boost_container-vc141-mt-gd-x64-1_67.dll  |     0
- .../boost_date_time-vc141-mt-gd-x64-1_67.dll  |     0
- .../boost_filesystem-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_graph-vc141-mt-gd-x64-1_67.dll  |     0
- .../boost_iostreams-vc141-mt-gd-x32-1_67.dll  |     0
- .../bin/boost_locale-vc141-mt-gd-x64-1_67.dll |     0
- .../boost_math_c99-vc141-mt-gd-x64-1_67.dll   |     0
- .../boost_math_c99f-vc141-mt-gd-x64-1_67.dll  |     0
- .../boost_math_c99l-vc141-mt-gd-x64-1_67.dll  |     0
- .../boost_math_tr1-vc141-mt-gd-x64-1_67.dll   |     0
- .../boost_math_tr1f-vc141-mt-gd-x64-1_67.dll  |     0
- .../boost_math_tr1l-vc141-mt-gd-x64-1_67.dll  |     0
- ..._prg_exec_monitor-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_random-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_regex-vc141-mt-gd-x64-1_67.dll  |     0
- ...ost_serialization-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_system-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_thread-vc141-mt-gd-x64-1_67.dll |     0
- .../bin/boost_timer-vc141-mt-gd-x64-1_67.dll  |     0
- ...it_test_framework-vc141-mt-gd-x64-1_67.dll |     0
- ...st_wserialization-vc141-mt-gd-x64-1_67.dll |     0
- .../x64-windows/debug/bin/icudtd61.dll        |     0
- .../x64-windows/debug/bin/icuind61.dll        |     0
- .../x64-windows/debug/bin/icuiod61.dll        |     0
- .../x64-windows/debug/bin/icutud61.dll        |     0
- .../x64-windows/debug/bin/icuucd61.dll        |     0
- .../x64-windows/debug/bin/libbz2d.dll         |     0
- .../x64-windows/debug/bin/libeay32.dll        |     0
- .../x64-windows/debug/bin/libmysql.dll        |     0
- .../installed/x64-windows/debug/bin/lz4d.dll  |     0
- .../installed/x64-windows/debug/bin/lzma.dll  |     0
- .../x64-windows/debug/bin/ssleay32.dll        |     0
- .../x64-windows/debug/bin/zlibd1.dll          |     0
- .../debug/lib/boost_atomic-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_chrono-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_container-vc140-mt-gd.lib |     0
- .../debug/lib/boost_date_time-vc140-mt-gd.lib |     0
- .../debug/lib/boost_exception-vc140-mt-gd.lib |     0
- .../lib/boost_filesystem-vc140-mt-gd.lib      |     0
- .../debug/lib/boost_graph-vc140-mt-gd.lib     |     0
- .../debug/lib/boost_iostreams-vc140-mt-gd.lib |     0
- .../debug/lib/boost_locale-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_math_c99-vc140-mt-gd.lib  |     0
- .../debug/lib/boost_math_c99f-vc140-mt-gd.lib |     0
- .../debug/lib/boost_math_c99l-vc140-mt-gd.lib |     0
- .../debug/lib/boost_math_tr1-vc140-mt-gd.lib  |     0
- .../debug/lib/boost_math_tr1f-vc140-mt-gd.lib |     0
- .../debug/lib/boost_math_tr1l-vc140-mt-gd.lib |     0
- .../debug/lib/boost_random-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_regex-vc140-mt-gd.lib     |     0
- .../lib/boost_serialization-vc140-mt-gd.lib   |     0
- .../debug/lib/boost_system-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_thread-vc140-mt-gd.lib    |     0
- .../debug/lib/boost_timer-vc140-mt-gd.lib     |     0
- .../boost_unit_test_framework-vc140-mt-gd.lib |     0
- .../lib/boost_wserialization-vc140-mt-gd.lib  |     0
- .../installed/x64-windows/debug/lib/bz2d.lib  |     0
- .../installed/x64-windows/debug/lib/event.lib |     0
- .../x64-windows/debug/lib/event_core.lib      |     0
- .../x64-windows/debug/lib/event_extra.lib     |     0
- .../x64-windows/debug/lib/icudtd.lib          |     0
- .../x64-windows/debug/lib/icuind.lib          |     0
- .../x64-windows/debug/lib/icuiod.lib          |     0
- .../x64-windows/debug/lib/icutud.lib          |     0
- .../x64-windows/debug/lib/icuucd.lib          |     0
- .../x64-windows/debug/lib/libeay32.lib        |     0
- .../x64-windows/debug/lib/libmysql.lib        |     0
- .../installed/x64-windows/debug/lib/lz4d.lib  |     0
- .../installed/x64-windows/debug/lib/lzma.lib  |     0
- .../boost_prg_exec_monitor-vc140-mt-gd.lib    |     0
- .../boost_test_exec_monitor-vc140-mt-gd.lib   |     0
- .../x64-windows/debug/lib/ssleay32.lib        |     0
- .../installed/x64-windows/debug/lib/zlibd.lib |     0
- .../x64-windows/lib/boost_atomic-vc140-mt.lib |     0
- .../x64-windows/lib/boost_chrono-vc140-mt.lib |     0
- .../lib/boost_container-vc140-mt.lib          |     0
- .../lib/boost_date_time-vc140-mt.lib          |     0
- .../lib/boost_exception-vc140-mt.lib          |     0
- .../lib/boost_filesystem-vc140-mt.lib         |     0
- .../x64-windows/lib/boost_graph-vc140-mt.lib  |     0
- .../lib/boost_iostreams-vc140-mt.lib          |     0
- .../x64-windows/lib/boost_locale-vc140-mt.lib |     0
- .../lib/boost_math_c99-vc140-mt.lib           |     0
- .../lib/boost_math_c99f-vc140-mt.lib          |     0
- .../lib/boost_math_c99l-vc140-mt.lib          |     0
- .../lib/boost_math_tr1-vc140-mt.lib           |     0
- .../lib/boost_math_tr1f-vc140-mt.lib          |     0
- .../lib/boost_math_tr1l-vc140-mt.lib          |     0
- .../x64-windows/lib/boost_random-vc140-mt.lib |     0
- .../x64-windows/lib/boost_regex-vc140-mt.lib  |     0
- .../lib/boost_serialization-vc140-mt.lib      |     0
- .../x64-windows/lib/boost_system-vc140-mt.lib |     0
- .../x64-windows/lib/boost_thread-vc140-mt.lib |     0
- .../x64-windows/lib/boost_timer-vc140-mt.lib  |     0
- .../boost_unit_test_framework-vc140-mt.lib    |     0
- .../lib/boost_wserialization-vc140-mt.lib     |     0
- .../installed/x64-windows/lib/bz2.lib         |     0
- .../installed/x64-windows/lib/event.lib       |     0
- .../installed/x64-windows/lib/event_core.lib  |     0
- .../installed/x64-windows/lib/event_extra.lib |     0
- .../installed/x64-windows/lib/icudt.lib       |     0
- .../installed/x64-windows/lib/icuin.lib       |     0
- .../installed/x64-windows/lib/icuio.lib       |     0
- .../installed/x64-windows/lib/icutu.lib       |     0
- .../installed/x64-windows/lib/icuuc.lib       |     0
- .../installed/x64-windows/lib/libeay32.lib    |     0
- .../installed/x64-windows/lib/libmysql.lib    |     0
- .../installed/x64-windows/lib/lz4.lib         |     0
- .../installed/x64-windows/lib/lzma.lib        |     0
- .../boost_prg_exec_monitor-vc140-mt.lib       |     0
- .../boost_test_exec_monitor-vc140-mt.lib      |     0
- .../installed/x64-windows/lib/ssleay32.lib    |     0
- .../installed/x64-windows/lib/zlib.lib        |     0
- .../x64-windows/tools/openssl/LIBEAY32.dll    |     0
- .../x64-windows/tools/openssl/SSLEAY32.dll    |     0
- .../installed/x86-windows/bin/freetype.dll    |     0
- .../installed/x86-windows/bin/graphite2.dll   |     0
- .../installed/x86-windows/bin/harfbuzz.dll    |     0
- .../installed/x86-windows/bin/icudt61.dll     |     0
- .../installed/x86-windows/bin/icuin61.dll     |     0
- .../installed/x86-windows/bin/icuio61.dll     |     0
- .../installed/x86-windows/bin/icutu61.dll     |     0
- .../installed/x86-windows/bin/icuuc61.dll     |     0
- .../installed/x86-windows/bin/libbz2.dll      |     0
- .../installed/x86-windows/bin/libpng16.dll    |     0
- .../installed/x86-windows/bin/zlib1.dll       |     0
- .../installed/x86-windows/lib/bz2.lib         |     0
- .../installed/x86-windows/lib/freetype.lib    |     0
- .../installed/x86-windows/lib/graphite2.lib   |     0
- .../installed/x86-windows/lib/harfbuzz.lib    |     0
- .../installed/x86-windows/lib/icudt.lib       |     0
- .../installed/x86-windows/lib/icuin.lib       |     0
- .../installed/x86-windows/lib/icuio.lib       |     0
- .../installed/x86-windows/lib/icutu.lib       |     0
- .../installed/x86-windows/lib/icuuc.lib       |     0
- .../installed/x86-windows/lib/libpng16.lib    |     0
- .../installed/x86-windows/lib/zlib.lib        |     0
- scripts/kconfirm/vendor/wasip2/Cargo.toml     |    41 +
- scripts/kconfirm/vendor/wasip2/src/lib.rs     |     0
- scripts/kconfirm/vendor/wasip3/Cargo.toml     |    56 +
- scripts/kconfirm/vendor/wasip3/src/lib.rs     |     0
- .../kconfirm/vendor/wasm-encoder/Cargo.toml   |    86 +
- .../kconfirm/vendor/wasm-encoder/src/lib.rs   |     0
- .../kconfirm/vendor/wasm-metadata/Cargo.toml  |   111 +
- .../kconfirm/vendor/wasm-metadata/src/lib.rs  |     0
- scripts/kconfirm/vendor/wasmparser/Cargo.toml |   117 +
- scripts/kconfirm/vendor/wasmparser/src/lib.rs |     0
- .../vendor/webpki-root-certs/Cargo.lock       |   631 +
- .../vendor/webpki-root-certs/Cargo.toml       |    68 +
- .../vendor/webpki-root-certs/Cargo.toml.orig  |    22 +
- .../kconfirm/vendor/webpki-root-certs/LICENSE |    61 +
- .../vendor/webpki-root-certs/README.md        |    35 +
- .../vendor/webpki-root-certs/src/lib.rs       |   275 +
- .../kconfirm/vendor/windows-link/Cargo.toml   |    27 +
- .../kconfirm/vendor/windows-link/src/lib.rs   |     0
- .../kconfirm/vendor/windows-sys/Cargo.toml    |   287 +
- .../kconfirm/vendor/windows-sys/src/lib.rs    |     0
- .../vendor/wit-bindgen-0.46.0/Cargo.toml      |    61 +
- .../vendor/wit-bindgen-0.46.0/src/lib.rs      |     0
- .../vendor/wit-bindgen-core/Cargo.toml        |    63 +
- .../vendor/wit-bindgen-core/src/lib.rs        |     0
- .../vendor/wit-bindgen-rust-macro/Cargo.toml  |    50 +
- .../vendor/wit-bindgen-rust-macro/src/lib.rs  |     0
- .../vendor/wit-bindgen-rust/Cargo.toml        |    90 +
- .../vendor/wit-bindgen-rust/src/lib.rs        |     0
- .../kconfirm/vendor/wit-bindgen/Cargo.toml    |    75 +
- .../kconfirm/vendor/wit-bindgen/src/lib.rs    |     0
- .../kconfirm/vendor/wit-component/Cargo.toml  |   155 +
- .../kconfirm/vendor/wit-component/src/lib.rs  |     0
- scripts/kconfirm/vendor/wit-parser/Cargo.toml |   123 +
- scripts/kconfirm/vendor/wit-parser/src/lib.rs |     0
- scripts/kconfirm/vendor/zeroize/CHANGELOG.md  |   275 +
- scripts/kconfirm/vendor/zeroize/Cargo.lock    |    77 +
- scripts/kconfirm/vendor/zeroize/Cargo.toml    |    83 +
- .../kconfirm/vendor/zeroize/Cargo.toml.orig   |    36 +
- .../kconfirm/vendor/zeroize/LICENSE-APACHE    |   202 +
- scripts/kconfirm/vendor/zeroize/LICENSE-MIT   |    21 +
- scripts/kconfirm/vendor/zeroize/README.md     |    80 +
- .../kconfirm/vendor/zeroize/src/aarch64.rs    |    31 +
- scripts/kconfirm/vendor/zeroize/src/lib.rs    |   875 ++
- scripts/kconfirm/vendor/zeroize/src/x86.rs    |    29 +
- scripts/kconfirm/vendor/zmij/Cargo.toml       |    53 +
- scripts/kconfirm/vendor/zmij/src/lib.rs       |     0
- scripts/kconfirm/vendor_dependencies.sh       |     1 +
- 3334 files changed, 973634 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/dev-tools/kconfirm.rst
+ Makefile                                      |  11 +-
+ scripts/Makefile                              |   2 +-
+ scripts/kconfirm/.gitignore                   |   3 +
+ scripts/kconfirm/Cargo.toml                   |  12 +
+ scripts/kconfirm/LICENSE                      | 339 +++++++++
+ scripts/kconfirm/Makefile                     |  29 +
+ scripts/kconfirm/kconfirm-lib/Cargo.toml      |  16 +
+ scripts/kconfirm/kconfirm-lib/src/analyze.rs  | 658 +++++++++++++++++
+ scripts/kconfirm/kconfirm-lib/src/checks.rs   | 694 ++++++++++++++++++
+ .../kconfirm/kconfirm-lib/src/dead_links.rs   |  83 +++
+ scripts/kconfirm/kconfirm-lib/src/lib.rs      |  62 ++
+ scripts/kconfirm/kconfirm-lib/src/output.rs   | 114 +++
+ .../kconfirm/kconfirm-lib/src/symbol_table.rs | 228 ++++++
+ scripts/kconfirm/kconfirm-linux/Cargo.toml    |  12 +
+ scripts/kconfirm/kconfirm-linux/src/lib.rs    | 119 +++
+ scripts/kconfirm/kconfirm-linux/src/main.rs   |  82 +++
+ scripts/kconfirm/vendor_dependencies.sh       |   1 +
+ 17 files changed, 2463 insertions(+), 2 deletions(-)
  create mode 100644 scripts/kconfirm/.gitignore
  create mode 100644 scripts/kconfirm/Cargo.toml
  create mode 100644 scripts/kconfirm/LICENSE
@@ -3617,3323 +220,2592 @@ Julian Braha (2):
  create mode 100644 scripts/kconfirm/kconfirm-linux/Cargo.toml
  create mode 100644 scripts/kconfirm/kconfirm-linux/src/lib.rs
  create mode 100644 scripts/kconfirm/kconfirm-linux/src/main.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/COPYING
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/DESIGN.md
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/README.md
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/UNLICENSE
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/rustfmt.toml
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/ahocorasick.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/automaton.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/dfa.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/nfa/contiguous.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/nfa/mod.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/nfa/noncontiguous.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/api.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/ext.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/mod.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/pattern.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/rabinkarp.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/teddy/README.md
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/teddy/builder.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/teddy/generic.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/teddy/mod.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/tests.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/packed/vector.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/tests.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/transducer.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/alphabet.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/buffer.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/byte_frequencies.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/debug.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/error.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/int.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/mod.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/prefilter.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/primitives.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/remapper.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/search.rs
- create mode 100644 scripts/kconfirm/vendor/aho-corasick/src/util/special.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/anstream/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/anstream/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/anstream/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/anstream/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/anstream/README.md
- create mode 100644 scripts/kconfirm/vendor/anstream/examples/dump-stream.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/examples/query-stream.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/_macros.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/adapter/mod.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/adapter/strip.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/adapter/wincon.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/auto.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/buffer.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/fmt.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/stream.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/strip.rs
- create mode 100644 scripts/kconfirm/vendor/anstream/src/wincon.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/README.md
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/examples/parselog.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/src/params.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/src/state/codegen.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/src/state/definitions.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/src/state/mod.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-parse/src/state/table.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/README.md
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/examples/query.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-query/src/windows.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle-wincon/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/anstyle-wincon/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/anstyle/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/anstyle/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/anstyle/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/anstyle/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/anstyle/README.md
- create mode 100644 scripts/kconfirm/vendor/anstyle/examples/dump-style.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/src/color.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/src/effect.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/src/reset.rs
- create mode 100644 scripts/kconfirm/vendor/anstyle/src/style.rs
- create mode 100644 scripts/kconfirm/vendor/anyhow/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/anyhow/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/base64/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/base64/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/base64/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/base64/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/base64/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/base64/README.md
- create mode 100644 scripts/kconfirm/vendor/base64/RELEASE-NOTES.md
- create mode 100644 scripts/kconfirm/vendor/base64/benches/benchmarks.rs
- create mode 100644 scripts/kconfirm/vendor/base64/clippy.toml
- create mode 100644 scripts/kconfirm/vendor/base64/examples/base64.rs
- create mode 100644 scripts/kconfirm/vendor/base64/icon_CLion.svg
- create mode 100644 scripts/kconfirm/vendor/base64/src/alphabet.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/chunked_encoder.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/decode.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/display.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/encode.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/engine/general_purpose/decode.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/engine/general_purpose/decode_suffix.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/engine/general_purpose/mod.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/engine/mod.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/engine/naive.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/engine/tests.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/prelude.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/read/decoder.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/read/decoder_tests.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/read/mod.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/tests.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/write/encoder.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/write/encoder_string_writer.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/write/encoder_tests.rs
- create mode 100644 scripts/kconfirm/vendor/base64/src/write/mod.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/base64ct/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/base64ct/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/base64ct/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/base64ct/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/base64ct/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/base64ct/README.md
- create mode 100644 scripts/kconfirm/vendor/base64ct/benches/mod.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet/bcrypt.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet/crypt.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet/pbkdf2.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet/shacrypt.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet/standard.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/alphabet/url.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/decoder.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/encoder.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/encoding.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/errors.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/line_ending.rs
- create mode 100644 scripts/kconfirm/vendor/base64ct/src/test_vectors.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/bitflags/CODE_OF_CONDUCT.md
- create mode 100644 scripts/kconfirm/vendor/bitflags/CONTRIBUTING.md
- create mode 100644 scripts/kconfirm/vendor/bitflags/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/bitflags/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/bitflags/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/bitflags/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/bitflags/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/bitflags/README.md
- create mode 100644 scripts/kconfirm/vendor/bitflags/SECURITY.md
- create mode 100644 scripts/kconfirm/vendor/bitflags/benches/parse.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/examples/custom_bits_type.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/examples/custom_derive.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/examples/fmt.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/examples/macro_free.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/examples/serde.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/spec.md
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/example_generated.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/external.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/external/arbitrary.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/external/bytemuck.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/external/serde.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/internal.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/iter.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/parser.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/public.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/all.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/bitflags_match.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/bits.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/clear.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/complement.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/contains.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/difference.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/empty.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/eq.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/extend.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/flags.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/fmt.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/from_bits.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/from_bits_retain.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/from_bits_truncate.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/from_name.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/insert.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/intersection.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/intersects.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/is_all.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/is_empty.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/iter.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/known_bits.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/parser.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/remove.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/symmetric_difference.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/truncate.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/union.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/unknown.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/tests/unknown_bits.rs
- create mode 100644 scripts/kconfirm/vendor/bitflags/src/traits.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/bytecount/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/bytecount/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/bytecount/LICENSE.Apache2
- create mode 100644 scripts/kconfirm/vendor/bytecount/LICENSE.MIT
- create mode 100644 scripts/kconfirm/vendor/bytecount/README.md
- create mode 100644 scripts/kconfirm/vendor/bytecount/benches/bench.rs
- create mode 100755 scripts/kconfirm/vendor/bytecount/ci/miri.sh
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/integer_simd.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/naive.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/simd/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/simd/generic.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/simd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/simd/wasm.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/simd/x86_avx2.rs
- create mode 100644 scripts/kconfirm/vendor/bytecount/src/simd/x86_sse2.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/bytes/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/bytes/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/bytes/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/bytes/LICENSE
- create mode 100644 scripts/kconfirm/vendor/bytes/README.md
- create mode 100644 scripts/kconfirm/vendor/bytes/SECURITY.md
- create mode 100644 scripts/kconfirm/vendor/bytes/benches/buf.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/benches/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/benches/bytes_mut.rs
- create mode 100755 scripts/kconfirm/vendor/bytes/ci/miri.sh
- create mode 100755 scripts/kconfirm/vendor/bytes/ci/panic-abort.sh
- create mode 100755 scripts/kconfirm/vendor/bytes/ci/test-stable.sh
- create mode 100755 scripts/kconfirm/vendor/bytes/ci/tsan.sh
- create mode 100644 scripts/kconfirm/vendor/bytes/clippy.toml
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/buf_impl.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/buf_mut.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/chain.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/iter.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/limit.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/mod.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/reader.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/take.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/uninit_slice.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/vec_deque.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/buf/writer.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/bytes_mut.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/fmt/debug.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/fmt/hex.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/fmt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/loom.rs
- create mode 100644 scripts/kconfirm/vendor/bytes/src/serde.rs
- create mode 100644 scripts/kconfirm/vendor/cc/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/cc/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/cc/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/cc/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/cc/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/cc/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/cc/README.md
- create mode 100644 scripts/kconfirm/vendor/cc/clippy.toml
- create mode 100644 scripts/kconfirm/vendor/cc/src/command_helpers.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/detect_compiler_family.c
- create mode 100644 scripts/kconfirm/vendor/cc/src/flags.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/parallel/async_executor.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/parallel/command_runner.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/parallel/job_token.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/parallel/mod.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/parallel/stderr.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/target.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/target/apple.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/target/generated.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/target/llvm.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/target/parser.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/tempfile.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/tool.rs
- create mode 100644 scripts/kconfirm/vendor/cc/src/utilities.rs
- create mode 100644 scripts/kconfirm/vendor/cfg-if/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/cfg-if/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/cfg-if/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/cfg-if/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/cfg-if/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/cfg-if/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/cfg-if/README.md
- create mode 100644 scripts/kconfirm/vendor/cfg-if/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/clap/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/clap/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/clap/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/clap/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/clap/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/clap/README.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/README.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/cargo-example-derive.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/cargo-example-derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/cargo-example.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/cargo-example.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/demo.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/demo.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/derive_ref/augment_args.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/derive_ref/augment_subcommands.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/derive_ref/flatten_hand_args.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/derive_ref/hand_subcommand.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/derive_ref/interop_tests.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/escaped-positional-derive.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/escaped-positional-derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/escaped-positional.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/escaped-positional.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/find.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/find.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/git-derive.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/git-derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/git.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/git.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/multicall-busybox.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/multicall-busybox.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/multicall-hostname.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/multicall-hostname.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/pacman.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/pacman.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/repl-derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/repl.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/01_quick.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/01_quick.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/02_app_settings.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/02_app_settings.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/02_apps.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/02_apps.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/02_crate.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/02_crate.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_01_flag_bool.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_01_flag_bool.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_01_flag_count.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_01_flag_count.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_02_option.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_02_option.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_02_option_mult.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_02_option_mult.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_03_positional.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_03_positional.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_03_positional_mult.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_03_positional_mult.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_04_subcommands.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_04_subcommands.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_05_default_values.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_05_default_values.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_06_required.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/03_06_required.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_01_enum.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_01_enum.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_01_possible.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_01_possible.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_02_parse.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_02_parse.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_02_validate.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_02_validate.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_03_relations.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_03_relations.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_04_custom.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/04_04_custom.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_builder/05_01_assert.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/01_quick.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/01_quick.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/02_app_settings.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/02_app_settings.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/02_apps.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/02_apps.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/02_crate.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/02_crate.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_01_flag_bool.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_01_flag_bool.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_01_flag_count.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_01_flag_count.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_02_option.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_02_option.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_02_option_mult.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_02_option_mult.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_03_positional.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_03_positional.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_03_positional_mult.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_03_positional_mult.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_04_subcommands.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_04_subcommands.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_04_subcommands_alt.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_05_default_values.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_05_default_values.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_06_optional.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/03_06_optional.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_01_enum.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_01_enum.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_02_parse.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_02_parse.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_02_validate.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_02_validate.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_03_relations.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_03_relations.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_04_custom.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/04_04_custom.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/tutorial_derive/05_01_assert.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/builtin.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/builtin.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/custom.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/custom.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/fn_parser.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/fn_parser.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/foreign_crate.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/implicit.md
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/implicit.rs
- create mode 100644 scripts/kconfirm/vendor/clap/examples/typed-derive/main.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_concepts.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/cargo_example.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/cargo_example_derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/escaped_positional.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/escaped_positional_derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/find.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/git.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/git_derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/multicall_busybox.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/multicall_hostname.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/pacman.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/repl.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/repl_derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_cookbook/typed_derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_derive/_tutorial.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_derive/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_faq.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_features.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/_tutorial.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/bin/stdio-fixture.rs
- create mode 100644 scripts/kconfirm/vendor/clap/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/clap_builder/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/clap_builder/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/clap_builder/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/clap_builder/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/clap_builder/README.md
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/action.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/app_settings.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/arg.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/arg_group.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/arg_predicate.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/arg_settings.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/command.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/debug_asserts.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/ext.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/os_str.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/possible_value.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/range.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/resettable.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/str.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/styled_str.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/styling.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/tests.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/value_hint.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/builder/value_parser.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/derive.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/error/context.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/error/format.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/error/kind.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/error/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/mkeymap.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/fmt.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/help.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/help_template.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/textwrap/core.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/textwrap/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/textwrap/word_separators.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/textwrap/wrap_algorithms.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/output/usage.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/arg_matcher.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/error.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/features/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/features/suggestions.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/matches/arg_matches.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/matches/matched_arg.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/matches/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/matches/value_source.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/parser.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/parser/validator.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/any_value.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/color.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/escape.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/flat_map.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/flat_set.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/graph.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/id.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_builder/src/util/str_to_bool.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/clap_derive/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/clap_derive/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/clap_derive/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/clap_derive/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/clap_derive/README.md
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/attr.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/derives/args.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/derives/into_app.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/derives/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/derives/parser.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/derives/subcommand.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/derives/value_enum.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/dummies.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/item.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/utils/doc_comments.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/utils/error.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/utils/mod.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/utils/spanned.rs
- create mode 100644 scripts/kconfirm/vendor/clap_derive/src/utils/ty.rs
- create mode 100644 scripts/kconfirm/vendor/clap_lex/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/clap_lex/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/clap_lex/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/clap_lex/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/clap_lex/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/clap_lex/README.md
- create mode 100644 scripts/kconfirm/vendor/clap_lex/src/ext.rs
- create mode 100644 scripts/kconfirm/vendor/clap_lex/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/colorchoice/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/colorchoice/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/colorchoice/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/colorchoice/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/colorchoice/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/colorchoice/README.md
- create mode 100644 scripts/kconfirm/vendor/colorchoice/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/core-foundation-sys/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/core-foundation-sys/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/core-foundation/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/core-foundation/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/der/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/der/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/der/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/der/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/der/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/der/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/der/README.md
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/any.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/application.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/bit_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/bit_string/allowed_len_bit_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/bmp_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/boolean.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/choice.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/context_specific.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/general_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/generalized_time.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/ia5_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/integer.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/integer/int.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/integer/uint.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/internal_macros.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/null.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/octet_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/oid.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/optional.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/printable_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/private.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/real.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/sequence.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/sequence_of.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/set_of.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/teletex_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/utc_time.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/utf8_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/asn1/videotex_string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/datetime.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/decode.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/document.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/encode.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/encode_ref.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/encoding_rules.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/header.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/length.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/length/indefinite.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/ord.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/reader.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/reader/pem.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/reader/position.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/reader/slice.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/referenced.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/string.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/tag.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/tag/class.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/tag/mode.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/tag/number.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/writer.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/writer/pem.rs
- create mode 100644 scripts/kconfirm/vendor/der/src/writer/slice.rs
- create mode 100644 scripts/kconfirm/vendor/env_filter/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/env_filter/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/env_filter/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/env_filter/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/env_filter/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/env_filter/README.md
- create mode 100644 scripts/kconfirm/vendor/env_filter/src/directive.rs
- create mode 100644 scripts/kconfirm/vendor/env_filter/src/filter.rs
- create mode 100644 scripts/kconfirm/vendor/env_filter/src/filtered_log.rs
- create mode 100644 scripts/kconfirm/vendor/env_filter/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/env_filter/src/op.rs
- create mode 100644 scripts/kconfirm/vendor/env_filter/src/parser.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/env_logger/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/env_logger/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/env_logger/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/env_logger/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/env_logger/README.md
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/custom_default_format.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/custom_format.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/default.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/direct_logger.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/filters_from_code.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/in_tests.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/examples/syslog_friendly_format.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/fmt/humantime.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/fmt/kv.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/fmt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/logger.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/writer/buffer.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/writer/mod.rs
- create mode 100644 scripts/kconfirm/vendor/env_logger/src/writer/target.rs
- create mode 100644 scripts/kconfirm/vendor/equivalent/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/equivalent/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/errno/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/errno/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/fastrand/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/fastrand/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/README.md
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/com.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/find_tools.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/registry.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/setup_config.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/tool.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/vs_instances.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/winapi.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/windows_link.rs
- create mode 100644 scripts/kconfirm/vendor/find-msvc-tools/src/windows_sys.rs
- create mode 100644 scripts/kconfirm/vendor/foldhash/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/foldhash/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/foreign-types-shared/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/foreign-types-shared/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/foreign-types-shared/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/foreign-types-shared/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/foreign-types-shared/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/foreign-types/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/foreign-types/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/foreign-types/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/foreign-types/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/foreign-types/README.md
- create mode 100644 scripts/kconfirm/vendor/foreign-types/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/getrandom/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/getrandom/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/glob/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/glob/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/hashbrown-0.15.5/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/hashbrown-0.15.5/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/hashbrown/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/hashbrown/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/heck/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/heck/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/heck/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/heck/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/heck/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/heck/README.md
- create mode 100644 scripts/kconfirm/vendor/heck/src/kebab.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/lower_camel.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/shouty_kebab.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/shouty_snake.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/snake.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/title.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/train.rs
- create mode 100644 scripts/kconfirm/vendor/heck/src/upper_camel.rs
- create mode 100644 scripts/kconfirm/vendor/http/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/http/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/http/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/http/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/http/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/http/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/http/README.md
- create mode 100644 scripts/kconfirm/vendor/http/src/byte_str.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/convert.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/extensions.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/header/map.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/header/mod.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/header/name.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/header/value.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/method.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/request.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/response.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/status.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/authority.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/builder.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/mod.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/path.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/port.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/scheme.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/uri/tests.rs
- create mode 100644 scripts/kconfirm/vendor/http/src/version.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/httparse/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/httparse/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/httparse/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/httparse/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/httparse/README.md
- create mode 100644 scripts/kconfirm/vendor/httparse/benches/parse.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/build.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/clippy.toml
- create mode 100644 scripts/kconfirm/vendor/httparse/src/iter.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/simd/avx2.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/simd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/simd/neon.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/simd/runtime.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/simd/sse42.rs
- create mode 100644 scripts/kconfirm/vendor/httparse/src/simd/swar.rs
- create mode 100644 scripts/kconfirm/vendor/id-arena/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/id-arena/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/indexmap/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/indexmap/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/README.md
- create mode 100644 scripts/kconfirm/vendor/is_terminal_polyfill/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/itoa/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/itoa/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/itoa/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/itoa/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/itoa/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/itoa/README.md
- create mode 100644 scripts/kconfirm/vendor/itoa/benches/bench.rs
- create mode 100644 scripts/kconfirm/vendor/itoa/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/itoa/src/u128_ext.rs
- create mode 100644 scripts/kconfirm/vendor/jiff-static/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/jiff-static/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/jiff/COMPARE.md
- create mode 100644 scripts/kconfirm/vendor/jiff/COPYING
- create mode 100644 scripts/kconfirm/vendor/jiff/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/jiff/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/jiff/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/jiff/DESIGN.md
- create mode 100644 scripts/kconfirm/vendor/jiff/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/jiff/PLATFORM.md
- create mode 100644 scripts/kconfirm/vendor/jiff/README.md
- create mode 100644 scripts/kconfirm/vendor/jiff/UNLICENSE
- create mode 100644 scripts/kconfirm/vendor/jiff/src/civil/date.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/civil/datetime.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/civil/iso_week_date.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/civil/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/civil/time.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/civil/weekday.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/duration.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/civil.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/duration.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/friendly.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/offset.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/rfc2822.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/rfc9557.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/strtime.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/temporal.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/fmt/util.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/signed_duration.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/span.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/timestamp.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/ambiguous.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/concatenated.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/db.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/offset.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/posix.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/system.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/timezone.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/tz/zic.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/unit.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/util.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/error/zoned.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/buffer.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/friendly/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/friendly/parser.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/friendly/parser_label.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/friendly/printer.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/offset.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/rfc2822.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/rfc9557.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/serde.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/strtime/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/strtime/parse.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/strtime/printer.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/temporal/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/temporal/parser.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/temporal/pieces.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/temporal/printer.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/fmt/util.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/logging.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/now.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/crc32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/crc32/table.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/posix.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/tzif.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/util/array_str.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/util/itime.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/shared/util/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/signed_duration.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/span.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/timestamp.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/ambiguous.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/concatenated.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/bundled/disabled.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/bundled/enabled.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/bundled/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/concatenated/disabled.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/concatenated/enabled.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/concatenated/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/zoneinfo/disabled.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/zoneinfo/enabled.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/db/zoneinfo/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/offset.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/posix.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/android.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/unix.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/wasm_emscripten.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/wasm_js.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/windows/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/system/windows/windows_zones.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/testdata.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/timezone.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/tzif.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/tz/zic.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/array_str.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/b.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/borrow.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/cache.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/constant.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/escape.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/fs.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/libm.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/mod.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/parse.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/round.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/sync.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/util/utf8.rs
- create mode 100644 scripts/kconfirm/vendor/jiff/src/zoned.rs
- create mode 100644 scripts/kconfirm/vendor/leb128fmt/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/leb128fmt/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/libc/.editorconfig
- create mode 100644 scripts/kconfirm/vendor/libc/.rustfmt.toml
- create mode 100644 scripts/kconfirm/vendor/libc/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/libc/CONTRIBUTING.md
- create mode 100644 scripts/kconfirm/vendor/libc/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/libc/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/libc/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/libc/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/libc/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/libc/README.md
- create mode 100644 scripts/kconfirm/vendor/libc/build.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/fuchsia/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/fuchsia/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/fuchsia/riscv64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/fuchsia/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/hermit.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/aix/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/aix/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libc/signal.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libc/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/introspection.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/pthread_impl.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/pthread_spis.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/qos.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/sched.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/spawn.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/pthread_/stack_np.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/sys/_pthread/_pthread_types.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/libpthread/sys/qos.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/arm/_mcontext.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/i386/_mcontext.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/mach/arm/_structs.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/mach/i386/_structs.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/mach/machine/_structs.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/mach/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/machine/_mcontext.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/sys/_types/_ucontext.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/apple/xnu/sys/signal.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/bionic_libc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/bionic_libc/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/bionic_libc/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/bionic_libc/sys/socket.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/bionic_libc/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/bsd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/freebsd_like.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/linux_like/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/linux_like/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/netbsd_like.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/posix/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/posix/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/posix/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/common/solarish.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/cygwin/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/cygwin/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/dragonfly/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/dragonfly/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/emscripten/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/emscripten/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/emscripten/sched.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/emscripten/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/espidf/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/freebsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/freebsd/sys/file.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/freebsd/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/freebsd/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/fuchsia/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/fuchsia/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/posix/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/sysdeps/nptl/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/sysdeps/nptl/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/sysdeps/unix/linux/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/sysdeps/unix/linux/net/route.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/glibc/sysdeps/unix/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/haiku/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/haiku/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/hermit_abi/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/horizon/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/hurd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/illumos/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/illumos/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/l4re/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/can.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/can/bcm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/can/error.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/can/j1939.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/can/netlink.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/can/raw.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/keyctl.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/membarrier.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/netlink.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/linux/pidfd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/linux_uapi/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/arch/generic/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/arch/mips/bits/socket.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/arch/mips/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/arch/mips64/bits/socket.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/arch/mips64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/arch/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/sched.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/sys/socket.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/musl/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/net/if_.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/file.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/ipc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/socket.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/statvfs.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/time.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/timex.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/sys/types.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/utmp_.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/netbsd/utmpx_.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/newlib/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/newlib/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/nto/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/nto/net/bpf.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/nto/net/if_.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/nto/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/nuttx/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/nuttx/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/openbsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/openbsd/sys/ipc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/openbsd/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/openbsd/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/dlfcn.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/errno.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/fcntl.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/limits.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/semaphore.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/signal.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/stdio.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/stdlib.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/sys/mman.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/sys/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/sys/sched.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/sys/stat.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/sys/types.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/time.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/qurt/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/redox/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/relibc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/relibc/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/rtems/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/sgx/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/sgx/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/solaris/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/solaris/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/solid/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/teeos/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/trusty/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/uclibc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/uclibc/pthread.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/uclibc/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/ucrt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/vita/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/vxworks/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/vxworks/unistd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/wasi/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/new/xous/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/primitives.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/psp.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/qurt/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/sgx.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/solid/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/solid/arm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/solid/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/switch.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/teeos/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/trusty.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/types.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/aix/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/aix/powerpc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/apple/b32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/apple/b64/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/apple/b64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/apple/b64/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/apple/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/dragonfly/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/arm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd11/b32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd11/b64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd11/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd12/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd12/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd13/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd13/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd14/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd14/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd15/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/freebsd15/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/powerpc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/powerpc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/riscv64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/x86.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/freebsdlike/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/arm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/mips.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/powerpc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/riscv64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/sparc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/x86.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/netbsd/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/arm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/mips64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/powerpc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/powerpc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/riscv64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/sparc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/x86.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/bsd/netbsdlike/openbsd/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/cygwin/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/haiku/b32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/haiku/b64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/haiku/bsd.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/haiku/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/haiku/native.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/haiku/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/hurd/b32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/hurd/b64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/hurd/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b32/arm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b32/x86/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b64/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b64/riscv64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/b64/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/android/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/emscripten/lfs64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/emscripten/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/l4re/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/l4re/uclibc/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/l4re/uclibc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/l4re/uclibc/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/arch/generic/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/arch/mips/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/arch/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/arch/powerpc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/arch/sparc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/arm/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/csky/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/m68k/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/mips/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/powerpc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/riscv32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/sparc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b32/x86/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/aarch64/lp64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/loongarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/mips64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/powerpc64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/riscv64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/s390x.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/sparc64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/b64/x86_64/x32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/gnu/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/arm/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/hexagon.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/mips/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/powerpc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/riscv32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b32/x86/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/loongarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/mips64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/powerpc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/s390x.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/wasm32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/wasm32/wali.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/b64/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/lfs64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/musl/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/uclibc/arm/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/uclibc/mips/mips32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/uclibc/mips/mips64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/uclibc/mips/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/uclibc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux/uclibc/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/linux_l4re_shared.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/linux_like/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/arm/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/espidf/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/generic.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/horizon/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/powerpc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/rtems/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/newlib/vita/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/nto/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/nto/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/nto/neutrino.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/nto/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/nuttx/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/redox/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/compat.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/illumos.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/solaris.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/x86.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/unix/solarish/x86_common.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/arm.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/powerpc.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/powerpc64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/riscv32.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/riscv64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/x86.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/vxworks/x86_64.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/wasi/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/wasi/p2.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/windows/gnu/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/windows/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/windows/msvc/mod.rs
- create mode 100644 scripts/kconfirm/vendor/libc/src/xous.rs
- create mode 100644 scripts/kconfirm/vendor/linux-raw-sys/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/linux-raw-sys/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/log/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/log/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/log/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/log/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/log/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/log/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/log/README.md
- create mode 100644 scripts/kconfirm/vendor/log/benches/value.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/__private_api.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/kv/error.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/kv/key.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/kv/mod.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/kv/source.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/kv/value.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/log/src/serde.rs
- create mode 100644 scripts/kconfirm/vendor/log/triagebot.toml
- create mode 100644 scripts/kconfirm/vendor/memchr/COPYING
- create mode 100644 scripts/kconfirm/vendor/memchr/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/memchr/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/memchr/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/memchr/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/memchr/README.md
- create mode 100644 scripts/kconfirm/vendor/memchr/UNLICENSE
- create mode 100644 scripts/kconfirm/vendor/memchr/rustfmt.toml
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/aarch64/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/aarch64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/aarch64/neon/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/aarch64/neon/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/aarch64/neon/packedpair.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/packedpair/default_rank.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/packedpair/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/rabinkarp.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/shiftor.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/all/twoway.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/generic/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/generic/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/generic/packedpair.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/wasm32/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/wasm32/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/wasm32/simd128/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/wasm32/simd128/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/wasm32/simd128/packedpair.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/avx2/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/avx2/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/avx2/packedpair.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/sse2/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/sse2/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/arch/x86_64/sse2/packedpair.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/cow.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/ext.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/memmem/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/memmem/searcher.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/memchr/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/memchr/naive.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/memchr/prop.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/packedpair.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/substring/mod.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/substring/naive.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/tests/substring/prop.rs
- create mode 100644 scripts/kconfirm/vendor/memchr/src/vector.rs
- create mode 100644 scripts/kconfirm/vendor/native-tls/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/native-tls/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/native-tls/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/native-tls/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/native-tls/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/native-tls/README.md
- create mode 100644 scripts/kconfirm/vendor/native-tls/build.rs
- create mode 100644 scripts/kconfirm/vendor/native-tls/src/imp/openssl.rs
- create mode 100644 scripts/kconfirm/vendor/native-tls/src/imp/schannel.rs
- create mode 100644 scripts/kconfirm/vendor/native-tls/src/imp/security_framework.rs
- create mode 100644 scripts/kconfirm/vendor/native-tls/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/native-tls/src/test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/LICENSE
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/README.md
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/Documentation/kbuild/Kconfig.recursion-issue-01
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/Documentation/kbuild/Kconfig.recursion-issue-02
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/Documentation/kbuild/Kconfig.select-break
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/alpha/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arc/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arm/Kconfig-nommu
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arm/Kconfig.assembler
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arm/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arm/mach-s3c/Kconfig.s3c64xx
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arm64/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/arm64/Kconfig.platforms
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/csky/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/csky/Kconfig.platforms
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/hexagon/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/ia64/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/loongarch/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/m68k/Kconfig.bus
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/m68k/Kconfig.cpu
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/m68k/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/m68k/Kconfig.devices
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/m68k/Kconfig.machine
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/microblaze/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/microblaze/Kconfig.platform
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/mips/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/nios2/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/nios2/platform/Kconfig.platform
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/openrisc/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/parisc/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/powerpc/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/powerpc/platforms/Kconfig.cputype
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/riscv/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/riscv/Kconfig.errata
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/riscv/Kconfig.socs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/s390/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/sh/Kconfig.cpu
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/sh/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/sparc/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/um/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/x86/Kconfig.assembler
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/x86/Kconfig.cpu
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/x86/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/arch/xtensa/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/block/Kconfig.iosched
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpufreq/Kconfig.arm
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpufreq/Kconfig.powerpc
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpufreq/Kconfig.x86
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpuidle/Kconfig.arm
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpuidle/Kconfig.mips
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpuidle/Kconfig.powerpc
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/cpuidle/Kconfig.riscv
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/gpu/drm/i915/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/gpu/drm/i915/Kconfig.profile
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/scsi/aic7xxx/Kconfig.aic79xx
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/scsi/aic7xxx/Kconfig.aic7xxx
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/drivers/scsi/megaraid/Kconfig.megaraid
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/fs/Kconfig.binfmt
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/kernel/Kconfig.freezer
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/kernel/Kconfig.hz
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/kernel/Kconfig.locks
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/kernel/Kconfig.preempt
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/kernel/rcu/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.kasan
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.kcsan
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.kfence
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.kgdb
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.kmsan
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/lib/Kconfig.ubsan
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/mm/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/net/Kconfig.debug
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/scripts/Kconfig.include
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/linux-6.4.10/security/Kconfig.hardening
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/benches/my_benchmark.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/deny.toml
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/doc/tux.svg
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/download_and_parse.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/kconfig-project/Dockerfile
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/kconfig-project/Makefile
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parse_coreboot.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parse_file.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parse_linux.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parse_linux_next.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parse_openwrt.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parse_uboot.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/parsing.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/read_file.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/read_kernel_directory.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/examples/utils.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/default.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/default_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/depends_on.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/depends_on_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/expression/atom.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/expression/compare.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/expression/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/expression/mod_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/expression/term.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/function.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/function_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/help.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/help_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/imply.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/imply_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/mod_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/modules.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/modules_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/option.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/option_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/optional.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/optional_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/prompt.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/prompt_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/range.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/range_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/requires.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/requires_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/select.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/select_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/string.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/transitional.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/transitional_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/type.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/type_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/visible.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/attribute/visible_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/choice.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/choice_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/comment.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/comment_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/config.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/config_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/function.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/function_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/if.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/if_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/main_menu.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/main_menu_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/menu.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/menu_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/menuconfig.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/menuconfig_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/mod_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/source.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/source_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/variable.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/entry/variable_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/kconfig.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/kconfig_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/lib_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/number.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/string.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/symbol.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/symbol_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/tristate.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/util.rs
- create mode 100644 scripts/kconfirm/vendor/nom-kconfig/src/util_test.rs
- create mode 100644 scripts/kconfirm/vendor/nom/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/nom/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/nom/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/nom/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/nom/LICENSE
- create mode 100644 scripts/kconfirm/vendor/nom/README.md
- create mode 100644 scripts/kconfirm/vendor/nom/doc/nom_recipes.md
- create mode 100644 scripts/kconfirm/vendor/nom/src/bits/complete.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/bits/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/bits/streaming.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/branch/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/branch/tests.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/bytes/complete.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/bytes/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/bytes/streaming.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/bytes/tests.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/character/complete.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/character/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/character/streaming.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/character/tests.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/combinator/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/combinator/tests.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/internal.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/multi/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/multi/tests.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/number/complete.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/number/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/number/streaming.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/sequence/mod.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/sequence/tests.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/str.rs
- create mode 100644 scripts/kconfirm/vendor/nom/src/traits.rs
- create mode 100644 scripts/kconfirm/vendor/nom_locate/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/nom_locate/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/nom_locate/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/nom_locate/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/nom_locate/FAQ.md
- create mode 100644 scripts/kconfirm/vendor/nom_locate/LICENSE
- create mode 100644 scripts/kconfirm/vendor/nom_locate/README.md
- create mode 100644 scripts/kconfirm/vendor/nom_locate/benches/benches.rs
- create mode 100644 scripts/kconfirm/vendor/nom_locate/examples/position.rs
- create mode 100644 scripts/kconfirm/vendor/nom_locate/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/nom_locate/src/tests.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/once_cell/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/once_cell/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/once_cell/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/once_cell/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/once_cell/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/once_cell/README.md
- create mode 100644 scripts/kconfirm/vendor/once_cell/bors.toml
- create mode 100644 scripts/kconfirm/vendor/once_cell/examples/bench.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/examples/bench_acquire.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/examples/lazy_static.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/examples/reentrant_init_deadlocks.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/examples/regex.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/examples/test_synchronization.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/src/imp_cs.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/src/imp_pl.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/src/imp_std.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell/src/race.rs
- create mode 100644 scripts/kconfirm/vendor/once_cell_polyfill/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/once_cell_polyfill/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-macros/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/openssl-macros/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/openssl-macros/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/openssl-macros/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/openssl-macros/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/README.md
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/deny.toml
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/examples/probe.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-probe/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/README.md
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/build/cfgs.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/build/expando.c
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/build/find_normal.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/build/find_vendored.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/build/main.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/build/run_bindgen.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/aes.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/asn1.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/bio.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/bn.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/cms.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/core_dispatch.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/crypto.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/dh.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/dsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/dtls1.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/ec.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/err.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/evp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/aes.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/asn1.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/bio.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/bn.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/cmac.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/cms.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/conf.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/crypto.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/decoder.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/dh.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/dsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/ec.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/encoder.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/err.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/evp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/hmac.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/kdf.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/mod.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/object.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/ocsp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/params.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/pem.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/pkcs12.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/pkcs7.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/poly1305.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/provider.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/rand.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/rsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/safestack.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/sha.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/srtp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/ssl.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/stack.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/thread.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/tls1.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/types.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/x509.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/x509_vfy.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/handwritten/x509v3.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/obj_mac.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/ocsp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/pem.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/pkcs7.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/rsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/sha.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/srtp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/ssl.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/ssl3.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/tls1.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/types.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/x509.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/x509_vfy.rs
- create mode 100644 scripts/kconfirm/vendor/openssl-sys/src/x509v3.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/openssl/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/openssl/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/openssl/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/openssl/LICENSE
- create mode 100644 scripts/kconfirm/vendor/openssl/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/openssl/README.md
- create mode 100644 scripts/kconfirm/vendor/openssl/build.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/examples/mk_certs.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/aes.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/asn1.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/base64.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/bio.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/bn.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/cipher.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/cipher_ctx.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/cms.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/conf.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/derive.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/dh.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/dsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ec.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ecdsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/encrypt.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/envelope.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ex_data.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/fips.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/hash.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/kdf.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/lib_ctx.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/md.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/md_ctx.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/memcmp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/nid.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ocsp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ossl_param.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/pkcs12.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/pkcs5.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/pkcs7.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/pkey.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/pkey_ctx.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/provider.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/rand.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/rsa.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/sha.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/sign.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/srtp.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/bio.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/callbacks.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/connector.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/error.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/mod.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/test/mod.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/ssl/test/server.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/stack.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/string.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/symm.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/util.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/version.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/x509/extension.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/x509/mod.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/x509/store.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/x509/tests.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/src/x509/verify.rs
- create mode 100644 scripts/kconfirm/vendor/openssl/test/aia_bad_utf8_cert.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/aia_test_cert.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/alt_name_cert.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/authority_key_identifier.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/ca.crt
- create mode 100644 scripts/kconfirm/vendor/openssl/test/cert.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/certs.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/certv3.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/certv3_extfile
- create mode 100644 scripts/kconfirm/vendor/openssl/test/cms.p12
- create mode 100644 scripts/kconfirm/vendor/openssl/test/cms_pubkey.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/corrupted-rsa.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/crl-ca.crt
- create mode 100644 scripts/kconfirm/vendor/openssl/test/csr.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/dhparams.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/dsa.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/dsa.pem.pub
- create mode 100644 scripts/kconfirm/vendor/openssl/test/dsaparam.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/entry_extensions.crl
- create mode 100644 scripts/kconfirm/vendor/openssl/test/identity.p12
- create mode 100644 scripts/kconfirm/vendor/openssl/test/intermediate-ca.key
- create mode 100644 scripts/kconfirm/vendor/openssl/test/intermediate-ca.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/key.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/key.der.pub
- create mode 100644 scripts/kconfirm/vendor/openssl/test/key.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/key.pem.pub
- create mode 100644 scripts/kconfirm/vendor/openssl/test/keystore-empty-chain.p12
- create mode 100644 scripts/kconfirm/vendor/openssl/test/leaf.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/nid_test_cert.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/nid_uid_test_cert.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/ocsp_ca_cert.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/ocsp_resp_no_nextupdate.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/ocsp_resp_revoked.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/ocsp_subject_cert.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/pkcs1.pem.pub
- create mode 100644 scripts/kconfirm/vendor/openssl/test/pkcs8-nocrypt.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/pkcs8.der
- create mode 100644 scripts/kconfirm/vendor/openssl/test/root-ca.key
- create mode 100644 scripts/kconfirm/vendor/openssl/test/root-ca.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/rsa-encrypted.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/rsa.pem
- create mode 100644 scripts/kconfirm/vendor/openssl/test/rsa.pem.pub
- create mode 100644 scripts/kconfirm/vendor/openssl/test/subca.crt
- create mode 100644 scripts/kconfirm/vendor/openssl/test/test.crl
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/README.md
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/src/decoder.rs
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/src/encoder.rs
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/src/grammar.rs
- create mode 100644 scripts/kconfirm/vendor/pem-rfc7468/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/src/ascii_set.rs
- create mode 100644 scripts/kconfirm/vendor/percent-encoding/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/README.md
- create mode 100644 scripts/kconfirm/vendor/pin-project-lite/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/pkg-config/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/pkg-config/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/pkg-config/Cargo.lock.msrv
- create mode 100644 scripts/kconfirm/vendor/pkg-config/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/pkg-config/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/pkg-config/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/pkg-config/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/pkg-config/README.md
- create mode 100644 scripts/kconfirm/vendor/pkg-config/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/portable-atomic-util/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/portable-atomic-util/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/portable-atomic/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/portable-atomic/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/prettyplease/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/prettyplease/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/README.md
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/build.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/rust-toolchain.toml
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/detection.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/extra.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/fallback.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/location.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/marker.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/num.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/parse.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/probe.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/probe/proc_macro_span.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/probe/proc_macro_span_file.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/probe/proc_macro_span_location.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/rcvec.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/rustc_literal_escaper.rs
- create mode 100644 scripts/kconfirm/vendor/proc-macro2/src/wrapper.rs
- create mode 100644 scripts/kconfirm/vendor/quote/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/quote/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/quote/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/quote/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/quote/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/quote/README.md
- create mode 100644 scripts/kconfirm/vendor/quote/build.rs
- create mode 100644 scripts/kconfirm/vendor/quote/rust-toolchain.toml
- create mode 100644 scripts/kconfirm/vendor/quote/src/ext.rs
- create mode 100644 scripts/kconfirm/vendor/quote/src/format.rs
- create mode 100644 scripts/kconfirm/vendor/quote/src/ident_fragment.rs
- create mode 100644 scripts/kconfirm/vendor/quote/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/quote/src/runtime.rs
- create mode 100644 scripts/kconfirm/vendor/quote/src/spanned.rs
- create mode 100644 scripts/kconfirm/vendor/quote/src/to_tokens.rs
- create mode 100644 scripts/kconfirm/vendor/r-efi/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/r-efi/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/regex-automata/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/regex-automata/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/regex-automata/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/regex-automata/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/regex-automata/README.md
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/accel.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/automaton.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/dense.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/determinize.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/minimize.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/onepass.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/regex.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/remapper.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/search.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/sparse.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/special.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/dfa/start.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/hybrid/dfa.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/hybrid/error.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/hybrid/id.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/hybrid/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/hybrid/regex.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/hybrid/search.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/error.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/limited.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/literal.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/regex.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/reverse_inner.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/stopat.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/strategy.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/meta/wrappers.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/backtrack.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/builder.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/compiler.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/error.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/literal_trie.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/map.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/nfa.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/pikevm.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/nfa/thompson/range_trie.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/alphabet.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/captures.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/determinize/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/determinize/state.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/empty.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/escape.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/int.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/interpolate.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/iter.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/lazy.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/look.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/pool.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/prefilter/aho_corasick.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/prefilter/byteset.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/prefilter/memchr.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/prefilter/memmem.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/prefilter/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/prefilter/teddy.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/primitives.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/search.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/sparse_set.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/start.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/syntax.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/unicode_data/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/unicode_data/perl_word.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/utf8.rs
- create mode 100644 scripts/kconfirm/vendor/regex-automata/src/util/wire.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/README.md
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/benches/bench.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/ast/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/ast/parse.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/ast/print.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/ast/visitor.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/debug.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/either.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/hir/interval.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/hir/literal.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/hir/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/hir/print.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/hir/translate.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/hir/visitor.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/parser.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/rank.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/LICENSE-UNICODE
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/age.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/case_folding_simple.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/general_category.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/grapheme_cluster_break.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/perl_decimal.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/perl_space.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/perl_word.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/property_bool.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/property_names.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/property_values.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/script.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/script_extension.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/sentence_break.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/unicode_tables/word_break.rs
- create mode 100644 scripts/kconfirm/vendor/regex-syntax/src/utf8.rs
- create mode 100644 scripts/kconfirm/vendor/regex/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/regex/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/regex/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/regex/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/regex/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/regex/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/regex/README.md
- create mode 100644 scripts/kconfirm/vendor/regex/UNICODE.md
- create mode 100644 scripts/kconfirm/vendor/regex/bench/README.md
- create mode 100644 scripts/kconfirm/vendor/regex/src/builders.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/find_byte.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/pattern.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/regex/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/regex/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/regex/string.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/regexset/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/regexset/mod.rs
- create mode 100644 scripts/kconfirm/vendor/regex/src/regexset/string.rs
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/anchored.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/bytes.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/crazy.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/crlf.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/earliest.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/empty.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/expensive.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/flags.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/iter.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/leftmost-all.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/line-terminator.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/misc.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/multiline.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/no-unicode.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/overlapping.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/regex-lite.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/regression.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/set.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/substring.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/unicode.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/utf8.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/word-boundary-special.toml
- create mode 100644 scripts/kconfirm/vendor/regex/testdata/word-boundary.toml
- create mode 100644 scripts/kconfirm/vendor/rustix/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/rustix/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/README.md
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/alg_id.rs
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/base64.rs
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/README.md
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-p256.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-p256k1.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-p384.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-p521.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-sha256.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-sha384.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ecdsa-sha512.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ed25519.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ed448.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ml-dsa-44.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ml-dsa-65.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-ml-dsa-87.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-encryption.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-pkcs1-sha256.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-pkcs1-sha384.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-pkcs1-sha512.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-pss-sha256.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-pss-sha384.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/data/alg-rsa-pss-sha512.der
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/pem.rs
- create mode 100644 scripts/kconfirm/vendor/rustls-pki-types/src/server_name.rs
- create mode 100644 scripts/kconfirm/vendor/schannel/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/schannel/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/security-framework-sys/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/security-framework-sys/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/security-framework/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/security-framework/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/semver/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/semver/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/serde/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/serde/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/serde/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/serde/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/serde/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/serde/README.md
- create mode 100644 scripts/kconfirm/vendor/serde/build.rs
- create mode 100644 scripts/kconfirm/vendor/serde/crates-io.md
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/crate_root.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/de/ignored_any.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/de/impls.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/de/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/de/value.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/format.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/lib.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/macros.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/private/content.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/private/doc.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/private/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/private/seed.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/private/size_hint.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/private/string.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/ser/fmt.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/ser/impls.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/ser/impossible.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/ser/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/core/std_error.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/integer128.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/private/de.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/private/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde/src/private/ser.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/serde_core/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/serde_core/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/serde_core/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/serde_core/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/serde_core/README.md
- create mode 100644 scripts/kconfirm/vendor/serde_core/build.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/crate_root.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/de/ignored_any.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/de/impls.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/de/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/de/value.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/format.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/private/content.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/private/doc.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/private/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/private/seed.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/private/size_hint.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/private/string.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/ser/fmt.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/ser/impls.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/ser/impossible.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/ser/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde_core/src/std_error.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/serde_derive/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/serde_derive/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/serde_derive/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/serde_derive/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/serde_derive/README.md
- create mode 100644 scripts/kconfirm/vendor/serde_derive/crates-io.md
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/bound.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/enum_.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/enum_adjacently.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/enum_externally.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/enum_internally.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/enum_untagged.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/identifier.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/struct_.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/tuple.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/de/unit.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/deprecated.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/dummy.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/fragment.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/ast.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/attr.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/case.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/check.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/ctxt.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/mod.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/name.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/receiver.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/respan.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/internals/symbol.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/pretend.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/ser.rs
- create mode 100644 scripts/kconfirm/vendor/serde_derive/src/this.rs
- create mode 100644 scripts/kconfirm/vendor/serde_json/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/serde_json/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/shlex/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/shlex/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/shlex/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/shlex/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/shlex/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/shlex/README.md
- create mode 100644 scripts/kconfirm/vendor/shlex/src/bytes.rs
- create mode 100644 scripts/kconfirm/vendor/shlex/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/shlex/src/quoting_warning.md
- create mode 100644 scripts/kconfirm/vendor/strsim/.editorconfig
- create mode 100644 scripts/kconfirm/vendor/strsim/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/strsim/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/strsim/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/strsim/LICENSE
- create mode 100644 scripts/kconfirm/vendor/strsim/README.md
- create mode 100644 scripts/kconfirm/vendor/strsim/SECURITY.md
- create mode 100644 scripts/kconfirm/vendor/strsim/benches/benches.rs
- create mode 100644 scripts/kconfirm/vendor/strsim/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/syn/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/syn/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/syn/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/syn/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/syn/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/syn/README.md
- create mode 100644 scripts/kconfirm/vendor/syn/benches/file.rs
- create mode 100644 scripts/kconfirm/vendor/syn/benches/rust.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/attr.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/bigint.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/buffer.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/classify.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/custom_keyword.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/custom_punctuation.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/data.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/derive.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/discouraged.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/drops.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/export.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/expr.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/ext.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/file.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/fixup.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/clone.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/debug.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/eq.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/fold.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/hash.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/token.css
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/visit.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/gen/visit_mut.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/generics.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/group.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/ident.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/item.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/lifetime.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/lit.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/lookahead.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/mac.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/meta.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/op.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/parse.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/parse_macro_input.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/parse_quote.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/pat.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/path.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/precedence.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/print.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/punctuated.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/restriction.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/scan_expr.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/sealed.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/span.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/spanned.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/stmt.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/thread.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/token.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/tt.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/ty.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/verbatim.rs
- create mode 100644 scripts/kconfirm/vendor/syn/src/whitespace.rs
- create mode 100644 scripts/kconfirm/vendor/tempfile/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/tempfile/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/LICENSE
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/README.md
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/src/attr.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/src/expand.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-attributes/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/tracing-core/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/tracing-core/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/tracing-core/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/tracing-core/LICENSE
- create mode 100644 scripts/kconfirm/vendor/tracing-core/README.md
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/callsite.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/dispatcher.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/event.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/field.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/lazy.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/metadata.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/parent.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/span.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/spin/LICENSE
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/spin/mod.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/spin/mutex.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/spin/once.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/subscriber.rs
- create mode 100644 scripts/kconfirm/vendor/tracing-core/src/sync.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/tracing/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/tracing/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/tracing/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/tracing/LICENSE
- create mode 100644 scripts/kconfirm/vendor/tracing/README.md
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/baseline.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/dispatch_get_clone.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/dispatch_get_ref.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/empty_span.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/enter_span.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/event.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/shared.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/span_fields.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/span_no_fields.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/benches/span_repeated.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/dispatcher.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/field.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/instrument.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/level_filters.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/macros.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/span.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/src/subscriber.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/bin/macro-results.sh
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_n.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_np.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_nt.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_ntp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_p.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_t.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/debug_tp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_n.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_np.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_nt.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_ntp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_p.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_t.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/error_tp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_n.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_np.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_nt.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_ntp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_p.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_t.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/event_tp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_n.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_np.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_nt.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_ntp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_p.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_t.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/info_tp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_n.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_np.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_nt.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_ntp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_p.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_t.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/trace_tp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_n.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_np.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_nt.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_ntp.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_p.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_t.rs
- create mode 100644 scripts/kconfirm/vendor/tracing/test-macros/tests/warn_tp.rs
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/LICENSE-UNICODE
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/README.md
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/benches/xid.rs
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/unicode-ident/src/tables.rs
- create mode 100644 scripts/kconfirm/vendor/unicode-xid/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/unicode-xid/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/LICENSE-MIT.txt
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/README.md
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/body.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/chunk.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/amended.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/await100.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/prepare.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/recvbody.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/recvresp.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/redirect.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/sendbody.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/sendreq.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/scenario.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_await_100.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_cleanup.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_prepare.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_recv_body.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_recv_response.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_redirect.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_send_body.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/client/test/state_send_request.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/close_reason.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/ext.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/parser.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/amended.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/provres.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/recvbody.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/recvreq.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/send100.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/sendbody.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/sendres.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/scenario.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_cleanup.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_provide_response.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_recv_body.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_recv_request.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_send_100.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_send_body.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/server/test/state_send_response.rs
- create mode 100644 scripts/kconfirm/vendor/ureq-proto/src/util.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/ureq/CONTRIBUTING.md
- create mode 100644 scripts/kconfirm/vendor/ureq/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/ureq/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/ureq/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/ureq/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/ureq/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/ureq/MIGRATE-2-to-3.md
- create mode 100644 scripts/kconfirm/vendor/ureq/README.md
- create mode 100644 scripts/kconfirm/vendor/ureq/README.tpl
- create mode 100644 scripts/kconfirm/vendor/ureq/RELEASE.txt
- create mode 100644 scripts/kconfirm/vendor/ureq/examples/cureq.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/examples/mpsc-transport.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/examples/proxy.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/agent.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/brotli.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/build.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/charset.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/gzip.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/limit.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/lossy.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/body/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/config.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/cookies.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/error.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/middleware.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/multipart.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/pool.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/proxy.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/query.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/request.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/request_ext.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/response.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/run.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/send_body.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/timings.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/tls/cert.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/tls/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/tls/native_tls.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/tls/rustls.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/resolver.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/buf.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/chain.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/connect.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/io.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/mod.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/socks.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/tcp.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/test.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/unversioned/transport/time.rs
- create mode 100644 scripts/kconfirm/vendor/ureq/src/util.rs
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/README.md
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/src/lossy.rs
- create mode 100644 scripts/kconfirm/vendor/utf8-zero/src/read.rs
- create mode 100644 scripts/kconfirm/vendor/utf8parse/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/utf8parse/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/utf8parse/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/utf8parse/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/utf8parse/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/utf8parse/src/types.rs
- create mode 100644 scripts/kconfirm/vendor/vcpkg/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/vcpkg/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/vcpkg/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/vcpkg/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/vcpkg/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/vcpkg/README.md
- create mode 100644 scripts/kconfirm/vendor/vcpkg/notes.md
- create mode 100644 scripts/kconfirm/vendor/vcpkg/rustfmt.toml
- create mode 100644 scripts/kconfirm/vendor/vcpkg/setup_vcp.sh
- create mode 100644 scripts/kconfirm/vendor/vcpkg/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/multiline-description/installed/vcpkg/info/graphite2_1.3.10_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/multiline-description/installed/vcpkg/updates/status
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-algorithm_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-any_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-array_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-assert_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-atomic_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-bimap_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-bind_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-build_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-chrono_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-compatibility_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-concept-check_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-config_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-container-hash_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-container_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-conversion_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-core_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-date-time_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-detail_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-endian_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-exception_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-filesystem_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-foreach_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-format_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-function-types_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-function_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-functional_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-fusion_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-geometry_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-graph_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-integer_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-intrusive_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-io_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-iostreams_1.67.0-1_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-iterator_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-lambda_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-lexical-cast_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-locale_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-math_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-modular-build-helper_2018-05-14_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-move_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-mpl_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-multi-index_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-multiprecision_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-numeric-conversion_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-optional_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-parameter_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-phoenix_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-polygon_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-pool_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-predef_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-preprocessor_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-property-map_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-property-tree_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-proto_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-qvm_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-random_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-range_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-ratio_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-rational_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-regex_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-serialization_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-smart-ptr_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-spirit_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-static-assert_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-system_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-test_1.67.0-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-thread_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-throw-exception_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-timer_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-tokenizer_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-tti_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-tuple_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-type-index_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-type-traits_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-typeof_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-unordered_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-utility_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-variant_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-vcpkg-helpers_4_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-winapi_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/boost-xpressive_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/bzip2_1.0.6-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/icu_61.1-1_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/libevent_2.1.8-3_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/liblzma_5.2.3-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/libmysql_8.0.4-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/lz4_1.8.2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/openssl_1.0.2o-3_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/info/zlib_1.2.11-3_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000000
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000001
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000002
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000003
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000004
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000005
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000006
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000007
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000008
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000009
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000010
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000011
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000012
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000013
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000014
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000015
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000016
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000017
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000018
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000019
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000020
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000021
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000022
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000023
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000024
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000025
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000026
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000027
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000028
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000029
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000030
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000031
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000032
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000033
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000034
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000035
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000036
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000037
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000038
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000039
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000040
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000041
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000042
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000043
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000044
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000045
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000046
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000047
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000048
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000049
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000050
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000051
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000052
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000053
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000054
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000055
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000056
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000057
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000058
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000059
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000060
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000061
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000062
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000063
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000064
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000065
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000066
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000067
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000068
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000069
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000070
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000071
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000072
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000073
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000074
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000075
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000076
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000077
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000078
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000079
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000080
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000081
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000082
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000083
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000084
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000085
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000086
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000087
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000088
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000089
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000090
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000091
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000092
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000093
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000094
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000095
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000096
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000097
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000098
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000099
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000100
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000101
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000102
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000103
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000104
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000105
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000106
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000107
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000108
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000109
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000110
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000111
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000112
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000113
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000114
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000115
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000116
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000117
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000118
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000119
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000120
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000121
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000122
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000123
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000124
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000125
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000126
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000127
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000128
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000129
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000130
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000131
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000132
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000133
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000134
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000135
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000136
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000137
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000138
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000139
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000140
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000141
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000142
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000143
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000144
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000145
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000146
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000147
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000148
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000149
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000150
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000151
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000152
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000153
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000154
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000155
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000156
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000157
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000158
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000159
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000160
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000161
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000162
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000163
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000164
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000165
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000166
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000167
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000168
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000169
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000170
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000171
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000172
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000173
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000174
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000175
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000176
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/vcpkg/updates/0000000177
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_atomic-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_chrono-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_container-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_date_time-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_filesystem-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_graph-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_iostreams-vc141-mt-x32-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_locale-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_math_c99-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_math_c99f-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_math_c99l-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_math_tr1-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_math_tr1f-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_math_tr1l-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_prg_exec_monitor-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_random-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_regex-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_serialization-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_system-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_thread-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_timer-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_unit_test_framework-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/boost_wserialization-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/icudt61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/icuin61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/icuio61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/icutu61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/icuuc61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/libbz2.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/libeay32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/libmysql.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/lz4.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/lzma.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/ssleay32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/bin/zlib1.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_atomic-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_chrono-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_container-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_date_time-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_exception-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_filesystem-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_graph-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_iostreams-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_locale-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_math_c99-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_math_c99f-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_math_c99l-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_math_tr1-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_math_tr1f-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_math_tr1l-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_random-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_regex-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_serialization-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_system-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_thread-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_timer-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_unit_test_framework-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/boost_wserialization-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/bz2.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/event.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/event_core.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/event_extra.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/icudt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/icuin.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/icuio.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/icutu.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/icuuc.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/libeay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/libmysql.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/lz4.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/lzma.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/manual-link/boost_prg_exec_monitor-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/manual-link/boost_test_exec_monitor-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/ssleay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/lib/zlib.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/tools/openssl/LIBEAY32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/no-status/installed/x64-windows/tools/openssl/SSLEAY32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-algorithm_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-algorithm_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-any_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-any_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-array_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-array_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-assert_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-assert_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-atomic_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-atomic_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-bimap_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-bimap_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-bind_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-bind_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-build_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-build_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-chrono_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-chrono_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-compatibility_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-compatibility_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-concept-check_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-concept-check_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-config_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-config_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-container-hash_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-container-hash_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-container_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-container_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-conversion_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-conversion_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-core_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-core_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-date-time_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-date-time_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-detail_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-detail_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-endian_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-endian_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-exception_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-exception_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-filesystem_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-filesystem_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-foreach_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-foreach_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-format_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-format_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-function-types_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-function-types_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-function_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-function_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-functional_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-functional_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-fusion_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-fusion_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-geometry_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-geometry_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-graph_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-graph_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-integer_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-integer_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-intrusive_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-intrusive_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-io_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-io_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-iostreams_1.67.0-1_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-iostreams_1.67.0-1_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-iterator_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-iterator_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-lambda_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-lambda_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-lexical-cast_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-lexical-cast_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-locale_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-locale_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-math_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-math_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-modular-build-helper_2018-05-14_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-modular-build-helper_2018-05-14_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-move_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-move_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-mpl_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-mpl_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-multi-index_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-multi-index_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-multiprecision_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-multiprecision_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-numeric-conversion_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-numeric-conversion_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-optional_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-optional_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-parameter_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-parameter_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-phoenix_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-phoenix_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-polygon_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-polygon_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-pool_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-pool_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-predef_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-predef_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-preprocessor_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-preprocessor_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-property-map_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-property-map_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-property-tree_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-property-tree_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-proto_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-proto_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-qvm_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-qvm_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-random_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-random_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-range_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-range_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-ratio_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-ratio_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-rational_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-rational_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-regex_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-regex_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-serialization_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-serialization_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-smart-ptr_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-smart-ptr_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-spirit_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-spirit_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-static-assert_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-static-assert_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-system_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-system_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-test_1.67.0-2_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-test_1.67.0-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-thread_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-thread_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-throw-exception_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-throw-exception_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-timer_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-timer_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-tokenizer_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-tokenizer_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-tti_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-tti_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-tuple_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-tuple_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-type-index_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-type-index_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-type-traits_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-type-traits_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-typeof_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-typeof_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-unordered_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-unordered_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-utility_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-utility_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-variant_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-variant_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-vcpkg-helpers_4_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-vcpkg-helpers_4_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-winapi_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-winapi_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-xpressive_1.67.0_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/boost-xpressive_1.67.0_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/bzip2_1.0.6-2_arm64-ios.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/bzip2_1.0.6-2_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/bzip2_1.0.6-2_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/bzip2_1.0.6-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/bzip2_1.0.6-2_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/freetype_2.8.1-3_arm64-ios.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/freetype_2.8.1-3_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/freetype_2.8.1-3_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/graphite2_1.3.10_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/harfbuzz_1.8.4_arm64-ios.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/harfbuzz_1.8.4_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/harfbuzz_1.8.4_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/icu_61.1-1_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/icu_61.1-1_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/icu_61.1-1_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/icu_61.1-2_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libevent_2.1.8-3_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libevent_2.1.8-3_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/liblzma_5.2.3-2_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/liblzma_5.2.3-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libmysql_8.0.4-2_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libmysql_8.0.4-2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libpng_1.6.35_arm64-ios.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libpng_1.6.35_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/libpng_1.6.35_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/lz4_1.8.2_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/lz4_1.8.2_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/openssl_1.0.2o-3_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/openssl_1.0.2o-3_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/ragel_6.10-1_arm64-ios.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/ragel_6.10-1_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/ragel_6.10-1_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/zlib_1.2.11-3_arm64-ios.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/zlib_1.2.11-3_x64-osx.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/zlib_1.2.11-3_x64-windows-static.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/zlib_1.2.11-3_x64-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/info/zlib_1.2.11-3_x86-windows.list
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/vcpkg/updates/status
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_atomic-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_chrono-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_container-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_date_time-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_exception-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_filesystem-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_graph-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_iostreams-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_locale-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_math_c99-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_math_c99f-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_math_c99l-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_math_tr1-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_math_tr1f-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_math_tr1l-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_random-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_regex-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_serialization-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_system-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_thread-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_timer-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_unit_test_framework-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/boost_wserialization-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/bz2d.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/event.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/event_core.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/event_extra.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/icudtd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/icuind.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/icuiod.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/icutud.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/icuucd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/libeay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/lz4d.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/lzma.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/manual-link/boost_prg_exec_monitor-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/manual-link/boost_test_exec_monitor-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/mysqlclient.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/ssleay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/debug/lib/zlibd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_atomic-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_chrono-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_container-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_date_time-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_exception-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_filesystem-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_graph-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_iostreams-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_locale-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_math_c99-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_math_c99f-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_math_c99l-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_math_tr1-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_math_tr1f-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_math_tr1l-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_random-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_regex-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_serialization-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_system-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_thread-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_timer-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_unit_test_framework-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/boost_wserialization-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/bz2.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/event.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/event_core.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/event_extra.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/icudt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/icuin.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/icuio.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/icutu.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/icuuc.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/libeay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/lz4.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/lzma.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/manual-link/boost_prg_exec_monitor-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/manual-link/boost_test_exec_monitor-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/mysqlclient.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/ssleay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows-static/lib/zlib.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_atomic-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_chrono-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_container-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_date_time-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_filesystem-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_graph-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_iostreams-vc141-mt-x32-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_locale-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_math_c99-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_math_c99f-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_math_c99l-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_math_tr1-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_math_tr1f-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_math_tr1l-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_prg_exec_monitor-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_random-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_regex-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_serialization-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_system-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_thread-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_timer-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_unit_test_framework-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/boost_wserialization-vc141-mt-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/icudt61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/icuin61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/icuio61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/icutu61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/icuuc61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/libbz2.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/libeay32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/libmysql.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/lz4.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/lzma.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/ssleay32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/bin/zlib1.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_atomic-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_chrono-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_container-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_date_time-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_filesystem-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_graph-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_iostreams-vc141-mt-gd-x32-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_locale-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_math_c99-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_math_c99f-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_math_c99l-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_math_tr1-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_math_tr1f-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_math_tr1l-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_prg_exec_monitor-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_random-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_regex-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_serialization-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_system-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_thread-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_timer-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_unit_test_framework-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/boost_wserialization-vc141-mt-gd-x64-1_67.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/icudtd61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/icuind61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/icuiod61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/icutud61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/icuucd61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/libbz2d.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/libeay32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/libmysql.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/lz4d.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/lzma.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/ssleay32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/bin/zlibd1.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_atomic-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_chrono-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_container-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_date_time-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_exception-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_filesystem-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_graph-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_iostreams-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_locale-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_math_c99-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_math_c99f-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_math_c99l-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_math_tr1-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_math_tr1f-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_math_tr1l-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_random-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_regex-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_serialization-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_system-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_thread-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_timer-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_unit_test_framework-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/boost_wserialization-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/bz2d.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/event.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/event_core.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/event_extra.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/icudtd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/icuind.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/icuiod.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/icutud.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/icuucd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/libeay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/libmysql.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/lz4d.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/lzma.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/manual-link/boost_prg_exec_monitor-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/manual-link/boost_test_exec_monitor-vc140-mt-gd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/ssleay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/debug/lib/zlibd.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_atomic-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_chrono-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_container-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_date_time-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_exception-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_filesystem-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_graph-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_iostreams-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_locale-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_math_c99-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_math_c99f-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_math_c99l-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_math_tr1-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_math_tr1f-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_math_tr1l-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_random-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_regex-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_serialization-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_system-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_thread-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_timer-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_unit_test_framework-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/boost_wserialization-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/bz2.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/event.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/event_core.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/event_extra.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/icudt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/icuin.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/icuio.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/icutu.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/icuuc.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/libeay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/libmysql.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/lz4.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/lzma.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/manual-link/boost_prg_exec_monitor-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/manual-link/boost_test_exec_monitor-vc140-mt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/ssleay32.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/lib/zlib.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/tools/openssl/LIBEAY32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x64-windows/tools/openssl/SSLEAY32.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/freetype.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/graphite2.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/harfbuzz.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/icudt61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/icuin61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/icuio61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/icutu61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/icuuc61.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/libbz2.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/libpng16.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/bin/zlib1.dll
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/bz2.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/freetype.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/graphite2.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/harfbuzz.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/icudt.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/icuin.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/icuio.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/icutu.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/icuuc.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/libpng16.lib
- create mode 100644 scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/lib/zlib.lib
- create mode 100644 scripts/kconfirm/vendor/wasip2/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wasip2/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wasip3/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wasip3/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wasm-encoder/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wasm-encoder/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wasm-metadata/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wasm-metadata/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wasmparser/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wasmparser/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/webpki-root-certs/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/webpki-root-certs/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/webpki-root-certs/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/webpki-root-certs/LICENSE
- create mode 100644 scripts/kconfirm/vendor/webpki-root-certs/README.md
- create mode 100644 scripts/kconfirm/vendor/webpki-root-certs/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/windows-link/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/windows-link/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/windows-sys/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/windows-sys/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-0.46.0/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-0.46.0/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-core/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-core/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-rust-macro/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-rust-macro/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-rust/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen-rust/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-bindgen/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-component/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-component/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/wit-parser/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/wit-parser/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/zeroize/CHANGELOG.md
- create mode 100644 scripts/kconfirm/vendor/zeroize/Cargo.lock
- create mode 100644 scripts/kconfirm/vendor/zeroize/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/zeroize/Cargo.toml.orig
- create mode 100644 scripts/kconfirm/vendor/zeroize/LICENSE-APACHE
- create mode 100644 scripts/kconfirm/vendor/zeroize/LICENSE-MIT
- create mode 100644 scripts/kconfirm/vendor/zeroize/README.md
- create mode 100644 scripts/kconfirm/vendor/zeroize/src/aarch64.rs
- create mode 100644 scripts/kconfirm/vendor/zeroize/src/lib.rs
- create mode 100644 scripts/kconfirm/vendor/zeroize/src/x86.rs
- create mode 100644 scripts/kconfirm/vendor/zmij/Cargo.toml
- create mode 100644 scripts/kconfirm/vendor/zmij/src/lib.rs
  create mode 100644 scripts/kconfirm/vendor_dependencies.sh
 
+diff --git a/Makefile b/Makefile
+index 9f88dcaae382..f0327dbcb7b0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2225,7 +2225,7 @@ endif
+ # Scripts to check various things for consistency
+ # ---------------------------------------------------------------------------
+ 
+-PHONY += includecheck versioncheck coccicheck
++PHONY += includecheck versioncheck coccicheck kconfirm
+ 
+ includecheck:
+ 	find $(srctree)/* $(RCS_FIND_IGNORE) \
+@@ -2240,6 +2240,15 @@ versioncheck:
+ coccicheck:
+ 	$(Q)$(BASH) $(srctree)/scripts/$@
+ 
++kconfirm:
++	$(Q)$(MAKE) -C scripts/kconfirm
++
++# kconfirm is compiled and has its own build artifacts
++PHONY += kconfirmclean
++
++kconfirmclean:
++	$(Q)$(MAKE) -C scripts/kconfirm clean
++
+ PHONY += checkstack kernelrelease kernelversion image_name
+ 
+ # UML needs a little special treatment here.  It wants to use the host
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 3434a82a119f..f257e4514489 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -54,7 +54,7 @@ HOSTCFLAGS_sorttable.o += -DMCOUNT_SORT_ENABLED
+ endif
+ 
+ # The following programs are only built on demand
+-hostprogs += unifdef gen_packed_field_checks
++hostprogs += unifdef gen_packed_field_checks kconfirm
+ 
+ # The module linker script is preprocessed on demand
+ targets += module.lds
+diff --git a/scripts/kconfirm/.gitignore b/scripts/kconfirm/.gitignore
+new file mode 100644
+index 000000000000..f64f232d94f2
+--- /dev/null
++++ b/scripts/kconfirm/.gitignore
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0-only
++/target
++/Cargo.lock
+diff --git a/scripts/kconfirm/Cargo.toml b/scripts/kconfirm/Cargo.toml
+new file mode 100644
+index 000000000000..ebf1bf32920a
+--- /dev/null
++++ b/scripts/kconfirm/Cargo.toml
+@@ -0,0 +1,12 @@
++[workspace]
++members = ["kconfirm-lib", "kconfirm-linux"]
++resolver = "3"
++
++[workspace.package]
++rust-version = "1.85.0"
++
++[workspace.dependencies]
++nom-kconfig = "0.10"
++log = "0.4"
++env_logger = "0.11"
++clap = { version = "4.6", features = ["derive"] }
+diff --git a/scripts/kconfirm/LICENSE b/scripts/kconfirm/LICENSE
+new file mode 100644
+index 000000000000..d159169d1050
+--- /dev/null
++++ b/scripts/kconfirm/LICENSE
+@@ -0,0 +1,339 @@
++                    GNU GENERAL PUBLIC LICENSE
++                       Version 2, June 1991
++
++ Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
++ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ Everyone is permitted to copy and distribute verbatim copies
++ of this license document, but changing it is not allowed.
++
++                            Preamble
++
++  The licenses for most software are designed to take away your
++freedom to share and change it.  By contrast, the GNU General Public
++License is intended to guarantee your freedom to share and change free
++software--to make sure the software is free for all its users.  This
++General Public License applies to most of the Free Software
++Foundation's software and to any other program whose authors commit to
++using it.  (Some other Free Software Foundation software is covered by
++the GNU Lesser General Public License instead.)  You can apply it to
++your programs, too.
++
++  When we speak of free software, we are referring to freedom, not
++price.  Our General Public Licenses are designed to make sure that you
++have the freedom to distribute copies of free software (and charge for
++this service if you wish), that you receive source code or can get it
++if you want it, that you can change the software or use pieces of it
++in new free programs; and that you know you can do these things.
++
++  To protect your rights, we need to make restrictions that forbid
++anyone to deny you these rights or to ask you to surrender the rights.
++These restrictions translate to certain responsibilities for you if you
++distribute copies of the software, or if you modify it.
++
++  For example, if you distribute copies of such a program, whether
++gratis or for a fee, you must give the recipients all the rights that
++you have.  You must make sure that they, too, receive or can get the
++source code.  And you must show them these terms so they know their
++rights.
++
++  We protect your rights with two steps: (1) copyright the software, and
++(2) offer you this license which gives you legal permission to copy,
++distribute and/or modify the software.
++
++  Also, for each author's protection and ours, we want to make certain
++that everyone understands that there is no warranty for this free
++software.  If the software is modified by someone else and passed on, we
++want its recipients to know that what they have is not the original, so
++that any problems introduced by others will not reflect on the original
++authors' reputations.
++
++  Finally, any free program is threatened constantly by software
++patents.  We wish to avoid the danger that redistributors of a free
++program will individually obtain patent licenses, in effect making the
++program proprietary.  To prevent this, we have made it clear that any
++patent must be licensed for everyone's free use or not licensed at all.
++
++  The precise terms and conditions for copying, distribution and
++modification follow.
++
++                    GNU GENERAL PUBLIC LICENSE
++   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
++
++  0. This License applies to any program or other work which contains
++a notice placed by the copyright holder saying it may be distributed
++under the terms of this General Public License.  The "Program", below,
++refers to any such program or work, and a "work based on the Program"
++means either the Program or any derivative work under copyright law:
++that is to say, a work containing the Program or a portion of it,
++either verbatim or with modifications and/or translated into another
++language.  (Hereinafter, translation is included without limitation in
++the term "modification".)  Each licensee is addressed as "you".
++
++Activities other than copying, distribution and modification are not
++covered by this License; they are outside its scope.  The act of
++running the Program is not restricted, and the output from the Program
++is covered only if its contents constitute a work based on the
++Program (independent of having been made by running the Program).
++Whether that is true depends on what the Program does.
++
++  1. You may copy and distribute verbatim copies of the Program's
++source code as you receive it, in any medium, provided that you
++conspicuously and appropriately publish on each copy an appropriate
++copyright notice and disclaimer of warranty; keep intact all the
++notices that refer to this License and to the absence of any warranty;
++and give any other recipients of the Program a copy of this License
++along with the Program.
++
++You may charge a fee for the physical act of transferring a copy, and
++you may at your option offer warranty protection in exchange for a fee.
++
++  2. You may modify your copy or copies of the Program or any portion
++of it, thus forming a work based on the Program, and copy and
++distribute such modifications or work under the terms of Section 1
++above, provided that you also meet all of these conditions:
++
++    a) You must cause the modified files to carry prominent notices
++    stating that you changed the files and the date of any change.
++
++    b) You must cause any work that you distribute or publish, that in
++    whole or in part contains or is derived from the Program or any
++    part thereof, to be licensed as a whole at no charge to all third
++    parties under the terms of this License.
++
++    c) If the modified program normally reads commands interactively
++    when run, you must cause it, when started running for such
++    interactive use in the most ordinary way, to print or display an
++    announcement including an appropriate copyright notice and a
++    notice that there is no warranty (or else, saying that you provide
++    a warranty) and that users may redistribute the program under
++    these conditions, and telling the user how to view a copy of this
++    License.  (Exception: if the Program itself is interactive but
++    does not normally print such an announcement, your work based on
++    the Program is not required to print an announcement.)
++
++These requirements apply to the modified work as a whole.  If
++identifiable sections of that work are not derived from the Program,
++and can be reasonably considered independent and separate works in
++themselves, then this License, and its terms, do not apply to those
++sections when you distribute them as separate works.  But when you
++distribute the same sections as part of a whole which is a work based
++on the Program, the distribution of the whole must be on the terms of
++this License, whose permissions for other licensees extend to the
++entire whole, and thus to each and every part regardless of who wrote it.
++
++Thus, it is not the intent of this section to claim rights or contest
++your rights to work written entirely by you; rather, the intent is to
++exercise the right to control the distribution of derivative or
++collective works based on the Program.
++
++In addition, mere aggregation of another work not based on the Program
++with the Program (or with a work based on the Program) on a volume of
++a storage or distribution medium does not bring the other work under
++the scope of this License.
++
++  3. You may copy and distribute the Program (or a work based on it,
++under Section 2) in object code or executable form under the terms of
++Sections 1 and 2 above provided that you also do one of the following:
++
++    a) Accompany it with the complete corresponding machine-readable
++    source code, which must be distributed under the terms of Sections
++    1 and 2 above on a medium customarily used for software interchange; or,
++
++    b) Accompany it with a written offer, valid for at least three
++    years, to give any third party, for a charge no more than your
++    cost of physically performing source distribution, a complete
++    machine-readable copy of the corresponding source code, to be
++    distributed under the terms of Sections 1 and 2 above on a medium
++    customarily used for software interchange; or,
++
++    c) Accompany it with the information you received as to the offer
++    to distribute corresponding source code.  (This alternative is
++    allowed only for noncommercial distribution and only if you
++    received the program in object code or executable form with such
++    an offer, in accord with Subsection b above.)
++
++The source code for a work means the preferred form of the work for
++making modifications to it.  For an executable work, complete source
++code means all the source code for all modules it contains, plus any
++associated interface definition files, plus the scripts used to
++control compilation and installation of the executable.  However, as a
++special exception, the source code distributed need not include
++anything that is normally distributed (in either source or binary
++form) with the major components (compiler, kernel, and so on) of the
++operating system on which the executable runs, unless that component
++itself accompanies the executable.
++
++If distribution of executable or object code is made by offering
++access to copy from a designated place, then offering equivalent
++access to copy the source code from the same place counts as
++distribution of the source code, even though third parties are not
++compelled to copy the source along with the object code.
++
++  4. You may not copy, modify, sublicense, or distribute the Program
++except as expressly provided under this License.  Any attempt
++otherwise to copy, modify, sublicense or distribute the Program is
++void, and will automatically terminate your rights under this License.
++However, parties who have received copies, or rights, from you under
++this License will not have their licenses terminated so long as such
++parties remain in full compliance.
++
++  5. You are not required to accept this License, since you have not
++signed it.  However, nothing else grants you permission to modify or
++distribute the Program or its derivative works.  These actions are
++prohibited by law if you do not accept this License.  Therefore, by
++modifying or distributing the Program (or any work based on the
++Program), you indicate your acceptance of this License to do so, and
++all its terms and conditions for copying, distributing or modifying
++the Program or works based on it.
++
++  6. Each time you redistribute the Program (or any work based on the
++Program), the recipient automatically receives a license from the
++original licensor to copy, distribute or modify the Program subject to
++these terms and conditions.  You may not impose any further
++restrictions on the recipients' exercise of the rights granted herein.
++You are not responsible for enforcing compliance by third parties to
++this License.
++
++  7. If, as a consequence of a court judgment or allegation of patent
++infringement or for any other reason (not limited to patent issues),
++conditions are imposed on you (whether by court order, agreement or
++otherwise) that contradict the conditions of this License, they do not
++excuse you from the conditions of this License.  If you cannot
++distribute so as to satisfy simultaneously your obligations under this
++License and any other pertinent obligations, then as a consequence you
++may not distribute the Program at all.  For example, if a patent
++license would not permit royalty-free redistribution of the Program by
++all those who receive copies directly or indirectly through you, then
++the only way you could satisfy both it and this License would be to
++refrain entirely from distribution of the Program.
++
++If any portion of this section is held invalid or unenforceable under
++any particular circumstance, the balance of the section is intended to
++apply and the section as a whole is intended to apply in other
++circumstances.
++
++It is not the purpose of this section to induce you to infringe any
++patents or other property right claims or to contest validity of any
++such claims; this section has the sole purpose of protecting the
++integrity of the free software distribution system, which is
++implemented by public license practices.  Many people have made
++generous contributions to the wide range of software distributed
++through that system in reliance on consistent application of that
++system; it is up to the author/donor to decide if he or she is willing
++to distribute software through any other system and a licensee cannot
++impose that choice.
++
++This section is intended to make thoroughly clear what is believed to
++be a consequence of the rest of this License.
++
++  8. If the distribution and/or use of the Program is restricted in
++certain countries either by patents or by copyrighted interfaces, the
++original copyright holder who places the Program under this License
++may add an explicit geographical distribution limitation excluding
++those countries, so that distribution is permitted only in or among
++countries not thus excluded.  In such case, this License incorporates
++the limitation as if written in the body of this License.
++
++  9. The Free Software Foundation may publish revised and/or new versions
++of the General Public License from time to time.  Such new versions will
++be similar in spirit to the present version, but may differ in detail to
++address new problems or concerns.
++
++Each version is given a distinguishing version number.  If the Program
++specifies a version number of this License which applies to it and "any
++later version", you have the option of following the terms and conditions
++either of that version or of any later version published by the Free
++Software Foundation.  If the Program does not specify a version number of
++this License, you may choose any version ever published by the Free Software
++Foundation.
++
++  10. If you wish to incorporate parts of the Program into other free
++programs whose distribution conditions are different, write to the author
++to ask for permission.  For software which is copyrighted by the Free
++Software Foundation, write to the Free Software Foundation; we sometimes
++make exceptions for this.  Our decision will be guided by the two goals
++of preserving the free status of all derivatives of our free software and
++of promoting the sharing and reuse of software generally.
++
++                            NO WARRANTY
++
++  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
++FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
++OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
++PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
++OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
++TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
++PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
++REPAIR OR CORRECTION.
++
++  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
++WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
++REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
++INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
++OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
++TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
++YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
++PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
++POSSIBILITY OF SUCH DAMAGES.
++
++                     END OF TERMS AND CONDITIONS
++
++            How to Apply These Terms to Your New Programs
++
++  If you develop a new program, and you want it to be of the greatest
++possible use to the public, the best way to achieve this is to make it
++free software which everyone can redistribute and change under these terms.
++
++  To do so, attach the following notices to the program.  It is safest
++to attach them to the start of each source file to most effectively
++convey the exclusion of warranty; and each file should have at least
++the "copyright" line and a pointer to where the full notice is found.
++
++    <one line to give the program's name and a brief idea of what it does.>
++    Copyright (C) <year>  <name of author>
++
++    This program is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++
++    This program is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License along
++    with this program; if not, write to the Free Software Foundation, Inc.,
++    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++Also add information on how to contact you by electronic and paper mail.
++
++If the program is interactive, make it output a short notice like this
++when it starts in an interactive mode:
++
++    Gnomovision version 69, Copyright (C) year name of author
++    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
++    This is free software, and you are welcome to redistribute it
++    under certain conditions; type `show c' for details.
++
++The hypothetical commands `show w' and `show c' should show the appropriate
++parts of the General Public License.  Of course, the commands you use may
++be called something other than `show w' and `show c'; they could even be
++mouse-clicks or menu items--whatever suits your program.
++
++You should also get your employer (if you work as a programmer) or your
++school, if any, to sign a "copyright disclaimer" for the program, if
++necessary.  Here is a sample; alter the names:
++
++  Yoyodyne, Inc., hereby disclaims all copyright interest in the program
++  `Gnomovision' (which makes passes at compilers) written by James Hacker.
++
++  <signature of Ty Coon>, 1 April 1989
++  Ty Coon, President of Vice
++
++This General Public License does not permit incorporating your program into
++proprietary programs.  If your program is a subroutine library, you may
++consider it more useful to permit linking proprietary applications with the
++library.  If this is what you want to do, use the GNU Lesser General
++Public License instead of this License.
+diff --git a/scripts/kconfirm/Makefile b/scripts/kconfirm/Makefile
+new file mode 100644
+index 000000000000..8b01ac967f67
+--- /dev/null
++++ b/scripts/kconfirm/Makefile
+@@ -0,0 +1,29 @@
++# SPDX-License-Identifier: GPL-2.0
++# kconfirm makefile
++
++TARGET := kconfirm
++
++HAS_CARGO := $(shell command -v cargo 2> /dev/null)
++
++# Extra arguments forwarded to kconfirm.
++# Example: make kconfirm KCONFIRM_ARGS="--enable dead_links"
++KCONFIRM_ARGS ?=
++
++PHONY += all
++all: $(TARGET)
++
++$(TARGET):
++ifdef HAS_CARGO
++	@cargo run --release --offline -p kconfirm-linux -- --linux-path ../../ $(KCONFIRM_ARGS)
++else
++	@echo "Error: Cargo not found. Please install Rust and Cargo to build kconfirm."
++	@false
++endif
++
++clean:
++ifdef HAS_CARGO
++	@cargo clean > /dev/null 2>&1
++else
++	@:
++endif
++	@rm -f Cargo.lock
+diff --git a/scripts/kconfirm/kconfirm-lib/Cargo.toml b/scripts/kconfirm/kconfirm-lib/Cargo.toml
+new file mode 100644
+index 000000000000..90c04d3394f5
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/Cargo.toml
+@@ -0,0 +1,16 @@
++[package]
++name = "kconfirm-lib"
++version = "0.9.0"
++edition = "2024"
++rust-version.workspace = true
++
++[dependencies]
++nom-kconfig = { workspace = true }
++log = { workspace = true }
++env_logger = { workspace = true }
++ureq = { version = "3.3", default-features = false, features = ["native-tls"] }
++regex = { version = "1.12", default-features = false }
++
++[features]
++default = []
++coreboot = ["nom-kconfig/coreboot"]
+diff --git a/scripts/kconfirm/kconfirm-lib/src/analyze.rs b/scripts/kconfirm/kconfirm-lib/src/analyze.rs
+new file mode 100644
+index 000000000000..366213283f8c
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/src/analyze.rs
+@@ -0,0 +1,658 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++use crate::AnalysisArgs;
++use crate::Check;
++use crate::SymbolTable;
++use crate::dead_links::{self, LinkStatus, check_link};
++use crate::output::{Finding, Severity};
++use crate::symbol_table::ChoiceData;
++
++use log::error;
++use log::{debug, warn};
++use nom_kconfig::attribute::DefaultAttribute;
++use nom_kconfig::attribute::Expression;
++use nom_kconfig::attribute::Imply;
++use nom_kconfig::attribute::Select;
++use nom_kconfig::attribute::r#type::Type;
++use nom_kconfig::entry::Choice;
++use nom_kconfig::entry::Config;
++use nom_kconfig::entry::If;
++use nom_kconfig::entry::Menu;
++use nom_kconfig::entry::Source;
++use nom_kconfig::{
++    Attribute::*,
++    Entry::{self},
++};
++use std::collections::HashSet;
++use std::option::Option;
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
++enum FunctionalAttributes {
++    // only tracking the attributes that affect the semantics, e.g. not help texts
++    Dependencies,
++    Selects,
++    Implies,
++    Ranges,
++    Defaults,
++}
++
++struct AttributeGroupingChecker {
++    current_group: Option<FunctionalAttributes>,
++    finished_groups: HashSet<FunctionalAttributes>,
++}
++
++impl AttributeGroupingChecker {
++    fn new() -> Self {
++        Self {
++            current_group: None,
++            finished_groups: HashSet::new(),
++        }
++    }
++
++    // doesn't modify `findings` if the style check is disabled
++    fn check(
++        &mut self,
++        group: FunctionalAttributes,
++        args: &AnalysisArgs,
++        findings: &mut Vec<Finding>,
++        symbol: &str,
++        arch: &Option<String>,
++        message: String,
++    ) {
++        if !args.is_enabled(Check::UngroupedAttribute) {
++            return;
++        }
++
++        match self.current_group {
++            // still contiguous
++            Some(current) if current == group => {}
++
++            // start of group
++            None => {
++                self.current_group = Some(group);
++            }
++
++            Some(current) => {
++                // the previous group finished
++                self.finished_groups.insert(current);
++
++                // we've already finished this group, it's ungrouped
++                if self.finished_groups.contains(&group) {
++                    findings.push(Finding {
++                        severity: Severity::Style,
++                        check: Check::UngroupedAttribute,
++                        symbol: Some(symbol.to_string()),
++                        message,
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // switch to the new group
++                self.current_group = Some(group);
++            }
++        }
++    }
++}
++
++struct DeadLinkChecker {
++    visited_links: HashSet<String>,
++}
++
++impl DeadLinkChecker {
++    fn new() -> Self {
++        Self {
++            visited_links: HashSet::new(),
++        }
++    }
++
++    fn check_text(
++        &mut self,
++        text: &str,
++        args: &AnalysisArgs,
++        findings: &mut Vec<Finding>,
++        symbol: Option<&str>,
++        arch: &Option<String>,
++        context: &str,
++    ) {
++        if !args.is_enabled(Check::DeadLink) {
++            return;
++        }
++
++        let links = dead_links::find_links(text);
++
++        if links.is_empty() {
++            return;
++        }
++
++        debug!("{} links are: {:?}", context, links);
++
++        for link in links {
++            // avoid rechecking identical links
++            if !self.visited_links.insert(link.clone()) {
++                continue;
++            }
++
++            let status = check_link(&link);
++            if status != LinkStatus::Ok && status != LinkStatus::ProbablyBlocked {
++                findings.push(Finding {
++                    severity: Severity::Warning,
++                    check: Check::DeadLink,
++                    symbol: symbol.map(|s| s.to_string()),
++                    message: format!(
++                        "{} contains link {} with status {:?}",
++                        context, link, status
++                    ),
++                    arch: arch.to_owned(),
++                });
++            }
++        }
++    }
++}
++
++#[derive(Clone)]
++pub struct Context {
++    pub arch: Option<String>,
++    pub definition_condition: Vec<Expression>,
++    pub visibility: Vec<Option<Expression>>,
++    pub dependencies: Vec<Expression>,
++    pub in_choice: bool,
++}
++
++impl Context {
++    fn with_arch(arch: Option<String>) -> Context {
++        Context {
++            arch,
++            definition_condition: vec![],
++            visibility: vec![],
++            dependencies: vec![],
++            in_choice: false,
++        }
++    }
++
++    fn child(&self) -> Self {
++        self.clone()
++    }
++
++    fn with_dep(mut self, dep: Expression) -> Self {
++        self.dependencies.push(dep);
++        self
++    }
++
++    fn with_visibility(mut self, cond: Option<Expression>) -> Self {
++        self.visibility.push(cond);
++        self
++    }
++
++    fn with_definition(mut self, cond: Expression) -> Self {
++        self.definition_condition.push(cond);
++        self
++    }
++
++    fn in_choice(mut self) -> Self {
++        self.in_choice = true;
++        self
++    }
++}
++
++fn recurse_entries(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entries: Vec<Entry>,
++    ctx: Context,
++    findings: &mut Vec<Finding>,
++) {
++    for entry in entries {
++        process_entry(args, symtab, entry, ctx.clone(), findings);
++    }
++}
++
++pub fn analyze(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    arch: Option<String>,
++    entries: Vec<Entry>,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    let ctx = Context::with_arch(arch);
++
++    recurse_entries(args, symtab, entries, ctx, &mut findings);
++
++    findings
++}
++
++fn handle_config(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entry: Config,
++    ctx: &Context,
++    findings: &mut Vec<Finding>,
++) {
++    let config_symbol = entry.symbol;
++    debug!(
++        "starting to process config option `config` type: {}",
++        config_symbol
++    );
++
++    let mut child_ctx = ctx.child();
++
++    let mut config_type = None;
++    let mut kconfig_dependencies = Vec::new();
++    let mut kconfig_selects: Vec<Select> = Vec::new();
++    let mut kconfig_implies: Vec<Imply> = Vec::new();
++    let mut kconfig_ranges = Vec::new();
++    let mut kconfig_defaults = Vec::new();
++    let mut found_prompt = false;
++
++    debug!("attributes are: {:?}", &entry.attributes);
++    /*
++     * style check: ungrouped attributes
++     * - need to check that dependencies, selects, ranges, and defaults are each kept together.
++     */
++    let mut attribute_grouping_checker = AttributeGroupingChecker::new();
++    let mut dead_link_checker = DeadLinkChecker::new();
++    for attribute in entry.attributes {
++        match attribute {
++            Type(kconfig_type) => match kconfig_type.r#type.clone() {
++                // hybrid type definition and default
++                Type::DefBool(db) => {
++                    let default_attribute: DefaultAttribute = DefaultAttribute {
++                        expression: db.clone(),
++                        r#if: kconfig_type.clone().r#if,
++                    };
++
++                    kconfig_defaults.push(default_attribute);
++                    config_type = Some(kconfig_type);
++
++                    // NOTE: as a style, we prefer to keep the hybrid default-typedef with the standalone defaults
++                    attribute_grouping_checker.check(
++                        FunctionalAttributes::Defaults,
++                        args,
++                        findings,
++                        &config_symbol,
++                        &ctx.arch,
++                        format!("ungrouped default {}", db),
++                    );
++                }
++                Type::Bool(unconditional_prompt) => {
++                    if unconditional_prompt.is_some() {
++                        found_prompt = true;
++                    }
++                    config_type = Some(kconfig_type);
++                }
++
++                // hybrid type definition and default
++                Type::DefTristate(dt) => {
++                    // NOTE: as a style, we prefer to keep the hybrid default-typedef with the standalone defaults
++                    attribute_grouping_checker.check(
++                        FunctionalAttributes::Defaults,
++                        args,
++                        findings,
++                        &config_symbol,
++                        &ctx.arch,
++                        format!("ungrouped default {}", &dt),
++                    );
++
++                    let default_attribute: DefaultAttribute = DefaultAttribute {
++                        expression: dt,
++                        r#if: kconfig_type.clone().r#if,
++                    };
++
++                    kconfig_defaults.push(default_attribute);
++                    config_type = Some(kconfig_type);
++                }
++                Type::Tristate(unconditional_prompt) => {
++                    if unconditional_prompt.is_some() {
++                        found_prompt = true;
++                    }
++
++                    config_type = Some(kconfig_type.clone())
++                }
++                Type::Hex(unconditional_prompt) => {
++                    if unconditional_prompt.is_some() {
++                        found_prompt = true;
++                    }
++
++                    config_type = Some(kconfig_type);
++                }
++                Type::Int(unconditional_prompt) => {
++                    if unconditional_prompt.is_some() {
++                        found_prompt = true;
++                    }
++                    config_type = Some(kconfig_type);
++                }
++                Type::String(unconditional_prompt) => {
++                    if unconditional_prompt.is_some() {
++                        found_prompt = true;
++                    }
++                    config_type = Some(kconfig_type);
++                }
++            },
++            Default(default) => {
++                attribute_grouping_checker.check(
++                    FunctionalAttributes::Defaults,
++                    args,
++                    findings,
++                    &config_symbol,
++                    &ctx.arch,
++                    format!("ungrouped default {}", &default),
++                );
++
++                kconfig_defaults.push(default);
++            }
++
++            DependsOn(depends_on) => {
++                attribute_grouping_checker.check(
++                    FunctionalAttributes::Dependencies,
++                    args,
++                    findings,
++                    &config_symbol,
++                    &ctx.arch,
++                    format!("ungrouped dependency {}", &depends_on),
++                );
++
++                kconfig_dependencies.push(depends_on);
++            }
++            Select(select) => {
++                attribute_grouping_checker.check(
++                    FunctionalAttributes::Selects,
++                    args,
++                    findings,
++                    &config_symbol,
++                    &ctx.arch,
++                    format!("ungrouped select {}", &select),
++                );
++
++                kconfig_selects.push(select);
++            }
++            Imply(imply) => {
++                attribute_grouping_checker.check(
++                    FunctionalAttributes::Implies,
++                    args,
++                    findings,
++                    &config_symbol,
++                    &ctx.arch,
++                    format!("ungrouped imply {}", imply),
++                );
++
++                kconfig_implies.push(imply);
++
++                // TODO: may be relevant for nonvisible config options when building an SMT model...
++            }
++            // NOTE: range bounds are inclusive
++            Range(r) => {
++                attribute_grouping_checker.check(
++                    FunctionalAttributes::Ranges,
++                    args,
++                    findings,
++                    &config_symbol,
++                    &ctx.arch,
++                    format!("ungrouped range {}", r),
++                );
++
++                kconfig_ranges.push(r);
++            }
++            Help(h) => {
++                // doing nothing for menu help right now
++
++                dead_link_checker.check_text(
++                    &h,
++                    args,
++                    findings,
++                    Some(&config_symbol),
++                    &ctx.arch,
++                    "help text",
++                );
++            }
++
++            Modules => {
++                // the modules attribute designates this config option as the one that determines if the `m` state is available for tristates options.
++
++                // just making a special note of this in the symtab for now...
++                symtab.modules_option = Some(config_symbol.clone());
++            }
++
++            // the prompt's option `if` determines "visibility"
++            Prompt(prompt) => {
++                // TODO: once we have SMT solving, we can also check if the prompt condition is always true or never true (and therefore, effectively unconditional)
++
++                found_prompt = true;
++                if let Some(c) = prompt.r#if {
++                    child_ctx = child_ctx.with_visibility(Some(c));
++                }
++            }
++            Transitional => {
++                // doing nothing for transitional right now
++            }
++            Optional | Visible(_) | Requires(_) | Option(_) => {
++                error!("Unexpected attribute encountered: {:?}", attribute);
++
++                if !cfg!(debug_assertions) {
++                    panic!();
++                }
++            }
++        }
++    }
++
++    if !found_prompt {
++        child_ctx = child_ctx.with_visibility(None);
++    }
++
++    // there can be multiple entries that get merged. so we need to do the same for our symtab.
++    let kconfig_type = config_type.clone().map(|c| c.r#type);
++
++    // at the time of writing this, linux's kconfig only uses Bool inside Choice.
++    // however, the kconfig documentation doesn't specify whether or not this is guaranteed to be the case.
++    // we add this check to ensure that we don't cause undefined behavior in future linux versions if something changes...
++    if child_ctx.in_choice {
++        if let Some(kt) = &kconfig_type {
++            match kt {
++                Type::Bool(_) | Type::DefBool(_) => {
++                    // expected in a choice...
++                }
++
++                _ => {
++                    // TODO: old versions of linux (like 5.4.4) have tristates in the choice
++                    //       - u-boot also currently has hex options in the choice!
++                    warn!("found something unexpected in a choice-statement: {:?}", kt);
++                }
++            }
++        }
++    }
++
++    // at the end, add the file's cur_dependencies to this var's invididual dependencies.
++    kconfig_dependencies.extend(child_ctx.dependencies.clone());
++    symtab.merge_insert_new_solved(
++        config_symbol.clone(),
++        kconfig_type,
++        kconfig_dependencies,
++        //z3_dependency,
++        kconfig_ranges,
++        kconfig_defaults,
++        child_ctx.visibility.clone(),
++        child_ctx.arch.clone(),
++        child_ctx.definition_condition.clone(),
++        None,
++        kconfig_selects
++            .clone()
++            .into_iter()
++            .map(|sel| (sel.symbol, sel.r#if))
++            .collect(),
++        kconfig_implies
++            .into_iter()
++            .map(|imply| (imply.symbol.to_string(), imply.r#if))
++            .collect(),
++    );
++    // TODO: file a github issue, imply can never imply a constant (this is technically parsing incorrectly)
++
++    // TODO: when SMT solving, we may need to keep track of the implies the same way we keep track of selects,
++    //       in cases when the implied config option is non-visible
++
++    // need to add the select condition to the definedness condition if it exists
++    for select in kconfig_selects {
++        match select.r#if {
++            None => symtab.merge_insert_new_solved(
++                select.symbol,
++                None,
++                Vec::new(),
++                Vec::new(),
++                Vec::new(),
++                Vec::new(),
++                child_ctx.arch.clone(),
++                child_ctx.definition_condition.clone(),
++                Some((config_symbol.clone(), None)),
++                Vec::new(),
++                Vec::new(),
++            ),
++            Some(select_condition) => {
++                symtab.merge_insert_new_solved(
++                    select.symbol,
++                    None,
++                    Vec::new(),
++                    Vec::new(),
++                    Vec::new(),
++                    Vec::new(),
++                    child_ctx.arch.clone(),
++                    child_ctx.definition_condition.clone(),
++                    Some((config_symbol.clone(), Some(select_condition))),
++                    Vec::new(),
++                    Vec::new(),
++                );
++            }
++        }
++    }
++}
++
++fn handle_menu(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entry: Menu,
++    ctx: &Context,
++    findings: &mut Vec<Finding>,
++) {
++    // menus can set the visibility of their menu items
++
++    let mut child_ctx = ctx.child();
++
++    if !entry.depends_on.is_empty() {
++        debug!(
++            "the menu {:?} dependencies are: {:?}",
++            entry, entry.depends_on
++        );
++    }
++
++    for dep in entry.depends_on {
++        child_ctx = child_ctx.with_dep(dep.clone());
++        child_ctx = child_ctx.with_visibility(Some(dep)); // not a typo, the config options inside of a menu are only visible if the menu's dependencies are satisfied
++    }
++
++    let nested_entries = entry.entries;
++
++    recurse_entries(args, symtab, nested_entries, child_ctx.clone(), findings);
++}
++
++fn handle_choice(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entry: Choice,
++    ctx: &Context,
++    findings: &mut Vec<Finding>,
++) {
++    debug!("the attributes of the choice are: {:?}", entry.options);
++    debug!("the entries of the choice are: {:?}", entry.entries);
++
++    let mut child_ctx = ctx.child();
++    child_ctx = child_ctx.in_choice();
++
++    // we are going to add the dependencies of the choice to the dependencies of the entries.
++    //   we start with the dependencies inherited from the file
++    let mut choice_visibility_condition = None;
++    let mut defaults = Vec::new();
++    for attribute in entry.options {
++        match attribute {
++            DependsOn(depends_on) => {
++                child_ctx = child_ctx.with_dep(depends_on);
++            }
++
++            Default(default) => {
++                defaults.push(default);
++            }
++
++            // the prompt's `if` determines visibility
++            Prompt(prompt) => {
++                choice_visibility_condition = prompt.r#if;
++                if let Some(i) = choice_visibility_condition.clone() {
++                    child_ctx = child_ctx.with_visibility(Some(i));
++                }
++            }
++            _ => debug!("skipping attribute {:?} for choice", attribute),
++        }
++    }
++
++    // all of the variables in the choice menu
++    //let mut contained_vars = Vec::with_capacity(c.entries.len());
++    let nested_entries = entry.entries;
++
++    recurse_entries(args, symtab, nested_entries, child_ctx.clone(), findings);
++
++    let choice_data = ChoiceData {
++        //inner_vars: contained_vars,
++        arch: child_ctx.arch.clone(),
++        visibility: choice_visibility_condition,
++        dependencies: child_ctx.dependencies,
++        defaults,
++    };
++    symtab.choices.push(choice_data);
++}
++
++fn handle_if(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entry: If,
++    ctx: &Context,
++    findings: &mut Vec<Finding>,
++) {
++    let mut child_ctx = ctx.child();
++    child_ctx = child_ctx.with_definition(entry.condition.clone());
++    child_ctx = child_ctx.with_dep(entry.condition);
++    let nested_entries = entry.entries;
++
++    recurse_entries(args, symtab, nested_entries, child_ctx, findings);
++}
++
++fn handle_source(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entry: Source,
++    ctx: &Context,
++    findings: &mut Vec<Finding>,
++) {
++    let sourced_kconfig = entry.entries;
++
++    for sourced_kconfig in sourced_kconfig {
++        recurse_entries(args, symtab, sourced_kconfig.entries, ctx.clone(), findings);
++    }
++}
++
++pub fn process_entry(
++    args: &AnalysisArgs,
++    symtab: &mut SymbolTable,
++    entry: Entry,
++    ctx: Context,
++    findings: &mut Vec<Finding>,
++) {
++    // NOTE: in general, each handler should update the context as it encounters that construct.
++    //       e.g. Context.in_choice() should be called at the start of handle_choice(), not right before call to process_entry() when a choice is found and process_entry is called
++    match entry {
++        Entry::Config(c) | Entry::MenuConfig(c) => {
++            handle_config(args, symtab, c, &ctx, findings);
++        }
++        Entry::Menu(m) => handle_menu(args, symtab, m, &ctx, findings),
++        Entry::Choice(c) => handle_choice(args, symtab, c, &ctx, findings),
++        Entry::If(i) => handle_if(args, symtab, i, &ctx, findings),
++        Entry::Source(s) => handle_source(args, symtab, s, &ctx, findings),
++        Entry::Comment(_) => {}
++        Entry::MainMenu(_) => {}
++        _ => {}
++    }
++}
+diff --git a/scripts/kconfirm/kconfirm-lib/src/checks.rs b/scripts/kconfirm/kconfirm-lib/src/checks.rs
+new file mode 100644
+index 000000000000..bdd45b679dcb
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/src/checks.rs
+@@ -0,0 +1,694 @@
++use log::error;
++use nom_kconfig::attribute::{Expression, range::RangeBound};
++
++// SPDX-License-Identifier: GPL-2.0-only
++use crate::{
++    output::{Finding, Severity},
++    symbol_table::{AttributeDef, TypeInfo},
++};
++use std::{collections::HashSet, num::ParseIntError};
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
++pub enum Check {
++    FailedParse,
++    UngroupedAttribute, // check for duplicate default values, and ungrouped attributes
++    DeadLink,           // check for dead links in the help texts
++    SelectVisible,
++    // need SMT solving before we can detect select-undefineds
++    //SelectUndefined,
++    DuplicateDependency,
++    DuplicateRange,
++    DeadRange,
++    DuplicateSelect,
++    DeadSelect,
++    DeadDefault,
++    ConstantCondition,
++    DuplicateDefault,
++    DuplicateDefaultValue,
++    DuplicateImply,
++    DeadImply,
++    ReverseRange,
++}
++
++impl Check {
++    pub fn as_str(self) -> &'static str {
++        match self {
++            Check::FailedParse => "failed_parse",
++            Check::UngroupedAttribute => "ungrouped_attribute",
++            Check::DeadLink => "dead_link",
++            Check::SelectVisible => "select_visible",
++            Check::DuplicateDependency => "duplicate_dependency",
++            Check::DuplicateRange => "duplicate_range",
++            Check::DeadRange => "dead_range",
++            Check::DuplicateSelect => "duplicate_select",
++            Check::DeadSelect => "dead_select",
++            Check::DeadDefault => "dead_default",
++            Check::ConstantCondition => "constant_condition",
++            Check::DuplicateDefault => "duplicate_default",
++            Check::DuplicateDefaultValue => "duplicate_default_value",
++            Check::DuplicateImply => "duplicate_imply",
++            Check::DeadImply => "dead_imply",
++            Check::ReverseRange => "reverse_range",
++        }
++    }
++}
++
++pub fn parse_check(name: &str) -> Option<Check> {
++    match name {
++        "failed_parse" => Some(Check::FailedParse),
++        "ungrouped_attribute" => Some(Check::UngroupedAttribute),
++        "dead_link" => Some(Check::DeadLink),
++        "select_visible" => Some(Check::SelectVisible),
++        "duplicate_dependency" => Some(Check::DuplicateDependency),
++        "duplicate_range" => Some(Check::DuplicateRange),
++        "duplicate_select" => Some(Check::DuplicateSelect),
++        "dead_select" => Some(Check::DeadSelect),
++        "dead_default" => Some(Check::DeadDefault),
++        "constant_condition" => Some(Check::ConstantCondition),
++        "duplicate_default" => Some(Check::DuplicateDefault),
++        "duplicate_default_value" => Some(Check::DuplicateDefaultValue),
++        "duplicate_imply" => Some(Check::DuplicateImply),
++        "dead_imply" => Some(Check::DeadImply),
++        "reverse_range" => Some(Check::ReverseRange),
++        _ => None,
++    }
++}
++
++#[derive(Clone, Debug)]
++pub struct AnalysisArgs {
++    // check for duplicate default values
++    pub enabled_checks: HashSet<Check>,
++}
++
++impl AnalysisArgs {
++    pub fn is_enabled(&self, check: Check) -> bool {
++        self.enabled_checks.contains(&check)
++    }
++}
++
++// returns an Error if a hex range bound cannot be parsed as an i64
++pub fn check_reverse_ranges(
++    arch: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    for range in &info.kconfig_ranges {
++        // returns an Error if a hex range bound cannot be parsed as an i64
++        fn range_bound_to_int(range_bound: &RangeBound) -> Result<i64, ParseIntError> {
++            match range_bound {
++                RangeBound::Number(b) => {
++                    return Ok(b.to_owned());
++                }
++                RangeBound::Hex(b_str) => {
++                    let trimmed = b_str.trim_start_matches("0x").trim_start_matches("0X");
++
++                    return i64::from_str_radix(trimmed, 16);
++                }
++                RangeBound::Symbol(_) => {
++                    // TODO: need SMT solving for this case
++                    //       for now, the caller is expected not to pass these cases.
++                    unreachable!("not handling variable ranges until SMT solving");
++                }
++            }
++        }
++
++        if matches!(range.lower_bound, RangeBound::Symbol(_))
++            || matches!(range.upper_bound, RangeBound::Symbol(_))
++        {
++            // not handling these cases until SMT solving.
++            // don't return though, because we stil want to check the other ranges.
++            continue;
++        }
++
++        let maybe_lower_bound = range_bound_to_int(&range.lower_bound);
++        let maybe_upper_bound = range_bound_to_int(&range.upper_bound);
++
++        match (maybe_lower_bound, maybe_upper_bound) {
++            (Ok(lower_bound), Ok(upper_bound)) => {
++                if lower_bound > upper_bound {
++                    let message = format!(
++                        "reverse range {} for config option: {}, no value is valid",
++                        range.to_string(),
++                        var_symbol,
++                    );
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::ReverseRange,
++                        symbol: Some(var_symbol.to_owned()),
++                        arch: arch.to_owned(),
++                        message,
++                    });
++                }
++            }
++            (Result::Err(_), _) | (_, Result::Err(_)) => {
++                error!(
++                    "couldn't parse hex range bound as i64 for config option: {}",
++                    var_symbol
++                );
++                // still want to check the other range bounds
++                continue;
++            }
++        }
++    }
++
++    findings
++}
++
++pub fn check_constant_conditions(
++    arch: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++    let default_conditions: Vec<&Expression> = info
++        .kconfig_defaults
++        .iter()
++        .filter_map(|conditional_default| conditional_default.r#if.as_ref())
++        .collect();
++
++    check_conditions(
++        arch,
++        &mut findings,
++        &var_symbol,
++        &info.kconfig_dependencies,
++        default_conditions,
++        "default",
++    );
++
++    let select_conditions: Vec<&Expression> = info
++        .selects
++        .iter()
++        .filter_map(|conditional_select| conditional_select.1.as_ref())
++        .collect();
++
++    check_conditions(
++        arch,
++        &mut findings,
++        var_symbol,
++        &info.kconfig_dependencies,
++        select_conditions,
++        "select",
++    );
++
++    let imply_conditions: Vec<&Expression> = info
++        .implies
++        .iter()
++        .filter_map(|imp| imp.1.as_ref())
++        .collect();
++
++    check_conditions(
++        arch,
++        &mut findings,
++        var_symbol,
++        &info.kconfig_dependencies,
++        imply_conditions,
++        "imply",
++    );
++
++    let range_conditions: Vec<&Expression> = info
++        .kconfig_ranges
++        .iter()
++        .filter_map(|conditional_range| conditional_range.r#if.as_ref())
++        .collect();
++
++    check_conditions(
++        arch,
++        &mut findings,
++        var_symbol,
++        &info.kconfig_dependencies,
++        range_conditions,
++        "range",
++    );
++
++    fn check_conditions(
++        arch: &Option<String>,
++        findings: &mut Vec<Finding>,
++        symbol: &str,
++        kconfig_dependencies: &[Expression],
++        attribute_conditions: Vec<&Expression>,
++        context: &str,
++    ) {
++        for attribute_condition in attribute_conditions.into_iter() {
++            if kconfig_dependencies.contains(attribute_condition) {
++                let message = format!(
++                    "constant {} condition 'if {}' for config option: {}, this condition is a dependency and will always be true",
++                    context,
++                    attribute_condition.to_string(),
++                    symbol,
++                );
++                findings.push(Finding {
++                    severity: Severity::Warning,
++                    check: Check::ConstantCondition,
++                    symbol: Some(symbol.to_owned()),
++                    arch: arch.to_owned(),
++                    message,
++                });
++            }
++        }
++    }
++    findings
++}
++
++pub fn check_variable_info(
++    args: &AnalysisArgs,
++    var_symbol: &str,
++    arch_specific: &Option<String>,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    if args.is_enabled(Check::DuplicateDependency) {
++        findings.extend(check_duplicate_dependencies(
++            arch_specific,
++            var_symbol,
++            info,
++        ));
++    }
++
++    if args.is_enabled(Check::DuplicateImply) {
++        findings.extend(check_duplicate_implies(arch_specific, var_symbol, info));
++    }
++
++    if args.is_enabled(Check::DuplicateRange) {
++        findings.extend(check_duplicate_ranges(arch_specific, var_symbol, info));
++    }
++
++    if args.is_enabled(Check::DuplicateSelect) {
++        findings.extend(check_duplicate_selects(arch_specific, var_symbol, info));
++    }
++
++    if args.is_enabled(Check::ConstantCondition) {
++        findings.extend(check_constant_conditions(arch_specific, var_symbol, info));
++    }
++
++    if args.is_enabled(Check::DeadDefault)
++        || args.is_enabled(Check::DuplicateDefault)
++        || args.is_enabled(Check::DuplicateDefaultValue)
++    {
++        findings.extend(check_defaults(arch_specific, var_symbol, info, args));
++    }
++
++    if args.is_enabled(Check::ReverseRange) {
++        findings.extend(check_reverse_ranges(arch_specific, var_symbol, info));
++    }
++
++    findings
++}
++
++// TODO: also check if a config option in one arch unconditionally references a config option that only exists in another arch (need SMT for this first)
++pub fn check_select_visible(var_symbol: &str, info: &TypeInfo) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    // only interested in the options that are selected
++    if info.selected_by.is_empty() {
++        return Vec::new();
++    }
++
++    for (selector, select_info) in &info.selected_by {
++        for (arch, _cond) in select_info {
++            // NOTE: we don't care if the select is conditional or unconditional, just the selectee's visibility
++
++            // at this point, we know that `selector` unconditionally selects `var_symbol`
++            // now, we need to check if `var_symbol` is unconditionally visible
++
++            let message = format!(
++                "selects the visible {}; consider using 'depends on' or 'imply' instead",
++                var_symbol
++            );
++
++            // match the architecture that the select happens under with the architecture of the unconditional visibility
++            match info.attribute_defs.get(arch) {
++                None => {
++                    // there's no config option definition specifically under the architecture that this config option gets selected,
++                    // so let's check if it's defined for all archs (arch-independent)
++                    if let Some(no_arch_attribute_def) = info.attribute_defs.get(&None) {
++                        for (if_conditions, attributes) in no_arch_attribute_def {
++                            if if_conditions.is_empty() && attributes.visibility.is_empty() {
++                                // empty visiblity means that it is unconditionally visible, within the current arch (assuming arch is not `None`)
++
++                                findings.push(Finding {
++                                    severity: Severity::Warning,
++                                    check: Check::SelectVisible,
++                                    symbol: Some(selector.to_owned()),
++                                    message: message.clone(),
++                                    arch: arch.to_owned(),
++                                });
++                            }
++                        }
++                    }
++                }
++                Some(cur_arch_attribute_def) => {
++                    for (if_conditions, attributes) in cur_arch_attribute_def {
++                        if if_conditions.is_empty() && attributes.visibility.is_empty() {
++                            // empty visiblity means that it is unconditionally visible, within the current arch (assuming arch is not `None`)
++
++                            findings.push(Finding {
++                                severity: Severity::Warning,
++                                check: Check::SelectVisible,
++                                symbol: Some(selector.to_owned()),
++                                message: message.clone(),
++                                arch: arch.to_owned(),
++                            });
++                        }
++                    }
++                }
++            }
++        }
++    }
++
++    findings
++}
++
++fn is_duplicate<T: Eq + std::hash::Hash>(set: &mut HashSet<T>, key: T) -> bool {
++    !set.insert(key)
++}
++
++fn check_duplicate_dependencies(
++    arch_specific: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++    let mut seen = HashSet::new();
++
++    for dep in &info.kconfig_dependencies {
++        if is_duplicate(&mut seen, dep.to_string()) {
++            let message = format!("duplicate dependency on {}", dep.to_string());
++            findings.push(Finding {
++                severity: Severity::Warning,
++                check: Check::DuplicateDependency,
++                symbol: Some(var_symbol.to_owned()),
++                message,
++                arch: arch_specific.to_owned(),
++            });
++        }
++    }
++
++    findings
++}
++
++fn check_duplicate_implies(
++    arch: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    // symbols implied unconditionally
++    let mut unconditional: HashSet<String> = HashSet::new();
++
++    // (symbol, condition)
++    let mut conditional: HashSet<(String, String)> = HashSet::new();
++
++    for imp in &info.implies {
++        let imply_var = imp.0.clone();
++
++        match &imp.1 {
++            Some(cond) => {
++                let cond_str = cond.to_string();
++
++                // duplicate conditional imply
++                if !conditional.insert((imply_var.clone(), cond_str.clone())) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DuplicateImply,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!(
++                            "duplicate imply of {:?} with condition {}",
++                            imp.0, cond_str
++                        ),
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // conditional imply is dead if unconditional exists
++                if unconditional.contains(&imply_var) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DeadImply,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("dead imply of {:?}", imp),
++                        arch: arch.to_owned(),
++                    });
++                }
++            }
++
++            None => {
++                // duplicate unconditional imply
++                if !unconditional.insert(imply_var.clone()) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DuplicateImply,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("duplicate imply of {:?}", imp),
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // previous conditionals with same symbol are dead
++                for (sym, _) in &conditional {
++                    if sym == &imply_var {
++                        findings.push(Finding {
++                            severity: Severity::Warning,
++                            check: Check::DeadImply,
++                            symbol: Some(var_symbol.to_owned()),
++                            message: format!("dead imply of {:?}", imp),
++                            arch: arch.to_owned(),
++                        });
++                    }
++                }
++            }
++        }
++    }
++
++    findings
++}
++
++fn check_duplicate_ranges(
++    arch: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    // unconditional ranges by bounds
++    let mut unconditional: HashSet<String> = HashSet::new();
++
++    // (bounds, condition)
++    let mut conditional: HashSet<(String, String)> = HashSet::new();
++
++    for range in &info.kconfig_ranges {
++        // uniquely identify the range bounds
++        let range_key = format!("{} {}", range.lower_bound, range.upper_bound);
++
++        match &range.r#if {
++            Some(cond) => {
++                let cond_str = cond.to_string();
++
++                // duplicate conditional range
++                if !conditional.insert((range_key.clone(), cond_str.clone())) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DeadRange,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("duplicate range {:?} with condition {}", range, cond_str),
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // conditional range is dead if unconditional exists
++                if unconditional.contains(&range_key) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DeadRange,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("dead range of {:?}", range),
++                        arch: arch.to_owned(),
++                    });
++                }
++            }
++
++            None => {
++                // duplicate unconditional range
++                if !unconditional.insert(range_key.clone()) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DeadRange,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("duplicate range {:?}", range),
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // previous conditionals with same bounds are dead
++                for (bounds, _) in &conditional {
++                    if bounds == &range_key {
++                        findings.push(Finding {
++                            severity: Severity::Warning,
++                            check: Check::DeadRange,
++                            symbol: Some(var_symbol.to_owned()),
++                            message: format!("dead range of {:?}", range),
++                            arch: arch.to_owned(),
++                        });
++                    }
++                }
++            }
++        }
++    }
++
++    findings
++}
++
++fn check_duplicate_selects(
++    arch: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++
++    // symbols selected unconditionally
++    let mut unconditional: HashSet<String> = HashSet::new();
++
++    // (symbol, condition)
++    let mut conditional: HashSet<(String, String)> = HashSet::new();
++
++    for select in &info.selects {
++        let select_var = select.0.clone();
++
++        match &select.1 {
++            Some(cond) => {
++                let cond_str = cond.to_string();
++
++                // duplicate conditional select
++                if !conditional.insert((select_var.clone(), cond_str.clone())) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DuplicateSelect,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!(
++                            "duplicate select of {:?} with condition {}",
++                            select.0, cond_str
++                        ),
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // conditional is dead if unconditional exists
++                if unconditional.contains(&select_var) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DeadSelect,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("dead select of {:?}", select.0),
++                        arch: arch.to_owned(),
++                    });
++                }
++            }
++
++            None => {
++                // duplicate unconditional select
++                if !unconditional.insert(select_var.clone()) {
++                    findings.push(Finding {
++                        severity: Severity::Warning,
++                        check: Check::DuplicateSelect,
++                        symbol: Some(var_symbol.to_owned()),
++                        message: format!("duplicate select of {:?}", select.0),
++                        arch: arch.to_owned(),
++                    });
++                }
++
++                // any previous conditional selects are now dead too
++                for (sym, _) in &conditional {
++                    if sym == &select_var {
++                        findings.push(Finding {
++                            severity: Severity::Warning,
++                            check: Check::DeadSelect,
++                            symbol: Some(var_symbol.to_owned()),
++                            message: format!("dead select of {:?}", select.0),
++                            arch: arch.to_owned(),
++                        });
++                    }
++                }
++            }
++        }
++    }
++
++    findings
++}
++
++#[allow(clippy::collapsible_if)]
++fn check_defaults(
++    arch: &Option<String>,
++    var_symbol: &str,
++    info: &AttributeDef,
++    args: &AnalysisArgs,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++    let mut seen_conditions = HashSet::new();
++    let mut seen_values = HashSet::new();
++    let mut already_unconditional = false;
++
++    for default in &info.kconfig_defaults {
++        let val_str = default.expression.to_string();
++
++        if already_unconditional && args.is_enabled(Check::DeadDefault) {
++            findings.push(Finding {
++                severity: Severity::Warning,
++                check: Check::DeadDefault,
++                symbol: Some(var_symbol.to_owned()),
++                message: format!("dead default of {}", val_str),
++                arch: arch.to_owned(),
++            });
++        }
++
++        if args.is_enabled(Check::DuplicateDefaultValue) {
++            if default.r#if.is_some() && is_duplicate(&mut seen_values, val_str.clone()) {
++                findings.push(Finding {
++                    severity: Severity::Style,
++                    check: Check::DuplicateDefaultValue,
++                    symbol: Some(var_symbol.to_owned()),
++                    message: format!(
++                        "duplicate default value of {}; consider combining the conditions with a logical-or: ||",
++                        val_str
++                    ),
++                    arch: arch.to_owned(),
++                });
++            }
++        }
++
++        match &default.r#if {
++            Some(cond) => {
++                if is_duplicate(&mut seen_conditions, cond.to_string()) {
++                    if is_duplicate(&mut seen_values, val_str.clone()) {
++                        if args.is_enabled(Check::DuplicateDefault) {
++                            findings.push(Finding {
++                                severity: Severity::Warning,
++                                check: Check::DuplicateDefault,
++                                symbol: Some(var_symbol.to_owned()),
++                                message: format!("duplicate default condition of {:?}", cond),
++                                arch: arch.to_owned(),
++                            });
++                        }
++                    } else {
++                        if args.is_enabled(Check::DeadDefault) {
++                            findings.push(Finding {
++                                severity: Severity::Warning,
++                                check: Check::DeadDefault,
++                                symbol: Some(var_symbol.to_owned()),
++                                message: format!("dead default of {}", val_str),
++                                arch: arch.to_owned(),
++                            });
++                        }
++                    }
++                }
++            }
++            None => {
++                already_unconditional = true;
++            }
++        }
++    }
++
++    findings
++}
+diff --git a/scripts/kconfirm/kconfirm-lib/src/dead_links.rs b/scripts/kconfirm/kconfirm-lib/src/dead_links.rs
+new file mode 100644
+index 000000000000..4ca85ee3b994
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/src/dead_links.rs
+@@ -0,0 +1,83 @@
++// SPDX-License-Identifier: GPL-2.0-only
++use regex::Regex;
++use std::sync::OnceLock;
++use std::time::Duration;
++use ureq::{
++    Agent,
++    tls::{RootCerts, TlsConfig, TlsProvider},
++};
++
++/*
++ * during testing, "Unreachable" and "ServerError" seem to be a 50/50
++ * as to whether or not they're actually dead links
++ */
++#[derive(PartialEq, Debug)]
++pub enum LinkStatus {
++    Ok,                        // 2xx, definitely alive
++    ProbablyBlocked,           // 403, 429, or cloudflare-style response
++    Redirected(String),        // 301/302, redirection, consider updating the link
++    NotFound,                  // 404, probably dead
++    ServerError,               // 5xx, might be temporary
++    Unreachable(String),       // connection failed, timeout, DNS error etc.
++    UnsupportedScheme(String), // e.g. ftp, git
++}
++
++static AGENT: OnceLock<Agent> = OnceLock::new();
++
++fn agent() -> &'static Agent {
++    const TEN_SECONDS: Duration = Duration::from_secs(10);
++
++    AGENT.get_or_init(|| {
++        Agent::config_builder()
++            .timeout_global(Some(TEN_SECONDS))
++            .max_redirects(0) // we want to output any redirects as a finding
++            .http_status_as_error(false)
++            .tls_config(
++                TlsConfig::builder()
++                    .provider(TlsProvider::NativeTls)
++                    .root_certs(RootCerts::PlatformVerifier)
++                    .build(),
++            )
++            .build()
++            .into()
++    })
++}
++
++pub fn check_link(url: &str) -> LinkStatus {
++    if let Some(scheme) = url.split("://").next() {
++        match scheme {
++            "http" | "https" => return check_http(url),
++            "git" | "ftp" | _ => return LinkStatus::UnsupportedScheme(scheme.into()),
++        }
++    }
++
++    LinkStatus::Unreachable("invalid URL".into())
++}
++
++fn check_http(url: &str) -> LinkStatus {
++    match agent().head(url).call() {
++        Ok(response) => match response.status().as_u16() {
++            200..=299 => LinkStatus::Ok,
++            301 | 302 => {
++                let location = response
++                    .headers()
++                    .get("location")
++                    .and_then(|v| v.to_str().ok())
++                    .unwrap_or("unknown")
++                    .to_string();
++                LinkStatus::Redirected(location)
++            }
++            403 | 429 => LinkStatus::ProbablyBlocked,
++            404 => LinkStatus::NotFound,
++            500..=599 => LinkStatus::ServerError,
++            _ => LinkStatus::ProbablyBlocked,
++        },
++        Err(e) => LinkStatus::Unreachable(e.to_string()),
++    }
++}
++
++pub fn find_links(text: &str) -> Vec<String> {
++    let re = Regex::new(r#"[a-zA-Z][a-zA-Z0-9+\-.]*://[^\s\)\]\}\"'<>]+"#).unwrap();
++
++    re.find_iter(text).map(|m| m.as_str().to_string()).collect()
++}
+diff --git a/scripts/kconfirm/kconfirm-lib/src/lib.rs b/scripts/kconfirm/kconfirm-lib/src/lib.rs
+new file mode 100644
+index 000000000000..4163437a2e7e
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/src/lib.rs
+@@ -0,0 +1,62 @@
++// SPDX-License-Identifier: GPL-2.0-only
++use nom_kconfig::Entry;
++use nom_kconfig::{KconfigInput, parse_kconfig};
++
++pub mod output;
++use output::*;
++
++pub mod symbol_table;
++use symbol_table::*;
++
++mod dead_links;
++
++mod checks;
++pub use checks::{AnalysisArgs, Check, check_select_visible, check_variable_info, parse_check};
++
++mod analyze;
++use analyze::*;
++
++pub fn check_kconfig(
++    args: AnalysisArgs,
++    kconfig_files: Vec<(Option<String>, KconfigInput)>,
++) -> Vec<Finding> {
++    let mut findings = Vec::new();
++    let mut symbol_table = SymbolTable::new();
++
++    for (arch_config_option, kconfig_file) in kconfig_files {
++        match parse_kconfig(kconfig_file) {
++            Ok(parsed) => {
++                let entries: Vec<Entry> = parsed.1.entries;
++                findings.extend(analyze(
++                    &args,
++                    &mut symbol_table,
++                    arch_config_option,
++                    entries,
++                ));
++            }
++            Err(e) => {
++                findings.push(Finding {
++                    severity: Severity::Fatal,
++                    check: Check::FailedParse,
++                    symbol: None,
++                    message: format!("Failed to parse kconfig, error is: {}", e),
++                    arch: None,
++                });
++            }
++        }
++    }
++
++    for (var_symbol, type_info) in &symbol_table.raw {
++        for (arch_specific, redefinitions) in &type_info.attribute_defs {
++            for (_definition_condition, info) in redefinitions {
++                findings.extend(check_variable_info(&args, var_symbol, arch_specific, info));
++            }
++        }
++
++        if args.is_enabled(Check::SelectVisible) {
++            findings.extend(check_select_visible(var_symbol, type_info));
++        }
++    }
++
++    findings
++}
+diff --git a/scripts/kconfirm/kconfirm-lib/src/output.rs b/scripts/kconfirm/kconfirm-lib/src/output.rs
+new file mode 100644
+index 000000000000..755fcd30dcaf
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/src/output.rs
+@@ -0,0 +1,114 @@
++// SPDX-License-Identifier: GPL-2.0-only
++use std::fmt;
++
++use crate::Check;
++
++#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
++pub enum Severity {
++    Fatal,
++    Error, // will be used for known bugs, e.g. unmet dependencies
++    Warning,
++    Style,
++}
++
++#[derive(Debug)]
++pub struct Finding {
++    pub severity: Severity,
++    pub check: Check,
++    pub symbol: Option<String>,
++    pub message: String,
++    pub arch: Option<String>,
++}
++
++impl Finding {
++    fn fmt_with_arches(&self, f: &mut fmt::Formatter, arches: &[&str]) -> fmt::Result {
++        let arch_part = if arches.is_empty() {
++            String::new()
++        } else {
++            format!(" [{}]", arches.join(", "))
++        };
++
++        match &self.symbol {
++            Some(s) => write!(
++                f,
++                "{} [{}]{} config {}: {}",
++                self.severity,
++                self.check.as_str(),
++                arch_part,
++                s,
++                self.message
++            ),
++            None => write!(
++                f,
++                "{} [{}]{} {}",
++                self.severity,
++                self.check.as_str(),
++                arch_part,
++                self.message
++            ),
++        }
++    }
++}
++
++impl fmt::Display for Finding {
++    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
++        self.fmt_with_arches(f, &[])
++    }
++}
++
++pub fn print_findings(mut findings: Vec<Finding>) {
++    findings.sort_by(|a, b| {
++        (
++            &a.severity,
++            a.check.as_str(),
++            &a.symbol,
++            &a.message,
++            &a.arch,
++        )
++            .cmp(&(
++                &b.severity,
++                b.check.as_str(),
++                &b.symbol,
++                &b.message,
++                &b.arch,
++            ))
++    });
++
++    for group in findings.chunk_by(|a, b| {
++        a.severity == b.severity
++            && a.check.as_str() == b.check.as_str()
++            && a.symbol == b.symbol
++            && a.message == b.message
++    }) {
++        let head = &group[0];
++
++        let mut arches: Vec<&str> = Vec::new();
++        for f in group {
++            if let Some(a) = f.arch.as_deref() {
++                if arches.last() != Some(&a) {
++                    arches.push(a);
++                }
++            }
++        }
++
++        // Use a small wrapper so we can call our custom formatter via println!
++        struct Wrap<'a>(&'a Finding, &'a [&'a str]);
++        impl fmt::Display for Wrap<'_> {
++            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
++                self.0.fmt_with_arches(f, self.1)
++            }
++        }
++        println!("{}", Wrap(head, &arches));
++    }
++}
++
++impl fmt::Display for Severity {
++    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
++        match self {
++            Severity::Fatal => write!(f, "FATAL  "),
++            Severity::Error => write!(f, "ERROR  "),
++            Severity::Warning => write!(f, "WARNING"),
++            Severity::Style => write!(f, "STYLE   "),
++        }
++    }
++}
+diff --git a/scripts/kconfirm/kconfirm-lib/src/symbol_table.rs b/scripts/kconfirm/kconfirm-lib/src/symbol_table.rs
+new file mode 100644
+index 000000000000..27746d7f7194
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-lib/src/symbol_table.rs
+@@ -0,0 +1,228 @@
++// SPDX-License-Identifier: GPL-2.0-only
++use log::debug;
++use nom_kconfig::attribute::DefaultAttribute;
++use nom_kconfig::attribute::Expression;
++use nom_kconfig::attribute::OrExpression;
++use nom_kconfig::attribute::Range;
++use nom_kconfig::attribute::r#type::Type;
++use std::collections::HashMap;
++use std::collections::hash_map;
++
++type KconfigSymbol = String;
++type Arch = Option<String>;
++type Cond = Option<Expression>;
++
++// NOTE: we cannot add these elements to the solver until we've processed all variables,
++// because we need to know all of the selectors.
++#[derive(Debug, Clone)]
++pub struct TypeInfo {
++    pub kconfig_type: Option<Type>, // 'None' when we don't know the type (e.g. if it's a dangling reference)
++
++    // maps the selector to an (ARCH, select_cond)
++    // - if the ARCH is None, then it's not arch-specific
++    // if the select_cond is None, then it's unconditional
++    pub selected_by: HashMap<KconfigSymbol, Vec<(Arch, Cond)>>, // .0 only selects it when .1 is true.
++
++    // there is one of these per entry (each entry expected to have a different definedness condition)
++    // maps architecture option name (or none if not arch-specific) to:
++    // [([condition], config definition)]
++    // - NOTE: there can be multiple partial definitions under the same condition, or mutually-exclusive conditions, or a subset condition.
++    pub attribute_defs: HashMap<Arch, Vec<(Vec<Expression>, AttributeDef)>>, // the innermost `Vec<Expression>` represents each nested condition that was reached (we will eventually need to AND them all)
++}
++
++// everything is a vector because we may encounter multiple over time,
++//   so we won't know until the end what the condition is.
++#[derive(Debug, Clone)]
++pub struct AttributeDef {
++    pub kconfig_dependencies: Vec<OrExpression>,
++    pub kconfig_ranges: Vec<Range>,
++    pub kconfig_defaults: Vec<DefaultAttribute>,
++    pub visibility: Vec<Option<OrExpression>>,
++    pub selects: Vec<(KconfigSymbol, Cond)>,
++    pub implies: Vec<(KconfigSymbol, Cond)>,
++}
++
++impl TypeInfo {
++    fn new_empty() -> Self {
++        Self {
++            kconfig_type: None,
++            selected_by: HashMap::new(),
++            attribute_defs: HashMap::new(),
++        }
++    }
++
++    // TODO: we should consider having separate functions for:
++    // 1. merge-inserting a redef of attributes (NOTE: the type definition is actually part of the redef, but we aren't handling type-redefinitions for now)
++    // 2. selectors
++    fn insert(
++        &mut self,
++        kconfig_type: Option<Type>,
++        raw_constraints: Vec<OrExpression>,
++        kconfig_ranges: Vec<Range>,
++        kconfig_defaults: Vec<DefaultAttribute>,
++        visibility: Vec<Option<OrExpression>>,
++        arch: Option<String>,
++        definition_condition: Vec<OrExpression>,
++        selected_by: Option<(KconfigSymbol, Cond)>,
++        selects: Vec<(KconfigSymbol, Cond)>,
++        implies: Vec<(KconfigSymbol, Cond)>,
++    ) {
++        // type merge
++        match (&self.kconfig_type, &kconfig_type) {
++            (None, Some(_)) => self.kconfig_type = kconfig_type.clone(),
++            (Some(_), Some(new)) if Some(new) != self.kconfig_type.as_ref() => {
++                // TODO: not doing anything with redefined types yet.
++                //       later, we will want to consider e.g. bool/def_bool the same type (and possibly int/hex?) but not bool/tristate, so we need to build out typechecking.
++                debug!(
++                    "NOTE: different type {:?} (existing {:?})",
++                    kconfig_type, self.kconfig_type
++                );
++            }
++            _ => {}
++        }
++
++        // selected_by merge
++        if let Some(sb) = selected_by {
++            merge_selected_by(&mut self.selected_by, arch.clone(), sb);
++        }
++
++        // variable_info merge:
++        //   we only want to add an attribute redefinition if the things in the attribute def aren't empty
++        //   (the visibility is just additional info to capture)
++        if (&kconfig_type).is_some() // we need to ensure that we have an empty definition here if the config option had a type definition
++            || !raw_constraints.is_empty()
++            || !kconfig_ranges.is_empty()
++            || !kconfig_defaults.is_empty()
++            || !selects.is_empty()
++            || !implies.is_empty()
++        {
++            insert_variable_info(
++                &mut self.attribute_defs,
++                arch,
++                definition_condition,
++                AttributeDef {
++                    kconfig_dependencies: raw_constraints,
++                    kconfig_ranges,
++                    kconfig_defaults,
++                    visibility,
++                    selects,
++                    implies,
++                },
++            );
++        }
++    }
++}
++
++// the visibility and the dependencies will each need to be AND'd (separately)
++// the defaults should each be handled separately.
++pub struct ChoiceData {
++    //pub inner_vars: Vec<String>,
++    pub arch: Arch,
++    pub visibility: Cond,
++    pub dependencies: Vec<OrExpression>, // this is the menu's dependencies (and inherited dependencies from the file)
++    pub defaults: Vec<DefaultAttribute>, // these are each of the conditional defaults for the choice
++}
++
++// NOTE: it might be better if TypeInfo is an enum with a single value,
++//       e.g. Unsolved(kconfig_raw) and Solved(z3_ast)
++pub struct SymbolTable {
++    pub raw: HashMap<KconfigSymbol, TypeInfo>,
++    pub choices: Vec<ChoiceData>,
++    pub modules_option: Option<KconfigSymbol>, // None until we find the modules attribute in exactly 1 config option
++}
++
++impl SymbolTable {
++    pub fn new() -> Self {
++        SymbolTable {
++            raw: HashMap::new(),
++            choices: Vec::new(),
++            modules_option: None,
++        }
++    }
++
++    pub fn from_parts(
++        raw: HashMap<KconfigSymbol, TypeInfo>,
++        choices: Vec<ChoiceData>,
++        modules_option: Option<KconfigSymbol>,
++    ) -> Self {
++        SymbolTable {
++            raw,
++            choices,
++            modules_option,
++        }
++    }
++
++    pub fn merge_insert_new_solved(
++        &mut self,
++        var: KconfigSymbol,
++        kconfig_type: Option<Type>,
++        raw_constraints: Vec<OrExpression>,
++        kconfig_ranges: Vec<Range>,
++        kconfig_defaults: Vec<DefaultAttribute>,
++        visibility: Vec<Option<OrExpression>>,
++        arch: Arch,
++        definition_condition: Vec<OrExpression>,
++        selected_by: Option<(KconfigSymbol, Cond)>,
++        selects: Vec<(KconfigSymbol, Cond)>,
++        implies: Vec<(KconfigSymbol, Cond)>,
++    ) {
++        let entry = self.raw.entry(var.clone());
++
++        match entry {
++            hash_map::Entry::Vacant(v) => {
++                let mut t = TypeInfo::new_empty();
++                t.insert(
++                    kconfig_type,
++                    raw_constraints,
++                    kconfig_ranges,
++                    kconfig_defaults,
++                    visibility,
++                    arch,
++                    definition_condition,
++                    selected_by,
++                    selects,
++                    implies,
++                );
++                v.insert(t);
++            }
++
++            hash_map::Entry::Occupied(mut o) => {
++                let t = o.get_mut();
++
++                t.insert(
++                    kconfig_type,
++                    raw_constraints,
++                    kconfig_ranges,
++                    kconfig_defaults,
++                    visibility,
++                    arch,
++                    definition_condition,
++                    selected_by,
++                    selects,
++                    implies,
++                );
++            }
++        }
++    }
++}
++
++fn merge_selected_by(
++    map: &mut HashMap<String, Vec<(Arch, Cond)>>,
++    arch: Arch,
++    selected_by: (KconfigSymbol, Cond),
++) {
++    map.entry(selected_by.0)
++        .or_default() // empty vec
++        .push((arch, selected_by.1));
++}
++
++fn insert_variable_info(
++    map: &mut HashMap<Arch, Vec<(Vec<Expression>, AttributeDef)>>,
++    arch: Arch,
++    definition_condition: Vec<Expression>,
++    info: AttributeDef,
++) {
++    map.entry(arch)
++        .or_default() // empty vec
++        .push((definition_condition, info));
++}
+diff --git a/scripts/kconfirm/kconfirm-linux/Cargo.toml b/scripts/kconfirm/kconfirm-linux/Cargo.toml
+new file mode 100644
+index 000000000000..aae77494f624
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-linux/Cargo.toml
+@@ -0,0 +1,12 @@
++[package]
++name = "kconfirm-linux"
++version = "0.9.0"
++edition = "2024"
++rust-version.workspace = true
++
++[dependencies]
++kconfirm-lib = { path = "../kconfirm-lib" }
++nom-kconfig = { workspace = true }
++log = { workspace = true }
++env_logger = { workspace = true }
++clap = { workspace = true }
+diff --git a/scripts/kconfirm/kconfirm-linux/src/lib.rs b/scripts/kconfirm/kconfirm-linux/src/lib.rs
+new file mode 100644
+index 000000000000..e6142fec6e55
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-linux/src/lib.rs
+@@ -0,0 +1,119 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++use log::warn;
++use std::io;
++use std::path::PathBuf;
++
++use nom_kconfig::KconfigFile;
++
++// each architecture has its own directory, and config option.
++// most are the same, but powerpc / ppc and um / uml are not.
++// this maps the directory to the config option
++pub fn arch_dir_to_config(arch_dir: &str) -> String {
++    match arch_dir {
++        "arm" => String::from("ARM"),
++        "arm64" => String::from("ARM64"),
++        "x86" => String::from("X86"),
++        "riscv" => String::from("RISCV"),
++        "mips" => String::from("MIPS"),
++        "xtensa" => String::from("XTENSA"),
++        "sparc" => String::from("SPARC"),
++        "alpha" => String::from("ALPHA"),
++        "arc" => String::from("ARC"),
++        "csky" => String::from("CSKY"),
++        "hexagon" => String::from("HEXAGON"),
++        "loongarch" => String::from("LOONGARCH"),
++        "m68k" => String::from("M68K"),
++        "microblaze" => String::from("MICROBLAZE"),
++        "nios2" => String::from("NIOS2"),
++        "openrisc" => String::from("OPENRISC"),
++        "parisc" => String::from("PARISC"),
++        "powerpc" => String::from("PPC"),
++        "s390" => String::from("S390"),
++        "sh" => String::from("SH"),
++        "um" => String::from("UML"),
++
++        _ => {
++            warn!(
++                "unexpected directory in /arch/ was a new architecture added: {} ?
++                Assuming the config option is the same as the directory name...",
++                arch_dir
++            );
++            String::from(arch_dir).to_uppercase()
++        }
++    }
++}
++
++pub struct LinuxKconfig {
++    pub arch_config_option: Option<String>, // not used for the root kconfig
++    pub kconfig_file: KconfigFile,
++    pub file_contents: String,
++}
++
++// returns a 2-tuple of the arch config option and its root kconfig file
++pub fn get_arch_kconfig_files(
++    linux_root: PathBuf,
++    arch_dir_path: PathBuf,
++) -> std::io::Result<Vec<LinuxKconfig>> {
++    let mut arch_kconfigs = Vec::new();
++
++    // iterate only architecture subdirectories under arch/
++    for entry in std::fs::read_dir(&arch_dir_path)? {
++        let entry = entry?;
++
++        if !entry.file_type()?.is_dir() {
++            continue;
++        }
++
++        let arch_dir = entry.file_name().to_string_lossy().to_string();
++        let arch_path = entry.path();
++
++        // only parse:
++        //   arch/<arch>/Kconfig
++        //   arch/<arch>/Kconfig.debug
++        let candidate_files = [arch_path.join("Kconfig"), arch_path.join("Kconfig.debug")];
++
++        for path in candidate_files {
++            if !path.is_file() {
++                continue;
++            }
++
++            let relative_path = match path.strip_prefix(&linux_root) {
++                Ok(p) => p.to_path_buf(),
++                Err(_) => continue,
++            };
++
++            let kconfig_file = KconfigFile::new(linux_root.clone(), relative_path);
++
++            arch_kconfigs.push(LinuxKconfig {
++                arch_config_option: Some(arch_dir_to_config(&arch_dir)),
++                file_contents: kconfig_file.read_to_string()?,
++                kconfig_file,
++            });
++        }
++    }
++
++    Ok(arch_kconfigs)
++}
++
++// collects the root kconfig file, and all of the arch-specific kconfig files
++pub fn collect_kconfig_root_files(linux_source: PathBuf) -> io::Result<Vec<LinuxKconfig>> {
++    let mut all_root_kconfig_files = Vec::new();
++
++    // add the root kconfig file
++    let root_kconfig_path = PathBuf::from("Kconfig"); // doesn't include the arch: arch/x86/Kconfig
++    let root_kconfig_file = KconfigFile::new(linux_source.clone(), root_kconfig_path.clone());
++    let root_kconfig = LinuxKconfig {
++        arch_config_option: None,
++        file_contents: root_kconfig_file.read_to_string()?,
++        kconfig_file: root_kconfig_file,
++    };
++    all_root_kconfig_files.push(root_kconfig);
++
++    // add the arch kconfig files
++    let arch_dir_path = linux_source.join("arch");
++    let arch_kconfig_files = get_arch_kconfig_files(linux_source, arch_dir_path)?;
++    all_root_kconfig_files.extend(arch_kconfig_files);
++
++    Ok(all_root_kconfig_files)
++}
+diff --git a/scripts/kconfirm/kconfirm-linux/src/main.rs b/scripts/kconfirm/kconfirm-linux/src/main.rs
+new file mode 100644
+index 000000000000..cd12985a900d
+--- /dev/null
++++ b/scripts/kconfirm/kconfirm-linux/src/main.rs
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0-only
++use clap::Parser;
++use std::collections::HashSet;
++use std::io::{self};
++use std::path::PathBuf;
++
++use nom_kconfig::KconfigInput;
++
++use kconfirm_lib::check_kconfig;
++use kconfirm_lib::output::print_findings;
++use kconfirm_lib::parse_check;
++use kconfirm_lib::{AnalysisArgs, Check};
++use kconfirm_linux::collect_kconfig_root_files;
++
++#[derive(Parser, Debug)]
++#[command(author, version, about, long_about = None)]
++struct Args {
++    #[arg(long, required = true)]
++    linux_path: PathBuf,
++
++    // enable specific checks (repeatable or comma-separated)
++    #[arg(long, value_delimiter = ',', num_args = 1..)]
++    enable: Vec<String>,
++
++    // disable specific checks
++    #[arg(long, value_delimiter = ',', num_args = 1..)]
++    disable: Vec<String>,
++}
++
++fn main() -> io::Result<()> {
++    env_logger::init();
++    let cli_args = Args::parse();
++    let mut enabled_checks: HashSet<Check> = [
++        // need SMT solving before we can detect select-undefineds
++        //Check::SelectUndefined,
++        Check::DuplicateDependency,
++        Check::DuplicateRange,
++        Check::DeadRange,
++        Check::DuplicateSelect,
++        Check::DeadSelect,
++        Check::DeadDefault,
++        Check::DuplicateDefault,
++        Check::ConstantCondition,
++        Check::DuplicateImply,
++        Check::DeadImply,
++        Check::ReverseRange,
++    ]
++    .into_iter()
++    .collect();
++
++    // apply --enable
++    for name in &cli_args.enable {
++        if let Some(c) = parse_check(name) {
++            enabled_checks.insert(c);
++        }
++    }
++
++    // apply --disable
++    for name in &cli_args.disable {
++        if let Some(c) = parse_check(name) {
++            enabled_checks.remove(&c);
++        }
++    }
++
++    let analysis_args = AnalysisArgs { enabled_checks };
++
++    let kconfig_files = collect_kconfig_root_files(cli_args.linux_path)?;
++    let kconfig_inputs = kconfig_files
++        .iter()
++        .map(|kconfig| {
++            let kconfig_input =
++                KconfigInput::new_extra(&kconfig.file_contents, kconfig.kconfig_file.clone());
++
++            (kconfig.arch_config_option.clone(), kconfig_input)
++        })
++        .collect();
++    let findings = check_kconfig(analysis_args, kconfig_inputs);
++
++    print_findings(findings);
++
++    Ok(())
++}
+diff --git a/scripts/kconfirm/vendor_dependencies.sh b/scripts/kconfirm/vendor_dependencies.sh
+new file mode 100644
+index 000000000000..110321f54276
+--- /dev/null
++++ b/scripts/kconfirm/vendor_dependencies.sh
+@@ -0,0 +1 @@
++cargo vendor-filterer   --platform "*-unknown-linux-gnu"   --tier 2      --exclude-crate-path curl-sys#curl   --exclude-crate-path libz-sys#src/zlib   --exclude-crate-path libz-sys#src/*.c   --exclude-crate-path libz-sys#src/zlib-ng   --exclude-crate-path ring#pregenerated/*.o   --exclude-crate-path "*#tests"   --exclude-crate-path "*#*.md"
 -- 
 2.53.0
 
