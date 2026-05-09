@@ -1,118 +1,153 @@
-Return-Path: <linux-kbuild+bounces-13086-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13087-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKjGKS0+/mmHoQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13086-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 08 May 2026 21:49:01 +0200
+	id KJqyIboG/2lg1QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13087-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 12:04:42 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E004FB40C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 08 May 2026 21:49:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1AE4FF156
+	for <lists+linux-kbuild@lfdr.de>; Sat, 09 May 2026 12:04:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 411C93009CC2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 May 2026 19:49:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B41AC300CFDF
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2026 10:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4A8357A25;
-	Fri,  8 May 2026 19:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 079C437AA8E;
+	Sat,  9 May 2026 10:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CAdw8aIb"
+	dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b="W/XTWuJz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.ms.icloud.com (ms-2001k-snip4-6.eps.apple.com [57.103.73.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1D9344D95;
-	Fri,  8 May 2026 19:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F1A208D0
+	for <linux-kbuild@vger.kernel.org>; Sat,  9 May 2026 10:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.73.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778269738; cv=none; b=aJWMWbc4bGsUOmU1U1VQU0jooh9+9g5+1HKjqQ0qbtM7n60UtddlK95HFWysv2eoHk+MX8E77hxFX1ZRzI5HSL9egILCAIyN57FzCHRqikHyZlUi4PgCX4lwdWKQWQBIHRtmjujrm8DRKhRulTPo2a4EV2VBdrN3Kj2R63L/+Y4=
+	t=1778321078; cv=none; b=QFdI1acYVHj0OjIoRUE7X+7Vz6o8IlH/yvuSnA+XNy4wmCWbiNA3zvBMdhftRHDQzwI8s8MWQcHjQnEj7WvDOb+MdgF2FK6fzIzW62zG7ajm62SdC6iWgl23df/fVci95Vqtn1g1yVhNos4NjSDQunVszAUarGXDtvSaFkXZsjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778269738; c=relaxed/simple;
-	bh=3SV/vTeM7G4mieMIcUvbSvqIjspKebu6/kUdPpthl7c=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=jr5LjiCKj7EGtxTruj5f5Zn7I4D1//sw40Lu9x+N/B/INhVDZTKJXFNKJo/0RHtiO72mE4L1cpUppC0fWCPs0typBSgFhP8BfyzmHsZCqzhs1HHsz/clTTunNuKPNKjtm4jlEYvBdW+qvbXGX//Jja+G4X13U9i1wFd8aw/lhI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=CAdw8aIb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23450C2BCB0;
-	Fri,  8 May 2026 19:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1778269738;
-	bh=3SV/vTeM7G4mieMIcUvbSvqIjspKebu6/kUdPpthl7c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CAdw8aIbE1cYAvofAP+Mb7uuQMWaMcNu5t0wGni1P0Xu/wVy1MSiO46hmpoSImakv
-	 jq3P/W6aopOkIAW6vqbyGWKhyao4JkRr0oOWRr+2HEZ3HY5CVfMvEKB4mThfcrarHn
-	 ST04oTWmoHIlVpy5ftY2YhpqBBf0lESt+JQQ6zmw=
-Date: Fri, 8 May 2026 12:48:57 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Peter Oberparleiter" <oberpar@linux.ibm.com>, "Konstantin Khorenko"
- <khorenko@virtuozzo.com>, "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nsc@kernel.org>, "Mikhail Zaslonko"
- <zaslonko@linux.ibm.com>, "Masahiro Yamada" <masahiroy@kernel.org>, Thomas
- =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, "Miguel Ojeda"
- <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Pavel Tikhomirov"
- <ptikhomirov@virtuozzo.com>, "Vasileios Almpanis"
- <vasileios.almpanis@virtuozzo.com>
-Subject: Re: [PATCH v2] gcov: use atomic counter updates to fix concurrent
- access crashes
-Message-Id: <20260508124857.97f80d47875a240b9d46d3d0@linux-foundation.org>
-In-Reply-To: <c66e6c37-2068-4adc-bd25-3f8aad9c5195@app.fastmail.com>
-References: <20260422125112.3583649-1-khorenko@virtuozzo.com>
-	<20260422125112.3583649-2-khorenko@virtuozzo.com>
-	<3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
-	<ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
-	<c66e6c37-2068-4adc-bd25-3f8aad9c5195@app.fastmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1778321078; c=relaxed/simple;
+	bh=I3OoFkMZCnmH9nH8zzOnhFiF1KtaOt2m1An+AWSgBDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VhzX4wKKqfEn+aH87tkJdqjsp2/kARwIcX7ZioTSv/LEtKyJZe0nHnRMU+W53kADmLPrpJADao98rsueeh4FJGCn3gBAI3aQAmFunZRjpvyK4A7VelUQzSmpNLQF/TWHxlwxy4gFZ7xvCkAQXpJrlAyFiEuK8gYbKKedhGYbaXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc; spf=pass smtp.mailfrom=sdhn.cc; dkim=pass (2048-bit key) header.d=sdhn.cc header.i=@sdhn.cc header.b=W/XTWuJz; arc=none smtp.client-ip=57.103.73.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sdhn.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sdhn.cc
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-60-percent-7 (Postfix) with ESMTPS id 70F9A18000B5;
+	Sat, 09 May 2026 10:04:34 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQxWAlsERQNGDFYBXwFLVxQEFVwtRA9aHhcbUE1RDw8dVjhACV8FHBNaWEEOCloHUFEdXwIKBEcEWxdGA1NFXwMXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PA10QXUNUCBIdUBwOUQMbWhsKAEQIQhxABE0cSgpOBkQDDxNFF1oaBwhaDF8aUlxcFAwUUFpfXEtHDR9FC1EScgZRFFUbRw5IRw4KRlMXH0sAXEVQGEQfXR1mHFwAVgJc
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sdhn.cc; s=sig1; t=1778321077; x=1780913077; bh=afbuHVTVwe28Ix9dg1FYsBJUJ+gQVnSTousb1ddkuWE=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=W/XTWuJzzT2nbYnVFSeLEzj6kZEzo4XShS57U08uM5jcVZJVsJcFjyQkYeeVqDZ/Muc/w5v9fRuwQG1qYpi/f0It1UZL1WIibhw/3bi67/1JvQ9hkNe1N3NJDg7LyFywlb0xwmjgNurRcNDTZp/cltJvMylBCi//x/T1x91aw8vC83CtcwRo45IN0QNfj/vXQH05CUueqx7277+fYXcuQwipjAy++kc0g/c0T0oVVBPN+ZOPrzWzYzgj2HJGyvWaLzXEOquSbfLT5JX2Yikp6+mjGHUCEU1BYMzyKwy99ydBPt10CnbFR2fa5SAadhhwQOX1cCyLMRyDKdVEzzndkw==
+mail-alias-created-date: 1772007648188
+Received: from sdhn.cc (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-60-percent-7 (Postfix) with ESMTPSA id CE0491800126;
+	Sat, 09 May 2026 10:04:29 +0000 (UTC)
+Date: Sat, 9 May 2026 13:04:26 +0300
+From: Mohamad Alsadhan <mo@sdhn.cc>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v7] kbuild: host: use single executable for rustc -C
+ linker
+Message-ID: <4phk3xweuwrttdygymvs6kvzmq5xctlwe7nd5lc7h7y74gvffy@vhlfvpez77ru>
+References: <20260416211525.13847-1-mo@sdhn.cc>
+ <177751087668.2042162.14581501251680231924.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 49E004FB40C
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177751087668.2042162.14581501251680231924.b4-review@b4>
+X-Authority-Info-Out: v=2.4 cv=bfFmkePB c=1 sm=1 tr=0 ts=69ff06b3
+ cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=kj9zAlcOel0A:10
+ a=MKtGQD3n3ToA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=tIL9hLv6XyjG5xfdGEkA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: 4Hb0_gDMUfuRol-Ju46z7_r9DnSxsBri
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA5MDEwNyBTYWx0ZWRfX662VFiNmSR0W
+ 71NeiXANCSVR94xyJLCl2p4tHmPu2CITmEYUKZA4QR45zyyv7Gff4JHinVK0XT1Np1gUPzq3wEG
+ q/RUFdMnSqXgds9JQoIkDKd7yKGj+opE70cZJpNiP+/GwVFCA3zpI5wJKPoQCMtDdx2AeeDNjKJ
+ FDKBxrIAhUAKmSdIjaLYa9JwTo8Ye8ENpTC5thC3IBWNGJrsCvCzf79czvzrXKdKFNfzy3TtCqA
+ lBpf2dPTNFsDsayL6pGWWYPU1z3a/oOoPJgp04Hhi1XP+ZEztbWm4pQhNEGLvu/NLPClSPBvhIG
+ wsr0wzCXbaFQ7lqAAYtXMlB1+1pge9UMhl43ISe2IyZnXhSv6aiVd2ywzLk68Y=
+X-Proofpoint-GUID: 4Hb0_gDMUfuRol-Ju46z7_r9DnSxsBri
+X-Rspamd-Queue-Id: 2F1AE4FF156
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sdhn.cc:s=sig1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13086-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13087-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-foundation.org];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	DMARC_NA(0.00)[sdhn.cc];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,smile.fr,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[sdhn.cc:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[mo@sdhn.cc,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Thu, 07 May 2026 15:43:01 +0200 "Arnd Bergmann" <arnd@arndb.de> wrote:
+Thanks for your input, good points.
 
-> > 1. Drop the patch
-> >    => not preferred - crash would still remain, and the consistency
-> >    improvements would be lost
+On 26/04/29 06:01pm, Nathan Chancellor wrote:
+> > -		-Clinker-flavor=gcc -Clinker=$(HOSTCC) \
+> > +		-Clinker-flavor=gcc -Clinker=scripts/rustc-wrapper \
 > 
-> This might be an option for the moment, until we have a better
-> solution though.
+> I think this should use an explicit $(objtree)/ prefix to make it an
+> absolute path.
+> 
 
-Compromise: I temporarily moved this patch ("gcov: use atomic counter
-updates to fix concurrent access crashes") into mm-git's mm-new branch.
-So the patch still exists, is still under test by a few MM developers
-but is no longer in linux-next.
+I changed the rustc-facing path to `$(objtree)/scripts/rustc-wrapper`
+in v8 for clarity. However, the make prerequisites stay as
+`scripts/rustc-wrapper`, because the rule is defined for that
+target name; using `$(objtree)/...` there breaks make dependency
+resolution.
 
+> I have not been following this series too closely but it feels weird
+> that multiple rustc-wrapper files would be generated when their contents
+> should be the exact same. Would other host programs have to copy the
+> changes you made to .gitignore and Makefile under samples/rust/hostprogs?
+> What was the issue with attempting to unify these?
+
+I agree; per-directory wrappers were the wrong end state.
+
+I have reworked v8 to use a single global wrapper under `scripts/`
+for both `rust/Makefile` and generic host Rust builds. 
+
+The missing piece before was making sure that wrapper is always
+generated when Rust is enabled, even if no Rust hostprog in `scripts/`
+would otherwise build it. With that fixed, the local ignore/clean
+changes are dropped.
+
+v8 should follow soon. Apologies for this taking longer than needed,
+it was my first kbuild patch. The feedback and patience are very much
+appreciated.
+
+--
+Best,
+mo
 
