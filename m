@@ -1,203 +1,175 @@
-Return-Path: <linux-kbuild+bounces-13098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13099-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OK8CKr1UAGp5GQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13098-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 May 2026 11:49:49 +0200
+	id qPD2FY8PAWppQQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13099-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 01:06:55 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48CD65036F6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 May 2026 11:49:49 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65429506BFD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 01:06:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id ADEAC3002B09
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 May 2026 09:49:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C82A301A384
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 May 2026 23:06:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C7535B65D;
-	Sun, 10 May 2026 09:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE04375F80;
+	Sun, 10 May 2026 23:06:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeTCXj1q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LmsmNZsx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C499F34405B
-	for <linux-kbuild@vger.kernel.org>; Sun, 10 May 2026 09:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778406587; cv=pass; b=RRLoZRS6FjEzJaRGnDJiE1rUbP/X1gG+DLtAml2lfLidik5POGQmwjdYREFyjLkgwy8YgFac+ge+S4n5+foKKY4opy3rdcdqCR/ixnV+cbi0hhBtUUzWJ96FXEBLQNB//mNPHZhl17QOUMAqyhbJm7PnGBDIVR98TRRLfvi71IY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778406587; c=relaxed/simple;
-	bh=lJQniN39MziSusnrSeOllIKVtVemIJd3P4RXjYACezk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K/FLEwV2TIvUAMFS2+mClo+hXgM+jbwpodpg+9Jm+AhkuoNSRjKjD2le13EgHIB0xU8G0322bhABB4SNXcCEsHVvpv7ovozgrTi3JQWRQ5PY8Y4l557JhvloT3FHIqIYb1/jMH8EwtVmt5f4AcTM3M5OBfFx+P7bYGTQ5C6TXsU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeTCXj1q; arc=pass smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9FD33DEFC
+	for <linux-kbuild@vger.kernel.org>; Sun, 10 May 2026 23:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778454395; cv=none; b=e5/kxdnQNnTXfQZ0ddffdINQYZ/Nnunc2P5hNyEhFLAtBwKbt5iK46T7WCNPGr29MLxLMITu97+N/QaDB3NPxNH5f6ZQvl1k4g7ARzUm0e6Kwmm9vdApXlJ3Jda/PkpZ48A52gYzg29Gui7G7H/SLQ9NWKFXODPY7ahPOjURh9w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778454395; c=relaxed/simple;
+	bh=eemCiHiNS27wL/8fxUZ2muIoAy472g5AIstMVrvrMQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m+rl+MhFhCFwD5ASCB+4MG5X058UZ8DJdBBWaWySOkQnSuS3jE+vpTc8j60Lrf7oTOni5M+YMXlDRchs/jHFTa4bnoW222WtC+cbD1RJ+cSDw2TvKtNw40DRfOz/5LybsIyADdzFsE0RyaiSYlXIJssSgWLa5VDRN7WKrD3QYX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LmsmNZsx; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2f114d129c0so222599eec.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 10 May 2026 02:49:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778406585; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kGQJIwn9efth2hSumsmKOAypE4RWHKfgqdY2AX1S+Sc3hYmxcXTL0Yzw7CNh0F+GVZ
-         qCkw1uWerRLiQSk4ayVNi6HSxtt/Yy82VzW+rTYwR3TEWCmMOfJR0grHNbSXDRWSZtM+
-         3EvkvZv49PBSVCVWIu51Zf2M80ymE4UOn9rG6lHLOx62kmNkLJ8gw5qm76009cSeJB9x
-         820jg1CyZ7giJAvVYQhwo0GPqNxefYd8T61xhnDK8//f3++Qp9ZoRCYsXjpsm/CrjHo/
-         PUg4rvs+oSfNSULjhHHzWOF8hovZnuRL51GL5WHkulEL5IQbns7z8GArgeWDI9vCd9L+
-         QUWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wLMtKHMfQwC2uO82mpxETiCYDm/FHV+08XCpd9Sqn5E=;
-        fh=Pct4pZU2GD3CUNTr5nQkUlbg8dFZp6X6CO4j23xwvpA=;
-        b=P8qMAgOnEl8Dhw9EGcWdz6m4+l9IK53Qx/gpeSqq+aMqgBvG4YJsKHwQyilS6XxTqb
-         Yp2qls1nz1p59x8W4FBcPMnt9Rb1QYKJRwi8mNXUVMFAo8/DuSa3c/z9KbOT5hRA+Ovl
-         aGlpznJaf2Slh9bR+pJATNQ/xyRwKh0ajF88qlN1q9p9OpTxhNrP4VkebHn+rcTujveP
-         RL9ztY4Wg/u/zshp3BWEQWujuuda4gMuW0MA6MPk4SumoUJXn6VFNE7AHt8R8CIi/rLi
-         xDEEzreqcnIsTsLDbhUXZAOTzVHimtREgjTDXHr7uDF6ISxoZcMFgqSj2zua39IHeCBi
-         oJxg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-44985f4ab0fso2027191f8f.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 10 May 2026 16:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778406585; x=1779011385; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wLMtKHMfQwC2uO82mpxETiCYDm/FHV+08XCpd9Sqn5E=;
-        b=VeTCXj1qlRbFO7LmPcLoVI6ldZazYNphicwv/BaQTE+GH4MthQqUhTXxpYgP4YTK1J
-         AZWyB6uG2zSytTYmqje/1AgdRy5DeAHtkKeT1BbwxE6YtE4fZInYkGakV8JsqEqHEDRo
-         TXVCM46Iu4kuCoUhTQs3bfdgpnlJ3MB4eCgxJR5ce4a6xd7VE6U1u+/0XBQYxP4uuktF
-         M6G7aJtkFSXSLdQ+nVAB2PtQD74ZuuG9SB//j3yPxIVrJFvDwxb8QRJ3HMUlH9vV0Sev
-         4gi1BQtiaqawpx0jS1vjZGypefUn2OI9ZXL4abVGCHTYRk8RVTIM9AEwDO5agwlIvygn
-         i9zw==
+        d=gmail.com; s=20251104; t=1778454391; x=1779059191; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eemCiHiNS27wL/8fxUZ2muIoAy472g5AIstMVrvrMQs=;
+        b=LmsmNZsxlnX0RFrXBAUgz3AdYYmRjtiQ0pY5/vyXLRxHlmF00je4/4S9LQ+1vKMebq
+         IUiyDVTrncoW0BUICF7cLnE9sCUfVrd8iugJew5xynHN7rzpGGqrPmnw/YRqWLSzrLmd
+         lSNITbfs33K4P28tc9FG+pdWaZosD/h61pZUzpuC8tyTp/OmCGifI48EBRLOcXxi6+q/
+         fJnSobTyIBDZwSdkcG+gNKtqBvA0xQrhg9SRMFAveCc+/GpkJjYEqA1WXwhEU/5LyquN
+         bUN62Qclos/LBxRGvc280xxAbj6RMZKBGeuSestfgND534w3M1185tma5fvIXbs55fLO
+         cS7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778406585; x=1779011385;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wLMtKHMfQwC2uO82mpxETiCYDm/FHV+08XCpd9Sqn5E=;
-        b=nL1VTFrRjFW3l7THyjvbYPwgex48HPzGaLgVX4i8W3xXAdOEI0zbdtum1cRr47Rktl
-         duaxufH4a+5JqhxL6v+59LCBMN6xYZ8wN8anIz9JMCQV8//jCiVTzQx5JwXfQdk9vIS5
-         fGR9p8vDwNyndC6tngdzLpIDedS+/uD2LuK2SzuFzQmAlCytY4yFAHSYR+XSBKSJylXF
-         DeBMvVywvkgMWnF4SFIPnMnO5GpbLjld+N5M3g004PqEUrynHZiwe+Pwtva1kFAZal42
-         +cu4qCf8t88PWfm3SYL21KQCtkXhWXN7HB1Laen8UZs+tHqmTrpjg/HvHLHSkr7soYHa
-         RsPg==
-X-Forwarded-Encrypted: i=1; AFNElJ/UbFy/528KsijfezKUf2Vg51VfiEybq02t0tkX0OCnuvw6+c6i6M5ik0vSJuN2DECUtSbpaPzrK2bkXLM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywufr/RmeRadAnw9LCvJbMtZ65rTFfjLLVVX/5JgRNlYUW1AHnC
-	7kso2OeKbcgno8cpVg6Fvi8x7w1RF4o+JVxRKBsI+f/FMKuF/fuBGtm6WHz2DphQ2ZIUS9Me27+
-	aMAgMu38BaKJgMbDg7U9qoiwMkxpHbC0=
-X-Gm-Gg: Acq92OGdqff++qK2F6a92vZVr+T/XMHJc+VxWp8j4x2TtRso0ugzHYj917SeXaaQHro
-	u5/2JtK6Pp9LuUaclmHQ89/o+zqn775L4Otag+XBFQ8RLK7Qmdew3h6p+U7LmGaqFYc56dB5n3I
-	5NJWJKMCvzce3YI2FHefHqfttmzuhlkKDODGWE1Bzs0TucwrSYXgvoyXExXEuIBS8h6u7lUhvg5
-	5Xk4dM03cS3uMOC5cSuCEk8I0aVC1sMfhD1QqiYXWQMd8gvbDqc925Y8qANwpBXkk78gWLWP3Yb
-	QMSIpv9jphPU8/9R6sI2lRlH81GNlfW1iM/5wLDiOrYwfxyaAzwHmfPVBD8+wYe42Mvz6/BXLvP
-	ExckxCmG5SGKOafF3oZMQDOHqN9msZc4kjTueoQlJXKk+
-X-Received: by 2002:a05:7300:d511:b0:2ea:de28:f389 with SMTP id
- 5a478bee46e88-2f59fed19famr3955753eec.8.1778406584746; Sun, 10 May 2026
- 02:49:44 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778454391; x=1779059191;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eemCiHiNS27wL/8fxUZ2muIoAy472g5AIstMVrvrMQs=;
+        b=IQJSF7WBLcnkAWF5ulVkhEpbpbmbZ7j+JG3RsjIaSMOhE+bHhtHwSKl21yJdalbsHi
+         zpDW6ddt2dEFC9Hvqx8kxhh9wodo/tiJCagU3UAbJpaLdMZp4iM4JS0W69WMRBPeAW5U
+         pZsO9XhKMzzjjAybyI28Od7bxUu9MRUE9kE73Uv6CS1bRW+4HumDs0ZQEtq4C85KB2I5
+         kobCPFTX9SOAfiVaWzEgi6yrUhB5mQE7RnOvt0kC8BIjBwBSStP7KMCqVQceKVSye9wh
+         zKmiLYhUT4DZSE0oSLarOlQUmRkEPkhfaoVonZ8EkAaWUj1/FImUdeSyGVR4BTo/T7Az
+         ln8g==
+X-Forwarded-Encrypted: i=1; AFNElJ84hdKnH/SZMKI42Grl6ed3k9V5KogvWQV8JN+WJlJUyOEIQ+kDAPxA4XkJU2XUSaQFPcWCulW3wV+Bo2g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuMnJxrzS+DomVg0Z82S4ww/dc8c0fu40lMWZkvJt04nBBCFlL
+	RH2N1q5sXQticUibK4B13RE+4Efiav4k9h73O7wFgEcXpL0ARvlfwv9n
+X-Gm-Gg: Acq92OEZI1n62YLSFVjmOCbyPl+z/Hc7MxFrWF9zD31ChYWihw6ZXE1gxEao3v1TQcw
+	7+SpWDeNYR58ddg5arPJyJMdrJ4gU8Vr5fOzpwXKXEWsONuG15lFsojHQYuoxM3J3zdR6qrQtdz
+	Xhtukg75ZjB079Ks2BLXOF5R3IU2+SuY093Lvw3xNxP4AJLvrXkP2sIouArpXM+zYbW69xs/Xi6
+	kvxRYdvgBMtQvd3dVgtyxC/qQwuj86AzBPMOVwi+xN4yhNawwhPQHFwlnYBonptKAp5rtVJbn/r
+	83rCuwC0ewg8ffoJj9RfNy+T1gNO2b6qRAg1d/ieGXzpVLiM/dSXbZzJxanTByYcatVSgnoshhF
+	k69kFbZ9Dz2eM9jOqEIaKiU98+ujuetPzkriRo5RQfEgmKW6Lc2umCR1O+vjWD0cy+lY0m0bWjl
+	C3NflruLtGYa0gg9ZvJBXg2dxGE8mJD8DAtiAUgVZVdLpPX60xDWIL49M=
+X-Received: by 2002:a5d:64c7:0:b0:43f:e990:2f5d with SMTP id ffacd0b85a97d-4515d5c6c70mr34288383f8f.35.1778454391049;
+        Sun, 10 May 2026 16:06:31 -0700 (PDT)
+Received: from [192.168.0.41] (bl21-200-180.dsl.telepac.pt. [2.82.200.180])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548eb75c29sm20984879f8f.9.2026.05.10.16.06.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 May 2026 16:06:30 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
+Date: Mon, 11 May 2026 00:06:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260509203808.1142311-1-julianbraha@gmail.com> <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
-In-Reply-To: <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 10 May 2026 11:49:31 +0200
-X-Gm-Features: AVHnY4ISEl_kLYwIQZ64WmR4duBVOb0clDciE4kHT74zzm-QAgeyD8jr_6WPd14
-Message-ID: <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC v2 0/2] add kconfirm
-To: Jan Engelhardt <ej@inai.de>
-Cc: Julian Braha <julianbraha@gmail.com>, nathan@kernel.org, nsc@kernel.org, 
-	jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net, 
-	ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org, 
-	masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net, 
-	qingfang.deng@linux.dev, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 48CD65036F6
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Jan Engelhardt <ej@inai.de>
+Cc: nathan@kernel.org, nsc@kernel.org, jani.nikula@linux.intel.com,
+ akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de,
+ gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org,
+ corbet@lwn.net, qingfang.deng@linux.dev, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20260509203808.1142311-1-julianbraha@gmail.com>
+ <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
+ <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 65429506BFD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13098-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13099-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,linux-foundation.org,garyguo.net,arndb.de,linuxfoundation.org,lwn.net,linux.dev,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,inai.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,inai.de:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Sun, May 10, 2026 at 7:06=E2=80=AFAM Jan Engelhardt <ej@inai.de> wrote:
->
-> Good lord, how is anyone supposed to review that amount =E2=80=93
-> or is it just getting rubberstamped anyway?
+On 5/10/26 10:49, Miguel Ojeda wrote:
+> In any case, when we discussed offline building in v1, that did not
+> necessarily mean vendoring every dependency manually into the tree,
+> but rather let the user set up the dependencies before (i.e.
+> connecting is fine) so that then the actual `make` steps can proceed
+> offline. For instance, using `cargo vendor`
+Hi Miguel, thanks for clarifying. I think I like this path (user
+downloads dependencies themselves, outside of `make`) the most. But I'll
+wait to see other opinions.
 
-Yeah, if one really wants to statically vendor the files, then please
-follow the pattern we used for other vendoring: see the commits that
-introduced e.g. `rust/syn/`.
+In this second submission, I had attempted to filter out non-linux
+platform code and tests, docs, etc. from the dependencies by using
+cargo-vendor-filterer, but yeah, it seems to have missed some things.
 
-In particular, we try to cut down there the dependencies and the files
-within each dependency to those that are actually needed: no need to
-support vendor optional dependencies that aren't used (and if they are
-used, please try to see if they could be avoided), no need to support
-all platforms (e.g. why do we need FreeBSD files here?), no need to
-vendor the tests nor scripts, and so on.
+So in RFC v3, I'll likely use this design of having users run `cargo
+vendor` first.
 
-For instance, for `syn`, I modified it (minimally) to cut down one
-dependency. I also provided a script in the commit message to verify
-the files are 1:1 identical to the ones upstream (before adapting them
-with SPDX identifiers etc.).
+> By the way, another option for that may be using the distribution's
+> registry (e.g. Debian and Fedora provide one through the package
+> manager).
 
-So, from a quick look, here I see files like:
+Unfortunately, it seems that there's no built-in way to fall back for
+other distros:
+https://github.com/rust-lang/cargo/issues/3066
 
-  scripts/kconfirm/vendor/vcpkg/test-data/normalized/installed/x86-windows/=
-bin/freetype.dll
+The workaround could be to create various Cargo config.toml files, and
+instruct users that, for example, if they want to use the debian
+packages, they can download their dependencies using:
+`cargo vendor --config debian.toml`
+But I need to test this and confirm first since I don't use any of these
+distros.
 
-Which I would be surprised if they are needed.
+I appreciate your thorough feedback!
 
-In any case, when we discussed offline building in v1, that did not
-necessarily mean vendoring every dependency manually into the tree,
-but rather let the user set up the dependencies before (i.e.
-connecting is fine) so that then the actual `make` steps can proceed
-offline. For instance, using `cargo vendor`:
-
-  https://doc.rust-lang.org/cargo/commands/cargo-vendor.html
-
-In other words, one should be able to have users run a command or
-similar, and then use the dependencies that are already downloaded.
-
-By the way, another option for that may be using the distribution's
-registry (e.g. Debian and Fedora provide one through the package
-manager). That is even better (and we were requested to look into it
-back then for `syn`), but it does introduce complications even if one
-assumes Cargo is available (which we don't so far in the normal build
-path), e.g. the versions need to fit, one still needs to provide a way
-to do it for distributions that do not match, etc.
-
-I hope that helps!
-
-Cheers,
-Miguel
+- Julian Braha
 
