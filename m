@@ -1,185 +1,221 @@
-Return-Path: <linux-kbuild+bounces-13118-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13119-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKsaD8oOAmplngEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13118-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 19:15:54 +0200
+	id gB2PMo8dAmocoAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13119-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 20:18:55 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B65513353
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 19:15:52 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE96514398
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 20:18:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5C71630226CB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 16:39:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 66277301CED1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 18:14:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D02843E484;
-	Mon, 11 May 2026 16:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03382478E50;
+	Mon, 11 May 2026 18:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qZL6FK5y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yik00MFs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DF842847C
-	for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2026 16:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778517316; cv=pass; b=hGWop5waI/K98debTeU/4GIcK9fco4uJXmTBA5qX49TIvhEaggVTh58U55UtNdBxKRk2oKKwf6y0I00/dRr1o/2wLafE7SWhcoGgZ0HIkmeuA/mLXLcfqFyAfnOFrRxLGcYOmF01Zh/OdYj9MpvO9SeceNkqwzZyPGEz3y5CZbs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778517316; c=relaxed/simple;
-	bh=4S7C02MIUqtzmropOUva8L19yYp6EZ1lPURTmBTWjnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YuXdItVe9XT7RXFC+wr+bXl0SzScmGTvV5x2RDwFSdt1h1zCZ/6k5N2aZoCZe+vEFWGrJmIp2jpQOPasvmU14JWXvn9eOVCLbd5ghhnAHuhJTf3II1fACWMje/adaTIiW/kFqLgAworYGa/AdmOa+HFEWxWDdC6/VoIQWNdfebs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qZL6FK5y; arc=pass smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12c8f9846c8so6388910c88.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2026 09:35:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778517314; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jV+NZqTAlcl1Z76axXbDSkbafPWyCu70BIY79b6ai/+yR6mQJY106MgTDnQpuP4ohN
-         Fb/a0GGmUVyiGG+wxpUSy3QDomblsgwdEz/ziwQICW8yOYaIzhDNGtO6P4W8bRGHiDAt
-         W03E8ZUbVp33AZ19YGoge1tarjL14vqP3j8tKu/RD72XcJJPeBNca1fxM6NtZMBmPbay
-         btEbek4g/fBG2TXSNExsAAxsqiGgOHCEJ7Wi5UIiZrpTSBoJsSsWHKNy2Wmx9yABpaaj
-         SAzYGPeZgLjrPq8hDj76LWxYC0kwRtp7TOG4cZ02sgQRnNWSBnCTqrxJ1VOGJfryllJh
-         WGGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1buMrZnL5eF5p/xBeXqRPyloQLFILIM6omdsc97ttuw=;
-        fh=grSaPN/iPeR4FXBJPL1hZS2HHGcwUmJLJgnMjT9qN3c=;
-        b=TJ53FAXxjOH6cxB0J+p9DVnLR4PKy7sgsLmpa4xtf4yBswl2Q7EZFUeaw97d+a8ADg
-         DB2sah35hCipsv4ubh1jxjdmgr68L4ZNesAt3mMUr0NJaBM94bj93dQSkZMvEE2mxHOL
-         yyJjwVp84Ic8GNb/csR1jP0jCjRmEMRzSAXRiiWr8kzuVxOy2PWGz/mqWNsm2IzpOFOP
-         gaTBNeQhoFMWarmCMA5V57ldYjQ3EFIZZciFLuhEISiA1hyUCfW9rvQd16agXpkJjZAQ
-         YErCKZ+2evyeRiO03nvZJBjXvbpz3J3URRJzUts3N6LaouwfrYw3s+MrXhrPbmOtn8Kc
-         nZKw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778517314; x=1779122114; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1buMrZnL5eF5p/xBeXqRPyloQLFILIM6omdsc97ttuw=;
-        b=qZL6FK5yiHGU1UYpFox73RIlI3Bp+cacpR16tSKhsLmdbEUwqTWF7PkSPDxv9OwoXw
-         /UEi0zPK06a1LzR9ZZ23m9YOZ16GidMugm7oobi2d1+EHh85B+fY1RjRKsM45paKtC5A
-         A0T5usgqM4rS59r5k+ecCruSenojaTYEB+TqcS+tuMGFQ6F045Lb93YOeJLRFcUaZHa1
-         wFEL0ijZ2/+3oP8sE7HixjnJnUXr4tojrllQXnb121sfLEIGfbocVhKNpYULSqPJweJS
-         HHQYNl+HkiAVO2dmBQHsLzJ7zPP4hRHptHYGuke86yPe5KMVcK4n+QlBsEmDzuSBLcW0
-         ZBkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778517314; x=1779122114;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1buMrZnL5eF5p/xBeXqRPyloQLFILIM6omdsc97ttuw=;
-        b=cgf0iQIlnWxDs+TBsqbTzGD2uyj6TA54iD/8zopGF5iZIjhWsjsAfC2Z7E691DPgLE
-         NnI4Xh8dDOivdczPJRozwOrTB99tF5F99/Rjy+084l3ymG/5v91UP64ewa/1NTQukZTC
-         ZeVT6HtPg5/76++TLxfoEB1uVvsrezMcwoOPEl1++8xT4xpXnll/Xz7QkjiQ7oLi/R1j
-         7T155C7qmxihs+7xlTh5UedY44fgEsaOfMCkwpQCltEGuEKz1lIWJiywghqOKdIIqCGQ
-         1FOR6ux2meFBYxmLr4sKE2io3lea7AtaBLd/Vxxn20WDQbFsYFTkjAv2aXMF/Gy5OfYL
-         msjg==
-X-Forwarded-Encrypted: i=1; AFNElJ+gJlC2oeft4hTCqP9+SXKbkP3jOLaINcX9F/Np6+ijx/yYFfciHDYQOGg1nkhkGWolQPT52Lqh2vjO4PE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPesWkNvjGedyg3UyahoqV1kOcf3gtJzQsUwOIrKPuLe6NmzKz
-	y+QObCwLInCmX5IxGlmjejqcyDMrIJuVS4WUc2nKtYO6ycoTcoCw86k7PtTfH6mhBazfDqRKzp7
-	13cXwl93V1xBqO0OFuGPMoR6D1g6jAoI0KPR685QY
-X-Gm-Gg: Acq92OHSdZm6G5FDNBPikCH7EHpHoKMCT+jIdjxij8kdb4j2/Kce166d1fsApmdOcqF
-	LDzOJKZlyG1Iugzst1bf04BnwqkWQr78YlqOcKc2lArNJmI3m6PPMUhTOePjJHp21I2QVu1npTJ
-	NjBsI6sIZ96dSISHOZbwFjyrwbuIZkOyKiexMUbbtktlZtrISf3SILpsQvLEI/j5uea/Dlsanao
-	md9NfDZm1cO4NDTtg7EbJ9bqbOIOb7WbISfzl0dwpJIklQdHOYthgO+ZOPR4h0OiCD8GBCjiSkz
-	zT769C2W4ykANoRnpqWfqsmHW/v5lATV+a3vxgESGP7xZkbVOPG1NQ5k4wt2
-X-Received: by 2002:a05:7022:699d:b0:133:39a6:2b8b with SMTP id
- a92af1059eb24-13339a62ddamr337498c88.44.1778517313279; Mon, 11 May 2026
- 09:35:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B2A46AECC;
+	Mon, 11 May 2026 18:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778523266; cv=none; b=NU1WieSwg0Sptxy7y8muRoKURbLTxfNANk4FUVJbhbN1Ilh5H1xwwOjU0IGTOPPI1YreKnjyqyzx3Y7pxdswFO0fWD6DOhwhn6c1ekvLzEd5l0FgwnRGOHZ8SsUS9U3G4fejCD3L/5XJASC5PXRSMh6ode0ylowdvqZhOKsYUVA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778523266; c=relaxed/simple;
+	bh=kYJAjhBLTK5188tkpp895MuAn5ZwQjFTPdmZuwhzdKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ME4RMi+SUXDetXqRImEaIr5zpeV9iSRgHtSFqOhR9xRJnyT54lvRXV9XH/6eHFfvG/QLsIMot/KpdNJbM+aLWsSuDFWd5/9mgvQvC6oEv0f9x+lJa9ZxJbpZBimwzaLIZB61P2f2mG4BsdPSCZ5EXgHJM7Fr9+lmRsq7V+2XLvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yik00MFs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6274CC2BCB0;
+	Mon, 11 May 2026 18:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778523266;
+	bh=kYJAjhBLTK5188tkpp895MuAn5ZwQjFTPdmZuwhzdKQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Yik00MFsZZExqbxCaceAPJlMwLQrmJmplumBUszioAlx10aTI4RdUFOzjXo+x+c5u
+	 /VZ6lGT4BZS+HALjze4VbOO1Pro9OETfEq58RSG64GOXUNLfBpoyrkzVnsxu2HjQPW
+	 gmZdwzKpsmcDJCxfMa1NGnelSgreX+FZK15c0Rs05bF11sNGvdbSuIDjH+/77RO3F/
+	 i4eCb0+n3xVp33OV69kdFRqIfPru7ydqw9Q8xz1B73DIYRHGuvEenFrzdyXLnXfzES
+	 QUCSmeTH40A82aP4edYnZ8dDwBoXOb+P4FLxUoEv0Y7xclsqSNwlkWKi6e9qcA8e82
+	 70fz60b4WW4dA==
+Date: Mon, 11 May 2026 11:14:25 -0700
+From: Kees Cook <kees@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev, Andrey Konovalov <andreyknvl@gmail.com>,
+	Florent Revest <revest@google.com>, Jann Horn <jannh@google.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Matteo Rizzo <matteorizzo@google.com>,
+	GONG Ruiqi <gongruiqi1@huawei.com>
+Subject: Re: [PATCH v3 1/2] slab: support for compiler-assisted type-based
+ slab cache partitioning
+Message-ID: <202605111113.5076F0DC@keescook>
+References: <20260424132427.2703076-1-elver@google.com>
+ <6f2bd63a-dc02-4631-a3a5-7ec8e58a4a4e@kernel.org>
+ <afkOMIPu1WNFE9MS@elver.google.com>
+ <CANpmjNM261J5qefMvmUXWZGBVz-KBs7GkbpdNMfTOvNJ-=LiZQ@mail.gmail.com>
+ <afz7pZADZPD4mKJr@MacBook-Air.tail10959e.ts.net>
+ <af3xcFjrZSZFG846@elver.google.com>
+ <rz7dt4wghum6beghfgm6suqje6jeivrensojjalfis5zeuyen7@6bj7kfpqb4q5>
+ <CANpmjNNevjTo0uwo3DJdDc=PpQpyzj301kFT39OBoCNLW0A8VQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260424132427.2703076-1-elver@google.com> <20260424132427.2703076-2-elver@google.com>
- <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org> <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
- <afi0nQ84k1oz5RyH@elver.google.com> <871pfiw343.fsf@trenco.lwn.net>
-In-Reply-To: <871pfiw343.fsf@trenco.lwn.net>
-From: Marco Elver <elver@google.com>
-Date: Mon, 11 May 2026 18:34:36 +0200
-X-Gm-Features: AVHnY4JXza1HWD1Ghv5ACGmGvnp1cOeRA6XD-S98uX5BfJA-pjXWKAfvxk-IzaE
-Message-ID: <CANpmjNML=pbnv7QLf8Qi4wY2nDCk6oOw2T_Vs-MfMwWh=0m5Ag@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, 
-	Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com, 
-	llvm@lists.linux.dev, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 60B65513353
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNNevjTo0uwo3DJdDc=PpQpyzj301kFT39OBoCNLW0A8VQ@mail.gmail.com>
+X-Rspamd-Queue-Id: AEE96514398
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13119-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13118-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev,huawei.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elver@google.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid,lwn.net:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Mon, 11 May 2026 at 14:19, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Marco Elver <elver@google.com> writes:
->
-> > How about the below, i.e. adding type decls that only the kernel-doc
-> > parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
-> > kernel-doc parser hacks for that looks pretty awful, so this is a lot
-> > cleaner.
->
-> I'm going to be a while catching up with things, so this is just a first
-> take.  I strongly suspect that the people who object so strongly to
-> documentation markup in general would be less than fully thrilled by the
-> addition of this kind of workaround.  I'd like to ponder a bit and see
-> if I can some up with something better...but again, it won't happen
-> right away.
+On Mon, May 11, 2026 at 11:34:53AM +0200, Marco Elver wrote:
+> On Mon, 11 May 2026 at 10:31, 'Harry Yoo (Oracle)' via kasan-dev
+> <kasan-dev@googlegroups.com> wrote:
+> >
+> > On Fri, May 08, 2026 at 04:21:36PM +0200, Marco Elver wrote:
+> > > I think I have a solution for this mess, see below.
+> > >
+> > > I would not send it as 1 series, but only include the slab changes (+
+> > > instruction_pointer.h change to introduce _CODE_LOCATION_) as one
+> > > series, to go through the slab tree. The rest of the patches would go to
+> > > respective arch maintainers.
+> >
+> > I'm assuming this will be a follow-up and reviewing patch 1
+> > (and waiting for Jon's thuoghts on patch 2)
+> 
+> I'll be sending v4 shortly.
+> 
+> > > diff --git a/include/linux/instruction_pointer.h b/include/linux/instruction_pointer.h
+> > > index aa0b3ffea935..dfe73aafddb8 100644
+> > > --- a/include/linux/instruction_pointer.h
+> > > +++ b/include/linux/instruction_pointer.h
+> > > @@ -8,6 +8,30 @@
+> > >
+> > >  #ifndef _THIS_IP_
+> > >  #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
+> > > +/*
+> > > + * The current generic definition of _THIS_IP_ is considered broken by GCC [1]
+> > > + * and Clang [2]. In particular, the address of a label is only expected to be
+> > > + * used with a computed goto.
+> > > + *
+> > > + *   [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120071
+> > > + *   [2] https://github.com/llvm/llvm-project/issues/138272
+> > > + *
+> > > + * Mark it as broken, so that appropriate fallback options can be implemented
+> > > + * for architectures that do not define their won _THIS_IP_.
 
-Thanks, Jon.
+Teeny typo above: "won" -> "own".
 
-The technical debt (hacks) that would accumulate in the kernel-doc
-parser just for accommodating slab.h might be quite high; slab.h is
-rather special, so the "#if 0" solution might be justified. Then
-again, if there's a reasonable kernel-doc parser solution, that also
-helps in other places, I won't object.
+> > > + */
+> > > +#define HAS_BROKEN_THIS_IP
+> > > +#endif
+> >
+> > As long as _THIS_IP_ is broken on some arches, it cannot be used anyway
+> > when in a general API that can be used by arbitrary users?
+> 
+> It more or less works today, and for debugging or tracing it's "good
+> enough" in most cases.
+> 
+> The plan would be to phase out the generic _THIS_IP_ once all
+> architectures have a correct _THIS_IP_ implementation.
+> 
+> > Is it something that can be fixed in all arches over time?
+> 
+> Yes, I have patches for that.
+> 
+> > > +/*
+> > > + * _CODE_LOCATION_ provides a unique identifier for the current code location.
+> > > + * When _THIS_IP_ is broken (generic version), we fall back to a static marker
+> > > + * which guarantees uniqueness and resolves to a constant address at link time,
+> > > + * avoiding runtime overhead and compiler optimizations breaking it.
+> > > + */
+> > > +#ifdef HAS_BROKEN_THIS_IP
+> > > +#define _CODE_LOCATION_ ({ static const char __here; (unsigned long)&__here; })
+> >
+> > Nice!
+> >
+> > Yes, we don't really need the exact code location
+> > for partitioning kmalloc caches.
+> >
+> > IIRC lockdep does a similar thing to define lock classes (unique for
+> > each lock init location)
+> >
+> > > +#else
+> > > +#define _CODE_LOCATION_ _THIS_IP_
+> > >  #endif
+> >
+> > Probably we don't need this fallback?
+> 
+> x86-64 is the only arch that has working fast _THIS_IP_, and adding
+> static __here markers to bss is rather wasteful.
+> 
+> More architectures will be supporting _THIS_IP_ properly once I get to
+> send the patches. The mainstream architectures all have a reasonable
+> and fast way to get the current IP, so we don't need to waste bss
+> space there.
 
-I tested the "#if 0" version and it works as expected. So to move
-forward, we could consider it in the short term, and in the longer
-term, see what new powers the kernel-doc parser can provide.
+Thanks for finding a solution for this!
+
+-- 
+Kees Cook
 
