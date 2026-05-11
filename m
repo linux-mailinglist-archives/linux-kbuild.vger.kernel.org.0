@@ -1,170 +1,175 @@
-Return-Path: <linux-kbuild+bounces-13114-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13115-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iMo2JjfDAWpwjgEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13114-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 13:53:27 +0200
+	id SHZ4GaDIAWoRjwEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13115-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 14:16:32 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C0250D15C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 13:53:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B455850D79C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 14:16:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD46F301BF68
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 11:49:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F64C30990A9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 12:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1F7A374187;
-	Mon, 11 May 2026 11:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E9D939E19A;
+	Mon, 11 May 2026 12:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="KRCeTMIC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="suOnb/J/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibjbkZwF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B70372662;
-	Mon, 11 May 2026 11:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A52C39BFF4;
+	Mon, 11 May 2026 12:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500181; cv=none; b=FTlNKj7/4eWQLidNgwZZEt3qTOWPAXc38nCfO75gSanydeakYF/Qic4v0AJkuxQMdHH7GdQ5CN8QJaee7t6K+aXnrUZdNnzkyS5O3HNVHXT2LYphgVfK4jrwtgVHqU+k6GveAkrm8XEt01Rl68LP+rh2DAHj0qoECOjV0Iv6j5g=
+	t=1778501270; cv=none; b=nLI9DoyuRD3nsEsbilMraOk6kLJfkvh8F841aBIk1k3qfT3cihS4vBY/bBuoADSLb6Puy7gtrAc81U9HHQs1QtbV4QT0p5pHif+bIVbZLet1pBEuVyGn+fzw/PLjy4mECJD7huTMm6G4k7Z7tIVBob0OTihfdglPhWd01CKi3WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500181; c=relaxed/simple;
-	bh=Vuthmbx+KbT08W6WtoHKrzlAgVisoKlpiYQ1uuuTK1Y=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=FsBtRBWYv7YW+mlQr6vWg1eUAUe4/Q3Jl3vHe/5YBxOx4Yh15tecb76T6EWpRvyHKfgJcrv/qMOGC843264STYWFiE/w01MO07hDPxL8pR238liNCp1G3ua/M54YbIithwciU9fzMhwJMn/FavxCRzgqoOreUAdRKDXM5ey64Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=KRCeTMIC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=suOnb/J/; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id F11207A011B;
-	Mon, 11 May 2026 07:49:37 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-04.internal (MEProxy); Mon, 11 May 2026 07:49:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778500177;
-	 x=1778586577; bh=5vrmS288dug9ATXA6o/53uFikNkdoPDuNlhmtbvkQIE=; b=
-	KRCeTMICn37bf56D29Cp1C5K7+y5bqnxZ4Pnf1lVjMxAY9Akju580z16KEb+OXd2
-	5jBeGac1bg0XvTBp9JU3s0aS3CeVAEsBpvia2Aj2O634SyDlpkyhxQ+J3biGWrSl
-	Pet9FPnOuHeicHwbyqUgaB+0/l7A+5Usce4tAnbjL3NW6FV+wPlYE+Ehse3ghha2
-	c8VUJfov6Oo6Fj5FSoHqFkdryaj4gEFHOYB3SDC1Q0iRl0WvFm3w4CxFWGdZ18ZO
-	lB3SY2LW36bRMF+wd1BOi0n0L+VBzc0MHPWH96uZiGi5Gk4uGKvZ/eRulnB5cx2M
-	dW6P772j5L/gpKUXyuwOcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778500177; x=
-	1778586577; bh=5vrmS288dug9ATXA6o/53uFikNkdoPDuNlhmtbvkQIE=; b=s
-	uOnb/J/5tq99r8hqHprkGrodpzOnqj5S+2kmXtkggUD5VR+BzNJpS9oTv5ITBHmj
-	275X8b9T+NhtUyTU6NwLjnvo1YKzJOGfE/IPnnpiQJkv6AsDfTeBdSq485lyYkoY
-	M6WAAbdt17lsR6kJSKmx6OdTYbxvgiRvaQ2Xho+OkPdDWjz+qI7XglMvh+N44jGB
-	tJRmMe49wU/EmzrImPSKDDu/C7AsvwHSNDI7sus96jD0sLZSUuNR2eTcZ94h607s
-	/K4dudgqs7vBCKxRkg1+GvhHyWOhvrKLsyPg3+eDjZN4jRXARvBj4Q8jSD6CjdPy
-	oHwKdqUsieOTr7rzCMx0A==
-X-ME-Sender: <xms:UcIBapVWwRvKqqJtxnRcpocCAwGKIaD7GI7i9N7EUnZRFDbUHes3xA>
-    <xme:UcIBakaPBmjk3nJBQFL7lpTuo0id1KEz4rg_222G7-0YEGTOOfDgCwJZbEmUN6Nd5
-    vdwgYTOP10oXU_FjR4GKxSVorZMR4aRxi4pPi44lC6vlvbhxkB1dIlj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudekkeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhstgeskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthho
-    pehosggvrhhprghrsehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtohepiigrshhloh
-    hnkhhosehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgsuhhi
-    lhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrh
-    hnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:UcIBao-Qu1S0i8siwHCBKjm4BgDzqi7wmAls4uQRZALam71Q42EmAA>
-    <xmx:UcIBavOO-_zGlmREuRyacqXg99o41jmIBVYMN1fiBWAs1CFt2wRKhg>
-    <xmx:UcIBaphurNnRl7884jjCnFrOnXSZUDigYrkofdeHuGLP-1wowe7Xuw>
-    <xmx:UcIBaik6Y0CY1Fj_PR0Ea4PDULVIMWLwXzHGEuPxZeaD1edLsDJvuQ>
-    <xmx:UcIBakihuOw12KLLUDuLAjQm9cMT8cZ7WnOOS04Yuk_WsFWpe9Ouwlby>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 38B411060066; Mon, 11 May 2026 07:49:37 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1778501270; c=relaxed/simple;
+	bh=XJZrn11TDzQfh5nANwCT6M8kUFD6U0DGy379pNKKf8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mg9fcS6WvDVxynPWNywnM5y/7+ZsNVVbDT3TYtfP07C28LYx7qr2XZ4cJwEGI2m99vNkQnmM53HCpKaXdY6CtEE4QxjPI/qU4WVD2S2KTfEmtJI5SuNflPPK0/YJE5ws3DOmTkYoSMCmpEphxmzNXZkLcOLLir/TkdLKVSanRN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibjbkZwF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A12C2BCB0;
+	Mon, 11 May 2026 12:07:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778501269;
+	bh=XJZrn11TDzQfh5nANwCT6M8kUFD6U0DGy379pNKKf8Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ibjbkZwF2wXnJAldnE6kmyyqGGSID2Bc9jjAZ7CmPnbHIpPK9V5MhJnkkssrsla5M
+	 TCEnI1WgfWvVs/1fjjPQ7XcqEoTa/hK5QEXzZpxjHsrfJdUtL80tdnk9GPBLcaNNUh
+	 Dz1VrECQFTWep3M2pb7EfDNqTCG/s4CaVghUsLmw3JrSmqNDgUIPL5j7Lpyfp7m8YW
+	 q6DoQtrE/id+udKogPXf4b1Yyf3etERPPuZRYII2z4tRvKYkHMhIVv2JaD3xRIUH9X
+	 LytFu1InWXDWc50X86CajW1gTwTUSZ2HboiZXGVlEjmld61KcI4RsqaNjC9EwSIS/6
+	 KIIoWzhQRPkuA==
+Message-ID: <8354c3ee-85c0-4765-a114-20f350ae6e65@kernel.org>
+Date: Mon, 11 May 2026 14:07:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AYkZ7v-3APXo
-Date: Mon, 11 May 2026 13:48:55 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Konstantin Khorenko" <khorenko@virtuozzo.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Peter Oberparleiter" <oberpar@linux.ibm.com>
-Cc: "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nsc@kernel.org>,
- "Mikhail Zaslonko" <zaslonko@linux.ibm.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Masahiro Yamada" <masahiroy@kernel.org>,
- "Vasileios Almpanis" <vasileios.almpanis@virtuozzo.com>,
- "Pavel Tikhomirov" <ptikhomirov@virtuozzo.com>, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-Message-Id: <f6165240-a3b9-4612-8d25-d8ba3c36f42a@app.fastmail.com>
-In-Reply-To: <20260511105052.417187-2-khorenko@virtuozzo.com>
-References: <20260511105052.417187-1-khorenko@virtuozzo.com>
- <20260511105052.417187-2-khorenko@virtuozzo.com>
-Subject: Re: [PATCH v4 1/1] gcov: use atomic counter updates to fix concurrent access
- crashes
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
+To: Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Christoph Lameter <cl@gentwo.org>, Harry Yoo <harry@kernel.org>,
+ Hao Li <hao.li@linux.dev>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Alexander Potapenko <glider@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
+ llvm@lists.linux.dev, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260424132427.2703076-1-elver@google.com>
+ <20260424132427.2703076-2-elver@google.com>
+ <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
+ <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
+ <afi0nQ84k1oz5RyH@elver.google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+In-Reply-To: <afi0nQ84k1oz5RyH@elver.google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: C2C0250D15C
+X-Rspamd-Queue-Id: B455850D79C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13115-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[33];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13114-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[vbabka@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,arndb.de:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,messagingengine.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Mon, May 11, 2026, at 12:50, Konstantin Khorenko wrote:
-> On architectures where GCC inlines 64-bit atomic counter updates
-> (x86_64, s390, ...) the test passes and the flag is enabled, preventing
-> the compiler from merging counters with loop induction variables and
-> fixing the observed concurrent-access crash.
->
-> On architectures where the flag would introduce libatomic dependencies,
-> it is silently omitted and behaviour is no worse than before this patch.
+On 5/4/26 17:00, Marco Elver wrote:
+> On Thu, Apr 30, 2026 at 03:59PM +0200, Marco Elver wrote:
+>> On Thu, 30 Apr 2026 at 15:40, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
+>> >
+>> > On 4/24/26 15:24, Marco Elver wrote:
+>> > > The mm-api kernel-doc comments have been broken for a while, as many
+>> > > documented symbols shifted from being direct function definitions to
+>> > > macros wrapping _noprof implementations during the introduction of
+>> > > allocation tagging (starting with commit 7bd230a26648 "mm/slab: enable
+>> > > slab allocation tagging for kmalloc and friends").
+>> > >
+>> > > When the kernel-doc block remains above the internal implementation
+>> > > function but uses the public API name, the documentation generator fails
+>> > > to associate the documented symbol and generates warnings and fails to
+>> > > emit the documentation.
+>> > >
+>> > > Fix this by:
+>> > >
+>> > > 1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
+>> > >    them directly above the user-facing macros.
+>> > >
+>> > > 2. Converting the variadic macros for the documented APIs to use
+>> > >    explicit arguments.
+>> > >
+>> > > No functional change intended.
+>> > >
+>> > > Signed-off-by: Marco Elver <elver@google.com>
+>> >
+>> > +Cc Jon
+>> >
+>> > I thought it was supposed to work because the kernel-doc scripts were at the
+>> > time taught by commit 51a7bf0238c2 ("scripts/kernel-doc: drop "_noprof" on
+>> > function prototypes") to handle _noprof. In the current form git grep finds:
+>> >
+>> > tools/lib/python/kdoc/kdoc_parser.py:        suffixes = [ '_noprof' ]
+>> > tools/lib/python/kdoc/xforms_lists.py:        (KernRe("_noprof"), ""),
+>> >
+>> > Doesn't it work for you then?
+>> 
+>> Ah, I see. So it doesn't work anymore because we add the '_' prefix, too.
+>> 
+>> I guess the question is if we want to proliferate more kdoc parser
+>> special cases, or just move the docs to the macros. The downside of
+>> macros is that they lose the types in the displayed function
+>> signature.
+>> 
+>> Preferences?
+> 
+> How about the below, i.e. adding type decls that only the kernel-doc
+> parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
+> kernel-doc parser hacks for that looks pretty awful, so this is a lot
+> cleaner.
 
-Tested-by: Arnd Bergmann <arnd@arndb.de>
+Looks like a good workaround to me, unless something gets confused by seeing
+both the declaration and the define.
 
-I've checked this with my cross compilers now, and found the
-external function calls on aarch64, csky, and hppa. On x86-64,
-the trivial scripts did not reproduce that unless I also pass
-"-m32 -msoft-float -mno-sse", which is what you get from 
-KBUILD_CFLAGS.
-
-      Arnd
 
