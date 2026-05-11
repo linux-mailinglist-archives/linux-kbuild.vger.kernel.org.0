@@ -1,143 +1,149 @@
-Return-Path: <linux-kbuild+bounces-13116-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13117-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id RRB1BErJAWpsjwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13116-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 14:19:22 +0200
+	id KC7RCqnYAWpMlQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13117-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 15:24:57 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BAF50D854
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 14:19:21 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC5150ED55
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 15:24:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 43931300D1DF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 12:19:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 492C5302A739
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 13:19:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D56EA37BE7F;
-	Mon, 11 May 2026 12:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 044CB3E5EC0;
+	Mon, 11 May 2026 13:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NE8Iccbh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCPmQUpf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9166537B018;
-	Mon, 11 May 2026 12:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9AA3E5EF0
+	for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2026 13:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778501951; cv=none; b=aFieJp4kLWtiLtXSk4HwwbndXFxbxEE34MxhGDkgoksYrF4p9XalFOMJmmDTr5pxX8YShguWePig/Cly+zriPM3EInLUCYTlQBks5lpeOyXGhfzwWJkOM94kUBz/++Yb8Fcl563zEMdUK/lFrF6kzXk3NrRdUac1np9+gzqfEDU=
+	t=1778505539; cv=none; b=oj2w26dOaO3Q/5epRZHJ4oEc/XwxwIFukmFaJb70s0uaxB6bcjiMxe9c1OvjFE/fU/oV3Merl7a3bmZ8MsPKzmLOSmQ+HqbLjuuWv/fI65a+ocSf/YPKBMlLQt9n6CmVeIjKOllESdBUmEUpnAtwM7K+B7n3ymuQ2vYXnmjt7EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778501951; c=relaxed/simple;
-	bh=tLmLnG7NtRDvNzoHFnnr7G7EPjQ98zaD83MXtS3QGaY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D4H1DYQk8FAUBgwz3ni5PdCGGNThRTy6p9EUhZfmjbqo04TslhvAT87PAKRgC5qrWOlMhxWXaISKoQwKO+ULr9Eezw/wXaTQ7ianrIB0/+YhTCM2vQ2rau6kibNcDLx8bUCH/MthI/Ug0kpVP/APJ1NWH1djVOTEYiPpqG7hnlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NE8Iccbh; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B1B3C410B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778501949; bh=Zd6JYObStql70QlOFbbXZc/nE8PPz1FUhOYeRsnw8R0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NE8Iccbhlop5kx/SHt52Rf/geOduMGW0s25QzxYTEUHbOkhdbPL75cGB5nCBgnUio
-	 1pSNbwEElvVuv2NeKLxoVtFifIe4xEigRVkh48eplDHFyEsqhWGLAKSd1uQsFnnlWk
-	 hWMnXO1LkRUlwCipZJeOAMpBuWCtuwX/eVO/7We249wxaKgEsrDn+VsCrzq3Zt/BJi
-	 YfslED0S1ywKWCAqGSGB+63OAvyGLWcK4ttKvxUJ1uXeHan8VURu5zqR8s5MtHpuhQ
-	 vkWlLjWBWQ4m/IYIg3bPaOcYEatIgwvk/RaLkbxDF8DLgll1PeFdXk4yjxFYTbZeDE
-	 V8grkQeZtgilw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B1B3C410B5;
-	Mon, 11 May 2026 12:19:09 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Marco Elver <elver@google.com>, "Vlastimil Babka (SUSE)"
- <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Dennis Zhou
- <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter
- <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
- David Rientjes <rientjes@google.com>, Roman Gushchin
- <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov
- <dvyukov@google.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
- llvm@lists.linux.dev, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
-In-Reply-To: <afi0nQ84k1oz5RyH@elver.google.com>
-References: <20260424132427.2703076-1-elver@google.com>
- <20260424132427.2703076-2-elver@google.com>
- <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
- <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
- <afi0nQ84k1oz5RyH@elver.google.com>
-Date: Mon, 11 May 2026 06:19:08 -0600
-Message-ID: <871pfiw343.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1778505539; c=relaxed/simple;
+	bh=aFKpLXhtgadBepER+jv213UmH+cx7dVrSbjQrlKsbLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LfJVLal6sciFmbU7Q+F2DEnTe0oBURAfi09yUQFUad+c/ahIIB5iYBa/umf2kW6e37viwv+XhvCN4HumWZrOsp6UyZI/2JSxsjbADpbgG13EiAQB6sVGNkausddFW/s8KizL+sPKXYQpyxgvfYSWcH6lQJDppo1iDTWBrdqUe80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCPmQUpf; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b150559bso33431245e9.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2026 06:18:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778505537; x=1779110337; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=g/gsIqss6ka1gkZNbEHINXe4X7NBBNbHnrb2ir7Oq5U=;
+        b=cCPmQUpfxONz5lgCLItoo6WlxwgkWI5ljm9u/5FSEzSFqgp+wSBUZS6Kz7hmMiONiv
+         Q8g+RWMd2dt8+Bgqc24H7aSt3ST25KwwBsfPxdN6S29TKRJRGGMR4VpYqoQik0EhNKe3
+         6M3Lk0bN+ucyrzFdi2v8/iTkuNKmRfTQ7oAwrOcGeGgRM1G69qWjWOAm8GAYVpM0sqkw
+         GExThRNxDAccoGa/SF0Fa8apM+j9CCpOpiCJRWolk2iqHLTeZcRhgR0XrhJD1FXKbdGV
+         HfoOFHHmocpUJ8AcKctOG3lPwr1TIWohwFgtw8mqQZP5GS8wrlN7n693ekByuPYRyWWR
+         EDmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778505537; x=1779110337;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g/gsIqss6ka1gkZNbEHINXe4X7NBBNbHnrb2ir7Oq5U=;
+        b=d7NnI243laqrtlCGG9WFWVQcU5hyoRQDqP2OnOHd198irf24IrpuLwH59XuOoEH8K9
+         Ka9cTP5MGRURLgHJXGhC834ePNDJ/RgBgbCktFj7YtgsZHie+le/U+dRx5sxsoebLwXD
+         kvQaMhkF63SptYHt0PcQUZbqDmz+0jWq1+tb6YoKXbnphzGEUrMOv86zA2yBvP4C3FKo
+         OB3C5bKrM09cWrYm9+d4cEaWZWkDj/sj8XwcnxXF8P2RaEGi4/yVQx3xPUQV9EzXc3h9
+         /A8gFNy1PMQa+cRcFSU+s1USzNoMtus/4LvR3d96MBDlbCkoQGQtvAVUpBx80aKZR3LX
+         Qb5A==
+X-Forwarded-Encrypted: i=1; AFNElJ/5NePR0x4pUFUmlSmulpqzPc9cp9s81BS37JkFulw0vy6CDJQFKkpJCF/zLuoLgWFbR6/4EqB5nYWP2I4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZlKjL/N31DI2K8xgr3jW23pp+HeUfNxGm2xMYvYKny/dZ8YSE
+	kIBpy5l+4XwDsNNiToGvYRbEIR05+UQxryVgJbHxxn8ot8nDSAopZs7i
+X-Gm-Gg: Acq92OFnOK8tYSDdILjmCbOWsIXfWyUkMMneGygdScea57pIypLngIxizwi1aU5Js0M
+	baNtNN21HJ/45AoxlCBF8HbVbkLfMhwbl7wyn5EPRYZZLiEiG7jHmXL/cV2CC+cdpAzuXX6yEMy
+	bgEFeWN+HqAXwDarLJak4WDA4FKBwiGFaaSEBOTk38jDUJ7ExpYNKLZsLXaMK5mFDiC8Vb+qNYm
+	vjR5y/YXvCPM88g9qji8MccpDzgxNjkA73giIPj1MejR5tSZTzJrB3W1j3E4BjCTZeQkhwutSPa
+	dR+dFnpkJq9yhX4pQGV8vnfEKcEMuKD4qZJKZFUnhl9892AxHSa6n15hKX3c+pkAdVAOY4aRt+E
+	fJLNTnLzi+eEP6h5IwRiuWk4144vMuwI7AKevEBLAfPbMCCdtyloNFiSK2QOJPxYRdG92DAmkfJ
+	IZUTjCvrXVi7Uy/JbIxpK5GWa5unnp9wsD8p7q2UZSohyQVf2e3G9qNKqnSOa86WhdBHjDmg==
+X-Received: by 2002:a05:600c:5306:b0:48e:526e:101a with SMTP id 5b1f17b1804b1-48e706c781emr158001255e9.12.1778505536621;
+        Mon, 11 May 2026 06:18:56 -0700 (PDT)
+Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e702ec426sm178326055e9.10.2026.05.11.06.18.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 06:18:56 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <0f65dcac-7c5c-4bbf-be2c-b1cd68c7697a@gmail.com>
+Date: Mon, 11 May 2026 14:18:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: A0BAF50D854
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/2] scripts: add kconfirm
+To: Jani Nikula <jani.nikula@linux.intel.com>, nathan@kernel.org,
+ nsc@kernel.org
+Cc: akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org,
+ arnd@arndb.de, gregkh@linuxfoundation.org, masahiroy@kernel.org,
+ ojeda@kernel.org, corbet@lwn.net, qingfang.deng@linux.dev,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260509203808.1142311-1-julianbraha@gmail.com>
+ <20260509203808.1142311-2-julianbraha@gmail.com>
+ <4579a61db0975b967e8063661be77bb439283fd7@intel.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <4579a61db0975b967e8063661be77bb439283fd7@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 3DC5150ED55
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[lwn.net,none];
-	R_DKIM_ALLOW(-0.20)[lwn.net:s=20201203];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13116-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev];
-	RCVD_COUNT_THREE(0.00)[4];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
+	TAGGED_FROM(0.00)[bounces-13117-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_TRACE(0.00)[lwn.net:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[corbet@lwn.net,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Marco Elver <elver@google.com> writes:
+On 5/11/26 10:57, Jani Nikula wrote:
+>>  scripts/kconfirm/LICENSE                      | 339 +++++++++
+> Why?
+> 
+> See LICENSES/preferred/GPL-2.0.
 
-> How about the below, i.e. adding type decls that only the kernel-doc
-> parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
-> kernel-doc parser hacks for that looks pretty awful, so this is a lot
-> cleaner.
+Sorry, that's an accidental artifact of the tool's current setup as an
+open source repo on GitHub. The tool code itself has the expected SPDX
+identifiers. I think I need to write a small script for preparing these
+patch set submissions. Thanks for your attention on these RFCs.
 
-I'm going to be a while catching up with things, so this is just a first
-take.  I strongly suspect that the people who object so strongly to
-documentation markup in general would be less than fully thrilled by the
-addition of this kind of workaround.  I'd like to ponder a bit and see
-if I can some up with something better...but again, it won't happen
-right away.
-
-Thanks,
-
-jon
+- Julian Braha
 
