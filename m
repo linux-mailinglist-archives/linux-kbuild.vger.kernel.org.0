@@ -1,242 +1,239 @@
-Return-Path: <linux-kbuild+bounces-13108-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13109-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QGVNDTOmAWpDhQEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13108-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 11:49:39 +0200
+	id sIfhNrmkAWq+hAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13109-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 11:43:21 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB8250B4BC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 11:49:38 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DC850B2C7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 11:43:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B52E83024A1B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 09:35:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id CDA71300615D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 May 2026 09:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089B03BE62A;
-	Mon, 11 May 2026 09:35:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818923BED37;
+	Mon, 11 May 2026 09:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ITVxMv3h"
+	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="DfFhhC2n"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020128.outbound.protection.outlook.com [52.101.69.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E783BAD84
-	for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2026 09:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C504C175A7C;
+	Mon, 11 May 2026 09:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.128
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778492132; cv=pass; b=GGSrs7fu+Hp7Xu/s6qdl/WMC2TYBziZPUJkP3HtmZ40JvqL2J0YnfwmLhgcWw09r8LUbh9Y5BnQarSBXL6wV5rC2Aq1z6UmM3Gw1ECO1H0Nck8KaMIXr6rUWaBXvGgMdQbj3u5qTodVV8gcow6j041k5s57uGi8wkvx4Rwb6Xns=
+	t=1778492598; cv=fail; b=PGVzcOjDHxtfyEgTqp9oOgxbiPVLaB+DvPnitBCguk1dVqoQV3wGPiS8rB8F2RCUvVbs3EZPOl4KMX0oXOpexb9kb719GveYDBM7v0MxgUVAor/PbAhfcwqRqXQkZS5vNiochDjfxDeXAo6Yahmk8FW2kly66bLoPlReXNOQ7g0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778492132; c=relaxed/simple;
-	bh=NRMFgXt/+8/VoEquamZsaZxYeYlqHmrVJp607sf0pRg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rCm6G01bHidEv6qmp31xHNCb+rWZ8EQweyVEVFr/l0/PJ5CQ1awpodppPs/KwqxXcwt0HX3qyL/C4s0ivmjiDS+4ol6+ZvglS1Wrj0vScfX7QQVM8CXw/mjZ9edpSmhh6J/eAl0I5QWkGjIgL+y8wxGMu91kOYkRdiwUyHcurRI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ITVxMv3h; arc=pass smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1332772f6b3so176959c88.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2026 02:35:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778492131; cv=none;
-        d=google.com; s=arc-20240605;
-        b=l0XXFhh1/NB6y5NXELbLxBCRtrroEfh6XMGd1VpbIJfw6fZiC8uVCfgaqkm84XZ5Oc
-         PxMk+B8FmoyUzEZsnMRTJ1Ljn9BPGadpemz4C+Aw6SL6n0pZnEUsbYCKvYGMVWM+e7FY
-         dtGL2xTosUJbzN3v1SzZEC+rMAidnr56hkUOS0pxcNjID2SkVtNMd6cFrZ+zJANX79lp
-         b6v3QeWZkjG+CMkoBMHBiM1ka4HMA9p2Mc+eOw7WOhaOr5vZcZtEJGydhxw1cHw53LWv
-         G8OD8J/OzpxHSsIWJyIqhXwtDlfcXJM2j5SOGUAqKq1FcZF7q2JfoaNFBqS/1EA8g1mU
-         c7Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WufxmpQiwhOpJBofeZI+ZtjHioGWCbMxkve0DPKIOFk=;
-        fh=PHIIlTzvLxUo4EFSSHwm0iho1JVdjEmddOnif9U/0ZQ=;
-        b=hwsgtFmdzxSEVK7iLlIWbP7gHHxvmq1S4LSX8ZrnZLJa09VGQhZEVQVKEL2wkB+xg8
-         /tml8M2HLvjyCfM2C8sdKigg8MMmerxPHWmkh0T5mZQSSYrtaYvMsssNGXTjvbZnOsKP
-         aZpg7pzajc+SdPig0UrMLjHjOlvxz1o+iRuaJiCfGQSYJIUGQpBAVuyDuRJ9A3RAepA2
-         Z+5/zLC6dl1ItaaMl0PhtBUGutnR7gHvmSsjImuMF+j0IbEenXDGYn1t1HmHFMsI4bEF
-         uL9+udB95QxkXeRvoeyXSFhxM3FXFn/nErG8f/qI5zLOBQAWkLIDmUeWAiUGJNpS29PT
-         xIBg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778492131; x=1779096931; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WufxmpQiwhOpJBofeZI+ZtjHioGWCbMxkve0DPKIOFk=;
-        b=ITVxMv3hFSAZRSttPQoavQwmAHtsm5g3UKh0QsvJuUNcKzTefrB8UBmodd4CAP9e5A
-         tD+Ru8FKuEo0sE82QGmQq6nEpVruQNIZo4xMc1TX96SEzEfbdmezUAvuSqSWZMICQv/B
-         eRQ3DBT8QNtVwppwGxuygm5M9pV2VR/Myfk8b7K0BpkhI9qUAF1wkT3fPN4yJTgD0zkG
-         MI4ieywI8nGj0LlofybfDUPLtELCJKEDFtFSdNzxIR8Onm1/pzz5rC+gxa/reC4JR5QU
-         Ue5w7tGyzNtEAe8qPVmMJtHS5HtOR9A8dMeDMZUnKLtsIgxMkoE2/VKF4pyaZHnLLB0f
-         ygmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778492131; x=1779096931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WufxmpQiwhOpJBofeZI+ZtjHioGWCbMxkve0DPKIOFk=;
-        b=k6SHps6AjrYJ3oTQdHx8WVLUYg8hjz45b6wVR8YzfaAGqxhC89PccmV4/vouYsMCVr
-         eAZvWHVX7x/8MN73EcQZC8+d6VFL+/UExmJCUPk6wyffgeDAyCzk52h/FI5vAxe7mkKx
-         OEh9dbevgmQe8/cZmiccSWUZZDULs5LdE5A/gVpWOqxEqJOtTZDwUBeCx1nqbsvw1Ccg
-         LQt75nLRBtkShvKwEZMunl14TOsunKc42pH/Vd8XFSKS5IKFIGSZzrAfFESEdOmqFpa4
-         mKCGDLcz+n7C0KAwB2UwSJPutuDpuz+2YGZ9Uvn5q+vO5YbTRWyCk4kapnUioftqUKyJ
-         7OSw==
-X-Forwarded-Encrypted: i=1; AFNElJ/IiZYDN88VByEMhTKE18UwoH5O+7cD2wUHXd1/AMD2C2x8iybJArEPP+EOcxy82oGDnjyDtbfUCNKhkv8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6xm7IpPY89P5cqycwfU+Go+KD/myssuwlvNE64lv7LLvuLyg9
-	y0mC+MjEj/EEa3Oqal6+oL5sl28ox2nQq+CENVCge3hb0/q1Buqqd5YagZ1mdGWdtP/IBlUwcxY
-	5SR+ajvdrpHsvl4FT7l7pr4S/X8bZEXcvMpDmeJzM
-X-Gm-Gg: Acq92OH5dVV1JwvfHYCkKyzJwTm+G/ycKVeJIdJrajK+pAcrW2OZHYiTzH3HSbBpsna
-	7SgTEQYRXPUrzn8L3lLYwk3qhF0gcSK0GeU97/FFlcCqqSdjGoMvDugKqDVRISPlXd3kUNhUdMR
-	kvRAovMGz18lISoUCuW/nZ5Z9G23h/Qh561z1+gN2UkjBuzaDzbSX+HVHYixKVQ1Zda81dU6ZEh
-	y4gaaHfVcPVY/NaHxTXCiulX3WtnHVg4hjoC1c+LxbIMvFzscOh5kDLNF+3cpvHbA00XCZR3cFZ
-	T8CaNRYxZRRzSO0Goh9+4XOMfL8fR5kyHZsFC1Ic81AzPcK6ZA==
-X-Received: by 2002:a05:7022:6184:b0:130:ac5d:8f69 with SMTP id
- a92af1059eb24-1318ea1fdd6mr9371056c88.30.1778492129711; Mon, 11 May 2026
- 02:35:29 -0700 (PDT)
+	s=arc-20240116; t=1778492598; c=relaxed/simple;
+	bh=rZxUD5hpc/5R7bywoe03pyNGA7rMdo0165SG2DVvb/c=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JwwgcE2gty9bhfDgvZDwpazc0hnBML0wY/Bv9BlTUlg0qfbZgBHfiIJVZLkkitfLVnz997V0piZJ0OrLXUSINTk9SwKIc690Rpfp9FeMTWmia6qkjjpHS6dCmIPQ/Ro69gbLsZreABC5MlNwui/E1Aw5RJDWAch2ZUeVyBnKf2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=DfFhhC2n; arc=fail smtp.client-ip=52.101.69.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qFaAvo3ggSo/keMKz8ke17SIRKX2hzeJdovZrKFPhQzhEzgZSq783VyReFIYpwdaHp12LC045+qYECp7rfKhE1OICHJDy4j2VpVX0Mi/v+gWaJd+FVFUZ5llodavHPZ4t74Nq/pNAfWVM/1b/bupuBkU4gXRcC72YdWdx+vzN80vi5dhcHT+7ZcTbfJL4aGUZzM7zie277qUT1SDIBuJdaTGGKKQcWcdH6AothhZz6N9JvXHcY+nu23virH7lnct1MlkCcs0NWCJyU86oBQSSMf0EV1gCEE5t2N6bZn8EXRuSAOfF3ZMVESltDN+4flpxjLOZKuNvQWTluzLufES5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c8rjLoZzJRIXx4Z0lFrtMVCegxLrvwqUhj0uqbGI0t0=;
+ b=Oap083y+PBVt1tAfZRdBKdKF1vtm1iwkoEi6cpQytSzrJLYOA/UC/NlzoNSQzB152quGNiHAlwEPp345SgRN9cxeBiK9jQdLs7k6tqHBrtkiKVC6/kdGaBpily2ElBrg6IvCtBYGwE1H0qD7XSwFBLa9F9mIrvEzooqE0nDalOgyFZKFFfEx/0LjBn0joy7r1YiKR37fO/sTLpAAWmqroZiHuNdwqTib8yJFisQB4s7/mQThMBbAsdIjwwdH3IS3EOuirsziCYcEgpM8wavFQpA2c8CbEcxWTor9F7jlrQ21sZNJngcxjZfxVZQcxjuVZ62ZE1oM6IXjzQFdgZVuhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c8rjLoZzJRIXx4Z0lFrtMVCegxLrvwqUhj0uqbGI0t0=;
+ b=DfFhhC2nGe8tRuJGTxM+ehdEafQy4RjAgYgOcNFfvBva4YAAn5D1aHfVBI7nh3NMNuCSpDpBNkaXt90mClfv3R2X7LIFYOiUaf1NWGwlli82yaIX0UoQmbbIbdnhT43mldIASP5ZOuUkM8U0V1IXwKolRrJ/e6bJ55lUg/IKS5uxwMMnNu2xX4MM5G8WvooNtSsMTv1hF0zkKr48U6VoeIt0hDLtXXrvAW9OPy9QpIbnFikB6iAT1pMMo6bJaofx/VgDtuM4X2W7PLcvY6ntcekd0nlKhcINXMork7+DFgpDEyJTvsO6w6y890CmKZh1BwjhRPt5YJ3YM12Q3Y6L2w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PA6PR08MB10708.eurprd08.prod.outlook.com
+ (2603:10a6:102:3c7::20) by AS8PR08MB8393.eurprd08.prod.outlook.com
+ (2603:10a6:20b:569::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 09:43:08 +0000
+Received: from PA6PR08MB10708.eurprd08.prod.outlook.com
+ ([fe80::1999:c6db:dc55:494a]) by PA6PR08MB10708.eurprd08.prod.outlook.com
+ ([fe80::1999:c6db:dc55:494a%6]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 09:43:08 +0000
+Message-ID: <b8c07567-78dc-49dc-9e7c-bf0fd07304d2@virtuozzo.com>
+Date: Mon, 11 May 2026 11:43:06 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] gcov: use atomic counter updates to fix concurrent
+ access crashes
+To: Arnd Bergmann <arnd@arndb.de>, Peter Oberparleiter <oberpar@linux.ibm.com>
+Cc: Mikhail Zaslonko <zaslonko@linux.ibm.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+ Vasileios Almpanis <vasileios.almpanis@virtuozzo.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>
+References: <20260422125112.3583649-1-khorenko@virtuozzo.com>
+ <20260422125112.3583649-2-khorenko@virtuozzo.com>
+ <3786062b-ce93-47e0-8eb1-125bac5dbb2a@app.fastmail.com>
+ <ff2a4c49-463d-4d8a-9519-bb51308f7ba1@linux.ibm.com>
+ <dca5a1ce-feb3-420a-b452-52707373dd61@virtuozzo.com>
+ <14dc05f0-40fd-413d-8082-8c474e25d238@app.fastmail.com>
+Content-Language: en-US, ru, sr
+From: Konstantin Khorenko <khorenko@virtuozzo.com>
+In-Reply-To: <14dc05f0-40fd-413d-8082-8c474e25d238@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR02CA0158.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28d::25) To PA6PR08MB10708.eurprd08.prod.outlook.com
+ (2603:10a6:102:3c7::20)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260424132427.2703076-1-elver@google.com> <6f2bd63a-dc02-4631-a3a5-7ec8e58a4a4e@kernel.org>
- <afkOMIPu1WNFE9MS@elver.google.com> <CANpmjNM261J5qefMvmUXWZGBVz-KBs7GkbpdNMfTOvNJ-=LiZQ@mail.gmail.com>
- <afz7pZADZPD4mKJr@MacBook-Air.tail10959e.ts.net> <af3xcFjrZSZFG846@elver.google.com>
- <rz7dt4wghum6beghfgm6suqje6jeivrensojjalfis5zeuyen7@6bj7kfpqb4q5>
-In-Reply-To: <rz7dt4wghum6beghfgm6suqje6jeivrensojjalfis5zeuyen7@6bj7kfpqb4q5>
-From: Marco Elver <elver@google.com>
-Date: Mon, 11 May 2026 11:34:53 +0200
-X-Gm-Features: AVHnY4Kqj_o0gwegpds4LdAczqxNps8c5-uDjsqJAwkE704552pC9-_A9oEAMnQ
-Message-ID: <CANpmjNNevjTo0uwo3DJdDc=PpQpyzj301kFT39OBoCNLW0A8VQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] slab: support for compiler-assisted type-based
- slab cache partitioning
-To: "Harry Yoo (Oracle)" <harry@kernel.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Hao Li <hao.li@linux.dev>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com, 
-	llvm@lists.linux.dev, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Florent Revest <revest@google.com>, Jann Horn <jannh@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Matteo Rizzo <matteorizzo@google.com>, GONG Ruiqi <gongruiqi1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: AAB8250B4BC
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA6PR08MB10708:EE_|AS8PR08MB8393:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52669301-1aa3-4dcb-00af-08deaf41b54d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	sMJGvqrIwIa2hp3r/rALEC/s26CCJiVhz1n4FAbmqqnnt9n26sqn7eHsteIdCdvLGiPxsVJRBze0TPM9yuaO9H/5EKy8NX+sHVLwr3zfnrx7PcQCVJ07sIAaiwa3tsxMCaJMzmzcAP1EfFXdx/0z11L7e+avoUMY9WhM1qMHXRmtk9Ia619IDe2sx6U/q9ULsXxuJCrSDBp0Lh1zyvREPZoRJ/ZghbVlToXP7d8GKvRrJVDandsjbE646Ykx/b9pUkAEm/VSwP8iOK9QXTUxP6Rs7Opr7jDjdaUbz2U8zpYIoP+9ZOvnOWOA7BDJeoiRGy5YL85ivvfHp+z8sWMfTXmOJw6PLVnx5fX1xPajfXB5V4v5i0/Rq8SH3iBAHGlTwFNQfBuUyYj9zP5O6TdKyw5g1VJyprKsd+8dG56Zl73qcgWXkOs2w/dlaKBNh40V/PlM8mxIlBc8miMdd0FXxjj0taFeTYQHTbTW3LG2mVd+JwHCE84zBO6QSMUtI9gm1RUtDOJwxXWbJoqXEwWcKPhODQnBfPDGuMQuwBUT33Kiv5ieYR3SPyUCy+v5P5A7zwOguTrl9dqgyJ0QHUR7xjNmuMLV1UmQ77vQLlnpihZXTB7PIhoPcUZe92KVeTszP9iFYKsuMwTBJACvFtrvLN7oQFwXR9jM61t82jv/BtOeNvp9qRjFqLFQ6qi4kY1h
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR08MB10708.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bXBMdm5Lcmk5YWc5aHBHUzYxRXZHVUxhQkRCbW8rTVM5ZU1mUmtZYTBPcUps?=
+ =?utf-8?B?NE05WWcwelc5Q2ZGYytQRENLSWdobE9tY1ZmVjRvNERhTTJyUVBwYlo3MUZT?=
+ =?utf-8?B?ZjhmbGVjeFoybXl1cU9GTDhjVURYa2tKM3ZjSTFaZDBOeVYyWDBGNUN2bTNT?=
+ =?utf-8?B?WmdFdDA0RWk0clk3dVhIeno2MlVvK3RmU2xpdk04a3V0NXQ3WEhINHhMUFVa?=
+ =?utf-8?B?YS95d05ENTJoVE4rUUdUQUk2TVZvM2hQcWZOQkdCUFZtQnQvZzh4d3FENUdv?=
+ =?utf-8?B?WEpYRU94eVZHd0ZZOERwR283YUhGek44anN6ZkU5OWFCOFRzU3REUFh1V3BF?=
+ =?utf-8?B?Vk5iVEcrOTZYMkhXaUdJanhsWUxzdGtPemRKR0VaUldRalNqZEVmR01TVWhm?=
+ =?utf-8?B?Zk1sN1FsTUEzMlpFUWsvWUpkQXhHd01SZ3JDNXBuMVpBRCtkd2ZhSWUySEI3?=
+ =?utf-8?B?RmM0TXZZdXNaUUduakFreXJ4S3duSFVnUUF4MGtoMi93YllmSmJQR3FGamUr?=
+ =?utf-8?B?dkliS3BTM0ZUZ1BqZ1BPV0RseFJUV2xab2M3K1QrU2J3VWRNZmp0WmdNZGlD?=
+ =?utf-8?B?dFVTTm5IWWxOc1lkOGxDNG5FdTZYS2I1YlpVbUFURGxsamQvcThhOU5uR2hn?=
+ =?utf-8?B?QTV0dDFZbXpPOElBRzU4QU85S3BEU3NoZHJQbms1c21lV3NnVnJtbDUxVHQ0?=
+ =?utf-8?B?M0t3WG1ZcnA5SzZMdzFvRkdacU5IR0svZGVCdEFYdFdCTGZQRTkyNURKRGUw?=
+ =?utf-8?B?MklwZVpUUUZ5WEQ4WHpaNHg5Tkt1SFJPVW5hOWtsUjEraVI5MFByQUpIVjla?=
+ =?utf-8?B?V2pOSER2V2ptVVMvc2I3c0xPcXIyUC9UMnAyUE9tTEUycE9WK1J5T1J1TGIx?=
+ =?utf-8?B?dVNnUlk2ZUh6NXgrYlIzZmhuVVNCY2xZSStDdVI0ejlyOC9pZEJQekFQOS9i?=
+ =?utf-8?B?ZTIxNGRTTDd4dHlLUnZwbEUvc0owMEVVcVlWV0o3M0pibVRNMzFGK2dQaWc1?=
+ =?utf-8?B?N1JHaDJhU3RXdEhmbVoxVmFlUXhaeElrTWk4bEdVTHNJZG54bTBST2gvcGVE?=
+ =?utf-8?B?YUNNbElhM1lhQVhPbFZmcU4xS2hibVZ1d1N5TnNwVnh2VWRPTGF5c052djB1?=
+ =?utf-8?B?QUoyZW9YbjhDaEs1WkJRcVg2MGJ1bWtjQU5qQ21SUkdvUytGOVZLTEcrQVlJ?=
+ =?utf-8?B?YzVxVkF3WnNwRWQreUU2UEVmWUEwU3pWNlh4OEwxa0p4dkpJK3VVTDdKR0dW?=
+ =?utf-8?B?azNrUUtYZmFLa0VsTHV2eUd1RXVSRnQvSEZobE42Rk5xYzRuRWsxakVoL0Fm?=
+ =?utf-8?B?dVRaRmg4Um5CNnBhc2R4R1g4T0VHQVRYOEp5WGRVZW1uWXFPYy9NMGZROHdB?=
+ =?utf-8?B?UFE3VXVEMUR3a3FSRFRXenBsSUJDVXhLbTdJWXVuNDJDdlkyL3JhTTBoL3pB?=
+ =?utf-8?B?bm9nd3NMVFFiT0RKdkdGUEZDYTV5L1orUE45UE9CSEdubkJ6M2IvVW5KQmN1?=
+ =?utf-8?B?YW9hN0RSRW5PRENSSStaZWhOVi8vb1Y1OHVvb1FkM1NQT0pUWHJpd1h5Qmcx?=
+ =?utf-8?B?UjVuMHZDK0hOdm5DQ1FkMk5rYVpZWkJYR1UzTEFaaVo0anV1T0tLa3hqSTc3?=
+ =?utf-8?B?TGsxNDdxN3Z0NElXais3TGFQREhMQk5OUDY2ak1GR3dvblBQZU80K2tRYWND?=
+ =?utf-8?B?N0NMbDM5eVhyem8wbGZ1V1N1eXJFajBRV256RGNxZkU2SjF3Y2xDWHFXUS94?=
+ =?utf-8?B?TlVqWVRGbXNFQ0FmQnUzNzAra0NjM2h5RUNMNzhPcUk3Yk1XMDl1Vm9sTUhQ?=
+ =?utf-8?B?dW1HTEdPZ3pkREsvcGMxRlltNS9rUWlMK2F0Qk1rd2NnVEJxdHRPQnFLeU1K?=
+ =?utf-8?B?YWJCM1p3S0xTSG9aQ3R4TndFTlI2U3hvUVVieEI1VEhEc2xFQjk4ZDh3ZmVP?=
+ =?utf-8?B?dFFKYUxLOUgrMGdYUmhLWEJSUkg3UWN6Q2czL2JVVkxnNTUyVm1UaVFqdjdq?=
+ =?utf-8?B?V0R4OXhKVkNJTFdFaUNORURCcFN4SWpheVFmRnRqNGdrbFQvb2NGVXZ4M3pp?=
+ =?utf-8?B?N3BYLzdBWVkzaGZXZGlMSTJBams0WDZRZkI4eFVVWlEwUFRzeEFjL0t6YStq?=
+ =?utf-8?B?eHV0NGliTEdCNFpwYkg3aUxyVmNVM1lJVlBQOHczY0MvM3pySWNBckc4RDFU?=
+ =?utf-8?B?MkxoRVZpcVhxUUZkVmIxMHcrMXU4VnQ3R0NWc2tSRkJ3bDVjM0ZPUXVFbmEx?=
+ =?utf-8?B?eldqWXJvRkFKTVJlMXpuMTJCb2J2NERXOXFnRi9pVGtXUjVmTk5NOTV4YjdQ?=
+ =?utf-8?B?dVo1OGpRUFZmT0pRTElCN3lacktyYytRUENEZkY2T3FkQkk1eFdIQT09?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52669301-1aa3-4dcb-00af-08deaf41b54d
+X-MS-Exchange-CrossTenant-AuthSource: PA6PR08MB10708.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 09:43:08.5198
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XfkMIFIayjFepONEdZ+hrS1qeIdc9RykygNLvA00BC0b9Jaq2EgtQoucZtCqpwBu6oTLPT9VNNguF8fCiIBalg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8393
+X-Rspamd-Queue-Id: 61DC850B2C7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[virtuozzo.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[virtuozzo.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13109-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13108-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,gentwo.org,linux.dev,google.com,oracle.com,suse.com,gmail.com,vger.kernel.org,kvack.org,googlegroups.com,lists.linux.dev,huawei.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DKIM_TRACE(0.00)[virtuozzo.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elver@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,googlegroups.com:email,gnu.org:url]
+	FROM_NEQ_ENVFROM(0.00)[khorenko@virtuozzo.com,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Mon, 11 May 2026 at 10:31, 'Harry Yoo (Oracle)' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
-> On Fri, May 08, 2026 at 04:21:36PM +0200, Marco Elver wrote:
-> > I think I have a solution for this mess, see below.
-> >
-> > I would not send it as 1 series, but only include the slab changes (+
-> > instruction_pointer.h change to introduce _CODE_LOCATION_) as one
-> > series, to go through the slab tree. The rest of the patches would go to
-> > respective arch maintainers.
->
-> I'm assuming this will be a follow-up and reviewing patch 1
-> (and waiting for Jon's thuoghts on patch 2)
+On 5/9/26 17:14, Arnd Bergmann wrote:
+> On Sat, May 9, 2026, at 13:50, Konstantin Khorenko wrote:
+>> On 5/7/26 15:31, Peter Oberparleiter wrote:
+>>> On 28.04.2026 22:56, Arnd Bergmann wrote:
+>>
+>> So this might actually be a GCC-16 regression in codegen rather than
+>> an inherent architecture limitation.
+> ....
+>> could you please share the two .config files that triggered the link
+>> failures (the x86_64 one with __atomic_fetch_add_8 and the aarch64 one
+>> with __aarch64_ldadd8_relax)?
+>> That could make my life a bit easier. :)
+> 
+> I've attached two configs each now, see what you find.
+> 
+> I just realized that these tests were still using a prerelease
+> compiler, so it's even possible that the gcc-16.1 release is
+> clean. I should build the next set of cross-compilers soon,
+> and will be able to retest then.
 
-I'll be sending v4 shortly.
+Hi Arnd,
 
-> > diff --git a/include/linux/instruction_pointer.h b/include/linux/instruction_pointer.h
-> > index aa0b3ffea935..dfe73aafddb8 100644
-> > --- a/include/linux/instruction_pointer.h
-> > +++ b/include/linux/instruction_pointer.h
-> > @@ -8,6 +8,30 @@
-> >
-> >  #ifndef _THIS_IP_
-> >  #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
-> > +/*
-> > + * The current generic definition of _THIS_IP_ is considered broken by GCC [1]
-> > + * and Clang [2]. In particular, the address of a label is only expected to be
-> > + * used with a computed goto.
-> > + *
-> > + *   [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120071
-> > + *   [2] https://github.com/llvm/llvm-project/issues/138272
-> > + *
-> > + * Mark it as broken, so that appropriate fallback options can be implemented
-> > + * for architectures that do not define their won _THIS_IP_.
-> > + */
-> > +#define HAS_BROKEN_THIS_IP
-> > +#endif
->
-> As long as _THIS_IP_ is broken on some arches, it cannot be used anyway
-> when in a general API that can be used by arbitrary users?
+thank you for sending those configs.
 
-It more or less works today, and for debugging or tracing it's "good
-enough" in most cases.
+All 4 previously failing configs were successfully built with the new patch applied
+(on top of 5d6919055dec (tag: v7.1-rc3, origin/master, origin/HEAD) Linux 7.1-rc3):
 
-The plan would be to phase out the generic _THIS_IP_ once all
-architectures have a correct _THIS_IP_ implementation.
+   * 0x5AB716A4 - arm64, UP (no SMP), GCOV_PROFILE_URING + GCOV_PROFILE_RDS: build OK
+     (make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-)
+   * 0xD01A6C73 - x86_32 (i386), SMP, GCOV_PROFILE_URING + GCOV_PROFILE_RDS: build OK
+     (make ARCH=i386)
+   * 0xD21DABF - arm64, UP (no SMP), GCOV_PROFILE_URING: build OK
+   * 0xFE5738DD - x86_32 (i386), UP (no SMP), GCOV_PROFILE_URING + GCOV_PROFILE_FTRACE: build OK
 
-> Is it something that can be fixed in all arches over time?
+Previously these configs failed at link stage with undefined references to __aarch64_ldadd8_relax 
+(arm64) and __atomic_fetch_add_8 (x86_32), caused by 64-bit atomic operations inserted by GCOV 
+instrumentation. The new patch resolves all of these.
 
-Yes, I have patches for that.
+Note: the original failures were reported with gcc-16.0.1.2-nolibc cross toolchain;
+my test builds used gcc-12.1.1 (aarch64-linux-gnu) and gcc-11.4.1 (x86),
+but i really think this does not matter here:
+i've checked in all 4 cases -fprofile-update=prefer-atomic was not used - try-run fence worked fine.
 
-> > +/*
-> > + * _CODE_LOCATION_ provides a unique identifier for the current code location.
-> > + * When _THIS_IP_ is broken (generic version), we fall back to a static marker
-> > + * which guarantees uniqueness and resolves to a constant address at link time,
-> > + * avoiding runtime overhead and compiler optimizations breaking it.
-> > + */
-> > +#ifdef HAS_BROKEN_THIS_IP
-> > +#define _CODE_LOCATION_ ({ static const char __here; (unsigned long)&__here; })
->
-> Nice!
->
-> Yes, we don't really need the exact code location
-> for partitioning kmalloc caches.
->
-> IIRC lockdep does a similar thing to define lock classes (unique for
-> each lock init location)
->
-> > +#else
-> > +#define _CODE_LOCATION_ _THIS_IP_
-> >  #endif
->
-> Probably we don't need this fallback?
+And when i've built the 0xD01A6C73-config switched to x86_64 (# CONFIG_X86_32 is not set, 
+CONFIG_X86_64=y and CONFIG_64BIT=y), the build passed and -fprofile-update=prefer-atomic was used.
 
-x86-64 is the only arch that has working fast _THIS_IP_, and adding
-static __here markers to bss is rather wasteful.
+--
+Thank you,
+Konstantin
 
-More architectures will be supporting _THIS_IP_ properly once I get to
-send the patches. The mainstream architectures all have a reasonable
-and fast way to get the current IP, so we don't need to waste bss
-space there.
 
