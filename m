@@ -1,176 +1,257 @@
-Return-Path: <linux-kbuild+bounces-13142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6JZxMuXSBGp3PgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13142-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 21:37:09 +0200
+	id sIAhMCjoBGqnQQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13143-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 23:07:52 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046B453A143
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 21:37:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 264A953AD46
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 23:07:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A24E030157F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 19:36:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1B1EE30B392E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 21:03:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68DD43B6BEB;
-	Wed, 13 May 2026 19:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB8F125B09D;
+	Wed, 13 May 2026 21:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="aPcM25ay";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aPHxvsIV"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eD4ADo1j"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32693B7773;
-	Wed, 13 May 2026 19:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9ED3955CB
+	for <linux-kbuild@vger.kernel.org>; Wed, 13 May 2026 21:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778700960; cv=none; b=EPwDTY/A/dNwlccxwHcsNWsJH4IX7TISTk+zBDdfWICscMSwCEWZDewTLQ47MYmy9gJIq+ii/y2xW27BiZgNqiGF0kXMEjrBPc2MPVU69XD7Ymfl5u8/6ZO3nBCa7NbBIxj8LKyfnngbYVLWuGKT2D5fFxAGnspRj/WMnbRL97o=
+	t=1778706217; cv=none; b=AcQmI9MThu1xgabkjYpuhVb+Y7n+HDm+rzQHrUEEPt4Q1Pl08HjktUY1vu8NChtv8fyhkwAgkHvr1WI+Jgy5xkE4qmsyLWkhr5apWu9SrMn22AX5G1c4byf54UWPaM1mqmywB+GEbkTLCHn3Urz+RVlSlpVOcQjXraRPLQEyLg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778700960; c=relaxed/simple;
-	bh=Khx6itO4f6h2LJ2n1xbCjOUxSfRTCgdmu9E86Yug4S8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=YrbKmAHikFNZ4POWJySHftLWwJjFkZH12EDsdVvm13EVWHs0uVpQZZJGxZyWVbWY6wvjKVGH3suymoNXdLR7RF1LUPB2DuultmuNmi3BN7soYl31PfXiHauTDfmsqb/WuPH8CYWcYLcLI4loGlxR3Y1cra3FpY9r9rW1jrbebEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=aPcM25ay; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aPHxvsIV; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id EBF79EC00DD;
-	Wed, 13 May 2026 15:35:56 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-04.internal (MEProxy); Wed, 13 May 2026 15:35:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778700956;
-	 x=1778787356; bh=OHAXGNS2uZNJvowLRr51yYDMzB+i8UXrJCrf7upji3U=; b=
-	aPcM25ayM0XuFhS9n+688nxNsXjMY0r/BYzD7/ntFpJo9l4god2FFckBFiI98wiJ
-	+eQNmb6SeUpYUp6eKcEp3KGsy+8o0XffMGucJF1E1A75q6hYNMZMlzV7RHCjQcHK
-	ov9LOR3w/yu0L8aBXo541GRq3Kxy7kdGuD5KnVlUGDZZGQLyq9ClwItiejgpNNQA
-	xilGHH83gmhqc3U6EvZ6lgRPg3r/AiZHEkwnFst8uRUC8RK/nbMYA8PETxcMoypg
-	UC5W6xEMeQoChiMh3XqaE7rc3vg6SnoCl6iV7biaUMIPfFko4duAEow/IJR2Qvnd
-	WOwMxbKrBBnElStCexxoQg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778700956; x=
-	1778787356; bh=OHAXGNS2uZNJvowLRr51yYDMzB+i8UXrJCrf7upji3U=; b=a
-	PHxvsIVPJpW1HeGgtPyFE+l1MctbzfXIrE3LD9aWPy5QF/jqcoyz13Isdmq3YS9A
-	41IROyONSKO9B1/TgIHB5TzaRDY/GJwEsZ1jrErc9vSn6ym1m+mLMIhIemP1hoeO
-	kAAwKiGtDg8Z77NVFBZuwCJq3fdzk/EIzuMgtgKD2B3RVKzkrg4gRpUvdqsXLt6+
-	cohvemK4xp1LCZE/q6omJ4bzcch5Doahmw1BifOIagrgfFpcjL5+hasjd5O3vAoD
-	mnfiAkzQ+tSH32OA6ee0ptRFIh+rvxtTdc/EHKgqjeEB2NNvI6QYZCh1ivnfC7/q
-	rC89B7wahFMIDCGmkyelg==
-X-ME-Sender: <xms:nNIEajaoHW-4H7iyOe7hdtlJJORZYWQT2u6ot7DkYeMUD2HHSObnOw>
-    <xme:nNIEatP2F7Yxl4qJltGnjdQceo6GA_21SNhvL0JEPtLtK9faPC5NzH4Od38VeQlIQ
-    l55XxDA9i8ozoMFIidzhBRXpqYYhBdL3U0M7IN1QeGiZJHxL4dDGEk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehhedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleej
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehjohhroheskegshihtvghsrdhorhhgpdhrtghpthhtoheprhhosg
-    hinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtohepmhhighhuvghlrdhojhgv
-    uggrrdhsrghnughonhhishesghhmrghilhdrtghomhdprhgtphhtthhopegrrhhnugeskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvvghssehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurg
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhglhigsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:nNIEaifciD9rlNDoMgz1_wJRSTbIq36gaKPXjDBn2aJ6sFaoPg6t2w>
-    <xmx:nNIEahwmuHw5lD_K8siXNUGo0lWeKqc6wC8RKPjHx5IlKqkOvNneIA>
-    <xmx:nNIEatHpxgrZk0qs60zbrhENfjgJyyd_h55p_eBsVDkLJoG_viYPlg>
-    <xmx:nNIEag2S9fafatiAisPMi8fI6xWkARnTwePJu2XFhyy6ahDD2CfH1w>
-    <xmx:nNIEai1yYh147Ht3nTYXXvFX6h0iyp5PvJ0HKdH0PVa0zSnSOVch68h0>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 4F9921060065; Wed, 13 May 2026 15:35:56 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1778706217; c=relaxed/simple;
+	bh=0e1yJML1TJvm0ZulXQxPmNXNmFSDM6RWyO9raFITnCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lYIzILL3hnxhzg4fED2/deC9DNdD9XdYQ7ziTWOfTPUDfEQQZRCmou1n+XKabGLcJZ7d7e7VwqhNAiN3EEPg5/DCUP4uqwD7Vmzp3ghy6qimP8Un4Tfn5V8qe3gdFEfdV8etMoE+LoHR8ZNyXcTczBHdOp9SaeS5mGxbc33RQcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eD4ADo1j; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778706213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=rmC5bwo7mTze0DC/qjO8EoqSZ0cR0mmBL07lKy63gnU=;
+	b=eD4ADo1jcZyBTb98xbN27zXmpZLg8laTppgvRzcEu3qZoGh8IyWSdpVKO32C/rY0OawF7I
+	chaXbXlwga+eYFayeR3Mn48DtYXxQ5Gq+Y4+v+49VYqeLBHC9Y6TjTlGxhsr6r+0hIQVOl
+	aC5X4mcx3pM8qgappXaocVf05WLtTN0=
+From: Andrew Jones <andrew.jones@linux.dev>
+To: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: nathan@kernel.org,
+	nsc@kernel.org,
+	andriy.shevchenko@linux.intel.com
+Subject: [PATCH] kconfig: add kconfig-sym-check static checker
+Date: Wed, 13 May 2026 16:03:29 -0500
+Message-ID: <20260513210329.637892-1-andrew.jones@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AR4HEWfQKB-F
-Date: Wed, 13 May 2026 21:35:36 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Will Deacon" <will@kernel.org>, "Joerg Roedel" <joro@8bytes.org>,
- "Miguel Ojeda" <ojeda@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Thomas Gleixner" <tglx@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- linux-kbuild@vger.kernel.org, stable@vger.kernel.org,
- "Robin Murphy" <robin.murphy@arm.com>, "Kees Cook" <kees@kernel.org>,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Message-Id: <be9cbaf0-b6dd-4a62-9da8-b42dcac907c8@app.fastmail.com>
-In-Reply-To: 
- <CANiq72nbRw14wdZA4GH17K22Krh4ujB_wtuv9u5RQTGtidpq0g@mail.gmail.com>
-References: <20260513145425.1579430-1-arnd@kernel.org>
- <CANiq72nbRw14wdZA4GH17K22Krh4ujB_wtuv9u5RQTGtidpq0g@mail.gmail.com>
-Subject: Re: [PATCH] [v2] iommu, debugobjects: avoid gcc-16.1 section mismatch warnings
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 046B453A143
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Rspamd-Queue-Id: 264A953AD46
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.65 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_FROM(0.00)[bounces-13142-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13143-lists,linux-kbuild=lfdr.de];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew.jones@linux.dev,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,arndb.de:dkim,app.fastmail.com:mid]
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,linux.dev:mid,linux.dev:dkim]
 X-Rspamd-Action: no action
 
-On Wed, May 13, 2026, at 17:48, Miguel Ojeda wrote:
-> On Wed, May 13, 2026 at 4:54=E2=80=AFPM Arnd Bergmann <arnd@kernel.org=
-> wrote:
->>
->> With some more experimenting, I found that marking these functions as
->> __attribute__((noipa)) is both logical and reliable.
->>
->> In order to keep the syntax readable, add a custom macro for this in
->> include/linux/compiler_attributes.h next to other related macros and
->> use it to annotate both files.
->
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Add 'make kconfig-sym-check', a static checker that finds Kconfig
+symbols referenced in expressions (select, depends on, default, etc.)
+but never defined via config/menuconfig anywhere in the tree. New
+dangling symbols are reported as errors (exit 1) unless they are
+listed in an exclusion file, e.g.
 
-Thanks!
+ KCONFIG_SYM_CHECK_EXCLUDES=sym-check-excludes make kconfig-sym-check
 
-> If you don't mind, please add underscores (i.e. `((__noipa__))`) and
-> place it after `__noinline__` to keep it sorted (the file is meant to
-> be sorted by actual attribute name, though some entries were added
-> that break that, but I will clean that and a couple other things up at
-> some point).
+The checker also warns about uppercase N/Y/M used as tristate literal
+values following the same logic as checkpatch.
 
-Ok, changed now, will wait for other comments before resending.
+This new static checker is the script used for [1] with a few
+improvements to avoid some false positives.
 
-       Arnd
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=216748 [1]
+Signed-off-by: Andrew Jones <andrew.jones@linux.dev>
+---
+ Makefile                             |  7 ++-
+ scripts/kconfig/kconfig-sym-check.pl | 93 ++++++++++++++++++++++++++++
+ 2 files changed, 99 insertions(+), 1 deletion(-)
+ create mode 100755 scripts/kconfig/kconfig-sym-check.pl
+
+diff --git a/Makefile b/Makefile
+index fc2d94aafb45..5a0a9f9d6169 100644
+--- a/Makefile
++++ b/Makefile
+@@ -293,6 +293,7 @@ version_h := include/generated/uapi/linux/version.h
+ clean-targets := %clean mrproper cleandocs
+ no-dot-config-targets := $(clean-targets) \
+ 			 cscope gtags TAGS tags help% %docs check% coccicheck \
++			 kconfig-sym-check \
+ 			 $(version_h) headers headers_% archheaders archscripts \
+ 			 %asm-generic kernelversion %src-pkg dt_binding_check \
+ 			 outputmakefile rustavailable rustfmt rustfmtcheck \
+@@ -1806,6 +1807,7 @@ help:
+ 	@echo  '  includecheck    - Check for duplicate included header files'
+ 	@echo  '  headerdep       - Detect inclusion cycles in headers'
+ 	@echo  '  coccicheck      - Check with Coccinelle'
++	@echo  '  kconfig-sym-check - Check for dangling Kconfig symbol references'
+ 	@echo  '  clang-analyzer  - Check with clang static analyzer'
+ 	@echo  '  clang-tidy      - Check with clang-tidy'
+ 	@echo  ''
+@@ -2227,7 +2229,7 @@ endif
+ # Scripts to check various things for consistency
+ # ---------------------------------------------------------------------------
+ 
+-PHONY += includecheck versioncheck coccicheck
++PHONY += includecheck versioncheck coccicheck kconfig-sym-check
+ 
+ includecheck:
+ 	find $(srctree)/* $(RCS_FIND_IGNORE) \
+@@ -2242,6 +2244,9 @@ versioncheck:
+ coccicheck:
+ 	$(Q)$(BASH) $(srctree)/scripts/$@
+ 
++kconfig-sym-check:
++	$(Q)cd $(srctree) && $(PERL) scripts/kconfig/kconfig-sym-check.pl $(KCONFIG_SYM_CHECK_EXCLUDES)
++
+ PHONY += checkstack kernelrelease kernelversion image_name
+ 
+ # UML needs a little special treatment here.  It wants to use the host
+diff --git a/scripts/kconfig/kconfig-sym-check.pl b/scripts/kconfig/kconfig-sym-check.pl
+new file mode 100755
+index 000000000000..a6907e585962
+--- /dev/null
++++ b/scripts/kconfig/kconfig-sym-check.pl
+@@ -0,0 +1,93 @@
++#!/usr/bin/env perl
++# SPDX-License-Identifier: GPL-2.0
++
++use warnings;
++use strict;
++
++my $kconfig_sym_check_excludes = undef;
++$kconfig_sym_check_excludes = $ARGV[0] if (defined $ARGV[0]);
++
++my @files = `git ls-files '*Kconfig*'`;
++my %configs = ();
++my %refs = ();
++
++foreach my $file (<@files>) {
++	open F, $file or die "Cannot open $file: $!";
++
++	my $help = 0;
++	my $help_level;
++	my $level;
++
++	while (<F>) {
++		chomp;
++
++		next if /^\s*$/;
++		next if /^\s*#/;
++
++		/^(\s*)/;
++		$level = length $1;
++
++		if ($help && $level < $help_level) {
++			$help = 0;
++		}
++
++		next if ($help);
++
++		if (/^\s*(help|\-\-\-help\-\-\-)$/) {
++			$help = 1;
++			$_ = <F>;
++			/^(\s*)/;
++			$help_level = length $1;
++			next;
++		}
++
++		if (/^\s*(config|menuconfig)\s+([a-zA-Z0-9_]+)\s*(#.*)?$/) {
++			$configs{$2}++;
++			next;
++		}
++
++		my $comment_idx = index $_, "#";
++		if ($comment_idx != -1) {
++			$_ = substr $_, 0, $comment_idx;
++		}
++
++		if (/^\s*(default|def_bool|def_tristate|select|depends\s+on|imply|visible\s+if|range|if)\s+(.+)\s*$/) {
++			my $s = $2;
++			$s =~ s/\$\(.*\)//g;
++			$s =~ s/'[^']*'//g;
++			$s =~ s/"[^"]*"//g;
++			$s =~ s/%%[^%]*%%//g;
++			my @syms = split /[^a-zA-Z0-9_]+/, $s;
++			map {
++				$refs{$_}++ if (/[a-zA-Z]/ && $_ ne "if" && $_ ne "y" && $_ ne "n" && $_ ne "m" && !(/^0[xX]/ && !/[g-wy-zG-WY-Z]/));
++			} @syms
++		}
++	}
++
++	close F;
++}
++
++my %known_syms = ();
++if (defined $kconfig_sym_check_excludes) {
++	my $file = $kconfig_sym_check_excludes;
++	open F, $file or die "Cannot open $file: $!";
++	while (<F>) {
++		chomp;
++		next if /^\s*$/;
++		next if /^\s*#/;
++		$known_syms{$1}++ if (/^\s*([a-zA-Z0-9_]+)\s*(#.*)?$/);
++	}
++}
++
++my $ret = 0;
++foreach my $k (sort keys %refs) {
++	next if (exists $configs{$k} || exists $known_syms{$k});
++
++	print "$k";
++	print " - warning: '$k' is probably not what you want; Kconfig tristate literals are always lowercase ('n', 'y', 'm')" if ($k eq "N" || $k eq "Y" || $k eq "M");
++	print "\n";
++
++	$ret = 1;
++}
++
++exit $ret;
+-- 
+2.43.0
+
 
