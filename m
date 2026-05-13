@@ -1,164 +1,229 @@
-Return-Path: <linux-kbuild+bounces-13134-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13135-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLsSC6yVBGoTLwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13134-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 17:15:56 +0200
+	id ON7+F9iQBGoVLgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13135-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 16:55:20 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A85D535E4B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 17:15:55 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3965358B6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 16:55:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 549013245AA3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 14:12:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C13BC3001464
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 14:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC6893126B2;
-	Wed, 13 May 2026 14:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5F9238D3F9;
+	Wed, 13 May 2026 14:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSExdNpB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OvLTF6/v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F05E269CE6
-	for <linux-kbuild@vger.kernel.org>; Wed, 13 May 2026 14:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667D38CFF6;
+	Wed, 13 May 2026 14:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778681548; cv=none; b=THFO3+NHQGpXD3A378XYcke1Se982J35U2syaWapzHNtCTgeeCAkUU4Go0VYUMSMwukgLP3jDHSHtrmVDIp0DGeso+nm4xnJG/VP7UARIIfDCSW7z7oQ3L/FNmYRbsIv+bQws+Y91JaUFB5ECK0IGKh0k/bQwZ0+rJOarSlVAD4=
+	t=1778684076; cv=none; b=jGnLOcYhcgsRWjO7C6tAsVzxvi6MtMpJ6qgGI6//MD5hHf4HyC7y/MngmFJ6Ns41fWzRA6ePnXa4QQKsfaJiyZmajXhSENDaXZHQot2z/7fhdfyrh1LPPL6AopoOd0NykDc3Gci+A7G1HMp4U5FB6duaGc0UY5USAmt9+/1uv14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778681548; c=relaxed/simple;
-	bh=2GSMSTVsvoiuKafVkMeyFQjkSNsMir3nwpaEsBs4jsE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=HAuD3me9owCUx+6GJKWUoKyi/BSa0g+5FK78xfRzoRbEiTPrstTRRqoAfTNY4K3WkEeAQRiLa4gibVkaYHqV3zGnud7Y93y0cJx/Z+PNog+7uFNF0MsvQkJwv5/RNTJ7ONPHfmxlV5Kn1fXFuI2dDaTpV9XOaqwpb5O8WvedYKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSExdNpB; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so61153305e9.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 May 2026 07:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778681544; x=1779286344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5AeU3RZqIRpK42nZO4mlXlJq7d3NeAbzn97432tCirg=;
-        b=fSExdNpBKW4MsrXYeUeYrqIAusXAxrVytIqg89XIeWT4ZYIh8X6e7qKaR17cQXK79+
-         jOyD7zrRLs6CnSEYaHzn68gM2sxJLqduqWTuvlfi9vOmwAWspvSb0HXpqwJDfIkVTom1
-         00ySdCCnhezu8O40Zeo4D+840G1dEg4pL676MMOy32+NsWxlj0J41/uYv4VgSp7bFU6Z
-         YVKI7LchjbGj8gAvC/OXRzXgDUlgSxQnwVYoMM1iWzQTL2o+c5hGbixFPyo3hzVLsBBa
-         DrqiQT6Yap9OkY5KtjhcbHR7ab5KLi9bG0T5BIF4zOI6GmdesomsXfWiEzJY3ww/Yn1g
-         kdmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778681544; x=1779286344;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5AeU3RZqIRpK42nZO4mlXlJq7d3NeAbzn97432tCirg=;
-        b=pr6Dq5cWAA2U1x77z/tzACcP1PRu9e3MJyJy6LM/Kq7gGqhTdhxTA1WXjRTf6TfSFz
-         a0rjg2S+JMm5TTcwEpTuc8k3C61SvtyIozMy7ewWXCxhQSCuAj2RPuH13fh3qxB7TgCG
-         Zy2j0hzz9PYy0EdFwt6IFNKgCfUCzeVz7UUPcBEjsQNXixtyV0ycr1Pq6BoULuC7KjXz
-         Giu5hPGxiG8KxoZxd+se4BCnUDO7ANZTMnapnueKQTvE+YIh5VjzhMpT5jUJFsffwzcS
-         o389iYPbJATVAz4pDi8i7B8IKGYLKQOE7mGqMlWbmzQvhF0qkP9J9hT9+QgDHr21gknb
-         GGkQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9p1cdzMhqoiks9J1rpNTwajMFOZlTG/CEhkNrhMbZPytkqFyvmaga9WK01alCv5YG9fEHYDqAx95gmeXE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycS8rlcypZxcHnssOW7uzUThC5QIEthPGVAlzDqI3Uyuem8ZIT
-	IkBGHUBKkjVMcOn0+xh4YjrAgB9YfZeWXrY+jQ036oTtI/CfY263RSIf
-X-Gm-Gg: Acq92OFPl2pzlcGGnl/QK8I+E/UVOGL1MUZ2A0crprN8JZMhQyG98Qw8m/9vmZ2chjj
-	crjaJnfi5Dzzz/YnSy3eVonkDPqgmFU2pVIFuuxDEcOqX6Gzedd/hF1L0caqAe7w7Ak8JFZchRh
-	kdmprMcBJqsFEK1oks65fIiq78kCPUVjWwzvzFVSFLVc3nAMx+N9zO8qO5eHvcoWf5QpcYDFr5Y
-	YQcmfdqwGKzYyUzPDonuisCKvuLP8V522/KBDV5B2EGVKOKembmXh0T5g6DETTqELRFRpymXFZr
-	9MUZE8L6f2oHlY3f9oUlkMO1cjFl2XywMfDdCtomHuHuN46+uAWqD3yW5SXIMrgeiLQwCtYyoeC
-	MAVRlf1HvA4TjA7PIcT/I46CDY7nNbecH6KiJR5KbrSsqo9tmfxpQDYBGmbxWfIUkmDTAqQdEes
-	ep2JfMcez0jSghFYDcGMGidJGeHfqHy9g8eaF6bptZrW/Tz6fbo+8RLSh6O4Y=
-X-Received: by 2002:a05:600c:524d:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48fce9c0965mr46195725e9.8.1778681544302;
-        Wed, 13 May 2026 07:12:24 -0700 (PDT)
-Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fce37b18dsm52486725e9.11.2026.05.13.07.12.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 May 2026 07:12:23 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <6aa2f745-aea2-4d10-9565-65e2722beba9@gmail.com>
-Date: Wed, 13 May 2026 15:12:22 +0100
+	s=arc-20240116; t=1778684076; c=relaxed/simple;
+	bh=5tb/dZ3Z6XZ9rdTRViFJg2CQhxIhIhB3K1EbtjSZ+/0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OxQkraJwf4jPFkTw7+qyHUJjtGTqGeWEYSL7baFPWZP6bZwzTalY6FG47HNaFEPWuSROJV+Kd0Zo+Gj9Nl4aTSdgyEQlZnupj6wITiCfh06ZAnb4wgZBImuAnkku02n9nub5UX0C0XrYnF6+puVSRbq3GliCzgnjIfefBHoBduI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OvLTF6/v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48FC9C19425;
+	Wed, 13 May 2026 14:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778684076;
+	bh=5tb/dZ3Z6XZ9rdTRViFJg2CQhxIhIhB3K1EbtjSZ+/0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OvLTF6/v0D+Is1Oo2vvsUkztjB8o43huMqy8iw+pSIEJ/nvZeP4oZB7YNeLzpX70+
+	 F6KHL8ycBfURSnQT1p+fKlIB9OhRQVTn0tCsXa1apa7oDIctXQWRwXvxjqjrRXnGVK
+	 vd0ARq2IWqI97wp/22xXUA4xRls5LUhWjIkH09oIc79WCYDerBL44nYC8NvA/NJ6ri
+	 F+QGxwMrRLrw+4UqlN3r2QqLBtZCTVNDdmCrzGaBuNlD8cL0XM2IFfnEbrmTW1Rw7d
+	 GJhSsAo2QS1ZHFIkt5/EhT5m/ZBORkFb5yljim2NIz9XpXL5HyJ43DPn1XUH7ViMLt
+	 BGE9bIg+4eV6w==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Will Deacon <will@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-kbuild@vger.kernel.org,
+	stable@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] iommu, debugobjects: avoid gcc-16.1 section mismatch warnings
+Date: Wed, 13 May 2026 16:53:54 +0200
+Message-Id: <20260513145425.1579430-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 0/2] add kconfirm
-From: Julian Braha <julianbraha@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Jan Engelhardt <ej@inai.de>
-Cc: nathan@kernel.org, nsc@kernel.org, jani.nikula@linux.intel.com,
- akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de,
- gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org,
- corbet@lwn.net, qingfang.deng@linux.dev, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20260509203808.1142311-1-julianbraha@gmail.com>
- <q02rn6o5-5pr6-1744-6os9-1052roro79s8@vanv.qr>
- <CANiq72kUD=s7VkOUBNFLbcASvDoO_qFXHziOcSFdDqtg5NXoUw@mail.gmail.com>
- <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
-Content-Language: en-US
-In-Reply-To: <851ccd3c-d86a-409e-bd73-f0ef10b85879@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 8A85D535E4B
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 0F3965358B6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13134-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13135-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,inai.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[arnd@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,crates.io:url]
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,gnu.org:url,arndb.de:email]
 X-Rspamd-Action: no action
 
-On 5/11/26 00:06, Julian Braha wrote:
->> By the way, another option for that may be using the distribution's
->> registry (e.g. Debian and Fedora provide one through the package
->> manager).
-> Unfortunately, it seems that there's no built-in way to fall back for
-> other distros:
-> https://github.com/rust-lang/cargo/issues/3066
-> 
-> The workaround could be to create various Cargo config.toml files, and
-> instruct users that, for example, if they want to use the debian
-> packages, they can download their dependencies using:
-> `cargo vendor --config debian.toml`
-> But I need to test this and confirm first since I don't use any of these
-> distros.
+From: Arnd Bergmann <arnd@arndb.de>
 
-As I started testing this approach with debian, I discovered that
-the parser crate, nom-kconfig, isn't available in the debian registry. I
-will bring this up with the developer of that library. However, it may
-take some time to be packaged and made available to users, so I will
-soon submit RFC v3 using crates.io for dependency download, but outside
-of make, as previously discussed.
+gcc-16 has gained some more advanced inter-procedual optimization
+techniques that enable it to inline the dummy_tlb_add_page() and
+dummy_tlb_flush() function pointers into a specialized version of
+__arm_v7s_unmap:
 
-- Julian Braha
+WARNING: modpost: vmlinux: section mismatch in reference: __arm_v7s_unmap+0x2cc (section: .text) -> dummy_tlb_add_page (section: .init.text)
+ERROR: modpost: Section mismatches detected.
+
+From what I can tell, the transformation is correct, as this is only
+called when __arm_v7s_unmap() is called from arm_v7s_do_selftests(),
+which is also __init. Since __arm_v7s_unmap() however is not __init,
+gcc cannot inline the inner function calls directly.
+
+In debug_objects_selftest(), the same thing happens. Both the
+caller and the leaf function are __init, but the IPA pulls
+it into a non-init one:
+
+WARNING: modpost: vmlinux: section mismatch in reference: lookup_object_or_alloc+0x7c (section: .text.lookup_object_or_alloc) -> is_static_object (section: .init.text)
+
+Marking the affected functions as not "__init" would reliably avoid this
+issue but is not a good solution because it removes an otherwise correct
+annotation. I tried marking the functions as 'noinline', but that ended
+up not covering all the affected configurations.
+
+With some more experimenting, I found that marking these functions as
+__attribute__((noipa)) is both logical and reliable.
+
+In order to keep the syntax readable, add a custom macro for this in
+include/linux/compiler_attributes.h next to other related macros and
+use it to annotate both files.
+
+Link: https://lore.kernel.org/all/abRB6g-48ZX6Yl2r@willie-the-truck/
+Cc: Will Deacon <will@kernel.org>
+Cc: Thomas Gleixner <tglx@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Cc: stable@vger.kernel.org
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2: I merged both patches into one, to simplify the dependency
+on the new compiler_attributes.h macro.
+---
+ drivers/iommu/io-pgtable-arm-v7s.c  | 18 ++++++++++++------
+ include/linux/compiler_attributes.h | 11 +++++++++++
+ lib/debugobjects.c                  |  2 +-
+ 3 files changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index 40e33257d3c2..1dbef8c55007 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -777,21 +777,27 @@ struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns = {
+ 
+ static struct io_pgtable_cfg *cfg_cookie __initdata;
+ 
+-static void __init dummy_tlb_flush_all(void *cookie)
++/*
++ * __noipa prevents gcc from turning indirect iommu_flush_ops calls
++ * into direct calls from a specialized __arm_v7s_unmap() that triggers
++ * a build time section mismatch assertion.
++ */
++static __noipa void __init dummy_tlb_flush_all(void *cookie)
+ {
+ 	WARN_ON(cookie != cfg_cookie);
+ }
+ 
+-static void __init dummy_tlb_flush(unsigned long iova, size_t size,
+-				   size_t granule, void *cookie)
++static __noipa void __init dummy_tlb_flush(unsigned long iova, size_t size,
++					   size_t granule, void *cookie)
+ {
+ 	WARN_ON(cookie != cfg_cookie);
+ 	WARN_ON(!(size & cfg_cookie->pgsize_bitmap));
+ }
+ 
+-static void __init dummy_tlb_add_page(struct iommu_iotlb_gather *gather,
+-				      unsigned long iova, size_t granule,
+-				      void *cookie)
++static __noipa void __init dummy_tlb_add_page(struct iommu_iotlb_gather *gather,
++					      unsigned long iova,
++					      size_t granule,
++					      void *cookie)
+ {
+ 	dummy_tlb_flush(iova, granule, granule, cookie);
+ }
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index c16d4199bf92..836a50f5917a 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -396,6 +396,17 @@
+ # define __disable_sanitizer_instrumentation
+ #endif
+ 
++/*
++ * Optional: not supported by clang
++ *
++ *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Attributes.html#index-noipa
++ */
++#if __has_attribute(noipa)
++# define __noipa __attribute__((noipa))
++#else
++# define __noipa
++#endif
++
+ /*
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-weak-function-attribute
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Common-Variable-Attributes.html#index-weak-variable-attribute
+diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+index 12e2e42e6a31..c93b7ca3e1ab 100644
+--- a/lib/debugobjects.c
++++ b/lib/debugobjects.c
+@@ -1212,7 +1212,7 @@ struct self_test {
+ 
+ static __initconst const struct debug_obj_descr descr_type_test;
+ 
+-static bool __init is_static_object(void *addr)
++static __noipa bool __init is_static_object(void *addr)
+ {
+ 	struct self_test *obj = addr;
+ 
+-- 
+2.39.5
+
 
