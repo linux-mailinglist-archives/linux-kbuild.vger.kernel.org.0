@@ -1,167 +1,160 @@
-Return-Path: <linux-kbuild+bounces-13159-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13160-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJiyFXXTBWpUbwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13159-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 15:51:49 +0200
+	id oKgZAv7sBWpWdgIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13160-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 17:40:46 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0221542813
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 15:51:48 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAE0544297
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 17:40:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8AC283009CCC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 13:51:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6220F315C683
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 15:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E200C3E4C99;
-	Thu, 14 May 2026 13:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 085843E51F7;
+	Thu, 14 May 2026 15:26:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rKS+X7Wp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J8msXdlO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492BC3EDE5B
-	for <linux-kbuild@vger.kernel.org>; Thu, 14 May 2026 13:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B453DD52E
+	for <linux-kbuild@vger.kernel.org>; Thu, 14 May 2026 15:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778766705; cv=none; b=TkD/RL0kVcwNsowb+BA6ZfXrJjWT2RqUQbzmAjR5SirqQqYQ0v39l+B2R3S+EgPCamzfwgk8pfUVKHPRHOQqqS9ttovY0cICW78ABspuygL5/4byp5DnmV6X5L5NaRa9cNdR6qptw3m2qVxwoI8fFAdRncqp2xTJV2Xk6gEgLEs=
+	t=1778772407; cv=none; b=tzzDdeb6gTYAwQkGchDAdP4goomwIiUdiThn66pnoOWCrYB9jTkFZ9I/mZ1SEh/cj/zbM0qL5LpjdPxh4caj2Uf0PV60eVcraqV1etYyLhFqt4dM8np0vCyUJnZCe46p2WIxtoKshc9h/cHndPZmX7IZCfmWr/UUhmAu3PZp1hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778766705; c=relaxed/simple;
-	bh=3nmM4uhI7OiLcmFBb4/evfxqVSEoNjbn9VxKNaBoR1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IxwiT+BvGrrn7s7470/DRHXoBA0jYl9Ics5Ip46YxGSxy8+AfKW+goASFsmWV0TJ+17RSmKE3MgPJIjZ2QEr8JgkZ7sJK9GQ++rIxGqaLG7I02EBPWR//XQtHljnTb8OzbX6SWkfudCP98gzMvu+im0meYGiTeh0qcv/fa0RK2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rKS+X7Wp; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Thu, 14 May 2026 08:51:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778766687;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n+g+7ghVEB0/ZiZK5+AesV/g+T1Xkp1KmaOpSr95qEQ=;
-	b=rKS+X7WpAz3EieqLnmxyVusEEbQBsnnzC5FkFeRRVIkr//CTCTf5wHpnT4squpZm4d+j9/
-	ARI+CQbVANNqYXjdufxzbwcCszBy4bwlQ2biL1bUfYGJNJoD3b1SKm0Q1tDTRukVxYmoMv
-	nQhHwV9Ld4gwJJE/e9hl5qC8Sqc+dEM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Andrew Jones <andrew.jones@linux.dev>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nsc@kernel.org, andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH] kconfig: add kconfig-sym-check static checker
-Message-ID: <fd2gftpt6hlxsupytk62szqoq6beex46yi3cipmhwnguxulkle@mlte4jsvstie>
-References: <20260513210329.637892-1-andrew.jones@linux.dev>
- <177876553250.305249.17848321995033732158.b4-review@b4>
+	s=arc-20240116; t=1778772407; c=relaxed/simple;
+	bh=YrfsVrzh5AabJ15tVqtyAaSY7ezoo1+No7Sbd+Eycoc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=O9ApR2rnx2AGdLSr1U031KQefqyPOxkMk052wJNH8sxROx6xal6Yqx6Dv9Zw0yAbRt+oB5N8uwOq2ZbZ8pDpxgsmzN4s4mbYYZkCtN+6zerOuhdStG/HDS8LgWDUi5X11xaZ/iUhnVQm14hFPMdO0AEC7CuVXXAPbziwwGrhClc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J8msXdlO; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso44730835e9.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 May 2026 08:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778772405; x=1779377205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EDeI/hPIeiTi3DKmsx1BqOj+gsAw3L+zMQcd0sUrwrk=;
+        b=J8msXdlOKlMpAikMeQ6aoJwomYq4LKny5P56D4rkcM8Of1lCJLfpkS47LgCESkOpsI
+         88BTVKEADOpUPCD5GLHTdelt0X0Yodk3Akk5qlBN4QZK8a5rhjDVS2KskaE5nchL2N83
+         mUlsQSoZkRUHXXE8N7GTACb3SA05jYe5GQuLO8osD4jWvHNTKDNa8L0IHF8Q9LEZiEJ5
+         kg7qSyWzc2BxRsJb1A6K8G7617iG4QlHUUEdxi3Pj1wQbHwQF5nW7LGOc5KoImip8sU5
+         ChLGEAivNrr96aBvTkFO2cov7ZY3FjUELjJU2RLxc28ohGGZdfdrYEqiiktljyVU2rt2
+         Ng9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778772405; x=1779377205;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EDeI/hPIeiTi3DKmsx1BqOj+gsAw3L+zMQcd0sUrwrk=;
+        b=oqfWlvqpL6D33nIbmvAU4jzai3ODtMYif5FIoa/fgzA1yweFsx1TMaCXgcQKsQQBPs
+         EElO0Ak7XVBijIE+NvcN4CcFBej3A+Jhu5h3/EDPQPiqYGdbmnPjGSdjqG75N2lEBrXQ
+         LCqMuOUy7y+UfBQMBJWbM+SxqYtss/pXnbXqPZ7cd3cwNvjwIRL4SSNfXu1+/nBQywNo
+         bGL5VV/p1BBFAqHyWhy6lEauobM9BFv+ZOp2ltaJCXaGsSLqV1j2TJi6c7YYqLQyTAF9
+         UJhv5I1mm74ytMNFrFrCLUTk6blzIRdStB9NocTkpESwAKgIboZOqOnNcv9m9pAnDPp/
+         LuzQ==
+X-Gm-Message-State: AOJu0YyzS6VddtE7iexAYqpcRIbj3kUoy0MyLdOm0RH1Hov1OvLtPt6Q
+	DD74pWFgFh49v2GuVoxHZtnZC6AWeKP/7QGFUcMRma89D4CM33HK5/2NUX4cylxyKFY11Q==
+X-Gm-Gg: Acq92OEsGUwuokbDrxWhL/sNRhg03ewyNvwUYtA+h+iIBm4fJtl6YcZzD7g4yvr9KjR
+	VwkGOrZZAYHKfQoM4djEL+wivtaBpR+efjKQZMOJCHmFPzMQiSVBpuvB5RSvqXozVdNkcR0LUS0
+	lLLS/2C75BsKzVKTZYPOssBpITjox2HRXFTT+pGwZ2gA+CJXOHn2k03uAUgRUJKN4ZxGh0hDJmu
+	tWicV0vj3eSgB7trNQX7sGDy/TKF6aYS0YMhZVgRILEWsPhpU9UG3IYf429t4P5AKhejD1FTdUR
+	Uk4uMGEByXMsXi+1svWl8a0ttANnyZqxKiIU1FnhPO0LZPnqROD1AAcZpJNYAnOfAPVjUN8Y1OB
+	kZTtjsgXHpu+JnbeHv4PWU4JLuCCxURcFsXiOtbzfYOeiAlh2T6j6bSsOsFRczI6VlIwGXkc+zC
+	ueuplFieUZYKLYdJkgwTzH0MiN3JhapIfkYX7r4i8WWP01tvQdA3lKobI=
+X-Received: by 2002:a05:600c:3144:b0:48e:82af:d9 with SMTP id 5b1f17b1804b1-48fcea18dfbmr117797455e9.29.1778772404735;
+        Thu, 14 May 2026 08:26:44 -0700 (PDT)
+Received: from [192.168.0.41] (bl21-200-180.dsl.telepac.pt. [2.82.200.180])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm550915e9.8.2026.05.14.08.26.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 May 2026 08:26:44 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <6d11bbb5-4877-4707-9f98-1b6ba2744ce8@gmail.com>
+Date: Thu, 14 May 2026 16:26:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH] kconfig: add kconfig-sym-check static checker
+To: Nathan Chancellor <nathan@kernel.org>,
+ Andrew Jones <andrew.jones@linux.dev>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nsc@kernel.org, andriy.shevchenko@linux.intel.com
+References: <20260513210329.637892-1-andrew.jones@linux.dev>
+ <177876553250.305249.17848321995033732158.b4-review@b4>
+Content-Language: en-US
 In-Reply-To: <177876553250.305249.17848321995033732158.b4-review@b4>
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: E0221542813
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 7BAE0544297
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13160-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13159-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew.jones@linux.dev,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,kconfig-sym-check.pl:url]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Thu, May 14, 2026 at 10:32:12PM +0900, Nathan Chancellor wrote:
+On 5/14/26 14:32, Nathan Chancellor wrote:
 > On Wed, 13 May 2026 16:03:29 -0500, Andrew Jones <andrew.jones@linux.dev> wrote:
 > 
 > Hi Andrew,
 > 
-> > [...]
-> > 
-> > This new static checker is the script used for [1] with a few
-> > improvements to avoid some false positives.
-> > 
-> > Link: https://bugzilla.kernel.org/show_bug.cgi?id=216748 [1]
-> > Signed-off-by: Andrew Jones <andrew.jones@linux.dev>
+>> [...]
+>>
+>> This new static checker is the script used for [1] with a few
+>> improvements to avoid some false positives.
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=216748 [1]
+>> Signed-off-by: Andrew Jones <andrew.jones@linux.dev>
 > 
 > I think something like this is reasonable, as least until kconfirm
 > is potentially ready for integration into the tree.
 > 
 >   https://lore.kernel.org/20260509203808.1142311-1-julianbraha@gmail.com/
 > 
-> That said, I don't know perl, so some superficial comments to follow.
-> 
-> >
-> >
-> > diff --git a/Makefile b/Makefile
-> > index e27c91ea56fc..75487383805b 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -2240,6 +2242,9 @@ versioncheck:
-> >  coccicheck:
-> >  	$(Q)$(BASH) $(srctree)/scripts/$@
-> >  
-> > +kconfig-sym-check:
-> > +	$(Q)cd $(srctree) && $(PERL) scripts/kconfig/kconfig-sym-check.pl $(KCONFIG_SYM_CHECK_EXCLUDES)
-> 
-> I would prefer to avoid the 'cd $(srctree)' here.
-> 
-> >
-> > diff --git a/scripts/kconfig/kconfig-sym-check.pl b/scripts/kconfig/kconfig-sym-check.pl
-> > new file mode 100755
-> > index 000000000000..a6907e585962
-> > --- /dev/null
-> > +++ b/scripts/kconfig/kconfig-sym-check.pl
-> > @@ -0,0 +1,93 @@
-> > +#!/usr/bin/env perl
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +use warnings;
-> > +use strict;
-> > +
-> > +my $kconfig_sym_check_excludes = undef;
-> > +$kconfig_sym_check_excludes = $ARGV[0] if (defined $ARGV[0]);
-> > +
-> > +my @files = `git ls-files '*Kconfig*'`;
-> 
-> What happens if you run this command on a release tarball? We should
-> probably use something like
-> 
->   find $(srctree) -name '*Kconfig*'
-> 
-> here, which would avoid needing the 'cd $(srctree)' above (although
-> kconfig-sym-check.pl would need to be prefixed with $(srctree)/ to
-> ensure the path is valid).
-> 
-> Sashiko has some additional comments that may be relevant, if you have
-> not already seen them.
-> 
->   https://sashiko.dev/#/patchset/19870
+Agreed, don't let kconfirm block this. While I do have future plans to
+support these same alarms in that tool, there's currently no overlap
+between these two, and no ETA on that support either ;)
 
-Thanks, Nathan. I'll make some improvements based on your and Sashiko's
-comments and send a v2.
+Side note, this script was actually part of my inspiration to go
+searching for more misusage of kconfig and build kconfirm. I also
+previously cleaned up some dead code, thanks to this script:
+https://lore.kernel.org/all/20260309122321.1528622-1-julianbraha@gmail.com/
 
-drew
+- Julian Braha
 
