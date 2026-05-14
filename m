@@ -1,132 +1,114 @@
-Return-Path: <linux-kbuild+bounces-13146-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13147-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oBOaAsgJBWoeRwIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13146-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 01:31:20 +0200
+	id kOXvIbwnBWq3SwIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13147-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 03:39:08 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC1753C002
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 01:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBC953CC3B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 03:39:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8E7C3304AA0E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2026 23:31:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8E8513028EDA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2026 01:37:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 051C135BDBB;
-	Wed, 13 May 2026 23:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCAFB31E83E;
+	Thu, 14 May 2026 01:37:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bPWNUcM2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFPwYKOX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3950625B09B;
-	Wed, 13 May 2026 23:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CD231A053;
+	Thu, 14 May 2026 01:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778715067; cv=none; b=kKiCCX22k4jN2qhCbRbO3SHNNnBhWtSNofgOmz1enIvJOtdQAeFMPZM953zfV/24/a3eJBGLPh8yqUWTQdmv9k9YUoeB8QhQG6wqgdsiuaOOhtJ0htVd6NjmI+2HndhHqtJOsswR3mi4XHw8Gi0jV6EtvAWyAxHl8PIClkLE1V8=
+	t=1778722663; cv=none; b=lmEbQXxPUlLeO49IMNfiMSq+z/HqBed/X58GESw5kyVO+MbQEQEItrvEXt+sGJ8k7IpqeZQsEsYyAxGwowppPn3iBCF9nfIgAvIt1griMgMnRGtZFt8Z/bTlllRoJo6KwtTYCy6sPKuK6YIgGjPI+jW6U7OCI7NFvH7so0+w6EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778715067; c=relaxed/simple;
-	bh=bfoJR+cp92Pc+7sxpkLF5l1KjEDO9Q555ahXmwt8i/E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TVl9jW3x+pEO1lW78uuJbokqVFqHVr0ytWBjEcqJD1s2LyqUMsVAdDqDXEkpiI7S35XW4U1/qPgVsYuwTjVeve3WlVoNPUi0cTbyNoKPDIT0BGg5MDamAARM7mBWnRsldYy3/5RmHK+ksTugtUh4BKRhUJTsfyIERka1AOC3uEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bPWNUcM2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=huRuWpMpBeJX9TrDd8V9NJj7n2mcOd9/ELoRA1aGWCA=; b=bPWNUcM2BbYdaYRsj6//H/lkfh
-	57QSDDfpr3lt2Pq0n8O2m6JivzC2mHiJnI9p096wUo5MKFf8TkHNJVi2LVqL+sXHYBXjb1wKnsq1e
-	Rpb6mgSLSU2xrRiiviGS/J+3qlhtU1lRo+3gzBBtJWKjCopdqPuIEnKfe2o3KxxN5zmF0i+/6Zi9j
-	OFBb+AiIHpyvUYjO8M41YHN8DrZqeuvtQs792oEaQWeMTJ14vn8uylmupl6en5UuVm+nfqH1MKwaQ
-	mV6Hc1xrgLFU/Wbs441IfSw38F0IRVZA/9eenm1Dsry/8eDYi63OD3tkyR4CN85pWeWVbvACkKwzp
-	2uns16NA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNJ2e-000000042H4-2VEN;
-	Wed, 13 May 2026 23:31:04 +0000
-Message-ID: <f3ed50d2-24e3-4816-a811-44a03faafc8f@infradead.org>
-Date: Wed, 13 May 2026 16:31:04 -0700
+	s=arc-20240116; t=1778722663; c=relaxed/simple;
+	bh=JAiknqCeMzr1Jm72EO+k4Z4Q0E6NbNXwKVqDC+oNyHw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=KCpVv+zEiJZpXkaJwr9wqFngF/6YRk18z8H4vfuQD89kCgHJdKX0iPZ6ul/gFuNcyyrYGyUYWg2f/3Vk/GB6UN0DJhxMVvhHIrJkhZoXsbXuWI3v3B9fuUD1OcJ53fyGfIg4/c1rG8h9qAommZMQP6IweTObiKcF90PdEqcLTJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFPwYKOX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D02C19425;
+	Thu, 14 May 2026 01:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778722663;
+	bh=JAiknqCeMzr1Jm72EO+k4Z4Q0E6NbNXwKVqDC+oNyHw=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=RFPwYKOXAvHStZDKdPz7MjigMMcpdfevXvFUCv0TBh2askYK/dm4fxlIv5rB6fo0D
+	 2S212xZ+0Y+51KMtBrfY1oV4kfwt07CpKrS0fCMuMPoLJqFTI+uyG0BzYu0IVpty6W
+	 V0JoduGio8XxtwNzU8+NXf5ECc1JSL87DGjBWvm3EsYM9sC2m17cDfIz/J/qoZ9hrZ
+	 Lln80LD7TcgmaBfNMFOKuoQvsNSDr3WFXqstSmo8DO5bUwuYEUC8+B63Kxc4hcVAyX
+	 1TLOdVT01Sgw43XianozG5j1lMF9pUkXnCQdX4e80Y+WLIVOt+TYWbYhaZ+0oQu8fy
+	 QJCzpr2/aF0Jw==
+Date: Wed, 13 May 2026 19:37:41 -0600 (MDT)
+From: Paul Walmsley <pjw@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+cc: Nicolas Schier <nsc@kernel.org>, Bill Wendling <morbo@google.com>, 
+    Justin Stitt <justinstitt@google.com>, 
+    Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+    linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+    linux-kbuild@vger.kernel.org, Paul Walmsley <pjw@kernel.org>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Alexandre Ghiti <alex@ghiti.fr>, Kees Cook <kees@kernel.org>, 
+    linux-riscv@lists.infradead.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 08/14] riscv: Remove tautological condition from selection
+ of ARCH_SUPPORTS_CFI
+In-Reply-To: <20260428-bump-minimum-supported-llvm-version-to-17-v1-8-81d9b2e8ee75@kernel.org>
+Message-ID: <8a77b39f-1a44-df07-2586-9f568164bad5@kernel.org>
+References: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org> <20260428-bump-minimum-supported-llvm-version-to-17-v1-8-81d9b2e8ee75@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kconfig: add kconfig-sym-check static checker
-To: Andrew Jones <andrew.jones@linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: nathan@kernel.org, nsc@kernel.org, andriy.shevchenko@linux.intel.com
-References: <20260513210329.637892-1-andrew.jones@linux.dev>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260513210329.637892-1-andrew.jones@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 5FC1753C002
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 1EBC953CC3B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=bombadil.20210309];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13147-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13146-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,vger.kernel.org,lists.linux.dev,dabbelt.com,eecs.berkeley.edu,ghiti.fr,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pjw@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,infradead.org:email,infradead.org:mid,infradead.org:dkim]
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
+On Tue, 28 Apr 2026, Nathan Chancellor wrote:
 
-
-On 5/13/26 2:03 PM, Andrew Jones wrote:
-> Add 'make kconfig-sym-check', a static checker that finds Kconfig
-> symbols referenced in expressions (select, depends on, default, etc.)
-> but never defined via config/menuconfig anywhere in the tree. New
-> dangling symbols are reported as errors (exit 1) unless they are
-> listed in an exclusion file, e.g.
+> Now that the minimum supported version of LLVM for building the kernel
+> has been raised to 17.0.1, the condition of the selection of
+> CONFIG_ARCH_SUPPORTS_CFI is always true, so it can be removed.
 > 
->  KCONFIG_SYM_CHECK_EXCLUDES=sym-check-excludes make kconfig-sym-check
-> 
-> The checker also warns about uppercase N/Y/M used as tristate literal
-> values following the same logic as checkpatch.
-> 
-> This new static checker is the script used for [1] with a few
-> improvements to avoid some false positives.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=216748 [1]
-> Signed-off-by: Andrew Jones <andrew.jones@linux.dev>
-> ---
->  Makefile                             |  7 ++-
->  scripts/kconfig/kconfig-sym-check.pl | 93 ++++++++++++++++++++++++++++
->  2 files changed, 99 insertions(+), 1 deletion(-)
->  create mode 100755 scripts/kconfig/kconfig-sym-check.pl
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
 
-Thanks.
-
--- 
-~Randy
+- Paul
 
