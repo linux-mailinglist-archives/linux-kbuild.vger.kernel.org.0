@@ -1,310 +1,253 @@
-Return-Path: <linux-kbuild+bounces-13166-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13167-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qAP7OjAgB2rnrgIAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13166-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2026 15:31:28 +0200
+	id oPjCMBUpB2ppsQIAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13167-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2026 16:09:25 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5557B5507C2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2026 15:31:27 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D658551077
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2026 16:09:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 51B943004610
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2026 13:25:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0C080300808F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2026 13:57:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C769390C8B;
-	Fri, 15 May 2026 13:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51311481FBD;
+	Fri, 15 May 2026 13:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s4kOdYLl"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="ADhEG4B+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2D9382F15
-	for <linux-kbuild@vger.kernel.org>; Fri, 15 May 2026 13:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778851497; cv=pass; b=Vr5CXMux1NbiKFmpejxCSxcCdii196HWVcZiIOAzeikaQbXmGfOJMKUJeghOLNn2XMMobfQMA5o/MQASllDRtDx6SqGXNoiztOgh+qlO655FkDWwz6B20c0NQWnpTh2/gSTss/AZxX4eNz06p0R2STKABzVfJ8ux5CNrJ8yJwY8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778851497; c=relaxed/simple;
-	bh=9S/wyijREW7prxTs0cpddfr7+xTXmq79rJi7zvdyiio=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aqqRcjSw5kzV28590vr59mvJarkkGmcgPxMzKM7yAO8A2wg5OcfeeHkueKWsbOTJ+M0hx4j0RnRABwubu4n25bgJ/cmSKcrg5eA9IbEPFLyrnFLgy1LsvV2IH4f3JtE0T4ux7RNS3hOVheUg2O/OXpNh74IwJwVJ1qqtUPiV9Ow=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s4kOdYLl; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1309f4ee97fso11552739c88.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 15 May 2026 06:24:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778851494; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bBml9qvQ4Kl0Bkr+h/D27wtgDgM8n9WdnwEpChbgNBkHyeuj2m38xK3RgTYag/yPk7
-         jI11wCuve/UrS/yYk9Lvx4N5Qn/MWffwqHLAMIaj2V11AMgqi0eTr/96IZ9oizXB0B5L
-         hW29d3AGMJPqQdtFCRoF+JoE1IW7eAs6gN0SkEOVveH6goNlyEoUbRfQ74jIqUXy4JNQ
-         zEYdmyNr1wykxyGxWnJkwccAipiAzmuSxl7x9RHRWAt0eSCLZL0C97U1fheRwVNLNG0y
-         KZSxM3hgD0Ajp+GvtWFFi+DYICHBEE8VwcrV8ktn/2uR+aKwauqWR8MSWpJrORvy9j08
-         X6vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kJkIJ9MSSyAx7AMR5IamH1iN68B4UTFJP9CxVTr4bw8=;
-        fh=i+eh1E2p1heMa2bYJLvHM5holzepXVIGCZbml6+jCsk=;
-        b=TYoMZ/3ZbhnB203tg3pjMe7rjRYxDmHEeYaBfrebor12k01LkZ3QgkVRUOhQ3yJ1fs
-         P28/MjjKEN6SKgCW6QdUrIHW3JZKT4iA2IJD2VytqZBjxogWGmVt4GHQ2R98lZT+JM4z
-         8BKLcSkBE0LNtasKH+FUeoUpOQmw/HbVQM+V/LZTUSM65Ice/d1XRjfJEF7lxBBv7lAq
-         bvecr+hs64t/9cZ88tM4kDux0GU8FrtQn0/tTly+OR5EIn4DybHXeW/NJNfqZErZ9kP2
-         CCCMv5tE6j6tDI+X/UbKFa72S0kB8dflKsfyJX2h+/+2sCCCdec8OyuF8iqnjHujWMHq
-         k1rg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778851494; x=1779456294; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kJkIJ9MSSyAx7AMR5IamH1iN68B4UTFJP9CxVTr4bw8=;
-        b=s4kOdYLl+H/jtAnbqbvOEB+dbYZp7Repr3O/lj/BO58Ty493AoK2/dmP8jzC0OnQhA
-         lknsCDwovXEvLM5NM7I28D7thoVsrpyH3YKXxh78fBybR7DQcs27zq1m/mCLT1m+tJzJ
-         JKOQ2Njjrmv5n2/5l3iMLrOl3+LHxwD4n6ab/ES59MLGWdlRKpAQ4nv9HR+OzE4vGm0s
-         RIWP6tJs63VCihku14pdJ5eAp1zDPxsRxO4DrARLWMQqLUSyAbgKtyrPGd5B+/xu+Eta
-         FW5TyW3w0PfMLVUCb9hu3Tzja86RsBuif4pWoC7p4LDSmyvh6kMTu5+RDJxmcaaXfe/x
-         xexQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778851494; x=1779456294;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kJkIJ9MSSyAx7AMR5IamH1iN68B4UTFJP9CxVTr4bw8=;
-        b=NJGgXc9ylymVm2RB5PdZ42C6hJnF4lbNHbyaswQB9JP1A1NhHJdVJtZMavCr20/mfh
-         y894B2v/H2CDqvaRZG1McUzHA29KKEf7w885T3QTjeywEB4kjDtztZ6gw3Cu1+gN/61I
-         McSHYc6fGIuh7CARHHr9FTNDb5mxH7IIzdDPTBAuhRqheyT+qHjm0VPXnV8sBJGxHwbd
-         TOCPJEduN/g2woqz+Aov8rEdNRrg5bsGRP2HObJ0U+JPraq7Y9B08rcNsVr+qvs5fwzU
-         hRaM+iPHTLUeZDI0luzHzC02az4PWGVJnMW2L3hL6uX/CXzL8LTKX+4m/dqgXDRtz4E+
-         ZPbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/IpA+Xf5TkNLfYX+7mrCMakfbM1hfJ6Y6DhFpJQAFLiLcV7TmUiXdZ0sf8+OJgvn/V8NpXRdcL88VlkL4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeaAMupOmNcXysnNpXhEq4miaJcQ/4epdPYmoJjKpUlLPrUuHk
-	gfr7kaTaiZz7xawl7EHx9MOUAoPAwoOGY+IKyb219a4+HfPVliGGr1ic9TmuH2ahVKKUMNJRWew
-	s7yGwsTqaAan0mbdk9dHe0/ap6PjS/JSi50QUiqdw
-X-Gm-Gg: Acq92OFjwWZjA4DCFcVvnuamijrogkBMTtyOHOm36DYq/0gWgq1f3xS1+TbEH9EpwA8
-	wNv3q/u1VZcZi8IdDZq8LONFxRdC5ILo792tGiSjt3PIMna0R5GO3tntHrTRDRW38vn5o/6BHPf
-	1/tjf2a7SDT4gIcp50t24lypaJnYCp7+xUJIHkzbTq7cS8fCafrlsyvHDYnfJZW8B5p6pAow8gJ
-	yJv04BuWC6t8lEzmaiViykQVWQLU1a2XgrTMOMvBCeusQgoqEeCyupU2sdOro6KrahKGxMKBZsz
-	SbYzRURqc+D4ZI+44ZyMCxiAHtpZEvWP5KWKWgX4katqxfZ6
-X-Received: by 2002:a05:7022:62aa:b0:12a:72af:83d2 with SMTP id
- a92af1059eb24-1350441d7ccmr1656610c88.14.1778851492906; Fri, 15 May 2026
- 06:24:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F1E481654;
+	Fri, 15 May 2026 13:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778853456; cv=none; b=Hs929QWAa3uYjFcKleMremGpXk8sSoxqPPfXAkveQU7Uo+hD5yQa/q5+AAbkeVywp7ej18qbY2W1eATBguoKvtBMkZmWMmxyXbrsc/uUqBWY2Kxl3l1wiaqf1K+bOuIC1f3ngkn8+CLrWHBSJPG2FaVcp37w3xH6XClQ75Rd2iM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778853456; c=relaxed/simple;
+	bh=StD4rAsh5GFr7p6vlsKYtQzTm21GAueOvxKyOjM0H8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hS3o43REjfOCledM17DVyjRhMmHEgYFaGCluhq7lE8oo2RHoNtpdJtWb4HUjIBy+9m/z3QJBBh11OMSO6QtgTNc+3jpHhzwsO1fOSkQNJ/RheXvr+AdwE8K2UrudaghVN9bngHI+51LDb+2QCFKYKnrRAwASEqAbk/Z5aS0BwMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=ADhEG4B+; arc=none smtp.client-ip=148.251.102.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
+Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
+	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id A18B6200B5;
+	Fri, 15 May 2026 15:48:54 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 8315B1FAFE6;
+	Fri, 15 May 2026 15:48:54 +0200 (CEST)
+Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
+ by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id kaJvIl7qyKb4; Fri, 15 May 2026 15:48:53 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id D4D511FB079;
+	Fri, 15 May 2026 15:48:53 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz D4D511FB079
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1778852933;
+	bh=StD4rAsh5GFr7p6vlsKYtQzTm21GAueOvxKyOjM0H8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=ADhEG4B+psTpLXAwnFFplaUlZT0tWwLE+BrNKMz4Z5YaoZxAK3G9ygb8sJocys3C4
+	 V01TI6U6xIs3VQuaLELc/AJm4BSWa3js9YVeIrQP64gS33vqlM8Sg0u5axCHtQIa7e
+	 c+PjqOyR+JQp6YtvQ0lveyGcC9NVTz62UFWrDUz+bmKR2XoGD7uBuzL/sesRhWhCqj
+	 XeUYlV8+GxQ07SNCnSZBpKN/NmcORzaiAo5bYU1/V2O4EO+3mdXtBi6b0IEUFOALnm
+	 Psxz6Ch1V1zBh/fXhPVvqMoJeiCkGYTylBSP6zw8y4BGOV8Ww81XjyD0THUac786bH
+	 iPr+x6ygZmhyw==
+X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
+Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
+ by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id Ng88jDr6WPcL; Fri, 15 May 2026 15:48:53 +0200 (CEST)
+Received: from [192.168.0.168] (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 6EB911FAFE6;
+	Fri, 15 May 2026 15:48:53 +0200 (CEST)
+Message-ID: <80eb0431-06f3-4d76-a2d9-b9df383ca323@tngtech.com>
+Date: Fri, 15 May 2026 15:48:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511200136.3201646-1-elver@google.com> <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
-In-Reply-To: <560a84ed-7daf-4a78-a314-b867c73bce22@kernel.org>
-From: Marco Elver <elver@google.com>
-Date: Fri, 15 May 2026 15:24:16 +0200
-X-Gm-Features: AVHnY4IK86MdHMyPl5dB4zdZDdnYGN0oaLGQAymJ1xrwo4kBW5Idcq4vVdQ8Oeg
-Message-ID: <CANpmjNNHXvv8ruFGHzvom5V0mwmaoBoBenvt=ZLnEDmEy8dYeA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] slab: support for compiler-assisted type-based
- slab cache partitioning
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Bill Wendling <morbo@google.com>, 
-	David Hildenbrand <david@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>, 
-	Justin Stitt <justinstitt@google.com>, KP Singh <kpsingh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Matteo Rizzo <matteorizzo@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Rapoport <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Suren Baghdasaryan <surenb@google.com>, linux-hardening@vger.kernel.org, 
-	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>, 
-	"Liam R. Howlett" <liam@infradead.org>, Alexander Potapenko <glider@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, 
-	GONG Ruiqi <gongruiqi1@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 5557B5507C2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/15] add SPDX SBOM generation script
+To: "Bird, Tim" <Tim.Bird@sony.com>, "nathan@kernel.org" <nathan@kernel.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Greg KroahHartman <gregkh@linuxfoundation.org>,
+ Kate Stewart <kstewart@linuxfoundation.org>,
+ "maximilian.huber@tngtech.com" <maximilian.huber@tngtech.com>
+References: <MW5PR13MB5632E740EE09E377C6E076E7FD062@MW5PR13MB5632.namprd13.prod.outlook.com>
+Content-Language: en-US
+From: Luis Augenstein <luis.augenstein@tngtech.com>
+In-Reply-To: <MW5PR13MB5632E740EE09E377C6E076E7FD062@MW5PR13MB5632.namprd13.prod.outlook.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------V7uOQLUrjIlNFZpqvds5LojZ"
+X-Rspamd-Queue-Id: 3D658551077
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-4.16 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13166-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,oracle.com,gmail.com,google.com,suse.com,linux.dev,vger.kernel.org,gentwo.org,infradead.org,kvack.org,googlegroups.com,lists.linux.dev,huawei.com,lwn.net];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13167-lists,linux-kbuild=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[tngtech.com:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	HAS_ATTACHMENT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gen-kernel-hwcaps.sh:url,tngtech.com:email,tngtech.com:mid,tngtech.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[elver@google.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,huawei.com:email,llvm.org:url,dfsec.com:url]
+	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
-On Thu, 14 May 2026 at 11:01, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
->
-> On 5/11/26 22:00, Marco Elver wrote:
-> > Rework the general infrastructure around RANDOM_KMALLOC_CACHES into more
-> > flexible KMALLOC_PARTITION_CACHES, with the former being a partitioning
-> > mode of the latter.
-> >
-> > Introduce a new mode, KMALLOC_PARTITION_TYPED, which leverages a feature
-> > available in Clang 22 and later, called "allocation tokens" via
-> > __builtin_infer_alloc_token() [1]. Unlike KMALLOC_PARTITION_RANDOM
-> > (formerly RANDOM_KMALLOC_CACHES), this mode deterministically assigns a
-> > slab cache to an allocation of type T, regardless of allocation site.
-> >
-> > The builtin __builtin_infer_alloc_token(<malloc-args>, ...) instructs
-> > the compiler to infer an allocation type from arguments commonly passed
-> > to memory-allocating functions and returns a type-derived token ID. The
-> > implementation passes kmalloc-args to the builtin: the compiler performs
-> > best-effort type inference, and then recognizes common patterns such as
-> > `kmalloc(sizeof(T), ...)`, `kmalloc(sizeof(T) * n, ...)`, but also
-> > `(T *)kmalloc(...)`. Where the compiler fails to infer a type the
-> > fallback token (default: 0) is chosen.
-> >
-> > Note: kmalloc_obj(..) APIs fix the pattern how size and result type are
-> > expressed, and therefore ensures there's not much drift in which
-> > patterns the compiler needs to recognize. Specifically, kmalloc_obj()
-> > and friends expand to `(TYPE *)KMALLOC(__obj_size, GFP)`, which the
-> > compiler recognizes via the cast to TYPE*.
-> >
-> > Clang's default token ID calculation is described as [1]:
-> >
-> >    typehashpointersplit: This mode assigns a token ID based on the hash
-> >    of the allocated type's name, where the top half ID-space is reserved
-> >    for types that contain pointers and the bottom half for types that do
-> >    not contain pointers.
-> >
-> > Separating pointer-containing objects from pointerless objects and data
-> > allocations can help mitigate certain classes of memory corruption
-> > exploits [2]: attackers who gains a buffer overflow on a primitive
-> > buffer cannot use it to directly corrupt pointers or other critical
-> > metadata in an object residing in a different, isolated heap region.
-> >
-> > It is important to note that heap isolation strategies offer a
-> > best-effort approach, and do not provide a 100% security guarantee,
-> > albeit achievable at relatively low performance cost. Note that this
-> > also does not prevent cross-cache attacks: while waiting for future
-> > features like SLAB_VIRTUAL [3] to provide physical page isolation, this
-> > feature should be deployed alongside SHUFFLE_PAGE_ALLOCATOR and
-> > init_on_free=1 to mitigate cross-cache attacks and page-reuse attacks as
-> > much as possible today.
-> >
-> > With all that, my kernel (x86 defconfig) shows me a histogram of slab
-> > cache object distribution per /proc/slabinfo (after boot):
-> >
-> >   <slab cache>      <objs> <hist>
-> >   kmalloc-part-15    1465  ++++++++++++++
-> >   kmalloc-part-14    2988  +++++++++++++++++++++++++++++
-> >   kmalloc-part-13    1656  ++++++++++++++++
-> >   kmalloc-part-12    1045  ++++++++++
-> >   kmalloc-part-11    1697  ++++++++++++++++
-> >   kmalloc-part-10    1489  ++++++++++++++
-> >   kmalloc-part-09     965  +++++++++
-> >   kmalloc-part-08     710  +++++++
-> >   kmalloc-part-07     100  +
-> >   kmalloc-part-06     217  ++
-> >   kmalloc-part-05     105  +
-> >   kmalloc-part-04    4047  ++++++++++++++++++++++++++++++++++++++++
-> >   kmalloc-part-03     183  +
-> >   kmalloc-part-02     283  ++
-> >   kmalloc-part-01     316  +++
-> >   kmalloc            1422  ++++++++++++++
-> >
-> > The above /proc/slabinfo snapshot shows me there are 6673 allocated
-> > objects (slabs 00 - 07) that the compiler claims contain no pointers or
-> > it was unable to infer the type of, and 12015 objects that contain
-> > pointers (slabs 08 - 15). On a whole, this looks relatively sane.
-> >
-> > Additionally, when I compile my kernel with -Rpass=alloc-token, which
-> > provides diagnostics where (after dead-code elimination) type inference
-> > failed, I see 186 allocation sites where the compiler failed to identify
-> > a type (down from 966 when I sent the RFC [4]). Some initial review
-> > confirms these are mostly variable sized buffers, but also include
-> > structs with trailing flexible length arrays.
-> >
-> > Link: https://clang.llvm.org/docs/AllocToken.html [1]
-> > Link: https://blog.dfsec.com/ios/2025/05/30/blasting-past-ios-18/ [2]
-> > Link: https://lwn.net/Articles/944647/ [3]
-> > Link: https://lore.kernel.org/all/20250825154505.1558444-1-elver@google.com/ [4]
-> > Link: https://discourse.llvm.org/t/rfc-a-framework-for-allocator-partitioning-hints/87434
-> > Acked-by: GONG Ruiqi <gongruiqi1@huawei.com>
-> > Co-developed-by: Harry Yoo (Oracle) <harry@kernel.org>
-> > Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
-> > Signed-off-by: Marco Elver <elver@google.com>
->
-> Applied [1] to slab/for-next, thanks. That means including the kernel-doc
-> workarounds in patch 3. I know Jon said someone might hate it, but maybe it
-> will motivate them for creating a proper fix :) It seems better than leaving
-> doc generation broken or not applying this series at all.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------V7uOQLUrjIlNFZpqvds5LojZ
+Content-Type: multipart/mixed; boundary="------------GgHFVAZK0FaplsbpZ4bJIGn6";
+ protected-headers="v1"
+From: Luis Augenstein <luis.augenstein@tngtech.com>
+To: "Bird, Tim" <Tim.Bird@sony.com>, "nathan@kernel.org" <nathan@kernel.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Greg KroahHartman <gregkh@linuxfoundation.org>,
+ Kate Stewart <kstewart@linuxfoundation.org>,
+ "maximilian.huber@tngtech.com" <maximilian.huber@tngtech.com>
+Message-ID: <80eb0431-06f3-4d76-a2d9-b9df383ca323@tngtech.com>
+Subject: Re: [PATCH v6 00/15] add SPDX SBOM generation script
+References: <MW5PR13MB5632E740EE09E377C6E076E7FD062@MW5PR13MB5632.namprd13.prod.outlook.com>
+In-Reply-To: <MW5PR13MB5632E740EE09E377C6E076E7FD062@MW5PR13MB5632.namprd13.prod.outlook.com>
+Autocrypt-Gossip: addr=maximilian.huber@tngtech.com; keydata=
+ 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
+ /5CE/Cgrmg==
 
-Thanks!
+--------------GgHFVAZK0FaplsbpZ4bJIGn6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.2/alloc_token
->
-> I did the following fixup to remove passing an unnecessary NULL argument for
-> __kmalloc_nolock() with buckets enabled. Made bloat-o-meter happier a bit.
+DQpPbiA1LzEzLzI2IDIwOjI1LCBCaXJkLCBUaW0gd3JvdGU6DQo+IEhleSBLZXJuZWxTQm9t
+IHBlb3BsZSwNCj4gDQo+IEkgZ290IHRoZSBmb2xsb3dpbmcgZXJyb3IgbWVzc2FnZSB3aGVu
+IHVzaW5nIEtlcm5lbFNCb20gKGJvdGggd2l0aCB0aGUgdjUgcmVsZWFzZSBhbmQgdGhlIHJl
+Y2VudCB2NiByZWxlYXNlKQ0KPiANCj4gSSB3YXMgZG9pbmcgYSBhbiBhcm02NCBkZWZjb25m
+aWcgYnVpbGQuICBJIGNhbiB3b3JrIGFyb3VuZCB0aGUgcHJvYmxlbSB1c2luZyB5b3VyIGhh
+bmR5DQo+ICItLWRvLW5vdC1mYWlsLW9uLXVua25vd24tYnVpbGQtY29tbWFuZCIgb3B0aW9u
+IHRvIHRoZSBzYm9tIGdlbmVyYXRvciwgYnV0IHRob3VnaHQgSQ0KPiBzaG91bGQgcmVwb3J0
+IHRoZSBpc3N1ZS4NCj4gDQo+ID09PT0gZXJyb3IgbWVzc2FnZSA9PT09DQo+IC4uLg0KPiAg
+ICBHRU4gICAgIHNib20tc291cmNlLnNwZHguanNvbiBzYm9tLWJ1aWxkLnNwZHguanNvbiBz
+Ym9tLW91dHB1dC5zcGR4Lmpzb24NCj4gW0VSUk9SXSBGaWxlICIvaG9tZS90YmlyZC93b3Jr
+L3RvcnZhbGRzL2xpbnV4L3NjcmlwdHMvc2JvbS9zYm9tL2NtZF9ncmFwaC9zYXZlZGNtZF9w
+YXJzZXIvc2F2ZWRjbWRfcGFyc2VyLnB5IiwgbGluZSAzMywgaW4gbG9nX2Vycm9yX29yX3dh
+cm5pbmcNCj4gU2tpcHBlZCBwYXJzaW5nIGNvbW1hbmQgL2Jpbi9zaCAtZSAvaG9tZS90Ymly
+ZC93b3JrL3RvcnZhbGRzL2xpbnV4L2FyY2gvYXJtNjQvdG9vbHMvZ2VuLWtlcm5lbC1od2Nh
+cHMuc2ggL2hvbWUvdGJpcmQvd29yay90b3J2YWxkcy9saW51eC9hcmNoL2FybTY0L2luY2x1
+ZGUvdWFwaS9hc20vaHdjYXAuaCA+IGFyY2gvYXJtNjQvaW5jbHVkZS9nZW5lcmF0ZWQvYXNt
+L2tlcm5lbC1od2NhcC5oIGJlY2F1c2Ugbm8gbWF0Y2hpbmcgcGFyc2VyIHdhcyBmb3VuZA0K
+PiA9PT09PT09PT09PT09PT09PT09PT0NCj4gDQo+IGFyY2gvYXJtNjQvdG9vbHMvZ2VuLWtl
+cm5lbC1od2NhcHMuc2ggaXMgYSBzaW1wbGUgc2NyaXB0cyB0aGF0IGRvZXMgc29tZSBzaW1w
+bGUNCj4gdHJhbnNmb3JtYXRpb25zICh1c2luZyBzZWQpIG9uIGxpbmVzIGZyb20gdGhlIGlu
+cHV0IGZpbGUuICBBcyB5b3UgY2FuIHNlZSwgdGhlIGJ1aWxkIGNvbW1hbmQgdGFrZXMNCj4g
+YXJjaC9hcm02NC9pbmNsdWRlL3VhcGkvYXNtL2h3Y2FwLmggYW5kIHRyYW5zZm9ybXMgaXQg
+aW50byAkS0JVSUxEX09VVFBVVC9hcmNoL2FybTY0L2luY2x1ZGUvZ2VuZXJhdGVkL2FzbS9r
+ZXJuZWwtaHdjYXAuaA0KPiANCj4gSSB0aGluayB0aGlzIHNob3VsZCBiZSBlYXN5IHRvIGFk
+ZCB0byB5b3VyIGNvbW1hbmQgbGluZSBwYXJzZXIuICBKdXN0IHdhbnRlZCB0byBicmluZyBp
+dCB0byB5b3VyIGF0dGVudGlvbi4NCj4gDQoNClllcywgdGhhbmtzIGEgbG90IGZvciByZXBv
+cnRpbmcgdGhlIGlzc3VlLg0KZ2VuLWtlcm5lbC1od2NhcHMuc2ggaXMgYSBuZXcgc2NyaXB0
+IHRoYXQgd2FzIGFkZGVkIGEgbW9udGggYWdvLg0KSSB3aWxsIGFkZCBhIGNvcnJlc3BvbmRp
+bmcgY29tbWFuZCBwYXJzZXIgd2l0aCB0aGUgbmV4dCB2ZXJzaW9uLg0KDQo+IEdyZWF0IHRv
+b2wsIGJ5IHRoZSB3YXkuICBJJ20gdGFsa2luZyBhYm91dCBpdCBhdCBPU1NOQSBuZXh0IHdl
+ZWssIGFuZCB3YXMganVzdCBkb2luZyBzb21lIHRlc3Rpbmcgb24gZGlmZmVyZW50DQo+IHBs
+YXRmb3Jtcy4NCg0KQ29vbCEgSGFwcHkgdG8gaGVhciB0aGF0IDopDQoNCkJlc3QsDQpMdWlz
+DQoNCi0tIA0KTHVpcyBBdWdlbnN0ZWluICogbHVpcy5hdWdlbnN0ZWluQHRuZ3RlY2guY29t
+ICogKzQ5MTUyMjUyNzU3NjENClRORyBUZWNobm9sb2d5IENvbnN1bHRpbmcgR21iSCwgQmV0
+YS1TdHIuIDEzLCA4NTc3NCBVbnRlcmbDtmhyaW5nDQpHZXNjaMOkZnRzZsO8aHJlcjogSGVu
+cmlrIEtsYWdnZXMsIERyLiBSb2JlcnQgRGFobGtlLCBUaG9tYXMgRW5kcmVzDQpBdWZzaWNo
+dHNyYXRzdm9yc2l0emVuZGVyOiBNb3JpdHogUHJpbnoNClNpdHo6IFVudGVyZsO2aHJpbmcg
+KiBBbXRzZ2VyaWNodCBNw7xuY2hlbiAqIEhSQiAxMzUwODINCg0K
 
-Good.
+--------------GgHFVAZK0FaplsbpZ4bJIGn6--
 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index c232f8a10af6..795455256329 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -894,7 +894,7 @@ unsigned int kmem_cache_sheaf_size(struct slab_sheaf *sheaf);
->   * with the exception of kunit tests
->   */
->
-> -void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
-> +void *__kmalloc_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags)
->                                 __assume_kmalloc_alignment __alloc_size(1);
->
->  void *__kmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags, int node)
-> @@ -981,7 +981,7 @@ static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t
->                                 kmalloc_caches[kmalloc_type(flags, token)][index],
->                                 flags, size);
->         }
-> -       return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
-> +       return __kmalloc_noprof(PASS_TOKEN_PARAMS(size, token), flags);
->  }
->  #define kmalloc_noprof(...)                    _kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
->  #define kmalloc(...)                           alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-> diff --git a/mm/slub.c b/mm/slub.c
-> index a6e9015601d6..74652bbdd591 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -5303,10 +5303,10 @@ void *__kmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags, in
->  }
->  EXPORT_SYMBOL(__kmalloc_node_noprof);
->
-> -void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
-> +void *__kmalloc_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t flags)
->  {
-> -       return __do_kmalloc_node(size, PASS_BUCKET_PARAM(b), flags,
-> -                                NUMA_NO_NODE, _RET_IP_, PASS_TOKEN_PARAM(token));
-> +       return __do_kmalloc_node(size, NULL, flags,  NUMA_NO_NODE, _RET_IP_,
-> +                                PASS_TOKEN_PARAM(token));
->  }
->  EXPORT_SYMBOL(__kmalloc_noprof);
+--------------V7uOQLUrjIlNFZpqvds5LojZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-Reviewed-by: Marco Elver <elver@google.com>
+-----BEGIN PGP SIGNATURE-----
 
-Thanks!
+wsF5BAABCAAjFiEEJzBrWn4qHw5a0jAXeVyKys3c+zQFAmoHJD8FAwAAAAAACgkQeVyKys3c+zTx
+zRAAoYyyh1TbRbe9YEuq9t68tHFXTrb7acDI56jdzaVYH2ALQePjTrmFUNLLW3kzjkWLOX1tQUC6
+YleTQBMKYk1E0B1As0p/he0pr6G6noTZl1RQ+/Z6dy5F3sgrrQA78BIbrFHk+GlX6CIRVThaPsH5
+SvkJfIrp9H3QgM48wRnEEasnosfY7bFKFt1TD4NyKuGBJn41WjTR/YPiWLTBpQJtDeRzHrCWgcwO
+abVwAshHzkBcK9SuwNd9BLU6G34814NA/M/ZQb5usdcdQcR1h+YJOc4c7WqKZWQ4yLlxD+VPSNat
+N6+R5jAyL6uMRT21yAL0oT95wyzKAb2w8D6iLQ3EhzNI3srVWxn34cTCURb/pvc3jqxi2D74iq0V
+dpYsYJe6ttEMet9SejQinnKwvFAG5gkl+9h8DZZw5LDbKDgEhggmMwPwKp/C1PHU8y789O8wSKOF
+6jC7nhNzxoykvmCf/JDJvC3qLgz1FDDqlvgtP0U8OpCXmfPKZ5hqwi3+oPxNw4Vw2IvFaFAk1K3D
+ZDU5e+grYekH+6X4i1vjVTLYNUpZJ6Z8ElwIL7/MjsyguZ8s8er0qRDfmOjVpHvmeB9W5UPBzv7w
+W91K/UBgQXOz6FWymNXrqxvMTv7GSf/ICBT1JX7WZw/1yz0UAxy+P2L3lfgSxZyhnjhXOw9uFbrZ
+0W0=
+=iuLR
+-----END PGP SIGNATURE-----
+
+--------------V7uOQLUrjIlNFZpqvds5LojZ--
 
