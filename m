@@ -1,81 +1,81 @@
-Return-Path: <linux-kbuild+bounces-13179-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13181-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qE20KJrnCGp4+gMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13179-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 23:54:34 +0200
+	id sBCbA7PnCGp4+gMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13181-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 23:54:59 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC6B55DF71
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 23:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F97155DF96
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 23:54:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 32366301C582
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 21:54:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 826FB3022A96
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 21:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C78C1384CEC;
-	Sat, 16 May 2026 21:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0748385D9F;
+	Sat, 16 May 2026 21:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CpcHu8wT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JshZZZGp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDB3383C86
-	for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 21:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CC5384CD0
+	for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 21:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778968447; cv=none; b=fQRRvU4hUkP3qV1MTmQr0Z5XpnjN/p3VLJcJz4ZTI1YgX5HBHy1chSgDLh2G9qAnGmsL1tA5mCzU4idObJGStVUqQqREJvgyW0RHySNe6PawH94NftKtYmbrI50ZPoNo90QcUpKgT7mpWenz7xM6FNdrR4z8WOQwVKmauNZxZiw=
+	t=1778968449; cv=none; b=Ys9hYHH1afOue3g1Dmt8yIkIQcq9zVqcQ7JjRz9WEiEASO8KqMcwU3dfE3HN0DeUo2oclTaQ+U10d2UA8EHLgdDpQ0b8VE7YSChDQeV9ckmLVjgEwd6WsY+H9XX3++JveA72svmy/uwQ26n5zFhIF3OaclqqwJ25kNMKuaiZPwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778968447; c=relaxed/simple;
-	bh=5MRo+plLWr6PGOZ4zhMsWidC6F4OqQ609lLi14F9Ymo=;
+	s=arc-20240116; t=1778968449; c=relaxed/simple;
+	bh=jz1nzUaADwE+K1cfDrDlEU5HkPkq87A/JGOsmNuUTl0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N9HRjUYlsOT/VaPB1jdPVm4xha34+pQV2krzSeuZDXRyCpdciPwPmOE7BsekRMc7OagsZx97c+iEWUouUYjnchiZE8HdWt6h3EIJ6UuM5l7n0JzxrdWoudlsCrkPQCf4X3lMSClNmsp5tuc/A1Q4YSafIsr1n7l+u3BaWzUQhYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CpcHu8wT; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=c4V20WPT867lyd1wHqPy3fy0E1sspHF7N+IbvhdNHYupF+qzeqZhGPDUcNBXIy+c3XsNaNTEMgsde3dP3EtH8vI3kmx8bfps0AG9RXpuyzpP6F1oIpo/czRRfCHKLMtWZCJIQFFB2JCD7G0KDQahCgQ2suAjEwv635padtD0Ssg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JshZZZGp; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so14408225e9.2
-        for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 14:54:05 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso6115355e9.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 14:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778968444; x=1779573244; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778968446; x=1779573246; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RFLgugNq97yzMywfRHqXq0Fp1RLv0E8Jl7TXtWn7z2M=;
-        b=CpcHu8wTL0g9jcvBw3PVt+rWWeYLuosP7l80nef+PjTw750FvfA3ySNypmpKzY8RNJ
-         0T1VVV0ZdpP8R/D6gCbJhyuw1LFbPOJswpO+f7ybxm+lqQ2q9blB2DDCRyTolrqxmXxS
-         UBU3x0ZNJRp9Urs7uwpKemVp18O88EFnmKXQYxbLBKg9k++TbqMlkKa24rDHaeE+64vv
-         pO9xnOkC3mYaSgJeD0KTPJ+NFfqfIEjP+31acmYDdn95wNwW2i7xQlnYmKutmq296VZN
-         Kto2TNF/v4FESJT5/WUchA4cJK46hJN0keWVBDiW6VahqrG+pNrnSd4vzSS9ji3Z/mU7
-         iv1A==
+        bh=Ra4pEf8zZZm6HhF+DQ/toHqE83w/pN0bRu9e9oIN56Y=;
+        b=JshZZZGpEBZAVzz6+EakEN3xOMEYQAOFnwucy7PU86hDls7D64gdM68+Ps1Opn5Uk+
+         Sn3E0VMNI4de3jDzYdBbW/rpJbJAeLPLwV7LgXvyNp5HsNNuDjIzTpNK6B+v71jpsX0N
+         Bo9u1hqhDZ6bpa1F8SpbE2sA/qIY2OiR+BExjbAg+bhs72LSokkNA8XAVZWFPKH11iaz
+         X9Qa+m0LQrPL6uePlUXSdCfvmPCWea9mM11JjtoP6765UuS+BXTj8nxlbyhy3Al9kfjF
+         9T6lkHKC2GVXUJLkhqgehB1JIpHEQjMr8OgZFZB1MG3uxSD0REpZUQz+jYR1iiKF19ff
+         w2EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778968444; x=1779573244;
+        d=1e100.net; s=20251104; t=1778968446; x=1779573246;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFLgugNq97yzMywfRHqXq0Fp1RLv0E8Jl7TXtWn7z2M=;
-        b=QHFTHh7hcL36fzP0Xhq+jd3sD7m6AnHCyRTA3uueqYxcAQUgJYXcsosE16KKPO92zF
-         +kUVvKIRgf/EE1onyk2oaAG9QkcsmTZeACRucOCrU92SeOlfUtlIFYrkaf2uffIRL0MO
-         F2SYFpRpLGGoINifkQmNvdAd9cZLZ3/YOukT4t7Ip1poTNgYrhPUV3LkPVEOedDmZjcS
-         WUfDNM23670nExdzVnZzQelc/YtkD9JoxfrOTbqbccxmtdE9+S8RgrDD1RoHkH7ZRDyG
-         V+FSq5b17XMLSN6GP/jbYNxkk/4b+Cc5BkJCQMBZlwSQXX5+abPf/UnqEmZ3N+9ea2Nn
-         cN4A==
-X-Forwarded-Encrypted: i=1; AFNElJ8wRtf+dbSx7hx5RUqJdByd7leaJ3COWulOnAvEdNi/z/GSmWKmPzGFLSEfsZqCUouPjklJ+xwVtMO1BgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDHlcrNgXCSGiX9chZf+CJwtnJwxlgZlWU+m50PIVE/5FEZiJd
-	xkAHHY3aT6gs+96pYPIjUIiGw2DiR98FYbIL/QZnmp3NGachnpvRwoJj
-X-Gm-Gg: Acq92OG/UfDNjkXoIIjDM7aN07v+lhJNMlCFZhi+Ia17Ooom9jdczzvfB5g+h/d7sB4
-	9QxZmkSlliF4N6wpWtgWsRCDBhNaU5FIuhAJXDLzrW/AoRxNN+sI58wQDhgb7RMPbqtUoH3yO5Y
-	QAysCKAIk/dEQGvE6jjEd+aHQd67A4bEtmjKDtJLNbY/+bNH+ZufGxIXvzewrBjV7kABZHFsihp
-	EKEnAZoUvGf/spvYAru5McC1jVvcjw1LFb85YR8k0jchRKClU/l6pSzZb+jKajIB1Itx3dv4nI7
-	zIqriGqHKtsmMNvoLhzjaWU8VTB+rciPEVH7Gz6hOUSDhwG3bPlAfXXaQyz8AfbUf7RSwSyPCcG
-	Xeg48yWDX9LGjHruCLfYAV7HBA3sx+sfwJP5NY9gGP/HObWYUeLLxyquo8xlc/b5HZ8IPwDDpuk
-	Eo6lZk6FRgDOkxfnAE9uVhcwyBv+ik9V2Z9ymmIXA9uIdGLPovfhyn/jQ=
-X-Received: by 2002:a05:600c:1f94:b0:489:1d23:4524 with SMTP id 5b1f17b1804b1-48fe60de736mr133151715e9.5.1778968443504;
-        Sat, 16 May 2026 14:54:03 -0700 (PDT)
+        bh=Ra4pEf8zZZm6HhF+DQ/toHqE83w/pN0bRu9e9oIN56Y=;
+        b=bat90+wyjquh12LSY2QnHzpNJF55Edzr0WI0ndc791lwtAjROC4sxxoFbm/A+72x3f
+         KJCOPW44YSrQ+ni1uctp0EK6+GnQksaBWGIRdYRsW+gqHaRMf4tIRvVUUE388M9wk9Tb
+         p4q4aJUqAqBLyWhCzrbXzHR/pJmzbgkMJ6Nlz2dekhVTsZSWBm0myS1SqjXHI1D7kvnf
+         nV4ZcUXb7K53FPiEVUVA6xQG+gHvy5uIU8MnOuyHxAM6QIVUKdyDu6J6iUEwRIyATJbr
+         c89e+zjA1WeIPjqLekyBvL6+yO5XETzO1Fpsi+USVT0sdsJASBuWbxp5fO+W3B7cx1ja
+         kOOw==
+X-Forwarded-Encrypted: i=1; AFNElJ9B9HmLAabpV0YEyd5bYFzjeoU1Cc7nbffx6t7dg4Sm4fDrCI1IZ5cpCVUnAwvUj5l3w5HMW7yITiyOC2U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvnX7R2z3fTs42J0FCkVrA74AmAFsE/gtknrITBAv+yI6JlUlr
+	lfAWyhGV6HwcfOsg2wIRp8/fGI7cSpEYJ+9YNJkxPAETiLcLqj3a20Il
+X-Gm-Gg: Acq92OG/g9AeQK2x6NLt2A8VuFn3uMz7TvguCUNalqTdjYGiTGp4OYy8KuheYnCsmqZ
+	45BfynuqNH5Yru4fpIkc9TC9JP0+M1AcqHQLKsti14wMii+j57Aqd8kIyVQSOZgniB7BuAhx8wo
+	kPnxE/GAKEpll4HF6ZOg4koXGs4QaOYP4Zc+Xncx9y1cLyXZ5kL0I4QpQsLwRwr4GK5GIAjhps0
+	v0gVgzUa1B+RNIHWM/AFdDDYUWO2UcuDKQ+w+wKfdzSmEOofh03051m3YpjbYXG+rHFgRBRKVFf
+	lN5EbbKCA1TQngS4+SH/ylP8E3jcVtjTM8NEynJzvGHD5kMv7/b92OOZggygFqPyNlcMK1uGsXl
+	FlBFbc8RpSK99QXiV51sspW8IzquAdbXqO18r6eelRZDgmO/HlLved2BYhU3fMx0Wbg+LN+RqqR
+	ZOt9lKGE6AtEf45ANJYbseGZkRzGz4/GWHVYunNdrjNinQL6pYQfgowL0=
+X-Received: by 2002:a05:600c:a11c:b0:48f:a75e:c21 with SMTP id 5b1f17b1804b1-48fe5fcdee9mr93789275e9.6.1778968446077;
+        Sat, 16 May 2026 14:54:06 -0700 (PDT)
 Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm158383415e9.8.2026.05.16.14.54.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm158383415e9.8.2026.05.16.14.54.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 14:54:02 -0700 (PDT)
+        Sat, 16 May 2026 14:54:05 -0700 (PDT)
 Sender: Julian Braha <julian.braha@gmail.com>
 From: Julian Braha <julianbraha@gmail.com>
 To: nathan@kernel.org,
@@ -98,9 +98,9 @@ Cc: jani.nikula@linux.intel.com,
 	linux-doc@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Julian Braha <julianbraha@gmail.com>
-Subject: [RFC PATCH v3 2/3] Documentation: add kconfirm
-Date: Sat, 16 May 2026 22:53:53 +0100
-Message-ID: <20260516215354.449807-3-julianbraha@gmail.com>
+Subject: [RFC PATCH v3 3/3] MAINTAINERS: create entry for kconfirm
+Date: Sat, 16 May 2026 22:53:54 +0100
+Message-ID: <20260516215354.449807-4-julianbraha@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260516215354.449807-1-julianbraha@gmail.com>
 References: <20260516215354.449807-1-julianbraha@gmail.com>
@@ -111,7 +111,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0CC6B55DF71
+X-Rspamd-Queue-Id: 9F97155DF96
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -125,7 +125,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[linux.intel.com,linux-foundation.org,garyguo.net,kernel.org,arndb.de,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,gmail.com,inai.de,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13179-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13181-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
@@ -141,255 +141,33 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,crates.io:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,osandov.com:email]
 X-Rspamd-Action: no action
 
-Add usage documentation and a brief description for kconfirm to
-Documentation/dev-tools/
+Add myself as maintainer of kconfirm.
 
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
 ---
- Documentation/dev-tools/index.rst    |   1 +
- Documentation/dev-tools/kconfirm.rst | 222 +++++++++++++++++++++++++++
- 2 files changed, 223 insertions(+)
- create mode 100644 Documentation/dev-tools/kconfirm.rst
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 59cbb77b33ff..130ebc0d7282 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -40,3 +40,4 @@ Documentation/process/debugging/index.rst
-    autofdo
-    propeller
-    container
-+   kconfirm
-diff --git a/Documentation/dev-tools/kconfirm.rst b/Documentation/dev-tools/kconfirm.rst
-new file mode 100644
-index 000000000000..8790672c9a87
---- /dev/null
-+++ b/Documentation/dev-tools/kconfirm.rst
-@@ -0,0 +1,222 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2026 Julian Braha <julianbraha@gmail.com>
-+
-+========
-+kconfirm
-+========
-+
-+kconfirm is a static analysis tool for the kernel's Kconfig.  It checks
-+the entire tree-wide Kconfig, and reports misusage like dead code.  In the
-+case of dead default statements, these can be a code smell.
-+
-+kconfirm has some additional, optional checks. The first is for dead links
-+in the Kconfig help texts.  Since this has a high potential for false
-+positives (due to websites blocking bots) and slows down runtime
-+significantly, it is disabled by default.
-+
-+Another optional check is for config options that select visible config
-+options.  Examples of how to enable the optional checks are included
-+below.
-+
-+kconfirm is written in Rust and lives in ``scripts/kconfirm``.  Other
-+than the dead link checks, kconfirm aims for zero false positives.
-+
-+By default, kconfirm checks the same architecture as your kernel build,
-+but you can also enable checking more architectures with
-+``--enable-arch`` or disable checking your default architecture with
-+``--disable-arch``.  Alarms are deduplicated across all affected
-+architectures; kconfirm displays a tag with the corresponding Kconfig
-+architecture config option names.  For example, ``[RISCV]`` indicates
-+that an alarm is specific to RISC-V, while ``[ARM, X86]`` indicates that
-+an alarm affects both arm and x86. Running on each architecture will take
-+approximately one minute on modern consumer hardware.
-+
-+**NOTE**: kconfirm does not modify or compile the source tree; it is
-+strictly a static checker.
-+
-+
-+Getting Started
-+===============
-+
-+
-+kconfirm's Minimum Supported Rust Version (MSRV) is v1.85.0, because
-+it uses Rust edition 2024, and this is the earliest supported version.
-+
-+kconfirm requires the Cargo package manager and an internet connection
-+to download its dependencies from crates.io.
-+
-+In ``scripts/kconfirm/`` run the following to download the dependencies::
-+
-+  cargo vendor
-+
-+Then, kconfirm can be built and run from the top of the
-+kernel source tree::
-+
-+  make kconfirm
-+
-+The compiled ``kconfirm-linux`` binary will be available in
-+``scripts/kconfirm/target/release/``.
-+
-+The default checks currently cover dead code analysis, as well as invalid
-+(reverse) ranges and constant conditions.  ``select_visible`` and
-+``dead_links`` must be turned on explicitly with ``--enable-check``;
-+conversely, any default check can be turned off with ``--disable-check``.  Both
-+options accept either a comma-separated list or repeated flags, so the
-+following two invocations are equivalent::
-+
-+  kconfirm-linux --linux-path . --enable-check select_visible,dead_link
-+  kconfirm-linux --linux-path . --enable-check select_visible --enable-check dead_link
-+
-+
-+Options
-+=======
-+
-+**NOTE**: kconfirm's arguments must be provided in the ``KCONFIRM_ARGS``
-+environment variable if running with ``make``. See `Examples`_.
-+
-+Available options:
-+
-+``--linux-path PATH``
-+  The path to the linux source tree to analyze. ``make`` uses this
-+  option to pass the current linux tree, but this option can be used
-+  when running the tool directly with another source tree.
-+  See `Examples`_.
-+
-+``--enable-check CHECK[,CHECK...]``
-+
-+  Enable one or more checks in addition to the default set.  May be
-+  given multiple times, or as a single comma-separated list.  See
-+  `Available checks`_ below for valid names.
-+
-+``--disable-check CHECK[,CHECK...]``
-+
-+  Disable one or more checks from the default set.  May be given
-+  multiple times, or as a single comma-separated list.
-+
-+``--enable-arch ARCH[,ARCH...]``
-+
-+    Enable one or more architectures in addition to the default
-+    architecture.  May be given multiple times, or as a single
-+    comma-separated list.
-+
-+``--disable-arch ARCH[,ARCH...]``
-+
-+    Disable one or more architectures from the default set.  May be given
-+    multiple times, or as a single comma-separated list.
-+
-+``-h, --help``
-+
-+  Show the help message and exit.
-+
-+``-V, --version``
-+
-+  Show version information and exit.
-+
-+
-+Available checks
-+================
-+
-+Each check has a string name that is accepted by ``--enable`` and
-+``--disable``.  Checks marked *(default)* are enabled unless turned off
-+explicitly.
-+
-+``duplicate_dependency`` *(default)*
-+
-+  Reports duplicated ``depends on`` entries on a single Kconfig symbol.
-+
-+``duplicate_range`` *(default)*
-+
-+  Reports duplicated ``range`` entries on a single Kconfig symbol.
-+
-+``dead_range`` *(default)*
-+
-+  Reports ``range`` entries that will never be evaluated, due to an
-+  unconditional range entry.
-+
-+``duplicate_select`` *(default)*
-+
-+  Reports duplicated ``select`` entries on a single Kconfig symbol.
-+
-+``dead_select`` *(default)*
-+
-+  Reports dead ``select`` entries that will never be evaluated, due to an
-+  unconditional select entry of the same config option.
-+
-+``duplicate_imply`` *(default)*
-+
-+  Reports duplicated ``imply`` entries on a single Kconfig symbol.
-+
-+``dead_imply`` *(default)*
-+
-+  Reports dead ``imply`` entries that will never be evaluated, due to an
-+  unconditional imply entry for the same config option.
-+
-+``duplicate_default`` *(default)*
-+
-+  Reports duplicated ``default`` entries on a single Kconfig symbol.
-+
-+``dead_default`` *(default)*
-+
-+  Reports ``default`` entries that can never be selected, for example
-+  because their condition is unsatisfiable.
-+
-+``constant_condition`` *(default)*
-+
-+  Reports conditions for any entries that always evaluate to ``true``.
-+
-+``reverse_range`` *(default)*
-+
-+  Reports invalid ranges for int and hex configuration options.
-+
-+``failed_parse`` *(default)*
-+
-+  Reports a parsing failure of the Kconfig. Cannot be disabled.
-+
-+``select_visible``
-+
-+  Reports configuration options that ``select`` a config option that is
-+  visible to users.
-+
-+``dead_link``
-+
-+  Reports broken URLs found in Kconfig help text.  Because this
-+  performs network requests it can be quite slow, and is disabled by
-+  default. May also have false positives.
-+
-+``ungrouped_attribute``
-+
-+  Reports ungrouped entries, like ``select`` and ``depends on``.
-+  This is a style check, and is disabled by default.
-+
-+``duplicate_default_value``
-+
-+  Reports duplicate default values that have different conditions.
-+  Suggests combining the conditions using a logical-or ``||``.
-+  This is a style check, and is disabled by default.
-+
-+
-+Examples
-+========
-+
-+Compile (as needed) and run on the current tree::
-+
-+  make kconfirm
-+
-+To additionally enable the dead link and select-visible checks::
-+
-+  make kconfirm KCONFIRM_ARGS="--enable-check=dead_link,select_visible"
-+
-+To disable a check (here, ``duplicate_dependency``) while keeping the
-+rest of the default set::
-+
-+  make kconfirm KCONFIRM_ARGS="--disable-check duplicate_dependency"
-+
-+To enable an architecture (here, ``RISC-V``) while keeping the
-+default architecture enabled::
-+
-+  make kconfirm KCONFIRM_ARGS="--enable-arch riscv"
-+
-+To run the default checks against a kernel tree separate from the
-+current directory, such as ``~/repos/linux``::
-+
-+  scripts/kconfirm/target/release/kconfirm-linux --linux-path ~/repos/linux
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b2040011a386..8f4f5a009228 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13824,6 +13824,12 @@ F:	Documentation/kbuild/kconfig*
+ F:	scripts/Kconfig.include
+ F:	scripts/kconfig/
+ 
++KCONFIRM
++M:	Julian Braha <julianbraha@gmail.com>
++S:	Maintained
++F:	Documentation/dev-tools/kconfirm.rst
++F:	scripts/kconfirm/
++
+ KCORE
+ M:	Omar Sandoval <osandov@osandov.com>
+ L:	linux-debuggers@vger.kernel.org
 -- 
 2.53.0
 
