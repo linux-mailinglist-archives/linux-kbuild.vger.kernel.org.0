@@ -1,161 +1,324 @@
-Return-Path: <linux-kbuild+bounces-13177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13178-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2OueLkaOCGr4uwMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13177-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 17:33:26 +0200
+	id 6E7jIYvnCGp4+gMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13178-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 23:54:19 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F3B55C6A4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 17:33:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 243D155DF67
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 23:54:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B72AD300FB5A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 15:33:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4FF563016912
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 21:54:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF5212C11E1;
-	Sat, 16 May 2026 15:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17261384CEC;
+	Sat, 16 May 2026 21:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghZde8Hw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOFA8LoH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB5B26CE2C;
-	Sat, 16 May 2026 15:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6862E1F30A4
+	for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 21:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778945602; cv=none; b=YTD8sgVnGAE66qL6rGWb5Wxu75orRWr9EL14vdDgdolrozcYaCCf1SXCgVXG+so4orL/JiFiyEhG7OU3tWzGo1yVBpKwvVQFCpzYvh214GbM3FuQD069KiCRRoVSi8T6NVfZEChubQkx5f5E1pY2lnRtpUKzJ0S7RTEWNSejUa4=
+	t=1778968443; cv=none; b=OqIwu7PRViKruAxKdI1yWmbSozDthYsXXmJz/Vm8gzrJciYfWJhw/rX1OjDPhX+KuJNW0AvlTu2ktcsHLBjkwCqDYZnRiGQ7+8xj3z6CCGjrcHzQe5XTL8IAU95b+yinzGPjfYwTGJIeUDWlqiVc2uP5h5/REBVAUran9P4gkvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778945602; c=relaxed/simple;
-	bh=rXyUXkBU2Szrftesk5CYb0s9zWXk86bAPOVucK4a/0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QFhQmIhQA3eBI5Hx+JmJZs6zmmjOBi+GciEGOfoDQL0dSXdMVUosXntVABZc0LvQJpItselLdExd1vdf+fnZsjYPe4Ur+MVtK+76rLe5hA8dChJGTcfl3AiotCS0Ztv7H6exevs14s8XilyayOjsNH6FLlZ7ni2ueUaARjXvftE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghZde8Hw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EAF1C19425;
-	Sat, 16 May 2026 15:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778945602;
-	bh=rXyUXkBU2Szrftesk5CYb0s9zWXk86bAPOVucK4a/0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ghZde8Hw+I4PNOjsPLXusLssB7Sn/+tkK1FnVYJEKwp6Gb+0NcDCLPtzBbLY7iPB+
-	 wq7yCGI7H/DeP8ZW+TCt7nsXZ5jto9/c4IdZBSauCA2H4Ry7KdmATVKG3tkaiT/JHG
-	 X5dlnzzM8J3z80WNa6y+TTyNShwZt6ciadLdYhULg4o6yjJ+p5CRSieTysWOiiiWig
-	 AWEGw2IflNTd9ipMwK/eSLHxGA4cywapcqRIbkdVztyFpJGTwtEwyAxRZe8Hg5j2Ej
-	 d4onDqdL1KJcD4IxAOuGup1WDas0hvERSdQUbZrOVyWdDpUcK6bNZwcnm2vKFjLrwr
-	 pPO7afJr1uVAA==
-Date: Sun, 17 May 2026 00:33:17 +0900
-From: Nathan Chancellor <nathan@kernel.org>
-To: Viktor =?iso-8859-1?Q?J=E4gersk=FCpper?= <viktor_jaegerskuepper@freenet.de>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Christian Heusel <christian@heusel.eu>,
-	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: pacman-pkg: make "rc" releases adhere to
- pacman versioning scheme
-Message-ID: <20260516153317.GA311940@ax162>
-References: <20260515215913.92481-1-viktor_jaegerskuepper@freenet.de>
- <bbed7fb2-11f7-4396-a89d-881972565f06@freenet.de>
+	s=arc-20240116; t=1778968443; c=relaxed/simple;
+	bh=QwAXB69n80Pd4ugLOGkroCOn4osl2iR1ETRhBgbC9MQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o2PbBdTxaDUj5WsiI3VjnMA5boMTWAfy/c42+AaqTHD0VDUgUNMuwijHDgtTm/mQwWkbrqSwT0hKR0XuVeeSvabpTZdKOSSlR2KryntxhCdyRD4aKtCt9d7dXwxwFZjIeSxW6mnD5+IauVEpf9+BXth83X3gzcdaWH3acRrtY8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOFA8LoH; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488ad135063so6329265e9.0
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 14:54:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778968439; x=1779573239; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=LoEw6E2OHGrqT9As9SHPvgWoPv2W3548Fizot2Lu9t8=;
+        b=hOFA8LoHy+hFQ08HuffBRKSrHS9+RcW5POgDeMgaSQzXUl6JLwNzImTp9lzXC01Atx
+         vcROOAiszSneK8OvEhArwU8qPj3yTGyHvCwgUHryOELY2cWqhH0abd1aLFysUBtewtha
+         t9uMP44FH6jmwba7c6uNIjvA72tk9HujYDzJV8sYd9QPNZ5Jnn1rkne711utFjaqJ4UT
+         nzX2KoI5JaSxhLmGn1WckF7+NOfbGBAKJ2Bewfg9HcDAC1x+CIfqUpxnpz89bBrfB2z7
+         DuCxmAsEvqFOFzGSpQ2A+1mImJ8a20WgIWfQrpzRmJ86igZLMAkmikMDzlMe9SpZzrBR
+         9PwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778968439; x=1779573239;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LoEw6E2OHGrqT9As9SHPvgWoPv2W3548Fizot2Lu9t8=;
+        b=b3NRDtWb4GyMY+05504WS1oF/6EFASURkDWfZCp9WrESwg1VhCwtVEZgyzFt+o1ogW
+         sbfgyIeiKJNOJr08b1E/Xjc9V9zVBfg605InihPGRi78natYmuRvX/e2yQBFZ5W4Okoe
+         ACeaYI5FNmMP7WacY3GrSRGOz7U/xP9BfzIFV3eQqMHasTvlAHkuja9tvAQ7k7gqmnCr
+         95ziJjv7TdIZcunAVt4U/POPT2QqkJ+u+J6hHj/DzrPBuUyCb3319V8kAzfwxj7QwsdX
+         cAOg7Lt3KAAUbyg9HQ1FOF8wosC7QbKhRD+ZZeoPshe+ppftndk+ZrMV4fZBFq0aat+q
+         eleQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9SeARvw5a4gGypc8UPTaENeyxQJ886CokUOL7uUDfBe2qIP4y5ROGTSkfkjlD1Ksk5ekKNLersUxCXhXE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZLa3po2u1f2gRopj/s8/MMgvWSPXSlXfxjeRCIjynesshorKO
+	FFexpnuLy9ML8UA12NZi3UHjc9h7mgwZCfyi94llty47mufUOtYFoPiALKwcpLgg9+fnqA==
+X-Gm-Gg: Acq92OH80o5OqddslOEZWSzbTs1inI4UCEqEc1AU0JgM3pnDYz3eHWM+Sm65++VP4X4
+	adAgFsSMQJsWWbhpnhXYD2zWeCjGumTfUChRIPx/rucfvuExQP0ksc5hLLapyaVBam9O/aTSGRm
+	2OFwOgA/6vbg+vXk7IqHs/WdsM68VjbP2aXKPcR7+EuXE++ppAqjrgZ0d8Pducsc3aPtGMP+LUw
+	hHcOBXTBiN41oEj+U6R1L7EsxejN/ORQxPr2fkyZQJlo3nytSwmbnV/gAfm8rY0krk/MpGgHZxm
+	cgJ1/ttG0sxZj3UU3rVo1e27K+DcD9U+p9H7fQxUGmHJZLrFHKCqRGgfsUIUOIsRo0xldUM9Kd7
+	ifibBPViqpu7oTOpUJyubCcBMqRgMsa9PoHkNuFD/cCyRQ0oPPljbWyrgHnVZlG3gEbHQZ1AExc
+	c/gjlFZZEG7/Oam1zqkSYP8tdoNVgkLN203q+oGQWaH4Xc86eDPKzfPFU=
+X-Received: by 2002:a05:600c:3f0f:b0:48f:99a9:bbcc with SMTP id 5b1f17b1804b1-48fe60ecb9cmr119600245e9.10.1778968438612;
+        Sat, 16 May 2026 14:53:58 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm158383415e9.8.2026.05.16.14.53.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 14:53:58 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: nathan@kernel.org,
+	nsc@kernel.org
+Cc: jani.nikula@linux.intel.com,
+	akpm@linux-foundation.org,
+	gary@garyguo.net,
+	ljs@kernel.org,
+	arnd@arndb.de,
+	gregkh@linuxfoundation.org,
+	masahiroy@kernel.org,
+	ojeda@kernel.org,
+	corbet@lwn.net,
+	qingfang.deng@linux.dev,
+	yann.prono@telecomnancy.net,
+	demiobenour@gmail.com,
+	ej@inai.de,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [RFC v3 0/3] add kconfirm
+Date: Sat, 16 May 2026 22:53:51 +0100
+Message-ID: <20260516215354.449807-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bbed7fb2-11f7-4396-a89d-881972565f06@freenet.de>
-X-Rspamd-Queue-Id: 38F3B55C6A4
+X-Rspamd-Queue-Id: 243D155DF67
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linux.intel.com,linux-foundation.org,garyguo.net,kernel.org,arndb.de,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,gmail.com,inai.de,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13178-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[freenet.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13177-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,freenet.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,crates.io:url]
 X-Rspamd-Action: no action
 
-On Sat, May 16, 2026 at 04:27:39PM +0200, Viktor Jägersküpper wrote:
-> On 5/15/26 23:58, Viktor Jägersküpper wrote:
-> > The package versioning scheme does not enable smooth upgrades from "rc"
-> > releases to the corresponding stable releases (e.g. 7.0.0-rc7 -> 7.0.0)
-> > because pacman considers that a downgrade due to the underscore in
-> > pkgver (e.g. 7.0.0_rc7), see e.g. vercmp(8) for an explanation of the
-> > package version comparison used by pacman. Package versions which are
-> > derived from said releases (e.g. built from git revisions) are
-> > similarly affected. Fix this by modifying pkgver in order to remove the
-> > hyphen from kernel versions containing "-rcN", where N is a
-> > non-negative integer.
-> > 
-> > Acked-by: Thomas Weißschuh <linux@weissschuh.net>
-> > Signed-off-by: Viktor Jägersküpper <viktor_jaegerskuepper@freenet.de>
-> > ---
-> > v1 -> v2:
-> > - make the substitution more restrictive
-> > - enhance commit message accordingly
-> > - add Acked-by tag
-> > 
-> > v1: https://lore.kernel.org/linux-kbuild/20260513231745.51780-1-viktor_jaegerskuepper@freenet.de/
-> > 
-> > BTW this also works for something like "5.10.248-rt143-rc1" which is a
-> > recent example of an "rc" release of a realtime kernel.
-> > 
-> >  scripts/package/PKGBUILD | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> > index 452374d63c24..1213c8e04671 100644
-> > --- a/scripts/package/PKGBUILD
-> > +++ b/scripts/package/PKGBUILD
-> > @@ -10,7 +10,7 @@ for pkg in $_extrapackages; do
-> >  	pkgname+=("${pkgbase}-${pkg}")
-> >  done
-> >  
-> > -pkgver="${KERNELRELEASE//-/_}"
-> > +pkgver="$(echo "${KERNELRELEASE}" | sed 's/-\(rc[0-9]\+\)/\1/;s/-/_/g')"
-> 
-> I will send a v3 patch later with the first substitution changed to
-> match "-rcN" where N is a strictly positive integer because this is
-> what we really had in the kernel so far, at least as far as I can
-> remember.
+Hi all,
 
-Do you mean dropping the '\+' portion of the regex? If so, I think I
-would rather keep what you have here since while an -rc10 is incredibly
-unlikely nowadays (we pretty much never go past -rc8), it has happened
-once before in 3.1:
+kconfirm has shrunk a lot since v2!
 
-  $ git tag -l | grep -- -rc10
-  v3.1-rc10
+Okay back to the RFC...
 
-We can leave the Debian case you pointed at earlier the way it is for
-now but if we are making a change here, we might as well make it as
-future proof as possible. If you (or others) really feel strongly
-otherwise, feel free to ignore me :)
+kconfirm is a tool to detect misusage of Kconfig. It detects dead code,
+constant conditions, and invalid (reverse) ranges. There are also optional
+checks to detect config options that select visible config options, and to
+check for dead links in the help texts.
+
+Following this discussion:
+https://lore.kernel.org/all/20260405122749.4990dcb538d457769a3276e0@linux-foundation.org/
+in which Andrew brought up the possibility of moving kconfirm in-tree,
+I've prepared this RFC to do so. See also kconfirm's introduction to the
+mailing list:
+https://lore.kernel.org/all/6ec4df6d-1445-48ca-8f54-1d1a83c4716d@gmail.com/
+
+False Alarms:
+kconfirm aims for zero false-positives, which is currently true for the
+default checks (as far as I'm aware - but there are hundreds to go
+through); this is not really possible for dead link checks, as this
+depends on an internet connection, and we do not attempt to bypass bot
+blocks. For this reason, dead link checking is disabled by default, but
+I've provided an example below of how to enable it. Additionally, you can
+view my previous message to the mailing list with hand-verified dead links
+here:
+https://lore.kernel.org/all/6732bf08-41ee-40c4-83b2-4ae8bc0da7cf@gmail.com/
+
+Additionally, there is an optional check to detect config options that
+select visible config options, as requested by Jani during the review of
+the first version of this RFC:
+https://lore.kernel.org/all/dcb7439832f0bb35598fba653d922b5f6a4d0058@intel.com/
+
+Even after deduplicating across architectures, there are well over 1,000
+instances of these select-visible cases, and I suspect that, despite the
+Kconfig documentation saying select-visible should be avoided, some
+exceptions will be made. So, I have left this check disabled by default,
+keeping in line with the goal of having a low-noise checker. If interested
+in using it, I have included an example below of how to enable this check.
+
+Current State of Alarms:
+On Linux v7.1-rc3 (which this RFC is based), there are 489 alarms coming
+from the default set of checks, and an additional 1,789 alarms if enabling
+the optional select-visible check. These counts are with deduplication
+across all architectures, a change that was made to the tool's CLI from
+RFC v1 to RFC v2. The last time I checked linux-next (next-20260427),
+there were 81 unique dead links.
+
+The most critical check is the dead default statements, which has surfaced
+a few misconfiguration bugs (fortunately, just for kunit tests), see
+examples:
+https://lore.kernel.org/all/20260323124118.1414913-1-julianbraha@gmail.com/
+and:
+https://lore.kernel.org/all/20260323123536.1413732-1-julianbraha@gmail.com/
+
+But hopefully kconfirm can ease maintenance and we can prevent more of
+these from making it into the tree in the future.
+
+Use it:
+You can test out kconfirm with this patch series by compiling and running
+kconfirm like this:
+
+`make kconfirm`
+
+To enable the select-visible check:
+`KCONFIRM_ARGS="--enable-check select_visible" make kconfirm`
+
+And to enable dead link checks in the help texts:
+`KCONFIRM_ARGS="--enable-check dead_link" make kconfirm`
+
+kconfirm by default runs on the same architecture as the kernel build
+would; though additional architectures can be enabled by passing
+`--enable-arch` and the default architecture can be disabled using 
+`--disable-arch`. Alarms are tagged with the affected architecture. For
+alarms that appear in multiple of the enabled architectures, they are
+deduplicated and tagged like: [X86] or [X86, ARM].
+
+Dependencies will need to first be downloaded from crates.io by running
+the `cargo vendor` command in scripts/kconfirm/
+ 
+Requested feedback:
+1. I would like to know if anyone thinks that the select-visible check
+   should be enabled by default. 
+2. I'm still hoping for some usage feedback!
+
+Thanks,
+Julian Braha
+---
+Changes since v2:
+- Reduce Rust dependencies significantly (follows Demi's suggestions):
+  - from 6 direct dependencies to 1
+  - from 107 indirect dependencies to 4
+  - Replace ureq crate with usage of system libcurl (thanks Demi)
+  - Replace clap crate with FFI bindings to libc's getopt_long (also Demi)
+  - Remove crates env_logger, regex
+- Switch from vendoring dependencies to requiring users to first download
+  outside of Make (as suggested by Miguel)
+- Various makefile improvements (as pointed out by Nicolas):
+  - Fix out-of-tree builds
+  - Only delete kconfirm artifacts with 'distclean' and 'mrproper'
+- Add myself as maintainer of kconfirm (as discussed with Nicolas)
+- Remove dedicated code license file (pointed out by Jani)
+- Update documentation to explain tool setup
+- Add hint to users to check documentation and download tool dependencies
+- Address sashiko's many code-level and documentation suggestions:
+  - Follow the kernel's rust import style
+  - Fix a dead_range/duplicate_range alarm mixup
+  - Fix potential duplicates in default value style check
+  - Avoid panicking on errors
+  - Clarify parse failure check usage in documentation 
+  - Fix typo in documentation
+- Can now enable architectures and disable the default (host) architecture in the CLI
+
+Link to v2:
+https://lore.kernel.org/all/20260509203808.1142311-1-julianbraha@gmail.com/
+
+Changes since v1:
+- vendored dependencies instead of requiring an internet connection
+- removed Cargo.lock
+- replaced reqwest dependency with smaller ureq
+- removed rustls, expect user to have openssl instead
+- added select-visible check based on Jani's feature request
+- added invalid (reverse) range check
+- deduplicating alarms that appear for multiple architectures
+- `make clean` no longer deletes kconfirm's build artifacts
+- typo fixes in documentation
+- added patch description for the main "add kconfirm" patch (patch 1/2)
+
+Link to v1:
+https://lore.kernel.org/all/20260427174429.779474-1-julianbraha@gmail.com/
+---
+
+Julian Braha (3):
+  scripts: add kconfirm
+  Documentation: add kconfirm
+  MAINTAINERS: create entry for kconfirm
+
+ Documentation/dev-tools/index.rst             |   1 +
+ Documentation/dev-tools/kconfirm.rst          | 222 ++++++
+ MAINTAINERS                                   |   6 +
+ Makefile                                      |  15 +-
+ scripts/Makefile                              |   2 +-
+ scripts/kconfirm/.gitignore                   |   3 +
+ scripts/kconfirm/Cargo.lock                   |  60 ++
+ scripts/kconfirm/Cargo.toml                   |  12 +
+ scripts/kconfirm/Makefile                     |  14 +
+ scripts/kconfirm/kconfirm-lib/Cargo.toml      |  12 +
+ scripts/kconfirm/kconfirm-lib/src/analyze.rs  | 643 ++++++++++++++++
+ scripts/kconfirm/kconfirm-lib/src/checks.rs   | 701 ++++++++++++++++++
+ scripts/kconfirm/kconfirm-lib/src/curl_ffi.rs | 182 +++++
+ .../kconfirm/kconfirm-lib/src/dead_links.rs   | 138 ++++
+ scripts/kconfirm/kconfirm-lib/src/lib.rs      |  62 ++
+ scripts/kconfirm/kconfirm-lib/src/output.rs   | 111 +++
+ .../kconfirm/kconfirm-lib/src/symbol_table.rs | 223 ++++++
+ scripts/kconfirm/kconfirm-linux/Cargo.toml    |  10 +
+ .../kconfirm/kconfirm-linux/src/getopt_ffi.rs |  99 +++
+ scripts/kconfirm/kconfirm-linux/src/lib.rs    |  78 ++
+ scripts/kconfirm/kconfirm-linux/src/main.rs   | 192 +++++
+ 21 files changed, 2781 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/dev-tools/kconfirm.rst
+ create mode 100644 scripts/kconfirm/.gitignore
+ create mode 100644 scripts/kconfirm/Cargo.lock
+ create mode 100644 scripts/kconfirm/Cargo.toml
+ create mode 100644 scripts/kconfirm/Makefile
+ create mode 100644 scripts/kconfirm/kconfirm-lib/Cargo.toml
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/analyze.rs
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/checks.rs
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/curl_ffi.rs
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/dead_links.rs
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/lib.rs
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/output.rs
+ create mode 100644 scripts/kconfirm/kconfirm-lib/src/symbol_table.rs
+ create mode 100644 scripts/kconfirm/kconfirm-linux/Cargo.toml
+ create mode 100644 scripts/kconfirm/kconfirm-linux/src/getopt_ffi.rs
+ create mode 100644 scripts/kconfirm/kconfirm-linux/src/lib.rs
+ create mode 100644 scripts/kconfirm/kconfirm-linux/src/main.rs
 
 -- 
-Cheers,
-Nathan
+2.53.0
+
 
