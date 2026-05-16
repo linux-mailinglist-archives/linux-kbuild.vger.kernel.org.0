@@ -1,147 +1,167 @@
-Return-Path: <linux-kbuild+bounces-13175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gG8RIu0ZCGpLZQMAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13175-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 09:17:01 +0200
+	id IJVDIC6ACGo/sgMAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13176-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 16:33:18 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05F755A94D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 09:17:00 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 208C955C16A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 16:33:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5BA643013B64
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 07:16:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id ED95A300382C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2026 14:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 791CA282F3E;
-	Sat, 16 May 2026 07:16:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA3CF2848A8;
+	Sat, 16 May 2026 14:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nY0950/p"
+	dkim=pass (2048-bit key) header.d=freenet.de header.i=@freenet.de header.b="VIz2YPVS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.freenet.de (mout.freenet.de [194.97.196.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADF9292B44
-	for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 07:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FCA2C21F1;
+	Sat, 16 May 2026 14:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.97.196.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778915818; cv=none; b=OO/cyXjDDvLWgOvB/xnNEwpXUzsFIs+4wAzZglf6eTR/I5tBTvMoVlT/sYV34MIlJP/oou51BqnbmdkLX28qULzkxH/krnYRaTV6QFL3R+O4JoEMc/hFJnzW9EOP6ePgjbe+4JeHPkDyuycMqToy/Ql5QdwRawnzsa6ytgwvrHg=
+	t=1778941994; cv=none; b=FJ7yqdYKAM7yjz1vuG0Q8Mu3bezHATEqcrZnUYjYKtJJ0toapTXCaNPw0d5WGWW20oe/Cuj3g81n09L4nV0tk1WbJ251QnqCDDoOfSsP4BLawCu6z7jtyA2++cB/0Z0dwKelD89bYfaVt0Px8g99uPHSrUskGimKeqZfkx1QW2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778915818; c=relaxed/simple;
-	bh=nJ66y5Bfh+93qEmuK5iM9AC195GkqDNSRX/ut4Y1SQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V3xj7I0eBE0aBUvB8/y91KJ077IC72Im47FdTlEzV2ssW8JsDtkkPAm2QWRGuMbEyCZe4Xx9olbtcDF74Z1aBNCJoEmcl9B8iUfwMWowNdc0S8XjzNJEpJLNlKf620CkNsNONyaaQG0iGs8t4X1HVXOGkqfspNKFlB6Cy7O55y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nY0950/p; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3680540a6efso249694a91.2
-        for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 00:16:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778915816; x=1779520616; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJ66y5Bfh+93qEmuK5iM9AC195GkqDNSRX/ut4Y1SQI=;
-        b=nY0950/pgIPb5KtKagTJQZ9U6GHLJDqoU21mrcix+UnJR8Cone0AeLerQuO+AYm9LF
-         NJRN1vHCLJZfICVZCuTpWSU+5eRLa8EeSfiNuokEAPVgv1t0XNeyDXY74WC7JYJqdhGi
-         XA/aXzA4NnC0KiPu0gKvXnBh4Of66uYA64E7tlYUixl+9dsNBInyJj2ud1njFYsZc/XX
-         HX0QosObv+53/EtBSeTt4KvsnbDdquql9APH+jiYNrK+w+AMo0/9cEV+5Fb03Ad44gyZ
-         xjEukCUZ1jQl+q1oTbX39rfatZ97StcVamHoTwrrqu8VyNDUDr4c4sYT8rICe8MHGp8h
-         7fdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778915816; x=1779520616;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJ66y5Bfh+93qEmuK5iM9AC195GkqDNSRX/ut4Y1SQI=;
-        b=ZfjsAs9uadErsJdAh0GZQzBTXzzRQX3vppcae1tmXhCaKpLCosVF/phNWOhAMcGoEU
-         GVexkD9q1G+u5pUYjUcR+yQbD2MIeAyanPj1CoGB88daIZPGyMtzb3MJ2osX+0HfboVH
-         sCxomO0strzi15yS6bPfztMx3wwaS3yekPNB98weAlRwUAFaD91s0ICy9Mvy+knvCIue
-         3705wyAPYJ3fprq94chLLVy+Ak7jPxzeED7+MdqKlx0hItg+tOkcCi3U9lT0J4hWxwpn
-         9XQI3LzUrjNHti1R9bFLsHRFy99huH16hSuTJ7DMWe7XEVxm9VlrmCjEMsLjJst0pLdM
-         bnKw==
-X-Forwarded-Encrypted: i=1; AFNElJ8WR1ba8LH1fiM215zAX1+OeMflgmArk4Lun6MUdwM3WVris/HsPoPYXEO/vT+8lhtf1fsgDOFe1BiapKg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgR56e5UgiY3sOu2eDwUQTqKX3utOfVUFJ5g4dGr2As+xw9hZe
-	Ab6iV4jf13Z5dVg3SJYN84H6ac25JMqoxYHyDMoMNU/QPBiZAvtg1GjR
-X-Gm-Gg: Acq92OGgTtnPzc44ts8jYI0NZoFNxnGXmkZKEh+m+QA6H7SUlI3+sJ0eqcjQrvcc0kN
-	FaIW9QyypZGklv/lZG+s/0olr9n/f59Hjm+LrdAdFbm8kA4somtKaJOaMHbiUKDcVTccoA00zVd
-	mJZwm8/xz+C//CAdSrKMW3rIPa6TitWSZJSxjvDZ6av6+Zsa75dV8IOrGtnmU1lRGmdGwTt1F+F
-	Ty4XEDQPKdVsw2cErKcjxyrL0T8Fqh9ZJhXAJ8Ze3/ON5bIpG64JJvs0R7EOq+3VpXE34rarVdG
-	AAst2gyrb2M6JTPsBlHXCY8r9fFUKq3ve5Z5beVdk9m27nFrnmAxL57Ef+UbRVm+8uxC+1zVRmc
-	lTHIMGF2p8tQ/yKv3nR7Nkz7NrHP0WpNFzdJbOvKaNbnlA+lVN7rKlR6oTsTxMjZKr5BG8o2O+x
-	rQ5zc3VAPVcBU16fDTrk2hjGN7RxGTJBiiNDw7lg5/BZYmFBmgnZl9zX4Qp7xf3Kk/4C8mKW8xf
-	GwU
-X-Received: by 2002:a17:90b:35c8:b0:356:22ef:57ba with SMTP id 98e67ed59e1d1-369518b669amr7502144a91.7.1778915816332;
-        Sat, 16 May 2026 00:16:56 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c1:201e:affc:fc39:8ab8:bea7:27e7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3696e24e857sm1028945a91.0.2026.05.16.00.16.53
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 16 May 2026 00:16:55 -0700 (PDT)
-From: Jill Ravaliya <jillravaliya@gmail.com>
-To: nathan@kernel.org
-Cc: Jill Ravaliya <jillravaliya@gmail.com>,
-	nsc@kernel.org,
-	masahiroy@kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: deb-pkg: propagate hook script failures in builddeb
-Date: Sat, 16 May 2026 12:45:44 +0530
-Message-ID: <20260516071643.23179-1-jillravaliya@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	s=arc-20240116; t=1778941994; c=relaxed/simple;
+	bh=VWg7nIxI+TrD+IeLtrIfnR/VKpjZl9xkHzfNQOJqblI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NTLxfrxyrZh1LLI0knMK0fLqayR86ZuqnkZ19D+j4zhEwg+DlKjLzqZrJ0u91YdQz3Wk9ek5mB4NCiPzf9Sx1OnT5RYIY/LVHFOMIGA1Jjt1R5D5k8Dpe7/T9EzfxQWCmjRQgcx5yf5XJIyob9/9XtJcOJb9H/VlXE312EgQQPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=freenet.de; spf=pass smtp.mailfrom=freenet.de; dkim=pass (2048-bit key) header.d=freenet.de header.i=@freenet.de header.b=VIz2YPVS; arc=none smtp.client-ip=194.97.196.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=freenet.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freenet.de
+Received: from [2001:748:400:2319::3] (helo=sub2.mail.fnrz.de)
+	by mout4.mail.fnrz.de with esmtpa (ID viktor.jaegerskuepper@freenet.de) (port 25) (Exim 4.98.2 #2)
+	id 1wOFzF-000000000Pd-07kD;
+	Sat, 16 May 2026 16:27:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=freenet.de;
+	s=mjaymdexmjqk; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=LYoy3qNlvQ+BYIyISGShV5obarDVEvQFxAkQVIHF77A=; b=VIz2YPVSHRjHeE02TqhQomqMTz
+	TLRBSOpXZCNIGxvHGiGid6i26t8EaWLz7u0Mkzb93QIG5HUeilHtTUDRfKFQ5f58G6rVqRs1fX3uH
+	3sFlIRawvoGS5OX/3Dw+SNajb3ZJ7134HcQDEFO/VH2SvNZI7+pPUn9xbBRV2JEZ1ke2wXz4O3A7Q
+	hxnD/zcdTyGDhMzunAnN/TL59KaaGOcOcxE8HzGte2MJ6+w/YE0JFdLOhuVCO6+m3nYdobHERRnlc
+	j8Tc3uAZI4SDkXS9D5Q3i3O2Z94ds/4SMD/eYMHZhmc//+lEUYs3JiFJYHnbYSnwhu+6lrhg4X26T
+	te3S7tVQ==;
+Received: from [2a02:8071:a85:f020:d23b:4d27:e558:ccdc] (port=42896 helo=[127.0.0.1])
+	by sub2.mail.fnrz.de with esmtpsa (ID viktor.jaegerskuepper@freenet.de) (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (port 465) (Exim 4.96 #2)
+	id 1wOFzE-005ZzW-2t;
+	Sat, 16 May 2026 16:27:28 +0200
+Message-ID: <bbed7fb2-11f7-4396-a89d-881972565f06@freenet.de>
+Date: Sat, 16 May 2026 16:27:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kbuild: pacman-pkg: make "rc" releases adhere to
+ pacman versioning scheme
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Christian Heusel <christian@heusel.eu>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260515215913.92481-1-viktor_jaegerskuepper@freenet.de>
+Content-Language: en-US
+From: =?UTF-8?B?VmlrdG9yIErDpGdlcnNrw7xwcGVy?=
+ <viktor_jaegerskuepper@freenet.de>
+In-Reply-To: <20260515215913.92481-1-viktor_jaegerskuepper@freenet.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: F05F755A94D
+X-FN-MUUID: 17789416483B17D207E8ACO
+X-Scan-TS: Sat, 16 May 2026 16:27:28 +0200
+X-Rspamd-Queue-Id: 208C955C16A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	FAKE_REPLY(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[freenet.de,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[freenet.de:s=mjaymdexmjqk];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13175-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13176-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[freenet.de:+];
+	FREEMAIL_FROM(0.00)[freenet.de];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jillravaliya@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[viktor_jaegerskuepper@freenet.de,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,weissschuh.net:email]
 X-Rspamd-Action: no action
 
-Hi Nathan, Nicolas,
+On 5/15/26 23:58, Viktor Jägersküpper wrote:
+> The package versioning scheme does not enable smooth upgrades from "rc"
+> releases to the corresponding stable releases (e.g. 7.0.0-rc7 -> 7.0.0)
+> because pacman considers that a downgrade due to the underscore in
+> pkgver (e.g. 7.0.0_rc7), see e.g. vercmp(8) for an explanation of the
+> package version comparison used by pacman. Package versions which are
+> derived from said releases (e.g. built from git revisions) are
+> similarly affected. Fix this by modifying pkgver in order to remove the
+> hyphen from kernel versions containing "-rcN", where N is a
+> non-negative integer.
+> 
+> Acked-by: Thomas Weißschuh <linux@weissschuh.net>
+> Signed-off-by: Viktor Jägersküpper <viktor_jaegerskuepper@freenet.de>
+> ---
+> v1 -> v2:
+> - make the substitution more restrictive
+> - enhance commit message accordingly
+> - add Acked-by tag
+> 
+> v1: https://lore.kernel.org/linux-kbuild/20260513231745.51780-1-viktor_jaegerskuepper@freenet.de/
+> 
+> BTW this also works for something like "5.10.248-rt143-rc1" which is a
+> recent example of an "rc" release of a realtime kernel.
+> 
+>  scripts/package/PKGBUILD | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+> index 452374d63c24..1213c8e04671 100644
+> --- a/scripts/package/PKGBUILD
+> +++ b/scripts/package/PKGBUILD
+> @@ -10,7 +10,7 @@ for pkg in $_extrapackages; do
+>  	pkgname+=("${pkgbase}-${pkg}")
+>  done
+>  
+> -pkgver="${KERNELRELEASE//-/_}"
+> +pkgver="$(echo "${KERNELRELEASE}" | sed 's/-\(rc[0-9]\+\)/\1/;s/-/_/g')"
 
-You are correct. I tested locally and confirmed that
-set -e in the generated postinst does catch run-parts
-failures even in the && expression — execution does
-not reach exit 0 when run-parts fails.
+I will send a v3 patch later with the first substitution changed to
+match "-rcN" where N is a strictly positive integer because this is
+what we really had in the kernel so far, at least as far as I can
+remember.
 
-My patch is therefore redundant. I am withdrawing it.
+Best regards,
+Viktor
 
-The root cause remains 55-initrd.install silently
-returning exit 0 when initrd is missing (LP#2141741),
-which run-parts sees as success. That is where the
-fix belongs.
+>  # The PKGBUILD is evaluated multiple times.
+>  # Running scripts/build-version from here would introduce inconsistencies.
+>  pkgrel="${KBUILD_REVISION}"
+> 
+> ---
+> base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+> 
+> Best regards,
+> Viktor
 
-This was my first patch to the kernel mailing list.
-I apologize for the noise and thank you both for
-taking the time to review it carefully.
-
-Jill Ravaliya
 
