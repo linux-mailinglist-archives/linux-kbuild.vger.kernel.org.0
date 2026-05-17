@@ -1,175 +1,252 @@
-Return-Path: <linux-kbuild+bounces-13210-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13211-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id C+UOLuFGCmpeywQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13210-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 00:53:21 +0200
+	id SMlaNL5JCmqtzAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13211-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 01:05:34 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214F656436A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 00:53:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB585643B6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 01:05:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 786823007969
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 22:53:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17CD4300FC42
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 23:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8723271EA;
-	Sun, 17 May 2026 22:53:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5480C3603D5;
+	Sun, 17 May 2026 23:05:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iwabBkpr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZwZunnn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B88632AABD
-	for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 22:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779058398; cv=pass; b=Ykz/hd9vfV0SpKkwxNQTNV4RkDb9OTzPZj62REa6oincWo22giivBw8qL6F9Gpc9K0FdEgPRme/IjROpEd8oXRKzfUC+ggPJaVETYFcLuMqAVnKub5dS5jxyNdX1KmJIEbOun7UPT5vHiYu/S+AL22DOOBYVdZFhduxS2DKnUu4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779058398; c=relaxed/simple;
-	bh=2mM9qMmNlEv3GNaqlQTKQMssYkdCVk+G1o/Wo1ps+qQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UVHiBoLzZ9Hskf97UcT+7FwLEFYDsj9YVKeqFgZpQ9fRlTnLVxU1GQ2UOG9K6oPROIKYH88CqXeLZfD1Aamxnq5yMWmfhJ1YPWiRmcpeFIjP6kjOLur8wsyuxYT2RW7aicl7kmtHvNdJvPyKObYyInC08XT458sufw587iMAqP4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iwabBkpr; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2f6e6a0a215so86624eec.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 15:53:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779058396; cv=none;
-        d=google.com; s=arc-20240605;
-        b=d3suFzAJlct5YyeNrKsk55gOOtJ8zMsNuwYnN667o1zjKW+TM2hxiulLR2upAlLZQQ
-         QsbkdAF8EbR1bt9wh0V7/zdi/TplPnmt87I8QPv/AJkCzqz9DKlRrfpJOJb0jY9L09Zw
-         i3u7kEAQWCJP3Fk5V/4O9d74hYAGzTHHdCDRQU873ykb3O/goDM7DWafzHSvTX+Ikuyp
-         jfq+3CNtvtfTw6QbrGu2DJloOvK40Lmypu0i7ORwNJy8U72RTbHgrKO1BD6nRLR1+6wO
-         hNXQKsHscb6WuqkGeKGuwfoKppKFysTMaSsgPcXndBHtdOOsp2J6BlYDxbU/lutByV6j
-         fobg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2mM9qMmNlEv3GNaqlQTKQMssYkdCVk+G1o/Wo1ps+qQ=;
-        fh=xu45j7BxYw5s3nOW3iQoE9HEntjlfTFnKPZ0somiomc=;
-        b=HsbrTscL7iTxQlBa+jBI5aqLQPZ9roKLCadZ7mV/QxnYD2GuoO3ZIsBT44Azcb74xx
-         rR4OG2iCwh7COIFQSSZebKGkEIN/VRPkGZ23gW4Ps/9lIsGe/L97p9ZwrnJGfD3oMRg9
-         llGiQyGH1vRa2Xpthh+A2s/SvKcElrB4dz90W4aE093CEbC1dsJHIgdJ11JN14SrRA/y
-         c7wpKeJ/90zTEcb6WMLeERw0ry0zGGqw+UMoAfo6EotFIUcv/cDSF3egcpMqexSIhjvk
-         UlK6cwN1IwUKudBLW00dEN6nswuuRHKQjNU1hYQWb3ursgGHGflNfSknV6TQHH38sSQF
-         bWpw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779058396; x=1779663196; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2mM9qMmNlEv3GNaqlQTKQMssYkdCVk+G1o/Wo1ps+qQ=;
-        b=iwabBkpryb/tiBEc7gMiyMUXR7SMEltMlOWzBrIyXb4oN2UYBIhbDQzQswYwjPAuPm
-         9WeeHJaJ1EElkDQKBgIe3aaOX+DHWKeU3YPUN2jNpsOW9SEAr2ewQ9DvwmEbnLck4Y/0
-         o/uf128KMpUHIxl6tz4S7DLPlzrEyvQveSVONv/HKMdJ424Rn/cAAKUJp/FB8Jale6Tx
-         QVDyNUnPNy+/EGl9iDFKd+s7T32L5Rk/7EFp2dBUjZb6L5S5gX4/XF5TXSGxcFxqL4GI
-         F03R0NZ0ieZaZqntjJOIuya7GdrnHnQkTixsmivOmqzTCEmkRQrp5b2LtgiBX+SOsQ6w
-         cyTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779058396; x=1779663196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2mM9qMmNlEv3GNaqlQTKQMssYkdCVk+G1o/Wo1ps+qQ=;
-        b=FITViO5h5paAWQpRHPjlzj+WHLUR8yFPar7x/YDBDIalVh5IWexoB95Pn/8Uogm9V/
-         C77WFAWsMj/4R8Il1tWKC3NHyjmPZU1igbBvg8EuT6FuQca/CCRdBSeOMVBE+ZwpNWsC
-         bH49zg/VXmzCaAVnFXwVH+2c8H8f6HuQ+ZC72O/RShBLJM45qA7g1y4PB+4wUUecYidM
-         IFiHj55cIFaJJDvlb+dXZV3hgXZ5ya5XRBaDH0H7suCzBHYYEyi9nSrSrInKDjWzT52k
-         6PeKwwtuuabvXLfEKTWdy4FlP9BIzaSSrbamLMbTdOvb4AQAkEfSbbo/NShYKSiM/r8R
-         eHfA==
-X-Forwarded-Encrypted: i=1; AFNElJ+bIYDTJVxBPjPo7XckYIlGh71PsiSRGC5rJ9/JP1zv0/PcXXboeZv5FsHXAHjJwM0MwXl7Qhn3I4eduW0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO3I5w23siAtPDuRyosslFgP1+T+CxilYiYP2+EiMgrHEo8a1Z
-	wCbv+DuZ7D3Y07UPTzjh8QzayX5/qi2KnA89ZVWoD7yNAuGn0nf817fUOe4w+zuNEKEMz5n5zGu
-	7gtGPKA5urzBTyaEPPEeiG55UC4FD0b1SfhWl
-X-Gm-Gg: Acq92OFPBOFr+UJMvZDGvyfy0lRTbLqdt7N0onv3Ro8jhzQJfzxJyt7KqV6+j+ddF9I
-	FgcZ5EblDQVntI6GgCNtvmt4GzNbiXX2LwOiTbuMadEyZN0sCYpnIK7hXERql9BScVgMOzBrsy2
-	EaOaSAeNF7HrDCfoTxhtaJj5EzbfiOn472z97fpZSaX5fKymyMmOrgJCHg7PsISN4XzySaNVsSH
-	ebF9tM0vSHC1r3E4XV+sc/EoEZiwWX14LVu1kT2UdA5QSNBJLN6lFpBtQ0eMddjxkFGO0I+qn4Y
-	BVveUqztUGgr/qGkgqnGkLlyikRpFzy6wueNhCHq6Dkm1+0k6PeT+tK0Xn/R3DA0O6AaZBnsY/p
-	waG4z9f3eGf3+AkhCtnZHKqU=
-X-Received: by 2002:a05:7300:dc14:b0:2e6:b55a:76ca with SMTP id
- 5a478bee46e88-30397b88952mr2469266eec.0.1779058396471; Sun, 17 May 2026
- 15:53:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7DA342173;
+	Sun, 17 May 2026 23:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779059130; cv=none; b=ZV4EuK/AuoO+pLYQoToiF8YsrkQAOB+b9tvuFesK3NC+Y5ygaV8KsZqu5ixoSkrzVFEG3bcp1GA/TE0AmKi5U3694L/9Wxpt4FTblcbwyQBw8tN680oB+bdjtcrJSIOhCLvSSieF7nHMEy5drbvrQl3BwxBEfCeog8cd5AdcEXg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779059130; c=relaxed/simple;
+	bh=sKGyBmnsQGG9j/rVeObTG2RlcjQt9ogqSMl6CyE8SUg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q7+69Hnjr1VByzBIthw1FOng8yC3kn7MMzUv3OLFS3OmSVuKgr25w1CDAuZ/23SKMJpS7+a5EyKF/c2xD0UyEQngnwNkPasnvruIoRAkZ686+6uNP3gTJhSlw5MGUJ1B3kk3o6E8DouJBcwbr4aUr7TEjM/3kcxb1c1cKTVzb2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZwZunnn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D63B0C2BCB0;
+	Sun, 17 May 2026 23:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779059129;
+	bh=sKGyBmnsQGG9j/rVeObTG2RlcjQt9ogqSMl6CyE8SUg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=KZwZunnneLfGOgNmmMgkbwkMmz/eop0EoFPf6Bj7HAIhfo4y4EPlrhXXKKsJy2cTu
+	 dj5E9yHpjiiMV9g7Lak7U0DEW4BOZobhXz430Fc8nutZ78AORq20zAt9SizLEHUppr
+	 CDk0PqKPo0tWnLsFYjF45wyPt7UTT843kcHUchXlNFlksCJEkkmNom5ngRVMTFWjX/
+	 u+ChBcsToLQ8C5V1QBH0kxtAkkJZGxPcmYRktnIlSlCckRzwujz8fuvh1GArCx1Tck
+	 gOZCfFxKzAhGvDFWtcGwhfef4h4u6dwbRtw/TZNbOZ5pXM3Fopvdsfdu7eVl8R4UcS
+	 pUtoOE7qN6TxQ==
+From: Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH v2 00/16] Bump minimum version of LLVM for building the
+ kernel to 17.0.1
+Date: Sun, 17 May 2026 13:05:03 -1000
+Message-Id: <20260517-bump-minimum-supported-llvm-version-to-17-v2-0-b3b8cda46bdd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-2-julianbraha@gmail.com> <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
- <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com> <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
-In-Reply-To: <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 18 May 2026 00:53:03 +0200
-X-Gm-Features: AVHnY4KBxDsmrWmWB1r_5d-YCkKw_SSUFyDdSueLkpNJn3Kc6QzpiTKf-tfUDfI
-Message-ID: <CANiq72mGTehUWS2-MgukOKmwAn3fB63boFNqbNENse6B00M7Zg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
-To: Demi Marie Obenour <demiobenour@gmail.com>
-Cc: Julian Braha <julianbraha@gmail.com>, nathan@kernel.org, nsc@kernel.org, 
-	jani.nikula@linux.intel.com, akpm@linux-foundation.org, gary@garyguo.net, 
-	ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org, 
-	masahiroy@kernel.org, ojeda@kernel.org, corbet@lwn.net, 
-	qingfang.deng@linux.dev, yann.prono@telecomnancy.net, ej@inai.de, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 214F656436A
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOSw6CMBRFt2I69hkov+rIfRgGFJ7wlH7SlkZD2
+ LuAcQEOT3LvPXdmHh2hZ5fDzBxG8mT0Cvx4YO3Q6B6BupUZT3iZ5JyDnJQFRZrUpMBP1hoXsIN
+ xjAoiuq0PwUBagczLTDSFkEmesXXPOrzTa3fd6i/7ST6wDZtgSwzkg3Hv/UxMt9zPK/7wxhQSE
+ Gl3lhwFYlVcn+g0jifjelYvy/IBVVHJSPUAAAA=
+X-Change-ID: 20260422-bump-minimum-supported-llvm-version-to-17-b4638a58b043
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ linux-hardening@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, 
+ Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+ linux-arm-kernel@lists.infradead.org, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Ard Biesheuvel <ardb@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6925; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=sKGyBmnsQGG9j/rVeObTG2RlcjQt9ogqSMl6CyE8SUg=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlcnhuUlFizjHsnZfOubBbtifmavaft/KMLr/WqgvPtL
+ syVkfHvKGVhEONikBVTZKl+rHrc0HDOWcYbpybBzGFlAhnCwMUpABPZJc3wz2SGZ+Wx2uZ7ug/c
+ 0qI55uxh1P/T4m87RXvG0Ql6awpKXzAyrD3mJcquZ1VVVHpY6tvlR04vsrP/L469VWB/0WHymWo
+ RNgA=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+X-Rspamd-Queue-Id: 2CB585643B6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13210-lists,linux-kbuild=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13211-lists,linux-kbuild=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,google.com,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,linux-foundation.org,garyguo.net,arndb.de,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,inai.de,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url]
 X-Rspamd-Action: no action
 
-On Sun, May 17, 2026 at 10:25=E2=80=AFPM Demi Marie Obenour
-<demiobenour@gmail.com> wrote:
->
-> I was hoping for Linux to avoid the Rust trend of downloading tons
-> of third-party crates, with all the supply-chain risks that entails.
+The current minimum version of LLVM for building the kernel is 15.0.0.
+However, there are two deficiencies compared to GCC that were fixed in
+LLVM 17 that are starting to become more noticeable.
 
-I completely agree -- it is why I said a well-known, vetted set of crates.
+The first was a bug in LLVM's scope checker [1], where all labels in a
+function were validated as potential targets of an asm goto statement,
+even if they were not listed in the asm goto statement as targets. This
+becomes particularly problematic when the cleanup attribute is used, as
 
-That is, we should decide on e.g. a single CLI arg parser, a single
-logger, etc. for most of our tools, and ideally they should be
-well-known crates (ideally already trusted via use in the compiler
-itself).
+  asm goto(... : label_a);
+  ...
+label_a:
+  ...
+  int var __free(foo);
+  asm goto(... : label_b);
+  ...
+label_b:
+  ...
 
-Moreover, they should be pinned with `--locked` or similar (like we
-already recommend for `bindgen-cli`), so that we only ever use
-something that matches the hash in the lockfile that would be
-committed in the tree.
+will trigger an error since the scope checker will complain that the
+cleanup variable would be skipped when jumping from the first asm goto
+to label_b (which obviously cannot happen). This issue was the catalyst
+for commit e2ffa15b9baa ("kbuild: Disable CC_HAS_ASM_GOTO_OUTPUT on
+clang < 17"). Unfortunately, this issue is reproducible with regular asm
+goto in addition to asm goto with outputs, so that change was not
+entirely sufficient to avoid the issue altogether. As asm goto has
+effectively been required since commit a0a12c3ed057 ("asm goto:
+eradicate CC_HAS_ASM_GOTO") and the usage of the cleanup attribute
+continues to grow across the tree, raising the minimum to a version that
+avoids this issue altogether is a better long term solution than
+attempting to workaround it at every spot where it happens.
 
+The second issue is an incompatibility with GCC 8.1+ around variables
+marked with const being valid constant expressions for _Static_assert
+and other macros [2]. With GCC 8.1 being the minimum supported version
+since commit 118c40b7b503 ("kbuild: require gcc-8 and binutils-2.30"),
+this incompatibility becomes more of a maintenance burden since only
+clang-15 and clang-16 are affected by it.
+
+Looking at the clang version of various major distributions through
+Docker images, no one should be left behind as a result of this bump, as
+the old ones cannot clear the current minimum of 15.0.0.
+
+  archlinux:latest              clang version 22.1.3
+  debian:oldoldstable-slim      Debian clang version 11.0.1-2
+  debian:oldstable-slim         Debian clang version 14.0.6
+  debian:stable-slim            Debian clang version 19.1.7 (3+b1)
+  debian:testing-slim           Debian clang version 21.1.8 (3+b1)
+  debian:unstable-slim          Debian clang version 21.1.8 (7+b1)
+  fedora:42                     clang version 20.1.8 (Fedora 20.1.8-4.fc42)
+  fedora:latest                 clang version 21.1.8 (Fedora 21.1.8-4.fc43)
+  fedora:44                     clang version 22.1.1 (Fedora 22.1.1-2.fc44)
+  fedora:rawhide                clang version 22.1.3 (Fedora 22.1.3-1.fc45)
+  opensuse/leap:latest          clang version 17.0.6
+  opensuse/tumbleweed:latest    clang version 21.1.8
+  ubuntu:jammy                  Ubuntu clang version 14.0.0-1ubuntu1.1
+  ubuntu:noble                  Ubuntu clang version 18.1.3 (1ubuntu1)
+  ubuntu:questing               Ubuntu clang version 20.1.8 (0ubuntu4)
+  ubuntu:resolute               Ubuntu clang version 21.1.8 (6ubuntu1)
+
+17.0.1 is chosen as the minimum instead of 17.0.0 to ensure that the
+particular version of LLVM 17 has the two aforementioned bugs fixed, as
+the second was fixed during the 17.0.0 release candidate phase and it
+was not until LLVM 18 that LLVM adopted the scheme of x.0.0 being a
+prerelease version and x.1.0 is a release version [3] to help with
+scenarios such as this.
+
+The first patch in the series does the actual bump. The remaining
+patches are cleanups of workarounds for various issues that are no
+longer needed with the bump.
+
+I plan to take this via the Kbuild tree for 7.2, please provide Acks as
+necessary.
+
+[1]: https://github.com/llvm/llvm-project/commit/f023f5cdb2e6c19026f04a15b5a935c041835d14
+[2]: https://github.com/llvm/llvm-project/commit/0b2d5b967d98375793897295d651f58f6fbd3034
+[3]: https://github.com/llvm/llvm-project/commit/4532617ae420056bf32f6403dde07fb99d276a49
+
+---
+Changes in v2:
+- Pick up provided tags (thanks everyone!)
+- Patch 1: Adjust changes.rst in Documentation/translations
+- Patch 11: Adjust commit message based on Sashiko review
+- Patch 15-16: New changes
+- Link to v1: https://patch.msgid.link/20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org
+
+---
+Nathan Chancellor (16):
+      kbuild: Bump minimum version of LLVM for building the kernel to 17.0.1
+      security/Kconfig.hardening: Remove tautological condition from CC_HAS_ZERO_CALL_USED_REGS
+      security/Kconfig.hardening: Remove tautological condition from FORTIFY_SOURCE
+      security/Kconfig.hardening: Remove tautological condition from CC_HAS_RANDSTRUCT
+      arch/Kconfig: Remove tautological conditions from HAS_LTO_CLANG
+      arch/Kconfig: Remove tautological condition from AUTOFDO_CLANG
+      ARM: Drop tautological ld.lld conditions from ARCH_MULTI_V4{,T}
+      riscv: Remove tautological condition from selection of ARCH_SUPPORTS_CFI
+      riscv: Drop tautological condition from TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+      scripts/Makefile.warn: Drop -Wformat handling for clang < 16
+      x86/build: Drop unnecessary '-ffreestanding' addition to KBUILD_CFLAGS
+      x86/module: Revert "Deal with GOT based stack cookie load on Clang < 17"
+      x86/entry/vdso32: Remove conditional omission of '.cfi_offset eflags'
+      kbuild: Remove check for broken scoping with clang < 17 in CC_HAS_ASM_GOTO_OUTPUT
+      compiler-clang.h: Remove __cleanup -Wunused-variable workaround
+      compiler-clang.h: Drop explicit version number from "all" diagnostic macro
+
+ Documentation/process/changes.rst                    |  2 +-
+ Documentation/translations/it_IT/process/changes.rst |  2 +-
+ Documentation/translations/pt_BR/process/changes.rst |  2 +-
+ arch/Kconfig                                         |  5 +----
+ arch/arm/Kconfig.platforms                           |  4 ----
+ arch/riscv/Kconfig                                   | 16 +++++++---------
+ arch/x86/Makefile                                    |  5 -----
+ arch/x86/entry/vdso/vdso32/sigreturn.S               | 10 ----------
+ arch/x86/include/asm/elf.h                           |  5 ++---
+ arch/x86/kernel/module.c                             | 15 ---------------
+ include/linux/compiler-clang.h                       | 13 ++-----------
+ init/Kconfig                                         |  3 ---
+ scripts/Makefile.warn                                | 10 ----------
+ scripts/min-tool-version.sh                          |  2 +-
+ security/Kconfig.hardening                           |  8 --------
+ 15 files changed, 16 insertions(+), 86 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260422-bump-minimum-supported-llvm-version-to-17-b4638a58b043
+
+Best regards,
+--  
 Cheers,
-Miguel
+Nathan
+
 
