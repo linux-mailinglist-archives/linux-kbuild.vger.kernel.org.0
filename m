@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-13211-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13212-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SMlaNL5JCmqtzAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13211-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 01:05:34 +0200
+	id MLTyCsRJCmqtzAQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13212-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 01:05:40 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB585643B6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 01:05:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D195F5643D7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 01:05:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 17CD4300FC42
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 23:05:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 28A50300F97D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 23:05:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5480C3603D5;
-	Sun, 17 May 2026 23:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4AB93D565D;
+	Sun, 17 May 2026 23:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZwZunnn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="om0tmjJt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7DA342173;
-	Sun, 17 May 2026 23:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080C3D5656;
+	Sun, 17 May 2026 23:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779059130; cv=none; b=ZV4EuK/AuoO+pLYQoToiF8YsrkQAOB+b9tvuFesK3NC+Y5ygaV8KsZqu5ixoSkrzVFEG3bcp1GA/TE0AmKi5U3694L/9Wxpt4FTblcbwyQBw8tN680oB+bdjtcrJSIOhCLvSSieF7nHMEy5drbvrQl3BwxBEfCeog8cd5AdcEXg=
+	t=1779059132; cv=none; b=CTEzP7XeVH9CogVi9zphm62GCcX1GoO6A74RZvnHxQ8WgVzuEdEXGMPX41Iemj5suALeXFHoc3aOHufSeUVP+8mbNv4ZH2sf6kQq/ds5qDuM0oAETX0Lddsm5tgn1OVdiotZBySjglASUuGZFs3//x49Uu+YIJnox7LxOQeYdVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779059130; c=relaxed/simple;
-	bh=sKGyBmnsQGG9j/rVeObTG2RlcjQt9ogqSMl6CyE8SUg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q7+69Hnjr1VByzBIthw1FOng8yC3kn7MMzUv3OLFS3OmSVuKgr25w1CDAuZ/23SKMJpS7+a5EyKF/c2xD0UyEQngnwNkPasnvruIoRAkZ686+6uNP3gTJhSlw5MGUJ1B3kk3o6E8DouJBcwbr4aUr7TEjM/3kcxb1c1cKTVzb2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZwZunnn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D63B0C2BCB0;
-	Sun, 17 May 2026 23:05:23 +0000 (UTC)
+	s=arc-20240116; t=1779059132; c=relaxed/simple;
+	bh=rOmTabndOoOX7AmULUZroOZTY/ZAC4Q9umxkdxMQeds=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Ly0CNGtPdRK6YoklrujDLgY1TmT34nYqu2D0OnmQz9/X9InJSYYVK2tM4Mc2oCyvve7Z41ZMYANI5LY73opwLKYxbvxSAYhsQGOxUSz75BejB6OJNASecvSa1aHjSl0jekatafJeIBvcPOlh5FRnwBfDXA93tz6RYbR5vM1iDBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=om0tmjJt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4335FC2BCB3;
+	Sun, 17 May 2026 23:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779059129;
-	bh=sKGyBmnsQGG9j/rVeObTG2RlcjQt9ogqSMl6CyE8SUg=;
-	h=From:Subject:Date:To:Cc:From;
-	b=KZwZunnneLfGOgNmmMgkbwkMmz/eop0EoFPf6Bj7HAIhfo4y4EPlrhXXKKsJy2cTu
-	 dj5E9yHpjiiMV9g7Lak7U0DEW4BOZobhXz430Fc8nutZ78AORq20zAt9SizLEHUppr
-	 CDk0PqKPo0tWnLsFYjF45wyPt7UTT843kcHUchXlNFlksCJEkkmNom5ngRVMTFWjX/
-	 u+ChBcsToLQ8C5V1QBH0kxtAkkJZGxPcmYRktnIlSlCckRzwujz8fuvh1GArCx1Tck
-	 gOZCfFxKzAhGvDFWtcGwhfef4h4u6dwbRtw/TZNbOZ5pXM3Fopvdsfdu7eVl8R4UcS
-	 pUtoOE7qN6TxQ==
+	s=k20201202; t=1779059132;
+	bh=rOmTabndOoOX7AmULUZroOZTY/ZAC4Q9umxkdxMQeds=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=om0tmjJtiEXsd7zEymiSPQRCBV+VoM9SSR/41DFzBGphNGT2qBxd9dj5MhCQLNQaI
+	 Df4aE0euUAlLQ4l4sZ4qztJpxQVeBdsYPXb1wnPW5EzngIT2pocIGrjckkuj+2hLpU
+	 kg2bg5xApZdLeV7JWnvOnGnb/klp61O4cxeq4B2ESA0uBCo4AnRzHkU0/sli+xrJMJ
+	 PaVYgpoA5NubciPbwYcREgkKh+pCsx6D4sjbv+D2vZW5A77OgBWoY1LWlj/2DZIEiZ
+	 rcfXNIiIp0r+0FNcAVd1lmsfA2TpImCSZmE5AXzMzTHf1Da0+8yYGoGVw4YH0U/Thi
+	 qeKF6NpVGqNsA==
 From: Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v2 00/16] Bump minimum version of LLVM for building the
- kernel to 17.0.1
-Date: Sun, 17 May 2026 13:05:03 -1000
-Message-Id: <20260517-bump-minimum-supported-llvm-version-to-17-v2-0-b3b8cda46bdd@kernel.org>
+Date: Sun, 17 May 2026 13:05:04 -1000
+Subject: [PATCH v2 01/16] kbuild: Bump minimum version of LLVM for building
+ the kernel to 17.0.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -55,68 +55,55 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOSw6CMBRFt2I69hkov+rIfRgGFJ7wlH7SlkZD2
- LuAcQEOT3LvPXdmHh2hZ5fDzBxG8mT0Cvx4YO3Q6B6BupUZT3iZ5JyDnJQFRZrUpMBP1hoXsIN
- xjAoiuq0PwUBagczLTDSFkEmesXXPOrzTa3fd6i/7ST6wDZtgSwzkg3Hv/UxMt9zPK/7wxhQSE
- Gl3lhwFYlVcn+g0jifjelYvy/IBVVHJSPUAAAA=
-X-Change-ID: 20260422-bump-minimum-supported-llvm-version-to-17-b4638a58b043
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260517-bump-minimum-supported-llvm-version-to-17-v2-1-b3b8cda46bdd@kernel.org>
+References: <20260517-bump-minimum-supported-llvm-version-to-17-v2-0-b3b8cda46bdd@kernel.org>
+In-Reply-To: <20260517-bump-minimum-supported-llvm-version-to-17-v2-0-b3b8cda46bdd@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
  Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
  Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
 Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
  linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- linux-hardening@vger.kernel.org, linux-security-module@vger.kernel.org, 
- Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, 
- Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
- linux-arm-kernel@lists.infradead.org, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Ard Biesheuvel <ardb@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6925; i=nathan@kernel.org;
- h=from:subject:message-id; bh=sKGyBmnsQGG9j/rVeObTG2RlcjQt9ogqSMl6CyE8SUg=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFlcnhuUlFizjHsnZfOubBbtifmavaft/KMLr/WqgvPtL
- syVkfHvKGVhEONikBVTZKl+rHrc0HDOWcYbpybBzGFlAhnCwMUpABPZJc3wz2SGZ+Wx2uZ7ug/c
- 0qI55uxh1P/T4m87RXvG0Ql6awpKXzAyrD3mJcquZ1VVVHpY6tvlR04vsrP/L469VWB/0WHymWo
- RNgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7199; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=rOmTabndOoOX7AmULUZroOZTY/ZAC4Q9umxkdxMQeds=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlcnhsYTwYbsN8U8Pc086itCH4n8VviqZXqr2QtzaWXx
+ V+2LU7vKGVhEONikBVTZKl+rHrc0HDOWcYbpybBzGFlAhnCwMUpABNxlWb4H+rhMKdL56DtESXd
+ XlsJJgGPqg35mu82m9tcCbirprLoAsNv1tcFr6VvtNZfPFmmV7x08sWtWT8X2pWcae11D7qx71o
+ HMwA=
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
-X-Rspamd-Queue-Id: 2CB585643B6
+X-Rspamd-Queue-Id: D195F5643D7
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13211-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13212-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,google.com,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,msgid.link:url]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxfoundation.org:email]
 X-Rspamd-Action: no action
 
 The current minimum version of LLVM for building the kernel is 15.0.0.
@@ -186,67 +173,76 @@ was not until LLVM 18 that LLVM adopted the scheme of x.0.0 being a
 prerelease version and x.1.0 is a release version [3] to help with
 scenarios such as this.
 
-The first patch in the series does the actual bump. The remaining
-patches are cleanups of workarounds for various issues that are no
-longer needed with the bump.
-
-I plan to take this via the Kbuild tree for 7.2, please provide Acks as
-necessary.
-
-[1]: https://github.com/llvm/llvm-project/commit/f023f5cdb2e6c19026f04a15b5a935c041835d14
-[2]: https://github.com/llvm/llvm-project/commit/0b2d5b967d98375793897295d651f58f6fbd3034
-[3]: https://github.com/llvm/llvm-project/commit/4532617ae420056bf32f6403dde07fb99d276a49
-
+Link: https://github.com/llvm/llvm-project/commit/f023f5cdb2e6c19026f04a15b5a935c041835d14 [1]
+Link: https://github.com/llvm/llvm-project/commit/0b2d5b967d98375793897295d651f58f6fbd3034 [2]
+Link: https://github.com/llvm/llvm-project/commit/4532617ae420056bf32f6403dde07fb99d276a49 [3]
+Acked-by: Nicolas Schier <nsc@kernel.org>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
-Changes in v2:
-- Pick up provided tags (thanks everyone!)
-- Patch 1: Adjust changes.rst in Documentation/translations
-- Patch 11: Adjust commit message based on Sashiko review
-- Patch 15-16: New changes
-- Link to v1: https://patch.msgid.link/20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org
-
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 ---
-Nathan Chancellor (16):
-      kbuild: Bump minimum version of LLVM for building the kernel to 17.0.1
-      security/Kconfig.hardening: Remove tautological condition from CC_HAS_ZERO_CALL_USED_REGS
-      security/Kconfig.hardening: Remove tautological condition from FORTIFY_SOURCE
-      security/Kconfig.hardening: Remove tautological condition from CC_HAS_RANDSTRUCT
-      arch/Kconfig: Remove tautological conditions from HAS_LTO_CLANG
-      arch/Kconfig: Remove tautological condition from AUTOFDO_CLANG
-      ARM: Drop tautological ld.lld conditions from ARCH_MULTI_V4{,T}
-      riscv: Remove tautological condition from selection of ARCH_SUPPORTS_CFI
-      riscv: Drop tautological condition from TOOLCHAIN_NEEDS_OLD_ISA_SPEC
-      scripts/Makefile.warn: Drop -Wformat handling for clang < 16
-      x86/build: Drop unnecessary '-ffreestanding' addition to KBUILD_CFLAGS
-      x86/module: Revert "Deal with GOT based stack cookie load on Clang < 17"
-      x86/entry/vdso32: Remove conditional omission of '.cfi_offset eflags'
-      kbuild: Remove check for broken scoping with clang < 17 in CC_HAS_ASM_GOTO_OUTPUT
-      compiler-clang.h: Remove __cleanup -Wunused-variable workaround
-      compiler-clang.h: Drop explicit version number from "all" diagnostic macro
+ Documentation/process/changes.rst                    | 2 +-
+ Documentation/translations/it_IT/process/changes.rst | 2 +-
+ Documentation/translations/pt_BR/process/changes.rst | 2 +-
+ scripts/min-tool-version.sh                          | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
- Documentation/process/changes.rst                    |  2 +-
- Documentation/translations/it_IT/process/changes.rst |  2 +-
- Documentation/translations/pt_BR/process/changes.rst |  2 +-
- arch/Kconfig                                         |  5 +----
- arch/arm/Kconfig.platforms                           |  4 ----
- arch/riscv/Kconfig                                   | 16 +++++++---------
- arch/x86/Makefile                                    |  5 -----
- arch/x86/entry/vdso/vdso32/sigreturn.S               | 10 ----------
- arch/x86/include/asm/elf.h                           |  5 ++---
- arch/x86/kernel/module.c                             | 15 ---------------
- include/linux/compiler-clang.h                       | 13 ++-----------
- init/Kconfig                                         |  3 ---
- scripts/Makefile.warn                                | 10 ----------
- scripts/min-tool-version.sh                          |  2 +-
- security/Kconfig.hardening                           |  8 --------
- 15 files changed, 16 insertions(+), 86 deletions(-)
----
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-change-id: 20260422-bump-minimum-supported-llvm-version-to-17-b4638a58b043
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 9a99037270ff..b9afce768446 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -36,7 +36,7 @@ bindgen (optional)     0.71.1           bindgen --version
+ binutils               2.30             ld -v
+ bison                  2.0              bison --version
+ btrfs-progs            0.18             btrfs --version
+-Clang/LLVM (optional)  15.0.0           clang --version
++Clang/LLVM (optional)  17.0.1           clang --version
+ e2fsprogs              1.41.4           e2fsck -V
+ flex                   2.5.35           flex --version
+ gdb                    7.2              gdb --version
+diff --git a/Documentation/translations/it_IT/process/changes.rst b/Documentation/translations/it_IT/process/changes.rst
+index 7e93833b4511..7ee54c972418 100644
+--- a/Documentation/translations/it_IT/process/changes.rst
++++ b/Documentation/translations/it_IT/process/changes.rst
+@@ -33,7 +33,7 @@ PC Card, per esempio, probabilmente non dovreste preoccuparvi di pcmciautils.
+         Programma       Versione minima       Comando per verificare la versione
+ ====================== =================  ========================================
+ GNU C                  8.1                gcc --version
+-Clang/LLVM (optional)  13.0.0             clang --version
++Clang/LLVM (optional)  17.0.1             clang --version
+ Rust (opzionale)       1.78.0             rustc --version
+ bindgen (opzionale)    0.65.1             bindgen --version
+ GNU make               4.0                make --version
+diff --git a/Documentation/translations/pt_BR/process/changes.rst b/Documentation/translations/pt_BR/process/changes.rst
+index 1964c1c93b34..6bbfe60fd973 100644
+--- a/Documentation/translations/pt_BR/process/changes.rst
++++ b/Documentation/translations/pt_BR/process/changes.rst
+@@ -31,7 +31,7 @@ PC Card por exemplo, provavelmente não precisará se preocupar com o pcmciautil
+         Programa        Versão mínima       Comando para verificar a versão
+ ====================== ===============  ========================================
+ GNU C                  8.1              gcc --version
+-Clang/LLVM (optional)  15.0.0           clang --version
++Clang/LLVM (optional)  17.0.1           clang --version
+ Rust (optional)        1.78.0           rustc --version
+ bindgen (optional)     0.65.1           bindgen --version
+ GNU make               4.0              make --version
+diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+index b96ec2d379b6..ea2689bc9641 100755
+--- a/scripts/min-tool-version.sh
++++ b/scripts/min-tool-version.sh
+@@ -27,7 +27,7 @@ llvm)
+ 	if [ "$SRCARCH" = loongarch ]; then
+ 		echo 18.0.0
+ 	else
+-		echo 15.0.0
++		echo 17.0.1
+ 	fi
+ 	;;
+ rustc)
 
-Best regards,
---  
-Cheers,
-Nathan
+-- 
+2.54.0
 
 
