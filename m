@@ -1,189 +1,183 @@
-Return-Path: <linux-kbuild+bounces-13186-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13187-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YM7fKJRLCWqYTwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13186-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 07:01:08 +0200
+	id Czj1Or1aCWrKWQQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13187-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 08:05:49 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B95555F43C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 07:01:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D0D55F64E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 08:05:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5B2E53003BC6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 05:01:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9E80D300CE70
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 06:05:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 855592E8897;
-	Sun, 17 May 2026 05:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA7E536AF6;
+	Sun, 17 May 2026 06:05:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GLP9fqp3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LcuHCFnD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620A91427A;
-	Sun, 17 May 2026 05:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778994061; cv=none; b=knAyQAm1MluQZP67ralApS+n0/nuOniKSkI/ej5EfBANd4kf72JEi1nY4MNfHwxj4ImLwScbspceUgyzjDzWu3/VW3IsPmQbEkAiCfI2T6EP+EvXxPfEm6+tU68/3Fttf6Efgvn+rMzsQFYGjNaX6gLBQL2C9/AygbCJpmHz5CE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778994061; c=relaxed/simple;
-	bh=VsBOh/miPvNJE1oqpDnBZmjfm1JnDqqQrW1QEhMyGPY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TGNVopquG6+N5CagGJIZou1aKPZY1ps34YkXK4k1YxktnyonvKFD8+o96b8nmnlksto/VDozc4tej1lopwK73CeGBzY9FfJa4yRcQqwdQBqT4LzII0phJnpJcOyv9oSTpbyxrGQbMjkqod+reM3oookNRPC4+gaTVi4RnX2O4k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GLP9fqp3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E7E8C2BCB0;
-	Sun, 17 May 2026 05:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778994061;
-	bh=VsBOh/miPvNJE1oqpDnBZmjfm1JnDqqQrW1QEhMyGPY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GLP9fqp353R5zMyF5BuZ6Q7b8ieGFCmoaBzjk8W3zCarizomQj+VpVUXLpCpq2GUs
-	 HZXCvyDF1jcV528yfW9aQkaKqyuWhakoIRWNvfGZnuXFYGDyXTg10CL2zwYDhUYkPw
-	 XsJoHR1PjGzDEhK+OJhJym7mZME3rc5RcHxre1Y1jiUr77l+QkvTg5FnufzfZL5umO
-	 mwhNQ29difESbLS6oOQP52QfL/BIT/Nsg4GD+B+H1+d7qX96EXL+pfpI4vfkIppc3V
-	 yON8zcAAjPxEQQQPus+2GRbxCpSXU/p386gDYU5Yrt2pxkfS0TGL/EhaVw/oWdNEnL
-	 +UWI+1TLaHNTA==
-Date: Sun, 17 May 2026 14:00:56 +0900
-From: Nathan Chancellor <nathan@kernel.org>
-To: Viktor =?iso-8859-1?Q?J=E4gersk=FCpper?= <viktor_jaegerskuepper@freenet.de>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Christian Heusel <christian@heusel.eu>,
-	Nicolas Schier <nsc@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: pacman-pkg: make "rc" releases adhere to
- pacman versioning scheme
-Message-ID: <20260517050056.GD1534263@ax162>
-References: <20260515215913.92481-1-viktor_jaegerskuepper@freenet.de>
- <bbed7fb2-11f7-4396-a89d-881972565f06@freenet.de>
- <20260516153317.GA311940@ax162>
- <b882a024-f209-40df-ab5c-f212c1f43c7d@freenet.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655E230E0D4
+	for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 06:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778997945; cv=pass; b=Q65O1mcArB+0+kby9NHt0XA/BD+R3+DkAA5oQIqjhRznknglZVhDEBd0/s645j5Ak3/8PGZsPD2C55jEmsrRFJ4jchoUlF7YkDt32T100v5B9LiLyYg7Uk8lDz2lAMeryw+B0zegwYovYqFXT0UYq/rIBUyiQbzE6mYwh6XqguM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778997945; c=relaxed/simple;
+	bh=NIfOp3H+fBf634aBcEEfMrRh5iS6XP6r1lQpzxgi98U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WPjWOFUJfgzXXffE3yxmzN0/kg5FFMVCQT7uqigMTOTtFZtxBV3cf9ohwpX3Eajkx9tIJV9mAc221jr0wyDL/LaTxqOwrvmYVjyz0NQsYfIzIyM4ZQsRPrH7kmrnt/XkOi3G2g4E1u3EVSFzDgjkHJy7m8qNZoL5hHbGXmXzpU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LcuHCFnD; arc=pass smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f24905306dso61978eec.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2026 23:05:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778997943; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IwbbNv3vEdG3oMUTlHjJKOaFkxSSPAWiqdXNgJVdJKtJO5fCnBy2UWPWiZmP9IYUxg
+         PRQaZZw6TRaCiUV9eKBU7/OWR8PFOQ64BVPo8DMRC1fCw3jx/8vuauyIAniV9P4ALeTn
+         TUk2xI69jJDnxcPh3ReBKAPqUF5G3db/Oiy4UtGD63UrikJ5rTyL6vnnWJdwe8ANARfq
+         Cwuml+BD3yOh895S8Z/FFkuN8Ny10ioqqOt+BsMOYoGS0bNBO9cnRqOLx1VQQmnP5/0Q
+         kf3/jFRgjyCxo+Gx4EbEnJWlyIAElR7lou+1NiSIWp/fCsqUpgAUnMCHBDJ8Jcai0+Bl
+         tNrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KVZVcv+iMQKvayZufdg9CpftdHG0Bh709nb+gr8F0U8=;
+        fh=TgnIWPS0dM6HpwLndbxcYXMqWD/SvY9+SENovQL6QpY=;
+        b=J7K5cnxNQsJlGK/Bn+w64Pk3m7RnYRpPApvKYuPutxCjS2GxK3lSdF0N580oVAcj+X
+         YDgWh1rVG4AUQV/nQn0vmCB846H0pvoWSyoLuvNQ5XkvC74g+Im0IkfDUbemL4Fohpfb
+         u2sCVf6in3NJM6eBXQ1ugZls3MMjOSIzNcjb/mI1q/MaZsgPoEQbCjrE6EA7rBdXktW4
+         QQXqcza+bcKdblqGoS0Bum0We334SHfOS2rXDh4Zm2TNlRFIZVlOhLJpMNRor5OQZO+X
+         50qYjjV+JbnZ4HSXupT3aAgg4HmPOD3hevrZCsMbbEwHKLh3VZ2WNupWveHfb5N8GTM/
+         tBcA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778997943; x=1779602743; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KVZVcv+iMQKvayZufdg9CpftdHG0Bh709nb+gr8F0U8=;
+        b=LcuHCFnDo9fASZNRc/LD1I8mMIlLz6PMOPZBlUZHw2C90QqGa7XOfqxzxQtuRJ+ESR
+         85+ojIWtywR0nIhzzb7F5C8pRHHKBSILK9GaJaSyitFlSBRJdcFpLtC4gP1wcs90dzWt
+         ulsfNDqCkyVEXHWzI5PkFUBrTOFTPoKZ8lURsk3xXoDYr4+1A77sSvWzkYWPULSA9FNd
+         sq7eyvJiJf7CXYDoEdjhIdQqBrCt+ERBaqUA2zS2wi0rlMZWB8QH6znjRlITNfib5EUV
+         bOw81M0cnbZs0FDWurjLhFUvPEUMvLlfO8ftF0+maYHk7VJ+7QttOEpKMnsbbTpURq4c
+         CQLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778997943; x=1779602743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KVZVcv+iMQKvayZufdg9CpftdHG0Bh709nb+gr8F0U8=;
+        b=ivtNfVZouSmjiXeF6uKUeNncIdvQLQoBctGVSS1CJH95vj9CPL5a/65F8W7hHYLbY7
+         w1ppR6gjPbr9bnGcGQk4BMop6sthTDWYZC+GpiTCzqJPgF4EG7ymveoCdmlohpSuIV46
+         HXLUc0XQFKIbUYZz9SFyHdRE/1H6Sn4VQO08B2irZxLkvebZ/5cekQPNOLDdQ8lfrTA4
+         cNPPp6WNYWBD/JhS3BPj/S6SstrMvJk6DLKXaLYKKXsEV+5MeXHFMzAsqwtjLlt14lWq
+         k6pBjR/eHELP/vMX4zUDfYkz8WPUpIL0Q8pKjAo7hFFvXkbZ2LBZAGMKRrrEjloPNv0V
+         QgTw==
+X-Forwarded-Encrypted: i=1; AFNElJ/bJ3GgZgqOP5AXOCmOPxXszgi1XwNywO+rBSCNQYDhrSpjFsA6hR1l8kN2KrCMo9awfUAiL4z/Ii3SrMI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx23lx2jRAQnaSATKvVpUfnMC/PE785hD9Nnqy/X4lObmbJWR9X
+	BxXafcN8Zs37CwwREqnkRH91lSx/5RnGt+4jKCM6Tm2Mt0WGhSrKlKg2BS9VE6Jupa4vrjpsqTt
+	dVyTvMsr4DLNEO8mqo0XHGdVSW3YC5HM=
+X-Gm-Gg: Acq92OH0kF2giBNi8+vK5jgsETG9cki1VxR/qBVy0nbtEULkK+k8zRHPh7gB7m2/6l4
+	uIwmmszjDeF9ceWGnYQtvqm16Ut0l+00q5Kr/1p0BeW1ikacTfvEqGcip5WDE1/1pUPzjPcYEBz
+	Eg5nvlDOpIONslOhL7Yc9/mWx6Bf889/6GNwZuQQuL7cw9vEuwXYGEWG7ghfxITmlwAouQzzwGv
+	9//6BaglYTu4WtZptdSZaWtn3VJuPBYpcwt0Lle/1/x6PEZVBxNat22W5ddvVZ7GuQCQ4E/4H6g
+	kSOmVBQHrz828tQ2WjdZubHtBz2Vdue2G2QmoeamvGe/uUHiqYB7+s+pzZPKsvRR4cRS0nI05jB
+	2iAxlTnfZ+I+nYrcVMLwACLw=
+X-Received: by 2002:a05:7300:ef82:b0:2c0:c55c:156f with SMTP id
+ 5a478bee46e88-303986d6062mr2073868eec.4.1778997943409; Sat, 16 May 2026
+ 23:05:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b882a024-f209-40df-ab5c-f212c1f43c7d@freenet.de>
-X-Rspamd-Queue-Id: 9B95555F43C
+References: <20260516215354.449807-1-julianbraha@gmail.com> <20260516215354.449807-3-julianbraha@gmail.com>
+In-Reply-To: <20260516215354.449807-3-julianbraha@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 17 May 2026 08:05:30 +0200
+X-Gm-Features: AVHnY4JDLNTOr7rmluha53m8xnMSfI_2zj_-n0FsyWKVI29ECinwLPYxnOOxaUw
+Message-ID: <CANiq72=dKOhoLUoWRmzG9Kyv0jWY97Nx_O4rWV-UHjRtULz-jg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/3] Documentation: add kconfirm
+To: Julian Braha <julianbraha@gmail.com>
+Cc: nathan@kernel.org, nsc@kernel.org, jani.nikula@linux.intel.com, 
+	akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de, 
+	gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org, 
+	corbet@lwn.net, qingfang.deng@linux.dev, yann.prono@telecomnancy.net, 
+	demiobenour@gmail.com, ej@inai.de, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 44D0D55F64E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13187-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[freenet.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13186-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linux-foundation.org,garyguo.net,arndb.de,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,gmail.com,inai.de,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[weissschuh.net:email,freenet.de:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-On Sun, May 17, 2026 at 02:57:07AM +0200, Viktor Jägersküpper wrote:
-> On 5/16/26 17:33, Nathan Chancellor wrote:
-> > On Sat, May 16, 2026 at 04:27:39PM +0200, Viktor Jägersküpper wrote:
-> >> On 5/15/26 23:58, Viktor Jägersküpper wrote:
-> >>> The package versioning scheme does not enable smooth upgrades from "rc"
-> >>> releases to the corresponding stable releases (e.g. 7.0.0-rc7 -> 7.0.0)
-> >>> because pacman considers that a downgrade due to the underscore in
-> >>> pkgver (e.g. 7.0.0_rc7), see e.g. vercmp(8) for an explanation of the
-> >>> package version comparison used by pacman. Package versions which are
-> >>> derived from said releases (e.g. built from git revisions) are
-> >>> similarly affected. Fix this by modifying pkgver in order to remove the
-> >>> hyphen from kernel versions containing "-rcN", where N is a
-> >>> non-negative integer.
-> >>>
-> >>> Acked-by: Thomas Weißschuh <linux@weissschuh.net>
-> >>> Signed-off-by: Viktor Jägersküpper <viktor_jaegerskuepper@freenet.de>
-> >>> ---
-> >>> v1 -> v2:
-> >>> - make the substitution more restrictive
-> >>> - enhance commit message accordingly
-> >>> - add Acked-by tag
-> >>>
-> >>> v1: https://lore.kernel.org/linux-kbuild/20260513231745.51780-1-viktor_jaegerskuepper@freenet.de/
-> >>>
-> >>> BTW this also works for something like "5.10.248-rt143-rc1" which is a
-> >>> recent example of an "rc" release of a realtime kernel.
-> >>>
-> >>>  scripts/package/PKGBUILD | 2 +-
-> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> >>> index 452374d63c24..1213c8e04671 100644
-> >>> --- a/scripts/package/PKGBUILD
-> >>> +++ b/scripts/package/PKGBUILD
-> >>> @@ -10,7 +10,7 @@ for pkg in $_extrapackages; do
-> >>>  	pkgname+=("${pkgbase}-${pkg}")
-> >>>  done
-> >>>  
-> >>> -pkgver="${KERNELRELEASE//-/_}"
-> >>> +pkgver="$(echo "${KERNELRELEASE}" | sed 's/-\(rc[0-9]\+\)/\1/;s/-/_/g')"
-> >>
-> >> I will send a v3 patch later with the first substitution changed to
-> >> match "-rcN" where N is a strictly positive integer because this is
-> >> what we really had in the kernel so far, at least as far as I can
-> >> remember.
-> > 
-> > Do you mean dropping the '\+' portion of the regex? If so, I think I
-> > would rather keep what you have here since while an -rc10 is incredibly
-> > unlikely nowadays (we pretty much never go past -rc8), it has happened
-> > once before in 3.1:
-> > 
-> >   $ git tag -l | grep -- -rc10
-> >   v3.1-rc10
-> 
-> I was only concerned about 'rc0', so I came up with this:
-> 
-> 's/-\(rc[1-9][0-9]*\)/\1/;s/-/_/g'
-> 
-> For 'rc' releases starting from 'rc1' this matches '-rcN' where N is a
-> strictly positive integer. Since 'git tag -l | grep -- rc0' shows
-> nothing, I assume that there is an unwritten rule that counting from 1
-> is the correct choice for kernel 'rc' releases. :-)
-> 
-> Compare that to the Debian substitution code: 's/-\(rc[1-9]\)/~\1/'
+On Sat, May 16, 2026 at 11:54=E2=80=AFPM Julian Braha <julianbraha@gmail.co=
+m> wrote:
+>
+> +kconfirm's Minimum Supported Rust Version (MSRV) is v1.85.0, because
+> +it uses Rust edition 2024, and this is the earliest supported version.
 
-While you are correct that the kernel does not use -rc0, I don't think
-it is worth preemptively complicating the regex to avoid treating -rc0
-differently from -rc1 and beyond; I find the way it is currently written
-to be more readable but maybe Christian or Thomas feel differently.
+Note: this means it will be the first code within the kernel tree
+using the new edition.
 
-> > We can leave the Debian case you pointed at earlier the way it is for
-> > now but if we are making a change here, we might as well make it as
-> > future proof as possible. If you (or others) really feel strongly
-> > otherwise, feel free to ignore me :)
-> Actually I have no preference. If there is consensus that the regex for
-> strictly positive integers is better, I can send a v3 patch. The Debian
-> code can be adjusted in a follow-up patch.
-> 
-> BTW I forgot to mention that this patch also addresses the stable 'rc'
-> preview releases which also start from 'rc1'.
+I think it is fine, since in general no one should be copying code
+from here to kernel code or vice versa.
 
-Ah yes, that is also a good point.
+(For context for others: code in one edition can have different
+behavior than in another edition, and thus it is risky to mix them up
+by mistake).
 
--- 
+> +In ``scripts/kconfirm/`` run the following to download the dependencies:=
+:
+> +
+> +  cargo vendor
+
+I am not sure how important this is for `scripts/` and/or `tools/`
+(Kbuild may have a policy), but this should probably handle `O=3D`
+builds.
+
+In some cases, the source tree may even be read-only, i.e. we wouldn't
+be able to create `target/` there.
+
 Cheers,
-Nathan
+Miguel
 
