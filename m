@@ -1,211 +1,303 @@
-Return-Path: <linux-kbuild+bounces-13204-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13205-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PJsICa2CWqomAQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13204-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 14:35:50 +0200
+	id KPZPKEv6CWpPvwQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13205-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 19:26:35 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15435560FC3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 14:35:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E70562844
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 19:26:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 481C53008779
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 12:35:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 85DEB3003E9C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 17:26:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F0935F5E5;
-	Sun, 17 May 2026 12:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D78423BB661;
+	Sun, 17 May 2026 17:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjKGcA1d"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xd9cbfHu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC7430EF88
-	for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 12:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF7134E774
+	for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 17:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779021343; cv=pass; b=DY/Gr8a+GLr/JUOzz9pRJIdzTT0gGbkWEF5jDYp9Er0Si6x/LsJj0GjOUry1MJaD23SkEQpMdp7OjXkLdZvn5nl19tkUmcPxtL3+t6jFZVX/4IRGfvrEAd2GiyLIfDj18cDp8yPOpjRifuB/G/X+R2Lannpg2uqQ17HDiYvaBkM=
+	t=1779038775; cv=pass; b=d+aMUpoSQdp4eyAIMuTnxB6nMKLtZ80GsllDL5LkeylW1sC0gsM23LM9hr2A+AWvxwgfFOTKOX2DxzdznzIi9grJnhWyfHRoLXlL9owhqCikZzWip6bJUcimkxwmuJ65UT3NrOnbLZe7GANR5jgbqWCyhAko1d1Ayt4RfMJb/D4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779021343; c=relaxed/simple;
-	bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
+	s=arc-20240116; t=1779038775; c=relaxed/simple;
+	bh=fevntX9CyqrTCsY4NEO2OSu5x1FqBa+lpbqQmNWn16s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FZg48y1pK4sGRNdJQqb1NFHoWZjP/auZFRJLkqpDcBvmFoY6QtrLaMvuXE/n9p+GzBh33/r7Sgc0b6mHDC10Y+c1QaUp5HdGQbTUngw6+pRxgZRiRSDaTyCIgozgRU2Rl9hpvQdgmGGjt/0C87biIwvgDsUdKGiei4P7RXzFve8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjKGcA1d; arc=pass smtp.client-ip=74.125.82.177
+	 To:Cc:Content-Type; b=K3bdvVxmqymy46tFsA4u3n3UJRRhIMJTUYnZSZ5UUYQV+9wy89HVNXHT5wN2fBZaFk+W4pvN3AsDjdMOABcSVT0viSX+cTVST1IabfL9tobB2auQ6MiksW4Lzj1vQNRWpXmmw5pd2H2kFgjqmJ9wqpZng0nvHqu7noJfkyOGBLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xd9cbfHu; arc=pass smtp.client-ip=209.85.210.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2bda3b4318dso68988eec.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 05:35:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779021341; cv=none;
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e4004a4a6fso1809845a34.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2026 10:26:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779038773; cv=none;
         d=google.com; s=arc-20240605;
-        b=bM0cIOZi5TpM2lgFZnaZHuugKBQVHAl3swB4nIl+sUJs/Wa6hEvkbRXkGjRvq7fHcd
-         o53DtDYWHN6VzSJ8Vdoz6FcebNJ31Gd1FC7pC9Svs2hMZ4hsaTeO+K7BNtXU4jyIBJ/l
-         ZkVQYZ6x7zu2dVBh8khQWxezTBXg5Hb2SRbLumUZOLpuxLkfVcCP/yww8JnVpLE/p/NH
-         RDXJo+Sq8T6rFY0FnjCkG3il3TuqoKi+qIXbHDI0svrlSptCw/TIWPfGUmQdsp8pxvG5
-         4pBA+flBzP7Q4DadDs3aoR1ZCBrucwwpOvVs560w2WsX7syi2jW85RDz4wL36YihTwQS
-         puew==
+        b=gETdk0u1TmHaVibPw7mHbO4LeVkCOY4rzNWSh0eOaYm9c2QJUppmTIzLOshWAsWS4q
+         W6HdYqLswbxI8aAHMZjqXDI255yeRF8p4bsHMS6mimRKRYiNUqf5fKIruDX6JpVWnKES
+         z+WVLG9cEBHhfwbcLKrARmLFFs/iNjLtZo0e4Ha3cubEaDygbZKVyvTlLviegkAUKjrB
+         mVXiZJsJTBQCLVSDAjF3ap1d/WjcXLMf0bMCDJkWwhqcsPUnMuWCPULw+3YOtsd3ACqi
+         +7ejoBol5muqxXjyPsbI7u7F8Agr/HqpRaB+qKcsG2l3aAkBEqDjwgVUlgcXYEN7vVyy
+         aODg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-        fh=6cEVZbvCsFEsXKGfnpXyrJjWe/nuzuolqZMCen0a2tw=;
-        b=Ye/36dnt4ndiPx4YzPU/xw89pUrr6j/eoQl2WBXrS0n/95bl8usT7HJEmncPg0rom/
-         hpTAJ3T6Pa3mT0wBS3NZTTSVtEdizN+w3140OyysPYKr+pQ1fomcFBQoC/MgBEcJx46W
-         0WyeueAKy+QI1zb1PBQGDleZTaBwDe3t23brwRyG09sC+TkM6mbS6Ij1/cjl2mfgCO9E
-         2igeMYpbyz0F4JHqO+R4MD6f3DRLlgTnOcaMuZ4fViMjTGL+DS/qw7Jmte1Bbd/iveCy
-         kNoFR2RJsYjtXg/YpKuKLcKKhaLQx40iDz2YoLx0jLKFhCzM9QsIDbyLpTPaZ22R0MG4
-         ocTA==;
+        bh=BIdTEeOWgp+Q3hh7dzqTUpBwWBpZXjPgkFM7QuEGVo0=;
+        fh=97KlEtGb5lZNxyLrB7VEq0grFKkwoaOtkMjOtp2ZyXI=;
+        b=XMnPCSLxOA1q8O53z2yjf0uujm6ojNdJ8N5nT6ZersEZmNn+Azh52P5SQbheepidgx
+         dcHeRZcC+cz/e/EWy9fIEZJI2mq2tCsUAn9GcjoiNi33zFKLPuRJvA1w9ZDyqd0It8cM
+         AEV8WkxkTaJe1+sfi9lOHVAvLVUQe1FWlIT8pbVJy5Fdqi5vQuYY5kLDAdAgR1vtjeFE
+         YWAVFJeshl9/L4kpb2TMNzStR0OdAOy6COdleI50ot+GNM2tgW5k4Tgbp2gtxcSZxoWX
+         r1Wac0PyF9F3FGS3JIu6fOGwyJxe+DgWu6EzxgsekLHzmQKb4LaYrjNYxQ3p/0RAJEDA
+         CyyA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779021341; x=1779626141; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779038773; x=1779643573; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-        b=ZjKGcA1dSL5wVUTKvrIzCjFDf2h01d2J7ChDnaeITFYcJLDQWYhmRoPXDxVS4eR68N
-         f4CI+3SI5f0LpgkG2iZFGfM6dz2MxyktVDFrl1HxTLnDBl08IF+uGDe6S7o6Iugy8Tbh
-         +WhaWOrnyP9BooFnYjLOERAgA9ttFatntyMRqi/fXiK+38pc1zNokRivepbOlXFmlV7x
-         bJ/d5vFnJLN9WYEiNWEoaRM1Ll9YeC1I4/e61YFOVW9FxzLI4KD0xAfaap4ZFxzvgOCL
-         Pe5iLiocZSuJ7q1qYLGZLWBiHZVAC8XL+7Q+eNaCMy3A7ZKkG18Od4uwxjH/+AqjlDAu
-         4sFQ==
+        bh=BIdTEeOWgp+Q3hh7dzqTUpBwWBpZXjPgkFM7QuEGVo0=;
+        b=Xd9cbfHuFJcn6O2FJdYNIWCwAZxCyYLKv7DT7gfD4Yp7Dy3sSdnJJoYZpCufCrMeYC
+         jaS34nDexIB7oVu9xY1L+JJfPc9ceUKJTlBHjpNky2VVJdxJ+qBEZBYKeqCmwckxoXxg
+         exYTZl9Fqiqn7btUSNBKEjNK4PjPqyXZw4lWikB+JsjbSA7muuF2RDAT58SNfK4pqExV
+         Vbp18uwYdXYn03NePIVkPGNcgpfhHAvmaCnuyoU+m+ZB390h4LVou1iNUrL/DYm694Gk
+         Rt/EgJtHzN7WwjLDPLT1e3flwbuDwB6W6QbtSeWtuMRhHcNcdQZwIfZqTkoocPxmWjaK
+         Nq4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779021341; x=1779626141;
+        d=1e100.net; s=20251104; t=1779038773; x=1779643573;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AGbyvD1A3j38Oj/KC8gvWB2798BTRZG+Gqsn6fkT65I=;
-        b=K51Q1sVshPqSRyZ9oLmtg1Xt5TN8D98e98xQvsh9Be6EfWO+Jd6x1lgXOtNHyn9mDB
-         J39EWqDcvET6tIjI01atKKqaI9N+OP7AA3i06B3xYtQOSM1t3k92ghx0TrshDPd0ftYL
-         BHqEY5ry7CIgUxqsmgR4Cyc5HYFI1JxL9PqqA5QkjHCIePHo3LadhJWkT00Jsr7hTQ9c
-         9qqcfST7mMDMwx/mazc5+lSbTLpBLf47TvsmYmLMzex5Lcno4sxP1G6U2USmIvzfj2sT
-         vQHahu7DWEtUHhnlvJB+/rxh9dcFgVX5oOX5nNCtVedtOwq+NZJTex7w+HPWj3eBmgWF
-         VzXg==
-X-Forwarded-Encrypted: i=1; AFNElJ+uw2oKIlPri2P6vkJUKvn1+yKI0tJEabDqdGfhB9VZJfmYDl6ffff5WwdfIa3Arbes3PblzekSiTIMxXw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxtznn1xH+k4fyL0GgrRuGXMo3rU3/oa9VKA2idAKG+jAhFhUkt
-	7eWzbLkj3w9pQtxwqXOJ/tDyr6iIGxA0MhoABCRXfs1rthFD690QREysu5XFhSIRP0rl7UuZ4IJ
-	QoExUveKn12O7sfQzY52+nXXpFg2JCxhvdsa+320=
-X-Gm-Gg: Acq92OEmnaDFN9bSavZ2Kq5Tx/SywjROlp92YWHLWkOY4+rXj2sWPQPEeZ4WrgGh7Yo
-	jm9/gaSXCXfp0z3K3ZjlTTTsbH9ZdZ2MxVX59JJP0mTFg0uFo0gRlI/Xe0CelGNsYqEqdsKPNj0
-	8RQLjEkdksyxD5zrfbXlzomJAn1kcuvJWUI5XQykN9Gsjw66YxPfW3veIJFRoWX+BmgjsvKn+AM
-	GiONBGyVEyQim80cvqdMwGixAdJdIColXhctEp7zl7ORdcdRdk6Q+wW0qCwlLQcFzBl1yKjKDGh
-	rMvQcAXRdxQ1yEmLXfLm1h5z9lVhy7l8xEsrQXgxpIpKlwhEiHLTj8UFxmEMyfQV7yEUYzA7GqZ
-	r6iNplGEKl7c3rGSC0zdMRM4=
-X-Received: by 2002:a05:7300:e6c4:b0:2d9:2896:2794 with SMTP id
- 5a478bee46e88-30398737cbemr2263699eec.7.1779021341133; Sun, 17 May 2026
- 05:35:41 -0700 (PDT)
+        bh=BIdTEeOWgp+Q3hh7dzqTUpBwWBpZXjPgkFM7QuEGVo0=;
+        b=gxfJSUWrPsGkhYAXbI1+60KBjXDqKSDRRAqJ/aPlZaDpp4woCkrLbCQn+XIQK2vces
+         QHMFa8ZP3vCJ6Kqhdj4xYv1WnHlBPhRQAxkMyzOBg56emVIVaXBPfZ3YpbjP9n/x0JcT
+         iYabSk+XeWZLkk127ErCvxxlW/8ilOZQAVKZiRJ1lbVBoBAiZxA5aCxv09YZiXEOd0ch
+         ZvFG5X/r/v6Ql+fCia0iCeYuiFp/nDZEBuv6/igM6CNAENghOe8FQB20m5H6Lwbk1opa
+         CzWkomZSFr03MsQhU3gvX4OBcybJktzp+GhHhjAKKOBz6rElIDdU5/GeCw3lMHxFVa7N
+         9bEA==
+X-Gm-Message-State: AOJu0YzIFLeF/CR4LouslgLqTVdsKP7R5lM04DJAvsI9r7aIfttHhKoa
+	sllWlawgzOicX8OsNncIJe6aWDYjJ3peJlBhRi/prbrhPsAS/op6MnbMenqKkANuDQ+0XuYv9Bu
+	WnDvC1iNm2l3g/8r2a6MsujhSdJLiMH7SRxJg
+X-Gm-Gg: Acq92OFOoTvccknaBrpwsMbwtJSDAT+Y6/qCy1mLldUZl3r8zS6YuGlRchGn8cve0M0
+	9CZO62FazP7QPRnzKiZMYySMaF/AH2usukHaLxct4bTi7PybpIQYemE4ZtHiS2Gq2Je6uPT3/ta
+	OB4ZVcoGGHjFP3AA65Ek6U0er3uhzDP2d2++pzJZCV8UQFbsv9CC96CSzglCbuL63oz+CWpOrJv
+	esnjImFuOXw+p8OxZ0m5l98giMLv1BY2LUwM49HodqlWJi9n2+26LwyeYpYWN/SS1v9fit5UhTt
+	fmyVMCGl
+X-Received: by 2002:a05:6830:82aa:b0:7d7:e844:7f4e with SMTP id
+ 46e09a7af769-7e4f2bd75c5mr8513160a34.22.1779038773122; Sun, 17 May 2026
+ 10:26:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-3-julianbraha@gmail.com> <CANiq72=dKOhoLUoWRmzG9Kyv0jWY97Nx_O4rWV-UHjRtULz-jg@mail.gmail.com>
- <20260517094041.GC3773662@ax162>
-In-Reply-To: <20260517094041.GC3773662@ax162>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 17 May 2026 14:35:27 +0200
-X-Gm-Features: AVHnY4IZSFNRtOREQTvbcPWlzfBHcED3UQFBqTP6EdleEX439u6RoJ3RvvnKjFg
-Message-ID: <CANiq72n3Lz4QeNnEOWfEwXHc1+UdnsbsD-9wvR2OnhLsYBsnqw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/3] Documentation: add kconfirm
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Julian Braha <julianbraha@gmail.com>, nsc@kernel.org, jani.nikula@linux.intel.com, 
-	akpm@linux-foundation.org, gary@garyguo.net, ljs@kernel.org, arnd@arndb.de, 
-	gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org, 
-	corbet@lwn.net, qingfang.deng@linux.dev, yann.prono@telecomnancy.net, 
-	demiobenour@gmail.com, ej@inai.de, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
+References: <CAGRSmLtTCUoV66PAJ2VCBz70VNVKxhJHGbBFt9GXQdOP6z5KLg@mail.gmail.com>
+ <aItVnueRx5QW2Zds@fjasle.eu> <CAGRSmLuAKjg=0P=67_M2d1bfDNwWpyHQAuZZCmY=ZNNC62BW5Q@mail.gmail.com>
+ <20250731-attractive-lionfish-of-love-a01cd7@lindesnes> <CAGRSmLs6O+yvxQusQVRWCRiavZu_5qhTTLNqLkFHV6SEjKx_6g@mail.gmail.com>
+ <aJRvL2UwDBVJ967k@fjasle.eu>
+In-Reply-To: <aJRvL2UwDBVJ967k@fjasle.eu>
+From: "David F." <df7729@gmail.com>
+Date: Sun, 17 May 2026 10:26:01 -0700
+X-Gm-Features: AVHnY4LVQohAVK57m-AJbj9jPrw7pFJKPQ8Qz86rTdcL64E-pWZdL3z9SifcgT4
+Message-ID: <CAGRSmLvdAQ=nyh8TpeHVk4W2hPF3zr-UbapXUXhQDoa9aUfOyA@mail.gmail.com>
+Subject: Re: 6.12 and 6.15 building fixdep / modpost for amd64 instead of 686.
+To: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 15435560FC3
+X-Rspamd-Queue-Id: 00E70562844
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13204-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,linux-foundation.org,garyguo.net,arndb.de,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,inai.de,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13205-lists,linux-kbuild=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.995];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[df7729@gmail.com,linux-kbuild@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid,linux.dev:email]
 X-Rspamd-Action: no action
 
-On Sun, May 17, 2026 at 11:40=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
-rg> wrote:
+Hello,
+
+I've worked with AI to tell me what's happening and it says: "So the
+exact issue is: kernel 6.18=E2=80=99s Debian packaging uses
+x86_64-linux-gnu-gcc as HOSTCC for the headers package, which is wrong
+for your 32-bit build host.".  It actually started with 6.15.x kernel
+but it's still there.
+
+In this case I updated the build to try and force the 32bit for host
+items (recall before it would build okay but the host items were
+ELF64, if I manually went back and ran the build from command line,
+not building package, it built as ELF32 as it should):
+
+extraversion=3D"EXTRAVERSION=3D-amd64"
+
+make ARCH=3Dx86_64 \
+        CROSS_COMPILE=3Dx86_64-linux-gnu- \
+        HOSTCC=3D"gcc -m32" \
+        HOSTCXX=3D"g++ -m32" \
+        HOSTCFLAGS=3D"-m32" \
+        HOSTLDFLAGS=3D"-m32" \
+        V=3D1 \
+        -j1 \
+        ${extraversion} \
+        bindeb-pkg 2>&1 | tee build.log
+
+This resulted with:
+
+# DEPMOD  debian/linux-image-6.18.29-amd64/lib/modules/6.18.29-amd64
+  ./scripts/depmod.sh 6.18.29-amd64
+dh_installdocs -plinux-image-6.18.29-amd64
+dh_installchangelogs -plinux-image-6.18.29-amd64
+dh_compress -plinux-image-6.18.29-amd64
+dh_fixperms -plinux-image-6.18.29-amd64
+dh_gencontrol -plinux-image-6.18.29-amd64 -- -fdebian/image.files
+dh_md5sums -plinux-image-6.18.29-amd64
+dh_builddeb -plinux-image-6.18.29-amd64 --
+dpkg-deb: building package 'linux-image-6.18.29-amd64' in
+'../linux-image-6.18.29-amd64_6.18.29-amd64-4_amd64.deb'.
+truncate -s0 debian/image-dbg.files
+truncate -s0 debian/headers.files
+dh_testdir -plinux-headers-6.18.29-amd64
+dh_testroot -plinux-headers-6.18.29-amd64
+dh_prep -plinux-headers-6.18.29-amd64
+make ARCH=3Dx86_64 KERNELRELEASE=3D6.18.29-amd64 KBUILD_BUILD_VERSION=3D4
+CROSS_COMPILE=3Dx86_64-linux-gnu- run-command
+KBUILD_RUN_COMMAND=3D'+$(srctree)/scripts/package/builddeb
+linux-headers-6.18.29-amd64'
+./scripts/package/builddeb linux-headers-6.18.29-amd64
+make HOSTCC=3D"x86_64-linux-gnu-gcc" VPATH=3D srcroot=3D. -f
+./scripts/Makefile.build
+obj=3Ddebian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-amd6=
+4/scripts
+make -f ./scripts/Makefile.build
+obj=3Ddebian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-amd6=
+4/scripts/basic
+\
+need-builtin=3D \
+need-modorder=3D \
+
+# HOSTCC  debian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-=
+amd64/scripts/basic/fixdep
+  x86_64-linux-gnu-gcc
+-Wp,-MMD,debian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-a=
+md64/scripts/basic/.fixdep.d
+-Wall -Wmissing-prototypes -Wstrict-prototypes -O2
+-fomit-frame-pointer -std=3Dgnu11 -D_LARGEFILE_SOURCE
+-D_FILE_OFFSET_BITS=3D64 -m32 -I ./scripts/include    -m32 -o
+debian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-amd64/scri=
+pts/basic/fixdep
+debian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-amd64/scri=
+pts/basic/fixdep.c
+/usr/lib/gcc-cross/x86_64-linux-gnu/10/../../../../x86_64-linux-gnu/bin/ld:
+skipping incompatible /usr/lib/gcc-cross/x86_64-linux-gnu/10/libgcc.a
+when searching for -lgcc
+/usr/lib/gcc-cross/x86_64-linux-gnu/10/../../../../x86_64-linux-gnu/bin/ld:
+cannot find -lgcc
+/usr/lib/gcc-cross/x86_64-linux-gnu/10/../../../../x86_64-linux-gnu/bin/ld:
+skipping incompatible /usr/lib/gcc-cross/x86_64-linux-gnu/10/libgcc.a
+when searching for -lgcc
+/usr/lib/gcc-cross/x86_64-linux-gnu/10/../../../../x86_64-linux-gnu/bin/ld:
+cannot find -lgcc
+collect2: error: ld returned 1 exit status
+make[7]: *** [scripts/Makefile.host:114:
+debian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-amd64/scri=
+pts/basic/fixdep]
+Error 1
+make[6]: *** [scripts/Makefile.build:544:
+debian/linux-headers-6.18.29-amd64/usr/src/linux-headers-6.18.29-amd64/scri=
+pts/basic]
+Error 2
+make[5]: *** [Makefile:2151: run-command] Error 2
+make[4]: *** [Makefile:2151: run-command] Error 2
+make[3]: *** [debian/rules:67: binary-headers] Error 2
+dpkg-buildpackage: error: make -f debian/rules binary subprocess
+returned exit status 2
+
+
+AI told me to:
+
+Practical fix
+
+Patch scripts/package/builddeb so it uses native gcc for generated
+header tools instead of $(CROSS_COMPILE)gcc.
+
+Find the line like:
+
+make HOSTCC=3D"${CROSS_COMPILE}gcc" VPATH=3D srcroot=3D. \
+
+Change it to:
+
+make HOSTCC=3D"${HOSTCC:-gcc}" VPATH=3D srcroot=3D. \
+
+On Thu, Aug 7, 2025 at 2:17=E2=80=AFAM Nicolas Schier <nicolas.schier@linux=
+.dev> wrote:
 >
-> I guess this is kind of a weird/unique situation. I agree that the files
-> generated by 'cargo run' should absolutely be contained within the build
-> folder; at that point, $(srctree) could be read only and I would
-> consider it rude not to respect the user's choice of build directory.
-> For 'cargo vendor' however, I am not sure. They are source files and I
-> would expect that running 'cargo vendor' would be more considered part
-> of preparing the source tree, rather than the build one (so it should
-> not be read only).
-
-That would simplify things, yeah. We could always start there and see
-if someone needs it.
-
-> At the same time, it might be safer for dependency updates and internal
-> consistency that they are confined to the build folder. I guess we would
-> only want to remove them with a 'distclean', rather than 'mrproper' or
-> 'clean', in that case, to avoid requiring users to constantly run
-> 'cargo vendor'. It might be more ergonomic for this to be a Kbuild
-> target ('kconfirmvendor'?) so that this could be handled automatically
-> based on the user's build command.
-
-Yeah, it is a bit painful to not have the usual Kbuild
-variables/infrastructure around... On the other hand, it is a nice
-property to know that nothing called via `make` will ever connect (or
-need to connect) to the Internet.
-
-Hmm... Perhaps a good middle ground would be having something in the
-name that makes it obvious it will connect, e.g. `fetch` like Git? Or,
-if people feel strongly about the property mentioned, then something
-like an environment variable that needs to be set to allow it (with a
-message printed about it if it is not set).
-
-If this were allowed, i.e. if we are OK having things in `make` that
-fetch stuff and put it in the build folder (only in certain targets,
-of course), then we could actually think about doing more things that
-we didn't so far, such as other setup-like targets, e.g. preparing
-kernel.org toolchains, setting up a Rust toolchain via `rustup`
-(including `bindgen` etc.), and so on and so forth.
-
-> Additionally, can we detect explicitly when dependencies are not
-> properly vendored and error with a more helpful error message? The build
-> command in patch 1 just throws up its hands when the build fails and
-> asks if the dependencies have been set up but if we provided our own
-> vendoring build target, we could add some canary that says we vendored
-> successfully and if that is not present, error before even running the
-> build and say "hey, you need to explicitly run this target before you
-> build".
-
-+1, good error messages help a lot. Something like `rustavailable`
-that prints which particular thing is missing is great (that one even
-tries to warn about some problematic versions testing for bugs --
-hopefully we don't need `autoconf`... :).
-
-Cheers,
-Miguel
+> (please reply below relevant quotations, cp. "Use trimmed interleaved rep=
+lies
+> in email discussions" at Documentation/process/submitting-patches.rst)
+>
+> On Wed, Aug 06, 2025 at 08:46:24PM -0700 David F. wrote:
+> > Sorry for the delay, had to work on some other stuff..
+> >
+> > The output is below, it build it as ELF32 as it should.   I do note
+> > that your build command was like:
+> > x86_64_defconfig CROSS_COMPILE=3Dx86_64-linux-gnu- bindeb-pkg
+> >
+> > I don't have that, is it something new that is required, I just have:
+> >
+> > extraversion=3D"EXTRAVERSION=3D-amd64"
+> > make -j$(nproc) ${extraversion} bindeb-pkg
+> >
+> > Here's that output that worked:
+> >
+> >
+> > # make V=3D1 scripts/basic/fixdep
+> > make --no-print-directory -C /usr/src/mydisk/kernel/linux-6.15.6-64 \
+> > -f /usr/src/mydisk/kernel/linux-6.15.6-64/Makefile scripts/basic/fixdep
+> > : "  SYNC    include/config/auto.conf.cmd"
+> > make -f ./Makefile syncconfig
+> > make -f ./scripts/Makefile.build obj=3Dscripts/basic
+> > # HOSTCC  scripts/basic/fixdep
+> >   gcc -Wp,-MMD,scripts/basic/.fixdep.d -Wall -Wmissing-prototypes
+> > -Wstrict-prototypes -O2 -fomit-frame-pointer -std=3Dgnu11
+> > -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=3D64  -I ./scripts/include
+> > -o scripts/basic/fixdep scripts/basic/fixdep.c
+>
+> I am afraid, I lost track of what your actual problem is.
+>
+> It looks like fixdep is built the way it should, so the next step would b=
+e
+> running bindeb-pkg with V=3D1 and finding its gcc call for building fixde=
+p and to
+> verify both calls.  They should be (at least almost) the same.
+>
+> Kind regards,
+> Nicolas
 
