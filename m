@@ -1,61 +1,65 @@
-Return-Path: <linux-kbuild+bounces-13194-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13195-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qB7EOE2GCWq2dwQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13194-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 11:11:41 +0200
+	id YCA9M0qKCWpXewQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13195-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 11:28:42 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC932560143
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 11:11:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 386FE560401
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 11:28:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9DAD93002915
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 09:11:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 58E453006168
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2026 09:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC4DF355F22;
-	Sun, 17 May 2026 09:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58E831065B;
+	Sun, 17 May 2026 09:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpN+Io5C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5/c/Rl6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC580347503;
-	Sun, 17 May 2026 09:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37FB15CD7E;
+	Sun, 17 May 2026 09:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779009092; cv=none; b=h6AJ1XsW1iIf1c+cmUVvc9gPg/OSxZr8pA4lE9VtKDi+kBodKvt/XP4g3Py6diyJEjdfE9aeoXzDzMvprq0fduX3sOPB8+3Fmb+hCmcVpWZIM+VAzUjun9e5JWM8z8on8s91w1kJZIFlDvfHYAOOE/iFXTCuW1TEWdq/d+oGZNg=
+	t=1779010117; cv=none; b=dG3VQwwjdw70wS4r7jGQX1OX5dtHo3/Op/J8unDQOZ70+XvjTvp++2M/8ZVqV3uAOi0GiejXklqfwV8HpgmcbeCN44bCfsrtETzo78D9epsdD7C+K1WatyQXKPMQjDJt9PTsnvFS0Vt+4fFbaMVPkE1/7R3HVI5m+ZlYtMKs6Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779009092; c=relaxed/simple;
-	bh=+BhF477tYbsk8cFUF9rwYJ4XqRZyieR9zjav/Nogz9w=;
+	s=arc-20240116; t=1779010117; c=relaxed/simple;
+	bh=wW7ntkqv6Vi3VTxD3hPsgImBbeurxj4k2AKdntRoFOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OGVcO+qeAZeKoSqlGTCMkDmPTCvjZFwcpsfdIsefEjlI0Adc8C4PDpu+TKmpqQ1njmuu+8DYEuDGUslzoWtBZT/W93wTDqPIQJmVeYo3kurmcBWD3yxy5F4gpznOqnHv0M2m8da0Efhgp+MKRTfxqqqiGnlinK8hDHuNapulO/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpN+Io5C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0F4C2BCB0;
-	Sun, 17 May 2026 09:11:30 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mE8DZ39wKz+E9SWtwUoHx541ZGymkhP0LXvx81wclEsgqpXO+nNSe/L1aOM25RA4Gt80kAKXuhK4oirwopol/mscTb8+j8HheLL9vkd/i5C/l1qiagQ2j/ceFfbee+KfBZlDAkT4GIn+InNopILwXy/SSVzimj0S0py72YjCXIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5/c/Rl6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67929C2BCB0;
+	Sun, 17 May 2026 09:28:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779009092;
-	bh=+BhF477tYbsk8cFUF9rwYJ4XqRZyieR9zjav/Nogz9w=;
+	s=k20201202; t=1779010117;
+	bh=wW7ntkqv6Vi3VTxD3hPsgImBbeurxj4k2AKdntRoFOg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OpN+Io5CIpy1+nAGAIhniYnsPMnKAOwNuCUiduKbet9/mTsgYU/As+zl/RYqyXwK6
-	 R18wo6McoU27ZMbY4EhBqRPNXw7QYyd6V9hBc2jQ0Bzpsl5RreX+YIQ7yu7cj11BEj
-	 l9wJFuK3uaSsXfTN0qzTXRa99k4azbuRiCYNiEMHfzFzxEChpCTY8rHdVQMMqUJFe0
-	 GTnyzJk3oXe9mA6d78GedhcKhBrEDVOHBg/rQZMVwvYpx+vX3gUgFMwEWoFLeYlG8m
-	 a1JRk5ec6Sc5HP08GQgv7/GMgmXVhVo4/r8p5XwS0gmQbdY+nPeT1uN+2zngoNsq8L
-	 mAoz1qM0xw7oA==
-Date: Sun, 17 May 2026 18:11:28 +0900
+	b=J5/c/Rl6Tn/g2YFiHFe6SiYfJ5qPtoF2SUcR/hIRwqJGlQhQVSoRWMCx1pIYml2F/
+	 pNBNLFo7d4ooDEPPeV6coiCAvMElR+AwS+VHJLw3tJjnYKTYrvVmHSiumN6EwczASE
+	 Vk5W7UNj/eFCHs7jMN0Fq3zGlxle627xb//4h6a7as8aFH5niNhxxkkjmpQc5N35Xr
+	 2Whp5mOVr6OKZ0h4V9ioHe1uorKF1cAYNjzHDjdUHHzK2fiiTM+4EW0/cmANob+lxd
+	 fWBdEr2ueUoQW1sFfT4UtKj2Jb4JZ8BdXAiWH9KwzfT53c9FmNRwatRZ3KbjoQMvZj
+	 JzklLm5YKFmnA==
+Date: Sun, 17 May 2026 18:28:29 +0900
 From: Nathan Chancellor <nathan@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Nicolas Schier <nsc@kernel.org>, Andrew Jones <andrew.jones@linux.dev>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kconfig: add kconfig-sym-check static checker
-Message-ID: <20260517091128.GA3773662@ax162>
-References: <20260513210329.637892-1-andrew.jones@linux.dev>
- <177876553250.305249.17848321995033732158.b4-review@b4>
- <agdvF1g0jSp3A6EP@levanger>
- <20260517042607.GA1534263@ax162>
- <aglc1wxyLtEWX2qW@ashevche-desk.local>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Julian Braha <julianbraha@gmail.com>, nsc@kernel.org,
+	jani.nikula@linux.intel.com, akpm@linux-foundation.org,
+	gary@garyguo.net, ljs@kernel.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org, masahiroy@kernel.org, ojeda@kernel.org,
+	corbet@lwn.net, qingfang.deng@linux.dev,
+	yann.prono@telecomnancy.net, demiobenour@gmail.com, ej@inai.de,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
+Message-ID: <20260517092829.GB3773662@ax162>
+References: <20260516215354.449807-1-julianbraha@gmail.com>
+ <20260516215354.449807-2-julianbraha@gmail.com>
+ <CANiq72kr=tzvEitYj6xyT=jGnKQZK1dmekSU3us7MWGTrv0FNA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,104 +69,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aglc1wxyLtEWX2qW@ashevche-desk.local>
-X-Rspamd-Queue-Id: DC932560143
+In-Reply-To: <CANiq72kr=tzvEitYj6xyT=jGnKQZK1dmekSU3us7MWGTrv0FNA@mail.gmail.com>
+X-Rspamd-Queue-Id: 386FE560401
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13194-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13195-lists,linux-kbuild=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,linux-foundation.org,garyguo.net,arndb.de,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,inai.de,vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Sun, May 17, 2026 at 09:14:47AM +0300, Andy Shevchenko wrote:
-> On Sun, May 17, 2026 at 01:26:07PM +0900, Nathan Chancellor wrote:
-> > On Fri, May 15, 2026 at 09:08:07PM +0200, Nicolas Schier wrote:
-> > > On Thu, May 14, 2026 at 10:32:12PM +0900, Nathan Chancellor wrote:
-> > > > On Wed, 13 May 2026 16:03:29 -0500, Andrew Jones <andrew.jones@linux.dev> wrote:
+On Sun, May 17, 2026 at 08:28:16AM +0200, Miguel Ojeda wrote:
+> On Sat, May 16, 2026 at 11:54 PM Julian Braha <julianbraha@gmail.com> wrote:
+> >
+> > +CARGO          = cargo
 > 
-> [...]
+> Question to Kbuild: would it hurt to hardcore `--offline` here?
 > 
-> > > > > diff --git a/scripts/kconfig/kconfig-sym-check.pl b/scripts/kconfig/kconfig-sym-check.pl
-> > > > > new file mode 100755
-> > > > > index 000000000000..a6907e585962
-> > > > > --- /dev/null
-> > > > > +++ b/scripts/kconfig/kconfig-sym-check.pl
-> > > > > @@ -0,0 +1,93 @@
-> > > > > +#!/usr/bin/env perl
-> > > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > > +
-> > > > > +use warnings;
-> > > > > +use strict;
-> > > > > +
-> > > > > +my $kconfig_sym_check_excludes = undef;
-> > > > > +$kconfig_sym_check_excludes = $ARGV[0] if (defined $ARGV[0]);
-> > > > > +
-> > > > > +my @files = `git ls-files '*Kconfig*'`;
-> > > > 
-> > > > What happens if you run this command on a release tarball? We should
-> > > > probably use something like
-> > > > 
-> > > >   find $(srctree) -name '*Kconfig*'
-> > > 
-> > > not fully related, but that reminds me to this thread:
-> > > https://lore.kernel.org/linux-kbuild/CAK7LNATJ-3JQ0QQGQ5R+R8aBJEq-tmBL8iBZrbM_4t0zeoYTaw@mail.gmail.com/#r
-> > 
-> > Ah yeah, that is definitely worth keeping in mind for the future. I feel
-> > like 'find' is not "more complicated" than 'git ls-files' in this case,
-> > so I will assume that such an objection would not really hold here
-> > (especially since it would help people with development of fresh Kconfig
-> > files that have not been committed yet). If we did want to rely on 'git
-> > ls-files', we should at least error gracefully if we are not in a git
-> > checkout.
+> If someone within Make actually ever needs Cargo to fetch something,
+> then they should be very explicit about it (in which case we could
+> have another variable etc.).
+
+No, I don't think so. I think there would need to be a very compelling
+reason for connecting to the network during the build process. Although,
+we would need to handle someone passing CARGO via the make command line
+so that '--offline' does not get blown away.
+
+> > -                 rust/libpin_init_internal.so rust/libpin_init_internal.dylib
+> > +                 rust/libpin_init_internal.so rust/libpin_init_internal.dylib \
 > 
-> Can we do both depending on the environment (if we are in Git, do that,
-> otherwise fallback to `find`)? `find` uses FS, while Git uses index, which
-> is much faster.
+> Spurious change?
 
-It feels like that starts to get into the complicated territory for
-little gain, considering there is indeed a performance difference but I
-am not sure that it is an obvious one in the grand scheme of things.
+Maybe 'scripts/kconfirm' used to be here?
 
-  $ hyperfine 'git ls-files "*Kconfig*"' 'find . -name "*Kconfig*"'
-  Benchmark 1: git ls-files "*Kconfig*"
-    Time (mean ± σ):      24.6 ms ±   1.0 ms    [User: 18.0 ms, System: 6.1 ms]
-    Range (min … max):    20.5 ms …  28.7 ms    120 runs
+Another thing I just realized: scripts/kconfirm is going to mess with
+shell autocompletion for some people, as scripts/kc<tab> will currently
+always complete to scripts/kconfig. Not sure if that will be that big of
+a deal but I know Linus has complained about that in the past.
 
-  Benchmark 2: find . -name "*Kconfig*"
-    Time (mean ± σ):     222.9 ms ±   4.5 ms    [User: 80.6 ms, System: 140.1 ms]
-    Range (min … max):   216.0 ms … 227.6 ms    13 runs
+> > +$(TARGET):
+> > +       $(CARGO) run --release --offline -p kconfirm-linux -- --linux-path $(srctree) --enable-arch $(SRCARCH) $(KCONFIRM_ARGS)
+> 
+> This probably does not work in `O=` builds or in cases where the
+> `srctree` is read-only (please see my other reply on the docs patch).
 
-  Summary
-    git ls-files "*Kconfig*" ran
-      9.06 ± 0.43 times faster than find . -name "*Kconfig*"
+Yeah, it seems like this wants something like '--target-dir $(obj)' or
+'--target-dir $(objtree)/scripts/kconfirm'? I don't find this to be
+particularly readable either (I am more used to "build then run" as two
+separate steps) but maybe that is because I am just not familiar with
+Rust projects.
 
-But I don't know how complicated such checking is in Perl, so I would be
-willing to see what it looks like.
-
--- 
 Cheers,
 Nathan
 
