@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-13237-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13236-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCZzIwGwCmog5wQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13237-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:53 +0200
+	id gGhEMv2vCmog5wQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13236-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:49 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1375669DB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA975669D2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5EF843004F14
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 06:21:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 56DE93012CAC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 06:21:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D95D93DEAFB;
-	Mon, 18 May 2026 06:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4844F3DEFFA;
+	Mon, 18 May 2026 06:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="aBIsc1Hf"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="DK08614B"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBFF38A722;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1370C38B147;
 	Mon, 18 May 2026 06:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779085293; cv=none; b=cuSeLRVXM55s2yCNsdX3GPqAk4ASWopHVMiYfRI4FUhfuO/rP3wKrffHh/FKsJvfyn3aDa+qxxFYJlWZs4ItcAWST/zGqzT1hghogGlnbFmBHtjUvHjNW5AWahx3SGzuLaMFDRMqUWVguBcIFCzp7omt8/BcRhKbGLuDUV/bCR0=
+	t=1779085292; cv=none; b=YfnvO3JVBocYFGhIvVr/oOYkHu+ZsFXbmfE6Dvii0w/qqn/OatMdIr8RLQCakBSxHek5KQYC79EsxcFV5Apj4OibsPzWw/m/uApb631WoYKqpDtZom8j6eQ0+opVrHCx18nUJ68XLQrXBoOEqmlloTS4/UG0w2xmKCtLXD35TgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779085293; c=relaxed/simple;
-	bh=PRg89BIoaeBLewECeAhmZoBCmS8fwXzrLVsL8nN/byY=;
+	s=arc-20240116; t=1779085292; c=relaxed/simple;
+	bh=T30ra+tWj8xmNayf0D97b4yId+AmexN8t/uXoaOzjPg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WaeMT/WurcOhRwJvx4+jXxN9qTqyM20dX9ZAAuUGUW6QMtQpejpZpGOtEOcaRChcqUac8KynaBf9aNQO3NuJCY790du8Uu37m0Gng4C3EUkoq5h2bnKv1f3CW3owVKqoMeOTu0zVKPoavmeW5CdZmnWlUgsDi6X0mYIgpH7gniY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=aBIsc1Hf; arc=none smtp.client-ip=148.251.102.236
+	 MIME-Version; b=fcNoMbR6h+jIPPweWuYpnwc0c0/396CR9sEY/SYReoG/x0FMjAF7kPQJ9A6+cFi9VeP1eRRHNJGEMyrkqUiz1bBwSoU+iK03MqpFAyVa6RSABiZ74PbfDIlJ/RQEdq/iVGXAf6eT/6Zm4IV82TvO8K0aiAZ/w/S1DZolHagGr8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=DK08614B; arc=none smtp.client-ip=148.251.102.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
 Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 2C494200C8;
+	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 3F433200C9;
 	Mon, 18 May 2026 08:21:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 8375E1F8989;
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id C08D41FACD3;
 	Mon, 18 May 2026 08:21:17 +0200 (CEST)
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id qGMzBWTURLza; Mon, 18 May 2026 08:21:15 +0200 (CEST)
+ with ESMTP id 7eGUm8tTHX2i; Mon, 18 May 2026 08:21:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 574BF1F89A8;
-	Mon, 18 May 2026 08:21:15 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 574BF1F89A8
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id B085C1FAD2F;
+	Mon, 18 May 2026 08:21:16 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz B085C1FAD2F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1779085275;
-	bh=VFYQlOPQ63OilccrhlGPeS+7nKmGq2PrdKFW/66zatk=;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1779085276;
+	bh=QUAiEzp97wF3qbltU1fFd8h/Mz4TvzQY3lZdncaz0jo=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=aBIsc1HfAt7D+fnJcMXCl19I8XDvQwnLZKtKoXxUvdQStTex34TCtftNbKUktM1B5
-	 Dgp9jvbqTEwRLWl9Mryut1Dj+ALfyDVYHTDDxACrbJr1O5Pp++pIN5VAr4Hz0g3MbE
-	 /5biFzVrNtX+ZJLdaEfK6bQ3o72QZn7SikU+FCDt5cAnpZeqdVe7kFY8EHt1cuPyvh
-	 iVTmKmiuxEDoWhjiQWfaEpAmFOdGPb7vxLfzMfITYKxoYUIwjdgaRXTs+dSSzoWrod
-	 xSDZkcg5LhQCGZ7CWnmxqhrdMuA+J1xY/MPtsNtuVphFWjYLFdjqw6ay3KOXc1hJRR
-	 TAWp4mSE6k1Pg==
+	b=DK08614B7J6cePHB2zLtciPKs8UlzqZk4JconsdVv/Fmkim8iL/sCtwPDSDEhq7QE
+	 8/+QzVFMr8eRD0baH2mEJss1d4J4UuH6WeiumMRYtNVpEZP2VGkyCb206j92RkbkBs
+	 kqKnfPkShUFF2VRIlJ3RYCCSd2DeerV90gNCgad1zqoQtH2/CXdQgVsRZa5pftfHnV
+	 6syeKJlsrdZtjf5zrP1l8RrhdZDRB9vCVMUD/20MPrzBvzbHctmodTlqnb66RR5knH
+	 7m29C5gKt4VcT1BUX1DSrAwmuwb9QehFNrBGQHMUb4kh24euyILJaEAbblO78XgenJ
+	 DU4HmsvsBIzEQ==
 X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id 0kI8EUgMs7Du; Mon, 18 May 2026 08:21:15 +0200 (CEST)
+ with ESMTP id pH80-6OPbOam; Mon, 18 May 2026 08:21:16 +0200 (CEST)
 Received: from luis-Precision-5480.. (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id E9DA21FAD27;
-	Mon, 18 May 2026 08:21:14 +0200 (CEST)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 560D91FAD29;
+	Mon, 18 May 2026 08:21:16 +0200 (CEST)
 From: Luis <luis.augenstein@tngtech.com>
 To: nathan@kernel.org,
 	nsc@kernel.org
@@ -74,9 +74,9 @@ Cc: linux-kbuild@vger.kernel.org,
 	kstewart@linuxfoundation.org,
 	maximilian.huber@tngtech.com,
 	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v7 05/15] scripts/sbom: add cmd graph generation
-Date: Mon, 18 May 2026 08:20:52 +0200
-Message-ID: <20260518062102.2051814-6-luis.augenstein@tngtech.com>
+Subject: [PATCH v7 06/15] scripts/sbom: add additional dependency sources for cmd graph
+Date: Mon, 18 May 2026 08:20:53 +0200
+Message-ID: <20260518062102.2051814-7-luis.augenstein@tngtech.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260518062102.2051814-1-luis.augenstein@tngtech.com>
 References: <20260518062102.2051814-1-luis.augenstein@tngtech.com>
@@ -87,21 +87,21 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 1C1375669DB
+X-Rspamd-Queue-Id: 7FA975669D2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13237-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	TAGGED_FROM(0.00)[bounces-13236-lists,linux-kbuild=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -115,17 +115,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
 From: Luis Augenstein <luis.augenstein@tngtech.com>
 
-Implement command graph generation by parsing .cmd files to build a
-dependency graph.
-Add CmdGraph, CmdGraphNode, and .cmd file parsing.
-Supports generating a flat list of used source files via the
---generate-used-files cli argument.
+Add hardcoded dependencies and .incbin directive parsing to
+discover dependencies not tracked by .cmd files.
 
 Assisted-by: Cursor:claude-sonnet-4-5
 Assisted-by: OpenCode:GLM-4-7
@@ -133,837 +130,258 @@ Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
 ---
- Makefile                                      |   6 +-
- scripts/sbom/sbom.py                          |  39 +++++
- scripts/sbom/sbom/cmd_graph/__init__.py       |   7 +
- scripts/sbom/sbom/cmd_graph/cmd_file.py       | 162 ++++++++++++++++++
- scripts/sbom/sbom/cmd_graph/cmd_graph.py      |  46 +++++
- scripts/sbom/sbom/cmd_graph/cmd_graph_node.py | 111 ++++++++++++
- scripts/sbom/sbom/cmd_graph/deps_parser.py    |  52 ++++++
- scripts/sbom/sbom/config.py                   | 149 +++++++++++++++-
- scripts/sbom/sbom/path_utils.py               |  22 +++
- 9 files changed, 591 insertions(+), 3 deletions(-)
- create mode 100644 scripts/sbom/sbom/cmd_graph/__init__.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_file.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_graph.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/cmd_graph_node.py
- create mode 100644 scripts/sbom/sbom/cmd_graph/deps_parser.py
- create mode 100644 scripts/sbom/sbom/path_utils.py
+ scripts/sbom/sbom/cmd_graph/cmd_graph_node.py | 33 ++++++-
+ .../sbom/cmd_graph/hardcoded_dependencies.py  | 87 +++++++++++++++++++
+ scripts/sbom/sbom/cmd_graph/incbin_parser.py  | 42 +++++++++
+ 3 files changed, 161 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/sbom/sbom/cmd_graph/hardcoded_dependencies.py
+ create mode 100644 scripts/sbom/sbom/cmd_graph/incbin_parser.py
 
-diff --git a/Makefile b/Makefile
-index 36f43a9e2ae..5cae3679343 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2208,7 +2208,11 @@ sbom_targets +=3D sbom-build.spdx.json sbom-output=
-.spdx.json
- quiet_cmd_sbom =3D GEN     $(sbom_targets)
-       cmd_sbom =3D printf "%s\n" "$(KBUILD_IMAGE)" >"$(tmp-target)"; \
-                  $(if $(CONFIG_MODULES),sed 's/\.o$$/.ko/' $(objtree)/mo=
-dules.order >> "$(tmp-target)";) \
--                 $(PYTHON3) $(srctree)/scripts/sbom/sbom.py;
-+                 $(PYTHON3) $(srctree)/scripts/sbom/sbom.py \
-+                     --src-tree $(abspath $(srctree)) \
-+                     --obj-tree $(abspath $(objtree)) \
-+                     --roots-file "$(tmp-target)" \
-+                     --output-directory $(abspath $(objtree));
- PHONY +=3D sbom
- sbom: $(notdir $(KBUILD_IMAGE)) include/generated/autoconf.h $(if $(CONF=
-IG_MODULES),modules modules.order)
- 	$(call cmd,sbom)
-diff --git a/scripts/sbom/sbom.py b/scripts/sbom/sbom.py
-index 3bd466720b0..d700e4f294f 100644
---- a/scripts/sbom/sbom.py
-+++ b/scripts/sbom/sbom.py
-@@ -7,9 +7,13 @@ Compute software bill of materials in SPDX format descri=
-bing a kernel build.
- """
-=20
- import logging
-+import os
- import sys
-+import time
- import sbom.sbom_logging as sbom_logging
- from sbom.config import get_config
-+from sbom.path_utils import is_relative_to
-+from sbom.cmd_graph import CmdGraph
-=20
-=20
- def _exit_with_summary(write_output_on_error: bool =3D False) -> None:
-@@ -19,6 +23,11 @@ def _exit_with_summary(write_output_on_error: bool =3D=
- False) -> None:
-         logging.warning(warning_summary)
-     if error_summary:
-         logging.error(error_summary)
-+        if not write_output_on_error:
-+            logging.info(
-+                "Use --write-output-on-error to generate output document=
-s even when errors occur. "
-+                "Note that in this case the generated documents may be i=
-ncomplete."
-+            )
-         sys.exit(1)
-=20
-=20
-@@ -32,6 +41,36 @@ def main():
-         format=3D"[%(levelname)s] %(message)s",
-     )
-=20
-+    # Build cmd graph
-+    logging.debug("Start building cmd graph")
-+    start_time =3D time.time()
-+    cmd_graph =3D CmdGraph.create(config.root_paths, config)
-+    logging.debug(f"Built cmd graph in {time.time() - start_time} second=
-s")
-+
-+    # Save used files document
-+    if config.generate_used_files:
-+        if config.src_tree =3D=3D config.obj_tree:
-+            logging.info(
-+                f"Extracting all files from the cmd graph to {config.use=
-d_files_file_name} "
-+                "instead of only source files because source files canno=
-t be "
-+                "reliably classified when the source and object trees ar=
-e identical.",
-+            )
-+            used_files =3D [os.path.relpath(node.absolute_path, config.s=
-rc_tree) for node in cmd_graph]
-+            logging.debug(f"Found {len(used_files)} files in cmd graph."=
-)
-+        else:
-+            used_files =3D [
-+                os.path.relpath(node.absolute_path, config.src_tree)
-+                for node in cmd_graph
-+                if is_relative_to(node.absolute_path, config.src_tree)
-+                and not is_relative_to(node.absolute_path, config.obj_tr=
-ee)
-+            ]
-+            logging.debug(f"Found {len(used_files)} source files in cmd =
-graph")
-+        if not sbom_logging.has_errors() or config.write_output_on_error=
-:
-+            used_files_path =3D os.path.join(config.output_directory, co=
-nfig.used_files_file_name)
-+            with open(used_files_path, "w", encoding=3D"utf-8") as f:
-+                f.write("\n".join(str(file_path) for file_path in used_f=
-iles))
-+            logging.debug(f"Successfully saved {used_files_path}")
-+
-     _exit_with_summary(config.write_output_on_error)
-=20
-=20
-diff --git a/scripts/sbom/sbom/cmd_graph/__init__.py b/scripts/sbom/sbom/=
-cmd_graph/__init__.py
-new file mode 100644
-index 00000000000..9d661a5c3d9
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/__init__.py
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+from .cmd_graph import CmdGraph
-+from .cmd_graph_node import CmdGraphNode, CmdGraphNodeConfig
-+
-+__all__ =3D ["CmdGraph", "CmdGraphNode", "CmdGraphNodeConfig"]
-diff --git a/scripts/sbom/sbom/cmd_graph/cmd_file.py b/scripts/sbom/sbom/=
-cmd_graph/cmd_file.py
-new file mode 100644
-index 00000000000..dcd63e284a3
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/cmd_file.py
-@@ -0,0 +1,162 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import os
-+import re
-+from dataclasses import dataclass, field
-+from sbom.cmd_graph.deps_parser import parse_cmd_file_deps
-+from sbom.cmd_graph.savedcmd_parser import parse_inputs_from_commands
-+import sbom.sbom_logging as sbom_logging
-+from sbom.path_utils import PathStr
-+
-+SAVEDCMD_PATTERN =3D re.compile(r"^(saved)?cmd_.*?:=3D\s*(?P<full_comman=
-d>.+)$")
-+SOURCE_PATTERN =3D re.compile(r"^source.*?:=3D\s*(?P<source_file>.+)$")
-+
-+
-+@dataclass
-+class CmdFile:
-+    cmd_file_path: PathStr
-+    savedcmd: str
-+    source: PathStr | None =3D None
-+    deps: list[str] =3D field(default_factory=3Dlist)
-+    make_rules: list[str] =3D field(default_factory=3Dlist)
-+
-+    @classmethod
-+    def create(cls, cmd_file_path: PathStr) -> "CmdFile | None":
-+        """
-+        Parses a .cmd file.
-+        .cmd files are assumed to have one of the following structures:
-+        1. Full Cmd File
-+            (saved)?cmd_<output> :=3D <command>
-+            source_<output> :=3D <main_input>
-+            deps_<output> :=3D \
-+            <dependencies>
-+            <output> :=3D $(deps_<output>)
-+            $(deps_<output>):
-+
-+        2. Command Only Cmd File
-+            (saved)?cmd_<output> :=3D <command>
-+
-+        3. Single Dependency Cmd File
-+            (saved)?cmd_<output> :=3D <command>
-+            <output> : <dependency>
-+
-+        Args:
-+            cmd_file_path (Path): absolute Path to a .cmd file
-+
-+        Returns:
-+            cmd_file (CmdFile): Parsed cmd file.
-+        """
-+        with open(cmd_file_path, "rt", encoding=3D"utf-8") as f:
-+            lines =3D [line.strip() for line in f.readlines() if line.st=
-rip() !=3D "" and not line.startswith("#")]
-+
-+        # savedcmd
-+        match =3D SAVEDCMD_PATTERN.match(lines[0] if lines else "")
-+        if match is None:
-+            sbom_logging.error(
-+                "Skip parsing '{cmd_file_path}' because no 'savedcmd_' c=
-ommand was found.", cmd_file_path=3Dcmd_file_path
-+            )
-+            return None
-+        savedcmd =3D match.group("full_command")
-+
-+        # Command Only Cmd File
-+        if len(lines) =3D=3D 1:
-+            return CmdFile(cmd_file_path, savedcmd)
-+
-+        # Single Dependency Cmd File
-+        if len(lines) =3D=3D 2:
-+            parts =3D lines[1].split(":", 1)
-+            if len(parts) !=3D 2:
-+                sbom_logging.error(
-+                    "Skip parsing '{cmd_file_path}'. Expected dependency=
- line '<output>: <dependency>' but got {second_line}", cmd_file_path=3Dcm=
-d_file_path, second_line=3Dlines[1]
-+                )
-+                return None
-+            dep =3D parts[1].strip()
-+            return CmdFile(cmd_file_path, savedcmd, deps=3D[dep])
-+
-+        # Full Cmd File
-+        # source
-+        line1 =3D SOURCE_PATTERN.match(lines[1])
-+        if line1 is None:
-+            sbom_logging.error(
-+                "Skip parsing '{cmd_file_path}' because no 'source_' ent=
-ry was found.", cmd_file_path=3Dcmd_file_path
-+            )
-+            return CmdFile(cmd_file_path, savedcmd)
-+        source =3D line1.group("source_file")
-+
-+        # deps
-+        deps: list[str] =3D []
-+        i =3D 3  # lines[2] includes the variable assignment but no actu=
-al dependency, so we need to start at lines[3].
-+        while i < len(lines):
-+            if not lines[i].endswith("\\"):
-+                break
-+            deps.append(lines[i][:-1].strip())
-+            i +=3D 1
-+
-+        # make_rules
-+        make_rules =3D lines[i:]
-+
-+        return CmdFile(cmd_file_path, savedcmd, source, deps, make_rules=
-)
-+
-+    def get_dependencies(
-+        self: "CmdFile", target_path: PathStr, obj_tree: PathStr, fail_o=
-n_unknown_build_command: bool
-+    ) -> list[PathStr]:
-+        """
-+        Parses all dependencies required to build a target file from its=
- cmd file.
-+
-+        Args:
-+            target_path: path to the target file relative to `obj_tree`.
-+            obj_tree: absolute path to the object tree.
-+            fail_on_unknown_build_command: Whether to fail if an unknown=
- build command is encountered.
-+
-+        Returns:
-+            list[PathStr]: dependency file paths relative to `obj_tree`.
-+        """
-+        input_files: list[PathStr] =3D [
-+            str(p) for p in parse_inputs_from_commands(self.savedcmd, fa=
-il_on_unknown_build_command)
-+        ]
-+        if self.deps:
-+            input_files +=3D [str(p) for p in parse_cmd_file_deps(self.d=
-eps)]
-+        input_files =3D _expand_resolve_files(input_files, obj_tree)
-+
-+        cmd_file_dependencies: list[PathStr] =3D []
-+        for input_file in input_files:
-+            # input files are either absolute or relative to the object =
-tree
-+            if os.path.isabs(input_file):
-+                input_file =3D os.path.relpath(input_file, obj_tree)
-+            if input_file =3D=3D target_path:
-+                # Skip target file to prevent cycles. This is necessary =
-because some multi stage commands first create an output and then pass it=
- as input to the next command, e.g., objcopy.
-+                continue
-+            cmd_file_dependencies.append(input_file)
-+        unique_cmd_file_dependencies =3D list(dict.fromkeys(cmd_file_dep=
-endencies))
-+        return unique_cmd_file_dependencies
-+
-+
-+def _expand_resolve_files(input_files: list[PathStr], obj_tree: PathStr)=
- -> list[PathStr]:
-+    """
-+    Expands resolve files which may reference additional files via '@' n=
-otation.
-+
-+    Args:
-+        input_files (list[PathStr]): List of file paths relative to the =
-object tree, where paths starting with '@' refer to files
-+                                     containing further file paths, each=
- on a separate line.
-+        obj_tree: Absolute path to the root of the object tree.
-+
-+    Returns:
-+        list[PathStr]: Flattened list of all input file paths, with any =
-nested '@' file references resolved recursively.
-+    """
-+    expanded_input_files: list[PathStr] =3D []
-+    for input_file in input_files:
-+        if not input_file.startswith("@"):
-+            expanded_input_files.append(input_file)
-+            continue
-+        resolve_file_path =3D os.path.join(obj_tree, input_file.removepr=
-efix("@"))
-+        if not os.path.exists(resolve_file_path):
-+            sbom_logging.error(
-+                "Skip resolving '{resolve_file_path}' because the respon=
-se file does not exist.",
-+                resolve_file_path=3Dresolve_file_path,
-+            )
-+            continue
-+        with open(resolve_file_path, "rt", encoding=3D"utf-8") as f:
-+            resolve_file_content =3D [line_stripped for line in f.readli=
-nes() if (line_stripped :=3D line.strip())]
-+        expanded_input_files +=3D _expand_resolve_files(resolve_file_con=
-tent, obj_tree)
-+    return expanded_input_files
-diff --git a/scripts/sbom/sbom/cmd_graph/cmd_graph.py b/scripts/sbom/sbom=
-/cmd_graph/cmd_graph.py
-new file mode 100644
-index 00000000000..2f57965237f
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/cmd_graph.py
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+from collections import deque
-+from dataclasses import dataclass, field
-+from typing import Iterator
-+
-+from sbom.cmd_graph.cmd_graph_node import CmdGraphNode, CmdGraphNodeConf=
-ig
-+from sbom.path_utils import PathStr
-+
-+
-+@dataclass
-+class CmdGraph:
-+    """Directed acyclic graph of build dependencies primarily inferred f=
-rom .cmd files produced during kernel builds"""
-+
-+    roots: list[CmdGraphNode] =3D field(default_factory=3Dlist)
-+
-+    @classmethod
-+    def create(cls, root_paths: list[PathStr], config: CmdGraphNodeConfi=
-g) -> "CmdGraph":
-+        """
-+        Recursively builds a dependency graph starting from `root_paths`=
-.
-+        Dependencies are mainly discovered by parsing the `.cmd` files.
-+
-+        Args:
-+            root_paths (list[PathStr]): List of paths to root outputs re=
-lative to obj_tree
-+            config (CmdGraphNodeConfig): Configuration options
-+
-+        Returns:
-+            CmdGraph: A graph of all build dependencies for the given ro=
-ot files.
-+        """
-+        node_cache: dict[PathStr, CmdGraphNode] =3D {}
-+        root_nodes =3D [CmdGraphNode.create(root_path, config, node_cach=
-e) for root_path in root_paths]
-+        return CmdGraph(root_nodes)
-+
-+    def __iter__(self) -> Iterator[CmdGraphNode]:
-+        """Traverse the graph in breadth-first order, yielding each uniq=
-ue node."""
-+        visited: set[PathStr] =3D set()
-+        node_stack: deque[CmdGraphNode] =3D deque(self.roots)
-+        while len(node_stack) > 0:
-+            node =3D node_stack.popleft()
-+            if node.absolute_path in visited:
-+                continue
-+
-+            visited.add(node.absolute_path)
-+            node_stack.extend(node.children)
-+            yield node
 diff --git a/scripts/sbom/sbom/cmd_graph/cmd_graph_node.py b/scripts/sbom=
 /sbom/cmd_graph/cmd_graph_node.py
-new file mode 100644
-index 00000000000..7dde1c28eef
---- /dev/null
+index 7dde1c28eef..61f3a8140ce 100644
+--- a/scripts/sbom/sbom/cmd_graph/cmd_graph_node.py
 +++ b/scripts/sbom/sbom/cmd_graph/cmd_graph_node.py
-@@ -0,0 +1,111 @@
+@@ -2,15 +2,24 @@
+ # Copyright (C) 2025 TNG Technology Consulting GmbH
+=20
+ from dataclasses import dataclass, field
++from itertools import chain
+ import logging
+ import os
+ from typing import Iterator, Protocol
+=20
+ from sbom import sbom_logging
+ from sbom.cmd_graph.cmd_file import CmdFile
++from sbom.cmd_graph.hardcoded_dependencies import get_hardcoded_dependen=
+cies
++from sbom.cmd_graph.incbin_parser import parse_incbin_statements
+ from sbom.path_utils import PathStr, has_link, is_relative_to
+=20
+=20
++@dataclass
++class IncbinDependency:
++    node: "CmdGraphNode"
++    full_statement: str
++
++
+ class CmdGraphNodeConfig(Protocol):
+     obj_tree: PathStr
+     src_tree: PathStr
+@@ -28,11 +37,17 @@ class CmdGraphNode:
+     """Parsed .cmd file describing how the file at absolute_path was bui=
+lt, or None if not available."""
+=20
+     cmd_file_dependencies: list["CmdGraphNode"] =3D field(default_factor=
+y=3Dlist)
++    incbin_dependencies: list[IncbinDependency] =3D field(default_factor=
+y=3Dlist)
++    hardcoded_dependencies: list["CmdGraphNode"] =3D field(default_facto=
+ry=3Dlist)
+=20
+     @property
+     def children(self) -> Iterator["CmdGraphNode"]:
+         seen: set[PathStr] =3D set()
+-        for node in self.cmd_file_dependencies:
++        for node in chain(
++            self.cmd_file_dependencies,
++            (dep.node for dep in self.incbin_dependencies),
++            self.hardcoded_dependencies,
++        ):
+             if node.absolute_path not in seen:
+                 seen.add(node.absolute_path)
+                 yield node
+@@ -95,6 +110,13 @@ class CmdGraphNode:
+         def _build_child_node(child_path: PathStr) -> "CmdGraphNode":
+             return CmdGraphNode.create(child_path, config, cache, depth =
++ 1)
+=20
++        node.hardcoded_dependencies =3D [
++            _build_child_node(hardcoded_dependency_path)
++            for hardcoded_dependency_path in get_hardcoded_dependencies(
++                target_path_absolute, config.obj_tree, config.src_tree
++            )
++        ]
++
+         if cmd_file is not None:
+             node.cmd_file_dependencies =3D [
+                 _build_child_node(cmd_file_dependency_path)
+@@ -103,6 +125,15 @@ class CmdGraphNode:
+                 )
+             ]
+=20
++        if node.absolute_path.endswith(".S"):
++            node.incbin_dependencies =3D [
++                IncbinDependency(
++                    node=3D_build_child_node(incbin_statement.path),
++                    full_statement=3Dincbin_statement.full_statement,
++                )
++                for incbin_statement in parse_incbin_statements(node.abs=
+olute_path)
++            ]
++
+         return node
+=20
+=20
+diff --git a/scripts/sbom/sbom/cmd_graph/hardcoded_dependencies.py b/scri=
+pts/sbom/sbom/cmd_graph/hardcoded_dependencies.py
+new file mode 100644
+index 00000000000..2eb04d30f4e
+--- /dev/null
++++ b/scripts/sbom/sbom/cmd_graph/hardcoded_dependencies.py
+@@ -0,0 +1,87 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR MIT
 +# Copyright (C) 2025 TNG Technology Consulting GmbH
 +
-+from dataclasses import dataclass, field
-+import logging
 +import os
-+from typing import Iterator, Protocol
++from typing import Callable
++import sbom.sbom_logging as sbom_logging
++from sbom.path_utils import PathStr, is_relative_to
++from sbom.environment import Environment
 +
-+from sbom import sbom_logging
-+from sbom.cmd_graph.cmd_file import CmdFile
-+from sbom.path_utils import PathStr, has_link, is_relative_to
++HARDCODED_DEPENDENCIES: dict[str, list[str]] =3D {
++    # defined in linux/Kbuild
++    "include/generated/rq-offsets.h": ["kernel/sched/rq-offsets.s"],
++    "kernel/sched/rq-offsets.s": ["include/generated/asm-offsets.h"],
++    "include/generated/bounds.h": ["kernel/bounds.s"],
++    "include/generated/asm-offsets.h": ["arch/{arch}/kernel/asm-offsets.=
+s"],
++}
++"""
++Maps file paths to the list of dependencies required to build them
++which are not tracked by the .cmd dependency mechanism.
++Paths are relative to either the source tree or the object tree.
++"""
++
++def get_hardcoded_dependencies(path: PathStr, obj_tree: PathStr, src_tre=
+e: PathStr) -> list[PathStr]:
++    """
++    Some files in the kernel build process are not tracked by the .cmd d=
+ependency mechanism.
++    Parsing these dependencies programmatically is too complex for the s=
+cope of this project.
++    Therefore, this function provides manually defined dependencies to b=
+e added to the build graph.
++
++    Args:
++        path: absolute path to a file within the src tree or object tree=
+.
++        obj_tree: absolute Path to the base directory of the object tree=
+.
++        src_tree: absolute Path to the `linux` source directory.
++
++    Returns:
++        list[PathStr]: A list of dependency file paths (relative to the =
+object tree) required to build the file at the given path.
++    """
++    if is_relative_to(path, obj_tree):
++        path =3D os.path.relpath(path, obj_tree)
++    elif is_relative_to(path, src_tree):
++        path =3D os.path.relpath(path, src_tree)
++
++    if path not in HARDCODED_DEPENDENCIES:
++        return []
++
++    template_variables: dict[str, Callable[[], str | None]] =3D {
++        "arch": lambda: _get_arch(path),
++    }
++
++    dependencies: list[PathStr] =3D []
++    for dependency_template in HARDCODED_DEPENDENCIES[path]:
++        dependency =3D _evaluate_template(dependency_template, template_=
+variables)
++        if dependency is None:
++            continue
++        if os.path.exists(os.path.join(obj_tree, dependency)):
++            dependencies.append(dependency)
++        elif os.path.exists(dependency_absolute :=3D os.path.join(src_tr=
+ee, dependency)):
++            dependencies.append(os.path.relpath(dependency_absolute, obj=
+_tree))
++        else:
++            sbom_logging.error(
++                "Skip hardcoded dependency '{dependency}' for '{path}' b=
+ecause the dependency lies neither in the src tree nor the object tree.",
++                dependency=3Ddependency,
++                path=3Dpath,
++            )
++
++    return dependencies
 +
 +
-+class CmdGraphNodeConfig(Protocol):
-+    obj_tree: PathStr
-+    src_tree: PathStr
-+    fail_on_unknown_build_command: bool
++def _evaluate_template(template: str, variables: dict[str, Callable[[], =
+str | None]]) -> str | None:
++    for key, value_function in variables.items():
++        template_key =3D "{" + key + "}"
++        if template_key in template:
++            value =3D value_function()
++            if value is None:
++                return None
++            template =3D template.replace(template_key, value)
++    return template
++
++
++def _get_arch(path: PathStr):
++    srcarch =3D Environment.SRCARCH()
++    if srcarch is None:
++        sbom_logging.error(
++            "Skipped architecture specific hardcoded dependency for '{pa=
+th}' because the SRCARCH environment variable was not set.",
++            path=3Dpath,
++        )
++        return None
++    return srcarch
+diff --git a/scripts/sbom/sbom/cmd_graph/incbin_parser.py b/scripts/sbom/=
+sbom/cmd_graph/incbin_parser.py
+new file mode 100644
+index 00000000000..ca289c2b888
+--- /dev/null
++++ b/scripts/sbom/sbom/cmd_graph/incbin_parser.py
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++from dataclasses import dataclass
++import re
++
++from sbom.path_utils import PathStr
++
++INCBIN_PATTERN =3D re.compile(r'\s*\.incbin\s+"(?P<path>[^"]+)"')
++"""Regex pattern for matching `.incbin "<path>"` statements."""
 +
 +
 +@dataclass
-+class CmdGraphNode:
-+    """A node in the cmd graph representing a single file and its depend=
-encies."""
++class IncbinStatement:
++    """A parsed `.incbin "<path>"` directive."""
 +
-+    absolute_path: PathStr
-+    """Absolute path to the file this node represents."""
++    path: PathStr
++    """path to the file referenced by the `.incbin` directive."""
 +
-+    cmd_file: CmdFile | None =3D None
-+    """Parsed .cmd file describing how the file at absolute_path was bui=
-lt, or None if not available."""
-+
-+    cmd_file_dependencies: list["CmdGraphNode"] =3D field(default_factor=
-y=3Dlist)
-+
-+    @property
-+    def children(self) -> Iterator["CmdGraphNode"]:
-+        seen: set[PathStr] =3D set()
-+        for node in self.cmd_file_dependencies:
-+            if node.absolute_path not in seen:
-+                seen.add(node.absolute_path)
-+                yield node
-+
-+    @classmethod
-+    def create(
-+        cls,
-+        target_path: PathStr,
-+        config: CmdGraphNodeConfig,
-+        cache: dict[PathStr, "CmdGraphNode"] | None =3D None,
-+        depth: int =3D 0,
-+    ) -> "CmdGraphNode":
-+        """
-+        Recursively builds a dependency graph starting from `target_path=
-`.
-+        Dependencies are mainly discovered by parsing the `.<target_path=
-.name>.cmd` file.
-+
-+        Args:
-+            target_path: Path to the target file relative to obj_tree.
-+            config: Config options
-+            cache: Tracks processed nodes to prevent cycles.
-+            depth: Internal parameter to track the current recursion dep=
-th.
-+
-+        Returns:
-+            CmdGraphNode: cmd graph node representing the target file
-+        """
-+        if cache is None:
-+            cache =3D {}
-+
-+        target_path_absolute =3D (
-+            os.path.realpath(p)
-+            if has_link(p:=3Dos.path.join(config.obj_tree, target_path))
-+            else os.path.normpath(p)
-+        )
-+
-+        if target_path_absolute in cache:
-+            return cache[target_path_absolute]
-+
-+        if depth =3D=3D 0:
-+            logging.debug(f"Build node: {target_path}")
-+
-+        cmd_file_path =3D _to_cmd_path(target_path_absolute)
-+        cmd_file =3D CmdFile.create(cmd_file_path) if os.path.exists(cmd=
-_file_path) else None
-+        node =3D CmdGraphNode(target_path_absolute, cmd_file)
-+        cache[target_path_absolute] =3D node
-+
-+        if not os.path.exists(target_path_absolute):
-+            error_or_warning =3D (
-+                sbom_logging.error
-+                if is_relative_to(target_path_absolute, config.obj_tree)
-+                or is_relative_to(target_path_absolute, config.src_tree)
-+                else sbom_logging.warning
-+            )
-+            error_or_warning(
-+                "Skip parsing '{target_path_absolute}' because file does=
- not exist",
-+                target_path_absolute=3Dtarget_path_absolute,
-+            )
-+            return node
-+
-+        # Search for dependencies to add to the graph as child nodes. Ch=
-ild paths are always relative to the output tree.
-+        def _build_child_node(child_path: PathStr) -> "CmdGraphNode":
-+            return CmdGraphNode.create(child_path, config, cache, depth =
-+ 1)
-+
-+        if cmd_file is not None:
-+            node.cmd_file_dependencies =3D [
-+                _build_child_node(cmd_file_dependency_path)
-+                for cmd_file_dependency_path in cmd_file.get_dependencie=
-s(
-+                    target_path, config.obj_tree, config.fail_on_unknown=
-_build_command
-+                )
-+            ]
-+
-+        return node
++    full_statement: str
++    """Full `.incbin "<path>"` statement as it originally appeared in th=
+e file."""
 +
 +
-+def _to_cmd_path(path: PathStr) -> PathStr:
-+    name =3D os.path.basename(path)
-+    return path.removesuffix(name) + f".{name}.cmd"
-diff --git a/scripts/sbom/sbom/cmd_graph/deps_parser.py b/scripts/sbom/sb=
-om/cmd_graph/deps_parser.py
-new file mode 100644
-index 00000000000..6a2d92f0778
---- /dev/null
-+++ b/scripts/sbom/sbom/cmd_graph/deps_parser.py
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import re
-+import sbom.sbom_logging as sbom_logging
-+from sbom.path_utils import PathStr
-+
-+# Match dependencies on config files
-+# Example match: "$(wildcard include/config/CONFIG_SOMETHING)"
-+CONFIG_PATTERN =3D re.compile(r"\$\(wildcard (include/config/[^)]+)\)")
-+
-+# Match dependencies on the objtool binary
-+# Example match: "$(wildcard ./tools/objtool/objtool)"
-+OBJTOOL_PATTERN =3D re.compile(r"\$\(wildcard \./tools/objtool/objtool\)=
-")
-+
-+# Match any Makefile wildcard reference
-+# Example match: "$(wildcard path/to/file)"
-+WILDCARD_PATTERN =3D re.compile(r"\$\(wildcard (?P<path>[^)]+)\)")
-+
-+# Match ordinary paths:
-+# - ^(\/)?: Optionally starts with a '/'
-+# - (([\w\-\.,+~=3D@ ]*)\/)*: Zero or more directory levels
-+# - [\w\-\.,+~=3D@ ]+$: Path component (file or directory)
-+# Example matches: "/foo/bar.c", "dir1/dir2/file.txt", "plainfile"
-+VALID_PATH_PATTERN =3D re.compile(r"^(\/)?(([\w\-\.,+~=3D@ ]*)\/)*[\w\-\=
-.,+~=3D@ ]+$")
-+
-+
-+def parse_cmd_file_deps(deps: list[str]) -> list[PathStr]:
++def parse_incbin_statements(absolute_path: PathStr) -> list[IncbinStatem=
+ent]:
 +    """
-+    Parse dependency strings of a .cmd file and return valid input file =
-paths.
++    Parses `.incbin` directives from an `.S` assembly file.
 +
 +    Args:
-+        deps: List of dependency strings as found in `.cmd` files.
++        absolute_path: Absolute path to the `.S` assembly file.
 +
 +    Returns:
-+        input_files: List of input file paths
++        list[IncbinStatement]: Parsed `.incbin` statements.
 +    """
-+    input_files: list[PathStr] =3D []
-+    for dep in deps:
-+        dep =3D dep.strip()
-+        match dep:
-+            case _ if CONFIG_PATTERN.match(dep) or OBJTOOL_PATTERN.match=
-(dep):
-+                # config paths like include/config/<CONFIG_NAME> should =
-not be included in the graph
-+                continue
-+            case _ if match :=3D WILDCARD_PATTERN.match(dep):
-+                path =3D match.group("path")
-+                input_files.append(path)
-+            case _ if VALID_PATH_PATTERN.match(dep):
-+                input_files.append(dep)
-+            case _:
-+                sbom_logging.error("Skip parsing dependency {dep} becaus=
-e of unrecognized format", dep=3Ddep)
-+    return input_files
-diff --git a/scripts/sbom/sbom/config.py b/scripts/sbom/sbom/config.py
-index c1ac9ad5737..b8c1a2b404d 100644
---- a/scripts/sbom/sbom/config.py
-+++ b/scripts/sbom/sbom/config.py
-@@ -3,21 +3,88 @@
-=20
- import argparse
- from dataclasses import dataclass
-+import os
-+from typing import Any
-+from sbom.path_utils import PathStr
-=20
-=20
- @dataclass
- class KernelSbomConfig:
-+    src_tree: PathStr
-+    """Absolute path to the Linux kernel source directory."""
-+
-+    obj_tree: PathStr
-+    """Absolute path to the build output directory."""
-+
-+    root_paths: list[PathStr]
-+    """List of paths to root outputs (relative to obj_tree) to base the =
-SBOM on."""
-+
-+    generate_used_files: bool
-+    """Whether to generate a flat list of all source files used in the b=
-uild.
-+    If False, no used-files document is created."""
-+
-+    used_files_file_name: str
-+    """If `generate_used_files` is True, specifies the file name for the=
- used-files document."""
-+
-+    output_directory: PathStr
-+    """Path to the directory where the generated output documents will b=
-e saved."""
-+
-     debug: bool
-     """Whether to enable debug logging."""
-=20
-+    fail_on_unknown_build_command: bool
-+    """Whether to fail if an unknown build command is encountered in a .=
-cmd file."""
-+
-+    write_output_on_error: bool
-+    """Whether to write output documents even if errors occur."""
-+
-=20
--def _parse_cli_arguments(parser: argparse.ArgumentParser) -> dict[str, b=
-ool]:
-+def _parse_cli_arguments(parser: argparse.ArgumentParser) -> dict[str, A=
-ny]:
-     """
-     Parse command-line arguments using argparse.
-=20
-     Returns:
-         Dictionary of parsed arguments.
-     """
-+    parser.add_argument(
-+        "--src-tree",
-+        default=3D"../linux",
-+        help=3D"Path to the kernel source tree (default: ../linux)",
-+    )
-+    parser.add_argument(
-+        "--obj-tree",
-+        default=3D"../linux/kernel_build",
-+        help=3D"Path to the build output directory (default: ../linux/ke=
-rnel_build)",
-+    )
-+    group =3D parser.add_mutually_exclusive_group(required=3DTrue)
-+    group.add_argument(
-+        "--roots",
-+        nargs=3D"+",
-+        help=3D"Space-separated list of paths relative to obj-tree for w=
-hich the SBOM will be created.\n"
-+        "Cannot be used together with --roots-file.",
-+    )
-+    group.add_argument(
-+        "--roots-file",
-+        help=3D"Path to a file containing the root paths (one per line).=
- Cannot be used together with --roots.",
-+    )
-+    parser.add_argument(
-+        "--generate-used-files",
-+        action=3D"store_true",
-+        default=3DFalse,
-+        help=3D(
-+            "Whether to create the sbom.used-files.txt file, a flat list=
- of all "
-+            "source files used for the kernel build.\n"
-+            "If src-tree and obj-tree are equal it is not possible to re=
-liably "
-+            "classify source files.\n"
-+            "In this case sbom.used-files.txt will contain all files use=
-d for the "
-+            "kernel build including all build artifacts. (default: False=
-)"
-+        ),
-+    )
-+    parser.add_argument(
-+        "--output-directory",
-+        default=3D".",
-+        help=3D"Path to the directory where the generated output documen=
-ts will be stored (default: .)",
-+    )
-     parser.add_argument(
-         "--debug",
-         action=3D"store_true",
-@@ -25,6 +92,28 @@ def _parse_cli_arguments(parser: argparse.ArgumentPars=
-er) -> dict[str, bool]:
-         help=3D"Enable debug logs (default: False)",
-     )
-=20
-+    # Error handling settings
-+    parser.add_argument(
-+        "--do-not-fail-on-unknown-build-command",
-+        action=3D"store_true",
-+        default=3DFalse,
-+        help=3D(
-+            "Whether to fail if an unknown build command is encountered =
-in a .cmd file.\n"
-+            "If set to True, errors are logged as warnings instead. (def=
-ault: False)"
-+        ),
-+    )
-+    parser.add_argument(
-+        "--write-output-on-error",
-+        action=3D"store_true",
-+        default=3DFalse,
-+        help=3D(
-+            "Write output documents even if errors occur. The resulting =
-documents "
-+            "may be incomplete.\n"
-+            "A summary of warnings and errors can be found in the 'comme=
-nt' property "
-+            "of the CreationInfo element. (default: False)"
-+        ),
-+    )
-+
-     args =3D vars(parser.parse_args())
-     return args
-=20
-@@ -37,10 +126,66 @@ def get_config() -> KernelSbomConfig:
-         KernelSbomConfig: Configuration object with all settings for SBO=
-M generation.
-     """
-     parser =3D argparse.ArgumentParser(
-+        formatter_class=3Dargparse.RawTextHelpFormatter,
-         description=3D"Generate SPDX SBOM documents for kernel builds",
-     )
-     args =3D _parse_cli_arguments(parser)
-=20
-+    # Extract and validate cli arguments
-+    src_tree =3D os.path.realpath(args["src_tree"])
-+    obj_tree =3D os.path.realpath(args["obj_tree"])
-+    root_paths =3D []
-+    if args["roots_file"]:
-+        with open(args["roots_file"], "rt", encoding=3D"utf-8") as f:
-+            root_paths =3D [root.strip() for root in f.readlines()]
-+        if len(root_paths) =3D=3D 0:
-+            parser.error("--roots-file must contain at least one path")
-+    else:
-+        root_paths =3D args["roots"]
-+    _validate_path_arguments(parser, src_tree, obj_tree, root_paths)
-+
-+    generate_used_files =3D args["generate_used_files"]
-+    output_directory =3D os.path.realpath(args["output_directory"])
-     debug =3D args["debug"]
-=20
--    return KernelSbomConfig(debug=3Ddebug)
-+    fail_on_unknown_build_command =3D not args["do_not_fail_on_unknown_b=
-uild_command"]
-+    write_output_on_error =3D args["write_output_on_error"]
-+
-+    # Hardcoded config
-+    used_files_file_name =3D "sbom.used-files.txt"
-+
-+    return KernelSbomConfig(
-+        src_tree=3Dsrc_tree,
-+        obj_tree=3Dobj_tree,
-+        root_paths=3Droot_paths,
-+        generate_used_files=3Dgenerate_used_files,
-+        used_files_file_name=3Dused_files_file_name,
-+        output_directory=3Doutput_directory,
-+        debug=3Ddebug,
-+        fail_on_unknown_build_command=3Dfail_on_unknown_build_command,
-+        write_output_on_error=3Dwrite_output_on_error,
-+    )
-+
-+
-+def _validate_path_arguments(
-+    parser: argparse.ArgumentParser,
-+    src_tree: PathStr,
-+    obj_tree: PathStr,
-+    root_paths: list[PathStr],
-+) -> None:
-+    """
-+    Validate that the provided paths exist.
-+
-+    Args:
-+        parser: The argument parser, used to emit well-formatted error m=
-essages.
-+        src_tree: Absolute path to the source tree.
-+        obj_tree: Absolute path to the object tree.
-+        root_paths: List of root paths relative to obj_tree.
-+    """
-+    if not os.path.exists(src_tree):
-+        parser.error(f"--src-tree {src_tree} does not exist")
-+    if not os.path.exists(obj_tree):
-+        parser.error(f"--obj-tree {obj_tree} does not exist")
-+    for root_path in root_paths:
-+        if not os.path.isfile(root_path_absolute :=3D os.path.join(obj_t=
-ree, root_path)):
-+            parser.error(f"path to root artifact {root_path_absolute} is=
- not a file")
-diff --git a/scripts/sbom/sbom/path_utils.py b/scripts/sbom/sbom/path_uti=
-ls.py
-new file mode 100644
-index 00000000000..29820046dc8
---- /dev/null
-+++ b/scripts/sbom/sbom/path_utils.py
-@@ -0,0 +1,22 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import os
-+from functools import lru_cache
-+
-+PathStr =3D str
-+"""Filesystem path represented as a plain string for better performance =
-than pathlib.Path."""
-+
-+
-+def is_relative_to(path: PathStr, base: PathStr) -> bool:
-+    return os.path.commonpath([path, base]) =3D=3D base
-+
-+@lru_cache(maxsize=3DNone)
-+def has_link(path: PathStr) -> bool:
-+    """Returns True if path or any of its ancestor directories is a syml=
-ink. Results are cached to avoid duplicate lstat syscalls."""
-+    if os.path.islink(path):
-+        return True
-+    parent =3D os.path.dirname(path)
-+    if parent =3D=3D path:
-+        return False
-+    return has_link(parent)
++    with open(absolute_path, "rt", encoding=3D"utf-8") as f:
++        content =3D f.read()
++    return [
++        IncbinStatement(
++            path=3Dmatch.group("path"),
++            full_statement=3Dmatch.group(0).strip(),
++        )
++        for match in INCBIN_PATTERN.finditer(content)
++    ]
 --=20
 2.43.0
 
