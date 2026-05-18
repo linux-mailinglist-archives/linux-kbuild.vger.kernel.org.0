@@ -1,95 +1,96 @@
-Return-Path: <linux-kbuild+bounces-13251-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13252-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EIDPHVfLCmqf8AQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13251-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 10:18:31 +0200
+	id kNEpC8bcCmpV8wQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13252-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 11:32:54 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695DF5688D0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 10:18:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EA0569C3C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 11:32:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A8F83301995E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:08:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 28A95301DC2F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 09:32:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B9B3E169D;
-	Mon, 18 May 2026 08:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB8B3E6DD8;
+	Mon, 18 May 2026 09:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FAxhkYyu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p/62/miq"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Vt0ThH1r";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d7Zrs/v1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F093B7763;
-	Mon, 18 May 2026 08:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1514C3E3C59;
+	Mon, 18 May 2026 09:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779091717; cv=none; b=rW08yMMixrPg8UFbXdVryeRHOFmEtz8A47URBj2pAspj9vfhHsdvkKA1DvbqUQ+eAsQ6wLzStT2qzfCkUicmAKZLBcQyVJ5PpWEVXiqgGDetC9+lR7Vl0CYepp/yPzGI0cRKPBXhu22DTfWhqXvHnWaGeUWdi7h1FlOAd8kILWo=
+	t=1779096739; cv=none; b=n5K7EiX+3imEzbBoYIomkyKXWQB9iI9mwA9/BVXmLpiRp0KarTwUlvQQnONr0alMtZwkqzXDTHfUkQZqBV8M9jXVm99U3yxsiNon9McOjumG/HGVX3l2Sicqi+5tYXcmjvq7QHkk4TuYcaf7IaGq421OEZtTSR4GwsLPIADNZvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779091717; c=relaxed/simple;
-	bh=o3YCFVIczNIry44nAnDihzccv7vZrX+n7Q0zFtD8cKE=;
+	s=arc-20240116; t=1779096739; c=relaxed/simple;
+	bh=ypzeTVt77Q2YbxNzeBXoLlB99i/DAfX/BMXiXdWvVGE=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=WrySVdenBtB1LZyGyfmurfd4gDrWoGq8S5REysTmRqPmGd5jOHyEX3QlRxFcajwdVUBfCGI/2o2FotNPYNN/fa0I5Q2VR70MkcRk4ZOJny4PjTp8k98UWMRKjQKjlhgF+8SSmmuCO9HsnGsqzjhT5qs5n/d5nWa7jw7bwEwbqyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FAxhkYyu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p/62/miq; arc=none smtp.client-ip=202.12.124.153
+	 Subject:Content-Type; b=R8CjqA5q1PvxkAKfHKMWOoN1zXwm4hCiDyeNbCgWSlCaTEfAlBngES4jlmOwp7FUAjRyhxfrCwcMLSuo5GKWnaYec27h+FQ8/bfuE4bgvJwBeZ+V/uYaNLpkreranjZlOJ2UT6rXiGfSpBtyA26m/LXd02NZH2XIgHY+B+zz4K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Vt0ThH1r; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d7Zrs/v1; arc=none smtp.client-ip=202.12.124.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 05EA27A0114;
-	Mon, 18 May 2026 04:08:31 -0400 (EDT)
+	by mailflow.stl.internal (Postfix) with ESMTP id 91C52130011D;
+	Mon, 18 May 2026 05:32:14 -0400 (EDT)
 Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Mon, 18 May 2026 04:08:32 -0400
+  by phl-compute-04.internal (MEProxy); Mon, 18 May 2026 05:32:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779091711;
-	 x=1779178111; bh=SMTE3eKUoPJQ9Fckj2EBplDYrIXz7DHO/1XXF0HbP1E=; b=
-	FAxhkYyuLp9QidDS8KwCzt5I9eFjCKuXS6WlEfWw/4xqZq2Gv3EFRu7YZEV6gZWR
-	V88n1VBalToYEo+DDz3r33kmGYNayDWO+RMCxjfjel+Q2pZ5YJRIUw7/vda2z/Te
-	owpMXDik+TQGtbyTvzBHlA4KaAFiiy/yJ+vF7jfrcm+abClJcryARx57nduckvkS
-	fuvoo0wHUZLEWeM2rCJBdEdiy1Ntk2v+x7SqL/j/70pETf+Mr1RoCopdegeOTiIS
-	U4J8S/jvvCBSIBWKnp6dbhFddl/Zl0nwaKzuztrfpAoN22fQqKuDwHYWWFJtIoXB
-	m5H3ATTVzi6WTDGZd6ZONQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779096734;
+	 x=1779103934; bh=Q1EsgrhmOtBlhH6lTl5Uo51ZkO0kpI0RkBVnwq5QUz4=; b=
+	Vt0ThH1rLYcI1Ix28b0JP5KyKVSNK7tWRDDAnyloBA5/OwJqvN0ri23ATRKH/uyF
+	y8piX8XfSOJ2Bufr6N0+eUn5rg446FLnMUuwx7hDbKGF/j7vqGhTISTNEbVMBtD3
+	Er3HNGz+7bqwmkQZXphusyxP6gZ5RoN5+grgyIc2fAVd5zF9uz9rWHF2yR2iKE6c
+	j5CWOhjqbuvDbRqe9DRYBaSya//gp1ZPuFln02tSYpandTwCO8xeGVrBKM1uBGsV
+	9p2JckdJcHMQXLay3F89Y+/C/8zpBN5u1/pireYxLZJvV/0ez2Hvrz9lErx9PSRW
+	EsZ3YkVJzigHewFB4l4G1A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779091711; x=
-	1779178111; bh=SMTE3eKUoPJQ9Fckj2EBplDYrIXz7DHO/1XXF0HbP1E=; b=p
-	/62/miq9xDJbvy0O/t7ak+HpbTF7idnT1/Eu/lXsv5x2kbXEkQkfEzZjsugtQCo4
-	S8VyQ+/PNhokthuvCh410TB70+cbYG6zWwBph8ROLYgvkBZOOB5z24r0TSF/TYHB
-	5rA86oVDqNLRRLcwc80zn72qf0jwsAnFnrqV1ujQSQD0J5c9X3uUp5AaF3XoiPDi
-	4nkK5YLqTdB6IDfXdDLmY/obH/L9NZg4QIUTh3o6F5WB037HsfIHdn8ZsEnDa/+j
-	h6vooQKrJQFW+rOF4m4EBrBUv8cUwOd5P7z3D6FqgQbZQGQbyKI88zhTWHNMqXjc
-	ro7gj2ADERZtNGNWUeCLw==
-X-ME-Sender: <xms:_sgKaqFtZMscDadiwF6vnRuRP9GLRSo8zTFDq40f4AxqrpKN3YsJ9g>
-    <xme:_sgKamInPF6wZJCqPUKbunfyBJxYkc2D5DpQd9OqBacFxm5AVCQaRCacEoytZMEuV
-    XEBDJwcpazTwlCauvgEylH6Alo84vmVptBdaOBYF9nV1PuTfwY5U3U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekfeehucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779096734; x=
+	1779103934; bh=Q1EsgrhmOtBlhH6lTl5Uo51ZkO0kpI0RkBVnwq5QUz4=; b=d
+	7Zrs/v1i2pD7/PQEYdz7BPzqLdbR898qrLSWf/HozUAsyPe+XrqlKiGdfOVHUinw
+	6Q0TqsEx4aDRD2knrLMZmE8pGW7wNnAsh4iVY1NGQyME8dm34CKZoUYySoSwGt3m
+	WO5a6SL/c0VjK4nrTWAgl+UOgREv8GocunpjwMzoH2o93J9K6JzFGz0Nv/ew5u7v
+	otDT3CesstoEPlNlDbtFawhwJUvW/W1HcemrhTjADJgyRVPcEmoEpY9owJYiw0so
+	hKSiM+D0KAtC7+FYC/VwBnzCVieL8gHr9uBPe1fZUpAoCDiIEatJShmPKAswwKNf
+	PdCn7RLUd8Xkv45idAYWQ==
+X-ME-Sender: <xms:m9wKaiS1nRXcm5q7ZK6FjXk-vPvsJCwaGlPICQR9d8H9UXzQ4G_8uA>
+    <xme:m9wKailMo_Vsg2pUTHY2LO2mRgZMiiYsetrfaJAgSSwVAluO1sPqyU7-v1LlFoahd
+    gD4YhMSwmAQLKH7qOY_UXwDIOVaw4Ju_GOiNEeGM_TfF_ltikUCbgY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekhedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhgu
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
     uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleej
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopeguvg
-    hmihhosggvnhhouhhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhulhhirghnsghr
-    rghhrgesghhmrghilhdrtghomhdprhgtphhtthhopehmihhguhgvlhdrohhjvggurgdrsh
-    grnhguohhnihhssehgmhgrihhlrdgtohhmpdhrtghpthhtohepvghjsehinhgrihdruggv
-    pdhrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrshgrhh
-    hirhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehnshgtsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:_sgKahvZfXVB2y2iD6OXwPyFctVH5KWlUkQBIb2AY0veHI6KZAzL9w>
-    <xmx:_sgKahhJ42ah9loNqrmLbDQHqusOWeLESmcHCthaVWFnBJXRWeRdPA>
-    <xmx:_sgKasfQWz7GRS0f_qvCBoVrgtKuLQBB2ITxvAgVzmupnJY41lv4UA>
-    <xmx:_sgKauliLd5wz_BIeuIxMUslcviBLEPJ5bRx097M7tk-e9PSUVxksQ>
-    <xmx:_8gKauBNVy1Ny4K4BDfkSfG8RXh3lLLg9pC3MavyjdjdCwRsqhzFTKf8>
+    hrnhepgfetleektedtheehheegffdtgfejvddvveeigfehjedvkefguefffedvhfehkeeu
+    necuffhomhgrihhnpehsohhurhgtvgifrghrvgdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhn
+    sggprhgtphhtthhopeehtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhunh
+    hordhsrgesrghnrghlohhgrdgtohhmpdhrtghpthhtohepughlvggthhhnvghrsegsrgih
+    lhhisghrvgdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvg
+    htpdhrtghpthhtohepughpvghnkhhlvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    vghnvghlshhonhhmohhorhgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhpihhggh
+    hinhesghhmrghilhdrtghomhdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgv
+    rdgtohhmpdhrtghpthhtohepugiimheludeshhhushhtrdgvughurdgtnhdprhgtphhtth
+    hopehpvghtvghriiesihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:m9wKaoXO8csU_OfH3IC96vXBm6hf3_s4i74Aa2ze3_cRkDErTRhnQA>
+    <xmx:m9wKavCYpT9XIqZZ3KxcyxUwagyNayqYTaDfbOM66aYrE-DDmC3CvQ>
+    <xmx:m9wKaqGfXgsGxAHGFR9PVXMFX8vv_m3SQ0OhOrBlqJJ6MAENfFzlyA>
+    <xmx:m9wKameOBxifjWiOCFYmJ24tKTUi0NpUiwxhzkeayVo8Iddh1ByhbA>
+    <xmx:ntwKarDXvcCscqze7RatHo9_OeoAzcLLCvtlqj7thJsDiA792-MymQA7>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A9B081820082; Mon, 18 May 2026 04:08:30 -0400 (EDT)
+	id 5AE44182007E; Mon, 18 May 2026 05:32:11 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -97,90 +98,120 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AShNAKQnQ-07
-Date: Mon, 18 May 2026 10:08:10 +0200
+X-ThreadId: AoFiOxpvQUXV
+Date: Mon, 18 May 2026 11:29:48 +0200
 From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>,
- "Demi Marie Obenour" <demiobenour@gmail.com>
-Cc: "Julian Braha" <julianbraha@gmail.com>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>,
- "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Andrew Morton" <akpm@linux-foundation.org>, "Gary Guo" <gary@garyguo.net>,
- ljs@kernel.org, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, qingfang.deng@linux.dev,
- yann.prono@telecomnancy.net, ej@inai.de, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-Message-Id: <ef59ee46-87e2-4f99-babf-4dc8ee3cbec5@app.fastmail.com>
-In-Reply-To: 
- <CANiq72mGTehUWS2-MgukOKmwAn3fB63boFNqbNENse6B00M7Zg@mail.gmail.com>
-References: <20260516215354.449807-1-julianbraha@gmail.com>
- <20260516215354.449807-2-julianbraha@gmail.com>
- <ba7ec52f-c4e9-4588-9484-dc8280d55593@gmail.com>
- <CANiq72k_tXGSCd1BEg8XmTr+acZHfdRbcFOVD7=O6yAbmv-nHw@mail.gmail.com>
- <f77a4858-2bcf-4bfb-95e0-24a5d91e0862@gmail.com>
- <CANiq72mGTehUWS2-MgukOKmwAn3fB63boFNqbNENse6B00M7Zg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/3] scripts: add kconfirm
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 695DF5688D0
+To: "Ethan Nelson-Moore" <enelsonmoore@gmail.com>, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, workflows@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, dmaengine@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+ Netdev <netdev@vger.kernel.org>, linux-pci@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>
+Cc: "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Daniel Lezcano" <daniel.lezcano@kernel.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Alex Shi" <alexs@kernel.org>,
+ "Yanteng Si" <si.yanteng@linux.dev>, "Dongliang Mu" <dzm91@hust.edu.cn>,
+ "Hu Haowen" <2023002089@link.tyut.edu.cn>,
+ "Dinh Nguyen" <dinguyen@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Oleg Nesterov" <oleg@redhat.com>, "Will Deacon" <will@kernel.org>,
+ "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Vinod Koul" <vkoul@kernel.org>,
+ "Frank Li" <Frank.Li@kernel.org>, "Dave Penkler" <dpenkler@gmail.com>,
+ "Andi Shyti" <andi.shyti@kernel.org>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "David Lechner" <dlechner@baylibre.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ "Andy Shevchenko" <andy@kernel.org>,
+ "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ "Simon Schuster" <schuster.simon@siemens-energy.com>,
+ "Andreas Oetken" <andreas.oetken@siemens-energy.com>
+Message-Id: <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D2EA0569C3C
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.65 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	HAS_LIST_UNSUB(-0.01)[];
 	XM_UA_NO_VERSION(0.01)[];
-	TAGGED_FROM(0.00)[bounces-13251-lists,linux-kbuild=lfdr.de];
+	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-13252-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[lwn.net,linuxfoundation.org,kernel.org,linux.dev,hust.edu.cn,link.tyut.edu.cn,redhat.com,linux-foundation.org,gmail.com,infradead.org,baylibre.com,analog.com,lunn.ch,davemloft.net,google.com,siemens-energy.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,linux-foundation.org,garyguo.net,linuxfoundation.org,lwn.net,linux.dev,telecomnancy.net,inai.de,vger.kernel.org];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	RCPT_COUNT_GT_50(0.00)[50];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt,netdev];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,app.fastmail.com:mid,arndb.de:dkim,messagingengine.com:dkim]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sourceware.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,arndb.de:dkim,messagingengine.com:dkim,app.fastmail.com:mid]
 X-Rspamd-Action: no action
 
-On Mon, May 18, 2026, at 00:53, Miguel Ojeda wrote:
-> On Sun, May 17, 2026 at 10:25=E2=80=AFPM Demi Marie Obenour
-> <demiobenour@gmail.com> wrote:
->>
->> I was hoping for Linux to avoid the Rust trend of downloading tons
->> of third-party crates, with all the supply-chain risks that entails.
+On Mon, May 18, 2026, at 06:28, Ethan Nelson-Moore wrote:
+> The Nios II architecture is a soft-core architecture developed by
+> Altera (since acquired by Intel) and intended to run on their FPGAs.
 >
-> I completely agree -- it is why I said a well-known, vetted set of cra=
-tes.
+> Licenses for the architecture have not been available for purchase
+> since 2024 [1], and support for it has been removed from GCC 15 [2],
+> Buildroot [3], and QEMU [4].
 >
-> That is, we should decide on e.g. a single CLI arg parser, a single
-> logger, etc. for most of our tools, and ideally they should be
-> well-known crates (ideally already trusted via use in the compiler
-> itself).
+> Given all of these factors, it is time to remove Nios II support from
+> the kernel. The maintainer stated in 2024 that they were planning to do
+> so soon [5], but this did not come to pass.
 >
-> Moreover, they should be pinned with `--locked` or similar (like we
-> already recommend for `bindgen-cli`), so that we only ever use
-> something that matches the hash in the lockfile that would be
-> committed in the tree.
+> Remove Nios II support from the kernel and move the former maintainer
+> to CREDITS. Thank you, Dinh Nguyen, for maintaining Nios II support!
 
-What about dependencies that are normally shipped by the distros
-along with the rust compiler? Would it be possible to allow a
-range of version that matches the ones that are present on
-common distros like we do with C libraries, or would that cause
-more problems than it solves?
+Hi Ethan,
+
+We last discussed this a year ago when Simon Schuster mentioned[1]
+that Siemens Energy is still using NIOS-2 in production and would
+prefer to have this still included in Linux for at least another
+few years until the obligation for kernel updates ends.
+
+My feeling is that the maintenance burden of keeping nios2 is
+relatively low. On the other hand, maintaining it out of tree
+as a patch set is also something that should not be all that
+hard if it does get removed.
+
+Simon mentioned that he expected others to also use nios2 with
+new kernels, but I have not heard from anyone else actually
+doing it.
+
+I've added Simon and Andreas to Cc here to let them comment
+more here.
 
      Arnd
+
+[1] https://sourceware.org/pipermail/binutils/2025-March/140140.html
 
