@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-13231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13234-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJ1LEO2vCmog5wQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13231-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:33 +0200
+	id WHOMAvmvCmog5wQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13234-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:45 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313D15669AF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E335669CB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:21:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 22EFD3001586
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 06:21:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 188E83004CA1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 06:21:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 184AE3DE44D;
-	Mon, 18 May 2026 06:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA74A30C161;
+	Mon, 18 May 2026 06:21:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="KxEOhiD6"
+	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="MER7hYVp"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEA6385529;
-	Mon, 18 May 2026 06:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0FD3DE42A;
+	Mon, 18 May 2026 06:21:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779085282; cv=none; b=I36qDkyICKAb8WJTiWVo0djT0u3W9WrOAmxIi0xgePqasWMo3gfhdss7fn3/qqtknnH+TMoHP3jgDR0sha5uUKm2TP3IMQdjYYQRqj5JDazwxYjtLgpyiAX7eZWkVBykQzUbt6WJRA/NR0Tp/sMHxllilG/AcvsIEV3rRurwZ+o=
+	t=1779085287; cv=none; b=BCXy+igLglIN23KXacn4Mk4/VShwuRHtdZJJ6jRCnMYYz8jRsRGv7BZCLZR5qEV3WYqdEXPVpX3PhkOzYLqzhsFTHZ96FfpbgoVCbs0JHewqIUiPTUVL/SzqvlEmOOCoV/vl0q3kz4Ma1uc2AeH9bispT1NJt5r6K6dJvhkTfUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779085282; c=relaxed/simple;
-	bh=htGuP00MUFwoIi1DwFkohLV4asminO75kiVwRXChVBo=;
+	s=arc-20240116; t=1779085287; c=relaxed/simple;
+	bh=1Z++A3nRDYD9UP7Wt03B49EDM9XW017brqFXjmxp5q4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WjhEPCzsQGmlK3819MWRv2PeBX/WPRwXXke5p/ARtXT9JzXWWmKpU4fmeMuLvFZUk9tWvmL/E6tOGLgN0KTdKBKWJXSNzRhjZ22s5+y5Xgj5B2xYgqOL6AYxjxHmJnVEZC93bjomV7qeRZit+NtVQeCeiER6YEbc9cvySM4uUa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=KxEOhiD6; arc=none smtp.client-ip=148.251.102.236
+	 MIME-Version; b=ZlRNTCBONaw1pua5BtqHMd+i91RoEBwkyhleklGEGWxP7O1Ox4d2pL3YOSsEgRJDYOSnbr+TtIXS4LumdvQNWXVBU9L86innWtuFcM5lfPNUWjJjKeDSBUDVl+Yt6A2vNedbJTckfOfjNGE+jEk4K9hJfpexbViBkCunuvQSvik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=MER7hYVp; arc=none smtp.client-ip=148.251.102.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
 Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 56BC0200BB;
-	Mon, 18 May 2026 08:21:15 +0200 (CEST)
+	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 1A720200C6;
+	Mon, 18 May 2026 08:21:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 384221F8989;
-	Mon, 18 May 2026 08:21:15 +0200 (CEST)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 5B8A11FACCB;
+	Mon, 18 May 2026 08:21:17 +0200 (CEST)
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id x4pW-AO9AM1z; Mon, 18 May 2026 08:21:10 +0200 (CEST)
+ with ESMTP id 19SU_emGhFsG; Mon, 18 May 2026 08:21:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id E85311F89A8;
-	Mon, 18 May 2026 08:21:09 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz E85311F89A8
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id EF5351FACD3;
+	Mon, 18 May 2026 08:21:11 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz EF5351FACD3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1779085270;
-	bh=OfOkKkqhycGPczYqB2DRqx74nqpSOhYRT84EwmYdtfQ=;
+	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1779085272;
+	bh=kZR3+eOUXTBU3uvJc4K4Tw0EwAJF/430ifQ+oDuSjfA=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=KxEOhiD6PRRzQU5TUOYKElQ5+E7mmGAA5Vb5MUXZK/e3dw4RWJN/81hZfrlHd+kV1
-	 MgsYYbwyRopIcSH514Wr/nh/SiiSLHtoxaifCnO0UuhOQb8d0X1k+hCualK8q7XnHd
-	 +S/fKnVsAy3XJzhnweMhNDWHHEFRCHLcOkskbmdFJ/spkBOaBa9EtyPDxniub9/2Ta
-	 SJ9m8KePpleS1iDoRg2DSFRgn2anpncCv2AZ6hqoLkCqJi3e27vXJ0reuORmE2WJcG
-	 RJuIDgrtqQsQ8jG0/JvfqYw/V0pzinqRdb5G9rRmQrvURWMhfpIrBbRzrv48SoplSg
-	 GTV94h2pLyheA==
+	b=MER7hYVpa68NH9keWgoXTN25wHy1NU7Ezz5CD1e7DqwnOnQHQUw+taTmMyxzWWG11
+	 Lb5tD/NdvbAwJDcGIupD0MOnDA4X74IIb2hxsFM5Bumyga5PtCi74sUkXE6ExjgQNv
+	 GhOJEFUm1DbfPNfZrbPHV7XOoEZjmVZqlHJU0ESuudjvbynrxHSkweRFBcH2XesdAt
+	 m55kDhYQk+BUu+nK7f4gTUjYL24TVQ67mlBD2JnB4LDwC+mwP9eK29oZ9swyN0WUZn
+	 zNWxuFS2t12YAXYjYF9X52RFrIP3Xgks/F/e2Wx5Lpylw/ZzRJzH9h+WFKlsa4bbG+
+	 9L7qwHqCpeFlw==
 X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
 Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
  by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id DaWqdEyf8ibC; Mon, 18 May 2026 08:21:09 +0200 (CEST)
+ with ESMTP id acckYvwFT0Q5; Mon, 18 May 2026 08:21:11 +0200 (CEST)
 Received: from luis-Precision-5480.. (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 91FE81F8989;
-	Mon, 18 May 2026 08:21:09 +0200 (CEST)
+	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 9B5B31FACCB;
+	Mon, 18 May 2026 08:21:11 +0200 (CEST)
 From: Luis <luis.augenstein@tngtech.com>
 To: nathan@kernel.org,
 	nsc@kernel.org
@@ -74,9 +74,9 @@ Cc: linux-kbuild@vger.kernel.org,
 	kstewart@linuxfoundation.org,
 	maximilian.huber@tngtech.com,
 	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v7 02/15] scripts/sbom: integrate script in make process
-Date: Mon, 18 May 2026 08:20:49 +0200
-Message-ID: <20260518062102.2051814-3-luis.augenstein@tngtech.com>
+Subject: [PATCH v7 03/15] scripts/sbom: setup sbom logging
+Date: Mon, 18 May 2026 08:20:50 +0200
+Message-ID: <20260518062102.2051814-4-luis.augenstein@tngtech.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260518062102.2051814-1-luis.augenstein@tngtech.com>
 References: <20260518062102.2051814-1-luis.augenstein@tngtech.com>
@@ -87,7 +87,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 313D15669AF
+X-Rspamd-Queue-Id: 15E335669CB
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -100,8 +100,8 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13231-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,sancloud.com:email];
+	TAGGED_FROM(0.00)[bounces-13234-lists,linux-kbuild=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -121,7 +121,8 @@ X-Rspamd-Action: no action
 
 From: Luis Augenstein <luis.augenstein@tngtech.com>
 
-integrate SBOM script into the kernel build process.
+Add logging infrastructure for warnings and errors.
+Errors and warnings are accumulated and summarized in the end.
 
 Assisted-by: Cursor:claude-sonnet-4-5
 Assisted-by: OpenCode:GLM-4-7
@@ -129,125 +130,224 @@ Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
 Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
 ---
- .gitignore           |  1 +
- MAINTAINERS          |  6 ++++++
- Makefile             | 20 ++++++++++++++++++--
- scripts/sbom/sbom.py | 16 ++++++++++++++++
- 4 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 scripts/sbom/sbom.py
+ scripts/sbom/sbom.py              | 26 ++++++++-
+ scripts/sbom/sbom/__init__.py     |  0
+ scripts/sbom/sbom/config.py       | 46 +++++++++++++++
+ scripts/sbom/sbom/sbom_logging.py | 94 +++++++++++++++++++++++++++++++
+ 4 files changed, 165 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/sbom/sbom/__init__.py
+ create mode 100644 scripts/sbom/sbom/config.py
+ create mode 100644 scripts/sbom/sbom/sbom_logging.py
 
-diff --git a/.gitignore b/.gitignore
-index 3044b9590f0..f0d35a9d591 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -49,6 +49,7 @@
- *.s
- *.so
- *.so.dbg
-+*.spdx.json
- *.su
- *.symtypes
- *.tab.[ch]
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6aa3fe2ee1b..3dd2ce9ef0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23903,6 +23903,12 @@ R:	Marc Murphy <marc.murphy@sancloud.com>
- S:	Supported
- F:	arch/arm/boot/dts/ti/omap/am335x-sancloud*
-=20
-+SBOM
-+M:	Luis Augenstein <luis.augenstein@tngtech.com>
-+M:	Maximilian Huber <maximilian.huber@tngtech.com>
-+S:	Maintained
-+F:	scripts/sbom/
-+
- SC1200 WDT DRIVER
- M:	Zwane Mwaikambo <zwanem@gmail.com>
- S:	Maintained
-diff --git a/Makefile b/Makefile
-index b7b80e84e1e..36f43a9e2ae 100644
---- a/Makefile
-+++ b/Makefile
-@@ -787,7 +787,7 @@ endif
- # in addition to whatever we do anyway.
- # Just "make" or "make all" shall build modules as well
-=20
--ifneq ($(filter all modules nsdeps compile_commands.json clang-%,$(MAKEC=
-MDGOALS)),)
-+ifneq ($(filter all modules nsdeps compile_commands.json clang-% sbom,$(=
-MAKECMDGOALS)),)
-   KBUILD_MODULES :=3D y
- endif
-=20
-@@ -1692,7 +1692,7 @@ CLEAN_FILES +=3D vmlinux.symvers modules-only.symve=
-rs \
- 	       modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
- 	       compile_commands.json rust/test \
- 	       rust-project.json .vmlinux.objs .vmlinux.export.c \
--               .builtin-dtbs-list .builtin-dtbs.S
-+	       .builtin-dtbs-list .builtin-dtbs.S sbom-*.spdx.json
-=20
- # Directories & files removed with 'make mrproper'
- MRPROPER_FILES +=3D include/config include/generated          \
-@@ -1811,6 +1811,7 @@ help:
- 	@echo  ''
- 	@echo  'Tools:'
- 	@echo  '  nsdeps          - Generate missing symbol namespace dependenc=
-ies'
-+	@echo  '  sbom            - Generate Software Bill of Materials'
- 	@echo  ''
- 	@echo  'Kernel selftest:'
- 	@echo  '  kselftest         - Build and run kernel selftest'
-@@ -2197,6 +2198,21 @@ nsdeps: export KBUILD_NSDEPS=3D1
- nsdeps: modules
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/nsdeps
-=20
-+# Script to generate .spdx.json SBOM documents describing the build
-+# ----------------------------------------------------------------------=
------
-+
-+ifdef building_out_of_srctree
-+sbom_targets :=3D sbom-source.spdx.json
-+endif
-+sbom_targets +=3D sbom-build.spdx.json sbom-output.spdx.json
-+quiet_cmd_sbom =3D GEN     $(sbom_targets)
-+      cmd_sbom =3D printf "%s\n" "$(KBUILD_IMAGE)" >"$(tmp-target)"; \
-+                 $(if $(CONFIG_MODULES),sed 's/\.o$$/.ko/' $(objtree)/mo=
-dules.order >> "$(tmp-target)";) \
-+                 $(PYTHON3) $(srctree)/scripts/sbom/sbom.py;
-+PHONY +=3D sbom
-+sbom: $(notdir $(KBUILD_IMAGE)) include/generated/autoconf.h $(if $(CONF=
-IG_MODULES),modules modules.order)
-+	$(call cmd,sbom)
-+
- # Clang Tooling
- # ----------------------------------------------------------------------=
------
-=20
 diff --git a/scripts/sbom/sbom.py b/scripts/sbom/sbom.py
-new file mode 100644
-index 00000000000..9c2e4c7f17c
---- /dev/null
+index 9c2e4c7f17c..3bd466720b0 100644
+--- a/scripts/sbom/sbom.py
 +++ b/scripts/sbom/sbom.py
-@@ -0,0 +1,16 @@
-+#!/usr/bin/env python3
+@@ -6,9 +6,33 @@
+ Compute software bill of materials in SPDX format describing a kernel bu=
+ild.
+ """
+=20
++import logging
++import sys
++import sbom.sbom_logging as sbom_logging
++from sbom.config import get_config
++
++
++def _exit_with_summary(write_output_on_error: bool =3D False) -> None:
++    warning_summary =3D sbom_logging.summarize_warnings()
++    error_summary =3D sbom_logging.summarize_errors()
++    if warning_summary:
++        logging.warning(warning_summary)
++    if error_summary:
++        logging.error(error_summary)
++        sys.exit(1)
++
+=20
+ def main():
+-    pass
++    # Read config
++    config =3D get_config()
++
++    # Configure logging
++    logging.basicConfig(
++        level=3Dlogging.DEBUG if config.debug else logging.INFO,
++        format=3D"[%(levelname)s] %(message)s",
++    )
++
++    _exit_with_summary(config.write_output_on_error)
+=20
+=20
+ # Call main method
+diff --git a/scripts/sbom/sbom/__init__.py b/scripts/sbom/sbom/__init__.p=
+y
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/scripts/sbom/sbom/config.py b/scripts/sbom/sbom/config.py
+new file mode 100644
+index 00000000000..c1ac9ad5737
+--- /dev/null
++++ b/scripts/sbom/sbom/config.py
+@@ -0,0 +1,46 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR MIT
 +# Copyright (C) 2025 TNG Technology Consulting GmbH
 +
-+"""
-+Compute software bill of materials in SPDX format describing a kernel bu=
-ild.
-+"""
++import argparse
++from dataclasses import dataclass
 +
 +
-+def main():
-+    pass
++@dataclass
++class KernelSbomConfig:
++    debug: bool
++    """Whether to enable debug logging."""
 +
 +
-+# Call main method
-+if __name__ =3D=3D "__main__":
-+    main()
++def _parse_cli_arguments(parser: argparse.ArgumentParser) -> dict[str, b=
+ool]:
++    """
++    Parse command-line arguments using argparse.
++
++    Returns:
++        Dictionary of parsed arguments.
++    """
++    parser.add_argument(
++        "--debug",
++        action=3D"store_true",
++        default=3DFalse,
++        help=3D"Enable debug logs (default: False)",
++    )
++
++    args =3D vars(parser.parse_args())
++    return args
++
++
++def get_config() -> KernelSbomConfig:
++    """
++    Parse command-line arguments and construct the configuration object.
++
++    Returns:
++        KernelSbomConfig: Configuration object with all settings for SBO=
+M generation.
++    """
++    parser =3D argparse.ArgumentParser(
++        description=3D"Generate SPDX SBOM documents for kernel builds",
++    )
++    args =3D _parse_cli_arguments(parser)
++
++    debug =3D args["debug"]
++
++    return KernelSbomConfig(debug=3Ddebug)
+diff --git a/scripts/sbom/sbom/sbom_logging.py b/scripts/sbom/sbom/sbom_l=
+ogging.py
+new file mode 100644
+index 00000000000..fbc53cc77ef
+--- /dev/null
++++ b/scripts/sbom/sbom/sbom_logging.py
+@@ -0,0 +1,94 @@
++# SPDX-License-Identifier: GPL-2.0-only OR MIT
++# Copyright (C) 2025 TNG Technology Consulting GmbH
++
++import logging
++import inspect
++from typing import Literal
++
++
++MessageTemplate =3D str
++
++
++class MessageLogger:
++    """Logger that suppresses repeated messages and stores a summary of =
+all logged messages."""
++
++    _messages: dict[MessageTemplate, list[str]]
++    _message_counts: dict[MessageTemplate, int]
++    _repeated_logs_limit: int
++    """Maximum number of repeated messages of the same type to log befor=
+e suppressing further output."""
++
++    def __init__(self, level: Literal["error", "warning"], repeated_logs=
+_limit: int =3D 3) -> None:
++        self._level =3D level
++        self._messages =3D {}
++        self._message_counts =3D {}
++        self._repeated_logs_limit =3D repeated_logs_limit
++
++    def log(self, template: MessageTemplate, /, **kwargs: str) -> None:
++        """Log a message based on a template and optional variables. Exa=
+mple: `log("Missing {path}", path=3Dstr(p))`."""
++        message =3D template
++        for key, value in kwargs.items():
++            message =3D message.replace("{" + key + "}", value)
++        if template not in self._messages:
++            self._messages[template] =3D []
++            self._message_counts[template] =3D 0
++        self._message_counts[template] +=3D 1
++        if self._message_counts[template] <=3D self._repeated_logs_limit=
+:
++            if self._level =3D=3D "error":
++                logging.error(message)
++            elif self._level =3D=3D "warning":
++                logging.warning(message)
++            self._messages[template].append(message)
++
++    def get_summary(self) -> str:
++        if len(self._messages) =3D=3D 0:
++            return ""
++        summary: list[str] =3D [f"Summarize {self._level}s:"]
++        for template, messages in self._messages.items():
++            for message in messages:
++                summary.append(message)
++            n_suppressed_messages =3D self._message_counts[template] - s=
+elf._repeated_logs_limit
++            if n_suppressed_messages > 0:
++                instances =3D "instance" if n_suppressed_messages =3D=3D=
+ 1 else "instances"
++                summary.append(f"... (Found {n_suppressed_messages} more=
+ {instances} of this {self._level})")
++        return "\n".join(summary)
++
++    def has_messages(self) -> bool:
++        return len(self._message_counts) > 0
++
++
++_warning_logger: MessageLogger
++_error_logger: MessageLogger
++
++
++def warning(msg_template: MessageTemplate, /, **kwargs: str) -> None:
++    _warning_logger.log(msg_template, **kwargs)
++
++
++def error(msg_template: MessageTemplate, /, **kwargs: str) -> None:
++    frame =3D inspect.currentframe()
++    caller_frame =3D frame.f_back if frame else None
++    info =3D inspect.getframeinfo(caller_frame) if caller_frame else Non=
+e
++    if info:
++        msg_template =3D f'File "{info.filename}", line {info.lineno}, i=
+n {info.function}\n{msg_template}'
++    _error_logger.log(msg_template, **kwargs)
++
++
++def summarize_warnings() -> str:
++    return _warning_logger.get_summary()
++
++
++def summarize_errors() -> str:
++    return _error_logger.get_summary()
++
++
++def has_errors() -> bool:
++    return _error_logger.has_messages()
++
++
++def init() -> None:
++    global _warning_logger, _error_logger
++    _warning_logger =3D MessageLogger("warning")
++    _error_logger =3D MessageLogger("error")
++
++
++init()
 --=20
 2.43.0
 
