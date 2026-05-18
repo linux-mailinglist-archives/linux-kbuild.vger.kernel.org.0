@@ -1,195 +1,169 @@
-Return-Path: <linux-kbuild+bounces-13245-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13247-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id /UlOBUiwCmpO5wQAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13245-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:23:04 +0200
+	id 2HvJIw64CmoB6QQAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13247-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:56:14 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3259D566A40
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:23:02 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A800567072
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 08:56:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BF42B300939D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 06:22:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 55591301F9B0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 06:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DC363E00A4;
-	Mon, 18 May 2026 06:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A9C63DC4CE;
+	Mon, 18 May 2026 06:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b="QOya4Cdf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBEAy425"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailgw02.zimbra-vnc.de (mailgw02.zimbra-vnc.de [148.251.102.236])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C763890E2;
-	Mon, 18 May 2026 06:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.102.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136D93C5540;
+	Mon, 18 May 2026 06:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779085305; cv=none; b=hAjdsOtFvy4NsnnPptPnu7whBtekTQCdMT2X8VKbC5NG4xt3HUNPrIdnSVRrS/f4S6En7NVSehTdB+/nBvjv3iWoH1CjrGg8JF2/EkZEgKye6Om3uSLShULZrd/NlfaPtmytFfSPIzjks6hxmBcrvFmptni3DiTrn/8Kdi0Z/VY=
+	t=1779087361; cv=none; b=ERjy8wBKImCuCGxshEPyi259aQUHjCGuGXsjSHOScrg4qwwhrgZ1Hd7UeaKbu+aaJZZwia1xuS//hCT653LVCFroaJ7htaguXxV2vcuVXO2U+uwxu7BlA+v86ywuFg1zcd22V46DPD2C61geR4Kw8TqEEtHCj5XmXXqE0vmbXoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779085305; c=relaxed/simple;
-	bh=bdItrdgPyiTB3vWGzgQeGi3b8ybVRDHiRyFx0UTZtJQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tIbEZJxAo8gGwMJIk19DC0kZMKyDjOqo52xFgG/UR1Q4UcyszxGxmyKiwB8iTRB43iLdHb2WlcJ8+rcecu4Djd7WmuoAErCeK9C0jwiwoH7u+D8d9RHHgOe8Gl0XmW3O+87oj08JjXSVfXtHQW5mfTK/PeGHhwbbD63BkXhZGIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com; spf=pass smtp.mailfrom=tngtech.com; dkim=pass (2048-bit key) header.d=tngtech.com header.i=@tngtech.com header.b=QOya4Cdf; arc=none smtp.client-ip=148.251.102.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tngtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tngtech.com
-Received: from zmproxy.tng.vnc.biz (zimbra-vnc.tngtech.com [35.234.71.156])
-	by mailgw02.zimbra-vnc.de (Postfix) with ESMTPS id 39A44200CD;
-	Mon, 18 May 2026 08:21:31 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 0CEFE1F8989;
-	Mon, 18 May 2026 08:21:31 +0200 (CEST)
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10032)
- with ESMTP id OmGHK_MbeaCO; Mon, 18 May 2026 08:21:30 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTP id 668421FAD23;
-	Mon, 18 May 2026 08:21:30 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zmproxy.tng.vnc.biz 668421FAD23
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tngtech.com;
-	s=B14491C6-869D-11EB-BB6C-8DD33D883B31; t=1779085290;
-	bh=FD6c3aam+X5MsDPR+uNQsdOzwvzHC15J+0Psqfwx3og=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=QOya4Cdfk7OIkay1YU08etboNEx0ZNCdXqQgQuMrZSqGcKPxpEu5cm9imvoNW72Sh
-	 wgyyJo6IDle7B2CsyHDASNDPiJe8wYP20Ku50FwzisxtG/gwSciVNIKJSlTHsziuFc
-	 2acgooF0Ns42J59DTp7poAJDQq7JG0WYffEbYVGysrjp14X8Bql1yckym3x3/NJp78
-	 sZ52zxE5ZrGo3URZWVm0sHhbZs8xpH7uIMAjHtBZTW+pE9tMC4TfOO79QnvUeBiRFK
-	 lbOfPtgWOsoMBj1LAxOSg28XXLpJAfxDrEcYP+kcjH5f4U5aQ3Lsr3wDaHFJsQ/MwF
-	 Iqq9lBhoQ302Q==
-X-Virus-Scanned: amavis at zmproxy.tng.vnc.biz
-Received: from zmproxy.tng.vnc.biz ([127.0.0.1])
- by localhost (zmproxy.tng.vnc.biz [127.0.0.1]) (amavis, port 10026)
- with ESMTP id EUmYUuGJIfnU; Mon, 18 May 2026 08:21:30 +0200 (CEST)
-Received: from luis-Precision-5480.. (ipservice-092-209-239-167.092.209.pools.vodafone-ip.de [92.209.239.167])
-	by zmproxy.tng.vnc.biz (Postfix) with ESMTPSA id 0CC2B1FAD21;
-	Mon, 18 May 2026 08:21:30 +0200 (CEST)
-From: Luis <luis.augenstein@tngtech.com>
-To: nathan@kernel.org,
-	nsc@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org,
-	kstewart@linuxfoundation.org,
-	maximilian.huber@tngtech.com,
-	Luis Augenstein <luis.augenstein@tngtech.com>
-Subject: [PATCH v7 15/15] scripts/sbom: add unit tests for SPDX-License-Identifier parsing
-Date: Mon, 18 May 2026 08:21:02 +0200
-Message-ID: <20260518062102.2051814-16-luis.augenstein@tngtech.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260518062102.2051814-1-luis.augenstein@tngtech.com>
-References: <20260518062102.2051814-1-luis.augenstein@tngtech.com>
+	s=arc-20240116; t=1779087361; c=relaxed/simple;
+	bh=o7dvWOoDxJoqk2pHywtA9JSXlbLLMaNNcTzFjnfj+Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nzyr2yXrYaogmwid2AOD2OqYSFLcQEOiSc2YPcUkdSBYycIp6RgNJTva6uMujVnhV76pHkQ0S4Lv8i5G3HKhuVcBWC7MOPCm+q4KFk8wzIWTwp+ZRxJJJ1/YHBxuqx8CP2eGrVoZanWYpdVQ7LJGRCRlEbQx/rHyNGis6XWAsJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBEAy425; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94F3C2BCB7;
+	Mon, 18 May 2026 06:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779087360;
+	bh=o7dvWOoDxJoqk2pHywtA9JSXlbLLMaNNcTzFjnfj+Jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nBEAy425sh60FdXG3PK9Hl5HHmR4JhLGLkssLELCmAl6bLVf2uoZT9DlFjrBdwUOr
+	 iPfrb/zNRGIbEw5MvkdWEHn8q9hpCzXM89p5Eh0zCbZWYKLA5OQFQDbLaGF4DiqNsx
+	 zJKMRlYVC5OMdTqQz0LhOSYUJpWk1ykdqIsnUjH9EeY5aVmMnsIak3HhyAh2Zwj230
+	 XNquFayYEnkmYsxqti+gH/xiwDlCZHDReM+yHYJXq7nqnJbiS2qeiIQytSvEmXNEAw
+	 41STb/iOBY3qwPcjq8FwSnfB1RrgHS3q3+J3DY9cymgBqa5YCBmuBqY6sLXjcMgzsR
+	 3JaQQwY6GZZ2A==
+Date: Mon, 18 May 2026 08:55:58 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-arch@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-csky@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Hu Haowen <2023002089@link.tyut.edu.cn>, Dinh Nguyen <dinguyen@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Dave Penkler <dpenkler@gmail.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <agq3nMVq5x4SyBAV@monoceros>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 3259D566A40
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="v3mrrmanqdjd4jn4"
+Content-Disposition: inline
+In-Reply-To: <20260518042833.272221-1-enelsonmoore@gmail.com>
+X-Rspamd-Queue-Id: 2A800567072
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[tngtech.com,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[tngtech.com:s=B14491C6-869D-11EB-BB6C-8DD33D883B31];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-13247-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13245-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tngtech.com:email,tngtech.com:mid,tngtech.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,tmpdir.name:url];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[48];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[luis.augenstein@tngtech.com,linux-kbuild@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[tngtech.com:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ukleinek@kernel.org,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lwn.net,linuxfoundation.org,kernel.org,linux.dev,hust.edu.cn,link.tyut.edu.cn,redhat.com,linux-foundation.org,gmail.com,infradead.org,baylibre.com,analog.com,lunn.ch,davemloft.net,google.com];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt,netdev];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-From: Luis Augenstein <luis.augenstein@tngtech.com>
 
-Verify that SPDX-License-Identifier headers at the top of source files
-are parsed correctly.
+--v3mrrmanqdjd4jn4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] nios2: remove the architecture
+MIME-Version: 1.0
 
-Assisted-by: Cursor:claude-sonnet-4-5
-Assisted-by: OpenCode:GLM-4-7
-Co-developed-by: Maximilian Huber <maximilian.huber@tngtech.com>
-Signed-off-by: Maximilian Huber <maximilian.huber@tngtech.com>
-Signed-off-by: Luis Augenstein <luis.augenstein@tngtech.com>
----
- scripts/sbom/tests/spdx_graph/__init__.py     |  0
- .../sbom/tests/spdx_graph/test_kernel_file.py | 35 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 scripts/sbom/tests/spdx_graph/__init__.py
- create mode 100644 scripts/sbom/tests/spdx_graph/test_kernel_file.py
+Hello,
 
-diff --git a/scripts/sbom/tests/spdx_graph/__init__.py b/scripts/sbom/tes=
-ts/spdx_graph/__init__.py
-new file mode 100644
-index 00000000000..e69de29bb2d
-diff --git a/scripts/sbom/tests/spdx_graph/test_kernel_file.py b/scripts/=
-sbom/tests/spdx_graph/test_kernel_file.py
-new file mode 100644
-index 00000000000..35a63a768ba
---- /dev/null
-+++ b/scripts/sbom/tests/spdx_graph/test_kernel_file.py
-@@ -0,0 +1,35 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR MIT
-+# Copyright (C) 2025 TNG Technology Consulting GmbH
-+
-+import unittest
-+from pathlib import Path
-+import tempfile
-+from sbom.spdx_graph.kernel_file import _parse_spdx_license_identifier  =
-# type: ignore
-+
-+
-+class TestKernelFile(unittest.TestCase):
-+    def setUp(self):
-+        self.tmpdir =3D tempfile.TemporaryDirectory()
-+        self.src_tree =3D Path(self.tmpdir.name)
-+
-+    def tearDown(self):
-+        self.tmpdir.cleanup()
-+
-+    def test_parse_spdx_license_identifier(self):
-+        # REUSE-IgnoreStart
-+        test_cases: list[tuple[str, str | None]] =3D [
-+            ("/* SPDX-License-Identifier: MIT*/", "MIT"),
-+            ("// SPDX-License-Identifier: GPL-2.0-only", "GPL-2.0-only")=
-,
-+            ("# SPDX-License-Identifier: GPL-2.0-only", "GPL-2.0-only"),
-+            ("#!/bin/bash\n# SPDX-License-Identifier: GPL-2.0-only", "GP=
-L-2.0-only"),
-+            ("/* SPDX-License-Identifier: GPL-2.0-or-later OR MIT */", "=
-GPL-2.0-or-later OR MIT"),
-+            ("/* SPDX-License-Identifier: Apache-2.0 */\n extra text", "=
-Apache-2.0"),
-+            ("<!-- SPDX-License-Identifier: GPL-2.0 -->", "GPL-2.0"),
-+            ("int main() { return 0; }", None),
-+        ]
-+        # REUSE-IgnoreEnd
-+
-+        for i, (file_content, expected_identifier) in enumerate(test_cas=
-es):
-+            file_path =3D self.src_tree / f"file_{i}.c"
-+            file_path.write_text(file_content)
-+            self.assertEqual(_parse_spdx_license_identifier(str(file_pat=
-h)), expected_identifier)
---=20
-2.43.0
+On Sun, May 17, 2026 at 09:28:33PM -0700, Ethan Nelson-Moore wrote:
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index 6f3147518376..d8145f369ec3 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -131,7 +131,7 @@ config PWM_ATMEL_TCB
+> =20
+>  config PWM_AXI_PWMGEN
+>  	tristate "Analog Devices AXI PWM generator"
+> -	depends on MICROBLAZE || NIOS2 || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTE=
+L_SOCFPGA || COMPILE_TEST
+> +	depends on MICROBLAZE || ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA=
+ || COMPILE_TEST
+>  	select REGMAP_MMIO
+>  	help
+>  	  This enables support for the Analog Devices AXI PWM generator.
+> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+> index 5a40252b8334..edc8c96d91b6 100644
 
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for pwm
+
+Best regards
+Uwe
+
+--v3mrrmanqdjd4jn4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoKt+8ACgkQj4D7WH0S
+/k6D+wf/c3PPUzT+ilOfvLDq6xQ9mwqwWCSp0mpgj+sKStF3zLW22/Jxh8uQfgJz
+ZxNzeVpp3RcvofNMMm9NFY7fAJ1PB+bqLcKvHzxUCFe5c6VAocZOm+H+6jrnvcGM
+tKehUuFKbRlgdS1XjOXmRn9CuXP4HU7Jm0kFysqDtNt0Zl8gGYQgubZ2Z34XrBIu
+msmr1l3QT1BMbE7uRR5crgqH4HHvMpZqR0RehrX2/c1VY8HWEujhEkufhcMZMrvx
+Vmuf0f4bdeu4oIwwFMXmijr6ySoxRBKluXwjFOMUa8ZqhyhLFSr6lOhX8pXD+rOr
++brUNxnEjv3MpJArRnZswn7AfSGXWw==
+=83W7
+-----END PGP SIGNATURE-----
+
+--v3mrrmanqdjd4jn4--
 
