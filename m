@@ -1,178 +1,187 @@
-Return-Path: <linux-kbuild+bounces-13257-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13259-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UHzNBvQ6C2qWEwUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13257-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 18:14:44 +0200
+	id gLDyEzxjC2rwGwUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13259-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 21:06:36 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCC6570AE3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 18:14:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED9157290F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 21:06:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1761530207E5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 16:13:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E5ABF3001075
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2026 19:05:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7D0A49253E;
-	Mon, 18 May 2026 16:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7519B1ABEDE;
+	Mon, 18 May 2026 19:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5hgS7T4"
+	dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b="oOv4FfQQ";
+	dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b="dI1aE97G"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta-64-143.flowmailer.net (mta-64-143.flowmailer.net [185.136.64.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE7A3F9F58;
-	Mon, 18 May 2026 16:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC293845CB
+	for <linux-kbuild@vger.kernel.org>; Mon, 18 May 2026 19:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120668; cv=none; b=FoYiyx3MuJTw+x6Fy5m0WSZSlgazF6A95pCCtTUl9mJGEuK1LBwGnknuTTqTx/bf71jfldmnCkvneMTAiPpKve/yK/bjTb6yQI6uS6LxFxMFqeS/J9siZcqppEqO827vptcApttfMYInsURmPgivQkXFXDUA6+Ju89tl6My+0Gc=
+	t=1779131116; cv=none; b=dKXQV/IJaabQvBRrxgVye0EKokXOOPSFtVB5AfKjWjrWlZO7OCUYAE2gSRGsSHnWOxb9C8qB5ktKtDQ0I1XIjXX1ahFeUbyENaD2A4Gzbq7b7D8y2VqOBnFgXi/HnWdKtdsAhMgVxP71QYyg6hWtBFtprFQrzJA4Vi3GY0o1354=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120668; c=relaxed/simple;
-	bh=WdWOMa8kUavgAfkD9iUmwcHvoFMafQT5ULptg68l7Xc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=toFOo+Kd5LJ5zpFmkagTxrUIvWGjQhQpLpD0+4WX0/CIubbefUtaRpgk5bOC18sp0EMMbZNfht+dDvIMsAJYqN5/THiqGv2u8YKXUzFssWnTWSVn+pibGikUDQg4smVJsO5Y0xvP/4JkhZ6AFWe67WrYd3YUq9OxKXH1mZeG7pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5hgS7T4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A8CC2BCB8;
-	Mon, 18 May 2026 16:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779120666;
-	bh=WdWOMa8kUavgAfkD9iUmwcHvoFMafQT5ULptg68l7Xc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=t5hgS7T4mBGhvLLVzpKHw6PNipnfXcRFJDqtUTPJ10xjWQr6vaWQsGvFYzq0hMKxn
-	 DgEdgbqvID7uy33KFJwEob+brHxpepVBosW4vjAX/CX48wgDE0On8oJR4mjeDCWu9E
-	 Bt2DT05df4+iKFsyj5ktsvnihMAw6/h1a8jNjLPx37+umwcJI40pGdriwu9fUHYQxU
-	 JzjcZOEXX6GXHWniDgP4PNjWDyppVRhDVXoh5u7iQnavuUASRd4gUPkmAGkb5ZyMm7
-	 PA9htgjYtApru5yxuNHIkkeV3uZIcAcfGMYtZck6n+gBzLf40WqhyA9KFaMNlJ5GUP
-	 9PyBtJv7S9d0w==
-Date: Mon, 18 May 2026 17:11:02 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
-	KBuild Mailing List <linux-kbuild@vger.kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>, Sasha Levin <sashal@kernel.org>
-Subject: linux-next: manual merge of the kbuild tree with the origin tree
-Message-ID: <ags6FtowWAeGPoEN@sirena.org.uk>
+	s=arc-20240116; t=1779131116; c=relaxed/simple;
+	bh=+rYo9RwlleK8Myvw5KVXSvl5djJdJZXOJbD7irbefyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aukGGrnsH0vianVnx6xEXXVbh/53TJEGAvb4AOuKUcWw6jnzTg309IG1+aWjZ7n6wd9jg3LUHJR+jNA8w4Rw7IP8We2hHtHjSRiAy1jhaLX1GFKXt3Vwoe+XCvu7Bl0F87mBozT8Qvj2b/v+qNUV9APsLREThrOOrvXF48Yt430=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com; dkim=pass (1024-bit key) header.d=flowmailer.net header.i=@flowmailer.net header.b=oOv4FfQQ; dkim=pass (2048-bit key) header.d=siemens-energy.com header.i=schuster.simon@siemens-energy.com header.b=dI1aE97G; arc=none smtp.client-ip=185.136.64.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens-energy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=errorhandling.siemens-energy.com
+Received: by mta-64-143.flowmailer.net with ESMTPSA id 20260518172446224355f27b0019fdd6
+        for <linux-kbuild@vger.kernel.org>;
+        Mon, 18 May 2026 19:24:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=s1;
+ d=flowmailer.net;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
+ b=oOv4FfQQlHtS5BCboX78gqtA1vOdIzc2Bde3Q6JtaXyf67I3yyl6ut16FqBNN9+Yj9rq9Z
+ nyDRk4mSBg/XXlSyTrgBcXgDhCrmwyDzEj+K3hddaJfeuwolNJkOXXJ8o46GUX+ljc6wR96d
+ SFujsYOnihqEglQ5vlocmhDkHNiKg=;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm3;
+ d=siemens-energy.com; i=schuster.simon@siemens-energy.com;
+ h=from:from:sender:to:to:cc:cc:subject:subject:content-type:content-type:content-transfer-encoding:References:In-Reply-To:Date:Message-ID:MIME-Version;
+ bh=/xBoFD2ZNsbMOTky3B3enP8bn+W9UZXo1Hl2aVCLXos=;
+ b=dI1aE97GXW4w7iNDnE322TQwRLqhXPJ7u7OOtHXqPwbH7I8b7QZPUcsZ5dpM3aKOX+wuYT
+ LPsjcYlVTxPExZ5kMJNCcDWODnTNTrGp6pV8qtNcwDcVLy69NW0vpvbVMGwrINlSJJ+x3xuE
+ 8IjsHXj0AnDwTdczWEYMyN3ZXAMnYVljNLinrYheZqc9sCRB5uWpiqfkBE0KYz9ZVSj4gXWO
+ W3XtjKRwxfg4DG16B+5mpyk1TGNVwWG+Fbcs2a0kj3mxu3xIuWEGyaVHCYP7ptwU5BzA0nrO
+ 6VN6z+VVxxOzsIQ5H6Xp7Kj7GVjsxvKu6BvSATf/LyzOGeeNKmSh+lOw==;
+Date: Mon, 18 May 2026 19:24:44 +0200
+From: Simon Schuster <schuster.simon@siemens-energy.com>
+To: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas
+ Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
+ <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>, Kees Cook <kees@kernel.org>, Oleg Nesterov
+ <oleg@redhat.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V (Arm)"
+ <aneesh.kumar@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>, Frank
+ Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?ISO-8859-1?Q?Nuno_S=E1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof
+ WilczyDski <kwilczynski@kernel.org>, Andreas Oetken
+ <andreas.oetken@siemens-energy.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dvmBoIotjlIpEIuE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spamd-Result: default: False [-4.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+In-Reply-To: <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[siemens-energy.com,reject];
+	R_DKIM_ALLOW(-0.20)[flowmailer.net:s=s1,siemens-energy.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13257-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13259-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[infradead.org,arndb.de,gmail.com,kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lwn.net,linuxfoundation.org,kernel.org,linux.dev,hust.edu.cn,link.tyut.edu.cn,redhat.com,linux-foundation.org,gmail.com,baylibre.com,analog.com,lunn.ch,davemloft.net,google.com,siemens-energy.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[schuster.simon@siemens-energy.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[flowmailer.net:+,siemens-energy.com:+];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt,netdev];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.org.uk:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 6FCC6570AE3
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 3ED9157290F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Ethan, Arnd, Peter and Dinh,
 
---dvmBoIotjlIpEIuE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
+> We last discussed this a year ago when Simon Schuster mentioned[1]
+> that Siemens Energy is still using NIOS-2 in production and would
+> prefer to have this still included in Linux for at least another
+> few years until the obligation for kernel updates ends.
 
-Hi all,
+First off, thank you, Arnd, for remembering us as this patch series came
+up and also to Dinh for his maintenance of the architecture!
 
-Today's linux-next merge of the kbuild tree got a conflict in:
+Regarding our status in relation to nios2, Arnd's response already gives
+you the gist:
 
-  scripts/Makefile.modfinal
+We are well aware that the architecture was deprecated by Intel and are
+therefore phasing it out in favour of more contemporary hardware.
+I'm also fully aware of the uncertain future of 32-bit architectures as
+a whole [0] and that this fate will come to nios2 sooner or later.
+But as of now, the mainline support is still in very good shape.
 
-between commit:
+On Mon, May 18, 2026 at 12:57:35PM +0200, Peter Zijlstra wrote:
+> Isn't that what we have LTS branches for?
 
-  dc1f85a9637cc ("kallsyms: extend lineinfo to loadable modules")
+Unfortunately, as we are an infrastructure provider for civil energy
+infrastructure, the refurbishment cycle is a bit slower than for
+traditional consumer systems. This implies that the traditional LTS
+support duration (max. Dec 2028 as of writing [1]) is rather short, and
+we would be glad if we could keep the architecture in mainline for at
+least 5 years and only then "decay" to LTS.
 
-=66rom the origin tree and commit:
+On Mon, May 18, 2026 at 11:29:48AM +0200, Arnd Bergmann wrote:
+> My feeling is that the maintenance burden of keeping nios2 is
+> relatively low. On the other hand, maintaining it out of tree
+> as a patch set is also something that should not be all that
+> hard if it does get removed.
 
-  7abef41afad05 ("kbuild/btf: Remove broken module relinking exclusion")
+Judging from the architecture's git history, it seems that it's
+currently mainly touched by treewide refactors, which are extremely
+helpful as we therefore do not have to piece these changes together 
+downstream. In other respects, we try to be good citizens and contribute
+bugfixes as well as required cleanups (such as implementing clone3 [2]
+and fixing its flag behaviour on 32-bit architectures) as they come up.
 
-=66rom the kbuild tree.
+If desired, we also would be happy to intensify our support regarding
+reviews or testing to share the maintnance burden if it helps to keep
+nios2 in mainline a bit longer.
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
-diff --cc scripts/Makefile.modfinal
-index 3941cf624526b,01a37ec872b90..0000000000000
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@@ -46,25 -46,11 +46,17 @@@ quiet_cmd_btf_ko =3D BTF [M] $
-  		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vml=
-inux $@; \
-  	fi;
- =20
- +quiet_cmd_lineinfo_ko =3D LINEINFO [M] $@
- +      cmd_lineinfo_ko =3D $(CONFIG_SHELL) $(srctree)/scripts/gen-mod-line=
-info.sh $@
- +
-- # Same as newer-prereqs, but allows to exclude specified extra dependenci=
-es
-- newer_prereqs_except =3D $(filter-out $(PHONY) $(1),$?)
--=20
-- # Same as if_changed, but allows to exclude specified extra dependencies
-- if_changed_except =3D $(if $(call newer_prereqs_except,$(2))$(cmd-check),=
-      \
-- 	$(cmd);                                                              \
-- 	printf '%s\n' 'savedcmd_$@ :=3D $(make-cmd)' > $(dot-target).cmd, @:)
--=20
-  # Re-generate module BTFs if either module's .ko or vmlinux changed
-  %.ko: %.o %.mod.o .module-common.o $(objtree)/scripts/module.lds $(and $(=
-CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/vmlinux) FORCE
-- 	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
-+ 	+$(call if_changed,ld_ko_o)
-  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- +endif
- +ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
- +	+$(if $(newer-prereqs),$(call cmd,lineinfo_ko))
-  endif
-  	+$(call cmd,check_tracepoint)
- =20
-
---dvmBoIotjlIpEIuE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoLOhUACgkQJNaLcl1U
-h9D7DggAha1muqnMsFC82bYSqTsCHelpd1X6cazeN/9/EfM52+OUylmj/hBIyV/+
-a/f0YXfWviIDOOccxLa2GY2PbLf9t34oDgAYzGcsBrrMWsc0P13rTLS/WHPV8slY
-doGNIxvGetMeJevxEMWkg5z3AN+acNZ3pF9Et0iWq7RIgOLVnk1dxGQV6Ot6lJP/
-/eRMVQEl0PHz6xBLaerQxxbRjzKD6kjbyObM7/e/ZtJ5Pb48bKAxJhVYtFkTWTq+
-B/K+Rtb2kJs9umnEFlv2AuqCra5LjBUH/8z5ui3xlMcUiZdindpstyIdBfHR7GVZ
-Qa07lioziTV2pDG4JlxSJpogUQl/cQ==
-=5LsX
------END PGP SIGNATURE-----
-
---dvmBoIotjlIpEIuE--
+Best regards,
+Simon
+ 
+0: https://lwn.net/Articles/1035727/
+1: https://www.kernel.org/category/releases.html
+2: https://lore.kernel.org/lkml/20250821-nios2-implement-clone3-v1-0-1bb24017376a@siemens-energy.com/
 
