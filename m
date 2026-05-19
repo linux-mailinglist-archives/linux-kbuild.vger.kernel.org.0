@@ -1,113 +1,144 @@
-Return-Path: <linux-kbuild+bounces-13279-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13280-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLtnIGKWDGp1jAUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13279-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 18:57:06 +0200
+	id MP4ZOs+pDGpLkgUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13280-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 20:19:59 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861BB582B70
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 18:57:05 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 910F35838F7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 20:19:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AB79B3052EE7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 16:47:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 194743056B9E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 18:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7805D32F75B;
-	Tue, 19 May 2026 16:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5FB2368287;
+	Tue, 19 May 2026 18:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avjz4dTY"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="NdQD2zkT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5541332ABCD;
-	Tue, 19 May 2026 16:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE229367F31;
+	Tue, 19 May 2026 18:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779209242; cv=none; b=S1VEg5bcHx16uvsO2k44T3QIuAkCbET1OLXA3MmcY3TUb0Pfqko7763b6XzmNoC2e7Ai1ocNXoK34I6BzgX8ArqhTuuN63eZqSlWU8S28Gop6vQRung63RLhJQni/2r/39F0vuB8AL/CJGKyrnrnS0o+4PESNp4VnWgH+gUve2o=
+	t=1779214787; cv=none; b=PxWQIkMIxnzU9KjKP3QEOzTBJqd7J6oAJNey82EcyM5D5kxWKbcp+7aqBYH8CePKtJ0c9UcSILjvl7N3uLuYi0w5lc8H0OzhYsb262KoU5M3+SurOFH0UD1yaQ7Fj7kgPszL3mmZHVgaoK+kXdx6X8SKUjSvmgykaO8+zqk8QxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779209242; c=relaxed/simple;
-	bh=MtePwgsLJ0/7c3e4hGtrDj36L+yXI8B/0GDpbIa+afk=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Fh3tD30qeEhZPP5boQYTIluWauq1mdOChC0/p45OK9NC1rbScvtDa6oNjRqDiTxlKsG9JgJy+hKyg3uGHoI5rm/8dVMdsLjhzqAT2SXlTX9kZ6VyxtKxA1fEED+VJ970Gu/mV+DWyra07QHH+dT++tSEGQGDg1Zpp4gTUdkSJmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avjz4dTY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3310FC2BCB8;
-	Tue, 19 May 2026 16:47:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779209242;
-	bh=MtePwgsLJ0/7c3e4hGtrDj36L+yXI8B/0GDpbIa+afk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=avjz4dTYNGSL3Q91oOVQt21KCSfQNazyZoCYm9sTwvSZSlQyX0M+ZtHzNhLHIXKJC
-	 X6rUl46p/1nsys2qaszTIjfGjNgNK5Zey4PpkOJo2E5g0msnh1zxPfAb1Z8FaBFOkf
-	 /hylW/mTHo5s2eFSu8zghpF47Ufh+VoFXIlXNMN5zxrmbrLpZB8U1zc/JTBE4kqf0Z
-	 qOI5NGjTrTa+eR3S15h+49EARnqfC22uYbQBKaM3ktKSlCsmDzjVuiTtHsm8Jxz+HH
-	 x0Qt2KyXkVYL5w5VpQ13wqxb5wnnfPLjgJW+ZIlis3Ib1SaH04NAtz4GzVEcZcx6a+
-	 Hevxg3+oaNQZA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56C503930E35;
-	Tue, 19 May 2026 16:47:34 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for 7.1 #2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <agw9cJdbgFDGXKNj@levanger>
-References: <agw9cJdbgFDGXKNj@levanger>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <agw9cJdbgFDGXKNj@levanger>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-2
-X-PR-Tracked-Commit-Id: 202550713128da20d9381d6d2dc0f6b73839f434
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 650d21334c4fbbdbf085b9f542cc530a7d5cd4fd
-Message-Id: <177920925303.2803208.17735416279066144584.pr-tracker-bot@kernel.org>
-Date: Tue, 19 May 2026 16:47:33 +0000
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Hasan Basbunar <basbunarhasan@gmail.com>, Nathan Chancellor <nathan@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Viktor =?iso-8859-1?Q?J=E4gersk=FCpper?= <viktor_jaegerskuepper@freenet.de>
+	s=arc-20240116; t=1779214787; c=relaxed/simple;
+	bh=v4SY6HigQ/OOsllBvHWhDfaSzCSvRwcpB55NIroxYRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uXDLTIbSjkKCvW8FSKka23dSeioBLkP/TF9hvv1x+D/ma2+wwp80AraaRtSREogQ1SpbPs7rHTceF4HhiBIhXC8xxpfUWZaq1U1NXf+LOpfMtpPmzDFriYNB/ec3xyBrHUzahilqPpfw3iQTdYYVd2ALec4zXI++SlTBg9Zu6Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=NdQD2zkT; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1779214783;
+	bh=v4SY6HigQ/OOsllBvHWhDfaSzCSvRwcpB55NIroxYRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NdQD2zkTt1Vg9+d5xPbFs/rZabXzVYqYNbkmay7bmbURQRlVQgmdR/B+lNrKO/wnl
+	 1sbEfjBOCBZinr7ADwsrKwPOLPyNy01sn050oiI8Z1+dSOENnfOYkdJcWLo/dMo86Q
+	 BmkG/C5RjZiti4BDcsEE/fXj4HnkbrPupz3pqug4=
+Date: Tue, 19 May 2026 20:19:43 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Xiu Jianfeng <xiujianfeng@huawei.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org, 
+	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
+	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org, debian-kernel@lists.debian.org
+Subject: Re: [PATCH v5 00/14] module: Introduce hash-based integrity checking
+Message-ID: <e00a5b59-71c9-4c52-9747-0447d5e66b51@t-8ch.de>
+References: <20260505-module-hashes-v5-0-e174a5a49fce@weissschuh.net>
+ <20260518215543.GA1878854@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260518215543.GA1878854@google.com>
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[weissschuh.net,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[weissschuh.net:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,vger.kernel.org,gmail.com,kernel.org,infradead.org,weissschuh.net,freenet.de];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_FROM(0.00)[bounces-13279-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-13280-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,arndb.de,suse.com,samsung.com,paul-moore.com,namei.org,hallyn.com,lwn.net,linux.ibm.com,ellerman.id.au,huawei.com,oracle.com,linux.dev,atomlin.com,oss.cyber.gouv.fr,vger.kernel.org,proxmox.com,bzzt.net,mapreri.org,archlinux.org,heusel.eu,linutronix.de,lists.ozlabs.org,lists.debian.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NO_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pr-tracker-bot@kernel.org,linux-kbuild@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linux@weissschuh.net,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[weissschuh.net:+];
+	RCPT_COUNT_GT_50(0.00)[52];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 861BB582B70
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[t-8ch.de:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,sashiko.dev:url,weissschuh.net:dkim]
+X-Rspamd-Queue-Id: 910F35838F7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The pull request you sent on Tue, 19 May 2026 12:37:36 +0200:
+Hi Sami,
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git tags/kbuild-fixes-7.1-2
+On 2026-05-18 21:55:43+0000, Sami Tolvanen wrote:
+> On Tue, May 05, 2026 at 11:05:04AM +0200, Thomas Weißschuh wrote:
+> > The current signature-based module integrity checking has some drawbacks
+> > in combination with reproducible builds. Either the module signing key
+> > is generated at build time, which makes the build unreproducible, or a
+> > static signing key is used, which precludes rebuilds by third parties
+> > and makes the whole build and packaging process much more complicated.
+> > 
+> > The goal is to reach bit-for-bit reproducibility. Excluding certain
+> > parts of the build output from the reproducibility analysis would be
+> > error-prone and force each downstream consumer to introduce new tooling.
+> > 
+> > Introduce a new mechanism to ensure only well-known modules are loaded
+> > by embedding a merkle tree root of all modules built as part of the full
+> > kernel build into vmlinux.
+> 
+> I noticed Sashiko had a few concerns about the build changes. Would you
+> mind taking a look to see if they're valid?
+> 
+> https://sashiko.dev/#/patchset/20260505-module-hashes-v5-0-e174a5a49fce%40weissschuh.net
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/650d21334c4fbbdbf085b9f542cc530a7d5cd4fd
+I definitively have these on my list. Unfortunately I am busy with
+something else right now. But this series and the Sashiko comments
+are next.
 
-Thank you!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thomas
 
