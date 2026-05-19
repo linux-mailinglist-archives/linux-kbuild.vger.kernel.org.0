@@ -1,196 +1,162 @@
-Return-Path: <linux-kbuild+bounces-13273-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13274-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cCLuGoRADGqqawUAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13273-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 12:50:44 +0200
+	id oGzDEfxFDGrQcQUAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13274-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 13:14:04 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F3157CD66
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 12:50:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FF557D4D9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 13:14:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CFABB3141AEC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 10:38:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8C0B8306F4BE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2026 10:55:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2208D370AF6;
-	Tue, 19 May 2026 10:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50BAE3FBECB;
+	Tue, 19 May 2026 10:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z5x9+4Hf"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JZuc7r6s"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F14370ADD;
-	Tue, 19 May 2026 10:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74033F4DC6
+	for <linux-kbuild@vger.kernel.org>; Tue, 19 May 2026 10:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779187097; cv=none; b=M2Xw1YThotD+GFsYbjNzm/G9kbLI0WPHT4M20T/PhEUe6cAd4gKUe90+OHIPrUTRz31aEL39+WrWJJYuSAXAba5GJQd2aGZSXB/2ompybRm0JWZJZ99ZO2JtOBFyRjSdM/7JynjLJaz/V7lXs/acPAYoMBsqG2wHdr24OA6Onmk=
+	t=1779188146; cv=none; b=RaGcNiYv2BY6xGk0dRCJNe3iM0S4c0PPEA25WLKReUwFr55MXC74RAwGXPcSwAgOsdUHCcVLeEyX9nTVv2HW6ts0DDu/Udxm9T45Id3fBxLogtJBxdIvCQBqyaJLYrtXMwDEXKywknvuFZBpftQNVIzLtevGI0I1vT3mb1w9Ibk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779187097; c=relaxed/simple;
-	bh=UrCltXNeVVSzQJQFWNRVx2J0zpmWI7ZuLyLC+h9A3yE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YsDIXklUO+4anzxJsJ9BVIhp429a8cESyCiWVPSdA3sgnSb1TNdm2MqJLtey8T78CkYKUtT32+mlviMbSR04nZOaqLrhzvSGgI8VH64uHxbdYvTlbtcHUm5pkYgYUTCKDAZgXvjejThsORMLn+2Je+usw1J4hV9olyXzqN4w794=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z5x9+4Hf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD9CC2BCB3;
-	Tue, 19 May 2026 10:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779187096;
-	bh=UrCltXNeVVSzQJQFWNRVx2J0zpmWI7ZuLyLC+h9A3yE=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Z5x9+4Hf00t0thyvWbfhb3UG3DsuBQ6voDpE7Xxzbsns683qDgCsTpnt3rDvuQNuz
-	 GILLxkbSp1aZiqttA8u2A/RduZhQR2Av58rGMg41LQAqieLRbAfDqsBBR5TJgaaUtH
-	 auWOT7go0fYlnVwuItvwy/J2SujlDh30PjmjByBgkfbPWNsiHELwDcJTkTlunIcdby
-	 p+EWYHwUjoo95nDadefbDEUEgUZtzNmP2RTWIeIMHgwlUQoQ4dPCrIh14cVyznD3vu
-	 P60aMA12nnSznaUnRmVEGyLsjOrLnflaY4/Vfe0E91fOMtcevg3nR5Zs6jOug+sCHE
-	 4VzhmhYrT4emw==
-Date: Tue, 19 May 2026 12:37:36 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Hasan Basbunar <basbunarhasan@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Viktor =?iso-8859-1?Q?J=E4gersk=FCpper?= <viktor_jaegerskuepper@freenet.de>
-Subject: [GIT PULL] Kbuild fixes for 7.1 #2
-Message-ID: <agw9cJdbgFDGXKNj@levanger>
-Mail-Followup-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Hasan Basbunar <basbunarhasan@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Viktor =?iso-8859-1?Q?J=E4gersk=FCpper?= <viktor_jaegerskuepper@freenet.de>
+	s=arc-20240116; t=1779188146; c=relaxed/simple;
+	bh=epm/rDej+X6xivgo3qDkqkpt7/nAmMLgz6CdD6F1VS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ayqg92DkLTgnBxfyLgEEAPT+lV7aCpjYp/vqwjD0IJVMOh+4iDpp37+2vlacuRVQ2rbA+bb2kF3rc0G50zqycGeLGOFm6W5OE1QSeYel+/3Ftmsam31i03mEsGxI3sJuxI1kf+hWgOnTBuo/0RaUrJ3VV7vjtdkfC1hGIxWc3yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JZuc7r6s; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=ofMu
+	xF8bxqlikw5Ek2X0UdXIpwNSL1SykTjDOTUnzDg=; b=JZuc7r6sNKpv5+G4eKdZ
+	6LTJGSD96jwpZFGVxfF8Sk94OZAnm4AScbYH1RSQcKFu0SlPL6yD2lMGQ+JlrBAe
+	77wZTXDbpz0y1UQ7Gnkkm1XyX8GcHvPLPIBUMSlKEyfC0Z5rGJa+mfOe1WOFwl/X
+	84A7vrtDhpwegqZo9785QoiyIaGL5VqYDzVrDyHsCgYUqL3bn/aDcI+IIQXlEJZ/
+	tija1Beh0DHaoQ0fumfywDN6WCprvbxEeRlEpI5K3bsTGql/lRi4zDBWTA9wraF/
+	5EkYK/G9nBrL73L6PZIfSR46Wy3kihyHna5iGU30C/9IGOEaglcswGNETSxw+/9E
+	5Q==
+Received: (qmail 233840 invoked from network); 19 May 2026 12:55:38 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2026 12:55:38 +0200
+X-UD-Smtp-Session: l3s3148p1@jaz1hClS+JlUszca
+Date: Tue, 19 May 2026 12:55:37 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Simon Schuster <schuster.simon@siemens-energy.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnd Bergmann <arnd@arndb.de>, Dinh Nguyen <dinguyen@kernel.org>,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Kees Cook <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof WilczyDski <kwilczynski@kernel.org>,
+	Andreas Oetken <andreas.oetken@siemens-energy.com>
+Subject: Re: [PATCH] nios2: remove the architecture
+Message-ID: <agxBqd-ubOL2_i-j@shikoro>
+References: <20260518042833.272221-1-enelsonmoore@gmail.com>
+ <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
+ <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
+ <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
+ <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
+ <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WI7peLxfAgpSA2wo"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+In-Reply-To: <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13273-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,kernel.org,infradead.org,weissschuh.net,freenet.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	DMARC_NA(0.00)[sang-engineering.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13274-lists,linux-kbuild=lfdr.de,renesas];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
+	RCPT_COUNT_GT_50(0.00)[51];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nsc@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,infradead.org,arndb.de,kernel.org,vger.kernel.org,lwn.net,linuxfoundation.org,linux.dev,hust.edu.cn,link.tyut.edu.cn,redhat.com,linux-foundation.org,baylibre.com,analog.com,lunn.ch,davemloft.net,google.com,siemens-energy.com];
+	TAGGED_RCPT(0.00)[linux-kbuild,dt,netdev];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,freenet.de:email,weissschuh.net:email]
-X-Rspamd-Queue-Id: E0F3157CD66
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 94FF557D4D9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Simon,
 
---WI7peLxfAgpSA2wo
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > ... but given this, you might want to get added in MAINTAINERS as
+> > reviewer (or even maintainer) for nios2? Besides that your efforts are
+> > already worth it in my book, it would also ensure you get CCed on
+> > patches like this. Then, you are not depending on people like Arnd
+> > putting you in the loop manually.
+> 
+> Sure, I'd be glad to do so, but so far I refrained from it as I was a bit
+> unsure about the netiquette (can I simply do so by self-proclamation? At
+> least the git history seems to suggest so...).
 
-Hi Linus,
+In your case, you can do so, I'd say. You explained your very reasonable
+interest in the architecture and have already shown efforts to keep it,
+as we can see from the git history. The final call will be done by Dinh
+Nguyen obviously with whom you probably need to sort out details. But I
+can't imagine your offer for help will be rejected, quite the contrary.
 
-please pull this second round of Kbuild fixes for v7.1-rc5 with two commits.
-If there are any issues, please let me know.
+Happy hacking,
 
-Thanks and kind regards,
-Nicolas
+   Wolfram
 
-
-
-
-The following changes since commit 5200f5f493f79f14bbdc349e402a40dfb32f23c8:
-
-  Linux 7.1-rc4 (2026-05-17 13:59:58 -0700)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git t=
-ags/kbuild-fixes-7.1-2
-
-for you to fetch changes up to 202550713128da20d9381d6d2dc0f6b73839f434:
-
-  kbuild: pacman-pkg: make "rc" releases adhere to pacman versioning scheme=
- (2026-05-19 12:29:19 +0200)
-
-----------------------------------------------------------------
-Second round of Kbuild fixes for 7.1
-
-  - modpost: prevent stack buffer overflow in do_input_entry() and do_dmi_e=
-ntry()
-
-    Defensively replace unbound sprintf() calls in file2alias to prevent
-    silent stack overflows and detect alias name overflows with proper
-    error message.
-
-  - kbuild: pacman-pkg: make "rc" releases adhere to pacman versioning sche=
-me
-
-    Enable smooth upgrades from "rc" releases w/ pacman packages.
-
-Cc: Hasan Basbunar <basbunarhasan@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Wei=DFschuh <linux@weissschuh.net>
-Cc: Viktor J=E4gersk=FCpper <viktor_jaegerskuepper@freenet.de>
-
-----------------------------------------------------------------
-Hasan Basbunar (1):
-      modpost: prevent stack buffer overflow in do_input_entry() and do_dmi=
-_entry()
-
-Viktor J=E4gersk=FCpper (1):
-      kbuild: pacman-pkg: make "rc" releases adhere to pacman versioning sc=
-heme
-
- scripts/mod/file2alias.c | 79 ++++++++++++++++++++++++++++++++------------=
-----
- scripts/package/PKGBUILD |  2 +-
- 2 files changed, 54 insertions(+), 27 deletions(-)
-
---=20
-Nicolas
-
---WI7peLxfAgpSA2wo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmoMPXAACgkQB1IKcBYm
-Emm5Sw//deZk/ziyTVF+Ureve/9aA/PyhcvvTyOtmYq+aqgi+NVYSYP/UG3ZvJdP
-nqTA4P8Xk3muHgR5ALvW0AaXmf+RBC2TKQYwxaciNUJ1ISOw94Ee5EFj82ngbULe
-p3p1ce8iPAbZTkt6/FUWeNf65E1+OEdEC9llJrGtHCom/1RFirZJL/PCVtQ71pDw
-qxKJjOzs59HQsFE97TrErUvwLl+54J4fN5V0tLi1XGo/OoIy+snqXeKwpeYXICaK
-zhOoesRP2Z6Am10T83MPWvH52b42Z6C8RaNKzg86YF9t5h5ZuJGmO7Ej+oWdSyFm
-cL8rmr8pHgpK2m9bW+D7jKwDBuCV+flLCT1rlqTDLYnT9qu5YCiw+/J1FCMNgc63
-BW74nj6++Yms7yCUfNjcxaahNLYMWiTcbQLbhHdiS7ed0vMrsXCoH7RTmeW0O2P8
-dTO0JXPx8/X1e8TXvsmoJFQ2frF4iaOA12Rdk87gfWAC3PsKM1adbGcQcFMnpzlY
-181GQh+AIdSHlOJD/181O38SY63U0qKA+uA6P6zDjiCZ3A+Gj8t7vFi6l9zi8wbs
-fypOd09PZRlk7TpeMD5Bv6eHDFLQplJrDp1qnPQWm6klBRtBL15tHWpzo/auG4SH
-J4frvCUwoNlBUj7xAlwTUCh6LMZiYleFfASt1OeZgluFrAXqFHA=
-=GiIG
------END PGP SIGNATURE-----
-
---WI7peLxfAgpSA2wo--
 
