@@ -1,143 +1,229 @@
-Return-Path: <linux-kbuild+bounces-13301-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13302-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oGGNAg5zD2r4MQYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13301-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2026 23:03:10 +0200
+	id eLuFLdx/D2pdMwYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13302-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2026 23:57:48 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F675ABFCD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2026 23:03:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C75985AC3E9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2026 23:57:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 65A813059307
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2026 21:01:50 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0B43E3016B3E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2026 21:57:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBA6386552;
-	Thu, 21 May 2026 21:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3D0A3446CE;
+	Thu, 21 May 2026 21:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rB3q/Q0J"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pD9gP2P0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B88376BE8
-	for <linux-kbuild@vger.kernel.org>; Thu, 21 May 2026 21:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF51433F5A7
+	for <linux-kbuild@vger.kernel.org>; Thu, 21 May 2026 21:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779397302; cv=none; b=leSkSqfEum6YYTvo0v/viwMORt3DA0PirrhTuM9rINlzkZQ/6TCGg3tSVx2HujZUMSennLfqSTId78YFOntiSLHDy3DzOdk1YYphJQSbaFMm83LZ/iJsSHgQMOJnvjtTXORoKMehTi8vDT8SQOjnvcLwzgOtYy7RyAsTsVEjEFs=
+	t=1779400650; cv=none; b=UwIkJQVYPaA1mLy5j4z9/XrXMaPseCMlwhB53MlyRM3t96SPie+WHMOnpE3otWPSA3EDhD36qKixi81Tofo2ugTX6jVFVjWbPC0ulwGbFMYze9QJ5HTwj+zGmY730MhWQpMAbAAxGpe6xYfjd87rlSUHIZj3lWDtsTDr7jPhTzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779397302; c=relaxed/simple;
-	bh=2dZP4Z+pEIjRI4KrQR1jPuvLkiNb8ctu5quJ+7R2ujo=;
+	s=arc-20240116; t=1779400650; c=relaxed/simple;
+	bh=dN/Ouz6Gx8zRex/mSWQGh1HUKwndLo3j/QXe5RFa3tY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GU9XCUPQxWsEyimu8/yrCXionHYPZO4x8uz9uWQivtqEtwi3TvUWXCyL2efX9NXBhOBRS5bccApOCVMGDi8X6tEukvNDo7ouxv5gjXktlds4zsCyc6xswaSvhlPUNW6TpHutbU9dw5sF4QuzQXyHJocGcN4RVhB1FvTrpqQjt6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rB3q/Q0J; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so52152335e9.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 May 2026 14:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779397299; x=1780002099; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=2dZP4Z+pEIjRI4KrQR1jPuvLkiNb8ctu5quJ+7R2ujo=;
-        b=rB3q/Q0JnnjSfCux6vR6fF4mJGzFIVKIzo/qcl4pfbEHwPGdBY2snNtfRvC366/16m
-         sI70wB8EUhuIb22Xn684HLWpfa1q6q6acHVaj2r8FebE+oYAMz8KCkPHSZPKhSUEE7Q/
-         eUwEtvWSNNT7vkfpBWB6TjA2O/wGX2EO/muNmoLOY0hO358vDDX+9INJCLKKlnXrsrYr
-         BFRW77DQHx8lzdywF31Ve5/6lBcpQZFD5WPxWgpMHhkNr60NKEyLuv9nvbUys7z6vze5
-         3W5NuQZbxUhyRxUM3dRpPlsSY3nfToqer2nBXLv10Rfk9+FN2aayLVKMYb8/dZpSulUV
-         Fjuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779397299; x=1780002099;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2dZP4Z+pEIjRI4KrQR1jPuvLkiNb8ctu5quJ+7R2ujo=;
-        b=Gm8ra4F9458gzM3cLnHQ0hP1Z6V7RLzuEbnPvOT48GwZxKNVGMJYNY/guW1z0UwLe4
-         j34E7Xu6RRun22SwXXXIwbszYJSeSYrWYL5hBlSVxjBFyn7L/yx3/XoDjs4U/9RwuveY
-         ctU3MrboaQMnC/I7ohUpqpxDEZInFlCEI//JOQMQ4sCJsKhKPOKwWV7prIf9GOjeT2yX
-         c/4gceLlaBvro+gA434BYa82BKB9IO0HbtWa5ReLdiO4M5BbBqHoENh7ZtYFANEvfhRr
-         BTopj/2BbcJRxzk8dFS7lf985IVvkm4HFMfXtNVIDnuyqVmyPCdOXxVVocJ48HmaPLIh
-         gkzg==
-X-Forwarded-Encrypted: i=1; AFNElJ+QrFg2k45ax3h6One+xKGaBYz1+f4hxbVjhPeDo8QD3wJMT0CcK4CNpxMyLIHcdQwjBF6a2BnRKTKEejs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiAzyu7CfFp+nOU/WcgmuO4F4V+tSzeOAmOtQ4cRUeaaKtuKEz
-	QXZ0zAfmItkY6C/GF1biDb0a2ie9IxVA/Ftedx/MNhbopLSjRGSU6B4DvpRUMx91KdPUhQ==
-X-Gm-Gg: Acq92OE59ShwP0AZAzMQ4cxsb/VTICoXYeyp0K8qLH29MZ5mofQ97yvujxRkkj0JMRL
-	XrHWczIXX8QbX/JyClVs/MpSa/ydHvfwGYDcB6CNhxHV/i3eAnAKxPHMGb9piE3fWQzE8nfcAoB
-	lnWo19degyNGrm4ujCKrL5ZvJrn1m2Gfb4k1IqA+LLyhf775AU5RDsuiRYiHEAUIlZULgLCXqbl
-	cLBz6zlzJ0X0ldJJppUQD323ukQ0LIfXFVr5BH4qlExVF8m27sj3q5KDedUXxcFACpnJlf+7t1b
-	FsGU3fXSuzIm12XZsvndI1X+fXvhPyYP/hPO/FBEynn7TgpHitLYGEIaRls1jua7nJhuL8LR5OU
-	85Y2PYLT42WaJ7rDFQTgyJSzsNNnUFRs6/MUmabMjh4gVWgVo3g4eWjOEYkOXg1hSkDjVNdIS1g
-	mBjdJajmSAFEDFAsrM+/wt72AsOES81P84d81RkIJ+4oWdJrfZt4AbOkSm7EY=
-X-Received: by 2002:a05:600c:3547:b0:48f:e230:8cab with SMTP id 5b1f17b1804b1-49042adfb3fmr4831985e9.31.1779397299031;
-        Thu, 21 May 2026 14:01:39 -0700 (PDT)
-Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4903c99cb43sm51920365e9.4.2026.05.21.14.01.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2026 14:01:38 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <f3eb96da-cbe2-4d07-a586-9eade3bf39cc@gmail.com>
-Date: Thu, 21 May 2026 22:01:37 +0100
+	 In-Reply-To:Content-Type; b=lnbzPOYRDyArsabJe6JaEnqom6ftEJuWHQrEVeHYVkhjuM9yZu+URLSxrt2lKcEXDz9S7b6FyuBsyIuWxJMuVJuGQ27m23gj0GGJfNg8troZ086xDG00GDIbBqCFD4kmPZ+5SEz1SAW90vOZ8gAP/wfdylP49Xp6bskiuz8D1RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pD9gP2P0; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <69e60bc9-cfe6-4b8d-b61b-5840f7d2518a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779400636;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xQNkuJH7kA7sCyQjsW5bf2RbZYI8pGmnGfg1gJiQndM=;
+	b=pD9gP2P0WdkGMFY/FVC1Tg6P2SVsQQLvdvUghngqUPSVAO1najrfQNsFUOSZYbdV6mC2Fw
+	Jpt7XlQAiOfg0MLGeVhN4dlVAQcWsZMyPBPsUvGAjdph9CJZvzyFaFt/mD3tu5FjOMncdn
+	xiJlRHczpMgEMSXVTdQilHvrHC2oeT4=
+Date: Thu, 21 May 2026 14:56:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] kconfig: add kconfig-sym-check static checker
-To: Andrew Jones <andrew.jones@linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: nathan@kernel.org, nsc@kernel.org, andriy.shevchenko@linux.intel.com,
- rdunlap@infradead.org
-References: <20260521204435.534773-1-andrew.jones@linux.dev>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260521204435.534773-1-andrew.jones@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Subject: Re: [PATCH v9 3/3] kbuild: distributed build support for Clang
+ ThinLTO
+Content-Language: en-GB
+To: Rong Xu <xur@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Alice Ryhl <aliceryhl@google.com>, Sami Tolvanen <samitolvanen@google.com>,
+ "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Stafford Horne <shorne@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Piotr Gorski <piotrgorski@cachyos.org>,
+ Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Teresa Johnson <tejohnson@google.com>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+References: <20260331154827.2793269-1-xur@google.com>
+ <20260331154827.2793269-4-xur@google.com> <20260331162729.GA2006419@ax162>
+ <2672f790-f57b-4739-b78f-906c0a5d202e@linux.dev>
+ <CAF1bQ=R6=0G9O-eNFsHiCLMpkph7=hSu4Rn_HjFD4PvTFnAnDQ@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <CAF1bQ=R6=0G9O-eNFsHiCLMpkph7=hSu4Rn_HjFD4PvTFnAnDQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-13301-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13302-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com,vger.kernel.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[julianbraha@gmail.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yonghong.song@linux.dev,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.dev:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 90F675ABFCD
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linux.dev:email,linux.dev:mid,linux.dev:dkim]
+X-Rspamd-Queue-Id: C75985AC3E9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/21/26 21:44, Andrew Jones wrote:
-> The checker also warns about uppercase N/Y/M used as tristate literal
-> values following the same logic as checkpatch.
 
-Thanks, this is better! But...
 
-While it does catch the Y case now, it still doesn't catch 'Y' with
-quotes. Again, I had to manually inject this into Kconfig; I don't
-actually know if this is used anywhere.
+On 5/21/26 11:31 AM, Rong Xu wrote:
+> Yonghong, thanks for the update.
+>
+> Regarding this guard: ther is a period of Clang (before this patch and
+> after your first patch), even though ld.lld having these options
+> (specifically --lto-whole-program-visibility -mllvm
+> -always-rename-promoted-locals=false), distributed ThinLTO mode
+> remains unsupported, correct? What the behvior of using this options
+> in distributed mode with these compilers? nop or it will lead to
+> error?
 
-- Julian Braha
+The in-process thin-lto support is landed on Feb 27.
+The distributed thin-lto support is landed on Apr 24.
+
+If people are using distributed thin-lto in kernel between Feb 27 and
+Apr 24, there will be some issues. But people typically use released
+compiler, so we should be fine.
+
+>
+> I would assume there will be errors; otherwise, you would not ask me
+> to change my patch last time. In this case, I would keep this guard
+> and remove it when the minimum llvm version passes llvm23. What do you
+> think?
+
+There is no need to keep compiler version guard.
+
+Before llvm23, the below will be a noop:
+    $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
+since '-mllvm -always-rename-promoted-locals=false' is a new flag and the compiler won't
+recognize it so the kernel will resolve above 'call ...' option as noop.
+
+With llvm23 and later, the kernel will be able to recognize above options and
+things should be okay.
+
+>
+> Best,
+>
+> -Rong
+>
+>
+> On Thu, May 21, 2026 at 1:57 PM Yonghong Song <yonghong.song@linux.dev> wrote:
+>>
+>>
+>> On 3/31/26 9:27 AM, Nathan Chancellor wrote:
+>>> Hi Rong,
+>>>
+>>> On Tue, Mar 31, 2026 at 03:48:27PM +0000, xur@google.com wrote:
+>>>> diff --git a/Makefile b/Makefile
+>>>> index 69ccf9b8507d..26005c64016d 100644
+>>>> --- a/Makefile
+>>>> +++ b/Makefile
+>>>> @@ -1047,11 +1047,13 @@ export CC_FLAGS_SCS
+>>>>    endif
+>>>>
+>>>>    ifdef CONFIG_LTO_CLANG
+>>>> -ifdef CONFIG_LTO_CLANG_THIN
+>>>> +ifdef CONFIG_LTO_CLANG_FULL
+>>>> +CC_FLAGS_LTO        := -flto
+>>>> +else
+>>>>    CC_FLAGS_LTO       := -flto=thin -fsplit-lto-unit
+>>>> +if CONFIG_LTO_CLANG_THIN
+>>> This should be an 'ifdef', not an 'if'. You copied Yonghong's mistake:
+>>>
+>>>     https://lore.kernel.org/abgRRX3PH9IaExi8@sirena.org.uk/
+>>>     https://lore.kernel.org/6db3a2f6-d61c-42f1-9b9d-0aca021cc2d7@linux.dev/
+>>>
+>>> Please slow down and test build your changes before sending them. Each
+>>> revision adds four new emails to everyone's inbox, which is just noise
+>>> when there are obvious, basic problems. 'b4 diff' shows no actual
+>>> difference from v8 and v9, which should have been caught by a simple
+>>> build test right before 'git send-email'.
+>>>
+>>>>    KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
+>>>> -else
+>>>> -CC_FLAGS_LTO        := -flto
+>>>> +endif
+>> The above patch has a guard CONFIG_LTO_CLANG_THIN, which can be removed.
+>> See llvm patch
+>>      https://github.com/llvm/llvm-project/pull/188074
+>> which supports distributed thin-lto mode too for reducing the number
+>> of renaming. In other words, for llvm23, both in-process and
+>> distributed-process are supported for thin-lto.
+>>
+>>>>    endif
+>>>>    CC_FLAGS_LTO       += -fvisibility=hidden
+>>>>
+>>>> @@ -1657,6 +1659,7 @@ endif # CONFIG_MODULES
+>>>>    CLEAN_FILES += vmlinux.symvers modules-only.symvers \
+>>>>              modules.builtin modules.builtin.modinfo modules.nsdeps \
+>>>>              modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
+>>>> +           vmlinux.thinlto-index builtin.order \
+>>>>              compile_commands.json rust/test \
+>>>>              rust-project.json .vmlinux.objs .vmlinux.export.c \
+>>>>                   .builtin-dtbs-list .builtin-dtb.S
+>>>> @@ -2118,7 +2121,7 @@ clean: $(clean-dirs)
+>>>>       $(call cmd,rmfiles)
+>>>>       @find . $(RCS_FIND_IGNORE) \
+>>>>               \( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -o -name '.*.cmd' \
+>>>> -            -o -name '*.ko.*' \
+>>>> +            -o -name '*.ko.*' -o -name '*.o.thinlto.bc' \
+>>>>               -o -name '*.dtb' -o -name '*.dtbo' \
+>>>>               -o -name '*.dtb.S' -o -name '*.dtbo.S' \
+>>>>               -o -name '*.dt.yaml' -o -name 'dtbs-list' \
+>>> With that addressed above, the series survives my basic LLVM 22.1.2
+>>> build test with my distribution configuration. I'll provide formal tags
+>>> on a properly tested and fixed revision.
+>>>
+>>> Cheers,
+>>> Nathan
+
 
