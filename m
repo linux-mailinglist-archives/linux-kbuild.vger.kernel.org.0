@@ -1,190 +1,294 @@
-Return-Path: <linux-kbuild+bounces-13307-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13308-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0JQ4Ekt4EGoZXgYAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13307-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2026 17:37:47 +0200
+	id uDCpCRx3EGoZXgYAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13308-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2026 17:32:44 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01925B6FE6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2026 17:37:46 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D0C5B6F0E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2026 17:32:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B59E530293CF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2026 15:32:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 275F63002318
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2026 15:32:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 399462D839C;
-	Fri, 22 May 2026 15:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E288342532;
+	Fri, 22 May 2026 15:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fm6vL8+2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X9O07exG"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PMKRO0UR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3B686331
-	for <linux-kbuild@vger.kernel.org>; Fri, 22 May 2026 15:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779463920; cv=none; b=lNXmh8W574ReCMDUxbg+6LVXMn/emMYmz1D7z52EF0c4roGYgYJFZtaW2UP18pNO2sTFiXECdDZKNvXupz/7K+S7bQPTSzNjY6f4tk56ze+pVC/Fp4eE4ev3fcHRurIMg2pbRZ/uu6dqIGPweZvQHDZ7FV0v3LTs+1tZJS+YJTU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779463920; c=relaxed/simple;
-	bh=8Ot/0WsuhnbKVOahkOIW0lfMxtYNZMgx16RXzInlOfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YEXbcCUBEeW9dLrqzQATkpOXoShbGeKXPtP+hnspAQGrG8bw8gJcwWJJ5L5bfB3U2F0AuftMaYmqykIy4DjoD4ZTYHPg21A+K0jABgJOZanekFYAfa3fS1Ao8gGPA0oIKGuVyPbNMzY+nRaRKEu4YGfKtgX3cebYnuNUolxJrHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fm6vL8+2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X9O07exG; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M9C5ZW3005097
-	for <linux-kbuild@vger.kernel.org>; Fri, 22 May 2026 15:31:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=9KXtf266vJmz9A/cgG4Ca26t
-	h7q6Y+F+qGMVIsUeo8o=; b=fm6vL8+2Zo0HS15g6J6tY+UzsRfLwp6+fQTqCI5P
-	U5odKzd6msgkYYT4Rf3UmWSQT5Ggj6V2DCZ9BKlkUoS3nxuC73g2wY2W79p+3r+b
-	wfeXHuvvOYMR4X8bAElYmX3X+Rf78/cBWp5yvj6igz7l8Q+mQjiJ6QMFiMes6czJ
-	J9Rg2OI3hd704MWbq6ZM+UdqS5It7qORNUmsZbpCks5t2xzQ3KXn4L2iqLhj8tL+
-	GEl+ocN0OTWCNGF52SjtfHW7CwHEwFUK20muUvt0fnUncAHLmJGMCRiX3Fu9MHE4
-	888PSW16nz5Bn45h9fkfxCE0QVzN2Y8j3iFuymozPJ/aIw==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eafrtasc0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-kbuild@vger.kernel.org>; Fri, 22 May 2026 15:31:57 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2fe1cf409a1so12398074eec.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 22 May 2026 08:31:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3A933D4FB
+	for <linux-kbuild@vger.kernel.org>; Fri, 22 May 2026 15:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779463960; cv=pass; b=ZzSAHYSysgYbfokF0Dbm4cUVCClRc14oKksN7a3ctYknpg8hGS8lbgEB20BrtX4EPsRVKZE+nadyI5Sf9nCMPX05Uaa6b6WxAbJnfLQBH9ZJhtuILsiVdEpGUSFwqCZb4rUNOo5Pq+OhMt4+kCG94/Asg9nUY2TKt8oOhSH57RY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779463960; c=relaxed/simple;
+	bh=a9VS412HjFSA9q4crKDon66e2bzVF7Ac8ki81ngingg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aqGPQZ/l/a5Uz5WvSK+dtWdb97we1PW9KKe6K2MLoRrpzI+S18IPABbDErEtqWZpfroCz8L5UmoJz2gGjRg6YDEUYKO00XcXAkK0Wa5Yz29g5/i94PI6FIVBKY/lu6Ex8HKv6zihbcodLPozbCgak+DUJzutNTrX4F+9SRJJFZU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PMKRO0UR; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-671f1a0d0c5so311a12.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 22 May 2026 08:32:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779463956; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fAdJk8zNwwXSVKD68ZfY9sYpZmlrMAFcLlxGy5No9Gv0f9VNrpGv7rLTWjaiq/xVza
+         dPCAdrKcDbjKkpp1K3lr+nLmnpu0chAiDFBdKz8jmpEAyQXrm8sTMfom5YYgjr7/Svdm
+         3kFCnTuxFMLmz/AjHjeoOHypeucZPiaRJf8vjLND7khdjpzMl2h8KCKcX+NfWHjnk3aN
+         nZ2MBDFfaiSZJYDZRpZ0rzKvC49rxfMP5IFDnXRU3LbqBtt6phacu18h1K9USFXYCM9m
+         KNc0w5yIpBzH4rx3BIlq6Wr9Y83BgXEkaX+pO1PoNRPruZLVnZCPF2JLMleD1XGS0JtG
+         wq0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rI/yUCYSeKg3fwrAwmuT28Ed1FRs8RkhlNNNjCcL7B4=;
+        fh=dzKeSLXXRthRRDUUrz6MSqjre5XSaw652kJi+XBfVT0=;
+        b=ETVfBjlGsAl5Ui4sXnk2b0GghjsxAYpz3HBIA0H2PEBF4/V40Rrq5Ydh/I25WmUsIj
+         iIMrvRaCR2q1GtHjneF3FD5WLRk4DiJct3Q5FYfmZ/0a2HihsiEpS4ilKkE/++i2+20o
+         n/QyCoDk62hB9Xd4nvCSxFcAMF6iyVUsLcayA2Nlo6vAtaGKNJMwB8Syr7ddWg7EafcP
+         fdzS3TS8wohk9F2oODGeBUCn70FQDSzmTBUZp/2/a1E1fJZYRTBr8fF2PE9F/cOmLVB+
+         a+WGVhlCAHvheUk8RW8Hts3e8+dhbH2aN5swZgQS6waZdZtg6+z0/bfTqrUEm0uDQnUu
+         K1fw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779463917; x=1780068717; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9KXtf266vJmz9A/cgG4Ca26th7q6Y+F+qGMVIsUeo8o=;
-        b=X9O07exGl/HQG1870z1OPbqJBOMlsCgSMIUxVKa5djj0idtR1mVJ5furhRl36LBDbS
-         ALUdYIObvN3FBtlvMpngWzzE8+x6xTVaFy3NotmBbh3jgrKxAYTFaPHMhWD9CwwDO3vA
-         VkJ5Mb2Qmy8GoN/S3F+yY5L8MssgYiVx/+6dSblC36koSkXvAbOkG4EdrvQID8/p1IpV
-         rU7v2bI7gVZmgop0GL89I2vjEWQvrXPCtNitlnO/iqQsB4Yw3w0GjU+8kiB1YHMq25+E
-         y+utXfpa87JsWXZj3mX4pBqHrOYSABGoUjeN2x2id+vkjLaav1jj0AgSuxB8k04MDcEf
-         u3gw==
+        d=google.com; s=20251104; t=1779463956; x=1780068756; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rI/yUCYSeKg3fwrAwmuT28Ed1FRs8RkhlNNNjCcL7B4=;
+        b=PMKRO0URzxThTlfR/XO0S+0DhNjaM05KaA47E9t5sM1uU6q2KLvvVJulfGrQ91aM4h
+         kyj0ZsCzTOdJlTjmJqEf8I/lExnFxGri7yOPNOTe5hn+qCIlYBgL2TrRKe6uIDuokfQq
+         sfIMWl4iWSEEvODQmuJsSBXWaoAnaQZCk3U4ZtISLHRFDrqMJ3HZ93ndkfhcsUylI2J1
+         QMQzO0lXaSBHQ6oaZGXUI43uDlyFN8FgMAdB4bwRbYC/juNWhwmtfxoIUGWkAoT6OKnO
+         wyEcwrJHiI2Qhe4opSy3KVeRJhFFWHoE70Plf6N78RDXbSnqwyeVuOuVxw5XAvQrX1j9
+         5FBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779463917; x=1780068717;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9KXtf266vJmz9A/cgG4Ca26th7q6Y+F+qGMVIsUeo8o=;
-        b=iWwtEFaQupLum3OWCl7QpARQW8LSFjBH+AXGIqqNUP4DjEcmeTRqELsASxajMVUCCr
-         +ao0nmpUuWQYmUfkgunC5nNlR1PFuoqjWv8btaZkbgLp7h89r5oCa2CXK0B9tRJjvHT6
-         ruHM6bI+FRpVXuuxOpP8oaked9PIcIDEdCwyQWRKnHuKO02HACJR9VMla5ynhhMzezUF
-         WNognJRrdPQX/TSE42x1RK5CxgAuxmlMVdxGrRIq6yURWH7arVd/WJ7mfvXeHY7er5CM
-         umyFB0fc+3gqV1/J99b9jLatgAMAmudcN7rfWpMe2WlLTHcqCXb6SzNxAWiRXFC4vi/G
-         kT7A==
-X-Forwarded-Encrypted: i=1; AFNElJ9sdVgZtOQyXKX33+4TkZhgE970W5M+8b0t7exC86mIQcJdU5o7RTMr6p3QN3EqKxome0yqT4vOnFP5Yw8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKNI+vI+3e9cv1dFEIkh8sf0kzhyTrUQoYirVKAhelTfwOp+Fh
-	REMDLsozH/IfIpdKg26v044I5ja83R0eKwgoHQq6Jb54jMyxkVJcICeRN9az199hhV5aNoH6pBw
-	3xofnYSu7ADm7rLk3cdmZv6mpSD/fXHZaONYanRWjyOvNlf6RS0WR4GnVnFzMM7WeTEc=
-X-Gm-Gg: Acq92OGyx701MCk/TG7Kk8vLOIUOb/owqXaAIf/3ErOsUod6UOe+Oos8i2kQRpnk2dV
-	mwRSXptfwYYKBzuH+DQtKPGR5Rqx/PqgXFlqVKTdEY+sfV5thE8X/Bh30aXTfRav7LhU/LvH+Ps
-	mX3eUHUqynlqtLI/N82tH0W5gWBxf5Ek5J1YmBWT50apbL1z7SSthtO8zdqU7tTHOpj/IpW2SO2
-	bM3s6lFZDz0kRMbTu+4oMe9wlx9lvtium3Sh9XCgcv4Ymxkiq4RKY7i+RDob6oL7I2q29zNd1VU
-	VEnWjsDFc5E3bn75kyykZ8/qjzIRsHAY9JERv1Rsu4617jTFTaZVWf8o2auZ5QxTgOskOlR1DWW
-	Bf7s1T+2GAmrMU/9s96J6sHiJELMJgwN+cGqp3x62
-X-Received: by 2002:a05:7022:626:b0:134:a731:e759 with SMTP id a92af1059eb24-1365fb626b5mr1543393c88.40.1779463917124;
-        Fri, 22 May 2026 08:31:57 -0700 (PDT)
-X-Received: by 2002:a05:7022:626:b0:134:a731:e759 with SMTP id a92af1059eb24-1365fb626b5mr1543375c88.40.1779463916508;
-        Fri, 22 May 2026 08:31:56 -0700 (PDT)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13669c6a2adsm1262626c88.0.2026.05.22.08.31.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 08:31:56 -0700 (PDT)
-Date: Fri, 22 May 2026 10:31:54 -0500
-From: Andrew Jones <andrew.jones@oss.qualcomm.com>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: Andrew Jones <andrew.jones@linux.dev>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nathan@kernel.org, nsc@kernel.org,
-        andriy.shevchenko@linux.intel.com, rdunlap@infradead.org
-Subject: Re: [PATCH v3] kconfig: add kconfig-sym-check static checker
-Message-ID: <7w3e3sgiqe4b7fjposkrhdtde5b2qikhoqghvmm2leieuyqyoj@qpkucbwepyz2>
-References: <20260521204435.534773-1-andrew.jones@linux.dev>
- <f3eb96da-cbe2-4d07-a586-9eade3bf39cc@gmail.com>
- <numrmmjpnheiawifcjhc5zustrlk6bfv5wtr6ibdzbf7mq5o53@x6wf4zv7jhsg>
- <d42fa51e-8dce-4ef4-be23-0e6b0642414b@gmail.com>
+        d=1e100.net; s=20251104; t=1779463956; x=1780068756;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rI/yUCYSeKg3fwrAwmuT28Ed1FRs8RkhlNNNjCcL7B4=;
+        b=QMs5MyGnriZXnigQ7hgpIyZ1UGwIQ5U1uIKn8LRjAKEXO6frRNwHR/D6TYPb/zwID0
+         WMVZpGhl5L+tPe5+YLQG45RYcjeqmGUD42EOWPMVVo0g+LcvZGALlOfeDYEnGBXwo6sb
+         xvMWAvHFkN2rer5s7/pXvLqVNnnEm5N/HdsZqAi+YSiS3bvWPiOQrJnmJX4lLyZBmeCc
+         X7dPLKkAujUW03Vy8lHScB8SzyLiKG1jWy0Qni1fcUti5y7pV0StLfShn2xx/vyEAFlB
+         Bz7uxjO68qKFzE5/5MrCsG0zd5oMlCCtoPrWTuZE0clIrGGQja1vLsY2KA5lyn27AhKB
+         NW1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+2LyU9YSwdrE+wr3aQCfuHLZp2EFEkzgvgcp0IT1XTcRYiIBWfkRN70CQbqtLTcM1h0ScKHGcxXGjXseo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHzI/W4xakwn/5zGJi0j+x/4RG0hI163HTiVLyEiMeCtQIVQBs
+	BzZaNxpAet7OJjpBhrzOLDftfWHt1oWBHL7KAF2s2a2EWo+zdRW2UNXxMqH3MJkEdmdHzNKZgCl
+	qYr2gS/GOJRP50nF6u+6nWJKzsFQfZ4e4XhIorj2E
+X-Gm-Gg: Acq92OG2kLxblK7TogdukNhT85C0HinrCBtxM23O7f+VcUe29C0k1UAdwDuJg4bhlS6
+	lJ1JOtIXCl+qaGxONrdSkX9EUuHoTqFN2gEh6q88q45a33zV4Pkq2erImLsTg7sDAHWlcQKmZDT
+	kophb7C8tRZY6vJLw8SGl3t6oy6oZMhK42cXArRTW57K28hsiYVipB69JQ2JlBoPp23b8KNh8AM
+	H4yQ1RUaknQd9QZQ3DhjWeSllK8VjOvO8ldOAXYFSNRgcsEeMfYHUrozOYeUiDRwK0jH48qA9K7
+	LuzDNWwlmOLy0rjsekM=
+X-Received: by 2002:a05:6402:5143:b0:679:4b60:c7d2 with SMTP id
+ 4fb4d7f45d1cf-688b5fc3349mr44103a12.1.1779463955878; Fri, 22 May 2026
+ 08:32:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d42fa51e-8dce-4ef4-be23-0e6b0642414b@gmail.com>
-X-Authority-Analysis: v=2.4 cv=JN0LdcKb c=1 sm=1 tr=0 ts=6a1076ed cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=pGLkceISAAAA:8 a=aq5bbyOFhsx15KWae34A:9 a=CjuIK1q_8ugA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDE1NCBTYWx0ZWRfXzkOlNRJT4BEY
- egt+eVLC2I9lDHR2Hqr+scqEBuPM3XCjs1v4zCz5JGMdreLs3gJnKCY7j+fBzKdO0qpTS/dZC0f
- Ro9yjgwmBVZanNXoU2yjVeun4zJWruWiKSG9raIz/SXapZhiA4Ywv6xMRRMpC92qNJOc12pn2Su
- p3UBavS0/yoWpxyd1YAQtbUrCUfhb+uAWRf5vw8vWtBBjJUsB7nG9rVAvBuRNhUKb7Yn9NsoOdT
- Fx5mi6fHcmiPc+Ocx0S/+JTUUGmAyuFLYUt2XdpdT16uIlrpy9Y7TW9xIXl3HjfZp2P7yxy68Ro
- szdhdEe6shC0huUg7SmBXd12dYyN21mfK9cOdVKyDiG6d0HvD9mMlF324tmrbU4Fub3TLFUeQyn
- PQMum6ogvpvrvJ50CyKb3k9uAmNVFmj8me+S48TbYqKr+B8SuAkPBIlaX5oFqNHAOo/bJ+J4B2g
- e59q504CopqylGOcVvg==
-X-Proofpoint-GUID: NPaTYUPyDgONZRTzqiPmJO4VFcEIFf4-
-X-Proofpoint-ORIG-GUID: NPaTYUPyDgONZRTzqiPmJO4VFcEIFf4-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-22_04,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 impostorscore=0
- phishscore=0 bulkscore=0 clxscore=1015 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605220154
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+References: <20260331154827.2793269-1-xur@google.com> <20260331154827.2793269-4-xur@google.com>
+ <20260331162729.GA2006419@ax162> <2672f790-f57b-4739-b78f-906c0a5d202e@linux.dev>
+ <CAF1bQ=R6=0G9O-eNFsHiCLMpkph7=hSu4Rn_HjFD4PvTFnAnDQ@mail.gmail.com> <69e60bc9-cfe6-4b8d-b61b-5840f7d2518a@linux.dev>
+In-Reply-To: <69e60bc9-cfe6-4b8d-b61b-5840f7d2518a@linux.dev>
+From: Rong Xu <xur@google.com>
+Date: Fri, 22 May 2026 08:32:23 -0700
+X-Gm-Features: AVHnY4LkDeTc8ulhes7q2m4zXKmK8ysgPXmh9U1opVtQGL54sFQJ74iKiLeEB-w
+Message-ID: <CAF1bQ=TFMSkLE6bqPEOqGxcLbC7tYfPqEmg7xrjbc2m_B=72GA@mail.gmail.com>
+Subject: Re: [PATCH v9 3/3] kbuild: distributed build support for Clang ThinLTO
+To: Yonghong Song <yonghong.song@linux.dev>
+Cc: Nathan Chancellor <nathan@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Piotr Gorski <piotrgorski@cachyos.org>, Venkat Rao Bagalkote <venkat88@linux.ibm.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Teresa Johnson <tejohnson@google.com>, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13307-lists,linux-kbuild=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim,oss.qualcomm.com:dkim];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew.jones@oss.qualcomm.com,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13308-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com,vger.kernel.org,lists.linux.dev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: A01925B6FE6
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[xur@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: B9D0C5B6F0E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, May 22, 2026 at 01:08:38AM +0100, Julian Braha wrote:
-> On 5/21/26 23:31, Andrew Jones wrote:
-> > This script is looking for symbols, and symbols
-> > should never be quoted.
-> 
-> Good point, out of scope.
-> 
-> It looks good to me otherwise, so:
-> 
-> Tested-by: Julian Braha <julianbraha@gmail.com>
+On Thu, May 21, 2026 at 2:57=E2=80=AFPM Yonghong Song <yonghong.song@linux.=
+dev> wrote:
+>
+>
+>
+> On 5/21/26 11:31 AM, Rong Xu wrote:
+> > Yonghong, thanks for the update.
+> >
+> > Regarding this guard: ther is a period of Clang (before this patch and
+> > after your first patch), even though ld.lld having these options
+> > (specifically --lto-whole-program-visibility -mllvm
+> > -always-rename-promoted-locals=3Dfalse), distributed ThinLTO mode
+> > remains unsupported, correct? What the behvior of using this options
+> > in distributed mode with these compilers? nop or it will lead to
+> > error?
+>
+> The in-process thin-lto support is landed on Feb 27.
+> The distributed thin-lto support is landed on Apr 24.
+>
+> If people are using distributed thin-lto in kernel between Feb 27 and
+> Apr 24, there will be some issues. But people typically use released
+> compiler, so we should be fine.
 
-Thanks! I'll also send a v4 of this patch to resolve the final sashiko
-comment since it looks worth doing.
+This is not the case for us (google). We do use compiler b/w releases,
+and we build our own.
 
-drew
+What is the issue if we use the compiler in b/w Feb27 and Apr24?
+
+-Rong
+
+>
+> >
+> > I would assume there will be errors; otherwise, you would not ask me
+> > to change my patch last time. In this case, I would keep this guard
+> > and remove it when the minimum llvm version passes llvm23. What do you
+> > think?
+>
+> There is no need to keep compiler version guard.
+>
+> Before llvm23, the below will be a noop:
+>     $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename=
+-promoted-locals=3Dfalse)
+> since '-mllvm -always-rename-promoted-locals=3Dfalse' is a new flag and t=
+he compiler won't
+> recognize it so the kernel will resolve above 'call ...' option as noop.
+>
+> With llvm23 and later, the kernel will be able to recognize above options=
+ and
+> things should be okay.
+>
+> >
+> > Best,
+> >
+> > -Rong
+> >
+> >
+> > On Thu, May 21, 2026 at 1:57=E2=80=AFPM Yonghong Song <yonghong.song@li=
+nux.dev> wrote:
+> >>
+> >>
+> >> On 3/31/26 9:27 AM, Nathan Chancellor wrote:
+> >>> Hi Rong,
+> >>>
+> >>> On Tue, Mar 31, 2026 at 03:48:27PM +0000, xur@google.com wrote:
+> >>>> diff --git a/Makefile b/Makefile
+> >>>> index 69ccf9b8507d..26005c64016d 100644
+> >>>> --- a/Makefile
+> >>>> +++ b/Makefile
+> >>>> @@ -1047,11 +1047,13 @@ export CC_FLAGS_SCS
+> >>>>    endif
+> >>>>
+> >>>>    ifdef CONFIG_LTO_CLANG
+> >>>> -ifdef CONFIG_LTO_CLANG_THIN
+> >>>> +ifdef CONFIG_LTO_CLANG_FULL
+> >>>> +CC_FLAGS_LTO        :=3D -flto
+> >>>> +else
+> >>>>    CC_FLAGS_LTO       :=3D -flto=3Dthin -fsplit-lto-unit
+> >>>> +if CONFIG_LTO_CLANG_THIN
+> >>> This should be an 'ifdef', not an 'if'. You copied Yonghong's mistake=
+:
+> >>>
+> >>>     https://lore.kernel.org/abgRRX3PH9IaExi8@sirena.org.uk/
+> >>>     https://lore.kernel.org/6db3a2f6-d61c-42f1-9b9d-0aca021cc2d7@linu=
+x.dev/
+> >>>
+> >>> Please slow down and test build your changes before sending them. Eac=
+h
+> >>> revision adds four new emails to everyone's inbox, which is just nois=
+e
+> >>> when there are obvious, basic problems. 'b4 diff' shows no actual
+> >>> difference from v8 and v9, which should have been caught by a simple
+> >>> build test right before 'git send-email'.
+> >>>
+> >>>>    KBUILD_LDFLAGS +=3D $(call ld-option,--lto-whole-program-visibili=
+ty -mllvm -always-rename-promoted-locals=3Dfalse)
+> >>>> -else
+> >>>> -CC_FLAGS_LTO        :=3D -flto
+> >>>> +endif
+> >> The above patch has a guard CONFIG_LTO_CLANG_THIN, which can be remove=
+d.
+> >> See llvm patch
+> >>      https://github.com/llvm/llvm-project/pull/188074
+> >> which supports distributed thin-lto mode too for reducing the number
+> >> of renaming. In other words, for llvm23, both in-process and
+> >> distributed-process are supported for thin-lto.
+> >>
+> >>>>    endif
+> >>>>    CC_FLAGS_LTO       +=3D -fvisibility=3Dhidden
+> >>>>
+> >>>> @@ -1657,6 +1659,7 @@ endif # CONFIG_MODULES
+> >>>>    CLEAN_FILES +=3D vmlinux.symvers modules-only.symvers \
+> >>>>              modules.builtin modules.builtin.modinfo modules.nsdeps =
+\
+> >>>>              modules.builtin.ranges vmlinux.o.map vmlinux.unstripped=
+ \
+> >>>> +           vmlinux.thinlto-index builtin.order \
+> >>>>              compile_commands.json rust/test \
+> >>>>              rust-project.json .vmlinux.objs .vmlinux.export.c \
+> >>>>                   .builtin-dtbs-list .builtin-dtb.S
+> >>>> @@ -2118,7 +2121,7 @@ clean: $(clean-dirs)
+> >>>>       $(call cmd,rmfiles)
+> >>>>       @find . $(RCS_FIND_IGNORE) \
+> >>>>               \( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -=
+o -name '.*.cmd' \
+> >>>> -            -o -name '*.ko.*' \
+> >>>> +            -o -name '*.ko.*' -o -name '*.o.thinlto.bc' \
+> >>>>               -o -name '*.dtb' -o -name '*.dtbo' \
+> >>>>               -o -name '*.dtb.S' -o -name '*.dtbo.S' \
+> >>>>               -o -name '*.dt.yaml' -o -name 'dtbs-list' \
+> >>> With that addressed above, the series survives my basic LLVM 22.1.2
+> >>> build test with my distribution configuration. I'll provide formal ta=
+gs
+> >>> on a properly tested and fixed revision.
+> >>>
+> >>> Cheers,
+> >>> Nathan
+>
 
