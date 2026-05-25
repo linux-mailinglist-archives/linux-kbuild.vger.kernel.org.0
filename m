@@ -1,159 +1,165 @@
-Return-Path: <linux-kbuild+bounces-13323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13324-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELMqA+FRFGryMQcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13323-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 May 2026 15:42:57 +0200
+	id h1YGBuCHFGqwOAcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13324-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 May 2026 19:33:20 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668DB5CB4D0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 May 2026 15:42:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0A55CD652
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 May 2026 19:33:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 53CC53006B01
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 May 2026 13:41:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9FF7E300CE49
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 May 2026 17:33:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6E435F19A;
-	Mon, 25 May 2026 13:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12FFD2D8364;
+	Mon, 25 May 2026 17:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="aK9/B6fL"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EwMekC7i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0710E383300;
-	Mon, 25 May 2026 13:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7517B28726E
+	for <linux-kbuild@vger.kernel.org>; Mon, 25 May 2026 17:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779716514; cv=none; b=PZ2x2l5XiGUD4+6H7XBTCDqK1mLdPyBmLAIao0yIbh4ZXoiLWahFQTqyHssVLny8ndKxPQjh+TRkY5f2d9X7h49U45l1LnKW7jfl/Giy7qFrU1nT7WRrHk1pq1s/gAF9UvGdbPD517X4VLbsY7JyJtXbhHE/xQa19XdCFjGx3AI=
+	t=1779730397; cv=none; b=QF+FgSrp6+Jt99QRcT/xIMe0N3nuOrqy4EX7aZJOb/O3m39AsxRk9nQW9PAEhuW0hF2JJMr6iuiPPdobLOdf1l8RGjOY0uk56gYBGqQMUCa9EeSqYs8+Z0hc5+t5FVZEKR2S99llR/EktLYz5Ioct5oVAC/cnLJ9epXN7FpQcJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779716514; c=relaxed/simple;
-	bh=Nc/Jb5csnsx5gDgcPsmWWNNTtsoY2CvIv3mmQ/YO8ek=;
-	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID:
-	 References:In-Reply-To; b=mGRylS9tOc/Dn83R2Llrd5jKd0Yxm2IIsjPw3HbKwP/juGmE81DmuPIHHGpTLqX4Qw9U343sNFaHPN7IvperwOn0GJWzKMlcZMDTItRBCrAKMLmUMSCLxuDUD7mM0fFmFc+E/z0EeNlHq9orzqd4IV18ck9+8CE6tin6iCLoN5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=aK9/B6fL; arc=none smtp.client-ip=54.206.16.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1779716466;
-	bh=Nc/Jb5csnsx5gDgcPsmWWNNTtsoY2CvIv3mmQ/YO8ek=;
-	h=From:To:Subject:Mime-Version:Date:Message-ID;
-	b=aK9/B6fLpETZVzKQ28Kd04mu+4TBbLuiV9RyT1i2gKbPKJVDqvMr7SaNnf8LrX92i
-	 KO9cW5Ybmuks/2Tcc2aADI5eNdXR0lP4gayIlFiPL5dzhv4HXhE7VRaRQaoEHSoZJn
-	 3qiCdGXejTNj/fyTedCtoidykXFTS1vVdhR3FCWc=
-EX-QQ-RecipientCnt: 5
-X-QQ-GoodBg: 1
-X-QQ-SSF: 00400000000000F0
-X-QQ-FEAT: D4aqtcRDiqTsBAZj3BNqi+E7MGSirmitosRUhGyHACY=
-X-QQ-BUSINESS-ORIGIN: 2
-X-QQ-Originating-IP: VenZ0hzj9GNcUaoHOrbn1qGc9ix9OI1ffzh2IXBKFawfaInuxooZrdEAAV+70/uGJaaqK3cz/RG8ea8Wh7EPjA==
-X-QQ-STYLE: 
-X-QQ-mid: lv3gz7b-6t1779716464td61e0df7
-From: "=?utf-8?B?V2VudGFvIEd1YW4=?=" <guanwentao@uniontech.com>
-To: "=?utf-8?B?UGV0ciBQYXZsdQ==?=" <petr.pavlu@suse.com>
-Cc: "=?utf-8?B?bGludXgta2J1aWxk?=" <linux-kbuild@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bGludXgtbW9kdWxlcw==?=" <linux-modules@vger.kernel.org>, "=?utf-8?B?bWFzYWhpcm95?=" <masahiroy@kernel.org>
-Subject: Re: [PATCH v2] genksyms: Support arm64 CRC32 hardware acceleration1~
+	s=arc-20240116; t=1779730397; c=relaxed/simple;
+	bh=KS4jzXcYEGWyhvQcyiid+k+SW44m4Tzp76dkHlQp0vc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=StACW5+/NfPJaJujqAvJvfkTnpoCpoElcRp4EJp5NM7u66cWLln4DiayOkGmFSvV5cOj7TtXuFgYu30U0I3kbuMO7zk4IwyPYIpapYcCF5dy1FwsOURPty5RhxARsSNwe4OOGSuO3XI0Y1R5VM6is/EztTvCCg5tW+VExHtlYrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EwMekC7i; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4903997fcb5so41094905e9.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 May 2026 10:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1779730394; x=1780335194; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ke3902//gigT30lDRSKJbeulpB5AsGLO9vF808ols74=;
+        b=EwMekC7iNvhGWbs6+8J1AnlXa+qE4hswY+dZQjQGPGUlb7tnhG+gB9RrN1V412Vbjq
+         PVuuRzaFeCQ1wRZFaG/ZUw0h67KO022n2Q59w13GNbFk+VZ1THRkhPBMJj5PfsYw+6n+
+         8Y4QA2ZUPxeb+ViqYakrSqg/WAgOaelWlEnDZTPko1U46k2JT4SZWrjOmuFDA5AO3qNZ
+         GWHHPscJVxRljc0eu3UW4ZVgUUD8M8JodazqA3TwWkjTH2CDnpqjJu7FqwsOPp5iFK9U
+         /0qH6xYoZqDJwh3da9U3CfK2Yfct3FioJLOsz/xD1cU2a2+CbJZr1zlJ6yBDg3O42LVk
+         BQWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779730394; x=1780335194;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ke3902//gigT30lDRSKJbeulpB5AsGLO9vF808ols74=;
+        b=DfusNX35tIOVqsPN2bLQWRKRxBSUaU57q+Rrhiow2VNrX1SvBr29JxfwdExxBpNFY5
+         ET2Af0o4zQSWtasRzbpKgqMxqlE2BRYZYODU6W72JUm5n/hJGS4CwgESwDQF2N0BQeOe
+         jLE0FFo+2HHFl00OuAsFKbzk8JJGuqCt5Rsp4A8sx38mGPXcemsMfO6OkJ4gQLxDN/X8
+         bVzT2/HdfG/oK1DhLc2/Id1Y5PyjNiWlIwQb/rLO1fTUhiLVSbVILctNguJq2R6ZBGkN
+         KiEqzpQoPS6cvQZvE/REq5MrhZczA+VQMGGgHMCli4PwHyLMe6s5Qie0sZqWL8mTMvls
+         NgLw==
+X-Gm-Message-State: AOJu0YwLRGC9IjzxfN9JBF1JINH420Ga3FkmHM4TBY6EUoXX/PTZK+hd
+	k4CbCyfMxeG+Y73JVi09QlNmycJbYf6RvNNrNV/L+Ye+hWtzJTlm5XwuNu8Sq6n+v2AA8TAZctf
+	+YqMntHYhczWd
+X-Gm-Gg: Acq92OGLZZEfZ90ycQNhe29xEmQsBqheuJzg8httpJ0VavR9bDATcKdVz5C6g6+/nw8
+	AqqMdaeEEKUQby/aBLZouRUk0RvqRgcj2PPBVi5f5KPmTGtnmJbZpDPn+8AdiizFvbBrWOe+TqV
+	nHYZXzvl9iXfMtJGMM/xyDVJ6f45dtjHfAsrx3kDunY3UN7pttAxSY4Kzsu3x48X/e9kMTVSm13
+	3gKwXesIWrixBosRrRbnGyyN/9+snuEkgr2R5x3j0/Qd4I/y+meeun7Wd8pFBWvNggonsbh/N+d
+	ol5O2TkBRMznJ869baoR6iiy3vHae2R846KMyyAgVqDkHxceejTo5ecARU0bCMCcueez13tPe4X
+	F2CXgbjK0/KcsVJaN7Sr4+ibEr43qJbV904t7zQv78siGzSan/lGNYVVHtxOzKnza5Ao/IRb1DM
+	9AG49oVyXCOtZruwJLVZKNpCJUJ6UubYlmPqtpmYFamDVEpSztVLl/jh97NkB/KaJd0nTAYS/b9
+	gE0aPvimxCIrTTPRUW1FygywVUcoa8L4ZxHChFhoeV9HNB+cs4NDfuXRUMYOAgErengaktbi5Jz
+	jEU/
+X-Received: by 2002:a05:600c:154d:b0:490:44eb:c1d7 with SMTP id 5b1f17b1804b1-49044ebc367mr241188825e9.30.1779730393854;
+        Mon, 25 May 2026 10:33:13 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49048f70f55sm76151265e9.17.2026.05.25.10.33.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2026 10:33:13 -0700 (PDT)
+Message-ID: <c135351a-d7cc-467b-a0c0-bea735fe850a@suse.com>
+Date: Mon, 25 May 2026 19:33:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Mon, 25 May 2026 21:41:04 +0800
-X-Priority: 3
-Message-ID: <tencent_23032AC04EF146C803D19A6D@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] genksyms: Support arm64 CRC32 hardware acceleration1~
+To: Wentao Guan <guanwentao@uniontech.com>
+Cc: linux-kbuild <linux-kbuild@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-modules <linux-modules@vger.kernel.org>,
+ masahiroy <masahiroy@kernel.org>
 References: <5d1b8b13-d590-497d-9185-609494135348@suse.com>
-	<20260525080229.1570905-1-guanwentao@uniontech.com>
-	<26c47a0e-7a9b-473a-818d-455e68476dd1@suse.com>
-In-Reply-To: <26c47a0e-7a9b-473a-818d-455e68476dd1@suse.com>
-X-QQ-ReplyHash: 1755302232
-X-BIZMAIL-ID: 12752282045284709240
-X-Address-Ticket:version=;type=;ticket_id=;id_list=;display_name=;session_id=;
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1])
-	by smtp.qq.com (ESMTP) with SMTP
-	id ; Mon, 25 May 2026 21:41:05 +0800 (CST)
-Feedback-ID: lv:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: NTNLxPxYD/4Isf3zWHXhvhMZYJXOCa7NxMiMh0cO8SWOwRMKAh4/gd05
-	Vwg3XedJNYsK09MuCTvnLOTvKpMOAolHxOEcFaYoIwziNW6cgrhrWramN6xme4FLlecKWBq
-	p1rjTuj6+705Tu/Sf3Zb+8X1QO4Qu4G59fgkQ1Zfi+I98O2edRkIyBuL3DC6Hyi3iQZwhNU
-	GzQhaS7r5upnT1RkcQsL2CbEYvkOdQZx6HWqO4f7VdWb11KwY4kK9OWkDOqdJ4TdjnzMvED
-	A0xEgiRLqtS7F60dGtfNk/J77hH4AsaOtSUWdUdw49YWkndAAAp2odjesmNX3sPf4VSWMYT
-	nph/8lDqUxLhsKf05C4FQiyHuiu1gJo3Nqflx+H855nI1ZweFREj4NupNug4mkx89Jgl+Te
-	LgHaiBWzkcyhrFgv3xBg2rIklasiywdLzfimMjH0XOGhI2sWJ4ltwWVT6UGAu86nUMQtvBg
-	/Q5hqwFL0uy3Jk/d+9JfjXZiJ5fWB5GEzxHNeqqMf3/oNpM4r0rFWs2/tchSLtXD0ehZ7gv
-	PBnXtauaG8kqL+0tstNMuzyCO74JWmW9AablucI2XoamxWtnSJd/tXEacApuSCK0yDUuy/L
-	qInHqAX6fiaaFvieTpf/Qma9V31/2oN1Kp/cmOR364tSqzFO1Gc4aK8TSym2kVskmAgsaIx
-	IUKkSaEpvlas0FA6oohHHZ27299i2eqf7RZSTDTSc3uU6zxYQ5L8F9a7ux41nzLy5rBUeyC
-	BkWkkqvxMlb15LVF/8Zaqt4Z9Izcurcc7iIgh3il+FcxqRiDvIG+lWdqt3gLcV6kR3Dbya+
-	M+D0lDUOSXU+Cbxh57BXWwnajjPNQ87MKzxv4FIl1jF/V+0ZAkGbBwdawJfxH1iuu54Wvh7
-	gQpG8dZNVX6Uw410Z0bIUzgHoSK0Fv31AT/Pj51VBBIGQ//3FPpAjYvkMEau+yO8kaEGGrq
-	zH5HnJ4cjDd71StGCJv3SFdh2abLYdpBNq8Ov/7KqYrrnEuSU2ipz5rzYfVVL8q11vwqyE+
-	sawiPK0VUdLXRjAVxkFEBbZ+km6chcpXt+eDJYA16E5p/zeugGfJlxVEbXtJ6MA+yXfVfUp
-	g==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
-X-Spamd-Result: default: False [2.44 / 15.00];
-	TO_EXCESS_BASE64(1.50)[];
-	CC_EXCESS_BASE64(1.50)[];
+ <20260525080229.1570905-1-guanwentao@uniontech.com>
+ <26c47a0e-7a9b-473a-818d-455e68476dd1@suse.com>
+ <tencent_23032AC04EF146C803D19A6D@qq.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <tencent_23032AC04EF146C803D19A6D@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13323-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13324-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[guanwentao@uniontech.com,linux-kbuild@vger.kernel.org];
-	HAS_X_PRIO_THREE(0.00)[3];
-	FROM_EXCESS_BASE64(0.00)[];
-	NEURAL_SPAM(0.00)[0.732];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qq.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,uniontech.com:dkim]
-X-Rspamd-Queue-Id: 668DB5CB4D0
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,suse.com:mid,suse.com:dkim]
+X-Rspamd-Queue-Id: 6A0A55CD652
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Pk9uIDUvMjUvMjYgMTA6MDIgQU0sIFdlbnRhbyBHdWFuIHdyb3RlOg0KPj4+IEFkZGl0aW9u
-YWxseSwgbWFueSBkaXN0cmlidXRpb25zIGFscmVhZHkgc3dpdGNoZWQgdG8gZ2VuZHdhcmZr
-c3ltcyBsYXN0DQo+Pj4geWVhci4gVW5sZXNzIHNvbWVvbmUgcHJvdmlkZXMgYSBnb29kIHJl
-YXNvbiB0byBrZWVwIGdlbmtzeW1zIGFyb3VuZCwNCj4+PiBJIGV4cGVjdCBpdCB3aWxsIGJl
-IGRlcHJlY2F0ZWQgc29vbiBhbmQgZXZlbnR1YWxseSByZW1vdmVkLiBJdCB3b3VsZCBiZQ0K
-Pj4+IG1vcmUgdmFsdWFibGUgdG8gc2hvdyB3aGV0aGVyIHRoZSBzYW1lIG9wdGltaXphdGlv
-biBpcyB3b3J0aHdoaWxlIGZvcg0KPj4+IGdlbmR3YXJma3N5bXMuDQo+PiBJIHNlZSBnZW5k
-d2FyZmtzeW1zIHVzZSBjcmMzMiBmcm9tIDx6bGliLmg+LCB3aGljaCBmcm9tIHpsaWIxZy1k
-ZXYgYW5kIHpsaWIxZy4NCj4NCj4gQWgsIEkgZm9yZ290IGFib3V0IHRoaXMsIHNvIGdlbmR3
-YXJma3N5bXMgc2hvdWxkIGFscmVhZHkgYmUgd2VsbA0KPiBvcHRpbWl6ZWQuIEkgdGhpbmsg
-dGhhdCBpcyB0aGUgbW9zdCBpbXBvcnRhbnQgdGhpbmcuDQoNCldoaWNoIHdheSBkbyB5b3Ug
-cHJlZmVyPyBUaGVyZSBhcmUgdHdvIHdheXMgbm93Og0KMS4gdGhpcyB3b3JrLA0KMi4gaW1w
-b3J0IHpsaWIgbGlrZSBnZW5kd2FyZmtzeW1zIGFuZCByZW1vdmUgdGhlIGh1Z2UgY3JjdGFi
-LA0KYnV0IG5lZWQgbWFrZSBzdXJlIGFueSBhcmNoIGRvIG5vdCBjYXVzZSBwZXJmb3JtYW5j
-ZSByZWdyZXNzaW9uPw0KKEFzc2VydCB0aGUgdXNlciBsaWJzIHByZWNvbXBpbGUgd2l0aCAr
-Y3JjMzIgaXMgcmlnaHQ/KQ0KSSBkbyBzb21lIGVhcmx5IHRlc3RzIHNob3cgdGhhdDoNCjEp
-IHpsaWIgaW4geDg2IGZhc3QgdGhhbiBnZW5rc3ltIHNvZnR3YXJlDQoyKSB6bGliIGluIGFy
-bTY0IGRlYmlhbiBwcmVjb21waWxlIHNsb3cgdGhhbiBnZW5rc3ltIHNvZnR3YXJlKGNyYzMy
-IG5vdCBpbiBhcm12OCkNCjMpIHpsaWIgaW4gYXJtNjQgcmVjb21waWxlIHdpdGggK2NyYzMy
-IHNhbWUgc3BlZWQgd2l0aCBnZW5rc3ltcyBoYXJkd2FyZQ0KDQpCUnMNCldlbnRhbyBHdWFu
+On 5/25/26 3:41 PM, Wentao Guan wrote:
+>> On 5/25/26 10:02 AM, Wentao Guan wrote:
+>>>> Additionally, many distributions already switched to gendwarfksyms last
+>>>> year. Unless someone provides a good reason to keep genksyms around,
+>>>> I expect it will be deprecated soon and eventually removed. It would be
+>>>> more valuable to show whether the same optimization is worthwhile for
+>>>> gendwarfksyms.
+>>> I see gendwarfksyms use crc32 from <zlib.h>, which from zlib1g-dev and zlib1g.
+>>
+>> Ah, I forgot about this, so gendwarfksyms should already be well
+>> optimized. I think that is the most important thing.
+> 
+> Which way do you prefer? There are two ways now:
+> 1. this work,
+> 2. import zlib like gendwarfksyms and remove the huge crctab,
+> but need make sure any arch do not cause performance regression?
+> (Assert the user libs precompile with +crc32 is right?)
+> I do some early tests show that:
+> 1) zlib in x86 fast than genksym software
+> 2) zlib in arm64 debian precompile slow than genksym software(crc32 not in armv8)
+> 3) zlib in arm64 recompile with +crc32 same speed with genksyms hardware
 
+I think it would be useful to first have more data showing that the CRC
+calculation in genksyms is a hot path and contributes significantly to
+the overall kernel build time.
 
+-- 
+Thanks,
+Petr
 
