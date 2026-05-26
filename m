@@ -1,153 +1,161 @@
-Return-Path: <linux-kbuild+bounces-13326-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13327-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CBkiMHY9FWqgTwcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13326-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 08:28:06 +0200
+	id INOSH0hMFWoIUQcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13327-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 09:31:20 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CB45D1295
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 08:28:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2AE5D1B63
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 09:31:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 631783018432
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 06:27:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C72B7300D30A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 07:31:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86CD4324B32;
-	Tue, 26 May 2026 06:27:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 501E5358378;
+	Tue, 26 May 2026 07:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncG7STqe"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BPbOYnFG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4731115A864
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 06:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A41B37B415
+	for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 07:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779776869; cv=none; b=MGONEi/V+GH8hKGSOxsHMkgJKfj7BCFGcrR0Iu2xWyh5uGYDhWcqMEy0jr9uAFBtnrD/kJrwvSUUcFhjOznWU7p7aXVCMOWOYM8dKItuTsvRdv5Zj3df+Kb35NoK6Mcvw/Bibczvk6hOXaB5rmrdC1IYHQZ5H17lDKeYwv9xAAU=
+	t=1779780675; cv=none; b=Odyl7wacBkByvybtuSWCjB82trMKOXQqRwvlrh+Rgw3oxTMl1w98Zql7ASRF0Mx3/MTqq/t8pmkS6b0hGcx/Jtqe50FebuFdYIMPHOYO1SSYRVuPiBIW1S/+Jn6s9bin9SMzgM+C5CHgBhLXaFfJLhLsPUC91xFEkig0baVyEuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779776869; c=relaxed/simple;
-	bh=SzNSH/ApV+5phKmZ8GLch+beFTGjzpYgLQ2wZGt3BG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dTmvR25R12D2THHoycXfcsmZfkC4aUy+L4ZG4SY0OvZ+Blwk9f9PdAdnAoyVdqpjii7sC6V1AIIjR8mtPCfmOta1vqZ9y0fhdSDPL7OPxQMAx5HXvMk7TsF0eZG/uFHyNZqj54VJRRQ8ksfRoxJ/0h1axKlrGFKmD+T0xCmDQbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncG7STqe; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-838d0b7c950so7282186b3a.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 May 2026 23:27:48 -0700 (PDT)
+	s=arc-20240116; t=1779780675; c=relaxed/simple;
+	bh=kqpENnTE4wNumutQr2BKy4XgQPNbxnvT/AGbHPYrjQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GHKzRC9KTVijOwyiGdtyv2HxsptOXQLJHwxhMdDgRaYBtfDor2dYBxqDDGY4eeJVd/hgu0jGg7MzMypdm5bH6X7CSQjd/+n8NHJiUfUFZp7DREG/TNL9O8M7wWAwkPIEoAGYCHEu9wNvmTozs2KDWT38HEzvySUbOW4m/NdRyFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BPbOYnFG; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4905e190c71so20321415e9.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 00:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779776867; x=1780381667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hjwSzWHZkBaieWrPz4xe331bsRxr/TLAJPfCcfEtcQk=;
-        b=ncG7STqeCmS0JEtYAWMRzN4aq9KKr9FWVLexNKSr4+zs8DcA4wtazzCCNP7dGP/ZYi
-         C7u6dE4BhTDdQ0t8RUni29s5kCSuct1tNGomaWB0hcZb7fthvtg6xvw9Z+XuxQwsByWD
-         kzVkM5WffipQEKE+BqbaUtW8HrfiUm/6Wv0dQ2IhUW/TZJlnNgiUBa8iCKuG/xzWUmDr
-         /K+FVcPewpG5Qz8MRzS+mhUX06Kq+U6GW/iNlZa2Pcg9EEQigMEZURgc3FaaF8SOyXZU
-         ZMNZNqnXhXhO1sTxHy7WMKZ1khnK3T8Jznv+8GzMnQBmCd7qMp21q+Z7h5CA0/f1h76r
-         KRjQ==
+        d=suse.com; s=google; t=1779780672; x=1780385472; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ekK3aVvgBJN45Ca6LV8CJRGR8knFXIQZQ0WX8FEULTQ=;
+        b=BPbOYnFGlHKBIEmlk+/osM2ZBjef05wjPMfI1mkIn6EHmSMuacLiK4vy96uFYbTBTC
+         UJjdUPblKrXGsWOQoIaINOioR8td4wjMpEQJgIAeVAKsT758emz7GIqZHs/ApcFpBbun
+         o5tiA7yTNKoOha7fZmLlPx4Bb0e6t5l8GJQ8lEa7z8TLXY/IxzW9365HTfAt+fCp4IG1
+         JQ6Ms5A6t6CNBLxl2W9+GFGggk6jScqexY8+x/xNH6tfiGdHT42j2OLXu0WjDoJHnLZH
+         CiJnSarOaddId5YTjW3/wt3BAwS09dkvfn9Mdjmg4XbiyJf51+OENpK47dT2exBnWu6B
+         /9LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779776867; x=1780381667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hjwSzWHZkBaieWrPz4xe331bsRxr/TLAJPfCcfEtcQk=;
-        b=GdlRZEsW/BXthXFF/a7nI7GAQhzx9l1PxfcjJhIV+Jpxz4jJQvACPAjuq0lG5cuxTA
-         DYStJXcXzuLX1yuAtnocOyjkvxnDxq1O4y8MY28VAnY0Wg+KZ65Ypv9UaVD041PDcMmM
-         wsEjBImvXoUB/Fsx1ACHTiQgZkmqhjfwEX/KfjTJ9d8S08PkqADLcSid+e6R1/S3uLAA
-         iddLaP+1J1gMQF83+WXxiPGV6p5uJ7LnSy/UoCTvJ6dglH6LnieP/qMWLoelZgVowbCE
-         FA8WFJMveNvRLy1C8gaKI96KdXuiTI3JeIockLp5NQswxQtjZcI0w6QB93pkhIdTVKl3
-         u4Ww==
-X-Gm-Message-State: AOJu0YxZepr+MQOiSY9j7o3ni210UNsd4mAbAdZX65ks3y7kShN+K3lf
-	+oV91A9cwBGvsiBBZYpGR4kUnglafkQLEJkvXeFvvnHbQrjlNrdzmklA
-X-Gm-Gg: Acq92OH31jpfMxugRcNDYYgVugbX4qA7pMcJK3KaU/545zetwWp6UKbOeSo7ir5TLxz
-	ukGkBLtrsRJI3b6w2Wr1MSWeaAaSTMjq2t9bv6IPLWqWlhOgC9CvKLdpHs5oGSQwQnRMYRN3WKq
-	qWUWs2GIgPMTRc0OZ7QkA3saIFOCYfNlCaNMYqEsuE1fcCRzmeWU6FgQ/dyKntl+24TZCJt2dvI
-	Ie1cWfHMiAh01GXBVpopdm5yd7V2+jjtXqn/pXypOjR1MB72R/Q1KdqkFjhy8o/GMZfh0AlCxoy
-	vyvgv2OsuNkrQfbb+LVpfA6Xj+LqpiH4GsUHAdIMONiH21MP+LrsIrVqHnn1zy2z32vr1kKWuYv
-	GGp7hDx2XybrAt52biCw6XI4F47uM5rrAoFS9aLjIDHk7ytYsPbJuuBpe2N359P3NO91/lLm0tK
-	l3pf/059pTz8UMwy3jcTq1kGMPDWQEkYebTjh4PGtCCAAj6K6YJ++zrpRsAYiohD4MTK1vD3kEj
-	70=
-X-Received: by 2002:a05:6a00:cc7:b0:83e:d427:9817 with SMTP id d2e1a72fcca58-8415f1560b9mr15607382b3a.11.1779776867588;
-        Mon, 25 May 2026 23:27:47 -0700 (PDT)
-Received: from yafangs-Air ([240e:46d:2200:6c8d:c9a5:e2c7:81eb:e280])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164e9e7a5sm14158968b3a.33.2026.05.25.23.27.45
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 25 May 2026 23:27:46 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: nathan@kernel.org,
-	nsc@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH] kbuild: rpm-pkg: append %{?dist} macro to Release tag
-Date: Tue, 26 May 2026 14:27:32 +0800
-Message-ID: <20260526062732.84006-1-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1779780672; x=1780385472;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ekK3aVvgBJN45Ca6LV8CJRGR8knFXIQZQ0WX8FEULTQ=;
+        b=haH2jgILLZVRYRy9lIKVZMKK3POSnap2v0LPCLFdO9BiNvWval4UrNQMteEgL6PmJ1
+         OUj0RzLQzPgmSxY5CsA39yJ5hYTB/EdvmXV7I6hoe9qRHQ62ZW8/qHn+L7wK30DJSrP/
+         T10GlN7QZKsS1roWSfNeTE9A0DdrZXwoz8l9EEWsZCp9xDDC/QmoGWGb8RLrAb+szOPn
+         E4LBu6cQZgZjr3W2v9b3aijlEgvNOcvCYNA87ng6vWi5TlAnc2oKbI3arlYtS8xQ3uSR
+         L7Dt6Dg2QcrQriOyY7gPqmf3iKxL8IyXd/QBpDvVhC1VfSz/5o20UlqO+7bgeVpUeuEZ
+         +4ww==
+X-Forwarded-Encrypted: i=1; AFNElJ/KloUCMapDDB5e9NpULo/fVqHA9YICiHcu5i2QfQRmAXwPSaM3wYpCN1C2h6WU2a7oQV55ajm4V19MBZ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytynkqSQb+rD95KQ3QFxjDGzjcxMzgI+4NCSR4a1VDoi8XvfN1
+	TMVDyviRUhbecMCT3I9tiyVxojeqaLtuggZn+Ib86/CBBhro+BG0TfahxWdkt+zDeHe9zaScUhv
+	FY8vsRkvS9OJP+4w=
+X-Gm-Gg: Acq92OEUYGMzJJYyo/Gt39QMEgL6gzqipBRClLPRVM6dd3kVrdgFW3eNIGZKFKSZuat
+	BzAiaiaz+TgUjnOR2q/nG1bk4L1kUpZ6FSYiDkDl/21c3RrCecRAO+zCLmERYYS7y2OuvYujJi4
+	8+L+8Edc37Dit/3Ix2TmVQMnstWGxe83+HAE3HGDnjC7p4BtDyFQCadF3C0jgYQz02vOWgmp91A
+	8YC4Mk4QgtjuZROu/DaGuqt8wrF6GiZDKs3UVB2oXWUw0asCUT0V/mKS8qDDdnlyQP92IxicUqK
+	Ig4QIKcl2N2/gTfzQosDscc/ro5eTjHb8ezhwQUAlsi9P+7MLGr8DfAKt0FKjJG5MYUfJFKiQS7
+	yPiz9MvhTB8VOE2HU3gSg2Lx17NDLWORbz2dhFV4q3DWoIfGKUywAWRCAJ566APwUJEXF5FpWgW
+	jWCYLIvB8lVzXP5pm5Sc8CgXBcc0a2/T2DQnYOnJZcP+HvTlq+IVWLFQKFyVvyzNpMpzIsIpyl3
+	S18RpbIYheySDqrSY3QxqB8QAYkwnYSYj3qFRls4IEY6amgy21MGAUnTSB82SVSj9emxA==
+X-Received: by 2002:a05:600c:3106:b0:490:6889:1ff with SMTP id 5b1f17b1804b1-4906889025dmr88445605e9.28.1779780671966;
+        Tue, 26 May 2026 00:31:11 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454a0cd5sm371483025e9.10.2026.05.26.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 00:31:11 -0700 (PDT)
+Message-ID: <a4ac44fa-146b-4b13-bf42-0c8cff601ed2@suse.com>
+Date: Tue, 26 May 2026 09:31:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: build failure for stablerc
+To: =?UTF-8?Q?Toralf_F=C3=B6rster?= <toralf.foerster@gmx.de>
+Cc: linux-modules@vger.kernel.org, linux-kbuild
+ <linux-kbuild@vger.kernel.org>, Linux Kernel <linux-kernel@vger.kernel.org>
+References: <a47f9124-15b3-4dbc-a211-6161eb98406c@gmx.de>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <a47f9124-15b3-4dbc-a211-6161eb98406c@gmx.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13326-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13327-lists,linux-kbuild=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmx.de];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[laoarshao@gmail.com,linux-kbuild@vger.kernel.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_THREE(0.00)[4];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Queue-Id: 19CB45D1295
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,suse.com:mid,suse.com:dkim]
+X-Rspamd-Queue-Id: AA2AE5D1B63
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add support for the %{?dist} macro in the kernel.spec file. This enables
-building and releasing kernel RPMs with a custom distribution suffix
-(e.g., via rpmbuild's --define option) to better match production
-environment tracking.
+On 5/25/26 9:39 PM, Toralf Förster wrote:
+> Hi,
+> 
+> at a small Hetzner VPS at x86 the compilation of the stablerc v7.0.5-1656-ge79d5c5d57c0 fails under Ubuntu-26.04 with
+> 
+>  WRAP    arch/x86/include/generated/asm/mmiowb.h
+>  WRAP    arch/x86/include/generated/asm/module.lds.h
+>  WRAP    arch/x86/include/generated/asm/rwonce.h
+>  UPD     include/generated/utsrelease.h
+>  CC      /root/linux/tools/objtool/libsubcmd/run-command.o
+>  HOSTCC  scripts/gendwarfksyms/gendwarfksyms.o
+> In file included from scripts/gendwarfksyms/gendwarfksyms.c:12:
+> scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: dwarf.h: No such file or directory
+>    6 | #include <dwarf.h>
+>      |          ^~~~~~~~~
+> compilation terminated.
+> make[3]: *** [scripts/Makefile.host:131: scripts/gendwarfksyms/gendwarfksyms.o] Error 1
+> make[2]: *** [scripts/Makefile.build:548: scripts/gendwarfksyms] Error 2
+> make[1]: *** [/root/linux/Makefile:1325: scripts] Error 2
+> make[1]: *** Waiting for unfinished jobs....
+>  CC      /root/linux/tools/objtool/libsubcmd/sigchain.o
+Gendwarfksyms requires libdw, see Documentation/kbuild/gendwarfksyms.rst
+[1]. Is the library and its development files installed on your system?
+If you write a trivial program that includes <dwarf.h>, can the compiler
+find it in the default search locations?
 
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
----
- scripts/package/kernel.spec | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://github.com/torvalds/linux/blob/v7.1-rc5/Documentation/kbuild/gendwarfksyms.rst
 
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index b3c956205af0..c732415662ef 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -6,7 +6,7 @@
- Name: kernel
- Summary: The Linux Kernel
- Version: %(echo %{KERNELRELEASE} | sed -e 's/-/_/g')
--Release: %{pkg_release}
-+Release: %{pkg_release}%{?dist}
- License: GPL
- Group: System Environment/Kernel
- Vendor: The Linux Community
--- 
-2.47.3
-
+-- Petr
 
