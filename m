@@ -1,430 +1,302 @@
-Return-Path: <linux-kbuild+bounces-13343-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13344-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yEOqOmHeFWrTdQcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13343-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 19:54:41 +0200
+	id mPg+IRfkFWrdeAcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13344-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 20:19:03 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439845DB008
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 19:54:40 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEA65DB431
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 20:18:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4387030B08CA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 17:29:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AF3183036D51
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 18:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65CB240F8D6;
-	Tue, 26 May 2026 17:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594B940962E;
+	Tue, 26 May 2026 18:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dJHSnieH"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="I1W46+jF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4156E40B6CF
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 17:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A5D40803A;
+	Tue, 26 May 2026 18:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779816576; cv=none; b=ax61yoJ23VaXYS3c2sfK3hDWu8sQsiXAhBJK1nEVB0iyVFxn+1EWygPCnYRiLKQW7RlzebRl3zFK/VggVwSNEdQ0G5xzNv8qenHN7SpXUnZq4jXQeJsArvxxwYbkANDh6M3GECSEXkC4M/bGtGiba9moDFdsN0DnNz9HFpRUsP0=
+	t=1779819148; cv=none; b=IZyVJ8pxBeynMu5oVIY2JUjbp27wZYn/AmZ7RM+Ib71Bednv5IJkF6Kdc8rcYmoUIfuQy7/Y3WoJ8yAUA99j1RVVL964Jcgj2yQF52koh8lin784LuHzQVOWtJg5nX5lNIc4q2RGhrubQlDQuPgHu9cymp5uH15i+LzK9v8tfok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779816576; c=relaxed/simple;
-	bh=RRuwmW6B6ZLVhlCNZ1zg4gsGaC+fc6wLxUw99Hw0WQU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=kfNBQUDMDDdqQkfNdRdywVYW2Y4y6AapBNzVn4tfjY9dO+yap//vu8glQQ909XEJ+NNxhKbENG9bIWQG5BRarokE7JmAJWlRPn9AS+8372U5K+u0FI/Z0MbyaBWPBpu9Ygo/fjkAk20w2LFI1zI7vQcl6EKLf7VEPeR8kKUOzjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xur.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dJHSnieH; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--xur.bounces.google.com
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-304627c66ddso3711991eec.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 10:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779816573; x=1780421373; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=62qbdDbm+27B8JP8wMqUFd2P0lIFnwesmZHdDdyZ1gw=;
-        b=dJHSnieHwIB3TSNyq7+RfAOWFUWagLsgNuUbJcxkpzMfskpJnGhNSRpKofbuAZa10g
-         kIByHu8KzyYGgMTxbp3hJ1D/pIPEwfrop23zhseZOr0ghVJw+PzHYSn7PJVCWf0dy03A
-         C/3g5eE4cpAD2drTS2jIMgeCISUW+Otso0AmOBV7Pck/u+8JukWSr9sS0HVXQ2ax/Si1
-         s2ESkEEa9eSj7GvlPzAXjWqScwC8MNoH8WFo4NqwDfzO29aMfoetl0YhGsWJIochQKkG
-         p+3tRb8AUe5oJ/TgDQczMfWL0wI91qRgiBhIjC21+C0k+kmnWKKbsvt1UulSmxlAMwmN
-         eqdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779816573; x=1780421373;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=62qbdDbm+27B8JP8wMqUFd2P0lIFnwesmZHdDdyZ1gw=;
-        b=lnN4pcOqbXwOAq30KW59druI57ivOhMBKZKppJs07jlldsjkyAIh7nrSGE0SSm+wjC
-         pEqV5ziDUQOooMONPNjr2tUnWcA+Ear5FLY77p15hZQLHG12ptpLM19tGHgSrV/x0AA0
-         wywd9hMZQhK5TMtS6CCW5lL5w5O6z76drmkEfMe30J5y17M0hvuWORJi0p0+TxGr17AY
-         ZFM0CGhqqectT5+HPMYehswrmZgPZ6JWdSl03qm2s30edZ5GE/WW2A1rHtR9ocyh/jdm
-         dR6AiVSIRuPa84kz1Ld8a4DQk1VszoxwvxWny7mF+2sBBONEdXM86ZCipQbrLaYwwaob
-         JFmw==
-X-Forwarded-Encrypted: i=1; AFNElJ+rus0Da1qgYfsEQaVLxcDu3/IjNUPBiTjeNEN0MHy9+i1A+o5jrtpYYakqxLc7X7OaD4qPBKHUZaTYW6Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyWcdI5P7mciwx7xy2oCzaGLjBhgyv2ZSiXzZxQ7PB9WfGvENq
-	Yia6GQdicvbdQEDZ1SI5DSHMSBG7AUxL1Uq2J31ukF1HSkMSyfqO4R9XeWc0GQaFaJNTog==
-X-Received: from dyblc25.prod.google.com ([2002:a05:7301:1319:b0:304:9f4b:631])
- (user=xur job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7301:10cc:b0:2f4:3a9c:818c
- with SMTP id 5a478bee46e88-3044919c752mr8136530eec.29.1779816573120; Tue, 26
- May 2026 10:29:33 -0700 (PDT)
-Date: Tue, 26 May 2026 10:29:26 -0700
-In-Reply-To: <20260526172926.2717929-1-xur@google.com>
+	s=arc-20240116; t=1779819148; c=relaxed/simple;
+	bh=S/2fQRkP4dPnC2fxtvoLKp0TJ4bmGM+1Kle9A9CGRn8=;
+	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID:
+	 References:In-Reply-To; b=i2nNhVfujNWp4O/7T3+cdHvlzq6Iaw9vsFWgHYgi+vV6qeN7vd7DAr/NmA0fxMNvFgpFu1Eng+g+a9LznbGQoLuNBvHbiSKGWFnh483ckrS6Q7F+gDVfIiA5Ws6wbXaMyR1ThKYVoLSW17JOsJJaC9L9JvrLjyY+BZ8OVNFF2y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=I1W46+jF; arc=none smtp.client-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1779819123;
+	bh=S/2fQRkP4dPnC2fxtvoLKp0TJ4bmGM+1Kle9A9CGRn8=;
+	h=From:To:Subject:Mime-Version:Date:Message-ID;
+	b=I1W46+jFl2gAUtPOGKh7Sx/o30gKSdWzhNs1boAe05tffpM0vM/hhVMqsm3ga9BSl
+	 HJBKptRak1LZ1pULtTePnPxIUutp5xNKpFtdnd9WHYbHlSpR3KE+BjgJD9nn7xEmka
+	 9tNOfNIpMfTkFMLZTmmZubRW2YjT7I+umcxJE2fs=
+EX-QQ-RecipientCnt: 5
+X-QQ-GoodBg: 1
+X-QQ-SSF: 00400000000000F0
+X-QQ-FEAT: D4aqtcRDiqTsBAZj3BNqi+E7MGSirmitosRUhGyHACY=
+X-QQ-BUSINESS-ORIGIN: 2
+X-QQ-Originating-IP: DZ6g96PBdZShh+3WsHf9vepGXzY50Gm1yQZTUyDsFunkWij9C66b9wIJqBPukKNnLX07/iaRCPnz46ImqEaBxQ==
+X-QQ-STYLE: 
+X-QQ-mid: lv3gz7b-6t1779819121tab055e4d
+From: "=?utf-8?B?V2VudGFvIEd1YW4=?=" <guanwentao@uniontech.com>
+To: "=?utf-8?B?UGV0ciBQYXZsdQ==?=" <petr.pavlu@suse.com>
+Cc: "=?utf-8?B?bGludXgta2J1aWxk?=" <linux-kbuild@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bGludXgtbW9kdWxlcw==?=" <linux-modules@vger.kernel.org>, "=?utf-8?B?bWFzYWhpcm95?=" <masahiroy@kernel.org>
+Subject: Re: [PATCH v2] genksyms: Support arm64 CRC32 hardware acceleration1~
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260526172926.2717929-1-xur@google.com>
-X-Mailer: git-send-email 2.54.0.746.g67dd491aae-goog
-Message-ID: <20260526172926.2717929-4-xur@google.com>
-Subject: [PATCH v10 3/3] kbuild: distributed build support for Clang ThinLTO
-From: xur@google.com
-To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Piotr Gorski <piotrgorski@cachyos.org>, Rong Xu <xur@google.com>, 
-	Venkat Rao Bagalkote <venkat88@linux.ibm.com>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Teresa Johnson <tejohnson@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Wed, 27 May 2026 02:12:00 +0800
+X-Priority: 3
+Message-ID: <tencent_5D2AFB6D7C8D2FA825429E08@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <5d1b8b13-d590-497d-9185-609494135348@suse.com>
+	<20260525080229.1570905-1-guanwentao@uniontech.com>
+	<26c47a0e-7a9b-473a-818d-455e68476dd1@suse.com>
+	<tencent_23032AC04EF146C803D19A6D@qq.com>
+	<c135351a-d7cc-467b-a0c0-bea735fe850a@suse.com>
+In-Reply-To: <c135351a-d7cc-467b-a0c0-bea735fe850a@suse.com>
+X-QQ-ReplyHash: 1822101876
+X-BIZMAIL-ID: 14706468428120542312
+X-Address-Ticket:version=;type=;ticket_id=;id_list=;display_name=;session_id=;
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1])
+	by smtp.qq.com (ESMTP) with SMTP
+	id ; Wed, 27 May 2026 02:12:02 +0800 (CST)
+Feedback-ID: lv:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4b-0
+X-QQ-XMAILINFO: MWzGDmnScki3129TUMkz05kYlhTiGRD/IFy8Fbgp2zc9OYxVKou5HRQD
+	iB/tZUeU0ktmf4mbm9WuKxiszYMrnqVuejywlIgI+Ce5LFv69pY821/MiHFa4oa43DqEQcH
+	Iu81kACqSwaFbnXIc13Ds8jR6bPOgoEjgte/9sG0duY72sxRKMlzXEXznzR42W2plndxJqo
+	9RNCGzUO7JJoaTTYDc+R9jaddaqbnaUsZApAWVxMz+uFpyuRKstmt39LtYaqZ4Vtg3KbDNS
+	7EFcJSefhhURB6BzfiLH40ekTw5RguEX/7EYNGfRf+XsID2NnQE2po9bF6lYS3lyXpLaxJU
+	wqswYzxCPeJ8v3q7qM2hyZ61DxyNCipNJKfYZT+p14E6PWbD6x44jGf3C11NEtga85yxXeC
+	W4nsJRls4tIMr1mlBY6wFPvSnQdcrb5q404EIMvCMMoojwRfG7LL/EcvIbAB3IkMT3LmTWq
+	0D27H4U4H/s9hLg+QtgoSuWqK6nlKxKr9Zl/QeIOVWsJj0+bNT0P0mZYSSU2dpsQWBCkd7F
+	jrcS8ctZdzwz5FFSyOjjYUCMeyGDK0w3KOAlBAS3KOkXOOrx2+a+it04r3XRxncAJoNPq9k
+	N3jPlb1YYfFCUG8aAZDqNXnvHXLFhsiBG1luwsHR6ylGXm1kzxXOxdO25y1KOSDxID7xc5V
+	jHb/BMGJ2hfht18dVhrHEhtraLpPGSphcheJYe1i0G3gEmI3ANc81AovyAodTxbG7sIvsDU
+	N4dDkOeH8FT3X26HiGzpih89HsTAb8flLVRhCVK58XTDF0oeoRJ6jh1DcDtiWBZ19GEpNqb
+	RcMBvOyhi5ARlG4aS61G8gUEsqWcscA9VuHu5kEe/CEtAEZBWRZaDIm+LnUoYnyKpuQ28QS
+	BQAnUl2cF2RMFMpXKPJmrAU3KLEOC7eKUjGn8C/XOAiWpQTiZtFNt1+S7/e1Pk/y3KIOXGO
+	9Ks79Dx+ujXMpzcLwreYe978sDJMPn85thq6EYDTfQNoWm50S+lf/gnwbCEgbMtdAP7gZme
+	2dXsy8fa8odrS+yvrSdoJjqrIs5xr1Et1nF7wXRkwTv9acRbnPpeawCsIV7W0=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
+X-Spamd-Result: default: False [2.44 / 15.00];
+	TO_EXCESS_BASE64(1.50)[];
+	CC_EXCESS_BASE64(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
 	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
+	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_NEQ_ENVFROM(0.00)[xur@google.com,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	TO_DN_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13343-lists,linux-kbuild=lfdr.de];
-	DKIM_TRACE(0.00)[google.com:+];
+	TAGGED_FROM(0.00)[bounces-13344-lists,linux-kbuild=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.700];
+	DKIM_TRACE(0.00)[uniontech.com:+];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	PRECEDENCE_BULK(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,o.map:url,llvm.org:url]
-X-Rspamd-Queue-Id: 439845DB008
+	FROM_NEQ_ENVFROM(0.00)[guanwentao@uniontech.com,linux-kbuild@vger.kernel.org];
+	HAS_X_PRIO_THREE(0.00)[3];
+	FROM_EXCESS_BASE64(0.00)[];
+	NEURAL_SPAM(0.00)[0.611];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qq.com:mid]
+X-Rspamd-Queue-Id: EEEA65DB431
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Rong Xu <xur@google.com>
-
-Add distributed ThinLTO build support for the Linux kernel.
-This new mode offers several advantages: (1) Increased
-flexibility in handling user-specified build options.
-(2) Improved user-friendliness for developers. (3) Greater
-convenience for integrating with objtool and livepatch.
-
-Note that "distributed" in this context refers to a term
-that differentiates in-process ThinLTO builds by invoking
-backend compilation through the linker, not necessarily
-building in distributed environments.
-
-Distributed ThinLTO is enabled via the
-`CONFIG_LTO_CLANG_THIN_DIST` Kconfig option. For example:
- > make LLVM=1 defconfig
- > scripts/config -e LTO_CLANG_THIN_DIST
- > make LLVM=1 oldconfig
- > make LLVM=1 vmlinux -j <..>
-
-The build flow proceeds in four stages:
-  1. Perform FE compilation, mirroring the in-process ThinLTO mode.
-  2. Thin-link the generated IR files and object files.
-  3. Find all IR files and perform BE compilation, using the flags
-    stored in the .*.o.cmd files.
-  4. Link the BE results to generate the final vmlinux.o.
-
-NOTE: This patch currently implements the build for the main kernel
-image (vmlinux) only. Kernel module support is planned for a
-subsequent patch.
-
-Tested on the following arch: x86, arm64, loongarch, and
-riscv.
-
-The earlier implementation details can be found here:
-https://discourse.llvm.org/t/rfc-distributed-thinlto-build-for-kernel/85934
-
-Signed-off-by: Rong Xu <xur@google.com>
-Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Tested-by: Piotr Gorski <piotrgorski@cachyos.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
----
- .gitignore                 |  2 ++
- Makefile                   | 14 +++++++++----
- arch/Kconfig               | 19 ++++++++++++++++++
- scripts/Makefile.lib       |  7 +++++++
- scripts/Makefile.thinlto   | 40 ++++++++++++++++++++++++++++++++++++++
- scripts/Makefile.vmlinux_a | 37 +++++++++++++++++++++++++++++++++++
- scripts/mod/modpost.c      | 15 +++++++++++---
- 7 files changed, 127 insertions(+), 7 deletions(-)
- create mode 100644 scripts/Makefile.thinlto
-
-diff --git a/.gitignore b/.gitignore
-index 3044b9590f05..1cc34c9a5523 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -57,6 +57,7 @@
- *.zst
- Module.symvers
- dtbs-list
-+builtin.order
- modules.order
- 
- #
-@@ -68,6 +69,7 @@ modules.order
- /vmlinux.32
- /vmlinux.map
- /vmlinux.symvers
-+/vmlinux.thinlto-index
- /vmlinux.unstripped
- /vmlinux-gdb.py
- /vmlinuz
-diff --git a/Makefile b/Makefile
-index 0fce9557a115..857f08dcc952 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1071,11 +1071,16 @@ export CC_FLAGS_SCS
- endif
- 
- ifdef CONFIG_LTO_CLANG
--ifdef CONFIG_LTO_CLANG_THIN
-+ifdef CONFIG_LTO_CLANG_FULL
-+CC_FLAGS_LTO	:= -flto
-+else
- CC_FLAGS_LTO	:= -flto=thin -fsplit-lto-unit
-+
-+# These LLVM options were initially added with only in-process ThinLTO
-+# support, so avoid distributed ThinLTO support for now.
-+ifdef CONFIG_LTO_CLANG_THIN
- KBUILD_LDFLAGS += $(call ld-option,--lto-whole-program-visibility -mllvm -always-rename-promoted-locals=false)
--else
--CC_FLAGS_LTO	:= -flto
-+endif
- endif
- CC_FLAGS_LTO	+= -fvisibility=hidden
- 
-@@ -1684,6 +1689,7 @@ endif # CONFIG_MODULES
- CLEAN_FILES += vmlinux.symvers modules-only.symvers \
- 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
- 	       modules.builtin.ranges vmlinux.o.map vmlinux.unstripped \
-+	       vmlinux.thinlto-index builtin.order \
- 	       compile_commands.json rust/test \
- 	       rust-project.json .vmlinux.objs .vmlinux.export.c \
-                .builtin-dtbs-list .builtin-dtbs.S
-@@ -2145,7 +2151,7 @@ clean: $(clean-dirs)
- 	$(call cmd,rmfiles)
- 	@find . $(RCS_FIND_IGNORE) \
- 		\( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -o -name '.*.cmd' \
--		-o -name '*.ko.*' \
-+		-o -name '*.ko.*' -o -name '*.o.thinlto.bc' \
- 		-o -name '*.dtb' -o -name '*.dtbo' \
- 		-o -name '*.dtb.S' -o -name '*.dtbo.S' \
- 		-o -name '*.dt.yaml' -o -name 'dtbs-list' \
-diff --git a/arch/Kconfig b/arch/Kconfig
-index e86880045158..082483a3bbf8 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -861,6 +861,25 @@ config LTO_CLANG_THIN
- 	    https://clang.llvm.org/docs/ThinLTO.html
- 
- 	  If unsure, say Y.
-+
-+config LTO_CLANG_THIN_DIST
-+	bool "Clang ThinLTO in distributed mode (EXPERIMENTAL)"
-+	depends on HAS_LTO_CLANG && ARCH_SUPPORTS_LTO_CLANG_THIN
-+	select LTO_CLANG
-+	help
-+	  This option enables Clang's ThinLTO in distributed build mode.
-+	  In this mode, the linker performs the thin-link, generating
-+	  ThinLTO index files. Subsequently, the build system explicitly
-+	  invokes ThinLTO backend compilation using these index files
-+	  and pre-linked IR objects. The resulting native object files
-+	  are with the .thinlto-native.o suffix.
-+
-+	  This build mode offers improved visibility into the ThinLTO
-+	  process through explicit subcommand exposure. It also makes
-+	  final native object files directly available, benefiting
-+	  tools like objtool and kpatch. Additionally, it provides
-+	  crucial granular control over back-end options, enabling
-+	  module-specific compiler options, and simplifies debugging.
- endchoice
- 
- config ARCH_SUPPORTS_AUTOFDO_CLANG
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 0718e39cedda..b36c7c6817bd 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -249,6 +249,12 @@ ifdef CONFIG_LTO_CLANG
- cmd_ld_single = $(if $(objtool-enabled)$(is-single-obj-m), ; $(LD) $(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
- endif
- 
-+ifdef CONFIG_LTO_CLANG_THIN_DIST
-+# Save the _c_flags, sliently.
-+quiet_cmd_save_c_flags =
-+      cmd_save_c_flags = printf '\n%s\n' 'saved_c_flags_$@ := $(call escsq,$(_c_flags))' >> $(dot-target).cmd
-+endif
-+
- quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
-       cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $< \
- 		$(cmd_ld_single) \
-@@ -256,6 +262,7 @@ quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
- 
- define rule_cc_o_c
- 	$(call cmd_and_fixdep,cc_o_c)
-+	$(call cmd,save_c_flags)
- 	$(call cmd,checksrc)
- 	$(call cmd,checkdoc)
- 	$(call cmd,gen_objtooldep)
-diff --git a/scripts/Makefile.thinlto b/scripts/Makefile.thinlto
-new file mode 100644
-index 000000000000..03349ac69de5
---- /dev/null
-+++ b/scripts/Makefile.thinlto
-@@ -0,0 +1,40 @@
-+PHONY := __default
-+__default:
-+
-+include include/config/auto.conf
-+include $(srctree)/scripts/Kbuild.include
-+include $(srctree)/scripts/Makefile.lib
-+
-+native-objs := $(patsubst %.o,%.thinlto-native.o,$(call read-file, vmlinux.thinlto-index))
-+
-+__default: $(native-objs)
-+
-+# Generate .thinlto-native.o (obj) from .o (bitcode) and .thinlto.bc (summary) files
-+# ---------------------------------------------------------------------------
-+quiet_cmd_cc_o_bc = CC $(quiet_modtag)  $@
-+      be_flags = $(shell sed -n '/saved_c_flags_/s/.*:= //p' \
-+		 $(dir $(<)).$(notdir $(<)).cmd)
-+      cmd_cc_o_bc = \
-+      $(CC) $(be_flags) -x ir -fno-lto -Wno-unused-command-line-argument \
-+      -fthinlto-index=$(word 2, $^) -c -o $@ $<
-+
-+targets += $(native-objs)
-+$(native-objs): %.thinlto-native.o: %.o %.o.thinlto.bc   FORCE
-+	$(call if_changed,cc_o_bc)
-+
-+# Add FORCE to the prerequisites of a target to force it to be always rebuilt.
-+# ---------------------------------------------------------------------------
-+
-+PHONY += FORCE
-+FORCE:
-+
-+# Read all saved command lines and dependencies for the $(targets) we
-+# may be building above, using $(if_changed{,_dep}). As an
-+# optimization, we don't need to read them if the target does not
-+# exist, we will rebuild anyway in that case.
-+
-+existing-targets := $(wildcard $(sort $(targets)))
-+
-+-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
-+
-+.PHONY: $(PHONY)
-diff --git a/scripts/Makefile.vmlinux_a b/scripts/Makefile.vmlinux_a
-index 650d44330d1f..15d92ee82dee 100644
---- a/scripts/Makefile.vmlinux_a
-+++ b/scripts/Makefile.vmlinux_a
-@@ -21,6 +21,41 @@ targets += built-in-fixup.a
- built-in-fixup.a: $(KBUILD_VMLINUX_OBJS) scripts/head-object-list.txt FORCE
- 	$(call if_changed,ar_builtin_fixup)
- 
-+ifdef CONFIG_LTO_CLANG_THIN_DIST
-+
-+quiet_cmd_builtin.order = GEN     $@
-+      cmd_builtin.order = $(AR) t $< > $@
-+
-+targets += builtin.order
-+builtin.order: built-in-fixup.a FORCE
-+	$(call if_changed,builtin.order)
-+
-+quiet_cmd_ld_thinlto_index = LD      $@
-+      cmd_ld_thinlto_index = \
-+	$(LD) $(KBUILD_LDFLAGS) -r --thinlto-index-only=$@ @$<
-+
-+targets += vmlinux.thinlto-index
-+vmlinux.thinlto-index: builtin.order FORCE
-+	$(call if_changed,ld_thinlto_index)
-+
-+quiet_cmd_ar_vmlinux.a = GEN     $@
-+      cmd_ar_vmlinux.a =					\
-+	rm -f $@;						\
-+	while read -r obj; do					\
-+		if grep -q $${obj} $(word 2, $^); then		\
-+			echo $${obj%.o}.thinlto-native.o;	\
-+		else						\
-+			echo $${obj};				\
-+		fi;						\
-+	done < $< | xargs $(AR) cDPrS --thin $@
-+
-+targets += vmlinux.a
-+vmlinux.a: builtin.order vmlinux.thinlto-index FORCE
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.thinlto
-+	$(call if_changed,ar_vmlinux.a)
-+
-+else
-+
- # vmlinux.a
- # ---------------------------------------------------------------------------
- 
-@@ -28,6 +63,8 @@ targets += vmlinux.a
- vmlinux.a: built-in-fixup.a FORCE
- 	$(call if_changed,copy)
- 
-+endif
-+
- # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
- # ---------------------------------------------------------------------------
- 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index abbcd3fc1394..171886ac1726 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1487,13 +1487,22 @@ static void extract_crcs_for_object(const char *object, struct module *mod)
- 	char cmd_file[PATH_MAX];
- 	char *buf, *p;
- 	const char *base;
--	int dirlen, ret;
-+	int dirlen, baselen_without_suffix, ret;
- 
- 	base = get_basename(object);
- 	dirlen = base - object;
- 
--	ret = snprintf(cmd_file, sizeof(cmd_file), "%.*s.%s.cmd",
--		       dirlen, object, base);
-+	baselen_without_suffix = strlen(object) - dirlen - strlen(".o");
-+
-+	/*
-+	 * When CONFIG_LTO_CLANG_THIN_DIST=y, the ELF is *.thinlto-native.o
-+	 * but the symbol CRCs are recorded in *.o.cmd file.
-+	 */
-+	if (strends(object, ".thinlto-native.o"))
-+		baselen_without_suffix -= strlen(".thinlto-native");
-+
-+	ret = snprintf(cmd_file, sizeof(cmd_file), "%.*s.%.*s.o.cmd",
-+		       dirlen, object, baselen_without_suffix, base);
- 	if (ret >= sizeof(cmd_file)) {
- 		error("%s: too long path was truncated\n", cmd_file);
- 		return;
--- 
-2.54.0.746.g67dd491aae-goog
+SGVsbG8gUGV0ciwNCg0KPiBPbiA1LzI1LzI2IDM6NDEgUE0sIFdlbnRhbyBHdWFuIHdyb3Rl
+Og0KPj4+IE9uIDUvMjUvMjYgMTA6MDIgQU0sIFdlbnRhbyBHdWFuIHdyb3RlOg0KPj4+Pj4g
+QWRkaXRpb25hbGx5LCBtYW55IGRpc3RyaWJ1dGlvbnMgYWxyZWFkeSBzd2l0Y2hlZCB0byBn
+ZW5kd2FyZmtzeW1zIGxhc3QNCj4+Pj4+IHllYXIuIFVubGVzcyBzb21lb25lIHByb3ZpZGVz
+IGEgZ29vZCByZWFzb24gdG8ga2VlcCBnZW5rc3ltcyBhcm91bmQsDQo+Pj4+PiBJIGV4cGVj
+dCBpdCB3aWxsIGJlIGRlcHJlY2F0ZWQgc29vbiBhbmQgZXZlbnR1YWxseSByZW1vdmVkLiBJ
+dCB3b3VsZCBiZQ0KPj4+Pj4gbW9yZSB2YWx1YWJsZSB0byBzaG93IHdoZXRoZXIgdGhlIHNh
+bWUgb3B0aW1pemF0aW9uIGlzIHdvcnRod2hpbGUgZm9yDQo+Pj4+PiBnZW5kd2FyZmtzeW1z
+Lg0KPj4+PiBJIHNlZSBnZW5kd2FyZmtzeW1zIHVzZSBjcmMzMiBmcm9tIDx6bGliLmg+LCB3
+aGljaCBmcm9tIHpsaWIxZy1kZXYgYW5kIHpsaWIxZy4NCj4+Pg0KPj4+IEFoLCBJIGZvcmdv
+dCBhYm91dCB0aGlzLCBzbyBnZW5kd2FyZmtzeW1zIHNob3VsZCBhbHJlYWR5IGJlIHdlbGwN
+Cj4+PiBvcHRpbWl6ZWQuIEkgdGhpbmsgdGhhdCBpcyB0aGUgbW9zdCBpbXBvcnRhbnQgdGhp
+bmcuDQo+Pg0KPj4gV2hpY2ggd2F5IGRvIHlvdSBwcmVmZXI/IFRoZXJlIGFyZSB0d28gd2F5
+cyBub3c6DQo+PiAxLiB0aGlzIHdvcmssDQo+PiAyLiBpbXBvcnQgemxpYiBsaWtlIGdlbmR3
+YXJma3N5bXMgYW5kIHJlbW92ZSB0aGUgaHVnZSBjcmN0YWIsDQo+PiBidXQgbmVlZCBtYWtl
+IHN1cmUgYW55IGFyY2ggZG8gbm90IGNhdXNlIHBlcmZvcm1hbmNlIHJlZ3Jlc3Npb24/DQo+
+PiAoQXNzZXJ0IHRoZSB1c2VyIGxpYnMgcHJlY29tcGlsZSB3aXRoICtjcmMzMiBpcyByaWdo
+dD8pDQo+PiBJIGRvIHNvbWUgZWFybHkgdGVzdHMgc2hvdyB0aGF0Og0KPj4gMSkgemxpYiBp
+biB4ODYgZmFzdCB0aGFuIGdlbmtzeW0gc29mdHdhcmUNCj4+IDIpIHpsaWIgaW4gYXJtNjQg
+ZGViaWFuIHByZWNvbXBpbGUgc2xvdyB0aGFuIGdlbmtzeW0gc29mdHdhcmUoY3JjMzIgbm90
+IGluIGFybXY4KQ0KPj4gMykgemxpYiBpbiBhcm02NCByZWNvbXBpbGUgd2l0aCArY3JjMzIg
+c2FtZSBzcGVlZCB3aXRoIGdlbmtzeW1zIGhhcmR3YXJlDQo+IA0KPiBJIHRoaW5rIGl0IHdv
+dWxkIGJlIHVzZWZ1bCB0byBmaXJzdCBoYXZlIG1vcmUgZGF0YSBzaG93aW5nIHRoYXQgdGhl
+IENSQw0KPiBjYWxjdWxhdGlvbiBpbiBnZW5rc3ltcyBpcyBhIGhvdCBwYXRoIGFuZCBjb250
+cmlidXRlcyBzaWduaWZpY2FudGx5IHRvDQo+IHRoZSBvdmVyYWxsIGtlcm5lbCBidWlsZCB0
+aW1lLg0KWW91IGFyZSByaWdodC4NCjEuIGdlbmtzeW1zIGNvbnRyaWJ1dGVzIHNpZ25pZmlj
+YW50bHkgdG8gdGhlIG92ZXJhbGwga2VybmVsIGJ1aWxkIHRpbWUuDQpUZXN0IHdpdGggYXJt
+NjQgZGVmY29uZmlnIGFuZCBlbmFibGUvZGlzYWJsZSBDT05GSUdfR0VOS1NZTVMgKDExbTUw
+cy85bTQ4cykNCjIuIGNyYzMyIHNob3dzIH4xMCUgYWZmZWN0IGluIHBlcmYgcmVjb3JkIHcv
+byBwYXRjaC4NCjMuIGJ1dCB0aGlzIHBhdGNoIHcvbyBkb2VzbmB0IGFmZmVjdCB0aGUgb3Zl
+cmFsbCBrZXJuZWwgYnVpbGQgdGltZSAxMW01MHMoKy0xcykuDQo0LiBzbyB0cnkgdG8gdXNl
+IHpsaWIgYW5kIGRlbGV0ZSB0aGUgaGFyZCBjb2RlIGNyY3RhYjMyIHRhYmxlPw0KDQpCUnMN
+CldlbnRhbyBHdWFuDQoNClJGQyBQQVRDSDoNCkZyb20gZjhmMWMyMzAxZGRiNzBmYjQyYTU2
+ZmQ3MjI4ZGIzZGJkMjQ4ZTJiNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCkZyb206IFdl
+bnRhbyBHdWFuIDxndWFud2VudGFvQHVuaW9udGVjaC5jb20+DQpEYXRlOiBNb24sIDI1IE1h
+eSAyMDI2IDIwOjAyOjAzICswODAwDQpTdWJqZWN0OiBbUEFUQ0hdIGdlbmtzeW1zOiB1c2Ug
+Y3JjMzIgZnJvbSB6bGliDQoNClNpZ25lZC1vZmYtYnk6IFdlbnRhbyBHdWFuIDxndWFud2Vu
+dGFvQHVuaW9udGVjaC5jb20+DQotLS0NCiBzY3JpcHRzL2dlbmtzeW1zL01ha2VmaWxlICAg
+fCAgMSArDQogc2NyaXB0cy9nZW5rc3ltcy9nZW5rc3ltcy5jIHwgNzAgKysrKystLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIDIgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRp
+b25zKCspLCA2MiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL3NjcmlwdHMvZ2Vua3N5
+bXMvTWFrZWZpbGUgYi9zY3JpcHRzL2dlbmtzeW1zL01ha2VmaWxlDQppbmRleCA0MzUwMzEx
+ZmI3YjM5Li4wNjhlNzk2MjZmZmU3IDEwMDY0NA0KLS0tIGEvc2NyaXB0cy9nZW5rc3ltcy9N
+YWtlZmlsZQ0KKysrIGIvc2NyaXB0cy9nZW5rc3ltcy9NYWtlZmlsZQ0KQEAgLTcsNiArNyw3
+IEBAIGdlbmtzeW1zLW9ianMgICA6PSBnZW5rc3ltcy5vIHBhcnNlLnRhYi5vIGxleC5sZXgu
+bw0KICMgLUkgbmVlZGVkIGZvciBnZW5lcmF0ZWQgQyBzb3VyY2UgdG8gaW5jbHVkZSBoZWFk
+ZXJzIGluIHNvdXJjZSB0cmVlDQogSE9TVENGTEFHU19wYXJzZS50YWIubyA6PSAtSSAkKHNy
+YykNCiBIT1NUQ0ZMQUdTX2xleC5sZXgubyA6PSAtSSAkKHNyYykNCitIT1NUTERMSUJTX2dl
+bmtzeW1zIDo9ICAtbHoNCiANCiAjIGRlcGVuZGVuY2llcyBvbiBnZW5lcmF0ZWQgZmlsZXMg
+bmVlZCB0byBiZSBsaXN0ZWQgZXhwbGljaXRseQ0KICQob2JqKS9sZXgubGV4Lm86ICQob2Jq
+KS9wYXJzZS50YWIuaA0KZGlmZiAtLWdpdCBhL3NjcmlwdHMvZ2Vua3N5bXMvZ2Vua3N5bXMu
+YyBiL3NjcmlwdHMvZ2Vua3N5bXMvZ2Vua3N5bXMuYw0KaW5kZXggODNlNDg2NzBjMmZjZi4u
+NDBkMjVkZDg5ODg3NCAxMDA2NDQNCi0tLSBhL3NjcmlwdHMvZ2Vua3N5bXMvZ2Vua3N5bXMu
+Yw0KKysrIGIvc2NyaXB0cy9nZW5rc3ltcy9nZW5rc3ltcy5jDQpAQCAtMjAsNiArMjAsNyBA
+QA0KICNpbmNsdWRlIDxnZXRvcHQuaD4NCiANCiAjaW5jbHVkZSA8aGFzaHRhYmxlLmg+DQor
+I2luY2x1ZGUgPHpsaWIuaD4NCiANCiAjaW5jbHVkZSAiZ2Vua3N5bXMuaCINCiAvKi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0qLw0KQEAgLTYxLDc4ICs2MiwyMyBAQCBzdGF0aWMgdm9pZCBwcmludF90
+eXBlX25hbWUoZW51bSBzeW1ib2xfdHlwZSB0eXBlLCBjb25zdCBjaGFyICpuYW1lKTsNCiAN
+CiAvKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0qLw0KIA0KLXN0YXRpYyBjb25zdCB1aW50MzJfdCBjcmN0
+YWIzMltdID0gew0KLSAgICAgICAweDAwMDAwMDAwVSwgMHg3NzA3MzA5NlUsIDB4ZWUwZTYx
+MmNVLCAweDk5MDk1MWJhVSwgMHgwNzZkYzQxOVUsDQotICAgICAgIDB4NzA2YWY0OGZVLCAw
+eGU5NjNhNTM1VSwgMHg5ZTY0OTVhM1UsIDB4MGVkYjg4MzJVLCAweDc5ZGNiOGE0VSwNCi0g
+ICAgICAgMHhlMGQ1ZTkxZVUsIDB4OTdkMmQ5ODhVLCAweDA5YjY0YzJiVSwgMHg3ZWIxN2Ni
+ZFUsIDB4ZTdiODJkMDdVLA0KLSAgICAgICAweDkwYmYxZDkxVSwgMHgxZGI3MTA2NFUsIDB4
+NmFiMDIwZjJVLCAweGYzYjk3MTQ4VSwgMHg4NGJlNDFkZVUsDQotICAgICAgIDB4MWFkYWQ0
+N2RVLCAweDZkZGRlNGViVSwgMHhmNGQ0YjU1MVUsIDB4ODNkMzg1YzdVLCAweDEzNmM5ODU2
+VSwNCi0gICAgICAgMHg2NDZiYThjMFUsIDB4ZmQ2MmY5N2FVLCAweDhhNjVjOWVjVSwgMHgx
+NDAxNWM0ZlUsIDB4NjMwNjZjZDlVLA0KLSAgICAgICAweGZhMGYzZDYzVSwgMHg4ZDA4MGRm
+NVUsIDB4M2I2ZTIwYzhVLCAweDRjNjkxMDVlVSwgMHhkNTYwNDFlNFUsDQotICAgICAgIDB4
+YTI2NzcxNzJVLCAweDNjMDNlNGQxVSwgMHg0YjA0ZDQ0N1UsIDB4ZDIwZDg1ZmRVLCAweGE1
+MGFiNTZiVSwNCi0gICAgICAgMHgzNWI1YThmYVUsIDB4NDJiMjk4NmNVLCAweGRiYmJjOWQ2
+VSwgMHhhY2JjZjk0MFUsIDB4MzJkODZjZTNVLA0KLSAgICAgICAweDQ1ZGY1Yzc1VSwgMHhk
+Y2Q2MGRjZlUsIDB4YWJkMTNkNTlVLCAweDI2ZDkzMGFjVSwgMHg1MWRlMDAzYVUsDQotICAg
+ICAgIDB4YzhkNzUxODBVLCAweGJmZDA2MTE2VSwgMHgyMWI0ZjRiNVUsIDB4NTZiM2M0MjNV
+LCAweGNmYmE5NTk5VSwNCi0gICAgICAgMHhiOGJkYTUwZlUsIDB4MjgwMmI4OWVVLCAweDVm
+MDU4ODA4VSwgMHhjNjBjZDliMlUsIDB4YjEwYmU5MjRVLA0KLSAgICAgICAweDJmNmY3Yzg3
+VSwgMHg1ODY4NGMxMVUsIDB4YzE2MTFkYWJVLCAweGI2NjYyZDNkVSwgMHg3NmRjNDE5MFUs
+DQotICAgICAgIDB4MDFkYjcxMDZVLCAweDk4ZDIyMGJjVSwgMHhlZmQ1MTAyYVUsIDB4NzFi
+MTg1ODlVLCAweDA2YjZiNTFmVSwNCi0gICAgICAgMHg5ZmJmZTRhNVUsIDB4ZThiOGQ0MzNV
+LCAweDc4MDdjOWEyVSwgMHgwZjAwZjkzNFUsIDB4OTYwOWE4OGVVLA0KLSAgICAgICAweGUx
+MGU5ODE4VSwgMHg3ZjZhMGRiYlUsIDB4MDg2ZDNkMmRVLCAweDkxNjQ2Yzk3VSwgMHhlNjYz
+NWMwMVUsDQotICAgICAgIDB4NmI2YjUxZjRVLCAweDFjNmM2MTYyVSwgMHg4NTY1MzBkOFUs
+IDB4ZjI2MjAwNGVVLCAweDZjMDY5NWVkVSwNCi0gICAgICAgMHgxYjAxYTU3YlUsIDB4ODIw
+OGY0YzFVLCAweGY1MGZjNDU3VSwgMHg2NWIwZDljNlUsIDB4MTJiN2U5NTBVLA0KLSAgICAg
+ICAweDhiYmViOGVhVSwgMHhmY2I5ODg3Y1UsIDB4NjJkZDFkZGZVLCAweDE1ZGEyZDQ5VSwg
+MHg4Y2QzN2NmM1UsDQotICAgICAgIDB4ZmJkNDRjNjVVLCAweDRkYjI2MTU4VSwgMHgzYWI1
+NTFjZVUsIDB4YTNiYzAwNzRVLCAweGQ0YmIzMGUyVSwNCi0gICAgICAgMHg0YWRmYTU0MVUs
+IDB4M2RkODk1ZDdVLCAweGE0ZDFjNDZkVSwgMHhkM2Q2ZjRmYlUsIDB4NDM2OWU5NmFVLA0K
+LSAgICAgICAweDM0NmVkOWZjVSwgMHhhZDY3ODg0NlUsIDB4ZGE2MGI4ZDBVLCAweDQ0MDQy
+ZDczVSwgMHgzMzAzMWRlNVUsDQotICAgICAgIDB4YWEwYTRjNWZVLCAweGRkMGQ3Y2M5VSwg
+MHg1MDA1NzEzY1UsIDB4MjcwMjQxYWFVLCAweGJlMGIxMDEwVSwNCi0gICAgICAgMHhjOTBj
+MjA4NlUsIDB4NTc2OGI1MjVVLCAweDIwNmY4NWIzVSwgMHhiOTY2ZDQwOVUsIDB4Y2U2MWU0
+OWZVLA0KLSAgICAgICAweDVlZGVmOTBlVSwgMHgyOWQ5Yzk5OFUsIDB4YjBkMDk4MjJVLCAw
+eGM3ZDdhOGI0VSwgMHg1OWIzM2QxN1UsDQotICAgICAgIDB4MmViNDBkODFVLCAweGI3YmQ1
+YzNiVSwgMHhjMGJhNmNhZFUsIDB4ZWRiODgzMjBVLCAweDlhYmZiM2I2VSwNCi0gICAgICAg
+MHgwM2I2ZTIwY1UsIDB4NzRiMWQyOWFVLCAweGVhZDU0NzM5VSwgMHg5ZGQyNzdhZlUsIDB4
+MDRkYjI2MTVVLA0KLSAgICAgICAweDczZGMxNjgzVSwgMHhlMzYzMGIxMlUsIDB4OTQ2NDNi
+ODRVLCAweDBkNmQ2YTNlVSwgMHg3YTZhNWFhOFUsDQotICAgICAgIDB4ZTQwZWNmMGJVLCAw
+eDkzMDlmZjlkVSwgMHgwYTAwYWUyN1UsIDB4N2QwNzllYjFVLCAweGYwMGY5MzQ0VSwNCi0g
+ICAgICAgMHg4NzA4YTNkMlUsIDB4MWUwMWYyNjhVLCAweDY5MDZjMmZlVSwgMHhmNzYyNTc1
+ZFUsIDB4ODA2NTY3Y2JVLA0KLSAgICAgICAweDE5NmMzNjcxVSwgMHg2ZTZiMDZlN1UsIDB4
+ZmVkNDFiNzZVLCAweDg5ZDMyYmUwVSwgMHgxMGRhN2E1YVUsDQotICAgICAgIDB4NjdkZDRh
+Y2NVLCAweGY5YjlkZjZmVSwgMHg4ZWJlZWZmOVUsIDB4MTdiN2JlNDNVLCAweDYwYjA4ZWQ1
+VSwNCi0gICAgICAgMHhkNmQ2YTNlOFUsIDB4YTFkMTkzN2VVLCAweDM4ZDhjMmM0VSwgMHg0
+ZmRmZjI1MlUsIDB4ZDFiYjY3ZjFVLA0KLSAgICAgICAweGE2YmM1NzY3VSwgMHgzZmI1MDZk
+ZFUsIDB4NDhiMjM2NGJVLCAweGQ4MGQyYmRhVSwgMHhhZjBhMWI0Y1UsDQotICAgICAgIDB4
+MzYwMzRhZjZVLCAweDQxMDQ3YTYwVSwgMHhkZjYwZWZjM1UsIDB4YTg2N2RmNTVVLCAweDMx
+NmU4ZWVmVSwNCi0gICAgICAgMHg0NjY5YmU3OVUsIDB4Y2I2MWIzOGNVLCAweGJjNjY4MzFh
+VSwgMHgyNTZmZDJhMFUsIDB4NTI2OGUyMzZVLA0KLSAgICAgICAweGNjMGM3Nzk1VSwgMHhi
+YjBiNDcwM1UsIDB4MjIwMjE2YjlVLCAweDU1MDUyNjJmVSwgMHhjNWJhM2JiZVUsDQotICAg
+ICAgIDB4YjJiZDBiMjhVLCAweDJiYjQ1YTkyVSwgMHg1Y2IzNmEwNFUsIDB4YzJkN2ZmYTdV
+LCAweGI1ZDBjZjMxVSwNCi0gICAgICAgMHgyY2Q5OWU4YlUsIDB4NWJkZWFlMWRVLCAweDli
+NjRjMmIwVSwgMHhlYzYzZjIyNlUsIDB4NzU2YWEzOWNVLA0KLSAgICAgICAweDAyNmQ5MzBh
+VSwgMHg5YzA5MDZhOVUsIDB4ZWIwZTM2M2ZVLCAweDcyMDc2Nzg1VSwgMHgwNTAwNTcxM1Us
+DQotICAgICAgIDB4OTViZjRhODJVLCAweGUyYjg3YTE0VSwgMHg3YmIxMmJhZVUsIDB4MGNi
+NjFiMzhVLCAweDkyZDI4ZTliVSwNCi0gICAgICAgMHhlNWQ1YmUwZFUsIDB4N2NkY2VmYjdV
+LCAweDBiZGJkZjIxVSwgMHg4NmQzZDJkNFUsIDB4ZjFkNGUyNDJVLA0KLSAgICAgICAweDY4
+ZGRiM2Y4VSwgMHgxZmRhODM2ZVUsIDB4ODFiZTE2Y2RVLCAweGY2YjkyNjViVSwgMHg2ZmIw
+NzdlMVUsDQotICAgICAgIDB4MThiNzQ3NzdVLCAweDg4MDg1YWU2VSwgMHhmZjBmNmE3MFUs
+IDB4NjYwNjNiY2FVLCAweDExMDEwYjVjVSwNCi0gICAgICAgMHg4ZjY1OWVmZlUsIDB4Zjg2
+MmFlNjlVLCAweDYxNmJmZmQzVSwgMHgxNjZjY2Y0NVUsIDB4YTAwYWUyNzhVLA0KLSAgICAg
+ICAweGQ3MGRkMmVlVSwgMHg0ZTA0ODM1NFUsIDB4MzkwM2IzYzJVLCAweGE3NjcyNjYxVSwg
+MHhkMDYwMTZmN1UsDQotICAgICAgIDB4NDk2OTQ3NGRVLCAweDNlNmU3N2RiVSwgMHhhZWQx
+NmE0YVUsIDB4ZDlkNjVhZGNVLCAweDQwZGYwYjY2VSwNCi0gICAgICAgMHgzN2Q4M2JmMFUs
+IDB4YTliY2FlNTNVLCAweGRlYmI5ZWM1VSwgMHg0N2IyY2Y3ZlUsIDB4MzBiNWZmZTlVLA0K
+LSAgICAgICAweGJkYmRmMjFjVSwgMHhjYWJhYzI4YVUsIDB4NTNiMzkzMzBVLCAweDI0YjRh
+M2E2VSwgMHhiYWQwMzYwNVUsDQotICAgICAgIDB4Y2RkNzA2OTNVLCAweDU0ZGU1NzI5VSwg
+MHgyM2Q5NjdiZlUsIDB4YjM2NjdhMmVVLCAweGM0NjE0YWI4VSwNCi0gICAgICAgMHg1ZDY4
+MWIwMlUsIDB4MmE2ZjJiOTRVLCAweGI0MGJiZTM3VSwgMHhjMzBjOGVhMVUsIDB4NWEwNWRm
+MWJVLA0KLSAgICAgICAweDJkMDJlZjhkVQ0KLX07DQogDQogc3RhdGljIHVpbnQzMl90IHBh
+cnRpYWxfY3JjMzJfb25lKHVpbnQ4X3QgYywgdWludDMyX3QgY3JjKQ0KIHsNCi0gICAgICAg
+cmV0dXJuIGNyY3RhYjMyWyhjcmMgXiBjKSAmIDB4ZmZdIF4gKGNyYyA+PiA4KTsNCisgICAg
+ICAgcmV0dXJuIGNyYzMyKGNyYyBeIDB4ZmZmZmZmZmYsIChjb25zdCB1bnNpZ25lZCBjaGFy
+ICopJmMsIDEpIF4gMHhmZmZmZmZmZjsNCiB9DQogDQogc3RhdGljIHVpbnQzMl90IHBhcnRp
+YWxfY3JjMzIoY29uc3QgY2hhciAqcywgdWludDMyX3QgY3JjKQ0KIHsNCi0gICAgICAgd2hp
+bGUgKCpzKQ0KLSAgICAgICAgICAgICAgIGNyYyA9IHBhcnRpYWxfY3JjMzJfb25lKCpzKyss
+IGNyYyk7DQotICAgICAgIHJldHVybiBjcmM7DQorICAgICAgIHJldHVybiBjcmMzMihjcmMg
+XiAweGZmZmZmZmZmLCAoY29uc3QgdW5zaWduZWQgY2hhciAqKXMsIHN0cmxlbihzKSkgXiAw
+eGZmZmZmZmZmOw0KIH0NCiANCi1zdGF0aWMgdWludDMyX3QgY3JjMzIoY29uc3QgY2hhciAq
+cykNCitzdGF0aWMgdWludDMyX3QgY3JjMzJfbmFtZShjb25zdCBjaGFyICpzKQ0KIHsNCi0g
+ICAgICAgcmV0dXJuIHBhcnRpYWxfY3JjMzIocywgMHhmZmZmZmZmZikgXiAweGZmZmZmZmZm
+Ow0KKyAgICAgICByZXR1cm4gY3JjMzIoMCwgKGNvbnN0IHVuc2lnbmVkIGNoYXIgKilzLCBz
+dHJsZW4ocykpOw0KIH0NCiANCisNCiAvKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0qLw0KIA0KIHN0YXRp
+YyBlbnVtIHN5bWJvbF90eXBlIG1hcF90b19ucyhlbnVtIHN5bWJvbF90eXBlIHQpDQpAQCAt
+MTU0LDcgKzEwMCw3IEBAIHN0cnVjdCBzeW1ib2wgKmZpbmRfc3ltYm9sKGNvbnN0IGNoYXIg
+Km5hbWUsIGVudW0gc3ltYm9sX3R5cGUgbnMsIGludCBleGFjdCkNCiB7DQogICAgICAgIHN0
+cnVjdCBzeW1ib2wgKnN5bTsNCiANCi0gICAgICAgaGFzaF9mb3JfZWFjaF9wb3NzaWJsZShz
+eW1ib2xfaGFzaHRhYmxlLCBzeW0sIGhub2RlLCBjcmMzMihuYW1lKSkgew0KKyAgICAgICBo
+YXNoX2Zvcl9lYWNoX3Bvc3NpYmxlKHN5bWJvbF9oYXNodGFibGUsIHN5bSwgaG5vZGUsIGNy
+YzMyX25hbWUobmFtZSkpIHsNCiAgICAgICAgICAgICAgICBpZiAobWFwX3RvX25zKHN5bS0+
+dHlwZSkgPT0gbWFwX3RvX25zKG5zKSAmJg0KICAgICAgICAgICAgICAgICAgICBzdHJjbXAo
+bmFtZSwgc3ltLT5uYW1lKSA9PSAwICYmDQogICAgICAgICAgICAgICAgICAgIHN5bS0+aXNf
+ZGVjbGFyZWQpDQpAQCAtMjM4LDcgKzE4NCw3IEBAIHN0YXRpYyBzdHJ1Y3Qgc3ltYm9sICpf
+X2FkZF9zeW1ib2woY29uc3QgY2hhciAqbmFtZSwgZW51bSBzeW1ib2xfdHlwZSB0eXBlLA0K
+ICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIE5VTEw7DQogICAgICAgIH0NCiANCi0g
+ICAgICAgaCA9IGNyYzMyKG5hbWUpOw0KKyAgICAgICBoID0gY3JjMzJfbmFtZShuYW1lKTsN
+CiAgICAgICAgaGFzaF9mb3JfZWFjaF9wb3NzaWJsZShzeW1ib2xfaGFzaHRhYmxlLCBzeW0s
+IGhub2RlLCBoKSB7DQogICAgICAgICAgICAgICAgaWYgKG1hcF90b19ucyhzeW0tPnR5cGUp
+ICE9IG1hcF90b19ucyh0eXBlKSB8fA0KICAgICAgICAgICAgICAgICAgICBzdHJjbXAobmFt
+ZSwgc3ltLT5uYW1lKSkNCi0tIA0KMi4zMC4y
 
 
