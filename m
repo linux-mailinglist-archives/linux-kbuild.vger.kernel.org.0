@@ -1,161 +1,215 @@
-Return-Path: <linux-kbuild+bounces-13327-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13328-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INOSH0hMFWoIUQcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13327-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 09:31:20 +0200
+	id oOb8EiVXFWqmUQcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13328-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 10:17:41 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2AE5D1B63
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 09:31:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5D75D2556
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 10:17:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C72B7300D30A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 07:31:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6E91C3014C33
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2026 08:17:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 501E5358378;
-	Tue, 26 May 2026 07:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECF4E3B774A;
+	Tue, 26 May 2026 08:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BPbOYnFG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpBsoIYV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A41B37B415
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 07:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779780675; cv=none; b=Odyl7wacBkByvybtuSWCjB82trMKOXQqRwvlrh+Rgw3oxTMl1w98Zql7ASRF0Mx3/MTqq/t8pmkS6b0hGcx/Jtqe50FebuFdYIMPHOYO1SSYRVuPiBIW1S/+Jn6s9bin9SMzgM+C5CHgBhLXaFfJLhLsPUC91xFEkig0baVyEuM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779780675; c=relaxed/simple;
-	bh=kqpENnTE4wNumutQr2BKy4XgQPNbxnvT/AGbHPYrjQY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GHKzRC9KTVijOwyiGdtyv2HxsptOXQLJHwxhMdDgRaYBtfDor2dYBxqDDGY4eeJVd/hgu0jGg7MzMypdm5bH6X7CSQjd/+n8NHJiUfUFZp7DREG/TNL9O8M7wWAwkPIEoAGYCHEu9wNvmTozs2KDWT38HEzvySUbOW4m/NdRyFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BPbOYnFG; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4905e190c71so20321415e9.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 00:31:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D44C38B7D4
+	for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 08:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779783458; cv=pass; b=hmmi+ATLmGQ86s1nUD/UDa7YKaRXr39JfrFsSHV8afuGZijIajUloRdDbFjnFGDxYBa97WXM322TqPaQi09144t4bDHsCXAbIyDJ4AHtoT+WRjgyIUov7XFnZuVCGXcEimkm5TL/TfQ3bW26xJ+/Mp2BnsgYiMs2wPpDonzaV00=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779783458; c=relaxed/simple;
+	bh=Sp5ZKqrzcRrafJjgXXSBE8mJRX044NCbQJ+kvz66LME=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RBx8C7IZEEzZmvjffPjHU+JSBR9dyTHuPUv96iT7dEGkhJbgho3ClWDTsrsRd0Eyi7/7VZnnnOJdNtWU4zTenaH+4fX9utNKBMaLNaP6kq4sZdvbkMpQIB+kBkTPL5hCj1J39N8ek38VteDFa31CzTmDQRRjpGWl+F/kICF00Zs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpBsoIYV; arc=pass smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2bda3b4318dso1017641eec.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 May 2026 01:17:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779783457; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FTb9hoXpFsNABd9VNixeGL2tRguTi1+oZq07jp4Z4rGyRCIadrxT4ygyoI1UQqvga7
+         H9vLDDtbQjD+CRVveVZ20JKN/u4yc9nvSJPFTj5wPx5GTVvvOL/UBJvHk/TkMflHA6Jk
+         kWk90siH939C1Tc9SiHfwdfwbeZWvh662ZlVVntPbC+KvMYXWq2ZO6UVkNwsRGM3/4Dy
+         KsxfEGcHwmcSnxkezVeSKz0oRppV6UzN1dUxhjMwopaJHvoxgADXdtB0U6amOasXG4NR
+         z3rgQYgFonxqhBNzMhY2dGnvEmr0dH0Vz47CPlZ0aLsVLmkBkq8DL05bt6/n5zNAhWDm
+         QAVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FuPU8upLRbELTBqt0oNJ1IC9teTLP5/yLZLMTN/L9oA=;
+        fh=IQDMcmh3z5FDghE4EUC1MqrOXN7NkOFnmASH5ZRoCNs=;
+        b=bmn1eqEK0zUQOy9GSCbDYnuutGTWaWS7m/2UyEkdRXmt7giqq0+X4TZx87vkUCiOXX
+         j8Z1krVUVCMVhyrdJHLddbWr1vCy1PVaROSPP7ShYDxMMnw8GXR29/hV9Mj7Wlhml+kH
+         6efFOOEyk10HPlKqbeWP9vrRW5Qocu8HQLQd7IbqzQl+OXW0qx5Cw7QXMaSl6bIa6tdG
+         mIwZ5TSGqwnPODUxfMrrQcZKa5PA65UWTVwEWOmYJKNaWFQE03l1m15IVw8LCyf+FBjG
+         aqNcWgyUD4wJ6f5JlJeLWuM1YT9RbJbcyqSkMNZOoAYsiuzaJW7l/Xch6GSuUXFBHQ+i
+         PS6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1779780672; x=1780385472; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ekK3aVvgBJN45Ca6LV8CJRGR8knFXIQZQ0WX8FEULTQ=;
-        b=BPbOYnFGlHKBIEmlk+/osM2ZBjef05wjPMfI1mkIn6EHmSMuacLiK4vy96uFYbTBTC
-         UJjdUPblKrXGsWOQoIaINOioR8td4wjMpEQJgIAeVAKsT758emz7GIqZHs/ApcFpBbun
-         o5tiA7yTNKoOha7fZmLlPx4Bb0e6t5l8GJQ8lEa7z8TLXY/IxzW9365HTfAt+fCp4IG1
-         JQ6Ms5A6t6CNBLxl2W9+GFGggk6jScqexY8+x/xNH6tfiGdHT42j2OLXu0WjDoJHnLZH
-         CiJnSarOaddId5YTjW3/wt3BAwS09dkvfn9Mdjmg4XbiyJf51+OENpK47dT2exBnWu6B
-         /9LA==
+        d=gmail.com; s=20251104; t=1779783457; x=1780388257; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FuPU8upLRbELTBqt0oNJ1IC9teTLP5/yLZLMTN/L9oA=;
+        b=JpBsoIYV+rmSJBF05BOs5dLpAYIs9vVBA6D8B6qrSWbFI84QDvTRes00yGFRUcWvgz
+         8t61C7bnl2VNr3k2JUeXIl30cGYt/igU9yn/gBAfc24ACvxtN+JNm9zWiF237ywfIBvE
+         UEvEx+aJl7iSKEzG3B6zHG1CYv04mXD3HSLR7P7SW565Lf77kl4wTcTcBlQJWNptSkZs
+         Rt1WElG8mmYLtXfd/bhf1iWfunwUkA2xI9e4bKDki5wby9pM1vCFn+Kg0XZZrGwlKF2Y
+         JO7/PAlEjza5bPGaJYC8PcoE3AeSWFK88fCiMe2M9HyQrE1uJ+UhMfWiQEz/EJdUzwi9
+         a7/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779780672; x=1780385472;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ekK3aVvgBJN45Ca6LV8CJRGR8knFXIQZQ0WX8FEULTQ=;
-        b=haH2jgILLZVRYRy9lIKVZMKK3POSnap2v0LPCLFdO9BiNvWval4UrNQMteEgL6PmJ1
-         OUj0RzLQzPgmSxY5CsA39yJ5hYTB/EdvmXV7I6hoe9qRHQ62ZW8/qHn+L7wK30DJSrP/
-         T10GlN7QZKsS1roWSfNeTE9A0DdrZXwoz8l9EEWsZCp9xDDC/QmoGWGb8RLrAb+szOPn
-         E4LBu6cQZgZjr3W2v9b3aijlEgvNOcvCYNA87ng6vWi5TlAnc2oKbI3arlYtS8xQ3uSR
-         L7Dt6Dg2QcrQriOyY7gPqmf3iKxL8IyXd/QBpDvVhC1VfSz/5o20UlqO+7bgeVpUeuEZ
-         +4ww==
-X-Forwarded-Encrypted: i=1; AFNElJ/KloUCMapDDB5e9NpULo/fVqHA9YICiHcu5i2QfQRmAXwPSaM3wYpCN1C2h6WU2a7oQV55ajm4V19MBZ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytynkqSQb+rD95KQ3QFxjDGzjcxMzgI+4NCSR4a1VDoi8XvfN1
-	TMVDyviRUhbecMCT3I9tiyVxojeqaLtuggZn+Ib86/CBBhro+BG0TfahxWdkt+zDeHe9zaScUhv
-	FY8vsRkvS9OJP+4w=
-X-Gm-Gg: Acq92OEUYGMzJJYyo/Gt39QMEgL6gzqipBRClLPRVM6dd3kVrdgFW3eNIGZKFKSZuat
-	BzAiaiaz+TgUjnOR2q/nG1bk4L1kUpZ6FSYiDkDl/21c3RrCecRAO+zCLmERYYS7y2OuvYujJi4
-	8+L+8Edc37Dit/3Ix2TmVQMnstWGxe83+HAE3HGDnjC7p4BtDyFQCadF3C0jgYQz02vOWgmp91A
-	8YC4Mk4QgtjuZROu/DaGuqt8wrF6GiZDKs3UVB2oXWUw0asCUT0V/mKS8qDDdnlyQP92IxicUqK
-	Ig4QIKcl2N2/gTfzQosDscc/ro5eTjHb8ezhwQUAlsi9P+7MLGr8DfAKt0FKjJG5MYUfJFKiQS7
-	yPiz9MvhTB8VOE2HU3gSg2Lx17NDLWORbz2dhFV4q3DWoIfGKUywAWRCAJ566APwUJEXF5FpWgW
-	jWCYLIvB8lVzXP5pm5Sc8CgXBcc0a2/T2DQnYOnJZcP+HvTlq+IVWLFQKFyVvyzNpMpzIsIpyl3
-	S18RpbIYheySDqrSY3QxqB8QAYkwnYSYj3qFRls4IEY6amgy21MGAUnTSB82SVSj9emxA==
-X-Received: by 2002:a05:600c:3106:b0:490:6889:1ff with SMTP id 5b1f17b1804b1-4906889025dmr88445605e9.28.1779780671966;
-        Tue, 26 May 2026 00:31:11 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454a0cd5sm371483025e9.10.2026.05.26.00.31.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 00:31:11 -0700 (PDT)
-Message-ID: <a4ac44fa-146b-4b13-bf42-0c8cff601ed2@suse.com>
-Date: Tue, 26 May 2026 09:31:11 +0200
+        d=1e100.net; s=20251104; t=1779783457; x=1780388257;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FuPU8upLRbELTBqt0oNJ1IC9teTLP5/yLZLMTN/L9oA=;
+        b=qeVgdS2A0k08trWq/+4ddWbWTJfiwSgMwSXtEjiN07xFOi6oJAzONW20N9Ur/5RABA
+         k1+yvowKf1JC4SbgXWiJRJbNtsQzVuoxQwwymVcwILbraT9bBNIUhOOijBc56U3uSjvb
+         6h65oEdxjp0truYJm9WCCDmwYr1CEyOJGUNJclsd9jg97izYXYFHHS4yLkRmIlgm54a5
+         minr0kjd8f/5DN0b8xZSUQm+X4xCoBdoRKrN6adifKuNybgyOBQ5itJyelNCaxLISXo0
+         rKGqVzmmUtb8i0AmR6m7RBCjLOikRNxq5xLEudLhdv3dejM8QOL0Y+DQMBp4y1U2TsNR
+         23CA==
+X-Forwarded-Encrypted: i=1; AFNElJ/HsbgHmzBn6RCxqonIHv5og51pMrhkkANrdlIwlrsAv7qNO3/VVtw8gaZrBXmeN/x9Y7iUvbjVPMaVDps=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX9LTvw/w3PlbFjUmP9HzM6CjjfkF2AWn2J1EPusrNkjtHaACb
+	lsbJ5XzF83Cq+yNPv7Qydl8sbLsmIF4/9Oeysc77s6dPa4s/wu2OsisxUbit+T4jacnIhqANFLX
+	gGknU82m5sc5nWt2V3PKgmHYWrFgcXD8=
+X-Gm-Gg: Acq92OGpoPCJNTMuynDY5jrXYxurSYSAs1u2E6v0JNViDlmEgqzXI7IZLbMdM2NO8/+
+	iWfMj5P48wb15gZJyc730LX8OTnP3wgvA00pdN/ubMUz5/b4jnN520kbeDgV12wVulVlf2wkfWj
+	WI+rpPqozjfrEU4dTX+pPicddtlgup+nDjxXERkz5o+mRS2QXHUwabo2n2G2nWdNDVoE4DgyiTq
+	17Eq2uxHZ1ndJzHOzXTfrVii/LyBJt4HBG8va0aaD94TgwQD1DeFsVaT6RfbU0HOpC8kB0IukWw
+	J0vcNshuShWiUoZF/z7QBxBZHMwC6l5EmIjx1GCGJ7NvMUBcWlSMfGfaqMgmR5g3VyrOKrXnMS2
+	T6njbkjYg+g4AQAvOFMAbaeFTkf3jBvQSQRKYcWqGDljM
+X-Received: by 2002:a05:7301:2092:b0:304:4f23:4823 with SMTP id
+ 5a478bee46e88-3044f23c523mr2417160eec.7.1779783456513; Tue, 26 May 2026
+ 01:17:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: build failure for stablerc
-To: =?UTF-8?Q?Toralf_F=C3=B6rster?= <toralf.foerster@gmx.de>
-Cc: linux-modules@vger.kernel.org, linux-kbuild
- <linux-kbuild@vger.kernel.org>, Linux Kernel <linux-kernel@vger.kernel.org>
-References: <a47f9124-15b3-4dbc-a211-6161eb98406c@gmx.de>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <a47f9124-15b3-4dbc-a211-6161eb98406c@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+References: <20260507-rustc-option-cross-v2-1-2f650a49c2b5@google.com>
+In-Reply-To: <20260507-rustc-option-cross-v2-1-2f650a49c2b5@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 26 May 2026 10:17:24 +0200
+X-Gm-Features: AVHnY4IuYyKvBZXvx8VWYwO2htqI4qYv-jYYqkX5aPD8vSpj7I2To7c2OoxiNes
+Message-ID: <CANiq72kQKRoM4ATAYhP+-UHiqPr0tg67dr4EDYT+ptPUshH2ew@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: kasan/kbuild: fix rustc-option when cross-compiling
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13327-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de];
-	DKIM_TRACE(0.00)[suse.com:+];
-	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-13328-lists,linux-kbuild=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,redhat.com,alien8.de,linux.intel.com,zytor.com,garyguo.net,protonmail.com,umich.edu,gmail.com,google.com,arm.com,googlegroups.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,suse.com:mid,suse.com:dkim]
-X-Rspamd-Queue-Id: AA2AE5D1B63
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: BF5D75D2556
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/25/26 9:39 PM, Toralf Förster wrote:
-> Hi,
-> 
-> at a small Hetzner VPS at x86 the compilation of the stablerc v7.0.5-1656-ge79d5c5d57c0 fails under Ubuntu-26.04 with
-> 
->  WRAP    arch/x86/include/generated/asm/mmiowb.h
->  WRAP    arch/x86/include/generated/asm/module.lds.h
->  WRAP    arch/x86/include/generated/asm/rwonce.h
->  UPD     include/generated/utsrelease.h
->  CC      /root/linux/tools/objtool/libsubcmd/run-command.o
->  HOSTCC  scripts/gendwarfksyms/gendwarfksyms.o
-> In file included from scripts/gendwarfksyms/gendwarfksyms.c:12:
-> scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: dwarf.h: No such file or directory
->    6 | #include <dwarf.h>
->      |          ^~~~~~~~~
-> compilation terminated.
-> make[3]: *** [scripts/Makefile.host:131: scripts/gendwarfksyms/gendwarfksyms.o] Error 1
-> make[2]: *** [scripts/Makefile.build:548: scripts/gendwarfksyms] Error 2
-> make[1]: *** [/root/linux/Makefile:1325: scripts] Error 2
-> make[1]: *** Waiting for unfinished jobs....
->  CC      /root/linux/tools/objtool/libsubcmd/sigchain.o
-Gendwarfksyms requires libdw, see Documentation/kbuild/gendwarfksyms.rst
-[1]. Is the library and its development files installed on your system?
-If you write a trivial program that includes <dwarf.h>, can the compiler
-find it in the default search locations?
+On Thu, May 7, 2026 at 1:14=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
+ote:
+>
+> The Makefile version of rustc-option currently checks whether the option
+> exists for the host target instead of the target actually being compiled
+> for. It was done this way in commit 46e24a545cdb ("rust: kasan/kbuild:
+> fix missing flags on first build") to avoid a circular dependency on
+> target.json. However, because of this, rustc-option currently does not
+> function when cross-compiling from x86_64 to aarch64 if
+> CONFIG_SHADOW_CALL_STACK is enabled. This is because KBUILD_RUSTFLAGS
+> contains -Zfixed-x18 under this configuration. Since that flag does not
+> exist on the host target, rustc-option runs into a compilation failure
+> every time, leading to all flags being rejected as unsupported.
+>
+> To fix this, update rustc-option to pass a --target parameter so that
+> the host target is not used. For targets using target.json, use a
+> built-in target that is as close as possible to the target created with
+> target.json to avoid the circular dependency on target.json.
+>
+> One scenario where this causes a boot failure:
+> * Cross-compiled from x86_64 to aarch64.
+> * With CONFIG_SHADOW_CALL_STACK=3Dy
+> * With CONFIG_KASAN_SW_TAGS=3Dy
+> * With CONFIG_KASAN_INLINE=3Dn
+> Then the resulting kernel image will fail to boot when it first calls
+> into Rust code with a crash along the lines of "Unable to handle kernel
+> paging request at virtual address 0ffffffc08541796". This is because the
+> call threshold is not specified, so rustc will inline kasan operations,
+> but the kasan shadow offset is not specified, which leads to the inlined
+> kasan instructions being incorrect.
+>
+> Note that the -Zsanitizer=3Dkernel-hwaddress parameter itself does not
+> lead to a rustc-option failure despite being aarch64-specific because
+> RUSTFLAGS_KASAN has not yet been added to KBUILD_RUSTFLAGS when
+> rustc-option is evaluated by the kasan Makefile.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 46e24a545cdb ("rust: kasan/kbuild: fix missing flags on first buil=
+d")
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-[1] https://github.com/torvalds/linux/blob/v7.1-rc5/Documentation/kbuild/gendwarfksyms.rst
+Applied to `rust-fixes` -- thanks!
 
--- Petr
+    [ Edited slightly:
+        - Reset variable to avoid using the environment.
+        - Use a simply expanded variable flavor for simplicity.
+        - Export variable so that behavior in sub-`make`s is consistent.
+
+      This matches other variables. - Miguel ]
+
+Sashiko points out the Kconfig case, but there we only have LLVM flags
+that were the expected, original use case of these, so it is OK, at
+least for now.
+
+Any further tests and Acked-by's are appreciated of course.
+
+Cheers,
+Miguel
 
