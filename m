@@ -1,355 +1,247 @@
-Return-Path: <linux-kbuild+bounces-13359-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13360-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UMBgOU0AF2oJ0QcAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13359-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2026 16:31:41 +0200
+	id WFyqD4AAF2oJ0QcAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13360-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2026 16:32:32 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BAF5E5E69
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2026 16:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E2E5E5EB2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2026 16:32:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D5E623041785
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2026 14:27:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 314F730125F5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2026 14:30:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F879329C7C;
-	Wed, 27 May 2026 14:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70D08366045;
+	Wed, 27 May 2026 14:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EI8Z0lkI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lSX0zvDG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727A531F995;
-	Wed, 27 May 2026 14:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779892048; cv=none; b=RckX5m1IeXfr00RQfofDsySi3f7gX4MIg4dOqWo5Y5jnlP1DU2lBQntnK5Jp4O6Co2qcY80dKnEfg3Jp4mJZh624nVntWpLHEsF6sGXYwAarscIrzeAICLYqUUUCJLE6uKEnlAyyOrG3dB63NP2LXItZl3cPX2o5hPZew7VI1bo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779892048; c=relaxed/simple;
-	bh=gcGTXcGnsMdoOB69oVVUJdaci/sFuYUvDVJzSknbkE8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=so1I3mflka+IcWpBqFGWdaeSKCujXeKYik/dXoMEl0QWg8n2KXfQIOhx5oGnaYKsYGlIbxgD8RLndBgiosu+b+Y43yA/0F/b7zjIOjgW1SI9CXBUeeJUvv7oyo0bno5iW3IKQHxiAWFaF04J023+TqDd9tlF8+RB1yw70dSwsaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EI8Z0lkI; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779892044;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=YvUeKc1UVX/N6BCvQjWclK8TdDmQzsOcK1nuZcm8P0M=;
-	b=EI8Z0lkILtix7u/hMfs9Jv1y/xpyBzLqrvAd90vQ9Rq7Xs6Uk2wfiYGOG7eFQv/VKuqG55
-	k1uIoxSEMv+nGzeRRo3gA+ELBTLV4e4OQpSzSFJkFi6/WOqZi2tTanKS7WP28Morev+o+K
-	9zdGKDEjwt+YnWyiQ+uLjHZ2oHtXZMA=
-From: Andrew Jones <andrew.jones@linux.dev>
-To: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: nathan@kernel.org,
-	nsc@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	rdunlap@infradead.org,
-	julianbraha@gmail.com
-Subject: [PATCH v4] kconfig: add kconfig-sym-check static checker
-Date: Wed, 27 May 2026 09:27:03 -0500
-Message-ID: <20260527142703.107110-1-andrew.jones@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC2E1C695;
+	Wed, 27 May 2026 14:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779892251; cv=fail; b=Sk51MFwHyVriAXLkNO+KwdKHzK0T5jTAJ4B9zDJhXobHqsj7p3RNJXA3Fep67q/F0rc4aFXLsoXPqx2IKmeaGQ7lCYp1nHG2++FWVpbBSMCXamV3V2Pyb7HHUKn7gWZz12TjCFSzk3hh2tpzNhwXWXqOAGjpXHHyvtNhbkIgaVw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779892251; c=relaxed/simple;
+	bh=Q5yhWnMSnkj+ocKRKAHLdVcSObOfbJGVSopUWg6GwJ4=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pS7QdfvKAnVHCn+GBKTZHke8L180alme1ijV0NOmYt9TCgyzhPeuQ26JzPiqp+Z0uJqHCBqJ7fOgP57HiJ/JH3tdmsnbmhYGxl9FkgYzZPurdGq0XXe3a0PXvhSnOssUdcpI/Dbsb6DyLcpWwhcKUXFpNoPlb+Q3pGMX7POFD5A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lSX0zvDG; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779892249; x=1811428249;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Q5yhWnMSnkj+ocKRKAHLdVcSObOfbJGVSopUWg6GwJ4=;
+  b=lSX0zvDGO95KPtAcd0X627oS1gjphzcAXZd7h0o4Uc+uds5KZcxQLnDP
+   NWsFkTa6PLoxqi9hLxDHXecRp6r1xvBsfJTo+Aft2RYtXfkr9gqYZcBzE
+   qF1OjGDtgCq+z7yoSlZrwfFPs1eMRFBWHEuTdi9zeZWbuz24ruJyE/F6i
+   Uvtqzov1C0nveO6lT6xnCqYKTHMf2qZr5f8Fefe/V7M0eQSAOAYJoTmZd
+   J1dqstMBa1r6yAlWD8ElgP6WtJjvtLPinqu/laryI/JClWE/ybpSHJHqv
+   pHroCyeP5SqSMiwfqx8LS+SXPrvZKNlTrPF1J/wGXJTOl+QNrlB9XFL0W
+   Q==;
+X-CSE-ConnectionGUID: qkGp1WYrREynkU5EBoLjKw==
+X-CSE-MsgGUID: Z/trgljKQa+vK5V8K9dGbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="92109992"
+X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
+   d="scan'208";a="92109992"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 07:30:42 -0700
+X-CSE-ConnectionGUID: UPZ1arN5R16J8SXTTLok/A==
+X-CSE-MsgGUID: zjTNDB7tR96o/oa+joFaIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
+   d="scan'208";a="265861585"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 07:30:40 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 27 May 2026 07:30:39 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Wed, 27 May 2026 07:30:39 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.55) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 27 May 2026 07:30:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ja/fjHjzV6uf35Z9xS8/zinKP8+MIcn07QziEfaKKhdSxfXwLoZZmQKLfaFGOy4MSoPD/EoUgD5/qB9MYVRBEOy/xSZoYYbLgfXwUsPyqSFIdtanP+CxHtxt4VN3SGO4Or2LWfjvezxr7mOa8eu7uMciQQ4Z1rK1l7/09jaDbtHv23iKVxF0S2AZXWUMP/IOK+nM6mckpF06p/VYzmkcZJXKHmx0k5N+2ItP1QgaLZjYExpFYTmVk0Dfw88HbNES7xp0s6zi/sN1s5OMGI+U9rIHfLVDSR6ogs3aSSSCIfSeKm0B+rvn3vwVlYIfi5uUQUEkgYQGPe5tvtwDmyKNow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jZlRMgEojmpF94ao60gpgt0aH3A2wSlG6Gj70rI9jvM=;
+ b=tZKxuIUfXH/NgtlG1FHqsPkcruEFcCN1TE4Z4rChccUzZzJg9jcXwmeXP6957C6dmmiKFRecWQya0EAXX8vW3EDu5n3Gd8+ZTgs3un+0qfdEE0MJNGgMOD0JMhsOVnY4bFZt/DOEDZyGVkqvhZU2EBHNgogenPuAF683Mgdfd2b3NCjK3V2XqdYulVY2mWuOpONK1tYW6/Y/bG9xdCTbVQw/Xz6Un45rhGVj3/t7pXkdNSlmWXgmOce56h6QXZvfIr9MBgz3fxNGy2uTzheyHXpCGSWbw1fpcjrXDwbFT1nmFhtnzOcxyEgKlTrEffa5xa6OTZx+4cEXfzjRI6OzTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com (2603:10b6:8:1b9::20)
+ by SA0PR11MB4589.namprd11.prod.outlook.com (2603:10b6:806:9a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Wed, 27 May
+ 2026 14:30:35 +0000
+Received: from DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::6aa:411d:4bfa:619c]) by DS0PR11MB8718.namprd11.prod.outlook.com
+ ([fe80::6aa:411d:4bfa:619c%5]) with mapi id 15.21.0071.011; Wed, 27 May 2026
+ 14:30:35 +0000
+Message-ID: <305fbfaf-a4a2-41e1-805d-5141fbfa8e57@intel.com>
+Date: Wed, 27 May 2026 16:30:28 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] err.h: use __always_inline on all error pointer helpers
+To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>, <linux-kbuild@vger.kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	<linux-s390@vger.kernel.org>, Heiko Carstens <hca@linux.ibm.com>, "Vasily
+ Gorbik" <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+	"Bjorn Andersson" <andersson@kernel.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Christian Marangi
+	<ansuelsmth@gmail.com>, <linux-kernel@vger.kernel.org>, Steven Rostedt
+	<rostedt@goodmis.org>
+References: <20260526101851.2495110-1-arnd@kernel.org>
+ <b5e15330-ed64-4f31-bea2-bb877a24c1ce@intel.com>
+ <8e50449f-66f0-4e85-aefa-7016697fe722@app.fastmail.com>
+ <9398ee4c-3b51-4a00-a0d5-3674ce1b1081@intel.com>
+ <21f771b5-b8fe-4357-b081-ae83a39df485@app.fastmail.com>
+Content-Language: en-US
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+In-Reply-To: <21f771b5-b8fe-4357-b081-ae83a39df485@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI4PEPF00000150.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::868) To DS0PR11MB8718.namprd11.prod.outlook.com
+ (2603:10b6:8:1b9::20)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8718:EE_|SA0PR11MB4589:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66859cb6-9398-4c8b-e3fd-08debbfc8390
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|22082099003|18002099003|6133799003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: Z+n4P1tbs+WZ7rzw7lo0LPp4ORmm4K+aivpyFRtPk6jQV+hPM1nY+r7178p4svCf/wNk/UzjVZ9+9VKlrm8yafrVhPh5wUn26tHeGPIA29khxaFqGIvCGw4zgIi7mxcC1LHq3ahIHhKfHho/rEqcu1cJvBqII2hEvLgztCH7OGa829KzxS0dNdF2FPsxkCQogujRP/GGJsDOfQRCiGNhkrxcS4O9dlxobJl2rdo3paauzFSmtTDuKeL62LILLRdZgVC95miW1rCH8T8jodjx5EwlkjOYyooYGPp/2dKA0w/sriPb4xDHMIHBcrk4sq/O57RfShisWRX7rpsF7xTBVtjDcnb5l3isQ1Wd6uqyywEdMBP+kPXuI4p3v5gpa9okd1J8YcmhJCJaztw63lB+6Er92xMOZYgQhDrI6MxPejxKBcZI7Vx10Da26oRtqnWy3OrnJ/JmEB8vvKhj7WHvZWsaHnW0WPmtuz5H916Vdlu9EPHAcOzPjqFRs/yackKSVKAzKw0URxf+MPQMfL1hrb+e9qsdFrmPrs32A8lNXHJ2KujwOD0lcd+IctRKLJxpqbI/ExnCrijrs4i4p0/VKCOcxwNc7SO1Smi9HNuGaQVDYotRub0uDJbXWdFU3GRqTSzeL46HCLHkhaTtJI507SQDxMa6BAkxlmK69k0KNKTp9ldDD4KjxvIAgOn7cq9E
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8718.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(22082099003)(18002099003)(6133799003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ekVRb0lmMUhjVDkrOUFxaUsrOTNEb01sSllIekJVZnhQY1oxZDAzUnFQLzYw?=
+ =?utf-8?B?U2ZHK1J3RGI0SjUwSm42cm9mVU1yVGt6Q2xCZEx6OGQvVDY0OGxDOUY0cEhk?=
+ =?utf-8?B?K1pwSTBmcWpKQmEwMlBVaXg0M2Zic0pCRmx1VWV1N2R5UmN0VEF5RXBHMUdm?=
+ =?utf-8?B?NVdaMzdPK2x0Nk1oc3oydElaeTl1Z1JiMTl4eHF6Y0swYnlVRTNVYUVlcktT?=
+ =?utf-8?B?ZUdLU3FrQzdGdWsrajNVY243ODNmQkV5MkVtSjE4aE44VFFEdjRQaW5EYnVH?=
+ =?utf-8?B?S1QreUYwUHlvYmJvVGloOEZpR0V1QXdVbUN6S2dIVDJyeGNTZUVZVlBLRFc3?=
+ =?utf-8?B?QXlua2FBMVNnVklFSmdmRU1vK2VBUXNsVUh2TDUxSERJcFRqaHcwckZpa0xw?=
+ =?utf-8?B?NWF0MzhhMUkrQWphdklFdzdzN1hGVGlBRkJTaGtJVFRmMTJHT0NyV05jTHZm?=
+ =?utf-8?B?cmpMS3lzOXBjbXFWMVBNdFgxekpSUXNZZ2YzY0NRTWViNXNxNGNIOUJTVGZE?=
+ =?utf-8?B?ODlNalZYQUdxOHVjbzRNRTNHUVVvUG1NM2gvbERsdzl2NUZvaTF2dGFlMGx3?=
+ =?utf-8?B?VzlVZHdmMW9ST01LMlUzTnZNQlJjZisxRFlaQ0JRVFJrYmhtU0greHJvU3gz?=
+ =?utf-8?B?em5lWEYzK2ViMDdjdHN1bUlrUWQ5SG1MNTVrWW9FdjRLT1RwWHhrSlZKa3Rz?=
+ =?utf-8?B?TWl2UkE1dWlhbnRzVzU3NzN2bU45SXRyVi9sRFl4QVllUiszZ1lrek42b1dN?=
+ =?utf-8?B?cmpsVEFKZURuR3BxMDZoYlJ3dDdwRXdRMXNjckRvWjd4YVg2VUltTlhNcTho?=
+ =?utf-8?B?VnFWd2hySzdDYU1qalJxaHZKNUdXc3NhN3hGZkZNWllGeHFna2MzL3hRRG5o?=
+ =?utf-8?B?Rnp0R2FqMFpLbmxQdVRwT1d2TFJ4emQ5V0JZMGJpMkhHa1BUMVJtN3VoaHNk?=
+ =?utf-8?B?YlYxTFZHUlMweDQ4K1l2d2l3aU82OEhIcUQzYmptR085aDVWY2w4dUpmKys4?=
+ =?utf-8?B?cSt4QWZwa1pJa2R6dStLNFdmZ0M4alM0QTM2Y0RoeHp0eVpMVkg4RjY5enRl?=
+ =?utf-8?B?V2doc2d0UlhzRm42UXAramEvVUgyU3VXMDZMRy9MUzZZTTdjWmRoSzE0Tms4?=
+ =?utf-8?B?RDlLRitDWFcrdnB4RE1WVWZuME9ZRURtVlFMYythMzZ0TFlRaTF6ekEzeDkv?=
+ =?utf-8?B?WmFaMGdnaTVlbjdGLzh1WllhSW9TSWxqOGtrUWdOLzV3aUJtVVRuTkZOZDdz?=
+ =?utf-8?B?SU0vdThRTHBXUnppZXpYUXRjQUdzbWhEZ29oa3RKNFJmWXlseG5xVmJOdklB?=
+ =?utf-8?B?WmhJVFBQRTE2NS9yWDBMK1VXQjUxOE83TnhFUXBUQ0wwQ2RURTZuZkQvZmYw?=
+ =?utf-8?B?Mzd6WmIwTkNnUGQ4cW55RkhvbzBIcEdBTVFkb04zNy85V2ZvQUR4RWZyRlJ2?=
+ =?utf-8?B?MnoxYjBQeCsrTlJDU2RJclRWZ1R0NzdOWnpuOEtNVHY1dWV6WjlsZXV0LzFa?=
+ =?utf-8?B?MytDMlk0MWVZT2pxcVptelFDWHlQZXZJN0pnN1NBeWw0VTlwNEVLRnd2Qm10?=
+ =?utf-8?B?bHQ2aXBZQlFxNEE1U2JDVDlWQWp6dVRjQ2QrNjNDWWVJWWdNRDlYSGRxcVFa?=
+ =?utf-8?B?dkRReGZJOS9wdjJaclZSdWZySGlNT2JMMi9DYzk5SjNYdzhsb1FFUmZTSzkx?=
+ =?utf-8?B?TDB6djh4eVFuc3hoNTlab0xQR2dOVTJ3K0ppR0ZrdWRhOHpKVGUrMWdndm10?=
+ =?utf-8?B?Y0FuTi9pelVwd1RDK1VwcjR5bVAxRXgxeUNEWVZsdWxFY204bmU0Z0k3b1Nx?=
+ =?utf-8?B?bEUrT2ZhQS9QNjJld3JNM1VOandPVVU5SEFkRWVzZzhJc2U1ZHpSU04zN1Mx?=
+ =?utf-8?B?Y2dURzI0Uk9sWDEzemtqdnhaQVZFREd1aS91WVB2V0p0OUpFUTVRZVBjR0RZ?=
+ =?utf-8?B?TzJRMTFYUGlybmNYV2M3bVB5MVdvbmJHVXBVWFdlT29ha042czZSNS8wTHNr?=
+ =?utf-8?B?WXNHMmVnSVJiTVF5SnAyVVV0dTU1ZG9LYjJuNG5OVlFuMEVFR01MVHRoTjZN?=
+ =?utf-8?B?S3U1bE5jTFFpTmQ3ZTJWZEhFS2JVaVhpamlDUnA4VGwyV2RWOWlhSzlYY0E2?=
+ =?utf-8?B?bDBnUUx1eHdNT2hmRGtRRHZzWnpjcWV2N3RXT0ZQckFoWitoRi9KWjZLTzlQ?=
+ =?utf-8?B?TTBDRkErTkhta1RmOEZqNkltR0FkS1E1aHpEb1prYm83dEdEaFR4T3NsNk83?=
+ =?utf-8?B?bmJUZ3RaNitLZFhOL05id0xVZmhZaTVmNW5QMXh5R3FMRnl6RWY4N25idkM2?=
+ =?utf-8?B?a3hLdUx0bmVRVTdqVjgxL0xiZTk4NjNaSDFSY0Rzc1NKVFcralhDVitBL0Y0?=
+ =?utf-8?Q?RhGZVgaG7xUMF2Dk=3D?=
+X-Exchange-RoutingPolicyChecked: cDWQNnalSrRgNJp6dFQz9PTkQkjx/BXbhL6Q9TZasyNv8FfrOLSIuWyevVSeR4vlu3Qm2Jl+P5ShNNvivaLgTgfjeEAAbiU1Dtw/a7Egvztb+eNn0bqj2Fa9ABilW6Du7lsxKw2CBVEtQtX+X8FkUgg9bI9/BY+3mApRZBcyfczqD6bShmiXGe31Kojxl1b0uySfFv+CEuHvLYmFZtXwkpJFS6XQc578kpgsOYIF3rGTKl8mP9TkMXmizP8UYnuDTE1PA7NK3QMasK8JkHPjkqoXhRp7dzqcXRWdQcyJ+/tALK+DkbR5tekr21vC4QGyYRpg4ahMqoYVtrx8NXObQA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66859cb6-9398-4c8b-e3fd-08debbfc8390
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8718.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 14:30:34.9167
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EON4FbvmlEailyhRqae5pmHG8LfOIDyE8tSG/cI4SMuehDWSGy3qZ99yS+Fzo8sXkLhgpXDm2P5PrhJ6KcoLHUO444WVpgMH27XGcdELByk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4589
+X-OriginatorOrg: intel.com
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13359-lists,linux-kbuild=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,infradead.org,gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-13360-lists,linux-kbuild=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,vger.kernel.org,kernel.org,linux.ibm.com,linux.intel.com,gmail.com,goodmis.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,arndb.de:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew.jones@linux.dev,linux-kbuild@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[aleksander.lobakin@intel.com,linux-kbuild@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,linux.dev:email,linux.dev:mid,linux.dev:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 46BAF5E5E69
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[10]
+X-Rspamd-Queue-Id: 64E2E5E5EB2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add 'make kconfig-sym-check', a static checker that finds Kconfig
-symbols referenced in expressions (select, depends on, default, etc.)
-but never defined via config/menuconfig anywhere in the tree. New
-dangling symbols are reported as errors (exit 1) unless they are
-listed in an exclusion file, e.g.
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 27 May 2026 16:25:41 +0200
 
- KCONFIG_SYM_CHECK_EXCLUDES=sym-check-excludes make kconfig-sym-check
+> On Wed, May 27, 2026, at 16:06, Alexander Lobakin wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> Date: Tue, 26 May 2026 23:03:50 +0200
+>>>
+>>> Without CONFIG_PROFILE_ANNOTATED_BRANCHES, the changes are
+>>> very small, with around 100 functions growing or shrinking
+>>> by a few bytes.
+>>>
+>>> I don't think we care much about the size increase when that
+>>> option is enabled, but I do wonder what behavior makes more
+>>
+>> Yup, and even without this option, __always_inline is better here
+>> regardless of how it affects the size. Such oneliners must be
+>> transparent to the compiler
+> 
+> In general I would trust the compiler to make the right
+> choices here, but as I have shown it makes very little difference.
 
-The exclusion file lists one symbol per line; blank lines and lines
-starting with '#' are ignored.
+I would, but I had a couple moments when it was uninlining
+almost-oneliners resulting in several Mpps network throughput
+decrease =\
 
-The checker also warns about uppercase N/Y/M used as tristate literal
-values following the same logic as checkpatch.
-
-This new static checker is the script used for [1] with a few
-improvements to avoid some false positives.
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=216748 [1]
-Assisted-by: Claude:claude-sonnet-4-6
-Signed-off-by: Andrew Jones <andrew.jones@linux.dev>
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Julian Braha <julianbraha@gmail.com>
----
-
-Note, v1 was based on next-20260508 and this checker found 14 dangling
-symbols on that base. v4 is based on next-20260526 and there are now 15.
-EZX_PCAP has recently emerged as a new dangling symbol after commit
-b12d1da45f12 ("mfd: ezx-pcap: Remove unused driver") was merged.
-
-v4:
-  - improved stripping of $(macro) expansions [Sashiko]
-  - improved failure when run without srctree parameter
-  - Added Julian's t-b
-
-v3:
-  - Filter out scripts/kconfig/tests Kconfig files since they may
-    be wrong on purpose and indeed there is a 'config Y' in there
-    which would mask improper use of 'Y'. [Julian and Randy]
-  - Fixed breakage introduced in v2 when attempting to be too
-    clever...
-  - More changes from another sashiko review which required the
-    Perl to get even uglier. So ugly that I enlisted Claude to
-    help generate it.
-  - Added a sentence to the commit message to describe the excludes
-    file format.
-
-v2:
-  - Added Andy's and Randy's tags
-  - Accept srctree as first argument so the Makefile can drop 'cd $(srctree)' [Nathan]
-  - Replace git ls-files with git+find fallback [Nathan and Andy]
-  - Changes thanks to sashiko's review
-    - strip quoted strings before inline comments to avoid '#' inside a string
-    - use [^)]* instead of .* in macro strip regex to avoid greedy match
-      eating tokens between adjacent $(macro) expansions
-
- Makefile                             |  23 +++--
- scripts/kconfig/kconfig-sym-check.pl | 132 +++++++++++++++++++++++++++
- 2 files changed, 146 insertions(+), 9 deletions(-)
- create mode 100755 scripts/kconfig/kconfig-sym-check.pl
-
-diff --git a/Makefile b/Makefile
-index d59f703f9797..60c30116b95e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -293,6 +293,7 @@ version_h := include/generated/uapi/linux/version.h
- clean-targets := %clean mrproper cleandocs
- no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
-+			 kconfig-sym-check \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
- 			 outputmakefile rustavailable rustfmt rustfmtcheck \
-@@ -1821,14 +1822,15 @@ help:
- 	 echo  '                    (default: $(INSTALL_HDR_PATH))'; \
- 	 echo  ''
- 	@echo  'Static analysers:'
--	@echo  '  checkstack      - Generate a list of stack hogs and consider all functions'
--	@echo  '                    with a stack size larger than MINSTACKSIZE (default: 100)'
--	@echo  '  versioncheck    - Sanity check on version.h usage'
--	@echo  '  includecheck    - Check for duplicate included header files'
--	@echo  '  headerdep       - Detect inclusion cycles in headers'
--	@echo  '  coccicheck      - Check with Coccinelle'
--	@echo  '  clang-analyzer  - Check with clang static analyzer'
--	@echo  '  clang-tidy      - Check with clang-tidy'
-+	@echo  '  checkstack        - Generate a list of stack hogs and consider all functions'
-+	@echo  '                      with a stack size larger than MINSTACKSIZE (default: 100)'
-+	@echo  '  versioncheck      - Sanity check on version.h usage'
-+	@echo  '  includecheck      - Check for duplicate included header files'
-+	@echo  '  headerdep         - Detect inclusion cycles in headers'
-+	@echo  '  coccicheck        - Check with Coccinelle'
-+	@echo  '  kconfig-sym-check - Check for dangling Kconfig symbol references'
-+	@echo  '  clang-analyzer    - Check with clang static analyzer'
-+	@echo  '  clang-tidy        - Check with clang-tidy'
- 	@echo  ''
- 	@echo  'Tools:'
- 	@echo  '  nsdeps          - Generate missing symbol namespace dependencies'
-@@ -2272,7 +2274,7 @@ endif
- # Scripts to check various things for consistency
- # ---------------------------------------------------------------------------
- 
--PHONY += includecheck versioncheck coccicheck
-+PHONY += includecheck versioncheck coccicheck kconfig-sym-check
- 
- includecheck:
- 	find $(srctree)/* $(RCS_FIND_IGNORE) \
-@@ -2287,6 +2289,9 @@ versioncheck:
- coccicheck:
- 	$(Q)$(BASH) $(srctree)/scripts/$@
- 
-+kconfig-sym-check:
-+	$(Q)$(PERL) $(srctree)/scripts/kconfig/kconfig-sym-check.pl $(srctree) $(KCONFIG_SYM_CHECK_EXCLUDES)
-+
- PHONY += checkstack kernelrelease kernelversion image_name
- 
- # UML needs a little special treatment here.  It wants to use the host
-diff --git a/scripts/kconfig/kconfig-sym-check.pl b/scripts/kconfig/kconfig-sym-check.pl
-new file mode 100755
-index 000000000000..daa5285fdefc
---- /dev/null
-+++ b/scripts/kconfig/kconfig-sym-check.pl
-@@ -0,0 +1,132 @@
-+#!/usr/bin/env perl
-+# SPDX-License-Identifier: GPL-2.0
-+
-+use warnings;
-+use strict;
-+
-+my $srctree = shift @ARGV;
-+unless (defined $srctree) {
-+	$srctree = `git rev-parse --show-toplevel 2>/dev/null`;
-+	chomp $srctree;
-+	my $msg = "Usage: $0 <srctree> [excludes file]\n";
-+	$msg .= "Please provide <srctree>.";
-+	$msg .= " Is it '$srctree'?" if $srctree;
-+	$msg .= "\n";
-+	die $msg;
-+}
-+my $kconfig_sym_check_excludes = defined $ARGV[0] ? $ARGV[0] : undef;
-+
-+sub indent_depth {
-+	my ($ws) = @_;
-+	my $col = 0;
-+	for my $c (split //, $ws) {
-+		$col = $c eq "\t" ? int($col / 8) * 8 + 8 : $col + 1;
-+	}
-+	return $col;
-+}
-+
-+my @files = `git -C \Q$srctree\E ls-files '*Kconfig*' 2>/dev/null`;
-+if (@files) {
-+	chomp @files;
-+	@files = map { "$srctree/$_" } @files;
-+} else {
-+	@files = `find \Q$srctree\E -name '*Kconfig*'`;
-+	chomp @files;
-+}
-+
-+@files = grep { !m{/scripts/kconfig/tests/} } @files;
-+
-+my %configs = ();
-+my %refs = ();
-+
-+foreach my $file (@files) {
-+	open F, $file or die "Cannot open $file: $!";
-+
-+	my $help = 0;
-+	my $help_level;
-+	my $level;
-+
-+	while (<F>) {
-+		chomp;
-+
-+		while (/\\\s*$/) {
-+			s/\\\s*$/ /;
-+			my $cont = <F> // last;
-+			chomp $cont;
-+			$_ .= $cont;
-+		}
-+
-+		next if /^\s*$/;
-+		next if /^\s*#/;
-+
-+		/^(\s*)/;
-+		$level = indent_depth($1);
-+
-+		if ($help && $level < $help_level) {
-+			$help = 0;
-+		}
-+
-+		next if ($help);
-+
-+		if (/^\s*(help|\-\-\-help\-\-\-)$/) {
-+			$help = 1;
-+			my $next;
-+			while (defined($next = <F>)) {
-+				last unless $next =~ /^\s*(?:#.*)?$/;
-+			}
-+			last unless defined $next;
-+			$next =~ /^(\s*)/;
-+			if (indent_depth($1) >= $level) {
-+				$help_level = indent_depth($1);
-+			} else {
-+				$help = 0;
-+			}
-+			$_ = $next;
-+			redo;
-+		}
-+
-+		if (/^\s*(config|menuconfig)\s+([a-zA-Z0-9_]+)\s*(#.*)?$/) {
-+			$configs{$2}++;
-+			next;
-+		}
-+
-+		if (/^\s*(default|def_bool|def_tristate|select|depends\s+on|imply|visible\s+if|range|if|bool|tristate|int|hex|string|prompt)\s+(.+)\s*$/) {
-+			my $s = $2;
-+			$s =~ s/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'//g;
-+			$s =~ s/#.*//;
-+			$s =~ s/\$\((?:[^()]*|\((?:[^()]*|\([^()]*\))*\))*\)//g;
-+			$s =~ s/%%[^%]*%%//g;
-+			my @syms = split /[^a-zA-Z0-9_]+/, $s;
-+			map {
-+				$refs{$_}++ if (/[a-zA-Z]/ && $_ ne "if" && $_ ne "y" && $_ ne "n" && $_ ne "m" && !/^0[xX][0-9a-fA-F]+$/);
-+			} @syms
-+		}
-+	}
-+
-+	close F;
-+}
-+
-+my %known_syms = ();
-+if (defined $kconfig_sym_check_excludes) {
-+	my $file = $kconfig_sym_check_excludes;
-+	open(F, "<", $file) or die "Cannot open $file: $!";
-+	while (<F>) {
-+		chomp;
-+		next if /^\s*$/;
-+		next if /^\s*#/;
-+		$known_syms{$1}++ if (/^\s*([a-zA-Z0-9_]+)\s*(#.*)?$/);
-+	}
-+}
-+
-+my $ret = 0;
-+foreach my $k (sort keys %refs) {
-+	next if (exists $configs{$k} || exists $known_syms{$k});
-+
-+	print "$k";
-+	print " - warning: '$k' is probably not what you want; Kconfig tristate literals are always lowercase ('n', 'y', 'm')" if ($k eq "N" || $k eq "Y" || $k eq "M");
-+	print "\n";
-+
-+	$ret = 1;
-+}
-+
-+exit $ret;
--- 
-2.43.0
-
+Thanks,
+Olek
 
