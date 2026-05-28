@@ -1,145 +1,215 @@
-Return-Path: <linux-kbuild+bounces-13390-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13391-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOXOCWx0GGoZkQgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13390-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2026 18:59:24 +0200
+	id cFcRLD6TGGoMlQgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13391-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2026 21:10:54 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CEB5F5525
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2026 18:59:23 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30835F6E97
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2026 21:10:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E33613189B12
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2026 16:14:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5FB8530131E8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2026 19:05:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E577C2580E1;
-	Thu, 28 May 2026 16:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B19BC3368A4;
+	Thu, 28 May 2026 19:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ILl4HY1G"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EF02E7393
-	for <linux-kbuild@vger.kernel.org>; Thu, 28 May 2026 16:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779984886; cv=none; b=B91zY3LdT7uXm7ylcUDposb0cHe3UxoyoP9qFWiCSI2ZYCKEj0ojn3Q8gIi89ech9WHVbRb25OzjcoJyzaN7S9pc3ylSq34/PjmNgZHyuHqRtG2zJPg+HXQhCHXJpYBGd1aKPEkuQVJIs6TL4b4aPSqfn5SQ2OZrZZAeo+81cgc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779984886; c=relaxed/simple;
-	bh=PHDLCXHLb6geoV+liXss4T/l8l490ju4aZ4ydPGildk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GxB+Al78Bzjpc+ympW2799qW146cdtFOxvuGdmWmUcVR9IoBvZjMJp9Dniy+LvWOQHd4fjo+hnNtMMSCVJrb/RDX9p3fiReYJ+6wh+3R3OOhoZj7VFykwd25FPNwQKuunoBYwwDw0DYDMjxAcrmz7kjyo61yP5b1mjxlOk3Q+7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4906238c62eso43873385e9.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 28 May 2026 09:14:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DC22F8E88
+	for <linux-kbuild@vger.kernel.org>; Thu, 28 May 2026 19:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779995114; cv=pass; b=j56YxHZBfuf/n4OWWQfMOevZ9dwz7fpzM4grexFds6Cq+dumvzRa1O/SJ2s7BlD3sRADZB/8S3bFNEfACVu+4uJeL7MS6VapvqlSylVXZ//l54wudwdsIwWQ4NsH+CRjNaGa4O97SRZt9OYFoc9hWt72CHQ8legkJJdHAIHucFo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779995114; c=relaxed/simple;
+	bh=y4Bbb4J8lASYOK52zh5o+m5RzeLvKudKDuTc0Qn4b38=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uhuHogHIHu2BPVA0Hw4qARGuKnCBzImNiE9Fj6q/XWIKPmk13c7VgFBDF+XcWnJc4rx1Ft1cVbbXDT1Flbed/QONdCovoohm5MmkAxqxysUNXRKi6pidelwqGQ/e3AFKZfJCNb9cVVf9eEw2sh2GDR6ipulkO+xa82Pf8UeNQGA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ILl4HY1G; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50e61648f10so2181cf.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 May 2026 12:05:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779995112; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lotJKUqymebKlBQOeRdCQvCF6ZNWIG/xIQ05MfCqmUio9W7Rk/6KJglc3YQN6R6M7R
+         tmXe9fQaZqYOt8fpWF1likJ6Ix3dUlixcHT8CRSqMCeFzkwxlOG4hJELli4J3bq5oL+x
+         6LH009WK50IKhvxdCDMc1ejlJvO3MoGxnQaLtFlnn+pAPswpI7Q+LrG7forsCesSQwyG
+         15FW2s+50XL8CO9VHp42VC2qPT5GCaCn3YhauFmgWbk4/XymKAiNM5TuLfGetcGb84Ua
+         M04qhTtdolgidqTfvRjE0YSwh9+Tsr+bworz1u9p/APH1259Uveb/SIaWs7RQhfue122
+         O7EA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8Fbsmv+6O7TS0nAIvm3pb4iiGQVOKjsqXhBEGEcBbPQ=;
+        fh=xsTBtFdhgxAQAQgikf/AiTiWr74LVA9bte5onIwxYPY=;
+        b=WPzBP5YAqNEMJQeLcrd2Sb2OJJbV2DcWAIIP7+M6je8QVfi7Hntj6HYDKT0dIL5gwj
+         +U+6BmUmFM9xikmHs1JhZ5iJhYL3+3ndsicTlDMP1UVU05stMR3AS63riA75qCpXSrVG
+         UuL2vKJt4XFNPeCMIwU5Ltq2bNH47sZR8imAI7WaWheKZQFiMhyYbJa27BnnzHX7XSse
+         OZVMsn31jZKPGJwJUsIZzETp3pujrk+I4joWdLsSrvTlPVtXxkShGKEZ6GN68Pfp6RwO
+         k2gP/RXUtx/UG5GvvUnG7SWfSQTvU9X3qucKTVk/Qz18feefQ+kyAS5k9ZHMGIqmEQ/N
+         ZjMg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779995112; x=1780599912; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8Fbsmv+6O7TS0nAIvm3pb4iiGQVOKjsqXhBEGEcBbPQ=;
+        b=ILl4HY1Gi3Nck+LD8HQCfIvxTpUd30NdxZG+S6rS9ibEke3OY+VvK6UZ7tcVpoAcaO
+         V/tr+NgjtfLRuttJVKqSsd39ta4X6VAgUWhohVjMGsOuJAjxDaNmN9Sv9gnRE0M0yIjR
+         FQeVD/mCYbxjNwWsEUcIk/XZqPhGuyz42+sF8aCp5X3WYlAyvwHDqzXtvyGfKxNZo80D
+         Z6iKVWk26PbcLt1Ds3D8kp5anvQ8sX/AnK5GLAWhgna9aC+f+LZh3i/yNJ1D4hXUPfwy
+         ZNdOoPrTu5jMNYOoArBn9hlgYGRRxn0tXUKbStk+TRhh8ypSAuvhKzL6zyVk5TRGxITJ
+         HiXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779984884; x=1780589684;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wfCiAYxwM6fSi2FMKc9LgQjerGAgaqnqOAwHUcR+LT8=;
-        b=EHwSCFiEEB1puaoCRCa+ZPqCUSy1gVtNjHmlj6gCUCWkHUYk6bQIVrchWWH/2ZVZhR
-         5/50qEYmr5rNxqKGZz7vIWyZ3gTv7XEQ3lM5DI+0G8+8Hju8KB7+Sdp9JJ6sNFlNsjki
-         A4Huv4ePiOk1gdGQgCJ5XNT9/VOTEF7zGtlQdobjCnd1jdZmUCyVrqT8hLqBU5uwwvsf
-         ZuDIh/tgWe1Pp74CXDQZiZrmADKXIyxuOknhvH+/fwYG/KRT9e3bRx7lUzXqLSxOnp0P
-         kux9+13+FtIzvgqPKwjyisnLNQVU1oqUUArUaocdH+VmtXZUquxObc0K8d1uaN1F4uDG
-         61/g==
-X-Forwarded-Encrypted: i=1; AFNElJ/PSnTNcMkfIqyt7qn2I4MPPQ5bN+Mvhucce5tAu0dL2RAQ5ipmFPghs23b2oeQwWmZDcNptar9Nlz+1Xg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxr2atQ/YSvv2NLuevBAqFd1KQKbCWZ5ApPqEg/WPYLvPPXIu8Y
-	8CThlIpYbbeaQWjUsDvu3InyaiKDQPI8yCcQWAG/b+dJUJwQ+l62spqD
-X-Gm-Gg: Acq92OGJY7WKtLlUPXx3MqHM2LYQifB+YwTkDWuKM8isPIvMyy/Fi2CIMi+5r4GhIwe
-	mwRc6Iag00KhPfio5RphdwENr2RDqkr1UO3d+zSUv0Oh4hG7kBqtKRsx2qTVWqtdoGMfu+YCiO3
-	+CXjOkuHMdaIrkwa6+bnKPWw7Hd9zhvayPpf9OcttesNdfntcmjKDInkzdziDAvOO7j7/ueF3Z1
-	RCfRTYXpuyxKvlnrRFYKL5SK4/HWeUIh1W3Gt6i+2lYD88E3pX9C8JMSYbOZ1HVchZStAeWVWuA
-	MdDCdQqOVa/Cs7q9yerV+iHJ0CH4TwQT53wL43WRf1fd2fL/r6c6A05JJKDIGPFRrPQs6Iekcu/
-	xUeNFSsEXolsxXbWe5ye0kgOEu5Z9/ZVqgvZD/kO0rp5ZIxCe9mrLDgPvhgAEspZK/8li95asTr
-	daginyEbDUk1jwjIza0Uw9BNgB1AwaTgwIlkct
-X-Received: by 2002:a05:600c:c0d2:10b0:490:33b3:4be0 with SMTP id 5b1f17b1804b1-490426c1759mr350308945e9.20.1779984883857;
-        Thu, 28 May 2026 09:14:43 -0700 (PDT)
-Received: from gmail.com ([62.197.47.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909235d4c7sm45535105e9.3.2026.05.28.09.14.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 09:14:43 -0700 (PDT)
-Date: Thu, 28 May 2026 17:14:42 +0100
-From: Breno Leitao <leitao@debian.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, paulmck@kernel.org, Nicolas Schier <nsc@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	bpf@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 0/4] bootconfig: embed kernel.* cmdline at build time
-Message-ID: <ahhpvNV91F6HUMeb@gmail.com>
-References: <20260527-bootconfig_using_tools-v1-0-b6906a86e7d5@debian.org>
- <20260529001519.14ca9dbe92fb2622249137c6@kernel.org>
+        d=1e100.net; s=20251104; t=1779995112; x=1780599912;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8Fbsmv+6O7TS0nAIvm3pb4iiGQVOKjsqXhBEGEcBbPQ=;
+        b=BjEYlsvMYphNnT4Tx8M6PKbRSM033ECGymYx56Of0EcnG2I+NTbsMFgwBdeQCgqk5H
+         hnvCQ1eOeN8nU7nMIn3lMWY1WUFnAgigIv7jSQkb4qaXoaDAzk0jjc3JaV+OfAbPYogW
+         /HM0IyAE6dnbDtD0irJ2uOVGl4gIo0HpgBM2yhPBOx6Yf9YojYz1X6CMR0ev20yJViTH
+         sJHNqCFeW3kaQ2r1XNICjHy48sse2NgAMVLrsWuQOjp2vtR1M49bDdxiy4dMrV5GSPBp
+         h0BBYB9ndDBqENwnyD3RWSn9IwTKoZJlVOcp1TYDPhIQVC4aaj7qhqyCyRNstvpFgJE2
+         FHLw==
+X-Forwarded-Encrypted: i=1; AFNElJ8b0v5inHXOWFlliHfz0c+gzzai3M4+PG1RD0tL2keP1Lxi6GZ/CfNUPuA1xaU9VlNX+qU/8ndiRCWm+uo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEPFVpQTKg7A7ZBGIuMPipeDI8xzMFRm2LuMzGdOcknqnUeaiq
+	Fzc0auQwA9moME6lFZppDl+DnAHNVtmBp092VXM+B10okC8veZTrcDsLZJyjrvveva4+7cgIxRa
+	0KB3WORYEnMtn64YoKp+8jBjop7RxbC7hc4mkLYn+
+X-Gm-Gg: Acq92OGazMjJlhq09UKndR8DQ+xO5WZ+V2lZ8DBtIb56XN8bzNyXnU7GlHdXXAEnqI1
+	d8hZ59v4BeTe3MAjGV4+YujIEjSu2umyQtgDkI0jDn45fMVU3SIFUD/mcTli0YvM1J0zzuzIZV1
+	nHYZtoT9kZDLHorHDyfHIpoKxcaOh8GmeVunehUGUCl9CGL2K5VhLZ4FbH5LHGKQz6e5ER9jJWl
+	VSjb3LL/jhQkZmC6yEW9/t9NKndsueqkG2b1RAnc+LLHWcPbhVpev8J7J6EAYdccK8AzKOaJtBg
+	2gBlcZppv2JJvcbpFfdfvuVMdmfKuGad4BXx2Oj0T8l4Og1Y
+X-Received: by 2002:a05:622a:8c14:b0:50f:bea3:9485 with SMTP id
+ d75a77b69052e-5172cc5dbedmr441831cf.2.1779995111825; Thu, 28 May 2026
+ 12:05:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260529001519.14ca9dbe92fb2622249137c6@kernel.org>
-X-Spamd-Result: default: False [-1.36 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+References: <20260526172926.2717929-1-xur@google.com> <20260526172926.2717929-4-xur@google.com>
+ <177992962862.1361033.11249653355160017674.b4-review@b4>
+In-Reply-To: <177992962862.1361033.11249653355160017674.b4-review@b4>
+From: Rong Xu <xur@google.com>
+Date: Thu, 28 May 2026 12:04:59 -0700
+X-Gm-Features: AVHnY4Kpzs0qh2r1fVo7N5kE04LZemrV5UvvFNp2x8zXNTtJzeAxmD36VHtf_ME
+Message-ID: <CAF1bQ=Syrnb-wEfXmHpcDg3u7JVXQnDExhjWFzDAzA3paZD7mQ@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] kbuild: distributed build support for Clang ThinLTO
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Piotr Gorski <piotrgorski@cachyos.org>, Venkat Rao Bagalkote <venkat88@linux.ibm.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Teresa Johnson <tejohnson@google.com>, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[debian.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13390-lists,linux-kbuild=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13391-lists,linux-kbuild=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,linux.dev,gmail.com,google.com,linutronix.de,redhat.com,ellerman.id.au,csgroup.eu,cachyos.org,linux.ibm.com,vger.kernel.org,lists.linux.dev];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leitao@debian.org,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 93CEB5F5525
+	FROM_NEQ_ENVFROM(0.00)[xur@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: F30835F6E97
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, May 29, 2026 at 12:15:19AM +0000, Masami Hiramatsu wrote:
-> On Wed, 27 May 2026 09:41:33 -0700
-> Breno Leitao <leitao@debian.org> wrote:
-> 
-> > The userspace pieces (xbc_snprint_cmdline() in lib/, tools/bootconfig -C)
-> > already landed; this series wires the rendered cmdline into the kernel.
-> > 
-> > Motivation: today the embedded bootconfig is parsed at runtime, after
-> > parse_early_param() has already run, so early_param() handlers can't
-> > see embedded values. Folding the kernel.* subtree into the cmdline at
-> > build time gives a CONFIG_CMDLINE-equivalent for embedded-bootconfig
-> > users without forcing them to maintain two cmdline sources.
-> > 
-> > Behaviorally, the "kernel" subtree is rendered to a flat string at
-> > build time and stashed in .init.rodata. setup_arch() prepends it to
-> > boot_command_line before parse_early_param() runs. Overflow is a soft
-> > error: the helper logs and leaves boot_command_line untouched rather
-> > than panicking, so an oversized embedded bconf cannot brick a boot.
-> > 
-> 
-> Thanks Breno, yes, that is what I think about.
-> Let me check it. And could you also check Sashiko's comments?
-> 
-> https://sashiko.dev/#/patchset/20260527-bootconfig_using_tools-v1-0-b6906a86e7d5%40debian.org
+Hi Nathan,
 
-Ack, I will have a look at them, thanks for confirming the direction is
-correct.
+Thanks for sharing the AI review findings. Please see my responses to
+the comments below:
 
---breno
+On Wed, May 27, 2026 at 5:54=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Tue, 26 May 2026 10:29:26 -0700, xur@google.com <xur@google.com> wrote=
+:
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 0718e39cedda..b36c7c6817bd 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -249,6 +249,12 @@ ifdef CONFIG_LTO_CLANG
+> >  cmd_ld_single =3D $(if $(objtool-enabled)$(is-single-obj-m), ; $(LD) $=
+(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
+> >  endif
+> >
+> > +ifdef CONFIG_LTO_CLANG_THIN_DIST
+> > +# Save the _c_flags, sliently.
+> > +quiet_cmd_save_c_flags =3D
+> > +      cmd_save_c_flags =3D printf '\n%s\n' 'saved_c_flags_$@ :=3D $(ca=
+ll escsq,$(_c_flags))' >> $(dot-target).cmd
+>
+> Sashiko notes that we might want modkern_cflags here as well, which
+> seems like it could really matter for LoongArch?
+>
+>   https://sashiko.dev/#/patchset/25040?part=3D3
+>
+This is a valid point, as users have the ability to add new flags via
+KBUILD_KERNL_FLAGS and they are likely needed to pass the backend. I
+will update saved_c_flags to include modkern_cflags.
+
+> The other comments might be relevant too but I did not look too closely
+> as I am wrapping up my day but I wanted to bring this to your attention
+> sooner rather than later.
+
+The second comment concerns using a shell script to get _c_flags: I
+opted for this method instead of $(saved_c_flags_$(<) to avoid loading
+$(<).cmd in the Makefile. Note that I only load $(@).cmd at the end of
+the file. However, if we would rather use the latter approach, I can
+make that change, though it will require loading $(<).cmd file.
+
+The third comment concerns file name matching: That is a fair point; I
+should have implemented a more precise matching criteria. I will
+address and fix this.
+
+I disagree with some of the comments regarding compile times. We have
+tested this build mode extensively and observed no compile-time
+regressions compared to the existing in-process ThinLTO build.
+
+I will send the updated patch shortly, after I tested the changes.
+
+-Rong
+
+>
+> --
+> Cheers,
+> Nathan
+>
 
