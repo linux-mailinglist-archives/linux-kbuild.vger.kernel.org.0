@@ -1,180 +1,221 @@
-Return-Path: <linux-kbuild+bounces-13431-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13432-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0IM0A4hoGmrE4AgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13431-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 06:33:12 +0200
+	id UHkQMLKIGmpt5QgAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13432-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 08:50:26 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0BD60B414
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 06:33:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 182E760B7F8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 08:50:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E2224305918E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 04:33:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D0C053052B66
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 06:50:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8963F31F9B3;
-	Sat, 30 May 2026 04:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A96335C180;
+	Sat, 30 May 2026 06:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rLP6IZ0p"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r4u5rkvW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617633148A7
-	for <linux-kbuild@vger.kernel.org>; Sat, 30 May 2026 04:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780115586; cv=pass; b=i41YjP+cloMLFuOCHG48FXu7DwoV7xi5vAvC2UQW4sJmCf57Izn9gNAwrHxfrK0p2RhPx4wF60GwziY3OoKsyfmLOxruwkaeaA1LgegrLz3diTW8WDMynQGee4OWhZLIj/mmz8wHny+FMgC5KA/9DUEEWFGR29j4GYu/R3KhsmI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780115586; c=relaxed/simple;
-	bh=QFu0xf0kxAiHthAx6Gq90k1pQbq/2hGxGXOlrv3QzLQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LaHWAk6SlnKpMAFCtkvGn9swDoWR4UHiJ7UbCqOJjjlS2PJxzXvsvwwcqjoQ0pxkIXkxCVaFDTFXno85FRrXxnpImpJS3gCAZYcBEl17Wh7K1jYEAvPiKtDfH+KZHygiAttdcZ/WuO/cMcfskFK6OJmSx5RR0xt9KhlLgJViWJs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rLP6IZ0p; arc=pass smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-132dd3cb2bcso305431c88.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 May 2026 21:33:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780115584; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lCALRWNXQfivHJDB7ArobLkPV47PVtbNB4KOGIFKbh+rvHK6uObdPoI5sPhldlPtxa
-         aDGbQNm58eFKXkzsakeSu6Aic3wYCjgdUBdJn4pnnxpiLeAinaXZNRWzKn0vE5NpNimE
-         VBsIJFdh1tEZ+a5Y661vLjejrfYHkDp3P5ttasugC6l+hCK1DozC1FPV8/WWg4YvqkAZ
-         5LSq2w8me5TaB/ap3v+nIB5KdotMJaUijtu+5VNVSQbQPYyyIs6jd1ETX4aKnQYBsYPY
-         pidsCgQVb51XSYiWoZbCS0hMkek+AKrQmJn0soJcEIG5wH4XimsBdVcg9wyX3lzhknFQ
-         2TYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LdW8riYMTkyNsPB0scYxxqC5lofy8KfGVkA5QD4g4U0=;
-        fh=UIqiQSD3svDdJ2V0jxET/eLzRHKt3VT74QlHijCxUqk=;
-        b=PFSLU/TYFL+QHbBTpJck8iamPPJn0P1xhSWdNAcQdD8PCxtincRXQAi3djmGIf4w2/
-         HWiICNarh+mc5JjdNDEKC8aIYxGXCHo8phJoVWq89u4F9qN3vXCxURjcUuirhjGlHZCK
-         8bzM58pxwpI1T0lCwiw5GHM5dJTotVu2eUCMiobfa3hxo1zjMQx/49fb78TtwN1U5P3d
-         ip+Q5t7kcSKzD7wdsCbB6U/WNNPH7y7CTZkyb1HPoda/l62G0nCm10nb1FrW3LgvK7RK
-         M8EJlvzMlgvC80nKndSB3wWJwCQuILYA0NREVWL9rh413pec2y1I37P8qbMWlDL2PqC4
-         PvEw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780115584; x=1780720384; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LdW8riYMTkyNsPB0scYxxqC5lofy8KfGVkA5QD4g4U0=;
-        b=rLP6IZ0pZNjooGTg2AkyUGG1d44D8XRqRydMVuT8TrGUbjqowyxr3PcvYUlU50ozfO
-         4Jy3rDrWjURMhzIG+5I7vVK5jjswzXRvI6iqB/ZAXH2VT97ohDXdK8NrWJYZ1nwrIV5M
-         c8l1XxHgRBTH+jo9Qp3BAC7mD8PpbJKZfumosbyeCZItx7hZBn0I6OvpcN/OqHwuk5fG
-         a7vANsrSxf1u5U0pkzZg4U6usFazEb9iWq86Q8m5b0H+ddIiMwyE1YRN36CUlH24xfmm
-         6g7ejjlSxHdY8eS5BIYctwyGFeQWzzfHwJz147Sy9a5QcmYxXKkrhfY+Sjq3/WNdR40s
-         AEcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780115584; x=1780720384;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LdW8riYMTkyNsPB0scYxxqC5lofy8KfGVkA5QD4g4U0=;
-        b=N8zUMpeDq83udQ3eh3ZHr5DU8/8sV/1tc8yQ7BHQnJ3J12pmlgDUiCogi1brOCLiDd
-         q+mxllOrsI9WulnvgogNxuWMaUK1hHhUU2zqEvluBbFcN79ifuLzak1ygOZbKHXfBMGx
-         Jti/qJrBjo5We922M+5SKBmVHnZXXVzTCnzOPpqLBVcmp+5cI3i3EYFHmz8NUa1i5Ahd
-         HrMm+OthnyfKd/XXHgvjsYKu5vWgGILKWB6sjN1oOtFY/BB3A4V3tlAhkLXluN7Z6m4A
-         SAKtlcbgd49u6bac0acfl/L5xF6hCMh0WBcdmZzFCioBIQV2XjbiZiZJUYfvJxeYPdt5
-         qZlw==
-X-Forwarded-Encrypted: i=1; AFNElJ9lzcDtI0jObig5/mzgyCqOI0XOR66yD1rn6pBDwIPYsWWY1ecFDUovnDq196TGoq9p1T0KTPqZ5bzytt8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaWXcqU798/NHnSZu+me+/alt2Ct+GHnW2jpMPPZ5bA6udAzX1
-	xuxsffj5miV9VgErfHjsiQCASEyAFxvfqUTmAK3C+4V3qAUZ1oOKPlSV9R4xRJbIukT+C415ooh
-	RK9fLOwz3O2+3fxwDXgHhJbIoWZwCjYI=
-X-Gm-Gg: Acq92OFmFVf3Hls+A9fROJrmWUXV7dapDK3M8febc7aQTBxb5QtLAkNpbGP1SFOOKb3
-	+STIHzYGHY4qiXzKJpoEnh0ccP1K4pI/k3vydXkEKSEGg/bA56gnAjbwy/ML+rh+RONgusZwV4E
-	TsbpzZEQxOV49lwo/e58sX1Hl9Ugc7Wafy68x/PnJ7iS/qWdgxg3dsWJVnYg7m730XKvvAsyRsO
-	BA+O68KSxU/qrkegkFG0ZjuLqMhQFmDkfsPX6mmTyE/s0rj6kapATNfeAPgHxBH2QFF4D1rVYNl
-	bRo5jZW42qfEHw2oVgnwoRL7RaxH0HMOjUwN3ye9FPBE+grDbUHdQFsV8C/t1luAt07ysLZv0aZ
-	rG4FRwAH7F9+qnm9sWGg5GaMdvCJCtElvEw==
-X-Received: by 2002:a05:7300:5729:b0:2c1:7ca:cec2 with SMTP id
- 5a478bee46e88-304fa6b7621mr568722eec.8.1780115584319; Fri, 29 May 2026
- 21:33:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D92D978A
+	for <linux-kbuild@vger.kernel.org>; Sat, 30 May 2026 06:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780123816; cv=none; b=klj0x1xwTksPGJigAVbS6YECY0UzjPVNOsIH2p94vwi79ND5isaO/ShHrCa5ir3LMO/d8BXKkkPG+ONQH6X1nXWF1RSgRRjS7BkeKWyFCAKkRaH1pbbrjSosl1NhqImLZ+/S8OeJbmVD6gS45FC9SbiP9QK+H1On+WUQP3GnIzU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780123816; c=relaxed/simple;
+	bh=gB6gpoPYMFrXkOpVS2tvMXmaYcI/1+sEt1wDp83Egig=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=BZF+kxY1G4sseugyAfPx2i6w0KkjqJbKo5pH27e+P4BVhXxzjkardhpUwHsbLN9hwwr2bi59yTClkax36C2Rqi57KsdTDHtuqW6TByD1D01EecwxNFDUkTpKMQ0xW4DPJIoMaMHQMFfao3YxRRCkoW5vPZGBc90WRqeJnpGeYd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r4u5rkvW; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780123802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GsD1ihvBH0zX0aLypHM5TAGcn9xQ09k+UXjApI56wfk=;
+	b=r4u5rkvWVKKHarFHBkZemSsa32mAH9l8KPso8tp8+quPqkZQxFx83VTfylrf8Qy2TsjeYX
+	5CDYeLmJE2+zDTDQUc4xO9b+ivP/f76vsRlynUEJNnwTWuFgjEfcThgDcgMwsvy5XutWmk
+	TLQIgsPp1TOZ5S2Pm727GEjkYePCC8o=
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260529205529.75586-1-contact@jkam.dev>
-In-Reply-To: <20260529205529.75586-1-contact@jkam.dev>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 30 May 2026 06:32:51 +0200
-X-Gm-Features: AVHnY4IfLZfXYbhw88GifH2WhwO951OpP7mET1eUaiuSWxOV_KDmRIZ7h28aO5g
-Message-ID: <CANiq72nO_qi7_Zmw03duP+QY7SssYS==FZ56zjkN57AtDAwbYg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: clean `*.long-type-*.txt` files
-To: Joel Kamminga <contact@jkam.dev>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: Re: [PATCH] list: Add safe entry iterators without an explicit n
+ cursor
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260529082149.76764-1-kaitao.cheng@linux.dev>
+Date: Sat, 30 May 2026 14:49:14 +0800
+Cc: nsc@kernel.org,
+ nathan@kernel.org,
+ paulmck@kernel.org,
+ andriy.shevchenko@linux.intel.com,
+ akpm@linux-foundation.org,
+ dhowells@redhat.com,
+ rdunlap@infradead.org,
+ luca.ceresoli@bootlin.com,
+ chengkaitao@kylinos.cn,
+ acme@redhat.com,
+ irogers@google.com,
+ peterz@infradead.org,
+ namhyung@kernel.org,
+ swapnil.sapkal@amd.com,
+ linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+Message-Id: <2B3BFA1E-08B8-42AB-87D6-A28BF15E5C58@linux.dev>
+References: <20260529082149.76764-1-kaitao.cheng@linux.dev>
+To: Kaitao Cheng <kaitao.cheng@linux.dev>
+X-Migadu-Flow: FLOW_OUT
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13431-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13432-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-kbuild];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,jkam.dev:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 6A0BD60B414
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[muchun.song@linux.dev,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.dev:email,linux.dev:mid,linux.dev:dkim]
+X-Rspamd-Queue-Id: 182E760B7F8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, May 29, 2026 at 10:55=E2=80=AFPM Joel Kamminga <contact@jkam.dev> w=
-rote:
->
-> This cleans up files generated by rustc compiler in the case of an
-> error containing an excessively long type name that doesn't fit in
-> a single line. Such types appear relatively frequently so the risk
-> of generating these files certainly exists. These files are purely
-> compiler artifacts and are not created intentionally by the build
-> system. They should be added to the `clean` target to stop from
-> cluttering up the source tree.
 
-Normally, we try to use the imperative for the actual change in commit
-messages, i.e. "as if you are giving orders to the codebase to change
-its behaviour":
 
-  https://docs.kernel.org/process/submitting-patches.html#describe-your-cha=
-nges
+> On May 29, 2026, at 16:21, Kaitao Cheng <kaitao.cheng@linux.dev> =
+wrote:
+>=20
+> From: Kaitao Cheng <chengkaitao@kylinos.cn>
+>=20
+> The list_for_each_entry_safe*() helpers are useful for loops which may
+> remove the current entry, but they require callers to provide a second
+> cursor named by convention as n. Some users do not need to inspect or
+> reset that cursor; they only need the iterator to keep the next entry
+> available while the current entry may be removed.
+>=20
+> Add entry iterators which hide that temporary next cursor while =
+otherwise
+> following the traversal pattern of the corresponding
+> list_for_each_entry_safe*() helpers.
+>=20
+> Do not fold this behavior into list_for_each_entry(). That iterator
 
-I would also probably add "rust: " after "kbuild: " in the title to
-scope it a bit more, since these files are `rustc`'s ones.
+On the contrary, it might be better to modify list_for_each_entry() =
+itself.
+This prevents us from introducing multiple new interfaces, which could =
+be
+overwhelming and confusing for new users.
 
-Otherwise, it looks good, thanks! :)
+If we do this, almost most callers of list_for_each_entry_safe() can be
+replaced by list_for_each_entry(), as the new modification enables it to
+properly handle the removal of the current loop cursor. As you'd expect,
+this would simplify usage to some extent by eliminating the need to pass
+a temporary variable.
 
-I can take this through Rust since I have Manos' there too, unless
-others prefer otherwise.
+> advances from pos after the loop body, and a few existing callers rely
+> on that semantics to observe list changes made during the body. For
+> example, stress_reorder_work() in kernel/locking/test-ww_mutex.c moves
+> the current entry to the list head with list_move(&ll->link, &locks) =
+and
+> documents that this restarts iteration. If list_for_each_entry() =
+cached
+> the next entry before running the body, the loop would continue from =
+the
+> stale saved next entry instead of honoring the modified list order.
 
-Cheers,
-Miguel
+I used an AI to scan the entire repository, and the results are as =
+follows
+(analyzed based on commit e98d21c170b0):
+
+There are 9,925 list_for_each_entry() call sites in total. Among them,
+9,919 do not require any adaptation, and only 6 need to be refactored:
+
+    =E2=80=A2 sound/soc/soc-dapm.c:258
+    =E2=80=A2 drivers/firewire/core-topology.c:275
+    =E2=80=A2 drivers/gpu/drm/i915/i915_scheduler.c:193
+    =E2=80=A2 drivers/gpu/drm/ttm/ttm_execbuf_util.c:89
+    =E2=80=A2 kernel/locking/locktorture.c:647
+    =E2=80=A2 kernel/locking/test-ww_mutex.c:522
+
+As for list_for_each_entry_safe(), there are 4,572 callers. 4,550 of =
+them
+can be directly replaced by the new list_for_each_entry(), while 22 =
+cannot
+be replaced:
+
+    =E2=80=A2 drivers/gpio/gpiolib.c:527
+    =E2=80=A2 drivers/gpu/drm/i915/gem/i915_gem_context.c:1437
+    =E2=80=A2 drivers/gpu/drm/i915/gem/i915_gem_object.c:249
+    =E2=80=A2 drivers/gpu/drm/i915/gt/intel_gt_requests.c:143
+    =E2=80=A2 drivers/gpu/drm/i915/gt/intel_timeline.c:423
+    =E2=80=A2 drivers/gpu/drm/i915/i915_perf.c:2715
+    =E2=80=A2 drivers/gpu/drm/i915/pxp/intel_pxp.c:501
+    =E2=80=A2 drivers/gpu/drm/ttm/ttm_execbuf_util.c:90
+    =E2=80=A2 drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:7762
+    =E2=80=A2 drivers/net/wireless/marvell/mwifiex/init.c:559
+    =E2=80=A2 drivers/net/wireless/mediatek/mt76/mt7915/mac.c:2195
+    =E2=80=A2 drivers/net/wireless/mediatek/mt76/mt7996/mac.c:3066
+    =E2=80=A2 drivers/scsi/lpfc/lpfc_hbadisc.c:2574
+    =E2=80=A2 drivers/target/iscsi/iscsi_target.c:4693
+    =E2=80=A2 drivers/usb/c67x00/c67x00-sched.c:985
+    =E2=80=A2 drivers/usb/isp1760/isp1760-hcd.c:1060
+    =E2=80=A2 fs/btrfs/extent-tree.c:4666
+    =E2=80=A2 kernel/locking/locktorture.c:647
+    =E2=80=A2 kernel/locking/test-ww_mutex.c:522
+    =E2=80=A2 kernel/rcu/tasks.h:1059
+    =E2=80=A2 mm/page_reporting.c:183
+    =E2=80=A2 mm/shmem.c:1552"
+
+During the AI's retrieval process, I noticed that it writes a script to
+perform a simple syntax analysis. This script filters out call sites =
+within
+loops that don't involve any modifications to the list being iterated =
+over
+(such as add, del, or move). In fact, this already eliminates the vast
+majority of call sites. As a result, there are very few instances that
+require manual or AI verification, which significantly improves the
+reliability of the AI's analysis.
+
+"Of course, the results above are just for reference, and there's no
+guarantee that the AI won't miss something. My suggestion is to have the
+AI write the script first. Once we human-verify that the script is =
+correct,
+we can run it to collect the remaining call sites that need manual =
+review.
+After that, the AI can assist us in analyzing those remaining sites to
+minimize the risk of introducing new issues.
+
+Muchun
+Thanks
+
 
