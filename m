@@ -1,180 +1,145 @@
-Return-Path: <linux-kbuild+bounces-13437-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13438-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kPfIJ4/YGmp89QgAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13437-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 14:31:11 +0200
+	id iHbOD2UzG2qqAAkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13438-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 20:58:45 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D7360CD0A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 14:31:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE04612E5C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 20:58:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 858F7301F7E3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 12:31:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 95DBA30686EF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 May 2026 18:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A04FD3AB5DC;
-	Sat, 30 May 2026 12:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA4BC23D2A4;
+	Sat, 30 May 2026 18:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DPC02kbb"
+	dkim=pass (1024-bit key) header.d=jkam.dev header.i=contact@jkam.dev header.b="g6tfWKc1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-op-o7.zohocloud.ca (sender-op-o7.zohocloud.ca [199.67.87.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE7535202D
-	for <linux-kbuild@vger.kernel.org>; Sat, 30 May 2026 12:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E54137750;
+	Sat, 30 May 2026 18:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=199.67.87.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780144268; cv=pass; b=h5ufN1isLtJuV41q68Jrw/WR0+h6Ke+9bIRH8DYfu0tMp5WDBwg4oo8rPRVIcI40iN3B1t7eQzyECeRKelrKRAY/pr4fe03AS0br91Iv53ztROVIMSYvX56JcNszWYNZRWl+j1eHga0Tq5Rlbf/b0bXl2wzZ5uVlx6BeSZ7zeV8=
+	t=1780167069; cv=pass; b=uxh0W3jBpG0SwVn57czTAp2ecH8A5Xc5bfWE6niyDOsHrfrzzZP8abjfURyNlZuqiQVfDarSZdOIwTOpRm/HcM6JP0JyLTCWUa9N8NmXI2O5acVHWWnvawm2Ybrqe9FgqqijQQvXYwM/AnDNgDvxKsYiNPaGXg8se9rVjp7oZrg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780144268; c=relaxed/simple;
-	bh=5V0JB0seYuuGYGJZkHuPFUN1z102gqlQdDHPXmOEZaU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mtln+HvcTd0Xm/pgGFvbppY5Y3mjlJkO4ftMPjUsllDemCAuReKMfG0nzAL9ajWxGS3MFOtNsdlDUeKSu4BesY+0Ra0+ejXitIpQDYu4xDZmxsQ738jdnVXZL6BRyr1pzP62036IGiFQaCAVluapOPGXg6Az52sIdFYyTqL3YxY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DPC02kbb; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45ef616daf6so1100629f8f.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 30 May 2026 05:31:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780144266; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eYKHT3/OC/YTI4y++2PJcjc/b7e/6uLa0NqIGOBU3D1q6/3AsdClcldhjhw8Dl9Mm1
-         fHGwJVXJe795XpjUhbkfBOser+/t6nD/dSAMXdctTCri+mIJwLFlyjJYiP8saEhasKlg
-         413+fCwmsZKajKCUYyLBXhMs2/Jop2kVmpcCjD7Mki8cJSCTGMg+vWj5NPvsqEE1weGq
-         BOeMs3czQhOXOqQvBZs5ifjnFuVyKkbVxB8SURyA3+NnofOXOeyKhtCPw8fUPi0QMaUn
-         nUdh2pK75vH5RvcxBjFcsvE+5Y9YGvrN4Z8XBJlyzTDJM8Ma4ZvZFru8ThF5pKiiCYoE
-         oTMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tsmJTUGqQ4t1Byuf+9POVmmmU068+8j9SHedukFDssw=;
-        fh=XBsdlTPyOa16Tf0xxjy1gXjQKTqPpgUN4i61fOLNH2I=;
-        b=VX5SVuHMEDphtb70zkAfmg6LFP+kkHIitG+OBPFPsp83IEqvUzLFwy6+cPQ4c/Q+58
-         KLo8RzqhBLP+zXijto5d4gvHk6UhniNQgXx20SoNp+npFUzht42hv2NfbPs7JPHKB5Dt
-         wPCsbwX7RY/M33AvqVtqCKad3iLRxoNEhBf92Za27S/hX5Mbxf0CGsV+tDqKjPn0ma8S
-         KavqActJSy0Xb6fruZONQQoWJHKt3R1QmiC/UxNXep5SYdpY8PrnHH/0jCMtJ4Beu+Fl
-         vFaXNEmH6vSoT/4MheP8weRpk8HlpNmSt218qaE8ZYINAFf0aYL1cWJrF5CyCzTuWVGq
-         LgFA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780144266; x=1780749066; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tsmJTUGqQ4t1Byuf+9POVmmmU068+8j9SHedukFDssw=;
-        b=DPC02kbbdtl39Ax4OMAaqWdplckovJegTwKheCKwhoLGyoILKcCMGt2s9PTSzu/Zc7
-         4CLZJr9138REQWWMtbEibRIPM04l9ZdmCQCrKUfbwKqKxBkWRofldXVgLrUZWrNxWsrl
-         NBgTDdNV8m0TfvFgf5Li/4xTJv+JC3/aG4ajfuQDhlTLwczKAuzWgBaBDUs3Jc2d6i53
-         bWvkBNrJxpx0bs50oVfklFVGEDMBIzEeMaZABJoMDm3z1jX456ooq8em/vgwB/VJrZXX
-         bxILMDjn6kSvZBXJn5Z0xx7FGhGIXtkr9UqzkAqPkl6BKUeBzu+29IvhQSo1VwbdXeGG
-         mwEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780144266; x=1780749066;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tsmJTUGqQ4t1Byuf+9POVmmmU068+8j9SHedukFDssw=;
-        b=fPAZe5v++ObjbwWudD3KYENybwTsNHOD9eWwwthKVzWYtFPh2Ju8GJmhff9RMyXxAi
-         VN2X4x/uS+v4jUjvhzRcQ7ZXU8bTjQJtLv42AD78f4SHjeZIJNNzv7B4+BbvTQa69nSB
-         GKXVFrhUNxaQwsj6xPLMVdXWUpRH/a1iLbQ0P0pJSkaHImXV0pLFh+PDMPqOznK6orp7
-         eBKIbtqSAOVbDSt24CSvioXsXd0cX20kh9jwGfEsbWvCnGJgWSUG+HX5+dqASGUA9yV+
-         Fu/DemcVFMXbyXwTmWRqyAKLbHRFGNm5oE4zRjRjy492ZWmspySWAFgFOUEw9iH0xKqY
-         2CmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ83v8C17Uz/jTwhdRM7vi9Gnz7u6Fkgq12PX39xhHJA0YZE/p46dsfTJ72CbmSCUCSz1JMWnR1K380z3YU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsEruMGk9gzPCnzv+xIe6F+9il1P7H2OgpGLPwYwBIrTFqatPi
-	O+NbnlklOFEjGeF4t/0r0sldHvM3lEkZq+TaygQxEXaWqIaspJanKYqNjXPCalKJaiB+Z+u1+pa
-	e8Z4U/Wr1eonPIzpL6WGH1erOuqIFNbArKuATQa7+
-X-Gm-Gg: Acq92OHBLrTzXJnN9ZQ9ZM6+qHvZxQq2/MomJl4tpkIV23nKglP//WNwLhZZrvoTbfL
-	DdGiuPJDzLNxwY88a3xmKRu93q/3HgiKzJqV1yLRlWbjwMRih+y6w404Mvx78ZwIn70SNfjB57h
-	k68wxK34PDrOKqLHLY3rFGH7fGFhdp78vPiV7FEXzmD3HWnZINSULZZTBT2mk0ZolvZ7uVhTWgm
-	pGZGNfOjs4xXQh0JMxHn62EiGHOkgBD3BTy6cfxF+TY2RdoWjhwoihQ7O3WDJAjyAXyan6lr6lt
-	wKOm3tjJjT/xiBPgvemSTVI3z5Rf0RVzlZx3fN1gxzl7Go4x
-X-Received: by 2002:a5d:4387:0:b0:453:e3a1:6580 with SMTP id
- ffacd0b85a97d-45ef6b5af04mr4608951f8f.25.1780144265270; Sat, 30 May 2026
- 05:31:05 -0700 (PDT)
+	s=arc-20240116; t=1780167069; c=relaxed/simple;
+	bh=/cZ0+sdw88qoRb+cyGY9n7CzUrAk/9Geak3ZfDkbKFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Biq4u3ctGn0fvSkEgvu9NJzBaWt4ZNb1D7Tlzul2q4ZrN7os5q80Si5X2LGFlVaI+34G4lyeRswFoEQz9EBMMgojLPkP+dLerQFPbdkew3J7wzElESvyn7RgnY/LLxpAWj51ABKn3e7nDlGPNY50QXA6lqetNXstDesncaVOmgQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jkam.dev; spf=pass smtp.mailfrom=jkam.dev; dkim=pass (1024-bit key) header.d=jkam.dev header.i=contact@jkam.dev header.b=g6tfWKc1; arc=pass smtp.client-ip=199.67.87.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jkam.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jkam.dev
+ARC-Seal: i=1; a=rsa-sha256; t=1780167047; cv=none; 
+	d=zohomailcloud.ca; s=zohoarc; 
+	b=NEWKuD9feRJaxL/ucoBkS507DYR3RNqWD21ZV0TjOgzPEYzT/HxCEqsbeLSogXFixdFH70zH5D1A0QEzRVQCD1y+xNTHl7GSUc88uRdjMYxXfmyjpFTa/npLOgh0HbMGkMciH7gmTICqF1QU6+OyHPbaGMbDkp0gskZoOCPOqvg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomailcloud.ca; s=zohoarc; 
+	t=1780167047; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=L/E9yG1U5jtouAB+uazBa353gIisF7vX/LYWQcbbMko=; 
+	b=loj3bmmDrah+XsukVJwq1d6Noz7SFsAwG/9YKho+xiihxLYCV+GvkNSx2M+ewaUUkQu5FpPJA44ukwAuxzyYOL/m0jqUxPPeqoxU0UOQwZYoTsMtp7CcqGHVvpzcwRlAn+9k0Y61X3pK6QHBTEXy7jibS0MU6kOr/JlQzqdQD5Q=
+ARC-Authentication-Results: i=1; mx.zohomailcloud.ca;
+	dkim=pass  header.i=jkam.dev;
+	spf=pass  smtp.mailfrom=contact@jkam.dev;
+	dmarc=pass header.from=<contact@jkam.dev>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780167047;
+	s=zoho; d=jkam.dev; i=contact@jkam.dev;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=L/E9yG1U5jtouAB+uazBa353gIisF7vX/LYWQcbbMko=;
+	b=g6tfWKc1UJ3y7YLQCH8SwdExoKe/RBJp/tkQPyuNmXJOnvhGDbejUfMLH5nPTqdx
+	fq3s0ghEWrvBcvsCgl+BimU7NXMF0qnd1iof8CA/3YlwLPyAECZstwMxKZ+b8S/0YoE
+	xwtznJC+GkPDuh31jINt7rgUe1LW1O+gVOq0U59E=
+Received: by mx.zohocloud.ca with SMTPS id 1780167045933869.1071949291838;
+	Sat, 30 May 2026 14:50:45 -0400 (EDT)
+From: Joel Kamminga <contact@jkam.dev>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: rust-for-linux@vger.kernel.org,
+	Joel Kamminga <contact@jkam.dev>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] kbuild: rust: make `*.long-type-*.txt` a target for cleanup
+Date: Sat, 30 May 2026 12:49:43 -0600
+Message-ID: <20260530184944.10459-1-contact@jkam.dev>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260530114925.260754-1-ojeda@kernel.org>
-In-Reply-To: <20260530114925.260754-1-ojeda@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Sat, 30 May 2026 14:30:53 +0200
-X-Gm-Features: AVHnY4LccWAtRKrASCOhbKiSp_wJ9_ymIUBVUkcrjZtT13a4agAHvAMnhzm1asI
-Message-ID: <CAH5fLgiXzxWD3t09PpiLhqNP_D5L3wX3dtqZC1kqOHupOVednA@mail.gmail.com>
-Subject: Re: [PATCH] rust: x86: support Rust >= 1.98.0 target spec
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org, 
-	Ralf Jung <post@ralfj.de>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[jkam.dev:s=zoho];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13437-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,redhat.com,alien8.de,linux.intel.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,zytor.com,ralfj.de];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	DMARC_NA(0.00)[jkam.dev];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13438-lists,linux-kbuild=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[contact@jkam.dev,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[jkam.dev:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,ralfj.de:email]
-X-Rspamd-Queue-Id: 45D7360CD0A
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[jkam.dev:email,jkam.dev:mid,jkam.dev:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 9CE04612E5C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, May 30, 2026 at 1:49=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Starting with Rust 1.98.0 (expected 2026-08-20), the target spec will not
-> support `x86-softfloat` anymore [1]. Instead, `softfloat` should be used,
-> which is an alias. Otherwise, one gets:
->
->     error: error loading target specification: rustc-abi: invalid rustc a=
-bi: 'x86-softfloat'. allowed values: 'x86-sse2', 'softfloat' at line 3 colu=
-mn 32
->       |
->       =3D help: run `rustc --print target-list` for a list of built-in ta=
-rgets
->
-> Thus conditionally use one or the other depending on the version.
->
-> The alias has existed since Rust 1.95.0 (released 2026-04-16) [2], but
-> use the newer version instead to avoid changing how the build works for
-> existing compilers, at least until more testing takes place.
->
-> Cc: Ralf Jung <post@ralfj.de>
-> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
-n older LTSs).
-> Link: https://github.com/rust-lang/rust/pull/157151 [1]
-> Link: https://github.com/rust-lang/rust/pull/151154 [2]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+This cleans up files generated by rustc compiler in the case of an
+error containing an excessively long type name that doesn't fit in
+a single line. Such types appear relatively frequently so the risk
+of generating these files certainly exists. These files are purely
+compiler artifacts and are not created intentionally by the build
+system. They should be added to the `clean` target to stop from
+cluttering up the source tree.
 
-With UML updated too:
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/1236
+Signed-off-by: Joel Kamminga <contact@jkam.dev>
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+diff --git a/Makefile b/Makefile
+index 9f59598d3a08..3a265e7e3347 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2164,6 +2164,7 @@ clean: $(clean-dirs)
+ 		-o -name '*.c.[012]*.*' \
+ 		-o -name '*.ll' \
+ 		-o -name '*.gcno' \
++		-o -name '*.long-type-*.txt' \
+ 		\) -type f -print \
+ 		-o -name '.tmp_*' -print \
+ 		| xargs rm -rf
+-- 
+2.54.0
+
 
