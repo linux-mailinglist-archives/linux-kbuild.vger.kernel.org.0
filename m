@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-13455-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13456-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qOeVG4QFHmpRggkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13455-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:48 +0200
+	id oEtZLpcFHmpRggkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13456-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:20:07 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E493F625DFF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EF4625E25
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:20:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 71A9F3018080
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2026 22:19:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4525D3008A61
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2026 22:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47055367B96;
-	Mon,  1 Jun 2026 22:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0910366570;
+	Mon,  1 Jun 2026 22:19:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Armu3T0C"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LvvOC4c8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21F935F179
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Jun 2026 22:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E442E0901
+	for <linux-kbuild@vger.kernel.org>; Mon,  1 Jun 2026 22:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780352343; cv=none; b=htQcPRqmDT/6FUHKEr0Dx5XLGw3Zsp2woVMtEDjfgoYOJcwAlnMZ0u1oO0uU9U5ds5HoJ8vraVRhneJuMsfK/y42ChHYqdlyZRwHwsmqZ2etaOp2CdOf86VEZQT5Sqe/E4hsUWhoEsa5MxvVoiDvRLzWjS5ru+PloummcPZkdr0=
+	t=1780352345; cv=none; b=fXDUoFgoc1+AZTr4MciH+59al+b4C7capCAWLTFQIi7JgXEGRO9s8u1Q+hTHfiuTV64NzadRyfPY5pwI6NsD1c0IhoNaL3qn8X1Utw5FXYKuR1byqim8hGc3Eqkm3vysqcupwDYjB2JIFlQPTI9kaNN0YT9YgF/E70ScoHhVxis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780352343; c=relaxed/simple;
-	bh=OW3u8vckniNbAvyu95xaSqn7fohI7PoD4UcSc1bWcBU=;
+	s=arc-20240116; t=1780352345; c=relaxed/simple;
+	bh=fq4Fi0BOJK0Oz6zVU6IIXcEKdJYk+18W7XxnOpKl1i0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=es+0RpDOJJFIPEQry6iBVCXMMsxtklD8k3AUpY8RWM9wLULlzakQI3Hw1c1nmOqoafolMb3frqAvKcd926BSdg49WfAv77CBHf5JWbUoWAahnZXtGt2r8IepeF/jx0p6wIAgVRi9XLWkBc6H9Rs0pbr94fQM2QICWJDM82mfu9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Armu3T0C; arc=none smtp.client-ip=95.215.58.182
+	 MIME-Version; b=iWoKLIDB44hjQyurIpU1b0eG/M4d3T3Wf3GPjzJpfNnsHL6jgjfQqhjD4CqKQiR8TntWoOfKCr9+AKatKxZTrgI2zzjEqLNYq53RWMKPcnucO8KegsWGMmmt77NE1rAMSs8LH5v/4n6DUldbL15ptaDKd4A9YxEAzJCBt8n1ldQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LvvOC4c8; arc=none smtp.client-ip=95.215.58.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780352340;
+	t=1780352342;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vz2VHeOnwv9MX/4HPnJFUguI35X0RwlMxDUX7zQ4/5E=;
-	b=Armu3T0CHr7XMj2y5z5bKhXQxdZGxMhjy20L7zPz9OzV5A48xQj3JWwPruMbTNXa23U9JO
-	YAJgLTAGThH80kdF5NJ4MNRu5FcSWrn3UkMxhqjGXfZDFbt3U0dQSFcjRKtNGp4yyxo5mG
-	r/j87E0AlNmRQqqmTC147N9nAriah7s=
+	bh=oFL2QSsKRpe1cM9JJbX1erVFMkXIc/qmCec2wIJYU2A=;
+	b=LvvOC4c8W1niwXSZB2WJ7kmLL7uJYNWCRjJPRlKIciIVrEwZoSLQGiDRKqyp+TMsJy7lPq
+	jXwNUbf4vEWF79Bq3fzNmajs0RdGgoKQgXsUtEktOUuqm7GLpJjJ37vUhBWl/UPfHrV/db
+	1Lr1ReMwFllCUzxeZJv7FoEftGGZ6AM=
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
@@ -55,9 +55,9 @@ Cc: Alan Maguire <alan.maguire@oracle.com>,
 	Jiri Olsa <jolsa@kernel.org>,
 	bpf@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH bpf-next v1 05/14] resolve_btfids: Index BTF ID symbols by address
-Date: Mon,  1 Jun 2026 15:17:56 -0700
-Message-ID: <20260601221805.821394-6-ihor.solodrai@linux.dev>
+Subject: [PATCH bpf-next v1 06/14] resolve_btfids: Discover kfuncs from BTF ID sets
+Date: Mon,  1 Jun 2026 15:17:57 -0700
+Message-ID: <20260601221805.821394-7-ihor.solodrai@linux.dev>
 In-Reply-To: <20260601221805.821394-1-ihor.solodrai@linux.dev>
 References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
 Precedence: bulk
@@ -78,7 +78,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13455-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13456-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	FREEMAIL_TO(0.00)[kernel.org,iogearbox.net,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -95,188 +95,206 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.dev:email,linux.dev:mid,linux.dev:dkim]
-X-Rspamd-Queue-Id: E493F625DFF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:mid,linux.dev:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 17EF4625E25
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Keep an address-sorted index of parsed .BTF_ids symbols so code that
-the original BTF_ID symbol name can be recovered from an entry
-address.
+collect_kfuncs() currently uses bpf_kfunc decl tags to identify the
+list of kfuncs. The decl tags are generated by pahole, which makes
+current implementation implicitly rely on those tags being generated.
 
-Use the index in find_kfunc_flags() to scan BTF_SET8_KFUNCS entries
-directly and match each entry back to the requested kfunc.
+The authoritative source, used by the the BPF verifier for kfunc
+registration, of functions being BPF kfuncs are
+BTF_KFUNCS_START()/END() declarations. These are BTF_ID_SET8 under the
+hood. Currently resolve_btfids reads kfunc flags from these sets, and
+populates them with BTF IDs.
+
+Implement kfunc discovery from BTF_ID_SET8 symbols in resolve_btfids,
+removing the dependency on pahole's emmission of decl tags.
+
+Walk BTF_ID_KIND_SET8 sets, and use the address-to-symbol index to
+look up set entry's BTF_ID symbol name (before .BTF_ids is patched),
+recording the paired flags directly. This makes find_kfunc_flags()
+helper unnecessary, so it's removed.
+
+Kernel functions can appear in more than one set, which is legitimate,
+since kfunc sets are prog-type dependent in the kernel. So for btf2btf
+processing deduplicate kfuncs by BTF ID, accumulate (OR) the flags,
+and warn on flags mismatch to catch inconsistent declarations.
 
 Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 ---
- tools/bpf/resolve_btfids/main.c | 103 +++++++++++++++++++++++++-------
- 1 file changed, 80 insertions(+), 23 deletions(-)
+ tools/bpf/resolve_btfids/main.c | 122 ++++++++++++++------------------
+ 1 file changed, 55 insertions(+), 67 deletions(-)
 
 diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-index f8a91fa7584f..43512af13148 100644
+index 43512af13148..d35a7b2460e8 100644
 --- a/tools/bpf/resolve_btfids/main.c
 +++ b/tools/bpf/resolve_btfids/main.c
-@@ -119,6 +119,11 @@ struct btf_id {
- 	Elf64_Addr	 addr[ADDR_CNT];
- };
+@@ -970,6 +970,23 @@ static int push_kfunc(struct btf2btf_context *ctx, struct kfunc *kfunc)
+ 	struct kfunc *arr = ctx->kfuncs;
+ 	u32 cap = ctx->max_kfuncs;
  
-+struct addr_sym {
-+	Elf64_Addr	 addr;
-+	const char	*name;
-+};
++	/*
++	 * A kfunc can be listed in multiple BTF ID sets.
++	 * In this case, dedup by btf_id and accumulate kfunc flags.
++	 */
++	for (u32 i = 0; i < ctx->nr_kfuncs; i++) {
++		if (ctx->kfuncs[i].btf_id != kfunc->btf_id)
++			continue;
 +
- struct object {
- 	const char *path;
- 	const char *btf_path;
-@@ -150,6 +155,10 @@ struct object {
- 	int nr_structs;
- 	int nr_unions;
- 	int nr_typedefs;
-+
-+	struct addr_sym *addr_syms;
-+	int nr_addr_syms;
-+	int max_addr_syms;
- };
- 
- #define KF_IMPLICIT_ARGS (1 << 16)
-@@ -480,6 +489,49 @@ static int elf_collect(struct object *obj)
- 	return 0;
- }
- 
-+static int push_addr_sym(struct object *obj, Elf64_Addr addr, const char *name)
-+{
-+	struct addr_sym *arr = obj->addr_syms;
-+	int cap = obj->max_addr_syms;
-+
-+	if (obj->nr_addr_syms + 1 > cap) {
-+		cap = max(cap + 256, cap * 2);
-+		arr = realloc(arr, sizeof(*arr) * cap);
-+		if (!arr)
-+			return -ENOMEM;
-+		obj->max_addr_syms = cap;
-+		obj->addr_syms = arr;
++		if (ctx->kfuncs[i].flags != kfunc->flags) {
++			pr_err("WARN: resolve_btfids: inconsistent flags for kfunc %s: 0x%x != 0x%x\n",
++			       kfunc->name, ctx->kfuncs[i].flags, kfunc->flags);
++			warnings++;
++		}
++		ctx->kfuncs[i].flags |= kfunc->flags;
++		return 0;
 +	}
 +
-+	obj->addr_syms[obj->nr_addr_syms].addr = addr;
-+	obj->addr_syms[obj->nr_addr_syms].name = name;
-+	obj->nr_addr_syms++;
-+
-+	return 0;
-+}
-+
-+static int cmp_addr_sym(const void *a, const void *b)
-+{
-+	Elf64_Addr aa = ((const struct addr_sym *)a)->addr;
-+	Elf64_Addr ab = ((const struct addr_sym *)b)->addr;
-+
-+	if (aa < ab)
-+		return -1;
-+	if (aa > ab)
-+		return 1;
-+	return 0;
-+}
-+
-+static const char *find_name_by_addr(struct object *obj, Elf64_Addr addr)
-+{
-+	struct addr_sym key = { .addr = addr };
-+	struct addr_sym *res;
-+
-+	res = bsearch(&key, obj->addr_syms, obj->nr_addr_syms,
-+		      sizeof(*obj->addr_syms), cmp_addr_sym);
-+	return res ? res->name : NULL;
-+}
-+
- static int symbols_collect(struct object *obj)
- {
- 	Elf_Scn *scn = NULL;
-@@ -573,8 +625,14 @@ static int symbols_collect(struct object *obj)
- 			return -1;
- 		}
- 		id->addr[id->addr_cnt++] = sym.st_value;
-+
-+		if (push_addr_sym(obj, sym.st_value, id->name))
-+			return -1;
- 	}
- 
-+	qsort(obj->addr_syms, obj->nr_addr_syms, sizeof(*obj->addr_syms),
-+	      cmp_addr_sym);
-+
+ 	if (ctx->nr_kfuncs + 1 > cap) {
+ 		cap = max(cap + 256, cap * 2);
+ 		arr = realloc(arr, sizeof(struct kfunc) * cap);
+@@ -1003,92 +1020,63 @@ static int collect_decl_tags(struct btf2btf_context *ctx)
  	return 0;
  }
  
-@@ -946,43 +1004,41 @@ static int collect_decl_tags(struct btf2btf_context *ctx)
- }
- 
- /*
-- * To find the kfunc flags having its struct btf_id (with ELF addresses)
-- * we need to find the address that is in range of a set8.
-- * If a set8 is found, then the flags are located at addr + 4 bytes.
-+ * To find kfunc flags, scan BTF_SET8_KFUNCS entries and use the entry
-+ * address to recover the corresponding BTF_ID symbol name.
-  * Return 0 (no flags!) if not found.
-  */
- static u32 find_kfunc_flags(struct object *obj, struct btf_id *kfunc_id)
+-/*
+- * To find kfunc flags, scan BTF_SET8_KFUNCS entries and use the entry
+- * address to recover the corresponding BTF_ID symbol name.
+- * Return 0 (no flags!) if not found.
+- */
+-static u32 find_kfunc_flags(struct object *obj, struct btf_id *kfunc_id)
++static int collect_kfuncs(struct object *obj, struct btf2btf_context *ctx)
  {
- 	const u32 *elf_data_ptr = obj->efile.idlist->d_buf;
--	u64 set_lower_addr, set_upper_addr, addr;
- 	struct btf_id *set_id;
+-	const u32 *elf_data_ptr = obj->efile.idlist->d_buf;
+-	struct btf_id *set_id;
++	Elf_Data *idlist = obj->efile.idlist;
++	struct btf *btf = ctx->btf;
  	struct rb_node *next;
--	u32 flags;
--	u64 idx;
-+	u64 idx, set_addr;
-+	u32 set_flags;
+-	u64 idx, set_addr;
+-	u32 set_flags;
++
++	if (!idlist || !idlist->d_buf)
++		return 0;
  
  	for (next = rb_first(&obj->sets); next; next = rb_next(next)) {
++		struct btf_id_set8 *set8;
++		struct btf_id *set_id;
++		unsigned long off;
++		u64 set_addr;
++		int err;
++
  		set_id = rb_entry(next, struct btf_id, rb_node);
  		if (set_id->kind != BTF_ID_KIND_SET8 || set_id->addr_cnt != 1)
  			continue;
  
--		set_lower_addr = set_id->addr[0];
--		set_upper_addr = set_lower_addr + set_id->cnt * sizeof(u64);
-+		set_addr = set_id->addr[0];
-+		idx = (set_addr - obj->efile.idlist_addr) / sizeof(u32) + 1;
-+		set_flags = elf_data_ptr[idx];
-+		if (!(set_flags & BTF_SET8_KFUNCS))
-+			continue;
+ 		set_addr = set_id->addr[0];
+-		idx = (set_addr - obj->efile.idlist_addr) / sizeof(u32) + 1;
+-		set_flags = elf_data_ptr[idx];
+-		if (!(set_flags & BTF_SET8_KFUNCS))
++		off = set_addr - obj->efile.idlist_addr;
++		set8 = idlist->d_buf + off;
++		if (!(set8->flags & BTF_SET8_KFUNCS))
+ 			continue;
  
--		for (u32 i = 0; i < kfunc_id->addr_cnt; i++) {
--			addr = kfunc_id->addr[i];
--			/*
--			 * Lower bound is exclusive to skip the 8-byte header of the set.
--			 * Upper bound is inclusive to capture the last entry at offset 8*cnt.
--			 */
--			if (set_lower_addr < addr && addr <= set_upper_addr) {
--				pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n",
--					 kfunc_id->name, set_id->name);
--				idx = addr - obj->efile.idlist_addr;
--				idx = idx / sizeof(u32) + 1;
--				flags = elf_data_ptr[idx];
+ 		for (u32 i = 0; i < set_id->cnt; i++) {
+ 			Elf64_Addr addr = set_addr + sizeof(u64) * (i + 1);
+ 			const char *name = find_name_by_addr(obj, addr);
++			struct kfunc kfunc;
++			s32 func_id;
+ 
+-			if (!name || strcmp(name, kfunc_id->name) != 0)
++			if (!name) {
++				pr_err("WARN: resolve_btfids: no kfunc symbol for set %s entry %u\n",
++				       set_id->name, i);
++				warnings++;
+ 				continue;
++			}
+ 
+-			pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n",
+-				 kfunc_id->name, set_id->name);
 -
--				return flags;
--			}
-+		for (u32 i = 0; i < set_id->cnt; i++) {
-+			Elf64_Addr addr = set_addr + sizeof(u64) * (i + 1);
-+			const char *name = find_name_by_addr(obj, addr);
-+
-+			if (!name || strcmp(name, kfunc_id->name) != 0)
+-			idx = (addr - obj->efile.idlist_addr) / sizeof(u32) + 1;
+-			return elf_data_ptr[idx];
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-static int collect_kfuncs(struct object *obj, struct btf2btf_context *ctx)
+-{
+-	const char *tag_name, *func_name;
+-	struct btf *btf = ctx->btf;
+-	const struct btf_type *t;
+-	u32 flags, func_id;
+-	struct kfunc kfunc;
+-	struct btf_id *id;
+-	int err;
+-
+-	if (ctx->nr_decl_tags == 0)
+-		return 0;
+-
+-	for (u32 i = 0; i < ctx->nr_decl_tags; i++) {
+-		t = btf__type_by_id(btf, ctx->decl_tags[i]);
+-		if (btf_kflag(t) || btf_decl_tag(t)->component_idx != -1)
+-			continue;
+-
+-		tag_name = btf__name_by_offset(btf, t->name_off);
+-		if (strcmp(tag_name, "bpf_kfunc") != 0)
+-			continue;
+-
+-		func_id = t->type;
+-		t = btf__type_by_id(btf, func_id);
+-		if (!btf_is_func(t))
+-			continue;
+-
+-		func_name = btf__name_by_offset(btf, t->name_off);
+-		if (!func_name)
+-			continue;
+-
+-		id = btf_id__find(&obj->funcs, func_name);
+-		if (!id || id->kind != BTF_ID_KIND_SYM)
+-			continue;
++			func_id = btf__find_by_name_kind(btf, name, BTF_KIND_FUNC);
++			if (func_id < 0) {
++				pr_err("WARN: resolve_btfids: no BTF FUNC for kfunc %s in set %s\n",
++				       name, set_id->name);
++				warnings++;
 +				continue;
-+
-+			pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n",
-+				 kfunc_id->name, set_id->name);
-+
-+			idx = (addr - obj->efile.idlist_addr) / sizeof(u32) + 1;
-+			return elf_data_ptr[idx];
- 		}
++			}
+ 
+-		flags = find_kfunc_flags(obj, id);
++			pr_debug("found kfunc %s in BTF_ID_FLAGS %s\n", name, set_id->name);
+ 
+-		kfunc.name = id->name;
+-		kfunc.btf_id = func_id;
+-		kfunc.flags = flags;
++			kfunc.name = name;
++			kfunc.btf_id = func_id;
++			kfunc.flags = set8->pairs[i].flags;
+ 
+-		err = push_kfunc(ctx, &kfunc);
+-		if (err)
+-			return err;
++			err = push_kfunc(ctx, &kfunc);
++			if (err)
++				return err;
++		}
  	}
  
-@@ -1575,6 +1631,7 @@ int main(int argc, const char **argv)
- 	btf_id__free_all(&obj.typedefs);
- 	btf_id__free_all(&obj.funcs);
- 	btf_id__free_all(&obj.sets);
-+	free(obj.addr_syms);
- 	if (obj.efile.elf) {
- 		elf_end(obj.efile.elf);
- 		close(obj.efile.fd);
+ 	return 0;
+@@ -1108,7 +1096,7 @@ static int build_btf2btf_context(struct object *obj, struct btf2btf_context *ctx
+ 
+ 	err = collect_kfuncs(obj, ctx);
+ 	if (err) {
+-		pr_err("ERROR: resolve_btfids: failed to collect kfuncs from BTF\n");
++		pr_err("ERROR: resolve_btfids: failed to collect kfuncs from BTF ID sets\n");
+ 		return err;
+ 	}
+ 
 -- 
 2.54.0
 
