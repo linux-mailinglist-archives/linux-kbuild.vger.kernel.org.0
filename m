@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-13450-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13451-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGn3A1kFHmqAggkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13450-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:05 +0200
+	id SOUsLVAFHmqAggkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13451-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:18:56 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA444625DA0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:04 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79442625D8B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:18:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DCECB301DCF9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2026 22:18:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 74E3F302D31C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2026 22:18:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FB5368D4C;
-	Mon,  1 Jun 2026 22:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 379F930B508;
+	Mon,  1 Jun 2026 22:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Up5FO+UB"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qmbImLXg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED99366570
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Jun 2026 22:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD411349CC3
+	for <linux-kbuild@vger.kernel.org>; Mon,  1 Jun 2026 22:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780352331; cv=none; b=JxfCZ9eLJPM/n2zvusD4HKq38RxbnDPxDmNWXq8A4/zI9JiVaFeRK2Nf/L4wBHZUB3YzOUg47Vkm1gyUK7h8cJIgPASV/HRLRrJ0Q8NSCpZ2Io35K5Ga8Va2O3W7BRzLmFBVEgCUNTbW7ltNGXFwr6DIwWXfH0ixP1bsoOAgR50=
+	t=1780352335; cv=none; b=TDI40FT+rhxGgYclgBDD/iSDdyZlVtScts7V7nKxYs8rGbZMofzDOL6XU9mnpDrysG6TIv33u76YIUZYjedyifk6KAbkN7QKjMnxh2oOeN4RrQCie6MNRnpTEAzllJEbK+LMfVyjNgnEQnKuZQrdzQ2k3fG27Cej6+GAM2gnpOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780352331; c=relaxed/simple;
-	bh=9kkXs74naFLkR7tsQ97HfR/dSsWcR0xtD7xs9YcLoNA=;
+	s=arc-20240116; t=1780352335; c=relaxed/simple;
+	bh=cKyC29Mpejq/o3/GFTTaQXfwKGlw9qvTm6uLHth5pzQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AfTm9Dy7R55L9zihFFa3/UHuPghmRE6qhl9L4EHQjEE3LD5XsAssQKLQHSNkE2ACj4lUerMsbvHNhcxrLxGEu4W7NBoj0u4YmvuomQFu/lOoGRK7dFw8QBdhRSJyEwWGS7vKFwylAc+RiDt2tATdSeFw1N+ZNHLxi5scLZ4FcNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Up5FO+UB; arc=none smtp.client-ip=95.215.58.170
+	 MIME-Version; b=UVeJszSbYyMismQSGT4wpPwNiSQyiVm/fwvDHpbdgl5vFD+WrOLXjWHn53k3w0QhftEULn/+aqWA6QjDlxuRnigjqOhCzo1pNrm0phjZV0v0JgUu+tvgrCbgpSyZsyWIZnDA/UJbB3cnEk/HfU1gnjPzBEw9MHshBuYDE8E75FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qmbImLXg; arc=none smtp.client-ip=95.215.58.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780352327;
+	t=1780352330;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K2JCsshQIRcXFwnXyputxFVFmahr9SGDljCocSGVm/Y=;
-	b=Up5FO+UB5h6tx5ksrDhelY6HFkzLeCig85pG/Sny9EUbbWmnUdqI5M3pSVaEWNPRyZ1KyD
-	vWEsGY4WyBhsiHKEZcIfda4uwuA8btqMU7igwJPRX5xfzgKNYWks4a76ihdcTp3+eHh2xF
-	S/guf9j9AZIj0ukFGUsSLORahh3AhTw=
+	bh=KuxV3llsZQEZKsr/Dw96hOLpfxljH7pbk11d032UK1c=;
+	b=qmbImLXgTMpLC9OnuNwgbCaJsjHmb716IkR5lPE5PCFIbiw3TYgsnjz6/tWMWP0I87MN4j
+	GH8AUBoASDZZRmITW30C7j78zFkjepxok1KBVp0s1ApiLyCF2SlumF85shdVvyhxw9mV/t
+	7DbzdrUBeZRqrgONEtwKIKZoYBZzn5k=
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
@@ -55,9 +55,9 @@ Cc: Alan Maguire <alan.maguire@oracle.com>,
 	Jiri Olsa <jolsa@kernel.org>,
 	bpf@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH bpf-next v1 01/14] tools/bpf: Sync btf_ids.h to tools
-Date: Mon,  1 Jun 2026 15:17:52 -0700
-Message-ID: <20260601221805.821394-2-ihor.solodrai@linux.dev>
+Subject: [PATCH bpf-next v1 02/14] selftests/bpf: Modernize resolve_btfids test scaffolding
+Date: Mon,  1 Jun 2026 15:17:53 -0700
+Message-ID: <20260601221805.821394-3-ihor.solodrai@linux.dev>
 In-Reply-To: <20260601221805.821394-1-ihor.solodrai@linux.dev>
 References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
 Precedence: bulk
@@ -74,11 +74,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13450-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13451-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	FREEMAIL_TO(0.00)[kernel.org,iogearbox.net,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -94,167 +94,121 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.dev:email,linux.dev:mid,linux.dev:dkim]
-X-Rspamd-Queue-Id: AA444625DA0
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:mid,linux.dev:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 79442625D8B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Sync tools/include/linux/btf_ids.h with include/linux/btf_ids.h so
-tools-side code can use BTF_ID_FLAGS(), BTF_SET8_START(), and
-BTF_KFUNCS_START().
-
-Keep the tools copy's existing compiler header dependency:
-tools/include/linux/compiler.h already provides __maybe_unused and
-tools/include/linux/compiler_attributes.h does not exist.
+Refactor resolve_btfids test in order to:
+  * use newer ASSERT_* macros instead of CHECK
+  * extend the lifetime of loaded BTF to enable additional checks
+  * cleanup unused/unnecessary code
 
 Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 ---
- tools/include/linux/btf_ids.h | 78 ++++++++++++++++++++++++++++++++---
- 1 file changed, 73 insertions(+), 5 deletions(-)
+ .../selftests/bpf/prog_tests/resolve_btfids.c | 54 +++++++------------
+ 1 file changed, 18 insertions(+), 36 deletions(-)
 
-diff --git a/tools/include/linux/btf_ids.h b/tools/include/linux/btf_ids.h
-index 72ea363d434d..4fe5c5f1558c 100644
---- a/tools/include/linux/btf_ids.h
-+++ b/tools/include/linux/btf_ids.h
-@@ -10,6 +10,9 @@ struct btf_id_set {
- 	u32 ids[];
- };
+diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+index 41dfaaabb73f..d742ecb2ca8e 100644
+--- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
++++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+@@ -10,8 +10,6 @@
+ #include <linux/btf_ids.h>
+ #include "test_progs.h"
  
-+/* This flag implies BTF_SET8 holds kfunc(s) */
-+#define BTF_SET8_KFUNCS		(1 << 0)
+-static int duration;
+-
+ struct symbol {
+ 	const char	*name;
+ 	int		 type;
+@@ -95,25 +93,15 @@ __resolve_symbol(struct btf *btf, int type_id)
+ 	return 0;
+ }
+ 
+-static int resolve_symbols(void)
++static int resolve_symbols(struct btf *btf)
+ {
+-	struct btf *btf;
++	__u32 nr = btf__type_cnt(btf);
+ 	int type_id;
+-	__u32 nr;
+-
+-	btf = btf__parse_raw("resolve_btfids.test.o.BTF");
+-	if (CHECK(libbpf_get_error(btf), "resolve",
+-		  "Failed to load BTF from resolve_btfids.test.o.BTF\n"))
+-		return -1;
+-
+-	nr = btf__type_cnt(btf);
+ 
+ 	for (type_id = 1; type_id < nr; type_id++) {
+ 		if (__resolve_symbol(btf, type_id))
+-			break;
++			return -1;
+ 	}
+-
+-	btf__free(btf);
+ 	return 0;
+ }
+ 
+@@ -121,25 +109,22 @@ void test_resolve_btfids(void)
+ {
+ 	__u32 *test_list, *test_lists[] = { test_list_local, test_list_global };
+ 	unsigned int i, j;
+-	int ret = 0;
++	struct btf *btf;
+ 
+-	if (resolve_symbols())
+-		return;
++	btf = btf__parse_raw("resolve_btfids.test.o.BTF");
++	if (!ASSERT_OK_PTR(btf, "btf_parse"))
++		goto out;
 +
- struct btf_id_set8 {
- 	u32 cnt;
- 	u32 flags;
-@@ -22,6 +25,7 @@ struct btf_id_set8 {
- #ifdef CONFIG_DEBUG_INFO_BTF
++	if (resolve_symbols(btf))
++		goto out;
  
- #include <linux/compiler.h> /* for __PASTE */
-+#include <linux/stringify.h>
+ 	/* Check BTF_ID_LIST(test_list_local) and
+ 	 * BTF_ID_LIST_GLOBAL(test_list_global) IDs
+ 	 */
+ 	for (j = 0; j < ARRAY_SIZE(test_lists); j++) {
+ 		test_list = test_lists[j];
+-		for (i = 0; i < ARRAY_SIZE(test_symbols); i++) {
+-			ret = CHECK(test_list[i] != test_symbols[i].id,
+-				    "id_check",
+-				    "wrong ID for %s (%d != %d)\n",
+-				    test_symbols[i].name,
+-				    test_list[i], test_symbols[i].id);
+-			if (ret)
+-				return;
+-		}
++		for (i = 0; i < ARRAY_SIZE(test_symbols); i++)
++			ASSERT_EQ(test_list[i], test_symbols[i].id, test_symbols[i].name);
+ 	}
  
- /*
-  * Following macros help to define lists of BTF IDs placed
-@@ -35,7 +39,7 @@ struct btf_id_set8 {
+ 	/* Check BTF_SET_START(test_set) IDs */
+@@ -153,15 +138,12 @@ void test_resolve_btfids(void)
+ 			break;
+ 		}
  
- #define BTF_IDS_SECTION ".BTF_ids"
+-		ret = CHECK(!found, "id_check",
+-			    "ID %d not found in test_symbols\n",
+-			    test_set.ids[i]);
+-		if (ret)
+-			break;
++		ASSERT_TRUE(found, "id_in_test_symbols");
  
--#define ____BTF_ID(symbol)				\
-+#define ____BTF_ID(symbol, word)			\
- asm(							\
- ".pushsection " BTF_IDS_SECTION ",\"a\";       \n"	\
- ".local " #symbol " ;                          \n"	\
-@@ -43,10 +47,11 @@ asm(							\
- ".size  " #symbol ", 4;                        \n"	\
- #symbol ":                                     \n"	\
- ".zero 4                                       \n"	\
-+word							\
- ".popsection;                                  \n");
- 
--#define __BTF_ID(symbol) \
--	____BTF_ID(symbol)
-+#define __BTF_ID(symbol, word) \
-+	____BTF_ID(symbol, word)
- 
- #define __ID(prefix) \
- 	__PASTE(__PASTE(prefix, __COUNTER__), __LINE__)
-@@ -56,7 +61,14 @@ asm(							\
-  * to 4 zero bytes.
-  */
- #define BTF_ID(prefix, name) \
--	__BTF_ID(__ID(__BTF_ID__##prefix##__##name##__))
-+	__BTF_ID(__ID(__BTF_ID__##prefix##__##name##__), "")
+-		if (i > 0) {
+-			if (!ASSERT_LE(test_set.ids[i - 1], test_set.ids[i], "sort_check"))
+-				return;
+-		}
++		if (i > 0)
++			ASSERT_LE(test_set.ids[i - 1], test_set.ids[i], "sort_check");
+ 	}
 +
-+#define ____BTF_ID_FLAGS(prefix, name, flags) \
-+	__BTF_ID(__ID(__BTF_ID__##prefix##__##name##__), ".long " #flags "\n")
-+#define __BTF_ID_FLAGS(prefix, name, flags, ...) \
-+	____BTF_ID_FLAGS(prefix, name, flags)
-+#define BTF_ID_FLAGS(prefix, name, ...) \
-+	__BTF_ID_FLAGS(prefix, name, ##__VA_ARGS__, 0)
- 
- /*
-  * The BTF_ID_LIST macro defines pure (unsorted) list
-@@ -155,10 +167,58 @@ asm(							\
- ".popsection;                                 \n");	\
- extern struct btf_id_set name;
- 
-+/*
-+ * The BTF_SET8_START/END macros pair defines sorted list of
-+ * BTF IDs and their flags plus its members count, with the
-+ * following layout:
-+ *
-+ * BTF_SET8_START(list)
-+ * BTF_ID_FLAGS(type1, name1, flags)
-+ * BTF_ID_FLAGS(type2, name2, flags)
-+ * BTF_SET8_END(list)
-+ *
-+ * __BTF_ID__set8__list:
-+ * .zero 8
-+ * list:
-+ * __BTF_ID__type1__name1__3:
-+ * .zero 4
-+ * .word (1 << 0) | (1 << 2)
-+ * __BTF_ID__type2__name2__5:
-+ * .zero 4
-+ * .word (1 << 3) | (1 << 1) | (1 << 2)
-+ *
-+ */
-+#define __BTF_SET8_START(name, scope, flags)		\
-+__BTF_ID_LIST(name, local)				\
-+asm(							\
-+".pushsection " BTF_IDS_SECTION ",\"a\";       \n"	\
-+"." #scope " __BTF_ID__set8__" #name ";        \n"	\
-+"__BTF_ID__set8__" #name ":;                   \n"	\
-+".zero 4                                       \n"	\
-+".long " __stringify(flags)                   "\n"	\
-+".popsection;                                  \n");
-+
-+#define BTF_SET8_START(name)				\
-+__BTF_SET8_START(name, local, 0)
-+
-+#define BTF_SET8_END(name)				\
-+asm(							\
-+".pushsection " BTF_IDS_SECTION ",\"a\";      \n"	\
-+".size __BTF_ID__set8__" #name ", .-" #name "  \n"	\
-+".popsection;                                 \n");	\
-+extern struct btf_id_set8 name;
-+
-+#define BTF_KFUNCS_START(name)				\
-+__BTF_SET8_START(name, local, BTF_SET8_KFUNCS)
-+
-+#define BTF_KFUNCS_END(name)				\
-+BTF_SET8_END(name)
-+
- #else
- 
--#define BTF_ID_LIST(name) static u32 __maybe_unused name[5];
-+#define BTF_ID_LIST(name) static u32 __maybe_unused name[128];
- #define BTF_ID(prefix, name)
-+#define BTF_ID_FLAGS(prefix, name, ...)
- #define BTF_ID_UNUSED
- #define BTF_ID_LIST_GLOBAL(name, n) u32 __maybe_unused name[n];
- #define BTF_ID_LIST_SINGLE(name, prefix, typename) static u32 __maybe_unused name[1];
-@@ -166,6 +226,10 @@ extern struct btf_id_set name;
- #define BTF_SET_START(name) static struct btf_id_set __maybe_unused name = { 0 };
- #define BTF_SET_START_GLOBAL(name) static struct btf_id_set __maybe_unused name = { 0 };
- #define BTF_SET_END(name)
-+#define BTF_SET8_START(name) static struct btf_id_set8 __maybe_unused name = { 0 };
-+#define BTF_SET8_END(name)
-+#define BTF_KFUNCS_START(name) static struct btf_id_set8 __maybe_unused name = { .flags = BTF_SET8_KFUNCS };
-+#define BTF_KFUNCS_END(name)
- 
- #endif /* CONFIG_DEBUG_INFO_BTF */
- 
-@@ -215,5 +279,9 @@ MAX_BTF_TRACING_TYPE,
- };
- 
- extern u32 btf_tracing_ids[];
-+extern u32 bpf_cgroup_btf_id[];
-+extern u32 bpf_local_storage_map_btf_id[];
-+extern u32 btf_bpf_map_id[];
-+extern u32 bpf_kmem_cache_btf_id[];
- 
- #endif
++out:
++	btf__free(btf);
+ }
 -- 
 2.54.0
 
