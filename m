@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-13461-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13462-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MHvVBmwFHmpRggkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13461-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:24 +0200
+	id ILbEFG8FHmpRggkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13462-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:27 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CFD625DCD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:23 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA6D625DD4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 00:19:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BF1AF302BBE4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2026 22:19:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D184130143F2
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2026 22:19:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7342E35F179;
-	Mon,  1 Jun 2026 22:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE9136213D;
+	Mon,  1 Jun 2026 22:19:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QCpcDBTy"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Y9DRNYD9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF5235FF6C
-	for <linux-kbuild@vger.kernel.org>; Mon,  1 Jun 2026 22:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84D035FF6C
+	for <linux-kbuild@vger.kernel.org>; Mon,  1 Jun 2026 22:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780352361; cv=none; b=SgLKOAz+bzUCUs12vZwjk4bqZ2RDdXEio70RzIdUTBIiluI/RvtS0455ENqNryU8Gl3/Bp5jROzisXQgpifgbccDBVc2h5DFYJ/Q+RY/zigXT3PyaphLHfSvXMyUVDGgJjJX1V+E82MkKIcWpfbo/nlceMbGyN7ttiPcHRKcc2s=
+	t=1780352365; cv=none; b=jUJlADKovhE+Xw/Xa4XoMGuGFF9h5hW7ideHjeMxiEhSQWXmKNAdOOMVucwcHJEDM6/ZcB23a+aI/G8tORkciYzKFItWW4hORpSDP+0mVpiFjk9ITOo+31vojGMaby69UN/eNZ/2U5NQZf7XrZnPjrT3BYmMQQoGbQv0BsSafMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780352361; c=relaxed/simple;
-	bh=S/g123l9nDHobLKKcMxqV28UGPLdv8WOtNKDuslgRiI=;
+	s=arc-20240116; t=1780352365; c=relaxed/simple;
+	bh=A1BTapHrWobGi+HgVK2ibNAn2ju7dUsLwFyZedW8rZg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m2/E3Dn7dnP1dcUZqwTkGTg79C8qPXWrHXVSsxQKH+bChcj+AHc9TJVN5V7RPMGs6fkkZmA618O9ucl1Z/Qb8DlZh8sGJG8VcootEL2wHzLPXaZHb8v2Njhy7DyE+CYNL99EMwRCXldUlAN06+n8nR59zOYCaD39byg0lFQOt0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QCpcDBTy; arc=none smtp.client-ip=95.215.58.187
+	 MIME-Version; b=W13HBUiDA/TSzYz8dsvWuFd3Iuk0HsLHRxbcVWTjX/w+XJWsSRCOyCWWWG3sKt1JQ2LJ1EZSIAh3wo6v19mOQJPYl11z9f6ZmN0KrRdv+OLokd8fdLd0M7klWePTZV1WMmRL09L3bKICtwCo/x8Gn11ka4hGosc6H7dflzU5a2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Y9DRNYD9; arc=none smtp.client-ip=95.215.58.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780352357;
+	t=1780352362;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cHQSxWWgAYkCSvyuP1yR36VlMTZB212qWD0Q6u5Wtv0=;
-	b=QCpcDBTy86J6faU59zLNYoOmyRQ+ti7IBU1Ul4pkxx50j/faf39Xcnsq6REpXeOAKqq08+
-	cqa/ZnOxwMi7EhJEDDEgjeFh8VfcKIjFSgvwIzjW1Z72Zv5O9MOuKAj809IIR9bBhfRlLQ
-	xDmwODkxsKEq8QBY7NwFzH0d61KG9jU=
+	bh=Q7YVlVJfp2x3II7qf9UOjIYvltj+9joO9la+cBQQJ5U=;
+	b=Y9DRNYD9cgD58h1L0GGCOqYKQvFkHvIvD3doF+KyL8cFDSXH/exmURpx2fhZUCfGyDZOSK
+	6YXLAMepR6KdZABuTZpq3zpF274gNZJaJNruvpVjuAFiT8CSLga4kbNhGH2hZGXJ+fxWfJ
+	vC2VnZCcbkouTxBJUhcNgXWhW+dIylg=
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
 To: Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
@@ -55,9 +55,9 @@ Cc: Alan Maguire <alan.maguire@oracle.com>,
 	Jiri Olsa <jolsa@kernel.org>,
 	bpf@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH bpf-next v1 11/14] resolve_btfids: Process KF_ARENA_* flags in resolve_btfids
-Date: Mon,  1 Jun 2026 15:18:02 -0700
-Message-ID: <20260601221805.821394-12-ihor.solodrai@linux.dev>
+Subject: [PATCH bpf-next v1 12/14] selftests/bpf: Verify arena type tags in resolve_btfids test
+Date: Mon,  1 Jun 2026 15:18:03 -0700
+Message-ID: <20260601221805.821394-13-ihor.solodrai@linux.dev>
 In-Reply-To: <20260601221805.821394-1-ihor.solodrai@linux.dev>
 References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
 Precedence: bulk
@@ -74,11 +74,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13461-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13462-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	FREEMAIL_TO(0.00)[kernel.org,iogearbox.net,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -94,188 +94,139 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linux.dev:email,linux.dev:mid,linux.dev:dkim]
-X-Rspamd-Queue-Id: C4CFD625DCD
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,linux.dev:mid,linux.dev:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: CFA6D625DD4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-For kfuncs flagged KF_ARENA_RET, KF_ARENA_ARG1 or KF_ARENA_ARG2,
-address_space(1) attribute (type tag with kflag=1) needs to be emitted
-to BTF for the return type or arg type respectively.
-
-So far this has been done by pahole [1].
-
-Implement the emission of the arena attributes in resolve_btfids: for
-flagged kfuncs create a new function prototype with updated BTF types,
-adding tags as necessary.
-
-Similar to decl tags emission, the transformation is idempotent: if
-the types are already tagged with address_space(1), it's a noop.
-
-[1] https://lore.kernel.org/dwarves/20250228194654.1022535-1-ihor.solodrai@linux.dev/
+Extend test_resolve_btfids() to assert that resolve_btfids emits the
+address_space(1) type attribute (a BTF_KIND_TYPE_TAG with kflag=1) on
+the return type and/or arguments of kfuncs marked with KF_ARENA_RET,
+KF_ARENA_ARG1 or KF_ARENA_ARG2.
 
 Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 ---
- tools/bpf/resolve_btfids/main.c | 131 ++++++++++++++++++++++++++++++++
- 1 file changed, 131 insertions(+)
+ .../selftests/bpf/prog_tests/resolve_btfids.c | 59 +++++++++++++++++++
+ tools/testing/selftests/bpf/progs/btf_data.c  | 10 ++++
+ 2 files changed, 69 insertions(+)
 
-diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-index f276200b1a68..aafbcfec755b 100644
---- a/tools/bpf/resolve_btfids/main.c
-+++ b/tools/bpf/resolve_btfids/main.c
-@@ -162,6 +162,9 @@ struct object {
+diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+index eeda4e3b6a7f..6449b551fde1 100644
+--- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
++++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+@@ -13,6 +13,15 @@
+ #ifndef KF_FASTCALL
+ #define KF_FASTCALL (1 << 12)
+ #endif
++#ifndef KF_ARENA_RET
++#define KF_ARENA_RET  (1 << 13)
++#endif
++#ifndef KF_ARENA_ARG1
++#define KF_ARENA_ARG1 (1 << 14)
++#endif
++#ifndef KF_ARENA_ARG2
++#define KF_ARENA_ARG2 (1 << 15)
++#endif
+ 
+ struct symbol {
+ 	const char	*name;
+@@ -39,6 +48,8 @@ struct kfunc_symbol {
+ static struct kfunc_symbol kfunc_symbols[] = {
+ 	{ "kfunc_a", -1, 0 },
+ 	{ "kfunc_b", -1, KF_FASTCALL },
++	{ "kfunc_c", -1, KF_ARENA_RET | KF_ARENA_ARG1 | KF_ARENA_ARG2 },
++	{ "kfunc_d", -1, KF_ARENA_ARG2 },
  };
  
- #define KF_FASTCALL (1 << 12)
-+#define KF_ARENA_RET (1 << 13)
-+#define KF_ARENA_ARG1 (1 << 14)
-+#define KF_ARENA_ARG2 (1 << 15)
- #define KF_IMPLICIT_ARGS (1 << 16)
- #define KF_IMPL_SUFFIX "_impl"
+ /* Align the .BTF_ids section to 4 bytes */
+@@ -95,6 +106,8 @@ BTF_SET_END(test_set)
+ BTF_KFUNCS_START(test_kfunc_set)
+ BTF_ID_FLAGS(func, kfunc_a)
+ BTF_ID_FLAGS(func, kfunc_b, KF_FASTCALL)
++BTF_ID_FLAGS(func, kfunc_c, KF_ARENA_RET | KF_ARENA_ARG1 | KF_ARENA_ARG2)
++BTF_ID_FLAGS(func, kfunc_d, KF_ARENA_ARG2)
+ BTF_KFUNCS_END(test_kfunc_set)
  
-@@ -1294,6 +1297,128 @@ static int ensure_decl_tag(struct btf2btf_context *ctx, const char *tag_name,
- 	return push_decl_tag_id(ctx, new_id);
+ #pragma GCC visibility pop
+@@ -178,6 +191,22 @@ static bool btf_has_decl_tag(struct btf *btf, const char *tag_name, s32 target_i
+ 	return false;
  }
  
-+static bool is_arena_type_attr(struct btf *btf, u32 id)
++/* True if @id is PTR -> TYPE_TAG(kflag=1, "address_space(1)") -> pointee */
++static bool is_arena_tagged_ptr(struct btf *btf, __u32 id)
 +{
-+	const struct btf_type *t = btf__type_by_id(btf, id);
++	const struct btf_type *ptr, *tag;
 +	const char *name;
 +
-+	if (!t || !btf_is_type_tag(t) || !btf_kflag(t))
++	ptr = btf__type_by_id(btf, id);
++	if (!ptr || !btf_is_ptr(ptr))
 +		return false;
-+	name = btf__name_by_offset(btf, t->name_off);
++	tag = btf__type_by_id(btf, ptr->type);
++	if (!tag || !btf_is_type_tag(tag) || !btf_kflag(tag))
++		return false;
++	name = btf__name_by_offset(btf, tag->name_off);
 +	return name && strcmp(name, "address_space(1)") == 0;
 +}
 +
-+static s32 ensure_arena_tagged_ptr(struct btf *btf, u32 ptr_id)
-+{
-+	const struct btf_type *ptr = btf__type_by_id(btf, ptr_id);
-+	s32 tag_id;
+ void test_resolve_btfids(void)
+ {
+ 	__u32 *test_list, *test_lists[] = { test_list_local, test_list_global };
+@@ -253,6 +282,36 @@ void test_resolve_btfids(void)
+ 						     kfunc_symbols[i].id),
+ 				    kfunc_symbols[i].name);
+ 
++	/* Check resolve_btfids wrapped exactly the arena-flagged return/args with
++	 * the address_space(1) type attribute, and left other pointers/returns
++	 * untouched.
++	 */
++	for (i = 0; i < ARRAY_SIZE(kfunc_symbols); i++) {
++		const struct btf_type *fn, *proto;
++		const struct btf_param *params;
++		const char *name = kfunc_symbols[i].name;
++		u32 fl = kfunc_symbols[i].flags;
++		__u32 nr;
 +
-+	if (!ptr || !btf_is_ptr(ptr))
-+		return -EINVAL;
-+
-+	if (is_arena_type_attr(btf, ptr->type))
-+		return ptr_id;
-+
-+	tag_id = btf__add_type_attr(btf, "address_space(1)", ptr->type);
-+	if (tag_id < 0)
-+		return tag_id;
-+
-+	return btf__add_ptr(btf, tag_id);
-+}
-+
-+/*
-+ * Build a FUNC_PROTO for @kfunc with each arena-flagged return/parameter
-+ * pointer tagged with address_space(1). Pointers already tagged are kept as is.
-+ *
-+ * If nothing needs tagging, the original proto id is returned unchanged.
-+ * Otherwise a new FUNC_PROTO is created and its id returned. The original
-+ * proto may be shared with sibling FUNCs, so it must not be modified in place.
-+ */
-+static s32 ensure_arena_tagged_proto(struct btf *btf, struct kfunc *kfunc)
-+{
-+	const struct btf_type *func = btf__type_by_id(btf, kfunc->btf_id);
-+	u32 proto_id = func->type;
-+	const struct btf_type *proto = btf__type_by_id(btf, proto_id);
-+	const struct btf_param *params = btf_params(proto);
-+	u32 nr_params = btf_vlen(proto);
-+	s32 arg0_type_id = nr_params > 0 ? (s32)params[0].type : -1;
-+	s32 arg1_type_id = nr_params > 1 ? (s32)params[1].type : -1;
-+	s32 ret_type_id = proto->type;
-+	s32 new_proto_id, id;
-+	bool changed = false;
-+	int err;
-+
-+	if (kfunc->flags & KF_ARENA_RET) {
-+		id = ensure_arena_tagged_ptr(btf, ret_type_id);
-+		if (id < 0)
-+			return id;
-+		changed |= id != ret_type_id;
-+		ret_type_id = id;
-+	}
-+
-+	if (nr_params > 0 && (kfunc->flags & KF_ARENA_ARG1)) {
-+		id = ensure_arena_tagged_ptr(btf, arg0_type_id);
-+		if (id < 0)
-+			return id;
-+		changed |= id != arg0_type_id;
-+		arg0_type_id = id;
-+	}
-+
-+	if (nr_params > 1 && (kfunc->flags & KF_ARENA_ARG2)) {
-+		id = ensure_arena_tagged_ptr(btf, arg1_type_id);
-+		if (id < 0)
-+			return id;
-+		changed |= id != arg1_type_id;
-+		arg1_type_id = id;
-+	}
-+
-+	if (!changed)
-+		return proto_id;
-+
-+	new_proto_id = btf__add_func_proto(btf, ret_type_id);
-+	if (new_proto_id < 0)
-+		return new_proto_id;
-+
-+	for (int i = 0; i < nr_params; i++) {
-+		s32 param_type_id;
-+		const char *name;
-+
-+		proto = btf__type_by_id(btf, proto_id);
++		fn = btf__type_by_id(btf, kfunc_symbols[i].id);
++		if (!ASSERT_TRUE(fn && btf_is_func(fn), name))
++			continue;
++		proto = btf__type_by_id(btf, fn->type);
++		if (!ASSERT_TRUE(proto && btf_is_func_proto(proto), name))
++			continue;
 +		params = btf_params(proto);
-+		name = btf__name_by_offset(btf, params[i].name_off);
++		nr = btf_vlen(proto);
 +
-+		if (i == 0)
-+			param_type_id = arg0_type_id;
-+		else if (i == 1)
-+			param_type_id = arg1_type_id;
-+		else
-+			param_type_id = params[i].type;
-+
-+		err = btf__add_func_param(btf, name ?: "", param_type_id);
-+		if (err < 0)
-+			return err;
++		ASSERT_EQ(is_arena_tagged_ptr(btf, proto->type),
++			  !!(fl & KF_ARENA_RET), name);
++		if (nr > 0)
++			ASSERT_EQ(is_arena_tagged_ptr(btf, params[0].type),
++				  !!(fl & KF_ARENA_ARG1), name);
++		if (nr > 1)
++			ASSERT_EQ(is_arena_tagged_ptr(btf, params[1].type),
++				  !!(fl & KF_ARENA_ARG2), name);
 +	}
 +
-+	pr_debug("resolve_btfids: added arena-tagged proto for kfunc %s: %d\n", kfunc->name, new_proto_id);
+ out:
+ 	btf__free(btf);
+ }
+diff --git a/tools/testing/selftests/bpf/progs/btf_data.c b/tools/testing/selftests/bpf/progs/btf_data.c
+index 8587658012c3..ec34f7a6e038 100644
+--- a/tools/testing/selftests/bpf/progs/btf_data.c
++++ b/tools/testing/selftests/bpf/progs/btf_data.c
+@@ -58,3 +58,13 @@ int kfunc_b(struct root_struct *root)
+ {
+ 	return 0;
+ }
 +
-+	return new_proto_id;
++struct root_struct *kfunc_c(struct root_struct *a, struct root_struct *b)
++{
++	return a;
 +}
 +
-+static int process_kfunc_with_arena_flags(struct btf2btf_context *ctx, struct kfunc *kfunc)
++int kfunc_d(struct root_struct *a, struct root_struct *b)
 +{
-+	struct btf_type *t;
-+	s32 proto_id;
-+
-+	proto_id = ensure_arena_tagged_proto(ctx->btf, kfunc);
-+	if (proto_id < 0)
-+		return proto_id;
-+
-+	t = (struct btf_type *)btf__type_by_id(ctx->btf, kfunc->btf_id);
-+	t->type = proto_id;
-+
 +	return 0;
 +}
-+
- static int btf2btf(struct object *obj)
- {
- 	struct btf2btf_context ctx = {};
-@@ -1321,6 +1446,12 @@ static int btf2btf(struct object *obj)
- 			if (err)
- 				goto out;
- 		}
-+
-+		if (kfunc->flags & (KF_ARENA_RET | KF_ARENA_ARG1 | KF_ARENA_ARG2)) {
-+			err = process_kfunc_with_arena_flags(&ctx, kfunc);
-+			if (err)
-+				goto out;
-+		}
- 	}
- 
- 	err = 0;
 -- 
 2.54.0
 
