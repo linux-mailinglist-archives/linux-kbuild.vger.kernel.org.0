@@ -1,217 +1,312 @@
-Return-Path: <linux-kbuild+bounces-13471-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13472-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
-	by lfdr with LMTP
-	id mHLkEK6hHmquDAAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13471-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 11:26:06 +0200
+	by mail.lfdr.de with LMTP
+	id p0GoE5LKHmqfVAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13472-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 14:20:34 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB7A62B73D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 11:26:05 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CA362DF1C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 14:20:34 +0200 (CEST)
+Authentication-Results: mail.lfdr.de;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Ozv7PPwJ;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13472-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13472-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1542C31B5845
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 09:16:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 200D6302DC44
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 12:16:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717403C9ECF;
-	Tue,  2 Jun 2026 09:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVOJC3P1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E6FD3E9C37;
+	Tue,  2 Jun 2026 12:15:28 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FF384039;
-	Tue,  2 Jun 2026 09:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9A63E0C46
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 12:15:26 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780391620; cv=none; b=UncD0ryIqI7V0MKFCrNoz4RofGGKRxqA4sBxZNv/iU/mxZpgJXX8GTDASvwK6iuGov/zPZQiVJJLASyzLQPUGkskfBzaNKyDbrTYpzM1utqMTyL9gcWoADLFuaKJHjzoXXWNL53c+tu9L0o5K8jee8MNg7ctG5nqIfHWOXz2/9Q=
+	t=1780402528; cv=none; b=HXh+lLX5PGo3Mpav1Fu0MuAWfOUujA4cY7kF7U3CFLtX/0u7uEu8v9RbjfQAGqAVKrBnHv71x+BQEzcv5C22XWGd+Y2kbL4rtDkvf5Ykv4rAUQaHAkk5WpGgtzuoc/BcqMScJnpGSqAFhZ0j6PiVaWcC+qkLCqt/LUph3y1yDYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780391620; c=relaxed/simple;
-	bh=N/W5GnT3aYPeOayZmgcsaSiHOGnJk7qmg6loCwMLd8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxAnDQs5+MO6xIUfVdTSnp4cKjhoBuyWiAQJwo9gPT9jhE807nph7e0jaVrr8QiRsTJwmpuQZqq0C3zoGcuNLO8XlyojEfv+U1esC2ra+w/jDXpewFfc0WHd1CsZS8GUtQp2cI/ddwVD5AATwF6Jko/NDKnNPg8WXkhtcKJN4Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVOJC3P1; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780391618; x=1811927618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=N/W5GnT3aYPeOayZmgcsaSiHOGnJk7qmg6loCwMLd8k=;
-  b=kVOJC3P10E6iPnYwxBozX51B2XK8FU1Vs1AIemIhGcw+wzKHEOEPZrYG
-   r5ebdZf7S59et8qrTqI8Ekxp+qTQe08bEAADREjT+BvukATiRz+ay/Rzx
-   T9f7LGEP5H2A1cg+CSOj/WvPug7u8rm/b0F8MV12URHQ6GbLCz6wFSEI5
-   qUqSyQT5Ju+tIYqY7yKgCFbFGISqvK8vPJH/cg4WVg/7HWuX3mcZlkTnc
-   niICDd+QcT/avhVttoEZGXiBaMfvwOIRtOyL2ioTo/x96RloLc5qoh7bK
-   JnVmsI0IMJBVZwjW1uKQ9g4Vk8LzVgGTuCImuv+kz0Qaq7lGtgXEN0pQe
-   w==;
-X-CSE-ConnectionGUID: DyUz0Ij4Q/uBTTsaXEE1vw==
-X-CSE-MsgGUID: nvDKC2hISq+HN4bizMMeIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="68715992"
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="68715992"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 02:13:04 -0700
-X-CSE-ConnectionGUID: 3+3R3jxMQMmQZn7bA3CRLQ==
-X-CSE-MsgGUID: mMU/fu7MToKTU05qbHFMrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="237505018"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 02:13:00 -0700
-Date: Tue, 2 Jun 2026 12:12:57 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Muchun Song <muchun.song@linux.dev>
-Cc: Kaitao Cheng <kaitao.cheng@linux.dev>, nsc@kernel.org,
-	nathan@kernel.org, paulmck@kernel.org, akpm@linux-foundation.org,
-	dhowells@redhat.com, rdunlap@infradead.org,
-	luca.ceresoli@bootlin.com, chengkaitao@kylinos.cn, acme@redhat.com,
-	irogers@google.com, peterz@infradead.org, namhyung@kernel.org,
-	swapnil.sapkal@amd.com, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] list: Add safe entry iterators without an explicit n
- cursor
-Message-ID: <ah6emVXKcAfWNAC0@ashevche-desk.local>
-References: <20260529082149.76764-1-kaitao.cheng@linux.dev>
- <2B3BFA1E-08B8-42AB-87D6-A28BF15E5C58@linux.dev>
+	s=arc-20240116; t=1780402528; c=relaxed/simple;
+	bh=8jFenrVpY6mPEQQtImkt6UJT4aM+INO9AtlA9KVwTDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LLCc5LLtzlPeB21X9NIJi0Ovo+rXTw4BeFJt81Y2zTnAN/IsepXFO3NRP+cW3+hP8vYfMbEWOoJKiWx6467eF8qDcFhH64LS4YB2dJdB/DNoZdIsn6OCs1zQxyUEoLW+538iTW9vK069fIg5BzXgbWGOvJkHckJ1Yb5CgbWVtLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ozv7PPwJ; arc=none smtp.client-ip=209.85.221.41
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45efb698ef2so1588576f8f.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jun 2026 05:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780402525; x=1781007325; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=39tomWq/D8VlQLXIgboVyRs7DGzptFPLmBA1BoR+QjQ=;
+        b=Ozv7PPwJ9FYIacmMMOcbS84R4q9K8OnzDn9+g3QaNdDUdWjwLGXyChPwRIoUAES3Hy
+         V5eIRwHMZnLPkSNB6hyYgMsgjlUZ+sT6toTN8dTMEnl6oNQS3oS8XBCN9vBUV7Z1Q5bT
+         vSBTIVJ5434e+n8U/k9Kd6ETmGtDxhgvwdXdw1XtcqvNKjT7ibUioGzPQFwBG7JGjOXa
+         rdmc99tY9eTaTFwUHB9CH5guXccEnoQA+5yE99wHMpNIvUeQ7Xyqvi7cDm0o9XoVjkEc
+         VT7I1dR0mKXksROclQerxrH17iKlzw+nRWIGqQhFMNWNWQRnkVJnVs+5n9PfeX4Y04dy
+         qFlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780402525; x=1781007325;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=39tomWq/D8VlQLXIgboVyRs7DGzptFPLmBA1BoR+QjQ=;
+        b=H6DFMbxl1Fl1CPsqBzxTqqOOJnPFKhlVWr8KghxXjJ1BQ+11H5VZ2tlSs6U2M9Drn5
+         UmvN+5KiRgyA1R3vC5iI6VZ7HzTIZ6sIaKToAjN6sy8qMMFU4e6jtMSp9hhbjHShyP9D
+         99LKoG/98mCw1WuvsSKjDSTWsMG57og+ICZZghZ6bmSIZsgm4zG0i9Biz1Ze+s0WqGOC
+         VJBnTd1oQ8QLDhD6he19flRe5twb/ZUtKMHYKOxmpR5U+h73pwJPjVQiO5nfUtHo2Ezp
+         ZRhw5xFo3ZOrSDch2dJrzXdmhQ/htiOmMPc4dN1QD3Kc4Cn5t34YdU/En5pKf/3DK+UP
+         T/kA==
+X-Forwarded-Encrypted: i=1; AFNElJ8gmxaPlhj/oxedACZLwONYetCmOLxJGLA5+G2+LCiS2kfiP80AvASYH8I7myWyg9B+0UToJdWsxrqBprQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqQs5SKFNEOzbQOvN/QeK88l9vrmP5sHk7Te7+0yaDFRc6L7P8
+	0k8AmVDEey3u0c1SDMieHGP9zyaPcNChwPWLNSKptb14i3Bi58jS3tKj
+X-Gm-Gg: Acq92OGaMFjVOX6ZEU783F3zDhapIpJ7+cAZPQtLlh6eOOWqtL9AohuFtOxoSrfa1dU
+	0XXm0IP8cD8gjsjO1ztcFtWVPkDMjAbjstXj0kMtwIM36XVHmy+b6C0xSXyPF0yW3dsAT2Hjyae
+	4yY4dLSqugkT/i11k0SlHk66jPMu9NOZSfZwknGgJViPhaB7v4Ub49orkEkhf1vtYB+LMe8gLas
+	3nYPmphFNr/kih4sQ+CjRFPNYQy30h9kGfP7H6lSibOQzyAsu1Vrwg90W+pyUEhPcV/ePjUNyLg
+	drySU7OtaqO+nEmvTB0IoQcuaH7AK+gcym0NOAzf/Uq314k798AJzoMB8t32bnPd6c+eJoSZ8hU
+	ZJmhRLtsf+w6CTM/4cIDImv6q5sLIYY1QmZZ+V55btajwql3m2m07UtGORYRg3ujAcJt8YhzihC
+	JOWVczJCXbP8dN7QNkjVWYL+GEmcC3uwgiPp06SVxNdywW1b6utQVz+eU=
+X-Received: by 2002:adf:f902:0:b0:43f:dc54:9493 with SMTP id ffacd0b85a97d-45ef6b5b602mr21478259f8f.21.1780402524564;
+        Tue, 02 Jun 2026 05:15:24 -0700 (PDT)
+Received: from localhost (a89-182-201-216.net-htp.de. [89.182.201.216])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45ef354b5bdsm31879617f8f.21.2026.06.02.05.15.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 05:15:24 -0700 (PDT)
+From: Sergei Litvin <litvindev@gmail.com>
+To: miguel.ojeda.sandonis@gmail.com,
+	nathan@kernel.org,
+	nsc@kernel.org
+Cc: rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	ojeda@kernel.org,
+	Sergei Litvin <litvindev@gmail.com>
+Subject: [PATCH v4] scripts/tags.sh: fix "make COMPILED_SOURCE=1 cscope" command ends up with *.rlib, *.rmeta, *.so filenames in cscope.files
+Date: Tue,  2 Jun 2026 14:15:21 +0200
+Message-ID: <20260602121521.11650-1-litvindev@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260601211850.3378-1-litvindev@gmail.com>
+References: <20260601211850.3378-1-litvindev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2B3BFA1E-08B8-42AB-87D6-A28BF15E5C58@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 9CB7A62B73D
-X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13471-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13472-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-kbuild@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FORGED_SENDER(0.00)[litvindev@gmail.com,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim]
-X-Rspamd-Action: no action
+	FORGED_RECIPIENTS(0.00)[m:miguel.ojeda.sandonis@gmail.com,m:nathan@kernel.org,m:nsc@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:ojeda@kernel.org,m:litvindev@gmail.com,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[litvindev@gmail.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Server: lfdr
+X-Rspamd-Queue-Id: 08CA362DF1C
 
-On Sat, May 30, 2026 at 02:49:14PM +0800, Muchun Song wrote:
-> > On May 29, 2026, at 16:21, Kaitao Cheng <kaitao.cheng@linux.dev> wrote:
+PROBLEM
 
-> > The list_for_each_entry_safe*() helpers are useful for loops which may
-> > remove the current entry, but they require callers to provide a second
-> > cursor named by convention as n. Some users do not need to inspect or
-> > reset that cursor; they only need the iterator to keep the next entry
-> > available while the current entry may be removed.
-> > 
-> > Add entry iterators which hide that temporary next cursor while otherwise
-> > following the traversal pattern of the corresponding
-> > list_for_each_entry_safe*() helpers.
-> > 
-> > Do not fold this behavior into list_for_each_entry(). That iterator
-> 
-> On the contrary, it might be better to modify list_for_each_entry() itself.
-> This prevents us from introducing multiple new interfaces, which could be
-> overwhelming and confusing for new users.
+(1) When executing the command `make COMPILED_SOURCE=1 cscope`, the
+`cscope.files` file generated by it includes filenames with the
+extensions *.rlib, *.rmeta, and *.so (taken from *.cmd files, which, in turn,
+are generated from *.d dependency files by the `fixdep` utility).
 
-+1 here.
+(2) When executing the command `make cscope`, the `cscope.files` file generated
+by it includes only filenames with the extensions *.h, *.c, *.S and not includes
+filenames with *.rs extensions.
 
-> If we do this, almost most callers of list_for_each_entry_safe() can be
-> replaced by list_for_each_entry(), as the new modification enables it to
-> properly handle the removal of the current loop cursor. As you'd expect,
-> this would simplify usage to some extent by eliminating the need to pass
-> a temporary variable.
-> 
-> > advances from pos after the loop body, and a few existing callers rely
-> > on that semantics to observe list changes made during the body. For
-> > example, stress_reorder_work() in kernel/locking/test-ww_mutex.c moves
-> > the current entry to the list head with list_move(&ll->link, &locks) and
-> > documents that this restarts iteration. If list_for_each_entry() cached
-> > the next entry before running the body, the loop would continue from the
-> > stale saved next entry instead of honoring the modified list order.
-> 
-> I used an AI to scan the entire repository, and the results are as follows
-> (analyzed based on commit e98d21c170b0):
-> 
-> There are 9,925 list_for_each_entry() call sites in total. Among them,
-> 9,919 do not require any adaptation, and only 6 need to be refactored:
-> 
->     • sound/soc/soc-dapm.c:258
->     • drivers/firewire/core-topology.c:275
->     • drivers/gpu/drm/i915/i915_scheduler.c:193
->     • drivers/gpu/drm/ttm/ttm_execbuf_util.c:89
->     • kernel/locking/locktorture.c:647
->     • kernel/locking/test-ww_mutex.c:522
-> 
-> As for list_for_each_entry_safe(), there are 4,572 callers. 4,550 of them
-> can be directly replaced by the new list_for_each_entry(), while 22 cannot
-> be replaced:
-> 
->     • drivers/gpio/gpiolib.c:527
->     • drivers/gpu/drm/i915/gem/i915_gem_context.c:1437
->     • drivers/gpu/drm/i915/gem/i915_gem_object.c:249
->     • drivers/gpu/drm/i915/gt/intel_gt_requests.c:143
->     • drivers/gpu/drm/i915/gt/intel_timeline.c:423
->     • drivers/gpu/drm/i915/i915_perf.c:2715
->     • drivers/gpu/drm/i915/pxp/intel_pxp.c:501
->     • drivers/gpu/drm/ttm/ttm_execbuf_util.c:90
->     • drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:7762
->     • drivers/net/wireless/marvell/mwifiex/init.c:559
->     • drivers/net/wireless/mediatek/mt76/mt7915/mac.c:2195
->     • drivers/net/wireless/mediatek/mt76/mt7996/mac.c:3066
->     • drivers/scsi/lpfc/lpfc_hbadisc.c:2574
->     • drivers/target/iscsi/iscsi_target.c:4693
->     • drivers/usb/c67x00/c67x00-sched.c:985
->     • drivers/usb/isp1760/isp1760-hcd.c:1060
->     • fs/btrfs/extent-tree.c:4666
->     • kernel/locking/locktorture.c:647
->     • kernel/locking/test-ww_mutex.c:522
->     • kernel/rcu/tasks.h:1059
->     • mm/page_reporting.c:183
->     • mm/shmem.c:1552"
-> 
-> During the AI's retrieval process, I noticed that it writes a script to
-> perform a simple syntax analysis. This script filters out call sites within
-> loops that don't involve any modifications to the list being iterated over
-> (such as add, del, or move). In fact, this already eliminates the vast
-> majority of call sites. As a result, there are very few instances that
-> require manual or AI verification, which significantly improves the
-> reliability of the AI's analysis.
-> 
-> "Of course, the results above are just for reference, and there's no
-> guarantee that the AI won't miss something. My suggestion is to have the
-> AI write the script first. Once we human-verify that the script is correct,
-> we can run it to collect the remaining call sites that need manual review.
-> After that, the AI can assist us in analyzing those remaining sites to
-> minimize the risk of introducing new issues.
+SOLUTION
 
-Do not forget that we have coccinelle and semantic grep & patch.
+(1) Modify the regular expression in the `all_compiled_sources()` function so
+that only files with the extensions *.h, *.c, *.S, and *.rs are accepted.
 
+This causes `make COMPILED_SOURCE=1 cscope` command to generate the
+`cscope.files` file that contains only files with the extensions *.h, *.c, *.S,
+and *.rs.
+
+(2) Modify the functions `find_arch_sources()`, `find_arch_include_sources()`,
+`find_include_sources()`, and `find_other_sources()` so that they can accept an
+unlimited number of filename patterns as parameters for the search. Add the
+`setup_name_pattern()` function to convert these filename pattern parameters
+into a list of parameters that can be passed to the `find` utility via the new
+`pattern` variable.
+
+This causes `make cscope` command to generate a `cscope.files` file that
+contains *.rs files along with *.h, *.c, *.S
+
+Signed-off-by: Sergei Litvin <litvindev@gmail.com>
+
+---
+
+Changes since V3:
+https://lore.kernel.org/lkml/20260601211850.3378-1-litvindev@gmail.com/
+
+In V3, the functions `find_arch_sources()`, `find_arch_include_sources()`,
+`find_include_sources()`, and `find_other_sources()` were modified so that they
+no longer accept the filename pattern as the last argument, but instead retrieve
+it from the new variable `pattern`. However, at the time, I had overlooked the
+case where the `find_other_sources` function was called with the `Kconfig*`
+parameter. And after Sashiko pointed this out to me, I decided to rewrite it in
+the current version.
+
+Changes since V2:
+https://lore.kernel.org/lkml/20260530085821.19689-1-litvindev@gmail.com/
+
+- The functions find_arch_sources()`, `find_arch_include_sources()`,
+`find_include_sources()`, and `find_other_sources()` have been modified rather
+than having their calls duplicated to avoid redundant directory
+traversals (suggested by Sashiko).
+
+– The regular expression in the `all_compiled_sources()` function was improved
+by adding a lookahead anchor (?=\s) to the first branch (also suggested by Sashiko).
+
+Changes between the V1 and V2:
+https://lore.kernel.org/lkml/20260530085821.19689-1-litvindev@gmail.com/
+https://lore.kernel.org/lkml/20260530070631.14955-1-litvindev@gmail.com/
+
+- In Version V1, the `-name` parameters to the `find` calls in the functions
+`find_arch_sources()`, `find_arch_include_sources()`, `find_include_sources()`,
+and `find_other_sources()` were replaced by `-regextype posix-extended
+-regex`. However, as noted by Sashiko, the `-regextype` option is a GNU-specific
+extension; therefore, in V2, duplicate function calls were introduced instead.
+
+Signed-off-by: Sergei Litvin <litvindev@gmail.com>
+---
+ scripts/tags.sh | 42 ++++++++++++++++++++++++++++++++----------
+ 1 file changed, 32 insertions(+), 10 deletions(-)
+
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index 243373683f98..41e38df96984 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -46,13 +46,31 @@ elif [ "${ALLSOURCE_ARCHS}" = "all" ]; then
+ 	ALLSOURCE_ARCHS=$(find ${tree}arch/ -mindepth 1 -maxdepth 1 -type d -printf '%f ')
+ fi
+ 
++setup_name_pattern()
++{
++	pattern=()
++	for ext; do
++		if [ ${#pattern[@]} -gt 0 ]; then
++			pattern+=("-o" "-name" "$ext")
++		else
++			pattern+=("(" "-name" "$ext")
++		fi
++	done
++	if [ ${#pattern[@]} -gt 0 ]; then
++		pattern+=(")")
++	fi
++}
++
+ # find sources in arch/$1
+ find_arch_sources()
+ {
+ 	for i in $archincludedir; do
+ 		local prune="$prune ( -path $i ) -prune -o"
+ 	done
+-	find ${tree}arch/$1 $ignore $prune -name "$2" -not -type l -print;
++	local src=${tree}arch/$1
++	shift
++	setup_name_pattern "$@"
++	find $src $ignore $prune "${pattern[@]}" -not -type l -print;
+ }
+ 
+ # find sources in arch/$1/include
+@@ -61,14 +79,17 @@ find_arch_include_sources()
+ 	local include=$(find ${tree}arch/$1/ -name include -type d -print);
+ 	if [ -n "$include" ]; then
+ 		archincludedir="$archincludedir $include"
+-		find $include $ignore -name "$2" -not -type l -print;
++		shift
++		setup_name_pattern "$@"
++		find $include $ignore "${pattern[@]}" -not -type l -print;
+ 	fi
+ }
+ 
+ # find sources in include/
+ find_include_sources()
+ {
+-	find ${tree}include $ignore -name config -prune -o -name "$1" \
++	setup_name_pattern "$@"
++	find ${tree}include $ignore -name config -prune -o "${pattern[@]}" \
+ 		-not -type l -print;
+ }
+ 
+@@ -76,23 +97,24 @@ find_include_sources()
+ # we could benefit from a list of dirs to search in here
+ find_other_sources()
+ {
++	setup_name_pattern "$@"
+ 	find ${tree}* $ignore \
+ 	     \( -path ${tree}include -o -path ${tree}arch -o -name '.tmp_*' \) -prune -o \
+-	       -name "$1" -not -type l -print;
++	       "${pattern[@]}" -not -type l -print;
+ }
+ 
+ all_sources()
+ {
+-	find_arch_include_sources ${SRCARCH} '*.[chS]'
++	find_arch_include_sources ${SRCARCH} '*.[chS]' '*.rs'
+ 	if [ -n "$archinclude" ]; then
+-		find_arch_include_sources $archinclude '*.[chS]'
++		find_arch_include_sources $archinclude '*.[chS]' '*.rs'
+ 	fi
+-	find_include_sources '*.[chS]'
++	find_include_sources '*.[chS]' '*.rs'
+ 	for arch in $ALLSOURCE_ARCHS
+ 	do
+-		find_arch_sources $arch '*.[chS]'
++		find_arch_sources $arch '*.[chS]' '*.rs'
+ 	done
+-	find_other_sources '*.[chS]'
++	find_other_sources '*.[chS]' '*.rs'
+ }
+ 
+ all_compiled_sources()
+@@ -100,7 +122,7 @@ all_compiled_sources()
+ 	{
+ 		echo include/generated/autoconf.h
+ 		find $ignore -name "*.cmd" -exec \
+-			grep -Poh '(?<=^  )\S+|(?<== )\S+[^\\](?=$)' {} \+ |
++			grep -Poh '(?<=^  )\S+\.([chS]|rs)(?=\s)|(?<== )\S+\.(?1)(?=$)' {} \+ |
+ 		awk '!a[$0]++'
+ 	} | xargs realpath -esq $([ -z "$KBUILD_ABS_SRCTREE" ] && echo --relative-to=.) |
+ 	sort -u
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
 
