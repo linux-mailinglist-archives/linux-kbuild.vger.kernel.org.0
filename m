@@ -1,151 +1,174 @@
-Return-Path: <linux-kbuild+bounces-13528-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mOdoMWkZH2rnfgAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13528-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 19:56:57 +0200
+	id KpGOIK4hH2rkhQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 20:32:14 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423B3630E3C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 19:56:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF8C631184
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 20:32:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DmkeuNUQ;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13528-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13528-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=linux.dev header.s=key1 header.b=cWdAglnd;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linux.dev;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ABDD0303B5B1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 17:54:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A17893011122
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 18:29:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A9D12FDC28;
-	Tue,  2 Jun 2026 17:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED60391831;
+	Tue,  2 Jun 2026 18:29:24 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6225C2C11E2
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 17:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFA23909AE
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 18:29:22 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780422855; cv=none; b=skn5dCJwIxZ9iWS3ovjSFlM0UW+it29OVFgJcLr8pKLVVjZQvrLWXS1KCWWGkdABZlCryFevwfKV5T8MIauGBsq1M6nCZHkCikMXuZuBAn2OSYcLHq6N+u1X5b9vCPdzIai4GY1g9Yk8w007DR7oRxzcwXM420cxxOE8H855TK0=
+	t=1780424964; cv=none; b=qerjCjCD5V8+E0A511yxKwFOSo7jnBSku6u7Uoqc97hmoCk4woF90L+a8JklGSfQ5Yj/hxdDGdwAi6dd16F5x8lc7nf8sfgPdJE5AgN5N9DfziTgUwH1GNQfleSiC3KVyb99fZv0EYwjJdQAvOV4rx2TBmsvEyGFGv2eAEOM2zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780422855; c=relaxed/simple;
-	bh=wSahDUxMAu/KTsE8WIzk28eXDFwofViLXLphYhM2ZXw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qzMKfREHkLHqhBKNke7ftHzDusfPAm7SinPwJQS/ChdNvtSSzn+zprGduLu/QTLkcBC5hn/3eCFWT5nd6YI2cd3bSbdo+BUhyy4HClUzQA9JR8Q3rBc76ZRfPIMWvfFgUGtScNkp5fm+Huv8cI6Xpyddwy7XNCfrbgTJDGkmsNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmkeuNUQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1607B1F00898
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 17:54:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780422854;
-	bh=ocCyWLz5TiPAT6PlSGlYvtcNs7yG9sMDA6UHnOxRQJc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=DmkeuNUQFY8GjsL4tiPVK8zqUi+KRu5fGt02lG0gTDwtqu3EAuJheW6tlAfFPNQ/b
-	 qNkOuekAhO4yuHnOQ5BYhXWJecPDwTVMQ2qEAGKLiPZLDy+YZoBAqMrgXgfrA3Wlih
-	 xKg+WiJMjErqXXQ6qsJ0Hb3yjD6MvgChQR+DN4Tl9dfqaSb5PPRBviwYpXVUEcv3lz
-	 LZIENIQAooysMSmy8dea81qTgBM1CEl4na2h/fi1iu/VHRjnbsT0yAS1bXafxRBcbz
-	 9/oPa/3Rxm7EoxCa6v7HOB5urCyBPCUmuCXu6zaeUEeqCjS8F4ArqZZiCxGThGdBbT
-	 3SDSDv5C8xI4w==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39677c434efso32367611fa.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jun 2026 10:54:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+68qFJ5XaR8N8dB76h3krW+OWF7gCsoWWxYVkaZskqHbUkxtJAZiVF4v72M6e+kyDt7+69rCPPCuiXfi0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWDa9FER6lOaRYJFQ5qaVyBn2lzIHmxnYr2UzgJo/uas+a4A0J
-	fwrqvRivc1XJyfiZGIGwlB0vktQQpzg7KDMRgX03OdW/gZFyUUz6ZXGkSdR//ecSw0befT9Qz5x
-	r3RkJGb3VMs1hQiBu/huWTQ0UcaQ3nI4=
-X-Received: by 2002:a2e:a993:0:b0:396:9598:aa2d with SMTP id
- 38308e7fff4ca-396ac1f9630mr2253651fa.1.1780422852908; Tue, 02 Jun 2026
- 10:54:12 -0700 (PDT)
+	s=arc-20240116; t=1780424964; c=relaxed/simple;
+	bh=QDdAzWAblk0fwqPkNiE9X2RrQFQQX+OoiIAgHgJNIVU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LoDkEAMI/QdZrWJrDsk/Tv2V8SzAceE2J/eCGxOvNfdRCZudoUjC1/mvsVwYg1c4Q736Ztp7IWhojfWlosoqA4WTYHkLxmMmlphs17fjHP0mx7HlyK85p5scUU2tNHzYWVDgTBsxGEUFs7LKOQjDv/2Lpnkc68AE7K01Jc3WBtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cWdAglnd; arc=none smtp.client-ip=95.215.58.187
+Message-ID: <aea15513-c5db-4d67-9f28-5dc7f6063fe4@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780424951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vJBWV+Fz436w1gfOM6RtvoOneeQlsp7Iqp9yrBhmPSw=;
+	b=cWdAglndsn5/Lwl+GkMJ3kXH/OrIBOjiLbc01AE7BrVXlAqIdd/Ej7+31uA2E37e7j5JeK
+	OQ6HtA9xNwDGP46x21wgCaP8N/iabRSCuL4UlNW7cyZ8HQcn77UpsBvv05rxzVkIvUJDeB
+	THRjRKmn7I4Ebifx9BDbsPtCy6ppT7M=
+Date: Tue, 2 Jun 2026 11:28:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260602172920.30342-1-ojeda@kernel.org> <20260602172920.30342-2-ojeda@kernel.org>
- <CAJ-ks9m-Gt3qiBRMq7HiMDjRVHmyL7wrsm+3JHOoPFC2Lz2BDQ@mail.gmail.com> <CANiq72=+f_139RtP37FSHkZ+9wuATgf-9KzvSUfwqO949iqT5w@mail.gmail.com>
-In-Reply-To: <CANiq72=+f_139RtP37FSHkZ+9wuATgf-9KzvSUfwqO949iqT5w@mail.gmail.com>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Tue, 2 Jun 2026 13:53:36 -0400
-X-Gmail-Original-Message-ID: <CAJ-ks9kM18eu2A=_3xeBQdhdQWDvhi98OT-omxeqtd78LCd5bw@mail.gmail.com>
-X-Gm-Features: AVHnY4LCoADW22Jn_abeYebOlVkKSukmWdPMzMXNMAfaa_sFn-oFvGSPY8xU6Uc
-Message-ID: <CAJ-ks9kM18eu2A=_3xeBQdhdQWDvhi98OT-omxeqtd78LCd5bw@mail.gmail.com>
-Subject: Re: [PATCH 01/18] scripts: generate_rust_analyzer: support passing
- env vars
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Joshua Liebow-Feeser <joshlf@google.com>, 
-	Jack Wrenn <jswrenn@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH bpf-next v1 05/14] resolve_btfids: Index BTF ID symbols by
+ address
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Eduard Zingerman
+ <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Alan Maguire <alan.maguire@oracle.com>, bpf@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
+ <20260601221805.821394-6-ihor.solodrai@linux.dev> <ah7UQv87CmJ-LNMt@krava>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <ah7UQv87CmJ-LNMt@krava>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13528-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:miguel.ojeda.sandonis@gmail.com,m:ojeda@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:joshlf@google.com,m:jswrenn@amazon.com,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,amazon.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,oracle.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13529-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:olsajiri@gmail.com,m:ast@kernel.org,m:andrii@kernel.org,m:daniel@iogearbox.net,m:eddyz87@gmail.com,m:memxor@gmail.com,m:alan.maguire@oracle.com,m:bpf@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[ihor.solodrai@linux.dev,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.dev:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ihor.solodrai@linux.dev,linux-kbuild@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 423B3630E3C
+X-Rspamd-Queue-Id: CCF8C631184
 
-On Tue, Jun 2, 2026 at 1:52=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Tue, Jun 2, 2026 at 7:47=E2=80=AFPM Tamir Duberstein <tamird@kernel.or=
-g> wrote:
-> >
-> > This can be
-> >
-> > crate_env =3D {
-> >   "RUST_MODFILE": "This is only for rust-analyzer",
-> >   **crates_envs.get(display_name, {}),
-> > }
->
-> Sounds good.
->
-> > Acked-by: Tamir Duberstein <tamird@kernel.org>
-> >
-> > Did you want to take this through rust or did you want me to pick it?
->
-> It is cleaner to carry it with the series (I will likely create a
-> merge commit for the patch series anyway, since it is a major one in
-> volume at least).
+On 6/2/26 6:01 AM, Jiri Olsa wrote:
+> On Mon, Jun 01, 2026 at 03:17:56PM -0700, Ihor Solodrai wrote:
+> 
+> SNIP
+> 
+>> +static int push_addr_sym(struct object *obj, Elf64_Addr addr, const char *name)
+>> +{
+>> +	struct addr_sym *arr = obj->addr_syms;
+>> +	int cap = obj->max_addr_syms;
+>> +
+>> +	if (obj->nr_addr_syms + 1 > cap) {
+>> +		cap = max(cap + 256, cap * 2);
+>> +		arr = realloc(arr, sizeof(*arr) * cap);
+>> +		if (!arr)
+>> +			return -ENOMEM;
+>> +		obj->max_addr_syms = cap;
+>> +		obj->addr_syms = arr;
+> 
+> could you use libbpf_ensure_mem instead?
 
-Duh, I missed that this was in a series. Makes sense!
+Hi Jiri. Thank you for prompt review.
 
-> Thanks for the quick reply!
+Yeah.. a third copy-pasted push_* function is one too many.
+I'll try adopting libbpf helpers in the next revision.
 
-You're welcome!
+> 
+>> +	}
+>> +
+>> +	obj->addr_syms[obj->nr_addr_syms].addr = addr;
+>> +	obj->addr_syms[obj->nr_addr_syms].name = name;
+>> +	obj->nr_addr_syms++;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int cmp_addr_sym(const void *a, const void *b)
+>> +{
+>> +	Elf64_Addr aa = ((const struct addr_sym *)a)->addr;
+>> +	Elf64_Addr ab = ((const struct addr_sym *)b)->addr;
+>> +
+>> +	if (aa < ab)
+>> +		return -1;
+>> +	if (aa > ab)
+>> +		return 1;
+>> +	return 0;
+> 
+> nit, I recently spot following pattern:
+> 
+>         return (aa > ab) - (aa < ab);
+> 
+> jirka
+> 
+>> +}
+>> +
+>> +static const char *find_name_by_addr(struct object *obj, Elf64_Addr addr)
+>> +{
+>> +	struct addr_sym key = { .addr = addr };
+>> +	struct addr_sym *res;
+>> +
+>> +	res = bsearch(&key, obj->addr_syms, obj->nr_addr_syms,
+>> +		      sizeof(*obj->addr_syms), cmp_addr_sym);
+>> +	return res ? res->name : NULL;
+>> +}
+> 
+> SNIP
+
 
