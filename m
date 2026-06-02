@@ -1,232 +1,145 @@
-Return-Path: <linux-kbuild+bounces-13501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tFFzJ1b1HmoYaQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13501-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 17:23:02 +0200
+	id O99fHXP7HmqPbgAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13502-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 17:49:07 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD5362FB56
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 17:23:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95ECD62FF25
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 17:49:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=arm.com header.s=foss header.b=R0QATQHb;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13501-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13501-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=arm.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Ee88oKRG;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13502-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13502-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4FD6F309F424
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 14:47:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9F58E30AFA86
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 15:17:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A05E73EF653;
-	Tue,  2 Jun 2026 14:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A6A3630B9;
+	Tue,  2 Jun 2026 15:17:10 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C153E2ABF;
-	Tue,  2 Jun 2026 14:44:24 +0000 (UTC)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007D51DE4FB;
+	Tue,  2 Jun 2026 15:17:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780411465; cv=none; b=sKzsJckyPOKB0ORcoAN8ACRm0YpyEFDIEjpUPm61BK43iRdXpZjcqxWTjBKeB+N5v/0ApytfxjGlGx4N2RVh/wjeNFz95JSfjBKSCgDn0OqVBj/RppjhT1wKFHH4CxIuOurQo5uLmAPHdLZxqCm4ofNpdcTR+tnh5AcOCMnoPG8=
+	t=1780413430; cv=none; b=px5dnLNHc4m0kBHs3jMYEQZhRdfBu6zu/mdRYzK/PMi5bnHn1IwCiEHkpQhmlWRuELU86hE3i68NUh6LymRzNDK/YGeF2Hy4hnTpyNZVYC0d4uxflLUFZpW5WdneUdL54THDTo+cR4kAVl02H43he6LgoJgXYN79BSw44SMs8kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780411465; c=relaxed/simple;
-	bh=RJCrBBCoyZk9ItWKXFzBfBNj6qLZCgM5gXRLbvh4BLQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=goAOVpdXZyjkMIqxOFUWViOGoMy+RVRsVPHXEUSkD6Q6isG1AxTQDm0WbKSJ3MpR+OicFRxzSPXvQIt9oGep/3/h0//ZGmEdISsfjoCgABRqHvqKMjbMCs2hPzc3sufowh8bsKOgVEA38+2fXSQqF3WbnfaRZ9gc2eraDERgQUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=R0QATQHb; arc=none smtp.client-ip=217.140.110.172
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1C2F3583;
-	Tue,  2 Jun 2026 07:44:18 -0700 (PDT)
-Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4A423F632;
-	Tue,  2 Jun 2026 07:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780411463; bh=RJCrBBCoyZk9ItWKXFzBfBNj6qLZCgM5gXRLbvh4BLQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=R0QATQHblGPPiy3kp6Q5tAPadpnFPjNlqMVkCAsG9P8rbyOuQlPa/ms/x3W0sTP4h
-	 ZZn87mnp5fV5NvOjR+PRkan/Zp8sr2vNZDO1CCaWZLTbsJCvzbxpsAd95HzUb6gpun
-	 O5UtzDblPfwyv6O6mrUy/clfu6Mu/N7GMjn1mayg=
-From: Leo Yan <leo.yan@arm.com>
-Date: Tue, 02 Jun 2026 15:40:57 +0100
-Subject: [PATCH v7 23/23] selftests: Include tools Makefile.include
+	s=arc-20240116; t=1780413430; c=relaxed/simple;
+	bh=nQTltwh9fUa/xyYjIk1zzY/ReEq4pAQ2zyCKz1loiKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ERdVeN09FQOwVjBB+9ZPScCyzDZItnDVChDmtHZo3MxUR/1t/jdtfz2iR6J3NqtpnjTsxr3yGj84OFZXB8KI6y/KjfxLDLZ+Eyi82gWyZAtdeTWL6SbFqvkqL46nvaGVwQBpCw58V8X5Qgrax2zb/TNmzVMLeFZz1dqeCv8so+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ee88oKRG; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF721F00893;
+	Tue,  2 Jun 2026 15:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780413429;
+	bh=GKtr47eSpQvznDz/neQt1Z8aJ4k0LQqb6m7YdRTw4gw=;
+	h=From:To:Cc:Subject:Date;
+	b=Ee88oKRGb7DtMv9xu43c8zsVH52a6RTqJpMFPy/9m43glqchgSOMqpzrUlTYDKlJt
+	 yst4QjBOWnZPa34/hZ0q13aUuKBdJr/du2nWMx+1AuDTZudxXBiQhkCUdPCjVY/DSw
+	 iGwEInX8WEB3rC9FQOH2BubGYLP9kwGEebzsoaVT68jWx+JWpeXSefODIlUMeVK+PE
+	 ZAly1B6Jm9wkfexgvkIOjkVkSRYGpof3dRRJFOkk1PXlMO0cMaNE98LMQ48QYjpO6a
+	 YMO/W2kHDnCs7VdvWPSPYLqoWNYFfPabaDXZkF0MiBCS+0WmTzIBmxZQ9r8qVUTltz
+	 nB2p60VMrWn0w==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Cc: Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	rust-for-linux@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] kbuild: rust: rename flag to `-Zdebuginfo-for-profiling` for Rust >= 1.98
+Date: Tue,  2 Jun 2026 17:16:38 +0200
+Message-ID: <20260602151638.14358-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260602-tools_build_fix_zero_init-v7-23-631baf679fe7@arm.com>
-References: <20260602-tools_build_fix_zero_init-v7-0-631baf679fe7@arm.com>
-In-Reply-To: <20260602-tools_build_fix_zero_init-v7-0-631baf679fe7@arm.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Ian Rogers <irogers@google.com>, Namhyung Kim <namhyung@kernel.org>, 
- James Clark <james.clark@linaro.org>, Kees Cook <kees@kernel.org>, 
- Quentin Monnet <qmo@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, 
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- William Breathitt Gray <wbg@kernel.org>, Barry Song <baohua@kernel.org>, 
- Qinxin Xia <xiaqinxin@huawei.com>, Bartosz Golaszewski <brgl@kernel.org>, 
- Kent Gibson <warthog618@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Robert Moore <robert.moore@intel.com>, 
- Len Brown <lenb@kernel.org>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Tejun Heo <tj@kernel.org>, David Vernet <void@manifault.com>, 
- Andrea Righi <arighi@nvidia.com>, Changwoo Min <changwoo@igalia.com>, 
- Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Gabriele Monaco <gmonaco@redhat.com>, Shuah Khan <shuah@kernel.org>, 
- Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, Leo Yan <leo.yan@arm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780411244; l=2967;
- i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=RJCrBBCoyZk9ItWKXFzBfBNj6qLZCgM5gXRLbvh4BLQ=;
- b=ZBsHnWtddM9EPK4vOZCFQnT2BRRbzqV/l20fZeNv0SKuhTgIRrjaYsk3WPUneNKIEsPClA2aE
- 15d0fESm4uqAHtOd1IzTrYVI4Ump+K+IIyR9y+jji9gi0a1p8YBIIMb
-X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
- pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13501-lists,linux-kbuild=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:acme@kernel.org,m:irogers@google.com,m:namhyung@kernel.org,m:james.clark@linaro.org,m:kees@kernel.org,m:qmo@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:ast@kernel.org,m:daniel@iogearbox.net,m:andrii@kernel.org,m:martin.lau@linux.dev,m:eddyz87@gmail.com,m:song@kernel.org,m:yonghong.song@linux.dev,m:john.fastabend@gmail.com,m:kpsingh@kernel.org,m:sdf@fomichev.me,m:haoluo@google.com,m:jolsa@kernel.org,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:peterz@infradead.org,m:mingo@redhat.com,m:mark.rutland@arm.com,m:alexander.shishkin@linux.intel.com,m:adrian.hunter@intel.com,m:mhiramat@kernel.org,m:wbg@kernel.org,m:baohua@kernel.org,m:xiaqinxin@huawei.com,m:brgl@kernel.org,m:warthog618@gmail.com,m:kys@microsoft.com,m:haiyangz@microsoft.com,m:wei.liu@kernel.org,m:decui@microsoft.com,m:longli@microsoft.com,m:jic23@kernel.org,m:dlechner@b
- aylibre.com,m:nuno.sa@analog.com,m:andy@kernel.org,m:akpm@linux-foundation.org,m:w@1wt.eu,m:linux@weissschuh.net,m:jpoimboe@kernel.org,m:robert.moore@intel.com,m:lenb@kernel.org,m:srinivas.pandruvada@linux.intel.com,m:tj@kernel.org,m:void@manifault.com,m:arighi@nvidia.com,m:changwoo@igalia.com,m:broonie@kernel.org,m:rostedt@goodmis.org,m:gmonaco@redhat.com,m:shuah@kernel.org,m:jikos@kernel.org,m:bentiss@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-perf-users@vger.kernel.org,m:leo.yan@arm.com,m:nickdesaulniers@gmail.com,m:johnfastabend@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[arm.com:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13502-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leo.yan@arm.com,linux-kbuild@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[68];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ojeda@kernel.org,linux-kbuild@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:dkim,arm.com:from_mime,arm.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6CD5362FB56
+X-Rspamd-Queue-Id: 95ECD62FF25
 
-selftests/lib.mk has its own compiler setup instead of using the common
-tools build helpers. This duplicates part of the LLVM handling prepared
-by tools/scripts/Makefile.include.
+Starting with Rust 1.98.0 (expected 2026-08-20), the
+`-Zdebug-info-for-profiling` flag has been renamed to
+`-Zdebuginfo-for-profiling` (i.e. one less dash, to match `debuginfo`s
+in other flags) [1].
 
-Include tools/scripts/Makefile.include from selftests/lib.mk so
-selftests reuse the LLVM prefix/suffix validation and the provided
-CLANG_CROSS_FLAGS. This improves Clang cross builds, especially when
-CROSS_COMPILE is set it can derive --prefix, --sysroot and
---gcc-toolchain flags from the GCC cross toolchain.
+Without this change, one gets in the latest nightlies:
 
-Keep the $(CLANG_TARGET_FLAGS_$(ARCH)) target flag as a fallback when
-CLANG_CROSS_FLAGS is empty, and append EXTRA_CFLAGS to the selftest.
+    error: unknown unstable option: `debug-info-for-profiling`
 
-Signed-off-by: Leo Yan <leo.yan@arm.com>
+Thus pass the right name.
+
+Link: https://github.com/rust-lang/rust/pull/156887 [1]
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- tools/testing/selftests/lib.mk | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ scripts/Makefile.autofdo | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
-index f02cc8a2e4ae322d65a031178013270922611c42..e2e2d8aa57280ffd37bced18ecd43e7a5566abae 100644
---- a/tools/testing/selftests/lib.mk
-+++ b/tools/testing/selftests/lib.mk
-@@ -1,11 +1,17 @@
- # This mimics the top-level Makefile. We do it explicitly here so that this
- # Makefile can operate with or without the kbuild infrastructure.
--ifneq ($(LLVM),)
--ifneq ($(filter %/,$(LLVM)),)
--LLVM_PREFIX := $(LLVM)
--else ifneq ($(filter -%,$(LLVM)),)
--LLVM_SUFFIX := $(LLVM)
-+ifeq (0,$(MAKELEVEL))
-+    ifeq ($(OUTPUT),)
-+	OUTPUT := $(shell pwd)
-+	DEFAULT_INSTALL_HDR_PATH := 1
-+    endif
- endif
-+selfdir = $(realpath $(dir $(filter %/lib.mk,$(MAKEFILE_LIST))))
-+top_srcdir = $(selfdir)/../../..
-+
-+include $(top_srcdir)/tools/scripts/Makefile.include
-+
-+ifneq ($(LLVM),)
+diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
+index 3f08acab4549..1442043da139 100644
+--- a/scripts/Makefile.autofdo
++++ b/scripts/Makefile.autofdo
+@@ -3,7 +3,7 @@
+ # Enable available and selected Clang AutoFDO features.
  
- CLANG := $(LLVM_PREFIX)clang$(LLVM_SUFFIX)
+ CFLAGS_AUTOFDO_CLANG := -fdebug-info-for-profiling -mllvm -enable-fs-discriminator=true -mllvm -improved-fs-discriminator=true
+-RUSTFLAGS_AUTOFDO_CLANG := -Zdebug-info-for-profiling -Cllvm-args=-enable-fs-discriminator=true -Cllvm-args=-improved-fs-discriminator=true
++RUSTFLAGS_AUTOFDO_CLANG := $(if $(call rustc-min-version,109800),-Zdebuginfo-for-profiling,-Zdebug-info-for-profiling) -Cllvm-args=-enable-fs-discriminator=true -Cllvm-args=-improved-fs-discriminator=true
  
-@@ -35,7 +41,8 @@ else
- CLANG_FLAGS     += --target=$(CLANG_TARGET_FLAGS)
- endif # CLANG_TARGET_FLAGS
- else
--CLANG_FLAGS     += --target=$(notdir $(CROSS_COMPILE:%-=%))
-+# CLANG_CROSS_FLAGS comes from Makefile.include
-+CLANG_FLAGS     += $(CLANG_CROSS_FLAGS)
- endif # CROSS_COMPILE
- 
- # gcc defaults to silence (off) for the following warnings, but clang defaults
-@@ -51,15 +58,6 @@ else
- CC := $(CROSS_COMPILE)gcc
- endif # LLVM
- 
--ifeq (0,$(MAKELEVEL))
--    ifeq ($(OUTPUT),)
--	OUTPUT := $(shell pwd)
--	DEFAULT_INSTALL_HDR_PATH := 1
--    endif
--endif
--selfdir = $(realpath $(dir $(filter %/lib.mk,$(MAKEFILE_LIST))))
--top_srcdir = $(selfdir)/../../..
--
- # msg: emit succinct information message describing current building step
- # $1 - generic step name (e.g., CC, LINK, etc);
- # $2 - optional "flavor" specifier; if provided, will be emitted as [flavor];
-@@ -202,6 +200,8 @@ CFLAGS += -D_GNU_SOURCE=
- # Additional include paths needed by kselftest.h and local headers
- CFLAGS += -I${top_srcdir}/tools/testing/selftests
- 
-+CFLAGS += $(EXTRA_CFLAGS)
-+
- # Enables to extend CFLAGS and LDFLAGS from command line, e.g.
- # make USERCFLAGS=-Werror USERLDFLAGS=-static
- CFLAGS += $(USERCFLAGS)
+ ifndef CONFIG_DEBUG_INFO
+   CFLAGS_AUTOFDO_CLANG += -gmlt
 
+base-commit: 025fd4b4fd382112bd4489e5b4437a295934fc19
 -- 
-2.34.1
+2.54.0
 
 
