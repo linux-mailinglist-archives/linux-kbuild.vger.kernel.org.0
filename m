@@ -1,51 +1,51 @@
-Return-Path: <linux-kbuild+bounces-13507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13508-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id HIL+OMUTH2qBfAAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13507-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 19:32:53 +0200
+	id ZqHHGtATH2qDfAAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13508-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 19:33:04 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754C7630BC6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 19:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054E3630BD1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 19:33:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=NpaeX3OB;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13507-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13507-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Rx9moAvC;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13508-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13508-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B87C930558DA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 17:30:21 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 28E4C305618E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 17:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DBEE3FBB55;
-	Tue,  2 Jun 2026 17:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 027B43FBEA7;
+	Tue,  2 Jun 2026 17:29:57 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317B13FBB7D;
-	Tue,  2 Jun 2026 17:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0759E3FBB79;
+	Tue,  2 Jun 2026 17:29:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780421393; cv=none; b=ejIL2oD5riVxa07ce/BhZ1XrC+JCypIvroym8vzsxfZmsT4YnVIp8HSGA+KwDV3uG/5MTwzQ/M4lCi+LQ9y4HUGSPNUZVULDaiuf+Nur23HqHseXjRwlMiajOY/VCyDN9aQHXre9E6BTiok+ruY/m3wfLsTpwqzF6KelyK8vFyM=
+	t=1780421396; cv=none; b=cdL+LQ9cVolJmkjkJ7MoXlYUZShbWPtwqsUxAoh4HIOKuYr6Twkmdkjl4Ib9lzMwrsnJvhoxqKT6ABSYqajPLSPkeDRznAYIj9C5fMiwe0wGFemRd1wc1rzTCpqib6GQkY/dI6YwbbUQQHsnq3/ient4XONOqTycLkRtrgT3Vdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780421393; c=relaxed/simple;
-	bh=gZ3fHfA1zzON52FG6o42/Q8+wMPRGLsUjolNCzwR+Bk=;
+	s=arc-20240116; t=1780421396; c=relaxed/simple;
+	bh=Xy0xOTtc+1RX8y9mj8nFOgnfzNokpWGgTIbU2b9Lmtc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P/GEisOf069gNdNmZpyBCJ2gPu08wPIgr3zU5dLQZRlY+5eWhulKzO9euL/ffsKV2Z7fwgr3KyKsMoWy7uaszZUiYoiFYBvB4F/i+1r/3Xx+TjHi8ORtS36XIE9QF+v7mO4R7Md4UMepIwZabF3RrAJWBuw7HwVSBS0bZNdpzXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpaeX3OB; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8556E1F00893;
-	Tue,  2 Jun 2026 17:29:48 +0000 (UTC)
+	 MIME-Version; b=g3fGy0uD+R3I/ggw2tRVbRJsS/yXwq3UaLunV5I73iZwMRbihAAMBUr3S+or/9uAT9FALAe0nwvkZET2fTDihySzF2Au6fzon10F/Ow81rrt24cRVkxokVlYgwE9CzsostHup6TlfTBvx3d6ujcSdhsNl4F792Kp59NMHo8HNkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rx9moAvC; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6821F00898;
+	Tue,  2 Jun 2026 17:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780421391;
-	bh=2uG3FKb0s6ezwWXghk4oUFjVKybtZr6VwEdUksNei7Y=;
+	s=k20260515; t=1780421395;
+	bh=dR7Y70JCFc/8Bb+Uo9FH+FnemFVCaKGZvOzrfjzZnBw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NpaeX3OBiBpevZy95MpCsIoa9izT9afvvRJ9Zf2xuPXqA+eNdnusRHqUKdV3G1ME8
-	 U6v6IVABI97/1to9yiK6RZ1gXEUfS77+UKXIj8DRENDWz55LXpViksfdJozhmbWE19
-	 f7QGZFb53+PMCymR1Y+C0Pf2EsASRi1U7vBNMYhIhnHplsjYcIzB8FdLoO0xfFdlj6
-	 OZQICJ/hnZWueVyY6e4NlcHMcEN+H2ktYJ3KGVzvfc1XdUNk+89PcLEmYfUMvTx0VM
-	 HlXTJ5UG9bM6tqr23NcHM0q1ZfNscNvujE42B5kL/qEpPX6seOBaMqkV7i0aoaihON
-	 niewvoaqU2AEQ==
+	b=Rx9moAvCgfrvlfcQOmfETGMv3xyg8M8giwvmepPhfp7nQD6KOCBaNs7yrfiAA6CNN
+	 bqo1nPMsqf4YxIVS6+lfHZZ5V3A85/6oNu3hoq5DvNR/K3oQ5RqzoSZuqsFC9HYH6V
+	 d6IS2kEj/dvwdQwHwEOQJgmBrwJe4vDD4YxEJmRtRxyhxNAM4eb5X5jDGJHiEMBwfe
+	 rPxClFHPSmQKSSLuVDKj4Cv1ieCW7wUei2h3R25km2W6MQbHaq3jPizb+5sei1y88q
+	 Jl+yc6mRqFdicvezVk6RxdBmO+niBLEZ/7CMq1PsWw89sS9IBUr2x3YV53szb3V8ft
+	 Y1pT1suiHcsog==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -62,9 +62,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	Joshua Liebow-Feeser <joshlf@google.com>,
 	Jack Wrenn <jswrenn@amazon.com>
-Subject: [PATCH 02/18] rust: kbuild: show the right `quiet_cmd_rustc_procmacrolibrary`
-Date: Tue,  2 Jun 2026 19:29:03 +0200
-Message-ID: <20260602172920.30342-3-ojeda@kernel.org>
+Subject: [PATCH 03/18] rust: kbuild: remove unused variable
+Date: Tue,  2 Jun 2026 19:29:04 +0200
+Message-ID: <20260602172920.30342-4-ojeda@kernel.org>
 In-Reply-To: <20260602172920.30342-1-ojeda@kernel.org>
 References: <20260602172920.30342-1-ojeda@kernel.org>
 Precedence: bulk
@@ -88,7 +88,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,amazon.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13507-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13508-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,m:joshlf@google.com,m:jswrenn@amazon.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -108,34 +108,36 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 754C7630BC6
+X-Rspamd-Queue-Id: 054E3630BD1
 
-When Clippy is skipped, `RUSTC` should be shown in `quiet` instead of
-`CLIPPY` to be accurate and to avoid confusion.
+Since we are adding one more proc macro crate (`zerocopy-derive`),
+we are refactoring their handling.
 
-Thus do so, matching what we do in `quiet_cmd_rustc_library`.
+`libpin_init_internal_extension` was added to mimic the setup for
+`macros`, but it is not used, since the extension is expected to be
+the same.
 
-Fixes: 7dbe46c0b11d ("rust: kbuild: add proc macro library support")
+Thus remove it.
+
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rust/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/rust/Makefile b/rust/Makefile
-index b9e9f512cec3..bec9726f256c 100644
+index bec9726f256c..2b4a3983bb1e 100644
 --- a/rust/Makefile
 +++ b/rust/Makefile
-@@ -517,7 +517,7 @@ $(obj)/exports_bindings_generated.h: $(obj)/bindings.o FORCE
- $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
- 	$(call if_changed,exports)
+@@ -51,7 +51,6 @@ libmacros_name := $(shell MAKEFLAGS= $(RUSTC) --print file-names --crate-name ma
+ libmacros_extension := $(patsubst libmacros.%,%,$(libmacros_name))
  
--quiet_cmd_rustc_procmacrolibrary = $(RUSTC_OR_CLIPPY_QUIET) PL $@
-+quiet_cmd_rustc_procmacrolibrary = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) PL $@
-       cmd_rustc_procmacrolibrary = \
- 	$(if $(skip_clippy),$(RUSTC),$(RUSTC_OR_CLIPPY)) \
- 		$(filter-out $(skip_flags),$(rust_common_flags) $(rustc_target_flags)) \
+ libpin_init_internal_name := $(shell MAKEFLAGS= $(RUSTC) --print file-names --crate-name pin_init_internal --crate-type proc-macro - </dev/null)
+-libpin_init_internal_extension := $(patsubst libpin_init_internal.%,%,$(libpin_init_internal_name))
+ 
+ always-$(CONFIG_RUST) += $(libmacros_name) $(libpin_init_internal_name)
+ 
 -- 
 2.54.0
 
