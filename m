@@ -1,177 +1,175 @@
-Return-Path: <linux-kbuild+bounces-13468-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13469-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OFU1JDKQHmpTlAkAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13468-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 10:11:30 +0200
+	id +JT4LqORHmodlAkAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13469-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 10:17:39 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA67162A428
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 10:11:29 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBFB62A5E1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 10:17:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 237093069403
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 08:00:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 724213012B15
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 08:16:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5ACC3BCD3D;
-	Tue,  2 Jun 2026 08:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 017E137CD28;
+	Tue,  2 Jun 2026 08:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bU2jG8dS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PiuOTSup"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21093BB66E;
-	Tue,  2 Jun 2026 08:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780387242; cv=none; b=JlV92kKrMtZZd1nTY+iBqk7b0pXwDu31w4wAOrIJ00Uctgj6nX7NJnK+Jd4PaV4g2sm/ILkxlpzM/0yFDvFD8ou1twjVNsCkmaQozdZFtEdwwZNZwLF6jC4mE9G9WTTmis1HQc6XJfxAkkjUisTyrS8O5kPCeCLFUX9CbSg63BA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780387242; c=relaxed/simple;
-	bh=7YH5a4BsQ7sxE9dgssCn6yyoCsJvShLjEllwLHhk2do=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pZ56WzpW5VhrrOnd3QzqJXJP3QbmP+rlGUh0eZzbYRYrguYS2AwAOBAiATWXQ16B1YfkeAf2N3lw9pjg/p2MQvgThIkUEJFBesztr7iYQJIcDqEAGdoehvC+jFGcTL/eQjfKhSowizeFUmFPcaOdkdU81V5T2H7jKhYkgbfbK5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bU2jG8dS; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780387242; x=1811923242;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7YH5a4BsQ7sxE9dgssCn6yyoCsJvShLjEllwLHhk2do=;
-  b=bU2jG8dSEN1zt6D3nCUtse+RhLax6uCjqSMPDTuDcWnCvqXQ/PQ2hUMm
-   NAetLyfRrg58YyClOopT0dcRZrMttcv3LrIlEr5AIrIuQk0TWkvcxMerP
-   mAO3MtiM9gDUzqhQmJxY3pYuDRrF+Oy2/k26aI9Vfz4UtyqBMRjvNsBzo
-   y5eGBmB7pigIz9EQMgAxxytKR0ojNbr/lKeVNbi+ScZmmkF/u/t8cRiEk
-   N7QRLbTlyhWSqINHlZAfnHTTISGzw/so9/80SMgETT9DMXQxXyfzAX/7p
-   ez7IrQ+IckQwenxiWL7nMT15rWRjsQNcxABfOVTWwzuzVaHP0IiWtlDp5
-   A==;
-X-CSE-ConnectionGUID: sHy39HYsQDq+IhQqlUrigA==
-X-CSE-MsgGUID: fLnbKpLsRiK3ScofdxX1/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="80196200"
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="80196200"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:00:23 -0700
-X-CSE-ConnectionGUID: KKI24J+ZRZqT9cST1kh6eA==
-X-CSE-MsgGUID: SPRdFB9bQhKFZghWS9/tdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="248113655"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:00:06 -0700
-Date: Tue, 2 Jun 2026 11:00:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Simon Schuster <schuster.simon@siemens-energy.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnd Bergmann <arnd@arndb.de>, Dinh Nguyen <dinguyen@kernel.org>,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	workflows@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
-	dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
-	linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Kees Cook <kees@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nicholas Piggin <npiggin@gmail.com>, Vinod Koul <vkoul@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof WilczyDski <kwilczynski@kernel.org>,
-	Andreas Oetken <andreas.oetken@siemens-energy.com>
-Subject: Re: [PATCH] nios2: remove the architecture
-Message-ID: <ah6Ng8u8bIKPdksg@ashevche-desk.local>
-References: <20260518042833.272221-1-enelsonmoore@gmail.com>
- <d40b1e80-37fc-4c88-9d7f-dae6458efe6c@app.fastmail.com>
- <20260518105735.GW3126523@noisy.programming.kicks-ass.net>
- <20260518172444.zyd47mcagrcwu7wt@dev-vm-schuster>
- <CADkSEUjhq6HSdg4ignzbuJiN5uXATsTdxFbRJ3BMxs5=WUWLDg@mail.gmail.com>
- <20260519103012.blot4bssgiqfer6p@dev-vm-schuster>
- <CANiq72=6oYtHf0Q1NaLXZ+25uQyYbej2xnvUhtgpHyvozhP7_Q@mail.gmail.com>
- <ah3TN93e7lRpVihW@ashevche-desk.local>
- <20260602071311.gtvif43wcjyulphh@dev-vm-schuster>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D0136AB44
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 08:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780388172; cv=pass; b=GVu+en0RQznotbpTtuHRrxcLuea6UXclNtgIa36aOJptCea821zYTY9GL5z0IEztNXd8GczJz4zvMS+T+SdzFYeEF2jwHrEWgyGZzQe4qUeIPtsUYLmCbqG4Q2+NQkMp+gSfyJ8TT3gKDblttCsuzK/obRez7iHTaZOfVUzxEek=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780388172; c=relaxed/simple;
+	bh=vPW8wLW+xTLNb8dxBfNISJORukiYVfndRQqDrDRQtJo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dryagrTxJevZw8MMDhQlNbTPOGJW34q1HEQH2EBYmGdCCkUYoRW8fEay0Kmn7JRU3MJNzhfDICM4LYdCC5TzPVB5URqm6F9YgZdO77wju4s1NuqVkvIah4LQjKl3Vy7MyrhxQ5nFBsak8IGXmKmZA26kWJR+p4wA8Bz/wGs6qgI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PiuOTSup; arc=pass smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-137dd497007so177154c88.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jun 2026 01:16:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780388168; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LNxZKVuo8sWA62aWfxEWdcQYOrHlkC23OTEMRDHkZGUurR57HYX3TkW4n7kxZNrboy
+         mdO/2NGQYpbOVt4G036qu0W6tN7OPuEOL81fkuTZTbOG78n2omu2E1VmM0yZD+7yVG0I
+         E/GdcJxp98sEONq9Rev6sZppCztZXhNL5bJsTPaY/vfGPuEknqlyKhxcBIfeUnp0NEqq
+         YwDd46eO8BqyBx7jaH6l1khZakFnXXHvlIYSeJidc/Z8t/vAN9x5qOhEZthPyxDKM61j
+         AU+AGsaMYuwKKVW9/AODGlUMUmE8mAlTzKdjWSK1IgnVEr7DFtuaS0dW6FuaLrrGtp2h
+         dulg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ch5pZyCWm4hnwRyszRObv2D+1iLVbXGqsVV4DrLX8U4=;
+        fh=Rwq5WS29QFT2a3ZgU35Tq+9A4L80IbUx/FByFsr1UhM=;
+        b=YimOOChwRaVT6zJRnwbJ5ntpdLEtpWsAUMOa00GgTVvEY3tYbWHrpRidAg4KCHlWaI
+         xDrxKOLgE9bHgGX8xlv3iYN2ryrP7wyUS94fMZ4VoMCOwSu8JXLt87eAGMheFLewiTIM
+         DmXo96Jjn2WXKLYOHaDRLV98y/OpS2Ib0GDGQk01WqCSrOuB7ffcrcJWv+0Sf7w+C4N/
+         9BH+HntNeit0wDqY3PtAlHuvb/ne+AHkSZmaSZ6JWl+bXn4JNqwzBV0DOgkM6jpSu6rG
+         Eh7nSo0VRYEJie5+PHEB7mUEJZ+qhGe9d2e0fmwquFZxbNL6gQzuJVa0tyrqLKExtVk3
+         aGTA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780388168; x=1780992968; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ch5pZyCWm4hnwRyszRObv2D+1iLVbXGqsVV4DrLX8U4=;
+        b=PiuOTSup2AeWIdIePo7noWcVlGZukB95pFHkXd41EgxH9ez/3MLFX8Q/Zn1KZ09/U3
+         yOVQZJogfDTp+5Auk3gQt+Xi/FB6rT2iWU8/0jLohFIpXEW5U8uVjUSYgnwx10VZwaGl
+         /lW8hG5HbJ21gEZ7UJqSQa9SrPT+hNY2Ly57e7lN6RBrQvS217BQA6rkipkLD5h9ehGg
+         xTg7JrtEJN3YkViB1zYD1R9c1KqP7tTKcuG53dkou9WlMO5np7Hzn2f38UdLrWUehJUl
+         wftmXdWDLbYWygQSsx+LDZtdtqQSbKQccMtXC8kcj/hR3EWC+w7k65f2cFDm9dYp/HMg
+         fCdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780388168; x=1780992968;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ch5pZyCWm4hnwRyszRObv2D+1iLVbXGqsVV4DrLX8U4=;
+        b=nIRLpnLKxeX99q/XxjiO3Tr/7Cpd7fdSO1vq3dmcoEvezu+2LjWOzaCx3MXRa99fiU
+         YcT6kue2UGUBjFUnCMMNsP6SOWs641BXESF2E9nxNCVuSh7Xj72T0/SHy94NWHLM2s6B
+         +7sq8lNmjj8/nnv9Ao5n+b/veQCqZ4TW59fc2Xmhv+y1g8Q/qCU2ANHw83igy9iUVzmp
+         CYcbZWTpS1n4HIwOZl7GcA89qpMOnBTLA0Hvvp08RNZzvj3CTPiuXAQc/xYRvgRjxxex
+         9bOByqRWg/z1oWmQEOC4MRgo5r98jUHGrwcZxERlzPBMSrE7YZMo0kd0CS1XgY1z+Gpk
+         9WOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+E0OEghPeVG9bYJjPHZyBwNA2QASAP3Mp1bxuvwD+4yaIWElKso1OFGXW7twCNmLu5PhsyUg6bSF+ZJUY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm4i5z6lobeDaN/wcXxSvMTQPctiJf7jQgdkolkEtRVwwdvfKH
+	Gh4NcaO2DA86xT6hzEhQaYjpYctr+RFsK18Ym8smKPCPmp1U5jo0OwrB+HT4I2I4AWXQnR944+R
+	daiV8Nv65ahSYtJkyIblpvL9lDcq589o=
+X-Gm-Gg: Acq92OHsIFodwV+clLqmR3GF6dSNZSxHUkODlEngIvgic0PRmfHFhTWfUAgmgM3dVou
+	s+HrQO0qS/knJ3GKrolXudS3+9cItguUWJzSxftxxZISmZC/yl8lyxWjaCp9/LpfhCMbuUHzVMy
+	+8sG6nsw78vTOkHNIPzBDPve/Z8dnuYMN/2sazpS7wQsQWQL2LP3jt50Ocot2i4O4Yew0yt5aG7
+	jzFOMsnb09vOSEtugrS2Lr0HuEknNzmRd8nXjG0grNo/v7VUKhxaeZcs/XOJPNksJDD10Fr87ic
+	rYRcuzbMDrdXFIXs1GsmYqJ8JPXa/qUJ2vxZGsGZ6zWBh1V6G217itQAMFBo+48Hn36OsrYyZg7
+	UI5t2nCtY11T4ECI6ZA+J6Ncr7oAUx4KhBQ==
+X-Received: by 2002:a05:7301:688a:b0:2d1:9b35:4f03 with SMTP id
+ 5a478bee46e88-304fa6a2df3mr3064799eec.5.1780388168347; Tue, 02 Jun 2026
+ 01:16:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602071311.gtvif43wcjyulphh@dev-vm-schuster>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+References: <20260530184944.10459-1-contact@jkam.dev>
+In-Reply-To: <20260530184944.10459-1-contact@jkam.dev>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 2 Jun 2026 10:15:55 +0200
+X-Gm-Features: AVHnY4Kr2rO_WdzWReX31YPA6BhQ7X-dBlpTnNN1R-LvP3fsnSXU7SQN06u2DVg
+Message-ID: <CANiq72kUgSZ_xD4iFqUftY+r3Q1oL-z2qHdZJDSSK+J2opxWTw@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: make `*.long-type-*.txt` a target for cleanup
+To: Joel Kamminga <contact@jkam.dev>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-13468-lists,linux-kbuild=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13469-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,sang-engineering.com,infradead.org,arndb.de,kernel.org,vger.kernel.org,lwn.net,linuxfoundation.org,linux.dev,hust.edu.cn,link.tyut.edu.cn,redhat.com,linux-foundation.org,baylibre.com,analog.com,lunn.ch,davemloft.net,google.com,siemens-energy.com];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCPT_COUNT_GT_50(0.00)[53];
-	TAGGED_RCPT(0.00)[linux-kbuild,renesas,dt,netdev];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,ashevche-desk.local:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: BA67162A428
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid,jkam.dev:email]
+X-Rspamd-Queue-Id: 5DBFB62A5E1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jun 02, 2026 at 09:13:11AM +0200, Simon Schuster wrote:
-> On Mon, Jun 01, 2026 at 09:45:11PM +0300, Andy Shevchenko wrote:
-> > Supported implies that one gets real money for the job. Is this the case here?
-> 
-> Thank you for caring about NIOSII. I'm doing so as part of my
-> employment at Siemens Energy; if this is real enough then yes :)
+On Sat, May 30, 2026 at 8:51=E2=80=AFPM Joel Kamminga <contact@jkam.dev> wr=
+ote:
+>
+> This cleans up files generated by rustc compiler in the case of an
+> error containing an excessively long type name that doesn't fit in
+> a single line. Such types appear relatively frequently so the risk
+> of generating these files certainly exists. These files are purely
+> compiler artifacts and are not created intentionally by the build
+> system. They should be added to the `clean` target to stop from
+> cluttering up the source tree.
+>
+> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+> Link: https://github.com/Rust-for-Linux/linux/issues/1236
+> Signed-off-by: Joel Kamminga <contact@jkam.dev>
 
-Then Supported is exactly what a record in the MAINTAINERS needs and it
-facilitates the existence of the code in kernel for as long as this kept
-true.
+Applied to `rust-next` -- thanks everyone!
 
--- 
-With Best Regards,
-Andy Shevchenko
+    [ Reworded and linked to the previous related commit. - Miguel ]
 
+Joel: please check the rewording.
 
+Cheers,
+Miguel
 
