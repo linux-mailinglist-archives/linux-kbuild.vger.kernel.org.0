@@ -1,59 +1,59 @@
-Return-Path: <linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13530-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KpGOIK4hH2rkhQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 20:32:14 +0200
+	id rmXoBEwhH2pOhQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13530-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 20:30:36 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF8C631184
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 20:32:13 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1B7631152
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 20:30:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.dev header.s=key1 header.b=cWdAglnd;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13529-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linux.dev header.s=key1 header.b=LtOmS7d5;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13530-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13530-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=linux.dev;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A17893011122
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 18:29:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 009173004059
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 18:30:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED60391831;
-	Tue,  2 Jun 2026 18:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAC85223DC6;
+	Tue,  2 Jun 2026 18:30:26 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFA23909AE
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 18:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63029395ACE
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jun 2026 18:30:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780424964; cv=none; b=qerjCjCD5V8+E0A511yxKwFOSo7jnBSku6u7Uoqc97hmoCk4woF90L+a8JklGSfQ5Yj/hxdDGdwAi6dd16F5x8lc7nf8sfgPdJE5AgN5N9DfziTgUwH1GNQfleSiC3KVyb99fZv0EYwjJdQAvOV4rx2TBmsvEyGFGv2eAEOM2zk=
+	t=1780425026; cv=none; b=hvX9aXQYl9ViArYDsVSySw/qNmvDlkNiRPRpM5vPq54eUFrR37XOAiNZLWINmmlzZaX+ThoSk9FsKEOJOGhKMRZivs0h8HAWPW6vW4rivuJlOhoVMFovzsTuVb+jIYjvqfbxhKUhyDenimrMFq+Jex25R7FnzQGxRx0t1cgXVRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780424964; c=relaxed/simple;
-	bh=QDdAzWAblk0fwqPkNiE9X2RrQFQQX+OoiIAgHgJNIVU=;
+	s=arc-20240116; t=1780425026; c=relaxed/simple;
+	bh=t2Vy1eH2AXireiIjYSHr/B6Xt78hGehzQS23aX0vSTo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LoDkEAMI/QdZrWJrDsk/Tv2V8SzAceE2J/eCGxOvNfdRCZudoUjC1/mvsVwYg1c4Q736Ztp7IWhojfWlosoqA4WTYHkLxmMmlphs17fjHP0mx7HlyK85p5scUU2tNHzYWVDgTBsxGEUFs7LKOQjDv/2Lpnkc68AE7K01Jc3WBtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cWdAglnd; arc=none smtp.client-ip=95.215.58.187
-Message-ID: <aea15513-c5db-4d67-9f28-5dc7f6063fe4@linux.dev>
+	 In-Reply-To:Content-Type; b=Mn8ZTE6aAbrQ1Ro/2vIqaPXMATxQyCs97W3ZWq8Ww6cyijir8DdE7CUjM35RIEuYw7RU0R5EvEP4mUM+w8kvYVjX+KtF/7qhAv1uaAIDe4xG3R7y1/FJSiBMY4K9VykNLizMEed7OG9YrUhzn0PHhBNpeTcKYlY2cle0vGVIEzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LtOmS7d5; arc=none smtp.client-ip=91.218.175.172
+Message-ID: <7d1a75e4-a2f8-40a2-bd03-405b85b0a846@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780424951;
+	t=1780425023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vJBWV+Fz436w1gfOM6RtvoOneeQlsp7Iqp9yrBhmPSw=;
-	b=cWdAglndsn5/Lwl+GkMJ3kXH/OrIBOjiLbc01AE7BrVXlAqIdd/Ej7+31uA2E37e7j5JeK
-	OQ6HtA9xNwDGP46x21wgCaP8N/iabRSCuL4UlNW7cyZ8HQcn77UpsBvv05rxzVkIvUJDeB
-	THRjRKmn7I4Ebifx9BDbsPtCy6ppT7M=
-Date: Tue, 2 Jun 2026 11:28:57 -0700
+	bh=95UKYabNJOEIeppEfTxbhbxJbizXLVR+134W7NVUtjc=;
+	b=LtOmS7d55QLTvO6NoSwt90RlEUbEmB0L+A1PADSpmiKSI+/zGNvtmodDs3OXpcuJ4dWKuJ
+	IXPDAeYHAa0Qt01ManfpTP+lW9LXOmCcCT7uPx2HtLb5tMoXJHZtw6zx3ouRTkH52euXWE
+	Gec1TvL33YYMFmK6w6qQiegi8Xh15PI=
+Date: Tue, 2 Jun 2026 11:30:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v1 05/14] resolve_btfids: Index BTF ID symbols by
- address
+Subject: Re: [PATCH bpf-next v1 02/14] selftests/bpf: Modernize resolve_btfids
+ test scaffolding
 To: Jiri Olsa <olsajiri@gmail.com>
 Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
  Daniel Borkmann <daniel@iogearbox.net>, Eduard Zingerman
@@ -61,11 +61,11 @@ Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
  Alan Maguire <alan.maguire@oracle.com>, bpf@vger.kernel.org,
  linux-kbuild@vger.kernel.org
 References: <20260601221805.821394-1-ihor.solodrai@linux.dev>
- <20260601221805.821394-6-ihor.solodrai@linux.dev> <ah7UQv87CmJ-LNMt@krava>
+ <20260601221805.821394-3-ihor.solodrai@linux.dev> <ah7UVZLgsBcLDnkJ@krava>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <ah7UQv87CmJ-LNMt@krava>
+In-Reply-To: <ah7UVZLgsBcLDnkJ@krava>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -74,13 +74,13 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,iogearbox.net,gmail.com,oracle.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13529-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13530-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	FREEMAIL_TO(0.00)[gmail.com];
@@ -100,75 +100,39 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-kbuild];
 	MID_RHS_MATCH_FROM(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CCF8C631184
+X-Rspamd-Queue-Id: DD1B7631152
 
-On 6/2/26 6:01 AM, Jiri Olsa wrote:
-> On Mon, Jun 01, 2026 at 03:17:56PM -0700, Ihor Solodrai wrote:
+On 6/2/26 6:02 AM, Jiri Olsa wrote:
+> On Mon, Jun 01, 2026 at 03:17:53PM -0700, Ihor Solodrai wrote:
 > 
 > SNIP
 > 
->> +static int push_addr_sym(struct object *obj, Elf64_Addr addr, const char *name)
->> +{
->> +	struct addr_sym *arr = obj->addr_syms;
->> +	int cap = obj->max_addr_syms;
->> +
->> +	if (obj->nr_addr_syms + 1 > cap) {
->> +		cap = max(cap + 256, cap * 2);
->> +		arr = realloc(arr, sizeof(*arr) * cap);
->> +		if (!arr)
->> +			return -ENOMEM;
->> +		obj->max_addr_syms = cap;
->> +		obj->addr_syms = arr;
+>> -static int resolve_symbols(void)
+>> +static int resolve_symbols(struct btf *btf)
+>>  {
+>> -	struct btf *btf;
+>> +	__u32 nr = btf__type_cnt(btf);
+>>  	int type_id;
+>> -	__u32 nr;
+>> -
+>> -	btf = btf__parse_raw("resolve_btfids.test.o.BTF");
+>> -	if (CHECK(libbpf_get_error(btf), "resolve",
+>> -		  "Failed to load BTF from resolve_btfids.test.o.BTF\n"))
+>> -		return -1;
+>> -
+>> -	nr = btf__type_cnt(btf);
+>>  
+>>  	for (type_id = 1; type_id < nr; type_id++) {
+>>  		if (__resolve_symbol(btf, type_id))
 > 
-> could you use libbpf_ensure_mem instead?
+> I think __resolve_symbol uses PRINT_FAIL instead of ASSERT
 
-Hi Jiri. Thank you for prompt review.
-
-Yeah.. a third copy-pasted push_* function is one too many.
-I'll try adopting libbpf helpers in the next revision.
+You're right, I missed that. Thanks.
 
 > 
->> +	}
->> +
->> +	obj->addr_syms[obj->nr_addr_syms].addr = addr;
->> +	obj->addr_syms[obj->nr_addr_syms].name = name;
->> +	obj->nr_addr_syms++;
->> +
->> +	return 0;
->> +}
->> +
->> +static int cmp_addr_sym(const void *a, const void *b)
->> +{
->> +	Elf64_Addr aa = ((const struct addr_sym *)a)->addr;
->> +	Elf64_Addr ab = ((const struct addr_sym *)b)->addr;
->> +
->> +	if (aa < ab)
->> +		return -1;
->> +	if (aa > ab)
->> +		return 1;
->> +	return 0;
-> 
-> nit, I recently spot following pattern:
-> 
->         return (aa > ab) - (aa < ab);
-> 
-> jirka
-> 
->> +}
->> +
->> +static const char *find_name_by_addr(struct object *obj, Elf64_Addr addr)
->> +{
->> +	struct addr_sym key = { .addr = addr };
->> +	struct addr_sym *res;
->> +
->> +	res = bsearch(&key, obj->addr_syms, obj->nr_addr_syms,
->> +		      sizeof(*obj->addr_syms), cmp_addr_sym);
->> +	return res ? res->name : NULL;
->> +}
-> 
-> SNIP
+>> [...]
 
 
