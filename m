@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-13482-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13483-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YCNtNlPuHmpBZQAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13482-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 16:53:07 +0200
+	id toEUIWDuHmpEZQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13483-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 16:53:20 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C71B62F7B7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 16:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C4C62F7BA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 02 Jun 2026 16:53:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=arm.com header.s=foss header.b=rAnScVtJ;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13482-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13482-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=arm.com header.s=foss header.b=b8viuyep;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13483-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13483-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=arm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3B4DE357BA9B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 14:43:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F416233F83B4
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2026 14:43:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33A93E717C;
-	Tue,  2 Jun 2026 14:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6CE83B6348;
+	Tue,  2 Jun 2026 14:41:40 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C58E359A81;
-	Tue,  2 Jun 2026 14:41:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56A3F3E8C6F;
+	Tue,  2 Jun 2026 14:41:39 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780411291; cv=none; b=KUJIkBZ3Ab4O40pLSvQMgNqVbfV9p9+IbZdlytH2vIWJtce649iVSXJK9jzPWDYA0BzLpxjNPRkAK7dZLyXrzRAec1CdMnm2HxwoDFvUnM6Giksqqeve0LULWCS0YLdxNAgPneaHupHL1DuHjV91KYR9eeub+CqVGkAd4Bi3h8k=
+	t=1780411300; cv=none; b=EB5jV6KyCXo2PgCtoyOSOmkHmJXN5zFWWY2mSKcIpf68OP9hBFUF4hnmu5afjGokij4J2WAjlJkusxdmdvrHymeTCP2cMVrhCt3KJrY1eKvw1tyo6FU6zXEA+XLeL6hW4MsiHiEwqYItqPS3PnYBxRPaz2/huJbDYWBBP/q7sls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780411291; c=relaxed/simple;
-	bh=BFehMj28QR2IYXlxOIJtUAyqZ+kYk51QCcp6lZ5W+HY=;
+	s=arc-20240116; t=1780411300; c=relaxed/simple;
+	bh=m4kJKzvaPDAO9fJFcqnRUG2SiPoHRPidnsJMAsbS3kg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KjZNVKRLZ/SoibBI7l4WBh42oBaa2F47KLGBnFUn6IMIj7v5ZbDTfpAymYRb8rS0LKrRrpSI3IcNEsO5xYi0BlnGrYIx29IMNaUufuEbFT6cDZ/l+QAXhnNoy7cZccSSevkUbV7Dgia4TNHkPeR6mJvI+rb6IOSVbSbY5+Phg+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rAnScVtJ; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:To:Cc; b=l4dBaLYEsGkcMlGZ37owFqrMVC1WdTnHpAojjLctTZ8qFC+ur60Anv99h+vSvvipd8zgX7xRzhKotqq4uVizw/hFYIpGKBFgy18jYlSt9fYfOZ0qgd6TUdq4fxX9GQahFBZYHJ+mQKHaMjeDYlObhIv70aqrpW6OM/qwxElzAh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=b8viuyep; arc=none smtp.client-ip=217.140.110.172
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8880356E;
-	Tue,  2 Jun 2026 07:41:24 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E95F8357C;
+	Tue,  2 Jun 2026 07:41:33 -0700 (PDT)
 Received: from e132581.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D07AE3F632;
-	Tue,  2 Jun 2026 07:41:20 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 024F63F632;
+	Tue,  2 Jun 2026 07:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1780411289; bh=BFehMj28QR2IYXlxOIJtUAyqZ+kYk51QCcp6lZ5W+HY=;
+	t=1780411298; bh=m4kJKzvaPDAO9fJFcqnRUG2SiPoHRPidnsJMAsbS3kg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rAnScVtJOH7FkyWDRDrTF/dsfxlykPChQbJ+Y6O6GQGGPTjtX8y1ASdxVjlCkgwR7
-	 6IZNOCzJTuwG2NDL0HBi7Wx8+Vlu44gp98/yOOE3YlKpYQE8WxooO7d500+SmX5ITM
-	 jgiJsHn7+kVSUgiERMZODRU0HxePWSNlcpBT1BKE=
+	b=b8viuyep91HbSLzl2aYLgzeWooZouO2Az0IT9yAJEZWDx1+y+xxPZ7ejjfYnISnp/
+	 M5V9cTKkfB3yVP1CARs2WHJbWB4/PGH07vpzX/fAifc5H97b8nwqTPLE6EhvSAOFF0
+	 H/mJs02700noUWirlb/76i/BTN7V+k1ir9/YMCYk=
 From: Leo Yan <leo.yan@arm.com>
-Date: Tue, 02 Jun 2026 15:40:38 +0100
-Subject: [PATCH v7 04/23] tools/thermal: Initialize CFLAGS before including
- Makefile.include
+Date: Tue, 02 Jun 2026 15:40:39 +0100
+Subject: [PATCH v7 05/23] selftests/nolibc: Use a dedicated cross cc-option
+ helper
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260602-tools_build_fix_zero_init-v7-4-631baf679fe7@arm.com>
+Message-Id: <20260602-tools_build_fix_zero_init-v7-5-631baf679fe7@arm.com>
 References: <20260602-tools_build_fix_zero_init-v7-0-631baf679fe7@arm.com>
 In-Reply-To: <20260602-tools_build_fix_zero_init-v7-0-631baf679fe7@arm.com>
 To: Arnaldo Carvalho de Melo <acme@kernel.org>, 
@@ -101,11 +101,11 @@ To: Arnaldo Carvalho de Melo <acme@kernel.org>,
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-perf-users@vger.kernel.org, Leo Yan <leo.yan@arm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780411243; l=1994;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780411243; l=2684;
  i=leo.yan@arm.com; s=20250604; h=from:subject:message-id;
- bh=BFehMj28QR2IYXlxOIJtUAyqZ+kYk51QCcp6lZ5W+HY=;
- b=PGGTdqvcjJTXbrdI37469J7YKtSMq6K7A0+Y/Hqc3vJo/pgFVDGGj7kwhuE3ZUXjbboylXRXZ
- K2juhBnc9nNC3giIH/RaTTiigqCsbufCsrjlowlh7ewQuMqUP5v8N+Z
+ bh=m4kJKzvaPDAO9fJFcqnRUG2SiPoHRPidnsJMAsbS3kg=;
+ b=ibk/8HXq1ZUzks3LTe1UOTFfd1yOC7Itai8hvwEGAt68NGwEseUNk8Ld2QThJVZmBsbZU7h2i
+ 7Upy6TbRu0wBl2JdMRwJ8rcIHegvdxZwQOEtf6QZmFCvsYPZzmAlY8P
 X-Developer-Key: i=leo.yan@arm.com; a=ed25519;
  pk=k4BaDbvkCXzBFA7Nw184KHGP5thju8lKqJYIrOWxDhI=
 X-Rspamd-Action: no action
@@ -119,7 +119,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13482-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13483-lists,linux-kbuild=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:acme@kernel.org,m:irogers@google.com,m:namhyung@kernel.org,m:james.clark@linaro.org,m:kees@kernel.org,m:qmo@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:ast@kernel.org,m:daniel@iogearbox.net,m:andrii@kernel.org,m:martin.lau@linux.dev,m:eddyz87@gmail.com,m:song@kernel.org,m:yonghong.song@linux.dev,m:john.fastabend@gmail.com,m:kpsingh@kernel.org,m:sdf@fomichev.me,m:haoluo@google.com,m:jolsa@kernel.org,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:peterz@infradead.org,m:mingo@redhat.com,m:mark.rutland@arm.com,m:alexander.shishkin@linux.intel.com,m:adrian.hunter@intel.com,m:mhiramat@kernel.org,m:wbg@kernel.org,m:baohua@kernel.org,m:xiaqinxin@huawei.com,m:brgl@kernel.org,m:warthog618@gmail.com,m:kys@microsoft.com,m:haiyangz@microsoft.com,m:wei.liu@kernel.org,m:decui@microsoft.com,m:longli@microsoft.com,m:jic23@kernel.org,m:dlechner@b
  aylibre.com,m:nuno.sa@analog.com,m:andy@kernel.org,m:akpm@linux-foundation.org,m:w@1wt.eu,m:linux@weissschuh.net,m:jpoimboe@kernel.org,m:robert.moore@intel.com,m:lenb@kernel.org,m:srinivas.pandruvada@linux.intel.com,m:tj@kernel.org,m:void@manifault.com,m:arighi@nvidia.com,m:changwoo@igalia.com,m:broonie@kernel.org,m:rostedt@goodmis.org,m:gmonaco@redhat.com,m:shuah@kernel.org,m:jikos@kernel.org,m:bentiss@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-perf-users@vger.kernel.org,m:leo.yan@arm.com,m:nickdesaulniers@gmail.com,m:johnfastabend@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,google.com,linaro.org,gmail.com,iogearbox.net,linux.dev,fomichev.me,intel.com,arm.com,infradead.org,redhat.com,linux.intel.com,huawei.com,microsoft.com,baylibre.com,analog.com,linux-foundation.org,1wt.eu,weissschuh.net,manifault.com,nvidia.com,igalia.com,goodmis.org];
@@ -142,70 +142,68 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:dkim,arm.com:from_mime,arm.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:mid,arm.com:dkim,arm.com:from_mime,arm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3C71B62F7B7
+X-Rspamd-Queue-Id: C5C4C62F7BA
 
-tools/scripts/Makefile.include may expand EXTRA_CFLAGS in a future
-change.  This could alter the initialization of CFLAGS in the thermal
-Makefile, as the default options "-g -Wall" would never be set once
-EXTRA_CFLAGS is expanded.
+Makefile.nolibc uses cc-option for architecture-specific flag probes
+such as -m32, -mmultiple and -mabi=elfv2. These probes need to include
+CLANG_CROSS_FLAGS so that Clang tests the option for the selected target
+instead of the host.
 
-Prepare for this by moving the CFLAGS initialization before including
-tools/scripts/Makefile.include, so it is not affected by the extended
-EXTRA_CFLAGS.
+The file also includes tools/scripts/Makefile.include. In a sequential
+change, Makefile.include will define its own cc-option helper.
 
-Append EXTRA_CFLAGS to CFLAGS only after including Makefile.include and
-place it last so that the extra flags propagate properly and can
-override the default options.
+Rename the nolibc helper to cross-cc-option and use it for the
+architecture-specific probes that require CLANG_CROSS_FLAGS. This keeps
+the cross-build checks explicit and avoids clashing with the common
+tools cc-option helper.
 
-Acked-by: Daniel Lezcano <daniel.lezcano@kernel.org>
 Signed-off-by: Leo Yan <leo.yan@arm.com>
 ---
- tools/thermal/lib/Makefile | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ tools/testing/selftests/nolibc/Makefile.nolibc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tools/thermal/lib/Makefile b/tools/thermal/lib/Makefile
-index 8c9a37f999b826855dad11c0d9574b41d5b24244..333b711bc7f0f9610e165ff7dc72c42980c59c99 100644
---- a/tools/thermal/lib/Makefile
-+++ b/tools/thermal/lib/Makefile
-@@ -23,6 +23,14 @@ INSTALL = install
- DESTDIR ?=
- DESTDIR_SQ = '$(subst ','\'',$(DESTDIR))'
+diff --git a/tools/testing/selftests/nolibc/Makefile.nolibc b/tools/testing/selftests/nolibc/Makefile.nolibc
+index f30bc68470cceec2b61805af0a4a9f2fb2de7c57..e88b1c15445f3c64dd78cc7edef5c9670a389b50 100644
+--- a/tools/testing/selftests/nolibc/Makefile.nolibc
++++ b/tools/testing/selftests/nolibc/Makefile.nolibc
+@@ -23,7 +23,7 @@ include $(srctree)/scripts/subarch.include
+ ARCH = $(SUBARCH)
+ endif
  
-+# Defer assigning EXTRA_CFLAGS to CFLAGS until after including
-+# tools/scripts/Makefile.include, as it may add flags to EXTRA_CFLAGS.
-+ifdef EXTRA_CFLAGS
-+  CFLAGS :=
-+else
-+  CFLAGS := -g -Wall
-+endif
-+
- include $(srctree)/tools/scripts/Makefile.include
- include $(srctree)/tools/scripts/Makefile.arch
+-cc-option = $(call __cc-option, $(CC),$(CLANG_CROSS_FLAGS),$(1),$(2))
++cross-cc-option = $(call __cc-option, $(CC),$(CLANG_CROSS_FLAGS),$(1),$(2))
  
-@@ -39,13 +47,6 @@ libdir = $(prefix)/$(libdir_relative)
- libdir_SQ = $(subst ','\'',$(libdir))
- libdir_relative_SQ = $(subst ','\'',$(libdir_relative))
+ # XARCH extends the kernel's ARCH with a few variants of the same
+ # architecture that only differ by the configuration, the toolchain
+@@ -211,13 +211,13 @@ else
+ Q=@
+ endif
  
--# Set compile option CFLAGS
--ifdef EXTRA_CFLAGS
--  CFLAGS := $(EXTRA_CFLAGS)
--else
--  CFLAGS := -g -Wall
--endif
--
- INCLUDES = \
- -I/usr/include/libnl3 \
- -I$(srctree)/tools/lib/thermal/include \
-@@ -62,6 +63,7 @@ override CFLAGS += -fPIC
- override CFLAGS += $(INCLUDES)
- override CFLAGS += -Wl,-L.
- override CFLAGS += -Wl,-lthermal
-+override CFLAGS += $(EXTRA_CFLAGS)
- 
- all:
- 
+-CFLAGS_i386 = $(call cc-option,-m32)
++CFLAGS_i386 = $(call cross-cc-option,-m32)
+ CFLAGS_x32 = -mx32
+ CFLAGS_arm = -marm
+ CFLAGS_armthumb = -mthumb -march=armv6t2
+-CFLAGS_ppc = -m32 -mbig-endian -mno-vsx $(call cc-option,-mmultiple)
+-CFLAGS_ppc64 = -m64 -mbig-endian -mno-vsx $(call cc-option,-mmultiple)
+-CFLAGS_ppc64le = -m64 -mlittle-endian -mno-vsx $(call cc-option,-mabi=elfv2)
++CFLAGS_ppc = -m32 -mbig-endian -mno-vsx $(call cross-cc-option,-mmultiple)
++CFLAGS_ppc64 = -m64 -mbig-endian -mno-vsx $(call cross-cc-option,-mmultiple)
++CFLAGS_ppc64le = -m64 -mlittle-endian -mno-vsx $(call cross-cc-option,-mabi=elfv2)
+ CFLAGS_s390x = -m64
+ CFLAGS_mips32le = -EL -mabi=32 -fPIC
+ CFLAGS_mips32be = -EB -mabi=32
+@@ -226,7 +226,7 @@ CFLAGS_mipsn32be = -EB -mabi=n32 -march=mips64r6
+ CFLAGS_mips64le = -EL -mabi=64 -march=mips64r6
+ CFLAGS_mips64be = -EB -mabi=64 -march=mips64r2
+ CFLAGS_loongarch = $(if $(LLVM),-fuse-ld=lld)
+-CFLAGS_sparc32 = $(call cc-option,-m32) -mcpu=v8
++CFLAGS_sparc32 = $(call cross-cc-option,-m32) -mcpu=v8
+ CFLAGS_sh4 = -ml -m4
+ ifeq ($(origin XARCH),command line)
+ CFLAGS_XARCH = $(CFLAGS_$(XARCH))
 
 -- 
 2.34.1
