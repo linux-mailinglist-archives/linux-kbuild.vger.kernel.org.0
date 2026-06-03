@@ -1,113 +1,113 @@
-Return-Path: <linux-kbuild+bounces-13557-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13558-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 1PRyHau9IGqQ7QAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13557-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 01:50:03 +0200
+	id IQBYGEO9IGpx7QAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13558-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 01:48:19 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ACB63BEA7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 01:50:02 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5357B63BE86
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 01:48:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Ev1KpUro;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13557-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13557-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Xir5PNzL;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13558-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13558-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E8BF93019BBE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jun 2026 23:47:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 66F1E300BC61
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jun 2026 23:48:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCADF44CAE0;
-	Wed,  3 Jun 2026 23:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 422DA4DB567;
+	Wed,  3 Jun 2026 23:48:14 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B14640759D
-	for <linux-kbuild@vger.kernel.org>; Wed,  3 Jun 2026 23:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88134611E1
+	for <linux-kbuild@vger.kernel.org>; Wed,  3 Jun 2026 23:48:12 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780530421; cv=pass; b=GPffNz/JNiaYdQNOSrf+nfzL0xqDI6YNOJ9yqUEB7ooVTzEZhsOR0KQRtvbK1gbhE+LdgxZqR003RYyxaW5Hk9SCeD6RR6LHB14Q2hj40DwH+8cn6p6C7BDTCOChEdAZHFVBzNCFOxvPnMLySM8e7OohUjXziMdDxQJlYwnBy6E=
+	t=1780530494; cv=pass; b=f5x68KuP5xMlPw6pvCnIalSkLZcqx1cQ+aqDPJ8VqqWRMKsE5oZrWuKEk4Qv8aIvmUT0m6YXlXbD7WLY98DUO1v8y5M75DyQM//QEbwOnTkPn+9TFyWWESbCjOLsm8LELdAhhw40tpibLnh1cxZdH4+uS/3eCSXXQk9pZB5e70I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780530421; c=relaxed/simple;
-	bh=DCp3v9l+FMS7NINNd7W7HntSmsBGnknae4Q2CV0fksc=;
+	s=arc-20240116; t=1780530494; c=relaxed/simple;
+	bh=6Z9vStdVoY+sm0vZkxTWbl1FRA0xSzco601c//yjuzY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VFVFNYT9D/cTAXWT+fc/NqHQzWryX5UGAOygSfbsIT8ohiB9bNbi4zeyIaljPGKVZGlvoRFI9+NJ9zMekTqXx0BVU5P5jdzcCOVU2mYjAN8dlc6JclDTEyeTKx6CD663YlIfuv+IHpa169VM0Dsgp4HdbOSw5AH07H4EvHWduh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ev1KpUro; arc=pass smtp.client-ip=209.85.210.175
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-842848fd613so48066b3a.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Jun 2026 16:47:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780530420; cv=none;
+	 To:Cc:Content-Type; b=TBvXTnkH48cBrJotD3ljqz6jEoIMdNhv66drg4qH7ax3FNCByqPsszdllw7BgM8L2umqv5s1Hsv+IinikUFeKOpDMPjT1RYavIuPz+9Jre01rO+b/ih/9mKWyDFDStwmw8bIpHBqKfZfOume/a4We/KHF0hteYZ4kKH37DS/PLw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xir5PNzL; arc=pass smtp.client-ip=209.85.218.54
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bed2195323cso11300066b.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Jun 2026 16:48:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780530491; cv=none;
         d=google.com; s=arc-20240605;
-        b=Fbmtv5a+jRKIMjWJkwYlxKTOfqmhKcuZ6Hqlt1d7iDk+Ag+oUVcCBWFGZ7TBxtVsD7
-         Jz7FCladsvQj6S/vCYHfwtUiKeIBujxS+P2bRGNv9v0qHnza7ABNpjkwqI6ylK5nhAAw
-         SikMtQuu2vDMqWIXs5MdamBirsWxD7MjbbisKPHCjKbSt+ShVIVpC2sinNKuBB/v9VSF
-         HrdJ1x5SaA+CYnq9nkLENqaXU4LTy8jT1rWkxAv8ckWsXordx9hfUfDl2Nidk1gW8Cay
-         V/z5J8g4IrNv1Ihylkw0FACDgZET+gCf0swzvCPtBRni7RKNrPB/iwchvhhs17+17jnP
-         Q63Q==
+        b=QhD1DCzvbU/a7KfWsLUd+jVIcmp4Lj5+KsM4RfAdeXZ+MulVBnZvm+2ujUAQ4qXPcE
+         Ai/1uMUOOYxlROqfUBcoy4JJ/l3VLhvuL83kw8YPQV66lJJuPrdn5dEsujRWVSFBDops
+         /LhNY19ik6jZmRly0RuERv48CCwkuiFH45F7LRa1fNaXfSZUH7hUihCPFuGyYLcg+vKL
+         7ZiQswsdN0U2k741qGXL66zOIuP1iaL3IIvdkkNfFwRJunb2D3HooBp/jmuEzkeovJby
+         qamf/OD8WgoERiPh3Wnv0SYgpRhRF5rR070wLI1YtA7rF+xHatFtoUNTKfuwKw5s2ZQr
+         LmmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=PRQr144oVhotnRScCZDWsFCvp93dWQllt04uhG0kBxE=;
-        fh=gv5Gh6RqBZmOXP5y29U7Rq1dXICc1H7zC2T2HvSKNDY=;
-        b=MB29rY19F0XGl9DAQCujj48BorLbpy5KHhuTX5DCndu0I5cliVK93vE5GP7s/ZL8hU
-         vaJ7RqwtnrJsFe/HVJVTIAXeVtH3no6wZP64De3WyCqmx2dlh80V08pOwbDIloHScIYA
-         guMQwMCl0axF/xkh4QwxHBXCRf3G+6Gfdjfu90I/vb34tO0v6A1/65FTMIE6xM7F1g1/
-         S2rNdr9JYhEllVi1Z7gxAcAODAnr4iJVcnrAArQRSjEXiNx5IJ0IZAiuRORUp4O4vBO4
-         UFjSRSq3LndSXXyjYsvIoeazUOp4oyxtTZHTxT5Uw6K9Ybco1UpojEYR5NMYmUIammLv
-         NOnQ==;
+        bh=TUBXpiUq5JEecRy7kmi+oWzZmqqtKmb4nW09LCQY1iQ=;
+        fh=raHjO1231lnbdY3FaoubDEPC+Lhz+NNLPLq38m2moCo=;
+        b=lneX5i8Bp+eKdJ3RX48tkygNh11zZXaUeEfVagpYRJTQA/znOAWumcMNnOdTSu2P0T
+         NWkuwOgAG/205nnfQWx+K3JCI220X/nek4Se5yzKziYCav0L4TpOHK8bKY1TLurAH8W4
+         DLLZCIp6yLw8to4Qe8CQBuYqZa8Xwxmlopw/7T3LuTEM7KtCchT1JJda+231PqhwqjnH
+         w2BmQIjBWcdTOTrm9MKltq4mlJFHQ3GEtrx9yEkhhBskMpZhiBXq1n8IC1HMzRk7c0nH
+         11ZuQETxb2Dp1yt7XeWAamg3XCuOXyJ1TWJKw1eo+mtLp0aGmo3vu3SXrcoOiLks1Oeo
+         tDoA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780530420; x=1781135220; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780530491; x=1781135291; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PRQr144oVhotnRScCZDWsFCvp93dWQllt04uhG0kBxE=;
-        b=Ev1KpUrowU53YF+UACz+/2pJYtyWITUaz6K1qfk5YazJ8Er4DxEkFnUrKcHW2UTlWW
-         GfMjcXfPTjV4EoyfyE7X35NRb5pY76ZrAGFc+ckqKeASJIAKG3IzHTGdG80BNyMHJkHn
-         DOlrppCQW2ko7qFNLT89TyKYW0k5MSHSKVswJYlKNwhz8C8mEeCTiHdj8alGjoZcglry
-         e0NMNWQef4heF38VrkJXS1WWj/0zWSehVHTf9gXGAnVtzNOdGK41A8C5qqNVaFZyCkFD
-         sIV814ugFhypTTpS48nmM5LAO9a8dVFJJgamcZ/HzyonUsUUiDSE6qVBMBVBlxGCzS6/
-         H0Rw==
+        bh=TUBXpiUq5JEecRy7kmi+oWzZmqqtKmb4nW09LCQY1iQ=;
+        b=Xir5PNzL/W2qkce0U9Hvd8W/1a8MFGpExNIb4hwPRG3IBhPW/aTKFQbwGOyXeXy1J4
+         YRMTA7PE/u6HtD6qODk5nI/MfG72qv1NLW3DWBYLQy6GSOpGIEYxle6VPkXcKuiG8PeZ
+         wgiIs7ZRl5b7YS6Ok9tgVVHjdP1T9JSlQrWNOdpkPBjS4XEqFM2+D4UeTLf9czhAmfYK
+         XbVuNKFPHC+MavYzsFL+yAoDD1fgg6aVdQUkeR6/cJXwq8RYpsVezPxVrzEA69tQnofw
+         sr1FDsMmXJvNX/G1xnV5M4CIx5+MhwN0bMDkPklkgKk2c6QGP91cvkmIfqcRI6UqZ6Aq
+         sAGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780530420; x=1781135220;
+        d=1e100.net; s=20251104; t=1780530491; x=1781135291;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PRQr144oVhotnRScCZDWsFCvp93dWQllt04uhG0kBxE=;
-        b=mFF00alLLNrPXQn061wO+ESGm6sbsA+d9MO9FSoWInwSNsU9SmiloHfsq3n/j0oOgG
-         OAftZbx7Xlg0ttkFT0hRZ7tooci8mra6jqiJTn1gdRsRuuivYZAAfY1nNAX0MWcm7IA5
-         kgCqJ1VUVmm6bAr2PyCODOfWry/v+Z1A0Tizg5ubQHuzO+rnbW3VgQ0Mg7MXBKni3cFx
-         lLhrVRQ2lqb8+5YnpCoXTsVlZATyGmc8ciVrRU5DxoJywtOyLtaoHhxTRo6v2v8M5h4O
-         TouFEH+dHN5PsN8UX9jrRyHHKzwEQzJUDIqo9ZvnjzevJjFdZG9ibJy26oMPCLLj9aWr
-         hTKA==
-X-Forwarded-Encrypted: i=1; AFNElJ8StIzfra+F5sLpSMgziXorma/HA1qovwWsa+zxP9YpKnMxqSSOcZqDFLzS4Y9F4kgrdgtYnDvNqHBNZNo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHHcx5dal5fFp6izGTdQDLxjlf0BCz+NyT/99vQuE9E2f+RyyM
-	6lEGKlg5a/d31+2JKOoNK0G7E4TRSh1bGf3Ao091mQlaB9hB0SER0xjsu8Ud3XX66R0vb3npFhg
-	bSBoD/l8aoImnH+FjSRulQsRDuEkaRxQ=
-X-Gm-Gg: Acq92OFkMqFe+Mnd0vsvgdxEvYANACU8AYFL3lhxLzV2vXL76mxFX1kjKY8mgZUNNHB
-	Lu8CfvUXcY9sNEGFvV329GULxSCP70yDYDhX0XmGP71oswQSfc9Wr3gyurT0+AOBi9cgPPxrOiL
-	uu+7UpnZQ5Ls4U5hlJPMAns8+Oe9YWqBFhEkr6NpAiZJmdskRt/aDdF39ChroNiOljqhovVPAxC
-	Fr6Z/t0GdU5w7Da9mIQUMSHSJPzFhCFV0IhcMNea6s8l2ke+MoB/mBEb0t65QxTdua7DbgFRLJ1
-	Ry3f64zSRbbVfBSLZfbNYaxtlooCBQL2ET9AcYpKQY+ZKwZJCUCT2ynPV9reDDL6YKXAv0ABKQA
+        bh=TUBXpiUq5JEecRy7kmi+oWzZmqqtKmb4nW09LCQY1iQ=;
+        b=ZuiF9DWDdmN3Dr8Kw22p5mbmWq/pVNllmg639fxazDADdI2sypJw9Do8hCAIY/E6fg
+         11UmVAP9WmFG3rEVEgOfWbU5QZZ+VjJRXD5ksECjByTxQom0DvmEO3nNhdylsMQA3PdQ
+         SN5mwRCqvyKL210IYHPsoX8YZtUtzntA+oSLnRH0aMxb8tA9G6HYTdyjq1zAGrbu00rQ
+         P1IeKtG5R6tfQ6E3BJGCLEPe4Bz7nUTNMZH5eNF8almj8uTCAkOenj9PNpmo9evWhfxH
+         pNkQhgc8eBZfDubJxzytXBWjFnLfilbFWHF4VlG6rfIRD1dNU1lhmzjG3bZOV7Bfb9Yi
+         Jopg==
+X-Forwarded-Encrypted: i=1; AFNElJ/dpitE0jAqnfeZlyEzqc+HEYjSJ9RXoYDMkN0MYZBuc0h3AsQk8Cm0V8qXaYpgS3wC3+3nABIrJjOZ0yw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuYtoHPCOtIcukl4vaTq082Jw/xmT91qqJg6sOO41/sLawQdlE
+	Cdivch6ovDbu0wwTgPjY8CDl++vLGo1IPsSlnyl5K2etP+TXmjHG2C+NQAU0/vBtNbt3uZ517vk
+	TuKo+W+l5RJ+Yu/WIFRIV4zpCKSWigBo=
+X-Gm-Gg: Acq92OHcBQdsEHTIFS9cWQO3x7dMlIpcd72GL1tSmHctCoGX1xy/h8zY/8kATkStjAJ
+	fpdU5lFIpP9NebWhpQdQxXHhpY79+Wg0KykklZS0JprVafKhXMdO2P6vhBiN44QczL8s6eGqsQs
+	z1uTZ81SCLkLY21nS6BJkqc42vMcRCspr8BXMnKIX0SxyPeIf+NPIyz7C8VjrXTlaYTXPtaQlCY
+	BK48x5YUj+jr2uPMvNAV40ENesBtmA8S9C6Q/M6fY83kyCqbdSZLUGesVz63NNM1OYFZN200PSG
+	jtMP+sFpv02hagO4ypMKDtPSC7zyD9NpTe5mQ/fb2p5Zg+CkOSwigPKE80cAdcryLBOK3DgXO8Q
 	=
-X-Received: by 2002:a05:6a00:a21e:b0:842:3801:47f with SMTP id
- d2e1a72fcca58-84284e1a23bmr4856513b3a.17.1780530419730; Wed, 03 Jun 2026
- 16:46:59 -0700 (PDT)
+X-Received: by 2002:a17:906:7955:b0:bec:d077:c4dd with SMTP id
+ a640c23a62f3a-bf0ae9fb19fmr282699166b.32.1780530491132; Wed, 03 Jun 2026
+ 16:48:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601221805.821394-1-ihor.solodrai@linux.dev> <20260601221805.821394-13-ihor.solodrai@linux.dev>
-In-Reply-To: <20260601221805.821394-13-ihor.solodrai@linux.dev>
+References: <20260601221805.821394-1-ihor.solodrai@linux.dev> <20260601221805.821394-11-ihor.solodrai@linux.dev>
+In-Reply-To: <20260601221805.821394-11-ihor.solodrai@linux.dev>
 From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Wed, 3 Jun 2026 16:46:45 -0700
-X-Gm-Features: AVHnY4IQDbz3ReZJFNHbtHz-9E83Cjslix00uXOBreU20DsKEz2wz7UdcnKiRyY
-Message-ID: <CAEf4BzapFqXxGj-rSuNZ-_0GWpUCGcyi+UKd3ei6xaa5AKDbaA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v1 12/14] selftests/bpf: Verify arena type tags
- in resolve_btfids test
+Date: Wed, 3 Jun 2026 16:47:54 -0700
+X-Gm-Features: AVHnY4JQct_cFDvrD2wM-9U7CrdDqWa-_ugyrfOX9dhEe2b_w71d_thBOQIEue8
+Message-ID: <CAEf4Bzb2=RvOv_geBt9T0fBvgT23V1NBEgqmG+L+v2nP-0cpYA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v1 10/14] selftests/bpf: Verify bpf_fastcall decl
+ tags in resolve_btfids test
 To: Ihor Solodrai <ihor.solodrai@linux.dev>
 Cc: Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
 	Daniel Borkmann <daniel@iogearbox.net>, Eduard Zingerman <eddyz87@gmail.com>, 
@@ -119,14 +119,14 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS(0.00)[m:ihor.solodrai@linux.dev,m:ast@kernel.org,m:andrii@kernel.org,m:daniel@iogearbox.net,m:eddyz87@gmail.com,m:memxor@gmail.com,m:alan.maguire@oracle.com,m:jolsa@kernel.org,m:bpf@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13557-lists,linux-kbuild=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-13558-lists,linux-kbuild=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[andriinakryiko@gmail.com,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
@@ -147,124 +147,47 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux.dev:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C4ACB63BEA7
+X-Rspamd-Queue-Id: 5357B63BE86
 
 On Mon, Jun 1, 2026 at 3:19=E2=80=AFPM Ihor Solodrai <ihor.solodrai@linux.d=
 ev> wrote:
 >
-> Extend test_resolve_btfids() to assert that resolve_btfids emits the
-> address_space(1) type attribute (a BTF_KIND_TYPE_TAG with kflag=3D1) on
-> the return type and/or arguments of kfuncs marked with KF_ARENA_RET,
-> KF_ARENA_ARG1 or KF_ARENA_ARG2.
+> Extend test_resolve_btfids() to assert that resolve_btfids emits a
+> BTF_KIND_DECL_TAG of name "bpf_fastcall" for each kfunc marked with
+> KF_FASTCALL flag.
 >
 > Signed-off-by: Ihor Solodrai <ihor.solodrai@linux.dev>
 > ---
->  .../selftests/bpf/prog_tests/resolve_btfids.c | 59 +++++++++++++++++++
->  tools/testing/selftests/bpf/progs/btf_data.c  | 10 ++++
->  2 files changed, 69 insertions(+)
+>  tools/testing/selftests/bpf/prog_tests/resolve_btfids.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-
-[...]
-
-> @@ -178,6 +191,22 @@ static bool btf_has_decl_tag(struct btf *btf, const =
-char *tag_name, s32 target_i
->         return false;
->  }
+> diff --git a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c b/to=
+ols/testing/selftests/bpf/prog_tests/resolve_btfids.c
+> index 7d9c3460cbed..eeda4e3b6a7f 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/resolve_btfids.c
+> @@ -246,6 +246,13 @@ void test_resolve_btfids(void)
+>                                              kfunc_symbols[i].id),
+>                             kfunc_symbols[i].name);
 >
-> +/* True if @id is PTR -> TYPE_TAG(kflag=3D1, "address_space(1)") -> poin=
-tee */
-> +static bool is_arena_tagged_ptr(struct btf *btf, __u32 id)
-> +{
-> +       const struct btf_type *ptr, *tag;
-> +       const char *name;
-> +
-> +       ptr =3D btf__type_by_id(btf, id);
-> +       if (!ptr || !btf_is_ptr(ptr))
-> +               return false;
-> +       tag =3D btf__type_by_id(btf, ptr->type);
-> +       if (!tag || !btf_is_type_tag(tag) || !btf_kflag(tag))
-
-drop !ptr, !tag, etc, BTF is not malformed (and if it is, test_progs
-crashing is not a big deal, IMO)
-
-> +               return false;
-> +       name =3D btf__name_by_offset(btf, tag->name_off);
-> +       return name && strcmp(name, "address_space(1)") =3D=3D 0;
-> +}
-> +
->  void test_resolve_btfids(void)
->  {
->         __u32 *test_list, *test_lists[] =3D { test_list_local, test_list_=
-global };
-> @@ -253,6 +282,36 @@ void test_resolve_btfids(void)
->                                                      kfunc_symbols[i].id)=
+> +       /* Check resolve_btfids emitted bpf_fastcall decl_tag for fastcal=
+l kfuncs */
+> +       for (i =3D 0; i < ARRAY_SIZE(kfunc_symbols); i++)
+> +               if (kfunc_symbols[i].flags & KF_FASTCALL)
+> +                       ASSERT_TRUE(btf_has_decl_tag(btf, "bpf_fastcall",
+> +                                                    kfunc_symbols[i].id)=
 ,
->                                     kfunc_symbols[i].name);
->
-> +       /* Check resolve_btfids wrapped exactly the arena-flagged return/=
-args with
-> +        * the address_space(1) type attribute, and left other pointers/r=
-eturns
-> +        * untouched.
-> +        */
-> +       for (i =3D 0; i < ARRAY_SIZE(kfunc_symbols); i++) {
-> +               const struct btf_type *fn, *proto;
-> +               const struct btf_param *params;
-> +               const char *name =3D kfunc_symbols[i].name;
-> +               u32 fl =3D kfunc_symbols[i].flags;
-> +               __u32 nr;
+> +                                   kfunc_symbols[i].name);
 > +
-> +               fn =3D btf__type_by_id(btf, kfunc_symbols[i].id);
-> +               if (!ASSERT_TRUE(fn && btf_is_func(fn), name))
-> +                       continue;
-> +               proto =3D btf__type_by_id(btf, fn->type);
-> +               if (!ASSERT_TRUE(proto && btf_is_func_proto(proto), name)=
-)
-> +                       continue;
-> +               params =3D btf_params(proto);
-> +               nr =3D btf_vlen(proto);
-> +
-> +               ASSERT_EQ(is_arena_tagged_ptr(btf, proto->type),
-> +                         !!(fl & KF_ARENA_RET), name);
-> +               if (nr > 0)
-> +                       ASSERT_EQ(is_arena_tagged_ptr(btf, params[0].type=
-),
-> +                                 !!(fl & KF_ARENA_ARG1), name);
-> +               if (nr > 1)
-> +                       ASSERT_EQ(is_arena_tagged_ptr(btf, params[1].type=
-),
-> +                                 !!(fl & KF_ARENA_ARG2), name);
 
-I'd add {} around all multi-line if bodies
+{}
 
-> +       }
-> +
 >  out:
 >         btf__free(btf);
 >  }
-> diff --git a/tools/testing/selftests/bpf/progs/btf_data.c b/tools/testing=
-/selftests/bpf/progs/btf_data.c
-> index 8587658012c3..ec34f7a6e038 100644
-> --- a/tools/testing/selftests/bpf/progs/btf_data.c
-> +++ b/tools/testing/selftests/bpf/progs/btf_data.c
-> @@ -58,3 +58,13 @@ int kfunc_b(struct root_struct *root)
->  {
->         return 0;
->  }
-> +
-> +struct root_struct *kfunc_c(struct root_struct *a, struct root_struct *b=
-)
-> +{
-> +       return a;
-> +}
-> +
-> +int kfunc_d(struct root_struct *a, struct root_struct *b)
-> +{
-> +       return 0;
-> +}
 > --
 > 2.54.0
 >
