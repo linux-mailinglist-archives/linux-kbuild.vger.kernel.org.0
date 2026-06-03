@@ -1,111 +1,128 @@
-Return-Path: <linux-kbuild+bounces-13536-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13537-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id IfMcL3aKH2r3mwAAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13536-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Jun 2026 03:59:18 +0200
+	id Qs4eE4ncH2pUrQAAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13537-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Jun 2026 09:49:29 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E096338ED
-	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Jun 2026 03:59:18 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BEB63560F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 03 Jun 2026 09:49:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ckporMsu;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13536-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13536-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=google.com header.s=20251104 header.b=NjOqUT2X;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13537-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13537-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4DF363010531
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jun 2026 01:56:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 89E1F3120CBC
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jun 2026 07:26:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C817A384CD9;
-	Wed,  3 Jun 2026 01:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FAF1402424;
+	Wed,  3 Jun 2026 07:25:45 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C620A340283;
-	Wed,  3 Jun 2026 01:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D393FFAB4
+	for <linux-kbuild@vger.kernel.org>; Wed,  3 Jun 2026 07:25:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780451765; cv=none; b=fbC4LS6BzJz/Ibn6ZjznGcA0GkPXQEtE3T8uT0Oo4WZb6C9WyWwkuzidKxRlWP1mHkws5NSYWplpHU6kc421lCR+XyLSWSr0HnTusDIfkA36CDrJjGElnK6kWObx2VD/qSyrqChsG6xYjBTDogSWq1d2uXMXS0pM5wec0R5Tk6o=
+	t=1780471545; cv=none; b=m03GnHDBnNJT9Rs1UEjApf/4Mbf6yEN9FFgaIc+0Alibc+GyX9vIZxogMPdz+5WwRnxuaz2SzusNzrUIlWDGA8QhWyB/gdzXcBvYN2rFaQ1QMCMNX7Uz3P44lCz9xWjp3VyQgZ+68ERehTvfAF2UrBgqbGPrHzbTy71Jc5qrEIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780451765; c=relaxed/simple;
-	bh=AUIGuXhsRIC7GOq/ibNNwv74/STwwKHVWgviq29t6Lc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pA/ALnIh5eSMMQMYsJLLA4NLPApc9hQnQxeqGDTU0Gav9WQMCN+zN8eNFt9EsHG9iCtSlHebXsqzNa8gXOa5fA0uZW1RX9gGC/zvga2T1a+BkwoTQHNwr3UPJY6uZ/sURIa0B6DtUlHaEpV5UGxdcCzAcPLvAvGe5s0qpR3z/pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckporMsu; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE601F00893;
-	Wed,  3 Jun 2026 01:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780451764;
-	bh=g2nW8+I1vbywqV2lNSJrR6+k3J/+6tGsD++UMLzD7Aw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ckporMsudY3y+sW4Op5zpVFiV6s8aGcFVi7lTHg8Xybm5Au0tRELVYQbJ8dQXZhd9
-	 4OaDu42E0uA4Jbv+EpPV7ZvbdU5R+C96opkan6GxDttQDW9D6Yt4O3JMjqt80W7c81
-	 m1RxvHJTvm3a54eRfwo+EzpgbTiqk8z2kB1KQqP/0VxFmce2l/WjWoCwSMowx2DEVI
-	 1bCP1/UlhyivbpuN13De9JFKS4gpRvP9KBTXfAmGKGARGIjFxhvtVrA2RBIdFSE/sV
-	 OjpR2Lw2X9tW1EaNle/Z5+4u35DMTh94KkG9Nzzd2hcgGfwI37AroDlYn2eRGxMW4A
-	 ojeHi/Nx1iLSg==
-Date: Tue, 2 Jun 2026 18:55:59 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: rust: rename flag to `-Zdebuginfo-for-profiling`
- for Rust >= 1.98
-Message-ID: <20260603015559.GA3013922@ax162>
-References: <20260602151638.14358-1-ojeda@kernel.org>
+	s=arc-20240116; t=1780471545; c=relaxed/simple;
+	bh=Mlwtbz+gVN22gH4dM+AnS8oUUbPu0tBkZ2ExDcjDpNk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KHHzhKVZk91sf9UE2HQpKgVD9G9Lq//pyTEc4yakQkZdBij1f/fcUgPdImTKS86XgyU8fdZaCO1ZXX8Ht8XlgKWkhAo103DR0Cgn9gd2hc/cCxIWTSVoqe64A9USnPPgdbIIKZAZN2eOK07S9asn3g/1yLHbo8hjKDLVDOf44tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NjOqUT2X; arc=none smtp.client-ip=209.85.128.73
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-490b37e1f47so11095425e9.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Jun 2026 00:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780471542; x=1781076342; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kn1fwrz0N95jpQxjLA6rHpxyLrIkfU2xk5HoRUHBs5I=;
+        b=NjOqUT2XAosPhcoaktiNR2N0agBfPNsGCIGsOA61TBvKQdwRQbvgQArHTL17mJxdjE
+         ei3OGCzot9HwE5RYXqJkWg2RKxD/T1IOYd04ypKfmyFlPXZAMwYZhz+yVV2Xs+BRZudO
+         mtdJH8sBE6yowdkfLtkeOcVFzXa1TvXxWI3JCtqPOlLj5ngmxRqrxskuMW7gqP43SWOH
+         tbXxREetMUOb0qvaKW24OW280xqbkLWb6FM8NWzFGZrsTEmO+s1E7IXqzInwGDhuGeOG
+         U9/1mQICAH1oqvg5FweQHLlUE6ZMpaSJ9zYDoaUXqLQ+02ceeTHQhhgPLSFf50z3Suro
+         j8mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780471542; x=1781076342;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kn1fwrz0N95jpQxjLA6rHpxyLrIkfU2xk5HoRUHBs5I=;
+        b=evIbuMHt9nIIhxdlmPdKVm2oCBOGmUtIo8g5eU2QPPvV5ZFOdHnPG64Il48MpWZeXU
+         6PRhgHch6ZTkzAnP5dzo+oGpMD1B/4CRZ5yE42AjISF6lzlRI3/w2YoRnMQ66IUMZTVx
+         elv4XOO844FwPg2yljOwWxyrzK8BEZrIDVtZLftOpYCPHRkXC38nU0rfrIIZpND7CekF
+         yHcFz9hXPDJNd+6M8upjQPwRhqSM0e4SRIGVxeW4jBHWUStWhLs8nOfohUmN+y5Nhvxw
+         +gV7HVYNtgHx+t9f6MAEJ6bX5YjLhoX/XgpSKJPymlsjJ6ThxajSDhlRzLMNokn1fIhY
+         Ot5g==
+X-Forwarded-Encrypted: i=1; AFNElJ8F11YjUB5fpv6RojvYrP4mj9xl44PA1UpiD9JxxIzfqaD+JSQNOUoIrAQr1f4TFRdEOZA5nE+QV+NFBVI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWxpvU8OEaDzMQRvWX7MFjp1m+K8KxVXM5N5RMEgAzpzfbsA3n
+	y8XQXSOA/eLtM3cAovUL2/BbdsX6vyGe6dJYj+iiLjYxRNQfBxesqpjt+BqwHI/Qb4Yjn7lPoLx
+	15unQV4HkvzxGFkg9PA==
+X-Received: from wmqy18.prod.google.com ([2002:a05:600c:3652:b0:490:b027:8bb9])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:c4b8:b0:490:b591:b5a3 with SMTP id 5b1f17b1804b1-490b60e9af0mr32900305e9.32.1780471541391;
+ Wed, 03 Jun 2026 00:25:41 -0700 (PDT)
+Date: Wed, 3 Jun 2026 07:25:40 +0000
+In-Reply-To: <20260602151638.14358-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602151638.14358-1-ojeda@kernel.org>
+Mime-Version: 1.0
+References: <20260602151638.14358-1-ojeda@kernel.org>
+Message-ID: <ah_W9IMXQh06-EgB@google.com>
+Subject: Re: [PATCH] kbuild: rust: rename flag to `-Zdebuginfo-for-profiling`
+ for Rust >= 1.98
+From: Alice Ryhl <aliceryhl@google.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13536-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13537-lists,linux-kbuild=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-kbuild@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-kbuild@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-kbuild];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,ax162:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 16E096338ED
+X-Rspamd-Queue-Id: 46BEB63560F
 
 On Tue, Jun 02, 2026 at 05:16:38PM +0200, Miguel Ojeda wrote:
 > Starting with Rust 1.98.0 (expected 2026-08-20), the
@@ -122,32 +139,5 @@ On Tue, Jun 02, 2026 at 05:16:38PM +0200, Miguel Ojeda wrote:
 > Link: https://github.com/rust-lang/rust/pull/156887 [1]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Acked-by: Nathan Chancellor <nathan@kernel.org>
-
-> ---
->  scripts/Makefile.autofdo | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
-> index 3f08acab4549..1442043da139 100644
-> --- a/scripts/Makefile.autofdo
-> +++ b/scripts/Makefile.autofdo
-> @@ -3,7 +3,7 @@
->  # Enable available and selected Clang AutoFDO features.
->  
->  CFLAGS_AUTOFDO_CLANG := -fdebug-info-for-profiling -mllvm -enable-fs-discriminator=true -mllvm -improved-fs-discriminator=true
-> -RUSTFLAGS_AUTOFDO_CLANG := -Zdebug-info-for-profiling -Cllvm-args=-enable-fs-discriminator=true -Cllvm-args=-improved-fs-discriminator=true
-> +RUSTFLAGS_AUTOFDO_CLANG := $(if $(call rustc-min-version,109800),-Zdebuginfo-for-profiling,-Zdebug-info-for-profiling) -Cllvm-args=-enable-fs-discriminator=true -Cllvm-args=-improved-fs-discriminator=true
->  
->  ifndef CONFIG_DEBUG_INFO
->    CFLAGS_AUTOFDO_CLANG += -gmlt
-> 
-> base-commit: 025fd4b4fd382112bd4489e5b4437a295934fc19
-> -- 
-> 2.54.0
-> 
-
--- 
-Cheers,
-Nathan
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
