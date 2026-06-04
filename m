@@ -1,228 +1,295 @@
-Return-Path: <linux-kbuild+bounces-13571-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qyLADr4/IWq9BwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13571-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 11:05:02 +0200
+	id 870yGO9GIWqjCQEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13572-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 11:35:43 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F6E63E514
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 11:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D1063E95D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 11:35:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=infradead.org header.s=casper.20170209 header.b=CL5yX7gu;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13571-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13571-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=infradead.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=est.tech header.s=selector1 header.b=QSY2z47I;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13572-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13572-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=none;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 718D9300CFC7
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2026 08:52:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B0EA73023A4A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2026 09:30:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 041523DB33B;
-	Thu,  4 Jun 2026 08:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8548F3A9017;
+	Thu,  4 Jun 2026 09:30:02 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011065.outbound.protection.outlook.com [52.101.65.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEC63C9ED6;
-	Thu,  4 Jun 2026 08:52:52 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780563174; cv=none; b=W68K0NPByRoP9aZWfGNpSRnb+MjDgE3boCYtbp3AwjzfwqbcyreeQYiZhu/EPKvbAErAjDAtxHjO7RoTfETFRYg6xJEtqNdKr/MIgrOaJDbIUKGxDepYujsBG8XegiMQaCLsDuPwCIWKiluHFXkhoNTDDJoTmauPOQ81QI1PMJ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780563174; c=relaxed/simple;
-	bh=Z9qW52xw2v9DBLSiydJCHgrUN8NPyZ/1G6ef/sKILWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oC0OcGviN72n8JWDG3EJp6M3k5UMUDI/MJl4H7UQD4XzByLSedC0ahOlr05kIDABodX1kyz5EtuvJSwArZTVkQ/kWU2vBdJFv4eWjwGH2A61oY7vXCDXFGBSd322hgaAbvyiEwLJUg7x+JYMbeTzqhNVE3Xtte4E3BRatRLVFTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CL5yX7gu; arc=none smtp.client-ip=90.155.50.34
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6tI9/y+X+xZ79PrI57JmKszz1dgu7wPk4F5jzgpriT0=; b=CL5yX7guiYMkyCUe4gdSRiiXrT
-	/Re/UCoWOLkXpo8Zck95jp05jDNkcBlaj5b596hvjWJdK2aAs6dz1jEmnPI46NkHIpHpogQbKdyLc
-	iO3KmET4rxhPN5IFojpgT0ylSDSejS9DNvjNiUshCt5Rwe8CXwjd8mb44qWuzUfa6ZfWRRxw4ZPFD
-	oB7r83j3cs7Gl26n95lfecEA7uD3gTp9XBz05C4Pana8RS1qa1EzEMGQlwksDCYGZlSUKx/wbomzy
-	kmWKSjhgDe/1Vmeyufl4YauHPTn+Eo2fhSMKiZFLcLfRGk6h6YEgV6Rw5IPMccFouPJDnwrnEqBek
-	JORsfEBQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wV3oh-00000005TSm-1svG;
-	Thu, 04 Jun 2026 08:52:44 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 55E6F3001FD; Thu, 04 Jun 2026 10:52:43 +0200 (CEST)
-Date: Thu, 4 Jun 2026 10:52:43 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Subject: Re: [RFC PATCH v2 6/6] kcov: add recursion guard and documentation
- for kcov-dataflow
-Message-ID: <20260604085243.GD3126523@noisy.programming.kicks-ass.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EED372058;
+	Thu,  4 Jun 2026 09:29:59 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780565402; cv=fail; b=tipezgmzEFdY2pDEjm5+9d1Ql5+QpZewLpmuaZRsq2Kvxl688AaQub1dwVAF1lDVnPE2L+5DqLcowZd0kLy7FgTcVYVM0Pe10x+P92suU7pTXTpwUzglM4YW/m1ZvtvzhkZHhVNozRD8UcecJC/GcosigO+ido2sBysuRyLEYq4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780565402; c=relaxed/simple;
+	bh=womoXms92eqe2X6R9DHJQRO5KzUJIFoMqwF9IIaqAqM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Q0zpmBCFHyswMAcawSVM+jnD7WT4ySz5U6v+Cz/jokgQnTE1MA0wvcbC6VWPGuBCdxiilqfcF9q9x8j0B5NjiZL0vtm5excrBvHLsZf8167WZCGPffr0OKriRhDh/pTRk6Mq34CHYxKV6aaYZs/VRa0EkKxmQDXcA/aOWSP/uC0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=QSY2z47I; arc=fail smtp.client-ip=52.101.65.65
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d+47VhkoR3SfklUOswBWi+vpWWO0E/WzI2ZM5duVBLDggZjZiEtX8lZkpIdvW7qw9bPdORONWR+PRUhBShVMtFkx5hCbpsHaLaOokXODU7Qr0cBIJroj3Fz5EPtCmmONo2TIyqbERjdFjLGx9aI0MTaw62fgD9r441u3aZSc5R+Vc9MrCN+f0hu5kkg8qc8RCSQvkfrCpuea4oG0VU8gcHFGlDox4SQ8wGcK+bF0WVj3P4Fvh0lAhUZvlTP2KBmTikM608uZZQ5yGkMdX0KSqZen5AM7WvtGHwEmm18gYI7TV9S6HvtSzy4GFEpsRxnnjhWltV9n7MKk8ChFLfNRlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ar8Kdao8qCVWSK0PY2QBUpKU3mC0cM+YwlyQToan/nE=;
+ b=rRH1n4rAch8gjNVjINz5deRI29AiQYvSlOb1CRezFIM3d3R3tWJawb/ic50MpTr7t2Age7f9rr7jehrwBjC5g4c7DlUYOPIzp9wDl4++lPHVX3b/2ardUr8B+acE4Euoq6Pm8EJk5Fk3QDjg9hrZoI2yM01/s6wLefh0X6u9dVp0mI9rf5mdEE1ScMR7kR/YfJfgNYGI2fWHJCV7o+JS2UqPutFMG0tCUmMCB+D39WLq7LXp/op2jOtPj78WnVSLuavRHh6fI78V3n1hL745YsK3FzmNwxr6ha3qkWcBE5yLxDraEwATidZZSc79tXxfFEFq7PGapak8Hv7oQ346QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ar8Kdao8qCVWSK0PY2QBUpKU3mC0cM+YwlyQToan/nE=;
+ b=QSY2z47I/HvGpgDsfsQFQ89nqZo+6CkqKhhVFXCUVrUM+R++U+/aaKChxt4JVFxz7RhXmFfu0av6IgXJ7Jbl1KuLZ1ww24WUIfNG7F8NZxGiAh/XVsJDuBKD2TQE8ex5LQOxMEj/GSsFDySoB+Caz3Ah7K0VumUbIG9YkW1uNUlz9QoR6HKfCzEqzFquUDyCgE8R7nzpia+Oey4uXxgD8UANOOXwhl1kcwkOI+Flseew1rVbdRUpr3x/21Pby/Hzz/J+F8QO4KowX6zonGasOfWMHq1KbuPorTOJs2uY35Wza6aNrb660IcUC+2VOqb/VMVDBFcJ4Jy8ytwfnmE1gA==
+Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
+ by DB9P189MB1834.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:330::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Thu, 4 Jun 2026
+ 09:29:55 +0000
+Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+ ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+ ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
+ 09:29:55 +0000
+Message-ID: <5bbc98a8-fb7f-4909-ab5a-5229e9ef74f2@est.tech>
+Date: Thu, 4 Jun 2026 11:29:52 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/6] kcov: per-task dataflow extraction at kernel
+ function boundaries
+To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>, Dmitry Vyukov
+ <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
 References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
- <20260603-kcov-dataflow-next-20260603-v2-6-fee0939de2c4@est.tech>
+Content-Language: en-US
+From: Yunseong Kim <yunseong.kim@est.tech>
+In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: GV2PEPF000239A4.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:400::225) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:39b::19)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603-kcov-dataflow-next-20260603-v2-6-fee0939de2c4@est.tech>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|DB9P189MB1834:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8a71689-356b-400e-7a73-08dec21bd66c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|366016|376014|921020|11063799006|6133799003|56012099006|3023799007|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	7p65TcjUvLFoEr6TnmOnk//ZT8X/rrsG03NVZtMvq+tHxwcdstA6m9MWcrx6AcKLAw4c42TkyGQwT2zqEfHA/PWFniHrSczFZ7fUx5Z4E1ReTvY4azIn/4Ilplq+m+vUvFIVbgzPqOAblMYQkArDCmgNAcsVwpkSdK9mhjo58FZVkpGWP+9dTo9W/7f9SZInOnRW+yXZxvCvwmQbQypjPorCIHBMu9nG5SYXHyF2v1/OUpYFKoxVE/WmWtshdJJL3KFag/Abf7F/35ykKuSBDiIZhnH6hYsfO6qoS8v4BlxIN94/z0rvYSM60m6VbTocKENpb1XdgouHoHXEDEQkTlLk87CfLCnMl+5d70wtItf35cSQrUcPtDF3IJday/BOLY2N5ST3QOPg4oKnLLZfdq9lF18pq4Ki2/o+YDozeKgxDMNCSXHyR/kX4MYlJMQqWKWoTAO+1amCcZauD5RzlbFdONLZ6/M/95BNBkh6Hj3zCC1E1z9Ei4irDRKfrBNWjk7t3CwF8q/D1BqvYP2zbkiRKXMi7hNbzsSh7F7XcGNIqh9eViY+n75EQSOS2zg0u3p2COz0XqVh40uO7tPqZK0EFQd8GwJtLqnIgOIceRwpHUyvfPxUxdu4Ssb2C+sCxr+Suk+DvcZ/YlygFxbFcFEQ575C5xID0Jznf2ZS4DhgutiESVLw/x6IRmpQ+nr7mJ7GSfgfLtMBxKEdDnpj0CpUApegLCLVLKRsWgrLy+YP9NNnjjWhnASrbZ8usU5C
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(921020)(11063799006)(6133799003)(56012099006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WDhkVDZDK1pJK2Q3bjhMMFRLOVVSeXBWbVR1V3Npd0l0Y1dWL3JoTTdUNlNP?=
+ =?utf-8?B?TGJBR3pxcHNEL0dtZGw5MTNlZDBIamplN0o0SzVSODZmbXdwV3pKTHRPeGN5?=
+ =?utf-8?B?cXJRTjJJdm1oMlA1SUFBQUlYd3g2UWphb1dyN2R5c3pWQ25Dc1Q1QmVXNDg5?=
+ =?utf-8?B?a05NMVlFQ1FHQUpmYkl1cTA5Z1ljQ2VYOUlFMWduVFpLcFVOTDB2RjJvWHhm?=
+ =?utf-8?B?UGR0aE5tS0wweGRmODFtV0QxZ2xHY081NUNWVGljZW8yejdUSkZDREFWUGxa?=
+ =?utf-8?B?Q1Rib21CWVVVbDh5M0l3S1N4SmlpOFdkYU02ZHE4SnYyM2ZEYUJ5RnN2TUg3?=
+ =?utf-8?B?M1B4OE5BeldyRkRVU0VzVkhMRXRQdGRCdGQvaGIxM0hDR3Izdis1SzNYeXZn?=
+ =?utf-8?B?ekF1VnhlOXdGdzl5ck0xWjNrd1FOWlFGSzlsT1FsZlJieUVZR2t5cVNPUWhr?=
+ =?utf-8?B?T2ZGckVnd0ptc3p3TURTb0VZTzhGVFV5WHJ3bzVZaFl4UUtIVkFjVzhRbHYr?=
+ =?utf-8?B?Q0VCSVpZRGkvcUNkWUxwTW9mYkJaQ3R1dkFEOXRjbmxLc3lvU2c2MUJteEwy?=
+ =?utf-8?B?Y0h3QWo4QkpCN211eHRWK2JxaGdwWlJxT09YdjBNOXd4WmlNcC9ZVS9qbzM0?=
+ =?utf-8?B?UENHVFJBcGJmZFB4b1I3NlVrc1BQY01QQmhYVUkxMnRTTnNKRDNmYVo1dVh5?=
+ =?utf-8?B?Z1IzM3JWajNZT1p5MkNaeDZtR2gxVVFJdklwdjNPbGxSUndWT3RvM2E4Y2dD?=
+ =?utf-8?B?dlB2dk9xcWgrNWtvQ0crRTUwUmRCbS80YzhaOHo0b29LWmRUdGVNVCtqekRB?=
+ =?utf-8?B?NGI4bE5PS21DN1YvSE9TK1dsMGVsMGJMUHY3aG4rRVVtbXdlYXpseU9WVmlQ?=
+ =?utf-8?B?emo1MFJwcHVwRjFGdm9KKy9SU3pEYk5NMmdJbmNnTlM4eHpiakdGclM0bGdB?=
+ =?utf-8?B?c05FdkdLVGh6cHpIY09rQllkdFpYeUgvQ3hjbWxBL3FLaXhvckhQNGRqTUU0?=
+ =?utf-8?B?R2FRNEhyYjRISU1yRTFuM2NxUmdkZWpqbEI3QVdxSDZhamZZOXhLMWNqS1N0?=
+ =?utf-8?B?dVNNeXZKeXd5OW9leTVqOVRaQnIwN3U5VlFxcTJ5UXRRQkpEQm5pTUJUUHNs?=
+ =?utf-8?B?RWRJa2FBc2QwbXdPQ1EvS1haRTNBN3ZQS21ISFAydnB0RGFkTy9TckNBRnJJ?=
+ =?utf-8?B?V0FGSkFwT0dYV3JUd0d5RHZhTWRTZFJMUEZYdlkxekVpQmtnVHViWkNObzBN?=
+ =?utf-8?B?RjhTWmM5L0N4MnNNSUhZSjgwUkowMHlVR0gwVFhWUHpibkVhWlYzN2VYTDd5?=
+ =?utf-8?B?V3Z4dHA3S2o3cHYzUHBYbjFpZ20yb3JVMWRqQ3FjOWYyMXQ5QkhDQWpGd0Mx?=
+ =?utf-8?B?T0dqSXd3TFNJZ3VQTWg2WGY3Ym14NEZCV3ZlNVpZeEVjTkdSZ3dmdU5uMitm?=
+ =?utf-8?B?dlRZRVRtWW1YamQxNFdYZE0vVWV0RXJudytxeGN1LzUxWDBRTTE2SjZhTTJn?=
+ =?utf-8?B?UUE1SG95ck9hVWRmY2JHNnNRdEJZWXlHWUJFZG9kWVA0SWlDNGZjTHZEMWhG?=
+ =?utf-8?B?MmxGN3ZUOEc3VDBuSWs3QzV3QnBuTGdUTkIvYW1pYWYvYisrSUpJamlDOW5i?=
+ =?utf-8?B?K2RNOTc1SmYrVjh1dEpaSFRYa3FQUEtKR1p6aHRVVDV5bXNZSDQvNnloL2Zh?=
+ =?utf-8?B?cVc5WjhZdEh1OFd2WUdzT2J4THk4VVlZY0FmdjI3UkM5Y0puN0dQSlErYTlh?=
+ =?utf-8?B?Q1BnNlFTSVZDV2N3bm9YK01HRVZ5TGFFZFFCV0VLU252STI5YkwzRVpneGhP?=
+ =?utf-8?B?L01BZ0d5c0xrOUJPdW5QWVJsVS9USG5rRTBCWmxMMG9qZkI3MGtnRzNzTE9W?=
+ =?utf-8?B?MDd5T3BtMEV5L1VBaVRzdXBkSVVCMkNOaUkzSUFQeTUxRlloMTFvUE1OMWln?=
+ =?utf-8?B?T2o0WVAwcEtuWktHZ2tSRTUxc3JwVC93WVFLY2ZIVFFFOVZ0NHBMdlBtbEp6?=
+ =?utf-8?B?WCtmL0ZzNFphQ3o5RWlaSkVKRFp6cE9xUWtTbTNUZTZlNllqSDZ6RUpZQi9G?=
+ =?utf-8?B?MzlocFRZMjFWbU5uQ0RPQmppTTQreUpRbWZ1MW1kY0hwTW5RQnBuV2ttM0Yr?=
+ =?utf-8?B?cEptUm1DRWtOUkE4dk9PV1F3VnZiRThEK3psOEJCU2NRRnB5RTNzZlhWNkt3?=
+ =?utf-8?B?WkFhVDFHYkRtWGhNU2NKRHJUVjhFY2k1NkZ6d2ZMVXNUL1dMcWNRZmhkaEdx?=
+ =?utf-8?B?aGRieHNNQTNTS25RalpzK0toMS9qcTZVaGxMNG1iTkRLenlXajR1VTV2bnZL?=
+ =?utf-8?B?YkExQWhMQUc3M2dxZVRhS3BWU09EMU5jTStodVdNNDR5ekZMZFpVdz09?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8a71689-356b-400e-7a73-08dec21bd66c
+X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 09:29:55.1846
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o5cDXuaiGsYECkrmb+JAnJHUlACYANOPhe21H+Gvj/4hnYjMFoz4CDktl4mm3OksrACypTUi9dbeAWV6o6Kauw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1834
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=casper.20170209];
+	R_DKIM_ALLOW(-0.20)[est.tech:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[37];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-13571-lists,linux-kbuild=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:yunseong.kim@est.tech,m:mingo@redhat.com,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:dvyukov@google.com,m:andreyknvl@gmail.com,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:nsc@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:llvm@lists.linux.dev,m:linux-kbuild@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:ysk@kzalloc.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13572-lists,linux-kbuild=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[peterz@infradead.org,linux-kbuild@vger.kernel.org];
-	FREEMAIL_CC(0.00)[redhat.com,linaro.org,arm.com,goodmis.org,google.com,suse.de,amd.com,gmail.com,linux-foundation.org,kernel.org,garyguo.net,protonmail.com,umich.edu,lwn.net,linuxfoundation.org,vger.kernel.org,googlegroups.com,lists.linux.dev,kzalloc.com];
+	FORGED_RECIPIENTS(0.00)[m:mingo@redhat.com,m:peterz@infradead.org,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:dvyukov@google.com,m:andreyknvl@gmail.com,m:akpm@linux-foundation.org,m:nathan@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:nsc@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:llvm@lists.linux.dev,m:linux-kbuild@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:ysk@kzalloc.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[redhat.com,infradead.org,linaro.org,arm.com,goodmis.org,google.com,suse.de,amd.com,gmail.com,linux-foundation.org,kernel.org,garyguo.net,protonmail.com,umich.edu,lwn.net,linuxfoundation.org];
+	DMARC_NA(0.00)[est.tech];
+	FORGED_SENDER(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[est.tech:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[peterz@infradead.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[infradead.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	FROM_NEQ_ENVFROM(0.00)[yunseong.kim@est.tech,linux-kbuild@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:from_mime,infradead.org:dkim,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,noisy.programming.kicks-ass.net:mid,est.tech:email]
+	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,est.tech:mid,est.tech:from_mime,est.tech:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 97F6E63E514
+X-Rspamd-Queue-Id: C0D1063E95D
 
-On Wed, Jun 03, 2026 at 07:43:33PM +0200, Yunseong Kim wrote:
-> Add a per-task recursion guard to kcov_df_write() using the high bit of
-> kcov_dataflow_seq. This prevents infinite recursion when
-> CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL is enabled: functions called by the
-> callback itself (copy_from_kernel_nofault, xadd helpers) are also
-> instrumented and would re-enter kcov_df_write() without this guard.
+Hi,
+
+I would like to make a correction to my cover letter.
+
+Note: v1 was sent as "RFC v2" due to my b4 misconfiguration.
+
+On 6/3/26 19:43, Yunseong Kim wrote:
+> Introduces a new KCOV exetened feature that captures function arguments and
+> return values at kernel function boundaries, enabling per-process visibility
+> into runtime dataflow.
 > 
-> The guard uses the sequence counter's bit 31 as a re-entrancy flag.
-> The low 24 bits (used for TLV record sequence numbers) are unaffected.
+> [snip...]
+
+kcov-dataflow are not in conflict with "KASAN_GENERIC + KCOV_DATAFLOW_INSTRUMENT_ALL"
+
+> Prerequisites / Toolchain
+> =========================
 > 
-> Also:
-> - Exclude kcov.o, extable.o, softirq.o from dataflow instrumentation
->   (same pattern as KCOV_INSTRUMENT exclusions)
-> - Add Documentation/dev-tools/kcov-dataflow.rst with:
->   - Prerequisites and Kconfig options
->   - Per-module instrumentation instructions
->   - Complete C example for data collection
->   - Ring buffer format specification
->   - Ioctl interface reference
->   - Fork interception example for child process tracing
->   - Rust module support via post-compilation pipeline
+> This kernel patch relies on a custom LLVM SanitizerCoverage pass that
+> emits __sanitizer_cov_trace_args() and __sanitizer_cov_trace_ret()
+> callbacks at function boundaries, extracting struct field layouts from
+> DWARF debug metadata at compile time.
 > 
-> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
+> To build and test this patchset, compile the kernel using the modified
+> toolchain:
+> 
+> 1. LLVM/Clang (adds -fsanitize-coverage=dataflow-args,dataflow-ret):
+>    https://github.com/llvm/llvm-project/pull/201410
+> 
+> 2. Rust (rustc 1.98 built against the above LLVM 23, for Rust module support):
+>    https://github.com/yskzalloc/rust
+> 
+> Build instructions:
+> 
+>   # Build the modified clang
+>   cd llvm-project && cmake -G Ninja -S llvm -B build \
+>     -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release
+>   ninja -C build clang
+> 
+>   # Build the kernel with dataflow support
+>   export PATH=$HOME/llvm-project/build/bin:$PATH
+>   export RUSTC=$HOME/rust/build/x86_64-unknown-linux-gnu/stage1/bin/rustc
+>   export RUST_LIB_SRC=$HOME/rust/library
+> 
+>   make LLVM=1 defconfig
+>   scripts/config --enable KCOV \
+>                  --enable KCOV_DATAFLOW_ARGS \
+>                  --enable KCOV_DATAFLOW_RET
+>   make LLVM=1 olddefconfig
+>   make LLVM=1 -j$(nproc)
+> 
+> Note: CONFIG_KCOV_DATAFLOW_ARGS and CONFIG_KCOV_DATAFLOW_RET depend on
+> CONFIG_KCOV and use $(cc-option) to verify the compiler supports the
+> new flags. With standard (unpatched) clang, these options will not
+> appear in menuconfig and silently remain disabled.
+> 
+> Optional configs:
+>   --enable KCOV_DATAFLOW_INSTRUMENT_ALL  (instrument entire kernel)
+>   --enable KCOV_DATAFLOW_NO_INLINE       (enabled by default)
 
-Another really weird patch. Adding Documentation is okay I suppose,
-although I still utterly detest this rst crap. I still fail to see
-what's wrong with plain text :-(
+I checked, and it’s better to use CONFIG_FRAME_WARN=0 when using KASAN
+together regarding flood of -Wframe-larger-than warnings.
 
-But then you do these two other random things in the same patch. Which
-make no sense.
+>   --set-val FRAME_WARN 4096             (needed for INSTRUMENT_ALL)
+>   --disable KASAN                        (conflicts with INSTRUMENT_ALL)   --enable KASAN (no conflicts; works well, but slower, a lot of dataflow)
 
-> diff --git a/kernel/Makefile b/kernel/Makefile
-> index 1e1a31673577..9c56421c5390 100644
-> --- a/kernel/Makefile
-> +++ b/kernel/Makefile
-> @@ -37,6 +37,7 @@ KCOV_INSTRUMENT_extable.o := n
->  KCOV_INSTRUMENT_stacktrace.o := n
->  # Don't self-instrument.
->  KCOV_INSTRUMENT_kcov.o := n
-> +KCOV_DATAFLOW_kcov.o := n
->  # If sanitizers detect any issues in kcov, it may lead to recursion
->  # via printk, etc.
->  KASAN_SANITIZE_kcov.o := n
-> @@ -207,3 +208,5 @@ $(obj)/kheaders.md5: $(obj)/kheaders-srclist FORCE
->  	$(call filechk,kheaders_md5sum)
->  
->  clean-files := kheaders.md5 kheaders-srclist kheaders-objlist
-> +KCOV_DATAFLOW_extable.o := n
-> +KCOV_DATAFLOW_softirq.o := n
+What I meant by that conflicts is that I was using it for kernel-space
+behavior only for the "offensive kernel vulnerability auditing",
+and in that case, sometime it’s better to disable KASAN.
 
-Why?!?! You Changelog also does not elucidate.
+Tested CONFIG_KASAN=y + CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL=y together
+(FRAME_WARN=4096, virtme-ng 1 vCPU 1GB on my Intel CPU Dell Pro 14
+Premium PA14250):
 
-> diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 373b8034ca5c..8d9d5e33549f 100644
-> --- a/kernel/kcov.c
-> +++ b/kernel/kcov.c
-> @@ -413,6 +413,16 @@ kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
->  	if (!in_task())
->  		return;
->  
-> +	/*
-> +	 * Prevent recursion: functions called by this callback
-> +	 * (copy_from_kernel_nofault, xadd helpers) may be instrumented
-> +	 * with INSTRUMENT_ALL. Use a per-task guard via the sequence
-> +	 * counter's high bit.
-> +	 */
-> +	if (t->kcov_dataflow_seq & (1U << 31))
-> +		return;
-> +	t->kcov_dataflow_seq |= (1U << 31);
-> +
->  	area = (u64 *)t->kcov_df_area;
->  	if (!area)
->  		return;
-> @@ -449,7 +459,7 @@ kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
->  		if (KCOV_DF_IS_ERR(ptr)) {
->  			for (i = 0; i < num_fields; i++)
->  				area[pos + 3 + i] = KCOV_DF_MAGIC_BAD;
-> -			return;
-> +			goto out;
->  		}
->  		for (i = 0; i < num_fields; i++) {
->  			u64 off, sz, val = KCOV_DF_MAGIC_BAD;
-> @@ -469,6 +479,8 @@ kcov_df_write(u64 type_marker, u64 pc, u64 meta, void *ptr,
->  			area[pos + 3 + i] = val;
->  		}
->  	}
-> +out:
-> +	t->kcov_dataflow_seq &= ~(1U << 31);
->  }
->  
->  #ifdef CONFIG_KCOV_DATAFLOW_ARGS
+  - Builds clean, no frame size warnings
+  - Boots and runs without KASAN errors
+  - kcov-dataflow captures correctly under KASAN:
 
-This needs barrier()s to be functional. And should be in a separate
-patch.
+        getpid():    6,682 records
+        open+close: 16,382 records (filled 64K buffer)
+
+Time to "Freeing unused kernel image (initmem)":
+
+  KCOV_DATAFLOW_INSTRUMENT_ALL only:          ~0.95s (+40%)
+  KASAN + KCOV_DATAFLOW_INSTRUMENT_ALL:       ~2.02s (+197%)
+
+
+Sorry for any confusion the earlier wording may have caused.
+
+Thank you!
+
+Kind regards,
+Yunseong
 
