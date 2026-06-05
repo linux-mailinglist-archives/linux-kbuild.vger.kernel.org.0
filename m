@@ -1,119 +1,95 @@
-Return-Path: <linux-kbuild+bounces-13574-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id STaeJ87yIWpMQwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13574-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 23:49:02 +0200
+	id dzsnGWdrImrIWwEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 08:23:35 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBC2643AF4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 04 Jun 2026 23:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B00645783
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 08:23:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=oOJtH3Ws;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13574-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13574-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jVkSkg2N;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D86873035854
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2026 21:48:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0F922300F5DB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jun 2026 06:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EEF73783AD;
-	Thu,  4 Jun 2026 21:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47B83FF1D9;
+	Fri,  5 Jun 2026 06:22:11 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E483A329E6C;
-	Thu,  4 Jun 2026 21:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AE218DB2A;
+	Fri,  5 Jun 2026 06:22:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780609731; cv=none; b=Stzr4rNzyKtVbicycBzadsGwUY9h+Bj3dHsVR75V7lmSXuGySIVGhLcnXHG6x1fTIepaD9umtxUZtZ7hEbI6pCDoVw2P8lYXnpRwoFTDtTABOOdaJsncihePKcvLtD8Ea9/GaxSTjAU4v5As77OZh7rwGKyNM4sqlKDYoq4LzXs=
+	t=1780640531; cv=none; b=aBA/EPPneRsfRixSzk5jUM0Mcg5VL4EP/oyYAuMqt510zRZgTQsVnlC8Ux5tpQaEE0B2rdnRTjnyf1AVc7vIqv/HfPMDB0mILbzvUQokq3k8fOHl/TsEnR25DmpbZzKYKp1IuhBvPpFdMnAfZNN4m0ys7te90Ox57OCqHY3vgIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780609731; c=relaxed/simple;
-	bh=iK7nDkaVl+kbc7PjAEoaEgaDEKAIkheFFI1yWCxh/uA=;
+	s=arc-20240116; t=1780640531; c=relaxed/simple;
+	bh=vQFK66rMEI1PV6CMooqKl5jkDsaP/GGoqTE5S3NgyfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bLvbVHmrIlsDwkcItFk/QJBBJkwwBsFhSMXbBuLWAKGbxZ53qY67wfHTlehJu480XBjC80idK6siy3tEDgF/lWkrLkuwMk/VA9MvJ5eUd9ELhulo9WXw1VkVApyd6N0Wo9XXm+vtYqX+0B/dBCZipmcXzhJC2LtLgDv1OpPimSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOJtH3Ws; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45EC31F00893;
-	Thu,  4 Jun 2026 21:48:43 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5O7VWfI7W1+TNSxSGFD/C/s/G3sZCMA0ve1AiaCUc1DJWcqe8MSE3fzXDsg8q8zTAvp6UMCqEzJXMv0cBOLltXlKJBenOMVNt+D8Urca59Rau+q5lgtUmEgyRs5YxeOUhAHhSuNk/iZb0k8x7227SW7FkmnQZ+E3IyK5jpZWmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVkSkg2N; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337A51F00893;
+	Fri,  5 Jun 2026 06:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780609730;
-	bh=hccU/NDSuAvcNj2qshs5G5T8N2B5+zR4AKzNjS5QKDY=;
+	s=k20260515; t=1780640530;
+	bh=2W23r6osoJ/yGhxBCZerUZfQcvrlRprhltSC/0F7k6g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oOJtH3WswuxaSXCBwtdBZdGgqvPxMl2AxmgsBn1Q7sv9bv+2fIQpUu8P6psX9SraE
-	 lSBE1kDOlOcCkxwq1Te5aY2Bf5gUb74/snkw1zcC7CzFdqpd4Avhfe2fsm750odqgS
-	 O59dMX2g/aDU3jKvEKl8txbOdj8B+U3/SsyEk2xAP8EUrnd4KHHvI+btOw06/4rK2Q
-	 taz///r7YoJ8dRaGduBLFDxVhYonPuOrFN7EFKzndPcRwg/FSeYlsjY8zFKlhD4Wob
-	 HX+achzSxwGdodU9S7+z5XB058pkm5Q/iau8rvefFGQqQMoYtL2OOWHLyI0pZM4xE6
-	 OCPIVEZUZh7Aw==
-Date: Thu, 4 Jun 2026 14:48:40 -0700
+	b=jVkSkg2Nc1zz0SRsVm6QFa/xCMx8FZjABPn/Mzwfhmv8R8+U/GpTKcIyZXM6gEuik
+	 dfBUAVrwF1N2Zou6I/tV5Pps16z/K1Iuc+O7+XJhYReG+hS/9Yvpg0yiQR41sgvDZB
+	 Cd6Kx+ey1L90yI2o7XpO8HgbdpoU2EIzdngFKjcn0XygHuoCwqriK+BQyvZ4sKnjch
+	 DYX5NvuqTttrj/PTbvHjsXIg3R5KIKyqbngJuvInMca+Mxm2bzdTfEwaI5/rhfVcj8
+	 cR1hKxHT7IHivcrUYA+cYqMZFmQUzfmX5bGzbzOvmJJVtsaZmejZkdQXxa+ObD1pzy
+	 Kzk6cnokkR24g==
+Date: Thu, 4 Jun 2026 23:22:06 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Yunseong Kim <yunseong.kim@est.tech>, Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, Yunseong Kim <ysk@kzalloc.com>
-Subject: Re: [RFC PATCH v2 2/6] kcov: add build system support for dataflow
- instrumentation
-Message-ID: <20260604214840.GA3915915@ax162>
-References: <20260603-kcov-dataflow-next-20260603-v2-0-fee0939de2c4@est.tech>
- <20260603-kcov-dataflow-next-20260603-v2-2-fee0939de2c4@est.tech>
- <20260604084519.GA3126523@noisy.programming.kicks-ass.net>
+To: Wentao Guan <guanwentao@uniontech.com>
+Cc: nsc <nsc@kernel.org>, tamird <tamird@kernel.org>,
+	linux-kbuild <linux-kbuild@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>
+Subject: Re: [PATCH] kbuild: try readelf first in gen_symversions
+Message-ID: <20260605062206.GA661512@ax162>
+References: <20260603161732.52477-1-guanwentao@uniontech.com>
+ <20260604013858.GB1329739@ax162>
+ <tencent_5A209D3D5BB5B16325067261@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260604084519.GA3126523@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <tencent_5A209D3D5BB5B16325067261@qq.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-13574-lists,linux-kbuild=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:peterz@infradead.org,m:yunseong.kim@est.tech,m:mingo@redhat.com,m:juri.lelli@redhat.com,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:rostedt@goodmis.org,m:bsegall@google.com,m:mgorman@suse.de,m:vschneid@redhat.com,m:kprateek.nayak@amd.com,m:dvyukov@google.com,m:andreyknvl@gmail.com,m:akpm@linux-foundation.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:nsc@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:linux-kernel@vger.kernel.org,m:kasan-dev@googlegroups.com,m:llvm@lists.linux.dev,m:linux-kbuild@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:workflows@vger.kernel.org,m:linux-doc@vger.kernel.org,m:ysk@kzalloc.com,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:guanwentao@uniontech.com,m:nsc@kernel.org,m:tamird@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:petr.pavlu@suse.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[est.tech,redhat.com,linaro.org,arm.com,goodmis.org,google.com,suse.de,amd.com,gmail.com,linux-foundation.org,kernel.org,garyguo.net,protonmail.com,umich.edu,lwn.net,linuxfoundation.org,vger.kernel.org,googlegroups.com,lists.linux.dev,kzalloc.com];
+	FORGED_SENDER(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-13575-lists,linux-kbuild=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -121,57 +97,120 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild,lkml];
+	TAGGED_RCPT(0.00)[linux-kbuild];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,uniontech.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3CBC2643AF4
+X-Rspamd-Queue-Id: F0B00645783
 
-On Thu, Jun 04, 2026 at 10:45:19AM +0200, Peter Zijlstra wrote:
-> On Wed, Jun 03, 2026 at 07:43:29PM +0200, Yunseong Kim wrote:
-> > Add CFLAGS_KCOV_DATAFLOW and RUSTFLAGS_KCOV_DATAFLOW exports to
-> > scripts/Makefile.kcov, containing:
-> >   -fsanitize-coverage=dataflow-args,dataflow-ret -g
-> >   (with optional -fno-inline via CONFIG_KCOV_DATAFLOW_NO_INLINE)
-> > 
-> > scripts/Makefile.lib applies these flags when a module's Makefile sets:
-> >   KCOV_DATAFLOW_file.o := y   (per-file)
-> >   KCOV_DATAFLOW := y          (per-directory)
-> > 
-> > Also supports CONFIG_KCOV_DATAFLOW_INSTRUMENT_ALL for global enablement.
-> > The flags are only applied to kernel objects (same guard as basic KCOV).
-> > 
-> > Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
-> > ---
-> >  scripts/Makefile.kcov | 6 ++++++
-> >  scripts/Makefile.lib  | 7 +++++++
-> >  2 files changed, 13 insertions(+)
-> > 
-> > diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-> > index 78305a84ba9d..101173fe194b 100644
-> > --- a/scripts/Makefile.kcov
-> > +++ b/scripts/Makefile.kcov
-> > @@ -2,10 +2,16 @@
-> >  kcov-flags-y					+= -fsanitize-coverage=trace-pc
-> >  kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
-> >  
-> > +# KCOV dataflow: trace function args and return values
-> > +kcov-dataflow-flags-y := -fsanitize-coverage=dataflow-args,dataflow-ret -g
-> > +kcov-dataflow-flags-$(CONFIG_KCOV_DATAFLOW_NO_INLINE) += -fno-inline
+On Thu, Jun 04, 2026 at 11:44:29AM +0800, Wentao Guan wrote:
+> Hello,
 > 
-> https://clang.llvm.org/docs/ClangCommandLineReference.html
-> 
-> Has no mention of -fno-inline, furthermore, what are the exact
-> semantics? Does it inhibit __always_inline?
+> > On Thu, Jun 04, 2026 at 12:17:32AM +0800, Wentao Guan wrote:
+> > > Use readelf to dig out if <file>.o contain a __export_symbol_*.
+> > >
+> > > Instead of nm, readelf is more faster, and significantly improve speed
+> > > when enable CONFIG_MODVERSIONS.
+> > >
+> > > Build x86_64_defconfigs in 2C4T cloud server with CONFIG_MODVERSIONS=y:
+> > > With patch:
+> > > real    17m21.019s
+> > > user    61m48.388s
+> > > sys     4m27.709s
+> > > Without patch:
+> > > real    17m39.435s
+> > > user    62m24.686s
+> > > sys     5m3.200s
+> > >
+> > > Link: https://lore.kernel.org/all/tencent_2FA16E0A18D6D0C0703F5D49@qq.com/
+> > > Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+> > > ---
+> > >  scripts/Makefile.build | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > > index 3498d25b15e85..54a91bc144cce 100644
+> > > --- a/scripts/Makefile.build
+> > > +++ b/scripts/Makefile.build
+> > > @@ -233,7 +233,7 @@ ifdef CONFIG_MODVERSIONS
+> > >  #   be compiled and linked to the kernel and/or modules.
+> > > 
+> > >  gen_symversions = \
+> > > - if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_'; then \
+> > > + if $(READELF) -sW $@ 2>/dev/null | grep -q ' __export_symbol_'; then \
+> > 
+> > This breaks modversioning for Clang LTO builds, as llvm-nm can read LLVM
+> > bitcode but llvm-readelf cannot, it expects strictly ELF.
+> Oh, is it worth to use the following logic to detect LLVM or LLVM-LTO or not ?
+> +ifeq ($(LLVM),)
+
+This should probably be CONFIG_LTO_CLANG with flipped branches but...
+
+> +  SYM_CHECK = $(READELF) -sW
+> +else
+> +  SYM_CHECK = $(NM)
+> +endif 
+>  gen_symversions =								\
+> -	if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_'; then		\
+> +	if $(SYM_CHECK) $@ 2>/dev/null | grep -q ' __export_symbol_'; then	\
 > 
 
-Based on clang/test/CodeGen/always-inline.c [1], I believe the semantics
-are the same as GCC's '-fno-inline' [2], which avoids inlining except
-for always_inline functions.
+> > that it stops looking for a match after the first export symbol is
+> > found?
+> Small, there are my test result in make x86_64_defconfig + enable CONFIG_MODVERSIONS:
+> 1. readelf
+> if $(READELF) $@ 2>/dev/null | grep -q ' __export_symbol_';
+> real    10m44.359s
+> user    37m43.596s
+> sys     3m2.424s
+> 2. nm
+> if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_';
+> real    11m8.008s
+> user    38m51.644s
+> sys     3m29.798s
+> 3. nm + grep -m1 -q
+> if $(NM) $@ 2>/dev/null | grep -m1 -q ' __export_symbol_';
+> real    10m56.891s
+> user    38m8.136s
+> sys     3m28.096s
 
-[1]: https://github.com/llvm/llvm-project/blob/1d13b74cf086629d5cdae5f44ef4a62cebcaf3ff/clang/test/CodeGen/always-inline.c
-[2]: https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#index-fno-inline
+'-m1' appears to get us 50% (12s) of the speed up of 'readelf' (24s) in
+your environment while sticking with 'nm'. I would be more inclined to
+take that change since it is small and correct, rather than switching on
+NM or READELF, as I don't think it is worth the additional complexity.
+FWIW, on one of my test machines with 8 cores and 16 threads, the
+difference is much less noticeable. I think that is going to be in line
+with most developer and build farm hardware, rather than a 2C/4T machine
+like you mention in the initial commit message.
+
+GCC 16.1.0 + binutils 2.46:
+
+  Benchmark 1: $(NM)
+    Time (mean ± σ):     75.203 s ±  0.283 s    [User: 659.465 s, System: 185.605 s]
+    Range (min … max):   74.898 s … 75.457 s    3 runs
+
+  Benchmark 2: $(READELF) -sW
+    Time (mean ± σ):     73.055 s ±  0.465 s    [User: 642.365 s, System: 175.908 s]
+    Range (min … max):   72.523 s … 73.385 s    3 runs
+
+  Summary
+    $(READELF) -sW ran
+      1.03 ± 0.01 times faster than $(NM)
+
+LLVM 22:
+
+  Benchmark 1: $(NM)
+    Time (mean ± σ):     75.030 s ±  0.736 s    [User: 659.603 s, System: 185.257 s]
+    Range (min … max):   74.207 s … 75.623 s    3 runs
+
+  Benchmark 2: $(READELF) -sW
+    Time (mean ± σ):     73.405 s ±  0.457 s    [User: 642.512 s, System: 176.440 s]
+    Range (min … max):   72.878 s … 73.679 s    3 runs
+
+  Summary
+    $(READELF) -sW ran
+      1.02 ± 0.01 times faster than $(NM)
 
 -- 
 Cheers,
