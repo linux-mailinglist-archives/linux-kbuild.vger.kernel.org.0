@@ -1,218 +1,240 @@
-Return-Path: <linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13576-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id dzsnGWdrImrIWwEAu9opvQ
-	(envelope-from <linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 08:23:35 +0200
+	id x3R+CeqAImp8ZAEAu9opvQ
+	(envelope-from <linux-kbuild+bounces-13576-lists+linux-kbuild=lfdr.de@vger.kernel.org>)
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 09:55:22 +0200
 X-Original-To: lists+linux-kbuild@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B00645783
-	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 08:23:34 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BDE6462E6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 05 Jun 2026 09:55:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jVkSkg2N;
-	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13575-lists+linux-kbuild=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=Xink6u7q;
+	spf=pass (mail.lfdr.de: domain of "linux-kbuild+bounces-13576-lists+linux-kbuild=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-kbuild+bounces-13576-lists+linux-kbuild=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=nvidia.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0F922300F5DB
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jun 2026 06:22:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7215D3074905
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jun 2026 07:41:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47B83FF1D9;
-	Fri,  5 Jun 2026 06:22:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C094481242;
+	Fri,  5 Jun 2026 07:40:52 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013054.outbound.protection.outlook.com [40.93.201.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AE218DB2A;
-	Fri,  5 Jun 2026 06:22:10 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780640531; cv=none; b=aBA/EPPneRsfRixSzk5jUM0Mcg5VL4EP/oyYAuMqt510zRZgTQsVnlC8Ux5tpQaEE0B2rdnRTjnyf1AVc7vIqv/HfPMDB0mILbzvUQokq3k8fOHl/TsEnR25DmpbZzKYKp1IuhBvPpFdMnAfZNN4m0ys7te90Ox57OCqHY3vgIg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780640531; c=relaxed/simple;
-	bh=vQFK66rMEI1PV6CMooqKl5jkDsaP/GGoqTE5S3NgyfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5O7VWfI7W1+TNSxSGFD/C/s/G3sZCMA0ve1AiaCUc1DJWcqe8MSE3fzXDsg8q8zTAvp6UMCqEzJXMv0cBOLltXlKJBenOMVNt+D8Urca59Rau+q5lgtUmEgyRs5YxeOUhAHhSuNk/iZb0k8x7227SW7FkmnQZ+E3IyK5jpZWmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVkSkg2N; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337A51F00893;
-	Fri,  5 Jun 2026 06:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780640530;
-	bh=2W23r6osoJ/yGhxBCZerUZfQcvrlRprhltSC/0F7k6g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jVkSkg2Nc1zz0SRsVm6QFa/xCMx8FZjABPn/Mzwfhmv8R8+U/GpTKcIyZXM6gEuik
-	 dfBUAVrwF1N2Zou6I/tV5Pps16z/K1Iuc+O7+XJhYReG+hS/9Yvpg0yiQR41sgvDZB
-	 Cd6Kx+ey1L90yI2o7XpO8HgbdpoU2EIzdngFKjcn0XygHuoCwqriK+BQyvZ4sKnjch
-	 DYX5NvuqTttrj/PTbvHjsXIg3R5KIKyqbngJuvInMca+Mxm2bzdTfEwaI5/rhfVcj8
-	 cR1hKxHT7IHivcrUYA+cYqMZFmQUzfmX5bGzbzOvmJJVtsaZmejZkdQXxa+ObD1pzy
-	 Kzk6cnokkR24g==
-Date: Thu, 4 Jun 2026 23:22:06 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Wentao Guan <guanwentao@uniontech.com>
-Cc: nsc <nsc@kernel.org>, tamird <tamird@kernel.org>,
-	linux-kbuild <linux-kbuild@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH] kbuild: try readelf first in gen_symversions
-Message-ID: <20260605062206.GA661512@ax162>
-References: <20260603161732.52477-1-guanwentao@uniontech.com>
- <20260604013858.GB1329739@ax162>
- <tencent_5A209D3D5BB5B16325067261@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03AB480DD6;
+	Fri,  5 Jun 2026 07:40:50 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780645252; cv=fail; b=sNFZTyfGcVXf8ZH1+v1Qee2eIqHfOsvSSzuPDcJOMzae55miqQRgNgJqPy/PS1CPUOB8eJ3IBPze39io2CmgQbOrjOiTs7cYVTSl84/cIoaj/Xe6/VYcCYRRND/nvhxAC6khsHoRVZ2b9tG+TLZ6lUFGdQ+yDEMVQKoT/Ocj0t8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780645252; c=relaxed/simple;
+	bh=2988ZYANi7lfICHZAhiwIZLi2f5BDTG6zSkmDDRQZ5E=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=JVEHOz65e08SCG1AvXK+YJVWaBE6gjtdcuDq2aLELwb6B2u6u1vKXYjIXt/VPRHjOw7qJQxxyWJAEslBqGykI2JEEcZAD0stunT4p8Ij1t7MvFh8G0bHNzKVjF1J7Wj2WgkqoCKqPHHyj9ZZ0Z4jJ9RGAc896ER194sxKAR7FbY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Xink6u7q; arc=fail smtp.client-ip=40.93.201.54
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q+X+lS1u5SEzYPwUPIVQ1jC4KQbR9gthMMVqaXYtU8dLDbBgXeBx7mOqW3EkQAlxjgodVQNeHVIwfvhF1ulfPpquW5t2DXQGhUyYkMgC6dbqZMn4WVMP5CVpDzSbS1NV/zVMUuvRwEG/GCOBJSvg2u4NwOm9opkbdEAWfq/dkjUBHF0FvxPoQ+2CpD45hKNyCcsPjjc47pjbuDZl8YqxE1f+C50E9Xv/m+I/cBpFaRMw1xFojguk4WhoqO09hS1JRyhwoWm1G4ROUH59o4/Q/HHbdgSdcOEkPGpDrIf/3nOLwNYCu64a5iX3pBV8+kJsxMEHduiXOigPugLXnxI0gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UwtD6IJVuCyMm8dI58B5B16+sIe96JF1iHm4brJFlRA=;
+ b=ENwOEn30kfxOF8xSSy0AcKFYHDhTIogPOQPTEjg5Mt0ns+E97OTj9zHRjx8d0GkwgP0Lm4euL9zobzh2qjf/XyLhKRZNfaZpuMTQ4dPZtN9TAMGcwSzN9pqYoz/LCiCkOoIfNmiLtsH5Pi7hnL1K7J1iCuwYXQUNkkY5CqH6z/0OzXCjx8gaUL1jgtwsAyiHVDDsFmJrqzFD8UEvuRnBE6z5aWGVp+8PCHI2drjlE4nQw3WIMuJynMuibIu0cIgUfwGBQes8bgkYTHsm/yAZT/vR5u6kV2E4OELDKrYWrT1pr+at1bGNFsLgqXS0KAWMDgMl2Plxfp6c8oSTIQdI5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UwtD6IJVuCyMm8dI58B5B16+sIe96JF1iHm4brJFlRA=;
+ b=Xink6u7q064UAbwLW7eH1ZHhptXntOnv1uuBUzSV562IlKqkRLqhC3m025NsY+TTNg8upcnRgnwR8fexz+U5h97cTPFV8KI72JgLjBABmc8C+s0G99y4PxTcOeO9ME6SmMwxqtqP5J8gUz3Q8A1HfIJFjsueCbu3wT+W/d8VaVT2OCPzyOgjirZYf9jcB5V76d3WlyBKGbM/pRokCA7VeLnFSQPYGl7W0ArZPuSfQsLlR/X6tDskI5jNXnB/5a+CAgEa3vAagJOu1S26X4w4J/bOxn1n14UYeaLt+WxYZ9vNWffjFAXO2PWoEyLjOMmvelU4iIqTuFOZVbSa1cTrvA==
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS0PR12MB6655.namprd12.prod.outlook.com (2603:10b6:8:d0::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Fri, 5 Jun 2026
+ 07:40:43 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 07:40:42 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 05 Jun 2026 16:40:39 +0900
+Message-Id: <DJ0Y221N4EVO.M0UZDI0FQGGS@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
+ Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, "Joel Fernandes" <joelagnelf@nvidia.com>
+Subject: Re: [PATCH v3 0/5] gpu: drm: nova: enable calling into nova-core
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+References: <20260530-nova-exports-v3-0-1202aa339ef7@nvidia.com>
+ <CANiq72kbzmLeFv58mkiKn+LvhCXmH5g7UsnTYTcVmJ6kyc+vLw@mail.gmail.com>
+ <CANiq72nAOpowra81qOHHCw6EVyWVTymDoL8xPdpjT=xc3eS5bQ@mail.gmail.com>
+In-Reply-To: <CANiq72nAOpowra81qOHHCw6EVyWVTymDoL8xPdpjT=xc3eS5bQ@mail.gmail.com>
+X-ClientProxiedBy: TYCP286CA0004.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:26c::13) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <tencent_5A209D3D5BB5B16325067261@qq.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS0PR12MB6655:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19d7c131-158a-47ae-0c61-08dec2d5bf34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|10070799003|22082099003|18002099003|6133799003|11063799006|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	qPIQ39dtZcdnLknGT4tIAo01fmkBOBO//y/u+WHA2NNkX5oUvkP5ekbkQ1yrU5xr2m5QNgyvKEvexLwzTjSGo5hUJoWaGui8y7+VBnO5dTtRTzDZiDLMfLluqTuRaEKVW0ujQ+48mFaaIpkW+jK6WKED8kZCIEOVa0USfzABQOmpENpRDzg0yZSh7zppuK1BSPE1SLjtENoUUOPf02GGvziSDWVqqzvLd4WAXOsoTulRgPi2ngY7eu7MEmjI81X5wVx/BZkZbJsYFqEnSZ+5AdMuLQSApLcnltnymjFHbOojaFWg+4+CdvydjGvMPGJWRRPu+tNfg3nX2JOdjs+D57HTB6o5mJknzy5OQQzuxioqCctciDul7IeftVBZGCiyE4Ha9shJ9bZKiwBWbYXtVS4oSWwLZUUWDW97C6RNs1t0fyp8RSSOB2PB4R+EZNQmbqkdjRvXlIrMsXMsqB/iLTyL4eK9/hqupFY5P6XAiZkSaQnwP8eVnYhRf63cl0upj0g/xfEOmRlrL24EH7HER4CL9ZZxDMbI8Bj4x9hUIBWOeOjXllwrsYpZ4bC3izYrN5FJlL7YIYlLm57B9AMoNuUZF8nQBNLNI8QrIDPLGvONJnmFX/wLu4jQmDVXcoo7QEBMtNfhadqf2HzHPdPxxMpjL1Di6TuvHh4tXUPw9cA2Sq+CdU9tAFLnWSq2E75L
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(10070799003)(22082099003)(18002099003)(6133799003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QUtCdGJjNjh0K1hhRlNMamM5T2hZQnl5VlhocHZOdngwT3NqVmVCM0tNUHZ5?=
+ =?utf-8?B?WGF6TzNPaERmWTFHcjg3YTBrQjlXNldKQ0J4Q3pXeit4TnlsRDF4VWtJd3lM?=
+ =?utf-8?B?SS85SzBnQTZpcGRRbUJMcFZWeDJyMzhCR2dtakRNanRuaWZaYmFDZzBkbDRm?=
+ =?utf-8?B?QXhGb2JEYmM0ODQzQ2g3b296OTlNa01yQ2g1YzViMVBGK0pvZ0ZOQnFqMHdu?=
+ =?utf-8?B?REI0clZ3NGVtbDFRTzZreUpsMml2MFpLUm1TaExZUDd6WVd1TW1hZ3E4N0tF?=
+ =?utf-8?B?L3hkNVZENGhpbEF6T3F4NnhkT3o5My9KM2VWeGNrR3BxY1lxazE4NlVmZEZy?=
+ =?utf-8?B?MExVY1NwVlZqeFpzMk9XN0crSW92TnJCNDBheW5BTW9Pb2pFbFRWVC9uVTRT?=
+ =?utf-8?B?NndFNk5QZ1Vld1hOVjkvK2RkTzArTW1mb1hWeHpaSVhxTVA3UEVVRVBRSzh2?=
+ =?utf-8?B?b3JibEcrTHNWK0dZN1NKWmJ0TlN0SStRRUFLZ3lXTWprZlpXaG9yNjF6Tk1G?=
+ =?utf-8?B?bUlBUEU1ODBBY29PZGRlUVpUdmNlOCtINTZTaGZ6aStVRXlLMGpoUHdNU2Mx?=
+ =?utf-8?B?U0FvMU1MLzh4SGk0SXNhdWFmeXZWZkVZdVgxY0ZkRGZISFhTYndiYnhybTFk?=
+ =?utf-8?B?c2ZhejBTNW5HZSttZ05lcjF0eGRLekl5RmxSemhjQUxXWTJQa2NiTFNVNE5o?=
+ =?utf-8?B?SmN3bERWWkVuQVNCZTRnVUkzb0I0aDhxOXV0MjhsVDJ6NVZnYmpFakNwcE5r?=
+ =?utf-8?B?K21IbTRWTk5ycGgrQTI4UVhUWjBEWFpaV0grTUhQQklScWVKdkVwd2lGQ0Zk?=
+ =?utf-8?B?NkZxMjBYMHV4cWg0NWdSeWdPOWtrTUE4UGZWOXhUV3ZVUkpvclBZdG1laHhp?=
+ =?utf-8?B?NmZZbGVlclJ1TitDQms0VFR6bmdjNllLL3N1dHRvdlhpQVFuNUlxRjlWKzU3?=
+ =?utf-8?B?bWtQWXlqSEdSQUJyYmJUOHEvanQrZ2VvY3RWdmdwSUtZSnM1cWcxa0JjbVM4?=
+ =?utf-8?B?bUhuRXZYYmE2bjJkVEJ0WWNvVDAzeWZ5anZleXlPNFNUNGsyT01aSFA3YXpv?=
+ =?utf-8?B?eHdJM3VkRC9oVnFOZE9zK3NFSTQ3S20ybjlnMzB6dC9xampndG42aTk3b2F4?=
+ =?utf-8?B?WFRiTWgwMXpmZldlWUJtZDhaSHVxQW5WdVhhS012RmtZdFdPMDh4Kytod3Q5?=
+ =?utf-8?B?UnVpcHF1T0IzQ2RMczV4MzVhekRDeDkyc3FsYkJmeW5qOGdWVEp2aU5vZFk5?=
+ =?utf-8?B?bkpwWDl6cXN0aWFuNEdNcXFLYjd5alZXYktMRlRxWENKeUJ5a1lHSHdOMjRq?=
+ =?utf-8?B?Ynh0WTlyQXpZdGIxTjJCSTBXU01BNG4vQ2trdENEUXU4ZHBLOVo1cnd1Uy93?=
+ =?utf-8?B?c3BlODZZbmN0RVhSYzNGQVpRZjVlLzNxYTZ6ZGw4VzhvaTgrYnJIWWxQM09o?=
+ =?utf-8?B?by8xbmJvY0xCYlpOeHhURzAvaWZpam85MjZiL1VaYXBjQXd3RStXUlhnT3Qx?=
+ =?utf-8?B?M3o2bEgzL0JzU2MweTBBMkF6emxmakp4UTg3RStyYWI2SUQvL1JhdFVBRUdn?=
+ =?utf-8?B?VUJiZ200elJiSmR1SnJUMzFLREd3ODBha3VOSHk5OVR2OHBnclRJUTJxYU8r?=
+ =?utf-8?B?SlBJMDEyTSsyUWVISk91ZUltY2liVzVJbC80dnRCTlFkQmpOVW1ySXBack11?=
+ =?utf-8?B?ZXdaQkhIaW5nOHg4UWFxck8zODNqNzRqcmZJWENNTksxQThBU2RoK0E1VE9u?=
+ =?utf-8?B?V0FXYXA1Z09WVjV3VUh4Umg5VnB0cDlUL2tkS0xKR2ZnMlN4S1Vlb0RDdktQ?=
+ =?utf-8?B?Mlg4RnRZTTJWZDFpVjNVaDJuTUJpdVhVRXNtaU5Qd0p3MHcvY1lpNkxoWVRL?=
+ =?utf-8?B?bUk5Q1Nad0Z1VnhtaFMvOGROL29nNTJGQlJKa2U4NmwyaDhmNVArT0greFJJ?=
+ =?utf-8?B?QlFpMXhuZHRGVDRXRGhsWmhKV0laSG9ZUXVjNHNPSFJ4N0RuN2pNRkJNT1Ju?=
+ =?utf-8?B?SHZJMVJjZUxGSjgzMnVHenZlSGdnRnlyTUR2OWpReHQ2YnRTajdFS01tQzdp?=
+ =?utf-8?B?dUJLSWxGdkZiNzJ0NjhqazY0VzYrV0VKQWl6dEh4SXVGaUIyc05BUHJsbE43?=
+ =?utf-8?B?cUloZ0hoZmZhZXcvT1J3dkdDMFM2NFY1VTJkQ25LRjZSOHlwUyt1R05KSjEy?=
+ =?utf-8?B?TmNENGlKUGVnZ1JTdnlmRVVFeVZSOExDazBzRjVLTyt2WktVK1FFMmgxVlAz?=
+ =?utf-8?B?ZFdDWmorTWJKd29IbUlhQlpFaFJaWjFhYU5rMXZzT21KcjdmS2JMcjhXQzZ0?=
+ =?utf-8?B?R1RxdmZJdlgzTW9mbm94MnRJbm81dkFiZ3BUMDlJZmpWeTIzUTVwNVhKekFD?=
+ =?utf-8?Q?/IQYlwfIPMRp96o5RbVJsgzp0i5KFIlC08J96bUBfBjqh?=
+X-MS-Exchange-AntiSpam-MessageData-1: lEcoVxU/qdf1Ug==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19d7c131-158a-47ae-0c61-08dec2d5bf34
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 07:40:42.7329
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2MDy8x2byjjQBZH2zXD7CY2cJYaqRZevLiPDpuGX/JIyUcuJkx+FvrgcoylV/zSkmN4+j8mMtyTTpu0/L9BMsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6655
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-13576-lists,linux-kbuild=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:guanwentao@uniontech.com,m:nsc@kernel.org,m:tamird@kernel.org,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:petr.pavlu@suse.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-13575-lists,linux-kbuild=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[acourbot@nvidia.com,linux-kbuild@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:nathan@kernel.org,m:nsc@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:jhubbard@nvidia.com,m:apopple@nvidia.com,m:ttabi@nvidia.com,m:zhiw@nvidia.com,m:ecourtney@nvidia.com,m:linux-kbuild@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:nova-gpu@lists.linux.dev,m:dri-devel@lists.freedesktop.org,m:joelagnelf@nvidia.com,m:miguel.ojeda.sandonis@gmail.com,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,ffwll.ch,nvidia.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,linux-kbuild@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,linux-kbuild@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-kbuild];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,uniontech.com:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-kbuild];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,Nvidia.com:dkim,vger.kernel.org:from_smtp,nvidia.com:from_mime,nvidia.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F0B00645783
+X-Rspamd-Queue-Id: 18BDE6462E6
 
-On Thu, Jun 04, 2026 at 11:44:29AM +0800, Wentao Guan wrote:
-> Hello,
-> 
-> > On Thu, Jun 04, 2026 at 12:17:32AM +0800, Wentao Guan wrote:
-> > > Use readelf to dig out if <file>.o contain a __export_symbol_*.
-> > >
-> > > Instead of nm, readelf is more faster, and significantly improve speed
-> > > when enable CONFIG_MODVERSIONS.
-> > >
-> > > Build x86_64_defconfigs in 2C4T cloud server with CONFIG_MODVERSIONS=y:
-> > > With patch:
-> > > real    17m21.019s
-> > > user    61m48.388s
-> > > sys     4m27.709s
-> > > Without patch:
-> > > real    17m39.435s
-> > > user    62m24.686s
-> > > sys     5m3.200s
-> > >
-> > > Link: https://lore.kernel.org/all/tencent_2FA16E0A18D6D0C0703F5D49@qq.com/
-> > > Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
-> > > ---
-> > >  scripts/Makefile.build | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > index 3498d25b15e85..54a91bc144cce 100644
-> > > --- a/scripts/Makefile.build
-> > > +++ b/scripts/Makefile.build
-> > > @@ -233,7 +233,7 @@ ifdef CONFIG_MODVERSIONS
-> > >  #   be compiled and linked to the kernel and/or modules.
-> > > 
-> > >  gen_symversions = \
-> > > - if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_'; then \
-> > > + if $(READELF) -sW $@ 2>/dev/null | grep -q ' __export_symbol_'; then \
-> > 
-> > This breaks modversioning for Clang LTO builds, as llvm-nm can read LLVM
-> > bitcode but llvm-readelf cannot, it expects strictly ELF.
-> Oh, is it worth to use the following logic to detect LLVM or LLVM-LTO or not ?
-> +ifeq ($(LLVM),)
+On Tue Jun 2, 2026 at 2:00 AM JST, Miguel Ojeda wrote:
+> On Mon, Jun 1, 2026 at 3:50=E2=80=AFPM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
+>>
+>> By the way, I think a `.gitignore` entry for the generated header is mis=
+sing.
+>
+> A few other notes:
+>
+>   - The `exports` rule' `awk` filtering is stricter than the one we
+> normally use -- it is fine if you don't need `static`s etc., but I
+> will likely export `T|R|D|B` when I replace it, not just `T`.
 
-This should probably be CONFIG_LTO_CLANG with flipped branches but...
+If I include all 4 (I tried to align more with `rust/Makefile`), then I
+get the following warnings:
 
-> +  SYM_CHECK = $(READELF) -sW
-> +else
-> +  SYM_CHECK = $(NM)
-> +endif 
->  gen_symversions =								\
-> -	if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_'; then		\
-> +	if $(SYM_CHECK) $@ 2>/dev/null | grep -q ' __export_symbol_'; then	\
-> 
+WARNING: modpost: drivers/gpu/nova-core: _RNvNtNtCs6PUMngfe6Jo_9nova_core13=
+___module_init13___module_init37___UNIQUE_ID___addressable_init_module: EXP=
+ORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+WARNING: modpost: drivers/gpu/nova-core: _RNvNtNtCs6PUMngfe6Jo_9nova_core13=
+___module_init13___module_init40___UNIQUE_ID___addressable_cleanup_module: =
+EXPORT_SYMBOL used for exit symbol. Remove __exit or EXPORT_SYMBOL.
 
-> > that it stops looking for a match after the first export symbol is
-> > found?
-> Small, there are my test result in make x86_64_defconfig + enable CONFIG_MODVERSIONS:
-> 1. readelf
-> if $(READELF) $@ 2>/dev/null | grep -q ' __export_symbol_';
-> real    10m44.359s
-> user    37m43.596s
-> sys     3m2.424s
-> 2. nm
-> if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_';
-> real    11m8.008s
-> user    38m51.644s
-> sys     3m29.798s
-> 3. nm + grep -m1 -q
-> if $(NM) $@ 2>/dev/null | grep -m1 -q ' __export_symbol_';
-> real    10m56.891s
-> user    38m8.136s
-> sys     3m28.096s
+So I've added an extra filter and it seems to work now.
 
-'-m1' appears to get us 50% (12s) of the speed up of 'readelf' (24s) in
-your environment while sticking with 'nm'. I would be more inclined to
-take that change since it is small and correct, rather than switching on
-NM or READELF, as I don't think it is worth the additional complexity.
-FWIW, on one of my test machines with 8 cores and 16 threads, the
-difference is much less noticeable. I think that is going to be in line
-with most developer and build farm hardware, rather than a 2C/4T machine
-like you mention in the initial commit message.
+>   - Similarly, you don't use `EXPORT_SYMBOL_RUST_GPL` and the "dummy
+> symbol" is a function instead of the simple `int`. Is there a reason
+> for that? i.e. the ones you want to export are functions, but using
+> the global one (even defining `EXPORT_SYMBOL_RUST_GPL` the same way)
+> would reduce the divergence (so one less thing to think about later
+> when I replace it).
 
-GCC 16.1.0 + binutils 2.46:
+No reason in particular. Here as well I have tried to align with
+`rust/Makefile`.
 
-  Benchmark 1: $(NM)
-    Time (mean ± σ):     75.203 s ±  0.283 s    [User: 659.465 s, System: 185.605 s]
-    Range (min … max):   74.898 s … 75.457 s    3 runs
+>
+>   - I noticed touching `nova-core` and then running a build twice will
+> only build `nova-drm.ko` the second time -- you may want to use
+> `--extern nova_core -L $(objtree)/...` like we do in `rust/Makefile`
+> instead of giving an explicit path to `--extern`.
 
-  Benchmark 2: $(READELF) -sW
-    Time (mean ± σ):     73.055 s ±  0.465 s    [User: 642.365 s, System: 175.908 s]
-    Range (min … max):   72.523 s … 73.385 s    3 runs
-
-  Summary
-    $(READELF) -sW ran
-      1.03 ± 0.01 times faster than $(NM)
-
-LLVM 22:
-
-  Benchmark 1: $(NM)
-    Time (mean ± σ):     75.030 s ±  0.736 s    [User: 659.603 s, System: 185.257 s]
-    Range (min … max):   74.207 s … 75.623 s    3 runs
-
-  Benchmark 2: $(READELF) -sW
-    Time (mean ± σ):     73.405 s ±  0.457 s    [User: 642.512 s, System: 176.440 s]
-    Range (min … max):   72.878 s … 73.679 s    3 runs
-
-  Summary
-    $(READELF) -sW ran
-      1.02 ± 0.01 times faster than $(NM)
-
--- 
-Cheers,
-Nathan
+Yes, getting the order right is a bit difficult. Moving everything under
+`drivers/gpu/Makefile` solves this, thankfully.
 
